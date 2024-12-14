@@ -5,6 +5,7 @@
  */
 
 #include "z_en_fish.h"
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "terminal.h"
 
@@ -78,9 +79,9 @@ ActorProfile En_Fish_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 900, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 40, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 700, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 900, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 40, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 700, ICHAIN_STOP),
 };
 
 f32 EnFish_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
@@ -116,7 +117,7 @@ void EnFish_SetCutsceneData(EnFish* this) {
         thisx->shape.yOffset = 600.0f;
         D_80A17014 = 10.0f;
         D_80A17018 = 0.0f;
-        thisx->flags |= ACTOR_FLAG_4;
+        thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         EnFish_SetOutOfWaterAnimation(this);
     }
 }
@@ -140,7 +141,7 @@ void EnFish_Init(Actor* thisx, PlayState* play) {
     this->fastPhase = Rand_ZeroOne() * (0xFFFF + 0.5f);
 
     if (params == FISH_DROPPED) {
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 8.0f);
         EnFish_Dropped_SetupFall(this);
     } else if (params == FISH_SWIMMING_UNIQUE) {
@@ -475,7 +476,7 @@ void EnFish_Dropped_SetupSwimAway(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->actor.shape.yOffset = 0.0f;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->timer = 200;
     EnFish_SetInWaterAnimation(this);
     this->actionFunc = EnFish_Dropped_SwimAway;

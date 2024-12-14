@@ -63,7 +63,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 20, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
 void EnDodojr_Init(Actor* thisx, PlayState* play) {
     EnDodojr* this = (EnDodojr*)thisx;
@@ -535,7 +535,7 @@ void EnDodojr_Stunned(EnDodojr* this, PlayState* play) {
 }
 
 void EnDodojr_JumpAttackBounce(EnDodojr* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     Actor_UpdateVelocityXZGravity(&this->actor);
 
     if (EnDodojr_UpdateBounces(this, play)) {

@@ -1,20 +1,21 @@
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "pal-1.1:128"
 
 uintptr_t sSysCfbFbPtr[2];
 uintptr_t sSysCfbEnd;
 
 void SysCfb_Init(s32 n64dd) {
     u32 screenSize;
-    uintptr_t tmpFbEnd;
+    UNUSED_NDEBUG uintptr_t tmpFbEnd;
 
     if (osMemSize >= 0x800000) {
         PRINTF(T("８Ｍバイト以上のメモリが搭載されています\n", "8MB or more memory is installed\n"));
         tmpFbEnd = 0x8044BE80;
         if (n64dd == 1) {
             PRINTF(T("RAM 8M mode (N64DD対応)\n", "RAM 8M mode (N64DD compatible)\n"));
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             sSysCfbEnd = 0x805FB000;
 #else
             sSysCfbEnd = 0x80600000;
@@ -22,7 +23,7 @@ void SysCfb_Init(s32 n64dd) {
         } else {
             PRINTF(T("このバージョンのマージンは %dK バイトです\n", "The margin for this version is %dK bytes\n"),
                    (0x4BC00 / 1024));
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             sSysCfbEnd = tmpFbEnd;
 #else
             sSysCfbEnd = 0x80400000;
@@ -32,7 +33,11 @@ void SysCfb_Init(s32 n64dd) {
         PRINTF("RAM4M mode\n");
         sSysCfbEnd = 0x80400000;
     } else {
-#if PLATFORM_N64
+#if OOT_VERSION < NTSC_1_1
+        LogUtils_HungupThread("../sys_cfb.c", 305);
+#elif OOT_VERSION < PAL_1_0
+        LogUtils_HungupThread("../sys_cfb.c", 308);
+#elif OOT_VERSION < GC_JP
         LogUtils_HungupThread("../sys_cfb.c", 322);
 #else
         LogUtils_HungupThread("../sys_cfb.c", 354);

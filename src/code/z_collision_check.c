@@ -1,11 +1,22 @@
-#include "global.h"
+#include "gfx.h"
+#include "macros.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
-
+#include "versions.h"
+#include "z64collision_check.h"
+#include "z64effect.h"
 #include "z64frame_advance.h"
+#include "zelda_arena.h"
+#include "z64play.h"
 
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
+#include "z_lib.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:216"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.0:96 ntsc-1.1:96 ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
@@ -14,7 +25,7 @@ typedef s32 (*ColChkLineFunc)(PlayState*, CollisionCheckContext*, Collider*, Vec
 
 #define SAC_ENABLE (1 << 0)
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Draws a red triangle with vertices vA, vB, and vC.
  */
@@ -1017,7 +1028,7 @@ void CollisionCheck_InitContext(PlayState* play, CollisionCheckContext* colChkCt
     colChkCtx->sacFlags = 0;
     CollisionCheck_ClearContext(play, colChkCtx);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     AREG(21) = true;
     AREG(22) = true;
     AREG(23) = true;
@@ -1071,7 +1082,7 @@ void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx
     colChkCtx->sacFlags &= ~SAC_ENABLE;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Draws a collider of any shape.
  * Math3D_DrawSphere and Math3D_DrawCylinder are noops, so JntSph and Cylinder are not drawn.
@@ -1829,7 +1840,6 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                 Vec3f hitPos;
                 Vec3f atPos;
                 Vec3f acPos;
-                f32 acToHit;
 
                 atPos.x = atJntSphElem->dim.worldSphere.center.x;
                 atPos.y = atJntSphElem->dim.worldSphere.center.y;
@@ -1838,7 +1848,13 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                 acPos.y = acCyl->dim.pos.y;
                 acPos.z = acCyl->dim.pos.z;
                 if (!IS_ZERO(centerDist)) {
-                    acToHit = acCyl->dim.radius / centerDist;
+                    f32 acToHit = acCyl->dim.radius / centerDist;
+
+#if OOT_VERSION < PAL_1_0
+                    hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
+                    hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
+                    hitPos.z = ((atPos.z - acPos.z) * acToHit) + acPos.z;
+#else
                     if (acToHit <= 1.0f) {
                         hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
                         hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
@@ -1846,6 +1862,7 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                     } else {
                         Math_Vec3f_Copy(&hitPos, &atPos);
                     }
+#endif
                 } else {
                     Math_Vec3f_Copy(&hitPos, &atPos);
                 }
@@ -1890,7 +1907,13 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
                 acPos.y = acJntSphElem->dim.worldSphere.center.y;
                 acPos.z = acJntSphElem->dim.worldSphere.center.z;
                 if (!IS_ZERO(centerDist)) {
-                    acToHit = acJntSphElem->dim.worldSphere.radius / centerDist;
+                    f32 acToHit = acJntSphElem->dim.worldSphere.radius / centerDist;
+
+#if OOT_VERSION < PAL_1_0
+                    hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
+                    hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
+                    hitPos.z = ((atPos.z - acPos.z) * acToHit) + acPos.z;
+#else
                     if (acToHit <= 1.0f) {
                         hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
                         hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
@@ -1898,6 +1921,7 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
                     } else {
                         Math_Vec3f_Copy(&hitPos, &atPos);
                     }
+#endif
                 } else {
                     Math_Vec3f_Copy(&hitPos, &atPos);
                 }
@@ -2201,7 +2225,7 @@ void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChk
 }
 
 #pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252" \
-                               "ntsc-1.2:252"
+                               "ntsc-1.0:252 ntsc-1.1:252 ntsc-1.2:252 pal-1.0:252 pal-1.1:252"
 
 void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
@@ -2255,11 +2279,6 @@ void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChk
         }
     }
 }
-
-#if OOT_DEBUG
-static s8 sBssDummy0;
-static s8 sBssDummy1;
-#endif
 
 void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
@@ -2320,7 +2339,7 @@ void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static s8 sBssDummy3;
 static s8 sBssDummy4;
 #endif
@@ -3332,7 +3351,7 @@ void Collider_SetTrisDim(PlayState* play, ColliderTris* tris, s32 elemIndex, Col
     Collider_SetTrisElementDim(play, &trisElem->dim, src);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 // The two static Vec3f variables in the function below cross a block index rollover, causing a bss order swap.
 //! In order to replicate this behavior, we declare a certain amount of sBssDummy variables throughout the file, which
 //! we fit inside padding added by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in
@@ -3715,7 +3734,7 @@ u8 CollisionCheck_GetSwordDamage(s32 dmgFlags) {
         damage = 8;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     KREG(7) = damage;
 #endif
 

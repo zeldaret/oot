@@ -8,8 +8,9 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_po_field/object_po_field.h"
 
-#define FLAGS \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_IGNORE_QUAKE)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoField_Init(Actor* thisx, PlayState* play);
 void EnPoField_Destroy(Actor* thisx, PlayState* play);
@@ -142,6 +143,8 @@ static EnPoFieldInfo sPoFieldInfo[2] = {
 
 static Vec3f D_80AD714C = { 0.0f, 1400.0f, 0.0f };
 
+#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128 ntsc-1.2:128"
+
 static Vec3s sSpawnPositions[10];
 static u8 sSpawnSwitchFlags[10];
 static MtxF sLimb7Mtx;
@@ -193,7 +196,7 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, PlayState* play) {
     Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
     this->actionTimer = 200;
     Actor_SetScale(&this->actor, 0.0f);
-    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_16);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED);
     this->collider.base.acFlags &= ~AC_ON;
     this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_ALL;
     this->actor.colChkInfo.health = D_80AD70D8.health;
@@ -653,15 +656,15 @@ void func_80AD58D4(EnPoField* this, PlayState* play) {
     }
     if (this->actionTimer == 0) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         EnPoField_SetupSoulDisappear(this);
         return;
     }
     if (this->collider.base.ocFlags1 & OC1_HIT) {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
     this->actor.world.pos.y = Math_SinS(this->unk_194 * 0x800) * 5.0f + this->actor.home.pos.y;

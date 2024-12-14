@@ -8,7 +8,9 @@
 #include "assets/objects/object_fu/object_fu.h"
 #include "assets/scenes/indoors/hakasitarelay/hakasitarelay_scene.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 #define FU_RESET_LOOK_ANGLE (1 << 0)
 #define FU_WAIT (1 << 1)
@@ -134,7 +136,7 @@ void EnFu_WaitChild(EnFu* this, PlayState* play) {
     u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_WINDMILL_MAN);
 
     if (textId == 0) {
-        textId = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
+        textId = GET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL) ? 0x5033 : 0x5032;
     }
 
     // if ACTOR_FLAG_TALK is set and textId is 0x5033, change animation
@@ -167,11 +169,11 @@ void func_80A1DBD4(EnFu* this, PlayState* play) {
     if (play->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
         this->actionFunc = EnFu_WaitAdult;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_80A1DB60;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(play, ITEM_SONG_STORMS);
@@ -278,8 +280,8 @@ s32 EnFu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
 
     if (limbIndex == FU_LIMB_CHEST_MUSIC_BOX) {
-        rot->y += (Math_SinS((play->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
-        rot->z += (Math_CosS((play->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
+        rot->y += Math_SinS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
     }
     return false;
 }

@@ -5,7 +5,9 @@
 #include "quake.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 /*
 FLAGS
@@ -572,7 +574,11 @@ s16 EnGo2_UpdateTalkStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
     u8 dialogState = this->dialogState;
 
     switch (EnGo2_GetDialogState(this, play)) {
+#if OOT_VERSION < PAL_1_0
+        case TEXT_STATE_CLOSING:
+#else
         case TEXT_STATE_DONE:
+#endif
             if (this->actor.textId == 0x305E) {
                 if (!gSaveContext.save.info.playerData.bgsFlag) {
                     EnGo2_GetItem(this, play, GI_SWORD_BIGGORON);
@@ -884,7 +890,7 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
             if (this->collider.base.acFlags & AC_HIT) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                this->actor.flags &= ~ACTOR_FLAG_24;
+                this->actor.flags &= ~ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
                 this->collider.base.acFlags &= ~AC_HIT;
                 EnGo2_StopRolling(this, play);
                 return true;
@@ -1345,7 +1351,7 @@ void EnGo2_SetupRolling(EnGo2* this, PlayState* play) {
     } else {
         this->actor.speed = 6.0f;
     }
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     this->animTimer = 10;
     this->actor.shape.yOffset = 1800.0f;
     this->actor.speed *= 2.0f; // Speeding up
@@ -1532,8 +1538,8 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
         case GORON_CITY_LOST_WOODS:
         case GORON_DMT_FAIRY_HINT:
         case GORON_MARKET_BAZAAR:
-            this->actor.flags &= ~ACTOR_FLAG_4;
-            this->actor.flags &= ~ACTOR_FLAG_5;
+            this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+            this->actor.flags &= ~ACTOR_FLAG_DRAW_CULLING_DISABLED;
     }
 
     EnGo2_SetColliderDim(this);
@@ -1790,7 +1796,9 @@ void EnGo2_ReverseRolling(EnGo2* this, PlayState* play) {
 
 void EnGo2_SetupGetItem(EnGo2* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
+#if OOT_VERSION >= PAL_1_0
         this->actor.parent = NULL;
+#endif
         this->actionFunc = EnGo2_SetGetItem;
     } else {
         Actor_OfferGetItem(&this->actor, play, this->getItemId, this->actor.xzDistToPlayer + 1.0f,
@@ -1980,12 +1988,16 @@ void EnGo2_Update(Actor* thisx, PlayState* play) {
     EnGo2_RollForward(this);
     Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius * 0.6f,
                             0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+#if OOT_VERSION < PAL_1_0
+    func_80A44AB0(this, play);
+#else
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         func_80A44AB0(this, play);
     }
+#endif
     this->actionFunc(this, play);
     if (this->unk_211 == true) {
-        func_80034F54(play, this->unk_226, this->unk_24A, 18);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 18);
     }
     func_80A45288(this, play);
     EnGo2_EyeMouthTexState(this);
@@ -2038,8 +2050,8 @@ s32 EnGo2_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, V
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
-        rot->y += Math_SinS(this->unk_226[limb]) * 200.0f;
-        rot->z += Math_CosS(this->unk_24A[limb]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limb]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limb]) * FIDGET_AMPLITUDE;
     }
     return 0;
 }

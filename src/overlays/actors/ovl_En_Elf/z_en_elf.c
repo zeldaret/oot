@@ -5,9 +5,10 @@
  */
 
 #include "z_en_elf.h"
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 #define FAIRY_FLAG_TIMED (1 << 8)
 #define FAIRY_FLAG_BIG (1 << 9)
@@ -1095,7 +1096,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
         } else if (naviHoverActor == NULL || naviHoverActor->category == ACTORCAT_NPC) {
             if (naviHoverActor != NULL) {
                 this->unk_2C0 = 100;
-                player->stateFlags2 |= PLAYER_STATE2_20;
+                player->stateFlags2 |= PLAYER_STATE2_NAVI_ACTIVE;
                 temp = 0;
             } else {
                 switch (this->unk_2A8) {
@@ -1116,7 +1117,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
                                 this->unk_2AE--;
                                 temp = 7;
                             } else {
-                                player->stateFlags2 |= PLAYER_STATE2_20;
+                                player->stateFlags2 |= PLAYER_STATE2_NAVI_ACTIVE;
                                 temp = 0;
                             }
                         } else {
@@ -1146,7 +1147,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
 
         switch (temp) {
             case 0:
-                if (!(player->stateFlags2 & PLAYER_STATE2_20)) {
+                if (!(player->stateFlags2 & PLAYER_STATE2_NAVI_ACTIVE)) {
                     temp = 7;
                     if (this->unk_2C7 == 0) {
                         Actor_PlaySfx(&this->actor, NA_SE_EV_NAVY_VANISH);
@@ -1154,7 +1155,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
                 }
                 break;
             case 8:
-                if (player->stateFlags2 & PLAYER_STATE2_20) {
+                if (player->stateFlags2 & PLAYER_STATE2_NAVI_ACTIVE) {
                     func_80A0299C(this, 0x32);
                     this->unk_2C0 = 42;
                     temp = 11;
@@ -1164,10 +1165,10 @@ void func_80A0461C(EnElf* this, PlayState* play) {
                 }
                 break;
             case 7:
-                player->stateFlags2 &= ~PLAYER_STATE2_20;
+                player->stateFlags2 &= ~PLAYER_STATE2_NAVI_ACTIVE;
                 break;
             default:
-                player->stateFlags2 |= PLAYER_STATE2_20;
+                player->stateFlags2 |= PLAYER_STATE2_NAVI_ACTIVE;
                 break;
         }
     }
@@ -1378,7 +1379,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
 
     if (player->naviTextId == 0) {
         if (player->focusActor == NULL) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (((gSaveContext.save.info.playerData.naviTimer >= 600) &&
                  (gSaveContext.save.info.playerData.naviTimer <= 3000)) ||
                 (nREG(89) != 0))
@@ -1396,7 +1397,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         }
     } else if (player->naviTextId < 0) {
         // trigger dialog instantly for negative message IDs
-        thisx->flags |= ACTOR_FLAG_16;
+        thisx->flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
 
     if (Actor_TalkOfferAccepted(thisx, play)) {
@@ -1417,12 +1418,12 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
             this->elfMsg->actor.flags |= ACTOR_FLAG_TALK;
         }
 
-        thisx->flags &= ~ACTOR_FLAG_16;
+        thisx->flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     } else {
         this->actionFunc(this, play);
         thisx->shape.rot.y = this->unk_2BC;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         // `gSaveContext.save.info.sceneFlags[127].chest` (like in the debug string) instead of `HIGH_SCORE(HS_HBA)`
         // matches too, but, with how the `SaveContext` struct is currently defined, it is an out-of-bounds read in the
         // `sceneFlags` array. It is theorized the original `room_inf` (currently `sceneFlags`) was an array of length

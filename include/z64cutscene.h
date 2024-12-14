@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "z64math.h"
 
+struct PlayState;
+
 typedef union CutsceneData {
     s32 i;
     f32 f;
@@ -20,6 +22,7 @@ typedef enum CutsceneState {
 } CutsceneState;
 
 typedef enum CutsceneCmd {
+    /* 0xFFFF */ CS_CMD_END_OF_SCRIPT = -1,
     /* 0x0001 */ CS_CMD_CAM_EYE_SPLINE = 0x01,
     /* 0x0002 */ CS_CMD_CAM_AT_SPLINE,
     /* 0x0003 */ CS_CMD_MISC,
@@ -147,8 +150,7 @@ typedef enum CutsceneCmd {
     /* 0x008E */ CS_CMD_ACTOR_CUE_7_6,
     /* 0x008F */ CS_CMD_ACTOR_CUE_9_0,
     /* 0x0090 */ CS_CMD_ACTOR_CUE_0_17,
-    /* 0x03E8 */ CS_CMD_DESTINATION = 0x03E8,
-    /* 0xFFFF */ CS_CMD_END = 0xFFFF
+    /* 0x03E8 */ CS_CMD_DESTINATION = 0x03E8
 } CutsceneCmd;
 
 typedef enum CutsceneMiscType {
@@ -172,8 +174,8 @@ typedef enum CutsceneMiscType {
     /* 0x11 */ CS_MISC_QUAKE_STOP,
     /* 0x12 */ CS_MISC_STOP_STORM_AND_ADVANCE_TO_DAY,
     /* 0x13 */ CS_MISC_SET_FLAG_FAST_WINDMILL,
-    /* 0x14 */ CS_MISC_SET_FLAG_WELL_DRAINED,
-    /* 0x15 */ CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED,
+    /* 0x14 */ CS_MISC_SET_FLAG_DRAINED_WELL,
+    /* 0x15 */ CS_MISC_SET_FLAG_RESTORED_LAKE_HYLIA,
     /* 0x16 */ CS_MISC_VISMONO_BLACK_AND_WHITE,
     /* 0x17 */ CS_MISC_VISMONO_SEPIA,
     /* 0x18 */ CS_MISC_HIDE_ROOM,
@@ -297,8 +299,8 @@ typedef enum CutsceneDestination {
     /* 0x4A */ CS_DEST_LON_LON_RANCH_CREDITS_PART_2,
     /* 0x4B */ CS_DEST_LON_LON_RANCH_CREDITS_PART_3,
     /* 0x4C */ CS_DEST_LON_LON_RANCH_CREDITS_PART_4,
-    /* 0x4D */ CS_DEST_LON_LON_RANCH_CREDITS_PART_5,
-    /* 0x4E */ CS_DEST_LON_LON_RANCH_CREDITS_PART_6,
+    /* 0x4D */ CS_DEST_LON_LON_RANCH_CREDITS_PART_6,
+    /* 0x4E */ CS_DEST_LON_LON_RANCH_CREDITS_PART_5,
     /* 0x4F */ CS_DEST_LON_LON_RANCH_1, // unused
     /* 0x50 */ CS_DEST_LON_LON_RANCH_2, // unused
     /* 0x51 */ CS_DEST_LON_LON_RANCH_3, // unused
@@ -512,5 +514,14 @@ typedef struct CutsceneContext {
     /* 0x24 */ CsCmdActorCue* playerCue;
     /* 0x28 */ CsCmdActorCue* actorCues[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
+
+void Cutscene_InitContext(struct PlayState* play, CutsceneContext* csCtx);
+void Cutscene_StartManual(struct PlayState* play, CutsceneContext* csCtx);
+void Cutscene_StopManual(struct PlayState* play, CutsceneContext* csCtx);
+void Cutscene_UpdateManual(struct PlayState* play, CutsceneContext* csCtx);
+void Cutscene_UpdateScripted(struct PlayState* play, CutsceneContext* csCtx);
+void Cutscene_HandleEntranceTriggers(struct PlayState* play);
+void Cutscene_HandleConditionalTriggers(struct PlayState* play);
+void Cutscene_SetScript(struct PlayState* play, void* script);
 
 #endif

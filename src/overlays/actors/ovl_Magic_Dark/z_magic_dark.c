@@ -7,7 +7,7 @@
 #include "z_magic_dark.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void MagicDark_Init(Actor* thisx, PlayState* play);
 void MagicDark_Destroy(Actor* thisx, PlayState* play);
@@ -144,7 +144,7 @@ void MagicDark_DimLighting(PlayState* play, f32 intensity) {
     f32 colorScale;
     f32 fogScale;
 
-    if (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_5) {
+    if (play->roomCtx.curRoom.type != ROOM_TYPE_BOSS) {
         intensity = CLAMP_MIN(intensity, 0.0f);
         intensity = CLAMP_MAX(intensity, 1.0f);
         fogScale = intensity - 0.2f;

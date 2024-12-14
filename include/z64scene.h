@@ -11,6 +11,7 @@
 
 #include "command_macros_base.h"
 
+struct GameState;
 struct PlayState;
 
 typedef struct SceneTableEntry {
@@ -151,30 +152,30 @@ typedef union RoomShape {
     RoomShapeCullable cullable;
 } RoomShape; // "Ground Shape"
 
-typedef enum RoomBehaviorType1 {
-    /* 0 */ ROOM_BEHAVIOR_TYPE1_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE1_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE1_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE1_3, // unused
-    /* 4 */ ROOM_BEHAVIOR_TYPE1_4, // unused
-    /* 5 */ ROOM_BEHAVIOR_TYPE1_5
-} RoomBehaviorType1;
+typedef enum RoomType {
+    /* 0 */ ROOM_TYPE_NORMAL,
+    /* 1 */ ROOM_TYPE_DUNGEON, // Blocks Sun's Song's time advance effect. Not exclusively used by typical dungeon rooms.
+    /* 2 */ ROOM_TYPE_INDOORS, // Reduces player run speed and blocks player from attacking or jumping.
+    /* 3 */ ROOM_TYPE_3, // Unused. Color dithering is turned off when drawing the room and other things.
+    /* 4 */ ROOM_TYPE_4, // Unused. Prevents switching to CAM_SET_HORSE when mounting a horse.
+    /* 5 */ ROOM_TYPE_BOSS // Disables Environment_AdjustLights
+} RoomType;
 
-typedef enum RoomBehaviorType2 {
-    /* 0 */ ROOM_BEHAVIOR_TYPE2_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE2_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE2_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE2_3,
-    /* 4 */ ROOM_BEHAVIOR_TYPE2_4,
-    /* 5 */ ROOM_BEHAVIOR_TYPE2_5,
-    /* 6 */ ROOM_BEHAVIOR_TYPE2_6
-} RoomBehaviorType2;
+typedef enum RoomEnvironmentType {
+    /* 0 */ ROOM_ENV_DEFAULT,
+    /* 1 */ ROOM_ENV_COLD,
+    /* 2 */ ROOM_ENV_WARM,
+    /* 3 */ ROOM_ENV_HOT, // Enables hot room timer for the current room
+    /* 4 */ ROOM_ENV_UNK_STRETCH_1,
+    /* 5 */ ROOM_ENV_UNK_STRETCH_2,
+    /* 6 */ ROOM_ENV_UNK_STRETCH_3
+} RoomEnvironmentType;
 
 typedef struct Room {
     /* 0x00 */ s8 num; // -1 is invalid room
     /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 behaviorType2;
-    /* 0x03 */ u8 behaviorType1;
+    /* 0x02 */ u8 environmentType;
+    /* 0x03 */ u8 type;
     /* 0x04 */ s8 echo;
     /* 0x05 */ u8 lensMode;
     /* 0x08 */ RoomShape* roomShape; // original name: "ground_shape"
@@ -417,7 +418,7 @@ typedef enum SceneID {
 #undef DEFINE_SCENE
 
 // Fake enum values for scenes that are still referenced in the entrance table
-#if !OOT_DEBUG
+#if !DEBUG_ASSETS
 // Debug-only scenes
 #define SCENE_TEST01        0x65
 #define SCENE_BESITU        0x66
@@ -431,6 +432,26 @@ typedef enum SceneID {
 #endif
 // Deleted scene
 #define SCENE_UNUSED_6E     0x6E
+
+// Macros for `EntranceInfo.field`
+#define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
+#define ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG (1 << 14)
+#define ENTRANCE_INFO_END_TRANS_TYPE_MASK 0x3F80
+#define ENTRANCE_INFO_END_TRANS_TYPE_SHIFT 7
+#define ENTRANCE_INFO_END_TRANS_TYPE(field)          \
+    (((field) >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) \
+     & (ENTRANCE_INFO_END_TRANS_TYPE_MASK >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT))
+#define ENTRANCE_INFO_START_TRANS_TYPE_MASK 0x7F
+#define ENTRANCE_INFO_START_TRANS_TYPE_SHIFT 0
+#define ENTRANCE_INFO_START_TRANS_TYPE(field)          \
+    (((field) >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) \
+     & (ENTRANCE_INFO_START_TRANS_TYPE_MASK >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT))
+
+typedef struct EntranceInfo {
+    /* 0x00 */ s8  sceneId;
+    /* 0x01 */ s8  spawn;
+    /* 0x02 */ u16 field;
+} EntranceInfo; // size = 0x4
 
 // Entrance Index Enum
 #define DEFINE_ENTRANCE(enum, _1, _2, _3, _4, _5, _6) enum,
@@ -584,9 +605,9 @@ typedef enum SceneCommandTypeID {
 #define SCENE_CMD_SPECIAL_FILES(naviQuestHintFileId, keepObjectId) \
     { SCENE_CMD_ID_SPECIAL_FILES, naviQuestHintFileId, CMD_W(keepObjectId) }
 
-#define SCENE_CMD_ROOM_BEHAVIOR(curRoomUnk3, curRoomUnk2, showInvisActors, disableWarpSongs) \
-    { SCENE_CMD_ID_ROOM_BEHAVIOR, curRoomUnk3, \
-        curRoomUnk2 | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(disableWarpSongs, 10, 1) }
+#define SCENE_CMD_ROOM_BEHAVIOR(type, environment, showInvisActors, disableWarpSongs) \
+    { SCENE_CMD_ID_ROOM_BEHAVIOR, type, \
+        environment | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(disableWarpSongs, 10, 1) }
 
 #define SCENE_CMD_UNK_09() \
     { SCENE_CMD_ID_UNDEFINED_9, 0, CMD_W(0) }
@@ -639,5 +660,12 @@ typedef enum SceneCommandTypeID {
 #define SCENE_CMD_MISC_SETTINGS(sceneCamType, worldMapLocation) \
     { SCENE_CMD_ID_MISC_SETTINGS, sceneCamType, CMD_W(worldMapLocation) }
 
+s32 Scene_ExecuteCommands(struct PlayState* play, SceneCmd* sceneCmd);
+void Scene_ResetTransitionActorList(struct GameState* state, TransitionActorList* transitionActors);
+void Scene_SetTransitionForNextEntrance(struct PlayState* play);
+void Scene_Draw(struct PlayState* play);
+
+extern EntranceInfo gEntranceTable[ENTR_MAX];
+extern SceneTableEntry gSceneTable[SCENE_ID_MAX];
 
 #endif

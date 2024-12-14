@@ -6,10 +6,12 @@
 
 #include "z_en_takara_man.h"
 #include "terminal.h"
+#include "versions.h"
 #include "assets/objects/object_ts/object_ts.h"
 
-#define FLAGS \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_LOCK_ON_DISABLED)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void EnTakaraMan_Init(Actor* thisx, PlayState* play);
 void EnTakaraMan_Destroy(Actor* thisx, PlayState* play);
@@ -161,7 +163,11 @@ void func_80B17A6C(EnTakaraMan* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = func_80B17AC4;
     } else {
+#if OOT_VERSION < NTSC_1_1
+        Actor_OfferGetItem(&this->actor, play, GI_SMALL_KEY, 2000.0f, 1000.0f);
+#else
         Actor_OfferGetItem(&this->actor, play, GI_DOOR_KEY, 2000.0f, 1000.0f);
+#endif
     }
 }
 

@@ -1,6 +1,11 @@
 #ifndef SFX_H
 #define SFX_H
 
+#include "ultra64.h"
+#include "versions.h"
+#include "z64math.h"
+#include "libc/assert.h"
+
 typedef enum SfxBankType {
     /* 0 */ BANK_PLAYER,
     /* 1 */ BANK_ITEM,
@@ -59,22 +64,47 @@ typedef struct SfxBankEntry {
 
 typedef enum SfxId {
     NA_SE_NONE, // Requesting a sfx with this id will play no sound
+
     NA_SE_PL_BASE = 0x7FF,
     #include "tables/sfx/playerbank_table.h"
+    NA_SE_PL_END,
+
     NA_SE_IT_BASE = 0x17FF,
     #include "tables/sfx/itembank_table.h"
+    NA_SE_IT_END,
+
     NA_SE_EV_BASE = 0x27FF,
     #include "tables/sfx/environmentbank_table.h"
+    NA_SE_EV_END,
+
     NA_SE_EN_BASE = 0x37FF,
     #include "tables/sfx/enemybank_table.h"
+    NA_SE_EN_END,
+
     NA_SE_SY_BASE = 0x47FF,
     #include "tables/sfx/systembank_table.h"
+    NA_SE_SY_END,
+
     NA_SE_OC_BASE = 0x57FF,
     #include "tables/sfx/ocarinabank_table.h"
+    NA_SE_OC_END,
+
     NA_SE_VO_BASE = 0x67FF,
     #include "tables/sfx/voicebank_table.h"
+    NA_SE_VO_END,
+
     NA_SE_MAX
 } SfxId;
+
+// These limits are due to the way Sequence 0 is programmed. There is also a global limit of 512 entries for every bank
+// enforced in Audio_PlayActiveSfx in sfx.c
+static_assert(NA_SE_PL_END - (NA_SE_PL_BASE + 1) <= 256, "Player Bank SFX Table is limited to 256 entries due to Sequence 0");
+static_assert(NA_SE_IT_END - (NA_SE_IT_BASE + 1) <= 128, "Item Bank SFX Table is limited to 128 entries due to Sequence 0");
+static_assert(NA_SE_EV_END - (NA_SE_EV_BASE + 1) <= 256, "Environment Bank SFX Table is limited to 256 entries due to Sequence 0");
+static_assert(NA_SE_EN_END - (NA_SE_EN_BASE + 1) <= 512, "Enemy Bank SFX Table is limited to 512 entries due to Sequence 0");
+static_assert(NA_SE_SY_END - (NA_SE_SY_BASE + 1) <= 128, "System Bank SFX Table is limited to 128 entries due to Sequence 0");
+static_assert(NA_SE_OC_END - (NA_SE_OC_BASE + 1) <= 128, "Ocarina Bank SFX Table is limited to 128 entries due to Sequence 0");
+static_assert(NA_SE_VO_END - (NA_SE_VO_BASE + 1) <= 256, "Voice Bank SFX Table is limited to 256 entries due to Sequence 0");
 
 #undef DEFINE_SFX
 
@@ -119,7 +149,7 @@ typedef struct SfxParams {
     u16 params;
 } SfxParams;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define SFX_DIST_SCALING 1.0f
 #else
 #define SFX_DIST_SCALING 10.0f

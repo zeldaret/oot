@@ -44,7 +44,7 @@ s8 gSfxDefaultReverb = 0;
 
 s32 D_801333EC = 0; // unused
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u8 D_801333F0 = 0;
 u8 gAudioSfxSwapOff = 0;
 u8 D_801333F8 = 0;
@@ -55,7 +55,7 @@ u8 gSeqCmdWritePos = 0;
 u8 gSeqCmdReadPos = 0;
 u8 gStartSeqDisabled = false;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u8 gAudioDebugPrintSeqCmd = true;
 #endif
 

@@ -18,6 +18,7 @@
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
+#define ARRAY_COUNT_2D(arr) (s32)(sizeof(arr) / sizeof(arr[0][0]))
 
 #define PHYSICAL_TO_VIRTUAL(addr) (void*)((uintptr_t)(addr) + 0x80000000)
 #define VIRTUAL_TO_PHYSICAL(addr) (uintptr_t)((u8*)(addr) - 0x80000000)
@@ -48,7 +49,7 @@
 // ensure that these do not use the IDO workaround to avoid errors.
 #define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !M2CTX)
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define PRINTF osSyncPrintf
 #elif IDO_PRINTF_WORKAROUND
 #define PRINTF(args) (void)0
@@ -56,7 +57,7 @@
 #define PRINTF(format, ...) (void)0
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
         LogUtils_LogThreadId(file, line);           \
@@ -82,18 +83,7 @@
         (state)->size = sizeof(newStruct);               \
     } while (0)
 
-#define SET_FULLSCREEN_VIEWPORT(view)      \
-    {                                      \
-        Viewport viewport;                 \
-        viewport.bottomY = SCREEN_HEIGHT;  \
-        viewport.rightX = SCREEN_WIDTH;    \
-        viewport.topY = 0;                 \
-        viewport.leftX = 0;                \
-        View_SetViewport(view, &viewport); \
-    }                                      \
-    (void)0
-
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
@@ -104,9 +94,6 @@
 #define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_MallocDebug(size, file, line)
 #define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocRDebug(size, file, line)
 #define SYSTEM_ARENA_FREE(size, file, line) SystemArena_FreeDebug(size, file, line)
-#define ZELDA_ARENA_MALLOC(size, file, line) ZeldaArena_MallocDebug(size, file, line)
-#define ZELDA_ARENA_MALLOC_R(size, file, line) ZeldaArena_MallocRDebug(size, file, line)
-#define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_FreeDebug(size, file, line)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) LogUtils_CheckNullPointer(exp, ptr, file, line)
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) LogUtils_CheckValidPointer(exp, ptr, file, line)
 #define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_MallocDebug(alloc, size, file, line)
@@ -122,16 +109,13 @@
 #define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_Malloc(size)
 #define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocR(size)
 #define SYSTEM_ARENA_FREE(size, file, line) SystemArena_Free(size)
-#define ZELDA_ARENA_MALLOC(size, file, line) ZeldaArena_Malloc(size)
-#define ZELDA_ARENA_MALLOC_R(size, file, line) ZeldaArena_MallocR(size)
-#define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_Free(size)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) (void)0
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) (void)0
 #define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_Malloc(alloc, size)
 
 #endif
 
-#if PLATFORM_N64 || OOT_DEBUG
+#if PLATFORM_N64 || DEBUG_FEATURES
 #define HUNGUP_AND_CRASH(file, line) Fault_AddHungupAndCrash(file, line)
 #else
 #define HUNGUP_AND_CRASH(file, line) LogUtils_HungupThread(file, line)

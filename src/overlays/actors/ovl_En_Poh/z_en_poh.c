@@ -8,7 +8,8 @@
 #include "assets/objects/object_poh/object_poh.h"
 #include "assets/objects/object_po_composer/object_po_composer.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoh_Init(Actor* thisx, PlayState* play);
 void EnPoh_Destroy(Actor* thisx, PlayState* play);
@@ -372,7 +373,7 @@ void EnPoh_SetupDeath(EnPoh* this, PlayState* play) {
     this->actor.draw = EnPoh_DrawSoul;
     this->actor.shape.shadowDraw = NULL;
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->actor.gravity = -1.0f;
     this->actor.shape.yOffset = 1500.0f;
     this->actor.world.pos.y -= 15.0f;
@@ -773,14 +774,14 @@ void func_80ADFE80(EnPoh* this, PlayState* play) {
     }
     if (this->unk_198 == 0) {
         func_80ADE950(this, 1);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         return;
     }
     if (this->colliderCyl.base.ocFlags1 & OC1_HIT) {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCyl.base);
     }
     this->actor.world.pos.y = Math_SinS(this->unk_195 * 0x800) * 5.0f + this->actor.home.pos.y;
@@ -924,7 +925,7 @@ void EnPoh_Update(Actor* thisx, PlayState* play) {
             this->colliderCyl.dim.height = 55;
             this->colliderCyl.dim.yShift = 15;
         }
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         EnPoh_SetupInitialAction(this);
     }
 }
@@ -996,7 +997,7 @@ void EnPoh_UpdateLiving(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     Actor_MoveXZGravity(&this->actor);
     if (this->actionFunc == EnPoh_Attack && this->unk_198 < 10) {
-        this->actor.flags |= ACTOR_FLAG_24;
+        this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderSph.base);
     }
     Collider_UpdateCylinder(&this->actor, &this->colliderCyl);

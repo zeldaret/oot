@@ -2,8 +2,22 @@
 #include "assets/textures/parameter_static/parameter_static.h"
 
 u8 gAmmoItems[] = {
-    ITEM_DEKU_STICK, ITEM_DEKU_NUT, ITEM_BOMB, ITEM_BOW,  ITEM_NONE, ITEM_NONE, ITEM_SLINGSHOT,  ITEM_NONE,
-    ITEM_BOMBCHU,    ITEM_NONE,     ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_MAGIC_BEAN, ITEM_NONE,
+    ITEM_DEKU_STICK, // SLOT_DEKU_STICK
+    ITEM_DEKU_NUT,   // SLOT_DEKU_NUT
+    ITEM_BOMB,       // SLOT_BOMB
+    ITEM_BOW,        // SLOT_BOW
+    ITEM_NONE,       // SLOT_ARROW_FIRE
+    ITEM_NONE,       // SLOT_DINS_FIRE
+    ITEM_SLINGSHOT,  // SLOT_SLINGSHOT
+    ITEM_NONE,       // SLOT_OCARINA
+    ITEM_BOMBCHU,    // SLOT_BOMBCHU
+    ITEM_NONE,       // SLOT_HOOKSHOT
+    ITEM_NONE,       // SLOT_ARROW_ICE
+    ITEM_NONE,       // SLOT_FARORES_WIND
+    ITEM_NONE,       // SLOT_BOOMERANG
+    ITEM_NONE,       // SLOT_LENS_OF_TRUTH
+    ITEM_MAGIC_BEAN, // SLOT_MAGIC_BEAN
+    ITEM_NONE,
 };
 
 static s16 sEquipState = 0;
@@ -11,12 +25,28 @@ static s16 sEquipAnimTimer = 0;
 static s16 sEquipMoveTimer = 10;
 
 static s16 sAmmoVtxOffset[] = {
-    0, 2, 4, 6, 99, 99, 8, 99, 99, 10, 99, 99, 99, 99, 99, 99, 12,
+    ITEM_QUAD_AMMO_STICK_TENS - ITEM_QUAD_AMMO_FIRST,     // ITEM_DEKU_STICK
+    ITEM_QUAD_AMMO_NUT_TENS - ITEM_QUAD_AMMO_FIRST,       // ITEM_DEKU_NUT
+    ITEM_QUAD_AMMO_BOMB_TENS - ITEM_QUAD_AMMO_FIRST,      // ITEM_BOMB
+    ITEM_QUAD_AMMO_BOW_TENS - ITEM_QUAD_AMMO_FIRST,       // ITEM_BOW
+    99,                                                   // (ITEM_ARROW_FIRE)
+    99,                                                   // (ITEM_DINS_FIRE)
+    ITEM_QUAD_AMMO_SLINGSHOT_TENS - ITEM_QUAD_AMMO_FIRST, // ITEM_SLINGSHOT
+    99,                                                   // (ITEM_OCARINA_FAIRY)
+    99,                                                   // (ITEM_OCARINA_OF_TIME)
+    ITEM_QUAD_AMMO_BOMBCHU_TENS - ITEM_QUAD_AMMO_FIRST,   // ITEM_BOMBCHU
+    99,                                                   // (ITEM_HOOKSHOT)
+    99,                                                   // (ITEM_LONGSHOT)
+    99,                                                   // (ITEM_ARROW_ICE)
+    99,                                                   // (ITEM_FARORES_WIND)
+    99,                                                   // (ITEM_BOOMERANG)
+    99,                                                   // (ITEM_LENS)
+    ITEM_QUAD_AMMO_BEAN_TENS - ITEM_QUAD_AMMO_FIRST,      // ITEM_MAGIC_BEAN
 };
 
 void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx, s16 item) {
     s16 ammo;
-    s16 i;
+    s16 ammoTens;
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_item.c", 69);
 
@@ -41,23 +71,23 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
         }
     }
 
-    for (i = 0; ammo >= 10; i++) {
+    for (ammoTens = 0; ammo >= 10; ammoTens++) {
         ammo -= 10;
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-    if (i != 0) {
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(sAmmoVtxOffset[item] + 27) * 4], 4, 0);
+    if (ammoTens != 0) {
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(ITEM_QUAD_AMMO_FIRST + sAmmoVtxOffset[item] + 0) * 4], 4, 0);
 
-        gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gAmmoDigit0Tex + (8 * 8 * i)), G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                            G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gAmmoDigit0Tex + (8 * 8 * ammoTens)), G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8,
+                            0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                            G_TX_NOLOD, G_TX_NOLOD);
 
         gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     }
 
-    gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(sAmmoVtxOffset[item] + 28) * 4], 4, 0);
+    gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(ITEM_QUAD_AMMO_FIRST + sAmmoVtxOffset[item] + 1) * 4], 4, 0);
 
     gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gAmmoDigit0Tex + (8 * 8 * ammo)), G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -126,31 +156,38 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 PRINTF("now=%d  ccc=%d\n", cursorPoint, cursorItem);
 
                 do {
-                    if (pauseCtx->stickAdjX < -30) {
+                    if (pauseCtx->stickAdjX < -30) { // left
+                        // if not on the left-most column
                         if (pauseCtx->cursorX[PAUSE_ITEM] != 0) {
+                            // move left
                             pauseCtx->cursorX[PAUSE_ITEM]--;
                             pauseCtx->cursorPoint[PAUSE_ITEM] -= 1;
 
+                            // if there's an item there, stop there
                             if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
                                 ITEM_NONE) {
                                 cursorMoveResult = 1;
                             }
                         } else {
-                            pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
-                            pauseCtx->cursorY[PAUSE_ITEM]++;
+                            // move the cursor to its initial horizontal position and try find an item on the next line
 
-                            if (pauseCtx->cursorY[PAUSE_ITEM] >= 4) {
+                            pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
+
+                            pauseCtx->cursorY[PAUSE_ITEM]++;
+                            if (pauseCtx->cursorY[PAUSE_ITEM] >= ITEM_GRID_ROWS) {
                                 pauseCtx->cursorY[PAUSE_ITEM] = 0;
                             }
 
                             pauseCtx->cursorPoint[PAUSE_ITEM] =
-                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * 6);
+                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * ITEM_GRID_COLS);
 
-                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= 24) {
+                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= (ITEM_GRID_ROWS * ITEM_GRID_COLS)) {
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = pauseCtx->cursorX[PAUSE_ITEM];
                             }
 
                             if (cursorY == pauseCtx->cursorY[PAUSE_ITEM]) {
+                                // there is no item to the left of the initial position, on any line
+
                                 pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = cursorPoint;
 
@@ -160,7 +197,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             }
                         }
                     } else if (pauseCtx->stickAdjX > 30) {
-                        if (pauseCtx->cursorX[PAUSE_ITEM] < 5) {
+                        if (pauseCtx->cursorX[PAUSE_ITEM] < (ITEM_GRID_COLS - 1)) {
                             pauseCtx->cursorX[PAUSE_ITEM]++;
                             pauseCtx->cursorPoint[PAUSE_ITEM] += 1;
 
@@ -172,14 +209,14 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
                             pauseCtx->cursorY[PAUSE_ITEM]++;
 
-                            if (pauseCtx->cursorY[PAUSE_ITEM] >= 4) {
+                            if (pauseCtx->cursorY[PAUSE_ITEM] >= ITEM_GRID_ROWS) {
                                 pauseCtx->cursorY[PAUSE_ITEM] = 0;
                             }
 
                             pauseCtx->cursorPoint[PAUSE_ITEM] =
-                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * 6);
+                                pauseCtx->cursorX[PAUSE_ITEM] + (pauseCtx->cursorY[PAUSE_ITEM] * ITEM_GRID_COLS);
 
-                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= 24) {
+                            if (pauseCtx->cursorPoint[PAUSE_ITEM] >= (ITEM_GRID_ROWS * ITEM_GRID_COLS)) {
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = pauseCtx->cursorX[PAUSE_ITEM];
                             }
 
@@ -221,20 +258,20 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                         break;
                     }
 
-                    cursorY = cursorY + 1;
-                    cursorPoint = cursorPoint + 6;
-                    if (cursorY >= 4) {
+                    cursorY += 1;
+                    cursorPoint += ITEM_GRID_COLS;
+                    if (cursorY >= ITEM_GRID_ROWS) {
                         cursorY = 0;
                         cursorPoint = cursorX + 1;
                         cursorX = cursorPoint;
-                        if (cursorX >= 6) {
+                        if (cursorX >= ITEM_GRID_COLS) {
                             KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_RIGHT);
                             break;
                         }
                     }
                 }
             }
-        } else {
+        } else { // cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT
             if (pauseCtx->stickAdjX < -30) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
@@ -242,7 +279,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
-                cursorPoint = cursorX = 5;
+                cursorPoint = cursorX = ITEM_GRID_COLS - 1;
                 cursorY = 0;
                 while (true) {
                     if (gSaveContext.save.info.inventory.items[cursorPoint] != ITEM_NONE) {
@@ -253,9 +290,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                         break;
                     }
 
-                    cursorY = cursorY + 1;
-                    cursorPoint = cursorPoint + 6;
-                    if (cursorY >= 4) {
+                    cursorY += 1;
+                    cursorPoint += ITEM_GRID_COLS;
+                    if (cursorY >= ITEM_GRID_ROWS) {
                         cursorY = 0;
                         cursorPoint = cursorX - 1;
                         cursorX = cursorPoint;
@@ -279,7 +316,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                         if (pauseCtx->stickAdjY > 30) {
                             if (pauseCtx->cursorY[PAUSE_ITEM] != 0) {
                                 pauseCtx->cursorY[PAUSE_ITEM]--;
-                                pauseCtx->cursorPoint[PAUSE_ITEM] -= 6;
+                                pauseCtx->cursorPoint[PAUSE_ITEM] -= ITEM_GRID_COLS;
 
                                 if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
                                     ITEM_NONE) {
@@ -292,9 +329,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 cursorMoveResult = 2;
                             }
                         } else if (pauseCtx->stickAdjY < -30) {
-                            if (pauseCtx->cursorY[PAUSE_ITEM] < 3) {
+                            if (pauseCtx->cursorY[PAUSE_ITEM] < (ITEM_GRID_ROWS - 1)) {
                                 pauseCtx->cursorY[PAUSE_ITEM]++;
-                                pauseCtx->cursorPoint[PAUSE_ITEM] += 6;
+                                pauseCtx->cursorPoint[PAUSE_ITEM] += ITEM_GRID_COLS;
 
                                 if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
                                     ITEM_NONE) {
@@ -410,7 +447,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-    for (i = 0, j = 24 * 4; i < 3; i++, j += 4) {
+    for (i = 0, j = ITEM_QUAD_GRID_SELECTED_C_LEFT * 4; i < 3; i++, j += 4) {
         if (gSaveContext.save.info.equips.buttonItems[i + 1] != ITEM_NONE) {
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[j], 4, 0);
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, gEquippedItemOutlineTex, 32, 32, 0);
@@ -420,7 +457,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-    for (i = j = 0; i < 24; i++, j += 4) {
+    for (i = j = 0; i < (ITEM_GRID_ROWS * ITEM_GRID_COLS); i++, j += 4) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
         if (gSaveContext.save.info.inventory.items[i] != ITEM_NONE) {
@@ -433,28 +470,34 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                         magicArrowEffectsB[pauseCtx->equipTargetItem - 0xBF], pauseCtx->alpha);
 
                         pauseCtx->itemVtx[j + 0].v.ob[0] = pauseCtx->itemVtx[j + 2].v.ob[0] =
-                            pauseCtx->itemVtx[j + 0].v.ob[0] - 2;
+                            pauseCtx->itemVtx[j + 0].v.ob[0] - ITEM_GRID_QUAD_ENLARGE_OFFSET;
 
                         pauseCtx->itemVtx[j + 1].v.ob[0] = pauseCtx->itemVtx[j + 3].v.ob[0] =
-                            pauseCtx->itemVtx[j + 0].v.ob[0] + 32;
+                            pauseCtx->itemVtx[j + 0].v.ob[0] +
+                            (ITEM_GRID_QUAD_WIDTH + (ITEM_GRID_QUAD_ENLARGE_OFFSET * 2));
 
                         pauseCtx->itemVtx[j + 0].v.ob[1] = pauseCtx->itemVtx[j + 1].v.ob[1] =
-                            pauseCtx->itemVtx[j + 0].v.ob[1] + 2;
+                            pauseCtx->itemVtx[j + 0].v.ob[1] + ITEM_GRID_QUAD_ENLARGE_OFFSET;
 
                         pauseCtx->itemVtx[j + 2].v.ob[1] = pauseCtx->itemVtx[j + 3].v.ob[1] =
-                            pauseCtx->itemVtx[j + 0].v.ob[1] - 32;
+                            pauseCtx->itemVtx[j + 0].v.ob[1] -
+                            (ITEM_GRID_QUAD_HEIGHT + (ITEM_GRID_QUAD_ENLARGE_OFFSET * 2));
                     } else if (i == cursorSlot) {
+                        // enlarge item under the cursor
+
                         pauseCtx->itemVtx[j + 0].v.ob[0] = pauseCtx->itemVtx[j + 2].v.ob[0] =
-                            pauseCtx->itemVtx[j + 0].v.ob[0] - 2;
+                            pauseCtx->itemVtx[j + 0].v.ob[0] - ITEM_GRID_QUAD_ENLARGE_OFFSET;
 
                         pauseCtx->itemVtx[j + 1].v.ob[0] = pauseCtx->itemVtx[j + 3].v.ob[0] =
-                            pauseCtx->itemVtx[j + 0].v.ob[0] + 32;
+                            pauseCtx->itemVtx[j + 0].v.ob[0] +
+                            (ITEM_GRID_QUAD_WIDTH + (ITEM_GRID_QUAD_ENLARGE_OFFSET * 2));
 
                         pauseCtx->itemVtx[j + 0].v.ob[1] = pauseCtx->itemVtx[j + 1].v.ob[1] =
-                            pauseCtx->itemVtx[j + 0].v.ob[1] + 2;
+                            pauseCtx->itemVtx[j + 0].v.ob[1] + ITEM_GRID_QUAD_ENLARGE_OFFSET;
 
                         pauseCtx->itemVtx[j + 2].v.ob[1] = pauseCtx->itemVtx[j + 3].v.ob[1] =
-                            pauseCtx->itemVtx[j + 0].v.ob[1] - 32;
+                            pauseCtx->itemVtx[j + 0].v.ob[1] -
+                            (ITEM_GRID_QUAD_HEIGHT + (ITEM_GRID_QUAD_ENLARGE_OFFSET * 2));
                     }
                 }
             }

@@ -6,10 +6,11 @@
 
 #include "z_en_okarina_effect.h"
 #include "terminal.h"
+#include "versions.h"
 
 #include "z64frame_advance.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnOkarinaEffect_Init(Actor* thisx, PlayState* play);
 void EnOkarinaEffect_Destroy(Actor* thisx, PlayState* play);
@@ -38,8 +39,13 @@ void EnOkarinaEffect_Destroy(Actor* thisx, PlayState* play) {
     EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
+#if OOT_VERSION < PAL_1_0
+    if ((gWeatherMode == WEATHER_MODE_CLEAR) && (play->envCtx.stormRequest == STORM_REQUEST_START))
+#else
     if ((gWeatherMode != WEATHER_MODE_RAIN) && (gWeatherMode != WEATHER_MODE_HEAVY_RAIN) &&
-        (play->envCtx.stormRequest == STORM_REQUEST_START)) {
+        (play->envCtx.stormRequest == STORM_REQUEST_START))
+#endif
+    {
         play->envCtx.stormRequest = STORM_REQUEST_STOP;
         Environment_StopStormNatureAmbience(play);
     }
@@ -118,7 +124,7 @@ void EnOkarinaEffect_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0xFF, 0, 0xFF, 0xFF, 4, play->state.gfxCtx);

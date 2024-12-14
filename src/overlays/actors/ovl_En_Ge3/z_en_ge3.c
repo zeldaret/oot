@@ -8,7 +8,7 @@
 #include "assets/objects/object_geldb/object_geldb.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnGe3_Init(Actor* thisx, PlayState* play2);
 void EnGe3_Destroy(Actor* thisx, PlayState* play);
@@ -128,7 +128,7 @@ void EnGe3_Wait(EnGe3* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = EnGe3_WaitLookAtPlayer;
         this->actor.update = EnGe3_UpdateWhenNotTalking;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
     EnGe3_TurnToFacePlayer(this, play);
 }
@@ -149,7 +149,7 @@ void EnGe3_WaitTillCardGiven(EnGe3* this, PlayState* play) {
 void EnGe3_GiveCard(EnGe3* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->actionFunc = EnGe3_WaitTillCardGiven;
         Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
@@ -164,7 +164,7 @@ void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
             this->unk_30C |= 4;
         }
         this->actor.textId = 0x6004;
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalkExchange(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
     EnGe3_LookAtPlayer(this, play);

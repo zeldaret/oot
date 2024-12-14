@@ -1,6 +1,6 @@
 #include "ultra64/asm.h"
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 .set noreorder
 #endif
 

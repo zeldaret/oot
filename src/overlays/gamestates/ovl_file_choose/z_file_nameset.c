@@ -16,7 +16,7 @@ void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
 
 #if OOT_NTSC
 void FileSelect_DrawCharacterTransition(GraphicsContext* gfxCtx, void* texture1, void* texture2, s16 vtx) {
-    OPEN_DISPS(gfxCtx, "", 0);
+    OPEN_DISPS(gfxCtx, "../z_file_nameset_PAL.c", UNK_LINE);
 
     gDPLoadTextureBlock_4b(POLY_OPA_DISP++, texture1, G_IM_FMT_I, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -24,26 +24,30 @@ void FileSelect_DrawCharacterTransition(GraphicsContext* gfxCtx, void* texture1,
                          G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
 
-    CLOSE_DISPS(gfxCtx, "", 0);
+    CLOSE_DISPS(gfxCtx, "../z_file_nameset_PAL.c", UNK_LINE);
 }
 #endif
 
 #if OOT_PAL
-static s16 D_808124C0[] = {
-    0x0002, 0x0003, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0002, 0x0000, 0x0001,
-    0x0001, 0x0002, 0x0001, 0x0001, 0x0004, 0x0002, 0x0002, 0x0002, 0x0001, 0x0001, 0x0000, 0x0002, 0x0000, 0x0001,
-    0x0001, 0x0001, 0x0001, 0x0001, 0x0000, 0x0001, 0x0001, 0x0001, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0003,
-    0x0002, 0x0002, 0x0004, 0x0003, 0x0002, 0x0004, 0x0001, 0x0002, 0x0002, 0x0001, 0x0001, 0x0002, 0x0002, 0x0003,
-    0x0002, 0x0002, 0x0000, 0x0002, 0x0002, 0x0002, 0x0000, 0x0003, 0x0001, 0x0000,
+
+#if OOT_VERSION >= PAL_1_1
+s16 D_808124C0[] = {
+    2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 0, 1, 1, 2, 1, 1, 4, 2, 2, 2, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0,
+    1, 1, 1, 2, 2, 2, 2, 2, 3, 2, 2, 4, 3, 2, 4, 1, 2, 2, 1, 1, 2, 2, 3, 2, 2, 0, 2, 2, 2, 0, 3, 1, 0,
+};
+#endif
+
+s16 D_80812544[] = {
+#if OOT_VERSION < PAL_1_1
+    1, 2, 0, 1, 1, 2, 1, 2, 4, 2, 2, 2, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 2, 2, 2, 2, 2, 3,
+    2, 2, 4, 3, 2, 4, 1, 2, 2, 1, 1, 2, 2, 3, 2, 2, 0, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 3,
+#else
+    // Differs only at index 7
+    1, 2, 0, 1, 1, 2, 1, 1, 4, 2, 2, 2, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 2, 2, 2, 2, 2, 3,
+    2, 2, 4, 3, 2, 4, 1, 2, 2, 1, 1, 2, 2, 3, 2, 2, 0, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 3,
+#endif
 };
 
-static s16 D_80812544[] = {
-    0x0001, 0x0002, 0x0000, 0x0001, 0x0001, 0x0002, 0x0001, 0x0001, 0x0004, 0x0002, 0x0002, 0x0002, 0x0001,
-    0x0001, 0x0000, 0x0002, 0x0000, 0x0001, 0x0001, 0x0001, 0x0001, 0x0001, 0x0000, 0x0001, 0x0001, 0x0001,
-    0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0003, 0x0002, 0x0002, 0x0004, 0x0003, 0x0002, 0x0004, 0x0001,
-    0x0002, 0x0002, 0x0001, 0x0001, 0x0002, 0x0002, 0x0003, 0x0002, 0x0002, 0x0000, 0x0002, 0x0002, 0x0002,
-    0x0003, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0003,
-};
 #endif
 
 void FileSelect_SetKeyboardVtx(GameState* thisx) {
@@ -60,7 +64,7 @@ void FileSelect_SetKeyboardVtx(GameState* thisx) {
     phi_s1 = 0x26;
 
 #if OOT_NTSC
-    for (phi_t2 = 0, phi_s2 = 0, phi_t3 = 0; phi_s2 < 5; phi_s2++) {
+    for (phi_s2 = 0, phi_t3 = 0; phi_s2 < 5; phi_s2++) {
         for (phi_t0 = -0x60, phi_t1 = 0; phi_t1 < 13; phi_t1++, phi_t3 += 4) {
             this->keyboardVtx[phi_t3].v.ob[0] = this->keyboardVtx[phi_t3 + 2].v.ob[0] = phi_t0;
             this->keyboardVtx[phi_t3 + 1].v.ob[0] = this->keyboardVtx[phi_t3 + 3].v.ob[0] = phi_t0 + 12;
@@ -245,10 +249,15 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
             this->nameEntryVtx[phi_t1].v.ob[0] + 0xA;
 #else
         if ((phi_s0 > 0) && (phi_s0 < 9)) {
+#if OOT_VERSION >= PAL_1_1
             temp = this->fileNames[this->buttonIndex][phi_s0 - 1];
 
             this->nameEntryVtx[phi_t1].v.ob[0] = this->nameEntryVtx[phi_t1 + 2].v.ob[0] =
                 D_808125EC[phi_s0] + this->nameEntryBoxPosX + D_808124C0[temp];
+#else
+            this->nameEntryVtx[phi_t1].v.ob[0] = this->nameEntryVtx[phi_t1 + 2].v.ob[0] =
+                D_808125EC[phi_s0] + this->nameEntryBoxPosX;
+#endif
 
             this->nameEntryVtx[phi_t1 + 1].v.ob[0] = this->nameEntryVtx[phi_t1 + 3].v.ob[0] =
                 this->nameEntryVtx[phi_t1].v.ob[0] + 0xA;
@@ -985,11 +994,12 @@ void FileSelect_StartNameEntry(GameState* thisx) {
 void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     s16 prevKbdX;
-
-#if OOT_NTSC
+#if !(PLATFORM_GC && OOT_PAL)
     Input* input = &this->state.input[0];
     s32 pad;
+#endif
 
+#if OOT_NTSC
     if (this->charPage <= FS_CHAR_PAGE_ENG) {
         if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
             if (gSaveContext.language == LANGUAGE_JPN) {
@@ -1332,6 +1342,9 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         this->configMode = CM_OPTIONS_TO_MAIN;
         sramCtx->readBuff[0] = gSaveContext.audioSetting;
         sramCtx->readBuff[1] = gSaveContext.zTargetSetting;
+#if OOT_PAL_N64
+        sramCtx->readBuff[2] = gSaveContext.language;
+#endif
         PRINTF("ＳＡＶＥ");
         Sram_WriteSramHeader(sramCtx);
         PRINTF(VT_FGCOL(YELLOW));
@@ -1358,7 +1371,18 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
                 gSaveContext.audioSetting = FS_AUDIO_SURROUND;
             }
         } else {
+#if !OOT_PAL_N64
             gSaveContext.zTargetSetting ^= 1;
+#else
+            if (sSelectedSetting == FS_SETTING_TARGET) {
+                gSaveContext.zTargetSetting ^= 1;
+            } else {
+                gSaveContext.language--;
+                if (gSaveContext.language >= LANGUAGE_MAX) {
+                    gSaveContext.language = LANGUAGE_MAX - 1;
+                }
+            }
+#endif
         }
     } else if (this->stickAdjX > 30) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -1371,10 +1395,22 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
                 gSaveContext.audioSetting = FS_AUDIO_STEREO;
             }
         } else {
+#if !OOT_PAL_N64
             gSaveContext.zTargetSetting ^= 1;
+#else
+            if (sSelectedSetting == FS_SETTING_TARGET) {
+                gSaveContext.zTargetSetting ^= 1;
+            } else {
+                gSaveContext.language++;
+                if (gSaveContext.language >= LANGUAGE_MAX) {
+                    gSaveContext.language = 0;
+                }
+            }
+#endif
         }
     }
 
+#if !OOT_PAL_N64
     if ((this->stickAdjY < -30) || (this->stickAdjY > 30)) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1384,19 +1420,108 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         sSelectedSetting ^= 1;
     }
+#else
+    if (this->stickAdjY < -30) {
+        Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        sSelectedSetting++;
+        if (sSelectedSetting >= FS_SETTING_MAX) {
+            sSelectedSetting = 0;
+        }
+    } else if (this->stickAdjY > 30) {
+        Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        sSelectedSetting--;
+        if (sSelectedSetting >= FS_SETTING_MAX) {
+            sSelectedSetting = FS_SETTING_MAX - 1;
+        }
+    } else if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
+        Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        sSelectedSetting++;
+        if (sSelectedSetting >= FS_SETTING_MAX) {
+            sSelectedSetting = 0;
+        }
+    }
+#endif
 }
 
 #if OOT_NTSC
+
 typedef struct OptionsMenuTextureInfo {
     /* 0x00 */ void* texture[2];
     /* 0x08 */ u16 width;
     /* 0x0A */ u16 height;
 } OptionsMenuTextureInfo; // size = 0x0C
 
-#define OPTIONS_MENU_TEXTURE_WIDTHS(jpn, eng, ger, fra) jpn
 #define OPTIONS_MENU_TEXTURE_WIDTH(info) info.width
 #define OPTIONS_MENU_TEXTURE_HEIGHT(info) info.height
+
+static OptionsMenuTextureInfo sOptionsMenuHeaders[] = {
+    { { gFileSelOptionsJPNTex, gFileSelOptionsENGTex }, 128, 16 },
+    { { gFileSelSOUNDENGTex, gFileSelSOUNDENGTex }, 64, 16 },
+    { { gFileSelZTargetingJPNTex, gFileSelZTargetingENGTex }, 64, 16 },
+    { { gFileSelCheckBrightnessJPNTex, gFileSelCheckBrightnessENGTex }, 96, 16 },
+};
+
+static OptionsMenuTextureInfo sOptionsMenuSettings[] = {
+    { { gFileSelStereoJPNTex, gFileSelStereoENGTex }, 48, 16 },
+    { { gFileSelMonoJPNTex, gFileSelMonoENGTex }, 48, 16 },
+    { { gFileSelHeadsetJPNTex, gFileSelHeadsetENGTex }, 48, 16 },
+    { { gFileSelSurroundJPNTex, gFileSelSurroundENGTex }, 48, 16 },
+    { { gFileSelSwitchJPNTex, gFileSelSwitchENGTex }, 48, 16 },
+    { { gFileSelHoldJPNTex, gFileSelHoldENGTex }, 48, 16 },
+};
+
+#elif OOT_PAL_N64
+
+static u16 sZTargetSettingWidths[2][3] = {
+    { 48, 80, 48 },
+    { 48, 80, 48 },
+};
+
+typedef struct LanguageChoiceTextureInfo {
+    /* 0x00 */ void* texture;
+    /* 0x04 */ u16 width;
+    /* 0x06 */ u16 height;
+} LanguageChoiceTextureInfo; // size = 0x10
+
+static LanguageChoiceTextureInfo sLanguageChoices[] = {
+    { gFileSelLanguageChoiceENGTex, 48, 16 },
+    { gFileSelLanguageChoiceGERTex, 48, 16 },
+    { gFileSelLanguageChoiceFRATex, 48, 16 },
+};
+
+typedef struct OptionsMenuTextureInfo {
+    /* 0x00 */ void* texture[3];
+    /* 0x0C */ u16 width;
+    /* 0x0E */ u16 height;
+} OptionsMenuTextureInfo; // size = 0x10
+
+#define OPTIONS_MENU_TEXTURE_WIDTH(info) info.width
+#define OPTIONS_MENU_TEXTURE_HEIGHT(info) info.height
+
+static OptionsMenuTextureInfo sOptionsMenuHeaders[] = {
+    { { gFileSelOptionsENGTex, gFileSelOptionsGERTex, gFileSelOptionsENGTex }, 128, 16 },
+    { { gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDFRATex }, 64, 16 },
+    { { gFileSelZTargetingENGTex, gFileSelZTargetingGERTex, gFileSelZTargetingFRATex }, 64, 16 },
+    { { gFileSelCheckBrightnessENGTex, gFileSelCheckBrightnessGERTex, gFileSelCheckBrightnessFRATex }, 128, 16 },
+    { { gFileSelLanguageENGTex, gFileSelLanguageGERTex, gFileSelLanguageFRATex }, 64, 16 },
+};
+
+static OptionsMenuTextureInfo sOptionsMenuSettings[] = {
+    { { gFileSelStereoENGTex, gFileSelStereoENGTex, gFileSelStereoFRATex }, 48, 16 },
+    { { gFileSelMonoENGTex, gFileSelMonoENGTex, gFileSelMonoENGTex }, 48, 16 },
+    { { gFileSelHeadsetENGTex, gFileSelHeadsetGERTex, gFileSelHeadsetFRATex }, 48, 16 },
+    { { gFileSelSurroundENGTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex }, 48, 16 },
+    { { gFileSelSwitchENGTex, gFileSelSwitchGERTex, gFileSelSwitchFRATex }, 48, 16 },
+    { { gFileSelHoldENGTex, gFileSelHoldGERTex, gFileSelHoldFRATex }, 48, 16 },
+    { { gFileSelSwitchENGTex, gFileSelSwitchGERTex, gFileSelSwitchFRATex }, 48, 16 },
+    { { gFileSelHoldENGTex, gFileSelHoldGERTex, gFileSelHoldFRATex }, 48, 16 },
+};
+
 #else
+
 typedef struct OptionsMenuTextureInfo {
     /* 0x00 */ void* texture[3];
     /* 0x0C */ u16 width[3];
@@ -1407,65 +1532,26 @@ typedef struct OptionsMenuTextureInfo {
     { eng, ger, fra }
 #define OPTIONS_MENU_TEXTURE_WIDTH(info) info.width[gSaveContext.language]
 #define OPTIONS_MENU_TEXTURE_HEIGHT(info) info.height
-#endif
 
 static OptionsMenuTextureInfo sOptionsMenuHeaders[] = {
-    {
-        LANGUAGE_ARRAY(gFileSelOptionsJPNTex, gFileSelOptionsENGTex, gFileSelOptionsGERTex, gFileSelOptionsENGTex),
-        OPTIONS_MENU_TEXTURE_WIDTHS(128, 128, 128, 128),
-        16,
-    },
-    {
-        LANGUAGE_ARRAY(gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDFRATex),
-        OPTIONS_MENU_TEXTURE_WIDTHS(64, 64, 64, 64),
-        16,
-    },
-    {
-        LANGUAGE_ARRAY(gFileSelZTargetingJPNTex, gFileSelZTargetingENGTex, gFileSelZTargetingGERTex,
-                       gFileSelZTargetingFRATex),
-        OPTIONS_MENU_TEXTURE_WIDTHS(64, 64, 144, 64),
-        16,
-    },
-    {
-        LANGUAGE_ARRAY(gFileSelCheckBrightnessJPNTex, gFileSelCheckBrightnessENGTex, gFileSelCheckBrightnessGERTex,
-                       gFileSelCheckBrightnessFRATex),
-        OPTIONS_MENU_TEXTURE_WIDTHS(96, 128, 128, 128),
-        16,
-    },
+    { { gFileSelOptionsENGTex, gFileSelOptionsGERTex, gFileSelOptionsENGTex }, { 128, 128, 128 }, 16 },
+    { { gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDFRATex }, { 64, 64, 64 }, 16 },
+    { { gFileSelZTargetingENGTex, gFileSelZTargetingGERTex, gFileSelZTargetingFRATex }, { 64, 144, 64 }, 16 },
+    { { gFileSelCheckBrightnessENGTex, gFileSelCheckBrightnessGERTex, gFileSelCheckBrightnessFRATex },
+      { 128, 128, 128 },
+      16 },
 };
 
 static OptionsMenuTextureInfo sOptionsMenuSettings[] = {
-    {
-        LANGUAGE_ARRAY(gFileSelStereoJPNTex, gFileSelStereoENGTex, gFileSelStereoENGTex, gFileSelStereoFRATex),
-        OPTIONS_MENU_TEXTURE_WIDTHS(48, 48, 48, 48),
-        16,
-    },
-    {
-        LANGUAGE_ARRAY(gFileSelMonoJPNTex, gFileSelMonoENGTex, gFileSelMonoENGTex, gFileSelMonoENGTex),
-        OPTIONS_MENU_TEXTURE_WIDTHS(48, 48, 48, 48),
-        16,
-    },
-    {
-        LANGUAGE_ARRAY(gFileSelHeadsetJPNTex, gFileSelHeadsetENGTex, gFileSelHeadsetGERTex, gFileSelHeadsetFRATex),
-        OPTIONS_MENU_TEXTURE_WIDTHS(48, 48, 48, 48),
-        16,
-    },
-    {
-        LANGUAGE_ARRAY(gFileSelSurroundJPNTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex),
-        OPTIONS_MENU_TEXTURE_WIDTHS(48, 48, 48, 48),
-        16,
-    },
-    {
-        LANGUAGE_ARRAY(gFileSelSwitchJPNTex, gFileSelSwitchENGTex, gFileSelSwitchGERTex, gFileSelSwitchFRATex),
-        OPTIONS_MENU_TEXTURE_WIDTHS(48, 48, 80, 48),
-        16,
-    },
-    {
-        LANGUAGE_ARRAY(gFileSelHoldJPNTex, gFileSelHoldENGTex, gFileSelHoldGERTex, gFileSelHoldFRATex),
-        OPTIONS_MENU_TEXTURE_WIDTHS(48, 48, 80, 48),
-        16,
-    },
+    { { gFileSelStereoENGTex, gFileSelStereoENGTex, gFileSelStereoFRATex }, { 48, 48, 48 }, 16 },
+    { { gFileSelMonoENGTex, gFileSelMonoENGTex, gFileSelMonoENGTex }, { 48, 48, 48 }, 16 },
+    { { gFileSelHeadsetENGTex, gFileSelHeadsetGERTex, gFileSelHeadsetFRATex }, { 48, 48, 48 }, 16 },
+    { { gFileSelSurroundENGTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex }, { 48, 48, 48 }, 16 },
+    { { gFileSelSwitchENGTex, gFileSelSwitchGERTex, gFileSelSwitchFRATex }, { 48, 80, 48 }, 16 },
+    { { gFileSelHoldENGTex, gFileSelHoldGERTex, gFileSelHoldFRATex }, { 48, 80, 48 }, 16 },
 };
+
+#endif
 
 void FileSelect_DrawOptionsImpl(GameState* thisx) {
     static s16 cursorPrimRed = 255;
@@ -1488,9 +1574,17 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     s16 cursorRed;
     s16 cursorGreen;
     s16 cursorBlue;
+#if !OOT_PAL_N64
     s16 i;
     s16 j;
     s16 vtx;
+#else
+    s16 startIndex;
+    s32 endIndex;
+    s32 i;
+    s32 vtx;
+    s32 pad;
+#endif
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 848);
 
@@ -1556,6 +1650,8 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 
 #if OOT_NTSC
     gSPVertex(POLY_OPA_DISP++, gOptionsMenuHeadersVtx, 32, 0);
+#elif OOT_PAL_N64
+    gSPVertex(POLY_OPA_DISP++, gOptionsMenuHeadersVtx, 24, 0);
 #else
     if (gSaveContext.language == LANGUAGE_GER) {
         gSPVertex(POLY_OPA_DISP++, gOptionsMenuHeadersGERVtx, 32, 0);
@@ -1570,6 +1666,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
+#if !OOT_PAL_N64
     for (i = 0, vtx = 0; i < 4; i++, vtx += 4) {
         gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuHeaders[i].texture[gSaveContext.language], G_IM_FMT_IA,
                             G_IM_SIZ_8b, OPTIONS_MENU_TEXTURE_WIDTH(sOptionsMenuHeaders[i]),
@@ -1577,8 +1674,27 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
+#else
+    for (i = 0, vtx = 0; i < 5; i++, vtx += 4) {
+        if (i == 2 && gSaveContext.language == LANGUAGE_GER) {
+            gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuHeaders[i].texture[gSaveContext.language], G_IM_FMT_IA,
+                                G_IM_SIZ_8b, 144, OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuHeaders[i]), 0,
+                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                G_TX_NOLOD, G_TX_NOLOD);
+            gSP1Quadrangle(POLY_OPA_DISP++, vtx + 12, vtx + 14, vtx + 15, vtx + 13, 0);
+        } else {
+            gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuHeaders[i].texture[gSaveContext.language], G_IM_FMT_IA,
+                                G_IM_SIZ_8b, OPTIONS_MENU_TEXTURE_WIDTH(sOptionsMenuHeaders[i]),
+                                OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuHeaders[i]), 0, G_TX_NOMIRROR | G_TX_WRAP,
+                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+            gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
+        }
+    }
+#endif
 
 #if OOT_NTSC
+    gSPVertex(POLY_OPA_DISP++, gOptionsMenuSettingsVtx, 32, 0);
+#elif OOT_PAL_N64
     gSPVertex(POLY_OPA_DISP++, gOptionsMenuSettingsVtx, 32, 0);
 #else
     if (gSaveContext.language == LANGUAGE_GER) {
@@ -1613,6 +1729,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
 
+#if !OOT_PAL_N64
     for (; i < 6; i++, vtx += 4) {
         gDPPipeSync(POLY_OPA_DISP++);
 
@@ -1630,15 +1747,74 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         }
 
+#ifndef AVOID_UB
         //! @bug Mistakenly using sOptionsMenuHeaders instead of sOptionsMenuSettings for the height.
         //! This is also an OOB read that happens to access the height of the first two elements in
         //! sOptionsMenuSettings, and since all heights are 16, it works out anyway.
+#define sOptionsMenuSettingsBug sOptionsMenuHeaders
+#else
+        // Avoid UB: Use the correct array for the heights to avoid reading out of bounds memory that may not
+        // happen to work out nicely.
+#define sOptionsMenuSettingsBug sOptionsMenuSettings
+#endif
         gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
                             G_IM_SIZ_8b, OPTIONS_MENU_TEXTURE_WIDTH(sOptionsMenuSettings[i]),
-                            OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuHeaders[i]), 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuSettingsBug[i]), 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+#undef sOptionsMenuSettingsBug
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
+#else
+    if (gSaveContext.language == LANGUAGE_GER) {
+        endIndex = 8;
+        startIndex = 6;
+        i += 2;
+        vtx += 8;
+    } else {
+        endIndex = 6;
+        startIndex = 4;
+    }
+
+    for (; i < endIndex; i++, vtx += 4) {
+        s32 j = i - startIndex;
+
+        gDPPipeSync(POLY_OPA_DISP++);
+
+        if (j == gSaveContext.zTargetSetting) {
+            if (sSelectedSetting == FS_SETTING_TARGET) {
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, cursorPrimRed, cursorPrimGreen, cursorPrimBlue,
+                                this->titleAlpha[0]);
+                gDPSetEnvColor(POLY_OPA_DISP++, cursorEnvRed, cursorEnvGreen, cursorEnvBlue, 0xFF);
+            } else {
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
+                gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+            }
+        } else {
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 120, 120, 120, this->titleAlpha[0]);
+            gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+        }
+
+#ifndef AVOID_UB
+        //! @bug Mistakenly using sOptionsMenuHeaders instead of sOptionsMenuSettings for the height.
+        //! This is also an OOB read that happens to access the height of up to the first three elements
+        //! in sOptionsMenuSettings, and since all heights are 16, it works out anyway.
+#define sOptionsMenuSettingsBug sOptionsMenuHeaders
+#else
+        // Avoid UB: Use the correct array for the heights to avoid reading out of bounds memory that may not
+        // happen to work out nicely.
+#define sOptionsMenuSettingsBug sOptionsMenuSettings
+#endif
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
+                            G_IM_SIZ_8b, sZTargetSettingWidths[j][gSaveContext.language],
+                            OPTIONS_MENU_TEXTURE_HEIGHT(sOptionsMenuSettingsBug[i]), 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+#undef sOptionsMenuSettingsBug
+        gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
+    }
+
+    gSPVertex(POLY_OPA_DISP++, gOptionsMenuBrightnessVtx, 8, 0);
+    vtx = 0;
+#endif
 
     gDPPipeSync(POLY_OPA_DISP++);
 
@@ -1658,6 +1834,33 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
 
     vtx += 4;
+
+#if OOT_PAL_N64
+    gSPVertex(POLY_OPA_DISP++, gOptionsMenuLanguageVtx, 12, 0);
+
+    for (i = 0, vtx = 0; i != LANGUAGE_MAX; i++, vtx += 4) {
+        gDPPipeSync(POLY_OPA_DISP++);
+
+        if (i == gSaveContext.language) {
+            if (sSelectedSetting == FS_SETTING_LANGUAGE) {
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, cursorPrimRed, cursorPrimGreen, cursorPrimBlue,
+                                this->titleAlpha[0]);
+                gDPSetEnvColor(POLY_OPA_DISP++, cursorEnvRed, cursorEnvGreen, cursorEnvBlue, 0xFF);
+            } else {
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
+                gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+            }
+        } else {
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 120, 120, 120, this->titleAlpha[0]);
+            gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+        }
+
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sLanguageChoices[i].texture, G_IM_FMT_IA, G_IM_SIZ_8b,
+                            sLanguageChoices[i].width, sLanguageChoices[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
+    }
+#endif
 
     // blue divider lines
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1689,6 +1892,15 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     gSPVertex(POLY_OPA_DISP++, gOptionsDividerBrightnessVtx, 4, 0);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     Matrix_Pop();
+
+#if OOT_PAL_N64
+    Matrix_Push();
+    Matrix_Translate(0.0f, 0.8f, 0.0f, MTXMODE_APPLY);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, this->state.gfxCtx, "../z_file_nameset_PAL.c", UNK_LINE);
+    gSPVertex(POLY_OPA_DISP++, gOptionsDividerLanguageVtx, 4, 0);
+    gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+    Matrix_Pop();
+#endif
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1040);
 }

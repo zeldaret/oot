@@ -120,9 +120,9 @@ static Gfx* sBreakDlists[] = { gCuttableShrubStalkDL, gCuttableShrubTipDL };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1600, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1600, ICHAIN_STOP),
 };
 
 void ObjBean_InitCollider(Actor* thisx, PlayState* play) {
@@ -141,7 +141,7 @@ void ObjBean_InitDynaPoly(ObjBean* this, PlayState* play, CollisionHeader* colli
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
@@ -469,7 +469,7 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-        if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) || (OOT_DEBUG && mREG(1) == 1)) {
+        if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) || (DEBUG_FEATURES && mREG(1) == 1)) {
             path = PARAMS_GET_U(this->dyna.actor.params, 8, 5);
             if (path == 0x1F) {
                 PRINTF(VT_COL(RED, WHITE));
@@ -505,7 +505,7 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
             return;
         }
     } else if ((Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) != 0) ||
-               (OOT_DEBUG && mREG(1) == 1)) {
+               (DEBUG_FEATURES && mREG(1) == 1)) {
         ObjBean_SetupWaitForWater(this);
     } else {
         ObjBean_SetupWaitForBean(this);
@@ -636,7 +636,7 @@ void ObjBean_WaitForWater(ObjBean* this, PlayState* play) {
         ObjBean_SetupGrowWaterPhase1(this);
         D_80B90E30 = this;
         OnePointCutscene_Init(play, 2210, -99, &this->dyna.actor, CAM_ID_MAIN);
-        this->dyna.actor.flags |= ACTOR_FLAG_4;
+        this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         return;
     }
 
@@ -739,7 +739,7 @@ void ObjBean_GrowWaterPhase5(ObjBean* this, PlayState* play) {
     this->transformFunc(this);
     if (this->timer <= 0) {
         func_80B8FF50(this);
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 }
 
@@ -764,7 +764,7 @@ void ObjBean_SetupFly(ObjBean* this) {
     this->actionFunc = ObjBean_Fly;
     ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_PLANT);
     this->dyna.actor.speed = 0.0f;
-    this->dyna.actor.flags |= ACTOR_FLAG_4; // Never stop updating
+    this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED; // Never stop updating
 }
 
 void ObjBean_Fly(ObjBean* this, PlayState* play) {
@@ -776,7 +776,7 @@ void ObjBean_Fly(ObjBean* this, PlayState* play) {
         ObjBean_SetupPath(this, play);
         ObjBean_SetupWaitForStepOff(this);
 
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4; // Never stop updating (disable)
+        this->dyna.actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED; // Never stop updating (disable)
         mainCam = play->cameraPtrs[CAM_ID_MAIN];
 
         if ((mainCam->setting == CAM_SET_BEAN_LOST_WOODS) || (mainCam->setting == CAM_SET_BEAN_GENERIC)) {

@@ -3,7 +3,9 @@
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "assets/objects/object_ossan/object_ossan.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_LOCK_ON_DISABLED)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_LOCK_ON_DISABLED)
 
 typedef enum EnSyatekiManGameResult {
     /* 0 */ SYATEKI_RESULT_NONE,
@@ -40,7 +42,7 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, PlayState* play);
 void EnSyatekiMan_BlinkWait(EnSyatekiMan* this);
 void EnSyatekiMan_Blink(EnSyatekiMan* this);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void EnSyatekiMan_SetBgm(void);
 #endif
 
@@ -56,7 +58,7 @@ ActorProfile En_Syateki_Man_Profile = {
     /**/ EnSyatekiMan_Draw,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static u16 sBgmList[] = {
     NA_BGM_GENERAL_SFX,
     NA_BGM_NATURE_AMBIENCE,
@@ -473,7 +475,7 @@ void EnSyatekiMan_Update(Actor* thisx, PlayState* play) {
     }
     this->actionFunc(this, play);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     EnSyatekiMan_SetBgm();
 #endif
 
@@ -511,7 +513,7 @@ void EnSyatekiMan_Draw(Actor* thisx, PlayState* play) {
                           EnSyatekiMan_OverrideLimbDraw, NULL, this);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void EnSyatekiMan_SetBgm(void) {
     if (BREG(80)) {
         BREG(80) = false;

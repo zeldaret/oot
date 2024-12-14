@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # SPDX-FileCopyrightText: © 2024 ZeldaRET
 # SPDX-License-Identifier: CC0-1.0
@@ -24,7 +24,7 @@ do
     then
         # flags before --
         flags=("${@:1:$(($i - 1))}")
-        # compile command, betwen -- and the input source file
+        # compile command, between -- and the input source file
         compilecmd="${@:$(($i + 1)):$((${#@} - $i - 1))}"
         # The last argument, the input source file to be compiled
         srcfile="${@: -1}"

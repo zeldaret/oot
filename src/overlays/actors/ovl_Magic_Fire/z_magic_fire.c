@@ -6,7 +6,7 @@
 
 #include "z_magic_fire.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void MagicFire_Init(Actor* thisx, PlayState* play);
 void MagicFire_Destroy(Actor* thisx, PlayState* play);

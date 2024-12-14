@@ -9,7 +9,7 @@
 #include "assets/objects/object_nb/object_nb.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum EnNbAction {
     /* 0x00 */ NB_CHAMBER_INIT,
@@ -83,7 +83,7 @@ static void* sEyeTextures[] = {
     gNabooruEyeClosedTex,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static s32 D_80AB4318 = 0;
 #endif
 
@@ -194,7 +194,7 @@ void EnNb_UpdateEyes(EnNb* this) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_80AB11EC(EnNb* this) {
     this->action = NB_ACTION_7;
     this->drawMode = NB_DRAW_NOTHING;
@@ -349,7 +349,7 @@ void EnNb_SetupChamberCsImpl(EnNb* this, PlayState* play) {
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_SPIRIT) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = NB_CHAMBER_UNDERGROUND;
-        play->csCtx.script = D_80AB431C;
+        play->csCtx.script = gSpiritMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_SPIRIT);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
@@ -533,7 +533,7 @@ void EnNb_SetupLightOrb(EnNb* this, PlayState* play) {
 
 void EnNb_Hide(EnNb* this, PlayState* play) {
     EnNb_SetupHide(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AB1210(this, play);
 #endif
 }
@@ -543,7 +543,7 @@ void EnNb_Fade(EnNb* this, PlayState* play) {
     EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckToFade(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AB1210(this, play);
 #endif
 }
@@ -553,7 +553,7 @@ void EnNb_CreateLightOrb(EnNb* this, PlayState* play) {
     EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupLightOrb(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AB1210(this, play);
 #endif
 }

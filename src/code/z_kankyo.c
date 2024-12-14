@@ -1,7 +1,10 @@
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:0"
+#pragma increment_block_number "gc-eu:232 gc-eu-mq:232 gc-jp:212 gc-jp-ce:212 gc-jp-mq:212 gc-us:212 gc-us-mq:212" \
+                               "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:240 pal-1.1:240"
+
 #include "global.h"
 #include "ultra64.h"
 #include "terminal.h"
+#include "versions.h"
 
 #include "z64frame_advance.h"
 
@@ -233,8 +236,8 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-#pragma increment_block_number "gc-eu:240 gc-eu-mq:128 gc-jp:216 gc-jp-ce:214 gc-jp-mq:216 gc-us:216 gc-us-mq:216" \
-                               "ntsc-1.2:224"
+#pragma increment_block_number "gc-eu:240 gc-eu-mq:240 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
+                               "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:240 pal-1.1:240"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
@@ -368,7 +371,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     envCtx->sceneTimeSpeed = 0;
     gTimeSpeed = envCtx->sceneTimeSpeed;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     R_ENV_TIME_SPEED_OLD = gTimeSpeed;
     R_ENV_DISABLE_DBG = true;
 
@@ -440,7 +443,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     gSkyboxIsChanging = false;
     gSaveContext.retainWeatherMode = false;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     R_ENV_LIGHT1_DIR(0) = 80;
     R_ENV_LIGHT1_DIR(1) = 80;
     R_ENV_LIGHT1_DIR(2) = 80;
@@ -737,7 +740,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             }
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (newSkybox1Index == SKYBOX_INDEX_UNDEFINED) {
             PRINTF(VT_COL(RED, WHITE) T("\n環境ＶＲデータ取得失敗！ ささきまでご報告を！",
                                         "\nEnvironment VR data acquisition failed! Report to Sasaki!") VT_RST);
@@ -858,7 +861,7 @@ void Environment_DisableUnderwaterLights(PlayState* play) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     GfxPrint printer;
     s32 pad[2];
@@ -981,9 +984,15 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         }
 
         //! @bug `gTimeSpeed` is unsigned, it can't be negative
+#if OOT_VERSION < PAL_1_0
+        if ((((void)0, gSaveContext.save.dayTime) > ((void)0, gSaveContext.skyboxTime)) ||
+            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0))
+#else
         if (((((void)0, gSaveContext.sceneLayer) >= 5 || gTimeSpeed != 0) &&
-             ((void)0, gSaveContext.save.dayTime) > gSaveContext.skyboxTime) ||
-            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
+             ((void)0, gSaveContext.save.dayTime) > ((void)0, gSaveContext.skyboxTime)) ||
+            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0))
+#endif
+        {
 
             gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
         }
@@ -996,7 +1005,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             gSaveContext.save.nightFlag = 0;
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
             Gfx* displayList;
             Gfx* prevDisplayList;
@@ -1163,7 +1172,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                     envCtx->lightSettings.zFar = LERP16(blend16[0], blend16[1], configChangeBlend);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                     if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                         envCtx->numLightSettings) {
                         PRINTF(VT_COL(RED, WHITE) T("\nカラーパレットの設定がおかしいようです！",
@@ -1243,7 +1252,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                                     lightSettingsList[envCtx->lightSetting].zFar, envCtx->lightBlend);
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (envCtx->lightSetting >= envCtx->numLightSettings) {
                 PRINTF("\n" VT_FGCOL(RED)
                            T("カラーパレットがおかしいようです！", "The color palette seems to be wrong!"));
@@ -1317,7 +1326,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             lightCtx->zFar = ENV_ZFAR_MAX;
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         // When environment debug is enabled, various environment related variables can be configured via the reg editor
         if (R_ENV_DISABLE_DBG) {
             R_ENV_AMBIENT_COLOR(0) = lightCtx->ambientColor[0];
@@ -1748,8 +1757,13 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
     Player* player = GET_PLAYER(play);
 
+#if OOT_VERSION < PAL_1_0
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_CAMERA_IN_WATER))
+#else
     if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_CAMERA_IN_WATER) &&
-        (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0)) {
+        (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0))
+#endif
+    {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
 
         vec.x = view->at.x - view->eye.x;
@@ -2543,7 +2557,7 @@ void Environment_AdjustLights(PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32
     f32 temp;
     s32 i;
 
-    if (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_5 && Play_CamIsNotFixed(play)) {
+    if (play->roomCtx.curRoom.type != ROOM_TYPE_BOSS && Play_CamIsNotFixed(play)) {
         arg1 = CLAMP_MIN(arg1, 0.0f);
         arg1 = CLAMP_MAX(arg1, 1.0f);
 

@@ -33,7 +33,7 @@
 #include "terminal.h"
 
 #define PADMGR_LOG(controllerNum, msg)                                                                \
-    if (OOT_DEBUG) {                                                                                  \
+    if (DEBUG_FEATURES) {                                                                             \
         PRINTF(VT_FGCOL(YELLOW));                                                                     \
         PRINTF(T("padmgr: %dコン: %s\n", "padmgr: Controller %d: %s\n"), (controllerNum) + 1, (msg)); \
         PRINTF(VT_RST);                                                                               \
@@ -68,7 +68,7 @@ s32 gPadMgrLogSeverity = LOG_SEVERITY_CRITICAL;
 OSMesgQueue* PadMgr_AcquireSerialEventQueue(PadMgr* padMgr) {
     OSMesgQueue* serialEventQueue;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     serialEventQueue = NULL;
 #endif
 
@@ -184,7 +184,7 @@ void PadMgr_UpdateRumble(PadMgr* padMgr) {
                 }
             } else {
                 if (padMgr->pakType[i] != CONT_PAK_NONE) {
-                    if (padMgr->pakType[i] == CONT_PAK_RUMBLE || !OOT_DEBUG) {
+                    if (padMgr->pakType[i] == CONT_PAK_RUMBLE || !DEBUG_FEATURES) {
                         PADMGR_LOG(i, T("振動パックが抜かれたようです", "It seems that a rumble pak was pulled out"));
                         padMgr->pakType[i] = CONT_PAK_NONE;
                     } else {
@@ -326,7 +326,9 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
             default:
                 // Unknown error response
                 LOG_HEX("padnow1->errno", pad->errno, "../padmgr.c", 396);
-#if PLATFORM_N64
+#if OOT_VERSION < NTSC_1_1
+                Fault_AddHungupAndCrash("../padmgr.c", 379);
+#elif OOT_VERSION < GC_JP
                 Fault_AddHungupAndCrash("../padmgr.c", 382);
 #else
                 Fault_AddHungupAndCrash("../padmgr.c", 397);
@@ -361,7 +363,7 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
     osRecvMesg(serialEventQueue, NULL, OS_MESG_BLOCK);
     osContGetReadData(padMgr->pads);
 
-#if !OOT_DEBUG
+#if !DEBUG_FEATURES
     // Clear controllers 2 and 4
     bzero(&padMgr->pads[1], sizeof(OSContPad));
     bzero(&padMgr->pads[3], sizeof(OSContPad));

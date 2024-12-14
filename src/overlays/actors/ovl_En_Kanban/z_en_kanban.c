@@ -10,7 +10,7 @@
 #include "assets/objects/object_kanban/object_kanban.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 #define PART_UPPER_LEFT (1 << 0)
 #define PART_LEFT_UPPER (1 << 1)
@@ -406,7 +406,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     }
                     piece->airTimer = 100;
                     piece->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-                    piece->actor.flags |= ACTOR_FLAG_25;
+                    piece->actor.flags |= ACTOR_FLAG_UPDATE_DURING_OCARINA;
                     this->cutMarkTimer = 5;
                     Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_STRIKE);
                 }

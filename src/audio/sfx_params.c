@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
+#include "versions.h"
 
 #define DEFINE_SFX(_0, _1, importance, distParam, randParam, flags)            \
     { importance, ((((distParam) << SFX_PARAM_01_SHIFT) & SFX_PARAM_01_MASK) | \

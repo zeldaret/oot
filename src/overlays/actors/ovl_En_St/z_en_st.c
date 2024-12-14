@@ -7,7 +7,9 @@
 #include "z_en_st.h"
 #include "assets/objects/object_st/object_st.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnSt_Init(Actor* thisx, PlayState* play);
 void EnSt_Destroy(Actor* thisx, PlayState* play);
@@ -352,7 +354,7 @@ s32 EnSt_SetCylinderOC(EnSt* this, PlayState* play) {
         cyloffsets[i].z *= this->colliderScale;
         Matrix_Push();
         Matrix_Translate(cylPos.x, cylPos.y, cylPos.z, MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD_ALT(this->initalYaw), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->initialYaw), MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
         Matrix_Pop();
         this->colCylinder[i + 3].dim.pos.x = cylPos.x;
@@ -563,7 +565,9 @@ s32 EnSt_DecrStunTimer(EnSt* this) {
     if (this->stunTimer == 0) {
         return 0;
     }
-    this->stunTimer--; //! @bug  no return but v0 ends up being stunTimer before decrement
+    this->stunTimer--;
+    //! @bug No return, v0 ends up being stunTimer before decrement.
+    //! The return value is not used so it doesn't matter.
 }
 
 /**
@@ -623,7 +627,7 @@ void EnSt_UpdateYaw(EnSt* this, PlayState* play) {
 
         // calculate the new yaw to or away from the player.
         rot = this->actor.shape.rot;
-        yawTarget = (this->actionFunc == EnSt_WaitOnGround ? this->actor.yawTowardsPlayer : this->initalYaw);
+        yawTarget = (this->actionFunc == EnSt_WaitOnGround ? this->actor.yawTowardsPlayer : this->initialYaw);
         yawDiff = rot.y - (yawTarget ^ yawDir);
         if (ABS(yawDiff) <= 0x4000) {
             Math_SmoothStepToS(&rot.y, yawTarget ^ yawDir, 4, 0x2000, 1);
@@ -714,7 +718,7 @@ s32 EnSt_IsCloseToPlayer(EnSt* this, PlayState* play) {
     return true;
 }
 
-s32 EnSt_IsCloseToInitalPos(EnSt* this) {
+s32 EnSt_IsCloseToInitialPos(EnSt* this) {
     f32 velY = this->actor.velocity.y;
     f32 checkY = this->actor.world.pos.y + (velY * 2.0f);
 
@@ -798,11 +802,11 @@ void EnSt_Init(Actor* thisx, PlayState* play) {
         this->actor.naviEnemyId = NAVI_ENEMY_SKULLTULA;
     }
     EnSt_CheckCeilingPos(this, play);
-    this->actor.flags |= ACTOR_FLAG_14;
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_CAN_ATTACH_TO_ARROW;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     EnSt_SetColliderScale(this);
     this->actor.gravity = 0.0f;
-    this->initalYaw = this->actor.world.rot.y;
+    this->initialYaw = this->actor.world.rot.y;
     EnSt_SetupAction(this, EnSt_StartOnCeilingOrGround);
 }
 
@@ -926,7 +930,7 @@ void EnSt_ReturnToCeiling(EnSt* this, PlayState* play) {
         // player came back into range
         EnSt_SetDropAnimAndVel(this);
         EnSt_SetupAction(this, EnSt_MoveToGround);
-    } else if (EnSt_IsCloseToInitalPos(this)) {
+    } else if (EnSt_IsCloseToInitialPos(this)) {
         // the Skulltula is close to the initial postion.
         EnSt_SetWaitingAnimation(this);
         EnSt_SetupAction(this, EnSt_WaitOnCeiling);
@@ -1013,7 +1017,7 @@ void EnSt_Update(Actor* thisx, PlayState* play) {
     s32 pad;
     Color_RGBA8 color = { 0, 0, 0, 0 };
 
-    if (this->actor.flags & ACTOR_FLAG_15) {
+    if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {
         SkelAnime_Update(&this->skelAnime);
     } else if (!EnSt_CheckColliders(this, play)) {
         // no collision has been detected.

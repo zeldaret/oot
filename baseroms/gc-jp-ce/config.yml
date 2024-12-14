@@ -971,7 +971,7 @@ assets:
 - name: scenes/dungeons/ddan
   xml_path: assets/xml/scenes/dungeons/ddan.xml
 - name: scenes/dungeons/ddan_boss
-  xml_path: assets/xml/scenes/dungeons/ddan_boss.xml
+  xml_path: assets/xml/scenes/dungeons/ddan_boss_v2.xml
 - name: scenes/dungeons/FIRE_bs
   xml_path: assets/xml/scenes/dungeons/FIRE_bs.xml
 - name: scenes/dungeons/ganon
@@ -999,7 +999,7 @@ assets:
 - name: scenes/dungeons/HIDAN
   xml_path: assets/xml/scenes/dungeons/HIDAN.xml
 - name: scenes/dungeons/ice_doukutu
-  xml_path: assets/xml/scenes/dungeons/ice_doukutu.xml
+  xml_path: assets/xml/scenes/dungeons/ice_doukutu_v2.xml
 - name: scenes/dungeons/jyasinboss
   xml_path: assets/xml/scenes/dungeons/jyasinboss.xml
 - name: scenes/dungeons/jyasinzou
@@ -1141,7 +1141,7 @@ assets:
 - name: scenes/overworld/spot15
   xml_path: assets/xml/scenes/overworld/spot15.xml
 - name: scenes/overworld/spot16
-  xml_path: assets/xml/scenes/overworld/spot16.xml
+  xml_path: assets/xml/scenes/overworld/spot16_v2.xml
 - name: scenes/overworld/spot17
   xml_path: assets/xml/scenes/overworld/spot17.xml
 - name: scenes/overworld/spot18
@@ -1201,7 +1201,7 @@ assets:
 - name: textures/nes_font_static
   xml_path: assets/xml/textures/nes_font_static_v2.xml
 - name: textures/nintendo_rogo_static
-  xml_path: assets/xml/textures/nintendo_rogo_static.xml
+  xml_path: assets/xml/textures/nintendo_rogo_static_v2.xml
 - name: textures/parameter_static
   xml_path: assets/xml/textures/parameter_static.xml
 - name: textures/place_title_cards

@@ -37,9 +37,10 @@
 #endif
 
 /**
- * Marks the beginning of a cutscene script.
+ * Describes the length and the total number of command entries for a cutscene script.
+ * Required at the beginning of every script.
  */
-#define CS_BEGIN_CUTSCENE(totalEntries, frameCount) CMD_W(totalEntries), CMD_W(frameCount)
+#define CS_HEADER(totalEntries, frameCount) CMD_W(totalEntries), CMD_W(frameCount)
 
 /**
  * Defines data for `CutsceneCameraPoint`, which can be used with any of the `eye` or `at` camera commands.
@@ -267,9 +268,9 @@
     CS_CMD_DESTINATION, 1, CMD_HH(destination, startFrame), CMD_HH(endFrame, endFrame)
 
 /**
- * Marks the end of a cutscene script.
+ * Marks the end of a command list in a cutscene script. Processing for the current frame will finish.
  */
-#define CS_END() 0xFFFFFFFF, 0x00000000
+#define CS_END_OF_SCRIPT() CS_CMD_END_OF_SCRIPT, CMD_W(0)
 
 
 // most instances of this look like unimplemented actor cues.

@@ -5,10 +5,11 @@
  */
 
 #include "z_en_bw.h"
+#include "versions.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_bw/object_bw.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnBw_Init(Actor* thisx, PlayState* play);
 void EnBw_Destroy(Actor* thisx, PlayState* play);
@@ -137,7 +138,9 @@ void EnBw_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;
+#if OOT_VERSION >= PAL_1_0
     this->actor.colChkInfo.mass = MASS_HEAVY;
+#endif
     this->actor.focus.pos = this->actor.world.pos;
     func_809CE9A8(this);
     this->color1.a = this->color1.r = 255;
@@ -432,7 +435,7 @@ void func_809CF8F0(EnBw* this) {
     this->unk_222 = 1000;
     this->actor.velocity.y = 11.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     EnBw_SetupAction(this, func_809CF984);
 }
 
@@ -462,7 +465,7 @@ void func_809CF984(EnBw* this, PlayState* play) {
         }
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 30.0f, 11, 4.0f, 0, 0, false);
         this->unk_222 = 3000;
-        this->actor.flags &= ~ACTOR_FLAG_24;
+        this->actor.flags &= ~ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
         this->actor.speed = 0.0f;
         Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnBw_SetupAction(this, func_809CE884);

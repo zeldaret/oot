@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_hamstep.h"
+#include "versions.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 #include "quake.h"
 
@@ -347,7 +348,7 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
     Actor_MoveXZGravity(&this->dyna.actor);
     func_80888694(this, (BgHidanHamstep*)this->dyna.actor.parent);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) <= 0 || PARAMS_GET_U(this->dyna.actor.params, 0, 8) >= 6) {
         // "[Hammer Step] arg_data strange (arg_data = %d)"
         PRINTF("【ハンマーステップ】 arg_data おかしい (arg_data = %d)", this->dyna.actor.params);
@@ -379,9 +380,11 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
                 Rumble_Request(SQ(100.0f), 255, 20, 150);
                 func_808884C8(this, play);
 
+#if OOT_VERSION >= PAL_1_0
                 if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 5) {
                     Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                 }
+#endif
 
                 PRINTF("B(%d)\n", this->dyna.actor.params);
             }

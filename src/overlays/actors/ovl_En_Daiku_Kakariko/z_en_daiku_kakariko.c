@@ -7,7 +7,7 @@
 #include "z_en_daiku_kakariko.h"
 #include "assets/objects/object_daiku/object_daiku.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum KakarikoCarpenterType {
     /* 0x0 */ CARPENTER_ICHIRO,  // Red and purple pants, normal hair
@@ -124,7 +124,7 @@ void EnDaikuKakariko_ChangeAnim(EnDaikuKakariko* this, s32 index, s32* currentIn
 }
 
 void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
-    static u16 initFlags[] = { 0x0080, 0x00B0, 0x0070, 0x0470 }; // List of inital values for this->flags
+    static u16 initFlags[] = { 0x0080, 0x00B0, 0x0070, 0x0470 }; // List of initial values for this->flags
     EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     s32 pad;
 
@@ -171,7 +171,7 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
 
     this->actor.gravity = 0.0f;
     this->runSpeed = 3.0f;
-    this->actor.uncullZoneForward = 1200.0f;
+    this->actor.cullingVolumeDistance = 1200.0f;
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->currentAnimIndex = -1;
 

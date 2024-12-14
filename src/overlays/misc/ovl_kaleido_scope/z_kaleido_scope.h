@@ -34,6 +34,37 @@ extern u8 gAreaGsFlags[];
 #define PAGE_BG_QUAD_TEX_WIDTH 80
 #define PAGE_BG_QUAD_TEX_HEIGHT 32
 
+typedef enum QuestQuad {
+    // 0 to 24 matches the `QuestItem` enum
+    // Notes showing the correct song
+    /* 25 */ QUEST_QUAD_SONG_NOTE_A1 = QUEST_HEART_PIECE + 1,
+    /* 26 */ QUEST_QUAD_SONG_NOTE_A2,
+    /* 27 */ QUEST_QUAD_SONG_NOTE_A3,
+    /* 28 */ QUEST_QUAD_SONG_NOTE_A4,
+    /* 29 */ QUEST_QUAD_SONG_NOTE_A5,
+    /* 30 */ QUEST_QUAD_SONG_NOTE_A6,
+    /* 31 */ QUEST_QUAD_SONG_NOTE_A7,
+    /* 32 */ QUEST_QUAD_SONG_NOTE_A8,
+    // Notes appearing when playing
+    /* 33 */ QUEST_QUAD_SONG_NOTE_B1,
+    /* 34 */ QUEST_QUAD_SONG_NOTE_B2,
+    /* 35 */ QUEST_QUAD_SONG_NOTE_B3,
+    /* 36 */ QUEST_QUAD_SONG_NOTE_B4,
+    /* 37 */ QUEST_QUAD_SONG_NOTE_B5,
+    /* 38 */ QUEST_QUAD_SONG_NOTE_B6,
+    /* 39 */ QUEST_QUAD_SONG_NOTE_B7,
+    /* 40 */ QUEST_QUAD_SONG_NOTE_B8,
+    // Shadow for the amount of skulltula tokens
+    /* 41 */ QUEST_QUAD_SKULL_TOKENS_DIGIT1_SHADOW,
+    /* 42 */ QUEST_QUAD_SKULL_TOKENS_DIGIT2_SHADOW,
+    /* 43 */ QUEST_QUAD_SKULL_TOKENS_DIGIT3_SHADOW,
+    // Amount of skulltula tokens
+    /* 44 */ QUEST_QUAD_SKULL_TOKENS_DIGIT1,
+    /* 45 */ QUEST_QUAD_SKULL_TOKENS_DIGIT2,
+    /* 46 */ QUEST_QUAD_SKULL_TOKENS_DIGIT3,
+    /* 47 */ QUEST_QUAD_MAX
+} QuestQuad;
+
 // The world map image is split into a number of quad fragments for drawing
 #define WORLD_MAP_IMAGE_WIDTH 216
 #define WORLD_MAP_IMAGE_HEIGHT 128
@@ -78,6 +109,61 @@ typedef enum PromptQuad {
     /* 4 */ PROMPT_QUAD_CHOICE_NO,
     /* 5 */ PROMPT_QUAD_MAX
 } PromptQuad;
+
+#define ITEM_GRID_ROWS 4
+#define ITEM_GRID_COLS 6
+#define ITEM_GRID_CELL_WIDTH 32
+#define ITEM_GRID_CELL_HEIGHT 32
+#define ITEM_GRID_QUAD_MARGIN 2
+#define ITEM_GRID_QUAD_WIDTH (ITEM_GRID_CELL_WIDTH - (2 * ITEM_GRID_QUAD_MARGIN))
+#define ITEM_GRID_QUAD_HEIGHT (ITEM_GRID_CELL_HEIGHT - (2 * ITEM_GRID_QUAD_MARGIN))
+#define ITEM_GRID_QUAD_TEX_SIZE 32 // both width and height
+#define ITEM_GRID_QUAD_ENLARGE_OFFSET 2
+
+#define ITEM_GRID_SELECTED_QUAD_MARGIN (-2)
+#define ITEM_GRID_SELECTED_QUAD_WIDTH (ITEM_GRID_QUAD_WIDTH - (2 * ITEM_GRID_SELECTED_QUAD_MARGIN))
+#define ITEM_GRID_SELECTED_QUAD_HEIGHT (ITEM_GRID_QUAD_HEIGHT - (2 * ITEM_GRID_SELECTED_QUAD_MARGIN))
+#define ITEM_GRID_SELECTED_QUAD_TEX_SIZE 32 // both width and height
+
+#define ITEM_AMMO_DIGIT_QUAD_WIDTH 8
+#define ITEM_AMMO_DIGIT_QUAD_HEIGHT 8
+#define ITEM_AMMO_DIGIT_QUAD_TEX_SIZE 8
+
+// Relative to the corresponding ITEM_QUAD_GRID_ quad
+#define ITEM_AMMO_TENS_QUAD_OFFSET_X 0
+#define ITEM_AMMO_TENS_QUAD_OFFSET_Y 22
+
+// Relative to the ammo tens digit
+#define ITEM_AMMO_ONES_QUAD_OFFSET_X 6
+#define ITEM_AMMO_ONES_QUAD_OFFSET_Y 0
+
+typedef enum ItemQuad {
+    // 0 to 23 are the ITEM_GRID_ROWS*ITEM_GRID_COLS item grid
+    // The values follow the `InventorySlot` enum
+    /*  0 */ ITEM_QUAD_GRID_FIRST,
+    /* 23 */ ITEM_QUAD_GRID_LAST = ITEM_GRID_ROWS * ITEM_GRID_COLS - 1,
+    // Markers indicating the currently equipped items
+    /* 24 */ ITEM_QUAD_GRID_SELECTED_C_LEFT,
+    /* 25 */ ITEM_QUAD_GRID_SELECTED_C_DOWN,
+    /* 26 */ ITEM_QUAD_GRID_SELECTED_C_RIGHT,
+    // Digits for showing ammo count
+    /* 27 */ ITEM_QUAD_AMMO_FIRST,
+    /* 27 */ ITEM_QUAD_AMMO_STICK_TENS = ITEM_QUAD_AMMO_FIRST,
+    /* 28 */ ITEM_QUAD_AMMO_STICK_ONES,
+    /* 29 */ ITEM_QUAD_AMMO_NUT_TENS,
+    /* 30 */ ITEM_QUAD_AMMO_NUT_ONES,
+    /* 31 */ ITEM_QUAD_AMMO_BOMB_TENS,
+    /* 32 */ ITEM_QUAD_AMMO_BOMB_ONES,
+    /* 33 */ ITEM_QUAD_AMMO_BOW_TENS,
+    /* 34 */ ITEM_QUAD_AMMO_BOW_ONES,
+    /* 35 */ ITEM_QUAD_AMMO_SLINGSHOT_TENS,
+    /* 36 */ ITEM_QUAD_AMMO_SLINGSHOT_ONES,
+    /* 37 */ ITEM_QUAD_AMMO_BOMBCHU_TENS,
+    /* 38 */ ITEM_QUAD_AMMO_BOMBCHU_ONES,
+    /* 39 */ ITEM_QUAD_AMMO_BEAN_TENS,
+    /* 40 */ ITEM_QUAD_AMMO_BEAN_ONES,
+    /* 41 */ ITEM_QUAD_MAX
+} ItemQuad;
 
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);

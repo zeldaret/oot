@@ -7,14 +7,14 @@
 #include "z_bg_spot03_taki.h"
 #include "assets/objects/object_spot03_object/object_spot03_object.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgSpot03Taki_Init(Actor* thisx, PlayState* play);
 void BgSpot03Taki_Destroy(Actor* thisx, PlayState* play);
 void BgSpot03Taki_Update(Actor* thisx, PlayState* play);
 void BgSpot03Taki_Draw(Actor* thisx, PlayState* play);
 
-void func_808ADEF0(BgSpot03Taki* this, PlayState* play);
+void BgSpot03Taki_HandleWaterfallState(BgSpot03Taki* this, PlayState* play);
 
 ActorProfile Bg_Spot03_Taki_Profile = {
     /**/ ACTOR_BG_SPOT03_TAKI,
@@ -56,7 +56,7 @@ void BgSpot03Taki_Init(Actor* thisx, PlayState* play) {
     this->openingAlpha = 255.0f;
     BgSpot03Taki_ApplyOpeningAlpha(this, 0);
     BgSpot03Taki_ApplyOpeningAlpha(this, 1);
-    this->actionFunc = func_808ADEF0;
+    this->actionFunc = BgSpot03Taki_HandleWaterfallState;
 }
 
 void BgSpot03Taki_Destroy(Actor* thisx, PlayState* play) {
@@ -65,7 +65,7 @@ void BgSpot03Taki_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808ADEF0(BgSpot03Taki* this, PlayState* play) {
+void BgSpot03Taki_HandleWaterfallState(BgSpot03Taki* this, PlayState* play) {
     if (this->state == WATERFALL_CLOSED) {
         if (Flags_GetSwitch(play, this->switchFlag)) {
             this->state = WATERFALL_OPENING_ANIMATED;

@@ -1,6 +1,7 @@
 #include "global.h"
 #include "quake.h"
 #include "terminal.h"
+#include "versions.h"
 #include "overlays/actors/ovl_En_Sw/z_en_sw.h"
 
 static s16 sDisableAttention = false;
@@ -1858,7 +1859,9 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             Play_RequestCameraSetting(play, subCamId, CAM_SET_CS_3);
             Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_5);
             OnePointCutscene_SetCsCamPoints(subCam, D_80120304 | 0x2000, D_80120300, D_8012013C, D_8012021C);
+#if OOT_VERSION >= PAL_1_0
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
+#endif
             OnePointCutscene_Vec3sToVec3f(&mainCam->at, &D_8012013C[D_801202FC - 2].pos);
             OnePointCutscene_Vec3sToVec3f(&mainCam->eye, &D_8012021C[D_801202FC - 2].pos);
             D_8012013C[D_801202FC - 3].pos.x +=
@@ -1874,10 +1877,22 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_8012021C[D_801202FC - 3].pos.z +=
                 (D_8012021C[D_801202FC - 2].pos.z - D_8012021C[D_801202FC - 3].pos.z) / 2;
 
+#if OOT_VERSION < PAL_1_0
+            i = Quake_Request(subCam, QUAKE_TYPE_1);
+            Quake_SetSpeed(i, 30000);
+            Quake_SetPerturbations(i, 3, 1, 1, 0);
+            Quake_SetDuration(i, D_80120300);
+
+            i = Quake_Request(mainCam, QUAKE_TYPE_3);
+            Quake_SetSpeed(i, 30000);
+            Quake_SetPerturbations(i, 3, 1, 1, 0);
+            Quake_SetDuration(i, D_80120300 + 50);
+#else
             i = Quake_Request(mainCam, QUAKE_TYPE_3);
             Quake_SetSpeed(i, 30000);
             Quake_SetPerturbations(i, 2, 1, 1, 0);
             Quake_SetDuration(i, 200);
+#endif
             break;
         }
 
@@ -5240,7 +5255,7 @@ s32 OnePointCutscene_Attention(PlayState* play, Actor* actor) {
     s32 temp2;
     s32 timer;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (sDisableAttention) {
         PRINTF(VT_COL(YELLOW, BLACK) "actor attention demo camera: canceled by other camera\n" VT_RST);
         return CAM_ID_NONE;

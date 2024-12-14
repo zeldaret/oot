@@ -1,7 +1,9 @@
 #include "z_en_rd.h"
 #include "assets/objects/object_rd/object_rd.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_10)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 void EnRd_Init(Actor* thisx, PlayState* play);
 void EnRd_Destroy(Actor* thisx, PlayState* play);
@@ -365,7 +367,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
                     // `player->actor.freezeTimer` gets set above which will prevent Player from updating.
                     // Because of this, he cannot update things related to Z-Targeting.
                     // If Player can't update, `player->zTargetActiveTimer` won't update, which means
-                    // the Attention system will not be notified of a new actor lock-on occuring.
+                    // the Attention system will not be notified of a new actor lock-on occurring.
                     // So, no reticle will appear. But the camera will still focus on the actor.
                     Player_SetAutoLockOnActor(play, &this->actor);
 

@@ -5,9 +5,10 @@
  */
 
 #include "z_en_arrow.h"
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnArrow_Init(Actor* thisx, PlayState* play);
 void EnArrow_Destroy(Actor* thisx, PlayState* play);
@@ -148,7 +149,7 @@ void EnArrow_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyQuad(play, &this->collider);
 
     if ((this->hitActor != NULL) && (this->hitActor->update != NULL)) {
-        this->hitActor->flags &= ~ACTOR_FLAG_15;
+        this->hitActor->flags &= ~ACTOR_FLAG_ATTACHED_TO_ARROW;
     }
 }
 
@@ -286,11 +287,11 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                 hitActor = this->collider.base.at;
 
                 if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED) &&
-                    (hitActor->flags & ACTOR_FLAG_14)) {
+                    (hitActor->flags & ACTOR_FLAG_CAN_ATTACH_TO_ARROW)) {
                     this->hitActor = hitActor;
                     EnArrow_CarryActor(this, play);
                     Math_Vec3f_Diff(&hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
-                    hitActor->flags |= ACTOR_FLAG_15;
+                    hitActor->flags |= ACTOR_FLAG_ATTACHED_TO_ARROW;
                     this->collider.base.atFlags &= ~AT_HIT;
                     this->actor.speed /= 2.0f;
                     this->actor.velocity.y /= 2.0f;
@@ -352,14 +353,14 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                 this->hitActor->world.pos.y = hitPoint.y + ((sp54.y <= hitPoint.y) ? 1.0f : -1.0f);
                 this->hitActor->world.pos.z = hitPoint.z + ((sp54.z <= hitPoint.z) ? 1.0f : -1.0f);
                 Math_Vec3f_Diff(&this->hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
-                this->hitActor->flags &= ~ACTOR_FLAG_15;
+                this->hitActor->flags &= ~ACTOR_FLAG_ATTACHED_TO_ARROW;
                 this->hitActor = NULL;
             } else {
                 Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &this->hitActor->world.pos);
             }
 
             if (this->touchedPoly && (this->hitActor != NULL)) {
-                this->hitActor->flags &= ~ACTOR_FLAG_15;
+                this->hitActor->flags &= ~ACTOR_FLAG_ATTACHED_TO_ARROW;
                 this->hitActor = NULL;
             }
         } else {

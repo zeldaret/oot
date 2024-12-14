@@ -8,17 +8,18 @@ import os, shutil, time
 from dataclasses import dataclass
 from multiprocessing.pool import ThreadPool
 from typing import Dict, List, Tuple, Union
-from xml.etree import ElementTree
-from xml.etree.ElementTree import Element
 
 from .audio_tables import AudioCodeTable, AudioCodeTableEntry, AudioStorageMedium
 from .audiotable import AudioTableData, AudioTableFile, AudioTableSample
 from .audiobank_file import AudiobankFile
 from .disassemble_sequence import CMD_SPEC, SequenceDisassembler, SequenceTableSpec, MMLVersion
-from .util import align, debugm, error, incbin, program_get, XMLWriter
+from .extraction_xml import ExtractionDescription, SampleBankExtractionDescription, SoundFontExtractionDescription, SequenceExtractionDescription
+from .util import align, incbin, program_get, XMLWriter
 
 @dataclass
 class GameVersionInfo:
+    # Version Name
+    version_name           : str
     # Music Macro Language Version
     mml_version            : MMLVersion
     # Soundfont table code offset
@@ -49,7 +50,7 @@ BASEROM_DEBUG = False
 # ======================================================================================================================
 
 def collect_sample_banks(audiotable_seg : memoryview, extracted_dir : str, version_info : GameVersionInfo,
-                         table : AudioCodeTable, samplebank_xmls : Dict[int, Tuple[str, Element]]):
+                         table : AudioCodeTable, samplebank_descs : Dict[int, SampleBankExtractionDescription]):
     sample_banks : List[Union[AudioTableFile, int]] = []
 
     for i,entry in enumerate(table):
@@ -72,7 +73,7 @@ def collect_sample_banks(audiotable_seg : memoryview, extracted_dir : str, versi
             bug = i in version_info.audiotable_buffer_bugs
 
             bank = AudioTableFile(i, audiotable_seg, entry, table.rom_addr, buffer_bug=bug,
-                                  extraction_xml=samplebank_xmls.get(i, None))
+                                  extraction_desc=samplebank_descs.get(i, None))
 
             if BASEROM_DEBUG:
                 bank.dump_bin(f"{extracted_dir}/baserom_audiotest/audiotable_files/{bank.file_name}.bin")
@@ -90,7 +91,7 @@ def bank_data_lookup(sample_banks : List[Union[AudioTableFile, int]], e : Union[
         return e
 
 def collect_soundfonts(audiobank_seg : memoryview, extracted_dir : str, version_info : GameVersionInfo,
-                       sound_font_table : AudioCodeTable, soundfont_xmls : Dict[int, Tuple[str, Element]],
+                       sound_font_table : AudioCodeTable, soundfont_descs : Dict[int, SoundFontExtractionDescription],
                        sample_banks : List[Union[AudioTableFile, int]]):
     soundfonts = []
 
@@ -104,7 +105,7 @@ def collect_soundfonts(audiobank_seg : memoryview, extracted_dir : str, version_
         # Read the data
         soundfont = AudiobankFile(audiobank_seg, i, entry, sound_font_table.rom_addr, bank1, bank2,
                                   entry.sample_bank_id_1, entry.sample_bank_id_2,
-                                  extraction_xml=soundfont_xmls.get(i, None))
+                                  extraction_desc=soundfont_descs.get(i, None))
         soundfonts.append(soundfont)
 
         if BASEROM_DEBUG:
@@ -186,7 +187,7 @@ def disassemble_one_sequence(extracted_dir : str, version_info : GameVersionInfo
 
 def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_info : GameVersionInfo, write_xml : bool,
                       sequence_table : AudioCodeTable, sequence_font_table : memoryview,
-                      sequence_xmls : Dict[int, Element], soundfonts : List[AudiobankFile]):
+                      sequence_descs : Dict[int, SequenceExtractionDescription], soundfonts : List[AudiobankFile]):
 
     sequence_font_table_cvg = [0] * len(sequence_font_table)
 
@@ -237,13 +238,13 @@ def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_in
                 with open(f"{extracted_dir}/baserom_audiotest/audioseq_files/seq_{i}{ext}.aseq", "wb") as outfile:
                     outfile.write(seq_data)
 
-            extraction_xml = sequence_xmls.get(i, None)
-            if extraction_xml is None:
+            extraction_desc = sequence_descs.get(i, None)
+            if extraction_desc is None:
                 sequence_filename = f"seq_{i}"
                 sequence_name = f"Sequence_{i}"
             else:
-                sequence_filename = extraction_xml[0]
-                sequence_name = extraction_xml[1].attrib["Name"]
+                sequence_filename = extraction_desc.file_name
+                sequence_name = extraction_desc.name
 
             # Write extraction xml entry
             if write_xml:
@@ -359,27 +360,22 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
     # Collect extraction xmls
     # ==================================================================================================================
 
-    samplebank_xmls : Dict[int, Tuple[str, Element]] = {}
-    soundfont_xmls : Dict[int, Tuple[str, Element]] = {}
-    sequence_xmls : Dict[int, Tuple[str, Element]] = {}
+    samplebank_descs : Dict[int, SampleBankExtractionDescription] = {}
+    soundfont_descs : Dict[int, SoundFontExtractionDescription] = {}
+    sequence_descs : Dict[int, SequenceExtractionDescription] = {}
 
     if read_xml:
         # Read all present xmls
 
-        def walk_xmls(out_dict : Dict[int, Tuple[str, Element]], path : str, typename : str):
+        def walk_xmls(T : type, out_dict : Dict[int, ExtractionDescription], path : str):
             for root,_,files in os.walk(path):
                 for f in files:
-                    fullpath = os.path.join(root, f)
-                    xml = ElementTree.parse(fullpath)
-                    xml_root = xml.getroot()
+                    desc : ExtractionDescription = T(os.path.join(root, f), f, version_info.version_name)
+                    out_dict[desc.index] = desc
 
-                    if xml_root.tag != typename or "Name" not in xml_root.attrib or "Index" not in xml_root.attrib:
-                        error(f"Malformed {typename} extraction xml: \"{fullpath}\"")
-                    out_dict[int(xml_root.attrib["Index"])] = (f.replace(".xml", ""), xml_root)
-
-        walk_xmls(samplebank_xmls, f"assets/xml/audio/samplebanks", "SampleBank")
-        walk_xmls(soundfont_xmls, f"assets/xml/audio/soundfonts", "SoundFont")
-        walk_xmls(sequence_xmls, f"assets/xml/audio/sequences", "Sequence")
+        walk_xmls(SampleBankExtractionDescription, samplebank_descs, f"assets/xml/audio/samplebanks")
+        walk_xmls(SoundFontExtractionDescription, soundfont_descs, f"assets/xml/audio/soundfonts")
+        walk_xmls(SequenceExtractionDescription, sequence_descs, f"assets/xml/audio/sequences")
 
         # TODO warn about any missing xmls or xmls with a bad index
 
@@ -389,7 +385,7 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
 
     if BASEROM_DEBUG:
         os.makedirs(f"{extracted_dir}/baserom_audiotest/audiotable_files", exist_ok=True)
-    sample_banks = collect_sample_banks(audiotable_seg, extracted_dir, version_info, sample_bank_table, samplebank_xmls)
+    sample_banks = collect_sample_banks(audiotable_seg, extracted_dir, version_info, sample_bank_table, samplebank_descs)
 
     # ==================================================================================================================
     # Collect soundfonts
@@ -397,7 +393,7 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
 
     if BASEROM_DEBUG:
         os.makedirs(f"{extracted_dir}/baserom_audiotest/audiobank_files", exist_ok=True)
-    soundfonts = collect_soundfonts(audiobank_seg, extracted_dir, version_info, sound_font_table, soundfont_xmls,
+    soundfonts = collect_soundfonts(audiobank_seg, extracted_dir, version_info, sound_font_table, soundfont_descs,
                                     sample_banks)
 
     # ==================================================================================================================
@@ -459,4 +455,4 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
     print("Extracting sequences...")
 
     extract_sequences(audioseq_seg, extracted_dir, version_info, write_xml, sequence_table, sequence_font_table,
-                      sequence_xmls, soundfonts)
+                      sequence_descs, soundfonts)

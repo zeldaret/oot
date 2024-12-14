@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_gla/object_gla.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 #define GE2_STATE_ANIMCOMPLETE (1 << 1)
 #define GE2_STATE_KO (1 << 2)
@@ -124,9 +124,9 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
 
     if (play->sceneId == SCENE_GERUDO_VALLEY) {
-        this->actor.uncullZoneForward = 1000.0f;
+        this->actor.cullingVolumeDistance = 1000.0f;
     } else {
-        this->actor.uncullZoneForward = 1200.0f;
+        this->actor.cullingVolumeDistance = 1200.0f;
     }
 
     this->yDetectRange = (this->actor.world.rot.z + 1) * 40.0f;
@@ -438,7 +438,7 @@ void EnGe2_SetActionAfterTalk(EnGe2* this, PlayState* play) {
                 break;
         }
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
     EnGe2_TurnToFacePlayer(this, play);
 }
@@ -459,7 +459,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, PlayState* play) {
 void EnGe2_GiveCard(EnGe2* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->actionFunc = EnGe2_WaitTillCardGiven;
         Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
@@ -471,7 +471,7 @@ void EnGe2_ForceTalk(EnGe2* this, PlayState* play) {
         this->actionFunc = EnGe2_GiveCard;
     } else {
         this->actor.textId = 0x6004;
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalkExchange(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
     EnGe2_LookAtPlayer(this, play);

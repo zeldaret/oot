@@ -924,7 +924,7 @@ assets:
   start_offset: 0x6E0
   end_offset: 0x4088
 - name: overlays/ovl_file_choose
-  xml_path: assets/xml/overlays/ovl_file_choose_pal.xml
+  xml_path: assets/xml/overlays/ovl_file_choose_pal_gc.xml
   start_offset: 0xD740
   end_offset: 0xE010
 - name: overlays/ovl_Magic_Dark
@@ -972,7 +972,7 @@ assets:
 - name: scenes/dungeons/ddan
   xml_path: assets/xml/scenes/dungeons/ddan_mq.xml
 - name: scenes/dungeons/ddan_boss
-  xml_path: assets/xml/scenes/dungeons/ddan_boss.xml
+  xml_path: assets/xml/scenes/dungeons/ddan_boss_v2.xml
 - name: scenes/dungeons/FIRE_bs
   xml_path: assets/xml/scenes/dungeons/FIRE_bs.xml
 - name: scenes/dungeons/ganon
@@ -1142,7 +1142,7 @@ assets:
 - name: scenes/overworld/spot15
   xml_path: assets/xml/scenes/overworld/spot15.xml
 - name: scenes/overworld/spot16
-  xml_path: assets/xml/scenes/overworld/spot16.xml
+  xml_path: assets/xml/scenes/overworld/spot16_v2.xml
 - name: scenes/overworld/spot17
   xml_path: assets/xml/scenes/overworld/spot17.xml
 - name: scenes/overworld/spot18
@@ -1202,7 +1202,7 @@ assets:
 - name: textures/nes_font_static
   xml_path: assets/xml/textures/nes_font_static_v2.xml
 - name: textures/nintendo_rogo_static
-  xml_path: assets/xml/textures/nintendo_rogo_static.xml
+  xml_path: assets/xml/textures/nintendo_rogo_static_v2.xml
 - name: textures/parameter_static
   xml_path: assets/xml/textures/parameter_static.xml
 - name: textures/place_title_cards
@@ -1210,4 +1210,4 @@ assets:
 - name: textures/skyboxes
   xml_path: assets/xml/textures/skyboxes.xml
 - name: textures/title_static
-  xml_path: assets/xml/textures/title_static_pal.xml
+  xml_path: assets/xml/textures/title_static_pal_gc.xml

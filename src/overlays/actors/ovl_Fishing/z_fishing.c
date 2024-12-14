@@ -5,24 +5,44 @@
  */
 
 #include "z_fishing.h"
-#include "global.h"
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
+#include "libc64/math64.h"
+#include "attributes.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
 #include "ichain.h"
+#include "letterbox.h"
+#include "rand.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64audio.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64skin_matrix.h"
+#include "z_lib.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:125 gc-eu-mq:122 gc-jp:127 gc-jp-ce:124 gc-jp-mq:127 gc-us:127 gc-us-mq:127"
+#pragma increment_block_number "gc-eu:170 gc-eu-mq:170 gc-jp:170 gc-jp-ce:170 gc-jp-mq:170 gc-us:170 gc-us-mq:170" \
+                               "ntsc-1.0:121 ntsc-1.1:121 ntsc-1.2:121 pal-1.0:121 pal-1.1:121"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 #define WATER_SURFACE_Y(play) play->colCtx.colHeader->waterBoxes->ySurface
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define KREG_DEBUG(i) KREG(i)
 #else
 #define KREG_DEBUG(i) 0
@@ -379,7 +399,7 @@ static s16 sFishingPlayingState;
 static s16 sLureTimer; // AND'd for various effects/checks
 static s16 D_80B7E0B0;
 static s16 D_80B7E0B2;
-static s16 sRodCastTimer; // used for the inital line casting
+static s16 sRodCastTimer; // used for the initial line casting
 static u8 sLureEquipped;
 static Vec3f sLurePos;
 static Vec3f sLureDrawPos;
@@ -844,7 +864,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (KREG(5) != 0) {
         sLinkAge = LINK_AGE_CHILD;
     } else {
@@ -929,14 +949,14 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
             sFishingFoggy = 0;
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (((sFishGameNumber & 7) == 6) || (KREG(3) != 0))
 #else
         if ((sFishGameNumber & 7) == 6)
 #endif
         {
             sStormChanceTimer = 100;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (KREG(3) != 0) {
                 KREG(3) = 0;
                 HIGH_SCORE(HS_FISHING) &= ~(HS_FISH_PLAYED * 255);
@@ -995,7 +1015,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
                            ENKANBAN_FISHING);
         Actor_Spawn(&play->actorCtx, play, ACTOR_FISHING, 0.0f, 0.0f, 0.0f, 0, 0, 0, 200);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if ((KREG(1) == 1) || ((sFishGameNumber & 3) == 3))
 #else
         if ((sFishGameNumber & 3) == 3)
@@ -1049,7 +1069,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
             this->fishLength += Rand_ZeroFloat(7.99999f);
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (KREG(6) != 0) {
             this->fishLength = KREG(6) + 80.0f;
         }
@@ -2219,7 +2239,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
         case 0:
             sSinkingLureSegmentIndex = 0;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (KREG(14) != 0) {
                 KREG(14) = 0;
                 sLureEquipped = FS_LURE_SINKING - sLureEquipped;
@@ -2942,8 +2962,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
     f32 temp;
     f32 rumbleStrength;
 
-    this->actor.uncullZoneForward = 700.0f;
-    this->actor.uncullZoneScale = 50.0f;
+    this->actor.cullingVolumeDistance = 700.0f;
+    this->actor.cullingVolumeScale = 50.0f;
 
     if (this->isLoach == 0) {
         playerSpeedMod = (player->actor.speed * 0.15f) + 0.25f;
@@ -3062,8 +3082,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         case 100:
             Fishing_HandleAquariumDialog(this, play);
 
-            this->actor.uncullZoneForward = 500.0f;
-            this->actor.uncullZoneScale = 300.0f;
+            this->actor.cullingVolumeDistance = 500.0f;
+            this->actor.cullingVolumeScale = 300.0f;
 
             Lights_PointNoGlowSetInfo(&this->lightInfo, (s16)this->actor.world.pos.x,
                                       (s16)this->actor.world.pos.y + 20.0f, (s16)this->actor.world.pos.z - 50.0f, 255,
@@ -3147,7 +3167,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 }
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (KREG(15) != 0) {
                 KREG(15) = 0;
                 this->fishState = 7;
@@ -3250,7 +3270,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 this->fishState = 10;
                 this->fishStateNext = 10;
             } else if ((KREG_DEBUG(2) != 0) || (((this->unk_1A4 & 0x7FF) == 0) && (this->unk_1A4 < 15000))) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 KREG(2) = 0;
 #endif
                 this->fishState = -2;
@@ -3411,7 +3431,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 chance *= 5.0f;
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (((this->timerArray[0] == 1) || (Rand_ZeroOne() < chance)) &&
                 ((Rand_ZeroOne() < (this->perception * multiplier)) || ((this->isLoach + 1) == KREG(69))))
 #else
@@ -3609,8 +3629,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             break;
 
         case 5:
-            this->actor.uncullZoneForward = 1200.0f;
-            this->actor.uncullZoneScale = 200.0f;
+            this->actor.cullingVolumeDistance = 1200.0f;
+            this->actor.cullingVolumeScale = 200.0f;
 
             sFishFightTime++;
             PRINTF("HIT FISH %dcm\n", (u8)this->fishLength);
@@ -5085,7 +5105,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
             break;
 
         case 22:
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (play) {}
 #endif
 
@@ -5149,7 +5169,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     Player* player = GET_PLAYER(play);
     Input* input = &play->state.input[0];
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (0) {
         // Strings existing only in rodata
         PRINTF(VT_FGCOL(GREEN));
@@ -5175,7 +5195,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     if ((sOwnerTheftTimer != 0) || (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE)) {
         this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_5;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
     }
 
     if ((this->actor.xzDistToPlayer < 120.0f) || (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE)) {
@@ -5214,7 +5234,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         f32 dz = sOwnerHeadPos.z - sLurePos.z;
 
         if ((sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 25.0f) || (KREG_DEBUG(77) > 0)) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             KREG(77) = 0;
 #endif
             sOwnerHair = FS_OWNER_BALD;
@@ -5230,7 +5250,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         HIGH_SCORE(HS_FISHING) &= ~HS_FISH_STOLE_HAT;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (KREG(77) < 0) {
         KREG(77) = 0;
         sIsOwnersHatSunk = true;
@@ -5279,7 +5299,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 20);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (KREG(0) != 0) {
         s32 pad[3];
 
@@ -5633,7 +5653,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         }
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (sREG(15) != 0) {
         if (sStormStrengthTarget != (sREG(15) - 1)) {
             if (sStormStrengthTarget == 0) {
@@ -5755,7 +5775,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     gSaveContext.minigameScore = (SQ((f32)sFishLengthToWeigh) * 0.0036f) + 0.5f;
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BREG(26) != 0) {
         BREG(26) = 0;
         Message_StartTextbox(play, 0x407B + BREG(27), NULL);

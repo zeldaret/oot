@@ -1,7 +1,9 @@
 #include "z_en_bigokuta.h"
 #include "assets/objects/object_bigokuta/object_bigokuta.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play);
 void EnBigokuta_Destroy(Actor* thisx, PlayState* play);
@@ -785,7 +787,7 @@ void EnBigokuta_Update(Actor* thisx, PlayState* play2) {
             for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
                 CollisionCheck_SetAT(play, &play->colChkCtx, &this->cylinder[i].base);
             }
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
         } else {
             for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
                 CollisionCheck_SetOC(play, &play->colChkCtx, &this->cylinder[i].base);

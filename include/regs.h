@@ -48,6 +48,7 @@
 #define R_ENV_Z_FAR                              REG(13)
 #define R_ENV_FOG_NEAR                           REG(14)
 #define R_ENV_TIME_SPEED_OLD                     REG(15) // Most likely used during development. Unused in the final game.
+#define R_DECELERATE_RATE                        REG(43)
 #define R_RUN_SPEED_LIMIT                        REG(45)
 #define R_ENABLE_ARENA_DBG                       SREG(0)
 #define R_AUDIOMGR_DEBUG_LEVEL                   SREG(20)
@@ -134,6 +135,7 @@
 #define R_START_LABEL_Y(i)                       ZREG(51 + (i))
 #define R_START_LABEL_X(i)                       ZREG(54 + (i))
 #endif
+#define R_PAUSE_QUEST_MEDALLION_SHINE_TIME(i)    ZREG(61 + (i)) // i = 0..3 (clashes with ZREG(62) and ZREG(63))
 #define R_C_UP_BTN_X                             ZREG(62)
 #define R_C_UP_BTN_Y                             ZREG(63)
 #define R_START_BTN_X                            ZREG(68)
@@ -220,6 +222,7 @@
 #define R_COMPASS_OFFSET_X                       VREG(16)
 #define R_COMPASS_OFFSET_Y                       VREG(17)
 #define R_MINIMAP_COLOR(i)                       VREG(18 + (i))
+#define R_PAUSE_SONG_OCA_BTN_Y(ocarinaBtnIndex)  VREG(21 + (ocarinaBtnIndex)) // VREG(21) to VREG(25)
 #define R_OCARINA_BUTTONS_XPOS                   VREG(28)
 #define R_OCARINA_BUTTONS_XPOS_OFFSET            VREG(29)
 #define R_TEXT_ADJUST_COLOR_1_R                  VREG(33)
@@ -229,6 +232,7 @@
 #define R_TEXT_ADJUST_COLOR_2_G                  VREG(37)
 #define R_TEXT_ADJUST_COLOR_2_B                  VREG(38)
 #define R_OCARINA_BUTTONS_YPOS(note)             VREG(45 + (note))
+#define R_OCARINA_BUTTONS_APPEAR_ALPHA_STEP      VREG(50)
 #define R_OCARINA_BUTTONS_YPOS_OFFSET            VREG(51)
 #define R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER_BASE VREG(60)
 #define R_KALEIDO_PROMPT_CURSOR_ALPHA            VREG(61)
@@ -277,7 +281,7 @@ typedef enum HRegMode {
 // HREG_MODE_UCODE_DISAS
 #define R_UCODE_DISAS_TOGGLE      HREG(81) // < 0 enables and prints some hardware reg info for 1 frame, > 0 enables constant disas
 #define R_UCODE_DISAS_LOG_MODE    HREG(82) // 1 and 2 print counts, 3 enables fault client, 4 disables open/close disps
-#define R_UCODE_DISAS_LOG_LEVEL   HREG(83) // enables various logging within the dissasembler itself
+#define R_UCODE_DISAS_LOG_LEVEL   HREG(83) // enables various logging within the dissassembler itself
 #define R_UCODE_DISAS_TOTAL_COUNT HREG(84) // read-only
 #define R_UCODE_DISAS_VTX_COUNT   HREG(85) // read-only
 #define R_UCODE_DISAS_SPVTX_COUNT HREG(86) // read-only

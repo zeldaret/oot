@@ -10,7 +10,7 @@
 #include "assets/scenes/overworld/spot16/spot16_scene.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnOwl_Init(Actor* thisx, PlayState* play);
 void EnOwl_Destroy(Actor* thisx, PlayState* play);
@@ -99,9 +99,9 @@ static ColliderCylinderInit sOwlCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 25, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2400, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2400, ICHAIN_STOP),
 };
 
 void EnOwl_Init(Actor* thisx, PlayState* play) {
@@ -146,7 +146,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
     switch (owlType) {
         case OWL_DEFAULT:
             this->actionFunc = EnOwl_WaitDefault;
-            this->actor.uncullZoneForward = 4000.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
             this->unk_40A = 0;
             break;
         case OWL_OUTSIDE_KOKIRI:
@@ -276,7 +276,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, PlayState* play, u16 textId, f32 targetDist
         this->actor.textId = textId;
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
         if (this->actor.xzDistToPlayer < targetDist) {
-            this->actor.flags |= ACTOR_FLAG_16;
+            this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
             Actor_OfferTalkExchange(&this->actor, play, targetDist, distCheck, EXCH_ITEM_NONE);
         }
         return false;
@@ -342,7 +342,7 @@ void func_80ACA76C(EnOwl* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         func_80ACA62C(this, play);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
 }
 
@@ -358,7 +358,7 @@ void func_80ACA7E0(EnOwl* this, PlayState* play) {
             func_80ACA71C(this);
             this->actionFunc = func_80ACA690;
         }
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
 }
 
@@ -552,7 +552,7 @@ void func_80ACB03C(EnOwl* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         func_80ACA62C(this, play);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
 }
 
@@ -833,7 +833,7 @@ void func_80ACBAB8(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACBC0C(EnOwl* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_5;
+    this->actor.flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
 
     if (this->actor.xzDistToPlayer > 6000.0f && !(this->actionFlags & 0x80)) {
         Actor_Kill(&this->actor);

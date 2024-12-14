@@ -1,5 +1,5 @@
 #include "global.h"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #include "fault.h"
 #endif
 
@@ -19,7 +19,8 @@ MtxF gMtxFClear = {
 };
 // clang-format on
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "pal-1.1:128"
 
 MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"
@@ -608,7 +609,7 @@ Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     return dest;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 Mtx* Matrix_ToMtx(Mtx* dest, const char* file, int line) {
     return Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(sCurrentMatrix, file, line), dest);
@@ -628,7 +629,7 @@ Mtx* Matrix_Finalize(GraphicsContext* gfxCtx) {
     return Matrix_ToMtx(GRAPH_ALLOC(gfxCtx, sizeof(Mtx)));
 }
 
-#endif /* OOT_DEBUG */
+#endif /* DEBUG_FEATURES */
 
 Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
     return Matrix_MtxFToMtx(src, GRAPH_ALLOC(gfxCtx, sizeof(Mtx)));
@@ -974,7 +975,7 @@ void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 MtxF* Matrix_CheckFloats(MtxF* mf, const char* file, int line) {
     s32 i, j;
 

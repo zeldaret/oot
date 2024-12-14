@@ -111,7 +111,7 @@ simpleReplace = {
 }
 
 # all occurrences of keys will be replaced by associated value,
-# if the occurence is the whole word
+# if the occurrence is the whole word
 # for example, if there is a space before and an open parenthesis after,
 # like for a function call: ` func_8002E4B4(`
 wordReplace = {
@@ -451,7 +451,7 @@ def replace_single(file):
                 custom_behavior_ignore_offset, custom_behavior_ignore_match = custom_behavior_ignore_data
         else:
             custom_behavior = False
-        # replace `old` with `new` if the occurence of `old` is the whole word
+        # replace `old` with `new` if the occurrence of `old` is the whole word
         oldStartIdx = srcdata.find(old)
         if oldStartIdx >= 0:
             old_start_as_word = is_word_char(old[0])

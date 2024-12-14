@@ -240,7 +240,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     JpegDecoder decoder;
     JpegDecoderState state;
     JpegWork* workBuff;
-    OSTime diff;
+    UNUSED_NDEBUG OSTime diff;
     OSTime time;
     OSTime curTime;
 

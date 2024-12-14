@@ -1,6 +1,8 @@
 #include "z_en_clear_tag.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnClearTag_Init(Actor* thisx, PlayState* play);
 void EnClearTag_Destroy(Actor* thisx, PlayState* play);
@@ -431,7 +433,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     Math_ApproachZeroF(&this->roll, 0.1f, 0.2f);
                 }
 
-                // Calculate a vector towards the targetted position.
+                // Calculate a vector towards the targeted position.
                 vectorToTargetX = this->targetPosition.x - this->actor.world.pos.x;
                 vectorToTargetY = this->targetPosition.y - this->actor.world.pos.y;
                 vectorToTargetZ = this->targetPosition.z - this->actor.world.pos.z;
@@ -680,7 +682,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
 /**
  * EnClear_Tag draw function.
  * Laser clear tag type will draw two lasers.
- * Arwing clear tage types will draw the Arwing, the backfire, and a shadow.
+ * Arwing clear tag types will draw the Arwing, the backfire, and a shadow.
  */
 void EnClearTag_Draw(Actor* thisx, PlayState* play) {
     s32 pad;

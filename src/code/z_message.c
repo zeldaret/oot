@@ -3,13 +3,12 @@
 #include "terminal.h"
 #include "versions.h"
 #include "assets/textures/parameter_static/parameter_static.h"
-#include "versions.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:112"
+                               "ntsc-1.0:96 ntsc-1.1:96 ntsc-1.2:96 pal-1.0:128 pal-1.1:128"
 
 #if !PLATFORM_GC
 #define OCARINA_BUTTON_A_PRIM_1_R 80
@@ -108,7 +107,7 @@ u16 sNextTextId = 0;
 
 s16 sTextIsCredits = false;
 
-#if OOT_PAL
+#if PLATFORM_GC && OOT_PAL
 UNK_TYPE D_8014B30C = 0;
 #endif
 
@@ -1724,7 +1723,7 @@ void Message_Decode(PlayState* play) {
     Font* font = &play->msgCtx.font;
     s32 charTexIdx = 0;
     s16 i;
-#if OOT_NTSC
+#if !(PLATFORM_GC && OOT_PAL)
     s16 j;
 #endif
     s16 decodedBufPos = 0;
@@ -1735,7 +1734,7 @@ void Message_Decode(PlayState* play) {
     s16 loadChar;
     u16 value;
     u8 curChar;
-#if OOT_NTSC
+#if !(PLATFORM_GC && OOT_PAL)
     u16 curCharWide;
     u8* fontBuf;
 #endif
@@ -1916,7 +1915,7 @@ void Message_Decode(PlayState* play) {
                 decodedBufPos--;
             } else if (curCharWide == MESSAGE_WIDE_HIGHSCORE) {
                 value = HIGH_SCORE(font->msgBufWide[++msgCtx->msgBufPos] & 0xFF);
-                if ((font->msgBufWide[msgCtx->msgBufPos] & 0xFF) == 2) {
+                if ((font->msgBufWide[msgCtx->msgBufPos] & 0xFF) == HS_FISHING) {
                     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                         value &= 0x7F;
                     } else {
@@ -2037,14 +2036,14 @@ void Message_Decode(PlayState* play) {
                 msgCtx->textboxBackgroundBackColorIdx = (font->msgBufWide[msgCtx->msgBufPos + 2] & 0xF00) >> 8;
                 msgCtx->textboxBackgroundYOffsetIdx = (font->msgBufWide[msgCtx->msgBufPos + 2] & 0xF0) >> 4;
                 msgCtx->textboxBackgroundUnkArg = font->msgBufWide[msgCtx->msgBufPos + 2] & 0xF;
-                DmaMgr_RequestSync(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                                   (uintptr_t)_message_texture_staticSegmentRomStart +
-                                       msgCtx->textboxBackgroundIdx * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
-                                   MESSAGE_TEXTURE_STATIC_TEX_SIZE);
-                DmaMgr_RequestSync(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + MESSAGE_TEXTURE_STATIC_TEX_SIZE,
-                                   (uintptr_t)_message_texture_staticSegmentRomStart +
-                                       (msgCtx->textboxBackgroundIdx + 1) * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
-                                   MESSAGE_TEXTURE_STATIC_TEX_SIZE);
+                DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
+                                 (uintptr_t)_message_texture_staticSegmentRomStart +
+                                     msgCtx->textboxBackgroundIdx * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                                 MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", UNK_LINE);
+                DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                                 (uintptr_t)_message_texture_staticSegmentRomStart +
+                                     (msgCtx->textboxBackgroundIdx + 1) * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
+                                 MESSAGE_TEXTURE_STATIC_TEX_SIZE, "../z_message_PAL.c", UNK_LINE);
                 numLines = 2;
                 msgCtx->msgBufPos += 2;
                 R_TEXTBOX_BG_YPOS = R_TEXTBOX_Y + 8;
@@ -2075,8 +2074,9 @@ void Message_Decode(PlayState* play) {
             decodedBufPos++;
             msgCtx->msgBufPos++;
         }
-    } else {
+    } else
 #endif
+    {
         // English text for NTSC, eng/ger/fra text for PAL
         while (true) {
             curChar = msgCtx->msgBufDecoded[decodedBufPos] = font->msgBuf[msgCtx->msgBufPos];
@@ -2277,10 +2277,13 @@ void Message_Decode(PlayState* play) {
             } else if (curChar == MESSAGE_HIGHSCORE) {
                 value = HIGH_SCORE((u8)font->msgBuf[++msgCtx->msgBufPos]);
                 PRINTF(T("ランキング＝%d\n", "Highscore=%d\n"), font->msgBuf[msgCtx->msgBufPos]);
-                if ((font->msgBuf[msgCtx->msgBufPos] & 0xFF) == 2) {
+                if ((font->msgBuf[msgCtx->msgBufPos] & 0xFF) == HS_FISHING) {
                     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                         value &= 0x7F;
                     } else {
+                        //! @bug Should use msgBuf instead of msgBufWide (copy-paste error from Japanese text
+                        //! handling?), and the mask is applied to the high score index instead of the high score value
+                        //! so this always shows HIGH_SCORE(0). Only the PRINTF is wrong, the following line is correct.
                         PRINTF("HI_SCORE( kanfont->mbuff.nes_mes_buf[message->rdp] & 0xff000000 ) = %x\n",
                                HIGH_SCORE(font->msgBufWide[msgCtx->msgBufPos] & 0xFF000000));
                         value = ((HIGH_SCORE((u8)font->msgBuf[msgCtx->msgBufPos]) & 0xFF000000) >> 0x18) & 0x7F;
@@ -2398,8 +2401,15 @@ void Message_Decode(PlayState* play) {
                 Message_LoadItemIcon(play, font->msgBuf[msgCtx->msgBufPos + 1], R_TEXTBOX_Y + 10);
             } else if (curChar == MESSAGE_BACKGROUND) {
                 msgCtx->textboxBackgroundIdx = font->msgBuf[msgCtx->msgBufPos + 1] * 2;
+#if OOT_VERSION < PAL_1_0
+                //! @bug Wrong shift amounts cause textboxBackgroundForeColorIdx and textboxBackgroundBackColorIdx
+                //! to always be 0. Fortunately MESSAGE_BACKGROUND is only present in unused messages.
+                msgCtx->textboxBackgroundForeColorIdx = (font->msgBuf[msgCtx->msgBufPos + 2] & 0xF0) >> 12;
+                msgCtx->textboxBackgroundBackColorIdx = (font->msgBuf[msgCtx->msgBufPos + 2] & 0xF) >> 8;
+#else
                 msgCtx->textboxBackgroundForeColorIdx = (font->msgBuf[msgCtx->msgBufPos + 2] & 0xF0) >> 4;
                 msgCtx->textboxBackgroundBackColorIdx = font->msgBuf[msgCtx->msgBufPos + 2] & 0xF;
+#endif
                 msgCtx->textboxBackgroundYOffsetIdx = (font->msgBuf[msgCtx->msgBufPos + 3] & 0xF0) >> 4;
                 msgCtx->textboxBackgroundUnkArg = font->msgBuf[msgCtx->msgBufPos + 3] & 0xF;
                 DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
@@ -2449,9 +2459,7 @@ void Message_Decode(PlayState* play) {
             decodedBufPos++;
             msgCtx->msgBufPos++;
         }
-#if OOT_NTSC
     }
-#endif
 }
 
 void Message_OpenText(PlayState* play, u16 textId) {
@@ -2520,8 +2528,8 @@ void Message_OpenText(PlayState* play, u16 textId) {
         if ((B_80121220 != NULL) && (B_80121220->unk_60 != NULL) && B_80121220->unk_60(&play->msgCtx.font)) {
 
         } else {
-            DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
-                               font->msgLength);
+            DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
+                             font->msgLength, "../z_message_PAL.c", UNK_LINE);
         }
 #else
         DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
@@ -2536,12 +2544,12 @@ void Message_OpenText(PlayState* play, u16 textId) {
             if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_64(&play->msgCtx.font)) {
 
             } else {
-                DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
-                                   font->msgLength);
+                DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
+                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
-            DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
-                               font->msgLength);
+            DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
+                             font->msgLength, "../z_message_PAL.c", UNK_LINE);
 #endif
         } else {
             Message_FindMessageNES(play, textId);
@@ -2550,30 +2558,59 @@ void Message_OpenText(PlayState* play, u16 textId) {
             if ((B_80121220 != NULL) && (B_80121220->unk_68 != NULL) && B_80121220->unk_68(&play->msgCtx.font)) {
 
             } else {
-                DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
-                                   font->msgLength);
+                DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
-            DmaMgr_RequestSync(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
-                               font->msgLength);
+            DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+                             font->msgLength, "../z_message_PAL.c", UNK_LINE);
 #endif
         }
 #else
         if (gSaveContext.language == LANGUAGE_ENG) {
             Message_FindMessagePAL(play, textId);
             msgCtx->msgLength = font->msgLength;
+#if PLATFORM_N64
+            if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_64(&play->msgCtx.font)) {
+
+            } else {
+                DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
+            }
+#else
             DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", 1966);
+#endif
         } else if (gSaveContext.language == LANGUAGE_GER) {
             Message_FindMessagePAL(play, textId);
             msgCtx->msgLength = font->msgLength;
+#if PLATFORM_N64
+            //! @bug checks unk_64 != NULL instead of unk_68 != NULL
+            if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_68(&play->msgCtx.font)) {
+
+            } else {
+                DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
+                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
+            }
+#else
             DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", 1978);
+#endif
         } else {
             Message_FindMessagePAL(play, textId);
             msgCtx->msgLength = font->msgLength;
+#if PLATFORM_N64
+            //! @bug checks unk_64 != NULL instead of unk_6C_PAL != NULL
+            if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_6C_PAL(&play->msgCtx.font)) {
+
+            } else {
+                DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
+                                 font->msgLength, "../z_message_PAL.c", UNK_LINE);
+            }
+#else
             DMA_REQUEST_SYNC(font->msgBuf, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", 1990);
+#endif
         }
 #endif
     }
@@ -3034,9 +3071,11 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                 msgCtx->ocarinaStaff = AudioOcarina_GetPlayingStaff();
                 if (msgCtx->ocarinaStaff->pos) {
                     PRINTF("locate=%d  onpu_pt=%d\n", msgCtx->ocarinaStaff->pos, sOcarinaButtonIndexBufPos);
+#if OOT_VERSION >= PAL_1_0
                     if (msgCtx->ocarinaStaff->pos == 1 && sOcarinaButtonIndexBufPos == 8) {
                         sOcarinaButtonIndexBufPos = 0;
                     }
+#endif
                     if (sOcarinaButtonIndexBufPos == msgCtx->ocarinaStaff->pos - 1) {
                         msgCtx->lastOcarinaButtonIndex = sOcarinaButtonIndexBuf[msgCtx->ocarinaStaff->pos - 1] =
                             msgCtx->ocarinaStaff->buttonIndex;
@@ -3850,7 +3889,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
 
                     if (1) {}
                     if (sOcarinaButtonAlphaValues[i] != 255) {
-                        sOcarinaButtonAlphaValues[i] += VREG(50);
+                        sOcarinaButtonAlphaValues[i] += R_OCARINA_BUTTONS_APPEAR_ALPHA_STEP;
                         if (sOcarinaButtonAlphaValues[i] >= 255) {
                             sOcarinaButtonAlphaValues[i] = 255;
                         }
@@ -3882,7 +3921,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
     *p = gfx;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * If the s16 variable pointed to by `var` changes in value, a black bar and white box
  * are briefly drawn onto the screen. It can only watch one variable per build due to
@@ -3942,13 +3981,13 @@ void Message_Draw(PlayState* play) {
 #if OOT_VERSION < GC_US
     s32 pad;
 #endif
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     s16 watchVar;
 #endif
 
     OPEN_DISPS(play->state.gfxCtx, "../z_message_PAL.c", 3554);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     watchVar = gSaveContext.save.info.scarecrowLongSongSet;
     Message_DrawDebugVariableChanged(&watchVar, play->state.gfxCtx);
     if (BREG(0) != 0 && play->msgCtx.textId != 0) {
@@ -4005,10 +4044,13 @@ void Message_Update(PlayState* play) {
     s16 playerFocusScreenPosY;
     s16 actorFocusScreenPosY;
 #if OOT_VERSION < GC_US
-    s32 pad[2];
+    s32 pad1;
+#endif
+#if OOT_NTSC && OOT_VERSION < GC_US
+    s32 pad2;
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BREG(0) != 0) {
         static u16 sMessageDebuggerTextboxCount = 0;
 
@@ -4289,7 +4331,7 @@ void Message_Update(PlayState* play) {
                         //       Later, if the ocarina has not been played and another textbox is closed, this handling
                         //       for Saria's song will be carried out.
                         player->naviTextId = -0xE0;
-                        player->naviActor->flags |= ACTOR_FLAG_16;
+                        player->naviActor->flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
                     }
                     if (msgCtx->ocarinaAction == OCARINA_ACTION_FREE_PLAY_DONE &&
                         (play->msgCtx.ocarinaMode == OCARINA_MODE_01 || play->msgCtx.ocarinaMode == OCARINA_MODE_0B)) {
@@ -4323,9 +4365,14 @@ void Message_SetTables(void) {
 
     sStaffMessageEntryTablePtr = sStaffMessageEntryTable;
 
-#if PLATFORM_N64
+#if PLATFORM_N64 && OOT_NTSC
     if ((B_80121220 != NULL) && (B_80121220->unk_58 != NULL)) {
         B_80121220->unk_58(&sJpnMessageEntryTablePtr, &sNesMessageEntryTablePtr, &sStaffMessageEntryTablePtr);
+    }
+#elif PLATFORM_N64 && OOT_PAL
+    if ((B_80121220 != NULL) && (B_80121220->unk_58 != NULL)) {
+        B_80121220->unk_58(&sNesMessageEntryTablePtr, &sGerMessageEntryTablePtr, &sFraMessageEntryTablePtr,
+                           &sStaffMessageEntryTablePtr);
     }
 #endif
 }

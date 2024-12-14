@@ -1,7 +1,7 @@
 <Root>
     <File Name="spot10_scene" Segment="2">
         <Path Name="spot10_scenePathList_00C080" Offset="0xC080" NumPaths="3"/>
-
+        <Cutscene Name="gLostWoodsFairyOcarinaCs" Offset="0xACD0"/>
         <Scene Name="spot10_scene" Offset="0x0"/>
     </File>
     <File Name="spot10_room_0" Segment="3">

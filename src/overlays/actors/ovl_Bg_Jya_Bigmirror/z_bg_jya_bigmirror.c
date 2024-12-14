@@ -7,7 +7,7 @@
 #include "z_bg_jya_bigmirror.h"
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgJyaBigmirror_Init(Actor* thisx, PlayState* play);
 void BgJyaBigmirror_Destroy(Actor* thisx, PlayState* play);
@@ -74,7 +74,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
                     this->puzzleFlags &= ~cobraPuzzleFlags[i];
                 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 if (curCobraInfo->cobra->dyna.actor.update == NULL) {
                     // "Cobra deleted"
                     PRINTF("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
@@ -153,7 +153,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
                         Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, sMirRayPositions[i].x, sMirRayPositions[i].y,
                                     sMirRayPositions[i].z, 0, 0, 0, sMirRayParamsVals[i]);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                     if (this->lightBeams[i] == NULL) {
                         // "Mir Ray generation failed"
                         PRINTF("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);

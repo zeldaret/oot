@@ -7,7 +7,7 @@
 #include "z_en_girla.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnGirlA_Init(Actor* thisx, PlayState* play);
 void EnGirlA_Destroy(Actor* thisx, PlayState* play);
@@ -79,7 +79,7 @@ ActorProfile En_GirlA_Profile = {
     /**/ NULL,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static char* sShopItemDescriptions[] = {
     "デクの実×5   ",  // "Deku nut x5"
     "矢×30        ",  // "Arrow x30"
@@ -982,7 +982,7 @@ void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play) {
     ShopItemEntry* itemEntry = &sShopItemEntries[params];
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actor.objectSlot = this->requiredObjectSlot;
         switch (this->actor.params) {
             case SI_KEATON_MASK:

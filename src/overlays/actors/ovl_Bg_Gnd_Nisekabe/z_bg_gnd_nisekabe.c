@@ -7,7 +7,7 @@
 #include "z_bg_gnd_nisekabe.h"
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgGndNisekabe_Init(Actor* thisx, PlayState* play);
 void BgGndNisekabe_Destroy(Actor* thisx, PlayState* play);
@@ -30,7 +30,7 @@ void BgGndNisekabe_Init(Actor* thisx, PlayState* play) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
 
     Actor_SetScale(&this->actor, 0.1);
-    this->actor.uncullZoneForward = 3000.0;
+    this->actor.cullingVolumeDistance = 3000.0;
 }
 
 void BgGndNisekabe_Destroy(Actor* thisx, PlayState* play) {

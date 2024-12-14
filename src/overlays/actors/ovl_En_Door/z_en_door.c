@@ -5,13 +5,14 @@
  */
 
 #include "z_en_door.h"
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 #include "assets/objects/object_haka_door/object_haka_door.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 #define DOOR_AJAR_SLAM_RANGE 120.0f
 #define DOOR_AJAR_OPEN_RANGE (2 * DOOR_AJAR_SLAM_RANGE)
@@ -74,7 +75,7 @@ static EnDoorInfo sDoorInfo[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_0, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_STOP),
 };
 
 static AnimationHeader* sDoorAnims[DOOR_OPEN_ANIM_MAX] = {
@@ -176,7 +177,7 @@ void EnDoor_SetupType(EnDoor* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         s32 doorType = ENDOOR_GET_TYPE(&this->actor);
 
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actor.objectSlot = this->requiredObjectSlot;
         this->actionFunc = EnDoor_Idle;
         if (doorType == DOOR_EVENING) {
@@ -338,8 +339,12 @@ s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         rot->z += this->actor.world.rot.y;
         if ((play->roomCtx.prevRoom.num >= 0) || (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
             // Draw the side of the door that is visible to the camera
+#if OOT_VERSION < NTSC_1_1
+            s16 rotDiff = this->actor.shape.rot.y + rot->z - Math_Vec3f_Yaw(&play->view.eye, &this->actor.world.pos);
+#else
             s16 rotDiff = this->actor.shape.rot.y + this->skelAnime.jointTable[3].z + rot->z -
                           Math_Vec3f_Yaw(&play->view.eye, &this->actor.world.pos);
+#endif
 
             *dList = (ABS(rotDiff) < 0x4000) ? doorDLists[0] : doorDLists[1];
         } else {

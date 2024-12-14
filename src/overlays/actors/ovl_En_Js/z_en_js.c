@@ -103,7 +103,7 @@ void func_80A89008(EnJs* this) {
 void func_80A89078(EnJs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         func_80A89008(this);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
 }
 
@@ -119,7 +119,7 @@ void func_80A8910C(EnJs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actor.textId = 0x6078;
         En_Js_SetupAction(this, func_80A890C0);
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
 }
 

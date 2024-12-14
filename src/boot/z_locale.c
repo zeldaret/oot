@@ -1,6 +1,7 @@
 #include "global.h"
 #include "region.h"
 #include "terminal.h"
+#include "versions.h"
 
 s32 gCurrentRegion = 0;
 
@@ -29,14 +30,20 @@ void Locale_Init(void) {
         case 'E': // "NTSC-U (North America)"
             gCurrentRegion = REGION_US;
             break;
+#if OOT_VERSION >= PAL_1_0
         case 'P': // "PAL (Europe)"
             gCurrentRegion = REGION_EU;
             break;
+#endif
         default:
             PRINTF(VT_COL(RED, WHITE));
             PRINTF(T("z_locale_init: 日本用かアメリカ用か判別できません\n",
                      "z_locale_init: Can't tell if it's for Japan or America\n"));
-#if PLATFORM_N64
+#if OOT_VERSION < NTSC_1_1
+            LogUtils_HungupThread("../z_locale.c", 86);
+#elif OOT_VERSION < PAL_1_0
+            LogUtils_HungupThread("../z_locale.c", 92);
+#elif OOT_VERSION < GC_JP
             LogUtils_HungupThread("../z_locale.c", 101);
 #else
             LogUtils_HungupThread("../z_locale.c", 118);
@@ -53,7 +60,7 @@ void Locale_ResetRegion(void) {
     gCurrentRegion = REGION_NULL;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u32 func_80001F48(void) {
     if (gCurrentRegion == OOT_REGION) {
         return 0;

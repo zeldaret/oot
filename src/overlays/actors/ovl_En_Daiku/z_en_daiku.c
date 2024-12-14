@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_GeldB/z_en_geldb.h"
 #include "assets/objects/object_daiku/object_daiku.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef struct EnDaikuEscapeSubCamParam {
     Vec3f eyePosDeltaLocal;

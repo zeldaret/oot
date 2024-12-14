@@ -5,12 +5,14 @@
  */
 
 #include "z_en_horse.h"
+#include "global.h"
+#include "versions.h"
 #include "overlays/actors/ovl_En_In/z_en_in.h"
 #include "assets/objects/object_horse/object_horse.h"
 #include "assets/objects/object_hni/object_hni.h"
 #include "assets/scenes/overworld/spot09/spot09_scene.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef void (*EnHorseCsFunc)(EnHorse*, PlayState*, CsCmdActorCue*);
 typedef void (*EnHorseActionFunc)(EnHorse*, PlayState*);
@@ -368,8 +370,8 @@ static RaceInfo sIngoRace = { ARRAY_COUNT(sIngoRaceWaypoints), sIngoRaceWaypoint
 static s32 sAnimSoundFrames[] = { 0, 16 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 600, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 300, ICHAIN_STOP),
 };
 
 static u8 sResetNoInput[] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0 };
@@ -643,7 +645,7 @@ int func_80A5BBBC(PlayState* play, EnHorse* this, Vec3f* pos) {
         return false;
     }
     eyeDist = Math3D_Vec3f_DistXYZ(pos, &play->view.eye);
-    return func_800314D4(play, &this->actor, &sp24, sp20) || eyeDist < 100.0f;
+    return Actor_CullingVolumeTest(play, &this->actor, &sp24, sp20) || eyeDist < 100.0f;
 }
 
 void EnHorse_IdleAnimSounds(EnHorse* this, PlayState* play) {
@@ -699,8 +701,10 @@ s32 EnHorse_Spawn(EnHorse* this, PlayState* play) {
                 this->actor.world.rot.y = sHorseSpawns[i].angle;
                 this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor);
                 spawn = true;
+#if OOT_VERSION >= PAL_1_0
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->actor.world.pos,
                                              &this->actor.projectedPos, &this->actor.projectedW);
+#endif
             }
         }
     }
@@ -720,7 +724,7 @@ void EnHorse_ResetRace(EnHorse* this, PlayState* play) {
 s32 EnHorse_PlayerCanMove(EnHorse* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->stateFlags1 & PLAYER_STATE1_0) || func_8002DD78(GET_PLAYER(play)) == 1 ||
+    if ((player->stateFlags1 & PLAYER_STATE1_0) || func_8002DD78(GET_PLAYER(play)) == true ||
         (player->stateFlags1 & PLAYER_STATE1_20) || ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) ||
         this->action == ENHORSE_ACT_HBA || player->actor.flags & ACTOR_FLAG_TALK ||
         play->csCtx.state != CS_STATE_IDLE) {
@@ -1738,8 +1742,10 @@ void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
     if (R_EPONAS_SONG_PLAYED && this->type == HORSE_EPONA) {
         R_EPONAS_SONG_PLAYED = false;
         if (EnHorse_Spawn(this, play) != 0) {
+#if OOT_VERSION >= PAL_1_0
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+#endif
             this->stateFlags &= ~ENHORSE_INACTIVE;
             gSaveContext.save.info.horseData.sceneId = play->sceneId;
 
@@ -1814,8 +1820,10 @@ void EnHorse_Idle(EnHorse* this, PlayState* play) {
         R_EPONAS_SONG_PLAYED = false;
         if (!func_80A5BBBC(play, this, &this->actor.world.pos)) {
             if (EnHorse_Spawn(this, play)) {
+#if OOT_VERSION >= PAL_1_0
                 Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+#endif
                 this->followTimer = 0;
                 EnHorse_SetFollowAnimation(this, play);
                 Camera_SetViewParam(play->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, &this->actor);
@@ -1928,6 +1936,12 @@ void EnHorse_FollowPlayer(EnHorse* this, PlayState* play) {
         this->skin.skelAnime.playSpeed = 1.0f;
         this->stateFlags &= ~ENHORSE_LAND2_SOUND;
         this->unk_21C = this->unk_228;
+#if OOT_VERSION < PAL_1_0
+        if (this->stateFlags & ENHORSE_DRAW) {
+            Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_21C, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        }
+#endif
     } else if (this->stateFlags & ENHORSE_TURNING_TO_PLAYER) {
         this->actor.world.rot.y += this->followPlayerTurnSpeed;
         this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -3594,9 +3608,9 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         }
 
         if (thisx->speed == 0.0f && !(this->stateFlags & ENHORSE_FLAG_19)) {
-            thisx->colChkInfo.mass = 0xFF;
+            thisx->colChkInfo.mass = MASS_IMMOVABLE;
         } else {
-            thisx->colChkInfo.mass = 0xFE;
+            thisx->colChkInfo.mass = MASS_HEAVY;
         }
 
         if (thisx->speed >= 5.0f) {

@@ -9,7 +9,7 @@
 #include "assets/objects/object_ahg/object_ahg.h"
 #include "assets/objects/object_boj/object_boj.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnSth_Init(Actor* thisx, PlayState* play);
 void EnSth_Destroy(Actor* thisx, PlayState* play);
@@ -61,8 +61,7 @@ static s16 sObjectIds[6] = {
 };
 
 static FlexSkeletonHeader* sSkeletons[6] = {
-    &object_ahg_Skel_0000F0, &object_boj_Skel_0000F0, &object_boj_Skel_0000F0,
-    &object_boj_Skel_0000F0, &object_boj_Skel_0000F0, &object_boj_Skel_0000F0,
+    &gHylianMan1Skel, &gHylianMan2Skel, &gHylianMan2Skel, &gHylianMan2Skel, &gHylianMan2Skel, &gHylianMan2Skel,
 };
 
 static AnimationHeader* sAnimations[6] = {
@@ -337,7 +336,7 @@ void EnSth_Update2(Actor* thisx, PlayState* play) {
 s32 EnSth_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSth* this = (EnSth*)thisx;
 
-    s32 temp_v1;
+    s32 fidgetFrequency;
 
     if (limbIndex == 15) {
         rot->x += this->headRot.y;
@@ -351,9 +350,9 @@ s32 EnSth_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     }
 
     if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
-        temp_v1 = limbIndex * 0x32;
-        rot->y += (Math_SinS(play->state.frames * (temp_v1 + 0x814)) * 200.0f);
-        rot->z += (Math_CosS(play->state.frames * (temp_v1 + 0x940)) * 200.0f);
+        fidgetFrequency = limbIndex * FIDGET_FREQ_LIMB;
+        rot->y += Math_SinS(play->state.frames * (fidgetFrequency + FIDGET_FREQ_Y)) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(play->state.frames * (fidgetFrequency + FIDGET_FREQ_Z)) * FIDGET_AMPLITUDE;
     }
     return 0;
 }

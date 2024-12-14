@@ -2,6 +2,7 @@
 #include "fault.h"
 #include "libc64/os_malloc.h"
 #include "terminal.h"
+#include "versions.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -14,7 +15,7 @@ VisZBuf sVisZBuf;
 VisMono sVisMono;
 ViMode sViMode;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
 
@@ -72,18 +73,16 @@ void GameState_SetFBFilter(Gfx** gfxP) {
 }
 
 void func_800C4344(GameState* gameState) {
-#if PLATFORM_N64
-    if (D_80121212 != 0) {
-        func_801C7E78();
-    }
-#elif OOT_DEBUG
+#if DEBUG_FEATURES
     Input* selectedInput;
     s32 hexDumpSize;
     u16 inputCompareValue;
 
+#if PLATFORM_GC
     if (R_HREG_MODE == HREG_MODE_HEAP_FREE_BLOCK_TEST) {
         __osMalloc_FreeBlockTest_Enable = R_HEAP_FREE_BLOCK_TEST_TOGGLE;
     }
+#endif
 
     if (R_HREG_MODE == HREG_MODE_INPUT_TEST) {
         selectedInput =
@@ -127,9 +126,15 @@ void func_800C4344(GameState* gameState) {
         }
     }
 #endif
+
+#if PLATFORM_N64
+    if (D_80121212 != 0) {
+        func_801C7E78();
+    }
+#endif
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void GameState_DrawInputDisplay(u16 input, Gfx** gfxP) {
     static const u16 sInpDispBtnColors[] = {
         GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),
@@ -175,7 +180,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
         GameState_SetFBFilter(&newDList);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     sLastButtonPressed = gameState->input[0].press.button | gameState->input[0].cur.button;
     if (R_DISABLE_INPUT_DISPLAY == 0) {
         GameState_DrawInputDisplay(sLastButtonPressed, &newDList);
@@ -194,14 +199,14 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 #endif
 
     if (R_ENABLE_ARENA_DBG < 0) {
-#if OOT_DEBUG
+#if PLATFORM_GC && DEBUG_FEATURES
         s32 pad;
         DebugArena_Display();
         SystemArena_Display();
+#endif
         PRINTF(T("ハイラル滅亡まであと %08x バイト(game_alloc)\n",
                  "%08x bytes left until Hyrule is destroyed (game_alloc)\n"),
                THA_GetRemaining(&gameState->tha));
-#endif
         R_ENABLE_ARENA_DBG = 0;
     }
 
@@ -281,7 +286,15 @@ void GameState_Update(GameState* gameState) {
 
     func_800C4344(gameState);
 
-#if OOT_DEBUG
+#if OOT_VERSION < PAL_1_0
+    if (R_VI_MODE_EDIT_STATE != VI_MODE_EDIT_STATE_INACTIVE) {
+        ViMode_Update(&sViMode, &gameState->input[0]);
+        gfxCtx->viMode = &sViMode.customViMode;
+        gfxCtx->viFeatures = sViMode.viFeatures;
+    }
+#endif
+
+#if OOT_VERSION >= PAL_1_0 && DEBUG_FEATURES
     if (SREG(63) == 1u) {
         if (R_VI_MODE_EDIT_STATE < VI_MODE_EDIT_STATE_INACTIVE) {
             R_VI_MODE_EDIT_STATE = VI_MODE_EDIT_STATE_INACTIVE;
@@ -377,7 +390,11 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     } else {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF(T("ハイラル確保失敗\n", "Failure to secure Hyrule\n"));
-#if PLATFORM_N64
+#if OOT_VERSION < NTSC_1_1
+        HUNGUP_AND_CRASH("../game.c", 895);
+#elif OOT_VERSION < PAL_1_0
+        HUNGUP_AND_CRASH("../game.c", 898);
+#elif OOT_VERSION < GC_JP
         HUNGUP_AND_CRASH("../game.c", 985);
 #else
         HUNGUP_AND_CRASH("../game.c", 999);
@@ -418,11 +435,15 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF(T("ハイラル再確保失敗\n", "Failure to secure Hyrule\n"));
 
-#if OOT_DEBUG
+#if PLATFORM_GC && DEBUG_FEATURES
         SystemArena_Display();
 #endif
 
-#if PLATFORM_N64
+#if OOT_VERSION < NTSC_1_1
+        HUNGUP_AND_CRASH("../game.c", 940);
+#elif OOT_VERSION < PAL_1_0
+        HUNGUP_AND_CRASH("../game.c", 943);
+#elif OOT_VERSION < GC_JP
         HUNGUP_AND_CRASH("../game.c", 1030);
 #else
         HUNGUP_AND_CRASH("../game.c", 1044);
@@ -431,8 +452,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 }
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
-    OSTime startTime;
-    OSTime endTime;
+    UNUSED_NDEBUG OSTime startTime;
+    UNUSED_NDEBUG OSTime endTime;
 
     PRINTF(T("game コンストラクタ開始\n", "game constructor start\n"));
     gameState->gfxCtx = gfxCtx;
@@ -471,7 +492,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     VisCvg_Init(&sVisCvg);
     VisZBuf_Init(&sVisZBuf);
     VisMono_Init(&sVisMono);
-    if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !OOT_DEBUG) {
+    if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !DEBUG_FEATURES) {
         ViMode_Init(&sViMode);
     }
     SpeedMeter_Init(&D_801664D0);
@@ -481,7 +502,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     PRINTF(T("その他初期化 処理時間 %d us\n", "Other initialization processing time %d us\n"),
            OS_CYCLES_TO_USEC(endTime - startTime));
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Fault_AddClient(&sGameFaultClient, GameState_FaultPrint, NULL, NULL);
 #endif
 
@@ -502,14 +523,17 @@ void GameState_Destroy(GameState* gameState) {
     VisCvg_Destroy(&sVisCvg);
     VisZBuf_Destroy(&sVisZBuf);
     VisMono_Destroy(&sVisMono);
-    if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !OOT_DEBUG) {
+    if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !DEBUG_FEATURES) {
         ViMode_Destroy(&sViMode);
     }
     THA_Destroy(&gameState->tha);
     GameAlloc_Cleanup(&gameState->alloc);
 
-#if OOT_DEBUG
+#if PLATFORM_GC && DEBUG_FEATURES
     SystemArena_Display();
+#endif
+
+#if DEBUG_FEATURES
     Fault_RemoveClient(&sGameFaultClient);
 #endif
 
@@ -528,7 +552,7 @@ u32 GameState_IsRunning(GameState* gameState) {
     return gameState->running;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int line) {
     void* ret;
 

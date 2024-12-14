@@ -15,7 +15,7 @@
 #include "assets/objects/object_zl2/object_zl2.h"
 #include "assets/objects/object_zl2_anime2/object_zl2_anime2.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnZl3_Init(Actor* thisx, PlayState* play);
 void EnZl3_Destroy(Actor* thisx, PlayState* play);
@@ -2646,7 +2646,7 @@ void func_80B59DB8(EnZl3* this, PlayState* play) {
     s32 objectSlot = Object_GetSlot(objectCtx, OBJECT_ZL2_ANIME2);
     s32 pad2;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (objectSlot < 0) {
         PRINTF(VT_FGCOL(RED) "En_Zl3_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
         return;

@@ -77,7 +77,7 @@ static u16 sStartingTextIds[] = {
     0x10A0, 0x10A1, 0x10A2, 0x10CA, 0x10CB, 0x10CC, 0x10CD, 0x10CE, 0x10CF, 0x10DC, 0x10DD,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static char* sItemDebugTxt[] = {
     "デクの実売り            ", // "Deku Nuts"
     "デクの棒売り            ", // "Deku Sticks"
@@ -347,9 +347,9 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
         this->actionFunc = EnDns_Talk;
     } else {
         if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isLockedOn) {
-            this->actor.flags |= ACTOR_FLAG_16;
+            this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_16;
+            this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);

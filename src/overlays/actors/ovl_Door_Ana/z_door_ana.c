@@ -7,7 +7,7 @@
 #include "z_door_ana.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS ACTOR_FLAG_25
+#define FLAGS ACTOR_FLAG_UPDATE_DURING_OCARINA
 
 void DoorAna_Init(Actor* thisx, PlayState* play);
 void DoorAna_Destroy(Actor* thisx, PlayState* play);
@@ -72,7 +72,7 @@ void DoorAna_Init(Actor* thisx, PlayState* play) {
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         } else {
-            this->actor.flags |= ACTOR_FLAG_4;
+            this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         }
         Actor_SetScale(&this->actor, 0);
         DoorAna_SetupAction(this, DoorAna_WaitClosed);
@@ -99,7 +99,7 @@ void DoorAna_WaitClosed(DoorAna* this, PlayState* play) {
         // opening with song of storms
         if (this->actor.xyzDistToPlayerSq < SQ(200.0f) && CutsceneFlags_Get(play, 5)) {
             openGrotto = true;
-            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         }
     } else {
         // bombing/hammering open a grotto
@@ -131,7 +131,8 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play) {
         if ((this->actor.attentionRangeType != 0) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (player->stateFlags1 & PLAYER_STATE1_31) && (player->av1.actionVar1 == 0)) {
             destinationIdx = PARAMS_GET_U(this->actor.params, 12, 3) - 1;
-            Play_SetupRespawnPoint(play, RESPAWN_MODE_RETURN, 0x4FF);
+            Play_SetupRespawnPoint(play, RESPAWN_MODE_RETURN,
+                                   PLAYER_PARAMS(PLAYER_START_MODE_GROTTO, PLAYER_START_BG_CAM_DEFAULT));
             gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.world.pos.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].yaw = this->actor.home.rot.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].data = PARAMS_GET_U(this->actor.params, 0, 16);

@@ -16,12 +16,14 @@ OSHWIntr __OSGlobalIntMask = OS_IM_ALL;
 
 u32 __osFinalrom;
 
-#if PLATFORM_N64
+#if LIBULTRA_VERSION < LIBULTRA_VERSION_K
 
 #define OSINITIALIZE_FUNC osInitialize
 #define SPEED_PARAM_FUNC createSpeedParam
 
+#if (LIBULTRA_VERSION == LIBULTRA_VERSION_I && LIBULTRA_PATCH == 1) || (LIBULTRA_VERSION == LIBULTRA_VERSION_J)
 static void SPEED_PARAM_FUNC(void);
+#endif
 
 #else
 
@@ -46,14 +48,14 @@ void SPEED_PARAM_FUNC(void) {
 
 void OSINITIALIZE_FUNC(void) {
     u32 pifdata;
-#if PLATFORM_N64
+#if LIBULTRA_VERSION < LIBULTRA_VERSION_K
     u32 clock = 0;
 #endif
 
     __osFinalrom = true;
     __osSetSR(__osGetSR() | SR_CU1);
     __osSetFpcCsr(FPCSR_FS | FPCSR_EV);
-#if !PLATFORM_N64
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     __osSetWatchLo(0x04900000);
 #endif
 
@@ -71,9 +73,11 @@ void OSINITIALIZE_FUNC(void) {
 
     osWritebackDCache((void*)K0BASE, E_VEC - K0BASE + sizeof(__osExceptionVector));
     osInvalICache((void*)K0BASE, E_VEC - K0BASE + sizeof(__osExceptionVector));
+#if (LIBULTRA_VERSION == LIBULTRA_VERSION_I && LIBULTRA_PATCH == 1) || (LIBULTRA_VERSION > LIBULTRA_VERSION_I)
     SPEED_PARAM_FUNC();
     osUnmapTLBAll();
     osMapTLBRdb();
+#endif
 
     osClockRate = osClockRate * 3 / 4;
 
@@ -89,19 +93,21 @@ void OSINITIALIZE_FUNC(void) {
         osViClock = VI_NTSC_CLOCK;
     }
 
+#if (LIBULTRA_VERSION == LIBULTRA_VERSION_I && LIBULTRA_PATCH == 1) || (LIBULTRA_VERSION >= LIBULTRA_VERSION_J)
     // If PreNMI is pending, loop until reset
     if (__osGetCause() & CAUSE_IP5) {
         while (true) {
             ;
         }
     }
+#endif
 
     IO_WRITE(AI_CONTROL_REG, AI_CONTROL_DMA_ON);
     IO_WRITE(AI_DACRATE_REG, AI_MAX_DAC_RATE - 1);
     IO_WRITE(AI_BITRATE_REG, AI_MAX_BIT_RATE - 1);
 }
 
-#if PLATFORM_N64
+#if (LIBULTRA_VERSION == LIBULTRA_VERSION_I && LIBULTRA_PATCH == 1) || (LIBULTRA_VERSION == LIBULTRA_VERSION_J)
 static void SPEED_PARAM_FUNC(void) {
     __Dom1SpeedParam.type = DEVICE_TYPE_INIT;
     __Dom1SpeedParam.latency = IO_READ(PI_BSD_DOM1_LAT_REG);

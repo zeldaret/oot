@@ -14,7 +14,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnDntNomal_Init(Actor* thisx, PlayState* play);
 void EnDntNomal_Destroy(Actor* thisx, PlayState* play);
@@ -128,7 +128,7 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
         this->type = ENDNTNOMAL_TARGET;
     }
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->objectId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
         PRINTF("\n\n");
@@ -240,7 +240,12 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
     this->targetVtx[3].z = targetZ - 24.0f;
 
     SkelAnime_Update(&this->skelAnime);
-    if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0)) {
+#if OOT_VERSION < PAL_1_0
+    if (this->targetQuad.base.acFlags & AC_HIT)
+#else
+    if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0))
+#endif
+    {
         this->targetQuad.base.acFlags &= ~AC_HIT;
 
         dx = fabsf(targetX - this->targetQuad.elem.acDmgInfo.hitPos.x);
@@ -671,7 +676,7 @@ void EnDntNomal_SetupStageAttack(EnDntNomal* this, PlayState* play) {
     if (this->timer3 == 0) {
         this->endFrame = (f32)Animation_GetLastFrame(&gDntStageSpitAnim);
         Animation_Change(&this->skelAnime, &gDntStageSpitAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->isSolid = true;
         this->timer2 = 0;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);

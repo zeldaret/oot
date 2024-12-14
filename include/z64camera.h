@@ -6,6 +6,9 @@
 #include "z64math.h"
 #include "z64save.h"
 
+struct CollisionContext;
+struct View;
+
 #define CAM_STAT_CUT        0
 #define CAM_STAT_WAIT       1
 #define CAM_STAT_UNK3       3
@@ -98,7 +101,7 @@
 #define CAM_STATE_CHECK_BG (1 << 2) //  Must be set for the camera to change settings based on the bg surface
 #define CAM_STATE_EXTERNAL_FINISHED (1 << 3) // Signal from the external systems to camera that the current cam-update function is no longer needed
 #define CAM_STATE_CAM_FUNC_FINISH (1 << 4) // Signal from camera to player that the cam-update function is finished its primary purpose
-#define CAM_STATE_LOCK_MODE (1 << 5) // Prevents camera from changing mode, unless overriden by `forceModeChange` passed to `Camera_RequestModeImpl`
+#define CAM_STATE_LOCK_MODE (1 << 5) // Prevents camera from changing mode, unless overridden by `forceModeChange` passed to `Camera_RequestModeImpl`
 #define CAM_STATE_DISTORTION (1 << 6) // Set when camera distortion is on
 #define CAM_STATE_PLAY_INIT (1 << 7) // Set in Play_Init, never used or changed
 #define CAM_STATE_CAMERA_IN_WATER (1 << 8) // Camera (eye) is underwater
@@ -794,7 +797,7 @@ typedef struct KeepOn3ReadOnlyData {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 minDist;
     /* 0x08 */ f32 maxDist;
-    /* 0x0C */ f32 swingYawInital;
+    /* 0x0C */ f32 swingYawInitial;
     /* 0x10 */ f32 swingYawFinal;
     /* 0x14 */ f32 swingPitchInitial;
     /* 0x18 */ f32 swingPitchFinal;
@@ -1182,7 +1185,7 @@ typedef struct Unique0ReadOnlyData {
 } Unique0ReadOnlyData; // size = 0x4
 
 typedef struct Unique0ReadWriteData {
-    /* 0x00 */ Vec3f initalPos;
+    /* 0x00 */ Vec3f initialPos;
     /* 0x0C */ s16 animTimer;
     /* 0x10 */ InfiniteLine eyeAndDirection;
 } Unique0ReadWriteData; // size = 0x28
@@ -1407,7 +1410,7 @@ typedef struct Special0 {
     { interfaceField, CAM_DATA_INTERFACE_FIELD }
 
 typedef struct Special4ReadWriteData {
-    /* 0x0 */ s16 initalTimer;
+    /* 0x0 */ s16 initialTimer;
 } Special4ReadWriteData; // size = 0x4
 
 typedef struct Special4 {
@@ -1469,7 +1472,7 @@ typedef struct Special6ReadOnlyData {
 } Special6ReadOnlyData; // size = 0x4
 
 typedef struct Special6ReadWriteData {
-    /* 0x0 */ f32 initalPlayerY;
+    /* 0x0 */ f32 initialPlayerY;
     /* 0x4 */ s16 animTimer;
 } Special6ReadWriteData; // size = 0x8
 
@@ -1695,5 +1698,35 @@ typedef enum DebugCamTextColor {
     /* 6 */ DEBUG_CAM_TEXT_BLUE,
     /* 7 */ DEBUG_CAM_TEXT_GREEN
 } DebugCamTextColor;
+
+void Camera_Init(Camera* camera, struct View* view, struct CollisionContext* colCtx, struct PlayState* play);
+void Camera_InitDataUsingPlayer(Camera* camera, struct Player* player);
+s16 Camera_ChangeStatus(Camera* camera, s16 status);
+Vec3s Camera_Update(Camera* camera);
+void Camera_Finish(Camera* camera);
+s32 Camera_RequestMode(Camera* camera, s16 mode);
+s32 Camera_CheckValidMode(Camera* camera, s16 mode);
+s32 Camera_RequestSetting(Camera* camera, s16 setting);
+s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex);
+s16 Camera_GetInputDirYaw(Camera* camera);
+Vec3s Camera_GetCamDir(Camera* camera);
+s16 Camera_GetCamDirPitch(Camera* camera);
+s16 Camera_GetCamDirYaw(Camera* camera);
+s32 Camera_RequestQuake(Camera* camera, s32 unused, s16 y, s32 duration);
+s32 Camera_SetViewParam(Camera* camera, s32 viewFlag, void* param);
+s32 Camera_OverwriteStateFlags(Camera* camera, s16 stateFlags);
+s16 Camera_SetStateFlag(Camera* camera, s16 stateFlag);
+s16 Camera_UnsetStateFlag(Camera* camera, s16 stateFlag);
+s32 Camera_ResetAnim(Camera* camera);
+s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints,
+                       struct Player* player, s16 relativeToPlayer);
+s32 Camera_ChangeDoorCam(Camera* camera, struct Actor* doorActor, s16 bgCamIndex, f32 arg3, s16 timer1, s16 timer2,
+                         s16 timer3);
+s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
+Vec3f Camera_GetQuakeOffset(Camera* camera);
+void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
+                          UNK_TYPE arg6);
+s32 func_8005B198(void);
+s16 Camera_SetFinishedFlag(Camera* camera);
 
 #endif

@@ -14,6 +14,13 @@
 #define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC colliders
 #define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
+// These are default parameters used for "animation fidgeting", which procedurally generate actor idle animations.
+// These calculations may be performed within individual actors, or by using fidget tables with `Actor_UpdateFidgetTables`.
+#define FIDGET_FREQ_Y 0x814
+#define FIDGET_FREQ_Z 0x940
+#define FIDGET_FREQ_LIMB 0x32
+#define FIDGET_AMPLITUDE 200.0f
+
 struct Actor;
 struct ActorEntry;
 struct CollisionPoly;
@@ -41,7 +48,7 @@ typedef struct ActorProfile {
 /**
  * @see ACTOROVL_ALLOC_ABSOLUTE
  */
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x27A0
 #else
 #define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x24E0
@@ -119,18 +126,29 @@ typedef struct ActorShape {
 #define ACTOR_FLAG_HOSTILE (1 << 2)
 
 // Actor is considered "friendly"; Opposite flag of `ACTOR_FLAG_HOSTILE`.
-// Note that this flag doesn't have any effect on either the actor, or Player's behvaior.
+// Note that this flag doesn't have any effect on either the actor, or Player's behavior.
 // What actually matters is the presence or lack of `ACTOR_FLAG_HOSTILE`.
 #define ACTOR_FLAG_FRIENDLY (1 << 3)
 
-//
-#define ACTOR_FLAG_4 (1 << 4)
+// Culling of the actor's update process is disabled.
+// In other words, the actor will keep updating even if the actor is outside its own culling volume.
+// See `Actor_CullingCheck` for more information about culling.
+// See `Actor_CullingVolumeTest` for more information on the test used to determine if an actor should be culled.
+#define ACTOR_FLAG_UPDATE_CULLING_DISABLED (1 << 4)
 
-//
-#define ACTOR_FLAG_5 (1 << 5)
+// Culling of the actor's draw process is disabled.
+// In other words, the actor will keep drawing even if the actor is outside its own culling volume.
+// See `Actor_CullingCheck` for more information about culling.
+// See `Actor_CullingVolumeTest` for more information on the test used to determine if an actor should be culled.
+// (The original name for this flag is `NO_CULL_DRAW`, known from the Majora's Mask Debug ROM)
+#define ACTOR_FLAG_DRAW_CULLING_DISABLED (1 << 5)
 
-//
-#define ACTOR_FLAG_6 (1 << 6)
+// Set if the actor is currently within the bounds of its culling volume.
+// In most cases, this flag can be used to determine whether or not an actor is currently culled.
+// However this flag still updates even if `ACTOR_FLAG_UPDATE_CULLING_DISABLED` or `ACTOR_FLAG_DRAW_CULLING_DISABLED`
+// are set. Meaning, the flag can still have a value of "false" even if it is not actually culled.
+// (The original name for this flag is `NO_CULL_FLAG`, known from the Majora's Mask Debug ROM)
+#define ACTOR_FLAG_INSIDE_CULLING_VOLUME (1 << 6)
 
 // hidden or revealed by Lens of Truth (depending on room lensMode)
 #define ACTOR_FLAG_REACT_TO_LENS (1 << 7)
@@ -140,35 +158,47 @@ typedef struct ActorShape {
 // Actor will retain this flag until `Actor_TalkOfferAccepted` is called or manually turned off by the actor
 #define ACTOR_FLAG_TALK (1 << 8)
 
-//
-#define ACTOR_FLAG_9 (1 << 9)
+// When the hookshot attaches to this actor, the actor will be pulled back as the hookshot retracts.
+#define ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR (1 << 9)
 
-//
-#define ACTOR_FLAG_10 (1 << 10)
+// When the hookshot attaches to this actor, Player will be pulled by the hookshot and fly to the actor.
+#define ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER (1 << 10)
 
-//
-#define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
+// A clump of grass (EN_KUSA) has been destroyed.
+// This flag is used to communicate with the spawner actor (OBJ_MURE).
+#define ACTOR_FLAG_GRASS_DESTROYED (1 << 11)
 
 // Actor will not shake when a quake occurs
 #define ACTOR_FLAG_IGNORE_QUAKE (1 << 12)
 
+// The hookshot is currently attached to this actor.
+// The behavior that occurs after attachment is determined by `ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR` and `ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER`.
+// If neither of those flags are set attachment cannot occur, and the hookshot will simply act as a damage source.
 //
-#define ACTOR_FLAG_13 (1 << 13)
+// This flag is also reused to indicate that an actor is attached to the boomerang.
+// This only has an effect for Gold Skulltula Tokens (EN_SI) which has overlapping behavior for hookshot and boomerang.
+#define ACTOR_FLAG_HOOKSHOT_ATTACHED (1 << 13)
 
-//
-#define ACTOR_FLAG_14 (1 << 14)
+// When hit by an arrow, the actor will be able to attach to the arrow and fly with it in the air
+#define ACTOR_FLAG_CAN_ATTACH_TO_ARROW (1 << 14)
 
-//
-#define ACTOR_FLAG_15 (1 << 15)
+// Actor is currently attached to an arrow and flying with it in the air
+#define ACTOR_FLAG_ATTACHED_TO_ARROW (1 << 15)
 
-//
-#define ACTOR_FLAG_16 (1 << 16)
+// Player automatically accepts a Talk Offer without needing to press the A button.
+// Player still has to meet all conditions to be able to receive a talk offer (for example, being in range).
+#define ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED (1 << 16)
 
-//
-#define ACTOR_FLAG_17 (1 << 17)
+// Actor will be influenced by the pitch (x rot) of Player's left hand when being carried,
+// instead of Player's yaw which is the default actor carry behavior.
+// This flag is helpful for something like the `BG_HEAVY_BLOCK` actor which Player carries underhanded.
+#define ACTOR_FLAG_CARRY_X_ROT_INFLUENCE (1 << 17)
 
-//
-#define ACTOR_FLAG_18 (1 << 18)
+// When locked onto an actor with this flag set, the C-Up button can be used to talk to this actor.
+// A C-Up button labeled "Navi" will appear on the HUD when locked on which indicates the actor can be checked with Navi.
+// With this flag Player talks directly to the actor with C-Up. It is expected that the resulting dialog should appear
+// to be coming from Navi, even though she is not involved at all with this interaction.
+#define ACTOR_FLAG_TALK_WITH_C_UP (1 << 18)
 
 // Flags controlling the use of `Actor.sfx`. Do not use directly.
 #define ACTOR_FLAG_SFX_ACTOR_POS_2 (1 << 19) // see Actor_PlaySfx_Flagged2
@@ -178,17 +208,21 @@ typedef struct ActorShape {
 // ignores point lights but not directional lights (such as environment lights)
 #define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22)
 
-//
-#define ACTOR_FLAG_23 (1 << 23)
+// When Player is carrying this actor, it can only be thrown, not dropped/placed.
+// Typically an actor can only be thrown when moving, but this allows an actor to be thrown when standing still.
+#define ACTOR_FLAG_THROW_ONLY (1 << 23)
 
-//
-#define ACTOR_FLAG_24 (1 << 24)
+// When colliding with Player's body AC collider, a "thump" sound will play indicating his body has been hit
+#define ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT (1 << 24)
 
-//
-#define ACTOR_FLAG_25 (1 << 25)
+// Actor can update even if Player is currently using the ocarina.
+// Typically an actor will halt while the ocarina is active (depending on category).
+// This flag allows a given actor to be an exception.
+#define ACTOR_FLAG_UPDATE_DURING_OCARINA (1 << 25)
 
-//
-#define ACTOR_FLAG_26 (1 << 26)
+// Actor can press and hold down switches.
+// See usages of `DynaPolyActor_SetSwitchPressed` and `DynaPolyActor_IsSwitchPressed` for more context on how switches work.
+#define ACTOR_FLAG_CAN_PRESS_SWITCHES (1 << 26)
 
 // Player is not able to lock onto the actor.
 // Navi will still be able to hover over the actor, assuming `ACTOR_FLAG_ATTENTION_ENABLED` is set.
@@ -254,9 +288,9 @@ typedef struct Actor {
     /* 0x0B4 */ ActorShape shape; // Variables related to the physical shape of the actor
     /* 0x0E4 */ Vec3f projectedPos; // Position of the actor in projected space
     /* 0x0F0 */ f32 projectedW; // w component of the projected actor position
-    /* 0x0F4 */ f32 uncullZoneForward; // Amount to increase the uncull zone forward by (in projected space)
-    /* 0x0F8 */ f32 uncullZoneScale; // Amount to increase the uncull zone scale by (in projected space)
-    /* 0x0FC */ f32 uncullZoneDownward; // Amount to increase uncull zone downward by (in projected space)
+    /* 0x0F4 */ f32 cullingVolumeDistance; // Forward distance of the culling volume (in projected space). See `Actor_CullingCheck` and `Actor_CullingVolumeTest` for more information.
+    /* 0x0F8 */ f32 cullingVolumeScale; // Scale of the culling volume (in projected space). See `Actor_CullingCheck` and `Actor_CullingVolumeTest` for more information.
+    /* 0x0FC */ f32 cullingVolumeDownward; // Downward height of the culling volume (in projected space). See `Actor_CullingCheck` and `Actor_CullingVolumeTest` for more information.
     /* 0x100 */ Vec3f prevPos; // World position from the previous update cycle
     /* 0x10C */ u8 isLockedOn; // Set to true if the actor is currently locked-on by Player
     /* 0x10D */ u8 attentionPriority; // Lower values have higher priority. Resets to 0 when lock-on is released.
@@ -276,7 +310,7 @@ typedef struct Actor {
     /* 0x130 */ ActorFunc update; // Update Routine. Called by `Actor_UpdateAll`
     /* 0x134 */ ActorFunc draw; // Draw Routine. Called by `Actor_Draw`
     /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     /* 0x13C */ char dbgPad[0x10];
 #endif
 } Actor; // size = 0x14C
@@ -302,7 +336,7 @@ if neither of the above are set : blue
 #define DYNA_INTERACT_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ABOVE (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
-#define DYNA_INTERACT_3 (1 << 3) // Like the ACTOR_ON_TOP flag but only actors with ACTOR_FLAG_26
+#define DYNA_INTERACT_ACTOR_SWITCH_PRESSED (1 << 3) // An actor that is capable of pressing switches is on top of the dynapoly actor
 
 typedef struct DynaPolyActor {
     /* 0x000 */ struct Actor actor;
@@ -732,6 +766,14 @@ typedef struct NpcInteractInfo {
 #define PARAMS_GET_NOSHIFT(p, s, n) \
     ((p) & (NBITS_TO_MASK(n) << (s)))
 
+// Moves the `n`-bit value `p` to bit position `s` for building actor parameters by OR-ing these together
+#define PARAMS_PACK(p, s, n) \
+    (((p) & NBITS_TO_MASK(n)) << (s))
+
+// Moves the value `p` to bit position `s` for building actor parameters by OR-ing these together.
+#define PARAMS_PACK_NOMASK(p, s) \
+    ((p) << (s))
+
 // Generates a bitmask for bit position `s` of length `n`
 #define PARAMS_MAKE_MASK(s, n) PARAMS_GET_NOSHIFT(~0, s, n)
 
@@ -795,7 +837,7 @@ int func_8002DD6C(struct Player* player);
 int func_8002DD78(struct Player* player);
 s32 func_8002DDE4(struct PlayState* play);
 s32 func_8002DDF4(struct PlayState* play);
-void func_8002DE04(struct PlayState* play, Actor* actorA, Actor* actorB);
+void Actor_SwapHookshotAttachment(struct PlayState* play, Actor* srcActor, Actor* destActor);
 void func_8002DE74(struct PlayState* play, struct Player* player);
 void Actor_MountHorse(struct PlayState* play, struct Player* player, Actor* horse);
 int func_8002DEEC(struct Player* player);
@@ -855,7 +897,7 @@ s32 func_8002F9EC(struct PlayState* play, Actor* actor, struct CollisionPoly* po
 void Actor_DisableLens(struct PlayState* play);
 void Actor_InitContext(struct PlayState* play, ActorContext* actorCtx, struct ActorEntry* playerEntry);
 void Actor_UpdateAll(struct PlayState* play, ActorContext* actorCtx);
-s32 func_800314D4(struct PlayState* play, Actor* actor, Vec3f* arg2, f32 arg3);
+s32 Actor_CullingVolumeTest(struct PlayState* play, Actor* actor, Vec3f* projPos, f32 projW);
 void func_800315AC(struct PlayState* play, ActorContext* actorCtx);
 void Actor_KillAllWithMissingObject(struct PlayState* play, ActorContext* actorCtx);
 void func_80031B14(struct PlayState* play, ActorContext* actorCtx);
@@ -905,11 +947,13 @@ void func_80034BA0(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDra
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(struct PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
-s16 func_80034DD4(Actor* actor, struct PlayState* play, s16 arg2, f32 arg3);
-void func_80034F54(struct PlayState* play, s16* arg1, s16* arg2, s32 arg3);
+s16 Actor_UpdateAlphaByDistance(Actor* actor, struct PlayState* play, s16 alpha, f32 radius);
+void Actor_UpdateFidgetTables(struct PlayState* play, s16* fidgetTableY, s16* fidgetTableZ, s32 tableLen);
 void Actor_Noop(Actor* actor, struct PlayState* play);
+
 void Gfx_DrawDListOpa(struct PlayState* play, Gfx* dlist);
 void Gfx_DrawDListXlu(struct PlayState* play, Gfx* dlist);
+
 Actor* Actor_FindNearby(struct PlayState* play, Actor* refActor, s16 actorId, u8 actorCategory, f32 range);
 s32 func_800354B4(struct PlayState* play, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5);
 void func_8003555C(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);

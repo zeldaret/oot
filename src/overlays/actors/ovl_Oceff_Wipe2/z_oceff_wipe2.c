@@ -7,7 +7,7 @@
 #include "z_oceff_wipe2.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void OceffWipe2_Init(Actor* thisx, PlayState* play);
 void OceffWipe2_Destroy(Actor* thisx, PlayState* play);

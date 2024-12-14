@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 
-extern s32 B_80008EE0;
+extern u32 B_80008EE0;
 
 void func_800014E8(void);
 void CIC6105_AddFaultClient(void);
