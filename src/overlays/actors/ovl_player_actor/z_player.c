@@ -13968,6 +13968,14 @@ void Player_Action_DrinkFromBottle(Player* this, PlayState* play) {
     // When an animation finishes (gPlayerAnim_link_bottle_drink_demo_start when drinkingState == DRINGING_STATE_SETUP, gPlayerAnim_link_bottle_drink_demo_end otherwise)
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (this->av2.drinkingState == DRINGING_STATE_SETUP) {
+            static u8 sBottleContentDrinkFlags[] = {
+                /* PLAYER_IA_BOTTLE_POTION_RED   */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_BIG,
+                /* PLAYER_IA_BOTTLE_POTION_BLUE  */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_BIG | BOTTLE_CONTENT_DRINK_FLAG_MAGIC,
+                /* PLAYER_IA_BOTTLE_POTION_GREEN */ BOTTLE_CONTENT_DRINK_FLAG_MAGIC,
+                /* PLAYER_IA_BOTTLE_MILK_FULL    */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_SMALL,
+                /* PLAYER_IA_BOTTLE_MILK_HALF    */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_SMALL,
+            };
+
             // Special handling for the poe bottle
             if (this->itemAction == PLAYER_IA_BOTTLE_POE) {
                 s32 rand = Rand_S16Offset(-1, 3);
@@ -13987,14 +13995,6 @@ void Player_Action_DrinkFromBottle(Player* this, PlayState* play) {
                     gSaveContext.healthAccumulator = rand * 0x10;
                 }
             } else {
-                static u8 sBottleContentDrinkFlags[] = {
-                    /* PLAYER_IA_BOTTLE_POTION_RED   */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_BIG,
-                    /* PLAYER_IA_BOTTLE_POTION_BLUE  */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_BIG | BOTTLE_CONTENT_DRINK_FLAG_MAGIC,
-                    /* PLAYER_IA_BOTTLE_POTION_GREEN */ BOTTLE_CONTENT_DRINK_FLAG_MAGIC,
-                    /* PLAYER_IA_BOTTLE_MILK_FULL    */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_SMALL,
-                    /* PLAYER_IA_BOTTLE_MILK_HALF    */ BOTTLE_CONTENT_DRINK_FLAG_HEALTH_SMALL,
-                };
-
                 s32 flags = sBottleContentDrinkFlags[this->itemAction - PLAYER_IA_BOTTLE_POTION_RED];
 
                 if (flags & BOTTLE_CONTENT_DRINK_FLAG_HEALTH_BIG) {
@@ -14117,6 +14117,8 @@ void Player_Action_SwingBottle(Player* this, PlayState* play) {
     }
 }
 
+static Vec3f sBottleFairyPositionOffset = { 0.0f, 0.0f, 5.0f };
+
 void Player_Action_UseFairyFromBottle(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_8083C0E8(this, play);
@@ -14125,9 +14127,7 @@ void Player_Action_UseFairyFromBottle(Player* this, PlayState* play) {
     }
 
     if (LinkAnimation_OnFrame(&this->skelAnime, 37.0f)) {
-        static Vec3f sPositionOffset = { 0.0f, 0.0f, 5.0f };
-
-        Player_SpawnFairy(play, this, &this->leftHandPos, &sPositionOffset, FAIRY_REVIVE_BOTTLE);
+        Player_SpawnFairy(play, this, &this->leftHandPos, &sBottleFairyPositionOffset, FAIRY_REVIVE_BOTTLE);
         Player_UpdateBottleHeld(play, this, ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         Player_PlaySfx(this, NA_SE_EV_BOTTLE_CAP_OPEN);
         Player_PlaySfx(this, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
@@ -14141,6 +14141,17 @@ typedef struct BottleDropInfo {
     /* 0x02 */ s16 actorParams;
 } BottleDropInfo; // size = 0x04
 
+static BottleDropInfo sBottleDropInfos[] = {
+    /* PLAYER_IA_BOTTLE_FISH */ { ACTOR_EN_FISH, FISH_DROPPED },
+    /* PLAYER_IA_BOTTLE_FIRE */ { ACTOR_EN_ICE_HONO, 0 },
+    /* PLAYER_IA_BOTTLE_BUG  */ { ACTOR_EN_INSECT, INSECT_TYPE_FIRST_DROPPED },
+};
+
+static AnimSfxEntry sBottleDropAnimSfx[] = {
+    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 38) },
+    { NA_SE_EV_BOTTLE_CAP_OPEN, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 40) },
+};
+
 void Player_Action_DropActorFromBottle(Player* this, PlayState* play) {
     Player_DecelerateToZero(this);
 
@@ -14148,12 +14159,6 @@ void Player_Action_DropActorFromBottle(Player* this, PlayState* play) {
         func_8083C0E8(this, play);
         Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 76.0f)) {
-        static BottleDropInfo sBottleDropInfos[] = {
-            /* PLAYER_IA_BOTTLE_FISH */ { ACTOR_EN_FISH, FISH_DROPPED },
-            /* PLAYER_IA_BOTTLE_FIRE */ { ACTOR_EN_ICE_HONO, 0 },
-            /* PLAYER_IA_BOTTLE_BUG  */ { ACTOR_EN_INSECT, INSECT_TYPE_FIRST_DROPPED },
-        };
-
         BottleDropInfo* dropInfo = &sBottleDropInfos[this->itemAction - PLAYER_IA_BOTTLE_FISH];
 
         Actor_Spawn(&play->actorCtx, play, dropInfo->actorId,
@@ -14163,11 +14168,6 @@ void Player_Action_DropActorFromBottle(Player* this, PlayState* play) {
 
         Player_UpdateBottleHeld(play, this, ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
     } else {
-        static AnimSfxEntry sBottleDropAnimSfx[] = {
-            { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 38) },
-            { NA_SE_EV_BOTTLE_CAP_OPEN, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 40) },
-        };
-
         Player_ProcessAnimSfxList(this, sBottleDropAnimSfx);
     }
 }
