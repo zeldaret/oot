@@ -27,8 +27,8 @@ void func_808BCAF0(BgTreemouth* this, PlayState* play);
 
 extern CutsceneData gDekuTreeMeetingCs[];
 extern CutsceneData gDekuTreeChoiceCs[];
-extern CutsceneData gDekuTreeChoiceAcceptedCs[];
-extern CutsceneData gDekuTreeChoiceDeclinedCs[];
+extern CutsceneData gDekuTreeMouthOpeningCs[];
+extern CutsceneData gDekuTreeAskAgainCs[];
 
 ActorProfile Bg_Treemouth_Profile = {
     /**/ ACTOR_BG_TREEMOUTH,
@@ -186,11 +186,11 @@ void func_808BC9EC(BgTreemouth* this, PlayState* play) {
         play->csCtx.state = CS_STATE_RUN;
 
         if (play->msgCtx.choiceIndex == 0) {
-            play->csCtx.script = gDekuTreeChoiceAcceptedCs;
+            play->csCtx.script = gDekuTreeMouthOpeningCs;
             Flags_SetEventChkInf(EVENTCHKINF_05);
             BgTreemouth_SetupAction(this, func_808BCAF0);
         } else {
-            play->csCtx.script = gDekuTreeChoiceDeclinedCs;
+            play->csCtx.script = gDekuTreeAskAgainCs;
             play->csCtx.curFrame = 0;
             BgTreemouth_SetupAction(this, func_808BC8B8);
         }

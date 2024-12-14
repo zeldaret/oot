@@ -102,7 +102,7 @@ CutsceneData gDekuTreeChoiceCs[] = {
     CS_END_OF_SCRIPT(),
 };
 
-CutsceneData gDekuTreeChoiceAcceptedCs[] = {
+CutsceneData gDekuTreeMouthOpeningCs[] = {
     CS_HEADER(8, 3000),
     CS_UNK_DATA_LIST(0x00000015, 1),
         CS_UNK_DATA(0x00010000, 0x0BB80000, 0x00000000, 0x00000000, 0x0000000F, 0xFFFFFFDE, 0x00000000, 0x0000000F, 0xFFFFFFDE, 0x00000000, 0x00000000, 0x00000000),
@@ -137,7 +137,7 @@ CutsceneData gDekuTreeChoiceAcceptedCs[] = {
     CS_END_OF_SCRIPT(),
 };
 
-CutsceneData gDekuTreeChoiceDeclinedCs[] = {
+CutsceneData gDekuTreeAskAgainCs[] = {
     CS_HEADER(8, 3000),
     CS_UNK_DATA_LIST(0x00000015, 1),
         CS_UNK_DATA(0x00010000, 0x0BB80000, 0x00000000, 0x00000000, 0x0000000F, 0xFFFFFFDE, 0x00000000, 0x0000000F, 0xFFFFFFDE, 0x00000000, 0x00000000, 0x00000000),
