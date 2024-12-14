@@ -7,8 +7,8 @@
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:160" \
+                               "ntsc-1.1:160 ntsc-1.2:160 pal-1.0:160 pal-1.1:160"
 
 /**
  * The time at which the previous `Graph_Update` ended.
@@ -20,7 +20,7 @@ OSTime sGraphPrevUpdateEndTime;
  */
 OSTime sGraphPrevTaskTimeStart;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 FaultClient sGraphFaultClient;
 
 UCodeInfo D_8012D230[3] = {
@@ -152,21 +152,21 @@ void Graph_Init(GraphicsContext* gfxCtx) {
 
     osCreateMesgQueue(&gfxCtx->queue, gfxCtx->msgBuff, ARRAY_COUNT(gfxCtx->msgBuff));
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_800D31F0();
     Fault_AddClient(&sGraphFaultClient, Graph_FaultClient, NULL, NULL);
 #endif
 }
 
 void Graph_Destroy(GraphicsContext* gfxCtx) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_800D3210();
     Fault_RemoveClient(&sGraphFaultClient);
 #endif
 }
 
 void Graph_TaskSet00(GraphicsContext* gfxCtx) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     static Gfx* sPrevTaskWorkBuffer = NULL;
 #endif
     OSTask_t* task = &gfxCtx->task.list.t;
@@ -186,7 +186,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         osStopTimer(&timer);
 
         if (msg == (OSMesg)666) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             PRINTF(VT_FGCOL(RED));
             PRINTF(T("RCPが帰ってきませんでした。", "RCP did not return."));
             PRINTF(VT_RST);
@@ -209,7 +209,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
         osRecvMesg(&gfxCtx->queue, &msg, OS_MESG_NOBLOCK);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         sPrevTaskWorkBuffer = gfxCtx->workBuffer;
 #endif
     }
@@ -302,7 +302,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     gameState->inPreNMIState = false;
     Graph_InitTHGA(gfxCtx);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     OPEN_DISPS(gfxCtx, "../graph.c", 966);
 
     gDPNoOpString(WORK_DISP++, "WORK_DISP 開始", 0);
@@ -316,7 +316,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     GameState_ReqPadData(gameState);
     GameState_Update(gameState);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     OPEN_DISPS(gfxCtx, "../graph.c", 987);
 
     gDPNoOpString(WORK_DISP++, "WORK_DISP 終了", 0);
@@ -338,7 +338,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 1028);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (R_HREG_MODE == HREG_MODE_PLAY && R_PLAY_ENABLE_UCODE_DISAS == 2) {
         R_HREG_MODE = HREG_MODE_UCODE_DISAS;
         R_UCODE_DISAS_TOGGLE = -1;
@@ -450,7 +450,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         sGraphPrevUpdateEndTime = timeNow;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gIsCtrlr2Valid && CHECK_BTN_ALL(gameState->input[0].press.button, BTN_Z) &&
         CHECK_BTN_ALL(gameState->input[0].cur.button, BTN_L | BTN_R)) {
         gSaveContext.gameMode = GAMEMODE_NORMAL;
@@ -487,7 +487,7 @@ void Graph_ThreadEntry(void* arg0) {
         gameState = SYSTEM_ARENA_MALLOC(size, "../graph.c", 1196);
 
         if (gameState == NULL) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             char faultMsg[0x50];
 
             PRINTF(T("確保失敗\n", "Failure to secure\n"));
@@ -540,7 +540,7 @@ void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
     return THGA_AllocTail(&gfxCtx->polyOpa, ALIGN16(size));
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line) {
     if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_LOG_MODE != 4) {
         dispRefs[0] = gfxCtx->polyOpa.p;

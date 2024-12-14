@@ -71,17 +71,17 @@
         <Texture Name="gMidoTex_58F0" OutName="tex_58F0" Format="ci8" Width="8" Height="8" Offset="0x58F0" TlutOffset="0x4C48"/>
 
         <!-- Mido Animations -->
-        <Animation Name="gMidoHandsOnHipsIdleAnim" Offset="0x02C8"/>
-        <Animation Name="gMidoSlamAnim" Offset="0x8510"/>
-        <Animation Name="gMidoAngryHeadTurnAnim" Offset="0x8738"/>
-        <Animation Name="gMidoAnnoyedPointedHeadIdle1Anim" Offset="0x8E84"/>
-        <Animation Name="gMidoHandsOnHipsTransitionAnim" Offset="0x8FC0"/>
-        <Animation Name="gMidoRaiseHand1Anim" Offset="0x917C"/>
-        <Animation Name="gMidoAnim_92B0" Offset="0x92B0"/>
-        <Animation Name="gMidoRaiseHand2Anim" Offset="0x95BC"/>
-        <Animation Name="gMidoAnnoyedPointedHeadIdle2Anim" Offset="0x97F0"/>
-        <Animation Name="gMidoPutHandDownAnim" Offset="0x9B1C"/>
+        <Animation Name="gMidoIdleAnim" Offset="0x02C8"/>
+        <Animation Name="gMidoCuriousToAnnoyedAnim" Offset="0x8510"/>
+        <Animation Name="gMidoIdleToAnnoyedAnim" Offset="0x8738"/>
+        <Animation Name="gMidoCuriousAnim" Offset="0x8E84"/>
+        <Animation Name="gMidoIdleToSurpriseAnim" Offset="0x8FC0"/>
+        <Animation Name="gMidoIdleToHaltAnim" Offset="0x917C"/>
+        <Animation Name="gMidoIdleToWalkAnim" Offset="0x92B0"/>
+        <Animation Name="gMidoAnnoyedToHaltAnim" Offset="0x95BC"/>
+        <Animation Name="gMidoAnnoyedAnim" Offset="0x97F0"/>
+        <Animation Name="gMidoHaltToCuriousAnim" Offset="0x9B1C"/>
         <Animation Name="gMidoHaltAnim" Offset="0x9E68"/>
-        <Animation Name="gMidoWalkingAnim" Offset="0xA138"/>
+        <Animation Name="gMidoWalkAnim" Offset="0xA138"/>
     </File>
 </Root>

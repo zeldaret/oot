@@ -929,7 +929,7 @@ f32 Math3D_Plane(Plane* plane, Vec3f* pointOnPlane) {
  * `nx`, `ny`, `nz`, and `originDist`
  */
 f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
-    if (OOT_DEBUG && IS_ZERO(sqrtf(SQ(nx) + SQ(ny) + SQ(nz)))) {
+    if (DEBUG_FEATURES && IS_ZERO(sqrtf(SQ(nx) + SQ(ny) + SQ(nz)))) {
         PRINTF(VT_COL(YELLOW, BLACK));
         PRINTF(T("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n",
                  "Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f\n"),

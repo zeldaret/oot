@@ -3,7 +3,7 @@
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "assets/objects/object_dodongo/object_dodongo.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum EnDodongoActionState {
     DODONGO_SWEEP_TAIL,

@@ -11,7 +11,7 @@
 #include "assets/objects/object_haka_door/object_haka_door.h"
 #include "assets/objects/object_door_killer/object_door_killer.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum DoorKillerBehaviour {
     /* 0 */ DOOR_KILLER_DOOR,

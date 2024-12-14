@@ -23,7 +23,7 @@ MAPFILE_P = Path("build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.map")
 BASEROM_SEGMENTS_P = Path("extracted/gc-eu-mq-dbg/baserom/")
 
 HARDCODED_SYM_ROM = {
-    "D_8096C1A4": 0xD25834,
+    "gFireMedallionCs": 0xD25834,
     "D_80AF0880": 0xEA6860,
     "D_80AF10A4": 0xEA7084,
     "D_80AF1728": 0xEA7708,
@@ -31,12 +31,12 @@ HARDCODED_SYM_ROM = {
     "D_808BD2A0": 0xC8BFA0,
     "D_808BD520": 0xC8C220,
     "D_808BD790": 0xC8C490,
-    "D_80AB431C": 0xE6A38C,
-    "D_8098786C": 0xD40EFC,
+    "gSpiritMedallionCs": 0xE6A38C,
+    "gShadowMedallionCs": 0xD40EFC,
     "D_80B4C5D0": 0xF022D0,
     "D_80ABF9D0": 0xE75A40,
     "D_80ABFB40": 0xE75BB0,
-    "D_80AF411C": 0xEAA0FC,
+    "gWaterMedallionCs": 0xEAA0FC,
     "D_80A88164": 0xE3ED34,
     "D_808BB2F0": 0xC89FF0,
     "D_808BB7A0": 0xC8A4A0,
@@ -49,7 +49,7 @@ HARDCODED_SYM_ROM = {
     "gAdultWarpInCS": 0xD44FA0,
     "gChildWarpOutCS": 0xD45590,
     "gAdultWarpOutCS": 0xD450B0,
-    "D_8099010C": 0xD4974C,
+    "gForestMedallionCs": 0xD4974C,
 }
 
 mapfile = mapfile_parser.MapFile()

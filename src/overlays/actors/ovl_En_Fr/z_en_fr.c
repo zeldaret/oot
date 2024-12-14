@@ -3,7 +3,9 @@
 #include "terminal.h"
 #include "assets/objects/object_fr/object_fr.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_UPDATE_DURING_OCARINA)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnFr_Init(Actor* thisx, PlayState* play);
 void EnFr_Destroy(Actor* thisx, PlayState* play);
@@ -236,7 +238,7 @@ void EnFr_Init(Actor* thisx, PlayState* play) {
         this->actor.destroy = NULL;
         this->actor.draw = NULL;
         this->actor.update = EnFr_UpdateIdle;
-        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED);
         this->actor.flags &= ~0;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
         this->actor.textId = 0x40AC;
@@ -278,7 +280,7 @@ void EnFr_Update(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         frogIndex = this->actor.params - 1;
         sEnFrPointers.frogs[frogIndex] = this;
         Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -1029,7 +1031,7 @@ void EnFr_SetIdle(EnFr* this, PlayState* play) {
 void EnFr_UpdateIdle(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);

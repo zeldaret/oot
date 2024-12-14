@@ -1829,7 +1829,8 @@ u8 Item_Give(PlayState* play, u8 item) {
         }
     } else if ((item >= ITEM_WEIRD_EGG) && (item <= ITEM_CLAIM_CHECK)) {
         if (item == ITEM_POACHERS_SAW) {
-            SET_ITEMGETINF(ITEMGETINF_1F);
+            //! @bug Setting this shared flag makes getting the Deku Nut upgrade impossible
+            SET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_NUT_UPGRADE);
         }
 
         temp = INV_CONTENT(item);
@@ -2212,7 +2213,7 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
  */
 s32 Health_ChangeBy(PlayState* play, s16 amount) {
     u16 heartCount;
-    u16 healthLevel;
+    UNUSED_NDEBUG u16 healthLevel;
 
     PRINTF(T("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", "*****  Fluctuation=%d (now=%d, max=%d)  ***"), amount,
            gSaveContext.save.info.playerData.health, gSaveContext.save.info.playerData.healthCapacity);
@@ -3988,7 +3989,7 @@ void Interface_Draw(PlayState* play) {
         }
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (pauseCtx->debugState == 3) {
         FlagSet_Update(play);
     }
@@ -4014,7 +4015,7 @@ void Interface_Update(PlayState* play) {
     s16 risingAlpha;
     u16 action;
 
-#if OOT_DEBUG
+#if OOT_PAL && DEBUG_FEATURES
     {
         Input* debugInput = &play->state.input[2];
 

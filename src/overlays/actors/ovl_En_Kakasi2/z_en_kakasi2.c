@@ -8,9 +8,9 @@
 #include "terminal.h"
 #include "assets/objects/object_ka/object_ka.h"
 
-#define FLAGS                                                                                        \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_UPDATE_DURING_OCARINA | \
-     ACTOR_FLAG_LOCK_ON_DISABLED)
+#define FLAGS                                                                                               \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED | \
+     ACTOR_FLAG_UPDATE_DURING_OCARINA | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -91,7 +91,7 @@ void EnKakasi2_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->height = 60.0f;
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     this->unk_198 = this->actor.shape.rot.y;
 
     if (this->switchFlag >= 0 && Flags_GetSwitch(play, this->switchFlag)) {
@@ -118,7 +118,7 @@ void func_80A90264(EnKakasi2* this, PlayState* play) {
 
     this->unk_194++;
 
-    if (OOT_DEBUG && (BREG(1) != 0) && (this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
+    if (DEBUG_FEATURES && (BREG(1) != 0) && (this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
         (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y)) {
 
         this->actor.draw = func_80A90948;
@@ -216,7 +216,7 @@ void EnKakasi2_Update(Actor* thisx, PlayState* play2) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         if (BREG(5) != 0) {
             PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistToPlayer);
             PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);

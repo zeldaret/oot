@@ -1,7 +1,7 @@
 #include "global.h"
 #include "terminal.h"
 
-#pragma increment_block_number "ntsc-1.0:136 ntsc-1.1:136 ntsc-1.2:136"
+#pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128"
 
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);
@@ -81,7 +81,7 @@ u16 sSurfaceMaterialToSfxOffset[SURFACE_MATERIAL_MAX] = {
     SURFACE_SFX_OFFSET_CARPET,        // SURFACE_MATERIAL_CARPET
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * original name: T_BGCheck_PosErrorCheck
  */
@@ -1541,7 +1541,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     };
     u32 tblMax;
     u32 memSize;
-    u32 lookupTblMemSize;
+    UNUSED_NDEBUG u32 lookupTblMemSize;
     s32 customNodeListMax;
     SSNodeList* nodeList;
     u32 customMemSize;
@@ -1724,7 +1724,7 @@ f32 BgCheck_RaycastDownImpl(PlayState* play, CollisionContext* colCtx, u16 xpFla
             break;
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (BgCheck_PosErrorCheck(&checkPos, "../z_bgcheck.c", 4410)) {
             if (actor != NULL) {
                 PRINTF(T("こいつ,pself_actor->name %d\n", "This guy, pself_actor->name %d\n"), actor->id);
@@ -1976,7 +1976,7 @@ s32 BgCheck_CheckWallImpl(CollisionContext* colCtx, u16 xpFlags, Vec3f* posResul
     dy = posNext->y - posPrev->y;
     dz = posNext->z - posPrev->z;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BgCheck_PosErrorCheck(posNext, "../z_bgcheck.c", 4831) == true ||
         BgCheck_PosErrorCheck(posPrev, "../z_bgcheck.c", 4832) == true) {
         if (actor != NULL) {
@@ -2170,7 +2170,7 @@ s32 BgCheck_CheckCeilingImpl(CollisionContext* colCtx, u16 xpFlags, f32* outY, V
     *outBgId = BGCHECK_SCENE;
     *outY = pos->y;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BgCheck_PosErrorCheck(pos, "../z_bgcheck.c", 5206) == true) {
         if (actor != NULL) {
             PRINTF(T("こいつ,pself_actor->name %d\n", "This guy, pself_actor->name %d\n"), actor->id);
@@ -2243,7 +2243,7 @@ s32 BgCheck_CheckLineImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, 
 
     *outBgId = BGCHECK_SCENE;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BgCheck_PosErrorCheck(posA, "../z_bgcheck.c", 5334) == true ||
         BgCheck_PosErrorCheck(posB, "../z_bgcheck.c", 5335) == true) {
         if (actor != NULL) {
@@ -2466,7 +2466,7 @@ s32 BgCheck_SphVsFirstPolyImpl(CollisionContext* colCtx, u16 xpFlags, CollisionP
 
     *outBgId = BGCHECK_SCENE;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BgCheck_PosErrorCheck(center, "../z_bgcheck.c", 5852) == true) {
         if (actor != NULL) {
             PRINTF(T("こいつ,pself_actor->name %d\n", "This guy, pself_actor->name %d\n"), actor->id);
@@ -2810,7 +2810,7 @@ void DynaPoly_DeleteBgActor(PlayState* play, DynaCollisionContext* dyna, s32 bgI
     PRINTF(VT_RST);
     if (!DynaPoly_IsBgIdBgActor(bgId)) {
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (bgId == -1) {
             PRINTF(VT_FGCOL(GREEN));
             PRINTF(T("DynaPolyInfo_delReserve():削除されているはずの(?)\n"
@@ -2882,7 +2882,7 @@ void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s3
         return;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (!(dyna->polyListMax >= *polyStartIndex + pbgdata->numPolygons)) {
         PRINTF(VT_FGCOL(RED));
         PRINTF(T("DynaPolyInfo_expandSRT():polygon over %dが%dを越えるとダメ\n",
@@ -4447,7 +4447,7 @@ s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec
     return result;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Draw a list of dyna polys, specified by `ssList`
  */

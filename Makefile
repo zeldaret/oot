@@ -49,6 +49,11 @@ N64_EMULATOR ?=
 # Set to override game region in the ROM header (options: JP, US, EU). This can be used to build a fake US version
 # of the debug ROM for better emulator compatibility, or to build US versions of NTSC N64 ROMs.
 # REGION ?= US
+# Set to enable debug features regardless of ROM version.
+# Note that by enabling debug features on non-debug ROM versions, some debug ROM specific assets will not be included.
+# This means the debug test scenes and some debug graphics in the elf_msg actors will not work as expected.
+# This may also be used to disable debug features on debug ROMs by setting DEBUG_FEATURES to 0
+# DEBUG_FEATURES ?= 1
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -60,59 +65,108 @@ ifeq ($(VERSION),ntsc-1.0)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 98-10-21
+  BUILD_TIME := 04:56:31
+  REVISION := 0
 else ifeq ($(VERSION),ntsc-1.1)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 98-10-26
+  BUILD_TIME := 10:58:45
+  REVISION := 1
 else ifeq ($(VERSION),pal-1.0)
   REGION ?= EU
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 98-11-10
+  BUILD_TIME := 14:34:22
+  REVISION := 0
 else ifeq ($(VERSION),ntsc-1.2)
   REGIONAL_CHECKSUM := 1
   REGION ?= JP
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 98-11-12
+  BUILD_TIME := 18:17:03
+  REVISION := 2
 else ifeq ($(VERSION),pal-1.1)
   REGION ?= EU
   PLATFORM := N64
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 98-11-18
+  BUILD_TIME := 17:36:49
+  REVISION := 1
 else ifeq ($(VERSION),gc-jp)
   REGION ?= JP
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 02-10-29
+  BUILD_TIME := 23:49:53
+  REVISION := 15
 else ifeq ($(VERSION),gc-jp-mq)
   REGION ?= JP
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 02-10-30
+  BUILD_TIME := 00:15:15
+  REVISION := 15
 else ifeq ($(VERSION),gc-us)
   REGION ?= US
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 02-12-19
+  BUILD_TIME := 13:28:09
+  REVISION := 15
 else ifeq ($(VERSION),gc-us-mq)
   REGION ?= US
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 02-12-19
+  BUILD_TIME := 14:05:42
+  REVISION := 15
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   REGION ?= EU
   PLATFORM := GC
-  DEBUG := 1
+  DEBUG_FEATURES ?= 1
+  BUILD_DATE := 03-02-21
+  BUILD_TIME := 00:16:31
+  REVISION := 15
 else ifeq ($(VERSION),gc-eu)
   REGION ?= EU
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 03-02-21
+  BUILD_TIME := 20:12:23
+  REVISION := 15
 else ifeq ($(VERSION),gc-eu-mq)
   REGION ?= EU
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 03-02-21
+  BUILD_TIME := 20:37:19
+  REVISION := 15
 else ifeq ($(VERSION),gc-jp-ce)
   REGION ?= JP
   PLATFORM := GC
-  DEBUG := 0
+  DEBUG_FEATURES ?= 0
+  BUILD_DATE := 03-10-08
+  BUILD_TIME := 21:53:00
+  REVISION := 15
 else
 $(error Unsupported version $(VERSION))
+endif
+
+ifeq ($(PLATFORM),N64)
+  BUILD_CREATOR := zelda@srd44
+  LIBULTRA_VERSION := I
+  LIBULTRA_PATCH := 1
+else
+  BUILD_CREATOR := zelda@srd022j
+  LIBULTRA_VERSION := L
+  LIBULTRA_PATCH := 0
 endif
 
 # ORIG_COMPILER cannot be combined with a non-IDO compiler. Check for this case and error out if found.
@@ -144,8 +198,11 @@ CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
 # Converts e.g. ntsc-1.0 to NTSC_1_0
 VERSION_MACRO := $(shell echo $(VERSION) | tr a-z-. A-Z__)
-CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO)
+CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO) -DOOT_REVISION=$(REVISION)
 CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
+CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
+CPP_DEFINES += -DLIBULTRA_VERSION=LIBULTRA_VERSION_$(LIBULTRA_VERSION)
+CPP_DEFINES += -DLIBULTRA_PATCH=$(LIBULTRA_PATCH)
 
 ifeq ($(PLATFORM),N64)
   CPP_DEFINES += -DPLATFORM_N64=1 -DPLATFORM_GC=0
@@ -155,11 +212,11 @@ else
   $(error Unsupported platform $(PLATFORM))
 endif
 
-ifeq ($(DEBUG),1)
-  CPP_DEFINES += -DOOT_DEBUG=1
+ifeq ($(DEBUG_FEATURES),1)
+  CPP_DEFINES += -DDEBUG_FEATURES=1
   OPTFLAGS := -O2
 else
-  CPP_DEFINES += -DOOT_DEBUG=0 -DNDEBUG
+  CPP_DEFINES += -DDEBUG_FEATURES=0 -DNDEBUG
   OPTFLAGS := -O2 -g3
 endif
 
@@ -230,12 +287,12 @@ PYTHON     ?= $(VENV)/bin/python3
 BUILD_DIR_REPLACE := sed -e 's|$$(BUILD_DIR)|$(BUILD_DIR)|g'
 
 # Audio tools
-AUDIO_EXTRACT := $(PYTHON) tools/audio_extraction.py
 SAMPLECONV    := tools/audio/sampleconv/sampleconv
 SBC           := tools/audio/sbc
 SFC           := tools/audio/sfc
 SFPATCH       := tools/audio/sfpatch
 ATBLGEN       := tools/audio/atblgen
+AFILE_SIZES   := tools/audio/afile_sizes
 # We want linemarkers in sequence assembly files for better assembler error messages
 SEQ_CPP       := $(CPP) -x assembler-with-cpp -fno-dollars-in-identifiers
 SEQ_CPPFLAGS  := -D_LANGUAGE_ASEQ -DMML_VERSION=MML_VERSION_OOT $(CPP_DEFINES) -I include -I include/audio -I include/tables/sfx -I $(BUILD_DIR)/assets/audio/soundfonts
@@ -254,7 +311,7 @@ GBI_DEFINES := -DF3DEX_GBI_2
 ifeq ($(PLATFORM),GC)
   GBI_DEFINES += -DF3DEX_GBI_PL -DGBI_DOWHILE
 endif
-ifeq ($(DEBUG),1)
+ifeq ($(DEBUG_FEATURES),1)
   GBI_DEFINES += -DGBI_DEBUG
 endif
 
@@ -459,7 +516,7 @@ endif
 $(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
-ifeq ($(DEBUG),1)
+ifeq ($(DEBUG_FEATURES),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 else
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O2
@@ -489,7 +546,7 @@ $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: MIPS_VERSION := -mips3 -32
 
-ifeq ($(PLATFORM),N64)
+ifeq ($(LIBULTRA_VERSION),I)
 $(BUILD_DIR)/src/libultra/gu/%.o: OPTFLAGS := -O3
 $(BUILD_DIR)/src/libultra/io/%.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/%.o: OPTFLAGS := -O3
@@ -594,18 +651,14 @@ venv:
 	$(PYTHON) -m pip install -U pip
 	$(PYTHON) -m pip install -U -r requirements.txt
 
-# TODO this is a temporary rule for testing audio, to be removed
-setup-audio:
-	$(AUDIO_EXTRACT) -o $(EXTRACTED_DIR) -v $(VERSION) --read-xml
-
 setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 $(EXTRACTED_DIR)/baserom -v $(VERSION)
 	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/incbin -v $(VERSION)
-	$(PYTHON) tools/msgdis.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/text -v $(VERSION)
-	$(PYTHON) extract_assets.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/assets -v $(VERSION) -j$(N_THREADS)
-	$(AUDIO_EXTRACT) -o $(EXTRACTED_DIR) -v $(VERSION) --read-xml
+	$(PYTHON) tools/extract_text.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/text -v $(VERSION)
+	$(PYTHON) tools/extract_assets.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/assets -v $(VERSION) -j$(N_THREADS)
+	$(PYTHON) tools/extract_audio.py -o $(EXTRACTED_DIR) -v $(VERSION) --read-xml
 
 disasm:
 	$(RM) -r $(EXPECTED_DIR)
@@ -844,7 +897,8 @@ $(BUILD_DIR)/assets/audio/soundfonts/%.o: $(BUILD_DIR)/assets/audio/soundfonts/%
 # patch defined symbols to be ABS symbols so that they remain file-relative offsets forever
 	$(SFPATCH) $(@:.o=.tmp2) $(@:.o=.tmp2)
 # write start and size symbols afterwards, filename != symbolic name so source symbolic name from the .name file written by sfc
-	$(OBJCOPY) --add-symbol $$(cat $(<:.c=.name))_Start=.rodata:0,global --redefine-sym __LEN__=$$(cat $(<:.c=.name))_Size $(@:.o=.tmp2) $@
+# also write a .note.name section containing the symbolic name of the soundfont
+	$(OBJCOPY) --add-symbol $$(cat $(<:.c=.name) | head -c -1)_Start=.rodata:0,global --redefine-sym __LEN__=$$(cat $(<:.c=.name) | head -c -1)_Size --add-section .note.name=$(<:.c=.name) $(@:.o=.tmp2) $@
 # cleanup temp files
 	@$(RM) $(@:.o=.tmp) $(@:.o=.tmp2)
 ifeq ($(AUDIO_BUILD_DEBUG),1)
@@ -903,6 +957,16 @@ endif
 
 $(BUILD_DIR)/assets/audio/sequence_font_table.o: $(BUILD_DIR)/assets/audio/sequence_font_table.s
 	$(AS) $(ASFLAGS) $< -o $@
+
+# make headers with file sizes and amounts
+
+$(BUILD_DIR)/src/audio/session_config.o: $(BUILD_DIR)/assets/audio/soundfont_sizes.h $(BUILD_DIR)/assets/audio/sequence_sizes.h
+
+$(BUILD_DIR)/assets/audio/soundfont_sizes.h: $(SOUNDFONT_O_FILES)
+	$(AFILE_SIZES) $@ NUM_SOUNDFONTS SOUNDFONT_SIZES .rodata $^
+
+$(BUILD_DIR)/assets/audio/sequence_sizes.h: $(SEQUENCE_O_FILES)
+	$(AFILE_SIZES) $@ NUM_SEQUENCES SEQUENCE_SIZES .data $^
 
 # Extra audiobank padding that doesn't belong to any soundfont file
 $(BUILD_DIR)/assets/audio/audiobank_padding.o:

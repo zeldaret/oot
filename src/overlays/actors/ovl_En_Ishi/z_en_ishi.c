@@ -293,16 +293,16 @@ static InitChainEntry sInitChains[][5] = {
     {
         ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE),
         ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
+        ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
+        ICHAIN_F32(cullingVolumeScale, 150, ICHAIN_CONTINUE),
+        ICHAIN_F32(cullingVolumeDownward, 400, ICHAIN_STOP),
     },
     {
         ICHAIN_F32_DIV1000(gravity, -2500, ICHAIN_CONTINUE),
         ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneScale, 250, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneDownward, 500, ICHAIN_STOP),
+        ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+        ICHAIN_F32(cullingVolumeScale, 250, ICHAIN_CONTINUE),
+        ICHAIN_F32(cullingVolumeDownward, 500, ICHAIN_STOP),
     },
 };
 
@@ -312,7 +312,7 @@ void EnIshi_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChains[type]);
     if (play->csCtx.state != CS_STATE_IDLE) {
-        this->actor.uncullZoneForward += 1000.0f;
+        this->actor.cullingVolumeDistance += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
         this->actor.shape.rot.y = this->actor.world.rot.y = Rand_ZeroFloat(0x10000);
@@ -382,7 +382,7 @@ void EnIshi_Wait(EnIshi* this, PlayState* play) {
 void EnIshi_SetupLiftedUp(EnIshi* this) {
     this->actionFunc = EnIshi_LiftedUp;
     this->actor.room = -1;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {

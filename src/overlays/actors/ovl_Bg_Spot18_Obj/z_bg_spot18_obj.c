@@ -67,15 +67,15 @@ static BgSpot18ObjInitFunc D_808B910C[] = {
 };
 
 static InitChainEntry sInitChain1[] = {
-    ICHAIN_F32(minVelocityY, -10, ICHAIN_CONTINUE),       ICHAIN_F32(gravity, -4, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
+    ICHAIN_F32(minVelocityY, -10, ICHAIN_CONTINUE),           ICHAIN_F32(gravity, -4, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 1400, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 800, ICHAIN_STOP),
 };
 
 static InitChainEntry sInitChain2[] = {
-    ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 700, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 700, ICHAIN_STOP),
 };
 
 static BgSpot18ObjInitFunc D_808B913C[] = {

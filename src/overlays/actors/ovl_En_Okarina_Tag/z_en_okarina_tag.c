@@ -10,7 +10,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_UPDATE_DURING_OCARINA)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnOkarinaTag_Init(Actor* thisx, PlayState* play);
 void EnOkarinaTag_Destroy(Actor* thisx, PlayState* play);
@@ -195,7 +195,7 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
     if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
+        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) &&
                    ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_1D)) &&
                    (this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
                    (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
@@ -324,7 +324,7 @@ void EnOkarinaTag_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         if (this->unk_15A != 0) {
             if (!(this->unk_15A & 1)) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

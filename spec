@@ -26,7 +26,7 @@ beginseg
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/boot/cic6105.o"
 #endif
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/boot/assert.o"
 #endif
     include "$(BUILD_DIR)/src/boot/is_debug.o"
@@ -37,7 +37,7 @@ beginseg
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/libc64/sleep.o"
 #endif
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libc64/sprintf.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/piacs.o"
@@ -80,12 +80,12 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/probetlb.o"
     include "$(BUILD_DIR)/src/libultra/os/getmemsize.o"
     include "$(BUILD_DIR)/src/libultra/os/seteventmesg.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"
-#if OOT_DEBUG || defined(COMPILER_GCC)
+#if DEBUG_FEATURES || defined(COMPILER_GCC)
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
@@ -130,19 +130,19 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/cartrominit.o"
-#if OOT_PAL_N64 || OOT_DEBUG
+#if OOT_PAL_N64 || DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
-#if PLATFORM_N64 || OOT_DEBUG
+#if PLATFORM_N64 || DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
     include "$(BUILD_DIR)/src/libultra/os/yieldthread.o"
     include "$(BUILD_DIR)/src/libultra/os/getcause.o"
     include "$(BUILD_DIR)/src/libultra/io/epirawwrite.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
     include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
@@ -581,8 +581,8 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_actor.o"
     include "$(BUILD_DIR)/src/code/z_actor_dlftbls.o"
     include "$(BUILD_DIR)/src/code/z_bgcheck.o"
-    include "$(BUILD_DIR)/src/code/code_800430A0.o"
-    include "$(BUILD_DIR)/src/code/code_80043480.o"
+    include "$(BUILD_DIR)/src/code/z_bg_collect.o"
+    include "$(BUILD_DIR)/src/code/z_bg_item.o"
     include "$(BUILD_DIR)/src/code/z_camera.o"
     include "$(BUILD_DIR)/src/code/z_collision_btltbls.o"
     include "$(BUILD_DIR)/src/code/z_collision_check.o"
@@ -590,12 +590,12 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_debug.o"
     include "$(BUILD_DIR)/src/code/z_debug_display.o"
     include "$(BUILD_DIR)/src/code/z_demo.o"
-    include "$(BUILD_DIR)/src/code/code_80069420.o"
+    include "$(BUILD_DIR)/src/code/z_memory_utils.o"
     include "$(BUILD_DIR)/src/code/z_draw.o"
     include "$(BUILD_DIR)/src/code/z_sfx_source.o"
     include "$(BUILD_DIR)/src/code/z_elf_message.o"
     include "$(BUILD_DIR)/src/code/z_face_reaction.o"
-    include "$(BUILD_DIR)/src/code/code_8006C3A0.o"
+    include "$(BUILD_DIR)/src/code/z_env_flags.o"
     include "$(BUILD_DIR)/src/code/z_fcurve_data.o"
     include "$(BUILD_DIR)/src/code/z_fcurve_data_skelanime.o"
     include "$(BUILD_DIR)/src/code/z_game_dlftbls.o"
@@ -609,7 +609,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_lights.o"
     include "$(BUILD_DIR)/src/code/z_malloc.o"
     include "$(BUILD_DIR)/src/code/z_map_mark.o"
-#if OOT_DEBUG
+#if DEBUG_ASSETS
     include "$(BUILD_DIR)/src/code/z_moji.o"
 #endif
     include "$(BUILD_DIR)/src/code/z_prenmi_buff.o"
@@ -627,7 +627,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_rcp.o"
     include "$(BUILD_DIR)/src/code/z_room.o"
     include "$(BUILD_DIR)/src/code/z_sample.o"
-    include "$(BUILD_DIR)/src/code/code_80097A00.o"
+    include "$(BUILD_DIR)/src/code/z_inventory.o"
     include "$(BUILD_DIR)/src/code/z_scene.o"
     include "$(BUILD_DIR)/src/code/object_table.o"
     include "$(BUILD_DIR)/src/code/z_scene_table.o"
@@ -638,7 +638,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_sram.o"
     include "$(BUILD_DIR)/src/code/z_ss_sram.o"
     include "$(BUILD_DIR)/src/code/z_rumble.o"
-#if OOT_DEBUG
+#if DEBUG_ASSETS
     include "$(BUILD_DIR)/data/z_text.data.o"
 #endif
     include "$(BUILD_DIR)/data/unk_8012ABC0.data.o"
@@ -656,11 +656,11 @@ beginseg
     include "$(BUILD_DIR)/src/code/z_fbdemo_circle.o"
     include "$(BUILD_DIR)/src/code/z_fbdemo_fade.o"
     include "$(BUILD_DIR)/src/code/shrink_window.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/code/db_camera.o"
 #endif
-    include "$(BUILD_DIR)/src/code/code_800BB0A0.o"
-#if OOT_DEBUG
+    include "$(BUILD_DIR)/src/code/z_cutscene_spline.o"
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/code/mempak.o"
 #endif
     include "$(BUILD_DIR)/src/code/z_kaleido_manager.o"
@@ -684,20 +684,23 @@ beginseg
     include "$(BUILD_DIR)/src/code/sys_cfb.o"
     include "$(BUILD_DIR)/src/code/sys_math.o"
     include "$(BUILD_DIR)/src/code/sys_math3d.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/code/sys_math3d_draw.o"
 #endif
     include "$(BUILD_DIR)/src/code/sys_math_atan.o"
     include "$(BUILD_DIR)/src/code/sys_matrix.o"
     include "$(BUILD_DIR)/src/code/sys_ucode.o"
     include "$(BUILD_DIR)/src/code/sys_rumble.o"
-    include "$(BUILD_DIR)/src/code/code_800D31A0.o"
+    include "$(BUILD_DIR)/src/code/sys_freeze.o"
+#if DEBUG_FEATURES
+    include "$(BUILD_DIR)/src/code/sys_debug_controller.o"
+#endif
     include "$(BUILD_DIR)/src/code/irqmgr.o"
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/code/code_n64dd_800AD410.o"
     include "$(BUILD_DIR)/src/code/code_n64dd_800AD4C0.o"
 #endif
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/code/debug_malloc.o"
 #endif
 #if PLATFORM_N64
@@ -707,7 +710,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/fault_gc_drawer.o"
 #endif
     include "$(BUILD_DIR)/src/code/kanread.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
 #endif
 #if OOT_VERSION < NTSC_1_1 || PLATFORM_GC
@@ -729,7 +732,7 @@ beginseg
     include "$(BUILD_DIR)/src/audio/lib/effects.o"
     include "$(BUILD_DIR)/src/audio/lib/seqplayer.o"
     include "$(BUILD_DIR)/src/audio/general.o"
-#if PLATFORM_GC && !OOT_DEBUG
+#if PLATFORM_GC && !DEBUG_FEATURES
     pad_text
 #endif
     include "$(BUILD_DIR)/src/audio/sfx_params.o"
@@ -741,20 +744,25 @@ beginseg
     include "$(BUILD_DIR)/src/libu64/gfxprint.o"
     include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
     include "$(BUILD_DIR)/src/libu64/loadfragment2_n64.o"
+#if DEBUG_FEATURES
+    // This is here only to allow N64 versions to compile with DEBUG_FEATURES.
+    // There is no N64 Debug ROM to prove this is correct.
+    include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
+#endif
     include "$(BUILD_DIR)/src/libu64/pad.o"
-    include "$(BUILD_DIR)/src/libu64/code_800FC620.o"
+    include "$(BUILD_DIR)/src/libu64/system_heap.o"
     include "$(BUILD_DIR)/src/libu64/padsetup.o"
 #else
     include "$(BUILD_DIR)/src/libu64/logseverity_gc.o"
     include "$(BUILD_DIR)/src/libu64/gfxprint.o"
     include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
     include "$(BUILD_DIR)/src/libu64/loadfragment2_gc.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
 #endif
     include "$(BUILD_DIR)/src/libu64/relocation_gc.o"
     include "$(BUILD_DIR)/src/libu64/load_gc.o"
-    include "$(BUILD_DIR)/src/libu64/code_800FC620.o"
+    include "$(BUILD_DIR)/src/libu64/system_heap.o"
     include "$(BUILD_DIR)/src/libu64/pad.o"
     include "$(BUILD_DIR)/src/libu64/padsetup.o"
 #endif
@@ -767,7 +775,7 @@ beginseg
 #else
     include "$(BUILD_DIR)/src/libc64/__osMalloc_gc.o"
 #endif
-#if !OOT_DEBUG
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libc64/sprintf.o"
 #endif
     include "$(BUILD_DIR)/src/libc64/aprintf.o"
@@ -776,7 +784,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/code/jpegutils.o"
     include "$(BUILD_DIR)/src/code/jpegdecoder.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
 #endif
 #if PLATFORM_N64
@@ -798,7 +806,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/sprawdma.o"
     include "$(BUILD_DIR)/src/libultra/io/sirawdma.o"
     include "$(BUILD_DIR)/src/libultra/io/sptaskyield.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
 #endif
@@ -809,11 +817,11 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/mtxidentf.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/gu/lookat.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/stoptimer.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
 #if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
@@ -824,10 +832,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/afterprenmi.o"
     include "$(BUILD_DIR)/src/libultra/io/contquery.o"
     include "$(BUILD_DIR)/src/libultra/gu/lookathil.o"
-#if !OOT_DEBUG
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
 #endif
-#if !OOT_DEBUG && !defined(COMPILER_GCC)
+#if !DEBUG_FEATURES && !defined(COMPILER_GCC)
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
@@ -849,7 +857,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/io/dpgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/dpsetstat.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsdeletefile.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/gu/ortho.o"
@@ -863,13 +871,13 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/settime.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/visetevent.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/gu/us2dex.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsselectbank.o"
     include "$(BUILD_DIR)/src/libultra/io/contsetch.o"
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsfilestate.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsinitpak.o"
     include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
@@ -881,10 +889,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
-#if OOT_VERSION == NTSC_1_2 || (PLATFORM_GC && !OOT_DEBUG)
+#if OOT_VERSION == NTSC_1_2 || (PLATFORM_GC && !DEBUG_FEATURES)
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
 #endif
-#if !OOT_DEBUG
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
 #endif
@@ -893,7 +901,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/io/contramread.o"
     include "$(BUILD_DIR)/src/libultra/io/crc.o"
-#if !OOT_DEBUG
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
 #endif
 #if !PLATFORM_N64
@@ -903,7 +911,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
     include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
-#elif !OOT_DEBUG
+#elif !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
     include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
     include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
@@ -17268,7 +17276,7 @@ beginseg
     number 3
 endseg
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 beginseg
     name "syotes_scene"
     romalign 0x1000
@@ -17792,7 +17800,7 @@ beginseg
     number 3
 endseg
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 beginseg
     name "testroom_scene"
     romalign 0x1000
@@ -17876,7 +17884,7 @@ beginseg
     number 3
 endseg
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 beginseg
     name "sutaru_scene"
     romalign 0x1000
@@ -18164,7 +18172,7 @@ beginseg
     number 3
 endseg
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 beginseg
     name "sasatest_scene"
     romalign 0x1000
@@ -18916,7 +18924,7 @@ beginseg
     number 3
 endseg
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 beginseg
     name "hairal_niwa2_scene"
     romalign 0x1000
@@ -19404,7 +19412,7 @@ beginseg
     number 3
 endseg
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 beginseg
     name "besitu_scene"
     romalign 0x1000
@@ -19476,7 +19484,7 @@ beginseg
     number 3
 endseg
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 beginseg
     name "test01_scene"
     romalign 0x1000

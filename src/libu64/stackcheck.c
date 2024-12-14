@@ -111,7 +111,7 @@ u32 StackCheck_Check(StackEntry* entry) {
         return ret;
     } else {
         u32* last;
-        u32 used;
+        UNUSED_NDEBUG u32 used;
         u32 free;
         u32 ret;
 
@@ -143,7 +143,7 @@ u32 StackCheck_Check(StackEntry* entry) {
 
 u32 StackCheck_GetState(StackEntry* entry) {
     u32* last;
-    u32 used;
+    UNUSED_NDEBUG u32 used;
     u32 free;
     u32 ret;
 
@@ -167,7 +167,7 @@ u32 StackCheck_GetState(StackEntry* entry) {
         ret = STACK_STATUS_OK;
     }
 
-#if !OOT_DEBUG
+#if !DEBUG_FEATURES
     // This string is still in .rodata for retail builds
     (void)"(null)";
 #endif
@@ -176,7 +176,7 @@ u32 StackCheck_GetState(StackEntry* entry) {
            entry->name != NULL ? entry->name : "(null)");
     PRINTF(VT_RST);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (ret != STACK_STATUS_OK) {
         LogUtils_LogHexDump(entry->head, (uintptr_t)entry->tail - (uintptr_t)entry->head);
     }

@@ -8,7 +8,9 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_Bb/object_Bb.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT)
 
 #define vBombHopPhase actionVar1
 #define vTrailIdx actionVar1

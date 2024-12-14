@@ -7,6 +7,40 @@
 
 struct Player;
 
+#define PLAYER_PARAMS(startMode, startBgCamIndex) (PARAMS_PACK_NOMASK(startMode, 8) | PARAMS_PACK_NOMASK(startBgCamIndex, 0))
+
+// Determines behavior when spawning. See `PlayerStartMode`.
+#define PLAYER_GET_START_MODE(thisx) PARAMS_GET_S((thisx)->params, 8, 4)
+
+// Sets initial `bgCamIndex`, which determines camera behavior.
+// The value is used to index a list of `BgCamInfo` contained within the scene's collision data.
+// See `PLAYER_START_BG_CAM_DEFAULT` for what a value of -1 does.
+#define PLAYER_GET_START_BG_CAM_INDEX(thisx) PARAMS_GET_S((thisx)->params, 0, 8)
+
+// A value of -1 for `startBgCamIndex` indicates that default behavior should be used.
+// This means the `bgCamIndex` will be read from the current floor polygon.
+#define PLAYER_START_BG_CAM_DEFAULT ((u8)-1)
+
+typedef enum PlayerStartMode {
+    /*  0 */ PLAYER_START_MODE_NOTHING, // Update is empty and draw function is NULL, nothing occurs. Useful in cutscenes, for example.
+    /*  1 */ PLAYER_START_MODE_TIME_TRAVEL, // Arriving from time travel. Automatically adjusts by age.
+    /*  2 */ PLAYER_START_MODE_BLUE_WARP, // Arriving from a blue warp.
+    /*  3 */ PLAYER_START_MODE_DOOR, // Unused. Use a door immediately if one is nearby. If no door is in usable range, a softlock occurs.
+    /*  4 */ PLAYER_START_MODE_GROTTO, // Arriving from a grotto, launched upward from the ground.
+    /*  5 */ PLAYER_START_MODE_WARP_SONG, // Arriving from a warp song.
+    /*  6 */ PLAYER_START_MODE_FARORES_WIND, // Arriving from a Farores Wind warp.
+    /*  7 */ PLAYER_START_MODE_KNOCKED_OVER, // Knocked over on the ground and flashing red.
+    /*  8 */ PLAYER_START_MODE_UNUSED_8,  // Unused, behaves the same as PLAYER_START_MODE_MOVE_FORWARD_SLOW.
+    /*  9 */ PLAYER_START_MODE_UNUSED_9,  // Unused, behaves the same as PLAYER_START_MODE_MOVE_FORWARD_SLOW.
+    /* 10 */ PLAYER_START_MODE_UNUSED_10, // Unused, behaves the same as PLAYER_START_MODE_MOVE_FORWARD_SLOW.
+    /* 11 */ PLAYER_START_MODE_UNUSED_11, // Unused, behaves the same as PLAYER_START_MODE_MOVE_FORWARD_SLOW.
+    /* 12 */ PLAYER_START_MODE_UNUSED_12, // Unused, behaves the same as PLAYER_START_MODE_MOVE_FORWARD_SLOW.
+    /* 13 */ PLAYER_START_MODE_IDLE, // Idle standing still, or swim if in water.
+    /* 14 */ PLAYER_START_MODE_MOVE_FORWARD_SLOW, // Take a few steps forward at a slow speed (2.0f), or swim if in water.
+    /* 15 */ PLAYER_START_MODE_MOVE_FORWARD, // Take a few steps forward, using the speed from the last exit (gSaveContext.entranceSpeed), or swim if in water.
+    /* 16 */ PLAYER_START_MODE_MAX // Note: By default, this param has 4 bits allocated. The max value is 16.
+} PlayerStartMode;
+
 typedef enum PlayerSword {
     /* 0 */ PLAYER_SWORD_NONE,
     /* 1 */ PLAYER_SWORD_KOKIRI,
@@ -610,14 +644,14 @@ typedef enum PlayerStickDirection {
     /*  3 */ PLAYER_STICK_DIR_RIGHT
 } PlayerStickDirection;
 
-typedef enum {
+typedef enum PlayerKnockbackType {
     /* 0 */ PLAYER_KNOCKBACK_NONE, // No knockback
     /* 1 */ PLAYER_KNOCKBACK_SMALL, // A small hop, remains standing up
     /* 2 */ PLAYER_KNOCKBACK_LARGE, // Sent flying in the air and lands laying down on the floor
     /* 3 */ PLAYER_KNOCKBACK_LARGE_SHOCK // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
 } PlayerKnockbackType;
 
-typedef enum {
+typedef enum PlayerDamageResponseType {
     /* 0 */ PLAYER_HIT_RESPONSE_NONE,
     /* 1 */ PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
     /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
@@ -651,8 +685,8 @@ typedef struct PlayerAgeProperties {
     /* 0x92 */ u16 unk_92;
     /* 0x94 */ u16 unk_94;
     /* 0x98 */ LinkAnimationHeader* unk_98;
-    /* 0x9C */ LinkAnimationHeader* unk_9C;
-    /* 0xA0 */ LinkAnimationHeader* unk_A0;
+    /* 0x9C */ LinkAnimationHeader* timeTravelStartAnim;
+    /* 0xA0 */ LinkAnimationHeader* timeTravelEndAnim;
     /* 0xA4 */ LinkAnimationHeader* unk_A4;
     /* 0xA8 */ LinkAnimationHeader* unk_A8;
     /* 0xAC */ LinkAnimationHeader* unk_AC[4];
@@ -681,7 +715,7 @@ typedef struct WeaponInfo {
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
 #define PLAYER_STATE1_CARRYING_ACTOR (1 << 11) // Currently carrying an actor
-#define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charing a spin attack (by holding down the B button)
+#define PLAYER_STATE1_CHARGING_SPIN_ATTACK (1 << 12) // Currently charging a spin attack (by holding down the B button)
 #define PLAYER_STATE1_13 (1 << 13)
 #define PLAYER_STATE1_14 (1 << 14)
 #define PLAYER_STATE1_Z_TARGETING (1 << 15) // Either lock-on or parallel is active. This flag is never checked for and is practically unused.
@@ -877,16 +911,22 @@ typedef struct Player {
 
     /* 0x084F */ union {
         s8 actionVar1;
-        s8 facingUpSlope; // Player_Action_SlideOnSlope: facing uphill when sliding on a slope
+        s8 startedAnim; // Player_Action_TimeTravelEnd: Started playing the animation that was previously frozen
+        s8 facingUpSlope; // Player_Action_SlideOnSlope: Facing uphill when sliding on a slope
+        s8 isLakeHyliaCs; // Player_Action_BlueWarpArrive: In Lake Hylia CS after Water Temple. Floating down is delayed until a specific point in the cutscene.
         s8 bottleCatchType; // Player_Action_SwingBottle: entry type for `sBottleCatchInfo`, corresponds to actor caught in a bottle
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0850 */ union {
         s16 actionVar2;
         s16 fallDamageStunTimer; // Player_Action_Idle: Prevents any movement and shakes model up and down quickly to indicate fall damage stun
-        s16 bonked; // Player_Action_Roll: set to true after bonking into a wall or an actor
+        s16 bonked; // Player_Action_Roll: Set to true after bonking into a wall or an actor
+        s16 animDelayTimer; // Player_Action_TimeTravelEnd: Delays playing animation until finished counting down
         s16 startedTextbox; // Player_Action_SwingBottle: set to true when the textbox is started
-        s16 inWater; // Player_Action_SwingBottle: true if a bottle is swung in water. Used to determine which bottle swing animation to use.
+        s16 inWater; // Player_Action_SwingBottle: True if a bottle is swung in water. Used to determine which bottle swing animation to use.
+        s16 csDelayTimer; // Player_Action_WaitForCutscene: Number of frames to wait before responding to a cutscene
+        s16 playedLandingSfx; // Player_Action_BlueWarpArrive: Played sfx when landing on the ground
+        s16 appearTimer; // Player_Action_FaroresWindArrive: Counts up, appear at 20 frames (1 second)
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
     /* 0x0854 */ f32 unk_854;

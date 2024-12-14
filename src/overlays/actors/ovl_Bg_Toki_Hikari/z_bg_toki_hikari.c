@@ -7,7 +7,7 @@
 #include "z_bg_toki_hikari.h"
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS ACTOR_FLAG_5
+#define FLAGS ACTOR_FLAG_DRAW_CULLING_DISABLED
 
 void BgTokiHikari_Init(Actor* thisx, PlayState* play);
 void BgTokiHikari_Destroy(Actor* thisx, PlayState* play);
@@ -46,7 +46,7 @@ void BgTokiHikari_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = BgTokiHikari_DoNothing;
             break;
         case 1:
-            if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
                 this->actionFunc = func_808BA204;
                 this->unk_14C = 0.0f;
             } else {
