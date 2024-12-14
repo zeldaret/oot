@@ -51,17 +51,7 @@ from enum import Enum, auto
 from typing import Callable, Dict, List, Optional, Tuple
 
 from .audiobank_file import AudiobankFile
-
-pitch_names = (
-    "A0", "BF0", "B0", "C1", "DF1", "D1", "EF1", "E1", "F1", "GF1", "G1", "AF1", "A1", "BF1", "B1", "C2",
-    "DF2", "D2", "EF2", "E2", "F2", "GF2", "G2", "AF2", "A2", "BF2", "B2", "C3", "DF3", "D3", "EF3", "E3",
-    "F3", "GF3", "G3", "AF3", "A3", "BF3", "B3", "C4", "DF4", "D4", "EF4", "E4", "F4", "GF4", "G4", "AF4",
-    "A4", "BF4", "B4", "C5", "DF5", "D5", "EF5", "E5", "F5", "GF5", "G5", "AF5", "A5", "BF5", "B5", "C6",
-    "DF6", "D6", "EF6", "E6", "F6", "GF6", "G6", "AF6", "A6", "BF6", "B6", "C7", "DF7", "D7", "EF7", "E7",
-    "F7", "GF7", "G7", "AF7", "A7", "BF7", "B7", "C8", "DF8", "D8", "EF8", "E8", "F8", "GF8", "G8", "AF8",
-    "A8", "BF8", "B8", "C9", "DF9", "D9", "EF9", "E9", "F9", "GF9", "G9", "AF9", "A9", "BF9", "B9", "C10",
-    "DF10", "D10", "EF10", "E10", "F10", "BFNEG1", "BNEG1", "C0", "DF0", "D0", "EF0", "E0", "F0", "GF0", "G0", "AF0",
-)
+from .tuning import pitch_names
 
 #
 #   VERSIONS
@@ -1277,20 +1267,33 @@ class SequenceDisassembler:
             outfile.write(f".endseq {self.seq_name}\n")
 
 if __name__ == '__main__':
-    import sys
+    import argparse
+    parser = argparse.ArgumentParser(description="Disassemble a Zelda 64 sequence binary")
+    parser.add_argument("file", help="Sequence binary to disassemble")
+    parser.add_argument("out", help="Path to output source file")
+    parser.add_argument("-v", dest="mml_version", required=False, default="OoT", type=str, help="Sample rate (integer)")
+    args = parser.parse_args()
 
-    in_path = sys.argv[1]
-    out_path = sys.argv[2]
+    in_path = args.file
+    out_path = args.out
+
+    mml_ver = {
+        "OoT" : MMLVersion.OOT,
+        "MM"  : MMLVersion.MM,
+    }.get(args.mml_version, None)
+
+    if mml_ver is None:
+        raise Exception("Invalid MML Version, should be 'OoT' or 'MM'")
 
     with open(in_path, "rb") as infile:
         data = bytearray(infile.read())
 
     class FontDummy:
-        def __init__(self, file_name) -> None:
-            self.name = file_name
-            self.file_name = file_name
+        def __init__(self, name) -> None:
+            self.name = name
+            self.file_name = name
             self.instrument_index_map = {}
 
-    disas = SequenceDisassembler(0, data, None, CMD_SPEC, MMLVersion.MM, out_path, "", [FontDummy("wow")], [])
+    disas = SequenceDisassembler(0, data, None, CMD_SPEC, mml_ver, out_path, "", [FontDummy("dummyfont")], [])
     disas.analyze()
     disas.emit()

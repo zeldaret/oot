@@ -222,6 +222,7 @@ wav_read(container_data *out, const char *path, UNUSED bool matching)
                 smpl.sampler_data = le32toh(smpl.sampler_data);
 
                 out->num_loops = smpl.num_sample_loops;
+                out->loops = NULL;
                 if (out->num_loops != 0) {
                     out->loops =
                         MALLOC_CHECKED_INFO(out->num_loops * sizeof(container_loop), "num_loops=%u", out->num_loops);
@@ -362,11 +363,11 @@ wav_read(container_data *out, const char *path, UNUSED bool matching)
     if (!has_inst) {
         out->base_note = 60; // C4
         out->fine_tune = 0;
-        out->gain = 0;
         out->key_low = 0;
-        out->key_hi = 0;
+        out->key_hi = 127;
         out->vel_low = 0;
-        out->vel_hi = 0;
+        out->vel_hi = 127;
+        out->gain = 0;
     }
 
     if (!has_smpl) {
