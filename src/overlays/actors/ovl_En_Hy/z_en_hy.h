@@ -74,8 +74,8 @@ typedef struct EnHy {
     /* 0x0216 */ char unk_216[2]; // unused
     /* 0x0218 */ s16 curEyeIndex;
     /* 0x021A */ s16 nextEyeIndexTimer;
-    /* 0x021C */ s16 fidgetTableY[16];
-    /* 0x023C */ s16 fidgetTableZ[16];
+    /* 0x021C */ s16 fidgetTableY[ENHY_LIMB_MAX];
+    /* 0x023C */ s16 fidgetTableZ[ENHY_LIMB_MAX];
     /* 0x025C */ f32 interactRange;
     /* 0x0260 */ s32 getItemId;
     /* 0x0264 */ Vec3f modelOffset;

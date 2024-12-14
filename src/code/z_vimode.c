@@ -149,15 +149,15 @@ void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antia
             viMode->customViMode.comRegs.hSync += HSYNC(1, 4);
         }
         if (tvType == OS_TV_MPAL) {
-            viMode->customViMode.comRegs.leap += LEAP((u16)-4, (u16)-2);
+            viMode->customViMode.comRegs.leap += LEAP(-4, -2);
         }
     } else {
-        viMode->customViMode.fldRegs[0].vStart += START((u16)-3, (u16)-2);
+        viMode->customViMode.fldRegs[0].vStart += START(-3, -2);
         if (tvType == OS_TV_MPAL) {
-            viMode->customViMode.fldRegs[0].vBurst += BURST((u8)-2, (u8)-1, 12, -1);
+            viMode->customViMode.fldRegs[0].vBurst += BURST(-2, -1, 12, -1);
         }
         if (tvType == OS_TV_PAL) {
-            viMode->customViMode.fldRegs[1].vBurst += BURST((u8)-2, (u8)-1, 2, 0);
+            viMode->customViMode.fldRegs[1].vBurst += BURST(-2, -1, 2, 0);
         }
     }
 

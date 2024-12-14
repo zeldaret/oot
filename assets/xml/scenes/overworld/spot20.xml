@@ -1,6 +1,16 @@
 <Root>
     <File Name="spot20_scene" Segment="2">
         <Cutscene Name="gLonLonRanchIntroCs" Offset="0x5B70"/>
+        <Cutscene Name="gLonLonRanchRaceIntroCs" Offset="0x2980"/>
+        <Cutscene Name="gLonLonRanchEponasSongCs" Offset="0x2B40"/>
+
+        <Cutscene Name="gLonLonRanchCreditsPart1Cs" Offset="0x2F80"/>
+        <Cutscene Name="gLonLonRanchCreditsPart2Cs" Offset="0x31E0"/>
+        <Cutscene Name="gLonLonRanchCreditsPart3Cs" Offset="0x3450"/>
+        <Cutscene Name="gLonLonRanchCreditsPart4Cs" Offset="0x3730"/>
+        <Cutscene Name="gLonLonRanchCreditsPart5Cs" Offset="0x4460"/>
+        <Cutscene Name="gLonLonRanchCreditsPart6Cs" Offset="0x3980"/>
+
         <Texture Name="gLonLonRanchDayWindowTex" OutName="day_window" Format="rgba16" Width="32" Height="64" Offset="0x8180"/>
         <Texture Name="gLonLonRangeNightWindowsTex" OutName="night_window" Format="rgba16" Width="32" Height="64" Offset="0xFB80"/>
         <Path Name="spot20_scenePathList_005844" Offset="0x57E4" NumPaths="2"/>

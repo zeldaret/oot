@@ -11,7 +11,7 @@
 #include "assets/objects/object_efc_tw/object_efc_tw.h"
 #include "assets/objects/object_gi_jewel/object_gi_jewel.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void DemoEffect_Init(Actor* thisx, PlayState* play2);
 void DemoEffect_Destroy(Actor* thisx, PlayState* play);
@@ -1541,8 +1541,8 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
     if (play->csCtx.state && play->csCtx.actorCues[this->cueChannel]) {
         switch (play->csCtx.actorCues[this->cueChannel]->id) {
             case 3:
-                if (GET_EVENTCHKINF(EVENTCHKINF_4B)) {
-                    SET_EVENTCHKINF(EVENTCHKINF_4B);
+                if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
+                    SET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME);
                 }
                 DemoEffect_MoveJewelActivateDoorOfTime(this, play);
                 if ((play->gameplayFrames & 1) == 0) {
@@ -1575,7 +1575,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
     }
 
     if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
-        if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
             hasCue = (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[this->cueChannel] != NULL);
 
             if (!hasCue) {

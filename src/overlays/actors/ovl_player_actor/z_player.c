@@ -303,28 +303,28 @@ void Player_Action_8084E368(Player* this, PlayState* play);
 void Player_Action_8084E3C4(Player* this, PlayState* play);
 void Player_Action_8084E604(Player* this, PlayState* play);
 void Player_Action_8084E6D4(Player* this, PlayState* play);
-void Player_Action_8084E9AC(Player* this, PlayState* play);
+void Player_Action_TimeTravelEnd(Player* this, PlayState* play);
 void Player_Action_8084EAC0(Player* this, PlayState* play);
 void Player_Action_SwingBottle(Player* this, PlayState* play);
 void Player_Action_8084EED8(Player* this, PlayState* play);
 void Player_Action_8084EFC0(Player* this, PlayState* play);
 void Player_Action_ExchangeItem(Player* this, PlayState* play);
 void Player_Action_SlideOnSlope(Player* this, PlayState* play);
-void Player_Action_8084F608(Player* this, PlayState* play);
-void Player_Action_8084F698(Player* this, PlayState* play);
-void Player_Action_8084F710(Player* this, PlayState* play);
+void Player_Action_WaitForCutscene(Player* this, PlayState* play);
+void Player_Action_StartWarpSongArrive(Player* this, PlayState* play);
+void Player_Action_BlueWarpArrive(Player* this, PlayState* play);
 void Player_Action_8084F88C(Player* this, PlayState* play);
-void Player_Action_8084F9A0(Player* this, PlayState* play);
-void Player_Action_8084F9C0(Player* this, PlayState* play);
+void Player_Action_TryOpeningDoor(Player* this, PlayState* play);
+void Player_Action_ExitGrotto(Player* this, PlayState* play);
 void Player_Action_8084FA54(Player* this, PlayState* play);
 void Player_Action_8084FB10(Player* this, PlayState* play);
 void Player_Action_8084FBF4(Player* this, PlayState* play);
 void Player_Action_808502D0(Player* this, PlayState* play);
 void Player_Action_808505DC(Player* this, PlayState* play);
 void Player_Action_8085063C(Player* this, PlayState* play);
-void Player_Action_8085076C(Player* this, PlayState* play);
+void Player_Action_FaroresWindArrive(Player* this, PlayState* play);
 void Player_Action_808507F4(Player* this, PlayState* play);
-void Player_Action_80850AEC(Player* this, PlayState* play);
+void Player_Action_HookshotFly(Player* this, PlayState* play);
 void Player_Action_80850C68(Player* this, PlayState* play);
 void Player_Action_80850E84(Player* this, PlayState* play);
 void Player_Action_CsAction(Player* this, PlayState* play);
@@ -332,21 +332,21 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 // .bss part 1
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:64 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:128 pal-1.1:128"
 
 static s32 D_80858AA0;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.0:192 ntsc-1.1:128 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+                               "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 static s32 sSavedCurrentMask;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
-                               "ntsc-1.0:128 ntsc-1.1:192 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // .data
 
@@ -418,8 +418,8 @@ static PlayerAgeProperties sAgeProperties[] = {
         0,                                     // unk_92
         0x80,                                  // unk_94
         &gPlayerAnim_link_demo_Tbox_open,      // unk_98
-        &gPlayerAnim_link_demo_back_to_past,   // unk_9C
-        &gPlayerAnim_link_demo_return_to_past, // unk_A0
+        &gPlayerAnim_link_demo_back_to_past,   // timeTravelStartAnim
+        &gPlayerAnim_link_demo_return_to_past, // timeTravelEndAnim
         &gPlayerAnim_link_normal_climb_startA, // unk_A4
         &gPlayerAnim_link_normal_climb_startB, // unk_A8
         { &gPlayerAnim_link_normal_climb_upL, &gPlayerAnim_link_normal_climb_upR, &gPlayerAnim_link_normal_Fclimb_upL,
@@ -470,8 +470,8 @@ static PlayerAgeProperties sAgeProperties[] = {
         0x20,                                     // unk_92
         0,                                        // unk_94
         &gPlayerAnim_clink_demo_Tbox_open,        // unk_98
-        &gPlayerAnim_clink_demo_goto_future,      // unk_9C
-        &gPlayerAnim_clink_demo_return_to_future, // unk_A0
+        &gPlayerAnim_clink_demo_goto_future,      // timeTravelStartAnim
+        &gPlayerAnim_clink_demo_return_to_future, // timeTravelEndAnim
         &gPlayerAnim_clink_normal_climb_startA,   // unk_A4
         &gPlayerAnim_clink_normal_climb_startB,   // unk_A8
         { &gPlayerAnim_clink_normal_climb_upL, &gPlayerAnim_clink_normal_climb_upR, &gPlayerAnim_link_normal_Fclimb_upL,
@@ -1700,7 +1700,6 @@ BAD_RETURN(s32) Player_ZeroSpeedXZ(Player* this) {
     this->speedXZ = 0.0f;
 }
 
-// return type can't be void due to regalloc in func_8083F72C
 BAD_RETURN(s32) func_80832224(Player* this) {
     Player_ZeroSpeedXZ(this);
     this->unk_6AD = 0;
@@ -3659,7 +3658,7 @@ int Player_CanUpdateItems(Player* this) {
  */
 s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & PLAYER_STATE1_23) && (this->actor.parent != NULL) && Player_HoldsHookshot(this)) {
-        Player_SetupAction(play, this, Player_Action_80850AEC, 1);
+        Player_SetupAction(play, this, Player_Action_HookshotFly, 1);
         this->stateFlags3 |= PLAYER_STATE3_FLYING_WITH_HOOKSHOT;
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_hook_fly_start);
         Player_StartAnimMovement(play, this,
@@ -4815,7 +4814,8 @@ s32 func_808382DC(Player* this, PlayState* play) {
                         respawnInfo = &fallingSpikeTrapRespawn;
                     }
 
-                    Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0xDFF);
+                    Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN,
+                                           PLAYER_PARAMS(PLAYER_START_MODE_IDLE, PLAYER_START_BG_CAM_DEFAULT));
                     gSaveContext.respawn[RESPAWN_MODE_DOWN].pos = respawnInfo->pos;
                     gSaveContext.respawn[RESPAWN_MODE_DOWN].yaw = respawnInfo->yaw;
                 }
@@ -5347,7 +5347,7 @@ s32 Player_ActionHandler_1(Player* this, PlayState* play) {
     if ((this->doorType != PLAYER_DOORTYPE_NONE) &&
         (!(this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) ||
          ((this->heldActor != NULL) && (this->heldActor->id == ACTOR_EN_RU1)))) {
-        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (Player_Action_8084F9A0 == this->actionFunc)) {
+        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (Player_Action_TryOpeningDoor == this->actionFunc)) {
             doorActor = this->doorActor;
 
             if (this->doorType <= PLAYER_DOORTYPE_AJAR) {
@@ -5584,7 +5584,7 @@ void func_8083A0F4(PlayState* play, Player* this) {
 
         if (interactActorId == ACTOR_BG_TOKI_SWD) {
             this->interactRangeActor->parent = &this->actor;
-            Player_SetupAction(play, this, Player_Action_8084F608, 0);
+            Player_SetupAction(play, this, Player_Action_WaitForCutscene, 0);
             this->stateFlags1 |= PLAYER_STATE1_29;
         } else {
             LinkAnimationHeader* anim;
@@ -7254,7 +7254,7 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
             if (sFloorShapePitch >= 0) {
                 this->av1.facingUpSlope = true;
             }
-            Player_AnimChangeLoopMorph(play, this, sSlopeSlideAnims[this->av1.actionVar1]);
+            Player_AnimChangeLoopMorph(play, this, sSlopeSlideAnims[this->av1.facingUpSlope]);
             this->speedXZ = sqrtf(SQ(this->actor.velocity.x) + SQ(this->actor.velocity.z));
             this->yaw = playerVelYaw;
             return true;
@@ -10186,7 +10186,8 @@ s32 func_80845BA0(PlayState* play, Player* this, f32* arg2, s32 arg3) {
 
 s32 func_80845C68(PlayState* play, s32 arg1) {
     if (arg1 == 0) {
-        Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0xDFF);
+        Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN,
+                               PLAYER_PARAMS(PLAYER_START_MODE_IDLE, PLAYER_START_BG_CAM_DEFAULT));
     }
     gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 0;
     return arg1;
@@ -10272,7 +10273,8 @@ void Player_Action_80845EF8(Player* this, PlayState* play) {
                 Room_FinishRoomChange(play, &play->roomCtx);
             }
             Camera_SetFinishedFlag(Play_GetCamera(play, CAM_ID_MAIN));
-            Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0xDFF);
+            Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN,
+                                   PLAYER_PARAMS(PLAYER_START_MODE_IDLE, PLAYER_START_BG_CAM_DEFAULT));
         }
         return;
     }
@@ -10501,15 +10503,17 @@ void Player_StartMode_Nothing(PlayState* play, Player* this) {
 }
 
 void Player_StartMode_BlueWarp(PlayState* play, Player* this) {
-    Player_SetupAction(play, this, Player_Action_8084F710, 0);
+    Player_SetupAction(play, this, Player_Action_BlueWarpArrive, 0);
 
     if ((play->sceneId == SCENE_LAKE_HYLIA) && IS_CUTSCENE_LAYER) {
-        this->av1.actionVar1 = 1;
+        this->av1.isLakeHyliaCs = true;
     }
 
     this->stateFlags1 |= PLAYER_STATE1_29;
     LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_link_okarina_warp_goal, 2.0f / 3.0f, 0.0f, 24.0f,
                          ANIMMODE_ONCE, 0.0f);
+
+    // Start high up in the air
     this->actor.world.pos.y += 800.0f;
 }
 
@@ -10543,14 +10547,16 @@ void Player_PutSwordInHand(PlayState* play, Player* this, s32 playSfx) {
 void Player_StartMode_TimeTravel(PlayState* play, Player* this) {
     static Vec3f sPedestalPos = { -1.0f, 69.0f, 20.0f };
 
-    Player_SetupAction(play, this, Player_Action_8084E9AC, 0);
+    Player_SetupAction(play, this, Player_Action_TimeTravelEnd, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
 
     Math_Vec3f_Copy(&this->actor.world.pos, &sPedestalPos);
     this->yaw = this->actor.shape.rot.y = -0x8000;
 
-    LinkAnimation_Change(play, &this->skelAnime, this->ageProperties->unk_A0, 2.0f / 3.0f, 0.0f, 0.0f, ANIMMODE_ONCE,
-                         0.0f);
+    // The start frame and end frame are both set to 0 so that that the animation is frozen.
+    // `Player_Action_TimeTravelEnd` will play the animation after `animDelayTimer` completes.
+    LinkAnimation_Change(play, &this->skelAnime, this->ageProperties->timeTravelEndAnim, 2.0f / 3.0f, 0.0f, 0.0f,
+                         ANIMMODE_ONCE, 0.0f);
     Player_StartAnimMovement(play, this,
                              PLAYER_ANIM_MOVEMENT_RESET_BY_AGE | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
                                  ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_ENABLE_MOVEMENT |
@@ -10560,11 +10566,11 @@ void Player_StartMode_TimeTravel(PlayState* play, Player* this) {
         Player_PutSwordInHand(play, this, false);
     }
 
-    this->av2.actionVar2 = 20;
+    this->av2.animDelayTimer = 20;
 }
 
 void Player_StartMode_Door(PlayState* play, Player* this) {
-    Player_SetupAction(play, this, Player_Action_8084F9A0, 0);
+    Player_SetupAction(play, this, Player_Action_TryOpeningDoor, 0);
     Player_StartAnimMovement(play, this,
                              ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_ENABLE_MOVEMENT |
                                  ANIM_FLAG_ADJUST_STARTING_POS | ANIM_FLAG_OVERRIDE_MOVEMENT);
@@ -10572,7 +10578,7 @@ void Player_StartMode_Door(PlayState* play, Player* this) {
 
 void Player_StartMode_Grotto(PlayState* play, Player* this) {
     func_808389E8(this, &gPlayerAnim_link_normal_jump, 12.0f, play);
-    Player_SetupAction(play, this, Player_Action_8084F9C0, 0);
+    Player_SetupAction(play, this, Player_Action_ExitGrotto, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
     this->fallStartHeight = this->actor.world.pos.y;
     OnePointCutscene_Init(play, 5110, 40, &this->actor, CAM_ID_MAIN);
@@ -10583,8 +10589,8 @@ void Player_StartMode_KnockedOver(PlayState* play, Player* this) {
 }
 
 void Player_StartMode_WarpSong(PlayState* play, Player* this) {
-    Player_SetupAction(play, this, Player_Action_8084F698, 0);
-    this->actor.draw = NULL;
+    Player_SetupAction(play, this, Player_Action_StartWarpSongArrive, 0);
+    this->actor.draw = NULL; // Start invisible
     this->stateFlags1 |= PLAYER_STATE1_29;
 }
 
@@ -10596,8 +10602,8 @@ Actor* Player_SpawnMagicSpell(PlayState* play, Player* this, s32 spell) {
 }
 
 void Player_StartMode_FaroresWind(PlayState* play, Player* this) {
-    this->actor.draw = NULL;
-    Player_SetupAction(play, this, Player_Action_8085076C, 0);
+    this->actor.draw = NULL; // Start invisible
+    Player_SetupAction(play, this, Player_Action_FaroresWindArrive, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
 }
 
@@ -10747,7 +10753,8 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     }
 
     if (func_80845C68(play, (respawnFlag == 2) ? 1 : 0) == 0) {
-        gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams = PARAMS_GET_S(thisx->params, 0, 8) | 0xD00;
+        gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams =
+            PLAYER_PARAMS(PLAYER_START_MODE_IDLE, PLAYER_GET_START_BG_CAM_INDEX(thisx));
     }
 
     gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 1;
@@ -12113,7 +12120,9 @@ void Player_Update(Actor* thisx, PlayState* play) {
 
     Player_UpdateCommon(this, play, &input);
 
+#if DEBUG_FEATURES
 skip_update:;
+#endif
     {
         s32 pad;
 
@@ -13780,7 +13789,8 @@ void Player_Action_8084E3C4(Player* this, PlayState* play) {
         s32 pad;
 
         gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = sWarpSongEntrances[play->msgCtx.lastPlayedSong];
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;
+        gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams =
+            PLAYER_PARAMS(PLAYER_START_MODE_WARP_SONG, PLAYER_START_BG_CAM_DEFAULT);
         gSaveContext.respawn[RESPAWN_MODE_RETURN].data = play->msgCtx.lastPlayedSong;
 
         this->csAction = PLAYER_CSACTION_NONE;
@@ -13895,26 +13905,22 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
     }
 }
 
-static AnimSfxEntry D_808549F0[] = {
-    { NA_SE_IT_MASTER_SWORD_SWING, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 60) },
-};
-
 void func_8084E988(Player* this) {
+    static AnimSfxEntry D_808549F0[] = {
+        { NA_SE_IT_MASTER_SWORD_SWING, -ANIMSFX_DATA(ANIMSFX_TYPE_GENERAL, 60) },
+    };
+
     Player_ProcessAnimSfxList(this, D_808549F0);
 }
 
-#if OOT_VERSION >= PAL_1_0
-static AnimSfxEntry D_808549F4[] = {
-    { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 5) },
-    { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 15) },
-};
-#endif
-
-void Player_Action_8084E9AC(Player* this, PlayState* play) {
+void Player_Action_TimeTravelEnd(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        if (this->av1.actionVar1 == 0) {
-            if (DECR(this->av2.actionVar2) == 0) {
-                this->av1.actionVar1 = 1;
+        if (!this->av1.startedAnim) {
+            if (DECR(this->av2.animDelayTimer) == 0) {
+                this->av1.startedAnim = true;
+
+                // endFrame was previously set to 0 to freeze the animation.
+                // Set it properly to allow the animation to play.
                 this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
         } else {
@@ -13928,13 +13934,20 @@ void Player_Action_8084E9AC(Player* this, PlayState* play) {
 
 #if OOT_VERSION < PAL_1_0
         if (!LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 5.0f)) {
+            // There is a jump sound when leaving the pedestal, but no landing sound when hitting the floor.
+            // This is fixed in PAL 1.0 and above.
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_AUTO_JUMP);
         } else if (LINK_IS_ADULT) {
             func_8084E988(this);
         }
 #else
         if (!LINK_IS_ADULT) {
-            Player_ProcessAnimSfxList(this, D_808549F4);
+            static AnimSfxEntry sJumpOffPedestalAnimSfxList[] = {
+                { NA_SE_VO_LI_AUTO_JUMP, ANIMSFX_DATA(ANIMSFX_TYPE_VOICE, 5) },
+                { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_LANDING, 15) },
+            };
+
+            Player_ProcessAnimSfxList(this, sJumpOffPedestalAnimSfxList);
         } else {
             func_8084E988(this);
         }
@@ -14237,17 +14250,17 @@ void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
             shapeYawTarget = downwardSlopeYaw + 0x8000;
         }
 
-        if (this->speedXZ < 0) {
+        if (this->speedXZ < 0.0f) {
             downwardSlopeYaw += 0x8000;
         }
 
         xzSpeedTarget = (1.0f - slopeNormal.y) * 40.0f;
-        xzSpeedTarget = CLAMP(xzSpeedTarget, 0, 10.0f);
+        xzSpeedTarget = CLAMP(xzSpeedTarget, 0.0f, 10.0f);
         xzSpeedIncrStep = SQ(xzSpeedTarget) * 0.015f;
         xzSpeedDecrStep = slopeNormal.y * 0.01f;
 
         if (SurfaceType_GetFloorEffect(&play->colCtx, floorPoly, this->actor.floorBgId) != FLOOR_EFFECT_1) {
-            xzSpeedTarget = 0;
+            xzSpeedTarget = 0.0f;
             xzSpeedDecrStep = slopeNormal.y * 10.0f;
         }
 
@@ -14255,7 +14268,8 @@ void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
             xzSpeedIncrStep = 1.0f;
         }
 
-        if (Math_AsymStepToF(&this->speedXZ, xzSpeedTarget, xzSpeedIncrStep, xzSpeedDecrStep) && (xzSpeedTarget == 0)) {
+        if (Math_AsymStepToF(&this->speedXZ, xzSpeedTarget, xzSpeedIncrStep, xzSpeedDecrStep) &&
+            (xzSpeedTarget == 0.0f)) {
             LinkAnimationHeader* slideAnimation;
 
             if (!this->av1.facingUpSlope) {
@@ -14271,41 +14285,54 @@ void Player_Action_SlideOnSlope(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_8084F608(Player* this, PlayState* play) {
-    if ((DECR(this->av2.actionVar2) == 0) && Player_StartCsAction(play, this)) {
+/**
+ * Waits to start processing a Cutscene Action.
+ * First, the timer `csDelayTimer` much reach 0.
+ * Then, there must be a CS action available to start processing.
+ *
+ * When starting the cutscene action, `draw` will be set to make
+ * Player appear, if he was invisible.
+ */
+void Player_Action_WaitForCutscene(Player* this, PlayState* play) {
+    if ((DECR(this->av2.csDelayTimer) == 0) && Player_StartCsAction(play, this)) {
         func_80852280(play, this, NULL);
         Player_SetupAction(play, this, Player_Action_CsAction, 0);
         Player_Action_CsAction(this, play);
     }
 }
 
-void Player_Action_8084F698(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, Player_Action_8084F608, 0);
-    this->av2.actionVar2 = 40;
+void Player_Action_StartWarpSongArrive(Player* this, PlayState* play) {
+    Player_SetupAction(play, this, Player_Action_WaitForCutscene, 0);
+    this->av2.csDelayTimer = 40;
+
+    // Note: The warp song sparkles actor is responsible for starting the warp-in cutscene script
     Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_KANKYO, 0.0f, 0.0f, 0.0f, 0, 0, 0, DEMOKANKYO_WARP_IN);
 }
 
-void Player_Action_8084F710(Player* this, PlayState* play) {
+void Player_Action_BlueWarpArrive(Player* this, PlayState* play) {
     s32 pad;
 
-    if ((this->av1.actionVar1 != 0) && (play->csCtx.curFrame < 305)) {
+    if ((this->av1.isLakeHyliaCs) && (play->csCtx.curFrame < 305)) {
+        // Delay falling down until frame 306 of the Lake Hylia cutscene after completing Water Temple
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
     } else if (sYDistToFloor < 150.0f) {
         if (LinkAnimation_Update(play, &this->skelAnime)) {
-            if (this->av2.actionVar2 == 0) {
+            if (!this->av2.playedLandingSfx) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                     this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
                     Player_PlayLandingSfx(this);
-                    this->av2.actionVar2 = 1;
+                    this->av2.playedLandingSfx = true;
                 }
             } else {
                 if ((play->sceneId == SCENE_KOKIRI_FOREST) && Player_StartCsAction(play, this)) {
                     return;
                 }
+
                 func_80853080(this, play);
             }
         }
+
         Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.3f, 8.0f, 0.5f);
     }
 
@@ -14314,9 +14341,10 @@ void Player_Action_8084F710(Player* this, PlayState* play) {
     }
 
     if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.playerCue != NULL)) {
-        f32 sp28 = this->actor.world.pos.y;
+        f32 savedYPos = this->actor.world.pos.y;
+
         func_808529D0(play, this, play->csCtx.playerCue);
-        this->actor.world.pos.y = sp28;
+        this->actor.world.pos.y = savedYPos;
     }
 }
 
@@ -14348,11 +14376,15 @@ void Player_Action_8084F88C(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_8084F9A0(Player* this, PlayState* play) {
+/**
+ * Automatically open a door (no need for the A button).
+ * Note: If no door is in useable range, a softlock will occur.
+ */
+void Player_Action_TryOpeningDoor(Player* this, PlayState* play) {
     Player_ActionHandler_1(this, play);
 }
 
-void Player_Action_8084F9C0(Player* this, PlayState* play) {
+void Player_Action_ExitGrotto(Player* this, PlayState* play) {
     this->actor.gravity = -1.0f;
 
     LinkAnimation_Update(play, &this->skelAnime);
@@ -14708,17 +14740,17 @@ void Player_Action_8085063C(Player* this, PlayState* play) {
     }
 }
 
-void Player_Action_8085076C(Player* this, PlayState* play) {
+void Player_Action_FaroresWindArrive(Player* this, PlayState* play) {
     s32 respawnData = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
-    if (this->av2.actionVar2 > 20) {
+    if (this->av2.appearTimer > 20) {
         this->actor.draw = Player_Draw;
         this->actor.world.pos.y += 60.0f;
         func_80837B9C(this, play);
         return;
     }
 
-    if (this->av2.actionVar2++ == 20) {
+    if (this->av2.appearTimer++ == 20) {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = respawnData + 1;
         Sfx_PlaySfxAtPos(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos, NA_SE_PL_MAGIC_WIND_WARP);
     }
@@ -14779,13 +14811,15 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
 
             if (this->av2.actionVar2 == 0) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 1;
-                Play_SetupRespawnPoint(play, RESPAWN_MODE_TOP, 0x6FF);
+                Play_SetupRespawnPoint(play, RESPAWN_MODE_TOP,
+                                       PLAYER_PARAMS(PLAYER_START_MODE_FARORES_WIND, PLAYER_START_BG_CAM_DEFAULT));
                 gSaveContext.save.info.fw.set = 1;
                 gSaveContext.save.info.fw.pos.x = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x;
                 gSaveContext.save.info.fw.pos.y = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y;
                 gSaveContext.save.info.fw.pos.z = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z;
                 gSaveContext.save.info.fw.yaw = gSaveContext.respawn[RESPAWN_MODE_DOWN].yaw;
-                gSaveContext.save.info.fw.playerParams = 0x6FF;
+                gSaveContext.save.info.fw.playerParams =
+                    PLAYER_PARAMS(PLAYER_START_MODE_FARORES_WIND, PLAYER_START_BG_CAM_DEFAULT);
                 gSaveContext.save.info.fw.entranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
                 gSaveContext.save.info.fw.roomIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].roomIndex;
                 gSaveContext.save.info.fw.tempSwchFlags = gSaveContext.respawn[RESPAWN_MODE_DOWN].tempSwchFlags;
@@ -14832,7 +14866,7 @@ void Player_Action_808507F4(Player* this, PlayState* play) {
     Player_DecelerateToZero(this);
 }
 
-void Player_Action_80850AEC(Player* this, PlayState* play) {
+void Player_Action_HookshotFly(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_5;
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
@@ -15449,12 +15483,12 @@ static LinkAnimationHeader* D_80855190[] = {
     &gPlayerAnim_clink_demo_goto_future,
 };
 
-static Vec3f D_80855198 = { -1.0f, 70.0f, 20.0f };
-
 void func_808519EC(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    Math_Vec3f_Copy(&this->actor.world.pos, &D_80855198);
+    static Vec3f sPedestalPos = { -1.0f, 70.0f, 20.0f };
+
+    Math_Vec3f_Copy(&this->actor.world.pos, &sPedestalPos);
     this->actor.shape.rot.y = -0x8000;
-    Player_AnimPlayOnceAdjusted(play, this, this->ageProperties->unk_9C);
+    Player_AnimPlayOnceAdjusted(play, this, this->ageProperties->timeTravelStartAnim);
     Player_StartAnimMovement(play, this,
                              PLAYER_ANIM_MOVEMENT_RESET_BY_AGE | ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y |
                                  ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT | ANIM_FLAG_ENABLE_MOVEMENT |
@@ -15964,7 +15998,7 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cueUnused) {
     }
 
     if (cue == NULL) {
-        this->actor.flags &= ~ACTOR_FLAG_6;
+        this->actor.flags &= ~ACTOR_FLAG_INSIDE_CULLING_VOLUME;
     } else {
         s32 csAction;
 

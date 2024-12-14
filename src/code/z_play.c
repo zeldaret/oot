@@ -483,8 +483,9 @@ void Play_Init(GameState* thisx) {
     Camera_InitDataUsingPlayer(&this->mainCamera, player);
     Camera_RequestMode(&this->mainCamera, CAM_MODE_NORMAL);
 
-    playerStartBgCamIndex = PARAMS_GET_U(player->actor.params, 0, 8);
-    if (playerStartBgCamIndex != 0xFF) {
+    playerStartBgCamIndex = PLAYER_GET_START_BG_CAM_INDEX(&player->actor);
+
+    if (playerStartBgCamIndex != PLAYER_START_BG_CAM_DEFAULT) {
         PRINTF("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
         Camera_RequestBgCam(&this->mainCamera, playerStartBgCamIndex);
     }
@@ -1068,6 +1069,7 @@ void Play_Update(PlayState* this) {
 skip:
     PLAY_LOG(3801);
 
+    //! @bug If frame advancing or during tile transitions, isPaused will be used uninitialized.
     if (!isPaused || gDebugCamEnabled) {
         s32 i;
 
@@ -1545,7 +1547,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     SceneTableEntry* scene;
-    u32 size;
+    UNUSED_NDEBUG u32 size;
 
 #if PLATFORM_N64
     if ((B_80121220 != NULL) && (B_80121220->unk_48 != NULL)) {
@@ -1900,7 +1902,7 @@ void Play_LoadToLastEntrance(PlayState* this) {
 }
 
 void Play_TriggerRespawn(PlayState* this) {
-    Play_SetupRespawnPoint(this, RESPAWN_MODE_DOWN, 0xDFF);
+    Play_SetupRespawnPoint(this, RESPAWN_MODE_DOWN, PLAYER_PARAMS(PLAYER_START_MODE_IDLE, PLAYER_START_BG_CAM_DEFAULT));
     Play_LoadToLastEntrance(this);
 }
 

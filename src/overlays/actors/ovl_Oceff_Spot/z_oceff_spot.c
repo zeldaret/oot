@@ -7,7 +7,7 @@
 #include "z_oceff_spot.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_UPDATE_DURING_OCARINA)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void OceffSpot_Init(Actor* thisx, PlayState* play);
 void OceffSpot_Destroy(Actor* thisx, PlayState* play);
@@ -32,7 +32,7 @@ ActorProfile Oceff_Spot_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1500, ICHAIN_STOP),
 };
 
 void OceffSpot_SetupAction(OceffSpot* this, OceffSpotActionFunc actionFunc) {

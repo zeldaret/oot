@@ -8,7 +8,7 @@
 #include "assets/objects/object_gj/object_gj.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void DemoGj_Init(Actor* thisx, PlayState* play);
 void DemoGj_Destroy(Actor* thisx, PlayState* play);
@@ -230,7 +230,8 @@ s32 DemoGj_FindGanon(DemoGj* this, PlayState* play) {
         PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
         return false;
     }
-    //! @bug: Missing return value when `this->ganon` is already set.
+    //! @bug Missing return value when `this->ganon` is already set. No caller uses the return value
+    //! so it doesn't matter.
 }
 
 static InitChainEntry sInitChain[] = {

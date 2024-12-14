@@ -356,8 +356,8 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
         Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
-            this->actor.flags |= ACTOR_FLAG_4;
-            this->actor.uncullZoneForward = 12000.0f;
+            this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+            this->actor.cullingVolumeDistance = 12000.0f;
 
             this->actor.gravity = 0.3f;
             this->unk_19F++;

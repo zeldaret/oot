@@ -27,7 +27,7 @@
 #endif
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:88 pal-1.0:86 pal-1.1:86"
+                               "ntsc-1.2:82 pal-1.0:80 pal-1.1:80"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
@@ -367,7 +367,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
     size_t romSize;
     u8 found = false;
     DmaEntry* iter;
-    const char* filename;
+    UNUSED_NDEBUG const char* filename;
     s32 i = 0;
 
 #if DEBUG_FEATURES

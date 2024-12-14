@@ -81,7 +81,7 @@ void View_SetViewport(View* view, Viewport* viewport);
 void View_GetViewport(View* view, Viewport* viewport);
 void View_SetDistortionOrientation(View* view, f32 rotX, f32 rotY, f32 rotZ);
 void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ);
-s32 View_SetDistortionSpeed(View* view, f32 speed);
+BAD_RETURN(s32) View_SetDistortionSpeed(View* view, f32 speed);
 void View_InitDistortion(View* view);
 void View_ClearDistortion(View* view);
 void View_SetDistortion(View* view, Vec3f orientation, Vec3f scale, f32 speed);
