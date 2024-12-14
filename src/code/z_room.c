@@ -2,6 +2,7 @@
 #include "fault.h"
 #include "terminal.h"
 #include "versions.h"
+#include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -456,15 +457,18 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
     PRINTF(VT_COL(RED, WHITE) T("z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n",
                                 "z_room.c: Data consistent with camera id does not exist camid=%d\n") VT_RST,
            bgCamIndex);
-#if OOT_VERSION < NTSC_1_1
-    Fault_AddHungupAndCrash("../z_room.c", 724);
-#elif OOT_VERSION < PAL_1_0
-    Fault_AddHungupAndCrash("../z_room.c", 727);
-#elif OOT_VERSION < GC_JP
-    Fault_AddHungupAndCrash("../z_room.c", 721);
-#else
-    LogUtils_HungupThread("../z_room.c", 726);
-#endif
+
+    Fault_AddHungupAndCrash("../z_room.c", LN_N0_N1_GC(724, 727, 721, 726));
+
+// #if OOT_VERSION < NTSC_1_1
+//     Fault_AddHungupAndCrash("../z_room.c", 724); // n0
+// #elif OOT_VERSION < PAL_1_0
+//     Fault_AddHungupAndCrash("../z_room.c", 727); // n1
+// #elif OOT_VERSION < GC_JP
+//     Fault_AddHungupAndCrash("../z_room.c", 721); // n2, pal0, pal1
+// #else
+//     LogUtils_HungupThread("../z_room.c", 726); // gc
+// #endif
 
     return NULL;
 }
@@ -547,15 +551,17 @@ void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
     } else if (roomShape->amountType == ROOM_SHAPE_IMAGE_AMOUNT_MULTI) {
         Room_DrawImageMulti(play, room, flags);
     } else {
-#if OOT_VERSION < NTSC_1_1
-        Fault_AddHungupAndCrash("../z_room.c", 849);
-#elif OOT_VERSION < PAL_1_0
-        Fault_AddHungupAndCrash("../z_room.c", 852);
-#elif OOT_VERSION < GC_JP
-        Fault_AddHungupAndCrash("../z_room.c", 836);
-#else
-        LogUtils_HungupThread("../z_room.c", 841);
-#endif
+        Fault_AddHungupAndCrash("../z_room.c", LN_N0_N1_GC(849, 852, 836, 841));
+
+// #if OOT_VERSION < NTSC_1_1
+//         Fault_AddHungupAndCrash("../z_room.c", 849);
+// #elif OOT_VERSION < PAL_1_0
+//         Fault_AddHungupAndCrash("../z_room.c", 852);
+// #elif OOT_VERSION < GC_JP
+//         Fault_AddHungupAndCrash("../z_room.c", 836);
+// #else
+//         LogUtils_HungupThread("../z_room.c", 841);
+// #endif
     }
 }
 

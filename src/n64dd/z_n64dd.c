@@ -5,6 +5,7 @@
 #include "n64dd.h"
 #include "stack.h"
 #include "versions.h"
+#include "line_numbers.h"
 
 #pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
@@ -112,13 +113,15 @@ void func_801C6FD8(void) {
 // Adds a HungupAndCrash
 void func_801C7018(void) {
     if (D_80121213 != 0) {
-#if OOT_VERSION < NTSC_1_1
-        Fault_AddHungupAndCrash("../z_n64dd.c", 503);
-#elif OOT_VERSION < PAL_1_0
-        Fault_AddHungupAndCrash("../z_n64dd.c", 551);
-#else
-        Fault_AddHungupAndCrash("../z_n64dd.c", 573);
-#endif
+        Fault_AddHungupAndCrash("../z_n64dd.c", LN_N0_N1(503, 551, 573));
+
+// #if OOT_VERSION < NTSC_1_1
+//         Fault_AddHungupAndCrash("../z_n64dd.c", 503); // n0
+// #elif OOT_VERSION < PAL_1_0
+//         Fault_AddHungupAndCrash("../z_n64dd.c", 551); // n1
+// #else
+//         Fault_AddHungupAndCrash("../z_n64dd.c", 573);
+// #endif
     }
     D_80121213 = 1;
 }

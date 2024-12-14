@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "line_numbers.h"
 
 #pragma increment_block_number "ntsc-1.0:136 ntsc-1.1:136 ntsc-1.2:136"
 
@@ -1611,11 +1612,13 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
                                                colCtx->subdivAmount.z,
                                            ALIGNOF_MASK(StaticLookup));
     if (colCtx->lookupTbl == NULL) {
-#if OOT_VERSION < NTSC_1_1
-        LogUtils_HungupThread("../z_bgcheck.c", 4173);
-#else
-        LogUtils_HungupThread("../z_bgcheck.c", 4176);
-#endif
+        LogUtils_HungupThread("../z_bgcheck.c", LN_N0(4173, 4176));
+
+// #if OOT_VERSION < NTSC_1_1
+//         LogUtils_HungupThread("../z_bgcheck.c", 4173); // n0
+// #else
+//         LogUtils_HungupThread("../z_bgcheck.c", 4176); // the rest
+// #endif
     }
     colCtx->minBounds.x = colCtx->colHeader->minBounds.x;
     colCtx->minBounds.y = colCtx->colHeader->minBounds.y;
@@ -1639,11 +1642,13 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
         tblMax = customNodeListMax;
     } else {
         if (colCtx->memSize < memSize) {
-#if OOT_VERSION < NTSC_1_1
-            LogUtils_HungupThread("../z_bgcheck.c", 4227);
-#else
-            LogUtils_HungupThread("../z_bgcheck.c", 4230);
-#endif
+            LogUtils_HungupThread("../z_bgcheck.c", LN_N0(4227, 4230));
+
+// #if OOT_VERSION < NTSC_1_1
+//             LogUtils_HungupThread("../z_bgcheck.c", 4227);
+// #else
+//             LogUtils_HungupThread("../z_bgcheck.c", 4230);
+// #endif
         }
         tblMax = (colCtx->memSize - memSize) / sizeof(SSNode);
     }
