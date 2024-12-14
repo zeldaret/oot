@@ -35,16 +35,6 @@ void SysCfb_Init(s32 n64dd) {
         sSysCfbEnd = 0x80400000;
     } else {
         LogUtils_HungupThread("../sys_cfb.c", LN4(305, 308, 322, 354));
-
-// #if OOT_VERSION < NTSC_1_1
-//         LogUtils_HungupThread("../sys_cfb.c", 305); // n0
-// #elif OOT_VERSION < PAL_1_0
-//         LogUtils_HungupThread("../sys_cfb.c", 308); // n1
-// #elif OOT_VERSION < GC_JP
-//         LogUtils_HungupThread("../sys_cfb.c", 322); // n2, pal
-// #else
-//         LogUtils_HungupThread("../sys_cfb.c", 354); // gc, debug
-// #endif
     }
 
     screenSize = SCREEN_WIDTH * SCREEN_HEIGHT;

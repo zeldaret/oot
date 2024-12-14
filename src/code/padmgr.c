@@ -328,14 +328,6 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
                 // Unknown error response
                 LOG_HEX("padnow1->errno", pad->errno, "../padmgr.c", 396);
                 Fault_AddHungupAndCrash("../padmgr.c", LN3(379, 382, 397));
-
-// #if OOT_VERSION < NTSC_1_1
-//                 Fault_AddHungupAndCrash("../padmgr.c", 379); // n0
-// #elif OOT_VERSION < GC_JP
-//                 Fault_AddHungupAndCrash("../padmgr.c", 382); // n1, n2, pal
-// #else
-//                 Fault_AddHungupAndCrash("../padmgr.c", 397); // gc, debug
-// #endif
                 break;
         }
 

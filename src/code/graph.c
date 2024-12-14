@@ -381,33 +381,14 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
             PRINTF(VT_COL(RED, WHITE) T("ダイナミック領域先頭が破壊されています\n", "Dynamic area head is destroyed\n")
                        VT_RST);
             Fault_AddHungupAndCrash("../graph.c", LN4(937, 940, 951, 1070));
-
-// #if OOT_VERSION < NTSC_1_1
-//             Fault_AddHungupAndCrash("../graph.c", 937); // n0
-// #elif OOT_VERSION < PAL_1_0
-//             Fault_AddHungupAndCrash("../graph.c", 940); // n1
-// #elif OOT_VERSION < GC_JP
-//             Fault_AddHungupAndCrash("../graph.c", 951); // n2 and pal
-// #else
-//             Fault_AddHungupAndCrash("../graph.c", 1070); // gc and debug
-// #endif
         }
+
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
             problem = true;
             PRINTF("%c", BEL);
             PRINTF(VT_COL(RED, WHITE)
                        T("ダイナミック領域末尾が破壊されています\n", "Dynamic region tail is destroyed\n") VT_RST);
             Fault_AddHungupAndCrash("../graph.c", LN4(943, 946, 957, 1076));
-
-// #if OOT_VERSION < NTSC_1_1
-//             Fault_AddHungupAndCrash("../graph.c", 943); // n0
-// #elif OOT_VERSION < PAL_1_0
-//             Fault_AddHungupAndCrash("../graph.c", 946); // n1
-// #elif OOT_VERSION < GC_JP
-//             Fault_AddHungupAndCrash("../graph.c", 957); // n2 and pal
-// #else
-//             Fault_AddHungupAndCrash("../graph.c", 1076); // gc and debug
-// #endif
         }
     }
 

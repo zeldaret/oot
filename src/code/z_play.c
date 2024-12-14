@@ -178,22 +178,6 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
 
             default:
                 HUNGUP_AND_CRASH("../z_play.c", LN5(2263, 2266, 2269, 2272, 2287, 2290, 2293));
-
-// #if OOT_VERSION < NTSC_1_1
-//                 HUNGUP_AND_CRASH("../z_play.c", 2263); // n0
-// #elif OOT_VERSION < PAL_1_0
-//                 HUNGUP_AND_CRASH("../z_play.c", 2266); // n1
-// #elif OOT_VERSION < PAL_1_1
-//                 HUNGUP_AND_CRASH("../z_play.c", 2269); // n2 pal0
-// #elif OOT_VERSION < GC_JP
-//                 HUNGUP_AND_CRASH("../z_play.c", 2272); // pal1
-// #elif OOT_VERSION < GC_EU_MQ_DBG
-//                 HUNGUP_AND_CRASH("../z_play.c", 2287); // gc-jp, gc-jp-mq, gc-us, gc-us-mq
-// #elif OOT_VERSION < GC_JP_CE
-//                 HUNGUP_AND_CRASH("../z_play.c", 2290); // gc-eu-mq-dbg, gc-eu, gc-eu-mq
-// #else
-//                 HUNGUP_AND_CRASH("../z_play.c", 2293); // gc-jp-ce
-// #endif
                 break;
         }
     }

@@ -92,13 +92,8 @@ s32 EnHorseGameCheck_InitIngoRace(EnHorseGameCheckBase* base, PlayState* play) {
 
     if (this->ingoHorse == NULL) {
         LogUtils_HungupThread("../z_en_horse_game_check.c", LN1(382, 385));
-
-// #if OOT_VERSION < NTSC_1_1
-//         LogUtils_HungupThread("../z_en_horse_game_check.c", 382); // n0
-// #else
-//         LogUtils_HungupThread("../z_en_horse_game_check.c", 385); // the rest
-// #endif
     }
+    
     this->startTimer = 0;
     this->finishTimer = 0;
     this->result = INGORACE_NO_RESULT;

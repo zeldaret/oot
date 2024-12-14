@@ -1611,15 +1611,11 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
                                            colCtx->subdivAmount.x * sizeof(StaticLookup) * colCtx->subdivAmount.y *
                                                colCtx->subdivAmount.z,
                                            ALIGNOF_MASK(StaticLookup));
+
     if (colCtx->lookupTbl == NULL) {
         LogUtils_HungupThread("../z_bgcheck.c", LN1(4173, 4176));
-
-// #if OOT_VERSION < NTSC_1_1
-//         LogUtils_HungupThread("../z_bgcheck.c", 4173); // n0
-// #else
-//         LogUtils_HungupThread("../z_bgcheck.c", 4176); // the rest
-// #endif
     }
+
     colCtx->minBounds.x = colCtx->colHeader->minBounds.x;
     colCtx->minBounds.y = colCtx->colHeader->minBounds.y;
     colCtx->minBounds.z = colCtx->colHeader->minBounds.z;
@@ -1636,6 +1632,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
               colCtx->colHeader->numPolygons * sizeof(u8) + colCtx->dyna.polyNodesMax * sizeof(SSNode) +
               colCtx->dyna.polyListMax * sizeof(CollisionPoly) + colCtx->dyna.vtxListMax * sizeof(Vec3s) +
               sizeof(CollisionContext);
+              
     if (customNodeListMax > 0) {
         // tblMax is set without checking if customNodeListMax will result in a memory overflow
         // this is a non-issue as long as sceneSubdivisionList.nodeListMax is -1
@@ -1643,12 +1640,6 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     } else {
         if (colCtx->memSize < memSize) {
             LogUtils_HungupThread("../z_bgcheck.c", LN1(4227, 4230));
-
-// #if OOT_VERSION < NTSC_1_1
-//             LogUtils_HungupThread("../z_bgcheck.c", 4227);
-// #else
-//             LogUtils_HungupThread("../z_bgcheck.c", 4230);
-// #endif
         }
         tblMax = (colCtx->memSize - memSize) / sizeof(SSNode);
     }

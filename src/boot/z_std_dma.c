@@ -654,14 +654,6 @@ void DmaMgr_Init(void) {
                gDmaDataTable[0].file.vromEnd);
         //! @bug The main code file where fault.c resides is not yet loaded
         Fault_AddHungupAndCrash("../z_std_dma.c", LN3(837, 840, 1055));
-
-// #if OOT_VERSION < NTSC_1_1
-//         Fault_AddHungupAndCrash("../z_std_dma.c", 837); // n0
-// #elif OOT_VERSION < GC_JP
-//         Fault_AddHungupAndCrash("../z_std_dma.c", 840); // n1, n2, pal
-// #else
-//         Fault_AddHungupAndCrash("../z_std_dma.c", 1055); // gc, debug
-// #endif
     }
 
     // Start the DMA manager

@@ -57,12 +57,6 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
     } else {
         PRINTF("shape_modelがNULL\n");
         LogUtils_HungupThread("../z_eff_kakera.c", LN1(175, 178));
-
-// #if OOT_VERSION < NTSC_1_1
-//         LogUtils_HungupThread("../z_eff_kakera.c", 175); // n0
-// #else
-//         LogUtils_HungupThread("../z_eff_kakera.c", 178); // rest
-// #endif
     }
 
     this->draw = EffectSsKakera_Draw;
