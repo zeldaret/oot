@@ -23,10 +23,10 @@
 
 /**
  * These wrappers exist to remove duplication of line numbers being passed to LN.
- * The wrappers have ambigous names purposefully so that they are short and don't add clutter.
+ * The wrappers have ambiguous names purposefully so that they are short and don't add clutter.
  *
  * The groupings of different line numbers are difficult to name, as the exact grouping
- * depends on which versions happened to have changes in a given file.
+ * depends on which versions happen to have changes in a given file.
  */
 
 // NTSC 1.0 and all the other versions
