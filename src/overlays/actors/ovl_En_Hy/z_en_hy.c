@@ -957,7 +957,7 @@ void EnHy_OfferBuyBottledItem(EnHy* this, PlayState* play) {
     if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BEGGAR) {
         if (!Inventory_HasSpecificBottle(ITEM_BOTTLE_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BOTTLE_BUG) &&
             !Inventory_HasSpecificBottle(ITEM_BOTTLE_FISH)) {
-            switch (func_8002F368(play)) {
+            switch (Actor_GetPlayerExchangeItemId(play)) {
                 case EXCH_ITEM_BOTTLE_POE:
                 case EXCH_ITEM_BOTTLE_BIG_POE:
                 case EXCH_ITEM_BOTTLE_RUTOS_LETTER:
@@ -971,7 +971,7 @@ void EnHy_OfferBuyBottledItem(EnHy* this, PlayState* play) {
                     break;
             }
         } else {
-            switch (func_8002F368(play)) {
+            switch (Actor_GetPlayerExchangeItemId(play)) {
                 case EXCH_ITEM_BOTTLE_BLUE_FIRE:
                     this->actor.textId = 0x70F0;
                     break;
