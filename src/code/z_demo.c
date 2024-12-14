@@ -97,7 +97,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_GERUDO_VALLEY_0, 2, EVENTCHKINF_B2, gGerudoValleyIntroCs },
     { ENTR_GERUDOS_FORTRESS_0, 2, EVENTCHKINF_B3, gGerudoFortressIntroCs },
     { ENTR_LON_LON_RANCH_0, 2, EVENTCHKINF_B4, gLonLonRanchIntroCs },
-    { ENTR_JABU_JABU_0, 2, EVENTCHKINF_B5, gJabuJabuIntroCs },
+    { ENTR_JABU_JABU_0, 2, EVENTCHKINF_B5, gJabuIntroCs },
     { ENTR_GRAVEYARD_0, 2, EVENTCHKINF_B6, gGraveyardIntroCs },
     { ENTR_ZORAS_FOUNTAIN_2, 2, EVENTCHKINF_B7, gZorasFountainIntroCs },
     { ENTR_DESERT_COLOSSUS_0, 2, EVENTCHKINF_B8, gDesertColossusIntroCs },
@@ -117,7 +117,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
 };
 
 void* sCutscenesUnknownList[] = {
-    gDekuTreeIntroCs,     gJabuJabuIntroCs, gDcOpeningCs, gSpiritBossNabooruKnuckleDefeatCs,
+    gDekuTreeIntroCs,     gJabuIntroCs,    gDcOpeningCs, gSpiritBossNabooruKnuckleDefeatCs,
     gIceCavernSerenadeCs, gTowerBarrierCs,
 };
 
