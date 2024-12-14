@@ -302,13 +302,6 @@ NORETURN void DmaMgr_Error(DmaRequest* req, const char* filename, const char* er
 #define DMA_ERROR(req, filename, errorName, errorDesc, file, line) Fault_AddHungupAndCrash(file, line)
 #endif
 
-// #elif OOT_VERSION < NTSC_1_1
-// n0
-// #define DMA_ERROR(req, filename, errorName, errorDesc, file, line1, line2, line3) Fault_AddHungupAndCrash(file,
-// line1) #elif OOT_VERSION < GC_JP n1, n2, pal #define DMA_ERROR(req, filename, errorName, errorDesc, file, line1,
-// line2, line3) Fault_AddHungupAndCrash(file, line2) #else gc, debug #define DMA_ERROR(req, filename, errorName,
-// errorDesc, file, line1, line2, line3) Fault_AddHungupAndCrash(file, line3) #endif
-
 #if PLATFORM_GC
 /**
  * Searches the filesystem for the entry containing the address `vrom`. Retrieves the name of this entry from
