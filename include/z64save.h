@@ -926,21 +926,20 @@ typedef enum IngoRaceState {
 #define EVENTINF_INGO_RACE_0F_MASK (1 << EVENTINF_INGO_RACE_0F)
 
 // "InRaceSeq"
-#define GET_EVENTINF_INGO_RACE_STATE() \
-    (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_INGO_RACE_STATE_MASK)
+#define GET_EVENTINF_INGO_RACE_STATE() (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_INGO_RACE_STATE_MASK)
 
-#define SET_EVENTINF_INGO_RACE_STATE(v) \
+#define SET_EVENTINF_INGO_RACE_STATE(v)            \
     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
         (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_INGO_RACE_STATE_MASK) | (v)
 
 #define GET_EVENTINF_INGO_RACE_FLAG(flag) \
     ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & (1 << ((flag) & 0xF))) >> ((flag) & 0xF))
 
-#define SET_EVENTINF_INGO_RACE_FLAG(flag) \
+#define SET_EVENTINF_INGO_RACE_FLAG(flag)          \
     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
-    (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | (1 << ((flag) & 0xF))
+        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | (1 << ((flag) & 0xF))
 
-#define WRITE_EVENTINF_INGO_RACE_FLAG(flag, v) \
+#define WRITE_EVENTINF_INGO_RACE_FLAG(flag, v)     \
     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
         (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~(1 << ((flag) & 0xF))) | ((v) << ((flag) & 0xF))
 
