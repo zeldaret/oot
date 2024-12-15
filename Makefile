@@ -266,6 +266,13 @@ OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
 NM      := $(MIPS_BINUTILS_PREFIX)nm
 
+# The default iconv on macOS has some differences from GNU iconv, so we use the Homebrew version instead
+ifeq ($(UNAME_S),Darwin)
+  ICONV := /usr/local/opt/libiconv/bin/iconv
+else
+  ICONV := iconv
+endif
+
 INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 
 # Check code syntax with host compiler
@@ -598,7 +605,7 @@ $(BUILD_DIR)/assets/misc/z_select_static/%.o: GBI_DEFINES := -DF3DEX_GBI
 
 ifeq ($(PERMUTER),)  # permuter + preprocess.py misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
 # Handle encoding (UTF-8 -> EUC-JP) and custom pragmas
-$(BUILD_DIR)/src/%.o: CC := ./tools/preprocess.sh -v $(VERSION) -- $(CC)
+$(BUILD_DIR)/src/%.o: CC := ./tools/preprocess.sh -v $(VERSION) -i $(ICONV) -- $(CC)
 endif
 
 else
