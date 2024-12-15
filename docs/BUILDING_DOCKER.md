@@ -15,3 +15,11 @@ docker-compose up --build
 ```
 
 This should immediately begin steps [4](../README.md#4-setup-the-rom-and-build-process) and [5](../README.md#5-build-the-rom) within the Docker container.
+
+## 2. Shell into the 'oot' container
+
+To exec into the oot Docker image at any time, run the following command either during or after the build:
+
+```bash
+docker-compose exec oot bash
+```
