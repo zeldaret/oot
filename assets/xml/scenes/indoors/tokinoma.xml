@@ -1,8 +1,18 @@
 <Root>
     <File Name="tokinoma_scene" Segment="2">
-        <Cutscene  Name="gTempleOfTimeFirstAdultCs" Offset="0x46F0"/>
-        <Cutscene  Name="gTempleOfTimePreludeCs" Offset="0x6D20"/>
+        <Cutscene Name="gTempleOfTimeFirstAdultCs" Offset="0x46F0"/>
+        <Cutscene Name="gTempleOfTimePreludeCs" Offset="0x6D20"/>
         <Cutscene Name="gTempleOfTimeIntroCs" Offset="0xCE00"/>
+        <Cutscene Name="gTempleOfTimeSapphireRestoredUnusedCs" Offset="0xBE90"/>
+        <Cutscene Name="gTempleOfTimeCreditsCs" Offset="0x3BB0"/>
+        <Cutscene Name="gTempleOfTimeSheikRevealCs" Offset="0x8BC0"/>
+        <Cutscene Name="gTempleOfTimeLightArrowsAndZeldaCapturedCs" Offset="0x9F70"/>
+        <Cutscene Name="gTempleOfTimeRubyRestoredUnusedCs" Offset="0x35D0"/>
+        <Cutscene Name="gTempleOfTimeEmeraldRestoredUnusedCs" Offset="0x38C0"/>
+        <Cutscene Name="gTempleOfTimeSongOfTimeCs" Offset="0x61C0"/>
+        <Cutscene Name="gTempleOfTimeSheikRevealStartCs" Offset="0x84E0"/>
+        <Cutscene Name="gTempleOfTimeDoorOpeningUnusedCs" Offset="0x3330"/>
+
         <Scene Name="tokinoma_scene" Offset="0x0"/>
     </File>
     <File Name="tokinoma_room_0" Segment="3">
