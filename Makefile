@@ -898,7 +898,7 @@ $(BUILD_DIR)/assets/audio/soundfonts/%.o: $(BUILD_DIR)/assets/audio/soundfonts/%
 	$(SFPATCH) $(@:.o=.tmp2) $(@:.o=.tmp2)
 # write start and size symbols afterwards, filename != symbolic name so source symbolic name from the .name file written by sfc
 # also write a .note.name section containing the symbolic name of the soundfont
-	$(OBJCOPY) --add-symbol $$(cat $(<:.c=.name) | head -c -1)_Start=.rodata:0,global --redefine-sym __LEN__=$$(cat $(<:.c=.name) | head -c -1)_Size --add-section .note.name=$(<:.c=.name) $(@:.o=.tmp2) $@
+	$(OBJCOPY) --add-symbol $$(cat $(<:.c=.name) | tr -d '\0')_Start=.rodata:0,global --redefine-sym __LEN__=$$(cat $(<:.c=.name) | tr -d '\0')_Size --add-section .note.name=$(<:.c=.name) $(@:.o=.tmp2) $@
 # cleanup temp files
 	@$(RM) $(@:.o=.tmp) $(@:.o=.tmp2)
 ifeq ($(AUDIO_BUILD_DEBUG),1)
