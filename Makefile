@@ -268,7 +268,7 @@ NM      := $(MIPS_BINUTILS_PREFIX)nm
 
 # The default iconv on macOS has some differences from GNU iconv, so we use the Homebrew version instead
 ifeq ($(UNAME_S),Darwin)
-  ICONV := /usr/local/opt/libiconv/bin/iconv
+  ICONV := $(shell brew --prefix)/opt/libiconv/bin/iconv
 else
   ICONV := iconv
 endif
