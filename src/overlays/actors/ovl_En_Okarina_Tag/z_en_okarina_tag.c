@@ -258,8 +258,8 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 gSaveContext.cutsceneTrigger = 1;
                 break;
             case 6:
-                play->csCtx.script = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
-                                                   : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
+                play->csCtx.script = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(gGraveyardTombOpeningAdultCs)
+                                                   : SEGMENTED_TO_VIRTUAL(gGraveyardTombOpeningChildCs);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
                 Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
