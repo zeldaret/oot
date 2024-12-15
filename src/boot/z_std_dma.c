@@ -539,7 +539,7 @@ s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size,
         (size == 0) || (size & 1)) {
         //! @bug `req` is passed to `DMA_ERROR` without rom, ram and size being set
         DMA_ERROR(req, NULL, "ILLIGAL DMA-FUNCTION CALL", T("パラメータ異常です", "Parameter error"), "../z_std_dma.c",
-                  LN3(UNK_LINE, UNK_LINE, UNK_LINE));
+                  UNK_LINE);
     }
 #endif
 
