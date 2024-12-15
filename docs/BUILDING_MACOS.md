@@ -14,6 +14,7 @@ For macOS, use Homebrew to install the following dependencies:
 * bash
 * clang-format
 * libxml2
+* libiconv
 
 You can install them with the following commands:
 
