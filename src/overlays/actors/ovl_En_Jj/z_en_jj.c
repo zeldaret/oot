@@ -214,7 +214,7 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
         this->cutsceneCountdownTimer--;
     } else {
         EnJj_SetupAction(this, EnJj_RemoveDust);
-        play->csCtx.script = D_80A88164;
+        play->csCtx.script = gJabuInhalingCs;
         gSaveContext.cutsceneTrigger = 1;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
         Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
