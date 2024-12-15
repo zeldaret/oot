@@ -1814,7 +1814,6 @@ class MessageDecoderNES(MessageDecoder):
             0x1F : ("TIME",               "",    None),
         }
         extraction_charmap = {
-            0x7F : '‾',
             0x80 : 'À',
             0x81 : 'î',
             0x82 : 'Â',
