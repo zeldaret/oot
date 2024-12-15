@@ -6,6 +6,7 @@
 
 #include "z_en_horse_game_check.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "line_numbers.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -90,12 +91,9 @@ s32 EnHorseGameCheck_InitIngoRace(EnHorseGameCheckBase* base, PlayState* play) {
     this->ingoHorse = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, -250.0f, 1.0f, -1650.0f, 0, 0x4000, 0, 0x8003);
 
     if (this->ingoHorse == NULL) {
-#if OOT_VERSION < NTSC_1_1
-        LogUtils_HungupThread("../z_en_horse_game_check.c", 382);
-#else
-        LogUtils_HungupThread("../z_en_horse_game_check.c", 385);
-#endif
+        LogUtils_HungupThread("../z_en_horse_game_check.c", LN1(382, 385));
     }
+
     this->startTimer = 0;
     this->finishTimer = 0;
     this->result = INGORACE_NO_RESULT;
