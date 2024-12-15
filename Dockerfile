@@ -26,4 +26,4 @@ WORKDIR /oot
 RUN git config --global --add safe.directory /oot
 
 CMD ["/bin/sh", "-c", \
-    "make setup && make"]
+    "make -j $(nproc) setup && make -j $(nproc)"]
