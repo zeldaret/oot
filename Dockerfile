@@ -25,5 +25,4 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
 WORKDIR /oot
 RUN git config --global --add safe.directory /oot
 
-CMD ["/bin/sh", "-c", \
-    "echo 'usage:\n  docker run --rm --mount type=bind,source=\"$(pwd)\",destination=/oot oot make -j$(nproc) setup\n  docker run --rm --mount type=bind,source=\"$(pwd)\",destination=/oot oot make -j$(nproc)'"]
+CMD make -j $(nproc) setup && make -j $(nproc) && tail -f /dev/null
