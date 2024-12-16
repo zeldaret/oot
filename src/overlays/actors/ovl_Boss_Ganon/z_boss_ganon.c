@@ -580,7 +580,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             Play_ChangeCameraStatus(play, this->csCamIndex, CAM_STAT_ACTIVE);
             this->csCamFov = 60.0f;
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_78)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_GANONDORF_BATTLE)) {
                 // watched cutscene already, skip most of it
                 this->csState = 17;
                 this->csTimer = 0;
@@ -1098,12 +1098,12 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
                 gSegments[6] =
                     VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[Object_GetSlot(&play->objectCtx, OBJECT_GANON)].segment);
 
-                if (!GET_EVENTCHKINF(EVENTCHKINF_78)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_BEGAN_GANONDORF_BATTLE)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gGanondorfTitleCardTex),
                                            160, 180, 128, 40);
                 }
 
-                SET_EVENTCHKINF(EVENTCHKINF_78);
+                SET_EVENTCHKINF(EVENTCHKINF_BEGAN_GANONDORF_BATTLE);
             }
 
             if (this->csTimer >= 20) {
