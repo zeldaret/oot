@@ -640,7 +640,7 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
             } else {
                 this->actor.colChkInfo.damageTable = sDamageTable;
                 sPhase2Timer = 0xFFFF;
-                if (GET_EVENTCHKINF(EVENTCHKINF_76)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_BARINADE_BATTLE)) {
                     sCsState = INTRO_CALL_BARI;
                     sDoorState = 100;
                     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
@@ -975,7 +975,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
                 sSubCamAtNext.y = 140.0f;
                 sSubCamAtNext.z = -200.0f;
 
-                if (!GET_EVENTCHKINF(EVENTCHKINF_76)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_BEGAN_BARINADE_BATTLE)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gBarinadeTitleCardTex),
                                            160, 180, 128, 40);
                 }
@@ -1017,7 +1017,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
                 Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 sCsState++;
-                SET_EVENTCHKINF(EVENTCHKINF_76);
+                SET_EVENTCHKINF(EVENTCHKINF_BEGAN_BARINADE_BATTLE);
                 player->actor.shape.rot.y = player->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
             }
             break;
