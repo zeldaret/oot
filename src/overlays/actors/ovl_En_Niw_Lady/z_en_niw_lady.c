@@ -5,7 +5,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnNiwLady_Init(Actor* thisx, PlayState* play);
 void EnNiwLady_Destroy(Actor* thisx, PlayState* play);
@@ -88,7 +88,7 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play) {
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ねぇちゃんうっふん ☆☆☆☆☆ %d\n" VT_RST, this->unk_278);
     PRINTF("\n\n");
     this->actionFunc = func_80AB9F24;
-    thisx->uncullZoneForward = 600.0f;
+    thisx->cullingVolumeDistance = 600.0f;
 }
 
 void EnNiwLady_Destroy(Actor* thisx, PlayState* play) {
@@ -374,7 +374,7 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
         this->unk_26E = 11;
     }
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        s8 playerExchangeItemId = func_8002F368(play);
+        s8 playerExchangeItemId = Actor_GetPlayerExchangeItemId(play);
 
         if ((playerExchangeItemId == EXCH_ITEM_POCKET_CUCCO) && GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
@@ -578,8 +578,10 @@ s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
     }
     if (this->unk_275 != 0) {
         if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {
-            rot->y += (Math_SinS((play->state.frames * ((limbIndex * 0x32) + 0x814))) * 200.0f);
-            rot->z += (Math_CosS((play->state.frames * ((limbIndex * 0x32) + 0x940))) * 200.0f);
+            // clang-format off
+            rot->y += Math_SinS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
+            rot->z += Math_CosS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
+            // clang-format on
         }
     }
     return false;

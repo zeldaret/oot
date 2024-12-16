@@ -1,7 +1,8 @@
 #include "global.h"
 #include "terminal.h"
+#include "line_numbers.h"
 
-#pragma increment_block_number "ntsc-1.0:136 ntsc-1.1:136 ntsc-1.2:136"
+#pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128"
 
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);
@@ -1541,7 +1542,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     };
     u32 tblMax;
     u32 memSize;
-    u32 lookupTblMemSize;
+    UNUSED_NDEBUG u32 lookupTblMemSize;
     s32 customNodeListMax;
     SSNodeList* nodeList;
     u32 customMemSize;
@@ -1610,13 +1611,11 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
                                            colCtx->subdivAmount.x * sizeof(StaticLookup) * colCtx->subdivAmount.y *
                                                colCtx->subdivAmount.z,
                                            ALIGNOF_MASK(StaticLookup));
+
     if (colCtx->lookupTbl == NULL) {
-#if OOT_VERSION < NTSC_1_1
-        LogUtils_HungupThread("../z_bgcheck.c", 4173);
-#else
-        LogUtils_HungupThread("../z_bgcheck.c", 4176);
-#endif
+        LogUtils_HungupThread("../z_bgcheck.c", LN1(4173, 4176));
     }
+
     colCtx->minBounds.x = colCtx->colHeader->minBounds.x;
     colCtx->minBounds.y = colCtx->colHeader->minBounds.y;
     colCtx->minBounds.z = colCtx->colHeader->minBounds.z;
@@ -1633,17 +1632,14 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
               colCtx->colHeader->numPolygons * sizeof(u8) + colCtx->dyna.polyNodesMax * sizeof(SSNode) +
               colCtx->dyna.polyListMax * sizeof(CollisionPoly) + colCtx->dyna.vtxListMax * sizeof(Vec3s) +
               sizeof(CollisionContext);
+
     if (customNodeListMax > 0) {
         // tblMax is set without checking if customNodeListMax will result in a memory overflow
         // this is a non-issue as long as sceneSubdivisionList.nodeListMax is -1
         tblMax = customNodeListMax;
     } else {
         if (colCtx->memSize < memSize) {
-#if OOT_VERSION < NTSC_1_1
-            LogUtils_HungupThread("../z_bgcheck.c", 4227);
-#else
-            LogUtils_HungupThread("../z_bgcheck.c", 4230);
-#endif
+            LogUtils_HungupThread("../z_bgcheck.c", LN1(4227, 4230));
         }
         tblMax = (colCtx->memSize - memSize) / sizeof(SSNode);
     }

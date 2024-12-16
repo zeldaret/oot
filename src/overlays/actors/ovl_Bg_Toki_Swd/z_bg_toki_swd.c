@@ -7,7 +7,7 @@
 #include "z_bg_toki_swd.h"
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgTokiSwd_Init(Actor* thisx, PlayState* play);
 void BgTokiSwd_Destroy(Actor* thisx, PlayState* play);

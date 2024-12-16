@@ -3,7 +3,9 @@
 #include "assets/objects/object_tw/object_tw.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum TwEffType {
     /*  0 */ TWEFF_NONE,
@@ -2974,7 +2976,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
     BossTw* this = (BossTw*)thisx;
     Player* player = GET_PLAYER(play);
 
-    this->actor.flags &= ~ACTOR_FLAG_10;
+    this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     this->unk_5F8 = 0;
     this->collider.base.colMaterial = COL_MATERIAL_HIT3;
 
@@ -5252,7 +5254,7 @@ void BossTw_TwinrovaStun(BossTw* this, PlayState* play) {
     s16 cloudType;
 
     this->unk_5F8 = 1;
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
 
     cloudType = sTwinrovaBlastType == 0 ? TWEFF_3 : TWEFF_2;
 

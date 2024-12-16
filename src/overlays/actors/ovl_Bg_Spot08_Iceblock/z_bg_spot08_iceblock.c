@@ -278,9 +278,9 @@ void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, PlayState* play) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2200, ICHAIN_STOP),
 };
 
 void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {

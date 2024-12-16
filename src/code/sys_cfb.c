@@ -1,4 +1,5 @@
 #include "global.h"
+#include "line_numbers.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "pal-1.1:128"
@@ -8,7 +9,7 @@ uintptr_t sSysCfbEnd;
 
 void SysCfb_Init(s32 n64dd) {
     u32 screenSize;
-    uintptr_t tmpFbEnd;
+    UNUSED_NDEBUG uintptr_t tmpFbEnd;
 
     if (osMemSize >= 0x800000) {
         PRINTF(T("８Ｍバイト以上のメモリが搭載されています\n", "8MB or more memory is installed\n"));
@@ -33,15 +34,7 @@ void SysCfb_Init(s32 n64dd) {
         PRINTF("RAM4M mode\n");
         sSysCfbEnd = 0x80400000;
     } else {
-#if OOT_VERSION < NTSC_1_1
-        LogUtils_HungupThread("../sys_cfb.c", 305);
-#elif OOT_VERSION < PAL_1_0
-        LogUtils_HungupThread("../sys_cfb.c", 308);
-#elif OOT_VERSION < GC_JP
-        LogUtils_HungupThread("../sys_cfb.c", 322);
-#else
-        LogUtils_HungupThread("../sys_cfb.c", 354);
-#endif
+        LogUtils_HungupThread("../sys_cfb.c", LN4(305, 308, 322, 354));
     }
 
     screenSize = SCREEN_WIDTH * SCREEN_HEIGHT;

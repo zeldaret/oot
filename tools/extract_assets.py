@@ -8,7 +8,7 @@ import time
 import multiprocessing
 from pathlib import Path
 
-from tools import version_config
+import version_config
 
 
 def SignalHandler(sig, frame):

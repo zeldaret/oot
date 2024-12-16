@@ -465,7 +465,7 @@ typedef enum LinkAge {
  * SaveContext.eventChkInf
  */
 
-#define EVENTCHKINF_02 0x02
+#define EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS 0x02
 #define EVENTCHKINF_03 0x03
 #define EVENTCHKINF_04 0x04
 #define EVENTCHKINF_05 0x05
@@ -500,13 +500,13 @@ typedef enum LinkAge {
 #define EVENTCHKINF_30 0x30
 #define EVENTCHKINF_31 0x31
 #define EVENTCHKINF_32 0x32
-#define EVENTCHKINF_33 0x33
+#define EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA 0x33
 #define EVENTCHKINF_37 0x37
 #define EVENTCHKINF_38 0x38
 #define EVENTCHKINF_39 0x39
-#define EVENTCHKINF_3A 0x3A
+#define EVENTCHKINF_OPENED_JABU_JABU 0x3A
 #define EVENTCHKINF_3B 0x3B
-#define EVENTCHKINF_3C 0x3C
+#define EVENTCHKINF_DEFEATED_NABOORU_KNUCKLE 0x3C
 
 // 0x40
 #define EVENTCHKINF_40_INDEX 4
@@ -521,10 +521,10 @@ typedef enum LinkAge {
 #define EVENTCHKINF_48 0x48
 #define EVENTCHKINF_49 0x49
 #define EVENTCHKINF_4A 0x4A
-#define EVENTCHKINF_4B 0x4B
+#define EVENTCHKINF_OPENED_DOOR_OF_TIME 0x4B
 #define EVENTCHKINF_4C 0x4C
-#define EVENTCHKINF_4D 0x4D
-#define EVENTCHKINF_4E 0x4E
+#define EVENTCHKINF_CREATED_RAINBOW_BRIDGE 0x4D
+#define EVENTCHKINF_CAUGHT_BY_CASTLE_GUARDS 0x4E // set but unused
 #define EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS 0x4F // Cutscene in Temple of Time as adult after pulling the Master Sword for the first time
 #define EVENTCHKINF_50 0x50
 #define EVENTCHKINF_51 0x51
@@ -536,9 +536,9 @@ typedef enum LinkAge {
 #define EVENTCHKINF_5B 0x5B
 #define EVENTCHKINF_5C 0x5C
 #define EVENTCHKINF_65 0x65
-#define EVENTCHKINF_67 0x67
+#define EVENTCHKINF_DRAINED_WELL 0x67
 #define EVENTCHKINF_68 0x68
-#define EVENTCHKINF_69 0x69
+#define EVENTCHKINF_RESTORED_LAKE_HYLIA 0x69
 #define EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO 0x6A
 
 // 0x6B
@@ -560,10 +560,10 @@ typedef enum LinkAge {
 #define EVENTCHKINF_78 0x78
 #define EVENTCHKINF_80 0x80
 #define EVENTCHKINF_82 0x82
-#define EVENTCHKINF_8C 0x8C
-#define EVENTCHKINF_8D 0x8D
-#define EVENTCHKINF_8E 0x8E
-#define EVENTCHKINF_8F 0x8F
+#define EVENTCHKINF_PAID_BACK_KEATON_MASK 0x8C
+#define EVENTCHKINF_PAID_BACK_SKULL_MASK 0x8D
+#define EVENTCHKINF_PAID_BACK_SPOOKY_MASK 0x8E
+#define EVENTCHKINF_PAID_BACK_BUNNY_HOOD 0x8F
 
 // 0x90-0x93
 // carpenters freed from the gerudo
@@ -700,8 +700,11 @@ typedef enum LinkAge {
 #define ITEMGETINF_1B 0x1B
 #define ITEMGETINF_1C 0x1C
 #define ITEMGETINF_1D 0x1D
-#define ITEMGETINF_1E 0x1E
-#define ITEMGETINF_1F 0x1F
+#define ITEMGETINF_FOREST_STAGE_STICK_UPGRADE 0x1E
+// This flag is shared by two events; It is set when obtaining the Deku Nut upgrade at the Forest Stage and when obtaining Poachers Saw.
+// This will make obtaining the Deku Nut upgrade impossible if Poachers Saw is obtained first.
+// This flag is never read for the Poachers Saw event, so the overlap only causes an issue for the Deku Nut Upgrade. It will not prevent obtaining Poachers Saw.
+#define ITEMGETINF_FOREST_STAGE_NUT_UPGRADE 0x1F
 #define ITEMGETINF_23 0x23
 #define ITEMGETINF_24 0x24
 #define ITEMGETINF_25 0x25

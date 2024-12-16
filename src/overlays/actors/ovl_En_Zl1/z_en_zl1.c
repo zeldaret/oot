@@ -7,7 +7,7 @@
 #include "z_en_zl1.h"
 #include "assets/objects/object_zl1/object_zl1.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnZl1_Init(Actor* thisx, PlayState* play);
 void EnZl1_Destroy(Actor* thisx, PlayState* play);
@@ -23,7 +23,7 @@ void func_80B4BBC4(EnZl1* this, PlayState* play);
 void func_80B4BC78(EnZl1* this, PlayState* play);
 void func_80B4BF2C(EnZl1* this, PlayState* play);
 
-extern CutsceneData D_80B4C5D0[];
+extern CutsceneData gTriforceCreationStartCs[];
 
 #include "z_en_zl1_camera_data.inc.c"
 
@@ -318,7 +318,7 @@ void func_80B4B240(EnZl1* this, PlayState* play) {
             if (this->skelAnime.curFrame == frameCount) {
                 animHeaderSeg = &gChildZelda1Anim_00438;
                 sp3C = 1;
-                play->csCtx.script = D_80B4C5D0;
+                play->csCtx.script = gTriforceCreationStartCs;
                 gSaveContext.cutsceneTrigger = 1;
                 this->actionFunc = func_80B4B8B4;
                 this->unk_1E2++;

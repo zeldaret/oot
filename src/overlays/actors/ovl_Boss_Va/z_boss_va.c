@@ -12,7 +12,9 @@
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 #define GET_BODY(this) ((BossVa*)(this)->actor.parent)
 #define vaGorePulse offset.x
@@ -1146,6 +1148,8 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
             sKillBari++;
             if ((this->actor.colorFilterTimer != 0) && !(this->actor.colorFilterParams & 0x4000)) {
                 this->invincibilityTimer = this->actor.colorFilterTimer - 5;
+                //! @bug This condition is always false as this->invincibilityTimer is an s8 so can never
+                //! be larger than 160.
                 if (this->invincibilityTimer > 160) {
                     this->invincibilityTimer = 0;
                 }

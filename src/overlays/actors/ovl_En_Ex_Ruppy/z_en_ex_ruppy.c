@@ -3,7 +3,7 @@
 #include "../ovl_En_Diving_Game/z_en_diving_game.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnExRuppy_Init(Actor* thisx, PlayState* play);
 void EnExRuppy_Destroy(Actor* thisx, PlayState* play);

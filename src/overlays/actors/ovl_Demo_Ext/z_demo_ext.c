@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_fhg/object_fhg.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum DemoExtAction {
     /* 0x00 */ EXT_WAIT,

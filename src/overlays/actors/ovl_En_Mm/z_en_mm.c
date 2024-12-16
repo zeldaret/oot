@@ -8,7 +8,7 @@
 #include "assets/objects/object_mm/object_mm.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum RunningManAnimIndex {
     /* 0 */ RM_ANIM_RUN,
@@ -130,7 +130,7 @@ static EnMmPathInfo sPathInfo[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_STOP),
 };
 
 void EnMm_ChangeAnim(EnMm* this, s32 index, s32* currentIndex) {

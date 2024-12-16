@@ -17,21 +17,23 @@
 // For use in initializing OSViMode structures
 
 #define BURST(hsync_width, color_width, vsync_width, color_start) \
-    (hsync_width | (color_width << 8) | (vsync_width << 16) | (color_start << 20))
-#define WIDTH(v) v
-#define VSYNC(v) v
-#define HSYNC(duration, leap) (duration | (leap << 16))
-#define LEAP(upper, lower) ((upper << 16) | lower)
-#define START(start, end) ((start << 16) | end)
+   ((((u8)(hsync_width) & 0xFF) << 0) | \
+    (((u8)(color_width) & 0xFF) << 8) | \
+    (((u8)(vsync_width) & 0xF) << 16) | \
+    (((u16)(color_start) & 0xFFF) << 20))
+#define WIDTH(v) (v)
+#define VSYNC(v) (v)
+#define HSYNC(duration, leap) (((u16)(leap) << 16) | (u16)(duration))
+#define LEAP(upper, lower) (((u16)(upper) << 16) | (u16)(lower))
+#define START(start, end) (((u16)(start) << 16) | (u16)(end))
 
-#define FTOFIX(val, i, f) ((u32)(val * (f32)(1 << f)) & ((1 << (i + f)) - 1))
-
+#define FTOFIX(val, i, f) ((u32)((val) * (f32)(1 << (f))) & ((1 << ((i) + (f))) - 1))
 #define F210(val) FTOFIX(val, 2, 10)
-#define SCALE(scaleup, off) (F210((1.0f / (f32)scaleup)) | (F210((f32)off) << 16))
+#define SCALE(scaleup, off) (F210(1.0f / (f32)(scaleup)) | (F210((f32)(off)) << 16))
 
-#define VCURRENT(v) v
-#define ORIGIN(v) v
-#define VINTR(v) v
-#define HSTART START
+#define VCURRENT(v) (v)
+#define ORIGIN(v) (v)
+#define VINTR(v) (v)
+#define HSTART(start, end) START(start, end)
 
 #endif

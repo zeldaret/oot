@@ -9,7 +9,7 @@
 #include "assets/objects/object_nb/object_nb.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum EnNbAction {
     /* 0x00 */ NB_CHAMBER_INIT,
@@ -349,7 +349,7 @@ void EnNb_SetupChamberCsImpl(EnNb* this, PlayState* play) {
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_SPIRIT) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = NB_CHAMBER_UNDERGROUND;
-        play->csCtx.script = D_80AB431C;
+        play->csCtx.script = gSpiritMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_SPIRIT);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;

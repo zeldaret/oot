@@ -193,7 +193,7 @@ void func_80B3A3D4(EnWonderTalk2* this, PlayState* play) {
             if (this->talkMode == 4) {
                 this->unk_15A = true;
             }
-            this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4);
+            this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
             this->unk_156 = true;
             this->actionFunc = func_80B3A4F8;
@@ -256,7 +256,7 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
             if (!this->unk_156) {
                 Message_StartTextbox(play, this->actor.textId, NULL);
                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                 this->actionFunc = func_80B3A3D4;
             }
 

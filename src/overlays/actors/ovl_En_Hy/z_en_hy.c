@@ -16,7 +16,7 @@
 #include "assets/objects/object_cob/object_cob.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnHy_Init(Actor* thisx, PlayState* play);
 void EnHy_Destroy(Actor* thisx, PlayState* play);
@@ -957,7 +957,7 @@ void EnHy_OfferBuyBottledItem(EnHy* this, PlayState* play) {
     if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BEGGAR) {
         if (!Inventory_HasSpecificBottle(ITEM_BOTTLE_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BOTTLE_BUG) &&
             !Inventory_HasSpecificBottle(ITEM_BOTTLE_FISH)) {
-            switch (func_8002F368(play)) {
+            switch (Actor_GetPlayerExchangeItemId(play)) {
                 case EXCH_ITEM_BOTTLE_POE:
                 case EXCH_ITEM_BOTTLE_BIG_POE:
                 case EXCH_ITEM_BOTTLE_RUTOS_LETTER:
@@ -971,7 +971,7 @@ void EnHy_OfferBuyBottledItem(EnHy* this, PlayState* play) {
                     break;
             }
         } else {
-            switch (func_8002F368(play)) {
+            switch (Actor_GetPlayerExchangeItemId(play)) {
                 case EXCH_ITEM_BOTTLE_BLUE_FIRE:
                     this->actor.textId = 0x70F0;
                     break;
@@ -1160,8 +1160,8 @@ void EnHy_WaitForObjects(EnHy* this, PlayState* play) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[ENHY_GET_TYPE(&this->actor)].animInfoIndex);
 
         if ((play->sceneId == SCENE_BACK_ALLEY_DAY) || (play->sceneId == SCENE_MARKET_DAY)) {
-            this->actor.flags &= ~ACTOR_FLAG_4;
-            this->actor.uncullZoneScale = 0.0f;
+            this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+            this->actor.cullingVolumeScale = 0.0f;
         }
 
         if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
@@ -1252,7 +1252,7 @@ void EnHy_Walk(EnHy* this, PlayState* play) {
 }
 
 void EnHy_Fidget(EnHy* this, PlayState* play) {
-    func_80034F54(play, this->fidgetTableY, this->fidgetTableZ, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENHY_LIMB_MAX);
 }
 
 void EnHy_DoNothing(EnHy* this, PlayState* play) {
@@ -1265,7 +1265,7 @@ void EnHy_SetupPace(EnHy* this, PlayState* play) {
         this->actionFunc = EnHy_Pace;
     }
 
-    func_80034F54(play, this->fidgetTableY, this->fidgetTableZ, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENHY_LIMB_MAX);
 }
 
 void EnHy_Pace(EnHy* this, PlayState* play) {
@@ -1390,8 +1390,8 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if ((limbIndex == ENHY_LIMB_TORSO) || (limbIndex == ENHY_LIMB_LEFT_UPPER_ARM) ||
         (limbIndex == ENHY_LIMB_RIGHT_UPPER_ARM)) {
-        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2228);

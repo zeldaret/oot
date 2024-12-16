@@ -3,6 +3,7 @@
 #include "libc64/os_malloc.h"
 #include "terminal.h"
 #include "versions.h"
+#include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -390,15 +391,7 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     } else {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF(T("ハイラル確保失敗\n", "Failure to secure Hyrule\n"));
-#if OOT_VERSION < NTSC_1_1
-        HUNGUP_AND_CRASH("../game.c", 895);
-#elif OOT_VERSION < PAL_1_0
-        HUNGUP_AND_CRASH("../game.c", 898);
-#elif OOT_VERSION < GC_JP
-        HUNGUP_AND_CRASH("../game.c", 985);
-#else
-        HUNGUP_AND_CRASH("../game.c", 999);
-#endif
+        HUNGUP_AND_CRASH("../game.c", LN4(895, 898, 985, 999));
     }
 }
 
@@ -439,21 +432,13 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         SystemArena_Display();
 #endif
 
-#if OOT_VERSION < NTSC_1_1
-        HUNGUP_AND_CRASH("../game.c", 940);
-#elif OOT_VERSION < PAL_1_0
-        HUNGUP_AND_CRASH("../game.c", 943);
-#elif OOT_VERSION < GC_JP
-        HUNGUP_AND_CRASH("../game.c", 1030);
-#else
-        HUNGUP_AND_CRASH("../game.c", 1044);
-#endif
+        HUNGUP_AND_CRASH("../game.c", LN4(940, 943, 1030, 1044));
     }
 }
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
-    OSTime startTime;
-    OSTime endTime;
+    UNUSED_NDEBUG OSTime startTime;
+    UNUSED_NDEBUG OSTime endTime;
 
     PRINTF(T("game コンストラクタ開始\n", "game constructor start\n"));
     gameState->gfxCtx = gfxCtx;

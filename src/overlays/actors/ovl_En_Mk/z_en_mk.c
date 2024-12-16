@@ -7,7 +7,7 @@
 #include "z_en_mk.h"
 #include "assets/objects/object_mk/object_mk.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnMk_Init(Actor* thisx, PlayState* play);
 void EnMk_Destroy(Actor* thisx, PlayState* play);
@@ -216,7 +216,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
     s32 playerExchangeItem;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        playerExchangeItem = func_8002F368(play);
+        playerExchangeItem = Actor_GetPlayerExchangeItemId(play);
 
         if (this->actor.textId != 0x4018) {
             player->actor.textId = this->actor.textId;

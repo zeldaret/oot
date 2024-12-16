@@ -8,7 +8,7 @@
 #include "quake.h"
 #include "assets/objects/object_bdan_objects/object_bdan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum BgBdanObjectsPropertyGetter {
     JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0 = 0,
@@ -126,7 +126,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
     this->var.switchFlag = PARAMS_GET_U(thisx->params, 8, 6);
     thisx->params &= 0xFF;
     if (thisx->params == JABU_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
-        thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+        thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
         play->colCtx.colHeader->waterBoxes[7].ySurface = thisx->world.pos.y;
         this->actionFunc = BgBdanObjects_WaitForSwitch;
         return;
