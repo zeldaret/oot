@@ -445,7 +445,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     if (index == 0) {
-        R_ENTER_RIDING_HORSE = 0;
+        R_EXITED_SCENE_RIDING_HORSE = false;
     }
     gSaveContext.timerState = TIMER_STATE_OFF;
 }

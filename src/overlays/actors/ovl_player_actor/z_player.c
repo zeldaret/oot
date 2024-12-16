@@ -11842,7 +11842,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                     if (DREG(25) != 0) {
                         DREG(25) = 0;
                     } else {
-                        R_ENTER_RIDING_HORSE = 1;
+                        R_EXITED_SCENE_RIDING_HORSE = true;
                     }
                 }
             }
@@ -13383,7 +13383,7 @@ void Player_Action_8084D3E4(Player* this, PlayState* play) {
         func_8083C0E8(this, play);
         this->stateFlags1 &= ~PLAYER_STATE1_23;
         this->actor.parent = NULL;
-        R_ENTER_RIDING_HORSE = 0;
+        R_EXITED_SCENE_RIDING_HORSE = false;
 
         if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED) {
             gSaveContext.save.info.horseData.pos.x = rideActor->actor.world.pos.x;

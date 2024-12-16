@@ -748,7 +748,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     EnHorse* this = (EnHorse*)thisx;
     PlayState* play = play2;
 
-    R_ENTER_RIDING_HORSE = 0;
+    R_EXITED_SCENE_RIDING_HORSE = false;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnHorse_ClearDustFlags(&this->dustFlags);
     R_EPONAS_SONG_PLAYED = false;
