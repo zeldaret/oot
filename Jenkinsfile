@@ -26,37 +26,40 @@ pipeline {
                 }
             }
         }
+        stage('Parallel building'){
+            stage('Build ntsc-1.0') {
+                steps {
+                    script {
+                        build('ntsc-1.0', 'oot-ntsc-1.0-us.z64')
+                    }
+            }
+            }
+            stage('Build gc-jp') {
+                steps {
+                    script {
+                        build('gc-jp', 'oot-gc-jp.z64')
+                    }
+            }
+            }
+            stage('Build gc-eu-mq') {
+                steps {
+                    script {
+                        build('gc-eu-mq', 'oot-gc-eu-mq.z64')
+                    }
+                }
+            }
+            stage('Build gc-eu-mq-dbg') {
+                steps {
+                    script {
+                        build('gc-eu-mq-dbg', 'oot-gc-eu-mq-dbg.z64')
+                    }
+                }
+            }
+        }
         // The ROMs are built in an order that maximizes compiler flags coverage in a "fail fast" approach.
         // Specifically we start with a retail ROM for BSS ordering, and make sure we cover all of
         // N64/GC/NTSC/PAL/MQ/DEBUG as quickly as possible.
-        stage('Build ntsc-1.0') {
-            steps {
-                script {
-                    build('ntsc-1.0', 'oot-ntsc-1.0-us.z64')
-                }
-           }
-        }
-        stage('Build gc-jp') {
-            steps {
-                script {
-                    build('gc-jp', 'oot-gc-jp.z64')
-                }
-           }
-        }
-        stage('Build gc-eu-mq') {
-            steps {
-                script {
-                    build('gc-eu-mq', 'oot-gc-eu-mq.z64')
-                }
-            }
-        }
-        stage('Build gc-eu-mq-dbg') {
-            steps {
-                script {
-                    build('gc-eu-mq-dbg', 'oot-gc-eu-mq-dbg.z64')
-                }
-            }
-        }
+        
         stage('Build pal-1.0') {
             steps {
                 script {
