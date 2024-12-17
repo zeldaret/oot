@@ -27,31 +27,33 @@ pipeline {
             }
         }
         stage('Parallel building'){
-            stage('Build ntsc-1.0') {
-                steps {
-                    script {
-                        build('ntsc-1.0', 'oot-ntsc-1.0-us.z64')
-                    }
-            }
-            }
-            stage('Build gc-jp') {
-                steps {
-                    script {
-                        build('gc-jp', 'oot-gc-jp.z64')
-                    }
-            }
-            }
-            stage('Build gc-eu-mq') {
-                steps {
-                    script {
-                        build('gc-eu-mq', 'oot-gc-eu-mq.z64')
+            parallel{
+                stage('Build ntsc-1.0') {
+                    steps {
+                        script {
+                            build('ntsc-1.0', 'oot-ntsc-1.0-us.z64')
+                        }
+                }
+                }
+                stage('Build gc-jp') {
+                    steps {
+                        script {
+                            build('gc-jp', 'oot-gc-jp.z64')
+                        }
+                }
+                }
+                stage('Build gc-eu-mq') {
+                    steps {
+                        script {
+                            build('gc-eu-mq', 'oot-gc-eu-mq.z64')
+                        }
                     }
                 }
-            }
-            stage('Build gc-eu-mq-dbg') {
-                steps {
-                    script {
-                        build('gc-eu-mq-dbg', 'oot-gc-eu-mq-dbg.z64')
+                stage('Build gc-eu-mq-dbg') {
+                    steps {
+                        script {
+                            build('gc-eu-mq-dbg', 'oot-gc-eu-mq-dbg.z64')
+                        }
                     }
                 }
             }
