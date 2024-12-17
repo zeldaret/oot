@@ -29,23 +29,19 @@ pipeline {
         // The ROMs are built in an order that maximizes compiler flags coverage in a "fail fast" approach.
         // Specifically we start with a retail ROM for BSS ordering, and make sure we cover all of
         // N64/GC/NTSC/PAL/MQ/DEBUG as quickly as possible.
-        stage('Parallel test'){
-            parallel{
-                stage('Build ntsc-1.0') {
-                    steps {
-                        script {
-                            build('ntsc-1.0', 'oot-ntsc-1.0-us.z64')
-                        }
+        stage('Build ntsc-1.0') {
+            steps {
+                script {
+                    build('ntsc-1.0', 'oot-ntsc-1.0-us.z64')
                 }
+           }
+        }
+        stage('Build gc-jp') {
+            steps {
+                script {
+                    build('gc-jp', 'oot-gc-jp.z64')
                 }
-                stage('Build gc-jp') {
-                    steps {
-                        script {
-                            build('gc-jp', 'oot-gc-jp.z64')
-                        }
-                }
-                }
-            }
+           }
         }
         stage('Build gc-eu-mq') {
             steps {
