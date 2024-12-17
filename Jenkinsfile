@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'oot'
+        label 'ptweezy'
     }
 
     stages {
