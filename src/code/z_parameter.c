@@ -790,7 +790,7 @@ void func_80083108(PlayState* play) {
                     gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                 }
-            } else if (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_1) {
+            } else if (GET_EVENTINF_INGORACE_STATE() == INGORACE_STATE_HORSE_RENTAL_PERIOD) {
                 if (player->stateFlags1 & PLAYER_STATE1_23) {
                     if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_BOW)) {
@@ -851,7 +851,7 @@ void func_80083108(PlayState* play) {
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE)) {
                         if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                            (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                            (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                             gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = true;
 
@@ -875,7 +875,7 @@ void func_80083108(PlayState* play) {
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE)) {
                         if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                            (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                            (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                             gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = true;
 
@@ -1345,7 +1345,7 @@ void func_80084BF4(PlayState* play, u16 flag) {
             }
         } else if (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE) {
             if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                 gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 Interface_LoadItemIcon1(play, 0);
             }
@@ -3544,10 +3544,8 @@ void Interface_Draw(PlayState* play) {
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
 #if OOT_VERSION >= NTSC_1_1
-                    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] &=
-                        (u16) ~(EVENTINF_HORSES_STATE_MASK | EVENTINF_HORSES_HORSETYPE_MASK | EVENTINF_HORSES_05_MASK |
-                                EVENTINF_HORSES_06_MASK | EVENTINF_HORSES_0F_MASK);
-                    PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_HORSES_INDEX]);
+                    RESET_EVENTINF_INGORACE();
+                    PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_INDEX_INGORACE]);
 #endif
                     play->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
