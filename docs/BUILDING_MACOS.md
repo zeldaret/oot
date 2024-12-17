@@ -65,9 +65,9 @@ make -j
 sudo make install
 ```
 
-Edit your `~/.bash_profile`/`~/.zsh_profile` (or whichever shell you use) to add the new binutils binaries to the system PATH
+Edit your `~/.bash_profile`/`~/.zprofile` (or whichever shell you use) to add the new binutils binaries to the system PATH
 ```bash
-echo "export PATH=$PATH:/opt/cross/bin" >> ~/.bash_profile
+echo 'export PATH="$PATH:/opt/cross/bin"' >> ~/.bash_profile
 ```
 
 Reload `~/.bash_profile` (or just launch a new terminal tab)
