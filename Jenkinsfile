@@ -33,14 +33,14 @@ pipeline {
                         script {
                             build('ntsc-1.0', 'oot-ntsc-1.0-us.z64')
                         }
-                }
+                    }
                 }
                 stage('Build gc-jp') {
                     steps {
                         script {
                             build('gc-jp', 'oot-gc-jp.z64')
                         }
-                }
+                    }
                 }
                 stage('Build gc-eu-mq') {
                     steps {
