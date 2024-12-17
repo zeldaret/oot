@@ -4,26 +4,28 @@ pipeline {
     }
 
     stages {
-        parallel{
-            stage('Check formatting (full)') {
-            when {
-                branch 'main'
-            }
-            steps {
-                echo 'Checking formatting on all files...'
-                sh 'python3 tools/check_format.py'
-            }
-            }
-            stage('Check formatting (modified)') {
+        stage('Checking formatting (full) and (modified)'){
+            parallel{
+                stage('Check formatting (full)') {
                 when {
-                    not {
-                        branch 'main'
-                    }
+                    branch 'main'
                 }
                 steps {
-                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                        echo 'Checking formatting on modified files...'
-                        sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
+                    echo 'Checking formatting on all files...'
+                    sh 'python3 tools/check_format.py'
+                }
+                }
+                stage('Check formatting (modified)') {
+                    when {
+                        not {
+                            branch 'main'
+                        }
+                    }
+                    steps {
+                        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                            echo 'Checking formatting on modified files...'
+                            sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
+                        }
                     }
                 }
             }
