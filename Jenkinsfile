@@ -2,6 +2,7 @@ pipeline {
     agent {
         label 'ptweezy'
     }
+    
     stages {
         stage('Check formatting (full)') {
             when {
