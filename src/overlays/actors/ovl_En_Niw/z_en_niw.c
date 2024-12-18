@@ -66,8 +66,9 @@ static Vec3f sKakarikoPosList[] = {
 };
 
 static s16 sKakarikoFlagList[] = {
-    INFTABLE_199_MASK, INFTABLE_19A_MASK, INFTABLE_19B_MASK, INFTABLE_19C_MASK,
-    INFTABLE_19D_MASK, INFTABLE_19E_MASK, INFTABLE_19F_MASK,
+    GET_INFTABLE_MASK(INFTABLE_199), GET_INFTABLE_MASK(INFTABLE_19A), GET_INFTABLE_MASK(INFTABLE_19B),
+    GET_INFTABLE_MASK(INFTABLE_19C), GET_INFTABLE_MASK(INFTABLE_19D), GET_INFTABLE_MASK(INFTABLE_19E),
+    GET_INFTABLE_MASK(INFTABLE_19F),
 };
 
 static u8 sLowerRiverSpawned = false;
@@ -162,7 +163,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
                 fabsf(this->actor.world.pos.z - sKakarikoPosList[i].z) < 40.0f) {
                 this->unk_2AA = i;
                 PRINTF(VT_FGCOL(YELLOW) " 通常鶏index %d\n" VT_RST, this->unk_2AA);
-                if (gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &
+                if (gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F] &
                     sKakarikoFlagList[i]) {
                     this->actor.world.pos.x = 300.0f;
                     this->actor.world.pos.y = 100.0f;

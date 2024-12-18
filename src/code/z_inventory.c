@@ -299,7 +299,7 @@ u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment) {
 
         if (equipment == EQUIP_TYPE_SWORD) {
             gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
-            gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] = 1;
+            gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] = 1;
         }
 
         Player_SetEquipmentData(play, player);

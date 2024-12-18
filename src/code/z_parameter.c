@@ -851,7 +851,7 @@ void func_80083108(PlayState* play) {
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE)) {
                         if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                            (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                            (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                             gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = true;
 
@@ -875,7 +875,7 @@ void func_80083108(PlayState* play) {
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE)) {
                         if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                            (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                            (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                             gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = true;
 
@@ -1345,7 +1345,7 @@ void func_80084BF4(PlayState* play, u16 flag) {
             }
         } else if (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE) {
             if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                 gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 Interface_LoadItemIcon1(play, 0);
             }
