@@ -1,6 +1,9 @@
 <Root>
     <File Name="kenjyanoma_scene" Segment="2">
         <Scene Name="kenjyanoma_scene" Offset="0x0"/>
+        <Cutscene Name="gChamberOfSagesRauruFinalMsgCs" Offset="0x12A0"/>
+        <Cutscene Name="gChamberOfSagesLightMedallionCs" Offset="0x0120"/>
+        <Cutscene Name="gChamberOfSagesSealOpeningCs" Offset="0x1690"/>
     </File>
     <File Name="kenjyanoma_room_0" Segment="3">
         <Room Name="kenjyanoma_room_0" Offset="0x0"/>

@@ -318,7 +318,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
 
     if (this->messageState == 0) {
         if (Actor_TalkOfferAccepted(&this->actor, play)) {
-            this->exchangeItemId = func_8002F368(play);
+            this->exchangeItemId = Actor_GetPlayerExchangeItemId(play);
             if (this->exchangeItemId != EXCH_ITEM_NONE) {
                 player->actor.textId = EnToryo_ReactToExchangeItem(this, play);
                 this->actor.textId = player->actor.textId;

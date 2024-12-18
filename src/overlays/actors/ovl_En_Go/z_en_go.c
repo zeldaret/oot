@@ -599,7 +599,7 @@ void func_80A3F908(EnGo* this, PlayState* play) {
 
         if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) && (dialogStarted == true)) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_BROKEN_GORONS_SWORD) {
-                if (func_8002F368(play) == EXCH_ITEM_BROKEN_GORONS_SWORD) {
+                if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_BROKEN_GORONS_SWORD) {
                     if (GET_INFTABLE(INFTABLE_B4)) {
                         this->actor.textId = 0x3055;
                     } else {
@@ -612,7 +612,7 @@ void func_80A3F908(EnGo* this, PlayState* play) {
             }
 
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYE_DROPS) {
-                if (func_8002F368(play) == EXCH_ITEM_EYE_DROPS) {
+                if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_EYE_DROPS) {
                     this->actor.textId = 0x3059;
                 } else {
                     this->actor.textId = 0x3058;

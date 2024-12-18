@@ -3,6 +3,7 @@
 #include "terminal.h"
 #include "ucode_disas.h"
 #include "versions.h"
+#include "line_numbers.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
@@ -379,30 +380,15 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
             PRINTF("%c", BEL);
             PRINTF(VT_COL(RED, WHITE) T("ダイナミック領域先頭が破壊されています\n", "Dynamic area head is destroyed\n")
                        VT_RST);
-#if OOT_VERSION < NTSC_1_1
-            Fault_AddHungupAndCrash("../graph.c", 937);
-#elif OOT_VERSION < PAL_1_0
-            Fault_AddHungupAndCrash("../graph.c", 940);
-#elif OOT_VERSION < GC_JP
-            Fault_AddHungupAndCrash("../graph.c", 951);
-#else
-            Fault_AddHungupAndCrash("../graph.c", 1070);
-#endif
+            Fault_AddHungupAndCrash("../graph.c", LN4(937, 940, 951, 1070));
         }
+
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
             problem = true;
             PRINTF("%c", BEL);
             PRINTF(VT_COL(RED, WHITE)
                        T("ダイナミック領域末尾が破壊されています\n", "Dynamic region tail is destroyed\n") VT_RST);
-#if OOT_VERSION < NTSC_1_1
-            Fault_AddHungupAndCrash("../graph.c", 943);
-#elif OOT_VERSION < PAL_1_0
-            Fault_AddHungupAndCrash("../graph.c", 946);
-#elif OOT_VERSION < GC_JP
-            Fault_AddHungupAndCrash("../graph.c", 957);
-#else
-            Fault_AddHungupAndCrash("../graph.c", 1076);
-#endif
+            Fault_AddHungupAndCrash("../graph.c", LN4(943, 946, 957, 1076));
         }
     }
 
@@ -494,14 +480,8 @@ void Graph_ThreadEntry(void* arg0) {
 
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
             Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
-#elif OOT_VERSION < NTSC_1_1
-            Fault_AddHungupAndCrash("../graph.c", 1067);
-#elif OOT_VERSION < PAL_1_0
-            Fault_AddHungupAndCrash("../graph.c", 1070);
-#elif OOT_VERSION < GC_JP
-            Fault_AddHungupAndCrash("../graph.c", 1081);
 #else
-            Fault_AddHungupAndCrash("../graph.c", 1200);
+            Fault_AddHungupAndCrash("../graph.c", LN4(1067, 1070, 1081, 1200));
 #endif
         }
 
