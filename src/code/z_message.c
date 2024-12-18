@@ -3444,7 +3444,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                         if (msgCtx->disableWarpSongs || interfaceCtx->restrictions.warpSongs == 3) {
                             Message_StartTextbox(play, 0x88C, NULL); // "You can't warp here!"
                             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-                        } else if (GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
+                        } else if (GET_EVENTINF_INGO_RACE_STATE() != INGO_RACE_STATE_HORSE_RENTAL_PERIOD) {
                             Message_StartTextbox(play, msgCtx->lastPlayedSong + 0x88D,
                                                  NULL); // "Warp to [place name]?"
                             play->msgCtx.ocarinaMode = OCARINA_MODE_01;
@@ -4247,7 +4247,7 @@ void Message_Update(PlayState* play) {
                         if (Message_ShouldAdvance(play)) {
                             PRINTF("OCARINA_MODE=%d -> ", play->msgCtx.ocarinaMode);
                             play->msgCtx.ocarinaMode = (msgCtx->choiceIndex == 0) ? OCARINA_MODE_02 : OCARINA_MODE_04;
-                            PRINTF("InRaceSeq=%d(%d) OCARINA_MODE=%d  -->  ", GET_EVENTINF_HORSES_STATE(), 1,
+                            PRINTF("InRaceSeq=%d(%d) OCARINA_MODE=%d  -->  ", GET_EVENTINF_INGO_RACE_STATE(), 1,
                                    play->msgCtx.ocarinaMode);
                             Message_CloseTextbox(play);
                             PRINTF("OCARINA_MODE=%d\n", play->msgCtx.ocarinaMode);

@@ -525,7 +525,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_4C 0x4C
 #define EVENTCHKINF_CREATED_RAINBOW_BRIDGE 0x4D
 #define EVENTCHKINF_CAUGHT_BY_CASTLE_GUARDS 0x4E // set but unused
-#define EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS 0x4F // Cutscene in Temple of Time as adult after pulling the Master Sword for the first time
+#define EVENTCHKINF_REVEALED_MASTER_SWORD 0x4F // Cutscene in Temple of Time when entering the Master Sword chamber for the first time
 #define EVENTCHKINF_50 0x50
 #define EVENTCHKINF_51 0x51
 #define EVENTCHKINF_52 0x52
@@ -549,15 +549,15 @@ typedef enum LinkAge {
 
 #define EVENTCHKINF_6E 0x6E
 #define EVENTCHKINF_6F 0x6F
-#define EVENTCHKINF_70 0x70
-#define EVENTCHKINF_71 0x71
-#define EVENTCHKINF_72 0x72
-#define EVENTCHKINF_73 0x73
-#define EVENTCHKINF_74 0x74
-#define EVENTCHKINF_75 0x75
-#define EVENTCHKINF_76 0x76
-#define EVENTCHKINF_77 0x77
-#define EVENTCHKINF_78 0x78
+#define EVENTCHKINF_BEGAN_GOHMA_BATTLE 0x70
+#define EVENTCHKINF_BEGAN_KING_DODONGO_BATTLE 0x71
+#define EVENTCHKINF_BEGAN_PHANTOM_GANON_BATTLE 0x72
+#define EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE 0x73
+#define EVENTCHKINF_BEGAN_MORPHA_BATTLE 0x74
+#define EVENTCHKINF_BEGAN_TWINROVA_BATTLE 0x75
+#define EVENTCHKINF_BEGAN_BARINADE_BATTLE 0x76
+#define EVENTCHKINF_BEGAN_BONGO_BONGO_BATTLE 0x77
+#define EVENTCHKINF_BEGAN_GANONDORF_BATTLE 0x78
 #define EVENTCHKINF_80 0x80
 #define EVENTCHKINF_82 0x82
 #define EVENTCHKINF_PAID_BACK_KEATON_MASK 0x8C
@@ -894,66 +894,65 @@ typedef enum LinkAge {
  * SaveContext.eventInf
  */
 
-// 0x00-0x0F
-// horses related
+// EVENTINF 0x00-0x0F
+// Ingo Race, Lon Lon Ranch minigames, and Horseback Archery minigame flags
 #define EVENTINF_HORSES_INDEX 0
-#define EVENTINF_HORSES_STATE_SHIFT 0
-#define EVENTINF_HORSES_HORSETYPE_SHIFT 4
-#define EVENTINF_HORSES_05_SHIFT 5
-#define EVENTINF_HORSES_06_SHIFT 6
-#define EVENTINF_HORSES_08_SHIFT 8
-#define EVENTINF_HORSES_0A_SHIFT 10
-#define EVENTINF_HORSES_0F_SHIFT 15 // unused?
-#define EVENTINF_HORSES_STATE_MASK (0xF << EVENTINF_HORSES_STATE_SHIFT)
-#define EVENTINF_HORSES_HORSETYPE_MASK (1 << EVENTINF_HORSES_HORSETYPE_SHIFT)
-#define EVENTINF_HORSES_05_MASK (1 << EVENTINF_HORSES_05_SHIFT)
-#define EVENTINF_HORSES_06_MASK (1 << EVENTINF_HORSES_06_SHIFT)
-#define EVENTINF_HORSES_0F_MASK (1 << EVENTINF_HORSES_0F_SHIFT)
-#define EVENTINF_HORSES_05 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_05_SHIFT)
-#define EVENTINF_HORSES_06 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_06_SHIFT)
+// EVENTINF 0x00-0x03 reserved for IngoRaceState
+#define EVENTINF_INGO_RACE_STATE_MASK (0xF << 0)
+typedef enum IngoRaceState {
+    /* 0 */ INGO_RACE_STATE_OFFER_RENTAL,
+    /* 1 */ INGO_RACE_STATE_HORSE_RENTAL_PERIOD,
+    /* 2 */ INGO_RACE_STATE_RACING,
+    /* 3 */ INGO_RACE_STATE_PLAYER_LOSE,
+    /* 4 */ INGO_RACE_STATE_FIRST_WIN,
+    /* 5 */ INGO_RACE_STATE_TRAPPED_WIN_UNUSED,
+    /* 6 */ INGO_RACE_STATE_TRAPPED_WIN_EPONA, // Ingo Traps you in Lon Lon
+    /* 7 */ INGO_RACE_STATE_REMATCH
+} IngoRaceState;
+
+#define EVENTINF_INGO_RACE_HORSETYPE 4
+#define EVENTINF_INGO_RACE_HORSETYPE_MASK (1 << EVENTINF_INGO_RACE_HORSETYPE)
+#define EVENTINF_INGO_RACE_LOST_ONCE 5
+#define EVENTINF_INGO_RACE_LOST_ONCE_MASK (1 << EVENTINF_INGO_RACE_LOST_ONCE)
+#define EVENTINF_INGO_RACE_SECOND_RACE 6
+#define EVENTINF_INGO_RACE_SECOND_RACE_MASK (1 << EVENTINF_INGO_RACE_SECOND_RACE)
 // Used in z_en_ta (Talon) to store Cucco game winning status
 // and in z_en_ge1 (Gerudo) to store archery in-progress status
-#define EVENTINF_HORSES_08 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_08_SHIFT)
+#define EVENTINF_HORSES_08 8
 #define EVENTINF_CUCCO_GAME_WON EVENTINF_HORSES_08
 // Used in z_en_ta (Talon) and z_en_ma3 (Malon) to store minigame finishing status
-#define EVENTINF_HORSES_0A ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_0A_SHIFT)
+#define EVENTINF_HORSES_0A 10
 #define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
-
-typedef enum EventInfHorsesState {
-    /* 0 */ EVENTINF_HORSES_STATE_0,
-    /* 1 */ EVENTINF_HORSES_STATE_1,
-    /* 2 */ EVENTINF_HORSES_STATE_2,
-    /* 3 */ EVENTINF_HORSES_STATE_3,
-    /* 4 */ EVENTINF_HORSES_STATE_4,
-    /* 5 */ EVENTINF_HORSES_STATE_5,
-    /* 6 */ EVENTINF_HORSES_STATE_6,
-    /* 7 */ EVENTINF_HORSES_STATE_7
-} EventInfHorsesState;
+#define EVENTINF_INGO_RACE_0F 15 // unused?
+#define EVENTINF_INGO_RACE_0F_MASK (1 << EVENTINF_INGO_RACE_0F)
 
 // "InRaceSeq"
-#define GET_EVENTINF_HORSES_STATE() \
-    ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_HORSES_STATE_MASK) >> EVENTINF_HORSES_STATE_SHIFT)
-#define SET_EVENTINF_HORSES_STATE(v)                                                   \
-    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =                                     \
-        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_STATE_MASK) | \
-        ((v) << EVENTINF_HORSES_STATE_SHIFT)
+#define GET_EVENTINF_INGO_RACE_STATE() (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_INGO_RACE_STATE_MASK)
 
-#define GET_EVENTINF_HORSES_HORSETYPE() \
-    ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_HORSES_HORSETYPE_MASK) >> EVENTINF_HORSES_HORSETYPE_SHIFT)
-#define SET_EVENTINF_HORSES_HORSETYPE(v)                                                   \
-    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =                                         \
-        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_HORSETYPE_MASK) | \
-        ((v) << EVENTINF_HORSES_HORSETYPE_SHIFT)
-
-#define SET_EVENTINF_HORSES_0F(v)                  \
+#define SET_EVENTINF_INGO_RACE_STATE(v)            \
     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
-        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_0F_MASK) | ((v) << EVENTINF_HORSES_0F_SHIFT)
+        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_INGO_RACE_STATE_MASK) | (v)
 
+#define GET_EVENTINF_INGO_RACE_FLAG(flag) \
+    ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & (1 << ((flag) & 0xF))) >> ((flag) & 0xF))
+
+#define SET_EVENTINF_INGO_RACE_FLAG(flag)          \
+    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
+        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | (1 << ((flag) & 0xF))
+
+#define WRITE_EVENTINF_INGO_RACE_FLAG(flag, v)     \
+    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
+        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~(1 << ((flag) & 0xF))) | ((v) << ((flag) & 0xF))
+
+#define GET_EVENTINF_INGO_RACE_HORSETYPE() GET_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_HORSETYPE)
+#define WRITE_EVENTINF_INGO_RACE_HORSETYPE(v) WRITE_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_HORSETYPE, v)
+
+#define WRITE_EVENTINF_INGO_RACE_0F(v) WRITE_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_0F, v)
 
 // Is the running man race active
 #define EVENTINF_MARATHON_ACTIVE 0x10
 
-// 0x20-0x24
+// EVENTINF 0x20-0x24
 #define EVENTINF_20_21_22_23_24_INDEX 2
 #define EVENTINF_20_MASK (1 << 0)
 #define EVENTINF_21_MASK (1 << 1)
@@ -962,7 +961,6 @@ typedef enum EventInfHorsesState {
 #define EVENTINF_24_MASK (1 << 4)
 
 #define EVENTINF_30 0x30
-
 
 #define GET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] & (1 << ((flag) & 0xF)))
 #define SET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
