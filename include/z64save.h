@@ -884,7 +884,7 @@ typedef enum LinkAge {
 
 // EVENTINF 0x00-0x0F
 // Ingo Race, Lon Lon Ranch minigames, and Horseback Archery minigame flags
-#define EVENTINF_HORSES_INDEX 0
+#define EVENTINF_INDEX_HORSES 0
 // EVENTINF 0x00-0x03 reserved for IngoRaceState
 #define EVENTINF_INGO_RACE_STATE_MASK (0xF << 0)
 typedef enum IngoRaceState {
@@ -915,22 +915,22 @@ typedef enum IngoRaceState {
 #define EVENTINF_INGO_RACE_0F_MASK (1 << EVENTINF_INGO_RACE_0F)
 
 // "InRaceSeq"
-#define GET_EVENTINF_INGO_RACE_STATE() (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_INGO_RACE_STATE_MASK)
+#define GET_EVENTINF_INGO_RACE_STATE() (gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & EVENTINF_INGO_RACE_STATE_MASK)
 
 #define SET_EVENTINF_INGO_RACE_STATE(v)            \
-    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
-        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_INGO_RACE_STATE_MASK) | (v)
+    gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = \
+        (gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & ~EVENTINF_INGO_RACE_STATE_MASK) | (v)
 
 #define GET_EVENTINF_INGO_RACE_FLAG(flag) \
-    ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & (1 << ((flag) & 0xF))) >> ((flag) & 0xF))
+    ((gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & (1 << ((flag) & 0xF))) >> ((flag) & 0xF))
 
 #define SET_EVENTINF_INGO_RACE_FLAG(flag)          \
-    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
-        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | (1 << ((flag) & 0xF))
+    gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = \
+        (gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & 0xFFFF) | (1 << ((flag) & 0xF))
 
 #define WRITE_EVENTINF_INGO_RACE_FLAG(flag, v)     \
-    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
-        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~(1 << ((flag) & 0xF))) | ((v) << ((flag) & 0xF))
+    gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = \
+        (gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & ~(1 << ((flag) & 0xF))) | ((v) << ((flag) & 0xF))
 
 #define GET_EVENTINF_INGO_RACE_HORSETYPE() GET_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_HORSETYPE)
 #define WRITE_EVENTINF_INGO_RACE_HORSETYPE(v) WRITE_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_HORSETYPE, v)

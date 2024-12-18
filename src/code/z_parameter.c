@@ -3545,11 +3545,11 @@ void Interface_Draw(PlayState* play) {
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
 #if OOT_VERSION >= NTSC_1_1
-                    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] &=
+                    gSaveContext.eventInf[EVENTINF_INDEX_HORSES] &=
                         (u16) ~(EVENTINF_INGO_RACE_STATE_MASK | EVENTINF_INGO_RACE_HORSETYPE_MASK |
                                 EVENTINF_INGO_RACE_LOST_ONCE_MASK | EVENTINF_INGO_RACE_SECOND_RACE_MASK |
                                 EVENTINF_INGO_RACE_0F_MASK);
-                    PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_HORSES_INDEX]);
+                    PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_INDEX_HORSES]);
 #endif
                     play->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
