@@ -325,10 +325,11 @@ void Sram_InitDebugSave(void) {
     gSaveContext.save.info.horseData.pos.y = 72;
     gSaveContext.save.info.horseData.pos.z = 5497;
     gSaveContext.save.info.horseData.angle = -0x6AD9;
-    gSaveContext.save.info.infTable[0] |= GET_INFTABLE_MASK(INFTABLE_00) | GET_INFTABLE_MASK(INFTABLE_03) |
-                                          GET_INFTABLE_MASK(INFTABLE_0C) | GET_INFTABLE_MASK(INFTABLE_0E);
+    gSaveContext.save.info.infTable[INFTABLE_INDEX_0] |=
+        GET_INFTABLE_MASK(INFTABLE_00) | GET_INFTABLE_MASK(INFTABLE_03) | GET_INFTABLE_MASK(INFTABLE_0C) |
+        GET_INFTABLE_MASK(INFTABLE_0E);
 
-    gSaveContext.save.info.eventChkInf[0] |=
+    gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_0] |=
         GET_EVENTCHKINF_MASK(EVENTCHKINF_00_UNUSED) | GET_EVENTCHKINF_MASK(EVENTCHKINF_01_UNUSED) |
         GET_EVENTCHKINF_MASK(EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS) | GET_EVENTCHKINF_MASK(EVENTCHKINF_03) |
         GET_EVENTCHKINF_MASK(EVENTCHKINF_04) | GET_EVENTCHKINF_MASK(EVENTCHKINF_05) |

@@ -471,6 +471,7 @@ typedef enum LinkAge {
 #define GET_EVENTCHKINF_MASK(flag) (1 << ((flag) & 0xF))
 
 // EVENTCHKINF 0x00-0x0F
+#define EVENTCHKINF_INDEX_0 0
 #define EVENTCHKINF_00_UNUSED 0x00 // flag is set in the debug save, but has no functionality
 #define EVENTCHKINF_01_UNUSED 0x01 // flag is set in the debug save, but has no functionality
 #define EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS 0x02
@@ -715,6 +716,8 @@ typedef enum LinkAge {
 
 #define GET_INFTABLE_MASK(flag) (1 << ((flag) & 0xF))
 
+// INFTABLE 0x0-0xF
+#define INFTABLE_INDEX_0 0
 #define INFTABLE_00 0x00
 #define INFTABLE_01 0x01
 #define INFTABLE_03 0x03
