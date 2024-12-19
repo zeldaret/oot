@@ -168,7 +168,7 @@ void Horse_SetupInCutscene(PlayState* play, Player* player) {
         { SCENE_HYRULE_FIELD, CS_INDEX_4, { -1900, 313, 7015 }, 0x0000, HORSE_PTYPE_7 },
         { SCENE_HYRULE_FIELD, CS_INDEX_5, { -4043, 313, 6933 }, 0x0000, HORSE_PTYPE_7 }, // Credits
         { SCENE_HYRULE_FIELD, CS_INDEX_6, { -4043, 313, 6933 }, 0x0000, HORSE_PTYPE_7 }, // Unused. Hopping Lon Lon
-                                                                                     // Ranch North Gate
+                                                                                         // Ranch North Gate
     };
     s32 pad;
     s32 i;
