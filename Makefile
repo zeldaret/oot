@@ -66,6 +66,7 @@ ifeq ($(VERSION),ntsc-1.0)
   REGION ?= JP
   PLATFORM := N64
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd44
   BUILD_DATE := 98-10-21
   BUILD_TIME := 04:56:31
   REVISION := 0
@@ -74,6 +75,7 @@ else ifeq ($(VERSION),ntsc-1.1)
   REGION ?= JP
   PLATFORM := N64
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd44
   BUILD_DATE := 98-10-26
   BUILD_TIME := 10:58:45
   REVISION := 1
@@ -81,6 +83,7 @@ else ifeq ($(VERSION),pal-1.0)
   REGION ?= EU
   PLATFORM := N64
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd44
   BUILD_DATE := 98-11-10
   BUILD_TIME := 14:34:22
   REVISION := 0
@@ -89,6 +92,7 @@ else ifeq ($(VERSION),ntsc-1.2)
   REGION ?= JP
   PLATFORM := N64
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd44
   BUILD_DATE := 98-11-12
   BUILD_TIME := 18:17:03
   REVISION := 2
@@ -96,6 +100,7 @@ else ifeq ($(VERSION),pal-1.1)
   REGION ?= EU
   PLATFORM := N64
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd44
   BUILD_DATE := 98-11-18
   BUILD_TIME := 17:36:49
   REVISION := 1
@@ -103,6 +108,7 @@ else ifeq ($(VERSION),gc-jp)
   REGION ?= JP
   PLATFORM := GC
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd022j
   BUILD_DATE := 02-10-29
   BUILD_TIME := 23:49:53
   REVISION := 15
@@ -110,6 +116,7 @@ else ifeq ($(VERSION),gc-jp-mq)
   REGION ?= JP
   PLATFORM := GC
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd022j
   BUILD_DATE := 02-10-30
   BUILD_TIME := 00:15:15
   REVISION := 15
@@ -117,6 +124,7 @@ else ifeq ($(VERSION),gc-us)
   REGION ?= US
   PLATFORM := GC
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd022j
   BUILD_DATE := 02-12-19
   BUILD_TIME := 13:28:09
   REVISION := 15
@@ -124,6 +132,7 @@ else ifeq ($(VERSION),gc-us-mq)
   REGION ?= US
   PLATFORM := GC
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd022j
   BUILD_DATE := 02-12-19
   BUILD_TIME := 14:05:42
   REVISION := 15
@@ -131,6 +140,7 @@ else ifeq ($(VERSION),gc-eu-mq-dbg)
   REGION ?= EU
   PLATFORM := GC
   DEBUG_FEATURES ?= 1
+  BUILD_CREATOR := zelda@srd022j
   BUILD_DATE := 03-02-21
   BUILD_TIME := 00:16:31
   REVISION := 15
@@ -138,6 +148,7 @@ else ifeq ($(VERSION),gc-eu)
   REGION ?= EU
   PLATFORM := GC
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd022j
   BUILD_DATE := 03-02-21
   BUILD_TIME := 20:12:23
   REVISION := 15
@@ -145,6 +156,7 @@ else ifeq ($(VERSION),gc-eu-mq)
   REGION ?= EU
   PLATFORM := GC
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd022j
   BUILD_DATE := 03-02-21
   BUILD_TIME := 20:37:19
   REVISION := 15
@@ -152,21 +164,21 @@ else ifeq ($(VERSION),gc-jp-ce)
   REGION ?= JP
   PLATFORM := GC
   DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := zelda@srd022j
   BUILD_DATE := 03-10-08
   BUILD_TIME := 21:53:00
   REVISION := 15
+else ifeq ($(VERSION),ique-cn)
+  COMPARE := 0
+  REGION ?= US
+  PLATFORM := IQUE
+  DEBUG_FEATURES ?= 0
+  BUILD_CREATOR := build@toad.routefree.com
+  BUILD_DATE := 03-10-22
+  BUILD_TIME := 16:23:19
+  REVISION := 0
 else
 $(error Unsupported version $(VERSION))
-endif
-
-ifeq ($(PLATFORM),N64)
-  BUILD_CREATOR := zelda@srd44
-  LIBULTRA_VERSION := I
-  LIBULTRA_PATCH := 1
-else
-  BUILD_CREATOR := zelda@srd022j
-  LIBULTRA_VERSION := L
-  LIBULTRA_PATCH := 0
 endif
 
 # ORIG_COMPILER cannot be combined with a non-IDO compiler. Check for this case and error out if found.
@@ -196,6 +208,22 @@ VENV := .venv
 MAKE = make
 CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
+ifeq ($(PLATFORM),N64)
+  CPP_DEFINES += -DPLATFORM_N64=1 -DPLATFORM_GC=0 -DPLATFORM_IQUE=0
+  LIBULTRA_VERSION := I
+  LIBULTRA_PATCH := 1
+else ifeq ($(PLATFORM),GC)
+  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=1 -DPLATFORM_IQUE=0
+  LIBULTRA_VERSION := L
+  LIBULTRA_PATCH := 0
+else ifeq ($(PLATFORM),IQUE)
+  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=0 -DPLATFORM_IQUE=1
+  LIBULTRA_VERSION := L
+  LIBULTRA_PATCH := 0
+else
+$(error Unsupported platform $(PLATFORM))
+endif
+
 # Converts e.g. ntsc-1.0 to NTSC_1_0
 VERSION_MACRO := $(shell echo $(VERSION) | tr a-z-. A-Z__)
 CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO) -DOOT_REVISION=$(REVISION)
@@ -203,14 +231,6 @@ CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
 CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
 CPP_DEFINES += -DLIBULTRA_VERSION=LIBULTRA_VERSION_$(LIBULTRA_VERSION)
 CPP_DEFINES += -DLIBULTRA_PATCH=$(LIBULTRA_PATCH)
-
-ifeq ($(PLATFORM),N64)
-  CPP_DEFINES += -DPLATFORM_N64=1 -DPLATFORM_GC=0
-else ifeq ($(PLATFORM),GC)
-  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=1
-else
-  $(error Unsupported platform $(PLATFORM))
-endif
 
 ifeq ($(DEBUG_FEATURES),1)
   CPP_DEFINES += -DDEBUG_FEATURES=1
