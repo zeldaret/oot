@@ -893,7 +893,7 @@ typedef enum LinkAge {
 // Ingo Race, Lon Lon Ranch minigames, and Horseback Archery minigame flags
 #define EVENTINF_INDEX_HORSES 0
 // EVENTINF 0x00-0x03 reserved for IngoRaceState
-#define EVENTINF_INGO_RACE_STATE_MASK (0xF << 0)
+#define EVENTINF_INGO_RACE_STATE_MASK (0xF << 0x00)
 typedef enum IngoRaceState {
     /* 0 */ INGO_RACE_STATE_OFFER_RENTAL,
     /* 1 */ INGO_RACE_STATE_HORSE_RENTAL_PERIOD,
@@ -905,21 +905,17 @@ typedef enum IngoRaceState {
     /* 7 */ INGO_RACE_STATE_REMATCH
 } IngoRaceState;
 
-#define EVENTINF_INGO_RACE_HORSETYPE 4
-#define EVENTINF_INGO_RACE_HORSETYPE_MASK (1 << EVENTINF_INGO_RACE_HORSETYPE)
-#define EVENTINF_INGO_RACE_LOST_ONCE 5
-#define EVENTINF_INGO_RACE_LOST_ONCE_MASK (1 << EVENTINF_INGO_RACE_LOST_ONCE)
-#define EVENTINF_INGO_RACE_SECOND_RACE 6
-#define EVENTINF_INGO_RACE_SECOND_RACE_MASK (1 << EVENTINF_INGO_RACE_SECOND_RACE)
+#define EVENTINF_INGO_RACE_HORSETYPE 0x04
+#define EVENTINF_INGO_RACE_LOST_ONCE 0x05
+#define EVENTINF_INGO_RACE_SECOND_RACE 0x06
 // Used in z_en_ta (Talon) to store Cucco game winning status
 // and in z_en_ge1 (Gerudo) to store archery in-progress status
-#define EVENTINF_HORSES_08 8
+#define EVENTINF_HORSES_08 0x08
 #define EVENTINF_CUCCO_GAME_WON EVENTINF_HORSES_08
 // Used in z_en_ta (Talon) and z_en_ma3 (Malon) to store minigame finishing status
-#define EVENTINF_HORSES_0A 10
+#define EVENTINF_HORSES_0A 0x0A
 #define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
-#define EVENTINF_INGO_RACE_0F 15 // unused?
-#define EVENTINF_INGO_RACE_0F_MASK (1 << EVENTINF_INGO_RACE_0F)
+#define EVENTINF_INGO_RACE_0F 0x0F // unused?
 
 // "InRaceSeq"
 #define GET_EVENTINF_INGO_RACE_STATE() (gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & EVENTINF_INGO_RACE_STATE_MASK)
