@@ -3,7 +3,7 @@
 #include "libc64/os_malloc.h"
 #include "terminal.h"
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 
 #define FILL_ALLOC_BLOCK_FLAG (1 << 0)
 #define FILL_FREE_BLOCK_FLAG (1 << 1)

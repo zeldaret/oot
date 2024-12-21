@@ -9,7 +9,7 @@
 #include "terminal.h"
 #pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 
 typedef struct FaultDrawer {
     /* 0x00 */ u16* fb;

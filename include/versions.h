@@ -15,6 +15,7 @@
 #define GC_EU         11
 #define GC_EU_MQ      12
 #define GC_JP_CE      13
+#define IQUE_CN       14
 
 // NTSC/PAL
 #if OOT_VERSION == PAL_1_0 || OOT_VERSION == PAL_1_1 || OOT_VERSION == GC_EU || OOT_VERSION == GC_EU_MQ || OOT_VERSION == GC_EU_MQ_DBG

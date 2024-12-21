@@ -5,7 +5,7 @@
 #include "attributes.h"
 #include "padmgr.h"
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 // These are the same as the 3-bit ansi color codes
 #define FAULT_COLOR_BLACK      0
 #define FAULT_COLOR_RED        1
@@ -33,7 +33,7 @@ typedef struct FaultClient {
     /* 0x0C */ void* arg1;
 } FaultClient; // size = 0x10
 
-#if PLATFORM_GC
+#if !PLATFORM_N64
 typedef struct FaultAddrConvClient {
     /* 0x00 */ struct FaultAddrConvClient* next;
     /* 0x04 */ void* callback;
@@ -78,7 +78,7 @@ void func_800AE1F8(void);
 #define Fault_SetFontColor(color) (void)0
 #define Fault_SetCharPad(padW, padH) (void)0
 
-#elif PLATFORM_GC
+#else
 
 void Fault_InitDrawer(void);
 void Fault_SetForeColor(u16 color);
@@ -98,7 +98,7 @@ extern volatile OSThread* gFaultFaultedThread;
 
 #define FAULT_MSG_ID gFaultMsgId
 
-#elif PLATFORM_GC
+#else
 
 typedef struct FaultMgr {
     /* 0x000 */ OSThread thread;

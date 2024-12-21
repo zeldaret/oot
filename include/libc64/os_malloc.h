@@ -11,7 +11,7 @@ typedef struct Arena {
 #if PLATFORM_N64
     /* 0x08 */ u32 size;
     /* 0x0C */ u8 allocFailures;
-#elif PLATFORM_GC
+#else
     /* 0x08 */ OSMesgQueue lockQueue;
     /* 0x20 */ u8 allocFailures; // only used in non-debug builds
     /* 0x21 */ u8 isInit;

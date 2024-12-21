@@ -890,7 +890,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
-#if OOT_VERSION == NTSC_1_2 || (PLATFORM_GC && !DEBUG_FEATURES)
+#if OOT_VERSION >= PAL_1_0 && !(OOT_PAL_N64 || DEBUG_FEATURES)
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
 #endif
 #if !DEBUG_FEATURES
