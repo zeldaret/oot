@@ -1884,9 +1884,9 @@ class MessageDecoderNES(MessageDecoder):
             0x47 : "BLACK",
         }[c]
 
-# Chinese Characters ordered according to their appearance in chn_font_static.
+# Chinese Characters ordered according to their appearance in nes_font_static.
 # This unfortunately does not appear to match any standard encoding.
-CN_CHARS =       """你借到了一\
+CHN_CHARS =      """你借到了一\
 颗口袋鸡蛋过夜后就会孵出只，用完\
 别忘记把它还回去。归得克洛！与不\
 同很少啼叫个奇异蘑菇新鲜的都容易\
@@ -1999,21 +1999,21 @@ CN_CHARS =       """你借到了一\
 狸票闻哟唬摘愉呦棺溶褐肤颤逗娶逼\
 悠蒙漆彩丰"""
 # Ensure the contents of the above is unique
-assert len(set(CN_CHARS)) == len(CN_CHARS), (len(set(CN_CHARS)), len(CN_CHARS))
+assert len(set(CHN_CHARS)) == len(CHN_CHARS), (len(set(CHN_CHARS)), len(CHN_CHARS))
 
-class MessageDecoderCN(MessageDecoderNES):
+class MessageDecoderCHN(MessageDecoderNES):
     def __init__(self) -> None:
-        # The CN text encoding is mostly the same as the NES encoding, except it lacks
+        # The CHN text encoding is mostly the same as the NES encoding, except it lacks
         # the D-Pad Icon and has multi-byte sequences for Chinese characters.
         super().__init__()
         # Remove D-Pad Icon
         self.extraction_charmap.pop(0xAB)
         # Add Chinese Characters
-        for i,c in enumerate(CN_CHARS):
+        for i,c in enumerate(CHN_CHARS):
             self.extraction_charmap[0xA08C + i] = c
-        self.pop_char = self.pop_char_cn
+        self.pop_char = self.pop_char_chn
 
-    def pop_char_cn(self) -> int:
+    def pop_char_chn(self) -> int:
         c = self.pop_byte()
         # AA acts like a sort of escape sequence for single-byte
         # chars that are >= 0xA0 that should not be interpreted
@@ -2094,7 +2094,7 @@ class MessageEntry:
                 # Valid for all languages
                 out += self.define_message("DEFINE_MESSAGE", shared_box_type, shared_box_pos, self.data)
             else:
-                # Some NTSC/iQue messages have different box types/positions between JPN and NES/CN,
+                # Some NTSC/iQue messages have different box types/positions between JPN and NES/CHN,
                 # so emit both DEFINE_MESSAGE_JPN and DEFINE_MESSAGE_NES/DEFINE_MESSAGE_CHN
                 assert len(self.data) == 5
                 assert self.data[0] is not None
@@ -2119,7 +2119,7 @@ class MessageEntry:
                 # NES only
                 out += self.define_message("DEFINE_MESSAGE_NES", self.data[1].box_type, self.data[1].box_pos, self.data)
             else:
-                # CN only
+                # CHN only
                 out += self.define_message("DEFINE_MESSAGE_CHN", self.data[4].box_type, self.data[4].box_pos, self.data)
         else:
             # Other unimplemented cases
@@ -2230,7 +2230,7 @@ def main():
 
     jpn_decoder = MessageDecoderJPN()
     nes_decoder = MessageDecoderNES()
-    chn_decoder = MessageDecoderCN()
+    chn_decoder = MessageDecoderCHN()
 
     message_tables : List[Optional[MessageTableDesc]] = [None for _ in range(5)] # JP, EN, FR, DE, CN
     message_table_staff : MessageTableDesc = None
