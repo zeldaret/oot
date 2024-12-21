@@ -1682,8 +1682,6 @@ class MessageDecoder:
                 if c in self.extraction_charmap:
                     token_run += self.extraction_charmap[c]
                 else:
-                    if c >= 0xA000:
-                        print(hex(c))
                     token_run += self.decode_char(c)
 
         # Flush any remaining text

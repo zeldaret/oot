@@ -39,8 +39,4 @@
     /* Present */ const char _message_##textId##_nes[] = nesMessage;
 #endif
 
-#if PLATFORM_IQUE
-#include "assets/text/message_data.enc.chn.h"
-#else
 #include "assets/text/message_data.enc.nes.h"
-#endif

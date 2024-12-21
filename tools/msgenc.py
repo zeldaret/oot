@@ -6,26 +6,23 @@
 import argparse, ast, re, sys
 from typing import Dict, Optional
 
-def read_charmap(path : str, charmap_index : int) -> Dict[str,str]:
+def read_charmap(path : str, wchar : bool) -> Dict[str,str]:
     with open(path) as infile:
         charmap = infile.read()
     charmap = ast.literal_eval(charmap)
 
     out_charmap = {}
     for k,v in charmap.items():
-        v = v[charmap_index]
-        if v is None:
-            v = 0
         assert isinstance(k, str)
-        assert v in range(0xFFFF + 1)
+        assert isinstance(v, int) and v in range(0xFFFF + 1)
 
         k = repr(k)[1:-1]
 
-        if v > 0xFF:
+        if wchar or v > 0xFF:
             # split value across two bytes
             u = (v >> 8) & 0xFF
             l = (v >> 0) & 0xFF
-            out_charmap[k] = f"0x{u:02X}, 0x{l:02X},"
+            out_charmap[k] = f"0x{u:02X},0x{l:02X},"
         else:
             out_charmap[k] = f"0x{v:02X},"
 
@@ -63,7 +60,7 @@ def convert_text(text : str, encoding : str, charmap : Dict[str, str]) -> str:
             # flush text
             to_flush = string[run_start:i]
             if len(string[run_start:i]) != 0:
-                out += ",".join(f"0x{b:02X}" for b in to_flush.encode(encoding))
+                out += ",".join(f"0x{b:02X}" for b in to_flush.encode(encoding, "replace"))
                 out += ","
             if text is None:
                 return
@@ -127,25 +124,25 @@ def main():
     )
     parser.add_argument(
         "--encoding",
-        help="encoding (nes, jpn, chn)",
+        help="base text encoding",
         required=True,
         type=str,
-        choices=("nes", "jpn", "chn"),
+        choices=("utf-8", "SHIFT-JIS"),
     )
     parser.add_argument(
         "--charmap",
         help="path to charmap file specifying custom encoding elements",
         required=True,
     )
+    parser.add_argument(
+        "--wchar",
+        help="force wide encoding",
+        required=False,
+        action="store_true"
+    )
     args = parser.parse_args()
 
-    charmap_index,encoding = {
-        "nes" : (0, "raw-unicode-escape"),
-        "jpn" : (1, "SHIFT-JIS"),
-        "chn" : (2, "raw-unicode-escape"),
-    }[args.encoding]
-
-    charmap = read_charmap(args.charmap, charmap_index)
+    charmap = read_charmap(args.charmap, args.wchar)
 
     text = ""
     if args.input == "-":
@@ -155,7 +152,7 @@ def main():
             text = infile.read()
 
     text = remove_comments(text)
-    text = convert_text(text, encoding, charmap)
+    text = convert_text(text, args.encoding, charmap)
 
     if args.output == "-":
         sys.stdout.buffer.write(text.encode("utf-8"))
