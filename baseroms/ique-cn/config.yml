@@ -44,7 +44,7 @@ incbins: # TODO: fix these
 variables:
   gMtxClear: 0x80106980
   sJpnMessageEntryTable: 0x80115838
-  sCnMessageEntryTable: 0x8011DB98
+  sNesMessageEntryTable: 0x8011DB98
   sStaffMessageEntryTable: 0x8011DB98
   gSoundFontTable: 0x8011F280
   gSequenceFontTable: 0x8011F4F0
@@ -1198,8 +1198,8 @@ assets:
   xml_path: assets/xml/textures/message_static.xml
 - name: textures/message_texture_static
   xml_path: assets/xml/textures/message_texture_static.xml
-- name: textures/cn_font_static
-  xml_path: assets/xml/textures/cn_font_static.xml
+- name: textures/nes_font_static
+  xml_path: assets/xml/textures/nes_font_static_ique_cn.xml
 - name: textures/nintendo_rogo_static
   xml_path: assets/xml/textures/nintendo_rogo_static_v2.xml
 - name: textures/parameter_static

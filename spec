@@ -483,21 +483,12 @@ beginseg
     number 9
 endseg
 
-#if !PLATFORM_IQUE
 beginseg
     name "nes_font_static"
     romalign 0x1000
     include "$(BUILD_DIR)/assets/textures/nes_font_static/nes_font_static.o"
     number 10
 endseg
-#else
-beginseg
-    name "cn_font_static"
-    romalign 0x1000
-    include "$(BUILD_DIR)/assets/textures/cn_font_static/cn_font_static.o"
-    number 10
-endseg
-#endif
 
 #if OOT_NTSC && OOT_VERSION >= NTSC_1_2
 beginseg
