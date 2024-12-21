@@ -270,7 +270,7 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
                     freedCount = 0;
                     for (carpenterType = 0; carpenterType < 4; carpenterType++) {
-                        if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
+                        if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_CARPENTERS_FREE] &
                             EVENTCHKINF_CARPENTERS_FREE_MASK(carpenterType)) {
                             freedCount++;
                         }
@@ -399,7 +399,7 @@ void EnDaiku_InitEscape(EnDaiku* this, PlayState* play) {
     EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 
-    gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] |=
+    gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_CARPENTERS_FREE] |=
         EVENTCHKINF_CARPENTERS_FREE_MASK(PARAMS_GET_U(this->actor.params, 0, 2));
 
     this->actor.gravity = -1.0f;
