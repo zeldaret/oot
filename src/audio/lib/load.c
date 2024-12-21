@@ -1250,8 +1250,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
 
     ramAddr = AudioHeap_Alloc(&gAudioCtx.initPool, gAudioHeapInitSizes.permanentPoolSize);
     if (ramAddr == NULL) {
-        // cast away const from gAudioHeapInitSizes
-        *((u32*)&gAudioHeapInitSizes.permanentPoolSize) = 0;
+        gAudioHeapInitSizes.permanentPoolSize = 0;
     }
 
     AudioHeap_InitPool(&gAudioCtx.permanentPool, ramAddr, gAudioHeapInitSizes.permanentPoolSize);
