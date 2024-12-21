@@ -466,7 +466,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 Inventory_ChangeEquipment(pauseCtx->cursorY[PAUSE_EQUIP], pauseCtx->cursorX[PAUSE_EQUIP]);
 
                 if (pauseCtx->cursorY[PAUSE_EQUIP] == 0) {
-                    gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] = 0;
+                    gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] = 0;
                     gSaveContext.save.info.equips.buttonItems[0] = cursorItem;
 
                     if ((pauseCtx->cursorX[PAUSE_EQUIP] == 3) && (gSaveContext.save.info.playerData.bgsFlag != 0)) {
