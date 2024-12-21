@@ -6,22 +6,23 @@
 import argparse, ast, re, sys
 from typing import Dict, Optional
 
-def read_charmap(path : str, wchar : bool) -> Dict[str,str]:
+def read_charmap(path : str, charmap_index : int) -> Dict[str,str]:
     with open(path) as infile:
         charmap = infile.read()
     charmap = ast.literal_eval(charmap)
 
     out_charmap = {}
     for k,v in charmap.items():
-        v = v[wchar]
+        v = v[charmap_index]
         if v is None:
             v = 0
         assert isinstance(k, str)
-        assert v in (range(0xFFFF + 1) if wchar else range(0xFF + 1))
+        assert v in range(0xFFFF + 1)
 
         k = repr(k)[1:-1]
 
-        if wchar:
+        if v > 0xFF:
+            # split value across two bytes
             u = (v >> 8) & 0xFF
             l = (v >> 0) & 0xFF
             out_charmap[k] = f"0x{u:02X}, 0x{l:02X},"
@@ -126,10 +127,10 @@ def main():
     )
     parser.add_argument(
         "--encoding",
-        help="encoding (jpn or nes)",
+        help="encoding (nes, jpn, chn)",
         required=True,
         type=str,
-        choices=("jpn", "nes"),
+        choices=("nes", "jpn", "chn"),
     )
     parser.add_argument(
         "--charmap",
@@ -138,12 +139,13 @@ def main():
     )
     args = parser.parse_args()
 
-    wchar,encoding = {
-        "jpn" : (True, "SHIFT-JIS"),
-        "nes" : (False, "raw-unicode-escape"),
+    charmap_index,encoding = {
+        "nes" : (0, "raw-unicode-escape"),
+        "jpn" : (1, "SHIFT-JIS"),
+        "chn" : (2, "raw-unicode-escape"),
     }[args.encoding]
 
-    charmap = read_charmap(args.charmap, wchar)
+    charmap = read_charmap(args.charmap, charmap_index)
 
     text = ""
     if args.input == "-":
