@@ -31,6 +31,7 @@
 #include "global.h"
 #include "fault.h"
 #include "terminal.h"
+#include "line_numbers.h"
 
 #define PADMGR_LOG(controllerNum, msg)                                                                \
     if (DEBUG_FEATURES) {                                                                             \
@@ -326,13 +327,7 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
             default:
                 // Unknown error response
                 LOG_HEX("padnow1->errno", pad->errno, "../padmgr.c", 396);
-#if OOT_VERSION < NTSC_1_1
-                Fault_AddHungupAndCrash("../padmgr.c", 379);
-#elif OOT_VERSION < GC_JP
-                Fault_AddHungupAndCrash("../padmgr.c", 382);
-#else
-                Fault_AddHungupAndCrash("../padmgr.c", 397);
-#endif
+                Fault_AddHungupAndCrash("../padmgr.c", LN3(379, 382, 397));
                 break;
         }
 

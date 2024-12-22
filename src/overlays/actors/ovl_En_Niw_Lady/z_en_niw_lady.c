@@ -52,9 +52,8 @@ static s16 sMissingCuccoTextIds[] = {
     gSaveContext.save.info.infTable[INFTABLE_INDEX_KAKARIKO_CUCCO] & D_80ABB3B4[(cuccoIndex)]
 
 static s16 D_80ABB3B4[] = {
-    GET_INFTABLE_MASK(INFTABLE_199), GET_INFTABLE_MASK(INFTABLE_19A), GET_INFTABLE_MASK(INFTABLE_19B),
-    GET_INFTABLE_MASK(INFTABLE_19C), GET_INFTABLE_MASK(INFTABLE_19D), GET_INFTABLE_MASK(INFTABLE_19E),
-    GET_INFTABLE_MASK(INFTABLE_19F),
+    INFTABLE_MASK(INFTABLE_199), INFTABLE_MASK(INFTABLE_19A), INFTABLE_MASK(INFTABLE_19B), INFTABLE_MASK(INFTABLE_19C),
+    INFTABLE_MASK(INFTABLE_19D), INFTABLE_MASK(INFTABLE_19E), INFTABLE_MASK(INFTABLE_19F),
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -380,7 +379,7 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
         this->unk_26E = 11;
     }
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        s8 playerExchangeItemId = func_8002F368(play);
+        s8 playerExchangeItemId = Actor_GetPlayerExchangeItemId(play);
 
         if ((playerExchangeItemId == EXCH_ITEM_POCKET_CUCCO) && GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);

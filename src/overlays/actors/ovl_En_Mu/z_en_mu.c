@@ -58,8 +58,8 @@ void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {
 void EnMu_Interact(EnMu* this, PlayState* play) {
     u8 textIdOffset[] = { 0x42, 0x43, 0x3F, 0x41, 0x3E };
     u8 bitmask[] = {
-        GET_EVENTINF_MASK(EVENTINF_20), GET_EVENTINF_MASK(EVENTINF_21), GET_EVENTINF_MASK(EVENTINF_22),
-        GET_EVENTINF_MASK(EVENTINF_23), GET_EVENTINF_MASK(EVENTINF_24),
+        EVENTINF_MASK(EVENTINF_20), EVENTINF_MASK(EVENTINF_21), EVENTINF_MASK(EVENTINF_22),
+        EVENTINF_MASK(EVENTINF_23), EVENTINF_MASK(EVENTINF_24),
     };
     u8 textFlags;
     s32 randomIndex;

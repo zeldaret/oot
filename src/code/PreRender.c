@@ -522,11 +522,11 @@ void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP) {
  * This filter performs a linear interpolation on partially covered pixels between the current pixel color (called
  * foreground color) and a "background" pixel color obtained by sampling fully covered pixels at the six highlighted
  * points in the following 5x3 neighborhood:
- *    _ _ _ _ _
+ *    - - - - -
  *  |   o   o   |
  *  | o   X   o |
  *  |   o   o   |
- *    ‾ ‾ ‾ ‾ ‾
+ *    - - - - -
  * Whether a pixel is partially covered is determined by reading the coverage values associated with the image.
  * Coverage is a measure of how many subpixels the last drawn primitive covered. A fully covered pixel is one with a
  * full coverage value, the entire pixel was covered by the primitive.

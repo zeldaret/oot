@@ -23,7 +23,6 @@
     # Possibly from a SHIFT-JIS extension, python doesn't have builtin support
     '┯'             : (None, 0x86D3),
 
-    '‾'             : (0x7F, None),
     'À'             : (0x80, None),
     'î'             : (0x81, None),
     'Â'             : (0x82, None),

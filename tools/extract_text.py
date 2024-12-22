@@ -1814,7 +1814,6 @@ class MessageDecoderNES(MessageDecoder):
             0x1F : ("TIME",               "",    None),
         }
         extraction_charmap = {
-            0x7F : '‾',
             0x80 : 'À',
             0x81 : 'î',
             0x82 : 'Â',
@@ -2075,18 +2074,27 @@ def main():
     message_tables : List[Optional[MessageTableDesc]] = [None for _ in range(4)] # JP, EN, FR, DE
     message_table_staff : MessageTableDesc = None
 
-    if config.text_lang_pal:
-        message_tables[0]   = None
-        message_tables[1]   = MessageTableDesc("sNesMessageEntryTable",   "nes_message_data_static",   nes_decoder, None)
-        message_tables[2]   = MessageTableDesc("sGerMessageEntryTable",   "ger_message_data_static",   nes_decoder, 1)
-        message_tables[3]   = MessageTableDesc("sFraMessageEntryTable",   "fra_message_data_static",   nes_decoder, 1)
-        message_table_staff = MessageTableDesc("sStaffMessageEntryTable", "staff_message_data_static", nes_decoder, None)
-    else:
+    if config.text_lang == "NTSC":
         message_tables[0]   = MessageTableDesc("sJpnMessageEntryTable",   "jpn_message_data_static",   jpn_decoder, None)
         message_tables[1]   = MessageTableDesc("sNesMessageEntryTable",   "nes_message_data_static",   nes_decoder, None)
         message_tables[2]   = None
         message_tables[3]   = None
         message_table_staff = MessageTableDesc("sStaffMessageEntryTable", "staff_message_data_static", nes_decoder, None)
+    elif config.text_lang == "PAL":
+        message_tables[0]   = None
+        message_tables[1]   = MessageTableDesc("sNesMessageEntryTable",   "nes_message_data_static",   nes_decoder, None)
+        message_tables[2]   = MessageTableDesc("sGerMessageEntryTable",   "ger_message_data_static",   nes_decoder, 1)
+        message_tables[3]   = MessageTableDesc("sFraMessageEntryTable",   "fra_message_data_static",   nes_decoder, 1)
+        message_table_staff = MessageTableDesc("sStaffMessageEntryTable", "staff_message_data_static", nes_decoder, None)
+    elif config.text_lang == "CN":
+        # TODO: extract CN text
+        message_tables[0]   = MessageTableDesc("sJpnMessageEntryTable",   "jpn_message_data_static",   jpn_decoder, None)
+        message_tables[1]   = None
+        message_tables[2]   = None
+        message_tables[3]   = None
+        message_table_staff = MessageTableDesc("sStaffMessageEntryTable", "staff_message_data_static", nes_decoder, None)
+    else:
+        raise Exception(f"Unsupported text language: {config.text_lang}")
 
     messages = collect_messages(message_tables, baserom_segments_dir, config, code_vram, code_bin)
     staff_messages = collect_messages([message_table_staff], baserom_segments_dir, config, code_vram, code_bin)

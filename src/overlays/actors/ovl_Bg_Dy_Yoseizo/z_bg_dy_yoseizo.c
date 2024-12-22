@@ -699,9 +699,8 @@ static s16 sExItemTypes[] = { EXITEM_MAGIC_WIND, EXITEM_MAGIC_FIRE, EXITEM_MAGIC
 #define GREAT_FAIRY_SET_MAGIC_SPELL_OBTAINED(exItemIndex) \
     gSaveContext.save.info.itemGetInf[ITEMGETINF_INDEX_GREAT_FAIRY_ITEM] |= sItemGetFlagMasks[exItemIndex];
 
-static s16 sItemGetFlagMasks[] = { GET_ITEMGETINF_MASK(ITEMGETINF_FARORES_WIND),
-                                   GET_ITEMGETINF_MASK(ITEMGETINF_DINS_FIRE),
-                                   GET_ITEMGETINF_MASK(ITEMGETINF_NAYRUS_LOVE) };
+static s16 sItemGetFlagMasks[] = { ITEMGETINF_MASK(ITEMGETINF_FARORES_WIND), ITEMGETINF_MASK(ITEMGETINF_DINS_FIRE),
+                                   ITEMGETINF_MASK(ITEMGETINF_NAYRUS_LOVE) };
 
 static u8 sItemIds[] = { ITEM_FARORES_WIND, ITEM_DINS_FIRE, ITEM_NAYRUS_LOVE };
 

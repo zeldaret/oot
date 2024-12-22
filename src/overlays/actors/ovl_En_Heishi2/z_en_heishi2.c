@@ -402,7 +402,7 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
     this->unk_300 = TEXT_STATE_DONE;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        s32 exchangeItemId = func_8002F368(play);
+        s32 exchangeItemId = Actor_GetPlayerExchangeItemId(play);
 
         if (exchangeItemId == EXCH_ITEM_ZELDAS_LETTER) {
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);

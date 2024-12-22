@@ -368,7 +368,7 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        s32 exchangeItemId = func_8002F368(play);
+        s32 exchangeItemId = Actor_GetPlayerExchangeItemId(play);
 
         switch (exchangeItemId) {
             case EXCH_ITEM_CHICKEN:
@@ -403,7 +403,7 @@ void EnTa_IdleAsleepInKakariko(EnTa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        s32 exchangeItemId = func_8002F368(play);
+        s32 exchangeItemId = Actor_GetPlayerExchangeItemId(play);
 
         switch (exchangeItemId) {
             case EXCH_ITEM_POCKET_CUCCO:

@@ -470,14 +470,18 @@ typedef enum LinkAge {
  * When this is the case, an EVENTCHKINF_INDEX_* constant is defined for accessing a specific eventChkInf variable.
  */
 
-#define GET_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[(flag) >> 4] & (1 << ((flag) & 0xF)))
-#define SET_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
-#define CLEAR_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
+#define EVENTCHKINF_INDEX(flag) ((flag) >> 4)
+#define EVENTCHKINF_MASK(flag) (1 << ((flag) & 0xF))
 
-#define GET_EVENTCHKINF_VAR(flag) (gSaveContext.save.info.eventChkInf[(flag) >> 4])
-#define GET_EVENTCHKINF_MASK(flag) (1 << ((flag) & 0xF))
+#define GET_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX(flag)] & EVENTCHKINF_MASK(flag))
+#define SET_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX(flag)] |= EVENTCHKINF_MASK(flag))
+#define CLEAR_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX(flag)] &= ~EVENTCHKINF_MASK(flag))
+
+#define GET_EVENTCHKINF_VAR(flag) (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX(flag)])
+#define EVENTCHKINF_MASK(flag) (1 << ((flag) & 0xF))
 
 // EVENTCHKINF 0x00-0x0F
+#define EVENTCHKINF_INDEX_0 0
 #define EVENTCHKINF_00_UNUSED 0x00 // flag is set in the debug save, but has no functionality
 #define EVENTCHKINF_01_UNUSED 0x01 // flag is set in the debug save, but has no functionality
 #define EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS 0x02
@@ -524,7 +528,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_DEFEATED_NABOORU_KNUCKLE 0x3C
 
 // EVENTCHKINF 0x40
-#define EVENTCHKINF_INDEX_40 (EVENTCHKINF_40 >> 4)
+#define EVENTCHKINF_INDEX_40 EVENTCHKINF_INDEX(EVENTCHKINF_40)
 #define EVENTCHKINF_40 0x40
 
 #define EVENTCHKINF_41 0x41
@@ -538,7 +542,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_4C 0x4C
 #define EVENTCHKINF_CREATED_RAINBOW_BRIDGE 0x4D
 #define EVENTCHKINF_CAUGHT_BY_CASTLE_GUARDS 0x4E // set but unused
-#define EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS 0x4F // Cutscene in Temple of Time as adult after pulling the Master Sword for the first time
+#define EVENTCHKINF_REVEALED_MASTER_SWORD 0x4F // Cutscene in Temple of Time when entering the Master Sword chamber for the first time
 #define EVENTCHKINF_50 0x50
 #define EVENTCHKINF_51 0x51
 #define EVENTCHKINF_52 0x52
@@ -555,22 +559,23 @@ typedef enum LinkAge {
 #define EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO 0x6A
 
 // EVENTCHKINF 0x6B
+#define EVENTCHKINF_INDEX_TALON_RETURNED_FROM_KAKARIKO EVENTCHKINF_INDEX(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO)
 #define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO 0x6B
 
 #define ENHY_GET_COPY_EVENTCHKINF(flag) GET_EVENTCHKINF_VAR(flag)
-#define ENHY_CHECK_COPY_EVENTCHKINF(v, flag) ((v) & GET_EVENTCHKINF_MASK((flag)))
+#define ENHY_CHECK_COPY_EVENTCHKINF(v, flag) ((v) & EVENTCHKINF_MASK((flag)))
 
 #define EVENTCHKINF_6E 0x6E
 #define EVENTCHKINF_6F 0x6F
-#define EVENTCHKINF_70 0x70
-#define EVENTCHKINF_71 0x71
-#define EVENTCHKINF_72 0x72
-#define EVENTCHKINF_73 0x73
-#define EVENTCHKINF_74 0x74
-#define EVENTCHKINF_75 0x75
-#define EVENTCHKINF_76 0x76
-#define EVENTCHKINF_77 0x77
-#define EVENTCHKINF_78 0x78
+#define EVENTCHKINF_BEGAN_GOHMA_BATTLE 0x70
+#define EVENTCHKINF_BEGAN_KING_DODONGO_BATTLE 0x71
+#define EVENTCHKINF_BEGAN_PHANTOM_GANON_BATTLE 0x72
+#define EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE 0x73
+#define EVENTCHKINF_BEGAN_MORPHA_BATTLE 0x74
+#define EVENTCHKINF_BEGAN_TWINROVA_BATTLE 0x75
+#define EVENTCHKINF_BEGAN_BARINADE_BATTLE 0x76
+#define EVENTCHKINF_BEGAN_BONGO_BONGO_BATTLE 0x77
+#define EVENTCHKINF_BEGAN_GANONDORF_BATTLE 0x78
 #define EVENTCHKINF_80 0x80
 #define EVENTCHKINF_82 0x82
 #define EVENTCHKINF_PAID_BACK_KEATON_MASK 0x8C
@@ -587,10 +592,10 @@ typedef enum LinkAge {
 #define EVENTCHKINF_CARPENTER_3_FREED 0x93
 
 #define EVENTCHKINF_CARPENTERS_FREE_MASK_ALL               \
-    ( GET_EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_0_FREED)  \
-    | GET_EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_1_FREED)  \
-    | GET_EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_2_FREED)  \
-    | GET_EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_3_FREED))
+    ( EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_0_FREED)  \
+    | EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_1_FREED)  \
+    | EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_2_FREED)  \
+    | EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_3_FREED))
 
 #define GET_EVENTCHKINF_CARPENTERS_FREE_ALL()                                              \
     CHECK_FLAG_ALL(gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_CARPENTERS_FREED], \
@@ -657,7 +662,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_C9 0xC9
 
 // EVENTCHKINF 0xD0-0xD6
-#define EVENTCHKINF_INDEX_SONGS_FOR_FROGS (EVENTCHKINF_SONGS_FOR_FROGS_CHOIR >> 4)
+#define EVENTCHKINF_INDEX_SONGS_FOR_FROGS EVENTCHKINF_INDEX(EVENTCHKINF_SONGS_FOR_FROGS_CHOIR)
 #define EVENTCHKINF_SONGS_FOR_FROGS_CHOIR  0xD0
 #define EVENTCHKINF_SONGS_FOR_FROGS_ZL     0xD1
 #define EVENTCHKINF_SONGS_FOR_FROGS_EPONA  0xD2
@@ -667,7 +672,7 @@ typedef enum LinkAge {
 #define EVENTCHKINF_SONGS_FOR_FROGS_STORMS 0xD6
 
 // EVENTCHKINF 0xDA-0xDE
-#define EVENTCHKINF_INDEX_SKULLTULA_REWARD (EVENTCHKINF_SKULLTULA_REWARD_10 >> 4)
+#define EVENTCHKINF_INDEX_SKULLTULA_REWARD EVENTCHKINF_INDEX(EVENTCHKINF_SKULLTULA_REWARD_10)
 #define EVENTCHKINF_SKULLTULA_REWARD_10 0xDA
 #define EVENTCHKINF_SKULLTULA_REWARD_20 0xDB
 #define EVENTCHKINF_SKULLTULA_REWARD_30 0xDC
@@ -687,10 +692,11 @@ typedef enum LinkAge {
  * When this is the case, an ITEMGETINF_INDEX_* constant is defined for accessing a specific itemGetInf variable.
  */
 
-#define GET_ITEMGETINF(flag) (gSaveContext.save.info.itemGetInf[(flag) >> 4] & (1 << ((flag) & 0xF)))
-#define SET_ITEMGETINF(flag) (gSaveContext.save.info.itemGetInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
+#define ITEMGETINF_INDEX(flag) ((flag) >> 4)
+#define ITEMGETINF_MASK(flag) (1 << ((flag) & 0xF))
 
-#define GET_ITEMGETINF_MASK(flag) (1 << ((flag) & 0xF))
+#define GET_ITEMGETINF(flag) (gSaveContext.save.info.itemGetInf[ITEMGETINF_INDEX(flag)] & ITEMGETINF_MASK(flag))
+#define SET_ITEMGETINF(flag) (gSaveContext.save.info.itemGetInf[ITEMGETINF_INDEX(flag)] |= ITEMGETINF_MASK(flag))
 
 #define ITEMGETINF_TALON_BOTTLE 0x02
 #define ITEMGETINF_03 0x03
@@ -715,7 +721,7 @@ typedef enum LinkAge {
 #define ITEMGETINF_17 0x17
 
 // ITEMGETINF 0x18-0x1A
-#define ITEMGETINF_INDEX_GREAT_FAIRY_ITEM (ITEMGETINF_FARORES_WIND >> 4)
+#define ITEMGETINF_INDEX_GREAT_FAIRY_ITEM 1
 #define ITEMGETINF_FARORES_WIND 0x18
 #define ITEMGETINF_DINS_FIRE 0x19
 #define ITEMGETINF_NAYRUS_LOVE 0x1A
@@ -755,12 +761,15 @@ typedef enum LinkAge {
  * When this is the case, an INFTABLE_INDEX_* constant is defined for accessing a specific infTable variable.
  */
 
-#define GET_INFTABLE(flag) (gSaveContext.save.info.infTable[(flag) >> 4] & (1 << ((flag) & 0xF)))
-#define SET_INFTABLE(flag) (gSaveContext.save.info.infTable[(flag) >> 4] |= (1 << ((flag) & 0xF)))
-#define CLEAR_INFTABLE(flag) (gSaveContext.save.info.infTable[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
+#define INFTABLE_INDEX(flag) ((flag) >> 4)
+#define INFTABLE_MASK(flag) (1 << ((flag) & 0xF))
 
-#define GET_INFTABLE_MASK(flag) (1 << ((flag) & 0xF))
+#define GET_INFTABLE(flag) (gSaveContext.save.info.infTable[INFTABLE_INDEX(flag)] & INFTABLE_MASK(flag))
+#define SET_INFTABLE(flag) (gSaveContext.save.info.infTable[INFTABLE_INDEX(flag)] |= INFTABLE_MASK(flag))
+#define CLEAR_INFTABLE(flag) (gSaveContext.save.info.infTable[INFTABLE_INDEX(flag)] &= ~INFTABLE_MASK(flag))
 
+// INFTABLE 0x0-0xF
+#define INFTABLE_INDEX_0 0
 #define INFTABLE_00 0x00
 #define INFTABLE_01 0x01
 #define INFTABLE_03 0x03
@@ -900,13 +909,13 @@ typedef enum LinkAge {
 
 #define INFTABLE_RESET_KAKARIKO_CUCCOS()                                                                              \
     gSaveContext.save.info.infTable[INFTABLE_INDEX_KAKARIKO_CUCCO] &=                                                 \
-        (u16) ~(GET_INFTABLE_MASK(INFTABLE_199) | GET_INFTABLE_MASK(INFTABLE_19A) | GET_INFTABLE_MASK(INFTABLE_19B) | \
-                GET_INFTABLE_MASK(INFTABLE_19C) | GET_INFTABLE_MASK(INFTABLE_19D) | GET_INFTABLE_MASK(INFTABLE_19E) | \
-                GET_INFTABLE_MASK(INFTABLE_19F));
+        (u16) ~(INFTABLE_MASK(INFTABLE_199) | INFTABLE_MASK(INFTABLE_19A) | INFTABLE_MASK(INFTABLE_19B) | \
+                INFTABLE_MASK(INFTABLE_19C) | INFTABLE_MASK(INFTABLE_19D) | INFTABLE_MASK(INFTABLE_19E) | \
+                INFTABLE_MASK(INFTABLE_19F));
 
 
 // INFTABLE 0x1A0-0x1AF
-#define INFTABLE_INDEX_OVERWORLD_ENTRANCE_ICON (INFTABLE_1A0 >> 4)
+#define INFTABLE_INDEX_OVERWORLD_ENTRANCE_ICON INFTABLE_INDEX(INFTABLE_1A0)
 #define INFTABLE_1A0 0x1A0
 #define INFTABLE_1A1 0x1A1
 #define INFTABLE_1A2 0x1A2
@@ -935,7 +944,7 @@ typedef enum LinkAge {
 #define MINIMAP_INFTABLE_TO_OW_ENTRANCE_FLAG(flag) ((flag) - INFTABLE_1A0)
 
 // 0x1D0-0x1DF
-#define INFTABLE_INDEX_1DX (0x1D0 >> 4)
+#define INFTABLE_INDEX_1DX INFTABLE_INDEX(INFTABLE_1D0)
 #define INFTABLE_1D0 0x1D0
 
 
@@ -950,9 +959,12 @@ typedef enum LinkAge {
  * When this is the case, an EVENTINF_INDEX_* constant is defined for accessing a specific eventInf variable.
  */
 
-#define GET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] & (1 << ((flag) & 0xF)))
-#define SET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
-#define CLEAR_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
+#define EVENTINF_INDEX(flag) ((flag) >> 4)
+#define EVENTINF_MASK(flag) (1 << ((flag) & 0xF))
+
+#define GET_EVENTINF(flag) (gSaveContext.eventInf[EVENTINF_INDEX(flag)] & EVENTINF_MASK(flag))
+#define SET_EVENTINF(flag) (gSaveContext.eventInf[EVENTINF_INDEX(flag)] |= EVENTINF_MASK(flag))
+#define CLEAR_EVENTINF(flag) (gSaveContext.eventInf[EVENTINF_INDEX(flag)] &= ~EVENTINF_MASK(flag))
 #define RESET_EVENTINF() \
     gSaveContext.eventInf[0] = 0; \
     gSaveContext.eventInf[1] = 0; \
@@ -961,29 +973,27 @@ typedef enum LinkAge {
 #define RESET_EVENTINF2() \
     gSaveContext.eventInf[0] = gSaveContext.eventInf[1] = gSaveContext.eventInf[2] = gSaveContext.eventInf[3] = 0;
 
-#define GET_EVENTINF_MASK(flag) (1 << ((flag) & 0xF))
-
 // EVENTINF 0x00-0x0F
 // Ingo Race, Lon Lon Ranch minigames, and Horseback Archery minigame flags
-#define EVENTINF_INDEX_INGORACE (0x00 >> 4)
+#define EVENTINF_INDEX_INGO_RACE 0
 // EVENTINF 0x00-0x03 reserved for IngoRaceState
-#define EVENTINF_INGORACE_STATE_MASK \
-    (GET_EVENTINF_MASK(0x00) | GET_EVENTINF_MASK(0x01) | GET_EVENTINF_MASK(0x02) | GET_EVENTINF_MASK(0x03))
+#define EVENTINF_INGO_RACE_STATE_MASK \
+    (EVENTINF_MASK(0x00) | EVENTINF_MASK(0x01) | EVENTINF_MASK(0x02) | EVENTINF_MASK(0x03))
 
 typedef enum IngoRaceState {
-    /* 0 */ INGORACE_STATE_OFFER_RENTAL,
-    /* 1 */ INGORACE_STATE_HORSE_RENTAL_PERIOD,
-    /* 2 */ INGORACE_STATE_RACING,
-    /* 3 */ INGORACE_STATE_PLAYER_LOSE,
-    /* 4 */ INGORACE_STATE_FIRST_WIN,
-    /* 5 */ INGORACE_STATE_TRAPPED_WIN_UNUSED,
-    /* 6 */ INGORACE_STATE_TRAPPED_WIN_EPONA, // Ingo Traps you in Lon Lon
-    /* 7 */ INGORACE_STATE_REMATCH
+    /* 0 */ INGO_RACE_STATE_OFFER_RENTAL,
+    /* 1 */ INGO_RACE_STATE_HORSE_RENTAL_PERIOD,
+    /* 2 */ INGO_RACE_STATE_RACING,
+    /* 3 */ INGO_RACE_STATE_PLAYER_LOSE,
+    /* 4 */ INGO_RACE_STATE_FIRST_WIN,
+    /* 5 */ INGO_RACE_STATE_TRAPPED_WIN_UNUSED,
+    /* 6 */ INGO_RACE_STATE_TRAPPED_WIN_EPONA, // Ingo Traps you in Lon Lon
+    /* 7 */ INGO_RACE_STATE_REMATCH
 } IngoRaceState;
 
-#define EVENTINF_INGORACE_HORSETYPE 0x04
-#define EVENTINF_INGORACE_LOST_ONCE 0x05
-#define EVENTINF_INGORACE_SECOND_RACE 0x06
+#define EVENTINF_INGO_RACE_HORSETYPE 0x04
+#define EVENTINF_INGO_RACE_LOST_ONCE 0x05
+#define EVENTINF_INGO_RACE_SECOND_RACE 0x06
 // Used in z_en_ta (Talon) to store Cucco game winning status
 // and in z_en_ge1 (Gerudo) to store archery in-progress status
 #define EVENTINF_HORSES_08 0x08
@@ -991,37 +1001,37 @@ typedef enum IngoRaceState {
 // Used in z_en_ta (Talon) and z_en_ma3 (Malon) to store minigame finishing status
 #define EVENTINF_HORSES_0A 0x0A
 #define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
-#define EVENTINF_INGORACE_0F 0x0F // unused?
+#define EVENTINF_INGO_RACE_0F 0x0F // unused?
 
 // "InRaceSeq"
-#define GET_EVENTINF_INGORACE_STATE() (gSaveContext.eventInf[EVENTINF_INDEX_INGORACE] & EVENTINF_INGORACE_STATE_MASK)
+#define GET_EVENTINF_INGO_RACE_STATE() (gSaveContext.eventInf[EVENTINF_INDEX_INGO_RACE] & EVENTINF_INGO_RACE_STATE_MASK)
 
-#define SET_EVENTINF_INGORACE_STATE(v)               \
-    gSaveContext.eventInf[EVENTINF_INDEX_INGORACE] = \
-        (gSaveContext.eventInf[EVENTINF_INDEX_INGORACE] & ~EVENTINF_INGORACE_STATE_MASK) | (v)
+#define SET_EVENTINF_INGO_RACE_STATE(v)               \
+    gSaveContext.eventInf[EVENTINF_INDEX_INGO_RACE] = \
+        (gSaveContext.eventInf[EVENTINF_INDEX_INGO_RACE] & ~EVENTINF_INGO_RACE_STATE_MASK) | (v)
 
-#define SET_EVENTINF_INGORACE_FLAG(flag)             \
-    gSaveContext.eventInf[EVENTINF_INDEX_INGORACE] = \
-        (gSaveContext.eventInf[EVENTINF_INDEX_INGORACE] & 0xFFFF) | (1 << ((flag) & 0xF))
+#define SET_EVENTINF_INGO_RACE_FLAG(flag)             \
+    gSaveContext.eventInf[EVENTINF_INDEX_INGO_RACE] = \
+        (gSaveContext.eventInf[EVENTINF_INDEX_INGO_RACE] & 0xFFFF) | (1 << ((flag) & 0xF))
 
-#define WRITE_EVENTINF_INGORACE_FLAG(flag, v)        \
-    gSaveContext.eventInf[EVENTINF_INDEX_INGORACE] = \
-        (gSaveContext.eventInf[EVENTINF_INDEX_INGORACE] & ~(1 << ((flag)&0xF))) | ((v) << ((flag) & 0xF))
+#define WRITE_EVENTINF_INGO_RACE_FLAG(flag, v)        \
+    gSaveContext.eventInf[EVENTINF_INDEX_INGO_RACE] = \
+        (gSaveContext.eventInf[EVENTINF_INDEX_INGO_RACE] & ~(1 << ((flag)&0xF))) | ((v) << ((flag) & 0xF))
 
-#define RESET_EVENTINF_INGORACE()                                                                                   \
-    gSaveContext.eventInf[EVENTINF_INDEX_INGORACE] &=                                                               \
-        (u16) ~(EVENTINF_INGORACE_STATE_MASK | GET_EVENTINF_MASK(EVENTINF_INGORACE_HORSETYPE) |                     \
-                GET_EVENTINF_MASK(EVENTINF_INGORACE_LOST_ONCE) | GET_EVENTINF_MASK(EVENTINF_INGORACE_SECOND_RACE) | \
-                GET_EVENTINF_MASK(EVENTINF_INGORACE_0F))
+#define RESET_EVENTINF_INGO_RACE()                                                                                   \
+    gSaveContext.eventInf[EVENTINF_INDEX_INGO_RACE] &=                                                               \
+        (u16) ~(EVENTINF_INGO_RACE_STATE_MASK | EVENTINF_MASK(EVENTINF_INGO_RACE_HORSETYPE) |                     \
+                EVENTINF_MASK(EVENTINF_INGO_RACE_LOST_ONCE) | EVENTINF_MASK(EVENTINF_INGO_RACE_SECOND_RACE) | \
+                EVENTINF_MASK(EVENTINF_INGO_RACE_0F))
 
-#define RESET_EVENTINF_INGORACE2() \
-    gSaveContext.eventInf[EVENTINF_INDEX_INGORACE] = 0;
+#define RESET_EVENTINF_INGO_RACE2() \
+    gSaveContext.eventInf[EVENTINF_INDEX_INGO_RACE] = 0;
 
-#define GET_EVENTINF_INGORACE_HORSETYPE() \
-    (GET_EVENTINF(EVENTINF_INGORACE_HORSETYPE) >> (EVENTINF_INGORACE_HORSETYPE & 0xF))
-#define WRITE_EVENTINF_INGORACE_HORSETYPE(v) WRITE_EVENTINF_INGORACE_FLAG(EVENTINF_INGORACE_HORSETYPE, v)
+#define GET_EVENTINF_INGO_RACE_HORSETYPE() \
+    (GET_EVENTINF(EVENTINF_INGO_RACE_HORSETYPE) >> (EVENTINF_INGO_RACE_HORSETYPE & 0xF))
+#define WRITE_EVENTINF_INGO_RACE_HORSETYPE(v) WRITE_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_HORSETYPE, v)
 
-#define WRITE_EVENTINF_INGORACE_0F(v) WRITE_EVENTINF_INGORACE_FLAG(EVENTINF_INGORACE_0F, v)
+#define WRITE_EVENTINF_INGO_RACE_0F(v) WRITE_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_0F, v)
 
 // Is the running man race active
 #define EVENTINF_MARATHON_ACTIVE 0x10
@@ -1035,8 +1045,8 @@ typedef enum IngoRaceState {
 #define EVENTINF_24 0x24
 
 #define EVENTINF_HAGGLING_TOWNSFOLK_MASK                                                                \
-    (GET_EVENTINF_MASK(EVENTINF_20) | GET_EVENTINF_MASK(EVENTINF_21) | GET_EVENTINF_MASK(EVENTINF_22) | \
-     GET_EVENTINF_MASK(EVENTINF_23) | GET_EVENTINF_MASK(EVENTINF_24))
+    (EVENTINF_MASK(EVENTINF_20) | EVENTINF_MASK(EVENTINF_21) | EVENTINF_MASK(EVENTINF_22) | \
+     EVENTINF_MASK(EVENTINF_23) | EVENTINF_MASK(EVENTINF_24))
 
 #define ENMU_GET_TALK_FLAGS() \
     gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] & EVENTINF_HAGGLING_TOWNSFOLK_MASK

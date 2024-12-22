@@ -305,7 +305,7 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
             if (!Play_InCsMode(play)) {
                 s32 pad;
 
-                play->csCtx.script = SEGMENTED_TO_VIRTUAL(gMinuetCs);
+                play->csCtx.script = SEGMENTED_TO_VIRTUAL(gMeadowMinuetCs);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_50);
                 Item_Give(play, ITEM_SONG_MINUET);

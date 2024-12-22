@@ -1,6 +1,7 @@
 #include "global.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64horse.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
@@ -790,7 +791,7 @@ void func_80083108(PlayState* play) {
                     gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                 }
-            } else if (GET_EVENTINF_INGORACE_STATE() == INGORACE_STATE_HORSE_RENTAL_PERIOD) {
+            } else if (GET_EVENTINF_INGO_RACE_STATE() == INGO_RACE_STATE_HORSE_RENTAL_PERIOD) {
                 if (player->stateFlags1 & PLAYER_STATE1_23) {
                     if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_BOW)) {
@@ -1387,7 +1388,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         PRINTF(VT_RST);
 
         if (item == ITEM_MEDALLION_WATER) {
-            func_8006D0AC(play);
+            Horse_FixLakeHyliaPosition(play);
         }
 
         return ITEM_NONE;
@@ -3544,8 +3545,8 @@ void Interface_Draw(PlayState* play) {
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
 #if OOT_VERSION >= NTSC_1_1
-                    RESET_EVENTINF_INGORACE();
-                    PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_INDEX_INGORACE]);
+                    RESET_EVENTINF_INGO_RACE();
+                    PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_INDEX_INGO_RACE]);
 #endif
                     play->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
