@@ -3,8 +3,6 @@
 #include "message_data_fmt.h"
 #include "versions.h"
 
-#if PLATFORM_IQUE
-
 #define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     const char _message_##textId##_nes[] = nesMessage;
 
@@ -12,18 +10,6 @@
     /* Present */ const char _message_##textId##_nes[] = nesMessage;
 #define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     /* Not Present */
-
-#else
-
-#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
-    const char _message_##textId##_nes[] = nesMessage;
-
-#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
-    /* Present */ const char _message_##textId##_nes[] = nesMessage;
-#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
-    /* Not Present */
-
-#endif
 
 #if OOT_NTSC
 // On NTSC versions, the font message is with JPN
