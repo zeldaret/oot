@@ -2093,32 +2093,20 @@ class MessageEntry:
                 out += self.define_message("DEFINE_MESSAGE", shared_box_type, shared_box_pos, self.data)
             else:
                 # Some NTSC/iQue messages have different box types/positions between JPN and NES/CHN,
-                # so emit both DEFINE_MESSAGE_JPN and DEFINE_MESSAGE_NES/DEFINE_MESSAGE_CHN
-                assert len(self.data) == 5
+                # so emit both DEFINE_MESSAGE_JPN and DEFINE_MESSAGE_NES
+                assert len(self.data) == 4
                 assert self.data[0] is not None
+                assert self.data[1] is not None
                 assert self.data[2] is None
                 assert self.data[3] is None
-
-                if self.data[1] is not None:
-                    assert self.data[4] is None
-                    out += self.define_message("DEFINE_MESSAGE_JPN", self.data[0].box_type, self.data[0].box_pos, [self.data[0], None, None, None, None])
-                    out += self.define_message("DEFINE_MESSAGE_NES", self.data[1].box_type, self.data[1].box_pos, [None, self.data[1], None, None, None])
-                elif self.data[4] is not None:
-                    assert self.data[1] is None
-                    out += self.define_message("DEFINE_MESSAGE_JPN", self.data[0].box_type, self.data[0].box_pos, [self.data[0], None, None, None, None])
-                    out += self.define_message("DEFINE_MESSAGE_CHN", self.data[4].box_type, self.data[4].box_pos, [None, None, None, None, self.data[4]])
-                else:
-                    assert False
-        elif selection == (True,False,True,True,True) or selection == (True,True,True,True,False):
+                out += self.define_message("DEFINE_MESSAGE_JPN", self.data[0].box_type, self.data[0].box_pos, [self.data[0], None, None, None])
+                out += self.define_message("DEFINE_MESSAGE_NES", self.data[1].box_type, self.data[1].box_pos, [None, self.data[1], None, None])
+        elif selection == (True,False,True,True):
             # JPN only
             out += self.define_message("DEFINE_MESSAGE_JPN", self.data[0].box_type, self.data[0].box_pos, self.data)
-        elif selection == (False,True,True,True,True):
-            if self.data[1] is not None:
-                # NES only
-                out += self.define_message("DEFINE_MESSAGE_NES", self.data[1].box_type, self.data[1].box_pos, self.data)
-            else:
-                # CHN only
-                out += self.define_message("DEFINE_MESSAGE_CHN", self.data[4].box_type, self.data[4].box_pos, self.data)
+        elif selection == (False,True,True,True):
+            # NES/CHN only
+            out += self.define_message("DEFINE_MESSAGE_NES", self.data[1].box_type, self.data[1].box_pos, self.data)
         else:
             # Other unimplemented cases
             assert False
@@ -2230,7 +2218,7 @@ def main():
     nes_decoder = MessageDecoderNES()
     chn_decoder = MessageDecoderCHN()
 
-    message_tables : List[Optional[MessageTableDesc]] = [None for _ in range(5)] # JP, EN, FR, DE, CN
+    message_tables : List[Optional[MessageTableDesc]] = [None for _ in range(4)] # JP, EN/CN, FR, DE
     message_table_staff : MessageTableDesc = None
 
     if config.text_lang == "NTSC":
@@ -2238,21 +2226,18 @@ def main():
         message_tables[1]   = MessageTableDesc("sNesMessageEntryTable",   "nes_message_data_static",   nes_decoder, None)
         message_tables[2]   = None
         message_tables[3]   = None
-        message_tables[4]   = None
         message_table_staff = MessageTableDesc("sStaffMessageEntryTable", "staff_message_data_static", nes_decoder, None)
     elif config.text_lang == "PAL":
         message_tables[0]   = None
         message_tables[1]   = MessageTableDesc("sNesMessageEntryTable",   "nes_message_data_static",   nes_decoder, None)
         message_tables[2]   = MessageTableDesc("sGerMessageEntryTable",   "ger_message_data_static",   nes_decoder, 1)
         message_tables[3]   = MessageTableDesc("sFraMessageEntryTable",   "fra_message_data_static",   nes_decoder, 1)
-        message_tables[4]   = None
         message_table_staff = MessageTableDesc("sStaffMessageEntryTable", "staff_message_data_static", nes_decoder, None)
     elif config.text_lang == "CN":
         message_tables[0]   = MessageTableDesc("sJpnMessageEntryTable",   "jpn_message_data_static",   jpn_decoder, None)
-        message_tables[1]   = None
+        message_tables[1]   = MessageTableDesc("sNesMessageEntryTable",   "nes_message_data_static",   chn_decoder, None)
         message_tables[2]   = None
         message_tables[3]   = None
-        message_tables[4]   = MessageTableDesc("sNesMessageEntryTable",    "chn_message_data_static",  chn_decoder, None)
         message_table_staff = MessageTableDesc("sStaffMessageEntryTable", "staff_message_data_static", nes_decoder, None)
     else:
         raise Exception(f"Unsupported text language: {config.text_lang}")

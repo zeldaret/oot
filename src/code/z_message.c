@@ -122,113 +122,83 @@ u16 sOcarinaSongBitFlags = 0; // ocarina bit flags
 #if OOT_NTSC
 
 MessageTableEntry sJpnMessageEntryTable[] = {
-#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
+#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) /* Not Present */
+#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     { textId, (_SHIFTL(type, 4, 4) | _SHIFTL(yPos, 0, 4)), _message_##textId##_jpn },
-#define DEFINE_MESSAGE_CHN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage)
-#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    /* Present */ DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage)
+#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
+#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Present */ DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
 #include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE
 #undef DEFINE_MESSAGE_NES
 #undef DEFINE_MESSAGE_JPN
-#undef DEFINE_MESSAGE_CHN
 #undef DEFINE_MESSAGE_FFFC
     { 0xFFFF, 0, NULL },
 };
 
-#if PLATFORM_IQUE
 MessageTableEntry sNesMessageEntryTable[] = {
-#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE_CHN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    { textId, (_SHIFTL(type, 4, 4) | _SHIFTL(yPos, 0, 4)), _message_##textId##_chn },
-#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage)
-#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#include "assets/text/message_data.h"
-#undef DEFINE_MESSAGE
-#undef DEFINE_MESSAGE_NES
-#undef DEFINE_MESSAGE_JPN
-#undef DEFINE_MESSAGE_CHN
-#undef DEFINE_MESSAGE_FFFC
-    { 0xFFFF, 0, NULL },
-};
-#else
-MessageTableEntry sNesMessageEntryTable[] = {
-#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
+#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     { textId, (_SHIFTL(type, 4, 4) | _SHIFTL(yPos, 0, 4)), _message_##textId##_nes },
-#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE_CHN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage)
-#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
+#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) /* Not Present */
+#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
+#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) /* Not Present */
 #include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE
 #undef DEFINE_MESSAGE_NES
 #undef DEFINE_MESSAGE_JPN
-#undef DEFINE_MESSAGE_CHN
 #undef DEFINE_MESSAGE_FFFC
     { 0xFFFF, 0, NULL },
 };
-#endif
 
 #else
 
 MessageTableEntry sNesMessageEntryTable[] = {
-#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
+#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
     { textId, (_SHIFTL(type, 4, 4) | _SHIFTL(yPos, 0, 4)), _message_##textId##_nes },
-#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE_CHN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage)
-#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    /* Present */ DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage)
+#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) /* Not Present */
+#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
+#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    /* Present */ DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
 #include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE
 #undef DEFINE_MESSAGE_NES
 #undef DEFINE_MESSAGE_JPN
-#undef DEFINE_MESSAGE_CHN
 #undef DEFINE_MESSAGE_FFFC
     { 0xFFFF, 0, NULL },
 };
 
 const char* sGerMessageEntryTable[] = {
-#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) _message_##textId##_ger,
-#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE_CHN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage)
-#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
+#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) _message_##textId##_ger,
+#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) /* Not Present */
+#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
+#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) /* Not Present */
 #include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE
 #undef DEFINE_MESSAGE_NES
 #undef DEFINE_MESSAGE_JPN
-#undef DEFINE_MESSAGE_CHN
 #undef DEFINE_MESSAGE_FFFC
     NULL,
 };
 
 const char* sFraMessageEntryTable[] = {
-#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) _message_##textId##_fra,
-#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE_CHN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
-#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) \
-    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage)
-#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage, chnMessage) /* Not Present */
+#define DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) _message_##textId##_fra,
+#define DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) /* Not Present */
+#define DEFINE_MESSAGE(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_NES(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) \
+    DEFINE_MESSAGE_JPN(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage)
+#define DEFINE_MESSAGE_FFFC(textId, type, yPos, jpnMessage, nesMessage, gerMessage, fraMessage) /* Not Present */
 #include "assets/text/message_data.h"
 #undef DEFINE_MESSAGE
 #undef DEFINE_MESSAGE_NES
 #undef DEFINE_MESSAGE_JPN
-#undef DEFINE_MESSAGE_CHN
 #undef DEFINE_MESSAGE_FFFC
     NULL,
 };
