@@ -644,7 +644,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 
             // Leak reverb between the left and right channels
 
-#if OOT_VERSION < NTSC_1_1 || PLATFORM_GC
+#if OOT_VERSION < NTSC_1_1 || !PLATFORM_N64
             if ((reverb->leakRtl != 0) || (reverb->leakLtr != 0))
 #else
             if (((reverb->leakRtl != 0) || (reverb->leakLtr != 0)) && (gAudioCtx.soundMode != SOUNDMODE_MONO))
@@ -785,7 +785,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     samplesLenFixedPoint = (resamplingRateFixedPoint * aiBufLen * 2) + synthState->samplePosFrac;
     numSamplesToLoad = samplesLenFixedPoint >> 16;
 
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
     if (numSamplesToLoad == 0) {
         skipBytes = false;
     }

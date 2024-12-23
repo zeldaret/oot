@@ -1149,7 +1149,7 @@ ENVELOPE_08BA:
     point 20, 20000
     hang
 
-#if OOT_VERSION == NTSC_1_2 || PLATFORM_GC
+#if OOT_VERSION == NTSC_1_2 || !PLATFORM_N64
 .filter FILTER_0932
     filter 0, 0, 0, 0, 0, 0, 0, 0
 
