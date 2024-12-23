@@ -306,8 +306,7 @@ F3320,8010C2C0,src/libu64/system_heap
 F3330,8010C2D0,src/libu64/gfxprint
 F3BE0,8010CB80,src/libu64/logseverity_gc
 F3BF0,8010CB90,src/libc64/__osMalloc_gc
-F3C00,8010CBA0,data/D_80134488
-F3C10,8010CBB0,src/libc64/fp
+F3C00,8010CBA0,src/libc64/fp
 F3C20,8010CBC0,src/libc64/qrand
 F3C30,8010CBD0,src/libultra/audio/sl
 F3C40,8010CBE0,src/libultra/io/controller
