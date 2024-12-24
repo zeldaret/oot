@@ -5,7 +5,7 @@
 #include "macros.h"
 #include "sys_math3d.h"
 
-#pragma increment_block_number "gc-eu:103 gc-eu-mq:103 gc-jp:103 gc-jp-ce:103 gc-jp-mq:103 gc-us:103 gc-us-mq:103" \
+#pragma increment_block_number "gc-eu:99 gc-eu-mq:99 gc-jp:99 gc-jp-ce:99 gc-jp-mq:99 gc-us:99 gc-us-mq:99" \
                                "ntsc-1.0:80 ntsc-1.1:80 ntsc-1.2:79 pal-1.0:80 pal-1.1:80"
 
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
