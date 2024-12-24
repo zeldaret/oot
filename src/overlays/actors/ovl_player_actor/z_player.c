@@ -345,7 +345,7 @@ static s32 sSavedCurrentMask;
 static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
+#pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
                                "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // .data
