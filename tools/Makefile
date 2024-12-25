@@ -17,7 +17,7 @@ ifneq ($(LLD),0)
   CFLAGS += -fuse-ld=lld
 endif
 
-all: $(PROGRAMS)
+all: $(PROGRAMS) ido_recomp
 	$(MAKE) -C ZAPD
 	$(MAKE) -C fado
 	$(MAKE) -C audio
@@ -30,8 +30,9 @@ clean:
 
 distclean: clean
 	$(MAKE) -C audio distclean
+	$(RM) -r ido_recomp
 
-.PHONY: all clean distclean
+.PHONY: all clean distclean ido_recomp
 
 elf2rom_SOURCES            := elf2rom.c elf32.c n64chksum.c util.c
 makeromfs_SOURCES          := makeromfs.c n64chksum.c util.c
@@ -48,3 +49,6 @@ $(1): $($1_SOURCES)
 endef
 
 $(foreach p,$(PROGRAMS),$(eval $(call COMPILE,$(p))))
+
+ido_recomp:
+	./download_ido_recomp.sh ido_recomp
