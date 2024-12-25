@@ -1,0 +1,20 @@
+# Determines how certain text sequences should be encoded for the JPN text encoding.
+{
+    '\n'            : 0x000A,
+
+    '[A]'           : 0x839F,
+    '[B]'           : 0x83A0,
+    '[C]'           : 0x83A1,
+    '[L]'           : 0x83A2,
+    '[R]'           : 0x83A3,
+    '[Z]'           : 0x83A4,
+    '[C-Up]'        : 0x83A5,
+    '[C-Down]'      : 0x83A6,
+    '[C-Left]'      : 0x83A7,
+    '[C-Right]'     : 0x83A8,
+    '▼'             : 0x83A9,
+    '[Control-Pad]' : 0x83AA,
+
+    # Possibly from a SHIFT-JIS extension, python doesn't have builtin support
+    '┯'             : 0x86D3,
+}

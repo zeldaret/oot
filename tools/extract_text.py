@@ -1882,6 +1882,148 @@ class MessageDecoderNES(MessageDecoder):
             0x47 : "BLACK",
         }[c]
 
+# Chinese Characters ordered according to their appearance in nes_font_static.
+# This unfortunately does not appear to match any standard encoding.
+CHN_CHARS =      """你借到了一\
+颗口袋鸡蛋过夜后就会孵出只，用完\
+别忘记把它还回去。归得克洛！与不\
+同很少啼叫个奇异蘑菇新鲜的都容易\
+变质快拿卡利科药店吧之知道这两人\
+间发生什么事但带迷失森林物原主偷\
+猎者锯定是那年轻留下炸弹枚卢比买\
+德库子可以装弓换破损格雷剑大城修\
+好交处方见卓拉王⋯兑券急切地希望\
+点铸卖掉巨刀铁匠师所造坚摧卷眼青\
+蛙趁凉海鲁湖世上最水在前送蠃啦骷\
+髅面具按戴试看着真像怪恐怖吓基顿\
+受欢迎哦兔兜帽长耳朵太爱让头起来\
+有女孩？理更多我们娱乐中心：保龄\
+球场想奖品吗秘密付钱才告诉玩次要\
+瞄准洞放鼠十机预备开始再差（）捡\
+扔没能恢复正常请救其他兄弟给励诅\
+咒解除谢报呀啊被小消灭蜘蛛已经减\
+弱富办法越些验帮助寻找首先晚行动\
+第二住喜松柔土壤仔细观察周围全靠\
+成样因为种界每现徽章收集作战绩证\
+明征途状态窗此图标旁边数字显示目\
+量如果区名说里家族身感止错担需箭\
+关系强迫游戏著射击从台够五支武器\
+争取祝运堆软泥精灵选择或键并立即\
+时举置跑投掷疑型甚至飞檐走壁闪光\
+使敌眩晕旋镖攻远短钩条力链勾体获\
+自己根木棒挥舞站携浪费锤砸碎废沉\
+双手镜神井外也耗魔停笛塞尔达宝散\
+芒施展花风返避退火勋圣尼亚觉醒将\
+赐予茹特她萨莉娅魂纳波若暗英帕空\
+瓶红色命份绿蓝和抓伙伴活随呼唤鱼\
+非美豆园合适趣对纪念演奏各律重握\
+盾蹲防御移表滑反升级延伸距离倍套\
+件隔热穿潜服淹死坛充满靴浮悬缺摩\
+擦段勇敢相信超东哥猛龙胃做幸银臂\
+答应遵守诺言金焰入冷艳包钥匙打锁\
+门限于宫内老却驱喝进然域烁当位拨\
+查某层罗盘隐藏振石继续努哇公签临\
+西便箱意惊话左右赌徒值威增冰结授\
+艰苦训练该拥而荣义邪恶学步曲烈安\
+影梦幻镯拔虫员张据翡翠伟树托代传\
+碧商讲妖婆堡男情隆牛奶营养排销售\
+榜朋友搬日客碰烧毁折断斗习骑士又\
+承制尺码护炙侵害底溺掌丁妮席性危\
+往创建娜产罩刚清舒爽般暂脱参加嗯\
+顾片四整三房干稍候赛鳞跳深歌伊阳\
+摇篮雪壮管术接智慧气疲惫治疗伤且\
+硬技斩积蓄直释转效谈听束刻注嗨皇\
+探儿附近半思仅燃紫价高百索何输虽\
+惜幽妙愿勉网墙布藤蔓平爬屏幕顶端\
+挂旧梯嘿饰熄久通狭路慢躲调视角弯\
+旦侧落块推向兴引爆呢山坑楼绝总巧\
+脸私语足导写险雕流粘浑电尾巴几瞧\
+旗哪召跟拜访牧爸拯窟卜肚白马丢河\
+殿村云吹寒庄谁教沙漠盖侬夫等介联\
+声嘻曾领统疆怕鸟黑睛暴雨息初六聚\
+封印七认识必须未梭另渡船乘艘咯扇\
+许鬼板画廊扭天味冻音座锈漩涡吞嘛\
+牢固殊静墓培睡掘阅读式租货款仍；\
+载贪婪仇恨血腥历史诡计谜题亡闭今\
+业早招聘兼职杂指启遗极亮照闯穴伏\
+阻拦朝囚室贝泊泉黎童纯洁翻嘴陷野\
+研究考坏竟坐玛录钓磅分纹誓忠哈眠\
+瀑国务盯毯踩资瞎难倒阱塘屈镇径窄\
+慌允禁激颁喷扰砍持草泰沿实峡谷册\
+追赶市蜃崖灼宣疯狂滚伞脚共部免规\
+递登补肉歉刺杀节横纵礼貌米无孪姐\
+妹改池胆跃任句线范逃期待丽问闲泳\
+连北棵锐虑挤障碍盔甲假设温际顽皮\
+姆违盗贼蝴蝶崇象猫鹰凯普・博古化\
+笨朗匹雄赚寄卵幼突袭腹绦食笔竖枯\
+矮丛吃震撼吸败蜥蜴蝙蝠否则阿莫斯\
+母绕触傻遭汀幅敬诱泡挡沃衣炬黏背\
+抵权核挑壳肌缩邦苏透僵尸麻痹咬吉\
+乃穷尽裂拢娃傀儡亲巫低骨斧漏莱彼\
+塔扫描烟蛇弗扎挺八爪迪困陆嗜仙狼\
+懈贩麦判乔绽速嗄羞永稻终薇呵父程\
+工存氛笼令敏项欧谅众悍怎亏掏毕缓\
+冲酷俯瞰哼蚀功糟呸黄类篇论控括冒\
+度检单懂屋户致腾模嗒咔咋萎紧决呆\
+闷畏骗苗茁算猜残妇婴蔽唯响抚吵境\
+隙逝忆喂辈肩洋溢确迹凝髓混沌降健\
+耕耘星倾沛础堂万宗源本替缝惩罚遇\
+懒惰衷势维秩序抗衡旅顺叛愤辽阔茂\
+称讨厌靶饲求材耶谊噓遍谱议吼薄饶\
+稽齐懦抱千辛漂环配帝焦乎欠驯圈局\
+咩既劳祭伪弃耐岗唔佳搭档负责攀绍\
+忙提缠唉亳毛笑欣赏怜瓜奔啧踢志宜\
+仿楚挖由捕播谣勤陌杰骏鞭抽享栏逛\
+汊烦匆妈唱墟粗虐乡彻咕哝简优惠民\
+灰聪南澈卫熟悉故乌兆企抢夺拼粉番\
+群秒料肯赋婚诚邀斜诞及盛典拍轰植\
+矿采阴罕昏压悦饿忍咳弄舔醉怀尊严\
+滋农饥沮丧奋省撑脑灯隧派狗呜咣警\
+挪窜峙含痛夸艺撒谎昨炎痒泪稳况磨\
+休柱敲油菜盟骄傲献噢窒医甜鰓恼耽\
+搁孤丈订戒贵财惹腐剂融厚映妻狠泄\
+咿瞒咽恭涨嘎悔犹豫呃糕埃荡漾饵晃\
+约专剔窍．乱甩鳅剧竿杆符呱团饱犯\
+肃啵吟月诗碑奥扬舍副袖夏赖仆摆雇\
+疙瘩居簧车剩玻璃赔欺育珍床蛮啄、\
+稀栋柜鼻厉乏饭胡叮咚兵勃苛薪痴挣\
+馊扑良竭慷慨欲愚蠢嘉监狱喔港逆误\
+独划措颜奴罢洗俊罪偿牺牲劲岁恩账\
+珂艾组织伯社架桥碟卑鄙臭占讶兽刷\
+竞帐篷迟繁倦罐牌晨景田孔钻浓盒溜\
+街概盹敞扉文撞姑娘糊涂依辐微汇缚\
+宰摸侍垒扮惕估执悲拖累弥渴班搞谛\
+哀圆鸣俩善塌埋孙凶聊寃怨购涌劈狐\
+狸票闻哟唬摘愉呦棺溶褐肤颤逗娶逼\
+悠蒙漆彩丰"""
+# Ensure the contents of the above is unique
+assert len(set(CHN_CHARS)) == len(CHN_CHARS), (len(set(CHN_CHARS)), len(CHN_CHARS))
+
+class MessageDecoderCHN(MessageDecoderNES):
+    def __init__(self) -> None:
+        # The CHN text encoding is mostly the same as the NES encoding, except it lacks
+        # the D-Pad Icon and has multi-byte sequences for Chinese characters.
+        super().__init__()
+        # Remove D-Pad Icon
+        self.extraction_charmap.pop(0xAB)
+        # Add Chinese Characters
+        for i,c in enumerate(CHN_CHARS):
+            self.extraction_charmap[0xA08C + i] = c
+        self.pop_char = self.pop_char_chn
+
+    def pop_char_chn(self) -> int:
+        c = self.pop_byte()
+        # AA acts like a sort of escape sequence for single-byte
+        # chars that are >= 0xA0 that should not be interpreted
+        # as a multi-byte sequence
+        if c == 0xAA:
+            return self.pop_byte()
+        # For other chars >= 0xA0, it indicates a multi-byte sequence
+        if c >= 0xA0:
+            return (c << 8) | self.pop_byte()
+        # If neither of the above, treat as a single byte char
+        return c
+
 class MessageTableDesc:
     def __init__(self, table_name : str, seg_name : str, decoder : MessageDecoder, parent : Optional[int]) -> None:
         self.table_name : str = table_name
@@ -1894,6 +2036,9 @@ class MessageTableEntry:
 
     def __init__(self, text_id : int, box_type : int, box_pos : int, addr : int) -> None:
         self.text_id, self.box_type, self.box_pos, self.addr = text_id, box_type, box_pos, addr
+
+    def __str__(self) -> str:
+        return f"MessageTableEntry(0x{self.text_id:04X}, {self.box_type}, {self.box_pos}, 0x{self.addr:08X})"
 
     @staticmethod
     def from_bin(data : bytes) -> "MessageTableEntry":
@@ -1947,8 +2092,9 @@ class MessageEntry:
                 # Valid for all languages
                 out += self.define_message("DEFINE_MESSAGE", shared_box_type, shared_box_pos, self.data)
             else:
-                # Some NTSC messages have different box types/positions between JPN and NES,
+                # Some NTSC/iQue messages have different box types/positions between JPN and NES/CHN,
                 # so emit both DEFINE_MESSAGE_JPN and DEFINE_MESSAGE_NES
+                assert len(self.data) == 4
                 assert self.data[0] is not None
                 assert self.data[1] is not None
                 assert self.data[2] is None
@@ -1959,7 +2105,7 @@ class MessageEntry:
             # JPN only
             out += self.define_message("DEFINE_MESSAGE_JPN", self.data[0].box_type, self.data[0].box_pos, self.data)
         elif selection == (False,True,True,True):
-            # NES only
+            # NES/CHN only
             out += self.define_message("DEFINE_MESSAGE_NES", self.data[1].box_type, self.data[1].box_pos, self.data)
         else:
             # Other unimplemented cases
@@ -2070,8 +2216,9 @@ def main():
 
     jpn_decoder = MessageDecoderJPN()
     nes_decoder = MessageDecoderNES()
+    chn_decoder = MessageDecoderCHN()
 
-    message_tables : List[Optional[MessageTableDesc]] = [None for _ in range(4)] # JP, EN, FR, DE
+    message_tables : List[Optional[MessageTableDesc]] = [None for _ in range(4)] # JP, EN/CN, FR, DE
     message_table_staff : MessageTableDesc = None
 
     if config.text_lang == "NTSC":
@@ -2087,9 +2234,8 @@ def main():
         message_tables[3]   = MessageTableDesc("sFraMessageEntryTable",   "fra_message_data_static",   nes_decoder, 1)
         message_table_staff = MessageTableDesc("sStaffMessageEntryTable", "staff_message_data_static", nes_decoder, None)
     elif config.text_lang == "CN":
-        # TODO: extract CN text
         message_tables[0]   = MessageTableDesc("sJpnMessageEntryTable",   "jpn_message_data_static",   jpn_decoder, None)
-        message_tables[1]   = None
+        message_tables[1]   = MessageTableDesc("sNesMessageEntryTable",   "nes_message_data_static",   chn_decoder, None)
         message_tables[2]   = None
         message_tables[3]   = None
         message_table_staff = MessageTableDesc("sStaffMessageEntryTable", "staff_message_data_static", nes_decoder, None)
