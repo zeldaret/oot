@@ -510,6 +510,7 @@ offset,vram,.bss
 11EEF0,80137E90,src/libc64/qrand
 11EF00,80137EA0,src/code/jpegdecoder
 11EF10,80137EB0,src/libultra/io/sptask
-11EF50,80137EF0,data/code_common_80137EF0
+11EF50,80137EF0,src/libultra/io/siacs
+11EF60,80137F00,data/code_common_80137F00
 120420,801393C0,src/code/z_message_z_game_over
 120440,801393E0,.end
