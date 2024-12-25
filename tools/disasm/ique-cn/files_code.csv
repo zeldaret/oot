@@ -458,7 +458,7 @@ FC880,80115820,src/code/z_message_z_game_over
 106E80,8011FE20,data/rsp.rodata
 
 offset,vram,.bss
-108FA0,80121F40,data/code_80121F40.bss
+108FA0,80121F40,data/code_common_80121F40
 108FC0,80121F60,src/code/z_en_item00
 108FD0,80121F70,src/code/z_effect
 10CDC0,80125D60,src/code/flg_set
@@ -510,6 +510,6 @@ offset,vram,.bss
 11EEF0,80137E90,src/libc64/qrand
 11EF00,80137EA0,src/code/jpegdecoder
 11EF10,80137EB0,src/libultra/io/sptask
-11EF50,80137EF0,data/code_80137EF0.bss
+11EF50,80137EF0,data/code_common_80137EF0
 120420,801393C0,src/code/z_message_z_game_over
 120440,801393E0,.end
