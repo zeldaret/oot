@@ -1,5 +1,6 @@
 CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
 PROGRAMS := elf2rom makeromfs mkdmadata mkldscript preprocess_pragmas reloc_prereq vtxdis
+IDO_RECOMP_DIR := ido_recomp
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
   CC := clang
@@ -17,22 +18,22 @@ ifneq ($(LLD),0)
   CFLAGS += -fuse-ld=lld
 endif
 
-all: $(PROGRAMS) ido_recomp
+all: $(PROGRAMS) $(IDO_RECOMP_DIR)
 	$(MAKE) -C ZAPD
 	$(MAKE) -C fado
 	$(MAKE) -C audio
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
+	$(RM) -r $(IDO_RECOMP_DIR)
 	$(MAKE) -C ZAPD clean
 	$(MAKE) -C fado clean
 	$(MAKE) -C audio clean
 
 distclean: clean
 	$(MAKE) -C audio distclean
-	$(RM) -r ido_recomp
 
-.PHONY: all clean distclean ido_recomp
+.PHONY: all clean distclean
 
 elf2rom_SOURCES            := elf2rom.c elf32.c n64chksum.c util.c
 makeromfs_SOURCES          := makeromfs.c n64chksum.c util.c
@@ -50,5 +51,5 @@ endef
 
 $(foreach p,$(PROGRAMS),$(eval $(call COMPILE,$(p))))
 
-ido_recomp:
-	./download_ido_recomp.sh ido_recomp
+$(IDO_RECOMP_DIR):
+	./download_ido_recomp.sh $@
