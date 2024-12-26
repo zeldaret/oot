@@ -165,7 +165,7 @@ def compress_rom(
     if pad_rom:
         pad_to_multiple_of = 8 * 2**20  # 8 MiB
     else:
-        pad_to_multiple_of = 4 * 2**10  # 4 KiB
+        pad_to_multiple_of = 16 * 2**10  # 16 KiB
     compressed_rom_size_padded = (
         (compressed_rom_size + pad_to_multiple_of - 1)
         // pad_to_multiple_of
