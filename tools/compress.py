@@ -65,7 +65,7 @@ def compress_rom(
     compress_entries_indices: the indices in the dmadata of the segments that should be compressed
     compression_format: the compression format to use
     pad_to_multiple_of: pad the compressed rom to a multiple of this size, in bytes
-    fill_padding_bytes: fill the padding with a 0x00 0x01 0x02 ... pattern
+    fill_padding_bytes: fill the padding bytes with a 0x00 0x01 0x02 ... pattern instead of zeros
     n_threads: how many cores to use for compression
     """
 
@@ -265,7 +265,7 @@ def main():
         "--fill-padding-bytes",
         dest="fill_padding_bytes",
         action="store_true",
-        help="fill the padding with a 0x00 0x01 0x02 ... pattern",
+        help="fill the padding bytes with a 0x00 0x01 0x02 ... pattern instead of zeros",
     )
     parser.add_argument(
         "--threads",
