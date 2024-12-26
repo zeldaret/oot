@@ -17,6 +17,12 @@ import crunch64
 import dmadata
 
 
+COMPRESSION_METHODS = {
+    "yaz0": crunch64.yaz0.compress,
+    "gzip": crunch64.gzip.compress,
+}
+
+
 def align(v: int):
     v += 0xF
     return v // 0x10 * 0x10
@@ -62,12 +68,7 @@ def compress_rom(
     """
 
     # Compression function
-    if compression_format == "yaz0":
-        compress = crunch64.yaz0.compress
-    elif compression_format == "gzip":
-        compress = crunch64.gzip.compress
-    else:
-        raise ValueError(f"Unknown compression format: {compression_format}")
+    compress = COMPRESSION_METHODS[compression_format]
 
     # Segments of the compressed rom (not all are compressed)
     compressed_rom_segments: list[RomSegment] = []
@@ -252,7 +253,7 @@ def main():
     parser.add_argument(
         "--format",
         dest="format",
-        choices=["yaz0", "gzip"],
+        choices=COMPRESSION_METHODS.keys(),
         default="yaz0",
         help="compression format to use (default: yaz0)",
     )
