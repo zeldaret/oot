@@ -6082,14 +6082,14 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                 }
 
                 sp2C = Player_ActionToBottle(this, this->itemAction);
-#define ACTION_TO_BOTTLE_ACTION(action) (action - PLAYER_IA_BOTTLE)
-                if (sp2C >= ACTION_TO_BOTTLE_ACTION(PLAYER_IA_BOTTLE)) {
-                    if (sp2C == ACTION_TO_BOTTLE_ACTION(PLAYER_IA_BOTTLE_FAIRY)) {
+
+                if (sp2C >= ACTION_TO_BOTTLE(PLAYER_IA_BOTTLE)) {
+                    if (sp2C == ACTION_TO_BOTTLE(PLAYER_IA_BOTTLE_FAIRY)) {
                         Player_SetupActionPreserveItemAction(play, this, Player_Action_UseFairyFromBottle, 0);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_bug_out);
                         func_80835EA4(play, 3);
-                    } else if ((sp2C >= ACTION_TO_BOTTLE_ACTION(PLAYER_IA_BOTTLE_FISH)) &&
-                               (sp2C <= ACTION_TO_BOTTLE_ACTION(PLAYER_IA_BOTTLE_BUG))) {
+                    } else if ((sp2C >= ACTION_TO_BOTTLE(PLAYER_IA_BOTTLE_FISH)) &&
+                               (sp2C <= ACTION_TO_BOTTLE(PLAYER_IA_BOTTLE_BUG))) {
                         Player_SetupActionPreserveItemAction(play, this, Player_Action_DropActorFromBottle, 0);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_fish_out);
                         func_80835EA4(play, (sp2C == 1) ? 1 : 5);
