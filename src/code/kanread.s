@@ -24,10 +24,8 @@
 LEAF(Kanji_OffsetFromShiftJIS)
     /* Characters with codepoints >= 0x8800 are kanji. Arrangement is regular, */
     /* so convert index directly. */
-.set noreorder
+    li      a2, 0xBC
     blt     a0, 0x8800, .nonkanji
-     li     a2, 0xBC
-.set reorder
      /* 0xBC is number of glyphs in one block in the `kanji` file: */
      /* 0x100 possible codepoints with the same byte1 */
      /* - 0x40 unused at beginning */

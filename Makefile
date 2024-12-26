@@ -568,8 +568,10 @@ $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
 ifeq ($(DEBUG_FEATURES),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
+$(BUILD_DIR)/src/libc/%.o: ASOPTFLAGS := -g
 else
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libc/%.o: ASOPTFLAGS := -O2
 endif
 
 $(BUILD_DIR)/src/libc64/%.o: OPTFLAGS := -O2
