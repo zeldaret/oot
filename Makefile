@@ -707,10 +707,10 @@ $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
 ifeq ($(PLATFORM),IQUE)
-  COMPRESS_ARGS := --format gzip
+  COMPRESS_ARGS := --format gzip --pad-to 0x4000
   CIC = 6102
 else
-  COMPRESS_ARGS := --format yaz0 --pad-rom
+  COMPRESS_ARGS := --format yaz0 --pad-to 0x800000 --fill-padding-bytes
   CIC = 6105
 endif
 

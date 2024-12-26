@@ -55,7 +55,8 @@ def compress_rom(
     dmadata_start: int,
     compress_entries_indices: set[int],
     compression_format: str,
-    pad_rom: bool,
+    pad_to_multiple_of: int,
+    fill_padding_bytes: bool,
     n_threads: int = None,
 ):
     """
@@ -63,7 +64,8 @@ def compress_rom(
     dmadata_start: the offset in the rom where the dmadata starts
     compress_entries_indices: the indices in the dmadata of the segments that should be compressed
     compression_format: the compression format to use
-    pad_rom: whether to pad the compressed rom to a multiple of 8 MiB with the pattern 0x00, 0x01, 0x02, ...
+    pad_to_multiple_of: pad the compressed rom to a multiple of this size, in bytes
+    fill_padding_bytes: fill the padding with a 0x00 0x01 0x02 ... pattern
     n_threads: how many cores to use for compression
     """
 
@@ -162,10 +164,6 @@ def compress_rom(
     compressed_rom_size = sum(
         align(len(segment.data)) for segment in compressed_rom_segments
     )
-    if pad_rom:
-        pad_to_multiple_of = 8 * 2**20  # 8 MiB
-    else:
-        pad_to_multiple_of = 16 * 2**10  # 16 KiB
     compressed_rom_size_padded = (
         (compressed_rom_size + pad_to_multiple_of - 1)
         // pad_to_multiple_of
@@ -202,7 +200,7 @@ def compress_rom(
         )
 
     assert rom_offset == compressed_rom_size
-    if pad_rom:
+    if fill_padding_bytes:
         # Pad the compressed rom with the pattern matching the baseroms
         for i in range(compressed_rom_size, compressed_rom_size_padded):
             compressed_rom_data[i] = i % 256
@@ -258,10 +256,16 @@ def main():
         help="compression format to use (default: yaz0)",
     )
     parser.add_argument(
-        "--pad-rom",
-        dest="pad_rom",
+        "--pad-to",
+        dest="pad_to",
+        type=lambda s: int(s, 16),
+        help="pad the compressed rom to a multiple of this size, in hex (e.g. 0x800000 for 8 MiB)",
+    )
+    parser.add_argument(
+        "--fill-padding-bytes",
+        dest="fill_padding_bytes",
         action="store_true",
-        help="pad the compressed rom to a multiple of 8 MiB using the pattern 0x00, 0x01, 0x02, ...",
+        help="fill the padding with a 0x00 0x01 0x02 ... pattern",
     )
     parser.add_argument(
         "--threads",
@@ -300,7 +304,8 @@ def main():
             )
 
     compression_format = args.format
-    pad_rom = args.pad_rom
+    pad_to_multiple_of = args.pad_to
+    fill_padding_bytes = args.fill_padding_bytes
     n_threads = args.n_threads
 
     in_rom_data = in_rom_p.read_bytes()
@@ -309,7 +314,8 @@ def main():
         dmadata_start,
         compress_entries_indices,
         compression_format,
-        pad_rom,
+        pad_to_multiple_of,
+        fill_padding_bytes,
         n_threads,
     )
     out_rom_p.write_bytes(out_rom_data)
