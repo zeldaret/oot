@@ -43,10 +43,9 @@ cd ~/binutils-tmp
 
 Get and extract binutils source
 ```bash
-wget https://ftp.gnu.org/gnu/binutils/binutils-2.35.tar.bz2
+curl -O https://ftp.gnu.org/gnu/binutils/binutils-2.35.tar.bz2
 tar xjf binutils-2.35.tar.bz2
 ```
-(You may find this command does not work: if so, just access the URL in a browser and save it to `~/binutils-tmp`.)
 
 Create and enter a build directory
 ```bash
