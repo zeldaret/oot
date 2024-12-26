@@ -192,7 +192,9 @@ def get_section_hex_dump(path: Path, section: str) -> List[str]:
 def parse_hex_dump(lines: List[str]) -> bytes:
     result = bytearray()
     for line in lines:
-        data = line[6:41].replace(" ", "")
+        # strip offset
+        line = " ".join(line.strip().split(" ", 1)[1])
+        data = line[:35].replace(" ", "")
         result.extend(bytes.fromhex(data))
 
     # pad to 0x10-byte alignment
@@ -391,7 +393,7 @@ if __name__ == "__main__":
         "--version",
         dest="oot_version",
         help="version to compare",
-        default="ntsc-1.2",
+        default="ique-cn",
     )
     parser.add_argument(
         "--data",
