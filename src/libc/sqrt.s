@@ -1,15 +1,9 @@
 #include "ultra64/asm.h"
+#include "ultra64/regdef.h"
 
-#if DEBUG_FEATURES
-.set noreorder
-#endif
-
-.section .text
-
-.balign 16
+.text
 
 LEAF(sqrt)
-    sqrt.d      $f0, $f12
-    jr          $ra
-     nop
+    sqrt.d      fv0, fa0
+    jr          ra
 END(sqrt)
