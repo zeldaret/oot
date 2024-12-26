@@ -391,7 +391,7 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     } else {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF(T("ハイラル確保失敗\n", "Failure to secure Hyrule\n"));
-        HUNGUP_AND_CRASH("../game.c", LN4(895, 898, 985, 999));
+        HUNGUP_AND_CRASH("../game.c", LN4(895, 898, 985, 999, 999));
     }
 }
 
@@ -432,7 +432,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         SystemArena_Display();
 #endif
 
-        HUNGUP_AND_CRASH("../game.c", LN4(940, 943, 1030, 1044));
+        HUNGUP_AND_CRASH("../game.c", LN4(940, 943, 1030, 1044, 1044));
     }
 }
 
