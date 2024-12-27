@@ -39,7 +39,7 @@ void EnGe2_Destroy(Actor* thisx, PlayState* play);
 void EnGe2_Update(Actor* thisx, PlayState* play);
 void EnGe2_Draw(Actor* thisx, PlayState* play);
 
-s32 EnGe2_CheckCarpentersFreed(void);
+s32 EnGe2_CheckAllCarpentersRescued(void);
 void EnGe2_CaptureClose(EnGe2* this, PlayState* play);
 void EnGe2_CaptureCharge(EnGe2* this, PlayState* play);
 void EnGe2_CaptureTurn(EnGe2* this, PlayState* play);
@@ -137,14 +137,14 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     switch (PARAMS_GET_S(thisx->params, 0, 8)) {
         case GE2_TYPE_PATROLLING:
             EnGe2_ChangeAction(this, GE2_ACTION_WALK);
-            if (EnGe2_CheckCarpentersFreed()) {
+            if (EnGe2_CheckAllCarpentersRescued()) {
                 this->actor.update = EnGe2_UpdateFriendly;
                 this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
             break;
         case GE2_TYPE_STATIONARY:
             EnGe2_ChangeAction(this, GE2_ACTION_STAND);
-            if (EnGe2_CheckCarpentersFreed()) {
+            if (EnGe2_CheckAllCarpentersRescued()) {
                 this->actor.update = EnGe2_UpdateFriendly;
                 this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
@@ -224,13 +224,11 @@ s32 Ge2_DetectPlayerInUpdate(PlayState* play, EnGe2* this, Vec3f* pos, s16 yRot,
     return 1;
 }
 
-s32 EnGe2_CheckCarpentersFreed(void) {
-    if (CHECK_FLAG_ALL(gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_CARPENTERS_FREE] &
-                           (EVENTCHKINF_CARPENTERS_FREE_MASK_ALL | 0xF0),
-                       EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)) {
-        return 1;
+s32 EnGe2_CheckAllCarpentersRescued(void) {
+    if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED2()) {
+        return true;
     }
-    return 0;
+    return false;
 }
 
 // Actions
@@ -594,7 +592,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     }
     EnGe2_MoveAndBlink(this, play);
 
-    if (EnGe2_CheckCarpentersFreed() && !(this->stateFlags & GE2_STATE_KO)) {
+    if (EnGe2_CheckAllCarpentersRescued() && !(this->stateFlags & GE2_STATE_KO)) {
         this->actor.update = EnGe2_UpdateFriendly;
         this->actor.attentionRangeType = ATTENTION_RANGE_6;
     }
@@ -620,7 +618,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 
-    if (EnGe2_CheckCarpentersFreed()) {
+    if (EnGe2_CheckAllCarpentersRescued()) {
         this->actor.update = EnGe2_UpdateFriendly;
         this->actor.attentionRangeType = ATTENTION_RANGE_6;
         this->actor.colorFilterTimer = 0;
