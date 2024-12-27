@@ -573,7 +573,7 @@ typedef enum LinkAge {
 
 // EVENTCHKINF 0x90-0x93
 // Carpenters rescued from Gerudo Fortress
-#define EVENTCHKINF_INDEX_CARPENTERS_RESCUED EVENTCHKINF_INDEX(EVENTCHKINF_CARPENTER_0_RESCUED)
+#define EVENTCHKINF_INDEX_CARPENTERS_RESCUED 0x9
 #define EVENTCHKINF_CARPENTER_0_RESCUED 0x90
 #define EVENTCHKINF_CARPENTER_1_RESCUED 0x91
 #define EVENTCHKINF_CARPENTER_2_RESCUED 0x92
@@ -592,7 +592,7 @@ typedef enum LinkAge {
                        (EVENTCHKINF_CARPENTERS_ALL_RESCUED_MASK | 0xF0),                      \
                    EVENTCHKINF_CARPENTERS_ALL_RESCUED_MASK)
 
-#define ENDAIKU_CARPENTER_RESCUED_MASK(carpenterType) (1 << ((EVENTCHKINF_CARPENTER_0_RESCUED & 0xF) + (carpenterType)))
+#define ENDAIKU_CARPENTER_RESCUED_MASK(carpenterType) (1 << (carpenterType))
 
 #define ENDAIKU_IS_CARPENTER_RESCUED(carpenterType)                            \
     gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_CARPENTERS_RESCUED] & \
