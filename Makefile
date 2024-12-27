@@ -706,9 +706,17 @@ endif
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
+ifeq ($(PLATFORM),IQUE)
+  COMPRESS_ARGS := --format gzip --pad-to 0x4000
+  CIC = 6102
+else
+  COMPRESS_ARGS := --format yaz0 --pad-to 0x800000 --fill-padding-bytes
+  CIC = 6105
+endif
+
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
-	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
-	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
+	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)
+	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
