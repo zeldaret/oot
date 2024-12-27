@@ -14,6 +14,7 @@ endseg
 beginseg
     name "boot"
     address 0x80000460
+
     include "$(BUILD_DIR)/src/boot/boot_main.o"
     include "$(BUILD_DIR)/src/boot/idle.o"
 #if OOT_VERSION >= PAL_1_0
@@ -21,7 +22,11 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/boot/carthandle.o"
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
+#if !PLATFORM_IQUE
     include "$(BUILD_DIR)/src/boot/yaz0.o"
+#else
+    include "$(BUILD_DIR)/src/boot/zlib.o"
+#endif
     include "$(BUILD_DIR)/src/boot/z_locale.o"
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/boot/cic6105.o"
@@ -32,14 +37,24 @@ beginseg
     include "$(BUILD_DIR)/src/boot/is_debug.o"
     include "$(BUILD_DIR)/src/boot/driverominit.o"
     include "$(BUILD_DIR)/src/boot/mio0.o"
+
+    // libu64
     include "$(BUILD_DIR)/src/libu64/stackcheck.o"
+#if !PLATFORM_IQUE
     include "$(BUILD_DIR)/src/libu64/debug.o"
+#endif
+
+    // libc64
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/libc64/sleep.o"
 #endif
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libc64/sprintf.o"
 #endif
+
+    // libultra
+#if PLATFORM_N64
+
     include "$(BUILD_DIR)/src/libultra/io/piacs.o"
     include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
     include "$(BUILD_DIR)/src/libultra/os/stopthread.o"
@@ -48,22 +63,109 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/recvmesg.o"
-#if !PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/os/initialize.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/libc/ll.o"
     include "$(BUILD_DIR)/src/libultra/os/exceptasm.o"
     include "$(BUILD_DIR)/src/libultra/os/thread.o"
     include "$(BUILD_DIR)/src/libultra/os/destroythread.o"
     include "$(BUILD_DIR)/src/libultra/libc/bzero.o"
-#if !PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/os/parameters.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/os/createthread.o"
-#if PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/initialize.o"
     include "$(BUILD_DIR)/src/libultra/os/parameters.o"
+    include "$(BUILD_DIR)/src/libultra/os/setsr.o"
+    include "$(BUILD_DIR)/src/libultra/os/getsr.o"
+    include "$(BUILD_DIR)/src/libultra/os/writebackdcache.o"
+    include "$(BUILD_DIR)/src/libultra/io/vigetnextframebuf.o"
+    include "$(BUILD_DIR)/src/libultra/io/pimgr.o"
+    include "$(BUILD_DIR)/src/libultra/io/devmgr.o"
+    include "$(BUILD_DIR)/src/libultra/io/pirawdma.o"
+    include "$(BUILD_DIR)/src/libultra/os/virtualtophysical.o"
+    include "$(BUILD_DIR)/src/libultra/io/viblack.o"
+    include "$(BUILD_DIR)/src/libultra/io/sirawread.o"
+    include "$(BUILD_DIR)/src/libultra/os/getthreadid.o"
+    include "$(BUILD_DIR)/src/libultra/os/setintmask.o"
+    include "$(BUILD_DIR)/src/libultra/io/visetmode.o"
+    include "$(BUILD_DIR)/src/libultra/os/probetlb.o"
+    include "$(BUILD_DIR)/src/libultra/os/getmemsize.o"
+    include "$(BUILD_DIR)/src/libultra/os/seteventmesg.o"
+    include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
+    include "$(BUILD_DIR)/src/libultra/io/epidma.o"
+    include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
+    include "$(BUILD_DIR)/src/libultra/os/createmesgqueue.o"
+    include "$(BUILD_DIR)/src/libultra/os/invaldcache.o"
+    include "$(BUILD_DIR)/src/libultra/io/si.o"
+    include "$(BUILD_DIR)/src/libultra/os/jammesg.o"
+    include "$(BUILD_DIR)/src/libultra/os/setthreadpri.o"
+    include "$(BUILD_DIR)/src/libultra/os/getthreadpri.o"
+    include "$(BUILD_DIR)/src/libultra/io/epirawread.o"
+#if OOT_VERSION >= PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
 #endif
+    include "$(BUILD_DIR)/src/libultra/io/epirawdma.o"
+    include "$(BUILD_DIR)/src/libultra/os/gettime.o"
+    include "$(BUILD_DIR)/src/libultra/os/timerintr.o"
+    include "$(BUILD_DIR)/src/libultra/os/getcount.o"
+    include "$(BUILD_DIR)/src/libultra/os/setglobalintmask.o"
+    include "$(BUILD_DIR)/src/libultra/os/setcompare.o"
+    include "$(BUILD_DIR)/src/libultra/libc/bcopy.o"
+    include "$(BUILD_DIR)/src/libultra/os/resetglobalintmask.o"
+    include "$(BUILD_DIR)/src/libultra/os/interrupt.o"
+#if OOT_NTSC
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallan1.o"
+#endif
+    include "$(BUILD_DIR)/src/libultra/io/vi.o"
+#if OOT_PAL
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallan1.o"
+#endif
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
+#endif
+    include "$(BUILD_DIR)/src/libultra/io/viswapcontext.o"
+    include "$(BUILD_DIR)/src/libultra/io/pigetcmdq.o"
+    include "$(BUILD_DIR)/src/libultra/io/epiread.o"
+#if OOT_VERSION >= PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
+#endif
+    include "$(BUILD_DIR)/src/libultra/io/cartrominit.o"
+#if OOT_PAL
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+#endif
+    include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
+    include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
+    include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
+    include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
+    include "$(BUILD_DIR)/src/libultra/os/yieldthread.o"
+    include "$(BUILD_DIR)/src/libultra/os/getcause.o"
+    include "$(BUILD_DIR)/src/libultra/io/epirawwrite.o"
+    include "$(BUILD_DIR)/src/libultra/os/settimer.o"
+    include "$(BUILD_DIR)/src/libultra/io/sirawwrite.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimgr.o"
+    include "$(BUILD_DIR)/src/libultra/io/vigetcurrcontext.o"
+    include "$(BUILD_DIR)/src/libultra/os/startthread.o"
+#if OOT_VERSION >= PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/visetyscale.o"
+    include "$(BUILD_DIR)/src/libultra/io/visetxscale.o"
+#endif
+    include "$(BUILD_DIR)/src/libultra/os/sethwintrroutine.o"
+    include "$(BUILD_DIR)/src/libultra/os/gethwintrroutine.o"
+
+#elif PLATFORM_GC
+
+    include "$(BUILD_DIR)/src/libultra/io/piacs.o"
+    include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
+    include "$(BUILD_DIR)/src/libultra/os/stopthread.o"
+    include "$(BUILD_DIR)/src/libultra/io/viextendvstart.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
+    include "$(BUILD_DIR)/src/libultra/os/recvmesg.o"
+    include "$(BUILD_DIR)/src/libultra/os/initialize.o"
+    include "$(BUILD_DIR)/src/libultra/libc/ll.o"
+    include "$(BUILD_DIR)/src/libultra/os/exceptasm.o"
+    include "$(BUILD_DIR)/src/libultra/os/thread.o"
+    include "$(BUILD_DIR)/src/libultra/os/destroythread.o"
+    include "$(BUILD_DIR)/src/libultra/libc/bzero.o"
+    include "$(BUILD_DIR)/src/libultra/os/parameters.o"
+    include "$(BUILD_DIR)/src/libultra/os/createthread.o"
     include "$(BUILD_DIR)/src/libultra/os/setsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getsr.o"
     include "$(BUILD_DIR)/src/libultra/os/writebackdcache.o"
@@ -85,7 +187,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"
-#if DEBUG_FEATURES || defined(COMPILER_GCC)
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
@@ -96,13 +198,9 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/setthreadpri.o"
     include "$(BUILD_DIR)/src/libultra/os/getthreadpri.o"
     include "$(BUILD_DIR)/src/libultra/io/epirawread.o"
-#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/io/epirawdma.o"
-#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/libc/bcmp.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/os/gettime.o"
     include "$(BUILD_DIR)/src/libultra/os/timerintr.o"
     include "$(BUILD_DIR)/src/libultra/os/getcount.o"
@@ -111,31 +209,20 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/bcopy.o"
     include "$(BUILD_DIR)/src/libultra/os/resetglobalintmask.o"
     include "$(BUILD_DIR)/src/libultra/os/interrupt.o"
-#if !OOT_PAL_N64
     include "$(BUILD_DIR)/src/libultra/io/vimodentsclan1.o"
     include "$(BUILD_DIR)/src/libultra/io/vimodempallan1.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/io/vi.o"
-#if OOT_PAL_N64
-    include "$(BUILD_DIR)/src/libultra/io/vimodentsclan1.o"
-    include "$(BUILD_DIR)/src/libultra/io/vimodempallan1.o"
-#endif
-#if OOT_VERSION < PAL_1_0
-    include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/io/viswapcontext.o"
     include "$(BUILD_DIR)/src/libultra/io/pigetcmdq.o"
     include "$(BUILD_DIR)/src/libultra/io/epiread.o"
-#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/io/cartrominit.o"
-#if OOT_PAL_N64 || DEBUG_FEATURES
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
     include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
-#if PLATFORM_N64 || DEBUG_FEATURES
+#if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
@@ -147,30 +234,135 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
 #endif
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/os/settimer.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/io/sirawwrite.o"
     include "$(BUILD_DIR)/src/libultra/io/vimgr.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrcontext.o"
     include "$(BUILD_DIR)/src/libultra/os/startthread.o"
-#if OOT_VERSION >= PAL_1_0
     include "$(BUILD_DIR)/src/libultra/io/visetyscale.o"
     include "$(BUILD_DIR)/src/libultra/io/visetxscale.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/os/sethwintrroutine.o"
     include "$(BUILD_DIR)/src/libultra/os/gethwintrroutine.o"
-#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/setwatchlo.o"
+
+#elif PLATFORM_IQUE
+
+    include "$(BUILD_DIR)/src/libultra/os/invaldcache.o"
+    include "$(BUILD_DIR)/src/libultra/os/invalicache.o"
+    include "$(BUILD_DIR)/src/libultra/libc/bcmp.o"
+    include "$(BUILD_DIR)/src/libultra/libc/bzero.o"
+    include "$(BUILD_DIR)/src/libultra/os/createmesgqueue.o"
+    include "$(BUILD_DIR)/src/libultra/os/recvmesg.o"
+    include "$(BUILD_DIR)/src/libultra/os/sendmesg.o"
+    include "$(BUILD_DIR)/src/libultra/os/getfpccsr.o"
+    include "$(BUILD_DIR)/src/libultra/os/getsr.o"
+    include "$(BUILD_DIR)/src/libultra/os/setfpccsr.o"
+    include "$(BUILD_DIR)/src/libultra/os/setsr.o"
+    include "$(BUILD_DIR)/src/libultra/os/createthread.o"
+    include "$(BUILD_DIR)/src/libultra/os/setthreadpri.o"
+    include "$(BUILD_DIR)/src/libultra/os/startthread.o"
+    include "$(BUILD_DIR)/src/libultra/os/stopthread.o"
+    include "$(BUILD_DIR)/src/libultra/os/thread.o"
+    include "$(BUILD_DIR)/src/libultra/os/gettime.o"
+    include "$(BUILD_DIR)/src/libultra/os/timerintr.o"
+    include "$(BUILD_DIR)/src/libultra/io/vigetnextframebuf.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimgr.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/visetmode.o"
+    include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
+    include "$(BUILD_DIR)/src/libultra/io/visetxscale.o"
+    include "$(BUILD_DIR)/src/libultra/io/visetyscale.o"
+    include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
+    include "$(BUILD_DIR)/src/libultra/io/viswapcontext.o"
+    include "$(BUILD_DIR)/src/libultra/io/viblack.o"
+    include "$(BUILD_DIR)/src/libultra/io/viextendvstart.o"
+    include "$(BUILD_DIR)/src/libultra/os/exceptasm.o"
+    include "$(BUILD_DIR)/src/libultra/os/interrupt.o"
+    include "$(BUILD_DIR)/src/libultra/os/setintmask.o"
+    include "$(BUILD_DIR)/src/libultra/os/sethwintrroutine.o"
+    include "$(BUILD_DIR)/src/libultra/os/gethwintrroutine.o"
+    include "$(BUILD_DIR)/src/libultra/io/pimgr.o"
+    include "$(BUILD_DIR)/src/libultra/io/epirawdma.o"
+    include "$(BUILD_DIR)/src/libultra/io/epiread.o"
+    include "$(BUILD_DIR)/src/libultra/io/epidma.o"
+    include "$(BUILD_DIR)/src/libultra/io/cartrominit.o"
+    include "$(BUILD_DIR)/src/libultra/io/devmgr.o"
+    include "$(BUILD_DIR)/src/libultra/io/piacs.o"
+    include "$(BUILD_DIR)/src/libultra/os/parameters.o"
+    include "$(BUILD_DIR)/src/libultra/os/getmemsize.o"
+    include "$(BUILD_DIR)/src/libultra/os/initialize.o"
+    include "$(BUILD_DIR)/src/libultra/os/writebackdcache.o"
+    include "$(BUILD_DIR)/src/libultra/os/virtualtophysical.o"
+    include "$(BUILD_DIR)/src/libultra/libc/bcopy.o"
+    include "$(BUILD_DIR)/src/libultra/os/jammesg.o"
+    include "$(BUILD_DIR)/src/libultra/os/seteventmesg.o"
+    include "$(BUILD_DIR)/src/libultra/os/getcause.o"
+    include "$(BUILD_DIR)/src/libultra/os/setwatchlo.o"
+    include "$(BUILD_DIR)/src/libultra/os/getcount.o"
+    include "$(BUILD_DIR)/src/libultra/os/setcompare.o"
+    include "$(BUILD_DIR)/src/libultra/io/sirawread.o"
+    include "$(BUILD_DIR)/src/libultra/io/sirawwrite.o"
+    include "$(BUILD_DIR)/src/libultra/os/destroythread.o"
+    include "$(BUILD_DIR)/src/libultra/os/getthreadpri.o"
+    include "$(BUILD_DIR)/src/libultra/os/yieldthread.o"
+    include "$(BUILD_DIR)/src/libultra/os/probetlb.o"
+    include "$(BUILD_DIR)/src/libultra/os/maptlbrdb.o"
+    include "$(BUILD_DIR)/src/libultra/os/unmaptlball.o"
+    include "$(BUILD_DIR)/src/libultra/io/vi.o"
+    include "$(BUILD_DIR)/src/libultra/io/vigetcurrcontext.o"
+    include "$(BUILD_DIR)/src/libultra/os/setglobalintmask.o"
+    include "$(BUILD_DIR)/src/libultra/os/resetglobalintmask.o"
+    include "$(BUILD_DIR)/src/libultra/io/pirawdma.o"
+    include "$(BUILD_DIR)/src/libultra/io/pigetcmdq.o"
+    include "$(BUILD_DIR)/src/libultra/io/epirawread.o"
+    include "$(BUILD_DIR)/src/libultra/io/epirawwrite.o"
+    include "$(BUILD_DIR)/src/libultra/io/si.o"
+
 #endif
+
+    // libgcc
+#if PLATFORM_IQUE && !defined(COMPILER_GCC)
+    include "$(BUILD_DIR)/src/libgcc/__divdi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__moddi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__udivdi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__umoddi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__cmpdi2.o"
+    include "$(BUILD_DIR)/src/libgcc/__floatdidf.o"
+    include "$(BUILD_DIR)/src/libgcc/__floatdisf.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixunsdfdi.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixdfdi.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixunssfdi.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixsfdi.o"
+#endif
+
+    // Build information
     include "$(BUILD_DIR)/src/boot/build.o"
+
+    // RSP microcode
     include "$(BUILD_DIR)/data/rsp_boot.text.o"
     include "$(BUILD_DIR)/data/cic6105.text.o"
+
+    // Extra files for non-matching debug builds
+#if DEBUG_FEATURES
+    include "$(BUILD_DIR)/src/libu64/debug.o"
+    include "$(BUILD_DIR)/src/libultra/io/epiwrite.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+    include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
+    include "$(BUILD_DIR)/src/libultra/libc/string.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+#endif
+
+    // Functions that GCC-compiled code may depend on, placed in boot so they will always be loaded
 #ifdef COMPILER_GCC
+    include "$(BUILD_DIR)/src/libultra/libc/string.o"
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
     include "$(BUILD_DIR)/src/gcc_fix/missing_gcc_functions.o"
 #endif
+
 endseg
 
 beginseg
@@ -566,6 +758,7 @@ beginseg
     compress
     after "dmadata"
     align 0x20
+
     include "$(BUILD_DIR)/src/code/z_en_a_keep.o"
     include "$(BUILD_DIR)/src/code/z_en_item00.o"
     include "$(BUILD_DIR)/src/code/z_eff_blure.o"
@@ -713,6 +906,8 @@ beginseg
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/code/ucode_disas.o"
 #endif
+
+    // audio
 #if OOT_VERSION < NTSC_1_1 || PLATFORM_GC
     pad_text
 #endif
@@ -732,7 +927,7 @@ beginseg
     include "$(BUILD_DIR)/src/audio/lib/effects.o"
     include "$(BUILD_DIR)/src/audio/lib/seqplayer.o"
     include "$(BUILD_DIR)/src/audio/general.o"
-#if PLATFORM_GC && !DEBUG_FEATURES
+#if !PLATFORM_N64 && !DEBUG_FEATURES
     pad_text
 #endif
     include "$(BUILD_DIR)/src/audio/sfx_params.o"
@@ -741,19 +936,16 @@ beginseg
     include "$(BUILD_DIR)/src/audio/data.o"
     include "$(BUILD_DIR)/src/audio/session_config.o"
     include "$(BUILD_DIR)/src/audio/session_init.o"
+
+    // libu64
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/libu64/gfxprint.o"
     include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
     include "$(BUILD_DIR)/src/libu64/loadfragment2_n64.o"
-#if DEBUG_FEATURES
-    // This is here only to allow N64 versions to compile with DEBUG_FEATURES.
-    // There is no N64 Debug ROM to prove this is correct.
-    include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
-#endif
     include "$(BUILD_DIR)/src/libu64/pad.o"
     include "$(BUILD_DIR)/src/libu64/system_heap.o"
     include "$(BUILD_DIR)/src/libu64/padsetup.o"
-#else
+#elif PLATFORM_GC
     include "$(BUILD_DIR)/src/libu64/logseverity_gc.o"
     include "$(BUILD_DIR)/src/libu64/gfxprint.o"
     include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
@@ -766,36 +958,134 @@ beginseg
     include "$(BUILD_DIR)/src/libu64/system_heap.o"
     include "$(BUILD_DIR)/src/libu64/pad.o"
     include "$(BUILD_DIR)/src/libu64/padsetup.o"
+#elif PLATFORM_IQUE
+    include "$(BUILD_DIR)/src/libu64/system_heap.o"
+    include "$(BUILD_DIR)/src/libu64/debug.o"
+    include "$(BUILD_DIR)/src/libu64/gfxprint.o"
+    include "$(BUILD_DIR)/src/libu64/logseverity_gc.o"
+    include "$(BUILD_DIR)/src/libu64/relocation_gc.o"
+    include "$(BUILD_DIR)/src/libu64/loadfragment2_gc.o"
+    include "$(BUILD_DIR)/src/libu64/load_gc.o"
+    include "$(BUILD_DIR)/src/libu64/padsetup.o"
+    include "$(BUILD_DIR)/src/libu64/pad.o"
+    include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
 #endif
+
+    // libc64
+#if PLATFORM_N64
     include "$(BUILD_DIR)/src/libc64/math64.o"
     include "$(BUILD_DIR)/src/libc64/fp.o"
     include "$(BUILD_DIR)/src/libc64/malloc.o"
     include "$(BUILD_DIR)/src/libc64/qrand.o"
-#if PLATFORM_N64
     include "$(BUILD_DIR)/src/libc64/__osMalloc_n64.o"
-#else
+    include "$(BUILD_DIR)/src/libc64/sprintf.o"
+    include "$(BUILD_DIR)/src/libc64/aprintf.o"
+#elif PLATFORM_GC
+    include "$(BUILD_DIR)/src/libc64/math64.o"
+    include "$(BUILD_DIR)/src/libc64/fp.o"
+    include "$(BUILD_DIR)/src/libc64/malloc.o"
+    include "$(BUILD_DIR)/src/libc64/qrand.o"
     include "$(BUILD_DIR)/src/libc64/__osMalloc_gc.o"
-#endif
-#if !DEBUG_FEATURES
+    include "$(BUILD_DIR)/src/libc64/sprintf.o"
+    include "$(BUILD_DIR)/src/libc64/aprintf.o"
+    include "$(BUILD_DIR)/src/libc64/sleep.o"
+#elif PLATFORM_IQUE
+    include "$(BUILD_DIR)/src/libc64/__osMalloc_gc.o"
+    include "$(BUILD_DIR)/src/libc64/aprintf.o"
+    include "$(BUILD_DIR)/src/libc64/malloc.o"
+    include "$(BUILD_DIR)/src/libc64/math64.o"
+    include "$(BUILD_DIR)/src/libc64/fp.o"
+    include "$(BUILD_DIR)/src/libc64/qrand.o"
+    include "$(BUILD_DIR)/src/libc64/sleep.o"
     include "$(BUILD_DIR)/src/libc64/sprintf.o"
 #endif
-    include "$(BUILD_DIR)/src/libc64/aprintf.o"
-#if !PLATFORM_N64
-    include "$(BUILD_DIR)/src/libc64/sleep.o"
-#endif
+
+    // jpeg
     include "$(BUILD_DIR)/src/code/jpegutils.o"
     include "$(BUILD_DIR)/src/code/jpegdecoder.o"
+
+    // libultra
+#if PLATFORM_N64
+
+    include "$(BUILD_DIR)/src/libultra/os/getintmask.o"
+    include "$(BUILD_DIR)/src/libultra/gu/scale.o"
+    include "$(BUILD_DIR)/src/libultra/gu/sinf.o"
+    include "$(BUILD_DIR)/src/libultra/gu/sins.o"
+    include "$(BUILD_DIR)/src/libultra/io/sptask.o"
+    include "$(BUILD_DIR)/src/libultra/io/motor.o"
+    include "$(BUILD_DIR)/src/libultra/io/siacs.o"
+    include "$(BUILD_DIR)/src/libultra/io/controller.o"
+    include "$(BUILD_DIR)/src/libultra/io/contreaddata.o"
+    include "$(BUILD_DIR)/src/libultra/gu/perspective.o"
+    include "$(BUILD_DIR)/src/libultra/io/sprawdma.o"
+    include "$(BUILD_DIR)/src/libultra/io/sirawdma.o"
+    include "$(BUILD_DIR)/src/libultra/io/sptaskyield.o"
+    include "$(BUILD_DIR)/src/libultra/gu/mtxutil.o"
+    include "$(BUILD_DIR)/src/libultra/gu/lookat.o"
+    include "$(BUILD_DIR)/src/libultra/os/stoptimer.o"
+    include "$(BUILD_DIR)/src/libultra/gu/sqrtf.o"
+    include "$(BUILD_DIR)/src/libultra/os/afterprenmi.o"
+    include "$(BUILD_DIR)/src/libultra/io/contquery.o"
+    include "$(BUILD_DIR)/src/libultra/gu/lookathil.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+    include "$(BUILD_DIR)/src/libultra/libc/string.o"
+    include "$(BUILD_DIR)/src/libultra/io/sp.o"
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
+#endif
+    include "$(BUILD_DIR)/src/libultra/gu/position.o"
+    include "$(BUILD_DIR)/src/libultra/io/sptaskyielded.o"
+    include "$(BUILD_DIR)/src/libultra/gu/rotate.o"
+    include "$(BUILD_DIR)/src/libultra/io/aisetfreq.o"
+    include "$(BUILD_DIR)/src/libultra/os/getactivequeue.o"
+    include "$(BUILD_DIR)/src/libultra/gu/normalize.o"
+    include "$(BUILD_DIR)/src/libultra/io/dpgetstat.o"
+    include "$(BUILD_DIR)/src/libultra/io/dpsetstat.o"
+    include "$(BUILD_DIR)/src/libultra/gu/ortho.o"
+    include "$(BUILD_DIR)/src/libultra/gu/cosf.o"
+    include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
+#endif
+    include "$(BUILD_DIR)/src/libultra/gu/coss.o"
+    include "$(BUILD_DIR)/src/libultra/os/settime.o"
+    include "$(BUILD_DIR)/src/libultra/io/visetevent.o"
+    include "$(BUILD_DIR)/src/libultra/gu/us2dex.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsselectbank.o"
+    include "$(BUILD_DIR)/src/libultra/io/contsetch.o"
+    include "$(BUILD_DIR)/src/libultra/io/aigetlen.o"
+    include "$(BUILD_DIR)/src/libultra/gu/translate.o"
+    include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
+#if OOT_VERSION == NTSC_1_2
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+#endif
+    include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
+    include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+    include "$(BUILD_DIR)/src/libultra/libc/bcmp.o"
+    include "$(BUILD_DIR)/src/libultra/io/contramread.o"
+    include "$(BUILD_DIR)/src/libultra/io/crc.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+    include "$(BUILD_DIR)/src/libultra/io/spgetstat.o"
+    include "$(BUILD_DIR)/src/libultra/io/spsetstat.o"
+    include "$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o"
+    include "$(BUILD_DIR)/src/libultra/os/getcurrfaultedthread.o"
+    include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
+#if OOT_VERSION < PAL_1_0
+    include "$(BUILD_DIR)/src/libultra/io/visetyscale.o"
+#endif
+    include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
+    include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
+    include "$(BUILD_DIR)/src/libc/sqrt.o"
+
+#elif PLATFORM_GC
+
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
 #endif
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/os/getintmask.o"
-#endif
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/gu/scale.o"
-#else
     include "$(BUILD_DIR)/src/libultra/mgu/scale.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/gu/sinf.o"
     include "$(BUILD_DIR)/src/libultra/gu/sins.o"
     include "$(BUILD_DIR)/src/libultra/io/sptask.o"
@@ -811,12 +1101,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
 #endif
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/gu/mtxutil.o"
-#endif
-#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxidentf.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/gu/lookat.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
@@ -824,9 +1109,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/os/stoptimer.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
-#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/gu/sqrtf.o"
@@ -835,27 +1118,16 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/lookathil.o"
 #if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
-#endif
-#if !DEBUG_FEATURES && !defined(COMPILER_GCC)
     include "$(BUILD_DIR)/src/libultra/libc/string.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/sp.o"
-#if OOT_VERSION < PAL_1_0
-    include "$(BUILD_DIR)/src/libultra/io/viswapbuf.o"
-#endif
-#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxident.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/gu/position.o"
     include "$(BUILD_DIR)/src/libultra/io/sptaskyielded.o"
     include "$(BUILD_DIR)/src/libultra/gu/rotate.o"
     include "$(BUILD_DIR)/src/libultra/io/aisetfreq.o"
     include "$(BUILD_DIR)/src/libultra/os/getactivequeue.o"
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/gu/normalize.o"
-#else
     include "$(BUILD_DIR)/src/libultra/mgu/normalize.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/io/dpgetstat.o"
     include "$(BUILD_DIR)/src/libultra/io/dpsetstat.o"
 #if DEBUG_FEATURES
@@ -864,13 +1136,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/ortho.o"
     include "$(BUILD_DIR)/src/libultra/gu/cosf.o"
     include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
-#if OOT_VERSION < PAL_1_0
-    include "$(BUILD_DIR)/src/libultra/io/visetspecial.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/gu/coss.o"
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/os/settime.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/io/visetevent.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
@@ -884,35 +1150,20 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/aigetlen.o"
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/gu/translate.o"
-#else
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
-#if OOT_VERSION >= PAL_1_0 && !(OOT_PAL_N64 || DEBUG_FEATURES)
-    include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
-#endif
 #if !DEBUG_FEATURES
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
-#endif
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/libc/bcmp.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/contramread.o"
     include "$(BUILD_DIR)/src/libultra/io/crc.o"
 #if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
 #endif
-#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/os/settimer.o"
-#endif
-#if PLATFORM_N64
-    include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
-    include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
-    include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
-#elif !DEBUG_FEATURES
+#if !DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
     include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
     include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
@@ -921,35 +1172,183 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/spsetstat.o"
     include "$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o"
     include "$(BUILD_DIR)/src/libultra/os/getcurrfaultedthread.o"
-#if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libultra/mgu/mtxf2l.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
-#if OOT_VERSION < PAL_1_0
-    include "$(BUILD_DIR)/src/libultra/io/visetyscale.o"
-#endif
     include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
+    include "$(BUILD_DIR)/src/libc/sqrt.o"
+
+#elif PLATFORM_IQUE
+
+    include "$(BUILD_DIR)/src/libultra/io/aigetlen.o"
+    include "$(BUILD_DIR)/src/libultra/io/aisetfreq.o"
+    include "$(BUILD_DIR)/src/libultra/audio/sl.o"
+    include "$(BUILD_DIR)/src/libultra/audio/synthesizer.o"
+    include "$(BUILD_DIR)/src/libultra/audio/syndelete.o"
+    include "$(BUILD_DIR)/src/libultra/audio/synallocfx.o"
+    include "$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o"
+    include "$(BUILD_DIR)/src/libultra/io/contquery.o"
+    include "$(BUILD_DIR)/src/libultra/io/contreaddata.o"
+    include "$(BUILD_DIR)/src/libultra/io/controller.o"
+    include "$(BUILD_DIR)/src/libultra/io/contsetch.o"
+    include "$(BUILD_DIR)/src/libultra/gu/sqrtf.o"
+    include "$(BUILD_DIR)/src/libultra/gu/cosf.o"
+    include "$(BUILD_DIR)/src/libultra/gu/coss.o"
+    include "$(BUILD_DIR)/src/libultra/gu/lookat.o"
+    include "$(BUILD_DIR)/src/libultra/gu/lookathil.o"
+    include "$(BUILD_DIR)/src/libultra/gu/ortho.o"
+    include "$(BUILD_DIR)/src/libultra/gu/perspective.o"
+    include "$(BUILD_DIR)/src/libultra/gu/position.o"
+    include "$(BUILD_DIR)/src/libultra/gu/sinf.o"
+    include "$(BUILD_DIR)/src/libultra/gu/sins.o"
+    include "$(BUILD_DIR)/src/libultra/gu/us2dex.o"
+    include "$(BUILD_DIR)/src/libultra/libc/ll.o"
+    include "$(BUILD_DIR)/src/libultra/libc/llcvt.o"
+    include "$(BUILD_DIR)/src/libultra/libc/string.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+    include "$(BUILD_DIR)/src/libultra/io/dpgetstat.o"
+    include "$(BUILD_DIR)/src/libultra/io/dpsetstat.o"
+    include "$(BUILD_DIR)/src/libultra/io/spgetstat.o"
+    include "$(BUILD_DIR)/src/libultra/io/spsetstat.o"
+    include "$(BUILD_DIR)/src/libultra/io/sptask.o"
+    include "$(BUILD_DIR)/src/libultra/io/sptaskyield.o"
+    include "$(BUILD_DIR)/src/libultra/io/sptaskyielded.o"
+    include "$(BUILD_DIR)/src/libultra/io/sirawdma.o"
+    include "$(BUILD_DIR)/src/libultra/io/siacs.o"
+    include "$(BUILD_DIR)/src/libultra/os/getthreadid.o"
+    include "$(BUILD_DIR)/src/libultra/os/getactivequeue.o"
+    include "$(BUILD_DIR)/src/libultra/os/settimer.o"
+    include "$(BUILD_DIR)/src/libultra/os/stoptimer.o"
+    include "$(BUILD_DIR)/src/libultra/io/vigetcurrframebuf.o"
+    include "$(BUILD_DIR)/src/libultra/io/visetevent.o"
+    include "$(BUILD_DIR)/src/libultra/io/vitbl.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclpn1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclpf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclaf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclpn2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclpf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclan2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentsclaf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentschpn1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentschpf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentschan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentschaf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentschpn2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodentschpf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallpn1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallpf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallaf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallpn2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallpf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallan2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepallaf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepalhpn1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepalhpf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepalhan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepalhaf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepalhpn2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodepalhpf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallpn1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallpf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallaf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallpn2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallpf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallan2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempallaf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempalhpn1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempalhpf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempalhan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempalhaf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempalhpn2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodempalhpf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallpn1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallpf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallaf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallpn2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallpf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallan2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpallaf2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpalhpn1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpalhpf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpalhan1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpalhaf1.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpalhpn2.o"
+    include "$(BUILD_DIR)/src/libultra/io/vimodefpalhpf2.o"
+    include "$(BUILD_DIR)/src/libultra/mgu/mtxident.o"
+    include "$(BUILD_DIR)/src/libultra/mgu/mtxidentf.o"
+    include "$(BUILD_DIR)/src/libultra/mgu/mtxf2l.o"
+    include "$(BUILD_DIR)/src/libultra/mgu/scale.o"
+    include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
+    include "$(BUILD_DIR)/src/libultra/gu/rotate.o"
+    include "$(BUILD_DIR)/src/libultra/os/getcurrfaultedthread.o"
+    include "$(BUILD_DIR)/src/libultra/bb/sk/skapi.o"
+    include "$(BUILD_DIR)/src/libultra/bb/sa/common.o"
+    include "$(BUILD_DIR)/src/libultra/io/motor.o"
+    include "$(BUILD_DIR)/src/libultra/os/afterprenmi.o"
+    include "$(BUILD_DIR)/src/libultra/audio/drvrnew.o"
+    include "$(BUILD_DIR)/src/libultra/audio/load.o"
+    include "$(BUILD_DIR)/src/libultra/audio/auxbus.o"
+    include "$(BUILD_DIR)/src/libultra/audio/env.o"
+    include "$(BUILD_DIR)/src/libultra/audio/filter.o"
+    include "$(BUILD_DIR)/src/libultra/audio/mainbus.o"
+    include "$(BUILD_DIR)/src/libultra/audio/resample.o"
+    include "$(BUILD_DIR)/src/libultra/audio/reverb.o"
+    include "$(BUILD_DIR)/src/libultra/audio/save.o"
+    include "$(BUILD_DIR)/src/libultra/audio/heapalloc.o"
+    include "$(BUILD_DIR)/src/libultra/audio/copy.o"
+    include "$(BUILD_DIR)/src/libultra/gu/libm_vals.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
+    include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
+    include "$(BUILD_DIR)/src/libultra/io/sp.o"
+    include "$(BUILD_DIR)/src/libultra/io/spsetpc.o"
+    include "$(BUILD_DIR)/src/libultra/io/sprawdma.o"
+    include "$(BUILD_DIR)/src/libultra/mgu/normalize.o"
+    include "$(BUILD_DIR)/src/libultra/libc/ldiv.o"
+
+#endif
+
+    // libc
     include "$(BUILD_DIR)/src/libc/sqrt.o"
 #if !PLATFORM_N64
     include "$(BUILD_DIR)/src/libc/absf.o"
 #endif
     include "$(BUILD_DIR)/src/libc/fmodf.o"
-#ifndef COMPILER_GCC
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
-#endif
+
     // For some reason, the data sections of z_message and z_game_over are
     // placed near the rodata sections of other files, so we first build this
     // combined object before the final link.
     include "$(BUILD_DIR)/src/code/z_message_z_game_over.o"
     include "$(BUILD_DIR)/src/code/z_construct.o"
+
+    // Audio tables
     include "$(BUILD_DIR)/src/audio/tables/soundfont_table.o"
     include "$(BUILD_DIR)/assets/audio/sequence_font_table.o"
     include "$(BUILD_DIR)/src/audio/tables/sequence_table.o"
     include "$(BUILD_DIR)/src/audio/tables/samplebank_table.o"
+
+    // RSP microcode
     include "$(BUILD_DIR)/data/rsp.text.o"
     include "$(BUILD_DIR)/data/rsp.rodata.o"
+
+    // Extra files for non-matching debug builds
+#if DEBUG_FEATURES
+    include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
+    include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsdeletefile.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsfilestate.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsfindfile.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsfreeblocks.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsgetstatus.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsinitpak.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
+#endif
+
 endseg
 
 beginseg

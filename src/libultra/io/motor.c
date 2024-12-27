@@ -2,6 +2,8 @@
 
 #define MOTOR_ID 0x80
 
+#if !PLATFORM_IQUE
+
 OSPifRam __MotorDataBuf[MAXCONTROLLERS];
 
 s32 __osMotorAccess(OSPfs* pfs, s32 vibrate) {
@@ -124,3 +126,15 @@ s32 osMotorInit(OSMesgQueue* ctrlrqueue, OSPfs* pfs, s32 channel) {
     pfs->status = PFS_MOTOR_INITIALIZED;
     return 0; // "Recognized rumble pak"
 }
+
+#else
+
+s32 __osMotorAccess(OSPfs* pfs, s32 vibrate) {
+    return PFS_ERR_INVALID;
+}
+
+s32 osMotorInit(OSMesgQueue* ctrlrqueue, OSPfs* pfs, s32 channel) {
+    return PFS_ERR_INVALID;
+}
+
+#endif
