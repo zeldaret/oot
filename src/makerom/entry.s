@@ -7,12 +7,11 @@
 #if defined(__sgi) && !defined(AVOID_UB)
 /* IDO assembler workaround: The makerom tool in the N64 SDK was given the bss segment size as a const
  * literal, and since this literal was < 0x10000 it was loaded in one instruction. We don't have access
- * to the bss segment size until we link everything so we cannot do the same thing. We can load the
- * lower 16 bits of the bss size; however IDO emits two R_MIPS_LO16 relocations at this instruction,
- * so we must use a special symbol that is the bss size divided by two so that the linker updates the
- * value twice to the correct bss size.
- * When AVOID_UB is enabled, don't do this and instead load the full symbol value. */
-#define LOAD_BSS_SIZE(reg) addiu reg, zero, %lo(_bootSegmentBssSize_2)
+ * to the bss segment size until we link everything so we cannot do the same thing. Instead we must load
+ * only the lower 16 bits of the bss size for matching.
+ * When AVOID_UB is enabled, don't do this and instead load the full symbol value, otherwise not all of
+ * bss may be cleared. */
+#define LOAD_BSS_SIZE(reg) li reg, %half(_bootSegmentBssSize)
 #else
 #define LOAD_BSS_SIZE(reg) la reg, _bootSegmentBssSize
 #endif
