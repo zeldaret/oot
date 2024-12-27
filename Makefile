@@ -41,8 +41,8 @@ VERSION ?= gc-eu-mq-dbg
 N_THREADS ?= $(shell nproc)
 # Check code syntax with host compiler.
 RUN_CC_CHECK ?= 1
-# If OBJ_DUMP is 1, produce additional debugging files such as objdump output or raw binaries for assets
-OBJ_DUMP ?= 0
+# If DEBUG_OBJECTS is 1, produce additional debugging files such as objdump output or raw binaries for assets
+DEBUG_OBJECTS ?= 0
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH indicates missing dependencies.
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
@@ -340,12 +340,12 @@ CCASFLAGS := $(CPP_DEFINES)
 CPPFLAGS += $(CPP_DEFINES)
 
 # Extra debugging steps
-ifeq ($(OBJ_DUMP),1)
-  OBJ_DUMP = @$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
-  OBJ_COPY = @$(OBJCOPY) -O binary $@ $(@:.o=.bin)
+ifeq ($(DEBUG_OBJECTS),1)
+  OBJDUMP_CMD = @$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
+  OBJCOPY_CMD = @$(OBJCOPY) -O binary $@ $(@:.o=.bin)
 else
-  OBJ_DUMP = @:
-  OBJ_COPY = @:
+  OBJDUMP_CMD = @:
+  OBJCOPY_CMD = @:
 endif
 
 ifeq ($(COMPILER),gcc)
@@ -546,8 +546,6 @@ endif
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/driverominit.o: OPTFLAGS := -O2
 
-$(BUILD_DIR)/src/boot/mio0.o: OPTFLAGS := -O1
-
 $(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
 
@@ -598,8 +596,6 @@ $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: MIPS_VERSION := -mips3 -32
 
-# $(build)/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
-# $(build)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/libultra/os/exceptasm.o: MIPS_VERSION := -mips3 -32
 
 $(BUILD_DIR)/src/code/%.o: ASOPTFLAGS := -O2
@@ -814,20 +810,20 @@ endif
 
 $(BUILD_DIR)/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(OBJ_COPY)
+	$(OBJCOPY_CMD)
 
 $(BUILD_DIR)/assets/%.o: $(EXTRACTED_DIR)/assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(OBJ_COPY)
+	$(OBJCOPY_CMD)
 
 # Assemble the ROM header with GNU AS always
 $(BUILD_DIR)/src/makerom/rom_header.o: src/makerom/rom_header.s
 ifeq ($(COMPILER),ido)
 	$(CPP) $(CPPFLAGS) $(MIPS_BUILTIN_DEFS) $(INC) $< | $(AS) $(ASFLAGS) -o $@
 else
-	$(CCAS) -c $(CCASFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CCAS) -c $(CCASFLAGS) $(MIPS_VERSION) $(ASOPTFLAGS) -o $@ $<
 endif
-	$(OBJ_DUMP)
+	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/src/makerom/ipl3.o: $(EXTRACTED_DIR)/incbin/ipl3
 	$(OBJCOPY) -I binary -O elf32-big --rename-section .data=.text $< $@
@@ -842,9 +838,9 @@ ifeq ($(COMPILER),ido)
 	$(OBJCOPY) --remove-section .mdebug $(@:.o=.tmp.o) $@
 	$(SET_ABI_BIT)
 else
-	$(CCAS) -c $(CCASFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CCAS) -c $(CCASFLAGS) $(MIPS_VERSION) $(ASOPTFLAGS) -o $@ $<
 endif
-	$(OBJ_DUMP)
+	$(OBJDUMP_CMD)
 
 # Incremental link to move z_message and z_game_over data into rodata
 $(BUILD_DIR)/src/code/z_message_z_game_over.o: $(BUILD_DIR)/src/code/z_message.o $(BUILD_DIR)/src/code/z_game_over.o
@@ -875,7 +871,7 @@ ifneq ($(RUN_CC_CHECK),0)
 endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(SET_ABI_BIT)
-	$(OBJ_DUMP)
+	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/src/audio/session_init.o: src/audio/session_init.c $(BUILD_DIR)/assets/audio/soundfont_sizes.h $(BUILD_DIR)/assets/audio/sequence_sizes.h
 ifneq ($(RUN_CC_CHECK),0)

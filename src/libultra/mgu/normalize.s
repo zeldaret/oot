@@ -8,7 +8,7 @@ LEAF(guNormalize)
     lwc1    ft0, (a0)
     lwc1    ft1, (a1)
     lwc1    ft2, (a2)
-    li      t0, 0x3F800000 /* 1.0f */
+    li.s    t0, 1.0
     mul.s   ft3, ft0, ft0
     mul.s   ft4, ft1, ft1
     add.s   ft5, ft3, ft4

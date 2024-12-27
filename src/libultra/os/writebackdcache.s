@@ -31,11 +31,11 @@ LEAF(osWritebackDCache)
     addiu   t1, t1, -DCACHE_LINESIZE
     subu    t0, t0, t2
 1:
-        .set noreorder
+.set noreorder
     cache   (CACH_PD | C_HWB), (t0)
     bltu    t0, t1, 1b
      addiu  t0, t0, DCACHE_LINESIZE
-        .set reorder
+.set reorder
 .ret:
     jr      ra
 
@@ -45,10 +45,10 @@ LEAF(osWritebackDCache)
     addu    t1, t0, t3
     addiu   t1, t1, -DCACHE_LINESIZE
 1:
-        .set noreorder
+.set noreorder
     cache   (CACH_PD | C_IWBINV), (t0)
     bltu    t0, t1, 1b
      addiu  t0, DCACHE_LINESIZE
-        .set reorder
+.set reorder
     jr      ra
 END(osWritebackDCache)

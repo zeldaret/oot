@@ -5,7 +5,7 @@
 .align 5
 
 LEAF(guScale)
-    li.s    ft0, 065536.0
+    li.s    ft0, 65536.0
 
     mtc1    a1, ft1
     mul.s   ft2, ft1, ft0

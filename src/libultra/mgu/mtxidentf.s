@@ -5,7 +5,7 @@
 .align 5
 
 LEAF(guMtxIdentF)
-    li      t0, 0x3F800000 /* 1.0f */
+    li.s    t0,   1.0
     sw      t0,   0x00(a0)
     sw      zero, 0x04(a0)
     sw      zero, 0x08(a0)
