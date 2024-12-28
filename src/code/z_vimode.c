@@ -86,7 +86,7 @@ void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antia
     yScaleHiOddField = modeF ? (loResInterlaced ? (F210(0.75) << 16) : (F210(0.5) << 16)) : 0;
 
     viMode->customViMode.type = type;
-    viMode->customViMode.comRegs.ctrl = VI_CTRL_PIXEL_ADV_3 | VI_CTRL_GAMMA_ON | VI_CTRL_GAMMA_DITHER_ON |
+    viMode->customViMode.comRegs.ctrl = VI_CTRL_PIXEL_ADV(3) | VI_CTRL_GAMMA_ON | VI_CTRL_GAMMA_DITHER_ON |
                                         (!loResDeinterlaced ? VI_CTRL_SERRATE_ON : 0) |
                                         (antialiasOn ? VI_CTRL_DIVOT_ON : 0) |
                                         (fb32Bit ? VI_CTRL_TYPE_32 : VI_CTRL_TYPE_16);

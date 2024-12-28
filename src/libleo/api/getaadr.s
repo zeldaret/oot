@@ -1,42 +1,33 @@
 #include "ultra64/asm.h"
+#include "ultra64/regdef.h"
 
-.set noat
-.set noreorder
-
-.section .text
-
-.balign 16
+.text
 
 LEAF(LeoGetAAdr)
-    bltz    $a0, .out_of_range
-     slti   $at, $a0, 0x908
-    beqz    $at, .out_of_range
-     nop
-    lui     $v1, %hi(asc2tbl)
-    sll     $t0, $a0, 2
-    addiu   $v1, %lo(asc2tbl)
-    add     $t1, $t0, $v1
-    lbu     $t8, 2($t1)
-    lhu     $t9, 0($t1)
-    li      $at, 0x70000
-    andi    $t2, $t8, 0xF
-    addi    $t3, $t2, 1
-    sw      $t3, ($a2)
-    lb      $t0, 3($t1)
-    srl     $t4, $t8, 4
-    ori     $at, $at, 0xEE80
-    andi    $t5, $t0, 1
-    sll     $t6, $t5, 4
-    or      $t7, $t6, $t4
-    sw      $t7, ($a1)
-    sll     $v0, $t9, 1
-    sra     $v1, $t0, 1
-    sw      $v1, ($a3)
-    jr      $ra
-     add     $v0, $v0, $at
+    bltz    a0, .out_of_range
+    bge     a0, 0x908, .out_of_range
+    sll     t0, a0, 2
+    la      v1, asc2tbl
+    add     t1, t0, v1
+    lbu     t8, 2(t1)
+    lhu     t9, 0(t1)
+    andi    t2, t8, 0xF
+    addi    t3, t2, 1
+    sw      t3, (a2)
+    lb      t0, 3(t1)
+    srl     t4, t8, 4
+    andi    t5, t0, 1
+    sll     t6, t5, 4
+    or      t7, t6, t4
+    sw      t7, (a1)
+    sll     v0, t9, 1
+    sra     v1, t0, 1
+    sw      v1, (a3)
+    add     v0, v0, 0x7EE80
+    jr      ra
 .out_of_range:
-    jr      $ra
-     li     $v0, -1
+    li      v0, -1
+    jr      ra
 END(LeoGetAAdr)
 
 DATA(asc2tbl)

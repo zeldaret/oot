@@ -47,7 +47,7 @@ typedef struct OSMesgQueue {
 
 #else
 
-// OSMesgQueue struct member offsets
+/* OSMesgQueue struct member offsets */
 
 #define MQ_MTQUEUE      0x00
 #define MQ_FULLQUEUE    0x04
