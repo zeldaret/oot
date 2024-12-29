@@ -258,7 +258,7 @@ s32 EnToryo_GetTextId(EnToryo* this, PlayState* play) {
 
     if (textId == 0) {
         if (this->stateFlags & 1) {
-            if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+            if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
                 ret = 0x606C;
             } else if (GET_INFTABLE(INFTABLE_170)) {
                 ret = 0x606B;

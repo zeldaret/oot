@@ -122,11 +122,11 @@ void Map_InitData(PlayState* play, s16 room) {
                     extendedMapIndex = 0x15;
                 }
             } else if (play->sceneId == SCENE_GERUDO_VALLEY) {
-                if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+                if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
                     extendedMapIndex = 0x16;
                 }
             } else if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
-                if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+                if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
                     extendedMapIndex = 0x17;
                 }
             }

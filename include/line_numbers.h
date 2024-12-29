@@ -57,8 +57,8 @@
     LN(ntsc_1_0, other, other, other, other, gc, gc, gc, gc, gc, gc, gc, gc, gc)
 
 // NTSC 1.0, NTSC 1.1, Gamecube, and all the other versions
-#define LN4(ntsc_1_0, ntsc_1_1, other, gc) \
-    LN(ntsc_1_0, ntsc_1_1, other, other, other, gc, gc, gc, gc, gc, gc, gc, gc, gc)
+#define LN4(ntsc_1_0, ntsc_1_1, other, gc, ique) \
+    LN(ntsc_1_0, ntsc_1_1, other, other, other, gc, gc, gc, gc, gc, gc, gc, gc, ique)
 
 // NTSC 1.0, NTSC 1.1, NTSC 1.2/PAL 1.0, Gamecube US/JP, Gamecube EU, and Gamecube CE
 #define LN5(ntsc_1_0, ntsc_1_1, other, pal_1_1, gc_ntsc, gc_eu, gc_jp_ce) \

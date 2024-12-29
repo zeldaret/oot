@@ -41,6 +41,8 @@ VERSION ?= gc-eu-mq-dbg
 N_THREADS ?= $(shell nproc)
 # Check code syntax with host compiler.
 RUN_CC_CHECK ?= 1
+# If DEBUG_OBJECTS is 1, produce additional debugging files such as objdump output or raw binaries for assets
+DEBUG_OBJECTS ?= 0
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH indicates missing dependencies.
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
@@ -56,6 +58,7 @@ N64_EMULATOR ?=
 # DEBUG_FEATURES ?= 1
 
 CFLAGS ?=
+CCASFLAGS ?=
 CPPFLAGS ?=
 CPP_DEFINES ?=
 
@@ -239,6 +242,7 @@ else
   CPP_DEFINES += -DDEBUG_FEATURES=0 -DNDEBUG
   OPTFLAGS := -O2 -g3
 endif
+ASOPTFLAGS := -O1
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
@@ -261,9 +265,11 @@ endif
 # Detect compiler and set variables appropriately.
 ifeq ($(COMPILER),gcc)
   CC       := $(MIPS_BINUTILS_PREFIX)gcc
+  CCAS     := $(CC) -x assembler-with-cpp
 else ifeq ($(COMPILER),ido)
   CC       := tools/ido_recomp/$(DETECTED_OS)/7.1/cc
   CC_OLD   := tools/ido_recomp/$(DETECTED_OS)/5.3/cc
+  CCAS     := $(CC_OLD)
 else
 $(error Unsupported compiler. Please use either ido or gcc as the COMPILER variable.)
 endif
@@ -276,8 +282,9 @@ ifeq ($(ORIG_COMPILER),1)
       $(error Please install qemu-irix package or set QEMU_IRIX env var to the full qemu-irix binary path)
     endif
   endif
-  CC        = $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
-  CC_OLD    = $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
+  CC       := $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
+  CC_OLD   := $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
+  CCAS     := $(CC)
 endif
 
 AS      := $(MIPS_BINUTILS_PREFIX)as
@@ -285,6 +292,7 @@ LD      := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
 NM      := $(MIPS_BINUTILS_PREFIX)nm
+STRIP   := $(MIPS_BINUTILS_PREFIX)strip
 
 # The default iconv on macOS has some differences from GNU iconv, so we use the Homebrew version instead
 ifeq ($(UNAME_S),Darwin)
@@ -328,14 +336,24 @@ SBCFLAGS := --matching
 SFCFLAGS := --matching
 
 CFLAGS += $(CPP_DEFINES)
+CCASFLAGS := $(CPP_DEFINES)
 CPPFLAGS += $(CPP_DEFINES)
+
+# Extra debugging steps
+ifeq ($(DEBUG_OBJECTS),1)
+  OBJDUMP_CMD = @$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
+  OBJCOPY_CMD = @$(OBJCOPY) -O binary $@ $(@:.o=.bin)
+else
+  OBJDUMP_CMD = @:
+  OBJCOPY_CMD = @:
+endif
 
 ifeq ($(COMPILER),gcc)
   OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
 endif
 
 GBI_DEFINES := -DF3DEX_GBI_2
-ifeq ($(PLATFORM),GC)
+ifneq ($(PLATFORM),N64)
   GBI_DEFINES += -DF3DEX_GBI_PL -DGBI_DOWHILE
 endif
 ifeq ($(DEBUG_FEATURES),1)
@@ -348,12 +366,14 @@ ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude -I$(EXTRACTED_DIR)
 
 ifeq ($(COMPILER),gcc)
   CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -ffreestanding -fbuiltin -fno-builtin-sinf -fno-builtin-cosf $(CHECK_WARNINGS) -funsigned-char
+  CCASFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -fno-PIC -fno-common -Wa,-no-pad-sections
   MIPS_VERSION := -mips3
 else
   # Suppress warnings for wrong number of macro arguments (to fake variadic
   # macros) and Microsoft extensions such as anonymous structs (which the
   # compiler does support but warns for their usage).
   CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,609,649,838,712,807
+  CCASFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,609,649,838,712,807 -o32
   MIPS_VERSION := -mips2
 endif
 
@@ -482,7 +502,8 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(ASSET_C_FILES_EXTRACTED:.c=.o),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)) \
                  $(foreach f,$(ASSET_C_FILES_COMMITTED:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BASEROM_BIN_FILES),$(BUILD_DIR)/baserom/$(notdir $f).o) \
-                 $(BUILD_DIR)/src/code/z_message_z_game_over.o
+                 $(BUILD_DIR)/src/code/z_message_z_game_over.o \
+				 $(BUILD_DIR)/src/makerom/ipl3.o
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(BUILD_DIR_REPLACE) | grep -o '[^"]*_reloc.o' )
 
@@ -545,8 +566,10 @@ $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
 ifeq ($(DEBUG_FEATURES),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
+$(BUILD_DIR)/src/libc/%.o: ASOPTFLAGS := -g
 else
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libc/%.o: ASOPTFLAGS := -O2
 endif
 
 $(BUILD_DIR)/src/libc64/%.o: OPTFLAGS := -O2
@@ -572,6 +595,13 @@ $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: MIPS_VERSION := -mips3 -32
+
+$(BUILD_DIR)/src/libultra/os/exceptasm.o: MIPS_VERSION := -mips3 -32
+
+$(BUILD_DIR)/src/code/%.o: ASOPTFLAGS := -O2
+$(BUILD_DIR)/src/libleo/%.o: ASOPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/libc/%.o: ASOPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/mgu/%.o: ASOPTFLAGS := -O2
 
 ifeq ($(LIBULTRA_VERSION),I)
 $(BUILD_DIR)/src/libultra/gu/%.o: OPTFLAGS := -O3
@@ -635,6 +665,11 @@ $(BUILD_DIR)/src/%.o: CFLAGS += -fexec-charset=euc-jp
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/overlays/%.o: CFLAGS += -fno-merge-constants -mno-explicit-relocs -mno-split-addresses
 endif
+
+SET_ABI_BIT = @:
+$(BUILD_DIR)/src/libultra/os/exceptasm.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
+$(BUILD_DIR)/src/libultra/libc/ll.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
+$(BUILD_DIR)/src/libultra/libc/llcvt.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
 
 #### Main Targets ###
 
@@ -706,9 +741,17 @@ endif
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
+ifeq ($(PLATFORM),IQUE)
+  COMPRESS_ARGS := --format gzip --pad-to 0x4000
+  CIC = 6102
+else
+  COMPRESS_ARGS := --format yaz0 --pad-to 0x800000 --fill-padding-bytes
+  CIC = 6105
+endif
+
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
-	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
-	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
+	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)
+	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
@@ -742,11 +785,17 @@ $(BUILD_DIR)/baserom/%.o: $(EXTRACTED_DIR)/baserom/%
 $(BUILD_DIR)/data/%.o: data/%.s
 	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
 
-$(BUILD_DIR)/assets/text/%.enc.jpn.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h assets/text/charmap.txt
-	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py --encoding jpn --charmap assets/text/charmap.txt - $@
+ifeq ($(PLATFORM),IQUE)
+  NES_CHARMAP := assets/text/charmap.chn.txt
+else
+  NES_CHARMAP := assets/text/charmap.nes.txt
+endif
 
-$(BUILD_DIR)/assets/text/%.enc.nes.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h assets/text/charmap.txt
-	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py --encoding nes --charmap assets/text/charmap.txt - $@
+$(BUILD_DIR)/assets/text/%.enc.nes.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h $(NES_CHARMAP)
+	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py --encoding utf-8 --charmap $(NES_CHARMAP) - $@
+
+$(BUILD_DIR)/assets/text/%.enc.jpn.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h assets/text/charmap.jpn.txt
+	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py --encoding SHIFT-JIS --wchar --charmap assets/text/charmap.jpn.txt - $@
 
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
@@ -769,14 +818,37 @@ endif
 
 $(BUILD_DIR)/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(OBJCOPY) -O binary $@ $@.bin
+	$(OBJCOPY_CMD)
 
 $(BUILD_DIR)/assets/%.o: $(EXTRACTED_DIR)/assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(OBJCOPY) -O binary $@ $@.bin
+	$(OBJCOPY_CMD)
+
+# Assemble the ROM header with GNU AS always
+$(BUILD_DIR)/src/makerom/rom_header.o: src/makerom/rom_header.s
+ifeq ($(COMPILER),ido)
+	$(CPP) $(CPPFLAGS) $(MIPS_BUILTIN_DEFS) $(INC) $< | $(AS) $(ASFLAGS) -o $@
+else
+	$(CCAS) -c $(CCASFLAGS) $(MIPS_VERSION) $(ASOPTFLAGS) -o $@ $<
+endif
+	$(OBJDUMP_CMD)
+
+$(BUILD_DIR)/src/makerom/ipl3.o: $(EXTRACTED_DIR)/incbin/ipl3
+	$(OBJCOPY) -I binary -O elf32-big --rename-section .data=.text $< $@
 
 $(BUILD_DIR)/src/%.o: src/%.s
-	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
+ifeq ($(COMPILER),ido)
+	$(CCAS) -c $(CCASFLAGS) $(MIPS_VERSION) $(ASOPTFLAGS) -o $(@:.o=.tmp.o) $<
+# IDO generates bad symbol tables, fix the symbol table with strip..
+	$(STRIP) $(@:.o=.tmp.o) -N dummy-symbol-name
+# but strip doesn't know about file-relative offsets in .mdebug and doesn't relocate them, ld will
+# segfault unless .mdebug is removed
+	$(OBJCOPY) --remove-section .mdebug $(@:.o=.tmp.o) $@
+	$(SET_ABI_BIT)
+else
+	$(CCAS) -c $(CCASFLAGS) $(MIPS_VERSION) $(ASOPTFLAGS) -o $@ $<
+endif
+	$(OBJDUMP_CMD)
 
 # Incremental link to move z_message and z_game_over data into rodata
 $(BUILD_DIR)/src/code/z_message_z_game_over.o: $(BUILD_DIR)/src/code/z_message.o $(BUILD_DIR)/src/code/z_game_over.o
@@ -806,7 +878,8 @@ ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
 endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
+	$(SET_ABI_BIT)
+	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/src/audio/session_init.o: src/audio/session_init.c $(BUILD_DIR)/assets/audio/soundfont_sizes.h $(BUILD_DIR)/assets/audio/sequence_sizes.h
 ifneq ($(RUN_CC_CHECK),0)
@@ -814,22 +887,6 @@ ifneq ($(RUN_CC_CHECK),0)
 endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $(@:.o=.tmp) $<
 	$(LD) -r -T linker_scripts/data_with_rodata.ld -o $@ $(@:.o=.tmp)
-	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
-
-$(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
-ifneq ($(RUN_CC_CHECK),0)
-	$(CC_CHECK) $<
-endif
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(PYTHON) tools/set_o32abi_bit.py $@
-	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
-
-$(BUILD_DIR)/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
-ifneq ($(RUN_CC_CHECK),0)
-	$(CC_CHECK) $<
-endif
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/$(SPEC)

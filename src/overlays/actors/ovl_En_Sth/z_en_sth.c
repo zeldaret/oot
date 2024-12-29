@@ -86,12 +86,6 @@ static s16 sGetItemIds[6] = {
     GI_RUPEE_GOLD, GI_WALLET_ADULT, GI_STONE_OF_AGONY, GI_WALLET_GIANT, GI_BOMBCHUS_10, GI_HEART_PIECE,
 };
 
-static Vec3f D_80B0B49C = { 700.0f, 400.0f, 0.0f };
-
-static Color_RGB8 sTunicColors[6] = {
-    { 190, 110, 0 }, { 0, 180, 110 }, { 0, 255, 80 }, { 255, 160, 60 }, { 190, 230, 250 }, { 240, 230, 120 },
-};
-
 void EnSth_SetupAction(EnSth* this, EnSthActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -363,6 +357,7 @@ s32 EnSth_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void EnSth_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    static Vec3f D_80B0B49C = { 700.0f, 400.0f, 0.0f };
     EnSth* this = (EnSth*)thisx;
 
     if (limbIndex == 15) {
@@ -388,6 +383,9 @@ Gfx* EnSth_AllocColorDList(GraphicsContext* play, u8 envR, u8 envG, u8 envB, u8 
 }
 
 void EnSth_Draw(Actor* thisx, PlayState* play) {
+    static Color_RGB8 sShirtColors[6] = {
+        { 190, 110, 0 }, { 0, 180, 110 }, { 0, 255, 80 }, { 255, 160, 60 }, { 190, 230, 250 }, { 240, 230, 120 },
+    };
     EnSth* this = (EnSth*)thisx;
     Color_RGB8* envColor1;
 
@@ -397,8 +395,8 @@ void EnSth_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               EnSth_AllocColorDList(play->state.gfxCtx, sTunicColors[this->actor.params].r,
-                                     sTunicColors[this->actor.params].g, sTunicColors[this->actor.params].b, 255));
+               EnSth_AllocColorDList(play->state.gfxCtx, sShirtColors[this->actor.params].r,
+                                     sShirtColors[this->actor.params].g, sShirtColors[this->actor.params].b, 255));
 
     if (this->actor.params == 0) {
         gSPSegment(POLY_OPA_DISP++, 0x09, EnSth_AllocColorDList(play->state.gfxCtx, 190, 110, 0, 255));

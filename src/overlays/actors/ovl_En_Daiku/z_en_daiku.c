@@ -152,21 +152,21 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
     EnDaiku* this = (EnDaiku*)thisx;
     s32 pad;
     s32 noKill = true;
-    s32 isFree = false;
+    s32 isRescued = false;
 
-    if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE0 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_0_FREED)) {
-        isFree = true;
-    } else if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE1 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_1_FREED)) {
-        isFree = true;
-    } else if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE2 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_2_FREED)) {
-        isFree = true;
-    } else if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE3 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_3_FREED)) {
-        isFree = true;
+    if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE0 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_0_RESCUED)) {
+        isRescued = true;
+    } else if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE1 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_1_RESCUED)) {
+        isRescued = true;
+    } else if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE2 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_2_RESCUED)) {
+        isRescued = true;
+    } else if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE3 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_3_RESCUED)) {
+        isRescued = true;
     }
 
-    if (isFree == true && play->sceneId == SCENE_THIEVES_HIDEOUT) {
+    if (isRescued == true && play->sceneId == SCENE_THIEVES_HIDEOUT) {
         noKill = false;
-    } else if (!isFree && play->sceneId == SCENE_CARPENTERS_TENT) {
+    } else if (!isRescued && play->sceneId == SCENE_CARPENTERS_TENT) {
         noKill = false;
     }
 
@@ -256,7 +256,7 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, PlayState* play) {
 
 void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
     s32 carpenterType;
-    s32 freedCount;
+    s32 rescuedCount;
     s16 sp2E;
     s16 sp2C;
 
@@ -270,14 +270,14 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
             Actor_OfferTalk(&this->actor, play, 100.0f) == 1) {
             if (play->sceneId == SCENE_THIEVES_HIDEOUT) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
-                    freedCount = 0;
+                    rescuedCount = 0;
                     for (carpenterType = 0; carpenterType < 4; carpenterType++) {
-                        if (ENDAIKU_IS_CARPENTER_FREE(carpenterType)) {
-                            freedCount++;
+                        if (ENDAIKU_IS_CARPENTER_RESCUED(carpenterType)) {
+                            rescuedCount++;
                         }
                     }
 
-                    switch (freedCount) {
+                    switch (rescuedCount) {
                         case 0:
                             this->actor.textId = 0x605B;
                             break;
@@ -386,7 +386,7 @@ void EnDaiku_WaitFreedom(EnDaiku* this, PlayState* play) {
 }
 
 /**
- * The carpenter is free, initializes his running away animation
+ * The carpenter is rescued, initializes his running away animation
  */
 void EnDaiku_InitEscape(EnDaiku* this, PlayState* play) {
     Path* path;
@@ -400,7 +400,7 @@ void EnDaiku_InitEscape(EnDaiku* this, PlayState* play) {
     EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 
-    ENDAIKU_SET_CARPENTER_FREE(ENDAIKU_GET_TYPE(&this->actor));
+    ENDAIKU_SET_CARPENTER_RESCUED(ENDAIKU_GET_TYPE(&this->actor));
 
     this->actor.gravity = -1.0f;
     this->escapeSubCamTimer = sEscapeSubCamParams[ENDAIKU_GET_TYPE(&this->actor)].maxFramesActive;
@@ -493,7 +493,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
     this->subCamActive = false;
 
-    if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+    if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
         Actor* gerudoGuard;
         Vec3f vec;
 

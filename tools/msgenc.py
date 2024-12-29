@@ -13,18 +13,16 @@ def read_charmap(path : str, wchar : bool) -> Dict[str,str]:
 
     out_charmap = {}
     for k,v in charmap.items():
-        v = v[wchar]
-        if v is None:
-            v = 0
         assert isinstance(k, str)
-        assert v in (range(0xFFFF + 1) if wchar else range(0xFF + 1))
+        assert isinstance(v, int) and v in range(0xFFFF + 1)
 
         k = repr(k)[1:-1]
 
-        if wchar:
+        if wchar or v > 0xFF:
+            # split value across two bytes
             u = (v >> 8) & 0xFF
             l = (v >> 0) & 0xFF
-            out_charmap[k] = f"0x{u:02X}, 0x{l:02X},"
+            out_charmap[k] = f"0x{u:02X},0x{l:02X},"
         else:
             out_charmap[k] = f"0x{v:02X},"
 
@@ -62,7 +60,7 @@ def convert_text(text : str, encoding : str, charmap : Dict[str, str]) -> str:
             # flush text
             to_flush = string[run_start:i]
             if len(string[run_start:i]) != 0:
-                out += ",".join(f"0x{b:02X}" for b in to_flush.encode(encoding))
+                out += ",".join(f"0x{b:02X}" for b in to_flush.encode(encoding, "replace"))
                 out += ","
             if text is None:
                 return
@@ -126,24 +124,25 @@ def main():
     )
     parser.add_argument(
         "--encoding",
-        help="encoding (jpn or nes)",
+        help="base text encoding",
         required=True,
         type=str,
-        choices=("jpn", "nes"),
+        choices=("utf-8", "SHIFT-JIS"),
     )
     parser.add_argument(
         "--charmap",
         help="path to charmap file specifying custom encoding elements",
         required=True,
     )
+    parser.add_argument(
+        "--wchar",
+        help="force wide encoding",
+        required=False,
+        action="store_true"
+    )
     args = parser.parse_args()
 
-    wchar,encoding = {
-        "jpn" : (True, "SHIFT-JIS"),
-        "nes" : (False, "raw-unicode-escape"),
-    }[args.encoding]
-
-    charmap = read_charmap(args.charmap, wchar)
+    charmap = read_charmap(args.charmap, args.wchar)
 
     text = ""
     if args.input == "-":
@@ -153,7 +152,7 @@ def main():
             text = infile.read()
 
     text = remove_comments(text)
-    text = convert_text(text, encoding, charmap)
+    text = convert_text(text, args.encoding, charmap)
 
     if args.output == "-":
         sys.stdout.buffer.write(text.encode("utf-8"))

@@ -44,7 +44,7 @@ incbins: # TODO: fix these
 variables:
   gMtxClear: 0x80106980
   sJpnMessageEntryTable: 0x80115838
-  sNesMessageEntryTable: 0x8011DB98
+  sNesMessageEntryTable: 0x80119978
   sStaffMessageEntryTable: 0x8011DB98
   gSoundFontTable: 0x8011F280
   gSequenceFontTable: 0x8011F4F0
