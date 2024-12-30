@@ -66,8 +66,8 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
     s32 randomIndex;
     s32 i;
 
-    talkFlags = ENMU_GET_TALK_FLAGS();
-    ENMU_RESET_TALK_FLAGS();
+    talkFlags = GET_EVENTINF_ENMU_TALK_FLAGS();
+    RESET_EVENTINF_ENMU_TALK_FLAGS();
     randomIndex = (play->state.frames + (s32)(Rand_ZeroOne() * 5.0f)) % 5;
 
     // Starting at randomIndex, scan sequentially for the next unspoken message
@@ -95,7 +95,7 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
 
     talkFlags |= (u8)bitmask[randomIndex];
     this->defaultTextId = textIdOffset[randomIndex] | 0x7000;
-    ENMU_SET_TALK_FLAGS(talkFlags);
+    SET_EVENTINF_ENMU_TALK_FLAGS(talkFlags);
 }
 
 u16 EnMu_GetTextId(PlayState* play, Actor* thisx) {
