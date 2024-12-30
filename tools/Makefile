@@ -15,7 +15,7 @@ IDO_RECOMP_5_3_DIR := ido_recomp/$(DETECTED_OS)/5.3
 IDO_RECOMP_7_1_DIR := ido_recomp/$(DETECTED_OS)/7.1
 
 EGCS_BINUTILS_VERSION := 0.6
-EGCS_GCC_VERSION := 0.5
+EGCS_GCC_VERSION := 0.6
 EGCS_DIR := egcs/$(DETECTED_OS)
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
