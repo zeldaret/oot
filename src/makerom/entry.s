@@ -4,16 +4,16 @@
 
 .text
 
-#if defined(__GNUC__) || defined(__sgi)
-/* Modern GCC or IDO */
+#if defined(NON_MATCHING) || defined(__sgi)
+/* Non-matching builds or IDO */
 #define PAD_TO 0x60
 #define LA(reg, sym) la reg, sym
 #define BOOT_STACK_TOP sBootThreadStack + BOOT_STACK_SIZE
 #else
 /* EGCS */
 #define PAD_TO 0x50
-#define LA(reg, sym)           \
-    lui reg, %lo(sym##_CN_HI); \
+#define LA(reg, sym)        \
+    lui reg, %lo(sym##_HI); \
     ori reg, %lo(sym)
 #endif
 

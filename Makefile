@@ -288,8 +288,8 @@ ifeq ($(ORIG_COMPILER),1)
 endif
 
 # EGCS Compiler
-CC_EGCS := env COMPILER_PATH=tools/egcs/$(DETECTED_OS) tools/egcs/$(DETECTED_OS)/gcc
-CCAS_EGCS := $(CC_EGCS) -x assembler-with-cpp
+EGCS_CC := tools/egcs/$(DETECTED_OS)/gcc -B tools/egcs/$(DETECTED_OS)/
+EGCS_CCAS := $(EGCS_CC) -x assembler-with-cpp
 
 AS      := $(MIPS_BINUTILS_PREFIX)as
 LD      := $(MIPS_BINUTILS_PREFIX)ld
@@ -380,8 +380,8 @@ else
   CCASFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,609,649,838,712,807 -o32
   MIPS_VERSION := -mips2
 
-  CCASFLAGS_EGCS := -Wall -nostdinc $(CPP_DEFINES) $(INC) -c -G 0 -Wa,-irix-symtab -D_ABIO32=1 -D_ABI64=3 -D_MIPS_SIM_ABI64=_ABI64 -D_MIPS_SIM_ABI32=_ABIO32 -DMIPSEB -D_LANGUAGE_ASSEMBLY -fno-PIC -non_shared -mcpu=4300 -mfix4300
-  ASOPTFLAGS_EGCS :=
+  EGCS_CCASFLAGS := -Wall -nostdinc $(CPP_DEFINES) $(INC) -c -G 0 -Wa,-irix-symtab -D_ABIO32=1 -D_ABI64=3 -D_MIPS_SIM_ABI64=_ABI64 -D_MIPS_SIM_ABI32=_ABIO32 -DMIPSEB -D_LANGUAGE_ASSEMBLY -fno-PIC -non_shared -mcpu=4300 -mfix4300
+  EGCS_ASOPTFLAGS :=
 endif
 
 ifeq ($(COMPILER),ido)
@@ -660,9 +660,9 @@ $(BUILD_DIR)/assets/misc/z_select_static/%.o: GBI_DEFINES := -DF3DEX_GBI
 
 ifeq ($(PLATFORM),IQUE)
 
-$(BUILD_DIR)/src/makerom/%.o: CCAS := $(CCAS_EGCS)
-$(BUILD_DIR)/src/makerom/%.o: CCASFLAGS := $(CCASFLAGS_EGCS)
-$(BUILD_DIR)/src/makerom/%.o: ASOPTFLAGS := $(ASOPTFLAGS_EGCS)
+$(BUILD_DIR)/src/makerom/%.o: CCAS := $(EGCS_CCAS)
+$(BUILD_DIR)/src/makerom/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
+$(BUILD_DIR)/src/makerom/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
 
 endif
 
@@ -769,12 +769,12 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)
 	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/linker_scripts/extra.ld $(BUILD_DIR)/undefined_syms.txt \
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
         $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
-	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/extra.ld -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
+	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
 
-$(BUILD_DIR)/linker_scripts/extra.ld: linker_scripts/extra.ld
+$(BUILD_DIR)/linker_scripts/makerom.ld: linker_scripts/makerom.ld
 	$(CPP) -I include $(CPPFLAGS) $< > $@
 
 ## Order-only prerequisites
