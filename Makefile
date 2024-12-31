@@ -357,7 +357,7 @@ CPPFLAGS += -P -xc -fno-dollars-in-identifiers $(CPP_DEFINES)
 ASFLAGS += -march=vr4300 -32 -no-pad-sections -Iinclude -I$(EXTRACTED_DIR)
 
 ifeq ($(COMPILER),gcc)
-  CFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -ffreestanding -funsigned-char -fbuiltin -fno-builtin-bzero -fno-builtin-bcmp -fno-builtin-bcopy -fno-builtin-sinf -fno-builtin-cosf $(CHECK_WARNINGS)
+  CFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -ffreestanding -funsigned-char -fbuiltin -fno-builtin-sinf -fno-builtin-cosf $(CHECK_WARNINGS)
   CCASFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -fno-PIC -fno-common -Wa,-no-pad-sections
   MIPS_VERSION := -mips3
 else
