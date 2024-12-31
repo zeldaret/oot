@@ -410,9 +410,13 @@ LDSCRIPT := $(ROM:.z64=.ld)
 SPEC := spec
 
 ifeq ($(COMPILER),ido)
-SRC_DIRS := $(shell find src -type d -not -path src/gcc_fix)
+  ifeq ($(PLATFORM),IQUE)
+    SRC_DIRS := $(shell find src -type d -not -path src/gcc_fix)
+  else
+    SRC_DIRS := $(shell find src -type d -not -path src/gcc_fix -not -path src/libgcc)
+  endif
 else
-SRC_DIRS := $(shell find src -type d)
+  SRC_DIRS := $(shell find src -type d)
 endif
 
 ifneq ($(wildcard $(EXTRACTED_DIR)/assets/audio),)
