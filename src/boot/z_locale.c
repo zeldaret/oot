@@ -7,7 +7,7 @@
 s32 gCurrentRegion = 0;
 
 void Locale_Init(void) {
-#if PLATFORM_N64
+#if !PLATFORM_GC
     ALIGNED(4) u8 regionInfo[4];
     u8 countryCode;
 
@@ -24,6 +24,7 @@ void Locale_Init(void) {
     countryCode = sCartInfo.countryCode;
 #endif
 
+#if !PLATFORM_IQUE
     switch (countryCode) {
         case 'J': // "NTSC-J (Japan)"
             gCurrentRegion = REGION_JP;
@@ -47,6 +48,9 @@ void Locale_Init(void) {
 
     PRINTF(T("z_locale_init:日本用かアメリカ用か３コンで判断させる\n",
              "z_locale_init: Determine whether it is for Japan or America using 3 controls\n"));
+#else
+    gCurrentRegion = REGION_US;
+#endif
 }
 
 void Locale_ResetRegion(void) {

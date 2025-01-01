@@ -177,7 +177,7 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
-                HUNGUP_AND_CRASH("../z_play.c", LN5(2263, 2266, 2269, 2272, 2287, 2290, 2293));
+                HUNGUP_AND_CRASH("../z_play.c", LN5(2263, 2266, 2269, 2272, 2287, 2290, 2293, 2282));
                 break;
         }
     }
