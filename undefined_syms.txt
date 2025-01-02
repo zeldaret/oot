@@ -9,3 +9,17 @@ D_0F000000 = 0x0F000000;
 
 // z_bg_mjin
 D_06000000 = 0x06000000;
+
+#if PLATFORM_IQUE
+__divdi3 = 0x80008010;
+__moddi3 = 0x800085F0;
+__udivdi3 = 0x80008B80;
+__umoddi3 = 0x800090F0;
+__cmpdi2 = 0x80009600;
+__floatdidf = 0x80009650;
+__floatdisf = 0x800096A0;
+__fixunsdfdi = 0x80009760;
+__fixdfdi = 0x80009960;
+__fixunssfdi = 0x800099D0;
+__fixsfdi = 0x80009BD0;
+#endif

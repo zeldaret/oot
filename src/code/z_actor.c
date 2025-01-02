@@ -24,6 +24,8 @@ static s32 sCurCeilingBgId;
     PRINTF
 #elif IDO_PRINTF_WORKAROUND
 #define ACTOR_DEBUG_PRINTF(args) (void)0
+#elif defined(__GNUC__) && __GNUC__ < 3
+#define ACTOR_DEBUG_PRINTF(format, args...) (void)0
 #else
 #define ACTOR_DEBUG_PRINTF(format, ...) (void)0
 #endif
