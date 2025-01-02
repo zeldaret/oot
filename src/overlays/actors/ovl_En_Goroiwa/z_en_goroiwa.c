@@ -610,9 +610,9 @@ void EnGoroiwa_Roll(EnGoroiwa* this, PlayState* play) {
             }
         }
         Actor_SetPlayerKnockbackLarge(play, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 0);
-        PRINTF(VT_FGCOL(CYAN));
+        PRINTF_COLOR_CYAN();
         PRINTF("Player ぶっ飛ばし\n"); // "Player knocked down"
-        PRINTF(VT_RST);
+        PRINTF_RST();
         onHitSetupFuncs[PARAMS_GET_U(this->actor.params, 10, 1)](this);
         Player_PlaySfx(GET_PLAYER(play), NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {

@@ -463,7 +463,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             this->actor.bgCheckFlags = tempBgFlags;
             this->actor.depthInWater = tempDepthInWater;
 
-            PRINTF(VT_RST);
+            PRINTF_RST();
 
             if (1) {
                 u8 onGround = (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
@@ -727,9 +727,9 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     bomb = bomb->next;
                 }
             }
-            PRINTF(VT_FGCOL(GREEN));
+            PRINTF_COLOR_GREEN();
             PRINTF("OCARINA_MODE %d\n", play->msgCtx.ocarinaMode);
-            PRINTF(VT_RST);
+            PRINTF_RST();
             switch (this->ocarinaFlag) {
                 case 0:
                     if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {

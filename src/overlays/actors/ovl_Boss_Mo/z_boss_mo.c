@@ -1747,7 +1747,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
     s16 i;
     Player* player = GET_PLAYER(play);
 
-    PRINTF(VT_FGCOL(YELLOW));
+    PRINTF_COLOR_YELLOW();
     PRINTF("Core_Damage_check START\n");
     if (this->coreCollider.base.atFlags & AT_HIT) {
         this->coreCollider.base.atFlags &= ~AT_HIT;
@@ -1843,7 +1843,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
     }
     // "end !!"
     PRINTF("Core_Damage_check 終わり ！！\n");
-    PRINTF(VT_RST);
+    PRINTF_RST();
 }
 
 void BossMo_Core(BossMo* this, PlayState* play) {

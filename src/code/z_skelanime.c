@@ -71,9 +71,9 @@ void SkelAnime_DrawLod(PlayState* play, void** skeleton, Vec3s* jointTable, Over
     Vec3s rot;
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_Lod_draw():skelがNULLです。\n", "Si2_Lod_draw(): skel is NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return;
     }
 
@@ -184,9 +184,9 @@ void SkelAnime_DrawFlexLod(PlayState* play, void** skeleton, Vec3s* jointTable, 
     Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, dListCount * sizeof(Mtx));
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_Lod_draw_SV():skelがNULLです。\n", "Si2_Lod_draw_SV(): skel is NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return;
     }
 
@@ -287,9 +287,9 @@ void SkelAnime_DrawOpa(PlayState* play, void** skeleton, Vec3s* jointTable, Over
     Vec3s rot;
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_draw():skelがNULLです。\n", "Si2_draw(): skel is NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return;
     }
 
@@ -400,9 +400,9 @@ void SkelAnime_DrawFlexOpa(PlayState* play, void** skeleton, Vec3s* jointTable, 
     Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, dListCount * sizeof(Mtx));
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_draw_SV():skelがNULLです。\n", "Si2_draw_SV(): skel is NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return;
     }
 
@@ -553,9 +553,9 @@ Gfx* SkelAnime_Draw(PlayState* play, void** skeleton, Vec3s* jointTable, Overrid
     Vec3s rot;
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_draw2():skelがNULLです。NULLを返します。\n", "Si2_draw2(): skel is NULL. Returns NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return NULL;
     }
 
@@ -661,9 +661,9 @@ Gfx* SkelAnime_DrawFlex(PlayState* play, void** skeleton, Vec3s* jointTable, s32
     Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, dListCount * sizeof(*mtx));
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_draw2_SV():skelがNULLです。NULLを返します。\n", "Si2_draw2_SV(): skel is NULL. Returns NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return NULL;
     }
 
@@ -1129,10 +1129,10 @@ void SkelAnime_InitLink(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeade
     }
 
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Skeleton_Info_Rom_SV_ct メモリアロケーションエラー\n",
                  "Skeleton_Info_Rom_SV_ct Memory allocation error\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 
     LinkAnimation_Change(play, skelAnime, animation, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, 0.0f);
@@ -1443,9 +1443,9 @@ BAD_RETURN(s32) SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHe
         skelAnime->morphTable = morphTable;
     }
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Skeleton_Info2_ct メモリアロケーションエラー\n", "Skeleton_Info2_ct Memory allocation error\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 
     if (animation != NULL) {
@@ -1476,10 +1476,10 @@ BAD_RETURN(s32) SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSk
         skelAnime->morphTable = morphTable;
     }
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Skeleton_Info_Rom_SV_ct メモリアロケーションエラー\n",
                  "Skeleton_Info_Rom_SV_ct Memory allocation error\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 
     if (animation != NULL) {
@@ -1501,10 +1501,10 @@ BAD_RETURN(s32) SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, Skelet
     skelAnime->morphTable =
         ZELDA_ARENA_MALLOC(skelAnime->limbCount * sizeof(*skelAnime->morphTable), "../z_skelanime.c", 3121);
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Skeleton_Info2_skin2_ct メモリアロケーションエラー\n",
                  "Skeleton_Info2_skin2_ct Memory allocation error\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 
     if (animation != NULL) {

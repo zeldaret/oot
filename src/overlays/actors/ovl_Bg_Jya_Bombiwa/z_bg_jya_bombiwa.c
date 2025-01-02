@@ -92,12 +92,12 @@ void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
     BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 6) != 0x29) {
-        PRINTF(VT_COL(YELLOW, BLACK));
+        PRINTF_COLOR_WARNING();
 
         // "Warning: Switch Number changed (%s %d)(SW %d)"
         PRINTF("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n", "../z_bg_jya_bombiwa.c", 218,
                PARAMS_GET_U(this->dyna.actor.params, 0, 6));
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
     BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, 0);
     BgJyaBombiwa_InitCollider(this, play);

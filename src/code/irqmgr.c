@@ -185,11 +185,11 @@ void IrqMgr_CheckStacks(void) {
         PRINTF(T("スタックは大丈夫みたいです\n", "The stack looks ok\n"));
     } else {
         PRINTF("%c", BEL);
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("スタックがオーバーフローしたか危険な状態です\n", "Stack overflow or dangerous\n"));
         PRINTF(T("早々にスタックサイズを増やすか、スタックを消費しないようにしてください\n",
                  "Increase stack size early or don't consume stack\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 }
 

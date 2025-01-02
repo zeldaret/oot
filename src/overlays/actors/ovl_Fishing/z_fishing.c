@@ -5172,11 +5172,11 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 #if DEBUG_FEATURES
     if (0) {
         // Strings existing only in rodata
-        PRINTF(VT_FGCOL(GREEN));
-        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF_COLOR_GREEN();
+        PRINTF_COLOR_YELLOW();
         PRINTF("plays %x\n");
         PRINTF("ys %x\n");
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 #endif
 
@@ -5676,9 +5676,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     sREG(14) = 0;
 #endif
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF("zelda_time %x\n", ((void)0, gSaveContext.save.dayTime));
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     if (sStormChanceTimer >= 2) {
         sStormChanceTimer--;

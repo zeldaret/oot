@@ -367,9 +367,9 @@ s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJnt
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjJntSph_set():zelda_malloc()出来ません。\n", "ClObjJntSph_set():zelda_malloc() Can not.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
 
@@ -395,9 +395,9 @@ s32 Collider_SetJntSphAllocType1(PlayState* play, ColliderJntSph* dest, Actor* a
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjJntSph_set3():zelda_malloc_出来ません。\n", "ClObjJntSph_set3():zelda_malloc_ Can not.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
 
@@ -423,9 +423,9 @@ s32 Collider_SetJntSphAlloc(PlayState* play, ColliderJntSph* dest, Actor* actor,
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjJntSph_set5():zelda_malloc出来ません\n", "ClObjJntSph_set5():zelda_malloc Can not\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
@@ -729,9 +729,9 @@ s32 Collider_SetTrisAllocType1(PlayState* play, ColliderTris* dest, Actor* actor
     dest->elements = ZELDA_ARENA_MALLOC(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2156);
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjTris_set3():zelda_malloc()出来ません\n", "ClObjTris_set3():zelda_malloc() Can not\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
@@ -755,9 +755,9 @@ s32 Collider_SetTrisAlloc(PlayState* play, ColliderTris* dest, Actor* actor, Col
     dest->elements = ZELDA_ARENA_MALLOC(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2207);
 
     if (dest->elements == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjTris_set5():zelda_malloc出来ません\n", "ClObjTris_set5():zelda_malloc Can not\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         dest->count = 0;
         return false;
     }

@@ -115,10 +115,10 @@ s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
-        PRINTF(VT_COL(YELLOW, BLACK));
+        PRINTF_COLOR_WARNING();
         // "Failure attaching to ground"
         PRINTF("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
 }
