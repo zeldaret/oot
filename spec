@@ -782,6 +782,9 @@ beginseg
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libu64/mtxuty-cvt.o"
     include "$(BUILD_DIR)/src/libultra/io/contpfs.o"
+    include "$(BUILD_DIR)/src/libultra/io/contramread.o"
+    include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
+    include "$(BUILD_DIR)/src/libultra/io/crc.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsallocatefile.o"
     include "$(BUILD_DIR)/src/libultra/io/pfschecker.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsdeletefile.o"
@@ -792,6 +795,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/io/pfsinitpak.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsisplug.o"
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
+    include "$(BUILD_DIR)/src/libultra/io/pfsselectbank.o"
+#if PLATFORM_IQUE
+    include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
+#endif
 #endif
 
 endseg
