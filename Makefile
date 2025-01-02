@@ -591,7 +591,12 @@ $(EGCS_O_FILES): CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
 $(EGCS_O_FILES): MIPS_VERSION := -mips3
 endif
 
-ifeq ($(DEBUG_FEATURES),1)
+ifeq ($(PLATFORM),IQUE)
+$(BUILD_DIR)/src/libc/%.o: CC := $(EGCS_CC)
+$(BUILD_DIR)/src/libc/%.o: CFLAGS := $(EGCS_CFLAGS)
+$(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O1
+$(BUILD_DIR)/src/libc/%.o: MIPS_VERSION :=
+else ifeq ($(DEBUG_FEATURES),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/libc/%.o: ASOPTFLAGS := -g
 else
