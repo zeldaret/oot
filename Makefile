@@ -371,7 +371,7 @@ else
   EGCS_CFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -nostdinc $(INC) -mcpu=vr4300 -mabi=32 -mgp32 -mfp32 -fno-PIC
   MIPS_VERSION := -mips2
 
-  EGCS_CCASFLAGS := -Wall -nostdinc $(CPP_DEFINES) $(INC) -c -G 0 -Wa,-irix-symtab -D_ABIO32=1 -D_ABI64=3 -D_MIPS_SIM_ABI64=_ABI64 -D_MIPS_SIM_ABI32=_ABIO32 -DMIPSEB -D_LANGUAGE_ASSEMBLY -fno-PIC -non_shared -mcpu=4300 -mfix4300
+  EGCS_CCASFLAGS := -Wall -nostdinc $(CPP_DEFINES) $(INC) -c -G 0 -Wa,-irix-symtab -D_ABIO32=1 -D_ABI64=3 -D_MIPS_SIM_ABI64=_ABI64 -D_MIPS_SIM_ABI32=_ABIO32 -DMIPSEB -D_LANGUAGE_ASSEMBLY -mabi=32 -fno-PIC -non_shared -mcpu=4300 -mfix4300
   EGCS_ASOPTFLAGS :=
 endif
 
@@ -722,12 +722,6 @@ SET_ABI_BIT = @:
 $(BUILD_DIR)/src/libultra/os/exceptasm.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
 $(BUILD_DIR)/src/libultra/libc/ll.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
-ifeq ($(PLATFORM),IQUE)
-$(BUILD_DIR)/src/libultra/os/invaldcache.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
-$(BUILD_DIR)/src/libultra/os/invalicache.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
-$(BUILD_DIR)/src/libultra/os/writebackdcache.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
-$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
-endif
 
 #### Main Targets ###
 
