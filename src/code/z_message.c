@@ -2518,7 +2518,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         PRINTF(VT_FGCOL(YELLOW));
         PRINTF("？？？？？？？？？？？？？？？？  z_message.c  ？？？？？？？？？？？？？？？？？？\n");
         PRINTF(VT_RST);
-        gSaveContext.eventInf[0] = gSaveContext.eventInf[1] = gSaveContext.eventInf[2] = gSaveContext.eventInf[3] = 0;
+        RESET_EVENTINF2();
     }
 
     if (sTextIsCredits) {
