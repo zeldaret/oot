@@ -1,4 +1,4 @@
-#if defined(__GNUC__)
+#ifdef __GNUC__
 .set gp=64
 #endif
 #include "ultra64/asm.h"
@@ -9,10 +9,6 @@
 #include "ultra64/thread.h"
 #include "ultra64/exception.h"
 #include "ultra64/version.h"
-
-#ifdef BBPLAYER
-.set mips3
-#endif
 
 .data
 .align 2

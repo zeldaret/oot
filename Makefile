@@ -622,6 +622,12 @@ $(BUILD_DIR)/src/libultra/%.o: CCAS := $(EGCS_CCAS)
 $(BUILD_DIR)/src/libultra/%.o: CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
 $(BUILD_DIR)/src/libultra/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
 $(BUILD_DIR)/src/libultra/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
+
+$(BUILD_DIR)/src/libultra/os/exceptasm.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/invaldcache.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/invalicache.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/writebackdcache.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o: MIPS_VERSION := -mips3
 else
 $(BUILD_DIR)/src/libultra/%.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
@@ -716,6 +722,12 @@ SET_ABI_BIT = @:
 $(BUILD_DIR)/src/libultra/os/exceptasm.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
 $(BUILD_DIR)/src/libultra/libc/ll.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
+ifeq ($(PLATFORM),IQUE)
+$(BUILD_DIR)/src/libultra/os/invaldcache.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
+$(BUILD_DIR)/src/libultra/os/invalicache.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
+$(BUILD_DIR)/src/libultra/os/writebackdcache.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
+$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
+endif
 
 #### Main Targets ###
 
