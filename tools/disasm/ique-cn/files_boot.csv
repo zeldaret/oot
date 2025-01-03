@@ -134,7 +134,7 @@ A7A0,8000ABF0,src/boot/boot_main
 B190,8000B5E0,src/boot/idle
 BD90,8000C1E0,src/boot/z_std_dma
 C500,8000C950,src/boot/zlib
-FBB0,80010000,src/boot/driverominit
+10310,80010760,src/boot/driverominit
 10390,800107E0,src/libultra/io/vimgr
 115B0,80011A00,src/libultra/io/pimgr
 12940,80012D90,data/boot_common_80012D90
