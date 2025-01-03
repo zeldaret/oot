@@ -1,4 +1,3 @@
-
 #include "global.h"
 #include "fault.h"
 #include "quake.h"
@@ -56,7 +55,7 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
 
     this->viewpoint = viewpoint;
 
-    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
+    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.save.cutsceneIndex < CS_INDEX_0)) {
         // Play a sfx when the player toggles the camera
         Audio_PlaySfxGeneral((viewpoint == VIEWPOINT_LOCKED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
                              &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -311,13 +310,13 @@ void Play_Init(GameState* thisx) {
     AnimTaskQueue_Reset(&this->animTaskQueue);
     Cutscene_InitContext(this, &this->csCtx);
 
-    if (gSaveContext.nextCutsceneIndex != 0xFFEF) {
+    if (gSaveContext.nextCutsceneIndex != CS_INDEX_NEXT_EMPTY) {
         gSaveContext.save.cutsceneIndex = gSaveContext.nextCutsceneIndex;
-        gSaveContext.nextCutsceneIndex = 0xFFEF;
+        gSaveContext.nextCutsceneIndex = CS_INDEX_NEXT_EMPTY;
     }
 
-    if (gSaveContext.save.cutsceneIndex == 0xFFFD) {
-        gSaveContext.save.cutsceneIndex = 0;
+    if (gSaveContext.save.cutsceneIndex == CS_INDEX_EMPTY) {
+        gSaveContext.save.cutsceneIndex = CS_INDEX_DEFAULT;
     }
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
@@ -333,10 +332,10 @@ void Play_Init(GameState* thisx) {
 
     Cutscene_HandleConditionalTriggers(this);
 
-    if (gSaveContext.gameMode != GAMEMODE_NORMAL || gSaveContext.save.cutsceneIndex >= 0xFFF0) {
+    if (gSaveContext.gameMode != GAMEMODE_NORMAL || gSaveContext.save.cutsceneIndex >= CS_INDEX_0) {
         gSaveContext.nayrusLoveTimer = 0;
         Magic_Reset(this);
-        gSaveContext.sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.save.cutsceneIndex & 0xF);
+        gSaveContext.sceneLayer = GET_CUTSCENE_LAYER(gSaveContext.save.cutsceneIndex);
     } else if (!LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneLayer = SCENE_LAYER_CHILD_DAY;
     } else if (!LINK_IS_ADULT && !IS_DAY) {
@@ -354,13 +353,13 @@ void Play_Init(GameState* thisx) {
         !IS_CUTSCENE_LAYER) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-            gSaveContext.sceneLayer = 1;
+            gSaveContext.sceneLayer = SCENE_LAYER_CHILD_NIGHT;
         } else {
-            gSaveContext.sceneLayer = 0;
+            gSaveContext.sceneLayer = SCENE_LAYER_CHILD_DAY;
         }
     } else if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_KOKIRI_FOREST) &&
                LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
-        gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
+        gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? SCENE_LAYER_ADULT_NIGHT : SCENE_LAYER_ADULT_DAY;
     }
 
     Play_SpawnScene(
@@ -373,7 +372,7 @@ void Play_Init(GameState* thisx) {
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
     if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY) &&
-        gSaveContext.sceneLayer == 6) {
+        gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_2)) {
         PRINTF(T("エンディングはじまるよー\n", "The ending starts\n"));
         ((void (*)(void))0x81000000)();
         PRINTF(T("出戻り？\n", "Return?\n"));
@@ -586,7 +585,7 @@ void Play_Update(PlayState* this) {
 
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
 
-                        if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
+                        if (gSaveContext.save.cutsceneIndex >= CS_INDEX_0) {
                             sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.save.cutsceneIndex & 0xF);
                         }
 
