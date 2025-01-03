@@ -23,7 +23,4 @@ IPL_SYMBOL(osVersion,      0x80000314, 4)
 IPL_SYMBOL(osMemSize,      0x80000318, 4)
 IPL_SYMBOL(osAppNMIBuffer, 0x8000031C, 0x40)
 
-
-.repeat 0x60/4
-    NOP
-.endr
+.space 0x60

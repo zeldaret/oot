@@ -52,10 +52,8 @@ END(entrypoint)
 
 #ifdef __sgi
 /* IDO can't take absolute differences of symbols so the size of the above is hardcoded */
-.repeat (0x60 - 0x34)
-    .byte 0
-.endr
+.space PAD_TO - 0x34
 #else
 /* Pad to a total size taking into account the size of the above */
-.fill PAD_TO - (. - entrypoint)
+.space PAD_TO - (. - entrypoint)
 #endif
