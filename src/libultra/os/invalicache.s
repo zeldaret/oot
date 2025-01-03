@@ -2,6 +2,10 @@
 #include "ultra64/regdef.h"
 #include "ultra64/R4300.h"
 
+#ifdef BBPLAYER
+.set mips3
+#endif
+
 .text
 
 LEAF(osInvalICache)

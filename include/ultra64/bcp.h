@@ -26,6 +26,4 @@
  */
 #define MI_SECURE_EXCEPTION_REG (MI_BASE_REG + 0x14)
 
-
-
 #endif

@@ -23,17 +23,17 @@
 #define SKC_INVALID_CERT          -9
 #define SKC_NO_PERMISSION        -11
 
-struct BbAppLaunchCrls;
-struct BbCertBase;
-struct BbEccSig;
-struct BbRecryptList;
-struct BbShaHash;
-struct BbTicketBundle;
+typedef struct BbAppLaunchCrls BbAppLaunchCrls;
+typedef struct BbCertBase BbCertBase;
+typedef struct BbEccSig BbEccSig;
+typedef struct BbRecryptList BbRecryptList;
+typedef struct BbShaHash BbShaHash;
+typedef struct BbTicketBundle BbTicketBundle;
 
 /**
  * Retrieves the console's unique BBID.
  *
- * @param bbId Location to write the BBID to. Must be a pointer to cached DRAM with appropriate alignment.
+ * @param bbId Location to write the BBID to. Must be a pointer to cached DRAM with 4-byte alignment.
  * @return
  *      SKC_NO_PERMISSION If called with insufficient permission.
  *      SKC_INVALID_ARGS  If the supplied pointer is not valid.
@@ -64,7 +64,7 @@ s32 skGetId(u32* bbId);
  *      SKC_NO_PERMISSION If called with insufficient permission.
  *      SKC_OK            Otherwise.
  */
-s32 skLaunchSetup(struct BbTicketBundle* bundle, struct BbAppLaunchCrls* crls, struct BbRecryptList* recryptList);
+s32 skLaunchSetup(BbTicketBundle* bundle, BbAppLaunchCrls* crls, BbRecryptList* recryptList);
 
 /**
  * Launches a prepared application that is assumed to have been loaded into memory at the entrypoint between calling
@@ -88,10 +88,10 @@ s32 skLaunch(void* entrypoint);
  * @return
  *      SKC_OK            If the recrypt list is valid
  *      SKC_INVALID_ARGS  If the recrypt list is invalid
- *                          (e.g. contains invalid pointers or its ECC signature fails to verify)
+ *                          (e.g. contains invalid pointers or its ECDSA signature fails to verify)
  *      SKC_NO_PERMISSION If called with insufficient permission.
  */
-s32 skRecryptListValid(struct BbRecryptList* recryptList);
+s32 skRecryptListValid(BbRecryptList* recryptList);
 
 /**
  * Begins a new recryption task. Content downloaded is initially encrypted with the Common Key but may be re-encrypted
@@ -116,7 +116,7 @@ s32 skRecryptListValid(struct BbRecryptList* recryptList);
  *      SKC_NO_PERMISSION   If called with insufficient permission.
  *      Otherwise, one of SKC_RECRYPT_* will be returned communicating the initial state of the recryption process.
  */
-s32 skRecryptBegin(struct BbTicketBundle* bundle, struct BbAppLaunchCrls* crls, struct BbRecryptList* recryptList);
+s32 skRecryptBegin(BbTicketBundle* bundle, BbAppLaunchCrls* crls, BbRecryptList* recryptList);
 
 /**
  * Recrypts the provided data, using the previously set context.
@@ -157,41 +157,41 @@ s32 skRecryptComputeState(u8* buf, u32 size);
  *                          or if the provided recrypt list is invalid or cannot find the entry for the content.
  *      SKC_NO_PERMISSION If called with insufficient permission.
  */
-s32 skRecryptEnd(struct BbRecryptList* recryptList);
+s32 skRecryptEnd(BbRecryptList* recryptList);
 
 /**
  * Generates a digital signature for the provided SHA-1 hash (treated as a message) using the Elliptic Curve Digital
- * Signature Algorithm (ECDSA) on the curve sect233r1 with the console's ECC Private Key. Appends an identity of 1 to
+ * Signature Algorithm (ECDSA) on the curve sect233r1 with the console's ECDSA Private Key. Appends an identity of 1 to
  * the end of the message prior to signing.
  *
  * @param hash The SHA-1 hash to sign.
- * @param outSignature The resulting ECC digital signature.
+ * @param outSignature The resulting ECDSA digital signature.
  * @return
  *      SKC_INVALID_ARGS  If either of the arguments is an invalid pointer.
  *      SKC_NO_PERMISSION If called with insufficient permission.
  *      SKC_OK            Otherwise.
  */
-s32 skSignHash(struct BbShaHash* hash, struct BbEccSig* outSignature);
+s32 skSignHash(BbShaHash* hash, BbEccSig* outSignature);
 
 /**
  * Verifies a SHA-1 hash (treated as a message) against a digital signature using either the Elliptic Curve Digital
  * Signature Algorithm (ECDSA) or the RSA Digital Signature Algorithm. For RSA, either 2048-bit or 4096-bit signatures
  * can be recognized.
  *
- * For verifying self-signed (e.g. via skSignHash) ECC signatures the certificate chain and revocation lists are not
- * required and may be passed as NULL, the public key is the console's own ECC public key. For verifying other types of
- * signatures, a valid certificate chain and certificate revocation lists must be provided, in which case the signature
- * must be signed by the Root certificate without going through any revoked certificates.
+ * For verifying self-signed (e.g. via skSignHash) ECDSA signatures the certificate chain and revocation lists are not
+ * required and may be passed as NULL, the public key is the console's own ECDSA public key. For verifying other types
+ * of signatures, a valid certificate chain and certificate revocation lists must be provided, in which case the
+ * signature must be signed by the Root certificate without going through any revoked certificates.
  *
  * This can only verify hashes signed with an identity of 1, such as those signed via skSignHash.
  *
  * @param hash The SHA-1 hash to check the signature of.
- * @param signature The signature to compare against. May be an ECC, RSA2048 or RSA4096 signature.
+ * @param signature The signature to compare against. May be an ECDSA, RSA2048 or RSA4096 signature.
  * @param certChain Certificate Chain, NULL-terminated list of certificate pointers.
- *                  Not required for self-signed ECC signatures and must be NULL in that case.
+ *                  Not required for self-signed ECDSA signatures and must be NULL in that case.
  *                  Should not be more than 5 certificates long.
  *                  Should end on the Root signature.
- * @param crls Certificate Revocation Lists to check certificates against. Not required for self-signed ECC signatures.
+ * @param crls Certificate Revocation Lists to check certificates against. Not required for self-signed ECDSA signatures.
  * @return
  *      SKC_OK            If the hash was successfully verified against the signature.
  *      SKC_INVALID_ARGS  If any arguments are invalid pointers,
@@ -201,7 +201,7 @@ s32 skSignHash(struct BbShaHash* hash, struct BbEccSig* outSignature);
  *      SKC_INVALID_CERT  If a digital certificate was revoked by one of the revocation lists.
  *      SKC_NO_PERMISSION If called with insufficient permission.
  */
-s32 skVerifyHash(struct BbShaHash* hash, u32* signature, struct BbCertBase** certChain, struct BbAppLaunchCrls* crls);
+s32 skVerifyHash(BbShaHash* hash, u32* signature, BbCertBase** certChain, BbAppLaunchCrls* crls);
 
 /**
  * Retrieves the consumption counters for all currently-tracked applications and the Ticket ID (TID) Window.
