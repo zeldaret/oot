@@ -15,6 +15,7 @@ DmaMgr_ThreadEntry = 0x80000D60; // type:func
 DmaMgr_RequestAsync = 0x80000DC4; // type:func
 DmaMgr_RequestSync = 0x80000E14; // type:func
 DmaMgr_Init = 0x80000EAC; // type:func
+Zlib_Decompress = 0x80002C3C; // type:func
 Locale_Init = 0x80002C80; // type:func
 Locale_ResetRegion = 0x80002CB4; // type:func
 osSyncPrintfUnused = 0x80002CC0; // type:func

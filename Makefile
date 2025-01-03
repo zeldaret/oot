@@ -228,6 +228,9 @@ CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
 CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
 CPP_DEFINES += -DLIBULTRA_VERSION=LIBULTRA_VERSION_$(LIBULTRA_VERSION)
 CPP_DEFINES += -DLIBULTRA_PATCH=$(LIBULTRA_PATCH)
+ifeq ($(PLATFORM),IQUE)
+  CPP_DEFINES += -DBBPLAYER
+endif
 
 ifeq ($(DEBUG_FEATURES),1)
   CPP_DEFINES += -DDEBUG_FEATURES=1
@@ -400,8 +403,10 @@ ROMC     := $(ROM:.z64=-compressed.z64)
 ELF      := $(ROM:.z64=.elf)
 MAP      := $(ROM:.z64=.map)
 LDSCRIPT := $(ROM:.z64=.ld)
+
 # description of ROM segments
 SPEC := spec
+SPEC_INCLUDES := $(wildcard spec_includes/*.inc)
 
 ifeq ($(COMPILER),ido)
 SRC_DIRS := $(shell find src -type d -not -path src/gcc_fix)
@@ -818,7 +823,7 @@ $(O_FILES): | asset_files
 
 .PHONY: o_files asset_files
 
-$(BUILD_DIR)/$(SPEC): $(SPEC)
+$(BUILD_DIR)/$(SPEC): $(SPEC) $(SPEC_INCLUDES)
 	$(CPP) $(CPPFLAGS) $< | $(BUILD_DIR_REPLACE) > $@
 
 $(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
