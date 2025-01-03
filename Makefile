@@ -281,8 +281,10 @@ ifeq ($(ORIG_COMPILER),1)
   CCAS     := $(CC)
 endif
 
+# EGCS Compiler
 EGCS_PREFIX := tools/egcs/$(DETECTED_OS)/
 EGCS_CC := $(EGCS_PREFIX)gcc -B $(EGCS_PREFIX)
+EGCS_CCAS := $(EGCS_CC) -x assembler-with-cpp
 
 AS      := $(MIPS_BINUTILS_PREFIX)as
 LD      := $(MIPS_BINUTILS_PREFIX)ld
@@ -368,6 +370,9 @@ else
   CCASFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,609,649,838,712,807 -o32
   EGCS_CFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -nostdinc $(INC) -mcpu=vr4300 -mabi=32 -mgp32 -mfp32 -fno-PIC
   MIPS_VERSION := -mips2
+
+  EGCS_CCASFLAGS := -Wall -nostdinc $(CPP_DEFINES) $(INC) -c -G 0 -Wa,-irix-symtab -D_ABIO32=1 -D_ABI64=3 -D_MIPS_SIM_ABI64=_ABI64 -D_MIPS_SIM_ABI32=_ABIO32 -DMIPSEB -D_LANGUAGE_ASSEMBLY -fno-PIC -non_shared -mcpu=4300 -mfix4300
+  EGCS_ASOPTFLAGS :=
 endif
 
 ifeq ($(COMPILER),ido)
@@ -516,7 +521,8 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG_EXTRACTED:.png=.inc.c),$(f:
 
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/baserom \
-                 $(BUILD_DIR)/assets/text)
+                 $(BUILD_DIR)/assets/text \
+                 $(BUILD_DIR)/linker_scripts)
 $(shell mkdir -p $(foreach dir, \
                       $(SRC_DIRS) \
                       $(UNDECOMPILED_DATA_DIRS) \
@@ -681,6 +687,14 @@ endif
 
 $(BUILD_DIR)/assets/misc/z_select_static/%.o: GBI_DEFINES := -DF3DEX_GBI
 
+ifeq ($(PLATFORM),IQUE)
+
+$(BUILD_DIR)/src/makerom/%.o: CCAS := $(EGCS_CCAS)
+$(BUILD_DIR)/src/makerom/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
+$(BUILD_DIR)/src/makerom/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
+
+endif
+
 # For using asm_processor on some files:
 #$(BUILD_DIR)/.../%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
@@ -784,10 +798,13 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)
 	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt \
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
         $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
-	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
+	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
+
+$(BUILD_DIR)/linker_scripts/makerom.ld: linker_scripts/makerom.ld
+	$(CPP) -I include $(CPPFLAGS) $< > $@
 
 ## Order-only prerequisites
 # These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
