@@ -593,7 +593,9 @@ endif
 
 ifeq ($(PLATFORM),IQUE)
 $(BUILD_DIR)/src/libc/%.o: CC := $(EGCS_CC)
-$(BUILD_DIR)/src/libc/%.o: CFLAGS := $(EGCS_CFLAGS)
+$(BUILD_DIR)/src/libc/%.o: CCAS := $(EGCS_CCAS)
+$(BUILD_DIR)/src/libc/%.o: CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
+$(BUILD_DIR)/src/libc/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libc/%.o: MIPS_VERSION :=
 else ifeq ($(DEBUG_FEATURES),1)
