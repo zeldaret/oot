@@ -214,7 +214,7 @@ else ifeq ($(PLATFORM),GC)
   LIBULTRA_VERSION := L
   LIBULTRA_PATCH := 0
 else ifeq ($(PLATFORM),IQUE)
-  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=0 -DPLATFORM_IQUE=1
+  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=0 -DPLATFORM_IQUE=1 -DBBPLAYER
   LIBULTRA_VERSION := L
   LIBULTRA_PATCH := 0
 else
@@ -371,7 +371,7 @@ else
   EGCS_CFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -nostdinc $(INC) -mcpu=vr4300 -mabi=32 -mgp32 -mfp32 -fno-PIC
   MIPS_VERSION := -mips2
 
-  EGCS_CCASFLAGS := -Wall -nostdinc $(CPP_DEFINES) $(INC) -c -G 0 -Wa,-irix-symtab -D_ABIO32=1 -D_ABI64=3 -D_MIPS_SIM_ABI64=_ABI64 -D_MIPS_SIM_ABI32=_ABIO32 -DMIPSEB -D_LANGUAGE_ASSEMBLY -fno-PIC -non_shared -mcpu=4300 -mfix4300
+  EGCS_CCASFLAGS := -Wall -nostdinc $(CPP_DEFINES) $(INC) -c -G 0 -Wa,-irix-symtab -D_ABIO32=1 -D_ABI64=3 -D_MIPS_SIM_ABI64=_ABI64 -D_MIPS_SIM_ABI32=_ABIO32 -DMIPSEB -D_LANGUAGE_ASSEMBLY -mabi=32 -fno-PIC -non_shared -mcpu=4300 -mfix4300
   EGCS_ASOPTFLAGS :=
 endif
 
@@ -618,17 +618,24 @@ $(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
 ifeq ($(PLATFORM),IQUE)
 $(BUILD_DIR)/src/libultra/%.o: CC := $(EGCS_CC)
+$(BUILD_DIR)/src/libultra/%.o: CCAS := $(EGCS_CCAS)
 $(BUILD_DIR)/src/libultra/%.o: CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
+$(BUILD_DIR)/src/libultra/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
+$(BUILD_DIR)/src/libultra/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
+
+$(BUILD_DIR)/src/libultra/os/exceptasm.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/invaldcache.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/invalicache.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/writebackdcache.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o: MIPS_VERSION := -mips3
 else
 $(BUILD_DIR)/src/libultra/%.o: CC := $(CC_OLD)
-endif
-
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: MIPS_VERSION := -mips3 -32
-
 $(BUILD_DIR)/src/libultra/os/exceptasm.o: MIPS_VERSION := -mips3 -32
+endif
 
 $(BUILD_DIR)/src/code/%.o: ASOPTFLAGS := -O2
 $(BUILD_DIR)/src/libleo/%.o: ASOPTFLAGS := -O2
