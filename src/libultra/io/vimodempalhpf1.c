@@ -16,15 +16,15 @@ OSViMode osViModeMpalHpf1 = {
     {
         // comRegs
         VI_CTRL_TYPE_16 | VI_CTRL_GAMMA_DITHER_ON | VI_CTRL_GAMMA_ON | VI_CTRL_SERRATE_ON | VI_CTRL_ANTIALIAS_MODE_2 |
-            VI_CTRL_PIXEL_ADV(3), // ctrl
-        WIDTH(640),               // width
-        BURST(57, 30, 5, 70),     // burst
-        VSYNC(524),               // vSync
-        HSYNC(3088, 0),           // hSync
-        LEAP(3100, 3100),         // leap
-        HSTART(108, 748),         // hStart
-        SCALE(1, 0),              // xScale
-        VCURRENT(0),              // vCurrent
+            VI_CTRL_PIXEL_ADV_DEFAULT, // ctrl
+        WIDTH(640),                    // width
+        BURST(57, 30, 5, 70),          // burst
+        VSYNC(524),                    // vSync
+        HSYNC(3088, 0),                // hSync
+        LEAP(3100, 3100),              // leap
+        HSTART(108, 748),              // hStart
+        SCALE(1, 0),                   // xScale
+        VCURRENT(0),                   // vCurrent
     },
     {
         // fldRegs
