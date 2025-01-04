@@ -7,9 +7,9 @@
 extern u8 gAmmoItems[];
 extern s16 gVtxPageMapWorldQuadsWidth[];
 extern s16 gVtxPageMapWorldQuadsHeight[];
-extern u8 gSlotAgeReqs[];
-extern u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4];
-extern u8 gItemAgeReqs[];
+extern char gSlotAgeReqs[];
+extern char gEquipAgeReqs[EQUIP_TYPE_MAX][4];
+extern char gItemAgeReqs[];
 extern u8 gAreaGsFlags[];
 
 #define AGE_REQ_ADULT LINK_AGE_ADULT
