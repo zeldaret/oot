@@ -23,8 +23,8 @@ LEAF(guTranslate)
     or      t0, t0, t2
     sw      t0, 0x18(a0)
 
-    sll     t2, t3, 0x10
     sll     t0, t1, 0x10
+    sll     t2, t3, 0x10
     srl     t2, t2, 0x10
     or      t0, t0, t2
     sw      t0, 0x38(a0)
