@@ -754,13 +754,23 @@ beginseg
 #endif
 
     // libc
+#if PLATFORM_N64
     include "$(BUILD_DIR)/src/libc/sqrt.o"
-#if !PLATFORM_N64
-    include "$(BUILD_DIR)/src/libc/absf.o"
-#endif
     include "$(BUILD_DIR)/src/libc/fmodf.o"
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
+#elif PLATFORM_GC
+    include "$(BUILD_DIR)/src/libc/sqrt.o"
+    include "$(BUILD_DIR)/src/libc/absf.o"
+    include "$(BUILD_DIR)/src/libc/fmodf.o"
+    include "$(BUILD_DIR)/src/libc/memset.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
+#elif PLATFORM_IQUE
+    include "$(BUILD_DIR)/src/libc/fmodf.o"
+    include "$(BUILD_DIR)/src/libc/memmove.o"
+    include "$(BUILD_DIR)/src/libc/absf.o"
+    include "$(BUILD_DIR)/src/libc/sqrt.o"
+#endif
 
     // For some reason, the data sections of z_message and z_game_over are
     // placed near the rodata sections of other files, so we first build this
