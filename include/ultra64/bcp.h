@@ -26,4 +26,18 @@
  */
 #define MI_SECURE_EXCEPTION_REG (MI_BASE_REG + 0x14)
 
+/******************************************************************************
+ * Additional Parallel Interface (PI) Registers
+ */
+
+/**
+ * PI internal buffer DMA read length. Writes initiate a DMA from RDRAM to the PI buffer.
+ */
+#define PI_EX_RD_LEN_REG (PI_BASE_REG + 0x58)
+
+/**
+ * PI internal buffer DMA write length. Writes initiate a DMA from the PI buffer to RDRAM.
+ */
+#define PI_EX_WR_LEN_REG (PI_BASE_REG + 0x5C)
+
 #endif
