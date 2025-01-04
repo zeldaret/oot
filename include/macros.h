@@ -53,6 +53,8 @@
 #define PRINTF osSyncPrintf
 #elif IDO_PRINTF_WORKAROUND
 #define PRINTF(args) (void)0
+#elif defined(__GNUC__) && __GNUC__ < 3
+#define PRINTF(format, args...) (void)0
 #else
 #define PRINTF(format, ...) (void)0
 #endif

@@ -9,6 +9,9 @@
 /* 0x08 */ ENTRYPOINT(0x80000400)
 /* 0x0C */ OS_VERSION(2, 0, LIBULTRA_VERSION)
 /* 0x10 */ CHECKSUM()
+
+#if !PLATFORM_IQUE
+
 /* 0x18 */ PADDING(8)
 /* 0x20 */ ROM_NAME("THE LEGEND OF ZELDA")
 /* 0x34 */ PADDING(7)
@@ -26,3 +29,9 @@
 /* 0x3E */ REGION(PAL)
 #endif
 /* 0x3F */ GAME_REVISION(OOT_REVISION)
+
+#else
+
+    .fill 0x40 - 0x18
+
+#endif
