@@ -16,12 +16,6 @@
 .data
 .align 2
 
-#ifdef BBPLAYER
-# define NOTZERO 0xFFFFFFFF
-#else
-# define NOTZERO ~0
-#endif
-
 DATA(__osHwIntTable)
     .word 0, 0
     .word 0, 0 /* cart */
@@ -168,7 +162,7 @@ savecontext:
     /* global interrupt mask. This is however broken, see comments for osSetIntMask. */
     la      t0, __OSGlobalIntMask
     lw      t0, (t0)
-    xor     t2, t0, NOTZERO
+    xor     t2, t0, 0xFFFFFFFF
     andi    t2, t2, SR_IMASK
     or      t4, t1, t2
     and     t3, k1, ~SR_IMASK
@@ -187,7 +181,7 @@ savercp:
     la      t0, __OSGlobalIntMask
     lw      t0, (t0)
     srl     t0, t0, RCP_IMASKSHIFT
-    xor     t0, t0, NOTZERO
+    xor     t0, t0, 0xFFFFFFFF
     andi    t0, t0, (RCP_IMASK >> RCP_IMASKSHIFT)
     lw      t4, THREAD_RCP(k0)
     and     t0, t0, t4
@@ -796,7 +790,7 @@ LEAF(__osEnqueueAndYield)
     /* See the comment there for more about this. */
     la      t0, __OSGlobalIntMask
     lw      t0, (t0)
-    xor     t0, t0, NOTZERO
+    xor     t0, t0, 0xFFFFFFFF
     andi    t0, t0, SR_IMASK
     or      t1, t1, t0
     and     k1, k1, ~SR_IMASK
@@ -810,7 +804,7 @@ LEAF(__osEnqueueAndYield)
     la      k0, __OSGlobalIntMask
     lw      k0, (k0)
     srl     k0, k0, RCP_IMASKSHIFT
-    xor     k0, k0, NOTZERO
+    xor     k0, k0, 0xFFFFFFFF
     andi    k0, k0, (RCP_IMASK >> RCP_IMASKSHIFT)
     lw      t0, THREAD_RCP(a1)
     and     k0, k0, t0
