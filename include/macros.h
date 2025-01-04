@@ -55,7 +55,7 @@
 #elif IDO_PRINTF_WORKAROUND
 #define PRINTF(args) (void)0
 #elif defined(__GNUC__) && __GNUC__ < 3
-#define PRINTF(format, args...) do { (void)(format); } while (0)
+#define PRINTF(format, args...) while (0) osSyncPrintf(format, ##args)
 #else
 #define PRINTF(format, ...) (void)0
 #endif
