@@ -35,5 +35,6 @@
 #define ORIGIN(v) (v)
 #define VINTR(v) (v)
 #define HSTART(start, end) START(start, end)
+#define VSTART(start, end) START(start, end)
 
 #endif

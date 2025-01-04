@@ -8,7 +8,7 @@
  * N = Deinterlaced
  * 1 = 16-bit Framebuffer
  */
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/viint.h"
 
 OSViMode osViModeMpalLan1 = {
@@ -26,21 +26,23 @@ OSViMode osViModeMpalLan1 = {
         SCALE(2, 0),              // xScale
         VCURRENT(0),              // vCurrent
     },
-    { // fldRegs
-      {
-          // [0]
-          ORIGIN(640),        // origin
-          SCALE(1, 0),        // yScale
-          START(37, 511),     // vStart
-          BURST(4, 2, 14, 0), // vBurst
-          VINTR(2),           // vIntr
-      },
-      {
-          // [1]
-          ORIGIN(640),        // origin
-          SCALE(1, 0),        // yScale
-          START(37, 511),     // vStart
-          BURST(4, 2, 14, 0), // vBurst
-          VINTR(2),           // vIntr
-      } },
+    {
+        // fldRegs
+        {
+            // [0]
+            ORIGIN(640),        // origin
+            SCALE(1, 0),        // yScale
+            VSTART(37, 511),    // vStart
+            BURST(4, 2, 14, 0), // vBurst
+            VINTR(2),           // vIntr
+        },
+        {
+            // [1]
+            ORIGIN(640),        // origin
+            SCALE(1, 0),        // yScale
+            VSTART(37, 511),    // vStart
+            BURST(4, 2, 14, 0), // vBurst
+            VINTR(2),           // vIntr
+        },
+    },
 };
