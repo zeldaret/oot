@@ -214,7 +214,7 @@ else ifeq ($(PLATFORM),GC)
   LIBULTRA_VERSION := L
   LIBULTRA_PATCH := 0
 else ifeq ($(PLATFORM),IQUE)
-  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=0 -DPLATFORM_IQUE=1
+  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=0 -DPLATFORM_IQUE=1 -DBBPLAYER
   LIBULTRA_VERSION := L
   LIBULTRA_PATCH := 0
 else
@@ -281,8 +281,10 @@ ifeq ($(ORIG_COMPILER),1)
   CCAS     := $(CC)
 endif
 
+# EGCS Compiler
 EGCS_PREFIX := tools/egcs/$(DETECTED_OS)/
 EGCS_CC := $(EGCS_PREFIX)gcc -B $(EGCS_PREFIX)
+EGCS_CCAS := $(EGCS_CC) -x assembler-with-cpp
 
 AS      := $(MIPS_BINUTILS_PREFIX)as
 LD      := $(MIPS_BINUTILS_PREFIX)ld
@@ -371,6 +373,9 @@ else
   CCASFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,609,649,838,712,807 -o32
   EGCS_CFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -nostdinc $(INC) -mcpu=vr4300 -mabi=32 -mgp32 -mfp32 -fno-PIC
   MIPS_VERSION := -mips2
+
+  EGCS_CCASFLAGS := -Wall -nostdinc $(CPP_DEFINES) $(INC) -c -G 0 -Wa,-irix-symtab -D_ABIO32=1 -D_ABI64=3 -D_MIPS_SIM_ABI64=_ABI64 -D_MIPS_SIM_ABI32=_ABIO32 -DMIPSEB -D_LANGUAGE_ASSEMBLY -mabi=32 -fno-PIC -non_shared -mcpu=4300 -mfix4300
+  EGCS_ASOPTFLAGS :=
 endif
 
 ifeq ($(COMPILER),ido)
@@ -519,7 +524,8 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG_EXTRACTED:.png=.inc.c),$(f:
 
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/baserom \
-                 $(BUILD_DIR)/assets/text)
+                 $(BUILD_DIR)/assets/text \
+                 $(BUILD_DIR)/linker_scripts)
 $(shell mkdir -p $(foreach dir, \
                       $(SRC_DIRS) \
                       $(UNDECOMPILED_DATA_DIRS) \
@@ -615,17 +621,24 @@ $(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
 ifeq ($(PLATFORM),IQUE)
 $(BUILD_DIR)/src/libultra/%.o: CC := $(EGCS_CC)
+$(BUILD_DIR)/src/libultra/%.o: CCAS := $(EGCS_CCAS)
 $(BUILD_DIR)/src/libultra/%.o: CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
+$(BUILD_DIR)/src/libultra/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
+$(BUILD_DIR)/src/libultra/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
+
+$(BUILD_DIR)/src/libultra/os/exceptasm.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/invaldcache.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/invalicache.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/writebackdcache.o: MIPS_VERSION := -mips3
+$(BUILD_DIR)/src/libultra/os/writebackdcacheall.o: MIPS_VERSION := -mips3
 else
 $(BUILD_DIR)/src/libultra/%.o: CC := $(CC_OLD)
-endif
-
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: MIPS_VERSION := -mips3 -32
-
 $(BUILD_DIR)/src/libultra/os/exceptasm.o: MIPS_VERSION := -mips3 -32
+endif
 
 $(BUILD_DIR)/src/code/%.o: ASOPTFLAGS := -O2
 $(BUILD_DIR)/src/libleo/%.o: ASOPTFLAGS := -O2
@@ -683,6 +696,12 @@ $(BUILD_DIR)/src/libgcc/%.o: CFLAGS := $(EGCS_CFLAGS)
 endif
 
 $(BUILD_DIR)/assets/misc/z_select_static/%.o: GBI_DEFINES := -DF3DEX_GBI
+
+ifeq ($(PLATFORM),IQUE)
+$(BUILD_DIR)/src/makerom/%.o: CCAS := $(EGCS_CCAS)
+$(BUILD_DIR)/src/makerom/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
+$(BUILD_DIR)/src/makerom/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
+endif
 
 ifeq ($(PERMUTER),)  # permuter + preprocess.py misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
 # Handle encoding (UTF-8 -> EUC-JP) and custom pragmas
@@ -784,10 +803,13 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)
 	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/undefined_syms.txt \
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
         $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
-	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
+	$(LD) -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP) -o $@
+
+$(BUILD_DIR)/linker_scripts/makerom.ld: linker_scripts/makerom.ld
+	$(CPP) -I include $(CPPFLAGS) $< > $@
 
 ## Order-only prerequisites
 # These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
