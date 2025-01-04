@@ -95,7 +95,7 @@
 #define TLBP \
     .set noreorder; tlbp; .set reorder
 
-#ifdef __sgi
+#ifndef __GNUC__
 #define ABS(x, y)   \
     .globl  x;      \
     x = y

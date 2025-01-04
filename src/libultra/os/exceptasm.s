@@ -5,10 +5,13 @@
 #include "ultra64/regdef.h"
 #include "ultra64/R4300.h"
 #include "ultra64/rcp.h"
+#include "ultra64/bcp.h"
 #include "ultra64/message.h"
 #include "ultra64/thread.h"
 #include "ultra64/exception.h"
 #include "ultra64/version.h"
+
+#define MESG(x) ((x) << 3)
 
 .data
 .align 2
@@ -159,15 +162,15 @@ savecontext:
     /* global interrupt mask. This is however broken, see comments for osSetIntMask. */
     la      t0, __OSGlobalIntMask
     lw      t0, (t0)
-    xor     t2, t0, ~0
+    xor     t2, t0, 0xFFFFFFFF
     andi    t2, t2, SR_IMASK
     or      t4, t1, t2
     and     t3, k1, ~SR_IMASK
-    andi    t0, t0, SR_IMASK
     or      t3, t3, t4
+    sw      t3, THREAD_SR(k0)
+    andi    t0, t0, SR_IMASK
     and     t1, t1, t0
     and     k1, k1, ~SR_IMASK
-    sw      t3, THREAD_SR(k0)
     or      k1, k1, t1
 savercp:
     /* Save the currently masked RCP interrupts. */
@@ -178,7 +181,7 @@ savercp:
     la      t0, __OSGlobalIntMask
     lw      t0, (t0)
     srl     t0, t0, RCP_IMASKSHIFT
-    xor     t0, t0, ~0
+    xor     t0, t0, 0xFFFFFFFF
     andi    t0, t0, (RCP_IMASK >> RCP_IMASKSHIFT)
     lw      t4, THREAD_RCP(k0)
     and     t0, t0, t4
@@ -274,35 +277,146 @@ counter:
     MFC0(   t1, C0_COMPARE)
     MTC0(   t1, C0_COMPARE)
     /* Post counter message */
-    li      a0, OS_EVENT_COUNTER*8
+    li      a0, MESG(OS_EVENT_COUNTER)
     jal     send_mesg
     /* Mask out interrupt and continue */
     and     s0, s0, ~CAUSE_IP8
     b       next_interrupt
 
 /**
- *  IP4/Cartridge Interrupt
- *  Signalled by the N64 Disk Drive
+ *  N64:
+ *      IP4/Cartridge Interrupt
+ *      Signalled by the N64 Disk Drive
+ *  iQue:
+ *      IP4/BCP Interrupt
+ *      New RCP Interrupts
  */
 cart:
-    /* Load cart callback set by __osSetHWIntrRoutine */
-    la      t1, __osHwIntTable
-    lw      t2, (OS_INTR_CART*HWINT_SIZE+HWINT_CALLBACK)(t1)
     /* Mask out interrupt */
     and     s0, s0, ~CAUSE_IP4
+    /* Load cart callback set by __osSetHWIntrRoutine */
+    la      t1, __osHwIntTable
+    addi    t1, t1, (OS_INTR_CART * HWINT_SIZE)
+    lw      t2, HWINT_CALLBACK(t1)
     /* If the callback is NULL, handling is done */
-    addi    t1, t1, (OS_INTR_CART*HWINT_SIZE)
-    beqz    t2, send_cart_mesg
+    beqz    t2, 1f
     /* Set up a stack and run the callback */
     lw      sp, HWINT_SP(t1)
     jalr    t2
-    beqz    v0, send_cart_mesg
+    beqz    v0, 1f
     /* Redispatch immediately if the callback returned nonzero */
     b       redispatch
-send_cart_mesg:
+1:
+#ifndef BBPLAYER
     /* Post a cart event message */
-    li      a0, OS_EVENT_CART*8
+    li      a0, MESG(OS_EVENT_CART)
     jal     send_mesg
+#else
+    /* On the iQue Player the CART interrupt no longer exists. New RCP interrupts are vectored here */
+    lw      s1, PHYS_TO_K1(MI_EX_INTR_REG)
+
+flash:
+    /* Check for FLASH interrupt */
+    andi    t1, s1, MI_EX_INTR_FLASH
+    beqz    t1, flashx
+    /* Mask it out */
+    andi    s1, s1, MI_EX_INTR_ALL & ~MI_EX_INTR_FLASH
+    /* Clear it */
+    li      t1, 0
+    sw      t1, PHYS_TO_K1(PI_NAND_CTRL_REG)
+    /* Send the event message */
+    li      a0, MESG(OS_EVENT_FLASH)
+    jal     send_mesg
+flashx:
+md:
+    /* Check for MD interrupt */
+    andi    t1, s1, MI_EX_INTR_MD
+    beqz    t1, mdx
+    /* Mask it out */
+    andi    s1, s1, MI_EX_INTR_ALL & ~MI_EX_INTR_MD
+    /* Clear it */
+    li      t1, MI_EX_INTR_CLR_MD
+    sw      t1, PHYS_TO_K1(MI_EX_INTR_REG)
+    /* Send the event message */
+    li      a0, MESG(OS_EVENT_MD)
+    jal     send_mesg
+mdx:
+aes:
+    /* Check for AES interrupt */
+    andi    t1, s1, MI_EX_INTR_AES
+    beqz    t1, aesx
+    /* Mask it out */
+    andi    s1, s1, MI_EX_INTR_ALL & ~MI_EX_INTR_AES
+    /* Disable the interrupt, this does not clear it.
+     * The responsibility of clearing and re-enabling
+     * the interrupt is left to the handler. */
+    li      t1, MI_EX_INTR_MASK_CLR_AES
+    sw      t1, PHYS_TO_K1(MI_EX_INTR_MASK_REG)
+    /* Send the event message */
+    li      a0, MESG(OS_EVENT_AES)
+    jal     send_mesg
+aesx:
+ide:
+    /* Check for IDE interrupt */
+    andi    t1, s1, MI_EX_INTR_IDE
+    beqz    t1, idex
+    /* Mask it out */
+    andi    s1, s1, MI_EX_INTR_ALL & ~MI_EX_INTR_IDE
+    /* Disable the interrupt, this does not clear it.
+     * The responsibility of clearing and re-enabling
+     * the interrupt is left to the handler. */
+    li      t1, MI_EX_INTR_MASK_CLR_IDE
+    sw      t1, PHYS_TO_K1(MI_EX_INTR_MASK_REG)
+    /* Send the event message */
+    li      a0, MESG(OS_EVENT_IDE)
+    jal     send_mesg
+idex:
+pi_err:
+    /* Check for PI_ERR Interrupt */
+    andi    t1, s1, MI_EX_INTR_PI_ERR
+    beqz    t1, pi_errx
+    /* Mask it out */
+    andi    s1, s1, MI_EX_INTR_ALL & ~MI_EX_INTR_PI_ERR
+    /* Disable the interrupt, this does not clear it.
+     * The responsibility of clearing and re-enabling
+     * the interrupt is left to the handler. */
+    li      t1, MI_EX_INTR_MASK_CLR_PI_ERR
+    sw      t1, PHYS_TO_K1(MI_EX_INTR_MASK_REG)
+    /* Send the event message */
+    li      a0, MESG(OS_EVENT_PI_ERR)
+    jal     send_mesg
+pi_errx:
+usb0:
+    /* Check for USB0 Interrupt */
+    andi    t1, s1, MI_EX_INTR_USB0
+    beqz    t1, usb0x
+    /* Mask it out */
+    andi    s1, s1, MI_EX_INTR_ALL & ~MI_EX_INTR_USB0
+    /* Disable the interrupt, this does not clear it.
+     * The responsibility of clearing and re-enabling
+     * the interrupt is left to the handler. */
+    li      t1, MI_EX_INTR_MASK_CLR_USB0
+    sw      t1, PHYS_TO_K1(MI_EX_INTR_MASK_REG)
+    /* Send the event message */
+    li      a0, MESG(OS_EVENT_USB0)
+    jal     send_mesg
+usb0x:
+usb1:
+    /* Check for USB1 Interrupt */
+    andi    t1, s1, MI_EX_INTR_USB1
+    beqz    t1, usb1x
+    /* Mask it out */
+    andi    s1, s1, MI_EX_INTR_ALL & ~MI_EX_INTR_USB1
+    /* Disable the interrupt, this does not clear it.
+     * The responsibility of clearing and re-enabling
+     * the interrupt is left to the handler. */
+    li      t1, MI_EX_INTR_MASK_CLR_USB1
+    sw      t1, PHYS_TO_K1(MI_EX_INTR_MASK_REG)
+    /* Send the event message */
+    li      a0, MESG(OS_EVENT_USB1)
+    jal     send_mesg
+usb1x:
+#endif
     /* Continue */
     b       next_interrupt
 
@@ -315,10 +429,10 @@ rcp:
     /*! @bug this clobbers the t0 register which is expected to hold the value of the */
     /*! C0_CAUSE register in the sw1 and sw2 handlers. If the sw1 or sw2 handler runs */
     /*! after this, the interrupt will not be cleared properly. */
+    lw      s1, PHYS_TO_K1(MI_INTR_REG)
     la      t0, __OSGlobalIntMask
     lw      t0, (t0)
     srl     t0, t0, RCP_IMASKSHIFT
-    lw      s1, PHYS_TO_K1(MI_INTR_REG)
     and     s1, s1, t0
 
 /**
@@ -327,17 +441,17 @@ rcp:
     /* Test for sp interrupt */
     andi    t1, s1, MI_INTR_SP
     beqz    t1, vi
-    /* Test for yielded or done signals in particular */
-    lw      t4, PHYS_TO_K1(SP_STATUS_REG)
-    li      t1, (SP_CLR_INTR | SP_CLR_SIG3)
-    andi    t4, t4, (SP_STATUS_YIELDED | SP_STATUS_TASKDONE)
     /* Mask out SP interrupt */
     andi    s1, s1, (MI_INTR_SI | MI_INTR_AI | MI_INTR_VI | MI_INTR_PI | MI_INTR_DP)
-    sw      t1, PHYS_TO_K1(SP_STATUS_REG)
-    beqz    t4, sp_other_break
+    lw      t4, PHYS_TO_K1(SP_STATUS_REG)
     /* Clear interrupt and signal 3 */
+    li      t1, (SP_CLR_INTR | SP_CLR_SIG3)
+    sw      t1, PHYS_TO_K1(SP_STATUS_REG)
+    /* Test for yielded or done signals in particular */
+    andi    t4, t4, (SP_STATUS_YIELDED | SP_STATUS_TASKDONE)
+    beqz    t4, sp_other_break
     /* Post an SP event message */
-    li      a0, OS_EVENT_SP*8
+    li      a0, MESG(OS_EVENT_SP)
     jal     send_mesg
     beqz    s1, NoMoreRcpInts
     /* Step over sp_other_break handler */
@@ -346,7 +460,7 @@ rcp:
 sp_other_break:
     /* An sp signal that is not due to yielding or task completion, such as */
     /* an sp breakpoint. Post a different event message */
-    li      a0, OS_EVENT_SP_BREAK*8
+    li      a0, MESG(OS_EVENT_SP_BREAK)
     jal     send_mesg
     beqz    s1, NoMoreRcpInts
 
@@ -362,7 +476,7 @@ vi:
     /* Clear interrupt */
     sw      zero, PHYS_TO_K1(VI_CURRENT_REG)
     /* Post vi event message */
-    li      a0, OS_EVENT_VI*8
+    li      a0, MESG(OS_EVENT_VI)
     jal     send_mesg
     beqz    s1, NoMoreRcpInts
 
@@ -380,7 +494,7 @@ ai:
     li      t1, 1
     sw      t1, PHYS_TO_K1(AI_STATUS_REG)
     /* Post ai event message */
-    li      a0, OS_EVENT_AI*8
+    li      a0, MESG(OS_EVENT_AI)
     jal     send_mesg
     beqz    s1, NoMoreRcpInts
 
@@ -397,7 +511,7 @@ si:
     /* Clear interrupt */
     sw      zero, PHYS_TO_K1(SI_STATUS_REG)
     /* Post si event message */
-    li      a0, OS_EVENT_SI*8
+    li      a0, MESG(OS_EVENT_SI)
     jal     send_mesg
     beqz    s1, NoMoreRcpInts
 
@@ -409,20 +523,15 @@ pi:
     andi    t1, s1, MI_INTR_PI
     beqz    t1, dp
 
-    /* Clear and mask the interrupt */
-#if LIBULTRA_VERSION < LIBULTRA_VERSION_J
-    li      t1, PI_STATUS_CLR_INTR
+    /* Mask out pi interrupt */
     andi    s1, s1, (MI_INTR_SP | MI_INTR_SI | MI_INTR_AI | MI_INTR_VI | MI_INTR_DP)
-    sw      t1, PHYS_TO_K1(PI_STATUS_REG)
-#else
     /* Clear the interrupt */
     li      t1, PI_STATUS_CLR_INTR
     sw      t1, PHYS_TO_K1(PI_STATUS_REG)
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_J
     /* Load pi callback */
     la      t1, __osPiIntTable
     lw      t2, HWINT_CALLBACK(t1)
-    /* Mask out pi interrupt */
-    andi    s1, s1, (MI_INTR_SP | MI_INTR_SI | MI_INTR_AI | MI_INTR_VI | MI_INTR_DP)
     /* Skip callback if NULL */
     beqz    t2, no_pi_callback
     /* Set up a stack and run the callback */
@@ -434,7 +543,7 @@ pi:
 #endif
 no_pi_callback:
     /* Post pi event message */
-    li      a0, OS_EVENT_PI*8
+    li      a0, MESG(OS_EVENT_PI)
     jal     send_mesg
 skip_pi_mesg:
     beqz    s1, NoMoreRcpInts
@@ -453,7 +562,7 @@ dp:
     li      t1, MI_CLR_DP_INTR
     sw      t1, PHYS_TO_K1(MI_INIT_MODE_REG)
     /* Post dp event message */
-    li      a0, OS_EVENT_DP*8
+    li      a0, MESG(OS_EVENT_DP)
     jal     send_mesg
 
 NoMoreRcpInts:
@@ -483,11 +592,11 @@ firstnmi:
     li      t2, 1
     sw      t2, (t1)
     /* Post a PreNMI event message */
-    li      a0, OS_EVENT_PRENMI*8
+    li      a0, MESG(OS_EVENT_PRENMI)
     jal     send_mesg
     /* Mask out and disable IP5/PreNMI interrupt for the highest priority thread */
-    lw      t2, __osRunQueue
     and     s0, s0, ~SR_IBIT5
+    lw      t2, __osRunQueue
     lw      k1, THREAD_SR(t2)
     and     k1, k1, ~SR_IBIT5
     sw      k1, THREAD_SR(t2)
@@ -499,7 +608,7 @@ sw2:
     and     t0, t0, ~CAUSE_SW2
     MTC0(   t0, C0_CAUSE)
     /* Post sw2 event message */
-    li      a0, OS_EVENT_SW2*8
+    li      a0, MESG(OS_EVENT_SW2)
     jal     send_mesg
     /* Mask out interrupt and continue */
     and     s0, s0, ~CAUSE_SW2
@@ -510,7 +619,7 @@ sw1:
     and     t0, t0, ~CAUSE_SW1
     MTC0(   t0, C0_CAUSE)
     /* Post sw1 event message */
-    li      a0, OS_EVENT_SW1*8
+    li      a0, MESG(OS_EVENT_SW1)
     jal     send_mesg
     /* Mask out interrupt and continue */
     and     s0, s0, ~CAUSE_SW1
@@ -521,15 +630,15 @@ handle_break:
     li      t1, OS_FLAG_CPU_BREAK
     sh      t1, THREAD_FLAGS(k0)
     /* Post a cpu break event message */
-    li      a0, OS_EVENT_CPU_BREAK*8
+    li      a0, MESG(OS_EVENT_CPU_BREAK)
     jal     send_mesg
     /* Redispatch */
     b       redispatch
 
 redispatch:
-    lw      t2, __osRunQueue
     /* Get priority of previously running thread */
     lw      t1, THREAD_PRI(k0)
+    lw      t2, __osRunQueue
     /* Get highest priority from waiting threads */
     lw      t3, THREAD_PRI(t2)
     bge     t1, t3, enqueueRunning
@@ -567,7 +676,7 @@ panic:
     MFC0(   t2, C0_BADVADDR)
     sw      t2, THREAD_BADVADDR(k0)
     /* Post the fault message */
-    li      a0, OS_EVENT_FAULT*8
+    li      a0, MESG(OS_EVENT_FAULT)
     jal     send_mesg
     /* Dispatch next thread */
     j       __osDispatchThread
@@ -576,12 +685,12 @@ panic:
  *  Handles posting event messages to the listening message queue, if there is one
  */
 send_mesg:
+    /* Save return address */
+    move    s2, ra
     /* Load pointer to listening message queue */
     la      t2, __osEventStateTab
     addu    t2, t2, a0
     lw      t1, (t2)
-    /* Save return address */
-    move    s2, ra
     /* If there is no listening message queue, done */
     beqz    t1, send_done
 
@@ -595,14 +704,13 @@ send_mesg:
     addu    t5, t5, t3
     rem     t5, t5, t4
     lw      t4, MQ_MSG(t1)
-    sll     t5, t5, 2
+    mul     t5, t5, 4
     addu    t4, t4, t5
-    /* Fetch the message to post */
-    lw      t5, 4(t2)
-    addiu   t2, t3, 1
     /* Post the message to the message queue */
+    lw      t5, 4(t2)
     sw      t5, (t4)
     /* Increment the validCount */
+    addiu   t2, t3, 1
     sw      t2, MQ_VALIDCOUNT(t1)
     /* If there was a thread blocked on this message queue, */
     /*  wake it up */
@@ -627,10 +735,10 @@ handle_CpU:
     li      t2, 1 /* if not coprocessor 1, panic */
     bne     t1, t2, panic
     /* Mark cop1 as usable for previous thread */
-    lw      k1, THREAD_SR(k0)
     li      t1, 1
-    or      k1, k1, SR_CU1
     sw      t1, THREAD_FP(k0)
+    lw      k1, THREAD_SR(k0)
+    or      k1, k1, SR_CU1
     sw      k1, THREAD_SR(k0)
     b       enqueueRunning
 END(__osException)
@@ -647,7 +755,6 @@ LEAF(__osEnqueueAndYield)
     lw      a1, __osRunningThread
     /* Save SR */
     MFC0(   t0, C0_SR)
-    lw      k1, THREAD_FP(a1)
     ori     t0, t0, SR_EXL
     sw      t0, THREAD_SR(a1)
     /* Save callee-saved registers */
@@ -665,15 +772,16 @@ LEAF(__osEnqueueAndYield)
     sd      ra, THREAD_RA(a1)
     sw      ra, THREAD_PC(a1)
     /* Save FPU callee-saved registers if the current thread has used the FPU */
+    lw      k1, THREAD_FP(a1)
     beqz    k1, 1f
     cfc1    k1, C1_FPCSR
+    sw      k1, THREAD_FPCSR(a1)
     sdc1    $f20, THREAD_FP20(a1)
     sdc1    $f22, THREAD_FP22(a1)
     sdc1    $f24, THREAD_FP24(a1)
     sdc1    $f26, THREAD_FP26(a1)
     sdc1    $f28, THREAD_FP28(a1)
     sdc1    $f30, THREAD_FP30(a1)
-    sw      k1, THREAD_FPCSR(a1)
 1:
     lw      k1, THREAD_SR(a1)
     andi    t1, k1, SR_IMASK
@@ -682,7 +790,7 @@ LEAF(__osEnqueueAndYield)
     /* See the comment there for more about this. */
     la      t0, __OSGlobalIntMask
     lw      t0, (t0)
-    xor     t0, t0, ~0
+    xor     t0, t0, 0xFFFFFFFF
     andi    t0, t0, SR_IMASK
     or      t1, t1, t0
     and     k1, k1, ~SR_IMASK
@@ -695,10 +803,10 @@ LEAF(__osEnqueueAndYield)
     /* See the comment there for more about this. */
     la      k0, __OSGlobalIntMask
     lw      k0, (k0)
-    lw      t0, THREAD_RCP(a1)
     srl     k0, k0, RCP_IMASKSHIFT
-    xor     k0, k0, ~0
+    xor     k0, k0, 0xFFFFFFFF
     andi    k0, k0, (RCP_IMASK >> RCP_IMASKSHIFT)
+    lw      t0, THREAD_RCP(a1)
     and     k0, k0, t0
     or      k1, k1, k0
 3:
@@ -717,9 +825,9 @@ END(__osEnqueueAndYield)
  *  Enqueues `thread` to the thread queue `threadQueue`, inserted by priority
  */
 LEAF(__osEnqueueThread)
+    move    t9, a0
     lw      t8, (a0)
     lw      t7, THREAD_PRI(a1)
-    move    t9, a0
     lw      t6, THREAD_PRI(t8)
     /* If the current highest priority thread is a lower priority than */
     /*  the new thread, skip searching the queue */
@@ -778,8 +886,8 @@ LEAF(__osDispatchThread)
     lw      k1, THREAD_SR(k0)
     la      t0, __OSGlobalIntMask
     lw      t0, (t0)
-    andi    t1, k1, SR_IMASK
     andi    t0, t0, SR_IMASK
+    andi    t1, k1, SR_IMASK
     and     t1, t1, t0
     and     k1, k1, ~SR_IMASK
     or      k1, k1, t1
@@ -812,13 +920,13 @@ LEAF(__osDispatchThread)
     ld      t8, THREAD_T8(k0)
     ld      t9, THREAD_T9(k0)
     ld      gp, THREAD_GP(k0)
+    ld      sp, THREAD_SP(k0)
+    ld      fp, THREAD_S8(k0)
+    ld      ra, THREAD_RA(k0)
     ld      k1, THREAD_LO(k0)
     mtlo    k1
     ld      k1, THREAD_HI(k0)
     mthi    k1
-    ld      sp, THREAD_SP(k0)
-    ld      fp, THREAD_S8(k0)
-    ld      ra, THREAD_RA(k0)
     /* Move thread pc to EPC so that eret will return execution to where the thread left off */
     lw      k1, THREAD_PC(k0)
     MTC0(   k1, C0_EPC)
