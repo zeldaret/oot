@@ -38,9 +38,9 @@
 #define VSTART(start, end) START(start, end)
 
 #ifdef BBPLAYER
-#define VI_CTRL_PIXEL_ADV_DEFAULT 1
+#define VI_CTRL_PIXEL_ADV_DEFAULT VI_CTRL_PIXEL_ADV(1)
 #else
-#define VI_CTRL_PIXEL_ADV_DEFAULT 3
+#define VI_CTRL_PIXEL_ADV_DEFAULT VI_CTRL_PIXEL_ADV(3)
 #endif
 
 #endif
