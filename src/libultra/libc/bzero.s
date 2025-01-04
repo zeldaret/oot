@@ -51,8 +51,8 @@ bytezero:
     /* zero one byte at a time */
     addu    a1, a1, a0
 1:
-    sb      zero, (a0)
     addiu   a0, a0, 1
+    sb      zero, -1(a0)
     bne     a0, a1, 1b
 zerodone:
     jr      ra
