@@ -6,6 +6,9 @@
 
 beginseg
     name "makerom"
+    // We set the address of the makerom segment as 0x80000400 - 0x1000, since the ROM header and IPL3 together
+    // are 0x1000 bytes long and we want the entry code to end up at address 0x80000400.
+    address 0x7FFFF400
     include "$(BUILD_DIR)/src/makerom/rom_header.o"
     include "$(BUILD_DIR)/src/makerom/ipl3.o"
     include "$(BUILD_DIR)/src/makerom/entry.o"
@@ -13,7 +16,6 @@ endseg
 
 beginseg
     name "boot"
-    address 0x80000460
     include "$(BUILD_DIR)/src/boot/boot_main.o"
     include "$(BUILD_DIR)/src/boot/idle.o"
 #if OOT_VERSION >= PAL_1_0
