@@ -2,8 +2,6 @@
 #include "fault.h"
 #include "libc64/os_malloc.h"
 
-#if PLATFORM_N64
-
 #define NODE_MAGIC 0x7373
 
 #define NODE_IS_VALID(node) ((node)->magic == NODE_MAGIC)
@@ -470,5 +468,3 @@ s32 __osCheckArena(Arena* arena) {
 u8 ArenaImpl_GetAllocFailures(Arena* arena) {
     return arena->allocFailures;
 }
-
-#endif

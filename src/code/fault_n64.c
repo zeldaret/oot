@@ -1,5 +1,3 @@
-#if PLATFORM_N64
-
 #pragma increment_block_number "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 #include "global.h"
@@ -849,5 +847,3 @@ NORETURN void Fault_AddHungupAndCrash(const char* file, int line) {
     sprintf(msg, "HungUp %s:%d", file, line);
     Fault_AddHungupAndCrashImpl(msg, NULL);
 }
-
-#endif
