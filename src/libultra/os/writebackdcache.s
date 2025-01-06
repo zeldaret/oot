@@ -13,18 +13,18 @@
  */
 LEAF(osWritebackDCache)
     /* If the amount to write back is less than or equal to 0, return immediately */
-    blez    a1, .ret
+    blez    a1, 2f
 
     /* If the amount to write back is as large as or larger than */
     /* the data cache size, write back all */
     li      t3, DCACHE_SIZE
-    bgeu    a1, t3, .all
+    bgeu    a1, t3, 3f
 
     /* ensure end address doesn't wrap around and end up smaller */
     /* than the start address */
     move    t0, a0
     addu    t1, a0, a1
-    bgeu    t0, t1, .ret
+    bgeu    t0, t1, 2f
 
     /* Mask and subtract to align to cache line */
     addiu   t1, t1, -DCACHE_LINESIZE
@@ -36,18 +36,18 @@ LEAF(osWritebackDCache)
     bltu    t0, t1, 1b
      addiu  t0, t0, DCACHE_LINESIZE
 .set reorder
-.ret:
+2:
     jr      ra
 
 /* same as osWritebackDCacheAll in operation */
-.all:
+3:
     li      t0, K0BASE
     addu    t1, t0, t3
     addiu   t1, t1, -DCACHE_LINESIZE
-1:
+4:
     CACHE(  (CACH_PD | C_IWBINV), (t0))
 .set noreorder
-    bltu    t0, t1, 1b
+    bltu    t0, t1, 4b
      addiu  t0, DCACHE_LINESIZE
 .set reorder
     jr      ra

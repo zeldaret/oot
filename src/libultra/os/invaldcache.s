@@ -47,7 +47,7 @@ LEAF(osInvalDCache)
     /* Mask end with cache line */
     andi    t2, t1, DCACHE_LINEMASK
     /* If mask is not zero, the end is not cache aligned */
-    beqz    t2, 1f
+    beqz    t2, 2f
     /* Subtract mask result to align to cache line */
     subu    t1, t1, t2
     /* Hit-Writeback-Invalidate unaligned part */
@@ -55,11 +55,11 @@ LEAF(osInvalDCache)
     /* If that's all there is to do, return early */
     bltu    t1, t0, 3f
     /* Invalidate the rest */
-1:
+2:
     /* Hit-Invalidate */
     CACHE(  (CACH_PD | C_HINV), (t0))
 .set noreorder
-    bltu    t0, t1, 1b
+    bltu    t0, t1, 2b
      addiu  t0, t0, DCACHE_LINESIZE
 .set reorder
 3:
