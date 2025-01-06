@@ -2,6 +2,8 @@
 #include "ultra64/internal.h"
 #include "ultra64/leodrive.h"
 
+#define TEMP_BUFFER ((void*)0x80600000)
+
 // os.h
 #define LEO_BLOCK_MODE 1
 #define LEO_TRACK_MODE 2
@@ -84,7 +86,7 @@ void __osDevMgrMain(void* arg) {
 #ifdef BBPLAYER
                     if (__osBbIsBb == 1 && ((u32)ioMesg->dramAddr & 0x7F) >= 0x60) {
                         check = true;
-                        ret = dm->dma(OS_READ, ioMesg->devAddr, (void*)0x80600000, ioMesg->size);
+                        ret = dm->dma(OS_READ, ioMesg->devAddr, TEMP_BUFFER, ioMesg->size);
                         break;
                     }
 #endif
@@ -99,7 +101,7 @@ void __osDevMgrMain(void* arg) {
 #ifdef BBPLAYER
                     if (__osBbIsBb == 1 && ((u32)ioMesg->dramAddr & 0x7F) >= 0x60) {
                         check = true;
-                        ret = dm->edma(ioMesg->piHandle, OS_READ, ioMesg->devAddr, (void*)0x80600000, ioMesg->size);
+                        ret = dm->edma(ioMesg->piHandle, OS_READ, ioMesg->devAddr, TEMP_BUFFER, ioMesg->size);
                         break;
                     }
 #endif
@@ -122,8 +124,8 @@ void __osDevMgrMain(void* arg) {
                 osRecvMesg(dm->evtQueue, &em, OS_MESG_BLOCK);
 #ifdef BBPLAYER
                 if (__osBbIsBb == 1 && check) {
-                    osInvalDCache((void*)0x80600000, (ioMesg->size + DCACHE_LINEMASK) & ~DCACHE_LINEMASK);
-                    bcopy((void*)0x80600000, ioMesg->dramAddr, ioMesg->size);
+                    osInvalDCache(TEMP_BUFFER, (ioMesg->size + DCACHE_LINEMASK) & ~DCACHE_LINEMASK);
+                    bcopy(TEMP_BUFFER, ioMesg->dramAddr, ioMesg->size);
                     check = false;
                     osWritebackDCache(ioMesg->dramAddr, ioMesg->size);
                 }
