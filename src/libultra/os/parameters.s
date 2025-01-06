@@ -23,4 +23,26 @@ IPL_SYMBOL(osVersion,      0x80000314, 4)
 IPL_SYMBOL(osMemSize,      0x80000318, 4)
 IPL_SYMBOL(osAppNMIBuffer, 0x8000031C, 0x40)
 
+#ifdef BBPLAYER
+
+IPL_SYMBOL(__osBbEepromAddress,   0x8000035C, 4)
+IPL_SYMBOL(__osBbEepromSize,      0x80000360, 4)
+IPL_SYMBOL(__osBbFlashAddress,    0x80000364, 4)
+IPL_SYMBOL(__osBbFlashSize,       0x80000368, 4)
+IPL_SYMBOL(__osBbSramAddress,     0x8000036C, 4)
+IPL_SYMBOL(__osBbSramSize,        0x80000370, 4)
+IPL_SYMBOL(__osBbPakAddress,      0x80000374, 0x10)
+IPL_SYMBOL(__osBbPakSize,         0x80000384, 4)
+IPL_SYMBOL(__osBbIsBb,            0x80000388, 4)
+IPL_SYMBOL(__osBbHackFlags,       0x8000038C, 4)
+IPL_SYMBOL(__osBbStashMagic,      0x80000390, 4)
+IPL_SYMBOL(__osBbPakBindings,     0x80000394, 0x10)
+IPL_SYMBOL(__osBbStateName,       0x800003A4, 0x10)
+IPL_SYMBOL(__osBbStateDirty,      0x800003B4, 4)
+IPL_SYMBOL(__osBbAuxDataLimit,    0x800003B8, 4)
+
+.space 0x30
+
+#endif
+
 .space 0x60
