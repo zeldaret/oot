@@ -15,6 +15,6 @@ void __osSetCompare(u32 v) {
 
         __osRestoreInt(mask);
     }
-    __asm__ ("mtc0 %0, $%1" :: "r"(v), "i"(C0_COMPARE));
+    __asm__("mtc0 %0, $%1" ::"r"(v), "i"(C0_COMPARE));
 }
 #endif
