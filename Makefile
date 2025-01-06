@@ -585,17 +585,17 @@ EGCS_O_FILES += $(BUILD_DIR)/src/boot/idle.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/z_locale.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/z_std_dma.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/zlib.o
-# EGCS_O_FILES += (BUILD_DIR)/src/code/z_actor.o
+# EGCS_O_FILES += $(BUILD_DIR)/src/code/z_actor.o
 EGCS_O_FILES += $(BUILD_DIR)/src/code/z_common_data.o
 EGCS_O_FILES += $(BUILD_DIR)/src/code/z_construct.o
-# EGCS_O_FILES += (BUILD_DIR)/src/code/z_kanfont.o
-# EGCS_O_FILES += (BUILD_DIR)/src/code/z_message.o
+# EGCS_O_FILES += $(BUILD_DIR)/src/code/z_kanfont.o
+# EGCS_O_FILES += $(BUILD_DIR)/src/code/z_message.o
 EGCS_O_FILES += $(BUILD_DIR)/src/code/z_parameter.o
-# EGCS_O_FILES += (BUILD_DIR)/src/code/z_sram.o
+# EGCS_O_FILES += $(BUILD_DIR)/src/code/z_sram.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/actors/ovl_En_Mag/z_en_mag.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/actors/ovl_End_Title/z_end_title.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/actors/ovl_Fishing/z_fishing.o
-# EGCS_O_FILES += (BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o
+# EGCS_O_FILES += $(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/gamestates/ovl_opening/z_opening.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/gamestates/ovl_title/z_title.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_map.o
@@ -603,10 +603,17 @@ EGCS_O_FILES += $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope
 
 $(EGCS_O_FILES): CC := $(EGCS_CC)
 $(EGCS_O_FILES): CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
-$(EGCS_O_FILES): MIPS_VERSION := -mips3
+$(EGCS_O_FILES): MIPS_VERSION :=
 endif
 
-ifeq ($(DEBUG_FEATURES),1)
+ifeq ($(PLATFORM),IQUE)
+$(BUILD_DIR)/src/libc/%.o: CC := $(EGCS_CC)
+$(BUILD_DIR)/src/libc/%.o: CCAS := $(EGCS_CCAS)
+$(BUILD_DIR)/src/libc/%.o: CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
+$(BUILD_DIR)/src/libc/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
+$(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O1
+$(BUILD_DIR)/src/libc/%.o: MIPS_VERSION :=
+else ifeq ($(DEBUG_FEATURES),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/libc/%.o: ASOPTFLAGS := -g
 else
