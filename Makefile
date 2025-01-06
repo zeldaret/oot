@@ -645,6 +645,9 @@ $(BUILD_DIR)/src/libultra/%.o: CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
 $(BUILD_DIR)/src/libultra/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
 $(BUILD_DIR)/src/libultra/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
 
+$(BUILD_DIR)/src/libultra/reg/_%.o: OPTFLAGS := -O0
+$(BUILD_DIR)/src/libultra/reg/_%.o: MIPS_VERSION := -mgp64 -mfp64 -mips3
+
 $(BUILD_DIR)/src/libultra/os/exceptasm.o: MIPS_VERSION := -mips3
 $(BUILD_DIR)/src/libultra/os/invaldcache.o: MIPS_VERSION := -mips3
 $(BUILD_DIR)/src/libultra/os/invalicache.o: MIPS_VERSION := -mips3

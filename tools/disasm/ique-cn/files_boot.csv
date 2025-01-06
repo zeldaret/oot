@@ -59,8 +59,8 @@ B50,80000FA0,src/boot/zlib
 6F10,80007360,src/libultra/os/seteventmesg
 6FE0,80007430,src/libultra/os/getcause
 6FF0,80007440,src/libultra/os/setwatchlo
-7000,80007450,src/libultra/os/getcount
-7100,80007550,src/libultra/os/setcompare
+7000,80007450,src/libultra/reg/_getcount
+7100,80007550,src/libultra/reg/_setcompare
 71B0,80007600,src/libultra/io/sirawread
 7200,80007650,src/libultra/io/sirawwrite
 7250,800076A0,src/libultra/os/destroythread

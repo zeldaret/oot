@@ -27,12 +27,12 @@ LEAF(osWritebackDCache)
     bgeu    t0, t1, .ret
 
     /* Mask and subtract to align to cache line */
-    andi    t2, t0, DCACHE_LINEMASK
     addiu   t1, t1, -DCACHE_LINESIZE
+    andi    t2, t0, DCACHE_LINEMASK
     subu    t0, t0, t2
 1:
+    CACHE(  (CACH_PD | C_HWB), (t0))
 .set noreorder
-    cache   (CACH_PD | C_HWB), (t0)
     bltu    t0, t1, 1b
      addiu  t0, t0, DCACHE_LINESIZE
 .set reorder
@@ -45,8 +45,8 @@ LEAF(osWritebackDCache)
     addu    t1, t0, t3
     addiu   t1, t1, -DCACHE_LINESIZE
 1:
+    CACHE(  (CACH_PD | C_IWBINV), (t0))
 .set noreorder
-    cache   (CACH_PD | C_IWBINV), (t0)
     bltu    t0, t1, 1b
      addiu  t0, DCACHE_LINESIZE
 .set reorder
