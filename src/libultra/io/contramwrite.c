@@ -2,6 +2,7 @@
 #include "global.h"
 
 s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 force) {
+#ifndef BBPLAYER
     s32 ret = 0;
     s32 i;
     u8* ptr;
@@ -65,4 +66,28 @@ s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 
     __osSiRelAccess();
 
     return ret;
+#else
+    s32 ret = 0;
+
+    if ((force != true) && (address < PFS_LABEL_AREA) && (address != 0)) {
+        return 0;
+    }
+
+    __osSiGetAccess();
+
+    if (__osBbPakAddress[channel] != 0) {
+        if (__osBbPakSize - 0x20 >= address * 0x20) {
+            s32 i;
+
+            for (i = 0; i < 0x20; i++) {
+                *(u8*)(__osBbPakAddress[channel] + address * 0x20 + i) = buffer[i];
+            }
+        }
+    } else {
+        ret = 1;
+    }
+
+    __osSiRelAccess();
+    return ret;
+#endif
 }
