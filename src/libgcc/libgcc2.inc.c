@@ -286,7 +286,7 @@ DItype __moddi3(DItype u, DItype v) {
     if (vv.s.high < 0)
         vv.ll = __negdi2(vv.ll);
 
-    (void)__udivmoddi4(uu.ll, vv.ll, &w);
+    (void)__udivmoddi4(uu.ll, vv.ll, (UDItype*)&w);
     if (c)
         w = __negdi2(w);
 
