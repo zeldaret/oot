@@ -212,7 +212,7 @@
 
 /* Box ID */
 #define PI_GPIO_GET_BOXID(reg)  ((reg) >> 16)
-#define PI_GPIO_IS_HW_V2(reg) ((reg) & (3 << 30))
+#define PI_GPIO_IS_HW_V2(reg)   ((reg) & (3 << 30))
 
 /* GPIO: Input/Output enables */
 #define PI_GPIO_I_PWR       ((0 << 0) << 4)
