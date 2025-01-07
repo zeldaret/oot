@@ -61,8 +61,8 @@ partaligncmp:
     addu    a3, a3, a0
 1:
     lwl     v0, (a0)
-    lw      v1, (a1)
     lwr     v0, 3(a0)
+    lw      v1, (a1)
     addu    a0, a0, 4
     addu    a1, a1, 4
     bne     v0, v1, cmpne
