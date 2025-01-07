@@ -428,8 +428,7 @@ int huft_build(unsigned* b,     /* code lengths in bits (all assumed <= BMAX) */
                                                        /* too few codes for k-w bit table */
                     f -= a + 1;                        /* deduct codes from patterns left */
                     xp = c + k;
-                    while (++j < z) /* try smaller tables up to z bits */
-                    {
+                    while (++j < z) { /* try smaller tables up to z bits */
                         if ((f <<= 1) <= *++xp) {
                             break; /* enough codes to use up j bits */
                         }
