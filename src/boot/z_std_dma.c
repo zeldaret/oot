@@ -398,7 +398,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
                     DMA_ERROR(req, filename, "Segment Alignment Error",
                               T("セグメント境界をまたがってＤＭＡ転送することはできません",
                                 "DMA transfers cannot cross segment boundaries"),
-                              "../z_std_dma.c", LN3(575, 578, 726, 595));
+                              "../z_std_dma.c", LN3(575, 578, 595, 726));
                 }
 
                 DmaMgr_DmaRomToRam(iter->romStart + vrom - iter->file.vromStart, ram, size);
@@ -419,7 +419,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
                     DMA_ERROR(req, filename, "Can't Transfer Segment",
                               T("圧縮されたセグメントの途中からはＤＭＡ転送することはできません",
                                 "DMA transfer cannot be performed from the middle of a compressed segment"),
-                              "../z_std_dma.c", LN3(595, 598, 746, 615));
+                              "../z_std_dma.c", LN3(595, 598, 615, 746));
                 }
 
                 if (size != iter->file.vromEnd - iter->file.vromStart) {
@@ -428,7 +428,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
                     DMA_ERROR(req, filename, "Can't Transfer Segment",
                               T("圧縮されたセグメントの一部だけをＤＭＡ転送することはできません",
                                 "It is not possible to DMA only part of a compressed segment"),
-                              "../z_std_dma.c", LN3(601, 604, 752, 621));
+                              "../z_std_dma.c", LN3(601, 604, 621, 752));
                 }
 
                 // Reduce the thread priority and decompress the file, the decompression routine handles the DMA
@@ -468,7 +468,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
 
             DMA_ERROR(req, NULL, "DATA DON'T EXIST",
                       T("該当するデータが存在しません", "Corresponding data does not exist"), "../z_std_dma.c",
-                      LN3(621, 624, 771, 641));
+                      LN3(621, 624, 641, 771));
             return;
         } else {
             // ROM is uncompressed, allow arbitrary DMA even if the region is not marked in the filesystem
@@ -646,7 +646,7 @@ void DmaMgr_Init(void) {
         PRINTF("_bootSegmentRomStart(%08x) != dma_rom_ad[0].rom_b(%08x)\n", _bootSegmentRomStart,
                gDmaDataTable[0].file.vromEnd);
         //! @bug The main code file where fault.c resides is not yet loaded
-        Fault_AddHungupAndCrash("../z_std_dma.c", LN3(837, 840, 1055, 859));
+        Fault_AddHungupAndCrash("../z_std_dma.c", LN3(837, 840, 859, 1055));
     }
 
     // Start the DMA manager
