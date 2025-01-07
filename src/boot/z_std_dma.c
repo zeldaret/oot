@@ -75,7 +75,7 @@ const char* sDmaMgrFileNames[] = {
  *  -1 if the first character that does not match has a smaller value in str1 than str2,
  *  +1 if the first character that does not match has a greater value in str1 than str2
  */
-s32 DmaMgr_StrCmp(const u8* str1, const u8* str2) {
+s32 DmaMgr_StrCmp(const char* str1, const char* str2) {
     while (*str1 != '\0') {
         if (*str1 > *str2) {
             return 1;
@@ -338,8 +338,7 @@ const char* DmaMgr_GetFileName(uintptr_t vrom) {
         return "(unknown)";
     }
 
-    if (DmaMgr_StrCmp((const u8*)ret, (const u8*)"kanji") == 0 ||
-        DmaMgr_StrCmp((const u8*)ret, (const u8*)"link_animetion") == 0) {
+    if (DmaMgr_StrCmp(ret, "kanji") == 0 || DmaMgr_StrCmp(ret, "link_animetion") == 0) {
         // This check may be related to these files being too large to be loaded all at once, however a NULL filename
         // does not prevent them from being loaded.
         return NULL;
@@ -380,8 +379,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
             if (0) {
 #if !PLATFORM_GC
                 // Based on the MM Debug ROM, these strings are part of the condition for the empty if statement below
-                if (DmaMgr_StrCmp((const u8*)"", (const u8*)"kanji") != 0 &&
-                    DmaMgr_StrCmp((const u8*)"", (const u8*)"link_animetion") != 0)
+                if (DmaMgr_StrCmp("", "kanji") != 0 && DmaMgr_StrCmp("", "link_animetion") != 0)
 #endif
                 {
                     // The string is defined in .rodata of debug builds but not used, suggesting a debug print is here
