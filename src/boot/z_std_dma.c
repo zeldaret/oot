@@ -92,8 +92,6 @@ s32 DmaMgr_StrCmp(const u8* str1, const u8* str2) {
     }
     return 0;
 }
-#else
-#define DmaMgr_StrCmp(str1, str2) 0
 #endif
 
 /**
@@ -380,9 +378,12 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
             // Found the region this request falls into
 
             if (0) {
+#if !PLATFORM_GC
                 // Based on the MM Debug ROM, these strings are part of the condition for the empty if statement below
                 if (DmaMgr_StrCmp((const u8*)"", (const u8*)"kanji") != 0 &&
-                    DmaMgr_StrCmp((const u8*)"", (const u8*)"link_animetion") != 0) {
+                    DmaMgr_StrCmp((const u8*)"", (const u8*)"link_animetion") != 0)
+#endif
+                {
                     // The string is defined in .rodata of debug builds but not used, suggesting a debug print is here
                     // but was optimized out in some way.
                     PRINTF("DMA ROM:%08X RAM:%08X SIZE:%08X %s\n", vrom, ram, size, filename);
