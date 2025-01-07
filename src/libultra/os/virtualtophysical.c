@@ -5,7 +5,7 @@ u32 osVirtualToPhysical(void* vaddr) {
         return K0_TO_PHYS(vaddr);
     } else if (IS_KSEG1(vaddr)) {
         return K1_TO_PHYS(vaddr);
-    } else  {
+    } else {
         return __osProbeTLB(vaddr);
     }
 }
