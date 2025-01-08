@@ -296,6 +296,9 @@ OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
 NM      := $(MIPS_BINUTILS_PREFIX)nm
 STRIP   := $(MIPS_BINUTILS_PREFIX)strip
 
+# Command prefix to preprocess a file before running the compiler
+PREPROCESS :=
+
 # Command to patch certain object files after they are built
 POSTPROCESS_OBJ := @:
 
@@ -726,19 +729,14 @@ endif
 $(BUILD_DIR)/assets/misc/z_select_static/%.o: GBI_DEFINES := -DF3DEX_GBI
 
 ifeq ($(PLATFORM),IQUE)
-
 $(BUILD_DIR)/src/makerom/%.o: CCAS := $(EGCS_CCAS)
 $(BUILD_DIR)/src/makerom/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
 $(BUILD_DIR)/src/makerom/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
-
 endif
-
-# For using asm_processor on some files:
-#$(BUILD_DIR)/.../%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
 ifeq ($(PERMUTER),)  # permuter + preprocess.py misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
 # Handle encoding (UTF-8 -> EUC-JP) and custom pragmas
-$(BUILD_DIR)/src/%.o: CC := ./tools/preprocess.sh -v $(VERSION) -i $(ICONV) -- $(CC)
+$(BUILD_DIR)/src/%.o: PREPROCESS := ./tools/preprocess.sh -v $(VERSION) -i $(ICONV) --
 endif
 
 else
@@ -958,7 +956,7 @@ $(BUILD_DIR)/src/%.o: src/%.c
 ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
 endif
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(PREPROCESS) $(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(POSTPROCESS_OBJ) $@
 	$(OBJDUMP_CMD)
 

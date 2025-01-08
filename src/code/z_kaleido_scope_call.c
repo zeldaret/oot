@@ -18,16 +18,16 @@ void KaleidoScopeCall_LoadPlayer(void) {
 
     if (gKaleidoMgrCurOvl != playerActorOvl) {
         if (gKaleidoMgrCurOvl != NULL) {
-            PRINTF(VT_FGCOL(GREEN));
+            PRINTF_COLOR_GREEN();
             PRINTF(T("カレイド領域 強制排除\n", "Kaleido area forced exclusion\n"));
-            PRINTF(VT_RST);
+            PRINTF_RST();
 
             KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
         }
 
-        PRINTF(VT_FGCOL(GREEN));
+        PRINTF_COLOR_GREEN();
         PRINTF(T("プレイヤーアクター搬入\n", "Player actor import\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
 
         KaleidoManager_LoadOvl(playerActorOvl);
     }
@@ -90,16 +90,16 @@ void KaleidoScopeCall_Update(PlayState* play) {
         } else if (pauseCtx->state != PAUSE_STATE_OFF) {
             if (gKaleidoMgrCurOvl != kaleidoScopeOvl) {
                 if (gKaleidoMgrCurOvl != NULL) {
-                    PRINTF(VT_FGCOL(GREEN));
+                    PRINTF_COLOR_GREEN();
                     PRINTF(T("カレイド領域 プレイヤー 強制排除\n", "Kaleido area Player Forced Elimination\n"));
-                    PRINTF(VT_RST);
+                    PRINTF_RST();
 
                     KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
                 }
 
-                PRINTF(VT_FGCOL(GREEN));
+                PRINTF_COLOR_GREEN();
                 PRINTF(T("カレイド領域 カレイドスコープ搬入\n", "Kaleido area Kaleidoscope loading\n"));
-                PRINTF(VT_RST);
+                PRINTF_RST();
 
                 KaleidoManager_LoadOvl(kaleidoScopeOvl);
             }
@@ -108,9 +108,9 @@ void KaleidoScopeCall_Update(PlayState* play) {
                 sKaleidoScopeUpdateFunc(play);
 
                 if (!IS_PAUSED(&play->pauseCtx)) {
-                    PRINTF(VT_FGCOL(GREEN));
+                    PRINTF_COLOR_GREEN();
                     PRINTF(T("カレイド領域 カレイドスコープ排出\n", "Kaleido area Kaleidoscope Emission\n"));
-                    PRINTF(VT_RST);
+                    PRINTF_RST();
 
                     KaleidoManager_ClearOvl(kaleidoScopeOvl);
                     KaleidoScopeCall_LoadPlayer();

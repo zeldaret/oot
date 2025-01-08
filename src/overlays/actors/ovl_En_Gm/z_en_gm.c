@@ -73,10 +73,10 @@ void EnGm_Init(Actor* thisx, PlayState* play) {
     this->gmObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GM);
 
     if (this->gmObjectSlot < 0) {
-        PRINTF(VT_COL(RED, WHITE));
+        PRINTF_COLOR_ERROR();
         // "There is no model bank! !! (Medi Goron)"
         PRINTF("モデル バンクが無いよ！！（中ゴロン）\n");
-        PRINTF(VT_RST);
+        PRINTF_RST();
         ASSERT(0, "0", "../z_en_gm.c", 145);
     }
 
