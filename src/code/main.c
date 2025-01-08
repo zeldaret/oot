@@ -59,11 +59,11 @@ OSMesg sSerialMsgBuf[1];
 
 #if DEBUG_FEATURES
 void Main_LogSystemHeap(void) {
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF(
         T("システムヒープサイズ %08x(%dKB) 開始アドレス %08x\n", "System heap size %08x (%dKB) Start address %08x\n"),
         gSystemHeapSize, gSystemHeapSize / 1024, _buffersSegmentEnd);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 }
 #endif
 

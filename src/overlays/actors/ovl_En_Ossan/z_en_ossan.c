@@ -593,9 +593,9 @@ void EnOssan_Init(Actor* thisx, PlayState* play) {
     //! @bug This check will always evaluate to false, it should be || not &&
     if (this->actor.params > OSSAN_TYPE_MASK && this->actor.params < OSSAN_TYPE_KOKIRI) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_COL(RED, WHITE));
+        PRINTF_COLOR_ERROR();
         PRINTF("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         ASSERT(0, "0", "../z_en_oB1.c", 1246);
         return;
     }
@@ -622,18 +622,18 @@ void EnOssan_Init(Actor* thisx, PlayState* play) {
 
     if (this->objectSlot1 < 0) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_COL(RED, WHITE));
+        PRINTF_COLOR_ERROR();
         PRINTF("バンクが無いよ！！(%s)\n", sShopkeeperPrintName[this->actor.params]);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         ASSERT(0, "0", "../z_en_oB1.c", 1284);
         return;
     }
 
     if (EnOssan_TryGetObjBankIndices(this, play, objectIds) == 0) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_COL(RED, WHITE));
+        PRINTF_COLOR_ERROR();
         PRINTF("予備バンクが無いよ！！(%s)\n", sShopkeeperPrintName[this->actor.params]);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         ASSERT(0, "0", "../z_en_oB1.c", 1295);
         return;
     }
@@ -2127,10 +2127,10 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
         this->shelves = (EnTana*)Actor_Find(&play->actorCtx, ACTOR_EN_TANA, ACTORCAT_PROP);
 
         if (this->shelves == NULL) {
-            PRINTF(VT_COL(RED, WHITE));
+            PRINTF_COLOR_ERROR();
             // "Warning!! There are no shelves!!"
             PRINTF("★★★ 警告！！ 棚がないよ！！ ★★★\n");
-            PRINTF(VT_RST);
+            PRINTF_RST();
             return;
         }
 
