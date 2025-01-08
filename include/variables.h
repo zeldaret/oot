@@ -14,6 +14,8 @@ extern s32 osCicId;
 extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
 
+extern u32 __osBbIsBb;
+
 extern s8 D_80009430;
 extern vu8 gViConfigBlack;
 extern u8 gViConfigAdditionalScanLines;

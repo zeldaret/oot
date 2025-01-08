@@ -228,6 +228,9 @@ CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
 CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
 CPP_DEFINES += -DLIBULTRA_VERSION=LIBULTRA_VERSION_$(LIBULTRA_VERSION)
 CPP_DEFINES += -DLIBULTRA_PATCH=$(LIBULTRA_PATCH)
+ifeq ($(PLATFORM),IQUE)
+  CPP_DEFINES += -DBBPLAYER
+endif
 
 ifeq ($(DEBUG_FEATURES),1)
   CPP_DEFINES += -DDEBUG_FEATURES=1
@@ -295,6 +298,9 @@ STRIP   := $(MIPS_BINUTILS_PREFIX)strip
 
 # Command prefix to preprocess a file before running the compiler
 PREPROCESS :=
+
+# Command to patch certain object files after they are built
+POSTPROCESS_OBJ := @:
 
 # The default iconv on macOS has some differences from GNU iconv, so we use the Homebrew version instead
 ifeq ($(UNAME_S),Darwin)
@@ -548,6 +554,15 @@ endif
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/driverominit.o: OPTFLAGS := -O2
 
+ifeq ($(PLATFORM),IQUE)
+# iQue's driverominit.o seems to have been patched manually. For non-matching builds we edit the source code instead.
+ifneq ($(NON_MATCHING),1)
+$(BUILD_DIR)/src/boot/driverominit.o: POSTPROCESS_OBJ := $(PYTHON) tools/patch_ique_driverominit.py
+endif
+
+$(BUILD_DIR)/src/boot/viconfig.o: OPTFLAGS := -O2
+endif
+
 $(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
 
@@ -573,17 +588,17 @@ EGCS_O_FILES += $(BUILD_DIR)/src/boot/idle.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/z_locale.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/z_std_dma.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/zlib.o
-# EGCS_O_FILES += (BUILD_DIR)/src/code/z_actor.o
+# EGCS_O_FILES += $(BUILD_DIR)/src/code/z_actor.o
 EGCS_O_FILES += $(BUILD_DIR)/src/code/z_common_data.o
 EGCS_O_FILES += $(BUILD_DIR)/src/code/z_construct.o
-# EGCS_O_FILES += (BUILD_DIR)/src/code/z_kanfont.o
-# EGCS_O_FILES += (BUILD_DIR)/src/code/z_message.o
+# EGCS_O_FILES += $(BUILD_DIR)/src/code/z_kanfont.o
+# EGCS_O_FILES += $(BUILD_DIR)/src/code/z_message.o
 EGCS_O_FILES += $(BUILD_DIR)/src/code/z_parameter.o
-# EGCS_O_FILES += (BUILD_DIR)/src/code/z_sram.o
+# EGCS_O_FILES += $(BUILD_DIR)/src/code/z_sram.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/actors/ovl_En_Mag/z_en_mag.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/actors/ovl_End_Title/z_end_title.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/actors/ovl_Fishing/z_fishing.o
-# EGCS_O_FILES += (BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o
+# EGCS_O_FILES += $(BUILD_DIR)/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/gamestates/ovl_opening/z_opening.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/gamestates/ovl_title/z_title.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_map.o
@@ -591,10 +606,17 @@ EGCS_O_FILES += $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope
 
 $(EGCS_O_FILES): CC := $(EGCS_CC)
 $(EGCS_O_FILES): CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
-$(EGCS_O_FILES): MIPS_VERSION := -mips3
+$(EGCS_O_FILES): MIPS_VERSION :=
 endif
 
-ifeq ($(DEBUG_FEATURES),1)
+ifeq ($(PLATFORM),IQUE)
+$(BUILD_DIR)/src/libc/%.o: CC := $(EGCS_CC)
+$(BUILD_DIR)/src/libc/%.o: CCAS := $(EGCS_CCAS)
+$(BUILD_DIR)/src/libc/%.o: CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
+$(BUILD_DIR)/src/libc/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
+$(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -O1
+$(BUILD_DIR)/src/libc/%.o: MIPS_VERSION :=
+else ifeq ($(DEBUG_FEATURES),1)
 $(BUILD_DIR)/src/libc/%.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/libc/%.o: ASOPTFLAGS := -g
 else
@@ -626,6 +648,9 @@ $(BUILD_DIR)/src/libultra/%.o: CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
 $(BUILD_DIR)/src/libultra/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
 $(BUILD_DIR)/src/libultra/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
 
+$(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O0
+$(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O0
+
 $(BUILD_DIR)/src/libultra/os/exceptasm.o: MIPS_VERSION := -mips3
 $(BUILD_DIR)/src/libultra/os/invaldcache.o: MIPS_VERSION := -mips3
 $(BUILD_DIR)/src/libultra/os/invalicache.o: MIPS_VERSION := -mips3
@@ -633,11 +658,17 @@ $(BUILD_DIR)/src/libultra/os/writebackdcache.o: MIPS_VERSION := -mips3
 $(BUILD_DIR)/src/libultra/os/writebackdcacheall.o: MIPS_VERSION := -mips3
 else
 $(BUILD_DIR)/src/libultra/%.o: CC := $(CC_OLD)
+
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
+$(BUILD_DIR)/src/libultra/libc/ll.o: POSTPROCESS_OBJ := $(PYTHON) tools/set_o32abi_bit.py
+
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: MIPS_VERSION := -mips3 -32
+$(BUILD_DIR)/src/libultra/libc/llcvt.o: POSTPROCESS_OBJ := $(PYTHON) tools/set_o32abi_bit.py
+
 $(BUILD_DIR)/src/libultra/os/exceptasm.o: MIPS_VERSION := -mips3 -32
+$(BUILD_DIR)/src/libultra/os/exceptasm.o: POSTPROCESS_OBJ := $(PYTHON) tools/set_o32abi_bit.py
 endif
 
 $(BUILD_DIR)/src/code/%.o: ASOPTFLAGS := -O2
@@ -715,11 +746,6 @@ $(BUILD_DIR)/src/%.o: CFLAGS += -fexec-charset=euc-jp
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/overlays/%.o: CFLAGS += -fno-merge-constants -mno-explicit-relocs -mno-split-addresses
 endif
-
-SET_ABI_BIT = @:
-$(BUILD_DIR)/src/libultra/os/exceptasm.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
-$(BUILD_DIR)/src/libultra/libc/ll.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
-$(BUILD_DIR)/src/libultra/libc/llcvt.o: SET_ABI_BIT = $(PYTHON) tools/set_o32abi_bit.py $@
 
 #### Main Targets ###
 
@@ -897,10 +923,10 @@ ifeq ($(COMPILER),ido)
 # but strip doesn't know about file-relative offsets in .mdebug and doesn't relocate them, ld will
 # segfault unless .mdebug is removed
 	$(OBJCOPY) --remove-section .mdebug $(@:.o=.tmp.o) $@
-	$(SET_ABI_BIT)
 else
 	$(CCAS) -c $(CCASFLAGS) $(MIPS_VERSION) $(ASOPTFLAGS) -o $@ $<
 endif
+	$(POSTPROCESS_OBJ) $@
 	$(OBJDUMP_CMD)
 
 # Incremental link to move z_message and z_game_over data into rodata
@@ -931,7 +957,7 @@ ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
 endif
 	$(PREPROCESS) $(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(SET_ABI_BIT)
+	$(POSTPROCESS_OBJ) $@
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/src/audio/session_init.o: src/audio/session_init.c $(BUILD_DIR)/assets/audio/soundfont_sizes.h $(BUILD_DIR)/assets/audio/sequence_sizes.h
