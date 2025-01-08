@@ -66,11 +66,12 @@ typedef char * __gnuc_va_list;
 
 /* We cast to void * and then to TYPE * because this avoids
    a warning about increasing the alignment requirement.  */
-#define va_arg(__AP, __type)                                                \
-  ((__type *) (void *) (__AP = (char *) ((__alignof__(__type) > 4           \
-                                ? ((__PTRDIFF_TYPE__)__AP + 8 - 1) & -8     \
-                                : ((__PTRDIFF_TYPE__)__AP + 4 - 1) & -4)    \
-                                         + __va_rounded_size(__type))))[-1]
+#define va_arg(__AP, __type)                                                                \
+  ((__type *) (void *) (__AP = (char *) ((__alignof__(__type) > 4                           \
+                                ? ((__PTRDIFF_TYPE__)__AP + 8 - 1) & -8                     \
+                                : ((__PTRDIFF_TYPE__)__AP + 4 - 1) & -4)                    \
+                                + __va_rounded_size (__type))),                             \
+                                *(__type *) (void *) (__AP - __va_rounded_size (__type)))
 
 typedef __gnuc_va_list va_list;
 

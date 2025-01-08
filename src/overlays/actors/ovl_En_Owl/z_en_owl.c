@@ -220,11 +220,11 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             break;
         default:
             // Outside kokiri forest
-            PRINTF(VT_FGCOL(CYAN));
+            PRINTF_COLOR_CYAN();
             PRINTF("no = %d  \n", owlType);
             PRINTF(T("未完成のフクロウ未完成のフクロウ未完成のフクロウ\n",
                      "Unfinished owl unfinished owl unfinished owl\n"));
-            PRINTF(VT_RST);
+            PRINTF_RST();
             this->actionFlags |= 2;
             this->unk_3EE = 0x20;
             this->actionFunc = EnOwl_WaitOutsideKokiri;
@@ -927,14 +927,14 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 50.0f) {
         if (!Play_InCsMode(play)) {
             owlType = PARAMS_GET_S(this->actor.params, 6, 6);
-            PRINTF(VT_FGCOL(CYAN));
+            PRINTF_COLOR_CYAN();
             PRINTF(T("%dのフクロウ\n", "%d owl\n"), owlType);
-            PRINTF(VT_RST);
+            PRINTF_RST();
             switch (owlType) {
                 case 7:
-                    PRINTF(VT_FGCOL(CYAN));
+                    PRINTF_COLOR_CYAN();
                     PRINTF(T("SPOT 06 の デモがはしった\n", "Demo of SPOT 06 has been completed\n"));
-                    PRINTF(VT_RST);
+                    PRINTF_RST();
                     play->csCtx.script = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
                     this->actor.draw = NULL;
                     break;
