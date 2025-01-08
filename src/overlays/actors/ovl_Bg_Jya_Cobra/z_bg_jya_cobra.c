@@ -140,10 +140,10 @@ void BgJyaCobra_SpawnRay(BgJyaCobra* this, PlayState* play) {
 
 #if DEBUG_FEATURES
     if (this->dyna.actor.child == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         // "Ｅｒｒｏｒ : Mir Ray occurrence failure"
         PRINTF("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 270);
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 #endif
 }
