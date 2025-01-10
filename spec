@@ -36,7 +36,11 @@ beginseg
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/boot/assert.o"
 #endif
+#if !PLATFORM_IQUE
     include "$(BUILD_DIR)/src/boot/is_debug.o"
+#else
+    include "$(BUILD_DIR)/src/boot/is_debug_ique.o"
+#endif
     include "$(BUILD_DIR)/src/boot/driverominit.o"
     include "$(BUILD_DIR)/src/boot/mio0.o"
 
