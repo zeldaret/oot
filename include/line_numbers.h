@@ -52,16 +52,16 @@
 #define LN2(ntsc_1_0, ntsc_1_1, other) \
     LN(ntsc_1_0, ntsc_1_1, other, other, other, other, other, other, other, other, other, other, other, other)
 
-// NTSC 1.0, Gamecube, and all the other versions
-#define LN3(ntsc_1_0, other, gc) \
-    LN(ntsc_1_0, other, other, other, other, gc, gc, gc, gc, gc, gc, gc, gc, gc)
+// NTSC 1.0, iQue, GameCube, and all the other versions
+#define LN3(ntsc_1_0, other, ique, gc) \
+    LN(ntsc_1_0, other, other, other, other, gc, gc, gc, gc, gc, gc, gc, gc, ique)
 
-// NTSC 1.0, NTSC 1.1, Gamecube, and all the other versions
-#define LN4(ntsc_1_0, ntsc_1_1, other, gc, ique) \
+// NTSC 1.0, NTSC 1.1, iQue, GameCube, and all the other versions
+#define LN4(ntsc_1_0, ntsc_1_1, other, ique, gc) \
     LN(ntsc_1_0, ntsc_1_1, other, other, other, gc, gc, gc, gc, gc, gc, gc, gc, ique)
 
-// NTSC 1.0, NTSC 1.1, NTSC 1.2/PAL 1.0, Gamecube US/JP, Gamecube EU, and Gamecube CE
-#define LN5(ntsc_1_0, ntsc_1_1, other, pal_1_1, gc_ntsc, gc_eu, gc_jp_ce) \
-    LN(ntsc_1_0, ntsc_1_1, other, other, pal_1_1, gc_ntsc, gc_ntsc, gc_ntsc, gc_ntsc, gc_eu, gc_eu, gc_eu, gc_jp_ce, gc_jp_ce)
+// NTSC 1.0, NTSC 1.1, NTSC 1.2/PAL 1.0, iQue, Gamecube US/JP, Gamecube EU, and Gamecube CE
+#define LN5(ntsc_1_0, ntsc_1_1, other, pal_1_1, ique, gc_ntsc, gc_eu, gc_jp_ce) \
+    LN(ntsc_1_0, ntsc_1_1, other, other, pal_1_1, gc_ntsc, gc_ntsc, gc_ntsc, gc_ntsc, gc_eu, gc_eu, gc_eu, gc_jp_ce, ique)
 
 #endif

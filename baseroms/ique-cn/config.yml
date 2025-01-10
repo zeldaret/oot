@@ -1,45 +1,45 @@
 dmadata_start: 0xB7A0
 text_lang: CN
-incbins: # TODO: fix these
+incbins:
   - name: ipl3
     segment: makerom
     vram: 0x80000040
     size: 0xFC0
   - name: rspbootText
     segment: boot
-    vram: 0x800065C0
-    size: 0x160
+    vram: 0x80009C30
+    size: 0xD0
   - name: aspMainText
     segment: code
-    vram: 0x800E3600
+    vram: 0x800EBF70
     size: 0xFB0
-  - name: gspF3DZEX2_NoN_PosLight_fifoText
-    segment: code
-    vram: 0x800E45B0
-    size: 0x1390
   - name: gspS2DEX2d_fifoText
     segment: code
-    vram: 0x800E5940
+    vram: 0x800ECF20
     size: 0x18C0
   - name: njpgdspMainText
     segment: code
-    vram: 0x800E7200
+    vram: 0x800EE7E0
     size: 0xAF0
   - name: aspMainData
     segment: code
-    vram: 0x80114990
+    vram: 0x8011FE20
     size: 0x2E0
+  - name: gspF3DZEX2_NoN_PosLight_fifoText
+    segment: code
+    vram: 0x80120100
+    size: 0x1630
   - name: gspF3DZEX2_NoN_PosLight_fifoData
     segment: code
-    vram: 0x80114C70
+    vram: 0x80121730
     size: 0x420
   - name: gspS2DEX2d_fifoData
     segment: code
-    vram: 0x80115090
+    vram: 0x80121B50
     size: 0x390
   - name: njpgdspMainData
     segment: code
-    vram: 0x80115420
+    vram: 0x80121EE0
     size: 0x60
 variables:
   gMtxClear: 0x80106980

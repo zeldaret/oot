@@ -125,10 +125,10 @@ s32 EnIshi_SnapToFloor(EnIshi* this, PlayState* play, f32 arg2) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
-        PRINTF(VT_COL(YELLOW, BLACK));
+        PRINTF_COLOR_WARNING();
         // "Failure attaching to ground"
         PRINTF("地面に付着失敗(%s %d)\n", "../z_en_ishi.c", 388);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
 }

@@ -56,7 +56,7 @@ void _Ldtob(_Pft* args, char code) {
     } else if (args->prec == 0 && (code == 'g' || code == 'G')) {
         args->prec = 1;
     }
-    err = _Ldunscale(&exp, (_Pft*)args);
+    err = _Ldunscale(&exp, args);
     if (err > 0) {
         memcpy(args->s, err == 2 ? "NaN" : "Inf", args->n1 = 3);
         return;
@@ -76,7 +76,7 @@ void _Ldtob(_Pft* args, char code) {
 
         exp = exp * 30103 / 100000 - 4;
         if (exp < 0) {
-            n = (3 - exp) & ~3;
+            n = (-exp + 3) & ~3;
             exp = -n;
             for (i = 0; n > 0; n >>= 1, i++) {
                 if ((n & 1) != 0) {
@@ -95,7 +95,7 @@ void _Ldtob(_Pft* args, char code) {
             val /= factor;
         }
 
-        gen = ((code == 'f') ? exp + 10 : 6) + args->prec;
+        gen = args->prec + ((code == 'f') ? exp + 10 : 6);
         if (gen > 0x13) {
             gen = 0x13;
         }
@@ -128,19 +128,13 @@ void _Ldtob(_Pft* args, char code) {
             --gen, --exp;
         }
 
-        nsig = ((code == 'f') ? exp + 1 : ((code == 'e' || code == 'E') ? 1 : 0)) + args->prec;
+        nsig = args->prec + ((code == 'f') ? exp + 1 : ((code == 'e' || code == 'E') ? 1 : 0));
         if (gen < nsig) {
             nsig = gen;
         }
         if (nsig > 0) {
-            char drop;
+            char drop = (nsig < gen && ptr[nsig] > '4') ? '9' : '0';
             int n2;
-
-            if (nsig < gen && ptr[nsig] > '4') {
-                drop = '9';
-            } else {
-                drop = '0';
-            }
 
             for (n2 = nsig; ptr[--n2] == drop;) {
                 nsig--;

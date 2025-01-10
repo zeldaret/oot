@@ -3,8 +3,6 @@
 #include "libc64/os_malloc.h"
 #include "terminal.h"
 
-#if !PLATFORM_N64
-
 #define FILL_ALLOC_BLOCK_FLAG (1 << 0)
 #define FILL_FREE_BLOCK_FLAG (1 << 1)
 #define CHECK_FREE_BLOCK_FLAG (1 << 2)
@@ -890,6 +888,4 @@ s32 __osCheckArena(Arena* arena) {
 u8 ArenaImpl_GetAllocFailures(Arena* arena) {
     return arena->allocFailures;
 }
-#endif
-
 #endif
