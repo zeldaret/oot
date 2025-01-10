@@ -176,6 +176,21 @@ beginseg
     include "$(BUILD_DIR)/src/boot/build.o"
     include "$(BUILD_DIR)/data/rsp_boot.text.o"
     include "$(BUILD_DIR)/data/cic6105.text.o"
+
+#if PLATFORM_IQUE && !defined(COMPILER_GCC)
+    include "$(BUILD_DIR)/src/libgcc/__divdi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__moddi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__udivdi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__umoddi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__cmpdi2.o"
+    include "$(BUILD_DIR)/src/libgcc/__floatdidf.o"
+    include "$(BUILD_DIR)/src/libgcc/__floatdisf.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixunsdfdi.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixdfdi.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixunssfdi.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixsfdi.o"
+#endif
+
 #ifdef COMPILER_GCC
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
