@@ -569,9 +569,9 @@ ifeq ($(PLATFORM),IQUE)
 # Some files are compiled with EGCS on iQue
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/boot_main.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/idle.o
+EGCS_O_FILES += $(BUILD_DIR)/src/boot/inflate.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/z_locale.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/z_std_dma.o
-EGCS_O_FILES += $(BUILD_DIR)/src/boot/zlib.o
 # EGCS_O_FILES += $(BUILD_DIR)/src/code/z_actor.o
 EGCS_O_FILES += $(BUILD_DIR)/src/code/z_common_data.o
 EGCS_O_FILES += $(BUILD_DIR)/src/code/z_construct.o

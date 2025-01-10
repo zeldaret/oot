@@ -3,7 +3,7 @@ offset,vram,.text
 140,80000590,src/boot/idle
 390,800007E0,src/boot/viconfig
 4D0,80000920,src/boot/z_std_dma
-B50,80000FA0,src/boot/zlib
+B50,80000FA0,src/boot/inflate
 2830,80002C80,src/boot/z_locale
 2870,80002CC0,src/boot/is_debug
 2890,80002CE0,src/boot/driverominit
@@ -96,7 +96,7 @@ offset,vram,.data
 98F0,80009D40,src/boot/viconfig
 9910,80009D60,src/boot/carthandle
 9920,80009D70,src/boot/z_std_dma
-9930,80009D80,src/boot/zlib
+9930,80009D80,src/boot/inflate
 9AB0,80009F00,src/boot/z_locale
 9AC0,80009F10,src/boot/driverominit
 9AD0,80009F20,src/libu64/stackcheck
@@ -133,7 +133,7 @@ A750,8000ABA0,data/boot_common_8000ABA0
 A7A0,8000ABF0,src/boot/boot_main
 B190,8000B5E0,src/boot/idle
 BD90,8000C1E0,src/boot/z_std_dma
-C500,8000C950,src/boot/zlib
+C500,8000C950,src/boot/inflate
 10310,80010760,src/boot/driverominit
 10390,800107E0,src/libultra/io/vimgr
 115B0,80011A00,src/libultra/io/pimgr
