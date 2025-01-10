@@ -569,7 +569,7 @@ ifeq ($(PLATFORM),IQUE)
 # Some files are compiled with EGCS on iQue
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/boot_main.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/idle.o
-EGCS_O_FILES += $(BUILD_DIR)/src/boot/inflate.o
+EGCS_O_FILES += $(BUILD_DIR)/src/boot/is_debug_ique.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/z_locale.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/z_std_dma.o
 # EGCS_O_FILES += $(BUILD_DIR)/src/code/z_actor.o
@@ -589,7 +589,7 @@ EGCS_O_FILES += $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_map.o
 EGCS_O_FILES += $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope.o
 
 $(EGCS_O_FILES): CC := $(EGCS_CC)
-$(EGCS_O_FILES): CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
+$(EGCS_O_FILES): CFLAGS := $(EGCS_CFLAGS) -mno-abicalls -funsigned-char
 $(EGCS_O_FILES): MIPS_VERSION :=
 endif
 
