@@ -66,7 +66,7 @@ typedef union {
     DItype ll;
 } DIunion;
 
-extern DItype __fixunssfdi(SFtype a);
+extern DItype __fixunssfdi(SFtype original_a);
 extern DItype __fixunsdfdi(DFtype a);
 
 #if defined(L_divdi3) || defined(L_moddi3)
@@ -134,8 +134,9 @@ static inline UDItype __udivmoddi4(UDItype n, UDItype d, UDItype* rp) {
         } else {
             /* qq = NN / 0d */
 
-            if (d0 == 0)
+            if (d0 == 0) {
                 d0 = 1 / d0; /* Divide intentionally by zero.  */
+            }
 
             count_leading_zeros(bm, d0);
 
@@ -203,8 +204,9 @@ static inline UDItype __udivmoddi4(UDItype n, UDItype d, UDItype* rp) {
                 if (n1 > d1 || n0 >= d0) {
                     q0 = 1;
                     sub_ddmmss(n1, n0, n1, n0, d1, d0);
-                } else
+                } else {
                     q0 = 0;
+                }
 
                 q1 = 0;
 
@@ -261,14 +263,17 @@ DItype __divdi3(DItype u, DItype v) {
     uu.ll = u;
     vv.ll = v;
 
-    if (uu.s.high < 0)
+    if (uu.s.high < 0) {
         c = ~c, uu.ll = __negdi2(uu.ll);
-    if (vv.s.high < 0)
+    }
+    if (vv.s.high < 0) {
         c = ~c, vv.ll = __negdi2(vv.ll);
+    }
 
     w = __udivmoddi4(uu.ll, vv.ll, (UDItype*)0);
-    if (c)
+    if (c) {
         w = __negdi2(w);
+    }
 
     return w;
 }
@@ -283,14 +288,17 @@ DItype __moddi3(DItype u, DItype v) {
     uu.ll = u;
     vv.ll = v;
 
-    if (uu.s.high < 0)
+    if (uu.s.high < 0) {
         c = ~c, uu.ll = __negdi2(uu.ll);
-    if (vv.s.high < 0)
+    }
+    if (vv.s.high < 0) {
         vv.ll = __negdi2(vv.ll);
+    }
 
     (void)__udivmoddi4(uu.ll, vv.ll, (UDItype*)&w);
-    if (c)
+    if (c) {
         w = __negdi2(w);
+    }
 
     return w;
 }
@@ -318,14 +326,16 @@ word_type __cmpdi2(DItype a, DItype b) {
 
     au.ll = a, bu.ll = b;
 
-    if (au.s.high < bu.s.high)
+    if (au.s.high < bu.s.high) {
         return 0;
-    else if (au.s.high > bu.s.high)
+    } else if (au.s.high > bu.s.high) {
         return 2;
-    if ((USItype)au.s.low < (USItype)bu.s.low)
+    }
+    if ((USItype)au.s.low < (USItype)bu.s.low) {
         return 0;
-    else if ((USItype)au.s.low > (USItype)bu.s.low)
+    } else if ((USItype)au.s.low > (USItype)bu.s.low) {
         return 2;
+    }
     return 1;
 }
 #endif
@@ -335,8 +345,9 @@ DItype __fixunsdfdi(DFtype a) {
     DFtype b;
     UDItype v;
 
-    if (a < 0)
+    if (a < 0) {
         return 0;
+    }
 
     /* Compute high word of result, as a flonum.  */
     b = (a / HIGH_WORD_COEFF);
@@ -349,18 +360,20 @@ DItype __fixunsdfdi(DFtype a) {
     /* Convert that to fixed (but not to DItype!) and add it in.
        Sometimes A comes out negative.  This is significant, since
        A has more bits than a long int does.  */
-    if (a < 0)
+    if (a < 0) {
         v -= (USItype)(-a);
-    else
+    } else {
         v += (USItype)a;
+    }
     return v;
 }
 #endif
 
 #ifdef L_fixdfdi
 DItype __fixdfdi(DFtype a) {
-    if (a < 0)
+    if (a < 0) {
         return -__fixunsdfdi(-a);
+    }
     return __fixunsdfdi(a);
 }
 #endif
@@ -374,8 +387,9 @@ DItype __fixunssfdi(SFtype original_a) {
     DFtype b;
     UDItype v;
 
-    if (a < 0)
+    if (a < 0) {
         return 0;
+    }
 
     /* Compute high word of result, as a flonum.  */
     b = (a / HIGH_WORD_COEFF);
@@ -388,18 +402,20 @@ DItype __fixunssfdi(SFtype original_a) {
     /* Convert that to fixed (but not to DItype!) and add it in.
        Sometimes A comes out negative.  This is significant, since
        A has more bits than a long int does.  */
-    if (a < 0)
+    if (a < 0) {
         v -= (USItype)(-a);
-    else
+    } else {
         v += (USItype)a;
+    }
     return v;
 }
 #endif
 
 #ifdef L_fixsfdi
 DItype __fixsfdi(SFtype a) {
-    if (a < 0)
+    if (a < 0) {
         return -__fixunssfdi(-a);
+    }
     return __fixunssfdi(a);
 }
 #endif
@@ -433,8 +449,9 @@ SFtype __floatdisf(DItype u) {
     if (DF_SIZE < DI_SIZE && DF_SIZE > (DI_SIZE - DF_SIZE + SF_SIZE)) {
 #define REP_BIT ((USItype)1 << (DI_SIZE - DF_SIZE))
         if (!(-((DItype)1 << DF_SIZE) < u && u < ((DItype)1 << DF_SIZE))) {
-            if ((USItype)u & (REP_BIT - 1))
+            if ((USItype)u & (REP_BIT - 1)) {
                 u |= REP_BIT;
+            }
         }
     }
     f = (SItype)(u >> WORD_SIZE);
