@@ -808,6 +808,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/perspective.o"
     include "$(BUILD_DIR)/src/libultra/io/sprawdma.o"
     include "$(BUILD_DIR)/src/libultra/io/sirawdma.o"
+    include "$(BUILD_DIR)/src/libultra/bb/sk/skapi.o" // TODO temporary
     include "$(BUILD_DIR)/src/libultra/io/sptaskyield.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
