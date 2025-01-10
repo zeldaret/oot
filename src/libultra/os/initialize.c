@@ -76,7 +76,7 @@ void OSINITIALIZE_FUNC(void) {
             ((y & (MI_EX_INTR_MASK_FLASH | MI_EX_INTR_MASK_IDE)) == 0);
     }
 
-    //! @bug Most games do not have permission to use GPIO so often cannot correctly tell if they are HW V1 or V2.
+    //! @bug Most games do not have permission to use GPIO, so often cannot correctly tell if they are HW V1 or V2.
     if (__osBbIsBb && PI_GPIO_IS_HW_V2(IO_READ(PI_GPIO_REG))) {
         __osBbIsBb = 2;
     }
@@ -141,7 +141,9 @@ void OSINITIALIZE_FUNC(void) {
 
 #ifdef BBPLAYER
     if (!__osBbIsBb) {
-        // In a real iQue Player environment these are set on app launch
+        // In a real iQue Player environment (that is, real hardware + app launched from the system menu)
+        // these are set on app launch by the system menu based on the contents of the game's associated
+        // ticket. Set some dummy values if not running on iQue Player hardware.
         __osBbEepromSize = 0x200;
         __osBbPakSize = 0x8000;
         __osBbFlashSize = 0x20000;
