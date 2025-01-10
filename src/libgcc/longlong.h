@@ -16,7 +16,7 @@
    Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */
 
-/* Modified by ZeldaRET to keep only the parts that are relevant to the N64.  */
+/* Modified by ZeldaRET to keep only the parts that are relevant to the iQue build of OoT.  */
 
 #define __BITS4 (SI_TYPE_SIZE / 4)
 #define __ll_B (1L << (SI_TYPE_SIZE / 2))

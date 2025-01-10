@@ -26,7 +26,7 @@ Boston, MA 02111-1307, USA.  */
    This exception does not however invalidate any other reasons why
    the executable file might be covered by the GNU General Public License.  */
 
-/* Modified by ZeldaRET to keep only the parts that are relevant to the N64.  */
+/* Modified by ZeldaRET to keep only the parts that are relevant to the iQue build of OoT.  */
 
 #include "ultra64/ultratypes.h"
 
