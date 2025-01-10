@@ -28,7 +28,7 @@
 #endif
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:82 pal-1.0:80 pal-1.1:80"
+                               "ntsc-1.2:78 pal-1.0:76 pal-1.1:76"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
@@ -272,7 +272,7 @@ NORETURN void DmaMgr_Error(DmaRequest* req, const char* filename, const char* er
     char buff2[80];
 
     PRINTF("%c", BEL);
-    PRINTF(VT_FGCOL(RED));
+    PRINTF_COLOR_RED();
     PRINTF(T("DMA致命的エラー(%s)\nROM:%X RAM:%X SIZE:%X %s\n", "DMA Fatal Error (%s)\nROM:%X RAM:%X SIZE:%X %s\n"),
            errorDesc != NULL ? errorDesc : (errorName != NULL ? errorName : "???"), vrom, ram, size,
            filename != NULL ? filename : "???");
@@ -283,7 +283,7 @@ NORETURN void DmaMgr_Error(DmaRequest* req, const char* filename, const char* er
         PRINTF("DMA ERROR: %s %d", sDmaMgrCurFileName, sDmaMgrCurFileLine);
     }
 
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     if (req->filename != NULL) {
         sprintf(buff1, "DMA ERROR: %s %d", req->filename, req->line);
@@ -441,7 +441,13 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
                 // Reduce the thread priority and decompress the file, the decompression routine handles the DMA
                 // in chunks. Restores the thread priority when done.
                 osSetThreadPri(NULL, THREAD_PRI_DMAMGR_LOW);
+
+#if !PLATFORM_IQUE
                 Yaz0_Decompress(romStart, ram, romSize);
+#else
+                gzip_decompress(romStart, ram, romSize);
+#endif
+
                 osSetThreadPri(NULL, THREAD_PRI_DMAMGR);
                 found = true;
 
@@ -562,12 +568,12 @@ s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size,
     if (1 && (sDmaMgrQueueFullLogged == 0) && MQ_IS_FULL(&sDmaMgrMsgQueue)) {
         sDmaMgrQueueFullLogged++;
         PRINTF("%c", BEL);
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("dmaEntryMsgQが一杯です。キューサイズの再検討をおすすめします。",
                  "dmaEntryMsgQ is full. Reconsider your queue size."));
         LOG_NUM("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgBuf), "../z_std_dma.c",
                 952);
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 #endif
 

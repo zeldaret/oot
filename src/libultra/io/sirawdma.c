@@ -1,4 +1,5 @@
 #include "global.h"
+#include "ultra64/bbskapi.h"
 
 #define PIF_RAM_SIZE (PIF_RAM_END + 1 - PIF_RAM_START)
 
@@ -11,6 +12,13 @@ s32 __osSiRawStartDma(s32 dir, void* addr) {
     }
     IO_WRITE(SI_DRAM_ADDR_REG, osVirtualToPhysical(addr));
     if (dir == OS_READ) {
+#ifdef BBPLAYER
+        if (__osBbIsBb) {
+            register u32 mask = __osDisableInt();
+            skKeepAlive();
+            __osRestoreInt(mask);
+        }
+#endif
         IO_WRITE(SI_PIF_ADDR_RD64B_REG, PIF_RAM_START);
     } else {
         IO_WRITE(SI_PIF_ADDR_WR64B_REG, PIF_RAM_START);

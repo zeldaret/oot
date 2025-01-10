@@ -6,6 +6,9 @@
 
 beginseg
     name "makerom"
+    // We set the address of the makerom segment as 0x80000400 - 0x1000, since the ROM header and IPL3 together
+    // are 0x1000 bytes long and we want the entry code to end up at address 0x80000400.
+    address 0x7FFFF400
     include "$(BUILD_DIR)/src/makerom/rom_header.o"
     include "$(BUILD_DIR)/src/makerom/ipl3.o"
     include "$(BUILD_DIR)/src/makerom/entry.o"
@@ -13,7 +16,6 @@ endseg
 
 beginseg
     name "boot"
-    address 0x80000460
     include "$(BUILD_DIR)/src/boot/boot_main.o"
     include "$(BUILD_DIR)/src/boot/idle.o"
 #if OOT_VERSION >= PAL_1_0
@@ -21,7 +23,11 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/boot/carthandle.o"
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
+#if !PLATFORM_IQUE
     include "$(BUILD_DIR)/src/boot/yaz0.o"
+#else
+    include "$(BUILD_DIR)/src/boot/inflate.o"
+#endif
     include "$(BUILD_DIR)/src/boot/z_locale.o"
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/boot/cic6105.o"
@@ -821,6 +827,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/perspective.o"
     include "$(BUILD_DIR)/src/libultra/io/sprawdma.o"
     include "$(BUILD_DIR)/src/libultra/io/sirawdma.o"
+    include "$(BUILD_DIR)/src/libultra/bb/sk/skapi.o" // TODO temporary
     include "$(BUILD_DIR)/src/libultra/io/sptaskyield.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"

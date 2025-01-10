@@ -11,7 +11,7 @@
 #define ATOI(i, a)                \
     for (i = 0; isdigit(*a); a++) \
         if (i < 999)              \
-            i = *a + i * 10 - '0';
+            i = i * 10 + *a - '0';
 
 #define PUT(fmt, _size)             \
     if (_size > 0) {                \
@@ -93,11 +93,7 @@ int _Printf(PrintCallback pfn, void* arg, const char* fmt, va_list ap) {
             }
         }
 
-        if (strchr("hlL", *s) != NULL) {
-            x.qual = *s++;
-        } else {
-            x.qual = '\0';
-        }
+        x.qual = (strchr("hlL", *s) != NULL) ? *s++ : '\0';
 
         if (x.qual == 'l' && *s == 'l') {
             x.qual = 'L';
@@ -126,7 +122,7 @@ static void _Putfld(_Pft* px, va_list* pap, char code, char* ac) {
 
     switch (code) {
         case 'c':
-            ac[px->n0++] = va_arg(*pap, unsigned int);
+            ac[px->n0++] = va_arg(*pap, int);
             break;
 
         case 'd':

@@ -15,7 +15,11 @@ s32 osContStartQuery(OSMesgQueue* mq) {
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
     }
     ret = __osSiRawStartDma(OS_READ, &__osContPifRam);
+#ifdef BBPLAYER
+    __osContLastCmd = CONT_CMD_CHANNEL_RESET;
+#else
     __osContLastCmd = CONT_CMD_REQUEST_STATUS;
+#endif
     __osSiRelAccess();
     return ret;
 }

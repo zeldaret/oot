@@ -12,7 +12,11 @@ void ViConfig_UpdateBlack(void);
 void* Yaz0_FirstDMA(void);
 void* Yaz0_NextDMA(u8* curSrcPos);
 void Yaz0_DecompressImpl(u8* src, u8* dst);
+#if !PLATFORM_IQUE
 void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
+#else
+void gzip_decompress(uintptr_t romStart, u8* dst, size_t size);
+#endif
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 #if DEBUG_FEATURES
