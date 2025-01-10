@@ -76,7 +76,8 @@ void OSINITIALIZE_FUNC(void) {
             ((y & (MI_EX_INTR_MASK_FLASH | MI_EX_INTR_MASK_IDE)) == 0);
     }
 
-    //! @bug Most games do not have permission to use GPIO, so often cannot correctly tell if they are HW V1 or V2.
+    //! @bug Most games do not have permission to use GPIO, so they often cannot correctly tell if they are runnong on
+    //! HW V1 or V2.
     if (__osBbIsBb && PI_GPIO_IS_HW_V2(IO_READ(PI_GPIO_REG))) {
         __osBbIsBb = 2;
     }
