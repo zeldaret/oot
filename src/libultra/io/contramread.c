@@ -2,9 +2,12 @@
 
 #define BLOCKSIZE 32
 
+#ifndef BBPLAYER
 s32 __osPfsLastChannel = -1;
+#endif
 
 s32 __osContRamRead(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
+#ifndef BBPLAYER
     s32 ret;
     s32 i;
     u8* ptr;
@@ -60,4 +63,26 @@ s32 __osContRamRead(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
     __osSiRelAccess();
 
     return ret;
+#else
+    s32 ret;
+
+    __osSiGetAccess();
+
+    ret = 0;
+    if (__osBbPakAddress[channel] != 0) {
+        if (__osBbPakSize - 0x20 >= addr * 0x20) {
+            s32 i;
+
+            for (i = 0; i < 0x20; i++) {
+                data[i] = *(u8*)(__osBbPakAddress[channel] + addr * 0x20 + i);
+            }
+        }
+    } else {
+        ret = PFS_ERR_NOPACK;
+    }
+
+    __osSiRelAccess();
+
+    return ret;
+#endif
 }

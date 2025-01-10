@@ -116,7 +116,7 @@ LEAF(osSetIntMask)
     la      t0, __OSGlobalIntMask
     lw      t3, (t0)
      /* Bitwise-OR in the disabled CPU bits of __OSGlobalIntMask */
-    xor     t0, t3, ~0
+    xor     t0, t3, 0xFFFFFFFF
     and     t0, t0, SR_IMASK
     or      v0, v0, t0
      /* Fetch MI_INTR_MASK_REG */
@@ -125,7 +125,7 @@ LEAF(osSetIntMask)
     beqz    t2, 1f
      srl    t1, t3, RCP_IMASKSHIFT
     /* Bitwise-OR in the disabled RCP bits of __OSGlobalIntMask */
-    xor     t1, t1, ~0
+    xor     t1, t1, 0xFFFFFFFF
     and     t1, t1, (RCP_IMASK >> RCP_IMASKSHIFT)
     or      t2, t2, t1
 1:
