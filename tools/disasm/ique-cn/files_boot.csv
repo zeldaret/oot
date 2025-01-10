@@ -5,7 +5,7 @@ offset,vram,.text
 4D0,80000920,src/boot/z_std_dma
 B50,80000FA0,src/boot/inflate
 2830,80002C80,src/boot/z_locale
-2870,80002CC0,src/boot/is_debug
+2870,80002CC0,src/boot/is_debug_ique
 2890,80002CE0,src/boot/driverominit
 2A70,80002EC0,src/boot/mio0
 2B20,80002F70,src/libu64/stackcheck

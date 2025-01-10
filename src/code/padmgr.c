@@ -327,7 +327,7 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
             default:
                 // Unknown error response
                 LOG_HEX("padnow1->errno", pad->errno, "../padmgr.c", 396);
-                Fault_AddHungupAndCrash("../padmgr.c", LN3(379, 382, 397));
+                Fault_AddHungupAndCrash("../padmgr.c", LN3(379, 382, 397, 397));
                 break;
         }
 
