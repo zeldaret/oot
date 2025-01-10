@@ -445,7 +445,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
 #if !PLATFORM_IQUE
                 Yaz0_Decompress(romStart, ram, romSize);
 #else
-                Zlib_Decompress(romStart, ram, romSize);
+                gzip_decompress(romStart, ram, romSize);
 #endif
 
                 osSetThreadPri(NULL, THREAD_PRI_DMAMGR);

@@ -40,8 +40,6 @@
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
-#if !PLATFORM_N64
-
 #pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-eu-mq-dbg:160 gc-jp:176 gc-jp-ce:176 gc-jp-mq:176 gc-us:176" \
                                "gc-us-mq:176"
 
@@ -1340,5 +1338,3 @@ NORETURN void Fault_AddHungupAndCrash(const char* file, int line) {
     sprintf(msg, "HungUp %s:%d", file, line);
     Fault_AddHungupAndCrashImpl(msg, NULL);
 }
-
-#endif

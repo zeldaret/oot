@@ -27,7 +27,7 @@ beginseg
 #if !PLATFORM_IQUE
     include "$(BUILD_DIR)/src/boot/yaz0.o"
 #else
-    include "$(BUILD_DIR)/src/boot/zlib.o"
+    include "$(BUILD_DIR)/src/boot/inflate.o"
 #endif
     include "$(BUILD_DIR)/src/boot/z_locale.o"
 #if PLATFORM_N64
