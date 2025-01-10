@@ -25,6 +25,7 @@ extern u32 __osBbPakAddress[4];
 extern u32 __osBbFlashAddress;
 extern u32 __osBbSramSize;
 extern u32 __osBbSramAddress;
+extern u32 __osBbHackFlags;
 
 extern s8 D_80009430;
 extern vu8 gViConfigBlack;
