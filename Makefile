@@ -214,7 +214,7 @@ else ifeq ($(PLATFORM),GC)
   LIBULTRA_VERSION := L
   LIBULTRA_PATCH := 0
 else ifeq ($(PLATFORM),IQUE)
-  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=0 -DPLATFORM_IQUE=1 -DBBPLAYER
+  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=0 -DPLATFORM_IQUE=1
   LIBULTRA_VERSION := L
   LIBULTRA_PATCH := 0
 else
@@ -702,7 +702,11 @@ else
 $(BUILD_DIR)/src/libultra/gu/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/io/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/libc/%.o: OPTFLAGS := -O2
+ifeq ($(PLATFORM),IQUE)
+$(BUILD_DIR)/src/libultra/os/%.o: OPTFLAGS := -O0
+else
 $(BUILD_DIR)/src/libultra/os/%.o: OPTFLAGS := -O1
+endif
 endif
 
 $(BUILD_DIR)/src/libleo/%.o: CC := $(CC_OLD)
