@@ -4,10 +4,8 @@
 #ifdef _LANGUAGE_C
 #include "ultratypes.h"
 #define U32(x) ((u32)x)
-#define C_REG(x) (x)
 #else
 #define U32(x) (x)
-#define C_REG(x) $x
 #endif
 
 /* Segment base addresses and sizes */
@@ -312,33 +310,64 @@
 #define WATCHHI_VALIDMASK   0x0000000F
 
 /* Coprocessor 0 registers */
-#define C0_INX          C_REG(0)
-#define C0_RAND         C_REG(1)
-#define C0_ENTRYLO0     C_REG(2)
-#define C0_ENTRYLO1     C_REG(3)
-#define C0_CONTEXT      C_REG(4)
-#define C0_PAGEMASK     C_REG(5)    /* page mask                        */
-#define C0_WIRED        C_REG(6)    /* # wired entries in tlb           */
-#define C0_BADVADDR     C_REG(8)
-#define C0_COUNT        C_REG(9)    /* free-running counter             */
-#define C0_ENTRYHI      C_REG(10)
-#define C0_COMPARE      C_REG(11)   /* counter comparison reg.          */
-#define C0_SR           C_REG(12)
-#define C0_CAUSE        C_REG(13)
-#define C0_EPC          C_REG(14)
-#define C0_PRID         C_REG(15)   /* revision identifier              */
-#define C0_CONFIG       C_REG(16)   /* hardware configuration           */
-#define C0_LLADDR       C_REG(17)   /* load linked address              */
-#define C0_WATCHLO      C_REG(18)   /* watchpoint                       */
-#define C0_WATCHHI      C_REG(19)   /* watchpoint                       */
-#define C0_ECC          C_REG(26)   /* S-cache ECC and primary parity   */
-#define C0_CACHE_ERR    C_REG(27)   /* cache error status               */
-#define C0_TAGLO        C_REG(28)   /* cache operations                 */
-#define C0_TAGHI        C_REG(29)   /* cache operations                 */
-#define C0_ERROR_EPC    C_REG(30)   /* ECC error prg. counter           */
+#ifdef _LANGUAGE_C
+#define C0_INX          0
+#define C0_RAND         1
+#define C0_ENTRYLO0     2
+#define C0_ENTRYLO1     3
+#define C0_CONTEXT      4
+#define C0_PAGEMASK     5       /* page mask                        */
+#define C0_WIRED        6       /* # wired entries in tlb           */
+#define C0_BADVADDR     8
+#define C0_COUNT        9       /* free-running counter             */
+#define C0_ENTRYHI      10
+#define C0_COMPARE      11      /* counter comparison reg.          */
+#define C0_SR           12
+#define C0_CAUSE        13
+#define C0_EPC          14
+#define C0_PRID         15      /* revision identifier              */
+#define C0_CONFIG       16      /* hardware configuration           */
+#define C0_LLADDR       17      /* load linked address              */
+#define C0_WATCHLO      18      /* watchpoint                       */
+#define C0_WATCHHI      19      /* watchpoint                       */
+#define C0_ECC          26      /* S-cache ECC and primary parity   */
+#define C0_CACHE_ERR    27      /* cache error status               */
+#define C0_TAGLO        28      /* cache operations                 */
+#define C0_TAGHI        29      /* cache operations                 */
+#define C0_ERROR_EPC    30      /* ECC error prg. counter           */
+#else
+#define C0_INX          $0
+#define C0_RAND         $1
+#define C0_ENTRYLO0     $2
+#define C0_ENTRYLO1     $3
+#define C0_CONTEXT      $4
+#define C0_PAGEMASK     $5      /* page mask                        */
+#define C0_WIRED        $6      /* # wired entries in tlb           */
+#define C0_BADVADDR     $8
+#define C0_COUNT        $9      /* free-running counter             */
+#define C0_ENTRYHI      $10
+#define C0_COMPARE      $11     /* counter comparison reg.          */
+#define C0_SR           $12
+#define C0_CAUSE        $13
+#define C0_EPC          $14
+#define C0_PRID         $15     /* revision identifier              */
+#define C0_CONFIG       $16     /* hardware configuration           */
+#define C0_LLADDR       $17     /* load linked address              */
+#define C0_WATCHLO      $18     /* watchpoint                       */
+#define C0_WATCHHI      $19     /* watchpoint                       */
+#define C0_ECC          $26     /* S-cache ECC and primary parity   */
+#define C0_CACHE_ERR    $27     /* cache error status               */
+#define C0_TAGLO        $28     /* cache operations                 */
+#define C0_TAGHI        $29     /* cache operations                 */
+#define C0_ERROR_EPC    $30     /* ECC error prg. counter           */
+#endif
 
 /* floating-point status register */
-#define C1_FPCSR        C_REG(31)
+#ifdef _LANGUAGE_C
+#define C1_FPCSR        31
+#else
+#define C1_FPCSR        $31
+#endif
 
 #define FPCSR_FS        0x01000000  /* flush denorm to zero             */
 #define FPCSR_C         0x00800000  /* condition bit                    */

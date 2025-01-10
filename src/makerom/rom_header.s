@@ -6,9 +6,12 @@
 /* 0x00 */ ENDIAN_IDENTIFIER
 /* 0x01 */ PI_DOMAIN_1_CFG(64, 18, 7, 3)
 /* 0x04 */ SYSTEM_CLOCK_RATE_SETTING(0xF)
-/* 0x08 */ ENTRYPOINT(0x80000400)
+/* 0x08 */ ENTRYPOINT(entrypoint)
 /* 0x0C */ OS_VERSION(2, 0, LIBULTRA_VERSION)
 /* 0x10 */ CHECKSUM()
+
+#if !PLATFORM_IQUE
+
 /* 0x18 */ PADDING(8)
 /* 0x20 */ ROM_NAME("THE LEGEND OF ZELDA")
 /* 0x34 */ PADDING(7)
@@ -26,3 +29,9 @@
 /* 0x3E */ REGION(PAL)
 #endif
 /* 0x3F */ GAME_REVISION(OOT_REVISION)
+
+#else
+
+    .fill 0x40 - 0x18
+
+#endif

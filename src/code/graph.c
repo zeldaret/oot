@@ -188,9 +188,9 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
         if (msg == (OSMesg)666) {
 #if DEBUG_FEATURES
-            PRINTF(VT_FGCOL(RED));
+            PRINTF_COLOR_RED();
             PRINTF(T("RCPが帰ってきませんでした。", "RCP did not return."));
-            PRINTF(VT_RST);
+            PRINTF_RST();
 
             LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
             LogUtils_LogHexDump((void*)PHYS_TO_K1(DPC_BASE_REG), 0x20);
