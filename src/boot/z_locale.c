@@ -38,7 +38,7 @@ void Locale_Init(void) {
             break;
 #endif
         default:
-            PRINTF(VT_COL(RED, WHITE));
+            PRINTF_COLOR_ERROR();
             PRINTF(T("z_locale_init: 日本用かアメリカ用か判別できません\n",
                      "z_locale_init: Can't tell if it's for Japan or America\n"));
             LogUtils_HungupThread("../z_locale.c", LN4(86, 92, 101, UNK_LINE, 118));

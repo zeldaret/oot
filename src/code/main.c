@@ -24,7 +24,7 @@ extern struct IrqMgr gIrqMgr;
 #endif
 
 #pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
-                               "ntsc-1.0:141 ntsc-1.1:141 ntsc-1.2:141 pal-1.0:139 pal-1.1:139"
+                               "ntsc-1.0:138 ntsc-1.1:138 ntsc-1.2:138 pal-1.0:136 pal-1.1:136"
 
 extern u8 _buffersSegmentEnd[];
 
@@ -59,11 +59,11 @@ OSMesg sSerialMsgBuf[1];
 
 #if DEBUG_FEATURES
 void Main_LogSystemHeap(void) {
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF(
         T("システムヒープサイズ %08x(%dKB) 開始アドレス %08x\n", "System heap size %08x (%dKB) Start address %08x\n"),
         gSystemHeapSize, gSystemHeapSize / 1024, _buffersSegmentEnd);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 }
 #endif
 

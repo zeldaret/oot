@@ -88,8 +88,28 @@ void __osPfsGetInitData(u8* pattern, OSContStatus* contData) {
         }
 
         contData->type = ((req.typel << 8) | req.typeh);
+#ifdef BBPLAYER
+        contData->status = __osBbPakAddress[i] != 0;
+#else
         contData->status = req.status;
+#endif
         bits |= (1 << i);
     }
+
+#ifdef BBPLAYER
+    if (__osBbIsBb && __osBbHackFlags != 0) {
+        OSContStatus tmp;
+
+        bits = (bits & ~((1 << __osBbHackFlags) | 1)) | ((bits & 1) << __osBbHackFlags) |
+               ((bits & (1 << __osBbHackFlags)) >> __osBbHackFlags);
+
+        contData -= __osMaxControllers;
+
+        tmp = contData[0];
+        contData[0] = contData[__osBbHackFlags];
+        contData[__osBbHackFlags] = tmp;
+    }
+#endif
+
     *pattern = bits;
 }
