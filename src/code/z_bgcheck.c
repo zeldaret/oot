@@ -2,7 +2,7 @@
 #include "terminal.h"
 #include "line_numbers.h"
 
-#pragma increment_block_number "ntsc-1.0:120 ntsc-1.1:120 ntsc-1.2:120"
+#pragma increment_block_number "ntsc-1.0:112 ntsc-1.1:112 ntsc-1.2:112"
 
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);
