@@ -41,7 +41,7 @@ IPL_SYMBOL(__osBbStateName,       0x800003A4, 0x10)
 IPL_SYMBOL(__osBbStateDirty,      0x800003B4, 4)
 IPL_SYMBOL(__osBbAuxDataLimit,    0x800003B8, 4)
 
-.space 0x30
+.space 0x10
 
 #endif
 
