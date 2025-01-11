@@ -1,6 +1,7 @@
 <Root>
     <File Name="bdan_scene" Segment="2">
-        <Cutscene Name="gJabuJabuIntroCs" Offset="0x155E0"/>
+        <Cutscene Name="gJabuIntroCs" Offset="0x155E0"/>
+        <Cutscene Name="gJabuRutoObtainingSapphireUnusedCs" Offset="0x13080"/>
         <Scene Name="bdan_scene" Offset="0x0"/>
     </File>
     <File Name="bdan_room_0" Segment="3">

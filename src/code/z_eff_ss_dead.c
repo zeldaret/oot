@@ -30,7 +30,7 @@ void func_80026400(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
     Gfx* displayListHead;
     f32 cos;
 
-#if !PLATFORM_N64
+#if PLATFORM_GC
     if (arg3 == 0) {
         return;
     }

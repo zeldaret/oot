@@ -125,10 +125,10 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
     }
 
     if (i == ARRAY_COUNT(D_8089B9F0)) {
-        PRINTF(VT_COL(RED, WHITE));
+        PRINTF_COLOR_ERROR();
         PRINTF("home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 299,
                this->dyna.actor.params);
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 
     this->unk_16E = D_8089B9F8[this->unk_168];

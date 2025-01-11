@@ -16,7 +16,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #if !PLATFORM_GC
 #define KALEIDO_PROMPT_CURSOR_R 100
@@ -1877,10 +1877,10 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 #if DEBUG_FEATURES
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (YREG(7) != 0) {
-                PRINTF(VT_FGCOL(YELLOW));
+                PRINTF_COLOR_YELLOW();
                 PRINTF("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAGS(YREG(6)),
                        gAreaGsFlags[YREG(6)], gSaveContext.save.info.gsFlags[YREG(6) >> 2]);
-                PRINTF(VT_RST);
+                PRINTF_RST();
 
                 YREG(7) = 0;
                 SET_GS_FLAGS(D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]],
@@ -4554,7 +4554,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.healthAccumulator = 0;
                         gSaveContext.magicState = MAGIC_STATE_IDLE;
                         gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
-                        PRINTF(VT_FGCOL(YELLOW));
+                        PRINTF_COLOR_YELLOW();
                         PRINTF("MAGIC_NOW=%d ", gSaveContext.save.info.playerData.magic);
                         PRINTF("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.magicFillTarget);
                         gSaveContext.magicCapacity = 0;
@@ -4565,7 +4565,7 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.magic = 0;
                         PRINTF("MAGIC_NOW=%d ", gSaveContext.save.info.playerData.magic);
                         PRINTF("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
-                        PRINTF(VT_RST);
+                        PRINTF_RST();
                     } else {
                         play->state.running = false;
                         SET_NEXT_GAMESTATE(&play->state, TitleSetup_Init, TitleSetupState);
@@ -4636,13 +4636,13 @@ void KaleidoScope_Update(PlayState* play) {
             gSaveContext.buttonStatus[3] = D_808321A8[3];
             gSaveContext.buttonStatus[4] = D_808321A8[4];
             interfaceCtx->unk_1FA = interfaceCtx->unk_1FC = 0;
-            PRINTF(VT_FGCOL(YELLOW));
+            PRINTF_COLOR_YELLOW();
             PRINTF("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.prevHudVisibilityMode);
             gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
             Interface_ChangeHudVisibilityMode(gSaveContext.prevHudVisibilityMode);
             player->talkActor = NULL;
             Player_SetEquipmentData(play, player);
-            PRINTF(VT_RST);
+            PRINTF_RST();
             break;
     }
 }

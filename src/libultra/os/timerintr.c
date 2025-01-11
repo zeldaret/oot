@@ -11,10 +11,8 @@ void __osTimerServicesInit(void) {
     __osCurrentTime = 0;
     __osBaseCounter = 0;
     __osViIntrCount = 0;
-    __osTimerList->prev = __osTimerList;
-    __osTimerList->next = __osTimerList->prev;
-    __osTimerList->value = 0;
-    __osTimerList->interval = __osTimerList->value;
+    __osTimerList->next = __osTimerList->prev = __osTimerList;
+    __osTimerList->interval = __osTimerList->value = 0;
     __osTimerList->mq = NULL;
     __osTimerList->msg = NULL;
 }
@@ -28,7 +26,7 @@ void __osTimerInterrupt(void) {
         return;
     }
 
-    while (true) {
+    for (;;) {
         timer = __osTimerList->next;
         if (timer == __osTimerList) {
             __osSetCompare(0);
@@ -63,7 +61,7 @@ void __osSetTimerIntr(OSTime time) {
     OSTime newTime;
     u32 prevInt;
 
-#if !PLATFORM_N64
+#if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     if (time < 468) {
         time = 468;
     }
@@ -72,7 +70,7 @@ void __osSetTimerIntr(OSTime time) {
     prevInt = __osDisableInt();
 
     __osTimerCounter = osGetCount();
-    newTime = time + __osTimerCounter;
+    newTime = __osTimerCounter + time;
     __osSetCompare((u32)newTime);
     __osRestoreInt(prevInt);
 }

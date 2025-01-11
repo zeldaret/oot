@@ -6,6 +6,9 @@
 
 beginseg
     name "makerom"
+    // We set the address of the makerom segment as 0x80000400 - 0x1000, since the ROM header and IPL3 together
+    // are 0x1000 bytes long and we want the entry code to end up at address 0x80000400.
+    address 0x7FFFF400
     include "$(BUILD_DIR)/src/makerom/rom_header.o"
     include "$(BUILD_DIR)/src/makerom/ipl3.o"
     include "$(BUILD_DIR)/src/makerom/entry.o"
@@ -13,7 +16,6 @@ endseg
 
 beginseg
     name "boot"
-    address 0x80000460
     include "$(BUILD_DIR)/src/boot/boot_main.o"
     include "$(BUILD_DIR)/src/boot/idle.o"
 #if OOT_VERSION >= PAL_1_0
@@ -21,7 +23,11 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/boot/carthandle.o"
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
+#if !PLATFORM_IQUE
     include "$(BUILD_DIR)/src/boot/yaz0.o"
+#else
+    include "$(BUILD_DIR)/src/boot/inflate.o"
+#endif
     include "$(BUILD_DIR)/src/boot/z_locale.o"
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/boot/cic6105.o"
@@ -29,7 +35,11 @@ beginseg
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/boot/assert.o"
 #endif
+#if !PLATFORM_IQUE
     include "$(BUILD_DIR)/src/boot/is_debug.o"
+#else
+    include "$(BUILD_DIR)/src/boot/is_debug_ique.o"
+#endif
     include "$(BUILD_DIR)/src/boot/driverominit.o"
     include "$(BUILD_DIR)/src/boot/mio0.o"
     include "$(BUILD_DIR)/src/libu64/stackcheck.o"
@@ -166,6 +176,21 @@ beginseg
     include "$(BUILD_DIR)/src/boot/build.o"
     include "$(BUILD_DIR)/data/rsp_boot.text.o"
     include "$(BUILD_DIR)/data/cic6105.text.o"
+
+#if PLATFORM_IQUE && !defined(COMPILER_GCC)
+    include "$(BUILD_DIR)/src/libgcc/__divdi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__moddi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__udivdi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__umoddi3.o"
+    include "$(BUILD_DIR)/src/libgcc/__cmpdi2.o"
+    include "$(BUILD_DIR)/src/libgcc/__floatdidf.o"
+    include "$(BUILD_DIR)/src/libgcc/__floatdisf.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixunsdfdi.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixdfdi.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixunssfdi.o"
+    include "$(BUILD_DIR)/src/libgcc/__fixsfdi.o"
+#endif
+
 #ifdef COMPILER_GCC
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
@@ -740,6 +765,7 @@ beginseg
     include "$(BUILD_DIR)/src/audio/sequence.o"
     include "$(BUILD_DIR)/src/audio/data.o"
     include "$(BUILD_DIR)/src/audio/session_config.o"
+    include "$(BUILD_DIR)/src/audio/session_init.o"
 #if PLATFORM_N64
     include "$(BUILD_DIR)/src/libu64/gfxprint.o"
     include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
@@ -805,6 +831,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/gu/perspective.o"
     include "$(BUILD_DIR)/src/libultra/io/sprawdma.o"
     include "$(BUILD_DIR)/src/libultra/io/sirawdma.o"
+    include "$(BUILD_DIR)/src/libultra/bb/sk/skapi.o" // TODO temporary
     include "$(BUILD_DIR)/src/libultra/io/sptaskyield.o"
 #if DEBUG_FEATURES
     include "$(BUILD_DIR)/src/libultra/io/pfsreadwritefile.o"
@@ -889,7 +916,7 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/translate.o"
 #endif
     include "$(BUILD_DIR)/src/libultra/io/contramwrite.o"
-#if OOT_VERSION == NTSC_1_2 || (PLATFORM_GC && !DEBUG_FEATURES)
+#if OOT_VERSION >= PAL_1_0 && !(OOT_PAL_N64 || DEBUG_FEATURES)
     include "$(BUILD_DIR)/src/libultra/io/vimodefpallan1.o"
 #endif
 #if !DEBUG_FEATURES

@@ -4,7 +4,9 @@
 # SPDX-License-Identifier: CC0-1.0
 
 # Usage: preprocess [flags] -- [compile command minus input file...] [single input file]
-# Flags: -v OOT_VERSION (required)
+# Flags:
+#   -v OOT_VERSION (required)
+#   -i ICONV_PATH (optional, default: iconv)
 # Preprocess a C file to:
 # * Re-encode from UTF-8 to EUC-JP
 #   (the repo uses UTF-8 for text encoding, but the strings in the ROM are encoded in EUC-JP)
@@ -39,11 +41,16 @@ then
     echo srcfile="$srcfile"
 fi
 
-while getopts "v:" opt "${flags[@]}"
+ICONV=iconv
+
+while getopts "v:i:" opt "${flags[@]}"
 do
     case $opt in
         v)
             OOT_VERSION=$OPTARG
+            ;;
+        i)
+            ICONV=$OPTARG
             ;;
         ?)
             echo "Error: Bad flags"
@@ -76,7 +83,7 @@ trap "rm -rf $tempdir" EXIT
 {
     printf '#line 1 "%s"\n' "$srcfile"  # linemarker
     ./tools/preprocess_pragmas $OOT_VERSION "$srcfile" < "$srcfile"
-} | iconv -f UTF-8 -t EUC-JP > "$tempfile"
+} | "${ICONV}" -f UTF-8 -t EUC-JP > "$tempfile"
 
 # Also include the source file's directory to have the include path as if we compiled the original source.
 # Pass the processed temporary file for compilation.

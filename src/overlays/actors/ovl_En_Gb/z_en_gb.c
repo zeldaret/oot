@@ -284,7 +284,7 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
         s32 pad;
 
-        switch (func_8002F368(play)) {
+        switch (Actor_GetPlayerExchangeItemId(play)) {
             case EXCH_ITEM_NONE:
                 func_80A2F180(this);
                 this->actionFunc = func_80A2F94C;

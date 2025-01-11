@@ -258,7 +258,7 @@ s32 EnToryo_GetTextId(EnToryo* this, PlayState* play) {
 
     if (textId == 0) {
         if (this->stateFlags & 1) {
-            if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+            if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
                 ret = 0x606C;
             } else if (GET_INFTABLE(INFTABLE_170)) {
                 ret = 0x606B;
@@ -318,7 +318,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
 
     if (this->messageState == 0) {
         if (Actor_TalkOfferAccepted(&this->actor, play)) {
-            this->exchangeItemId = func_8002F368(play);
+            this->exchangeItemId = Actor_GetPlayerExchangeItemId(play);
             if (this->exchangeItemId != EXCH_ITEM_NONE) {
                 player->actor.textId = EnToryo_ReactToExchangeItem(this, play);
                 this->actor.textId = player->actor.textId;

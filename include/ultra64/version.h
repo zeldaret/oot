@@ -1,0 +1,14 @@
+#ifndef ULTRA64_VERSION_H
+#define ULTRA64_VERSION_H
+
+#define LIBULTRA_VERSION_D  'D'
+#define LIBULTRA_VERSION_E  'E'
+#define LIBULTRA_VERSION_F  'F'
+#define LIBULTRA_VERSION_G  'G'
+#define LIBULTRA_VERSION_H  'H'
+#define LIBULTRA_VERSION_I  'I'
+#define LIBULTRA_VERSION_J  'J'
+#define LIBULTRA_VERSION_K  'K'
+#define LIBULTRA_VERSION_L  'L'
+
+#endif

@@ -3,12 +3,13 @@
 #include "terminal.h"
 #include "ucode_disas.h"
 #include "versions.h"
+#include "line_numbers.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:160 ntsc-1.1:160 ntsc-1.2:160 pal-1.0:160 pal-1.1:160"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:160" \
+                               "ntsc-1.1:160 ntsc-1.2:160 pal-1.0:160 pal-1.1:160"
 
 /**
  * The time at which the previous `Graph_Update` ended.
@@ -187,9 +188,9 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
         if (msg == (OSMesg)666) {
 #if DEBUG_FEATURES
-            PRINTF(VT_FGCOL(RED));
+            PRINTF_COLOR_RED();
             PRINTF(T("RCPが帰ってきませんでした。", "RCP did not return."));
-            PRINTF(VT_RST);
+            PRINTF_RST();
 
             LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
             LogUtils_LogHexDump((void*)PHYS_TO_K1(DPC_BASE_REG), 0x20);
@@ -379,30 +380,15 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
             PRINTF("%c", BEL);
             PRINTF(VT_COL(RED, WHITE) T("ダイナミック領域先頭が破壊されています\n", "Dynamic area head is destroyed\n")
                        VT_RST);
-#if OOT_VERSION < NTSC_1_1
-            Fault_AddHungupAndCrash("../graph.c", 937);
-#elif OOT_VERSION < PAL_1_0
-            Fault_AddHungupAndCrash("../graph.c", 940);
-#elif OOT_VERSION < GC_JP
-            Fault_AddHungupAndCrash("../graph.c", 951);
-#else
-            Fault_AddHungupAndCrash("../graph.c", 1070);
-#endif
+            Fault_AddHungupAndCrash("../graph.c", LN4(937, 940, 951, 1067, 1070));
         }
+
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
             problem = true;
             PRINTF("%c", BEL);
             PRINTF(VT_COL(RED, WHITE)
                        T("ダイナミック領域末尾が破壊されています\n", "Dynamic region tail is destroyed\n") VT_RST);
-#if OOT_VERSION < NTSC_1_1
-            Fault_AddHungupAndCrash("../graph.c", 943);
-#elif OOT_VERSION < PAL_1_0
-            Fault_AddHungupAndCrash("../graph.c", 946);
-#elif OOT_VERSION < GC_JP
-            Fault_AddHungupAndCrash("../graph.c", 957);
-#else
-            Fault_AddHungupAndCrash("../graph.c", 1076);
-#endif
+            Fault_AddHungupAndCrash("../graph.c", LN4(943, 946, 957, 1073, 1076));
         }
     }
 
@@ -494,14 +480,8 @@ void Graph_ThreadEntry(void* arg0) {
 
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
             Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
-#elif OOT_VERSION < NTSC_1_1
-            Fault_AddHungupAndCrash("../graph.c", 1067);
-#elif OOT_VERSION < PAL_1_0
-            Fault_AddHungupAndCrash("../graph.c", 1070);
-#elif OOT_VERSION < GC_JP
-            Fault_AddHungupAndCrash("../graph.c", 1081);
 #else
-            Fault_AddHungupAndCrash("../graph.c", 1200);
+            Fault_AddHungupAndCrash("../graph.c", LN4(1067, 1070, 1081, 1197, 1200));
 #endif
         }
 

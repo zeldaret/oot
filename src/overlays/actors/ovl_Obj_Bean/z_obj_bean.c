@@ -472,18 +472,18 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
         if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) || (DEBUG_FEATURES && mREG(1) == 1)) {
             path = PARAMS_GET_U(this->dyna.actor.params, 8, 5);
             if (path == 0x1F) {
-                PRINTF(VT_COL(RED, WHITE));
+                PRINTF_COLOR_ERROR();
                 // "No path data?"
                 PRINTF("パスデータが無い？(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 909, this->dyna.actor.params);
-                PRINTF(VT_RST);
+                PRINTF_RST();
                 Actor_Kill(&this->dyna.actor);
                 return;
             }
             if (play->pathList[path].count < 3) {
-                PRINTF(VT_COL(RED, WHITE));
+                PRINTF_COLOR_ERROR();
                 // "Incorrect number of path data"
                 PRINTF("パスデータ数が不正(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 921, this->dyna.actor.params);
-                PRINTF(VT_RST);
+                PRINTF_RST();
                 Actor_Kill(&this->dyna.actor);
                 return;
             }
@@ -537,7 +537,7 @@ void ObjBean_SetupWaitForBean(ObjBean* this) {
 
 void ObjBean_WaitForBean(ObjBean* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
-        if (func_8002F368(play) == EXCH_ITEM_MAGIC_BEAN) {
+        if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_MAGIC_BEAN) {
             func_80B8FE00(this);
             Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         }
@@ -888,10 +888,10 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
         this->dyna.actor.shape.shadowScale = this->dyna.actor.scale.x * 88.0f;
 
         if (ObjBean_CheckForHorseTrample(this, play)) {
-            PRINTF(VT_FGCOL(CYAN));
+            PRINTF_COLOR_CYAN();
             // "Horse and bean tree lift collision"
             PRINTF("馬と豆の木リフト衝突！！！\n");
-            PRINTF(VT_RST);
+            PRINTF_RST();
             ObjBean_Break(this, play);
             DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             func_80B908EC(this);

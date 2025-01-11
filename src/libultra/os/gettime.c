@@ -11,5 +11,5 @@ OSTime osGetTime(void) {
     t = __osCurrentTime;
     __osRestoreInt(prevInt);
 
-    return base + t;
+    return t + base;
 }

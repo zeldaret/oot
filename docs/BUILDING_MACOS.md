@@ -14,12 +14,13 @@ For macOS, use Homebrew to install the following dependencies:
 * bash
 * clang-format
 * libxml2
+* libiconv
 
 You can install them with the following commands:
 
 ```bash
 brew update
-brew install coreutils make python3 libpng bash clang-format libxml2
+brew install coreutils make python3 libpng bash clang-format libxml2 libiconv
 ```
 
 (The repository expects Homebrew-installed programs to be either linked correctly in `$PATH` etc. or in their default locations.)
@@ -42,10 +43,9 @@ cd ~/binutils-tmp
 
 Get and extract binutils source
 ```bash
-wget https://ftp.gnu.org/gnu/binutils/binutils-2.35.tar.bz2
+curl -O https://ftp.gnu.org/gnu/binutils/binutils-2.35.tar.bz2
 tar xjf binutils-2.35.tar.bz2
 ```
-(You may find this command does not work: if so, just access the URL in a browser and save it to `~/binutils-tmp`.)
 
 Create and enter a build directory
 ```bash
@@ -64,9 +64,9 @@ make -j
 sudo make install
 ```
 
-Edit your `~/.bash_profile`/`~/.zsh_profile` (or whichever shell you use) to add the new binutils binaries to the system PATH
+Edit your `~/.bash_profile`/`~/.zprofile` (or whichever shell you use) to add the new binutils binaries to the system PATH
 ```bash
-echo "export PATH=$PATH:/opt/cross/bin" >> ~/.bash_profile
+echo 'export PATH="$PATH:/opt/cross/bin"' >> ~/.bash_profile
 ```
 
 Reload `~/.bash_profile` (or just launch a new terminal tab)

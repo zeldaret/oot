@@ -35,8 +35,8 @@ ActorProfile En_Okarina_Tag_Profile = {
     /**/ NULL,
 };
 
-extern CutsceneData D_80ABF9D0[];
-extern CutsceneData D_80ABFB40[];
+extern CutsceneData gWindmillSpinningFasterCs[];
+extern CutsceneData gDoorOfTimeOpeningCs[];
 
 void EnOkarinaTag_Destroy(Actor* thisx, PlayState* play) {
 }
@@ -247,19 +247,19 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 SET_EVENTCHKINF(EVENTCHKINF_39);
                 break;
             case 2:
-                play->csCtx.script = D_80ABF9D0;
+                play->csCtx.script = gWindmillSpinningFasterCs;
                 gSaveContext.cutsceneTrigger = 1;
                 // Increase pitch by 3 semitones i.e. 2^(3/12), scale tempo by same ratio
                 // Applies to the windmill bgm once the song of storms fanfare is complete
                 Audio_SetMainBgmTempoFreqAfterFanfare(1.18921f, 90);
                 break;
             case 4:
-                play->csCtx.script = D_80ABFB40;
+                play->csCtx.script = gDoorOfTimeOpeningCs;
                 gSaveContext.cutsceneTrigger = 1;
                 break;
             case 6:
-                play->csCtx.script = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
-                                                   : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
+                play->csCtx.script = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(gGraveyardTombOpeningAdultCs)
+                                                   : SEGMENTED_TO_VIRTUAL(gGraveyardTombOpeningChildCs);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
                 Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);

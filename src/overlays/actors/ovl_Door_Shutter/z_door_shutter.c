@@ -879,7 +879,7 @@ void DoorShutter_GohmaBlockFall(DoorShutter* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         DoorShutter_SetupAction(this, DoorShutter_GohmaBlockBounce);
-        if (!GET_EVENTCHKINF(EVENTCHKINF_70)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_BEGAN_GOHMA_BATTLE)) {
             BossGoma* parent = (BossGoma*)this->dyna.actor.parent;
 
             this->isActive = 10;

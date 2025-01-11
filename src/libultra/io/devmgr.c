@@ -2,6 +2,8 @@
 #include "ultra64/internal.h"
 #include "ultra64/leodrive.h"
 
+#define TEMP_BUFFER ((void*)0x80600000)
+
 // os.h
 #define LEO_BLOCK_MODE 1
 #define LEO_TRACK_MODE 2
@@ -14,6 +16,9 @@ void __osDevMgrMain(void* arg) {
     s32 ret;
     OSDevMgr* dm = (OSDevMgr*)arg;
     s32 messageSend;
+#ifdef BBPLAYER
+    s32 check = false;
+#endif
 
     while (true) {
         osRecvMesg(dm->cmdQueue, (OSMesg*)&ioMesg, OS_MESG_BLOCK);
@@ -78,6 +83,13 @@ void __osDevMgrMain(void* arg) {
             switch (ioMesg->hdr.type) {
                 case OS_MESG_TYPE_DMAREAD:
                     osRecvMesg(dm->acsQueue, &dummy, OS_MESG_BLOCK);
+#ifdef BBPLAYER
+                    if (__osBbIsBb == 1 && ((u32)ioMesg->dramAddr & 0x7F) >= 0x60) {
+                        check = true;
+                        ret = dm->dma(OS_READ, ioMesg->devAddr, TEMP_BUFFER, ioMesg->size);
+                        break;
+                    }
+#endif
                     ret = dm->dma(OS_READ, ioMesg->devAddr, ioMesg->dramAddr, ioMesg->size);
                     break;
                 case OS_MESG_TYPE_DMAWRITE:
@@ -86,6 +98,13 @@ void __osDevMgrMain(void* arg) {
                     break;
                 case OS_MESG_TYPE_EDMAREAD:
                     osRecvMesg(dm->acsQueue, &dummy, OS_MESG_BLOCK);
+#ifdef BBPLAYER
+                    if (__osBbIsBb == 1 && ((u32)ioMesg->dramAddr & 0x7F) >= 0x60) {
+                        check = true;
+                        ret = dm->edma(ioMesg->piHandle, OS_READ, ioMesg->devAddr, TEMP_BUFFER, ioMesg->size);
+                        break;
+                    }
+#endif
                     ret = dm->edma(ioMesg->piHandle, OS_READ, ioMesg->devAddr, ioMesg->dramAddr, ioMesg->size);
                     break;
                 case OS_MESG_TYPE_EDMAWRITE:
@@ -103,6 +122,14 @@ void __osDevMgrMain(void* arg) {
 
             if (ret == 0) {
                 osRecvMesg(dm->evtQueue, &em, OS_MESG_BLOCK);
+#ifdef BBPLAYER
+                if (__osBbIsBb == 1 && check) {
+                    osInvalDCache(TEMP_BUFFER, (ioMesg->size + DCACHE_LINEMASK) & ~DCACHE_LINEMASK);
+                    bcopy(TEMP_BUFFER, ioMesg->dramAddr, ioMesg->size);
+                    check = false;
+                    osWritebackDCache(ioMesg->dramAddr, ioMesg->size);
+                }
+#endif
                 osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
                 osSendMesg(dm->acsQueue, NULL, OS_MESG_NOBLOCK);
             }

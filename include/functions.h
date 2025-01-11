@@ -9,10 +9,11 @@ void Main_ThreadEntry(void* arg);
 void Idle_ThreadEntry(void* arg);
 void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
-void* Yaz0_FirstDMA(void);
-void* Yaz0_NextDMA(u8* curSrcPos);
-void Yaz0_DecompressImpl(u8* src, u8* dst);
+#if !PLATFORM_IQUE
 void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
+#else
+void gzip_decompress(uintptr_t romStart, u8* dst, size_t size);
+#endif
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 #if DEBUG_FEATURES
@@ -71,13 +72,6 @@ void CutsceneFlags_UnsetAll(PlayState* play);
 void CutsceneFlags_Set(PlayState* play, s16 flag);
 void CutsceneFlags_Unset(PlayState* play, s16 flag);
 s32 CutsceneFlags_Get(PlayState* play, s16 flag);
-s32 func_8006CFC0(s32 sceneId);
-void func_8006D074(PlayState* play);
-void func_8006D0AC(PlayState* play);
-void func_8006D0EC(PlayState* play, Player* player);
-void func_8006D684(PlayState* play, Player* player);
-void func_8006DC68(PlayState* play, Player* player);
-void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
 
 s32 Kanji_OffsetFromShiftJIS(s32 character);
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
