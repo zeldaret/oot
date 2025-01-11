@@ -130,7 +130,7 @@ f32 func_800BFCB8(PlayState* this, MtxF* mf, Vec3f* pos);
 void* Play_LoadFile(PlayState* this, RomFile* file);
 void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest);
 s16 Play_CreateSubCamera(PlayState* this);
-s16 Play_GetActiveCamId(PlayState* this);
+s32 Play_GetActiveCamId(PlayState* this);
 s16 Play_ChangeCameraStatus(PlayState* this, s16 camId, s16 status);
 void Play_ClearCamera(PlayState* this, s16 camId);
 void Play_ClearAllSubCameras(PlayState* this);
