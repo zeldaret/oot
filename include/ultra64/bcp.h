@@ -190,4 +190,86 @@
  */
 #define PI_NAND_CTRL_REG (PI_BASE_REG + 0x48)
 
+/**
+ * PI internal buffer DMA read length. Writes initiate a DMA from RDRAM to the PI buffer.
+ */
+#define PI_EX_RD_LEN_REG (PI_BASE_REG + 0x58)
+
+/**
+ * PI internal buffer DMA write length. Writes initiate a DMA from the PI buffer to RDRAM.
+ */
+#define PI_EX_WR_LEN_REG (PI_BASE_REG + 0x5C)
+
+/**
+ * [31:16] Box ID
+ *   [31:30] Hardware Revision? (osInitialize checks this and sets __osBbIsBb to 2 if != 0)
+ *   [29:27] ?? (not seen)
+ *   [26:25] ?? (system clock speed identifier?)
+ *   [24:22] ?? (bootrom, checked against MI_10_REG and copied there if mismatch)
+ *   [21:16] ?? (not seen)
+ * [ 7: 4] GPIO direction control
+ *     [7] RTC Data output enable
+ *     [6] RTC Clock output enable
+ *     [5] Error LED output enable
+ *     [4] Power Control output enable
+ * [ 3: 0] GPIO in/out value
+ *     [3] RTC Data output value (0=low, 1=high)
+ *     [2] RTC Clock output value (0=low, 1=high)
+ *     [1] Error LED (0=on, 1=off)
+ *     [0] Power Control (0=off, 1=on)
+ */
+#define PI_GPIO_REG (PI_BASE_REG + 0x60)
+
+/* Box ID */
+#define PI_GPIO_GET_BOXID(reg)  ((reg) >> 16)
+#define PI_GPIO_IS_HW_V2(reg)   ((reg) & (3 << 30))
+
+/* GPIO: Input/Output enables */
+#define PI_GPIO_I_PWR       ((0 << 0) << 4)
+#define PI_GPIO_O_PWR       ((1 << 0) << 4)
+#define PI_GPIO_I_LED       ((0 << 1) << 4)
+#define PI_GPIO_O_LED       ((1 << 1) << 4)
+#define PI_GPIO_I_RTC_CLK   ((0 << 2) << 4)
+#define PI_GPIO_O_RTC_CLK   ((1 << 2) << 4)
+#define PI_GPIO_I_RTC_DAT   ((0 << 3) << 4)
+#define PI_GPIO_O_RTC_DAT   ((1 << 3) << 4)
+
+/* GPIO: Output controls */
+/* Power */
+#define PI_GPIO_PWR_OFF     (0 << 0)
+#define PI_GPIO_PWR_ON      (1 << 0)
+/* LED */
+#define PI_GPIO_LED_ON      (0 << 1)
+#define PI_GPIO_LED_OFF     (1 << 1)
+/* RTC */
+#define PI_GPIO_RTC_CLK_LO  (0 << 2)
+#define PI_GPIO_RTC_CLK_HI  (1 << 2)
+#define PI_GPIO_RTC_DAT_LO  (0 << 3)
+#define PI_GPIO_RTC_DAT_HI  (1 << 3)
+
+/* GPIO: Input getters */
+#define PI_GPIO_GET_PWR(reg)     (((reg) >> 0) & 1)
+#define PI_GPIO_GET_LED(reg)     (((reg) >> 1) & 1)
+#define PI_GPIO_GET_RTC_CLK(reg) (((reg) >> 2) & 1)
+#define PI_GPIO_GET_RTC_DAT(reg) (((reg) >> 3) & 1)
+
+/**
+ * [31] ?
+ */
+#define PI_64_REG (PI_BASE_REG + 0x64)
+
+/******************************************************************************
+ * Additional Serial Interface (SI) Registers
+ */
+
+/**
+ * ?
+ */
+#define SI_0C_REG (SI_BASE_REG + 0x0C)
+
+/**
+ * ?
+ */
+#define SI_1C_REG (SI_BASE_REG + 0x1C)
+
 #endif

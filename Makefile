@@ -214,7 +214,7 @@ else ifeq ($(PLATFORM),GC)
   LIBULTRA_VERSION := L
   LIBULTRA_PATCH := 0
 else ifeq ($(PLATFORM),IQUE)
-  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=0 -DPLATFORM_IQUE=1 -DBBPLAYER
+  CPP_DEFINES += -DPLATFORM_N64=0 -DPLATFORM_GC=0 -DPLATFORM_IQUE=1
   LIBULTRA_VERSION := L
   LIBULTRA_PATCH := 0
 else
@@ -225,7 +225,6 @@ endif
 VERSION_MACRO := $(shell echo $(VERSION) | tr a-z-. A-Z__)
 CPP_DEFINES += -DOOT_VERSION=$(VERSION_MACRO) -DOOT_REVISION=$(REVISION)
 CPP_DEFINES += -DOOT_REGION=REGION_$(REGION)
-CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
 CPP_DEFINES += -DLIBULTRA_VERSION=LIBULTRA_VERSION_$(LIBULTRA_VERSION)
 CPP_DEFINES += -DLIBULTRA_PATCH=$(LIBULTRA_PATCH)
 ifeq ($(PLATFORM),IQUE)
@@ -536,6 +535,8 @@ $(shell mkdir -p $(foreach dir, \
                     $(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
 endif
 
+$(BUILD_DIR)/src/boot/build.o: CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
+
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/driverominit.o: OPTFLAGS := -O2
 
@@ -703,7 +704,11 @@ else
 $(BUILD_DIR)/src/libultra/gu/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/io/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/libultra/libc/%.o: OPTFLAGS := -O2
+ifeq ($(PLATFORM),IQUE)
+$(BUILD_DIR)/src/libultra/os/%.o: OPTFLAGS := -O0
+else
 $(BUILD_DIR)/src/libultra/os/%.o: OPTFLAGS := -O1
+endif
 endif
 
 $(BUILD_DIR)/src/libleo/%.o: CC := $(CC_OLD)
