@@ -65,7 +65,7 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     if (play2->sceneId == SCENE_HYRULE_FIELD) {
         spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else if (play2->sceneId == SCENE_GANON_BOSS) {
-        if (gSaveContext.sceneLayer != GET_CUTSCENE_LAYER(CS_INDEX_0)) {
+        if (gSaveContext.sceneLayer != 4) {
             spaceSize = 1150 * 1024 - OBJECT_SPACE_ADJUSTMENT;
         } else {
             spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;

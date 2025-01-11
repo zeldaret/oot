@@ -353,13 +353,13 @@ void Play_Init(GameState* thisx) {
         !IS_CUTSCENE_LAYER) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-            gSaveContext.sceneLayer = SCENE_LAYER_CHILD_NIGHT;
+            gSaveContext.sceneLayer = 1;
         } else {
-            gSaveContext.sceneLayer = SCENE_LAYER_CHILD_DAY;
+            gSaveContext.sceneLayer = 0;
         }
     } else if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_KOKIRI_FOREST) &&
                LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
-        gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? SCENE_LAYER_ADULT_NIGHT : SCENE_LAYER_ADULT_DAY;
+        gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
     Play_SpawnScene(
@@ -372,7 +372,7 @@ void Play_Init(GameState* thisx) {
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
     if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY) &&
-        gSaveContext.sceneLayer == GET_CUTSCENE_LAYER(CS_INDEX_2)) {
+        gSaveContext.sceneLayer == 6) {
         PRINTF(T("エンディングはじまるよー\n", "The ending starts\n"));
         ((void (*)(void))0x81000000)();
         PRINTF(T("出戻り？\n", "Return?\n"));
