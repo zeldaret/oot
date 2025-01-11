@@ -24,6 +24,8 @@ static s32 sCurCeilingBgId;
     PRINTF
 #elif IDO_PRINTF_WORKAROUND
 #define ACTOR_DEBUG_PRINTF(args) (void)0
+#elif defined(__GNUC__) && __GNUC__ < 3
+#define ACTOR_DEBUG_PRINTF(format, args...) (void)0
 #else
 #define ACTOR_DEBUG_PRINTF(format, ...) (void)0
 #endif
@@ -3055,7 +3057,7 @@ Actor* Actor_RemoveFromCategory(PlayState* play, ActorContext* actorCtx, Actor* 
 }
 
 void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
-    PRINTF(VT_FGCOL(CYAN));
+    PRINTF_COLOR_CYAN();
 
     if (actorOverlay->numLoaded == 0) {
         ACTOR_DEBUG_PRINTF(T("アクタークライアントが０になりました\n", "Actor clients are now 0\n"));
@@ -3078,7 +3080,7 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
                            actorOverlay->numLoaded);
     }
 
-    PRINTF(VT_RST);
+    PRINTF_RST();
 }
 
 Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ, s16 rotX,
@@ -3144,13 +3146,13 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             Overlay_Load(overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
                          overlayEntry->vramEnd, overlayEntry->loadedRamAddr);
 
-            PRINTF(VT_FGCOL(GREEN));
+            PRINTF_COLOR_GREEN();
             PRINTF("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart, overlayEntry->vramEnd,
                    overlayEntry->loadedRamAddr,
                    (uintptr_t)overlayEntry->loadedRamAddr + (uintptr_t)overlayEntry->vramEnd -
                        (uintptr_t)overlayEntry->vramStart,
                    (uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr, name);
-            PRINTF(VT_RST);
+            PRINTF_RST();
 
             overlayEntry->numLoaded = 0;
         }

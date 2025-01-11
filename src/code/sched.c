@@ -62,6 +62,8 @@ vs32 sSchedDebugPrintfEnabled = false;
     PRINTF
 #elif IDO_PRINTF_WORKAROUND
 #define SCHED_DEBUG_PRINTF(args) (void)0
+#elif defined(__GNUC__) && __GNUC__ < 3
+#define SCHED_DEBUG_PRINTF(format, args...) (void)0
 #else
 #define SCHED_DEBUG_PRINTF(format, ...) (void)0
 #endif

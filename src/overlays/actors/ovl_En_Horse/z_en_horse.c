@@ -457,7 +457,7 @@ s32 EnHorse_BgCheckBridgeJumpPoint(EnHorse* this, PlayState* play) {
     if (this->actor.speed < 12.8f) {
         return false;
     }
-    if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+    if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
         return false;
     }
 
@@ -3595,7 +3595,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
             this->stateFlags &= ~ENHORSE_FLAG_24;
         }
 
-        if (play->sceneId == SCENE_GERUDO_VALLEY && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+        if (play->sceneId == SCENE_GERUDO_VALLEY && !GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
             EnHorse_CheckBridgeJumps(this, play);
         }
 

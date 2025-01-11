@@ -35,7 +35,7 @@
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:170 gc-eu-mq:170 gc-jp:170 gc-jp-ce:170 gc-jp-mq:170 gc-us:170 gc-us-mq:170" \
+#pragma increment_block_number "gc-eu:167 gc-eu-mq:167 gc-jp:167 gc-jp-ce:167 gc-jp-mq:167 gc-us:167 gc-us-mq:167" \
                                "ntsc-1.0:121 ntsc-1.1:121 ntsc-1.2:121 pal-1.0:121 pal-1.1:121"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
@@ -5172,11 +5172,11 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 #if DEBUG_FEATURES
     if (0) {
         // Strings existing only in rodata
-        PRINTF(VT_FGCOL(GREEN));
-        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF_COLOR_GREEN();
+        PRINTF_COLOR_YELLOW();
         PRINTF("plays %x\n");
         PRINTF("ys %x\n");
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 #endif
 
@@ -5676,9 +5676,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     sREG(14) = 0;
 #endif
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF("zelda_time %x\n", ((void)0, gSaveContext.save.dayTime));
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     if (sStormChanceTimer >= 2) {
         sStormChanceTimer--;

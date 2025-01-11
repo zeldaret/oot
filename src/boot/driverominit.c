@@ -3,7 +3,14 @@
 OSPiHandle __DriveRomHandle;
 
 OSPiHandle* osDriveRomInit(void) {
+#if PLATFORM_IQUE && defined(NON_MATCHING)
+    // On iQue, the compiled output of this file is patched so that the
+    // `!first` check is always taken. For non-matching builds, we edit the
+    // source code instead.
+    static u32 first = false;
+#else
     static u32 first = true;
+#endif
     register s32 status;
     register u32 value;
     register u32 prevInt;

@@ -40,8 +40,8 @@ void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQueue, OSMesg* cmdBuf, s32 cmd
         prevInt = __osDisableInt();
 
         __osPiDevMgr.active = true;
-        __osPiDevMgr.cmdQueue = cmdQueue;
         __osPiDevMgr.thread = &piThread;
+        __osPiDevMgr.cmdQueue = cmdQueue;
         __osPiDevMgr.evtQueue = &piEventQueue;
         __osPiDevMgr.acsQueue = &__osPiAccessQueue;
         __osPiDevMgr.dma = __osPiRawStartDma;

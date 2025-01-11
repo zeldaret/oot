@@ -391,7 +391,7 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     } else {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF(T("ハイラル確保失敗\n", "Failure to secure Hyrule\n"));
-        HUNGUP_AND_CRASH("../game.c", LN4(895, 898, 985, 999));
+        HUNGUP_AND_CRASH("../game.c", LN4(895, 898, 985, 999, 999));
     }
 }
 
@@ -409,12 +409,12 @@ void GameState_Realloc(GameState* gameState, size_t size) {
     SystemArena_GetSizes(&systemMaxFree, &systemFree, &systemAlloc);
     if ((systemMaxFree - 0x10) < size) {
         PRINTF("%c", BEL);
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
 
         PRINTF(T("メモリが足りません。ハイラルサイズを可能な最大値に変更します\n",
                  "Not enough memory. Change Hyrule size to maximum possible value\n"));
         PRINTF("(hyral=%08x max=%08x free=%08x alloc=%08x)\n", size, systemMaxFree, systemFree, systemAlloc);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         size = systemMaxFree - 0x10;
     }
 
@@ -432,7 +432,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         SystemArena_Display();
 #endif
 
-        HUNGUP_AND_CRASH("../game.c", LN4(940, 943, 1030, 1044));
+        HUNGUP_AND_CRASH("../game.c", LN4(940, 943, 1030, 1044, 1044));
     }
 }
 
@@ -557,9 +557,9 @@ void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int l
         }
     }
     if (ret != NULL) {
-        PRINTF(VT_FGCOL(GREEN));
+        PRINTF_COLOR_GREEN();
         PRINTF("game_alloc(%08x) %08x-%08x [%s:%d]\n", size, ret, (uintptr_t)ret + size, file, line);
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
     return ret;
 }
