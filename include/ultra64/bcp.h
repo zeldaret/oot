@@ -191,6 +191,16 @@
 #define PI_NAND_CTRL_REG (PI_BASE_REG + 0x48)
 
 /**
+ * PI internal buffer DMA read length. Writes initiate a DMA from RDRAM to the PI buffer.
+ */
+#define PI_EX_RD_LEN_REG (PI_BASE_REG + 0x58)
+
+/**
+ * PI internal buffer DMA write length. Writes initiate a DMA from the PI buffer to RDRAM.
+ */
+#define PI_EX_WR_LEN_REG (PI_BASE_REG + 0x5C)
+
+/**
  * [31:16] Box ID
  *   [31:30] Hardware Revision? (osInitialize checks this and sets __osBbIsBb to 2 if != 0)
  *   [29:27] ?? (not seen)
