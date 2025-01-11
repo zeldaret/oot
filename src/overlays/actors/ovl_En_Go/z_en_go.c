@@ -139,7 +139,7 @@ u16 EnGo_GetTextID(PlayState* play, Actor* thisx) {
                 }
             }
         case ENGO_TYPE_FIRE_GENERIC:
-            if (ENGO_IS_CAGE_OPEN((EnGo*)thisx, play)) {
+            if (Flags_GetSwitch(play, ENGO_IS_CAGE_OPEN_SWITCH_FLAG((EnGo*)thisx))) {
                 return 0x3052;
             } else {
                 return 0x3051;
@@ -363,8 +363,8 @@ void EnGo_ChangeAnim(EnGo* this, s32 index) {
 s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
     if (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON) {
         return true;
-    } else if (play->sceneId == SCENE_FIRE_TEMPLE && !ENGO_IS_CAGE_OPEN(this, play) && LINK_IS_ADULT &&
-               ENGO_GET_TYPE(this) == ENGO_TYPE_FIRE_GENERIC) {
+    } else if (play->sceneId == SCENE_FIRE_TEMPLE && !Flags_GetSwitch(play, ENGO_IS_CAGE_OPEN_SWITCH_FLAG(this)) &&
+               LINK_IS_ADULT && ENGO_GET_TYPE(this) == ENGO_TYPE_FIRE_GENERIC) {
         return true;
     } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_ADULT && ENGO_GET_TYPE(this) == ENGO_TYPE_CITY_LINK) {
         return true;
@@ -496,7 +496,7 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
 
         if (ENGO_GET_TYPE(this) != ENGO_TYPE_CITY_LINK) {
             return true;
-        } else if (ENGO_IS_CAGE_OPEN(this, play)) {
+        } else if (Flags_GetSwitch(play, ENGO_IS_CAGE_OPEN_SWITCH_FLAG(this))) {
             return true;
         } else if (this->waypoint >= this->actor.shape.rot.z) {
             this->waypoint = 0;
@@ -764,7 +764,8 @@ void EnGo_RollingToCurledUp(EnGo* this, PlayState* play) {
 }
 
 void EnGo_RollingLink(EnGo* this, PlayState* play) {
-    if ((EnGo_FollowPath(this, play) == true) && ENGO_IS_CAGE_OPEN(this, play) && (this->waypoint == 0)) {
+    if ((EnGo_FollowPath(this, play) == true) && Flags_GetSwitch(play, ENGO_IS_CAGE_OPEN_SWITCH_FLAG(this)) &&
+        (this->waypoint == 0)) {
         this->actor.speed = 0.0f;
         EnGo_SetupAction(this, EnGo_RollingToCurledUp);
         SET_INFTABLE(INFTABLE_109);

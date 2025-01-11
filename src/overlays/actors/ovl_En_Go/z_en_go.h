@@ -44,10 +44,9 @@ typedef enum EnGoType {
 
 #define ENGO_GET_PATH_INDEX(this) PARAMS_GET_U((this)->actor.params, 0, 4)
 #define ENGO_GET_TYPE(this) PARAMS_GET_NOSHIFT((this)->actor.params, 4, 4)
-#define ENGO_CAGED_SWITCH_FLAG(this) PARAMS_GET_NOMASK((this)->actor.params, 8)
+#define ENGO_IS_CAGE_OPEN_SWITCH_FLAG(this) PARAMS_GET_NOMASK((this)->actor.params, 8)
 
 #define ENGO_PATH_NONE NBITS_TO_MASK(4)
-#define ENGO_IS_CAGE_OPEN(this, play) Flags_GetSwitch(play, ENGO_CAGED_SWITCH_FLAG(this))
 #define ENGO_GET_SPEED_SCALE(this) (ENGO_GET_TYPE(this) == ENGO_TYPE_DMT_BIGGORON ? 0.5f : 1.0f)
 
 #define EN_GO_EFFECT_COUNT 20
