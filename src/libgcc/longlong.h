@@ -83,7 +83,7 @@
         (sl) = __x;                        \
     } while (0)
 
-#if __GNUC__ < 3
+#ifdef EGCS
 #define umul_ppmm(w1, w0, u, v) \
     __asm__("multu %2,%3" : "=l"((USItype)(w0)), "=h"((USItype)(w1)) : "d"((USItype)(u)), "d"((USItype)(v)))
 #else

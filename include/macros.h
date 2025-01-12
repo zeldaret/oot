@@ -52,10 +52,10 @@
 
 #if DEBUG_FEATURES
 #define PRINTF osSyncPrintf
+#elif defined(EGCS)
+#define PRINTF(format, args...) while (0) osSyncPrintf(format, ##args)
 #elif IDO_PRINTF_WORKAROUND
 #define PRINTF(args) (void)0
-#elif defined(__GNUC__) && __GNUC__ < 3
-#define PRINTF(format, args...) while (0) osSyncPrintf(format, ##args)
 #else
 #define PRINTF(format, ...) (void)0
 #endif
