@@ -1,6 +1,6 @@
 /*
  * File: z_boss_goma.c
- * Overlay: ovl_boss_goma
+ * Overlay: ovl_Boss_Goma
  * Description: Gohma
  */
 

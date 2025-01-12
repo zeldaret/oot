@@ -1,6 +1,6 @@
 /*
  * File: z_en_goma.c
- * Overlay: ovl_en_goma
+ * Overlay: ovl_En_Goma
  * Description: Gohma Larva
  */
 
