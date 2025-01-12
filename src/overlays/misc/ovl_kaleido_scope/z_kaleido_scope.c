@@ -2582,6 +2582,11 @@ s16 KaleidoScope_SetPageVertices(PlayState* play, Vtx* vtx, s16 vtxPage, s16 num
 
             bufI -= ((VTX_PAGE_MAP_WORLD_QUADS - WORLD_MAP_QUAD_TRADE_QUEST_MARKER) * 4);
 
+            //! @bug If worldMapArea is WORLD_MAP_AREA_GANONS_CASTLE or WORLD_MAP_AREA_MAX, this will read past the end
+            //! of the sVtxMapWorldArea arrays and generate garbage vertex data. This is harmless though:
+            //! if pauseCtx->tradeQuestMarker != TRADE_QUEST_MARKER_NONE then the vertices are immediately overwritten,
+            //! and if pauseCtx->tradeQuestMarker == TRADE_QUEST_MARKER_NONE then KaleidoScope_DrawWorldMap will not
+            //! draw anything with these vertices.
             j = gSaveContext.worldMapArea;
 
             vtx[bufI + 0].v.ob[0] = vtx[bufI + 2].v.ob[0] = sVtxMapWorldAreaX[j];
