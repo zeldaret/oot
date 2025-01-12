@@ -1,3 +1,9 @@
+/*
+ * File: z_boss_goma.c
+ * Overlay: ovl_Boss_Goma
+ * Description: Gohma
+ */
+
 #include "z_boss_goma.h"
 #include "assets/objects/object_goma/object_goma.h"
 #include "overlays/actors/ovl_En_Goma/z_en_goma.h"
