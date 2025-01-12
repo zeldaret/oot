@@ -408,8 +408,10 @@ ROMC     := $(ROM:.z64=-compressed.z64)
 ELF      := $(ROM:.z64=.elf)
 MAP      := $(ROM:.z64=.map)
 LDSCRIPT := $(ROM:.z64=.ld)
+
 # description of ROM segments
 SPEC := spec
+SPEC_INCLUDES := $(wildcard spec_includes/*.inc)
 
 SRC_DIRS := $(shell find src -type d)
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
@@ -569,6 +571,7 @@ ifeq ($(PLATFORM),IQUE)
 # Some files are compiled with EGCS on iQue
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/boot_main.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/idle.o
+EGCS_O_FILES += $(BUILD_DIR)/src/boot/inflate.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/is_debug_ique.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/z_locale.o
 EGCS_O_FILES += $(BUILD_DIR)/src/boot/z_std_dma.o
@@ -840,7 +843,7 @@ $(O_FILES): | asset_files
 
 .PHONY: o_files asset_files
 
-$(BUILD_DIR)/$(SPEC): $(SPEC)
+$(BUILD_DIR)/$(SPEC): $(SPEC) $(SPEC_INCLUDES)
 	$(CPP) $(CPPFLAGS) $< | $(BUILD_DIR_REPLACE) > $@
 
 $(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
