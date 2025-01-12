@@ -40,7 +40,7 @@ void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
 #endif
 
 void ConsoleLogo_Calc(ConsoleLogoState* this) {
-#if PLATFORM_N64
+#if !PLATFORM_GC
     if ((this->coverAlpha == 0) && (this->visibleDuration != 0)) {
         this->unk_1D4--;
         this->visibleDuration--;
@@ -74,8 +74,8 @@ void ConsoleLogo_SetupView(ConsoleLogoState* this, f32 x, f32 y, f32 z) {
     eye.y = y;
     eye.z = z;
     up.x = up.z = 0.0f;
-    lookAt.x = lookAt.y = lookAt.z = 0.0f;
     up.y = 1.0f;
+    lookAt.x = lookAt.y = lookAt.z = 0.0f;
 
     View_SetPerspective(view, 30.0f, 10.0f, 12800.0f);
     View_LookAt(view, &eye, &lookAt, &up);
@@ -165,6 +165,10 @@ void ConsoleLogo_Main(GameState* thisx) {
     }
 #endif
 
+#if PLATFORM_IQUE
+    this->exit = 1;
+#endif
+
     if (this->exit) {
         gSaveContext.seqId = (u8)NA_BGM_DISABLED;
         gSaveContext.natureAmbienceId = 0xFF;
@@ -221,7 +225,7 @@ void ConsoleLogo_Init(GameState* thisx) {
     this->state.destroy = ConsoleLogo_Destroy;
     this->exit = false;
 
-#if OOT_VERSION < GC_US
+#if OOT_VERSION < GC_US || PLATFORM_IQUE
     if (!(gPadMgr.validCtrlrsMask & 1)) {
         gSaveContext.fileNum = 0xFEDC;
     } else {

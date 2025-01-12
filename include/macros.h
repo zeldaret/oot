@@ -105,12 +105,12 @@
 #define LOG_FLOAT(exp, value, file, line) LOG(exp, value, "%f", file, line)
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
-    do {                                                 \
+    if (1) {                                             \
         GameState* state = curState;                     \
                                                          \
         (state)->init = newInit;                         \
         (state)->size = sizeof(newStruct);               \
-    } while (0)
+    } (void)0
 
 #if DEBUG_FEATURES
 
