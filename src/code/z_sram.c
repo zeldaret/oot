@@ -51,7 +51,7 @@ u16 gSramSlotOffsets[] = {
     SLOT_OFFSET(5),
 };
 
-static char sZeldaMagic[] = { '\0', '\0', '\0', '\x98', '\x09', '\x10', '\x21', 'Z', 'E', 'L', 'D', 'A' };
+static u8 sZeldaMagic[] = { '\0', '\0', '\0', '\x98', '\x09', '\x10', '\x21', 'Z', 'E', 'L', 'D', 'A' };
 
 static SavePlayerData sNewSavePlayerData = {
     { '\0', '\0', '\0', '\0', '\0', '\0' }, // newf
@@ -476,8 +476,11 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
         default:
             if (gSaveContext.save.info.playerData.savedSceneId != SCENE_LINKS_HOUSE) {
-                gSaveContext.save.entranceIndex =
-                    (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINKS_HOUSE_0 : ENTR_TEMPLE_OF_TIME_7;
+                if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
+                    gSaveContext.save.entranceIndex = ENTR_LINKS_HOUSE_0;
+                } else {
+                    gSaveContext.save.entranceIndex = ENTR_TEMPLE_OF_TIME_7;
+                }
             } else {
                 gSaveContext.save.entranceIndex = ENTR_LINKS_HOUSE_0;
             }
@@ -525,7 +528,8 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
     // if zelda cutscene has been watched but lullaby was not obtained, restore cutscene and take away letter
     if (GET_EVENTCHKINF(EVENTCHKINF_40) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-        i = gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_40] & ~EVENTCHKINF_MASK(EVENTCHKINF_40);
+        i = gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_40];
+        i &= ~EVENTCHKINF_MASK(EVENTCHKINF_40);
         gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_40] = i;
 
         INV_CONTENT(ITEM_ZELDAS_LETTER) = ITEM_CHICKEN;
@@ -736,7 +740,8 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                 i = gSramSlotOffsets[slotNum + 3];
                 SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE);
 
-                PRINTF("????#%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0],
+                // The ??= below is interpreted as a trigraph for # by IDO
+                PRINTF("??????=%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0],
                        gSaveContext.save.info.playerData.newf[1], gSaveContext.save.info.playerData.newf[2],
                        gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4],
                        gSaveContext.save.info.playerData.newf[5]);
@@ -829,7 +834,14 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
 #endif
 
     for (offset = 0; offset < 8; offset++) {
+#if !PLATFORM_IQUE
         gSaveContext.save.info.playerData.playerName[offset] = fileSelect->fileNames[fileSelect->buttonIndex][offset];
+#else
+        // Workaround for EGCS bug
+        u8* fileName = fileSelect->fileNames[fileSelect->buttonIndex];
+
+        gSaveContext.save.info.playerData.playerName[offset] = fileName[offset];
+#endif
     }
 
     gSaveContext.save.info.playerData.newf[0] = 'Z';
@@ -899,7 +911,7 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
 }
 
 void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx) {
-    s32 offset;
+    u16 offset;
 
     Sram_InitNewSave();
 
@@ -918,7 +930,7 @@ void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx) {
 }
 
 void Sram_CopySave(FileSelectState* fileSelect, SramContext* sramCtx) {
-    s32 offset;
+    u16 offset;
 
     PRINTF("ＲＥＡＤ=%d(%x)  ＣＯＰＹ=%d(%x)\n", fileSelect->selectedFileIndex,
            gSramSlotOffsets[fileSelect->selectedFileIndex], fileSelect->copyDestFileIndex,
