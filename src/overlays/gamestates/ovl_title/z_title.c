@@ -168,7 +168,7 @@ void ConsoleLogo_Main(GameState* thisx) {
 #endif
 
 #if PLATFORM_IQUE
-    this->exit = 1;
+    this->exit = true;
 #endif
 
     if (this->exit) {
