@@ -376,10 +376,10 @@ else
   # compiler does support but warns for their usage).
   CFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,609,649,838,712,807
   CCASFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,609,649,838,712,807 -o32
-  EGCS_CFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -G 0 -nostdinc $(INC) -mcpu=vr4300 -mabi=32 -mgp32 -mfp32 -fno-PIC
   MIPS_VERSION := -mips2
 
-  EGCS_CCASFLAGS := -Wall -nostdinc $(CPP_DEFINES) $(INC) -c -G 0 -Wa,-irix-symtab -D_ABIO32=1 -D_ABI64=3 -D_MIPS_SIM_ABI64=_ABI64 -D_MIPS_SIM_ABI32=_ABIO32 -DMIPSEB -D_LANGUAGE_ASSEMBLY -mabi=32 -fno-PIC -non_shared -mcpu=4300 -mfix4300
+  EGCS_CFLAGS += $(CPP_DEFINES) $(GBI_DEFINES) -DEGCS -G 0 -nostdinc $(INC) -mcpu=vr4300 -mabi=32 -mgp32 -mfp32 -fno-PIC
+  EGCS_CCASFLAGS := -Wall -nostdinc $(CPP_DEFINES) -DEGCS $(INC) -c -G 0 -Wa,-irix-symtab -D_ABIO32=1 -D_ABI64=3 -D_MIPS_SIM_ABI64=_ABI64 -D_MIPS_SIM_ABI32=_ABIO32 -DMIPSEB -D_LANGUAGE_ASSEMBLY -mabi=32 -fno-PIC -non_shared -mcpu=4300 -mfix4300
   EGCS_ASOPTFLAGS :=
 endif
 
