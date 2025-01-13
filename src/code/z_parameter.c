@@ -1835,7 +1835,7 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         if (temp != ITEM_NONE) {
             for (i = 1; i < 4; i++) {
-                if (temp == gSaveContext.save.info.equips.buttonItems[i]) {
+                if (gSaveContext.save.info.equips.buttonItems[i] == temp) {
                     if (item != ITEM_SOLD_OUT) {
                         gSaveContext.save.info.equips.buttonItems[i] = item;
                         Interface_LoadItemIcon1(play, i);
