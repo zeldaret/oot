@@ -162,15 +162,13 @@ static Inventory sNewSaveInventory = {
     0, // gsTokens
 };
 
-static u16 sNewSaveChecksum = 0;
+static Checksum sNewSaveChecksum = { 0 };
 
 /**
  *  Initialize new save.
  *  This save has an empty inventory with 3 hearts and single magic.
  */
 void Sram_InitNewSave(void) {
-    SaveContext* temp = &gSaveContext;
-
     bzero(&gSaveContext.save.info, sizeof(SaveInfo));
     gSaveContext.save.totalDays = 0;
     gSaveContext.save.bgsDayCount = 0;
@@ -178,8 +176,8 @@ void Sram_InitNewSave(void) {
     gSaveContext.save.info.playerData = sNewSavePlayerData;
     gSaveContext.save.info.equips = sNewSaveEquips;
     gSaveContext.save.info.inventory = sNewSaveInventory;
+    gSaveContext.save.info.checksum = sNewSaveChecksum;
 
-    temp->save.info.checksum = sNewSaveChecksum;
     gSaveContext.save.info.horseData.sceneId = SCENE_HYRULE_FIELD;
     gSaveContext.save.info.horseData.pos.x = -1840;
     gSaveContext.save.info.horseData.pos.y = 72;
@@ -321,7 +319,7 @@ static Inventory sDebugSaveInventory = {
     0,                                                              // gsTokens
 };
 
-static u16 sDebugSaveChecksum = 0;
+static Checksum sDebugSaveChecksum = { 0 };
 
 /**
  *  Initialize debug save. This is also used on the Title Screen
@@ -333,8 +331,6 @@ static u16 sDebugSaveChecksum = 0;
  *  and set water level in Water Temple to lowest level.
  */
 void Sram_InitDebugSave(void) {
-    SaveContext* temp = &gSaveContext;
-
     bzero(&gSaveContext.save.info, sizeof(SaveInfo));
     gSaveContext.save.totalDays = 0;
     gSaveContext.save.bgsDayCount = 0;
@@ -342,8 +338,8 @@ void Sram_InitDebugSave(void) {
     gSaveContext.save.info.playerData = sDebugSavePlayerData;
     gSaveContext.save.info.equips = sDebugSaveEquips;
     gSaveContext.save.info.inventory = sDebugSaveInventory;
+    gSaveContext.save.info.checksum = sDebugSaveChecksum;
 
-    temp->save.info.checksum = sDebugSaveChecksum;
     gSaveContext.save.info.horseData.sceneId = SCENE_HYRULE_FIELD;
     gSaveContext.save.info.horseData.pos.x = -1840;
     gSaveContext.save.info.horseData.pos.y = 72;
@@ -575,7 +571,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
     u16 j;
     u16* ptr;
 
-    gSaveContext.save.info.checksum = 0;
+    gSaveContext.save.info.checksum.value = 0;
 
     ptr = (u16*)&gSaveContext;
     checksum = j = 0;
@@ -587,7 +583,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
         checksum += *ptr++;
     }
 
-    gSaveContext.save.info.checksum = checksum;
+    gSaveContext.save.info.checksum.value = checksum;
 
     ptr = (u16*)&gSaveContext;
     checksum = 0;
@@ -644,8 +640,8 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                sizeof(Save));
         MemCpy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
 
-        oldChecksum = gSaveContext.save.info.checksum;
-        gSaveContext.save.info.checksum = 0;
+        oldChecksum = gSaveContext.save.info.checksum.value;
+        gSaveContext.save.info.checksum.value = 0;
         ptr = (u16*)&gSaveContext;
         PRINTF("\n＝＝＝＝＝＝＝＝＝＝＝＝＝  Ｓ（%d） ＝＝＝＝＝＝＝＝＝＝＝＝＝\n", slotNum);
 
@@ -669,8 +665,8 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
             offset = gSramSlotOffsets[slotNum + 3];
             MemCpy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
 
-            oldChecksum = gSaveContext.save.info.checksum;
-            gSaveContext.save.info.checksum = 0;
+            oldChecksum = gSaveContext.save.info.checksum.value;
+            gSaveContext.save.info.checksum.value = 0;
             ptr = (u16*)&gSaveContext;
             PRINTF("================= ＢＡＣＫ─ＵＰ ========================\n");
 
@@ -734,8 +730,8 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                     newChecksum += *ptr++;
                 }
 
-                gSaveContext.save.info.checksum = newChecksum;
-                PRINTF("\nCheck_Sum=%x(%x)\n", gSaveContext.save.info.checksum, newChecksum);
+                gSaveContext.save.info.checksum.value = newChecksum;
+                PRINTF("\nCheck_Sum=%x(%x)\n", gSaveContext.save.info.checksum.value, newChecksum);
 
                 i = gSramSlotOffsets[slotNum + 3];
                 SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE);
@@ -745,14 +741,14 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                        gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4],
                        gSaveContext.save.info.playerData.newf[5]);
                 PRINTF(T("\nぽいんと＝%x(%d+3)  check_sum=%x(%x)\n", "\npoints=%x(%d+3) check_sum=%x(%x)\n"), i,
-                       slotNum, gSaveContext.save.info.checksum, newChecksum);
+                       slotNum, gSaveContext.save.info.checksum.value, newChecksum);
             }
 
             i = gSramSlotOffsets[slotNum];
             SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE);
 
             PRINTF(T("ぽいんと＝%x(%d)  check_sum=%x(%x)\n", "point=%x(%d) check_sum=%x(%x)\n"), i, slotNum,
-                   gSaveContext.save.info.checksum, newChecksum);
+                   gSaveContext.save.info.checksum.value, newChecksum);
         } else {
             PRINTF(T("\nＳＡＶＥデータ ＯＫ！！！！\n", "\nSAVE data OK!!!!\n"));
         }
@@ -862,8 +858,8 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
         }
     }
 
-    gSaveContext.save.info.checksum = checksum;
-    PRINTF(T("\nチェックサム＝%x\n", "\nChecksum = %x\n"), gSaveContext.save.info.checksum);
+    gSaveContext.save.info.checksum.value = checksum;
+    PRINTF(T("\nチェックサム＝%x\n", "\nChecksum = %x\n"), gSaveContext.save.info.checksum.value);
 
     offset = gSramSlotOffsets[gSaveContext.fileNum];
     PRINTF("I=%x no=%d\n", offset, gSaveContext.fileNum);
