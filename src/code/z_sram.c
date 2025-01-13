@@ -17,6 +17,30 @@
 
 #define SLOT_OFFSET(index) (SRAM_HEADER_SIZE + 0x10 + (index * SLOT_SIZE))
 
+#if !PLATFORM_IQUE
+
+#define SRAM_READ(addr, dramAddr, size) SsSram_ReadWrite(addr, dramAddr, size, OS_READ)
+#define SRAM_WRITE(addr, dramAddr, size) SsSram_ReadWrite(addr, dramAddr, size, OS_WRITE)
+
+#else
+
+void Sram_iQueReadWrite(s32 addr, void* dramAddr, size_t size, s32 direction) {
+    void* sramAddr;
+
+    addr -= OS_K1_TO_PHYSICAL(0xA8000000);
+    sramAddr = (void*)(__osBbSramAddress + addr);
+    if (direction == OS_READ) {
+        bcopy(sramAddr, dramAddr, size);
+    } else if (direction == OS_WRITE) {
+        bcopy(dramAddr, sramAddr, size);
+    }
+}
+
+#define SRAM_READ(addr, dramAddr, size) Sram_iQueReadWrite(addr, dramAddr, size, OS_READ)
+#define SRAM_WRITE(addr, dramAddr, size) Sram_iQueReadWrite(addr, dramAddr, size, OS_WRITE)
+
+#endif
+
 u16 gSramSlotOffsets[] = {
     SLOT_OFFSET(0),
     SLOT_OFFSET(1),
@@ -576,7 +600,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
     }
 
     offset = gSramSlotOffsets[gSaveContext.fileNum];
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
+    SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE);
 
     ptr = (u16*)&gSaveContext;
     checksum = 0;
@@ -589,7 +613,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
     }
 
     offset = gSramSlotOffsets[gSaveContext.fileNum + 3];
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
+    SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE);
 }
 
 /**
@@ -610,7 +634,7 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
 
     PRINTF("ＳＲＡＭ ＳＴＡＲＴ─ＬＯＡＤ\n");
     bzero(sramCtx->readBuff, SRAM_SIZE);
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
+    SRAM_READ(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE);
 
     dayTime = ((void)0, gSaveContext.save.dayTime);
 
@@ -714,7 +738,7 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                 PRINTF("\nCheck_Sum=%x(%x)\n", gSaveContext.save.info.checksum, newChecksum);
 
                 i = gSramSlotOffsets[slotNum + 3];
-                SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE, OS_WRITE);
+                SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE);
 
                 PRINTF("????#%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0],
                        gSaveContext.save.info.playerData.newf[1], gSaveContext.save.info.playerData.newf[2],
@@ -725,7 +749,7 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
             }
 
             i = gSramSlotOffsets[slotNum];
-            SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE, OS_WRITE);
+            SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE);
 
             PRINTF(T("ぽいんと＝%x(%d)  check_sum=%x(%x)\n", "point=%x(%d) check_sum=%x(%x)\n"), i, slotNum,
                    gSaveContext.save.info.checksum, newChecksum);
@@ -735,7 +759,7 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
     }
 
     bzero(sramCtx->readBuff, SRAM_SIZE);
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
+    SRAM_READ(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE);
     gSaveContext.save.dayTime = dayTime;
 
     PRINTF("SAVECT=%x, NAME=%x, LIFE=%x, ITEM=%x,  64DD=%x,  HEART=%x\n", DEATHS, NAME, HEALTH_CAP, QUEST, N64DD,
@@ -849,7 +873,7 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
     PRINTF("I=%x no=%d\n", offset, gSaveContext.fileNum + 3);
     MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
 
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_WRITE);
+    SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE);
 
     PRINTF(T("ＳＡＶＥ終了\n", "SAVE end\n"));
     PRINTF("z_common_data.file_no = %d\n", gSaveContext.fileNum);
@@ -885,14 +909,14 @@ void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx) {
 
     offset = gSramSlotOffsets[fileSelect->selectedFileIndex];
     MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
+    SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE);
 
     MemCpy(&fileSelect->n64ddFlags[fileSelect->selectedFileIndex], sramCtx->readBuff + offset + N64DD,
            sizeof(fileSelect->n64ddFlags[0]));
 
     offset = gSramSlotOffsets[fileSelect->selectedFileIndex + 3];
     MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
+    SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE);
 
     PRINTF(T("ＣＬＥＡＲ終了\n", "CLEAR END\n"));
 }
@@ -913,7 +937,7 @@ void Sram_CopySave(FileSelectState* fileSelect, SramContext* sramCtx) {
     offset = gSramSlotOffsets[fileSelect->copyDestFileIndex + 3];
     MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
 
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_WRITE);
+    SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE);
 
     offset = gSramSlotOffsets[fileSelect->copyDestFileIndex];
 
@@ -943,14 +967,14 @@ void Sram_CopySave(FileSelectState* fileSelect, SramContext* sramCtx) {
  *  Write the first 16 bytes of the read buffer to the SRAM header
  */
 void Sram_WriteSramHeader(SramContext* sramCtx) {
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_HEADER_SIZE, OS_WRITE);
+    SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_HEADER_SIZE);
 }
 
 void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     u16 i;
 
     PRINTF("sram_initialize( Game *game, Sram *sram )\n");
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
+    SRAM_READ(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE);
 
     for (i = 0; i < ARRAY_COUNTU(sZeldaMagic) - 3; i++) {
         if (sZeldaMagic[i + SRAM_HEADER_MAGIC] != sramCtx->readBuff[i + SRAM_HEADER_MAGIC]) {
@@ -986,7 +1010,7 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
         for (i = 0; i < CHECKSUM_SIZE; i++) {
             sramCtx->readBuff[i] = i;
         }
-        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_WRITE);
+        SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE);
         PRINTF(T("ＳＲＡＭ破壊！！！！！！\n", "SRAM destruction!!!!!!\n"));
     }
 #endif
