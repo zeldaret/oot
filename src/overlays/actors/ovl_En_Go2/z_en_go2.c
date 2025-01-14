@@ -1817,7 +1817,6 @@ void EnGo2_HandleOffer(EnGo2* this, PlayState* play) {
 #endif
         this->actionFunc = EnGo2_HandleOfferParented;
     } else {
-        // @redundant: this action is always paired with `EnGo2_OfferItem`, which itself calls `Actor_OfferGetItem`
         Actor_OfferGetItem(&this->actor, play, this->getItemId, this->actor.xzDistToPlayer + 1.0f,
                            fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
