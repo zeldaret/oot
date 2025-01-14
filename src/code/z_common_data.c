@@ -24,7 +24,7 @@ void SaveContext_Init(void) {
     gSaveContext.dogIsLost = true;
     gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
     gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
-#if OOT_NTSC && OOT_VERSION < GC_US
+#if OOT_NTSC && OOT_VERSION < GC_US || PLATFORM_IQUE
     if (gCurrentRegion == REGION_JP) {
         gSaveContext.language = LANGUAGE_JPN;
     }
