@@ -32,4 +32,4 @@ offset,vram,.ovl
 
 offset,vram,.bss
 1C030,80830220,src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope
-1C040,80830230,.end
+1C0A0,80830290,.end
