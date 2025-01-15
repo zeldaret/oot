@@ -594,8 +594,6 @@ EGCS_O_FILES += $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope
 $(EGCS_O_FILES): CC := $(EGCS_CC)
 $(EGCS_O_FILES): CFLAGS := $(EGCS_CFLAGS) -mno-abicalls
 $(EGCS_O_FILES): MIPS_VERSION :=
-
-$(BUILD_DIR)/src/boot/z_std_dma.o: CFLAGS += -funsigned-char
 endif
 
 ifeq ($(PLATFORM),IQUE)
