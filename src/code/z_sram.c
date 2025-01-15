@@ -740,7 +740,7 @@ void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCt
                 i = gSramSlotOffsets[slotNum + 3];
                 SRAM_WRITE(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE);
 
-                // The ??= below is interpreted as a trigraph for # by IDO
+                //! @bug The ??= below is interpreted as a trigraph for # by IDO
                 PRINTF("??????=%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0],
                        gSaveContext.save.info.playerData.newf[1], gSaveContext.save.info.playerData.newf[2],
                        gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4],
