@@ -209,7 +209,7 @@ typedef struct Font {
         /* 0x3C88 */ u64 force_structure_alignment_font;
     };
     union {
-        /* 0xDC88 */ char msgBuf[1280];
+        /* 0xDC88 */ u8 msgBuf[1280];
         /* 0xDC88 */ u16 msgBufWide[640];
         /* 0xDC88 */ u64 force_structure_alignment_msg;
     };
