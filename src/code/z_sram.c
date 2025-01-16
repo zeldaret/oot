@@ -24,7 +24,7 @@
 
 #else
 
-void Sram_iQueReadWrite(s32 addr, void* dramAddr, size_t size, s32 direction) {
+void Sram_ReadWriteIQue(s32 addr, void* dramAddr, size_t size, s32 direction) {
     void* sramAddr;
 
     addr -= OS_K1_TO_PHYSICAL(0xA8000000);
@@ -36,8 +36,8 @@ void Sram_iQueReadWrite(s32 addr, void* dramAddr, size_t size, s32 direction) {
     }
 }
 
-#define SRAM_READ(addr, dramAddr, size) Sram_iQueReadWrite(addr, dramAddr, size, OS_READ)
-#define SRAM_WRITE(addr, dramAddr, size) Sram_iQueReadWrite(addr, dramAddr, size, OS_WRITE)
+#define SRAM_READ(addr, dramAddr, size) Sram_ReadWriteIQue(addr, dramAddr, size, OS_READ)
+#define SRAM_WRITE(addr, dramAddr, size) Sram_ReadWriteIQue(addr, dramAddr, size, OS_WRITE)
 
 #endif
 
