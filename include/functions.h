@@ -74,6 +74,9 @@ void CutsceneFlags_Unset(PlayState* play, s16 flag);
 s32 CutsceneFlags_Get(PlayState* play, s16 flag);
 
 s32 Kanji_OffsetFromShiftJIS(s32 character);
+#if PLATFORM_IQUE
+void Font_LoadCharCHN(Font* font, u16 character, u16 codePointIndex);
+#endif
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxIcon(Font* font, u16 icon);

@@ -1191,6 +1191,7 @@ KaleidoSetup_Init = 0x8006261C; // type:func
 KaleidoSetup_Destroy = 0x80062770; // type:func
 Font_LoadCharWide = 0x80062780; // type:func
 Font_LoadChar = 0x800627D0; // type:func
+Font_LoadCharCHN = 0x8006280C; // type:func
 Font_LoadMessageBoxIcon = 0x80062848; // type:func
 Font_LoadOrderedFont = 0x8006287C; // type:func
 Environment_ZBufValToFixedPoint = 0x80062980; // type:func
