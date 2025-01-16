@@ -984,7 +984,7 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     PRINTF("sram_initialize( Game *game, Sram *sram )\n");
     SRAM_READ(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE);
 
-    for (i = 0; i < ARRAY_COUNTU(sZeldaMagic) - 3; i++) {
+    for (i = 0; i < ARRAY_COUNTU(sZeldaMagic) - SRAM_HEADER_MAGIC; i++) {
         if (sZeldaMagic[i + SRAM_HEADER_MAGIC] != sramCtx->readBuff[i + SRAM_HEADER_MAGIC]) {
             PRINTF(T("ＳＲＡＭ破壊！！！！！！\n", "SRAM destruction!!!!!!\n"));
 #if PLATFORM_GC && OOT_PAL
