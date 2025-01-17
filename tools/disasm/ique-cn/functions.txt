@@ -1824,6 +1824,7 @@ SkinMatrix_MtxFToMtx = 0x80095D40; // type:func
 SkinMatrix_MtxFToNewMtx = 0x80095F58; // type:func
 SkinMatrix_SetRotateAxis = 0x80095FA0; // type:func
 func_800A8030 = 0x80096110; // type:func
+Sram_ReadWriteIQue = 0x80096280; // type:func
 Sram_InitNewSave = 0x800962D0; // type:func
 Sram_InitDebugSave = 0x80096420; // type:func
 Sram_OpenSave = 0x800965E8; // type:func

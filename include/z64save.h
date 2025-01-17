@@ -84,6 +84,10 @@ typedef struct Inventory {
     /* 0x5C */ s16 gsTokens;
 } Inventory; // size = 0x5E
 
+typedef struct Checksum {
+    /* 0x00 */ u16 value;
+} Checksum; // size = 0x02
+
 typedef struct SavedSceneFlags {
     /* 0x00 */ u32 chest;
     /* 0x04 */ u32 swch;
@@ -254,7 +258,7 @@ typedef struct SaveInfo {
     /* 0x12AA  0x12C6 */ u8 scarecrowSpawnSong[0x80];
     /* 0x132A  0x1346 */ char unk_1346[0x02];
     /* 0x132C  0x1348 */ HorseData horseData;
-    /* 0x1336  0x1352 */ u16 checksum; // "check_sum"
+    /* 0x1336  0x1352 */ Checksum checksum; // "check_sum"
 } SaveInfo;
 
 typedef struct Save {
