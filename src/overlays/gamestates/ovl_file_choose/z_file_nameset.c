@@ -1354,7 +1354,7 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
         PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
         PRINTF_RST();
-        func_800F6700(gSaveContext.audioSetting);
+        Audio_SetAudioSetting(gSaveContext.audioSetting);
         PRINTF("終了\n");
         return;
     }
@@ -1368,7 +1368,7 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
 
             // because audio setting is unsigned, can't check for < 0
             if (gSaveContext.audioSetting > 0xF0) {
-                gSaveContext.audioSetting = FS_AUDIO_SURROUND;
+                gSaveContext.audioSetting = AUDIO_SETTING_SURROUND;
             }
         } else {
 #if !OOT_PAL_N64
@@ -1391,8 +1391,8 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         if (sSelectedSetting == FS_SETTING_AUDIO) {
             gSaveContext.audioSetting++;
 
-            if (gSaveContext.audioSetting > FS_AUDIO_SURROUND) {
-                gSaveContext.audioSetting = FS_AUDIO_STEREO;
+            if (gSaveContext.audioSetting > AUDIO_SETTING_SURROUND) {
+                gSaveContext.audioSetting = AUDIO_SETTING_STEREO;
             }
         } else {
 #if !OOT_PAL_N64

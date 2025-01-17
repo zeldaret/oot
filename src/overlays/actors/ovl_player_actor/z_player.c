@@ -3908,7 +3908,8 @@ void Player_UpdateZTargeting(Player* this, PlayState* play) {
 
                 // Get saved Z Target setting.
                 // Dark Link uses Hold Targeting.
-                usingHoldTargeting = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
+                usingHoldTargeting = (gSaveContext.zTargetSetting != Z_TARGET_SETTING_SWITCH) ||
+                                     (this->actor.category != ACTORCAT_PLAYER);
 
                 this->stateFlags1 |= PLAYER_STATE1_Z_TARGETING;
 

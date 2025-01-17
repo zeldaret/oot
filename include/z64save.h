@@ -6,6 +6,11 @@
 #include "z64inventory.h"
 #include "z64math.h"
 
+typedef enum ZTargetSetting {
+    /* 0 */ Z_TARGET_SETTING_SWITCH,
+    /* 1 */ Z_TARGET_SETTING_HOLD
+} ZTargetSetting;
+
 typedef enum Language {
 #if OOT_NTSC
     /* 0 */ LANGUAGE_JPN,
