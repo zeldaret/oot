@@ -82,7 +82,7 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
         }
     }
 
-    // If all 5 messages have been spoken, we reset but make sure the last message isn't repeated again
+    // If all 5 messages have been spoken, reset but prevent the last message from being repeated
     if (i == 5) {
         if (this->defaultTextId == (textIdOffset[randomIndex] | 0x7000)) {
             randomIndex++;
