@@ -51,7 +51,23 @@ u16 gSramSlotOffsets[] = {
     SLOT_OFFSET(5),
 };
 
-static u8 sZeldaMagic[] = { '\0', '\0', '\0', '\x98', '\x09', '\x10', '\x21', 'Z', 'E', 'L', 'D', 'A' };
+static u8 sSramDefaultHeader[] = {
+    // TODO: use enums for these
+    0, // SRAM_HEADER_SOUND
+    0, // SRAM_HEADER_ZTARGET
+    0, // SRAM_HEADER_LANGUAGE
+
+    // SRAM_HEADER_MAGIC
+    0x98,
+    0x09,
+    0x10,
+    0x21,
+    'Z',
+    'E',
+    'L',
+    'D',
+    'A',
+};
 
 static SavePlayerData sNewSavePlayerData = {
     { '\0', '\0', '\0', '\0', '\0', '\0' }, // newf
@@ -984,14 +1000,14 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     PRINTF("sram_initialize( Game *game, Sram *sram )\n");
     SRAM_READ(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE);
 
-    for (i = 0; i < ARRAY_COUNTU(sZeldaMagic) - SRAM_HEADER_MAGIC; i++) {
-        if (sZeldaMagic[i + SRAM_HEADER_MAGIC] != sramCtx->readBuff[i + SRAM_HEADER_MAGIC]) {
+    for (i = 0; i < ARRAY_COUNTU(sSramDefaultHeader) - SRAM_HEADER_MAGIC; i++) {
+        if (sSramDefaultHeader[i + SRAM_HEADER_MAGIC] != sramCtx->readBuff[i + SRAM_HEADER_MAGIC]) {
             PRINTF(T("ＳＲＡＭ破壊！！！！！！\n", "SRAM destruction!!!!!!\n"));
 #if PLATFORM_GC && OOT_PAL
             gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
 #endif
 
-            MemCpy(sramCtx->readBuff, sZeldaMagic, sizeof(sZeldaMagic));
+            MemCpy(sramCtx->readBuff, sSramDefaultHeader, sizeof(sSramDefaultHeader));
 
 #if PLATFORM_GC && OOT_PAL
             sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language;
