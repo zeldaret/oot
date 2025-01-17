@@ -2,6 +2,9 @@ build_system = "make"
 compiler_type = "ido"  # adjusts default weights for permuting
 
 [preserve_macros]
+NULL = "void"
+true = "int"
+false = "int"
 "g[DS]P.*" = "void"
 "gDma.*" = "void"
 "a[A-Z].*" = "void"
