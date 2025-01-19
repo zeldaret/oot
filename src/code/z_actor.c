@@ -2376,7 +2376,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
 #if DEBUG_FEATURES
     if (0) {
-        // This ASSERT is optimized out but it exists due to its presence in rodata
+        // This ASSERT is optimized out, but it can be assumed to exist because its string is present in rodata
         ASSERT(gMaxActorId == ACTOR_ID_MAX, "MaxProfile == ACTOR_DLF_MAX", "../z_actor.c", UNK_LINE);
     }
 #endif
