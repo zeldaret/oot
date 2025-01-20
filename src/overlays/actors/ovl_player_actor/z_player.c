@@ -332,7 +332,7 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 // .bss part 1
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:128 pal-1.1:128"
+                               "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
 static s32 D_80858AA0;
 
@@ -3908,7 +3908,8 @@ void Player_UpdateZTargeting(Player* this, PlayState* play) {
 
                 // Get saved Z Target setting.
                 // Dark Link uses Hold Targeting.
-                usingHoldTargeting = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
+                usingHoldTargeting = (gSaveContext.zTargetSetting != Z_TARGET_SETTING_SWITCH) ||
+                                     (this->actor.category != ACTORCAT_PLAYER);
 
                 this->stateFlags1 |= PLAYER_STATE1_Z_TARGETING;
 

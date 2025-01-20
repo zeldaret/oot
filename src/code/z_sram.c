@@ -52,10 +52,13 @@ u16 gSramSlotOffsets[] = {
 };
 
 static u8 sSramDefaultHeader[] = {
-    // TODO: use enums for these
-    0, // SRAM_HEADER_SOUND
-    0, // SRAM_HEADER_ZTARGET
-    0, // SRAM_HEADER_LANGUAGE
+    AUDIO_SETTING_STEREO,    // SRAM_HEADER_AUDIO
+    Z_TARGET_SETTING_SWITCH, // SRAM_HEADER_Z_TARGET
+#if OOT_NTSC
+    LANGUAGE_JPN, // SRAM_HEADER_LANGUAGE
+#else
+    LANGUAGE_ENG, // SRAM_HEADER_LANGUAGE
+#endif
 
     // SRAM_HEADER_MAGIC
     0x98,
@@ -1016,8 +1019,8 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
         }
     }
 
-    gSaveContext.audioSetting = sramCtx->readBuff[SRAM_HEADER_SOUND] & 3;
-    gSaveContext.zTargetSetting = sramCtx->readBuff[SRAM_HEADER_ZTARGET] & 1;
+    gSaveContext.audioSetting = sramCtx->readBuff[SRAM_HEADER_AUDIO] & 3;
+    gSaveContext.zTargetSetting = sramCtx->readBuff[SRAM_HEADER_Z_TARGET] & 1;
 
 #if OOT_PAL
     gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
@@ -1046,7 +1049,7 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
     PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
     PRINTF_RST();
-    func_800F6700(gSaveContext.audioSetting);
+    Audio_SetAudioSetting(gSaveContext.audioSetting);
 }
 
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {

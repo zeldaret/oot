@@ -3766,26 +3766,26 @@ void Audio_SetCodeReverb(s8 reverb) {
     }
 }
 
-void func_800F6700(s8 audioSetting) {
+void Audio_SetAudioSetting(s8 audioSetting) {
     s8 soundModeIndex;
 
     switch (audioSetting) {
-        case 0:
+        case AUDIO_SETTING_STEREO:
             soundModeIndex = SOUNDMODE_STEREO;
             sSoundMode = SOUNDMODE_STEREO;
             break;
 
-        case 1:
+        case AUDIO_SETTING_MONO:
             soundModeIndex = SOUNDMODE_MONO;
             sSoundMode = SOUNDMODE_MONO;
             break;
 
-        case 2:
+        case AUDIO_SETTING_HEADSET:
             soundModeIndex = SOUNDMODE_HEADSET;
             sSoundMode = SOUNDMODE_HEADSET;
             break;
 
-        case 3:
+        case AUDIO_SETTING_SURROUND:
             soundModeIndex = SOUNDMODE_STEREO;
             sSoundMode = SOUNDMODE_SURROUND;
             break;

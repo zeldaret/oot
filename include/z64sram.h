@@ -11,8 +11,8 @@ typedef struct SramContext {
 #define SRAM_HEADER_SIZE 0x10
 
 typedef enum SramHeaderField {
-    /* 0x00 */ SRAM_HEADER_SOUND,
-    /* 0x01 */ SRAM_HEADER_ZTARGET,
+    /* 0x00 */ SRAM_HEADER_AUDIO,
+    /* 0x01 */ SRAM_HEADER_Z_TARGET,
     /* 0x02 */ SRAM_HEADER_LANGUAGE,
     /* 0x03 */ SRAM_HEADER_MAGIC // must be the value in `sSramDefaultHeader` for save to be considered valid
 } SramHeaderField;
