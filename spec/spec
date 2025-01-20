@@ -60,11 +60,11 @@ beginseg
 
     // libultra
 #if PLATFORM_N64
-#include "spec_includes/boot_libultra_n64.inc"
+#include "boot_libultra_n64.inc"
 #elif PLATFORM_GC
-#include "spec_includes/boot_libultra_gc.inc"
+#include "boot_libultra_gc.inc"
 #elif PLATFORM_IQUE
-#include "spec_includes/boot_libultra_ique.inc"
+#include "boot_libultra_ique.inc"
 #endif
 
     // libgcc
@@ -752,11 +752,11 @@ beginseg
 
     // libultra
 #if PLATFORM_N64
-#include "spec_includes/code_libultra_n64.inc"
+#include "code_libultra_n64.inc"
 #elif PLATFORM_GC
-#include "spec_includes/code_libultra_gc.inc"
+#include "code_libultra_gc.inc"
 #elif PLATFORM_IQUE
-#include "spec_includes/code_libultra_ique.inc"
+#include "code_libultra_ique.inc"
 #endif
 
     // libc
@@ -965,9 +965,9 @@ endseg
 // Overlays for most actors and effects are reordered between versions. On N64 and iQue,
 // the overlays are in some arbitrary order, while on GameCube they are sorted alphabetically.
 #if !PLATFORM_GC
-#include "spec_includes/overlays_n64_ique.inc"
+#include "overlays_n64_ique.inc"
 #else
-#include "spec_includes/overlays_gc.inc"
+#include "overlays_gc.inc"
 #endif
 
 beginseg
@@ -4891,9 +4891,9 @@ endseg
 // Scene files are reordered between versions. On GameCube and iQue, dungeon scenes
 // have been moved to the beginning.
 #if PLATFORM_N64
-#include "spec_includes/scenes_n64.inc"
+#include "scenes_n64.inc"
 #else
-#include "spec_includes/scenes_gc_ique.inc"
+#include "scenes_gc_ique.inc"
 #endif
 
 beginseg
