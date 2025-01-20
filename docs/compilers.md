@@ -7,7 +7,7 @@ such as those related to Chinese text) was compiled with EGCS compiler instead.
 
 ## IDO
 
-Ocarinate of Time was originally developed on
+Ocarina of Time was originally developed on
 [Silicon Graphics "Indy"](https://en.wikipedia.org/wiki/SGI_Indy) workstations,
 and IDO (IRIX Developer Option) was the C compiler toolchain that shipped with
 these. Two different versions of IDO were used for Ocarina of Time: IDO 5.3 was
