@@ -119,7 +119,7 @@ void Font_LoadOrderedFont(Font* font) {
 
     PRINTF("msg_data=%x,  msg_data0=%x   jj=%x\n", font->msgOffset, font->msgLength, len);
 
-    // Workaround for EGCS bug
+    // Workaround for EGCS internal compiler error (see docs/compilers.md)
     msgBufWide = font->msgBufWide;
     fontBufIndex = 0;
     for (codePointIndex = 0; msgBufWide[codePointIndex] != MESSAGE_WIDE_END; codePointIndex++) {

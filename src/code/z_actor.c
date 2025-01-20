@@ -2570,7 +2570,7 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[actor->objectSlot].segment);
     gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.slots[actor->objectSlot].segment);
 #else
-    // Workaround for EGCS bug
+    // Workaround for EGCS internal compiler error (see docs/compilers.md)
     slots = play->objectCtx.slots;
     gSPSegment(POLY_OPA_DISP++, 0x06, slots[actor->objectSlot].segment);
     gSPSegment(POLY_XLU_DISP++, 0x06, slots[actor->objectSlot].segment);
