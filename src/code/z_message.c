@@ -1873,7 +1873,7 @@ void Message_Decode(PlayState* play) {
             } else if (curCharWide == MESSAGE_WIDE_POINTS) {
                 // Convert the values of the current minigame score to digits and
                 //  add the digits to the decoded buffer in place of the control character.
-                PRINTF(T("\n流鏑馬スコア ＝ ", "\nYabusame score = "));
+                PRINTF(T("\n流鏑馬スコア ＝ ", "\nHorseback archery score = "));
                 digits[0] = digits[1] = digits[2] = 0;
                 digits[3] = gSaveContext.minigameScore;
 
@@ -2267,7 +2267,7 @@ void Message_Decode(PlayState* play) {
             } else if (curChar == MESSAGE_POINTS) {
                 // Convert the values of the current minigame score to digits and
                 //  add the digits to the decoded buffer in place of the control character.
-                PRINTF(T("\n流鏑馬スコア ＝ %d\n", "\nYabusame score = %d\n"), gSaveContext.minigameScore);
+                PRINTF(T("\n流鏑馬スコア ＝ %d\n", "\nHorseback archery score = %d\n"), gSaveContext.minigameScore);
                 digits[0] = digits[1] = digits[2] = 0;
                 digits[3] = gSaveContext.minigameScore;
 
