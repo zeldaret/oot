@@ -1100,9 +1100,9 @@ void Interface_SetSceneRestrictions(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 i = 0;
     u8 sceneId;
-#if !PLATFORM_IQUE
-    s32 pad[3];
-#endif
+    s32 pad1;
+    s32 pad2;
+    s32 pad3;
 
     interfaceCtx->restrictions.all = 0;
     interfaceCtx->restrictions.dinsNayrus = 0;

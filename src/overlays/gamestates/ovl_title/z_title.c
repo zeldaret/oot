@@ -92,9 +92,8 @@ void ConsoleLogo_Draw(ConsoleLogoState* this) {
     Vec3f v3;
     Vec3f v1;
     Vec3f v2;
-#if !PLATFORM_IQUE
-    s32 pad2[2];
-#endif
+    s32 pad2;
+    s32 pad3;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_title.c", 395);
 
