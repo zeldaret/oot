@@ -12,7 +12,7 @@ Ocarina of Time was originally developed on
 and IDO (IRIX Developer Option) was the C compiler toolchain that shipped with
 these. Two different versions of IDO were used for Ocarina of Time: IDO 5.3 was
 used for some libraries (namely libultra, libleo, and the JPEG library) while
-IDO 7.1 was used the other libraries and all of the "main" game code.
+IDO 7.1 was used for the other libraries and all of the "main" game code.
 
 These Silicon Graphics workstations ran the MIPS-based IRIX operating system, so
 the original compiler binaries can't run on modern systems. Originally this
