@@ -2088,7 +2088,7 @@ void Message_Decode(PlayState* play) {
                 Message_LoadItemIcon(play, MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 1], R_TEXTBOX_Y + 10);
             } else if (curCharWide == MESSAGE_WIDE_BACKGROUND) {
                 msgCtx->textboxBackgroundIdx = MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 1] * 2;
-                PRINTF("mes_board=%d\n");
+                PRINTF("mes_board=%d\n", msgCtx->textboxBackgroundIdx);
                 msgCtx->textboxBackgroundForeColorIdx = (MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 2] & 0xF000) >> 12;
                 msgCtx->textboxBackgroundBackColorIdx = (MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 2] & 0xF00) >> 8;
                 msgCtx->textboxBackgroundYOffsetIdx = (MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 2] & 0xF0) >> 4;
