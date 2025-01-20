@@ -853,7 +853,7 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
 #if !PLATFORM_IQUE
         gSaveContext.save.info.playerData.playerName[offset] = fileSelect->fileNames[fileSelect->buttonIndex][offset];
 #else
-        // Workaround for EGCS bug
+        // Workaround for EGCS internal compiler error (see docs/compilers.md)
         u8* fileName = fileSelect->fileNames[fileSelect->buttonIndex];
 
         gSaveContext.save.info.playerData.playerName[offset] = fileName[offset];
