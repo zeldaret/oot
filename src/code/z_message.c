@@ -1165,8 +1165,7 @@ void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
                 if (i + 1 == msgCtx->textDrawPos && (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING ||
                                                      (msgCtx->msgMode >= MSGMODE_OCARINA_STARTING &&
                                                       msgCtx->msgMode < MSGMODE_SCARECROW_LONG_RECORDING_START))) {
-                    j = i;
-                    for (;;) {
+                    for (j = i;; j++) {
                         character = MSG_BUF_DECODED_WIDE(msgCtx)[j];
                         if ((character == MESSAGE_WIDE_QUICKTEXT_DISABLE) || (character == MESSAGE_WIDE_PERSISTENT) ||
                             (character == MESSAGE_WIDE_EVENT) || (character == MESSAGE_WIDE_BOX_BREAK_DELAYED) ||
@@ -1174,7 +1173,6 @@ void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
                             (character == MESSAGE_WIDE_END)) {
                             break;
                         }
-                        j++;
                     }
                     i = j - 1;
                     msgCtx->textDrawPos = i + 1;
@@ -1493,8 +1491,7 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 if (i + 1 == msgCtx->textDrawPos && (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING ||
                                                      (msgCtx->msgMode >= MSGMODE_OCARINA_STARTING &&
                                                       msgCtx->msgMode < MSGMODE_SCARECROW_LONG_RECORDING_START))) {
-                    j = i;
-                    for (;;) {
+                    for (j = i;; j++) {
                         character = MSG_BUF_DECODED(msgCtx)[j];
                         if (character == MESSAGE_SHIFT) {
                             j++;
@@ -1504,7 +1501,6 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                                    (character == MESSAGE_END)) {
                             break;
                         }
-                        j++;
                     }
                     i = j - 1;
                     msgCtx->textDrawPos = i + 1;
