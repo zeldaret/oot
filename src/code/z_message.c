@@ -1899,7 +1899,7 @@ void Message_Decode(PlayState* play) {
             } else if (curCharWide == MESSAGE_WIDE_TOKENS) {
                 // Convert the current number of collected gold skulltula tokens to digits and
                 //  add the digits to the decoded buffer in place of the control character.
-                PRINTF(T("\n金スタ合計数 ＝ %d", "\nTotal number of gold stars = %d"),
+                PRINTF(T("\n金スタ合計数 ＝ %d", "\nTotal number of gold skulls = %d"),
                        gSaveContext.save.info.inventory.gsTokens);
                 digits[0] = digits[1] = 0;
                 digits[2] = gSaveContext.save.info.inventory.gsTokens;
@@ -2293,7 +2293,7 @@ void Message_Decode(PlayState* play) {
             } else if (curChar == MESSAGE_TOKENS) {
                 // Convert the current number of collected gold skulltula tokens to digits and
                 //  add the digits to the decoded buffer in place of the control character.
-                PRINTF(T("\n金スタ合計数 ＝ %d", "\nTotal number of gold stars = %d"),
+                PRINTF(T("\n金スタ合計数 ＝ %d", "\nTotal number of gold skulls = %d"),
                        gSaveContext.save.info.inventory.gsTokens);
                 digits[0] = digits[1] = 0;
                 digits[2] = gSaveContext.save.info.inventory.gsTokens;
