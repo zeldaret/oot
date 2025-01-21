@@ -212,7 +212,7 @@ typedef enum WorldMapArea {
 typedef struct SavePlayerData {
     /* 0x00  0x001C */ char newf[6]; // string "ZELDAZ"
     /* 0x06  0x0022 */ u16 deaths;
-    /* 0x08  0x0024 */ char playerName[8];
+    /* 0x08  0x0024 */ u8 playerName[8];
     /* 0x10  0x002C */ s16 n64ddFlag;
     /* 0x12  0x002E */ s16 healthCapacity; // "max_life"
     /* 0x14  0x0030 */ s16 health; // "now_life"

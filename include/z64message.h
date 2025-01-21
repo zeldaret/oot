@@ -209,7 +209,7 @@ typedef struct Font {
         /* 0x3C88 */ u64 force_structure_alignment_font;
     };
     union {
-        /* 0xDC88 */ char msgBuf[1280];
+        /* 0xDC88 */ u8 msgBuf[1280];
         /* 0xDC88 */ u16 msgBufWide[640];
         /* 0xDC88 */ u64 force_structure_alignment_msg;
     };
@@ -255,7 +255,7 @@ typedef struct MessageContext {
     /* 0xE3E4 */ u8 textboxEndType; // original name : "select"
     /* 0xE3E5 */ u8 choiceIndex;
     /* 0xE3E6 */ u8 choiceNum; // textboxes that are not choice textboxes have a choiceNum of 1
-    /* 0xE3E7 */ u8 stateTimer;
+    /* 0xE3E7 */ char stateTimer;
     /* 0xE3E8 */ u16 textDelayTimer;
     /* 0xE3EA */ u16 textDelay;
     /* 0xE3EA */ u16 lastPlayedSong; // original references : "Ocarina_Flog" , "Ocarina_Free"
