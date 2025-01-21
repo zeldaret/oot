@@ -638,6 +638,8 @@ $(BUILD_DIR)/src/libultra/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
 $(BUILD_DIR)/src/libultra/reg/_%.o: OPTFLAGS := -O0
 $(BUILD_DIR)/src/libultra/reg/_%.o: MIPS_VERSION := -mgp64 -mfp64 -mips3
 
+$(BUILD_DIR)/src/libultra/audio/%.o: OPTFLAGS := -O2
+
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O0
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O0
 

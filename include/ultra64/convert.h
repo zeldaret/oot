@@ -15,4 +15,6 @@
 #define OS_PHYSICAL_TO_K0(x)    (void*)(((u32)(x)+0x80000000))
 #define OS_PHYSICAL_TO_K1(x)    (void*)(((u32)(x)+0xA0000000))
 
+u32 osVirtualToPhysical(void* vaddr);
+
 #endif
