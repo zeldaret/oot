@@ -11,16 +11,16 @@
                                "ntsc-1.0:80 ntsc-1.1:80 ntsc-1.2:80 pal-1.0:128 pal-1.1:128"
 
 #if !PLATFORM_IQUE
-#define MSG_BUF_DECODED(msgCtx) ((msgCtx)->msgBufDecoded)
-#define MSG_BUF_DECODED_WIDE(msgCtx) ((msgCtx)->msgBufDecodedWide)
-#define MSG_BUF(font) ((font)->msgBuf)
-#define MSG_BUF_WIDE(font) ((font)->msgBufWide)
+#define MSG_BUF_DECODED (msgCtx->msgBufDecoded)
+#define MSG_BUF_DECODED_WIDE (msgCtx->msgBufDecodedWide)
+#define MSG_BUF (font->msgBuf)
+#define MSG_BUF_WIDE (font->msgBufWide)
 #else
 // Workaround for EGCS internal compiler error (see docs/compilers.md)
-#define MSG_BUF_DECODED(msgCtx) ((u8*)(msgCtx)->msgBufDecoded)
-#define MSG_BUF_DECODED_WIDE(msgCtx) ((u16*)(msgCtx)->msgBufDecodedWide)
-#define MSG_BUF(font) ((u8*)(font)->msgBuf)
-#define MSG_BUF_WIDE(font) ((u16*)(font)->msgBufWide)
+#define MSG_BUF_DECODED ((u8*)msgCtx->msgBufDecoded)
+#define MSG_BUF_DECODED_WIDE ((u16*)msgCtx->msgBufDecodedWide)
+#define MSG_BUF ((u8*)font->msgBuf)
+#define MSG_BUF_WIDE ((u16*)font->msgBufWide)
 #endif
 
 #if !PLATFORM_GC
@@ -1114,7 +1114,7 @@ void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
     charTexIdx = 0;
 
     for (i = 0; i < msgCtx->textDrawPos; i++) {
-        character = MSG_BUF_DECODED_WIDE(msgCtx)[i];
+        character = MSG_BUF_DECODED_WIDE[i];
 
         switch (character) {
             case MESSAGE_WIDE_NEWLINE:
@@ -1128,7 +1128,7 @@ void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
                 }
                 break;
             case MESSAGE_WIDE_COLOR:
-                Message_SetTextColor(msgCtx, MSG_BUF_DECODED_WIDE(msgCtx)[++i]);
+                Message_SetTextColor(msgCtx, MSG_BUF_DECODED_WIDE[++i]);
                 break;
             case MESSAGE_WIDE_CHAR_SPACE:
                 msgCtx->textPosX += MESSAGE_SPACE_WIDTH;
@@ -1149,7 +1149,7 @@ void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
                 *gfxP = gfx;
                 return;
             case MESSAGE_WIDE_SHIFT:
-                msgCtx->textPosX += MSG_BUF_DECODED_WIDE(msgCtx)[++i];
+                msgCtx->textPosX += MSG_BUF_DECODED_WIDE[++i];
                 break;
             case MESSAGE_WIDE_TEXTID:
                 msgCtx->textboxEndType = TEXTBOX_ENDTYPE_HAS_NEXT;
@@ -1166,7 +1166,7 @@ void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
                                                      (msgCtx->msgMode >= MSGMODE_OCARINA_STARTING &&
                                                       msgCtx->msgMode < MSGMODE_SCARECROW_LONG_RECORDING_START))) {
                     for (j = i;; j++) {
-                        character = MSG_BUF_DECODED_WIDE(msgCtx)[j];
+                        character = MSG_BUF_DECODED_WIDE[j];
                         if ((character == MESSAGE_WIDE_QUICKTEXT_DISABLE) || (character == MESSAGE_WIDE_PERSISTENT) ||
                             (character == MESSAGE_WIDE_EVENT) || (character == MESSAGE_WIDE_BOX_BREAK_DELAYED) ||
                             (character == MESSAGE_WIDE_AWAIT_BUTTON_PRESS) || (character == MESSAGE_WIDE_BOX_BREAK) ||
@@ -1192,7 +1192,7 @@ void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
                 break;
             case MESSAGE_WIDE_BOX_BREAK_DELAYED:
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
-                    msgCtx->stateTimer = MSG_BUF_DECODED_WIDE(msgCtx)[++i];
+                    msgCtx->stateTimer = MSG_BUF_DECODED_WIDE[++i];
                     msgCtx->msgMode = MSGMODE_TEXT_DELAYED_BREAK;
                 }
                 *gfxP = gfx;
@@ -1202,13 +1202,13 @@ void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
             case MESSAGE_WIDE_SFX:
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING && !sMessageHasSetSfx) {
                     sMessageHasSetSfx = true;
-                    Audio_PlaySfxGeneral(MSG_BUF_DECODED_WIDE(msgCtx)[i + 1], &gSfxDefaultPos, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(MSG_BUF_DECODED_WIDE[i + 1], &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
                 i++;
                 break;
             case MESSAGE_WIDE_ITEM_ICON:
-                i = Message_DrawItemIcon(play, MSG_BUF_DECODED_WIDE(msgCtx)[i + 1], &gfx, i);
+                i = Message_DrawItemIcon(play, MSG_BUF_DECODED_WIDE[i + 1], &gfx, i);
                 break;
             case MESSAGE_WIDE_BACKGROUND:
                 // clang-format off
@@ -1270,7 +1270,7 @@ void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
                 msgCtx->textPosX += 32;
                 break;
             case MESSAGE_WIDE_TEXT_SPEED:
-                msgCtx->textDelay = MSG_BUF_DECODED_WIDE(msgCtx)[++i];
+                msgCtx->textDelay = MSG_BUF_DECODED_WIDE[++i];
                 break;
             case MESSAGE_WIDE_UNSKIPPABLE:
                 msgCtx->textUnskippable = true;
@@ -1318,7 +1318,7 @@ void Message_DrawTextWide(PlayState* play, Gfx** gfxP) {
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
                     msgCtx->textboxEndType = TEXTBOX_ENDTYPE_FADING;
-                    msgCtx->stateTimer = MSG_BUF_DECODED_WIDE(msgCtx)[++i];
+                    msgCtx->stateTimer = MSG_BUF_DECODED_WIDE[++i];
                     Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_SQUARE);
                     if (play->csCtx.state == CS_STATE_IDLE) {
                         Interface_SetDoAction(play, DO_ACTION_RETURN);
@@ -1440,7 +1440,7 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
     charTexIdx = 0;
 
     for (i = 0; i < msgCtx->textDrawPos; i++) {
-        character = MSG_BUF_DECODED(msgCtx)[i];
+        character = MSG_BUF_DECODED[i];
 
         switch (character) {
             case MESSAGE_NEWLINE:
@@ -1454,7 +1454,7 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 msgCtx->textPosY += R_TEXT_LINE_SPACING;
                 break;
             case MESSAGE_COLOR:
-                Message_SetTextColor(msgCtx, MSG_BUF_DECODED(msgCtx)[++i] & 0xF);
+                Message_SetTextColor(msgCtx, MSG_BUF_DECODED[++i] & 0xF);
                 break;
             case MESSAGE_CHAR_SPACE:
                 msgCtx->textPosX += MESSAGE_SPACE_WIDTH;
@@ -1475,7 +1475,7 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 *gfxP = gfx;
                 return;
             case MESSAGE_SHIFT:
-                msgCtx->textPosX += MSG_BUF_DECODED(msgCtx)[++i];
+                msgCtx->textPosX += MSG_BUF_DECODED[++i];
                 break;
             case MESSAGE_TEXTID:
                 msgCtx->textboxEndType = TEXTBOX_ENDTYPE_HAS_NEXT;
@@ -1492,7 +1492,7 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                                                      (msgCtx->msgMode >= MSGMODE_OCARINA_STARTING &&
                                                       msgCtx->msgMode < MSGMODE_SCARECROW_LONG_RECORDING_START))) {
                     for (j = i;; j++) {
-                        character = MSG_BUF_DECODED(msgCtx)[j];
+                        character = MSG_BUF_DECODED[j];
                         if (character == MESSAGE_SHIFT) {
                             j++;
                         } else if ((character == MESSAGE_QUICKTEXT_DISABLE) || (character == MESSAGE_PERSISTENT) ||
@@ -1520,7 +1520,7 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 break;
             case MESSAGE_BOX_BREAK_DELAYED:
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
-                    msgCtx->stateTimer = MSG_BUF_DECODED(msgCtx)[++i];
+                    msgCtx->stateTimer = MSG_BUF_DECODED[++i];
                     msgCtx->msgMode = MSGMODE_TEXT_DELAYED_BREAK;
                 }
                 *gfxP = gfx;
@@ -1529,10 +1529,9 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
                     msgCtx->textboxEndType = TEXTBOX_ENDTYPE_FADING;
-                    PRINTF(T("タイマー (%x) (%x)", "Timer (%x) (%x)"), MSG_BUF_DECODED(msgCtx)[i + 1],
-                           MSG_BUF_DECODED(msgCtx)[i + 2]);
-                    msgCtx->stateTimer = MSG_BUF_DECODED(msgCtx)[++i] << 8;
-                    msgCtx->stateTimer |= MSG_BUF_DECODED(msgCtx)[++i];
+                    PRINTF(T("タイマー (%x) (%x)", "Timer (%x) (%x)"), MSG_BUF_DECODED[i + 1], MSG_BUF_DECODED[i + 2]);
+                    msgCtx->stateTimer = MSG_BUF_DECODED[++i] << 8;
+                    msgCtx->stateTimer |= MSG_BUF_DECODED[++i];
                     PRINTF(T("合計wct=%x(%d)\n", " Total wct=%x(%d)\n"), msgCtx->stateTimer, msgCtx->stateTimer);
                 }
                 *gfxP = gfx;
@@ -1541,15 +1540,15 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING && !sMessageHasSetSfx) {
                     sMessageHasSetSfx = true;
                     PRINTF(T("サウンド（ＳＥ）\n", "Sound (SE)\n"));
-                    sfxHi = MSG_BUF_DECODED(msgCtx)[i + 1];
+                    sfxHi = MSG_BUF_DECODED[i + 1];
                     sfxHi <<= 8;
-                    Audio_PlaySfxGeneral(sfxHi | MSG_BUF_DECODED(msgCtx)[i + 2], &gSfxDefaultPos, 4,
+                    Audio_PlaySfxGeneral(sfxHi | MSG_BUF_DECODED[i + 2], &gSfxDefaultPos, 4,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
                 i += 2;
                 break;
             case MESSAGE_ITEM_ICON:
-                i = Message_DrawItemIcon(play, MSG_BUF_DECODED(msgCtx)[i + 1], &gfx, i);
+                i = Message_DrawItemIcon(play, MSG_BUF_DECODED[i + 1], &gfx, i);
                 break;
             case MESSAGE_BACKGROUND:
                 // clang-format off
@@ -1611,7 +1610,7 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 msgCtx->textPosX += 32;
                 break;
             case MESSAGE_TEXT_SPEED:
-                msgCtx->textDelay = MSG_BUF_DECODED(msgCtx)[++i];
+                msgCtx->textDelay = MSG_BUF_DECODED[++i];
                 break;
             case MESSAGE_UNSKIPPABLE:
                 msgCtx->textUnskippable = true;
@@ -1659,7 +1658,7 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
                     msgCtx->textboxEndType = TEXTBOX_ENDTYPE_FADING;
-                    msgCtx->stateTimer = MSG_BUF_DECODED(msgCtx)[++i];
+                    msgCtx->stateTimer = MSG_BUF_DECODED[++i];
                     Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_SQUARE);
                     if (play->csCtx.state == 0) {
                         Interface_SetDoAction(play, DO_ACTION_RETURN);
@@ -1773,7 +1772,7 @@ void Message_Decode(PlayState* play) {
     if (gSaveContext.language == LANGUAGE_JPN && !sTextIsCredits) {
         // Japanese text (NTSC only)
         for (;;) {
-            curCharWide = MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = MSG_BUF_WIDE(font)[msgCtx->msgBufPos];
+            curCharWide = MSG_BUF_DECODED_WIDE[decodedBufPos] = MSG_BUF_WIDE[msgCtx->msgBufPos];
 
             if (curCharWide == MESSAGE_WIDE_BOX_BREAK || curCharWide == MESSAGE_WIDE_TEXTID ||
                 curCharWide == MESSAGE_WIDE_BOX_BREAK_DELAYED || curCharWide == MESSAGE_WIDE_EVENT ||
@@ -1790,11 +1789,10 @@ void Message_Decode(PlayState* play) {
                     }
                 }
                 if (curCharWide == MESSAGE_WIDE_TEXTID) {
-                    sNextTextId = MSG_BUF_DECODED_WIDE(msgCtx)[++decodedBufPos] =
-                        MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 1];
+                    sNextTextId = MSG_BUF_DECODED_WIDE[++decodedBufPos] = MSG_BUF_WIDE[msgCtx->msgBufPos + 1];
                 }
                 if (curCharWide == MESSAGE_WIDE_BOX_BREAK_DELAYED) {
-                    MSG_BUF_DECODED_WIDE(msgCtx)[++decodedBufPos] = MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 1];
+                    MSG_BUF_DECODED_WIDE[++decodedBufPos] = MSG_BUF_WIDE[msgCtx->msgBufPos + 1];
                     msgCtx->msgBufPos += 2;
                 }
                 msgCtx->decodedTextLen = decodedBufPos;
@@ -1814,7 +1812,7 @@ void Message_Decode(PlayState* play) {
                 for (i = 0; i < playerNameLen; i++) {
                     curCharWide = gSaveContext.save.info.playerData.playerName[i];
                     PRINTF("(%x), ", curCharWide);
-                    MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos + i] = MESSAGE_WIDE_NAME;
+                    MSG_BUF_DECODED_WIDE[decodedBufPos + i] = MESSAGE_WIDE_NAME;
                     fontBuf = &font->fontBuf[(curCharWide * 32) << 2]; // fake
 
                     for (j = 0; j < FONT_CHAR_TEX_SIZE; j += 4) {
@@ -1853,17 +1851,17 @@ void Message_Decode(PlayState* play) {
                     PRINTF("rpc[%d] = %x\n", i, digits[i] + MESSAGE_WIDE_CHAR_ZERO);
                     Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                     charTexIdx += FONT_CHAR_TEX_SIZE;
-                    MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
+                    MSG_BUF_DECODED_WIDE[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                     decodedBufPos++;
                     if (i == 1) {
                         Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_MINUTES, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = MESSAGE_WIDE_CHAR_MINUTES;
+                        MSG_BUF_DECODED_WIDE[decodedBufPos] = MESSAGE_WIDE_CHAR_MINUTES;
                         decodedBufPos++;
                     } else if (i == 3) {
                         Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_SECONDS, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = MESSAGE_WIDE_CHAR_SECONDS;
+                        MSG_BUF_DECODED_WIDE[decodedBufPos] = MESSAGE_WIDE_CHAR_SECONDS;
                     }
                 }
             } else if (curCharWide == MESSAGE_WIDE_POINTS) {
@@ -1893,7 +1891,7 @@ void Message_Decode(PlayState* play) {
                     if (loadChar) {
                         Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
+                        MSG_BUF_DECODED_WIDE[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                         decodedBufPos++;
                     }
                 }
@@ -1923,7 +1921,7 @@ void Message_Decode(PlayState* play) {
                     if (loadChar) {
                         Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
+                        MSG_BUF_DECODED_WIDE[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                         decodedBufPos++;
                     }
                 }
@@ -1942,37 +1940,37 @@ void Message_Decode(PlayState* play) {
                     if (i == 1 || digits[i] != 0) {
                         Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
+                        MSG_BUF_DECODED_WIDE[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                         decodedBufPos++;
                     }
                 }
                 decodedBufPos--;
             } else if (curCharWide == MESSAGE_WIDE_HIGHSCORE) {
-                value = HIGH_SCORE(MSG_BUF_WIDE(font)[++msgCtx->msgBufPos] & 0xFF);
-                if ((MSG_BUF_WIDE(font)[msgCtx->msgBufPos] & 0xFF) == HS_FISHING) {
+                value = HIGH_SCORE(MSG_BUF_WIDE[++msgCtx->msgBufPos] & 0xFF);
+                if ((MSG_BUF_WIDE[msgCtx->msgBufPos] & 0xFF) == HS_FISHING) {
                     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
 #if !PLATFORM_IQUE
                         PRINTF("HI_SCORE(kanfont->mbuff.message_buf[message->rdp]) = %x\n",
-                               HIGH_SCORE(MSG_BUF_WIDE(font)[msgCtx->msgBufPos]));
+                               HIGH_SCORE(MSG_BUF_WIDE[msgCtx->msgBufPos]));
 #else
                         PRINTF("HI_SCORE(((unshort *)(kanfont->mbuff.message_buf))[message->rdp]) = %x\n",
-                               HIGH_SCORE(MSG_BUF_WIDE(font)[msgCtx->msgBufPos]));
+                               HIGH_SCORE(MSG_BUF_WIDE[msgCtx->msgBufPos]));
 #endif
                         value &= 0x7F;
                     } else {
 #if !PLATFORM_IQUE
                         PRINTF("HI_SCORE( kanfont->mbuff.message_buf[message->rdp]) = %x\n",
-                               HIGH_SCORE(MSG_BUF_WIDE(font)[msgCtx->msgBufPos]));
+                               HIGH_SCORE(MSG_BUF_WIDE[msgCtx->msgBufPos]));
 #else
                         PRINTF(
                             "HI_SCORE( ((unshort *)(kanfont->mbuff.message_buf))[message->rdp]) & 0xff000000  = %x\n",
-                            HIGH_SCORE(MSG_BUF_WIDE(font)[msgCtx->msgBufPos]) & 0xFF000000);
+                            HIGH_SCORE(MSG_BUF_WIDE[msgCtx->msgBufPos]) & 0xFF000000);
 #endif
-                        value = ((HIGH_SCORE(MSG_BUF_WIDE(font)[msgCtx->msgBufPos]) & 0xFF000000) >> 0x18);
+                        value = ((HIGH_SCORE(MSG_BUF_WIDE[msgCtx->msgBufPos]) & 0xFF000000) >> 0x18);
                         value &= 0x7F;
                     }
                 }
-                switch (MSG_BUF_WIDE(font)[msgCtx->msgBufPos] & 0xFF) {
+                switch (MSG_BUF_WIDE[msgCtx->msgBufPos] & 0xFF) {
                     case HS_HBA:
                     case HS_POE_POINTS:
                     case HS_FISHING:
@@ -2000,7 +1998,7 @@ void Message_Decode(PlayState* play) {
                             if (loadChar) {
                                 Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                                 charTexIdx += FONT_CHAR_TEX_SIZE;
-                                MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
+                                MSG_BUF_DECODED_WIDE[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                                 decodedBufPos++;
                             }
                         }
@@ -2030,17 +2028,17 @@ void Message_Decode(PlayState* play) {
                         for (i = 0; i < 4; i++) {
                             Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                             charTexIdx += FONT_CHAR_TEX_SIZE;
-                            MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
+                            MSG_BUF_DECODED_WIDE[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                             decodedBufPos++;
                             if (i == 1) {
                                 Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_MINUTES, charTexIdx);
                                 charTexIdx += FONT_CHAR_TEX_SIZE;
-                                MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = MESSAGE_WIDE_CHAR_MINUTES;
+                                MSG_BUF_DECODED_WIDE[decodedBufPos] = MESSAGE_WIDE_CHAR_MINUTES;
                                 decodedBufPos++;
                             } else if (i == 3) {
                                 Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_SECONDS, charTexIdx);
                                 charTexIdx += FONT_CHAR_TEX_SIZE;
-                                MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = MESSAGE_WIDE_CHAR_SECONDS;
+                                MSG_BUF_DECODED_WIDE[decodedBufPos] = MESSAGE_WIDE_CHAR_SECONDS;
                             }
                         }
                         break;
@@ -2064,31 +2062,30 @@ void Message_Decode(PlayState* play) {
                     PRINTF("rpc[%d] = %x\n", i, digits[i] + MESSAGE_WIDE_CHAR_ZERO);
                     Font_LoadCharWide(font, digits[i] + MESSAGE_WIDE_CHAR_ZERO, charTexIdx);
                     charTexIdx += FONT_CHAR_TEX_SIZE;
-                    MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
+                    MSG_BUF_DECODED_WIDE[decodedBufPos] = digits[i] + MESSAGE_WIDE_CHAR_ZERO;
                     decodedBufPos++;
                     if (i == 1) {
                         Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_HOURS, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = MESSAGE_WIDE_CHAR_HOURS;
+                        MSG_BUF_DECODED_WIDE[decodedBufPos] = MESSAGE_WIDE_CHAR_HOURS;
                         decodedBufPos++;
                     } else if (i == 3) {
                         Font_LoadCharWide(font, MESSAGE_WIDE_CHAR_MINUTES, charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos] = MESSAGE_WIDE_CHAR_MINUTES;
+                        MSG_BUF_DECODED_WIDE[decodedBufPos] = MESSAGE_WIDE_CHAR_MINUTES;
                     }
                 }
             } else if (curCharWide == MESSAGE_WIDE_ITEM_ICON) {
-                MSG_BUF_DECODED_WIDE(msgCtx)[++decodedBufPos] = MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 1];
-                PRINTF("ITEM_NO=(%d) (%d)\n", MSG_BUF_DECODED_WIDE(msgCtx)[decodedBufPos],
-                       MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 1]);
-                Message_LoadItemIcon(play, MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 1], R_TEXTBOX_Y + 10);
+                MSG_BUF_DECODED_WIDE[++decodedBufPos] = MSG_BUF_WIDE[msgCtx->msgBufPos + 1];
+                PRINTF("ITEM_NO=(%d) (%d)\n", MSG_BUF_DECODED_WIDE[decodedBufPos], MSG_BUF_WIDE[msgCtx->msgBufPos + 1]);
+                Message_LoadItemIcon(play, MSG_BUF_WIDE[msgCtx->msgBufPos + 1], R_TEXTBOX_Y + 10);
             } else if (curCharWide == MESSAGE_WIDE_BACKGROUND) {
-                msgCtx->textboxBackgroundIdx = MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 1] * 2;
+                msgCtx->textboxBackgroundIdx = MSG_BUF_WIDE[msgCtx->msgBufPos + 1] * 2;
                 PRINTF("mes_board=%d\n", msgCtx->textboxBackgroundIdx);
-                msgCtx->textboxBackgroundForeColorIdx = (MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 2] & 0xF000) >> 12;
-                msgCtx->textboxBackgroundBackColorIdx = (MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 2] & 0xF00) >> 8;
-                msgCtx->textboxBackgroundYOffsetIdx = (MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 2] & 0xF0) >> 4;
-                msgCtx->textboxBackgroundUnkArg = MSG_BUF_WIDE(font)[msgCtx->msgBufPos + 2] & 0xF;
+                msgCtx->textboxBackgroundForeColorIdx = (MSG_BUF_WIDE[msgCtx->msgBufPos + 2] & 0xF000) >> 12;
+                msgCtx->textboxBackgroundBackColorIdx = (MSG_BUF_WIDE[msgCtx->msgBufPos + 2] & 0xF00) >> 8;
+                msgCtx->textboxBackgroundYOffsetIdx = (MSG_BUF_WIDE[msgCtx->msgBufPos + 2] & 0xF0) >> 4;
+                msgCtx->textboxBackgroundUnkArg = MSG_BUF_WIDE[msgCtx->msgBufPos + 2] & 0xF;
                 DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
                                  (uintptr_t)_message_texture_staticSegmentRomStart +
                                      msgCtx->textboxBackgroundIdx * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
@@ -2101,7 +2098,7 @@ void Message_Decode(PlayState* play) {
                 msgCtx->msgBufPos += 2;
                 R_TEXTBOX_BG_YPOS = R_TEXTBOX_Y + 8;
             } else if (curCharWide == MESSAGE_WIDE_COLOR) {
-                MSG_BUF_DECODED_WIDE(msgCtx)[++decodedBufPos] = MSG_BUF_WIDE(font)[++msgCtx->msgBufPos] & 0xF;
+                MSG_BUF_DECODED_WIDE[++decodedBufPos] = MSG_BUF_WIDE[++msgCtx->msgBufPos] & 0xF;
             } else if (curCharWide == MESSAGE_WIDE_NEWLINE) {
                 numLines++;
             } else if (curCharWide != MESSAGE_WIDE_QUICKTEXT_ENABLE && curCharWide != MESSAGE_WIDE_QUICKTEXT_DISABLE &&
@@ -2110,11 +2107,11 @@ void Message_Decode(PlayState* play) {
                 if (curCharWide == MESSAGE_WIDE_FADE) {
                     sTextFade = true;
                     PRINTF("Z_TIMER_END (key_off_flag=%d)\n", sTextFade);
-                    MSG_BUF_DECODED_WIDE(msgCtx)[++decodedBufPos] = MSG_BUF_WIDE(font)[++msgCtx->msgBufPos] & 0xFF;
+                    MSG_BUF_DECODED_WIDE[++decodedBufPos] = MSG_BUF_WIDE[++msgCtx->msgBufPos] & 0xFF;
                 } else if (curCharWide == MESSAGE_WIDE_SHIFT || curCharWide == MESSAGE_WIDE_TEXT_SPEED) {
-                    MSG_BUF_DECODED_WIDE(msgCtx)[++decodedBufPos] = MSG_BUF_WIDE(font)[++msgCtx->msgBufPos] & 0xFF;
+                    MSG_BUF_DECODED_WIDE[++decodedBufPos] = MSG_BUF_WIDE[++msgCtx->msgBufPos] & 0xFF;
                 } else if (curCharWide == MESSAGE_WIDE_SFX) {
-                    MSG_BUF_DECODED_WIDE(msgCtx)[++decodedBufPos] = MSG_BUF_WIDE(font)[++msgCtx->msgBufPos];
+                    MSG_BUF_DECODED_WIDE[++decodedBufPos] = MSG_BUF_WIDE[++msgCtx->msgBufPos];
                 } else if (curCharWide == MESSAGE_WIDE_TWO_CHOICE) {
                     msgCtx->choiceNum = 2;
                 } else if (curCharWide == MESSAGE_WIDE_THREE_CHOICE) {
@@ -2133,7 +2130,7 @@ void Message_Decode(PlayState* play) {
     {
         // English text for NTSC, eng/ger/fra text for PAL
         for (;;) {
-            curChar = MSG_BUF_DECODED(msgCtx)[decodedBufPos] = MSG_BUF(font)[msgCtx->msgBufPos];
+            curChar = MSG_BUF_DECODED[decodedBufPos] = MSG_BUF[msgCtx->msgBufPos];
 
             if (curChar == MESSAGE_BOX_BREAK || curChar == MESSAGE_TEXTID || curChar == MESSAGE_BOX_BREAK_DELAYED ||
                 curChar == MESSAGE_EVENT || curChar == MESSAGE_END) {
@@ -2168,15 +2165,15 @@ void Message_Decode(PlayState* play) {
 #endif
 
                 if (curChar == MESSAGE_TEXTID) {
-                    PRINTF("NZ_NEXTMSG=%x, %x, %x\n", MSG_BUF(font)[msgCtx->msgBufPos],
-                           MSG_BUF(font)[msgCtx->msgBufPos + 1], MSG_BUF(font)[msgCtx->msgBufPos + 2]);
-                    value = MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[msgCtx->msgBufPos + 1];
-                    MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[msgCtx->msgBufPos + 2];
+                    PRINTF("NZ_NEXTMSG=%x, %x, %x\n", MSG_BUF[msgCtx->msgBufPos], MSG_BUF[msgCtx->msgBufPos + 1],
+                           MSG_BUF[msgCtx->msgBufPos + 2]);
+                    value = MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[msgCtx->msgBufPos + 1];
+                    MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[msgCtx->msgBufPos + 2];
                     value <<= 8;
-                    sNextTextId = MSG_BUF_DECODED(msgCtx)[decodedBufPos] | value;
+                    sNextTextId = MSG_BUF_DECODED[decodedBufPos] | value;
                 }
                 if (curChar == MESSAGE_BOX_BREAK_DELAYED) {
-                    MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[msgCtx->msgBufPos + 1];
+                    MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[msgCtx->msgBufPos + 1];
                     msgCtx->msgBufPos += 2;
                 }
                 msgCtx->decodedTextLen = decodedBufPos;
@@ -2216,7 +2213,7 @@ void Message_Decode(PlayState* play) {
                         charTexIdx += FONT_CHAR_TEX_SIZE;
                     }
                     PRINTF("%x ", curChar);
-                    MSG_BUF_DECODED(msgCtx)[decodedBufPos] = curChar;
+                    MSG_BUF_DECODED[decodedBufPos] = curChar;
                     decodedBufPos++;
                 }
                 decodedBufPos--;
@@ -2247,17 +2244,17 @@ void Message_Decode(PlayState* play) {
                 for (i = 0; i < 4; i++) {
                     Font_LoadChar(font, digits[i] + '0' - ' ', charTexIdx);
                     charTexIdx += FONT_CHAR_TEX_SIZE;
-                    MSG_BUF_DECODED(msgCtx)[decodedBufPos] = digits[i] + '0';
+                    MSG_BUF_DECODED[decodedBufPos] = digits[i] + '0';
                     decodedBufPos++;
                     if (i == 1) {
                         Font_LoadChar(font, '"' - ' ', charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED(msgCtx)[decodedBufPos] = '"';
+                        MSG_BUF_DECODED[decodedBufPos] = '"';
                         decodedBufPos++;
                     } else if (i == 3) {
                         Font_LoadChar(font, '"' - ' ', charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED(msgCtx)[decodedBufPos] = '"';
+                        MSG_BUF_DECODED[decodedBufPos] = '"';
                     }
                 }
             } else if (curChar == MESSAGE_POINTS) {
@@ -2287,7 +2284,7 @@ void Message_Decode(PlayState* play) {
                     }
                     if (loadChar) {
                         Font_LoadChar(font, digits[i] + '0' - ' ', charTexIdx);
-                        MSG_BUF_DECODED(msgCtx)[decodedBufPos] = digits[i] + '0';
+                        MSG_BUF_DECODED[decodedBufPos] = digits[i] + '0';
                         charTexIdx += FONT_CHAR_TEX_SIZE;
                         decodedBufPos++;
                     }
@@ -2318,7 +2315,7 @@ void Message_Decode(PlayState* play) {
                     if (loadChar) {
                         Font_LoadChar(font, digits[i] + '0' - ' ', charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED(msgCtx)[decodedBufPos] = digits[i] + '0';
+                        MSG_BUF_DECODED[decodedBufPos] = digits[i] + '0';
                         PRINTF("%x(%x) ", digits[i] + '0' - ' ', digits[i]);
                         decodedBufPos++;
                     }
@@ -2338,16 +2335,16 @@ void Message_Decode(PlayState* play) {
                     if (i == 1 || digits[i] != 0) {
                         Font_LoadChar(font, digits[i] + '0' - ' ', charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED(msgCtx)[decodedBufPos] = digits[i] + '0';
+                        MSG_BUF_DECODED[decodedBufPos] = digits[i] + '0';
                         PRINTF("%x(%x) ", digits[i] + '0' - ' ', digits[i]);
                         decodedBufPos++;
                     }
                 }
                 decodedBufPos--;
             } else if (curChar == MESSAGE_HIGHSCORE) {
-                value = HIGH_SCORE((u8)MSG_BUF(font)[++msgCtx->msgBufPos]);
-                PRINTF(T("ランキング＝%d\n", "Highscore=%d\n"), MSG_BUF(font)[msgCtx->msgBufPos]);
-                if ((MSG_BUF(font)[msgCtx->msgBufPos] & 0xFF) == HS_FISHING) {
+                value = HIGH_SCORE((u8)MSG_BUF[++msgCtx->msgBufPos]);
+                PRINTF(T("ランキング＝%d\n", "Highscore=%d\n"), MSG_BUF[msgCtx->msgBufPos]);
+                if ((MSG_BUF[msgCtx->msgBufPos] & 0xFF) == HS_FISHING) {
                     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                         value &= 0x7F;
                     } else {
@@ -2356,19 +2353,19 @@ void Message_Decode(PlayState* play) {
                         //! so this always shows HIGH_SCORE(0). Only the PRINTF is wrong, the following line is correct.
 #if !PLATFORM_IQUE
                         PRINTF("HI_SCORE( kanfont->mbuff.nes_mes_buf[message->rdp] & 0xff000000 ) = %x\n",
-                               HIGH_SCORE(MSG_BUF_WIDE(font)[msgCtx->msgBufPos] & 0xFF000000));
+                               HIGH_SCORE(MSG_BUF_WIDE[msgCtx->msgBufPos] & 0xFF000000));
 #else
                         PRINTF("HI_SCORE( ((unsigned char*)(kanfont->mbuff.nes_mes_buf))[message->rdp] & 0xff000000 ) "
                                "= %x\n",
-                               HIGH_SCORE(MSG_BUF_WIDE(font)[msgCtx->msgBufPos] & 0xFF000000));
+                               HIGH_SCORE(MSG_BUF_WIDE[msgCtx->msgBufPos] & 0xFF000000));
 #endif
-                        value = ((HIGH_SCORE((u8)MSG_BUF(font)[msgCtx->msgBufPos]) & 0xFF000000) >> 0x18);
+                        value = ((HIGH_SCORE((u8)MSG_BUF[msgCtx->msgBufPos]) & 0xFF000000) >> 0x18);
                         value &= 0x7F;
                     }
                     value = SQ((f32)value) * 0.0036f + 0.5f;
                     PRINTF("score=%d\n", value);
                 }
-                switch (MSG_BUF(font)[msgCtx->msgBufPos] & 0xFF) {
+                switch (MSG_BUF[msgCtx->msgBufPos] & 0xFF) {
                     case HS_HBA:
                     case HS_POE_POINTS:
                     case HS_FISHING:
@@ -2395,7 +2392,7 @@ void Message_Decode(PlayState* play) {
                             }
                             if (loadChar) {
                                 Font_LoadChar(font, digits[i] + '0' - ' ', charTexIdx);
-                                MSG_BUF_DECODED(msgCtx)[decodedBufPos] = digits[i] + '0';
+                                MSG_BUF_DECODED[decodedBufPos] = digits[i] + '0';
                                 charTexIdx += FONT_CHAR_TEX_SIZE;
                                 decodedBufPos++;
                             }
@@ -2426,17 +2423,17 @@ void Message_Decode(PlayState* play) {
                         for (i = 0; i < 4; i++) {
                             Font_LoadChar(font, digits[i] + '0' - ' ', charTexIdx);
                             charTexIdx += FONT_CHAR_TEX_SIZE;
-                            MSG_BUF_DECODED(msgCtx)[decodedBufPos] = digits[i] + '0';
+                            MSG_BUF_DECODED[decodedBufPos] = digits[i] + '0';
                             decodedBufPos++;
                             if (i == 1) {
                                 Font_LoadChar(font, '"' - ' ', charTexIdx);
                                 charTexIdx += FONT_CHAR_TEX_SIZE;
-                                MSG_BUF_DECODED(msgCtx)[decodedBufPos] = '"';
+                                MSG_BUF_DECODED[decodedBufPos] = '"';
                                 decodedBufPos++;
                             } else if (i == 3) {
                                 Font_LoadChar(font, '"' - ' ', charTexIdx);
                                 charTexIdx += FONT_CHAR_TEX_SIZE;
-                                MSG_BUF_DECODED(msgCtx)[decodedBufPos] = '"';
+                                MSG_BUF_DECODED[decodedBufPos] = '"';
                             }
                         }
                         break;
@@ -2459,34 +2456,33 @@ void Message_Decode(PlayState* play) {
                 for (i = 0; i < 4; i++) {
                     Font_LoadChar(font, digits[i] + '0' - ' ', charTexIdx);
                     charTexIdx += FONT_CHAR_TEX_SIZE;
-                    MSG_BUF_DECODED(msgCtx)[decodedBufPos] = digits[i] + '0';
+                    MSG_BUF_DECODED[decodedBufPos] = digits[i] + '0';
                     decodedBufPos++;
                     if (i == 1) {
                         Font_LoadChar(font, ':' - ' ', charTexIdx);
                         charTexIdx += FONT_CHAR_TEX_SIZE;
-                        MSG_BUF_DECODED(msgCtx)[decodedBufPos] = ':';
+                        MSG_BUF_DECODED[decodedBufPos] = ':';
                         decodedBufPos++;
                     }
                 }
                 decodedBufPos--;
             } else if (curChar == MESSAGE_ITEM_ICON) {
-                MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[msgCtx->msgBufPos + 1];
-                PRINTF("ITEM_NO=(%d) (%d)\n", MSG_BUF_DECODED(msgCtx)[decodedBufPos],
-                       MSG_BUF(font)[msgCtx->msgBufPos + 1]);
-                Message_LoadItemIcon(play, MSG_BUF(font)[msgCtx->msgBufPos + 1], R_TEXTBOX_Y + 10);
+                MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[msgCtx->msgBufPos + 1];
+                PRINTF("ITEM_NO=(%d) (%d)\n", MSG_BUF_DECODED[decodedBufPos], MSG_BUF[msgCtx->msgBufPos + 1]);
+                Message_LoadItemIcon(play, MSG_BUF[msgCtx->msgBufPos + 1], R_TEXTBOX_Y + 10);
             } else if (curChar == MESSAGE_BACKGROUND) {
-                msgCtx->textboxBackgroundIdx = MSG_BUF(font)[msgCtx->msgBufPos + 1] * 2;
+                msgCtx->textboxBackgroundIdx = MSG_BUF[msgCtx->msgBufPos + 1] * 2;
 #if OOT_VERSION < PAL_1_0
                 //! @bug Wrong shift amounts cause textboxBackgroundForeColorIdx and textboxBackgroundBackColorIdx
                 //! to always be 0. Fortunately MESSAGE_BACKGROUND is only present in unused messages.
-                msgCtx->textboxBackgroundForeColorIdx = (MSG_BUF(font)[msgCtx->msgBufPos + 2] & 0xF0) >> 12;
-                msgCtx->textboxBackgroundBackColorIdx = (MSG_BUF(font)[msgCtx->msgBufPos + 2] & 0xF) >> 8;
+                msgCtx->textboxBackgroundForeColorIdx = (MSG_BUF[msgCtx->msgBufPos + 2] & 0xF0) >> 12;
+                msgCtx->textboxBackgroundBackColorIdx = (MSG_BUF[msgCtx->msgBufPos + 2] & 0xF) >> 8;
 #else
-                msgCtx->textboxBackgroundForeColorIdx = (MSG_BUF(font)[msgCtx->msgBufPos + 2] & 0xF0) >> 4;
-                msgCtx->textboxBackgroundBackColorIdx = MSG_BUF(font)[msgCtx->msgBufPos + 2] & 0xF;
+                msgCtx->textboxBackgroundForeColorIdx = (MSG_BUF[msgCtx->msgBufPos + 2] & 0xF0) >> 4;
+                msgCtx->textboxBackgroundBackColorIdx = MSG_BUF[msgCtx->msgBufPos + 2] & 0xF;
 #endif
-                msgCtx->textboxBackgroundYOffsetIdx = (MSG_BUF(font)[msgCtx->msgBufPos + 3] & 0xF0) >> 4;
-                msgCtx->textboxBackgroundUnkArg = MSG_BUF(font)[msgCtx->msgBufPos + 3] & 0xF;
+                msgCtx->textboxBackgroundYOffsetIdx = (MSG_BUF[msgCtx->msgBufPos + 3] & 0xF0) >> 4;
+                msgCtx->textboxBackgroundUnkArg = MSG_BUF[msgCtx->msgBufPos + 3] & 0xF;
                 DMA_REQUEST_SYNC(msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
                                  (uintptr_t)_message_texture_staticSegmentRomStart +
                                      msgCtx->textboxBackgroundIdx * MESSAGE_TEXTURE_STATIC_TEX_SIZE,
@@ -2502,7 +2498,7 @@ void Message_Decode(PlayState* play) {
                 R_TEXT_INIT_XPOS = 50;
 #endif
             } else if (curChar == MESSAGE_COLOR) {
-                MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[++msgCtx->msgBufPos];
+                MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[++msgCtx->msgBufPos];
             } else if (curChar == MESSAGE_NEWLINE) {
                 numLines++;
             } else if (curChar != MESSAGE_QUICKTEXT_ENABLE && curChar != MESSAGE_QUICKTEXT_DISABLE &&
@@ -2511,17 +2507,17 @@ void Message_Decode(PlayState* play) {
                 if (curChar == MESSAGE_FADE) {
                     sTextFade = true;
                     PRINTF("NZ_TIMER_END (key_off_flag=%d)\n", sTextFade);
-                    MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[++msgCtx->msgBufPos];
+                    MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[++msgCtx->msgBufPos];
                 } else if (curChar == MESSAGE_FADE2) {
                     sTextFade = true;
                     PRINTF("NZ_BGM (key_off_flag=%d)\n", sTextFade);
-                    MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[++msgCtx->msgBufPos];
-                    MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[++msgCtx->msgBufPos];
+                    MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[++msgCtx->msgBufPos];
+                    MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[++msgCtx->msgBufPos];
                 } else if (curChar == MESSAGE_SHIFT || curChar == MESSAGE_TEXT_SPEED) {
-                    MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[++msgCtx->msgBufPos] & 0xFF;
+                    MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[++msgCtx->msgBufPos] & 0xFF;
                 } else if (curChar == MESSAGE_SFX) {
-                    MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[++msgCtx->msgBufPos];
-                    MSG_BUF_DECODED(msgCtx)[++decodedBufPos] = MSG_BUF(font)[++msgCtx->msgBufPos];
+                    MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[++msgCtx->msgBufPos];
+                    MSG_BUF_DECODED[++decodedBufPos] = MSG_BUF[++msgCtx->msgBufPos];
                 } else if (curChar == MESSAGE_TWO_CHOICE) {
                     msgCtx->choiceNum = 2;
                 } else if (curChar == MESSAGE_THREE_CHOICE) {
@@ -2533,10 +2529,10 @@ void Message_Decode(PlayState* play) {
                     u8 nextChar;
 
                     if (curChar == 0xAA) {
-                        nextChar = MSG_BUF(font)[++msgCtx->msgBufPos];
+                        nextChar = MSG_BUF[++msgCtx->msgBufPos];
                         Font_LoadChar(font, nextChar - ' ', charTexIdx);
                     } else if (curChar >= 0xA0) {
-                        nextChar = MSG_BUF(font)[++msgCtx->msgBufPos];
+                        nextChar = MSG_BUF[++msgCtx->msgBufPos];
                         Font_LoadCharCHN(font, ((curChar << 8) | nextChar) - 0xA001, charTexIdx);
                     } else {
                         Font_LoadChar(font, curChar - ' ', charTexIdx);
@@ -2622,11 +2618,11 @@ void Message_OpenText(PlayState* play, u16 textId) {
         if ((B_80121220 != NULL) && (B_80121220->unk_60 != NULL) && B_80121220->unk_60(&play->msgCtx.font)) {
 
         } else {
-            DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
+            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", UNK_LINE);
         }
 #else
-        DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
+        DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_staff_message_data_staticSegmentRomStart + font->msgOffset,
                          font->msgLength, "../z_message_PAL.c", 1954);
 #endif
     } else {
@@ -2638,11 +2634,11 @@ void Message_OpenText(PlayState* play, u16 textId) {
             if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_64(&play->msgCtx.font)) {
 
             } else {
-                DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
+                DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
                                  font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
-            DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
+            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_jpn_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", UNK_LINE);
 #endif
         } else {
@@ -2652,11 +2648,11 @@ void Message_OpenText(PlayState* play, u16 textId) {
             if ((B_80121220 != NULL) && (B_80121220->unk_68 != NULL) && B_80121220->unk_68(&play->msgCtx.font)) {
 
             } else {
-                DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+                DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                                  font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
-            DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", UNK_LINE);
 #endif
         }
@@ -2668,11 +2664,11 @@ void Message_OpenText(PlayState* play, u16 textId) {
             if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_64(&play->msgCtx.font)) {
 
             } else {
-                DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+                DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                                  font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
-            DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
+            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_nes_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", 1966);
 #endif
         } else if (gSaveContext.language == LANGUAGE_GER) {
@@ -2683,11 +2679,11 @@ void Message_OpenText(PlayState* play, u16 textId) {
             if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_68(&play->msgCtx.font)) {
 
             } else {
-                DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
+                DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
                                  font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
-            DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
+            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_ger_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", 1978);
 #endif
         } else {
@@ -2698,11 +2694,11 @@ void Message_OpenText(PlayState* play, u16 textId) {
             if ((B_80121220 != NULL) && (B_80121220->unk_64 != NULL) && B_80121220->unk_6C_PAL(&play->msgCtx.font)) {
 
             } else {
-                DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
+                DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
                                  font->msgLength, "../z_message_PAL.c", UNK_LINE);
             }
 #else
-            DMA_REQUEST_SYNC(MSG_BUF(font), (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
+            DMA_REQUEST_SYNC(MSG_BUF, (uintptr_t)_fra_message_data_staticSegmentRomStart + font->msgOffset,
                              font->msgLength, "../z_message_PAL.c", 1990);
 #endif
         }
@@ -4377,7 +4373,7 @@ void Message_Update(PlayState* play) {
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 #if OOT_NTSC
                             if (gSaveContext.language == LANGUAGE_JPN && !sTextIsCredits) {
-                                Message_ContinueTextbox(play, MSG_BUF_DECODED_WIDE(msgCtx)[msgCtx->textDrawPos]);
+                                Message_ContinueTextbox(play, MSG_BUF_DECODED_WIDE[msgCtx->textDrawPos]);
                             } else {
                                 Message_ContinueTextbox(play, sNextTextId);
                             }
