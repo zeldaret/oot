@@ -6,8 +6,8 @@ offset,vram,.text
 offset,vram,.data
 F6E0,80812DE0,src/overlays/gamestates/ovl_file_choose/z_file_nameset_data
 FDC0,808134C0,src/overlays/gamestates/ovl_file_choose/z_file_copy_erase
-FE00,80813500,src/overlays/gamestates/ovl_file_choose/z_file_nameset
-FFA0,808136A0,src/overlays/gamestates/ovl_file_choose/z_file_choose
+FDF0,808134F0,src/overlays/gamestates/ovl_file_choose/z_file_nameset
+FF90,80813690,src/overlays/gamestates/ovl_file_choose/z_file_choose
 
 offset,vram,.rodata
 10280,80813980,src/overlays/gamestates/ovl_file_choose/z_file_copy_erase
