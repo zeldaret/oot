@@ -1076,7 +1076,7 @@ emit_c_samples(FILE *out, soundfont *sf)
                    "NO_REORDER SECTION_DATA ALIGNED(16) AdpcmBookHeader SF%d_%s_BOOK_HEADER = {"    "\n"
                    "    %d, %d,"                                                                    "\n"
                    "};"                                                                             "\n"
-                   "NO_REORDER SECTION_DATA AdpcmBookData SF%d_%s_BOOK_DATA = {"                    "\n",
+                   "NO_REORDER SECTION_DATA s16 SF%d_%s_BOOK_DATA[] = {"                            "\n",
                     // clang-format on
                     sf->info.index, bookname, sample->aifc.book.order, sample->aifc.book.npredictors, sf->info.index,
                     bookname);

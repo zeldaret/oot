@@ -2,18 +2,13 @@
 
 u32 osSpTaskYielded(OSTask* task) {
     u32 status = __osSpGetStatus();
-    u32 ret;
+    u32 result;
 
-    if (status & SP_STATUS_YIELDED) {
-        ret = OS_TASK_YIELDED;
-    } else {
-        ret = 0;
-    }
+    result = (status & SP_STATUS_YIELDED) ? OS_TASK_YIELDED : 0;
 
     if (status & SP_STATUS_YIELD) {
-        task->t.flags |= ret;
+        task->t.flags |= result;
         task->t.flags &= ~OS_TASK_DP_WAIT;
     }
-
-    return ret;
+    return result;
 }

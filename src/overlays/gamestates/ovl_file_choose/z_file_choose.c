@@ -1909,10 +1909,10 @@ void FileSelect_LoadGame(GameState* thisx) {
     // capacity and `magicFillTarget`
     gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.magic = 0;
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicFillTarget),
            gSaveContext.save.info.playerData.magic);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     gSaveContext.save.info.playerData.naviTimer = 0;
 

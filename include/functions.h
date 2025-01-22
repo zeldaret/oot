@@ -9,10 +9,11 @@ void Main_ThreadEntry(void* arg);
 void Idle_ThreadEntry(void* arg);
 void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
-void* Yaz0_FirstDMA(void);
-void* Yaz0_NextDMA(u8* curSrcPos);
-void Yaz0_DecompressImpl(u8* src, u8* dst);
+#if !PLATFORM_IQUE
 void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
+#else
+void gzip_decompress(uintptr_t romStart, u8* dst, size_t size);
+#endif
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 #if DEBUG_FEATURES
@@ -73,6 +74,9 @@ void CutsceneFlags_Unset(PlayState* play, s16 flag);
 s32 CutsceneFlags_Get(PlayState* play, s16 flag);
 
 s32 Kanji_OffsetFromShiftJIS(s32 character);
+#if PLATFORM_IQUE
+void Font_LoadCharCHN(Font* font, u16 character, u16 codePointIndex);
+#endif
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxIcon(Font* font, u16 icon);

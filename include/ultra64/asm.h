@@ -78,6 +78,9 @@
 #define MTC0(dst, src) \
     .set noreorder; mtc0 dst, src; .set reorder
 
+#define CACHE(op, base)  \
+    .set noreorder; cache op, base; .set reorder
+
 #define CFC1(dst, src) \
     .set noreorder; cfc1 dst, src; .set reorder
 #define CTC1(src, dst) \
@@ -95,7 +98,7 @@
 #define TLBP \
     .set noreorder; tlbp; .set reorder
 
-#ifdef __sgi
+#ifndef __GNUC__
 #define ABS(x, y)   \
     .globl  x;      \
     x = y

@@ -1,4 +1,4 @@
-#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
                                "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:224"
 
 #include "global.h"
@@ -18,16 +18,16 @@ void KaleidoScopeCall_LoadPlayer(void) {
 
     if (gKaleidoMgrCurOvl != playerActorOvl) {
         if (gKaleidoMgrCurOvl != NULL) {
-            PRINTF(VT_FGCOL(GREEN));
+            PRINTF_COLOR_GREEN();
             PRINTF(T("カレイド領域 強制排除\n", "Kaleido area forced exclusion\n"));
-            PRINTF(VT_RST);
+            PRINTF_RST();
 
             KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
         }
 
-        PRINTF(VT_FGCOL(GREEN));
+        PRINTF_COLOR_GREEN();
         PRINTF(T("プレイヤーアクター搬入\n", "Player actor import\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
 
         KaleidoManager_LoadOvl(playerActorOvl);
     }
@@ -90,16 +90,16 @@ void KaleidoScopeCall_Update(PlayState* play) {
         } else if (pauseCtx->state != PAUSE_STATE_OFF) {
             if (gKaleidoMgrCurOvl != kaleidoScopeOvl) {
                 if (gKaleidoMgrCurOvl != NULL) {
-                    PRINTF(VT_FGCOL(GREEN));
+                    PRINTF_COLOR_GREEN();
                     PRINTF(T("カレイド領域 プレイヤー 強制排除\n", "Kaleido area Player Forced Elimination\n"));
-                    PRINTF(VT_RST);
+                    PRINTF_RST();
 
                     KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
                 }
 
-                PRINTF(VT_FGCOL(GREEN));
+                PRINTF_COLOR_GREEN();
                 PRINTF(T("カレイド領域 カレイドスコープ搬入\n", "Kaleido area Kaleidoscope loading\n"));
-                PRINTF(VT_RST);
+                PRINTF_RST();
 
                 KaleidoManager_LoadOvl(kaleidoScopeOvl);
             }
@@ -108,9 +108,9 @@ void KaleidoScopeCall_Update(PlayState* play) {
                 sKaleidoScopeUpdateFunc(play);
 
                 if (!IS_PAUSED(&play->pauseCtx)) {
-                    PRINTF(VT_FGCOL(GREEN));
+                    PRINTF_COLOR_GREEN();
                     PRINTF(T("カレイド領域 カレイドスコープ排出\n", "Kaleido area Kaleidoscope Emission\n"));
-                    PRINTF(VT_RST);
+                    PRINTF_RST();
 
                     KaleidoManager_ClearOvl(kaleidoScopeOvl);
                     KaleidoScopeCall_LoadPlayer();

@@ -70,7 +70,6 @@ void* osViGetNextFramebuffer(void);
 void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQueue, OSMesg* cmdBuf, s32 cmdMsgCnt);
 void __osDevMgrMain(void* arg);
 s32 __osPiRawStartDma(s32 dir, u32 cartAddr, void* dramAddr, size_t size);
-u32 osVirtualToPhysical(void* vaddr);
 void osViBlack(u8 active);
 s32 __osSiRawReadIo(void* devAddr, u32* dst);
 OSId osGetThreadId(OSThread* thread);

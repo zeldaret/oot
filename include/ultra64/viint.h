@@ -35,5 +35,12 @@
 #define ORIGIN(v) (v)
 #define VINTR(v) (v)
 #define HSTART(start, end) START(start, end)
+#define VSTART(start, end) START(start, end)
+
+#ifdef BBPLAYER
+#define VI_CTRL_PIXEL_ADV_DEFAULT VI_CTRL_PIXEL_ADV(1)
+#else
+#define VI_CTRL_PIXEL_ADV_DEFAULT VI_CTRL_PIXEL_ADV(3)
+#endif
 
 #endif

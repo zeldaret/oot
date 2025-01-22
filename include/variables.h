@@ -9,10 +9,23 @@ extern Mtx D_01000000;
 
 extern void* osRomBase;
 extern s32 osTvType;
+extern u32 osRomType;
+extern u32 osVersion;
 extern s32 osResetType;
 extern s32 osCicId;
 extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
+
+extern u32 __osBbIsBb;
+extern u32 __osBbEepromSize;
+extern u32 __osBbPakSize;
+extern u32 __osBbFlashSize;
+extern u32 __osBbEepromAddress;
+extern u32 __osBbPakAddress[4];
+extern u32 __osBbFlashAddress;
+extern u32 __osBbSramSize;
+extern u32 __osBbSramAddress;
+extern u32 __osBbHackFlags;
 
 extern s8 D_80009430;
 extern vu8 gViConfigBlack;

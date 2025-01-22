@@ -1,3 +1,9 @@
+/*
+ * File: z_en_goma.c
+ * Overlay: ovl_En_Goma
+ * Description: Gohma Larva
+ */
+
 #include "z_en_goma.h"
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_gol/object_gol.h"

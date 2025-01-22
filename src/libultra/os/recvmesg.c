@@ -7,9 +7,10 @@ s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag) {
         if (flag == OS_MESG_NOBLOCK) {
             __osRestoreInt(prevInt);
             return -1;
+        } else {
+            __osRunningThread->state = OS_STATE_WAITING;
+            __osEnqueueAndYield(&mq->mtqueue);
         }
-        __osRunningThread->state = OS_STATE_WAITING;
-        __osEnqueueAndYield(&mq->mtqueue);
     }
 
     if (msg != NULL) {
