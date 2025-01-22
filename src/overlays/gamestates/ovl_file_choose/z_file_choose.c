@@ -1475,7 +1475,7 @@ void FileSelect_DrawWindowContents(GameState* thisx) {
         temp = this->confirmButtonTexIndices[i];
 
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
-                        this->confirmButtonAlpha[i]);
+                        this->actionButtonAlpha[i + 2]);
         gDPLoadTextureBlock(POLY_OPA_DISP++, sActionButtonTextures[gSaveContext.language][temp], G_IM_FMT_IA,
                             G_IM_SIZ_16b, 64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -1671,7 +1671,7 @@ void FileSelect_FadeMainToSelect(GameState* thisx) {
     if (this->actionTimer == 0) {
         this->actionTimer = 8;
         this->selectMode++;
-        this->confirmButtonIndex = FS_BTN_CONFIRM_YES;
+        this->confirmButtonIndex = 0;
     }
 }
 
@@ -1717,7 +1717,7 @@ void FileSelect_FadeInFileInfo(GameState* thisx) {
         this->selectMode++;
     }
 
-    this->confirmButtonAlpha[FS_BTN_CONFIRM_YES] = this->confirmButtonAlpha[FS_BTN_CONFIRM_QUIT] =
+    this->actionButtonAlpha[FS_BTN_ACTION_YES] = this->actionButtonAlpha[FS_BTN_ACTION_QUIT] =
         this->fileInfoAlpha[this->buttonIndex];
 }
 
@@ -1730,7 +1730,7 @@ void FileSelect_ConfirmFile(GameState* thisx) {
     Input* input = &this->state.input[0];
 
     if (CHECK_BTN_ALL(input->press.button, BTN_START) || (CHECK_BTN_ALL(input->press.button, BTN_A))) {
-        if (this->confirmButtonIndex == FS_BTN_CONFIRM_YES) {
+        if (this->confirmButtonIndex == 0) {
             Rumble_Request(300.0f, 180, 20, 100);
             Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1772,7 +1772,7 @@ void FileSelect_FadeOutFileInfo(GameState* thisx) {
         this->selectMode++;
     }
 
-    this->confirmButtonAlpha[FS_BTN_CONFIRM_YES] = this->confirmButtonAlpha[FS_BTN_CONFIRM_QUIT] =
+    this->actionButtonAlpha[FS_BTN_ACTION_YES] = this->actionButtonAlpha[FS_BTN_ACTION_QUIT] =
         this->fileInfoAlpha[this->buttonIndex];
 }
 
@@ -2240,8 +2240,8 @@ void FileSelect_InitContext(GameState* thisx) {
             this->nameBoxAlpha[2] = this->nameAlpha[0] = this->nameAlpha[1] = this->nameAlpha[2] =
                 this->connectorAlpha[0] = this->connectorAlpha[1] = this->connectorAlpha[2] = this->fileInfoAlpha[0] =
                     this->fileInfoAlpha[1] = this->fileInfoAlpha[2] = this->actionButtonAlpha[FS_BTN_ACTION_COPY] =
-                        this->actionButtonAlpha[FS_BTN_ACTION_ERASE] = this->confirmButtonAlpha[FS_BTN_CONFIRM_YES] =
-                            this->confirmButtonAlpha[FS_BTN_CONFIRM_QUIT] = this->optionButtonAlpha =
+                        this->actionButtonAlpha[FS_BTN_ACTION_ERASE] = this->actionButtonAlpha[FS_BTN_ACTION_YES] =
+                            this->actionButtonAlpha[FS_BTN_ACTION_QUIT] = this->optionButtonAlpha =
                                 this->nameEntryBoxAlpha = this->controlsAlpha = this->emptyFileTextAlpha = 0;
 
     this->windowPosX = 6;

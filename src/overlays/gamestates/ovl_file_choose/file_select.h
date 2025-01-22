@@ -133,14 +133,11 @@ typedef enum SelectMenuButtonIndex {
     /* 4 */ FS_BTN_SELECT_QUIT
 } SelectMenuButtonIndex;
 
-typedef enum ConfirmButtonIndex {
-    /* 0 */ FS_BTN_CONFIRM_YES,
-    /* 1 */ FS_BTN_CONFIRM_QUIT
-} ConfirmButtonIndex;
-
 typedef enum ActionButtonIndex {
     /* 0 */ FS_BTN_ACTION_COPY,
-    /* 1 */ FS_BTN_ACTION_ERASE
+    /* 1 */ FS_BTN_ACTION_ERASE,
+    /* 2 */ FS_BTN_ACTION_YES,
+    /* 3 */ FS_BTN_ACTION_QUIT
 } ActionButtonIndex;
 
 typedef enum SettingIndex {
