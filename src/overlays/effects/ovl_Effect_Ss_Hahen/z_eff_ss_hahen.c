@@ -5,6 +5,10 @@
  */
 
 #include "z_eff_ss_hahen.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rPitch regs[0]

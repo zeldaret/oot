@@ -2,7 +2,8 @@
 #define Z_EN_SYATEKI_NIW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64play.h"
 
 struct EnSyatekiNiw;
 

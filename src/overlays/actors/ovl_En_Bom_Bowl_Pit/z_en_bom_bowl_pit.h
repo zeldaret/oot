@@ -2,7 +2,8 @@
 #define Z_EN_BOM_BOWL_PIT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64play.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 struct EnBomBowlPit;

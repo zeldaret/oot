@@ -2,7 +2,8 @@
 #define Z_ARROW_FIRE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64play.h"
 
 struct ArrowFire;
 

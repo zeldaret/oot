@@ -2,7 +2,8 @@
 #define Z_BG_BOWL_WALL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64play.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 
 struct BgBowlWall;
