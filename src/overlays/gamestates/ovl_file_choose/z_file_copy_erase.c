@@ -676,7 +676,7 @@ void FileSelect_SetupEraseSelect(GameState* thisx) {
         XREG(35) = XREG(36);
         this->actionButtonAlpha[FS_BTN_ACTION_COPY] = this->actionButtonAlpha[FS_BTN_ACTION_ERASE] =
             this->optionButtonAlpha = 0;
-        this->confirmButtonAlpha[1] = 200;
+        this->confirmButtonAlpha[FS_BTN_CONFIRM_QUIT] = 200;
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
@@ -955,11 +955,8 @@ void FileSelect_EraseAnim1(GameState* thisx) {
             this->titleAlpha[0] = 255;
             this->titleAlpha[1] = this->connectorAlpha[this->selectedFileIndex] = 0;
 
-            // probably a fake match, there should be a better chained assignment
-            this->confirmButtonAlpha[0] = this->confirmButtonAlpha[1] = 0;
-            if (1) {}
             this->fileInfoAlpha[this->selectedFileIndex] = this->nameBoxAlpha[this->selectedFileIndex] =
-                this->confirmButtonAlpha[1];
+                this->confirmButtonAlpha[FS_BTN_CONFIRM_YES] = this->confirmButtonAlpha[FS_BTN_CONFIRM_QUIT] = 0;
 
             this->configMode++;
             this->actionTimer = 90;
@@ -1035,7 +1032,7 @@ void FileSelect_EraseAnim3(GameState* thisx) {
         this->highlightPulseDir = 1;
         XREG(35) = XREG(36);
         this->actionButtonAlpha[FS_BTN_ACTION_COPY] = 200;
-        this->confirmButtonAlpha[0] = this->confirmButtonAlpha[1] = 0;
+        this->confirmButtonAlpha[FS_BTN_CONFIRM_YES] = this->confirmButtonAlpha[FS_BTN_CONFIRM_QUIT] = 0;
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
