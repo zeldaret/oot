@@ -3,11 +3,10 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "z64play.h"
 
 struct ArrowIce;
 
-typedef void (*ArrowIceActionFunc)(struct ArrowIce*, PlayState*);
+typedef void (*ArrowIceActionFunc)(struct ArrowIce*, struct PlayState*);
 
 typedef struct ArrowIce {
     /* 0x0000 */ Actor actor;

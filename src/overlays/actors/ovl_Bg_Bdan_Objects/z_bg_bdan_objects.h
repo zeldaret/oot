@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "z64play.h"
 
 struct BgBdanObjects;
 
@@ -14,7 +13,7 @@ typedef enum BgBdanObjectsType {
     JABU_OBJECTS_TYPE_FALLING_PLATFORM
 } BgBdanObjectsType;
 
-typedef void (*BgBdanObjectsActionFunc)(struct BgBdanObjects*, PlayState*);
+typedef void (*BgBdanObjectsActionFunc)(struct BgBdanObjects*, struct PlayState*);
 
 typedef struct BgBdanObjects {
     /* 0x0000 */ DynaPolyActor dyna;

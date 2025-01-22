@@ -3,12 +3,11 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "z64play.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 
 struct BgBowlWall;
 
-typedef void (*BgBowlWallActionFunc)(struct BgBowlWall*, PlayState*);
+typedef void (*BgBowlWallActionFunc)(struct BgBowlWall*, struct PlayState*);
 
 typedef struct BgBowlWall {
     /* 0x0000 */ DynaPolyActor dyna;

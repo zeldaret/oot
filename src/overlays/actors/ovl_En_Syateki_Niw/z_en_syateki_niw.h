@@ -3,11 +3,10 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "z64play.h"
 
 struct EnSyatekiNiw;
 
-typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, PlayState*);
+typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, struct PlayState*);
 
 typedef struct EnSyatekiNiwEffect {
     /* 0x00 */ u8    state;

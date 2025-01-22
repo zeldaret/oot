@@ -3,12 +3,11 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "z64play.h"
 #include "z64player.h"
 
 struct ArmsHook;
 
-typedef void (*ArmsHookActionFunc)(struct ArmsHook*, PlayState*);
+typedef void (*ArmsHookActionFunc)(struct ArmsHook*, struct PlayState*);
 
 typedef struct ArmsHook {
     /* 0x0000 */ Actor actor;

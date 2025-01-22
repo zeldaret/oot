@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "z64play.h"
 
 struct EnBom;
 

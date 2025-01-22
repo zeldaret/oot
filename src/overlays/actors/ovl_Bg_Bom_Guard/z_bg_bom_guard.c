@@ -9,6 +9,7 @@
 
 #include "regs.h"
 #include "terminal.h"
+#include "z64play.h"
 
 #include "assets/objects/object_bowl/object_bowl.h"
 

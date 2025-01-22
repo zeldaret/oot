@@ -3,12 +3,11 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "z64play.h"
 
 struct EnExItem;
 
-typedef void (*EnExItemActionFunc)(struct EnExItem* this, PlayState* play);
-typedef void (*EnExItemLightFunc)(Actor*, PlayState*, s32);
+typedef void (*EnExItemActionFunc)(struct EnExItem* this, struct PlayState* play);
+typedef void (*EnExItemLightFunc)(Actor*, struct PlayState*, s32);
 
 typedef struct EnExItem {
     /* 0x0000 */ Actor actor;

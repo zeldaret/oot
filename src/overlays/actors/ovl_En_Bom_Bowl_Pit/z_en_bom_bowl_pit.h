@@ -3,12 +3,11 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "z64play.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 struct EnBomBowlPit;
 
-typedef void (*EnBomBowlPitActionFunc)(struct EnBomBowlPit*, PlayState*);
+typedef void (*EnBomBowlPitActionFunc)(struct EnBomBowlPit*, struct PlayState*);
 
 typedef struct EnBomBowlPit {
     /* 0x0000 */ Actor actor;

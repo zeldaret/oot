@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "z64play.h"
 
 typedef enum BgBdanSwitchType {
     /* 0x00 */ BLUE,
@@ -15,7 +14,7 @@ typedef enum BgBdanSwitchType {
 
 struct BgBdanSwitch;
 
-typedef void (*BgBdanSwitchActionFunc)(struct BgBdanSwitch*, PlayState*);
+typedef void (*BgBdanSwitchActionFunc)(struct BgBdanSwitch*, struct PlayState*);
 
 typedef struct BgBdanSwitch {
     /* 0x0000 */ DynaPolyActor dyna;

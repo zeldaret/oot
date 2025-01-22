@@ -3,11 +3,10 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "z64play.h"
 
 struct BgBomGuard;
 
-typedef void (*BgBomGuardActionFunc)(struct BgBomGuard*, PlayState*);
+typedef void (*BgBomGuardActionFunc)(struct BgBomGuard*, struct PlayState*);
 
 typedef struct BgBomGuard {
     /* 0x0000 */ DynaPolyActor dyna;
