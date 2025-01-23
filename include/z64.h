@@ -259,7 +259,7 @@ typedef struct FileSelectState {
     /* 0x1CA80 */ s16 nameAlpha[3];
     /* 0x1CA86 */ s16 connectorAlpha[3];
     /* 0x1CA8C */ s16 fileInfoAlpha[3];
-    /* 0x1CA92 */ s16 actionButtonAlpha[4];
+    /* 0x1CA92 */ s16 actionButtonAlpha[4]; // also contains the alphas for the confirm buttons
     /* 0x1CA9A */ s16 optionButtonAlpha;
     /* 0x1CA9C */ s16 nameEntryBoxAlpha;
     /* 0x1CA9E */ s16 controlsAlpha;
