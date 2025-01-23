@@ -14,6 +14,9 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
 
 #include "global.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
