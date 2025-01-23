@@ -1671,7 +1671,7 @@ void FileSelect_FadeMainToSelect(GameState* thisx) {
     if (this->actionTimer == 0) {
         this->actionTimer = 8;
         this->selectMode++;
-        this->confirmButtonIndex = 0;
+        this->confirmButtonIndex = FS_BTN_CONFIRM_YES;
     }
 }
 
@@ -1730,7 +1730,7 @@ void FileSelect_ConfirmFile(GameState* thisx) {
     Input* input = &this->state.input[0];
 
     if (CHECK_BTN_ALL(input->press.button, BTN_START) || (CHECK_BTN_ALL(input->press.button, BTN_A))) {
-        if (this->confirmButtonIndex == 0) {
+        if (this->confirmButtonIndex == FS_BTN_CONFIRM_YES) {
             Rumble_Request(300.0f, 180, 20, 100);
             Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
