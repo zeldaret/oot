@@ -66,7 +66,7 @@
 #include "mempak.h"
 #include "tha.h"
 #include "thga.h"
-#include "speedmeter.h"
+#include "speed_meter.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"

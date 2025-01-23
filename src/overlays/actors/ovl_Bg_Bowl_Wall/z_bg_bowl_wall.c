@@ -7,9 +7,19 @@
 #include "z_bg_bowl_wall.h"
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
-#include "assets/objects/object_bowl/object_bowl.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sfx.h"
 #include "quake.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "assets/objects/object_bowl/object_bowl.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
