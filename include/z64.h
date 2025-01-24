@@ -54,7 +54,7 @@
 #include "sequence.h"
 #include "sfx.h"
 #include "color.h"
-#include "gfxprint.h"
+#include "libu64/gfxprint.h"
 #include "z_lib.h"
 #include "ichain.h"
 #include "regs.h"
@@ -86,6 +86,7 @@
 #include "libc64/malloc.h"
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
+#include "libu64/debug.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
