@@ -1,5 +1,5 @@
-#ifndef GFXPRINT_H
-#define GFXPRINT_H
+#ifndef LIBU64_GFXPRINT_H
+#define LIBU64_GFXPRINT_H
 
 #include "ultra64.h"
 #include "color.h"

@@ -26,14 +26,6 @@ NORETURN void func_80002384(const char* exp, const char* file, int line);
 #endif
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
-#if DEBUG_FEATURES
-void LogUtils_LogHexDump(void* ptr, s32 size0);
-void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, int line);
-void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, int line);
-void LogUtils_LogThreadId(const char* name, int line);
-#endif
-void LogUtils_HungupThread(const char* name, int line);
-void LogUtils_ResetHungup(void);
 
 EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params);
 EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params);
@@ -290,24 +282,6 @@ size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, voi
 // ? func_800FC83C(?);
 // ? func_800FCAB4(?);
 void SystemHeap_Init(void* start, u32 size);
-void PadUtils_Init(Input* input);
-void func_800FCB70(void);
-void PadUtils_ResetPressRel(Input* input);
-u32 PadUtils_CheckCurExact(Input* input, u16 value);
-u32 PadUtils_CheckCur(Input* input, u16 key);
-u32 PadUtils_CheckPressed(Input* input, u16 key);
-u32 PadUtils_CheckReleased(Input* input, u16 key);
-u16 PadUtils_GetCurButton(Input* input);
-u16 PadUtils_GetPressButton(Input* input);
-s8 PadUtils_GetCurX(Input* input);
-s8 PadUtils_GetCurY(Input* input);
-void PadUtils_SetRelXY(Input* input, s32 x, s32 y);
-s8 PadUtils_GetRelXImpl(Input* input);
-s8 PadUtils_GetRelYImpl(Input* input);
-s8 PadUtils_GetRelX(Input* input);
-s8 PadUtils_GetRelY(Input* input);
-void PadUtils_UpdateRelXY(Input* input);
-s32 PadSetup_Init(OSMesgQueue* mq, u8* outMask, OSContStatus* status);
 
 f32 absf(f32);
 
