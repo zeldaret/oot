@@ -2,7 +2,7 @@
 #define Z_BG_DODOAGO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 typedef enum BgDodoagoEye {
     /* 0 */ BGDODOAGO_EYE_LEFT,
@@ -11,7 +11,7 @@ typedef enum BgDodoagoEye {
 
 struct BgDodoago;
 
-typedef void (*BgDodoagoActionFunc)(struct BgDodoago*, PlayState*);
+typedef void (*BgDodoagoActionFunc)(struct BgDodoago*, struct PlayState*);
 
 typedef struct BgDodoago {
     /* 0x0000 */ DynaPolyActor dyna;

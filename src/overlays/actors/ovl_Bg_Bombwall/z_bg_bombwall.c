@@ -5,6 +5,12 @@
  */
 
 #include "z_bg_bombwall.h"
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS ACTOR_FLAG_IGNORE_POINT_LIGHTS

@@ -2,7 +2,7 @@
 #define Z_BG_HIDAN_RSEKIZOU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgHidanRsekizou;
 

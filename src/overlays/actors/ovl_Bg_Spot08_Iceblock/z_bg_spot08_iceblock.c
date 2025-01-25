@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_spot08_iceblock.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_spot08_obj/object_spot08_obj.h"
 
 #define FLAGS 0

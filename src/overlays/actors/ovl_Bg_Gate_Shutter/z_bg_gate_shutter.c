@@ -5,8 +5,16 @@
  */
 
 #include "z_bg_gate_shutter.h"
-#include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+
+#include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
 #define FLAGS 0
 

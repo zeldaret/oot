@@ -5,6 +5,19 @@
  */
 
 #include "z_bg_breakwall.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/scenes/dungeons/ddan/ddan_scene.h"
 #include "assets/objects/object_bwall/object_bwall.h"
 #include "assets/objects/object_kingdodongo/object_kingdodongo.h"
