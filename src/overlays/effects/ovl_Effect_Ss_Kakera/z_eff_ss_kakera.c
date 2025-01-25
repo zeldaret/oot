@@ -7,6 +7,7 @@
 #include "z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
+#include "libu64/debug.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "line_numbers.h"
@@ -15,9 +16,6 @@
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64player.h"
-
-// TODO: LogUtils_HungupThread
-#include "global.h"
 
 #define rReg0 regs[0]
 #define rGravity regs[1]

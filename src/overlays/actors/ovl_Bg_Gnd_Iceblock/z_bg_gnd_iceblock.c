@@ -7,6 +7,7 @@
 #include "z_bg_gnd_iceblock.h"
 
 #include "libc64/qrand.h"
+#include "libu64/debug.h"
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
@@ -14,9 +15,6 @@
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64player.h"
-
-// TODO: LogUtils_LogThreadId
-#include "global.h"
 
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
