@@ -1,8 +1,7 @@
 <Root>
     <File Name="object_mag" Segment="6">
         <Texture Name="gTitleZeldaShieldLogoTex" OutName="title_zelda_shield_logo" Format="rgba32" Width="160" Height="160" Offset="0x0"/>
-        <Texture Name="gTitleCopyright19982003Tex" OutName="title_copyright_19982003" Format="ia8" Width="128" Height="16" Offset="0x19000"/>
-        <Texture Name="gTitleCopyright2003iQueTex" OutName="title_copyright_2003_ique" Format="ia8" Width="128" Height="16" Offset="0x19800"/>
+        <Texture Name="gTitleCopyright19982003IQueTex" OutName="title_copyright_19982003_ique" Format="ia8" Width="128" Height="32" Offset="0x19000"/>
         <Texture Name="gTitleDiskTex" OutName="title_disk" Format="ia8" Width="48" Height="16" Offset="0x1A000"/>
         <Texture Name="gTitleEffectMask00Tex" OutName="title_effect_mask_0_0" Format="i4" Width="64" Height="64" Offset="0x1A300"/>
         <Texture Name="gTitleEffectMask01Tex" OutName="title_effect_mask_0_1" Format="i4" Width="64" Height="64" Offset="0x1AB00"/>
@@ -16,6 +15,6 @@
         <Texture Name="gTitleFlameEffectTex" OutName="title_flame_effect" Format="i8" Width="32" Height="32" Offset="0x1EB00"/>
         <Texture Name="gTitleTheLegendOfTextTex" OutName="title_the_legend_of_text" Format="i8" Width="72" Height="8" Offset="0x1EF00"/>
         <Texture Name="gTitleOcarinaOfTimeTMTextTex" OutName="title_ocarina_of_time_tm_text" Format="i8" Width="96" Height="8" Offset="0x1F140"/>
-        <Texture Name="gTitleTitleCNTex" OutName="title_title_cn" Format="i8" Width="128" Height="16" Offset="0x1F440"/>
+        <Texture Name="gTitleTitleCHNTex" OutName="title_title_chn" Format="i8" Width="128" Height="16" Offset="0x1F440"/>
     </File>
 </Root>
