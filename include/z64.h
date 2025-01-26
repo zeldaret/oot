@@ -89,6 +89,7 @@
 #include "libu64/debug.h"
 #include "z64debug_display.h"
 #include "z64draw.h"
+#include "z_en_item00.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240

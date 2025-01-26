@@ -27,10 +27,6 @@ NORETURN void func_80002384(const char* exp, const char* file, int line);
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
 
-EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params);
-EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params);
-void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnPos, s16 params);
-
 void FlagSet_Update(PlayState* play);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
 void Overlay_FreeGameState(GameStateOverlay* overlayEntry);
