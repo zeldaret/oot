@@ -87,6 +87,7 @@
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
+#include "z64debug_display.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -307,15 +308,6 @@ typedef struct PreNMIState {
     /* 0xA4 */ u32       timer;
     /* 0xA8 */ UNK_TYPE4 unk_A8;
 } PreNMIState; // size = 0xAC
-
-typedef struct DebugDispObject {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3s rot;
-    /* 0x14 */ Vec3f scale;
-    /* 0x20 */ Color_RGBA8 color;
-    /* 0x24 */ s16   type;
-    /* 0x28 */ struct DebugDispObject* next;
-} DebugDispObject; // size = 0x2C
 
 typedef struct ISVDbg {
     /* 0x00 */ u32 magic; // IS64
