@@ -1,7 +1,10 @@
 #include "global.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+
+#include "z64draw.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-eu-mq-dbg:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128" \
                                "gc-us-mq:128 ntsc-1.2:128"

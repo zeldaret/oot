@@ -1,5 +1,7 @@
 #include "global.h"
 #include "versions.h"
+#include "z64draw.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"

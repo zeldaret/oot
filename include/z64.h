@@ -88,6 +88,7 @@
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
 #include "z64debug_display.h"
+#include "z64draw.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240

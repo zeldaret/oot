@@ -50,7 +50,6 @@ void Regs_UpdateEditor(Input* input);
 void Debug_DrawText(GraphicsContext* gfxCtx);
 
 void* MemCpy(void* dest, const void* src, s32 len);
-void GetItem_Draw(PlayState* play, s16 drawId);
 
 u16 QuestHint_GetSariaTextId(PlayState* play);
 u16 QuestHint_GetNaviTextId(PlayState* play);
