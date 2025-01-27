@@ -2,7 +2,7 @@
 #define Z_BG_HAKA_TRAP_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 typedef enum HakaTrapType {
     /* 0x00 */ HAKA_TRAP_GUILLOTINE_SLOW,
@@ -15,7 +15,7 @@ typedef enum HakaTrapType {
 
 struct BgHakaTrap;
 
-typedef void (*BgHakaTrapActionFunc)(struct BgHakaTrap*, PlayState*);
+typedef void (*BgHakaTrapActionFunc)(struct BgHakaTrap*, struct PlayState*);
 
 typedef struct BgHakaTrap {
     /* 0x0000 */ DynaPolyActor dyna;

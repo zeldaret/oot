@@ -5,8 +5,17 @@
  */
 
 #include "z_eff_ss_kakera.h"
-#include "versions.h"
+
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
 #include "line_numbers.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
 
 #define rReg0 regs[0]
 #define rGravity regs[1]

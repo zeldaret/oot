@@ -2,11 +2,11 @@
 #define Z_BG_GND_DARKMEIRO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgGndDarkmeiro;
 
-typedef void (*BgGndDarkmeiroUpdateFunc)(struct BgGndDarkmeiro*, PlayState*);
+typedef void (*BgGndDarkmeiroUpdateFunc)(struct BgGndDarkmeiro*, struct PlayState*);
 
 typedef struct BgGndDarkmeiro {
     /* 0x0000 */ DynaPolyActor dyna;

@@ -1,4 +1,18 @@
 #include "z_door_warp1.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64light.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_warp1/object_warp1.h"
 
 #define FLAGS 0

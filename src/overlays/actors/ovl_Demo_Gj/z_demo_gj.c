@@ -5,8 +5,23 @@
  */
 
 #include "z_demo_gj.h"
-#include "assets/objects/object_gj/object_gj.h"
+
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "global.h"
+
+#include "assets/objects/object_gj/object_gj.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 

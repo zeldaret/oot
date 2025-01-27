@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_haka_zou.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 

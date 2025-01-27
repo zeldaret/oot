@@ -2,11 +2,11 @@
 #define Z_BG_BOMBWALL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgBombwall;
 
-typedef void (*BgBombwallActionFunc)(struct BgBombwall*, PlayState*);
+typedef void (*BgBombwallActionFunc)(struct BgBombwall*, struct PlayState*);
 
 typedef struct BgBombwall {
     /* 0x0000 */ DynaPolyActor dyna;

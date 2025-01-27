@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_hidan_dalm.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0

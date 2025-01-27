@@ -5,6 +5,13 @@
  */
 
 #include "z_bg_haka_meganebg.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0

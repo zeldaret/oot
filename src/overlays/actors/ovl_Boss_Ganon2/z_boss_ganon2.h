@@ -2,11 +2,11 @@
 #define Z_BOSS_GANON2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossGanon2;
 
-typedef void (*BossGanon2ActionFunc)(struct BossGanon2*, PlayState*);
+typedef void (*BossGanon2ActionFunc)(struct BossGanon2*, struct PlayState*);
 
 typedef enum GanonLimb {
     /*  0 */ GANON_LIMB_NONE,

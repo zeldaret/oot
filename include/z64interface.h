@@ -1,6 +1,7 @@
 #ifndef Z64INTERFACE_H
 #define Z64INTERFACE_H
 
+#include "ultra64.h"
 #include "z64dma.h"
 #include "z64view.h"
 
