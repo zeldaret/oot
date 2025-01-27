@@ -5,6 +5,7 @@
  */
 
 #include "z_item_etcetera.h"
+#include "z64draw.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

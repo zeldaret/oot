@@ -27,10 +27,6 @@ NORETURN void func_80002384(const char* exp, const char* file, int line);
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
 
-EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params);
-EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params);
-void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnPos, s16 params);
-
 void FlagSet_Update(PlayState* play);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
 void Overlay_FreeGameState(GameStateOverlay* overlayEntry);
@@ -48,14 +44,8 @@ void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text);
 void Regs_UpdateEditor(Input* input);
 #endif
 void Debug_DrawText(GraphicsContext* gfxCtx);
-void DebugDisplay_Init(void);
-DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, f32 scaleX,
-                                        f32 scaleY, f32 scaleZ, u8 red, u8 green, u8 blue, u8 alpha, s16 type,
-                                        GraphicsContext* gfxCtx);
-void DebugDisplay_DrawObjects(PlayState* play);
 
 void* MemCpy(void* dest, const void* src, s32 len);
-void GetItem_Draw(PlayState* play, s16 drawId);
 
 u16 QuestHint_GetSariaTextId(PlayState* play);
 u16 QuestHint_GetNaviTextId(PlayState* play);
