@@ -1,7 +1,7 @@
 MAKEFLAGS += --no-builtin-rules
 
 # Ensure the build fails if a piped command fails
-SHELL = /bin/bash
+SHELL = /usr/bin/env bash
 .SHELLFLAGS = -o pipefail -c
 
 #### Build options ####
