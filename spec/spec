@@ -654,7 +654,7 @@ beginseg
 #endif
 
     // audio
-#if OOT_VERSION < NTSC_1_1 || PLATFORM_GC
+#if OOT_VERSION < NTSC_1_1 || !PLATFORM_N64
     pad_text
 #endif
     include "$(BUILD_DIR)/src/audio/lib/data.o"
