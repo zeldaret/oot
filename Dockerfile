@@ -13,6 +13,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
         python3-pip \
         python3-venv \
         git \
+        curl \
         wget \
         unzip \
         clang-tidy \
