@@ -20,12 +20,12 @@ typedef struct Fishing {
     /* 0x015A */ s16 fishStateNext;
     /* 0x015C */ s16 stateAndTimer; // fish use as timer that's AND'd, owner as talking state
     /* 0x015E */ s16 unk_15E;
-    /* 0x0160 */ s16 unk_160; // fish use as rotateX, owner as index of eye texture
-    /* 0x0162 */ s16 unk_162; // fish use as rotateY, owner as index of eye texture
-    /* 0x0164 */ s16 unk_164; // fish use as rotateZ, owner as rotation of head
+    /* 0x0160 */ s16 unk_160; // fish use as rotateX, owner as index of eye texture (TODO: probably part of a "work" array)
+    /* 0x0162 */ s16 unk_162; // fish use as rotateY, owner as index of eye texture (TODO: probably part of a "work" array)
+    /* 0x0164 */ s16 unk_164; // fish use as rotateZ, owner as rotation of head (TODO: probably part of a "work" array)
     /* 0x0166 */ Vec3s rotationTarget;
     /* 0x016C */ s16 fishLimb23RotYDelta;
-    /* 0x016E */ s16 unk_16E;
+    /* 0x016E */ s16 unk_16E; // (TODO: probably part of a "work" array)
     /* 0x0170 */ s16 fishLimbDRotZDelta;
     /* 0x0172 */ s16 fishLimbEFRotYDelta;
     /* 0x0174 */ s16 fishLimb89RotYDelta;
@@ -38,7 +38,7 @@ typedef struct Fishing {
     /* 0x0190 */ f32 unk_190; // fishLimbRotPhaseStep target
     /* 0x0194 */ f32 unk_194; // fishLimbRotPhaseMag target
     /* 0x0198 */ f32 fishLimbRotPhaseStep;
-    /* 0x019C */ f32 fishLimbRotPhaseMag;
+    /* 0x019C */ f32 fishLimbRotPhaseMag; // (TODO: probably part of an "fwork" array)
     /* 0x01A0 */ s16 bumpTimer; // set when hitting a wall.
     /* 0x01A2 */ s16 unk_1A2; // "scared" timer?
     /* 0x01A4 */ s16 unk_1A4; // "scared" timer? set at same time as above
