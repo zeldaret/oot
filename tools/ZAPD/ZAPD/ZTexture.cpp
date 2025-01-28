@@ -131,7 +131,7 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 
 void ZTexture::ParseRawData()
 {
-	if (rawDataIndex % 8 != 0)
+	if ((parent->baseAddress + rawDataIndex) % 8 != 0)
 		dWordAligned = false;
 
 	switch (format)

@@ -133,6 +133,6 @@ s32 osMotorInit(OSMesgQueue* ctrlrqueue, OSPfs* pfs, s32 channel) {
     pfs->status = PFS_MOTOR_INITIALIZED;
     return 0; // "Recognized rumble pak"
 #else
-    return PFS_ERR_INVALID;
+    return PFS_ERR_DEVICE;
 #endif
 }

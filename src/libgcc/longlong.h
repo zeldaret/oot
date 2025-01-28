@@ -87,6 +87,7 @@
 #define umul_ppmm(w1, w0, u, v) \
     __asm__("multu %2,%3" : "=l"((USItype)(w0)), "=h"((USItype)(w1)) : "d"((USItype)(u)), "d"((USItype)(v)))
 #else
+/* Non-matching version for modern GCC  */
 #define umul_ppmm(w1, w0, u, v)  \
     __asm__("multu %2,%3\n\t"    \
             "mflo %0\n\t"        \

@@ -364,10 +364,10 @@ void Fairy_InitFile(FairyFileInfo* fileInfo, FILE* file) {
                     off += 1;
                 case SHT_REL:
                     off += 5;
-                    /* This assumes only one reloc section of each name */
-                    // TODO: is this a problem?
                     {
                         FairySection relocSection = FAIRY_SECTION_OTHER;
+                        FairyRela* relocs;
+                        size_t relocCount;
 
                         /* Ignore the first 5/6 chars, which will always be ".rel."/".rela." */
                         if (strcmp(&shstrtab[currentSection.sh_name + off], "text") == 0) {
@@ -381,11 +381,23 @@ void Fairy_InitFile(FairyFileInfo* fileInfo, FILE* file) {
                         }
                         FAIRY_DEBUG_PRINTF("Found %s section\n", &shstrtab[currentSection.sh_name]);
 
+                        relocCount = Fairy_ReadRelocs(&relocs, file, currentSection.sh_type, currentSection.sh_offset,
+                                                      currentSection.sh_size);
+
+                        /* Ignore empty reloc sections */
+                        if (relocCount == 0) {
+                            free(relocs);
+                            break;
+                        }
+
+                        /* This assumes only one non-empty reloc section of each name */
+                        /* TODO: is this a problem? */
+                        assert(fileInfo->relocTablesInfo[relocSection].sectionData == NULL);
+
+                        fileInfo->relocTablesInfo[relocSection].sectionData = relocs;
                         fileInfo->relocTablesInfo[relocSection].sectionType = SHT_RELA;
                         fileInfo->relocTablesInfo[relocSection].sectionEntrySize = sizeof(FairyRela);
-                        fileInfo->relocTablesInfo[relocSection].sectionEntryCount =
-                            Fairy_ReadRelocs((FairyRela**)&fileInfo->relocTablesInfo[relocSection].sectionData, file,
-                                             currentSection.sh_type, currentSection.sh_offset, currentSection.sh_size);
+                        fileInfo->relocTablesInfo[relocSection].sectionEntryCount = relocCount;
                     }
                     break;
 

@@ -5,6 +5,17 @@
  */
 
 #include "z_bg_haka_trap.h"
+
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64skin_matrix.h"
+
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0

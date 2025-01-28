@@ -52,10 +52,10 @@
 
 #if DEBUG_FEATURES
 #define PRINTF osSyncPrintf
+#elif defined(EGCS)
+#define PRINTF(format, args...) while (0) osSyncPrintf(format, ##args)
 #elif IDO_PRINTF_WORKAROUND
 #define PRINTF(args) (void)0
-#elif defined(__GNUC__) && __GNUC__ < 3
-#define PRINTF(format, args...) while (0) osSyncPrintf(format, ##args)
 #else
 #define PRINTF(format, ...) (void)0
 #endif
@@ -105,12 +105,12 @@
 #define LOG_FLOAT(exp, value, file, line) LOG(exp, value, "%f", file, line)
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
-    do {                                                 \
+    if (1) {                                             \
         GameState* state = curState;                     \
                                                          \
         (state)->init = newInit;                         \
         (state)->size = sizeof(newStruct);               \
-    } while (0)
+    } (void)0
 
 #if DEBUG_FEATURES
 

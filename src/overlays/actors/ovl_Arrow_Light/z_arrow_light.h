@@ -2,11 +2,11 @@
 #define Z_ARROW_LIGHT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ArrowLight;
 
-typedef void (*ArrowLightActionFunc)(struct ArrowLight*, PlayState*);
+typedef void (*ArrowLightActionFunc)(struct ArrowLight*, struct PlayState*);
 
 typedef struct ArrowLight {
     /* 0x0000 */ Actor actor;

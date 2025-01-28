@@ -150,7 +150,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->cursorSpecialPos = 0;
                 pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot;
                 pauseCtx->cursorX[PAUSE_MAP] = 0;
-                j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
+                j = (pauseCtx->cursorSlot[PAUSE_MAP] + 18) * 4;
                 KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -181,7 +181,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 }
 
                 PRINTF("kscope->cursor_point====%d\n", pauseCtx->cursorPoint[PAUSE_MAP]);
-                j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
+                j = (pauseCtx->cursorSlot[PAUSE_MAP] + 18) * 4;
                 KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -203,7 +203,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
 
         pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP];
 
-        j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
+        j = (pauseCtx->cursorSlot[PAUSE_MAP] + 18) * 4;
         KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
 
         if (pauseCtx->cursorX[PAUSE_MAP] == 0) {
@@ -285,7 +285,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
     pauseCtx->mapPageVtx[116].v.ob[1] = pauseCtx->mapPageVtx[117].v.ob[1] =
-        pauseCtx->pagesYOrigin1 - (VREG(30) * 14) + 49;
+        pauseCtx->pagesYOrigin1 + 50 - (VREG(30) * 14) - 1;
     pauseCtx->mapPageVtx[118].v.ob[1] = pauseCtx->mapPageVtx[119].v.ob[1] = pauseCtx->mapPageVtx[116].v.ob[1] - 16;
 
     gDPLoadTextureBlock(POLY_OPA_DISP++, gDungeonMapLinkHeadTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 16, 0,
@@ -550,9 +550,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
         if (pauseCtx->cursorSpecialPos == 0) {
             if (pauseCtx->stickAdjX > 30) {
-                D_8082A6D4 = 0;
-
                 do {
+                    D_8082A6D4 = 0;
                     pauseCtx->cursorPoint[PAUSE_WORLD_MAP]++;
                     if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] >= WORLD_MAP_POINT_MAX) {
                         pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = WORLD_MAP_POINT_MAX - 1;
@@ -562,9 +561,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                 } while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ==
                          WORLD_MAP_POINT_STATE_HIDE);
             } else if (pauseCtx->stickAdjX < -30) {
-                D_8082A6D4 = 0;
-
                 do {
+                    D_8082A6D4 = 0;
                     pauseCtx->cursorPoint[PAUSE_WORLD_MAP]--;
                     if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] < 0) {
                         pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 0;
@@ -585,8 +583,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->cursorItem[PAUSE_MAP] = gSaveContext.worldMapArea + 0x18;
             if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
                 if (pauseCtx->stickAdjX > 30) {
-                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 0;
                     pauseCtx->cursorSpecialPos = 0;
+                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 0;
 
                     while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ==
                            WORLD_MAP_POINT_STATE_HIDE) {
@@ -603,8 +601,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             } else {
                 if (pauseCtx->stickAdjX < -30) {
-                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = WORLD_MAP_POINT_MAX - 1;
                     pauseCtx->cursorSpecialPos = 0;
+                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = WORLD_MAP_POINT_MAX - 1;
 
                     while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ==
                            WORLD_MAP_POINT_STATE_HIDE) {

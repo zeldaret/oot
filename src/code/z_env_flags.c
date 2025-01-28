@@ -1,4 +1,5 @@
-#include "global.h"
+#include "ultra64.h"
+#include "z64play.h"
 
 void CutsceneFlags_UnsetAll(PlayState* play) {
     u8 i;

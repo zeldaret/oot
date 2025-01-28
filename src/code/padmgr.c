@@ -28,7 +28,9 @@
  * `osContStartReadData` to receiving the data. By running this on a separate thread to the game state, work can be
  * done while waiting for this operation to complete.
  */
-#include "global.h"
+#include "libu64/debug.h"
+#include "libu64/padsetup.h"
+#include "macros.h"
 #include "fault.h"
 #include "terminal.h"
 #include "line_numbers.h"

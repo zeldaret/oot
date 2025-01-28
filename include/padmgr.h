@@ -2,6 +2,7 @@
 #define PADMGR_H
 
 #include "ultra64.h"
+#include "libu64/pad.h"
 #include "irqmgr.h"
 #include "versions.h"
 
@@ -10,13 +11,6 @@ typedef enum ControllerPakType {
     CONT_PAK_RUMBLE,
     CONT_PAK_OTHER
 } ControllerPakType;
-
-typedef struct Input {
-    /* 0x00 */ OSContPad cur;
-    /* 0x06 */ OSContPad prev;
-    /* 0x0C */ OSContPad press; // X/Y store delta from last frame
-    /* 0x12 */ OSContPad rel; // X/Y store adjusted
-} Input; // size = 0x18
 
 typedef struct PadMgr {
     /* 0x0000 */ OSContStatus padStatus[MAXCONTROLLERS];

@@ -8,8 +8,6 @@
 #define AUDIO_PRINTF osSyncPrintf
 #elif IDO_PRINTF_WORKAROUND
 #define AUDIO_PRINTF(args) (void)0
-#elif defined(__GNUC__) && __GNUC__ < 3
-#define AUDIO_PRINTF(format, args...) (void)0
 #else
 #define AUDIO_PRINTF(format, ...) (void)0
 #endif
