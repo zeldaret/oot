@@ -1,6 +1,6 @@
 #include "file_select.h"
 
-// The iQue version of this file contains many workarounds for EGCS internal
+// In iQue versions, this file contains many workarounds for EGCS internal
 // compiler errors (see docs/compilers.md)
 
 // when choosing a file to copy or erase, the 6 main menu buttons are placed at these offsets
