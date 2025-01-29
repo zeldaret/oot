@@ -2,11 +2,11 @@
 #define Z_EN_SYATEKI_ITM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSyatekiItm;
 
-typedef void (*EnSyatekiItmActionFunc)(struct EnSyatekiItm*, PlayState*);
+typedef void (*EnSyatekiItmActionFunc)(struct EnSyatekiItm*, struct PlayState*);
 
 typedef enum EnSyatekiSignal {
     /* 0 */ ENSYATEKI_NONE,

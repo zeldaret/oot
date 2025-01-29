@@ -2,11 +2,11 @@
 #define Z_EN_DNT_NOMAL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDntNomal;
 
-typedef void (*EnDntNomalActionFunc)(struct EnDntNomal*, PlayState*);
+typedef void (*EnDntNomalActionFunc)(struct EnDntNomal*, struct PlayState*);
 
 typedef struct EnDntNomal {
     /* 0x0000 */ Actor actor;

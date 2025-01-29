@@ -7,8 +7,20 @@
 #include "z_shot_sun.h"
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "assets/scenes/overworld/spot06/spot06_scene.h"
+
+#include "one_point_cutscene.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math3d.h"
 #include "terminal.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64environment.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/scenes/overworld/spot06/spot06_scene.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 

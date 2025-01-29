@@ -2,11 +2,11 @@
 #define Z_BOSS_SST_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossSst;
 
-typedef void (*BossSstActionFunc)(struct BossSst*, PlayState*);
+typedef void (*BossSstActionFunc)(struct BossSst*, struct PlayState*);
 
 #define BOSS_SST_EFFECT_COUNT 18
 

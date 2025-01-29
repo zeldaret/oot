@@ -2,11 +2,11 @@
 #define Z_EN_WONDER_ITEM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnWonderItem;
 
-typedef void (*EnWonderItemUpdateFunc)(struct EnWonderItem*, PlayState*);
+typedef void (*EnWonderItemUpdateFunc)(struct EnWonderItem*, struct PlayState*);
 
 typedef struct EnWonderItem {
     /* 0x0000 */ Actor actor;

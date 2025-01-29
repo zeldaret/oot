@@ -2,11 +2,11 @@
 #define Z_EN_ATTACK_NIW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnAttackNiw;
 
-typedef void (*EnAttackNiwActionFunc)(struct EnAttackNiw*, PlayState*);
+typedef void (*EnAttackNiwActionFunc)(struct EnAttackNiw*, struct PlayState*);
 
 typedef struct EnAttackNiw {
     /* 0x0000 */ Actor actor;

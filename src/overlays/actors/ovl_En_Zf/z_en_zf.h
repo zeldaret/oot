@@ -2,11 +2,11 @@
 #define Z_EN_ZF_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnZf;
 
-typedef void (*EnZfActionFunc)(struct EnZf*, PlayState*);
+typedef void (*EnZfActionFunc)(struct EnZf*, struct PlayState*);
 
 typedef enum EnZfType {
     /* -2 */ ENZF_TYPE_DINOLFOS = -2,

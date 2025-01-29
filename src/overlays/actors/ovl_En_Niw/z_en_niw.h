@@ -2,11 +2,11 @@
 #define Z_EN_NIW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnNiw;
 
-typedef void (*EnNiwActionFunc)(struct EnNiw*, PlayState*);
+typedef void (*EnNiwActionFunc)(struct EnNiw*, struct PlayState*);
 
 typedef struct EnNiwEffect {
     /* 0x0000 */ u8 type;

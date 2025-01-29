@@ -6,6 +6,12 @@
 
 #include "z_obj_mure3.h"
 
+#include "ichain.h"
+#include "sys_math3d.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #define FLAGS 0
 
 void ObjMure3_Init(Actor* thisx, PlayState* play);

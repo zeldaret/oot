@@ -2,7 +2,7 @@
 #define Z_EN_PEEHAT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 typedef enum PeahatType {
     /* -1 */ PEAHAT_TYPE_GROUNDED = -1,
@@ -12,7 +12,7 @@ typedef enum PeahatType {
 
 struct EnPeehat;
 
-typedef void (*EnPeehatActionFunc)(struct EnPeehat*, PlayState*);
+typedef void (*EnPeehatActionFunc)(struct EnPeehat*, struct PlayState*);
 
 typedef struct EnPeehat {
     /* 0x0000 */ Actor actor;

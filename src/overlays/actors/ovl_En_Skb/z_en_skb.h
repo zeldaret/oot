@@ -2,11 +2,11 @@
 #define Z_EN_SKB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSkb;
 
-typedef void (*EnSkbActionFunc)(struct EnSkb*, PlayState*);
+typedef void (*EnSkbActionFunc)(struct EnSkb*, struct PlayState*);
 
 typedef struct EnSkb {
     /* 0x0000 */ Actor actor;

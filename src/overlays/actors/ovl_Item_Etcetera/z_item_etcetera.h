@@ -2,11 +2,11 @@
 #define Z_ITEM_ETC_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ItemEtcetera;
 
-typedef void (*ItemEtceteraActionFunc)(struct ItemEtcetera*, PlayState*);
+typedef void (*ItemEtceteraActionFunc)(struct ItemEtcetera*, struct PlayState*);
 
 typedef struct ItemEtcetera {
     /* 0x0000 */ Actor actor;

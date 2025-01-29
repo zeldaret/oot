@@ -2,11 +2,11 @@
 #define Z_EN_BILI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBili;
 
-typedef void (*EnBiliActionFunc)(struct EnBili*, PlayState*);
+typedef void (*EnBiliActionFunc)(struct EnBili*, struct PlayState*);
 
 typedef enum EnBiliLimb {
     /* 0 */ EN_BILI_LIMB_NONE,

@@ -2,11 +2,11 @@
 #define Z_OBJ_BEAN_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjBean;
 
-typedef void (*ObjBeanActionFunc)(struct ObjBean*, PlayState*);
+typedef void (*ObjBeanActionFunc)(struct ObjBean*, struct PlayState*);
 typedef void (*ObjBeanTransformFunc)(struct ObjBean*);
 
 typedef struct ObjBean {

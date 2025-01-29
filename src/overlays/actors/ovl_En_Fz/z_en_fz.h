@@ -2,11 +2,11 @@
 #define Z_EN_FZ_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnFz;
 
-typedef void (*EnFzActionFunc)(struct EnFz*, PlayState*);
+typedef void (*EnFzActionFunc)(struct EnFz*, struct PlayState*);
 typedef void (*EnFzSpawnIceSmokeFunc)(struct EnFz*);
 
 typedef struct EnFzEffect {

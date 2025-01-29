@@ -2,11 +2,11 @@
 #define Z_EN_DODOJR_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDodojr;
 
-typedef void (*EnDodojrActionFunc)(struct EnDodojr*, PlayState*);
+typedef void (*EnDodojrActionFunc)(struct EnDodojr*, struct PlayState*);
 
 typedef struct EnDodojr {
     /* 0x0000 */ Actor actor;

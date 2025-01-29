@@ -2,10 +2,10 @@
 #define Z_EN_BW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBw;
-typedef void (*EnBwActionFunc)(struct EnBw*, PlayState*);
+typedef void (*EnBwActionFunc)(struct EnBw*, struct PlayState*);
 
 typedef enum TorchSlugLimb {
     /*  0 */ TORCH_SLUG_LIMB_NONE,

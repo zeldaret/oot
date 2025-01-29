@@ -2,15 +2,14 @@
 #define Z_EN_SHOPNUTS_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "overlays/actors/ovl_En_Dns/z_en_dns.h"
-#include "overlays/actors/ovl_En_Nutsball/z_en_nutsball.h"
+#include "z64actor.h"
+#include "assets/objects/object_shopnuts/object_shopnuts.h"
 
 struct EnShopnuts;
 
 #define SHOPNUTS_GET_TYPE(thisx) ((thisx)->params)
 
-typedef void (*EnShopnutsActionFunc)(struct EnShopnuts*, PlayState*);
+typedef void (*EnShopnutsActionFunc)(struct EnShopnuts*, struct PlayState*);
 
 typedef struct EnShopnuts {
     /* 0x0000 */ Actor actor;

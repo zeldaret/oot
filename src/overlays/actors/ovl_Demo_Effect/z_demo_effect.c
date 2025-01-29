@@ -16,6 +16,7 @@
 #include "z_lib.h"
 #include "z64audio.h"
 #include "z64curve.h"
+#include "z64draw.h"
 #include "z64effect.h"
 #include "z64play.h"
 

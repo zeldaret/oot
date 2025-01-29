@@ -2,11 +2,11 @@
 #define Z_EN_TUBO_TRAP_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnTuboTrap;
 
-typedef void (*EnTuboTrapActionFunc)(struct EnTuboTrap*, PlayState*);
+typedef void (*EnTuboTrapActionFunc)(struct EnTuboTrap*, struct PlayState*);
 
 typedef struct EnTuboTrap {
     /* 0x0000 */ Actor actor;

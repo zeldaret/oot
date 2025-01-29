@@ -2,11 +2,11 @@
 #define Z_EN_BIGOKUTA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBigokuta;
 
-typedef void (*EnBigokutaActionFunc)(struct EnBigokuta*, PlayState*);
+typedef void (*EnBigokutaActionFunc)(struct EnBigokuta*, struct PlayState*);
 
 typedef struct EnBigokuta {
     /* 0x0000 */ Actor actor;

@@ -2,7 +2,7 @@
 #define Z_EN_DNS_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
 
 #define DNS_GET_TYPE(thisx) ((thisx)->params)
@@ -37,7 +37,7 @@ typedef enum EnDnsAnimation {
 
 struct EnDns;
 
-typedef void (*EnDnsActionFunc)(struct EnDns*, PlayState*);
+typedef void (*EnDnsActionFunc)(struct EnDns*, struct PlayState*);
 typedef u32 (*EnDnsCanBuyFunc)(struct EnDns*);
 typedef void (*EnDnsPaymentFunc)(struct EnDns*);
 

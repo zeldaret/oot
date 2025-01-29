@@ -2,11 +2,11 @@
 #define Z_EN_WF_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnWf;
 
-typedef void (*EnWfActionFunc)(struct EnWf*, PlayState*);
+typedef void (*EnWfActionFunc)(struct EnWf*, struct PlayState*);
 
 typedef enum EnWfLimb {
     /*  0 */ WOLFOS_LIMB_NONE,

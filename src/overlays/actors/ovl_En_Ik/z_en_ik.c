@@ -5,10 +5,27 @@
  */
 
 #include "z_en_ik.h"
-#include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
-#include "assets/objects/object_ik/object_ik.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sequence.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64skin_matrix.h"
+
+#include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
+#include "assets/objects/object_ik/object_ik.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

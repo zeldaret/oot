@@ -2,11 +2,11 @@
 #define Z_OBJ_KIBAKO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjKibako;
 
-typedef void (*ObjKibakoActionFunc)(struct ObjKibako*, PlayState*);
+typedef void (*ObjKibakoActionFunc)(struct ObjKibako*, struct PlayState*);
 
 typedef struct ObjKibako {
     /* 0x0000 */ Actor actor;

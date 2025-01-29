@@ -5,8 +5,17 @@
  */
 
 #include "z_bg_jya_ironobj.h"
-#include "assets/objects/object_jya_iron/object_jya_iron.h"
 #include "overlays/actors/ovl_En_Ik/z_en_ik.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "assets/objects/object_jya_iron/object_jya_iron.h"
 
 #define FLAGS 0
 

@@ -2,11 +2,11 @@
 #define Z_EN_YABUSAME_MARK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnYabusameMark;
 
-typedef void (*EnYabusameMarkActionFunc)(struct EnYabusameMark*, PlayState*);
+typedef void (*EnYabusameMarkActionFunc)(struct EnYabusameMark*, struct PlayState*);
 
 typedef struct EnYabusameMark {
     /* 0x0000 */ Actor actor;

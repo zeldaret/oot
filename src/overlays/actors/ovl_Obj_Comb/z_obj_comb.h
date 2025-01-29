@@ -2,11 +2,11 @@
 #define Z_OBJ_COMB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjComb;
 
-typedef void (*ObjCombActionFunc)(struct ObjComb*, PlayState*);
+typedef void (*ObjCombActionFunc)(struct ObjComb*, struct PlayState*);
 
 typedef struct ObjComb {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_BG_SPOT18_BASKET_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot18Basket;
 
-typedef void (*BgSpot18BasketActionFunc)(struct BgSpot18Basket*, PlayState*);
+typedef void (*BgSpot18BasketActionFunc)(struct BgSpot18Basket*, struct PlayState*);
 
 typedef struct BgSpot18Basket {
     /* 0x0000 */ DynaPolyActor dyna;

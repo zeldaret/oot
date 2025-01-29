@@ -2,11 +2,11 @@
 #define Z_EN_KUSA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnKusa;
 
-typedef void (*EnKusaActionFunc)(struct EnKusa*, PlayState*);
+typedef void (*EnKusaActionFunc)(struct EnKusa*, struct PlayState*);
 
 typedef enum EnKusaType {
     /* 0 */ ENKUSA_TYPE_0,

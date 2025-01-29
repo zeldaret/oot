@@ -2,11 +2,11 @@
 #define Z_EN_BB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBb;
 
-typedef void (*EnBbActionFunc)(struct EnBb*, PlayState*);
+typedef void (*EnBbActionFunc)(struct EnBb*, struct PlayState*);
 
 typedef struct EnBb {
     /* 0x0000 */ Actor actor;

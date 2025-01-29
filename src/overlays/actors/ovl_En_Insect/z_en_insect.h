@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
 
 struct EnInsect;
 
@@ -33,7 +32,7 @@ typedef struct EnInsect {
     /* 0x031A */ s16 actionTimer;
     /* 0x031C */ s16 lifeTimer;
     /* 0x031E */ s16 crawlSoundDelay;
-    /* 0x0320 */ ObjMakekinsuta* soilActor;
+    /* 0x0320 */ struct ObjMakekinsuta* soilActor;
     /* 0x0324 */ f32 unk_324;
     /* 0x0328 */ s16 unk_328;
     /* 0x032A */ u8 unk_32A;

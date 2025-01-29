@@ -2,12 +2,11 @@
 #define Z_EN_NIW_GIRL_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "../ovl_En_Niw/z_en_niw.h"
+#include "z64actor.h"
 
 struct EnNiwGirl;
 
-typedef void (*EnNiwGirlActionFunc)(struct EnNiwGirl*, PlayState*);
+typedef void (*EnNiwGirlActionFunc)(struct EnNiwGirl*, struct PlayState*);
 
 typedef struct EnNiwGirl {
     /* 0x0000 */ Actor actor;
@@ -27,7 +26,7 @@ typedef struct EnNiwGirl {
     /* 0x027A */ s16 unk_27A;
     /* 0x027C */ f32 unk_27C;
     /* 0x0280 */ f32 unk_280;
-    /* 0x0284 */ EnNiw* chasedEnNiw;
+    /* 0x0284 */ struct EnNiw* chasedEnNiw;
     /* 0x0288 */ ColliderCylinder collider;
     /* 0x02D4 */ NpcInteractInfo interactInfo;
 } EnNiwGirl; // size = 0x02FC

@@ -2,11 +2,11 @@
 #define Z_EN_BUBBLE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBubble;
 
-typedef void (*EnBubbleActionFunc)(struct EnBubble*, PlayState*);
+typedef void (*EnBubbleActionFunc)(struct EnBubble*, struct PlayState*);
 
 typedef struct EnBubble {
     /* 0x0000 */ Actor actor;

@@ -5,9 +5,15 @@
  */
 
 #include "z_en_changer.h"
-#include "terminal.h"
-#include "overlays/actors/ovl_Item_Etcetera/z_item_etcetera.h"
+#include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+#include "overlays/actors/ovl_Item_Etcetera/z_item_etcetera.h"
+
+#include "rand.h"
+#include "regs.h"
+#include "terminal.h"
+#include "z64debug_display.h"
+#include "z64play.h"
 
 #define FLAGS 0
 

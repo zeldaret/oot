@@ -2,7 +2,7 @@
 #define Z_EN_ISHI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 // The switch flag value for this actor is constructed in a unique way.
 // There are two separate param values which get OR'd together to create one final switch flag index.
@@ -25,9 +25,9 @@ typedef enum EnIshiType {
 
 struct EnIshi;
 
-typedef void (*EnIshiActionFunc)(struct EnIshi*, PlayState*);
-typedef void (*EnIshiEffectSpawnFunc)(struct EnIshi*, PlayState*);
-typedef void (*EnIshiDrawFunc)(struct EnIshi*, PlayState*);
+typedef void (*EnIshiActionFunc)(struct EnIshi*, struct PlayState*);
+typedef void (*EnIshiEffectSpawnFunc)(struct EnIshi*, struct PlayState*);
+typedef void (*EnIshiDrawFunc)(struct EnIshi*, struct PlayState*);
 
 typedef struct EnIshi {
     /* 0x0000 */ Actor actor;

@@ -5,10 +5,22 @@
  */
 
 #include "z_en_okarina_tag.h"
-#include "assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
-#include "assets/scenes/overworld/spot02/spot02_scene.h"
+
+#include "attributes.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64debug_display.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
+#include "assets/scenes/overworld/spot02/spot02_scene.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 

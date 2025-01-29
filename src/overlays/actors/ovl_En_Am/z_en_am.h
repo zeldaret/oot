@@ -2,11 +2,11 @@
 #define Z_EN_AM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnAm;
 
-typedef void (*EnAmActionFunc)(struct EnAm*, PlayState*);
+typedef void (*EnAmActionFunc)(struct EnAm*, struct PlayState*);
 
 typedef struct EnAm {
     /* 0x0000 */ DynaPolyActor dyna;
