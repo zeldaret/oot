@@ -2,11 +2,11 @@
 #define Z_OBJ_TSUBO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjTsubo;
 
-typedef void (*ObjTsuboActionFunc)(struct ObjTsubo*, PlayState*);
+typedef void (*ObjTsuboActionFunc)(struct ObjTsubo*, struct PlayState*);
 
 typedef struct ObjTsubo {
     /* 0x0000 */ Actor actor;

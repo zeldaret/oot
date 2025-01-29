@@ -1,6 +1,18 @@
 #include "z_bg_spot18_basket.h"
-#include "assets/objects/object_spot18_obj/object_spot18_obj.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "sys_math3d.h"
 #include "terminal.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "assets/objects/object_spot18_obj/object_spot18_obj.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

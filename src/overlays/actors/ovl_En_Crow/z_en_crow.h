@@ -2,11 +2,11 @@
 #define Z_EN_CROW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnCrow;
 
-typedef void (*EnCrowActionFunc)(struct EnCrow*, PlayState*);
+typedef void (*EnCrowActionFunc)(struct EnCrow*, struct PlayState*);
 
 typedef struct EnCrow {
     /* 0x0000 */ Actor actor;

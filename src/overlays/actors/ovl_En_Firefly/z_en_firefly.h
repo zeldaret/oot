@@ -2,11 +2,11 @@
 #define Z_EN_FIREFLY_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnFirefly;
 
-typedef void (*EnFireflyActionFunc)(struct EnFirefly*, PlayState*);
+typedef void (*EnFireflyActionFunc)(struct EnFirefly*, struct PlayState*);
 
 typedef struct EnFirefly {
     /* 0x0000 */ Actor actor;

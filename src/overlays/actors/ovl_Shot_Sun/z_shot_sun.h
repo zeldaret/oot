@@ -2,11 +2,11 @@
 #define Z_SHOT_SUN_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ShotSun;
 
-typedef void (*ShotSunActionFunc)(struct ShotSun*, PlayState*);
+typedef void (*ShotSunActionFunc)(struct ShotSun*, struct PlayState*);
 
 typedef struct ShotSun {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_EN_SW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSw;
 
-typedef void (*EnSwActionFunc)(struct EnSw* this, PlayState* play);
+typedef void (*EnSwActionFunc)(struct EnSw* this, struct PlayState* play);
 
 typedef struct EnSw {
     /* 0x0000 */ Actor actor;
@@ -34,7 +34,7 @@ typedef struct EnSw {
     /* 0x0420 */ f32 unk_420;
     /* 0x0424 */ char unk_424[0x8];
     /* 0x042C */ u8 unk_42C;
-    /* 0x0430 */ CollisionPoly* unk_430;
+    /* 0x0430 */ struct CollisionPoly* unk_430;
     /* 0x0434 */ Vec3f unk_434;
     /* 0x0440 */ s16 unk_440;
     /* 0x0442 */ s16 unk_442;
