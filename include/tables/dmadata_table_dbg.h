@@ -1,5 +1,5 @@
 /**
- * Matching dmadata layout for PAL MQ Debug
+ * Matching dmadata layout for PAL Debug
  *
  * DEFINE_DMA_ENTRY should be used for all dmadata entries
  *    - Argument 1: Name of the spec segment
