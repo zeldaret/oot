@@ -23,19 +23,21 @@ ORIG_COMPILER ?= 0
 COMPILER ?= ido
 # Target game version. Ensure the corresponding input ROM is placed in baseroms/$(VERSION)/baserom.z64.
 # Currently the following versions are supported:
-#   ntsc-1.0       N64 NTSC 1.0 (Japan/US depending on REGION)
-#   ntsc-1.1       N64 NTSC 1.1 (Japan/US depending on REGION)
-#   pal-1.0        N64 PAL 1.0 (Europe)
-#   ntsc-1.2       N64 NTSC 1.2 (Japan/US depending on REGION)
-#   pal-1.1        N64 PAL 1.1 (Europe)
-#   gc-jp          GameCube Japan
-#   gc-jp-mq       GameCube Japan Master Quest
-#   gc-us          GameCube US
-#   gc-us-mq       GameCube US Master Quest
-#   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
-#   gc-eu          GameCube Europe/PAL
-#   gc-eu-mq       GameCube Europe/PAL Master Quest
-#   gc-jp-ce       GameCube Japan (Collector's Edition disc)
+#   ntsc-1.0         N64 NTSC 1.0 (Japan/US depending on REGION)
+#   ntsc-1.1         N64 NTSC 1.1 (Japan/US depending on REGION)
+#   pal-1.0          N64 PAL 1.0 (Europe)
+#   ntsc-1.2         N64 NTSC 1.2 (Japan/US depending on REGION)
+#   pal-1.1          N64 PAL 1.1 (Europe)
+#   gc-jp            GameCube Japan
+#   gc-jp-mq         GameCube Japan Master Quest
+#   gc-us            GameCube US
+#   gc-us-mq         GameCube US Master Quest
+#   gc-eu-dbg-proto  GameCube Europe/PAL Debug (localization prototype)
+#   gc-eu-mq-dbg     GameCube Europe/PAL Master Quest Debug (default)
+#   gc-eu-dbg        GameCube Europe/PAL Debug
+#   gc-eu            GameCube Europe/PAL
+#   gc-eu-mq         GameCube Europe/PAL Master Quest
+#   gc-jp-ce         GameCube Japan (Collector's Edition disc)
 VERSION ?= gc-eu-mq-dbg
 # Number of threads to extract and compress with.
 N_THREADS ?= $(shell nproc)
@@ -134,6 +136,14 @@ else ifeq ($(VERSION),gc-us-mq)
   BUILD_DATE := 02-12-19
   BUILD_TIME := 14:05:42
   REVISION := 15
+else ifeq ($(VERSION),gc-eu-dbg-proto)
+  REGION ?= EU
+  PLATFORM := GC
+  DEBUG_FEATURES ?= 1
+  BUILD_CREATOR := zelda@srd022j
+  BUILD_DATE := 03-02-13
+  BUILD_TIME := 19:46:49
+  REVISION := 15
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   REGION ?= EU
   PLATFORM := GC
@@ -141,6 +151,14 @@ else ifeq ($(VERSION),gc-eu-mq-dbg)
   BUILD_CREATOR := zelda@srd022j
   BUILD_DATE := 03-02-21
   BUILD_TIME := 00:16:31
+  REVISION := 15
+else ifeq ($(VERSION),gc-eu-dbg)
+  REGION ?= EU
+  PLATFORM := GC
+  DEBUG_FEATURES ?= 1
+  BUILD_CREATOR := zelda@srd022j
+  BUILD_DATE := 03-02-21
+  BUILD_TIME := 00:49:18
   REVISION := 15
 else ifeq ($(VERSION),gc-eu)
   REGION ?= EU
