@@ -278,7 +278,7 @@
                 "GBI_DOWHILE"
             ],
             "cStandard": "gnu89"
-        },
+        }
     ],
     "version": 4
 }

@@ -265,6 +265,9 @@ typedef struct AttentionColor {
     /* 0x04 */ Color_RGBA8 secondary; // Used for Navi's outer color
 } AttentionColor;                     // size = 0x8
 
+// Needs to be static to work around an EGCS codegen bug in Attention_SetNaviState on iQue builds.
+// If this isn't static, accessing the element at offset 4 into the struct (secondary.r) will not
+// be offset correctly in the compiled code.
 static AttentionColor sAttentionColors[ACTORCAT_MAX + 1] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_BG

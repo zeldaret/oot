@@ -1,3 +1,3 @@
-#include "global.h"
+#include "ultra64.h"
 
 OSThread __osThreadSave;
