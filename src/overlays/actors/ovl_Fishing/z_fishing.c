@@ -454,7 +454,6 @@ static f32 sFishGroupAngle1;
 static f32 sFishGroupAngle2;
 static f32 sFishGroupAngle3;
 static FishingEffect sEffects[FISHING_EFFECT_COUNT];
-static Vec3f sStreamSfxProjectedPos;
 
 void Fishing_SetColliderElement(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 scale) {
     collider->elements[index].dim.worldSphere.center.x = pos->x;
@@ -5139,6 +5138,7 @@ static Vec3s sSinkingLureLocations[] = {
 };
 
 void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
+    static Vec3f sStreamSfxProjectedPos;
     PlayState* play = play2;
     Fishing* this = (Fishing*)thisx;
     Vec3f multiVecSrc;

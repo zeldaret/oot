@@ -904,7 +904,7 @@ static void* sPromptChoiceTexs[][2] = {
 
 static u8 D_808321A8[5];
 static PreRender sPlayerPreRender;
-static void* sPreRenderCvg;
+void* sPreRenderCvg;
 
 void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     Gfx* gfx;

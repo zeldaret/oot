@@ -15,8 +15,8 @@
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
-static CollisionPoly* sCurCeilingPoly;
-static s32 sCurCeilingBgId;
+CollisionPoly* sCurCeilingPoly;
+s32 sCurCeilingBgId;
 
 #if DEBUG_FEATURES
 #define ACTOR_DEBUG_PRINTF           \
@@ -265,7 +265,7 @@ typedef struct AttentionColor {
     /* 0x04 */ Color_RGBA8 secondary; // Used for Navi's outer color
 } AttentionColor;                     // size = 0x8
 
-AttentionColor sAttentionColors[ACTORCAT_MAX + 1] = {
+static AttentionColor sAttentionColors[ACTORCAT_MAX + 1] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_BG
     { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     // ACTORCAT_PLAYER

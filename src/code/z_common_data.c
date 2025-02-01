@@ -6,6 +6,9 @@
                                "ntsc-1.0:176 ntsc-1.1:176 ntsc-1.2:176 pal-1.0:160 pal-1.1:160"
 
 ALIGNED(16) SaveContext gSaveContext;
+#if PLATFORM_IQUE
+char common_data_bss_pad[0x20];
+#endif
 u32 D_8015FA88;
 u32 D_8015FA8C;
 

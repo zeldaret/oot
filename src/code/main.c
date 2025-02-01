@@ -5,7 +5,7 @@
 extern uintptr_t gSegments[NUM_SEGMENTS];
 
 #pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252" \
-                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ique-cn:252 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 extern struct PreNmiBuff* gAppNmiBufferPtr;
 extern struct Scheduler gScheduler;
@@ -24,7 +24,7 @@ extern struct IrqMgr gIrqMgr;
 #endif
 
 #pragma increment_block_number "gc-eu:144 gc-eu-mq:144 gc-jp:144 gc-jp-ce:144 gc-jp-mq:144 gc-us:144 gc-us-mq:144" \
-                               "ntsc-1.0:122 ntsc-1.1:122 ntsc-1.2:122 pal-1.0:120 pal-1.1:120"
+                               "ique-cn:128 ntsc-1.0:122 ntsc-1.1:122 ntsc-1.2:122 pal-1.0:120 pal-1.1:120"
 
 extern u8 _buffersSegmentEnd[];
 
