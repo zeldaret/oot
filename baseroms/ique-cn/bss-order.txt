@@ -87,7 +87,7 @@ build/ique-cn/code_bss_z_actor.o {
 build/ique-cn/code_bss_2.o {
     __osContPifRam;
     gSaveContext;
-    common_data_bss_pad;
+    sUnknownBssPadding;
     __osEepromTimerMsgQueue;
     __osSiAccessQueue;
 }

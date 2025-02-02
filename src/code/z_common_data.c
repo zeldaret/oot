@@ -7,7 +7,8 @@
 
 ALIGNED(16) SaveContext gSaveContext;
 #if PLATFORM_IQUE
-char common_data_bss_pad[0x20];
+// Unknown bss padding, placed here for matching
+char sUnknownBssPadding[0x20];
 #endif
 u32 D_8015FA88;
 u32 D_8015FA8C;

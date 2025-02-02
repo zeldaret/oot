@@ -15,7 +15,7 @@
  *    - Argument 3: Cache load policy for the sequence (AudioCacheLoadType)
  *    - Argument 4: Sequence flags
  */
-#if OOT_VERSION < PAL_1_0 || PLATFORM_GC || PLATFORM_IQUE
+#if OOT_VERSION < PAL_1_0 || !PLATFORM_N64
 #define SEQ_0_FLAGS     SEQ_FLAG_FANFARE
 #else
 #define SEQ_0_FLAGS     SEQ_FLAG_FANFARE | SEQ_FLAG_ENEMY

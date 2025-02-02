@@ -830,13 +830,13 @@ COM_PLUGIN := tools/com-plugin/common-plugin.so
 
 LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP)
 ifeq ($(PLATFORM),IQUE)
-  LDFLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=ique-bss.txt
+  LDFLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order.txt
 endif
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
         $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o \
-        ique-bss.txt
+        $(BASEROM_DIR)/bss-order.txt
 	$(LD) $(LDFLAGS) -o $@
 
 $(BUILD_DIR)/linker_scripts/makerom.ld: linker_scripts/makerom.ld
@@ -974,7 +974,9 @@ endif
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 ifeq ($(PLATFORM),IQUE)
+ifneq ($(NON_MATCHING),1)
 $(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o: POSTPROCESS_OBJ := $(PYTHON) tools/patch_ique_kaleido_reloc.py
+endif
 endif
 
 $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/spec
