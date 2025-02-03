@@ -91,6 +91,11 @@ def read_relocs(object_path: Path, section_name: str) -> list[Reloc]:
     with open(object_path, "rb") as f:
         elffile = elftools.elf.elffile.ELFFile(f)
         symtab = elffile.get_section_by_name(".symtab")
+
+        section = elffile.get_section_by_name(section_name)
+        if section is None:
+            return []
+
         data = elffile.get_section_by_name(section_name).data()
 
         reloc_section = elffile.get_section_by_name(f".rel{section_name}")
@@ -698,6 +703,12 @@ def process_file(
         raise FixBssException(f"Could not determine compiler command line for {file}")
 
     output(f"Compiler command: {shlex.join(command_line)}")
+
+    if any(s.startswith("tools/egcs/") for s in command_line):
+        raise FixBssException(
+            "Can't automatically fix BSS ordering for EGCS-compiled files"
+        )
+
     symbol_table, ucode = run_cfe(command_line, keep_files=False)
 
     bss_variables = find_bss_variables(symbol_table, ucode)
