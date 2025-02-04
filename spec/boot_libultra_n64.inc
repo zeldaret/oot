@@ -19,6 +19,7 @@
     include "$(BUILD_DIR)/src/libultra/os/writebackdcache.o"
     include "$(BUILD_DIR)/src/libultra/io/vigetnextframebuf.o"
     include "$(BUILD_DIR)/src/libultra/io/pimgr.o"
+    include "$(BUILD_DIR)/src/libultra/os/kdebugserver.o"
     include "$(BUILD_DIR)/src/libultra/io/devmgr.o"
     include "$(BUILD_DIR)/src/libultra/io/pirawdma.o"
     include "$(BUILD_DIR)/src/libultra/os/virtualtophysical.o"

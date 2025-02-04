@@ -2,12 +2,12 @@
 #include "stack.h"
 #include "ultra64/internal.h"
 
-OSThread viThread;
-STACK(viThreadStack, 0x1000);
-OSMesgQueue viEventQueue;
-OSMesg viEventBuf[5];
-OSIoMesg viRetraceMsg;
-OSIoMesg viCounterMsg;
+static OSThread viThread;
+static STACK(viThreadStack, 0x1000);
+static OSMesgQueue viEventQueue;
+static OSMesg viEventBuf[5];
+static OSIoMesg viRetraceMsg;
+static OSIoMesg viCounterMsg;
 OSDevMgr __osViDevMgr = { 0 };
 u32 __additional_scanline = 0;
 
