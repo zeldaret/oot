@@ -24,7 +24,7 @@ extern struct IrqMgr gIrqMgr;
 #endif
 
 #pragma increment_block_number "gc-eu:144 gc-eu-mq:144 gc-jp:144 gc-jp-ce:144 gc-jp-mq:144 gc-us:144 gc-us-mq:144" \
-                               "ique-cn:128 ntsc-1.0:136 ntsc-1.1:136 ntsc-1.2:136 pal-1.0:134 pal-1.1:134"
+                               "ique-cn:160 ntsc-1.0:136 ntsc-1.1:136 ntsc-1.2:136 pal-1.0:134 pal-1.1:134"
 
 extern u8 _buffersSegmentEnd[];
 
