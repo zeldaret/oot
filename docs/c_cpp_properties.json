@@ -19,6 +19,7 @@
                 "OOT_REGION=REGION_JP",
                 "PLATFORM_N64=1",
                 "PLATFORM_GC=0",
+                "PLATFORM_IQUE=0",
                 "DEBUG_FEATURES=0",
                 "NDEBUG",
                 "F3DEX_GBI_2"
@@ -44,6 +45,7 @@
                 "OOT_REGION=REGION_JP",
                 "PLATFORM_N64=0",
                 "PLATFORM_GC=1",
+                "PLATFORM_IQUE=0",
                 "DEBUG_FEATURES=0",
                 "NDEBUG",
                 "F3DEX_GBI_2",
@@ -71,6 +73,7 @@
                 "OOT_REGION=REGION_JP",
                 "PLATFORM_N64=0",
                 "PLATFORM_GC=1",
+                "PLATFORM_IQUE=0",
                 "DEBUG_FEATURES=0",
                 "NDEBUG",
                 "F3DEX_GBI_2",
@@ -98,6 +101,7 @@
                 "OOT_REGION=REGION_US",
                 "PLATFORM_N64=0",
                 "PLATFORM_GC=1",
+                "PLATFORM_IQUE=0",
                 "DEBUG_FEATURES=0",
                 "NDEBUG",
                 "F3DEX_GBI_2",
@@ -125,6 +129,7 @@
                 "OOT_REGION=REGION_US",
                 "PLATFORM_N64=0",
                 "PLATFORM_GC=1",
+                "PLATFORM_IQUE=0",
                 "DEBUG_FEATURES=0",
                 "NDEBUG",
                 "F3DEX_GBI_2",
@@ -152,6 +157,7 @@
                 "OOT_REGION=REGION_EU",
                 "PLATFORM_N64=0",
                 "PLATFORM_GC=1",
+                "PLATFORM_IQUE=0",
                 "DEBUG_FEATURES=1",
                 "F3DEX_GBI_2",
                 "F3DEX_GBI_PL",
@@ -179,6 +185,7 @@
                 "OOT_REGION=REGION_EU",
                 "PLATFORM_N64=0",
                 "PLATFORM_GC=1",
+                "PLATFORM_IQUE=0",
                 "DEBUG_FEATURES=0",
                 "NDEBUG",
                 "F3DEX_GBI_2",
@@ -206,6 +213,7 @@
                 "OOT_REGION=REGION_EU",
                 "PLATFORM_N64=0",
                 "PLATFORM_GC=1",
+                "PLATFORM_IQUE=0",
                 "DEBUG_FEATURES=0",
                 "NDEBUG",
                 "F3DEX_GBI_2",
@@ -233,6 +241,7 @@
                 "OOT_REGION=REGION_JP",
                 "PLATFORM_N64=0",
                 "PLATFORM_GC=1",
+                "PLATFORM_IQUE=0",
                 "DEBUG_FEATURES=0",
                 "NDEBUG",
                 "F3DEX_GBI_2",
@@ -241,6 +250,35 @@
             ],
             "cStandard": "gnu89"
         },
+        {
+            "name": "oot-ique-cn",
+            "compilerArgs": [
+                "-m32"
+            ],
+            "includePath": [
+                "include",
+                "include/libc",
+                "src",
+                "build/ique-cn",
+                ".",
+                "extracted/ique-cn"
+            ],
+            "defines": [
+                "_LANGUAGE_C",
+                "OOT_VERSION=IQUE_CN",
+                "OOT_REGION=REGION_US",
+                "PLATFORM_N64=0",
+                "PLATFORM_GC=0",
+                "PLATFORM_IQUE=1",
+                "BBPLAYER",
+                "DEBUG_FEATURES=0",
+                "NDEBUG",
+                "F3DEX_GBI_2",
+                "F3DEX_GBI_PL",
+                "GBI_DOWHILE"
+            ],
+            "cStandard": "gnu89"
+        }
     ],
     "version": 4
 }
