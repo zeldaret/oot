@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 u64* sDefaultGSPUCodeText = gspF3DZEX2_NoN_PosLight_fifoTextStart;
 u64* sDefaultGSPUCodeData = gspF3DZEX2_NoN_PosLight_fifoDataStart;

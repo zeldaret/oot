@@ -48,6 +48,7 @@
 #include "fault.h"
 #include "stack.h"
 #include "terminal.h"
+#include "z64thread.h"
 
 void Fault_Init(void);
 void Fault_SetOsSyncPrintfEnabled(u32 enabled);
