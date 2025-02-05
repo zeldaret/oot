@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:Thar0/com-plugin.git
 	branch = main
-	commit = 81595ed1ca40d22846064537ba5fa8147b9f7068
-	parent = a1632bcbfc04672f21866f11bf074b420dea9693
+	commit = fc5aa5eda0b09e8e3cf91ce1530f886bb1ab8eef
+	parent = 54939bac3ac972a24918d3fdc97d58199ff54bc9
 	method = merge
 	cmdver = 0.4.6
