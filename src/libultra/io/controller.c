@@ -4,7 +4,9 @@ OSPifRam __osContPifRam;
 u8 __osContLastCmd;
 u8 __osMaxControllers; // always 4
 
+#ifndef BBPLAYER
 OSTimer __osEepromTimer;
+#endif
 OSMesgQueue __osEepromTimerMsgQueue;
 OSMesg __osEepromTimerMsg;
 

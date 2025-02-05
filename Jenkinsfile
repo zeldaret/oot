@@ -120,6 +120,13 @@ pipeline {
                 }
             }
         }
+        stage('Build ique-cn') {
+            steps {
+                script {
+                    build('ique-cn', 'oot-ique-cn.z64')
+                }
+            }
+        }
         stage('Generate patch') {
             when {
                 not {

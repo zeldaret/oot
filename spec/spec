@@ -17,6 +17,12 @@ endseg
 beginseg
     name "boot"
 
+#if PLATFORM_IQUE
+    include "*$(BUILD_DIR)/boot_bss_1.o"
+    include "*$(BUILD_DIR)/boot_bss_boot_main.o"
+    include "*$(BUILD_DIR)/boot_bss_idle.o"
+    include "*$(BUILD_DIR)/boot_bss_viconfig.o"
+#endif
     include "$(BUILD_DIR)/src/boot/boot_main.o"
     include "$(BUILD_DIR)/src/boot/idle.o"
 #if OOT_VERSION >= PAL_1_0
@@ -24,6 +30,9 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/boot/carthandle.o"
     include "$(BUILD_DIR)/src/boot/z_std_dma.o"
+#if PLATFORM_IQUE
+    include "*$(BUILD_DIR)/boot_bss_z_std_dma.o"
+#endif
 #if !PLATFORM_IQUE
     include "$(BUILD_DIR)/src/boot/yaz0.o"
 #else
@@ -60,11 +69,11 @@ beginseg
 
     // libultra
 #if PLATFORM_N64
-#include "spec_includes/boot_libultra_n64.inc"
+#include "boot_libultra_n64.inc"
 #elif PLATFORM_GC
-#include "spec_includes/boot_libultra_gc.inc"
+#include "boot_libultra_gc.inc"
 #elif PLATFORM_IQUE
-#include "spec_includes/boot_libultra_ique.inc"
+#include "boot_libultra_ique.inc"
 #endif
 
     // libgcc
@@ -99,6 +108,10 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/libc/xldtob.o"
     include "$(BUILD_DIR)/src/libultra/libc/xlitob.o"
     include "$(BUILD_DIR)/src/libultra/libc/xprintf.o"
+#endif
+
+#if PLATFORM_IQUE
+    include "*$(BUILD_DIR)/boot_bss_2.o"
 #endif
 
     // Functions that GCC-compiled code may depend on, placed in boot so they will always be loaded
@@ -505,6 +518,9 @@ beginseg
     after "dmadata"
     align 0x20
 
+#if PLATFORM_IQUE
+    include "*$(BUILD_DIR)/code_bss_1.o"
+#endif
     include "$(BUILD_DIR)/src/code/z_en_a_keep.o"
     include "$(BUILD_DIR)/src/code/z_en_item00.o"
     include "$(BUILD_DIR)/src/code/z_eff_blure.o"
@@ -518,6 +534,9 @@ beginseg
     include "$(BUILD_DIR)/src/code/flg_set.o"
     include "$(BUILD_DIR)/src/code/z_DLF.o"
     include "$(BUILD_DIR)/src/code/z_actor.o"
+#if PLATFORM_IQUE
+    include "*$(BUILD_DIR)/code_bss_z_actor.o"
+#endif
     include "$(BUILD_DIR)/src/code/z_actor_dlftbls.o"
     include "$(BUILD_DIR)/src/code/z_bgcheck.o"
     include "$(BUILD_DIR)/src/code/z_bg_collect.o"
@@ -752,11 +771,11 @@ beginseg
 
     // libultra
 #if PLATFORM_N64
-#include "spec_includes/code_libultra_n64.inc"
+#include "code_libultra_n64.inc"
 #elif PLATFORM_GC
-#include "spec_includes/code_libultra_gc.inc"
+#include "code_libultra_gc.inc"
 #elif PLATFORM_IQUE
-#include "spec_includes/code_libultra_ique.inc"
+#include "code_libultra_ique.inc"
 #endif
 
     // libc
@@ -776,6 +795,11 @@ beginseg
     include "$(BUILD_DIR)/src/libc/memmove.o"
     include "$(BUILD_DIR)/src/libc/absf.o"
     include "$(BUILD_DIR)/src/libc/sqrt.o"
+#endif
+
+#if PLATFORM_IQUE
+    include "*$(BUILD_DIR)/code_bss_2.o"
+    include "*$(BUILD_DIR)/code_bss_3.o"
 #endif
 
     // For some reason, the data sections of z_message and z_game_over are
@@ -816,7 +840,6 @@ beginseg
     include "$(BUILD_DIR)/src/libultra/mgu/mtxl2f.o"
 #endif
 #endif
-
 endseg
 
 beginseg
@@ -965,9 +988,9 @@ endseg
 // Overlays for most actors and effects are reordered between versions. On N64 and iQue,
 // the overlays are in some arbitrary order, while on GameCube they are sorted alphabetically.
 #if !PLATFORM_GC
-#include "spec_includes/overlays_n64_ique.inc"
+#include "overlays_n64_ique.inc"
 #else
-#include "spec_includes/overlays_gc.inc"
+#include "overlays_gc.inc"
 #endif
 
 beginseg
@@ -4891,9 +4914,9 @@ endseg
 // Scene files are reordered between versions. On GameCube and iQue, dungeon scenes
 // have been moved to the beginning.
 #if PLATFORM_N64
-#include "spec_includes/scenes_n64.inc"
+#include "scenes_n64.inc"
 #else
-#include "spec_includes/scenes_gc_ique.inc"
+#include "scenes_gc_ique.inc"
 #endif
 
 beginseg

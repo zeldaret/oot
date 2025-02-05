@@ -14,8 +14,8 @@
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 #include "terminal.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:0" \
-                               "ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:128" \
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -1397,7 +1397,7 @@ void func_80B3F3D8(void) {
 }
 
 #pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64" \
-                               "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
+                               "ique-cn:128 ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
 void EnXc_PlayDiveSFX(Vec3f* src, PlayState* play) {
     static Vec3f D_80B42DA0;
