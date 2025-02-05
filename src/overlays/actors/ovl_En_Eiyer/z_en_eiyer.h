@@ -2,11 +2,11 @@
 #define Z_EN_EIYER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnEiyer;
 
-typedef void (*EnEiyerActionFunc)(struct EnEiyer*, PlayState*);
+typedef void (*EnEiyerActionFunc)(struct EnEiyer*, struct PlayState*);
 
 typedef struct EnEiyer {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_EN_SKJ_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSkj;
 
-typedef void (*EnSkjActionFunc)(struct EnSkj*, PlayState*);
+typedef void (*EnSkjActionFunc)(struct EnSkj*, struct PlayState*);
 
 typedef struct EnSkj {
     /* 0x0000 */ Actor actor;

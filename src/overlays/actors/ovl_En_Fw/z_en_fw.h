@@ -2,11 +2,11 @@
 #define Z_EN_FW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnFw;
 
-typedef void (*EnFwActionFunc)(struct EnFw* this, PlayState* play);
+typedef void (*EnFwActionFunc)(struct EnFw* this, struct PlayState* play);
 
 #define EN_FW_EFFECT_COUNT 20
 

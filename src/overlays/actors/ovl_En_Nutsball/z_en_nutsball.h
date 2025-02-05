@@ -2,7 +2,7 @@
 #define Z_EN_NUTSBALL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #define NUTSBALL_GET_TYPE(thisx) ((thisx)->params)
 
@@ -16,7 +16,7 @@ typedef enum EnNutsballType {
 
 struct EnNutsball;
 
-typedef void (*EnNutsballActionFunc)(struct EnNutsball*, PlayState*);
+typedef void (*EnNutsballActionFunc)(struct EnNutsball*, struct PlayState*);
 
 typedef struct EnNutsball {
     /* 0x0000 */ Actor actor;

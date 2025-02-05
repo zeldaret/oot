@@ -6,6 +6,15 @@
 
 #include "z_en_nutsball.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_dekunuts/object_dekunuts.h"
 #include "assets/objects/object_hintnuts/object_hintnuts.h"
 #include "assets/objects/object_shopnuts/object_shopnuts.h"

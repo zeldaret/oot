@@ -8,6 +8,7 @@
 #include "global.h"
 #include "quake.h"
 #include "versions.h"
+#include "z_en_item00.h"
 
 #include "overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"

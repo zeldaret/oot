@@ -2,11 +2,11 @@
 #define Z_EN_DODONGO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDodongo;
 
-typedef void (*EnDodongoActionFunc)(struct EnDodongo*, PlayState*);
+typedef void (*EnDodongoActionFunc)(struct EnDodongo*, struct PlayState*);
 
 typedef struct EnDodongo {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_OBJ_KIBAKO2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjKibako2;
 
-typedef void (*ObjKibako2ActionFunc)(struct ObjKibako2*, PlayState*);
+typedef void (*ObjKibako2ActionFunc)(struct ObjKibako2*, struct PlayState*);
 
 typedef struct ObjKibako2 {
     /* 0x0000 */ DynaPolyActor dyna;

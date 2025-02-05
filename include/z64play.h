@@ -148,6 +148,8 @@ void Play_SetupRespawnPoint(PlayState* this, s32 respawnMode, s32 playerParams);
 void Play_TriggerVoidOut(PlayState* this);
 void Play_TriggerRespawn(PlayState* this);
 int Play_CamIsNotFixed(PlayState* this);
+s32 func_800C0D34(PlayState* this, Actor* actor, s16* yaw);
+s32 func_800C0DB4(PlayState* this, Vec3f* pos);
 
 #if DEBUG_FEATURES
 extern void* gDebugCutsceneScript;

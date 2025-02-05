@@ -2,8 +2,7 @@
 #define Z_EN_ANUBICE_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
+#include "z64actor.h"
 
 struct EnAnubice;
 
@@ -54,7 +53,7 @@ typedef struct EnAnubice {
     /* 0x028C */ Vec3f fireballRot;
     /* 0x0298 */ Vec3f home;
     /* 0x02A4 */ Vec3f knockbackRecoveryVelocity;
-    /* 0x02B0 */ BgHidanCurtain* flameCircles[5];
+    /* 0x02B0 */ struct BgHidanCurtain* flameCircles[5];
     /* 0x02C4 */ char unk_2C4[0x4]; // Possibly another element of flameCircles
     /* 0x02C8 */ ColliderCylinder collider;
 } EnAnubice; // size = 0x0314

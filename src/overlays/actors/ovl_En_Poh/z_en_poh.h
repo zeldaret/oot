@@ -2,11 +2,12 @@
 #define Z_EN_POH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct EnPoh;
 
-typedef void (*EnPohActionFunc)(struct EnPoh*, PlayState*);
+typedef void (*EnPohActionFunc)(struct EnPoh*, struct PlayState*);
 
 typedef enum EnPohType {
     EN_POH_NORMAL,
