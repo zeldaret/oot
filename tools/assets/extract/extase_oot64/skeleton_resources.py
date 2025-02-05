@@ -88,7 +88,7 @@ class LimbsArrayResourceABC(CDataArrayResource):
     )
 
     def get_c_declaration_base(self):
-        return f"{self.c_limb_type}* {self.symbol_name}[]"
+        return f"void* {self.symbol_name}[]"
 
 
 class StandardLimbsArrayResource(LimbsArrayResourceABC):

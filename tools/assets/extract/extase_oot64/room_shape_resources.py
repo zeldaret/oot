@@ -138,25 +138,15 @@ class RoomShapeNormalResource(CDataResource):
         f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
-    def report_unk_8(resource, memory_context: "MemoryContext", v):
-        assert isinstance(v, int)
-        address = v
-        memory_context.report_resource_at_segmented(
-            resource,
-            address,
-            BinaryBlobResource,
-            lambda file, offset: BinaryBlobResource(
-                file, offset, offset + 1, f"{resource.name}_{address:08X}_Unk8"
-            ),
-        )
-
-    def write_unk_8(
+    def write_entriesEnd(
         resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
     ):
-        assert isinstance(v, int)
-        address = v
+        address = resource.cdata_unpacked["entries"]
+        assert isinstance(address, int)
         f.write(line_prefix)
         f.write(memory_context.get_c_reference_at_segmented(address))
+        f.write(" + ")
+        f.write(memory_context.get_c_expression_length_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(
@@ -169,9 +159,9 @@ class RoomShapeNormalResource(CDataResource):
                 CDataExt_Value("I").set_report(report_entries).set_write(write_entries),
             ),
             (
-                "unk_8",
-                CDataExt_Value("I").set_report(report_unk_8).set_write(write_unk_8),
-            ),  # "entriesEnd"
+                "entriesEnd",
+                CDataExt_Value("I").set_write(write_entriesEnd),
+            ),
         )
     )
 
@@ -294,25 +284,15 @@ class RoomShapeCullableResource(CDataResource):
         f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
-    def report_unk_8(resource, memory_context: "MemoryContext", v):
-        assert isinstance(v, int)
-        address = v
-        memory_context.report_resource_at_segmented(
-            resource,
-            address,
-            BinaryBlobResource,
-            lambda file, offset: BinaryBlobResource(
-                file, offset, offset + 1, f"{resource.name}_{address:08X}_Unk8"
-            ),
-        )
-
-    def write_unk_8(
+    def write_entriesEnd(
         resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
     ):
-        assert isinstance(v, int)
-        address = v
+        address = resource.cdata_unpacked["entries"]
+        assert isinstance(address, int)
         f.write(line_prefix)
         f.write(memory_context.get_c_reference_at_segmented(address))
+        f.write(" + ")
+        f.write(memory_context.get_c_expression_length_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(
@@ -325,9 +305,9 @@ class RoomShapeCullableResource(CDataResource):
                 CDataExt_Value("I").set_report(report_entries).set_write(write_entries),
             ),
             (
-                "unk_8",
-                CDataExt_Value("I").set_report(report_unk_8).set_write(write_unk_8),
-            ),  # "entriesEnd"
+                "entriesEnd",
+                CDataExt_Value("I").set_write(write_entriesEnd),
+            ),
         )
     )
 
