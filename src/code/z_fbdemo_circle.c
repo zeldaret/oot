@@ -10,7 +10,7 @@ Gfx sTransCircleEmptyDL[] = {
     gsSPEndDisplayList(),
 };
 
-#include "assets/code/fbdemo_circle/z_fbdemo_circle.c"
+#include "assets/code/fbdemo_circle/code.c"
 
 Gfx sTransCircleDL[] = {
     gsDPPipeSync(),

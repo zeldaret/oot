@@ -489,8 +489,8 @@ ASSET_BIN_DIRS := $(ASSET_BIN_DIRS_EXTRACTED) $(ASSET_BIN_DIRS_COMMITTED)
 
 ASSET_FILES_BIN_EXTRACTED := $(foreach dir,$(ASSET_BIN_DIRS_EXTRACTED),$(wildcard $(dir)/*.bin))
 ASSET_FILES_BIN_COMMITTED := $(foreach dir,$(ASSET_BIN_DIRS_COMMITTED),$(wildcard $(dir)/*.bin))
-ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_BIN_EXTRACTED:.bin=.bin.inc.c),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)) \
-                   $(foreach f,$(ASSET_FILES_BIN_COMMITTED:.bin=.bin.inc.c),$(BUILD_DIR)/$f)
+ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_BIN_EXTRACTED:.bin=.inc.c),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)) \
+                   $(foreach f,$(ASSET_FILES_BIN_COMMITTED:.bin=.inc.c),$(BUILD_DIR)/$f)
 
 # Find all .o files included in the spec
 SPEC_O_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(BUILD_DIR_REPLACE) | sed -n -E 's/^[ \t]*include[ \t]*"([a-zA-Z0-9/_.-]+\.o)"/\1/p')
@@ -791,7 +791,6 @@ setup: venv
 	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 $(EXTRACTED_DIR)/baserom -v $(VERSION)
 	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/incbin -v $(VERSION)
 	$(PYTHON) tools/extract_text.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/text -v $(VERSION)
-	$(PYTHON) tools/extract_assets.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/assets -v $(VERSION) -j$(N_THREADS)
 	$(PYTHON) tools/extract_audio.py -o $(EXTRACTED_DIR) -v $(VERSION) --read-xml
 
 disasm:
@@ -969,16 +968,22 @@ $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/$(SPEC)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 $(BUILD_DIR)/assets/%.inc.c: assets/%.png
-	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
+	false # TODO
 
-$(BUILD_DIR)/assets/%.inc.c: $(EXTRACTED_DIR)/assets/%.png
-	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
+$(BUILD_DIR)/assets/%.u64.inc.c: $(EXTRACTED_DIR)/assets/%.u64.png
+	$(PYTHON) tools/assets/build_from_png.py $< $(@:.inc.c=.bin)
+	@echo // From file://`realpath $<` >$@
+	tools/assets/bin2c/bin2c u64 <$(@:.inc.c=.bin) >>$@
 
-$(BUILD_DIR)/assets/%.bin.inc.c: assets/%.bin
-	$(ZAPD) bblb -eh -i $< -o $@
+# same as above rule but u32
+$(BUILD_DIR)/assets/%.u32.inc.c: $(EXTRACTED_DIR)/assets/%.u32.png
+	$(PYTHON) tools/assets/build_from_png.py $< $(@:.inc.c=.bin)
+	@echo // From file://`realpath $<` >$@
+	tools/assets/bin2c/bin2c u32 <$(@:.inc.c=.bin) >>$@
 
-$(BUILD_DIR)/assets/%.bin.inc.c: $(EXTRACTED_DIR)/assets/%.bin
-	$(ZAPD) bblb -eh -i $< -o $@
+$(BUILD_DIR)/assets/%.u8.inc.c: $(EXTRACTED_DIR)/assets/%.u8.bin
+	@echo // From file://`realpath $<` >$@
+	tools/assets/bin2c/bin2c u8 <$< >>$@
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@

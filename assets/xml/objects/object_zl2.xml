@@ -38,5 +38,7 @@
         <Texture Name="gZelda2_7TLUT" OutName="zelda_2_7_tlut" Format="rgba16" Width="6" Height="4" Offset="0x9708"/>
 
         <Texture Name="gZelda2TriforceTex" OutName="zelda_2_triforce" Format="rgba16" Width="16" Height="16" Offset="0x2900"/>
+
+        <Texture Name="gZelda2Tex_003A08" OutName="tex_003A08" Format="ci8" Width="8" Height="8" Offset="0x3A08" TlutOffset="0x2F50"/>
     </File>
 </Root>

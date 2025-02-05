@@ -1,0 +1,445 @@
+from typing import Callable
+
+from ..descriptor.base import ResourceDesc
+from ..descriptor import n64resources
+from ..descriptor import z64resources
+
+from .extase import (
+    GetResourceAtResult,
+    File,
+    Resource,
+    BinaryBlobResource,
+)
+from .extase.cdata_resources import Vec3sArrayResource, S16ArrayResource
+
+from .extase_oot64 import (
+    skeleton_resources,
+    animation_resources,
+    collision_resources,
+    dlist_resources,
+    playeranim_resources,
+    skelcurve_resources,
+    misc_resources,
+    scene_rooms_resources,
+    scene_commands_resource,
+)
+
+
+#
+# resource handlers
+#
+
+
+class ResourceHandlerException(Exception): ...
+
+
+class ResourceNeedsPostProcessWithPoolResourcesException(ResourceHandlerException):
+    def __init__(
+        self,
+        *args,
+        resource: Resource,
+        callback: Callable[[dict[ResourceDesc, Resource]], None],
+    ):
+        super().__init__(*args)
+        self.resource = resource
+        self.callback = callback
+
+    def __repr__(self) -> str:
+        return (
+            super().__repr__().removesuffix(")")
+            + f", resource={self.resource!r}"
+            + f", callback={self.callback!r})"
+        )
+
+
+ResourceHandler = Callable[[File, ResourceDesc], Resource]
+
+
+# Returns a dummy resource_handler that produces a `BinaryBlobResource` of the given size
+# This is meant as a "placeholder resource" until a resource is properly implemented
+def get_fixed_size_resource_handler(size) -> ResourceHandler:
+    def resource_handler(
+        file: File,
+        resource_desc: ResourceDesc,
+    ):
+        return BinaryBlobResource(
+            file,
+            resource_desc.offset,
+            resource_desc.offset + size,
+            resource_desc.symbol_name,
+        )
+
+    return resource_handler
+
+
+def register_resource_handlers():
+
+    def skeleton_resource_handler(
+        file: File,
+        resource_desc: z64resources.SkeletonResourceDesc,
+    ):
+        offset = resource_desc.offset
+        if resource_desc.limb_type == z64resources.LimbType.STANDARD:
+            pass
+        elif resource_desc.limb_type == z64resources.LimbType.LOD:
+            # TODO
+            if resource_desc.type == z64resources.SkeletonType.NORMAL:
+                # } SkeletonHeader; // size = 0x8
+                return BinaryBlobResource(
+                    file, offset, offset + 0x8, resource_desc.symbol_name
+                )
+            elif resource_desc.type == z64resources.SkeletonType.FLEX:
+                # } FlexSkeletonHeader; // size = 0xC
+                return BinaryBlobResource(
+                    file, offset, offset + 0xC, resource_desc.symbol_name
+                )
+            else:
+                raise NotImplementedError(
+                    "LimbType=LOD",
+                    "unimplemented SkeletonType",
+                    resource_desc.type,
+                )
+        elif resource_desc.limb_type == z64resources.LimbType.SKIN:
+            # TODO
+            assert resource_desc.type == z64resources.SkeletonType.NORMAL
+            # } SkeletonHeader; // size = 0x8
+            return BinaryBlobResource(
+                file, offset, offset + 0x8, resource_desc.symbol_name
+            )
+        elif resource_desc.limb_type == z64resources.LimbType.CURVE:
+            assert resource_desc.type == z64resources.SkeletonType.CURVE
+            return skelcurve_resources.CurveSkeletonHeaderResource(
+                file, offset, resource_desc.symbol_name
+            )
+        else:
+            raise NotImplementedError(
+                "unimplemented Skeleton LimbType",
+                resource_desc.limb_type,
+            )
+
+        if resource_desc.type == z64resources.SkeletonType.NORMAL:
+            return skeleton_resources.SkeletonNormalResource(
+                file,
+                offset,
+                resource_desc.symbol_name,
+            )
+        elif resource_desc.type == z64resources.SkeletonType.FLEX:
+            return skeleton_resources.SkeletonFlexResource(
+                file,
+                offset,
+                resource_desc.symbol_name,
+            )
+        else:
+            raise NotImplementedError(
+                "unimplemented SkeletonType",
+                resource_desc.type,
+            )
+
+    def limb_resource_handler(
+        file: File,
+        resource_desc: z64resources.LimbResourceDesc,
+    ):
+        offset = resource_desc.offset
+        if resource_desc.limb_type == z64resources.LimbType.STANDARD:
+            return skeleton_resources.StandardLimbResource(
+                file,
+                offset,
+                resource_desc.symbol_name,
+            )
+        if resource_desc.limb_type == z64resources.LimbType.SKIN:
+            # } SkinLimb; // size = 0x10
+            return BinaryBlobResource(
+                file, offset, offset + 0x10, resource_desc.symbol_name
+            )
+        if resource_desc.limb_type == z64resources.LimbType.LOD:
+            # } LodLimb; // size = 0x10
+            return BinaryBlobResource(
+                file, offset, offset + 0x10, resource_desc.symbol_name
+            )
+        if resource_desc.limb_type == z64resources.LimbType.LEGACY:
+            # } LegacyLimb; // size = 0x20
+            return BinaryBlobResource(
+                file, offset, offset + 0x20, resource_desc.symbol_name
+            )
+        if resource_desc.limb_type == z64resources.LimbType.CURVE:
+            return skelcurve_resources.SkelCurveLimbResource(
+                file, offset, resource_desc.symbol_name
+            )
+        else:
+            raise NotImplementedError(
+                "unimplemented LimbType",
+                resource_desc.limb_type,
+            )
+
+    def animation_resource_handler(
+        file: File,
+        resource_desc: z64resources.AnimationResourceDesc,
+    ):
+        return animation_resources.AnimationResource(
+            file,
+            resource_desc.offset,
+            resource_desc.symbol_name,
+        )
+
+    def collision_resource_handler(
+        file: File,
+        resource_desc: z64resources.CollisionResourceDesc,
+    ):
+        return collision_resources.CollisionResource(
+            file,
+            resource_desc.offset,
+            resource_desc.symbol_name,
+        )
+
+    def dlist_resource_handler(
+        file: File,
+        resource_desc: n64resources.DListResourceDesc,
+    ):
+        return dlist_resources.DListResource(
+            file,
+            resource_desc.offset,
+            resource_desc.symbol_name,
+            target_ucode={
+                n64resources.GfxMicroCode.F3DEX: dlist_resources.Ucode.f3dex,
+                n64resources.GfxMicroCode.F3DEX2: dlist_resources.Ucode.f3dex2,
+            }[resource_desc.ucode],
+        )
+
+    def texture_resource_handler(
+        file: File, resource_desc: n64resources.TextureResourceDesc
+    ):
+        return dlist_resources.TextureResource(
+            file,
+            resource_desc.offset,
+            resource_desc.symbol_name,
+            resource_desc.format.fmt,
+            resource_desc.format.siz,
+            resource_desc.width,
+            resource_desc.height,
+        )
+
+    def ci_texture_resource_handler(
+        file: File, resource_desc: n64resources.CITextureResourceDesc
+    ):
+        if "hackmode_split_tlut" in resource_desc.hack_modes:
+            # TODO implement SplitTlut="true"
+            return BinaryBlobResource(
+                file,
+                resource_desc.offset,
+                resource_desc.offset
+                + (
+                    resource_desc.format.siz.bpp
+                    * resource_desc.width
+                    * resource_desc.height
+                    // 8
+                ),
+                resource_desc.symbol_name,
+            )
+
+        resource = dlist_resources.TextureResource(
+            file,
+            resource_desc.offset,
+            resource_desc.symbol_name,
+            resource_desc.format.fmt,
+            resource_desc.format.siz,
+            resource_desc.width,
+            resource_desc.height,
+        )
+
+        def callback_set_tlut(pool_resources_by_desc):
+            resource_tlut_desc = resource_desc.tlut
+            resource_tlut = pool_resources_by_desc[resource_tlut_desc]
+            resource.set_tlut(resource_tlut)
+
+        raise ResourceNeedsPostProcessWithPoolResourcesException(
+            resource=resource, callback=callback_set_tlut
+        )
+
+    def PlayerAnimationData_handler(
+        file: File,
+        resource_desc: z64resources.PlayerAnimationDataResourceDesc,
+    ):
+        size = resource_desc.frame_count * (22 * 3 + 1) * 2
+        return BinaryBlobResource(
+            file,
+            resource_desc.offset,
+            resource_desc.offset + size,
+            resource_desc.symbol_name,
+        )
+        # TODO
+        return skeleton_resources.PlayerAnimationDataResource(
+            file,
+            resource_desc.offset,
+            resource_desc.symbol_name,
+            resource_desc.frame_count,
+        )
+
+    def PlayerAnimation_handler(
+        file: File,
+        resource_desc: z64resources.PlayerAnimationResourceDesc,
+    ):
+        return playeranim_resources.PlayerAnimationResource(
+            file,
+            resource_desc.offset,
+            resource_desc.symbol_name,
+        )
+
+    def vec3s_array_resource_handler(
+        file: File,
+        resource_desc: n64resources.Vec3sArrayResourceDesc,
+    ):
+        return Vec3sArrayResource(
+            file,
+            resource_desc.offset,
+            resource_desc.symbol_name,
+            resource_desc.count,
+        )
+
+    def s16_array_resource_handler(
+        file: File,
+        resource_desc: n64resources.S16ArrayResourceDesc,
+    ):
+        return S16ArrayResource(
+            file,
+            resource_desc.offset,
+            resource_desc.symbol_name,
+            resource_desc.count,
+        )
+
+    def vtx_array_resource_handler(
+        file: File,
+        resource_desc: n64resources.VtxArrayResourceDesc,
+    ):
+        return dlist_resources.VtxArrayResource(
+            file,
+            resource_desc.offset,
+            (
+                resource_desc.offset
+                + (
+                    resource_desc.count
+                    * dlist_resources.VtxArrayResource.element_cdata_ext.size
+                )
+            ),
+            resource_desc.symbol_name,
+        )
+
+    def binary_blob_resource_handler(
+        file: File,
+        resource_desc: n64resources.BlobResourceDesc,
+    ):
+        return BinaryBlobResource(
+            file,
+            resource_desc.offset,
+            resource_desc.offset + resource_desc.size,
+            resource_desc.symbol_name,
+        )
+
+    def CurveAnimation_handler(
+        file: File,
+        resource_desc: z64resources.CurveAnimationResourceDesc,
+    ):
+        # TODO use resource_desc.skeleton
+        return skelcurve_resources.CurveAnimationHeaderResource(
+            file, resource_desc.offset, resource_desc.symbol_name
+        )
+
+    def Mtx_handler(
+        file: File,
+        resource_desc: n64resources.MtxResourceDesc,
+    ):
+        return dlist_resources.MtxResource(
+            file, resource_desc.offset, resource_desc.symbol_name
+        )
+
+    def cutscene_resource_handler(
+        file: File,
+        resource_desc: z64resources.CutsceneResourceDesc,
+    ):
+        return misc_resources.CutsceneResource(
+            file, resource_desc.offset, resource_desc.symbol_name
+        )
+
+    def scene_resource_handler(
+        file: File,
+        resource_desc: z64resources.SceneResourceDesc,
+    ):
+        return scene_commands_resource.SceneCommandsResource(
+            file, resource_desc.offset, resource_desc.symbol_name
+        )
+
+    def room_resource_handler(
+        file: File,
+        resource_desc: z64resources.RoomResourceDesc,
+    ):
+        if "hackmode_syotes_room" in resource_desc.hack_modes:
+            # TODO
+            return BinaryBlobResource(
+                file,
+                resource_desc.offset,
+                resource_desc.offset + 4,
+                resource_desc.symbol_name,
+            )
+        return scene_commands_resource.SceneCommandsResource(
+            file, resource_desc.offset, resource_desc.symbol_name
+        )
+
+    def path_list_resource_handler(
+        file: File,
+        resource_desc: z64resources.PathListResourceDesc,
+    ):
+        resource = scene_rooms_resources.PathListResource(
+            file, resource_desc.offset, resource_desc.symbol_name
+        )
+        resource.set_length(resource_desc.num_paths)
+        return resource
+
+    RESOURCE_HANDLERS.update(
+        {
+            z64resources.SkeletonResourceDesc: skeleton_resource_handler,
+            z64resources.LimbResourceDesc: limb_resource_handler,
+            z64resources.AnimationResourceDesc: animation_resource_handler,
+            z64resources.CollisionResourceDesc: collision_resource_handler,
+            n64resources.DListResourceDesc: dlist_resource_handler,
+            n64resources.TextureResourceDesc: texture_resource_handler,
+            n64resources.CITextureResourceDesc: ci_texture_resource_handler,
+            z64resources.PlayerAnimationDataResourceDesc: PlayerAnimationData_handler,
+            n64resources.Vec3sArrayResourceDesc: vec3s_array_resource_handler,
+            n64resources.S16ArrayResourceDesc: s16_array_resource_handler,
+            n64resources.VtxArrayResourceDesc: vtx_array_resource_handler,
+            z64resources.PlayerAnimationResourceDesc: PlayerAnimation_handler,
+            n64resources.BlobResourceDesc: binary_blob_resource_handler,
+            n64resources.MtxResourceDesc: Mtx_handler,
+            z64resources.LegacyAnimationResourceDesc: get_fixed_size_resource_handler(
+                0xC
+            ),  # TODO
+            z64resources.LimbTableResourceDesc: get_fixed_size_resource_handler(
+                # idk, probably an array
+                4
+            ),  # TODO
+            z64resources.CurveAnimationResourceDesc: CurveAnimation_handler,
+            z64resources.SceneResourceDesc: scene_resource_handler,
+            z64resources.RoomResourceDesc: room_resource_handler,
+            z64resources.PathListResourceDesc: path_list_resource_handler,
+            z64resources.CutsceneResourceDesc: cutscene_resource_handler,
+        }
+    )
+
+
+RESOURCE_HANDLERS: dict[str, ResourceHandler] = {}
+
+
+def get_resource_from_desc(
+    file: File,
+    resource_desc: ResourceDesc,
+) -> Resource:
+    resource_handler = RESOURCE_HANDLERS.get(type(resource_desc))
+
+    if resource_handler is None:
+        raise Exception("Unknown resource descriptor type", resource_desc)
+
+    try:
+        resource = resource_handler(file, resource_desc)
+    except ResourceHandlerException:
+        raise
+
+    return resource

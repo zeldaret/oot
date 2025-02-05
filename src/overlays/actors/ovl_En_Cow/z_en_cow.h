@@ -5,6 +5,26 @@
 #include "global.h"
 #include "assets/objects/object_cow/object_cow.h"
 
+typedef enum CowLimb {
+    /* 0x00 */ COW_LIMB_NONE,
+    /* 0x01 */ COW_LIMB_ROOT,
+    /* 0x02 */ COW_LIMB_HEAD,
+    /* 0x03 */ COW_LIMB_JAW,
+    /* 0x04 */ COW_LIMB_NOSE,
+    /* 0x05 */ COW_LIMB_NOSE_RING,
+    /* 0x06 */ COW_LIMB_MAX
+} CowLimb;
+
+typedef enum CowTailLimb {
+    /* 0x00 */ COW_TAIL_LIMB_NONE,
+    /* 0x01 */ COW_TAIL_LIMB_ROOT,
+    /* 0x02 */ COW_TAIL_LIMB_UPPER,
+    /* 0x03 */ COW_TAIL_LIMB_MIDDLE,
+    /* 0x04 */ COW_TAIL_LIMB_LOWER,
+    /* 0x05 */ COW_TAIL_LIMB_END,
+    /* 0x06 */ COW_TAIL_LIMB_MAX
+} CowTailLimb;
+
 #define COW_FLAG_PLAYER_NEARBY (1 << 1)
 #define COW_FLAG_FAILED_TO_GIVE_MILK (1 << 2)
 

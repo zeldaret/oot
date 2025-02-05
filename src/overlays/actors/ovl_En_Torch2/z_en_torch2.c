@@ -102,7 +102,7 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
     this->currentShield = PLAYER_SHIELD_HYLIAN;
     this->heldItemAction = this->heldItemId = PLAYER_IA_SWORD_MASTER;
     Player_SetModelGroup(this, PLAYER_MODELGROUP_SWORD_AND_SHIELD);
-    play->playerInit(this, play, &gDarkLinkSkel);
+    play->playerInit(this, play, (void*)&gDarkLinkSkel); //! FIXME
     this->actor.naviEnemyId = NAVI_ENEMY_DARK_LINK;
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;
     this->meleeWeaponQuads[0].base.atFlags = this->meleeWeaponQuads[1].base.atFlags = AT_ON | AT_TYPE_ENEMY;

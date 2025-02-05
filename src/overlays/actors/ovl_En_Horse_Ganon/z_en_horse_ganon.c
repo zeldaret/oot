@@ -177,7 +177,7 @@ void EnHorseGanon_Init(Actor* thisx, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
-    Skin_Init(play, &this->skin, &gHorseGanonSkel, &gHorseGanonIdleAnim);
+    Skin_Init(play, &this->skin, (void*)&gHorseGanonSkel, &gHorseGanonIdleAnim);
     this->currentAnimation = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
 

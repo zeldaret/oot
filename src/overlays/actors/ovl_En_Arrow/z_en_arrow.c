@@ -93,7 +93,7 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params <= ARROW_SEED) {
 
         if (this->actor.params <= ARROW_0E) {
-            SkelAnime_Init(play, &this->skelAnime, &gArrowSkel, &gArrow2Anim, NULL, NULL, 0);
+            SkelAnime_Init(play, &this->skelAnime, (void*)&gArrowSkel, &gArrow2Anim, NULL, NULL, 0);
         }
 
         if (this->actor.params <= ARROW_NORMAL) {

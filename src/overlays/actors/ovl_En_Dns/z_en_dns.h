@@ -5,6 +5,28 @@
 #include "global.h"
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
 
+typedef enum BusinessScrubLimb {
+    /* 0x00 */ BUSINESS_SCRUB_LIMB_NONE,
+    /* 0x01 */ BUSINESS_SCRUB_LIMB_ROOT,
+    /* 0x02 */ BUSINESS_SCRUB_LIMB_LEFT_THIGH,
+    /* 0x03 */ BUSINESS_SCRUB_LIMB_LEFT_SHIN,
+    /* 0x04 */ BUSINESS_SCRUB_LIMB_LEFT_FOOT,
+    /* 0x05 */ BUSINESS_SCRUB_LIMB_RIGHT_THIGH,
+    /* 0x06 */ BUSINESS_SCRUB_LIMB_RIGHT_SHIN,
+    /* 0x07 */ BUSINESS_SCRUB_LIMB_RIGHT_FOOT,
+    /* 0x08 */ BUSINESS_SCRUB_LIMB_TOP_LEAF,
+    /* 0x09 */ BUSINESS_SCRUB_LIMB_NOSE,
+    /* 0x0A */ BUSINESS_SCRUB_LIMB_LEFT_UPPER_ARM,
+    /* 0x0B */ BUSINESS_SCRUB_LIMB_LEFT_FOREARM,
+    /* 0x0C */ BUSINESS_SCRUB_LIMB_LEFT_HAND,
+    /* 0x0D */ BUSINESS_SCRUB_LIMB_RIGHT_UPPER_ARM,
+    /* 0x0E */ BUSINESS_SCRUB_LIMB_RIGHT_FOREARM,
+    /* 0x0F */ BUSINESS_SCRUB_LIMB_RIGHT_HAND,
+    /* 0x10 */ BUSINESS_SCRUB_LIMB_EYES,
+    /* 0x11 */ BUSINESS_SCRUB_LIMB_BODY,
+    /* 0x12 */ BUSINESS_SCRUB_LIMB_MAX
+} BusinessScrubLimb;
+
 #define DNS_GET_TYPE(thisx) ((thisx)->params)
 
 typedef enum EnDnsType {

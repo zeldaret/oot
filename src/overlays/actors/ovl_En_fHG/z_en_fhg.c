@@ -80,7 +80,7 @@ void EnfHG_Init(Actor* thisx, PlayState* play2) {
     this->actor.speed = 0.0f;
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
-    Skin_Init(play, &this->skin, &gPhantomHorseSkel, &gPhantomHorseRunningAnim);
+    Skin_Init(play, &this->skin, (void*)&gPhantomHorseSkel, &gPhantomHorseRunningAnim);
 
     if (this->actor.params >= GND_FAKE_BOSS) {
         EnfHG_SetupApproach(this, play, this->actor.params - GND_FAKE_BOSS);

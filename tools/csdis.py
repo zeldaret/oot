@@ -2,8 +2,6 @@
 
 # Disassemble a cutscene script
 
-from overlayhelpers import filemap
-
 import argparse, os, struct
 import math
 
@@ -711,7 +709,12 @@ Note that this isn't protected against indexing errors since a cutscene should a
 end before the end of the file it's in.
 """
 
-def disassemble_cutscene(cs_in):
+def disassemble_cutscene(cs_in) -> tuple[int, str]:
+    """
+    Takes a sequence of words cs_in
+
+    Returns a tuple (cutscene_size_in_words, cutscene_macros_source)
+    """
     i = 0
     total_entries = cs_in[i]
     i+=1
@@ -720,12 +723,12 @@ def disassemble_cutscene(cs_in):
     if (total_entries < 0 or cutscene_end_frame < 0):
         print("This cutscene would abort if played in-engine")
         if total_entries < 0:
-            return "Could not disassemble cutscene: Number of commands is negative"
+            raise Exception("Could not disassemble cutscene: Number of commands is negative")
     macros = format_cmd(begin_cutscene_entry[0], [total_entries, cutscene_end_frame])+line_end
     for k in range(0,total_entries+1):
         cmd_type = cs_in[i]
         if (cmd_type == 0xFFFFFFFF):
-            return macros + multi_key(-1)[0]+line_end
+            return (i+2), (macros + multi_key(-1)[0]+line_end)
         entry = multi_key(cmd_type)
         if entry is None:
             entry = unk_data_entry
@@ -758,12 +761,14 @@ def disassemble_cutscene(cs_in):
         else:
             i += n_words
     print("Warning: cutscene reached maximum entries without encountering a CS_END_SCRIPT command")
-    return macros
+    return i, macros
 
 def hex_parse(s):
     return int(s, 16)
 
 def main():
+    from overlayhelpers import filemap
+
     parser = argparse.ArgumentParser(description="Disassembles cutscenes for OoT")
     parser.add_argument('address', help="VRAM or ROM address to disassemble at", type=hex_parse)
     args = parser.parse_args()
@@ -785,7 +790,7 @@ def main():
         ovl_file.seek(file_result.offset)
         cs_data = [i[0] for i in struct.iter_unpack(">I",  bytearray(ovl_file.read()))]
     if cs_data is not None:
-        print("static CutsceneData D_" + hex(args.address).replace("0x","").upper() + "[] = {\n" + indent+disassemble_cutscene(cs_data).replace(linesep,linesep+indent).rstrip()+"\n};")
+        print("static CutsceneData D_" + hex(args.address).replace("0x","").upper() + "[] = {\n" + indent+disassemble_cutscene(cs_data)[1].replace(linesep,linesep+indent).rstrip()+"\n};")
 
 if __name__ == "__main__":
     main()

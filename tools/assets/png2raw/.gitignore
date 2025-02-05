@@ -1,0 +1,5 @@
+__pycache__/
+test_out_folder/
+png2raw
+png2raw_main
+raw2png

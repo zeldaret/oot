@@ -5,7 +5,7 @@ typedef enum TransitionWipeDirection {
     /* 1 */ TRANS_WIPE_DIR_OUT
 } TransitionWipeDirection;
 
-#include "assets/code/fbdemo_wipe1/z_fbdemo_wipe1.c"
+#include "assets/code/fbdemo_wipe1/code.c"
 
 Gfx sTransWipeDL[] = {
     gsDPPipeSync(),

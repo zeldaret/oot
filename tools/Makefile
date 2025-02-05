@@ -38,6 +38,7 @@ all: $(PROGRAMS) $(IDO_RECOMP_5_3_DIR) $(IDO_RECOMP_7_1_DIR) $(EGCS_DIR)
 	$(MAKE) -C ZAPD
 	$(MAKE) -C fado
 	$(MAKE) -C audio
+	$(MAKE) -C assets
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
@@ -45,6 +46,7 @@ clean:
 	$(MAKE) -C ZAPD clean
 	$(MAKE) -C fado clean
 	$(MAKE) -C audio clean
+	$(MAKE) -C assets clean
 
 distclean: clean
 	$(MAKE) -C audio distclean
