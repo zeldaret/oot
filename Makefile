@@ -790,7 +790,7 @@ setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 $(EXTRACTED_DIR)/baserom -v $(VERSION)
-	$(PYTHON) -m tools.assets.extract -j
+	$(PYTHON) -m tools.assets.extract -j $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)
 	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/incbin -v $(VERSION)
 	$(PYTHON) tools/extract_text.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/text -v $(VERSION)
 	$(PYTHON) tools/extract_audio.py -o $(EXTRACTED_DIR) -v $(VERSION) --read-xml
@@ -985,7 +985,7 @@ $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/spec
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 $(BUILD_DIR)/assets/%.inc.c: assets/%.png
-	false # TODO
+	false # TODO duplicate extracted/ build rules for git-tracked assets/ too
 
 $(BUILD_DIR)/assets/%.u64.inc.c: $(EXTRACTED_DIR)/assets/%.u64.png
 	$(PYTHON) tools/assets/build_from_png.py $< $(@:.inc.c=.bin)

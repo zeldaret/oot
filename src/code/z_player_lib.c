@@ -13,7 +13,7 @@ typedef struct BowSlingshotStringData {
     /* 0x04 */ Vec3f pos;
 } BowSlingshotStringData; // size = 0x10
 
-FlexSkeletonHeader* gPlayerSkelHeaders[] = { (void*)&gLinkAdultSkel, (void*)&gLinkChildSkel }; //! FIXME
+FlexSkeletonHeader* gPlayerSkelHeaders[] = { &gLinkAdultSkel, &gLinkChildSkel };
 
 s16 sBootData[PLAYER_BOOTS_MAX][17] = {
     // PLAYER_BOOTS_KOKIRI

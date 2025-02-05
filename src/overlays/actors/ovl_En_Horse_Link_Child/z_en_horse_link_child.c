@@ -162,7 +162,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
     this->action = 1;
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
-    Skin_Init(play, &this->skin, (void*)&gChildEponaSkel, &gChildEponaGallopingAnim);
+    Skin_Init(play, &this->skin, &gChildEponaSkel, &gChildEponaGallopingAnim);
     this->animationIdx = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
     Collider_InitCylinder(play, &this->bodyCollider);

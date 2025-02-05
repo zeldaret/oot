@@ -1,5 +1,4 @@
 import dataclasses
-import functools
 from pathlib import Path
 from pprint import pprint
 
@@ -33,15 +32,16 @@ WRITE_EXTRACT = True
 from ..conf import WRITE_HINTS, I_D_OMEGALUL
 
 
-OOT_VERSION = "gc-eu-mq-dbg"
-BASEROM_PATH = Path("extracted") / OOT_VERSION / "baserom"
-BUILD_PATH = Path("build") / OOT_VERSION
-EXTRACTED_PATH = Path("extracted") / OOT_VERSION
+@dataclasses.dataclass
+class ExtractionContext:
+    oot_version: str
+    version_memctx_base: MemoryContext
+    baserom_path: Path
+    build_path: Path
+    extracted_path: Path
 
-
-@functools.lru_cache(maxsize=200)
-def get_baserom_file_data(baserom_file_name: str):
-    return memoryview((BASEROM_PATH / baserom_file_name).read_bytes())
+    def get_baserom_file_data(self, baserom_file_name: str):
+        return memoryview((self.baserom_path / baserom_file_name).read_bytes())
 
 
 def create_file_resources(rescoll: ResourcesDescCollection, file: File):
@@ -92,7 +92,7 @@ def create_file_resources(rescoll: ResourcesDescCollection, file: File):
 
 
 def process_pool(
-    version_memctx_base: MemoryContext, pool_desc: ResourcesDescCollectionsPool
+    extraction_ctx: ExtractionContext, pool_desc: ResourcesDescCollectionsPool
 ):
     if VERBOSE2:
         print("> process_pool")
@@ -112,7 +112,7 @@ def process_pool(
     for rescoll in pool_desc.collections:
         if not isinstance(rescoll.backing_memory, BaseromFileBackingMemory):
             raise NotImplementedError(rescoll.backing_memory)
-        data = get_baserom_file_data(rescoll.backing_memory.name)
+        data = extraction_ctx.get_baserom_file_data(rescoll.backing_memory.name)
         if rescoll.backing_memory.range is not None:
             range_start, range_end = rescoll.backing_memory.range
             data = data[range_start:range_end]
@@ -135,7 +135,7 @@ def process_pool(
 
     # 2) Build a MemoryContext for each File
 
-    memctx_base = version_memctx_base.copy()
+    memctx_base = extraction_ctx.version_memctx_base.copy()
     files_by_segment: dict[int, list[File]] = dict()
 
     for rescoll, file in file_by_rescoll.items():
@@ -228,31 +228,30 @@ def process_pool(
 
     # 5)
 
-    # TODO this looks jank
     for rescoll, file in file_by_rescoll.items():
         file.set_source_path(Path("assets") / rescoll.out_path)
 
         file.set_resources_paths(
-            EXTRACTED_PATH,
-            BUILD_PATH,
+            extraction_ctx.extracted_path,
+            extraction_ctx.build_path,
             Path("assets") / rescoll.out_path,
         )
 
     for file, file_memctx in memctx_by_file.items():
-        # write to EXTRACTED_PATH
+        # write to extracted/
         if WRITE_EXTRACT:
             file.write_resources_extracted(file_memctx)
 
         # "source" refers to the main .c and .h `#include`ing all the extracted resources
         if WRITE_SOURCE:
             # TODO fill referenced_files properly or something
-            file.referenced_files = set(memctx_by_file.keys())
+            file.referenced_files = set(memctx_by_file.keys()) - {file}
             file.write_source()
 
 
-def process_pool_wrapped(version_memctx_base, pd):
+def process_pool_wrapped(extraction_ctx, pd):
     try:
-        process_pool(version_memctx_base, pd)
+        process_pool(extraction_ctx, pd)
     except Exception as e:
         import traceback
         import sys
@@ -273,6 +272,16 @@ def main():
     from tools import version_config
 
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "baserom_segments_dir",
+        type=Path,
+        help="Directory of uncompressed ROM segments",
+    )
+    parser.add_argument(
+        "output_dir",
+        type=Path,
+        help="Output directory to place files in",
+    )
     parser.add_argument("-v", dest="oot_version", default="gc-eu-mq-dbg")
     parser.add_argument("-j", dest="use_multiprocessing", action="store_true")
     parser.add_argument("-s", dest="single", default=None)
@@ -299,6 +308,14 @@ def main():
     )
     version_memctx_base.set_direct_file(vc.variables["sShadowTex"], file_sShadowTex)
 
+    extraction_ctx = ExtractionContext(
+        args.oot_version,
+        version_memctx_base,
+        args.baserom_segments_dir,
+        Path("build") / args.oot_version,
+        args.output_dir,
+    )
+
     z64_resource_handlers.register_resource_handlers()
 
     # TODO extract only when a pool xml was modified since last extract
@@ -312,7 +329,7 @@ def main():
                         if coll.backing_memory.name == args.single:
                             do_process_pool = True
                 if do_process_pool:
-                    process_pool(version_memctx_base, pool_desc)
+                    process_pool(extraction_ctx, pool_desc)
                     any_do_process_pool = True
             if any_do_process_pool:
                 print("OK")
@@ -320,7 +337,7 @@ def main():
                 print("Not found:", args.single)
         elif not args.use_multiprocessing:  # everything on one process
             for pool_desc in pools_desc:
-                process_pool(version_memctx_base, pool_desc)
+                process_pool(extraction_ctx, pool_desc)
             print("all OK!!!")
         else:  # multiprocessing
             import multiprocessing
@@ -328,7 +345,7 @@ def main():
             with multiprocessing.Pool() as pool:
                 pool.starmap(
                     process_pool_wrapped,
-                    zip([version_memctx_base] * len(pools_desc), pools_desc),
+                    zip([extraction_ctx] * len(pools_desc), pools_desc),
                 )
             print("all OK!?")
     except Exception as e:
@@ -349,16 +366,3 @@ def main():
             else:
                 print("rich.pretty.pprint(e):")
                 rich.pretty.pprint(e, indent_guides=False)
-
-    # extract_xml(Path("objects/object_ydan_objects"))
-    # extract_xml(Path("objects/object_fd2")) # TODO xml needs TLUT fixing, see VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER
-    # extract_xml(Path("objects/object_am"))
-    # extract_xml(Path("scenes/indoors/hylia_labo"))
-    # extract_xml(Path("objects/gameplay_keep"))
-    # extract_xml(Path("overlays/ovl_En_Jsjutan"))  # The only xml with ~~<Symbol>~~ a <File Extract="False"
-    # extract_xml(Path("overlays/ovl_Magic_Wind"))  # SkelCurve
-    # extract_xml(Path("objects/object_link_child"))  # The only xml with <Mtx>
-    # extract_xml(Path("scenes/dungeons/ddan")) # cutscene test
-    # extract_xml(Path("scenes/dungeons/ganontikasonogo")) # has a spawn not in the entrance table
-
-    pprint(get_baserom_file_data.cache_info())

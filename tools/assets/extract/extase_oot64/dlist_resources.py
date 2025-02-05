@@ -899,7 +899,7 @@ class ColorIndexedTexturesManager:
         tluts: dict[int, "ColorIndexedTexturesManager.Tlut"]
         texs: list["ColorIndexedTexturesManager.Tex"]
 
-    def __init__(self) -> None:
+    def __init__(self, *, HACK_late_SetTextureLUT=False):
         self.cur_tlut_mode: G_TT = None
 
         self.cur_tluts_count: int = None
@@ -907,6 +907,11 @@ class ColorIndexedTexturesManager:
         self.cur_texs: list[ColorIndexedTexturesManager.Tex] = []
 
         self.ci_states: list[ColorIndexedTexturesManager.CIState] = []
+
+        # Rarely,
+        # gsDPSetTextureLUT comes after gsDPLoadTextureBlock and gsDPLoadTLUT,
+        # instead of before
+        self.HACK_late_SetTextureLUT = HACK_late_SetTextureLUT
 
     def ci_timg(self, timg, fmt: G_IM_FMT, siz: G_IM_SIZ, width, height, pal):
         if VERBOSE_ColorIndexedTexturesManager:
@@ -920,7 +925,8 @@ class ColorIndexedTexturesManager:
                 pal,
             )
         assert fmt == G_IM_FMT.CI
-        assert self.cur_tlut_mode != G_TT.NONE
+        if not self.HACK_late_SetTextureLUT:
+            assert self.cur_tlut_mode != G_TT.NONE
 
         self.cur_texs.append(
             ColorIndexedTexturesManager.Tex(timg, fmt, siz, width, height, pal)
@@ -933,7 +939,8 @@ class ColorIndexedTexturesManager:
             # HACK idx==-1 may be a libgfxd bug?
             assert count == 256
             idx = 0
-        assert self.cur_tlut_mode != G_TT.NONE
+        if not self.HACK_late_SetTextureLUT:
+            assert self.cur_tlut_mode != G_TT.NONE
         if self.cur_tluts_count != count:
             self.cur_tluts.clear()  # TODO ? idk. (at worst it will cause errors)
             self.cur_tluts_count = count
@@ -943,7 +950,8 @@ class ColorIndexedTexturesManager:
         if VERBOSE_ColorIndexedTexturesManager:
             print("ColorIndexedTexturesManager.tlut_mode", tt)
         if self.cur_tlut_mode != tt:
-            self.cur_tluts.clear()  # TODO ? idk. (at worst it will cause errors)
+            if not self.HACK_late_SetTextureLUT:
+                self.cur_tluts.clear()  # TODO ? idk. (at worst it will cause errors)
             self.cur_tlut_mode = tt
 
     def commit_state(self):
@@ -1101,7 +1109,10 @@ class DListResource(Resource, can_size_be_unknown=True):
             )
             return 0
 
-        ci_tex_manager = ColorIndexedTexturesManager()
+        ci_tex_manager = ColorIndexedTexturesManager(
+            # TODO
+            HACK_late_SetTextureLUT=(self.name in {"gEponaHeadLimb_0600AC20_DL"})
+        )
 
         def timg_cb(timg, fmt, siz, width, height, pal):
             g_fmt = G_IM_FMT.by_i[fmt]

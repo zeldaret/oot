@@ -14,6 +14,7 @@ from .extase.cdata_resources import Vec3sArrayResource, S16ArrayResource
 
 from .extase_oot64 import (
     skeleton_resources,
+    skeleton_skin_resources,
     animation_resources,
     collision_resources,
     dlist_resources,
@@ -82,16 +83,13 @@ def register_resource_handlers():
         if resource_desc.limb_type == z64resources.LimbType.STANDARD:
             pass
         elif resource_desc.limb_type == z64resources.LimbType.LOD:
-            # TODO
             if resource_desc.type == z64resources.SkeletonType.NORMAL:
-                # } SkeletonHeader; // size = 0x8
-                return BinaryBlobResource(
-                    file, offset, offset + 0x8, resource_desc.symbol_name
+                return skeleton_resources.SkeletonNormalLODResource(
+                    file, offset, resource_desc.symbol_name
                 )
             elif resource_desc.type == z64resources.SkeletonType.FLEX:
-                # } FlexSkeletonHeader; // size = 0xC
-                return BinaryBlobResource(
-                    file, offset, offset + 0xC, resource_desc.symbol_name
+                return skeleton_resources.SkeletonFlexLODResource(
+                    file, offset, resource_desc.symbol_name
                 )
             else:
                 raise NotImplementedError(
@@ -100,11 +98,9 @@ def register_resource_handlers():
                     resource_desc.type,
                 )
         elif resource_desc.limb_type == z64resources.LimbType.SKIN:
-            # TODO
             assert resource_desc.type == z64resources.SkeletonType.NORMAL
-            # } SkeletonHeader; // size = 0x8
-            return BinaryBlobResource(
-                file, offset, offset + 0x8, resource_desc.symbol_name
+            return skeleton_skin_resources.SkeletonSkinResource(
+                file, offset, resource_desc.symbol_name
             )
         elif resource_desc.limb_type == z64resources.LimbType.CURVE:
             assert resource_desc.type == z64resources.SkeletonType.CURVE
@@ -147,16 +143,15 @@ def register_resource_handlers():
                 resource_desc.symbol_name,
             )
         if resource_desc.limb_type == z64resources.LimbType.SKIN:
-            # } SkinLimb; // size = 0x10
-            return BinaryBlobResource(
-                file, offset, offset + 0x10, resource_desc.symbol_name
+            return skeleton_skin_resources.SkinLimbResource(
+                file, offset, resource_desc.symbol_name
             )
         if resource_desc.limb_type == z64resources.LimbType.LOD:
-            # } LodLimb; // size = 0x10
-            return BinaryBlobResource(
-                file, offset, offset + 0x10, resource_desc.symbol_name
+            return skeleton_resources.LODLimbResource(
+                file, offset, resource_desc.symbol_name
             )
         if resource_desc.limb_type == z64resources.LimbType.LEGACY:
+            # TODO LegacyLimbResource
             # } LegacyLimb; // size = 0x20
             return BinaryBlobResource(
                 file, offset, offset + 0x20, resource_desc.symbol_name
@@ -170,6 +165,39 @@ def register_resource_handlers():
                 "unimplemented LimbType",
                 resource_desc.limb_type,
             )
+
+    def limb_table_handler(
+        file: File,
+        resource_desc: z64resources.LimbTableResourceDesc,
+    ):
+        if resource_desc.limb_type == z64resources.LimbType.STANDARD:
+            resource = skeleton_resources.StandardLimbsArrayResource(
+                file, resource_desc.offset, resource_desc.symbol_name
+            )
+            resource.set_length(resource_desc.count)
+            return resource
+        elif resource_desc.limb_type == z64resources.LimbType.SKIN:
+            resource = skeleton_skin_resources.SkinLimbsArrayResource(
+                file, resource_desc.offset, resource_desc.symbol_name
+            )
+            resource.set_length(resource_desc.count)
+            return resource
+        elif resource_desc.limb_type == z64resources.LimbType.LOD:
+            resource = skeleton_resources.LODLimbsArrayResource(
+                file, resource_desc.offset, resource_desc.symbol_name
+            )
+            resource.set_length(resource_desc.count)
+            return resource
+        elif resource_desc.limb_type == z64resources.LimbType.LEGACY:
+            # TODO LegacyLimbsArrayResource
+            return BinaryBlobResource(
+                file,
+                resource_desc.offset,
+                resource_desc.offset + 4,
+                resource_desc.symbol_name,
+            )
+        else:
+            raise NotImplementedError("LimbTable of limb type", resource_desc.limb_type)
 
     def animation_resource_handler(
         file: File,
@@ -412,10 +440,7 @@ def register_resource_handlers():
             z64resources.LegacyAnimationResourceDesc: get_fixed_size_resource_handler(
                 0xC
             ),  # TODO
-            z64resources.LimbTableResourceDesc: get_fixed_size_resource_handler(
-                # idk, probably an array
-                4
-            ),  # TODO
+            z64resources.LimbTableResourceDesc: limb_table_handler,
             z64resources.CurveAnimationResourceDesc: CurveAnimation_handler,
             z64resources.SceneResourceDesc: scene_resource_handler,
             z64resources.RoomResourceDesc: room_resource_handler,

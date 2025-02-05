@@ -158,7 +158,7 @@ void EnHorseZelda_Init(Actor* thisx, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
-    Skin_Init(play, &this->skin, (void*)&gHorseZeldaSkel, &gHorseZeldaGallopingAnim);
+    Skin_Init(play, &this->skin, &gHorseZeldaSkel, &gHorseZeldaGallopingAnim);
     this->animationIndex = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[0]);
     Collider_InitCylinder(play, &this->colliderCylinder);

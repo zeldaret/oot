@@ -303,7 +303,10 @@ class CDataArrayResource(CDataResource):
         return super().try_parse_data(memory_context)
 
     def get_c_reference(self, resource_offset: int):
-        return self.symbol_name
+        if resource_offset == 0:
+            return self.symbol_name
+        else:
+            raise ValueError
 
     def get_c_expression_length(self, resource_offset: int):
         if resource_offset == 0:

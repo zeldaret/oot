@@ -226,7 +226,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
             return;
         }
         this->actor.home.rot.z = this->actor.world.rot.z = this->actor.shape.rot.z = 0;
-        Skin_Init(play, &this->skin, (void*)&gHorseNormalSkel, &gHorseNormalIdleAnim);
+        Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
         if ((this->actor.world.pos.x == -730.0f && this->actor.world.pos.y == 0.0f &&
              this->actor.world.pos.z == -1100.0f) ||
@@ -240,7 +240,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
             Actor_Kill(&this->actor);
             return;
         } else {
-            Skin_Init(play, &this->skin, (void*)&gHorseNormalSkel, &gHorseNormalIdleAnim);
+            Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
             Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
             func_80A6C6B0(this);
             return;
@@ -248,15 +248,15 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
     } else if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
         if (this->actor.world.pos.x == 3707.0f && this->actor.world.pos.y == 1413.0f &&
             this->actor.world.pos.z == -665.0f) {
-            Skin_Init(play, &this->skin, (void*)&gHorseNormalSkel, &gHorseNormalIdleAnim);
+            Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
             Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
             func_80A6C4CC(this);
             return;
         }
-        Skin_Init(play, &this->skin, (void*)&gHorseNormalSkel, &gHorseNormalIdleAnim);
+        Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     } else {
-        Skin_Init(play, &this->skin, (void*)&gHorseNormalSkel, &gHorseNormalIdleAnim);
+        Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     }
     if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x10 && PARAMS_GET_U(this->actor.params, 0, 4) != 0xF) {

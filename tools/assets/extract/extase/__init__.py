@@ -687,6 +687,8 @@ class File:
                 h.writelines(headers_includes)
                 h.write("\n")
 
+                if not self._is_resources_sorted:
+                    self.sort_resources()
                 for resource in self._resources:
 
                     if resource.write_c_definition(c):
@@ -719,6 +721,14 @@ class File:
             self.__class__.__qualname__
             + f"({self.name!r}, data is None={self.data is None}, size={self.size}, {self._resources!r})"
         )
+
+    def __rich_repr__(self):
+        yield "name", self.name
+        yield "data is None", self.data is None
+        yield "size", self.size
+        yield "resources", self._resources
+
+    __rich_repr__.angular = True
 
 
 #
@@ -973,7 +983,7 @@ class Resource(abc.ABC):
                             else "..."
                         )
                     ),
-                    f"file_name={self.file.name!r}",
+                    f"file.name={self.file.name!r}",
                 )
             )
             + ")"
@@ -985,7 +995,7 @@ class Resource(abc.ABC):
             f"0x{self.range_start:08X}-"
             + (f"0x{self.range_end:08X}" if self.range_end is not None else "...")
         )
-        yield "file_name", self.file.name
+        yield "file.name", self.file.name
 
     __rich_repr__.angular = True
 

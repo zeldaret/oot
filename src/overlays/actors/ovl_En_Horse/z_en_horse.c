@@ -67,7 +67,7 @@ static AnimationHeader** sAnimationHeaders[] = { sEponaAnimHeaders, sHniAnimHead
 
 static f32 sPlaybackSpeeds[] = { 2.0f / 3.0f, 2.0f / 3.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 2.0f / 3.0f, 2.0f / 3.0f };
 
-static SkeletonHeader* sSkeletonHeaders[] = { (void*)&gEponaSkel, (void*)&gHorseIngoSkel };
+static SkeletonHeader* sSkeletonHeaders[] = { &gEponaSkel, &gHorseIngoSkel };
 
 ActorProfile En_Horse_Profile = {
     /**/ ACTOR_EN_HORSE,
