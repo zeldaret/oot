@@ -17,7 +17,7 @@ png2raw_main: png2raw.c
 	$(CC) $(CFLAGS) -o $@ $< `pkg-config --libs --cflags libpng`
 
 raw2terminal := python3 raw2terminal.py
-png          := /home/dragorn421/Documents/oot/assets/objects/object_link_boy/eyes_shock.ci8.png
+png          := /home/dragorn421/Documents/oot/extracted/gc-eu-mq-dbg/assets/objects/object_link_boy/gLinkAdultEyesWideTex.ci8.tlut_gLinkAdultHeadTLUT_u64.u64.png
 
 test: png2raw_main
 	./png2raw_main $(png) | $(raw2terminal)
