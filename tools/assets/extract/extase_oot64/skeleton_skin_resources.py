@@ -185,7 +185,7 @@ class SkinLimbResource(CDataResource):
             memory_context.report_resource_at_segmented(
                 resource,
                 address,
-                SkinAnimatedLimbDataResource,  # TODO
+                SkinAnimatedLimbDataResource,
                 lambda file, offset: SkinAnimatedLimbDataResource(
                     file, offset, f"{resource.name}_{address:08X}_SkinAnimatedLimbData"
                 ),

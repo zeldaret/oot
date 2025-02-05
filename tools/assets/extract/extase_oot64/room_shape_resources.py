@@ -4,6 +4,8 @@ import io
 
 from typing import TYPE_CHECKING
 
+from .. import oot64_data
+
 if TYPE_CHECKING:
     from ..extase.memorymap import MemoryContext
 
@@ -85,7 +87,14 @@ def get_room_shape_resource_type(file: File, offset: int):
     return resource_type
 
 
-cdata_ext_RoomShapeBase = CDataExt_Struct((("type", CDataExt_Value.u8),))
+cdata_ext_RoomShapeBase = CDataExt_Struct(
+    (
+        (
+            "type",
+            CDataExt_Value("B").set_write_str_v(oot64_data.get_room_shape_type_name),
+        ),
+    )
+)
 
 cdata_ext_RoomShapeDListsEntry = CDataExt_Struct(
     (
@@ -175,28 +184,103 @@ class RoomShapeNormalResource(CDataResource):
             raise ValueError
 
 
+class RoomShapeDListsEntryResource(CDataResource):
+    cdata_ext = cdata_ext_RoomShapeDListsEntry
+
+    def get_c_declaration_base(self):
+        return f"RoomShapeDListsEntry {self.symbol_name}"
+
+    def get_c_reference(self, resource_offset):
+        if resource_offset == 0:
+            return f"&{self.symbol_name}"
+        else:
+            raise ValueError
+
+
+def report_RoomShapeImageBase_entry(resource, memory_context: "MemoryContext", v):
+    assert isinstance(v, int)
+    address = v
+    memory_context.report_resource_at_segmented(
+        resource,
+        address,
+        RoomShapeDListsEntryResource,
+        lambda file, offset: RoomShapeDListsEntryResource(
+            file, offset, f"{resource.name}_{address:08X}_RoomShapeDListsEntry"
+        ),
+    )
+
+
+def write_RoomShapeImageBase_entry(
+    resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+):
+    assert isinstance(v, int)
+    address = v
+    f.write(line_prefix)
+    f.write(memory_context.get_c_reference_at_segmented(address))
+    return True
+
+
 cdata_ext_RoomShapeImageBase = CDataExt_Struct(
     (
         ("base", cdata_ext_RoomShapeBase),
-        ("amountType", CDataExt_Value.u8),
+        (
+            "amountType",
+            CDataExt_Value("B").set_write_str_v(
+                oot64_data.get_room_shape_image_amount_type_name
+            ),
+        ),
         ("pad2", CDataExt_Value.pad16),
-        ("entry", CDataExt_Value.pointer),  # RoomShapeDListsEntry*
+        (
+            "entry",
+            (
+                CDataExt_Value("I")
+                .set_report(report_RoomShapeImageBase_entry)
+                .set_write(write_RoomShapeImageBase_entry)
+            ),
+        ),  # RoomShapeDListsEntry*
     )
 )
 
 
-# TODO dummy
 class RoomShapeImageSingleResource(CDataResource):
+    def report_source(resource, memory_context: "MemoryContext", v):
+        assert isinstance(v, int)
+        address = v
+        memory_context.report_resource_at_segmented(
+            resource,
+            address,
+            # TODO JFIFResource or something
+            BinaryBlobResource,
+            lambda file, offset: BinaryBlobResource(
+                file,
+                offset,
+                offset + 320 * 240 * 2,
+                f"{resource.name}_{address:08X}_JFIF",
+            ),
+        )
+
+    def write_source(
+        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+    ):
+        assert isinstance(v, int)
+        address = v
+        f.write(line_prefix)
+        f.write(memory_context.get_c_reference_at_segmented(address))
+        return True
+
     cdata_ext = CDataExt_Struct(
         (
             ("base", cdata_ext_RoomShapeImageBase),
-            ("source", CDataExt_Value.pointer),
+            (
+                "source",
+                CDataExt_Value("I").set_report(report_source).set_write(write_source),
+            ),
             ("unk_0C", CDataExt_Value.u32),
-            ("tlut", CDataExt_Value.pointer),
+            ("tlut", CDataExt_Value.pointer),  # TODO
             ("width", CDataExt_Value.u16),
             ("height", CDataExt_Value.u16),
-            ("fmt", CDataExt_Value.u8),
-            ("siz", CDataExt_Value.u8),
+            ("fmt", CDataExt_Value.u8),  # TODO
+            ("siz", CDataExt_Value.u8),  # TODO
             ("tlutMode", CDataExt_Value.u16),
             ("tlutCount", CDataExt_Value.u16),
             ("pad1E", CDataExt_Value.pad16),
@@ -213,15 +297,108 @@ class RoomShapeImageSingleResource(CDataResource):
             raise ValueError
 
 
-# TODO dummy
+class RoomShapeImageMultiBgEntryArrayResource(CDataArrayNamedLengthResource):
+    def report_source(resource, memory_context: "MemoryContext", v):
+        assert isinstance(v, int)
+        address = v
+        memory_context.report_resource_at_segmented(
+            resource,
+            address,
+            # TODO JFIFResource or something
+            BinaryBlobResource,
+            lambda file, offset: BinaryBlobResource(
+                file,
+                offset,
+                offset + 320 * 240 * 2,
+                f"{resource.name}_{address:08X}_JFIF",
+            ),
+        )
+
+    def write_source(
+        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+    ):
+        assert isinstance(v, int)
+        address = v
+        f.write(line_prefix)
+        f.write(memory_context.get_c_reference_at_segmented(address))
+        return True
+
+    elem_cdata_ext = CDataExt_Struct(
+        (
+            ("unk_00", CDataExt_Value.u16),
+            ("bgCamIndex", CDataExt_Value.u8),
+            ("pad3", CDataExt_Value.pad8),
+            (
+                "source",
+                CDataExt_Value("I").set_report(report_source).set_write(write_source),
+            ),
+            ("unk_0C", CDataExt_Value.u32),
+            ("tlut", CDataExt_Value.pointer),  # TODO
+            ("width", CDataExt_Value.u16),
+            ("height", CDataExt_Value.u16),
+            ("fmt", CDataExt_Value.u8),  # TODO
+            ("siz", CDataExt_Value.u8),  # TODO
+            ("tlutMode", CDataExt_Value.u16),
+            ("tlutCount", CDataExt_Value.u16),
+            ("pad1A", CDataExt_Value.pad16),
+        )
+    )
+
+    def get_c_declaration_base(self):
+        return f"RoomShapeImageMultiBgEntry {self.name}[{self.length_name}]"
+
+
 class RoomShapeImageMultiResource(CDataResource):
+    def write_numBackgrounds(
+        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+    ):
+        address = resource.cdata_unpacked["backgrounds"]
+        assert isinstance(address, int)
+        backgrounds_resource = memory_context.resolve_segmented(address).get_resource(
+            RoomShapeImageMultiBgEntryArrayResource
+        )
+        f.write(line_prefix)
+        f.write(backgrounds_resource.length_name)
+        return True
+
+    def report_backgrounds(resource, memory_context: "MemoryContext", v):
+        assert isinstance(v, int)
+        address = v
+        backgrounds_resource = memory_context.report_resource_at_segmented(
+            resource,
+            address,
+            RoomShapeImageMultiBgEntryArrayResource,
+            lambda file, offset: RoomShapeImageMultiBgEntryArrayResource(
+                file,
+                offset,
+                f"{resource.name}_{address:08X}_RoomShapeImageMultiBgEntries",
+            ),
+        )
+        backgrounds_resource.set_length(resource.cdata_unpacked["numBackgrounds"])
+
+    def write_backgrounds(
+        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+    ):
+        assert isinstance(v, int)
+        address = v
+        f.write(line_prefix)
+        f.write(memory_context.get_c_reference_at_segmented(address))
+        return True
+
     cdata_ext = CDataExt_Struct(
         (
             ("base", cdata_ext_RoomShapeImageBase),
-            ("numBackgrounds", CDataExt_Value.u8),
+            ("numBackgrounds", CDataExt_Value("B").set_write(write_numBackgrounds)),
             ("pad9", CDataExt_Value.pad8),
             ("padA", CDataExt_Value.pad16),
-            ("backgrounds", CDataExt_Value.pointer),  # RoomShapeImageMultiBgEntry*
+            (
+                "backgrounds",
+                (
+                    CDataExt_Value("I")
+                    .set_report(report_backgrounds)
+                    .set_write(write_backgrounds)
+                ),
+            ),  # RoomShapeImageMultiBgEntry*
         )
     )
 

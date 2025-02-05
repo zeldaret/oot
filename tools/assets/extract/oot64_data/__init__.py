@@ -135,3 +135,11 @@ def get_lens_mode_name(lens_mode: int) -> str:
 
 def get_camera_setting_type_name(camera_setting_type: int) -> str:
     return misc_ids.CAMERA_SETTING_TYPES[camera_setting_type]
+
+
+def get_room_shape_type_name(room_shape_type: int) -> str:
+    return misc_ids.ROOM_SHAPE_TYPE[room_shape_type]
+
+
+def get_room_shape_image_amount_type_name(room_shape_image_amount_type: int) -> str:
+    return misc_ids.ROOM_SHAPE_IMAGE_AMOUNT_TYPE[room_shape_image_amount_type]
