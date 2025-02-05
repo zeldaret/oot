@@ -1,4 +1,4 @@
-from __future__ import annotations
+import abc
 from dataclasses import dataclass
 
 from typing import Callable, TypeVar, Generic
@@ -38,7 +38,7 @@ class RangeMap(Generic[RangeMapValueT]):
     def get_all_by_predicate(self, predicate: Callable[[int, int], bool]):
         """Return all values associated to a range for which the predicate returns True"""
         values: dict[tuple[int, int], RangeMapValueT] = dict()
-        for ((range_start, range_end), value) in self.values_by_range.items():
+        for (range_start, range_end), value in self.values_by_range.items():
             if predicate(range_start, range_end):
                 values[(range_start, range_end)] = value
         return values
@@ -180,11 +180,11 @@ class AddressResolveResult:
         )
 
 
-def address_resolver(original_address, address_offset):
-    return AddressResolveResult(original_address)
-
-
-AddressResolver = Callable[[int, int], AddressResolveResult]
+class AddressResolver(abc.ABC):
+    @abc.abstractmethod
+    def resolve(
+        self, original_address: int, address_offset: int
+    ) -> AddressResolveResult: ...
 
 
 class MemoryMap:
@@ -212,6 +212,25 @@ def get_segment_num(address: int):
     return (address & 0x0F00_0000) >> 24
 
 
+@dataclass
+class FileDirectAddressResolver(AddressResolver):
+    direct_file_offset_start: int
+    target_file: File
+
+    def resolve(self, original_address, address_offset):
+        file_offset = address_offset - self.direct_file_offset_start
+        return AddressResolveResult(original_address, self.target_file, file_offset)
+
+
+@dataclass
+class FileSegmentAddressResolver(AddressResolver):
+    target_file: File
+
+    def resolve(self, original_address, address_offset):
+        file_offset = address_offset
+        return AddressResolveResult(original_address, self.target_file, file_offset)
+
+
 class MemoryContext:
     """
     handles segmented addresses, pointers, external symbols (eg gMtxClear)
@@ -221,15 +240,6 @@ class MemoryContext:
 
     def __init__(self):
         self.memory_map = MemoryMap()
-
-        # FIXME HACK
-        # TODO config for this
-        from ..extase_oot64.dlist_resources import MtxResource
-
-        file_gMtxClear = File("sys_matrix__gMtxClear", size=0x40)
-        resource_gMtxClear = MtxResource(file_gMtxClear, 0, "gMtxClear")
-        file_gMtxClear.add_resource(resource_gMtxClear)
-        self.set_direct_file(0x12DB20, file_gMtxClear)
 
     def copy(self):
         other = MemoryContext()
@@ -248,16 +258,12 @@ class MemoryContext:
         direct_file_offset_start = self._direct_address_to_offset(address)
         direct_file_offset_end = direct_file_offset_start + target_file.size
 
-        def file_direct_address_resolver(original_address, address_offset):
-            file_offset = address_offset - direct_file_offset_start
-            return AddressResolveResult(original_address, target_file, file_offset)
-
         # TODO should memory_map members be directly accessed,
         # or should MemoryMap have functions (applies elsewhere in MemoryContext)
         self.memory_map.direct.set(
             direct_file_offset_start,
             direct_file_offset_end,
-            file_direct_address_resolver,
+            FileDirectAddressResolver(direct_file_offset_start, target_file),
         )
 
     def set_segment_file(self, segment_num: int, target_file: File):
@@ -266,12 +272,8 @@ class MemoryContext:
                 "Segment number must be between 1 and 15 (inclusive)", segment_num
             )
 
-        def file_segment_address_resolver(original_address, address_offset):
-            file_offset = address_offset
-            return AddressResolveResult(original_address, target_file, file_offset)
-
         self.memory_map.segments[segment_num].set(
-            0, 0x0100_0000, file_segment_address_resolver
+            0, 0x0100_0000, FileSegmentAddressResolver(target_file)
         )
 
     def resolve_direct(self, address: int):
@@ -282,7 +284,7 @@ class MemoryContext:
             raise UnmappedAddressError(
                 "direct address is not mapped", hex(address)
             ) from e
-        return address_resolver(address, offset)
+        return address_resolver.resolve(address, offset)
 
     def resolve_segmented(self, address: int):
         segment_num = get_segment_num(address)
@@ -297,7 +299,7 @@ class MemoryContext:
                 raise UnmappedAddressError(
                     "segment address is not mapped", hex(address)
                 ) from e
-            return address_resolver(address, offset)
+            return address_resolver.resolve(address, offset)
 
     def report_resource_at_segmented(
         self,

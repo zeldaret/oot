@@ -1,7 +1,7 @@
 from . import extract_xml_z64
 
 if __name__ == "__main__":
-    profile = True
+    profile = False
     if profile:
         import cProfile
 

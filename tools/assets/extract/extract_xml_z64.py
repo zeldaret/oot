@@ -1,5 +1,6 @@
-from pathlib import Path
+import dataclasses
 import functools
+from pathlib import Path
 from pprint import pprint
 
 from ..descriptor.base import (
@@ -83,7 +84,9 @@ def create_file_resources(rescoll: ResourcesDescCollection, file: File):
     )
 
 
-def process_pool(pool_desc: ResourcesDescCollectionsPool):
+def process_pool(
+    version_memctx_base: MemoryContext, pool_desc: ResourcesDescCollectionsPool
+):
     if VERBOSE2:
         print("> process_pool")
         print(
@@ -125,7 +128,7 @@ def process_pool(pool_desc: ResourcesDescCollectionsPool):
 
     # 2) Build a MemoryContext for each File
 
-    memctx_base = MemoryContext()
+    memctx_base = version_memctx_base.copy()
     files_by_segment: dict[int, list[File]] = dict()
 
     for rescoll, file in file_by_rescoll.items():
@@ -242,17 +245,20 @@ def process_pool(pool_desc: ResourcesDescCollectionsPool):
             file.write_source()
 
 
-def process_pool_wrapped(pd):
+def process_pool_wrapped(version_memctx_base, pd):
     try:
-        process_pool(pd)
+        process_pool(version_memctx_base, pd)
     except Exception as e:
         import traceback
         import sys
 
         # Some exceptions can't be pickled for passing back to the main process
         # so print them now as well
-        traceback.print_exc(sys.stdout)
-        raise Exception() from e
+        traceback.print_exc(file=sys.stdout)
+        raise Exception(
+            "ERROR with pool_desc collections:",
+            [str(rescoll.out_path) for rescoll in pd.collections],
+        ) from e
 
 
 def main():
@@ -271,9 +277,25 @@ def main():
 
     pools_desc = get_resources_desc(vc)
 
+    version_memctx_base = MemoryContext()
+
+    from .extase_oot64.dlist_resources import MtxResource, TextureResource
+    from ..n64 import G_IM_FMT, G_IM_SIZ
+
+    file_gMtxClear = File("sys_matrix__gMtxClear", size=0x40)
+    file_gMtxClear.add_resource(MtxResource(file_gMtxClear, 0, "gMtxClear"))
+    version_memctx_base.set_direct_file(vc.variables["gMtxClear"], file_gMtxClear)
+
+    file_sShadowTex = File("z_en_jsjutan__sShadowTex", size=0x800)
+    file_sShadowTex.add_resource(
+        TextureResource(
+            file_sShadowTex, 0, "sShadowTex", G_IM_FMT.I, G_IM_SIZ._8b, 32, 64
+        )
+    )
+    version_memctx_base.set_direct_file(vc.variables["sShadowTex"], file_sShadowTex)
+
     z64_resource_handlers.register_resource_handlers()
 
-    # TODO single pool extract cli arg
     # TODO extract only when a pool xml was modified since last extract
     try:
         if args.single is not None:
@@ -285,7 +307,7 @@ def main():
                         if coll.backing_memory.name == args.single:
                             do_process_pool = True
                 if do_process_pool:
-                    process_pool(pool_desc)
+                    process_pool(version_memctx_base, pool_desc)
                     any_do_process_pool = True
             if any_do_process_pool:
                 print("OK")
@@ -293,13 +315,16 @@ def main():
                 print("Not found:", args.single)
         elif not args.use_multiprocessing:  # everything on one process
             for pool_desc in pools_desc:
-                process_pool(pool_desc)
+                process_pool(version_memctx_base, pool_desc)
             print("all OK!!!")
         else:  # multiprocessing
             import multiprocessing
 
             with multiprocessing.Pool() as pool:
-                pool.map(process_pool_wrapped, pools_desc)
+                pool.starmap(
+                    process_pool_wrapped,
+                    zip([version_memctx_base] * len(pools_desc), pools_desc),
+                )
             print("all OK!?")
     except Exception as e:
         import traceback
