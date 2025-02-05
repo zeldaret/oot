@@ -376,6 +376,8 @@ class S16ArrayResource(CDataResource):
         super().__init__(file, range_start, name)
 
     def get_c_declaration_base(self):
+        if hasattr(self, "HACK_IS_STATIC_ON"):
+            return f"s16 {self.symbol_name}[{self.cdata_ext.size // self.elem_cdata_ext.size}]"
         return f"s16 {self.symbol_name}[]"
 
     def get_c_reference(self, resource_offset: int):

@@ -631,6 +631,8 @@ class File:
             self, "source_c_path"
         ), "set_source_path must be called before write_source"
         assert hasattr(self, "source_h_path")
+        self.source_c_path.parent.mkdir(parents=True, exist_ok=True)
+        self.source_h_path.parent.mkdir(parents=True, exist_ok=True)
         with self.source_c_path.open("w") as c:
             with self.source_h_path.open("w") as h:
 
@@ -890,17 +892,17 @@ class Resource(abc.ABC):
         Binary: extracted_path_suffix = ".bin"
         with get_filename_stem() = "blob"
             extract_to_path: `extracted/VERSION/assets/.../blob.bin`
-            inc_c_path: `build/VERSION/assets/.../blob.inc.c`
+            inc_c_path: `assets/.../blob.inc.c`
 
         C: extracted_path_suffix = ".inc.c"
         with get_filename_stem() = "data"
             extract_to_path: `extracted/VERSION/assets/.../data.inc.c`
-            inc_c_path: `extracted/VERSION/assets/.../data.inc.c`
+            inc_c_path: `assets/.../data.inc.c`
 
         rgba16 image: extracted_path_suffix = ".png"
         with get_filename_stem() = "img.rgba16"
             extract_to_path: `extracted/VERSION/assets/.../img.rgba16.png`
-            inc_c_path: `build/VERSION/assets/.../img.rgba16.inc.c`
+            inc_c_path: `assets/.../img.rgba16.inc.c`
         """
 
         filename_stem = self.get_filename_stem()
@@ -909,11 +911,9 @@ class Resource(abc.ABC):
             extracted_path / out_path / (filename_stem + self.extracted_path_suffix)
         )
 
-        if self.needs_build:
-            inc_c_path = build_path / out_path / (filename_stem + ".inc.c")
-        else:
+        if not self.needs_build:
             assert self.extracted_path_suffix == ".inc.c"
-            inc_c_path = extract_to_path
+        inc_c_path = out_path / (filename_stem + ".inc.c")
 
         self.extract_to_path = extract_to_path
         self.inc_c_path = inc_c_path

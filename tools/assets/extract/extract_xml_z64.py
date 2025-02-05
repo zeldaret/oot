@@ -66,6 +66,13 @@ def create_file_resources(rescoll: ResourcesDescCollection, file: File):
             resource = e.resource
             list_ResourceNeedsPostProcessWithPoolResourcesException.append(e)
 
+        # TODO nice hack right here.
+        # probably instead rework the "c declaration" system into a more opaque object
+        # not that this is really a required long term feature as it's only relevant
+        # for writing the source files (main .c/.h), not extracting
+        if file.name.startswith("ovl_") and file.name != "ovl_file_choose":
+            resource.HACK_IS_STATIC_ON = ...
+
         file.add_resource(resource)
 
         file_resources_by_desc[resource_desc] = resource
@@ -224,14 +231,12 @@ def process_pool(
     # TODO this looks jank
     for rescoll, file in file_by_rescoll.items():
         file.set_source_path(Path("assets") / rescoll.out_path)
-        (Path("assets") / rescoll.out_path).mkdir(parents=True, exist_ok=True)
 
         file.set_resources_paths(
             EXTRACTED_PATH,
             BUILD_PATH,
             Path("assets") / rescoll.out_path,
         )
-        (EXTRACTED_PATH / rescoll.out_path).mkdir(parents=True, exist_ok=True)
 
     for file, file_memctx in memctx_by_file.items():
         # write to EXTRACTED_PATH
@@ -253,7 +258,7 @@ def process_pool_wrapped(version_memctx_base, pd):
         import sys
 
         # Some exceptions can't be pickled for passing back to the main process
-        # so print them now as well
+        # so print them now as well as reraising
         traceback.print_exc(file=sys.stdout)
         raise Exception(
             "ERROR with pool_desc collections:",
