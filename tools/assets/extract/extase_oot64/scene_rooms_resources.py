@@ -119,11 +119,13 @@ class ObjectListResource(CDataArrayNamedLengthResource):
         return f"s16 {self.symbol_name}[{self.length_name}]"
 
 
-def write_RomFile(resource, memory_context, v, f: io.TextIOBase, line_prefix: str):
+def write_RomFile(
+    resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
+):
     assert isinstance(v, dict)
     vromStart = v["vromStart"]
     vromEnd = v["vromEnd"]
-    rom_file_name = oot64_data.get_dmadata_table_rom_file_name_from_vrom(
+    rom_file_name = memory_context.get_dmadata_table_rom_file_name_from_vrom(
         vromStart, vromEnd
     )
     f.write(line_prefix)

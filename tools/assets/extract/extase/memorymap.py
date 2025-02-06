@@ -238,13 +238,17 @@ class MemoryContext:
     maps offsets to data
     """
 
-    def __init__(self):
+    def __init__(self, dmadata_table_rom_file_name_by_vrom):
         self.memory_map = MemoryMap()
+        self.dmadata_table_rom_file_name_by_vrom = dmadata_table_rom_file_name_by_vrom
 
     def copy(self):
-        other = MemoryContext()
+        other = MemoryContext(self.dmadata_table_rom_file_name_by_vrom)
         other.memory_map = self.memory_map.copy()
         return other
+
+    def get_dmadata_table_rom_file_name_from_vrom(self, vromStart, vromEnd):
+        return self.dmadata_table_rom_file_name_by_vrom[(vromStart, vromEnd)]
 
     def _direct_address_to_offset(self, address: int):
         segment_num = get_segment_num(address)

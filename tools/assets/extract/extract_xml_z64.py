@@ -267,9 +267,10 @@ def process_pool_wrapped(extraction_ctx, pd):
 
 def main():
     import argparse
+    import re
 
-    # TODO cleanup, command-line argument for version
     from tools import version_config
+    from tools import dmadata
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -285,13 +286,23 @@ def main():
     parser.add_argument("-v", dest="oot_version", default="gc-eu-mq-dbg")
     parser.add_argument("-j", dest="use_multiprocessing", action="store_true")
     parser.add_argument("-s", dest="single", default=None)
+    parser.add_argument("-r", dest="single_is_regex", default=None, action="store_true")
     args = parser.parse_args()
 
     vc = version_config.load_version_config(args.oot_version)
 
+    dma_entries = dmadata.read_dmadata(
+        memoryview((args.baserom_segments_dir / "dmadata").read_bytes()), 0
+    )
+    dmadata_table_rom_file_name_by_vrom = dict()
+    for dma_entry, name in zip(dma_entries, vc.dmadata_segments.keys()):
+        dmadata_table_rom_file_name_by_vrom[
+            (dma_entry.vrom_start, dma_entry.vrom_end)
+        ] = name
+
     pools_desc = get_resources_desc(vc)
 
-    version_memctx_base = MemoryContext()
+    version_memctx_base = MemoryContext(dmadata_table_rom_file_name_by_vrom)
 
     from .extase_oot64.dlist_resources import MtxResource, TextureResource
     from ..n64 import G_IM_FMT, G_IM_SIZ
@@ -326,19 +337,23 @@ def main():
                 do_process_pool = False
                 for coll in pool_desc.collections:
                     if isinstance(coll.backing_memory, BaseromFileBackingMemory):
-                        if coll.backing_memory.name == args.single:
-                            do_process_pool = True
+                        if args.single_is_regex:
+                            if re.fullmatch(args.single, coll.backing_memory.name):
+                                do_process_pool = True
+                        else:
+                            if coll.backing_memory.name == args.single:
+                                do_process_pool = True
                 if do_process_pool:
                     process_pool(extraction_ctx, pool_desc)
                     any_do_process_pool = True
             if any_do_process_pool:
-                print("OK")
+                print("Done!")
             else:
                 print("Not found:", args.single)
         elif not args.use_multiprocessing:  # everything on one process
             for pool_desc in pools_desc:
                 process_pool(extraction_ctx, pool_desc)
-            print("all OK!!!")
+            print("All done!")
         else:  # multiprocessing
             import multiprocessing
 
@@ -347,7 +362,7 @@ def main():
                     process_pool_wrapped,
                     zip([extraction_ctx] * len(pools_desc), pools_desc),
                 )
-            print("all OK!?")
+            print("All done!")
     except Exception as e:
         import traceback
         import sys
