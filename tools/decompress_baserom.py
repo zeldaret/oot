@@ -247,7 +247,7 @@ def main():
     # Decompress
     if any(dma_entry.is_compressed() for dma_entry in dma_entries):
         print("Decompressing rom...")
-        is_ique = version in {"ique-cn", "ique-zh"}
+        is_ique = version.startswith("ique-")
         file_content = decompress_rom(file_content, dmadata_start, dma_entries, is_ique)
 
     # Double check the hash
