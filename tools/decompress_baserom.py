@@ -30,10 +30,11 @@ def decompress_zlib(data: bytes) -> bytes:
     return bytes(output)
 
 
-def decompress(data: bytes, is_zlib_compressed: bool) -> bytes:
-    if is_zlib_compressed:
+def decompress(data: bytes, is_ique: bool) -> bytes:
+    if is_ique:
         return decompress_zlib(data)
-    return crunch64.yaz0.decompress(data)
+    else:
+        return crunch64.yaz0.decompress(data)
 
 
 def round_up(n, shift):
@@ -41,11 +42,13 @@ def round_up(n, shift):
     return (n + mod - 1) >> shift << shift
 
 
-def update_crc(decompressed: io.BytesIO) -> io.BytesIO:
+def update_crc(decompressed: io.BytesIO, is_ique: bool) -> io.BytesIO:
     print("Recalculating crc...")
-    calculated_checksum = ipl3checksum.CICKind.CIC_X105.calculateChecksum(
-        bytes(decompressed.getbuffer())
-    )
+    if is_ique:
+        cic_kind = ipl3checksum.CICKind.CIC_6102_7101
+    else:
+        cic_kind = ipl3checksum.CICKind.CIC_X105
+    calculated_checksum = cic_kind.calculateChecksum(bytes(decompressed.getbuffer()))
     new_crc = struct.pack(f">II", calculated_checksum[0], calculated_checksum[1])
 
     decompressed.seek(0x10)
@@ -57,7 +60,7 @@ def decompress_rom(
     file_content: bytearray,
     dmadata_start: int,
     dma_entries: list[dmadata.DmaEntry],
-    is_zlib_compressed: bool,
+    is_ique: bool,
 ) -> bytearray:
     rom_segments = {}  # vrom start : data s.t. len(data) == vrom_end - vrom_start
     new_dmadata = []  # new dmadata: list[dmadata.Entry]
@@ -73,7 +76,7 @@ def decompress_rom(
             new_dmadata.append(dma_entry)
             continue
         if dma_entry.is_compressed():
-            new_contents = decompress(file_content[p_start:p_end], is_zlib_compressed)
+            new_contents = decompress(file_content[p_start:p_end], is_ique)
             rom_segments[v_start] = new_contents
         else:
             rom_segments[v_start] = file_content[p_start : p_start + v_end - v_start]
@@ -95,7 +98,7 @@ def decompress_rom(
     decompressed.seek(padding_start)
     decompressed.write(b"\x00" * (padding_end - padding_start))
     # re-calculate crc
-    return bytearray(update_crc(decompressed).getbuffer())
+    return bytearray(update_crc(decompressed, is_ique).getbuffer())
 
 
 def get_str_hash(byte_array):
@@ -246,10 +249,8 @@ def main():
     # Decompress
     if any(dma_entry.is_compressed() for dma_entry in dma_entries):
         print("Decompressing rom...")
-        is_zlib_compressed = version in {"ique-cn", "ique-zh"}
-        file_content = decompress_rom(
-            file_content, dmadata_start, dma_entries, is_zlib_compressed
-        )
+        is_ique = version.startswith("ique-")
+        file_content = decompress_rom(file_content, dmadata_start, dma_entries, is_ique)
 
     # Double check the hash
     str_hash = get_str_hash(file_content)
