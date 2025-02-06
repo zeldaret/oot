@@ -33,7 +33,8 @@ def decompress_zlib(data: bytes) -> bytes:
 def decompress(data: bytes, is_ique: bool) -> bytes:
     if is_ique:
         return decompress_zlib(data)
-    return crunch64.yaz0.decompress(data)
+    else:
+        return crunch64.yaz0.decompress(data)
 
 
 def round_up(n, shift):
@@ -43,9 +44,10 @@ def round_up(n, shift):
 
 def update_crc(decompressed: io.BytesIO, is_ique: bool) -> io.BytesIO:
     print("Recalculating crc...")
-    cic_kind = (
-        ipl3checksum.CICKind.CIC_6102_7101 if is_ique else ipl3checksum.CICKind.CIC_X105
-    )
+    if is_ique:
+        cic_kind = ipl3checksum.CICKind.CIC_6102_7101
+    else:
+        cic_kind = ipl3checksum.CICKind.CIC_X105
     calculated_checksum = cic_kind.calculateChecksum(bytes(decompressed.getbuffer()))
     new_crc = struct.pack(f">II", calculated_checksum[0], calculated_checksum[1])
 
