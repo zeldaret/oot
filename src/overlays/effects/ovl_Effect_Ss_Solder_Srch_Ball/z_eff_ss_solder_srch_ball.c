@@ -11,7 +11,6 @@
 #include "z64play.h"
 #include "z64player.h"
 
-
 #define rUnused regs[1]
 
 u32 EffectSsSolderSrchBall_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
