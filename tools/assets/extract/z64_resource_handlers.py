@@ -287,20 +287,13 @@ def register_resource_handlers():
         file: File,
         resource_desc: z64resources.PlayerAnimationDataResourceDesc,
     ):
-        size = resource_desc.frame_count * (22 * 3 + 1) * 2
-        return BinaryBlobResource(
-            file,
-            resource_desc.offset,
-            resource_desc.offset + size,
-            resource_desc.symbol_name,
-        )
-        # TODO
-        return skeleton_resources.PlayerAnimationDataResource(
+        res = playeranim_resources.PlayerAnimationDataResource(
             file,
             resource_desc.offset,
             resource_desc.symbol_name,
-            resource_desc.frame_count,
         )
+        res.set_frame_count(resource_desc.frame_count)
+        return res
 
     def PlayerAnimation_handler(
         file: File,
