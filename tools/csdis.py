@@ -504,7 +504,7 @@ cutscene_command_macros = {
               "CS_RUMBLE_CONTROLLER(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %b4:3:x, %b3:3:x, %h1:3:x)", 3),
     140:
         ("CS_TIME_LIST(%w1:1:s)", 2, None, 0,
-              "CS_TIME(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %w1:3:x)", 3),
+              "CS_TIME(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x)", 3),
     10:
         ("CS_PLAYER_CUE_LIST(%w1:1:s)", 2, None, 0,
               "CS_PLAYER_CUE(%h2:1:e6, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
