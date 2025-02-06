@@ -2,11 +2,11 @@
 #define Z_BG_JYA_MEGAMI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgJyaMegami;
 
-typedef void (*BgJyaMegamiActionFunc)(struct BgJyaMegami*, PlayState*);
+typedef void (*BgJyaMegamiActionFunc)(struct BgJyaMegami*, struct PlayState*);
 
 typedef struct BgJyaMegamiPiece {
     /* 0x00 */ Vec3f pos;

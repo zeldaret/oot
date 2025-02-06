@@ -2,11 +2,11 @@
 #define Z_BG_JYA_GOROIWA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgJyaGoroiwa;
 
-typedef void (*BgJyaGoroiwaFunc)(struct BgJyaGoroiwa*, PlayState*);
+typedef void (*BgJyaGoroiwaFunc)(struct BgJyaGoroiwa*, struct PlayState*);
 
 typedef struct BgJyaGoroiwa {
     /* 0x0000 */ Actor actor;

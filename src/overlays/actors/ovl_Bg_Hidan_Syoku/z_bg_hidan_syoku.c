@@ -5,6 +5,11 @@
  */
 
 #include "z_bg_hidan_syoku.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "z64play.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

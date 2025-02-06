@@ -2,11 +2,11 @@
 #define Z_BG_JYA_BOMBCHUIWA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgJyaBombchuiwa;
 
-typedef void (*BgJyaBombchuiwaActionFunc)(struct BgJyaBombchuiwa*, PlayState*);
+typedef void (*BgJyaBombchuiwaActionFunc)(struct BgJyaBombchuiwa*, struct PlayState*);
 
 typedef struct BgJyaBombchuiwa {
     /* 0x0000 */ Actor actor;

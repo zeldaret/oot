@@ -2,11 +2,11 @@
 #define Z_BG_ICE_SHELTER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgIceShelter;
 
-typedef void (*BgIceShelterActionFunc)(struct BgIceShelter*, PlayState*);
+typedef void (*BgIceShelterActionFunc)(struct BgIceShelter*, struct PlayState*);
 
 typedef enum RedIceType {
     /* 0 */ RED_ICE_LARGE,    // Large red ice block

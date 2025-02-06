@@ -2,11 +2,11 @@
 #define Z_BG_MIZU_BWALL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgMizuBwall;
 
-typedef void (*BgMizuBwallActionFunc)(struct BgMizuBwall*, PlayState*);
+typedef void (*BgMizuBwallActionFunc)(struct BgMizuBwall*, struct PlayState*);
 
 typedef struct BgMizuBwall {
     /* 0x0000 */ DynaPolyActor dyna;

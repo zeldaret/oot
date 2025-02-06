@@ -7,6 +7,10 @@
 #include "z_obj_mure.h"
 #include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "z64play.h"
+
 #define FLAGS 0
 
 void ObjMure_Init(Actor* thisx, PlayState* play);

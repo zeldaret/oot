@@ -2,14 +2,14 @@
 #define Z_EN_GIRLA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGirlA;
 
-typedef void (*EnGirlAActionFunc)(struct EnGirlA*, PlayState*);
-typedef void (*EnGirlA2Func)(PlayState*, struct EnGirlA*);
-typedef void (*EnGirlA3Func)(Actor*, PlayState*, s32);
-typedef s32 (*EnGirlA4Func)(PlayState*, struct EnGirlA*);
+typedef void (*EnGirlAActionFunc)(struct EnGirlA*, struct PlayState*);
+typedef void (*EnGirlA2Func)(struct PlayState*, struct EnGirlA*);
+typedef void (*EnGirlA3Func)(Actor*, struct PlayState*, s32);
+typedef s32 (*EnGirlA4Func)(struct PlayState*, struct EnGirlA*);
 
 typedef struct EnGirlA {
     /* 0x0000 */ Actor actor;
