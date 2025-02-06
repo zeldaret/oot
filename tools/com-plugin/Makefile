@@ -14,6 +14,6 @@ clean:
 	$(RM) $(TARGET) $(DEP_FILES)
 
 $(TARGET): $(SOURCES)
-	$(CC) -shared $(CFLAGS) -MMD -o $@ $^
+	$(CC) -shared $(CFLAGS) -MMD -o $@ $(SOURCES)
 
 -include $(DEP_FILES)
