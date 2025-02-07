@@ -2,8 +2,6 @@
 
 # Disassemble a cutscene script
 
-from overlayhelpers import filemap
-
 import argparse, os, struct
 import math
 
@@ -764,6 +762,8 @@ def hex_parse(s):
     return int(s, 16)
 
 def main():
+    from overlayhelpers import filemap
+
     parser = argparse.ArgumentParser(description="Disassembles cutscenes for OoT")
     parser.add_argument('address', help="VRAM or ROM address to disassemble at", type=hex_parse)
     args = parser.parse_args()
