@@ -11,14 +11,14 @@
 #include "z64skin_matrix.h"
 
 // clang-format off
-Mtx gIdentityMtx = gdSPDefMtx(
+Mtx gMtxClear = gdSPDefMtx(
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, 1.0f, 0.0f, 0.0f,
     0.0f, 0.0f, 1.0f, 0.0f,
     0.0f, 0.0f, 0.0f, 1.0f
 );
 
-MtxF gIdentityMtxF = {
+MtxF gMtxFClear = {
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, 1.0f, 0.0f, 0.0f,
     0.0f, 0.0f, 1.0f, 0.0f,

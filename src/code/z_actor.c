@@ -2331,8 +2331,8 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
     bzero(actorCtx, sizeof(ActorContext));
 
     ActorOverlayTable_Init();
-    Matrix_MtxFCopy(&play->billboardMtxF, &gIdentityMtxF);
-    Matrix_MtxFCopy(&play->viewProjectionMtxF, &gIdentityMtxF);
+    Matrix_MtxFCopy(&play->billboardMtxF, &gMtxFClear);
+    Matrix_MtxFCopy(&play->viewProjectionMtxF, &gMtxFClear);
 
     overlayEntry = &gActorOverlayTable[0];
     for (i = 0; i < ARRAY_COUNT(gActorOverlayTable); i++) {
