@@ -20,7 +20,7 @@
 #include "z64play.h"
 #include "z64skin_matrix.h"
 
-//#include "global.h"
+#include "global.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"

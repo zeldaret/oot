@@ -91,9 +91,6 @@
 #include "z64draw.h"
 #include "z_en_item00.h"
 
-#define SCREEN_WIDTH  320
-#define SCREEN_HEIGHT 240
-
 typedef enum LensMode {
     /* 0 */ LENS_MODE_SHOW_ACTORS, // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
     /* 1 */ LENS_MODE_HIDE_ACTORS // lens actors are visible by default, and hidden by using lens (for example, fake walls)
