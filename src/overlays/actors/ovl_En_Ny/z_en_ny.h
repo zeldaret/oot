@@ -2,11 +2,11 @@
 #define Z_EN_NY_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnNy;
 
-typedef void (*EnNyActionFunc)(struct EnNy*, PlayState*);
+typedef void (*EnNyActionFunc)(struct EnNy*, struct PlayState*);
 
 typedef struct EnNy {
     /* 0x0000 */ Actor actor;

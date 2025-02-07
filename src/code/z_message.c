@@ -4129,6 +4129,8 @@ void Message_Update(PlayState* play) {
     };
 #if OOT_VERSION < GC_US
     static s32 sUnknown = 0;
+#elif PLATFORM_IQUE
+    static u16 sUnknown = 0;
 #endif
     static char D_80153D74 = 0;
     MessageContext* msgCtx = &play->msgCtx;

@@ -87,9 +87,6 @@
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
-#include "z64debug_display.h"
-#include "z64draw.h"
-#include "z_en_item00.h"
 
 typedef enum LensMode {
     /* 0 */ LENS_MODE_SHOW_ACTORS, // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)

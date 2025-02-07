@@ -1207,7 +1207,7 @@ assets:
 - name: textures/nintendo_rogo_static
   xml_path: assets/xml/textures/nintendo_rogo_static_v2.xml
 - name: textures/parameter_static
-  xml_path: assets/xml/textures/parameter_static.xml
+  xml_path: assets/xml/textures/parameter_static_ique.xml
 - name: textures/place_title_cards
   xml_path: assets/xml/textures/place_title_cards.xml
 - name: textures/skyboxes

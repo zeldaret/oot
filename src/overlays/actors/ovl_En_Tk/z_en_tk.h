@@ -2,8 +2,7 @@
 #define Z_EN_TK_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "z64.h"
+#include "z64actor.h"
 
 /* Dirt particle effect */
 struct EnTkEff;
@@ -22,7 +21,7 @@ typedef struct EnTkEff {
 
 struct EnTk;
 
-typedef void (*EnTkActionFunc)(struct EnTk*, PlayState*);
+typedef void (*EnTkActionFunc)(struct EnTk*, struct PlayState*);
 
 typedef struct EnTk {
     /* 0x0000 */ Actor      actor;

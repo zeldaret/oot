@@ -2,7 +2,7 @@
 #define Z_DOOR_SHUTTER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 /**
  * Actor Parameters
@@ -39,7 +39,7 @@ typedef enum DoorShutterType {
 
 struct DoorShutter;
 
-typedef void (*DoorShutterActionFunc)(struct DoorShutter*, PlayState*);
+typedef void (*DoorShutterActionFunc)(struct DoorShutter*, struct PlayState*);
 
 typedef struct DoorShutter {
     /* 0x0000 */ SLIDING_DOOR_ACTOR_BASE;

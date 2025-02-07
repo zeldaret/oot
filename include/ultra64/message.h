@@ -4,7 +4,11 @@
 #define OS_MESG_NOBLOCK         0
 #define OS_MESG_BLOCK           1
 
+#ifndef BBPLAYER
 #define OS_NUM_EVENTS           15
+#else
+#define OS_NUM_EVENTS           31
+#endif
 
 #define OS_EVENT_SW1            0     /* CPU SW1 interrupt */
 #define OS_EVENT_SW2            1     /* CPU SW2 interrupt */

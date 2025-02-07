@@ -2,11 +2,11 @@
 #define Z_EN_RR_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnRr;
 
-typedef void (*EnRrActionFunc)(struct EnRr*, PlayState*);
+typedef void (*EnRrActionFunc)(struct EnRr*, struct PlayState*);
 
 typedef struct EnRrBodySegment {
     /* 0x00 */ f32 height;

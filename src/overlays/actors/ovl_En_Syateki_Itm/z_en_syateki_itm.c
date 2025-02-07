@@ -1,8 +1,16 @@
 #include "z_en_syateki_itm.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_En_Syateki_Man/z_en_syateki_man.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_G_Switch/z_en_g_switch.h"
+
+#include "rand.h"
+#include "regs.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64debug_display.h"
+#include "z64play.h"
+#include "z64player.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

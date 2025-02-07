@@ -2,11 +2,11 @@
 #define Z_BOSS_GOMA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossGoma;
 
-typedef void (*BossGomaActionFunc)(struct BossGoma*, PlayState*);
+typedef void (*BossGomaActionFunc)(struct BossGoma*, struct PlayState*);
 
 typedef enum BossGomaLimb {
     /*  0 */ BOSSGOMA_LIMB_NONE,

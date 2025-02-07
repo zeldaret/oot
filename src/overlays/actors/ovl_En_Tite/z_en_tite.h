@@ -2,11 +2,11 @@
 #define Z_EN_TITE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnTite;
 
-typedef void (*EnTiteActionFunc)(struct EnTite*, PlayState*);
+typedef void (*EnTiteActionFunc)(struct EnTite*, struct PlayState*);
 
 typedef enum EnTiteType {
     /* -2 */ TEKTITE_BLUE = -2,
