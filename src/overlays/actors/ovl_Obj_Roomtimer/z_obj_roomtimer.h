@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "global.h"
-#include "z64.h"
 
 struct ObjRoomtimer;
 
