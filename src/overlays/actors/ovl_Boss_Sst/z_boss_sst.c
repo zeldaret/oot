@@ -28,8 +28,6 @@
 #include "z64player.h"
 #include "z64skin_matrix.h"
 
-#include "global.h"
-
 #include "assets/objects/object_sst/object_sst.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
