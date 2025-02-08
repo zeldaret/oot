@@ -1,11 +1,17 @@
-from __future__ import annotations
-from pathlib import Path
 import enum
+import io
+from pathlib import Path
 import reprlib
 
-import io
-
 from typing import TYPE_CHECKING, Union, Optional, Callable
+
+try:
+    from rich.pretty import pprint as rich_pprint
+except ModuleNotFoundError:
+    rich_pprint = print
+
+# pip install pygfxd@git+https://github.com/Dragorn421/pygfxd.git@065541d92ad0d84d214fad4f30e4592f7102c013
+import pygfxd
 
 if TYPE_CHECKING:
     from ..extase.memorymap import MemoryContext
@@ -29,13 +35,6 @@ BEST_EFFORT = True
 
 VERBOSE_ColorIndexedTexturesManager = False
 VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER = True
-
-
-import pygfxd
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from ......pygfxd import pygfxd
 
 
 class MtxResource(CDataResource):
@@ -301,9 +300,13 @@ class TextureResource(Resource):
                 cur_count = self.width * self.height
 
                 assert cur_count >= new_min_count, (
-                    cur_count,
-                    new_min_count,
+                    "TLUT resource",
                     self,
+                    "is defined as having",
+                    cur_count,
+                    "colors, but there is an image using it as having at least",
+                    new_min_count,
+                    "colors:",
                     resource_ci,
                 )
 
@@ -392,9 +395,11 @@ class TextureResource(Resource):
                     if VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER:
                         print(
                             "BEST_EFFORT",
-                            "no real (non-fake for best effort) ci resource uses this tlut\n ",
-                            self,
-                            "\n  extracting the tlut as its own png",
+                            "no real (non-fake for best effort) ci resource uses this tlut",
+                        )
+                        rich_pprint(self)
+                        print(
+                            "  extracting the tlut as its own png",
                             self.extract_to_path.resolve().as_uri(),
                             "instead of relying on it being generated",
                             "\n  (note while the result may build and match the tlut probably is",

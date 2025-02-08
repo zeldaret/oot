@@ -22,7 +22,7 @@ from . import z64_resource_handlers
 #
 
 VERBOSE1 = False
-VERBOSE2 = True
+VERBOSE2 = False
 
 # "options"
 RM_SOURCE = True

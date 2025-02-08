@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 # 0: nothing, 1: in progress & waiting, 2: all
 VERBOSE_FILE_TRY_PARSE_DATA = 0
-VERBOSE_REPORT_RESBUF = True
+VERBOSE_REPORT_RESBUF = False
 
 #
 # file
@@ -263,7 +263,7 @@ class File:
                     else:
                         print("??? no last_parse_waiting_e ???")
                         print("then why has", resource.name, "not been parsed?")
-                BEST_EFFORT = True  # TODO move
+                BEST_EFFORT = False  # TODO move
                 if BEST_EFFORT:
                     print("BEST_EFFORT: removing non-parsed resources")
                     for resource in resources_data_not_parsed:

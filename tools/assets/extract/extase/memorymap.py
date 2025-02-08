@@ -3,6 +3,11 @@ from dataclasses import dataclass
 
 from typing import Callable, TypeVar, Generic
 
+try:
+    from rich.pretty import pprint as rich_pprint
+except ModuleNotFoundError:
+    rich_pprint = print
+
 from . import Resource, File, GetResourceAtResult
 
 
@@ -321,18 +326,15 @@ class MemoryContext:
                 fake_resource.reporters.add(reporter)
                 fake_file.add_resource(fake_resource)
                 if VERBOSE_BEST_EFFORT:
-                    print(
-                        "BEST_EFFORT: ignored error e=",
-                        repr(e),
-                        "on resource report by reporter=",
-                        reporter,
-                        "at address=",
-                        hex(address),
-                        "and created fake_file=",
-                        fake_file,
-                        "and fake_resource=",
-                        fake_resource,
-                    )
+                    print("BEST_EFFORT: ignored error e=")
+                    rich_pprint(e)
+                    print("  on resource report by reporter=")
+                    rich_pprint(reporter)
+                    print(f"  at {address=:#08X}")
+                    print("  and created fake_file=")
+                    rich_pprint(fake_file),
+                    print("  and fake_resource=")
+                    rich_pprint(fake_resource)
                 fake_file.FAKE_FOR_BEST_EFFORT = True
                 fake_resource.FAKE_FOR_BEST_EFFORT = True
                 return fake_resource
@@ -370,18 +372,11 @@ class MemoryContext:
         except UnmappedAddressError as e:
             if BEST_EFFORT:
                 if VERBOSE_BEST_EFFORT:
-                    print(
-                        "BEST_EFFORT: ignored error e=",
-                        repr(e),
-                        "and skipping marking resource buffer for reporter=",
-                        reporter,
-                        "resource_type=",
-                        resource_type,
-                        "address_start=",
-                        hex(address_start),
-                        "address_end=",
-                        hex(address_end),
-                    )
+                    print("BEST_EFFORT: ignored error e=")
+                    rich_pprint(e)
+                    print("  and skipping marking resource buffer for reporter=")
+                    rich_pprint(reporter)
+                    print(f"  {resource_type=} {address_start=:#08X} {address_end=:#08X}")
                 return
             raise
         file_start = resolve_result.file_offset
@@ -401,12 +396,9 @@ class MemoryContext:
         except UnmappedAddressError as e:
             if BEST_EFFORT:
                 if VERBOSE_BEST_EFFORT:
-                    print(
-                        "BEST_EFFORT: ignored error e=",
-                        repr(e),
-                        "and returning raw address =",
-                        f"0x{address:08X}",
-                    )
+                    print("BEST_EFFORT: ignored error e="),
+                    rich_pprint(e)
+                    print(f"  and returning raw address=0x{address:08X}")
                 return f"0x{address:08X}"
             raise
 
