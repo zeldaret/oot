@@ -225,17 +225,35 @@ def find_symbols_by_name(
     return infos
 
 
+def print_map_file(map_file: mapfile_parser.mapfile.MapFile):
+    for segment in map_file:
+        print(f"{segment.name}")
+        for file in segment:
+            # Ignore debug sections
+            if (
+                file.sectionType in (".pdr", ".line", ".gnu.attributes")
+                or file.sectionType.startswith(".debug")
+                or file.sectionType.startswith(".mdebug")
+            ):
+                continue
+            print(f"    {file.asStr()}")
+            for sym in file:
+                vram_str = f"{sym.vram:08X}"
+                if sym.vrom is None:
+                    vrom_str = "      "
+                else:
+                    vrom_str = f"{sym.vrom:06X}"
+                print(f"        {vram_str} {vrom_str} {sym.name}")
+
+
 def sym_info_main():
     parser = argparse.ArgumentParser(
-        description="Display various information about a symbol or address."
+        description="Display various information about symbol or addresses."
     )
-    parser.add_argument("symname", help="symbol name or VROM/VRAM address to lookup")
     parser.add_argument(
-        "-v",
-        "--version",
-        dest="oot_version",
-        help="Which version should be processed",
-        default="gc-eu-mq-dbg",
+        "symname",
+        nargs="?",
+        help="symbol name or VROM/VRAM address to lookup. If not given, all symbols will be printed.",
     )
     parser.add_argument(
         "-e",
@@ -244,9 +262,15 @@ def sym_info_main():
         action="store_true",
         help="use the map file and elf in expected/build/ instead of build/",
     )
+    parser.add_argument(
+        "-v",
+        "--version",
+        dest="oot_version",
+        help="which version should be processed (default: gc-eu-mq-dbg)",
+        default="gc-eu-mq-dbg",
+    )
 
     args = parser.parse_args()
-    sym_name = args.symname
 
     BUILTMAP = Path("build") / args.oot_version / f"oot-{args.oot_version}.map"
     BUILTELF = Path("build") / args.oot_version / f"oot-{args.oot_version}.elf"
@@ -271,6 +295,11 @@ def sym_info_main():
         print(
             f"Could not find ELF file at '{elf_path}', local symbols will not be available"
         )
+
+    sym_name = args.symname
+    if sym_name is None:
+        print_map_file(map_file)
+        sys.exit(0)
 
     infos: list[mapfile_parser.mapfile.FoundSymbolInfo] = []
     possible_files: list[mapfile_parser.mapfile.File] = []
