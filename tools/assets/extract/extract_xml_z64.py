@@ -311,7 +311,7 @@ def main():
         memoryview((args.baserom_segments_dir / "dmadata").read_bytes()), 0
     )
     dmadata_table_rom_file_name_by_vrom = dict()
-    for dma_entry, name in zip(dma_entries, vc.dmadata_segments.keys()):
+    for dma_entry, name in zip(dma_entries, vc.dmadata_segments.keys(), strict=True):
         dmadata_table_rom_file_name_by_vrom[
             (dma_entry.vrom_start, dma_entry.vrom_end)
         ] = name
