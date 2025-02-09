@@ -216,7 +216,7 @@ void BgPoEvent_Init(Actor* thisx, PlayState* play) {
 
     if (this->type >= 2) {
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderElements);
         if (Flags_GetSwitch(play, thisx->params)) {
             Actor_Kill(thisx);
         } else {

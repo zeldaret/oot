@@ -134,7 +134,7 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
         BgBombwall_InitDynapoly(this, play);
         this->unk_2A2 |= 2;
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderElements);
 
         for (i = 0; i <= 2; i++) {
             for (j = 0; j <= 2; j++) {
