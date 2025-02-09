@@ -220,9 +220,9 @@ class TextureResource(Resource):
         self.resources_ci_list: list[TextureResource] = []
         """For TLUT "textures", the CI textures using it"""
 
-        if size_bytes % 8 == 0 and range_start % 8 == 0:
+        if size_bytes % 8 == 0 and (file.alignment + range_start) % 8 == 0:
             self.alignment = 8
-        elif size_bytes % 4 == 0 and range_start % 4 == 0:
+        elif size_bytes % 4 == 0 and (file.alignment + range_start) % 4 == 0:
             self.alignment = 4
         else:
             raise NotImplementedError(

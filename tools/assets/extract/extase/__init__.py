@@ -116,6 +116,7 @@ class File:
         *,
         data: Optional[memoryview] = None,
         size: Optional[int] = None,
+        alignment: int = 8,
     ):
         self.name = name
         if data is None != size is None:
@@ -129,6 +130,7 @@ class File:
             assert size is not None
             self.data = None
             self.size = size
+        self.alignment = alignment
         self._resources: list[Resource] = []
         self._is_resources_sorted = True
         self.referenced_files: set[File] = set()

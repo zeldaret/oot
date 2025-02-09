@@ -120,8 +120,21 @@ def process_pool(
             range_start, range_end = rescoll.backing_memory.range
             data = data[range_start:range_end]
 
+        if isinstance(rescoll.start_address, VRAMStartAddress):
+            if rescoll.start_address.vram % 8 == 0:
+                alignment = 8
+            elif rescoll.start_address.vram % 4 == 0:
+                alignment = 4
+            else:
+                raise NotImplementedError(
+                    f"alignment for {rescoll.start_address.vram=:#08X}"
+                )
+        elif isinstance(rescoll.start_address, SegmentStartAddress):
+            alignment = 8
+        else:
+            raise NotImplementedError(rescoll.start_address)
         # TODO File.name
-        file = File(rescoll.backing_memory.name, data=data)
+        file = File(rescoll.backing_memory.name, data=data, alignment=alignment)
         file_by_rescoll[rescoll] = file
 
         (
