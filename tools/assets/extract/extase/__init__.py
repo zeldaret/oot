@@ -137,6 +137,7 @@ class File:
         ] = dict()
 
     def add_resource(self, resource: "Resource"):
+        assert resource is not None
         assert resource not in self._resources
         self._resources.append(resource)
         self._is_resources_sorted = False

@@ -5,7 +5,6 @@ from ..descriptor import n64resources
 from ..descriptor import z64resources
 
 from .extase import (
-    GetResourceAtResult,
     File,
     Resource,
     BinaryBlobResource,
@@ -81,14 +80,30 @@ def register_resource_handlers():
     ):
         offset = resource_desc.offset
         if resource_desc.limb_type == z64resources.LimbType.STANDARD:
-            pass
+            if resource_desc.type == z64resources.SkeletonType.NORMAL:
+                res = skeleton_resources.SkeletonNormalResource(
+                    file,
+                    offset,
+                    resource_desc.symbol_name,
+                )
+            elif resource_desc.type == z64resources.SkeletonType.FLEX:
+                res = skeleton_resources.SkeletonFlexResource(
+                    file,
+                    offset,
+                    resource_desc.symbol_name,
+                )
+            else:
+                raise NotImplementedError(
+                    "unimplemented SkeletonType",
+                    resource_desc.type,
+                )
         elif resource_desc.limb_type == z64resources.LimbType.LOD:
             if resource_desc.type == z64resources.SkeletonType.NORMAL:
-                return skeleton_resources.SkeletonNormalLODResource(
+                res = skeleton_resources.SkeletonNormalLODResource(
                     file, offset, resource_desc.symbol_name
                 )
             elif resource_desc.type == z64resources.SkeletonType.FLEX:
-                return skeleton_resources.SkeletonFlexLODResource(
+                res = skeleton_resources.SkeletonFlexLODResource(
                     file, offset, resource_desc.symbol_name
                 )
             else:
@@ -99,12 +114,12 @@ def register_resource_handlers():
                 )
         elif resource_desc.limb_type == z64resources.LimbType.SKIN:
             assert resource_desc.type == z64resources.SkeletonType.NORMAL
-            return skeleton_skin_resources.SkeletonSkinResource(
+            res = skeleton_skin_resources.SkeletonSkinResource(
                 file, offset, resource_desc.symbol_name
             )
         elif resource_desc.limb_type == z64resources.LimbType.CURVE:
             assert resource_desc.type == z64resources.SkeletonType.CURVE
-            return skelcurve_resources.CurveSkeletonHeaderResource(
+            res = skelcurve_resources.CurveSkeletonHeaderResource(
                 file, offset, resource_desc.symbol_name
             )
         else:
@@ -112,24 +127,15 @@ def register_resource_handlers():
                 "unimplemented Skeleton LimbType",
                 resource_desc.limb_type,
             )
-
-        if resource_desc.type == z64resources.SkeletonType.NORMAL:
-            return skeleton_resources.SkeletonNormalResource(
-                file,
-                offset,
-                resource_desc.symbol_name,
-            )
-        elif resource_desc.type == z64resources.SkeletonType.FLEX:
-            return skeleton_resources.SkeletonFlexResource(
-                file,
-                offset,
-                resource_desc.symbol_name,
-            )
-        else:
-            raise NotImplementedError(
-                "unimplemented SkeletonType",
-                resource_desc.type,
-            )
+        # TODO check is this works for SkeletonSkinResource
+        # TODO implement for CurveSkeletonHeaderResource
+        if resource_desc.limb_enum_name is not None:
+            res.set_enum_name(resource_desc.limb_enum_name)
+        if resource_desc.limb_enum_none_member_name is not None:
+            res.set_enum_member_name_none(resource_desc.limb_enum_none_member_name)
+        if resource_desc.limb_enum_max_member_name is not None:
+            res.set_enum_member_name_max(resource_desc.limb_enum_max_member_name)
+        return res
 
     def limb_resource_handler(
         file: File,
@@ -137,27 +143,27 @@ def register_resource_handlers():
     ):
         offset = resource_desc.offset
         if resource_desc.limb_type == z64resources.LimbType.STANDARD:
-            return skeleton_resources.StandardLimbResource(
+            res = skeleton_resources.StandardLimbResource(
                 file,
                 offset,
                 resource_desc.symbol_name,
             )
-        if resource_desc.limb_type == z64resources.LimbType.SKIN:
-            return skeleton_skin_resources.SkinLimbResource(
+        elif resource_desc.limb_type == z64resources.LimbType.SKIN:
+            res = skeleton_skin_resources.SkinLimbResource(
                 file, offset, resource_desc.symbol_name
             )
-        if resource_desc.limb_type == z64resources.LimbType.LOD:
-            return skeleton_resources.LODLimbResource(
+        elif resource_desc.limb_type == z64resources.LimbType.LOD:
+            res = skeleton_resources.LODLimbResource(
                 file, offset, resource_desc.symbol_name
             )
-        if resource_desc.limb_type == z64resources.LimbType.LEGACY:
+        elif resource_desc.limb_type == z64resources.LimbType.LEGACY:
             # TODO LegacyLimbResource
             # } LegacyLimb; // size = 0x20
             return BinaryBlobResource(
                 file, offset, offset + 0x20, resource_desc.symbol_name
             )
-        if resource_desc.limb_type == z64resources.LimbType.CURVE:
-            return skelcurve_resources.SkelCurveLimbResource(
+        elif resource_desc.limb_type == z64resources.LimbType.CURVE:
+            res = skelcurve_resources.SkelCurveLimbResource(
                 file, offset, resource_desc.symbol_name
             )
         else:
@@ -165,6 +171,11 @@ def register_resource_handlers():
                 "unimplemented LimbType",
                 resource_desc.limb_type,
             )
+        # TODO check this works for SkinLimbResource
+        # TODO implement for SkelCurveLimbResource
+        if resource_desc.limb_enum_member_name is not None:
+            res.set_enum_member_name(resource_desc.limb_enum_member_name)
+        return res
 
     def limb_table_handler(
         file: File,

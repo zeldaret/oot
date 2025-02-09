@@ -1,5 +1,12 @@
+import abc
 import io
 from typing import TYPE_CHECKING
+
+from ..extase import (
+    RESOURCE_PARSE_SUCCESS,
+    ResourceParseInProgress,
+    ResourceParseWaiting,
+)
 
 if TYPE_CHECKING:
     from ..extase.memorymap import MemoryContext
@@ -17,14 +24,42 @@ from . import dlist_resources
 
 
 class StandardLimbResource(CDataResource):
+    def write_limb_index(
+        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+    ):
+        assert isinstance(v, int)
+        f.write(line_prefix)
+        if resource.skeleton_resource is None:
+            f.write(f"{v}")
+        else:
+            f.write(f"/* {v} */ ")
+            if v == 0xFF:
+                f.write("LIMB_DONE")
+            else:
+                f.write(
+                    resource.skeleton_resource.limbs_array_resource.limbs[
+                        v
+                    ].enum_member_name
+                )
+                f.write(" - 1")
+        return True
+
     cdata_ext = CDataExt_Struct(
         (
             ("jointPos", cdata_ext_Vec3s),
-            ("child", CDataExt_Value.u8),
-            ("sibling", CDataExt_Value.u8),
+            ("child", CDataExt_Value("B").set_write(write_limb_index)),
+            ("sibling", CDataExt_Value("B").set_write(write_limb_index)),
             ("dList", dlist_resources.cdata_ext_gfx_segmented),
         )
     )
+
+    def __init__(self, file, range_start, name):
+        super().__init__(file, range_start, name)
+        self.enum_member_name = f"LIMB_{file.name.upper()}_{range_start:06X}"
+        self.skeleton_resource: "SkeletonResourceBaseABC | None" = None
+
+    def set_enum_member_name(self, enum_member_name: str):
+        self.enum_member_name = enum_member_name
 
     def get_c_declaration_base(self):
         return f"StandardLimb {self.symbol_name}"
@@ -40,11 +75,24 @@ class LODLimbResource(CDataResource):
     cdata_ext = CDataExt_Struct(
         (
             ("jointPos", cdata_ext_Vec3s),
-            ("child", CDataExt_Value.u8),
-            ("sibling", CDataExt_Value.u8),
+            (
+                "child",
+                CDataExt_Value("B").set_write(StandardLimbResource.write_limb_index),
+            ),
+            (
+                "sibling",
+                CDataExt_Value("B").set_write(StandardLimbResource.write_limb_index),
+            ),
             ("dLists", CDataExt_Array(dlist_resources.cdata_ext_gfx_segmented, 2)),
         )
     )
+
+    def __init__(self, file, range_start, name):
+        super().__init__(file, range_start, name)
+        self.enum_member_name = f"LIMB_{file.name.upper()}_{range_start:06X}"
+
+    def set_enum_member_name(self, enum_member_name: str):
+        self.enum_member_name = enum_member_name
 
     def get_c_declaration_base(self):
         return f"LodLimb {self.symbol_name}"
@@ -60,18 +108,6 @@ class LimbsArrayResourceABC(CDataArrayResource):
     limb_type: type[CDataResource]
     c_limb_type: str
 
-    def report_limb_element(resource, memory_context: "MemoryContext", v):
-        assert isinstance(v, int)
-        address = v
-        memory_context.report_resource_at_segmented(
-            resource,
-            address,
-            resource.limb_type,
-            lambda file, offset: resource.limb_type(
-                file, offset, f"{resource.name}_{address:08X}"
-            ),
-        )
-
     def write_limb_element(
         resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
     ):
@@ -81,11 +117,29 @@ class LimbsArrayResourceABC(CDataArrayResource):
         f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
-    elem_cdata_ext = (
-        CDataExt_Value("I")
-        .set_report(report_limb_element)
-        .set_write(write_limb_element)
-    )
+    elem_cdata_ext = CDataExt_Value("I").set_write(write_limb_element)
+
+    def __init__(self, file, range_start, name):
+        super().__init__(file, range_start, name)
+        self.limbs = None
+
+    def try_parse_data(self, memory_context):
+        ret = super().try_parse_data(memory_context)
+        assert ret == RESOURCE_PARSE_SUCCESS
+        self.limbs: list[self.limb_type] = []
+        for address in self.cdata_unpacked:
+            limb = memory_context.report_resource_at_segmented(
+                self,
+                address,
+                self.limb_type,
+                lambda file, offset: self.limb_type(
+                    file,
+                    offset,
+                    f"{self.name}_{address:08X}_{self.c_limb_type}",
+                ),
+            )
+            self.limbs.append(limb)
+        return RESOURCE_PARSE_SUCCESS
 
     def get_c_declaration_base(self):
         return f"void* {self.symbol_name}[]"
@@ -101,8 +155,71 @@ class LODLimbsArrayResource(LimbsArrayResourceABC):
     c_limb_type = "LodLimb"
 
 
-class SkeletonResourceABC(CDataResource):
+class SkeletonResourceBaseABC(CDataResource):
     limbs_array_type: type[LimbsArrayResourceABC]
+
+    def __init__(self, file, range_start, name):
+        super().__init__(file, range_start, name)
+        self.enum_name = f"{self.symbol_name}Limb"
+        self.enum_member_name_none = f"LIMB_{self.symbol_name.upper()}_NONE"
+        self.enum_member_name_max = f"LIMB_{self.symbol_name.upper()}_MAX"
+        self.limbs_array_resource = None
+
+    def set_enum_name(self, enum_name: str):
+        self.enum_name = enum_name
+
+    def set_enum_member_name_none(self, enum_member_name_none: str):
+        self.enum_member_name_none = enum_member_name_none
+
+    def set_enum_member_name_max(self, enum_member_name_max: str):
+        self.enum_member_name_max = enum_member_name_max
+
+    def try_parse_data(self, memory_context):
+        if self.limbs_array_resource is None:
+            ret = super().try_parse_data(memory_context)
+            assert ret == RESOURCE_PARSE_SUCCESS
+            data = self.get_skeleton_header_cdata_unpacked()
+            segment_resolve_result = memory_context.resolve_segmented(data["segment"])
+            self.limbs_array_resource = segment_resolve_result.get_resource(
+                self.limbs_array_type
+            )
+            if self.limbs_array_resource.limbs is None:
+                raise ResourceParseInProgress(
+                    new_progress_done=["reported limbs array"],
+                    waiting_for=["self.limbs_array_resource.limbs"],
+                )
+        else:
+            if self.limbs_array_resource.limbs is None:
+                raise ResourceParseWaiting(
+                    waiting_for=["self.limbs_array_resource.limbs"],
+                )
+        for limb in self.limbs_array_resource.limbs:
+            limb.skeleton_resource = self
+        return RESOURCE_PARSE_SUCCESS
+
+    def write_c_declaration(self, h):
+        h.write(f"typedef enum {self.enum_name} {{\n")
+        limb_enum_members = (
+            self.enum_member_name_none,
+            *(limb.enum_member_name for limb in self.limbs_array_resource.limbs),
+            self.enum_member_name_max,
+        )
+        h.write(
+            ",\n".join(
+                f"    /* {i:2} */ {enum_member}"
+                for i, enum_member in enumerate(limb_enum_members)
+            )
+            + "\n"
+        )
+        h.write(f"}} {self.enum_name};\n")
+        super().write_c_declaration(h)
+        return True
+
+    @abc.abstractmethod
+    def get_skeleton_header_cdata_unpacked(self) -> dict: ...
+
+
+class SkeletonResourceABC(SkeletonResourceBaseABC):
 
     def report_segment(resource, memory_context: "MemoryContext", v):
         assert isinstance(v, int)
@@ -177,7 +294,7 @@ class SkeletonNormalLODResource(SkeletonResourceABC):
     limbs_array_type = LODLimbsArrayResource
 
 
-class SkeletonFlexResourceABC(CDataResource):
+class SkeletonFlexResourceABC(SkeletonResourceBaseABC):
     skeleton_type: type[SkeletonResourceABC]
 
     # For SkeletonResourceABC.report_segment

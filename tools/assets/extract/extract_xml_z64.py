@@ -96,10 +96,8 @@ def process_pool(
 ):
     if VERBOSE2:
         print("> process_pool")
-        print(
-            "pool_desc collections:",
-            [str(rescoll.out_path) for rescoll in pool_desc.collections],
-        )
+    if len(pool_desc.collections) == 1:
+        print(", ".join(map(str, (_c.out_path for _c in pool_desc.collections))))
 
     file_by_rescoll: dict[ResourcesDescCollection, File] = dict()
 
@@ -229,7 +227,9 @@ def process_pool(
     # 5)
 
     for rescoll, file in file_by_rescoll.items():
-        file.set_source_path(Path("assets") / rescoll.out_path)
+        file.set_source_path(
+            extraction_ctx.extracted_path / "assets" / rescoll.out_path
+        )
 
         file.set_resources_paths(
             extraction_ctx.extracted_path,

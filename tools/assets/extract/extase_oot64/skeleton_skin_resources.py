@@ -210,8 +210,18 @@ class SkinLimbResource(CDataResource):
     cdata_ext = CDataExt_Struct(
         (
             ("jointPos", cdata_ext_Vec3s),
-            ("child", CDataExt_Value.u8),
-            ("sibling", CDataExt_Value.u8),
+            (
+                "child",
+                CDataExt_Value("B").set_write(
+                    skeleton_resources.StandardLimbResource.write_limb_index
+                ),
+            ),
+            (
+                "sibling",
+                CDataExt_Value("B").set_write(
+                    skeleton_resources.StandardLimbResource.write_limb_index
+                ),
+            ),
             (
                 "segmentType",
                 CDataExt_Value("i").set_write_str_v(
@@ -224,6 +234,13 @@ class SkinLimbResource(CDataResource):
             ),
         )
     )
+
+    def __init__(self, file, range_start, name):
+        super().__init__(file, range_start, name)
+        self.enum_member_name = f"LIMB_{file.name.upper()}_{range_start:06X}"
+
+    def set_enum_member_name(self, enum_member_name: str):
+        self.enum_member_name = enum_member_name
 
     def get_c_declaration_base(self):
         return f"SkinLimb {self.symbol_name}"

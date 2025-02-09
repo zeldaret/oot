@@ -10,7 +10,7 @@ try:
 except ModuleNotFoundError:
     rich_pprint = print
 
-# pip install pygfxd@git+https://github.com/Dragorn421/pygfxd.git@065541d92ad0d84d214fad4f30e4592f7102c013
+# pip install pygfxd@git+https://github.com/Dragorn421/pygfxd.git@9d418bc5d1cebedfeec3455250bef29473055940
 import pygfxd
 
 if TYPE_CHECKING:

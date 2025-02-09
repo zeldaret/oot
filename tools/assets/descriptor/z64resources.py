@@ -1,5 +1,6 @@
 import dataclasses
 import enum
+from typing import Optional
 from xml.etree.ElementTree import Element
 
 from .base import (
@@ -109,24 +110,43 @@ class LimbType(enum.Enum):
 class SkeletonResourceDesc(ResourceDesc):
     type: SkeletonType
     limb_type: LimbType
+    limb_enum_name: Optional[str]
+    limb_enum_none_member_name: Optional[str]
+    limb_enum_max_member_name: Optional[str]
 
 
 def handler_Skeleton(symbol_name, offset, collection, reselem: Element):
     skel_type = SkeletonType[reselem.attrib["Type"].upper()]
     limb_type = LimbType[reselem.attrib["LimbType"].upper()]
     return SkeletonResourceDesc(
-        symbol_name, offset, collection, reselem, skel_type, limb_type
+        symbol_name,
+        offset,
+        collection,
+        reselem,
+        skel_type,
+        limb_type,
+        reselem.attrib.get("EnumName"),
+        reselem.attrib.get("LimbNone"),
+        reselem.attrib.get("LimbMax"),
     )
 
 
 @dataclasses.dataclass(eq=False)
 class LimbResourceDesc(ResourceDesc):
     limb_type: LimbType
+    limb_enum_member_name: Optional[str]
 
 
 def handler_Limb(symbol_name, offset, collection, reselem: Element):
     limb_type = LimbType[reselem.attrib["LimbType"].upper()]
-    return LimbResourceDesc(symbol_name, offset, collection, reselem, limb_type)
+    return LimbResourceDesc(
+        symbol_name,
+        offset,
+        collection,
+        reselem,
+        limb_type,
+        reselem.attrib.get("EnumName"),
+    )
 
 
 @dataclasses.dataclass(eq=False)
