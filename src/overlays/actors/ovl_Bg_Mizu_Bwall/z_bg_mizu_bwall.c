@@ -206,7 +206,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = BgMizuBwall_DoNothing;
             } else {
                 Collider_InitTris(play, &this->collider);
-                if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitFloor, this->colliderElements)) {
+                if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitFloor,
+                                      this->colliderElements)) {
                     PRINTF("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_mizu_bwall.c", 484,
                            this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
@@ -245,7 +246,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = BgMizuBwall_DoNothing;
             } else {
                 Collider_InitTris(play, &this->collider);
-                if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitRutoWall, this->colliderElements)) {
+                if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitRutoWall,
+                                      this->colliderElements)) {
                     PRINTF("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_mizu_bwall.c", 558,
                            this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
@@ -284,7 +286,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = BgMizuBwall_DoNothing;
             } else {
                 Collider_InitTris(play, &this->collider);
-                if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitUnusedWall, this->colliderElements)) {
+                if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitUnusedWall,
+                                      this->colliderElements)) {
                     PRINTF("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_mizu_bwall.c", 638,
                            this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
