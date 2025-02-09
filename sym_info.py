@@ -127,7 +127,7 @@ def read_local_symbols_from_mdebug(elf_path: Path) -> list[LocalSymbol]:
                 break
 
         if mdebug_offset == 0:
-            print(f"No .mdebug section found in '{path}'")
+            print(f"No .mdebug section found in '{elf_path}'")
             return []
 
         symbolic_header = read_mdebug_symbolic_header(f, mdebug_offset)
