@@ -2,11 +2,11 @@
 #define Z_BG_MIZU_WATER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgMizuWater;
 
-typedef void (*BgMizuWaterActionFunc)(struct BgMizuWater*, PlayState*);
+typedef void (*BgMizuWaterActionFunc)(struct BgMizuWater*, struct PlayState*);
 
 typedef struct BgMizuWater {
     /* 0x0000 */ Actor actor;

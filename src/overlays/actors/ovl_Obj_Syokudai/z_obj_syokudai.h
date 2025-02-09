@@ -2,7 +2,8 @@
 #define Z_OBJ_SYOKUDAI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct ObjSyokudai;
 

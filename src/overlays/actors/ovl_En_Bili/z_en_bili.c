@@ -5,7 +5,18 @@
  */
 
 #include "z_en_bili.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "versions.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_bl/object_bl.h"
 
 #define FLAGS \

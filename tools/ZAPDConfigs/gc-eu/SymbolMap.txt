@@ -1,2 +1,2 @@
-800FBC20 gMtxClear
+800FBC20 gIdentityMtx
 80A73020 sShadowTex

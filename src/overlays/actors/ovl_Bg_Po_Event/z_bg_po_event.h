@@ -2,11 +2,11 @@
 #define Z_BG_PO_EVENT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgPoEvent;
 
-typedef void (*BgPoEventActionFunc)(struct BgPoEvent*, PlayState*);
+typedef void (*BgPoEventActionFunc)(struct BgPoEvent*, struct PlayState*);
 
 typedef struct BgPoEvent {
     /* 0x0000 */ DynaPolyActor dyna;

@@ -2,11 +2,12 @@
 #define Z_EN_PO_RELAY_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct EnPoRelay;
 
-typedef void (*EnPoRelayActionFunc)(struct EnPoRelay*, PlayState*);
+typedef void (*EnPoRelayActionFunc)(struct EnPoRelay*, struct PlayState*);
 
 typedef struct EnPoRelay {
     /* 0x0000 */ Actor actor;

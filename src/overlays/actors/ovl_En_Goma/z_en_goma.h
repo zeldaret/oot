@@ -2,7 +2,7 @@
 #define Z_EN_GOMA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 typedef enum GomaType {
     /* 0 */ ENGOMA_NORMAL,
@@ -13,7 +13,7 @@ typedef enum GomaType {
 
 struct EnGoma;
 
-typedef void (*EnGomaActionFunc)(struct EnGoma*, PlayState*);
+typedef void (*EnGomaActionFunc)(struct EnGoma*, struct PlayState*);
 
 typedef enum EnGomaLimb {
     /*  0 */ GOMA_LIMB_NONE,

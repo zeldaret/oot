@@ -5,6 +5,18 @@
  */
 
 #include "z_bg_hidan_sima.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
@@ -233,7 +245,7 @@ Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     f32 sin;
     s32 pad[2];
 
-    Matrix_MtxFCopy(&mtxF, &gMtxFClear);
+    Matrix_MtxFCopy(&mtxF, &gIdentityMtxF);
     cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
     sin = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
 

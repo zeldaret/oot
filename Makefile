@@ -811,9 +811,6 @@ endif
 
 #### Various Recipes ####
 
-$(ROM): $(ELF)
-	$(ELF2ROM) -cic 6105 $< $@
-
 ifeq ($(PLATFORM),IQUE)
   COMPRESS_ARGS := --format gzip --pad-to 0x4000
   CIC = 6102
@@ -821,6 +818,9 @@ else
   COMPRESS_ARGS := --format yaz0 --pad-to 0x800000 --fill-padding-bytes
   CIC = 6105
 endif
+
+$(ROM): $(ELF)
+	$(ELF2ROM) -cic $(CIC) $< $@
 
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)

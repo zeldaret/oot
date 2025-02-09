@@ -322,9 +322,9 @@ def main():
     from .extase_oot64.dlist_resources import MtxResource, TextureResource
     from ..n64 import G_IM_FMT, G_IM_SIZ
 
-    file_gMtxClear = File("sys_matrix__gMtxClear", size=0x40)
-    file_gMtxClear.add_resource(MtxResource(file_gMtxClear, 0, "gMtxClear"))
-    version_memctx_base.set_direct_file(vc.variables["gMtxClear"], file_gMtxClear)
+    file_gIdentityMtx = File("sys_matrix__gIdentityMtx", size=0x40)
+    file_gIdentityMtx.add_resource(MtxResource(file_gIdentityMtx, 0, "gIdentityMtx"))
+    version_memctx_base.set_direct_file(vc.variables["gIdentityMtx"], file_gIdentityMtx)
 
     file_sShadowTex = File("z_en_jsjutan__sShadowTex", size=0x800)
     file_sShadowTex.add_resource(

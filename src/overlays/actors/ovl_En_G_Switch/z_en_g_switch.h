@@ -2,11 +2,11 @@
 #define Z_EN_G_SWITCH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGSwitch;
 
-typedef void (*EnGSwitchActionFunc)(struct EnGSwitch*, PlayState*);
+typedef void (*EnGSwitchActionFunc)(struct EnGSwitch*, struct PlayState*);
 
 typedef enum EnGSwitchMoveMode {
     /* 0 */ GSWITCH_NONE,
