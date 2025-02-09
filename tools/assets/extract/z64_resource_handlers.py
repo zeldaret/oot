@@ -234,7 +234,7 @@ def register_resource_handlers():
         file: File,
         resource_desc: n64resources.DListResourceDesc,
     ):
-        return dlist_resources.DListResource(
+        res = dlist_resources.DListResource(
             file,
             resource_desc.offset,
             resource_desc.symbol_name,
@@ -243,6 +243,8 @@ def register_resource_handlers():
                 n64resources.GfxMicroCode.F3DEX2: dlist_resources.Ucode.f3dex2,
             }[resource_desc.ucode],
         )
+        res.ignored_raw_pointers |= resource_desc.raw_pointers
+        return res
 
     def texture_resource_handler(
         file: File, resource_desc: n64resources.TextureResourceDesc

@@ -645,6 +645,7 @@ def gfxdis(
         def timg_callback_wrapper(timg, fmt, siz, width, height, pal):
             try:
                 ret = timg_callback(timg, fmt, siz, width, height, pal)
+                assert isinstance(ret, int)
             except:
                 import sys
 
@@ -1096,6 +1097,7 @@ class DListResource(Resource, can_size_be_unknown=True):
     ):
         super().__init__(file, range_start, None, name)
         self.target_ucode = target_ucode
+        self.ignored_raw_pointers: set[int] = set()
 
     def try_parse_data(self, memory_context):
         offset = self.range_start
@@ -1104,6 +1106,9 @@ class DListResource(Resource, can_size_be_unknown=True):
             print(self.name, hex(offset))
 
         def vtx_cb(vtx, num):
+            if vtx in self.ignored_raw_pointers:
+                return 0
+
             # TODO be smarter about buffer merging
             # (don't merge buffers from two different DLs, if they can be split cleanly)
             # if that even happens
@@ -1122,6 +1127,9 @@ class DListResource(Resource, can_size_be_unknown=True):
         )
 
         def timg_cb(timg, fmt, siz, width, height, pal):
+            if timg in self.ignored_raw_pointers:
+                return 0
+
             g_fmt = G_IM_FMT.by_i[fmt]
             g_siz = G_IM_SIZ.by_i[siz]
 
@@ -1145,10 +1153,16 @@ class DListResource(Resource, can_size_be_unknown=True):
             return 0
 
         def tlut_cb(tlut, idx, count):
+            if tlut in self.ignored_raw_pointers:
+                return 0
+
             ci_tex_manager.tlut(tlut, idx, count)
             return 0
 
         def mtx_cb(mtx):
+            if mtx in self.ignored_raw_pointers:
+                return 0
+
             memory_context.report_resource_at_segmented(
                 self,
                 mtx,
@@ -1160,6 +1174,9 @@ class DListResource(Resource, can_size_be_unknown=True):
             return 0
 
         def dl_cb(dl):
+            if dl in self.ignored_raw_pointers:
+                return 0
+
             memory_context.report_resource_at_segmented(
                 self,
                 dl,
@@ -1346,10 +1363,16 @@ class DListResource(Resource, can_size_be_unknown=True):
                 pygfxd.gfxd_arg_dflt(arg_num)
 
         def vtx_cb(vtx, num):
+            if vtx in self.ignored_raw_pointers:
+                return 0
+
             pygfxd.gfxd_puts(memory_context.get_c_reference_at_segmented(vtx))
             return 1
 
         def timg_cb(timg, fmt, siz, width, height, pal):
+            if timg in self.ignored_raw_pointers:
+                return 0
+
             try:
                 timg_c_ref = memory_context.get_c_reference_at_segmented(timg)
             # except NoSegmentBaseError: # TODO
@@ -1371,16 +1394,25 @@ class DListResource(Resource, can_size_be_unknown=True):
             return 0
 
         def tlut_cb(tlut, idx, count):
+            if tlut in self.ignored_raw_pointers:
+                return 0
+
             tlut_c_ref = memory_context.get_c_reference_at_segmented(tlut)
             pygfxd.gfxd_puts(tlut_c_ref)
             return 1
 
         def mtx_cb(mtx):
+            if mtx in self.ignored_raw_pointers:
+                return 0
+
             mtx_c_ref = memory_context.get_c_reference_at_segmented(mtx)
             pygfxd.gfxd_puts(mtx_c_ref)
             return 1
 
         def dl_cb(dl):
+            if dl in self.ignored_raw_pointers:
+                return 0
+
             dl_c_ref = memory_context.get_c_reference_at_segmented(dl)
             pygfxd.gfxd_puts(dl_c_ref)
             return 1

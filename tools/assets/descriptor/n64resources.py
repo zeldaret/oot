@@ -21,6 +21,8 @@ class GfxMicroCode(enum.Enum):
 @dataclasses.dataclass(eq=False)
 class DListResourceDesc(ResourceDesc):
     ucode: GfxMicroCode
+    raw_pointers: set[int] = dataclasses.field(default_factory=set)
+    """Pointers in the dlist that are fine to keep raw ("in hex") instead of using symbols"""
 
 
 def handler_DList(symbol_name, offset, collection, reselem: Element):
@@ -28,7 +30,12 @@ def handler_DList(symbol_name, offset, collection, reselem: Element):
         ucode = GfxMicroCode[reselem.attrib["Ucode"].upper()]
     else:
         ucode = GfxMicroCode.F3DEX2
-    return DListResourceDesc(symbol_name, offset, collection, reselem, ucode)
+    res = DListResourceDesc(symbol_name, offset, collection, reselem, ucode)
+    raw_pointers_str = reselem.attrib.get("RawPointers")
+    if raw_pointers_str:
+        for rp_str in raw_pointers_str.split(","):
+            res.raw_pointers.add(int(rp_str, 16))
+    return res
 
 
 @dataclasses.dataclass(eq=False)
