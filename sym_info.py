@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# SPDX-FileCopyrightText: © 2025 ZeldaRET
+# SPDX-License-Identifier: CC0-1.0
+
 import argparse
 import bisect
 from dataclasses import dataclass
