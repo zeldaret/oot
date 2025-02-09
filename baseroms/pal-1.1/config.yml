@@ -50,7 +50,7 @@ incbins:
     vram: 0x80112BB0
     size: 0x60
 variables:
-  gMtxClear: 0x800FCD40
+  gIdentityMtx: 0x800FCD40
   sNesMessageEntryTable: 0x801088FC
   sGerMessageEntryTable: 0x8010CB24
   sFraMessageEntryTable: 0x8010EC34
