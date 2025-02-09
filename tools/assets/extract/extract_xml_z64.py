@@ -129,7 +129,10 @@ def process_pool(
                 raise NotImplementedError(
                     f"alignment for {rescoll.start_address.vram=:#08X}"
                 )
-        elif isinstance(rescoll.start_address, SegmentStartAddress):
+        elif (
+            isinstance(rescoll.start_address, SegmentStartAddress)
+            or rescoll.start_address is None
+        ):
             alignment = 8
         else:
             raise NotImplementedError(rescoll.start_address)
