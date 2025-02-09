@@ -281,6 +281,7 @@ def process_pool_wrapped(extraction_ctx, pd):
 
 def main():
     import argparse
+    import json
     import re
 
     from tools import version_config
@@ -299,6 +300,7 @@ def main():
     )
     parser.add_argument("-v", dest="oot_version", default="gc-eu-mq-dbg")
     parser.add_argument("-j", dest="use_multiprocessing", action="store_true")
+    parser.add_argument("-f", dest="force", action="store_true")
     parser.add_argument("-s", dest="single", default=None)
     parser.add_argument("-r", dest="single_is_regex", default=None, action="store_true")
     args = parser.parse_args()
@@ -315,6 +317,30 @@ def main():
         ] = name
 
     pools_desc = get_resources_desc(vc)
+
+    last_extracts_json_p = args.output_dir / "last_extracts.json"
+    try:
+        with last_extracts_json_p.open("r") as f:
+            last_extracts = json.load(f)
+    except (OSError, json.decoder.JSONDecodeError):
+        last_extracts = dict()
+
+    def is_pool_desc_modified(pool_desc: ResourcesDescCollectionsPool):
+        modified = False
+        for rdc in pool_desc.collections:
+            if isinstance(rdc.backing_memory, BaseromFileBackingMemory):
+                if rdc.last_modified_time > last_extracts.get(
+                    f"{rdc.out_path} {rdc.backing_memory.name}", 0
+                ):
+                    modified = True
+        return modified
+
+    def set_pool_desc_modified(pool_desc: ResourcesDescCollectionsPool):
+        for rdc in pool_desc.collections:
+            if isinstance(rdc.backing_memory, BaseromFileBackingMemory):
+                last_extracts[f"{rdc.out_path} {rdc.backing_memory.name}"] = (
+                    rdc.last_modified_time
+                )
 
     version_memctx_base = MemoryContext(dmadata_table_rom_file_name_by_vrom)
 
@@ -346,37 +372,68 @@ def main():
     # TODO extract only when a pool xml was modified since last extract
     try:
         if args.single is not None:
-            any_do_process_pool = False
+            any_match = False
+            any_pool_processed = False
             for pool_desc in pools_desc:
-                do_process_pool = False
+                pool_matches = False
                 for coll in pool_desc.collections:
                     if isinstance(coll.backing_memory, BaseromFileBackingMemory):
                         if args.single_is_regex:
                             if re.fullmatch(args.single, coll.backing_memory.name):
-                                do_process_pool = True
+                                pool_matches = True
                         else:
                             if coll.backing_memory.name == args.single:
-                                do_process_pool = True
-                if do_process_pool:
-                    process_pool(extraction_ctx, pool_desc)
-                    any_do_process_pool = True
-            if any_do_process_pool:
+                                pool_matches = True
+                if pool_matches:
+                    any_match = True
+                    if args.force or is_pool_desc_modified(pool_desc):
+                        process_pool(extraction_ctx, pool_desc)
+                        set_pool_desc_modified(pool_desc)
+                        any_pool_processed = True
+            if any_pool_processed:
                 print("Done!")
-            else:
+            elif not any_match:
                 print("Not found:", args.single)
+            else:
+                print("Nothing to do")
         elif not args.use_multiprocessing:  # everything on one process
+            any_pool_processed = False
             for pool_desc in pools_desc:
-                process_pool(extraction_ctx, pool_desc)
-            print("All done!")
+                if args.force or is_pool_desc_modified(pool_desc):
+                    process_pool(extraction_ctx, pool_desc)
+                    set_pool_desc_modified(pool_desc)
+                    any_pool_processed = True
+            if any_pool_processed:
+                print("All done!")
+            else:
+                print("Nothing to do")
         else:  # multiprocessing
             import multiprocessing
 
-            with multiprocessing.Pool() as pool:
-                pool.starmap(
-                    process_pool_wrapped,
-                    zip([extraction_ctx] * len(pools_desc), pools_desc),
-                )
-            print("All done!")
+            if args.force:
+                pools_desc_to_extract = pools_desc
+            else:
+                pools_desc_modified = [
+                    pool_desc
+                    for pool_desc in pools_desc
+                    if is_pool_desc_modified(pool_desc)
+                ]
+                pools_desc_to_extract = pools_desc_modified
+
+            if pools_desc_to_extract:
+                with multiprocessing.Pool() as pool:
+                    pool.starmap(
+                        process_pool_wrapped,
+                        zip(
+                            [extraction_ctx] * len(pools_desc_to_extract),
+                            pools_desc_to_extract,
+                        ),
+                    )
+                for pool_desc in pools_desc_to_extract:
+                    set_pool_desc_modified(pool_desc)
+                print("All done!")
+            else:
+                print("Nothing to do")
     except Exception as e:
         import traceback
         import sys
@@ -395,3 +452,6 @@ def main():
             else:
                 print("rich.pretty.pprint(e):")
                 rich.pretty.pprint(e, indent_guides=False)
+    finally:
+        with last_extracts_json_p.open("w") as f:
+            json.dump(last_extracts, f)
