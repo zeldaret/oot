@@ -165,8 +165,8 @@ void BgHidanSekizou_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
-    for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
+    for (i = 0; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
     if (this->dyna.actor.params == 0) {
@@ -221,7 +221,7 @@ void func_8088D434(BgHidanSekizou* this, PlayState* play) {
             }
         }
     }
-    for (i = 3 * phi_s4; i < ARRAY_COUNT(this->elements); i++) {
+    for (i = 3 * phi_s4; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].base.atElemFlags &= ~ATELEM_ON;
         this->collider.elements[i].base.ocElemFlags &= ~OCELEM_ON;
     }

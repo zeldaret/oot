@@ -193,7 +193,7 @@ void BossFd_Init(Actor* thisx, PlayState* play) {
     this->actor.world.pos.x = this->actor.world.pos.z = 0.0f;
     this->actor.world.pos.y = -200.0f;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
     for (i = 0; i < 100; i++) {
         this->bodySegsPos[i].x = this->actor.world.pos.x;

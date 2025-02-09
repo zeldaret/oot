@@ -213,7 +213,7 @@ void ObjSwitch_InitJntSphCollider(ObjSwitch* this, PlayState* play, ColliderJntS
     ColliderJntSph* colliderJntSph = &this->jntSph.col;
 
     Collider_InitJntSph(play, colliderJntSph);
-    Collider_SetJntSph(play, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.items);
+    Collider_SetJntSph(play, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.elements);
     Matrix_SetTranslateRotateYXZ(this->dyna.actor.world.pos.x,
                                  this->dyna.actor.world.pos.y +
                                      this->dyna.actor.shape.yOffset * this->dyna.actor.scale.y,
@@ -229,7 +229,7 @@ void ObjSwitch_InitTrisCollider(ObjSwitch* this, PlayState* play, ColliderTrisIn
     Vec3f pos[3];
 
     Collider_InitTris(play, colliderTris);
-    Collider_SetTris(play, colliderTris, &this->dyna.actor, colliderTrisInit, this->tris.items);
+    Collider_SetTris(play, colliderTris, &this->dyna.actor, colliderTrisInit, this->tris.elements);
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {

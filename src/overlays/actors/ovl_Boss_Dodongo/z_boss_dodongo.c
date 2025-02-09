@@ -200,7 +200,7 @@ void BossDodongo_Init(Actor* thisx, PlayState* play) {
     this->unk_224 = 2.0f;
     this->unk_228 = 9200.0f;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->items);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
     if (Flags_GetClear(play, play->roomCtx.curRoom.num)) { // KD is dead
         u16* temp_s1_3 = SEGMENTED_TO_VIRTUAL(gDodongosCavernBossLavaFloorTex);

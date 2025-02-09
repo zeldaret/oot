@@ -97,7 +97,7 @@ void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 }
 
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play) {

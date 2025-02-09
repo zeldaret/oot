@@ -135,7 +135,7 @@ void EnFish_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(play, &this->skelAnime, &gFishSkel, &gFishInWaterAnim, this->jointTable, this->morphTable, 7);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     this->actor.colChkInfo.mass = 50;
     this->slowPhase = Rand_ZeroOne() * (0xFFFF + 0.5f);
     this->fastPhase = Rand_ZeroOne() * (0xFFFF + 0.5f);

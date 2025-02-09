@@ -96,7 +96,7 @@ typedef struct BossDodongo {
     /* 0x0428 */ Vec3f subCamEye;
     /* 0x0434 */ Vec3f subCamAt;
     /* 0x0440 */ ColliderJntSph collider;
-    /* 0x0460 */ ColliderJntSphElement items[19];
+    /* 0x0460 */ ColliderJntSphElement colliderElements[19];
     /* 0x0920 */ BossDodongoEffect effects[BOSS_DODONGO_EFFECT_COUNT];
 } BossDodongo; // size = 0x1820
 

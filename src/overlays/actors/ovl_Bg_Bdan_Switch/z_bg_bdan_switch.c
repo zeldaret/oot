@@ -120,7 +120,7 @@ void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHea
 void BgBdanSwitch_InitCollision(BgBdanSwitch* this, PlayState* play) {
     Actor* actor = &this->dyna.actor;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, actor, &sJntSphInit, this->colliderElements);
 }
 
 void func_8086D0EC(BgBdanSwitch* this) {

@@ -92,7 +92,7 @@ void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {

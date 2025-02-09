@@ -175,7 +175,7 @@ typedef struct BossFd {
     /* 0x1488 */ f32 subCamAtYOffset;
     /* 0x148C */ f32 subCamShake;
     /* 0x1490 */ ColliderJntSph collider;
-    /* 0x14B0 */ ColliderJntSphElement elements[19];
+    /* 0x14B0 */ ColliderJntSphElement colliderElements[19];
     /* 0x1970 */ BossFdEffect effects[BOSSFD_EFFECT_COUNT];
 } BossFd; // size = 0x43A0
 

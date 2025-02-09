@@ -102,7 +102,7 @@ void BgMoriHashigo_InitCollider(BgMoriHashigo* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 
     this->collider.elements[0].dim.worldSphere.center.x = (s16)this->dyna.actor.world.pos.x;
     this->collider.elements[0].dim.worldSphere.center.y = (s16)this->dyna.actor.world.pos.y + 21;
