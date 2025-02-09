@@ -23,6 +23,7 @@ from . import z64_resource_handlers
 
 VERBOSE1 = False
 VERBOSE2 = False
+VERBOSE3 = False
 
 # "options"
 RM_SOURCE = True
@@ -94,10 +95,15 @@ def create_file_resources(rescoll: ResourcesDescCollection, file: File):
 def process_pool(
     extraction_ctx: ExtractionContext, pool_desc: ResourcesDescCollectionsPool
 ):
-    if VERBOSE2:
+    if VERBOSE1:
         print("> process_pool")
-    if len(pool_desc.collections) == 1:
-        print(", ".join(map(str, (_c.out_path for _c in pool_desc.collections))))
+    colls_str = " + ".join(set(map(str, (_c.out_path for _c in pool_desc.collections))))
+    try:
+        import rich
+
+        rich.print(f"[b]{colls_str}[/b]")
+    except:
+        print(colls_str)
 
     file_by_rescoll: dict[ResourcesDescCollection, File] = dict()
 
@@ -134,34 +140,45 @@ def process_pool(
     # 2) Build a MemoryContext for each File
 
     memctx_base = extraction_ctx.version_memctx_base.copy()
-    files_by_segment: dict[int, list[File]] = dict()
-
-    for rescoll, file in file_by_rescoll.items():
-
-        if rescoll.start_address is None:
-            pass
-        elif isinstance(rescoll.start_address, SegmentStartAddress):
-            files_by_segment.setdefault(rescoll.start_address.segment, []).append(file)
-        elif isinstance(rescoll.start_address, VRAMStartAddress):
-            memctx_base.set_direct_file(rescoll.start_address.vram, file)
-        else:
-            raise NotImplementedError(rescoll.start_address)
-
-    disputed_segments = []
-
-    for segment, files in files_by_segment.items():
-        if len(files) == 1:
-            memctx_base.set_segment_file(segment, files[0])
-        else:
-            disputed_segments.append(segment)
-
-    if VERBOSE2:
-        print(f"{disputed_segments=}")
-
     memctx_by_file: dict[File, MemoryContext] = dict()
 
     for rescoll, file in file_by_rescoll.items():
+        if VERBOSE2:
+            print("Building MemoryContext for", file.name)
+        files_by_segment: dict[int, list[File]] = dict()
         file_memctx = memctx_base.copy()
+
+        for rescoll_dep in (rescoll, *rescoll.depends):
+            file_dep = file_by_rescoll[rescoll_dep]
+
+            if rescoll_dep.start_address is None:
+                pass
+            elif isinstance(rescoll_dep.start_address, SegmentStartAddress):
+                files_by_segment.setdefault(
+                    rescoll_dep.start_address.segment, []
+                ).append(file_dep)
+            elif isinstance(rescoll_dep.start_address, VRAMStartAddress):
+                file_memctx.set_direct_file(rescoll_dep.start_address.vram, file_dep)
+                if file_dep != file  :
+                    file.referenced_files.add(file_dep)
+            else:
+                raise NotImplementedError(rescoll_dep.start_address)
+
+        disputed_segments = []
+
+        for segment, files in files_by_segment.items():
+            if len(files) == 1:
+                file_memctx.set_segment_file(segment, files[0])
+                if files[0] != file:
+                    file.referenced_files.add(files[0])
+                if VERBOSE2:
+                    print("segment", segment, "set to", files[0].name)
+            else:
+                disputed_segments.append(segment)
+
+        if VERBOSE2:
+            print(f"{disputed_segments=}")
+
         if (
             isinstance(rescoll.start_address, SegmentStartAddress)
             and rescoll.start_address.segment in disputed_segments
@@ -183,7 +200,7 @@ def process_pool(
         while True:
             any_progress = False
             for file, file_memctx in memctx_by_file.items():
-                if VERBOSE2:
+                if VERBOSE3:
                     print(file.name, ".try_parse_resources_data()")
                 if file.try_parse_resources_data(file_memctx):
                     any_progress = True
@@ -193,14 +210,14 @@ def process_pool(
         for file in memctx_by_file.keys():
             file.check_non_parsed_resources()
 
-    if VERBOSE2:
+    if VERBOSE3:
         print("parse_all_files() ...")
     parse_all_files()
 
     for file in memctx_by_file.keys():
         file.commit_resource_buffers()
 
-    if VERBOSE2:
+    if VERBOSE3:
         print("parse new resources (resource buffers) ...")
     parse_all_files()  # parse new resources (resource buffers)
 
@@ -210,7 +227,7 @@ def process_pool(
 
     # 4) add dummy (binary) resources for the unaccounted gaps
 
-    if VERBOSE2:
+    if VERBOSE3:
         print("unaccounted...")
 
     for file in memctx_by_file.keys():
@@ -244,8 +261,6 @@ def process_pool(
 
         # "source" refers to the main .c and .h `#include`ing all the extracted resources
         if WRITE_SOURCE:
-            # TODO fill referenced_files properly or something
-            file.referenced_files = set(memctx_by_file.keys()) - {file}
             file.write_source()
 
 

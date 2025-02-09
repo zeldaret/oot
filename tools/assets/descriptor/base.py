@@ -64,6 +64,7 @@ class ResourcesDescCollection:
     start_address: Optional[StartAddress]
     resources: list[ResourceDesc]
     last_modified_time: float
+    depends: list["ResourcesDescCollection"]
 
 
 @dataclasses.dataclass(eq=False)
@@ -90,6 +91,9 @@ class AssetConfigPiece:
     ac: version_config.AssetConfig
     last_modified_time: float = None
     etree: ElementTree.ElementTree = None
+    depends: list["AssetConfigPiece"] = dataclasses.field(default_factory=list)
+    """The AssetConfigPiece s this instance depends on"""
+    collections: list[ResourcesDescCollection] = dataclasses.field(default_factory=list)
 
 
 def get_resources_desc(vc: version_config.VersionConfig):
@@ -121,6 +125,7 @@ def get_resources_desc(vc: version_config.VersionConfig):
                     )
                     assert externalfile_name in acp_by_name, externalfile_name
                     externalfile_acp = acp_by_name[externalfile_name]
+                    acp.depends.append(externalfile_acp)
                     acp_pool = pools[acp]
                     externalfile_acp_pool = pools[externalfile_acp]
                     merged_pool = acp_pool | externalfile_acp_pool
@@ -128,14 +133,6 @@ def get_resources_desc(vc: version_config.VersionConfig):
                         pools[merged_pool_acp] = merged_pool
         except Exception as e:
             raise Exception(f"Error while resolving pools with {acp}") from e
-
-    if 0:
-        import pprint
-
-        with Path(
-            "/home/dragorn421/Documents/oot/tools/assets/descriptor/pools.txt"
-        ).open("w") as f:
-            pprint.pprint(pools, stream=f)
 
     # List unique pools
     pools_unique: list[set[AssetConfigPiece]] = []
@@ -163,12 +160,22 @@ def get_resources_desc(vc: version_config.VersionConfig):
                                     vc, pool, acp, fileelem
                                 )
                             )
+                            acp.collections.append(rc)
                             rescolls.append(rc)
                             all_needs_pass2_exceptions.extend(needs_pass2_exceptions)
                 except Exception as e:
                     raise Exception(f"Error with {acp}") from e
 
             rcpool = ResourcesDescCollectionsPool(rescolls)
+
+            #
+            for acp in pool:
+                for acp_coll in acp.collections:
+                    acp_coll.depends.extend(
+                        (_coll for _coll in acp.collections if _coll != acp_coll)
+                    )
+                    for acp_dep in acp.depends:
+                        acp_coll.depends.extend(acp_dep.collections)
 
             # Pass 2: execute callbacks
             for needs_pass2_exc in all_needs_pass2_exceptions:
@@ -183,6 +190,14 @@ def get_resources_desc(vc: version_config.VersionConfig):
 
         except Exception as e:
             raise Exception(f"Error with pool {pool}") from e
+
+    if 0:
+        from rich.pretty import pretty_repr
+
+        with Path(
+            "/home/dragorn421/Documents/oot/tools/assets/descriptor/pools.txt"
+        ).open("w") as f:
+            f.write(pretty_repr(pools))
 
     return pools
 
@@ -244,6 +259,7 @@ def _get_resources_fileelem_to_resourcescollection_pass1(
         start_address,
         resources,
         acp.last_modified_time,
+        [],
     )
     needs_pass2_exceptions: list[ResourceHandlerNeedsPass2Exception] = []
     for reselem in fileelem:

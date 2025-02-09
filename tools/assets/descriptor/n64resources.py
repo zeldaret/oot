@@ -171,6 +171,9 @@ def handler_Texture(
 
         raise ResourceHandlerNeedsPass2Exception(res, pass2_callback)
     else:
-        return TextureResourceDesc(
+        res = TextureResourceDesc(
             symbol_name, offset, collection, reselem, format, width, height
         )
+        if reselem.attrib.get("HackMode") == "ignore_orphaned_tlut":
+            res.hack_modes.add("hackmode_ignore_orphaned_tlut")
+        return res

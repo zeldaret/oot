@@ -392,7 +392,9 @@ class TextureResource(Resource):
                 if is_all_resources_fake():
                     assert self.fmt == G_IM_FMT.RGBA
 
-                    if VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER:
+                    if VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER and not getattr(
+                        self, "HACK_ignore_orphaned_tlut", False
+                    ):
                         print(
                             "BEST_EFFORT",
                             "no real (non-fake for best effort) ci resource uses this tlut",
@@ -1044,7 +1046,7 @@ class ColorIndexedTexturesManager:
                     assert ci_state.tluts.keys() == {0}, ci_state.tluts
 
                 resource = memory_context.report_resource_at_segmented(
-                    self,
+                    reporter,
                     tex.timg,
                     TextureResource,
                     lambda file, offset: TextureResource(
@@ -1063,7 +1065,7 @@ class ColorIndexedTexturesManager:
                 assert tlut.count == ci_state.tluts_count
 
                 resource_tlut = memory_context.report_resource_at_segmented(
-                    self,
+                    reporter,
                     tlut.tlut,
                     # TLUTs declared in xmls use <Texture> so are TextureResource,
                     # so we can only expects a TextureResource

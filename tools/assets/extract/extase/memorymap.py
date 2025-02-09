@@ -16,7 +16,16 @@ from . import Resource, File, GetResourceAtResult
 # or defaulting to poor choices (e.g. raw addresses)
 BEST_EFFORT = True
 if BEST_EFFORT:
-    VERBOSE_BEST_EFFORT = False
+    VERBOSE_BEST_EFFORT = 1
+    VERBOSE_BEST_EFFORT_LVL1_IGNORED_SEGS = {
+        1,  # billboard matrix segment
+        8,  # often used for eye/mouth textures, or various dlist callbacks. same for 9-0xC
+        9,
+        0xA,
+        0xB,
+        0xC,
+        0xD,  # matrix buffer for skeletons dlists
+    }
 
 
 # RangeMap
@@ -291,7 +300,7 @@ class MemoryContext:
             address_resolver = self.memory_map.direct.get(offset)
         except IndexError as e:
             raise UnmappedAddressError(
-                "direct address is not mapped", hex(address)
+                "direct address is not mapped", f"0x{address:08X}"
             ) from e
         return address_resolver.resolve(address, offset)
 
@@ -306,7 +315,7 @@ class MemoryContext:
                 address_resolver = self.memory_map.segments[segment_num].get(offset)
             except IndexError as e:
                 raise UnmappedAddressError(
-                    "segment address is not mapped", hex(address)
+                    "segment address is not mapped", f"0x{address:08X}"
                 ) from e
             return address_resolver.resolve(address, offset)
 
@@ -325,7 +334,10 @@ class MemoryContext:
                 fake_resource = new_resource_pointed_to(fake_file, 0)
                 fake_resource.reporters.add(reporter)
                 fake_file.add_resource(fake_resource)
-                if VERBOSE_BEST_EFFORT:
+                if VERBOSE_BEST_EFFORT >= 2 or (
+                    VERBOSE_BEST_EFFORT >= 1
+                    and (address >> 24) not in VERBOSE_BEST_EFFORT_LVL1_IGNORED_SEGS
+                ):
                     print("BEST_EFFORT: ignored error e=")
                     rich_pprint(e)
                     print("  on resource report by reporter=")
@@ -371,12 +383,18 @@ class MemoryContext:
             resolve_result = self.resolve_segmented(address_start)
         except UnmappedAddressError as e:
             if BEST_EFFORT:
-                if VERBOSE_BEST_EFFORT:
+                if VERBOSE_BEST_EFFORT >= 2 or (
+                    VERBOSE_BEST_EFFORT >= 1
+                    and (address_start >> 24)
+                    not in VERBOSE_BEST_EFFORT_LVL1_IGNORED_SEGS
+                ):
                     print("BEST_EFFORT: ignored error e=")
                     rich_pprint(e)
                     print("  and skipping marking resource buffer for reporter=")
                     rich_pprint(reporter)
-                    print(f"  {resource_type=} {address_start=:#08X} {address_end=:#08X}")
+                    print(
+                        f"  {resource_type=} {address_start=:#08X} {address_end=:#08X}"
+                    )
                 return
             raise
         file_start = resolve_result.file_offset
@@ -395,7 +413,10 @@ class MemoryContext:
             return self.get_attribute_at_segmented(address, Attributes.c_reference)
         except UnmappedAddressError as e:
             if BEST_EFFORT:
-                if VERBOSE_BEST_EFFORT:
+                if VERBOSE_BEST_EFFORT >= 2 or (
+                    VERBOSE_BEST_EFFORT >= 1
+                    and (address >> 24) not in VERBOSE_BEST_EFFORT_LVL1_IGNORED_SEGS
+                ):
                     print("BEST_EFFORT: ignored error e="),
                     rich_pprint(e)
                     print(f"  and returning raw address=0x{address:08X}")

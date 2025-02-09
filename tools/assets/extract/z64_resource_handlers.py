@@ -247,7 +247,7 @@ def register_resource_handlers():
     def texture_resource_handler(
         file: File, resource_desc: n64resources.TextureResourceDesc
     ):
-        return dlist_resources.TextureResource(
+        res = dlist_resources.TextureResource(
             file,
             resource_desc.offset,
             resource_desc.symbol_name,
@@ -256,6 +256,9 @@ def register_resource_handlers():
             resource_desc.width,
             resource_desc.height,
         )
+        if "hackmode_ignore_orphaned_tlut" in resource_desc.hack_modes:
+            res.HACK_ignore_orphaned_tlut = True
+        return res
 
     def ci_texture_resource_handler(
         file: File, resource_desc: n64resources.CITextureResourceDesc
