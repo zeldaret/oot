@@ -1,6 +1,5 @@
 import dataclasses
 from pathlib import Path
-from pprint import pprint
 
 from ..descriptor.base import (
     BaseromFileBackingMemory,
@@ -159,7 +158,7 @@ def process_pool(
                 ).append(file_dep)
             elif isinstance(rescoll_dep.start_address, VRAMStartAddress):
                 file_memctx.set_direct_file(rescoll_dep.start_address.vram, file_dep)
-                if file_dep != file  :
+                if file_dep != file:
                     file.referenced_files.add(file_dep)
             else:
                 raise NotImplementedError(rescoll_dep.start_address)
