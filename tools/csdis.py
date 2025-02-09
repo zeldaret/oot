@@ -725,6 +725,8 @@ def disassemble_cutscene(cs_in) -> tuple[int, str]:
         if total_entries < 0:
             raise Exception("Could not disassemble cutscene: Number of commands is negative")
     macros = format_cmd(begin_cutscene_entry[0], [total_entries, cutscene_end_frame])+line_end
+    # iterate total_entries+1 times to also parse the CS_END_OF_SCRIPT command,
+    # which is not included in the count
     for k in range(0,total_entries+1):
         cmd_type = cs_in[i]
         if (cmd_type == 0xFFFFFFFF):
