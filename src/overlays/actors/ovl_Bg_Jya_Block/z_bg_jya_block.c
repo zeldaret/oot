@@ -5,6 +5,15 @@
  */
 
 #include "z_bg_jya_block.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0

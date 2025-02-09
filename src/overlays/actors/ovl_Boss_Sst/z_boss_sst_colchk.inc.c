@@ -1,4 +1,4 @@
-#include "z_boss_sst.h"
+#include "z64collision_check.h"
 
 static ColliderJntSphElementInit sJntSphItemsInitHand[11] = {
     {

@@ -2,11 +2,11 @@
 #define Z_BG_ICE_SHUTTER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgIceShutter;
 
-typedef void (*BgIceShutterActionFunc)(struct BgIceShutter*, PlayState*);
+typedef void (*BgIceShutterActionFunc)(struct BgIceShutter*, struct PlayState*);
 
 typedef struct BgIceShutter {
     /* 0x0000 */ DynaPolyActor dyna;

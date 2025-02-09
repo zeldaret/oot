@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_menkuri_nisekabe.h"
+
+#include "z64play.h"
+
 #include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
 
 #define FLAGS 0

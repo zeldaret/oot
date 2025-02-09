@@ -2,7 +2,8 @@
 #define Z_EFF_SS_DUST_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "color.h"
+#include "z64math.h"
 
 typedef struct EffectSsDustInitParams {
     /* 0x00 */ Vec3f pos;

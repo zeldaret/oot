@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_mjin.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+
 #include "assets/objects/object_mjin/object_mjin.h"
 #include "assets/objects/object_mjin_wind/object_mjin_wind.h"
 #include "assets/objects/object_mjin_soul/object_mjin_soul.h"

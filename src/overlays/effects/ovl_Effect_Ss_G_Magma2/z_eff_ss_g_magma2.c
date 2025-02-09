@@ -5,6 +5,14 @@
  */
 
 #include "z_eff_ss_g_magma2.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 
 #define rPrimColorR regs[0]

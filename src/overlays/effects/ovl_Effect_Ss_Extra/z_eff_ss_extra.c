@@ -5,6 +5,14 @@
  */
 
 #include "z_eff_ss_extra.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_yabusame_point/object_yabusame_point.h"
 
 #define rObjectSlot regs[0]

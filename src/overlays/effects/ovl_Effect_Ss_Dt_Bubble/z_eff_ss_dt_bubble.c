@@ -5,6 +5,16 @@
  */
 
 #include "z_eff_ss_dt_bubble.h"
+
+#include "libc64/qrand.h"
+#include "color.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]

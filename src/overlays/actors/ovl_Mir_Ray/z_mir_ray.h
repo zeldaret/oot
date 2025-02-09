@@ -2,7 +2,8 @@
 #define Z_MIR_RAY_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct MirRay;
 
@@ -22,7 +23,7 @@ typedef struct MirRayDataEntry {
 typedef struct MirRayShieldReflection {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ MtxF mtx;
-    /* 0x4C */ CollisionPoly* reflectionPoly;
+    /* 0x4C */ struct CollisionPoly* reflectionPoly;
     /* 0x50 */ u8 opacity;
 } MirRayShieldReflection; // size = 0x54
 

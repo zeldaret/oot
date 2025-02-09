@@ -2,11 +2,11 @@
 #define Z_BG_JYA_HAHENIRON_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgJyaHaheniron;
 
-typedef void (*BgJyaHahenironActionFunc)(struct BgJyaHaheniron*, PlayState*);
+typedef void (*BgJyaHahenironActionFunc)(struct BgJyaHaheniron*, struct PlayState*);
 
 typedef struct BgJyaHaheniron {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_OCEFF_STORM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct OceffStorm;
 
-typedef void (*OceffStormActionFunc)(struct OceffStorm*, PlayState*);
+typedef void (*OceffStormActionFunc)(struct OceffStorm*, struct PlayState*);
 
 typedef struct OceffStorm {
     /* 0x0000 */ Actor actor;

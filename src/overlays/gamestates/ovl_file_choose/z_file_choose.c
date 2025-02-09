@@ -1,14 +1,34 @@
 #include "file_select.h"
+
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "letterbox.h"
+#include "macros.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
+#include "regs.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64audio.h"
+#include "z64environment.h"
+#include "z64save.h"
+#include "z64skybox.h"
+#include "z64sram.h"
+#include "z64view.h"
+
+#include "global.h"
+
 #if OOT_PAL_N64
 #include "assets/objects/object_mag/object_mag.h"
 #endif
 #include "assets/textures/title_static/title_static.h"
 #include "assets/textures/parameter_static/parameter_static.h"
-#if PLATFORM_N64
-#include "n64dd.h"
-#endif
 
 #if OOT_PAL_N64
 static s32 sInitialLanguageAlphaAsInt = 100;

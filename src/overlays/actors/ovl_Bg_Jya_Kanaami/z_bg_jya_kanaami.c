@@ -5,8 +5,15 @@
  */
 
 #include "z_bg_jya_kanaami.h"
-#include "assets/objects/object_jya_obj/object_jya_obj.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
 #include "quake.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
+#include "assets/objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0
 

@@ -2,8 +2,7 @@
 #define Z_BG_JYA_BIGMIRROR_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.h"
+#include "z64actor.h"
 
 #define BIGMIR_PUZZLE_COBRA1_SOLVED (1 << 0)
 #define BIGMIR_PUZZLE_COBRA2_SOLVED (1 << 1)
@@ -15,7 +14,7 @@
 struct BgJyaBigmirror;
 
 typedef struct BigmirrorCobra {
-    /* 0x00 */ BgJyaCobra* cobra;
+    /* 0x00 */ struct BgJyaCobra* cobra;
     /* 0x04 */ s16 rotY;
 } BigmirrorCobra; // size = 0x08
 
