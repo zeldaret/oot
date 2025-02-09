@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-import struct, sys, argparse
+
+# SPDX-FileCopyrightText: © 2025 ZeldaRET
+# SPDX-License-Identifier: CC0-1.0
+
+import argparse
+import struct
 
 import elftools.elf.elffile
 
@@ -28,7 +33,7 @@ def patch_sc(f, offset):
         write_u32(f, offset, value)
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("file", help="input file")
@@ -44,7 +49,7 @@ if __name__ == "__main__":
                 break
 
         if mdebug_offset == 0:
-            sys.exit(0)
+            return
 
         isymMax = read_u32(f, mdebug_offset + 0x20)
         cbSymOffset = read_u32(f, mdebug_offset + 0x24)
@@ -56,3 +61,7 @@ if __name__ == "__main__":
 
         for i in range(iextMax):
             patch_sc(f, cbExtOffset + i * 0x10 + 0xC)
+
+
+if __name__ == "__main__":
+    main()
