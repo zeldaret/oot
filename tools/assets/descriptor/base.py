@@ -191,14 +191,6 @@ def get_resources_desc(vc: version_config.VersionConfig):
         except Exception as e:
             raise Exception(f"Error with pool {pool}") from e
 
-    if 0:
-        from rich.pretty import pretty_repr
-
-        with Path(
-            "/home/dragorn421/Documents/oot/tools/assets/descriptor/pools.txt"
-        ).open("w") as f:
-            f.write(pretty_repr(pools))
-
     return pools
 
 

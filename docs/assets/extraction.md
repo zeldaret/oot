@@ -6,3 +6,9 @@ For details on the xml files contents, see [the assets xml specification file](.
 
 The extraction tool can use [rich](https://github.com/Textualize/rich) if installed to make output prettier.
 If you are looking at output or errors from during extraction, consider installing rich for a better experience: `.venv/bin/python3 -m pip install rich`
+
+To run the extraction outside of `make setup`, use `./tools/extract_assets.sh VERSION`.
+- Pass `-f` to force extraction: otherwise only assets for which xmls were modified will be extracted.
+- Pass `-j` to use multiprocessing, making extraction quicker. Note that this makes for less readable errors if any error happens.
+- Pass `-s name` to extract assets using baserom file `name`.
+- Pass `-r -s 'name.*'` to extract assets using baserom files whose name match regular expression `name.*`.

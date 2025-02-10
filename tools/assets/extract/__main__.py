@@ -5,6 +5,6 @@ if __name__ == "__main__":
     if profile:
         import cProfile
 
-        cProfile.run("extract_xml_z64.main()", "cprof_assets421.txt")
+        cProfile.run("extract_xml_z64.main()", "cprofile_extract_assets.txt")
     else:
         extract_xml_z64.main()

@@ -760,7 +760,9 @@ class Resource(abc.ABC):
         range_end: Optional[int],
         name: str,
     ):
-        assert 0 <= range_start < file.size
+        assert (
+            0 <= range_start < file.size
+        ), f"{range_start=:#08X} out of range [0,{file.size=:#08X})"
         if range_end is None:
             assert self.can_size_be_unknown
         else:

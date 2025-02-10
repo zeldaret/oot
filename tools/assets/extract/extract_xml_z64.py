@@ -65,6 +65,10 @@ def create_file_resources(rescoll: ResourcesDescCollection, file: File):
         ) as e:
             resource = e.resource
             list_ResourceNeedsPostProcessWithPoolResourcesException.append(e)
+        except Exception as e:
+            raise Exception(
+                "Error while creating resource from description:", resource_desc
+            ) from e
 
         # TODO nice hack right here.
         # probably instead rework the "c declaration" system into a more opaque object
@@ -454,13 +458,14 @@ def main():
         import traceback
         import sys
 
-        traceback.print_exc(file=sys.stdout)
-
         try:
             import rich.pretty
+            import rich.console
         except:
+            traceback.print_exc(file=sys.stdout)
             print("Install rich for prettier output (`pip install rich`)")
         else:
+            rich.console.Console().print_exception()
             # TODO implement more __rich_repr__
             if e.__class__ in (Exception, AssertionError, NotImplementedError):
                 print("rich.pretty.pprint(e.args):")
@@ -468,6 +473,8 @@ def main():
             else:
                 print("rich.pretty.pprint(e):")
                 rich.pretty.pprint(e, indent_guides=False)
+
+        sys.exit(1)
     finally:
         with last_extracts_json_p.open("w") as f:
             json.dump(last_extracts, f)

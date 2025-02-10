@@ -1,3 +1,10 @@
+from pprint import pprint as vanilla_pprint
+
+try:
+    from rich.pretty import pprint
+except ImportError:
+    pprint = vanilla_pprint
+
 from tools import version_config
 
 from . import base
@@ -8,16 +15,15 @@ def main():
 
     pools = base.get_resources_desc(vc)
 
-    from pprint import pprint
-
-    if 0:
-        with open(
-            "/home/dragorn421/Documents/oot/tools/assets/descriptor/resources.txt",
-            "w",
-        ) as f:
-            for i, pool in enumerate(pools):
-                print(round(i / len(pools) * 100, 2), "%", end="\r")
-                pprint(pool, f)
+    try:
+        for pool in pools:
+            if any(coll.out_path.name == "gameplay_keep" for coll in pool.collections):
+                vanilla_pprint(pool)
+            else:
+                pprint(pool)
+            input("Press enter for next pool")
+    except KeyboardInterrupt:
+        print()
 
 
 main()
