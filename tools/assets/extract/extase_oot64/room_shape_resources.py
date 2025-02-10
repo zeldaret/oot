@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 from ..extase import (
     Resource,
     File,
-    BinaryBlobResource,
+    RESOURCE_PARSE_SUCCESS,
 )
 from ..extase.cdata_resources import (
     CDataResource,
@@ -242,6 +242,35 @@ cdata_ext_RoomShapeImageBase = CDataExt_Struct(
 )
 
 
+class JFIFResource(Resource):
+    def __init__(self, file, range_start, name):
+        super().__init__(file, range_start, range_start + 320 * 240 * 2, name)
+
+    def try_parse_data(self, memory_context):
+        return RESOURCE_PARSE_SUCCESS
+
+    needs_build = True
+    extracted_path_suffix = ""
+
+    def get_filename_stem(self):
+        return f"{self.name}.u64.jpg"
+
+    def write_extracted(self, memory_context):
+        # TODO trim zeros at the end of the data
+        self.extract_to_path.write_bytes(
+            self.file.data[self.range_start : self.range_end]
+        )
+
+    def get_c_declaration_base(self):
+        return f"u64 {self.symbol_name}[SCREEN_WIDTH * SCREEN_HEIGHT * G_IM_SIZ_16b_BYTES / sizeof(u64)]"
+
+    def get_c_reference(self, resource_offset: int):
+        if resource_offset == 0:
+            return f"&{self.symbol_name}"
+        else:
+            raise ValueError
+
+
 class RoomShapeImageSingleResource(CDataResource):
     def report_source(resource, memory_context: "MemoryContext", v):
         assert isinstance(v, int)
@@ -249,12 +278,10 @@ class RoomShapeImageSingleResource(CDataResource):
         memory_context.report_resource_at_segmented(
             resource,
             address,
-            # TODO JFIFResource or something
-            BinaryBlobResource,
-            lambda file, offset: BinaryBlobResource(
+            JFIFResource,
+            lambda file, offset: JFIFResource(
                 file,
                 offset,
-                offset + 320 * 240 * 2,
                 f"{resource.name}_{address:08X}_JFIF",
             ),
         )
@@ -304,12 +331,10 @@ class RoomShapeImageMultiBgEntryArrayResource(CDataArrayNamedLengthResource):
         memory_context.report_resource_at_segmented(
             resource,
             address,
-            # TODO JFIFResource or something
-            BinaryBlobResource,
-            lambda file, offset: BinaryBlobResource(
+            JFIFResource,
+            lambda file, offset: JFIFResource(
                 file,
                 offset,
-                offset + 320 * 240 * 2,
                 f"{resource.name}_{address:08X}_JFIF",
             ),
         )

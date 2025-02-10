@@ -1002,11 +1002,9 @@ $(BUILD_DIR)/assets/%.u8.inc.c: $(EXTRACTED_DIR)/assets/%.u8.bin
 	@echo // From file://`realpath $<` >$@
 	tools/assets/bin2c/bin2c u8 <$< >>$@
 
-$(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
-	$(ZAPD) bren -eh -i $< -o $@
-
-$(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
-	$(ZAPD) bren -eh -i $< -o $@
+$(BUILD_DIR)/assets/%.u64.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.u64.jpg
+	@echo // From file://`realpath $<` >$@
+	tools/assets/bin2c/bin2c u64 <$< >>$@
 
 # Audio
 
