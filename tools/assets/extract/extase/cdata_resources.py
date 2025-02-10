@@ -394,3 +394,11 @@ class S16ArrayResource(CDataResource):
             return f"ARRAY_COUNT({self.symbol_name})"
         else:
             raise ValueError()
+
+cdata_ext_Vec3f = CDataExt_Struct(
+    (
+        ("x", CDataExt_Value.f32),
+        ("y", CDataExt_Value.f32),
+        ("z", CDataExt_Value.f32),
+    )
+)

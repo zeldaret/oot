@@ -22,6 +22,7 @@ from .extase_oot64 import (
     misc_resources,
     scene_rooms_resources,
     scene_commands_resource,
+    skelanime_legacy_resources,
 )
 
 
@@ -53,23 +54,6 @@ class ResourceNeedsPostProcessWithPoolResourcesException(ResourceHandlerExceptio
 
 
 ResourceHandler = Callable[[File, ResourceDesc], Resource]
-
-
-# Returns a dummy resource_handler that produces a `BinaryBlobResource` of the given size
-# This is meant as a "placeholder resource" until a resource is properly implemented
-def get_fixed_size_resource_handler(size) -> ResourceHandler:
-    def resource_handler(
-        file: File,
-        resource_desc: ResourceDesc,
-    ):
-        return BinaryBlobResource(
-            file,
-            resource_desc.offset,
-            resource_desc.offset + size,
-            resource_desc.symbol_name,
-        )
-
-    return resource_handler
 
 
 def register_resource_handlers():
@@ -157,10 +141,8 @@ def register_resource_handlers():
                 file, offset, resource_desc.symbol_name
             )
         elif resource_desc.limb_type == z64resources.LimbType.LEGACY:
-            # TODO LegacyLimbResource
-            # } LegacyLimb; // size = 0x20
-            return BinaryBlobResource(
-                file, offset, offset + 0x20, resource_desc.symbol_name
+            return skelanime_legacy_resources.LegacyLimbResource(
+                file, offset, resource_desc.symbol_name
             )
         elif resource_desc.limb_type == z64resources.LimbType.CURVE:
             res = skelcurve_resources.SkelCurveLimbResource(
@@ -200,13 +182,13 @@ def register_resource_handlers():
             resource.set_length(resource_desc.count)
             return resource
         elif resource_desc.limb_type == z64resources.LimbType.LEGACY:
-            # TODO LegacyLimbsArrayResource
-            return BinaryBlobResource(
+            resource = skelanime_legacy_resources.LegacyLimbsArrayResource(
                 file,
                 resource_desc.offset,
-                resource_desc.offset + 4,
                 resource_desc.symbol_name,
             )
+            resource.set_length(resource_desc.count)
+            return resource
         else:
             raise NotImplementedError("LimbTable of limb type", resource_desc.limb_type)
 
@@ -430,6 +412,14 @@ def register_resource_handlers():
         resource.set_length(resource_desc.num_paths)
         return resource
 
+    def legacy_animation_handler(
+        file: File,
+        resource_desc: z64resources.LegacyAnimationResourceDesc,
+    ):
+        return skelanime_legacy_resources.LegacyAnimationResource(
+            file, resource_desc.offset, resource_desc.symbol_name
+        )
+
     RESOURCE_HANDLERS.update(
         {
             z64resources.SkeletonResourceDesc: skeleton_resource_handler,
@@ -446,9 +436,7 @@ def register_resource_handlers():
             z64resources.PlayerAnimationResourceDesc: PlayerAnimation_handler,
             n64resources.BlobResourceDesc: binary_blob_resource_handler,
             n64resources.MtxResourceDesc: Mtx_handler,
-            z64resources.LegacyAnimationResourceDesc: get_fixed_size_resource_handler(
-                0xC
-            ),  # TODO
+            z64resources.LegacyAnimationResourceDesc: legacy_animation_handler,
             z64resources.LimbTableResourceDesc: limb_table_handler,
             z64resources.CurveAnimationResourceDesc: CurveAnimation_handler,
             z64resources.SceneResourceDesc: scene_resource_handler,
