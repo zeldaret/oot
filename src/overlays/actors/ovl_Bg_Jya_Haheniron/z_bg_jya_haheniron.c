@@ -87,7 +87,7 @@ void BgJyaHaheniron_ColliderInit(BgJyaHaheniron* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 }
 
 void BgJyaHaheniron_SpawnFragments(PlayState* play, Vec3f* vec1, Vec3f* vec2) {

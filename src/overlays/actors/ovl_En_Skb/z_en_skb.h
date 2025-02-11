@@ -21,7 +21,7 @@ typedef struct EnSkb {
     /* 0x0288 */ s16 headlessYawOffset;
     /* 0x028C */ BodyBreak bodyBreak;
     /* 0x02A4 */ ColliderJntSph collider;
-    /* 0x02C4 */ ColliderJntSphElement colliderItem[2];
+    /* 0x02C4 */ ColliderJntSphElement colliderElements[2];
 } EnSkb; // size = 0x0344
 
 #endif

@@ -83,7 +83,7 @@ typedef struct BossFd2 {
     /* 0x1414 */ f32 subCamAtYOffset;
     /* 0x1418 */ f32 subCamShake;
     /* 0x141C */ ColliderJntSph collider;
-    /* 0x143C */ ColliderJntSphElement elements[9];
+    /* 0x143C */ ColliderJntSphElement colliderElements[9];
 } BossFd2; // size = 0x167C
 
 #endif

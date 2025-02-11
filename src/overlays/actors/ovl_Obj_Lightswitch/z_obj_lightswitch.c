@@ -105,7 +105,7 @@ void ObjLightswitch_InitCollider(ObjLightswitch* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
     Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x,
                                  this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y),
                                  this->actor.world.pos.z, &this->actor.shape.rot);

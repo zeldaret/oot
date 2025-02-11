@@ -24,7 +24,7 @@ typedef struct EnDha {
     /* 0x01DC */ Vec3f handPos[2];
     /* 0x01F4 */ Vec3f armPos;
     /* 0x0200 */ ColliderJntSph collider;
-    /* 0x0220 */ ColliderJntSphElement colliderItem[5];
+    /* 0x0220 */ ColliderJntSphElement colliderElements[5];
 } EnDha; // size = 0x0360
 
 #endif
