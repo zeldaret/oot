@@ -2835,7 +2835,20 @@ s32 Actor_CullingVolumeTest(PlayState* play, Actor* actor, Vec3f* projPos, f32 p
     return false;
 }
 
-void func_800315AC(PlayState* play, ActorContext* actorCtx) {
+/**
+ * Iterates through all category lists to draw every actor.
+ *
+ * In addition to actors, this function also draws:
+ * - Effects
+ * - EffectSs
+ * - Title Cards
+ * - Farores Wind Pointer
+ * - Light glow
+ * - Actor Collision (debug only)
+ *
+ * Note: If an actor is made visible by Lens of Truth, it will be drawn by `Actor_DrawLensActors` instead.
+ */
+void Actor_DrawAll(PlayState* play, ActorContext* actorCtx) {
     s32 invisibleActorCounter;
     Actor* invisibleActors[INVISIBLE_ACTOR_MAX];
     ActorListEntry* actorListEntry;

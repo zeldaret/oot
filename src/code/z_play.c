@@ -1294,7 +1294,7 @@ void Play_Draw(PlayState* this) {
         }
 
         if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
-            func_800315AC(this, &this->actorCtx);
+            Actor_DrawAll(this, &this->actorCtx);
         }
 
         if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LENS_FLARES) {
