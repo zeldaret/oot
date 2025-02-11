@@ -121,7 +121,7 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
         case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
             Actor_ProcessInitChain(thisx, sInitChain);
             Collider_InitJntSph(play, &this->collider);
-            Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->colliderItem);
+            Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->colliderElements);
 
             if (LINK_IS_ADULT && Flags_GetSwitch(play, this->switchFlag)) {
                 if (!GET_EVENTCHKINF(EVENTCHKINF_RESTORED_LAKE_HYLIA)) {

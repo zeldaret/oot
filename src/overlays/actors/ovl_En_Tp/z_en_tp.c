@@ -161,7 +161,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     now = this;
     this->alpha = 255;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
         this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;

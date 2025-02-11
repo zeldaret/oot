@@ -118,7 +118,7 @@ void EnBa_Init(Actor* thisx, PlayState* play) {
         this->actor.colChkInfo.health = 4;
         this->actor.colChkInfo.mass = MASS_HEAVY;
         Collider_InitJntSph(play, &this->collider);
-        Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+        Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     } else {
         Actor_SetScale(&this->actor, 0.021f);
         EnBa_SetupFallAsBlob(this);

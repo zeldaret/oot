@@ -255,7 +255,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENSW_ANIM_0);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->sphs);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xE), &D_80B0F074);
     this->actor.scale.x = 0.02f;
 

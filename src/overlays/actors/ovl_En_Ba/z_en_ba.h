@@ -31,7 +31,7 @@ typedef struct EnBa {
     /* 0x031A */ s16 unk_31A;
     /* 0x031C */ s16 unk_31C;
     /* 0x0320 */ ColliderJntSph collider;
-    /* 0x0340 */ ColliderJntSphElement colliderItems[2];
+    /* 0x0340 */ ColliderJntSphElement colliderElements[2];
 } EnBa; // size = 0x03C0
 
 #endif

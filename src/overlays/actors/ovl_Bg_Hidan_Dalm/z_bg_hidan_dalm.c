@@ -114,7 +114,7 @@ void BgHidanDalm_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gFireTempleHammerableTotemCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     Collider_InitTris(play, &this->collider);
-    Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
+    Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderElements);
 
     this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;

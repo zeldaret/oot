@@ -13,7 +13,7 @@ typedef struct BgHidanSima {
     /* 0x0164 */ BgHidanSimaActionFunc actionFunc;
     /* 0x0168 */ s16 timer;
     /* 0x016C */ ColliderJntSph collider;
-    /* 0x018C */ ColliderJntSphElement elements[2];
+    /* 0x018C */ ColliderJntSphElement colliderElements[2];
 } BgHidanSima; // size = 0x020C
 
 #endif
