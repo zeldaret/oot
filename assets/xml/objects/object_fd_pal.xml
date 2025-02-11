@@ -19,9 +19,10 @@
         <DList Name="gVolvagiaManeModelDL" Offset="0x91E8"/>
 
         <!-- Eye textures -->
-        <Texture Name="gVolvagiaEyeOpenTex" OutName="volvagia_eye_open" Format="i8" Width="32" Height="32" Offset="0x38A8"/>
-        <Texture Name="gVolvagiaEyeHalfTex" OutName="volvagia_eye_half" Format="i8" Width="32" Height="32" Offset="0x34A8"/>
-        <Texture Name="gVolvagiaEyeClosedTex" OutName="volvagia_eye_closed" Format="i8" Width="32" Height="32" Offset="0x3CA8"/>
+        <Texture Name="gVolvagiaEyeTLUT" Format="rgba16" Width="16" Height="16" Offset="0x32A8"/>
+        <Texture Name="gVolvagiaEyeOpenTex" OutName="volvagia_eye_open" Format="ci8" Width="32" Height="32" Offset="0x38A8" TlutOffset="0x32A8"/>
+        <Texture Name="gVolvagiaEyeHalfTex" OutName="volvagia_eye_half" Format="ci8" Width="32" Height="32" Offset="0x34A8" TlutOffset="0x32A8"/>
+        <Texture Name="gVolvagiaEyeClosedTex" OutName="volvagia_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x3CA8" TlutOffset="0x32A8"/>
 
         <!-- Death display lists -->
         <DList Name="gVolvagiaRibsDL" Offset="0xB2F8"/>
