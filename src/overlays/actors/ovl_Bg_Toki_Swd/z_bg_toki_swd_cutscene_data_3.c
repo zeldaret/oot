@@ -1,5 +1,5 @@
-#include "z_bg_toki_swd.h"
 #include "z64cutscene_commands.h"
+#include "z64player.h"
 
 // clang-format off
 CutsceneData gRevealMasterSwordCs[] = {

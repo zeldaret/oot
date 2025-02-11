@@ -5,7 +5,19 @@
  */
 
 #include "z_bg_mori_hineri.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "z64curve.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_box/object_box.h"
 #include "assets/objects/object_mori_hineri1/object_mori_hineri1.h"

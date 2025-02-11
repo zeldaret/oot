@@ -2,11 +2,12 @@
 #define Z_OCEFF_SPOT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct OceffSpot;
 
-typedef void (*OceffSpotActionFunc)(struct OceffSpot*, PlayState*);
+typedef void (*OceffSpotActionFunc)(struct OceffSpot*, struct PlayState*);
 
 typedef struct OceffSpot {
     /* 0x0000 */ Actor actor;

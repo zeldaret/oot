@@ -1,4 +1,4 @@
-#include "z_boss_dodongo.h"
+#include "z64collision_check.h"
 
 static u8 D_808C7000[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1,
@@ -236,5 +236,3 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static Vec3f sUnkZeroVec = { 0.0f, 0.0f, 0.0f };
-
-#include "assets/overlays/ovl_Boss_Dodongo/ovl_Boss_Dodongo.c"

@@ -2,12 +2,12 @@
 #define Z_DEMO_IM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct DemoIm;
 
-typedef void (*DemoImActionFunc)(struct DemoIm*, PlayState*);
-typedef void (*DemoImDrawFunc)(struct DemoIm*, PlayState*);
+typedef void (*DemoImActionFunc)(struct DemoIm*, struct PlayState*);
+typedef void (*DemoImDrawFunc)(struct DemoIm*, struct PlayState*);
 
 typedef enum ImpaLimb {
     /* 0x00 */ IMPA_LIMB_NONE,

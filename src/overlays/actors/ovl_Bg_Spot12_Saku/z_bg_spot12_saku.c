@@ -5,6 +5,13 @@
  */
 
 #include "z_bg_spot12_saku.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_spot12_obj/object_spot12_obj.h"
 
 #define FLAGS 0

@@ -6,6 +6,14 @@
 
 #include "z_magic_wind.h"
 
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "z64curve.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void MagicWind_Init(Actor* thisx, PlayState* play);

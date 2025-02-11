@@ -1,4 +1,4 @@
-#include "z_demo_im.h"
+#include "sequence.h"
 #include "z64cutscene_commands.h"
 
 // clang-format off

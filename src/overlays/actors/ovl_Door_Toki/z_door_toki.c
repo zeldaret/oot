@@ -5,6 +5,10 @@
  */
 
 #include "z_door_toki.h"
+
+#include "ichain.h"
+#include "z64play.h"
+
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
 #define FLAGS 0

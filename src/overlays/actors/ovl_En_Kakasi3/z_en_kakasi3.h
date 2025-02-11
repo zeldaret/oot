@@ -2,11 +2,11 @@
 #define Z_EN_KAKASI3_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnKakasi3;
 
-typedef void (*EnKakasi3ActionFunc)(struct EnKakasi3*, PlayState*);
+typedef void (*EnKakasi3ActionFunc)(struct EnKakasi3*, struct PlayState*);
 
 typedef struct EnKakasi3 {
     /* 0x0000 */ Actor actor;

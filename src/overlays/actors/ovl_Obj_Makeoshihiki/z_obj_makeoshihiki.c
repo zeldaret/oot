@@ -6,7 +6,13 @@
 
 #include "z_obj_makeoshihiki.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
 
 #define FLAGS ACTOR_FLAG_DRAW_CULLING_DISABLED
 

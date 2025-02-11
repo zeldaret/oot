@@ -2,12 +2,12 @@
 #define Z_DEMO_EXT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct DemoExt;
 
-typedef void (*DemoExtActionFunc)(struct DemoExt*, PlayState*);
-typedef void (*DemoExtDrawFunc)(Actor*, PlayState*);
+typedef void (*DemoExtActionFunc)(struct DemoExt*, struct PlayState*);
+typedef void (*DemoExtDrawFunc)(Actor*, struct PlayState*);
 
 typedef struct DemoExt {
     /* 0x0000 */ Actor actor;

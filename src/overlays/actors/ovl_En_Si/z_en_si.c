@@ -5,7 +5,13 @@
  */
 
 #include "z_en_si.h"
+
+#include "sequence.h"
+#include "z_lib.h"
+#include "z64audio.h"
 #include "z64draw.h"
+#include "z64play.h"
+#include "z64player.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR)
 

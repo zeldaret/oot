@@ -5,6 +5,11 @@
  */
 
 #include "z_en_bird.h"
+
+#include "ichain.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_bird/object_bird.h"
 
 #define FLAGS 0

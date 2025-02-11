@@ -5,6 +5,11 @@
  */
 
 #include "z_en_pu_box.h"
+
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_pu_box/object_pu_box.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

@@ -2,11 +2,11 @@
 #define Z_BG_SPOT12_GATE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot12Gate;
 
-typedef void (*BgSpot12GateActionFunc)(struct BgSpot12Gate*, PlayState*);
+typedef void (*BgSpot12GateActionFunc)(struct BgSpot12Gate*, struct PlayState*);
 
 typedef struct BgSpot12Gate {
     /* 0x0000 */ DynaPolyActor dyna;

@@ -5,6 +5,13 @@
  */
 
 #include "z_bg_spot09_obj.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+
 #include "assets/objects/object_spot09_obj/object_spot09_obj.h"
 
 #define FLAGS 0

@@ -5,6 +5,12 @@
  */
 
 #include "z_en_lightbox.h"
+
+#include "regs.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_lightbox/object_lightbox.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

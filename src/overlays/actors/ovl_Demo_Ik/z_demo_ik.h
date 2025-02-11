@@ -2,12 +2,12 @@
 #define Z_DEMO_IK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct DemoIk;
 
-typedef void (*DemoIkActionFunc)(struct DemoIk* this, PlayState* play);
-typedef void (*DemoIkDrawFunc)(struct DemoIk* this, PlayState* play);
+typedef void (*DemoIkActionFunc)(struct DemoIk* this, struct PlayState* play);
+typedef void (*DemoIkDrawFunc)(struct DemoIk* this, struct PlayState* play);
 
 typedef struct DemoIk {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_EN_BLKOBJ_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBlkobj;
 
-typedef void (*EnBlkobjActionFunc)(struct EnBlkobj*, PlayState*);
+typedef void (*EnBlkobjActionFunc)(struct EnBlkobj*, struct PlayState*);
 
 typedef struct EnBlkobj {
     /* 0x0000 */ DynaPolyActor dyna;

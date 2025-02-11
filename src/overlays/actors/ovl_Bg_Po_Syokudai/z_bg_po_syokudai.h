@@ -2,7 +2,8 @@
 #define Z_BG_PO_SYOKUDAI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct BgPoSyokudai;
 

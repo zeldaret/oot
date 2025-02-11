@@ -2,7 +2,7 @@
 #define Z_EN_HOLL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #define ENHOLL_GET_TYPE(thisx)          PARAMS_GET_U((thisx)->params, 6, 3)
 #define ENHOLL_GET_SWITCH_FLAG(thisx)   PARAMS_GET_U((thisx)->params, 0, 6)
@@ -35,7 +35,7 @@ typedef enum EnHollType {
 
 struct EnHoll;
 
-typedef void (*EnHollActionFunc)(struct EnHoll*, PlayState*);
+typedef void (*EnHollActionFunc)(struct EnHoll*, struct PlayState*);
 
 typedef struct EnHoll {
     /* 0x0000 */ Actor actor;

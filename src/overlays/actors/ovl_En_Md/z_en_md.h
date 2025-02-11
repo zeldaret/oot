@@ -2,7 +2,7 @@
 #define Z_EN_MD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnMd;
 
@@ -27,7 +27,7 @@ typedef enum EnMdLimb {
     ENMD_LIMB_MAX
 } EnMdLimb;
 
-typedef void (*EnMdActionFunc)(struct EnMd*, PlayState*);
+typedef void (*EnMdActionFunc)(struct EnMd*, struct PlayState*);
 
 #define ENMD_GET_PATH_INDEX(this) PARAMS_GET_S(this->actor.params, 8, 8)
 #define ENMD_GET_PATH_INDEX_NOSHIFT(this) PARAMS_GET_NOSHIFT(this->actor.params, 8, 8)

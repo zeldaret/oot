@@ -6,6 +6,11 @@
 
 #include "z_obj_mure2.h"
 
+#include "ichain.h"
+#include "sys_math3d.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #define FLAGS 0
 
 typedef void (*ObjMure2SetPosFunc)(Vec3f* vec, ObjMure2* this);

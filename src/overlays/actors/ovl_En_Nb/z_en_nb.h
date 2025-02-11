@@ -2,7 +2,7 @@
 #define Z_EN_NB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnNb;
 
@@ -29,8 +29,8 @@ typedef enum EnNbLimb {
     /* 0x13 */ NB_LIMB_MAX
 } EnNbLimb;
 
-typedef void (*EnNbActionFunc)(struct EnNb*, PlayState*);
-typedef void (*EnNbDrawFunc)(struct EnNb*, PlayState*);
+typedef void (*EnNbActionFunc)(struct EnNb*, struct PlayState*);
+typedef void (*EnNbDrawFunc)(struct EnNb*, struct PlayState*);
 
 typedef struct EnNb {
     /* 0x0000 */ Actor actor;

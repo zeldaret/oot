@@ -7,6 +7,10 @@
 #include "z_obj_blockstop.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #define FLAGS 0
 
 void ObjBlockstop_Init(Actor* thisx, PlayState* play);

@@ -2,12 +2,12 @@
 #define Z_BG_ZG_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgZg;
 
-typedef void (*BgZgActionFunc)(struct BgZg*, PlayState*);
-typedef void (*BgZgDrawFunc)(struct BgZg*, PlayState*);
+typedef void (*BgZgActionFunc)(struct BgZg*, struct PlayState*);
+typedef void (*BgZgDrawFunc)(struct BgZg*, struct PlayState*);
 
 typedef struct BgZg {
     /* 0x0000 */ DynaPolyActor dyna;

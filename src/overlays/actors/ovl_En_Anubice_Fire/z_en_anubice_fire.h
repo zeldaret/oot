@@ -2,11 +2,11 @@
 #define Z_EN_ANUBICE_FIRE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnAnubiceFire;
 
-typedef void (*EnAnubiceFireActionFunc)(struct EnAnubiceFire*, PlayState*);
+typedef void (*EnAnubiceFireActionFunc)(struct EnAnubiceFire*, struct PlayState*);
 
 typedef struct EnAnubiceFire {
     /* 0x0000 */ Actor actor;

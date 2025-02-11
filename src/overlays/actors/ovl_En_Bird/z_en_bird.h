@@ -2,11 +2,11 @@
 #define Z_EN_BIRD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBird;
 
-typedef void (*EnBirdActionFunc)(struct EnBird*, PlayState*);
+typedef void (*EnBirdActionFunc)(struct EnBird*, struct PlayState*);
 
 typedef struct EnBird {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_EN_FD_FIRE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnFdFire;
 
-typedef void (*EnFdFireActionFunc)(struct EnFdFire* this, PlayState* play);
+typedef void (*EnFdFireActionFunc)(struct EnFdFire* this, struct PlayState* play);
 
 typedef struct EnFdFire {
     /* 0x0000 */ Actor actor;

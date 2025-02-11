@@ -5,6 +5,17 @@
  */
 
 #include "z_obj_ice_poly.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

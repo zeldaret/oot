@@ -2,11 +2,11 @@
 #define Z_EN_STREAM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnStream;
 
-typedef void (*EnStreamActionFunc)(struct EnStream*, PlayState*);
+typedef void (*EnStreamActionFunc)(struct EnStream*, struct PlayState*);
 
 typedef struct EnStream {
     /* 0x0000 */ Actor actor;

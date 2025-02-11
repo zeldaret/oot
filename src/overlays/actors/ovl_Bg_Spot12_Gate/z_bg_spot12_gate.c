@@ -5,8 +5,15 @@
  */
 
 #include "z_bg_spot12_gate.h"
-#include "assets/objects/object_spot12_obj/object_spot12_obj.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
 #include "quake.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
+#include "assets/objects/object_spot12_obj/object_spot12_obj.h"
 
 #define FLAGS 0
 

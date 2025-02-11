@@ -2,11 +2,11 @@
 #define Z_EN_OE2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnOE2;
 
-typedef void (*EnOE2ActionFunc)(struct EnOE2*, PlayState*);
+typedef void (*EnOE2ActionFunc)(struct EnOE2*, struct PlayState*);
 
 typedef struct EnOE2 {
     /* 0x0000 */ Actor actor;

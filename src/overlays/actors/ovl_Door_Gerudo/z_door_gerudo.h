@@ -2,11 +2,11 @@
 #define Z_DOOR_GERUDO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct DoorGerudo;
 
-typedef void (*DoorGerudoActionFunc)(struct DoorGerudo*, PlayState*);
+typedef void (*DoorGerudoActionFunc)(struct DoorGerudo*, struct PlayState*);
 
 typedef struct DoorGerudo {
     /* 0x0000 */ SLIDING_DOOR_ACTOR_BASE;

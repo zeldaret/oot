@@ -1,5 +1,6 @@
-#include "z_bg_treemouth.h"
+#include "sequence.h"
 #include "z64cutscene_commands.h"
+#include "z64player.h"
 
 // clang-format off
 CutsceneData gDekuTreeMeetingCs[] = {

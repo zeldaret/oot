@@ -2,7 +2,7 @@
 #define Z_EN_COW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 #include "assets/objects/object_cow/object_cow.h"
 
 #define COW_FLAG_PLAYER_NEARBY (1 << 1)
@@ -23,7 +23,7 @@ typedef enum CowCollider {
 
 struct EnCow;
 
-typedef void (*EnCowActionFunc)(struct EnCow*, PlayState*);
+typedef void (*EnCowActionFunc)(struct EnCow*, struct PlayState*);
 
 typedef struct EnCow {
     /* 0x0000 */ Actor actor;

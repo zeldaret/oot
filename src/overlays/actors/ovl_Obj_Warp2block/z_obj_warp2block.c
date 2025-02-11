@@ -5,8 +5,21 @@
  */
 
 #include "z_obj_warp2block.h"
-#include "assets/objects/object_timeblock/object_timeblock.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/object_timeblock/object_timeblock.h"
 
 #define FLAGS                                                                                               \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA | \

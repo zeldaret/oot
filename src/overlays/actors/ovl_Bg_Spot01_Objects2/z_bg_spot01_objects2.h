@@ -2,11 +2,11 @@
 #define Z_BG_SPOT01_OBJECTS2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot01Objects2;
 
-typedef void (*BgSpot01Objects2ActionFunc)(struct BgSpot01Objects2*, PlayState*);
+typedef void (*BgSpot01Objects2ActionFunc)(struct BgSpot01Objects2*, struct PlayState*);
 
 typedef struct BgSpot01Objects2 {
     /* 0x0000 */ DynaPolyActor dyna;

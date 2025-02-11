@@ -2,13 +2,14 @@
 #define Z_EN_VIEWER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64skin.h"
 
 struct EnViewer;
 
-typedef void (*EnViewerActionFunc)(struct EnViewer*, PlayState*);
-typedef void (*EnViewerDrawFunc)(struct EnViewer*, PlayState*);
-typedef void (*EnViewerInitAnimFunc)(struct EnViewer*, PlayState*, void*, AnimationHeader*);
+typedef void (*EnViewerActionFunc)(struct EnViewer*, struct PlayState*);
+typedef void (*EnViewerDrawFunc)(struct EnViewer*, struct PlayState*);
+typedef void (*EnViewerInitAnimFunc)(struct EnViewer*, struct PlayState*, void*, AnimationHeader*);
 
 typedef enum EnViewerType {
     /* 0 */ ENVIEWER_TYPE_0_HORSE_ZELDA,

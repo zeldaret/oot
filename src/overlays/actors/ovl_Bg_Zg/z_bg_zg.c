@@ -5,8 +5,17 @@
  */
 
 #include "z_bg_zg.h"
-#include "assets/objects/object_zg/object_zg.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z64play.h"
+
+#include "assets/objects/object_zg/object_zg.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

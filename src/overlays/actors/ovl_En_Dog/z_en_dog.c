@@ -5,6 +5,15 @@
  */
 
 #include "z_en_dog.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
+#include "global.h"
+
 #include "assets/objects/object_dog/object_dog.h"
 
 #define FLAGS 0

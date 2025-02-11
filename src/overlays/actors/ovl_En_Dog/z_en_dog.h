@@ -2,18 +2,18 @@
 #define Z_EN_DOG_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDog;
 
-typedef void (*EnDogActionFunc)(struct EnDog*, PlayState*);
+typedef void (*EnDogActionFunc)(struct EnDog*, struct PlayState*);
 
 typedef struct EnDog {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnDogActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ Path* path;
+    /* 0x01E0 */ struct Path* path;
     /* 0x01E4 */ u8 reverse;
     /* 0x01E6 */ s16 waypoint;
     /* 0x01E8 */ s16 unusedAngle;

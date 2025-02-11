@@ -2,11 +2,11 @@
 #define Z_EN_SI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSi;
 
-typedef void (*EnSiActionFunc)(struct EnSi*, PlayState*);
+typedef void (*EnSiActionFunc)(struct EnSi*, struct PlayState*);
 
 typedef struct EnSi {
     /* 0x0000 */ Actor actor;

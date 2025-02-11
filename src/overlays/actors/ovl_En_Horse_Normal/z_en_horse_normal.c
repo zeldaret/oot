@@ -5,6 +5,23 @@
  */
 
 #include "z_en_horse_normal.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64skin.h"
+#include "z64skin_matrix.h"
+
+#include "global.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_horse_normal/object_horse_normal.h"
 

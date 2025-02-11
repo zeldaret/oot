@@ -2,11 +2,11 @@
 #define Z_BOSS_DODONGO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossDodongo;
 
-typedef void (*BossDodongoActionFunc)(struct BossDodongo*, PlayState*);
+typedef void (*BossDodongoActionFunc)(struct BossDodongo*, struct PlayState*);
 
 #define BOSS_DODONGO_EFFECT_COUNT 80
 

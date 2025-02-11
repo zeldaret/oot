@@ -2,11 +2,11 @@
 #define Z_EN_FU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnFu;
 
-typedef void (*EnFuActionFunc)(struct EnFu*, PlayState*);
+typedef void (*EnFuActionFunc)(struct EnFu*, struct PlayState*);
 
 typedef enum EnFuLimb {
     /* 0x00 */ FU_LIMB_ROOT,

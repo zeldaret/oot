@@ -2,11 +2,11 @@
 #define Z_BG_RELAY_OBJECTS_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgRelayObjects;
 
-typedef void (*BgRelayObjectsActionFunc)(struct BgRelayObjects*, PlayState*);
+typedef void (*BgRelayObjectsActionFunc)(struct BgRelayObjects*, struct PlayState*);
 
 typedef struct BgRelayObjects {
     /* 0x0000 */ DynaPolyActor dyna;

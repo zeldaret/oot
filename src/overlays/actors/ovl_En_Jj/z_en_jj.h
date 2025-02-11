@@ -2,11 +2,11 @@
 #define Z_EN_JJ_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnJj;
 
-typedef void (*EnJjActionFunc)(struct EnJj*, PlayState*);
+typedef void (*EnJjActionFunc)(struct EnJj*, struct PlayState*);
 
 typedef struct EnJj {
     /* 0x0000 */ DynaPolyActor dyna;

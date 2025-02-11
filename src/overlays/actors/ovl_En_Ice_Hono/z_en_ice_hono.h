@@ -2,11 +2,12 @@
 #define Z_EN_ICE_HONO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct EnIceHono;
 
-typedef void (*EnIceHonoActionFunc)(struct EnIceHono*, PlayState*);
+typedef void (*EnIceHonoActionFunc)(struct EnIceHono*, struct PlayState*);
 
 typedef struct EnIceHono {
     /* 0x0000 */ Actor actor;

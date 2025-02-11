@@ -5,8 +5,21 @@
  */
 
 #include "z_obj_lightswitch.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_lightswitch/object_lightswitch.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

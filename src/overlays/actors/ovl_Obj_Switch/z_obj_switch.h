@@ -2,12 +2,12 @@
 #define Z_OBJ_SWITCH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjSwitch;
 
-typedef void (*ObjSwitchActionFunc)(struct ObjSwitch*, PlayState*);
-typedef void (*ObjSwitchDrawFunc)(Actor*, PlayState*);
+typedef void (*ObjSwitchActionFunc)(struct ObjSwitch*, struct PlayState*);
+typedef void (*ObjSwitchDrawFunc)(Actor*, struct PlayState*);
 
 typedef enum ObjSwitchType {
     /* 0 */ OBJSWITCH_TYPE_FLOOR,

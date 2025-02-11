@@ -2,11 +2,11 @@
 #define Z_EN_FD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnFd;
 
-typedef void (*EnFdActionFunc)(struct EnFd* this, PlayState* play);
+typedef void (*EnFdActionFunc)(struct EnFd* this, struct PlayState* play);
 
 typedef enum FDEffectType {
     FD_EFFECT_NONE,

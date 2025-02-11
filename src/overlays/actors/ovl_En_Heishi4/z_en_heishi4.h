@@ -2,7 +2,7 @@
 #define Z_EN_HEISHI4_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 typedef enum Heishi4Type {
     /* 0x00 */ HEISHI4_AT_KAKARIKO_ENTRANCE,
@@ -13,7 +13,7 @@ typedef enum Heishi4Type {
 
 struct EnHeishi4;
 
-typedef void (*EnHeishi4ActionFunc)(struct EnHeishi4*, PlayState*);
+typedef void (*EnHeishi4ActionFunc)(struct EnHeishi4*, struct PlayState*);
 
 typedef struct EnHeishi4 {
     /* 0x0000 */ Actor actor;

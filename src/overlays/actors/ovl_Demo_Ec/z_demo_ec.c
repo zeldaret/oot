@@ -5,7 +5,14 @@
  */
 
 #include "z_demo_ec.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_zo/object_zo.h"
 #include "assets/objects/object_ec/object_ec.h"
 #include "assets/objects/object_ma2/object_ma2.h"

@@ -2,7 +2,7 @@
 #define Z_ITEM_B_HEART_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ItemBHeart;
 

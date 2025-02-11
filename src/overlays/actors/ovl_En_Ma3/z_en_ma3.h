@@ -2,11 +2,11 @@
 #define Z_EN_MA3_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnMa3;
 
-typedef void (*EnMa3ActionFunc)(struct EnMa3*, PlayState*);
+typedef void (*EnMa3ActionFunc)(struct EnMa3*, struct PlayState*);
 
 typedef enum AdultMalonLimb {
     /* 0x00 */ MALON_ADULT_LIMB_NONE,

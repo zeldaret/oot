@@ -5,9 +5,17 @@
  */
 
 #include "z_obj_lift.h"
-#include "assets/objects/object_d_lift/object_d_lift.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
 #include "quake.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "assets/objects/object_d_lift/object_d_lift.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

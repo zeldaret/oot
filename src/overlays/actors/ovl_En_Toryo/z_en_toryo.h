@@ -2,11 +2,11 @@
 #define Z_EN_TORYO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnToryo;
 
-typedef void (*EnToryoActionFunc)(struct EnToryo* this, PlayState* play);
+typedef void (*EnToryoActionFunc)(struct EnToryo* this, struct PlayState* play);
 
 typedef struct EnToryo {
     /* 0x0000 */ Actor actor;

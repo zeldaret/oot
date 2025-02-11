@@ -2,12 +2,12 @@
 #define Z_OBJ_TIMEBLOCK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjTimeblock;
 
-typedef s32 (*ObjTimeblockSongObserverFunc)(struct ObjTimeblock*, PlayState*);
-typedef void (*ObjTimeblockActionFunc)(struct ObjTimeblock*, PlayState*);
+typedef s32 (*ObjTimeblockSongObserverFunc)(struct ObjTimeblock*, struct PlayState*);
+typedef void (*ObjTimeblockActionFunc)(struct ObjTimeblock*, struct PlayState*);
 
 typedef struct ObjTimeblock {
     /* 0x0000 */ DynaPolyActor dyna;

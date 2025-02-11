@@ -5,6 +5,19 @@
  */
 
 #include "z_en_horse_zelda.h"
+
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "global.h"
+
 #include "assets/objects/object_horse_zelda/object_horse_zelda.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

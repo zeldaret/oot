@@ -2,11 +2,11 @@
 #define Z_BG_TREEMOUTH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgTreemouth;
 
-typedef void (*BgTreemouthActionFunc)(struct BgTreemouth*, PlayState*);
+typedef void (*BgTreemouthActionFunc)(struct BgTreemouth*, struct PlayState*);
 
 typedef struct BgTreemouth {
     /* 0x0000 */ DynaPolyActor dyna;

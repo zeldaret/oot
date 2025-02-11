@@ -2,6 +2,7 @@
 #include "global.h"
 #include "quake.h"
 #include "terminal.h"
+#include "z64olib.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \

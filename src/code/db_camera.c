@@ -1,5 +1,6 @@
 #include "global.h"
 #include "z64debug_display.h"
+#include "z64olib.h"
 
 #define DEBUG_CAM_CONTROLLER_PORT 2
 

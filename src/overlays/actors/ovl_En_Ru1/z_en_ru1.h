@@ -2,16 +2,16 @@
 #define Z_EN_RU1_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #include "overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 struct EnRu1;
 
-typedef void (*EnRu1ActionFunc)(struct EnRu1*, PlayState*);
-typedef void (*EnRu1DrawFunc)(struct EnRu1*, PlayState*);
-typedef void (*EnRu1PreLimbDrawFunc)(struct EnRu1*, PlayState*, s32, Vec3s*);
+typedef void (*EnRu1ActionFunc)(struct EnRu1*, struct PlayState*);
+typedef void (*EnRu1DrawFunc)(struct EnRu1*, struct PlayState*);
+typedef void (*EnRu1PreLimbDrawFunc)(struct EnRu1*, struct PlayState*, s32, Vec3s*);
 
 typedef struct EnRu1 {
     /* 0x0000 */ Actor actor;

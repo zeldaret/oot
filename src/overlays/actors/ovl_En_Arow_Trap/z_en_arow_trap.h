@@ -2,8 +2,7 @@
 #define Z_EN_AROW_TRAP_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "z64.h"
+#include "z64actor.h"
 
 struct EnArowTrap;
 

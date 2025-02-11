@@ -2,11 +2,11 @@
 #define Z_EN_KO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnKo;
 
-typedef void (*EnKoActionFunc)(struct EnKo*, PlayState*);
+typedef void (*EnKoActionFunc)(struct EnKo*, struct PlayState*);
 
 typedef struct EnKo {
     /* 0x0000 */ Actor actor;
@@ -17,7 +17,7 @@ typedef struct EnKo {
     /* 0x0196 */ s8 legsObjectSlot;
     /* 0x0197 */ s8 osAnimeObjectSlot;
     /* 0x0198 */ ColliderCylinder collider;
-    /* 0x01E4 */ Path* path;
+    /* 0x01E4 */ struct Path* path;
     /* 0x01E8 */ NpcInteractInfo interactInfo;
     /* 0x0210 */ u8 unk_210; // block trade quest sfx
     /* 0x0212 */ s16 forestQuestState;

@@ -2,12 +2,12 @@
 #define Z_EN_RL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnRl;
 
-typedef void (*EnRlActionFunc)(struct EnRl*, PlayState*);
-typedef void (*EnRlDrawFunc)(struct EnRl*, PlayState*);
+typedef void (*EnRlActionFunc)(struct EnRl*, struct PlayState*);
+typedef void (*EnRlDrawFunc)(struct EnRl*, struct PlayState*);
 
 typedef struct EnRl {
     /* 0x0000 */ Actor actor;

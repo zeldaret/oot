@@ -5,6 +5,15 @@
  */
 
 #include "z_en_mu.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+
+#include "global.h"
+
 #include "assets/objects/object_mu/object_mu.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)

@@ -2,11 +2,11 @@
 #define Z_EFC_ERUPC_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EfcErupc;
 
-typedef void (*EfcErupcActionFunc)(struct EfcErupc*, PlayState*);
+typedef void (*EfcErupcActionFunc)(struct EfcErupc*, struct PlayState*);
 
 #define EFC_ERUPC_EFFECT_COUNT 100
 

@@ -2,11 +2,12 @@
 #define Z_DEMO_6K_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct Demo6K;
 
-typedef void (*Demo6KActionFunc)(struct Demo6K*, PlayState*);
+typedef void (*Demo6KActionFunc)(struct Demo6K*, struct PlayState*);
 
 typedef struct Demo6K {
     /* 0x0000 */ Actor actor;

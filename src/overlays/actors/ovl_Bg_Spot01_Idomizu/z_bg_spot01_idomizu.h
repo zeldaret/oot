@@ -2,11 +2,11 @@
 #define Z_BG_SPOT01_IDOMIZU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot01Idomizu;
 
-typedef void (*BgSpot01IdomizuActionFunc)(struct BgSpot01Idomizu*, PlayState*);
+typedef void (*BgSpot01IdomizuActionFunc)(struct BgSpot01Idomizu*, struct PlayState*);
 
 typedef struct BgSpot01Idomizu {
     /* 0x0000 */ Actor actor;

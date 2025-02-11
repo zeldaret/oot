@@ -2,11 +2,11 @@
 #define Z_BG_SPOT15_RRBOX_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot15Rrbox;
 
-typedef void (*BgSpot15RrboxActionFunc)(struct BgSpot15Rrbox*, PlayState*);
+typedef void (*BgSpot15RrboxActionFunc)(struct BgSpot15Rrbox*, struct PlayState*);
 
 typedef struct BgSpot15Rrbox {
     /* 0x0000 */ DynaPolyActor dyna;

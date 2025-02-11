@@ -2,11 +2,11 @@
 #define Z_EN_HINTNUTS_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnHintnuts;
 
-typedef void (*EnHintnutsActionFunc)(struct EnHintnuts*, PlayState*);
+typedef void (*EnHintnutsActionFunc)(struct EnHintnuts*, struct PlayState*);
 
 typedef struct EnHintnuts {
     /* 0x0000 */ Actor actor;

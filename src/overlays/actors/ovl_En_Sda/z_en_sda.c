@@ -6,6 +6,13 @@
 
 #include "z_en_sda.h"
 
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnSda_Init(Actor* thisx, PlayState* play);

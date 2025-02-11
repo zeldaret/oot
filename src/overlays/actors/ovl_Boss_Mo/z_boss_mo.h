@@ -2,11 +2,11 @@
 #define Z_BOSS_MO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossMo;
 
-typedef void (*BossMoActionFunc)(struct BossMo*, PlayState*);
+typedef void (*BossMoActionFunc)(struct BossMo*, struct PlayState*);
 
 typedef enum BossMoTentS16Var {
     /* 0 */ MO_TENT_ACTION_STATE,

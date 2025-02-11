@@ -2,11 +2,11 @@
 #define Z_EN_NIW_LADY_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnNiwLady;
 
-typedef void (*EnNiwLadyActionFunc)(struct EnNiwLady*, PlayState*);
+typedef void (*EnNiwLadyActionFunc)(struct EnNiwLady*, struct PlayState*);
 
 typedef struct EnNiwLady {
     /* 0x0000 */ Actor actor;

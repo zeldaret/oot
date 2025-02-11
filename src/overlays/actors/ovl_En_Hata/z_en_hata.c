@@ -5,6 +5,15 @@
  */
 
 #include "z_en_hata.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_hata/object_hata.h"
 
 #define FLAGS 0

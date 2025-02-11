@@ -5,6 +5,15 @@
  */
 
 #include "z_obj_hsblock.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "regs.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_d_hsblock/object_d_hsblock.h"
 
 #define FLAGS 0

@@ -1,8 +1,23 @@
 #include "z_bg_spot16_bombstone.h"
-#include "assets/objects/object_spot16_obj/object_spot16_obj.h"
-#include "assets/objects/object_bombiwa/object_bombiwa.h"
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/object_spot16_obj/object_spot16_obj.h"
+#include "assets/objects/object_bombiwa/object_bombiwa.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

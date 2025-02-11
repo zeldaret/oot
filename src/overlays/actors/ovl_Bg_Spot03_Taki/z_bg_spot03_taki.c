@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_spot03_taki.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64audio.h"
+#include "z64play.h"
+
 #include "assets/objects/object_spot03_object/object_spot03_object.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
