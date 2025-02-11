@@ -330,8 +330,10 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &object_dh_Anim_004658, -1.0f, this->skelAnime.curFrame, 0.0f, ANIMMODE_ONCE,
                          -4.0f);
         this->actionState = 4;
-        this->colliderJntSph.base.atFlags = this->colliderJntSph.elements[0].base.atElemFlags = AT_NONE; // also ATELEM_NONE
-        this->colliderJntSph.elements[0].base.atDmgInfo.dmgFlags = this->colliderJntSph.elements[0].base.atDmgInfo.damage = 0;
+        this->colliderJntSph.base.atFlags = this->colliderJntSph.elements[0].base.atElemFlags =
+            AT_NONE; // also ATELEM_NONE
+        this->colliderJntSph.elements[0].base.atDmgInfo.dmgFlags =
+            this->colliderJntSph.elements[0].base.atDmgInfo.damage = 0;
     }
     switch (this->actionState) {
         case 1:
@@ -507,8 +509,10 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
     if ((this->colliderJntSph.base.acFlags & AC_HIT) && !this->retreat) {
         this->colliderJntSph.base.acFlags &= ~AC_HIT;
         if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 6)) {
-            this->colliderJntSph.base.atFlags = this->colliderJntSph.elements[0].base.atElemFlags = AT_NONE; // also ATELEM_NONE
-            this->colliderJntSph.elements[0].base.atDmgInfo.dmgFlags = this->colliderJntSph.elements[0].base.atDmgInfo.damage = 0;
+            this->colliderJntSph.base.atFlags = this->colliderJntSph.elements[0].base.atElemFlags =
+                AT_NONE; // also ATELEM_NONE
+            this->colliderJntSph.elements[0].base.atDmgInfo.dmgFlags =
+                this->colliderJntSph.elements[0].base.atDmgInfo.damage = 0;
             if (player->unk_844 != 0) {
                 this->unk_258 = player->unk_845;
             }

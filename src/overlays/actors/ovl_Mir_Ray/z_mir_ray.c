@@ -134,7 +134,8 @@ void MirRay_SetupCollider(MirRay* this) {
     this->colliderJntSph.elements[0].dim.worldSphere.center.x = colliderOffset.x + this->sourcePt.x;
     this->colliderJntSph.elements[0].dim.worldSphere.center.y = colliderOffset.y + this->sourcePt.y;
     this->colliderJntSph.elements[0].dim.worldSphere.center.z = colliderOffset.z + this->sourcePt.z;
-    this->colliderJntSph.elements[0].dim.worldSphere.radius = dataEntry->unk_14 * this->colliderJntSph.elements->dim.scale;
+    this->colliderJntSph.elements[0].dim.worldSphere.radius =
+        dataEntry->unk_14 * this->colliderJntSph.elements->dim.scale;
 }
 
 // Set up a light point between source point and reflection point. Reflection point is the pool point (for windows) or

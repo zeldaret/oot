@@ -703,7 +703,8 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
         case BOSSVA_SUPPORT_2:
         case BOSSVA_SUPPORT_3:
             Collider_InitJntSph(play, &this->colliderJntSph);
-            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInitSupport, this->colliderJntSphElements);
+            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInitSupport,
+                               this->colliderJntSphElements);
             if (sCsState < BOSSVA_BATTLE) {
                 BossVa_SetupSupportIntro(this, play);
             } else {
@@ -732,7 +733,8 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
             break;
         default:
             Collider_InitJntSph(play, &this->colliderJntSph);
-            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInitBari, this->colliderJntSphElements);
+            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInitBari,
+                               this->colliderJntSphElements);
             Collider_InitQuad(play, &this->colliderLightning);
             Collider_SetQuad(play, &this->colliderLightning, &this->actor, &sQuadInit);
             this->unk_1D8.x = 1.0f;

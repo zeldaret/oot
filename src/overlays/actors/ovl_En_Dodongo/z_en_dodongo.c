@@ -644,9 +644,12 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
             Animation_PlayOnceSetSpeed(&this->skelAnime, animation, 2.0f);
             this->timer = 18;
             this->bodyCollider.base.atFlags = this->bodyColliderElements[1].base.atElemFlags =
-                this->bodyColliderElements[2].base.atElemFlags = AT_ON | AT_TYPE_ENEMY; // also ATELEM_ON | ATELEM_SFX_WOOD
-            this->bodyColliderElements[1].base.atDmgInfo.dmgFlags = this->bodyColliderElements[2].base.atDmgInfo.dmgFlags = DMG_DEFAULT;
-            this->bodyColliderElements[1].base.atDmgInfo.damage = this->bodyColliderElements[2].base.atDmgInfo.damage = 8;
+                this->bodyColliderElements[2].base.atElemFlags =
+                    AT_ON | AT_TYPE_ENEMY; // also ATELEM_ON | ATELEM_SFX_WOOD
+            this->bodyColliderElements[1].base.atDmgInfo.dmgFlags =
+                this->bodyColliderElements[2].base.atDmgInfo.dmgFlags = DMG_DEFAULT;
+            this->bodyColliderElements[1].base.atDmgInfo.damage = this->bodyColliderElements[2].base.atDmgInfo.damage =
+                8;
         }
     } else if (this->timer > 1) {
         Vec3f tailPos;
