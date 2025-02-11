@@ -2,12 +2,11 @@
 #define Z_OBJ_ROOMTIMER_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "z64.h"
+#include "z64actor.h"
 
 struct ObjRoomtimer;
 
-typedef void (*ObjRoomtimerActionFunc)(struct ObjRoomtimer*, PlayState*);
+typedef void (*ObjRoomtimerActionFunc)(struct ObjRoomtimer*, struct PlayState*);
 
 typedef struct ObjRoomtimer {
     /* 0x0000 */ Actor actor;

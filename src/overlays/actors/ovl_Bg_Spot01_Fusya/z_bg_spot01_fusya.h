@@ -2,11 +2,11 @@
 #define Z_BG_SPOT01_FUSYA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot01Fusya;
 
-typedef void (*BgSpot01FusyaActionFunc)(struct BgSpot01Fusya*, PlayState*);
+typedef void (*BgSpot01FusyaActionFunc)(struct BgSpot01Fusya*, struct PlayState*);
 
 typedef struct BgSpot01Fusya {
     /* 0x0000 */ Actor actor;

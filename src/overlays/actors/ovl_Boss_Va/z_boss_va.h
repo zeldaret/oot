@@ -2,11 +2,11 @@
 #define Z_BOSS_VA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossVa;
 
-typedef void (*BossVaActionFunc)(struct BossVa*, PlayState*);
+typedef void (*BossVaActionFunc)(struct BossVa*, struct PlayState*);
 
 typedef struct BossVa {
     /* 0x0000 */ Actor actor;

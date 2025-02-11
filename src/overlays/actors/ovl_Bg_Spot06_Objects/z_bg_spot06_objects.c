@@ -5,6 +5,18 @@
  */
 
 #include "z_bg_spot06_objects.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_spot06_objects/object_spot06_objects.h"
 
 #define FLAGS ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR

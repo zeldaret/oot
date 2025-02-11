@@ -2,12 +2,12 @@
 #define Z_EN_GM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGm;
 
-typedef void (*EnGmUpdateFunc)(struct EnGm*, PlayState*);
-typedef void (*EnGmActionFunc)(struct EnGm*, PlayState*);
+typedef void (*EnGmUpdateFunc)(struct EnGm*, struct PlayState*);
+typedef void (*EnGmActionFunc)(struct EnGm*, struct PlayState*);
 
 typedef struct EnGm {
     /* 0x0000 */ Actor actor;

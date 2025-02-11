@@ -2,7 +2,7 @@
 #define Z_DOOR_KILLER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 /*
  * Associated switch flag: (params >> 8) & 0x3F
@@ -16,7 +16,7 @@ typedef struct DoorKillerTextureEntry {
 
 struct DoorKiller;
 
-typedef void (*DoorKillerActionFunc)(struct DoorKiller*, PlayState*);
+typedef void (*DoorKillerActionFunc)(struct DoorKiller*, struct PlayState*);
 
 typedef struct DoorKiller {
     /* 0x0000 */ DOOR_ACTOR_BASE;

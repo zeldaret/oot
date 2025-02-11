@@ -5,6 +5,11 @@
  */
 
 #include "z_bg_spot18_futa.h"
+
+#include "ichain.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_spot18_obj/object_spot18_obj.h"
 
 #define FLAGS 0

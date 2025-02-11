@@ -1,7 +1,21 @@
 #include "z_demo_kankyo.h"
-#include "global.h"
+
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "versions.h"
+#include "z_lib.h"
 #include "z64cutscene_commands.h"
+#include "z64olib.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "global.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 #include "assets/objects/object_toki_objects/object_toki_objects.h"

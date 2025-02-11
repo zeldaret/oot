@@ -2,12 +2,12 @@
 #define Z_OBJ_WARP2BLOCK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjWarp2block;
 
-typedef void (*ObjWarp2blockActionFunc)(struct ObjWarp2block*, PlayState*);
-typedef s32 (*ObjWarp2blockFunc168)(struct ObjWarp2block*, PlayState*);
+typedef void (*ObjWarp2blockActionFunc)(struct ObjWarp2block*, struct PlayState*);
+typedef s32 (*ObjWarp2blockFunc168)(struct ObjWarp2block*, struct PlayState*);
 
 typedef struct ObjWarp2block {
     /* 0x0000 */ DynaPolyActor dyna;

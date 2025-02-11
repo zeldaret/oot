@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_mori_hashira4.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

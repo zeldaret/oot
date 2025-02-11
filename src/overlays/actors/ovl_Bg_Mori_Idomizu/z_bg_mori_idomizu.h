@@ -2,11 +2,11 @@
 #define Z_BG_MORI_IDOMIZU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgMoriIdomizu;
 
-typedef void (*BgMoriIdomizuActionFunc)(struct BgMoriIdomizu*, PlayState*);
+typedef void (*BgMoriIdomizuActionFunc)(struct BgMoriIdomizu*, struct PlayState*);
 
 typedef struct BgMoriIdomizu {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_EN_TAKARA_MAN_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnTakaraMan;
 
-typedef void (*EnTakaraManActionFunc)(struct EnTakaraMan*, PlayState*);
+typedef void (*EnTakaraManActionFunc)(struct EnTakaraMan*, struct PlayState*);
 
 typedef struct EnTakaraMan {
     /* 0x0000 */ Actor actor;

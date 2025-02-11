@@ -5,6 +5,13 @@
  */
 
 #include "z_bg_spot17_funen.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+
 #include "assets/objects/object_spot17_obj/object_spot17_obj.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)

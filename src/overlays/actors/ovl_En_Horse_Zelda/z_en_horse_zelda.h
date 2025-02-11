@@ -2,11 +2,12 @@
 #define Z_EN_HORSE_ZELDA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64skin.h"
 
 struct EnHorseZelda;
 
-typedef void (*EnHorseZeldaActionFunc)(struct EnHorseZelda*, PlayState*);
+typedef void (*EnHorseZeldaActionFunc)(struct EnHorseZelda*, struct PlayState*);
 
 typedef struct EnHorseZelda {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_EN_BA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBa;
 
-typedef void (*EnBaActionFunc)(struct EnBa*, PlayState*);
+typedef void (*EnBaActionFunc)(struct EnBa*, struct PlayState*);
 
 typedef enum EnBaType {
     /* 0x00 */ EN_BA_TENTACLE_RED,

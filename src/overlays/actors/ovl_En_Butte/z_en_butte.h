@@ -2,11 +2,11 @@
 #define Z_EN_BUTTE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnButte;
 
-typedef void (*EnButteActionFunc)(struct EnButte*, PlayState*);
+typedef void (*EnButteActionFunc)(struct EnButte*, struct PlayState*);
 
 typedef struct EnButte {
     /* 0x0000 */ Actor actor;

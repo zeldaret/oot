@@ -2,11 +2,12 @@
 #define Z_EN_PO_FIELD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct EnPoField;
 
-typedef void (*EnPoFieldActionFunc)(struct EnPoField*, PlayState*);
+typedef void (*EnPoFieldActionFunc)(struct EnPoField*, struct PlayState*);
 
 typedef enum EnPoFieldSize {
     EN_PO_FIELD_SMALL,

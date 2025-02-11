@@ -2,12 +2,12 @@
 #define Z_EN_GE1_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGe1;
 
 typedef void (*EnGe1AnimFunc)(struct EnGe1*);
-typedef void (*EnGe1ActionFunc)(struct EnGe1*, PlayState*);
+typedef void (*EnGe1ActionFunc)(struct EnGe1*, struct PlayState*);
 
 typedef enum EnGe1Type {
     /* 0x00 */ GE1_TYPE_GATE_GUARD,

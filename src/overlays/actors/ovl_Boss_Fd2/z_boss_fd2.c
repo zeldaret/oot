@@ -5,10 +5,26 @@
  */
 
 #include "z_boss_fd2.h"
-#include "assets/objects/object_fd2/object_fd2.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/object_fd2/object_fd2.h"
 
 #define FLAGS                                                                                 \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \

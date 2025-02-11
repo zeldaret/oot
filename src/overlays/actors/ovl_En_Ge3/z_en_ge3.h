@@ -2,12 +2,12 @@
 #define Z_EN_GE3_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 #include "overlays/actors/ovl_En_GeldB/z_en_geldb.h"
 
 struct EnGe3;
 
-typedef void (*EnGe3ActionFunc)(struct EnGe3*, PlayState*);
+typedef void (*EnGe3ActionFunc)(struct EnGe3*, struct PlayState*);
 
 typedef struct EnGe3 {
     /* 0x0000 */ Actor actor;

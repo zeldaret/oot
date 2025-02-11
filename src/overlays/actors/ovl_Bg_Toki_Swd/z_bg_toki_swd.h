@@ -2,11 +2,11 @@
 #define Z_BG_TOKI_SWD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgTokiSwd;
 
-typedef void (*BgTokiSwdActionFunc)(struct BgTokiSwd*, PlayState*);
+typedef void (*BgTokiSwdActionFunc)(struct BgTokiSwd*, struct PlayState*);
 
 typedef struct BgTokiSwd {
     /* 0x0000 */ Actor actor;

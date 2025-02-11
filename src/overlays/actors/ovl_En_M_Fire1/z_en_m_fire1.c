@@ -6,6 +6,9 @@
 
 #include "z_en_m_fire1.h"
 
+#include "z_lib.h"
+#include "z64play.h"
+
 #define FLAGS 0
 
 void EnMFire1_Init(Actor* thisx, PlayState* play);

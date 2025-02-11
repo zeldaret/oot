@@ -5,6 +5,13 @@
  */
 
 #include "z_obj_dekujr.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+
 #include "assets/objects/object_dekujr/object_dekujr.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
