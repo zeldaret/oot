@@ -210,10 +210,10 @@ void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* c
 }
 
 void ObjSwitch_InitJntSphCollider(ObjSwitch* this, PlayState* play, ColliderJntSphInit* colliderJntSphInit) {
-    ColliderJntSph* colliderJntSph = &this->jntSph.col;
+    ColliderJntSph* colliderJntSph = &this->jntSph.collider;
 
     Collider_InitJntSph(play, colliderJntSph);
-    Collider_SetJntSph(play, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.elements);
+    Collider_SetJntSph(play, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.colliderElements);
     Matrix_SetTranslateRotateYXZ(this->dyna.actor.world.pos.x,
                                  this->dyna.actor.world.pos.y +
                                      this->dyna.actor.shape.yOffset * this->dyna.actor.scale.y,
@@ -223,13 +223,13 @@ void ObjSwitch_InitJntSphCollider(ObjSwitch* this, PlayState* play, ColliderJntS
 }
 
 void ObjSwitch_InitTrisCollider(ObjSwitch* this, PlayState* play, ColliderTrisInit* colliderTrisInit) {
-    ColliderTris* colliderTris = &this->tris.col;
+    ColliderTris* colliderTris = &this->tris.collider;
     s32 i;
     s32 j;
     Vec3f pos[3];
 
     Collider_InitTris(play, colliderTris);
-    Collider_SetTris(play, colliderTris, &this->dyna.actor, colliderTrisInit, this->tris.elements);
+    Collider_SetTris(play, colliderTris, &this->dyna.actor, colliderTrisInit, this->tris.colliderElements);
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
@@ -368,12 +368,12 @@ void ObjSwitch_Destroy(Actor* thisx, PlayState* play) {
     switch (OBJSWITCH_TYPE(&this->dyna.actor)) {
         case OBJSWITCH_TYPE_FLOOR_RUSTY:
         case OBJSWITCH_TYPE_EYE:
-            Collider_DestroyTris(play, &this->tris.col);
+            Collider_DestroyTris(play, &this->tris.collider);
             break;
 
         case OBJSWITCH_TYPE_CRYSTAL:
         case OBJSWITCH_TYPE_CRYSTAL_TARGETABLE:
-            Collider_DestroyJntSph(play, &this->jntSph.col);
+            Collider_DestroyJntSph(play, &this->jntSph.collider);
             break;
     }
 }
@@ -385,12 +385,12 @@ void ObjSwitch_FloorUpInit(ObjSwitch* this) {
 
 void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
     if (OBJSWITCH_TYPE(&this->dyna.actor) == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        if (this->tris.col.base.acFlags & AC_HIT) {
+        if (this->tris.collider.base.acFlags & AC_HIT) {
             ObjSwitch_FloorPressInit(this);
             ObjSwitch_SetOn(this, play);
-            this->tris.col.base.acFlags &= ~AC_HIT;
+            this->tris.collider.base.acFlags &= ~AC_HIT;
         } else {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.col.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.collider.base);
         }
     } else {
         switch (OBJSWITCH_SUBTYPE(&this->dyna.actor)) {
@@ -509,8 +509,8 @@ s32 ObjSwitch_EyeIsHit(ObjSwitch* this) {
     Actor* collidingActor;
     s16 yawDiff;
 
-    if ((this->tris.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT)) {
-        collidingActor = this->tris.col.base.ac;
+    if ((this->tris.collider.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT)) {
+        collidingActor = this->tris.collider.base.ac;
         if (collidingActor != NULL) {
             yawDiff = collidingActor->world.rot.y - this->dyna.actor.shape.rot.y;
             if (ABS(yawDiff) > 0x5000) {
@@ -613,7 +613,7 @@ void ObjSwitch_CrystalOffInit(ObjSwitch* this) {
 void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
     switch (OBJSWITCH_SUBTYPE(&this->dyna.actor)) {
         case OBJSWITCH_SUBTYPE_ONCE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) {
+            if ((this->jntSph.collider.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
                 ObjSwitch_CrystalTurnOnInit(this);
@@ -621,7 +621,7 @@ void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_SYNC:
-            if (((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) ||
+            if (((this->jntSph.collider.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) ||
                 Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
 
                 this->disableAcTimer = 10;
@@ -631,7 +631,7 @@ void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
+            if ((this->jntSph.collider.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
                 this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
@@ -675,7 +675,7 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
+            if ((this->jntSph.collider.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
                 this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_CrystalTurnOffInit(this);
@@ -719,9 +719,9 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
             break;
 
         case OBJSWITCH_TYPE_EYE:
-            this->prevColFlags = this->tris.col.base.acFlags;
-            this->tris.col.base.acFlags &= ~AC_HIT;
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.col.base);
+            this->prevColFlags = this->tris.collider.base.acFlags;
+            this->tris.collider.base.acFlags &= ~AC_HIT;
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.collider.base);
             break;
 
         case OBJSWITCH_TYPE_CRYSTAL:
@@ -729,12 +729,12 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
             if (!Player_InCsMode(play) && this->disableAcTimer > 0) {
                 this->disableAcTimer--;
             }
-            this->prevColFlags = this->jntSph.col.base.acFlags;
-            this->jntSph.col.base.acFlags &= ~AC_HIT;
+            this->prevColFlags = this->jntSph.collider.base.acFlags;
+            this->jntSph.collider.base.acFlags &= ~AC_HIT;
             if (this->disableAcTimer <= 0) {
-                CollisionCheck_SetAC(play, &play->colChkCtx, &this->jntSph.col.base);
+                CollisionCheck_SetAC(play, &play->colChkCtx, &this->jntSph.collider.base);
             }
-            CollisionCheck_SetOC(play, &play->colChkCtx, &this->jntSph.col.base);
+            CollisionCheck_SetOC(play, &play->colChkCtx, &this->jntSph.collider.base);
             break;
     }
 }

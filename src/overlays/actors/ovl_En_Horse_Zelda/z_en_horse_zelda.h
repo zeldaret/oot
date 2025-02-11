@@ -19,8 +19,8 @@ typedef struct EnHorseZelda {
     /* 0x01F4 */ f32 floorYForwards;
     /* 0x01F8 */ char unk_1F8[0x4];
     /* 0x01FC */ ColliderCylinder colliderCylinder;
-    /* 0x0248 */ ColliderJntSph colliderSphere;
-    /* 0x0268 */ ColliderJntSphElement colliderSphereItem;
+    /* 0x0248 */ ColliderJntSph colliderJntSph;
+    /* 0x0268 */ ColliderJntSphElement colliderJntSphElements[1];
 } EnHorseZelda; // size = 0x02A8
 
 #endif

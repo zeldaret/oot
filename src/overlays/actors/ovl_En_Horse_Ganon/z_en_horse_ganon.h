@@ -19,9 +19,9 @@ typedef struct EnHorseGanon {
     /* 0x01F0 */ u8 unk_1F0[0x04];
     /* 0x01F4 */ f32 unk_1F4;
     /* 0x01F8 */ u8 unk_1F8[0x04];
-    /* 0x01FC */ ColliderCylinder colliderBody;
-    /* 0x0248 */ ColliderJntSph colliderHead;
-    /* 0x0268 */ ColliderJntSphElement headElements[1];
+    /* 0x01FC */ ColliderCylinder bodyCollider;
+    /* 0x0248 */ ColliderJntSph headCollider;
+    /* 0x0268 */ ColliderJntSphElement headColliderElements[1];
 } EnHorseGanon; // size = 0x02A8
 
 #endif

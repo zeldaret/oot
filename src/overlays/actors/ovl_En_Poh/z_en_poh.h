@@ -54,9 +54,9 @@ typedef struct EnPoh {
     /* 0x02A4 */ EnPohInfo* info;
     /* 0x02A8 */ LightNode* lightNode;
     /* 0x02AC */ LightInfo lightInfo;
-    /* 0x02BC */ ColliderCylinder colliderCyl;
-    /* 0x0308 */ ColliderJntSph colliderSph;
-    /* 0x0328 */ ColliderJntSphElement colliderSphItem;
+    /* 0x02BC */ ColliderCylinder colliderCylinder;
+    /* 0x0308 */ ColliderJntSph colliderJntSph;
+    /* 0x0328 */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x0368 */ MtxF unk_368;
 } EnPoh; // size = 0x03A8
 

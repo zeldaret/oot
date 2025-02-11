@@ -389,7 +389,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
         this->actor.world.pos.y = MO_WATER_LEVEL(play);
         this->actor.prevPos = this->targetPos = this->actor.world.pos;
         Collider_InitJntSph(play, &this->tentCollider);
-        Collider_SetJntSph(play, &this->tentCollider, &this->actor, &sJntSphInit, this->tentElements);
+        Collider_SetJntSph(play, &this->tentCollider, &this->actor, &sJntSphInit, this->tentColliderElements);
         this->tentMaxAngle = 1.0f;
     }
 }
@@ -1151,7 +1151,7 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
     s16 i2;
     ColliderElement* acHitElem;
 
-    for (i1 = 0; i1 < ARRAY_COUNT(this->tentElements); i1++) {
+    for (i1 = 0; i1 < ARRAY_COUNT(this->tentColliderElements); i1++) {
         if (this->tentCollider.elements[i1].base.acElemFlags & ACELEM_HIT) {
 
             for (i2 = 0; i2 < 19; i2++) {
