@@ -2,11 +2,11 @@
 #define Z_EN_ANI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnAni;
 
-typedef void (*EnAniActionFunc)(struct EnAni*, PlayState*);
+typedef void (*EnAniActionFunc)(struct EnAni*, struct PlayState*);
 
 typedef struct EnAni {
     /* 0x0000 */ Actor actor;

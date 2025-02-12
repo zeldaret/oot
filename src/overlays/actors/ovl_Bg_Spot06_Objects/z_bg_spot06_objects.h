@@ -2,11 +2,11 @@
 #define Z_BG_SPOT06_OBJECTS_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot06Objects;
 
-typedef void (*BgSpot06ObjectsActionFunc)(struct BgSpot06Objects*, PlayState*);
+typedef void (*BgSpot06ObjectsActionFunc)(struct BgSpot06Objects*, struct PlayState*);
 
 typedef struct BgSpot06Objects {
     /* 0x0000 */ DynaPolyActor dyna;
@@ -15,7 +15,7 @@ typedef struct BgSpot06Objects {
     /* 0x016A */ s16 timer;
     /* 0x016C */ f32 lakeHyliaWaterLevel;
     /* 0x0170 */ ColliderJntSph collider;
-    /* 0x0190 */ ColliderJntSphElement colliderItem[1];
+    /* 0x0190 */ ColliderJntSphElement colliderElements[1];
 } BgSpot06Objects; // size = 0x01D0
 
 #endif

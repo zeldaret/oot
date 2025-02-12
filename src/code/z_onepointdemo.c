@@ -2,6 +2,7 @@
 #include "quake.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64olib.h"
 #include "overlays/actors/ovl_En_Sw/z_en_sw.h"
 
 static s16 sDisableAttention = false;

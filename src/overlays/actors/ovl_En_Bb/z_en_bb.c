@@ -335,7 +335,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
     this->unk_254 = 0;
     thisx->colChkInfo.health = 4;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->colliderElements);
 
     this->actionState = PARAMS_GET_NOMASK(thisx->params, 8);
 

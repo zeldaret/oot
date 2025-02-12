@@ -5,6 +5,18 @@
  */
 
 #include "z_bg_spot06_objects.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_spot06_objects/object_spot06_objects.h"
 
 #define FLAGS ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR
@@ -121,7 +133,7 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
         case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
             Actor_ProcessInitChain(thisx, sInitChain);
             Collider_InitJntSph(play, &this->collider);
-            Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->colliderItem);
+            Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->colliderElements);
 
             if (LINK_IS_ADULT && Flags_GetSwitch(play, this->switchFlag)) {
                 if (!GET_EVENTCHKINF(EVENTCHKINF_RESTORED_LAKE_HYLIA)) {

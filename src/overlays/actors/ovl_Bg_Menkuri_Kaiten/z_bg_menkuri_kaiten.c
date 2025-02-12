@@ -5,6 +5,11 @@
  */
 
 #include "z_bg_menkuri_kaiten.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "z64play.h"
+
 #include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)

@@ -2,11 +2,11 @@
 #define Z_EN_DAIKU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDaiku;
 
-typedef void (*EnDaikuActionFunc)(struct EnDaiku*, PlayState*);
+typedef void (*EnDaikuActionFunc)(struct EnDaiku*, struct PlayState*);
 
 typedef enum EnDaikuType {
     ENDAIKU_TYPE0,

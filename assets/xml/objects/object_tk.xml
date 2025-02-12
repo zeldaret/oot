@@ -4,6 +4,7 @@
         <Animation Name="gDampeWalkAnim" Offset="0x1FA8"/>
         <Animation Name="gDampeRestAnim" Offset="0x2F84"/>
         <Animation Name="gDampeFloatAnim" Offset="0x3768"/>
+        <Texture Name="gDampeUnkTLUT" Format="rgba16" Width="102" Height="2" Offset="0x3780"/>
         <Texture Name="gDampeEyeOpenTex" OutName="dampe_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x3B40"/>
         <Texture Name="gDampeEyeHalfTex" OutName="dampe_eye_half_open" Format="rgba16" Width="32" Height="32" Offset="0x4340"/>
         <Texture Name="gDampeEyeClosedTex" OutName="dampe_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x4B40"/>

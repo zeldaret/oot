@@ -1,2 +1,2 @@
-800FE280 gMtxClear
+800FE280 gIdentityMtx
 80A740B0 sShadowTex

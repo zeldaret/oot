@@ -2,11 +2,11 @@
 #define Z_BOSS_VA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossVa;
 
-typedef void (*BossVaActionFunc)(struct BossVa*, PlayState*);
+typedef void (*BossVaActionFunc)(struct BossVa*, struct PlayState*);
 
 typedef struct BossVa {
     /* 0x0000 */ Actor actor;
@@ -42,8 +42,8 @@ typedef struct BossVa {
     /* 0x0274 */ Vec3f unk_274; // Unused body position
     /* 0x0280 */ Vec3f unk_280; // Unused body position
     /* 0x028C */ ColliderCylinder colliderBody;
-    /* 0x02D8 */ ColliderJntSph colliderSph;
-    /* 0x02F8 */ ColliderJntSphElement elements[1];
+    /* 0x02D8 */ ColliderJntSph colliderJntSph;
+    /* 0x02F8 */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x0338 */ ColliderQuad colliderLightning;
 } BossVa; // size = 0x03B8
 

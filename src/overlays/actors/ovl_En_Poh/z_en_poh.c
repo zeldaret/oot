@@ -203,14 +203,14 @@ void EnPoh_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    Collider_InitJntSph(play, &this->colliderSph);
-    Collider_SetJntSph(play, &this->colliderSph, &this->actor, &sJntSphInit, &this->colliderSphItem);
-    this->colliderSph.elements[0].dim.worldSphere.radius = 0;
-    this->colliderSph.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
-    this->colliderSph.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y;
-    this->colliderSph.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
-    Collider_InitCylinder(play, &this->colliderCyl);
-    Collider_SetCylinder(play, &this->colliderCyl, &this->actor, &sCylinderInit);
+    Collider_InitJntSph(play, &this->colliderJntSph);
+    Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
+    this->colliderJntSph.elements[0].dim.worldSphere.radius = 0;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
+    Collider_InitCylinder(play, &this->colliderCylinder);
+    Collider_SetCylinder(play, &this->colliderCylinder, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->unk_194 = 0;
     this->unk_195 = 32;
@@ -263,8 +263,8 @@ void EnPoh_Destroy(Actor* thisx, PlayState* play) {
     EnPoh* this = (EnPoh*)thisx;
 
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
-    Collider_DestroyJntSph(play, &this->colliderSph);
-    Collider_DestroyCylinder(play, &this->colliderCyl);
+    Collider_DestroyJntSph(play, &this->colliderJntSph);
+    Collider_DestroyCylinder(play, &this->colliderCylinder);
     if (this->actor.params == EN_POH_RUPEE) {
         D_80AE1A50--;
     }
@@ -308,12 +308,12 @@ void func_80ADE28C(EnPoh* this) {
     } else {
         Animation_PlayOnce(&this->skelAnime, &gPoeComposerDamagedAnim);
     }
-    if (this->colliderCyl.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
-        this->actor.world.rot.y = this->colliderCyl.base.ac->world.rot.y;
+    if (this->colliderCylinder.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
+        this->actor.world.rot.y = this->colliderCylinder.base.ac->world.rot.y;
     } else {
-        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->colliderCyl.base.ac) + 0x8000;
+        this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->colliderCylinder.base.ac) + 0x8000;
     }
-    this->colliderCyl.base.acFlags &= ~AC_ON;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     this->actor.speed = 5.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 16);
     this->actionFunc = func_80ADEECC;
@@ -323,7 +323,7 @@ void func_80ADE368(EnPoh* this) {
     Animation_MorphToLoop(&this->skelAnime, this->info->fleeAnim, -5.0f);
     this->actor.speed = 5.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
-    this->colliderCyl.base.acFlags |= AC_ON;
+    this->colliderCylinder.base.acFlags |= AC_ON;
     this->unk_198 = 200;
     this->actionFunc = func_80ADF894;
 }
@@ -427,13 +427,13 @@ void func_80ADE6D4(EnPoh* this) {
 void EnPoh_Talk(EnPoh* this, PlayState* play) {
     this->actor.home.pos.y = this->actor.world.pos.y;
     Actor_SetFocus(&this->actor, -10.0f);
-    this->colliderCyl.dim.radius = 13;
-    this->colliderCyl.dim.height = 30;
-    this->colliderCyl.dim.yShift = 0;
-    this->colliderCyl.dim.pos.x = this->actor.world.pos.x;
-    this->colliderCyl.dim.pos.y = this->actor.world.pos.y - 20.0f;
-    this->colliderCyl.dim.pos.z = this->actor.world.pos.z;
-    this->colliderCyl.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
+    this->colliderCylinder.dim.radius = 13;
+    this->colliderCylinder.dim.height = 30;
+    this->colliderCylinder.dim.yShift = 0;
+    this->colliderCylinder.dim.pos.x = this->actor.world.pos.x;
+    this->colliderCylinder.dim.pos.y = this->actor.world.pos.y - 20.0f;
+    this->colliderCylinder.dim.pos.z = this->actor.world.pos.z;
+    this->colliderCylinder.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
     if (this->actor.params == EN_POH_FLAT || this->actor.params == EN_POH_SHARP) {
         if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
             this->actor.textId = 0x5000;
@@ -791,12 +791,12 @@ void func_80ADFE80(EnPoh* this, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         return;
     }
-    if (this->colliderCyl.base.ocFlags1 & OC1_HIT) {
+    if (this->colliderCylinder.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
         this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCyl.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder.base);
     }
     this->actor.world.pos.y = Math_SinS(this->unk_195 * 0x800) * 5.0f + this->actor.home.pos.y;
     if (this->unk_195 != 0) {
@@ -805,7 +805,7 @@ void func_80ADFE80(EnPoh* this, PlayState* play) {
     if (this->unk_195 == 0) {
         this->unk_195 = 32;
     }
-    this->colliderCyl.dim.pos.y = this->actor.world.pos.y - 20.0f;
+    this->colliderCylinder.dim.pos.y = this->actor.world.pos.y - 20.0f;
     Actor_SetFocus(&this->actor, -10.0f);
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                               this->actor.world.pos.z, this->info->lightColor.r, this->info->lightColor.g,
@@ -877,8 +877,8 @@ void EnPoh_TalkComposer(EnPoh* this, PlayState* play) {
 }
 
 void func_80AE032C(EnPoh* this, PlayState* play) {
-    if (this->colliderCyl.base.acFlags & AC_HIT) {
-        this->colliderCyl.base.acFlags &= ~AC_HIT;
+    if (this->colliderCylinder.base.acFlags & AC_HIT) {
+        this->colliderCylinder.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
@@ -932,12 +932,12 @@ void EnPoh_Update(Actor* thisx, PlayState* play) {
             SkelAnime_InitFlex(play, &this->skelAnime, &gPoeComposerSkel, &gPoeComposerFloatAnim, this->jointTable,
                                this->morphTable, 12);
             this->actor.draw = EnPoh_DrawComposer;
-            this->colliderSph.elements[0].dim.limb = 9;
-            this->colliderSph.elements[0].dim.modelSphere.center.y *= -1;
+            this->colliderJntSph.elements[0].dim.limb = 9;
+            this->colliderJntSph.elements[0].dim.modelSphere.center.y *= -1;
             this->actor.shape.rot.y = this->actor.world.rot.y = -0x4000;
-            this->colliderCyl.dim.radius = 20;
-            this->colliderCyl.dim.height = 55;
-            this->colliderCyl.dim.yShift = 15;
+            this->colliderCylinder.dim.radius = 20;
+            this->colliderCylinder.dim.height = 55;
+            this->colliderCylinder.dim.yShift = 15;
         }
         this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         EnPoh_SetupInitialAction(this);
@@ -1002,8 +1002,8 @@ void EnPoh_UpdateLiving(Actor* thisx, PlayState* play) {
     Vec3f checkPos;
     s32 bgId;
 
-    if (this->colliderSph.base.atFlags & AT_HIT) {
-        this->colliderSph.base.atFlags &= ~AT_HIT;
+    if (this->colliderJntSph.base.atFlags & AT_HIT) {
+        this->colliderJntSph.base.atFlags &= ~AT_HIT;
         func_80ADE4C8(this);
     }
     func_80AE032C(this, play);
@@ -1012,14 +1012,14 @@ void EnPoh_UpdateLiving(Actor* thisx, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
     if (this->actionFunc == EnPoh_Attack && this->unk_198 < 10) {
         this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderSph.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
-    Collider_UpdateCylinder(&this->actor, &this->colliderCyl);
-    if ((this->colliderCyl.base.acFlags & AC_ON) && this->lightColor.a == 255) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCyl.base);
+    Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
+    if ((this->colliderCylinder.base.acFlags & AC_ON) && this->lightColor.a == 255) {
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinder.base);
     }
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCyl.base);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderSph.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
     Actor_SetFocus(&this->actor, 42.0f);
     if (this->actionFunc != func_80ADEECC && this->actionFunc != func_80ADF574) {
         if (this->actionFunc == func_80ADF894) {
@@ -1058,7 +1058,7 @@ s32 EnPoh_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnPoh_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
     EnPoh* this = (EnPoh*)thisx;
 
-    Collider_UpdateSpheres(limbIndex, &this->colliderSph);
+    Collider_UpdateSpheres(limbIndex, &this->colliderJntSph);
     if (this->actionFunc == func_80ADF15C && this->unk_198 >= 2 && limbIndex == this->info->unk_7) {
         MATRIX_FINALIZE_AND_LOAD((*gfxP)++, play->state.gfxCtx, "../z_en_poh.c", 2460);
         gSPDisplayList((*gfxP)++, this->info->burnDisplayList);
@@ -1074,9 +1074,9 @@ void EnPoh_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
             this->actor.world.pos.y = this->unk_368.yw;
             this->actor.world.pos.z = this->unk_368.zw;
         }
-        Lights_PointGlowSetInfo(&this->lightInfo, this->colliderSph.elements[0].dim.worldSphere.center.x,
-                                this->colliderSph.elements[0].dim.worldSphere.center.y,
-                                this->colliderSph.elements[0].dim.worldSphere.center.z, this->envColor.r,
+        Lights_PointGlowSetInfo(&this->lightInfo, this->colliderJntSph.elements[0].dim.worldSphere.center.x,
+                                this->colliderJntSph.elements[0].dim.worldSphere.center.y,
+                                this->colliderJntSph.elements[0].dim.worldSphere.center.z, this->envColor.r,
                                 this->envColor.g, this->envColor.b, this->envColor.a * (200.0f / 255));
     }
 }

@@ -2,12 +2,12 @@
 #define Z_EN_ZL2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnZl2;
 
-typedef void (*EnZl2ActionFunc)(struct EnZl2*, PlayState*);
-typedef void (*EnZl2DrawFunc)(struct EnZl2*, PlayState*);
+typedef void (*EnZl2ActionFunc)(struct EnZl2*, struct PlayState*);
+typedef void (*EnZl2DrawFunc)(struct EnZl2*, struct PlayState*);
 
 typedef struct EnZl2 {
     /* 0x0000 */ Actor actor;

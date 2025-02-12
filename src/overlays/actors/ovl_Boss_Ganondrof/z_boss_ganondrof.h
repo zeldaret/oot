@@ -2,11 +2,12 @@
 #define Z_BOSS_GANONDROF_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct BossGanondrof;
 
-typedef void (*BossGanondrofActionFunc)(struct BossGanondrof*, PlayState*);
+typedef void (*BossGanondrofActionFunc)(struct BossGanondrof*, struct PlayState*);
 
 #define GND_REAL_BOSS 1
 #define GND_FAKE_BOSS 10

@@ -5,8 +5,18 @@
  */
 
 #include "z_bg_mori_bigst.h"
-#include "assets/objects/object_mori_objects/object_mori_objects.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
 #include "quake.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

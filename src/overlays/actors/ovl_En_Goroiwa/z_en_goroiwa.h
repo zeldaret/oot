@@ -2,17 +2,17 @@
 #define Z_EN_GOROIWA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGoroiwa;
 
-typedef void (*EnGoroiwaActionFunc)(struct EnGoroiwa*, PlayState*);
+typedef void (*EnGoroiwaActionFunc)(struct EnGoroiwa*, struct PlayState*);
 
 typedef struct EnGoroiwa {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnGoroiwaActionFunc actionFunc;
     /* 0x0150 */ ColliderJntSph collider;
-    /* 0x0170 */ ColliderJntSphElement colliderItems[1];
+    /* 0x0170 */ ColliderJntSphElement colliderElements[1];
     /* 0x01B0 */ Vec3f prevUnitRollAxis;
     /* 0x01BC */ f32 prevRollAngleDiff;
     /* 0x01C0 */ f32 rollRotSpeed;

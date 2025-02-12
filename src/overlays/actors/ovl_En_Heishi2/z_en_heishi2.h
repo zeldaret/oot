@@ -2,12 +2,12 @@
 #define Z_EN_HEISHI2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 
 struct EnHeishi2;
 
-typedef void (*EnHeishi2ActionFunc)(struct EnHeishi2*, PlayState*);
+typedef void (*EnHeishi2ActionFunc)(struct EnHeishi2*, struct PlayState*);
 
 typedef struct EnHeishi2 {
     /* 0x0000 */ Actor actor;

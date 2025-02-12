@@ -2,11 +2,11 @@
 #define Z_BG_PO_EVENT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgPoEvent;
 
-typedef void (*BgPoEventActionFunc)(struct BgPoEvent*, PlayState*);
+typedef void (*BgPoEventActionFunc)(struct BgPoEvent*, struct PlayState*);
 
 typedef struct BgPoEvent {
     /* 0x0000 */ DynaPolyActor dyna;
@@ -16,7 +16,7 @@ typedef struct BgPoEvent {
     /* 0x016A */ s8 direction;
     /* 0x016C */ s16 timer;
     /* 0x0170 */ ColliderTris collider;
-    /* 0x0190 */ ColliderTrisElement colliderItems[2];
+    /* 0x0190 */ ColliderTrisElement colliderElements[2];
 } BgPoEvent; // size = 0x0248
 
 #endif

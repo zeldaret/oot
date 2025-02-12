@@ -42,7 +42,7 @@ incbins:
     vram: 0x801158E0
     size: 0x60
 variables:
-  gMtxClear: 0x800FE2A0
+  gIdentityMtx: 0x800FE2A0
   sJpnMessageEntryTable: 0x80109E8C
   sNesMessageEntryTable: 0x8010DFCC
   sStaffMessageEntryTable: 0x801121EC

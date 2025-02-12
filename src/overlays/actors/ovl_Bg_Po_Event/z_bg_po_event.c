@@ -5,6 +5,20 @@
  */
 
 #include "z_bg_po_event.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_po_sisters/object_po_sisters.h"
 
 #define FLAGS 0
@@ -202,7 +216,7 @@ void BgPoEvent_Init(Actor* thisx, PlayState* play) {
 
     if (this->type >= 2) {
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderElements);
         if (Flags_GetSwitch(play, thisx->params)) {
             Actor_Kill(thisx);
         } else {

@@ -2,12 +2,12 @@
 #define Z_EN_XC_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnXc;
 
-typedef void (*EnXcActionFunc)(struct EnXc*, PlayState*);
-typedef void (*EnXcDrawFunc)(struct Actor*, PlayState*);
+typedef void (*EnXcActionFunc)(struct EnXc*, struct PlayState*);
+typedef void (*EnXcDrawFunc)(struct Actor*, struct PlayState*);
 
 typedef enum EnXcType {
     /* 0 */ SHEIK_TYPE_0,

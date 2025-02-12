@@ -5,6 +5,12 @@
  */
 
 #include "z_en_trap.h"
+
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_trap/object_trap.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

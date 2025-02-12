@@ -2,13 +2,13 @@
 #define Z_EN_BDFIRE_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "overlays/actors/ovl_Boss_Dodongo/z_boss_dodongo.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct EnBdfire;
 
-typedef void (*EnBdfireActionFunc)(struct EnBdfire*, PlayState*);
-typedef void (*EnBdfireDrawFunc)(struct EnBdfire*, PlayState*);
+typedef void (*EnBdfireActionFunc)(struct EnBdfire*, struct PlayState*);
+typedef void (*EnBdfireDrawFunc)(struct EnBdfire*, struct PlayState*);
 
 typedef struct EnBdfire {
     /* 0x0000 */ Actor actor;

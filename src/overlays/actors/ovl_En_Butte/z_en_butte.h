@@ -2,16 +2,16 @@
 #define Z_EN_BUTTE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnButte;
 
-typedef void (*EnButteActionFunc)(struct EnButte*, PlayState*);
+typedef void (*EnButteActionFunc)(struct EnButte*, struct PlayState*);
 
 typedef struct EnButte {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderJntSph collider;
-    /* 0x016C */ ColliderJntSphElement colliderItems[1];
+    /* 0x016C */ ColliderJntSphElement colliderElements[1];
     /* 0x01AC */ SkelAnime skelAnime;
     /* 0x01F0 */ Vec3s jointTable[8];
     /* 0x0220 */ Vec3s morphTable[8];

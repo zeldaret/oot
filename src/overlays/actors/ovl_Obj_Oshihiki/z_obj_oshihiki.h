@@ -2,7 +2,7 @@
 #define Z_OBJ_OSHIHIKI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjOshihiki;
 
@@ -27,7 +27,7 @@ typedef enum PushBlockType {
 #define PUSHBLOCK_SETUP_FALL     (1 << 7)
 #define PUSHBLOCK_MOVE_UNDER     (1 << 8)
 
-typedef void (*ObjOshihikiActionFunc)(struct ObjOshihiki*, PlayState*);
+typedef void (*ObjOshihikiActionFunc)(struct ObjOshihiki*, struct PlayState*);
 
 typedef struct ObjOshihiki {
     /* 0x0000 */ DynaPolyActor dyna;
@@ -40,7 +40,7 @@ typedef struct ObjOshihiki {
     /* 0x0178 */ f32 pushDist;
     /* 0x017C */ f32 direction;
     /* 0x0180 */ s32 floorBgIds[5];
-    /* 0x0194 */ CollisionPoly* floorPolys[5];
+    /* 0x0194 */ struct CollisionPoly* floorPolys[5];
     /* 0x01A8 */ f32 floorHeights[5];
     /* 0x01BC */ s16 highestFloor;
     /* 0x01BE */ u8 cantMove;

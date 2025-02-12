@@ -2,11 +2,11 @@
 #define Z_EN_TR_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnTr;
 
-typedef void (*EnTrActionFunc)(struct EnTr*, PlayState*);
+typedef void (*EnTrActionFunc)(struct EnTr*, struct PlayState*);
 
 typedef enum KotakeKoumeLimb {
     /*  0 */ KOTAKE_KOUME_LIMB_NONE,

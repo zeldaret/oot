@@ -103,7 +103,7 @@ void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, PlayState
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 
     this->collider.elements[0].dim.modelSphere.radius = sphereRadii[PARAMS_GET_U(this->dyna.actor.params, 0, 8)];
     this->collider.elements[0].dim.modelSphere.center.y = sphereYPositions[PARAMS_GET_U(this->dyna.actor.params, 0, 8)];

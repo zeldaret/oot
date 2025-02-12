@@ -5,6 +5,15 @@
  */
 
 #include "z_en_brob.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_brob/object_brob.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)

@@ -2,11 +2,11 @@
 #define Z_BG_JYA_ZURERUKABE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgJyaZurerukabe;
 
-typedef void (*BgJyaZurerukabeActionFunc)(struct BgJyaZurerukabe*, PlayState*);
+typedef void (*BgJyaZurerukabeActionFunc)(struct BgJyaZurerukabe*, struct PlayState*);
 
 typedef struct BgJyaZurerukabe {
     /* 0x0000 */ DynaPolyActor dyna;

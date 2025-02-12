@@ -2,11 +2,11 @@
 #define Z_OBJ_ICE_POLY_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjIcePoly;
 
-typedef void (*ObjIcePolyActionFunc)(struct ObjIcePoly*, PlayState*);
+typedef void (*ObjIcePolyActionFunc)(struct ObjIcePoly*, struct PlayState*);
 
 typedef struct ObjIcePoly {
     /* 0x0000 */ Actor actor;

@@ -2,17 +2,15 @@
 #define Z_EN_OSSAN_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "overlays/actors/ovl_En_Tana/z_en_tana.h"
-#include "overlays/actors/ovl_En_GirlA/z_en_girla.h"
+#include "z64actor.h"
 
 struct EnOssan;
 
-typedef void (*EnOssanActionFunc)(struct EnOssan*, PlayState*);
-typedef void (*EnOssanTalkOwnerFunc)(PlayState*);
-typedef void (*EnOssanInitFunc)(struct EnOssan*, PlayState*);
+typedef void (*EnOssanActionFunc)(struct EnOssan*, struct PlayState*);
+typedef void (*EnOssanTalkOwnerFunc)(struct PlayState*);
+typedef void (*EnOssanInitFunc)(struct EnOssan*, struct PlayState*);
 typedef s16 (*EnOssanGetGirlAParamsFunc)(s16);
-typedef void (*EnOssanStateFunc)(struct EnOssan*, PlayState*, Player*);
+typedef void (*EnOssanStateFunc)(struct EnOssan*, struct PlayState*, struct Player*);
 
 typedef struct StickDirectionPrompt {
     /* 0x00 */ u32 stickColorR;
@@ -37,7 +35,7 @@ typedef struct EnOssan {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnOssanActionFunc actionFunc;
-    /* 0x0194 */ void (*obj3ToSeg6Func)(struct EnOssan*, PlayState*);
+    /* 0x0194 */ void (*obj3ToSeg6Func)(struct EnOssan*, struct PlayState*);
     /* 0x0198 */ ColliderCylinder collider; // unused
     /* 0x01E4 */ s16 timer;
     /* 0x01E6 */ s16 delayTimer;
@@ -53,11 +51,11 @@ typedef struct EnOssan {
     /* 0x01F8 */ void (*blinkFunc)(struct EnOssan*);
     /* 0x01FC */ s16 stateFlag;
     /* 0x01FE */ s16 tempStateFlag;
-    /* 0x0200 */ EnGirlA* shelfSlots[8];
+    /* 0x0200 */ struct EnGirlA* shelfSlots[8];
     // Shelves are indexed as such:
     /* 7 5  3 1 */
     /* 6 4  2 0 */
-    /* 0x0220 */ EnTana* shelves;
+    /* 0x0220 */ struct EnTana* shelves;
     /* 0x0224 */ s32 stickAccumX;
     /* 0x0228 */ s32 stickAccumY;
     /* 0x022C */ u8 moveHorizontal;

@@ -32,7 +32,6 @@
 #include "z64math.h"
 #include "z64map_mark.h"
 #include "z64message.h"
-#include "z64olib.h"
 #include "one_point_cutscene.h"
 #include "z64pause.h"
 #include "z64play.h"
