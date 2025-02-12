@@ -159,29 +159,30 @@ void DemoIk_MoveToStartPos(DemoIk* this, PlayState* play, s32 cueChannel) {
 
 void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
     s32 pad[3];
-    SkeletonHeader* skeleton;
+    FlexSkeletonHeader* skeleton;
     AnimationHeader* animation;
     f32 phi_f0;
 
     switch (this->actor.params) {
         case 0:
-            skeleton = &object_ik_Skel_000C90.sh;
+            skeleton = &object_ik_Skel_000C90;
             animation = &object_ik_Anim_000C6C;
             phi_f0 = 30.0f;
             break;
         case 1:
-            skeleton = &object_ik_Skel_000660.sh;
+            skeleton = &object_ik_Skel_000660;
             animation = &object_ik_Anim_000634;
             phi_f0 = 10.0f;
             break;
         default:
-            skeleton = &object_ik_Skel_000380.sh;
+            skeleton = &object_ik_Skel_000380;
             animation = &object_ik_Anim_00035C;
             phi_f0 = 20.0f;
             // No break is required for matching
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, phi_f0);
-    SkelAnime_Init(play, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
+    //! @bug Flex skeleton is used as normal skeleton
+    SkelAnime_Init(play, &this->skelAnime, skeleton.sh, NULL, this->jointTable, this->morphTable, 2);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
 }
 
