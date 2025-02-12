@@ -854,8 +854,8 @@ void EnDntNomal_Update(Actor* thisx, PlayState* play) {
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
     if (this->type == ENDNTNOMAL_TARGET) {
-        Collider_SetQuadVertices(&this->targetColliderQuad, &this->targetVtx[0], &this->targetVtx[1], &this->targetVtx[2],
-                                 &this->targetVtx[3]);
+        Collider_SetQuadVertices(&this->targetColliderQuad, &this->targetVtx[0], &this->targetVtx[1],
+                                 &this->targetVtx[2], &this->targetVtx[3]);
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->targetColliderQuad.base);
     } else {
         Collider_UpdateCylinder(&this->actor, &this->bodyColliderCylinder);

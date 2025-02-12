@@ -3589,10 +3589,14 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         Collider_UpdateCylinder(thisx, &this->colliderCylinder2);
 
         // Required to match
-        this->colliderCylinder1.dim.pos.x = this->colliderCylinder1.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * 11.0f);
-        this->colliderCylinder1.dim.pos.z = this->colliderCylinder1.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * 11.0f);
-        this->colliderCylinder2.dim.pos.x = this->colliderCylinder2.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * -18.0f);
-        this->colliderCylinder2.dim.pos.z = this->colliderCylinder2.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * -18.0f);
+        this->colliderCylinder1.dim.pos.x =
+            this->colliderCylinder1.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * 11.0f);
+        this->colliderCylinder1.dim.pos.z =
+            this->colliderCylinder1.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * 11.0f);
+        this->colliderCylinder2.dim.pos.x =
+            this->colliderCylinder2.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * -18.0f);
+        this->colliderCylinder2.dim.pos.z =
+            this->colliderCylinder2.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * -18.0f);
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinder1.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder1.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder2.base);
