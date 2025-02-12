@@ -296,7 +296,7 @@ void BossSst_Init(Actor* thisx, PlayState* play2) {
     BossSst* this = (BossSst*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    Collider_InitCylinder(play, &this->colliderCyl);
+    Collider_InitCylinder(play, &this->colliderCylinder);
     Collider_InitJntSph(play, &this->colliderJntSph);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     Flags_SetSwitch(play, 0x14);
@@ -307,7 +307,7 @@ void BossSst_Init(Actor* thisx, PlayState* play2) {
                            this->morphTable, 45);
         ActorShape_Init(&this->actor.shape, 70000.0f, ActorShadow_DrawCircle, 95.0f);
         Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInitHead, this->colliderJntSphElements);
-        Collider_SetCylinder(play, &this->colliderCyl, &this->actor, &sCylinderInitHead);
+        Collider_SetCylinder(play, &this->colliderCylinder, &this->actor, &sCylinderInitHead);
         sHead = this;
         this->actor.world.pos.x = ROOM_CENTER_X + 50.0f;
         this->actor.world.pos.y = ROOM_CENTER_Y + 0.0f;
@@ -340,7 +340,7 @@ void BossSst_Init(Actor* thisx, PlayState* play2) {
         }
     } else {
         Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInitHand, this->colliderJntSphElements);
-        Collider_SetCylinder(play, &this->colliderCyl, &this->actor, &sCylinderInitHand);
+        Collider_SetCylinder(play, &this->colliderCylinder, &this->actor, &sCylinderInitHand);
         if (this->actor.params == BONGO_LEFT_HAND) {
             SkelAnime_InitFlex(play, &this->skelAnime, &gBongoLeftHandSkel, &gBongoLeftHandIdleAnim, this->jointTable,
                                this->morphTable, 27);
@@ -365,7 +365,7 @@ void BossSst_Destroy(Actor* thisx, PlayState* play) {
     BossSst* this = (BossSst*)thisx;
 
     Collider_DestroyJntSph(play, &this->colliderJntSph);
-    Collider_DestroyCylinder(play, &this->colliderCyl);
+    Collider_DestroyCylinder(play, &this->colliderCylinder);
     Audio_StopSfxByPos(&this->center);
 }
 
@@ -727,7 +727,7 @@ void BossSst_HeadDamagedHand(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupReadyCharge(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadEyeOpenIdleAnim, -5.0f);
     this->actor.speed = 0.0f;
-    this->colliderCyl.base.acFlags |= AC_ON;
+    this->colliderCylinder.base.acFlags |= AC_ON;
     this->actionFunc = BossSst_HeadReadyCharge;
 }
 
@@ -803,7 +803,7 @@ void BossSst_HeadSetupEndCharge(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadEyeCloseIdleAnim, -20.0f);
     this->targetYaw = Actor_WorldYawTowardPoint(&this->actor, &sRoomCenter);
     this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
-    this->colliderCyl.base.acFlags &= ~AC_ON;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     this->radius *= -1.0f;
     this->actionFunc = BossSst_HeadEndCharge;
 }
@@ -820,7 +820,7 @@ void BossSst_HeadEndCharge(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupFrozenHand(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadEyeOpenIdleAnim, -5.0f);
     this->ready = false;
-    this->colliderCyl.base.acFlags |= AC_ON;
+    this->colliderCylinder.base.acFlags |= AC_ON;
     this->actionFunc = BossSst_HeadFrozenHand;
 }
 
@@ -833,7 +833,7 @@ void BossSst_HeadFrozenHand(BossSst* this, PlayState* play) {
 
 void BossSst_HeadSetupUnfreezeHand(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadEyeCloseAnim, -5.0f);
-    this->colliderCyl.base.acFlags &= ~AC_ON;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     this->actionFunc = BossSst_HeadUnfreezeHand;
 }
 
@@ -848,7 +848,7 @@ void BossSst_HeadSetupStunned(BossSst* this) {
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
                          Animation_GetLastFrame(&gBongoHeadKnockoutAnim));
     this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
-    this->colliderCyl.base.acFlags &= ~AC_ON;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     this->vVanish = false;
     this->actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_FREEZE);
@@ -900,8 +900,8 @@ void BossSst_HeadStunned(BossSst* this, PlayState* play) {
 
 void BossSst_HeadSetupVulnerable(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadStunnedAnim, -5.0f);
-    this->colliderCyl.base.acFlags |= AC_ON;
-    this->colliderCyl.elem.acDmgInfo.dmgFlags = DMG_SWORD | DMG_DEKU_STICK;
+    this->colliderCylinder.base.acFlags |= AC_ON;
+    this->colliderCylinder.elem.acDmgInfo.dmgFlags = DMG_SWORD | DMG_DEKU_STICK;
     this->actor.speed = 0.0f;
     this->colliderJntSph.elements[10].base.acElemFlags |= (ACELEM_ON | ACELEM_HOOKABLE);
     this->colliderJntSph.elements[0].base.acElemFlags &= ~ACELEM_ON;
@@ -942,7 +942,7 @@ void BossSst_HeadSetupDamage(BossSst* this) {
                          Animation_GetLastFrame(&gBongoHeadDamageAnim));
     Actor_SetColorFilter(&sHands[RIGHT]->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA,
                          Animation_GetLastFrame(&gBongoHeadDamageAnim));
-    this->colliderCyl.base.acFlags &= ~AC_ON;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_DAMAGE);
     this->actionFunc = BossSst_HeadDamage;
 }
@@ -959,8 +959,8 @@ void BossSst_HeadDamage(BossSst* this, PlayState* play) {
 
 void BossSst_HeadSetupRecover(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadRecoverAnim, -5.0f);
-    this->colliderCyl.base.acFlags &= ~AC_ON;
-    this->colliderCyl.elem.acDmgInfo.dmgFlags = DMG_DEFAULT;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
+    this->colliderCylinder.elem.acDmgInfo.dmgFlags = DMG_DEFAULT;
     this->colliderJntSph.elements[10].base.acElemFlags &= ~(ACELEM_ON | ACELEM_HOOKABLE);
     this->colliderJntSph.elements[0].base.acElemFlags |= ACELEM_ON;
     this->vVanish = true;
@@ -1046,7 +1046,7 @@ void BossSst_HeadSetupDeath(BossSst* this, PlayState* play) {
     Actor_SetColorFilter(&sHands[LEFT]->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 60);
     Actor_SetColorFilter(&sHands[RIGHT]->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 60);
     this->timer = 60;
-    this->colliderCyl.base.acFlags &= ~AC_ON;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     this->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     sHands[LEFT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     sHands[RIGHT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
@@ -1536,9 +1536,9 @@ void BossSst_HandSlam(BossSst* this, PlayState* play) {
                 this->ready = true;
                 Actor_PlaySfx(&this->actor, NA_SE_EN_SHADEST_TAIKO_LOW);
                 BossSst_SpawnShockwave(this);
-                this->colliderCyl.base.atFlags |= AT_ON;
-                Collider_UpdateCylinder(&this->actor, &this->colliderCyl);
-                this->colliderCyl.dim.radius = sCylinderInitHand.dim.radius;
+                this->colliderCylinder.base.atFlags |= AT_ON;
+                Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
+                this->colliderCylinder.dim.radius = sCylinderInitHand.dim.radius;
             }
         }
 
@@ -2582,8 +2582,8 @@ void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
 }
 
 void BossSst_HeadCollisionCheck(BossSst* this, PlayState* play) {
-    if (this->colliderCyl.base.acFlags & AC_HIT) {
-        this->colliderCyl.base.acFlags &= ~AC_HIT;
+    if (this->colliderCylinder.base.acFlags & AC_HIT) {
+        this->colliderCylinder.base.acFlags &= ~AC_HIT;
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actionFunc == BossSst_HeadVulnerable) {
                 if (Actor_ApplyDamage(&this->actor) == 0) {
@@ -2615,13 +2615,13 @@ void BossSst_UpdateHand(Actor* thisx, PlayState* play) {
     BossSst* this = (BossSst*)thisx;
     BossSstHandTrail* trail;
 
-    if (this->colliderCyl.base.atFlags & AT_ON) {
+    if (this->colliderCylinder.base.atFlags & AT_ON) {
         if ((this->effects[0].move < 5) ||
             (this->actor.xzDistToPlayer < ((this->effects[2].scale * 0.01f) * sCylinderInitHand.dim.radius)) ||
-            (this->colliderCyl.base.atFlags & AT_HIT)) {
-            this->colliderCyl.base.atFlags &= ~(AT_ON | AT_HIT);
+            (this->colliderCylinder.base.atFlags & AT_HIT)) {
+            this->colliderCylinder.base.atFlags &= ~(AT_ON | AT_HIT);
         } else {
-            this->colliderCyl.dim.radius = (this->effects[0].scale * 0.01f) * sCylinderInitHand.dim.radius;
+            this->colliderCylinder.dim.radius = (this->effects[0].scale * 0.01f) * sCylinderInitHand.dim.radius;
         }
     }
 
@@ -2648,8 +2648,8 @@ void BossSst_UpdateHand(Actor* thisx, PlayState* play) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
-    if (this->colliderCyl.base.atFlags & AT_ON) {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCyl.base);
+    if (this->colliderCylinder.base.atFlags & AT_ON) {
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinder.base);
     }
 
     if ((HAND_STATE(this) != HAND_DEATH) && (HAND_STATE(this) != HAND_WAIT) && (HAND_STATE(this) != HAND_BEAT) &&
@@ -2702,8 +2702,8 @@ void BossSst_UpdateHead(Actor* thisx, PlayState* play2) {
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
 #else
     if ((this->actionFunc != BossSst_HeadLurk) && (this->actionFunc != BossSst_HeadIntro)) {
-        if (this->colliderCyl.base.acFlags & AC_ON) {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCyl.base);
+        if (this->colliderCylinder.base.acFlags & AC_ON) {
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinder.base);
         }
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
@@ -2884,9 +2884,9 @@ void BossSst_PostHeadDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
     if (limbIndex == 8) {
         Matrix_MultVec3f(&zeroVec, &this->actor.focus.pos);
         Matrix_MultVec3f(&headVec, &headPos);
-        this->colliderCyl.dim.pos.x = headPos.x;
-        this->colliderCyl.dim.pos.y = headPos.y;
-        this->colliderCyl.dim.pos.z = headPos.z;
+        this->colliderCylinder.dim.pos.x = headPos.x;
+        this->colliderCylinder.dim.pos.y = headPos.y;
+        this->colliderCylinder.dim.pos.z = headPos.z;
     }
 
     Collider_UpdateSpheres(limbIndex, &this->colliderJntSph);

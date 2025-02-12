@@ -97,12 +97,12 @@ void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
 
-    Collider_InitCylinder(play, &this->colliderStand);
-    Collider_SetCylinder(play, &this->colliderStand, &this->actor, &sCylInitStand);
-    this->colliderStand.base.colMaterial = sColMaterialsStand[PARAMS_GET_NOMASK(this->actor.params, 12)];
+    Collider_InitCylinder(play, &this->standCollider);
+    Collider_SetCylinder(play, &this->standCollider, &this->actor, &sCylInitStand);
+    this->standCollider.base.colMaterial = sColMaterialsStand[PARAMS_GET_NOMASK(this->actor.params, 12)];
 
-    Collider_InitCylinder(play, &this->colliderFlame);
-    Collider_SetCylinder(play, &this->colliderFlame, &this->actor, &sCylInitFlame);
+    Collider_InitCylinder(play, &this->flameCollider);
+    Collider_SetCylinder(play, &this->flameCollider, &this->actor, &sCylInitFlame);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
@@ -124,8 +124,8 @@ void ObjSyokudai_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     ObjSyokudai* this = (ObjSyokudai*)thisx;
 
-    Collider_DestroyCylinder(play, &this->colliderStand);
-    Collider_DestroyCylinder(play, &this->colliderFlame);
+    Collider_DestroyCylinder(play, &this->standCollider);
+    Collider_DestroyCylinder(play, &this->flameCollider);
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
 }
 
@@ -182,8 +182,8 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                 this->litTimer = 20;
             }
         }
-        if (this->colliderFlame.base.acFlags & AC_HIT) {
-            dmgFlags = this->colliderFlame.elem.acHitElem->atDmgInfo.dmgFlags;
+        if (this->flameCollider.base.acFlags & AC_HIT) {
+            dmgFlags = this->flameCollider.elem.acHitElem->atDmgInfo.dmgFlags;
             if (dmgFlags & (DMG_FIRE | DMG_ARROW_NORMAL)) {
                 interactionType = 1;
             }
@@ -206,7 +206,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                         player->unk_860 = 200;
                     }
                 } else if (dmgFlags & DMG_ARROW_NORMAL) {
-                    arrow = (EnArrow*)this->colliderFlame.base.ac;
+                    arrow = (EnArrow*)this->flameCollider.base.ac;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
                         arrow->collider.elem.atDmgInfo.dmgFlags = DMG_ARROW_FIRE;
@@ -243,12 +243,12 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
         }
     }
 
-    Collider_UpdateCylinder(&this->actor, &this->colliderStand);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderStand.base);
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderStand.base);
+    Collider_UpdateCylinder(&this->actor, &this->standCollider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->standCollider.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->standCollider.base);
 
-    Collider_UpdateCylinder(&this->actor, &this->colliderFlame);
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderFlame.base);
+    Collider_UpdateCylinder(&this->actor, &this->flameCollider);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->flameCollider.base);
 
     if (this->litTimer > 0) {
         this->litTimer--;

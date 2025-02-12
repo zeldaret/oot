@@ -21,7 +21,7 @@ typedef struct EnBigokuta {
     /* 0x0214 */ Vec3s morphTable[20];
     /* 0x028C */ ColliderJntSph collider;
     /* 0x02AC */ ColliderJntSphElement colliderElements[1];
-    /* 0x02EC */ ColliderCylinder cylinder[2];
+    /* 0x02EC */ ColliderCylinder collidersCylinder[2];
 } EnBigokuta; // size = 0x0384
 
 #endif
