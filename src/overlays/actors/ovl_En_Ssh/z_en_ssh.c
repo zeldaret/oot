@@ -215,8 +215,8 @@ void EnSsh_InitColliders(EnSsh* this, PlayState* play) {
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
 
-    Collider_InitJntSph(play, &this->colJntSph);
-    Collider_SetJntSph(play, &this->colJntSph, &this->actor, &sJntSphInit, this->colJntSphElements);
+    Collider_InitJntSph(play, &this->colliderJntSph);
+    Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
 }
 
 f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
@@ -270,9 +270,9 @@ void EnSsh_SetColliderScale(EnSsh* this, f32 scale, f32 radiusMod) {
     f32 yShift;
     s32 i;
 
-    radius = this->colJntSph.elements[0].dim.modelSphere.radius;
+    radius = this->colliderJntSph.elements[0].dim.modelSphere.radius;
     radius *= scale;
-    this->colJntSph.elements[0].dim.modelSphere.radius = radius;
+    this->colliderJntSph.elements[0].dim.modelSphere.radius = radius;
 
     for (i = 0; i < 6; i++) {
         yShift = this->collidersCylinder[i].dim.yShift;
@@ -592,8 +592,8 @@ s32 EnSsh_SetCylinderOC(EnSsh* this, PlayState* play) {
 
 void EnSsh_SetColliders(EnSsh* this, PlayState* play) {
     if (this->actor.colChkInfo.health == 0) {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colJntSph.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colJntSph.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
     } else {
         if (this->hitTimer == 0) {
             EnSsh_SetCylinderOC(this, play);
@@ -647,7 +647,7 @@ void EnSsh_Destroy(Actor* thisx, PlayState* play) {
     for (i = 0; i < 6; i++) {
         Collider_DestroyCylinder(play, &this->collidersCylinder[i]);
     }
-    Collider_DestroyJntSph(play, &this->colJntSph);
+    Collider_DestroyJntSph(play, &this->colliderJntSph);
 }
 
 void EnSsh_Wait(EnSsh* this, PlayState* play) {
@@ -869,7 +869,7 @@ s32 EnSsh_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnSsh_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSsh* this = (EnSsh*)thisx;
 
-    Collider_UpdateSpheres(limbIndex, &this->colJntSph);
+    Collider_UpdateSpheres(limbIndex, &this->colliderJntSph);
 }
 
 void EnSsh_Draw(Actor* thisx, PlayState* play) {
