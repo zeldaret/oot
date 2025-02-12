@@ -107,7 +107,7 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->bombCollider);
     Collider_InitJntSph(play, &this->explosionCollider);
     Collider_SetCylinder(play, &this->bombCollider, thisx, &sCylinderInit);
-    Collider_SetJntSph(play, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderItems[0]);
+    Collider_SetJntSph(play, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderElements[0]);
 
     if (thisx->params == BOMBFLOWER_BODY) {
         shapeUnk10 = 1000.0f;
