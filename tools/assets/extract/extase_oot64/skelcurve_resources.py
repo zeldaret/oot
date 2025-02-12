@@ -15,6 +15,7 @@ from ..extase.cdata_resources import (
     CDataExt_Struct,
     CDataExt_Value,
     CDataExt_Array,
+    CDataExtWriteContext,
 )
 
 from . import dlist_resources
@@ -117,12 +118,12 @@ class CurveAnimationHeaderResource(CDataResource):
         )
 
     def write_knotCounts(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     def report_interpolationData(resource, memory_context: "MemoryContext", v):
@@ -138,12 +139,12 @@ class CurveAnimationHeaderResource(CDataResource):
         )
 
     def write_interpolationData(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     def report_constantData(resource, memory_context: "MemoryContext", v):
@@ -159,12 +160,12 @@ class CurveAnimationHeaderResource(CDataResource):
         )
 
     def write_constantData(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(
@@ -283,12 +284,12 @@ class SkelCurveLimbArrayResource(CDataResource):
         )
 
     def write_limb_element(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     elem_cdata_ext = (
@@ -328,12 +329,12 @@ class CurveSkeletonHeaderResource(CDataResource):
         )
 
     def write_limbs(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(

@@ -17,6 +17,7 @@ from ..extase.cdata_resources import (
     CDataExt_Struct,
     CDataExt_Array,
     CDataExt_Value,
+    CDataExtWriteContext,
     cdata_ext_Vec3s,
     INDENT,
 )
@@ -60,13 +61,13 @@ class CollisionPolyListResource(CDataResource):
         resource: "CollisionPolyListResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
         assert isinstance(v, list)
         assert len(v) == 3
         vtxData = v
-        f.write(line_prefix)
+        f = wctx.f
+        f.write(wctx.line_prefix)
         f.write("{\n")
         for i in range(3):
             vI = vtxData[i]
@@ -93,10 +94,10 @@ class CollisionPolyListResource(CDataResource):
                 flags_str = " | ".join(flags_str_list)
             else:
                 flags_str = "0"
-            f.write(line_prefix)
+            f.write(wctx.line_prefix)
             f.write(INDENT)
             f.write(f"{vtxId} | (({flags_str}) << 13), // {i}\n")
-        f.write(line_prefix)
+        f.write(wctx.line_prefix)
         f.write("}")
         return True
 
@@ -104,13 +105,12 @@ class CollisionPolyListResource(CDataResource):
         resource: "CollisionPolyListResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
         assert isinstance(v, int)
         nf = v / 0x7FFF
-        f.write(line_prefix)
-        f.write(f"COLPOLY_SNORMAL({nf})")
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(f"COLPOLY_SNORMAL({nf})")
 
         return True
 
@@ -166,13 +166,13 @@ class CollisionSurfaceTypeListResource(CDataResource):
         resource: "CollisionSurfaceTypeListResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
         assert isinstance(v, list)
         assert len(v) == 2
+        f = wctx.f
 
-        f.write(line_prefix)
+        f.write(wctx.line_prefix)
         f.write("{\n")
 
         for i_data, bitfield_info in (
@@ -206,7 +206,7 @@ class CollisionSurfaceTypeListResource(CDataResource):
 
             data_val = v[i_data]
 
-            f.write(line_prefix)
+            f.write(wctx.line_prefix)
             f.write(INDENT)
             f.write("(\n")
 
@@ -214,7 +214,7 @@ class CollisionSurfaceTypeListResource(CDataResource):
             for mask, shift, name in bitfield_info:
                 val = (data_val & mask) >> shift
 
-                f.write(line_prefix)
+                f.write(wctx.line_prefix)
                 f.write(INDENT * 2)
                 if has_prev:
                     f.write("| ")
@@ -225,11 +225,11 @@ class CollisionSurfaceTypeListResource(CDataResource):
 
                 has_prev = True
 
-            f.write(line_prefix)
+            f.write(wctx.line_prefix)
             f.write(INDENT)
             f.write(f"), // {i_data}\n")
 
-        f.write(line_prefix)
+        f.write(wctx.line_prefix)
         f.write("}")
 
         return True
@@ -294,16 +294,15 @@ class CollisionBgCamListResource(CDataResource):
         resource: "CollisionSurfaceTypeListResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
+        wctx.f.write(wctx.line_prefix)
         if address != 0:
-            f.write(memory_context.get_c_reference_at_segmented(address))
+            wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         else:
-            f.write("NULL")
+            wctx.f.write("NULL")
         return True
 
     cdata_ext_elem = CDataExt_Struct(
@@ -428,11 +427,10 @@ class CollisionResource(CDataResource):
         resource: "CollisionResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
-        f.write(line_prefix)
-        f.write(
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(
             memory_context.get_c_expression_length_at_segmented(
                 resource.cdata_unpacked["vtxList"]
             )
@@ -463,23 +461,21 @@ class CollisionResource(CDataResource):
         resource: "CollisionResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
         assert isinstance(v, int)
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(v))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(v))
         return True
 
     def write_numPolygons(
         resource: "CollisionResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
-        f.write(line_prefix)
-        f.write(
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(
             memory_context.get_c_expression_length_at_segmented(
                 resource.cdata_unpacked["polyList"]
             )
@@ -510,32 +506,30 @@ class CollisionResource(CDataResource):
         resource: "CollisionResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     def write_numWaterBoxes(
         resource: "CollisionResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
-        f.write(line_prefix)
+        wctx.f.write(wctx.line_prefix)
         length = resource.cdata_unpacked["numWaterBoxes"]
         if length != 0:
-            f.write(
+            wctx.f.write(
                 memory_context.get_c_expression_length_at_segmented(
                     resource.cdata_unpacked["waterBoxes"]
                 )
             )
         else:
-            f.write("0")
+            wctx.f.write("0")
         return True
 
     def report_waterBoxes(
@@ -565,36 +559,34 @@ class CollisionResource(CDataResource):
         resource: "CollisionResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
         assert isinstance(v, int)
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(v))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(v))
         return True
 
     def write_bgCamList(
         resource: "CollisionResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
         assert isinstance(v, int)
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(v))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(v))
         return True
 
     def write_waterBoxes(
         resource: "CollisionResource",
         memory_context: "MemoryContext",
         v,
-        f: io.TextIOBase,
-        line_prefix,
+        wctx: CDataExtWriteContext,
     ):
         assert isinstance(v, int)
         length = resource.cdata_unpacked["numWaterBoxes"]
-        f.write(line_prefix)
+        f = wctx.f
+        f.write(wctx.line_prefix)
         if length != 0:
             f.write(memory_context.get_c_reference_at_segmented(v))
         else:

@@ -17,6 +17,7 @@ from ..extase.cdata_resources import (
     CDataExt_Struct,
     CDataExt_Array,
     CDataExt_Value,
+    CDataExtWriteContext,
     cdata_ext_Vec3s,
     INDENT,
     Vec3sArrayResource,
@@ -65,26 +66,27 @@ def fmt_hex_u(v: int, nibbles: int = 0):
 
 
 class ActorEntryListResource(CDataArrayNamedLengthResource):
-    def write_elem(resource, memory_context, v, f: io.TextIOBase, line_prefix: str):
+    def write_elem(resource, memory_context, v, wctx: CDataExtWriteContext):
         assert isinstance(v, dict)
-        f.write(line_prefix)
+        f = wctx.f
+        f.write(wctx.line_prefix)
         f.write("{\n")
 
-        f.write(line_prefix + INDENT)
+        f.write(wctx.line_prefix + INDENT)
         f.write(oot64_data.get_actor_id_name(v["id"]))
         f.write(",\n")
 
-        f.write(line_prefix + INDENT)
+        f.write(wctx.line_prefix + INDENT)
         f.write("{ ")
         f.write(", ".join(f"{p:6}" for p in (v["pos"][axis] for axis in "xyz")))
         f.write(" }, // pos\n")
 
-        f.write(line_prefix + INDENT)
+        f.write(wctx.line_prefix + INDENT)
         f.write("{ ")
         f.write(", ".join(fmt_hex_s(r, 4) for r in (v["rot"][axis] for axis in "xyz")))
         f.write(" }, // rot\n")
 
-        f.write(line_prefix + INDENT)
+        f.write(wctx.line_prefix + INDENT)
         params = v["params"]
         f.write(fmt_hex_s(params, 4))
         if params < 0:
@@ -92,7 +94,7 @@ class ActorEntryListResource(CDataArrayNamedLengthResource):
             f.write(f" /* 0x{params_u16:04X} */")
         f.write(", // params\n")
 
-        f.write(line_prefix)
+        f.write(wctx.line_prefix)
         f.write("}")
 
         return True
@@ -120,7 +122,7 @@ class ObjectListResource(CDataArrayNamedLengthResource):
 
 
 def write_RomFile(
-    resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
+    resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
 ):
     assert isinstance(v, dict)
     vromStart = v["vromStart"]
@@ -128,8 +130,8 @@ def write_RomFile(
     rom_file_name = memory_context.get_dmadata_table_rom_file_name_from_vrom(
         vromStart, vromEnd
     )
-    f.write(line_prefix)
-    f.write(f"ROM_FILE({rom_file_name})")
+    wctx.f.write(wctx.line_prefix)
+    wctx.f.write(f"ROM_FILE({rom_file_name})")
     return True
 
 
@@ -302,40 +304,41 @@ class EnvLightSettingsListResource(CDataArrayNamedLengthResource):
 
 
 class TransitionActorEntryListResource(CDataArrayNamedLengthResource):
-    def write_elem(resource, memory_context, v, f: io.TextIOBase, line_prefix: str):
+    def write_elem(resource, memory_context, v, wctx: CDataExtWriteContext):
         assert isinstance(v, dict)
-        f.write(line_prefix)
+        f = wctx.f
+        f.write(wctx.line_prefix)
         f.write("{\n")
 
-        f.write(line_prefix + INDENT)
+        f.write(wctx.line_prefix + INDENT)
         f.write("{\n")
-        f.write(line_prefix + 2 * INDENT)
+        f.write(wctx.line_prefix + 2 * INDENT)
         f.write("// { room, bgCamIndex }\n")
         for side_i in range(2):
             side = v["sides"][side_i]
             room = side["room"]
             bgCamIndex = side["bgCamIndex"]
-            f.write(line_prefix + 2 * INDENT)
+            f.write(wctx.line_prefix + 2 * INDENT)
             f.write("{ ")
             f.write(f"{room}, {bgCamIndex}")
             f.write(" },\n")
-        f.write(line_prefix + INDENT)
+        f.write(wctx.line_prefix + INDENT)
         f.write("}, // sides\n")
 
-        f.write(line_prefix + INDENT)
+        f.write(wctx.line_prefix + INDENT)
         f.write(oot64_data.get_actor_id_name(v["id"]))
         f.write(",\n")
 
-        f.write(line_prefix + INDENT)
+        f.write(wctx.line_prefix + INDENT)
         f.write("{ ")
         f.write(", ".join(f"{p:6}" for p in (v["pos"][axis] for axis in "xyz")))
         f.write(" }, // pos\n")
 
-        f.write(line_prefix + INDENT)
+        f.write(wctx.line_prefix + INDENT)
         f.write(fmt_hex_s(v["rotY"], 4))
         f.write(", // rotY\n")
 
-        f.write(line_prefix + INDENT)
+        f.write(wctx.line_prefix + INDENT)
         params = v["params"]
         f.write(fmt_hex_s(params, 4))
         if params < 0:
@@ -343,7 +346,7 @@ class TransitionActorEntryListResource(CDataArrayNamedLengthResource):
             f.write(f" /* 0x{params_u16:04X} */")
         f.write(", // params\n")
 
-        f.write(line_prefix)
+        f.write(wctx.line_prefix)
         f.write("}")
 
         return True
@@ -390,14 +393,15 @@ class PathListResource(CDataArrayResource):
         )
 
     def write_elem(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, dict)
         count = v["count"]
         assert isinstance(count, int)
         points = v["points"]
         assert isinstance(points, int)
-        f.write(line_prefix)
+        f = wctx.f
+        f.write(wctx.line_prefix)
         f.write("{ ")
         f.write(memory_context.get_c_expression_length_at_segmented(points))
         f.write(", ")

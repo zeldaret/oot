@@ -1,8 +1,6 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    import io
-
     from ..extase import MemoryContext
 
 from ..extase.cdata_resources import (
@@ -10,6 +8,7 @@ from ..extase.cdata_resources import (
     CDataArrayResource,
     CDataExt_Struct,
     CDataExt_Value,
+    CDataExtWriteContext,
 )
 
 
@@ -49,12 +48,12 @@ class PlayerAnimationResource(CDataResource):
         player_animation_data_res.set_frame_count(v["common"]["frameCount"])
 
     def write_frameCount(
-        resource, memory_context: "MemoryContext", v, f: "io.TextIOBase", line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         address = resource.cdata_unpacked["segment"]
         assert isinstance(address, int)
-        f.write(line_prefix)
-        f.write(
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(
             memory_context.resolve_segmented(address)
             .get_resource(PlayerAnimationDataResource)
             .frame_count_name
@@ -62,12 +61,12 @@ class PlayerAnimationResource(CDataResource):
         return True
 
     def write_segment(
-        resource, memory_context: "MemoryContext", v, f: "io.TextIOBase", line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(

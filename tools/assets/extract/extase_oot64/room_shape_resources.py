@@ -20,6 +20,7 @@ from ..extase.cdata_resources import (
     CDataArrayNamedLengthResource,
     CDataExt_Struct,
     CDataExt_Value,
+    CDataExtWriteContext,
     cdata_ext_Vec3s,
 )
 
@@ -114,12 +115,12 @@ class RoomShapeNormalEntryArrayResource(CDataArrayNamedLengthResource):
 
 class RoomShapeNormalResource(CDataResource):
     def write_numEntries(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         address = resource.cdata_unpacked["entries"]
         assert isinstance(address, int)
-        f.write(line_prefix)
-        f.write(memory_context.get_c_expression_length_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_expression_length_at_segmented(address))
         return True
 
     def report_entries(resource, memory_context: "MemoryContext", v):
@@ -139,23 +140,23 @@ class RoomShapeNormalResource(CDataResource):
         entries_resource.set_length(numEntries)
 
     def write_entries(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     def write_entriesEnd(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         address = resource.cdata_unpacked["entries"]
         assert isinstance(address, int)
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
-        f.write(" + ")
-        f.write(memory_context.get_c_expression_length_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(" + ")
+        wctx.f.write(memory_context.get_c_expression_length_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(
@@ -211,12 +212,12 @@ def report_RoomShapeImageBase_entry(resource, memory_context: "MemoryContext", v
 
 
 def write_RoomShapeImageBase_entry(
-    resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+    resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
 ):
     assert isinstance(v, int)
     address = v
-    f.write(line_prefix)
-    f.write(memory_context.get_c_reference_at_segmented(address))
+    wctx.f.write(wctx.line_prefix)
+    wctx.f.write(memory_context.get_c_reference_at_segmented(address))
     return True
 
 
@@ -287,12 +288,12 @@ class RoomShapeImageSingleResource(CDataResource):
         )
 
     def write_source(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(
@@ -340,12 +341,12 @@ class RoomShapeImageMultiBgEntryArrayResource(CDataArrayNamedLengthResource):
         )
 
     def write_source(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     elem_cdata_ext = CDataExt_Struct(
@@ -375,15 +376,15 @@ class RoomShapeImageMultiBgEntryArrayResource(CDataArrayNamedLengthResource):
 
 class RoomShapeImageMultiResource(CDataResource):
     def write_numBackgrounds(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         address = resource.cdata_unpacked["backgrounds"]
         assert isinstance(address, int)
         backgrounds_resource = memory_context.resolve_segmented(address).get_resource(
             RoomShapeImageMultiBgEntryArrayResource
         )
-        f.write(line_prefix)
-        f.write(backgrounds_resource.length_name)
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(backgrounds_resource.length_name)
         return True
 
     def report_backgrounds(resource, memory_context: "MemoryContext", v):
@@ -402,12 +403,12 @@ class RoomShapeImageMultiResource(CDataResource):
         backgrounds_resource.set_length(resource.cdata_unpacked["numBackgrounds"])
 
     def write_backgrounds(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(
@@ -453,12 +454,12 @@ class RoomShapeCullableEntryArrayResource(CDataArrayNamedLengthResource):
 
 class RoomShapeCullableResource(CDataResource):
     def write_numEntries(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         address = resource.cdata_unpacked["entries"]
         assert isinstance(address, int)
-        f.write(line_prefix)
-        f.write(memory_context.get_c_expression_length_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_expression_length_at_segmented(address))
         return True
 
     def report_entries(resource, memory_context: "MemoryContext", v):
@@ -478,23 +479,23 @@ class RoomShapeCullableResource(CDataResource):
         entries_resource.set_length(numEntries)
 
     def write_entries(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     def write_entriesEnd(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         address = resource.cdata_unpacked["entries"]
         assert isinstance(address, int)
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
-        f.write(" + ")
-        f.write(memory_context.get_c_expression_length_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(" + ")
+        wctx.f.write(memory_context.get_c_expression_length_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(

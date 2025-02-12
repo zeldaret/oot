@@ -10,6 +10,7 @@ from ..extase.cdata_resources import (
     CDataResource,
     CDataArrayResource,
     CDataExt_Struct,
+    CDataExtWriteContext,
     cdata_ext_Vec3f,
     cdata_ext_Vec3s,
     CDataExt_Value,
@@ -38,15 +39,15 @@ class LegacyLimbResource(CDataResource):
             )
 
     def write_limb(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
+        wctx.f.write(wctx.line_prefix)
         if address == 0:
-            f.write("NULL")
+            wctx.f.write("NULL")
         else:
-            f.write(memory_context.get_c_reference_at_segmented(address))
+            wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(
@@ -101,21 +102,21 @@ class LegacyJointKeyArrayResource(CDataArrayResource):
 class LegacyAnimationResource(CDataResource):
 
     def write_frameData(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     def write_jointKey(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(

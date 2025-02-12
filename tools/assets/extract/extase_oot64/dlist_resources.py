@@ -27,6 +27,7 @@ from ..extase.cdata_resources import (
     CDataExt_Array,
     CDataExt_Struct,
     CDataExt_Value,
+    CDataExtWriteContext,
     INDENT,
 )
 
@@ -38,19 +39,21 @@ VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER = True
 
 
 class MtxResource(CDataResource):
-    def write_mtx(resource, memory_context, v, f: io.TextIOBase, line_prefix):
+
+    def write_mtx(resource, memory_context, v, wctx: CDataExtWriteContext):
         assert isinstance(v, dict)
         assert v.keys() == {"intPart", "fracPart"}
         intPart = v["intPart"]
         fracPart = v["fracPart"]
 
-        f.write(line_prefix)
+        f = wctx.f
+        f.write(wctx.line_prefix)
         f.write("gdSPDefMtx(\n")
 
         for i in range(4):
             if i != 0:
                 f.write(",\n")
-            f.write(line_prefix + INDENT)
+            f.write(wctx.line_prefix + INDENT)
 
             for j in range(4):
                 # #define IPART(x) (((s32)((x) * 0x10000) >> 16) & 0xFFFF)
@@ -75,7 +78,7 @@ class MtxResource(CDataResource):
                 f.write(f"{x}f")
         f.write("\n")
 
-        f.write(line_prefix)
+        f.write(wctx.line_prefix)
         f.write(")")
 
         return True
@@ -98,10 +101,10 @@ class MtxResource(CDataResource):
 
 
 class VtxArrayResource(CDataResource):
-    def write_elem(resource, memory_context, v, f: io.TextIOBase, line_prefix):
+    def write_elem(resource, memory_context, v, wctx: CDataExtWriteContext):
         assert isinstance(v, dict)
-        f.write(line_prefix)
-        f.write(
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(
             f"VTX({v['x']:6}, {v['y']:6}, {v['z']:6}, "
             f"{v['s']:#7X}, {v['t']:#7X}, "
             f"{v['crnx']:#04X}, {v['cgny']:#04X}, {v['cbnz']:#04X}, {v['a']:#04X})"
@@ -1464,16 +1467,15 @@ def write_gfx_segmented(
     resource: Resource,
     memory_context: "MemoryContext",
     v,
-    f: io.TextIOBase,
-    line_prefix: str,
+    wctx:CDataExtWriteContext,
 ):
     assert isinstance(v, int)
     address = v
-    f.write(line_prefix)
+    wctx.f.write(wctx.line_prefix)
     if address == 0:
-        f.write("NULL")
+        wctx.f.write("NULL")
     else:
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
     return True
 
 

@@ -1,5 +1,5 @@
-from __future__ import annotations
 import abc
+import dataclasses
 import io
 from typing import TYPE_CHECKING, Callable, Any, Sequence, Union
 
@@ -21,6 +21,12 @@ from .repr_c_struct import (
 )
 
 
+@dataclasses.dataclass
+class CDataExtWriteContext:
+    f: io.TextIOBase
+    line_prefix: str
+
+
 class CDataExt(CData, abc.ABC):
 
     report_f = None
@@ -37,7 +43,7 @@ class CDataExt(CData, abc.ABC):
     def set_write(
         self,
         write_f: Callable[
-            ["CDataResource", "MemoryContext", Any, io.TextIOBase, str],
+            ["CDataResource", "MemoryContext", Any, CDataExtWriteContext],
             bool,
         ],
     ):
@@ -88,7 +94,9 @@ class CDataExt(CData, abc.ABC):
         (typically, False will be returned if this data is struct padding)
         """
         if self.write_f:
-            ret = self.write_f(resource, memory_context, v, f, line_prefix)
+            ret = self.write_f(
+                resource, memory_context, v, CDataExtWriteContext(f, line_prefix)
+            )
             # This assert is meant to ensure the function returns a value at all,
             # since it's easy to forget to return a value (typically True)
             assert isinstance(ret, bool), ("must return a bool", self.write_f)
@@ -116,11 +124,10 @@ class CDataExt_Value(CData_Value, CDataExt):
             resource: "CDataResource",
             memory_context: "MemoryContext",
             v: Any,
-            f: io.TextIOBase,
-            line_prefix: str,
+            wctx: CDataExtWriteContext,
         ):
-            f.write(line_prefix)
-            f.write(str_v(v))
+            wctx.f.write(wctx.line_prefix)
+            wctx.f.write(str_v(v))
             return True
 
         self.set_write(write_f)
@@ -394,6 +401,7 @@ class S16ArrayResource(CDataResource):
             return f"ARRAY_COUNT({self.symbol_name})"
         else:
             raise ValueError()
+
 
 cdata_ext_Vec3f = CDataExt_Struct(
     (

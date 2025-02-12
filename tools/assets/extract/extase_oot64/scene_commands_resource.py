@@ -17,6 +17,7 @@ from ..extase import (
 from ..extase.cdata_resources import (
     CDataArrayResource,
     CDataExt_Value,
+    CDataExtWriteContext,
 )
 
 from .. import oot64_data
@@ -638,15 +639,15 @@ class AltHeadersResource(CDataArrayResource):
             )
 
     def write_elem(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix: str
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
+        wctx.f.write(wctx.line_prefix)
         if address == 0:
-            f.write("NULL")
+            wctx.f.write("NULL")
         else:
-            f.write(memory_context.get_c_reference_at_segmented(address))
+            wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     elem_cdata_ext = (

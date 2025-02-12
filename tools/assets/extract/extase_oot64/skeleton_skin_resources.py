@@ -11,6 +11,7 @@ from ..extase.cdata_resources import (
     CDataArrayResource,
     CDataExt_Value,
     CDataExt_Struct,
+    CDataExtWriteContext,
     cdata_ext_Vec3s,
 )
 
@@ -85,21 +86,21 @@ class SkinLimbModifArrayResource(CDataArrayResource):
         skin_vertices_res.set_length(v["transformCount"])
 
     def write_skinVertices(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     def write_limbTransformations(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     elem_cdata_ext = CDataExt_Struct(
@@ -140,12 +141,12 @@ class SkinAnimatedLimbDataResource(CDataResource):
         skin_vertices_res.set_length(resource.cdata_unpacked["limbModifCount"])
 
     def write_limbModifications(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(
@@ -196,15 +197,15 @@ class SkinLimbResource(CDataResource):
             dlist_resources.report_gfx_segmented(resource, memory_context, address)
 
     def write_segment(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
+        wctx.f.write(wctx.line_prefix)
         if address == 0:
-            f.write("NULL")
+            wctx.f.write("NULL")
         else:
-            f.write(memory_context.get_c_reference_at_segmented(address))
+            wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(

@@ -15,13 +15,14 @@ from ..extase.cdata_resources import (
     CDataExt_Value,
     CDataExt_Struct,
     CDataExt_Array,
+    CDataExtWriteContext,
 )
 
 
 class AnimationFrameDataResource(CDataResource, can_size_be_unknown=True):
-    def write_binang(resource, memory_context, v, f: io.TextIOBase, line_prefix):
-        f.write(line_prefix)
-        f.write(f" 0x{v:04X}" if v >= 0 else "-0x" + f"{v:04X}".removeprefix("-"))
+    def write_binang(resource, memory_context, v, wctx:CDataExtWriteContext):
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(f" 0x{v:04X}" if v >= 0 else "-0x" + f"{v:04X}".removeprefix("-"))
         return True
 
     elem_cdata_ext = CDataExt_Value("h").set_write(write_binang)
@@ -81,21 +82,21 @@ class AnimationJointIndicesResource(CDataResource, can_size_be_unknown=True):
 
 class AnimationResource(CDataResource):
     def write_frameData(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     def write_jointIndices(
-        resource, memory_context: "MemoryContext", v, f: io.TextIOBase, line_prefix
+        resource, memory_context: "MemoryContext", v, wctx: CDataExtWriteContext
     ):
         assert isinstance(v, int)
         address = v
-        f.write(line_prefix)
-        f.write(memory_context.get_c_reference_at_segmented(address))
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write(memory_context.get_c_reference_at_segmented(address))
         return True
 
     cdata_ext = CDataExt_Struct(
