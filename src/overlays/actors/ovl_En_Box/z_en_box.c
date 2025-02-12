@@ -172,7 +172,8 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
     this->dyna.actor.home.rot.z = this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
 
     //! @bug Flex skeleton is used as normal skeleton
-    SkelAnime_Init(play, &this->skelanime, &gTreasureChestSkel.sh, anim, this->jointTable, this->morphTable, 5);
+    SkelAnime_Init(play, &this->skelanime, (SkeletonHeader*)&gTreasureChestSkel, anim, this->jointTable,
+                   this->morphTable, 5);
     Animation_Change(&this->skelanime, anim, 1.5f, animFrameStart, endFrame, ANIMMODE_ONCE, 0.0f);
 
     switch (this->type) {

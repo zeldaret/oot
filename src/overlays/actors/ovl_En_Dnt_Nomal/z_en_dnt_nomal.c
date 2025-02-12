@@ -197,8 +197,8 @@ void EnDntNomal_WaitForObject(EnDntNomal* this, PlayState* play) {
         Actor_SetScale(&this->actor, 0.01f);
         if (this->type == ENDNTNOMAL_TARGET) {
             //! @bug Flex skeleton is used as normal skeleton
-            SkelAnime_Init(play, &this->skelAnime, &gHintNutsSkel.sh, &gHintNutsBurrowAnim, this->jointTable,
-                           this->morphTable, 10);
+            SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)&gHintNutsSkel, &gHintNutsBurrowAnim,
+                           this->jointTable, this->morphTable, 10);
             this->actor.draw = EnDntNomal_DrawTargetScrub;
         } else {
             SkelAnime_Init(play, &this->skelAnime, &gDntStageSkel, &gDntStageHideAnim, this->jointTable,
