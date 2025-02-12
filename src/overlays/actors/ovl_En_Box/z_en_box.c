@@ -1,6 +1,23 @@
 #include "z_en_box.h"
-#include "global.h"
 #include "overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64curve.h"
+#include "z64effect.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_box/object_box.h"
 
 #define FLAGS 0

@@ -5,8 +5,10 @@
  */
 
 #include "z_obj_makekinsuta.h"
-#include "global.h"
+
 #include "terminal.h"
+#include "z64play.h"
+#include "z64player.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

@@ -5,9 +5,18 @@
  */
 
 #include "z_en_fish.h"
-#include "global.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
 
