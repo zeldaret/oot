@@ -137,7 +137,7 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
             Collider_InitCylinder(play, &this->colliderCylinder);
             Collider_SetCylinder(play, &this->colliderCylinder, &this->actor, &sCylinderInit);
             Collider_InitJntSph(play, &this->colliderJntSph);
-            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphItems);
+            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
             this->colliderJntSph.elements[0].dim.worldSphere.radius = 80;
             this->colliderJntSph.elements[0].dim.worldSphere.center.x = (s16)this->actor.world.pos.x;
             this->colliderJntSph.elements[0].dim.worldSphere.center.y = (s16)this->actor.world.pos.y + 50;

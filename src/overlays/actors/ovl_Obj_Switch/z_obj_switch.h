@@ -26,13 +26,13 @@ typedef enum ObjSwitchSubType {
 } ObjSwitchSubType;
 
 typedef struct ObjSwitchJntSph {
-    /* 0x00 */ ColliderJntSph col;
-    /* 0x20 */ ColliderJntSphElement elements[1];
+    /* 0x00 */ ColliderJntSph collider;
+    /* 0x20 */ ColliderJntSphElement colliderElements[1];
 } ObjSwitchJntSph;
 
 typedef struct ObjSwitchTris {
-    /* 0x00 */ ColliderTris col;
-    /* 0x20 */ ColliderTrisElement elements[2];
+    /* 0x00 */ ColliderTris collider;
+    /* 0x20 */ ColliderTrisElement colliderElements[2];
 } ObjSwitchTris;
 
 typedef struct ObjSwitch {
