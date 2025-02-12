@@ -89,7 +89,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 50, 160, -70, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphElemInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -113,7 +113,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sJntSphElemInit,
+    sJntSphElementsInit,
 };
 
 static ColliderQuadInit sQuadInit = {

@@ -63,7 +63,7 @@ ActorProfile En_Bigokuta_Profile = {
     /**/ EnBigokuta_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK1,
@@ -86,8 +86,8 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sJntSphElementInit),
-    sJntSphElementInit,
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
 
 static ColliderCylinderInit sCylinderInit[] = {
