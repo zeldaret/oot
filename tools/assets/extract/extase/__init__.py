@@ -749,6 +749,8 @@ class Resource(abc.ABC):
     - an array of data, such as a display list Gfx[], or a texture u64[]
     """
 
+    braces_in_source = True
+
     def __init_subclass__(cls, /, can_size_be_unknown=False, **kwargs):
         super().__init_subclass__(**kwargs)
         cls.can_size_be_unknown = can_size_be_unknown
@@ -956,10 +958,16 @@ class Resource(abc.ABC):
         if hasattr(self, "HACK_IS_STATIC_ON"):
             c.write("static ")
         c.write(self.get_c_declaration_base())
-        c.write(" =\n")
+        if self.braces_in_source:
+            c.write(" = {\n")
+        else:
+            c.write(" =\n")
 
         c.write(f'#include "{self.inc_c_path}"\n')
-        c.write(";\n")
+        if self.braces_in_source:
+            c.write("};\n")
+        else:
+            c.write(";\n")
 
         return True
 

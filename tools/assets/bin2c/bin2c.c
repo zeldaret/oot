@@ -33,8 +33,6 @@ int main(int argc, char** argv) {
     FILE* in_bin = stdin;
     FILE* out_c = stdout;
 
-    fprintf(out_c, "{\n");
-
     int cur_line_nelems = 0;
 
     while (true) {
@@ -79,8 +77,6 @@ int main(int argc, char** argv) {
     if (cur_line_nelems != 0) {
         fprintf(out_c, "\n");
     }
-
-    fprintf(out_c, "}\n");
 
     return EXIT_SUCCESS;
 }

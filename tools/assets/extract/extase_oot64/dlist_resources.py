@@ -39,6 +39,7 @@ VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER = True
 
 
 class MtxResource(CDataResource):
+    braces_in_source = False
 
     def write_mtx(resource, memory_context, v, wctx: CDataExtWriteContext):
         assert isinstance(v, dict)
@@ -1258,6 +1259,7 @@ class DListResource(Resource, can_size_be_unknown=True):
 
     def write_extracted(self, memory_context):
         def macro_fn():
+            pygfxd.gfxd_puts(INDENT)
             ret = pygfxd.gfxd_macro_dflt()
             pygfxd.gfxd_puts(",\n")
             return ret
@@ -1421,7 +1423,8 @@ class DListResource(Resource, can_size_be_unknown=True):
             return 1
 
         with self.extract_to_path.open("wb") as f:
-            f.write(b"{\n")
+            if not self.braces_in_source:
+                f.write(b"{\n")
 
             out_string_wrapper = StringWrapper(b"", 120, f.write)
 
@@ -1444,7 +1447,8 @@ class DListResource(Resource, can_size_be_unknown=True):
 
             out_string_wrapper.flush()
 
-            f.write(b"}\n")
+            if not self.braces_in_source:
+                f.write(b"}\n")
 
 
 def report_gfx_segmented(resource: Resource, memory_context: "MemoryContext", v):
@@ -1467,7 +1471,7 @@ def write_gfx_segmented(
     resource: Resource,
     memory_context: "MemoryContext",
     v,
-    wctx:CDataExtWriteContext,
+    wctx: CDataExtWriteContext,
 ):
     assert isinstance(v, int)
     address = v

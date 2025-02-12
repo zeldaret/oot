@@ -41,9 +41,11 @@ class CutsceneResource(Resource, can_size_be_unknown=True):
     def write_extracted(self, memory_context):
         with self.extract_to_path.open("w") as f:
             f.write('#include "z64cutscene_commands.h"\n')
-            f.write("{\n")
+            if not self.braces_in_source:
+                f.write("{\n")
             f.write(self.cs_source)
-            f.write("}\n")
+            if not self.braces_in_source:
+                f.write("}\n")
 
     def get_c_declaration_base(self):
         return f"CutsceneData {self.symbol_name}[]"

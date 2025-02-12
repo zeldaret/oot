@@ -426,7 +426,8 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
     def write_extracted(self, memory_context):
         data = self.file.data[self.range_start : self.range_end]
         with self.extract_to_path.open("w") as f:
-            f.write("{\n")
+            if not self.braces_in_source:
+                f.write("{\n")
             for offset in range(0, len(data), 8):
                 (cmd_id_int, data1, pad2, data2_I) = struct.unpack_from(
                     ">BBHI", data, offset
@@ -615,7 +616,9 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                     f.write(f"{sceneCamType_name}, {worldMapLocation}")
 
                 f.write("),\n")
-            f.write("}\n")
+
+            if not self.braces_in_source:
+                f.write("}\n")
 
     def get_c_reference(self, resource_offset: int):
         if resource_offset == 0:

@@ -25,6 +25,7 @@ from .repr_c_struct import (
 class CDataExtWriteContext:
     f: io.TextIOBase
     line_prefix: str
+    inhibit_top_braces: bool
 
 
 class CDataExt(CData, abc.ABC):
@@ -66,6 +67,8 @@ class CDataExt(CData, abc.ABC):
         v: Any,
         f: io.TextIOBase,
         line_prefix: str,
+        *,
+        inhibit_top_braces: bool,
     ) -> bool: ...
 
     def report(
@@ -88,6 +91,8 @@ class CDataExt(CData, abc.ABC):
         v: Any,
         f: io.TextIOBase,
         line_prefix: str,
+        *,
+        inhibit_top_braces: bool,
     ) -> bool:
         """
         Returns True if something has been written
@@ -95,13 +100,23 @@ class CDataExt(CData, abc.ABC):
         """
         if self.write_f:
             ret = self.write_f(
-                resource, memory_context, v, CDataExtWriteContext(f, line_prefix)
+                resource,
+                memory_context,
+                v,
+                CDataExtWriteContext(f, line_prefix, inhibit_top_braces),
             )
             # This assert is meant to ensure the function returns a value at all,
             # since it's easy to forget to return a value (typically True)
             assert isinstance(ret, bool), ("must return a bool", self.write_f)
         else:
-            ret = self.write_default(resource, memory_context, v, f, line_prefix)
+            ret = self.write_default(
+                resource,
+                memory_context,
+                v,
+                f,
+                line_prefix,
+                inhibit_top_braces=inhibit_top_braces,
+            )
             assert isinstance(ret, bool), self
         return ret
 
@@ -139,7 +154,12 @@ class CDataExt_Value(CData_Value, CDataExt):
             if v != 0:
                 raise Exception("non-0 padding")
 
-    def write_default(self, resource, memory_context, v, f, line_prefix):
+    def write_default(
+        self, resource, memory_context, v, f, line_prefix, *, inhibit_top_braces
+    ):
+        assert (
+            not inhibit_top_braces
+        ), "CDataExt_Value can't inhibit top braces, it doesn't have any"
         if not self.is_padding:
             f.write(line_prefix)
             f.write(str(v))
@@ -177,18 +197,27 @@ class CDataExt_Array(CData_Array, CDataExt):
         for elem in v:
             self.element_cdata_ext.report(resource, memory_context, elem)
 
-    def write_default(self, resource, memory_context, v, f, line_prefix):
+    def write_default(
+        self, resource, memory_context, v, f, line_prefix, *, inhibit_top_braces
+    ):
         assert isinstance(v, list)
-        f.write(line_prefix)
-        f.write("{\n")
+        if not inhibit_top_braces:
+            f.write(line_prefix)
+            f.write("{\n")
         for i, elem in enumerate(v):
             ret = self.element_cdata_ext.write(
-                resource, memory_context, elem, f, line_prefix + INDENT
+                resource,
+                memory_context,
+                elem,
+                f,
+                line_prefix + INDENT,
+                inhibit_top_braces=False,
             )
             assert ret
             f.write(f", // {i}\n")
-        f.write(line_prefix)
-        f.write("}")
+        if not inhibit_top_braces:
+            f.write(line_prefix)
+            f.write("}")
         return True
 
 
@@ -203,17 +232,26 @@ class CDataExt_Struct(CData_Struct, CDataExt):
         for member_name, member_cdata_ext in self.members_ext:
             member_cdata_ext.report(resource, memory_context, v[member_name])
 
-    def write_default(self, resource, memory_context, v, f, line_prefix):
+    def write_default(
+        self, resource, memory_context, v, f, line_prefix, *, inhibit_top_braces
+    ):
         assert isinstance(v, dict)
-        f.write(line_prefix)
-        f.write("{\n")
+        if not inhibit_top_braces:
+            f.write(line_prefix)
+            f.write("{\n")
         for member_name, member_cdata_ext in self.members_ext:
             if member_cdata_ext.write(
-                resource, memory_context, v[member_name], f, line_prefix + INDENT
+                resource,
+                memory_context,
+                v[member_name],
+                f,
+                line_prefix + INDENT,
+                inhibit_top_braces=False,
             ):
                 f.write(f", // {member_name}\n")
-        f.write(line_prefix)
-        f.write("}")
+        if not inhibit_top_braces:
+            f.write(line_prefix)
+            f.write("}")
         return True
 
 
@@ -268,7 +306,14 @@ class CDataResource(Resource):
 
     def write_extracted(self, memory_context):
         with self.extract_to_path.open("w") as f:
-            self.cdata_ext.write(self, memory_context, self.cdata_unpacked, f, "")
+            self.cdata_ext.write(
+                self,
+                memory_context,
+                self.cdata_unpacked,
+                f,
+                "",
+                inhibit_top_braces=self.braces_in_source,
+            )
             f.write("\n")
 
 
