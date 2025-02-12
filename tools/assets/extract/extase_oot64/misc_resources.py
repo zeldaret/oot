@@ -40,6 +40,7 @@ class CutsceneResource(Resource, can_size_be_unknown=True):
 
     def write_extracted(self, memory_context):
         with self.extract_to_path.open("w") as f:
+            # TODO move include at the top of the file
             f.write('#include "z64cutscene_commands.h"\n')
             if not self.braces_in_source:
                 f.write("{\n")
