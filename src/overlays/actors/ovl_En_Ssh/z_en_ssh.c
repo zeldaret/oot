@@ -1,4 +1,16 @@
 #include "z_en_ssh.h"
+
+#include "gfx.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "global.h"
+
 #include "assets/objects/object_ssh/object_ssh.h"
 
 #define FLAGS                                                                                 \

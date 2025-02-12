@@ -2,11 +2,11 @@
 #define Z_ITEM_SCENE_CHANGE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSceneChange;
 
-typedef void (*EnSceneChangeActionFunc)(struct EnSceneChange*, PlayState*);
+typedef void (*EnSceneChangeActionFunc)(struct EnSceneChange*, struct PlayState*);
 
 typedef struct EnSceneChange {
     /* 0x0000 */ Actor actor;

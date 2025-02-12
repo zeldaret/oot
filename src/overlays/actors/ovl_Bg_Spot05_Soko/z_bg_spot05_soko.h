@@ -2,11 +2,11 @@
 #define Z_BG_SPOT05_SOKO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot05Soko;
 
-typedef void (*BgSpot05SokoActionFunc)(struct BgSpot05Soko*, PlayState*);
+typedef void (*BgSpot05SokoActionFunc)(struct BgSpot05Soko*, struct PlayState*);
 
 typedef struct BgSpot05Soko {
     /* 0x0000 */ DynaPolyActor dyna;

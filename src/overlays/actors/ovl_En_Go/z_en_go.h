@@ -2,13 +2,13 @@
 #define Z_EN_GO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGo;
 
-typedef void (*EnGoActionFunc)(struct EnGo*, PlayState*);
-typedef u16 (*callback1_80A3ED24)(PlayState*, struct EnGo*);
-typedef s16 (*callback2_80A3ED24)(PlayState*, struct EnGo*);
+typedef void (*EnGoActionFunc)(struct EnGo*, struct PlayState*);
+typedef u16 (*callback1_80A3ED24)(struct PlayState*, struct EnGo*);
+typedef s16 (*callback2_80A3ED24)(struct PlayState*, struct EnGo*);
 
 // WIP type docs
 // /* 0x00 */ GORON1_CITY_LINK,

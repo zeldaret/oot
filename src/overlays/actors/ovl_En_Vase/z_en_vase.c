@@ -5,6 +5,9 @@
  */
 
 #include "z_en_vase.h"
+
+#include "z64play.h"
+
 #include "assets/objects/object_vase/object_vase.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

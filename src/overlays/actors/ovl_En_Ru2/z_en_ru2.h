@@ -2,15 +2,15 @@
 #define Z_EN_RU2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #define ENRU2_GET_SWITCH_FLAG(thisx) PARAMS_GET_U(thisx->actor.params, 8, 8)
 #define ENRU2_GET_TYPE(thisx) PARAMS_GET_U(thisx->actor.params, 0, 8)
 
 struct EnRu2;
 
-typedef void (*EnRu2ActionFunc)(struct EnRu2*, PlayState*);
-typedef void (*EnRu2DrawFunc)(struct EnRu2*, PlayState*);
+typedef void (*EnRu2ActionFunc)(struct EnRu2*, struct PlayState*);
+typedef void (*EnRu2DrawFunc)(struct EnRu2*, struct PlayState*);
 
 typedef struct EnRu2 {
     /* 0x0000 */ Actor actor;

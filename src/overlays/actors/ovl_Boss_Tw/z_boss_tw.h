@@ -2,11 +2,11 @@
 #define Z_BOSS_TW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossTw;
 
-typedef void (*BossTwActionFunc)(struct BossTw* this, PlayState* play);
+typedef void (*BossTwActionFunc)(struct BossTw* this, struct PlayState* play);
 
 typedef enum TwWork {
     /*  0 */ CS_TIMER_1,

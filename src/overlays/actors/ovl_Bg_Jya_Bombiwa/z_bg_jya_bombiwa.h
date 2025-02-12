@@ -4,7 +4,6 @@
 #include "ultra64.h"
 #include "z64actor.h"
 
-
 struct BgJyaBombiwa;
 
 typedef struct BgJyaBombiwa {

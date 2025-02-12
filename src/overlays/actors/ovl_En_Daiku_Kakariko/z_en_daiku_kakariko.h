@@ -2,11 +2,11 @@
 #define Z_EN_DAIKU_KAKARIKO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDaikuKakariko;
 
-typedef void (*EnDaikuKakarikoActionFunc)(struct EnDaikuKakariko*, PlayState*);
+typedef void (*EnDaikuKakarikoActionFunc)(struct EnDaikuKakariko*, struct PlayState*);
 
 typedef struct EnDaikuKakariko {
     /* 0x0000 */ Actor actor;

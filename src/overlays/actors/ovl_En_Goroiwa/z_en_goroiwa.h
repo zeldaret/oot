@@ -2,11 +2,11 @@
 #define Z_EN_GOROIWA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGoroiwa;
 
-typedef void (*EnGoroiwaActionFunc)(struct EnGoroiwa*, PlayState*);
+typedef void (*EnGoroiwaActionFunc)(struct EnGoroiwa*, struct PlayState*);
 
 typedef struct EnGoroiwa {
     /* 0x0000 */ Actor actor;

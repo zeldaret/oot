@@ -2,11 +2,11 @@
 #define Z_BOSS_FD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossFd;
 
-typedef void (*BossFdActionFunc)(struct BossFd*, PlayState*);
+typedef void (*BossFdActionFunc)(struct BossFd*, struct PlayState*);
 
 typedef enum BossFdActionState {
     /*  -1 */ BOSSFD_WAIT_INTRO = -1,

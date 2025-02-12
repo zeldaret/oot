@@ -1,5 +1,6 @@
-#include "z_demo_du.h"
+#include "sequence.h"
 #include "z64cutscene_commands.h"
+#include "z64player.h"
 
 // clang-format off
 static CutsceneData gFireMedallionCs[] = {

@@ -2,11 +2,12 @@
 #define Z_BG_SPOT00_HANEBASI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct BgSpot00Hanebasi;
 
-typedef void (*BgSpot00HanebasiActionFunc)(struct BgSpot00Hanebasi*, PlayState*);
+typedef void (*BgSpot00HanebasiActionFunc)(struct BgSpot00Hanebasi*, struct PlayState*);
 
 typedef struct BgSpot00Hanebasi {
     /* 0x0000 */ DynaPolyActor dyna;

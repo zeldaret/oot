@@ -2,12 +2,12 @@
 #define Z_DEMO_GO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct DemoGo;
 
-typedef void (*DemoGoActionFunc)(struct DemoGo*, PlayState*);
-typedef void (*DemoGoDrawFunc)(struct DemoGo*, PlayState*);
+typedef void (*DemoGoActionFunc)(struct DemoGo*, struct PlayState*);
+typedef void (*DemoGoDrawFunc)(struct DemoGo*, struct PlayState*);
 
 typedef struct DemoGo {
     /* 0x0000 */ Actor actor;

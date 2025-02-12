@@ -2,11 +2,11 @@
 #define Z_BG_SPOT16_BOMBSTONE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot16Bombstone;
 
-typedef void (*BgSpot16BombstoneActionFunc)(struct BgSpot16Bombstone*, PlayState*);
+typedef void (*BgSpot16BombstoneActionFunc)(struct BgSpot16Bombstone*, struct PlayState*);
 
 typedef struct BgSpot16Bombstone {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_EN_SSH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSsh;
 
-typedef void (*EnSshActionFunc)(struct EnSsh*, PlayState*);
+typedef void (*EnSshActionFunc)(struct EnSsh*, struct PlayState*);
 
 typedef struct EnSsh {
     /* 0x0000 */ Actor actor;

@@ -6,6 +6,8 @@
 
 #include "z_en_it.h"
 
+#include "z64play.h"
+
 #define FLAGS 0
 
 void EnIt_Init(Actor* thisx, PlayState* play);
