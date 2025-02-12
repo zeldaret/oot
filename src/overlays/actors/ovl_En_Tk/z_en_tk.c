@@ -16,9 +16,8 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
+#include "z64face_reaction.h"
 #include "z64play.h"
-
-#include "global.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_tk/object_tk.h"

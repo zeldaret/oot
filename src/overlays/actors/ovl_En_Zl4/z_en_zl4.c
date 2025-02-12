@@ -17,10 +17,9 @@
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "z64audio.h"
+#include "z64face_reaction.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
 
 #include "assets/objects/object_zl4/object_zl4.h"
 #include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
