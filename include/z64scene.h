@@ -8,6 +8,7 @@
 #include "z64environment.h"
 #include "z64light.h"
 #include "z64math.h"
+#include "z64path.h"
 
 #include "command_macros_base.h"
 
@@ -50,11 +51,6 @@ typedef struct Spawn {
     /* 0x00 */ u8 playerEntryIndex;
     /* 0x01 */ u8 room;
 } Spawn;
-
-typedef struct Path {
-    /* 0x00 */ u8 count; // number of points in the path
-    /* 0x04 */ Vec3s* points; // Segment Address to the array of points
-} Path; // size = 0x8
 
 // Room shapes
 
