@@ -29,7 +29,7 @@
 #include "z64thread.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:76 pal-1.0:74 pal-1.1:74"
+                               "ntsc-1.2:78 pal-1.0:76 pal-1.1:76"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
