@@ -2696,8 +2696,8 @@ void BossSst_UpdateHead(Actor* thisx, PlayState* play2) {
     }
 
 #if OOT_VERSION < NTSC_1_2
-    if (this->colliderCyl.base.acFlags & AC_ON) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCyl.base);
+    if (this->colliderCylinder.base.acFlags & AC_ON) {
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinder.base);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
 #else
