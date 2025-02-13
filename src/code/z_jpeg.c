@@ -1,5 +1,11 @@
 #include "global.h"
+#include "ultra64.h"
+#include "attributes.h"
+#include "jpeg.h"
+#include "sys_ucode.h"
 #include "terminal.h"
+
+#include "macros.h"
 
 #define MARKER_ESCAPE 0x00
 #define MARKER_SOI 0xD8

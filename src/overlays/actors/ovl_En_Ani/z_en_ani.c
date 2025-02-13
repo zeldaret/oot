@@ -13,9 +13,8 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
+#include "z64face_reaction.h"
 #include "z64play.h"
-
-#include "global.h"
 
 #include "assets/objects/object_ani/object_ani.h"
 

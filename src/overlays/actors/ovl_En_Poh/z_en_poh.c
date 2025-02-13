@@ -19,8 +19,6 @@
 #include "z64play.h"
 #include "z64player.h"
 
-#include "global.h"
-
 #include "assets/objects/object_poh/object_poh.h"
 #include "assets/objects/object_po_composer/object_po_composer.h"
 

@@ -31,6 +31,7 @@
 #include "libu64/debug.h"
 #include "libu64/padsetup.h"
 #include "macros.h"
+#include "padmgr.h"
 #include "fault.h"
 #include "terminal.h"
 #include "line_numbers.h"

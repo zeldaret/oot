@@ -4,14 +4,13 @@
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
-#include "segmented_address.h"s
+#include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
+#include "z64face_reaction.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
 
 #include "assets/objects/object_cs/object_cs.h"
 #include "assets/objects/object_link_child/object_link_child.h"

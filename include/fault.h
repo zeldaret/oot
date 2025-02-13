@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "attributes.h"
-#include "padmgr.h"
+#include "libu64/pad.h"
 
 #if !PLATFORM_N64
 // These are the same as the 3-bit ansi color codes

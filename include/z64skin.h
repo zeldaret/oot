@@ -3,6 +3,10 @@
 
 #include "z64animation.h"
 
+struct Actor;
+struct GraphicsContext;
+struct PlayState;
+
 /**
  * Holds a compact version of a vertex used in the Skin system
  * It is used to initialise the Vtx used by an animated limb
@@ -74,5 +78,20 @@ typedef s32 (*SkinOverrideLimbDraw)(struct Actor*, struct PlayState*, s32, Skin*
 #define SKIN_DRAW_FLAG_CUSTOM_MATRIX     (1 << 1)
 
 #define SKIN_TRANSFORM_IS_FHG 0x23
+
+void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* modifEntry, Vtx* vtxBuf, Vec3f* pos);
+void Skin_DrawAnimatedLimb(struct GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 arg3, s32 drawFlags);
+void Skin_DrawLimb(struct GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, s32 drawFlags);
+void func_800A6330(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostDraw postDraw, s32 setTranslation);
+void func_800A6360(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostDraw postDraw,
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation);
+void func_800A6394(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostDraw postDraw,
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6);
+void func_800A63CC(struct Actor* actor, struct PlayState* play, Skin* skin, SkinPostDraw postDraw,
+                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6, s32 drawFlags);
+void Skin_GetLimbPos(Skin* skin, s32 limbIndex, Vec3f* offset, Vec3f* dst);
+void Skin_Init(struct PlayState* play, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader);
+void Skin_Free(struct PlayState* play, Skin* skin);
+s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, struct Actor* actor, s32 setTranslation);
 
 #endif

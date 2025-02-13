@@ -26,8 +26,6 @@
 #include "z64play.h"
 #include "z64player.h"
 
-#include "global.h"
-
 #include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/objects/object_zl2/object_zl2.h"

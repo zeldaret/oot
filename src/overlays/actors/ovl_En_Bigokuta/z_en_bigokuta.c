@@ -16,8 +16,6 @@
 #include "z64play.h"
 #include "z64player.h"
 
-#include "global.h"
-
 #include "assets/objects/object_bigokuta/object_bigokuta.h"
 
 #define FLAGS                                                                                 \

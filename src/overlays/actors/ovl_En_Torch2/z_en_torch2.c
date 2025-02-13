@@ -22,8 +22,6 @@
 #include "z64play.h"
 #include "z64player.h"
 
-#include "global.h"
-
 #include "assets/objects/object_torch2/object_torch2.h"
 
 #define FLAGS                                                                                 \

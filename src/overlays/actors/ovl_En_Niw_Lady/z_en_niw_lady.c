@@ -11,10 +11,9 @@
 #include "terminal.h"
 #include "versions.h"
 #include "z_lib.h"
+#include "z64face_reaction.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
 
 #include "assets/objects/object_ane/object_ane.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"

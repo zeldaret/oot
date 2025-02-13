@@ -29,8 +29,6 @@
 #include "z64player.h"
 #include "z64skin_matrix.h"
 
-#include "global.h"
-
 #include "assets/objects/object_horse/object_horse.h"
 #include "assets/objects/object_hni/object_hni.h"
 #include "assets/scenes/overworld/spot09/spot09_scene.h"

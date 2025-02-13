@@ -19,10 +19,9 @@
 #include "z_lib.h"
 #include "z64audio.h"
 #include "z64effect.h"
+#include "z64face_reaction.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
 
 #include "assets/objects/object_zo/object_zo.h"
 

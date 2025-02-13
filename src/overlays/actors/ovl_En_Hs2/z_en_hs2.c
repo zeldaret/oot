@@ -11,9 +11,8 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "z_lib.h"
+#include "z64face_reaction.h"
 #include "z64play.h"
-
-#include "global.h"
 
 #include "assets/objects/object_hs/object_hs.h"
 

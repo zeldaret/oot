@@ -17,8 +17,6 @@
 #include "z64player.h"
 #include "z64skin.h"
 
-#include "global.h"
-
 #include "assets/objects/object_horse_ganon/object_horse_ganon.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

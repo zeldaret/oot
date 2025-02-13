@@ -14,8 +14,6 @@
 #include "z64play.h"
 #include "z64player.h"
 
-#include "global.h"
-
 #include "assets/objects/object_daiku/object_daiku.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
