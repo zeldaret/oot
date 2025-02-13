@@ -256,7 +256,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 #if OOT_VERSION < PAL_1_0
-    if (this->targetQuad.base.acFlags & AC_HIT)
+    if (this->targetColliderQuad.base.acFlags & AC_HIT)
 #else
     if ((this->targetColliderQuad.base.acFlags & AC_HIT) || BREG(0))
 #endif
