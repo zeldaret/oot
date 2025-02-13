@@ -48,7 +48,6 @@ typedef struct GameState {
     /* 0xA0 */ u32 inPreNMIState;
 } GameState; // size = 0xA4
 
-
 void GameState_ReqPadData(GameState* gameState);
 void GameState_Update(GameState* gameState);
 void GameState_InitArena(GameState* gameState, size_t size);
@@ -63,6 +62,5 @@ void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int l
 #else
 #define GAME_STATE_ALLOC(gameState, size, file, line) THA_AllocTailAlign16(&(gameState)->tha, size)
 #endif
-
 
 #endif
