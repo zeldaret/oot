@@ -10,6 +10,7 @@
 #endif
 
 #include "z64debug_display.h"
+#include "z64env_flags.h"
 #include "z64frame_advance.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"

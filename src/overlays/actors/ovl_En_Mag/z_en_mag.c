@@ -17,6 +17,7 @@
 #include "sfx.h"
 #include "versions.h"
 #include "z64audio.h"
+#include "z64env_flags.h"
 #include "z64play.h"
 
 #include "global.h"

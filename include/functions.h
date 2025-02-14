@@ -47,13 +47,6 @@ void Debug_DrawText(GraphicsContext* gfxCtx);
 
 void* MemCpy(void* dest, const void* src, s32 len);
 
-u16 QuestHint_GetSariaTextId(PlayState* play);
-u16 QuestHint_GetNaviTextId(PlayState* play);
-void CutsceneFlags_UnsetAll(PlayState* play);
-void CutsceneFlags_Set(PlayState* play, s16 flag);
-void CutsceneFlags_Unset(PlayState* play, s16 flag);
-s32 CutsceneFlags_Get(PlayState* play, s16 flag);
-
 s32 Kanji_OffsetFromShiftJIS(s32 character);
 #if PLATFORM_IQUE
 void Font_LoadCharCHN(Font* font, u16 character, u16 codePointIndex);

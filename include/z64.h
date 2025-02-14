@@ -148,13 +148,6 @@ typedef struct SampleState {
     /* 0x00A8 */ View view;
 } SampleState; // size = 0x1D0
 
-typedef struct QuestHintCmd {
-    /* 0x00 */ u8 byte0;
-    /* 0x01 */ u8 byte1;
-    /* 0x02 */ u8 byte2;
-    /* 0x03 */ u8 byte3;
-} QuestHintCmd; // size = 0x4
-
 typedef enum PauseBgPreRenderState {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
     /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.

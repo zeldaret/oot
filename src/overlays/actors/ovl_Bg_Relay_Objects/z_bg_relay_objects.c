@@ -11,10 +11,9 @@
 #include "sfx.h"
 #include "z_lib.h"
 #include "z64audio.h"
+#include "z64env_flags.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
 
 #include "assets/objects/object_relay_objects/object_relay_objects.h"
 

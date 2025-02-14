@@ -6,6 +6,7 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "z64env_flags.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 

@@ -10,6 +10,7 @@
 #include "versions.h"
 #include "z_lib.h"
 #include "z64cutscene_commands.h"
+#include "z64env_flags.h"
 #include "z64olib.h"
 #include "z64play.h"
 #include "z64player.h"

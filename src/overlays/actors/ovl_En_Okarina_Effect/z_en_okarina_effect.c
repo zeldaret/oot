@@ -12,10 +12,9 @@
 #include "versions.h"
 #include "z64audio.h"
 #include "z64debug_display.h"
+#include "z64env_flags.h"
 #include "z64frame_advance.h"
 #include "z64play.h"
-
-#include "global.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
