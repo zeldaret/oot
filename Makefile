@@ -321,7 +321,7 @@ MKLDSCRIPT := tools/mkldscript
 MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 BIN2C      := tools/bin2c
-N64TEXCONV := tools/n64texconv/n64texconv
+N64TEXCONV := tools/assets/n64texconv/n64texconv
 FADO       := tools/fado/fado.elf
 PYTHON     ?= $(VENV)/bin/python3
 
