@@ -324,7 +324,7 @@ class N64Image(Structure):
             raise ValueError(f"Not enough data to extract the specified image. " +
                              f"Expected at least 0x{expected_size:X} bytes but only got 0x{len(data):X} bytes")
         buffer = create_string_buffer(data, len(data))
-        return deref(ln64texconv.n64texconv_image_from_bin(buffer, width, height, fmt, siz, byref(pal), preswapped))
+        return deref(ln64texconv.n64texconv_image_from_bin(buffer, width, height, fmt, siz, None if pal is None else byref(pal), preswapped))
 
     def reformat(self, fmt : int, siz : int, pal : Optional[N64Palette] = None) -> Optional["N64Image"]:
         if not any((fmt, siz) == fmtsiz for fmtsiz in VALID_FORMAT_COMBINATIONS):

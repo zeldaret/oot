@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: Copyright (C) 2025 ZeldaRET */
 /* SPDX-License-Identifier: MIT */
 #ifndef BIN2C_H
-#define BIn2C_H
+#define BIN2C_H
 
 #include <stddef.h>
 

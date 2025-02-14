@@ -101,7 +101,7 @@ n64texconv_quantize(uint8_t *out_indices, struct color *out_pal, size_t *out_pal
 
     // Write output bitmap
     liq_set_dithering_level(result, dither_level);
-    liq_write_remapped_image(result, img, (void *)out_indices, width * height * 4);
+    liq_write_remapped_image(result, img, (void *)out_indices, width * height);
 
     // Write output palette
     const liq_palette *pal = liq_get_palette(result);
