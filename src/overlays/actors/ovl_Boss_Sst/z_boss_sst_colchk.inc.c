@@ -1,6 +1,6 @@
 #include "z64collision_check.h"
 
-static ColliderJntSphElementInit sJntSphItemsInitHand[11] = {
+static ColliderJntSphElementInit sJntSphElementsInitHand[11] = {
     {
         {
             ELEM_MATERIAL_UNK1,
@@ -134,10 +134,10 @@ static ColliderJntSphInit sJntSphInitHand = {
         COLSHAPE_JNTSPH,
     },
     11,
-    sJntSphItemsInitHand,
+    sJntSphElementsInitHand,
 };
 
-static ColliderJntSphElementInit sJntSphItemsInitHead[11] = {
+static ColliderJntSphElementInit sJntSphElementsInitHead[11] = {
     {
         {
             ELEM_MATERIAL_UNK1,
@@ -271,7 +271,7 @@ static ColliderJntSphInit sJntSphInitHead = {
         COLSHAPE_JNTSPH,
     },
     11,
-    sJntSphItemsInitHead,
+    sJntSphElementsInitHead,
 };
 
 static ColliderCylinderInit sCylinderInitHead = {

@@ -60,7 +60,7 @@ ActorProfile Obj_Lightswitch_Profile = {
     /**/ ObjLightswitch_Draw,
 };
 
-static ColliderJntSphElementInit sColliderJntSphElementInit[] = {
+static ColliderJntSphElementInit sColliderJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -83,7 +83,7 @@ static ColliderJntSphInit sColliderJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sColliderJntSphElementInit,
+    sColliderJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };

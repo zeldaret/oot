@@ -38,8 +38,8 @@ typedef struct EnDntNomal {
     /* 0x0279 */ s8 requiredObjectSlot;
     /* 0x027C */ Vec3f mouthPos;
     /* 0x0288 */ Vec3f targetPos;
-    /* 0x0294 */ ColliderQuad targetQuad;
-    /* 0x0314 */ ColliderCylinder bodyCyl;
+    /* 0x0294 */ ColliderQuad targetColliderQuad;
+    /* 0x0314 */ ColliderCylinder bodyColliderCylinder;
 } EnDntNomal; // size = 0x0360
 
 #define ENDNTNOMAL_TARGET 0

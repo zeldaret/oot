@@ -68,8 +68,8 @@ void EnAnubiceFire_Init(Actor* thisx, PlayState* play) {
     EnAnubiceFire* this = (EnAnubiceFire*)thisx;
     s32 i;
 
-    Collider_InitCylinder(play, &this->cylinder);
-    Collider_SetCylinder(play, &this->cylinder, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->colliderCylinder);
+    Collider_SetCylinder(play, &this->colliderCylinder, &this->actor, &sCylinderInit);
 
     this->unk_15A = 30;
     this->unk_154 = 2.0f;
@@ -86,7 +86,7 @@ void EnAnubiceFire_Init(Actor* thisx, PlayState* play) {
 void EnAnubiceFire_Destroy(Actor* thisx, PlayState* play) {
     EnAnubiceFire* this = (EnAnubiceFire*)thisx;
 
-    Collider_DestroyCylinder(play, &this->cylinder);
+    Collider_DestroyCylinder(play, &this->colliderCylinder);
 }
 
 void func_809B26EC(EnAnubiceFire* this, PlayState* play) {
@@ -121,12 +121,12 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
     Math_ApproachF(&this->scale, this->unk_154, 0.2f, 0.4f);
     if ((this->unk_15A == 0) && (this->scale < 0.1f)) {
         Actor_Kill(&this->actor);
-    } else if ((this->actor.params == 0) && (this->cylinder.base.atFlags & AT_BOUNCED)) {
+    } else if ((this->actor.params == 0) && (this->colliderCylinder.base.atFlags & AT_BOUNCED)) {
         if (Player_HasMirrorShieldEquipped(play)) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
-            this->cylinder.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
-            this->cylinder.base.atFlags |= AT_TYPE_PLAYER;
-            this->cylinder.elem.atDmgInfo.dmgFlags = DMG_DEKU_STICK;
+            this->colliderCylinder.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
+            this->colliderCylinder.base.atFlags |= AT_TYPE_PLAYER;
+            this->colliderCylinder.elem.atDmgInfo.dmgFlags = DMG_DEKU_STICK;
             this->unk_15A = 30;
             this->actor.params = 1;
             this->actor.velocity.x *= -1.0f;
@@ -208,14 +208,14 @@ void EnAnubiceFire_Update(Actor* thisx, PlayState* play) {
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
     if (!(this->scale < 0.6f || this->actionFunc == func_809B2B48)) {
-        this->cylinder.dim.radius = this->scale * 15.0f + 5.0f;
-        this->cylinder.dim.height = this->scale * 15.0f + 5.0f;
-        this->cylinder.dim.yShift = this->scale * -0.75f + -15.0f;
+        this->colliderCylinder.dim.radius = this->scale * 15.0f + 5.0f;
+        this->colliderCylinder.dim.height = this->scale * 15.0f + 5.0f;
+        this->colliderCylinder.dim.yShift = this->scale * -0.75f + -15.0f;
 
         if (this->unk_15A != 0) {
-            Collider_UpdateCylinder(&this->actor, &this->cylinder);
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->cylinder.base);
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->cylinder.base);
+            Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinder.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinder.base);
         }
 
         if (BgCheck_SphVsFirstPoly(&play->colCtx, &this->actor.world.pos, 30.0f)) {

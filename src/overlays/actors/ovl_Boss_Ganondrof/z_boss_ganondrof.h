@@ -98,8 +98,8 @@ typedef struct BossGanondrof {
     /* 0x0454 */ f32 rideRotY[30]; // possibly only 25 used
     /* 0x04CC */ LightNode* lightNode;
     /* 0x04D0 */ LightInfo lightInfo;
-    /* 0x04E0 */ ColliderCylinder colliderBody;
-    /* 0x052C */ ColliderCylinder colliderSpear;
+    /* 0x04E0 */ ColliderCylinder bodyCollider;
+    /* 0x052C */ ColliderCylinder spearCollider;
 } BossGanondrof; // size = 0x0578
 
 #endif

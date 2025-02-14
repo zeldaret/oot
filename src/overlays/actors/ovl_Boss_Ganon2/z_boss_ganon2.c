@@ -87,7 +87,7 @@ static Vec3f D_80906D6C = { 0.0f, 0.0f, 500.0f };
 
 static u8 D_80906D78 = 0;
 
-static ColliderJntSphElementInit sJntSphItemsInit1[] = {
+static ColliderJntSphElementInit sJntSphElementsInit1[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -275,11 +275,11 @@ static ColliderJntSphInit sJntSphInit1 = {
         OC2_FIRST_ONLY | OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sJntSphItemsInit1),
-    sJntSphItemsInit1,
+    ARRAY_COUNT(sJntSphElementsInit1),
+    sJntSphElementsInit1,
 };
 
-static ColliderJntSphElementInit sJntSphItemsInit2[] = {
+static ColliderJntSphElementInit sJntSphElementsInit2[] = {
     {
         {
             ELEM_MATERIAL_UNK2,
@@ -313,8 +313,8 @@ static ColliderJntSphInit sJntSphInit2 = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sJntSphItemsInit2),
-    sJntSphItemsInit2,
+    ARRAY_COUNT(sJntSphElementsInit2),
+    sJntSphElementsInit2,
 };
 
 static Vec3f D_8090EB20;

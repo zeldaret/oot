@@ -225,7 +225,7 @@ ActorProfile En_Bb_Profile = {
     /**/ EnBb_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -249,7 +249,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sJntSphElementInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {

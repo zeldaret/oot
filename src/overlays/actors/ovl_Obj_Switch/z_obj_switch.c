@@ -160,7 +160,7 @@ static ColliderTrisInit sEyeTrisInit = {
     sEyeTrisElementsInit,
 };
 
-static ColliderJntSphElementInit sCrystalJntSphElementInit[1] = {
+static ColliderJntSphElementInit sCrystalJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -183,8 +183,8 @@ static ColliderJntSphInit sCrystalJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sCrystalJntSphElementInit),
-    sCrystalJntSphElementInit,
+    ARRAY_COUNT(sCrystalJntSphElementsInit),
+    sCrystalJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {

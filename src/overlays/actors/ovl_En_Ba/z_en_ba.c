@@ -51,7 +51,7 @@ ActorProfile En_Ba_Profile = {
 
 static Vec3f D_809B8080 = { 0.0f, 0.0f, 32.0f };
 
-static ColliderJntSphElementInit sJntSphElementInit[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -86,7 +86,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     2,
-    sJntSphElementInit,
+    sJntSphElementsInit,
 };
 
 void EnBa_SetupAction(EnBa* this, EnBaActionFunc actionFunc) {
