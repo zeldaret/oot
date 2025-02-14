@@ -630,7 +630,9 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
             break;
         default:
             this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
-            SkelAnime_Init(play, &this->skelAnime, &gBarinadeBariSkel, &gBarinadeBariAnim, NULL, NULL, 0);
+            //! @bug Flex skeleton is used as normal skeleton
+            SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)&gBarinadeBariSkel, &gBarinadeBariAnim, NULL, NULL,
+                           0);
             this->actor.shape.yOffset = 400.0f;
             break;
         case BOSSVA_DOOR:
