@@ -189,8 +189,8 @@ void EnBigokuta_Init(Actor* thisx, PlayState* play) {
     this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
 
     for (i = 0; i < ARRAY_COUNT(sCylinderInit); i++) {
-        Collider_InitCylinder(play, &this->collidersCylinder[i]);
-        Collider_SetCylinder(play, &this->collidersCylinder[i], &this->actor, &sCylinderInit[i]);
+        Collider_InitCylinder(play, &this->colliderCylinders[i]);
+        Collider_SetCylinder(play, &this->colliderCylinders[i], &this->actor, &sCylinderInit[i]);
     }
 
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, sColChkInfoInit);
@@ -213,8 +213,8 @@ void EnBigokuta_Destroy(Actor* thisx, PlayState* play) {
     s32 i;
 
     Collider_DestroyJntSph(play, &this->collider);
-    for (i = 0; i < ARRAY_COUNT(this->collidersCylinder); i++) {
-        Collider_DestroyCylinder(play, &this->collidersCylinder[i]);
+    for (i = 0; i < ARRAY_COUNT(this->colliderCylinders); i++) {
+        Collider_DestroyCylinder(play, &this->colliderCylinders[i]);
     }
 }
 
@@ -326,7 +326,7 @@ void func_809BD3F8(EnBigokuta* this) {
     this->unk_198 = 80;
     this->unk_19A = this->unk_194 * -0x200;
     func_809BCE3C(this);
-    this->collidersCylinder[0].base.atFlags |= AT_ON;
+    this->colliderCylinders[0].base.atFlags |= AT_ON;
     this->collider.base.acFlags |= AC_ON;
     this->actionFunc = func_809BDC08;
 }
@@ -344,7 +344,7 @@ void func_809BD4A4(EnBigokuta* this) {
     this->actor.world.rot.x = this->actor.shape.rot.y + 0x8000;
     this->unk_19A = this->unk_194 * 0x200;
     this->collider.base.acFlags &= ~AC_ON;
-    this->collidersCylinder[0].base.atFlags |= AT_ON;
+    this->colliderCylinders[0].base.atFlags |= AT_ON;
     this->actionFunc = func_809BDFC8;
 }
 
@@ -352,7 +352,7 @@ void func_809BD524(EnBigokuta* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_bigokuta_Anim_000D1C, -5.0f);
     this->unk_196 = 80;
     this->unk_19A = 0;
-    this->collidersCylinder[0].base.atFlags |= AT_ON;
+    this->colliderCylinders[0].base.atFlags |= AT_ON;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_MAHI);
     if (this->collider.elements[0].base.acHitElem->atDmgInfo.dmgFlags & DMG_DEKU_NUT) {
         this->unk_195 = true;
@@ -369,7 +369,7 @@ void func_809BD5E0(EnBigokuta* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_bigokuta_Anim_000444, -5.0f);
     this->unk_196 = 24;
     this->unk_19A = 0;
-    this->collidersCylinder[0].base.atFlags &= ~AT_ON;
+    this->colliderCylinders[0].base.atFlags &= ~AT_ON;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 24);
     this->actionFunc = func_809BE180;
 }
@@ -405,7 +405,7 @@ void func_809BD768(EnBigokuta* this) {
     this->unk_194 = Rand_ZeroOne() < 0.5f ? -1 : 1;
     this->unk_19A = 0;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->collidersCylinder[0].base.atFlags &= ~AT_ON;
+    this->colliderCylinders[0].base.atFlags &= ~AT_ON;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_SINK);
     this->actionFunc = func_809BE4A4;
 }
@@ -601,12 +601,12 @@ void func_809BE058(EnBigokuta* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->collider.base.ocFlags1 & OC1_HIT) || (this->collidersCylinder[0].base.ocFlags1 & OC1_HIT) ||
-        (this->collidersCylinder[1].base.ocFlags1 & OC1_HIT)) {
+    if ((this->collider.base.ocFlags1 & OC1_HIT) || (this->colliderCylinders[0].base.ocFlags1 & OC1_HIT) ||
+        (this->colliderCylinders[1].base.ocFlags1 & OC1_HIT)) {
         speedXZ = CLAMP_MIN(player->actor.speed, 1.0f);
         if (!(this->collider.base.ocFlags1 & OC1_HIT)) {
-            this->collidersCylinder[0].base.ocFlags1 &= ~OC1_HIT;
-            this->collidersCylinder[1].base.ocFlags1 &= ~OC1_HIT;
+            this->colliderCylinders[0].base.ocFlags1 &= ~OC1_HIT;
+            this->colliderCylinders[1].base.ocFlags1 &= ~OC1_HIT;
             speedXZ *= -1.0f;
         }
         player->actor.world.pos.x -= speedXZ * Math_SinS(this->actor.shape.rot.y);
@@ -724,12 +724,12 @@ void func_809BE568(EnBigokuta* this) {
     this->collider.elements[0].dim.worldSphere.center.y =
         this->actor.world.pos.y + this->collider.elements[0].dim.modelSphere.center.y;
 
-    for (i = 0; i < ARRAY_COUNT(this->collidersCylinder); i++) {
-        this->collidersCylinder[i].dim.pos.x =
+    for (i = 0; i < ARRAY_COUNT(this->colliderCylinders); i++) {
+        this->colliderCylinders[i].dim.pos.x =
             this->actor.world.pos.x + sCylinderInit[i].dim.pos.z * sin + sCylinderInit[i].dim.pos.x * cos;
-        this->collidersCylinder[i].dim.pos.z =
+        this->colliderCylinders[i].dim.pos.z =
             this->actor.world.pos.z + sCylinderInit[i].dim.pos.z * cos - sCylinderInit[i].dim.pos.x * sin;
-        this->collidersCylinder[i].dim.pos.y = this->actor.world.pos.y;
+        this->colliderCylinders[i].dim.pos.y = this->actor.world.pos.y;
     }
 }
 
@@ -737,10 +737,10 @@ void func_809BE798(EnBigokuta* this, PlayState* play) {
     s16 effectRot;
     s16 yawDiff;
 
-    if ((this->collidersCylinder[0].base.atFlags & AT_HIT) || (this->collidersCylinder[1].base.atFlags & AT_HIT) ||
+    if ((this->colliderCylinders[0].base.atFlags & AT_HIT) || (this->colliderCylinders[1].base.atFlags & AT_HIT) ||
         (this->collider.base.atFlags & AT_HIT)) {
-        this->collidersCylinder[0].base.atFlags &= ~AT_HIT;
-        this->collidersCylinder[1].base.atFlags &= ~AT_HIT;
+        this->colliderCylinders[0].base.atFlags &= ~AT_HIT;
+        this->colliderCylinders[1].base.atFlags &= ~AT_HIT;
         this->collider.base.atFlags &= ~AT_HIT;
         yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
         if (yawDiff > 0x4000) {
@@ -801,19 +801,19 @@ void EnBigokuta_Update(Actor* thisx, PlayState* play2) {
     Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BIG_OCTO);
     Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
 
-    if (this->collidersCylinder[0].base.atFlags & AT_ON) {
+    if (this->colliderCylinders[0].base.atFlags & AT_ON) {
         if (this->actionFunc != func_809BE058) {
-            for (i = 0; i < ARRAY_COUNT(this->collidersCylinder); i++) {
-                CollisionCheck_SetAT(play, &play->colChkCtx, &this->collidersCylinder[i].base);
+            for (i = 0; i < ARRAY_COUNT(this->colliderCylinders); i++) {
+                CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinders[i].base);
             }
             this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
         } else {
-            for (i = 0; i < ARRAY_COUNT(this->collidersCylinder); i++) {
-                CollisionCheck_SetOC(play, &play->colChkCtx, &this->collidersCylinder[i].base);
+            for (i = 0; i < ARRAY_COUNT(this->colliderCylinders); i++) {
+                CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinders[i].base);
             }
         }
-        for (i = 0; i < ARRAY_COUNT(this->collidersCylinder); i++) {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->collidersCylinder[i].base);
+        for (i = 0; i < ARRAY_COUNT(this->colliderCylinders); i++) {
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinders[i].base);
         }
         if (this->collider.base.acFlags & AC_ON) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

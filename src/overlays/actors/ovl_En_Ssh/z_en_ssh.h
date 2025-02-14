@@ -14,7 +14,7 @@ typedef struct EnSsh {
     /* 0x0190 */ Vec3s jointTable[30];
     /* 0x0244 */ Vec3s morphTable[30];
     /* 0x02F8 */ EnSshActionFunc actionFunc;
-    /* 0x02FC */ ColliderCylinder collidersCylinder[6];
+    /* 0x02FC */ ColliderCylinder colliderCylinders[6];
     /* 0x04C4 */ ColliderJntSph colliderJntSph;
     /* 0x04E4 */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x0524 */ s16 initialYaw;
