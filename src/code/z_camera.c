@@ -7533,7 +7533,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
 #if DEBUG_FEATURES
     sDbgModeIdx = -1;
 #endif
-    sSceneInitLetterboxTimer = 3; // show Letterbox for 3 frames at the beginning of a new scene
+    sSceneInitLetterboxTimer = 3; // show letterbox for 3 frames at the start of a new scene
     PRINTF(VT_FGCOL(BLUE) "camera: initialize --- " VT_RST " UID %d\n", camera->uid);
 }
 
