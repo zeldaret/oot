@@ -231,7 +231,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
                     Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_8);
                     play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
-                    gSaveContext.nextCutsceneIndex = 0xFFF1;
+                    gSaveContext.nextCutsceneIndex = CS_INDEX_1;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 3000.0f, 0x7530)) {
