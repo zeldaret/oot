@@ -209,7 +209,7 @@ class N64Palette(Structure):
         if fmt not in (G_IM_FMT_RGBA, G_IM_FMT_IA):
             raise ValueError("Palette format must be either G_IM_FMT_RGBA or G_IM_FMT_IA")
         buffer = create_string_buffer(data, len(data))
-        return deref(ln64texconv.n64texconv_palette_from_bin(buffer, len(data), fmt))
+        return deref(ln64texconv.n64texconv_palette_from_bin(buffer, len(data) // 2, fmt))
 
     def to_png(self, outpath : str) -> bool:
         return ln64texconv.n64texconv_palette_to_png(outpath.encode("utf-8"), byref(self)) == 0
