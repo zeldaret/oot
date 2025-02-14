@@ -7533,7 +7533,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
 #if DEBUG_FEATURES
     sDbgModeIdx = -1;
 #endif
-    D_8011D3F0 = 3;
+    sSceneInitLetterboxTimer = 3; // show Letterbox for 3 frames at the beginning of a new scene
     PRINTF(VT_FGCOL(BLUE) "camera: initialize --- " VT_RST " UID %d\n", camera->uid);
 }
 
@@ -8142,8 +8142,8 @@ Vec3s Camera_Update(Camera* camera) {
         if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS)) {
             sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
             Camera_UpdateInterface(sCameraInterfaceField);
-        } else if ((D_8011D3F0 != 0) && (camera->camId == CAM_ID_MAIN)) {
-            D_8011D3F0--;
+        } else if ((sSceneInitLetterboxTimer != 0) && (camera->camId == CAM_ID_MAIN)) {
+            sSceneInitLetterboxTimer--;
             sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_NOTHING_ALT, 0);
             Camera_UpdateInterface(sCameraInterfaceField);
         } else if (camera->play->transitionMode != TRANS_MODE_OFF) {
