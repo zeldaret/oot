@@ -68,6 +68,13 @@ typedef void (*AudioCustomUpdateFunction)(void);
 
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
 
+typedef enum SoundSetting {
+    /* 0 */ SOUND_SETTING_STEREO,
+    /* 1 */ SOUND_SETTING_MONO,
+    /* 2 */ SOUND_SETTING_HEADSET,
+    /* 3 */ SOUND_SETTING_SURROUND
+} SoundSetting;
+
 typedef enum SoundMode {
     /* 0 */ SOUNDMODE_STEREO,
     /* 1 */ SOUNDMODE_HEADSET,
@@ -1197,7 +1204,7 @@ void func_800F64E0(u8 arg0);
 void Audio_ToggleMalonSinging(u8 malonSingingDisabled);
 void Audio_SetEnvReverb(s8 reverb);
 void Audio_SetCodeReverb(s8 reverb);
-void func_800F6700(s8 audioSetting);
+void Audio_SetSoundMode(s8 soundSetting);
 void Audio_SetBaseFilter(u8);
 void Audio_SetExtraFilter(u8);
 void Audio_SetCutsceneFlag(s8 flag);
