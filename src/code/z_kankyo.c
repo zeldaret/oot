@@ -1,5 +1,5 @@
-#pragma increment_block_number "gc-eu:228 gc-eu-mq:228 gc-jp:208 gc-jp-ce:208 gc-jp-mq:208 gc-us:208 gc-us-mq:208" \
-                               "ique-cn:208 ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:236 pal-1.1:236"
+#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:208 gc-jp-ce:208 gc-jp-mq:208 gc-us:208 gc-us-mq:208" \
+                               "ique-cn:208 ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:232 pal-1.1:232"
 
 #include "global.h"
 #include "ultra64.h"
