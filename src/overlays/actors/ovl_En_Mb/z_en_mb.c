@@ -284,8 +284,8 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.damageTable = &sSpearMoblinDamageTable;
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sBodyColliderInit);
-    Collider_InitTris(play, &this->frontShielding);
-    Collider_SetTris(play, &this->frontShielding, &this->actor, &sFrontShieldingInit, this->frontShieldingTris);
+    Collider_InitTris(play, &this->frontShieldingCollider);
+    Collider_SetTris(play, &this->frontShieldingCollider, &this->actor, &sFrontShieldingInit, this->frontShieldingColliderElements);
     Collider_InitQuad(play, &this->attackCollider);
     Collider_SetQuad(play, &this->attackCollider, &this->actor, &sAttackColliderInit);
 
@@ -349,7 +349,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
 void EnMb_Destroy(Actor* thisx, PlayState* play) {
     EnMb* this = (EnMb*)thisx;
 
-    Collider_DestroyTris(play, &this->frontShielding);
+    Collider_DestroyTris(play, &this->frontShieldingCollider);
     Collider_DestroyCylinder(play, &this->bodyCollider);
     Collider_DestroyQuad(play, &this->attackCollider);
 }
@@ -1434,8 +1434,8 @@ void EnMb_ClubUpdateAttackCollider(Actor* thisx, PlayState* play) {
 void EnMb_CheckColliding(EnMb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (this->frontShielding.base.acFlags & AC_HIT) {
-        this->frontShielding.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
+    if (this->frontShieldingCollider.base.acFlags & AC_HIT) {
+        this->frontShieldingCollider.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
         this->bodyCollider.base.acFlags &= ~AC_HIT;
     } else if ((this->bodyCollider.base.acFlags & AC_HIT) && this->state >= ENMB_STATE_STUNNED) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
@@ -1502,7 +1502,7 @@ void EnMb_Update(Actor* thisx, PlayState* play) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
         }
         if (this->state >= ENMB_STATE_IDLE) {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->frontShielding.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->frontShieldingCollider.base);
         }
         if (this->attack > ENMB_ATTACK_NONE) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->attackCollider.base);
@@ -1601,9 +1601,9 @@ void EnMb_Draw(Actor* thisx, PlayState* play) {
             Matrix_MultVec3f(&frontShieldingTriModel0[i], &frontShieldingTri0[i]);
             Matrix_MultVec3f(&frontShieldingTriModel1[i], &frontShieldingTri1[i]);
         }
-        Collider_SetTrisVertices(&this->frontShielding, 0, &frontShieldingTri0[0], &frontShieldingTri0[1],
+        Collider_SetTrisVertices(&this->frontShieldingCollider, 0, &frontShieldingTri0[0], &frontShieldingTri0[1],
                                  &frontShieldingTri0[2]);
-        Collider_SetTrisVertices(&this->frontShielding, 1, &frontShieldingTri1[0], &frontShieldingTri1[1],
+        Collider_SetTrisVertices(&this->frontShieldingCollider, 1, &frontShieldingTri1[0], &frontShieldingTri1[1],
                                  &frontShieldingTri1[2]);
     }
 
