@@ -1,13 +1,27 @@
-#include "global.h"
+#include "libu64/debug.h"
+#include "ultra64/gs2dex.h"
 #include "fault.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
 #include "jpeg.h"
-#include "sys_ucode.h"
-#include "terminal.h"
-#include "versions.h"
 #include "line_numbers.h"
+#include "map.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "regs.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "sys_ucode.h"
+#include "terminal.h"
+#include "versions.h"
+#include "z64audio.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+#include "z64skin_matrix.h"
+
+#include "global.h"
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 

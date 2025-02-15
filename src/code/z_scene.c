@@ -1,6 +1,8 @@
 #include "global.h"
+#include "seqcmd.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64save.h"
 
 SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX];
 RomFile sNaviQuestHintFiles[];

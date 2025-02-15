@@ -1,12 +1,16 @@
 #pragma increment_block_number "gc-eu:228 gc-eu-mq:228 gc-jp:208 gc-jp-ce:208 gc-jp-mq:208 gc-us:208 gc-us-mq:208" \
-                               "ique-cn:208 ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:236 pal-1.1:236"
+                               "ique-cn:0 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:128 pal-1.1:128"
 
 #include "global.h"
 #include "ultra64.h"
+#include "seqcmd.h"
+#include "sequence.h"
 #include "terminal.h"
 #include "versions.h"
 
+#include "z64cutscene.h"
 #include "z64frame_advance.h"
+#include "z64save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
@@ -215,7 +219,7 @@ s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
 #pragma increment_block_number "gc-eu:240 gc-eu-mq:240 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
-                               "ique-cn:224 ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:240 pal-1.1:240"
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;

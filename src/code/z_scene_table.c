@@ -1,10 +1,22 @@
-#include "global.h"
-#include "quake.h"
-#include "versions.h"
-#include "z64frame_advance.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "quake.h"
+#include "regs.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "z64frame_advance.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "global.h"
 
 #include "assets/scenes/indoors/miharigoya/miharigoya_scene.h"
 #include "assets/scenes/indoors/souko/souko_scene.h"

@@ -1,12 +1,13 @@
 #include "ultra64.h"
-#include "global.h"
 #include "quake.h"
 #include "terminal.h"
+#include "z64cutscene_spline.h"
 #include "z64olib.h"
+#include "z64save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ique-cn:192 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ique-cn:192 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
@@ -3640,7 +3641,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:143 ntsc-1.1:140 ntsc-1.2:140 pal-1.0:138 pal-1.1:138"
+                               "ique-cn:128 ntsc-1.0:123 ntsc-1.1:123 ntsc-1.2:123 pal-1.0:121 pal-1.1:121"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;

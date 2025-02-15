@@ -6,6 +6,7 @@
 #include "sfx.h"
 #include "z64curve.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_box/object_box.h"
 

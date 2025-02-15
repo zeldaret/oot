@@ -1,6 +1,11 @@
-#include "global.h"
 #include "region.h"
+#include "sequence.h"
 #include "versions.h"
+#include "z64environment.h"
+#include "z64save.h"
+#include "z64transition.h"
+
+#include "global.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ntsc-1.0:176 ntsc-1.1:176 ntsc-1.2:176 pal-1.0:192 pal-1.1:192"

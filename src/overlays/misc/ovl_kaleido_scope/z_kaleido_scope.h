@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "z64inventory.h"
 
 extern u8 gAmmoItems[];
 extern s16 gVtxPageMapWorldQuadsWidth[];

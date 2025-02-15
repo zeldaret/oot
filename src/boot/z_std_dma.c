@@ -18,18 +18,22 @@
  * There are some additional provisions to ensure that audio DMA is particularly high-speed, the audio data is assumed
  * to be uncompressed and the request queue and address translation is skipped.
  */
-#include "global.h"
+#include "libc64/sleep.h"
 #include "fault.h"
-#include "stack.h"
-#include "terminal.h"
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "segment_symbols.h"
+#include "stack.h"
+#include "stackcheck.h"
+#include "terminal.h"
 #include "z64thread.h"
 
+#include "global.h"
+
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:78 pal-1.0:76 pal-1.1:76"
+                               "ntsc-1.2:24 pal-1.0:18 pal-1.1:18"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;

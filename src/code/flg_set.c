@@ -1,4 +1,10 @@
-#include "global.h"
+#include "libu64/gfxprint.h"
+#include "libu64/pad.h"
+#include "gfx.h"
+#include "gfxalloc.h"
+#include "controller.h"
+#include "z64play.h"
+#include "z64save.h"
 
 typedef struct FlagSetEntry {
     /* 0x00 */ u16* value;

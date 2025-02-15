@@ -26,11 +26,12 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_lib.h"
 #include "z64audio.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 #include "z64skin_matrix.h"
-#include "z_lib.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #endif

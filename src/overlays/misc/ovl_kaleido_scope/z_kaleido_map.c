@@ -1,6 +1,7 @@
 #include "z_kaleido_scope.h"
 #include "sys_ucode.h"
 #include "versions.h"
+#include "z64save.h"
 
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
 #if OOT_NTSC

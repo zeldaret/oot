@@ -13,6 +13,7 @@
 #include "terminal.h"
 #include "z_lib.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_ahg/object_ahg.h"
 #include "assets/objects/object_boj/object_boj.h"
