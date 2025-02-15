@@ -47,7 +47,7 @@ ActorProfile En_Sw_Profile = {
     /**/ EnSw_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         { ELEM_MATERIAL_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFC3FFFE, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
         { 2, { { 0, -300, 0 }, 21 }, 100 },
@@ -57,7 +57,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
 static ColliderJntSphInit sJntSphInit = {
     { COL_MATERIAL_HIT6, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit2 D_80B0F074 = { 1, 2, 25, 25, MASS_IMMOVABLE };

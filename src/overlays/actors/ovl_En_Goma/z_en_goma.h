@@ -73,8 +73,8 @@ typedef struct EnGoma {
     /* 0x2F8 */ s16 stunTimer;
     /* 0x2FC */ Vec3f shieldKnockbackVel;
     /* 0x308 */ Gfx* bossLimbDL; // set by z_boss_goma
-    /* 0x30C */ ColliderCylinder colCyl1;
-    /* 0x358 */ ColliderCylinder colCyl2;
+    /* 0x30C */ ColliderCylinder colliderCylinder1;
+    /* 0x358 */ ColliderCylinder colliderCylinder2;
 } EnGoma; // size = 0x03A4
 
 #endif

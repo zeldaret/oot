@@ -72,7 +72,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -96,7 +96,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static DoorKillerTextureEntry sDoorTextures[4] = {
