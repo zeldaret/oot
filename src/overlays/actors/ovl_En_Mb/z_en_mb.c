@@ -285,7 +285,8 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sBodyColliderInit);
     Collider_InitTris(play, &this->frontShieldingCollider);
-    Collider_SetTris(play, &this->frontShieldingCollider, &this->actor, &sFrontShieldingTrisInit, this->frontShieldingColliderElements);
+    Collider_SetTris(play, &this->frontShieldingCollider, &this->actor, &sFrontShieldingTrisInit,
+                     this->frontShieldingColliderElements);
     Collider_InitQuad(play, &this->attackCollider);
     Collider_SetQuad(play, &this->attackCollider, &this->actor, &sAttackColliderQuadInit);
 
