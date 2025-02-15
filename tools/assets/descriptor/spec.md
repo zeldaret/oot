@@ -179,17 +179,113 @@ Path list.
 `NumPaths` is the length of the path list.
 
 ## `Skeleton`
+
+```xml
+<Skeleton Name="gNameSkel" Type="Normal" LimbType="Standard" LimbNone="NAME_LIMB_NONE" LimbMax="NAME_LIMB_MAX" EnumName="NameLimb" Offset="0x1230"/>
+```
+
+Skeleton header.
+
+- Required attributes: `Type`, `LimbType`
+- Optional attributes: `LimbNone`, `LimbMax`, `EnumName`
+
+`Type` is the type of the skeleton, one of `Normal`, `Flex` or `Curve`.
+
+`LimbType` is the type of limb used in the skeleton, one of `Standard`, `LOD`, `Skin`, `Curve` or `Legacy`.
+
+Not all skeleton types are compatible with all limb types:
+
+`LimbType` | Compatible skeleton `Type`
+-----------|---------------------------
+`Standard` | `Normal`, `Flex`
+`LOD`      | `Normal`, `Flex`
+`Skin`     | `Normal`
+`Curve`    | `Curve`
+`Legacy`   | none
+
+`LimbNone`, `LimbMax`, `EnumName` can be set to override the corresponding names in the generated limb enum:
+
+```c
+typedef enum NameLimb {
+    NAME_LIMB_NONE,
+    ...
+    NAME_LIMB_MAX
+} NameLimb;
+```
+
 ## `LimbTable`
+
+```xml
+<LimbTable Name="gNameLimbs" LimbType="Standard" Count="12" Offset="0x1230"/>
+```
+
+Limb table.
+
+- Required attributes: `LimbType`, `Count`
+
+`LimbType` is one of `Standard`, `LOD`, `Skin`, `Curve` or `Legacy`.
+
+`Count` is the amount of limbs.
+
 ## `Limb`
+
+```xml
+<Limb Name="gNameLimb" LimbType="Standard" EnumName="NAME_LIMB_NAME" Offset="0x1230"/>
+```
+
+Limb of a skeleton.
+
+- Required attributes: `LimbType`
+- Optional attributes: `EnumName`
+
+`LimbType` is one of `Standard`, `LOD`, `Skin`, `Curve` or `Legacy`.
+
+`EnumName` can be set to override the limb name in the generated limb enum.
+
 ## `Animation`
 
 ```xml
 <Animation Name="gNameAnim" Offset="0x1230"/>
 ```
 
-Animation.
+Animation header.
 
 ## `CurveAnimation`
+
+```xml
+<CurveAnimation Name="gNameAnim" SkelOffset="0x120" Offset="0x1230"/>
+```
+
+Curve animation header.
+
+- Required attributes: `SkelOffset`
+
+`SkelOffset` is the offset of the skeleton which uses this animation. The skeleton must also be declared as a resource.
+
 ## `LegacyAnimation`
+
+```xml
+<LegacyAnimation Name="gNameAnim" Offset="0x1230"/>
+```
+
+Legacy animation header.
+
 ## `PlayerAnimation`
+
+```xml
+<PlayerAnimation Name="gNamePlayerAnim" Offset="0x1230"/>
+```
+
+Player animation header.
+
 ## `PlayerAnimationData`
+
+```xml
+<PlayerAnimationData Name="gNamePlayerAnimData" FrameCount="20" Offset="0x1230"/>
+```
+
+Player animation data.
+
+- Required attributes: `FrameCount`
+
+`FrameCount` is the amount of frames in the animation.
