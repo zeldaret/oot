@@ -51,7 +51,7 @@ ActorProfile Bg_Ydan_Sp_Profile = {
     /**/ BgYdanSp_Draw,
 };
 
-static ColliderTrisElementInit sTrisItemsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -86,7 +86,7 @@ static ColliderTrisInit sTrisInit = {
         COLSHAPE_TRIS,
     },
     2,
-    sTrisItemsInit,
+    sTrisElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -95,11 +95,11 @@ static InitChainEntry sInitChain[] = {
 
 void BgYdanSp_Init(Actor* thisx, PlayState* play) {
     BgYdanSp* this = (BgYdanSp*)thisx;
-    ColliderTrisElementInit* ti0 = &sTrisItemsInit[0];
+    ColliderTrisElementInit* triElemInit0 = &sTrisElementsInit[0];
     Vec3f tri[3];
     s32 i;
     CollisionHeader* colHeader = NULL;
-    ColliderTrisElementInit* ti1 = &sTrisItemsInit[1];
+    ColliderTrisElementInit* triElemInit1 = &sTrisElementsInit[1];
     f32 cossY;
     f32 sinsY;
     f32 cossX;
@@ -117,9 +117,9 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = BgYdanSp_FloorWebIdle;
 
         for (i = 0; i < 3; i++) {
-            tri[i].x = ti0->dim.vtx[i].x + this->dyna.actor.world.pos.x;
-            tri[i].y = ti0->dim.vtx[i].y + this->dyna.actor.world.pos.y;
-            tri[i].z = ti0->dim.vtx[i].z + this->dyna.actor.world.pos.z;
+            tri[i].x = triElemInit0->dim.vtx[i].x + this->dyna.actor.world.pos.x;
+            tri[i].y = triElemInit0->dim.vtx[i].y + this->dyna.actor.world.pos.y;
+            tri[i].z = triElemInit0->dim.vtx[i].z + this->dyna.actor.world.pos.z;
         }
 
         Collider_SetTrisVertices(&this->colliderTris, 0, &tri[0], &tri[1], &tri[2]);
@@ -137,18 +137,20 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
         cossX = Math_CosS(this->dyna.actor.shape.rot.x);
 
         for (i = 0; i < 3; i++) {
-            tri[i].x =
-                this->dyna.actor.world.pos.x + (cossY * ti1->dim.vtx[i].x) - (sinsY * ti1->dim.vtx[i].y * nSinsX);
-            tri[i].y = this->dyna.actor.world.pos.y + (ti1->dim.vtx[i].y * cossX);
-            tri[i].z =
-                this->dyna.actor.world.pos.z - (sinsY * ti1->dim.vtx[i].x) + (ti1->dim.vtx[i].y * cossY * nSinsX);
+            tri[i].x = this->dyna.actor.world.pos.x + (cossY * triElemInit1->dim.vtx[i].x) -
+                       (sinsY * triElemInit1->dim.vtx[i].y * nSinsX);
+            tri[i].y = this->dyna.actor.world.pos.y + (triElemInit1->dim.vtx[i].y * cossX);
+            tri[i].z = this->dyna.actor.world.pos.z - (sinsY * triElemInit1->dim.vtx[i].x) +
+                       (triElemInit1->dim.vtx[i].y * cossY * nSinsX);
         }
 
         Collider_SetTrisVertices(&this->colliderTris, 0, &tri[0], &tri[1], &tri[2]);
 
-        tri[1].x = this->dyna.actor.world.pos.x + (cossY * ti1->dim.vtx[0].x) - (ti1->dim.vtx[2].y * sinsY * nSinsX);
-        tri[1].y = this->dyna.actor.world.pos.y + (ti1->dim.vtx[2].y * cossX);
-        tri[1].z = this->dyna.actor.world.pos.z - (sinsY * ti1->dim.vtx[0].x) + (ti1->dim.vtx[2].y * cossY * nSinsX);
+        tri[1].x = this->dyna.actor.world.pos.x + (cossY * triElemInit1->dim.vtx[0].x) -
+                   (triElemInit1->dim.vtx[2].y * sinsY * nSinsX);
+        tri[1].y = this->dyna.actor.world.pos.y + (triElemInit1->dim.vtx[2].y * cossX);
+        tri[1].z = this->dyna.actor.world.pos.z - (sinsY * triElemInit1->dim.vtx[0].x) +
+                   (triElemInit1->dim.vtx[2].y * cossY * nSinsX);
         Collider_SetTrisVertices(&this->colliderTris, 1, &tri[0], &tri[2], &tri[1]);
     }
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);

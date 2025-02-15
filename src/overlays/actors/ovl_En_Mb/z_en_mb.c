@@ -126,7 +126,7 @@ static ColliderCylinderInit sBodyColliderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sFrontShieldingTrisInit[2] = {
+static ColliderTrisElementInit sFrontShieldingTrisElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK2,
@@ -151,7 +151,7 @@ static ColliderTrisElementInit sFrontShieldingTrisInit[2] = {
     },
 };
 
-static ColliderTrisInit sFrontShieldingInit = {
+static ColliderTrisInit sFrontShieldingTrisInit = {
     {
         COL_MATERIAL_METAL,
         AT_NONE,
@@ -161,7 +161,7 @@ static ColliderTrisInit sFrontShieldingInit = {
         COLSHAPE_TRIS,
     },
     2,
-    sFrontShieldingTrisInit,
+    sFrontShieldingTrisElementsInit,
 };
 
 static ColliderQuadInit sAttackColliderInit = {
@@ -285,7 +285,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sBodyColliderInit);
     Collider_InitTris(play, &this->frontShieldingCollider);
-    Collider_SetTris(play, &this->frontShieldingCollider, &this->actor, &sFrontShieldingInit, this->frontShieldingColliderElements);
+    Collider_SetTris(play, &this->frontShieldingCollider, &this->actor, &sFrontShieldingTrisInit, this->frontShieldingColliderElements);
     Collider_InitQuad(play, &this->attackCollider);
     Collider_SetQuad(play, &this->attackCollider, &this->actor, &sAttackColliderInit);
 
