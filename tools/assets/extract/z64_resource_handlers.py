@@ -23,6 +23,7 @@ from .extase_oot64 import (
     scene_rooms_resources,
     scene_commands_resource,
     skelanime_legacy_resources,
+    room_shape_resources,
 )
 
 
@@ -391,11 +392,9 @@ def register_resource_handlers():
         resource_desc: z64resources.RoomResourceDesc,
     ):
         if "hackmode_syotes_room" in resource_desc.hack_modes:
-            # TODO
-            return BinaryBlobResource(
+            return room_shape_resources.RoomShapeNormalResource(
                 file,
                 resource_desc.offset,
-                resource_desc.offset + 4,
                 resource_desc.symbol_name,
             )
         return scene_commands_resource.SceneCommandsResource(
