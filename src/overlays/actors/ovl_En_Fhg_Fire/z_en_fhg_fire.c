@@ -24,8 +24,6 @@
 #include "z64play.h"
 #include "z64player.h"
 
-#include "global.h"
-
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_fhg/object_fhg.h"
 

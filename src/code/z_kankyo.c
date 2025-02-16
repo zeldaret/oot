@@ -1,16 +1,30 @@
 #pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
                                "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:64 pal-1.1:64"
 
-#include "global.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
 #include "ultra64.h"
+#include "rumble.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
 #include "seqcmd.h"
 #include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
-
+#include "z_lib.h"
+#include "z64audio.h"
 #include "z64cutscene.h"
 #include "z64frame_advance.h"
+#include "z64play.h"
+#include "z64player.h"
 #include "z64save.h"
+
+#include "global.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"

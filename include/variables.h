@@ -149,18 +149,6 @@ extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
 
-extern LightningStrike gLightningStrike;
-// TODO: These variables are here for BSS ordering but ideally they should not
-// be extern. This could be fixed by putting more stuff (e.g. struct definitions)
-// between gLightningStrike and gCustomLensFlareOn.
-extern s16 sLightningFlashAlpha;
-extern s16 sSunDepthTestX;
-extern s16 sSunDepthTestY;
-extern u8 gCustomLensFlareOn;
-extern Vec3f gCustomLensFlarePos;
-extern s16 gLensFlareScale;
-extern f32 gLensFlareColorIntensity;
-extern s16 gLensFlareGlareStrength;
 extern MapData* gMapData;
 extern f32 gBossMarkScale;
 extern u32 D_8016139C;
