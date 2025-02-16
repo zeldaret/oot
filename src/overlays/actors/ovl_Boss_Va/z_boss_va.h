@@ -41,7 +41,7 @@ typedef struct BossVa {
     /* 0x01FC */ Vec3f effectPos[10];
     /* 0x0274 */ Vec3f unk_274; // Unused body position
     /* 0x0280 */ Vec3f unk_280; // Unused body position
-    /* 0x028C */ ColliderCylinder colliderBody;
+    /* 0x028C */ ColliderCylinder bodyCollider;
     /* 0x02D8 */ ColliderJntSph colliderJntSph;
     /* 0x02F8 */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x0338 */ ColliderQuad colliderLightning;

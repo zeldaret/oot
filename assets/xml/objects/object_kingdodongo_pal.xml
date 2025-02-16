@@ -101,7 +101,15 @@
         <Animation Name="object_kingdodongo_Anim_01CAE0" Offset="0x1CAE0"/>
         <Animation Name="object_kingdodongo_Anim_01D218" Offset="0x1D218"/>
         <Animation Name="object_kingdodongo_Anim_01D934" Offset="0x1D934"/>
-        <DList Name="object_kingdodongo_DL_01D950" Offset="0x1D950"/><!--Blob Name="object_kingdodongo_Blob_01D9F0" Size="0x8000" Offset="0x1D9F0" /-->
+        <DList Name="object_kingdodongo_DL_01D950" Offset="0x1D950"/>
+        <Texture Name="object_kingdodongo_Tex_01D9F0" OutName="tex_0001D9F0" Format="ia8" Width="64" Height="64" Offset="0x1D9F0"/>
+        <Texture Name="object_kingdodongo_Tex_01E9F0" OutName="tex_0001E9F0" Format="ia8" Width="64" Height="64" Offset="0x1E9F0"/>
+        <Texture Name="object_kingdodongo_Tex_01F9F0" OutName="tex_0001F9F0" Format="ia8" Width="64" Height="64" Offset="0x1F9F0"/>
+        <Texture Name="object_kingdodongo_Tex_0209F0" OutName="tex_000209F0" Format="ia8" Width="64" Height="64" Offset="0x209F0"/>
+        <Texture Name="object_kingdodongo_Tex_0219F0" OutName="tex_000219F0" Format="ia8" Width="64" Height="64" Offset="0x219F0"/>
+        <Texture Name="object_kingdodongo_Tex_0229F0" OutName="tex_000229F0" Format="ia8" Width="64" Height="64" Offset="0x229F0"/>
+        <Texture Name="object_kingdodongo_Tex_0239F0" OutName="tex_000239F0" Format="ia8" Width="64" Height="64" Offset="0x239F0"/>
+        <Texture Name="object_kingdodongo_Tex_0249F0" OutName="tex_000249F0" Format="ia8" Width="64" Height="64" Offset="0x249F0"/>
         <DList Name="object_kingdodongo_DL_0259F0" Offset="0x259F0"/>
         <DList Name="object_kingdodongo_DL_025A90" Offset="0x25A90"/>
         <Collision Name="object_kingdodongo_Col_025B64" Offset="0x25B64"/>

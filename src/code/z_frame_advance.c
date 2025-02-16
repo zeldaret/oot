@@ -3,7 +3,7 @@
 #include "stdbool.h"
 
 #include "controller.h"
-#include "padmgr.h"
+#include "libu64/pad.h"
 #include "macros.h"
 
 void FrameAdvance_Init(FrameAdvanceContext* frameAdvCtx) {

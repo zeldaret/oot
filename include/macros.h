@@ -4,6 +4,9 @@
 #include "terminal.h"
 #include "versions.h"
 
+#define SCREEN_WIDTH  320
+#define SCREEN_HEIGHT 240
+
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
 #else
@@ -116,7 +119,6 @@
 
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
-#define GAME_STATE_ALLOC(gameState, size, file, line) GameState_Alloc(gameState, size, file, line)
 #define DEBUG_ARENA_MALLOC(size, file, line) DebugArena_MallocDebug(size, file, line)
 #define DEBUG_ARENA_MALLOC_R(size, file, line) DebugArena_MallocRDebug(size, file, line)
 #define DEBUG_ARENA_FREE(size, file, line) DebugArena_FreeDebug(size, file, line)
@@ -131,7 +133,6 @@
 
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSync(ram, vrom, size)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsync(req, ram, vrom, size, unk5, queue, msg)
-#define GAME_STATE_ALLOC(gameState, size, file, line) THA_AllocTailAlign16(&(gameState)->tha, size)
 #define DEBUG_ARENA_MALLOC(size, file, line) DebugArena_Malloc(size)
 #define DEBUG_ARENA_MALLOC_R(size, file, line) DebugArena_MallocR(size)
 #define DEBUG_ARENA_FREE(size, file, line) DebugArena_Free(size)

@@ -29,8 +29,6 @@
 #include "z64player.h"
 #include "z64skin_matrix.h"
 
-#include "global.h"
-
 #include "assets/objects/object_horse/object_horse.h"
 #include "assets/objects/object_hni/object_hni.h"
 #include "assets/scenes/overworld/spot09/spot09_scene.h"
@@ -143,7 +141,7 @@ static ColliderCylinderInit sCylinderInit2 = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -167,7 +165,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit D_80A65F38 = { 10, 35, 100, MASS_HEAVY };
@@ -840,10 +838,10 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawHorse, 20.0f);
     this->action = ENHORSE_ACT_IDLE;
     this->actor.speed = 0.0f;
-    Collider_InitCylinder(play, &this->cyl1);
-    Collider_SetCylinder(play, &this->cyl1, &this->actor, &sCylinderInit1);
-    Collider_InitCylinder(play, &this->cyl2);
-    Collider_SetCylinder(play, &this->cyl2, &this->actor, &sCylinderInit2);
+    Collider_InitCylinder(play, &this->colliderCylinder1);
+    Collider_SetCylinder(play, &this->colliderCylinder1, &this->actor, &sCylinderInit1);
+    Collider_InitCylinder(play, &this->colliderCylinder2);
+    Collider_SetCylinder(play, &this->colliderCylinder2, &this->actor, &sCylinderInit2);
     Collider_InitJntSph(play, &this->colliderJntSph);
     Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, DamageTable_Get(0xB), &D_80A65F38);
@@ -928,8 +926,8 @@ void EnHorse_Destroy(Actor* thisx, PlayState* play) {
         Audio_StopSfxByPos(&this->unk_21C);
     }
     Skin_Free(play, &this->skin);
-    Collider_DestroyCylinder(play, &this->cyl1);
-    Collider_DestroyCylinder(play, &this->cyl2);
+    Collider_DestroyCylinder(play, &this->colliderCylinder1);
+    Collider_DestroyCylinder(play, &this->colliderCylinder2);
     Collider_DestroyJntSph(play, &this->colliderJntSph);
 }
 
@@ -949,8 +947,8 @@ void EnHorse_Freeze(EnHorse* this) {
         }
         this->prevAction = this->action;
         this->action = ENHORSE_ACT_FROZEN;
-        this->cyl1.base.ocFlags1 &= ~OC1_ON;
-        this->cyl2.base.ocFlags1 &= ~OC1_ON;
+        this->colliderCylinder1.base.ocFlags1 &= ~OC1_ON;
+        this->colliderCylinder2.base.ocFlags1 &= ~OC1_ON;
         this->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
         this->animationIdx = ENHORSE_ANIM_IDLE;
     }
@@ -965,8 +963,8 @@ void EnHorse_Frozen(EnHorse* this, PlayState* play) {
     this->actor.speed = 0.0f;
     this->noInputTimer--;
     if (this->noInputTimer < 0) {
-        this->cyl1.base.ocFlags1 |= OC1_ON;
-        this->cyl2.base.ocFlags1 |= OC1_ON;
+        this->colliderCylinder1.base.ocFlags1 |= OC1_ON;
+        this->colliderCylinder2.base.ocFlags1 |= OC1_ON;
         this->colliderJntSph.base.ocFlags1 |= OC1_ON;
         if (this->playerControlled == true) {
             this->stateFlags &= ~ENHORSE_FLAG_7;
@@ -1750,8 +1748,8 @@ void EnHorse_HighJump(EnHorse* this, PlayState* play) {
 }
 
 void EnHorse_InitInactive(EnHorse* this) {
-    this->cyl1.base.ocFlags1 &= ~OC1_ON;
-    this->cyl2.base.ocFlags1 &= ~OC1_ON;
+    this->colliderCylinder1.base.ocFlags1 &= ~OC1_ON;
+    this->colliderCylinder2.base.ocFlags1 &= ~OC1_ON;
     this->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     this->action = ENHORSE_ACT_INACTIVE;
     this->animationIdx = ENHORSE_ANIM_WALK;
@@ -1784,8 +1782,8 @@ void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
         this->followTimer = 0;
         EnHorse_SetFollowAnimation(this, play);
         this->actor.params = HORSE_PTYPE_0;
-        this->cyl1.base.ocFlags1 |= OC1_ON;
-        this->cyl2.base.ocFlags1 |= OC1_ON;
+        this->colliderCylinder1.base.ocFlags1 |= OC1_ON;
+        this->colliderCylinder2.base.ocFlags1 |= OC1_ON;
         this->colliderJntSph.base.ocFlags1 |= OC1_ON;
     }
 }
@@ -3585,17 +3583,21 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         if (this->action != ENHORSE_ACT_INGO_RACE) {
             EnHorse_TiltBody(this, play);
         }
-        Collider_UpdateCylinder(thisx, &this->cyl1);
-        Collider_UpdateCylinder(thisx, &this->cyl2);
+        Collider_UpdateCylinder(thisx, &this->colliderCylinder1);
+        Collider_UpdateCylinder(thisx, &this->colliderCylinder2);
 
         // Required to match
-        this->cyl1.dim.pos.x = this->cyl1.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * 11.0f);
-        this->cyl1.dim.pos.z = this->cyl1.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * 11.0f);
-        this->cyl2.dim.pos.x = this->cyl2.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * -18.0f);
-        this->cyl2.dim.pos.z = this->cyl2.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * -18.0f);
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->cyl1.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->cyl1.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->cyl2.base);
+        this->colliderCylinder1.dim.pos.x =
+            this->colliderCylinder1.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * 11.0f);
+        this->colliderCylinder1.dim.pos.z =
+            this->colliderCylinder1.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * 11.0f);
+        this->colliderCylinder2.dim.pos.x =
+            this->colliderCylinder2.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * -18.0f);
+        this->colliderCylinder2.dim.pos.z =
+            this->colliderCylinder2.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * -18.0f);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinder1.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder1.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder2.base);
         if ((player->stateFlags1 & PLAYER_STATE1_0) && player->rideActor != NULL) {
             if (play->sceneId != SCENE_LON_LON_RANCH ||
                 (play->sceneId == SCENE_LON_LON_RANCH && (thisx->world.pos.z < -2400.0f))) {
@@ -3639,9 +3641,9 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         }
 
         if (thisx->speed >= 5.0f) {
-            this->cyl1.base.atFlags |= AT_ON;
+            this->colliderCylinder1.base.atFlags |= AT_ON;
         } else {
-            this->cyl1.base.atFlags &= ~AT_ON;
+            this->colliderCylinder1.base.atFlags &= ~AT_ON;
         }
 
         if (gSaveContext.save.entranceIndex != ENTR_LON_LON_RANCH_0 || gSaveContext.sceneLayer != 9) {

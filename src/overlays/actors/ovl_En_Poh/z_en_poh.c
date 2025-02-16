@@ -19,8 +19,6 @@
 #include "z64play.h"
 #include "z64player.h"
 
-#include "global.h"
-
 #include "assets/objects/object_poh/object_poh.h"
 #include "assets/objects/object_po_composer/object_po_composer.h"
 
@@ -91,7 +89,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 40, 20, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit D_80AE1AA0[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -115,7 +113,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    D_80AE1AA0,
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 4, 25, 50, 40 };

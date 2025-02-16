@@ -49,7 +49,6 @@ void* MemCpy(void* dest, const void* src, s32 len);
 
 u16 QuestHint_GetSariaTextId(PlayState* play);
 u16 QuestHint_GetNaviTextId(PlayState* play);
-u16 MaskReaction_GetTextId(PlayState* play, u32 maskReactionSet);
 void CutsceneFlags_UnsetAll(PlayState* play);
 void CutsceneFlags_Set(PlayState* play, s16 flag);
 void CutsceneFlags_Unset(PlayState* play, s16 flag);
@@ -78,10 +77,6 @@ void PreNmiBuff_SetReset(PreNmiBuff* this);
 u32 PreNmiBuff_IsResetting(PreNmiBuff* this);
 void Sched_FlushTaskQueue(void);
 
-Path* Path_GetByIndex(PlayState* play, s16 index, s16 max);
-f32 Path_OrientAndGetDistSq(Actor* actor, Path* path, s16 waypoint, s16* yaw);
-void Path_CopyLastPoint(Path* path, Vec3f* dest);
-
 void PreNMI_Init(GameState* thisx);
 
 void func_80095AA0(PlayState* play, Room* room, Input* input, s32 arg3);
@@ -95,21 +90,6 @@ void Room_Draw(PlayState* play, Room* room, u32 flags);
 void Room_FinishRoomChange(PlayState* play, RoomContext* roomCtx);
 void Sample_Destroy(GameState* thisx);
 void Sample_Init(GameState* thisx);
-
-void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* modifEntry, Vtx* vtxBuf, Vec3f* pos);
-void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 arg3, s32 drawFlags);
-void Skin_DrawLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, s32 drawFlags);
-void func_800A6330(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postDraw, s32 setTranslation);
-void func_800A6360(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation);
-void func_800A6394(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6);
-void func_800A63CC(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postDraw,
-                   SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6, s32 drawFlags);
-void Skin_GetLimbPos(Skin* skin, s32 limbIndex, Vec3f* offset, Vec3f* dst);
-void Skin_Init(PlayState* play, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader);
-void Skin_Free(PlayState* play, Skin* skin);
-s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, s32 setTranslation);
 
 void Sram_InitNewSave(void);
 void Sram_InitDebugSave(void);
@@ -197,19 +177,7 @@ void func_800C213C(PreRender* this, Gfx** gfxP);
 void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxP);
 void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP);
 void PreRender_ApplyFilters(PreRender* this);
-void GameState_SetFBFilter(Gfx** gfxP);
-void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx);
-void GameState_SetFrameBuffer(GraphicsContext* gfxCtx);
-void GameState_ReqPadData(GameState* gameState);
-void GameState_Update(GameState* gameState);
-void GameState_InitArena(GameState* gameState, size_t size);
-void GameState_Realloc(GameState* gameState, size_t size);
-void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx);
-void GameState_Destroy(GameState* gameState);
-GameStateFunc GameState_GetInit(GameState* gameState);
-u32 GameState_IsRunning(GameState* gameState);
 #if DEBUG_FEATURES
-void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int line);
 void* GameAlloc_MallocDebug(GameAlloc* this, u32 size, const char* file, int line);
 #endif
 void* GameAlloc_Malloc(GameAlloc* this, u32 size);
@@ -233,10 +201,6 @@ void SysCfb_Init(s32 n64dd);
 void* SysCfb_GetFbPtr(s32 idx);
 void* SysCfb_GetFbEnd(void);
 
-u64* SysUcode_GetUCodeBoot(void);
-size_t SysUcode_GetUCodeBootSize(void);
-u64* SysUcode_GetUCode(void);
-u64* SysUcode_GetUCodeData(void);
 NORETURN void func_800D31A0(void);
 void func_800D31F0(void);
 void func_800D3210(void);
@@ -262,8 +226,6 @@ void DebugArena_Display(void);
 void RcpUtils_PrintRegisterStatus(void);
 void RcpUtils_Reset(void);
 void* Overlay_AllocateAndLoad(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd);
-void MtxConv_F2L(Mtx* m1, MtxF* m2);
-void MtxConv_L2F(MtxF* m1, Mtx* m2);
 void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlRelocs, void* vramStart);
 size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr);
 // ? func_800FC800(?);

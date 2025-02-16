@@ -140,12 +140,12 @@ void BgDodoago_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    Collider_InitCylinder(play, &this->colliderMain);
-    Collider_InitCylinder(play, &this->colliderLeft);
-    Collider_InitCylinder(play, &this->colliderRight);
-    Collider_SetCylinder(play, &this->colliderMain, &this->dyna.actor, &sColCylinderInitMain);
-    Collider_SetCylinder(play, &this->colliderLeft, &this->dyna.actor, &sColCylinderInitLeftRight);
-    Collider_SetCylinder(play, &this->colliderRight, &this->dyna.actor, &sColCylinderInitLeftRight);
+    Collider_InitCylinder(play, &this->mainCollider);
+    Collider_InitCylinder(play, &this->leftCollider);
+    Collider_InitCylinder(play, &this->rightCollider);
+    Collider_SetCylinder(play, &this->mainCollider, &this->dyna.actor, &sColCylinderInitMain);
+    Collider_SetCylinder(play, &this->leftCollider, &this->dyna.actor, &sColCylinderInitLeftRight);
+    Collider_SetCylinder(play, &this->rightCollider, &this->dyna.actor, &sColCylinderInitLeftRight);
 
     BgDodoago_SetupAction(this, BgDodoago_WaitExplosives);
     sDisableBombCatcher = false;
@@ -155,13 +155,13 @@ void BgDodoago_Destroy(Actor* thisx, PlayState* play) {
     BgDodoago* this = (BgDodoago*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    Collider_DestroyCylinder(play, &this->colliderMain);
-    Collider_DestroyCylinder(play, &this->colliderLeft);
-    Collider_DestroyCylinder(play, &this->colliderRight);
+    Collider_DestroyCylinder(play, &this->mainCollider);
+    Collider_DestroyCylinder(play, &this->leftCollider);
+    Collider_DestroyCylinder(play, &this->rightCollider);
 }
 
 void BgDodoago_WaitExplosives(BgDodoago* this, PlayState* play) {
-    Actor* explosive = Actor_GetCollidedExplosive(play, &this->colliderMain.base);
+    Actor* explosive = Actor_GetCollidedExplosive(play, &this->mainCollider.base);
 
     if (explosive != NULL) {
         this->state =
@@ -198,21 +198,21 @@ void BgDodoago_WaitExplosives(BgDodoago* this, PlayState* play) {
             sTimer = 50;
         }
     } else if (Flags_GetEventChkInf(EVENTCHKINF_B0)) {
-        Collider_UpdateCylinder(&this->dyna.actor, &this->colliderMain);
-        Collider_UpdateCylinder(&this->dyna.actor, &this->colliderLeft);
-        Collider_UpdateCylinder(&this->dyna.actor, &this->colliderRight);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->mainCollider);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->leftCollider);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->rightCollider);
 
-        this->colliderMain.dim.pos.z += 200;
+        this->mainCollider.dim.pos.z += 200;
 
-        this->colliderLeft.dim.pos.z += 215;
-        this->colliderLeft.dim.pos.x += 90;
+        this->leftCollider.dim.pos.z += 215;
+        this->leftCollider.dim.pos.x += 90;
 
-        this->colliderRight.dim.pos.z += 215;
-        this->colliderRight.dim.pos.x -= 90;
+        this->rightCollider.dim.pos.z += 215;
+        this->rightCollider.dim.pos.x -= 90;
 
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderMain.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderLeft.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderRight.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->mainCollider.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->leftCollider.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->rightCollider.base);
     }
 }
 
@@ -290,15 +290,15 @@ void BgDodoago_Update(Actor* thisx, PlayState* play) {
     if (this->dyna.actor.parent == NULL) {
         // this is a "bomb catcher", it kills the XZ speed and sets the timer for bombs that are dropped through the
         // holes in the bridge above the skull
-        if ((this->colliderLeft.base.ocFlags1 & OC1_HIT) || (this->colliderRight.base.ocFlags1 & OC1_HIT)) {
+        if ((this->leftCollider.base.ocFlags1 & OC1_HIT) || (this->rightCollider.base.ocFlags1 & OC1_HIT)) {
 
-            if (this->colliderLeft.base.ocFlags1 & OC1_HIT) {
-                actor = this->colliderLeft.base.oc;
+            if (this->leftCollider.base.ocFlags1 & OC1_HIT) {
+                actor = this->leftCollider.base.oc;
             } else {
-                actor = this->colliderRight.base.oc;
+                actor = this->rightCollider.base.oc;
             }
-            this->colliderLeft.base.ocFlags1 &= ~OC1_HIT;
-            this->colliderRight.base.ocFlags1 &= ~OC1_HIT;
+            this->leftCollider.base.ocFlags1 &= ~OC1_HIT;
+            this->rightCollider.base.ocFlags1 &= ~OC1_HIT;
 
             if (actor->category == ACTORCAT_EXPLOSIVE && actor->id == ACTOR_EN_BOM && actor->params == 0) {
                 bomb = (EnBom*)actor;

@@ -1,5 +1,6 @@
 #include "global.h"
 #include "fault.h"
+#include "sys_ucode.h"
 #include "terminal.h"
 #include "ucode_disas.h"
 #include "versions.h"

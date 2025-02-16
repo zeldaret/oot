@@ -66,7 +66,6 @@
         <Texture Name="gTalonNecklaceStringUpperTex" OutName="necklace_string_upper" Format="ci8" Width="16" Height="32" Offset="0xADB8" TlutOffset="0xA638"/>
         <Texture Name="gTalonBowserTex" OutName="bowser" Format="rgba16" Width="16" Height="32" Offset="0xAFB8"/>
         <Texture Name="gTalonNecklaceLowerStringsTex" OutName="necklace_string_lower" Format="rgba16" Width="8" Height="16" Offset="0xB3B8"/>
-
-        <Blob Name="object_ta_Blob_00B4B8" Size="0x200" Offset="0xB4B8"/>
+        <Texture Name="gTalonUnusedTex" OutName="unused" Format="rgba16" Width="16" Height="16" Offset="0xB4B8"/>
     </File>
 </Root>

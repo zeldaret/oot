@@ -6,6 +6,11 @@
 #include "z64inventory.h"
 #include "z64math.h"
 
+typedef enum ZTargetSetting {
+    /* 0 */ Z_TARGET_SETTING_SWITCH,
+    /* 1 */ Z_TARGET_SETTING_HOLD
+} ZTargetSetting;
+
 typedef enum Language {
 #if OOT_NTSC
     /* 0 */ LANGUAGE_JPN,
@@ -315,10 +320,10 @@ typedef struct SaveContext {
     /* 0x1404 */ u16 minigameState;
     /* 0x1406 */ u16 minigameScore; // "yabusame_total"
     /* 0x1408 */ char unk_1408[0x0001];
-    /* 0x1409 */ u8 language; // NTSC 0: Japanese; 1: English | PAL 0: English; 1: German; 2: French
-    /* 0x140A */ u8 audioSetting;
+    /* 0x1409 */ u8 language; // NTSC 0: Japanese; 1: English | PAL 0: English; 1: German; 2: French (see enum `Language`)
+    /* 0x140A */ u8 soundSetting; // 0: Stereo; 1: Mono; 2: Headset; 3: Surround (see enum `SoundSetting`)
     /* 0x140B */ char unk_140B[0x0001];
-    /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold
+    /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold (see enum `ZTargetSetting`)
     /* 0x140E */ u16 forcedSeqId; // immediately start playing the sequence if set
     /* 0x1410 */ u8 cutsceneTransitionControl; // context dependent usage: can either trigger a delayed fade or control fill alpha
     /* 0x1411 */ char unk_1411[0x0001];

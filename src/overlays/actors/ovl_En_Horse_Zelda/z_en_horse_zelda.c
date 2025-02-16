@@ -16,8 +16,6 @@
 #include "z64play.h"
 #include "z64player.h"
 
-#include "global.h"
-
 #include "assets/objects/object_horse_zelda/object_horse_zelda.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

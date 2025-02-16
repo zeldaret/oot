@@ -18,7 +18,7 @@ typedef struct EnAnubiceFire {
     /* 0x015C */ s16 unk_15C;
     /* 0x015E */ s16 unk_15E;
     /* 0x0178 */ Vec3f unk_160[6];
-    /* 0x01A8 */ ColliderCylinder cylinder;
+    /* 0x01A8 */ ColliderCylinder colliderCylinder;
 } EnAnubiceFire; // size = 0x01F4
 
 #endif
