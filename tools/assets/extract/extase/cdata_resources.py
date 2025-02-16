@@ -33,8 +33,6 @@ class CDataExt(CData, abc.ABC):
     report_f = None
     write_f = None
 
-    # TODO not sure what to name this, it doesn't have to be used for pointer reporting,
-    # more generic "callback" may be better idk yet
     def set_report(
         self, report_f: Callable[["CDataResource", "MemoryContext", Any], None]
     ):
@@ -395,7 +393,6 @@ cdata_ext_Vec3s = CDataExt_Struct(
 )
 
 
-# TODO move to z64 ?
 class Vec3sArrayResource(CDataResource):
 
     elem_cdata_ext = cdata_ext_Vec3s

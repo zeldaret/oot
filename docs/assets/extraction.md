@@ -12,3 +12,7 @@ To run the extraction outside of `make setup`, use `./tools/extract_assets.sh VE
 - Pass `-j` to use multiprocessing, making extraction quicker. Note that this makes for less readable errors if any error happens.
 - Pass `-s name` to extract assets using baserom file `name`.
 - Pass `-r -s 'name.*'` to extract assets using baserom files whose name match regular expression `name.*`.
+
+There currently are various hacks in place in the extraction tool source code to make extraction of some corner cases possible, or to silence extraction warnings.
+Some of these hacks check for the name of resources, so renaming a few specific resources may need updating the extraction tool's source too.
+The plan is to eventually remove those hardcoded checks from the source and use a `HackMode` attribute in the xmls to trigger the hacks code paths.

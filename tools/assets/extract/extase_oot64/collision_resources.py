@@ -268,7 +268,6 @@ class BgCamFuncDataResource(CDataResource):
     element_cdata_ext = cdata_ext_Vec3s
 
     def __init__(self, file: File, range_start: int, range_end: int, name: str):
-        # TODO see VtxArrayResource
         count = (range_end - range_start) // self.element_cdata_ext.size
         self.cdata_ext = CDataExt_Array(self.element_cdata_ext, count)
         super().__init__(file, range_start, name)

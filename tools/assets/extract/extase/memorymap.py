@@ -276,8 +276,6 @@ class MemoryContext:
         direct_file_offset_start = self._direct_address_to_offset(address)
         direct_file_offset_end = direct_file_offset_start + target_file.size
 
-        # TODO should memory_map members be directly accessed,
-        # or should MemoryMap have functions (applies elsewhere in MemoryContext)
         self.memory_map.direct.set(
             direct_file_offset_start,
             direct_file_offset_end,

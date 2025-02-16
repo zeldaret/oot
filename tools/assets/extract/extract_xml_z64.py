@@ -389,7 +389,6 @@ def main():
 
     z64_resource_handlers.register_resource_handlers()
 
-    # TODO extract only when a pool xml was modified since last extract
     try:
         if args.single is not None:
             any_match = False

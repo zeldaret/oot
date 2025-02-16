@@ -10,11 +10,11 @@ try:
 except ModuleNotFoundError:
     rich_pprint = print
 
-# pip install pygfxd@git+https://github.com/Dragorn421/pygfxd.git@9d418bc5d1cebedfeec3455250bef29473055940
 import pygfxd
 
 if TYPE_CHECKING:
     from ..extase.memorymap import MemoryContext
+from ..extase.memorymap import UnmappedAddressError, UnexpectedResourceTypeError
 
 from ..extase import (
     RESOURCE_PARSE_SUCCESS,
@@ -131,7 +131,6 @@ class VtxArrayResource(CDataResource):
     ).set_write(write_elem)
 
     def __init__(self, file: File, range_start: int, range_end: int, name: str):
-        # TODO this is stupid (range_end -> num -> size -> range_end)
         num = (range_end - range_start) // self.element_cdata_ext.size
         self.cdata_ext = CDataExt_Array(self.element_cdata_ext, num)
         super().__init__(file, range_start, name)
@@ -1266,89 +1265,86 @@ class DListResource(Resource, can_size_be_unknown=True):
 
         def arg_fn_handle_Dim(arg_num: int):
             timg = pygfxd.gfxd_value_by_type(pygfxd.GfxdArgType.Timg, 0)
-            """ # TODO port to memctx changes
-            if timg is not None:
-                _, timg_segmented, _ = timg
-                dim_args_i = []
-                for arg_i in range(pygfxd.gfxd_arg_count()):
-                    if pygfxd.gfxd_arg_type(arg_i) == pygfxd.GfxdArgType.Dim:
-                        dim_args_i.append(arg_i)
-                assert arg_num in dim_args_i
-                assert len(dim_args_i) <= 2
-                if len(dim_args_i) == 2:
-                    width_arg_i, height_arg_i = dim_args_i
-                    # TODO this width/height stuff is jank code
-                    # probably introduce an attribute system instead for resources, generalizing the length system
-                    try:
-                        (
-                            resolution,
-                            resolution_info,
-                        ) = self.file.memory_context.resolve_segmented(timg_segmented)
-                    except NoSegmentBaseError:
-                        # TODO store failed resolutions somewhere, for later printing
-                        # (in general, it would be nice to fail less and *firmly* warn more instead,
-                        #  even if it means having compilation fail on purpose (#error))
-                        resolution = None
-                    if resolution == SegmentedAddressResolution.FILE:
-                        resolved_file, resolved_offset = resolution_info
-                        result, resolved_resource = resolved_file.get_resource_at(
-                            resolved_offset
-                        )
-                        assert result == GetResourceAtResult.DEFINITIVE
-                        assert resolved_resource is not None
+            if timg is None:
+                return False
+            _, timg_segmented, _ = timg
+            dim_args_i = []
+            for arg_i in range(pygfxd.gfxd_arg_count()):
+                if pygfxd.gfxd_arg_type(arg_i) == pygfxd.GfxdArgType.Dim:
+                    dim_args_i.append(arg_i)
+            assert arg_num in dim_args_i
+            assert len(dim_args_i) <= 2
+            if len(dim_args_i) != 2:
+                return False
+            width_arg_i, height_arg_i = dim_args_i
+            try:
+                timg_resolved = memory_context.resolve_segmented(timg_segmented)
+            except UnmappedAddressError:
+                # TODO store failed resolutions somewhere, for later printing
+                # (in general, it would be nice to fail less and *firmly* warn more instead,
+                #  even if it means having compilation fail on purpose (#error))
+                return False
+            try:
+                resolved_resource = timg_resolved.get_resource(TextureResource)
+            except UnexpectedResourceTypeError:
+                # TODO investigate. eg spot18 uses 0x0800_0000 as both a DL and Tex ?
+                return False
 
-                        # TODO investigate. eg spot18 uses 0x0800_0000 as both a DL and Tex ?
-                        if isinstance(resolved_resource, DListResource):
-                            return False
-
-                        assert isinstance(resolved_resource, TextureResource), (
-                            hex(timg_segmented),
-                            resolved_resource,
-                            resolved_resource.__class__,
-                        )
-                        width_arg_value = pygfxd.gfxd_arg_value(width_arg_i)[1]
-                        height_arg_value = pygfxd.gfxd_arg_value(height_arg_i)[1]
-                        if (resolved_resource.width, resolved_resource.height) == (
-                            width_arg_value,
-                            height_arg_value,
-                        ):
-                            if arg_num == width_arg_i:
-                                if resolved_resource.width_name:
-                                    pygfxd.gfxd_puts(resolved_resource.width_name)
-                                    return True
-                            else:
-                                assert arg_num == height_arg_i
-                                if resolved_resource.height_name:
-                                    pygfxd.gfxd_puts(resolved_resource.height_name)
-                                    return True
-                        else:
-                            if arg_num == width_arg_i:
-                                print(
-                                    "Unexpected texture dimensions used: in dlist =",
-                                    self,
-                                    "texture =",
-                                    resolved_resource,
-                                    "texture resource has WxH =",
-                                    (resolved_resource.width, resolved_resource.height),
-                                    "but dlist uses WxH =",
-                                    (width_arg_value, height_arg_value),
-                                )
-                                pygfxd.gfxd_puts(
-                                    " /* ! Unexpected texture dimensions !"
-                                    + " DL={0[0]}x{0[1]} vs Tex={1[0]}x{1[1]} */ ".format(
-                                        (width_arg_value, height_arg_value),
-                                        (
-                                            resolved_resource.width,
-                                            resolved_resource.height,
-                                        ),
-                                    )
-                                )
-                            # end if arg_num == width_arg_i
-                        # end width, height check
-                    # end resolved to file
-                # end 2 dim args
-            # end timg check
-            """
+            assert isinstance(resolved_resource, TextureResource), (
+                hex(timg_segmented),
+                resolved_resource,
+                resolved_resource.__class__,
+            )
+            width_arg_value = pygfxd.gfxd_arg_value(width_arg_i)[1]
+            height_arg_value = pygfxd.gfxd_arg_value(height_arg_i)[1]
+            if (resolved_resource.width, resolved_resource.height) == (
+                width_arg_value,
+                height_arg_value,
+            ):
+                if arg_num == width_arg_i:
+                    if resolved_resource.width_name:
+                        pygfxd.gfxd_puts(resolved_resource.width_name)
+                        return True
+                else:
+                    assert arg_num == height_arg_i
+                    if resolved_resource.height_name:
+                        pygfxd.gfxd_puts(resolved_resource.height_name)
+                        return True
+            else:
+                HACK_no_warn_bad_dims_DLs = {
+                    "sPresentedByNintendoDL",  # uses gsDPLoadTextureTile, in which height is unused, so disassembled as 0 by gfxdis
+                    "gMantUnusedMaterialDL",  # DList bug
+                    "gSunDL",  # DList loads bigger chunks than the individual texture pieces (overlaps)
+                }
+                HACK_no_warn_bad_dims_Texs = {
+                    "gPoeComposerFlatHeadDL_000060E0_Tex",  # used as both rgba16 16x16 and rgba16 8x8
+                    "gDekuStickTex",  # used as both i8 8x8 and i8 16x16
+                    "gHilite1Tex",  # used as both rgba16 16x16 and rgba16 32x32
+                    "gHilite2Tex",  # used as both rgba16 16x16 and rgba16 32x32
+                    "gUnknownCircle4Tex",  # used as both i8 16x16 and rgba16 32x32
+                    "gLinkChildLowerBootTex",  # used as both ci8 32x32 and ci8 16x16
+                    "gDecorativeFlameMaskTex",  # used as both i4 32x128 and i4 32x64
+                }
+                if (
+                    arg_num == width_arg_i
+                    and self.name not in HACK_no_warn_bad_dims_DLs
+                    and resolved_resource.name not in HACK_no_warn_bad_dims_Texs
+                ):
+                    print(
+                        "Unexpected texture dimensions used: in dlist =",
+                        self,
+                        "texture =",
+                        resolved_resource,
+                        "texture resource has WxH =",
+                        (resolved_resource.width, resolved_resource.height),
+                        "but dlist uses WxH =",
+                        (width_arg_value, height_arg_value),
+                    )
+                    pygfxd.gfxd_puts(
+                        " /* ! Unexpected texture dimensions !"
+                        f" DL={width_arg_value}x{height_arg_value}"
+                        f" vs Tex={resolved_resource.width}x{resolved_resource.height} */ "
+                    )
             return False
 
         arg_fn_handlers = {
