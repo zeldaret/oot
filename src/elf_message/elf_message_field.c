@@ -1,5 +1,5 @@
-#include "global.h"
 #include "z64quest_hint_commands.h"
+#include "z64save.h"
 
 QuestHintCmd gOverworldNaviQuestHints[] = {
     QUEST_HINT_FLAG(CHECK, EVENTCHKINF_05, false, 0x40),

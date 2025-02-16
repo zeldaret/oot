@@ -14,6 +14,7 @@
 #include "z64face_reaction.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #include "assets/objects/object_toryo/object_toryo.h"
 

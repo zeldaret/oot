@@ -27,6 +27,7 @@
 #include "z64horse.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 #include "z64skin_matrix.h"
 
 #include "assets/objects/object_horse/object_horse.h"

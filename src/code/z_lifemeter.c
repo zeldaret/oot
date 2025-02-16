@@ -1,4 +1,14 @@
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "global.h"
+
 #include "assets/textures/parameter_static/parameter_static.h"
 
 static s16 sHeartsPrimColors[3][3] = {

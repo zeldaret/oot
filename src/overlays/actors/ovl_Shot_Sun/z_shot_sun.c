@@ -19,6 +19,7 @@
 #include "z64ocarina.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #include "assets/scenes/overworld/spot06/spot06_scene.h"
 

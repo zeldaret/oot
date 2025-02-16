@@ -11,6 +11,7 @@
 #include "sys_matrix.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 

@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_spot01_matoya/object_spot01_matoya.h"
 #include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"

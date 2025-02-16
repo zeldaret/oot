@@ -47,13 +47,6 @@ void Debug_DrawText(GraphicsContext* gfxCtx);
 
 void* MemCpy(void* dest, const void* src, s32 len);
 
-u16 QuestHint_GetSariaTextId(PlayState* play);
-u16 QuestHint_GetNaviTextId(PlayState* play);
-void CutsceneFlags_UnsetAll(PlayState* play);
-void CutsceneFlags_Set(PlayState* play, s16 flag);
-void CutsceneFlags_Unset(PlayState* play, s16 flag);
-s32 CutsceneFlags_Get(PlayState* play, s16 flag);
-
 s32 Kanji_OffsetFromShiftJIS(s32 character);
 #if PLATFORM_IQUE
 void Font_LoadCharCHN(Font* font, u16 character, u16 codePointIndex);
@@ -160,8 +153,6 @@ void DebugCamera_Init(DebugCam* debugCam, Camera* cameraPtr);
 void DebugCamera_Enable(DebugCam* debugCam, Camera* cam);
 void DebugCamera_Update(DebugCam* debugCam, Camera* cam);
 void DebugCamera_Reset(Camera* cam, DebugCam* debugCam);
-void func_800BB0A0(f32 u, Vec3f* pos, f32* roll, f32* viewAngle, f32* point0, f32* point1, f32* point2, f32* point3);
-s32 func_800BB2B4(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s16* keyFrame, f32* curFrame);
 
 void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg);
 void PreRender_Init(PreRender* this);

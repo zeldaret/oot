@@ -1,18 +1,39 @@
-
-#include "global.h"
+#include "libu64/debug.h"
+#include "controller.h"
 #include "fault.h"
-#include "quake.h"
-#include "terminal.h"
-#include "versions.h"
+#include "gfx.h"
+#include "gfxalloc.h"
+#include "kaleido_manager.h"
+#include "letterbox.h"
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
-
+#include "one_point_cutscene.h"
+#include "quake.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "versions.h"
+#include "zelda_arena.h"
+#include "z64cutscene_flags.h"
 #include "z64debug_display.h"
+#include "z64effect.h"
 #include "z64frame_advance.h"
+#include "z64light.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#include "global.h"
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:192 ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;

@@ -1,5 +1,10 @@
 #include "global.h"
+#include "map.h"
+#include "regs.h"
 #include "versions.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64save.h"
 
 void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);

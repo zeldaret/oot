@@ -11,6 +11,7 @@
 #include "z64debug_display.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

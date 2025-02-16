@@ -13,6 +13,7 @@
 #include "z64audio.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #include "assets/objects/object_daiku/object_daiku.h"
 

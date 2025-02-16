@@ -10,6 +10,7 @@
 #include "sfx.h"
 #include "z_lib.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 

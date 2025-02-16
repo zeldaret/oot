@@ -1,4 +1,7 @@
 #include "z_kaleido_scope.h"
+
+#include "z64save.h"
+
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 

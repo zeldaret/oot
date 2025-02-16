@@ -16,11 +16,10 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
+#include "z64cutscene_flags.h"
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
 
 #include "assets/objects/object_spot11_obj/object_spot11_obj.h"
 

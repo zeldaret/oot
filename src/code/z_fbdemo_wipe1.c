@@ -1,4 +1,6 @@
-#include "global.h"
+#include "gfx.h"
+#include "z64save.h"
+#include "z64transition_instances.h"
 
 typedef enum TransitionWipeDirection {
     /* 0 */ TRANS_WIPE_DIR_IN,

@@ -12,6 +12,7 @@
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_spot07_object/object_spot07_object.h"
 

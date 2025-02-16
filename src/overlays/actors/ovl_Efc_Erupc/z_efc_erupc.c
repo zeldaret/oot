@@ -9,6 +9,7 @@
 #include "z_lib.h"
 #include "z64audio.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_efc_erupc/object_efc_erupc.h"
 

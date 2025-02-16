@@ -19,6 +19,7 @@
 #include "z64frame_advance.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #if PLATFORM_N64
 #include "global.h"

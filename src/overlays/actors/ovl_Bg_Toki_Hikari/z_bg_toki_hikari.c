@@ -11,6 +11,7 @@
 #include "ichain.h"
 #include "sys_matrix.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 

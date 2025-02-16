@@ -1,5 +1,12 @@
-#include "global.h"
+#include "ultra64.h"
+#include "main.h"
+#include "regs.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64save.h"
+#include "z64transition_instances.h"
+
+#include "macros.h"
 
 typedef enum TransitionFadeDirection {
     /* 0 */ TRANS_FADE_DIR_IN,
