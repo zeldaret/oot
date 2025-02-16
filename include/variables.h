@@ -5,8 +5,6 @@
 #include "libc64/os_malloc.h"
 #include "segment_symbols.h"
 
-extern Mtx D_01000000;
-
 extern void* osRomBase;
 extern s32 osTvType;
 extern u32 osRomType;
@@ -76,8 +74,6 @@ extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
 extern s16 gSpoilingItemReverts[3];
-
-extern Gfx gEmptyDL[];
 
 extern u16 gSramSlotOffsets[];
 // 4 16-colors palettes
@@ -152,14 +148,6 @@ extern AudioTable gSoundFontTable;
 extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
-
-extern u8 gUseCutsceneCam;
-extern u16 D_8015FCCC;
-extern char D_8015FCD0[20];
-extern u8 D_8015FCE4;
-extern u16 gCamAtSplinePointsAppliedFrame;
-extern u16 gCamEyePointAppliedFrame;
-extern u16 gCamAtPointAppliedFrame;
 
 extern LightningStrike gLightningStrike;
 // TODO: These variables are here for BSS ordering but ideally they should not

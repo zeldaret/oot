@@ -12,6 +12,7 @@
 #include "cic6105.h"
 #include "n64dd.h"
 #endif
+#include "z64save.h"
 
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 

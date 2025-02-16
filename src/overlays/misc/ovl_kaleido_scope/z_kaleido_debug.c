@@ -1,4 +1,7 @@
 #include "z_kaleido_scope.h"
+
+#include "z64save.h"
+
 #include "assets/textures/parameter_static/parameter_static.h"
 
 // Positions of each input section in the editor

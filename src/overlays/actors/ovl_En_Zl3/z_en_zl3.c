@@ -25,6 +25,7 @@
 #include "z64frame_advance.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"

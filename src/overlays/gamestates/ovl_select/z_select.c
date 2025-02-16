@@ -5,14 +5,16 @@
  */
 
 #include "ultra64.h"
-#include "global.h"
-#include "terminal.h"
 #include "alloca.h"
-#include "z64.h"
-
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "seqcmd.h"
+#include "sequence.h"
+#include "terminal.h"
+#include "z64save.h"
+
+#include "global.h"
 
 void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;

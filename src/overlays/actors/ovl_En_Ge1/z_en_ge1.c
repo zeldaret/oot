@@ -18,6 +18,7 @@
 #include "z64horse.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #include "assets/objects/object_ge1/object_ge1.h"
 

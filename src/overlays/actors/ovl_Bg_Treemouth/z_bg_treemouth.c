@@ -17,8 +17,7 @@
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
+#include "z64save.h"
 
 #include "assets/objects/object_spot04_objects/object_spot04_objects.h"
 

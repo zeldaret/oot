@@ -12,6 +12,7 @@
 #include "z_lib.h"
 #include "z64face_reaction.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_mu/object_mu.h"
 
