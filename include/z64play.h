@@ -115,7 +115,7 @@ typedef struct PlayState {
     /* 0x12430 */ char unk_12430[0xE8];
 } PlayState; // size = 0x12518
 
-extern Mtx D_01000000; //billboardMtx
+extern Mtx D_01000000; // billboardMtx
 
 #define GET_ACTIVE_CAM(play) ((play)->cameraPtrs[(play)->activeCamId])
 #define GET_PLAYER(play) ((Player*)(play)->actorCtx.actorLists[ACTORCAT_PLAYER].head)

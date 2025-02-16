@@ -3,8 +3,6 @@
 
 #include "ultra64.h"
 
-struct PlayState;
-
 typedef struct QuestHintCmd {
     /* 0x00 */ u8 byte0;
     /* 0x01 */ u8 byte1;
