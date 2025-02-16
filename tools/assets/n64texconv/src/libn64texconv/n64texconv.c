@@ -158,7 +158,7 @@ n64texconv_quantize_shared(uint8_t **out_indices, struct color *out_pal, size_t 
     // Remap images
     liq_set_dithering_level(result, dither_level);
     for (size_t i = 0; i < num_images; i++) {
-        liq_write_remapped_image(result, images[i], (void *)out_indices[i], widths[i] * heights[i] * 4);
+        liq_write_remapped_image(result, images[i], (void *)out_indices[i], widths[i] * heights[i]);
     }
 
     // Write output palette
