@@ -753,7 +753,7 @@
         <Texture Name="gEffHitMark24Tex" OutName="eff_hit_mark_24" Format="i4" Width="32" Height="24" Offset="0x215F0"/>
         <DList Name="gEffHitMarkDL" Offset="0x21770"/>
         <Texture Name="gEffUnknown6Tex" OutName="eff_unknown_6" Format="i8" Width="32" Height="64" Offset="0x21810"/>
-        <Texture Name="gEffFleckTex" OutName="eff_fleck" Format="i8" Width="32" Height="64" Offset="0x22010"/>
+        <Texture Name="gEffFleckTex" OutName="eff_fleck" Format="i4" Width="64" Height="64" Offset="0x22010"/>
         <Texture Name="gEffUnknown8Tex" OutName="eff_unknown_8" Format="i8" Width="64" Height="64" Offset="0x22810"/>
         <Texture Name="gEffMagmaBubble1Tex" OutName="eff_magma_bubbles_1" Format="ia8" Width="16" Height="24" Offset="0x23810"/>
         <Texture Name="gEffMagmaBubble2Tex" OutName="eff_magma_bubbles_2" Format="ia8" Width="16" Height="24" Offset="0x23990"/>
@@ -843,7 +843,7 @@
         <DList Name="gBugLimb9WrapperWrapperDL" Offset="0x34A50"/>
         <Skeleton Name="gBugSkel" Type="Normal" LimbType="Standard" Offset="0x35590"/>
         <Texture Name="gBugBodyTex" OutName="bug_body" Format="rgba16" Width="16" Height="64" Offset="0x34B20"/>
-        <Texture Name="gBugLegTex" OutName="bug_leg" Format="rgba16" Width="32" Height="4" Offset="0x35320"/>
+        <Texture Name="gBugLegTex" OutName="bug_leg" Format="rgba16" Width="8" Height="16" Offset="0x35320"/>
         <DList Name="gCuttableShrubStalkDL" Offset="0x355E0"/>
         <DList Name="gCuttableShrubTipDL" Offset="0x356A0"/>
         <Texture Name="gCuttableShrubLeafTFragmentTex" OutName="cuttable_shrub_leaf_fragment" Format="rgba16" Width="32" Height="32" Offset="0x35730"/>
