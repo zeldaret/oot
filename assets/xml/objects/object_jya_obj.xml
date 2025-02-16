@@ -29,7 +29,7 @@
         <Texture Name="gCobraMirrorEyeTex" OutName="cobra_eye" Format="rgba16" Width="32" Height="32" Offset="0x15540"/>
         <Texture Name="gCobraMirrorHandleTex" OutName="cobra_handle" Format="rgba16" Width="32" Height="8" Offset="0x15F40"/>
         <Texture Name="gCobraMirrorMirrorTex" OutName="cobra_mirror" Format="ia16" Width="32" Height="32" Offset="0x14540"/>
-        <Texture Name="gCobraMirrorToothTex" OutName="cobra_tooth" Format="ia16" Width="32" Height="32" Offset="0x14D40"/>
+        <Texture Name="gCobraMirrorToothTex" OutName="cobra_tooth" Format="ia8" Width="64" Height="32" Offset="0x14D40"/>
         <DList Name="gKanaamiDL" Offset="0xF000"/>
         <Collision Name="gKanaamiCol" Offset="0xF208"/>
         <Texture Name="gKanaamiTopTex" OutName="kanaami_top" Format="rgba16" Width="32" Height="64" Offset="0x12540"/>

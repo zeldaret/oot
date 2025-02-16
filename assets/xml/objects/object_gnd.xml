@@ -44,11 +44,11 @@
         <Texture Name="gPhantomGanonLimbTex_00AE80" OutName="phantom_ganon_limb_tex_00AE80" Format="rgba16" Width="8" Height="8" Offset="0xAE80"/>
         <Texture Name="gPhantomGanonLimbTex_00AF00" OutName="phantom_ganon_limb_tex_00AF00" Format="rgba16" Width="8" Height="8" Offset="0xAF00"/>
         <Texture Name="gPhantomGanonLimbTex_00C180" OutName="phantom_ganon_limb_tex_00C180" Format="rgba16" Width="8" Height="8" Offset="0xC180"/>
-        <Texture Name="gPhantomGanonLimbTex_00C400" OutName="phantom_ganon_limb_tex_00C400" Format="rgba16" Width="8" Height="8" Offset="0xC400"/>
-        <Texture Name="gPhantomGanonLimbTex_00B980" OutName="phantom_ganon_limb_tex_00B980" Format="rgba16" Width="16" Height="8" Offset="0xB980"/>
-        <Texture Name="gPhantomGanonLimbTex_00C480" OutName="phantom_ganon_limb_tex_00C480" Format="rgba16" Width="16" Height="8" Offset="0xC480"/>
-        <Texture Name="gPhantomGanonLimbTex_00BC80" OutName="phantom_ganon_limb_tex_00BC80" Format="rgba16" Width="16" Height="8" Offset="0xBC80"/>
-        <Texture Name="gPhantomGanonLimbTex_00BD80" OutName="phantom_ganon_limb_tex_00BD80" Format="rgba16" Width="16" Height="8" Offset="0xBD80"/>
+        <Texture Name="gPhantomGanonLimbTex_00C400" OutName="phantom_ganon_limb_tex_00C400" Format="rgba16" Width="4" Height="16" Offset="0xC400"/>
+        <Texture Name="gPhantomGanonLimbTex_00B980" OutName="phantom_ganon_limb_tex_00B980" Format="rgba16" Width="8" Height="16" Offset="0xB980"/>
+        <Texture Name="gPhantomGanonLimbTex_00C480" OutName="phantom_ganon_limb_tex_00C480" Format="rgba16" Width="8" Height="16" Offset="0xC480"/>
+        <Texture Name="gPhantomGanonLimbTex_00BC80" OutName="phantom_ganon_limb_tex_00BC80" Format="rgba16" Width="8" Height="16" Offset="0xBC80"/>
+        <Texture Name="gPhantomGanonLimbTex_00BD80" OutName="phantom_ganon_limb_tex_00BD80" Format="rgba16" Width="8" Height="16" Offset="0xBD80"/>
         <Texture Name="gPhantomGanonLimbTex_00C080" OutName="phantom_ganon_limb_tex_00C080" Format="rgba16" Width="16" Height="8" Offset="0xC080"/>
         <Texture Name="gPhantomGanonLimbTex_00C200" OutName="phantom_ganon_limb_tex_00C200" Format="rgba16" Width="16" Height="16" Offset="0xC200"/>
         <Texture Name="gPhantomGanonLimbTex_00A000" OutName="phantom_ganon_limb_tex_00A000" Format="rgba16" Width="16" Height="16" Offset="0xA000"/>
