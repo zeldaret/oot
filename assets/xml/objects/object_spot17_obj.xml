@@ -7,6 +7,6 @@
         <Collision Name="gCraterBombableWallCol" Offset="0xA38"/>
         <DList Name="gCraterSmokeConeDL" Offset="0xB40"/>
         <Texture Name="gCraterSmokeConeTex" OutName="crater_smoke_cone" Format="ia8" Width="32" Height="32" Offset="0xC30"/>
-        <Texture Name="gCraterBombableWallCracksTex" OutName="crater_bombable_wall_cracks" Format="ia8" Width="32" Height="64" Offset="0x1030"/>
+        <Texture Name="gCraterBombableWallCracksTex" OutName="crater_bombable_wall_cracks" Format="i4" Width="64" Height="64" Offset="0x1030"/>
     </File>
 </Root>
