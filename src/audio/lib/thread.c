@@ -226,8 +226,8 @@ void AudioThread_ProcessGlobalCmd(AudioCmd* cmd) {
             }
             break;
 
-        case AUDIOCMD_OP_GLOBAL_SET_SOUND_MODE:
-            gAudioCtx.soundMode = cmd->asUInt;
+        case AUDIOCMD_OP_GLOBAL_SET_SOUND_OUTPUT_MODE:
+            gAudioCtx.soundOutputMode = cmd->asUInt;
             break;
 
         case AUDIOCMD_OP_GLOBAL_MUTE:
