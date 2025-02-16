@@ -1,8 +1,8 @@
 # SPDX-FileCopyrightText: © 2025 ZeldaRET
 # SPDX-License-Identifier: MIT
 
-import os
-from ctypes import CDLL, Structure, POINTER, create_string_buffer, string_at, byref
+import os, sys
+from ctypes import CDLL, Structure, POINTER, create_string_buffer, string_at, byref, cast
 from ctypes import c_void_p, c_char_p, c_uint8, c_uint, c_bool, c_int, c_size_t
 from typing import Optional
 
@@ -18,6 +18,48 @@ def deref(ptr):
     return None
 
 ln64texconv = CDLL(os.path.join(os.path.dirname(__file__), "libn64texconv.so"))
+
+class RefCounter:
+    def __init__(self) -> None:
+        self.ref_counts = {}
+
+    def add_ref(self, ptr):
+        if not isinstance(ptr, POINTER(N64Palette)):
+            ptr = cast(ptr, POINTER(N64Palette))
+        if not ptr:
+            return
+        key = int.from_bytes(ptr, byteorder=sys.byteorder, signed=False)
+        if key not in self.ref_counts:
+            self.ref_counts[key] = 1
+        else:
+            self.ref_counts[key] += 1
+
+    def num_refs(self, ptr):
+        if not isinstance(ptr, POINTER(N64Palette)):
+            ptr = cast(ptr, POINTER(N64Palette))
+        if not ptr:
+            return 0
+        key = int.from_bytes(ptr, byteorder=sys.byteorder, signed=False)
+        if key not in self.ref_counts:
+            return 0
+        return self.ref_counts[key]
+
+    def rm_ref(self, ptr, free_func):
+        if not isinstance(ptr, POINTER(N64Palette)):
+            ptr = cast(ptr, POINTER(N64Palette))
+        if not ptr:
+            return
+        key = int.from_bytes(ptr, byteorder=sys.byteorder, signed=False)
+        assert key in self.ref_counts
+        count = self.ref_counts.pop(key)
+        count -= 1
+        if count == 0:
+            free_func(ptr)
+        else:
+            self.ref_counts[key] = count
+
+# Simple reference counter for C allocations
+_object_refcount = RefCounter()
 
 #
 #   Private
@@ -183,18 +225,25 @@ class N64Palette(Structure):
             raise ValueError("Palette format must be either G_IM_FMT_RGBA or G_IM_FMT_IA")
         if count > 256:
             raise ValueError("The largest possible palette size is 256")
-        return deref(ln64texconv.n64texconv_palette_new(count, fmt))
+        pal = ln64texconv.n64texconv_palette_new(count, fmt)
+        _object_refcount.add_ref(pal)
+        return deref(pal)
 
     def __del__(self):
-        ln64texconv.n64texconv_palette_free(byref(self))
+        # Free the underlying palette structure only if the refcount is 0
+        _object_refcount.rm_ref(byref(self), ln64texconv.n64texconv_palette_free)
 
     def copy(self) -> Optional["N64Palette"]:
-        return deref(ln64texconv.n64texconv_palette_copy(byref(self)))
+        pal = ln64texconv.n64texconv_palette_copy(byref(self))
+        _object_refcount.add_ref(pal)
+        return deref(pal)
 
     def reformat(self, fmt : int) -> Optional["N64Palette"]:
         if fmt not in (G_IM_FMT_RGBA, G_IM_FMT_IA):
             raise ValueError("Palette format must be either G_IM_FMT_RGBA or G_IM_FMT_IA")
-        return deref(ln64texconv.n64texconv_palette_reformat(byref(self), fmt))
+        pal = ln64texconv.n64texconv_palette_reformat(byref(self), fmt)
+        _object_refcount.add_ref(pal)
+        return deref(pal)
 
     @staticmethod
     def from_png(path : str, fmt : int) -> Optional["N64Palette"]:
@@ -202,14 +251,18 @@ class N64Palette(Structure):
             raise ValueError("Palette format must be either G_IM_FMT_RGBA or G_IM_FMT_IA")
         if not os.path.isfile(path):
             raise ValueError(f"Cannot open \"{path}\", is not a file")
-        return deref(ln64texconv.n64texconv_palette_from_png(path.encode("utf-8"), fmt))
+        pal = ln64texconv.n64texconv_palette_from_png(path.encode("utf-8"), fmt)
+        _object_refcount.add_ref(pal)
+        return deref(pal)
 
     @staticmethod
     def from_bin(data : bytes, fmt : int) -> Optional["N64Palette"]:
         if fmt not in (G_IM_FMT_RGBA, G_IM_FMT_IA):
             raise ValueError("Palette format must be either G_IM_FMT_RGBA or G_IM_FMT_IA")
         buffer = create_string_buffer(data, len(data))
-        return deref(ln64texconv.n64texconv_palette_from_bin(buffer, len(data) // 2, fmt))
+        pal = ln64texconv.n64texconv_palette_from_bin(buffer, len(data) // 2, fmt)
+        _object_refcount.add_ref(pal)
+        return deref(pal)
 
     def to_png(self, outpath : str) -> bool:
         return ln64texconv.n64texconv_palette_to_png(outpath.encode("utf-8"), byref(self)) == 0
@@ -296,12 +349,17 @@ class N64Image(Structure):
     def new(width : int, height : int, fmt : int, siz : int, pal : N64Palette = None) -> Optional["N64Image"]:
         if not any((fmt, siz) == fmtsiz for fmtsiz in VALID_FORMAT_COMBINATIONS):
             raise ValueError(f"Invalid fmt/siz combination ({fmt_name(fmt)}, {siz_name(siz)})")
+        if pal is not None:
+            _object_refcount.add_ref(byref(pal))
         return deref(ln64texconv.n64texconv_image_new(width, height, fmt, siz, pal))
 
     def __del__(self):
         ln64texconv.n64texconv_image_free(byref(self))
+        # Also free the palette if the reference count drops to 0
+        _object_refcount.rm_ref(self.pal, ln64texconv.n64texconv_palette_free)
 
     def copy(self) -> Optional["N64Image"]:
+        _object_refcount.add_ref(self.pal)
         return deref(ln64texconv.n64texconv_image_copy(byref(self)))
 
     @staticmethod
@@ -312,7 +370,9 @@ class N64Image(Structure):
             raise ValueError(f"Invalid fmt/siz combination ({fmt_name(fmt)}, {siz_name(siz)})")
         if fmt == G_IM_FMT_CI and pal_fmt not in (G_IM_FMT_RGBA, G_IM_FMT_IA):
             raise ValueError(f"Invalid palette format {fmt_name(pal_fmt)}, must be either G_IM_FMT_RGBA or G_IM_FMT_IA")
-        return deref(ln64texconv.n64texconv_image_from_png(path.encode("utf-8"), fmt, siz, pal_fmt))
+        img = deref(ln64texconv.n64texconv_image_from_png(path.encode("utf-8"), fmt, siz, pal_fmt))
+        _object_refcount.add_ref(img.pal)
+        return img
 
     @staticmethod
     def from_bin(data : bytes, width : int, height : int, fmt : int, siz : int, pal : Optional[N64Palette] = None,
@@ -324,12 +384,19 @@ class N64Image(Structure):
             raise ValueError(f"Not enough data to extract the specified image. " +
                              f"Expected at least 0x{expected_size:X} bytes but only got 0x{len(data):X} bytes")
         buffer = create_string_buffer(data, len(data))
-        return deref(ln64texconv.n64texconv_image_from_bin(buffer, width, height, fmt, siz, None if pal is None else byref(pal), preswapped))
+        if pal:
+            pal = byref(pal)
+            _object_refcount.add_ref(pal)
+        img = ln64texconv.n64texconv_image_from_bin(buffer, width, height, fmt, siz, pal, preswapped)
+        return deref(img)
 
     def reformat(self, fmt : int, siz : int, pal : Optional[N64Palette] = None) -> Optional["N64Image"]:
         if not any((fmt, siz) == fmtsiz for fmtsiz in VALID_FORMAT_COMBINATIONS):
             raise ValueError(f"Invalid fmt/siz combination ({fmt_name(fmt)}, {siz_name(siz)})")
-        return deref(ln64texconv.n64texconv_image_reformat(byref(self), fmt, siz, byref(pal)))
+        if pal:
+            pal = byref(pal)
+            _object_refcount.add_ref(pal)
+        return deref(ln64texconv.n64texconv_image_reformat(byref(self), fmt, siz, pal))
 
     def to_png(self, outpath : str, intensity_alpha : bool) -> bool:
         return ln64texconv.n64texconv_image_to_png(outpath.encode("utf-8"), byref(self), intensity_alpha) == 0
