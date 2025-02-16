@@ -68,7 +68,7 @@ ActorProfile En_Insect_Profile = {
     /**/ EnInsect_Draw,
 };
 
-static ColliderJntSphElementInit sColliderItemInit[1] = {
+static ColliderJntSphElementInit sColliderElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -92,7 +92,7 @@ static ColliderJntSphInit sColliderInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sColliderItemInit,
+    sColliderElementsInit,
 };
 
 /**

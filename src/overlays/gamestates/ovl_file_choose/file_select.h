@@ -155,13 +155,6 @@ typedef enum SettingIndex {
     /*   */ FS_SETTING_MAX
 } SettingIndex;
 
-typedef enum AudioOption {
-    /* 0 */ FS_AUDIO_STEREO,
-    /* 1 */ FS_AUDIO_MONO,
-    /* 2 */ FS_AUDIO_HEADSET,
-    /* 3 */ FS_AUDIO_SURROUND
-} AudioOption;
-
 typedef enum CharPage {
     /* 0 */ FS_CHAR_PAGE_HIRA,
     /* 1 */ FS_CHAR_PAGE_KATA,

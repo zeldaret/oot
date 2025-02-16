@@ -71,8 +71,8 @@ void EnMag_ResetSram(void) {
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8007000), buffer, 0x800, 1);
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8007800), buffer, 0x800, 1);
 
-    gSaveContext.audioSetting = gSaveContext.zTargetSetting = 0;
-    func_800F6700(gSaveContext.audioSetting);
+    gSaveContext.soundSetting = gSaveContext.zTargetSetting = 0; // SOUND_SETTING_STEREO/Z_TARGET_SETTING_SWITCH
+    Audio_SetSoundMode(gSaveContext.soundSetting);
 }
 #endif
 

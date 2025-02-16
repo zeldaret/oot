@@ -90,7 +90,7 @@ ActorProfile Boss_Goma_Profile = {
     /**/ BossGoma_Draw,
 };
 
-static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
+static ColliderJntSphElementInit sColliderJntSphElementsInit[13] = {
     {
         {
             ELEM_MATERIAL_UNK3,
@@ -246,7 +246,7 @@ static ColliderJntSphInit sColliderJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     13,
-    sColliderJntSphElementInit,
+    sColliderJntSphElementsInit,
 };
 
 static u8 sClearPixelTableFirstPass[16 * 16] = {

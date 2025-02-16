@@ -60,7 +60,7 @@ void EnWf_SetupDie(EnWf* this);
 void EnWf_Die(EnWf* this, PlayState* play);
 s32 EnWf_DodgeRanged(PlayState* play, EnWf* this);
 
-static ColliderJntSphElementInit sJntSphItemsInit[4] = {
+static ColliderJntSphElementInit sJntSphElementsInit[4] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -116,8 +116,8 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sJntSphItemsInit),
-    sJntSphItemsInit,
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
 
 static ColliderCylinderInit sBodyCylinderInit = {
