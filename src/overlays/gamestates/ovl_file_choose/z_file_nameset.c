@@ -1367,7 +1367,7 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
         PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
         PRINTF_RST();
-        Audio_SetSoundMode(gSaveContext.soundSetting);
+        Audio_SetSoundOutputMode(gSaveContext.soundSetting);
         PRINTF("終了\n");
         return;
     }

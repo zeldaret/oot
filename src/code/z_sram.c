@@ -1049,7 +1049,7 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
     PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
     PRINTF_RST();
-    Audio_SetSoundMode(gSaveContext.soundSetting);
+    Audio_SetSoundOutputMode(gSaveContext.soundSetting);
 }
 
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {

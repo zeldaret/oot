@@ -369,9 +369,9 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             subOp = (cmd & 0xF00) >> 8;
             val = cmd & 0xFF;
             switch (subOp) {
-                case SEQCMD_SUB_OP_GLOBAL_SET_SOUND_MODE:
-                    // Set sound mode
-                    AUDIOCMD_GLOBAL_SET_SOUND_MODE(gSoundModeList[val]);
+                case SEQCMD_SUB_OP_GLOBAL_SET_SOUND_OUTPUT_MODE:
+                    // Set sound output mode
+                    AUDIOCMD_GLOBAL_SET_SOUND_OUTPUT_MODE(gSoundOutputModes[val]);
                     break;
 
                 case SEQCMD_SUB_OP_GLOBAL_DISABLE_NEW_SEQUENCES:

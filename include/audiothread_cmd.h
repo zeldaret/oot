@@ -44,7 +44,7 @@ typedef enum AudioThreadCmdOp {
     /* 0xE1 */ AUDIOCMD_OP_GLOBAL_SET_SFX_FONT,
     /* 0xE2 */ AUDIOCMD_OP_GLOBAL_SET_INSTRUMENT_FONT,
     /* 0xE3 */ AUDIOCMD_OP_GLOBAL_POP_PERSISTENT_CACHE,
-    /* 0xF0 */ AUDIOCMD_OP_GLOBAL_SET_SOUND_MODE = 0xF0,
+    /* 0xF0 */ AUDIOCMD_OP_GLOBAL_SET_SOUND_OUTPUT_MODE = 0xF0,
     /* 0xF1 */ AUDIOCMD_OP_GLOBAL_MUTE,
     /* 0xF2 */ AUDIOCMD_OP_GLOBAL_UNMUTE,
     /* 0xF3 */ AUDIOCMD_OP_GLOBAL_SYNC_LOAD_INSTRUMENT,
@@ -412,12 +412,12 @@ typedef enum AudioThreadCmdOp {
     AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_POP_PERSISTENT_CACHE, 0, 0, 0), tableType)
 
 /**
- * Change the sound mode of audio
+ * Change the sound output mode
  *
- * @param soundMode (s32) see the `SoundMode` enum
+ * @param soundOutputMode (s32) see the `SoundOutputMode` enum
  */
-#define AUDIOCMD_GLOBAL_SET_SOUND_MODE(soundMode) \
-    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_SET_SOUND_MODE, 0, 0, 0), soundMode)
+#define AUDIOCMD_GLOBAL_SET_SOUND_OUTPUT_MODE(soundOutputMode) \
+    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_SET_SOUND_OUTPUT_MODE, 0, 0, 0), soundOutputMode)
 
 /**
  * Mute all sequence players
