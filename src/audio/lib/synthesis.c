@@ -647,7 +647,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 #if OOT_VERSION < NTSC_1_1 || !PLATFORM_N64
             if ((reverb->leakRtl != 0) || (reverb->leakLtr != 0))
 #else
-            if (((reverb->leakRtl != 0) || (reverb->leakLtr != 0)) && (gAudioCtx.soundMode != SOUNDMODE_MONO))
+            if (((reverb->leakRtl != 0) || (reverb->leakLtr != 0)) && (gAudioCtx.soundMode != SOUND_OUTPUT_MONO))
 #endif
             {
                 cmd = AudioSynth_LeakReverb(cmd, reverb);

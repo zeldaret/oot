@@ -1189,7 +1189,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     gAudioCtx.totalTaskCount = 0;
     gAudioCtx.rspTaskIndex = 0;
     gAudioCtx.curAiBufIndex = 0;
-    gAudioCtx.soundMode = SOUNDMODE_STEREO;
+    gAudioCtx.soundMode = SOUND_OUTPUT_STEREO;
     gAudioCtx.curTask = NULL;
     gAudioCtx.rspTask[0].task.t.data_size = 0;
     gAudioCtx.rspTask[1].task.t.data_size = 0;

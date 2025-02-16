@@ -134,9 +134,9 @@ f32 D_801305F4 = 1.0f;
 u8 sGanonsTowerLevelsVol[8] = { 127, 80, 75, 73, 70, 68, 65, 60 };
 u8 sEnterGanonsTowerTimer = 0;
 #if DEBUG_FEATURES
-s8 sSoundMode = SOUNDMODE_SURROUND;
+s8 sSoundOutputMode = SOUND_OUTPUT_SURROUND;
 #else
-s8 sSoundMode = SOUNDMODE_STEREO;
+s8 sSoundOutputMode = SOUND_OUTPUT_STEREO;
 #endif
 s8 D_80130608 = 0;
 s8 sAudioCutsceneFlag = 0;
@@ -2624,7 +2624,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
         case BANK_ENV:
         case BANK_ENEMY:
         case BANK_VOICE:
-            if (sSoundMode == SOUNDMODE_SURROUND) {
+            if (sSoundOutputMode == SOUND_OUTPUT_SURROUND) {
                 combFilterGain = func_800F3990(*entry->posY, entry->sfxParams);
             }
             FALLTHROUGH;
@@ -2636,7 +2636,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
             pan = Audio_ComputeSfxPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSfxFreqScale(bankId, entryIdx) * *entry->freqScale;
 
-            if (sSoundMode == SOUNDMODE_SURROUND) {
+            if (sSoundOutputMode == SOUND_OUTPUT_SURROUND) {
                 behindScreenZ = sBehindScreenZ[(entry->sfxParams & SFX_FLAG_10) >> SFX_FLAG_10_SHIFT];
                 if (!(entry->sfxParams & SFX_FLAG_11)) {
                     if (*entry->posZ < behindScreenZ) {
@@ -2668,7 +2668,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
 
             if ((baseFilter | sAudioExtraFilter) != 0) {
                 filter = (baseFilter | sAudioExtraFilter);
-            } else if ((sSoundMode == SOUNDMODE_SURROUND) && !(entry->sfxParams & SFX_FLAG_13)) {
+            } else if ((sSoundOutputMode == SOUND_OUTPUT_SURROUND) && !(entry->sfxParams & SFX_FLAG_13)) {
                 filter = func_800F37B8(behindScreenZ, entry, pan);
             }
             break;
@@ -3766,32 +3766,40 @@ void Audio_SetCodeReverb(s8 reverb) {
     }
 }
 
-void Audio_SetSoundMode(s8 soundSetting) {
-    s8 soundModeIndex;
+/**
+ * Sets the Sound Output Mode.
+ * 
+ * This function translates the game-side `SoundSetting` to an internal `SoundOutputMode` value.
+ * The order of each value between the two enums is slightly different.
+ * 
+ * Original name: Na_SetSoundOutputMode
+ */
+void Audio_SetSoundOutputMode(s8 soundSetting) {
+    s8 soundOutputMode;
 
     switch (soundSetting) {
         case SOUND_SETTING_STEREO:
-            soundModeIndex = SOUNDMODE_STEREO;
-            sSoundMode = SOUNDMODE_STEREO;
+            soundOutputMode = SOUND_OUTPUT_STEREO;
+            sSoundOutputMode = SOUND_OUTPUT_STEREO;
             break;
 
         case SOUND_SETTING_MONO:
-            soundModeIndex = SOUNDMODE_MONO;
-            sSoundMode = SOUNDMODE_MONO;
+            soundOutputMode = SOUND_OUTPUT_MONO;
+            sSoundOutputMode = SOUND_OUTPUT_MONO;
             break;
 
         case SOUND_SETTING_HEADSET:
-            soundModeIndex = SOUNDMODE_HEADSET;
-            sSoundMode = SOUNDMODE_HEADSET;
+            soundOutputMode = SOUND_OUTPUT_HEADSET;
+            sSoundOutputMode = SOUND_OUTPUT_HEADSET;
             break;
 
         case SOUND_SETTING_SURROUND:
-            soundModeIndex = SOUNDMODE_STEREO;
-            sSoundMode = SOUNDMODE_SURROUND;
+            soundOutputMode = SOUND_OUTPUT_STEREO;
+            sSoundOutputMode = SOUND_OUTPUT_SURROUND;
             break;
     }
 
-    SEQCMD_SET_SOUND_MODE(soundModeIndex);
+    SEQCMD_SET_SOUND_OUTPUT_MODE(soundOutputMode);
 }
 
 void Audio_SetBaseFilter(u8 filter) {
@@ -4039,7 +4047,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
             SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, channelIdx, ioPort, ioData);
         }
 
-        SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, NATURE_CHANNEL_UNK, CHANNEL_IO_PORT_7, sSoundMode);
+        SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, NATURE_CHANNEL_UNK, CHANNEL_IO_PORT_7, sSoundOutputMode);
     }
 }
 

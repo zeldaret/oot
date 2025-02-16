@@ -6,6 +6,13 @@
 #include "z64inventory.h"
 #include "z64math.h"
 
+typedef enum SoundSetting {
+    /* 0 */ SOUND_SETTING_STEREO,
+    /* 1 */ SOUND_SETTING_MONO,
+    /* 2 */ SOUND_SETTING_HEADSET,
+    /* 3 */ SOUND_SETTING_SURROUND
+} SoundSetting;
+
 typedef enum ZTargetSetting {
     /* 0 */ Z_TARGET_SETTING_SWITCH,
     /* 1 */ Z_TARGET_SETTING_HOLD
