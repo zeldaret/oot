@@ -3768,10 +3768,10 @@ void Audio_SetCodeReverb(s8 reverb) {
 
 /**
  * Sets the Sound Output Mode.
- * 
+ *
  * This function translates the game-side `SoundSetting` to an internal `SoundOutputMode` value.
  * The order of each value between the two enums is slightly different.
- * 
+ *
  * Original name: Na_SetSoundOutputMode
  */
 void Audio_SetSoundOutputMode(s8 soundSetting) {
