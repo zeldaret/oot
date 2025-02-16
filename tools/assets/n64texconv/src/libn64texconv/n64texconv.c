@@ -115,6 +115,10 @@ n64texconv_quantize(uint8_t *out_indices, struct color *out_pal, size_t *out_pal
     liq_attr_destroy(attr);
 }
 
+/**
+ * out_indices, out_pal, out_pal_count, texels, widths, heights are all arrays of size num_images
+ * texels[i] and out_indices[i] are arrays of size widths[i] * heights[i]
+ */
 UNUSED static int
 n64texconv_quantize_shared(uint8_t **out_indices, struct color *out_pal, size_t *out_pal_count, struct color **texels,
                            size_t *widths, size_t *heights, size_t num_images, unsigned int max_colors,
