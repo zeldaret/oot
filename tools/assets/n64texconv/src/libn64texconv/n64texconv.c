@@ -1151,6 +1151,7 @@ n64texconv_image_to_png(const char *outpath, struct n64_image *img, bool intensi
         // Write palette
         struct spng_plte plte = { 0 };
         plte.n_entries = pal->count;
+        assert(pal->count <= 256);
         memcpy(plte.entries, pal->texels, pal->count * 4);
         rv = spng_set_plte(ctx, &plte);
         assert(rv == 0);
