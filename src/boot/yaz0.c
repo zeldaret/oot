@@ -1,6 +1,6 @@
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:128" \
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:128" \
                                "pal-1.1:128"
 
 ALIGNED(16) u8 sYaz0DataBuffer[0x400];
