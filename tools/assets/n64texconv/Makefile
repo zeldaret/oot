@@ -44,7 +44,7 @@ FORMAT_ARGS := -i -style=file
 
 $(shell mkdir -p $(BUILD_DIR) $(foreach dir,$(SRC_DIRS) $(LIB_DIRS) $(APP_SRC_DIRS),$(BUILD_DIR)/$(dir)))
 
-$(BUILD_DIR)/lib/libimagequant/%.o: CFLAGS += -fopenmp -Wno-sign-compare -Wno-unused-parameter
+$(BUILD_DIR)/lib/libimagequant/%.o: CFLAGS += -fopenmp -Wno-sign-compare -Wno-unused-parameter -Wno-shadow
 
 .PHONY: all clean distclean format
 
