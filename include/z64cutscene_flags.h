@@ -1,5 +1,5 @@
-#ifndef Z64ENV_FLAGS_H
-#define Z64ENV_FLAGS_H
+#ifndef Z64CUTSCENE_FLAGS_H
+#define Z64CUTSCENE_FLAGS_H
 
 #include "ultra64.h"
 

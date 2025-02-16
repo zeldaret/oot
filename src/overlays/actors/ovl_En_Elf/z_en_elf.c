@@ -24,7 +24,7 @@
 #include "z64light.h"
 #include "z64play.h"
 #include "z64player.h"
-#include "z64quest_hint_commands.h"
+#include "z64quest_hint.h"
 #include "z64save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"

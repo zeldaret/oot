@@ -156,8 +156,4 @@ typedef struct QuestHintCmd {
         HINT_B(0),                                     \
     }
 
-
-u16 QuestHint_GetSariaTextId(struct PlayState* play);
-u16 QuestHint_GetNaviTextId(struct PlayState* play);
-
 #endif
