@@ -123,8 +123,7 @@
         <Texture Name="gLinkChildNoseTex" OutName="nose" Format="ci8" Width="16" Height="16" Offset="0x5000" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildUnusedHandTex" OutName="unused_hand" Format="ci8" Width="16" Height="16" Offset="0x5100" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x5200" TlutOffset="0x5500"/>
-        <Texture Name="gLinkChildLowerBootTex" OutName="lower_boot" Format="ci8" Width="16" Height="16" Offset="0x5C00" TlutOffset="0x5300"/>
-        <Texture Name="gLinkChildUnusedBootTex" OutName="unused_boot" Format="ci8" Height="32" Width="24" Offset="0x5D00" TlutOffset="0x5300"/><!--Unused so hard to verify-->
+        <Texture Name="gLinkChildLowerBootTex" OutName="lower_boot" Format="ci8" Width="32" Height="32" Offset="0x5C00" TlutOffset="0x5300"/>
         <Texture Name="gLinkChildBootTex" OutName="boot" Format="ci8" Width="32" Height="32" Offset="0x6000" TlutOffset="0x5300"/>
         <Texture Name="gLinkChildWaistTex" OutName="waist" Format="i8" Width="32" Height="32" Offset="0x6400"/>
         <Texture Name="gLinkChildBeltTex" OutName="belt" Format="ci8" Width="8" Height="16" Offset="0x6800" TlutOffset="0x5300"/>
