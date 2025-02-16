@@ -724,6 +724,7 @@ n64texconv_palette_to_c(char **out, size_t *size_out, struct n64_palette *pal, b
     void *bin = n64texconv_palette_to_bin(pal, pad_to_8b);
     if (bin == NULL)
         return -1;
+    nbytes = pad_to_8b ? ALIGN8(nbytes) : nbytes;
     int rv = bin2c(out, size_out, bin, nbytes, 0, byte_width);
     free(bin);
     return rv;
@@ -739,6 +740,7 @@ n64texconv_palette_to_c_file(const char *out_path, struct n64_palette *pal, bool
     void *bin = n64texconv_palette_to_bin(pal, pad_to_8b);
     if (bin == NULL)
         return -1;
+    nbytes = pad_to_8b ? ALIGN8(nbytes) : nbytes;
     int rv = bin2c_file(out_path, bin, nbytes, 0, byte_width);
     free(bin);
     return rv;
@@ -1230,6 +1232,7 @@ n64texconv_image_to_c(char **out, size_t *size_out, struct n64_image *img, bool 
     void *bin = n64texconv_image_to_bin(img, pad_to_8b, preswap);
     if (bin == NULL)
         return -1;
+    nbytes = pad_to_8b ? ALIGN8(nbytes) : nbytes;
     int rv = bin2c(out, size_out, bin, nbytes, 0, byte_width);
     free(bin);
     return rv;
@@ -1246,6 +1249,7 @@ n64texconv_image_to_c_file(const char *out_path, struct n64_image *img, bool pad
     void *bin = n64texconv_image_to_bin(img, pad_to_8b, preswap);
     if (bin == NULL)
         return -1;
+    nbytes = pad_to_8b ? ALIGN8(nbytes) : nbytes;
     int rv = bin2c_file(out_path, bin, nbytes, 0, byte_width);
     free(bin);
     return rv;
