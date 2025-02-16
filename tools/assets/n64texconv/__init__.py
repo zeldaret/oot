@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 import os, sys
-from ctypes import CDLL, Structure, POINTER, create_string_buffer, string_at, byref, cast
+from ctypes import CDLL, Structure, POINTER, string_at, byref, cast
 from ctypes import c_void_p, c_char_p, c_uint8, c_uint, c_bool, c_int, c_size_t
 from typing import Optional
 
@@ -73,10 +73,10 @@ ln64texconv.n64texconv_free.restype = None
 #   bin2c.h
 #
 
-def bin2c(data : bytes, pad_to_size : int = 0, byte_width : int = 8) -> Optional[str]:
+def bin2c(data : bytes | memoryview, pad_to_size : int = 0, byte_width : int = 8) -> Optional[str]:
     if byte_width not in (1, 2, 4, 8):
         raise ValueError("Invalid byte width, must be 1, 2, 4 or 8")
-    buffer = create_string_buffer(data, len(data))
+    buffer = (c_uint8 * len(data)).from_buffer_copy(data)
     ptr = c_char_p(None)
     size = c_size_t(0)
     if ln64texconv.bin2c(byref(ptr), byref(size), buffer, len(data), pad_to_size, byte_width) != 0:
@@ -85,10 +85,10 @@ def bin2c(data : bytes, pad_to_size : int = 0, byte_width : int = 8) -> Optional
     ln64texconv.n64texconv_free(ptr)
     return s
 
-def bin2c_file(out_path : str, data : bytes, pad_to_size : int = 0, byte_width : int = 8) -> bool:
+def bin2c_file(out_path : str, data : bytes | memoryview, pad_to_size : int = 0, byte_width : int = 8) -> bool:
     if byte_width not in (1, 2, 4, 8):
         raise ValueError("Invalid byte width, must be 1, 2, 4 or 8")
-    buffer = create_string_buffer(data, len(data))
+    buffer = (c_uint8 * len(data)).from_buffer_copy(data)
     return ln64texconv.bin2c_file(out_path.encode("utf-8"), buffer, len(data), pad_to_size, byte_width) == 0
 
 # int bin2c(char **out, size_t *size_out, void *bin, size_t size, size_t pad_to_size, unsigned int byte_width);
@@ -256,10 +256,10 @@ class N64Palette(Structure):
         return deref(pal)
 
     @staticmethod
-    def from_bin(data : bytes, fmt : int) -> Optional["N64Palette"]:
+    def from_bin(data : bytes | memoryview, fmt : int) -> Optional["N64Palette"]:
         if fmt not in (G_IM_FMT_RGBA, G_IM_FMT_IA):
             raise ValueError("Palette format must be either G_IM_FMT_RGBA or G_IM_FMT_IA")
-        buffer = create_string_buffer(data, len(data))
+        buffer = (c_uint8 * len(data)).from_buffer_copy(data)
         pal = ln64texconv.n64texconv_palette_from_bin(buffer, len(data) // 2, fmt)
         _object_refcount.add_ref(pal)
         return deref(pal)
@@ -375,7 +375,7 @@ class N64Image(Structure):
         return img
 
     @staticmethod
-    def from_bin(data : bytes, width : int, height : int, fmt : int, siz : int, pal : Optional[N64Palette] = None,
+    def from_bin(data : bytes | memoryview, width : int, height : int, fmt : int, siz : int, pal : Optional[N64Palette] = None,
                  preswapped : bool = False) -> Optional["N64Image"]:
         if not any((fmt, siz) == fmtsiz for fmtsiz in VALID_FORMAT_COMBINATIONS):
             raise ValueError(f"Invalid fmt/siz combination ({fmt_name(fmt)}, {siz_name(siz)})")
@@ -383,7 +383,7 @@ class N64Image(Structure):
         if len(data) < expected_size:
             raise ValueError(f"Not enough data to extract the specified image. " +
                              f"Expected at least 0x{expected_size:X} bytes but only got 0x{len(data):X} bytes")
-        buffer = create_string_buffer(data, len(data))
+        buffer = (c_uint8 * len(data)).from_buffer_copy(data)
         if pal:
             pal = byref(pal)
             _object_refcount.add_ref(pal)
