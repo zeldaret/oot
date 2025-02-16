@@ -6,6 +6,7 @@
 #include "stack.h"
 #include "versions.h"
 #include "line_numbers.h"
+#include "z64thread.h"
 
 #pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 

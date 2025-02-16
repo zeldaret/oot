@@ -1,13 +1,30 @@
-#include "global.h"
+#include "libc64/math64.h"
 #include "fault.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
 #include "quake.h"
 #include "rand.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "zelda_arena.h"
+#include "z64effect.h"
+#include "z64light.h"
 #include "z64horse.h"
+#include "z64play.h"
+#include "z64skin_matrix.h"
+
+#include "global.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
@@ -2835,7 +2852,20 @@ s32 Actor_CullingVolumeTest(PlayState* play, Actor* actor, Vec3f* projPos, f32 p
     return false;
 }
 
-void func_800315AC(PlayState* play, ActorContext* actorCtx) {
+/**
+ * Iterates through all category lists to draw every actor.
+ *
+ * In addition to actors, this function also draws:
+ * - Effects
+ * - EffectSs
+ * - Title Cards
+ * - Farores Wind Pointer
+ * - Light glow
+ * - Actor Collision (debug only)
+ *
+ * Note: If an actor is made visible by Lens of Truth, it will be drawn by `Actor_DrawLensActors` instead.
+ */
+void Actor_DrawAll(PlayState* play, ActorContext* actorCtx) {
     s32 invisibleActorCounter;
     Actor* invisibleActors[INVISIBLE_ACTOR_MAX];
     ActorListEntry* actorListEntry;

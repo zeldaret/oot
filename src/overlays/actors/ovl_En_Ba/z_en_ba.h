@@ -2,11 +2,11 @@
 #define Z_EN_BA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBa;
 
-typedef void (*EnBaActionFunc)(struct EnBa*, PlayState*);
+typedef void (*EnBaActionFunc)(struct EnBa*, struct PlayState*);
 
 typedef enum EnBaType {
     /* 0x00 */ EN_BA_TENTACLE_RED,
@@ -31,7 +31,7 @@ typedef struct EnBa {
     /* 0x031A */ s16 unk_31A;
     /* 0x031C */ s16 unk_31C;
     /* 0x0320 */ ColliderJntSph collider;
-    /* 0x0340 */ ColliderJntSphElement colliderItems[2];
+    /* 0x0340 */ ColliderJntSphElement colliderElements[2];
 } EnBa; // size = 0x03C0
 
 #endif

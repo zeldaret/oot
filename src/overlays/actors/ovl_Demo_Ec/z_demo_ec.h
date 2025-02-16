@@ -2,13 +2,13 @@
 #define Z_DEMO_EC_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct DemoEc;
 
-typedef void (*DemoEcInitFunc)(struct DemoEc*, PlayState*);
-typedef void (*DemoEcUpdateFunc)(struct DemoEc*, PlayState*);
-typedef void (*DemoEcDrawFunc)(struct DemoEc*, PlayState*);
+typedef void (*DemoEcInitFunc)(struct DemoEc*, struct PlayState*);
+typedef void (*DemoEcUpdateFunc)(struct DemoEc*, struct PlayState*);
+typedef void (*DemoEcDrawFunc)(struct DemoEc*, struct PlayState*);
 
 typedef struct DemoEc {
     /* 0x0000 */ Actor actor;

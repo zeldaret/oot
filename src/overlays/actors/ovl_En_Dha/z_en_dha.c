@@ -178,7 +178,7 @@ void EnDha_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.health = 8;
     this->limbAngleX[0] = -0x4000;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
     EnDha_SetupWait(this);

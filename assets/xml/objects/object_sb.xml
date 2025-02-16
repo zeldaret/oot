@@ -5,8 +5,9 @@
         <Animation Name="object_sb_Anim_0000B4" Offset="0xB4"/>
         <Animation Name="object_sb_Anim_000124" Offset="0x124"/>
         <Animation Name="object_sb_Anim_000194" Offset="0x194"/>
-        <Blob Name="object_sb_Blob_0001A4" Size="0x49C" Offset="0x1A4"/>
-        <Blob Name="object_sb_Blob_000840" Size="0x3C0" Offset="0x840"/>
+        <Array Name="object_sb_Vtx_0001B0" Count="189" Offset="0x1B0">
+            <Vtx/>
+        </Array>
         <DList Name="object_sb_DL_000D80" Offset="0xD80"/>
         <DList Name="object_sb_DL_000E70" Offset="0xE70"/>
         <Texture Name="object_sb_Tex_001020" OutName="tex_00001020" Format="rgba16" Width="32" Height="32" Offset="0x1020"/>

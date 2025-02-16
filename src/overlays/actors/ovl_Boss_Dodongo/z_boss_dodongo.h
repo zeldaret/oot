@@ -2,11 +2,11 @@
 #define Z_BOSS_DODONGO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossDodongo;
 
-typedef void (*BossDodongoActionFunc)(struct BossDodongo*, PlayState*);
+typedef void (*BossDodongoActionFunc)(struct BossDodongo*, struct PlayState*);
 
 #define BOSS_DODONGO_EFFECT_COUNT 80
 
@@ -96,7 +96,7 @@ typedef struct BossDodongo {
     /* 0x0428 */ Vec3f subCamEye;
     /* 0x0434 */ Vec3f subCamAt;
     /* 0x0440 */ ColliderJntSph collider;
-    /* 0x0460 */ ColliderJntSphElement items[19];
+    /* 0x0460 */ ColliderJntSphElement colliderElements[19];
     /* 0x0920 */ BossDodongoEffect effects[BOSS_DODONGO_EFFECT_COUNT];
 } BossDodongo; // size = 0x1820
 

@@ -5,8 +5,15 @@
  */
 
 #include "z_bg_spot16_doughnut.h"
-#include "assets/objects/object_efc_doughnut/object_efc_doughnut.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z64play.h"
+
+#include "assets/objects/object_efc_doughnut/object_efc_doughnut.h"
 
 #define FLAGS 0
 

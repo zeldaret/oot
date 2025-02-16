@@ -12,9 +12,9 @@ typedef struct EnSt {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnStActionFunc actionFunc;
-    /* 0x0194 */ ColliderCylinder colCylinder[6];
-    /* 0x035C */ ColliderJntSph colSph;
-    /* 0x037C */ ColliderJntSphElement colSphItems[1];
+    /* 0x0194 */ ColliderCylinder colliderCylinders[6];
+    /* 0x035C */ ColliderJntSph colliderJntSph;
+    /* 0x037C */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x03BC */ s16 initialYaw;
     /* 0x03BE */ s16 deathYawTarget;
     /* 0x03C0 */ s16 groundBounces;

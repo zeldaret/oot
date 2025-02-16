@@ -23,7 +23,9 @@
         <Texture Name="object_st_Tex_0024D0" OutName="tex_000024D0" Format="rgba16" Width="16" Height="8" Offset="0x24D0"/>
         <Texture Name="object_st_Tex_0025D0" OutName="tex_000025D0" Format="i4" Width="16" Height="16" Offset="0x25D0"/>
         <Texture Name="object_st_Tex_002650" OutName="tex_00002650" Format="rgba16" Width="8" Height="8" Offset="0x2650"/>
-        <Blob Name="object_st_Blob_003C50" Size="0x360" Offset="0x3C50"/>
+        <Array Name="object_st_Vtx_0026D0" Count="398" Offset="0x26D0">
+            <Vtx/>
+        </Array>
         <DList Name="object_st_DL_003FB0" Offset="0x3FB0"/>
         <DList Name="object_st_DL_0043D8" Offset="0x43D8"/>
         <DList Name="object_st_DL_0045C0" Offset="0x45C0"/>

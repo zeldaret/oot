@@ -5,10 +5,26 @@
  */
 
 #include "z_boss_fd2.h"
-#include "assets/objects/object_fd2/object_fd2.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/object_fd2/object_fd2.h"
 
 #define FLAGS                                                                                 \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
@@ -185,7 +201,7 @@ void BossFd2_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = BossFd2_Wait;
     }
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 }
 
 void BossFd2_Destroy(Actor* thisx, PlayState* play) {
@@ -816,7 +832,7 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
     if (this->actionFunc == BossFd2_ClawSwipe) {
         Player* player = GET_PLAYER(play);
 
-        for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
+        for (i = 0; i < ARRAY_COUNT(this->colliderElements); i++) {
             if (this->collider.elements[i].base.atElemFlags & ATELEM_HIT) {
                 this->collider.elements[i].base.atElemFlags &= ~ATELEM_HIT;
                 Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);

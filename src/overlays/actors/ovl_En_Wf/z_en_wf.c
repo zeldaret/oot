@@ -60,7 +60,7 @@ void EnWf_SetupDie(EnWf* this);
 void EnWf_Die(EnWf* this, PlayState* play);
 s32 EnWf_DodgeRanged(PlayState* play, EnWf* this);
 
-static ColliderJntSphElementInit sJntSphItemsInit[4] = {
+static ColliderJntSphElementInit sJntSphElementsInit[4] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -116,8 +116,8 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sJntSphItemsInit),
-    sJntSphItemsInit,
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
 
 static ColliderCylinderInit sBodyCylinderInit = {
@@ -242,12 +242,12 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     this->eyeIndex = 0;
     this->unk_2F4 = 10.0f; // Set and not used
 
-    Collider_InitJntSph(play, &this->colliderSpheres);
-    Collider_SetJntSph(play, &this->colliderSpheres, thisx, &sJntSphInit, this->colliderSpheresElements);
-    Collider_InitCylinder(play, &this->colliderCylinderBody);
-    Collider_SetCylinder(play, &this->colliderCylinderBody, thisx, &sBodyCylinderInit);
-    Collider_InitCylinder(play, &this->colliderCylinderTail);
-    Collider_SetCylinder(play, &this->colliderCylinderTail, thisx, &sTailCylinderInit);
+    Collider_InitJntSph(play, &this->colliderJntSph);
+    Collider_SetJntSph(play, &this->colliderJntSph, thisx, &sJntSphInit, this->colliderJntSphElements);
+    Collider_InitCylinder(play, &this->bodyColliderCylinder);
+    Collider_SetCylinder(play, &this->bodyColliderCylinder, thisx, &sBodyCylinderInit);
+    Collider_InitCylinder(play, &this->tailColliderCylinder);
+    Collider_SetCylinder(play, &this->tailColliderCylinder, thisx, &sTailCylinderInit);
 
     if (thisx->params == WOLFOS_NORMAL) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gWolfosNormalSkel, &gWolfosWaitingAnim, this->jointTable,
@@ -258,8 +258,8 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gWolfosWhiteSkel, &gWolfosWaitingAnim, this->jointTable,
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.01f);
-        this->colliderSpheres.elements[0].base.atDmgInfo.damage =
-            this->colliderSpheres.elements[1].base.atDmgInfo.damage = 8;
+        this->colliderJntSph.elements[0].base.atDmgInfo.damage =
+            this->colliderJntSph.elements[1].base.atDmgInfo.damage = 8;
         thisx->naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
     }
 
@@ -273,9 +273,9 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
 void EnWf_Destroy(Actor* thisx, PlayState* play) {
     EnWf* this = (EnWf*)thisx;
 
-    Collider_DestroyJntSph(play, &this->colliderSpheres);
-    Collider_DestroyCylinder(play, &this->colliderCylinderBody);
-    Collider_DestroyCylinder(play, &this->colliderCylinderTail);
+    Collider_DestroyJntSph(play, &this->colliderJntSph);
+    Collider_DestroyCylinder(play, &this->bodyColliderCylinder);
+    Collider_DestroyCylinder(play, &this->tailColliderCylinder);
 
     if ((this->actor.params != WOLFOS_NORMAL) && (this->switchFlag != 0xFF)) {
         func_800F5B58();
@@ -733,7 +733,7 @@ void EnWf_RunAroundPlayer(EnWf* this, PlayState* play) {
 
 void EnWf_SetupSlash(EnWf* this) {
     Animation_PlayOnce(&this->skelAnime, &gWolfosSlashingAnim);
-    this->colliderSpheres.base.atFlags &= ~AT_BOUNCED;
+    this->colliderJntSph.base.atFlags &= ~AT_BOUNCED;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->action = WOLFOS_ACTION_SLASH;
     this->unk_2FA = 0; // Set and not used
@@ -1263,27 +1263,27 @@ void func_80B36F40(EnWf* this, PlayState* play) {
 }
 
 void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
-    if (this->colliderSpheres.base.acFlags & AC_BOUNCED) {
-        this->colliderSpheres.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
-        this->colliderCylinderBody.base.acFlags &= ~AC_HIT;
-        this->colliderCylinderTail.base.acFlags &= ~AC_HIT;
-    } else if ((this->colliderCylinderBody.base.acFlags & AC_HIT) ||
-               (this->colliderCylinderTail.base.acFlags & AC_HIT)) {
+    if (this->colliderJntSph.base.acFlags & AC_BOUNCED) {
+        this->colliderJntSph.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
+        this->bodyColliderCylinder.base.acFlags &= ~AC_HIT;
+        this->tailColliderCylinder.base.acFlags &= ~AC_HIT;
+    } else if ((this->bodyColliderCylinder.base.acFlags & AC_HIT) ||
+               (this->tailColliderCylinder.base.acFlags & AC_HIT)) {
         if (this->action >= WOLFOS_ACTION_WAIT) {
             s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-            if ((!(this->colliderCylinderBody.base.acFlags & AC_HIT) &&
-                 (this->colliderCylinderTail.base.acFlags & AC_HIT)) ||
+            if ((!(this->bodyColliderCylinder.base.acFlags & AC_HIT) &&
+                 (this->tailColliderCylinder.base.acFlags & AC_HIT)) ||
                 (ABS(yawDiff) > 19000)) {
                 this->actor.colChkInfo.damage *= 4;
             }
 
-            this->colliderCylinderBody.base.acFlags &= ~AC_HIT;
-            this->colliderCylinderTail.base.acFlags &= ~AC_HIT;
+            this->bodyColliderCylinder.base.acFlags &= ~AC_HIT;
+            this->tailColliderCylinder.base.acFlags &= ~AC_HIT;
 
             if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
                 this->damageEffect = this->actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->actor, &this->colliderCylinderBody.elem, true);
+                Actor_SetDropFlag(&this->actor, &this->bodyColliderCylinder.elem, true);
 #if OOT_VERSION >= PAL_1_0
                 this->slashStatus = 0;
 #endif
@@ -1337,23 +1337,23 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
         Math_SmoothStepToS(&this->actor.shape.rot.z, 0, 1, 1000, 0);
     }
 
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderSpheres.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
 
     if (this->action >= WOLFOS_ACTION_WAIT) {
         if ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000)) {
-            Collider_UpdateCylinder(&this->actor, &this->colliderCylinderBody);
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinderTail.base);
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinderBody.base);
+            Collider_UpdateCylinder(&this->actor, &this->bodyColliderCylinder);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tailColliderCylinder.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyColliderCylinder.base);
         }
     }
 
     if (this->action == WOLFOS_ACTION_BLOCKING) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSpheres.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
     if (this->slashStatus > 0) {
-        if (!(this->colliderSpheres.base.atFlags & AT_BOUNCED)) {
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderSpheres.base);
+        if (!(this->colliderJntSph.base.atFlags & AT_BOUNCED)) {
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
         } else {
             EnWf_SetupRecoilFromBlockedSlash(this);
         }
@@ -1387,16 +1387,16 @@ void EnWf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     EnWf* this = (EnWf*)thisx;
     s32 bodyPartIndex = -1;
 
-    Collider_UpdateSpheres(limbIndex, &this->colliderSpheres);
+    Collider_UpdateSpheres(limbIndex, &this->colliderJntSph);
 
     if (limbIndex == WOLFOS_LIMB_TAIL) {
         Vec3f colliderPos;
 
         bodyPartIndex = -1;
         Matrix_MultVec3f(&colliderVec, &colliderPos);
-        this->colliderCylinderTail.dim.pos.x = colliderPos.x;
-        this->colliderCylinderTail.dim.pos.y = colliderPos.y;
-        this->colliderCylinderTail.dim.pos.z = colliderPos.z;
+        this->tailColliderCylinder.dim.pos.x = colliderPos.x;
+        this->tailColliderCylinder.dim.pos.y = colliderPos.y;
+        this->tailColliderCylinder.dim.pos.z = colliderPos.z;
     }
 
     if ((this->fireTimer != 0) || ((this->actor.colorFilterTimer != 0) && (this->actor.colorFilterParams & 0x4000))) {

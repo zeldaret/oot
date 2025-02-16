@@ -141,8 +141,8 @@ void BgHidanRsekizou_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gFireTempleSpinningFlamethrowerCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
-    for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
+    for (i = 0; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
     this->burnFrame = 0;
@@ -178,7 +178,7 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
     yawSine = Math_SinS(this->dyna.actor.shape.rot.y);
     yawCosine = Math_CosS(this->dyna.actor.shape.rot.y);
 
-    for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
+    for (i = 0; i < ARRAY_COUNT(this->colliderElements); i++) {
         sphere = &this->collider.elements[i];
         sphere->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + yawCosine * sphere->dim.modelSphere.center.x +
                                            yawSine * sphere->dim.modelSphere.center.z;

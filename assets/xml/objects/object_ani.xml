@@ -51,6 +51,8 @@
         <Texture Name="gRoofManEarTex" OutName="roof_man_ear" Format="ci8" Width="16" Height="16" Offset="0x01318" TlutOffset="0x1088"/>
         <Texture Name="gRoofManHairTex" OutName="roof_man_hair" Format="ci8" Width="16" Height="16" Offset="0x01418" TlutOffset="0x1088"/>
 
+        <!-- Kakariko Roof Man Unused Textures -->
+        <Texture Name="gRoofManUnusedTex" OutName="roof_man_unused" Format="ci8" Width="16" Height="16" Offset="0x308" TlutOffset="0x00108"/>
 
         <!-- Kakariko Roof Man Eye Textures -->
         <Texture Name="gRoofManEyeOpenTex" OutName="roof_man_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x408"/>

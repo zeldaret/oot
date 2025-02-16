@@ -153,7 +153,7 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
 
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderElements);
 
         for (i = 0; i < 2; i++) {
             for (i2 = 0; i2 < 3; i2++) {

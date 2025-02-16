@@ -5,6 +5,18 @@
  */
 
 #include "z_en_horse_ganon.h"
+
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64skin.h"
+
 #include "assets/objects/object_horse_ganon/object_horse_ganon.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
@@ -181,10 +193,10 @@ void EnHorseGanon_Init(Actor* thisx, PlayState* play) {
     this->currentAnimation = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
 
-    Collider_InitCylinder(play, &this->colliderBody);
-    Collider_SetCylinder(play, &this->colliderBody, &this->actor, &sCylinderInit);
-    Collider_InitJntSph(play, &this->colliderHead);
-    Collider_SetJntSph(play, &this->colliderHead, &this->actor, &sJntSphInit, this->headElements);
+    Collider_InitCylinder(play, &this->bodyCollider);
+    Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sCylinderInit);
+    Collider_InitJntSph(play, &this->headCollider);
+    Collider_SetJntSph(play, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderElements);
 
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     func_80A68AC4(this);
@@ -194,8 +206,8 @@ void EnHorseGanon_Destroy(Actor* thisx, PlayState* play) {
     EnHorseGanon* this = (EnHorseGanon*)thisx;
 
     Skin_Free(play, &this->skin);
-    Collider_DestroyCylinder(play, &this->colliderBody);
-    Collider_DestroyJntSph(play, &this->colliderHead);
+    Collider_DestroyCylinder(play, &this->bodyCollider);
+    Collider_DestroyJntSph(play, &this->headCollider);
 }
 
 void func_80A68AC4(EnHorseGanon* this) {
@@ -293,8 +305,8 @@ void EnHorseGanon_Update(Actor* thisx, PlayState* play) {
                                 UPDBGCHECKINFO_FLAG_4);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
-    Collider_UpdateCylinder(&this->actor, &this->colliderBody);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderBody.base);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
 }
 
 void EnHorseGanon_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
@@ -303,23 +315,23 @@ void EnHorseGanon_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     EnHorseGanon* this = (EnHorseGanon*)thisx;
     s32 index;
 
-    for (index = 0; index < this->colliderHead.count; index++) {
-        sp4C.x = this->colliderHead.elements[index].dim.modelSphere.center.x;
-        sp4C.y = this->colliderHead.elements[index].dim.modelSphere.center.y;
-        sp4C.z = this->colliderHead.elements[index].dim.modelSphere.center.z;
+    for (index = 0; index < this->headCollider.count; index++) {
+        sp4C.x = this->headCollider.elements[index].dim.modelSphere.center.x;
+        sp4C.y = this->headCollider.elements[index].dim.modelSphere.center.y;
+        sp4C.z = this->headCollider.elements[index].dim.modelSphere.center.z;
 
-        Skin_GetLimbPos(skin, this->colliderHead.elements[index].dim.limb, &sp4C, &sp40);
+        Skin_GetLimbPos(skin, this->headCollider.elements[index].dim.limb, &sp4C, &sp40);
 
-        this->colliderHead.elements[index].dim.worldSphere.center.x = sp40.x;
-        this->colliderHead.elements[index].dim.worldSphere.center.y = sp40.y;
-        this->colliderHead.elements[index].dim.worldSphere.center.z = sp40.z;
+        this->headCollider.elements[index].dim.worldSphere.center.x = sp40.x;
+        this->headCollider.elements[index].dim.worldSphere.center.y = sp40.y;
+        this->headCollider.elements[index].dim.worldSphere.center.z = sp40.z;
 
-        this->colliderHead.elements[index].dim.worldSphere.radius =
-            this->colliderHead.elements[index].dim.modelSphere.radius * this->colliderHead.elements[index].dim.scale;
+        this->headCollider.elements[index].dim.worldSphere.radius =
+            this->headCollider.elements[index].dim.modelSphere.radius * this->headCollider.elements[index].dim.scale;
     }
 
     //! @bug see relevant comment in `EnHorse_SkinCallback1`
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderHead.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->headCollider.base);
 }
 
 void EnHorseGanon_Draw(Actor* thisx, PlayState* play) {

@@ -1,4 +1,10 @@
-#include "global.h"
+#include "gfx.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64math.h"
+#include "z64play.h"
+#include "z64skin.h"
+#include "z64skin_matrix.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "pal-1.1:128"

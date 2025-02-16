@@ -2,11 +2,11 @@
 #define Z_EN_GUEST_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGuest;
 
-typedef void (*EnGuestActionFunc)(struct EnGuest* this, PlayState* play);
+typedef void (*EnGuestActionFunc)(struct EnGuest* this, struct PlayState* play);
 
 typedef struct EnGuest {
     /* 0x0000 */ Actor actor;

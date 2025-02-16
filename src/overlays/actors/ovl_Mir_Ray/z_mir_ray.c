@@ -131,10 +131,11 @@ void MirRay_SetupCollider(MirRay* this) {
     colliderOffset.x = (this->poolPt.x - this->sourcePt.x) * dataEntry->unk_10;
     colliderOffset.y = (this->poolPt.y - this->sourcePt.y) * dataEntry->unk_10;
     colliderOffset.z = (this->poolPt.z - this->sourcePt.z) * dataEntry->unk_10;
-    this->colliderSph.elements[0].dim.worldSphere.center.x = colliderOffset.x + this->sourcePt.x;
-    this->colliderSph.elements[0].dim.worldSphere.center.y = colliderOffset.y + this->sourcePt.y;
-    this->colliderSph.elements[0].dim.worldSphere.center.z = colliderOffset.z + this->sourcePt.z;
-    this->colliderSph.elements[0].dim.worldSphere.radius = dataEntry->unk_14 * this->colliderSph.elements->dim.scale;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.x = colliderOffset.x + this->sourcePt.x;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.y = colliderOffset.y + this->sourcePt.y;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.z = colliderOffset.z + this->sourcePt.z;
+    this->colliderJntSph.elements[0].dim.worldSphere.radius =
+        dataEntry->unk_14 * this->colliderJntSph.elements->dim.scale;
 }
 
 // Set up a light point between source point and reflection point. Reflection point is the pool point (for windows) or
@@ -221,8 +222,8 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     this->shieldCorners[5].y = -800.0f;
 
     if (PARAMS_GET_NOSHIFT(dataEntry->params, 1, 1)) {
-        Collider_InitJntSph(play, &this->colliderSph);
-        Collider_SetJntSph(play, &this->colliderSph, &this->actor, &sJntSphInit, &this->colliderSphItem);
+        Collider_InitJntSph(play, &this->colliderJntSph);
+        Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
         if (!PARAMS_GET_NOSHIFT(dataEntry->params, 2, 1)) { // Beams not from mirrors
             MirRay_SetupCollider(this);
         }
@@ -243,7 +244,7 @@ void MirRay_Destroy(Actor* thisx, PlayState* play) {
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
 
     if (sMirRayData[this->actor.params].params & 2) {
-        Collider_DestroyJntSph(play, &this->colliderSph);
+        Collider_DestroyJntSph(play, &this->colliderJntSph);
     }
 
     Collider_DestroyQuad(play, &this->shieldRay);
@@ -261,7 +262,7 @@ void MirRay_Update(Actor* thisx, PlayState* play) {
             if (sMirRayData[this->actor.params].params & 4) { // Beams from mirrors
                 MirRay_SetupCollider(this);
             }
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderSph.base);
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
         }
         if (this->reflectIntensity > 0.0f) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->shieldRay.base);

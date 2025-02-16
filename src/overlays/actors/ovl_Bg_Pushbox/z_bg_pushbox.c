@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_pushbox.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_pu_box/object_pu_box.h"
 
 #define FLAGS 0

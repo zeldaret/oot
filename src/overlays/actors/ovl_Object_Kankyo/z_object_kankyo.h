@@ -2,11 +2,11 @@
 #define Z_OBJECT_KANKYO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjectKankyo;
 
-typedef void (*ObjectKankyoActionFunc)(struct ObjectKankyo*, PlayState*);
+typedef void (*ObjectKankyoActionFunc)(struct ObjectKankyo*, struct PlayState*);
 
 typedef struct ObjectKankyoEffect {
     /* 0x00 */ u8 state;

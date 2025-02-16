@@ -5,6 +5,7 @@
 #include "libc64/os_malloc.h"
 #include "stack.h"
 #include "terminal.h"
+#include "z64thread.h"
 
 #pragma increment_block_number "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 

@@ -5,11 +5,26 @@
  */
 
 #include "z_demo_6k.h"
+#include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
+#include "z64light.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_demo_6k/object_demo_6k.h"
 #include "assets/objects/object_gnd_magic/object_gnd_magic.h"
-#include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

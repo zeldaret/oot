@@ -20,7 +20,7 @@
         <Texture Name="object_wood02_Tex_006F90" OutName="tex_00006F90" Format="ia8" Width="32" Height="64" Offset="0x6F90"/>
         <DList Name="object_wood02_DL_0078D0" Offset="0x78D0"/>
         <DList Name="object_wood02_DL_007968" Offset="0x7968"/>
-        <Blob Name="object_wood02_Blob_007A00" Size="0xA0" Offset="0x7A00"/>
+        <Collision Name="object_wood02_Col_007A70" Offset="0x7A70"/>
         <DList Name="object_wood02_DL_007AD0" Offset="0x7AD0"/>
         <DList Name="object_wood02_DL_007CA0" Offset="0x7CA0"/>
         <DList Name="object_wood02_DL_007D38" Offset="0x7D38"/>
