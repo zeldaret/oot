@@ -98,23 +98,11 @@
     } (void)0
 
 #if DEBUG_FEATURES
-
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
-#define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_MallocDebug(size, file, line)
-#define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocRDebug(size, file, line)
-#define SYSTEM_ARENA_FREE(size, file, line) SystemArena_FreeDebug(size, file, line)
-#define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_MallocDebug(alloc, size, file, line)
-
 #else
-
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSync(ram, vrom, size)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsync(req, ram, vrom, size, unk5, queue, msg)
-#define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_Malloc(size)
-#define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocR(size)
-#define SYSTEM_ARENA_FREE(size, file, line) SystemArena_Free(size)
-#define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_Malloc(alloc, size)
-
 #endif
 
 #if PLATFORM_N64 || DEBUG_FEATURES

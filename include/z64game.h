@@ -4,21 +4,10 @@
 
 #include "ultra64/ultratypes.h"
 #include "libu64/pad.h"
+#include "gamealloc.h"
 #include "tha.h"
 
 struct GraphicsContext;
-
-typedef struct GameAllocEntry {
-    /* 0x00 */ struct GameAllocEntry* next;
-    /* 0x04 */ struct GameAllocEntry* prev;
-    /* 0x08 */ u32 size;
-    /* 0x0C */ u32 unk_0C;
-} GameAllocEntry; // size = 0x10
-
-typedef struct GameAlloc {
-    /* 0x00 */ GameAllocEntry base;
-    /* 0x10 */ GameAllocEntry* head;
-} GameAlloc; // size = 0x14
 
 // Used in Graph_GetNextGameState in graph.c
 #define DEFINE_GAMESTATE_INTERNAL(typeName, enumName) enumName,
