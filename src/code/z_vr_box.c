@@ -505,7 +505,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
             DMA_REQUEST_SYNC(skyboxCtx->staticSegments[1], gNormalSkyFiles[skybox2Index].file.vromStart, size,
                              "../z_vr_box.c", 1064);
 
-            if ((skybox1Index & 1) ^ ((skybox1Index & 4) >> 2)) {
+            if (IS_NORMAL_SKYBOX_IMAGE_COLOR_INDEX_0(skybox1Index)) {
                 size = gNormalSkyFiles[skybox1Index].palette.vromEnd - gNormalSkyFiles[skybox1Index].palette.vromStart;
 
                 skyboxCtx->palettes = GAME_STATE_ALLOC(&play->state, size * 2, "../z_vr_box.c", 1072);
