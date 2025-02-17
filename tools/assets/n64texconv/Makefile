@@ -9,17 +9,21 @@ INC := -Ilib/spng -Ilib/libimagequant
 
 CC := gcc
 
+WFLAGS := -Wall -Wextra -Wshadow
+
 ifeq ($(shell $(CC) --version | grep clang),)
   ARCHFLAGS := -march=native -mtune=native
+  OMPFLAGS := -fopenmp
 else
   ARCHFLAGS :=
+  OMPFLAGS :=
+  WFLAGS += -Wno-unknown-pragmas
 endif
 
-WFLAGS := -Wall -Wextra -Wshadow
 CFLAGS := $(WFLAGS) $(ARCHFLAGS) -MD -MMD -std=gnu11 -fPIC -ffunction-sections -fdata-sections $(INC)
 OPTFLAGS := -O3
 LDFLAGS :=
-LDLIBS := -fopenmp -lz -lm
+LDLIBS := $(OMPFLAGS) -lz -lm
 AR := ar
 ARFLAGS := rcs
 
@@ -44,7 +48,7 @@ FORMAT_ARGS := -i -style=file
 
 $(shell mkdir -p $(BUILD_DIR) $(foreach dir,$(SRC_DIRS) $(LIB_DIRS) $(APP_SRC_DIRS),$(BUILD_DIR)/$(dir)))
 
-$(BUILD_DIR)/lib/libimagequant/%.o: CFLAGS += -fopenmp -Wno-sign-compare -Wno-unused-parameter -Wno-shadow
+$(BUILD_DIR)/lib/libimagequant/%.o: CFLAGS += $(OMPFLAGS) -Wno-sign-compare -Wno-unused-parameter -Wno-shadow
 
 .PHONY: all clean distclean format
 
