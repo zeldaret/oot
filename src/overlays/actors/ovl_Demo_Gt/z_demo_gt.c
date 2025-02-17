@@ -16,6 +16,7 @@
 #include "z64effect.h"
 #include "z64frame_advance.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_gt/object_gt.h"
 #include "assets/objects/object_geff/object_geff.h"

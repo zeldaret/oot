@@ -1,5 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
+#include "seqcmd.h"
+#include "sequence.h"
 #include "versions.h"
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))

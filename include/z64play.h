@@ -4,7 +4,6 @@
 #include "ultra64.h"
 
 #include "prerender.h"
-
 #include "z64actor.h"
 #include "z64bgcheck.h"
 #include "z64camera.h"
@@ -26,6 +25,7 @@
 #include "z64view.h"
 
 union Color_RGBA8_u32;
+struct Path;
 struct Player;
 struct QuestHintCmd;
 struct VisMono;
@@ -114,6 +114,8 @@ typedef struct PlayState {
     /* 0x1242C */ SceneTableEntry* loadedScene;
     /* 0x12430 */ char unk_12430[0xE8];
 } PlayState; // size = 0x12518
+
+extern Mtx D_01000000; // billboardMtx
 
 #define GET_ACTIVE_CAM(play) ((play)->cameraPtrs[(play)->activeCamId])
 #define GET_PLAYER(play) ((Player*)(play)->actorCtx.actorLists[ACTORCAT_PLAYER].head)

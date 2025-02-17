@@ -1,9 +1,16 @@
-#include "global.h"
+#include "libu64/debug.h"
+#include "romfile.h"
+#include "segment_symbols.h"
 #include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "z64map_mark.h"
+#include "z64play.h"
+#include "z64save.h"
+
+#include "global.h"
 
 typedef struct MapMarkInfo {
     /* 0x00 */ void* texture;

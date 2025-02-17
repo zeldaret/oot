@@ -21,6 +21,7 @@
 #include "z64audio.h"
 #include "z64effect.h"
 #include "z64play.h"
+#include "z64save.h"
 #include "z64skin_matrix.h"
 
 #include "assets/objects/object_xc/object_xc.h"

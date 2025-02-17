@@ -1,7 +1,12 @@
+#include "z_kaleido_scope.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
-#include "z_kaleido_scope.h"
+#include "seqcmd.h"
+#include "terminal.h"
+#include "versions.h"
+#include "z64save.h"
+
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
 #if OOT_NTSC
@@ -13,8 +18,6 @@
 #include "assets/textures/icon_item_fra_static/icon_item_fra_static.h"
 #endif
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
-#include "terminal.h"
-#include "versions.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 

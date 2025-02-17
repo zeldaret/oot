@@ -1,4 +1,5 @@
 #include "ultra64.h"
+#include "z64cutscene_flags.h"
 #include "z64play.h"
 
 void CutsceneFlags_UnsetAll(PlayState* play) {

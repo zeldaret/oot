@@ -21,6 +21,7 @@
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64effect.h"
+#include "z64item.h"
 #include "z64play.h"
 
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"

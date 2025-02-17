@@ -54,6 +54,8 @@ typedef struct GraphicsContext {
     /* 0x02FC */ char unk_2FC[0x04];
 } GraphicsContext; // size = 0x300
 
+extern Gfx gEmptyDL[];
+
 Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
 Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
 Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
