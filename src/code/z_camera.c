@@ -2,6 +2,7 @@
 #include "quake.h"
 #include "terminal.h"
 #include "z64cutscene_spline.h"
+#include "z64debug.h"
 #include "z64olib.h"
 #include "z64save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
@@ -3641,7 +3642,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:114 ntsc-1.1:117 ntsc-1.2:117 pal-1.0:115 pal-1.1:114"
+                               "ique-cn:128 ntsc-1.0:113 ntsc-1.1:117 ntsc-1.2:117 pal-1.0:115 pal-1.1:114"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;

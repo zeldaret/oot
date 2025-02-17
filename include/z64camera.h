@@ -1698,6 +1698,8 @@ typedef enum DebugCamTextColor {
     /* 7 */ DEBUG_CAM_TEXT_GREEN
 } DebugCamTextColor;
 
+extern s32 gDebugCamEnabled;
+
 void Camera_Init(Camera* camera, struct View* view, struct CollisionContext* colCtx, struct PlayState* play);
 void Camera_InitDataUsingPlayer(Camera* camera, struct Player* player);
 s16 Camera_ChangeStatus(Camera* camera, s16 status);

@@ -36,22 +36,8 @@ void ActorOverlayTable_Init(void);
 void ActorOverlayTable_Cleanup(void);
 
 void SaveContext_Init(void);
-s32 func_800635D0(s32);
-void Regs_Init(void);
-void DebugCamera_ScreenText(u8 x, u8 y, const char* text);
-void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text);
-#if DEBUG_FEATURES
-void Regs_UpdateEditor(Input* input);
-#endif
-void Debug_DrawText(GraphicsContext* gfxCtx);
 
 void* MemCpy(void* dest, const void* src, s32 len);
-
-void Health_InitMeter(PlayState* play);
-void Health_UpdateMeter(PlayState* play);
-void Health_DrawMeter(PlayState* play);
-void Health_UpdateBeatingHeart(PlayState* play);
-u32 Health_IsCritical(void);
 
 void MapMark_Init(PlayState* play);
 void MapMark_ClearPointers(PlayState* play);
@@ -160,24 +146,6 @@ void* SysCfb_GetFbEnd(void);
 NORETURN void func_800D31A0(void);
 void func_800D31F0(void);
 void func_800D3210(void);
-void* DebugArena_Malloc(u32 size);
-void* DebugArena_MallocR(u32 size);
-void* DebugArena_Realloc(void* ptr, u32 newSize);
-void DebugArena_Free(void* ptr);
-void* DebugArena_Calloc(u32 num, u32 size);
-void DebugArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc);
-void DebugArena_Check(void);
-void DebugArena_Init(void* start, u32 size);
-void DebugArena_Cleanup(void);
-s32 DebugArena_IsInitialized(void);
-#if DEBUG_FEATURES
-void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
-void* DebugArena_MallocDebug(u32 size, const char* file, int line);
-void* DebugArena_MallocRDebug(u32 size, const char* file, int line);
-void* DebugArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line);
-void DebugArena_FreeDebug(void* ptr, const char* file, int line);
-void DebugArena_Display(void);
-#endif
 
 void RcpUtils_PrintRegisterStatus(void);
 void RcpUtils_Reset(void);
