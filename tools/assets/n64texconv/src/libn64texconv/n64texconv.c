@@ -868,6 +868,8 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt)
         assert(siz == G_IM_SIZ_4b || siz == G_IM_SIZ_8b);
         assert(pal_fmt != FMT_NONE);
 
+        size_t max_colors = (siz == G_IM_SIZ_8b) ? 256 : 16;
+
         if (ihdr.color_type == SPNG_COLOR_TYPE_INDEXED) {
             // Input is an indexed png, obtain palette and color indices
             struct spng_plte plte;
@@ -880,11 +882,10 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt)
 
             // TODO ZAPD always writes 256-color palettes which breaks this, enable it when we can
 #if 0
-            // Palette must have sufficiently few colors for the target format
-            // TODO could re-quantize instead but this may be surprising to a user
-            size_t max_colors = (siz == G_IM_SIZ_8b ? 256 : 16);
+            // Palette must have sufficiently few colors for the target format. If there are too
+            // many, requantize to the maximum amount for the target format.
             if (plte.n_entries > max_colors)
-                goto error_post_create_img;
+                goto requantize;
 #endif
 
             pal = n64texconv_palette_new(plte.n_entries, pal_fmt);
@@ -921,10 +922,12 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt)
             assert(rv == 0);
         } else {
             // Input is not an indexed png, quantize and generate palette
+#if 0
+        requantize: // Input is an indexed png but has too many colors, requantize with new palette
+#endif
             rv = spng_decode_image(ctx, (void *)img->texels, nbytes, SPNG_FMT_RGBA8, 0);
             assert(rv == 0);
 
-            size_t max_colors = (siz == G_IM_SIZ_8b) ? 256 : 16;
             pal = n64texconv_palette_new(max_colors, pal_fmt);
             if (pal == NULL)
                 goto error_post_create_img;
