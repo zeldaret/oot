@@ -1,5 +1,6 @@
 #include "libu64/debug.h"
 #include "ultra64/gs2dex.h"
+#include "buffers.h"
 #include "fault.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -20,8 +21,6 @@
 #include "z64player.h"
 #include "z64save.h"
 #include "z64skin_matrix.h"
-
-#include "global.h"
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 

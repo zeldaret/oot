@@ -1,4 +1,6 @@
-#include "z64.h"
+#include "alignment.h"
+#include "gfx.h"
+#include "ultra64.h"
 
 ALIGNED(16) u64 gGfxSPTaskOutputBuffer[0x3000];
 

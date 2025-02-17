@@ -1,6 +1,7 @@
 #include "libu64/debug.h"
 #include "libu64/gfxprint.h"
 #include "audiomgr.h"
+#include "buffers.h"
 #include "controller.h"
 #include "debug_arena.h"
 #include "gfx.h"

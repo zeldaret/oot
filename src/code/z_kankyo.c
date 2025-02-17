@@ -2,9 +2,13 @@
                                "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:64 pal-1.1:64"
 
 #include "libc64/qrand.h"
+#include "libu64/gfxprint.h"
+#include "buffers.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "gfxalloc.h"
 #include "ultra64.h"
+#include "regs.h"
 #include "rumble.h"
 #include "segment_symbols.h"
 #include "segmented_address.h"
@@ -23,8 +27,6 @@
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"
-
-#include "global.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
