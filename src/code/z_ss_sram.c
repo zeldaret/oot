@@ -1,4 +1,6 @@
 #include "ultra64.h"
+
+#include "macros.h"
 #include "global.h"
 
 typedef struct SsSramContext {

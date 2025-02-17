@@ -47,15 +47,6 @@ void Debug_DrawText(GraphicsContext* gfxCtx);
 
 void* MemCpy(void* dest, const void* src, s32 len);
 
-s32 Kanji_OffsetFromShiftJIS(s32 character);
-#if PLATFORM_IQUE
-void Font_LoadCharCHN(Font* font, u16 character, u16 codePointIndex);
-#endif
-void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
-void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
-void Font_LoadMessageBoxIcon(Font* font, u16 icon);
-void Font_LoadOrderedFont(Font* font);
-
 void Health_InitMeter(PlayState* play);
 void Health_UpdateMeter(PlayState* play);
 void Health_DrawMeter(PlayState* play);
@@ -74,23 +65,6 @@ void PreNMI_Init(GameState* thisx);
 
 void Sample_Destroy(GameState* thisx);
 void Sample_Init(GameState* thisx);
-
-void Sram_InitNewSave(void);
-void Sram_InitDebugSave(void);
-void Sram_OpenSave(SramContext* sramCtx);
-void Sram_WriteSave(SramContext* sramCtx);
-void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_CopySave(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_WriteSramHeader(SramContext* sramCtx);
-void Sram_InitSram(GameState* gameState, SramContext* sramCtx);
-void Sram_Alloc(GameState* gameState, SramContext* sramCtx);
-void Sram_Init(PlayState* play, SramContext* sramCtx);
-void SsSram_Init(s32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
-                 u8 handlePulse, u32 handleSpeed);
-void SsSram_Dma(void* dramAddr, size_t size, s32 direction);
-void SsSram_ReadWrite(s32 addr, void* dramAddr, size_t size, s32 direction);
 
 void ViMode_LogPrint(OSViMode* osViMode);
 void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antialiasOff, s32 modeN, s32 fb16Bit,

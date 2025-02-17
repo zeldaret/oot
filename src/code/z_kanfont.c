@@ -1,5 +1,6 @@
 #include "global.h"
 #include "message_data_static.h"
+#include "kanread.h"
 #include "versions.h"
 
 /**

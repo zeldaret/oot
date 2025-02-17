@@ -28,6 +28,8 @@
 #include "assets/objects/object_geff/object_geff.h"
 #include "assets/overlays/ovl_Boss_Ganon2/ovl_Boss_Ganon2.h"
 
+#pragma increment_block_number "ique-cn:128"
+
 #define FLAGS                                                                                 \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
      ACTOR_FLAG_DRAW_CULLING_DISABLED)
