@@ -878,11 +878,14 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt)
             if (plte.n_entries == 0)
                 goto error_post_create_img;
 
+            // TODO ZAPD always writes 256-color palettes which breaks this, enable it when we can
+#if 0
             // Palette must have sufficiently few colors for the target format
             // TODO could re-quantize instead but this may be surprising to a user
             size_t max_colors = (siz == G_IM_SIZ_8b ? 256 : 16);
             if (plte.n_entries > max_colors)
                 goto error_post_create_img;
+#endif
 
             pal = n64texconv_palette_new(plte.n_entries, pal_fmt);
             if (pal == NULL)
