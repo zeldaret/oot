@@ -1,0 +1,64 @@
+# Images
+
+Images in the rom are in N64 image formats.
+On extraction, they are converted to png and written to `extracted/VERSION/`.
+On build, they are converted back to N64 formats and written as C arrays to `.inc.c` files in `build/VERSION/`.
+
+The build system will also pick up images in `assets/`, allowing modders to add or even [replace](#replacing-images) images.
+
+PNG files have suffixes indicating how they are to be converted. For example, a `gDekuStickTex.i8.u64.png` file will be converted to `i8`. The `.u64` suffix indicates to write the resulting `.inc.c` as an array of `u64` elements.
+
+The valid formats are `rgba32`, `rgba16`, `i4`, `i8`, `ia4`, `ia8`, `ia16`, `ci4` and `ci8`.
+
+The valid array element types are `u64` and `u32`. `u32` is only used for unaligned textures.
+
+The tool implementing png->n64 conversion is [build_from_png](../../tools/assets/build_from_png/build_from_png.c), using [n64texconv](../../tools/assets/n64texconv/) as its backbone.
+
+# Replacing images
+
+The contents of `extracted/` are meant to hold the baserom assets and should not be modified. Instead, replacing an image can be done by creating a png file at the same relative path under `assets/` as the image to replace.
+
+For example, replacing `gLinkHairTex` (`extracted/VERSION/assets/objects/gameplay_keep/gLinkHairTex.rgba16.u64.png`) with the texture for `gHylianMan1BeardedEyeOpenTex` (`extracted/VERSION/assets/objects/object_ahg/gHylianMan1BeardedEyeOpenTex.ci8.tlut_gHylianMan1TLUT_u32.u32.png`):
+
+```sh
+# for VERSION=gc-eu-mq-dbg
+
+mkdir -p assets/objects/gameplay_keep/
+cp \
+    extracted/gc-eu-mq-dbg/assets/objects/object_ahg/gHylianMan1BeardedEyeOpenTex.ci8.tlut_gHylianMan1TLUT_u32.u32.png \
+    assets/objects/gameplay_keep/gLinkHairTex.rgba16.u64.png
+
+# Cause make to rebuild gameplay_keep, where gLinkHairTex is
+touch extracted/gc-eu-mq-dbg/assets/objects/gameplay_keep/gameplay_keep.c
+
+make VERSION=gc-eu-mq-dbg
+```
+
+# CI images
+
+CI (Color Indexed) images also have a palette or TLUT (Texture Look-Up Table).
+
+PNG images to be converted to CI formats may have a `.tlut_gNameTLUT_u64` suffix indicating the name and element type of the TLUT `gNameTLUT.tlut.rgba16.u64.inc.c` file to write the palette to.
+
+If this suffix is omitted, the TLUT will be written to a `gNameTex.tlut.rgba16.u64.inc.c` file named after the CI image.
+
+For example without the `.tlut_` suffix, `gGanonHairFringeTex.ci8.u64.png`:
+
+- extracted to `extracted/VERSION/assets/objects/object_ganon2/gGanonHairFringeTex.ci8.u64.png`
+- texture written to `build/VERSION/assets/objects/object_ganon2/gGanonHairFringeTex.ci8.u64.inc.c`
+- palette written to `build/VERSION/assets/objects/object_ganon2/gGanonHairFringeTex.tlut.rgba16.u64.inc.c`
+
+For example with the `.tlut_` suffix, `gCowNoseTex.ci8.tlut_gCowTLUT_u64.u64.png`:
+
+- extracted to `extracted/gc-eu-mq-dbg/assets/objects/object_cow/gCowNoseTex.ci8.tlut_gCowTLUT_u64.u64.png`
+- texture written to `build/gc-eu-mq-dbg/assets/objects/object_cow/gCowNoseTex.ci8.tlut_gCowTLUT_u64.u64.inc.c`
+- palette written to `build/gc-eu-mq-dbg/assets/objects/object_cow/gCowTLUT.tlut.rgba16.u64.bin`
+
+CI images with a `.tlut_` suffix have a shared palette: there are several CI images using the same palette.
+The build system (`build_from_png`) will find images sharing the same palette by looking at the `.tlut_` suffixes of png files in the same folder and in the corresponding `assets/` folder.
+
+In the matching case of shared palettes, all png files have the same palette, which is written out.
+Otherwise the images are automatically co-quantized and the resulting images and palette are written out.
+
+Note the N64 supports CI images with IA16 palettes instead of RGBA16 palettes, but OoT doesn't have such textures.
+For simplicity, CI images with IA16 palettes are not supported in the build system, and all CI images are assumed to use RGBA16 palettes.
