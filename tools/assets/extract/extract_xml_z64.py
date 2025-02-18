@@ -19,6 +19,15 @@ from .extase.memorymap import MemoryContext
 
 from . import z64_resource_handlers
 
+try:
+    import rich
+    import rich.console
+    import rich.pretty
+except ImportError:
+    USE_RICH = False
+else:
+    USE_RICH = True
+
 #
 # main
 #
@@ -104,11 +113,9 @@ def process_pool(
     if VERBOSE1:
         print("> process_pool")
     colls_str = " + ".join(set(map(str, (_c.out_path for _c in pool_desc.collections))))
-    try:
-        import rich
-
+    if USE_RICH:
         rich.print(f"[b]{colls_str}[/b]")
-    except ImportError:
+    else:
         print(colls_str)
 
     file_by_rescoll: dict[ResourcesDescCollection, File] = dict()
@@ -485,13 +492,7 @@ def main():
         import traceback
         import sys
 
-        try:
-            import rich.pretty
-            import rich.console
-        except ImportError:
-            traceback.print_exc(file=sys.stdout)
-            print("Install rich for prettier output (`pip install rich`)")
-        else:
+        if USE_RICH:
             rich.console.Console().print_exception()
             # TODO implement more __rich_repr__
             if e.__class__ in (Exception, AssertionError, NotImplementedError):
@@ -500,6 +501,9 @@ def main():
             else:
                 print("rich.pretty.pprint(e):")
                 rich.pretty.pprint(e, indent_guides=False)
+        else:
+            traceback.print_exc(file=sys.stdout)
+            print("Install rich for prettier output (`pip install rich`)")
 
         sys.exit(1)
     finally:
