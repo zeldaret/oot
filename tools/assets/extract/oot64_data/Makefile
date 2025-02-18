@@ -1,6 +1,6 @@
 ROOT := ../../../../
 
-DATA_FILES := actor_ids.py object_ids.py entrance_table_mini.py scene_table_mini.py dmadata_table.py
+DATA_FILES := actor_ids.py object_ids.py entrance_table_mini.py scene_table_mini.py
 
 default:
 	@echo 'Run `make all` or with the appropriate target to (re)build data files'
@@ -49,14 +49,5 @@ scene_table_mini.py: $(ROOT)/include/tables/scene_table.h
 	echo 'DATA = (' >> $@
 	cpp -P \
 	 -D'DEFINE_SCENE(name, _1, enumValue, _3, _4, _5)=(#name, #enumValue),' \
-	 $< >> $@
-	echo ')' >> $@
-
-dmadata_table.py: $(ROOT)/include/tables/dmadata_table_mqdbg.h
-	echo '# This file was generated from $<' > $@
-	echo >> $@
-	echo 'DATA = (' >> $@
-	cpp -P \
-	 -D'DEFINE_DMA_ENTRY(name, _1)=#name,' \
 	 $< >> $@
 	echo ')' >> $@
