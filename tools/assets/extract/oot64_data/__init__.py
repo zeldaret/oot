@@ -118,3 +118,11 @@ def get_room_shape_type_name(room_shape_type: int) -> str:
 
 def get_room_shape_image_amount_type_name(room_shape_image_amount_type: int) -> str:
     return misc_ids.ROOM_SHAPE_IMAGE_AMOUNT_TYPE[room_shape_image_amount_type]
+
+
+def get_skybox_id(skybox_id: int) -> str:
+    return misc_ids.SKYBOX_IDS[skybox_id]
+
+
+def get_light_mode(light_mode: int) -> str:
+    return misc_ids.LIGHT_MODES[light_mode]

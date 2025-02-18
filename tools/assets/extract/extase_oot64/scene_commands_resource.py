@@ -562,7 +562,11 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                     skyboxConfig = data2_B1
                     envLightMode = data2_B2
                     assert data2_B3 == 0
-                    f.write(f"{skyboxId}, {skyboxConfig}, {envLightMode}")
+                    f.write(
+                        f"{oot64_data.get_skybox_id(skyboxId)}, "
+                        f"{skyboxConfig}, "
+                        f"{oot64_data.get_light_mode(envLightMode)}"
+                    )
                 if cmd_id == SceneCmdId.SCENE_CMD_ID_SKYBOX_DISABLES:
                     assert data1 == 0
                     skyboxDisabled = data2_B0
