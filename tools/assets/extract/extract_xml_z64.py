@@ -322,7 +322,7 @@ def main():
         help="Output directory to place files in",
     )
     parser.add_argument("-v", dest="oot_version", default="gc-eu-mq-dbg")
-    parser.add_argument("-j", dest="use_multiprocessing", action="store_true")
+    parser.add_argument("-j", dest="jobs", nargs="?", default=False, type=int)
     parser.add_argument("-f", dest="force", action="store_true")
     parser.add_argument("-s", dest="single", default=None)
     parser.add_argument("-r", dest="single_is_regex", default=None, action="store_true")
@@ -418,7 +418,7 @@ def main():
                 print("Not found:", args.single)
             else:
                 print("Nothing to do")
-        elif not args.use_multiprocessing:  # everything on one process
+        elif args.jobs is False:  # everything on one process
             any_pool_processed = False
             for pool_desc in pools_desc:
                 if args.force or is_pool_desc_modified(pool_desc):
@@ -443,7 +443,7 @@ def main():
                 pools_desc_to_extract = pools_desc_modified
 
             if pools_desc_to_extract:
-                with multiprocessing.Pool() as pool:
+                with multiprocessing.Pool(processes=args.jobs) as pool:
                     pool.starmap(
                         process_pool_wrapped,
                         zip(
