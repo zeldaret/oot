@@ -452,7 +452,7 @@ def main():
                 pools_desc_to_extract = pools_desc_modified
 
             if pools_desc_to_extract:
-                with multiprocessing.Pool(
+                with multiprocessing.get_context("fork").Pool(
                     processes=args.jobs, initializer=set_sigint_ignored
                 ) as pool:
                     jobs = [
