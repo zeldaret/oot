@@ -152,17 +152,33 @@ class VtxArrayResource(CDataResource):
 
 
 from ...n64 import G_IM_FMT, G_IM_SIZ, G_TT, G_MDSFT_TEXTLUT
+from ... import n64texconv
 
-from tools.assets.png2raw import raw2png
-from tools.assets import n64yatc
+G_IM_FMT_n64texconv_by_n64 = {
+    G_IM_FMT.RGBA: n64texconv.G_IM_FMT_RGBA,
+    G_IM_FMT.YUV: n64texconv.G_IM_FMT_YUV,
+    G_IM_FMT.CI: n64texconv.G_IM_FMT_CI,
+    G_IM_FMT.IA: n64texconv.G_IM_FMT_IA,
+    G_IM_FMT.I: n64texconv.G_IM_FMT_I,
+}
+G_IM_SIZ_n64texconv_by_n64 = {
+    G_IM_SIZ._4b: n64texconv.G_IM_SIZ_4b,
+    G_IM_SIZ._8b: n64texconv.G_IM_SIZ_8b,
+    G_IM_SIZ._16b: n64texconv.G_IM_SIZ_16b,
+    G_IM_SIZ._32b: n64texconv.G_IM_SIZ_32b,
+}
 
 
 def write_n64_image_to_png(
     path: Path, width: int, height: int, fmt: G_IM_FMT, siz: G_IM_SIZ, data: memoryview
 ):
-    # TODO replace n64yatc, don't copy to bytearray
-    image_data_rgba32 = n64yatc.convert(data, fmt, siz, G_IM_FMT.RGBA, G_IM_SIZ._32b)
-    raw2png.write(path, width, height, bytearray(image_data_rgba32))
+    n64texconv.N64Image.from_bin(
+        data,
+        width,
+        height,
+        G_IM_FMT_n64texconv_by_n64[fmt],
+        G_IM_SIZ_n64texconv_by_n64[siz],
+    ).to_png(str(path), False)
 
 
 def write_n64_image_to_png_color_indexed(
@@ -176,19 +192,15 @@ def write_n64_image_to_png_color_indexed(
     tlut_count: int,
     tlut_fmt: G_IM_FMT,
 ):
-    palette_data_rgba32 = n64yatc.convert(
-        tlut_data, tlut_fmt, G_IM_SIZ._16b, G_IM_FMT.RGBA, G_IM_SIZ._32b
-    )
-    num_palette = tlut_count
-    image_data_ci8 = n64yatc.convert(data, fmt, siz, G_IM_FMT.CI, G_IM_SIZ._8b)
-    raw2png.write_paletted(
-        path,
+    assert tlut_count * 2 == len(tlut_data)
+    n64texconv.N64Image.from_bin(
+        data,
         width,
         height,
-        bytearray(palette_data_rgba32),
-        num_palette,
-        bytearray(image_data_ci8),
-    )
+        G_IM_FMT_n64texconv_by_n64[fmt],
+        G_IM_SIZ_n64texconv_by_n64[siz],
+        n64texconv.N64Palette.from_bin(tlut_data, G_IM_FMT_n64texconv_by_n64[tlut_fmt]),
+    ).to_png(str(path), False)
 
 
 class TextureResource(Resource):
