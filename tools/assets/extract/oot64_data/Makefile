@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: © 2025 ZeldaRET
+# SPDX-License-Identifier: CC0-1.0
+
 ROOT := ../../../../
 
 DATA_FILES := actor_ids.py object_ids.py entrance_table_mini.py scene_table_mini.py

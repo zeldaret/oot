@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: © 2025 ZeldaRET
+# SPDX-License-Identifier: CC0-1.0
+
 import dataclasses
 import enum
 from typing import Optional

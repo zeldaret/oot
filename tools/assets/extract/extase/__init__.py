@@ -1,4 +1,6 @@
-from __future__ import annotations
+# SPDX-FileCopyrightText: © 2025 ZeldaRET
+# SPDX-License-Identifier: CC0-1.0
+
 from pathlib import Path
 import abc
 from dataclasses import dataclass

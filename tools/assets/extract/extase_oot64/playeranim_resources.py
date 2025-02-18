@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: © 2025 ZeldaRET
+# SPDX-License-Identifier: CC0-1.0
+
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:

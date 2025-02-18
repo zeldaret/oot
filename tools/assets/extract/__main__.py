@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: © 2025 ZeldaRET
+# SPDX-License-Identifier: CC0-1.0
+
 from . import extract_xml_z64
 
 if __name__ == "__main__":

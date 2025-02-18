@@ -1,7 +1,7 @@
-from __future__ import annotations
-import enum
-import io
+# SPDX-FileCopyrightText: © 2025 ZeldaRET
+# SPDX-License-Identifier: CC0-1.0
 
+import enum
 from typing import TYPE_CHECKING
 
 from .. import oot64_data

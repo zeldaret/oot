@@ -1,14 +1,13 @@
-from __future__ import annotations
-import io
+# SPDX-FileCopyrightText: © 2025 ZeldaRET
+# SPDX-License-Identifier: CC0-1.0
+
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..extase.memorymap import MemoryContext
 
 from ..extase import (
-    RESOURCE_PARSE_SUCCESS,
     ResourceParseWaiting,
-    ResourceParseInProgress,
 )
 
 from ..extase.cdata_resources import (
