@@ -278,13 +278,13 @@ static MapSelectEntry sMapSelectEntries[] = {
 void MapSelect_UpdateMenu(MapSelectState* this) {
     Input* input = &this->state.input[0];
     s32 pad;
-    MapSelectEntry* selectedScene;
+    MapSelectEntry* selectedEntry;
 
     if (this->verticalInputAccumulator == 0) {
         if (CHECK_BTN_ALL(input->press.button, BTN_A) || CHECK_BTN_ALL(input->press.button, BTN_START)) {
-            selectedScene = &this->entries[this->currentEntry];
-            if (selectedScene->loadFunc != NULL) {
-                selectedScene->loadFunc(this, selectedScene->entranceIndex);
+            selectedEntry = &this->entries[this->currentEntry];
+            if (selectedEntry->loadFunc != NULL) {
+                selectedEntry->loadFunc(this, selectedEntry->entranceIndex);
             }
         }
 
