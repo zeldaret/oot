@@ -302,6 +302,14 @@ def process_pool_wrapped(extraction_ctx, pd):
         ) from e
 
 
+# Make interrupting jobs with ^C less jank
+# https://stackoverflow.com/questions/72967793/keyboardinterrupt-with-python-multiprocessing-pool
+def set_sigint_ignored():
+    import signal
+
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+
+
 def main():
     import argparse
     import json
@@ -444,7 +452,9 @@ def main():
                 pools_desc_to_extract = pools_desc_modified
 
             if pools_desc_to_extract:
-                with multiprocessing.Pool(processes=args.jobs) as pool:
+                with multiprocessing.Pool(
+                    processes=args.jobs, initializer=set_sigint_ignored
+                ) as pool:
                     jobs = [
                         (
                             pd,
