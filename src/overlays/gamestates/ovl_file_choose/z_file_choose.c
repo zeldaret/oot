@@ -1,6 +1,7 @@
 #include "file_select.h"
 
 #include "attributes.h"
+#include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "letterbox.h"
@@ -9,12 +10,15 @@
 #include "n64dd.h"
 #endif
 #include "regs.h"
+#include "rumble.h"
+#include "segment_symbols.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_file_choose.h"
 #include "z64audio.h"
 #include "z64environment.h"
 #include "z64save.h"

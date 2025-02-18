@@ -18,6 +18,8 @@
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
+#include "z_file_choose.h"
+#include "z_opening.h"
 #include "terminal.h"
 #include "versions.h"
 #include "zelda_arena.h"
@@ -322,7 +324,7 @@ void Play_Init(GameState* thisx) {
     Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_CHECK_BG_ALT | CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG |
                                                       CAM_STATE_EXTERNAL_FINISHED | CAM_STATE_CAM_FUNC_FINISH |
                                                       CAM_STATE_LOCK_MODE | CAM_STATE_DISTORTION | CAM_STATE_PLAY_INIT);
-    Sram_Init(this, &this->sramCtx);
+    Sram_Init(&this->state, &this->sramCtx);
     Regs_InitData(this);
     Message_Init(this);
     GameOver_Init(this);

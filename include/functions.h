@@ -230,13 +230,5 @@ void Regs_InitData(PlayState* play);
 
 void Setup_Init(GameState* thisx);
 void Setup_Destroy(GameState* thisx);
-void ConsoleLogo_Init(GameState* thisx);
-void ConsoleLogo_Destroy(GameState* thisx);
-void MapSelect_Init(GameState* thisx);
-void MapSelect_Destroy(GameState* thisx);
-void TitleSetup_Init(GameState* thisx);
-void TitleSetup_Destroy(GameState* thisx);
-void FileSelect_Init(GameState* thisx);
-void FileSelect_Destroy(GameState* thisx);
 
 #endif
