@@ -306,6 +306,7 @@ def main():
     import argparse
     import json
     import re
+    import time
 
     from tools import version_config
     from tools import dmadata
@@ -444,15 +445,29 @@ def main():
 
             if pools_desc_to_extract:
                 with multiprocessing.Pool(processes=args.jobs) as pool:
-                    pool.starmap(
-                        process_pool_wrapped,
-                        zip(
-                            [extraction_ctx] * len(pools_desc_to_extract),
-                            pools_desc_to_extract,
-                        ),
-                    )
-                for pool_desc in pools_desc_to_extract:
-                    set_pool_desc_modified(pool_desc)
+                    jobs = [
+                        (
+                            pd,
+                            pool.apply_async(
+                                process_pool_wrapped, (extraction_ctx, pd)
+                            ),
+                        )
+                        for pd in pools_desc_to_extract
+                    ]
+                    while jobs:
+                        any_finished = False
+                        still_waiting_for_jobs = []
+                        for pd, ar in jobs:
+                            try:
+                                ar.get(0)
+                            except multiprocessing.TimeoutError:
+                                still_waiting_for_jobs.append((pd, ar))
+                            else:
+                                any_finished = True
+                                set_pool_desc_modified(pd)
+                        jobs = still_waiting_for_jobs
+                        if not any_finished:
+                            time.sleep(0.001)
                 print("All done!")
             else:
                 print("Nothing to do")
