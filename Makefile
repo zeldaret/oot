@@ -320,7 +320,8 @@ CPP        := gcc -E
 MKLDSCRIPT := tools/mkldscript
 MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
-ZAPD       := tools/ZAPD/ZAPD.out
+BIN2C      := tools/bin2c
+N64TEXCONV := tools/assets/n64texconv/n64texconv
 FADO       := tools/fado/fado.elf
 PYTHON     ?= $(VENV)/bin/python3
 
@@ -1000,12 +1001,10 @@ $(BUILD_DIR)/assets/%.u32.inc.c: assets/%.u32.png
 	tools/assets/bin2c/bin2c u32 <$(@:.inc.c=.bin) >>$@
 
 $(BUILD_DIR)/assets/%.u8.inc.c: assets/%.u8.bin
-	@echo // From file://`realpath $<` >$@
-	tools/assets/bin2c/bin2c u8 <$< >>$@
+	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.u64.jpg.inc.c: assets/%.u64.jpg
-	@echo // From file://`realpath $<` >$@
-	tools/assets/bin2c/bin2c u64 <$< >>$@
+	$(N64TEXCONV) JFIF "" $< $@
 
 # Assets from extracted/
 
@@ -1021,12 +1020,10 @@ $(BUILD_DIR)/assets/%.u32.inc.c: $(EXTRACTED_DIR)/assets/%.u32.png
 	tools/assets/bin2c/bin2c u32 <$(@:.inc.c=.bin) >>$@
 
 $(BUILD_DIR)/assets/%.u8.inc.c: $(EXTRACTED_DIR)/assets/%.u8.bin
-	@echo // From file://`realpath $<` >$@
-	tools/assets/bin2c/bin2c u8 <$< >>$@
+	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.u64.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.u64.jpg
-	@echo // From file://`realpath $<` >$@
-	tools/assets/bin2c/bin2c u64 <$< >>$@
+	$(N64TEXCONV) JFIF "" $< $@
 
 # Audio
 

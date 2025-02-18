@@ -1,5 +1,5 @@
-CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
-PROGRAMS := elf2rom makeromfs mkdmadata mkldscript preprocess_pragmas reloc_prereq vtxdis
+CFLAGS := -Wall -Wextra -pedantic -std=gnu99 -g -O2
+PROGRAMS := bin2c elf2rom makeromfs mkdmadata mkldscript preprocess_pragmas reloc_prereq vtxdis
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
@@ -52,10 +52,12 @@ clean:
 
 distclean: clean
 	$(MAKE) -C audio distclean
+	$(MAKE) -C assets distclean
 
 .PHONY: all clean distclean
 
 elf2rom_SOURCES            := elf2rom.c elf32.c n64chksum.c util.c
+bin2c_SOURCES              := bin2c.c
 makeromfs_SOURCES          := makeromfs.c n64chksum.c util.c
 mkdmadata_SOURCES          := mkdmadata.c spec.c util.c
 mkldscript_SOURCES         := mkldscript.c spec.c util.c
