@@ -85,23 +85,23 @@ typedef struct ConsoleLogoState {
 
 struct MapSelectState;
 
-typedef struct SceneSelectEntry {
+typedef struct MapSelectEntry {
     /* 0x00 */ char* name;
     /* 0x04 */ void (*loadFunc)(struct MapSelectState*, s32);
     /* 0x08 */ s32 entranceIndex;
-} SceneSelectEntry; // size = 0xC
+} MapSelectEntry; // size = 0xC
 
 typedef struct MapSelectState {
     /* 0x0000 */ GameState state;
     /* 0x00A8 */ View view;
     /* 0x01D0 */ s32 count;
-    /* 0x01D4 */ SceneSelectEntry* scenes;
-    /* 0x01D8 */ s32 currentScene;
+    /* 0x01D4 */ MapSelectEntry* entries;
+    /* 0x01D8 */ s32 currentEntry;
     /* 0x01DC */ s32 pageDownIndex; // Index of pageDownStops
     /* 0x01E0 */ s32 pageDownStops[7];
     /* 0x01FC */ char unk_1FC[0x0C];
     /* 0x0208 */ s32 opt;
-    /* 0x020C */ s32 topDisplayedScene; // The scene which is currently at the top of the screen
+    /* 0x020C */ s32 topDisplayedEntry; // The entry which is currently at the top of the screen
     /* 0x0210 */ char unk_210[0x0C];
     /* 0x021C */ s32 verticalInputAccumulator;
     /* 0x0220 */ s32 verticalInput;
