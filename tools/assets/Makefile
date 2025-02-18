@@ -2,12 +2,10 @@ all:
 # must build n64texconv before build_from_png
 	$(MAKE) -C n64texconv
 	$(MAKE) -C build_from_png
-	$(MAKE) -C bin2c
 
 clean:
 	$(MAKE) -C n64texconv clean
 	$(MAKE) -C build_from_png clean
-	$(MAKE) -C bin2c clean
 
 distclean: clean
 	$(MAKE) -C n64texconv distclean
