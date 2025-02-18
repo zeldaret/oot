@@ -24,8 +24,7 @@ class CData(abc.ABC):
     # Unpack
 
     @abc.abstractmethod
-    def unpack_from(self, data: memoryview, offset: int = 0) -> Any:
-        ...
+    def unpack_from(self, data: memoryview, offset: int = 0) -> Any: ...
 
 
 class CData_Value(CData):
@@ -121,7 +120,6 @@ class CData_Struct(CData):
 
 
 def try_stuff():
-
     """
     struct {
         s8 fun;

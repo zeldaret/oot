@@ -175,10 +175,7 @@ class LegacyAnimationResource(CDataResource):
                 resource_jointKey.file,
             )
 
-        if (
-            resource_frameData.range_start
-            < resource_jointKey.range_start
-        ):
+        if resource_frameData.range_start < resource_jointKey.range_start:
             resource_frameData.length = (
                 resource_jointKey.range_start - resource_frameData.range_start
             ) // animation_resources.AnimationFrameDataResource.elem_cdata_ext.size

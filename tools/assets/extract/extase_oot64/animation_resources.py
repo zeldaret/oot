@@ -20,7 +20,7 @@ from ..extase.cdata_resources import (
 
 
 class AnimationFrameDataResource(CDataResource, can_size_be_unknown=True):
-    def write_binang(resource, memory_context, v, wctx:CDataExtWriteContext):
+    def write_binang(resource, memory_context, v, wctx: CDataExtWriteContext):
         wctx.f.write(wctx.line_prefix)
         wctx.f.write(f" 0x{v:04X}" if v >= 0 else "-0x" + f"{v:04X}".removeprefix("-"))
         return True
