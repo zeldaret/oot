@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Union, Optional, Callable
 
 try:
     from rich.pretty import pprint as rich_pprint
-except ModuleNotFoundError:
+except ImportError:
     rich_pprint = print
 
 import pygfxd

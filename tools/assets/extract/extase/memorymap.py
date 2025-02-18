@@ -8,7 +8,7 @@ from typing import Callable, TypeVar, Generic
 
 try:
     from rich.pretty import pprint as rich_pprint
-except ModuleNotFoundError:
+except ImportError:
     rich_pprint = print
 
 from . import Resource, File, GetResourceAtResult

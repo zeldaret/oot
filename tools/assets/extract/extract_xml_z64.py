@@ -108,7 +108,7 @@ def process_pool(
         import rich
 
         rich.print(f"[b]{colls_str}[/b]")
-    except:
+    except ImportError:
         print(colls_str)
 
     file_by_rescoll: dict[ResourcesDescCollection, File] = dict()
@@ -488,7 +488,7 @@ def main():
         try:
             import rich.pretty
             import rich.console
-        except:
+        except ImportError:
             traceback.print_exc(file=sys.stdout)
             print("Install rich for prettier output (`pip install rich`)")
         else:
