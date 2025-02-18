@@ -375,6 +375,10 @@ class TextureResource(Resource):
         # Same caveat as is_tlut
         return len(self.resources_ci_list) >= 2
 
+    def tlut_can_omit_tlut_info_from_users(self):
+        assert self.is_tlut()
+        return len(self.resources_ci_list) == 1 and self.alignment == 8
+
     def tlut_get_count(self):
         assert self.is_tlut()
         return self.width * self.height
@@ -384,15 +388,15 @@ class TextureResource(Resource):
         if self.fmt == G_IM_FMT.CI:
             assert self.resource_tlut is not None
             tlut_info = f"tlut_{self.resource_tlut.name}_{self.resource_tlut.elem_type}"
-            if self.resource_tlut.is_shared_tlut():
+            if not self.resource_tlut.tlut_can_omit_tlut_info_from_users():
                 return f"{self.name}.{format_name}.{tlut_info}.{self.elem_type}"
             else:
-                # TODO this can't work rn because the tlut resource's path is still based
-                # on its own name, not the name of its only texture user
-                # return f"{self.name}.{format_name}.{self.elem_type}"
-                return f"{self.name}.{format_name}.{tlut_info}.{self.elem_type}"
+                return f"{self.name}.{format_name}.{self.elem_type}"
         elif self.is_tlut():
-            return f"{self.name}.tlut.{format_name}.{self.elem_type}"
+            if not self.tlut_can_omit_tlut_info_from_users():
+                return f"{self.name}.tlut.{format_name}.{self.elem_type}"
+            else:
+                return f"{self.resources_ci_list[0].name}.tlut.{format_name}.{self.elem_type}"
         else:
             return f"{self.name}.{format_name}.{self.elem_type}"
 
