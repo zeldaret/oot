@@ -120,8 +120,8 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
             gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         }
 
-        // This hardcoded segment address assumes the first symbol in the object file
-        // is the medallion symbol texture that gets drawn on the warp pad.
+        // This assumes the first symbol in the object file is the medallion symbol 
+        // texture that gets drawn on the warp pad.
         // This must be true for any object contained within `sObjectIds`.
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(0x06000000));
         dlist = gWarpPadBaseDL;
