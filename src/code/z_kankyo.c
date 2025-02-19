@@ -24,6 +24,7 @@
 #include "z64audio.h"
 #include "z64cutscene.h"
 #include "z64frame_advance.h"
+#include "z64environment.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"

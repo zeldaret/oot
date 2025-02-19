@@ -26,6 +26,7 @@ void* DebugArena_MallocRDebug(u32 size, const char* file, int line);
 void* DebugArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line);
 void DebugArena_FreeDebug(void* ptr, const char* file, int line);
 void DebugArena_Display(void);
+
 #else
 
 #define DEBUG_ARENA_MALLOC(size, file, line) DebugArena_Malloc(size)

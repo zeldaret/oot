@@ -30,7 +30,6 @@ typedef struct Font {
     };
 } Font; // size = 0xE188
 
-// z_kanfont.c
 #if PLATFORM_IQUE
 void Font_LoadCharCHN(Font* font, u16 character, u16 codePointIndex);
 #endif

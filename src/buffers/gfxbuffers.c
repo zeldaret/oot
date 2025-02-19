@@ -1,4 +1,5 @@
 #include "alignment.h"
+#include "buffers.h"
 #include "gfx.h"
 #include "ultra64.h"
 

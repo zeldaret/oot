@@ -3,6 +3,7 @@
 #include "segment_symbols.h"
 #include "versions.h"
 #include "z64lifemeter.h"
+#include "z64interface.h"
 #include "z64ocarina.h"
 #include "z64play.h"
 #include "z64save.h"
