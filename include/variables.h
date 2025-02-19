@@ -68,7 +68,6 @@ extern u32 __osTimerCounter;
 extern EffectSsOverlay gEffectSsOverlayTable[EFFECT_SS_TYPE_MAX];
 extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_dlftbls" 801162A0
 extern s32 gMaxActorId; // original name: "MaxProfile"
-extern s32 gDebugCamEnabled;
 extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
 extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
@@ -149,18 +148,6 @@ extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
 
-extern LightningStrike gLightningStrike;
-// TODO: These variables are here for BSS ordering but ideally they should not
-// be extern. This could be fixed by putting more stuff (e.g. struct definitions)
-// between gLightningStrike and gCustomLensFlareOn.
-extern s16 sLightningFlashAlpha;
-extern s16 sSunDepthTestX;
-extern s16 sSunDepthTestY;
-extern u8 gCustomLensFlareOn;
-extern Vec3f gCustomLensFlarePos;
-extern s16 gLensFlareScale;
-extern f32 gLensFlareColorIntensity;
-extern s16 gLensFlareGlareStrength;
 extern MapData* gMapData;
 extern f32 gBossMarkScale;
 extern u32 D_8016139C;
@@ -205,11 +192,5 @@ extern u8 __osContLastCmd;
 extern u8 __osMaxControllers;
 extern __OSInode __osPfsInodeCache;
 extern OSPifRam __osPfsPifRam;
-extern u16 gZBuffer[SCREEN_HEIGHT][SCREEN_WIDTH]; // 0x25800 bytes
-extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
-extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)]; // 0xC00 bytes
-extern u64 gGfxSPTaskStack[SP_DRAM_STACK_SIZE64]; // 0x400 bytes
-extern GfxPool gGfxPools[2]; // 0x24820 bytes
-extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
 
 #endif

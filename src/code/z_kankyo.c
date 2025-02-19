@@ -1,15 +1,32 @@
 #pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
                                "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:64 pal-1.1:64"
 
-#include "global.h"
+#include "libc64/qrand.h"
+#include "libu64/gfxprint.h"
+#include "buffers.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "gfxalloc.h"
 #include "ultra64.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
 #include "seqcmd.h"
 #include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
-
+#include "z_lib.h"
+#include "z64audio.h"
 #include "z64cutscene.h"
 #include "z64frame_advance.h"
+#include "z64environment.h"
+#include "z64play.h"
+#include "z64player.h"
 #include "z64save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
@@ -218,8 +235,8 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:192 pal-1.1:192"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;

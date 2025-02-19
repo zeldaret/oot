@@ -1,6 +1,12 @@
-#include "global.h"
+#include "kanread.h"
 #include "message_data_static.h"
+#include "segment_symbols.h"
 #include "versions.h"
+#include "z64dma.h"
+#include "z64font.h"
+#include "z64message.h"
+
+#include "macros.h"
 
 /**
  * Loads a texture from kanji for the requested `character` into the character texture buffer

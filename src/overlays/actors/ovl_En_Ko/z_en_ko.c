@@ -19,8 +19,6 @@
 #include "z64player.h"
 #include "z64save.h"
 
-#include "global.h"
-
 #include "assets/objects/object_fa/object_fa.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "assets/objects/object_km1/object_km1.h"

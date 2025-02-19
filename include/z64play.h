@@ -17,6 +17,7 @@
 #include "z64message.h"
 #include "z64object.h"
 #include "z64pause.h"
+#include "z64room.h"
 #include "z64scene.h"
 #include "z64sfx_source.h"
 #include "z64skybox.h"

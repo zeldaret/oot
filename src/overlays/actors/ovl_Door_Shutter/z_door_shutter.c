@@ -23,8 +23,6 @@
 #include "z64player.h"
 #include "z64save.h"
 
-#include "global.h"
-
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_gnd/object_gnd.h"
 #include "assets/objects/object_goma/object_goma.h"

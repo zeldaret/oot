@@ -1,5 +1,6 @@
 # Output files
 *.exe
+bin2c
 elf2rom
 makeromfs
 mkdmadata
