@@ -3,6 +3,7 @@
 
 #include "z64view.h"
 #include "versions.h"
+#include "z64font.h"
 
 struct OcarinaStaff;
 struct Actor;
@@ -13,11 +14,6 @@ typedef enum TextBoxIcon {
     /* 1 */ TEXTBOX_ICON_SQUARE,
     /* 2 */ TEXTBOX_ICON_ARROW
 } TextBoxIcon;
-
-// TODO get these properties from the textures themselves
-#define FONT_CHAR_TEX_WIDTH  16
-#define FONT_CHAR_TEX_HEIGHT 16
-#define FONT_CHAR_TEX_SIZE ((FONT_CHAR_TEX_WIDTH * FONT_CHAR_TEX_HEIGHT) / 2) // 16x16 I4 texture
 
 // TODO get these properties from the textures themselves
 #define MESSAGE_STATIC_TEX_SIZE 0x1000
@@ -128,28 +124,6 @@ typedef enum TextState {
     /*  9 */ TEXT_STATE_9,
     /* 10 */ TEXT_STATE_AWAITING_NEXT
 } TextState;
-
-typedef struct Font {
-    /* 0x0000 */ u32 msgOffset;
-    /* 0x0004 */ u32 msgLength;
-    union {
-        /* 0x0008 */ u8 charTexBuf[FONT_CHAR_TEX_SIZE * 120];
-        /* 0x0008 */ u64 force_structure_alignment_charTex;
-    };
-    union {
-        /* 0x3C08 */ u8 iconBuf[FONT_CHAR_TEX_SIZE];
-        /* 0x3C08 */ u64 force_structure_alignment_icon;
-    };
-    union {
-        /* 0x3C88 */ u8 fontBuf[FONT_CHAR_TEX_SIZE * 320];
-        /* 0x3C88 */ u64 force_structure_alignment_font;
-    };
-    union {
-        /* 0xDC88 */ u8 msgBuf[1280];
-        /* 0xDC88 */ u16 msgBufWide[640];
-        /* 0xDC88 */ u64 force_structure_alignment_msg;
-    };
-} Font; // size = 0xE188
 
 #define TEXTBOX_ENDTYPE_DEFAULT     0x00
 #define TEXTBOX_ENDTYPE_2_CHOICE    0x10

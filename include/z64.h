@@ -58,11 +58,6 @@
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
 
-typedef enum LensMode {
-    /* 0 */ LENS_MODE_SHOW_ACTORS, // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
-    /* 1 */ LENS_MODE_HIDE_ACTORS // lens actors are visible by default, and hidden by using lens (for example, fake walls)
-} LensMode;
-
 typedef struct SetupState {
     /* 0x00 */ GameState state;
 } SetupState; // size = 0xA4

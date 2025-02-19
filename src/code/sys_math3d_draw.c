@@ -1,4 +1,5 @@
-#include "z64.h"
+#include "sys_math3d.h"
+#include "z64play.h"
 
 void Math3D_DrawSphere(PlayState* play, Sphere16* sph) {
 }

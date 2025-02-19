@@ -9,8 +9,6 @@
 #include "z64player.h"
 #include "z64save.h"
 
-#include "global.h"
-
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 /*

@@ -20,8 +20,7 @@
 #include "z64cutscene_flags.h"
 #include "z64play.h"
 #include "z64save.h"
-
-#include "global.h"
+#include "z64ss_sram.h"
 
 #include "assets/objects/object_mag/object_mag.h"
 

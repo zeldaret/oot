@@ -13,6 +13,7 @@
 #include "sequence.h"
 #include "terminal.h"
 #include "z64save.h"
+#include "z64sram.h"
 
 #include "global.h"
 

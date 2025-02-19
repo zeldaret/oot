@@ -2,6 +2,7 @@
 #include "terminal.h"
 #include "versions.h"
 #include "z64save.h"
+#include "z64ss_sram.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)
