@@ -1,6 +1,7 @@
 #include "libc64/malloc.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
+#include "buffers.h"
 #include "gfx.h"
 #include "fault.h"
 #include "line_numbers.h"

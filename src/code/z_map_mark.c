@@ -1,4 +1,5 @@
 #include "libu64/debug.h"
+#include "regs.h"
 #include "romfile.h"
 #include "segment_symbols.h"
 #include "terminal.h"

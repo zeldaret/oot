@@ -24,8 +24,6 @@
 #include "z64save.h"
 #include "z64skin.h"
 
-#include "global.h"
-
 #include "assets/objects/object_zl4/object_zl4.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_horse_zelda/object_horse_zelda.h"

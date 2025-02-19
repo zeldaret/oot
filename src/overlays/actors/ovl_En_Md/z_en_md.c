@@ -20,8 +20,6 @@
 #include "z64player.h"
 #include "z64save.h"
 
-#include "global.h"
-
 #include "assets/objects/object_md/object_md.h"
 
 #define FLAGS                                                                                  \
