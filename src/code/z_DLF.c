@@ -1,3 +1,5 @@
+#include "libu64/relocation.h"
+
 #include "global.h"
 #include "terminal.h"
 

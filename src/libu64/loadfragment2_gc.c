@@ -1,3 +1,5 @@
+#include "libu64/relocation.h"
+
 #include "global.h"
 
 void* Overlay_AllocateAndLoad(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd) {

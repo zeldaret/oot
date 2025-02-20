@@ -9,6 +9,7 @@
 #include "file_select_state.h"
 #include "line_numbers.h"
 #include "map_select_state.h"
+#include "prenmi_buff.h"
 #include "prenmi_state.h"
 #include "regs.h"
 #include "setup_state.h"

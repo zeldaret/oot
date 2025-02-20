@@ -1,4 +1,5 @@
 #include "ultra64.h"
+#include "prenmi_buff.h"
 #include "versions.h"
 
 // Declared before including other headers for BSS ordering
