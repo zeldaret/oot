@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "libu64/pad.h"
+#include "versions.h"
 
 typedef enum ViModeEditState {
 #if OOT_VERSION < PAL_1_0
