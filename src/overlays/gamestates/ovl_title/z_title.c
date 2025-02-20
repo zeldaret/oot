@@ -8,6 +8,7 @@
 
 #include "global.h"
 #include "alloca.h"
+#include "title_setup_state.h"
 #include "versions.h"
 
 #if PLATFORM_N64
@@ -15,7 +16,6 @@
 #include "n64dd.h"
 #endif
 #include "z64save.h"
-#include "title_setup_state.h"
 
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
