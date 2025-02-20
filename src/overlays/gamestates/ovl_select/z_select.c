@@ -4,8 +4,11 @@
  * Description: Debug Scene Select Menu
  */
 
+#include "map_select_state.h"
+
 #include "ultra64.h"
 #include "alloca.h"
+#include "console_logo_state.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif

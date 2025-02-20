@@ -4,8 +4,11 @@
  * Description: Displays the Nintendo Logo
  */
 
+#include "console_logo_state.h"
+
 #include "global.h"
 #include "alloca.h"
+#include "title_setup_state.h"
 #include "versions.h"
 
 #if PLATFORM_N64

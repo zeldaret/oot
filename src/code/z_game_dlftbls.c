@@ -1,3 +1,10 @@
+#include "setup_state.h"
+#include "map_select_state.h"
+#include "console_logo_state.h"
+#include "z64play.h"
+#include "title_setup_state.h"
+#include "file_select_state.h"
+
 #include "global.h"
 
 // Linker symbol declarations (used in the table below)

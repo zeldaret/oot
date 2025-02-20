@@ -1,3 +1,5 @@
+#include "prenmi_state.h"
+
 #include "global.h"
 #include "terminal.h"
 #include "versions.h"
