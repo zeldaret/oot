@@ -10,6 +10,12 @@
 #include "terminal.h"
 #include "ucode_disas.h"
 #include "versions.h"
+#include "z_game_dlftbls.h"
+#include "z_opening.h"
+#include "z_select.h"
+#include "z_title.h"
+#include "z_title_setup.h"
+#include "z_file_choose.h"
 #include "z64save.h"
 
 #include "macros.h"

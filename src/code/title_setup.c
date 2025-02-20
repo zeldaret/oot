@@ -1,3 +1,6 @@
+#include "z_title.h"
+#include "z_title_setup.h"
+
 #include "global.h"
 
 void Setup_InitImpl(SetupState* this) {

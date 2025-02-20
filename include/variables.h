@@ -65,11 +65,8 @@ extern OSTime __osCurrentTime;
 extern u32 __osBaseCounter;
 extern u32 __osViIntrCount;
 extern u32 __osTimerCounter;
-extern EffectSsOverlay gEffectSsOverlayTable[EFFECT_SS_TYPE_MAX];
 extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_dlftbls" 801162A0
 extern s32 gMaxActorId; // original name: "MaxProfile"
-extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
-extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
 extern s16 gSpoilingItemReverts[3];
@@ -135,7 +132,6 @@ extern u8 gSoundModeList[];
 extern u8 gAudioSpecId;
 extern u8 D_80133418;
 extern AudioSpec gAudioSpecs[18];
-extern s32 gOverlayLogSeverity;
 extern s32 gSystemArenaLogSeverity;
 extern u8 __osPfsInodeCacheBank;
 extern s32 __osPfsLastChannel;

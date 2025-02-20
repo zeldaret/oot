@@ -19,6 +19,7 @@
 #include "terminal.h"
 #include "versions.h"
 #include "z_file_choose.h"
+#include "z_select.h"
 #include "z64audio.h"
 #include "z64environment.h"
 #include "z64save.h"

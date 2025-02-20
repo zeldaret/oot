@@ -28,8 +28,6 @@ OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
 
 void FlagSet_Update(PlayState* play);
-void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
-void Overlay_FreeGameState(GameStateOverlay* overlayEntry);
 
 void ActorOverlayTable_LogPrint(void);
 void ActorOverlayTable_Init(void);
@@ -46,11 +44,6 @@ void PreNmiBuff_Init(PreNmiBuff* this);
 void PreNmiBuff_SetReset(PreNmiBuff* this);
 u32 PreNmiBuff_IsResetting(PreNmiBuff* this);
 void Sched_FlushTaskQueue(void);
-
-void PreNMI_Init(GameState* thisx);
-
-void Sample_Destroy(GameState* thisx);
-void Sample_Init(GameState* thisx);
 
 void ViMode_LogPrint(OSViMode* osViMode);
 void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antialiasOff, s32 modeN, s32 fb16Bit,
@@ -119,12 +112,6 @@ void func_800C213C(PreRender* this, Gfx** gfxP);
 void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxP);
 void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP);
 void PreRender_ApplyFilters(PreRender* this);
-void Graph_InitTHGA(GraphicsContext* gfxCtx);
-GameStateOverlay* Graph_GetNextGameState(GameState* gameState);
-void Graph_Init(GraphicsContext* gfxCtx);
-void Graph_Destroy(GraphicsContext* gfxCtx);
-void Graph_TaskSet00(GraphicsContext* gfxCtx);
-void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
 void Graph_ThreadEntry(void*);
 
 ListAlloc* ListAlloc_Init(ListAlloc* this);
@@ -142,19 +129,10 @@ void func_800D3210(void);
 
 void RcpUtils_PrintRegisterStatus(void);
 void RcpUtils_Reset(void);
-void* Overlay_AllocateAndLoad(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd);
-void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlRelocs, void* vramStart);
-size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr);
-// ? func_800FC800(?);
-// ? func_800FC83C(?);
-// ? func_800FCAB4(?);
 void SystemHeap_Init(void* start, u32 size);
 
 f32 absf(f32);
 
 void Regs_InitData(PlayState* play);
-
-void Setup_Init(GameState* thisx);
-void Setup_Destroy(GameState* thisx);
 
 #endif

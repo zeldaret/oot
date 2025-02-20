@@ -5,6 +5,7 @@
 #include "ultra64.h"
 #include "gfx.h"
 #include "versions.h"
+#include "z_file_choose.h"
 #include "z64game.h"
 
 

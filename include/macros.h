@@ -89,14 +89,6 @@
 #define PRINTF_RST()            (void)0
 #endif
 
-#define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
-    if (1) {                                             \
-        GameState* state = curState;                     \
-                                                         \
-        (state)->init = newInit;                         \
-        (state)->size = sizeof(newStruct);               \
-    } (void)0
-
 #if DEBUG_FEATURES
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
