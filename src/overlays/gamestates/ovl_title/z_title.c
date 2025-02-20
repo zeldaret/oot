@@ -4,6 +4,8 @@
  * Description: Displays the Nintendo Logo
  */
 
+#include "console_logo_state.h"
+
 #include "global.h"
 #include "alloca.h"
 #include "versions.h"
@@ -13,6 +15,7 @@
 #include "n64dd.h"
 #endif
 #include "z64save.h"
+#include "title_setup_state.h"
 
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 

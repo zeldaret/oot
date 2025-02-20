@@ -40,7 +40,7 @@
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
-#pragma increment_block_number "gc-eu:96 gc-eu-mq:96 gc-eu-mq-dbg:96 gc-jp:112 gc-jp-ce:112 gc-jp-mq:112 gc-us:112" \
+#pragma increment_block_number "gc-eu:96 gc-eu-mq:96 gc-eu-mq-dbg:128 gc-jp:112 gc-jp-ce:112 gc-jp-mq:112 gc-us:112" \
                                "gc-us-mq:112 ique-cn:112"
 
 #include "global.h"

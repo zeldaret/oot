@@ -4,6 +4,7 @@
 #endif
 #include "seqcmd.h"
 #include "terminal.h"
+#include "title_setup_state.h"
 #include "versions.h"
 #include "z64save.h"
 

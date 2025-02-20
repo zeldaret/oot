@@ -1,4 +1,6 @@
-#include "global.h"
+#include "sample_state.h"
+
+#include "global.h" // TODO: fix and remove
 
 void Sample_HandleStateChange(SampleState* this) {
     if (CHECK_BTN_ALL(this->state.input[0].press.button, BTN_START)) {

@@ -1,3 +1,4 @@
+#include "file_select_state.h"
 #include "file_select.h"
 
 #include "attributes.h"
@@ -5,6 +6,7 @@
 #include "gfx_setupdl.h"
 #include "letterbox.h"
 #include "macros.h"
+#include "map_select_state.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
