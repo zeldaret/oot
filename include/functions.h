@@ -47,11 +47,6 @@ void PreNmiBuff_SetReset(PreNmiBuff* this);
 u32 PreNmiBuff_IsResetting(PreNmiBuff* this);
 void Sched_FlushTaskQueue(void);
 
-void PreNMI_Init(GameState* thisx);
-
-void Sample_Destroy(GameState* thisx);
-void Sample_Init(GameState* thisx);
-
 void ViMode_LogPrint(OSViMode* osViMode);
 void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antialiasOff, s32 modeN, s32 fb16Bit,
                       s32 width, s32 height, s32 leftAdjust, s32 rightAdjust, s32 upperAdjust, s32 lowerAdjust);
@@ -153,16 +148,5 @@ void SystemHeap_Init(void* start, u32 size);
 f32 absf(f32);
 
 void Regs_InitData(PlayState* play);
-
-void Setup_Init(GameState* thisx);
-void Setup_Destroy(GameState* thisx);
-void ConsoleLogo_Init(GameState* thisx);
-void ConsoleLogo_Destroy(GameState* thisx);
-void MapSelect_Init(GameState* thisx);
-void MapSelect_Destroy(GameState* thisx);
-void TitleSetup_Init(GameState* thisx);
-void TitleSetup_Destroy(GameState* thisx);
-void FileSelect_Init(GameState* thisx);
-void FileSelect_Destroy(GameState* thisx);
 
 #endif

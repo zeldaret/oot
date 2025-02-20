@@ -4,6 +4,8 @@
  * Description: Initializes the game into the title screen
  */
 
+#include "title_setup_state.h"
+
 #include "global.h"
 #include "z64save.h"
 #include "z64sram.h"

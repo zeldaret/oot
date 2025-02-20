@@ -4,8 +4,11 @@
  * Description: Debug Scene Select Menu
  */
 
+#include "map_select_state.h"
+
 #include "ultra64.h"
 #include "alloca.h"
+#include "console_logo_state.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -66,7 +69,7 @@ void func_80800B08_unknown(MapSelectState* this, s32 arg1) {
 }
 #endif
 
-static SceneSelectEntry sScenes[] = {
+static MapSelectEntry sMapSelectEntries[] = {
     { " 1:SPOT00", MapSelect_LoadGame, ENTR_HYRULE_FIELD_0 },
     { " 2:SPOT01", MapSelect_LoadGame, ENTR_KAKARIKO_VILLAGE_0 },
     { " 3:SPOT02", MapSelect_LoadGame, ENTR_GRAVEYARD_0 },
@@ -279,13 +282,13 @@ static SceneSelectEntry sScenes[] = {
 void MapSelect_UpdateMenu(MapSelectState* this) {
     Input* input = &this->state.input[0];
     s32 pad;
-    SceneSelectEntry* selectedScene;
+    MapSelectEntry* selectedEntry;
 
     if (this->verticalInputAccumulator == 0) {
         if (CHECK_BTN_ALL(input->press.button, BTN_A) || CHECK_BTN_ALL(input->press.button, BTN_START)) {
-            selectedScene = &this->scenes[this->currentScene];
-            if (selectedScene->loadFunc != NULL) {
-                selectedScene->loadFunc(this, selectedScene->entranceIndex);
+            selectedEntry = &this->entries[this->currentEntry];
+            if (selectedEntry->loadFunc != NULL) {
+                selectedEntry->loadFunc(this, selectedEntry->entranceIndex);
             }
         }
 
@@ -423,7 +426,7 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
         this->pageDownIndex++;
         this->pageDownIndex =
             (this->pageDownIndex + ARRAY_COUNT(this->pageDownStops)) % ARRAY_COUNT(this->pageDownStops);
-        this->currentScene = this->topDisplayedScene = this->pageDownStops[this->pageDownIndex];
+        this->currentEntry = this->topDisplayedEntry = this->pageDownStops[this->pageDownIndex];
     }
 
     this->verticalInputAccumulator += this->verticalInput;
@@ -432,12 +435,12 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
         this->verticalInput = 0;
         this->verticalInputAccumulator = 0;
 
-        this->currentScene++;
-        this->currentScene = (this->currentScene + this->count) % this->count;
+        this->currentEntry++;
+        this->currentEntry = (this->currentEntry + this->count) % this->count;
 
-        if (this->currentScene == ((this->topDisplayedScene + this->count + 19) % this->count)) {
-            this->topDisplayedScene++;
-            this->topDisplayedScene = (this->topDisplayedScene + this->count) % this->count;
+        if (this->currentEntry == ((this->topDisplayedEntry + this->count + 19) % this->count)) {
+            this->topDisplayedEntry++;
+            this->topDisplayedEntry = (this->topDisplayedEntry + this->count) % this->count;
         }
     }
 
@@ -445,25 +448,25 @@ void MapSelect_UpdateMenu(MapSelectState* this) {
         this->verticalInput = 0;
         this->verticalInputAccumulator = 0;
 
-        if (this->currentScene == this->topDisplayedScene) {
-            this->topDisplayedScene -= 2;
-            this->topDisplayedScene = (this->topDisplayedScene + this->count) % this->count;
+        if (this->currentEntry == this->topDisplayedEntry) {
+            this->topDisplayedEntry -= 2;
+            this->topDisplayedEntry = (this->topDisplayedEntry + this->count) % this->count;
         }
 
-        this->currentScene--;
-        this->currentScene = (this->currentScene + this->count) % this->count;
+        this->currentEntry--;
+        this->currentEntry = (this->currentEntry + this->count) % this->count;
 
-        if (this->currentScene == ((this->topDisplayedScene + this->count) % this->count)) {
-            this->topDisplayedScene--;
-            this->topDisplayedScene = (this->topDisplayedScene + this->count) % this->count;
+        if (this->currentEntry == ((this->topDisplayedEntry + this->count) % this->count)) {
+            this->topDisplayedEntry--;
+            this->topDisplayedEntry = (this->topDisplayedEntry + this->count) % this->count;
         }
     }
 
-    this->currentScene = (this->currentScene + this->count) % this->count;
-    this->topDisplayedScene = (this->topDisplayedScene + this->count) % this->count;
+    this->currentEntry = (this->currentEntry + this->count) % this->count;
+    this->topDisplayedEntry = (this->topDisplayedEntry + this->count) % this->count;
 
-    dREG(80) = this->currentScene;
-    dREG(81) = this->topDisplayedScene;
+    dREG(80) = this->currentEntry;
+    dREG(81) = this->topDisplayedEntry;
     dREG(82) = this->pageDownIndex;
 
     if (this->timerUp != 0) {
@@ -496,14 +499,14 @@ void MapSelect_PrintMenu(MapSelectState* this, GfxPrint* printer) {
     for (i = 0; i < 20; i++) {
         GfxPrint_SetPos(printer, 9, i + 4);
 
-        scene = (this->topDisplayedScene + i + this->count) % this->count;
-        if (scene == this->currentScene) {
+        scene = (this->topDisplayedEntry + i + this->count) % this->count;
+        if (scene == this->currentEntry) {
             GfxPrint_SetColor(printer, 255, 20, 20, 255);
         } else {
             GfxPrint_SetColor(printer, 200, 200, 55, 255);
         }
 
-        name = this->scenes[scene].name;
+        name = this->entries[scene].name;
         if (name == NULL) {
             name = "**Null**";
         }
@@ -692,9 +695,9 @@ void MapSelect_Init(GameState* thisx) {
 
     this->state.main = MapSelect_Main;
     this->state.destroy = MapSelect_Destroy;
-    this->scenes = sScenes;
-    this->topDisplayedScene = 0;
-    this->currentScene = 0;
+    this->entries = sMapSelectEntries;
+    this->topDisplayedEntry = 0;
+    this->currentEntry = 0;
     this->pageDownStops[0] = 0;  // Hyrule Field
     this->pageDownStops[1] = 19; // Temple Of Time
     this->pageDownStops[2] = 37; // Treasure Chest Game
@@ -704,7 +707,7 @@ void MapSelect_Init(GameState* thisx) {
     this->pageDownStops[6] = 91; // Escaping Ganon's Tower 3
     this->pageDownIndex = 0;
     this->opt = 0;
-    this->count = ARRAY_COUNT(sScenes);
+    this->count = ARRAY_COUNT(sMapSelectEntries);
     View_Init(&this->view, this->state.gfxCtx);
     this->view.flags = (VIEW_PROJECTION_ORTHO | VIEW_VIEWPORT);
     this->verticalInputAccumulator = 0;
@@ -716,8 +719,8 @@ void MapSelect_Init(GameState* thisx) {
     this->unk_234 = 0;
 
     if ((dREG(80) >= 0) && (dREG(80) < this->count)) {
-        this->currentScene = dREG(80);
-        this->topDisplayedScene = dREG(81);
+        this->currentEntry = dREG(80);
+        this->topDisplayedEntry = dREG(81);
         this->pageDownIndex = dREG(82);
     }
 

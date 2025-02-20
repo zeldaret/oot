@@ -1,3 +1,5 @@
+#include "sample_state.h"
+
 #include "global.h"
 
 void Sample_HandleStateChange(SampleState* this) {

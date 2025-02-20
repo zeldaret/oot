@@ -7,8 +7,8 @@
 
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:176" \
-                               "ntsc-1.1:176 ntsc-1.2:176 pal-1.0:192 pal-1.1:192"
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64" \
+                               "ntsc-1.0:176 ntsc-1.1:176 ntsc-1.2:176 pal-1.0:192 pal-1.1:192"
 
 ALIGNED(16) SaveContext gSaveContext;
 #if PLATFORM_IQUE
