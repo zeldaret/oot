@@ -479,7 +479,7 @@ void DemoIk_Update(Actor* thisx, PlayState* play) {
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
         sActionFuncs[this->actionMode] == NULL) {
         PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
-                               "Something's wrong with main mode!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->actionMode](this, play);

@@ -978,7 +978,7 @@ void DemoDu_Update(Actor* thisx, PlayState* play) {
 
     if (this->updateIndex < 0 || this->updateIndex >= 29 || sUpdateFuncs[this->updateIndex] == NULL) {
         PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
-                               "Something's wrong with main mode!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sUpdateFuncs[this->updateIndex](this, play);

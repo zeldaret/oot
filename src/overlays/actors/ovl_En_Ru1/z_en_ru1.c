@@ -2267,7 +2267,7 @@ void EnRu1_Update(Actor* thisx, PlayState* play) {
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
         PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
-                               "Something's wrong with main mode!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 

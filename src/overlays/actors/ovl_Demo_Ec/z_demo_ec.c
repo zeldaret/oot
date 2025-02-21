@@ -1335,7 +1335,7 @@ void DemoEc_Update(Actor* thisx, PlayState* play) {
 
     if ((updateMode < 0) || (updateMode >= ARRAY_COUNT(sUpdateFuncs)) || sUpdateFuncs[updateMode] == NULL) {
         PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
-                               "Something's wrong with main mode!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         if (updateMode != EC_UPDATE_COMMON) {
             DemoEc_UseAnimationObject(this, play);

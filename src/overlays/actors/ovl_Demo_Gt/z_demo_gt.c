@@ -1736,7 +1736,7 @@ void DemoGt_Update(Actor* thisx, PlayState* play) {
 
     if ((this->updateMode < 0) || (this->updateMode >= 19) || (updateFunc = sUpdateFuncs[this->updateMode]) == NULL) {
         PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
-                               "Something's wrong with main mode!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 

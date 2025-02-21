@@ -109,7 +109,7 @@ void BgZg_Update(Actor* thisx, PlayState* play) {
 
     if (((action < 0) || (1 < action)) || (sActionFuncs[action] == NULL)) {
         PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
-                               "Something's wrong with main mode!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sActionFuncs[action](this, play);
     }
