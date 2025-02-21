@@ -83,7 +83,7 @@ void BgSpot16Doughnut_Init(Actor* thisx, PlayState* play) {
         } else {
             this->fireFlag |= 1;
         }
-        PRINTF("(ｓｐｏｔ１６ ドーナツ雲)(arg_data 0x%04x)\n", this->actor.params);
+        PRINTF(T("(ｓｐｏｔ１６ ドーナツ雲)", "(spot16 Donut Cloud)") "(arg_data 0x%04x)\n", this->actor.params);
     }
 }
 

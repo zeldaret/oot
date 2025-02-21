@@ -351,7 +351,7 @@ void BgSpot01Idohashira_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawConfig < 0 || this->drawConfig > 0 || sDrawFuncs[this->drawConfig] == NULL) {
         PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
-                               "Blending mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

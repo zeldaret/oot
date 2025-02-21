@@ -143,7 +143,7 @@ void BgSpot15Rrbox_Init(Actor* thisx, PlayState* play) {
     } else {
         func_808B4084(this, play);
     }
-    PRINTF("(spot15 ロンロン木箱)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(spot15 " T("ロンロン木箱", "Lonlon Wooden Box") ")(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgSpot15Rrbox_Destroy(Actor* thisx, PlayState* play) {
@@ -330,9 +330,8 @@ void func_808B43D0(BgSpot15Rrbox* this, PlayState* play) {
     Actor_MoveXZGravity(actor);
 
     if (actor->world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
-        // "Lon Lon wooden crate fell too much"
-        PRINTF("Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 599,
-               actor->params);
+        PRINTF("Warning : " T("ロンロン木箱落ちすぎた", "Lonlon Wooden Box fell too far") "(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_spot15_rrbox.c", 599, actor->params);
 
         Actor_Kill(actor);
 
