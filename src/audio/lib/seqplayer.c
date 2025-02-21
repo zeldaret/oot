@@ -139,20 +139,20 @@ u8 sSeqInstructionArgsTable[] = {
     CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_FREENOTELIST
     CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_ALLOCNOTELIST
     // Control flow instructions (>= ASEQ_OP_CONTROL_FLOW_FIRST) can only have 0 or 1 args
-    CMD_ARGS_1(u8),  // ASEQ_OP_CTRLFLOW_RBLTZ
-    CMD_ARGS_1(u8),  // ASEQ_OP_CTRLFLOW_RBEQZ
-    CMD_ARGS_1(u8),  // ASEQ_OP_CTRLFLOW_RJUMP
-    CMD_ARGS_1(s16), // ASEQ_OP_CTRLFLOW_BGEZ
-    CMD_ARGS_0(),    // ASEQ_OP_CTRLFLOW_BREAK
-    CMD_ARGS_0(),    // ASEQ_OP_CTRLFLOW_LOOPEND
-    CMD_ARGS_1(u8),  // ASEQ_OP_CTRLFLOW_LOOP
-    CMD_ARGS_1(s16), // ASEQ_OP_CTRLFLOW_BLTZ
-    CMD_ARGS_1(s16), // ASEQ_OP_CTRLFLOW_BEQZ
-    CMD_ARGS_1(s16), // ASEQ_OP_CTRLFLOW_JUMP
-    CMD_ARGS_1(s16), // ASEQ_OP_CTRLFLOW_CALL
-    CMD_ARGS_0(),    // ASEQ_OP_CTRLFLOW_DELAY
-    CMD_ARGS_0(),    // ASEQ_OP_CTRLFLOW_DELAY1
-    CMD_ARGS_0(),    // ASEQ_OP_CTRLFLOW_END
+    CMD_ARGS_1(u8),  // ASEQ_OP_RBLTZ
+    CMD_ARGS_1(u8),  // ASEQ_OP_RBEQZ
+    CMD_ARGS_1(u8),  // ASEQ_OP_RJUMP
+    CMD_ARGS_1(s16), // ASEQ_OP_BGEZ
+    CMD_ARGS_0(),    // ASEQ_OP_BREAK
+    CMD_ARGS_0(),    // ASEQ_OP_LOOPEND
+    CMD_ARGS_1(u8),  // ASEQ_OP_LOOP
+    CMD_ARGS_1(s16), // ASEQ_OP_BLTZ
+    CMD_ARGS_1(s16), // ASEQ_OP_BEQZ
+    CMD_ARGS_1(s16), // ASEQ_OP_JUMP
+    CMD_ARGS_1(s16), // ASEQ_OP_CALL
+    CMD_ARGS_0(),    // ASEQ_OP_DELAY
+    CMD_ARGS_0(),    // ASEQ_OP_DELAY1
+    CMD_ARGS_0(),    // ASEQ_OP_END
 };
 
 /**
@@ -183,30 +183,30 @@ u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 cmd) {
  */
 s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* state, s32 cmd, s32 cmdArg) {
     switch (cmd) {
-        case ASEQ_OP_CTRLFLOW_END:
+        case ASEQ_OP_END:
             if (state->depth == 0) {
                 return PROCESS_SCRIPT_END;
             }
             state->pc = state->stack[--state->depth];
             break;
 
-        case ASEQ_OP_CTRLFLOW_DELAY:
+        case ASEQ_OP_DELAY:
             return AudioSeq_ScriptReadCompressedU16(state);
 
-        case ASEQ_OP_CTRLFLOW_DELAY1:
+        case ASEQ_OP_DELAY1:
             return 1;
 
-        case ASEQ_OP_CTRLFLOW_CALL:
+        case ASEQ_OP_CALL:
             state->stack[state->depth++] = state->pc;
             state->pc = seqPlayer->seqData + (u16)cmdArg;
             break;
 
-        case ASEQ_OP_CTRLFLOW_LOOP:
+        case ASEQ_OP_LOOP:
             state->remLoopIters[state->depth] = cmdArg;
             state->stack[state->depth++] = state->pc;
             break;
 
-        case ASEQ_OP_CTRLFLOW_LOOPEND:
+        case ASEQ_OP_LOOPEND:
             state->remLoopIters[state->depth - 1]--;
             if (state->remLoopIters[state->depth - 1] != 0) {
                 state->pc = state->stack[state->depth - 1];
@@ -215,33 +215,33 @@ s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* 
             }
             break;
 
-        case ASEQ_OP_CTRLFLOW_BREAK:
+        case ASEQ_OP_BREAK:
             state->depth--;
             break;
 
-        case ASEQ_OP_CTRLFLOW_BGEZ:
-        case ASEQ_OP_CTRLFLOW_BLTZ:
-        case ASEQ_OP_CTRLFLOW_BEQZ:
-        case ASEQ_OP_CTRLFLOW_JUMP:
-            if (cmd == ASEQ_OP_CTRLFLOW_BEQZ && state->value != 0) {
+        case ASEQ_OP_BGEZ:
+        case ASEQ_OP_BLTZ:
+        case ASEQ_OP_BEQZ:
+        case ASEQ_OP_JUMP:
+            if (cmd == ASEQ_OP_BEQZ && state->value != 0) {
                 break;
             }
-            if (cmd == ASEQ_OP_CTRLFLOW_BLTZ && state->value >= 0) {
+            if (cmd == ASEQ_OP_BLTZ && state->value >= 0) {
                 break;
             }
-            if (cmd == ASEQ_OP_CTRLFLOW_BGEZ && state->value < 0) {
+            if (cmd == ASEQ_OP_BGEZ && state->value < 0) {
                 break;
             }
             state->pc = seqPlayer->seqData + (u16)cmdArg;
             break;
 
-        case ASEQ_OP_CTRLFLOW_RBLTZ:
-        case ASEQ_OP_CTRLFLOW_RBEQZ:
-        case ASEQ_OP_CTRLFLOW_RJUMP:
-            if (cmd == ASEQ_OP_CTRLFLOW_RBEQZ && state->value != 0) {
+        case ASEQ_OP_RBLTZ:
+        case ASEQ_OP_RBEQZ:
+        case ASEQ_OP_RJUMP:
+            if (cmd == ASEQ_OP_RBEQZ && state->value != 0) {
                 break;
             }
-            if (cmd == ASEQ_OP_CTRLFLOW_RBLTZ && state->value >= 0) {
+            if (cmd == ASEQ_OP_RBLTZ && state->value >= 0) {
                 break;
             }
             state->pc += (s8)(cmdArg & 0xFF);

@@ -237,20 +237,20 @@
 
 // control flow commands
 #define ASEQ_OP_CONTROL_FLOW_FIRST 0xF2
-#define ASEQ_OP_CTRLFLOW_RBLTZ     0xF2
-#define ASEQ_OP_CTRLFLOW_RBEQZ     0xF3
-#define ASEQ_OP_CTRLFLOW_RJUMP     0xF4
-#define ASEQ_OP_CTRLFLOW_BGEZ      0xF5
-#define ASEQ_OP_CTRLFLOW_BREAK     0xF6
-#define ASEQ_OP_CTRLFLOW_LOOPEND   0xF7
-#define ASEQ_OP_CTRLFLOW_LOOP      0xF8
-#define ASEQ_OP_CTRLFLOW_BLTZ      0xF9
-#define ASEQ_OP_CTRLFLOW_BEQZ      0xFA
-#define ASEQ_OP_CTRLFLOW_JUMP      0xFB
-#define ASEQ_OP_CTRLFLOW_CALL      0xFC
-#define ASEQ_OP_CTRLFLOW_DELAY     0xFD
-#define ASEQ_OP_CTRLFLOW_DELAY1    0xFE
-#define ASEQ_OP_CTRLFLOW_END       0xFF
+#define ASEQ_OP_RBLTZ     0xF2
+#define ASEQ_OP_RBEQZ     0xF3
+#define ASEQ_OP_RJUMP     0xF4
+#define ASEQ_OP_BGEZ      0xF5
+#define ASEQ_OP_BREAK     0xF6
+#define ASEQ_OP_LOOPEND   0xF7
+#define ASEQ_OP_LOOP      0xF8
+#define ASEQ_OP_BLTZ      0xF9
+#define ASEQ_OP_BEQZ      0xFA
+#define ASEQ_OP_JUMP      0xFB
+#define ASEQ_OP_CALL      0xFC
+#define ASEQ_OP_DELAY     0xFD
+#define ASEQ_OP_DELAY1    0xFE
+#define ASEQ_OP_END       0xFF
 
 // sequence commands
 #define ASEQ_OP_SEQUENCE_TESTCHAN          0x00 // low nibble used as argument
@@ -914,7 +914,7 @@ $reladdr\@:
  *  closed, so are its layers.
  */
 .macro end
-    _wr_cmd_id  end, ASEQ_OP_CTRLFLOW_END,ASEQ_OP_CTRLFLOW_END,ASEQ_OP_CTRLFLOW_END,,,,,, 0, 0
+    _wr_cmd_id  end, ASEQ_OP_END,ASEQ_OP_END,ASEQ_OP_END,,,,,, 0, 0
 .endm
 
 /**
@@ -923,7 +923,7 @@ $reladdr\@:
  *  Delays for one tick.
  */
 .macro delay1
-    _wr_cmd_id  delay1, ASEQ_OP_CTRLFLOW_DELAY1,ASEQ_OP_CTRLFLOW_DELAY1,,,,,,, 0, 0
+    _wr_cmd_id  delay1, ASEQ_OP_DELAY1,ASEQ_OP_DELAY1,,,,,,, 0, 0
 .endm
 
 /**
@@ -932,7 +932,7 @@ $reladdr\@:
  *  Delays for `delay` ticks.
  */
 .macro delay delay
-    _wr_cmd_id  delay, ASEQ_OP_CTRLFLOW_DELAY,ASEQ_OP_CTRLFLOW_DELAY,,,,,,, 0, 0
+    _wr_cmd_id  delay, ASEQ_OP_DELAY,ASEQ_OP_DELAY,,,,,,, 0, 0
     _var        \delay
 .endm
 
@@ -943,7 +943,7 @@ $reladdr\@:
  *  subroutine encounters an `end` instruction.
  */
 .macro call label
-    _wr_cmd_id  call, ASEQ_OP_CTRLFLOW_CALL,ASEQ_OP_CTRLFLOW_CALL,ASEQ_OP_CTRLFLOW_CALL,,,,,, 0, 0
+    _wr_cmd_id  call, ASEQ_OP_CALL,ASEQ_OP_CALL,ASEQ_OP_CALL,,,,,, 0, 0
     _wr_lbl     \label
 .endm
 
@@ -953,7 +953,7 @@ $reladdr\@:
  *  Branches to `label` unconditionally.
  */
 .macro jump label
-    _wr_cmd_id  jump, ASEQ_OP_CTRLFLOW_JUMP,ASEQ_OP_CTRLFLOW_JUMP,ASEQ_OP_CTRLFLOW_JUMP,,,,,, 0, 0
+    _wr_cmd_id  jump, ASEQ_OP_JUMP,ASEQ_OP_JUMP,ASEQ_OP_JUMP,,,,,, 0, 0
     _wr_lbl     \label
 .endm
 
@@ -963,7 +963,7 @@ $reladdr\@:
  *  Branches to `label` if TR == 0.
  */
 .macro beqz label
-    _wr_cmd_id  beqz, ASEQ_OP_CTRLFLOW_BEQZ,ASEQ_OP_CTRLFLOW_BEQZ,ASEQ_OP_CTRLFLOW_BEQZ,,,,,, 0, 0
+    _wr_cmd_id  beqz, ASEQ_OP_BEQZ,ASEQ_OP_BEQZ,ASEQ_OP_BEQZ,,,,,, 0, 0
     _wr_lbl     \label
 .endm
 
@@ -973,7 +973,7 @@ $reladdr\@:
  *  Branches to `label` if TR < 0.
  */
 .macro bltz label
-    _wr_cmd_id  beqz, ASEQ_OP_CTRLFLOW_BLTZ,ASEQ_OP_CTRLFLOW_BLTZ,ASEQ_OP_CTRLFLOW_BLTZ,,,,,, 0, 0
+    _wr_cmd_id  beqz, ASEQ_OP_BLTZ,ASEQ_OP_BLTZ,ASEQ_OP_BLTZ,,,,,, 0, 0
     _wr_lbl     \label
 .endm
 
@@ -987,7 +987,7 @@ $reladdr\@:
  *  becomes full.
  */
 .macro loop num
-    _wr_cmd_id  loop, ASEQ_OP_CTRLFLOW_LOOP,ASEQ_OP_CTRLFLOW_LOOP,ASEQ_OP_CTRLFLOW_LOOP,,,,,, 0, 0
+    _wr_cmd_id  loop, ASEQ_OP_LOOP,ASEQ_OP_LOOP,ASEQ_OP_LOOP,,,,,, 0, 0
     _wr_u8      \num
 .endm
 
@@ -1001,7 +1001,7 @@ $reladdr\@:
  *  stack is popped.
  */
 .macro loopend
-    _wr_cmd_id  loopend, ASEQ_OP_CTRLFLOW_LOOPEND,ASEQ_OP_CTRLFLOW_LOOPEND,ASEQ_OP_CTRLFLOW_LOOPEND,,,,,, 0, 0
+    _wr_cmd_id  loopend, ASEQ_OP_LOOPEND,ASEQ_OP_LOOPEND,ASEQ_OP_LOOPEND,,,,,, 0, 0
 .endm
 
 /**
@@ -1014,7 +1014,7 @@ $reladdr\@:
  *  the call stack would be popped twice.
  */
 .macro break
-    _wr_cmd_id  break, ASEQ_OP_CTRLFLOW_BREAK,ASEQ_OP_CTRLFLOW_BREAK,ASEQ_OP_CTRLFLOW_BREAK,,,,,, 0, 0
+    _wr_cmd_id  break, ASEQ_OP_BREAK,ASEQ_OP_BREAK,ASEQ_OP_BREAK,,,,,, 0, 0
 .endm
 
 /**
@@ -1023,7 +1023,7 @@ $reladdr\@:
  *  Branches to `label` if TR >= 0.
  */
 .macro bgez label
-    _wr_cmd_id  bgez, ASEQ_OP_CTRLFLOW_BGEZ,ASEQ_OP_CTRLFLOW_BGEZ,ASEQ_OP_CTRLFLOW_BGEZ,,,,,, 0, 0
+    _wr_cmd_id  bgez, ASEQ_OP_BGEZ,ASEQ_OP_BGEZ,ASEQ_OP_BGEZ,,,,,, 0, 0
     _wr_lbl     \label
 .endm
 
@@ -1037,7 +1037,7 @@ $reladdr\@:
  *  signed 8-bit (+/-128) range are reachable.
  */
 .macro rjump label
-    _wr_cmd_id  rjump, ASEQ_OP_CTRLFLOW_RJUMP,ASEQ_OP_CTRLFLOW_RJUMP,ASEQ_OP_CTRLFLOW_RJUMP,,,,,, 0, 0
+    _wr_cmd_id  rjump, ASEQ_OP_RJUMP,ASEQ_OP_RJUMP,ASEQ_OP_RJUMP,,,,,, 0, 0
     _wr_8_rel   \label
 .endm
 
@@ -1051,7 +1051,7 @@ $reladdr\@:
  *  signed 8-bit (+/-128) range are reachable.
  */
 .macro rbeqz label
-    _wr_cmd_id  rbeqz, ASEQ_OP_CTRLFLOW_RBEQZ,ASEQ_OP_CTRLFLOW_RBEQZ,ASEQ_OP_CTRLFLOW_RBEQZ,,,,,, 0, 0
+    _wr_cmd_id  rbeqz, ASEQ_OP_RBEQZ,ASEQ_OP_RBEQZ,ASEQ_OP_RBEQZ,,,,,, 0, 0
     _wr_8_rel   \label
 .endm
 
@@ -1065,7 +1065,7 @@ $reladdr\@:
  *  signed 8-bit (+/-128) range are reachable.
  */
 .macro rbltz label
-    _wr_cmd_id  rbltz, ASEQ_OP_CTRLFLOW_RBLTZ,ASEQ_OP_CTRLFLOW_RBLTZ,ASEQ_OP_CTRLFLOW_RBLTZ,,,,,, 0, 0
+    _wr_cmd_id  rbltz, ASEQ_OP_RBLTZ,ASEQ_OP_RBLTZ,ASEQ_OP_RBLTZ,,,,,, 0, 0
     _wr_8_rel   \label
 .endm
 
@@ -2186,7 +2186,7 @@ $reladdr\@:
  * Should never be used when not required for matching purposes.
  */
 .macro lldelay delay
-    _wr_cmd_id  lldelay, ,ASEQ_OP_CTRLFLOW_DELAY,ASEQ_OP_LAYER_LDELAY,,,,,, 0, 0
+    _wr_cmd_id  lldelay, ,ASEQ_OP_DELAY,ASEQ_OP_LAYER_LDELAY,,,,,, 0, 0
     _var_long   \delay
 .endm
 
