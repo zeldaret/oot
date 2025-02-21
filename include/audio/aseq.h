@@ -253,46 +253,46 @@
 #define ASEQ_OP_END     0xFF
 
 // sequence commands
-#define ASEQ_OP_SEQUENCE_TESTCHAN          0x00 // low nibble used as argument
-#define ASEQ_OP_SEQUENCE_STOPCHAN          0x40 // low nibble used as argument
-#define ASEQ_OP_SEQUENCE_SUBIO             0x50 // low nibble used as argument
-#define ASEQ_OP_SEQUENCE_LDRES             0x60 // low nibble used as argument
-#define ASEQ_OP_SEQUENCE_STIO              0x70 // low nibble used as argument
-#define ASEQ_OP_SEQUENCE_LDIO              0x80 // low nibble used as argument
-#define ASEQ_OP_SEQUENCE_LDCHAN            0x90 // low nibble used as argument
-#define ASEQ_OP_SEQUENCE_RLDCHAN           0xA0 // low nibble used as argument
-#define ASEQ_OP_SEQUENCE_LDSEQ             0xB0 // low nibble used as argument
+#define ASEQ_OP_SEQ_TESTCHAN        0x00 // low nibble used as argument
+#define ASEQ_OP_SEQ_STOPCHAN        0x40 // low nibble used as argument
+#define ASEQ_OP_SEQ_SUBIO           0x50 // low nibble used as argument
+#define ASEQ_OP_SEQ_LDRES           0x60 // low nibble used as argument
+#define ASEQ_OP_SEQ_STIO            0x70 // low nibble used as argument
+#define ASEQ_OP_SEQ_LDIO            0x80 // low nibble used as argument
+#define ASEQ_OP_SEQ_LDCHAN          0x90 // low nibble used as argument
+#define ASEQ_OP_SEQ_RLDCHAN         0xA0 // low nibble used as argument
+#define ASEQ_OP_SEQ_LDSEQ           0xB0 // low nibble used as argument
 #if (MML_VERSION == MML_VERSION_MM)
-#define ASEQ_OP_SEQUENCE_C2                0xC2
-#define ASEQ_OP_SEQUENCE_C3                0xC3
+#define ASEQ_OP_SEQ_C2              0xC2
+#define ASEQ_OP_SEQ_C3              0xC3
 #endif
-#define ASEQ_OP_SEQUENCE_RUNSEQ            0xC4
-#define ASEQ_OP_SEQUENCE_SCRIPTCTR         0xC5
-#define ASEQ_OP_SEQUENCE_STOP              0xC6
-#define ASEQ_OP_SEQUENCE_STSEQ             0xC7
-#define ASEQ_OP_SEQUENCE_SUB               0xC8
-#define ASEQ_OP_SEQUENCE_AND               0xC9
-#define ASEQ_OP_SEQUENCE_LDI               0xCC
-#define ASEQ_OP_SEQUENCE_DYNCALL           0xCD
-#define ASEQ_OP_SEQUENCE_RAND              0xCE
-#define ASEQ_OP_SEQUENCE_NOTEALLOC         0xD0
-#define ASEQ_OP_SEQUENCE_LDSHORTGATEARR    0xD1
-#define ASEQ_OP_SEQUENCE_LDSHORTVELARR     0xD2
-#define ASEQ_OP_SEQUENCE_MUTEBHV           0xD3
-#define ASEQ_OP_SEQUENCE_MUTE              0xD4
-#define ASEQ_OP_SEQUENCE_MUTESCALE         0xD5
-#define ASEQ_OP_SEQUENCE_FREECHAN          0xD6
-#define ASEQ_OP_SEQUENCE_INITCHAN          0xD7
-#define ASEQ_OP_SEQUENCE_VOLSCALE          0xD9
-#define ASEQ_OP_SEQUENCE_VOLMODE           0xDA
-#define ASEQ_OP_SEQUENCE_VOL               0xDB
-#define ASEQ_OP_SEQUENCE_TEMPOCHG          0xDC
-#define ASEQ_OP_SEQUENCE_TEMPO             0xDD
-#define ASEQ_OP_SEQUENCE_RTRANSPOSE        0xDE
-#define ASEQ_OP_SEQUENCE_TRANSPOSE         0xDF
-#define ASEQ_OP_SEQUENCE_EF                0xEF
-#define ASEQ_OP_SEQUENCE_FREENOTELIST      0xF0
-#define ASEQ_OP_SEQUENCE_ALLOCNOTELIST     0xF1
+#define ASEQ_OP_SEQ_RUNSEQ          0xC4
+#define ASEQ_OP_SEQ_SCRIPTCTR       0xC5
+#define ASEQ_OP_SEQ_STOP            0xC6
+#define ASEQ_OP_SEQ_STSEQ           0xC7
+#define ASEQ_OP_SEQ_SUB             0xC8
+#define ASEQ_OP_SEQ_AND             0xC9
+#define ASEQ_OP_SEQ_LDI             0xCC
+#define ASEQ_OP_SEQ_DYNCALL         0xCD
+#define ASEQ_OP_SEQ_RAND            0xCE
+#define ASEQ_OP_SEQ_NOTEALLOC       0xD0
+#define ASEQ_OP_SEQ_LDSHORTGATEARR  0xD1
+#define ASEQ_OP_SEQ_LDSHORTVELARR   0xD2
+#define ASEQ_OP_SEQ_MUTEBHV         0xD3
+#define ASEQ_OP_SEQ_MUTE            0xD4
+#define ASEQ_OP_SEQ_MUTESCALE       0xD5
+#define ASEQ_OP_SEQ_FREECHAN        0xD6
+#define ASEQ_OP_SEQ_INITCHAN        0xD7
+#define ASEQ_OP_SEQ_VOLSCALE        0xD9
+#define ASEQ_OP_SEQ_VOLMODE         0xDA
+#define ASEQ_OP_SEQ_VOL             0xDB
+#define ASEQ_OP_SEQ_TEMPOCHG        0xDC
+#define ASEQ_OP_SEQ_TEMPO           0xDD
+#define ASEQ_OP_SEQ_RTRANSPOSE      0xDE
+#define ASEQ_OP_SEQ_TRANSPOSE       0xDF
+#define ASEQ_OP_SEQ_EF              0xEF
+#define ASEQ_OP_SEQ_FREENOTELIST    0xF0
+#define ASEQ_OP_SEQ_ALLOCNOTELIST   0xF1
 
 // channel commands
 #define ASEQ_OP_CHANNEL_CDELAY         0x00 // low nibble used as argument
@@ -571,7 +571,7 @@ _RESET_SECTION
     /* `ldseq` changes structure based on current section. */
     .purgem ldseq
     .macro ldseq ioPortNum, seqId, label
-        _wr_cmd_id  ldseq, ASEQ_OP_SEQUENCE_LDSEQ,,,,,,,, \ioPortNum, 4
+        _wr_cmd_id  ldseq, ASEQ_OP_SEQ_LDSEQ,,,,,,,, \ioPortNum, 4
         _wr_u8      \seqId
         _wr_lbl     \label
     .endm
@@ -1075,7 +1075,7 @@ $reladdr\@:
  *  Clears the channel note pool and reallocates it with space for `num` notes.
  */
 .macro allocnotelist num
-    _wr_cmd_id  allocnotelist, ASEQ_OP_SEQUENCE_ALLOCNOTELIST,ASEQ_OP_CHANNEL_ALLOCNOTELIST,,,,,,, 0, 0
+    _wr_cmd_id  allocnotelist, ASEQ_OP_SEQ_ALLOCNOTELIST,ASEQ_OP_CHANNEL_ALLOCNOTELIST,,,,,,, 0, 0
     _wr_u8      \num
 .endm
 
@@ -1085,7 +1085,7 @@ $reladdr\@:
  *  Clears the channel note pool.
  */
 .macro freenotelist
-    _wr_cmd_id  freenotelist, ASEQ_OP_SEQUENCE_FREENOTELIST,ASEQ_OP_CHANNEL_FREENOTELIST,,,,,,, 0, 0
+    _wr_cmd_id  freenotelist, ASEQ_OP_SEQ_FREENOTELIST,ASEQ_OP_CHANNEL_FREENOTELIST,,,,,,, 0, 0
 .endm
 
 /**
@@ -1094,7 +1094,7 @@ $reladdr\@:
  *  Has no function.
  */
 .macro unk_EF arg1, arg2
-    _wr_cmd_id  unk_EF, ASEQ_OP_SEQUENCE_EF,,,,,,,, 0, 0
+    _wr_cmd_id  unk_EF, ASEQ_OP_SEQ_EF,,,,,,,, 0, 0
     _wr_s16     \arg1
     _w_u8       \arg2
 .endm
@@ -1251,7 +1251,7 @@ $reladdr\@:
  *  provided number of semitones.
  */
 .macro transpose semitones
-    _wr_cmd_id  transpose, ASEQ_OP_SEQUENCE_TRANSPOSE,ASEQ_OP_CHANNEL_TRANSPOSE,ASEQ_OP_LAYER_TRANSPOSE,,,,,, 0, 0
+    _wr_cmd_id  transpose, ASEQ_OP_SEQ_TRANSPOSE,ASEQ_OP_CHANNEL_TRANSPOSE,ASEQ_OP_LAYER_TRANSPOSE,,,,,, 0, 0
     _wr_s8      \semitones
 .endm
 
@@ -1261,7 +1261,7 @@ $reladdr\@:
  *  Adjusts the transposition amount. This is only available at the top sequence level.
  */
 .macro rtranspose semitones
-    _wr_cmd_id  rtranspose, ASEQ_OP_SEQUENCE_RTRANSPOSE,,,,,,,, 0, 0
+    _wr_cmd_id  rtranspose, ASEQ_OP_SEQ_RTRANSPOSE,,,,,,,, 0, 0
     _wr_s8      \semitones
 .endm
 
@@ -1281,7 +1281,7 @@ $reladdr\@:
  *  Changes the tempo of the sequence.
  */
 .macro tempo bpm
-    _wr_cmd_id  tempo, ASEQ_OP_SEQUENCE_TEMPO,,,,,,,, 0, 0
+    _wr_cmd_id  tempo, ASEQ_OP_SEQ_TEMPO,,,,,,,, 0, 0
     _wr_u8      \bpm
 .endm
 
@@ -1291,7 +1291,7 @@ $reladdr\@:
  *  Sets the tempoChange for the sequence.
  */
 .macro tempochg arg
-    _wr_cmd_id  tempochg, ASEQ_OP_SEQUENCE_TEMPOCHG,,,,,,,, 0, 0
+    _wr_cmd_id  tempochg, ASEQ_OP_SEQ_TEMPOCHG,,,,,,,, 0, 0
     _wr_s8      \arg
 .endm
 
@@ -1329,7 +1329,7 @@ $reladdr\@:
  *  Sets the volume amount for this sequence or channel.
  */
 .macro vol amt
-    _wr_cmd_id  vol, ASEQ_OP_SEQUENCE_VOL,ASEQ_OP_CHANNEL_VOL,,,,,,, 0, 0
+    _wr_cmd_id  vol, ASEQ_OP_SEQ_VOL,ASEQ_OP_CHANNEL_VOL,,,,,,, 0, 0
     _wr_u8      \amt
 .endm
 
@@ -1339,7 +1339,7 @@ $reladdr\@:
  *  TODO DESCRIPTION
  */
 .macro volmode mode, fadeTimer
-    _wr_cmd_id  volmode, ASEQ_OP_SEQUENCE_VOLMODE,,,,,,,, 0, 0
+    _wr_cmd_id  volmode, ASEQ_OP_SEQ_VOLMODE,,,,,,,, 0, 0
     _wr_u8      \mode
     _wr_u16     \fadeTimer
 .endm
@@ -1350,7 +1350,7 @@ $reladdr\@:
  *  Sets the fadeVolumeScale for the sequence.
  */
 .macro volscale arg
-    _wr_cmd_id  volscale, ASEQ_OP_SEQUENCE_VOLSCALE,,,,,,,, 0, 0
+    _wr_cmd_id  volscale, ASEQ_OP_SEQ_VOLSCALE,,,,,,,, 0, 0
     _wr_u8      \arg
 .endm
 
@@ -1393,7 +1393,7 @@ $reladdr\@:
  *       initchan 0b101 initializes channels 0 and 2.
  */
 .macro initchan bitmask
-    _wr_cmd_id  initchan, ASEQ_OP_SEQUENCE_INITCHAN,,,,,,,, 0, 0
+    _wr_cmd_id  initchan, ASEQ_OP_SEQ_INITCHAN,,,,,,,, 0, 0
     _wr_u16     \bitmask
 .endm
 
@@ -1403,7 +1403,7 @@ $reladdr\@:
  *  Frees the channels marked in the provided bitmask.
  */
 .macro freechan bitmask
-    _wr_cmd_id  freechan, ASEQ_OP_SEQUENCE_FREECHAN,,,,,,,, 0, 0
+    _wr_cmd_id  freechan, ASEQ_OP_SEQ_FREECHAN,,,,,,,, 0, 0
     _wr_u16     \bitmask
 .endm
 
@@ -1413,7 +1413,7 @@ $reladdr\@:
  *  Sets the muteVolumeScale for the sequence.
  */
 .macro mutescale arg
-    _wr_cmd_id  mutescale, ASEQ_OP_SEQUENCE_MUTESCALE,,,,,,,, 0, 0
+    _wr_cmd_id  mutescale, ASEQ_OP_SEQ_MUTESCALE,,,,,,,, 0, 0
     _wr_s8      \arg
 .endm
 
@@ -1423,7 +1423,7 @@ $reladdr\@:
  *  Mutes the sequence player.
  */
 .macro mute
-    _wr_cmd_id  mute, ASEQ_OP_SEQUENCE_MUTE,,,,,,,, 0, 0
+    _wr_cmd_id  mute, ASEQ_OP_SEQ_MUTE,,,,,,,, 0, 0
 .endm
 
 /**
@@ -1442,7 +1442,7 @@ $reladdr\@:
  *  Sets mute behavior for this sequence or channel.
  */
 .macro mutebhv flags
-    _wr_cmd_id  mutebhv, ASEQ_OP_SEQUENCE_MUTEBHV,ASEQ_OP_CHANNEL_MUTEBHV,,,,,,, 0, 0
+    _wr_cmd_id  mutebhv, ASEQ_OP_SEQ_MUTEBHV,ASEQ_OP_CHANNEL_MUTEBHV,,,,,,, 0, 0
     _wr_u8      \flags
 .endm
 
@@ -1462,7 +1462,7 @@ $reladdr\@:
  *  Sets the location of SHORTVELTBL.
  */
 .macro ldshortvelarr label
-    _wr_cmd_id  ldshortvelarr, ASEQ_OP_SEQUENCE_LDSHORTVELARR,,,,,,,, 0, 0
+    _wr_cmd_id  ldshortvelarr, ASEQ_OP_SEQ_LDSHORTVELARR,,,,,,,, 0, 0
     _wr_lbl     \label
 .endm
 
@@ -1482,7 +1482,7 @@ $reladdr\@:
  *  Sets the location of SHORTGATETBL.
  */
 .macro ldshortgatearr label
-    _wr_cmd_id  ldshortgatearr, ASEQ_OP_SEQUENCE_LDSHORTGATEARR,,,,,,,, 0, 0
+    _wr_cmd_id  ldshortgatearr, ASEQ_OP_SEQ_LDSHORTGATEARR,,,,,,,, 0, 0
     _wr_lbl     \label
 .endm
 
@@ -1492,7 +1492,7 @@ $reladdr\@:
  *  Sets the noteAllocPolicy for either the sequence or the current channel.
  */
 .macro notealloc arg
-    _wr_cmd_id  notealloc, ASEQ_OP_SEQUENCE_NOTEALLOC,ASEQ_OP_CHANNEL_NOTEALLOC,,,,,,, 0, 0
+    _wr_cmd_id  notealloc, ASEQ_OP_SEQ_NOTEALLOC,ASEQ_OP_CHANNEL_NOTEALLOC,,,,,,, 0, 0
     _wr_u8      \arg
 .endm
 
@@ -1549,7 +1549,7 @@ $reladdr\@:
  *  Stores a random number in the range [0, max) into TR. If max is 0 the range is [0, 255]
  */
 .macro rand max
-    _wr_cmd_id  rand, ASEQ_OP_SEQUENCE_RAND,ASEQ_OP_CHANNEL_RAND,,,,,,, 0, 0
+    _wr_cmd_id  rand, ASEQ_OP_SEQ_RAND,ASEQ_OP_CHANNEL_RAND,,,,,,, 0, 0
     _wr_u8      \max
 .endm
 
@@ -1566,7 +1566,7 @@ $reladdr\@:
     .if \table == -1
         _wr_cmd_id  dyncall, ,ASEQ_OP_CHANNEL_DYNCALL,,,,,,, 0, 0
     .else
-        _wr_cmd_id  dyncall, ASEQ_OP_SEQUENCE_DYNCALL,,,,,,,, 0, 0
+        _wr_cmd_id  dyncall, ASEQ_OP_SEQ_DYNCALL,,,,,,,, 0, 0
         _wr_lbl     \table
     .endif
 .endm
@@ -1577,7 +1577,7 @@ $reladdr\@:
  *  Loads the immediate value `imm` into TR.
  */
 .macro ldi imm
-    _wr_cmd_id  ldi, ASEQ_OP_SEQUENCE_LDI,ASEQ_OP_CHANNEL_LDI,,,,,,, 0, 0
+    _wr_cmd_id  ldi, ASEQ_OP_SEQ_LDI,ASEQ_OP_CHANNEL_LDI,,,,,,, 0, 0
     _wr_u8      \imm
 .endm
 
@@ -1587,7 +1587,7 @@ $reladdr\@:
  *  Computes TR = TR & imm
  */
 .macro and imm
-    _wr_cmd_id  and, ASEQ_OP_SEQUENCE_AND,ASEQ_OP_CHANNEL_AND,,,,,,, 0, 0
+    _wr_cmd_id  and, ASEQ_OP_SEQ_AND,ASEQ_OP_CHANNEL_AND,,,,,,, 0, 0
     _wr_u8      \imm
 .endm
 
@@ -1597,7 +1597,7 @@ $reladdr\@:
  *  Computes TR = TR - imm
  */
 .macro sub imm
-    _wr_cmd_id  sub, ASEQ_OP_SEQUENCE_SUB,ASEQ_OP_CHANNEL_SUB,,,,,,, 0, 0
+    _wr_cmd_id  sub, ASEQ_OP_SEQ_SUB,ASEQ_OP_CHANNEL_SUB,,,,,,, 0, 0
     _wr_u8      \imm
 .endm
 
@@ -1607,7 +1607,7 @@ $reladdr\@:
  *  Stores the u8 value `TR + imm` to the location specified by `label`.
  */
 .macro stseq imm, label
-    _wr_cmd_id  stseq, ASEQ_OP_SEQUENCE_STSEQ,ASEQ_OP_CHANNEL_STSEQ,,,,,,, 0, 0
+    _wr_cmd_id  stseq, ASEQ_OP_SEQ_STSEQ,ASEQ_OP_CHANNEL_STSEQ,,,,,,, 0, 0
     _wr_u8      \imm
     _wr_lbl     \label
 .endm
@@ -1618,7 +1618,7 @@ $reladdr\@:
  *  Immediately stops the sequence or channel.
  */
 .macro stop
-    _wr_cmd_id  stop, ASEQ_OP_SEQUENCE_STOP,ASEQ_OP_CHANNEL_STOP,,,,,,, 0, 0
+    _wr_cmd_id  stop, ASEQ_OP_SEQ_STOP,ASEQ_OP_CHANNEL_STOP,,,,,,, 0, 0
 .endm
 
 /**
@@ -1640,7 +1640,7 @@ $reladdr\@:
  *  never used, so changing it with this instruction has no useful effects.
  */
 .macro scriptctr arg
-    _wr_cmd_id  scriptctr, ASEQ_OP_SEQUENCE_SCRIPTCTR,,,,,,,, 0, 0
+    _wr_cmd_id  scriptctr, ASEQ_OP_SEQ_SCRIPTCTR,,,,,,,, 0, 0
     _wr_u16     \arg
 .endm
 
@@ -1660,7 +1660,7 @@ $reladdr\@:
  *  Plays the sequence seqId on seqPlayer.
  */
 .macro runseq seqPlayer, seqId
-    _wr_cmd_id  runseq, ASEQ_OP_SEQUENCE_RUNSEQ,,,,,,,, 0, 0
+    _wr_cmd_id  runseq, ASEQ_OP_SEQ_RUNSEQ,,,,,,,, 0, 0
     _wr_u8      \seqPlayer
     _wr_u8      \seqId
 .endm
@@ -1673,7 +1673,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro mutechan arg0
-        _wr_cmd_id  mutechan, ASEQ_OP_SEQUENCE_C3,,,,,,,, 0, 0
+        _wr_cmd_id  mutechan, ASEQ_OP_SEQ_C3,,,,,,,, 0, 0
         _wr_s16     \arg0
     .endm
 
@@ -2073,7 +2073,7 @@ $reladdr\@:
  *   - 1 if disabled
  */
 .macro testchan channelNum
-    _wr_cmd_id  testchan, ASEQ_OP_SEQUENCE_TESTCHAN,,,,,,,, \channelNum, 4
+    _wr_cmd_id  testchan, ASEQ_OP_SEQ_TESTCHAN,,,,,,,, \channelNum, 4
 .endm
 
 /**
@@ -2083,7 +2083,7 @@ $reladdr\@:
  */
 .macro stopchan channelNum
     .if ASEQ_MODE == ASEQ_MODE_SEQUENCE
-        _wr_cmd_id  stopchan, ASEQ_OP_SEQUENCE_STOPCHAN,,,,,,,, \channelNum, 4
+        _wr_cmd_id  stopchan, ASEQ_OP_SEQ_STOPCHAN,,,,,,,, \channelNum, 4
     .else
         _wr_cmd_id  stopchan, ,ASEQ_OP_CHANNEL_STOPCHAN,,,,,,, 0, 0
         _wr_u8      \channelNum
@@ -2100,7 +2100,7 @@ $reladdr\@:
  *      Computes TR = TR - CIO[CUR_CHANNEL][portNum]
  */
 .macro subio portNum
-    _wr_cmd_id  subio, ASEQ_OP_SEQUENCE_SUBIO,ASEQ_OP_CHANNEL_SUBIO,,,,,,, \portNum, 4
+    _wr_cmd_id  subio, ASEQ_OP_SEQ_SUBIO,ASEQ_OP_CHANNEL_SUBIO,,,,,,, \portNum, 4
 .endm
 
 /**
@@ -2117,7 +2117,7 @@ $reladdr\@:
  *  Load status is made available in SIO[portNum].
  */
 .macro ldres portNum, resType, resId
-    _wr_cmd_id  ldres, ASEQ_OP_SEQUENCE_LDRES,,,,,,,, \portNum, 4
+    _wr_cmd_id  ldres, ASEQ_OP_SEQ_LDRES,,,,,,,, \portNum, 4
     _wr_u8      \resType
     _wr_u8      \resId
 .endm
@@ -2133,7 +2133,7 @@ $reladdr\@:
     .if ASEQ_MODE == ASEQ_MODE_CHANNEL
         _wr_cmd_id  stio, ,ASEQ_OP_CHANNEL_STIO,,,,,,, \portNum, 3
     .else
-        _wr_cmd_id  stio, ASEQ_OP_SEQUENCE_STIO,,,,,,,, \portNum, 4
+        _wr_cmd_id  stio, ASEQ_OP_SEQ_STIO,,,,,,,, \portNum, 4
     .endif
 .endm
 
@@ -2144,7 +2144,7 @@ $reladdr\@:
  *  depending on current section.
  */
 .macro ldio portNum
-    _wr_cmd_id  ldio, ASEQ_OP_SEQUENCE_LDIO,ASEQ_OP_CHANNEL_LDIO,,,,,,, \portNum, 4
+    _wr_cmd_id  ldio, ASEQ_OP_SEQ_LDIO,ASEQ_OP_CHANNEL_LDIO,,,,,,, \portNum, 4
 .endm
 
 /**
@@ -2153,7 +2153,7 @@ $reladdr\@:
  *  Opens the sequence channel for index `channelNum` with data beginning at `label`.
  */
 .macro ldchan channelNum, label
-    _wr_cmd_id  ldchan, ASEQ_OP_SEQUENCE_LDCHAN,ASEQ_OP_CHANNEL_LDCHAN,,,,,,, \channelNum, 4
+    _wr_cmd_id  ldchan, ASEQ_OP_SEQ_LDCHAN,ASEQ_OP_CHANNEL_LDCHAN,,,,,,, \channelNum, 4
     _wr_lbl     \label
 .endm
 
@@ -2165,7 +2165,7 @@ $reladdr\@:
  *  for use in position-independent code.
  */
 .macro rldchan channelNum, label
-    _wr_cmd_id  rldchan, ASEQ_OP_SEQUENCE_RLDCHAN,,,,,,,, \channelNum, 4
+    _wr_cmd_id  rldchan, ASEQ_OP_SEQ_RLDCHAN,,,,,,,, \channelNum, 4
     _wr_16_rel  \label
 .endm
 

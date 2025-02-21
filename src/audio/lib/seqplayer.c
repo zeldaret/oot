@@ -1799,7 +1799,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
 
             if (cmd >= 0xC0) {
                 switch (cmd) {
-                    case ASEQ_OP_SEQUENCE_ALLOCNOTELIST:
+                    case ASEQ_OP_SEQ_ALLOCNOTELIST:
                         Audio_NotePoolClear(&seqPlayer->notePool);
                         cmd = AudioSeq_ScriptReadU8(seqScript);
                         Audio_NotePoolFill(&seqPlayer->notePool, cmd);
@@ -1815,18 +1815,18 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         if (dummy) {}
                         break;
 
-                    case ASEQ_OP_SEQUENCE_FREENOTELIST:
+                    case ASEQ_OP_SEQ_FREENOTELIST:
                         Audio_NotePoolClear(&seqPlayer->notePool);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_TRANSPOSE:
+                    case ASEQ_OP_SEQ_TRANSPOSE:
                         seqPlayer->transposition = 0;
                         FALLTHROUGH;
-                    case ASEQ_OP_SEQUENCE_RTRANSPOSE:
+                    case ASEQ_OP_SEQ_RTRANSPOSE:
                         seqPlayer->transposition += (s8)AudioSeq_ScriptReadU8(seqScript);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_TEMPO:
+                    case ASEQ_OP_SEQ_TEMPO:
                         seqPlayer->tempo = AudioSeq_ScriptReadU8(seqScript) * SEQTICKS_PER_BEAT;
                         if (seqPlayer->tempo > gAudioCtx.maxTempo) {
                             seqPlayer->tempo = (u16)gAudioCtx.maxTempo;
@@ -1837,11 +1837,11 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         }
                         break;
 
-                    case ASEQ_OP_SEQUENCE_TEMPOCHG:
+                    case ASEQ_OP_SEQ_TEMPOCHG:
                         seqPlayer->tempoChange = (s8)AudioSeq_ScriptReadU8(seqScript) * SEQTICKS_PER_BEAT;
                         break;
 
-                    case ASEQ_OP_SEQUENCE_VOLMODE:
+                    case ASEQ_OP_SEQ_VOLMODE:
                         cmd = AudioSeq_ScriptReadU8(seqScript);
                         temp = AudioSeq_ScriptReadS16(seqScript);
                         switch (cmd) {
@@ -1861,7 +1861,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         }
                         break;
 
-                    case ASEQ_OP_SEQUENCE_VOL:
+                    case ASEQ_OP_SEQ_VOL:
                         value = AudioSeq_ScriptReadU8(seqScript);
                         switch (seqPlayer->state) {
                             case 1:
@@ -1883,47 +1883,47 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         }
                         break;
 
-                    case ASEQ_OP_SEQUENCE_VOLSCALE:
+                    case ASEQ_OP_SEQ_VOLSCALE:
                         seqPlayer->fadeVolumeScale = (s8)AudioSeq_ScriptReadU8(seqScript) / 127.0f;
                         break;
 
-                    case ASEQ_OP_SEQUENCE_INITCHAN:
+                    case ASEQ_OP_SEQ_INITCHAN:
                         temp = AudioSeq_ScriptReadS16(seqScript);
                         AudioSeq_SequencePlayerSetupChannels(seqPlayer, temp);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_FREECHAN:
+                    case ASEQ_OP_SEQ_FREECHAN:
                         AudioSeq_ScriptReadS16(seqScript);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_MUTESCALE:
+                    case ASEQ_OP_SEQ_MUTESCALE:
                         seqPlayer->muteVolumeScale = (s8)AudioSeq_ScriptReadU8(seqScript) / 127.0f;
                         break;
 
-                    case ASEQ_OP_SEQUENCE_MUTE:
+                    case ASEQ_OP_SEQ_MUTE:
                         seqPlayer->muted = true;
                         break;
 
-                    case ASEQ_OP_SEQUENCE_MUTEBHV:
+                    case ASEQ_OP_SEQ_MUTEBHV:
                         seqPlayer->muteBehavior = AudioSeq_ScriptReadU8(seqScript);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_LDSHORTGATEARR:
-                    case ASEQ_OP_SEQUENCE_LDSHORTVELARR:
+                    case ASEQ_OP_SEQ_LDSHORTGATEARR:
+                    case ASEQ_OP_SEQ_LDSHORTVELARR:
                         temp = AudioSeq_ScriptReadS16(seqScript);
                         data3 = &seqPlayer->seqData[temp];
-                        if (cmd == ASEQ_OP_SEQUENCE_LDSHORTVELARR) {
+                        if (cmd == ASEQ_OP_SEQ_LDSHORTVELARR) {
                             seqPlayer->shortNoteVelocityTable = data3;
                         } else {
                             seqPlayer->shortNoteGateTimeTable = data3;
                         }
                         break;
 
-                    case ASEQ_OP_SEQUENCE_NOTEALLOC:
+                    case ASEQ_OP_SEQ_NOTEALLOC:
                         seqPlayer->noteAllocPolicy = AudioSeq_ScriptReadU8(seqScript);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_RAND:
+                    case ASEQ_OP_SEQ_RAND:
                         cmd = AudioSeq_ScriptReadU8(seqScript);
                         if (cmd == 0) {
                             seqScript->value = (gAudioCtx.audioRandom >> 2) & 0xFF;
@@ -1932,7 +1932,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         }
                         break;
 
-                    case ASEQ_OP_SEQUENCE_DYNCALL:
+                    case ASEQ_OP_SEQ_DYNCALL:
                         temp = AudioSeq_ScriptReadS16(seqScript);
                         if ((seqScript->value != -1) && (seqScript->depth != 3)) {
                             data = seqPlayer->seqData + (u32)(temp + (seqScript->value << 1));
@@ -1944,39 +1944,39 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         }
                         break;
 
-                    case ASEQ_OP_SEQUENCE_LDI:
+                    case ASEQ_OP_SEQ_LDI:
                         seqScript->value = AudioSeq_ScriptReadU8(seqScript);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_AND:
+                    case ASEQ_OP_SEQ_AND:
                         seqScript->value &= AudioSeq_ScriptReadU8(seqScript);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_SUB:
+                    case ASEQ_OP_SEQ_SUB:
                         seqScript->value -= AudioSeq_ScriptReadU8(seqScript);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_STSEQ:
+                    case ASEQ_OP_SEQ_STSEQ:
                         cmd = AudioSeq_ScriptReadU8(seqScript);
                         temp = AudioSeq_ScriptReadS16(seqScript);
                         data2 = &seqPlayer->seqData[temp];
                         *data2 = (u8)seqScript->value + cmd;
                         break;
 
-                    case ASEQ_OP_SEQUENCE_STOP:
+                    case ASEQ_OP_SEQ_STOP:
                         seqPlayer->stopScript = true;
                         return;
 
-                    case ASEQ_OP_SEQUENCE_SCRIPTCTR:
+                    case ASEQ_OP_SEQ_SCRIPTCTR:
                         seqPlayer->scriptCounter = (u16)AudioSeq_ScriptReadS16(seqScript);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_EF:
+                    case ASEQ_OP_SEQ_EF:
                         AudioSeq_ScriptReadS16(seqScript);
                         AudioSeq_ScriptReadU8(seqScript);
                         break;
 
-                    case ASEQ_OP_SEQUENCE_RUNSEQ:
+                    case ASEQ_OP_SEQ_RUNSEQ:
                         cmd = AudioSeq_ScriptReadU8(seqScript);
                         if (cmd == 0xFF) {
                             cmd = seqPlayer->playerIdx;
@@ -1994,47 +1994,47 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
             cmdLowBits = cmd & 0x0F;
 
             switch (cmd & 0xF0) {
-                case ASEQ_OP_SEQUENCE_TESTCHAN:
+                case ASEQ_OP_SEQ_TESTCHAN:
                     seqScript->value = seqPlayer->channels[cmdLowBits]->enabled ^ 1;
                     break;
 
-                case ASEQ_OP_SEQUENCE_SUBIO:
+                case ASEQ_OP_SEQ_SUBIO:
                     seqScript->value -= seqPlayer->seqScriptIO[cmdLowBits];
                     break;
 
-                case ASEQ_OP_SEQUENCE_STIO:
+                case ASEQ_OP_SEQ_STIO:
                     seqPlayer->seqScriptIO[cmdLowBits] = seqScript->value;
                     break;
 
-                case ASEQ_OP_SEQUENCE_LDIO:
+                case ASEQ_OP_SEQ_LDIO:
                     seqScript->value = seqPlayer->seqScriptIO[cmdLowBits];
                     if (cmdLowBits < 2) {
                         seqPlayer->seqScriptIO[cmdLowBits] = SEQ_IO_VAL_NONE;
                     }
                     break;
 
-                case ASEQ_OP_SEQUENCE_STOPCHAN:
+                case ASEQ_OP_SEQ_STOPCHAN:
                     AudioSeq_SequenceChannelDisable(seqPlayer->channels[cmdLowBits]);
                     break;
 
-                case ASEQ_OP_SEQUENCE_LDCHAN:
+                case ASEQ_OP_SEQ_LDCHAN:
                     temp = AudioSeq_ScriptReadS16(seqScript);
                     AudioSeq_SequenceChannelEnable(seqPlayer, cmdLowBits, (void*)&seqPlayer->seqData[temp]);
                     break;
 
-                case ASEQ_OP_SEQUENCE_RLDCHAN:
+                case ASEQ_OP_SEQ_RLDCHAN:
                     tempS = AudioSeq_ScriptReadS16(seqScript);
                     AudioSeq_SequenceChannelEnable(seqPlayer, cmdLowBits, (void*)&seqScript->pc[tempS]);
                     break;
 
-                case ASEQ_OP_SEQUENCE_LDSEQ:
+                case ASEQ_OP_SEQ_LDSEQ:
                     cmd = AudioSeq_ScriptReadU8(seqScript);
                     temp = AudioSeq_ScriptReadS16(seqScript);
                     data2 = &seqPlayer->seqData[temp];
                     AudioLoad_SlowLoadSeq(cmd, data2, &seqPlayer->seqScriptIO[cmdLowBits]);
                     break;
 
-                case ASEQ_OP_SEQUENCE_LDRES:
+                case ASEQ_OP_SEQ_LDRES:
                     cmd = AudioSeq_ScriptReadU8(seqScript);
                     value = cmd;
                     temp = AudioSeq_ScriptReadU8(seqScript);
