@@ -133,14 +133,14 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
 
     if (i == ARRAY_COUNT(D_8089B9F0)) {
         PRINTF_COLOR_ERROR();
-        PRINTF("home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 299,
-               this->dyna.actor.params);
+        PRINTF(T("home pos が変更されたみたい", "It seems that the home pose has changed") "(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_jya_zurerukabe.c", 299, this->dyna.actor.params);
         PRINTF_RST();
     }
 
     this->unk_16E = D_8089B9F8[this->unk_168];
     func_8089B7B4(this);
-    PRINTF("(jya ずれる壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(jya " T("ずれる壁", "sliding wall") ")(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgJyaZurerukabe_Destroy(Actor* thisx, PlayState* play) {

@@ -208,8 +208,9 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitFloor,
                                       this->colliderElements)) {
-                    PRINTF("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_mizu_bwall.c", 484,
-                           this->dyna.actor.params);
+                    PRINTF(T("Error : コリジョンデータセット失敗",
+                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                           "../z_bg_mizu_bwall.c", 484, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
@@ -248,8 +249,9 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitRutoWall,
                                       this->colliderElements)) {
-                    PRINTF("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_mizu_bwall.c", 558,
-                           this->dyna.actor.params);
+                    PRINTF(T("Error : コリジョンデータセット失敗",
+                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                           "../z_bg_mizu_bwall.c", 558, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
@@ -288,8 +290,9 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitUnusedWall,
                                       this->colliderElements)) {
-                    PRINTF("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_mizu_bwall.c", 638,
-                           this->dyna.actor.params);
+                    PRINTF(T("Error : コリジョンデータセット失敗",
+                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                           "../z_bg_mizu_bwall.c", 638, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
@@ -330,8 +333,9 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitStingerWall,
                                       this->colliderElements)) {
-                    PRINTF("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_mizu_bwall.c", 724,
-                           this->dyna.actor.params);
+                    PRINTF(T("Error : コリジョンデータセット失敗",
+                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                           "../z_bg_mizu_bwall.c", 724, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
@@ -372,8 +376,9 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitStingerWall,
                                       this->colliderElements)) {
-                    PRINTF("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_mizu_bwall.c", 798,
-                           this->dyna.actor.params);
+                    PRINTF(T("Error : コリジョンデータセット失敗",
+                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                           "../z_bg_mizu_bwall.c", 798, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
