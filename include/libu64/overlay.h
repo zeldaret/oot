@@ -1,5 +1,5 @@
-#ifndef RELOCATION_H
-#define RELOCATION_H
+#ifndef OVERLAY_H
+#define OVERLAY_H
 
 #include "ultra64.h"
 
