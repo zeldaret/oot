@@ -162,8 +162,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = BgHeavyBlock_Wait;
             break;
     }
-    // "Largest Block Save Bit %x"
-    PRINTF(VT_FGCOL(CYAN) " 最大 ブロック セーブビット %x\n" VT_RST, thisx->params);
+    PRINTF(VT_FGCOL(CYAN) T(" 最大 ブロック セーブビット %x\n", " Largest Block Save Bit %x\n") VT_RST, thisx->params);
 }
 
 void BgHeavyBlock_Destroy(Actor* thisx, PlayState* play) {

@@ -903,9 +903,9 @@ void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     GfxPrint_SetPos(&printer, 22, 6);
 
     if (!IS_DAY) {
-        GfxPrint_Printf(&printer, "%s", "YORU"); // "night"
+        GfxPrint_Printf(&printer, "%s", T("YORU", "NIGHT"));
     } else {
-        GfxPrint_Printf(&printer, "%s", "HIRU"); // "day"
+        GfxPrint_Printf(&printer, "%s", T("HIRU", "DAY"));
     }
 
     *gfx = GfxPrint_Close(&printer);
