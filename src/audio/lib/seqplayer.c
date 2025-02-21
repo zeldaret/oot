@@ -72,72 +72,72 @@ u8 AudioSeq_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** inst
     (((sizeof(arg0Type) - 1) << 7) | ((sizeof(arg1Type) - 1) << 6) | ((sizeof(arg2Type) - 1) << 5) | 3)
 
 u8 sSeqInstructionArgsTable[] = {
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_LDFILTER
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_FREEFILTER
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_LDSEQTOPTR
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_FILTER
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_PTRTODYNTBL
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_DYNTBLTOPTR
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_DYNTBLV
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_RANDTOPTR
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_RAND
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_RANDVEL
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_RANDGATE
-    CMD_ARGS_2(u8, s16),    // ASEQ_OP_CHANNEL_COMBFILTER
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_PTRADD
-    CMD_ARGS_2(s16, s16),   // ASEQ_OP_CHANNEL_RANDPTR
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_LDFILTER
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_FREEFILTER
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_LDSEQTOPTR
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_FILTER
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_PTRTODYNTBL
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_DYNTBLTOPTR
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_DYNTBLV
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_RANDTOPTR
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_RAND
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_RANDVEL
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_RANDGATE
+    CMD_ARGS_2(u8, s16),    // ASEQ_OP_CHAN_COMBFILTER
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_PTRADD
+    CMD_ARGS_2(s16, s16),   // ASEQ_OP_CHAN_RANDPTR
     CMD_ARGS_0(),           // 0xBE
     CMD_ARGS_0(),           // 0xBF
     CMD_ARGS_0(),           // 0xC0
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_INSTR
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_DYNTBL
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_SHORT
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_NOSHORT
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_DYNTBLLOOKUP
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_FONT
-    CMD_ARGS_2(u8, s16),    // ASEQ_OP_CHANNEL_STSEQ
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_SUB
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_AND
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_MUTEBHV
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_LDSEQ
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_LDI
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_STOPCHAN
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_LDPTR
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_STPTRTOSEQ
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_EFFECTS
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_NOTEALLOC
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_SUSTAIN
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_BEND
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_REVERB
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_INSTR
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_DYNTBL
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_SHORT
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_NOSHORT
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_DYNTBLLOOKUP
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_FONT
+    CMD_ARGS_2(u8, s16),    // ASEQ_OP_CHAN_STSEQ
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_SUB
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_AND
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_MUTEBHV
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_LDSEQ
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_LDI
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_STOPCHAN
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_LDPTR
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_STPTRTOSEQ
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_EFFECTS
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_NOTEALLOC
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_SUSTAIN
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_BEND
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_REVERB
     CMD_ARGS_1(u8),         // 0xD5
     CMD_ARGS_1(u8),         // 0xD6
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_VIBFREQ
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_VIBDEPTH
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_RELEASERATE
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_ENV
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_TRANSPOSE
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_PANWEIGHT
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_PAN
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_FREQSCALE
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_VOL
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_VOLEXP
-    CMD_ARGS_3(u8, u8, u8), // ASEQ_OP_CHANNEL_VIBFREQGRAD
-    CMD_ARGS_3(u8, u8, u8), // ASEQ_OP_CHANNEL_VIBDEPTHGRAD
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_VIBDELAY
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_DYNCALL
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_REVERBIDX
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_SAMPLEBOOK
-    CMD_ARGS_1(s16),        // ASEQ_OP_CHANNEL_LDPARAMS
-    CMD_ARGS_3(u8, u8, u8), // ASEQ_OP_CHANNEL_PARAMS
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_NOTEPRI
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_STOP
-    CMD_ARGS_2(u8, u8),     // ASEQ_OP_CHANNEL_FONTINSTR
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_VIBRESET
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_GAIN
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_BENDFINE
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_VIBFREQ
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_VIBDEPTH
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_RELEASERATE
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_ENV
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_TRANSPOSE
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_PANWEIGHT
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_PAN
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_FREQSCALE
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_VOL
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_VOLEXP
+    CMD_ARGS_3(u8, u8, u8), // ASEQ_OP_CHAN_VIBFREQGRAD
+    CMD_ARGS_3(u8, u8, u8), // ASEQ_OP_CHAN_VIBDEPTHGRAD
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_VIBDELAY
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_DYNCALL
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_REVERBIDX
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_SAMPLEBOOK
+    CMD_ARGS_1(s16),        // ASEQ_OP_CHAN_LDPARAMS
+    CMD_ARGS_3(u8, u8, u8), // ASEQ_OP_CHAN_PARAMS
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_NOTEPRI
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_STOP
+    CMD_ARGS_2(u8, u8),     // ASEQ_OP_CHAN_FONTINSTR
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_VIBRESET
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_GAIN
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_BENDFINE
     CMD_ARGS_2(s16, u8),    // 0xEF
-    CMD_ARGS_0(),           // ASEQ_OP_CHANNEL_FREENOTELIST
-    CMD_ARGS_1(u8),         // ASEQ_OP_CHANNEL_ALLOCNOTELIST
+    CMD_ARGS_0(),           // ASEQ_OP_CHAN_FREENOTELIST
+    CMD_ARGS_1(u8),         // ASEQ_OP_CHAN_ALLOCNOTELIST
     // Control flow instructions (>= ASEQ_OP_CONTROL_FLOW_FIRST) can only have 0 or 1 args
     CMD_ARGS_1(u8),  // ASEQ_OP_RBLTZ
     CMD_ARGS_1(u8),  // ASEQ_OP_RBEQZ
@@ -1227,26 +1227,26 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
             }
 
             switch (cmd) {
-                case ASEQ_OP_CHANNEL_STOP:
+                case ASEQ_OP_CHAN_STOP:
                     channel->stopScript = true;
                     goto exit_loop;
 
-                case ASEQ_OP_CHANNEL_ALLOCNOTELIST:
+                case ASEQ_OP_CHAN_ALLOCNOTELIST:
                     Audio_NotePoolClear(&channel->notePool);
                     cmd = (u8)cmdArgs[0];
                     Audio_NotePoolFill(&channel->notePool, cmd);
                     break;
 
-                case ASEQ_OP_CHANNEL_FREENOTELIST:
+                case ASEQ_OP_CHAN_FREENOTELIST:
                     Audio_NotePoolClear(&channel->notePool);
                     break;
 
-                case ASEQ_OP_CHANNEL_DYNTBL:
+                case ASEQ_OP_CHAN_DYNTBL:
                     cmdArgU16 = (u16)cmdArgs[0];
                     channel->dynTable = (void*)&seqPlayer->seqData[cmdArgU16];
                     break;
 
-                case ASEQ_OP_CHANNEL_DYNTBLLOOKUP:
+                case ASEQ_OP_CHAN_DYNTBLLOOKUP:
                     if (scriptState->value != -1) {
                         data = (*channel->dynTable)[scriptState->value];
                         cmdArgU16 = (u16)((data[0] << 8) + data[1]);
@@ -1255,7 +1255,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     }
                     break;
 
-                case ASEQ_OP_CHANNEL_FONTINSTR:
+                case ASEQ_OP_CHAN_FONTINSTR:
                     cmd = (u8)cmdArgs[0];
 
                     if (seqPlayer->defaultFont != 0xFF) {
@@ -1270,93 +1270,93 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
 
                     cmdArgs[0] = cmdArgs[1];
                     FALLTHROUGH;
-                case ASEQ_OP_CHANNEL_INSTR:
+                case ASEQ_OP_CHAN_INSTR:
                     cmd = (u8)cmdArgs[0];
                     AudioSeq_SetInstrument(channel, cmd);
                     break;
 
-                case ASEQ_OP_CHANNEL_SHORT:
+                case ASEQ_OP_CHAN_SHORT:
                     channel->largeNotes = false;
                     break;
 
-                case ASEQ_OP_CHANNEL_NOSHORT:
+                case ASEQ_OP_CHAN_NOSHORT:
                     channel->largeNotes = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_VOL:
+                case ASEQ_OP_CHAN_VOL:
                     cmd = (u8)cmdArgs[0];
                     AudioSeq_SequenceChannelSetVolume(channel, cmd);
                     channel->changes.s.volume = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_VOLEXP:
+                case ASEQ_OP_CHAN_VOLEXP:
                     cmd = (u8)cmdArgs[0];
                     channel->volumeScale = (s32)cmd / 128.0f;
                     channel->changes.s.volume = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_FREQSCALE:
+                case ASEQ_OP_CHAN_FREQSCALE:
                     cmdArgU16 = (u16)cmdArgs[0];
                     channel->freqScale = (s32)cmdArgU16 / 32768.0f;
                     channel->changes.s.freqScale = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_BEND:
+                case ASEQ_OP_CHAN_BEND:
                     cmd = (u8)cmdArgs[0];
                     cmd += 0x80;
                     channel->freqScale = gBendPitchOneOctaveFrequencies[cmd];
                     channel->changes.s.freqScale = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_BENDFINE:
+                case ASEQ_OP_CHAN_BENDFINE:
                     cmd = (u8)cmdArgs[0];
                     cmd += 0x80;
                     channel->freqScale = gBendPitchTwoSemitonesFrequencies[cmd];
                     channel->changes.s.freqScale = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_PAN:
+                case ASEQ_OP_CHAN_PAN:
                     cmd = (u8)cmdArgs[0];
                     channel->newPan = cmd;
                     channel->changes.s.pan = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_PANWEIGHT:
+                case ASEQ_OP_CHAN_PANWEIGHT:
                     cmd = (u8)cmdArgs[0];
                     channel->panChannelWeight = cmd;
                     channel->changes.s.pan = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_TRANSPOSE:
+                case ASEQ_OP_CHAN_TRANSPOSE:
                     cmdArgS8 = (s8)cmdArgs[0];
                     channel->transposition = cmdArgS8;
                     break;
 
-                case ASEQ_OP_CHANNEL_ENV:
+                case ASEQ_OP_CHAN_ENV:
                     cmdArgU16 = (u16)cmdArgs[0];
                     channel->adsr.envelope = (EnvelopePoint*)&seqPlayer->seqData[cmdArgU16];
                     break;
 
-                case ASEQ_OP_CHANNEL_RELEASERATE:
+                case ASEQ_OP_CHAN_RELEASERATE:
                     cmd = (u8)cmdArgs[0];
                     channel->adsr.decayIndex = cmd;
                     break;
 
-                case ASEQ_OP_CHANNEL_VIBDEPTH:
+                case ASEQ_OP_CHAN_VIBDEPTH:
                     cmd = (u8)cmdArgs[0];
                     channel->vibratoDepthTarget = cmd * 8;
                     channel->vibratoDepthStart = 0;
                     channel->vibratoDepthChangeDelay = 0;
                     break;
 
-                case ASEQ_OP_CHANNEL_VIBFREQ:
+                case ASEQ_OP_CHAN_VIBFREQ:
                     cmd = (u8)cmdArgs[0];
                     channel->vibratoRateChangeDelay = 0;
                     channel->vibratoRateTarget = cmd * 32;
                     channel->vibratoRateStart = cmd * 32;
                     break;
 
-                case ASEQ_OP_CHANNEL_VIBDEPTHGRAD:
+                case ASEQ_OP_CHAN_VIBDEPTHGRAD:
                     cmd = (u8)cmdArgs[0];
                     channel->vibratoDepthStart = cmd * 8;
                     cmd = (u8)cmdArgs[1];
@@ -1365,7 +1365,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->vibratoDepthChangeDelay = cmd * 16;
                     break;
 
-                case ASEQ_OP_CHANNEL_VIBFREQGRAD:
+                case ASEQ_OP_CHAN_VIBFREQGRAD:
                     cmd = (u8)cmdArgs[0];
                     channel->vibratoRateStart = cmd * 32;
                     cmd = (u8)cmdArgs[1];
@@ -1374,17 +1374,17 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->vibratoRateChangeDelay = cmd * 16;
                     break;
 
-                case ASEQ_OP_CHANNEL_VIBDELAY:
+                case ASEQ_OP_CHAN_VIBDELAY:
                     cmd = (u8)cmdArgs[0];
                     channel->vibratoDelay = cmd * 16;
                     break;
 
-                case ASEQ_OP_CHANNEL_REVERB:
+                case ASEQ_OP_CHAN_REVERB:
                     cmd = (u8)cmdArgs[0];
                     channel->targetReverbVol = cmd;
                     break;
 
-                case ASEQ_OP_CHANNEL_FONT:
+                case ASEQ_OP_CHAN_FONT:
                     cmd = (u8)cmdArgs[0];
 
                     if (seqPlayer->defaultFont != 0xFF) {
@@ -1398,56 +1398,56 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     }
                     break;
 
-                case ASEQ_OP_CHANNEL_STSEQ:
+                case ASEQ_OP_CHAN_STSEQ:
                     cmd = (u8)cmdArgs[0];
                     cmdArgU16 = (u16)cmdArgs[1];
                     seqData = &seqPlayer->seqData[cmdArgU16];
                     seqData[0] = (u8)scriptState->value + cmd;
                     break;
 
-                case ASEQ_OP_CHANNEL_SUB:
-                case ASEQ_OP_CHANNEL_LDI:
-                case ASEQ_OP_CHANNEL_AND:
+                case ASEQ_OP_CHAN_SUB:
+                case ASEQ_OP_CHAN_LDI:
+                case ASEQ_OP_CHAN_AND:
                     cmdArgS8 = (s8)cmdArgs[0];
 
-                    if (cmd == ASEQ_OP_CHANNEL_SUB) {
+                    if (cmd == ASEQ_OP_CHAN_SUB) {
                         scriptState->value -= cmdArgS8;
-                    } else if (cmd == ASEQ_OP_CHANNEL_LDI) {
+                    } else if (cmd == ASEQ_OP_CHAN_LDI) {
                         scriptState->value = cmdArgS8;
                     } else {
                         scriptState->value &= cmdArgS8;
                     }
                     break;
 
-                case ASEQ_OP_CHANNEL_STOPCHAN:
+                case ASEQ_OP_CHAN_STOPCHAN:
                     cmd = (u8)cmdArgs[0];
                     AudioSeq_SequenceChannelDisable(seqPlayer->channels[cmd]);
                     break;
 
-                case ASEQ_OP_CHANNEL_MUTEBHV:
+                case ASEQ_OP_CHAN_MUTEBHV:
                     cmd = (u8)cmdArgs[0];
                     channel->muteBehavior = cmd;
                     channel->changes.s.volume = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_LDSEQ:
+                case ASEQ_OP_CHAN_LDSEQ:
                     cmdArgU16 = (u16)cmdArgs[0];
                     scriptState->value = *(seqPlayer->seqData + (u32)(cmdArgU16 + scriptState->value));
                     break;
 
-                case ASEQ_OP_CHANNEL_LDPTR:
+                case ASEQ_OP_CHAN_LDPTR:
                     cmdArgU16 = (u16)cmdArgs[0];
                     channel->unk_22 = cmdArgU16;
                     break;
 
-                case ASEQ_OP_CHANNEL_STPTRTOSEQ:
+                case ASEQ_OP_CHAN_STPTRTOSEQ:
                     cmdArgU16 = (u16)cmdArgs[0];
                     seqData = &seqPlayer->seqData[cmdArgU16];
                     seqData[0] = (channel->unk_22 >> 8) & 0xFF;
                     seqData[1] = channel->unk_22 & 0xFF;
                     break;
 
-                case ASEQ_OP_CHANNEL_EFFECTS:
+                case ASEQ_OP_CHAN_EFFECTS:
                     cmd = (u8)cmdArgs[0];
                     if (cmd & 0x80) {
                         channel->stereoHeadsetEffects = true;
@@ -1457,22 +1457,22 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->stereo.asByte = cmd & 0x7F;
                     break;
 
-                case ASEQ_OP_CHANNEL_NOTEALLOC:
+                case ASEQ_OP_CHAN_NOTEALLOC:
                     cmd = (u8)cmdArgs[0];
                     channel->noteAllocPolicy = cmd;
                     break;
 
-                case ASEQ_OP_CHANNEL_SUSTAIN:
+                case ASEQ_OP_CHAN_SUSTAIN:
                     cmd = (u8)cmdArgs[0];
                     channel->adsr.sustain = cmd;
                     break;
 
-                case ASEQ_OP_CHANNEL_REVERBIDX:
+                case ASEQ_OP_CHAN_REVERBIDX:
                     cmd = (u8)cmdArgs[0];
                     channel->reverbIndex = cmd;
                     break;
 
-                case ASEQ_OP_CHANNEL_DYNCALL:
+                case ASEQ_OP_CHAN_DYNCALL:
                     if (scriptState->value != -1) {
                         data = (*channel->dynTable)[scriptState->value];
                         //! @bug: Missing a stack depth check here
@@ -1482,12 +1482,12 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     }
                     break;
 
-                case ASEQ_OP_CHANNEL_SAMPLEBOOK:
+                case ASEQ_OP_CHAN_SAMPLEBOOK:
                     cmd = (u8)cmdArgs[0];
                     channel->bookOffset = cmd;
                     break;
 
-                case ASEQ_OP_CHANNEL_LDPARAMS:
+                case ASEQ_OP_CHAN_LDPARAMS:
                     cmdArgU16 = (u16)cmdArgs[0];
                     data = &seqPlayer->seqData[cmdArgU16];
                     channel->muteBehavior = *data++;
@@ -1502,7 +1502,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->changes.s.pan = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_PARAMS:
+                case ASEQ_OP_CHAN_PARAMS:
                     channel->muteBehavior = cmdArgs[0];
                     channel->noteAllocPolicy = cmdArgs[1];
                     cmd = (u8)cmdArgs[2];
@@ -1516,7 +1516,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->changes.s.pan = true;
                     break;
 
-                case ASEQ_OP_CHANNEL_VIBRESET:
+                case ASEQ_OP_CHAN_VIBRESET:
                     channel->vibratoDepthTarget = 0;
                     channel->vibratoDepthStart = 0;
                     channel->vibratoDepthChangeDelay = 0;
@@ -1534,26 +1534,26 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->freqScale = 1.0f;
                     break;
 
-                case ASEQ_OP_CHANNEL_NOTEPRI:
+                case ASEQ_OP_CHAN_NOTEPRI:
                     AudioSeq_SetChannelPriorities(channel, (u8)cmdArgs[0]);
                     break;
 
-                case ASEQ_OP_CHANNEL_GAIN:
+                case ASEQ_OP_CHAN_GAIN:
                     cmd = (u8)cmdArgs[0];
                     channel->gain = cmd;
                     break;
 
-                case ASEQ_OP_CHANNEL_LDFILTER:
+                case ASEQ_OP_CHAN_LDFILTER:
                     cmdArgU16 = (u16)cmdArgs[0];
                     data = seqPlayer->seqData + cmdArgU16;
                     channel->filter = (s16*)data;
                     break;
 
-                case ASEQ_OP_CHANNEL_FREEFILTER:
+                case ASEQ_OP_CHAN_FREEFILTER:
                     channel->filter = NULL;
                     break;
 
-                case ASEQ_OP_CHANNEL_FILTER:
+                case ASEQ_OP_CHAN_FILTER:
                     cmd = cmdArgs[0];
 
                     if (channel->filter != NULL) {
@@ -1563,34 +1563,34 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     }
                     break;
 
-                case ASEQ_OP_CHANNEL_LDSEQTOPTR:
+                case ASEQ_OP_CHAN_LDSEQTOPTR:
                     cmdArgU16 = (u16)cmdArgs[0];
                     channel->unk_22 = *(u16*)(seqPlayer->seqData + (u32)(cmdArgU16 + scriptState->value * 2));
                     break;
 
-                case ASEQ_OP_CHANNEL_PTRTODYNTBL:
+                case ASEQ_OP_CHAN_PTRTODYNTBL:
                     channel->dynTable = (void*)&seqPlayer->seqData[channel->unk_22];
                     break;
 
-                case ASEQ_OP_CHANNEL_DYNTBLTOPTR:
+                case ASEQ_OP_CHAN_DYNTBLTOPTR:
                     channel->unk_22 = ((u16*)(channel->dynTable))[scriptState->value];
                     break;
 
-                case ASEQ_OP_CHANNEL_DYNTBLV:
+                case ASEQ_OP_CHAN_DYNTBLV:
                     scriptState->value = (*channel->dynTable)[0][scriptState->value];
                     break;
 
-                case ASEQ_OP_CHANNEL_RANDTOPTR:
+                case ASEQ_OP_CHAN_RANDTOPTR:
                     channel->unk_22 =
                         (cmdArgs[0] == 0) ? gAudioCtx.audioRandom & 0xFFFF : gAudioCtx.audioRandom % cmdArgs[0];
                     break;
 
-                case ASEQ_OP_CHANNEL_RAND:
+                case ASEQ_OP_CHAN_RAND:
                     scriptState->value =
                         (cmdArgs[0] == 0) ? gAudioCtx.audioRandom & 0xFFFF : gAudioCtx.audioRandom % cmdArgs[0];
                     break;
 
-                case ASEQ_OP_CHANNEL_RANDPTR:
+                case ASEQ_OP_CHAN_RANDPTR:
                     temp2 = AudioThread_NextRandom();
                     channel->unk_22 = (cmdArgs[0] == 0) ? (temp2 & 0xFFFF) : (temp2 % cmdArgs[0]);
                     channel->unk_22 += cmdArgs[1];
@@ -1599,20 +1599,20 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     channel->unk_22 = (temp2 << 8) | param;
                     break;
 
-                case ASEQ_OP_CHANNEL_RANDVEL:
+                case ASEQ_OP_CHAN_RANDVEL:
                     channel->velocityRandomVariance = cmdArgs[0];
                     break;
 
-                case ASEQ_OP_CHANNEL_RANDGATE:
+                case ASEQ_OP_CHAN_RANDGATE:
                     channel->gateTimeRandomVariance = cmdArgs[0];
                     break;
 
-                case ASEQ_OP_CHANNEL_COMBFILTER:
+                case ASEQ_OP_CHAN_COMBFILTER:
                     channel->combFilterSize = cmdArgs[0];
                     channel->combFilterGain = cmdArgs[1];
                     break;
 
-                case ASEQ_OP_CHANNEL_PTRADD:
+                case ASEQ_OP_CHAN_PTRADD:
                     channel->unk_22 += cmdArgs[0];
                     break;
             }
@@ -1622,12 +1622,12 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
         if (cmd >= 0x70) {
             lowBits = cmd & 0x7;
 
-            if ((cmd & 0xF8) != ASEQ_OP_CHANNEL_STIO && lowBits >= 4) {
+            if ((cmd & 0xF8) != ASEQ_OP_CHAN_STIO && lowBits >= 4) {
                 lowBits = 0;
             }
 
             switch (cmd & 0xF8) {
-                case ASEQ_OP_CHANNEL_TESTLAYER:
+                case ASEQ_OP_CHAN_TESTLAYER:
                     if (channel->layers[lowBits] != NULL) {
                         scriptState->value = channel->layers[lowBits]->finished;
                     } else {
@@ -1635,18 +1635,18 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     }
                     break;
 
-                case ASEQ_OP_CHANNEL_LDLAYER:
+                case ASEQ_OP_CHAN_LDLAYER:
                     cmdArgU16 = AudioSeq_ScriptReadS16(scriptState);
                     if (!AudioSeq_SeqChannelSetLayer(channel, lowBits)) {
                         channel->layers[lowBits]->scriptState.pc = &seqPlayer->seqData[cmdArgU16];
                     }
                     break;
 
-                case ASEQ_OP_CHANNEL_DELLAYER:
+                case ASEQ_OP_CHAN_DELLAYER:
                     AudioSeq_SeqLayerFree(channel, lowBits);
                     break;
 
-                case ASEQ_OP_CHANNEL_DYNLDLAYER:
+                case ASEQ_OP_CHAN_DYNLDLAYER:
                     if (scriptState->value != -1 && AudioSeq_SeqChannelSetLayer(channel, lowBits) != -1) {
                         data = (*channel->dynTable)[scriptState->value];
                         cmdArgU16 = (data[0] << 8) + data[1];
@@ -1654,11 +1654,11 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     }
                     break;
 
-                case ASEQ_OP_CHANNEL_STIO:
+                case ASEQ_OP_CHAN_STIO:
                     channel->seqScriptIO[lowBits] = scriptState->value;
                     break;
 
-                case ASEQ_OP_CHANNEL_RLDLAYER:
+                case ASEQ_OP_CHAN_RLDLAYER:
                     temp1 = AudioSeq_ScriptReadS16(scriptState);
                     if (!AudioSeq_SeqChannelSetLayer(channel, lowBits)) {
                         channel->layers[lowBits]->scriptState.pc = &scriptState->pc[temp1];
@@ -1671,11 +1671,11 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
         lowBits = cmd & 0xF;
 
         switch (cmd & 0xF0) {
-            case ASEQ_OP_CHANNEL_CDELAY:
+            case ASEQ_OP_CHAN_CDELAY:
                 channel->delay = lowBits;
                 goto exit_loop;
 
-            case ASEQ_OP_CHANNEL_LDSAMPLE:
+            case ASEQ_OP_CHAN_LDSAMPLE:
                 if (lowBits < 8) {
                     channel->seqScriptIO[lowBits] = SEQ_IO_VAL_NONE;
                     if (AudioLoad_SlowLoadSample(channel->fontId, scriptState->value, &channel->seqScriptIO[lowBits]) ==
@@ -1688,28 +1688,28 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                 }
                 break;
 
-            case ASEQ_OP_CHANNEL_LDIO:
+            case ASEQ_OP_CHAN_LDIO:
                 scriptState->value = channel->seqScriptIO[lowBits];
                 if (lowBits < 2) {
                     channel->seqScriptIO[lowBits] = SEQ_IO_VAL_NONE;
                 }
                 break;
 
-            case ASEQ_OP_CHANNEL_SUBIO:
+            case ASEQ_OP_CHAN_SUBIO:
                 scriptState->value -= channel->seqScriptIO[lowBits];
                 break;
 
-            case ASEQ_OP_CHANNEL_LDCHAN:
+            case ASEQ_OP_CHAN_LDCHAN:
                 cmdArgU16 = AudioSeq_ScriptReadS16(scriptState);
                 AudioSeq_SequenceChannelEnable(seqPlayer, lowBits, &seqPlayer->seqData[cmdArgU16]);
                 break;
 
-            case ASEQ_OP_CHANNEL_STCIO:
+            case ASEQ_OP_CHAN_STCIO:
                 cmd = AudioSeq_ScriptReadU8(scriptState);
                 seqPlayer->channels[lowBits]->seqScriptIO[cmd] = scriptState->value;
                 break;
 
-            case ASEQ_OP_CHANNEL_LDCIO:
+            case ASEQ_OP_CHAN_LDCIO:
                 cmd = AudioSeq_ScriptReadU8(scriptState);
                 scriptState->value = seqPlayer->channels[lowBits]->seqScriptIO[cmd];
                 break;
