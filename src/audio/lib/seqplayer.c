@@ -14,9 +14,11 @@
  *     Otherwise, each set of instructions has its own command interpreter
  */
 #include "ultra64.h"
-#define MML_VERSION MML_VERSION_OOT
+#include "assert.h"
 #include "audio/aseq.h"
 #include "global.h"
+
+static_assert(MML_VERSION == MML_VERSION_OOT, "This file implements the OoT version of the MML");
 
 #define PORTAMENTO_IS_SPECIAL(x) ((x).mode & 0x80)
 #define PORTAMENTO_MODE(x) ((x).mode & ~0x80)
