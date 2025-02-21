@@ -659,7 +659,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
 
         switch (cmd) {
             case ASEQ_OPC_LAYER_SHORTVEL: // layer_setshortnotevelocity
-            case ASEQ_OPC_LAYER_NOTEPAN: // layer_setpan
+            case ASEQ_OPC_LAYER_NOTEPAN:  // layer_setpan
                 cmdArg8 = *(state->pc++);
                 if (cmd == ASEQ_OPC_LAYER_SHORTVEL) {
                     layer->velocitySquare = SQ(cmdArg8) / SQ(127.0f);
@@ -678,7 +678,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
                 }
                 break;
 
-            case ASEQ_OPC_LAYER_LEGATO: // layer_continuousnoteson
+            case ASEQ_OPC_LAYER_LEGATO:   // layer_continuousnoteson
             case ASEQ_OPC_LAYER_NOLEGATO: // layer_continuousnotesoff
                 if (cmd == ASEQ_OPC_LAYER_LEGATO) {
                     layer->continuousNotes = true;
