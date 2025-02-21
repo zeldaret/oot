@@ -2274,7 +2274,6 @@ $reladdr\@:
  *
  *  TODO DESCRIPTION
  */
-#define STEREO_OPCODE ASEQ_OPC_LAYER_STEREO
 .macro stereo type, strongR, strongL, strongRvrbR, strongRvrbL
     _check_arg_bitwidth_u \type, 2
     _check_arg_bitwidth_u \strongR, 1
@@ -2342,7 +2341,6 @@ $reladdr\@:
  *
  *  This instruction must only be used when long notes are enabled with the noshort instruction.
  */
-#define NOTEDVG_OPCODE ASEQ_OPC_LAYER_STEP3_NOTEDVG
 .macro notedvg pitch, delay, velocity, gateTime
     _wr_cmd_id  notedvg, ,,ASEQ_OPC_LAYER_STEP3_NOTEDVG,,,,,, \pitch, 6
     _var        \delay
@@ -2357,7 +2355,6 @@ $reladdr\@:
  *
  *  This instruction must only be used when long notes are enabled with the noshort instruction.
  */
-#define NOTEDV_OPCODE ASEQ_OPC_LAYER_STEP3_NOTEDV
 .macro notedv pitch, delay, velocity
     _wr_cmd_id  notedv, ,,ASEQ_OPC_LAYER_STEP3_NOTEDV,,,,,, \pitch, 6
     _var        \delay
