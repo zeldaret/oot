@@ -237,20 +237,20 @@
 
 // control flow commands
 #define ASEQ_OP_CONTROL_FLOW_FIRST 0xF2
-#define ASEQ_OP_RBLTZ     0xF2
-#define ASEQ_OP_RBEQZ     0xF3
-#define ASEQ_OP_RJUMP     0xF4
-#define ASEQ_OP_BGEZ      0xF5
-#define ASEQ_OP_BREAK     0xF6
-#define ASEQ_OP_LOOPEND   0xF7
-#define ASEQ_OP_LOOP      0xF8
-#define ASEQ_OP_BLTZ      0xF9
-#define ASEQ_OP_BEQZ      0xFA
-#define ASEQ_OP_JUMP      0xFB
-#define ASEQ_OP_CALL      0xFC
-#define ASEQ_OP_DELAY     0xFD
-#define ASEQ_OP_DELAY1    0xFE
-#define ASEQ_OP_END       0xFF
+#define ASEQ_OP_RBLTZ   0xF2
+#define ASEQ_OP_RBEQZ   0xF3
+#define ASEQ_OP_RJUMP   0xF4
+#define ASEQ_OP_BGEZ    0xF5
+#define ASEQ_OP_BREAK   0xF6
+#define ASEQ_OP_LOOPEND 0xF7
+#define ASEQ_OP_LOOP    0xF8
+#define ASEQ_OP_BLTZ    0xF9
+#define ASEQ_OP_BEQZ    0xFA
+#define ASEQ_OP_JUMP    0xFB
+#define ASEQ_OP_CALL    0xFC
+#define ASEQ_OP_DELAY   0xFD
+#define ASEQ_OP_DELAY1  0xFE
+#define ASEQ_OP_END     0xFF
 
 // sequence commands
 #define ASEQ_OP_SEQUENCE_TESTCHAN          0x00 // low nibble used as argument
@@ -387,30 +387,30 @@
 #define ASEQ_OP_CHANNEL_ALLOCNOTELIST  0xF1
 
 // layer commands
-#define ASEQ_OP_LAYER_NOTEDVG      0x00
-#define ASEQ_OP_LAYER_NOTEDV       0x40
-#define ASEQ_OP_LAYER_NOTEVG       0x80
-#define ASEQ_OP_LAYER_LDELAY       0xC0
-#define ASEQ_OP_LAYER_SHORTVEL     0xC1
-#define ASEQ_OP_LAYER_TRANSPOSE    0xC2
-#define ASEQ_OP_LAYER_SHORTDELAY   0xC3
-#define ASEQ_OP_LAYER_LEGATO       0xC4
-#define ASEQ_OP_LAYER_NOLEGATO     0xC5
-#define ASEQ_OP_LAYER_INSTR        0xC6
-#define ASEQ_OP_LAYER_PORTAMENTO   0xC7
-#define ASEQ_OP_LAYER_NOPORTAMENTO 0xC8
-#define ASEQ_OP_LAYER_SHORTGATE    0xC9
-#define ASEQ_OP_LAYER_NOTEPAN      0xCA
-#define ASEQ_OP_LAYER_ENV          0xCB
-#define ASEQ_OP_LAYER_NODRUMPAN    0xCC
-#define ASEQ_OP_LAYER_STEREO       0xCD
-#define ASEQ_OP_LAYER_BENDFINE     0xCE
-#define ASEQ_OP_LAYER_RELEASERATE  0xCF
-#define ASEQ_OP_LAYER_LDSHORTVEL   0xD0 // low nibble used as an argument
-#define ASEQ_OP_LAYER_LDSHORTGATE  0xE0 // low nibble used as an argument
+#define ASEQ_OP_LAYER_NOTEDVG       0x00
+#define ASEQ_OP_LAYER_NOTEDV        0x40
+#define ASEQ_OP_LAYER_NOTEVG        0x80
+#define ASEQ_OP_LAYER_LDELAY        0xC0
+#define ASEQ_OP_LAYER_SHORTVEL      0xC1
+#define ASEQ_OP_LAYER_TRANSPOSE     0xC2
+#define ASEQ_OP_LAYER_SHORTDELAY    0xC3
+#define ASEQ_OP_LAYER_LEGATO        0xC4
+#define ASEQ_OP_LAYER_NOLEGATO      0xC5
+#define ASEQ_OP_LAYER_INSTR         0xC6
+#define ASEQ_OP_LAYER_PORTAMENTO    0xC7
+#define ASEQ_OP_LAYER_NOPORTAMENTO  0xC8
+#define ASEQ_OP_LAYER_SHORTGATE     0xC9
+#define ASEQ_OP_LAYER_NOTEPAN       0xCA
+#define ASEQ_OP_LAYER_ENV           0xCB
+#define ASEQ_OP_LAYER_NODRUMPAN     0xCC
+#define ASEQ_OP_LAYER_STEREO        0xCD
+#define ASEQ_OP_LAYER_BENDFINE      0xCE
+#define ASEQ_OP_LAYER_RELEASERATE   0xCF
+#define ASEQ_OP_LAYER_LDSHORTVEL    0xD0 // low nibble used as an argument
+#define ASEQ_OP_LAYER_LDSHORTGATE   0xE0 // low nibble used as an argument
 #if (MML_VERSION == MML_VERSION_MM)
-#define ASEQ_OP_LAYER_F0           0xF0
-#define ASEQ_OP_LAYER_F1           0xF1
+#define ASEQ_OP_LAYER_F0            0xF0
+#define ASEQ_OP_LAYER_F1            0xF1
 #endif
 
 
