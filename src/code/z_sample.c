@@ -2,8 +2,8 @@
 #include "gfx_setupdl.h"
 #include "controller.h"
 #include "regs.h"
+#include "sample_state.h"
 #include "segment_symbols.h"
-#include "z_sample.h"
 #include "z64dma.h"
 #include "z64play.h"
 

@@ -11,15 +11,15 @@
 #endif
 
 #include "alloca.h"
+#include "console_logo_state.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "regs.h"
 #include "segment_symbols.h"
 #include "sequence.h"
 #include "sys_matrix.h"
+#include "title_setup_state.h"
 #include "versions.h"
-#include "z_opening.h"
-#include "z_title.h"
 #include "z64actor.h"
 #include "z64environment.h"
 #include "z64save.h"

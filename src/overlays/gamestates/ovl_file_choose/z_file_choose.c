@@ -2,10 +2,12 @@
 
 #include "attributes.h"
 #include "controller.h"
+#include "file_select_state.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "letterbox.h"
 #include "macros.h"
+#include "map_select_state.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -18,8 +20,6 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
-#include "z_file_choose.h"
-#include "z_select.h"
 #include "z64audio.h"
 #include "z64environment.h"
 #include "z64save.h"

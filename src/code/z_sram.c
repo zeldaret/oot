@@ -1,7 +1,7 @@
+#include "file_select_state.h"
 #include "controller.h"
 #include "terminal.h"
 #include "versions.h"
-#include "z_file_choose.h"
 #include "z64game.h"
 #include "z64message.h"
 #include "z64save.h"

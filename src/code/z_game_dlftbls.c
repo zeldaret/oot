@@ -1,10 +1,10 @@
 #include "segment_symbols.h"
+#include "console_logo_state.h"
+#include "file_select_state.h"
+#include "map_select_state.h"
+#include "setup_state.h"
+#include "title_setup_state.h"
 #include "z_game_dlftbls.h"
-#include "z_file_choose.h"
-#include "z_opening.h"
-#include "z_select.h"
-#include "z_title.h"
-#include "z_title_setup.h"
 #include "z64play.h"
 
 // Linker symbol declarations (used in the table below)

@@ -7,7 +7,7 @@
 #include "gfx.h"
 #include "regs.h"
 #include "sys_matrix.h"
-#include "z_opening.h"
+#include "title_setup_state.h"
 #include "z64game.h"
 #include "z64play.h"
 #include "z64save.h"

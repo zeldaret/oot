@@ -1,6 +1,7 @@
-#ifndef Z_SAMPLE_H
-#define Z_SAMPLE_H
+#ifndef SAMPLE_STATE_H
+#define SAMPLE_STATE_H
 
+#include "ultra64.h"
 #include "z64game.h"
 #include "z64view.h"
 

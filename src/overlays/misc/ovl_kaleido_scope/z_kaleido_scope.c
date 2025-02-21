@@ -4,8 +4,8 @@
 #endif
 #include "seqcmd.h"
 #include "terminal.h"
+#include "title_setup_state.h"
 #include "versions.h"
-#include "z_opening.h"
 #include "z64save.h"
 
 #include "assets/textures/icon_item_static/icon_item_static.h"

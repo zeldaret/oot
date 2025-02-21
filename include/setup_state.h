@@ -1,5 +1,5 @@
-#ifndef Z_TITLE_SETUP_H
-#define Z_TITLE_SETUP_H
+#ifndef SETUP_STATE_H
+#define SETUP_STATE_H
 
 #include "z64game.h"
 

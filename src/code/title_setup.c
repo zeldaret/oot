@@ -1,5 +1,5 @@
-#include "z_title.h"
-#include "z_title_setup.h"
+#include "console_logo_state.h"
+#include "setup_state.h"
 
 #include "global.h"
 

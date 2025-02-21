@@ -1,6 +1,7 @@
-#ifndef Z_TITLE_H
-#define Z_TITLE_H
+#ifndef CONSOLE_LOGO_STATE_H
+#define CONSOLE_LOGO_STATE_H
 
+#include "ultra64.h"
 #include "z64game.h"
 #include "z64sram.h"
 #include "z64view.h"

@@ -1,6 +1,7 @@
-#ifndef Z_PRENMI_H
-#define Z_PRENMI_H
+#ifndef PRENMI_STATE_H
+#define PRENMI_STATE_H
 
+#include "ultra64.h"
 #include "z64game.h"
 
 typedef struct PreNMIState {

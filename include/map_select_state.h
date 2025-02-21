@@ -1,5 +1,5 @@
-#ifndef Z_SELECT_H
-#define Z_SELECT_H
+#ifndef MAP_SELECT_STATE_H
+#define MAP_SELECT_STATE_H
 
 #include "ultra64.h"
 #include "z64game.h"

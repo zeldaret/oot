@@ -1,9 +1,9 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "prenmi_state.h"
 #include "regs.h"
 #include "terminal.h"
 #include "versions.h"
-#include "z_prenmi.h"
 
 #include "macros.h"
 #include "global.h"
