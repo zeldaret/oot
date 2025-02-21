@@ -1001,7 +1001,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
     s32 intDelta;
     f32 floatDelta;
 
-    if (cmd == ASEQ_OPC_LAYER_STEP3_LDELAY) {
+    if (cmd == ASEQ_OPC_LAYER_LDELAY) {
         layer->delay = AudioSeq_ScriptReadCompressedU16(state);
         layer->muted = true;
         layer->bit1 = false;
@@ -1012,21 +1012,21 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
 
     if (channel->largeNotes == true) {
         switch (cmd & 0xC0) {
-            case ASEQ_OPC_LAYER_STEP3_NOTEDVG:
+            case ASEQ_OPC_LAYER_NOTEDVG:
                 delay = AudioSeq_ScriptReadCompressedU16(state);
                 velocity = *(state->pc++);
                 layer->gateTime = *(state->pc++);
                 layer->lastDelay = delay;
                 break;
 
-            case ASEQ_OPC_LAYER_STEP3_NOTEDV:
+            case ASEQ_OPC_LAYER_NOTEDV:
                 delay = AudioSeq_ScriptReadCompressedU16(state);
                 velocity = *(state->pc++);
                 layer->gateTime = 0;
                 layer->lastDelay = delay;
                 break;
 
-            case ASEQ_OPC_LAYER_STEP3_NOTEVG:
+            case ASEQ_OPC_LAYER_NOTEVG:
                 delay = layer->lastDelay;
                 velocity = *(state->pc++);
                 layer->gateTime = *(state->pc++);
@@ -1040,16 +1040,16 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
         cmd -= (cmd & 0xC0);
     } else {
         switch (cmd & 0xC0) {
-            case ASEQ_OPC_LAYER_STEP3_NOTEDVG:
+            case ASEQ_OPC_LAYER_NOTEDVG:
                 delay = AudioSeq_ScriptReadCompressedU16(state);
                 layer->lastDelay = delay;
                 break;
 
-            case ASEQ_OPC_LAYER_STEP3_NOTEDV:
+            case ASEQ_OPC_LAYER_NOTEDV:
                 delay = layer->shortNoteDefaultDelay;
                 break;
 
-            case ASEQ_OPC_LAYER_STEP3_NOTEVG:
+            case ASEQ_OPC_LAYER_NOTEVG:
                 delay = layer->lastDelay;
                 break;
         }

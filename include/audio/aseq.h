@@ -357,27 +357,27 @@
 #define ASEQ_OPC_CHANNEL_ALLOCNOTELIST  0xF1
 
 // layer commands
-#define ASEQ_OPC_LAYER_STEP3_NOTEDVG    0x00
-#define ASEQ_OPC_LAYER_STEP3_NOTEDV     0x40
-#define ASEQ_OPC_LAYER_STEP3_NOTEVG     0x80
-#define ASEQ_OPC_LAYER_STEP3_LDELAY     0xC0
-#define ASEQ_OPC_LAYER_SHORTVEL         0xC1
-#define ASEQ_OPC_LAYER_TRANSPOSE        0xC2
-#define ASEQ_OPC_LAYER_SHORTDELAY       0xC3
-#define ASEQ_OPC_LAYER_LEGATO           0xC4
-#define ASEQ_OPC_LAYER_NOLEGATO         0xC5
-#define ASEQ_OPC_LAYER_INSTR            0xC6
-#define ASEQ_OPC_LAYER_PORTAMENTO       0xC7
-#define ASEQ_OPC_LAYER_NOPORTAMENTO     0xC8
-#define ASEQ_OPC_LAYER_SHORTGATE        0xC9
-#define ASEQ_OPC_LAYER_NOTEPAN          0xCA
-#define ASEQ_OPC_LAYER_ENV              0xCB
-#define ASEQ_OPC_LAYER_NODRUMPAN        0xCC
-#define ASEQ_OPC_LAYER_STEREO           0xCD
-#define ASEQ_OPC_LAYER_BENDFINE         0xCE
-#define ASEQ_OPC_LAYER_RELEASERATE      0xCF
-#define ASEQ_OPC_LAYER_LDSHORTVEL       0xD0 // low nibble used as an argument
-#define ASEQ_OPC_LAYER_LDSHORTGATE      0xE0 // low nibble used as an argument
+#define ASEQ_OPC_LAYER_NOTEDVG      0x00
+#define ASEQ_OPC_LAYER_NOTEDV       0x40
+#define ASEQ_OPC_LAYER_NOTEVG       0x80
+#define ASEQ_OPC_LAYER_LDELAY       0xC0
+#define ASEQ_OPC_LAYER_SHORTVEL     0xC1
+#define ASEQ_OPC_LAYER_TRANSPOSE    0xC2
+#define ASEQ_OPC_LAYER_SHORTDELAY   0xC3
+#define ASEQ_OPC_LAYER_LEGATO       0xC4
+#define ASEQ_OPC_LAYER_NOLEGATO     0xC5
+#define ASEQ_OPC_LAYER_INSTR        0xC6
+#define ASEQ_OPC_LAYER_PORTAMENTO   0xC7
+#define ASEQ_OPC_LAYER_NOPORTAMENTO 0xC8
+#define ASEQ_OPC_LAYER_SHORTGATE    0xC9
+#define ASEQ_OPC_LAYER_NOTEPAN      0xCA
+#define ASEQ_OPC_LAYER_ENV          0xCB
+#define ASEQ_OPC_LAYER_NODRUMPAN    0xCC
+#define ASEQ_OPC_LAYER_STEREO       0xCD
+#define ASEQ_OPC_LAYER_BENDFINE     0xCE
+#define ASEQ_OPC_LAYER_RELEASERATE  0xCF
+#define ASEQ_OPC_LAYER_LDSHORTVEL   0xD0 // low nibble used as an argument
+#define ASEQ_OPC_LAYER_LDSHORTGATE  0xE0 // low nibble used as an argument
 
 
 
@@ -2159,7 +2159,7 @@ $reladdr\@:
  *  Delay for `delay` ticks.
  */
 .macro ldelay delay
-    _wr_cmd_id  ldelay, ,,ASEQ_OPC_LAYER_STEP3_LDELAY,,,,,, 0, 0
+    _wr_cmd_id  ldelay, ,,ASEQ_OPC_LAYER_LDELAY,,,,,, 0, 0
     _var        \delay
 .endm
 
@@ -2170,7 +2170,7 @@ $reladdr\@:
  * Should never be used when not required for matching purposes.
  */
 .macro lldelay delay
-    _wr_cmd_id  lldelay, ,ASEQ_OPC_CTRLFLOW_DELAY,ASEQ_OPC_LAYER_STEP3_LDELAY,,,,,, 0, 0
+    _wr_cmd_id  lldelay, ,ASEQ_OPC_CTRLFLOW_DELAY,ASEQ_OPC_LAYER_LDELAY,,,,,, 0, 0
     _var_long   \delay
 .endm
 
@@ -2342,7 +2342,7 @@ $reladdr\@:
  *  This instruction must only be used when long notes are enabled with the noshort instruction.
  */
 .macro notedvg pitch, delay, velocity, gateTime
-    _wr_cmd_id  notedvg, ,,ASEQ_OPC_LAYER_STEP3_NOTEDVG,,,,,, \pitch, 6
+    _wr_cmd_id  notedvg, ,,ASEQ_OPC_LAYER_NOTEDVG,,,,,, \pitch, 6
     _var        \delay
     _wr_u8      \velocity
     _wr_u8      \gateTime
@@ -2356,14 +2356,14 @@ $reladdr\@:
  *  This instruction must only be used when long notes are enabled with the noshort instruction.
  */
 .macro notedv pitch, delay, velocity
-    _wr_cmd_id  notedv, ,,ASEQ_OPC_LAYER_STEP3_NOTEDV,,,,,, \pitch, 6
+    _wr_cmd_id  notedv, ,,ASEQ_OPC_LAYER_NOTEDV,,,,,, \pitch, 6
     _var        \delay
     _wr_u8      \velocity
 .endm
 
 /* Workaround for bugs in vanilla sequences, force long encoding for delay. This should not typically be used. */
 .macro noteldv pitch, delay, velocity
-    _wr_cmd_id  noteldv, ,,ASEQ_OPC_LAYER_STEP3_NOTEDV,,,,,, \pitch, 6
+    _wr_cmd_id  noteldv, ,,ASEQ_OPC_LAYER_NOTEDV,,,,,, \pitch, 6
     _var_long   \delay
     _wr_u8      \velocity
 .endm
@@ -2376,7 +2376,7 @@ $reladdr\@:
  *  This instruction must only be used when long notes are enabled with the noshort instruction.
  */
 .macro notevg pitch, velocity, gateTime
-    _wr_cmd_id  notevg, ,,ASEQ_OPC_LAYER_STEP3_NOTEVG,,,,,, \pitch, 6
+    _wr_cmd_id  notevg, ,,ASEQ_OPC_LAYER_NOTEVG,,,,,, \pitch, 6
     _wr_u8      \velocity
     _wr_u8      \gateTime
 .endm
@@ -2390,7 +2390,7 @@ $reladdr\@:
  *  This instruction must only be used when short notes are enabled with the short instruction.
  */
 .macro shortdvg pitch, delay
-    _wr_cmd_id  shortdvg, ,,ASEQ_OPC_LAYER_STEP3_NOTEDVG,,,,,, \pitch, 6
+    _wr_cmd_id  shortdvg, ,,ASEQ_OPC_LAYER_NOTEDVG,,,,,, \pitch, 6
     _var        \delay
 .endm
 
@@ -2403,7 +2403,7 @@ $reladdr\@:
  *  This instruction must only be used when short notes are enabled with the short instruction.
  */
 .macro shortdv pitch
-    _wr_cmd_id  shortdv, ,,ASEQ_OPC_LAYER_STEP3_NOTEDV,,,,,, \pitch, 6
+    _wr_cmd_id  shortdv, ,,ASEQ_OPC_LAYER_NOTEDV,,,,,, \pitch, 6
 .endm
 
 /**
@@ -2415,7 +2415,7 @@ $reladdr\@:
  *  This instruction must only be used when short notes are enabled with the short instruction.
  */
 .macro shortvg pitch
-    _wr_cmd_id  shortvg, ,,ASEQ_OPC_LAYER_STEP3_NOTEVG,,,,,, \pitch, 6
+    _wr_cmd_id  shortvg, ,,ASEQ_OPC_LAYER_NOTEVG,,,,,, \pitch, 6
 .endm
 
 /**
