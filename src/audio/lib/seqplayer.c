@@ -14,6 +14,7 @@
  *     Otherwise, each set of instructions has its own command interpreter
  */
 #include "ultra64.h"
+#define MML_VERSION MML_VERSION_OOT
 #include "audio/aseq.h"
 #include "global.h"
 
@@ -1670,7 +1671,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
         lowBits = cmd & 0xF;
 
         switch (cmd & 0xF0) {
-            case ASEQ_OPC_CHANNEL_STOPCHANELAY:
+            case ASEQ_OPC_CHANNEL_CDELAY:
                 channel->delay = lowBits;
                 goto exit_loop;
 

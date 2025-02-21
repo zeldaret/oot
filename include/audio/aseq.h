@@ -52,7 +52,18 @@
 #ifndef ASEQ_H
 #define ASEQ_H
 
-#include "versions.h"
+/**
+ *  MML Version
+ */
+
+#ifndef MML_VERSION
+    #error "MML version not defined, define MML_VERSION in the cpp invocation"
+#endif
+
+#define MML_VERSION_OOT  0
+#define MML_VERSION_MM   1
+
+
 
 /**
  *  IO Ports
@@ -251,6 +262,10 @@
 #define ASEQ_OPC_SEQUENCE_LDCHAN            0x90 // low nibble used as argument
 #define ASEQ_OPC_SEQUENCE_RLDCHAN           0xA0 // low nibble used as argument
 #define ASEQ_OPC_SEQUENCE_LDSEQ             0xB0 // low nibble used as argument
+#if (MML_VERSION == MML_VERSION_MM)
+#define ASEQ_OPC_SEQUENCE_C2                0xC2
+#define ASEQ_OPC_SEQUENCE_C3                0xC3
+#endif
 #define ASEQ_OPC_SEQUENCE_RUNSEQ            0xC4
 #define ASEQ_OPC_SEQUENCE_SCRIPTCTR         0xC5
 #define ASEQ_OPC_SEQUENCE_STOP              0xC6
@@ -280,7 +295,7 @@
 #define ASEQ_OPC_SEQUENCE_ALLOCNOTELIST     0xF1
 
 // channel commands
-#define ASEQ_OPC_CHANNEL_STOPCHANELAY   0x00 // low nibble used as argument
+#define ASEQ_OPC_CHANNEL_CDELAY         0x00 // low nibble used as argument
 #define ASEQ_OPC_CHANNEL_LDSAMPLE       0x10 // low nibble used as argument
 #define ASEQ_OPC_CHANNEL_LDCHAN         0x20 // low nibble used as argument
 #define ASEQ_OPC_CHANNEL_STCIO          0x30 // low nibble used as argument
@@ -293,6 +308,17 @@
 #define ASEQ_OPC_CHANNEL_LDLAYER        0x88 // lower 3 bits used as argument
 #define ASEQ_OPC_CHANNEL_DELLAYER       0x90 // lower 3 bits used as argument
 #define ASEQ_OPC_CHANNEL_DYNLDLAYER     0x98 // lower 3 bits used as argument
+#if (MML_VERSION == MML_VERSION_MM)
+#define ASEQ_OPC_CHANNEL_A0             0xA0
+#define ASEQ_OPC_CHANNEL_A1             0xA1
+#define ASEQ_OPC_CHANNEL_A2             0xA2
+#define ASEQ_OPC_CHANNEL_A3             0xA3
+#define ASEQ_OPC_CHANNEL_A4             0xA4
+#define ASEQ_OPC_CHANNEL_A5             0xA5
+#define ASEQ_OPC_CHANNEL_A6             0xA6
+#define ASEQ_OPC_CHANNEL_A7             0xA7
+#define ASEQ_OPC_CHANNEL_RANDPTR        0xA8
+#endif
 #define ASEQ_OPC_CHANNEL_LDFILTER       0xB0
 #define ASEQ_OPC_CHANNEL_FREEFILTER     0xB1
 #define ASEQ_OPC_CHANNEL_LDSEQTOPTR     0xB2
@@ -306,9 +332,13 @@
 #define ASEQ_OPC_CHANNEL_RANDGATE       0xBA
 #define ASEQ_OPC_CHANNEL_COMBFILTER     0xBB
 #define ASEQ_OPC_CHANNEL_PTRADD         0xBC
-#if (MML_VERSION == MML_VERSION_OOT)    
+#if (MML_VERSION == MML_VERSION_OOT)
 #define ASEQ_OPC_CHANNEL_RANDPTR        0xBD
-#endif  
+#endif
+#if (MML_VERSION == MML_VERSION_MM)
+#define ASEQ_OPC_CHANNEL_SAMPLESTART    0xBD
+#define ASEQ_OPC_CHANNEL_UNK_BE         0xBE
+#endif
 #define ASEQ_OPC_CHANNEL_INSTR          0xC1
 #define ASEQ_OPC_CHANNEL_DYNTBL         0xC2
 #define ASEQ_OPC_CHANNEL_SHORT          0xC3
@@ -378,23 +408,13 @@
 #define ASEQ_OPC_LAYER_RELEASERATE  0xCF
 #define ASEQ_OPC_LAYER_LDSHORTVEL   0xD0 // low nibble used as an argument
 #define ASEQ_OPC_LAYER_LDSHORTGATE  0xE0 // low nibble used as an argument
-
+#if (MML_VERSION == MML_VERSION_MM)
+#define ASEQ_OPC_LAYER_F0           0xF0
+#define ASEQ_OPC_LAYER_F1           0xF1
+#endif
 
 
 #ifdef _LANGUAGE_ASEQ
-
-/**
- *  MML Version
- */
-
-#ifndef MML_VERSION
-    #error "MML version not defined, define MML_VERSION in the cpp invocation"
-#endif
-
-#define MML_VERSION_OOT  0
-#define MML_VERSION_MM   1
-
-
 
 /**
  *  IDENT
@@ -1705,7 +1725,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro unk_BE arg0
-        _wr_cmd_id  unk_BE, ,0xBE,,,,,,, 0, 0
+        _wr_cmd_id  unk_BE, ,ASEQ_OPC_CHANNEL_UNK_BE,,,,,,, 0, 0
         _wr_u8      \arg0
     .endm
 
@@ -1719,13 +1739,9 @@ $reladdr\@:
  *  If range is 0, it is treated as 65536.
  */
 .macro randptr range, offset
-    #if (MML_VERSION == MML_VERSION_OOT)
-        _wr_cmd_id  randptr, ,ASEQ_OPC_CHANNEL_RANDPTR,,,,,,, 0, 0
-    #else
-        _wr_cmd_id  randptr, ,0xA8,,,,,,, 0, 0
-    #endif
-    _wr_u16         \range
-    _wr_u16         \offset
+    _wr_cmd_id  randptr, ,ASEQ_OPC_CHANNEL_RANDPTR,,,,,,, 0, 0
+    _wr_u16     \range
+    _wr_u16     \offset
 .endm
 
 #if (MML_VERSION == MML_VERSION_MM)
@@ -1736,7 +1752,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro samplestart arg
-        _wr_cmd_id  samplestart, ,0xBD,,,,,,, 0, 0
+        _wr_cmd_id  samplestart, ,ASEQ_OPC_CHANNEL_SAMPLESTART,,,,,,, 0, 0
         _wr_u8      \arg
     .endm
 
@@ -1746,7 +1762,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro unk_A7 arg
-        _wr_cmd_id  unk_A7, ,0xA7,,,,,,, 0, 0
+        _wr_cmd_id  unk_A7, ,ASEQ_OPC_CHANNEL_A7,,,,,,, 0, 0
         _wr_u8      \arg
     .endm
 
@@ -1756,7 +1772,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro unk_A6 arg0, arg1
-        _wr_cmd_id  unk_A6, ,0xA6,,,,,,, 0, 0
+        _wr_cmd_id  unk_A6, ,ASEQ_OPC_CHANNEL_A6,,,,,,, 0, 0
         _wr_u8      \arg0
         _wr_s16     \arg1
     .endm
@@ -1767,7 +1783,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro unk_A5
-        _wr_cmd_id  unk_A5, ,0xA5,,,,,,, 0, 0
+        _wr_cmd_id  unk_A5, ,ASEQ_OPC_CHANNEL_A5,,,,,,, 0, 0
     .endm
 
     /**
@@ -1776,7 +1792,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro unk_A4 arg
-        _wr_cmd_id  unk_A4, ,0xA4,,,,,,, 0, 0
+        _wr_cmd_id  unk_A4, ,ASEQ_OPC_CHANNEL_A4,,,,,,, 0, 0
         _wr_u8      \arg
     .endm
 
@@ -1786,7 +1802,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro unk_A3
-        _wr_cmd_id  unk_A3, ,0xA3,,,,,,, 0, 0
+        _wr_cmd_id  unk_A3, ,ASEQ_OPC_CHANNEL_A3,,,,,,, 0, 0
     .endm
 
     /**
@@ -1795,7 +1811,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro unk_A2 arg
-        _wr_cmd_id  unk_A2, ,0xA2,,,,,,, 0, 0
+        _wr_cmd_id  unk_A2, ,ASEQ_OPC_CHANNEL_A2,,,,,,, 0, 0
         _wr_s16     \arg
     .endm
 
@@ -1805,7 +1821,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro unk_A1
-        _wr_cmd_id  unk_A1, ,0xA1,,,,,,, 0, 0
+        _wr_cmd_id  unk_A1, ,ASEQ_OPC_CHANNEL_A1,,,,,,, 0, 0
     .endm
 
     /**
@@ -1814,7 +1830,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro unk_A0 arg
-        _wr_cmd_id  unk_A0, ,0xA0,,,,,,, 0, 0
+        _wr_cmd_id  unk_A0, ,ASEQ_OPC_CHANNEL_A0,,,,,,, 0, 0
         _wr_s16     \arg
     .endm
 
@@ -1951,7 +1967,7 @@ $reladdr\@:
  *  Delays by `delay` ticks.
  */
 .macro cdelay delay
-    _wr_cmd_id  cdelay, ,ASEQ_OPC_CHANNEL_STOPCHANELAY,,,,,,, \delay, 4
+    _wr_cmd_id  cdelay, ,ASEQ_OPC_CHANNEL_CDELAY,,,,,,, \delay, 4
 .endm
 
 /**
@@ -2311,7 +2327,7 @@ $reladdr\@:
      *  TODO DESCRIPTION
      */
     .macro unk_F0 arg
-        _wr_cmd_id  unk_F0, ,,0xF0,,,,,, 0, 0
+        _wr_cmd_id  unk_F0, ,,ASEQ_OPC_LAYER_F0,,,,,, 0, 0
         _wr_s16     \arg
     .endm
 
@@ -2320,9 +2336,8 @@ $reladdr\@:
      *
      *  TODO DESCRIPTION
      */
-    #define SURROUNDEFFECT_OPCODE 0xF1
     .macro surroundeffect arg
-        _wr_cmd_id  surroundeffect, ,,SURROUNDEFFECT_OPCODE,,,,,, 0, 0
+        _wr_cmd_id  surroundeffect, ,,ASEQ_OPC_LAYER_F1,,,,,, 0, 0
         _wr_u8      \arg
     .endm
 
