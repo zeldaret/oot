@@ -11,7 +11,7 @@ typedef struct SampleState {
     /* 0x00A8 */ View view;
 } SampleState; // size = 0x1D0
 
-void Sample_Destroy(GameState* thisx);
 void Sample_Init(GameState* thisx);
+void Sample_Destroy(GameState* thisx);
 
 #endif
