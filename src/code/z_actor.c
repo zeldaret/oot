@@ -32,7 +32,7 @@
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:128 pal-1.1:128"
+                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 CollisionPoly* sCurCeilingPoly;
 s32 sCurCeilingBgId;
