@@ -1,4 +1,4 @@
-#include "libu64/loadfragment.h"
+#include "libu64/overlay.h"
 #include "sfx.h"
 #include "terminal.h"
 #include "zelda_arena.h"

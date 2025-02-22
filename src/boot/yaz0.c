@@ -51,6 +51,13 @@ void* Yaz0_NextDMA(u8* curSrcPos) {
     return dst;
 }
 
+typedef struct Yaz0Header {
+    /* 0x00 */ char magic[4]; // Yaz0
+    /* 0x04 */ u32 decSize;
+    /* 0x08 */ u32 compInfoOffset;   // only used in mio0
+    /* 0x0C */ u32 uncompDataOffset; // only used in mio0
+} Yaz0Header;                        // size = 0x10
+
 void Yaz0_DecompressImpl(u8* src, u8* dst) {
     Yaz0Header* header = (Yaz0Header*)src;
     u32 bitIdx = 0;

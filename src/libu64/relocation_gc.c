@@ -6,7 +6,7 @@
  *
  * @see Overlay_Relocate
  */
-#include "libu64/loadfragment.h"
+#include "libu64/overlay.h"
 #include "attributes.h"
 #include "ultra64.h"
 

@@ -1,4 +1,4 @@
-#include "libu64/loadfragment.h"
+#include "libu64/overlay.h"
 #include "ultra64.h"
 #include "z64dma.h"
 

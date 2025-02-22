@@ -149,7 +149,6 @@ extern f32 gBossMarkScale;
 extern u32 D_8016139C;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
 
-extern PreNmiBuff* gAppNmiBufferPtr;
 extern Scheduler gScheduler;
 extern PadMgr gPadMgr;
 extern IrqMgr gIrqMgr;

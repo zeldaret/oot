@@ -7,7 +7,7 @@
  * @see Overlay_Relocate
  */
 #include "libc64/malloc.h"
-#include "libu64/loadfragment.h"
+#include "libu64/overlay.h"
 #include "z64dma.h"
 
 #include "macros.h"
