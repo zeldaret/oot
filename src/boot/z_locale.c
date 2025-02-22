@@ -6,6 +6,19 @@
 
 s32 gCurrentRegion = 0;
 
+typedef struct LocaleCartInfo {
+    /* 0x00 */ char name[0x18];
+    /* 0x18 */ u32 mediaFormat;
+    /* 0x1C */ union {
+        struct {
+            u16 cartId;
+            u8 countryCode;
+            u8 version;
+        };
+        u32 regionInfo;
+    };
+} LocaleCartInfo; // size = 0x20
+
 void Locale_Init(void) {
 #if !PLATFORM_GC
     ALIGNED(4) u8 regionInfo[4];

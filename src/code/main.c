@@ -14,6 +14,7 @@ extern struct IrqMgr gIrqMgr;
 
 #include "debug_arena.h"
 #include "fault.h"
+#include "prenmi_buff.h"
 #include "segmented_address.h"
 #include "stack.h"
 #include "terminal.h"
@@ -27,8 +28,8 @@ extern struct IrqMgr gIrqMgr;
 
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:104 ntsc-1.1:104 ntsc-1.2:104 pal-1.0:102 pal-1.1:102"
+#pragma increment_block_number "gc-eu:144 gc-eu-mq:144 gc-jp:144 gc-jp-ce:144 gc-jp-mq:144 gc-us:144 gc-us-mq:144" \
+                               "ique-cn:144 ntsc-1.0:129 ntsc-1.1:129 ntsc-1.2:129 pal-1.0:127 pal-1.1:127"
 
 extern u8 _buffersSegmentEnd[];
 

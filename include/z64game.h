@@ -5,6 +5,7 @@
 #include "ultra64/ultratypes.h"
 #include "libu64/pad.h"
 #include "gamealloc.h"
+#include "romfile.h"
 #include "tha.h"
 
 struct GraphicsContext;
@@ -18,6 +19,22 @@ typedef enum GameStateId {
 } GameStateId;
 #undef DEFINE_GAMESTATE
 #undef DEFINE_GAMESTATE_INTERNAL
+
+typedef struct GameStateOverlay {
+    /* 0x00 */ void* loadedRamAddr;
+    /* 0x04 */ RomFile file; // if applicable
+    /* 0x0C */ void* vramStart; // if applicable
+    /* 0x10 */ void* vramEnd; // if applicable
+    /* 0x14 */ void* unk_14;
+    /* 0x18 */ void* init;
+    /* 0x1C */ void* destroy;
+    /* 0x20 */ void* unk_20;
+    /* 0x24 */ void* unk_24;
+    /* 0x28 */ s32 unk_28;
+    /* 0x2C */ u32 instanceSize;
+} GameStateOverlay; // size = 0x30
+
+extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
 
 struct GameState;
 

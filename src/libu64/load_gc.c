@@ -1,3 +1,5 @@
+#include "libu64/overlay.h"
+
 #include "global.h"
 
 size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {

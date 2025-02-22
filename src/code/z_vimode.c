@@ -1,3 +1,5 @@
+#include "vi_mode.h"
+
 #include "global.h"
 #include "ultra64/viint.h"
 #include "versions.h"

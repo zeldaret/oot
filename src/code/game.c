@@ -18,6 +18,7 @@
 #include "speed_meter.h"
 #include "terminal.h"
 #include "versions.h"
+#include "vi_mode.h"
 #include "z64debug.h"
 #include "z64game.h"
 #include "z64vis.h"
