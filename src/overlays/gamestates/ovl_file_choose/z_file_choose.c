@@ -1,9 +1,8 @@
-#include "file_select_state.h"
 #include "file_select.h"
+#include "file_select_state.h"
 
 #include "attributes.h"
 #include "controller.h"
-#include "file_select_state.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "letterbox.h"
