@@ -9,6 +9,7 @@
 #include "file_select_state.h"
 #include "line_numbers.h"
 #include "map_select_state.h"
+#include "prenmi_buff.h"
 #include "prenmi_state.h"
 #include "regs.h"
 #include "setup_state.h"
@@ -26,8 +27,8 @@
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:192" \
-                               "ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:224" \
+                               "ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:224"
 
 /**
  * The time at which the previous `Graph_Update` ended.
