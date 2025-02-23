@@ -29,10 +29,6 @@ void Mio0_Decompress(u8* src, u8* dst);
 
 void FlagSet_Update(PlayState* play);
 
-void ActorOverlayTable_LogPrint(void);
-void ActorOverlayTable_Init(void);
-void ActorOverlayTable_Cleanup(void);
-
 void SaveContext_Init(void);
 
 void* MemCpy(void* dest, const void* src, s32 len);

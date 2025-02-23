@@ -3,6 +3,7 @@
 
 #include "color.h"
 #include "romfile.h"
+#include "z64actor_profile.h"
 #include "z64animation.h"
 #include "z64math.h"
 #include "z64collision_check.h"
@@ -23,87 +24,15 @@
 
 struct Actor;
 struct ActorEntry;
+struct ActorOverlay;
 struct CollisionPoly;
 struct Lights;
 struct Player;
 struct PlayState;
 
-typedef void (*ActorFunc)(struct Actor*, struct PlayState*);
 typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*);
 typedef u16 (*NpcGetTextIdFunc)(struct PlayState*, struct Actor*);
 typedef s16 (*NpcUpdateTalkStateFunc)(struct PlayState*, struct Actor*);
-
-typedef struct ActorProfile {
-    /* 0x00 */ s16 id;
-    /* 0x02 */ u8 category; // Classifies actor and determines when it will update or draw
-    /* 0x04 */ u32 flags;
-    /* 0x08 */ s16 objectId;
-    /* 0x0C */ u32 instanceSize;
-    /* 0x10 */ ActorFunc init; // Constructor
-    /* 0x14 */ ActorFunc destroy; // Destructor
-    /* 0x18 */ ActorFunc update; // Update Function
-    /* 0x1C */ ActorFunc draw; // Draw function
-} ActorProfile; // size = 0x20
-
-/**
- * @see ACTOROVL_ALLOC_ABSOLUTE
- */
-#if DEBUG_FEATURES
-#define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x27A0
-#else
-#define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x24E0
-#endif
-
-/**
- * The actor overlay should be allocated memory for when loading,
- * and the memory deallocated when there is no more actor using the overlay.
- *
- * `ACTOROVL_ALLOC_` defines indicate how an actor overlay should be loaded.
- *
- * @note Bitwise or-ing `ACTOROVL_ALLOC_` types is not meaningful.
- * The `ACTOROVL_ALLOC_` types are 0, 1, 2 but checked against with a bitwise and.
- *
- * @see ACTOROVL_ALLOC_ABSOLUTE
- * @see ACTOROVL_ALLOC_PERSISTENT
- * @see actor_table.h
- */
-#define ACTOROVL_ALLOC_NORMAL 0
-
-/**
- * The actor overlay should be loaded to "absolute space".
- *
- * Absolute space is a fixed amount of memory allocated once.
- * The overlay will still need to be loaded again if at some point there is no more actor using the overlay.
- *
- * @note Only one such overlay may be loaded at a time.
- * This is not checked: a newly loaded overlay will overwrite the previous one in absolute space,
- * even if actors are still relying on the previous one. Actors using absolute-allocated overlays should be deleted
- * when another absolute-allocated overlay is about to be used.
- *
- * @see ACTOROVL_ABSOLUTE_SPACE_SIZE
- * @see ActorContext.absoluteSpace
- * @see ACTOROVL_ALLOC_NORMAL
- */
-#define ACTOROVL_ALLOC_ABSOLUTE (1 << 0)
-
-/**
- * The actor overlay should be loaded persistently.
- * It will stay loaded until the current game state instance ends.
- *
- * @see ACTOROVL_ALLOC_NORMAL
- */
-#define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
-
-typedef struct ActorOverlay {
-    /* 0x00 */ RomFile file;
-    /* 0x08 */ void* vramStart;
-    /* 0x0C */ void* vramEnd;
-    /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
-    /* 0x14 */ ActorProfile* profile;
-    /* 0x18 */ char* name;
-    /* 0x1C */ u16 allocType; // See `ACTOROVL_ALLOC_` defines
-    /* 0x1E */ s8 numLoaded; // original name: "clients"
-} ActorOverlay; // size = 0x20
 
 typedef struct ActorShape {
     /* 0x00 */ Vec3s rot; // Current actor shape rotation
@@ -309,7 +238,7 @@ typedef struct Actor {
     /* 0x12C */ ActorFunc destroy; // Destruction Routine. Called by `Actor_Destroy`
     /* 0x130 */ ActorFunc update; // Update Routine. Called by `Actor_UpdateAll`
     /* 0x134 */ ActorFunc draw; // Draw Routine. Called by `Actor_Draw`
-    /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
+    /* 0x138 */ struct ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
 #if DEBUG_FEATURES
     /* 0x13C */ char dbgPad[0x10];
 #endif
@@ -395,35 +324,6 @@ typedef struct EnAObj {
     /* 0x178 */ f32 focusYoffset;
     /* 0x17C */ ColliderCylinder collider;
 } EnAObj; // size = 0x1C8
-
-typedef enum ActorCategory {
-    /* 0x00 */ ACTORCAT_SWITCH,
-    /* 0x01 */ ACTORCAT_BG,
-    /* 0x02 */ ACTORCAT_PLAYER,
-    /* 0x03 */ ACTORCAT_EXPLOSIVE,
-    /* 0x04 */ ACTORCAT_NPC,
-    /* 0x05 */ ACTORCAT_ENEMY,
-    /* 0x06 */ ACTORCAT_PROP,
-    /* 0x07 */ ACTORCAT_ITEMACTION,
-    /* 0x08 */ ACTORCAT_MISC,
-    /* 0x09 */ ACTORCAT_BOSS,
-    /* 0x0A */ ACTORCAT_DOOR,
-    /* 0x0B */ ACTORCAT_CHEST,
-    /* 0x0C */ ACTORCAT_MAX
-} ActorCategory;
-
-#define DEFINE_ACTOR(_0, enum, _2, _3) enum,
-#define DEFINE_ACTOR_INTERNAL(_0, enum, _2, _3) enum,
-#define DEFINE_ACTOR_UNSET(enum) enum,
-
-typedef enum ActorID {
-    #include "tables/actor_table.h"
-    /* 0x0192 */ ACTOR_ID_MAX // originally "ACTOR_DLF_MAX"
-} ActorID;
-
-#undef DEFINE_ACTOR
-#undef DEFINE_ACTOR_INTERNAL
-#undef DEFINE_ACTOR_UNSET
 
 typedef enum DoorLockType {
     DOORLOCK_NORMAL,

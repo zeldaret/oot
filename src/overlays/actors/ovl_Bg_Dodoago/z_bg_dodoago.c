@@ -24,6 +24,8 @@
 
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
+#pragma increment_block_number "ntsc-1.0:128"
+
 #define FLAGS 0
 
 void BgDodoago_Init(Actor* thisx, PlayState* play);
