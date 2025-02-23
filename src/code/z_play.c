@@ -23,6 +23,7 @@
 #include "terminal.h"
 #include "title_setup_state.h"
 #include "versions.h"
+#include "z_actor_dlftbls.h"
 #include "zelda_arena.h"
 #include "z64cutscene_flags.h"
 #include "z64debug_display.h"
