@@ -13,7 +13,7 @@
 #include "macros.h"
 #include "global.h"
 
-#pragma increment_block_number "ntsc-1.0:192 ntsc-1.1:160 ntsc-1.2:160 pal-1.0:160 pal-1.1:160"
+#pragma increment_block_number "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 typedef struct FaultMgr {
     OSThread thread;
