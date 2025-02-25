@@ -5,7 +5,6 @@
 
 struct FileSelectState;
 struct GameState;
-struct PlayState;
 
 typedef struct SramContext {
     /* 0x00 */ u8* readBuff;
@@ -32,6 +31,6 @@ void Sram_CopySave(struct FileSelectState* fileSelect, SramContext* sramCtx);
 void Sram_WriteSramHeader(SramContext* sramCtx);
 void Sram_InitSram(struct GameState* gameState, SramContext* sramCtx);
 void Sram_Alloc(struct GameState* gameState, SramContext* sramCtx);
-void Sram_Init(struct PlayState* play, SramContext* sramCtx);
+void Sram_Init(struct GameState* play, SramContext* sramCtx);
 
 #endif

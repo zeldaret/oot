@@ -4,18 +4,27 @@
  * Description: Displays the Nintendo Logo
  */
 
-#include "console_logo_state.h"
-
-#include "global.h"
-#include "alloca.h"
-#include "title_setup_state.h"
-#include "versions.h"
-
+#include "libu64/gfxprint.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #include "n64dd.h"
 #endif
+
+#include "alloca.h"
+#include "console_logo_state.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "segment_symbols.h"
+#include "sequence.h"
+#include "sys_matrix.h"
+#include "title_setup_state.h"
+#include "versions.h"
+#include "z64actor.h"
+#include "z64environment.h"
 #include "z64save.h"
+
+#include "global.h"
 
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 

@@ -1,8 +1,10 @@
 #include "libu64/overlay.h"
-#include "global.h"
+#include "sfx.h"
 #include "terminal.h"
-
+#include "zelda_arena.h"
 #include "z64frame_advance.h"
+#include "z64effect.h"
+#include "z64play.h"
 
 EffectSsInfo sEffectSsInfo = { 0 }; // "EffectSS2Info"
 

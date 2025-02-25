@@ -2,12 +2,12 @@
 #define FILE_SELECT_STATE_H
 
 #include "ultra64.h"
-#include "z64game.h"
-#include "z64view.h"
-#include "z64sram.h"
-#include "z64skybox.h"
-#include "z64message.h"
 #include "z64environment.h"
+#include "z64game.h"
+#include "z64message.h"
+#include "z64skybox.h"
+#include "z64sram.h"
+#include "z64view.h"
 
 typedef struct FileSelectState {
     /* 0x00000 */ GameState state;

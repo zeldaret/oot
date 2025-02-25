@@ -1,7 +1,8 @@
-#include "file_select_state.h"
 #include "file_select.h"
+#include "file_select_state.h"
 
 #include "attributes.h"
+#include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "letterbox.h"
@@ -11,6 +12,8 @@
 #include "n64dd.h"
 #endif
 #include "regs.h"
+#include "rumble.h"
+#include "segment_symbols.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"

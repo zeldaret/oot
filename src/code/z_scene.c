@@ -2,6 +2,7 @@
 #include "seqcmd.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_actor_dlftbls.h"
 #include "z64save.h"
 
 SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX];

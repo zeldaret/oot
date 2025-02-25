@@ -11,7 +11,7 @@
 #include "z64player.h"
 #include "z64skin_matrix.h"
 
-#pragma increment_block_number "ntsc-1.0:176 ntsc-1.1:176 ntsc-1.2:176"
+#pragma increment_block_number "ntsc-1.0:184 ntsc-1.1:184 ntsc-1.2:184"
 
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);

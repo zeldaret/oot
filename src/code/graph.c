@@ -2,8 +2,8 @@
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
 
-#include "console_logo_state.h"
 #include "buffers.h"
+#include "console_logo_state.h"
 #include "gfx.h"
 #include "fault.h"
 #include "file_select_state.h"
@@ -14,10 +14,11 @@
 #include "regs.h"
 #include "setup_state.h"
 #include "sys_ucode.h"
-#include "title_setup_state.h"
 #include "terminal.h"
+#include "title_setup_state.h"
 #include "ucode_disas.h"
 #include "versions.h"
+#include "z_game_dlftbls.h"
 #include "z64save.h"
 #include "z64play.h"
 

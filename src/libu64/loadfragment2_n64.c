@@ -6,9 +6,11 @@
  *
  * @see Overlay_Relocate
  */
+#include "libc64/malloc.h"
 #include "libu64/overlay.h"
+#include "z64dma.h"
 
-#include "global.h"
+#include "macros.h"
 
 s32 gOverlayLogSeverity = 2;
 

@@ -4,21 +4,29 @@
  * Description: Debug Scene Select Menu
  */
 
-#include "map_select_state.h"
-
+#include "libc64/qrand.h"
+#include "libu64/gfxprint.h"
 #include "ultra64.h"
 #include "alloca.h"
 #include "console_logo_state.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "map_select_state.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "regs.h"
+#include "segment_symbols.h"
 #include "seqcmd.h"
 #include "sequence.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "z64play.h"
 #include "z64save.h"
 #include "z64sram.h"
 
-#include "global.h"
+#include "macros.h"
 
 void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;
