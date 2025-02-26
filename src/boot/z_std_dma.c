@@ -19,6 +19,9 @@
  * to be uncompressed and the request queue and address translation is skipped.
  */
 #include "libc64/sleep.h"
+#include "libc64/sprintf.h"
+#include "libu64/debug.h"
+#include "attributes.h"
 #include "fault.h"
 #include "line_numbers.h"
 #if PLATFORM_N64
@@ -33,7 +36,7 @@
 #include "global.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:86 pal-1.0:84 pal-1.1:84"
+                               "ntsc-1.2:12 pal-1.0:84 pal-1.1:84"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;

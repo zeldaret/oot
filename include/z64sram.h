@@ -20,6 +20,8 @@ typedef enum SramHeaderField {
     /* 0x03 */ SRAM_HEADER_MAGIC // must be the value in `sSramDefaultHeader` for save to be considered valid
 } SramHeaderField;
 
+extern u16 gSramSlotOffsets[];
+
 void Sram_InitNewSave(void);
 void Sram_InitDebugSave(void);
 void Sram_OpenSave(SramContext* sramCtx);
@@ -31,6 +33,6 @@ void Sram_CopySave(struct FileSelectState* fileSelect, SramContext* sramCtx);
 void Sram_WriteSramHeader(SramContext* sramCtx);
 void Sram_InitSram(struct GameState* gameState, SramContext* sramCtx);
 void Sram_Alloc(struct GameState* gameState, SramContext* sramCtx);
-void Sram_Init(struct GameState* play, SramContext* sramCtx);
+void Sram_Init(struct GameState* gameState, SramContext* sramCtx);
 
 #endif

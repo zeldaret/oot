@@ -1,8 +1,16 @@
 #include "z_kaleido_scope.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "map.h"
+#include "regs.h"
+#include "sfx.h"
 #include "sys_ucode.h"
 #include "versions.h"
 #include "z64play.h"
 #include "z64save.h"
+
+#include "global.h"
 
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
 #if OOT_NTSC

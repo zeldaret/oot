@@ -1,5 +1,9 @@
-#include "global.h"
+#include "libu64/debug.h"
+#include "attributes.h"
+#include "stackcheck.h"
 #include "terminal.h"
+
+#include "macros.h"
 
 StackEntry* sStackInfoListStart = NULL;
 StackEntry* sStackInfoListEnd = NULL;

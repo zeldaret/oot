@@ -1,8 +1,10 @@
 #include "fault.h"
 #include "n64dd.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "z64actor.h"
+#include "z64cutscene.h"
 #include "z64save.h"
-
-#include "global.h"
 
 n64ddStruct_800FEE70_pointers D_800FEE70 = {
     func_801C7C1C,

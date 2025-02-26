@@ -1,6 +1,18 @@
-#include "global.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
 #include "terminal.h"
+#include "z64effect.h"
+#include "z64light.h"
+#include "z64play.h"
+#include "z64skin_matrix.h"
+
+#include "macros.h"
+#include "global.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
+
+extern u64 gUnknownCircle6Tex[];
 
 static Vtx sVertices[5] = {
     VTX(-32, -32, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),

@@ -1,8 +1,14 @@
 #include "vi_mode.h"
 
-#include "global.h"
+#include "libu64/debug.h"
 #include "ultra64/viint.h"
+#include "controller.h"
+#include "main.h"
+#include "regs.h"
 #include "versions.h"
+
+#include "global.h"
+#include "macros.h"
 
 void ViMode_LogPrint(OSViMode* osViMode) {
     LOG_ADDRESS("osvimodep", osViMode, "../z_vimode.c", 87);

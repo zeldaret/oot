@@ -3,12 +3,12 @@
 
 #include "controller.h"
 #include "regs.h"
+#include "rumble.h"
 #include "sfx.h"
 #include "z64save.h"
 #include "z64sram.h"
 
 #include "macros.h"
-#include "global.h"
 
 // In iQue versions, this file contains many workarounds for EGCS internal
 // compiler errors (see docs/compilers.md)

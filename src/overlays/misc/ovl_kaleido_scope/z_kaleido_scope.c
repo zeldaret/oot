@@ -1,12 +1,29 @@
 #include "z_kaleido_scope.h"
+#include "libc64/sleep.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "gfxalloc.h"
+#include "map.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "regs.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
 #include "seqcmd.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "title_setup_state.h"
 #include "versions.h"
+#include "z64audio.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
 #include "z64save.h"
+
+#include "global.h"
 
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
@@ -20,7 +37,7 @@
 #endif
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 ntsc-1.0:0 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #if !PLATFORM_GC
 #define KALEIDO_PROMPT_CURSOR_R 100

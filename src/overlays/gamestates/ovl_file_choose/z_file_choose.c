@@ -7,6 +7,7 @@
 #include "gfx_setupdl.h"
 #include "letterbox.h"
 #include "macros.h"
+#include "main.h"
 #include "map_select_state.h"
 #if PLATFORM_N64
 #include "n64dd.h"
@@ -20,8 +21,10 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_lib.h"
 #include "z64audio.h"
 #include "z64environment.h"
+#include "z64play.h"
 #include "z64save.h"
 #include "z64skybox.h"
 #include "z64sram.h"

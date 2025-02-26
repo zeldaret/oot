@@ -7,8 +7,11 @@
 #include "z_en_bili.h"
 
 #include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
 #include "ichain.h"
 #include "rand.h"
+#include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "versions.h"

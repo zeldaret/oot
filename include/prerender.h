@@ -2,11 +2,7 @@
 #define PRERENDER_H
 
 #include "ultra64/ultratypes.h"
-
-typedef struct ListAlloc {
-    /* 0x00 */ struct ListAlloc* prev;
-    /* 0x04 */ struct ListAlloc* next;
-} ListAlloc; // size = 0x8
+#include "listalloc.h"
 
 typedef struct PreRender {
     /* 0x00 */ s32 width;

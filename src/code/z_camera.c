@@ -1,14 +1,30 @@
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
 #include "ultra64.h"
+
+#include "attributes.h"
+#include "controller.h"
+#include "db_camera.h"
+#include "letterbox.h"
+#include "one_point_cutscene.h"
 #include "quake.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math3d.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "zelda_arena.h"
+#include "z64audio.h"
 #include "z64cutscene_spline.h"
 #include "z64debug.h"
 #include "z64olib.h"
+#include "z64play.h"
+#include "z64player.h"
 #include "z64save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
-                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:192" \
+                               "ntsc-1.0:192 ntsc-1.1:0 ntsc-1.2:192 pal-1.0:0 pal-1.1:0"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
@@ -3642,7 +3658,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:120 ntsc-1.1:120 ntsc-1.2:120 pal-1.0:118 pal-1.1:118"
+                               "ique-cn:128 ntsc-1.0:95 ntsc-1.1:120 ntsc-1.2:95 pal-1.0:118 pal-1.1:118"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;

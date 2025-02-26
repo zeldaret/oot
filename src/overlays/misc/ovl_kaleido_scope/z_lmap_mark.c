@@ -1,7 +1,14 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "regs.h"
+#include "sys_matrix.h"
 #include "z_kaleido_scope.h"
+#include "z_lib.h"
+#include "z64play.h"
+
+#include "global.h"
+
 #include "assets/textures/parameter_static/parameter_static.h"
 
 typedef struct PauseMapMarkInfo {
