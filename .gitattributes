@@ -1,5 +1,5 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Always use LF instead of CRLF line endings
+* text eol=lf
 # Set browser syntax highlighting for certain files
 *.inc linguist-language=gas
 *.seq linguist-language=gas
