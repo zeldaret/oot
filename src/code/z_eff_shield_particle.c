@@ -12,8 +12,6 @@
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-extern u64 gUnknownCircle6Tex[];
-
 static Vtx sVertices[5] = {
     VTX(-32, -32, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(32, 32, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
