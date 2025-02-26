@@ -5,6 +5,8 @@
 #include "libc64/os_malloc.h"
 #include "segment_symbols.h"
 
+struct MapData;
+
 extern void* osRomBase;
 extern s32 osTvType;
 extern u32 osRomType;
@@ -32,7 +34,6 @@ extern u32 gViConfigFeatures;
 extern f32 gViConfigXScale;
 extern f32 gViConfigYScale;
 extern OSPiHandle* gCartHandle;
-extern s32 gCurrentRegion;
 extern u32 __osPiAccessQueueEnabled;
 extern OSViMode osViModePalLan1;
 extern s32 osViClock;
@@ -65,19 +66,14 @@ extern OSTime __osCurrentTime;
 extern u32 __osBaseCounter;
 extern u32 __osViIntrCount;
 extern u32 __osTimerCounter;
-extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
 extern s16 gSpoilingItemReverts[3];
 
-extern u16 gSramSlotOffsets[];
 // 4 16-colors palettes
 extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
 extern u64 gMojiFontTex[]; // original name: "font_ff"
 extern u8 gBossMarkState;
 
-#if DEBUG_FEATURES
-extern u32 gIsCtrlr2Valid;
-#endif
 extern s16* gWaveSamples[9];
 extern f32 gBendPitchOneOctaveFrequencies[256];
 extern f32 gBendPitchTwoSemitonesFrequencies[256];
@@ -142,27 +138,10 @@ extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
 
-extern MapData* gMapData;
+extern struct MapData* gMapData;
 extern f32 gBossMarkScale;
 extern u32 D_8016139C;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
-
-extern Scheduler gScheduler;
-extern PadMgr gPadMgr;
-extern IrqMgr gIrqMgr;
-extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
-extern volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
-extern volatile OSTime gRSPAudioTimeTotal;
-extern volatile OSTime gRSPGfxTimeTotal;
-extern volatile OSTime gRDPTimeTotal;
-extern volatile OSTime gGraphUpdatePeriod;
-extern volatile OSTime gAudioThreadUpdateTimeStart;
-extern volatile OSTime gAudioThreadUpdateTimeAcc;
-extern volatile OSTime gRSPAudioTimeAcc;
-extern volatile OSTime gRSPGfxTimeAcc;
-extern volatile OSTime gRSPOtherTimeAcc;
-extern volatile OSTime D_8016A578;
-extern volatile OSTime gRDPTimeAcc;
 
 extern SfxBankEntry D_8016BAD0[9];
 extern SfxBankEntry D_8016BC80[12];

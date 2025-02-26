@@ -1,7 +1,9 @@
 #pragma increment_block_number "ntsc-1.2:0"
-
 #include "global.h"
+#include "audiomgr.h"
 #include "cic6105.h"
+#include "regs.h"
+#include "sched.h"
 #include "fault.h"
 
 s32 func_80001714(void);

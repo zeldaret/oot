@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "romfile.h"
-#include "unk.h"
 
 typedef struct GameStateOverlay {
     /* 0x00 */ void*     loadedRamAddr;
@@ -15,7 +14,7 @@ typedef struct GameStateOverlay {
     /* 0x1C */ void*     destroy; // deconstructs the context, and sets the next context to load
     /* 0x20 */ void*     unk_20;
     /* 0x24 */ void*     unk_24;
-    /* 0x28 */ UNK_TYPE4 unk_28;
+    /* 0x28 */ s32       unk_28;
     /* 0x2C */ u32       instanceSize;
 } GameStateOverlay; // size = 0x30
 

@@ -1,9 +1,11 @@
-#include "global.h"
 #include "ultra64/asm.h"
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
 #include "libc/stdint.h"
+#include "attributes.h"
+
+#include "global.h"
 
 s32 LeoCJCreateLeoManager(s32 comPri, s32 intPri, OSMesg* cmdBuf, s32 cmdMsgCnt) {
     OSPiHandle* driveRomHandle;

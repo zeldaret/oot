@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "regs.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "z64play.h"
 #include "z64player.h"

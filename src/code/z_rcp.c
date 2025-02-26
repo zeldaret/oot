@@ -3,10 +3,9 @@
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
 #include "letterbox.h"
+#include "main.h"
 #include "regs.h"
 #include "z64play.h"
-
-#include "global.h"
 
 Gfx sSetupDL[SETUPDL_MAX][6] = {
     {

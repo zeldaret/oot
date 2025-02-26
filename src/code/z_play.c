@@ -1,3 +1,5 @@
+#include "libc64/malloc.h"
+#include "libc64/qrand.h"
 #include "libu64/debug.h"
 #include "buffers.h"
 #include "controller.h"
@@ -33,11 +35,12 @@
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"
+#include "z64vis.h"
 
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:192" \
-                               "ntsc-1.0:144 ntsc-1.1:144 ntsc-1.2:144 pal-1.0:144 pal-1.1:144"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
+                               "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:224"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;

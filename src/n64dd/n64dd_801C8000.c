@@ -1,7 +1,7 @@
 // Does some command processing
-#include "global.h"
 #include "n64dd.h"
 #include "versions.h"
+#include "z_locale.h"
 
 void func_801C8554(void);
 void func_801C8578(void* arg0, void* arg1, OSId id, void* sp, OSPri pri);

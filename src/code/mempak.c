@@ -7,7 +7,10 @@
  * Each file is assigned an uppercase ASCII letter as an identifier, the game name for each is marked as
  * 'ZELDA DEMO TOOL', encoded according to the N64 Font Code described in section 26.3 of the N64 Programming Manual.
  */
-#include "global.h"
+#include "mempak.h"
+#include "padmgr.h"
+
+#include "macros.h"
 
 #define MEMPAK_MAX_FILES 11
 

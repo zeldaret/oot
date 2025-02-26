@@ -1,5 +1,11 @@
 #include "z_kaleido_scope.h"
 
+#include "libu64/gfxprint.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "gfxalloc.h"
+#include "z64play.h"
 #include "z64save.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
