@@ -1,6 +1,8 @@
 #include "console_logo_state.h"
 #include "setup_state.h"
 
+#include "z64save.h"
+
 #include "global.h"
 
 void Setup_InitImpl(SetupState* this) {

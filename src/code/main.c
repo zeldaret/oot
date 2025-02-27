@@ -16,6 +16,7 @@ extern struct IrqMgr gIrqMgr;
 #include "audiomgr.h"
 #include "debug_arena.h"
 #include "fault.h"
+#include "gfx.h"
 #include "padmgr.h"
 #include "prenmi_buff.h"
 #include "regs.h"
