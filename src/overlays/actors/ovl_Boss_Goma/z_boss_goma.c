@@ -1,8 +1,35 @@
+/*
+ * File: z_boss_goma.c
+ * Overlay: ovl_Boss_Goma
+ * Description: Gohma
+ */
+
 #include "z_boss_goma.h"
-#include "assets/objects/object_goma/object_goma.h"
 #include "overlays/actors/ovl_En_Goma/z_en_goma.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64environment.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_goma/object_goma.h"
 
 #define FLAGS                                                                                 \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
@@ -63,7 +90,7 @@ ActorProfile Boss_Goma_Profile = {
     /**/ BossGoma_Draw,
 };
 
-static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {
+static ColliderJntSphElementInit sColliderJntSphElementsInit[13] = {
     {
         {
             ELEM_MATERIAL_UNK3,
@@ -219,7 +246,7 @@ static ColliderJntSphInit sColliderJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     13,
-    sColliderJntSphElementInit,
+    sColliderJntSphElementsInit,
 };
 
 static u8 sClearPixelTableFirstPass[16 * 16] = {
@@ -359,7 +386,7 @@ void BossGoma_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.health = 10;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
 
     if (Flags_GetClear(play, play->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);

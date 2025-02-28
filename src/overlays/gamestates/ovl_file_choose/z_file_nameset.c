@@ -1,6 +1,21 @@
 #include "file_select.h"
+#include "file_select_state.h"
+
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64audio.h"
+#include "z64save.h"
+
+#include "macros.h"
+#include "global.h"
+
 #include "assets/textures/title_static/title_static.h"
 #include "assets/overlays/ovl_file_choose/ovl_file_choose.h"
 
@@ -1340,7 +1355,7 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->configMode = CM_OPTIONS_TO_MAIN;
-        sramCtx->readBuff[0] = gSaveContext.audioSetting;
+        sramCtx->readBuff[0] = gSaveContext.soundSetting;
         sramCtx->readBuff[1] = gSaveContext.zTargetSetting;
 #if OOT_PAL_N64
         sramCtx->readBuff[2] = gSaveContext.language;
@@ -1350,11 +1365,11 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         PRINTF_COLOR_YELLOW();
         PRINTF("sram->read_buff[2] = J_N = %x\n", sramCtx->readBuff[2]);
         PRINTF("sram->read_buff[2] = J_N = %x\n", &sramCtx->readBuff[2]);
-        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
+        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
+        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
         PRINTF_RST();
-        func_800F6700(gSaveContext.audioSetting);
+        Audio_SetSoundMode(gSaveContext.soundSetting);
         PRINTF("終了\n");
         return;
     }
@@ -1364,11 +1379,11 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
         if (sSelectedSetting == FS_SETTING_AUDIO) {
-            gSaveContext.audioSetting--;
+            gSaveContext.soundSetting--;
 
             // because audio setting is unsigned, can't check for < 0
-            if (gSaveContext.audioSetting > 0xF0) {
-                gSaveContext.audioSetting = FS_AUDIO_SURROUND;
+            if (gSaveContext.soundSetting > 0xF0) {
+                gSaveContext.soundSetting = SOUND_SETTING_SURROUND;
             }
         } else {
 #if !OOT_PAL_N64
@@ -1389,10 +1404,10 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
         if (sSelectedSetting == FS_SETTING_AUDIO) {
-            gSaveContext.audioSetting++;
+            gSaveContext.soundSetting++;
 
-            if (gSaveContext.audioSetting > FS_AUDIO_SURROUND) {
-                gSaveContext.audioSetting = FS_AUDIO_STEREO;
+            if (gSaveContext.soundSetting > SOUND_SETTING_SURROUND) {
+                gSaveContext.soundSetting = SOUND_SETTING_STEREO;
             }
         } else {
 #if !OOT_PAL_N64
@@ -1706,7 +1721,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
 
     for (i = 0, vtx = 0; i < 4; i++, vtx += 4) {
         gDPPipeSync(POLY_OPA_DISP++);
-        if (i == gSaveContext.audioSetting) {
+        if (i == gSaveContext.soundSetting) {
             if (sSelectedSetting == FS_SETTING_AUDIO) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, cursorPrimRed, cursorPrimGreen, cursorPrimBlue,
                                 this->titleAlpha[0]);

@@ -5,6 +5,9 @@
  */
 
 #include "z_eff_ss_dead_sound.h"
+#include "sfx.h"
+#include "z64effect.h"
+#include "z64play.h"
 
 #define rSfxId regs[10]
 #define rRepeatMode regs[11] // sound is replayed every update. unused in the original game

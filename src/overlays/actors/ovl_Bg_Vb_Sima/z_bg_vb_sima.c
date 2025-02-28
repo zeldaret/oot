@@ -5,8 +5,20 @@
  */
 
 #include "z_bg_vb_sima.h"
-#include "assets/objects/object_fd/object_fd.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "assets/objects/object_fd/object_fd.h"
 
 #define FLAGS 0
 

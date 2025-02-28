@@ -5,12 +5,24 @@
  */
 
 #include "z_en_ko.h"
+
+#include "attributes.h"
+#include "gfx.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_fa/object_fa.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "assets/objects/object_km1/object_km1.h"
 #include "assets/objects/object_kw1/object_kw1.h"
-#include "terminal.h"
-#include "versions.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 

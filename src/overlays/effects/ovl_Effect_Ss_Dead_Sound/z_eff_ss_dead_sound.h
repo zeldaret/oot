@@ -2,7 +2,7 @@
 #define Z_EFF_SS_DEAD_SOUND_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64math.h"
 
 typedef struct EffectSsDeadSoundInitParams {
     /* 0x00 */ Vec3f pos;

@@ -5,6 +5,20 @@
  */
 
 #include "z_en_ba.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_bxa/object_bxa.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
@@ -37,7 +51,7 @@ ActorProfile En_Ba_Profile = {
 
 static Vec3f D_809B8080 = { 0.0f, 0.0f, 32.0f };
 
-static ColliderJntSphElementInit sJntSphElementInit[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -72,7 +86,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     2,
-    sJntSphElementInit,
+    sJntSphElementsInit,
 };
 
 void EnBa_SetupAction(EnBa* this, EnBaActionFunc actionFunc) {
@@ -118,7 +132,7 @@ void EnBa_Init(Actor* thisx, PlayState* play) {
         this->actor.colChkInfo.health = 4;
         this->actor.colChkInfo.mass = MASS_HEAVY;
         Collider_InitJntSph(play, &this->collider);
-        Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+        Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     } else {
         Actor_SetScale(&this->actor, 0.021f);
         EnBa_SetupFallAsBlob(this);

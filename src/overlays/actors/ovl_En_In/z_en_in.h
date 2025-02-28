@@ -2,11 +2,11 @@
 #define Z_EN_IN_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnIn;
 
-typedef void (*EnInActionFunc)(struct EnIn*, PlayState*);
+typedef void (*EnInActionFunc)(struct EnIn*, struct PlayState*);
 
 typedef enum IngoLimb {
     /* 0x00 */ INGO_LIMB_NONE,

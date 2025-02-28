@@ -1,0 +1,10 @@
+build/
+
+libn64texconv.a
+libn64texconv.dll
+libn64texconv.so
+n64texconv
+
+# Tests
+*.png
+*.bin

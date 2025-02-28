@@ -5,6 +5,18 @@
  */
 
 #include "z_en_tr.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_tr/object_tr.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

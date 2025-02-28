@@ -262,6 +262,8 @@ typedef enum EffectSsType {
 #undef DEFINE_EFFECT_SS
 #undef DEFINE_EFFECT_SS_UNSET
 
+extern EffectSsOverlay gEffectSsOverlayTable[EFFECT_SS_TYPE_MAX];
+
 void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2);
 void EffectBlure_AddSpace(EffectBlure* this);
 void EffectBlure_Init1(void* thisx, void* initParamsx);

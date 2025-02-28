@@ -2,11 +2,11 @@
 #define Z_EN_OKUTA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnOkuta;
 
-typedef void (*EnOkutaActionFunc)(struct EnOkuta*, PlayState*);
+typedef void (*EnOkutaActionFunc)(struct EnOkuta*, struct PlayState*);
 
 typedef struct EnOkuta {
     /* 0x0000 */ Actor actor;

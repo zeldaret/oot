@@ -1,4 +1,14 @@
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64skin_matrix.h"
+
+#include "macros.h"
 #include "global.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 // original name: "spark"
@@ -154,7 +164,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_spark.c", 293);
 
     if (this != NULL) {
-        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_XLU_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_38);
         gDPSetCycleType(POLY_XLU_DISP++, G_CYC_2CYCLE);

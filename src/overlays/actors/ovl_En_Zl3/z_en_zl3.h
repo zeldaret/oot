@@ -2,14 +2,15 @@
 #define Z_EN_ZL3_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64scene.h"
 
 #include "overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.h"
 
 struct EnZl3;
 
-typedef void (*EnZl3ActionFunc)(struct EnZl3*, PlayState*);
-typedef void (*EnZl3DrawFunc)(struct EnZl3*, PlayState*);
+typedef void (*EnZl3ActionFunc)(struct EnZl3*, struct PlayState*);
+typedef void (*EnZl3DrawFunc)(struct EnZl3*, struct PlayState*);
 
 typedef struct EnZl3 {
     /* 0x0000 */ Actor actor;

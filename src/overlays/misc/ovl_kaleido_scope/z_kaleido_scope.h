@@ -2,14 +2,18 @@
 #define Z_KALEIDO_SCOPE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "gfx.h"
+#include "z64inventory.h"
+#include "z64pause.h"
+
+struct PlayState;
 
 extern u8 gAmmoItems[];
 extern s16 gVtxPageMapWorldQuadsWidth[];
 extern s16 gVtxPageMapWorldQuadsHeight[];
-extern u8 gSlotAgeReqs[];
-extern u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4];
-extern u8 gItemAgeReqs[];
+extern char gSlotAgeReqs[];
+extern char gEquipAgeReqs[EQUIP_TYPE_MAX][4];
+extern char gItemAgeReqs[];
 extern u8 gAreaGsFlags[];
 
 #define AGE_REQ_ADULT LINK_AGE_ADULT
@@ -165,26 +169,26 @@ typedef enum ItemQuad {
     /* 41 */ ITEM_QUAD_MAX
 } ItemQuad;
 
-void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
+void KaleidoScope_DrawQuestStatus(struct PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
-void KaleidoScope_DrawDebugEditor(PlayState* play);
-void KaleidoScope_DrawPlayerWork(PlayState* play);
-void KaleidoScope_DrawEquipment(PlayState* play);
+void KaleidoScope_DrawDebugEditor(struct PlayState* play);
+void KaleidoScope_DrawPlayerWork(struct PlayState* play);
+void KaleidoScope_DrawEquipment(struct PlayState* play);
 void KaleidoScope_SetCursorPos(PauseContext* pauseCtx, u16 index, Vtx* vtx);
-void KaleidoScope_DrawItemSelect(PlayState* play);
-void KaleidoScope_UpdateItemEquip(PlayState* play);
-void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx);
-void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx);
-void KaleidoScope_UpdatePrompt(PlayState* play);
+void KaleidoScope_DrawItemSelect(struct PlayState* play);
+void KaleidoScope_UpdateItemEquip(struct PlayState* play);
+void KaleidoScope_DrawDungeonMap(struct PlayState* play, GraphicsContext* gfxCtx);
+void KaleidoScope_DrawWorldMap(struct PlayState* play, GraphicsContext* gfxCtx);
+void KaleidoScope_UpdatePrompt(struct PlayState* play);
 Gfx* KaleidoScope_QuadTextureIA4(Gfx* gfx, void* texture, s16 width, s16 height, u16 point);
 Gfx* KaleidoScope_QuadTextureIA8(Gfx* gfx, void* texture, s16 width, s16 height, u16 point);
-void KaleidoScope_MoveCursorToSpecialPos(PlayState* play, u16 specialPos);
+void KaleidoScope_MoveCursorToSpecialPos(struct PlayState* play, u16 specialPos);
 void KaleidoScope_DrawQuadTextureRGBA32(GraphicsContext* gfxCtx, void* texture, u16 width, u16 height, u16 point);
 void KaleidoScope_ProcessPlayerPreRender();
-void KaleidoScope_SetupPlayerPreRender(PlayState* play);
-void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex);
-void KaleidoScope_UpdateDungeonMap(PlayState* play);
+void KaleidoScope_SetupPlayerPreRender(struct PlayState* play);
+void KaleidoScope_DrawCursor(struct PlayState* play, u16 pageIndex);
+void KaleidoScope_UpdateDungeonMap(struct PlayState* play);
 
-void PauseMapMark_Draw(PlayState* play);
+void PauseMapMark_Draw(struct PlayState* play);
 
 #endif

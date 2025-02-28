@@ -6,8 +6,15 @@
 
 #include "z_bg_jya_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "assets/objects/object_jya_obj/object_jya_obj.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "assets/objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0
 
@@ -85,7 +92,7 @@ void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {

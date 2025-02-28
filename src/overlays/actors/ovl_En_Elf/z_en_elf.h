@@ -4,7 +4,6 @@
 #include "ultra64.h"
 #include "z64actor.h"
 #include "z64light.h"
-#include "overlays/actors/ovl_Elf_Msg/z_elf_msg.h"
 
 struct EnElf;
 
@@ -23,7 +22,7 @@ typedef struct EnElf {
     /* 0x0278 */ LightInfo lightInfoNoGlow;
     /* 0x0288 */ LightNode* lightNodeNoGlow;
     /* 0x028C */ Vec3f unk_28C;
-    /* 0x0298 */ ElfMsg* elfMsg;
+    /* 0x0298 */ struct ElfMsg* elfMsg;
     /* 0x029C */ f32 unk_29C;
     /* 0x02A0 */ f32 unk_2A0;
     /* 0x02A4 */ f32 unk_2A4;

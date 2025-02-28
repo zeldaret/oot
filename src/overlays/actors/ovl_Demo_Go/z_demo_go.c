@@ -5,8 +5,18 @@
  */
 
 #include "z_demo_go.h"
-#include "assets/objects/object_oF1d_map/object_oF1d_map.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64skin_matrix.h"
+
+#include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

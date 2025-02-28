@@ -2,13 +2,13 @@
 #define Z_EN_BOM_BOWL_MAN_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
 
 struct EnBomBowlMan;
 
-typedef void (*EnBomBowlManActionFunc)(struct EnBomBowlMan*, PlayState*);
+typedef void (*EnBomBowlManActionFunc)(struct EnBomBowlMan*, struct PlayState*);
 
 typedef struct EnBomBowlMan {
     /* 0x0000 */ Actor actor;

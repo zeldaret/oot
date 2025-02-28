@@ -1,5 +1,12 @@
-#include "global.h"
+#include "map.h"
+#include "regs.h"
+#include "segment_symbols.h"
 #include "versions.h"
+#include "z64lifemeter.h"
+#include "z64interface.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64save.h"
 
 void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
@@ -19,17 +26,17 @@ void Interface_Init(PlayState* play) {
     View_Init(&interfaceCtx->view, play->state.gfxCtx);
 
     interfaceCtx->unk_1EC = interfaceCtx->unk_1EE = interfaceCtx->unk_1F0 = 0;
+    interfaceCtx->unk_1F4 = 0.0f;
     interfaceCtx->unk_1FA = interfaceCtx->unk_261 = interfaceCtx->unk_1FC = 0;
 
     interfaceCtx->unk_22E = 0;
     interfaceCtx->lensMagicConsumptionTimer = 16;
-    interfaceCtx->unk_1F4 = 0.0f;
     interfaceCtx->unk_228 = XREG(95);
-    interfaceCtx->minimapAlpha = 0;
-    interfaceCtx->unk_260 = 0;
     interfaceCtx->unk_244 = interfaceCtx->aAlpha = interfaceCtx->bAlpha = interfaceCtx->cLeftAlpha =
         interfaceCtx->cDownAlpha = interfaceCtx->cRightAlpha = interfaceCtx->healthAlpha = interfaceCtx->startAlpha =
             interfaceCtx->magicAlpha = 0;
+    interfaceCtx->minimapAlpha = 0;
+    interfaceCtx->unk_260 = 0;
 
     parameterSize = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
 
@@ -204,7 +211,7 @@ void Interface_Init(PlayState* play) {
 
 void Message_Init(PlayState* play) {
     MessageContext* msgCtx = &play->msgCtx;
-    s32 pad;
+    Font* font = &msgCtx->font;
 
     Message_SetTables();
 
@@ -224,7 +231,7 @@ void Message_Init(PlayState* play) {
     PRINTF(T("吹き出しgame_alloc=%x\n", "Textbox game_alloc=%x\n"), TEXTBOX_SEGMENT_SIZE);
     ASSERT(msgCtx->textboxSegment != NULL, "message->fukidashiSegment != NULL", "../z_construct.c", 352);
 
-    Font_LoadOrderedFont(&play->msgCtx.font);
+    Font_LoadOrderedFont(font);
 
     YREG(31) = 0;
 }
@@ -484,7 +491,11 @@ void Regs_InitDataImpl(void) {
     R_TEXTBOX_X_TARGET = 54;
     R_TEXTBOX_Y_TARGET = 48;
     R_TEXTBOX_WIDTH_TARGET = 128;
+#if !PLATFORM_IQUE
     R_TEXTBOX_HEIGHT_TARGET = 64;
+#else
+    R_TEXTBOX_HEIGHT_TARGET = 74;
+#endif
     R_TEXTBOX_TEXWIDTH_TARGET = 2048;
     R_TEXTBOX_TEXHEIGHT_TARGET = 512;
     XREG(78) = 96;

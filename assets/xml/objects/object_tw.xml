@@ -106,9 +106,11 @@
         <DList Name="gTwinrovaKotakeFireBroomHeadDL" Offset="0x14070"/>
         <DList Name="gTwinrovaKotakeFireBroomHeadOuterDL" Offset="0x14158"/>
 
-        <Blob Name="object_tw_Blob_015200" Size="0x60" Offset="0x15200"/>
-
         <!-- Kotake DLs -->
+        <Array Name="gTwinrovaKotakeVtx" Count="288" Offset="0x14240">
+            <Vtx/>
+        </Array>
+
         <DList Name="gTwinrovaKotakeLeftBraidEndDL" Offset="0x15440"/>
         <DList Name="gTwinrovaKotakeLeftBraidStartDL" Offset="0x15538"/>
         <DList Name="gTwinrovaKotakeRightBraidEndDL" Offset="0x15648"/>
@@ -130,9 +132,11 @@
         <Texture Name="gTwinrovaBraidEndTex" OutName="twinrova_braid_end" Format="rgba16" Width="8" Height="8" Offset="0x16650"/>
         <Texture Name="gTwinrovaLeftFootTex" OutName="twinrova_left_foot" Format="rgba16" Width="4" Height="8" Offset="0x166D0"/>
 
-        <Blob Name="object_tw_Blob_0176D0" Size="0x60" Offset="0x176D0"/>
-
         <!-- Koume DLs -->
+        <Array Name="gTwinrovaKoumeVtx" Count="288" Offset="0x16710">
+            <Vtx/>
+        </Array>
+
         <DList Name="gTwinrovaKoumeLeftBraidEndDL" Offset="0x17910"/>
         <DList Name="gTwinrovaKoumeLeftBraidStartDL" Offset="0x17A08"/>
         <DList Name="gTwinrovaKoumeRightBraidEndDL" Offset="0x17B18"/>

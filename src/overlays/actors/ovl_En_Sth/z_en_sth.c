@@ -4,8 +4,17 @@
  * Description: Uncursed House of Skulltula People
  */
 
-#include "terminal.h"
 #include "z_en_sth.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_ahg/object_ahg.h"
 #include "assets/objects/object_boj/object_boj.h"
 

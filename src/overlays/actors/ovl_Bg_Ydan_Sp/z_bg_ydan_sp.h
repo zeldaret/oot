@@ -2,11 +2,11 @@
 #define Z_BG_YDAN_SP_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgYdanSp;
 
-typedef void (*BgYdanSpActionFunc)(struct BgYdanSp*, PlayState*);
+typedef void (*BgYdanSpActionFunc)(struct BgYdanSp*, struct PlayState*);
 
 typedef struct BgYdanSp {
     /* 0x0000 */ DynaPolyActor dyna;

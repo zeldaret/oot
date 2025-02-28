@@ -1,4 +1,7 @@
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libu64/overlay.h"
+
+#include "macros.h"
 
 void* Overlay_AllocateAndLoad(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd) {
     void* allocatedRamAddr = SYSTEM_ARENA_MALLOC_R((intptr_t)vramEnd - (intptr_t)vramStart, "../loadfragment2.c", 31);

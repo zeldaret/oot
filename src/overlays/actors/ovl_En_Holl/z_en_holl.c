@@ -1,5 +1,14 @@
 #include "z_en_holl.h"
 
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 /*

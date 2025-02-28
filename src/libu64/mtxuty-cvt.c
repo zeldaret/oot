@@ -1,4 +1,6 @@
-#include "global.h"
+#include "ultra64.h"
+#include "libu64/debug.h"
+#include "libu64/mtxuty-cvt.h"
 
 void MtxConv_F2L(Mtx* m1, MtxF* m2) {
     s32 i;

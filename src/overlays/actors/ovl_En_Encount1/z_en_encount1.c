@@ -1,6 +1,15 @@
 #include "z_en_encount1.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
+#include "overlays/actors/ovl_En_Reeba/z_en_reeba.h"
+
+#include "rand.h"
+#include "regs.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64debug_display.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_LOCK_ON_DISABLED)
 

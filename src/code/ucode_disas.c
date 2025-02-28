@@ -1,5 +1,10 @@
-#include "global.h"
 #include "ucode_disas.h"
+#include "ultra64.h"
+#include "ultra64/gs2dex.h"
+#include "libu64/mtxuty-cvt.h"
+#include "segmented_address.h"
+
+#include "macros.h"
 
 #if DEBUG_FEATURES
 

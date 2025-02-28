@@ -1,6 +1,9 @@
 <Root>
     <File Name="ganon_boss_scene" Segment="2">
         <Scene Name="ganon_boss_scene" Offset="0x0"/>
+        <Texture Name="ganon_boss_sceneTLUT_001680" Width="16" Height="16" Format="rgba16" Offset="0x1680"/>
+        <Texture Name="ganon_boss_sceneTex_006C18" Width="32" Height="64" Format="ci8" Offset="0x6C18" TlutOffset="0x1680"/>
+        <Texture Name="ganon_boss_sceneTex_007418" Width="32" Height="64" Format="ci8" Offset="0x7418" TlutOffset="0x1680"/>
     </File>
     <File Name="ganon_boss_room_0" Segment="3">
         <Room Name="ganon_boss_room_0" Offset="0x0"/>

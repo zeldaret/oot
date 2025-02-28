@@ -2,6 +2,9 @@
  * Unused. A very simple utility for drawing text on screen.
  */
 
+#include "gfx.h"
+
+#include "macros.h"
 #include "global.h"
 
 // how big to draw the characters on screen

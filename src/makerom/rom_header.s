@@ -27,6 +27,8 @@
 /* 0x3E */ REGION(JP)
 #elif OOT_REGION == REGION_EU
 /* 0x3E */ REGION(PAL)
+#else
+#error "Unknown OOT_REGION"
 #endif
 /* 0x3F */ GAME_REVISION(OOT_REVISION)
 

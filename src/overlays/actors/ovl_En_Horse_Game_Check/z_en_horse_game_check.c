@@ -6,7 +6,18 @@
 
 #include "z_en_horse_game_check.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+
+#include "libu64/debug.h"
 #include "line_numbers.h"
+#include "regs.h"
+#include "sfx.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sys_math3d.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

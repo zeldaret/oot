@@ -1,6 +1,6 @@
-#include "global.h"
+#include "z64collision_check.h"
 
-static ColliderJntSphElementInit sJntSphItemsInit[19] = {
+static ColliderJntSphElementInit sJntSphElementsInit[19] = {
     {
         {
             ELEM_MATERIAL_UNK3,
@@ -222,5 +222,5 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     19,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };

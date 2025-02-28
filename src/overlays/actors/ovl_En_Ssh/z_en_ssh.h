@@ -2,11 +2,11 @@
 #define Z_EN_SSH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSsh;
 
-typedef void (*EnSshActionFunc)(struct EnSsh*, PlayState*);
+typedef void (*EnSshActionFunc)(struct EnSsh*, struct PlayState*);
 
 typedef struct EnSsh {
     /* 0x0000 */ Actor actor;
@@ -14,9 +14,9 @@ typedef struct EnSsh {
     /* 0x0190 */ Vec3s jointTable[30];
     /* 0x0244 */ Vec3s morphTable[30];
     /* 0x02F8 */ EnSshActionFunc actionFunc;
-    /* 0x02FC */ ColliderCylinder colCylinder[6];
-    /* 0x04C4 */ ColliderJntSph colSph;
-    /* 0x04E4 */ ColliderJntSphElement colSphElements[1];
+    /* 0x02FC */ ColliderCylinder colliderCylinders[6];
+    /* 0x04C4 */ ColliderJntSph colliderJntSph;
+    /* 0x04E4 */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x0524 */ s16 initialYaw;
     /* 0x0526 */ s16 maxTurnRate;
     /* 0x0528 */ s16 unkTimer;

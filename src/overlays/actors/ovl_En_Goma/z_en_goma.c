@@ -1,8 +1,29 @@
+/*
+ * File: z_en_goma.c
+ * Overlay: ovl_En_Goma
+ * Description: Gohma Larva
+ */
+
 #include "z_en_goma.h"
-#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
-#include "assets/objects/object_gol/object_gol.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+#include "assets/objects/object_gol/object_gol.h"
 
 #define FLAGS                                                                                 \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
@@ -164,10 +185,10 @@ void EnGoma_Init(Actor* thisx, PlayState* play) {
         this->eggScale = 1.0f;
         this->eggSquishAngle = Rand_ZeroOne() * 1000.0f;
         this->actionTimer = 50;
-        Collider_InitCylinder(play, &this->colCyl1);
-        Collider_SetCylinder(play, &this->colCyl1, &this->actor, &D_80A4B7A0);
-        Collider_InitCylinder(play, &this->colCyl2);
-        Collider_SetCylinder(play, &this->colCyl2, &this->actor, &D_80A4B7CC);
+        Collider_InitCylinder(play, &this->colliderCylinder1);
+        Collider_SetCylinder(play, &this->colliderCylinder1, &this->actor, &D_80A4B7A0);
+        Collider_InitCylinder(play, &this->colliderCylinder2);
+        Collider_SetCylinder(play, &this->colliderCylinder2, &this->actor, &D_80A4B7CC);
     }
 }
 
@@ -175,8 +196,8 @@ void EnGoma_Destroy(Actor* thisx, PlayState* play) {
     EnGoma* this = (EnGoma*)thisx;
 
     if (this->actor.params < 10) {
-        Collider_DestroyCylinder(play, &this->colCyl1);
-        Collider_DestroyCylinder(play, &this->colCyl2);
+        Collider_DestroyCylinder(play, &this->colliderCylinder1);
+        Collider_DestroyCylinder(play, &this->colliderCylinder2);
     }
 }
 
@@ -614,15 +635,15 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
         ColliderElement* acHitElem;
         u8 swordDamage;
 
-        if ((this->colCyl1.base.atFlags & AT_HIT) && this->actionFunc == EnGoma_Jump) {
+        if ((this->colliderCylinder1.base.atFlags & AT_HIT) && this->actionFunc == EnGoma_Jump) {
             EnGoma_SetupLand(this);
             this->actor.speed = 0.0f;
             this->actor.velocity.y = 0.0f;
         }
 
-        if ((this->colCyl2.base.acFlags & AC_HIT) && (s8)this->actor.colChkInfo.health > 0) {
-            acHitElem = this->colCyl2.elem.acHitElem;
-            this->colCyl2.base.acFlags &= ~AC_HIT;
+        if ((this->colliderCylinder2.base.acFlags & AC_HIT) && (s8)this->actor.colChkInfo.health > 0) {
+            acHitElem = this->colliderCylinder2.elem.acHitElem;
+            this->colliderCylinder2.base.acFlags &= ~AC_HIT;
 
             if (this->gomaType == ENGOMA_NORMAL) {
                 u32 dmgFlags = acHitElem->atDmgInfo.dmgFlags;
@@ -732,20 +753,20 @@ void EnGoma_Update(Actor* thisx, PlayState* play) {
         EnGoma_UpdateEyeEnvColor(this);
         this->visualState = 1;
         if (player->meleeWeaponState != 0) {
-            this->colCyl2.dim.radius = 35;
-            this->colCyl2.dim.height = 35;
-            this->colCyl2.dim.yShift = 0;
+            this->colliderCylinder2.dim.radius = 35;
+            this->colliderCylinder2.dim.height = 35;
+            this->colliderCylinder2.dim.yShift = 0;
         } else {
-            this->colCyl2.dim.radius = 15;
-            this->colCyl2.dim.height = 30;
-            this->colCyl2.dim.yShift = 10;
+            this->colliderCylinder2.dim.radius = 15;
+            this->colliderCylinder2.dim.height = 30;
+            this->colliderCylinder2.dim.yShift = 10;
         }
         if (this->invincibilityTimer == 0) {
-            Collider_UpdateCylinder(&this->actor, &this->colCyl1);
-            Collider_UpdateCylinder(&this->actor, &this->colCyl2);
-            CollisionCheck_SetOC(play, &play->colChkCtx, &this->colCyl1.base);
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colCyl2.base);
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colCyl1.base);
+            Collider_UpdateCylinder(&this->actor, &this->colliderCylinder1);
+            Collider_UpdateCylinder(&this->actor, &this->colliderCylinder2);
+            CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder1.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinder2.base);
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinder1.base);
         }
     }
 }

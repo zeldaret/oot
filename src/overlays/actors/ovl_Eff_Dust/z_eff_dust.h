@@ -2,12 +2,12 @@
 #define Z_EFF_DUST_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EffDust;
 
-typedef void (*EffDustActionFunc)(struct EffDust*, PlayState*);
-typedef void (*EffDustDrawFunc)(Actor*, PlayState*);
+typedef void (*EffDustActionFunc)(struct EffDust*, struct PlayState*);
+typedef void (*EffDustDrawFunc)(Actor*, struct PlayState*);
 
 typedef struct EffDust {
     /* 0x0000 */ Actor actor;

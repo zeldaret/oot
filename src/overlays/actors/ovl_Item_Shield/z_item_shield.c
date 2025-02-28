@@ -4,8 +4,21 @@
  * Description: Deku Shield
  */
 
-#include "terminal.h"
 #include "z_item_shield.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64item.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_link_child/object_link_child.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

@@ -5,14 +5,30 @@
  */
 
 #include "z_en_dnt_nomal.h"
-#include "assets/objects/object_dnk/object_dnk.h"
 #include "overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
-#include "assets/objects/object_hintnuts/object_hintnuts.h"
+
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_dnk/object_dnk.h"
+#include "assets/objects/object_hintnuts/object_hintnuts.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
@@ -134,16 +150,16 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
         PRINTF("\n\n");
         // "Deku Scrub target"
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n" VT_RST);
-        Collider_InitQuad(play, &this->targetQuad);
-        Collider_SetQuad(play, &this->targetQuad, &this->actor, &sTargetQuadInit);
+        Collider_InitQuad(play, &this->targetColliderQuad);
+        Collider_SetQuad(play, &this->targetColliderQuad, &this->actor, &sTargetQuadInit);
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->objectId = OBJECT_HINTNUTS;
     } else {
         PRINTF("\n\n");
         // "Deku Scrub mask show audience"
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
-        Collider_InitCylinder(play, &this->bodyCyl);
-        Collider_SetCylinder(play, &this->bodyCyl, &this->actor, &sBodyCylinderInit);
+        Collider_InitCylinder(play, &this->bodyColliderCylinder);
+        Collider_SetCylinder(play, &this->bodyColliderCylinder, &this->actor, &sBodyCylinderInit);
         this->objectId = OBJECT_DNK;
     }
     if (this->objectId >= 0) {
@@ -167,9 +183,9 @@ void EnDntNomal_Destroy(Actor* thisx, PlayState* play) {
     EnDntNomal* this = (EnDntNomal*)thisx;
 
     if (this->type == ENDNTNOMAL_TARGET) {
-        Collider_DestroyQuad(play, &this->targetQuad);
+        Collider_DestroyQuad(play, &this->targetColliderQuad);
     } else {
-        Collider_DestroyCylinder(play, &this->bodyCyl);
+        Collider_DestroyCylinder(play, &this->bodyColliderCylinder);
     }
 }
 
@@ -181,8 +197,9 @@ void EnDntNomal_WaitForObject(EnDntNomal* this, PlayState* play) {
         this->actor.gravity = -2.0f;
         Actor_SetScale(&this->actor, 0.01f);
         if (this->type == ENDNTNOMAL_TARGET) {
-            SkelAnime_Init(play, &this->skelAnime, &gHintNutsSkel, &gHintNutsBurrowAnim, this->jointTable,
-                           this->morphTable, 10);
+            //! @bug Flex skeleton is used as normal skeleton
+            SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)&gHintNutsSkel, &gHintNutsBurrowAnim,
+                           this->jointTable, this->morphTable, 10);
             this->actor.draw = EnDntNomal_DrawTargetScrub;
         } else {
             SkelAnime_Init(play, &this->skelAnime, &gDntStageSkel, &gDntStageHideAnim, this->jointTable,
@@ -241,16 +258,16 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 #if OOT_VERSION < PAL_1_0
-    if (this->targetQuad.base.acFlags & AC_HIT)
+    if (this->targetColliderQuad.base.acFlags & AC_HIT)
 #else
-    if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0))
+    if ((this->targetColliderQuad.base.acFlags & AC_HIT) || BREG(0))
 #endif
     {
-        this->targetQuad.base.acFlags &= ~AC_HIT;
+        this->targetColliderQuad.base.acFlags &= ~AC_HIT;
 
-        dx = fabsf(targetX - this->targetQuad.elem.acDmgInfo.hitPos.x);
-        dy = fabsf(targetY - this->targetQuad.elem.acDmgInfo.hitPos.y);
-        dz = fabsf(targetZ - this->targetQuad.elem.acDmgInfo.hitPos.z);
+        dx = fabsf(targetX - this->targetColliderQuad.elem.acDmgInfo.hitPos.x);
+        dy = fabsf(targetY - this->targetColliderQuad.elem.acDmgInfo.hitPos.y);
+        dz = fabsf(targetZ - this->targetColliderQuad.elem.acDmgInfo.hitPos.z);
 
         scoreVel.y = 5.0f;
 
@@ -839,13 +856,13 @@ void EnDntNomal_Update(Actor* thisx, PlayState* play) {
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
     if (this->type == ENDNTNOMAL_TARGET) {
-        Collider_SetQuadVertices(&this->targetQuad, &this->targetVtx[0], &this->targetVtx[1], &this->targetVtx[2],
-                                 &this->targetVtx[3]);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->targetQuad.base);
+        Collider_SetQuadVertices(&this->targetColliderQuad, &this->targetVtx[0], &this->targetVtx[1],
+                                 &this->targetVtx[2], &this->targetVtx[3]);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->targetColliderQuad.base);
     } else {
-        Collider_UpdateCylinder(&this->actor, &this->bodyCyl);
+        Collider_UpdateCylinder(&this->actor, &this->bodyColliderCylinder);
         if (this->isSolid) {
-            CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCyl.base);
+            CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyColliderCylinder.base);
         }
     }
 }

@@ -5,6 +5,17 @@
  */
 
 #include "z_door_killer.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"
@@ -61,7 +72,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -85,7 +96,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static DoorKillerTextureEntry sDoorTextures[4] = {
@@ -137,7 +148,7 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
             Collider_InitCylinder(play, &this->colliderCylinder);
             Collider_SetCylinder(play, &this->colliderCylinder, &this->actor, &sCylinderInit);
             Collider_InitJntSph(play, &this->colliderJntSph);
-            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphItems);
+            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
             this->colliderJntSph.elements[0].dim.worldSphere.radius = 80;
             this->colliderJntSph.elements[0].dim.worldSphere.center.x = (s16)this->actor.world.pos.x;
             this->colliderJntSph.elements[0].dim.worldSphere.center.y = (s16)this->actor.world.pos.y + 50;

@@ -2,14 +2,13 @@
 #define Z_EN_ENCOUNT1_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "overlays/actors/ovl_En_Reeba/z_en_reeba.h"
+#include "z64actor.h"
 
 #define SPAWNER_PARAMS(type, number, total) ((type << 0xB) | (number << 0x6) | total)
 
 struct EnEncount1;
 
-typedef void (*EnEncount1UpdateFunc)(struct EnEncount1*, PlayState*);
+typedef void (*EnEncount1UpdateFunc)(struct EnEncount1*, struct PlayState*);
 
 typedef struct EnEncount1 {
     /* 0x0000 */ Actor actor;
@@ -27,7 +26,7 @@ typedef struct EnEncount1 {
     /* 0x0164 */ s16 timer;
     /* 0x0166 */ u8 reduceLeevers;
     /* 0x0168 */ f32 spawnRange;
-    /* 0x016C */ EnReeba* bigLeever;
+    /* 0x016C */ struct EnReeba* bigLeever;
 } EnEncount1; // size = 0x0170
 
 typedef enum EnEncount1type {

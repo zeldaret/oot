@@ -2,7 +2,8 @@
 #define Z_MIR_RAY_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct MirRay;
 
@@ -22,14 +23,14 @@ typedef struct MirRayDataEntry {
 typedef struct MirRayShieldReflection {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ MtxF mtx;
-    /* 0x4C */ CollisionPoly* reflectionPoly;
+    /* 0x4C */ struct CollisionPoly* reflectionPoly;
     /* 0x50 */ u8 opacity;
 } MirRayShieldReflection; // size = 0x54
 
 typedef struct MirRay {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ColliderJntSph colliderSph;
-    /* 0x016C */ ColliderJntSphElement colliderSphItem;
+    /* 0x014C */ ColliderJntSph colliderJntSph;
+    /* 0x016C */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x01AC */ ColliderQuad shieldRay;
     /* 0x022C */ f32 reflectIntensity; // Reflection occurs if it is positive, brightness depends on it
     /* 0x0230 */ Vec3f shieldCorners[6];

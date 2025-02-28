@@ -2,11 +2,11 @@
 #define Z_BG_HIDAN_FWBIG_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgHidanFwbig;
 
-typedef void (*BgHidanFwbigActionFunc)(struct BgHidanFwbig*, PlayState*);
+typedef void (*BgHidanFwbigActionFunc)(struct BgHidanFwbig*, struct PlayState*);
 
 typedef struct BgHidanFwbig {
     /* 0x0000 */ Actor actor;

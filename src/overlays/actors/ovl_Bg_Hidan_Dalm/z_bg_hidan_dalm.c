@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_hidan_dalm.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
@@ -104,7 +114,7 @@ void BgHidanDalm_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gFireTempleHammerableTotemCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     Collider_InitTris(play, &this->collider);
-    Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
+    Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderElements);
 
     this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;

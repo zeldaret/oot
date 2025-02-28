@@ -5,9 +5,18 @@
  */
 
 #include "z_en_heishi3.h"
-#include "assets/objects/object_sd/object_sd.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_sd/object_sd.h"
 
 #define FLAGS 0
 

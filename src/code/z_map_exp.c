@@ -1,10 +1,22 @@
-#include "global.h"
-#include "terminal.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
-#include "assets/textures/parameter_static/parameter_static.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "controller.h"
+#include "map.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "regs.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "global.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/textures/parameter_static/parameter_static.h"
 
 MapData* gMapData;
 
@@ -356,7 +368,7 @@ void Minimap_DrawCompassIcons(PlayState* play) {
     if (play->interfaceCtx.minimapAlpha >= 0xAA) {
         Gfx_SetupDL_42Overlay(play->state.gfxCtx);
 
-        gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(OVERLAY_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);

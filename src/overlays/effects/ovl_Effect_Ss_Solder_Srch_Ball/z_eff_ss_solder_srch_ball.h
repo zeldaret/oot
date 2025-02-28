@@ -2,7 +2,7 @@
 #define Z_EFF_SS_SOLDERSRCHBALL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64math.h"
 
 typedef struct EffectSsSolderSrchBallInitParams {
     /* 0x00 */ Vec3f pos;

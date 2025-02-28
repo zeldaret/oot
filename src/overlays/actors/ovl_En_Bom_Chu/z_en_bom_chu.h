@@ -2,11 +2,11 @@
 #define Z_EN_BOM_CHU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnBomChu;
 
-typedef void (*EnBomChuActionFunc)(struct EnBomChu*, PlayState*);
+typedef void (*EnBomChuActionFunc)(struct EnBomChu*, struct PlayState*);
 
 typedef struct EnBomChu {
     /* 0x0000 */ Actor actor;

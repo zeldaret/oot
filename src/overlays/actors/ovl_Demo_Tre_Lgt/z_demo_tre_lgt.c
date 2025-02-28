@@ -1,5 +1,13 @@
 #include "z_demo_tre_lgt.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "z64curve.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_box/object_box.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

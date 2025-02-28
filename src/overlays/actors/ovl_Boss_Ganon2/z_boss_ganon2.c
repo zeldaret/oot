@@ -1,13 +1,35 @@
 #include "z_boss_ganon2.h"
-#include "versions.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 #include "overlays/actors/ovl_Demo_Gj/z_demo_gj.h"
 #include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
+
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_ganon/object_ganon.h"
 #include "assets/objects/object_ganon2/object_ganon2.h"
 #include "assets/objects/object_ganon_anime3/object_ganon_anime3.h"
 #include "assets/objects/object_geff/object_geff.h"
 #include "assets/overlays/ovl_Boss_Ganon2/ovl_Boss_Ganon2.h"
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #define FLAGS                                                                                 \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
@@ -69,7 +91,7 @@ static Vec3f D_80906D6C = { 0.0f, 0.0f, 500.0f };
 
 static u8 D_80906D78 = 0;
 
-static ColliderJntSphElementInit sJntSphItemsInit1[] = {
+static ColliderJntSphElementInit sJntSphElementsInit1[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -257,11 +279,11 @@ static ColliderJntSphInit sJntSphInit1 = {
         OC2_FIRST_ONLY | OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sJntSphItemsInit1),
-    sJntSphItemsInit1,
+    ARRAY_COUNT(sJntSphElementsInit1),
+    sJntSphElementsInit1,
 };
 
-static ColliderJntSphElementInit sJntSphItemsInit2[] = {
+static ColliderJntSphElementInit sJntSphElementsInit2[] = {
     {
         {
             ELEM_MATERIAL_UNK2,
@@ -295,8 +317,8 @@ static ColliderJntSphInit sJntSphInit2 = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sJntSphItemsInit2),
-    sJntSphItemsInit2,
+    ARRAY_COUNT(sJntSphElementsInit2),
+    sJntSphElementsInit2,
 };
 
 static Vec3f D_8090EB20;

@@ -2,11 +2,11 @@
 #define Z_BG_YDAN_MARUTA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgYdanMaruta;
 
-typedef void (*BgYdanMarutaActionFunc)(struct BgYdanMaruta*, PlayState*);
+typedef void (*BgYdanMarutaActionFunc)(struct BgYdanMaruta*, struct PlayState*);
 
 typedef struct BgYdanMaruta {
     /* 0x0000 */ DynaPolyActor dyna;
@@ -14,7 +14,7 @@ typedef struct BgYdanMaruta {
     /* 0x0168 */ u8 switchFlag;
     /* 0x016A */ s16 unk_16A;
     /* 0x016C */ ColliderTris collider;
-    /* 0x018C */ ColliderTrisElement elements[2];
+    /* 0x018C */ ColliderTrisElement colliderElements[2];
 } BgYdanMaruta; // size = 0x0244
 
 #endif

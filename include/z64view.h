@@ -1,6 +1,8 @@
 #ifndef Z64VIEW_H
 #define Z64VIEW_H
 
+#include "macros.h"
+#include "ultra64.h"
 #include "z64math.h"
 
 struct GraphicsContext;
@@ -15,10 +17,10 @@ typedef struct Viewport {
 #define SET_FULLSCREEN_VIEWPORT(view)      \
     {                                      \
         Viewport viewport;                 \
-        viewport.bottomY = SCREEN_HEIGHT;  \
-        viewport.rightX = SCREEN_WIDTH;    \
         viewport.topY = 0;                 \
+        viewport.bottomY = SCREEN_HEIGHT;  \
         viewport.leftX = 0;                \
+        viewport.rightX = SCREEN_WIDTH;    \
         View_SetViewport(view, &viewport); \
     }                                      \
     (void)0

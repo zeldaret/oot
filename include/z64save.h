@@ -6,6 +6,11 @@
 #include "z64inventory.h"
 #include "z64math.h"
 
+typedef enum ZTargetSetting {
+    /* 0 */ Z_TARGET_SETTING_SWITCH,
+    /* 1 */ Z_TARGET_SETTING_HOLD
+} ZTargetSetting;
+
 typedef enum Language {
 #if OOT_NTSC
     /* 0 */ LANGUAGE_JPN,
@@ -83,6 +88,10 @@ typedef struct Inventory {
     /* 0x5B */ s8 defenseHearts;
     /* 0x5C */ s16 gsTokens;
 } Inventory; // size = 0x5E
+
+typedef struct Checksum {
+    /* 0x00 */ u16 value;
+} Checksum; // size = 0x02
 
 typedef struct SavedSceneFlags {
     /* 0x00 */ u32 chest;
@@ -208,7 +217,7 @@ typedef enum WorldMapArea {
 typedef struct SavePlayerData {
     /* 0x00  0x001C */ char newf[6]; // string "ZELDAZ"
     /* 0x06  0x0022 */ u16 deaths;
-    /* 0x08  0x0024 */ char playerName[8];
+    /* 0x08  0x0024 */ u8 playerName[8];
     /* 0x10  0x002C */ s16 n64ddFlag;
     /* 0x12  0x002E */ s16 healthCapacity; // "max_life"
     /* 0x14  0x0030 */ s16 health; // "now_life"
@@ -254,7 +263,7 @@ typedef struct SaveInfo {
     /* 0x12AA  0x12C6 */ u8 scarecrowSpawnSong[0x80];
     /* 0x132A  0x1346 */ char unk_1346[0x02];
     /* 0x132C  0x1348 */ HorseData horseData;
-    /* 0x1336  0x1352 */ u16 checksum; // "check_sum"
+    /* 0x1336  0x1352 */ Checksum checksum; // "check_sum"
 } SaveInfo;
 
 typedef struct Save {
@@ -311,10 +320,10 @@ typedef struct SaveContext {
     /* 0x1404 */ u16 minigameState;
     /* 0x1406 */ u16 minigameScore; // "yabusame_total"
     /* 0x1408 */ char unk_1408[0x0001];
-    /* 0x1409 */ u8 language; // NTSC 0: Japanese; 1: English | PAL 0: English; 1: German; 2: French
-    /* 0x140A */ u8 audioSetting;
+    /* 0x1409 */ u8 language; // NTSC 0: Japanese; 1: English | PAL 0: English; 1: German; 2: French (see enum `Language`)
+    /* 0x140A */ u8 soundSetting; // 0: Stereo; 1: Mono; 2: Headset; 3: Surround (see enum `SoundSetting`)
     /* 0x140B */ char unk_140B[0x0001];
-    /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold
+    /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold (see enum `ZTargetSetting`)
     /* 0x140E */ u16 forcedSeqId; // immediately start playing the sequence if set
     /* 0x1410 */ u8 cutsceneTransitionControl; // context dependent usage: can either trigger a delayed fade or control fill alpha
     /* 0x1411 */ char unk_1411[0x0001];
@@ -420,8 +429,8 @@ typedef enum LinkAge {
 #define CUR_EQUIP_VALUE(equip) ((s32)(gSaveContext.save.info.equips.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
 #define OWNED_EQUIP_FLAG(equip, value) (gBitFlags[value] << gEquipShifts[equip])
 #define OWNED_EQUIP_FLAG_ALT(equip, value) ((1 << (value)) << gEquipShifts[equip])
-#define CHECK_OWNED_EQUIP(equip, value) (OWNED_EQUIP_FLAG(equip, value) & gSaveContext.save.info.inventory.equipment)
-#define CHECK_OWNED_EQUIP_ALT(equip, value) (gBitFlags[(value) + (equip) * 4] & gSaveContext.save.info.inventory.equipment)
+#define CHECK_OWNED_EQUIP(equip, value) (gSaveContext.save.info.inventory.equipment & OWNED_EQUIP_FLAG(equip, value))
+#define CHECK_OWNED_EQUIP_ALT(equip, value) (gSaveContext.save.info.inventory.equipment & gBitFlags[(value) + (equip) * 4])
 
 #define SWORD_EQUIP_TO_PLAYER(swordEquip) (swordEquip)
 #define SHIELD_EQUIP_TO_PLAYER(shieldEquip) (shieldEquip)
@@ -432,7 +441,7 @@ typedef enum LinkAge {
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
 #define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
 
-#define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.save.info.inventory.questItems)
+#define CHECK_QUEST_ITEM(item) (gSaveContext.save.info.inventory.questItems & gBitFlags[item])
 #define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.save.info.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
 
 #define GET_GS_FLAGS(index) \
@@ -964,12 +973,26 @@ typedef enum IngoRaceState {
 #define EVENTINF_MARATHON_ACTIVE 0x10
 
 // EVENTINF 0x20-0x24
-#define EVENTINF_INDEX_20_21_22_23_24 2
-#define EVENTINF_20_MASK (1 << 0)
-#define EVENTINF_21_MASK (1 << 1)
-#define EVENTINF_22_MASK (1 << 2)
-#define EVENTINF_23_MASK (1 << 3)
-#define EVENTINF_24_MASK (1 << 4)
+#define EVENTINF_INDEX_HAGGLING_TOWNSFOLK 0x2
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_0 0x20
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_1 0x21
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_2 0x22
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_3 0x23
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_4 0x24
+
+#define EVENTINF_HAGGLING_TOWNSFOLK_MASK                                                                     \
+    (EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_0) | EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_1) | \
+     EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_2) | EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_3) | \
+     EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_4))
+
+#define GET_EVENTINF_ENMU_TALK_FLAGS() \
+    gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] & EVENTINF_HAGGLING_TOWNSFOLK_MASK
+
+#define SET_EVENTINF_ENMU_TALK_FLAGS(talkFlags) \
+    gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] |= (talkFlags);
+
+#define RESET_EVENTINF_ENMU_TALK_FLAGS() \
+    gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] &= ~(EVENTINF_HAGGLING_TOWNSFOLK_MASK);
 
 #define EVENTINF_30 0x30
 

@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_spot01_fusya.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_spot01_objects/object_spot01_objects.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

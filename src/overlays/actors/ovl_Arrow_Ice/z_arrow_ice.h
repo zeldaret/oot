@@ -2,11 +2,11 @@
 #define Z_ARROW_ICE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ArrowIce;
 
-typedef void (*ArrowIceActionFunc)(struct ArrowIce*, PlayState*);
+typedef void (*ArrowIceActionFunc)(struct ArrowIce*, struct PlayState*);
 
 typedef struct ArrowIce {
     /* 0x0000 */ Actor actor;

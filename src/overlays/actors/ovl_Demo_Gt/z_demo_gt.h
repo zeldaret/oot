@@ -2,12 +2,12 @@
 #define Z_DEMO_GT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct DemoGt;
 
-typedef void (*DemoGtUpdateFunc)(struct DemoGt*, PlayState*);
-typedef void (*DemoGtDrawFunc)(Actor*, PlayState*);
+typedef void (*DemoGtUpdateFunc)(struct DemoGt*, struct PlayState*);
+typedef void (*DemoGtDrawFunc)(struct Actor*, struct PlayState*);
 
 typedef struct DemoGt {
     /* 0x0000 */ DynaPolyActor dyna;

@@ -5,6 +5,21 @@
  */
 
 #include "z_en_wood02.h"
+
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64skin_matrix.h"
+
 #include "assets/objects/object_wood02/object_wood02.h"
 
 #define FLAGS 0

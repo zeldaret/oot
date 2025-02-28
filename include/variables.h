@@ -5,7 +5,7 @@
 #include "libc64/os_malloc.h"
 #include "segment_symbols.h"
 
-extern Mtx D_01000000;
+struct MapData;
 
 extern void* osRomBase;
 extern s32 osTvType;
@@ -34,7 +34,6 @@ extern u32 gViConfigFeatures;
 extern f32 gViConfigXScale;
 extern f32 gViConfigYScale;
 extern OSPiHandle* gCartHandle;
-extern s32 gCurrentRegion;
 extern u32 __osPiAccessQueueEnabled;
 extern OSViMode osViModePalLan1;
 extern s32 osViClock;
@@ -67,28 +66,14 @@ extern OSTime __osCurrentTime;
 extern u32 __osBaseCounter;
 extern u32 __osViIntrCount;
 extern u32 __osTimerCounter;
-extern EffectSsOverlay gEffectSsOverlayTable[EFFECT_SS_TYPE_MAX];
-extern Gfx D_80116280[];
-extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_dlftbls" 801162A0
-extern s32 gMaxActorId; // original name: "MaxProfile"
-extern s32 gDebugCamEnabled;
-extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
-extern s32 gZeldaArenaLogSeverity;
-extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
 extern s16 gSpoilingItemReverts[3];
 
-extern Gfx gEmptyDL[];
-
-extern u16 gSramSlotOffsets[];
 // 4 16-colors palettes
 extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
 extern u64 gMojiFontTex[]; // original name: "font_ff"
 extern u8 gBossMarkState;
 
-#if DEBUG_FEATURES
-extern u32 gIsCtrlr2Valid;
-#endif
 extern s16* gWaveSamples[9];
 extern f32 gBendPitchOneOctaveFrequencies[256];
 extern f32 gBendPitchTwoSemitonesFrequencies[256];
@@ -141,7 +126,6 @@ extern u8 gSoundModeList[];
 extern u8 gAudioSpecId;
 extern u8 D_80133418;
 extern AudioSpec gAudioSpecs[18];
-extern s32 gOverlayLogSeverity;
 extern s32 gSystemArenaLogSeverity;
 extern u8 __osPfsInodeCacheBank;
 extern s32 __osPfsLastChannel;
@@ -154,48 +138,10 @@ extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern AudioTable gSampleBankTable;
 
-extern u8 gUseCutsceneCam;
-extern u16 D_8015FCCC;
-extern char D_8015FCD0[20];
-extern u8 D_8015FCE4;
-extern u16 gCamAtSplinePointsAppliedFrame;
-extern u16 gCamEyePointAppliedFrame;
-extern u16 gCamAtPointAppliedFrame;
-
-extern LightningStrike gLightningStrike;
-// TODO: These variables are here for BSS ordering but ideally they should not
-// be extern. This could be fixed by putting more stuff (e.g. struct definitions)
-// between gLightningStrike and gCustomLensFlareOn.
-extern s16 sLightningFlashAlpha;
-extern s16 sSunDepthTestX;
-extern s16 sSunDepthTestY;
-extern u8 gCustomLensFlareOn;
-extern Vec3f gCustomLensFlarePos;
-extern s16 gLensFlareScale;
-extern f32 gLensFlareColorIntensity;
-extern s16 gLensFlareGlareStrength;
-extern MapData* gMapData;
+extern struct MapData* gMapData;
 extern f32 gBossMarkScale;
 extern u32 D_8016139C;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
-
-extern PreNmiBuff* gAppNmiBufferPtr;
-extern Scheduler gScheduler;
-extern PadMgr gPadMgr;
-extern IrqMgr gIrqMgr;
-extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;
-extern volatile OSTime gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime;
-extern volatile OSTime gRSPAudioTimeTotal;
-extern volatile OSTime gRSPGfxTimeTotal;
-extern volatile OSTime gRDPTimeTotal;
-extern volatile OSTime gGraphUpdatePeriod;
-extern volatile OSTime gAudioThreadUpdateTimeStart;
-extern volatile OSTime gAudioThreadUpdateTimeAcc;
-extern volatile OSTime gRSPAudioTimeAcc;
-extern volatile OSTime gRSPGfxTimeAcc;
-extern volatile OSTime gRSPOtherTimeAcc;
-extern volatile OSTime D_8016A578;
-extern volatile OSTime gRDPTimeAcc;
 
 extern SfxBankEntry D_8016BAD0[9];
 extern SfxBankEntry D_8016BC80[12];
@@ -218,11 +164,5 @@ extern u8 __osContLastCmd;
 extern u8 __osMaxControllers;
 extern __OSInode __osPfsInodeCache;
 extern OSPifRam __osPfsPifRam;
-extern u16 gZBuffer[SCREEN_HEIGHT][SCREEN_WIDTH]; // 0x25800 bytes
-extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
-extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)]; // 0xC00 bytes
-extern u64 gGfxSPTaskStack[SP_DRAM_STACK_SIZE64]; // 0x400 bytes
-extern GfxPool gGfxPools[2]; // 0x24820 bytes
-extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
 
 #endif

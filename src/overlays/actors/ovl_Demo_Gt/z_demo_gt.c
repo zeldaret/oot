@@ -1,11 +1,25 @@
 #include "z_demo_gt.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "regs.h"
+#include "rumble.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
 #include "z64frame_advance.h"
+#include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_gt/object_gt.h"
 #include "assets/objects/object_geff/object_geff.h"
-#include "terminal.h"
-#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 

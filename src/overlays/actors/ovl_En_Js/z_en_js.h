@@ -2,11 +2,11 @@
 #define Z_EN_JS_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnJs;
 
-typedef void (*EnJsActionFunc)(struct EnJs*, PlayState*);
+typedef void (*EnJsActionFunc)(struct EnJs*, struct PlayState*);
 
 typedef struct EnJs {
     /* 0x0000 */ Actor actor;

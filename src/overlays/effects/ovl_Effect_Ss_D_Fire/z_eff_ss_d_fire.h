@@ -2,7 +2,7 @@
 #define Z_EFF_SS_D_FIRE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64math.h"
 
 typedef struct EffectSsDFireInitParams {
     /* 0x00 */ Vec3f pos;

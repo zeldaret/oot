@@ -4,13 +4,25 @@
  * Description: Hyrulian Guards
  */
 
-#include "terminal.h"
 #include "z_en_heishi2.h"
+#include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
+#include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
+#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_sd/object_sd.h"
 #include "assets/objects/object_link_child/object_link_child.h"
-#include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 

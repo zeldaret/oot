@@ -2,11 +2,11 @@
 #define Z_EN_FIREFLY_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnFirefly;
 
-typedef void (*EnFireflyActionFunc)(struct EnFirefly*, PlayState*);
+typedef void (*EnFireflyActionFunc)(struct EnFirefly*, struct PlayState*);
 
 typedef struct EnFirefly {
     /* 0x0000 */ Actor actor;
@@ -21,7 +21,7 @@ typedef struct EnFirefly {
     /* 0x0266 */ Vec3s morphTable[28];
     /* 0x0310 */ f32 maxAltitude;
     /* 0x0314 */ ColliderJntSph collider;
-    /* 0x0344 */ ColliderJntSphElement colliderItems[1];
+    /* 0x0344 */ ColliderJntSphElement colliderElements[1];
 } EnFirefly; // size = 0x0374
 
 typedef enum KeeseType {

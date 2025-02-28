@@ -2,9 +2,12 @@
 
 #define MOTOR_ID 0x80
 
+#ifndef BBPLAYER
 OSPifRam __MotorDataBuf[MAXCONTROLLERS];
+#endif
 
 s32 __osMotorAccess(OSPfs* pfs, s32 vibrate) {
+#ifndef BBPLAYER
     s32 i;
     s32 ret;
     u8* ptr = (u8*)&__MotorDataBuf[pfs->channel];
@@ -43,8 +46,12 @@ s32 __osMotorAccess(OSPfs* pfs, s32 vibrate) {
     __osSiRelAccess();
 
     return ret;
+#else
+    return PFS_ERR_INVALID;
+#endif
 }
 
+#ifndef BBPLAYER
 void _MakeMotorData(s32 channel, OSPifRam* mdata) {
     u8* ptr = (u8*)mdata;
     __OSContRamReadFormat ramreadformat;
@@ -67,8 +74,10 @@ void _MakeMotorData(s32 channel, OSPifRam* mdata) {
     ptr += sizeof(ramreadformat);
     *ptr = CONT_CMD_END;
 }
+#endif
 
 s32 osMotorInit(OSMesgQueue* ctrlrqueue, OSPfs* pfs, s32 channel) {
+#ifndef BBPLAYER
     s32 ret;
     u8 temp[BLOCKSIZE];
 
@@ -123,4 +132,7 @@ s32 osMotorInit(OSMesgQueue* ctrlrqueue, OSPfs* pfs, s32 channel) {
 
     pfs->status = PFS_MOTOR_INITIALIZED;
     return 0; // "Recognized rumble pak"
+#else
+    return PFS_ERR_DEVICE;
+#endif
 }

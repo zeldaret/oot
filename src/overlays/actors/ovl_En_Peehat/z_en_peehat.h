@@ -2,7 +2,7 @@
 #define Z_EN_PEEHAT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 typedef enum PeahatType {
     /* -1 */ PEAHAT_TYPE_GROUNDED = -1,
@@ -12,7 +12,7 @@ typedef enum PeahatType {
 
 struct EnPeehat;
 
-typedef void (*EnPeehatActionFunc)(struct EnPeehat*, PlayState*);
+typedef void (*EnPeehatActionFunc)(struct EnPeehat*, struct PlayState*);
 
 typedef struct EnPeehat {
     /* 0x0000 */ Actor actor;
@@ -38,10 +38,10 @@ typedef struct EnPeehat {
     /* 0x02FA */ s16 unk_2FA;          // larva count (PEAHAT_TYPE_FLYING, PEAHAT_TYPE_GROUNDED),
                                       // shape rotation direction (PEAHAT_TYPE_GROUNDED)
     /* 0x02FC */ s16 animTimer;
-    /* 0x0300 */ ColliderCylinder colCylinder;
-    /* 0x034C */ ColliderJntSph colJntSph;
-    /* 0x036C */ ColliderJntSphElement colJntSphItemList[1];
-    /* 0x03AC */ ColliderQuad colQuad;
+    /* 0x0300 */ ColliderCylinder colliderCylinder;
+    /* 0x034C */ ColliderJntSph colliderJntSph;
+    /* 0x036C */ ColliderJntSphElement colliderJntSphElements[1];
+    /* 0x03AC */ ColliderQuad colliderQuad;
 } EnPeehat; // size = 0x042C
 
 #endif

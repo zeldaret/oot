@@ -140,10 +140,10 @@ typedef struct EnHorse {
     /* 0x0264 */ Vec2f curStick;
     /* 0x026C */ Vec2f lastStick;
     /* 0x0274 */ f32 jumpStartY;
-    /* 0x0278 */ ColliderCylinder cyl1;
-    /* 0x02C4 */ ColliderCylinder cyl2;
-    /* 0x0310 */ ColliderJntSph jntSph;
-    /* 0x0330 */ ColliderJntSphElement jntSphList;
+    /* 0x0278 */ ColliderCylinder colliderCylinder1;
+    /* 0x02C4 */ ColliderCylinder colliderCylinder2;
+    /* 0x0310 */ ColliderJntSph colliderJntSph;
+    /* 0x0330 */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x0370 */ u32 playerDir;
     /* 0x0374 */ s16 unk_374;
     /* 0x0376 */ s16 angleToPlayer;

@@ -2,12 +2,12 @@
 #define Z_EN_GO2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 #include "overlays/actors/ovl_En_Go/z_en_go.h"
 
 struct EnGo2;
 
-typedef void (*EnGo2ActionFunc)(struct EnGo2*, PlayState*);
+typedef void (*EnGo2ActionFunc)(struct EnGo2*, struct PlayState*);
 
 // WIP fire temple type docs
 // /* 0x00 */ UNUSED
@@ -79,7 +79,7 @@ typedef struct EnGo2 {
     /* 0x0190 */ EnGo2ActionFunc actionFunc;
     /* 0x0194 */ NpcInteractInfo interactInfo;
     /* 0x01BC */ ColliderCylinder collider;
-    /* 0x0208 */ Path* path;
+    /* 0x0208 */ struct Path* path;
     /* 0x020C */ u8 messageEntry; // tracks message state changes, like with `BOX_BREAK` or `TEXTID`
     /* 0x020D */ u8 messageState; // last known result of `Message_GetState`
     /* 0x020E */ u8 reverse;

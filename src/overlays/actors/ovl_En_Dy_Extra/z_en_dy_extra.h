@@ -2,11 +2,11 @@
 #define Z_EN_DY_EXTRA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDyExtra;
 
-typedef void (*EnDyExtraActionFunc)(struct EnDyExtra*, PlayState*);
+typedef void (*EnDyExtraActionFunc)(struct EnDyExtra*, struct PlayState*);
 
 typedef struct EnDyExtra {
     /* 0x0000 */ Actor actor;

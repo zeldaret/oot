@@ -5,6 +5,15 @@
  */
 
 #include "z_en_mu.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_mu/object_mu.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -58,21 +67,21 @@ void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {
 void EnMu_Interact(EnMu* this, PlayState* play) {
     u8 textIdOffset[] = { 0x42, 0x43, 0x3F, 0x41, 0x3E };
     u8 bitmask[] = {
-        EVENTINF_20_MASK, EVENTINF_21_MASK, EVENTINF_22_MASK, EVENTINF_23_MASK, EVENTINF_24_MASK,
+        EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_0), EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_1),
+        EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_2), EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_3),
+        EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_4),
     };
-    u8 textFlags;
+    u8 talkFlags;
     s32 randomIndex;
     s32 i;
 
-    textFlags = gSaveContext.eventInf[EVENTINF_INDEX_20_21_22_23_24] &
-                (EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
-    gSaveContext.eventInf[EVENTINF_INDEX_20_21_22_23_24] &=
-        ~(EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
+    talkFlags = GET_EVENTINF_ENMU_TALK_FLAGS();
+    RESET_EVENTINF_ENMU_TALK_FLAGS();
     randomIndex = (play->state.frames + (s32)(Rand_ZeroOne() * 5.0f)) % 5;
 
+    // Starting at randomIndex, scan sequentially for the next unspoken message
     for (i = 0; i < 5; i++) {
-
-        if (!(textFlags & bitmask[randomIndex])) {
+        if (!(talkFlags & bitmask[randomIndex])) {
             break;
         }
 
@@ -82,6 +91,7 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
         }
     }
 
+    // If all 5 messages have been spoken, reset but prevent the last message from being repeated
     if (i == 5) {
         if (this->defaultTextId == (textIdOffset[randomIndex] | 0x7000)) {
             randomIndex++;
@@ -89,13 +99,12 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
                 randomIndex = 0;
             }
         }
-        textFlags = 0;
+        talkFlags = 0;
     }
 
-    textFlags |= bitmask[randomIndex];
+    talkFlags |= (u8)bitmask[randomIndex];
     this->defaultTextId = textIdOffset[randomIndex] | 0x7000;
-    textFlags &= EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK | 0xE0;
-    gSaveContext.eventInf[EVENTINF_INDEX_20_21_22_23_24] |= textFlags;
+    SET_EVENTINF_ENMU_TALK_FLAGS(talkFlags);
 }
 
 u16 EnMu_GetTextId(PlayState* play, Actor* thisx) {

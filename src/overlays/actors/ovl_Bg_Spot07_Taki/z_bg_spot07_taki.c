@@ -5,7 +5,15 @@
  */
 
 #include "z_bg_spot07_taki.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
 #include "versions.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_spot07_object/object_spot07_object.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)

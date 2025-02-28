@@ -3,8 +3,9 @@
 
 #include "libc/stddef.h"
 #include "ultra64.h"
-#include "global.h"
+#include "gfx.h"
 #include "versions.h"
+#include "z64game.h"
 
 
 #define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + offsetof(SaveContext, save.info.playerData.newf[index])])
@@ -140,7 +141,9 @@ typedef enum ConfirmButtonIndex {
 
 typedef enum ActionButtonIndex {
     /* 0 */ FS_BTN_ACTION_COPY,
-    /* 1 */ FS_BTN_ACTION_ERASE
+    /* 1 */ FS_BTN_ACTION_ERASE,
+    /* 2 */ FS_BTN_ACTION_YES,
+    /* 3 */ FS_BTN_ACTION_QUIT
 } ActionButtonIndex;
 
 typedef enum SettingIndex {
@@ -151,13 +154,6 @@ typedef enum SettingIndex {
 #endif
     /*   */ FS_SETTING_MAX
 } SettingIndex;
-
-typedef enum AudioOption {
-    /* 0 */ FS_AUDIO_STEREO,
-    /* 1 */ FS_AUDIO_MONO,
-    /* 2 */ FS_AUDIO_HEADSET,
-    /* 3 */ FS_AUDIO_SURROUND
-} AudioOption;
 
 typedef enum CharPage {
     /* 0 */ FS_CHAR_PAGE_HIRA,

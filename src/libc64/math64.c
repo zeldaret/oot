@@ -1,3 +1,4 @@
+#include "libc64/math64.h"
 #include "z64math.h"
 #include "macros.h"
 

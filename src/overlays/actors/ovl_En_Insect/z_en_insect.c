@@ -5,8 +5,21 @@
  */
 
 #include "z_en_insect.h"
-#include "global.h"
+#include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_math3d.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
@@ -55,7 +68,7 @@ ActorProfile En_Insect_Profile = {
     /**/ EnInsect_Draw,
 };
 
-static ColliderJntSphElementInit sColliderItemInit[1] = {
+static ColliderJntSphElementInit sColliderElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -79,7 +92,7 @@ static ColliderJntSphInit sColliderInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sColliderItemInit,
+    sColliderElementsInit,
 };
 
 /**
@@ -192,7 +205,7 @@ void EnInsect_Init(Actor* thisx, PlayState* play2) {
 
     SkelAnime_Init(play, &this->skelAnime, &gBugSkel, &gBugCrawlAnim, this->jointTable, this->morphTable, 24);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, &this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, this->colliderElements);
 
     this->actor.colChkInfo.mass = 30;
 

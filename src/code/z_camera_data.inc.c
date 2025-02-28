@@ -2584,7 +2584,7 @@ s16 D_8011D3CC[] = {
 
 s32 sUpdateCameraDirection = 0;
 s32 D_8011D3EC = 0;
-s32 D_8011D3F0 = 0;
+s32 sSceneInitLetterboxTimer = 0;
 
 s32 sDemo5PrevAction12Frame = -16;
 

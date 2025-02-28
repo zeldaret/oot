@@ -5,11 +5,26 @@
  */
 
 #include "z_en_zl2.h"
-#include "terminal.h"
-
-#include "z64frame_advance.h"
-
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64frame_advance.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#if PLATFORM_N64
+#include "global.h"
+#endif
+
 #include "assets/objects/object_zl2/object_zl2.h"
 #include "assets/objects/object_zl2_anime1/object_zl2_anime1.h"
 

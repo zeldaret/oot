@@ -1,6 +1,14 @@
 #include "z_en_heishi4.h"
-#include "assets/objects/object_sd/object_sd.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
 #include "terminal.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_sd/object_sd.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 

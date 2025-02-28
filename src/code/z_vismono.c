@@ -8,7 +8,14 @@
  * comments.
  */
 
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libu64/debug.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfxalloc.h"
+#include "z64vis.h"
+
+#include "macros.h"
 
 // Height of the fragments the color frame buffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into

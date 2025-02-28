@@ -1,5 +1,13 @@
 #include "z_demo_ik.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_ik/object_ik.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
@@ -159,7 +167,7 @@ void DemoIk_MoveToStartPos(DemoIk* this, PlayState* play, s32 cueChannel) {
 
 void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
     s32 pad[3];
-    SkeletonHeader* skeleton;
+    FlexSkeletonHeader* skeleton;
     AnimationHeader* animation;
     f32 phi_f0;
 
@@ -181,7 +189,8 @@ void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
             // No break is required for matching
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, phi_f0);
-    SkelAnime_Init(play, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
+    //! @bug Flex skeleton is used as normal skeleton
+    SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)skeleton, NULL, this->jointTable, this->morphTable, 2);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
 }
 

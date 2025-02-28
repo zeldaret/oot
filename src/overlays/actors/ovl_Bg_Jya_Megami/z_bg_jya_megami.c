@@ -6,6 +6,19 @@
 
 #include "z_bg_jya_megami.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0
@@ -123,7 +136,7 @@ void BgJyaMegami_InitCollider(BgJyaMegami* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, &this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 }
 
 void BgJyaMegami_SpawnEffect(PlayState* play, Vec3f* pos, Vec3f* velocity, s32 num, s32 arg4) {

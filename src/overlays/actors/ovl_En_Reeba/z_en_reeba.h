@@ -2,11 +2,11 @@
 #define Z_EN_REEBA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnReeba;
 
-typedef void (*EnReebaActionFunc)(struct EnReeba*, PlayState*);
+typedef void (*EnReebaActionFunc)(struct EnReeba*, struct PlayState*);
 
 typedef struct EnReeba {
     /* 0x0000 */ Actor actor;

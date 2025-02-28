@@ -5,8 +5,17 @@
  */
 
 #include "z_elf_msg.h"
-#include "global.h"
+
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "regs.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

@@ -2,11 +2,11 @@
 #define Z_EN_GO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnGo;
 
-typedef void (*EnGoActionFunc)(struct EnGo*, PlayState*);
+typedef void (*EnGoActionFunc)(struct EnGo*, struct PlayState*);
 
 typedef enum GoronLimb {
     /*  0 */ GORON_LIMB_NONE, // skeleton itself

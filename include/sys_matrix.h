@@ -11,8 +11,8 @@ typedef enum MatrixMode {
     /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
 
-extern Mtx gMtxClear;
-extern MtxF gMtxFClear;
+extern Mtx gIdentityMtx;
+extern MtxF gIdentityMtxF;
 
 /* Stack operations */
 

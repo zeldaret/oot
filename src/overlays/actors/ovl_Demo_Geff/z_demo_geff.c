@@ -5,8 +5,17 @@
  */
 
 #include "z_demo_geff.h"
-#include "assets/objects/object_geff/object_geff.h"
+#include "overlays/actors/ovl_Demo_Gt/z_demo_gt.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z64play.h"
+
+#include "assets/objects/object_geff/object_geff.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 

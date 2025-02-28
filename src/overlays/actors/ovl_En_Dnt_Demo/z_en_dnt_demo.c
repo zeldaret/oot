@@ -5,10 +5,23 @@
  */
 
 #include "z_en_dnt_demo.h"
-
 #include "overlays/actors/ovl_En_Dnt_Jiji/z_en_dnt_jiji.h"
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
+
+#include "attributes.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "regs.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64debug_display.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
 
 #define FLAGS 0
 

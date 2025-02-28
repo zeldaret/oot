@@ -2,7 +2,7 @@
 #define Z_BG_MIZU_SHUTTER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #define BGMIZUSHUTTER_GET_SIZE(thisx)   PARAMS_GET_U((u16)(thisx)->params, 12, 4)
 #define BGMIZUSHUTTER_GET_TIMER(thisx)  PARAMS_GET_U((u16)(thisx)->params,  6, 6)
@@ -12,7 +12,7 @@
 
 struct BgMizuShutter;
 
-typedef void (*BgMizuShutterActionFunc)(struct BgMizuShutter*, PlayState*);
+typedef void (*BgMizuShutterActionFunc)(struct BgMizuShutter*, struct PlayState*);
 
 typedef struct BgMizuShutter {
     /* 0x0000 */ DynaPolyActor dyna;

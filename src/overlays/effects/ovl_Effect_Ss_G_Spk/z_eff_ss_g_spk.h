@@ -2,10 +2,11 @@
 #define Z_EFF_SS_G_SPK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "color.h"
+#include "z64math.h"
 
 typedef struct EffectSsGSpkInitParams {
-    /* 0x00 */ Actor* actor;
+    /* 0x00 */ struct Actor* actor;
     /* 0x04 */ Vec3f pos;
     /* 0x10 */ Vec3f velocity;
     /* 0x1C */ Vec3f accel;
