@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_bdan_switch.h"
+
+#include "ichain.h"
+#include "rumble.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_bdan_objects/object_bdan_objects.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
@@ -110,7 +120,7 @@ void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHea
 void BgBdanSwitch_InitCollision(BgBdanSwitch* this, PlayState* play) {
     Actor* actor = &this->dyna.actor;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, actor, &sJntSphInit, this->colliderElements);
 }
 
 void func_8086D0EC(BgBdanSwitch* this) {

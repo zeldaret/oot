@@ -2,11 +2,11 @@
 #define Z_EN_DNT_DEMO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDntDemo;
 
-typedef void (*EnDntDemoActionFunc)(struct EnDntDemo*, PlayState*);
+typedef void (*EnDntDemoActionFunc)(struct EnDntDemo*, struct PlayState*);
 
 typedef struct EnDntDemo {
     /* 0x0000 */ Actor actor;

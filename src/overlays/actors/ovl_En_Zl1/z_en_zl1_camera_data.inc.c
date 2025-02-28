@@ -1,4 +1,3 @@
-#include "z_en_zl1.h"
 #include "z64cutscene_commands.h"
 
 static CutsceneCameraDirection D_80B4D5C0[] = {

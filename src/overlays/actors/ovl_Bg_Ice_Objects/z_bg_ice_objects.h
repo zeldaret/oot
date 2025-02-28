@@ -2,11 +2,11 @@
 #define Z_BG_ICE_OBJECTS_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgIceObjects;
 
-typedef void (*BgIceObjectsActionFunc) (struct BgIceObjects*, PlayState*);
+typedef void (*BgIceObjectsActionFunc) (struct BgIceObjects*, struct PlayState*);
 
 typedef struct BgIceObjects {
     /* 0x0000 */ DynaPolyActor dyna;

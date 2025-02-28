@@ -5,8 +5,24 @@
  */
 
 #include "z_en_heishi1.h"
-#include "assets/objects/object_sd/object_sd.h"
+
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64debug_display.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_sd/object_sd.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

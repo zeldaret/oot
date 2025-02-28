@@ -1,5 +1,6 @@
 <Root>
     <File Name="tokinoma_scene" Segment="2">
+        <Cutscene Name="gTempleOfTimeUnusedCs" Offset="0x280"/>
         <Cutscene Name="gTempleOfTimeFirstAdultCs" Offset="0x4700"/>
         <Cutscene Name="gTempleOfTimePreludeCs" Offset="0x6D34"/>
         <Cutscene Name="gTempleOfTimeIntroCs" Offset="0xCE20"/>

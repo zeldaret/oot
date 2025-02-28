@@ -125,6 +125,14 @@
         <DList Name="gLinkAdultBrokenGiantsKnifeBladeDL" Offset="0x2BA38"/> <!-- Used for when Giants Knife shatters -->
 
 
+        <Texture Name="gLinkAdultTLUT1" Format="rgba16" Width="16" Height="16" Offset="0x5400"/>
+        <Texture Name="gLinkAdultTLUT2" Format="rgba16" Width="16" Height="16" Offset="0x5800"/>
+        <Texture Name="gLinkAdultTLUT3" Format="rgba16" Width="8" Height="11" Offset="0x5A00"/>
+        <Texture Name="gLinkAdultTLUT4" Format="rgba16" Width="16" Height="16" Offset="0xCB40"/>
+        <Texture Name="gLinkAdultTLUT5" Format="rgba16" Width="16" Height="16" Offset="0xCD48"/>
+        <Texture Name="gLinkAdultTLUT6" Format="rgba16" Width="12" Height="12" Offset="0xCF50"/>
+        <Texture Name="gLinkAdultTLUT7" Format="rgba16" Width="8" Height="4" Offset="0xD078"/>
+
         <Texture Name="gLinkAdultShieldHandleTex" OutName="shield_handle" Format="ci8" Width="8" Height="16" Offset="0xD4B8" TlutOffset="0xCD48"/>
         <Texture Name="gLinkAdultHylianShieldBackTex" OutName="hylian_shield_back" Format="ci8" Width="16" Height="32" Offset="0xD938" TlutOffset="0xCB40"/>
         <Texture Name="gLinkAdultSheathBandTex" OutName="sheath_band" Format="ci8" Width="32" Height="16" Offset="0xE838" TlutOffset="0xCB40"/>

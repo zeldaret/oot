@@ -5,8 +5,19 @@
  */
 
 #include "z_bg_hidan_kowarerukabe.h"
-#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
@@ -92,7 +103,7 @@ void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, PlayState
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 
     this->collider.elements[0].dim.modelSphere.radius = sphereRadii[PARAMS_GET_U(this->dyna.actor.params, 0, 8)];
     this->collider.elements[0].dim.modelSphere.center.y = sphereYPositions[PARAMS_GET_U(this->dyna.actor.params, 0, 8)];

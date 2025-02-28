@@ -2,11 +2,11 @@
 #define Z_BG_HAKA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgHaka;
 
-typedef void (*BgHakaActionFunc)(struct BgHaka*, PlayState*);
+typedef void (*BgHakaActionFunc)(struct BgHaka*, struct PlayState*);
 
 typedef struct BgHaka {
     /* 0x0000 */ DynaPolyActor dyna;

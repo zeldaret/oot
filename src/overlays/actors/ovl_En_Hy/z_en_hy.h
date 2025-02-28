@@ -2,7 +2,7 @@
 #define Z_EN_HY_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #define ENHY_GET_TYPE(thisx) PARAMS_GET_S((thisx)->params, 0, 7)
 #define ENHY_GET_PATH_INDEX(thisx) PARAMS_GET_S((thisx)->params, 7, 4)
@@ -54,7 +54,7 @@ typedef enum EnHyLimb {
 
 struct EnHy;
 
-typedef void (*EnHyActionFunc)(struct EnHy*, PlayState*);
+typedef void (*EnHyActionFunc)(struct EnHy*, struct PlayState*);
 
 typedef struct EnHy {
     /* 0x0000 */ Actor actor;
@@ -68,7 +68,7 @@ typedef struct EnHy {
     /* 0x0199 */ s8 objectSlotOsAnime;
     /* 0x019C */ ColliderCylinder collider;
     /* 0x01E8 */ NpcInteractInfo interactInfo;
-    /* 0x0210 */ Path* path;
+    /* 0x0210 */ struct Path* path;
     /* 0x0214 */ s8 waypoint;
     /* 0x0215 */ s8 playedSfx;
     /* 0x0216 */ char unk_216[2]; // unused

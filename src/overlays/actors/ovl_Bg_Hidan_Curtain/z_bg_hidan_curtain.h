@@ -2,11 +2,11 @@
 #define Z_BG_HIDAN_CURTAIN_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgHidanCurtain;
 
-typedef void (*BgHidanCurtainActionFunc)(struct BgHidanCurtain*, PlayState*);
+typedef void (*BgHidanCurtainActionFunc)(struct BgHidanCurtain*, struct PlayState*);
 
 typedef struct BgHidanCurtain {
     /* 0x0000 */ Actor actor;

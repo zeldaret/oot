@@ -1,26 +1,30 @@
-#include "global.h"
+#include "libc64/math64.h"
+#include "gfx.h"
 #if DEBUG_FEATURES
 #include "fault.h"
 #endif
+#include "macros.h"
+#include "sys_matrix.h"
+#include "ultra64.h"
+#include "z_lib.h"
+#include "z64game.h"
+#include "z64skin_matrix.h"
 
 // clang-format off
-Mtx gMtxClear = gdSPDefMtx(
+Mtx gIdentityMtx = gdSPDefMtx(
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, 1.0f, 0.0f, 0.0f,
     0.0f, 0.0f, 1.0f, 0.0f,
     0.0f, 0.0f, 0.0f, 1.0f
 );
 
-MtxF gMtxFClear = {
+MtxF gIdentityMtxF = {
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, 1.0f, 0.0f, 0.0f,
     0.0f, 0.0f, 1.0f, 0.0f,
     0.0f, 0.0f, 0.0f, 1.0f,
 };
 // clang-format on
-
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "pal-1.1:128"
 
 MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"

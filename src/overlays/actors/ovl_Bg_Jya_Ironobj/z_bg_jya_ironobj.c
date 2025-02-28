@@ -5,8 +5,17 @@
  */
 
 #include "z_bg_jya_ironobj.h"
-#include "assets/objects/object_jya_iron/object_jya_iron.h"
 #include "overlays/actors/ovl_En_Ik/z_en_ik.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "assets/objects/object_jya_iron/object_jya_iron.h"
 
 #define FLAGS 0
 
@@ -80,13 +89,13 @@ static InitChainEntry sInitChain[] = {
 static CollisionHeader* sCollisionHeaders[] = { &gPillarCol, &gThroneCol };
 
 void BgJyaIronobj_InitCylinder(BgJyaIronobj* this, PlayState* play) {
-    ColliderCylinder* colCylinder = &this->colCylinder;
+    ColliderCylinder* colCylinder = &this->colliderCylinder;
 
     Collider_InitCylinder(play, colCylinder);
     Collider_SetCylinder(play, colCylinder, &this->dyna.actor, &sCylinderInit);
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 1) == 1) {
-        this->colCylinder.dim.radius = 40;
-        this->colCylinder.dim.height = 100;
+        this->colliderCylinder.dim.radius = 40;
+        this->colliderCylinder.dim.height = 100;
     }
     Collider_UpdateCylinder(&this->dyna.actor, colCylinder);
 }
@@ -235,7 +244,7 @@ void BgJyaIronobj_Init(Actor* thisx, PlayState* play) {
 void BgJyaIronobj_Destroy(Actor* thisx, PlayState* play) {
     BgJyaIronobj* this = (BgJyaIronobj*)thisx;
 
-    Collider_DestroyCylinder(play, &this->colCylinder);
+    Collider_DestroyCylinder(play, &this->colliderCylinder);
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
@@ -249,9 +258,9 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play) {
     Vec3f dropPos;
     s32 i;
 
-    if (this->colCylinder.base.acFlags & AC_HIT) {
-        actor = this->colCylinder.base.ac;
-        this->colCylinder.base.acFlags &= ~AC_HIT;
+    if (this->colliderCylinder.base.acFlags & AC_HIT) {
+        actor = this->colliderCylinder.base.ac;
+        this->colliderCylinder.base.acFlags &= ~AC_HIT;
         if (actor != NULL && actor->id == ACTOR_EN_IK) {
             particleFunc[PARAMS_GET_U(this->dyna.actor.params, 0, 1)](this, play, (EnIk*)actor);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR);
@@ -266,7 +275,7 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play) {
             return;
         }
     } else {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colCylinder.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinder.base);
     }
 }
 

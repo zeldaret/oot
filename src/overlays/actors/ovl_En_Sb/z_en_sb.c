@@ -5,7 +5,17 @@
  */
 
 #include "z_en_sb.h"
+
+#include "attributes.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_sb/object_sb.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)

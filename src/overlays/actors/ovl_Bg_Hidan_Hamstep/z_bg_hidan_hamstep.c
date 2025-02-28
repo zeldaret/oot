@@ -5,9 +5,21 @@
  */
 
 #include "z_bg_hidan_hamstep.h"
-#include "versions.h"
-#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
 #include "quake.h"
+#include "regs.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "z64play.h"
+
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
 
@@ -141,7 +153,7 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
 
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderElements);
 
         for (i = 0; i < 2; i++) {
             for (i2 = 0; i2 < 3; i2++) {

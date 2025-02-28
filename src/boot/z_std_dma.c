@@ -18,17 +18,25 @@
  * There are some additional provisions to ensure that audio DMA is particularly high-speed, the audio data is assumed
  * to be uncompressed and the request queue and address translation is skipped.
  */
-#include "global.h"
+#include "libc64/sleep.h"
+#include "libc64/sprintf.h"
+#include "libu64/debug.h"
+#include "attributes.h"
 #include "fault.h"
-#include "stack.h"
-#include "terminal.h"
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "segment_symbols.h"
+#include "stack.h"
+#include "stackcheck.h"
+#include "terminal.h"
+#include "z64thread.h"
+
+#include "global.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:70 pal-1.0:68 pal-1.1:68"
+                               "ntsc-1.2:12 pal-1.0:10 pal-1.1:10"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
@@ -75,7 +83,7 @@ const char* sDmaMgrFileNames[] = {
  *  -1 if the first character that does not match has a smaller value in str1 than str2,
  *  +1 if the first character that does not match has a greater value in str1 than str2
  */
-s32 DmaMgr_StrCmp(const char* str1, const char* str2) {
+s32 DmaMgr_StrCmp(const u8* str1, const u8* str2) {
     while (*str1 != '\0') {
         if (*str1 > *str2) {
             return 1;
@@ -338,7 +346,8 @@ const char* DmaMgr_GetFileName(uintptr_t vrom) {
         return "(unknown)";
     }
 
-    if (DmaMgr_StrCmp(ret, "kanji") == 0 || DmaMgr_StrCmp(ret, "link_animetion") == 0) {
+    if (DmaMgr_StrCmp((const u8*)ret, (const u8*)"kanji") == 0 ||
+        DmaMgr_StrCmp((const u8*)ret, (const u8*)"link_animetion") == 0) {
         // This check may be related to these files being too large to be loaded all at once, however a NULL filename
         // does not prevent them from being loaded.
         return NULL;
@@ -379,7 +388,8 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
             if (0) {
 #if !PLATFORM_GC
                 // Based on the MM Debug ROM, these strings are part of the condition for the empty if statement below
-                if (DmaMgr_StrCmp("", "kanji") != 0 && DmaMgr_StrCmp("", "link_animetion") != 0)
+                if (DmaMgr_StrCmp((const u8*)"", (const u8*)"kanji") != 0 &&
+                    DmaMgr_StrCmp((const u8*)"", (const u8*)"link_animetion") != 0)
 #endif
                 {
                     // The string is defined in .rodata of debug builds but not used, suggesting a debug print is here

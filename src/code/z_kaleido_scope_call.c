@@ -1,8 +1,14 @@
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
-                               "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:224"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:144 ntsc-1.1:144 ntsc-1.2:144 pal-1.0:144 pal-1.1:144"
+
+#include "libu64/debug.h"
+#include "kaleido_manager.h"
+#include "letterbox.h"
+#include "regs.h"
+#include "terminal.h"
+#include "z64play.h"
 
 #include "global.h"
-#include "terminal.h"
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);

@@ -5,6 +5,17 @@
  */
 
 #include "z_obj_ice_poly.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
@@ -85,18 +96,18 @@ void ObjIcePoly_Init(Actor* thisx, PlayState* play) {
     }
     Actor_SetScale(thisx, sScale[thisx->params]);
     thisx->world.pos.y = sOffsetY[thisx->params] + thisx->home.pos.y;
-    Collider_InitCylinder(play, &this->colliderIce);
-    Collider_SetCylinder(play, &this->colliderIce, thisx, &sCylinderInitIce);
-    Collider_InitCylinder(play, &this->colliderHard);
-    Collider_SetCylinder(play, &this->colliderHard, thisx, &sCylinderInitHard);
-    Collider_UpdateCylinder(thisx, &this->colliderIce);
-    Collider_UpdateCylinder(thisx, &this->colliderHard);
+    Collider_InitCylinder(play, &this->iceCollider);
+    Collider_SetCylinder(play, &this->iceCollider, thisx, &sCylinderInitIce);
+    Collider_InitCylinder(play, &this->hardCollider);
+    Collider_SetCylinder(play, &this->hardCollider, thisx, &sCylinderInitHard);
+    Collider_UpdateCylinder(thisx, &this->iceCollider);
+    Collider_UpdateCylinder(thisx, &this->hardCollider);
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->alpha = 255;
-    this->colliderIce.dim.radius *= thisx->scale.x;
-    this->colliderIce.dim.height *= thisx->scale.y;
-    this->colliderHard.dim.radius *= thisx->scale.x;
-    this->colliderHard.dim.height *= thisx->scale.y;
+    this->iceCollider.dim.radius *= thisx->scale.x;
+    this->iceCollider.dim.height *= thisx->scale.y;
+    this->hardCollider.dim.radius *= thisx->scale.x;
+    this->hardCollider.dim.height *= thisx->scale.y;
     Actor_SetFocus(thisx, thisx->scale.y * 30.0f);
     this->actionFunc = ObjIcePoly_Idle;
 }
@@ -106,8 +117,8 @@ void ObjIcePoly_Destroy(Actor* thisx, PlayState* play) {
     ObjIcePoly* this = (ObjIcePoly*)thisx;
 
     if ((this->actor.params >= 0) && (this->actor.params < 3)) {
-        Collider_DestroyCylinder(play, &this->colliderIce);
-        Collider_DestroyCylinder(play, &this->colliderHard);
+        Collider_DestroyCylinder(play, &this->iceCollider);
+        Collider_DestroyCylinder(play, &this->hardCollider);
     }
 }
 
@@ -116,17 +127,17 @@ void ObjIcePoly_Idle(ObjIcePoly* this, PlayState* play) {
     s32 pad;
     Vec3f pos;
 
-    if (this->colliderIce.base.acFlags & AC_HIT) {
-        this->meltTimer = -this->colliderIce.elem.acHitElem->atDmgInfo.damage;
+    if (this->iceCollider.base.acFlags & AC_HIT) {
+        this->meltTimer = -this->iceCollider.elem.acHitElem->atDmgInfo.damage;
         this->actor.focus.rot.y = this->actor.yawTowardsPlayer;
         OnePointCutscene_Init(play, 5120, 40, &this->actor, CAM_ID_MAIN);
         this->actionFunc = ObjIcePoly_Melt;
     } else if (this->actor.parent != NULL) {
         this->actor.parent->freezeTimer = 40;
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderIce.base);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderIce.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderIce.base);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderHard.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->iceCollider.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->iceCollider.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->iceCollider.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->hardCollider.base);
     } else {
         Actor_Kill(&this->actor);
     }

@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_ingate.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_ingate/object_ingate.h"
 
 #define FLAGS 0

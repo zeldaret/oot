@@ -1,4 +1,16 @@
 #include "z_en_ssh.h"
+
+#include "gfx.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_ssh/object_ssh.h"
 
 #define FLAGS                                                                                 \
@@ -198,25 +210,25 @@ void EnSsh_InitColliders(EnSsh* this, PlayState* play) {
     s32 pad;
 
     for (i = 0; i < ARRAY_COUNT(cylinders); i++) {
-        Collider_InitCylinder(play, &this->colCylinder[i]);
-        Collider_SetCylinder(play, &this->colCylinder[i], &this->actor, cylinders[i]);
+        Collider_InitCylinder(play, &this->colliderCylinders[i]);
+        Collider_SetCylinder(play, &this->colliderCylinders[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].elem.acDmgInfo.dmgFlags =
+    this->colliderCylinders[0].elem.acDmgInfo.dmgFlags =
         DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT;
-    this->colCylinder[1].elem.acDmgInfo.dmgFlags =
+    this->colliderCylinders[1].elem.acDmgInfo.dmgFlags =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
         ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
-    this->colCylinder[2].base.colMaterial = COL_MATERIAL_METAL;
-    this->colCylinder[2].elem.acElemFlags = ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO;
-    this->colCylinder[2].elem.elemMaterial = ELEM_MATERIAL_UNK2;
-    this->colCylinder[2].elem.acDmgInfo.dmgFlags =
+    this->colliderCylinders[2].base.colMaterial = COL_MATERIAL_METAL;
+    this->colliderCylinders[2].elem.acElemFlags = ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO;
+    this->colliderCylinders[2].elem.elemMaterial = ELEM_MATERIAL_UNK2;
+    this->colliderCylinders[2].elem.acDmgInfo.dmgFlags =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT);
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
 
-    Collider_InitJntSph(play, &this->colSph);
-    Collider_SetJntSph(play, &this->colSph, &this->actor, &sJntSphInit, this->colSphElements);
+    Collider_InitJntSph(play, &this->colliderJntSph);
+    Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
 }
 
 f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
@@ -270,21 +282,21 @@ void EnSsh_SetColliderScale(EnSsh* this, f32 scale, f32 radiusMod) {
     f32 yShift;
     s32 i;
 
-    radius = this->colSph.elements[0].dim.modelSphere.radius;
+    radius = this->colliderJntSph.elements[0].dim.modelSphere.radius;
     radius *= scale;
-    this->colSph.elements[0].dim.modelSphere.radius = radius;
+    this->colliderJntSph.elements[0].dim.modelSphere.radius = radius;
 
     for (i = 0; i < 6; i++) {
-        yShift = this->colCylinder[i].dim.yShift;
-        radius = this->colCylinder[i].dim.radius;
-        height = this->colCylinder[i].dim.height;
+        yShift = this->colliderCylinders[i].dim.yShift;
+        radius = this->colliderCylinders[i].dim.radius;
+        height = this->colliderCylinders[i].dim.height;
         yShift *= scale;
         radius *= scale * radiusMod;
         height *= scale;
 
-        this->colCylinder[i].dim.yShift = yShift;
-        this->colCylinder[i].dim.radius = radius;
-        this->colCylinder[i].dim.height = height;
+        this->colliderCylinders[i].dim.yShift = yShift;
+        this->colliderCylinders[i].dim.radius = radius;
+        this->colliderCylinders[i].dim.height = height;
     }
     Actor_SetScale(&this->actor, 0.04f * scale);
     this->floorHeightOffset = 40.0f * scale;
@@ -436,17 +448,17 @@ void EnSsh_Sway(EnSsh* this) {
 }
 
 void EnSsh_CheckBodyStickHit(EnSsh* this, PlayState* play) {
-    ColliderElement* elem = &this->colCylinder[0].elem;
+    ColliderElement* elem = &this->colliderCylinders[0].elem;
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
         elem->acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[1].elem.acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[2].elem.acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colliderCylinders[1].elem.acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colliderCylinders[2].elem.acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
         elem->acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[1].elem.acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[2].elem.acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
+        this->colliderCylinders[1].elem.acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
+        this->colliderCylinders[2].elem.acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
     }
 }
 
@@ -458,8 +470,8 @@ s32 EnSsh_CheckHitPlayer(EnSsh* this, PlayState* play) {
         return false;
     }
     for (i = 0; i < 3; i++) {
-        if (this->colCylinder[i + 3].base.ocFlags2 & OC2_HIT_PLAYER) {
-            this->colCylinder[i + 3].base.ocFlags2 &= ~OC2_HIT_PLAYER;
+        if (this->colliderCylinders[i + 3].base.ocFlags2 & OC2_HIT_PLAYER) {
+            this->colliderCylinders[i + 3].base.ocFlags2 &= ~OC2_HIT_PLAYER;
             hit = true;
         }
     }
@@ -481,13 +493,13 @@ s32 EnSsh_CheckHitPlayer(EnSsh* this, PlayState* play) {
 s32 EnSsh_CheckHitFront(EnSsh* this) {
     u32 acFlags;
 
-    if (this->colCylinder[2].base.acFlags) {} // Needed for matching
-    acFlags = this->colCylinder[2].base.acFlags;
+    if (this->colliderCylinders[2].base.acFlags) {} // Needed for matching
+    acFlags = this->colliderCylinders[2].base.acFlags;
 
     if (!!(acFlags & AC_HIT) == 0) {
         return 0;
     } else {
-        this->colCylinder[2].base.acFlags &= ~AC_HIT;
+        this->colliderCylinders[2].base.acFlags &= ~AC_HIT;
         this->invincibilityTimer = 8;
         if ((this->swayTimer == 0) && (this->hitTimer == 0) && (this->stunTimer == 0)) {
             this->swayTimer = 60;
@@ -497,14 +509,14 @@ s32 EnSsh_CheckHitFront(EnSsh* this) {
 }
 
 s32 EnSsh_CheckHitBack(EnSsh* this, PlayState* play) {
-    ColliderCylinder* cyl = &this->colCylinder[0];
+    ColliderCylinder* cyl = &this->colliderCylinders[0];
     s32 hit = false;
 
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
     }
-    cyl = &this->colCylinder[1];
+    cyl = &this->colliderCylinders[1];
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
@@ -547,19 +559,19 @@ s32 EnSsh_CollisionCheck(EnSsh* this, PlayState* play) {
 }
 
 void EnSsh_SetBodyCylinderAC(EnSsh* this, PlayState* play) {
-    Collider_UpdateCylinder(&this->actor, &this->colCylinder[0]);
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colCylinder[0].base);
+    Collider_UpdateCylinder(&this->actor, &this->colliderCylinders[0]);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinders[0].base);
 }
 
 void EnSsh_SetLegsCylinderAC(EnSsh* this, PlayState* play) {
     s16 angleTowardsLink = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
     if (angleTowardsLink < 90 * (0x10000 / 360)) {
-        Collider_UpdateCylinder(&this->actor, &this->colCylinder[2]);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colCylinder[2].base);
+        Collider_UpdateCylinder(&this->actor, &this->colliderCylinders[2]);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinders[2].base);
     } else {
-        Collider_UpdateCylinder(&this->actor, &this->colCylinder[1]);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colCylinder[1].base);
+        Collider_UpdateCylinder(&this->actor, &this->colliderCylinders[1]);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinders[1].base);
     }
 }
 
@@ -582,18 +594,18 @@ s32 EnSsh_SetCylinderOC(EnSsh* this, PlayState* play) {
         Matrix_RotateY(BINANG_TO_RAD_ALT(this->initialYaw), MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
         Matrix_Pop();
-        this->colCylinder[i + 3].dim.pos.x = cylPos.x;
-        this->colCylinder[i + 3].dim.pos.y = cylPos.y;
-        this->colCylinder[i + 3].dim.pos.z = cylPos.z;
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colCylinder[i + 3].base);
+        this->colliderCylinders[i + 3].dim.pos.x = cylPos.x;
+        this->colliderCylinders[i + 3].dim.pos.y = cylPos.y;
+        this->colliderCylinders[i + 3].dim.pos.z = cylPos.z;
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinders[i + 3].base);
     }
     return 1;
 }
 
 void EnSsh_SetColliders(EnSsh* this, PlayState* play) {
     if (this->actor.colChkInfo.health == 0) {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colSph.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colSph.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
     } else {
         if (this->hitTimer == 0) {
             EnSsh_SetCylinderOC(this, play);
@@ -645,9 +657,9 @@ void EnSsh_Destroy(Actor* thisx, PlayState* play) {
 
     Effect_Delete(play, this->blureIdx);
     for (i = 0; i < 6; i++) {
-        Collider_DestroyCylinder(play, &this->colCylinder[i]);
+        Collider_DestroyCylinder(play, &this->colliderCylinders[i]);
     }
-    Collider_DestroyJntSph(play, &this->colSph);
+    Collider_DestroyJntSph(play, &this->colliderJntSph);
 }
 
 void EnSsh_Wait(EnSsh* this, PlayState* play) {
@@ -869,7 +881,7 @@ s32 EnSsh_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnSsh_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSsh* this = (EnSsh*)thisx;
 
-    Collider_UpdateSpheres(limbIndex, &this->colSph);
+    Collider_UpdateSpheres(limbIndex, &this->colliderJntSph);
 }
 
 void EnSsh_Draw(Actor* thisx, PlayState* play) {

@@ -2,13 +2,13 @@
 #define Z_EN_NWC_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnNwc;
 struct EnNwcChick;
 
-typedef void (*EnNwcUpdateFunc)(struct EnNwc*, PlayState*);
-typedef void (*EnNwcChickFunc)(struct EnNwcChick*, struct EnNwc*, PlayState*);
+typedef void (*EnNwcUpdateFunc)(struct EnNwc*, struct PlayState*);
+typedef void (*EnNwcChickFunc)(struct EnNwcChick*, struct EnNwc*, struct PlayState*);
 
 typedef struct EnNwcChick {
     /* 0x00 */ s8 type;
@@ -21,8 +21,8 @@ typedef struct EnNwcChick {
     /* 0x2C */ f32 velY;
     /* 0x30 */ Vec3s rot;
     /* 0x36 */ u16 height;
-    /* 0x38 */ CollisionPoly* floorPoly;
-    /* 0x44 */ char unk_3C[0x20];
+    /* 0x38 */ struct CollisionPoly* floorPoly;
+    /* 0x3C */ char unk_3C[0x20];
 } EnNwcChick; // size = 0x5C
 
 typedef struct EnNwc {

@@ -2,11 +2,11 @@
 #define Z_BG_HIDAN_FIREWALL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgHidanFirewall;
 
-typedef void (*BgHidanFirewallActionFunc)(struct BgHidanFirewall*, PlayState*);
+typedef void (*BgHidanFirewallActionFunc)(struct BgHidanFirewall*, struct PlayState*);
 
 typedef struct BgHidanFirewall {
     /* 0x0000 */ Actor actor;

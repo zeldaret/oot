@@ -5,7 +5,13 @@
  */
 
 #include "z_en_wonder_talk2.h"
+
+#include "regs.h"
 #include "terminal.h"
+#include "z64debug_display.h"
+#include "z64item.h"
+#include "z64play.h"
+#include "z64player.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_LOCK_ON_DISABLED)
 

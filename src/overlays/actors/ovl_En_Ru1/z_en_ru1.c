@@ -5,10 +5,27 @@
  */
 
 #include "z_en_ru1.h"
-#include "assets/objects/object_ru1/object_ru1.h"
+#include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
+
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
-#include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_ru1/object_ru1.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_CAN_PRESS_SWITCHES)
 

@@ -5,6 +5,14 @@
  */
 
 #include "z_en_ms.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_ms/object_ms.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)

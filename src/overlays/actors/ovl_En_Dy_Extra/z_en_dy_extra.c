@@ -5,8 +5,17 @@
  */
 
 #include "z_en_dy_extra.h"
-#include "assets/objects/object_dy_obj/object_dy_obj.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+
+#include "assets/objects/object_dy_obj/object_dy_obj.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 

@@ -5,6 +5,12 @@
  */
 
 #include "z_obj_elevator.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_d_elevator/object_d_elevator.h"
 
 #define FLAGS 0

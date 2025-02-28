@@ -5,6 +5,15 @@
  */
 
 #include "z_bg_spot15_rrbox.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_spot15_obj/object_spot15_obj.h"
 
 #define FLAGS 0

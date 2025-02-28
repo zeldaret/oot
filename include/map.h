@@ -67,6 +67,8 @@ typedef struct MapData {
 #define MAP_48x85_TEX_HEIGHT 85
 #define MAP_48x85_TEX_SIZE ((MAP_48x85_TEX_WIDTH * MAP_48x85_TEX_HEIGHT) / 2) // 48x85 CI4 texture
 
+extern MapData gMapDataTable;
+
 void Map_SavePlayerInitialInfo(struct PlayState* play);
 void Map_SetFloorPalettesData(struct PlayState* play, s16 floor);
 void Map_InitData(struct PlayState* play, s16 room);

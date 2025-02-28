@@ -5,12 +5,31 @@
  */
 
 #include "z_boss_ganondrof.h"
-#include "assets/objects/object_gnd/object_gnd.h"
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64light.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/object_gnd/object_gnd.h"
 
 #define FLAGS                                                                                 \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
@@ -294,10 +313,10 @@ void BossGanondrof_Init(Actor* thisx, PlayState* play) {
         BossGanondrof_SetupPaintings(this);
     }
 
-    Collider_InitCylinder(play, &this->colliderBody);
-    Collider_InitCylinder(play, &this->colliderSpear);
-    Collider_SetCylinder(play, &this->colliderBody, &this->actor, &sCylinderInitBody);
-    Collider_SetCylinder(play, &this->colliderSpear, &this->actor, &sCylinderInitSpear);
+    Collider_InitCylinder(play, &this->bodyCollider);
+    Collider_InitCylinder(play, &this->spearCollider);
+    Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sCylinderInitBody);
+    Collider_SetCylinder(play, &this->spearCollider, &this->actor, &sCylinderInitSpear);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     if (Flags_GetClear(play, play->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
@@ -317,8 +336,8 @@ void BossGanondrof_Destroy(Actor* thisx, PlayState* play) {
 
     PRINTF("DT1\n");
     SkelAnime_Free(&this->skelAnime, play);
-    Collider_DestroyCylinder(play, &this->colliderBody);
-    Collider_DestroyCylinder(play, &this->colliderSpear);
+    Collider_DestroyCylinder(play, &this->bodyCollider);
+    Collider_DestroyCylinder(play, &this->spearCollider);
     if (this->actor.params == GND_REAL_BOSS) {
         LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
     }
@@ -461,9 +480,9 @@ void BossGanondrof_Paintings(BossGanondrof* this, PlayState* play) {
     if (this->flyMode != GND_FLY_PAINTING) {
         BossGanondrof_SetupNeutral(this, -20.0f);
         this->timers[0] = 100;
-        this->colliderBody.dim.radius = 20;
-        this->colliderBody.dim.height = 60;
-        this->colliderBody.dim.yShift = -33;
+        this->bodyCollider.dim.radius = 20;
+        this->bodyCollider.dim.height = 60;
+        this->bodyCollider.dim.yShift = -33;
         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_LAUGH);
         this->actor.naviEnemyId = NAVI_ENEMY_PHANTOM_GANON_PHASE_2;
     } else {
@@ -775,7 +794,7 @@ void BossGanondrof_SetupBlock(BossGanondrof* this, PlayState* play) {
 }
 
 void BossGanondrof_Block(BossGanondrof* this, PlayState* play) {
-    this->colliderBody.base.colMaterial = COL_MATERIAL_METAL;
+    this->bodyCollider.base.colMaterial = COL_MATERIAL_METAL;
     SkelAnime_Update(&this->skelAnime);
     this->actor.world.pos.x += this->actor.velocity.x;
     this->actor.world.pos.z += this->actor.velocity.z;
@@ -804,7 +823,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play) {
     f32 dxCenter = thisx->world.pos.x - GND_BOSSROOM_CENTER_X;
     f32 dzCenter = thisx->world.pos.z - GND_BOSSROOM_CENTER_Z;
 
-    this->colliderBody.base.colMaterial = COL_MATERIAL_METAL;
+    this->bodyCollider.base.colMaterial = COL_MATERIAL_METAL;
     SkelAnime_Update(&this->skelAnime);
     switch (this->work[GND_ACTION_STATE]) {
         case CHARGE_WINDUP:
@@ -1231,13 +1250,13 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
     if (this->work[GND_INVINC_TIMER] != 0) {
         this->work[GND_INVINC_TIMER]--;
         this->returnCount = 0;
-        this->colliderBody.base.acFlags &= ~AC_HIT;
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
     } else {
-        acHit = this->colliderBody.base.acFlags & AC_HIT;
+        acHit = this->bodyCollider.base.acFlags & AC_HIT;
         if ((acHit && ((s8)this->actor.colChkInfo.health > 0)) || (this->returnCount != 0)) {
             if (acHit) {
-                this->colliderBody.base.acFlags &= ~AC_HIT;
-                acHitElem = this->colliderBody.elem.acHitElem;
+                this->bodyCollider.base.acFlags &= ~AC_HIT;
+                acHitElem = this->bodyCollider.elem.acHitElem;
             }
             if (this->flyMode != GND_FLY_PAINTING) {
                 if (acHit && (this->actionFunc != BossGanondrof_Stunned) &&
@@ -1300,7 +1319,7 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
 
     PRINTF("MOVE START %d\n", this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
-    this->colliderBody.base.colMaterial = COL_MATERIAL_HIT3;
+    this->bodyCollider.base.colMaterial = COL_MATERIAL_HIT3;
     if (this->killActor) {
         Actor_Kill(&this->actor);
         return;
@@ -1328,20 +1347,20 @@ void BossGanondrof_Update(Actor* thisx, PlayState* play) {
     }
 
     PRINTF("MOVE END\n");
-    BossGanondrof_SetColliderPos(&this->targetPos, &this->colliderBody);
-    BossGanondrof_SetColliderPos(&this->spearTip, &this->colliderSpear);
+    BossGanondrof_SetColliderPos(&this->targetPos, &this->bodyCollider);
+    BossGanondrof_SetColliderPos(&this->spearTip, &this->spearCollider);
     if ((this->flyMode == GND_FLY_PAINTING) && !horse->bossGndInPainting) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
     }
     if ((this->actionFunc == BossGanondrof_Stunned) && (this->timers[0] > 1)) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderBody.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
     } else if (this->actionFunc == BossGanondrof_Block) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
     } else if (this->actionFunc == BossGanondrof_Charge) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderBody.base);
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderBody.base);
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderSpear.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->bodyCollider.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->spearCollider.base);
     }
 
     this->actor.focus.pos = this->targetPos;

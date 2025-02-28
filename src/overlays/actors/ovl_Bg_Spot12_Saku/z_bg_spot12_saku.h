@@ -2,11 +2,11 @@
 #define Z_BG_SPOT12_SAKU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot12Saku;
 
-typedef void (*BgSpot12SakuActionFunc)(struct BgSpot12Saku*, PlayState*);
+typedef void (*BgSpot12SakuActionFunc)(struct BgSpot12Saku*, struct PlayState*);
 
 typedef struct BgSpot12Saku {
     /* 0x0000 */ DynaPolyActor dyna;

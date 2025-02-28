@@ -3,6 +3,8 @@
 
 #include "ultra64.h"
 
+extern s32 gZeldaArenaLogSeverity;
+
 void* ZeldaArena_Malloc(u32 size);
 void* ZeldaArena_MallocR(u32 size);
 void* ZeldaArena_Realloc(void* ptr, u32 newSize);

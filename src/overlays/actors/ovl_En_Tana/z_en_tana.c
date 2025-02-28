@@ -5,6 +5,13 @@
  */
 
 #include "z_en_tana.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+
 #include "assets/objects/object_shop_dungen/object_shop_dungen.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)

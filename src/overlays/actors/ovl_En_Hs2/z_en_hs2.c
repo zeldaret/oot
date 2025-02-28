@@ -5,7 +5,15 @@
  */
 
 #include "z_en_hs2.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+
 #include "assets/objects/object_hs/object_hs.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)

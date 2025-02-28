@@ -1,4 +1,10 @@
-#include "global.h"
+#include "gfx.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64math.h"
+#include "z64play.h"
+#include "z64skin.h"
+#include "z64skin_matrix.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "pal-1.1:128"
@@ -207,7 +213,7 @@ void Skin_DrawImpl(Actor* actor, PlayState* play, Skin* skin, SkinPostDraw postD
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
 
     if (!(drawFlags & SKIN_DRAW_FLAG_CUSTOM_MATRIX)) {
-        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_OPA_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &skin->mtx);
 
         if (mtx == NULL) {

@@ -5,8 +5,16 @@
  */
 
 #include "z_en_takara_man.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "segmented_address.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_ts/object_ts.h"
 
 #define FLAGS                                                                                  \

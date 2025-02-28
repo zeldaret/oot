@@ -2,7 +2,7 @@
 #define Z_BG_SPOT16_DOUGHNUT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot16Doughnut;
 

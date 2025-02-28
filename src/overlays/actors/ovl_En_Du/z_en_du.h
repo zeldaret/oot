@@ -2,11 +2,11 @@
 #define Z_EN_DU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDu;
 
-typedef void (*EnDuActionFunc)(struct EnDu*, PlayState*);
+typedef void (*EnDuActionFunc)(struct EnDu*, struct PlayState*);
 
 typedef struct EnDu {
     /* 0x0000 */ Actor actor;

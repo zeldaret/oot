@@ -5,7 +5,22 @@
  */
 
 #include "z_en_hy.h"
+
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_aob/object_aob.h"
 #include "assets/objects/object_ahg/object_ahg.h"
 #include "assets/objects/object_bob/object_bob.h"

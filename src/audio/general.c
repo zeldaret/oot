@@ -1,6 +1,13 @@
+#include "libu64/gfxprint.h"
 #include "ultra64.h"
-#include "global.h"
+#include "attributes.h"
+#include "controller.h"
+#include "padmgr.h"
+#include "seqcmd.h"
+#include "sequence.h"
 #include "versions.h"
+
+#include "global.h"
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
@@ -8,8 +15,6 @@
 #define AUDIO_PRINTF osSyncPrintf
 #elif IDO_PRINTF_WORKAROUND
 #define AUDIO_PRINTF(args) (void)0
-#elif defined(__GNUC__) && __GNUC__ < 3
-#define AUDIO_PRINTF(format, args...) (void)0
 #else
 #define AUDIO_PRINTF(format, ...) (void)0
 #endif
@@ -3768,26 +3773,26 @@ void Audio_SetCodeReverb(s8 reverb) {
     }
 }
 
-void func_800F6700(s8 audioSetting) {
+void Audio_SetSoundMode(s8 soundSetting) {
     s8 soundModeIndex;
 
-    switch (audioSetting) {
-        case 0:
+    switch (soundSetting) {
+        case SOUND_SETTING_STEREO:
             soundModeIndex = SOUNDMODE_STEREO;
             sSoundMode = SOUNDMODE_STEREO;
             break;
 
-        case 1:
+        case SOUND_SETTING_MONO:
             soundModeIndex = SOUNDMODE_MONO;
             sSoundMode = SOUNDMODE_MONO;
             break;
 
-        case 2:
+        case SOUND_SETTING_HEADSET:
             soundModeIndex = SOUNDMODE_HEADSET;
             sSoundMode = SOUNDMODE_HEADSET;
             break;
 
-        case 3:
+        case SOUND_SETTING_SURROUND:
             soundModeIndex = SOUNDMODE_STEREO;
             sSoundMode = SOUNDMODE_SURROUND;
             break;

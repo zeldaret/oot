@@ -1,6 +1,8 @@
 #ifndef LINE_NUMBERS_H
 #define LINE_NUMBERS_H
 
+#include "versions.h"
+
 // The macros in this file serve to reduce clutter from version differences that are only due to line numbers being different.
 
 // The "LN" macros defined here are not meant to be used directly. See the wrapper macros below.

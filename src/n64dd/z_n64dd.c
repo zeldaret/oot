@@ -1,11 +1,16 @@
 // Main interface for the 64DD from the rest of the game. Starts background
 // threads and provides functions to submit commands to them.
-#include "global.h"
+#include "libc64/sleep.h"
 #include "fault.h"
+#include "irqmgr.h"
+#include "line_numbers.h"
 #include "n64dd.h"
 #include "stack.h"
+#include "stackcheck.h"
+#include "sys_freeze.h"
 #include "versions.h"
-#include "line_numbers.h"
+#include "z64audio.h"
+#include "z64thread.h"
 
 #pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 

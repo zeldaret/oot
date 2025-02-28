@@ -97,8 +97,7 @@ def run_clang_apply_replacements(tmp_dir: str):
 
 def cleanup_whitespace(file: str):
     """
-    Remove whitespace at the end of lines,
-    ensure the file ends with an empty line.
+    Remove whitespace at the end of lines, and ensure all lines end with a newline.
     """
     file_p = Path(file)
     contents = file_p.read_text(encoding="UTF-8")
@@ -108,7 +107,7 @@ def cleanup_whitespace(file: str):
     if n_subst != 0:
         modified = True
 
-    if not contents.endswith("\n"):
+    if contents and not contents.endswith("\n"):
         contents += "\n"
         modified = True
 

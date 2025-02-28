@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_spot05_soko.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_spot05_objects/object_spot05_objects.h"
 
 #define FLAGS 0

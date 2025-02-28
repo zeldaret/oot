@@ -5,7 +5,13 @@
  */
 
 #include "z_end_title.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
 #include "versions.h"
+#include "z64play.h"
+#include "z64player.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
@@ -46,18 +52,16 @@ void EndTitle_Update(Actor* thisx, PlayState* play) {
 
 // Used in the castle courtyard
 void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
-    MtxF* mf;
+    PlayState* play2 = (PlayState*)play;
     EndTitle* this = (EndTitle*)thisx;
-    s32 csCurFrame = play->csCtx.curFrame;
-    Player* player = GET_PLAYER(play);
-
-    mf = &player->mf_9E0;
+    s32 csCurFrame = play2->csCtx.curFrame;
+    Player* player = GET_PLAYER(play2);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_end_title.c", 403);
 
     // Draw the Triforce on Link's left hand
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    Matrix_Mult(mf, MTXMODE_NEW);
+    Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
     Matrix_Translate(0.0f, 150.0f, 170.0f, MTXMODE_APPLY);
     Matrix_Scale(0.13f, 0.13f, 0.13f, MTXMODE_APPLY);
     Matrix_RotateX(BINANG_TO_RAD(0xBB8), MTXMODE_APPLY);

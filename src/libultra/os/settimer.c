@@ -1,3 +1,6 @@
+#include "ultra64.h"
+#include "attributes.h"
+
 #include "global.h"
 
 s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* mq, OSMesg msg) {

@@ -1,6 +1,12 @@
-#include "global.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "prenmi_state.h"
+#include "regs.h"
 #include "terminal.h"
 #include "versions.h"
+
+#include "macros.h"
+#include "global.h"
 
 void func_80092320(PreNMIState* this) {
     this->state.running = false;

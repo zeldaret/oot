@@ -2,11 +2,11 @@
 #define Z_EN_VALI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnVali;
 
-typedef void (*EnValiActionFunc)(struct EnVali*, PlayState*);
+typedef void (*EnValiActionFunc)(struct EnVali*, struct PlayState*);
 
 typedef enum EnValiLimb {
     /* 0x00 */ EN_VALI_LIMB_NONE,

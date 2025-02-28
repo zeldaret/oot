@@ -5,9 +5,25 @@
  */
 
 #include "z_obj_bean.h"
-#include "assets/objects/object_mamenoki/object_mamenoki.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64cutscene_flags.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64save.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_mamenoki/object_mamenoki.h"
 
 #define FLAGS ACTOR_FLAG_IGNORE_POINT_LIGHTS
 

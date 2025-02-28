@@ -91,6 +91,11 @@ def read_relocs(object_path: Path, section_name: str) -> list[Reloc]:
     with open(object_path, "rb") as f:
         elffile = elftools.elf.elffile.ELFFile(f)
         symtab = elffile.get_section_by_name(".symtab")
+
+        section = elffile.get_section_by_name(section_name)
+        if section is None:
+            return []
+
         data = elffile.get_section_by_name(section_name).data()
 
         reloc_section = elffile.get_section_by_name(f".rel{section_name}")
@@ -165,9 +170,9 @@ def get_file_pointers(
 
         # For relocations against a global symbol, subtract the addend so that the pointer
         # is for the start of the symbol. This can help deal with things like STACK_TOP
-        # (where the pointer is past the end of the symbol) or negative addends. If the
-        # relocation is against a section however, it's not useful to subtract the addend,
-        # so we keep it as-is and hope for the best.
+        # (where the pointer is past the end of the symbol) or negative addends. We can't
+        # do this for relocations against a section though, since we need the addend to
+        # distinguish between different static variables.
         if reloc.name.startswith("."):  # section
             addend = reloc.addend
         else:  # symbol
@@ -441,13 +446,13 @@ def determine_base_bss_ordering(
         new_symbol = None
         new_offset = 0
         for symbol in build_bss_symbols:
-            if (
-                symbol.offset <= build_offset
-                and build_offset < symbol.offset + symbol.size
-            ):
+            # To handle one-past-the-end pointers, we check <= instead of < for the symbol end.
+            # This won't work if there is another symbol right after this one, since we'll
+            # attribute this pointer to that symbol instead. This could prevent us from solving
+            # BSS ordering, but often the two symbols are adjacent in the baserom too so it works anyway.
+            if symbol.offset <= build_offset <= symbol.offset + symbol.size:
                 new_symbol = symbol
                 new_offset = base_offset - (build_offset - symbol.offset)
-                break
 
         if new_symbol is None:
             if p.addend > 0:
@@ -698,6 +703,12 @@ def process_file(
         raise FixBssException(f"Could not determine compiler command line for {file}")
 
     output(f"Compiler command: {shlex.join(command_line)}")
+
+    if any(s.startswith("tools/egcs/") for s in command_line):
+        raise FixBssException(
+            "Can't automatically fix BSS ordering for EGCS-compiled files"
+        )
+
     symbol_table, ucode = run_cfe(command_line, keep_files=False)
 
     bss_variables = find_bss_variables(symbol_table, ucode)

@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_spot15_saku.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_spot15_obj/object_spot15_obj.h"
 
 #define FLAGS 0

@@ -39,9 +39,18 @@
  *
  * @see irqmgr.c
  */
-#include "global.h"
+#include "libu64/debug.h"
 #include "fault.h"
+#include "irqmgr.h"
+#include "main.h"
+#include "regs.h"
+#include "sched.h"
+#include "speed_meter.h"
 #include "versions.h"
+#include "z64thread.h"
+
+#include "macros.h"
+#include "global.h"
 
 #define RSP_DONE_MSG 667
 #define RDP_DONE_MSG 668
@@ -62,8 +71,6 @@ vs32 sSchedDebugPrintfEnabled = false;
     PRINTF
 #elif IDO_PRINTF_WORKAROUND
 #define SCHED_DEBUG_PRINTF(args) (void)0
-#elif defined(__GNUC__) && __GNUC__ < 3
-#define SCHED_DEBUG_PRINTF(format, args...) (void)0
 #else
 #define SCHED_DEBUG_PRINTF(format, ...) (void)0
 #endif

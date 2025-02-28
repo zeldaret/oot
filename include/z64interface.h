@@ -1,6 +1,7 @@
 #ifndef Z64INTERFACE_H
 #define Z64INTERFACE_H
 
+#include "ultra64.h"
 #include "z64dma.h"
 #include "z64view.h"
 
@@ -80,7 +81,7 @@ typedef struct InterfaceContext {
     /* 0x0134 */ u8*    doActionSegment;
     /* 0x0138 */ u8*    iconItemSegment;
     /* 0x013C */ u8*    mapSegment;
-    /* 0x0140 */ u8     mapPalette[32];
+    /* 0x0140 */ char   mapPalette[32];
     /* 0x0160 */ DmaRequest dmaRequest_160;
     /* 0x0180 */ DmaRequest dmaRequest_180;
     /* 0x01A0 */ char   unk_1A0[0x20];

@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_haka_sgami.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
@@ -147,12 +155,12 @@ void BgHakaSgami_Init(Actor* thisx, PlayState* play) {
 
     Collider_InitTris(play, colliderScythe);
     Collider_SetTris(play, colliderScythe, thisx, &sTrisInit, this->colliderScytheItems);
-    Collider_InitCylinder(play, &this->colliderScytheCenter);
-    Collider_SetCylinder(play, &this->colliderScytheCenter, thisx, &sCylinderInit);
+    Collider_InitCylinder(play, &this->scytheCenterCollider);
+    Collider_SetCylinder(play, &this->scytheCenterCollider, thisx, &sCylinderInit);
 
-    this->colliderScytheCenter.dim.pos.x = thisx->world.pos.x;
-    this->colliderScytheCenter.dim.pos.y = thisx->world.pos.y;
-    this->colliderScytheCenter.dim.pos.z = thisx->world.pos.z;
+    this->scytheCenterCollider.dim.pos.x = thisx->world.pos.x;
+    this->scytheCenterCollider.dim.pos.y = thisx->world.pos.y;
+    this->scytheCenterCollider.dim.pos.z = thisx->world.pos.z;
 
     CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
 
@@ -173,8 +181,8 @@ void BgHakaSgami_Init(Actor* thisx, PlayState* play) {
         thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
         this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_ICE_OBJECTS);
-        this->colliderScytheCenter.dim.radius = 30;
-        this->colliderScytheCenter.dim.height = 70;
+        this->scytheCenterCollider.dim.radius = 30;
+        this->scytheCenterCollider.dim.height = 70;
         Actor_SetFocus(thisx, 40.0f);
     }
 
@@ -192,7 +200,7 @@ void BgHakaSgami_Destroy(Actor* thisx, PlayState* play) {
     Effect_Delete(play, this->blureEffectIndex[0]);
     Effect_Delete(play, this->blureEffectIndex[1]);
     Collider_DestroyTris(play, &this->colliderScythe);
-    Collider_DestroyCylinder(play, &this->colliderScytheCenter);
+    Collider_DestroyCylinder(play, &this->scytheCenterCollider);
 }
 
 void BgHakaSgami_SetupSpin(BgHakaSgami* this, PlayState* play) {
@@ -281,7 +289,7 @@ void BgHakaSgami_Spin(BgHakaSgami* this, PlayState* play) {
     }
 
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderScythe.base);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderScytheCenter.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->scytheCenterCollider.base);
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_ROLLCUTTER_MOTOR - SFX_FLAG);
 }
 

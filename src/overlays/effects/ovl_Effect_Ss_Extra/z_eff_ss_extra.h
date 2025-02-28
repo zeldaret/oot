@@ -2,7 +2,7 @@
 #define Z_EFF_SS_EXTRA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64math.h"
 
 typedef struct EffectSsExtraInitParams {
     /* 0x00 */ Vec3f pos;

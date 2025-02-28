@@ -1,11 +1,30 @@
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
 #include "ultra64.h"
-#include "global.h"
+
+#include "attributes.h"
+#include "controller.h"
+#include "db_camera.h"
+#include "letterbox.h"
+#include "one_point_cutscene.h"
 #include "quake.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math3d.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "zelda_arena.h"
+#include "z64audio.h"
+#include "z64cutscene_spline.h"
+#include "z64debug.h"
+#include "z64olib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ique-cn:192 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
@@ -3639,7 +3658,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:133 ntsc-1.1:133 ntsc-1.2:133 pal-1.0:131 pal-1.1:131"
+                               "ique-cn:128 ntsc-1.0:95 ntsc-1.1:95 ntsc-1.2:95 pal-1.0:93 pal-1.1:93"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;
@@ -7532,7 +7551,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
 #if DEBUG_FEATURES
     sDbgModeIdx = -1;
 #endif
-    D_8011D3F0 = 3;
+    sSceneInitLetterboxTimer = 3; // show letterbox for 3 frames at the start of a new scene
     PRINTF(VT_FGCOL(BLUE) "camera: initialize --- " VT_RST " UID %d\n", camera->uid);
 }
 
@@ -8141,8 +8160,8 @@ Vec3s Camera_Update(Camera* camera) {
         if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS)) {
             sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
             Camera_UpdateInterface(sCameraInterfaceField);
-        } else if ((D_8011D3F0 != 0) && (camera->camId == CAM_ID_MAIN)) {
-            D_8011D3F0--;
+        } else if ((sSceneInitLetterboxTimer != 0) && (camera->camId == CAM_ID_MAIN)) {
+            sSceneInitLetterboxTimer--;
             sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_NOTHING_ALT, 0);
             Camera_UpdateInterface(sCameraInterfaceField);
         } else if (camera->play->transitionMode != TRANS_MODE_OFF) {

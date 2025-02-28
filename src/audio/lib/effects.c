@@ -1,4 +1,6 @@
 #include "ultra64.h"
+#include "attributes.h"
+
 #include "global.h"
 
 void Audio_SequenceChannelProcessSound(SequenceChannel* channel, s32 recalculateVolume, s32 applyBend) {

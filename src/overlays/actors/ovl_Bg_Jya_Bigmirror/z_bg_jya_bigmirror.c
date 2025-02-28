@@ -5,6 +5,13 @@
  */
 
 #include "z_bg_jya_bigmirror.h"
+#include "overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)

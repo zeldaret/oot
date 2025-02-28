@@ -1,10 +1,14 @@
 /*
  * File: z_en_torch.c
  * Overlay: ovl_En_Torch
- * Description: Spawns a chest with the appropriate contents then unloads. Used in grottos.
+ * Description: Spawns a chest with the appropriate contents then dies. Used in grottos.
  */
 
 #include "z_en_torch.h"
+#include "overlays/actors/ovl_En_Box/z_en_box.h"
+
+#include "z64play.h"
+#include "z64save.h"
 
 #define FLAGS 0
 

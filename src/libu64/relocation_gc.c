@@ -6,7 +6,11 @@
  *
  * @see Overlay_Relocate
  */
-#include "global.h"
+#include "libu64/overlay.h"
+#include "attributes.h"
+#include "ultra64.h"
+
+#include "macros.h"
 
 // Extract MIPS register rs from an instruction word
 #define MIPS_REG_RS(insn) (((insn) >> 0x15) & 0x1F)

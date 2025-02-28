@@ -1302,7 +1302,7 @@ CHAN_08EC:
 /* 0x08EE [0xC7 0x02 0x09 0x04     ] */ stseq       2, LAYER_0903 + STSEQ_NOTEDV_DELAY_HI
 /* 0x08F2 [0xC7 0x02 0x08 0xFD     ] */ stseq       2, CHAN_08FC + STSEQ_LDI_IMM
 /* 0x08F6 [0xB8 0x0C               ] */ rand        12
-/* 0x08F8 [0xC7 0x5C 0x09 0x03     ] */ stseq       (NOTEDV_OPCODE | PITCH_DF3), LAYER_0903 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x08F8 [0xC7 0x5C 0x09 0x03     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_DF3), LAYER_0903 + STSEQ_NOTEDV_OPCODE_PITCH
 CHAN_08FC:
 /* 0x08FC [0xCC 0x01               ] */ ldi         1
 /* 0x08FE [0xFC 0x00 0x48          ] */ call        CHAN_0048
@@ -4978,7 +4978,7 @@ CHAN_2274:
 /* 0x2284 [0x56                    ] */ subio       IO_PORT_6
 /* 0x2285 [0xC9 0x07               ] */ and         7
 CHAN_2287:
-/* 0x2287 [0xC7 0x60 0x22 0x98     ] */ stseq       (NOTEDV_OPCODE | PITCH_F3), LAYER_2298 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x2287 [0xC7 0x60 0x22 0x98     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_F3), LAYER_2298 + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x228B [0x66                    ] */ ldio        IO_PORT_6
 /* 0x228C [0xC8 0xFC               ] */ sub         252
 /* 0x228E [0xC9 0x04               ] */ and         4
@@ -6529,7 +6529,7 @@ LAYER_2C4E:
 
 .channel CHAN_2C54
 /* 0x2C54 [0x89 0x2C 0x62          ] */ ldlayer     1, LAYER_2C62
-/* 0x2C57 [0xCC 0x58               ] */ ldi         (NOTEDV_OPCODE | PITCH_A2)
+/* 0x2C57 [0xCC 0x58               ] */ ldi         (ASEQ_OP_LAYER_NOTEDV | PITCH_A2)
 /* 0x2C59 [0xC7 0x00 0x22 0x88     ] */ stseq       0, CHAN_2287 + STSEQ_STSEQ_IMM
 /* 0x2C5D [0xFB 0x22 0x67          ] */ jump        CHAN_2267
 
@@ -6649,7 +6649,7 @@ CHAN_2D01:
 .channel CHAN_2D13
 /* 0x2D13 [0x89 0x2D 0x25          ] */ ldlayer     1, LAYER_2D25
 /* 0x2D16 [0x8A 0x2D 0x23          ] */ ldlayer     2, LAYER_2D23
-/* 0x2D19 [0xCC 0x66               ] */ ldi         (NOTEDV_OPCODE | PITCH_B3)
+/* 0x2D19 [0xCC 0x66               ] */ ldi         (ASEQ_OP_LAYER_NOTEDV | PITCH_B3)
 /* 0x2D1B [0xC7 0x00 0x22 0x88     ] */ stseq       0, CHAN_2287 + STSEQ_STSEQ_IMM
 /* 0x2D1F [0xFB 0x22 0x67          ] */ jump        CHAN_2267
 /* 0x2D22 [0xFF                    ] */ end
@@ -9201,7 +9201,7 @@ CHAN_4162:
 /* 0x4164 [0xC7 0x03 0x41 0x7A     ] */ stseq       3, LAYER_4179 + STSEQ_NOTEDV_DELAY_HI
 /* 0x4168 [0xC7 0x03 0x41 0x73     ] */ stseq       3, CHAN_4172 + STSEQ_LDI_IMM
 /* 0x416C [0xB8 0x08               ] */ rand        8
-/* 0x416E [0xC7 0x5B 0x41 0x79     ] */ stseq       (NOTEDV_OPCODE | PITCH_C3), LAYER_4179 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x416E [0xC7 0x5B 0x41 0x79     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_C3), LAYER_4179 + STSEQ_NOTEDV_OPCODE_PITCH
 CHAN_4172:
 /* 0x4172 [0xCC 0x01               ] */ ldi         1
 /* 0x4174 [0xFC 0x00 0x48          ] */ call        CHAN_0048
@@ -9763,7 +9763,7 @@ LAYER_4245:
 /* 0x44C9 [0x88 0x44 0xD7          ] */ ldlayer     0, LAYER_44D7
 /* 0x44CC [0xED 0x14               ] */ gain        20
 /* 0x44CE [0xB8 0x04               ] */ rand        4
-/* 0x44D0 [0xC7 0x6B 0x44 0xD7     ] */ stseq       (NOTEDV_OPCODE | PITCH_E4), LAYER_44D7 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x44D0 [0xC7 0x6B 0x44 0xD7     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_E4), LAYER_44D7 + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x44D4 [0xD9 0xE8               ] */ releaserate 232
 /* 0x44D6 [0xFF                    ] */ end
 
@@ -10353,7 +10353,7 @@ LAYER_47B3:
 /* 0x4860 [0x88 0x48 0x70          ] */ ldlayer     0, LAYER_4870
 CHAN_4863:
 /* 0x4863 [0xB8 0x04               ] */ rand        4
-/* 0x4865 [0xC7 0x60 0x48 0x70     ] */ stseq       (NOTEDV_OPCODE | PITCH_F3), LAYER_4870 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x4865 [0xC7 0x60 0x48 0x70     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_F3), LAYER_4870 + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x4869 [0xCC 0x12               ] */ ldi         18
 /* 0x486B [0xFC 0x00 0x48          ] */ call        CHAN_0048
 /* 0x486E [0xF4 0xF3               ] */ rjump       CHAN_4863
@@ -12266,7 +12266,7 @@ LAYER_53FD:
 /* 0x5403 [0xC1 0x7E               ] */ instr       FONTANY_INSTR_SFX
 /* 0x5405 [0x64                    ] */ ldio        IO_PORT_SFX_INDEX_LOBITS
 /* 0x5406 [0xC8 0xB0               ] */ sub         176
-/* 0x5408 [0xC7 0x00 0x54 0x17     ] */ stseq       (NOTEDVG_OPCODE | PITCH_A0), LAYER_5417 + STSEQ_NOTEDVG_OPCODE_PITCH
+/* 0x5408 [0xC7 0x00 0x54 0x17     ] */ stseq       (ASEQ_OP_LAYER_NOTEDVG | PITCH_A0), LAYER_5417 + STSEQ_NOTEDVG_OPCODE_PITCH
 /* 0x540C [0xCB 0x54 0x1C          ] */ ldseq       UNK_541C
 /* 0x540F [0xC7 0x00 0x54 0x19     ] */ stseq       0, LAYER_5417 + STSEQ_NOTEDVG_DELAY_LO
 /* 0x5413 [0x88 0x54 0x17          ] */ ldlayer     0, LAYER_5417
@@ -12640,7 +12640,7 @@ CHAN_565E:
 /* 0x5660 [0xC7 0x28 0x56 0x76     ] */ stseq       40, LAYER_5675 + STSEQ_NOTEDV_DELAY_HI
 /* 0x5664 [0xC7 0x28 0x56 0x6F     ] */ stseq       40, CHAN_566E + STSEQ_LDI_IMM
 /* 0x5668 [0xB8 0x06               ] */ rand        6
-/* 0x566A [0xC7 0x64 0x56 0x75     ] */ stseq       (NOTEDV_OPCODE | PITCH_A3), LAYER_5675 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x566A [0xC7 0x64 0x56 0x75     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A3), LAYER_5675 + STSEQ_NOTEDV_OPCODE_PITCH
 CHAN_566E:
 /* 0x566E [0xCC 0x01               ] */ ldi         1
 /* 0x5670 [0xFC 0x00 0x48          ] */ call        CHAN_0048
@@ -14045,7 +14045,7 @@ CHAN_6116:
 /* 0x6118 [0x3F 0x06               ] */ stcio       15, IO_PORT_6
 CHAN_611A:
 /* 0x611A [0xCB 0x61 0x6D          ] */ ldseq       UNK_616D
-/* 0x611D [0xC7 0x40 0x61 0x2D     ] */ stseq       (NOTEDV_OPCODE | PITCH_A0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x611D [0xC7 0x40 0x61 0x2D     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x6121 [0x66                    ] */ ldio        IO_PORT_6
 CHAN_6122:
 /* 0x6122 [0xCB 0x61 0x71          ] */ ldseq       UNK_6171
@@ -14079,8 +14079,8 @@ CHAN_613E:
 /* 0x6145 [0xCC 0x00               ] */ ldi         0
                                         // Reads the byte at (PTR + 0) into TR (the note)
 /* 0x6147 [0xB6                    ] */ dyntblv
-                                        // Store NOTEDV_OPCODE + TR into the pitch
-/* 0x6148 [0xC7 0x40 0x61 0x2D     ] */ stseq       (NOTEDV_OPCODE | PITCH_A0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
+                                        // Store ASEQ_OP_LAYER_NOTEDV + TR into the pitch
+/* 0x6148 [0xC7 0x40 0x61 0x2D     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
                                         // Load 1 into TR
 /* 0x614C [0xCC 0x01               ] */ ldi         1
                                         // Reads the byte at (PTR + 1) into TR (the velocity)
@@ -14355,7 +14355,7 @@ UNK_62CC:
 /* 0x62D1 [0x76                    ] */ stio        IO_PORT_6
 /* 0x62D2 [0xC9 0x01               ] */ and         1
 /* 0x62D4 [0xCB 0x62 0xE8          ] */ ldseq       UNK_62E8
-/* 0x62D7 [0xC7 0x40 0x64 0xBF     ] */ stseq       (NOTEDV_OPCODE | PITCH_A0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x62D7 [0xC7 0x40 0x64 0xBF     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x62DB [0xB8 0x02               ] */ rand        2
 /* 0x62DD [0xCB 0x62 0xEA          ] */ ldseq       UNK_62EA
 /* 0x62E0 [0xC7 0x00 0x64 0xC1     ] */ stseq       0, LAYER_64BF + STSEQ_NOTEDV_VELOCITY_2
@@ -14482,7 +14482,7 @@ UNK_6374:
 /* 0x6379 [0x76                    ] */ stio        IO_PORT_6
 /* 0x637A [0xC9 0x01               ] */ and         1
 /* 0x637C [0xCB 0x63 0x96          ] */ ldseq       UNK_6396
-/* 0x637F [0xC7 0x40 0x63 0x90     ] */ stseq       (NOTEDV_OPCODE | PITCH_A0), LAYER_6390 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x637F [0xC7 0x40 0x63 0x90     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A0), LAYER_6390 + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x6383 [0xB8 0x02               ] */ rand        2
 /* 0x6385 [0xCB 0x63 0x98          ] */ ldseq       UNK_6398
 /* 0x6388 [0xC7 0x00 0x63 0x92     ] */ stseq       0, LAYER_6390 + STSEQ_NOTEDV_VELOCITY_2
@@ -14688,7 +14688,7 @@ UNK_6499:
 /* 0x64A8 [0x76                    ] */ stio        IO_PORT_6
 /* 0x64A9 [0xC9 0x01               ] */ and         1
 /* 0x64AB [0xCB 0x64 0xC5          ] */ ldseq       UNK_64C5
-/* 0x64AE [0xC7 0x40 0x64 0xBF     ] */ stseq       (NOTEDV_OPCODE | PITCH_A0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x64AE [0xC7 0x40 0x64 0xBF     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x64B2 [0xB8 0x02               ] */ rand        2
 /* 0x64B4 [0xCB 0x64 0xC7          ] */ ldseq       UNK_64C7
 /* 0x64B7 [0xC7 0x00 0x64 0xC1     ] */ stseq       0, LAYER_64BF + STSEQ_NOTEDV_VELOCITY_2
@@ -14785,7 +14785,7 @@ UNK_6511:
 .channel CHAN_6520
 /* 0x6520 [0x64                    ] */ ldio        IO_PORT_SFX_INDEX_LOBITS
 /* 0x6521 [0xC8 0x50               ] */ sub         80
-/* 0x6523 [0xC7 0x19 0x65 0x36     ] */ stseq       (NOTEDVG_OPCODE | PITCH_BF2), LAYER_6536 + STSEQ_NOTEDVG_OPCODE_PITCH
+/* 0x6523 [0xC7 0x19 0x65 0x36     ] */ stseq       (ASEQ_OP_LAYER_NOTEDVG | PITCH_BF2), LAYER_6536 + STSEQ_NOTEDVG_OPCODE_PITCH
 /* 0x6527 [0xCB 0x65 0x3B          ] */ ldseq       UNK_653B
 /* 0x652A [0xC7 0x00 0x65 0x38     ] */ stseq       0, LAYER_6536 + STSEQ_NOTEDVG_DELAY_LO
 /* 0x652E [0x88 0x65 0x34          ] */ ldlayer     0, LAYER_6534
@@ -14806,7 +14806,7 @@ UNK_653B:
 .channel CHAN_6562
 /* 0x6562 [0x64                    ] */ ldio        IO_PORT_SFX_INDEX_LOBITS
 /* 0x6563 [0xC8 0x77               ] */ sub         119
-/* 0x6565 [0xC7 0x00 0x65 0x76     ] */ stseq       (NOTEDVG_OPCODE | PITCH_A0), LAYER_6576 + STSEQ_NOTEDVG_OPCODE_PITCH
+/* 0x6565 [0xC7 0x00 0x65 0x76     ] */ stseq       (ASEQ_OP_LAYER_NOTEDVG | PITCH_A0), LAYER_6576 + STSEQ_NOTEDVG_OPCODE_PITCH
 /* 0x6569 [0xCB 0x65 0x7B          ] */ ldseq       UNK_657B
 /* 0x656C [0xC7 0x00 0x65 0x78     ] */ stseq       0, LAYER_6576 + STSEQ_NOTEDVG_DELAY_LO
 /* 0x6570 [0x88 0x65 0x74          ] */ ldlayer     0, LAYER_6574

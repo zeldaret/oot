@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_gnd_nisekabe.h"
+
+#include "z64play.h"
+
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

@@ -5,7 +5,17 @@
  */
 
 #include "z_en_yabusame_mark.h"
+
+#include "regs.h"
+#include "sequence.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64debug_display.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64save.h"
 
 #define FLAGS 0
 

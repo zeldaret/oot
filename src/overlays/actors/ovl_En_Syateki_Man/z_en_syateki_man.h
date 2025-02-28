@@ -2,11 +2,11 @@
 #define Z_EN_SYATEKI_MAN_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSyatekiMan;
 
-typedef void (*EnSyatekiManActionFunc) (struct EnSyatekiMan*, PlayState*);
+typedef void (*EnSyatekiManActionFunc) (struct EnSyatekiMan*, struct PlayState*);
 typedef void (*EnSyatekiManOtherFunc) (struct EnSyatekiMan*);
 
 typedef struct EnSyatekiMan {

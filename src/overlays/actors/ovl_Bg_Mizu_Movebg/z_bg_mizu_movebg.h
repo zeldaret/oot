@@ -2,7 +2,7 @@
 #define Z_BG_MIZU_MOVEBG_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 typedef enum BgMizuMovebgType {
     /* 0 */ MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTER_PILLAR,
@@ -18,7 +18,7 @@ typedef enum BgMizuMovebgType {
 
 struct BgMizuMovebg;
 
-typedef void (*BgMizuMovebgActionFunc)(struct BgMizuMovebg*, PlayState*);
+typedef void (*BgMizuMovebgActionFunc)(struct BgMizuMovebg*, struct PlayState*);
 
 typedef struct BgMizuMovebg {
     /* 0x0000 */ DynaPolyActor dyna;

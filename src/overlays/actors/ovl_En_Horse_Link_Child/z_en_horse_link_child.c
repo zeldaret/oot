@@ -4,18 +4,24 @@
  * Description: Young Epona
  */
 
-#include "global.h"
+#include "z_en_horse_link_child.h"
+
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "rand.h"
 #include "regs.h"
+#include "segmented_address.h"
 #include "sfx.h"
+#include "sys_math3d.h"
+#include "z_lib.h"
 #include "z64actor.h"
 #include "z64horse.h"
 #include "z64player.h"
 #include "z64play.h"
-#include "z_en_horse_link_child.h"
+#include "z64save.h"
+#include "z64skin.h"
+
 #include "assets/objects/object_horse_link_child/object_horse_link_child.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
@@ -66,7 +72,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 20, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphElementInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -90,7 +96,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sJntSphElementInit,
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit sColCheckInfoInit = { 10, 35, 100, MASS_HEAVY };
@@ -168,7 +174,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinderType1(play, &this->bodyCollider, &this->actor, &sCylinderInit);
     Collider_InitJntSph(play, &this->headCollider);
-    Collider_SetJntSph(play, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
+    Collider_SetJntSph(play, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColCheckInfoInit);
     this->unk_1F0 = 0;
     this->eyeTexIndex = 0;

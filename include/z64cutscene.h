@@ -550,6 +550,14 @@ typedef struct CutsceneContext {
     /* 0x28 */ CsCmdActorCue* actorCues[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
 
+extern u8 gUseCutsceneCam;
+extern u16 D_8015FCCC;
+extern char D_8015FCD0[20];
+extern u8 D_8015FCE4;
+extern u16 gCamAtSplinePointsAppliedFrame;
+extern u16 gCamEyePointAppliedFrame;
+extern u16 gCamAtPointAppliedFrame;
+
 void Cutscene_InitContext(struct PlayState* play, CutsceneContext* csCtx);
 void Cutscene_StartManual(struct PlayState* play, CutsceneContext* csCtx);
 void Cutscene_StopManual(struct PlayState* play, CutsceneContext* csCtx);
