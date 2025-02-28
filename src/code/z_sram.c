@@ -1,9 +1,15 @@
 #include "file_select_state.h"
-#include "global.h"
+#include "controller.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64game.h"
+#include "z64message.h"
 #include "z64save.h"
+#include "z64scene.h"
+#include "z64sram.h"
 #include "z64ss_sram.h"
+
+#include "global.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)
@@ -1060,5 +1066,5 @@ void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
     ASSERT(sramCtx->readBuff != NULL, "sram->read_buff != NULL", "../z_sram.c", 1295);
 }
 
-void Sram_Init(PlayState* play, SramContext* sramCtx) {
+void Sram_Init(GameState* gameState, SramContext* sramCtx) {
 }

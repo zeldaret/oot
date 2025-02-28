@@ -1,3 +1,4 @@
+#include "libc64/malloc.h"
 #include "libu64/debug.h"
 #include "libu64/gfxprint.h"
 #include "audiomgr.h"
@@ -16,10 +17,13 @@
 #include "regs.h"
 #include "rumble.h"
 #include "speed_meter.h"
+#include "sys_debug_controller.h"
 #include "terminal.h"
 #include "versions.h"
 #include "vi_mode.h"
+#include "zelda_arena.h"
 #include "z64debug.h"
+#include "z64dma.h"
 #include "z64game.h"
 #include "z64vis.h"
 

@@ -1,8 +1,13 @@
+#include "libu64/gfxprint.h"
 #include "ultra64.h"
-#include "global.h"
+#include "attributes.h"
+#include "controller.h"
+#include "padmgr.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "versions.h"
+
+#include "global.h"
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 

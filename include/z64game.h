@@ -9,33 +9,6 @@
 #include "tha.h"
 
 struct GraphicsContext;
-
-// Used in Graph_GetNextGameState in graph.c
-#define DEFINE_GAMESTATE_INTERNAL(typeName, enumName) enumName,
-#define DEFINE_GAMESTATE(typeName, enumName, name) DEFINE_GAMESTATE_INTERNAL(typeName, enumName)
-typedef enum GameStateId {
-#include "tables/gamestate_table.h"
-    GAMESTATE_ID_MAX
-} GameStateId;
-#undef DEFINE_GAMESTATE
-#undef DEFINE_GAMESTATE_INTERNAL
-
-typedef struct GameStateOverlay {
-    /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ RomFile file; // if applicable
-    /* 0x0C */ void* vramStart; // if applicable
-    /* 0x10 */ void* vramEnd; // if applicable
-    /* 0x14 */ void* unk_14;
-    /* 0x18 */ void* init;
-    /* 0x1C */ void* destroy;
-    /* 0x20 */ void* unk_20;
-    /* 0x24 */ void* unk_24;
-    /* 0x28 */ s32 unk_28;
-    /* 0x2C */ u32 instanceSize;
-} GameStateOverlay; // size = 0x30
-
-extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
-
 struct GameState;
 
 typedef void (*GameStateFunc)(struct GameState* gameState);
@@ -53,6 +26,14 @@ typedef struct GameState {
     /* 0x9C */ u32 frames;
     /* 0xA0 */ u32 inPreNMIState;
 } GameState; // size = 0xA4
+
+#define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
+    if (1) {                                             \
+        GameState* state = curState;                     \
+                                                         \
+        (state)->init = newInit;                         \
+        (state)->size = sizeof(newStruct);               \
+    } (void)0
 
 void GameState_ReqPadData(GameState* gameState);
 void GameState_Update(GameState* gameState);

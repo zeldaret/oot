@@ -1,4 +1,5 @@
 #include "ultra64.h"
+#include "attributes.h"
 #include "buffers.h"
 #include "versions.h"
 

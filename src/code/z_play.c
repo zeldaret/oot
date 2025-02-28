@@ -1,3 +1,5 @@
+#include "libc64/malloc.h"
+#include "libc64/qrand.h"
 #include "libu64/debug.h"
 #include "buffers.h"
 #include "controller.h"
@@ -23,6 +25,7 @@
 #include "terminal.h"
 #include "title_setup_state.h"
 #include "versions.h"
+#include "z_actor_dlftbls.h"
 #include "zelda_arena.h"
 #include "z64cutscene_flags.h"
 #include "z64debug_display.h"
@@ -32,11 +35,12 @@
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"
+#include "z64vis.h"
 
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:192 ntsc-1.0:144 ntsc-1.1:144 ntsc-1.2:144 pal-1.0:144 pal-1.1:144"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
+                               "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:224"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -325,7 +329,7 @@ void Play_Init(GameState* thisx) {
     Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_CHECK_BG_ALT | CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG |
                                                       CAM_STATE_EXTERNAL_FINISHED | CAM_STATE_CAM_FUNC_FINISH |
                                                       CAM_STATE_LOCK_MODE | CAM_STATE_DISTORTION | CAM_STATE_PLAY_INIT);
-    Sram_Init(this, &this->sramCtx);
+    Sram_Init(&this->state, &this->sramCtx);
     Regs_InitData(this);
     Message_Init(this);
     GameOver_Init(this);

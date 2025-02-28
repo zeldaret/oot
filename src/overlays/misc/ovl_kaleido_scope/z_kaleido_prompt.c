@@ -1,5 +1,10 @@
 #include "z_kaleido_scope.h"
 
+#include "libu64/pad.h"
+#include "regs.h"
+#include "sfx.h"
+#include "z64play.h"
+
 static s16 sKaleidoPromptCursorAlphaVals[] = { 100, 255 };
 
 void KaleidoScope_UpdatePrompt(PlayState* play) {

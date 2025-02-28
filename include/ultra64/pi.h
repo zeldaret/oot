@@ -1,6 +1,7 @@
 #ifndef ULTRA64_PI_H
 #define ULTRA64_PI_H
 
+#include "stddef.h"
 #include "message.h"
 
 typedef struct __OSBlockInfo {

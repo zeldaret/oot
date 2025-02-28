@@ -14,8 +14,6 @@ void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
 #else
 void gzip_decompress(uintptr_t romStart, u8* dst, size_t size);
 #endif
-void Locale_Init(void);
-void Locale_ResetRegion(void);
 #if DEBUG_FEATURES
 void isPrintfInit(void);
 #endif
@@ -28,12 +26,6 @@ OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
 
 void FlagSet_Update(PlayState* play);
-void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
-void Overlay_FreeGameState(GameStateOverlay* overlayEntry);
-
-void ActorOverlayTable_LogPrint(void);
-void ActorOverlayTable_Init(void);
-void ActorOverlayTable_Cleanup(void);
 
 void SaveContext_Init(void);
 
@@ -83,11 +75,6 @@ s32 TransitionFade_IsDone(void* thisx);
 void TransitionFade_SetColor(void* thisx, u32 color);
 void TransitionFade_SetType(void* thisx, s32 type);
 
-void DebugCamera_Init(DebugCam* debugCam, Camera* cameraPtr);
-void DebugCamera_Enable(DebugCam* debugCam, Camera* cam);
-void DebugCamera_Update(DebugCam* debugCam, Camera* cam);
-void DebugCamera_Reset(Camera* cam, DebugCam* debugCam);
-
 void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg);
 void PreRender_Init(PreRender* this);
 void PreRender_SetValues(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf);
@@ -102,26 +89,11 @@ void func_800C213C(PreRender* this, Gfx** gfxP);
 void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxP);
 void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP);
 void PreRender_ApplyFilters(PreRender* this);
-void Graph_InitTHGA(GraphicsContext* gfxCtx);
-GameStateOverlay* Graph_GetNextGameState(GameState* gameState);
-void Graph_Init(GraphicsContext* gfxCtx);
-void Graph_Destroy(GraphicsContext* gfxCtx);
-void Graph_TaskSet00(GraphicsContext* gfxCtx);
-void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
 void Graph_ThreadEntry(void*);
 
-ListAlloc* ListAlloc_Init(ListAlloc* this);
-void* ListAlloc_Alloc(ListAlloc* this, u32 size);
-void ListAlloc_Free(ListAlloc* this, void* data);
-void ListAlloc_FreeAll(ListAlloc* this);
-void Main(void* arg);
 void SysCfb_Init(s32 n64dd);
 void* SysCfb_GetFbPtr(s32 idx);
 void* SysCfb_GetFbEnd(void);
-
-NORETURN void func_800D31A0(void);
-void func_800D31F0(void);
-void func_800D3210(void);
 
 void RcpUtils_PrintRegisterStatus(void);
 void RcpUtils_Reset(void);

@@ -1,8 +1,14 @@
-#include "global.h"
+#include "libu64/debug.h"
+#include "alignment.h"
+#include "line_numbers.h"
+#include "padmgr.h"
 #include "region.h"
 #include "terminal.h"
 #include "versions.h"
-#include "line_numbers.h"
+#include "z_locale.h"
+
+#include "macros.h"
+#include "global.h"
 
 s32 gCurrentRegion = 0;
 

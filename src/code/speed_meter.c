@@ -1,8 +1,14 @@
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
-
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "regs.h"
+#include "speed_meter.h"
 #include "terminal.h"
+#include "zelda_arena.h"
+#include "z64game.h"
+#include "z64view.h"
 
 /**
  * How much time the audio update on the audio thread (`AudioThread_Update`) took in total, between scheduling the last
