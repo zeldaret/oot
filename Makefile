@@ -833,8 +833,10 @@ COM_PLUGIN := tools/com-plugin/common-plugin.so
 
 LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP)
 ifeq ($(PLATFORM),IQUE)
-  LDFLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order.txt
-  $(ELF): $(BASEROM_DIR)/bss-order.txt
+  ifeq ($(NON_MATCHING),0)
+    LDFLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order.txt
+    $(ELF): $(BASEROM_DIR)/bss-order.txt
+  endif
 endif
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
