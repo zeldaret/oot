@@ -218,7 +218,8 @@ void DemoGeff_Update(Actor* thisx, PlayState* play) {
     DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->action < 0 || this->action >= 2 || sActionFuncs[this->action] == NULL) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -232,7 +233,8 @@ void DemoGeff_Draw(Actor* thisx, PlayState* play) {
     s32 drawConfig = this->drawConfig;
 
     if (drawConfig < 0 || drawConfig >= 2 || sDrawFuncs[drawConfig] == NULL) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     if (drawConfig != 0) {

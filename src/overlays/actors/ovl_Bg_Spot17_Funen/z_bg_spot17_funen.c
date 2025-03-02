@@ -42,7 +42,7 @@ void BgSpot17Funen_Init(Actor* thisx, PlayState* play) {
     BgSpot17Funen* this = (BgSpot17Funen*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    PRINTF("spot17 obj. 噴煙 (arg_data 0x%04x)\n", this->actor.params);
+    PRINTF("spot17 obj. " T("噴煙", "volcanic smoke") " (arg_data 0x%04x)\n", this->actor.params);
 }
 
 void BgSpot17Funen_Destroy(Actor* thisx, PlayState* play) {

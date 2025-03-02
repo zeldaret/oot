@@ -1334,8 +1334,8 @@ void DemoEc_Update(Actor* thisx, PlayState* play) {
     s32 updateMode = this->updateMode;
 
     if ((updateMode < 0) || (updateMode >= ARRAY_COUNT(sUpdateFuncs)) || sUpdateFuncs[updateMode] == NULL) {
-        // "The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         if (updateMode != EC_UPDATE_COMMON) {
             DemoEc_UseAnimationObject(this, play);
@@ -1367,8 +1367,8 @@ void DemoEc_Draw(Actor* thisx, PlayState* play) {
     s32 drawConfig = this->drawConfig;
 
     if ((drawConfig < 0) || (drawConfig >= ARRAY_COUNT(sDrawFuncs)) || sDrawFuncs[drawConfig] == NULL) {
-        // "The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         if (drawConfig != EC_DRAW_COMMON) {
             DemoEc_UseDrawObject(this, play);

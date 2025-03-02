@@ -67,8 +67,8 @@ void BgSpot01Objects2_Init(Actor* thisx, PlayState* play) {
     if (this->objectId >= 0) {
         this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
         if (this->requiredObjectSlot < 0) {
-            // "There was no bank setting."
-            PRINTF("-----------------------------バンク設定ありませんでした.");
+            PRINTF(T("-----------------------------バンク設定ありませんでした.",
+                     "----------------------------- There was no bank setting."));
             Actor_Kill(&this->dyna.actor);
             return;
         }
@@ -98,8 +98,7 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
     Vec3f position;
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        // "---- Successful bank switching!!"
-        PRINTF("-----バンク切り換え成功！！\n");
+        PRINTF(T("-----バンク切り換え成功！！\n", "----- Successful bank switching!!\n"));
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
 
         this->dyna.actor.objectSlot = this->requiredObjectSlot;

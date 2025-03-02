@@ -73,8 +73,9 @@ void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_hsblock.c", 163,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗",
+                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+               "../z_obj_hsblock.c", 163, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }

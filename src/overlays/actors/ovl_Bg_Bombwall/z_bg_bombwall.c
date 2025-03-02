@@ -97,9 +97,8 @@ void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG login failed"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
-               this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗", "Warning : move BG registration failed") "(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_bombwall.c", 243, this->dyna.actor.params);
     }
 }
 
