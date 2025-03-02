@@ -42,4 +42,14 @@ void ViMode_Init(ViMode* viMode);
 void ViMode_Destroy(ViMode* viMode);
 void ViMode_Update(ViMode* viMode, Input* input);
 
+void ViConfig_UpdateVi(u32 black);
+void ViConfig_UpdateBlack(void);
+
+extern s8 D_80009430;
+extern vu8 gViConfigBlack;
+extern u8 gViConfigAdditionalScanLines;
+extern u32 gViConfigFeatures;
+extern f32 gViConfigXScale;
+extern f32 gViConfigYScale;
+
 #endif

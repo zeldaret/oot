@@ -119,4 +119,6 @@ void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file,
 
 #endif
 
+void Graph_ThreadEntry(void*);
+
 #endif

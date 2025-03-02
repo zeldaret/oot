@@ -3,6 +3,8 @@
 
 #include "ultra64.h"
 
+struct PlayState;
+
 #define MAP_MARK_NONE -1
 #define MAP_MARK_CHEST 0
 #define MAP_MARK_BOSS 1
@@ -19,6 +21,10 @@ typedef struct MapMarkIconData {
 } MapMarkIconData; // size = 0x26
 
 typedef MapMarkIconData MapMarkData[3]; // size = 0x72
+
+void MapMark_Init(struct PlayState* play);
+void MapMark_ClearPointers(struct PlayState* play);
+void MapMark_Draw(struct PlayState* play);
 
 extern MapMarkData* gMapMarkDataTable[];
 

@@ -21,6 +21,7 @@
 #include "title_setup_state.h"
 #include "ucode_disas.h"
 #include "versions.h"
+#include "vi_mode.h"
 #include "z_game_dlftbls.h"
 #include "z64audio.h"
 #include "z64save.h"

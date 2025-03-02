@@ -5,6 +5,7 @@
 #include "region.h"
 #include "terminal.h"
 #include "versions.h"
+#include "vi_mode.h"
 #include "z_locale.h"
 
 #include "macros.h"
