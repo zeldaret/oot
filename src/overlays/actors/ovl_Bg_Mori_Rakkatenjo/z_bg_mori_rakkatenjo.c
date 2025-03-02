@@ -65,24 +65,25 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
 #if DEBUG_FEATURES
-    // "Forest Temple obj. Falling Ceiling"
-    PRINTF("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
+    PRINTF(T("森の神殿 obj. 落下天井", "Forest Temple obj. Falling Ceiling") " (home posY %f)\n",
+           this->dyna.actor.home.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||
         (fabsf(683.0f - this->dyna.actor.home.pos.y) > 0.001f) ||
         (fabsf(-2520.0f - this->dyna.actor.home.pos.z) > 0.001f)) {
-        // "The set position has been changed. Let's fix the program."
-        PRINTF("Warning : セット位置が変更されています。プログラムを修正しましょう。\n");
+        PRINTF(T("Warning : セット位置が変更されています。プログラムを修正しましょう。\n",
+                 "Warning : The set position has been changed. Let's fix the program.\n"));
     }
     if (this->dyna.actor.home.rot.y != 0x8000) {
-        // "The set Angle has changed. Let's fix the program."
-        PRINTF("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
+        PRINTF(T("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n",
+                 "Warning : The set Angle has changed. Let's fix the program.\n"));
     }
 #endif
 
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
-        // "Forest Temple obj Falling Ceiling Bank Danger!"
-        PRINTF("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n", "../z_bg_mori_rakkatenjo.c", 205);
+        PRINTF(T("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n",
+                 "Error : Forest Temple obj Falling Ceiling Bank danger! (%s %d)\n"),
+               "../z_bg_mori_rakkatenjo.c", 205);
         Actor_Kill(&this->dyna.actor);
         return;
     }
