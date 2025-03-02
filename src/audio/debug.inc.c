@@ -847,7 +847,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                                      &gSfxDefaultReverb);
                 break;
             case 4:
-                Audio_SetSoundMode(sAudioSndContWork[sAudioSndContSel]);
+                Audio_SetSoundOutputMode(sAudioSndContWork[sAudioSndContSel]);
                 break;
             case 5:
                 SEQCMD_DISABLE_PLAY_SEQUENCES(sAudioSndContWork[sAudioSndContSel]);
