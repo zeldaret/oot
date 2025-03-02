@@ -58,7 +58,7 @@ assets:
 - name: code/fbdemo_circle
   xml_path: assets/xml/code/fbdemo_circle.xml
   start_offset: 0xEC0A8
-  end_offset: 0xED2C8
+  end_offset: 0xED398
 - name: code/fbdemo_triforce
   xml_path: assets/xml/code/fbdemo_triforce.xml
   start_offset: 0xEB530
@@ -66,7 +66,7 @@ assets:
 - name: code/fbdemo_wipe1
   xml_path: assets/xml/code/fbdemo_wipe1.xml
   start_offset: 0xEB600
-  end_offset: 0xEBF90
+  end_offset: 0xEC088
 - name: n64dd/error_textures
   xml_path: assets/xml/n64dd/error_textures.xml
   start_offset: 0xC160

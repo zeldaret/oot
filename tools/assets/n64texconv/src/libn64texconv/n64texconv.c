@@ -119,7 +119,7 @@ n64texconv_quantize(uint8_t *out_indices, struct color *out_pal, size_t *out_pal
  * out_indices, out_pal, out_pal_count, texels, widths, heights are all arrays of size num_images
  * texels[i] and out_indices[i] are arrays of size widths[i] * heights[i]
  */
-UNUSED static int
+int
 n64texconv_quantize_shared(uint8_t **out_indices, struct color *out_pal, size_t *out_pal_count, struct color **texels,
                            size_t *widths, size_t *heights, size_t num_images, unsigned int max_colors,
                            float dither_level)
@@ -880,13 +880,10 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt)
             if (plte.n_entries == 0)
                 goto error_post_create_img;
 
-            // TODO ZAPD always writes 256-color palettes which breaks this, enable it when we can
-#if 0
             // Palette must have sufficiently few colors for the target format. If there are too
             // many, requantize to the maximum amount for the target format.
             if (plte.n_entries > max_colors)
                 goto requantize;
-#endif
 
             pal = n64texconv_palette_new(plte.n_entries, pal_fmt);
             if (pal == NULL)
@@ -922,9 +919,9 @@ n64texconv_image_from_png(const char *path, int fmt, int siz, int pal_fmt)
             assert(rv == 0);
         } else {
             // Input is not an indexed png, quantize and generate palette
-#if 0
+
         requantize: // Input is an indexed png but has too many colors, requantize with new palette
-#endif
+
             rv = spng_decode_image(ctx, (void *)img->texels, nbytes, SPNG_FMT_RGBA8, 0);
             assert(rv == 0);
 

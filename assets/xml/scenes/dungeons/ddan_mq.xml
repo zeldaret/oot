@@ -19,6 +19,7 @@
     </File>
     <File Name="ddan_room_0" Segment="3">
         <Room Name="ddan_room_0" Offset="0x0"/>
+        <Texture Name="gDCRoom0TLUT" Format="rgba16" Width="16" Height="16" Offset="0x11290"/>
     </File>
     <File Name="ddan_room_1" Segment="3">
         <Room Name="ddan_room_1" Offset="0x0"/>

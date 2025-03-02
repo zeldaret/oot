@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_sst" Segment="6">
         <!-- Boss Title Card -->
         <Texture Name="gBongoTitleCardTex" OutName="bongo_title_card" Format="ia8" Width="128" Height="120" Offset="0x13D80"/>

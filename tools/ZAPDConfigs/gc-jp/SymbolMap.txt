@@ -1,2 +1,0 @@
-800FE2C0 gIdentityMtx
-80A74150 sShadowTex

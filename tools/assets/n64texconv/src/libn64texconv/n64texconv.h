@@ -119,4 +119,9 @@ n64texconv_image_to_c_file(const char *out_path, struct n64_image *img, bool pad
 const char *
 n64texconv_png_extension(struct n64_image *img);
 
+int
+n64texconv_quantize_shared(uint8_t **out_indices, struct color *out_pal, size_t *out_pal_count, struct color **texels,
+                           size_t *widths, size_t *heights, size_t num_images, unsigned int max_colors,
+                           float dither_level);
+
 #endif
