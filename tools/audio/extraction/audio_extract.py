@@ -49,7 +49,7 @@ BASEROM_DEBUG = False
 #   Run
 # ======================================================================================================================
 
-def collect_sample_banks(audiotable_seg : memoryview, extracted_dir : str, version_info : GameVersionInfo,
+def collect_sample_banks(audiotable_seg : memoryview, output_dir : str, version_info : GameVersionInfo,
                          table : AudioCodeTable, samplebank_descs : Dict[int, SampleBankExtractionDescription]):
     sample_banks : List[Union[AudioTableFile, int]] = []
 
@@ -76,7 +76,7 @@ def collect_sample_banks(audiotable_seg : memoryview, extracted_dir : str, versi
                                   extraction_desc=samplebank_descs.get(i, None))
 
             if BASEROM_DEBUG:
-                bank.dump_bin(f"{extracted_dir}/baserom_audiotest/audiotable_files/{bank.file_name}.bin")
+                bank.dump_bin(f"{output_dir}/baserom_audiotest/audiotable_files/{bank.file_name}.bin")
 
             sample_banks.append(bank)
 
@@ -90,7 +90,7 @@ def bank_data_lookup(sample_banks : List[Union[AudioTableFile, int]], e : Union[
     else:
         return e
 
-def collect_soundfonts(audiobank_seg : memoryview, extracted_dir : str, version_info : GameVersionInfo,
+def collect_soundfonts(audiobank_seg : memoryview, output_dir : str, version_info : GameVersionInfo,
                        sound_font_table : AudioCodeTable, soundfont_descs : Dict[int, SoundFontExtractionDescription],
                        sample_banks : List[Union[AudioTableFile, int]]):
     soundfonts = []
@@ -110,7 +110,7 @@ def collect_soundfonts(audiobank_seg : memoryview, extracted_dir : str, version_
 
         if BASEROM_DEBUG:
             # Write the individual file for debugging and comparison
-            soundfont.dump_bin(f"{extracted_dir}/baserom_audiotest/audiobank_files/{soundfont.file_name}.bin")
+            soundfont.dump_bin(f"{output_dir}/baserom_audiotest/audiobank_files/{soundfont.file_name}.bin")
 
     return soundfonts
 
@@ -133,17 +133,17 @@ def aifc_extract_one_bin(base_path : str, sample : AudioTableData):
     else:
         sample.to_file(f"{base_path}/{sample.filename}")
 
-def extract_samplebank(pool : ThreadPool, extracted_dir : str, sample_banks : List[Union[AudioTableFile, int]],
+def extract_samplebank(pool : ThreadPool, output_dir : str, sample_banks : List[Union[AudioTableFile, int]],
                        bank : AudioTableFile, write_xml : bool):
     # deal with remaining gaps, have to blob them unless we can find an exact match in another bank
     bank.finalize_coverage(sample_banks)
     # assign names
     bank.assign_names()
 
-    base_path = f"{extracted_dir}/assets/audio/samples/{bank.name}"
+    base_path = f"{output_dir}/assets/audio/samples/{bank.name}"
 
     # write xml
-    with open(f"{extracted_dir}/assets/audio/samplebanks/{bank.file_name}.xml", "w") as outfile:
+    with open(f"{output_dir}/assets/audio/samplebanks/{bank.file_name}.xml", "w") as outfile:
         outfile.write(bank.to_xml(f"assets/audio/samples/{bank.name}"))
 
     # write the extraction xml if specified
@@ -175,17 +175,17 @@ def extract_samplebank(pool : ThreadPool, extracted_dir : str, sample_banks : Li
     if not BASEROM_DEBUG:
         shutil.rmtree(f"{base_path}/aifc")
 
-def disassemble_one_sequence(extracted_dir : str, version_info : GameVersionInfo, soundfonts : List[AudiobankFile],
+def disassemble_one_sequence(output_dir : str, version_info : GameVersionInfo, soundfonts : List[AudiobankFile],
                              enum_names : List[str], id : int, data : bytes, name : str, filename : str,
                              fonts : memoryview):
-    out_filename = f"{extracted_dir}/assets/audio/sequences/{filename}.seq"
+    out_filename = f"{output_dir}/assets/audio/sequences/{filename}.seq"
     disas = SequenceDisassembler(id, data, version_info.seq_disas_tables.get(id, None), CMD_SPEC,
                                  version_info.mml_version, out_filename, name,
                                  [soundfonts[i] for i in fonts], enum_names)
     disas.analyze()
     disas.emit()
 
-def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_info : GameVersionInfo, write_xml : bool,
+def extract_sequences(audioseq_seg : memoryview, output_dir : str, version_info : GameVersionInfo, write_xml : bool,
                       sequence_table : AudioCodeTable, sequence_font_table : memoryview,
                       sequence_descs : Dict[int, SequenceExtractionDescription], soundfonts : List[AudiobankFile]):
 
@@ -198,9 +198,9 @@ def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_in
     assert len(seq_enum_names) == len(sequence_table)
 
     if BASEROM_DEBUG:
-        os.makedirs(f"{extracted_dir}/baserom_audiotest/audioseq_files", exist_ok=True)
+        os.makedirs(f"{output_dir}/baserom_audiotest/audioseq_files", exist_ok=True)
 
-    os.makedirs(f"{extracted_dir}/assets/audio/sequences", exist_ok=True)
+    os.makedirs(f"{output_dir}/assets/audio/sequences", exist_ok=True)
     if write_xml:
         os.makedirs(f"assets/xml/audio/sequences", exist_ok=True)
 
@@ -235,7 +235,7 @@ def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_in
 
             if BASEROM_DEBUG:
                 # Extract original sequence binary for comparison
-                with open(f"{extracted_dir}/baserom_audiotest/audioseq_files/seq_{i}{ext}.aseq", "wb") as outfile:
+                with open(f"{output_dir}/baserom_audiotest/audioseq_files/seq_{i}{ext}.aseq", "wb") as outfile:
                     outfile.write(seq_data)
 
             extraction_desc = sequence_descs.get(i, None)
@@ -301,12 +301,12 @@ def extract_sequences(audioseq_seg : memoryview, extracted_dir : str, version_in
     # Disassemble to text
 
     for job in disas_jobs:
-        disassemble_one_sequence(extracted_dir, version_info, soundfonts, seq_enum_names, *job)
+        disassemble_one_sequence(output_dir, version_info, soundfonts, seq_enum_names, *job)
 
     dt = time.time() - t
     print(f"Sequences extraction took {dt:.3f}s")
 
-def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : str, read_xml : bool, write_xml : bool):
+def extract_audio_for_version(version_info : GameVersionInfo, output_dir : str, baserom_segments_dir : str, read_xml : bool, write_xml : bool):
     print("Setting up...")
 
     # Open baserom segments
@@ -316,16 +316,16 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
     audiobank_seg = None
     audioseq_seg = None
 
-    with open(f"{extracted_dir}/baserom/code", "rb") as infile:
+    with open(f"{baserom_segments_dir}/code", "rb") as infile:
         code_seg = memoryview(infile.read())
 
-    with open(f"{extracted_dir}/baserom/Audiotable", "rb") as infile:
+    with open(f"{baserom_segments_dir}/Audiotable", "rb") as infile:
         audiotable_seg = memoryview(infile.read())
 
-    with open(f"{extracted_dir}/baserom/Audiobank", "rb") as infile:
+    with open(f"{baserom_segments_dir}/Audiobank", "rb") as infile:
         audiobank_seg = memoryview(infile.read())
 
-    with open(f"{extracted_dir}/baserom/Audioseq", "rb") as infile:
+    with open(f"{baserom_segments_dir}/Audioseq", "rb") as infile:
         audioseq_seg = memoryview(infile.read())
 
     # ==================================================================================================================
@@ -342,18 +342,18 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
     if BASEROM_DEBUG:
         # Extract Table Binaries
 
-        os.makedirs(f"{extracted_dir}/baserom_audiotest/audio_code_tables/", exist_ok=True)
+        os.makedirs(f"{output_dir}/baserom_audiotest/audio_code_tables/", exist_ok=True)
 
-        with open(f"{extracted_dir}/baserom_audiotest/audio_code_tables/samplebank_table.bin", "wb") as outfile:
+        with open(f"{output_dir}/baserom_audiotest/audio_code_tables/samplebank_table.bin", "wb") as outfile:
             outfile.write(sample_bank_table.data)
 
-        with open(f"{extracted_dir}/baserom_audiotest/audio_code_tables/soundfont_table.bin", "wb") as outfile:
+        with open(f"{output_dir}/baserom_audiotest/audio_code_tables/soundfont_table.bin", "wb") as outfile:
             outfile.write(sound_font_table.data)
 
-        with open(f"{extracted_dir}/baserom_audiotest/audio_code_tables/sequence_table.bin", "wb") as outfile:
+        with open(f"{output_dir}/baserom_audiotest/audio_code_tables/sequence_table.bin", "wb") as outfile:
             outfile.write(sequence_table.data)
 
-        with open(f"{extracted_dir}/baserom_audiotest/audio_code_tables/sequence_font_table.bin", "wb") as outfile:
+        with open(f"{output_dir}/baserom_audiotest/audio_code_tables/sequence_font_table.bin", "wb") as outfile:
             outfile.write(sequence_font_table)
 
     # ==================================================================================================================
@@ -384,16 +384,16 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
     # ==================================================================================================================
 
     if BASEROM_DEBUG:
-        os.makedirs(f"{extracted_dir}/baserom_audiotest/audiotable_files", exist_ok=True)
-    sample_banks = collect_sample_banks(audiotable_seg, extracted_dir, version_info, sample_bank_table, samplebank_descs)
+        os.makedirs(f"{output_dir}/baserom_audiotest/audiotable_files", exist_ok=True)
+    sample_banks = collect_sample_banks(audiotable_seg, output_dir, version_info, sample_bank_table, samplebank_descs)
 
     # ==================================================================================================================
     # Collect soundfonts
     # ==================================================================================================================
 
     if BASEROM_DEBUG:
-        os.makedirs(f"{extracted_dir}/baserom_audiotest/audiobank_files", exist_ok=True)
-    soundfonts = collect_soundfonts(audiobank_seg, extracted_dir, version_info, sound_font_table, soundfont_descs,
+        os.makedirs(f"{output_dir}/baserom_audiotest/audiobank_files", exist_ok=True)
+    soundfonts = collect_soundfonts(audiobank_seg, output_dir, version_info, sound_font_table, soundfont_descs,
                                     sample_banks)
 
     # ==================================================================================================================
@@ -413,14 +413,14 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
     # Check that the sampleconv binary is available
     assert os.path.isfile(SAMPLECONV_PATH) , "Compile sampleconv"
 
-    os.makedirs(f"{extracted_dir}/assets/audio/samplebanks", exist_ok=True)
+    os.makedirs(f"{output_dir}/assets/audio/samplebanks", exist_ok=True)
     if write_xml:
         os.makedirs(f"assets/xml/audio/samplebanks", exist_ok=True)
 
     with ThreadPool(processes=os.cpu_count()) as pool:
         for bank in sample_banks:
             if isinstance(bank, AudioTableFile):
-                extract_samplebank(pool, extracted_dir, sample_banks, bank, write_xml)
+                extract_samplebank(pool, output_dir, sample_banks, bank, write_xml)
 
     # ==================================================================================================================
     # Extract soundfonts
@@ -428,7 +428,7 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
 
     print("Extracting soundfonts...")
 
-    os.makedirs(f"{extracted_dir}/assets/audio/soundfonts", exist_ok=True)
+    os.makedirs(f"{output_dir}/assets/audio/soundfonts", exist_ok=True)
     if write_xml:
         os.makedirs(f"assets/xml/audio/soundfonts", exist_ok=True)
 
@@ -441,7 +441,7 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
         sf.finalize()
 
         # write the soundfont xml itself
-        with open(f"{extracted_dir}/assets/audio/soundfonts/{sf.file_name}.xml", "w") as outfile:
+        with open(f"{output_dir}/assets/audio/soundfonts/{sf.file_name}.xml", "w") as outfile:
             outfile.write(sf.to_xml(f"Soundfont_{i}", "assets/audio/samplebanks"))
 
         # write the extraction xml if specified
@@ -454,5 +454,5 @@ def extract_audio_for_version(version_info : GameVersionInfo, extracted_dir : st
 
     print("Extracting sequences...")
 
-    extract_sequences(audioseq_seg, extracted_dir, version_info, write_xml, sequence_table, sequence_font_table,
+    extract_sequences(audioseq_seg, output_dir, version_info, write_xml, sequence_table, sequence_font_table,
                       sequence_descs, soundfonts)
