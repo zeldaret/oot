@@ -155,8 +155,8 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
         func_8086ED50(this, play);
     }
 
-    PRINTF("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n", this->dyna.actor.params,
-           this->dyna.actor.shape.rot.y);
+    PRINTF("(field keep " T("汎用爆弾壁", "general purpose bomb wall") ")(arg_data 0x%04x)(angY %d)\n",
+           this->dyna.actor.params, this->dyna.actor.shape.rot.y);
 }
 
 void BgBombwall_DestroyCollision(BgBombwall* this, PlayState* play) {

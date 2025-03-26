@@ -206,11 +206,13 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
             }
             break;
         default:
-            PRINTF("不正な ARG_DATA(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params, "../z_bg_bdan_switch.c", 454);
+            PRINTF(T("不正な", "Invalid") " ARG_DATA(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
+                   "../z_bg_bdan_switch.c", 454);
             Actor_Kill(&this->dyna.actor);
             return;
     }
-    PRINTF("(巨大魚ダンジョン 専用スイッチ)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(巨大魚ダンジョン 専用スイッチ)", "(Giant Fish Dungeon Special Switch)") "(arg_data 0x%04x)\n",
+           this->dyna.actor.params);
 }
 
 void BgBdanSwitch_Destroy(Actor* thisx, PlayState* play) {
