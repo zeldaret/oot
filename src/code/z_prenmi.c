@@ -4,6 +4,7 @@
 #include "regs.h"
 #include "terminal.h"
 #include "versions.h"
+#include "vi_mode.h"
 
 #include "macros.h"
 #include "global.h"
