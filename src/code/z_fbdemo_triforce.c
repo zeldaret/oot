@@ -1,3 +1,5 @@
+#include "transition_triforce.h"
+
 #include "global.h"
 
 #include "assets/code/fbdemo_triforce/z_fbdemo_triforce.c"

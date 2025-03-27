@@ -1,4 +1,5 @@
-#include "ultra64.h"
+#include "sys_cfb.h"
+
 #include "libu64/debug.h"
 #include "attributes.h"
 #include "line_numbers.h"

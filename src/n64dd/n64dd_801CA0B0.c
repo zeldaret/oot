@@ -1,6 +1,7 @@
 #include "n64dd.h"
 #include "libc64/aprintf.h"
 #include "attributes.h"
+#include "driverominit.h"
 
 #include "global.h"
 

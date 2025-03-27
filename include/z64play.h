@@ -4,6 +4,7 @@
 #include "ultra64.h"
 
 #include "prerender.h"
+#include "transition_tile.h"
 #include "z64actor.h"
 #include "z64bgcheck.h"
 #include "z64camera.h"

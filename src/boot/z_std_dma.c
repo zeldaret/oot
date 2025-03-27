@@ -22,7 +22,11 @@
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
 #include "attributes.h"
+#include "driverominit.h"
 #include "fault.h"
+#if PLATFORM_IQUE
+#include "inflate.h"
+#endif
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
@@ -31,6 +35,9 @@
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
+#if !PLATFORM_IQUE
+#include "yaz0.h"
+#endif
 #include "z64thread.h"
 
 #include "global.h"

@@ -1,3 +1,4 @@
+#include "sys_cfb.h"
 #include "ultra64.h"
 #include "versions.h"
 
@@ -13,6 +14,7 @@ extern struct PadMgr gPadMgr;
 extern struct IrqMgr gIrqMgr;
 
 #include "libc64/malloc.h"
+#include "libu64/rcp_utils.h"
 #include "audiomgr.h"
 #include "debug_arena.h"
 #include "fault.h"

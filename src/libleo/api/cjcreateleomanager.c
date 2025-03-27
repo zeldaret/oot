@@ -4,6 +4,7 @@
 #include "ultra64/leodrive.h"
 #include "libc/stdint.h"
 #include "attributes.h"
+#include "driverominit.h"
 
 #include "global.h"
 

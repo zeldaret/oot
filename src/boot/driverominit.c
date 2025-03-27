@@ -1,3 +1,5 @@
+#include "driverominit.h"
+
 #include "global.h"
 
 OSPiHandle __DriveRomHandle;

@@ -1,4 +1,7 @@
 #include "boot.h"
+#include "driverominit.h"
+#include "idle.h"
+#include "is_debug.h"
 #include "stack.h"
 #include "stackcheck.h"
 #if PLATFORM_N64
