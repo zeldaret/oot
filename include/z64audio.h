@@ -68,6 +68,13 @@ typedef void (*AudioCustomUpdateFunction)(void);
 
 #define AUDIO_RELOCATED_ADDRESS_START K0BASE
 
+typedef enum SoundSetting {
+    /* 0 */ SOUND_SETTING_STEREO,
+    /* 1 */ SOUND_SETTING_MONO,
+    /* 2 */ SOUND_SETTING_HEADSET,
+    /* 3 */ SOUND_SETTING_SURROUND
+} SoundSetting;
+
 typedef enum SoundOutputMode {
     /* 0 */ SOUND_OUTPUT_STEREO,
     /* 1 */ SOUND_OUTPUT_HEADSET,
