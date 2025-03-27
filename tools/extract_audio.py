@@ -14,7 +14,8 @@ from audio.extraction.disassemble_sequence import MMLVersion, SequenceTableSpec,
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="baserom audio asset extractor")
-    parser.add_argument("-o", "--extracted-dir", required=True, help="path to extracted directory")
+    parser.add_argument("-b", "--baserom-segments-dir", required=True, help="Directory of uncompressed ROM segments")
+    parser.add_argument("-o", "--output-dir", required=True, help="path to output directory")
     parser.add_argument("-v", "--version", required=True, help="version name")
     parser.add_argument("--read-xml", required=False, action="store_true", help="Read extraction xml files")
     parser.add_argument("--write-xml", required=False, action="store_true", help="Write extraction xml files")
@@ -196,4 +197,4 @@ if __name__ == '__main__':
                                    audiotable_buffer_bugs,
                                    seq_disas_tables)
 
-    extract_audio_for_version(version_info, args.extracted_dir, args.read_xml, args.write_xml)
+    extract_audio_for_version(version_info, args.output_dir, args.baserom_segments_dir, args.read_xml, args.write_xml)
