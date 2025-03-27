@@ -76,8 +76,9 @@ void func_808B3960(BgSpot15Rrbox* this, PlayState* play, CollisionHeader* collis
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 171,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗",
+                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+               "../z_bg_spot15_rrbox.c", 171, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -142,7 +143,7 @@ void BgSpot15Rrbox_Init(Actor* thisx, PlayState* play) {
     } else {
         func_808B4084(this, play);
     }
-    PRINTF("(spot15 ロンロン木箱)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(spot15 " T("ロンロン木箱", "Lon Lon Wooden Box") ")(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgSpot15Rrbox_Destroy(Actor* thisx, PlayState* play) {
@@ -329,9 +330,8 @@ void func_808B43D0(BgSpot15Rrbox* this, PlayState* play) {
     Actor_MoveXZGravity(actor);
 
     if (actor->world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
-        // "Lon Lon wooden crate fell too much"
-        PRINTF("Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 599,
-               actor->params);
+        PRINTF("Warning : " T("ロンロン木箱落ちすぎた", "Lon Lon Wooden Box fell too far") "(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_spot15_rrbox.c", 599, actor->params);
 
         Actor_Kill(actor);
 

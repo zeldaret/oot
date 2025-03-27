@@ -70,9 +70,9 @@ void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, PlayState* play, Collisio
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        // "Warning : move BG login failed"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 155,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗",
+                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+               "../z_bg_mori_hashira4.c", 155, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
