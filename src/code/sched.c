@@ -39,10 +39,19 @@
  *
  * @see irqmgr.c
  */
-#include "global.h"
+#include "libu64/debug.h"
 #include "fault.h"
+#include "irqmgr.h"
+#include "main.h"
+#include "regs.h"
+#include "sched.h"
+#include "speed_meter.h"
 #include "versions.h"
+#include "vi_mode.h"
 #include "z64thread.h"
+
+#include "macros.h"
+#include "global.h"
 
 #define RSP_DONE_MSG 667
 #define RDP_DONE_MSG 668

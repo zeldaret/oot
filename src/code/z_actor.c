@@ -1,4 +1,5 @@
 #include "libc64/math64.h"
+#include "libu64/overlay.h"
 #include "fault.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -12,12 +13,15 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_actor_dlftbls.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
+#include "z64actor.h"
 #include "z64effect.h"
 #include "z64light.h"
 #include "z64horse.h"
 #include "z64play.h"
+#include "z64save.h"
 #include "z64skin_matrix.h"
 
 #include "global.h"
@@ -29,8 +33,8 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_bdoor/object_bdoor.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:128" \
+                               "ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 CollisionPoly* sCurCeilingPoly;
 s32 sCurCeilingBgId;

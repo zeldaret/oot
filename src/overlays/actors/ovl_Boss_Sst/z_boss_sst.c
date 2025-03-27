@@ -26,12 +26,13 @@
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 #include "z64skin_matrix.h"
 
 #include "assets/objects/object_sst/object_sst.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:128" \
                                "pal-1.0:128 pal-1.1:128"
 
 #define FLAGS                                                                                 \

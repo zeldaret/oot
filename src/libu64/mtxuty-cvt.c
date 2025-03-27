@@ -2,8 +2,6 @@
 #include "libu64/debug.h"
 #include "libu64/mtxuty-cvt.h"
 
-#include "macros.h"
-
 void MtxConv_F2L(Mtx* m1, MtxF* m2) {
     s32 i;
     s32 j;

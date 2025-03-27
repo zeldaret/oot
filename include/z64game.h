@@ -4,32 +4,11 @@
 
 #include "ultra64/ultratypes.h"
 #include "libu64/pad.h"
+#include "gamealloc.h"
+#include "romfile.h"
 #include "tha.h"
 
 struct GraphicsContext;
-
-typedef struct GameAllocEntry {
-    /* 0x00 */ struct GameAllocEntry* next;
-    /* 0x04 */ struct GameAllocEntry* prev;
-    /* 0x08 */ u32 size;
-    /* 0x0C */ u32 unk_0C;
-} GameAllocEntry; // size = 0x10
-
-typedef struct GameAlloc {
-    /* 0x00 */ GameAllocEntry base;
-    /* 0x10 */ GameAllocEntry* head;
-} GameAlloc; // size = 0x14
-
-// Used in Graph_GetNextGameState in graph.c
-#define DEFINE_GAMESTATE_INTERNAL(typeName, enumName) enumName,
-#define DEFINE_GAMESTATE(typeName, enumName, name) DEFINE_GAMESTATE_INTERNAL(typeName, enumName)
-typedef enum GameStateId {
-#include "tables/gamestate_table.h"
-    GAMESTATE_ID_MAX
-} GameStateId;
-#undef DEFINE_GAMESTATE
-#undef DEFINE_GAMESTATE_INTERNAL
-
 struct GameState;
 
 typedef void (*GameStateFunc)(struct GameState* gameState);
@@ -47,6 +26,14 @@ typedef struct GameState {
     /* 0x9C */ u32 frames;
     /* 0xA0 */ u32 inPreNMIState;
 } GameState; // size = 0xA4
+
+#define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
+    if (1) {                                             \
+        GameState* state = curState;                     \
+                                                         \
+        (state)->init = newInit;                         \
+        (state)->size = sizeof(newStruct);               \
+    } (void)0
 
 void GameState_ReqPadData(GameState* gameState);
 void GameState_Update(GameState* gameState);

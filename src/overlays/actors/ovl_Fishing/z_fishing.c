@@ -26,17 +26,18 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_lib.h"
 #include "z64audio.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 #include "z64skin_matrix.h"
-#include "z_lib.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:170 gc-eu-mq:170 gc-jp:170 gc-jp-ce:170 gc-jp-mq:170 gc-us:170 gc-us-mq:170" \
-                               "ntsc-1.0:121 ntsc-1.1:121 ntsc-1.2:121 pal-1.0:121 pal-1.1:121"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

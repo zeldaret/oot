@@ -23,8 +23,7 @@
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
+#include "z64save.h"
 
 #include "assets/overlays/ovl_Boss_Ganon/ovl_Boss_Ganon.h"
 #include "assets/objects/object_ganon/object_ganon.h"

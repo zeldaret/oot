@@ -1,8 +1,10 @@
 #include "file_select.h"
+#include "file_select_state.h"
 
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "regs.h"
 #include "rumble.h"
 #include "sfx.h"
 #include "sys_matrix.h"

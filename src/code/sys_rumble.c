@@ -12,7 +12,8 @@
  *
  * @note Original filename is likely sys_vibrate.c or similar as it is ordered after sys_ucode.c
  */
-#include "global.h"
+#include "rumble.h"
+#include "padmgr.h"
 
 /**
  * Rumble manager update, runs on Vertical Retrace on the padmgr thread.

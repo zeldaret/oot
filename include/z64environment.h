@@ -242,6 +242,19 @@ extern u8 gLightConfigAfterUnderwater;
 extern u8 gInterruptSongOfStorms;
 extern u16 gTimeSpeed;
 
+extern LightningStrike gLightningStrike;
+// TODO: These variables are here for BSS ordering but ideally they should not
+// be extern. This could be fixed by putting more stuff (e.g. struct definitions)
+// between gLightningStrike and gCustomLensFlareOn.
+extern s16 sLightningFlashAlpha;
+extern s16 sSunDepthTestX;
+extern s16 sSunDepthTestY;
+extern u8 gCustomLensFlareOn;
+extern Vec3f gCustomLensFlarePos;
+extern s16 gLensFlareScale;
+extern f32 gLensFlareColorIntensity;
+extern s16 gLensFlareGlareStrength;
+
 void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, struct SkyboxContext* skyboxCtx);
 void Environment_DrawSkyboxFilters(struct PlayState* play);
 

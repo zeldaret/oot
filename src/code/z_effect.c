@@ -1,6 +1,7 @@
-#include "global.h"
-
+#include "gfx.h"
+#include "z64effect.h"
 #include "z64frame_advance.h"
+#include "z64play.h"
 
 EffectContext sEffectContext;
 

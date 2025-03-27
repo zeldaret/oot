@@ -20,8 +20,11 @@
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
+
+#pragma increment_block_number "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #define FLAGS 0
 

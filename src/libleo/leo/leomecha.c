@@ -1,7 +1,9 @@
-#include "global.h"
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
+#include "attributes.h"
+
+#include "global.h"
 
 extern s32 currentCommand;
 

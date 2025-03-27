@@ -13,6 +13,7 @@
 #include "terminal.h"
 #include "z_lib.h"
 #include "z64play.h"
+#include "z64save.h"
 
 #include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
@@ -59,7 +60,7 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     thisx->scale.y = 1.0f;
     thisx->scale.z = 1.0f;
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 柵でたなぁ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ " T("柵でたなぁ", "There's a fence") " ☆☆☆☆☆ \n" VT_RST);
     this->actionFunc = func_8087828C;
 }
 

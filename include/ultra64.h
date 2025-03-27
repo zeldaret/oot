@@ -189,7 +189,6 @@ void osViSetEvent(OSMesgQueue* mq, OSMesg msg, u32 retraceCount);
 s32 osPfsIsPlug(OSMesgQueue* mq, u8* pattern);
 void __osPfsRequestData(u8 cmd);
 void __osPfsGetInitData(u8* pattern, OSContStatus* contData);
-void guS2DInitBg(union uObjBg* bg);
 s32 __osPfsSelectBank(OSPfs* pfs, u8 bank);
 s32 osContSetCh(u8 ch);
 s32 osPfsFileState(OSPfs* pfs, s32 fileNo, OSPfsState* state);

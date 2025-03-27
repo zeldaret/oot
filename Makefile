@@ -320,7 +320,8 @@ CPP        := gcc -E
 MKLDSCRIPT := tools/mkldscript
 MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
-ZAPD       := tools/ZAPD/ZAPD.out
+BIN2C      := tools/bin2c
+N64TEXCONV := tools/assets/n64texconv/n64texconv
 FADO       := tools/fado/fado.elf
 PYTHON     ?= $(VENV)/bin/python3
 
@@ -536,6 +537,8 @@ $(shell mkdir -p $(foreach dir, \
 endif
 
 $(BUILD_DIR)/src/boot/build.o: CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
+
+$(BUILD_DIR)/src/audio/lib/seqplayer.o: CPP_DEFINES += -DMML_VERSION=MML_VERSION_OOT
 
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/driverominit.o: OPTFLAGS := -O2
@@ -830,8 +833,10 @@ COM_PLUGIN := tools/com-plugin/common-plugin.so
 
 LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP)
 ifeq ($(PLATFORM),IQUE)
-  LDFLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order.txt
-  $(ELF): $(BASEROM_DIR)/bss-order.txt
+  ifeq ($(NON_MATCHING),0)
+    LDFLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order.txt
+    $(ELF): $(BASEROM_DIR)/bss-order.txt
+  endif
 endif
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
@@ -987,22 +992,22 @@ $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/spec
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 $(BUILD_DIR)/assets/%.inc.c: assets/%.png
-	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
+	$(N64TEXCONV) $(subst .,,$(suffix $*)) "$(findstring u32,$(subst .,,$(suffix $(basename $*))))" $< $@ $(@:.inc.c=.pal.inc.c)
 
 $(BUILD_DIR)/assets/%.inc.c: $(EXTRACTED_DIR)/assets/%.png
-	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
+	$(N64TEXCONV) $(subst .,,$(suffix $*)) "$(findstring u32,$(subst .,,$(suffix $(basename $*))))" $< $@ $(@:.inc.c=.pal.inc.c)
 
 $(BUILD_DIR)/assets/%.bin.inc.c: assets/%.bin
-	$(ZAPD) bblb -eh -i $< -o $@
+	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.bin.inc.c: $(EXTRACTED_DIR)/assets/%.bin
-	$(ZAPD) bblb -eh -i $< -o $@
+	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
-	$(ZAPD) bren -eh -i $< -o $@
+	$(N64TEXCONV) JFIF "" $< $@
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
-	$(ZAPD) bren -eh -i $< -o $@
+	$(N64TEXCONV) JFIF "" $< $@
 
 # Audio
 

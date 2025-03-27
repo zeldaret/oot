@@ -18,8 +18,7 @@
 #include "z64ocarina.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
+#include "z64save.h"
 
 #include "assets/objects/object_md/object_md.h"
 

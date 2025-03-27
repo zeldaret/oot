@@ -1,4 +1,5 @@
 #include "ultra64.h"
+#include "libu64/padsetup.h"
 
 s32 PadSetup_Init(OSMesgQueue* mq, u8* outMask, OSContStatus* status) {
     s32 ret;

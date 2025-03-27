@@ -18,8 +18,7 @@
 #include "z64audio.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
+#include "z64save.h"
 
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"

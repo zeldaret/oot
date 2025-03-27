@@ -8,7 +8,7 @@
  *
  * @see TwoHeadArena.c
  */
-#include "global.h"
+#include "thga.h"
 
 void THGA_Init(TwoHeadGfxArena* thga, void* start, size_t size) {
     THA_Init(&thga->tha, start, size);

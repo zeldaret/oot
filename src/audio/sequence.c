@@ -20,6 +20,7 @@
 #include "ultra64.h"
 #include "global.h"
 #include "ultra64/abi.h"
+#include "seqcmd.h"
 
 // Direct audio command (skips the queueing system)
 #define SEQCMD_SET_SEQPLAYER_VOLUME_NOW(seqPlayerIndex, duration, volume)                       \

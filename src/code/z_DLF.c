@@ -1,5 +1,10 @@
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libu64/overlay.h"
 #include "terminal.h"
+#include "ultra64.h"
+#include "z_game_dlftbls.h"
+
+#include "macros.h"
 
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry) {
     if (overlayEntry->loadedRamAddr != NULL) {

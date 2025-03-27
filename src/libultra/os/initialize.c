@@ -55,7 +55,7 @@ void OSINITIALIZE_FUNC(void) {
 
     __osFinalrom = true;
     __osSetSR(__osGetSR() | SR_CU1);
-    __osSetFpcCsr(FPCSR_FS | FPCSR_EV);
+    __osSetFpcCsr(FPCSR_FS | FPCSR_EV | FPCSR_RM_RN);
 #if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     __osSetWatchLo(0x04900000);
 #endif

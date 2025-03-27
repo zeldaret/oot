@@ -1,6 +1,13 @@
+#include "libu64/gfxprint.h"
 #include "ultra64.h"
-#include "global.h"
+#include "attributes.h"
+#include "controller.h"
+#include "padmgr.h"
+#include "seqcmd.h"
+#include "sequence.h"
 #include "versions.h"
+
+#include "global.h"
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
@@ -2875,7 +2882,7 @@ void func_800F4578(Vec3f* pos, u16 sfxId, f32 arg2) {
 
 void func_800F45D0(f32 arg0) {
     func_800F4414(&gSfxDefaultPos, NA_SE_IT_FISHING_REEL_SLOW - SFX_FLAG, arg0);
-    func_800F436C(&gSfxDefaultPos, 0, (0.15f * arg0) + 1.4f);
+    func_800F436C(&gSfxDefaultPos, NA_SE_NONE, (0.15f * arg0) + 1.4f);
 }
 
 void Audio_PlaySfxRiver(Vec3f* pos, f32 freqScale) {

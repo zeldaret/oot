@@ -1,4 +1,14 @@
 #include "global.h"
+#include "attributes.h"
+
+typedef struct ISVDbg {
+    /* 0x00 */ u32 magic; // "IS64"
+    /* 0x04 */ u32 get;
+    /* 0x08 */ u8 unk_08[0xC];
+    /* 0x14 */ u32 put;
+    /* 0x18 */ u8 unk_18[0x8];
+    /* 0x20 */ u8 data[0xFFE0];
+} ISVDbg; // size = 0x10000
 
 #define gISVDbgPrnAdrs ((ISVDbg*)0xB3FF0000)
 #define ASCII_TO_U32(a, b, c, d) ((u32)((a << 24) | (b << 16) | (c << 8) | (d << 0)))

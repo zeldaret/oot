@@ -1,4 +1,15 @@
 #include "z_kaleido_scope.h"
+
+#include "controller.h"
+#include "gfx.h"
+#include "regs.h"
+#include "sfx.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64save.h"
+
+#include "global.h"
+
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
