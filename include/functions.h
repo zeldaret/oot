@@ -81,6 +81,4 @@ void RcpUtils_Reset(void);
 
 void SystemHeap_Init(void* start, u32 size);
 
-f32 absf(f32);
-
 #endif

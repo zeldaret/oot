@@ -786,14 +786,14 @@ beginseg
     include "$(BUILD_DIR)/src/libc/memmove.o"
 #elif PLATFORM_GC
     include "$(BUILD_DIR)/src/libc/sqrt.o"
-    include "$(BUILD_DIR)/src/libc/absf.o"
+    include "$(BUILD_DIR)/src/libc/fabsf.o"
     include "$(BUILD_DIR)/src/libc/fmodf.o"
     include "$(BUILD_DIR)/src/libc/memset.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
 #elif PLATFORM_IQUE
     include "$(BUILD_DIR)/src/libc/fmodf.o"
     include "$(BUILD_DIR)/src/libc/memmove.o"
-    include "$(BUILD_DIR)/src/libc/absf.o"
+    include "$(BUILD_DIR)/src/libc/fabsf.o"
     include "$(BUILD_DIR)/src/libc/sqrt.o"
 #endif
 
