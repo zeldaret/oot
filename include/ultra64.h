@@ -105,6 +105,7 @@ OSMesgQueue* osPiGetCmdQueue(void);
 s32 osEPiReadIo(OSPiHandle* handle, u32 devAddr, u32* data);
 void osViSetSpecialFeatures(u32 func);
 OSPiHandle* osCartRomInit(void);
+OSPiHandle* osDriveRomInit(void);
 void __osSetFpcCsr(u32);
 u32 __osGetFpcCsr(void);
 s32 osEPiWriteIo(OSPiHandle* handle, u32 devAddr, u32 data);

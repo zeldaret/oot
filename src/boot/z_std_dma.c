@@ -22,7 +22,6 @@
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
 #include "attributes.h"
-#include "driverominit.h"
 #include "fault.h"
 #if PLATFORM_IQUE
 #include "inflate.h"
