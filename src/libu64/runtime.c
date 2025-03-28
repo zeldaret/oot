@@ -119,7 +119,7 @@ void func_800FCA18(void* blk, u32 nBlk, u32 blkSize, arg3_800FCA18 arg3, s32 arg
     RESTORE_INTERRUPTS();
 }
 
-void RunTime_GlobalCtors(void) {
+void RunTime_ExecuteGlobalCtors(void) {
     CtorEntry* ctorEntry = (CtorEntry*)&sGlobalCtorEntries;
     u32 nextOffset = ctorEntry->nextOffset;
     CtorEntry* prevEntry = NULL;
@@ -146,5 +146,5 @@ void RunTime_Init(void* start, u32 size) {
     SystemArena_Init(start, size);
 #endif
 
-    RunTime_GlobalCtors();
+    RunTime_ExecuteGlobalCtors();
 }
