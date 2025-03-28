@@ -11,7 +11,7 @@ typedef struct CtorEntry {
     void (*func)(void);
 } CtorEntry;
 
-void* sGlobalCtors = NULL;
+void* sGlobalCtorEntries = NULL;
 
 #if DEBUG_FEATURES
 char sNew[] = "new";
@@ -120,23 +120,23 @@ void func_800FCA18(void* blk, u32 nBlk, u32 blkSize, arg3_800FCA18 arg3, s32 arg
 }
 
 void RunTime_GlobalCtors(void) {
-    CtorEntry* globalCtor = (CtorEntry*)&sGlobalCtors;
-    u32 nextOffset = globalCtor->nextOffset;
-    CtorEntry* prev = NULL;
+    CtorEntry* ctorEntry = (CtorEntry*)&sGlobalCtorEntries;
+    u32 nextOffset = ctorEntry->nextOffset;
+    CtorEntry* prevEntry = NULL;
 
     while (nextOffset != 0) {
-        globalCtor = (CtorEntry*)((s32)globalCtor + nextOffset);
+        ctorEntry = (CtorEntry*)((s32)ctorEntry + nextOffset);
 
-        if (globalCtor->func != NULL) {
-            globalCtor->func();
+        if (ctorEntry->func != NULL) {
+            ctorEntry->func();
         }
 
-        nextOffset = globalCtor->nextOffset;
-        globalCtor->nextOffset = (s32)prev;
-        prev = globalCtor;
+        nextOffset = ctorEntry->nextOffset;
+        ctorEntry->nextOffset = (s32)prevEntry;
+        prevEntry = ctorEntry;
     }
 
-    sGlobalCtors = prev;
+    sGlobalCtorEntries = prevEntry;
 }
 
 void RunTime_Init(void* start, u32 size) {
