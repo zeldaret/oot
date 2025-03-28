@@ -3,7 +3,7 @@
 
 .text
 
-LEAF(absf)
+LEAF(fabsf)
     abs.s       fv0, fa0
     jr          ra
-END(absf)
+END(fabsf)
