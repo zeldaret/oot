@@ -49,7 +49,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
       },
       { 0, { { 0, 0, 0 }, 5 }, 100 } },
 };
-static ColliderJntSphInit sColliderInit = {
+static ColliderJntSphInit sColliderJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -172,7 +172,7 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
 
     SkelAnime_Init(play, &this->skelAnime, &gButterflySkel, &gButterflyAnim, this->jointTable, this->morphTable, 8);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, this->colliderElements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
     this->actor.colChkInfo.mass = 0;
     this->unk_25C = Rand_ZeroOne() * 0xFFFF;
     this->unk_25E = Rand_ZeroOne() * 0xFFFF;

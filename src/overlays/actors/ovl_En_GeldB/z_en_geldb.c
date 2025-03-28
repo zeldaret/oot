@@ -99,7 +99,7 @@ ActorProfile En_GeldB_Profile = {
     /**/ EnGeldB_Draw,
 };
 
-static ColliderCylinderInit sBodyCylInit = {
+static ColliderCylinderInit sBodyCylinderInit = {
     {
         COL_MATERIAL_HIT5,
         AT_NONE,
@@ -253,7 +253,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, &gGerudoRedNeutralAnim, this->jointTable,
                        this->morphTable, GELDB_LIMB_MAX);
     Collider_InitCylinder(play, &this->bodyCollider);
-    Collider_SetCylinder(play, &this->bodyCollider, thisx, &sBodyCylInit);
+    Collider_SetCylinder(play, &this->bodyCollider, thisx, &sBodyCylinderInit);
     Collider_InitTris(play, &this->blockCollider);
     Collider_SetTris(play, &this->blockCollider, thisx, &sBlockTrisInit, this->blockElements);
     Collider_InitQuad(play, &this->swordCollider);

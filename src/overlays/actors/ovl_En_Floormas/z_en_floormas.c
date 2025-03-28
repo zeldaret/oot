@@ -189,8 +189,8 @@ void EnFloormas_Init(Actor* thisx, PlayState* play2) {
 
 void EnFloormas_Destroy(Actor* thisx, PlayState* play) {
     EnFloormas* this = (EnFloormas*)thisx;
-    ColliderCylinder* col = &this->collider;
-    Collider_DestroyCylinder(play, col);
+
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 void EnFloormas_MakeInvulnerable(EnFloormas* this) {
