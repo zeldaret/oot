@@ -19,7 +19,7 @@ char sNew[] = "new";
 char sNew[] = "";
 #endif
 
-void* RunTime_New(u32 size) {
+void* Runtime_New(u32 size) {
     DECLARE_INTERRUPT_MASK
     void* ptr;
 
@@ -39,7 +39,7 @@ void* RunTime_New(u32 size) {
     return ptr;
 }
 
-void RunTime_Delete(void* ptr) {
+void Runtime_Delete(void* ptr) {
     DECLARE_INTERRUPT_MASK
 
     DISABLE_INTERRUPTS();
@@ -78,7 +78,7 @@ void* func_800FC948(void* blk, u32 nBlk, u32 blkSize, arg3_800FC948 arg3) {
     DISABLE_INTERRUPTS();
 
     if (blk == NULL) {
-        blk = RunTime_New(nBlk * blkSize);
+        blk = Runtime_New(nBlk * blkSize);
     }
 
     if (blk != NULL && arg3 != NULL) {
@@ -112,14 +112,14 @@ void func_800FCA18(void* blk, u32 nBlk, u32 blkSize, arg3_800FCA18 arg3, s32 arg
         }
 
         if (arg4 != 0) {
-            RunTime_Delete(blk);
+            Runtime_Delete(blk);
         }
     }
 
     RESTORE_INTERRUPTS();
 }
 
-void RunTime_ExecuteGlobalCtors(void) {
+void Runtime_ExecuteGlobalCtors(void) {
     CtorEntry* ctorEntry = (CtorEntry*)&sGlobalCtorEntries;
     u32 nextOffset = ctorEntry->nextOffset;
     CtorEntry* prevEntry = NULL;
@@ -139,12 +139,12 @@ void RunTime_ExecuteGlobalCtors(void) {
     sGlobalCtorEntries = prevEntry;
 }
 
-void RunTime_Init(void* start, u32 size) {
+void Runtime_Init(void* start, u32 size) {
 #if PLATFORM_N64
     __osMallocInit(&gSystemArena, start, size);
 #else
     SystemArena_Init(start, size);
 #endif
 
-    RunTime_ExecuteGlobalCtors();
+    Runtime_ExecuteGlobalCtors();
 }
