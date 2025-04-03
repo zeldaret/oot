@@ -109,7 +109,7 @@ void Main(void* arg) {
     gSystemHeapSize = fb - systemHeapStart;
     PRINTF(T("システムヒープ初期化 %08x-%08x %08x\n", "System heap initialization %08x-%08x %08x\n"), systemHeapStart,
            fb, gSystemHeapSize);
-    SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
+    Runtime_Init((void*)systemHeapStart, gSystemHeapSize);
 
 #if DEBUG_FEATURES
     {

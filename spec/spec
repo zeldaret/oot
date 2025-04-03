@@ -708,7 +708,7 @@ beginseg
     include "$(BUILD_DIR)/src/libu64/rcp_utils.o"
     include "$(BUILD_DIR)/src/libu64/loadfragment2_n64.o"
     include "$(BUILD_DIR)/src/libu64/pad.o"
-    include "$(BUILD_DIR)/src/libu64/system_heap.o"
+    include "$(BUILD_DIR)/src/libu64/runtime.o"
     include "$(BUILD_DIR)/src/libu64/padsetup.o"
 #elif PLATFORM_GC
     include "$(BUILD_DIR)/src/libu64/logseverity_gc.o"
@@ -720,11 +720,11 @@ beginseg
 #endif
     include "$(BUILD_DIR)/src/libu64/relocation_gc.o"
     include "$(BUILD_DIR)/src/libu64/load_gc.o"
-    include "$(BUILD_DIR)/src/libu64/system_heap.o"
+    include "$(BUILD_DIR)/src/libu64/runtime.o"
     include "$(BUILD_DIR)/src/libu64/pad.o"
     include "$(BUILD_DIR)/src/libu64/padsetup.o"
 #elif PLATFORM_IQUE
-    include "$(BUILD_DIR)/src/libu64/system_heap.o"
+    include "$(BUILD_DIR)/src/libu64/runtime.o"
     include "$(BUILD_DIR)/src/libu64/debug.o"
     include "$(BUILD_DIR)/src/libu64/gfxprint.o"
     include "$(BUILD_DIR)/src/libu64/logseverity_gc.o"

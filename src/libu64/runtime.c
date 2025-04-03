@@ -6,13 +6,12 @@ typedef void (*arg3_800FC8D8)(void*, u32);
 typedef void (*arg3_800FC948)(void*, u32, u32, u32, u32, u32, u32, u32, u32);
 typedef void (*arg3_800FCA18)(void*, u32);
 
-typedef struct InitFunc {
+typedef struct CtorEntry {
     s32 nextOffset;
     void (*func)(void);
-} InitFunc;
+} CtorEntry;
 
-// .data
-void* sInitFuncs = NULL;
+void* sGlobalCtorEntries = NULL;
 
 #if DEBUG_FEATURES
 char sNew[] = "new";
@@ -20,8 +19,7 @@ char sNew[] = "new";
 char sNew[] = "";
 #endif
 
-// possibly some kind of new() function
-void* func_800FC800(u32 size) {
+void* Runtime_New(u32 size) {
     DECLARE_INTERRUPT_MASK
     void* ptr;
 
@@ -41,8 +39,7 @@ void* func_800FC800(u32 size) {
     return ptr;
 }
 
-// possibly some kind of delete() function
-void func_800FC83C(void* ptr) {
+void Runtime_Delete(void* ptr) {
     DECLARE_INTERRUPT_MASK
 
     DISABLE_INTERRUPTS();
@@ -81,7 +78,7 @@ void* func_800FC948(void* blk, u32 nBlk, u32 blkSize, arg3_800FC948 arg3) {
     DISABLE_INTERRUPTS();
 
     if (blk == NULL) {
-        blk = func_800FC800(nBlk * blkSize);
+        blk = Runtime_New(nBlk * blkSize);
     }
 
     if (blk != NULL && arg3 != NULL) {
@@ -115,39 +112,39 @@ void func_800FCA18(void* blk, u32 nBlk, u32 blkSize, arg3_800FCA18 arg3, s32 arg
         }
 
         if (arg4 != 0) {
-            func_800FC83C(blk);
+            Runtime_Delete(blk);
         }
     }
 
     RESTORE_INTERRUPTS();
 }
 
-void func_800FCB34(void) {
-    InitFunc* initFunc = (InitFunc*)&sInitFuncs;
-    u32 nextOffset = initFunc->nextOffset;
-    InitFunc* prev = NULL;
+void Runtime_ExecuteGlobalCtors(void) {
+    CtorEntry* ctorEntry = (CtorEntry*)&sGlobalCtorEntries;
+    u32 nextOffset = ctorEntry->nextOffset;
+    CtorEntry* prevEntry = NULL;
 
     while (nextOffset != 0) {
-        initFunc = (InitFunc*)((s32)initFunc + nextOffset);
+        ctorEntry = (CtorEntry*)((s32)ctorEntry + nextOffset);
 
-        if (initFunc->func != NULL) {
-            initFunc->func();
+        if (ctorEntry->func != NULL) {
+            ctorEntry->func();
         }
 
-        nextOffset = initFunc->nextOffset;
-        initFunc->nextOffset = (s32)prev;
-        prev = initFunc;
+        nextOffset = ctorEntry->nextOffset;
+        ctorEntry->nextOffset = (s32)prevEntry;
+        prevEntry = ctorEntry;
     }
 
-    sInitFuncs = prev;
+    sGlobalCtorEntries = prevEntry;
 }
 
-void SystemHeap_Init(void* start, u32 size) {
+void Runtime_Init(void* start, u32 size) {
 #if PLATFORM_N64
     __osMallocInit(&gSystemArena, start, size);
 #else
     SystemArena_Init(start, size);
 #endif
 
-    func_800FCB34();
+    Runtime_ExecuteGlobalCtors();
 }

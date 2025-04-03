@@ -79,6 +79,6 @@ void* SysCfb_GetFbEnd(void);
 void RcpUtils_PrintRegisterStatus(void);
 void RcpUtils_Reset(void);
 
-void SystemHeap_Init(void* start, u32 size);
+void Runtime_Init(void* start, u32 size);
 
 #endif
