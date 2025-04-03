@@ -15,6 +15,7 @@ extern struct IrqMgr gIrqMgr;
 
 #include "libc64/malloc.h"
 #include "libu64/rcp_utils.h"
+#include "libu64/runtime.h"
 #include "audiomgr.h"
 #include "debug_arena.h"
 #include "fault.h"
@@ -22,7 +23,6 @@ extern struct IrqMgr gIrqMgr;
 #include "padmgr.h"
 #include "prenmi_buff.h"
 #include "regs.h"
-#include "runtime.h"
 #include "segmented_address.h"
 #include "stack.h"
 #include "stackcheck.h"
