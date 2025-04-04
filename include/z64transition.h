@@ -3,6 +3,10 @@
 
 #include "ultra64/ultratypes.h"
 #include "ultra64/gbi.h" // for Gfx
+#include "transition_circle.h"
+#include "transition_fade.h"
+#include "transition_triforce.h"
+#include "transition_wipe.h"
 #include "z64transition_instances.h"
 
 #define TRANS_TRIGGER_OFF 0 // transition is not active

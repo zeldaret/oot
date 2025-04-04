@@ -1,4 +1,5 @@
 #include "buffers.h"
+#include "idle.h"
 #include "main.h"
 #include "segment_symbols.h"
 #include "stack.h"

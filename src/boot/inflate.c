@@ -95,6 +95,8 @@
       the two sets of lengths.
  */
 
+#include "inflate.h"
+
 #include "ultra64/ultratypes.h"
 #include "libc/stddef.h"
 #include "libc/stdint.h"

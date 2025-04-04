@@ -9,6 +9,7 @@
 #include "macros.h"
 #include "main.h"
 #include "map_select_state.h"
+#include "memory_utils.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif

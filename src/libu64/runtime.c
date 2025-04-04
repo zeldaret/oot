@@ -1,3 +1,5 @@
+#include "libu64/runtime.h"
+
 #include "libc64/malloc.h"
 #include "libc64/os_malloc.h"
 

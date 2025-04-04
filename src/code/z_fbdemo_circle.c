@@ -1,3 +1,5 @@
+#include "transition_circle.h"
+
 #include "gfx.h"
 
 #include "global.h"

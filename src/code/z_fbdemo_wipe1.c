@@ -1,3 +1,5 @@
+#include "transition_wipe.h"
+
 #include "gfx.h"
 #include "z64save.h"
 #include "z64transition_instances.h"
