@@ -6,6 +6,7 @@
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "letterbox.h"
+#include "memory_utils.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif

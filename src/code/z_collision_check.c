@@ -15,7 +15,7 @@
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 #include "z_lib.h"
 
-#pragma increment_block_number "ique-cn:0 ntsc-1.0:248 ntsc-1.1:248 ntsc-1.2:248 pal-1.0:248 pal-1.1:248"
+#pragma increment_block_number "ique-cn:0 ntsc-1.0:240 ntsc-1.1:240 ntsc-1.2:240 pal-1.0:240 pal-1.1:240"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);

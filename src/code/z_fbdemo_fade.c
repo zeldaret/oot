@@ -1,4 +1,5 @@
-#include "ultra64.h"
+#include "transition_fade.h"
+
 #include "main.h"
 #include "regs.h"
 #include "terminal.h"

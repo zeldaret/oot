@@ -1,5 +1,6 @@
 #include "attributes.h"
 #include "controller.h"
+#include "flag_set.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "main.h"
