@@ -2,7 +2,7 @@
 #include "ultra64.h"
 #include "versions.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0" \
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ique-cn:0 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 // Declared before including other headers for BSS ordering
@@ -40,8 +40,8 @@ extern struct IrqMgr gIrqMgr;
 
 #include "global.h"
 
-#pragma increment_block_number "gc-eu:32 gc-eu-mq:32 gc-jp:32 gc-jp-ce:32 gc-jp-mq:32 gc-us:32 gc-us-mq:32 ique-cn:32" \
-                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:254 pal-1.1:254"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:0 ntsc-1.0:49 ntsc-1.1:49 ntsc-1.2:49 pal-1.0:47 pal-1.1:47"
 
 extern u8 _buffersSegmentEnd[];
 

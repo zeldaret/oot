@@ -3658,7 +3658,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:98 ntsc-1.1:98 ntsc-1.2:98 pal-1.0:96 pal-1.1:96"
+                               "ique-cn:128 ntsc-1.0:104 ntsc-1.1:104 ntsc-1.2:104 pal-1.0:102 pal-1.1:102"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;
