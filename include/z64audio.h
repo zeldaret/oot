@@ -1241,9 +1241,6 @@ extern u8 gChannelsPerBank[4][7];
 extern u8 gUsedChannelsPerBank[4][7];
 extern u8 gMorphaTransposeTable[16];
 
-
-
-
 extern u8 gSeqCmdWritePos;
 extern u8 gSeqCmdReadPos;
 extern u8 gStartSeqDisabled;
@@ -1263,7 +1260,6 @@ extern s16 gOcarinaSongItemMap[];
 extern AudioTable gSoundFontTable;
 extern u8 gSequenceFontTable[];
 extern AudioTable gSampleBankTable;
-
 
 extern ActiveSequence gActiveSeqs[4];
 extern AudioContext gAudioCtx;
