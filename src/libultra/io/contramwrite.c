@@ -1,6 +1,8 @@
 #include "ultra64.h"
 #include "global.h"
 
+extern s32 __osPfsLastChannel;
+
 s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 force) {
 #ifndef BBPLAYER
     s32 ret = 0;

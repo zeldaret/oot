@@ -31,8 +31,6 @@ typedef void (*AudioCustomUpdateFunction)(void);
 #define SEQ_NUM_CHANNELS 16
 #define SEQ_IO_VAL_NONE -1
 
-#define MAX_CHANNELS_PER_BANK 3
-
 #define MUTE_BEHAVIOR_3 (1 << 3)           // prevent further noteSubEus from playing
 #define MUTE_BEHAVIOR_4 (1 << 4)           // stop something in seqLayer scripts
 #define MUTE_BEHAVIOR_SOFTEN (1 << 5)      // lower volume, by default to half
@@ -1220,5 +1218,55 @@ void Audio_Init(void);
 void Audio_InitSound(void);
 void func_800F7170(void);
 void func_800F71BC(s32 arg0);
+
+extern s16* gWaveSamples[9];
+extern f32 gBendPitchOneOctaveFrequencies[256];
+extern f32 gBendPitchTwoSemitonesFrequencies[256];
+extern f32 gPitchFrequencies[];
+extern u8 gDefaultShortNoteVelocityTable[16];
+extern u8 gDefaultShortNoteGateTimeTable[16];
+extern EnvelopePoint gDefaultEnvelope[4];
+extern NoteSubEu gZeroNoteSub;
+extern NoteSubEu gDefaultNoteSub;
+extern u16 gHaasEffectDelaySizes[64];
+extern s16 D_8012FBA8[];
+extern f32 gHeadsetPanVolume[128];
+extern f32 gStereoPanVolume[128];
+extern f32 gDefaultPanVolume[128];
+extern s16 gLowPassFilterData[16 * 8];
+extern s16 gHighPassFilterData[15 * 8];
+extern s32 gAudioContextInitialized;
+extern u8 gIsLargeSfxBank[7];
+extern u8 gChannelsPerBank[4][7];
+extern u8 gUsedChannelsPerBank[4][7];
+extern u8 gMorphaTransposeTable[16];
+
+
+
+
+extern u8 gSeqCmdWritePos;
+extern u8 gSeqCmdReadPos;
+extern u8 gStartSeqDisabled;
+
+#if DEBUG_FEATURES
+extern u8 gAudioDebugPrintSeqCmd;
+#endif
+
+extern u8 gSoundOutputModes[];
+extern u8 gAudioSpecId;
+extern u8 D_80133418;
+extern AudioSpec gAudioSpecs[18];
+
+extern TempoData gTempoData;
+extern AudioHeapInitSizes gAudioHeapInitSizes;
+extern s16 gOcarinaSongItemMap[];
+extern AudioTable gSoundFontTable;
+extern u8 gSequenceFontTable[];
+extern AudioTable gSampleBankTable;
+
+
+extern ActiveSequence gActiveSeqs[4];
+extern AudioContext gAudioCtx;
+extern AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 
 #endif
