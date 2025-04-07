@@ -7,47 +7,7 @@
 
 struct MapData;
 
-extern void* osRomBase;
-extern s32 osTvType;
-extern u32 osRomType;
-extern u32 osVersion;
-extern s32 osResetType;
-extern s32 osCicId;
-extern u32 osMemSize;
-extern u8 osAppNMIBuffer[0x40];
-
-extern u32 __osBbIsBb;
-extern u32 __osBbEepromSize;
-extern u32 __osBbPakSize;
-extern u32 __osBbFlashSize;
-extern u32 __osBbEepromAddress;
-extern u32 __osBbPakAddress[4];
-extern u32 __osBbFlashAddress;
-extern u32 __osBbSramSize;
-extern u32 __osBbSramAddress;
-extern u32 __osBbHackFlags;
-
 extern OSPiHandle* gCartHandle;
-
-extern u32 __osPiAccessQueueEnabled;
-extern OSViMode osViModePalLan1;
-extern s32 osViClock;
-extern u32 __osShutdown;
-extern OSHWIntr __OSGlobalIntMask;
-extern __OSThreadTail __osThreadTail;
-extern OSThread* __osRunQueue;
-extern OSThread* __osActiveQueue;
-extern OSThread* __osRunningThread;
-extern OSThread* __osFaultedThread;
-extern OSPiHandle* __osPiTable;
-extern OSPiHandle* __osCurrentHandle[];
-extern OSTimer* __osTimerList;
-extern OSViMode osViModeNtscLan1;
-extern OSViMode osViModeMpalLan1;
-extern OSViContext* __osViCurr;
-extern OSViContext* __osViNext;
-extern OSViMode osViModeFpalLan1;
-extern u32 __additional_scanline;
 
 extern const char gBuildCreator[];
 extern const char gBuildDate[];
@@ -56,13 +16,7 @@ extern const char gBuildMakeOption[];
 extern OSMesgQueue gPiMgrCmdQueue;
 extern OSViMode gViConfigMode;
 extern u8 gViConfigModeType;
-extern OSMesgQueue __osPiAccessQueue;
-extern OSPiHandle __Dom1SpeedParam;
-extern OSPiHandle __Dom2SpeedParam;
-extern OSTime __osCurrentTime;
-extern u32 __osBaseCounter;
-extern u32 __osViIntrCount;
-extern u32 __osTimerCounter;
+
 extern s16 gSpoilingItems[3];
 extern s16 gSpoilingItemReverts[3];
 
@@ -154,11 +108,5 @@ extern u8 gAudioSfxSwapMode[10];
 extern ActiveSequence gActiveSeqs[4];
 extern AudioContext gAudioCtx;
 extern AudioCustomUpdateFunction gAudioCustomUpdateFunction;
-
-extern OSPifRam __osContPifRam;
-extern u8 __osContLastCmd;
-extern u8 __osMaxControllers;
-extern __OSInode __osPfsInodeCache;
-extern OSPifRam __osPfsPifRam;
 
 #endif

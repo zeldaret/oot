@@ -10,10 +10,13 @@ typedef struct __osExceptionVector {
 
 extern __osExceptionVector __osExceptionPreamble;
 
+extern OSPiHandle __Dom1SpeedParam;
+extern OSPiHandle __Dom2SpeedParam;
+
 u64 osClockRate = OS_CLOCK_RATE;
 s32 osViClock = VI_NTSC_CLOCK;
 u32 __osShutdown = false;
-OSHWIntr __OSGlobalIntMask = OS_IM_ALL;
+OSIntMask __OSGlobalIntMask = OS_IM_ALL;
 
 u32 __osFinalrom;
 

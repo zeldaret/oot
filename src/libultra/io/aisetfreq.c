@@ -1,5 +1,7 @@
 #include "global.h"
 
+extern s32 osViClock;
+
 /**
  * Programs the operating frequency of the Audio DAC.
  *

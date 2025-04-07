@@ -5,7 +5,7 @@
 #include "ultra64/internal.h"
 
 extern OSThread* __osRunQueue;
-extern OSHWIntr __OSGlobalIntMask;
+extern OSIntMask __OSGlobalIntMask;
 void __osLeoAbnormalResume(void);
 void __osLeoResume(void);
 
