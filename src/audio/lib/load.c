@@ -1126,6 +1126,8 @@ void AudioLoad_InitSoundFont(s32 fontId) {
     font->numSfx = entry->shortData3;
 }
 
+extern u8 gSequenceTable[];
+
 void AudioLoad_Init(void* heap, u32 heapSize) {
     s32 pad[18];
     s32 numFonts;
