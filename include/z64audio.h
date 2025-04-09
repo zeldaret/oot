@@ -1257,6 +1257,8 @@ extern AudioSpec gAudioSpecs[18];
 extern TempoData gTempoData;
 extern AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
+
+extern AudioTable gSequenceTable;
 extern AudioTable gSoundFontTable;
 extern u8 gSequenceFontTable[];
 extern AudioTable gSampleBankTable;
