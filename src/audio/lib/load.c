@@ -1,6 +1,7 @@
-#include "ultra64.h"
 #include "attributes.h"
 #include "buffers.h"
+#include "segment_symbols.h"
+#include "ultra64.h"
 #include "versions.h"
 
 #include "global.h"

@@ -3,6 +3,7 @@
 #include "carthandle.h"
 #include "idle.h"
 #include "is_debug.h"
+#include "segment_symbols.h"
 #include "stack.h"
 #include "stackcheck.h"
 #if PLATFORM_N64

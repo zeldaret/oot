@@ -2,7 +2,9 @@
 #define VARIABLES_H
 
 #include "z64.h"
-#include "libc64/os_malloc.h"
-#include "segment_symbols.h"
+
+// TODO:
+// Plenty of files depend on this file to have access to z64.h, including assets.
+// Fix those cases and then delete this file.
 
 #endif
