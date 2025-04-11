@@ -103,7 +103,7 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, PlayState* play) {
     static s16 paintingPosX[] = { -1302, -866, 1421, 985 };
     static s16 paintingPosY[] = { 1107, 1091 };
     static s16 paintingPosZ[] = { -3384, -3252 };
-    ColliderTrisElementInit* item;
+    ColliderTrisElementInit* elementInit;
     Vec3f* vtxVec;
     s32 i1;
     s32 i2;
@@ -124,10 +124,10 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, PlayState* play) {
         scaleY = 1.0f;
     }
     for (i1 = 0; i1 < sTrisInit.count; i1++) {
-        item = &sTrisInit.elements[i1];
+        elementInit = &sTrisInit.elements[i1];
         if (1) {} // This section looks like a macro of some sort.
         for (i2 = 0; i2 < 3; i2++) {
-            vtxVec = &item->dim.vtx[i2];
+            vtxVec = &elementInit->dim.vtx[i2];
             sp9C[i2].x = (vtxVec->x * coss) + (this->dyna.actor.home.pos.x + (sins * vtxVec->z));
             sp9C[i2].y = (vtxVec->y * scaleY) + this->dyna.actor.home.pos.y;
             sp9C[i2].z = this->dyna.actor.home.pos.z + (coss * vtxVec->z) - (vtxVec->x * sins);
