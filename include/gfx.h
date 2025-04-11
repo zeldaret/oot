@@ -121,4 +121,7 @@ void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file,
 
 void Graph_ThreadEntry(void*);
 
+extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
+extern u64 gMojiFontTex[]; // original name: "font_ff"
+
 #endif

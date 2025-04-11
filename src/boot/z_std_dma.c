@@ -22,7 +22,9 @@
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
 #include "attributes.h"
+#include "carthandle.h"
 #include "fault.h"
+#include "idle.h"
 #if PLATFORM_IQUE
 #include "inflate.h"
 #endif

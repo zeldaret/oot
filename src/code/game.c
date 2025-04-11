@@ -1,4 +1,5 @@
 #include "libc64/malloc.h"
+#include "libc64/os_malloc.h"
 #include "libu64/debug.h"
 #include "libu64/gfxprint.h"
 #include "audiomgr.h"
@@ -8,7 +9,7 @@
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "fault.h"
-#include "libc64/os_malloc.h"
+#include "idle.h"
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"

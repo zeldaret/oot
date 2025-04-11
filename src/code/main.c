@@ -23,6 +23,7 @@ extern struct IrqMgr gIrqMgr;
 #include "debug_arena.h"
 #include "fault.h"
 #include "gfx.h"
+#include "idle.h"
 #include "padmgr.h"
 #include "prenmi_buff.h"
 #include "regs.h"

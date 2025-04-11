@@ -11,6 +11,7 @@
 #endif
 
 #include "alloca.h"
+#include "build.h"
 #include "console_logo_state.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
