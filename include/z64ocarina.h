@@ -188,4 +188,9 @@ void AudioOcarina_MemoryGameInit(u8 minigameRound);
 s32 AudioOcarina_MemoryGameNextNote(void);
 void AudioOcarina_PlayLongScarecrowSong(void);
 
+extern u8* gFrogsSongPtr;
+extern OcarinaNote* gScarecrowLongSongPtr;
+extern u8* gScarecrowSpawnSongPtr;
+extern OcarinaSongButtons gOcarinaSongButtons[];
+
 #endif

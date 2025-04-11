@@ -3,6 +3,6 @@
 
 #include "pfs.h"
 
-extern __OSInode __osPfsInodeCache;
+extern u8 __osPfsInodeCacheBank;
 
 #endif
