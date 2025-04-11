@@ -1,4 +1,3 @@
-
 #include "segment_symbols.h"
 #include "romfile.h"
 #include "ultra64.h"
