@@ -1,4 +1,4 @@
-#pragma increment_block_number "ntsc-1.2:0"
+#pragma increment_block_number "ntsc-1.0:132 ntsc-1.1:132 ntsc-1.2:132 pal-1.0:132 pal-1.1:132"
 
 #include "audiomgr.h"
 #include "build.h"
