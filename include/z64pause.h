@@ -77,11 +77,18 @@ typedef enum PauseState {
     /* 19 */ PAUSE_STATE_RESUME_GAMEPLAY // Handles returning to normal gameplay once the pause menu is visually closed
 } PauseState;
 
+typedef enum PauseDebugState {
+    /* 0 */ PAUSE_DEBUG_STATE_CLOSED,
+    /* 1 */ PAUSE_DEBUG_STATE_KALEIDO_OPENING,
+    /* 2 */ PAUSE_DEBUG_STATE_KALEIDO_OPEN,
+    /* 3 */ PAUSE_DEBUG_STATE_FLAG_SET_OPEN
+} PauseDebugState;
+
 #define IS_PAUSE_STATE_GAMEOVER(pauseCtx) \
     (((pauseCtx)->state >= PAUSE_STATE_GAME_OVER_START) && ((pauseCtx)->state <= PAUSE_STATE_GAME_OVER_FINISH))
 
 #define IS_PAUSED(pauseCtx) \
-    (((pauseCtx)->state != PAUSE_STATE_OFF) || ((pauseCtx)->debugState != 0))
+    (((pauseCtx)->state != PAUSE_STATE_OFF) || ((pauseCtx)->debugState != PAUSE_DEBUG_STATE_CLOSED))
 
 // Sub-states of PAUSE_STATE_MAIN
 typedef enum PauseMainState {

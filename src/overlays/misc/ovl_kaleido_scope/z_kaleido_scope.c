@@ -1099,9 +1099,9 @@ void KaleidoScope_SetupPageSwitch(PauseContext* pauseCtx, u8 pt) {
 }
 
 void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
-    if ((pauseCtx->debugState == 0) && CHECK_BTN_ALL(input->press.button, BTN_L)) {
+    if ((pauseCtx->debugState == PAUSE_DEBUG_STATE_CLOSED) && CHECK_BTN_ALL(input->press.button, BTN_L)) {
 #if DEBUG_FEATURES
-        pauseCtx->debugState = 1;
+        pauseCtx->debugState = PAUSE_DEBUG_STATE_KALEIDO_OPENING;
 #endif
         return;
     }
@@ -3365,7 +3365,7 @@ void KaleidoScope_Draw(PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x0C, pauseCtx->iconItemAltSegment);
     gSPSegment(POLY_OPA_DISP++, 0x0D, pauseCtx->iconItemLangSegment);
 
-    if (pauseCtx->debugState == 0) {
+    if (pauseCtx->debugState == PAUSE_DEBUG_STATE_CLOSED) {
         KaleidoScope_SetView(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
 
         Gfx_SetupDL_42Opa(play->state.gfxCtx);
@@ -3387,7 +3387,7 @@ void KaleidoScope_Draw(PlayState* play) {
         KaleidoScope_DrawGameOver(play);
     }
 
-    if ((pauseCtx->debugState == 1) || (pauseCtx->debugState == 2)) {
+    if ((pauseCtx->debugState == PAUSE_DEBUG_STATE_KALEIDO_OPENING) || (pauseCtx->debugState == 2)) {
         KaleidoScope_DrawDebugEditor(play);
     }
 
@@ -4280,7 +4280,7 @@ void KaleidoScope_Update(PlayState* play) {
                             pauseCtx->alpha = 0;
                         }
                     } else {
-                        pauseCtx->debugState = 0;
+                        pauseCtx->debugState = PAUSE_DEBUG_STATE_CLOSED;
                         pauseCtx->state = PAUSE_STATE_RESUME_GAMEPLAY;
                         pauseCtx->itemPagePitch = pauseCtx->equipPagePitch = pauseCtx->mapPagePitch =
                             pauseCtx->questPagePitch = 160.0f;
@@ -4623,7 +4623,7 @@ void KaleidoScope_Update(PlayState* play) {
                     pauseCtx->alpha = 0;
                 }
             } else {
-                pauseCtx->debugState = 0;
+                pauseCtx->debugState = PAUSE_DEBUG_STATE_CLOSED;
                 pauseCtx->state = PAUSE_STATE_RESUME_GAMEPLAY;
                 pauseCtx->questPagePitch = 160.0f;
                 pauseCtx->mapPagePitch = 160.0f;
