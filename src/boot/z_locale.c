@@ -1,5 +1,6 @@
 #include "libu64/debug.h"
 #include "alignment.h"
+#include "carthandle.h"
 #include "line_numbers.h"
 #include "padmgr.h"
 #include "region.h"

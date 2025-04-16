@@ -6,6 +6,7 @@
 #include "n64dd.h"
 #endif
 #include "regs.h"
+#include "segment_symbols.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"

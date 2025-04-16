@@ -1,7 +1,9 @@
-#include "global.h"
+#include "segment_symbols.h"
 #include "terminal.h"
 #include "z64environment.h"
 #include "z64save.h"
+
+#include "global.h"
 
 typedef struct SkyboxFaceParams {
     /* 0x000 */ s32 xStart;
