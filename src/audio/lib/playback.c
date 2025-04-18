@@ -1,4 +1,5 @@
-#include "global.h"
+#include "ultra64.h"
+#include "z64audio.h"
 
 void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     f32 volLeft;

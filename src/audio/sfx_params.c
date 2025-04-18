@@ -1,5 +1,5 @@
 #include "ultra64.h"
-#include "global.h"
+#include "sfx.h"
 #include "versions.h"
 
 #define DEFINE_SFX(_0, _1, importance, distParam, randParam, flags)            \

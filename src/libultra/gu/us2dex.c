@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 void guS2DInitBg(uObjBg* bg) {
     u16 tmem = (bg->b.imageFmt == G_IM_FMT_CI) ? 0x100 : 0x200;

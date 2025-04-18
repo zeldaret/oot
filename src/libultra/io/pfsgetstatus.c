@@ -1,5 +1,5 @@
 #include "ultra64.h"
-#include "global.h"
+#include "ultra64.h"
 
 s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel) {
 #ifndef BBPLAYER

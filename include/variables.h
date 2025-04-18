@@ -1,7 +1,7 @@
 #ifndef VARIABLES_H
 #define VARIABLES_H
 
-#include "z64.h"
+// #include "z64.h"
 
 // TODO:
 // Plenty of files depend on this file to have access to z64.h.

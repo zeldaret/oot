@@ -9,6 +9,7 @@
 #include "versions.h"
 #include "vi_mode.h"
 #include "z64thread.h"
+#include "z64dma.h"
 
 #include "global.h"
 

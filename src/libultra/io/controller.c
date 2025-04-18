@@ -1,4 +1,5 @@
-#include "global.h"
+#include "ultra64.h"
+#include "macros.h"
 
 OSPifRam __osContPifRam;
 u8 __osContLastCmd;

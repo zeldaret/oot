@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/bcp.h"
 
 typedef struct __osExceptionVector {

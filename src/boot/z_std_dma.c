@@ -39,6 +39,7 @@
 #if !PLATFORM_IQUE
 #include "yaz0.h"
 #endif
+#include "z64dma.h"
 #include "z64thread.h"
 
 #include "global.h"

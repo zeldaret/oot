@@ -1,4 +1,5 @@
-#include "global.h"
+#include "ultra64.h"
+#include "macros.h"
 
 static OSMesg siAccessBuf[1];
 OSMesgQueue __osSiAccessQueue;

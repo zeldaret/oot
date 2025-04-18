@@ -1,5 +1,5 @@
 #include "ultra64.h"
-#include "global.h"
+#include "z64audio.h"
 #include "versions.h"
 
 void AudioHeap_InitSampleCaches(u32 persistentSampleCacheSize, u32 temporarySampleCacheSize);

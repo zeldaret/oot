@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/bbskapi.h"
 
 #define PIF_RAM_SIZE (PIF_RAM_END + 1 - PIF_RAM_START)

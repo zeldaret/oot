@@ -1,5 +1,5 @@
 #include "ultra64.h"
-#include "global.h"
+#include "ultra64.h"
 
 OSPifRam __osPfsPifRam;
 

@@ -1,5 +1,7 @@
-#include "global.h"
+#include "ultra64.h"
+#include "audiothread_cmd.h"
 #include "versions.h"
+#include "z64audio.h"
 
 #define SAMPLES_TO_OVERPRODUCE 0x10
 #define EXTRA_BUFFERED_AI_SAMPLES_TARGET 0x80
