@@ -1,7 +1,8 @@
-#include "ultra64.h"
 #include "audiothread_cmd.h"
+#include "macros.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "ultra64.h"
 #include "z64audio.h"
 
 typedef struct SfxRequest {

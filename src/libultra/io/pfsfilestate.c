@@ -1,5 +1,4 @@
 #include "ultra64.h"
-#include "ultra64.h"
 
 s32 osPfsFileState(OSPfs* pfs, s32 fileNo, OSPfsState* state) {
     s32 ret;

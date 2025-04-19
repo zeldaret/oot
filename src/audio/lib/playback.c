@@ -1,4 +1,5 @@
 #include "ultra64.h"
+#include "macros.h"
 #include "z64audio.h"
 
 void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {

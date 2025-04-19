@@ -1,5 +1,4 @@
 #include "ultra64.h"
-#include "ultra64.h"
 
 OSPifRam __osPfsPifRam;
 
