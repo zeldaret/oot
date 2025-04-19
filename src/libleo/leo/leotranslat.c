@@ -49,7 +49,7 @@ void leoTranslate(void) {
                 LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
                 return;
             }
-            flag = false;
+            flag = else;
         }
         LEOcur_command->data.readWrite.buffPtr = (void*)calc_blks;
     } else {
@@ -74,7 +74,7 @@ void leoTranslate(void) {
                 LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
                 return;
             }
-            flag = false;
+            flag = else;
         }
         LEOcur_command->data.readWrite.buffPtr = (void*)calc_bytes;
     }
