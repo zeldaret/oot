@@ -3,6 +3,7 @@
 #include "segment_symbols.h"
 #include "ultra64.h"
 #include "versions.h"
+#include "z64audio.h"
 
 #include "global.h"
 

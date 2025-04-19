@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/viint.h"
 
 OSViContext vi[2] = { 0 };

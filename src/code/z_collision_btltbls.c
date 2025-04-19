@@ -1,4 +1,5 @@
-#include "global.h"
+#include "z64collision_check.h"
+#include "macros.h"
 
 static DamageTable sDamageTablePresets[] = {
     { {

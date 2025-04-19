@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 void guScaleF(f32 m[4][4], f32 x, f32 y, f32 z) {
     guMtxIdentF(m);

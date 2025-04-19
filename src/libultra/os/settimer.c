@@ -1,7 +1,7 @@
 #include "ultra64.h"
 #include "attributes.h"
 
-#include "global.h"
+#include "ultra64.h"
 
 s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* mq, OSMesg msg) {
     UNUSED OSTime time;

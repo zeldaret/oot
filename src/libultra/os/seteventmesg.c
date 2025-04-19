@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/internal.h"
 
 __OSEventState __osEventStateTab[OS_NUM_EVENTS];

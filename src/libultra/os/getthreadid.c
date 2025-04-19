@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 OSId osGetThreadId(OSThread* thread) {
     if (thread == NULL) {

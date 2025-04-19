@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 u32 osVirtualToPhysical(void* vaddr) {
     if (IS_KSEG0(vaddr)) {

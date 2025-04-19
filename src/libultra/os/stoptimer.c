@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 s32 osStopTimer(OSTimer* timer) {
     register u32 prevInt;

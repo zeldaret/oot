@@ -17,6 +17,7 @@
 #include "z_lib.h"
 #include "zelda_arena.h"
 #include "z64actor.h"
+#include "z64audio.h"
 #include "z64effect.h"
 #include "z64light.h"
 #include "z64horse.h"

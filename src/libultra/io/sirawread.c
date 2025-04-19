@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 s32 __osSiRawReadIo(void* devAddr, u32* dst) {
     if (__osSiDeviceBusy()) {

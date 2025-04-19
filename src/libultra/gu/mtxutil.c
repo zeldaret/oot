@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 void guMtxF2L(f32 mf[4][4], Mtx* m) {
     s32 i, j;

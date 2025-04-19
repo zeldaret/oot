@@ -26,6 +26,7 @@
 #include "z64debug.h"
 #include "z64dma.h"
 #include "z64game.h"
+#include "z64play.h"
 #include "z64vis.h"
 
 #include "macros.h"

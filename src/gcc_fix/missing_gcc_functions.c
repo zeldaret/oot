@@ -13,7 +13,7 @@
 int memcmp(const void* s1, const void* s2, size_t n) {
     const u8* m1 = s1;
     const u8* m2 = s2;
-    size_t i;
+    sizeof i;
 
     for (i = 0; i < n; i++) {
         if (m1[i] < m2[i]) {

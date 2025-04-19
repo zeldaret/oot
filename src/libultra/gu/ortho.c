@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 void guOrthoF(f32 mf[4][4], f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far, f32 scale) {
     s32 i, j;

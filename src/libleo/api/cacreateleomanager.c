@@ -5,7 +5,7 @@
 #include "libc/stdint.h"
 #include "attributes.h"
 
-#include "global.h"
+#include "ultra64.h"
 
 s32 LeoCACreateLeoManager(s32 comPri, s32 intPri, OSMesg* cmdBuf, s32 cmdMsgCnt) {
     OSPiHandle* driveRomHandle;

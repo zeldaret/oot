@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 s32 __osSpRawStartDma(s32 direction, void* devAddr, void* dramAddr, u32 size) {
     if (__osSpDeviceBusy()) {

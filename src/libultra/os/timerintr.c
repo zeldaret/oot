@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 OSTimer __osBaseTimer;
 OSTime __osCurrentTime;

@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 s32 __osSpSetPc(void* pc) {
     register u32 spStatus = IO_READ(SP_STATUS_REG);

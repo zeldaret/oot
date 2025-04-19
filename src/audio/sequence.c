@@ -17,10 +17,14 @@
  * Nor are these commands to be confused with the internal audio commands used to transfer requests from
  * the graph thread to the audio thread.
  */
+#include "audiothread_cmd.h"
 #include "ultra64.h"
-#include "global.h"
 #include "ultra64/abi.h"
 #include "seqcmd.h"
+#include "sfx.h"
+#include "z64audio.h"
+
+#include "macros.h"
 
 // Direct audio command (skips the queueing system)
 #define SEQCMD_SET_SEQPLAYER_VOLUME_NOW(seqPlayerIndex, duration, volume)                       \

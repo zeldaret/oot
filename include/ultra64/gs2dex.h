@@ -1,6 +1,8 @@
 #ifndef	GS2DEX_H
 #define	GS2DEX_H
 
+#include "ultratypes.h"
+
 #ifdef _LANGUAGE_C_PLUS_PLUS
 extern "C" {
 #endif

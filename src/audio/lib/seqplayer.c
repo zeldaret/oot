@@ -13,12 +13,12 @@
  *   - All three sets share a common pool of control flow instructions (>= 0xF2).
  *     Otherwise, each set of instructions has its own command interpreter
  */
-#include "ultra64.h"
+#include "audio/aseq.h"
 #include "assert.h"
 #include "attributes.h"
-#include "audio/aseq.h"
-
-#include "global.h"
+#include "macros.h"
+#include "ultra64.h"
+#include "z64audio.h"
 
 static_assert(MML_VERSION == MML_VERSION_OOT, "This file implements the OoT version of the MML");
 

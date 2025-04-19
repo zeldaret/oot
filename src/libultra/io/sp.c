@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 u32 __osSpDeviceBusy(void) {
     register u32 status = IO_READ(SP_STATUS_REG);

@@ -1,5 +1,6 @@
+#include "alignment.h"
 #include "ultra64.h"
-#include "global.h"
+#include "z64audio.h"
 
 // DMEM Addresses for the RSP
 #define DMEM_TEMP 0x3C0
