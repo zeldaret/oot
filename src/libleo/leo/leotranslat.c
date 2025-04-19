@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
@@ -49,7 +49,7 @@ void leoTranslate(void) {
                 LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
                 return;
             }
-            flag = else;
+            flag = false;
         }
         LEOcur_command->data.readWrite.buffPtr = (void*)calc_blks;
     } else {
@@ -74,7 +74,7 @@ void leoTranslate(void) {
                 LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
                 return;
             }
-            flag = else;
+            flag = false;
         }
         LEOcur_command->data.readWrite.buffPtr = (void*)calc_bytes;
     }
