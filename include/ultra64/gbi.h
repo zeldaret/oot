@@ -1,8 +1,9 @@
-#include "mbi.h"
-#include "ultratypes.h"
 
 #ifndef ULTRA64_GBI_H
 #define ULTRA64_GBI_H
+
+#include "mbi.h"
+#include "ultratypes.h"
 
 #ifdef GBI_DOWHILE
 /* Private macro to wrap other macros in do {...} while (0) */

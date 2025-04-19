@@ -5,7 +5,7 @@
 /* This file is NOT a part of the original game and only exists to help gcc work.  */
 /* --------------------------------------------------------------------------------*/
 
-#include "global.h"
+#include "ultra64.h"
 
 // Self-hosted libc memory functions, gcc assumes these exist even in a freestanding
 // environment and there is no way to tell it otherwise.
@@ -13,7 +13,7 @@
 int memcmp(const void* s1, const void* s2, size_t n) {
     const u8* m1 = s1;
     const u8* m2 = s2;
-    sizeof i;
+    size_t i;
 
     for (i = 0; i < n; i++) {
         if (m1[i] < m2[i]) {
