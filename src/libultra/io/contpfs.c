@@ -1,5 +1,5 @@
 #include "ultra64.h"
-#include "global.h"
+#include "macros.h"
 
 s32 __osPfsInodeCacheChannel = -1;
 u8 __osPfsInodeCacheBank = 250;

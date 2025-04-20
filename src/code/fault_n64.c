@@ -12,7 +12,7 @@
 
 #include "global.h"
 
-#pragma increment_block_number "ntsc-1.0:108 ntsc-1.1:108 ntsc-1.2:108 pal-1.0:108 pal-1.1:108"
+#pragma increment_block_number "ntsc-1.0:176 ntsc-1.1:176 ntsc-1.2:176 pal-1.0:176 pal-1.1:176"
 
 typedef struct FaultMgr {
     OSThread thread;

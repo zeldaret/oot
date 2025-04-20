@@ -10,6 +10,7 @@
 #include "macros.h"
 #include "global.h"
 
+#include "z64.h" // required for gameplay keep, the header doesnt include any external dependencies
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2) {

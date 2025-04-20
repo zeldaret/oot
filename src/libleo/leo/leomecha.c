@@ -3,7 +3,7 @@
 #include "ultra64/leodrive.h"
 #include "attributes.h"
 
-#include "global.h"
+#include "ultra64.h"
 
 extern s32 currentCommand;
 

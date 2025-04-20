@@ -1,6 +1,9 @@
-#include "global.h"
-#include "fault.h"
 #include "libc64/os_malloc.h"
+
+#include "alignment.h"
+#include "fault.h"
+
+#include "global.h"
 
 #define NODE_MAGIC 0x7373
 

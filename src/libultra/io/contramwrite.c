@@ -1,5 +1,4 @@
 #include "ultra64.h"
-#include "global.h"
 
 extern s32 __osPfsLastChannel;
 

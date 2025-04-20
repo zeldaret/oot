@@ -1,7 +1,9 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
+
+#include "macros.h"
 
 u16 leoLba_to_phys(u32 lba) {
     u16 vzone_num;
