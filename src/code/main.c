@@ -26,6 +26,7 @@ extern struct IrqMgr gIrqMgr;
 #include "idle.h"
 #include "padmgr.h"
 #include "prenmi_buff.h"
+#include "printf.h"
 #include "regs.h"
 #include "segment_symbols.h"
 #include "segmented_address.h"

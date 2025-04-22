@@ -1,4 +1,5 @@
 #include "map.h"
+#include "printf.h"
 #include "regs.h"
 #include "segment_symbols.h"
 #include "versions.h"

@@ -1,6 +1,7 @@
 #include "transition_fade.h"
 
 #include "main.h"
+#include "printf.h"
 #include "regs.h"
 #include "terminal.h"
 #include "z_lib.h"

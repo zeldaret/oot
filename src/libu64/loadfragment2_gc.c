@@ -1,5 +1,6 @@
 #include "libc64/malloc.h"
 #include "libu64/overlay.h"
+#include "printf.h"
 
 #include "macros.h"
 

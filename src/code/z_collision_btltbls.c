@@ -1,3 +1,4 @@
+#include "printf.h"
 #include "z64collision_check.h"
 #include "macros.h"
 

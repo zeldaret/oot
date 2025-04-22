@@ -1,6 +1,7 @@
 #include "libu64/debug.h"
 #include "attributes.h"
 #include "line_numbers.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sys_math3d.h"

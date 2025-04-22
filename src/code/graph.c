@@ -12,6 +12,7 @@
 #include "map_select_state.h"
 #include "prenmi_buff.h"
 #include "prenmi_state.h"
+#include "printf.h"
 #include "regs.h"
 #include "setup_state.h"
 #include "speed_meter.h"

@@ -3,6 +3,7 @@
 #include "carthandle.h"
 #include "line_numbers.h"
 #include "padmgr.h"
+#include "printf.h"
 #include "region.h"
 #include "terminal.h"
 #include "versions.h"

@@ -3,6 +3,7 @@
 #include "fault.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "quake.h"
 #include "rand.h"
 #include "regs.h"

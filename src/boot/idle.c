@@ -2,6 +2,7 @@
 #include "build.h"
 #include "idle.h"
 #include "main.h"
+#include "printf.h"
 #include "segment_symbols.h"
 #include "stack.h"
 #include "stackcheck.h"

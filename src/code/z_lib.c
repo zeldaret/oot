@@ -1,6 +1,7 @@
 #include "ultra64.h"
 #include "z_lib.h"
 #include "ichain.h"
+#include "printf.h"
 #include "regs.h"
 #include "macros.h"
 #include "sys_math.h"

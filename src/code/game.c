@@ -15,6 +15,7 @@
 #include "n64dd.h"
 #endif
 #include "padmgr.h"
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "speed_meter.h"

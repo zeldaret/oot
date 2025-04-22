@@ -1,5 +1,6 @@
 #include "libc64/os_malloc.h"
 #include "debug_arena.h"
+#include "printf.h"
 
 #include "macros.h"
 

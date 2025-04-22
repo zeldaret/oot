@@ -1,6 +1,7 @@
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "sys_matrix.h"
 #include "z64effect.h"
 #include "z64play.h"

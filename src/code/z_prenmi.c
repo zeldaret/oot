@@ -1,6 +1,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "prenmi_state.h"
+#include "printf.h"
 #include "regs.h"
 #include "terminal.h"
 #include "versions.h"

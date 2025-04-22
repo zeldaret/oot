@@ -9,6 +9,7 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "segment_symbols.h"
 #include "sequence.h"
 #include "regs.h"

@@ -1,6 +1,7 @@
 #include "libc64/os_malloc.h"
 #include "alignment.h"
 #include "fault.h"
+#include "printf.h"
 #include "terminal.h"
 
 #include "global.h"

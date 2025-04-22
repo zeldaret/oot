@@ -14,6 +14,7 @@
 #include "n64dd.h"
 #endif
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "quake.h"
 #include "regs.h"
 #include "rumble.h"

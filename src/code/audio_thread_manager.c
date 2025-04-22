@@ -6,6 +6,7 @@
  */
 
 #include "audiomgr.h"
+#include "printf.h"
 #include "regs.h"
 #include "speed_meter.h"
 #include "z64dma.h"

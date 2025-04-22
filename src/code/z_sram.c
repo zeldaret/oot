@@ -1,6 +1,7 @@
 #include "file_select_state.h"
 #include "controller.h"
 #include "memory_utils.h"
+#include "printf.h"
 #include "terminal.h"
 #include "versions.h"
 #include "z64audio.h"

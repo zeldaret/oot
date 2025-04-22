@@ -1,6 +1,7 @@
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "quake.h"
 #include "sfx.h"
 #include "terminal.h"

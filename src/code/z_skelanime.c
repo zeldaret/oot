@@ -1,5 +1,6 @@
 #include "libu64/debug.h"
 #include "gfx.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "segment_symbols.h"

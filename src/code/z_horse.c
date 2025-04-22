@@ -1,5 +1,6 @@
 #include "terminal.h"
 #include "z_lib.h"
+#include "printf.h"
 #include "regs.h"
 #include "z64horse.h"
 #include "z64play.h"

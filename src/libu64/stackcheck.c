@@ -1,5 +1,6 @@
 #include "libu64/debug.h"
 #include "attributes.h"
+#include "printf.h"
 #include "stackcheck.h"
 #include "terminal.h"
 

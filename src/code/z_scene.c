@@ -1,3 +1,4 @@
+#include "printf.h"
 #include "regs.h"
 #include "romfile.h"
 #include "seqcmd.h"

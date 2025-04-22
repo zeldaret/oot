@@ -8,6 +8,7 @@
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
 #include "ultra64.h"
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "segment_symbols.h"

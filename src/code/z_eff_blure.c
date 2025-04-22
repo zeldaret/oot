@@ -1,6 +1,7 @@
 #include "libc64/math64.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"

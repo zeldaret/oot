@@ -1,4 +1,5 @@
 #include "fault.h"
+#include "printf.h"
 #include "segment_symbols.h"
 #include "z_actor_dlftbls.h"
 

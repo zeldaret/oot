@@ -1,4 +1,5 @@
 #include "gfx.h"
+#include "printf.h"
 #include "terminal.h"
 #include "z_lib.h"
 #include "z64skin_matrix.h"

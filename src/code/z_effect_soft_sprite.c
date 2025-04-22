@@ -1,4 +1,5 @@
 #include "libu64/overlay.h"
+#include "printf.h"
 #include "sfx.h"
 #include "terminal.h"
 #include "zelda_arena.h"

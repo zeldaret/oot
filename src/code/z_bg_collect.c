@@ -1,3 +1,4 @@
+#include "printf.h"
 #include "terminal.h"
 #include "ultra64.h"
 #include "z64actor.h"

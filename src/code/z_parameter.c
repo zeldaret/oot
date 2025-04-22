@@ -5,6 +5,7 @@
 #include "gfx_setupdl.h"
 #include "main.h"
 #include "map.h"
+#include "printf.h"
 #include "regs.h"
 #include "segment_symbols.h"
 #include "segmented_address.h"

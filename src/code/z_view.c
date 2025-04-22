@@ -3,6 +3,7 @@
 #include "gfx.h"
 #include "letterbox.h"
 #include "main.h"
+#include "printf.h"
 #include "regs.h"
 #include "sys_matrix.h"
 #include "terminal.h"

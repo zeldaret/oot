@@ -1,4 +1,5 @@
 #include "fault.h"
+#include "printf.h"
 #include "terminal.h"
 
 #include "global.h"
