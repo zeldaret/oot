@@ -55,7 +55,7 @@ cd build-binutils
 
 Configure the build
 ```bash
-../binutils-2.35/configure --target=mips-linux-gnu --prefix=/opt/cross --disable-gprof --disable-gdb --disable-werror
+../binutils-2.35/configure --target=mips-linux-gnu --prefix=/opt/cross --with-system-zlib --disable-gprof --disable-gdb --disable-werror
 ```
 
 Make and install binutils
