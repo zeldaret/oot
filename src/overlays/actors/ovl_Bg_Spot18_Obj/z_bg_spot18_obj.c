@@ -8,6 +8,7 @@
 #include "z_bg_spot18_obj.h"
 
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "z_lib.h"

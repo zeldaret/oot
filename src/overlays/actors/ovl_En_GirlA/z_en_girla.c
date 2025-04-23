@@ -6,6 +6,7 @@
 
 #include "z_en_girla.h"
 
+#include "printf.h"
 #include "rand.h"
 #include "sys_matrix.h"
 #include "terminal.h"

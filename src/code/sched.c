@@ -44,6 +44,7 @@
 #include "fault.h"
 #include "irqmgr.h"
 #include "main.h"
+#include "printf.h"
 #include "regs.h"
 #include "sched.h"
 #include "speed_meter.h"

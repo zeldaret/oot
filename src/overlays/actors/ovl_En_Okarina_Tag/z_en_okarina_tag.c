@@ -7,6 +7,7 @@
 #include "z_en_okarina_tag.h"
 
 #include "attributes.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"

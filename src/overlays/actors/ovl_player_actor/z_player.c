@@ -25,6 +25,7 @@
 #include "letterbox.h"
 #include "map.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "quake.h"
 #include "rand.h"
 #include "regs.h"

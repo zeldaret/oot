@@ -3,6 +3,7 @@
 #include "libc64/malloc.h"
 #include "libu64/debug.h"
 #include "gfx.h"
+#include "printf.h"
 #include "regs.h"
 #include "speed_meter.h"
 #include "terminal.h"

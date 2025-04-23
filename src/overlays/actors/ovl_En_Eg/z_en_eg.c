@@ -6,6 +6,7 @@
 
 #include "z_en_eg.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "seqcmd.h"
 #include "sequence.h"

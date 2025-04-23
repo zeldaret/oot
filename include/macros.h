@@ -12,6 +12,15 @@
 #define BAD_RETURN(type) void
 #endif
 
+/**
+ * The "T" macro holds translations in English for original debug strings written in Japanese.
+ * The translated strings are only direct translations. Certain names or terms may not reflect
+ * their in-game localized counterparts.
+ *
+ * To use translated English strings in the build, change the definition below from "jp" to "en".
+ */
+#define T(jp, en) jp
+
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNT_2D(arr) (s32)(sizeof(arr) / sizeof(arr[0][0]))

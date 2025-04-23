@@ -9,6 +9,7 @@
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"

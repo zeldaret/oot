@@ -2,6 +2,7 @@
 #include "file_select_state.h"
 
 #include "controller.h"
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "sfx.h"

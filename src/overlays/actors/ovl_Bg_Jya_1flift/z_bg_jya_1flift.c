@@ -7,6 +7,7 @@
 #include "z_bg_jya_1flift.h"
 
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "z_lib.h"
 #include "z64play.h"

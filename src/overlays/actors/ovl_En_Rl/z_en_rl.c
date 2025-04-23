@@ -8,6 +8,7 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "terminal.h"

@@ -6,6 +6,7 @@
 
 #include "z_en_wonder_item.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "terminal.h"

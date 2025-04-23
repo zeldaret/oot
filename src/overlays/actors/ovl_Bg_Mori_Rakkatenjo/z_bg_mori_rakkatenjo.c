@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "quake.h"
 #include "rumble.h"
 #include "sfx.h"

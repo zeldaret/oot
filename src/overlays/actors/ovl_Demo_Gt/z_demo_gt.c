@@ -5,6 +5,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "sequence.h"

@@ -7,6 +7,7 @@
 #include "z_bg_jya_zurerukabe.h"
 
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "terminal.h"
 #include "z_lib.h"

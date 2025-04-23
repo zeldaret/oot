@@ -7,6 +7,7 @@
 #include "z_bg_bombwall.h"
 #include "libc64/qrand.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "z_lib.h"
 #include "z64play.h"

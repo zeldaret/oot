@@ -10,9 +10,10 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
+#include "quake.h"
 #include "rand.h"
 #include "sfx.h"
-#include "quake.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "z_lib.h"

@@ -4,6 +4,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "sequence.h"

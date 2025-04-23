@@ -6,6 +6,7 @@
 
 #include "z_obj_makekinsuta.h"
 
+#include "printf.h"
 #include "terminal.h"
 #include "z64play.h"
 #include "z64player.h"

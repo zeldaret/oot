@@ -9,6 +9,7 @@
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "rand.h"
 #include "rumble.h"
 #include "sfx.h"

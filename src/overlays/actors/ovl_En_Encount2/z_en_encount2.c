@@ -4,6 +4,7 @@
 #include "libc64/qrand.h"
 #include "attributes.h"
 #include "gfx.h"
+#include "printf.h"
 #include "quake.h"
 #include "rand.h"
 #include "sfx.h"

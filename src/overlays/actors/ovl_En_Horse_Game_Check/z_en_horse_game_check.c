@@ -9,6 +9,7 @@
 
 #include "libu64/debug.h"
 #include "line_numbers.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "seqcmd.h"

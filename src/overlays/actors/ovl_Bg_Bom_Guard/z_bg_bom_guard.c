@@ -7,6 +7,7 @@
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "terminal.h"
 #include "z64play.h"

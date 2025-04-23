@@ -2,6 +2,7 @@
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 #include "overlays/actors/ovl_En_Reeba/z_en_reeba.h"
 
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "terminal.h"
