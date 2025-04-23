@@ -3661,7 +3661,7 @@ void KaleidoScope_Update(PlayState* play) {
             DMA_REQUEST_SYNC(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart, size0,
                              "../z_kaleido_scope_PAL.c", 3662);
 
-            gSegments[8] = VIRTUAL_TO_PHYSICAL(pauseCtx->iconItemSegment);
+            gSegments[8] = OS_K0_TO_PHYSICAL(pauseCtx->iconItemSegment);
 
             for (i = 0; i < ARRAY_COUNTU(gItemAgeReqs); i++) {
                 if (!CHECK_AGE_REQ_ITEM(i)) {

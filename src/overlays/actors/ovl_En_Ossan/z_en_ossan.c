@@ -2024,7 +2024,7 @@ void EnOssan_InitBazaarShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitKokiriShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gKm1Skel, NULL, NULL, NULL, 0);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot3].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot3].segment);
     Animation_Change(&this->skelAnime, &object_masterkokiri_Anim_0004A8, 1.0f, 0.0f,
                      Animation_GetLastFrame(&object_masterkokiri_Anim_0004A8), 0, 0.0f);
     this->actor.draw = EnOssan_DrawKokiriShopkeeper;
@@ -2035,7 +2035,7 @@ void EnOssan_InitKokiriShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitGoronShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot3].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot3].segment);
     Animation_Change(&this->skelAnime, &gGoronShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGoronShopkeeperAnim),
                      0, 0.0f);
     this->actor.draw = EnOssan_DrawGoronShopkeeper;
@@ -2044,7 +2044,7 @@ void EnOssan_InitGoronShopkeeper(EnOssan* this, PlayState* play) {
 
 void EnOssan_InitZoraShopkeeper(EnOssan* this, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gZoraSkel, NULL, NULL, NULL, 0);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot3].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot3].segment);
     Animation_Change(&this->skelAnime, &gZoraShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gZoraShopkeeperAnim),
                      0, 0.0f);
     this->actor.draw = EnOssan_DrawZoraShopkeeper;
@@ -2227,7 +2227,7 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
 }
 
 void EnOssan_Obj3ToSeg6(EnOssan* this, PlayState* play) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot3].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot3].segment);
 }
 
 void EnOssan_MainActionFunc(EnOssan* this, PlayState* play) {
@@ -2397,7 +2397,7 @@ s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(PlayState* play, s32 limbIndex, Gfx
 
     if (limbIndex == 15) {
         gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->objectSlot2].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot2].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlot2].segment);
         *dList = gKokiriShopkeeperHeadDL;
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sKokiriShopkeeperEyeTextures[this->eyeTextureIdx]));
     }
