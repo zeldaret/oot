@@ -3,6 +3,7 @@
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_G_Switch/z_en_g_switch.h"
 
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"

@@ -8,6 +8,7 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
 #include "segment_symbols.h"
 #include "segmented_address.h"

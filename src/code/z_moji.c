@@ -5,6 +5,7 @@
 #include "gfx.h"
 
 #include "macros.h"
+#include "printf.h"
 #include "global.h"
 
 // how big to draw the characters on screen

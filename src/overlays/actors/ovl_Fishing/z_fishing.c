@@ -15,6 +15,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "letterbox.h"
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "rumble.h"

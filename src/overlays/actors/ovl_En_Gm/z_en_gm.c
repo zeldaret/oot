@@ -10,6 +10,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "rand.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"

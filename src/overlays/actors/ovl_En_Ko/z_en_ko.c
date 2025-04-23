@@ -8,6 +8,7 @@
 
 #include "attributes.h"
 #include "gfx.h"
+#include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"

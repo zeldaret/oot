@@ -2,6 +2,7 @@
 
 #include "controller.h"
 #include "gfx.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "z64ocarina.h"

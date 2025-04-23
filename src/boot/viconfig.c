@@ -1,3 +1,4 @@
+#include "printf.h"
 #include "terminal.h"
 #include "idle.h"
 

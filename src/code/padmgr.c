@@ -32,8 +32,10 @@
 #include "libu64/padsetup.h"
 #include "macros.h"
 #include "padmgr.h"
+#include "printf.h"
 #include "fault.h"
 #include "terminal.h"
+#include "translation.h"
 #include "line_numbers.h"
 
 #define PADMGR_LOG(controllerNum, msg)                                                                \

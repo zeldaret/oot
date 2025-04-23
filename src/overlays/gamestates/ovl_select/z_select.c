@@ -16,12 +16,14 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
 #include "segment_symbols.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 #include "z64save.h"
 #include "z64sram.h"

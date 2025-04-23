@@ -7,10 +7,12 @@
 #include "z_bg_bdan_switch.h"
 
 #include "ichain.h"
-#include "rumble.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
+#include "rumble.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"

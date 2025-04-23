@@ -8,6 +8,7 @@
  */
 #include "libu64/overlay.h"
 #include "attributes.h"
+#include "printf.h"
 #include "ultra64.h"
 
 #include "macros.h"

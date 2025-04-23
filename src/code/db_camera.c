@@ -5,6 +5,7 @@
 #include "debug_arena.h"
 #include "letterbox.h"
 #include "mempak.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "z_lib.h"

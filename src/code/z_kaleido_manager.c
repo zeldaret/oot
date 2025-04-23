@@ -1,8 +1,10 @@
 #include "libu64/debug.h"
 #include "libu64/overlay.h"
 #include "kaleido_manager.h"
+#include "printf.h"
 #include "segment_symbols.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 
 #include "macros.h"

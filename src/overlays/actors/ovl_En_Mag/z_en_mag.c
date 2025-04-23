@@ -13,8 +13,10 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "z64cutscene_flags.h"

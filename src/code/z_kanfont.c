@@ -1,6 +1,8 @@
 #include "kanread.h"
 #include "message_data_static.h"
+#include "printf.h"
 #include "segment_symbols.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64dma.h"
 #include "z64font.h"

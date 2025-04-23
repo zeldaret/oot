@@ -16,6 +16,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "padmgr.h"
+#include "printf.h"
 #include "regs.h"
 #include "segment_symbols.h"
 #include "sequence.h"

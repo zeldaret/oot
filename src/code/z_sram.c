@@ -1,7 +1,11 @@
+#include "z64sram.h"
+
 #include "file_select_state.h"
 #include "controller.h"
 #include "memory_utils.h"
+#include "printf.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "z64game.h"
@@ -10,7 +14,6 @@
 #include "z64ocarina.h"
 #include "z64save.h"
 #include "z64scene.h"
-#include "z64sram.h"
 #include "z64ss_sram.h"
 
 #include "global.h"

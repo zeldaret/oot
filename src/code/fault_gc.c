@@ -53,6 +53,7 @@
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64thread.h"
 
 #include "global.h"

@@ -12,6 +12,7 @@
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "segmented_address.h"

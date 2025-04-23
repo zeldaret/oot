@@ -9,6 +9,7 @@
 #include "libc64/qrand.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "rand.h"
 #include "rumble.h"
 #include "sfx.h"

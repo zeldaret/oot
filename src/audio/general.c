@@ -4,6 +4,7 @@
 #include "audiothread_cmd.h"
 #include "controller.h"
 #include "padmgr.h"
+#include "printf.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"

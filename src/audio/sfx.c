@@ -1,5 +1,6 @@
 #include "audiothread_cmd.h"
 #include "macros.h"
+#include "printf.h"
 #include "sfx.h"
 #include "terminal.h"
 #include "ultra64.h"

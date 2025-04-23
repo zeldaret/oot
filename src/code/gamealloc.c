@@ -1,6 +1,7 @@
 #include "libc64/malloc.h"
 #include "libu64/debug.h"
 #include "gamealloc.h"
+#include "printf.h"
 
 #include "macros.h"
 

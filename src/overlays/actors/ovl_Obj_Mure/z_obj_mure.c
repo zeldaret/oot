@@ -9,6 +9,7 @@
 
 #include "libc64/qrand.h"
 #include "ichain.h"
+#include "printf.h"
 #include "z64play.h"
 
 #define FLAGS 0
