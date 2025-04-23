@@ -30,6 +30,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "zelda_arena.h"
 #include "z64actor.h"
 #include "z64curve.h"

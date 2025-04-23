@@ -48,6 +48,7 @@
 #include "regs.h"
 #include "sched.h"
 #include "speed_meter.h"
+#include "translation.h"
 #include "versions.h"
 #include "vi_mode.h"
 #include "z64thread.h"

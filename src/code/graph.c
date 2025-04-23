@@ -21,6 +21,7 @@
 #include "sys_ucode.h"
 #include "terminal.h"
 #include "title_setup_state.h"
+#include "translation.h"
 #include "ucode_disas.h"
 #include "versions.h"
 #include "vi_mode.h"

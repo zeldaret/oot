@@ -30,6 +30,7 @@
 #include "transition_tile.h"
 #include "transition_triforce.h"
 #include "transition_wipe.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_actor_dlftbls.h"
 #include "zelda_arena.h"

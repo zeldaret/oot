@@ -33,6 +33,7 @@ extern struct IrqMgr gIrqMgr;
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #if PLATFORM_N64
 #include "cic6105.h"

@@ -2,17 +2,19 @@
 #include "libu64/overlay.h"
 #include "map.h"
 #include "printf.h"
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
 #include "regs.h"
 #include "romfile.h"
 #include "segment_symbols.h"
 #include "terminal.h"
-#include "assets/textures/parameter_static/parameter_static.h"
-#if PLATFORM_N64
-#include "n64dd.h"
-#endif
+#include "translation.h"
 #include "z64map_mark.h"
 #include "z64play.h"
 #include "z64save.h"
+
+#include "assets/textures/parameter_static/parameter_static.h"
 
 #include "global.h"
 

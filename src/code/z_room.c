@@ -16,6 +16,7 @@
 #include "sys_matrix.h"
 #include "sys_ucode.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "z64play.h"

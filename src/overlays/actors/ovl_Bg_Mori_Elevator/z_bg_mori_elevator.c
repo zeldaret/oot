@@ -7,6 +7,7 @@
 #include "printf.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z64audio.h"
 #include "z64play.h"
 #include "z64player.h"

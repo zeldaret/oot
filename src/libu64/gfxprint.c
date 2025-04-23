@@ -1,6 +1,7 @@
 #include "libc64/aprintf.h"
 #include "libu64/gfxprint.h"
 #include "attributes.h"
+#include "translation.h"
 
 #include "macros.h"
 

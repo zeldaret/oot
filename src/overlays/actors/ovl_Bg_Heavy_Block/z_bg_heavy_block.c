@@ -19,6 +19,7 @@
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64play.h"

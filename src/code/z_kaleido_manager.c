@@ -4,6 +4,7 @@
 #include "printf.h"
 #include "segment_symbols.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 
 #include "macros.h"

@@ -4,6 +4,7 @@
 #include "libu64/mtxuty-cvt.h"
 #include "printf.h"
 #include "segmented_address.h"
+#include "translation.h"
 
 #include "macros.h"
 

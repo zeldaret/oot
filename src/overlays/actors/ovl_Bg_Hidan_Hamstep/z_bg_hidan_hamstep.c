@@ -16,6 +16,7 @@
 #include "rumble.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64play.h"

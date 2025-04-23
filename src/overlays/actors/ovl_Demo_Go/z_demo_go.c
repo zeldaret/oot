@@ -13,6 +13,7 @@
 #include "segmented_address.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64skin_matrix.h"

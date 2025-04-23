@@ -10,6 +10,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 
 #include "assets/objects/object_bowl/object_bowl.h"

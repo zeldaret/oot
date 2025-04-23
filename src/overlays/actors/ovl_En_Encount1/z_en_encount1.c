@@ -6,6 +6,7 @@
 #include "rand.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64debug_display.h"
 #include "z64play.h"

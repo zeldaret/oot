@@ -14,6 +14,7 @@
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 
 #include "assets/objects/object_geff/object_geff.h"

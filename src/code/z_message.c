@@ -14,6 +14,7 @@
 #include "sequence.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "z64ocarina.h"

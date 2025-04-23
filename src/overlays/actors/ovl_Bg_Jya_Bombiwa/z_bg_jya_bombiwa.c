@@ -12,6 +12,7 @@
 #include "printf.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64effect.h"
 #include "z64play.h"
 

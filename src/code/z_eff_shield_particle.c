@@ -3,6 +3,7 @@
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64effect.h"
 #include "z64light.h"
 #include "z64play.h"

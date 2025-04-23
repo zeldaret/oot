@@ -6,6 +6,7 @@
 #include "printf.h"
 #include "region.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "vi_mode.h"
 #include "z_locale.h"

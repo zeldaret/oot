@@ -16,6 +16,7 @@
 #include "sequence.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"

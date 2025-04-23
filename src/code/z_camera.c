@@ -13,6 +13,7 @@
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
 #include "z64audio.h"

@@ -6,6 +6,7 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64collision_check.h"
 #include "z64effect.h"

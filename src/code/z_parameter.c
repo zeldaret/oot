@@ -13,6 +13,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "z64lifemeter.h"

@@ -18,6 +18,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64audio.h"
 #include "z64camera.h"

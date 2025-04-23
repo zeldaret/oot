@@ -9,6 +9,7 @@
 #include "stackcheck.h"
 #include "terminal.h"
 #include "z64thread.h"
+#include "translation.h"
 
 #include "global.h"
 

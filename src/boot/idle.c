@@ -7,6 +7,7 @@
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "vi_mode.h"
 #include "z64thread.h"

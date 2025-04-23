@@ -2,6 +2,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "segment_symbols.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64lifemeter.h"
 #include "z64interface.h"

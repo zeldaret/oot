@@ -5,6 +5,7 @@
 #include "segment_symbols.h"
 #include "segmented_address.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_actor_dlftbls.h"
 #include "z_lib.h"

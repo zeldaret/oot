@@ -37,6 +37,7 @@
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 #if !PLATFORM_IQUE
 #include "yaz0.h"
 #endif

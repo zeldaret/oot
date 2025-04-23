@@ -2,6 +2,7 @@
 
 #include "printf.h"
 #include "terminal.h"
+#include "translation.h"
 #include "ultra64.h"
 #include "z_lib.h"
 #include "z64math.h"

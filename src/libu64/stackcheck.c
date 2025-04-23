@@ -3,6 +3,7 @@
 #include "printf.h"
 #include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 
 #include "macros.h"
 

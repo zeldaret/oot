@@ -2,6 +2,7 @@
 
 #include "alignment.h"
 #include "fault.h"
+#include "translation.h"
 
 #include "global.h"
 
