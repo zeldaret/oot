@@ -1,4 +1,5 @@
 #include "ultra64.h"
+#include "printf.h"
 #include "z64ss_sram.h"
 
 #include "macros.h"

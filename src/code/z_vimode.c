@@ -4,6 +4,7 @@
 #include "ultra64/viint.h"
 #include "controller.h"
 #include "main.h"
+#include "printf.h"
 #include "regs.h"
 #include "versions.h"
 

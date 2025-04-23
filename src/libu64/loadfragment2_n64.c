@@ -8,6 +8,7 @@
  */
 #include "libc64/malloc.h"
 #include "libu64/overlay.h"
+#include "translation.h"
 #include "z64dma.h"
 
 #include "macros.h"

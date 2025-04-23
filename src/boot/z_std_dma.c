@@ -32,10 +32,12 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "segment_symbols.h"
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 #if !PLATFORM_IQUE
 #include "yaz0.h"
 #endif

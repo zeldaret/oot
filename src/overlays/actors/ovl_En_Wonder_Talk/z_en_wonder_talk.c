@@ -6,6 +6,7 @@
 
 #include "z_en_wonder_talk.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "terminal.h"
 #include "z64debug_display.h"

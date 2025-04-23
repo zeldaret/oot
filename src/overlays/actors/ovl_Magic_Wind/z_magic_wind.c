@@ -9,6 +9,7 @@
 #include "libu64/debug.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "sfx.h"
 #include "z64curve.h"
 #include "z64play.h"

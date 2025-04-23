@@ -14,6 +14,7 @@
 #include "n64dd.h"
 #endif
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "quake.h"
 #include "regs.h"
 #include "rumble.h"
@@ -29,6 +30,7 @@
 #include "transition_tile.h"
 #include "transition_triforce.h"
 #include "transition_wipe.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_actor_dlftbls.h"
 #include "zelda_arena.h"

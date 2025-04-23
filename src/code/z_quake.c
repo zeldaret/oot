@@ -1,5 +1,6 @@
 #include "libc64/qrand.h"
 #include "macros.h"
+#include "printf.h"
 #include "quake.h"
 #include "terminal.h"
 #include "z_lib.h"

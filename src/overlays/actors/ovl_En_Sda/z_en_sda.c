@@ -8,6 +8,7 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "regs.h"
 #include "sys_matrix.h"
 #include "z64play.h"

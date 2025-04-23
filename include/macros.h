@@ -1,7 +1,6 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-#include "terminal.h"
 #include "versions.h"
 
 #define SCREEN_WIDTH  320
@@ -12,13 +11,6 @@
 #else
 #define BAD_RETURN(type) void
 #endif
-
-/**
- * The T macro holds translations in English for original debug strings written in Japanese.
- * The translated strings match the original debug strings, they are only direct translations.
- * For example, any original name is left as is rather than being replaced with the name in the codebase.
- */
-#define T(jp, en) jp
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
@@ -41,50 +33,6 @@
 #define RGBA8(r, g, b, a) ((((r) & 0xFF) << 24) | (((g) & 0xFF) << 16) | (((b) & 0xFF) << 8) | (((a) & 0xFF) << 0))
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
-
-// IDO doesn't support variadic macros, but it merely throws a warning for the
-// number of arguments not matching the definition (warning 609) instead of
-// throwing an error. We suppress this warning and rely on GCC to catch macro
-// argument errors instead.
-// Note some tools define __sgi but preprocess with a modern cpp implementation,
-// ensure that these do not use the IDO workaround to avoid errors.
-#define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !M2CTX)
-
-#if DEBUG_FEATURES
-#define PRINTF osSyncPrintf
-#elif defined(EGCS)
-#define PRINTF(format, args...) while (0) osSyncPrintf(format, ##args)
-#elif IDO_PRINTF_WORKAROUND
-#define PRINTF(args) (void)0
-#else
-#define PRINTF(format, ...) (void)0
-#endif
-
-#if DEBUG_FEATURES
-#define PRINTF_COLOR_BLACK()    PRINTF(VT_FGCOL(BLACK))
-#define PRINTF_COLOR_RED()      PRINTF(VT_FGCOL(RED))
-#define PRINTF_COLOR_GREEN()    PRINTF(VT_FGCOL(GREEN))
-#define PRINTF_COLOR_YELLOW()   PRINTF(VT_FGCOL(YELLOW))
-#define PRINTF_COLOR_BLUE()     PRINTF(VT_FGCOL(BLUE))
-#define PRINTF_COLOR_MAGENTA()  PRINTF(VT_FGCOL(MAGENTA))
-#define PRINTF_COLOR_CYAN()     PRINTF(VT_FGCOL(CYAN))
-#define PRINTF_COLOR_WHITE()    PRINTF(VT_FGCOL(WHITE))
-#define PRINTF_COLOR_WARNING()  PRINTF(VT_COL(YELLOW, BLACK))
-#define PRINTF_COLOR_ERROR()    PRINTF(VT_COL(RED, WHITE))
-#define PRINTF_RST()            PRINTF(VT_RST)
-#else
-#define PRINTF_COLOR_BLACK()    (void)0
-#define PRINTF_COLOR_RED()      (void)0
-#define PRINTF_COLOR_GREEN()    (void)0
-#define PRINTF_COLOR_YELLOW()   (void)0
-#define PRINTF_COLOR_BLUE()     (void)0
-#define PRINTF_COLOR_MAGENTA()  (void)0
-#define PRINTF_COLOR_CYAN()     (void)0
-#define PRINTF_COLOR_WHITE()    (void)0
-#define PRINTF_COLOR_WARNING()  (void)0
-#define PRINTF_COLOR_ERROR()    (void)0
-#define PRINTF_RST()            (void)0
-#endif
 
 #if PLATFORM_N64 || DEBUG_FEATURES
 #define HUNGUP_AND_CRASH(file, line) Fault_AddHungupAndCrash(file, line)

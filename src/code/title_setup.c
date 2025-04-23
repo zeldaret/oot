@@ -1,6 +1,7 @@
 #include "console_logo_state.h"
 #include "setup_state.h"
-
+#include "printf.h"
+#include "translation.h"
 #include "z64save.h"
 
 #include "global.h"

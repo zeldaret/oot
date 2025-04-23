@@ -7,8 +7,10 @@
 #include "z_bg_spot15_rrbox.h"
 
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "sys_math3d.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"

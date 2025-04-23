@@ -1,8 +1,10 @@
 #include "transition_fade.h"
 
 #include "main.h"
+#include "printf.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64save.h"
 #include "z64transition_instances.h"

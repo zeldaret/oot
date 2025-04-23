@@ -1,4 +1,5 @@
 #include "letterbox.h"
+#include "printf.h"
 #include "regs.h"
 
 #include "macros.h"

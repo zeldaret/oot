@@ -11,8 +11,10 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 

@@ -15,11 +15,13 @@
 #include "n64dd.h"
 #endif
 #include "padmgr.h"
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "speed_meter.h"
 #include "sys_debug_controller.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "vi_mode.h"
 #include "zelda_arena.h"

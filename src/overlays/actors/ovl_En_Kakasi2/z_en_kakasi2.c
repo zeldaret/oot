@@ -8,6 +8,7 @@
 
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "terminal.h"

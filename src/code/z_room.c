@@ -10,11 +10,13 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "sys_ucode.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "z64play.h"

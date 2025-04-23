@@ -10,6 +10,7 @@
 
 #include "attributes.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "seqcmd.h"

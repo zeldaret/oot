@@ -5,6 +5,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "segmented_address.h"

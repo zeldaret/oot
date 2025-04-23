@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_dead_sound.h"
+#include "printf.h"
 #include "sfx.h"
 #include "z64effect.h"
 #include "z64play.h"

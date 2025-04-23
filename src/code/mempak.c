@@ -9,6 +9,7 @@
  */
 #include "mempak.h"
 #include "padmgr.h"
+#include "printf.h"
 
 #include "macros.h"
 

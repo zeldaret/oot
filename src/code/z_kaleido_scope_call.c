@@ -4,8 +4,10 @@
 #include "libu64/debug.h"
 #include "kaleido_manager.h"
 #include "letterbox.h"
+#include "printf.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 
 #include "global.h"

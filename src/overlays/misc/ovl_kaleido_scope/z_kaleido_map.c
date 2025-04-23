@@ -3,6 +3,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "map.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "sys_ucode.h"

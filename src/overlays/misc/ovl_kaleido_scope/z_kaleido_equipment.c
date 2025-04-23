@@ -3,6 +3,7 @@
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "z64play.h"

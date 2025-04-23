@@ -1,5 +1,7 @@
 #include "libu64/rcp_utils.h"
 #include "ultra64.h"
+#include "printf.h"
+
 #include "global.h"
 
 #if PLATFORM_N64 || DEBUG_FEATURES

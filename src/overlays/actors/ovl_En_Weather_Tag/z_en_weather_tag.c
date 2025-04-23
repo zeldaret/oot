@@ -6,6 +6,7 @@
 
 #include "z_en_weather_tag.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "terminal.h"
 #include "versions.h"

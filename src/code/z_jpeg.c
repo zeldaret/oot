@@ -2,8 +2,10 @@
 #include "ultra64.h"
 #include "attributes.h"
 #include "jpeg.h"
+#include "printf.h"
 #include "sys_ucode.h"
 #include "terminal.h"
+#include "translation.h"
 
 #include "macros.h"
 
