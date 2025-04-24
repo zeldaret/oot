@@ -1,7 +1,7 @@
 #ifndef Z64MATH_H
 #define Z64MATH_H
 
-#include "libc/math.h"
+#include "math.h"
 #include "ultra64.h"
 
 typedef union FloatInt {
