@@ -142,24 +142,24 @@ extern u64 gMojiFontTex[]; // original name: "font_ff"
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
 
-#define SETUP_LARGE_TEXTURE_TILE(pkt, fmt, siz, uls, ult, lrs, lrt, pal,   \
-                                 cms, cmt, masks, maskt, shifts, shiftt)   \
-do {                                                                       \
-        gDPPipeSync(pkt);                                                  \
-        gDPTileSync(pkt);                                                  \
-        gDPSetTile(pkt, fmt, siz,                                          \
-            (((((lrs) - (uls) + 1) * siz##_TILE_BYTES) + 7) >> 3), 0,      \
-            G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, masks,              \
-            shifts);                                                       \
-        gDPTileSync(pkt);                                                  \
-        gDPSetTile(pkt, fmt, siz,                                          \
-            (((((lrs) - (uls) + 1) * siz##_LINE_BYTES) + 7) >> 3), 0,      \
-            G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks, shifts); \
-        gDPSetTileSize(pkt, G_TX_RENDERTILE,                               \
-            (uls) << G_TEXTURE_IMAGE_FRAC,                                 \
-            (ult) << G_TEXTURE_IMAGE_FRAC,                                 \
-            (lrs) << G_TEXTURE_IMAGE_FRAC,                                 \
-            (lrt) << G_TEXTURE_IMAGE_FRAC);                                \
-} while (0)
+#define gDPSetTileCustom(pkt, fmt, siz, uls, ult, lrs, lrt, pal,        \
+                         cms, cmt, masks, maskt, shifts, shiftt)        \
+_DW({                                                                   \
+    gDPPipeSync(pkt);                                                   \
+    gDPTileSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((((lrs) - (uls) + 1) * siz##_TILE_BYTES) + 7) >> 3), 0,       \
+        G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, masks,               \
+        shifts);                                                        \
+    gDPTileSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((((lrs) - (uls) + 1) * siz##_LINE_BYTES) + 7) >> 3), 0,       \
+        G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks, shifts);  \
+    gDPSetTileSize(pkt, G_TX_RENDERTILE,                                \
+        (uls) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (ult) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (lrs) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (lrt) << G_TEXTURE_IMAGE_FRAC);                                 \
+})
 
 #endif
