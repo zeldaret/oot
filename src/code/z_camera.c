@@ -5,6 +5,7 @@
 #include "attributes.h"
 #include "controller.h"
 #include "db_camera.h"
+#include "gfx.h"
 #include "letterbox.h"
 #include "one_point_cutscene.h"
 #include "quake.h"

@@ -41,13 +41,14 @@
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-eu-mq-dbg:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192" \
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-eu-mq-dbg:160 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192" \
                                "gc-us-mq:192 ique-cn:192"
 
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
 #include "alloca.h"
 #include "controller.h"
+#include "gfx.h"
 #include "padmgr.h"
 #include "fault.h"
 #include "stack.h"

@@ -5,6 +5,7 @@
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "language_array.h"
 #include "letterbox.h"
 #include "macros.h"
 #include "main.h"
@@ -209,9 +210,9 @@ void FileSelect_DrawImageRGBA32(GraphicsContext* gfxCtx, s16 centerX, s16 center
         textureCount++;
     }
 
-    gDPSetTileCustom(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
-                     G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                     G_TX_NOLOD);
+    SETUP_LARGE_TEXTURE_TILE(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
+                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                             G_TX_NOLOD, G_TX_NOLOD);
 
     remainingSize -= textureSize;
 
@@ -232,9 +233,9 @@ void FileSelect_DrawImageRGBA32(GraphicsContext* gfxCtx, s16 centerX, s16 center
                 textureHeight = remainingSize / (s32)(width << 2);
                 remainingSize -= textureSize;
 
-                gDPSetTileCustom(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
-                                 G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
-                                 G_TX_NOLOD, G_TX_NOLOD);
+                SETUP_LARGE_TEXTURE_TILE(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1,
+                                         textureHeight - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             }
         } else {
             remainingSize -= textureSize;

@@ -1,11 +1,12 @@
-#include "global.h"
-#include "ultra64.h"
-#include "attributes.h"
 #include "jpeg.h"
+
+#include "attributes.h"
+#include "gfx.h"
 #include "printf.h"
 #include "sys_ucode.h"
 #include "terminal.h"
 #include "translation.h"
+#include "ultra64.h"
 
 #include "macros.h"
 

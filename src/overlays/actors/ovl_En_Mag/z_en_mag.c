@@ -6,6 +6,7 @@
 
 #include "z_en_mag.h"
 
+#include "avoid_ub.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -456,9 +457,9 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
         textureCount += 1;
     }
 
-    gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
-                     G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                     G_TX_NOLOD);
+    SETUP_LARGE_TEXTURE_TILE(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
+                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                             G_TX_NOLOD, G_TX_NOLOD);
 
     remainingSize -= textureSize;
 
@@ -479,9 +480,9 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
                 textureHeight = remainingSize / (s32)(width << 2);
                 remainingSize -= textureSize;
 
-                gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
-                                 G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
-                                 G_TX_NOLOD, G_TX_NOLOD);
+                SETUP_LARGE_TEXTURE_TILE(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, width - 1, textureHeight - 1, 0,
+                                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
+                                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             }
         } else {
             remainingSize -= textureSize;
