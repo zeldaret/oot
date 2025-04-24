@@ -1,8 +1,10 @@
+#include "fault.h"
+
 #include "libc64/os_malloc.h"
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
 #include "controller.h"
-#include "fault.h"
+#include "gfx.h"
 #include "padmgr.h"
 #include "segmented_address.h"
 #include "stack.h"
