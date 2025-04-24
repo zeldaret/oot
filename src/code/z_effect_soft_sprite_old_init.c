@@ -70,7 +70,7 @@ void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture) {
     SkinMatrix_SetScale(&mfScale, scale, scale, scale);
     SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
     SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+    gSegments[6] = OS_K0_TO_PHYSICAL(objectPtr);
     gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
