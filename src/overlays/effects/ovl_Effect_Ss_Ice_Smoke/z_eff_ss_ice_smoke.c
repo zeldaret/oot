@@ -40,7 +40,7 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
     if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
         uintptr_t prevSeg6 = gSegments[6];
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         Math_Vec3f_Copy(&this->pos, &initParams->pos);
         Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
         Math_Vec3f_Copy(&this->accel, &initParams->accel);
@@ -76,7 +76,7 @@ void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
     if ((objectSlot >= 0) && Object_IsLoaded(&play2->objectCtx, objectSlot)) {
         gDPPipeSync(POLY_XLU_DISP++);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+        gSegments[6] = OS_K0_TO_PHYSICAL(objectPtr);
         gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamStartDL));
         gDPPipeSync(POLY_XLU_DISP++);

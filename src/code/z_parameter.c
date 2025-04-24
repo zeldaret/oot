@@ -2163,7 +2163,7 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
                           DO_ACTION_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
         osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
     } else {
-        gSegments[7] = VIRTUAL_TO_PHYSICAL(interfaceCtx->doActionSegment);
+        gSegments[7] = OS_K0_TO_PHYSICAL(interfaceCtx->doActionSegment);
         func_80086D5C(SEGMENTED_TO_VIRTUAL(sDoActionTextures[loadOffset]), DO_ACTION_TEX_SIZE / 4);
     }
 }

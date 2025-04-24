@@ -192,7 +192,7 @@ void EnDntNomal_Destroy(Actor* thisx, PlayState* play) {
 
 void EnDntNomal_WaitForObject(EnDntNomal* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
         this->actor.objectSlot = this->requiredObjectSlot;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actor.gravity = -2.0f;

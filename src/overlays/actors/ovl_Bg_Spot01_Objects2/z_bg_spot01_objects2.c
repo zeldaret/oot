@@ -101,7 +101,7 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         PRINTF(T("-----バンク切り換え成功！！\n", "----- Successful bank switching!!\n"));
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
 
         this->dyna.actor.objectSlot = this->requiredObjectSlot;
         DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
