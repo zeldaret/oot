@@ -898,7 +898,7 @@ AudioTable* AudioLoad_GetLoadTable(s32 tableType) {
 /**
  * Read and extract information from soundFont binary loaded into ram.
  * Also relocate offsets into pointers within this loaded soundFont.
- * 
+ *
  * original name: Nas_BankOfsToAddr_Inner
  *
  * @param fontId index of font being processed
@@ -1859,7 +1859,7 @@ void AudioLoad_AsyncDmaUnkMedium(u32 devAddr, void* ramAddr, u32 size, s16 arg3)
  * Also relocate offsets into pointers within this loaded TunedSample
  *
  * original name: __WaveTouch
- * 
+ *
  * @param fontId index of font being processed
  * @param fontData ram address of raw soundfont binary loaded into cache
  * @param sampleBankReloc information on the sampleBank containing raw audio samples
@@ -1917,7 +1917,7 @@ void AudioLoad_RelocateSample(TunedSample* tunedSample, SoundFontData* fontData,
 
 /**
  * original name: Nas_BankOfsToAddr
- * 
+ *
  * @param fontId index of font being processed
  * @param fontData ram address of raw soundfont binary loaded into cache
  * @param sampleBankReloc information on the sampleBank containing raw audio samples

@@ -30,7 +30,7 @@ static AudioTask* sWaitingAudioTask = NULL;
 
 /**
  * This is Audio_Update for the audio thread
- * 
+ *
  * original name: CreateAudioTask (note: function is heavily modified in Animal Crossing)
  */
 AudioTask* AudioThread_UpdateImpl(void) {

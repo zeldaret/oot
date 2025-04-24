@@ -164,7 +164,7 @@ u8 sSeqInstructionArgsTable[] = {
  * Read and return the argument from the sequence script for a control flow instruction.
  * Control flow instructions (>= ASEQ_OP_CONTROL_FLOW_FIRST) can only have 0 or 1 args.
  * @return the argument value for a control flow instruction, or 0 if there is no argument
- * 
+ *
  * original name: Convert_Com
  */
 u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 cmd) {
@@ -187,7 +187,7 @@ u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 cmd) {
 /**
  * Read and execute the control flow sequence instructions
  * @return number of frames until next instruction. -1 signals termination
- * 
+ *
  * original name: Common_Com
  */
 s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* state, s32 cmd, s32 cmdArg) {
