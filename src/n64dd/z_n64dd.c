@@ -2,6 +2,7 @@
 // threads and provides functions to submit commands to them.
 #include "libc64/sleep.h"
 #include "fault.h"
+#include "gfx.h"
 #include "irqmgr.h"
 #include "line_numbers.h"
 #include "n64dd.h"
