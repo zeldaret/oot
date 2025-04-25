@@ -32,8 +32,6 @@
 
 #define RGBA8(r, g, b, a) ((((r) & 0xFF) << 24) | (((g) & 0xFF) << 16) | (((b) & 0xFF) << 8) | (((a) & 0xFF) << 0))
 
-#define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
-
 #if PLATFORM_N64 || DEBUG_FEATURES
 #define HUNGUP_AND_CRASH(file, line) Fault_AddHungupAndCrash(file, line)
 #else

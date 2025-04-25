@@ -226,7 +226,7 @@ s32 EnPoDesert_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
         mtxScale = this->actionTimer / 16.0f;
         Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
     }
-    if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    if (!ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         *dList = NULL;
     }
     return false;
@@ -246,7 +246,7 @@ void EnPoDesert_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         color.r = (s16)(rand * 30.0f) + 225;
         color.g = (s16)(rand * 100.0f) + 155;
         color.b = (s16)(rand * 160.0f) + 95;
-        if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+        if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
             gDPPipeSync((*gfxP)++);
             gDPSetEnvColor((*gfxP)++, color.r, color.g, color.b, 255);
             MATRIX_FINALIZE_AND_LOAD((*gfxP)++, play->state.gfxCtx, "../z_en_po_desert.c", 523);
