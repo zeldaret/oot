@@ -13,7 +13,7 @@
 #include "z64audio.h"
 #include "z64thread.h"
 
-#pragma increment_block_number "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
+#pragma increment_block_number "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 typedef struct struct_801D9C30 {
     /* 0x000 */ s32 unk_000;       // disk start
