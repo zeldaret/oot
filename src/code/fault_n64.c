@@ -1,6 +1,7 @@
 #include "libc64/os_malloc.h"
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
+#include "array_count.h"
 #include "controller.h"
 #include "fault.h"
 #include "padmgr.h"

@@ -1,5 +1,6 @@
 #include "libc64/math64.h"
 #include "libu64/overlay.h"
+#include "array_count.h"
 #include "fault.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

@@ -1,6 +1,7 @@
 #include "libc64/malloc.h"
 #include "libu64/gfxprint.h"
 #include "libu64/pad.h"
+#include "array_count.h"
 #include "color.h"
 #include "controller.h"
 #include "gfx.h"

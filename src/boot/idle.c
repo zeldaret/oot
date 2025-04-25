@@ -1,3 +1,4 @@
+#include "array_count.h"
 #include "buffers.h"
 #include "build.h"
 #include "idle.h"

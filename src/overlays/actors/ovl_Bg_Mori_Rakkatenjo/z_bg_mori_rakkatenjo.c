@@ -6,6 +6,7 @@
 
 #include "z_bg_mori_rakkatenjo.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"

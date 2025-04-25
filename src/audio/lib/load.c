@@ -1,3 +1,4 @@
+#include "array_count.h"
 #include "attributes.h"
 #include "buffers.h"
 #include "segment_symbols.h"

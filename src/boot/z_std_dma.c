@@ -21,6 +21,7 @@
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "carthandle.h"
 #include "fault.h"

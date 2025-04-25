@@ -18,6 +18,7 @@
 
 #include "libc64/qrand.h"
 #include "libu64/debug.h"
+#include "array_count.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

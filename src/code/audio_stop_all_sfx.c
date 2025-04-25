@@ -1,6 +1,7 @@
+#include "array_count.h"
 #include "sfx.h"
-
 #include "ultra64.h"
+
 #include "macros.h"
 
 u8 sSfxBankIds[] = {

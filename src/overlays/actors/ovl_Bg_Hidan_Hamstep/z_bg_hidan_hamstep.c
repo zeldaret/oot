@@ -6,6 +6,7 @@
 
 #include "z_bg_hidan_hamstep.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"

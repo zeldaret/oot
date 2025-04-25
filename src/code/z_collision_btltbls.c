@@ -1,3 +1,4 @@
+#include "array_count.h"
 #include "printf.h"
 #include "translation.h"
 #include "z64collision_check.h"

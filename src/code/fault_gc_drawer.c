@@ -5,6 +5,7 @@
  * the crash screen implemented by fault.c
  */
 
+#include "array_count.h"
 #include "fault.h"
 #include "terminal.h"
 

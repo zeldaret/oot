@@ -1,3 +1,4 @@
+#include "array_count.h"
 #include "printf.h"
 #include "regs.h"
 #include "romfile.h"

@@ -47,6 +47,7 @@
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
 #include "alloca.h"
+#include "array_count.h"
 #include "controller.h"
 #include "padmgr.h"
 #include "fault.h"

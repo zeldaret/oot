@@ -6,6 +6,7 @@
 
 #include "z_demo_ec.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"

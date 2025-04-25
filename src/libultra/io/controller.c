@@ -1,4 +1,6 @@
+#include "array_count.h"
 #include "ultra64.h"
+
 #include "macros.h"
 
 OSPifRam __osContPifRam;

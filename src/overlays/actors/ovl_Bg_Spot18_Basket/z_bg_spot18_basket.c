@@ -1,6 +1,7 @@
 #include "z_bg_spot18_basket.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "printf.h"

@@ -1,5 +1,6 @@
 #include "z_kaleido_scope.h"
 
+#include "array_count.h"
 #include "controller.h"
 #include "gfx.h"
 #include "printf.h"

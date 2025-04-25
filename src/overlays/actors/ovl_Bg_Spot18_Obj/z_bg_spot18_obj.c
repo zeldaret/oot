@@ -7,6 +7,7 @@
 
 #include "z_bg_spot18_obj.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
