@@ -1,5 +1,6 @@
 #include "transition_circle.h"
 
+#include "color.h"
 #include "gfx.h"
 #include "sfx.h"
 

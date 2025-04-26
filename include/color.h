@@ -33,4 +33,6 @@ typedef union Color_RGBA16 {
     u16 rgba;
 } Color_RGBA16;
 
+#define RGBA8(r, g, b, a) ((((r) & 0xFF) << 24) | (((g) & 0xFF) << 16) | (((b) & 0xFF) << 8) | (((a) & 0xFF) << 0))
+
 #endif

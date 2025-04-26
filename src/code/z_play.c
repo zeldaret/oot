@@ -2,6 +2,7 @@
 #include "libc64/qrand.h"
 #include "libu64/debug.h"
 #include "buffers.h"
+#include "color.h"
 #include "controller.h"
 #include "fault.h"
 #include "file_select_state.h"

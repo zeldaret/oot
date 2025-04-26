@@ -1,3 +1,4 @@
+#include "avoid_ub.h"
 #include "printf.h"
 #include "regs.h"
 #include "romfile.h"

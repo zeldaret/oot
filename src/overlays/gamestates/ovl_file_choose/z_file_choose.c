@@ -5,6 +5,7 @@
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "language_array.h"
 #include "letterbox.h"
 #include "macros.h"
 #include "main.h"

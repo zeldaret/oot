@@ -1,9 +1,10 @@
 #ifndef FAULT_H
 #define FAULT_H
 
-#include "ultra64.h"
-#include "attributes.h"
+#include "libu64/debug.h"
 #include "libu64/pad.h"
+#include "attributes.h"
+#include "ultra64.h"
 
 #if !PLATFORM_N64
 // These are the same as the 3-bit ansi color codes
@@ -49,6 +50,12 @@ void Fault_Init(void);
 
 NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2);
 NORETURN void Fault_AddHungupAndCrash(const char* file, int line);
+
+#if PLATFORM_N64 || DEBUG_FEATURES
+#define HUNGUP_AND_CRASH(file, line) Fault_AddHungupAndCrash(file, line)
+#else
+#define HUNGUP_AND_CRASH(file, line) LogUtils_HungupThread(file, line)
+#endif
 
 // Client Registration
 

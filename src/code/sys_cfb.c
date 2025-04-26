@@ -2,6 +2,7 @@
 
 #include "libu64/debug.h"
 #include "attributes.h"
+#include "gfx.h"
 #include "line_numbers.h"
 #include "printf.h"
 #include "translation.h"

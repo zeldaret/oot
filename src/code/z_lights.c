@@ -1,3 +1,4 @@
+#include "avoid_ub.h"
 #include "buffers.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
