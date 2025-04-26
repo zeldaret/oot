@@ -7,6 +7,7 @@
 #include "z_bg_heavy_block.h"
 
 #include "libu64/debug.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"

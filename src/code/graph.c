@@ -1,7 +1,7 @@
 #include "libc64/malloc.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
-
+#include "array_count.h"
 #include "buffers.h"
 #include "console_logo_state.h"
 #include "controller.h"

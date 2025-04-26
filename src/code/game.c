@@ -2,6 +2,7 @@
 #include "libc64/os_malloc.h"
 #include "libu64/debug.h"
 #include "libu64/gfxprint.h"
+#include "array_count.h"
 #include "audiomgr.h"
 #include "buffers.h"
 #include "controller.h"

@@ -1,4 +1,5 @@
 #include "libu64/overlay.h"
+#include "array_count.h"
 #include "printf.h"
 #include "sfx.h"
 #include "terminal.h"

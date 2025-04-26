@@ -1,3 +1,4 @@
+#include "array_count.h"
 #include "buffers.h"
 #include "z64audio.h"
 

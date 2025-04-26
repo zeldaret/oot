@@ -19,6 +19,7 @@ extern struct IrqMgr gIrqMgr;
 #include "libc64/malloc.h"
 #include "libu64/rcp_utils.h"
 #include "libu64/runtime.h"
+#include "array_count.h"
 #include "audiomgr.h"
 #include "debug_arena.h"
 #include "fault.h"

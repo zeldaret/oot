@@ -1,3 +1,4 @@
+#include "array_count.h"
 #include "terminal.h"
 #include "z_lib.h"
 #include "printf.h"

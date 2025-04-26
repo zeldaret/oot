@@ -30,13 +30,15 @@
  */
 #include "libu64/debug.h"
 #include "libu64/padsetup.h"
-#include "macros.h"
+#include "array_count.h"
 #include "padmgr.h"
 #include "printf.h"
 #include "fault.h"
 #include "terminal.h"
 #include "translation.h"
 #include "line_numbers.h"
+
+#include "macros.h"
 
 #define PADMGR_LOG(controllerNum, msg)                                                                \
     if (DEBUG_FEATURES) {                                                                             \

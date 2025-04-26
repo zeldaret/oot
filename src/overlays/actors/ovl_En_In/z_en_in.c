@@ -2,6 +2,7 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "letterbox.h"

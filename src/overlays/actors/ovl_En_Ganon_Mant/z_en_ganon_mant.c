@@ -6,6 +6,7 @@
 
 #include "z_en_ganon_mant.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "rand.h"
 #include "segmented_address.h"

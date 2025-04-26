@@ -1,10 +1,11 @@
-#include "ucode_disas.h"
-#include "ultra64.h"
-#include "ultra64/gs2dex.h"
 #include "libu64/mtxuty-cvt.h"
+#include "ultra64/gs2dex.h"
+#include "array_count.h"
 #include "printf.h"
 #include "segmented_address.h"
 #include "translation.h"
+#include "ucode_disas.h"
+#include "ultra64.h"
 
 #include "macros.h"
 

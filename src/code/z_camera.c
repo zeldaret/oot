@@ -1,7 +1,6 @@
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
-#include "ultra64.h"
-
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "db_camera.h"
@@ -15,6 +14,7 @@
 #include "sys_math3d.h"
 #include "terminal.h"
 #include "translation.h"
+#include "ultra64.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
 #include "z64audio.h"

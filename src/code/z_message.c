@@ -1,4 +1,5 @@
 #include "libu64/gfxprint.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "gfx.h"

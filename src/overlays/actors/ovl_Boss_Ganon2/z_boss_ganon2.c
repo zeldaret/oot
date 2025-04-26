@@ -4,6 +4,7 @@
 #include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
