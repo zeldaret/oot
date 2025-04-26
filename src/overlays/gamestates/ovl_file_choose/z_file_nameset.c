@@ -5,6 +5,7 @@
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "language_array.h"
 #include "printf.h"
 #include "regs.h"
 #include "rumble.h"

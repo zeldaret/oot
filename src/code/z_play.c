@@ -3,6 +3,7 @@
 #include "libu64/debug.h"
 #include "array_count.h"
 #include "buffers.h"
+#include "color.h"
 #include "controller.h"
 #include "fault.h"
 #include "file_select_state.h"

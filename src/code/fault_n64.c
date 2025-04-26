@@ -4,6 +4,7 @@
 #include "array_count.h"
 #include "controller.h"
 #include "fault.h"
+#include "gfx.h"
 #include "padmgr.h"
 #include "segmented_address.h"
 #include "stack.h"
@@ -14,7 +15,7 @@
 
 #include "global.h"
 
-#pragma increment_block_number "ntsc-1.0:176 ntsc-1.1:176 ntsc-1.2:176 pal-1.0:176 pal-1.1:176"
+#pragma increment_block_number "ntsc-1.0:144 ntsc-1.1:144 ntsc-1.2:144 pal-1.0:144 pal-1.1:144"
 
 typedef struct FaultMgr {
     OSThread thread;

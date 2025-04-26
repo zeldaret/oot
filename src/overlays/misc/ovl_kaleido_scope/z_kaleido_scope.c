@@ -6,6 +6,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
+#include "language_array.h"
 #include "map.h"
 #if PLATFORM_N64
 #include "n64dd.h"

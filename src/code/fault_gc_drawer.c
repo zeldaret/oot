@@ -7,6 +7,8 @@
 
 #include "array_count.h"
 #include "fault.h"
+
+#include "gfx.h"
 #include "terminal.h"
 
 #include "global.h"

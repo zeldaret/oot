@@ -5,6 +5,7 @@
 //       After assets are modified to include the headers they need directly, delete this file.
 
 #include "array_count.h"
+#include "gfx.h"
 #include "sequence.h"
 #include "sys_matrix.h"
 #include "ultra64.h"

@@ -1,6 +1,8 @@
+#include "jpeg.h"
+
 #include "array_count.h"
 #include "attributes.h"
-#include "jpeg.h"
+#include "gfx.h"
 #include "printf.h"
 #include "sys_ucode.h"
 #include "terminal.h"

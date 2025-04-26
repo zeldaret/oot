@@ -4,6 +4,7 @@
 #include "flag_set.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "language_array.h"
 #include "main.h"
 #include "map.h"
 #include "printf.h"
