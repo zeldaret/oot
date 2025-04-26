@@ -1,5 +1,6 @@
 #include "libu64/debug.h"
 #include "ultra64/gs2dex.h"
+#include "array_count.h"
 #include "buffers.h"
 #include "fault.h"
 #include "gfx.h"

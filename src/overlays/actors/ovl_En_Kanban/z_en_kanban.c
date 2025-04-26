@@ -8,6 +8,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

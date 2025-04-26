@@ -1,5 +1,6 @@
 #include "z64sram.h"
 
+#include "array_count.h"
 #include "file_select_state.h"
 #include "controller.h"
 #include "memory_utils.h"

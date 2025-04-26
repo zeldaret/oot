@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"

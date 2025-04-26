@@ -1,3 +1,4 @@
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "flag_set.h"

@@ -1,3 +1,4 @@
+#include "array_count.h"
 #include "letterbox.h"
 #include "regs.h"
 #include "rumble.h"

@@ -7,6 +7,7 @@
 #include "z_door_shutter.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"

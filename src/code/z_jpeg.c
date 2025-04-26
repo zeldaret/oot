@@ -1,5 +1,6 @@
 #include "jpeg.h"
 
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "printf.h"
@@ -8,6 +9,7 @@
 #include "translation.h"
 #include "ultra64.h"
 
+#include "global.h"
 #include "macros.h"
 
 #define MARKER_ESCAPE 0x00

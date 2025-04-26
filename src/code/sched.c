@@ -41,6 +41,7 @@
  */
 #include "libu64/debug.h"
 #include "libu64/rcp_utils.h"
+#include "array_count.h"
 #include "fault.h"
 #include "irqmgr.h"
 #include "main.h"

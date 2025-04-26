@@ -3,6 +3,7 @@
 
 #include "libc64/qrand.h"
 #include "libu64/gfxprint.h"
+#include "array_count.h"
 #include "buffers.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

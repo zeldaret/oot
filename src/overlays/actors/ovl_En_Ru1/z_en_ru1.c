@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"

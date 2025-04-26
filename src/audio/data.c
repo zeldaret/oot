@@ -1,7 +1,7 @@
+#include "array_count.h"
+#include "sfx.h"
 #include "ultra64.h"
 #include "z64audio.h"
-#include "macros.h"
-#include "sfx.h"
 
 // sSfxRequests ring buffer endpoints. read index <= write index, wrapping around mod 256.
 u8 gSfxRequestWriteIndex = 0;

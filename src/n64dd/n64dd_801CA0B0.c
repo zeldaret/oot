@@ -1,6 +1,8 @@
 #include "n64dd.h"
+
 #include "libc64/aprintf.h"
 #include "attributes.h"
+#include "array_count.h"
 
 #include "global.h"
 

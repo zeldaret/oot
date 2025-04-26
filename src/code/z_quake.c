@@ -1,4 +1,5 @@
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "macros.h"
 #include "printf.h"
 #include "quake.h"

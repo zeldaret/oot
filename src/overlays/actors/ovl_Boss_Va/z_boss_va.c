@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

@@ -7,6 +7,7 @@
 #include "z_object_kankyo.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"

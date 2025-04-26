@@ -1,5 +1,6 @@
 #include "z64skybox.h"
 
+#include "array_count.h"
 #include "printf.h"
 #include "segment_symbols.h"
 #include "terminal.h"

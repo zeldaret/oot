@@ -1,5 +1,6 @@
 #include "z_en_fd_fire.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"

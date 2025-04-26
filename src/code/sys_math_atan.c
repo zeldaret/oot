@@ -1,5 +1,7 @@
+#include "array_count.h"
 #include "sys_math.h"
 #include "z64math.h"
+
 #include "macros.h"
 
 static u16 sAtan2Tbl[] = {
