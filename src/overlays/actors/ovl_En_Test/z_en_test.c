@@ -1853,7 +1853,7 @@ s32 EnTest_OverrideLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3f*
     }
 
     if ((this->actor.params == STALFOS_TYPE_INVISIBLE) &&
-        !CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+        !ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         *dList = NULL;
     }
 
