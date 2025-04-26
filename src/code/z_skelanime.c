@@ -1,4 +1,5 @@
 #include "libu64/debug.h"
+#include "avoid_ub.h"
 #include "gfx.h"
 #include "printf.h"
 #include "regs.h"

@@ -4,6 +4,7 @@
 // TODO: This file still exists ONLY to provide neccesary headers to extracted assets.
 //       After assets are modified to include the headers they need directly, delete this file.
 
+#include "gfx.h"
 #include "sequence.h"
 #include "sys_matrix.h"
 #include "ultra64.h"
