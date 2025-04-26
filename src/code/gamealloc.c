@@ -3,8 +3,6 @@
 #include "gamealloc.h"
 #include "printf.h"
 
-#include "macros.h"
-
 void GameAlloc_Log(GameAlloc* this) {
     GameAllocEntry* iter;
 

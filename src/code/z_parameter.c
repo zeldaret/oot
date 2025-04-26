@@ -25,8 +25,6 @@
 #include "z64player.h"
 #include "z64save.h"
 
-#include "global.h"
-
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"

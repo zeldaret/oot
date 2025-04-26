@@ -11,8 +11,6 @@
 #include "printf.h"
 #include "ultra64.h"
 
-#include "macros.h"
-
 // Extract MIPS register rs from an instruction word
 #define MIPS_REG_RS(insn) (((insn) >> 0x15) & 0x1F)
 

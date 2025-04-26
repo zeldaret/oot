@@ -11,8 +11,6 @@
 #include "ultra64.h"
 #include "z64debug.h"
 
-#include "macros.h"
-
 typedef struct DebugCamTextBufferEntry {
     /* 0x0 */ u8 x;
     /* 0x1 */ u8 y;

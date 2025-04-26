@@ -11,8 +11,6 @@
 #include "padmgr.h"
 #include "printf.h"
 
-#include "macros.h"
-
 #define MEMPAK_MAX_FILES 11
 
 OSPfs sMempakPfsHandle;

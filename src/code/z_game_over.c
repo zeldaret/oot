@@ -8,9 +8,6 @@
 #include "z64play.h"
 #include "z64save.h"
 
-#include "macros.h"
-#include "global.h"
-
 void GameOver_Init(PlayState* play) {
     play->gameOverCtx.state = GAMEOVER_INACTIVE;
 }

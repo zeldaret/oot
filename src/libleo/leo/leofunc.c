@@ -4,8 +4,6 @@
 #include "array_count.h"
 #include "ultra64.h"
 
-#include "macros.h"
-
 static s32 __leoResetCalled = false;
 static s32 __leoQueuesCreated = false;
 

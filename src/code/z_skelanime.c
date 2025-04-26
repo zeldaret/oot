@@ -14,8 +14,6 @@
 #include "z64animation_legacy.h"
 #include "z64play.h"
 
-#include "macros.h"
-
 #define ANIM_INTERP 1
 
 s32 LinkAnimation_Loop(PlayState* play, SkelAnime* skelAnime);

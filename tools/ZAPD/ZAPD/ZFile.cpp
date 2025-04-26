@@ -810,7 +810,6 @@ void ZFile::GenerateSourceFiles()
 
 	sourceOutput += "#include \"ultra64.h\"\n";
 	sourceOutput += "#include \"z64.h\"\n";
-	sourceOutput += "#include \"macros.h\"\n";
 	sourceOutput += GetHeaderInclude();
 
 	bool hasZRoom = false;

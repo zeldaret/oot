@@ -29,8 +29,6 @@
 #include "z64save.h"
 #include "z64sram.h"
 
-#include "macros.h"
-
 void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;
     SET_NEXT_GAMESTATE(&this->state, ConsoleLogo_Init, ConsoleLogoState);

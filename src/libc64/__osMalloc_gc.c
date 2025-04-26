@@ -6,8 +6,6 @@
 #include "terminal.h"
 #include "translation.h"
 
-#include "global.h"
-
 #define FILL_ALLOC_BLOCK_FLAG (1 << 0)
 #define FILL_FREE_BLOCK_FLAG (1 << 1)
 #define CHECK_FREE_BLOCK_FLAG (1 << 2)

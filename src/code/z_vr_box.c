@@ -10,8 +10,6 @@
 #include "z64play.h"
 #include "z64save.h"
 
-#include "global.h"
-
 typedef struct SkyboxFaceParams {
     /* 0x000 */ s32 xStart;
     /* 0x004 */ s32 yStart;

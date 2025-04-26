@@ -27,8 +27,6 @@
 #include "z64player.h"
 #include "z64save.h"
 
-#include "global.h"
-
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
 #if OOT_NTSC

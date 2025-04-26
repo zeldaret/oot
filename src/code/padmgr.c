@@ -38,8 +38,6 @@
 #include "translation.h"
 #include "line_numbers.h"
 
-#include "macros.h"
-
 #define PADMGR_LOG(controllerNum, msg)                                                                \
     if (DEBUG_FEATURES) {                                                                             \
         PRINTF_COLOR_YELLOW();                                                                        \

@@ -9,8 +9,6 @@
 #include "z64save.h"
 #include "z64sram.h"
 
-#include "macros.h"
-
 // In iQue versions, this file contains many workarounds for EGCS internal
 // compiler errors (see docs/compilers.md)
 

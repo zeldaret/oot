@@ -2,8 +2,6 @@
 #include "ultra64.h"
 #include "printf.h"
 
-#include "global.h"
-
 #if PLATFORM_N64 || DEBUG_FEATURES
 #define RCP_UTILS_PRINTF osSyncPrintf
 #elif IDO_PRINTF_WORKAROUND

@@ -2,8 +2,6 @@
 #include "buffers.h"
 #include "z64audio.h"
 
-#include "global.h"
-
 #include "assets/audio/sequence_sizes.h"
 #include "assets/audio/soundfont_sizes.h"
 

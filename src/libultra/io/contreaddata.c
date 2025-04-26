@@ -1,8 +1,6 @@
 #include "array_count.h"
 #include "ultra64.h"
 
-#include "macros.h"
-
 s32 osContStartReadData(OSMesgQueue* mq) {
     s32 ret;
 

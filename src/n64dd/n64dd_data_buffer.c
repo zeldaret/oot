@@ -1,4 +1,3 @@
-#include "global.h"
 #include "n64dd.h"
 
 // Buffer used for reading from the disk?

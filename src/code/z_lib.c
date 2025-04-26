@@ -3,7 +3,6 @@
 #include "ichain.h"
 #include "printf.h"
 #include "regs.h"
-#include "macros.h"
 #include "sys_math.h"
 #include "rand.h"
 #include "sfx.h"

@@ -9,9 +9,6 @@
 #include "translation.h"
 #include "ultra64.h"
 
-#include "global.h"
-#include "macros.h"
-
 #define MARKER_ESCAPE 0x00
 #define MARKER_SOI 0xD8
 #define MARKER_SOF 0xC0

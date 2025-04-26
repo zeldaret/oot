@@ -17,8 +17,6 @@
 #include "z64scene.h"
 #include "z64ss_sram.h"
 
-#include "global.h"
-
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)
 

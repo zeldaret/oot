@@ -1,8 +1,6 @@
 #include "array_count.h"
 #include "ultra64.h"
 
-#include "macros.h"
-
 u32 __osPiAccessQueueEnabled = false;
 static OSMesg piAccessBuf[1];
 OSMesgQueue __osPiAccessQueue;
