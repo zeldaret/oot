@@ -8,8 +8,6 @@
 #include "translation.h"
 #include "z64play.h"
 
-#include "macros.h"
-
 #define KALEIDO_OVERLAY(name, nameString) \
     { NULL, ROM_FILE(ovl_##name), _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd, 0, nameString, }
 

@@ -1,6 +1,5 @@
 #include "array_count.h"
 #include "audiothread_cmd.h"
-#include "macros.h"
 #include "ultra64.h"
 #include "versions.h"
 #include "z64audio.h"

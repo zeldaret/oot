@@ -2,7 +2,6 @@
 #define Z64SCENE_H
 
 #include "avoid_ub.h"
-#include "macros.h"
 #include "ultra64.h"
 #include "z64bgcheck.h"
 #include "z64environment.h"

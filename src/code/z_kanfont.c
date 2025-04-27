@@ -8,8 +8,6 @@
 #include "z64font.h"
 #include "z64message.h"
 
-#include "macros.h"
-
 /**
  * Loads a texture from kanji for the requested `character` into the character texture buffer
  * at `codePointIndex`. The value of `character` is the SHIFT-JIS encoding of the character.

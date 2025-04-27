@@ -17,8 +17,6 @@
 #include "z64player.h"
 #include "z64save.h"
 
-#include "global.h"
-
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 

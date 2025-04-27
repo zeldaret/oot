@@ -9,9 +9,6 @@
 #include "z64play.h"
 #include "z64skin_matrix.h"
 
-#include "macros.h"
-#include "global.h"
-
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 // original name: "spark"

@@ -54,9 +54,6 @@
 #include "vi_mode.h"
 #include "z64thread.h"
 
-#include "macros.h"
-#include "global.h"
-
 #define RSP_DONE_MSG 667
 #define RDP_DONE_MSG 668
 #define NOTIFY_MSG 670 // original name: ENTRY_MSG

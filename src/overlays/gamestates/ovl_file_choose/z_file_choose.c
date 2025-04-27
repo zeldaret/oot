@@ -7,7 +7,6 @@
 #include "gfx_setupdl.h"
 #include "language_array.h"
 #include "letterbox.h"
-#include "macros.h"
 #include "main.h"
 #include "map_select_state.h"
 #include "memory_utils.h"
@@ -33,8 +32,6 @@
 #include "z64sram.h"
 #include "z64ss_sram.h"
 #include "z64view.h"
-
-#include "global.h"
 
 #if OOT_PAL_N64
 #include "assets/objects/object_mag/object_mag.h"

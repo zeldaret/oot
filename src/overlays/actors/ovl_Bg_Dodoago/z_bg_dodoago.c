@@ -11,7 +11,6 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
-#include "macros.h"
 #include "one_point_cutscene.h"
 #include "rand.h"
 #include "rumble.h"

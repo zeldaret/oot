@@ -7,8 +7,6 @@
 #include "ucode_disas.h"
 #include "ultra64.h"
 
-#include "macros.h"
-
 #if DEBUG_FEATURES
 
 typedef struct F3dzexConst {

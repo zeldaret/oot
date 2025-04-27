@@ -16,8 +16,6 @@
 
 #include "assets/textures/parameter_static/parameter_static.h"
 
-#include "global.h"
-
 typedef struct MapMarkInfo {
     /* 0x00 */ void* texture;
     /* 0x04 */ u32 imageFormat;

@@ -13,8 +13,6 @@
 #include "z64audio.h"
 #include "z64ocarina.h"
 
-#include "global.h"
-
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
 #if !PLATFORM_N64

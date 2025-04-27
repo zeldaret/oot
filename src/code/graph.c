@@ -30,9 +30,6 @@
 #include "z64save.h"
 #include "z64play.h"
 
-#include "macros.h"
-#include "global.h"
-
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 

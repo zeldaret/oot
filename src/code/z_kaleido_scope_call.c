@@ -10,8 +10,6 @@
 #include "translation.h"
 #include "z64play.h"
 
-#include "global.h"
-
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);
 f32 gBossMarkScale;

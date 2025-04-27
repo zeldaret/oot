@@ -9,9 +9,6 @@
 #include "regs.h"
 #include "versions.h"
 
-#include "global.h"
-#include "macros.h"
-
 void ViMode_LogPrint(OSViMode* osViMode) {
     LOG_ADDRESS("osvimodep", osViMode, "../z_vimode.c", 87);
     LOG_HEX32("osvimodep->comRegs.ctrl", osViMode->comRegs.ctrl, "../z_vimode.c", 88);

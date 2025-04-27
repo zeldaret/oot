@@ -3,8 +3,6 @@
 #include "segment_symbols.h"
 #include "z_actor_dlftbls.h"
 
-#include "macros.h"
-
 // Linker symbol declarations (used in the table below)
 #define DEFINE_ACTOR(name, _1, _2, _3) DECLARE_OVERLAY_SEGMENT(name)
 #define DEFINE_ACTOR_INTERNAL(_0, _1, _2, _3)

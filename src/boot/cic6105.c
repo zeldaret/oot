@@ -7,8 +7,6 @@
 #include "regs.h"
 #include "sched.h"
 
-#include "global.h"
-
 s32 func_80001714(void);
 
 OSTask D_800067C0_unknown = {

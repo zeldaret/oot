@@ -30,8 +30,6 @@
 #include "z64player.h"
 #include "z64save.h"
 
-#include "global.h"
-
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 
 #include "assets/scenes/overworld/ganon_tou/ganon_tou_scene.h"

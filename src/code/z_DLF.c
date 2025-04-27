@@ -6,8 +6,6 @@
 #include "ultra64.h"
 #include "z_game_dlftbls.h"
 
-#include "macros.h"
-
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry) {
     if (overlayEntry->loadedRamAddr != NULL) {
         PRINTF(T("既にリンクされています\n", "Already linked\n"));

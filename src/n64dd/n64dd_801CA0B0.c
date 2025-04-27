@@ -4,8 +4,6 @@
 #include "attributes.h"
 #include "array_count.h"
 
-#include "global.h"
-
 // Draws text to framebuffer
 typedef struct struct_801CA704 {
     /* 0x00 */ PrintCallback callback;

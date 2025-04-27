@@ -1,8 +1,6 @@
 #include "array_count.h"
 #include "ultra64.h"
 
-#include "macros.h"
-
 OSPifRam __osContPifRam;
 u8 __osContLastCmd;
 u8 __osMaxControllers; // always 4

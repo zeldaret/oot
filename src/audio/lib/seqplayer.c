@@ -17,7 +17,6 @@
 #include "array_count.h"
 #include "assert.h"
 #include "attributes.h"
-#include "macros.h"
 #include "ultra64.h"
 #include "z64audio.h"
 

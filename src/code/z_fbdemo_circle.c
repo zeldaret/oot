@@ -4,8 +4,6 @@
 #include "gfx.h"
 #include "sfx.h"
 
-#include "global.h"
-
 typedef enum TransitionCircleDirection {
     /* 0 */ TRANS_CIRCLE_DIR_IN,
     /* 1 */ TRANS_CIRCLE_DIR_OUT

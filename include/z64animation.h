@@ -5,7 +5,6 @@
 #include "ultra64.h"
 #include "z64dma.h"
 #include "z64math.h"
-#include "macros.h"
 
 struct PlayState;
 struct Actor;

@@ -2,8 +2,6 @@
 #include "libu64/overlay.h"
 #include "printf.h"
 
-#include "macros.h"
-
 void* Overlay_AllocateAndLoad(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd) {
     void* allocatedRamAddr = SYSTEM_ARENA_MALLOC_R((intptr_t)vramEnd - (intptr_t)vramStart, "../loadfragment2.c", 31);
 

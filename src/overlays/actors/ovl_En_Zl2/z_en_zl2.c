@@ -23,10 +23,6 @@
 #include "z64player.h"
 #include "z64save.h"
 
-#if PLATFORM_N64
-#include "global.h"
-#endif
-
 #include "assets/objects/object_zl2/object_zl2.h"
 #include "assets/objects/object_zl2_anime1/object_zl2_anime1.h"
 

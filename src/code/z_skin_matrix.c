@@ -6,8 +6,6 @@
 #include "translation.h"
 #include "z_lib.h"
 
-#include "macros.h"
-
 // clang-format off
 MtxF sMtxFClear = {
     1.0f, 0.0f, 0.0f, 0.0f,

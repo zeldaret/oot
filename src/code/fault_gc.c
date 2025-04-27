@@ -58,8 +58,6 @@
 #include "translation.h"
 #include "z64thread.h"
 
-#include "global.h"
-
 void Fault_Init(void);
 void Fault_SetOsSyncPrintfEnabled(u32 enabled);
 void Fault_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 color);

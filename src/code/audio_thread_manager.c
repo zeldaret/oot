@@ -13,8 +13,6 @@
 #include "translation.h"
 #include "z64dma.h"
 
-#include "macros.h"
-
 void AudioMgr_NotifyTaskDone(AudioMgr* audioMgr) {
     AudioTask* task = audioMgr->rspTask;
 
