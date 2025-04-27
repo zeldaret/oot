@@ -884,6 +884,14 @@ $(BUILD_DIR)/assets/text/%.enc.nes.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h 
 $(BUILD_DIR)/assets/text/%.enc.jpn.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h assets/text/charmap.jpn.txt
 	$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) -MD -MF $(@:.o=.d) -MT $@ $< | $(PYTHON) tools/msgenc.py --encoding SHIFT-JIS --wchar --charmap assets/text/charmap.jpn.txt - $@
 
+# Dependencies for encoded message headers. These dependencies are not automatic as these headers are generated
+# as part of the build. A clean build must know to generate them before the relevant .d files are created.
+$(BUILD_DIR)/assets/text/jpn_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.jpn.h
+$(BUILD_DIR)/assets/text/nes_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.nes.h
+$(BUILD_DIR)/assets/text/ger_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.nes.h
+$(BUILD_DIR)/assets/text/fra_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.nes.h
+$(BUILD_DIR)/assets/text/staff_message_data_static.o: $(BUILD_DIR)/assets/text/message_data_staff.enc.nes.h
+
 $(BUILD_DIR)/assets/text/%.o: assets/text/%.c
 ifneq ($(COMPILER),gcc)
 # Preprocess text with modern cpp for varargs macros
