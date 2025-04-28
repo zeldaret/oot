@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "z64light.h"
+#include "light.h"
 
 struct MirRay;
 

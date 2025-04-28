@@ -5,7 +5,7 @@
 #include "ultra64.h"
 #include "bgcheck.h"
 #include "environment.h"
-#include "z64light.h"
+#include "light.h"
 #include "z64math.h"
 #include "z64path.h"
 

@@ -2,7 +2,7 @@
 #define ENVIRONMENT_H_
 
 #include "z64math.h"
-#include "z64light.h"
+#include "light.h"
 #include "dma.h"
 
 struct GameOverContext;

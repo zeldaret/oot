@@ -1,5 +1,5 @@
-#ifndef Z64LIGHT_H
-#define Z64LIGHT_H
+#ifndef LIGHT_H
+#define LIGHT_H
 
 #include "ultra64.h"
 #include "ultra64/gbi.h"

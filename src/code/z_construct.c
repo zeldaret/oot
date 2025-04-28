@@ -4,7 +4,7 @@
 #include "segment_symbols.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64lifemeter.h"
+#include "lifemeter.h"
 #include "interface.h"
 #include "z64ocarina.h"
 #include "z64play.h"

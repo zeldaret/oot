@@ -3,7 +3,7 @@
 
 #include "color.h"
 #include "romfile.h"
-#include "z64light.h"
+#include "light.h"
 #include "z64math.h"
 
 struct Actor;

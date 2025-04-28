@@ -1,5 +1,5 @@
-#ifndef Z64LIFEMETER_H
-#define Z64LIFEMETER_H
+#ifndef LIFEMETER_H
+#define LIFEMETER_H
 
 #include "ultra64/ultratypes.h"
 

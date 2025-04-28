@@ -12,7 +12,7 @@
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_matrix.h"
-#include "z64light.h"
+#include "light.h"
 #include "z64play.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"

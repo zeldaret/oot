@@ -45,7 +45,7 @@
 #include "audio.h"
 #include "debug.h"
 #include "effect.h"
-#include "z64lifemeter.h"
+#include "lifemeter.h"
 #include "z64ocarina.h"
 #include "z64play.h"
 #include "z64save.h"

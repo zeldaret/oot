@@ -22,7 +22,7 @@
 #include "actor.h"
 #include "audio.h"
 #include "effect.h"
-#include "z64light.h"
+#include "light.h"
 #include "horse.h"
 #include "z64play.h"
 #include "z64save.h"

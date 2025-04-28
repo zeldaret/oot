@@ -19,7 +19,7 @@
 #include "z_lib.h"
 #include "audio.h"
 #include "effect.h"
-#include "z64light.h"
+#include "light.h"
 #include "z64play.h"
 #include "z64player.h"
 

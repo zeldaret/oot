@@ -15,7 +15,7 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64light.h"
+#include "light.h"
 #include "z64play.h"
 #include "z64player.h"
 

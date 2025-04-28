@@ -6,7 +6,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "effect.h"
-#include "z64light.h"
+#include "light.h"
 #include "z64play.h"
 #include "z64skin_matrix.h"
 

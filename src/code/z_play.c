@@ -41,7 +41,7 @@
 #include "debug_display.h"
 #include "effect.h"
 #include "frame_advance.h"
-#include "z64light.h"
+#include "light.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"
