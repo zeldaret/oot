@@ -1,5 +1,5 @@
-#ifndef Z64ITEM_H
-#define Z64ITEM_H
+#ifndef ITEM_H
+#define ITEM_H
 
 // Note that z_kaleido_scope.c assumes that the dimensions and texture format here also matches the dimensions and
 // texture format for MAP_NAME_TEX1_*

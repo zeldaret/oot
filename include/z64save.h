@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "versions.h"
-#include "z64inventory.h"
+#include "inventory.h"
 #include "z64math.h"
 
 typedef enum ZTargetSetting {

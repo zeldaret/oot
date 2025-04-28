@@ -1,5 +1,5 @@
-#ifndef Z64INTERFACE_H
-#define Z64INTERFACE_H
+#ifndef INTERFACE_H
+#define INTERFACE_H
 
 #include "ultra64.h"
 #include "dma.h"

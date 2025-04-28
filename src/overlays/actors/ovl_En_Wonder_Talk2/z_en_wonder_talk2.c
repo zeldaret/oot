@@ -10,7 +10,7 @@
 #include "regs.h"
 #include "terminal.h"
 #include "debug_display.h"
-#include "z64item.h"
+#include "item.h"
 #include "z64play.h"
 #include "z64player.h"
 

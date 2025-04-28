@@ -10,7 +10,7 @@
 #include "versions.h"
 #include "audio.h"
 #include "game.h"
-#include "z64interface.h"
+#include "interface.h"
 #include "z64message.h"
 #include "z64ocarina.h"
 #include "z64save.h"

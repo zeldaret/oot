@@ -16,7 +16,7 @@
 #include "terminal.h"
 #include "z_lib.h"
 #include "effect.h"
-#include "z64item.h"
+#include "item.h"
 #include "z64play.h"
 #include "z64player.h"
 

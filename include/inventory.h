@@ -1,8 +1,8 @@
-#ifndef Z64INVENTORY_H
-#define Z64INVENTORY_H
+#ifndef INVENTORY_H
+#define INVENTORY_H
 
 #include "ultra64.h"
-#include "z64item.h"
+#include "item.h"
 
 struct PlayState;
 

@@ -13,7 +13,7 @@
 #include "frame_advance.h"
 #include "game.h"
 #include "game_over.h"
-#include "z64interface.h"
+#include "interface.h"
 #include "z64light.h"
 #include "z64message.h"
 #include "z64object.h"
