@@ -1,5 +1,5 @@
-#ifndef Z64CUTSCENE_H
-#define Z64CUTSCENE_H
+#ifndef CUTSCENE_H
+#define CUTSCENE_H
 
 #include "ultra64.h"
 #include "z64math.h"

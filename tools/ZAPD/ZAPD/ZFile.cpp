@@ -903,7 +903,7 @@ std::string ZFile::GetZRoomHeaderInclude() const
 	std::string headers;
 	headers += "#include \"segment_symbols.h\"\n";
 	headers += "#include \"command_macros_base.h\"\n";
-	headers += "#include \"z64cutscene_commands.h\"\n";
+	headers += "#include \"cutscene_commands.h\"\n";
 	/* headers += "#include \"variables.h\"\n"; */
 	return headers;
 }

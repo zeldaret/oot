@@ -1,8 +1,8 @@
-#ifndef Z64CUTSCENE_COMMANDS_H
-#define Z64CUTSCENE_COMMANDS_H
+#ifndef CUTSCENE_COMMANDS_H
+#define CUTSCENE_COMMANDS_H
 
 #include "command_macros_base.h"
-#include "z64cutscene.h"
+#include "cutscene.h"
 
 /**
  * Cutscene scripts are arrays of `CutsceneData` words, including bit-packed integers and floats.

@@ -14,7 +14,7 @@
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64curve.h"
+#include "curve.h"
 #include "z64play.h"
 #include "z64player.h"
 

@@ -37,7 +37,7 @@
 #include "z_actor_dlftbls.h"
 #include "zelda_arena.h"
 #include "audio.h"
-#include "z64cutscene_flags.h"
+#include "cutscene_flags.h"
 #include "z64debug_display.h"
 #include "z64effect.h"
 #include "z64frame_advance.h"

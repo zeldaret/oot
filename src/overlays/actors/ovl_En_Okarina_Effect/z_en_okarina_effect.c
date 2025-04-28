@@ -12,7 +12,7 @@
 #include "terminal.h"
 #include "versions.h"
 #include "audio.h"
-#include "z64cutscene_flags.h"
+#include "cutscene_flags.h"
 #include "z64debug_display.h"
 #include "z64frame_advance.h"
 #include "z64play.h"

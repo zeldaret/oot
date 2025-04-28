@@ -1,8 +1,8 @@
-#ifndef Z64CAMERA_H
-#define Z64CAMERA_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #include "ultra64.h"
-#include "z64cutscene.h"
+#include "cutscene.h"
 #include "z64math.h"
 
 struct CollisionContext;

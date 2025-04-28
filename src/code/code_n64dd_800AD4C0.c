@@ -3,7 +3,7 @@
 #include "regs.h"
 #include "segmented_address.h"
 #include "actor.h"
-#include "z64cutscene.h"
+#include "cutscene.h"
 #include "z64save.h"
 
 n64ddStruct_800FEE70_pointers D_800FEE70 = {

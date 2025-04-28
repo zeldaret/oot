@@ -12,7 +12,7 @@
 #include "z64play.h"
 #include "animation.h"
 #include "animation_legacy.h"
-#include "z64curve.h"
+#include "curve.h"
 #include "z64skin.h"
 #include "z64player.h"
 #include "z64ocarina.h"

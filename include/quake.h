@@ -1,7 +1,7 @@
 #ifndef QUAKE_H
 #define QUAKE_H
 
-#include "z64camera.h"
+#include "camera.h"
 #include "z64math.h"
 
 typedef struct ShakeInfo {

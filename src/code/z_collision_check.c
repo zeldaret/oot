@@ -7,7 +7,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64collision_check.h"
+#include "collision_check.h"
 #include "z64effect.h"
 #include "z64frame_advance.h"
 #include "zelda_arena.h"

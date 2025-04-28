@@ -1,5 +1,5 @@
 #include "sequence.h"
-#include "z64cutscene_commands.h"
+#include "cutscene_commands.h"
 #include "z64player.h"
 
 // clang-format off

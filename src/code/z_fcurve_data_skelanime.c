@@ -33,7 +33,7 @@
 #include "translation.h"
 #include "zelda_arena.h"
 #include "actor.h"
-#include "z64curve.h"
+#include "curve.h"
 #include "z64play.h"
 
 void SkelCurve_Clear(SkelCurve* skelCurve) {

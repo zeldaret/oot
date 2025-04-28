@@ -1,5 +1,5 @@
-#ifndef Z64COLLISION_CHECK_H
-#define Z64COLLISION_CHECK_H
+#ifndef COLLISION_CHECK_H
+#define COLLISION_CHECK_H
 
 #include "ultra64.h"
 #include "z64math.h"

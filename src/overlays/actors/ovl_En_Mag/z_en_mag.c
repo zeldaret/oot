@@ -21,7 +21,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "audio.h"
-#include "z64cutscene_flags.h"
+#include "cutscene_flags.h"
 #include "z64play.h"
 #include "z64save.h"
 #include "z64ss_sram.h"

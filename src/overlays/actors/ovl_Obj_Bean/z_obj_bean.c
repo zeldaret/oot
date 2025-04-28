@@ -19,7 +19,7 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64cutscene_flags.h"
+#include "cutscene_flags.h"
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64save.h"
