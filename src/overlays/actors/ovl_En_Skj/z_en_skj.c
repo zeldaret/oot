@@ -14,7 +14,7 @@
 #include "z_lib.h"
 #include "audio.h"
 #include "debug_display.h"
-#include "z64face_reaction.h"
+#include "face_reaction.h"
 #include "z64ocarina.h"
 #include "effect.h"
 #include "z64play.h"

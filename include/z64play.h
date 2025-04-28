@@ -10,7 +10,7 @@
 #include "camera.h"
 #include "cutscene.h"
 #include "environment.h"
-#include "z64frame_advance.h"
+#include "frame_advance.h"
 #include "z64game.h"
 #include "z64game_over.h"
 #include "z64interface.h"

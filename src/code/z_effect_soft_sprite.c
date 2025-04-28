@@ -5,7 +5,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "zelda_arena.h"
-#include "z64frame_advance.h"
+#include "frame_advance.h"
 #include "effect.h"
 #include "z64play.h"
 

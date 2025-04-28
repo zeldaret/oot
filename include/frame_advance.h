@@ -1,5 +1,5 @@
-#ifndef Z64FRAME_ADVANCE_H
-#define Z64FRAME_ADVANCE_H
+#ifndef FRAME_ADVANCE_H
+#define FRAME_ADVANCE_H
 
 #include "ultra64.h"
 

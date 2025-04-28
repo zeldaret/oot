@@ -1,5 +1,5 @@
-#ifndef Z64FONT_H
-#define Z64FONT_H
+#ifndef FONT_H
+#define FONT_H
 
 #include "ultra64.h"
 

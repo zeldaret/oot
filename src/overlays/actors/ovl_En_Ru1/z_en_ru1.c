@@ -23,7 +23,7 @@
 #include "versions.h"
 #include "z_lib.h"
 #include "effect.h"
-#include "z64face_reaction.h"
+#include "face_reaction.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"

@@ -14,7 +14,7 @@
 #include "audio.h"
 #include "cutscene_flags.h"
 #include "debug_display.h"
-#include "z64frame_advance.h"
+#include "frame_advance.h"
 #include "z64play.h"
 #include "z64save.h"
 

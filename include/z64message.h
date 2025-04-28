@@ -3,7 +3,7 @@
 
 #include "z64view.h"
 #include "versions.h"
-#include "z64font.h"
+#include "font.h"
 
 struct OcarinaStaff;
 struct Actor;

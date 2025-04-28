@@ -26,7 +26,7 @@
 #include "z_lib.h"
 #include "audio.h"
 #include "cutscene.h"
-#include "z64frame_advance.h"
+#include "frame_advance.h"
 #include "environment.h"
 #include "z64play.h"
 #include "z64player.h"

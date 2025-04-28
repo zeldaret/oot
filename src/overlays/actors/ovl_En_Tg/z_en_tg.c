@@ -8,7 +8,7 @@
 
 #include "gfx.h"
 #include "sys_matrix.h"
-#include "z64face_reaction.h"
+#include "face_reaction.h"
 #include "z64play.h"
 
 #include "assets/objects/object_mu/object_mu.h"

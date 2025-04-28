@@ -15,7 +15,7 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "z_lib.h"
-#include "z64face_reaction.h"
+#include "face_reaction.h"
 #include "z64horse.h"
 #include "z64play.h"
 #include "z64player.h"

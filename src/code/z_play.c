@@ -40,7 +40,7 @@
 #include "cutscene_flags.h"
 #include "debug_display.h"
 #include "effect.h"
-#include "z64frame_advance.h"
+#include "frame_advance.h"
 #include "z64light.h"
 #include "z64play.h"
 #include "z64player.h"

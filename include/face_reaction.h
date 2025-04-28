@@ -1,5 +1,5 @@
-#ifndef Z64FACE_REACTION_H
-#define Z64FACE_REACTION_H
+#ifndef FACE_REACTION_H
+#define FACE_REACTION_H
 
 #include "ultra64.h"
 

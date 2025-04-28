@@ -2,7 +2,7 @@
 #include "printf.h"
 #include "translation.h"
 #include "effect.h"
-#include "z64frame_advance.h"
+#include "frame_advance.h"
 #include "z64play.h"
 
 EffectContext sEffectContext;

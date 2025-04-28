@@ -5,7 +5,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "dma.h"
-#include "z64font.h"
+#include "font.h"
 #include "z64message.h"
 
 /**
