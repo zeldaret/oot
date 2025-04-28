@@ -19,7 +19,7 @@
 #include "versions.h"
 #include "audio.h"
 #include "z64lifemeter.h"
-#include "z64horse.h"
+#include "horse.h"
 #include "z64ocarina.h"
 #include "z64play.h"
 #include "z64player.h"

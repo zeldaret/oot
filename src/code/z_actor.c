@@ -23,7 +23,7 @@
 #include "audio.h"
 #include "effect.h"
 #include "z64light.h"
-#include "z64horse.h"
+#include "horse.h"
 #include "z64play.h"
 #include "z64save.h"
 #include "z64skin_matrix.h"

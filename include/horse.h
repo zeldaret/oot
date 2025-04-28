@@ -1,5 +1,5 @@
-#ifndef Z64HORSE_H
-#define Z64HORSE_H
+#ifndef HORSE_H
+#define HORSE_H
 
 #include "ultra64.h"
 #include "z64math.h"
