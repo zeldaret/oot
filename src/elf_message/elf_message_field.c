@@ -1,4 +1,4 @@
-#include "z64quest_hint_commands.h"
+#include "quest_hint_commands.h"
 #include "z64save.h"
 
 QuestHintCmd gOverworldNaviQuestHints[] = {

@@ -1,5 +1,5 @@
-#ifndef Z64QUEST_HINT_H
-#define Z64QUEST_HINT_H
+#ifndef QUEST_HINT_H
+#define QUEST_HINT_H
 
 #include "ultra64.h"
 
