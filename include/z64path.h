@@ -2,7 +2,7 @@
 #define Z64PATH_H
 
 #include "ultra64.h"
-#include "z64math.h"
+#include "z_math.h"
 
 struct PlayState;
 struct Actor;

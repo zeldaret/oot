@@ -2,7 +2,7 @@
 #define CUTSCENE_H
 
 #include "ultra64.h"
-#include "z64math.h"
+#include "z_math.h"
 
 struct PlayState;
 

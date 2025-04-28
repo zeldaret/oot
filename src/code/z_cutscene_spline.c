@@ -1,5 +1,5 @@
 #include "ultra64.h"
-#include "z64math.h"
+#include "z_math.h"
 #include "camera.h"
 #include "cutscene_spline.h"
 

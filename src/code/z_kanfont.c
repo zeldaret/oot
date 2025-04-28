@@ -6,7 +6,7 @@
 #include "versions.h"
 #include "dma.h"
 #include "font.h"
-#include "z64message.h"
+#include "message.h"
 
 /**
  * Loads a texture from kanji for the requested `character` into the character texture buffer

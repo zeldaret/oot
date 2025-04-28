@@ -4,7 +4,7 @@
 #include "color.h"
 #include "romfile.h"
 #include "light.h"
-#include "z64math.h"
+#include "z_math.h"
 
 struct Actor;
 struct GraphicsContext;

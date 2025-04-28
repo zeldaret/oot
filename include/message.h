@@ -1,5 +1,5 @@
-#ifndef Z64MESSAGE_H
-#define Z64MESSAGE_H
+#ifndef MESSAGE_H
+#define MESSAGE_H
 
 #include "z64view.h"
 #include "versions.h"

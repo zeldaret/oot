@@ -1,7 +1,7 @@
 #ifndef Z64OLIB_H
 #define Z64OLIB_H
 
-#include "z64math.h"
+#include "z_math.h"
 
 f32 OLib_Vec3fDist(Vec3f* a, Vec3f* b);
 f32 OLib_Vec3fDistXZ(Vec3f* a, Vec3f* b);

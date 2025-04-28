@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "dma.h"
-#include "z64math.h"
+#include "z_math.h"
 
 struct Input;
 struct PlayState;

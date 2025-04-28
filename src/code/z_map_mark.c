@@ -10,7 +10,7 @@
 #include "segment_symbols.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64map_mark.h"
+#include "map_mark.h"
 #include "z64play.h"
 #include "z64save.h"
 

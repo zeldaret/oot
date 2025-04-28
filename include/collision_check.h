@@ -2,7 +2,7 @@
 #define COLLISION_CHECK_H
 
 #include "ultra64.h"
-#include "z64math.h"
+#include "z_math.h"
 
 #define COLLISION_CHECK_AT_MAX 50
 #define COLLISION_CHECK_AC_MAX 60

@@ -15,7 +15,7 @@
 #include "game_over.h"
 #include "interface.h"
 #include "light.h"
-#include "z64message.h"
+#include "message.h"
 #include "z64object.h"
 #include "z64pause.h"
 #include "z64room.h"

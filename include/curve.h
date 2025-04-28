@@ -2,7 +2,7 @@
 #define CURVE_H
 
 #include "ultra64/ultratypes.h"
-#include "z64math.h"
+#include "z_math.h"
 
 struct PlayState;
 struct Actor;

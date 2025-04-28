@@ -4,7 +4,7 @@
 #include "ultra64/ultratypes.h"
 #include "ultra64/gbi.h"
 
-#include "z64math.h"
+#include "z_math.h"
 #include "dma.h" // for RomFile
 
 struct GameState;

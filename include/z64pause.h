@@ -2,7 +2,7 @@
 #define Z64PAUSE_H
 
 #include "animation.h"
-#include "z64message.h"
+#include "message.h"
 #include "z64view.h"
 
 struct OcarinaStaff;

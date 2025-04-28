@@ -1,7 +1,7 @@
 #ifndef ENVIRONMENT_H_
 #define ENVIRONMENT_H_
 
-#include "z64math.h"
+#include "z_math.h"
 #include "light.h"
 #include "dma.h"
 

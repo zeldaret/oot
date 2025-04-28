@@ -1,5 +1,7 @@
-#ifndef Z64MATH_H
-#define Z64MATH_H
+#ifndef Z_MATH_H
+#define Z_MATH_H
+
+// This file has a z_ prefix to indicate that it is the game-side math header, not libc
 
 #include "math.h"
 #include "ultra64.h"

@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "z64message.h"
+#include "message.h"
 
 struct EnMag;
 

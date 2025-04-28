@@ -6,7 +6,7 @@
 #include "bgcheck.h"
 #include "environment.h"
 #include "light.h"
-#include "z64math.h"
+#include "z_math.h"
 #include "z64path.h"
 
 #include "command_macros_base.h"

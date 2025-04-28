@@ -5,7 +5,7 @@
 #include "romfile.h"
 #include "actor_profile.h"
 #include "animation.h"
-#include "z64math.h"
+#include "z_math.h"
 #include "collision_check.h"
 
 #define ACTOR_NUMBER_MAX 200

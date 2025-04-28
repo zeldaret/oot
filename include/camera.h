@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "cutscene.h"
-#include "z64math.h"
+#include "z_math.h"
 
 struct CollisionContext;
 struct View;

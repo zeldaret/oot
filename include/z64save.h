@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "versions.h"
 #include "inventory.h"
-#include "z64math.h"
+#include "z_math.h"
 
 typedef enum ZTargetSetting {
     /* 0 */ Z_TARGET_SETTING_SWITCH,
