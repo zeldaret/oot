@@ -13,7 +13,7 @@
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "draw.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64item.h"
 #include "z64play.h"
 #include "z64player.h"

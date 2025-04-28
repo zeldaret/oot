@@ -6,7 +6,7 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64skin_matrix.h"
 
 #include "z64.h" // required for gameplay keep, the header doesnt include any external dependencies

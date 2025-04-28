@@ -8,7 +8,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "collision_check.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64frame_advance.h"
 #include "zelda_arena.h"
 #include "z64play.h"

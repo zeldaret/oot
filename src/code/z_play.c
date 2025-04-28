@@ -39,7 +39,7 @@
 #include "audio.h"
 #include "cutscene_flags.h"
 #include "debug_display.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64frame_advance.h"
 #include "z64light.h"
 #include "z64play.h"

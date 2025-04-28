@@ -10,7 +10,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64play.h"
 #include "z64skin_matrix.h"
 

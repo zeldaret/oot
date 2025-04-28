@@ -2,7 +2,7 @@
 #define FILE_SELECT_STATE_H
 
 #include "ultra64.h"
-#include "z64environment.h"
+#include "environment.h"
 #include "z64game.h"
 #include "z64message.h"
 #include "z64skybox.h"

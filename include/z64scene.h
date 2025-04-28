@@ -4,7 +4,7 @@
 #include "avoid_ub.h"
 #include "ultra64.h"
 #include "bgcheck.h"
-#include "z64environment.h"
+#include "environment.h"
 #include "z64light.h"
 #include "z64math.h"
 #include "z64path.h"

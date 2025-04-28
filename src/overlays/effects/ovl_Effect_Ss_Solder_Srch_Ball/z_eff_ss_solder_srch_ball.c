@@ -7,7 +7,7 @@
 #include "z_eff_ss_solder_srch_ball.h"
 
 #include "bgcheck.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64play.h"
 #include "z64player.h"
 

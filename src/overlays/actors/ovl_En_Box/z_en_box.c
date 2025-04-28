@@ -14,7 +14,7 @@
 #include "z_lib.h"
 #include "audio.h"
 #include "curve.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64ocarina.h"
 #include "z64play.h"
 #include "z64player.h"

@@ -19,7 +19,7 @@
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"

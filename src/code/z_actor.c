@@ -21,7 +21,7 @@
 #include "zelda_arena.h"
 #include "actor.h"
 #include "audio.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64light.h"
 #include "z64horse.h"
 #include "z64play.h"

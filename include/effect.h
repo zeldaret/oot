@@ -1,5 +1,5 @@
-#ifndef Z64EFFECT_H
-#define Z64EFFECT_H
+#ifndef EFFECT_H
+#define EFFECT_H
 
 #include "color.h"
 #include "romfile.h"

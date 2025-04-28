@@ -25,7 +25,7 @@
 #include "versions.h"
 #include "z_lib.h"
 #include "audio.h"
-#include "z64environment.h"
+#include "environment.h"
 #include "z64play.h"
 #include "z64save.h"
 #include "z64skybox.h"

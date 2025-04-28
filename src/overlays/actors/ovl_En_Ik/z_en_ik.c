@@ -22,7 +22,7 @@
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "audio.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"

@@ -9,7 +9,7 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64play.h"
 
 #include "assets/objects/object_fz/object_fz.h"

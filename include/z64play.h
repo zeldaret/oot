@@ -9,7 +9,7 @@
 #include "bgcheck.h"
 #include "camera.h"
 #include "cutscene.h"
-#include "z64environment.h"
+#include "environment.h"
 #include "z64frame_advance.h"
 #include "z64game.h"
 #include "z64game_over.h"

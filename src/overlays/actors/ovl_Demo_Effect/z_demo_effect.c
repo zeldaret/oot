@@ -19,7 +19,7 @@
 #include "curve.h"
 #include "draw.h"
 #include "cutscene_flags.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64play.h"
 #include "z64save.h"
 

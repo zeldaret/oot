@@ -11,7 +11,7 @@
 #include "rand.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64play.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"

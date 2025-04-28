@@ -17,7 +17,7 @@
 #include "terminal.h"
 #include "z_lib.h"
 #include "debug_display.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64play.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

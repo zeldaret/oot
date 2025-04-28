@@ -12,7 +12,7 @@
 #include "ichain.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64play.h"
 
 #include "assets/objects/object_jya_iron/object_jya_iron.h"

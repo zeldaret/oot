@@ -44,7 +44,7 @@
 #include "zelda_arena.h"
 #include "audio.h"
 #include "debug.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64lifemeter.h"
 #include "z64ocarina.h"
 #include "z64play.h"

@@ -1,5 +1,5 @@
-#ifndef _Z64ENVIRONMENT_H_
-#define _Z64ENVIRONMENT_H_
+#ifndef ENVIRONMENT_H_
+#define ENVIRONMENT_H_
 
 #include "z64math.h"
 #include "z64light.h"

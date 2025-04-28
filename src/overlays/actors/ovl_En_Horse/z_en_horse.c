@@ -24,7 +24,7 @@
 #include "versions.h"
 #include "z_lib.h"
 #include "audio.h"
-#include "z64effect.h"
+#include "effect.h"
 #include "z64horse.h"
 #include "z64play.h"
 #include "z64player.h"
