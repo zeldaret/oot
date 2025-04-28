@@ -927,7 +927,7 @@ $(BUILD_DIR)/src/makerom/ipl3.o: $(EXTRACTED_DIR)/incbin/ipl3
 $(BUILD_DIR)/src/%.o: src/%.s
 ifeq ($(COMPILER),ido)
 # For header dependencies
-	$(CPP) $(MIPS_BUILTIN_DEFS) -x assembler-with-cpp $(INC) -MD -MF $(@:.o=.d) -MT $@ $< -o /dev/null
+	$(CPP) $(MIPS_BUILTIN_DEFS) $(CPPFLAGS) -x assembler-with-cpp $(INC) -MD -MF $(@:.o=.d) -MT $@ $< -o /dev/null
 	$(CCAS) -c $(CCASFLAGS) $(MIPS_VERSION) $(ASOPTFLAGS) -o $(@:.o=.tmp.o) $<
 # IDO generates bad symbol tables, fix the symbol table with strip..
 	$(STRIP) $(@:.o=.tmp.o) -N dummy-symbol-name
@@ -1068,7 +1068,7 @@ $(BUILD_DIR)/assets/audio/soundfonts/%.c $(BUILD_DIR)/assets/audio/soundfonts/%.
 -include $(SOUNDFONT_DEP_FILES)
 
 $(BUILD_DIR)/assets/audio/soundfonts/%.o: $(BUILD_DIR)/assets/audio/soundfonts/%.c $(BUILD_DIR)/assets/audio/soundfonts/%.name
-	$(CC_CHECK) -I include/audio $< -o $@
+	$(CPP) $(MIPS_BUILTIN_DEFS) $(CPPFLAGS) -x assembler-with-cpp $(INC) -I include/audio -MD -MF $(@:.o=.d) -MT $@ $< -o /dev/null
 # compile c to unlinked object
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -I include/audio -o $(@:.o=.tmp) $<
 # partial link
