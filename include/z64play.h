@@ -5,7 +5,7 @@
 
 #include "prerender.h"
 #include "transition_tile.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "z64bgcheck.h"
 #include "z64camera.h"
 #include "z64cutscene.h"

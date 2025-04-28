@@ -10,7 +10,7 @@
 #include "sfx.h"
 #include "ultra64.h"
 #include "versions.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64ocarina.h"
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))

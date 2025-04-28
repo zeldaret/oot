@@ -1,6 +1,6 @@
 #include "kaleido_manager.h"
-#include "z64actor.h"
-#include "z64actor_profile.h"
+#include "actor.h"
+#include "actor_profile.h"
 #include "z64play.h"
 #include "z64player.h"
 

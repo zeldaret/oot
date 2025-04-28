@@ -25,7 +25,7 @@
 #include "sys_freeze.h"
 #include "title_setup_state.h"
 #include "versions.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "z64environment.h"
 #include "z64save.h"
 

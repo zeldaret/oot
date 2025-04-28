@@ -1,5 +1,5 @@
-#ifndef Z64_ANIMATION_H
-#define Z64_ANIMATION_H
+#ifndef ANIMATION_H
+#define ANIMATION_H
 
 #include "avoid_ub.h"
 #include "ultra64.h"

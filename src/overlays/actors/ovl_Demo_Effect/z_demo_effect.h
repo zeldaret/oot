@@ -2,7 +2,7 @@
 #define Z_DEMO_EFFECT_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "z64curve.h"
 
 struct DemoEffect;

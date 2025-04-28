@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64game.h"
 #include "z64interface.h"
 #include "z64message.h"

@@ -24,7 +24,7 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64frame_advance.h"
 #include "z64play.h"
 #include "z64player.h"

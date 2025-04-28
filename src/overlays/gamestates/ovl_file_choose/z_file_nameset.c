@@ -13,7 +13,7 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64save.h"
 
 #include "assets/textures/title_static/title_static.h"

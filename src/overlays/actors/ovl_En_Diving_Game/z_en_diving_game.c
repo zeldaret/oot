@@ -18,7 +18,7 @@
 #include "sfx.h"
 #include "terminal.h"
 #include "z_lib.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64effect.h"
 #include "z64face_reaction.h"
 #include "z64play.h"

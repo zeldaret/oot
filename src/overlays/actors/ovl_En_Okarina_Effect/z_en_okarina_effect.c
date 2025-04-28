@@ -11,7 +11,7 @@
 #include "sequence.h"
 #include "terminal.h"
 #include "versions.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64cutscene_flags.h"
 #include "z64debug_display.h"
 #include "z64frame_advance.h"

@@ -1,7 +1,7 @@
 #ifndef Z64PAUSE_H
 #define Z64PAUSE_H
 
-#include "z64animation.h"
+#include "animation.h"
 #include "z64message.h"
 #include "z64view.h"
 

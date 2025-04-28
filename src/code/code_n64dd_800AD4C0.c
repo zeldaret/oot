@@ -2,7 +2,7 @@
 #include "n64dd.h"
 #include "regs.h"
 #include "segmented_address.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "z64cutscene.h"
 #include "z64save.h"
 

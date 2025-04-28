@@ -1,10 +1,10 @@
-#ifndef Z64ACTOR_H
-#define Z64ACTOR_H
+#ifndef ACTOR_H
+#define ACTOR_H
 
 #include "color.h"
 #include "romfile.h"
-#include "z64actor_profile.h"
-#include "z64animation.h"
+#include "actor_profile.h"
+#include "animation.h"
 #include "z64math.h"
 #include "z64collision_check.h"
 

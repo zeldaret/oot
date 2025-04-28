@@ -16,7 +16,7 @@
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "z_lib.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "z64horse.h"
 #include "z64player.h"
 #include "z64play.h"

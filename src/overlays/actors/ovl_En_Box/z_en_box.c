@@ -12,7 +12,7 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64curve.h"
 #include "z64effect.h"
 #include "z64ocarina.h"

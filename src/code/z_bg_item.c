@@ -1,5 +1,5 @@
 #include "z_lib.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "z64bgcheck.h"
 #include "z64play.h"
 

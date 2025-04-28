@@ -1,7 +1,7 @@
 #include "ultra64.h"
 #include "libc64/math64.h"
 #include "segmented_address.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "z64path.h"
 #include "z64play.h"
 

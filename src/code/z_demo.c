@@ -21,7 +21,7 @@
 #include "sfx.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64camera.h"
 #include "z64cutscene.h"
 #include "z64cutscene_flags.h"

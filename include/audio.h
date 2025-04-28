@@ -1,5 +1,5 @@
-#ifndef Z64_AUDIO_H
-#define Z64_AUDIO_H
+#ifndef AUDIO_H
+#define AUDIO_H
 
 #include "ultra64.h"
 #include "sequence.h"

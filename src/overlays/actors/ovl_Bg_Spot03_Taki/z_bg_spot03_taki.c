@@ -12,7 +12,7 @@
 #include "one_point_cutscene.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64play.h"
 
 #include "assets/objects/object_spot03_object/object_spot03_object.h"

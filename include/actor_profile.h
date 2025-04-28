@@ -1,5 +1,5 @@
-#ifndef Z64ACTOR_PROFILE_H
-#define Z64ACTOR_PROFILE_H
+#ifndef ACTOR_PROFILE_H
+#define ACTOR_PROFILE_H
 
 #include "ultra64.h"
 

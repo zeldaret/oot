@@ -16,7 +16,7 @@
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64play.h"
 #include "z64player.h"
 

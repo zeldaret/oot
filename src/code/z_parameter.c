@@ -17,7 +17,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64lifemeter.h"
 #include "z64horse.h"
 #include "z64ocarina.h"

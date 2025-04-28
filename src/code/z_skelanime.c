@@ -10,8 +10,8 @@
 #include "translation.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
-#include "z64animation.h"
-#include "z64animation_legacy.h"
+#include "animation.h"
+#include "animation_legacy.h"
 #include "z64play.h"
 
 #define ANIM_INTERP 1

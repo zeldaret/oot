@@ -1,7 +1,7 @@
 #include "array_count.h"
 #include "segmented_address.h"
 #include "zelda_arena.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "z64play.h"
 #include "z64skin.h"
 #include "z64skin_matrix.h"

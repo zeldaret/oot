@@ -10,7 +10,7 @@
 #include "gfx_setupdl.h"
 #include "sequence.h"
 #include "sys_matrix.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64play.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)

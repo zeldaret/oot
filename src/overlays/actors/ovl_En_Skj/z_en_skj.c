@@ -12,7 +12,7 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64debug_display.h"
 #include "z64face_reaction.h"
 #include "z64ocarina.h"

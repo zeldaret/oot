@@ -1,7 +1,7 @@
 #ifndef Z64PLAYER_H
 #define Z64PLAYER_H
 
-#include "z64actor.h"
+#include "actor.h"
 #include "alignment.h"
 #include "face_change.h"
 

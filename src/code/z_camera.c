@@ -17,7 +17,7 @@
 #include "ultra64.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64cutscene_spline.h"
 #include "z64debug.h"
 #include "z64olib.h"

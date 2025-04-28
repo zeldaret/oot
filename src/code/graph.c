@@ -26,7 +26,7 @@
 #include "versions.h"
 #include "vi_mode.h"
 #include "z_game_dlftbls.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64save.h"
 #include "z64play.h"
 

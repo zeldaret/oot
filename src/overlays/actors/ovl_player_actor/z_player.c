@@ -42,7 +42,7 @@
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64debug.h"
 #include "z64effect.h"
 #include "z64lifemeter.h"

@@ -2,7 +2,7 @@
 #define Z_EN_PO_DESERT_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "z64light.h"
 
 struct EnPoDesert;

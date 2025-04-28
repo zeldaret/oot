@@ -20,7 +20,7 @@
 #include "quake.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
+#include "audio.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"
