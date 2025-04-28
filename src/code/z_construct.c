@@ -6,7 +6,7 @@
 #include "versions.h"
 #include "lifemeter.h"
 #include "interface.h"
-#include "z64ocarina.h"
+#include "ocarina.h"
 #include "z64play.h"
 #include "z64save.h"
 

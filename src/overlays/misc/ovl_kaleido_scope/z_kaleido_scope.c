@@ -22,7 +22,7 @@
 #include "title_setup_state.h"
 #include "versions.h"
 #include "audio.h"
-#include "z64ocarina.h"
+#include "ocarina.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"

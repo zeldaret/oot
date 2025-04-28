@@ -429,7 +429,7 @@
         <Item Key="cueid_77" ID="PLAYER_CUEID_77" Index="77"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="ocarinaSongActionId" ID="OcarinaSongActionId">
-        <!-- https://github.com/zeldaret/oot/blob/b3486b57ef41a284a366eb40ca07bf82bf4750d6/include/z64ocarina.h#L25-L76 -->
+        <!-- https://github.com/zeldaret/oot/blob/b3486b57ef41a284a366eb40ca07bf82bf4750d6/include/ocarina.h#L25-L76 -->
         <Item Key="unk_0" ID="OCARINA_ACTION_UNK_0" Index="0"/>
         <Item Key="free_play" ID="OCARINA_ACTION_FREE_PLAY" Index="1"/>
         <Item Key="teach_minuet" ID="OCARINA_ACTION_TEACH_MINUET" Index="2"/>

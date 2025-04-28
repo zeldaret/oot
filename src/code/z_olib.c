@@ -1,6 +1,6 @@
 #include "z_math.h"
 #include "libc64/math64.h"
-#include "z64olib.h"
+#include "olib.h.h"
 #include "z_lib.h"
 
 /**

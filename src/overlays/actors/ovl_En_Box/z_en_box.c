@@ -15,7 +15,7 @@
 #include "audio.h"
 #include "curve.h"
 #include "effect.h"
-#include "z64ocarina.h"
+#include "ocarina.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"

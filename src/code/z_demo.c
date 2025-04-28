@@ -25,7 +25,7 @@
 #include "camera.h"
 #include "cutscene.h"
 #include "cutscene_flags.h"
-#include "z64ocarina.h"
+#include "ocarina.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"

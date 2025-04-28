@@ -46,7 +46,7 @@
 #include "debug.h"
 #include "effect.h"
 #include "lifemeter.h"
-#include "z64ocarina.h"
+#include "ocarina.h"
 #include "z64play.h"
 #include "z64save.h"
 #include "z64skin_matrix.h"

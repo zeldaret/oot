@@ -12,7 +12,7 @@
 #include "game.h"
 #include "interface.h"
 #include "message.h"
-#include "z64ocarina.h"
+#include "ocarina.h"
 #include "z64save.h"
 #include "z64scene.h"
 #include "z64ss_sram.h"

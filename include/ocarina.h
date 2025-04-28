@@ -1,5 +1,5 @@
-#ifndef Z64OCARINA_H
-#define Z64OCARINA_H
+#ifndef OCARINA_H
+#define OCARINA_H
 
 #include "ultra64.h"
 

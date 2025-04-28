@@ -20,7 +20,7 @@
 #include "audio.h"
 #include "lifemeter.h"
 #include "horse.h"
-#include "z64ocarina.h"
+#include "ocarina.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"

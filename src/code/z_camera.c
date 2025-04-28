@@ -20,7 +20,7 @@
 #include "audio.h"
 #include "cutscene_spline.h"
 #include "debug.h"
-#include "z64olib.h"
+#include "olib.h.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"

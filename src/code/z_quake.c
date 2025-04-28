@@ -4,7 +4,7 @@
 #include "quake.h"
 #include "terminal.h"
 #include "z_lib.h"
-#include "z64olib.h"
+#include "olib.h.h"
 #include "z64play.h"
 
 typedef struct QuakeRequest {

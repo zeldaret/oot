@@ -1,5 +1,5 @@
-#ifndef Z64OLIB_H
-#define Z64OLIB_H
+#ifndef OLIB_H
+#define OLIB_H
 
 #include "z_math.h"
 

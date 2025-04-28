@@ -13,7 +13,7 @@
 #include "cutscene_commands.h"
 #include "cutscene_flags.h"
 #include "cutscene_spline.h"
-#include "z64olib.h"
+#include "olib.h.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"

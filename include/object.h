@@ -1,5 +1,5 @@
-#ifndef Z64OBJECT_H
-#define Z64OBJECT_H
+#ifndef OBJECT_H
+#define OBJECT_H
 
 #include "ultra64.h"
 #include "dma.h"

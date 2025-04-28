@@ -15,7 +15,7 @@
 #include "cutscene_spline.h"
 #include "debug.h"
 #include "debug_display.h"
-#include "z64olib.h"
+#include "olib.h.h"
 #include "z64play.h"
 #include "z64save.h"
 

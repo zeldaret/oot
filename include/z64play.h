@@ -16,7 +16,7 @@
 #include "interface.h"
 #include "light.h"
 #include "message.h"
-#include "z64object.h"
+#include "object.h"
 #include "z64pause.h"
 #include "z64room.h"
 #include "z64scene.h"

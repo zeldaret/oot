@@ -6,7 +6,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
-#include "z64ocarina.h"
+#include "ocarina.h"
 #include "z64play.h"
 #include "z64save.h"
 

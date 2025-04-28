@@ -15,6 +15,6 @@
 #include "curve.h"
 #include "z64skin.h"
 #include "z64player.h"
-#include "z64ocarina.h"
+#include "ocarina.h"
 
 #endif
