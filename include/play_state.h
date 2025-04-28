@@ -23,7 +23,7 @@
 #include "sfx_source.h"
 #include "skybox.h"
 #include "sram.h"
-#include "z64transition.h"
+#include "transition.h"
 #include "z64view.h"
 
 union Color_RGBA8_u32;

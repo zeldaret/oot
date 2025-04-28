@@ -1,5 +1,5 @@
-#ifndef Z64TRANSITION_INSTANCES_H
-#define Z64TRANSITION_INSTANCES_H
+#ifndef TRANSITION_INSTANCES_H
+#define TRANSITION_INSTANCES_H
 
 typedef enum TransitionInstanceType {
     /* 1 */ TRANS_INSTANCE_TYPE_FILL_OUT = 1,

@@ -56,7 +56,7 @@
 #include "stackcheck.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64thread.h"
+#include "thread.h"
 
 void Fault_Init(void);
 void Fault_SetOsSyncPrintfEnabled(u32 enabled);

@@ -1,5 +1,5 @@
-#ifndef Z64TRANSITION_H
-#define Z64TRANSITION_H
+#ifndef TRANSITION_H
+#define TRANSITION_H
 
 #include "ultra64/ultratypes.h"
 #include "ultra64/gbi.h" // for Gfx
@@ -7,7 +7,7 @@
 #include "transition_fade.h"
 #include "transition_triforce.h"
 #include "transition_wipe.h"
-#include "z64transition_instances.h"
+#include "transition_instances.h"
 
 #define TRANS_TRIGGER_OFF 0 // transition is not active
 #define TRANS_TRIGGER_START 20 // start transition (exiting an area)

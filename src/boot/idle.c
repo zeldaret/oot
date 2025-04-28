@@ -11,7 +11,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "vi_mode.h"
-#include "z64thread.h"
+#include "thread.h"
 #include "dma.h"
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \

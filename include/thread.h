@@ -1,5 +1,5 @@
-#ifndef Z64THREAD_H
-#define Z64THREAD_H
+#ifndef THREAD_H
+#define THREAD_H
 
 #include "ultra64.h"
 
