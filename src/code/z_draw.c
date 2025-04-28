@@ -2,7 +2,7 @@
 #include "gfx_setupdl.h"
 #include "sys_matrix.h"
 #include "draw.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_gi_key/object_gi_key.h"
 #include "assets/objects/object_gi_jewel/object_gi_jewel.h"

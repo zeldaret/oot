@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "actor.h"
 #include "bgcheck.h"
-#include "z64player.h"
+#include "player.h"
 #include "z64skin_matrix.h"
 
 /**

@@ -25,7 +25,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "ultra64.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 #include "z64sram.h"
 

@@ -1,5 +1,5 @@
-#ifndef Z64PLAYER_H
-#define Z64PLAYER_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "actor.h"
 #include "alignment.h"

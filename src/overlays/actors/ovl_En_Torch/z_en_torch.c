@@ -7,7 +7,7 @@
 #include "z_en_torch.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #define FLAGS 0

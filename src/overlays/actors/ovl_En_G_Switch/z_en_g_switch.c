@@ -24,8 +24,8 @@
 #include "audio.h"
 #include "debug_display.h"
 #include "effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"

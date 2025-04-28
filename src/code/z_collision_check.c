@@ -11,7 +11,7 @@
 #include "effect.h"
 #include "frame_advance.h"
 #include "zelda_arena.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 #include "z_lib.h"

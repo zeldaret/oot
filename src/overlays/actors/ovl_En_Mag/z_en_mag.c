@@ -22,7 +22,7 @@
 #include "versions.h"
 #include "audio.h"
 #include "cutscene_flags.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 #include "z64ss_sram.h"
 

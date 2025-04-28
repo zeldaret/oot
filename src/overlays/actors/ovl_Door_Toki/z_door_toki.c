@@ -7,7 +7,7 @@
 #include "z_door_toki.h"
 
 #include "ichain.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #include "assets/objects/object_toki_objects/object_toki_objects.h"

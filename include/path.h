@@ -1,5 +1,5 @@
-#ifndef Z64PATH_H
-#define Z64PATH_H
+#ifndef PATH_H
+#define PATH_H
 
 #include "ultra64.h"
 #include "z_math.h"

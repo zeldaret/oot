@@ -13,9 +13,9 @@
 #include "cutscene_commands.h"
 #include "cutscene_flags.h"
 #include "cutscene_spline.h"
-#include "olib.h.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "olib.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"

@@ -17,7 +17,7 @@
 #include "z_lib.h"
 #include "audio.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"

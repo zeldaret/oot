@@ -3,7 +3,7 @@
 #include "translation.h"
 #include "effect.h"
 #include "frame_advance.h"
-#include "z64play.h"
+#include "play_state.h"
 
 EffectContext sEffectContext;
 

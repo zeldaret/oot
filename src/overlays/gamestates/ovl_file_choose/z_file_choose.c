@@ -26,7 +26,7 @@
 #include "z_lib.h"
 #include "audio.h"
 #include "environment.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 #include "z64skybox.h"
 #include "z64sram.h"

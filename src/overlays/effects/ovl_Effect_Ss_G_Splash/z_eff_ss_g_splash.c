@@ -8,7 +8,7 @@
 
 #include "segmented_address.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

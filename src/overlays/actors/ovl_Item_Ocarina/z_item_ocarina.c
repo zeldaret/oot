@@ -11,7 +11,7 @@
 #include "sfx.h"
 #include "draw.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #include "assets/scenes/overworld/spot00/spot00_scene.h"

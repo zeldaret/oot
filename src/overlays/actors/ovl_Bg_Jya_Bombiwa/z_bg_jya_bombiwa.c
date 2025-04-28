@@ -14,7 +14,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 

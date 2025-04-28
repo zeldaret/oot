@@ -7,7 +7,7 @@
 #include "z_en_arow_trap.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#include "z64play.h"
+#include "play_state.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

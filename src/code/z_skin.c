@@ -2,7 +2,7 @@
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "z_math.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64skin.h"
 #include "z64skin_matrix.h"
 

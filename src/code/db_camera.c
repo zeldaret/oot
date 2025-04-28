@@ -15,8 +15,8 @@
 #include "cutscene_spline.h"
 #include "debug.h"
 #include "debug_display.h"
-#include "olib.h.h"
-#include "z64play.h"
+#include "olib.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #define DEBUG_CAM_CONTROLLER_PORT 2

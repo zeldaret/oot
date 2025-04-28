@@ -13,8 +13,8 @@
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64skin.h"
 
 #include "assets/objects/object_horse_ganon/object_horse_ganon.h"

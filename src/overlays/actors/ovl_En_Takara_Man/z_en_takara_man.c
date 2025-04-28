@@ -13,7 +13,7 @@
 #include "segmented_address.h"
 #include "terminal.h"
 #include "versions.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #include "assets/objects/object_ts/object_ts.h"

@@ -17,8 +17,8 @@
 #include "versions.h"
 #include "z_lib.h"
 #include "audio.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_fw/object_fw.h"

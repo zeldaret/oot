@@ -16,8 +16,8 @@
 #include "curve.h"
 #include "effect.h"
 #include "ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 
 #include "assets/objects/object_box/object_box.h"

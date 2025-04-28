@@ -13,8 +13,8 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 
 #include "assets/objects/object_hs/object_hs.h"

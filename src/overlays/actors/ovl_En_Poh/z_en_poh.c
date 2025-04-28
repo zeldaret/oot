@@ -16,8 +16,8 @@
 #include "z_lib.h"
 #include "effect.h"
 #include "light.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 
 #include "assets/objects/object_poh/object_poh.h"

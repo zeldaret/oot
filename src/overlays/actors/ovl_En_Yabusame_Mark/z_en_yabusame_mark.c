@@ -15,7 +15,7 @@
 #include "audio.h"
 #include "debug_display.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #define FLAGS 0

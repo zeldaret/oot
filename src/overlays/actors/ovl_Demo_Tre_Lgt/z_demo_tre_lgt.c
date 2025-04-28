@@ -6,7 +6,7 @@
 #include "printf.h"
 #include "sfx.h"
 #include "curve.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #include "assets/objects/object_box/object_box.h"

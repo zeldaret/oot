@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "z64player.h"
+#include "player.h"
 
 struct ArmsHook;
 

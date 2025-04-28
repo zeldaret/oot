@@ -18,8 +18,8 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 
 #include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"

@@ -10,7 +10,7 @@
 #include "regs.h"
 #include "terminal.h"
 #include "debug_display.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_LOCK_ON_DISABLED)

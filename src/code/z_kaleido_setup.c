@@ -6,7 +6,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "audio.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 /*

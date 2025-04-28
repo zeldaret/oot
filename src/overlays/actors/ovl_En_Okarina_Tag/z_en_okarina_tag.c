@@ -17,8 +17,8 @@
 #include "audio.h"
 #include "debug_display.h"
 #include "ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 
 #include "assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"

@@ -24,7 +24,7 @@
 #include "effect.h"
 #include "light.h"
 #include "horse.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 #include "z64skin_matrix.h"
 

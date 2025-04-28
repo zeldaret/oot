@@ -7,7 +7,7 @@
 #include "z_bg_spot00_break.h"
 
 #include "ichain.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #include "assets/objects/object_spot00_break/object_spot00_break.h"

@@ -9,7 +9,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_ik/object_ik.h"
 

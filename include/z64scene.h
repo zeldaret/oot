@@ -7,7 +7,7 @@
 #include "environment.h"
 #include "light.h"
 #include "z_math.h"
-#include "z64path.h"
+#include "path.h"
 
 #include "command_macros_base.h"
 

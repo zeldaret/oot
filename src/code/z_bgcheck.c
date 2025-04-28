@@ -10,8 +10,8 @@
 #include "translation.h"
 #include "z_lib.h"
 #include "bgcheck.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64skin_matrix.h"
 
 #pragma increment_block_number "ntsc-1.0:152 ntsc-1.1:152 ntsc-1.2:152"

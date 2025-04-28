@@ -1,5 +1,5 @@
-#ifndef Z64PLAY_H
-#define Z64PLAY_H
+#ifndef PLAY_STATE_H
+#define PLAY_STATE_H
 
 #include "ultra64.h"
 
@@ -17,7 +17,7 @@
 #include "light.h"
 #include "message.h"
 #include "object.h"
-#include "z64pause.h"
+#include "pause.h"
 #include "z64room.h"
 #include "z64scene.h"
 #include "z64sfx_source.h"

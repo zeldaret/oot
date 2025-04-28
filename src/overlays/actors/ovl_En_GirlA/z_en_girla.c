@@ -12,7 +12,7 @@
 #include "terminal.h"
 #include "z_lib.h"
 #include "draw.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)

@@ -17,7 +17,7 @@
 #include "translation.h"
 #include "z_lib.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"

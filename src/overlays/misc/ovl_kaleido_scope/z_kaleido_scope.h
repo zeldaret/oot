@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "gfx.h"
 #include "inventory.h"
-#include "z64pause.h"
+#include "pause.h"
 
 struct PlayState;
 

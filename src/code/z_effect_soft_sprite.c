@@ -7,7 +7,7 @@
 #include "zelda_arena.h"
 #include "frame_advance.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 
 EffectSsInfo sEffectSsInfo = { 0 }; // "EffectSS2Info"
 

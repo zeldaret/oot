@@ -21,7 +21,7 @@
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "audio.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 #include "z64skin.h"
 

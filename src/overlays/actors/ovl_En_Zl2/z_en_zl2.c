@@ -19,8 +19,8 @@
 #include "translation.h"
 #include "z_lib.h"
 #include "frame_advance.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 
 #include "assets/objects/object_zl2/object_zl2.h"

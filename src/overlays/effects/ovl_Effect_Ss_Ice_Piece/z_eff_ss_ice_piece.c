@@ -12,7 +12,7 @@
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

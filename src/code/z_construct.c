@@ -7,7 +7,7 @@
 #include "lifemeter.h"
 #include "interface.h"
 #include "ocarina.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 void Interface_Destroy(PlayState* play) {

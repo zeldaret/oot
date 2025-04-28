@@ -14,7 +14,7 @@
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_yukabyun/object_yukabyun.h"
 

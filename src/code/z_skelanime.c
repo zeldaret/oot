@@ -12,7 +12,7 @@
 #include "zelda_arena.h"
 #include "animation.h"
 #include "animation_legacy.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #define ANIM_INTERP 1
 

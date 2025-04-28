@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "ultra64/leo.h"
-#include "z64pause.h"
+#include "pause.h"
 #include "z64scene.h"
 #include "map_mark.h"
 #include "versions.h"

@@ -15,8 +15,8 @@
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "terminal.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"

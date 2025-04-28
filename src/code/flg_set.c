@@ -5,7 +5,7 @@
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "controller.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 typedef struct FlagSetEntry {

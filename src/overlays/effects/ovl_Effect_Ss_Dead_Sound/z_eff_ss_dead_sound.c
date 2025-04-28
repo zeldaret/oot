@@ -8,7 +8,7 @@
 #include "printf.h"
 #include "sfx.h"
 #include "effect.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #define rSfxId regs[10]
 #define rRepeatMode regs[11] // sound is replayed every update. unused in the original game

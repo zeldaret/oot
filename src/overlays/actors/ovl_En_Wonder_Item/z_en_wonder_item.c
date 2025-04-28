@@ -14,8 +14,8 @@
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "debug_display.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #define FLAGS 0
 

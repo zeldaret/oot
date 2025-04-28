@@ -34,7 +34,7 @@
 #include "zelda_arena.h"
 #include "actor.h"
 #include "curve.h"
-#include "z64play.h"
+#include "play_state.h"
 
 void SkelCurve_Clear(SkelCurve* skelCurve) {
     skelCurve->limbCount = 0;

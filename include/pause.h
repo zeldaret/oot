@@ -1,5 +1,5 @@
-#ifndef Z64PAUSE_H
-#define Z64PAUSE_H
+#ifndef PAUSE_H
+#define PAUSE_H
 
 #include "animation.h"
 #include "message.h"

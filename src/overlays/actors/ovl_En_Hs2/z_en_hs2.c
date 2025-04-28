@@ -13,7 +13,7 @@
 #include "terminal.h"
 #include "z_lib.h"
 #include "face_reaction.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_hs/object_hs.h"
 

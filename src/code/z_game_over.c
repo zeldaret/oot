@@ -5,7 +5,7 @@
 #include "sequence.h"
 #include "versions.h"
 #include "game_over.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 void GameOver_Init(PlayState* play) {

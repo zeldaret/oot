@@ -12,7 +12,7 @@
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "item.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_gi_hearts/object_gi_hearts.h"
 

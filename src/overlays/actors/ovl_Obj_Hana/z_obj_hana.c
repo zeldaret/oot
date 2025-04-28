@@ -7,7 +7,7 @@
 #include "z_obj_hana.h"
 
 #include "ichain.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"

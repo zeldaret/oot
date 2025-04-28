@@ -14,8 +14,8 @@
 #include "sfx.h"
 #include "z_lib.h"
 #include "effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"

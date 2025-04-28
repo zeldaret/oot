@@ -9,7 +9,7 @@
 #include "sfx.h"
 #include "sys_ucode.h"
 #include "versions.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"

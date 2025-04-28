@@ -21,8 +21,8 @@
 #include "lifemeter.h"
 #include "horse.h"
 #include "ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"

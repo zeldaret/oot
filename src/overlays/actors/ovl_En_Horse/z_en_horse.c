@@ -26,8 +26,8 @@
 #include "audio.h"
 #include "effect.h"
 #include "horse.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z64save.h"
 #include "z64skin_matrix.h"
 

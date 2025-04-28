@@ -10,7 +10,7 @@
 #include "gfx_setupdl.h"
 #include "sfx.h"
 #include "sys_matrix.h"
-#include "z64play.h"
+#include "play_state.h"
 #include "z64save.h"
 
 #include "assets/objects/object_spot15_obj/object_spot15_obj.h"
