@@ -1,5 +1,5 @@
-#ifndef Z64_DMA_H
-#define Z64_DMA_H
+#ifndef DMA_H
+#define DMA_H
 
 #include "ultra64.h"
 #include "alignment.h"

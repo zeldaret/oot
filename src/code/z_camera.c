@@ -19,7 +19,7 @@
 #include "zelda_arena.h"
 #include "audio.h"
 #include "cutscene_spline.h"
-#include "z64debug.h"
+#include "debug.h"
 #include "z64olib.h"
 #include "z64play.h"
 #include "z64player.h"

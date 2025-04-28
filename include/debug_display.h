@@ -1,5 +1,5 @@
-#ifndef Z64_DEBUG_DISPLAY_H
-#define Z64_DEBUG_DISPLAY_H
+#ifndef DEBUG_DISPLAY_H
+#define DEBUG_DISPLAY_H
 
 #include "ultra64.h"
 #include "z64math.h"

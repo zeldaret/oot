@@ -2,7 +2,7 @@
 #define Z64ROOM_H
 
 #include "ultra64.h"
-#include "z64dma.h"
+#include "dma.h"
 #include "z64math.h"
 
 struct Input;

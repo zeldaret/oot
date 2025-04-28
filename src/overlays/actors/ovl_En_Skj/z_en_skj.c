@@ -13,7 +13,7 @@
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "audio.h"
-#include "z64debug_display.h"
+#include "debug_display.h"
 #include "z64face_reaction.h"
 #include "z64ocarina.h"
 #include "z64effect.h"

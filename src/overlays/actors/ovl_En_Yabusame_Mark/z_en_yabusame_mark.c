@@ -13,7 +13,7 @@
 #include "terminal.h"
 #include "z_lib.h"
 #include "audio.h"
-#include "z64debug_display.h"
+#include "debug_display.h"
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64save.h"

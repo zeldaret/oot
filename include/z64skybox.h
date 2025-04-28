@@ -5,7 +5,7 @@
 #include "ultra64/gbi.h"
 
 #include "z64math.h"
-#include "z64dma.h" // for RomFile
+#include "dma.h" // for RomFile
 
 struct GameState;
 struct GraphicsContext;

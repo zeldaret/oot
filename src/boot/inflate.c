@@ -102,7 +102,7 @@
 #include "libc/stdint.h"
 #include "alignment.h"
 #include "attributes.h"
-#include "z64dma.h"
+#include "dma.h"
 
 typedef u8 uch;
 typedef u16 ush;

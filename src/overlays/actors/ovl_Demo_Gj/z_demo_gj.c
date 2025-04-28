@@ -20,7 +20,7 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64draw.h"
+#include "draw.h"
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64player.h"

@@ -2,7 +2,7 @@
 #define Z64INTERFACE_H
 
 #include "ultra64.h"
-#include "z64dma.h"
+#include "dma.h"
 #include "z64view.h"
 
 struct PlayState;

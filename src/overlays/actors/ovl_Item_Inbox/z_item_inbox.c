@@ -5,7 +5,7 @@
  */
 
 #include "z_item_inbox.h"
-#include "z64draw.h"
+#include "draw.h"
 #include "z64play.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)

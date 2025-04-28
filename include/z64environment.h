@@ -3,7 +3,7 @@
 
 #include "z64math.h"
 #include "z64light.h"
-#include "z64dma.h"
+#include "dma.h"
 
 struct GameOverContext;
 struct MessageContext;

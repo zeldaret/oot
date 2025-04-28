@@ -16,7 +16,7 @@
 #include "quake.h"
 #include "terminal.h"
 #include "z_lib.h"
-#include "z64debug_display.h"
+#include "debug_display.h"
 #include "z64effect.h"
 #include "z64play.h"
 

@@ -4,7 +4,7 @@
 #include "segment_symbols.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64dma.h"
+#include "dma.h"
 #include "z64font.h"
 #include "z64message.h"
 

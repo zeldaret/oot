@@ -4,7 +4,7 @@
 #include "regs.h"
 #include "sample_state.h"
 #include "segment_symbols.h"
-#include "z64dma.h"
+#include "dma.h"
 #include "z64play.h"
 
 void Sample_HandleStateChange(SampleState* this) {

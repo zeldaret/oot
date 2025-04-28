@@ -17,7 +17,7 @@
 #include "z_lib.h"
 #include "audio.h"
 #include "curve.h"
-#include "z64draw.h"
+#include "draw.h"
 #include "cutscene_flags.h"
 #include "z64effect.h"
 #include "z64play.h"

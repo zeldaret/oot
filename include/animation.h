@@ -3,7 +3,7 @@
 
 #include "avoid_ub.h"
 #include "ultra64.h"
-#include "z64dma.h"
+#include "dma.h"
 #include "z64math.h"
 
 struct PlayState;
