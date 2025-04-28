@@ -22,7 +22,7 @@
 #include "audio.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64room.h"
+#include "room.h"
 #include "z64save.h"
 #include "z64skin_matrix.h"
 

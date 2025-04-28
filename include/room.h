@@ -1,5 +1,5 @@
-#ifndef Z64ROOM_H
-#define Z64ROOM_H
+#ifndef ROOM_H
+#define ROOM_H
 
 #include "ultra64.h"
 #include "dma.h"
