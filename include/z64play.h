@@ -6,7 +6,7 @@
 #include "prerender.h"
 #include "transition_tile.h"
 #include "actor.h"
-#include "z64bgcheck.h"
+#include "bgcheck.h"
 #include "z64camera.h"
 #include "z64cutscene.h"
 #include "z64environment.h"

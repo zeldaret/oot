@@ -1,6 +1,6 @@
 #include "z_lib.h"
 #include "actor.h"
-#include "z64bgcheck.h"
+#include "bgcheck.h"
 #include "z64play.h"
 
 /**

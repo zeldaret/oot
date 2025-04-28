@@ -3,7 +3,7 @@
 
 #include "avoid_ub.h"
 #include "ultra64.h"
-#include "z64bgcheck.h"
+#include "bgcheck.h"
 #include "z64environment.h"
 #include "z64light.h"
 #include "z64math.h"

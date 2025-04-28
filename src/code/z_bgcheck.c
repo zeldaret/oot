@@ -9,7 +9,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64bgcheck.h"
+#include "bgcheck.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64skin_matrix.h"
