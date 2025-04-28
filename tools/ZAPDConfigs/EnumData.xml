@@ -348,7 +348,7 @@
         <Item Key="hints_dungeon" ID="NAVI_QUEST_HINTS_DUNGEON" Index="2"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="playerCueId" ID="PlayerCueId">
-        <!-- https://github.com/zeldaret/oot/blob/b3486b57ef41a284a366eb40ca07bf82bf4750d6/include/player.h#L462-L542 -->
+        <!-- https://github.com/zeldaret/oot/blob/b3486b57ef41a284a366eb40ca07bf82bf4750d6/include/z64player.h#L462-L542 -->
         <Item Key="cueid_none" ID="PLAYER_CUEID_NONE" Index="0"/>
         <Item Key="cueid_1" ID="PLAYER_CUEID_1" Index="1"/>
         <Item Key="cueid_2" ID="PLAYER_CUEID_2" Index="2"/>
@@ -429,7 +429,7 @@
         <Item Key="cueid_77" ID="PLAYER_CUEID_77" Index="77"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="ocarinaSongActionId" ID="OcarinaSongActionId">
-        <!-- https://github.com/zeldaret/oot/blob/b3486b57ef41a284a366eb40ca07bf82bf4750d6/include/ocarina.h#L25-L76 -->
+        <!-- https://github.com/zeldaret/oot/blob/b3486b57ef41a284a366eb40ca07bf82bf4750d6/include/z64ocarina.h#L25-L76 -->
         <Item Key="unk_0" ID="OCARINA_ACTION_UNK_0" Index="0"/>
         <Item Key="free_play" ID="OCARINA_ACTION_FREE_PLAY" Index="1"/>
         <Item Key="teach_minuet" ID="OCARINA_ACTION_TEACH_MINUET" Index="2"/>
