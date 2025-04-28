@@ -1,7 +1,7 @@
 #ifndef MESSAGE_DATA_FMT_H
 #define MESSAGE_DATA_FMT_H
 
-#include "z64save.h" // For highscores
+#include "save.h" // For highscores
 #include "item.h" // For item ids
 #include "sfx.h" // For sfx ids
 

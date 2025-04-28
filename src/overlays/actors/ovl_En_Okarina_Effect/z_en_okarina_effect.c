@@ -16,7 +16,7 @@
 #include "debug_display.h"
 #include "frame_advance.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 

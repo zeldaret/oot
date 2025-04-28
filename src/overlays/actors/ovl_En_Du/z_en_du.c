@@ -12,7 +12,7 @@
 #include "ocarina.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/object_du/object_du.h"
 #include "assets/scenes/overworld/spot18/spot18_scene.h"

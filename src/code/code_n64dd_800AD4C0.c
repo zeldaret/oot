@@ -4,7 +4,7 @@
 #include "segmented_address.h"
 #include "actor.h"
 #include "cutscene.h"
-#include "z64save.h"
+#include "save.h"
 
 n64ddStruct_800FEE70_pointers D_800FEE70 = {
     func_801C7C1C,

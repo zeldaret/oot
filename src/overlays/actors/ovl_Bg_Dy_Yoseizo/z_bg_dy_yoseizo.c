@@ -24,7 +24,7 @@
 #include "ocarina.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/object_dy_obj/object_dy_obj.h"
 #include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"

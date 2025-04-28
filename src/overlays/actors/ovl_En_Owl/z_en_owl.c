@@ -25,7 +25,7 @@
 #include "audio.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/object_owl/object_owl.h"
 #include "assets/scenes/overworld/spot06/spot06_scene.h"

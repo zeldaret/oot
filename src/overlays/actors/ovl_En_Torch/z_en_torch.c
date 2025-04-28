@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #define FLAGS 0
 

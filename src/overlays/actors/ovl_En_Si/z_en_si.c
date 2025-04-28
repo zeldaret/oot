@@ -12,7 +12,7 @@
 #include "draw.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
+#include "save.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR)
 

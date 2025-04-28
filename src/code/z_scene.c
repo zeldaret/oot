@@ -13,8 +13,8 @@
 #include "z_lib.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
-#include "z64scene.h"
+#include "save.h"
+#include "scene.h"
 
 SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX];
 RomFile sNaviQuestHintFiles[];

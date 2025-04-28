@@ -16,7 +16,7 @@
 #include "z_lib.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64skin_matrix.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 

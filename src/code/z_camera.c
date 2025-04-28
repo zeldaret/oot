@@ -23,7 +23,7 @@
 #include "olib.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
+#include "save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \

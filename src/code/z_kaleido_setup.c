@@ -7,7 +7,7 @@
 #include "regs.h"
 #include "audio.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 /*
  * The following three arrays are effectively unused.

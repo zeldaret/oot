@@ -3,8 +3,8 @@
 #include "sys_matrix.h"
 #include "z_math.h"
 #include "play_state.h"
-#include "z64skin.h"
-#include "z64skin_matrix.h"
+#include "skin.h"
+#include "skin_matrix.h"
 
 MtxF gSkinLimbMatrices[60]; // holds matrices for each limb of the skeleton currently being drawn
 

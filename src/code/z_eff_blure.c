@@ -7,7 +7,7 @@
 #include "translation.h"
 #include "z_lib.h"
 #include "effect.h"
-#include "z64skin_matrix.h"
+#include "skin_matrix.h"
 
 #include "z64.h" // required for gameplay keep, the header doesnt include any external dependencies
 #include "assets/objects/gameplay_keep/gameplay_keep.h"

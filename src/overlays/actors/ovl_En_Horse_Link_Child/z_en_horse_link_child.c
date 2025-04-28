@@ -20,8 +20,8 @@
 #include "horse.h"
 #include "player.h"
 #include "play_state.h"
-#include "z64save.h"
-#include "z64skin.h"
+#include "save.h"
+#include "skin.h"
 
 #include "assets/objects/object_horse_link_child/object_horse_link_child.h"
 

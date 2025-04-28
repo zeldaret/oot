@@ -1,5 +1,5 @@
-#ifndef Z64SCENE_H
-#define Z64SCENE_H
+#ifndef SCENE_H
+#define SCENE_H
 
 #include "avoid_ub.h"
 #include "ultra64.h"

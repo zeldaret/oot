@@ -27,7 +27,7 @@
 #include "vi_mode.h"
 #include "z_game_dlftbls.h"
 #include "audio.h"
-#include "z64save.h"
+#include "save.h"
 #include "play_state.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234

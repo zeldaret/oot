@@ -26,7 +26,7 @@
 #include "face_reaction.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/object_ru1/object_ru1.h"
 

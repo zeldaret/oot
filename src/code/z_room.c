@@ -23,8 +23,8 @@
 #include "play_state.h"
 #include "player.h"
 #include "room.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 

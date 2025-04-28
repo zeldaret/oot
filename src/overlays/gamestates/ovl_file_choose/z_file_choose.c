@@ -27,10 +27,10 @@
 #include "audio.h"
 #include "environment.h"
 #include "play_state.h"
-#include "z64save.h"
-#include "z64skybox.h"
-#include "z64sram.h"
-#include "z64ss_sram.h"
+#include "save.h"
+#include "skybox.h"
+#include "sram.h"
+#include "ss_sram.h"
 #include "z64view.h"
 
 #if OOT_PAL_N64

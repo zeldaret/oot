@@ -28,8 +28,8 @@
 #include "horse.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/object_horse/object_horse.h"
 #include "assets/objects/object_hni/object_hni.h"

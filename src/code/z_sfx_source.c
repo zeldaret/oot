@@ -1,9 +1,9 @@
-#include "z64sfx_source.h"
+#include "sfx_source.h"
 
 #include "array_count.h"
 #include "sfx.h"
 #include "play_state.h"
-#include "z64skin_matrix.h"
+#include "skin_matrix.h"
 
 void SfxSource_InitAll(PlayState* play) {
     SfxSource* sources = &play->sfxSources[0];

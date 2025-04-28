@@ -23,8 +23,8 @@
 #include "audio.h"
 #include "cutscene_flags.h"
 #include "play_state.h"
-#include "z64save.h"
-#include "z64ss_sram.h"
+#include "save.h"
+#include "ss_sram.h"
 
 #include "assets/objects/object_mag/object_mag.h"
 

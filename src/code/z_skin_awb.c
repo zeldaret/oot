@@ -3,8 +3,8 @@
 #include "zelda_arena.h"
 #include "actor.h"
 #include "play_state.h"
-#include "z64skin.h"
-#include "z64skin_matrix.h"
+#include "skin.h"
+#include "skin_matrix.h"
 
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 

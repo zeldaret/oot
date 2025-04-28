@@ -6,7 +6,7 @@
 #include "gfxalloc.h"
 #include "controller.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 typedef struct FlagSetEntry {
     /* 0x00 */ u16* value;

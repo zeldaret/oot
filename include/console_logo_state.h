@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "game.h"
-#include "z64sram.h"
+#include "sram.h"
 #include "z64view.h"
 
 typedef struct ConsoleLogoState {

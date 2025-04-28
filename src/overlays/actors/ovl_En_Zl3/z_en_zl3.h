@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "z64scene.h"
+#include "scene.h"
 
 #include "overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.h"
 

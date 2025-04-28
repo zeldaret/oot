@@ -8,7 +8,7 @@
 #include "interface.h"
 #include "ocarina.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);

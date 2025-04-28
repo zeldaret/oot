@@ -1,5 +1,5 @@
-#ifndef Z64SKIN_MATRIX_H
-#define Z64SKIN_MATRIX_H
+#ifndef SKIN_MATRIX_H
+#define SKIN_MATRIX_H
 
 #include "ultra64.h"
 #include "z_math.h"

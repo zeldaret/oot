@@ -22,8 +22,8 @@
 #include "z_lib.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
-#include "z64skin.h"
+#include "save.h"
+#include "skin.h"
 
 #include "assets/objects/object_fhg/object_fhg.h"
 

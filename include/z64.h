@@ -13,7 +13,7 @@
 #include "animation.h"
 #include "animation_legacy.h"
 #include "curve.h"
-#include "z64skin.h"
+#include "skin.h"
 #include "player.h"
 #include "ocarina.h"
 

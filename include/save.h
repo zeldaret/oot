@@ -1,5 +1,5 @@
-#ifndef Z64SAVE_H
-#define Z64SAVE_H
+#ifndef SAVE_H
+#define SAVE_H
 
 #include "ultra64.h"
 #include "versions.h"

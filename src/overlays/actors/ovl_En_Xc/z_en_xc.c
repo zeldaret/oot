@@ -24,8 +24,8 @@
 #include "audio.h"
 #include "effect.h"
 #include "play_state.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/object_xc/object_xc.h"
 #include "assets/scenes/overworld/spot05/spot05_scene.h"

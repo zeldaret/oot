@@ -8,7 +8,7 @@
 #include "effect.h"
 #include "light.h"
 #include "play_state.h"
-#include "z64skin_matrix.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

@@ -1,4 +1,4 @@
-#include "z64sram.h"
+#include "sram.h"
 
 #include "array_count.h"
 #include "file_select_state.h"
@@ -13,9 +13,9 @@
 #include "interface.h"
 #include "message.h"
 #include "ocarina.h"
-#include "z64save.h"
-#include "z64scene.h"
-#include "z64ss_sram.h"
+#include "save.h"
+#include "scene.h"
+#include "ss_sram.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)

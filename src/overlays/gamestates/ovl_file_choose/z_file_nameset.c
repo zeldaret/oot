@@ -14,7 +14,7 @@
 #include "terminal.h"
 #include "versions.h"
 #include "audio.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/textures/title_static/title_static.h"
 #include "assets/overlays/ovl_file_choose/ovl_file_choose.h"

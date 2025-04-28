@@ -48,8 +48,8 @@
 #include "lifemeter.h"
 #include "ocarina.h"
 #include "play_state.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_link_child/object_link_child.h"

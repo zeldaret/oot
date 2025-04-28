@@ -15,7 +15,7 @@
 #include "z_lib.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64skin.h"
+#include "skin.h"
 
 #include "assets/objects/object_horse_ganon/object_horse_ganon.h"
 

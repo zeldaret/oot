@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "actor.h"
-#include "z64skin.h"
+#include "skin.h"
 
 typedef enum EnHorseAction {
     /*  0 */ ENHORSE_ACT_FROZEN,

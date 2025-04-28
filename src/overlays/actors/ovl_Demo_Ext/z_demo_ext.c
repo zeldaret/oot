@@ -15,7 +15,7 @@
 #include "terminal.h"
 #include "translation.h"
 #include "play_state.h"
-#include "z64skin.h"
+#include "skin.h"
 
 #include "assets/objects/object_fhg/object_fhg.h"
 

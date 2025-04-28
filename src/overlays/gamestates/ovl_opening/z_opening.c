@@ -10,8 +10,8 @@
 #include "title_setup_state.h"
 #include "game.h"
 #include "play_state.h"
-#include "z64save.h"
-#include "z64sram.h"
+#include "save.h"
+#include "sram.h"
 #include "z64view.h"
 
 void TitleSetup_SetupTitleScreen(TitleSetupState* this) {

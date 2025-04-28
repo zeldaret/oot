@@ -14,7 +14,7 @@
 #include "cutscene_flags.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 

@@ -9,7 +9,7 @@
 #include "sfx.h"
 #include "z_lib.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

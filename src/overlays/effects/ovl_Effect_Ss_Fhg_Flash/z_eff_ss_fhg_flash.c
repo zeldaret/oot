@@ -17,7 +17,7 @@
 #include "effect.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64skin.h"
+#include "skin.h"
 
 #include "assets/objects/object_fhg/object_fhg.h"
 

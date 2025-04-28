@@ -25,8 +25,8 @@
 #include "effect.h"
 #include "play_state.h"
 #include "player.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/objects/object_ik/object_ik.h"

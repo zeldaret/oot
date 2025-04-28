@@ -24,7 +24,7 @@
 #include "audio.h"
 #include "effect.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_bv/object_bv.h"

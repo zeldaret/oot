@@ -4,7 +4,7 @@
 #include "player.h"
 #include "quest_hint.h"
 #include "quest_hint_commands.h"
-#include "z64save.h"
+#include "save.h"
 
 QuestHintCmd sChildSariaQuestHints[] = {
     QUEST_HINT_STRENGTH_UPG(SKIP, 0, false, 3),

@@ -18,9 +18,9 @@
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
-#include "z64save.h"
-#include "z64skin.h"
-#include "z64skin_matrix.h"
+#include "save.h"
+#include "skin.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_horse_normal/object_horse_normal.h"

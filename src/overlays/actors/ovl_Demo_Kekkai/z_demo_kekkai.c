@@ -18,7 +18,7 @@
 #include "audio.h"
 #include "effect.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "assets/scenes/dungeons/ganontika/ganontika_scene.h"

@@ -22,8 +22,8 @@
 #include "z_lib.h"
 #include "audio.h"
 #include "play_state.h"
-#include "z64save.h"
-#include "z64skin.h"
+#include "save.h"
+#include "skin.h"
 
 #include "assets/objects/object_zl4/object_zl4.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"

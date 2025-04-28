@@ -1,5 +1,5 @@
-#ifndef Z64SFX_SOURCE_H
-#define Z64SFX_SOURCE_H
+#ifndef SFX_SOURCE_H
+#define SFX_SOURCE_H
 
 #include "ultra64.h"
 #include "z_math.h"

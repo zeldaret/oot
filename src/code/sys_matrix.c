@@ -8,7 +8,7 @@
 #include "ultra64.h"
 #include "z_lib.h"
 #include "game.h"
-#include "z64skin_matrix.h"
+#include "skin_matrix.h"
 
 // clang-format off
 Mtx gIdentityMtx = gdSPDefMtx(

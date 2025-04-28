@@ -13,7 +13,7 @@
 #include "draw.h"
 #include "effect.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

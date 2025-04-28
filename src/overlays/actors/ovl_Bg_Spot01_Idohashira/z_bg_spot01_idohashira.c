@@ -18,7 +18,7 @@
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/object_spot01_objects/object_spot01_objects.h"
 

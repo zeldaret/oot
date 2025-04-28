@@ -27,7 +27,7 @@
 #include "versions.h"
 #include "actor.h"
 #include "environment.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 

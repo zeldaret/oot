@@ -11,7 +11,7 @@
 #include "segmented_address.h"
 #include "translation.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/object_spot01_matoya/object_spot01_matoya.h"
 #include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"

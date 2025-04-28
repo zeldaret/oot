@@ -1,7 +1,7 @@
 #include "transition_wipe.h"
 
 #include "gfx.h"
-#include "z64save.h"
+#include "save.h"
 #include "z64transition_instances.h"
 
 typedef enum TransitionWipeDirection {

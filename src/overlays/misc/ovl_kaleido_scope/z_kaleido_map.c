@@ -10,7 +10,7 @@
 #include "sys_ucode.h"
 #include "versions.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
 #if OOT_NTSC

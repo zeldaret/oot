@@ -11,7 +11,7 @@
 #include "sfx.h"
 #include "z_lib.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/object_spot05_objects/object_spot05_objects.h"
 

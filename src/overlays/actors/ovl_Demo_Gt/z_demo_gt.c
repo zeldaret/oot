@@ -18,7 +18,7 @@
 #include "effect.h"
 #include "frame_advance.h"
 #include "play_state.h"
-#include "z64save.h"
+#include "save.h"
 
 #include "assets/objects/object_gt/object_gt.h"
 #include "assets/objects/object_geff/object_geff.h"

@@ -1,5 +1,5 @@
-#ifndef Z64_SKIN_H
-#define Z64_SKIN_H
+#ifndef SKIN_H
+#define SKIN_H
 
 #include "animation.h"
 
