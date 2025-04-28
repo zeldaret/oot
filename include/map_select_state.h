@@ -2,7 +2,7 @@
 #define MAP_SELECT_STATE_H
 
 #include "ultra64.h"
-#include "z64game.h"
+#include "game.h"
 #include "z64view.h"
 
 struct MapSelectState;

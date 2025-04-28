@@ -5,7 +5,7 @@
 #include "ultra64.h"
 #include "gfx.h"
 #include "versions.h"
-#include "z64game.h"
+#include "game.h"
 
 
 #define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + offsetof(SaveContext, save.info.playerData.newf[index])])

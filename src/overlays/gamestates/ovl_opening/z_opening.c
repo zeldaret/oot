@@ -8,7 +8,7 @@
 #include "regs.h"
 #include "sys_matrix.h"
 #include "title_setup_state.h"
-#include "z64game.h"
+#include "game.h"
 #include "z64play.h"
 #include "z64save.h"
 #include "z64sram.h"

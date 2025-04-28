@@ -28,7 +28,7 @@
 #include "zelda_arena.h"
 #include "debug.h"
 #include "dma.h"
-#include "z64game.h"
+#include "game.h"
 #include "z64play.h"
 #include "z64vis.h"
 

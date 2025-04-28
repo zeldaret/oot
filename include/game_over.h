@@ -1,5 +1,5 @@
-#ifndef Z64GAME_OVER_H
-#define Z64GAME_OVER_H
+#ifndef GAME_OVER_H
+#define GAME_OVER_H
 
 #include "ultra64.h"
 

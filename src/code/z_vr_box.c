@@ -6,7 +6,7 @@
 #include "terminal.h"
 #include "ultra64.h"
 #include "environment.h"
-#include "z64game.h"
+#include "game.h"
 #include "z64play.h"
 #include "z64save.h"
 

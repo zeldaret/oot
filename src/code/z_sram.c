@@ -9,7 +9,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "audio.h"
-#include "z64game.h"
+#include "game.h"
 #include "z64interface.h"
 #include "z64message.h"
 #include "z64ocarina.h"

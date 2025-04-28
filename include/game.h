@@ -1,5 +1,5 @@
-#ifndef Z64GAME_H
-#define Z64GAME_H
+#ifndef GAME_H
+#define GAME_H
 // This file is named "game" after game.c for now, this may change later with the system name
 
 #include "ultra64/ultratypes.h"

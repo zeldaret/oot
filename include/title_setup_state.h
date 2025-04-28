@@ -1,7 +1,7 @@
 #ifndef TITLE_SETUP_STATE_H
 #define TITLE_SETUP_STATE_H
 
-#include "z64game.h"
+#include "game.h"
 #include "z64view.h"
 
 typedef struct TitleSetupState {

@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "environment.h"
-#include "z64game.h"
+#include "game.h"
 #include "z64message.h"
 #include "z64skybox.h"
 #include "z64sram.h"
