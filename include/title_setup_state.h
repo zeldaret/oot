@@ -2,7 +2,7 @@
 #define TITLE_SETUP_STATE_H
 
 #include "game.h"
-#include "z64view.h"
+#include "view.h"
 
 typedef struct TitleSetupState {
     /* 0x0000 */ GameState state;

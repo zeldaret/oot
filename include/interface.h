@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "dma.h"
-#include "z64view.h"
+#include "view.h"
 
 struct PlayState;
 

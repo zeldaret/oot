@@ -1,5 +1,5 @@
-#ifndef Z64VIEW_H
-#define Z64VIEW_H
+#ifndef VIEW_H
+#define VIEW_H
 
 #include "avoid_ub.h"
 #include "ultra64.h"

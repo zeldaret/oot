@@ -31,7 +31,7 @@
 #include "skybox.h"
 #include "sram.h"
 #include "ss_sram.h"
-#include "z64view.h"
+#include "view.h"
 
 #if OOT_PAL_N64
 #include "assets/objects/object_mag/object_mag.h"

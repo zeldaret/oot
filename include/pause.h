@@ -3,7 +3,7 @@
 
 #include "animation.h"
 #include "message.h"
-#include "z64view.h"
+#include "view.h"
 
 struct OcarinaStaff;
 struct PlayState;

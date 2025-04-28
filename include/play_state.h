@@ -24,7 +24,7 @@
 #include "skybox.h"
 #include "sram.h"
 #include "transition.h"
-#include "z64view.h"
+#include "view.h"
 
 union Color_RGBA8_u32;
 struct Path;

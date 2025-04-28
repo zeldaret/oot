@@ -7,7 +7,7 @@
 #include "message.h"
 #include "skybox.h"
 #include "sram.h"
-#include "z64view.h"
+#include "view.h"
 
 typedef struct FileSelectState {
     /* 0x00000 */ GameState state;

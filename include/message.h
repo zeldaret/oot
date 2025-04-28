@@ -1,7 +1,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include "z64view.h"
+#include "view.h"
 #include "versions.h"
 #include "font.h"
 

@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "game.h"
 #include "sram.h"
-#include "z64view.h"
+#include "view.h"
 
 typedef struct ConsoleLogoState {
     /* 0x0000 */ GameState state;

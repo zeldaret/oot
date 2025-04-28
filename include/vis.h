@@ -1,5 +1,5 @@
-#ifndef Z64_VIS_H
-#define Z64_VIS_H
+#ifndef VIS_H
+#define VIS_H
 
 #include "ultra64.h"
 #include "color.h"

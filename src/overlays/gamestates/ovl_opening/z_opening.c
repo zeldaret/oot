@@ -12,7 +12,7 @@
 #include "play_state.h"
 #include "save.h"
 #include "sram.h"
-#include "z64view.h"
+#include "view.h"
 
 void TitleSetup_SetupTitleScreen(TitleSetupState* this) {
     gSaveContext.gameMode = GAMEMODE_TITLE_SCREEN;
