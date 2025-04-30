@@ -1,3 +1,7 @@
+/**
+ * Original Filename: sub_sys.c
+ */
+
 #include "array_count.h"
 #include "audiothread_cmd.h"
 #include "ultra64.h"
@@ -27,6 +31,8 @@ static AudioTask* sWaitingAudioTask = NULL;
 
 /**
  * This is Audio_Update for the audio thread
+ *
+ * original name: CreateAudioTask (note: function is heavily modified in Animal Crossing)
  */
 AudioTask* AudioThread_UpdateImpl(void) {
 #if OOT_VERSION < PAL_1_0 || !PLATFORM_N64
@@ -200,6 +206,9 @@ AudioTask* AudioThread_UpdateImpl(void) {
     }
 }
 
+/**
+ * original name: Nap_AudioSysProcess
+ */
 void AudioThread_ProcessGlobalCmd(AudioCmd* cmd) {
     s32 i;
     s32 pad[3];
@@ -325,6 +334,9 @@ void AudioThread_ProcessGlobalCmd(AudioCmd* cmd) {
     }
 }
 
+/**
+ * original name: __Nas_GroupFadeOut
+ */
 void AudioThread_SetFadeOutTimer(s32 seqPlayerIndex, s32 fadeTimer) {
     SequencePlayer* seqPlayer = &gAudioCtx.seqPlayers[seqPlayerIndex];
 
@@ -337,6 +349,9 @@ void AudioThread_SetFadeOutTimer(s32 seqPlayerIndex, s32 fadeTimer) {
     seqPlayer->fadeTimer = fadeTimer;
 }
 
+/**
+ * original name: __Nas_GroupFadeIn
+ */
 void AudioThread_SetFadeInTimer(s32 seqPlayerIndex, s32 fadeTimer) {
     SequencePlayer* seqPlayer;
 
@@ -350,6 +365,9 @@ void AudioThread_SetFadeInTimer(s32 seqPlayerIndex, s32 fadeTimer) {
     }
 }
 
+/**
+ * original name: Nap_AudioPortInit
+ */
 void AudioThread_InitMesgQueuesImpl(void) {
     gAudioCtx.threadCmdWritePos = 0;
     gAudioCtx.threadCmdReadPos = 0;
@@ -365,6 +383,9 @@ void AudioThread_InitMesgQueuesImpl(void) {
     osCreateMesgQueue(gAudioCtx.audioResetQueueP, gAudioCtx.audioResetMsgBuf, ARRAY_COUNT(gAudioCtx.audioResetMsgBuf));
 }
 
+/**
+ * original name: Nap_PortSet
+ */
 void AudioThread_QueueCmd(u32 opArgs, void** data) {
     AudioCmd* cmd = &gAudioCtx.threadCmdBuf[gAudioCtx.threadCmdWritePos & 0xFF];
 
@@ -378,26 +399,41 @@ void AudioThread_QueueCmd(u32 opArgs, void** data) {
     }
 }
 
+/**
+ * original name: Nap_SetF32
+ */
 void AudioThread_QueueCmdF32(u32 opArgs, f32 data) {
     AudioThread_QueueCmd(opArgs, (void**)&data);
 }
 
+/**
+ * original name: Nap_SetS32
+ */
 void AudioThread_QueueCmdS32(u32 opArgs, s32 data) {
     AudioThread_QueueCmd(opArgs, (void**)&data);
 }
 
+/**
+ * original name: Nap_SetS8
+ */
 void AudioThread_QueueCmdS8(u32 opArgs, s8 data) {
     u32 uData = data << 0x18;
 
     AudioThread_QueueCmd(opArgs, (void**)&uData);
 }
 
+/**
+ * original name: Nap_SetU16
+ */
 void AudioThread_QueueCmdU16(u32 opArgs, u16 data) {
     u32 uData = data << 0x10;
 
     AudioThread_QueueCmd(opArgs, (void**)&uData);
 }
 
+/**
+ * original name: Nap_SendStart
+ */
 s32 AudioThread_ScheduleProcessCmds(void) {
     static s32 D_801304E8 = 0;
     s32 ret;
@@ -419,11 +455,17 @@ s32 AudioThread_ScheduleProcessCmds(void) {
     return ret;
 }
 
+/**
+ * original name: Nap_FlushPort
+ */
 void AudioThread_ResetCmdQueue(void) {
     gAudioCtx.threadCmdQueueFinished = false;
     gAudioCtx.threadCmdReadPos = gAudioCtx.threadCmdWritePos;
 }
 
+/**
+ * original name: Nap_Process1Command
+ */
 void AudioThread_ProcessCmd(AudioCmd* cmd) {
     SequencePlayer* seqPlayer;
     u16 threadCmdChannelMask;
@@ -461,6 +503,9 @@ void AudioThread_ProcessCmd(AudioCmd* cmd) {
     }
 }
 
+/**
+ * original name: Nap_AudioPortProcess
+ */
 void AudioThread_ProcessCmds(u32 msg) {
     static u8 sCurCmdRdPos = 0;
     AudioCmd* cmd;
@@ -508,6 +553,9 @@ void Audio_GetSampleBankIdsOfFont(s32 fontId, u32* sampleBankId1, u32* sampleBan
     *sampleBankId2 = gAudioCtx.soundFontList[fontId].sampleBankId2;
 }
 
+/**
+ * original name: Nap_CheckSpecChange
+ */
 s32 func_800E5EDC(void) {
     s32 pad;
     s32 specId;
@@ -521,6 +569,9 @@ s32 func_800E5EDC(void) {
     }
 }
 
+/**
+ * original name: __ClearSpecChangeQ
+ */
 void func_800E5F34(void) {
     // macro?
     // clang-format off
@@ -528,6 +579,9 @@ void func_800E5F34(void) {
     // clang-format on
 }
 
+/**
+ * original name: Nap_StartSpecChange
+ */
 s32 AudioThread_ResetAudioHeap(s32 specId) {
     s32 resetStatus;
     OSMesg msg;
@@ -553,6 +607,9 @@ s32 AudioThread_ResetAudioHeap(s32 specId) {
     return AudioThread_ScheduleProcessCmds();
 }
 
+/**
+ * original name: Nap_StartReset
+ */
 void AudioThread_PreNMIInternal(void) {
     gAudioCtx.resetTimer = 1;
     if (gAudioContextInitialized) {
@@ -561,6 +618,9 @@ void AudioThread_PreNMIInternal(void) {
     }
 }
 
+/**
+ * original name: Nap_ReadSubPort
+ */
 s8 AudioThread_GetChannelIO(s32 seqPlayerIndex, s32 channelIndex, s32 ioPort) {
     SequencePlayer* seqPlayer = &gAudioCtx.seqPlayers[seqPlayerIndex];
     SequenceChannel* channel;
@@ -573,6 +633,9 @@ s8 AudioThread_GetChannelIO(s32 seqPlayerIndex, s32 channelIndex, s32 ioPort) {
     }
 }
 
+/**
+ * original name: Nap_ReadGrpPort
+ */
 s8 AudioThread_GetSeqPlayerIO(s32 seqPlayerIndex, s32 ioPort) {
     return gAudioCtx.seqPlayers[seqPlayerIndex].seqScriptIO[ioPort];
 }
@@ -585,6 +648,9 @@ void AudioThread_ResetExternalPool(void) {
     gAudioCtx.externalPool.startRamAddr = NULL;
 }
 
+/**
+ * original name: __SetGrpParam
+ */
 void AudioThread_ProcessSeqPlayerCmd(SequencePlayer* seqPlayer, AudioCmd* cmd) {
     f32 fadeVolume;
 
@@ -665,6 +731,9 @@ void AudioThread_ProcessSeqPlayerCmd(SequencePlayer* seqPlayer, AudioCmd* cmd) {
     }
 }
 
+/**
+ * original name: __SetSubParam
+ */
 void AudioThread_ProcessChannelCmd(SequenceChannel* channel, AudioCmd* cmd) {
     switch (cmd->op) {
         case AUDIOCMD_OP_CHANNEL_SET_VOL_SCALE:
@@ -771,6 +840,9 @@ void AudioThread_Noop2Cmd(u32 arg0, s32 arg1) {
     AUDIOCMD_GLOBAL_NOOP_2(0, 0, arg1, arg0);
 }
 
+/**
+ * original name: Nap_WaitVsync
+ */
 void AudioThread_WaitForAudioTask(void) {
     osRecvMesg(gAudioCtx.taskStartQueueP, NULL, OS_MESG_NOBLOCK);
     osRecvMesg(gAudioCtx.taskStartQueueP, NULL, OS_MESG_BLOCK);
@@ -824,6 +896,9 @@ void func_800E66A0(void) {
     func_800E66C0(2);
 }
 
+/**
+ * original name: Nap_SilenceCheck_Inner
+ */
 s32 func_800E66C0(s32 flags) {
     s32 phi_v1;
     NotePlaybackState* playbackState;
@@ -860,6 +935,9 @@ s32 func_800E66C0(s32 flags) {
     return phi_v1;
 }
 
+/**
+ * original name: Nap_GetRandom
+ */
 u32 AudioThread_NextRandom(void) {
     static u32 sAudioRandom = 0x12345678;
 
@@ -869,6 +947,9 @@ u32 AudioThread_NextRandom(void) {
     return sAudioRandom;
 }
 
+/**
+ * original name: Nas_InitGAudio
+ */
 void AudioThread_InitMesgQueues(void) {
     AudioThread_InitMesgQueuesImpl();
 }

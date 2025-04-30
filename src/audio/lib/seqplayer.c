@@ -1,5 +1,6 @@
 /**
  * @file audio_seqplayer.c
+ * original name: track.c
  *
  * Manages audio sequence players, interprets and executes sequence instructions used to write .seq files
  *
@@ -163,6 +164,8 @@ u8 sSeqInstructionArgsTable[] = {
  * Read and return the argument from the sequence script for a control flow instruction.
  * Control flow instructions (>= ASEQ_OP_CONTROL_FLOW_FIRST) can only have 0 or 1 args.
  * @return the argument value for a control flow instruction, or 0 if there is no argument
+ *
+ * original name: Convert_Com
  */
 u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 cmd) {
     u8 highBits = sSeqInstructionArgsTable[cmd - 0xB0];
@@ -184,6 +187,8 @@ u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 cmd) {
 /**
  * Read and execute the control flow sequence instructions
  * @return number of frames until next instruction. -1 signals termination
+ *
+ * original name: Common_Com
  */
 s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* state, s32 cmd, s32 cmdArg) {
     switch (cmd) {
@@ -255,6 +260,9 @@ s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* 
     return 0;
 }
 
+/**
+ * original name: Nas_InitSubTrack
+ */
 void AudioSeq_InitSequenceChannel(SequenceChannel* channel) {
     s32 i;
 
@@ -310,6 +318,9 @@ void AudioSeq_InitSequenceChannel(SequenceChannel* channel) {
     Audio_InitNoteLists(&channel->notePool);
 }
 
+/**
+ * original name: Nas_EntryNoteTrack
+ */
 s32 AudioSeq_SeqChannelSetLayer(SequenceChannel* channel, s32 layerIndex) {
     SequenceLayer* layer;
     s32 pad;
@@ -357,6 +368,9 @@ s32 AudioSeq_SeqChannelSetLayer(SequenceChannel* channel, s32 layerIndex) {
     return 0;
 }
 
+/**
+ * original name: Nas_ReleaseNoteTrack
+ */
 void AudioSeq_SeqLayerDisable(SequenceLayer* layer) {
     if (layer != NULL) {
         if (layer->channel != &gAudioCtx.sequenceChannelNone && layer->channel->seqPlayer->finished == 1) {
@@ -369,6 +383,9 @@ void AudioSeq_SeqLayerDisable(SequenceLayer* layer) {
     }
 }
 
+/**
+ * original name: Nas_CloseNoteTrack
+ */
 void AudioSeq_SeqLayerFree(SequenceChannel* channel, s32 layerIndex) {
     SequenceLayer* layer = channel->layers[layerIndex];
 
@@ -379,6 +396,9 @@ void AudioSeq_SeqLayerFree(SequenceChannel* channel, s32 layerIndex) {
     }
 }
 
+/**
+ * original name: Nas_ReleaseSubTrack
+ */
 void AudioSeq_SequenceChannelDisable(SequenceChannel* channel) {
     s32 i;
 
@@ -391,6 +411,9 @@ void AudioSeq_SequenceChannelDisable(SequenceChannel* channel) {
     channel->finished = true;
 }
 
+/**
+ * original name: Nas_AllocSub
+ */
 void AudioSeq_SequencePlayerSetupChannels(SequencePlayer* seqPlayer, u16 channelBits) {
     SequenceChannel* channel;
     s32 i;
@@ -406,6 +429,9 @@ void AudioSeq_SequencePlayerSetupChannels(SequencePlayer* seqPlayer, u16 channel
     }
 }
 
+/**
+ * original name: Nas_DeAllocSub
+ */
 void AudioSeq_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 channelBitsUnused) {
     SequenceChannel* channel;
     s32 i;
@@ -418,6 +444,9 @@ void AudioSeq_SequencePlayerDisableChannels(SequencePlayer* seqPlayer, u16 chann
     }
 }
 
+/**
+ * original name: Nas_OpenSub
+ */
 void AudioSeq_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIndex, void* script) {
     SequenceChannel* channel = seqPlayer->channels[channelIndex];
     s32 i;
@@ -435,11 +464,17 @@ void AudioSeq_SequenceChannelEnable(SequencePlayer* seqPlayer, u8 channelIndex, 
     }
 }
 
+/**
+ * original name: Nas_ReleaseGroup_Force
+ */
 void AudioSeq_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer) {
     seqPlayer->finished = true;
     AudioSeq_SequencePlayerDisable(seqPlayer);
 }
 
+/**
+ * original name: Nas_ReleaseGroup
+ */
 void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     s32 finished = 0;
 
@@ -478,6 +513,9 @@ void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     }
 }
 
+/**
+ * original name: Nas_AddList
+ */
 void AudioSeq_AudioListPushBack(AudioListItem* list, AudioListItem* item) {
     if (item->prev == NULL) {
         list->prev->next = item;
@@ -489,6 +527,9 @@ void AudioSeq_AudioListPushBack(AudioListItem* list, AudioListItem* item) {
     }
 }
 
+/**
+ * original name: Nas_GetList
+ */
 void* AudioSeq_AudioListPopBack(AudioListItem* list) {
     AudioListItem* item = list->prev;
 
@@ -504,6 +545,9 @@ void* AudioSeq_AudioListPopBack(AudioListItem* list) {
     return item->u.value;
 }
 
+/**
+ * original name: Nas_InitNoteList
+ */
 void AudioSeq_InitLayerFreelist(void) {
     s32 i;
 
@@ -519,10 +563,16 @@ void AudioSeq_InitLayerFreelist(void) {
     }
 }
 
+/**
+ * original name: Nas_ReadByteData
+ */
 u8 AudioSeq_ScriptReadU8(SeqScriptState* state) {
     return *(state->pc++);
 }
 
+/**
+ * original name: Nas_ReadWordData
+ */
 s16 AudioSeq_ScriptReadS16(SeqScriptState* state) {
     s16 ret = *(state->pc++) << 8;
 
@@ -530,6 +580,9 @@ s16 AudioSeq_ScriptReadS16(SeqScriptState* state) {
     return ret;
 }
 
+/**
+ * original name: Nas_ReadLengthData
+ */
 u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state) {
     u16 ret = *(state->pc++);
 
@@ -540,6 +593,9 @@ u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state) {
     return ret;
 }
 
+/**
+ * original name: Nas_NoteSeq
+ */
 void AudioSeq_SeqLayerProcessScript(SequenceLayer* layer) {
     s32 cmd;
 
@@ -581,6 +637,9 @@ void AudioSeq_SeqLayerProcessScript(SequenceLayer* layer) {
     }
 }
 
+/**
+ * original name: __Stop_Note
+ */
 void AudioSeq_SeqLayerProcessScriptStep1(SequenceLayer* layer) {
     if (!layer->continuousNotes) {
         Audio_SeqLayerNoteDecay(layer);
@@ -595,6 +654,9 @@ void AudioSeq_SeqLayerProcessScriptStep1(SequenceLayer* layer) {
     layer->notePropertiesNeedInit = true;
 }
 
+/**
+ * original name: __SetChannel
+ */
 s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameTunedSample) {
     Note* note;
 
@@ -633,6 +695,9 @@ s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameTunedSampl
     return 0;
 }
 
+/**
+ * original name: __Command_Seq
+ */
 s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
     SequenceChannel* channel = layer->channel;
     SeqScriptState* state = &layer->scriptState;
@@ -789,6 +854,9 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
     }
 }
 
+/**
+ * original name: __SetVoice
+ */
 s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
     s32 sameTunedSample = true;
     s32 instOrWave;
@@ -997,6 +1065,9 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
     return sameTunedSample;
 }
 
+/**
+ * original name: __SetNote
+ */
 s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
     SeqScriptState* state = &layer->scriptState;
     u16 delay;
@@ -1110,6 +1181,9 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
     return cmd;
 }
 
+/**
+ * original name: Nas_PriorityChanger
+ */
 void AudioSeq_SetChannelPriorities(SequenceChannel* channel, u8 priority) {
     if ((priority & 0xF) != 0) {
         channel->notePriority = priority & 0xF;
@@ -1121,6 +1195,9 @@ void AudioSeq_SetChannelPriorities(SequenceChannel* channel, u8 priority) {
     }
 }
 
+/**
+ * original name: Nas_ProgramChanger
+ */
 u8 AudioSeq_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** instOut, AdsrSettings* adsr) {
     Instrument* inst = Audio_GetInstrumentInner(channel->fontId, instId);
 
@@ -1140,6 +1217,9 @@ u8 AudioSeq_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** inst
     return instId;
 }
 
+/**
+ * original name: Nas_SubVoiceSet
+ */
 void AudioSeq_SetInstrument(SequenceChannel* channel, u8 instId) {
     if (instId >= 0x80) {
         // Synthetic Waves
@@ -1165,10 +1245,16 @@ void AudioSeq_SetInstrument(SequenceChannel* channel, u8 instId) {
     channel->hasInstrument = true;
 }
 
+/**
+ * original name: Nas_SubVolumeSet
+ */
 void AudioSeq_SequenceChannelSetVolume(SequenceChannel* channel, u8 volume) {
     channel->volume = (s32)volume / 127.0f;
 }
 
+/**
+ * original name: Nas_SubSeq
+ */
 void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
     s32 i;
     u8* data;
@@ -1728,6 +1814,9 @@ exit_loop:
     }
 }
 
+/**
+ * original name: Nas_GroupSeq
+ */
 void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     u8 cmd;
     u8 cmdLowBits;
@@ -2055,6 +2144,9 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     }
 }
 
+/**
+ * original name: Nas_MySeqMain
+ */
 void AudioSeq_ProcessSequences(s32 arg0) {
     SequencePlayer* seqPlayer;
     u32 i;
@@ -2072,6 +2164,9 @@ void AudioSeq_ProcessSequences(s32 arg0) {
     Audio_ProcessNotes();
 }
 
+/**
+ * original name: Nas_SeqSkip
+ */
 void AudioSeq_SkipForwardSequence(SequencePlayer* seqPlayer) {
     while (seqPlayer->skipTicks > 0) {
         AudioSeq_SequencePlayerProcessSequence(seqPlayer);
@@ -2080,6 +2175,9 @@ void AudioSeq_SkipForwardSequence(SequencePlayer* seqPlayer) {
     }
 }
 
+/**
+ * original name: Nas_InitMySeq
+ */
 void AudioSeq_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     s32 i;
 
@@ -2107,6 +2205,9 @@ void AudioSeq_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     }
 }
 
+/**
+ * original name: Nas_AssignSubTrack
+ */
 void AudioSeq_InitSequencePlayerChannels(s32 playerIdx) {
     SequenceChannel* channel;
     SequencePlayer* seqPlayer = &gAudioCtx.seqPlayers[playerIdx];
@@ -2129,6 +2230,9 @@ void AudioSeq_InitSequencePlayerChannels(s32 playerIdx) {
     }
 }
 
+/**
+ * original name: __InitGroup
+ */
 void AudioSeq_InitSequencePlayer(SequencePlayer* seqPlayer) {
     s32 i;
     s32 j;
@@ -2154,6 +2258,9 @@ void AudioSeq_InitSequencePlayer(SequencePlayer* seqPlayer) {
     AudioSeq_ResetSequencePlayer(seqPlayer);
 }
 
+/**
+ * original name: Nas_InitPlayer
+ */
 void AudioSeq_InitSequencePlayers(void) {
     s32 i;
 
