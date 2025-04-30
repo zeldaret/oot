@@ -617,7 +617,7 @@ $(BUILD_DIR)/src/libc64/%.o: OPTFLAGS := -O2
 
 $(BUILD_DIR)/src/libu64/%.o: OPTFLAGS := -O2
 
-$(BUILD_DIR)/src/audio/game/%.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
 
 # Use signed chars instead of unsigned for this audio file (needed to match AudioDebug_ScrPrt)
 $(BUILD_DIR)/src/audio/game/general.o: CFLAGS += -signed
