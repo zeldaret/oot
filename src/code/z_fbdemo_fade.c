@@ -9,8 +9,6 @@
 #include "z64save.h"
 #include "z64transition_instances.h"
 
-#include "macros.h"
-
 typedef enum TransitionFadeDirection {
     /* 0 */ TRANS_FADE_DIR_IN,
     /* 1 */ TRANS_FADE_DIR_OUT

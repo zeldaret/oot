@@ -1,7 +1,7 @@
 #include "libc64/malloc.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
-
+#include "array_count.h"
 #include "buffers.h"
 #include "console_logo_state.h"
 #include "controller.h"
@@ -29,9 +29,6 @@
 #include "z64audio.h"
 #include "z64save.h"
 #include "z64play.h"
-
-#include "macros.h"
-#include "global.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678

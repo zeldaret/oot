@@ -2,6 +2,7 @@
 #include "libc64/os_malloc.h"
 #include "libu64/debug.h"
 #include "libu64/gfxprint.h"
+#include "array_count.h"
 #include "audiomgr.h"
 #include "buffers.h"
 #include "controller.h"
@@ -30,9 +31,6 @@
 #include "z64game.h"
 #include "z64play.h"
 #include "z64vis.h"
-
-#include "macros.h"
-#include "global.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 

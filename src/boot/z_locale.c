@@ -11,9 +11,6 @@
 #include "vi_mode.h"
 #include "z_locale.h"
 
-#include "macros.h"
-#include "global.h"
-
 s32 gCurrentRegion = 0;
 
 typedef struct LocaleCartInfo {

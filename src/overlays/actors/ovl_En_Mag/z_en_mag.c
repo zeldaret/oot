@@ -6,6 +6,8 @@
 
 #include "z_en_mag.h"
 
+#include "array_count.h"
+#include "avoid_ub.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

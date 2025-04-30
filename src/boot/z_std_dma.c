@@ -21,6 +21,7 @@
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "carthandle.h"
 #include "fault.h"
@@ -43,8 +44,6 @@
 #endif
 #include "z64dma.h"
 #include "z64thread.h"
-
-#include "global.h"
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:66" \
                                "pal-1.0:64 pal-1.1:64"

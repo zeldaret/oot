@@ -4,8 +4,6 @@
 #include "libc64/sleep.h"
 #include "attributes.h"
 
-#include "global.h"
-
 s32 D_801D2EA0 = 0;
 u8* D_801D2EA4 = NULL;
 s32 D_801D2EA8 = 0;

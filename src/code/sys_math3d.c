@@ -7,8 +7,6 @@
 #include "z_lib.h"
 #include "z64math.h"
 
-#include "macros.h"
-
 #pragma increment_block_number "gc-eu:77 gc-eu-mq:77 gc-jp:77 gc-jp-ce:77 gc-jp-mq:77 gc-us:77 gc-us-mq:77 ique-cn:67" \
                                "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 

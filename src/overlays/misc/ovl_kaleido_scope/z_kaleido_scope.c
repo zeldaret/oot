@@ -1,9 +1,12 @@
 #include "z_kaleido_scope.h"
+
 #include "libc64/sleep.h"
+#include "array_count.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
+#include "language_array.h"
 #include "map.h"
 #if PLATFORM_N64
 #include "n64dd.h"
@@ -23,8 +26,6 @@
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"
-
-#include "global.h"
 
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
@@ -3662,7 +3663,7 @@ void KaleidoScope_Update(PlayState* play) {
             DMA_REQUEST_SYNC(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart, size0,
                              "../z_kaleido_scope_PAL.c", 3662);
 
-            gSegments[8] = VIRTUAL_TO_PHYSICAL(pauseCtx->iconItemSegment);
+            gSegments[8] = OS_K0_TO_PHYSICAL(pauseCtx->iconItemSegment);
 
             for (i = 0; i < ARRAY_COUNTU(gItemAgeReqs); i++) {
                 if (!CHECK_AGE_REQ_ITEM(i)) {

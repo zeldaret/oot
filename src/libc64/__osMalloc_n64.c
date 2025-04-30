@@ -4,8 +4,6 @@
 #include "fault.h"
 #include "translation.h"
 
-#include "global.h"
-
 #define NODE_MAGIC 0x7373
 
 #define NODE_IS_VALID(node) ((node)->magic == NODE_MAGIC)

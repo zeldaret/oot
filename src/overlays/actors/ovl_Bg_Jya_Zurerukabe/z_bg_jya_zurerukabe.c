@@ -6,6 +6,7 @@
 
 #include "z_bg_jya_zurerukabe.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"

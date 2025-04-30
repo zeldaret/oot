@@ -29,8 +29,6 @@
 #include "z64environment.h"
 #include "z64save.h"
 
-#include "global.h"
-
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
 #if DEBUG_FEATURES

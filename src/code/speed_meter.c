@@ -2,6 +2,7 @@
                                "pal-1.0:0 pal-1.1:0"
 #include "libc64/malloc.h"
 #include "libu64/debug.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "printf.h"
 #include "regs.h"

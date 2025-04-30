@@ -1,9 +1,11 @@
 #include "libu64/gfxprint.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
+#include "language_array.h"
 #include "memory_utils.h"
 #include "message_data_static.h"
 #if PLATFORM_N64
@@ -21,8 +23,6 @@
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"
-
-#include "global.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 

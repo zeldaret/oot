@@ -118,7 +118,7 @@ void func_80A3D838(EnGm* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->gmObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
         Animation_Change(&this->skelAnime, &object_gm_Anim_0002B8, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_gm_Anim_0002B8), ANIMMODE_LOOP, 0.0f);
         this->actor.draw = EnGm_Draw;
@@ -287,7 +287,7 @@ void func_80A3DF60(EnGm* this, PlayState* play) {
 }
 
 void func_80A3DFBC(EnGm* this, PlayState* play) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
     this->timer++;
     this->actionFunc(this, play);
     this->actor.focus.rot.x = this->actor.world.rot.x;

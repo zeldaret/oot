@@ -1,5 +1,5 @@
+#include "array_count.h"
 #include "ultra64.h"
-#include "global.h"
 
 typedef struct CameraModeValue {
     s16 val;

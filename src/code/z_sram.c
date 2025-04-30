@@ -1,5 +1,6 @@
 #include "z64sram.h"
 
+#include "array_count.h"
 #include "file_select_state.h"
 #include "controller.h"
 #include "memory_utils.h"
@@ -15,8 +16,6 @@
 #include "z64save.h"
 #include "z64scene.h"
 #include "z64ss_sram.h"
-
-#include "global.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)

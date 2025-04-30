@@ -1,9 +1,8 @@
+#include "array_count.h"
 #include "segment_symbols.h"
 #include "romfile.h"
 #include "ultra64.h"
 #include "z64object.h"
-
-#include "macros.h"
 
 s16 gLinkObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
 

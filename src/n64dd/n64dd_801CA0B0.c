@@ -1,8 +1,8 @@
 #include "n64dd.h"
+
 #include "libc64/aprintf.h"
 #include "attributes.h"
-
-#include "global.h"
+#include "array_count.h"
 
 // Draws text to framebuffer
 typedef struct struct_801CA704 {

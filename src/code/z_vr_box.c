@@ -1,5 +1,6 @@
 #include "z64skybox.h"
 
+#include "array_count.h"
 #include "printf.h"
 #include "segment_symbols.h"
 #include "terminal.h"
@@ -8,8 +9,6 @@
 #include "z64game.h"
 #include "z64play.h"
 #include "z64save.h"
-
-#include "global.h"
 
 typedef struct SkyboxFaceParams {
     /* 0x000 */ s32 xStart;

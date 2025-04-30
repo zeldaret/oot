@@ -1,6 +1,7 @@
 #include "libc64/malloc.h"
 #include "libu64/gfxprint.h"
 #include "libu64/pad.h"
+#include "array_count.h"
 #include "color.h"
 #include "controller.h"
 #include "gfx.h"
@@ -9,8 +10,6 @@
 #include "rumble.h"
 #include "ultra64.h"
 #include "z64debug.h"
-
-#include "macros.h"
 
 typedef struct DebugCamTextBufferEntry {
     /* 0x0 */ u8 x;

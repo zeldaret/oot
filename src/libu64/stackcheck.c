@@ -5,8 +5,6 @@
 #include "terminal.h"
 #include "translation.h"
 
-#include "macros.h"
-
 StackEntry* sStackInfoListStart = NULL;
 StackEntry* sStackInfoListEnd = NULL;
 

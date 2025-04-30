@@ -1,8 +1,8 @@
-#include "ultra64.h"
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
-#include "macros.h"
+#include "array_count.h"
+#include "ultra64.h"
 
 static s32 __leoResetCalled = false;
 static s32 __leoQueuesCreated = false;

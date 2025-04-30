@@ -1,8 +1,7 @@
+#include "array_count.h"
 #include "printf.h"
 #include "translation.h"
 #include "z64collision_check.h"
-
-#include "macros.h"
 
 static DamageTable sDamageTablePresets[] = {
     { {

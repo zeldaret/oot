@@ -9,6 +9,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "gfx.h"
@@ -32,8 +33,6 @@
 #include "z64player.h"
 #include "z64save.h"
 #include "z64skin_matrix.h"
-
-#include "global.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_mo/object_mo.h"

@@ -19,6 +19,7 @@ extern struct IrqMgr gIrqMgr;
 #include "libc64/malloc.h"
 #include "libu64/rcp_utils.h"
 #include "libu64/runtime.h"
+#include "array_count.h"
 #include "audiomgr.h"
 #include "debug_arena.h"
 #include "fault.h"
@@ -42,10 +43,8 @@ extern struct IrqMgr gIrqMgr;
 #include "z64debug.h"
 #include "z64thread.h"
 
-#include "global.h"
-
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:0 ntsc-1.0:35 ntsc-1.1:35 ntsc-1.2:35 pal-1.0:33 pal-1.1:33"
+                               "ique-cn:0 ntsc-1.0:34 ntsc-1.1:34 ntsc-1.2:34 pal-1.0:32 pal-1.1:32"
 
 extern u8 _buffersSegmentEnd[];
 

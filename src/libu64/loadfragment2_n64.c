@@ -11,8 +11,6 @@
 #include "translation.h"
 #include "z64dma.h"
 
-#include "macros.h"
-
 s32 gOverlayLogSeverity = 2;
 
 // Extract MIPS register rs from an instruction word

@@ -1,9 +1,11 @@
 #include "file_select.h"
 #include "file_select_state.h"
 
+#include "array_count.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "language_array.h"
 #include "printf.h"
 #include "regs.h"
 #include "rumble.h"
@@ -13,9 +15,6 @@
 #include "versions.h"
 #include "z64audio.h"
 #include "z64save.h"
-
-#include "macros.h"
-#include "global.h"
 
 #include "assets/textures/title_static/title_static.h"
 #include "assets/overlays/ovl_file_choose/ovl_file_choose.h"

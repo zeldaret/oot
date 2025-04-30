@@ -64,6 +64,9 @@ Mtx* Matrix_Finalize(struct GraphicsContext* gfxCtx);
 
 #endif
 
+#define MATRIX_FINALIZE_AND_LOAD(pkt, gfxCtx, file, line) \
+    gSPMatrix(pkt, MATRIX_FINALIZE(gfxCtx, file, line), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW)
+
 /* Vector operations */
 
 void Matrix_MultVec3f(Vec3f* src, Vec3f* dest);

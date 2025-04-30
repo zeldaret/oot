@@ -6,8 +6,8 @@
 
 #include "libc64/qrand.h"
 #include "libu64/gfxprint.h"
-#include "ultra64.h"
 #include "alloca.h"
+#include "array_count.h"
 #include "console_logo_state.h"
 #include "controller.h"
 #include "gfx.h"
@@ -24,11 +24,10 @@
 #include "sfx.h"
 #include "terminal.h"
 #include "translation.h"
+#include "ultra64.h"
 #include "z64play.h"
 #include "z64save.h"
 #include "z64sram.h"
-
-#include "macros.h"
 
 void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;
