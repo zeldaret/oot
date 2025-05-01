@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "versions.h"
-#include "z64math.h"
+#include "z_math.h"
 #include "libc/assert.h"
 
 #define MAX_CHANNELS_PER_BANK 3

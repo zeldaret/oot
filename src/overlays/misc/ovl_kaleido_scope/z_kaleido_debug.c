@@ -6,8 +6,8 @@
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
 #include "printf.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 

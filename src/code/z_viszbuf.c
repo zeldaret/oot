@@ -33,7 +33,7 @@
  */
 
 #include "gfx.h"
-#include "z64vis.h"
+#include "vis.h"
 
 // Height of the fragments the z-buffer is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into TMEM.

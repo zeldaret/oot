@@ -2,7 +2,7 @@
 #define Z_EN_COW_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "assets/objects/object_cow/object_cow.h"
 
 #define COW_FLAG_PLAYER_NEARBY (1 << 1)

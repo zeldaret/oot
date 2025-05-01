@@ -18,8 +18,8 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 

@@ -13,8 +13,8 @@
 #include "stackcheck.h"
 #include "sys_freeze.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64thread.h"
+#include "audio.h"
+#include "thread.h"
 
 #pragma increment_block_number "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 

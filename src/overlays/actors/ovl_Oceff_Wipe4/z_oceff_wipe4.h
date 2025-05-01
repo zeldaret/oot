@@ -2,7 +2,7 @@
 #define Z_OCEFF_WIPE4_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum OceffWipe4Type {
     /* 0x00 */ OCEFF_WIPE4_SCARECROWS,

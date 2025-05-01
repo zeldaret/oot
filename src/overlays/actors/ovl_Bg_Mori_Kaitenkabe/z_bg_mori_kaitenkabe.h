@@ -2,7 +2,7 @@
 #define Z_BG_MORI_KAITENKABE_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct BgMoriKaitenkabe;
 

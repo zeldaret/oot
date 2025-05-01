@@ -8,7 +8,7 @@
 
 #include "ichain.h"
 #include "sfx.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
 

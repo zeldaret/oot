@@ -2,7 +2,7 @@
 #define Z_BG_HAKA_TRAP_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum HakaTrapType {
     /* 0x00 */ HAKA_TRAP_GUILLOTINE_SLOW,

@@ -2,7 +2,7 @@
 #define Z_EN_DAIKU_KAKARIKO_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnDaikuKakariko;
 

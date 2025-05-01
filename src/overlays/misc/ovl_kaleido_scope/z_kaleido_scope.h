@@ -3,8 +3,8 @@
 
 #include "ultra64.h"
 #include "gfx.h"
-#include "z64inventory.h"
-#include "z64pause.h"
+#include "inventory.h"
+#include "pause.h"
 
 struct PlayState;
 

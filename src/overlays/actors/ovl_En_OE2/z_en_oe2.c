@@ -6,7 +6,7 @@
 
 #include "z_en_oe2.h"
 
-#include "z64play.h"
+#include "play_state.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 

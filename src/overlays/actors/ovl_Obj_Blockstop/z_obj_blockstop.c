@@ -9,7 +9,7 @@
 
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #define FLAGS 0
 

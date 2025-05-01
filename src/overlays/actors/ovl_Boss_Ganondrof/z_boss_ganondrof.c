@@ -26,10 +26,10 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64light.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_gnd/object_gnd.h"
 

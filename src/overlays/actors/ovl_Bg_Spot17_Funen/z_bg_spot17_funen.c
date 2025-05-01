@@ -12,7 +12,7 @@
 #include "printf.h"
 #include "sys_matrix.h"
 #include "translation.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_spot17_obj/object_spot17_obj.h"
 

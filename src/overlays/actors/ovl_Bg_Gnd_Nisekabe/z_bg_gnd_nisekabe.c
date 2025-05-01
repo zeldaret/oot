@@ -6,7 +6,7 @@
 
 #include "z_bg_gnd_nisekabe.h"
 
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 

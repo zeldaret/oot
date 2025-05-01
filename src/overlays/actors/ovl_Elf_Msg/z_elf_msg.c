@@ -14,8 +14,8 @@
 #include "regs.h"
 #include "sys_matrix.h"
 #include "terminal.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 

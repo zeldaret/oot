@@ -1,4 +1,4 @@
-#include "z64skin_matrix.h"
+#include "skin_matrix.h"
 
 #include "gfx.h"
 #include "printf.h"

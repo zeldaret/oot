@@ -2,7 +2,7 @@
 #define Z_EN_TK_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 /* Dirt particle effect */
 struct EnTkEff;

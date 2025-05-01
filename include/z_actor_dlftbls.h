@@ -2,7 +2,7 @@
 #define Z_ACTOR_DLFTBLS_H
 
 #include "romfile.h"
-#include "z64actor_profile.h"
+#include "actor_profile.h"
 
 /**
  * @see ACTOROVL_ALLOC_ABSOLUTE

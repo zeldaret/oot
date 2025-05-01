@@ -1,6 +1,6 @@
 #include "ultra64.h"
-#include "z64face_reaction.h"
-#include "z64player.h"
+#include "face_reaction.h"
+#include "player.h"
 
 u16 sMaskReactionSetTextIds[MASK_REACTION_SET_MAX][PLAYER_MASK_MAX] = {
     // MASK_REACTION_SET_CARPENTER_BOSS

@@ -8,10 +8,10 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64debug_display.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "debug_display.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_LOCK_ON_DISABLED)
 

@@ -1,5 +1,5 @@
-#include "z64cutscene_commands.h"
-#include "z64player.h"
+#include "cutscene_commands.h"
+#include "player.h"
 
 // clang-format off
 CutsceneData gRevealMasterSwordCs[] = {

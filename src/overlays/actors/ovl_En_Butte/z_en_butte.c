@@ -17,8 +17,8 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"

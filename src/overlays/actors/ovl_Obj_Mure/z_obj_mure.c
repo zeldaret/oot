@@ -10,7 +10,7 @@
 #include "libc64/qrand.h"
 #include "ichain.h"
 #include "printf.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #define FLAGS 0
 

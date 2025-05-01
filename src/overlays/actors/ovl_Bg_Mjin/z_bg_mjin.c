@@ -11,7 +11,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_mjin/object_mjin.h"
 #include "assets/objects/object_mjin_wind/object_mjin_wind.h"

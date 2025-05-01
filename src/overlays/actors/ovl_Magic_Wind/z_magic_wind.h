@@ -2,8 +2,8 @@
 #define Z_MAGIC_WIND_H
 
 #include "ultra64.h"
-#include "z64actor.h"
-#include "z64curve.h"
+#include "actor.h"
+#include "curve.h"
 
 struct MagicWind;
 

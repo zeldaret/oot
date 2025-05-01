@@ -12,12 +12,12 @@
 #include "sequence.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64face_reaction.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "face_reaction.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ma1/object_ma1.h"
 
