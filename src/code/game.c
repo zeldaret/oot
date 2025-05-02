@@ -472,7 +472,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     gameState->running = 1;
     startTime = osGetTime();
 
-    // Thse assignments must be written this way for matching and to avoid a warning due to casting a pointer to an
+    // These assignments must be written this way for matching and to avoid a warning due to casting a pointer to an
     // integer without a cast. This assigns init = NULL and size = 0.
     gameState->size = (u32)(gameState->init = NULL);
 
