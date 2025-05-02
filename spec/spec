@@ -681,8 +681,7 @@ beginseg
     include "$(BUILD_DIR)/src/audio/internal/heap.o"
     include "$(BUILD_DIR)/src/audio/internal/load.o"
     include "$(BUILD_DIR)/src/audio/internal/thread.o"
-    include "$(BUILD_DIR)/src/audio/internal/dcache.o"
-    include "$(BUILD_DIR)/src/audio/internal/aisetnextbuf.o"
+    include "$(BUILD_DIR)/src/audio/internal/os.o"
 #if OOT_PAL_N64
     pad_text
     pad_text
