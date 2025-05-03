@@ -8,6 +8,10 @@
  *    - Argument 4: Scene draw config index
  *    - Argument 5: ? (Unknown)
  *    - Argument 6: ? (Unknown)
+ *
+ * DEFINE_SCENE_TABLE_END auto-generates the SCENE_TABLE_MAX value
+ * DEFINE_SCENE_ENUM should only be defined when creating the `SceneId` enum.
+ *    It creates an enum value for scenes that are referenced but no longer exist
  */
 /* 0x00 */ DEFINE_SCENE(ydan_scene, g_pn_06, SCENE_DEKU_TREE, SDC_DEKU_TREE, 1, 2)
 /* 0x01 */ DEFINE_SCENE(ddan_scene, g_pn_08, SCENE_DODONGOS_CAVERN, SDC_DODONGOS_CAVERN, 1, 3)
@@ -110,7 +114,12 @@
 /* 0x62 */ DEFINE_SCENE(spot18_scene, g_pn_41, SCENE_GORON_CITY, SDC_GORON_CITY, 0, 0)
 /* 0x63 */ DEFINE_SCENE(spot20_scene, g_pn_42, SCENE_LON_LON_RANCH, SDC_LON_LON_RANCH, 0, 0)
 /* 0x64 */ DEFINE_SCENE(ganon_tou_scene, g_pn_43, SCENE_OUTSIDE_GANONS_CASTLE, SDC_OUTSIDE_GANONS_CASTLE, 0, 0)
-#if DEBUG_ASSETS
+
+#if !DEBUG_ASSETS && defined(DEFINE_SCENE_ENUM)
+           DEFINE_SCENE_TABLE_END()
+#endif
+
+#if DEBUG_ASSETS || defined(DEFINE_SCENE_ENUM)
 /* 0x65 */ DEFINE_SCENE(test01_scene, none, SCENE_TEST01, SDC_CALM_WATER, 0, 0)
 /* 0x66 */ DEFINE_SCENE(besitu_scene, none, SCENE_BESITU, SDC_BESITU, 0, 0)
 /* 0x67 */ DEFINE_SCENE(depth_test_scene, none, SCENE_DEPTH_TEST, SDC_DEFAULT, 0, 0)
@@ -120,4 +129,14 @@
 /* 0x6B */ DEFINE_SCENE(hairal_niwa2_scene, g_pn_12, SCENE_HAIRAL_NIWA2, SDC_CASTLE_COURTYARD_GUARDS, 0, 0)
 /* 0x6C */ DEFINE_SCENE(sasatest_scene, none, SCENE_SASATEST, SDC_DEFAULT, 0, 0)
 /* 0x6D */ DEFINE_SCENE(testroom_scene, none, SCENE_TESTROOM, SDC_DEFAULT, 0, 0)
+#endif
+
+#if DEBUG_ASSETS && defined(DEFINE_SCENE_ENUM)
+           DEFINE_SCENE_TABLE_END()
+#endif
+
+#if defined(DEFINE_SCENE_ENUM)
+/* 0x6E */ DEFINE_SCENE_ENUM(SCENE_UNUSED_6E)
+/* 0x6F */ DEFINE_SCENE_ENUM(SCENE_UNUSED_6F)
+/* 0x70 */ DEFINE_SCENE_ENUM(SCENE_UNUSED_70)
 #endif
