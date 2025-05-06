@@ -20,48 +20,13 @@ from ..extase.cdata_resources import (
     cdata_ext_Vec3s,
     INDENT,
     Vec3sArrayResource,
+    fmt_hex_s,
 )
 
 from .. import oot64_data
 
 
 VERBOSE_SPAWN_LIST_LENGTH_GUESSING = False
-
-
-def fmt_hex_s(v: int, nibbles: int = 0):
-    """Format v to 0x-prefixed uppercase hexadecimal, using (at least) the specified amount of nibbles.
-
-    Meant for signed values (_s suffix),
-    adds a space in place of where the - sign would be for positive values.
-
-    Note compared to this,
-    - f"{v:#X}" would produce an uppercase 0X (1 -> 0X1)
-    - f"0x{v:X}" doesn't work with negative values (-1 -> 0x-1)
-    """
-    v_str = f"{v:0{nibbles}X}"
-    if v < 0:
-        v_str = v_str.removeprefix("-")
-        return f"-0x{v_str}"
-    else:
-        return f" 0x{v_str}"
-
-
-def fmt_hex_u(v: int, nibbles: int = 0):
-    """Format v to 0x-prefixed uppercase hexadecimal, using (at least) the specified amount of nibbles.
-
-    Meant for unsigned values (_u suffix),
-    but won't fail for negative values.
-
-    See: fmt_hex_s
-    """
-    v_str = f"{v:0{nibbles}X}"
-    if v < 0:
-        # Also handle v being negative just in case,
-        # it will only mean the output isn't aligned as expected
-        v_str = v_str.removeprefix("-")
-        return f"-0x{v_str}"
-    else:
-        return f"0x{v_str}"
 
 
 class ActorEntryListResource(CDataArrayNamedLengthResource):

@@ -12,11 +12,12 @@ from ..extase.cdata_resources import (
     CDataExt_Struct,
     CDataExt_Value,
     CDataExtWriteContext,
+    fmt_hex_s,
 )
 
 
 class PlayerAnimationDataResource(CDataArrayResource):
-    elem_cdata_ext = CDataExt_Value("h").set_write_str_v(lambda v: f"{v:#X}")
+    elem_cdata_ext = CDataExt_Value("h").set_write_str_v(lambda v: fmt_hex_s(v))
 
     def __init__(self, file, range_start, name):
         super().__init__(file, range_start, name)

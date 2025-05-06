@@ -32,6 +32,8 @@ from ..extase.cdata_resources import (
     CDataExt_Value,
     CDataExtWriteContext,
     INDENT,
+    fmt_hex_s,
+    fmt_hex_u,
 )
 
 
@@ -110,8 +112,8 @@ class VtxArrayResource(CDataResource):
         wctx.f.write(wctx.line_prefix)
         wctx.f.write(
             f"VTX({v['x']:6}, {v['y']:6}, {v['z']:6}, "
-            f"{v['s']:#7X}, {v['t']:#7X}, "
-            f"{v['crnx']:#04X}, {v['cgny']:#04X}, {v['cbnz']:#04X}, {v['a']:#04X})"
+            f"{fmt_hex_s(v['s']):>7}, {fmt_hex_s(v['t']):>7}, "
+            f"{fmt_hex_u(v['crnx'], 2)}, {fmt_hex_u(v['cgny'], 2)}, {fmt_hex_u(v['cbnz'], 2)}, {fmt_hex_u(v['a'], 2)})"
         )
         return True
 
