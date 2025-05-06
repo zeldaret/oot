@@ -165,8 +165,8 @@ class SkeletonResourceBaseABC(CDataResource):
     def __init__(self, file, range_start, name):
         super().__init__(file, range_start, name)
         self.enum_name = f"{self.symbol_name}Limb"
-        self.enum_member_name_none = f"LIMB_{self.symbol_name.upper()}_NONE"
-        self.enum_member_name_max = f"LIMB_{self.symbol_name.upper()}_MAX"
+        self.enum_member_name_none = f"LIMB_{file.name.upper()}_{range_start:06X}_NONE"
+        self.enum_member_name_max = f"LIMB_{file.name.upper()}_{range_start:06X}_MAX"
         self.limbs_array_resource = None
 
     def set_enum_name(self, enum_name: str):
