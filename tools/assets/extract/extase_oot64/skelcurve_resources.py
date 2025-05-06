@@ -46,6 +46,9 @@ class KnotCountsArrayResource(CDataResource, can_size_be_unknown=True):
         else:
             raise ValueError()
 
+    def get_h_includes(self):
+        return ("ultra64.h",)
+
 
 class CurveInterpKnotArrayResource(CDataResource, can_size_be_unknown=True):
     elem_cdata_ext = CDataExt_Struct(
@@ -79,6 +82,9 @@ class CurveInterpKnotArrayResource(CDataResource, can_size_be_unknown=True):
         else:
             raise ValueError()
 
+    def get_h_includes(self):
+        return ("z64curve.h",)
+
 
 class ConstantDataArrayResource(CDataResource, can_size_be_unknown=True):
     elem_cdata_ext = CDataExt_Value.s16
@@ -103,6 +109,9 @@ class ConstantDataArrayResource(CDataResource, can_size_be_unknown=True):
             return self.symbol_name
         else:
             raise ValueError()
+
+    def get_h_includes(self):
+        return ("ultra64.h",)
 
 
 class CurveAnimationHeaderResource(CDataResource):
@@ -244,6 +253,9 @@ class CurveAnimationHeaderResource(CDataResource):
     def get_c_reference(self, resource_offset: int):
         raise ValueError()
 
+    def get_h_includes(self):
+        return ("z64curve.h",)
+
 
 class SkelCurveLimbResource(CDataResource):
     cdata_ext = CDataExt_Struct(
@@ -269,6 +281,9 @@ class SkelCurveLimbResource(CDataResource):
             return f"&{self.symbol_name}"
         else:
             raise ValueError()
+
+    def get_h_includes(self):
+        return ("z64curve.h",)
 
 
 class SkelCurveLimbArrayResource(CDataResource):
@@ -311,6 +326,9 @@ class SkelCurveLimbArrayResource(CDataResource):
             return self.symbol_name
         else:
             raise ValueError()
+
+    def get_h_includes(self):
+        return ("z64curve.h",)
 
 
 class CurveSkeletonHeaderResource(CDataResource):
@@ -355,3 +373,6 @@ class CurveSkeletonHeaderResource(CDataResource):
 
     def get_c_reference(self, resource_offset: int):
         raise ValueError()
+
+    def get_h_includes(self):
+        return ("z64curve.h",)

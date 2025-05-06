@@ -105,6 +105,9 @@ class MtxResource(CDataResource):
         else:
             raise ValueError
 
+    def get_h_includes(self):
+        return ("ultra64.h",)
+
 
 class VtxArrayResource(CDataResource):
     def write_elem(resource, memory_context, v, wctx: CDataExtWriteContext):
@@ -154,6 +157,12 @@ class VtxArrayResource(CDataResource):
             )
         index = resource_offset // self.element_cdata_ext.size
         return f"&{self.symbol_name}[{index}]"
+
+    def get_c_includes(self):
+        return ("gfx.h",)
+
+    def get_h_includes(self):
+        return ("ultra64.h",)
 
 
 from ...n64 import G_IM_FMT, G_IM_SIZ, G_TT, G_MDSFT_TEXTLUT
@@ -490,6 +499,9 @@ class TextureResource(Resource):
                 )
             )
         super().write_c_declaration(h)
+
+    def get_h_includes(self):
+        return ("ultra64.h",)
 
     @reprlib.recursive_repr()
     def __repr__(self):
@@ -1466,6 +1478,15 @@ class DListResource(Resource, can_size_be_unknown=True):
 
             if not self.braces_in_source:
                 f.write(b"}\n")
+
+    def get_c_includes(self):
+        return (
+            # TODO these are not always needed:
+            "sys_matrix.h", # for gIdentityMtx
+        )
+
+    def get_h_includes(self):
+        return ("ultra64.h",)
 
 
 def report_gfx_segmented(resource: Resource, memory_context: "MemoryContext", v):

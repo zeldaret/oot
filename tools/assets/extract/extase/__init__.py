@@ -8,7 +8,7 @@ import enum
 import reprlib
 
 import io
-from typing import TYPE_CHECKING, Sequence, Optional, Union, Any
+from typing import TYPE_CHECKING, Sequence, Optional, Union, Any, Iterable
 
 from pprint import pprint
 
@@ -641,13 +641,6 @@ class File:
         with self.source_c_path.open("w") as c:
             with self.source_h_path.open("w") as h:
 
-                # TODO rework how files to include are picked
-                headers_includes = (
-                    '#include "ultra64.h"\n',
-                    '#include "z64.h"\n',
-                    '#include "segment_symbols.h"\n',
-                )
-
                 # Paths to files to be included
                 file_include_paths_complete: list[Path] = []
                 file_include_paths_complete.append(self.source_h_path)
@@ -672,10 +665,24 @@ class File:
                         path = path_complete
                     file_include_paths.append(path)
 
-                c.writelines(headers_includes)
-                c.write("\n")
+                included_headers_in_c = set()
+                included_headers_in_h = set()
+
+                for resource in self._resources:
+                    incls = resource.get_c_includes()
+                    assert not isinstance(incls, str)
+                    included_headers_in_c.update(incls)
+
+                    incls = resource.get_h_includes()
+                    assert not isinstance(incls, str)
+                    included_headers_in_h.update(incls)
+
                 for file_include_path in file_include_paths:
                     c.write(f'#include "{file_include_path}"\n')
+                c.write("\n")
+                c.writelines(
+                    f'#include "{_h}"\n' for _h in sorted(included_headers_in_c)
+                )
                 c.write("\n")
 
                 INCLUDE_GUARD = self.source_file_name.upper() + "_H"
@@ -687,7 +694,9 @@ class File:
                         "\n",
                     )
                 )
-                h.writelines(headers_includes)
+                h.writelines(
+                    f'#include "{_h}"\n' for _h in sorted(included_headers_in_h)
+                )
                 h.write("\n")
 
                 if not self._is_resources_sorted:
@@ -937,6 +946,12 @@ class Resource(abc.ABC):
         self.extract_to_path = extract_to_path
         self.inc_c_path = inc_c_path
 
+    def get_c_includes(self) -> Iterable[str]:
+        return ()
+
+    def get_h_includes(self) -> Iterable[str]:
+        return ()
+
     @abc.abstractmethod
     def write_extracted(self, memory_context: "MemoryContext") -> None:
         """Write the extracted resource data to self.extract_to_path"""
@@ -1037,6 +1052,9 @@ class ZeroPaddingResource(Resource):
     def get_c_reference(self, resource_offset):
         raise ValueError("Referencing zero padding should not happen")
 
+    def get_c_includes(self):
+        return ("ultra64.h",)
+
     def write_extracted(self, memory_context):
         # No need to extract zeros
         pass
@@ -1072,6 +1090,9 @@ class BinaryBlobResource(Resource):
 
     def get_filename_stem(self):
         return super().get_filename_stem() + ".u8"
+
+    def get_h_includes(self):
+        return ("ultra64.h",)
 
     def write_extracted(self, memory_context):
         data = self.file.data[self.range_start : self.range_end]

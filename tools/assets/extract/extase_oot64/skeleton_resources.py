@@ -74,6 +74,9 @@ class StandardLimbResource(CDataResource):
         else:
             raise ValueError()
 
+    def get_h_includes(self):
+        return ("z64animation.h",)
+
 
 class LODLimbResource(CDataResource):
     cdata_ext = CDataExt_Struct(
@@ -106,6 +109,9 @@ class LODLimbResource(CDataResource):
             return f"&{self.symbol_name}"
         else:
             raise ValueError()
+
+    def get_h_includes(self):
+        return ("z64animation.h",)
 
 
 class LimbsArrayResourceABC(CDataArrayResource):
@@ -289,6 +295,12 @@ class SkeletonResourceABC(SkeletonResourceBaseABC):
     def get_c_declaration_base(self):
         return f"SkeletonHeader {self.symbol_name}"
 
+    def get_c_includes(self):
+        return ("array_count.h",)
+
+    def get_h_includes(self):
+        return ("z64animation.h",)
+
 
 class SkeletonNormalResource(SkeletonResourceABC):
     limbs_array_type = StandardLimbsArrayResource
@@ -328,6 +340,12 @@ class SkeletonFlexResourceABC(SkeletonResourceBaseABC):
 
     def get_c_declaration_base(self):
         return f"FlexSkeletonHeader {self.symbol_name}"
+
+    def get_c_includes(self):
+        return ("array_count.h",)
+
+    def get_h_includes(self):
+        return ("z64animation.h",)
 
 
 class SkeletonFlexResource(SkeletonFlexResourceABC):

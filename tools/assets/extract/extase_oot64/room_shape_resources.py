@@ -112,6 +112,9 @@ class RoomShapeNormalEntryArrayResource(CDataArrayNamedLengthResource):
     def get_c_declaration_base(self):
         return f"RoomShapeDListsEntry {self.symbol_name}[{self.length_name}]"
 
+    def get_h_includes(self):
+        return ("z64room.h",)
+
 
 class RoomShapeNormalResource(CDataResource):
     def write_numEntries(
@@ -184,6 +187,12 @@ class RoomShapeNormalResource(CDataResource):
         else:
             raise ValueError
 
+    def get_c_includes(self):
+        return ("array_count.h",)
+
+    def get_h_includes(self):
+        return ("z64room.h",)
+
 
 class RoomShapeDListsEntryResource(CDataResource):
     cdata_ext = cdata_ext_RoomShapeDListsEntry
@@ -196,6 +205,9 @@ class RoomShapeDListsEntryResource(CDataResource):
             return f"&{self.symbol_name}"
         else:
             raise ValueError
+
+    def get_h_includes(self):
+        return ("z64room.h",)
 
 
 def report_RoomShapeImageBase_entry(resource, memory_context: "MemoryContext", v):
@@ -271,6 +283,12 @@ class JFIFResource(Resource):
         else:
             raise ValueError
 
+    def get_h_includes(self):
+        return (
+            "ultra64.h",
+            "gfx.h",  # for SCREEN_WIDTH, SCREEN_HEIGHT
+        )
+
 
 class RoomShapeImageSingleResource(CDataResource):
     def report_source(resource, memory_context: "MemoryContext", v):
@@ -324,6 +342,9 @@ class RoomShapeImageSingleResource(CDataResource):
         else:
             raise ValueError
 
+    def get_h_includes(self):
+        return ("z64room.h",)
+
 
 class RoomShapeImageMultiBgEntryArrayResource(CDataArrayNamedLengthResource):
     def report_source(resource, memory_context: "MemoryContext", v):
@@ -372,6 +393,9 @@ class RoomShapeImageMultiBgEntryArrayResource(CDataArrayNamedLengthResource):
 
     def get_c_declaration_base(self):
         return f"RoomShapeImageMultiBgEntry {self.name}[{self.length_name}]"
+
+    def get_h_includes(self):
+        return ("z64room.h",)
 
 
 class RoomShapeImageMultiResource(CDataResource):
@@ -437,6 +461,9 @@ class RoomShapeImageMultiResource(CDataResource):
         else:
             raise ValueError
 
+    def get_h_includes(self):
+        return ("z64room.h",)
+
 
 class RoomShapeCullableEntryArrayResource(CDataArrayNamedLengthResource):
     elem_cdata_ext = CDataExt_Struct(
@@ -450,6 +477,9 @@ class RoomShapeCullableEntryArrayResource(CDataArrayNamedLengthResource):
 
     def get_c_declaration_base(self):
         return f"RoomShapeCullableEntry {self.symbol_name}[{self.length_name}]"
+
+    def get_h_includes(self):
+        return ("z64room.h",)
 
 
 class RoomShapeCullableResource(CDataResource):
@@ -522,3 +552,6 @@ class RoomShapeCullableResource(CDataResource):
             return f"&{self.symbol_name}"
         else:
             raise ValueError
+
+    def get_h_includes(self):
+        return ("z64room.h",)

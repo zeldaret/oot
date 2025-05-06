@@ -37,6 +37,9 @@ class SkinVertexArrayResource(CDataArrayResource):
     def get_c_declaration_base(self):
         return f"SkinVertex {self.symbol_name}[]"
 
+    def get_h_includes(self):
+        return ("z64skin.h",)
+
 
 class SkinTransformationArrayResource(CDataArrayResource):
     elem_cdata_ext = CDataExt_Struct(
@@ -53,6 +56,9 @@ class SkinTransformationArrayResource(CDataArrayResource):
 
     def get_c_declaration_base(self):
         return f"SkinTransformation {self.symbol_name}[]"
+
+    def get_h_includes(self):
+        return ("z64skin.h",)
 
 
 class SkinLimbModifArrayResource(CDataArrayResource):
@@ -125,6 +131,9 @@ class SkinLimbModifArrayResource(CDataArrayResource):
     def get_c_declaration_base(self):
         return f"SkinLimbModif {self.symbol_name}[]"
 
+    def get_h_includes(self):
+        return ("z64skin.h",)
+
 
 class SkinAnimatedLimbDataResource(CDataResource):
     def report_limbModifications(resource, memory_context: "MemoryContext", v):
@@ -175,6 +184,9 @@ class SkinAnimatedLimbDataResource(CDataResource):
             return f"&{self.symbol_name}"
         else:
             raise ValueError()
+
+    def get_h_includes(self):
+        return ("z64skin.h",)
 
 
 class SkinLimbResource(CDataResource):
@@ -253,6 +265,9 @@ class SkinLimbResource(CDataResource):
             return f"&{self.symbol_name}"
         else:
             raise ValueError()
+
+    def get_h_includes(self):
+        return ("z64skin.h",)
 
 
 class SkinLimbsArrayResource(skeleton_resources.LimbsArrayResourceABC):

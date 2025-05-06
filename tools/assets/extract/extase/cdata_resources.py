@@ -420,6 +420,9 @@ class Vec3sArrayResource(CDataResource):
         else:
             raise ValueError()
 
+    def get_h_includes(self):
+        return ("z64math.h",)
+
 
 class S16ArrayResource(CDataResource):
 
@@ -446,6 +449,9 @@ class S16ArrayResource(CDataResource):
             return f"ARRAY_COUNT({self.symbol_name})"
         else:
             raise ValueError()
+
+    def get_h_includes(self):
+        return ("ultra64.h",)
 
 
 cdata_ext_Vec3f = CDataExt_Struct(

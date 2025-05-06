@@ -75,6 +75,12 @@ class ActorEntryListResource(CDataArrayNamedLengthResource):
     def get_c_declaration_base(self):
         return f"ActorEntry {self.symbol_name}[{self.length_name}]"
 
+    def get_c_includes(self):
+        return ("z64actor.h",)
+
+    def get_h_includes(self):
+        return ("z64scene.h",)
+
 
 class ObjectListResource(CDataArrayNamedLengthResource):
     elem_cdata_ext = CDataExt_Value("h").set_write_str_v(
@@ -83,6 +89,12 @@ class ObjectListResource(CDataArrayNamedLengthResource):
 
     def get_c_declaration_base(self):
         return f"s16 {self.symbol_name}[{self.length_name}]"
+
+    def get_c_includes(self):
+        return ("z64object.h",)
+
+    def get_h_includes(self):
+        return ("ultra64.h",)
 
 
 def write_RomFile(
@@ -112,6 +124,13 @@ class RoomListResource(CDataArrayNamedLengthResource):
 
     def get_c_declaration_base(self):
         return f"RomFile {self.symbol_name}[{self.length_name}]"
+
+    def get_c_includes(self):
+        # TODO use DECLARE_ROM_SEGMENT to declare rooms rom files
+        return ("segment_symbols.h",)
+
+    def get_h_includes(self):
+        return ("romfile.h",)
 
 
 class SpawnListResource(CDataArrayResource):
@@ -236,6 +255,9 @@ class SpawnListResource(CDataArrayResource):
     def get_c_declaration_base(self):
         return f"Spawn {self.symbol_name}[]"
 
+    def get_h_includes(self):
+        return ("z64scene.h",)
+
 
 class ExitListResource(CDataArrayResource):
     elem_cdata_ext = CDataExt_Value("h").set_write_str_v(
@@ -246,6 +268,9 @@ class ExitListResource(CDataArrayResource):
 
     def get_c_declaration_base(self):
         return f"s16 {self.symbol_name}[]"
+
+    def get_h_includes(self):
+        return ("ultra64.h",)
 
 
 class EnvLightSettingsListResource(CDataArrayNamedLengthResource):
@@ -265,6 +290,9 @@ class EnvLightSettingsListResource(CDataArrayNamedLengthResource):
 
     def get_c_declaration_base(self):
         return f"EnvLightSettings {self.symbol_name}[{self.length_name}]"
+
+    def get_h_includes(self):
+        return ("z64environment.h",)
 
 
 class TransitionActorEntryListResource(CDataArrayNamedLengthResource):
@@ -339,6 +367,12 @@ class TransitionActorEntryListResource(CDataArrayNamedLengthResource):
     def get_c_declaration_base(self):
         return f"TransitionActorEntry {self.symbol_name}[{self.length_name}]"
 
+    def get_c_includes(self):
+        return ("z64actor.h",)
+
+    def get_h_includes(self):
+        return ("z64scene.h",)
+
 
 class PathListResource(CDataArrayResource):
     def report_elem(resource, memory_context: "MemoryContext", v):
@@ -394,3 +428,6 @@ class PathListResource(CDataArrayResource):
 
     def get_c_declaration_base(self):
         return f"Path {self.symbol_name}[]"
+
+    def get_h_includes(self):
+        return ("z64path.h",)

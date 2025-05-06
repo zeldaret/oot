@@ -42,8 +42,6 @@ class CutsceneResource(Resource, can_size_be_unknown=True):
 
     def write_extracted(self, memory_context):
         with self.extract_to_path.open("w") as f:
-            # TODO move include at the top of the file
-            f.write('#include "z64cutscene_commands.h"\n')
             if not self.braces_in_source:
                 f.write("{\n")
             f.write(self.cs_source)
@@ -52,3 +50,14 @@ class CutsceneResource(Resource, can_size_be_unknown=True):
 
     def get_c_declaration_base(self):
         return f"CutsceneData {self.symbol_name}[]"
+
+    def get_c_includes(self):
+        return (
+            "z64cutscene_commands.h",
+            # TODO these are not always needed:
+            "z64ocarina.h", # for OCARINA_ACTION_*
+            "z64player.h", # for PLAYER_CUEID_*
+        )
+
+    def get_h_includes(self):
+        return ("z64cutscene.h",)

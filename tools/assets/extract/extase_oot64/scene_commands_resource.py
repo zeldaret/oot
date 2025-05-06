@@ -631,6 +631,17 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
         else:
             raise ValueError
 
+    def get_c_includes(self):
+        return (
+            "array_count.h",
+            # TODO these are not always needed:
+            "sequence.h",  # for NATURE_ID_* and NA_BGM_*
+            "z64skybox.h",  # for SKYBOX_*
+        )
+
+    def get_h_includes(self):
+        return ("z64scene.h",)
+
 
 class AltHeadersResource(CDataArrayResource):
     def report_elem(resource, memory_context: "MemoryContext", v):
@@ -699,3 +710,6 @@ class AltHeadersResource(CDataArrayResource):
 
     def get_c_declaration_base(self):
         return f"SceneCmd* {self.symbol_name}[]"
+
+    def get_h_includes(self):
+        return ("z64scene.h",)

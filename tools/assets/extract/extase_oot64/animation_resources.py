@@ -49,6 +49,9 @@ class AnimationFrameDataResource(CDataResource, can_size_be_unknown=True):
         else:
             raise ValueError()
 
+    def get_h_includes(self):
+        return ("ultra64.h",)
+
 
 class AnimationJointIndicesResource(CDataResource, can_size_be_unknown=True):
     elem_cdata_ext = CDataExt_Struct(
@@ -79,6 +82,9 @@ class AnimationJointIndicesResource(CDataResource, can_size_be_unknown=True):
             return self.symbol_name
         else:
             raise ValueError()
+
+    def get_h_includes(self):
+        return ("z64animation.h",)
 
 
 class AnimationResource(CDataResource):
@@ -194,3 +200,6 @@ class AnimationResource(CDataResource):
 
     def get_c_declaration_base(self):
         return f"AnimationHeader {self.symbol_name}"
+
+    def get_h_includes(self):
+        return ("z64animation.h",)
