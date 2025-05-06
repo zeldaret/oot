@@ -7,7 +7,9 @@
 #include "z_bg_bombwall.h"
 #include "libc64/qrand.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 
@@ -97,9 +99,8 @@ void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG login failed"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
-               this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗", "Warning : move BG registration failed") "(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_bombwall.c", 243, this->dyna.actor.params);
     }
 }
 
@@ -155,8 +156,8 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
         func_8086ED50(this, play);
     }
 
-    PRINTF("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n", this->dyna.actor.params,
-           this->dyna.actor.shape.rot.y);
+    PRINTF("(field keep " T("汎用爆弾壁", "general purpose bomb wall") ")(arg_data 0x%04x)(angY %d)\n",
+           this->dyna.actor.params, this->dyna.actor.shape.rot.y);
 }
 
 void BgBombwall_DestroyCollision(BgBombwall* this, PlayState* play) {

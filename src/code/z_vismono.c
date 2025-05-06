@@ -15,8 +15,6 @@
 #include "gfxalloc.h"
 #include "z64vis.h"
 
-#include "macros.h"
-
 // Height of the fragments the color frame buffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into
 // the half of TMEM dedicated to color-indexed data.

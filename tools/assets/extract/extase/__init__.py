@@ -645,9 +645,7 @@ class File:
                 headers_includes = (
                     '#include "ultra64.h"\n',
                     '#include "z64.h"\n',
-                    '#include "macros.h"\n',
                     '#include "segment_symbols.h"\n',
-                    '#include "variables.h"\n',
                 )
 
                 # Paths to files to be included

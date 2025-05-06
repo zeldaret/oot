@@ -10,11 +10,13 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sequence.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"
@@ -779,7 +781,8 @@ void DemoSa_Update(Actor* thisx, PlayState* play) {
     DemoSa* this = (DemoSa*)thisx;
 
     if (this->action < 0 || this->action >= 21 || sActionFuncs[this->action] == NULL) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -849,7 +852,8 @@ void DemoSa_Draw(Actor* thisx, PlayState* play) {
     DemoSa* this = (DemoSa*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

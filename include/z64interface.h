@@ -279,4 +279,7 @@ void Interface_Update(struct PlayState* play);
 void Interface_Destroy(struct PlayState* play);
 void Interface_Init(struct PlayState* play);
 
+extern s16 gSpoilingItems[3];
+extern s16 gSpoilingItemReverts[3];
+
 #endif

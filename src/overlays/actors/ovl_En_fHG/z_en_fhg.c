@@ -14,6 +14,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "segmented_address.h"
 #include "seqcmd.h"
 #include "sequence.h"

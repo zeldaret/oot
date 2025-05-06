@@ -9,12 +9,14 @@
 #include "libc64/qrand.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64cutscene_flags.h"
@@ -161,8 +163,9 @@ void ObjBean_InitDynaPoly(ObjBean* this, PlayState* play, CollisionHeader* colli
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_bean.c", 374,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗",
+                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+               "../z_obj_bean.c", 374, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }

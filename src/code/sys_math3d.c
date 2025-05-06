@@ -1,12 +1,14 @@
+#include "sys_math3d.h"
+
+#include "printf.h"
+#include "terminal.h"
+#include "translation.h"
 #include "ultra64.h"
 #include "z_lib.h"
 #include "z64math.h"
-#include "terminal.h"
-#include "macros.h"
-#include "sys_math3d.h"
 
-#pragma increment_block_number "gc-eu:120 gc-eu-mq:120 gc-jp:120 gc-jp-ce:120 gc-jp-mq:120 gc-us:120 gc-us-mq:120" \
-                               "ique-cn:120 ntsc-1.0:96 ntsc-1.1:96 ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
+#pragma increment_block_number "gc-eu:77 gc-eu-mq:77 gc-jp:77 gc-jp-ce:77 gc-jp-mq:77 gc-us:77 gc-us-mq:77 ique-cn:67" \
+                               "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                       Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);

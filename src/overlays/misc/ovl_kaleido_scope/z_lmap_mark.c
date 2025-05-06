@@ -7,8 +7,6 @@
 #include "z_lib.h"
 #include "z64play.h"
 
-#include "global.h"
-
 #include "assets/textures/parameter_static/parameter_static.h"
 
 typedef struct PauseMapMarkInfo {

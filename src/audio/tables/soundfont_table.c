@@ -3,7 +3,6 @@
 
 // Symbol definition
 
-extern AudioTable gSoundFontTable;
 #pragma weak gSoundFontTable = sSoundFontTableHeader
 
 // Externs for table

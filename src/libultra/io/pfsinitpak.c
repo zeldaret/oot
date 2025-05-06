@@ -1,5 +1,4 @@
 #include "ultra64.h"
-#include "global.h"
 
 s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
     s32 ret;

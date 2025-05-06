@@ -8,10 +8,12 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 #include "z64skin.h"
 
@@ -183,8 +185,8 @@ void DemoExt_Update(Actor* thisx, PlayState* play) {
     DemoExt* this = (DemoExt*)thisx;
 
     if ((this->action < EXT_WAIT) || (this->action > EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
-        // "Main mode is abnormal!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sActionFuncs[this->action](this, play);
     }
@@ -237,8 +239,8 @@ void DemoExt_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX) ||
         sDrawFuncs[this->drawMode] == NULL) {
-        // "Draw mode is abnormal!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sDrawFuncs[this->drawMode](thisx, play);
     }

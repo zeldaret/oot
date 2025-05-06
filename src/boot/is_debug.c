@@ -1,5 +1,6 @@
-#include "global.h"
-#include "attributes.h"
+#include "is_debug.h"
+
+#include "ultra64.h"
 
 typedef struct ISVDbg {
     /* 0x00 */ u32 magic; // "IS64"

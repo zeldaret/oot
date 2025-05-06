@@ -2,9 +2,11 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "letterbox.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sequence.h"

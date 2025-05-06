@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"

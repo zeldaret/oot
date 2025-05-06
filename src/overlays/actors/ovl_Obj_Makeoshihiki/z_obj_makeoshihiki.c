@@ -7,6 +7,7 @@
 #include "z_obj_makeoshihiki.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
+#include "printf.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"

@@ -7,10 +7,12 @@
 #include "z_door_shutter.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "rumble.h"
 #include "segmented_address.h"
 #include "sfx.h"

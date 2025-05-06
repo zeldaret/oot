@@ -12,6 +12,7 @@
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"
+#include "printf.h"
 #include "quake.h"
 #include "terminal.h"
 #include "z_lib.h"

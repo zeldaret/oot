@@ -10,8 +10,10 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 
@@ -70,9 +72,9 @@ void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, PlayState* play, Collisio
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        // "Warning : move BG login failed"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 155,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗",
+                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+               "../z_bg_mori_hashira4.c", 155, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -93,9 +95,8 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
         Actor_Kill(&this->dyna.actor);
-        // "Bank danger!"
-        PRINTF("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params, "../z_bg_mori_hashira4.c",
-               196);
+        PRINTF("Error : " T("バンク危険！", "Bank danger!") "(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
+               "../z_bg_mori_hashira4.c", 196);
         return;
     }
     if ((this->dyna.actor.params != 0) && Flags_GetSwitch(play, this->switchFlag)) {
@@ -104,8 +105,7 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     }
     Actor_SetFocus(&this->dyna.actor, 50.0f);
     BgMoriHashira4_SetupWaitForMoriTex(this);
-    // "(4 pillars of the Forest Temple) Bank danger"
-    PRINTF("(森の神殿 ４本柱)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(森の神殿 ４本柱)", "Forest Temple 4 Pillars") "(arg_data 0x%04x)\n", this->dyna.actor.params);
     sUnkTimer = 0;
 }
 

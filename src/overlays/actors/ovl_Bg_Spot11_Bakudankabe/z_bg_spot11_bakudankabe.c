@@ -8,7 +8,9 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
+#include "printf.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64play.h"
@@ -128,7 +130,7 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gDesertColossusBombableWallCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_SetScale(&this->dyna.actor, 1.0f);
-    PRINTF("(spot11 爆弾壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(spot11 " T("爆弾壁", "Bomb Wall") ")(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgSpot11Bakudankabe_Destroy(Actor* thisx, PlayState* play) {

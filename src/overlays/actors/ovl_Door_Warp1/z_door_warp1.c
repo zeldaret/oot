@@ -4,6 +4,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
@@ -15,6 +16,9 @@
 #include "z64save.h"
 
 #include "assets/objects/object_warp1/object_warp1.h"
+
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ique-cn:192 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 #define FLAGS 0
 

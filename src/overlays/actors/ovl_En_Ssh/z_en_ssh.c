@@ -1,5 +1,6 @@
 #include "z_en_ssh.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "segmented_address.h"
 #include "sfx.h"

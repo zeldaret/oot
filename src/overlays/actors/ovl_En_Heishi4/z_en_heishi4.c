@@ -2,6 +2,7 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "terminal.h"
 #include "z64face_reaction.h"
 #include "z64play.h"

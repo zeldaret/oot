@@ -9,8 +9,10 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 #include "z64save.h"
 
@@ -83,7 +85,7 @@ void BgSpot16Doughnut_Init(Actor* thisx, PlayState* play) {
         } else {
             this->fireFlag |= 1;
         }
-        PRINTF("(ｓｐｏｔ１６ ドーナツ雲)(arg_data 0x%04x)\n", this->actor.params);
+        PRINTF(T("(ｓｐｏｔ１６ ドーナツ雲)", "(spot16 Donut Cloud)") "(arg_data 0x%04x)\n", this->actor.params);
     }
 }
 

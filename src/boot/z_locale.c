@@ -1,14 +1,15 @@
 #include "libu64/debug.h"
 #include "alignment.h"
+#include "carthandle.h"
 #include "line_numbers.h"
 #include "padmgr.h"
+#include "printf.h"
 #include "region.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
+#include "vi_mode.h"
 #include "z_locale.h"
-
-#include "macros.h"
-#include "global.h"
 
 s32 gCurrentRegion = 0;
 

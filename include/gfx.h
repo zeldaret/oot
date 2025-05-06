@@ -7,6 +7,9 @@
 #include "thga.h"
 #include "versions.h"
 
+#define SCREEN_WIDTH  320
+#define SCREEN_HEIGHT 240
+
 // Texture memory size, 4 KiB
 #define TMEM_SIZE 0x1000
 
@@ -118,5 +121,45 @@ void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file,
 #define GRAPH_ALLOC(gfxCtx, size) ((void*)((gfxCtx)->polyOpa.d = (Gfx*)((u8*)(gfxCtx)->polyOpa.d - ALIGN16(size))))
 
 #endif
+
+void Graph_ThreadEntry(void*);
+
+extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
+extern u64 gMojiFontTex[]; // original name: "font_ff"
+
+/**
+ * `x` vertex x
+ * `y` vertex y
+ * `z` vertex z
+ * `s` texture s coordinate
+ * `t` texture t coordinate
+ * `crnx` red component of color vertex, or x component of normal vertex
+ * `cgny` green component of color vertex, or y component of normal vertex
+ * `cbnz` blue component of color vertex, or z component of normal vertex
+ * `a` alpha
+ */
+#define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a } } }
+
+#define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
+
+#define gDPSetTileCustom(pkt, fmt, siz, uls, ult, lrs, lrt, pal,        \
+                         cms, cmt, masks, maskt, shifts, shiftt)        \
+_DW({                                                                   \
+    gDPPipeSync(pkt);                                                   \
+    gDPTileSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((((lrs) - (uls) + 1) * siz##_TILE_BYTES) + 7) >> 3), 0,       \
+        G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, masks,               \
+        shifts);                                                        \
+    gDPTileSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((((lrs) - (uls) + 1) * siz##_LINE_BYTES) + 7) >> 3), 0,       \
+        G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks, shifts);  \
+    gDPSetTileSize(pkt, G_TX_RENDERTILE,                                \
+        (uls) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (ult) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (lrs) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (lrt) << G_TEXTURE_IMAGE_FRAC);                                 \
+})
 
 #endif

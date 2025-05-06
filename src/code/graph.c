@@ -1,7 +1,7 @@
 #include "libc64/malloc.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
-
+#include "array_count.h"
 #include "buffers.h"
 #include "console_logo_state.h"
 #include "controller.h"
@@ -12,28 +12,29 @@
 #include "map_select_state.h"
 #include "prenmi_buff.h"
 #include "prenmi_state.h"
+#include "printf.h"
 #include "regs.h"
 #include "setup_state.h"
 #include "speed_meter.h"
+#include "sys_cfb.h"
 #include "sys_debug_controller.h"
 #include "sys_ucode.h"
 #include "terminal.h"
 #include "title_setup_state.h"
+#include "translation.h"
 #include "ucode_disas.h"
 #include "versions.h"
+#include "vi_mode.h"
 #include "z_game_dlftbls.h"
 #include "z64audio.h"
 #include "z64save.h"
 #include "z64play.h"
 
-#include "macros.h"
-#include "global.h"
-
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:128" \
-                               "ntsc-1.0:96 ntsc-1.1:96 ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
+                               "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:224"
 
 /**
  * The time at which the previous `Graph_Update` ended.

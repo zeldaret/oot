@@ -1,8 +1,10 @@
 #include "libc64/math64.h"
 #include "libu64/overlay.h"
+#include "array_count.h"
 #include "fault.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "quake.h"
 #include "rand.h"
 #include "regs.h"
@@ -12,19 +14,19 @@
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_actor_dlftbls.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
 #include "z64actor.h"
+#include "z64audio.h"
 #include "z64effect.h"
 #include "z64light.h"
 #include "z64horse.h"
 #include "z64play.h"
 #include "z64save.h"
 #include "z64skin_matrix.h"
-
-#include "global.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
@@ -592,7 +594,7 @@ void Attention_Update(Attention* attention, Player* player, Actor* playerFocusAc
                 attention->reticleFadeAlphaControl = 0;
             }
 
-            lockOnSfxId = CHECK_FLAG_ALL(playerFocusActor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
+            lockOnSfxId = ACTOR_FLAGS_CHECK_ALL(playerFocusActor, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
                               ? NA_SE_SY_LOCK_ON
                               : NA_SE_SY_LOCK_ON_HUMAN;
             Sfx_PlaySfxCentered(lockOnSfxId);
@@ -928,7 +930,7 @@ void Actor_SetScale(Actor* actor, f32 scale) {
 }
 
 void Actor_SetObjectDependency(PlayState* play, Actor* actor) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[actor->objectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[actor->objectSlot].segment);
 }
 
 void Actor_Init(Actor* actor, PlayState* play) {
@@ -3464,9 +3466,9 @@ void Attention_FindActorInCategory(PlayState* play, ActorContext* actorCtx, Play
 
     while (actor != NULL) {
         if ((actor->update != NULL) && ((Player*)actor != player) &&
-            CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_ATTENTION_ENABLED)) {
+            ACTOR_FLAGS_CHECK_ALL(actor, ACTOR_FLAG_ATTENTION_ENABLED)) {
             if ((actorCategory == ACTORCAT_ENEMY) &&
-                CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE) &&
+                ACTOR_FLAGS_CHECK_ALL(actor, ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE) &&
                 (actor->xyzDistToPlayerSq < SQ(500.0f)) && (actor->xyzDistToPlayerSq < sBgmEnemyDistSq)) {
                 actorCtx->attention.bgmEnemy = actor;
                 sBgmEnemyDistSq = actor->xyzDistToPlayerSq;

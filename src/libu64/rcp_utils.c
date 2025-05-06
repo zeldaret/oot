@@ -1,4 +1,6 @@
-#include "global.h"
+#include "libu64/rcp_utils.h"
+#include "ultra64.h"
+#include "printf.h"
 
 #if PLATFORM_N64 || DEBUG_FEATURES
 #define RCP_UTILS_PRINTF osSyncPrintf
@@ -55,9 +57,12 @@ void RcpUtils_PrintRegisterStatus(void) {
 
 void RcpUtils_Reset(void) {
     RcpUtils_PrintRegisterStatus();
+
     // Flush the RDP pipeline and freeze clock counter
     osDpSetStatus(DPC_SET_FREEZE | DPC_SET_FLUSH);
+
     // Halt the RSP, disable interrupt on break and set "task done" signal
     __osSpSetStatus(SP_SET_HALT | SP_SET_TASKDONE | SP_CLR_INTR_BREAK);
+
     RcpUtils_PrintRegisterStatus();
 }

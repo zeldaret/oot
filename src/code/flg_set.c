@@ -1,3 +1,5 @@
+#include "flag_set.h"
+
 #include "libu64/gfxprint.h"
 #include "libu64/pad.h"
 #include "gfx.h"

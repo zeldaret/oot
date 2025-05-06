@@ -6,6 +6,7 @@
 
 #include "z_en_yabusame_mark.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "sequence.h"
 #include "sfx.h"

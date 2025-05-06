@@ -1,11 +1,14 @@
 #include "z_bg_spot18_basket.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64audio.h"
@@ -168,7 +171,8 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
 
     if (this->dyna.actor.child == NULL) {
         PRINTF_COLOR_RED();
-        PRINTF("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
+        PRINTF(T("Ｅｒｒｏｒ : 変化壷蓋発生失敗", "Error : Failed to generate the change pot cover") "(%s %d)\n",
+               "../z_bg_spot18_basket.c", 351);
         PRINTF_RST();
         Actor_Kill(&this->dyna.actor);
     }

@@ -8,10 +8,12 @@
 
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "quake.h"
 #include "rumble.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64audio.h"
 #include "z64play.h"
@@ -107,7 +109,9 @@ s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
         case JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1:
             return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
-            PRINTF("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n", arg1);
+            PRINTF(T("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n",
+                     "Bg_Bdan_Objects_Get_Contact_Ru1\nThere is no such receiving mode %d!!!!!!!!\n"),
+                   arg1);
             return -1;
     }
 }
@@ -124,7 +128,9 @@ void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
             SET_INFTABLE(INFTABLE_146);
             break;
         default:
-            PRINTF("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n", arg1);
+            PRINTF(T("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n",
+                     "Bg_Bdan_Objects_Set_Contact_Ru1\nThere is no such transmission mode %d!!!!!!!!\n"),
+                   arg1);
     }
 }
 

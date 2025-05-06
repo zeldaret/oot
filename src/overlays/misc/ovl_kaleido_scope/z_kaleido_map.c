@@ -2,15 +2,15 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "language_array.h"
 #include "map.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "sys_ucode.h"
 #include "versions.h"
 #include "z64play.h"
 #include "z64save.h"
-
-#include "global.h"
 
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
 #if OOT_NTSC

@@ -9,7 +9,9 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z64play.h"
 
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
@@ -83,8 +85,8 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
 
 #if DEBUG_FEATURES
                 if (curCobraInfo->cobra->dyna.actor.update == NULL) {
-                    // "Cobra deleted"
-                    PRINTF("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
+                    PRINTF("Error : " T("コブラ削除された", "Cobra deleted") " (%s %d)\n", "../z_bg_jya_bigmirror.c",
+                           203);
                 }
 #endif
             } else {
@@ -94,8 +96,8 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
                 this->actor.child = NULL;
 
                 if (curCobraInfo->cobra == NULL) {
-                    // "Cobra generation failed"
-                    PRINTF("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
+                    PRINTF("Error : " T("コブラ発生失敗", "Cobra generation failed") " (%s %d)\n",
+                           "../z_bg_jya_bigmirror.c", 221);
                 }
             }
         }
@@ -162,8 +164,8 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
 
 #if DEBUG_FEATURES
                     if (this->lightBeams[i] == NULL) {
-                        // "Mir Ray generation failed"
-                        PRINTF("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);
+                        PRINTF("Error : " T("Mir Ray 発生失敗", "Mir Ray generation failed") " (%s %d)\n",
+                               "../z_bg_jya_bigmirror.c", 310);
                     }
 #endif
                 }
@@ -194,8 +196,7 @@ void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
     this->spawned = true;
     this->mirRayObjectSlot = -1;
 
-    // "jya Bigmirror"
-    PRINTF("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF("(jya " T("大鏡", "Big mirror") ")(arg_data 0x%04x)\n", this->actor.params);
 }
 
 void BgJyaBigmirror_Destroy(Actor* thisx, PlayState* play) {

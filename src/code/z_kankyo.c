@@ -3,11 +3,13 @@
 
 #include "libc64/qrand.h"
 #include "libu64/gfxprint.h"
+#include "array_count.h"
 #include "buffers.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
 #include "ultra64.h"
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "segment_symbols.h"
@@ -19,6 +21,7 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64audio.h"
@@ -903,9 +906,9 @@ void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     GfxPrint_SetPos(&printer, 22, 6);
 
     if (!IS_DAY) {
-        GfxPrint_Printf(&printer, "%s", "YORU"); // "night"
+        GfxPrint_Printf(&printer, "%s", T("YORU", "NIGHT"));
     } else {
-        GfxPrint_Printf(&printer, "%s", "HIRU"); // "day"
+        GfxPrint_Printf(&printer, "%s", T("HIRU", "DAY"));
     }
 
     *gfx = GfxPrint_Close(&printer);
