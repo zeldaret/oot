@@ -354,9 +354,9 @@ class N64Image(Structure):
         return deref(ln64texconv.n64texconv_image_new(width, height, fmt, siz, pal))
 
     def __del__(self):
-        ln64texconv.n64texconv_image_free(byref(self))
         # Also free the palette if the reference count drops to 0
         _object_refcount.rm_ref(self.pal, ln64texconv.n64texconv_palette_free)
+        ln64texconv.n64texconv_image_free(byref(self))
 
     def copy(self) -> Optional["N64Image"]:
         _object_refcount.add_ref(self.pal)
