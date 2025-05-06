@@ -26,7 +26,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_tw/object_tw.h"
 
-#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128 ique-cn:128 ntsc-1.0:128" \
+#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128 ique-cn:0 ntsc-1.0:128" \
                                "ntsc-1.1:128 ntsc-1.2:128"
 
 #define FLAGS                                                                                 \
