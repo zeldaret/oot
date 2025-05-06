@@ -2627,7 +2627,7 @@ void Message_OpenText(PlayState* play, u16 textId) {
         PRINTF_COLOR_YELLOW();
         PRINTF("？？？？？？？？？？？？？？？？  z_message.c  ？？？？？？？？？？？？？？？？？？\n");
         PRINTF_RST();
-        gSaveContext.eventInf[0] = gSaveContext.eventInf[1] = gSaveContext.eventInf[2] = gSaveContext.eventInf[3] = 0;
+        RESET_EVENTINF2();
     }
 
     if (sTextIsCredits) {
