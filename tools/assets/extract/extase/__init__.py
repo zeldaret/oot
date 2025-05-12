@@ -1079,7 +1079,7 @@ class ZeroPaddingResource(Resource):
 
 class BinaryBlobResource(Resource):
     needs_build = True
-    extracted_path_suffix = ".bin"
+    extracted_path_suffix = ""
 
     def try_parse_data(self, memory_context):
         # Nothing specific to do
@@ -1089,7 +1089,7 @@ class BinaryBlobResource(Resource):
         return f"&{self.symbol_name}[{resource_offset}]"
 
     def get_filename_stem(self):
-        return super().get_filename_stem() + ".u8"
+        return super().get_filename_stem() + ".bin"
 
     def get_h_includes(self):
         return ("ultra64.h",)

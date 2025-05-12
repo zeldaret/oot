@@ -266,7 +266,7 @@ class JFIFResource(Resource):
     extracted_path_suffix = ""
 
     def get_filename_stem(self):
-        return f"{self.name}.u64.jpg"
+        return f"{self.name}.jpg"
 
     def write_extracted(self, memory_context):
         # TODO trim zeros at the end of the data
