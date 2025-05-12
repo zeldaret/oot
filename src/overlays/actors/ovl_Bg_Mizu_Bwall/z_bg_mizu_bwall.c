@@ -44,7 +44,7 @@ ActorProfile Bg_Mizu_Bwall_Profile = {
     /**/ BgMizuBwall_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementInitFloor[2] = {
+static ColliderTrisElementInit sTrisElementsInitFloor[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -79,10 +79,10 @@ static ColliderTrisInit sTrisInitFloor = {
         COLSHAPE_TRIS,
     },
     2,
-    sTrisElementInitFloor,
+    sTrisElementsInitFloor,
 };
 
-static ColliderTrisElementInit sTrisElementInitRutoWall[1] = {
+static ColliderTrisElementInit sTrisElementsInitRutoWall[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -106,10 +106,10 @@ static ColliderTrisInit sTrisInitRutoWall = {
         COLSHAPE_TRIS,
     },
     1,
-    sTrisElementInitRutoWall,
+    sTrisElementsInitRutoWall,
 };
 
-static ColliderTrisElementInit sTrisElementInitWall[2] = {
+static ColliderTrisElementInit sTrisElementsInitWall[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -144,7 +144,7 @@ static ColliderTrisInit sTrisInitUnusedWall = {
         COLSHAPE_TRIS,
     },
     2,
-    sTrisElementInitWall,
+    sTrisElementsInitWall,
 };
 
 static ColliderTrisInit sTrisInitStingerWall = {
@@ -157,7 +157,7 @@ static ColliderTrisInit sTrisInitStingerWall = {
         COLSHAPE_TRIS,
     },
     2,
-    sTrisElementInitWall,
+    sTrisElementsInitWall,
 };
 
 static Gfx* sDLists[] = {
@@ -219,7 +219,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
                     cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
-                    for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
+                    for (i = 0; i < ARRAY_COUNT(sTrisElementsInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
                             offset.x = sTrisInitFloor.elements[i].dim.vtx[j].x;
                             offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
@@ -260,7 +260,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
                     cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
-                    for (i = 0; i < ARRAY_COUNT(sTrisElementInitRutoWall); i++) {
+                    for (i = 0; i < ARRAY_COUNT(sTrisElementsInitRutoWall); i++) {
                         for (j = 0; j < 3; j++) {
                             offset.x = sTrisInitRutoWall.elements[i].dim.vtx[j].x;
                             offset.y = sTrisInitRutoWall.elements[i].dim.vtx[j].y;
@@ -301,7 +301,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
                     cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
-                    for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
+                    for (i = 0; i < ARRAY_COUNT(sTrisElementsInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitUnusedWall.
@@ -344,7 +344,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
                     cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
-                    for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
+                    for (i = 0; i < ARRAY_COUNT(sTrisElementsInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitStingerWall.
@@ -387,7 +387,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
                     cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
-                    for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
+                    for (i = 0; i < ARRAY_COUNT(sTrisElementsInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitStingerWall.

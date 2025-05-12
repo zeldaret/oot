@@ -160,7 +160,7 @@ void BgHidanRsekizou_Destroy(Actor* thisx, PlayState* play) {
 void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
     BgHidanRsekizou* this = (BgHidanRsekizou*)thisx;
     s32 i;
-    ColliderJntSphElement* sphere;
+    ColliderJntSphElement* element;
     s32 pad;
     f32 yawSine;
     f32 yawCosine;
@@ -180,12 +180,14 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
     yawCosine = Math_CosS(this->dyna.actor.shape.rot.y);
 
     for (i = 0; i < ARRAY_COUNT(this->colliderElements); i++) {
-        sphere = &this->collider.elements[i];
-        sphere->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + yawCosine * sphere->dim.modelSphere.center.x +
-                                           yawSine * sphere->dim.modelSphere.center.z;
-        sphere->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + sphere->dim.modelSphere.center.y;
-        sphere->dim.worldSphere.center.z = (this->dyna.actor.home.pos.z - yawSine * sphere->dim.modelSphere.center.x) +
-                                           yawCosine * sphere->dim.modelSphere.center.z;
+        element = &this->collider.elements[i];
+        element->dim.worldSphere.center.x = this->dyna.actor.home.pos.x +
+                                            (yawCosine * element->dim.modelSphere.center.x) +
+                                            (yawSine * element->dim.modelSphere.center.z);
+        element->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + element->dim.modelSphere.center.y;
+        element->dim.worldSphere.center.z = this->dyna.actor.home.pos.z -
+                                            (yawSine * element->dim.modelSphere.center.x) +
+                                            (yawCosine * element->dim.modelSphere.center.z);
     }
 
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

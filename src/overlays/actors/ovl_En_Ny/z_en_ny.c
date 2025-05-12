@@ -64,7 +64,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     },
 };
 
-static ColliderJntSphInit sColliderInit = {
+static ColliderJntSphInit sColliderJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -125,7 +125,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 2;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, this->colliderElements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     this->unk_1CA = 0;
     this->unk_1D0 = 0;
