@@ -57,6 +57,15 @@ static s16 sMissingCuccoTextIds[] = {
     0x5036, 0x5070, 0x5072, 0x5037, 0x5038, 0x5039, 0x503A, 0x503B, 0x503D, 0x503C,
 };
 
+#define KAKARIKO_CUCCO_SET_RETURNED(cuccoIndex) \
+    gSaveContext.save.info.infTable[INFTABLE_INDEX_KAKARIKO_CUCCO] |= D_80ABB3B4[(cuccoIndex)]
+
+#define KAKARIKO_CUCCO_RESET_RETURNED(cuccoIndex) \
+    gSaveContext.save.info.infTable[INFTABLE_INDEX_KAKARIKO_CUCCO] &= ~D_80ABB3B4[(cuccoIndex)]
+
+#define KAKARIKO_CUCCO_HAS_BEEN_RETURNED(cuccoIndex) \
+    gSaveContext.save.info.infTable[INFTABLE_INDEX_KAKARIKO_CUCCO] & D_80ABB3B4[(cuccoIndex)]
+
 static s16 D_80ABB3B4[] = {
     INFTABLE_MASK(INFTABLE_199), INFTABLE_MASK(INFTABLE_19A), INFTABLE_MASK(INFTABLE_19B), INFTABLE_MASK(INFTABLE_19C),
     INFTABLE_MASK(INFTABLE_19D), INFTABLE_MASK(INFTABLE_19E), INFTABLE_MASK(INFTABLE_19F),
@@ -225,8 +234,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
             if ((fabsf(currentCucco->actor.world.pos.x - 330.0f) < 90.0f) &&
                 (fabsf(currentCucco->actor.world.pos.z - 1610.0f) < 190.0f)) {
                 if (this->unk_26C == 0) {
-                    gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F] |=
-                        D_80ABB3B4[currentCucco->unk_2AA];
+                    KAKARIKO_CUCCO_SET_RETURNED(currentCucco->unk_2AA);
                     if (BREG(1) != 0) {
                         // "GET inside the chicken fence!"
                         PRINTF(VT_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" VT_RST, D_80ABB3B4[currentCucco->unk_2AA]);
@@ -234,8 +242,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
                 }
                 this->cuccosInPen++;
             } else if (this->unk_26C == 0) {
-                gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F] &=
-                    ~D_80ABB3B4[currentCucco->unk_2AA];
+                KAKARIKO_CUCCO_RESET_RETURNED(currentCucco->unk_2AA);
             }
         }
         currentCucco = (EnNiw*)currentCucco->actor.next;
@@ -291,13 +298,10 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
                 this->unk_262 = TEXT_STATE_EVENT;
                 this->unk_26A = this->cuccosInPen;
                 PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST,
-                       gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F]);
-                gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F] &=
-                    (u16) ~(INFTABLE_MASK(INFTABLE_199) | INFTABLE_MASK(INFTABLE_19A) | INFTABLE_MASK(INFTABLE_19B) |
-                            INFTABLE_MASK(INFTABLE_19C) | INFTABLE_MASK(INFTABLE_19D) | INFTABLE_MASK(INFTABLE_19E) |
-                            INFTABLE_MASK(INFTABLE_19F));
+                       gSaveContext.save.info.infTable[INFTABLE_INDEX_KAKARIKO_CUCCO]);
+                INFTABLE_RESET_KAKARIKO_CUCCOS();
                 PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n" VT_RST,
-                       gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F]);
+                       gSaveContext.save.info.infTable[INFTABLE_INDEX_KAKARIKO_CUCCO]);
                 PRINTF("\n\n");
                 this->actionFunc = func_80ABA654;
                 return;
