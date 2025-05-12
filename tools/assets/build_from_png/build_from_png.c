@@ -42,8 +42,8 @@ static bool strendswith(const char* s, const char* suffix) {
     return (len_s >= len_suffix) && (strncmp(s + len_s - len_suffix, suffix, len_suffix) == 0);
 }
 
-static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem_sizep, char** tlut_namep,
-                        int* tlut_elem_sizep, bool print_err) {
+static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem_sizep, size_t* len_png_p_prefix,
+                        char** tlut_namep, int* tlut_elem_sizep, bool print_err) {
     // The last 4 (or less) suffixes, without the '.'
     const int max_n_suffixes = 4;
     char* png_p_suffixes[max_n_suffixes];
@@ -88,11 +88,14 @@ static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem
     }
     i_suffix_fmt = i_suffix;
 
+    if (len_png_p_prefix != NULL) {
+        // The length of the png path up to the format suffix
+        *len_png_p_prefix = (png_p_suffixes[i_suffix] - strlen(".")) - png_p_buf;
+    }
+
     if (i_suffix_elemtype < 0) {
-        if (print_err) {
-            fprintf(stderr, "png path is missing a .u32 or .u64 suffix\n");
-        }
-        return false;
+        // No elem type suffix, default to u64
+        *elem_sizep = 8;
     } else {
         if (strequ(png_p_suffixes[i_suffix_elemtype], "u64")) {
             *elem_sizep = 8;
@@ -121,24 +124,26 @@ static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem
     }
 
     if (fmt->fmt == G_IM_FMT_CI && i_suffix_tlut >= 0) {
+        size_t tlut_elemtype_suffix_length;
         if (strendswith(png_p_suffixes[i_suffix_tlut], "_u64")) {
             *tlut_elem_sizep = 8;
+            tlut_elemtype_suffix_length = strlen("_u64");
         } else if (strendswith(png_p_suffixes[i_suffix_tlut], "_u32")) {
             *tlut_elem_sizep = 4;
+            tlut_elemtype_suffix_length = strlen("_u32");
         } else {
-            if (print_err) {
-                fprintf(stderr, "png path with ci format has a .tlut_ suffix without a _u32 or _u64 suffix\n");
-            }
-            return false;
+            // No tlut elem type, default to u64
+            *tlut_elem_sizep = 8;
+            tlut_elemtype_suffix_length = 0;
         }
         // extract "ABC" from the "tlut_ABC_uXX" suffix
-        if (strlen(png_p_suffixes[i_suffix_tlut]) <= strlen("tlut__uXX")) {
+        if (strlen(png_p_suffixes[i_suffix_tlut]) <= (strlen("tlut_") + tlut_elemtype_suffix_length)) {
             if (print_err) {
                 fprintf(stderr, "png path with ci format has a bad .tlut_ suffix\n");
             }
             return false;
         }
-        png_p_suffixes[i_suffix_tlut][strlen(png_p_suffixes[i_suffix_tlut]) - strlen("_uXX")] = '\0';
+        png_p_suffixes[i_suffix_tlut][strlen(png_p_suffixes[i_suffix_tlut]) - tlut_elemtype_suffix_length] = '\0';
         *tlut_namep = strdup(png_p_suffixes[i_suffix_tlut] + strlen("tlut_"));
     }
 
@@ -224,18 +229,16 @@ static bool handle_non_ci(const char* png_p, const struct fmt_info* fmt, int ele
     return success;
 }
 
-static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, int elem_size, const char* out_dir_p) {
+static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, int elem_size, const char* out_dir_p,
+                             size_t len_png_p_prefix) {
     const int tlut_elem_size = 8;
     char* inc_c_p = make_inc_c_p(png_p, out_dir_p);
 
     char* png_p_buf = strdup(png_p);
+    png_p_buf[len_png_p_prefix] = '\0'; // cut off the suffixes
     char* png_stem = basename(png_p_buf);
-    // parse_png_p ensured these suffixes
-    assert(strlen(png_stem) >= strlen(".ciX.uXX.png"));
-    png_stem[strlen(png_stem) - strlen(".ciX.uXX.png")] = '\0';
-    char* pal_inc_c_p =
-        malloc(strlen(out_dir_p) + strlen("/") + strlen(png_stem) + strlen(".tlut.rgba16.u64.inc.c") + 1);
-    sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.u64.inc.c", out_dir_p, png_stem);
+    char* pal_inc_c_p = malloc(strlen(out_dir_p) + strlen("/") + strlen(png_stem) + strlen(".tlut.rgba16.inc.c") + 1);
+    sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.inc.c", out_dir_p, png_stem);
     free(png_p_buf);
 
     struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
@@ -285,7 +288,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
             int direntry_elem_size;
             char* direntry_tlut_name = NULL;
             int direntry_tlut_elem_size = -1;
-            if (parse_png_p(direntry_name_buf, &direntry_fmt, &direntry_elem_size, &direntry_tlut_name,
+            if (parse_png_p(direntry_name_buf, &direntry_fmt, &direntry_elem_size, NULL, &direntry_tlut_name,
                             &direntry_tlut_elem_size, false)) {
                 if (direntry_fmt->fmt == G_IM_FMT_CI && direntry_tlut_name != NULL) {
                     if (strequ(tlut_name, direntry_tlut_name)) {
@@ -361,7 +364,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         char* pal_inc_c_p =
             malloc(len_out_dir_p + strlen("/") + strlen(tlut_name) + strlen(".tlut.rgba16.uXX.inc.c") + 1);
         assert(tlut_elem_size == 8 || tlut_elem_size == 4);
-        sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.%s.inc.c", out_dir_p, tlut_name, tlut_elem_size == 8 ? "u64" : "u32");
+        sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16%s.inc.c", out_dir_p, tlut_name, tlut_elem_size == 8 ? "" : ".u32");
 
         if (all_other_pngs_match_ref_img_pal) {
             // write matching palette, and matching color indices for all pngs
@@ -514,8 +517,9 @@ int main(int argc, char** argv) {
     usage:
         fprintf(stderr, "Usage: build_from_png path/to/file.png path/to/out/folder/ [path/to/input/folder1/ ...]\n");
         fprintf(stderr, "The png file should be named like:\n");
-        fprintf(stderr, " - texName.format.<u32|u64>.png (non-ci formats or ci formats with a non-shared tlut)\n");
-        fprintf(stderr, " - texName.ci<4|8>.tlut_tlutName_<u32|u64>.<u32|u64>.png (ci formats with a shared tlut)\n");
+        fprintf(stderr, " - texName.format[.<u32|u64>].png (non-ci formats or ci formats with a non-shared tlut)\n");
+        fprintf(stderr,
+                " - texName.ci<4|8>.tlut_tlutName[_<u32|u64>][.<u32|u64>].png (ci formats with a shared tlut)\n");
         return EXIT_FAILURE;
     }
     const char* png_p = argv[1];
@@ -525,12 +529,13 @@ int main(int argc, char** argv) {
 
     const struct fmt_info* fmt;
     int elem_size;
+    size_t len_png_p_prefix;
     char* tlut_name = NULL;
     int tlut_elem_size = -1;
 
     {
         char* png_p_buf = strdup(png_p);
-        bool success = parse_png_p(png_p_buf, &fmt, &elem_size, &tlut_name, &tlut_elem_size, true);
+        bool success = parse_png_p(png_p_buf, &fmt, &elem_size, &len_png_p_prefix, &tlut_name, &tlut_elem_size, true);
         free(png_p_buf);
         if (!success) {
             goto usage;
@@ -543,7 +548,7 @@ int main(int argc, char** argv) {
         success = handle_non_ci(png_p, fmt, elem_size, out_dir_p);
     } else {
         if (tlut_name == NULL) {
-            success = handle_ci_single(png_p, fmt, elem_size, out_dir_p);
+            success = handle_ci_single(png_p, fmt, elem_size, out_dir_p, len_png_p_prefix);
         } else {
             success = handle_ci_shared_tlut(png_p, fmt, out_dir_p, in_dirs, num_in_dirs, tlut_name, tlut_elem_size);
             free(tlut_name);

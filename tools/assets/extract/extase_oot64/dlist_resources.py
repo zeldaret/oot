@@ -396,20 +396,28 @@ class TextureResource(Resource):
 
     def get_filename_stem(self):
         format_name = f"{self.fmt.name.lower()}{self.siz.bpp}"
+
+        if self.elem_type != "u64":
+            elem_type_suffix = f".{self.elem_type}"
+        else:
+            elem_type_suffix = ""
+
         if self.fmt == G_IM_FMT.CI:
             assert self.resource_tlut is not None
-            tlut_info = f"tlut_{self.resource_tlut.name}_{self.resource_tlut.elem_type}"
+            tlut_info = f"tlut_{self.resource_tlut.name}"
+            if self.resource_tlut.elem_type != "u64":
+                tlut_info += f"_{self.resource_tlut.elem_type}"
             if not self.resource_tlut.tlut_can_omit_tlut_info_from_users():
-                return f"{self.name}.{format_name}.{tlut_info}.{self.elem_type}"
+                return f"{self.name}.{format_name}.{tlut_info}{elem_type_suffix}"
             else:
-                return f"{self.name}.{format_name}.{self.elem_type}"
+                return f"{self.name}.{format_name}{elem_type_suffix}"
         elif self.is_tlut():
             if not self.tlut_can_omit_tlut_info_from_users():
-                return f"{self.name}.tlut.{format_name}.{self.elem_type}"
+                return f"{self.name}.tlut.{format_name}{elem_type_suffix}"
             else:
-                return f"{self.resources_ci_list[0].name}.tlut.{format_name}.{self.elem_type}"
+                return f"{self.resources_ci_list[0].name}.tlut.{format_name}{elem_type_suffix}"
         else:
-            return f"{self.name}.{format_name}.{self.elem_type}"
+            return f"{self.name}.{format_name}{elem_type_suffix}"
 
     def write_extracted(self, memory_context):
         if self.is_tlut():
