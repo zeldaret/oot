@@ -601,6 +601,49 @@ class TLUTResource(TextureResource, can_size_be_unknown=True):
             self.range_end = self.range_start + self.width * self.height * 2
 
 
+class TextureSplitTlutResource(TextureResource):
+
+    def __init__(self, file, range_start, name, fmt, siz, width, height, lo_half: bool):
+        assert fmt == G_IM_FMT.CI
+        assert siz == G_IM_SIZ._8b
+        super().__init__(file, range_start, name, fmt, siz, width, height)
+        self.lo_half = lo_half
+
+    def get_filename_stem(self):
+        assert self.elem_type == "u64"
+        assert self.resource_tlut.elem_type == "u64"
+
+        return f"{self.name}.ci8.split_{"lo" if self.lo_half else "hi"}.tlut_{self.resource_tlut.name}"
+
+    def write_extracted(self, memory_context):
+        data = self.file.data[self.range_start : self.range_end]
+        assert len(data) == self.range_end - self.range_start
+
+        if self.lo_half:
+            assert all(_b < 128 for _b in data)
+        else:
+            assert all(_b >= 128 for _b in data)
+            data = bytes(_b - 128 for _b in data)
+
+        tlut_data = self.resource_tlut.file.data[
+            self.resource_tlut.range_start : self.resource_tlut.range_end
+        ]
+
+        assert self.resource_tlut.tlut_get_count() == 128
+
+        write_n64_image_to_png_color_indexed(
+            self.extract_to_path,
+            self.width,
+            self.height,
+            self.fmt,
+            self.siz,
+            data,
+            tlut_data,
+            128,
+            self.resource_tlut.fmt,
+        )
+
+
 def gfxdis(
     *,
     input_buffer: Union[bytes, memoryview],
@@ -1490,7 +1533,7 @@ class DListResource(Resource, can_size_be_unknown=True):
     def get_c_includes(self):
         return (
             # TODO these are not always needed:
-            "sys_matrix.h", # for gIdentityMtx
+            "sys_matrix.h",  # for gIdentityMtx
         )
 
     def get_h_includes(self):

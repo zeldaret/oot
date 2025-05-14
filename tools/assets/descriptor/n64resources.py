@@ -158,7 +158,9 @@ def handler_Texture(
         )
 
         if reselem.attrib.get("SplitTlut") == "true":
-            res.hack_modes.add("hackmode_split_tlut")
+            res.hack_modes.add("hackmode_split_tlut_true")
+        if reselem.attrib.get("SplitTlut") == "false":
+            res.hack_modes.add("hackmode_split_tlut_false")
 
         assert (
             "TlutOffset" in reselem.attrib or "ExternalTlutOffset" in reselem.attrib

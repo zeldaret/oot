@@ -62,3 +62,11 @@ Otherwise the images are automatically co-quantized and the resulting images and
 
 Note the N64 supports CI images with IA16 palettes instead of RGBA16 palettes, but OoT doesn't have such textures.
 For simplicity, CI images with IA16 palettes are not supported in the build system, and all CI images are assumed to use RGBA16 palettes.
+
+# Skybox textures
+
+Skybox textures, located in (`extracted/VERSION/`)`assets/textures/skyboxes`, are ci8 images with the additional specificity of being limited to a palette of 128 colors that can be loaded as either the first or last 128 colors of a 256-colors palette, depending on the skybox.
+
+The build system identifies such textures with the additional "sub-format" suffix `.split_lo` or `.split_hi` right after the `.ci8` suffix. `split_lo` corresponds to textures where the half palette is mapped to the lower half, and `split_hi` to the higher half.
+
+Like for regular ci images, images are automatically converted, quantized and written within those restrictions by the build system.

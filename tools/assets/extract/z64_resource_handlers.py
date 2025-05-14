@@ -251,30 +251,30 @@ def register_resource_handlers():
     def ci_texture_resource_handler(
         file: File, resource_desc: n64resources.CITextureResourceDesc
     ):
-        if "hackmode_split_tlut" in resource_desc.hack_modes:
-            # TODO implement SplitTlut="true"
-            return BinaryBlobResource(
+        if (
+            "hackmode_split_tlut_true" in resource_desc.hack_modes
+            or "hackmode_split_tlut_false" in resource_desc.hack_modes
+        ):
+            resource = dlist_resources.TextureSplitTlutResource(
                 file,
                 resource_desc.offset,
-                resource_desc.offset
-                + (
-                    resource_desc.format.siz.bpp
-                    * resource_desc.width
-                    * resource_desc.height
-                    // 8
-                ),
                 resource_desc.symbol_name,
+                resource_desc.format.fmt,
+                resource_desc.format.siz,
+                resource_desc.width,
+                resource_desc.height,
+                "hackmode_split_tlut_false" in resource_desc.hack_modes,
             )
-
-        resource = dlist_resources.TextureResource(
-            file,
-            resource_desc.offset,
-            resource_desc.symbol_name,
-            resource_desc.format.fmt,
-            resource_desc.format.siz,
-            resource_desc.width,
-            resource_desc.height,
-        )
+        else:
+            resource = dlist_resources.TextureResource(
+                file,
+                resource_desc.offset,
+                resource_desc.symbol_name,
+                resource_desc.format.fmt,
+                resource_desc.format.siz,
+                resource_desc.width,
+                resource_desc.height,
+            )
 
         def callback_set_tlut(pool_resources_by_desc):
             resource_tlut_desc = resource_desc.tlut

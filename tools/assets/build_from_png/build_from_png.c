@@ -13,6 +13,7 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include "../n64texconv/src/libn64texconv/bin2c.h"
 #include "../n64texconv/src/libn64texconv/n64texconv.h"
 
 #define NUM_FORMATS 9
@@ -34,6 +35,17 @@ static const struct fmt_info {
     // clang-format on
 };
 
+enum sub_format {
+    SUBFMT_SPLIT_LO,
+    SUBFMT_SPLIT_HI,
+    SUBFMT_MAX,
+    SUBFMT_NONE
+};
+static const char* subfmt_map[SUBFMT_MAX] = {
+    [SUBFMT_SPLIT_LO] = "split_lo",
+    [SUBFMT_SPLIT_HI] = "split_hi",
+};
+
 #define strequ(s1, s2) (strcmp(s1, s2) == 0)
 #define strstartswith(s, prefix) (strncmp(s, prefix, strlen(prefix)) == 0)
 static bool strendswith(const char* s, const char* suffix) {
@@ -42,10 +54,10 @@ static bool strendswith(const char* s, const char* suffix) {
     return (len_s >= len_suffix) && (strncmp(s + len_s - len_suffix, suffix, len_suffix) == 0);
 }
 
-static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem_sizep, size_t* len_png_p_prefix,
-                        char** tlut_namep, int* tlut_elem_sizep, bool print_err) {
-    // The last 4 (or less) suffixes, without the '.'
-    const int max_n_suffixes = 4;
+static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, enum sub_format* subfmt, int* elem_sizep,
+                        size_t* len_png_p_prefix, char** tlut_namep, int* tlut_elem_sizep, bool print_err) {
+    // The last 5 (or less) suffixes, without the '.'
+    const int max_n_suffixes = 5;
     char* png_p_suffixes[max_n_suffixes];
     int n_suffixes_found = 0;
     size_t i = strlen(png_p_buf);
@@ -80,6 +92,18 @@ static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem
         i_suffix_tlut = i_suffix;
         i_suffix++;
     }
+
+    *subfmt = SUBFMT_NONE;
+    if (i_suffix < n_suffixes_found) {
+        for (size_t i = 0; i < SUBFMT_MAX; i++) {
+            if (strequ(subfmt_map[i], png_p_suffixes[i_suffix])) {
+                i_suffix++;
+                *subfmt = i;
+                break;
+            }
+        }
+    }
+
     if (i_suffix >= n_suffixes_found) {
         if (print_err) {
             fprintf(stderr, "png path is missing a .format suffix\n");
@@ -119,6 +143,14 @@ static bool parse_png_p(char* png_p_buf, const struct fmt_info** fmtp, int* elem
     if (fmt == NULL) {
         if (print_err) {
             fprintf(stderr, "png path is missing a .format suffix\n");
+        }
+        return false;
+    }
+
+    if ((*subfmt == SUBFMT_SPLIT_LO || *subfmt == SUBFMT_SPLIT_HI) &&
+        !(fmt->fmt == G_IM_FMT_CI && fmt->siz == G_IM_SIZ_8b)) {
+        if (print_err) {
+            fprintf(stderr, "Can't use split_lo/split_hi sub-formats with a format other than ci8\n");
         }
         return false;
     }
@@ -247,11 +279,17 @@ static bool handle_non_ci(const char* png_p, const struct fmt_info* fmt, int ele
     return success;
 }
 
-static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, int elem_size, const char* out_dir_p,
-                             size_t len_png_p_prefix) {
+static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, enum sub_format subfmt, int elem_size,
+                             const char* out_dir_p, size_t len_png_p_prefix) {
     const int tlut_elem_size = 8;
 
     bool success = true;
+
+    if (subfmt != SUBFMT_NONE) {
+        // TODO
+        fprintf(stderr, "sub-formats are not supported for ci images with a non-shared tlut\n");
+        return false;
+    }
 
     // read png
     struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
@@ -294,8 +332,9 @@ static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, int 
     return success;
 }
 
-static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt, const char* out_dir_p, char** in_dirs,
-                                  int num_in_dirs, char* tlut_name, int tlut_elem_size) {
+static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt, enum sub_format subfmt,
+                                  const char* out_dir_p, char** in_dirs, int num_in_dirs, char* tlut_name,
+                                  int tlut_elem_size) {
     const size_t len_out_dir_p = strlen(out_dir_p);
 
     size_t len_pngs_with_tlut = 0;
@@ -321,19 +360,23 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         for (size_t i = 0; in_dir_list[i] != NULL; i++) {
             char* direntry_name_buf = strdup(in_dir_list[i]);
             const struct fmt_info* direntry_fmt;
+            enum sub_format direntry_subfmt;
             int direntry_elem_size;
             char* direntry_tlut_name = NULL;
             int direntry_tlut_elem_size = -1;
-            if (parse_png_p(direntry_name_buf, &direntry_fmt, &direntry_elem_size, NULL, &direntry_tlut_name,
-                            &direntry_tlut_elem_size, false)) {
+            if (parse_png_p(direntry_name_buf, &direntry_fmt, &direntry_subfmt, &direntry_elem_size, NULL,
+                            &direntry_tlut_name, &direntry_tlut_elem_size, false)) {
                 if (direntry_fmt->fmt == G_IM_FMT_CI && direntry_tlut_name != NULL) {
                     if (strequ(tlut_name, direntry_tlut_name)) {
-                        if (direntry_fmt != fmt || direntry_tlut_elem_size != tlut_elem_size) {
-                            fprintf(stderr,
-                                    "Images sharing TLUT \"%s\" have mismatching format or tlut elem size:\n"
-                                    "%s\n"
-                                    "%s/%s\n",
-                                    tlut_name, png_p, in_dir_p, in_dir_list[i]);
+                        // TODO mismatching sub-format could be supported
+                        if (direntry_fmt != fmt || direntry_subfmt != subfmt ||
+                            direntry_tlut_elem_size != tlut_elem_size) {
+                            fprintf(
+                                stderr,
+                                "Images sharing TLUT \"%s\" have mismatching format, sub-format or tlut elem size:\n"
+                                "%s\n"
+                                "%s/%s\n",
+                                tlut_name, png_p, in_dir_p, in_dir_list[i]);
                             free(direntry_name_buf);
                             free_dir_list(in_dir_list);
                             return false;
@@ -419,7 +462,11 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         assert(tlut_elem_size == 8 || tlut_elem_size == 4);
         sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16%s.inc.c", out_dir_p, tlut_name, tlut_elem_size == 8 ? "" : ".u32");
 
-        if (all_other_pngs_match_ref_img_pal) {
+        const unsigned int max_colors = fmt->siz == G_IM_SIZ_4b                                  ? 16
+                                        : subfmt == SUBFMT_SPLIT_LO || subfmt == SUBFMT_SPLIT_HI ? 128
+                                                                                                 : 256;
+
+        if (all_other_pngs_match_ref_img_pal && ref_img->pal->count <= max_colors) {
             // write matching palette, and matching color indices for all pngs
 #ifdef VERBOSE
             fprintf(stderr, "Matching data detected!\n");
@@ -438,8 +485,20 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                 for (size_t i = 0; i < len_pngs_with_tlut; i++) {
                     char* inc_c_p = make_inc_c_p(pngs_with_tlut[i].png_p, out_dir_p);
 
-                    success = n64texconv_image_to_c_file(inc_c_p, pngs_with_tlut[i].img, false, false,
-                                                         pngs_with_tlut[i].elem_size) == 0;
+                    if (subfmt == SUBFMT_SPLIT_HI) {
+                        size_t size = pngs_with_tlut[i].img->width * pngs_with_tlut[i].img->height;
+                        uint8_t bin[size];
+                        for (size_t j = 0; j < size; j++) {
+                            // ensured by the `ref_img->pal->count <= max_colors` check
+                            assert(pngs_with_tlut[i].img->color_indices[j] < 128);
+
+                            bin[j] = 128 + pngs_with_tlut[i].img->color_indices[j];
+                        }
+                        success = bin2c_file(inc_c_p, bin, size, 0, pngs_with_tlut[i].elem_size) == 0;
+                    } else {
+                        success = n64texconv_image_to_c_file(inc_c_p, pngs_with_tlut[i].img, false, false,
+                                                             pngs_with_tlut[i].elem_size) == 0;
+                    }
                     if (!success) {
                         fprintf(stderr, "Could not write image to %s\n", inc_c_p);
                     }
@@ -468,7 +527,6 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                 widths[i] = pngs_with_tlut[i].img->width;
                 heights[i] = pngs_with_tlut[i].img->height;
             }
-            const unsigned int max_colors = fmt->siz == G_IM_SIZ_8b ? 256 : 16;
             struct color out_pal[max_colors];
             size_t out_pal_count;
             const float dither_level = 0.5f;
@@ -525,7 +583,20 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                     };
 
                     // ... to .inc.c
-                    success = n64texconv_image_to_c_file(inc_c_p, &img, false, false, pngs_with_tlut[i].elem_size) == 0;
+                    if (subfmt == SUBFMT_SPLIT_HI) {
+                        size_t size = img.width * img.height;
+                        uint8_t bin[size];
+                        for (size_t j = 0; j < size; j++) {
+                            // ensured by `max_colors` being 128 for SUBFMT_SPLIT_*
+                            assert(img.color_indices[j] < 128);
+
+                            bin[j] = 128 + img.color_indices[j];
+                        }
+                        success = bin2c_file(inc_c_p, bin, size, 0, pngs_with_tlut[i].elem_size) == 0;
+                    } else {
+                        success =
+                            n64texconv_image_to_c_file(inc_c_p, &img, false, false, pngs_with_tlut[i].elem_size) == 0;
+                    }
                     if (!success) {
                         fprintf(stderr, "Could not write palettized image to %s\n", inc_c_p);
                         break;
@@ -589,6 +660,7 @@ int main(int argc, char** argv) {
     const int num_in_dirs = argc - 3;
 
     const struct fmt_info* fmt;
+    enum sub_format subfmt;
     int elem_size;
     size_t len_png_p_prefix;
     char* tlut_name = NULL;
@@ -596,7 +668,8 @@ int main(int argc, char** argv) {
 
     {
         char* png_p_buf = strdup(png_p);
-        bool success = parse_png_p(png_p_buf, &fmt, &elem_size, &len_png_p_prefix, &tlut_name, &tlut_elem_size, true);
+        bool success =
+            parse_png_p(png_p_buf, &fmt, &subfmt, &elem_size, &len_png_p_prefix, &tlut_name, &tlut_elem_size, true);
         free(png_p_buf);
         if (!success) {
             goto usage;
@@ -609,9 +682,10 @@ int main(int argc, char** argv) {
         success = handle_non_ci(png_p, fmt, elem_size, out_dir_p);
     } else {
         if (tlut_name == NULL) {
-            success = handle_ci_single(png_p, fmt, elem_size, out_dir_p, len_png_p_prefix);
+            success = handle_ci_single(png_p, fmt, subfmt, elem_size, out_dir_p, len_png_p_prefix);
         } else {
-            success = handle_ci_shared_tlut(png_p, fmt, out_dir_p, in_dirs, num_in_dirs, tlut_name, tlut_elem_size);
+            success =
+                handle_ci_shared_tlut(png_p, fmt, subfmt, out_dir_p, in_dirs, num_in_dirs, tlut_name, tlut_elem_size);
             free(tlut_name);
         }
     }
