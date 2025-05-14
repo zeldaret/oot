@@ -19,6 +19,7 @@ from ..extase.cdata_resources import (
     CDataExt_Value,
     CDataExtWriteContext,
     cdata_ext_Vec3s,
+    cdata_ext_Vec3s_aligned,
     INDENT,
 )
 
@@ -32,7 +33,7 @@ from .. import oot64_data
 
 
 class CollisionVtxListResource(CDataResource):
-    cdata_ext_elem = cdata_ext_Vec3s
+    cdata_ext_elem = cdata_ext_Vec3s_aligned
 
     def __init__(self, file: File, range_start: int, name: str, length: int):
         self.cdata_ext = CDataExt_Array(self.cdata_ext_elem, length)
@@ -80,17 +81,17 @@ class CollisionPolyListResource(CDataResource):
             if i == 0:
                 if flags & 1:
                     flags &= ~1
-                    flags_str_list.append("1")
+                    flags_str_list.append("COLPOLY_IGNORE_CAMERA")
                 if flags & 2:
                     flags &= ~2
-                    flags_str_list.append("2")
+                    flags_str_list.append("COLPOLY_IGNORE_ENTITY")
                 if flags & 4:
                     flags &= ~4
-                    flags_str_list.append("4")
+                    flags_str_list.append("COLPOLY_IGNORE_PROJECTILES")
             elif i == 1:
                 if flags & 1:
                     flags &= ~1
-                    flags_str_list.append("1")
+                    flags_str_list.append("COLPOLY_IS_FLOOR_CONVEYOR")
             if flags != 0:
                 flags_str_list.append(f"0x{flags:X}")
             if flags_str_list:
@@ -99,7 +100,7 @@ class CollisionPolyListResource(CDataResource):
                 flags_str = "0"
             f.write(wctx.line_prefix)
             f.write(INDENT)
-            f.write(f"{vtxId} | (({flags_str}) << 13), // {i}\n")
+            f.write(f"COLPOLY_VTX({vtxId}, {flags_str}), // {i}\n")
         f.write(wctx.line_prefix)
         f.write("}")
         return True
@@ -112,8 +113,19 @@ class CollisionPolyListResource(CDataResource):
     ):
         assert isinstance(v, int)
         nf = v / 0x7FFF
+
+        if int(round(nf, 5) * 0x7FFF) != v:
+            if v < 0:
+                nf -= 0.000_01
+            elif v > 0:
+                nf += 0.000_01
+
+        ns = f"{nf:.5f}"
+        while ns[-1] == "0" and ns[-2] != ".":
+            ns = ns[:-1]
+
         wctx.f.write(wctx.line_prefix)
-        wctx.f.write(f"COLPOLY_SNORMAL({nf})")
+        wctx.f.write(f"COLPOLY_SNORMAL({ns})")
 
         return True
 
@@ -214,26 +226,20 @@ class CollisionSurfaceTypeListResource(CDataResource):
 
             f.write(wctx.line_prefix)
             f.write(INDENT)
-            f.write("(\n")
+            f.write(f"SURFACETYPE{i_data}(")
 
             has_prev = False
             for mask, shift, name in bitfield_info:
                 val = (data_val & mask) >> shift
 
-                f.write(wctx.line_prefix)
-                f.write(INDENT * 2)
                 if has_prev:
-                    f.write("| ")
-                else:
-                    f.write("  ")
+                    f.write(", ")
 
-                f.write(f"(({val} << {shift:2}) & 0x{mask:08X}) // {name}\n")
+                f.write(f"{val}")
 
                 has_prev = True
 
-            f.write(wctx.line_prefix)
-            f.write(INDENT)
-            f.write(f"), // {i_data}\n")
+            f.write(f"),\n")
 
         f.write(wctx.line_prefix)
         f.write("}")

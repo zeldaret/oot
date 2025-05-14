@@ -393,6 +393,28 @@ cdata_ext_Vec3s = CDataExt_Struct(
         ("y", CDataExt_Value.s16),
         ("z", CDataExt_Value.s16),
     )
+).freeze()
+
+
+def write_Vec3s_aligned(resource, memory_context, v, wctx: CDataExtWriteContext):
+    s = f'{v["x"]:6}, {v["y"]:6}, {v["z"]:6}'
+    if not wctx.inhibit_top_braces:
+        s = "{ " + s + " }"
+    wctx.f.write(wctx.line_prefix)
+    wctx.f.write(s)
+    return True
+
+
+cdata_ext_Vec3s_aligned = (
+    CDataExt_Struct(
+        (
+            ("x", CDataExt_Value.s16),
+            ("y", CDataExt_Value.s16),
+            ("z", CDataExt_Value.s16),
+        )
+    )
+    .set_write(write_Vec3s_aligned)
+    .freeze()
 )
 
 
