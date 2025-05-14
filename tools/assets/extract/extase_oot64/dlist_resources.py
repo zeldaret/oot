@@ -613,7 +613,7 @@ class TextureSplitTlutResource(TextureResource):
         assert self.elem_type == "u64"
         assert self.resource_tlut.elem_type == "u64"
 
-        return f"{self.name}.ci8.split_{"lo" if self.lo_half else "hi"}.tlut_{self.resource_tlut.name}"
+        return f"{self.name}.ci8.split_{'lo' if self.lo_half else 'hi'}.tlut_{self.resource_tlut.name}"
 
     def write_extracted(self, memory_context):
         data = self.file.data[self.range_start : self.range_end]
