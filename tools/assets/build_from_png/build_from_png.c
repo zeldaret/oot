@@ -220,42 +220,77 @@ static char* make_inc_c_p(const char* png_p, const char* out_dir_p) {
 }
 
 static bool handle_non_ci(const char* png_p, const struct fmt_info* fmt, int elem_size, const char* out_dir_p) {
-    char* inc_c_p = make_inc_c_p(png_p, out_dir_p);
+    bool success = true;
 
+    // read png
     struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
-    bool success = n64texconv_image_to_c_file(inc_c_p, img, false, false, elem_size) == 0;
-    n64texconv_image_free(img);
-    free(inc_c_p);
+    if (img == NULL) {
+        fprintf(stderr, "Could not read png %s\n", png_p);
+        success = false;
+    }
+
+    // write image
+    if (success) {
+        char* inc_c_p = make_inc_c_p(png_p, out_dir_p);
+
+        success = n64texconv_image_to_c_file(inc_c_p, img, false, false, elem_size) == 0;
+        if (!success) {
+            fprintf(stderr, "Could not write image to %s\n", inc_c_p);
+        }
+
+        free(inc_c_p);
+    }
+
+    if (img != NULL) {
+        n64texconv_image_free(img);
+    }
     return success;
 }
 
 static bool handle_ci_single(const char* png_p, const struct fmt_info* fmt, int elem_size, const char* out_dir_p,
                              size_t len_png_p_prefix) {
     const int tlut_elem_size = 8;
-    char* inc_c_p = make_inc_c_p(png_p, out_dir_p);
 
-    char* png_p_buf = strdup(png_p);
-    png_p_buf[len_png_p_prefix] = '\0'; // cut off the suffixes
-    char* png_stem = basename(png_p_buf);
-    char* pal_inc_c_p = malloc(strlen(out_dir_p) + strlen("/") + strlen(png_stem) + strlen(".tlut.rgba16.inc.c") + 1);
-    sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.inc.c", out_dir_p, png_stem);
-    free(png_p_buf);
+    bool success = true;
 
+    // read png
     struct n64_image* img = n64texconv_image_from_png(png_p, fmt->fmt, fmt->siz, G_IM_FMT_RGBA);
-    bool success = n64texconv_image_to_c_file(inc_c_p, img, false, false, elem_size) == 0;
-    if (!success) {
-        fprintf(stderr, "Could not write image to %s\n", inc_c_p);
+    if (img == NULL) {
+        fprintf(stderr, "Could not read png %s\n", png_p);
+        success = false;
     }
+
+    // write image
     if (success) {
+        char* inc_c_p = make_inc_c_p(png_p, out_dir_p);
+        success = n64texconv_image_to_c_file(inc_c_p, img, false, false, elem_size) == 0;
+        if (!success) {
+            fprintf(stderr, "Could not write image to %s\n", inc_c_p);
+        }
+        free(inc_c_p);
+    }
+
+    // write palette
+    if (success) {
+        char* png_p_buf = strdup(png_p);
+        png_p_buf[len_png_p_prefix] = '\0'; // cut off the suffixes
+        char* png_stem = basename(png_p_buf);
+        char* pal_inc_c_p =
+            malloc(strlen(out_dir_p) + strlen("/") + strlen(png_stem) + strlen(".tlut.rgba16.inc.c") + 1);
+        sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16.inc.c", out_dir_p, png_stem);
+        free(png_p_buf);
+
         success = n64texconv_palette_to_c_file(pal_inc_c_p, img->pal, true, tlut_elem_size) == 0;
         if (!success) {
             fprintf(stderr, "Could not write palette to %s\n", pal_inc_c_p);
         }
+        free(pal_inc_c_p);
     }
-    n64texconv_palette_free(img->pal);
-    n64texconv_image_free(img);
-    free(inc_c_p);
-    free(pal_inc_c_p);
+
+    if (img != NULL) {
+        n64texconv_palette_free(img->pal);
+        n64texconv_image_free(img);
+    }
     return success;
 }
 
@@ -272,6 +307,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         struct n64_image* img;
     }* pngs_with_tlut = malloc(sizeof(struct other_png_info[maxlen_pngs_with_tlut]));
 
+    // list pngs using the TLUT `tlut_name` into `pngs_with_tlut`
     for (int j = 0; j < num_in_dirs; j++) {
         const char* in_dir_p = in_dirs[j];
         const size_t len_in_dir_p = strlen(in_dir_p);
@@ -292,9 +328,16 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                             &direntry_tlut_elem_size, false)) {
                 if (direntry_fmt->fmt == G_IM_FMT_CI && direntry_tlut_name != NULL) {
                     if (strequ(tlut_name, direntry_tlut_name)) {
-                        // TODO change asserts to errors and fail
-                        assert(direntry_fmt == fmt);
-                        assert(direntry_tlut_elem_size == tlut_elem_size);
+                        if (direntry_fmt != fmt || direntry_tlut_elem_size != tlut_elem_size) {
+                            fprintf(stderr,
+                                    "Images sharing TLUT \"%s\" have mismatching format or tlut elem size:\n"
+                                    "%s\n"
+                                    "%s/%s\n",
+                                    tlut_name, png_p, in_dir_p, in_dir_list[i]);
+                            free(direntry_name_buf);
+                            free_dir_list(in_dir_list);
+                            return false;
+                        }
 
                         bool png_name_already_found = false;
                         for (size_t k = 0; k < len_pngs_with_tlut; k++) {
@@ -329,36 +372,46 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         free_dir_list(in_dir_list);
     }
 
-    struct n64_image* ref_img = n64texconv_image_from_png(png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
-    bool all_other_pngs_match_ref_img_pal = true;
-
     bool success = true;
 
-    for (size_t i = 0; i < len_pngs_with_tlut; i++) {
-        struct n64_image* other_img =
-            n64texconv_image_from_png(pngs_with_tlut[i].png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
-        pngs_with_tlut[i].img = other_img;
-        if (other_img == NULL) {
-            fprintf(stderr, "Could not read png %s\n", pngs_with_tlut[i].png_p);
-            success = false;
-            break;
-        }
-        if (all_other_pngs_match_ref_img_pal) {
-            bool pal_matches_ref =
-                other_img->pal->count == ref_img->pal->count &&
-                memcmp(other_img->pal->texels, ref_img->pal->texels, sizeof(struct color[ref_img->pal->count])) == 0;
-            if (!pal_matches_ref) {
-                all_other_pngs_match_ref_img_pal = false;
+    // read "reference" png
+    struct n64_image* ref_img = n64texconv_image_from_png(png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
+    if (ref_img == NULL) {
+        fprintf(stderr, "Could not read png %s\n", png_p);
+        success = false;
+    }
+
+    // read all pngs that share the TLUT
+    if (success) {
+        for (size_t i = 0; i < len_pngs_with_tlut; i++) {
+            struct n64_image* other_img =
+                n64texconv_image_from_png(pngs_with_tlut[i].png_p, G_IM_FMT_CI, fmt->siz, G_IM_FMT_RGBA);
+            pngs_with_tlut[i].img = other_img;
+            if (other_img == NULL) {
+                fprintf(stderr, "Could not read other png %s\n", pngs_with_tlut[i].png_p);
+                success = false;
+                break;
             }
         }
     }
 
     if (success) {
+        // check if all palettes are the same
+        bool all_other_pngs_match_ref_img_pal = true;
         for (size_t i = 0; i < len_pngs_with_tlut; i++) {
             assert(pngs_with_tlut[i].img != NULL);
 #ifdef VERBOSE
             fprintf(stderr, "%s %s\n", pngs_with_tlut[i].name, pngs_with_tlut[i].png_p);
 #endif
+            if (all_other_pngs_match_ref_img_pal) {
+                struct n64_image* other_img = pngs_with_tlut[i].img;
+                bool pal_matches_ref = other_img->pal->count == ref_img->pal->count &&
+                                       memcmp(other_img->pal->texels, ref_img->pal->texels,
+                                              sizeof(struct color[ref_img->pal->count])) == 0;
+                if (!pal_matches_ref) {
+                    all_other_pngs_match_ref_img_pal = false;
+                }
+            }
         }
 
         char* pal_inc_c_p =
@@ -426,6 +479,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                 fprintf(stderr, "Could not co-palettize images\n");
             }
 
+            // write palette to .inc.c
             struct n64_palette pal = { out_pal, G_IM_FMT_RGBA, out_pal_count };
             if (success) {
                 int ret = n64texconv_palette_to_c_file(pal_inc_c_p, &pal, true, tlut_elem_size);
@@ -434,6 +488,7 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                     fprintf(stderr, "Could not write generated palette to %s (%d)\n", pal_inc_c_p, ret);
                 }
             }
+            // write palette to .png
             if (success) {
                 if (copaletize_write_out_pngs) {
                     char* pal_out_png_p = strdup(pal_inc_c_p);
@@ -447,6 +502,8 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                     free(pal_out_png_p);
                 }
             }
+
+            // write images...
             if (success) {
                 for (size_t i = 0; i < len_pngs_with_tlut; i++) {
                     char* other_png_p_buf = strdup(pngs_with_tlut[i].png_p);
@@ -467,12 +524,14 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                         out_indices[i],
                     };
 
+                    // ... to .inc.c
                     success = n64texconv_image_to_c_file(inc_c_p, &img, false, false, pngs_with_tlut[i].elem_size) == 0;
                     if (!success) {
                         fprintf(stderr, "Could not write palettized image to %s\n", inc_c_p);
                         break;
                     }
 
+                    // ... to .png
                     if (copaletize_write_out_pngs) {
                         char* out_png_p = strdup(inc_c_p);
                         assert(strendswith(inc_c_p, ".inc.c"));
@@ -498,7 +557,9 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         free(pal_inc_c_p);
     }
 
-    n64texconv_image_free(ref_img);
+    if (ref_img != NULL) {
+        n64texconv_image_free(ref_img);
+    }
 
     for (size_t i = 0; i < len_pngs_with_tlut; i++) {
         free(pngs_with_tlut[i].png_p);
@@ -515,10 +576,10 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
 int main(int argc, char** argv) {
     if (argc < 3) {
     usage:
-        fprintf(stderr, "Usage: build_from_png path/to/file.png path/to/out/folder/ [path/to/input/folder1/ ...]\n");
-        fprintf(stderr, "The png file should be named like:\n");
-        fprintf(stderr, " - texName.format[.<u32|u64>].png (non-ci formats or ci formats with a non-shared tlut)\n");
         fprintf(stderr,
+                "Usage: build_from_png path/to/file.png path/to/out/folder/ [path/to/input/folder1/ ...]\n"
+                "The png file should be named like:\n"
+                " - texName.format[.<u32|u64>].png (non-ci formats or ci formats with a non-shared tlut)\n"
                 " - texName.ci<4|8>.tlut_tlutName[_<u32|u64>][.<u32|u64>].png (ci formats with a shared tlut)\n");
         return EXIT_FAILURE;
     }
