@@ -126,3 +126,6 @@ def get_skybox_id(skybox_id: int) -> str:
 
 def get_light_mode(light_mode: int) -> str:
     return misc_ids.LIGHT_MODES[light_mode]
+
+def get_navi_quest_hint_file_id_name(navi_quest_hint_file_id: int) -> str:
+    return misc_ids.NAVI_QUEST_HINT_FILE_IDS[navi_quest_hint_file_id]

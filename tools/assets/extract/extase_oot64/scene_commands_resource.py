@@ -338,7 +338,6 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                 )
 
             if cmd_id == SceneCmdId.SCENE_CMD_ID_PATH_LIST:
-                # TODO guess length, no other way I think
                 assert data1 == 0
                 memory_context.report_resource_at_segmented(
                     self,
@@ -352,7 +351,6 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                 new_progress_done.append(("reported PathListResource", cmd_id))
 
             if cmd_id == SceneCmdId.SCENE_CMD_ID_ALTERNATE_HEADER_LIST:
-                # TODO guess length, no other way I think
                 assert data1 == 0
                 memory_context.report_resource_at_segmented(
                     self,
@@ -382,7 +380,7 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
             raise Exception("reached end of data without encountering end marker")
         assert end_offset is not None
 
-        # TODO hack until I have a clearer view of stuff once all cmds are loosely implemented
+        # Nothing to parse for these commands
         found_commands.discard(SceneCmdId.SCENE_CMD_ID_SOUND_SETTINGS)
         found_commands.discard(SceneCmdId.SCENE_CMD_ID_MISC_SETTINGS)
         found_commands.discard(SceneCmdId.SCENE_CMD_ID_SPECIAL_FILES)
@@ -483,7 +481,10 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                 if cmd_id == SceneCmdId.SCENE_CMD_ID_SPECIAL_FILES:
                     naviQuestHintFileId = data1
                     keepObjectId = data2_I
-                    f.write(f"{naviQuestHintFileId}, {keepObjectId}")
+                    f.write(
+                        f"{oot64_data.get_navi_quest_hint_file_id_name(naviQuestHintFileId)}, "
+                        f"{oot64_data.get_object_id_name(keepObjectId)}"
+                    )
                 if cmd_id == SceneCmdId.SCENE_CMD_ID_ROOM_BEHAVIOR:
                     gpFlags1 = data1
                     gpFlags2 = data2_I
@@ -634,6 +635,7 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
     def get_c_includes(self):
         return (
             "array_count.h",
+            "z64object.h",  # for OBJECT_*
             # TODO these are not always needed:
             "sequence.h",  # for NATURE_ID_* and NA_BGM_*
             "z64skybox.h",  # for SKYBOX_*
