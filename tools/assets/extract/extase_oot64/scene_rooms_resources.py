@@ -274,16 +274,40 @@ class ExitListResource(CDataArrayResource):
 
 
 class EnvLightSettingsListResource(CDataArrayNamedLengthResource):
-    # TODO formatting
+
+    def write_color(resource, memory_context, v, wctx: CDataExtWriteContext):
+        assert not wctx.inhibit_top_braces
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write("{ " + f"{v[0]:3}, {v[1]:3}, {v[2]:3}" + " }")
+        return True
+
+    color_cdata_ext = CDataExt_Array(CDataExt_Value.u8, 3).set_write(write_color)
+
+    def write_dir(resource, memory_context, v, wctx: CDataExtWriteContext):
+        assert not wctx.inhibit_top_braces
+        wctx.f.write(wctx.line_prefix)
+        wctx.f.write("{ " + f"{v[0]:4}, {v[1]:4}, {v[2]:4}" + " }")
+        return True
+
+    dir_cdata_ext = CDataExt_Array(CDataExt_Value.s8, 3).set_write(write_dir)
+
+    def write_blendRateAndFogNear(v):
+        blendRate = (v >> 10) * 4
+        fogNear = v & 0x3FF
+        return f"(({blendRate} / 4) << 10) | {fogNear}"
+
     elem_cdata_ext = CDataExt_Struct(
         (
-            ("ambientColor", CDataExt_Array(CDataExt_Value.u8, 3)),
-            ("light1Dir", CDataExt_Array(CDataExt_Value.s8, 3)),
-            ("light1Color", CDataExt_Array(CDataExt_Value.u8, 3)),
-            ("light2Dir", CDataExt_Array(CDataExt_Value.s8, 3)),
-            ("light2Color", CDataExt_Array(CDataExt_Value.u8, 3)),
-            ("fogColor", CDataExt_Array(CDataExt_Value.u8, 3)),
-            ("blendRateAndFogNear", CDataExt_Value.s16),
+            ("ambientColor", color_cdata_ext),
+            ("light1Dir", dir_cdata_ext),
+            ("light1Color", color_cdata_ext),
+            ("light2Dir", dir_cdata_ext),
+            ("light2Color", color_cdata_ext),
+            ("fogColor", color_cdata_ext),
+            (
+                "blendRateAndFogNear",
+                CDataExt_Value("h").set_write_str_v(write_blendRateAndFogNear),
+            ),
             ("zFar", CDataExt_Value.s16),
         )
     )
