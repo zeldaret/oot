@@ -436,6 +436,14 @@ class CollisionBgCamListResource(CDataResource):
 
 
 class CollisionWaterBoxesResource(CDataResource):
+
+    def write_properties(v):
+        bgCamIndex = (v >> 0) & 0xFF
+        lightIndex = (v >> 8) & 0x1F
+        room = (v >> 13) & 0x3F
+        setFlag19 = (v >> 19) & 1
+        return f"WATERBOX_PROPERTIES(/* bgCamIndex */ {bgCamIndex}, /* lightIndex */ {lightIndex}, /* room */ {room}, /* setFlag19 */ {'true' if setFlag19 else 'false'})"
+
     elem_cdata_ext = CDataExt_Struct(
         (
             ("xMin", CDataExt_Value.s16),
@@ -444,7 +452,7 @@ class CollisionWaterBoxesResource(CDataResource):
             ("xLength", CDataExt_Value.s16),
             ("zLength", CDataExt_Value.s16),
             ("pad12", CDataExt_Value.pad16),
-            ("properties", CDataExt_Value.u32),  # TODO formatting
+            ("properties", CDataExt_Value("I").set_write_str_v(write_properties)),
         )
     )
 
@@ -466,6 +474,9 @@ class CollisionWaterBoxesResource(CDataResource):
             return f"ARRAY_COUNT({self.symbol_name})"
         else:
             raise ValueError
+
+    def get_c_includes(self):
+        return ("stdbool.h",)
 
     def get_h_includes(self):
         return ("z64bgcheck.h",)
