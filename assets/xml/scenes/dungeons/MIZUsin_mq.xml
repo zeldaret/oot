@@ -7,6 +7,7 @@
     </File>
     <File Name="MIZUsin_room_0" Segment="3">
         <Room Name="MIZUsin_room_0" Offset="0x0"/>
+        <DList Name="MIZUsin_room_0_030001D0_RoomShapeCullable_030001DC_CullableEntries_03015330_DL" Offset="0x15330" RawPointers="0x06000000"/>
     </File>
     <File Name="MIZUsin_room_1" Segment="3">
         <Room Name="MIZUsin_room_1" Offset="0x0"/>

@@ -64,7 +64,7 @@ assets:
 - name: code/fbdemo_circle
   xml_path: assets/xml/code/fbdemo_circle.xml
   start_offset: 0x10ED48
-  end_offset: 0x10FF68
+  end_offset: 0x110038
 - name: code/fbdemo_triforce
   xml_path: assets/xml/code/fbdemo_triforce.xml
   start_offset: 0x10E1D0
@@ -72,7 +72,7 @@ assets:
 - name: code/fbdemo_wipe1
   xml_path: assets/xml/code/fbdemo_wipe1.xml
   start_offset: 0x10E2A0
-  end_offset: 0x10EC30
+  end_offset: 0x10ED28
 - name: misc/link_animetion
   xml_path: assets/xml/misc/link_animetion.xml
 - name: misc/z_select_static

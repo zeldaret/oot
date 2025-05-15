@@ -38,6 +38,8 @@ ActorProfile En_Jsjutan_Profile = {
 };
 
 // Shadow texture. 32x64 I8.
+#define sShadowTex_WIDTH 32
+#define sShadowTex_HEIGHT 64
 static u8 sShadowTex[0x800];
 
 static Vec3s D_80A8EE10[0x90];
