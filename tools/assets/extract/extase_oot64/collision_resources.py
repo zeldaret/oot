@@ -21,6 +21,7 @@ from ..extase.cdata_resources import (
     cdata_ext_Vec3s,
     cdata_ext_Vec3s_aligned,
     INDENT,
+    fmt_hex_u,
 )
 
 from .. import oot64_data
@@ -197,27 +198,42 @@ class CollisionSurfaceTypeListResource(CDataResource):
             (
                 0,
                 (
-                    (0x000000FF, 0, "bgCamIndex"),
-                    (0x00001F00, 8, "exitIndex"),
-                    (0x0003E000, 13, "floorType"),
-                    (0x001C0000, 18, "unk18"),
-                    (0x03E00000, 21, "wallType"),
-                    (0x3C000000, 26, "floorProperty"),
-                    (0x40000000, 30, "isSoft"),
-                    (0x80000000, 31, "isHorseBlocked"),
+                    (0x000000FF, 0, "bgCamIndex", int),
+                    (0x00001F00, 8, "exitIndex", int),
+                    (0x0003E000, 13, "floorType", oot64_data.misc_ids.FLOOR_TYPES),
+                    (0x001C0000, 18, "unk18", int),
+                    (0x03E00000, 21, "wallType", oot64_data.misc_ids.WALL_TYPES),
+                    (
+                        0x3C000000,
+                        26,
+                        "floorProperty",
+                        oot64_data.misc_ids.FLOOR_PROPERTIES,
+                    ),
+                    (0x40000000, 30, "isSoft", bool),
+                    (0x80000000, 31, "isHorseBlocked", bool),
                 ),
             ),
             (
                 1,
                 (
-                    (0x0000000F, 0, "material"),
-                    (0x00000030, 4, "floorEffect"),
-                    (0x000007C0, 6, "lightSetting"),
-                    (0x0001F800, 11, "echo"),
-                    (0x00020000, 17, "canHookshot"),
-                    (0x001C0000, 18, "conveyorSpeed"),
-                    (0x07E00000, 21, "conveyorDirection"),
-                    (0x08000000, 27, "unk27"),
+                    (0x0000000F, 0, "material", oot64_data.misc_ids.SURFACE_MATERIALS),
+                    (0x00000030, 4, "floorEffect", oot64_data.misc_ids.FLOOR_EFFECTS),
+                    (0x000007C0, 6, "lightSetting", int),
+                    (0x0001F800, 11, "echo", int),
+                    (0x00020000, 17, "canHookshot", bool),
+                    (
+                        0x001C0000,
+                        18,
+                        "conveyorSpeed",
+                        oot64_data.misc_ids.CONVEYOR_SPEEDS,
+                    ),
+                    (
+                        0x07E00000,
+                        21,
+                        "conveyorDirection",
+                        lambda val: f"CONVEYOR_DIRECTION_FROM_BINANG({fmt_hex_u(val * (0x10000 // 64))})",
+                    ),
+                    (0x08000000, 27, "unk27", bool),
                 ),
             ),
         ):
@@ -226,20 +242,30 @@ class CollisionSurfaceTypeListResource(CDataResource):
 
             f.write(wctx.line_prefix)
             f.write(INDENT)
-            f.write(f"SURFACETYPE{i_data}(")
+            f.write(f"SURFACETYPE{i_data}(\n")
 
-            has_prev = False
-            for mask, shift, name in bitfield_info:
+            lines = []
+            for mask, shift, name, fmt_info in bitfield_info:
                 val = (data_val & mask) >> shift
 
-                if has_prev:
-                    f.write(", ")
+                if fmt_info == int:
+                    lines.append(f"/* {name} */ {val}")
+                elif fmt_info == bool:
+                    assert val in {0, 1}
+                    lines.append(f"/* {name} */ {'true' if val else 'false'}")
+                elif isinstance(fmt_info, dict):
+                    lines.append(fmt_info[val])
+                elif callable(fmt_info):
+                    lines.append(fmt_info(val))
+                else:
+                    lines.append(f"/* {name} */ {val}")
 
-                f.write(f"{val}")
+            f.write(",\n".join(f"{wctx.line_prefix}{INDENT * 2}{_l}" for _l in lines))
 
-                has_prev = True
-
-            f.write(f"),\n")
+            f.write("\n")
+            f.write(wctx.line_prefix)
+            f.write(INDENT)
+            f.write("),\n")
 
         f.write(wctx.line_prefix)
         f.write("}")
@@ -274,6 +300,9 @@ class CollisionSurfaceTypeListResource(CDataResource):
             return self.symbol_name
         else:
             raise ValueError()
+
+    def get_c_includes(self):
+        return ("stdbool.h",)
 
     def get_h_includes(self):
         return ("z64bgcheck.h",)
