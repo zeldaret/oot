@@ -61,7 +61,7 @@
         <!-- TLUT used in gOwlPerchingSkel -->
         <Texture Name="object_owl_TLUT_006DA8" OutName="tlut_00006DA8" Format="rgba16" Width="16" Height="16" Offset="0x6DA8"/>
         <!-- TLUT used in gOwlFlyingSkel -->
-        <Texture Name="object_owl_TLUT_006FA8" OutName="tlut_00006FA8" Format="rgba16" Width="16" Height="16" Offset="0x6FA8"/>
+        <Texture Name="object_owl_TLUT_006FA8" OutName="tlut_00006FA8" Format="rgba16" Width="16" Height="16" Offset="0x6FA8" HackMode="ignore_orphaned_tlut"/>
 
         <!-- Eye Textures -->
         <Texture Name="gObjOwlEyeOpenTex" OutName="owl_eye_open" Format="ci8" Width="32" Height="32" Offset="0x89A8" TlutOffset="0x6DA8"/>
