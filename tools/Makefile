@@ -35,7 +35,6 @@ ifneq ($(LLD),0)
 endif
 
 all: $(PROGRAMS) $(IDO_RECOMP_5_3_DIR) $(IDO_RECOMP_7_1_DIR) $(EGCS_DIR)
-	$(MAKE) -C ZAPD
 	$(MAKE) -C fado
 	$(MAKE) -C audio
 	$(MAKE) -C com-plugin
@@ -44,7 +43,6 @@ all: $(PROGRAMS) $(IDO_RECOMP_5_3_DIR) $(IDO_RECOMP_7_1_DIR) $(EGCS_DIR)
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
 	$(RM) -r ido_recomp egcs
-	$(MAKE) -C ZAPD clean
 	$(MAKE) -C fado clean
 	$(MAKE) -C audio clean
 	$(MAKE) -C com-plugin clean
