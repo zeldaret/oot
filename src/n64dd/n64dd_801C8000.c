@@ -1,5 +1,8 @@
 // Does some command processing
+
 #include "n64dd.h"
+
+#include "array_count.h"
 #include "versions.h"
 #include "z_locale.h"
 

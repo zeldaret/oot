@@ -5,16 +5,17 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
+#include "segment_symbols.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64map_mark.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"
-
-#include "global.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/textures/parameter_static/parameter_static.h"

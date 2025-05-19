@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/bcp.h"
 
 s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dramAddr, size_t size) {

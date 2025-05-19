@@ -9,6 +9,7 @@
 
 #include "libc64/qrand.h"
 #include "ichain.h"
+#include "printf.h"
 #include "quake.h"
 #include "regs.h"
 #include "segmented_address.h"

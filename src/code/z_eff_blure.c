@@ -1,14 +1,13 @@
 #include "libc64/math64.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64skin_matrix.h"
-
-#include "macros.h"
-#include "global.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

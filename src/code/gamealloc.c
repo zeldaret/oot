@@ -1,8 +1,7 @@
 #include "libc64/malloc.h"
 #include "libu64/debug.h"
 #include "gamealloc.h"
-
-#include "macros.h"
+#include "printf.h"
 
 void GameAlloc_Log(GameAlloc* this) {
     GameAllocEntry* iter;

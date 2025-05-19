@@ -160,6 +160,8 @@ typedef struct ActorShape {
 // Flag controlling the use of `Actor.sfx`. Do not use directly. See Actor_PlaySfx_FlaggedTimer
 #define ACTOR_FLAG_SFX_TIMER (1 << 28)
 
+#define ACTOR_FLAGS_CHECK_ALL(thisx, mask) (((thisx)->flags & (mask)) == (mask))
+
 #define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
 #define COLORFILTER_GET_DURATION(colorFilterParams) ((colorFilterParams) & 0xFF)
 

@@ -3,6 +3,7 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
 #include "z64audio.h"
 #include "z64play.h"

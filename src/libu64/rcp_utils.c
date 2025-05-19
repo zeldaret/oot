@@ -1,6 +1,6 @@
 #include "libu64/rcp_utils.h"
-
-#include "global.h"
+#include "ultra64.h"
+#include "printf.h"
 
 #if PLATFORM_N64 || DEBUG_FEATURES
 #define RCP_UTILS_PRINTF osSyncPrintf

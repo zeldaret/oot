@@ -6,10 +6,13 @@
 
 #include "z_demo_ec.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "segmented_address.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64save.h"
@@ -328,7 +331,7 @@ void DemoEc_UseDrawObject(DemoEc* this, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_demo_ec.c", 662);
 
     gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[drawObjectSlot].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[drawObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[drawObjectSlot].segment);
     if (!play) {}
 
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 670);
@@ -337,7 +340,7 @@ void DemoEc_UseDrawObject(DemoEc* this, PlayState* play) {
 void DemoEc_UseAnimationObject(DemoEc* this, PlayState* play) {
     s32 animObjectSlot = this->animObjectSlot;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[animObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[animObjectSlot].segment);
 }
 
 CsCmdActorCue* DemoEc_GetCue(PlayState* play, s32 cueChannel) {

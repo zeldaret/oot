@@ -1,18 +1,19 @@
 #include "libc64/os_malloc.h"
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
+#include "array_count.h"
 #include "controller.h"
 #include "fault.h"
+#include "gfx.h"
 #include "padmgr.h"
 #include "segmented_address.h"
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
 #include "z64thread.h"
+#include "translation.h"
 
-#include "global.h"
-
-#pragma increment_block_number "ntsc-1.0:84 ntsc-1.1:84 ntsc-1.2:84 pal-1.0:84 pal-1.1:84"
+#pragma increment_block_number "ntsc-1.0:144 ntsc-1.1:144 ntsc-1.2:144 pal-1.0:144 pal-1.1:144"
 
 typedef struct FaultMgr {
     OSThread thread;

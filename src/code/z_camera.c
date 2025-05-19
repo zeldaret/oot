@@ -1,17 +1,20 @@
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
-#include "ultra64.h"
-
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "db_camera.h"
+#include "gfx.h"
 #include "letterbox.h"
 #include "one_point_cutscene.h"
 #include "quake.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "terminal.h"
+#include "translation.h"
+#include "ultra64.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
 #include "z64audio.h"
@@ -23,8 +26,8 @@
 #include "z64save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ique-cn:192 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);

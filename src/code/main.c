@@ -19,17 +19,22 @@ extern struct IrqMgr gIrqMgr;
 #include "libc64/malloc.h"
 #include "libu64/rcp_utils.h"
 #include "libu64/runtime.h"
+#include "array_count.h"
 #include "audiomgr.h"
 #include "debug_arena.h"
 #include "fault.h"
 #include "gfx.h"
+#include "idle.h"
 #include "padmgr.h"
 #include "prenmi_buff.h"
+#include "printf.h"
 #include "regs.h"
+#include "segment_symbols.h"
 #include "segmented_address.h"
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #if PLATFORM_N64
 #include "cic6105.h"
@@ -37,8 +42,6 @@ extern struct IrqMgr gIrqMgr;
 #endif
 #include "z64debug.h"
 #include "z64thread.h"
-
-#include "global.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ique-cn:0 ntsc-1.0:48 ntsc-1.1:48 ntsc-1.2:48 pal-1.0:46 pal-1.1:46"

@@ -7,6 +7,7 @@
 #include "z_en_horse_zelda.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"

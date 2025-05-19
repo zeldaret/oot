@@ -9,7 +9,9 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z64play.h"
 
 #include "assets/objects/object_spot17_obj/object_spot17_obj.h"

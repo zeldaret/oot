@@ -8,10 +8,12 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "seqcmd.h"
@@ -19,6 +21,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64audio.h"
@@ -763,7 +766,7 @@ s32 func_80B54DD4(EnZl3* this) {
 void func_80B54DE0(EnZl3* this, PlayState* play) {
     s32 objectSlot = this->zl2Anime2ObjectSlot;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 }
 
 void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {

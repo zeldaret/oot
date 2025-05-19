@@ -1,5 +1,6 @@
 #include "z_en_bigokuta.h"
 
+#include "array_count.h"
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"

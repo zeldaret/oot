@@ -15,10 +15,9 @@
 #include "libc64/sleep.h"
 #include "libu64/debug.h"
 #include "gfx.h"
+#include "printf.h"
 #include "z64math.h"
 #include "z64transition_instances.h"
-
-#include "macros.h"
 
 // color framebuffer
 extern u16 D_0F000000[];

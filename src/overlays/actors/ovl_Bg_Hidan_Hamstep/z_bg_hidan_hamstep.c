@@ -6,15 +6,18 @@
 
 #include "z_bg_hidan_hamstep.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "quake.h"
 #include "regs.h"
 #include "rumble.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64play.h"

@@ -7,8 +7,10 @@
 #include "z_magic_wind.h"
 
 #include "libu64/debug.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "sfx.h"
 #include "z64curve.h"
 #include "z64play.h"

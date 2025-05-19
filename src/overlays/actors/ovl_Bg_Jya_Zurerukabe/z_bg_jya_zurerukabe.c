@@ -6,9 +6,12 @@
 
 #include "z_bg_jya_zurerukabe.h"
 
+#include "array_count.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"

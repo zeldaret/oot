@@ -257,4 +257,9 @@ void KaleidoSetup_Update(struct PlayState* play);
 void KaleidoSetup_Init(struct PlayState* play);
 void KaleidoSetup_Destroy(struct PlayState* play);
 
+extern u8 gBossMarkState;
+extern f32 gBossMarkScale;
+extern u32 D_8016139C;
+extern PauseMapMarksData* gLoadedPauseMarkDataTable;
+
 #endif

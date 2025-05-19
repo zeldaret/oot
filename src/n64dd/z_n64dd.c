@@ -1,10 +1,14 @@
 // Main interface for the 64DD from the rest of the game. Starts background
 // threads and provides functions to submit commands to them.
+
+#include "n64dd.h"
+
 #include "libc64/sleep.h"
+#include "array_count.h"
 #include "fault.h"
+#include "gfx.h"
 #include "irqmgr.h"
 #include "line_numbers.h"
-#include "n64dd.h"
 #include "stack.h"
 #include "stackcheck.h"
 #include "sys_freeze.h"
@@ -12,7 +16,7 @@
 #include "z64audio.h"
 #include "z64thread.h"
 
-#pragma increment_block_number "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
+#pragma increment_block_number "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 typedef struct struct_801D9C30 {
     /* 0x000 */ s32 unk_000;       // disk start

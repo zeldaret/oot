@@ -6,6 +6,7 @@
 
 #include "z_en_okarina_effect.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "sequence.h"
 #include "terminal.h"

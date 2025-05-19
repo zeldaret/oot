@@ -1,6 +1,7 @@
 #include "z_en_bom_bowl_pit.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "terminal.h"

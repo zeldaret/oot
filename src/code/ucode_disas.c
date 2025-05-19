@@ -1,10 +1,11 @@
+#include "libu64/mtxuty-cvt.h"
+#include "ultra64/gs2dex.h"
+#include "array_count.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "translation.h"
 #include "ucode_disas.h"
 #include "ultra64.h"
-#include "ultra64/gs2dex.h"
-#include "libu64/mtxuty-cvt.h"
-#include "segmented_address.h"
-
-#include "macros.h"
 
 #if DEBUG_FEATURES
 
@@ -59,7 +60,7 @@ typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
 void* UCodeDisas_TranslateAddr(UCodeDisas* this, uintptr_t addr) {
     uintptr_t physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
 
-    return PHYSICAL_TO_VIRTUAL(physical);
+    return OS_PHYSICAL_TO_K0(physical);
 }
 
 F3dzexConst sUCodeDisasGeometryModes[] = {

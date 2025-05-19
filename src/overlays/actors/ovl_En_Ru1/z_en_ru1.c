@@ -8,8 +8,10 @@
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "seqcmd.h"
@@ -17,6 +19,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64effect.h"

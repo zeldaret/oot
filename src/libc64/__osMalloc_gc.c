@@ -1,7 +1,10 @@
-#include "global.h"
-#include "fault.h"
 #include "libc64/os_malloc.h"
+
+#include "alignment.h"
+#include "fault.h"
+#include "printf.h"
 #include "terminal.h"
+#include "translation.h"
 
 #define FILL_ALLOC_BLOCK_FLAG (1 << 0)
 #define FILL_FREE_BLOCK_FLAG (1 << 1)

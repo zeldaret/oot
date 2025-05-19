@@ -8,9 +8,12 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "ichain.h"
+#include "printf.h"
 #include "quake.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64play.h"

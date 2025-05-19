@@ -5,6 +5,7 @@
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "rand.h"
 #include "sfx.h"
 #include "sys_matrix.h"

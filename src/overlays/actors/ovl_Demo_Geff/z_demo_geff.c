@@ -9,10 +9,12 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 
 #include "assets/objects/object_geff/object_geff.h"
@@ -101,7 +103,7 @@ void func_80977F80(DemoGeff* this, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 204);
 
     gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[objectSlot].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 
     // Necessary to match
     if (!play) {}

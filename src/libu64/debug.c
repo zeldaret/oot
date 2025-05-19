@@ -1,7 +1,7 @@
 #include "fault.h"
+#include "printf.h"
 #include "terminal.h"
-
-#include "global.h"
+#include "translation.h"
 
 #if PLATFORM_N64 || DEBUG_FEATURES
 f32 LogUtils_CheckFloatRange(const char* exp, int line, const char* valueName, f32 value, const char* minName, f32 min,

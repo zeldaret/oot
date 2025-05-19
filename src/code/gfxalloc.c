@@ -1,4 +1,4 @@
-#include "global.h"
+#include "gfx.h"
 
 Gfx* Gfx_Open(Gfx* gfx) {
     return gfx + 1;

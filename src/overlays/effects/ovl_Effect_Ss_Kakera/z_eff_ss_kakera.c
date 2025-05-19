@@ -11,6 +11,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "line_numbers.h"
+#include "printf.h"
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z64effect.h"

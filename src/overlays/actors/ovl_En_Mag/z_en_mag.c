@@ -6,6 +6,8 @@
 
 #include "z_en_mag.h"
 
+#include "array_count.h"
+#include "avoid_ub.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -13,8 +15,10 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "z64cutscene_flags.h"
