@@ -536,7 +536,7 @@ endif
 
 $(BUILD_DIR)/src/boot/build.o: CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
 
-$(BUILD_DIR)/src/audio/lib/seqplayer.o: CPP_DEFINES += -DMML_VERSION=MML_VERSION_OOT
+$(BUILD_DIR)/src/audio/internal/seqplayer.o: CPP_DEFINES += -DMML_VERSION=MML_VERSION_OOT
 
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/boot/driverominit.o: OPTFLAGS := -O2
@@ -620,15 +620,15 @@ $(BUILD_DIR)/src/libu64/%.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
 
 # Use signed chars instead of unsigned for this audio file (needed to match AudioDebug_ScrPrt)
-$(BUILD_DIR)/src/audio/general.o: CFLAGS += -signed
+$(BUILD_DIR)/src/audio/game/general.o: CFLAGS += -signed
 
 ifeq ($(PLATFORM),N64)
-$(BUILD_DIR)/src/audio/general.o: CFLAGS += -DNO_SQRTF_INTRINSIC
+$(BUILD_DIR)/src/audio/game/general.o: CFLAGS += -DNO_SQRTF_INTRINSIC
 endif
 
 # Put string literals in .data for some audio files (needed to match these files with literals)
-$(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
-$(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
+$(BUILD_DIR)/src/audio/game/sfx.o: CFLAGS += -use_readwrite_const
+$(BUILD_DIR)/src/audio/game/sequence.o: CFLAGS += -use_readwrite_const
 
 ifeq ($(PLATFORM),IQUE)
 $(BUILD_DIR)/src/libultra/%.o: CC := $(EGCS_CC)
@@ -791,9 +791,9 @@ setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) tools/extract_baserom.py $(BASEROM_DIR)/baserom-decompressed.z64 $(EXTRACTED_DIR)/baserom -v $(VERSION)
+	$(PYTHON) -m tools.assets.extract $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR) -v $(VERSION) -j$(N_THREADS)
 	$(PYTHON) tools/extract_incbins.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/incbin -v $(VERSION)
 	$(PYTHON) tools/extract_text.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/text -v $(VERSION)
-	$(PYTHON) tools/extract_assets.py $(EXTRACTED_DIR)/baserom $(EXTRACTED_DIR)/assets -v $(VERSION) -j$(N_THREADS)
 	$(PYTHON) tools/extract_audio.py -b $(EXTRACTED_DIR)/baserom -o $(EXTRACTED_DIR) -v $(VERSION) --read-xml
 
 disasm:
@@ -927,7 +927,7 @@ $(BUILD_DIR)/src/makerom/ipl3.o: $(EXTRACTED_DIR)/incbin/ipl3
 $(BUILD_DIR)/src/%.o: src/%.s
 ifeq ($(COMPILER),ido)
 # For header dependencies
-	$(CPP) $(MIPS_BUILTIN_DEFS) -x assembler-with-cpp $(INC) -MD -MF $(@:.o=.d) -MT $@ $< -o /dev/null
+	$(CPP) $(MIPS_BUILTIN_DEFS) $(CPPFLAGS) -x assembler-with-cpp $(INC) -MD -MF $(@:.o=.d) -MT $@ $< -o /dev/null
 	$(CCAS) -c $(CCASFLAGS) $(MIPS_VERSION) $(ASOPTFLAGS) -o $(@:.o=.tmp.o) $<
 # IDO generates bad symbol tables, fix the symbol table with strip..
 	$(STRIP) $(@:.o=.tmp.o) -N dummy-symbol-name
@@ -961,7 +961,7 @@ $(BUILD_DIR)/src/%.o: src/%.c
 	$(POSTPROCESS_OBJ) $@
 	$(OBJDUMP_CMD)
 
-$(BUILD_DIR)/src/audio/session_init.o: src/audio/session_init.c $(BUILD_DIR)/assets/audio/soundfont_sizes.h $(BUILD_DIR)/assets/audio/sequence_sizes.h
+$(BUILD_DIR)/src/audio/game/session_init.o: src/audio/game/session_init.c $(BUILD_DIR)/assets/audio/soundfont_sizes.h $(BUILD_DIR)/assets/audio/sequence_sizes.h
 	$(CC_CHECK) $< -o $@
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $(@:.o=.tmp) $<
 	$(LD) -r -T linker_scripts/data_with_rodata.ld -o $@ $(@:.o=.tmp)
@@ -979,20 +979,24 @@ $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/spec
 	$(POSTPROCESS_OBJ) $(@:.o=.s)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
-$(BUILD_DIR)/assets/%.inc.c: assets/%.png
-	$(N64TEXCONV) $(subst .,,$(suffix $*)) "$(findstring u32,$(subst .,,$(suffix $(basename $*))))" $< $@ $(@:.inc.c=.pal.inc.c)
+# Assets from assets/
 
-$(BUILD_DIR)/assets/%.inc.c: $(EXTRACTED_DIR)/assets/%.png
-	$(N64TEXCONV) $(subst .,,$(suffix $*)) "$(findstring u32,$(subst .,,$(suffix $(basename $*))))" $< $@ $(@:.inc.c=.pal.inc.c)
+$(BUILD_DIR)/assets/%.inc.c: assets/%.png
+	tools/assets/build_from_png/build_from_png $< $(dir $@) assets/$(dir $*) $(wildcard $(EXTRACTED_DIR)/assets/$(dir $*))
 
 $(BUILD_DIR)/assets/%.bin.inc.c: assets/%.bin
 	$(BIN2C) -t 1 $< $@
 
-$(BUILD_DIR)/assets/%.bin.inc.c: $(EXTRACTED_DIR)/assets/%.bin
-	$(BIN2C) -t 1 $< $@
-
 $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(N64TEXCONV) JFIF "" $< $@
+
+# Assets from extracted/
+
+$(BUILD_DIR)/assets/%.inc.c: $(EXTRACTED_DIR)/assets/%.png
+	tools/assets/build_from_png/build_from_png $< $(dir $@) $(wildcard assets/$(dir $*)) $(EXTRACTED_DIR)/assets/$(dir $*)
+
+$(BUILD_DIR)/assets/%.bin.inc.c: $(EXTRACTED_DIR)/assets/%.bin
+	$(BIN2C) -t 1 $< $@
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
 	$(N64TEXCONV) JFIF "" $< $@
@@ -1068,7 +1072,7 @@ $(BUILD_DIR)/assets/audio/soundfonts/%.c $(BUILD_DIR)/assets/audio/soundfonts/%.
 -include $(SOUNDFONT_DEP_FILES)
 
 $(BUILD_DIR)/assets/audio/soundfonts/%.o: $(BUILD_DIR)/assets/audio/soundfonts/%.c $(BUILD_DIR)/assets/audio/soundfonts/%.name
-	$(CC_CHECK) -I include/audio $< -o $@
+	$(CPP) $(MIPS_BUILTIN_DEFS) $(CPPFLAGS) -x assembler-with-cpp $(INC) -I include/audio -MD -MF $(@:.o=.d) -MT $@ $< -o /dev/null
 # compile c to unlinked object
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -I include/audio -o $(@:.o=.tmp) $<
 # partial link

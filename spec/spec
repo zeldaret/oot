@@ -676,31 +676,30 @@ beginseg
 #if OOT_VERSION < NTSC_1_1 || !PLATFORM_N64
     pad_text
 #endif
-    include "$(BUILD_DIR)/src/audio/lib/data.o"
-    include "$(BUILD_DIR)/src/audio/lib/synthesis.o"
-    include "$(BUILD_DIR)/src/audio/lib/heap.o"
-    include "$(BUILD_DIR)/src/audio/lib/load.o"
-    include "$(BUILD_DIR)/src/audio/lib/thread.o"
-    include "$(BUILD_DIR)/src/audio/lib/dcache.o"
-    include "$(BUILD_DIR)/src/audio/lib/aisetnextbuf.o"
+    include "$(BUILD_DIR)/src/audio/internal/data.o"
+    include "$(BUILD_DIR)/src/audio/internal/synthesis.o"
+    include "$(BUILD_DIR)/src/audio/internal/heap.o"
+    include "$(BUILD_DIR)/src/audio/internal/load.o"
+    include "$(BUILD_DIR)/src/audio/internal/thread.o"
+    include "$(BUILD_DIR)/src/audio/internal/os.o"
 #if OOT_PAL_N64
     pad_text
     pad_text
     pad_text
 #endif
-    include "$(BUILD_DIR)/src/audio/lib/playback.o"
-    include "$(BUILD_DIR)/src/audio/lib/effects.o"
-    include "$(BUILD_DIR)/src/audio/lib/seqplayer.o"
-    include "$(BUILD_DIR)/src/audio/general.o"
+    include "$(BUILD_DIR)/src/audio/internal/playback.o"
+    include "$(BUILD_DIR)/src/audio/internal/effects.o"
+    include "$(BUILD_DIR)/src/audio/internal/seqplayer.o"
+    include "$(BUILD_DIR)/src/audio/game/general.o"
 #if !PLATFORM_N64 && !DEBUG_FEATURES
     pad_text
 #endif
-    include "$(BUILD_DIR)/src/audio/sfx_params.o"
-    include "$(BUILD_DIR)/src/audio/sfx.o"
-    include "$(BUILD_DIR)/src/audio/sequence.o"
-    include "$(BUILD_DIR)/src/audio/data.o"
-    include "$(BUILD_DIR)/src/audio/session_config.o"
-    include "$(BUILD_DIR)/src/audio/session_init.o"
+    include "$(BUILD_DIR)/src/audio/game/sfx_params.o"
+    include "$(BUILD_DIR)/src/audio/game/sfx.o"
+    include "$(BUILD_DIR)/src/audio/game/sequence.o"
+    include "$(BUILD_DIR)/src/audio/game/data.o"
+    include "$(BUILD_DIR)/src/audio/game/session_config.o"
+    include "$(BUILD_DIR)/src/audio/game/session_init.o"
 
     // libu64
 #if PLATFORM_N64

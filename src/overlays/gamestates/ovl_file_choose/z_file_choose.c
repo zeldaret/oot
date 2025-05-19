@@ -1955,7 +1955,16 @@ void FileSelect_LoadGame(GameState* thisx) {
         swordEquipValue =
             (gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.save.info.equips.equipment) >> (EQUIP_TYPE_SWORD * 4);
         gSaveContext.save.info.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SWORD];
+#ifndef AVOID_UB
+        //! @bug swordEquipValue can be 0 (EQUIP_VALUE_SWORD_NONE) here (typically, when first starting the game).
+        //! This leads to reading gBitFlags[-1] (out of bounds).
+        // gBitFlags[-1] turns out to be 0 in matching versions so this is inconsequential.
         gSaveContext.save.info.inventory.equipment ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
+#else
+        if (swordEquipValue != EQUIP_VALUE_SWORD_NONE) {
+            gSaveContext.save.info.inventory.equipment ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
+        }
+#endif
     }
 
 #if PLATFORM_N64

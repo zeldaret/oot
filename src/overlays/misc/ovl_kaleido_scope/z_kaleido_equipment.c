@@ -125,8 +125,10 @@ void KaleidoScope_DrawPlayerWork(PlayState* play) {
                      BOOTS_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS)));
 }
 
+#ifndef AVOID_UB
 // Wrong prototype; this function is called with `play` even though it has no arguments
 void KaleidoScope_ProcessPlayerPreRender(PlayState* play);
+#endif
 
 void KaleidoScope_DrawEquipment(PlayState* play) {
     static s16 sEquipTimer = 0;
@@ -592,8 +594,12 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     }
 
     if ((pauseCtx->mainState == PAUSE_MAIN_STATE_7) && (sEquipTimer == 9)) {
+#ifndef AVOID_UB
         //! @bug: This function shouldn't take any arguments
         KaleidoScope_ProcessPlayerPreRender(play);
+#else
+        KaleidoScope_ProcessPlayerPreRender();
+#endif
     }
 
     gSPSegment(POLY_OPA_DISP++, 0x07, pauseCtx->playerSegment);

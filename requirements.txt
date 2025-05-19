@@ -2,6 +2,7 @@
 crunch64>=0.5.1,<1.0.0
 ipl3checksum>=1.2.0,<2.0.0
 pyyaml>=6.0.1,<7.0.0
+pygfxd>=1.0.3,<2.0.0
 
 # asm-differ
 argcomplete
