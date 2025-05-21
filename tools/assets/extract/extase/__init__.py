@@ -20,6 +20,11 @@ if TYPE_CHECKING:
 VERBOSE_FILE_TRY_PARSE_DATA = 0
 VERBOSE_REPORT_RESBUF = False
 
+DUMP_REPORTERS_IN_SOURCE = False
+DUMP_XML_IN_SOURCE = False
+
+DONT_MERGE_RESOURCE_BUFFERS_FROM_DIFFERENT_USERS = False
+
 #
 # file
 #
@@ -446,7 +451,11 @@ class File:
                 else:
                     assert i > 0
                     prev = resource_buffer_markers[i - 1]
-                    if prev.file_end < rbm.file_start:
+                    if prev.file_end < rbm.file_start or (
+                        DONT_MERGE_RESOURCE_BUFFERS_FROM_DIFFERENT_USERS
+                        and prev.file_end == rbm.file_start
+                        and prev.users != rbm.users
+                    ):
                         # disjointed
                         if do_fuse(stride_first_i, i):
                             return True
@@ -967,10 +976,26 @@ class Resource(abc.ABC):
         """
         ...
 
+    def get_as_xml(self) -> str:
+        raise NotImplementedError()
+
     def write_c_definition(self, c: io.TextIOBase) -> bool:
         """
         Returns True if something was written
         """
+
+        if DUMP_REPORTERS_IN_SOURCE:
+            c.write(f"//R: {' '.join(_r.name for _r in self.reporters)}\n")
+        if DUMP_XML_IN_SOURCE:
+            try:
+                xml = self.get_as_xml()
+            except NotImplementedError:
+                pass
+            else:
+                c.write("/*\n")
+                c.write(xml)
+                c.write("\n")
+                c.write("*/\n")
 
         if hasattr(self, "HACK_IS_STATIC_ON"):
             c.write("static ")
