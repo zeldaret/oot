@@ -143,6 +143,12 @@ class VtxArrayResource(CDataResource):
         self.cdata_ext = CDataExt_Array(self.element_cdata_ext, num)
         super().__init__(file, range_start, name)
 
+    def get_as_xml(self):
+        return f"""\
+        <Array Name="{self.symbol_name}" Count="{(self.range_end - self.range_start) // self.element_cdata_ext.size}" Offset="0x{self.range_start:X}">
+            <Vtx/>
+        </Array>"""
+
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
             return f"Vtx {self.symbol_name}[{self.cdata_ext.length}]"
