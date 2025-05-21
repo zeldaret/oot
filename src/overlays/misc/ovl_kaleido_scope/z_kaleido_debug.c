@@ -547,7 +547,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
 
         default:
             if (curSection <= SECTION_LAST_INVENTORY_SLOT) {
-                i = curSection - 3;
+                i = curSection - SECTION_FIRST_INVENTORY_SLOT;
                 if ((i <= SLOT_BOW) || (i == SLOT_SLINGSHOT) || (i == SLOT_BOMBCHU) || (i == SLOT_MAGIC_BEAN)) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
                         Inventory_DeleteItem(gAmmoItems[i], SLOT(gAmmoItems[i]));
@@ -776,21 +776,22 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
         gDPFillRectangle(POLY_OPA_DISP++, sSectionPositions[curSection][0], sSectionPositions[curSection][1],
                          sSectionPositions[curSection][0] + 45, sSectionPositions[curSection][1] + 16);
     } else if ((curSection >= SECTION_FIRST_KEY_COUNT) || (curSection == SECTION_SKULL_TOKENS)) {
-        // 2 digit long box
+        // 1 digit long box
         gDPFillRectangle(POLY_OPA_DISP++, sSectionPositions[curSection][0] - 2, sSectionPositions[curSection][1],
                          sSectionPositions[curSection][0] + 14, sSectionPositions[curSection][1] + 16);
     } else {
-        // 1 digit long box
+        // 2 digit long box
         gDPFillRectangle(POLY_OPA_DISP++, sSectionPositions[curSection][0] - 4, sSectionPositions[curSection][1],
                          sSectionPositions[curSection][0] + 24, sSectionPositions[curSection][1] + 16);
     }
 
     // Handles exiting the inventory editor with the L button
-    // The editor is opened with `debugState` set to PAUSE_DEBUG_STATE_KALEIDO_OPENING,
-    // and becomes closable after a frame once `debugState` is set to PAUSE_DEBUG_STATE_KALEIDO_OPEN
-    if (pauseCtx->debugState == PAUSE_DEBUG_STATE_KALEIDO_OPENING) {
-        pauseCtx->debugState = PAUSE_DEBUG_STATE_KALEIDO_OPEN;
-    } else if ((pauseCtx->debugState == PAUSE_DEBUG_STATE_KALEIDO_OPEN) && CHECK_BTN_ALL(input->press.button, BTN_L)) {
+    // The editor is opened with `debugState` set to PAUSE_DEBUG_STATE_INVENTORY_EDITOR_OPENING,
+    // and becomes closable after a frame once `debugState` is set to PAUSE_DEBUG_STATE_INVENTORY_EDITOR_OPEN
+    if (pauseCtx->debugState == PAUSE_DEBUG_STATE_INVENTORY_EDITOR_OPENING) {
+        pauseCtx->debugState = PAUSE_DEBUG_STATE_INVENTORY_EDITOR_OPEN;
+    } else if ((pauseCtx->debugState == PAUSE_DEBUG_STATE_INVENTORY_EDITOR_OPEN) &&
+               CHECK_BTN_ALL(input->press.button, BTN_L)) {
         pauseCtx->debugState = PAUSE_DEBUG_STATE_CLOSED;
     }
 

@@ -79,8 +79,8 @@ typedef enum PauseState {
 
 typedef enum PauseDebugState {
     /* 0 */ PAUSE_DEBUG_STATE_CLOSED,
-    /* 1 */ PAUSE_DEBUG_STATE_KALEIDO_OPENING,
-    /* 2 */ PAUSE_DEBUG_STATE_KALEIDO_OPEN,
+    /* 1 */ PAUSE_DEBUG_STATE_INVENTORY_EDITOR_OPENING,
+    /* 2 */ PAUSE_DEBUG_STATE_INVENTORY_EDITOR_OPEN,
     /* 3 */ PAUSE_DEBUG_STATE_FLAG_SET_OPEN
 } PauseDebugState;
 
