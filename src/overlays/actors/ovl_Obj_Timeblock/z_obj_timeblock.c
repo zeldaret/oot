@@ -150,7 +150,8 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
         ObjTimeblock_SetupAltBehaviourNotVisible(this);
     }
 
-    PRINTF(T("時のブロック", "Time Block") " (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n",
+    PRINTF(T("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n",
+             "Time Block (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n"),
            (u16)this->dyna.actor.params, this->unk_177, this->dyna.actor.home.rot.z & 7,
            PARAMS_GET_U(this->dyna.actor.params, 11, 3), PARAMS_GET_U(this->dyna.actor.params, 10, 1));
 }

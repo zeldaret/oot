@@ -169,8 +169,8 @@ void DemoEc_Init(Actor* thisx, PlayState* play) {
     DemoEc* this = (DemoEc*)thisx;
 
     if ((this->actor.params < 0) || (this->actor.params > 34)) {
-        PRINTF(
-            VT_FGCOL(RED) "Demo_Ec_Actor_ct:" T("arg_dataがおかしい", "arg_data is strange") "!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("Demo_Ec_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n",
+                               "Demo_Ec_Actor_ct:arg_data is strange!!!!!!!!!!!!\n") VT_RST);
         Actor_Kill(&this->actor);
     } else {
         this->updateMode = EC_UPDATE_COMMON;
@@ -703,7 +703,7 @@ Gfx* DemoEc_GetCarpenterPostLimbDList(DemoEc* this) {
         case 13:
             return object_daiku_DL_005880;
         default:
-            PRINTF(VT_FGCOL(RED) T("かつらが無い", "No wig") "!!!!!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(RED) T("かつらが無い!!!!!!!!!!!!!!!!\n", "No wig!!!!!!!!!!!!!!!!\n") VT_RST);
             return NULL;
     }
 }
@@ -749,7 +749,7 @@ Gfx* DemoEc_GetGerudoPostLimbDList(DemoEc* this) {
         case 18:
             return gGerudoWhiteHairstyleSpikyDL;
         default:
-            PRINTF(VT_FGCOL(RED) T("かつらが無い", "No wig") "!!!!!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(RED) T("かつらが無い!!!!!!!!!!!!!!!!\n", "No wig!!!!!!!!!!!!!!!!\n") VT_RST);
             return NULL;
     }
 }

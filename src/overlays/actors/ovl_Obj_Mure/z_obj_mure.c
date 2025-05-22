@@ -101,13 +101,13 @@ void ObjMure_Init(Actor* thisx, PlayState* play) {
     this->type = PARAMS_GET_U(thisx->params, 0, 5);
 
     if (this->ptn >= 4) {
-        PRINTF("Error " T("群れな敵", "Swarm of enemies") " (%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 237,
-               thisx->params);
+        PRINTF(T("Error 群れな敵 (%s %d)(arg_data 0x%04x)\n", "Error Swarm of enemies (%s %d)(arg_data 0x%04x)\n"),
+               "../z_obj_mure.c", 237, thisx->params);
         Actor_Kill(&this->actor);
         return;
     } else if (this->type >= 5) {
-        PRINTF("Error " T("群れな敵", "Swarm of enemies") " (%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 245,
-               thisx->params);
+        PRINTF(T("Error 群れな敵 (%s %d)(arg_data 0x%04x)\n", "Error Swarm of enemies (%s %d)(arg_data 0x%04x)\n"),
+               "../z_obj_mure.c", 245, thisx->params);
         Actor_Kill(&this->actor);
         return;
     } else if (!ObjMure_SetCulling(thisx, play)) {
@@ -115,13 +115,14 @@ void ObjMure_Init(Actor* thisx, PlayState* play) {
         return;
     }
     this->actionFunc = ObjMure_InitialAction;
-    PRINTF(T("群れな敵", "Swarm of enemies") " (arg_data 0x%04x)(chNum(%d) ptn(%d) svNum(%d) type(%d))\n",
+    PRINTF(T("群れな敵 (arg_data 0x%04x)(chNum(%d) ptn(%d) svNum(%d) type(%d))\n",
+             "Swarm of enemies (arg_data 0x%04x)(chNum(%d) ptn(%d) svNum(%d) type(%d))\n"),
            thisx->params, this->chNum, this->ptn, this->svNum, this->type);
 
 #if DEBUG_FEATURES
     if (ObjMure_GetMaxChildSpawns(this) <= 0) {
-        PRINTF("Warning : " T("個体数が設定されていません",
-                              "The number of individuals is not set") "(%s %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Warning : 個体数が設定されていません(%s %d)(arg_data 0x%04x)\n",
+                 "Warning : The number of individuals is not set(%s %d)(arg_data 0x%04x)\n"),
                "../z_obj_mure.c", 268, thisx->params);
     }
 #endif
@@ -140,7 +141,7 @@ s32 ObjMure_GetMaxChildSpawns(ObjMure* this) {
 void ObjMure_GetSpawnPos(Vec3f* outPos, Vec3f* inPos, s32 ptn, s32 idx) {
 #if DEBUG_FEATURES
     if (ptn >= 4) {
-        PRINTF(T("おかしなの", "That's strange") " (%s %d)\n", "../z_obj_mure.c", 307);
+        PRINTF(T("おかしなの (%s %d)\n", "That's strange (%s %d)\n"), "../z_obj_mure.c", 307);
     }
 #endif
 
@@ -175,7 +176,8 @@ void ObjMure_SpawnActors0(ObjMure* this, PlayState* play) {
                     this->children[i]->flags |= ACTOR_FLAG_GRASS_DESTROYED;
                     this->children[i]->room = actor->room;
                 } else {
-                    PRINTF("warning " T("発生失敗", "failed to occur") " (%s %d)\n", "../z_obj_mure.c", 359);
+                    PRINTF(T("warning 発生失敗 (%s %d)\n", "warning failed to occur (%s %d)\n"), "../z_obj_mure.c",
+                           359);
                 }
                 break;
             default:
@@ -186,7 +188,8 @@ void ObjMure_SpawnActors0(ObjMure* this, PlayState* play) {
                 if (this->children[i] != NULL) {
                     this->children[i]->room = actor->room;
                 } else {
-                    PRINTF("warning " T("発生失敗", "failed to occur") " (%s %d)\n", "../z_obj_mure.c", 382);
+                    PRINTF(T("warning 発生失敗 (%s %d)\n", "warning failed to occur (%s %d)\n"), "../z_obj_mure.c",
+                           382);
                 }
                 break;
         }
@@ -218,7 +221,7 @@ void ObjMure_SpawnActors1(ObjMure* this, PlayState* play2) {
             this->children[i]->room = actor->room;
         } else {
             this->childrenStates[i] = OBJMURE_CHILD_STATE_1;
-            PRINTF("warning " T("発生失敗", "failed to occur") " (%s %d)\n", "../z_obj_mure.c", 438);
+            PRINTF(T("warning 発生失敗 (%s %d)\n", "warning failed to occur (%s %d)\n"), "../z_obj_mure.c", 438);
         }
     }
 }

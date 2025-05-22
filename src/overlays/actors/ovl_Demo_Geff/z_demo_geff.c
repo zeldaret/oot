@@ -72,8 +72,8 @@ void DemoGeff_Init(Actor* thisx, PlayState* play) {
     DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->actor.params < 0 || this->actor.params >= 9) {
-        PRINTF(
-            VT_FGCOL(RED) "Demo_Geff_Actor_ct:" T("arg_dataがおかしい", "arg_data is strange") "!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n",
+                               "Demo_Geff_Actor_ct:arg_data is strange!!!!!!!!!!!!\n") VT_RST);
         Actor_Kill(&this->actor);
         return;
     }
