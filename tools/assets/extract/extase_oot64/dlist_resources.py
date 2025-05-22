@@ -36,6 +36,7 @@ from ..extase.cdata_resources import (
     fmt_hex_u,
 )
 
+
 BEST_EFFORT = True
 
 VERBOSE_ColorIndexedTexturesManager = False
