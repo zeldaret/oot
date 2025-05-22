@@ -6,8 +6,6 @@ from typing import TYPE_CHECKING, Optional
 if TYPE_CHECKING:
     from ..extase.memorymap import MemoryContext
 
-from ...conf import EXPLICIT_SIZES
-
 from ..extase import (
     File,
     RESOURCE_PARSE_SUCCESS,
@@ -43,7 +41,7 @@ class CollisionVtxListResource(CDataResource):
         super().__init__(file, range_start, name)
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_SIZES:
+        if hasattr(self, "HACK_IS_STATIC_ON"):
             return f"Vec3s {self.symbol_name}[{self.cdata_ext.length}]"
         return f"Vec3s {self.symbol_name}[]"
 
@@ -162,7 +160,7 @@ class CollisionPolyListResource(CDataResource):
         return RESOURCE_PARSE_SUCCESS
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_SIZES:
+        if hasattr(self, "HACK_IS_STATIC_ON"):
             return f"CollisionPoly {self.symbol_name}[{self.cdata_ext.length}]"
         return f"CollisionPoly {self.symbol_name}[]"
 
@@ -293,7 +291,7 @@ class CollisionSurfaceTypeListResource(CDataResource):
         return RESOURCE_PARSE_SUCCESS
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_SIZES:
+        if hasattr(self, "HACK_IS_STATIC_ON"):
             return f"SurfaceType {self.symbol_name}[{self.cdata_ext.length}]"
         return f"SurfaceType {self.symbol_name}[]"
 
@@ -319,7 +317,7 @@ class BgCamFuncDataResource(CDataResource):
         super().__init__(file, range_start, name)
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_SIZES:
+        if hasattr(self, "HACK_IS_STATIC_ON"):
             return f"Vec3s {self.symbol_name}[{self.cdata_ext.length}]"
         return f"Vec3s {self.symbol_name}[]"
 
@@ -420,7 +418,7 @@ class CollisionBgCamListResource(CDataResource):
         return RESOURCE_PARSE_SUCCESS
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_SIZES:
+        if hasattr(self, "HACK_IS_STATIC_ON"):
             return f"BgCamInfo {self.symbol_name}[{self.cdata_ext.length}]"
         return f"BgCamInfo {self.symbol_name}[]"
 
