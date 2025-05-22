@@ -36,6 +36,7 @@ from ..extase.cdata_resources import (
     fmt_hex_u,
 )
 
+from ...conf import EXPLICIT_SIZES
 
 BEST_EFFORT = True
 
@@ -150,7 +151,7 @@ class VtxArrayResource(CDataResource):
         </Array>"""
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON"):
+        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_SIZES:
             return f"Vtx {self.symbol_name}[{self.cdata_ext.length}]"
         return f"Vtx {self.symbol_name}[]"
 
@@ -274,10 +275,11 @@ class TextureResource(Resource):
         self.height_name = f"{self.symbol_name}_HEIGHT"
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON"):
-            if self.is_tlut():
-                raise NotImplementedError
-            return f"{self.elem_type} {self.symbol_name}[{self.height_name}*{self.width_name}*{self.siz.bpp}/8/sizeof({self.elem_type})]"
+        if hasattr(self, "HACK_IS_STATIC_ON") and self.is_tlut():
+            raise NotImplementedError
+        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_SIZES:
+            if not self.is_tlut():
+                return f"{self.elem_type} {self.symbol_name}[{self.height_name} * {self.width_name} * {self.siz.bpp} / 8 / sizeof({self.elem_type})]"
         return f"{self.elem_type} {self.symbol_name}[]"
 
     def get_c_reference(self, resource_offset: int):
@@ -1335,7 +1337,7 @@ class DListResource(Resource, can_size_be_unknown=True):
         return RESOURCE_PARSE_SUCCESS
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON"):
+        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_SIZES:
             length = (self.range_end - self.range_start) // 8
             return f"Gfx {self.symbol_name}[{length}]"
         return f"Gfx {self.symbol_name}[]"

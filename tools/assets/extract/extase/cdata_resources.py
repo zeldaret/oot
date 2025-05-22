@@ -9,6 +9,8 @@ from typing import TYPE_CHECKING, Callable, Any, Sequence, Union
 if TYPE_CHECKING:
     from .memorymap import MemoryContext
 
+from ...conf import EXPLICIT_SIZES
+
 from . import (
     RESOURCE_PARSE_SUCCESS,
     Resource,
@@ -456,7 +458,7 @@ class S16ArrayResource(CDataResource):
         super().__init__(file, range_start, name)
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON"):
+        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_SIZES:
             return f"s16 {self.symbol_name}[{self.cdata_ext.size // self.elem_cdata_ext.size}]"
         return f"s16 {self.symbol_name}[]"
 
