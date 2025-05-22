@@ -339,7 +339,7 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
 
     if (OBJSWITCH_FROZEN(&this->dyna.actor) && (ObjSwitch_SpawnIce(this, play) == NULL)) {
         PRINTF_COLOR_RED();
-        PRINTF("Error : 氷発生失敗 (%s %d)\n", "../z_obj_switch.c", 732);
+        PRINTF("Error : " T("氷発生失敗", "Ice generation failure") " (%s %d)\n", "../z_obj_switch.c", 732);
         PRINTF_RST();
         this->dyna.actor.params &= ~OBJSWITCH_FROZEN_FLAG;
     }
