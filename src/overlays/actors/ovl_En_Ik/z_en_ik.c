@@ -1380,7 +1380,8 @@ void EnIk_HandleCsCues(EnIk* this, PlayState* play) {
                     break;
 
                 default:
-                    PRINTF("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Ik_inConfrontion_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
 
             this->cueId = nextCueId;
