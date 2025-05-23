@@ -76,10 +76,7 @@ void GameOver_Update(PlayState* play) {
             gSaveContext.save.info.playerData.naviTimer = 0;
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
             gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
-            gSaveContext.eventInf[0] = 0;
-            gSaveContext.eventInf[1] = 0;
-            gSaveContext.eventInf[2] = 0;
-            gSaveContext.eventInf[3] = 0;
+            RESET_EVENTINF();
             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                 gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
             gSaveContext.forceRisingButtonAlphas = gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode =
