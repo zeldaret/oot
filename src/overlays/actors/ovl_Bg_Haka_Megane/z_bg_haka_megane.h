@@ -2,11 +2,11 @@
 #define Z_BG_HAKA_MEGANE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgHakaMegane;
 
-typedef void (*BgHakaMeganeActionFunc)(struct BgHakaMegane*, PlayState*);
+typedef void (*BgHakaMeganeActionFunc)(struct BgHakaMegane*, struct PlayState*);
 
 typedef struct BgHakaMegane {
     /* 0x0000 */ DynaPolyActor dyna;

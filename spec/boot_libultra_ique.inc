@@ -35,6 +35,7 @@
     include "$(BUILD_DIR)/src/libultra/os/sethwintrroutine.o"
     include "$(BUILD_DIR)/src/libultra/os/gethwintrroutine.o"
     include "$(BUILD_DIR)/src/libultra/io/pimgr.o"
+    include "$(BUILD_DIR)/src/libultra/os/kdebugserver.o"
     include "$(BUILD_DIR)/src/libultra/io/epirawdma.o"
     include "$(BUILD_DIR)/src/libultra/io/epiread.o"
     include "$(BUILD_DIR)/src/libultra/io/epidma.o"

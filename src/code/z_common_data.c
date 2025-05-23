@@ -6,6 +6,10 @@
                                "ntsc-1.0:176 ntsc-1.1:176 ntsc-1.2:176 pal-1.0:160 pal-1.1:160"
 
 ALIGNED(16) SaveContext gSaveContext;
+#if PLATFORM_IQUE
+// Unknown bss padding, placed here for matching
+char sUnknownBssPadding[0x20];
+#endif
 u32 D_8015FA88;
 u32 D_8015FA8C;
 
@@ -24,7 +28,7 @@ void SaveContext_Init(void) {
     gSaveContext.dogIsLost = true;
     gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
     gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
-#if OOT_NTSC && OOT_VERSION < GC_US
+#if OOT_NTSC && OOT_VERSION < GC_US || PLATFORM_IQUE
     if (gCurrentRegion == REGION_JP) {
         gSaveContext.language = LANGUAGE_JPN;
     }

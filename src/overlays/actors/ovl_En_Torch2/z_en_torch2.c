@@ -6,6 +6,7 @@
 
 #include "z_en_torch2.h"
 #include "assets/objects/object_torch2/object_torch2.h"
+#include "libu64/pad.h"
 #include "versions.h"
 
 #define FLAGS                                                                                 \

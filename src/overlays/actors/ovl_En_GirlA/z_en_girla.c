@@ -6,6 +6,7 @@
 
 #include "z_en_girla.h"
 #include "terminal.h"
+#include "z64draw.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 

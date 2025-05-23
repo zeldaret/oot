@@ -903,9 +903,14 @@ static void* sPromptChoiceTexs[][2] = {
 #endif
 };
 
+//! @bug On the iQue version, kaleido bss is reported to be just 0x10 bytes large in the relocation section. This is
+//! likely due to not counting the size of COMMON symbols in the overlay. sPlayerPreRender was likely originally
+//! non-static, but we make it static here to match the bss order and patch the relocation section later in the build
+//! as our relocation generator does count COMMON symbols.
+
 static u8 D_808321A8_savedButtonStatus[5];
 static PreRender sPlayerPreRender;
-static void* sPreRenderCvg;
+void* sPreRenderCvg;
 
 void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     Gfx* gfx;
@@ -4680,8 +4685,10 @@ void KaleidoScope_Update(PlayState* play) {
                         PRINTF("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
                         PRINTF_RST();
                     } else {
-                        //play->state.running = false;
-                        //SET_NEXT_GAMESTATE(&play->state, TitleSetup_Init, TitleSetupState);
+#if OOT_VERSION != IQUE_CN
+                        play->state.running = false;
+                        SET_NEXT_GAMESTATE(&play->state, TitleSetup_Init, TitleSetupState);
+#else
                         //! FIXME FAKE
                         do {
                             GameState* state = &play->state;
@@ -4690,6 +4697,7 @@ void KaleidoScope_Update(PlayState* play) {
                             (state)->init = p;
                             (state)->size = sizeof(TitleSetupState);
                         } while (0);
+#endif
                     }
                 }
             }

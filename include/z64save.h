@@ -84,6 +84,10 @@ typedef struct Inventory {
     /* 0x5C */ s16 gsTokens;
 } Inventory; // size = 0x5E
 
+typedef struct Checksum {
+    /* 0x00 */ u16 value;
+} Checksum; // size = 0x02
+
 typedef struct SavedSceneFlags {
     /* 0x00 */ u32 chest;
     /* 0x04 */ u32 swch;
@@ -208,7 +212,7 @@ typedef enum WorldMapArea {
 typedef struct SavePlayerData {
     /* 0x00  0x001C */ char newf[6]; // string "ZELDAZ"
     /* 0x06  0x0022 */ u16 deaths;
-    /* 0x08  0x0024 */ char playerName[8];
+    /* 0x08  0x0024 */ u8 playerName[8];
     /* 0x10  0x002C */ s16 n64ddFlag;
     /* 0x12  0x002E */ s16 healthCapacity; // "max_life"
     /* 0x14  0x0030 */ s16 health; // "now_life"
@@ -254,7 +258,7 @@ typedef struct SaveInfo {
     /* 0x12AA  0x12C6 */ u8 scarecrowSpawnSong[0x80];
     /* 0x132A  0x1346 */ char unk_1346[0x02];
     /* 0x132C  0x1348 */ HorseData horseData;
-    /* 0x1336  0x1352 */ u16 checksum; // "check_sum"
+    /* 0x1336  0x1352 */ Checksum checksum; // "check_sum"
 } SaveInfo;
 
 typedef struct Save {
@@ -964,12 +968,26 @@ typedef enum IngoRaceState {
 #define EVENTINF_MARATHON_ACTIVE 0x10
 
 // EVENTINF 0x20-0x24
-#define EVENTINF_INDEX_20_21_22_23_24 2
-#define EVENTINF_20_MASK (1 << 0)
-#define EVENTINF_21_MASK (1 << 1)
-#define EVENTINF_22_MASK (1 << 2)
-#define EVENTINF_23_MASK (1 << 3)
-#define EVENTINF_24_MASK (1 << 4)
+#define EVENTINF_INDEX_HAGGLING_TOWNSFOLK 0x2
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_0 0x20
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_1 0x21
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_2 0x22
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_3 0x23
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_4 0x24
+
+#define EVENTINF_HAGGLING_TOWNSFOLK_MASK                                                                     \
+    (EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_0) | EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_1) | \
+     EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_2) | EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_3) | \
+     EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_4))
+
+#define GET_EVENTINF_ENMU_TALK_FLAGS() \
+    gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] & EVENTINF_HAGGLING_TOWNSFOLK_MASK
+
+#define SET_EVENTINF_ENMU_TALK_FLAGS(talkFlags) \
+    gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] |= (talkFlags);
+
+#define RESET_EVENTINF_ENMU_TALK_FLAGS() \
+    gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] &= ~(EVENTINF_HAGGLING_TOWNSFOLK_MASK);
 
 #define EVENTINF_30 0x30
 

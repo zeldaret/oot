@@ -6,8 +6,12 @@
 
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
-#include "assets/objects/object_bowl/object_bowl.h"
+
+#include "regs.h"
 #include "terminal.h"
+#include "z64play.h"
+
+#include "assets/objects/object_bowl/object_bowl.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

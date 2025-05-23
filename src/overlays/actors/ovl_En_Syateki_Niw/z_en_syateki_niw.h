@@ -2,11 +2,11 @@
 #define Z_EN_SYATEKI_NIW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSyatekiNiw;
 
-typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, PlayState*);
+typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, struct PlayState*);
 
 typedef struct EnSyatekiNiwEffect {
     /* 0x00 */ u8    state;

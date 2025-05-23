@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_ddan_kd.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

@@ -5,6 +5,7 @@
  */
 
 #include "z_item_ocarina.h"
+#include "z64draw.h"
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

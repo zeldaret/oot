@@ -5,6 +5,12 @@
  */
 
 #include "z_bg_haka_megane.h"
+
+#include "ichain.h"
+#include "z64play.h"
+
+#include "z64.h"
+
 #include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 

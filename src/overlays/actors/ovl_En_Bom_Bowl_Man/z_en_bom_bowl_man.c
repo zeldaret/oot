@@ -1,7 +1,18 @@
 #include "z_en_bom_bowl_man.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
-#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_bg/object_bg.h"
 
 #define FLAGS                                                                                  \

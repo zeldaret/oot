@@ -6,6 +6,20 @@
 
 #include "z_bg_dodoago.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "macros.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
 #define FLAGS 0

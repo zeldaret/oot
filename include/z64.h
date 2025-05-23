@@ -54,7 +54,7 @@
 #include "sequence.h"
 #include "sfx.h"
 #include "color.h"
-#include "gfxprint.h"
+#include "libu64/gfxprint.h"
 #include "z_lib.h"
 #include "ichain.h"
 #include "regs.h"
@@ -66,7 +66,7 @@
 #include "mempak.h"
 #include "tha.h"
 #include "thga.h"
-#include "speedmeter.h"
+#include "speed_meter.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
@@ -86,6 +86,10 @@
 #include "libc64/malloc.h"
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
+#include "libu64/debug.h"
+#include "z64debug_display.h"
+#include "z64draw.h"
+#include "z_en_item00.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -259,8 +263,7 @@ typedef struct FileSelectState {
     /* 0x1CA80 */ s16 nameAlpha[3];
     /* 0x1CA86 */ s16 connectorAlpha[3];
     /* 0x1CA8C */ s16 fileInfoAlpha[3];
-    /* 0x1CA92 */ s16 actionButtonAlpha[2];
-    /* 0x1CA96 */ s16 confirmButtonAlpha[2];
+    /* 0x1CA92 */ s16 actionButtonAlpha[4]; // also contains the alphas for the confirm buttons
     /* 0x1CA9A */ s16 optionButtonAlpha;
     /* 0x1CA9C */ s16 nameEntryBoxAlpha;
     /* 0x1CA9E */ s16 controlsAlpha;
@@ -307,15 +310,6 @@ typedef struct PreNMIState {
     /* 0xA4 */ u32       timer;
     /* 0xA8 */ UNK_TYPE4 unk_A8;
 } PreNMIState; // size = 0xAC
-
-typedef struct DebugDispObject {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3s rot;
-    /* 0x14 */ Vec3f scale;
-    /* 0x20 */ Color_RGBA8 color;
-    /* 0x24 */ s16   type;
-    /* 0x28 */ struct DebugDispObject* next;
-} DebugDispObject; // size = 0x2C
 
 typedef struct ISVDbg {
     /* 0x00 */ u32 magic; // IS64

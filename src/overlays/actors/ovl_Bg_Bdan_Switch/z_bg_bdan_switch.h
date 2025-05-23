@@ -2,7 +2,7 @@
 #define Z_BG_BDAN_SWITCH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 typedef enum BgBdanSwitchType {
     /* 0x00 */ BLUE,
@@ -14,7 +14,7 @@ typedef enum BgBdanSwitchType {
 
 struct BgBdanSwitch;
 
-typedef void (*BgBdanSwitchActionFunc)(struct BgBdanSwitch*, PlayState*);
+typedef void (*BgBdanSwitchActionFunc)(struct BgBdanSwitch*, struct PlayState*);
 
 typedef struct BgBdanSwitch {
     /* 0x0000 */ DynaPolyActor dyna;

@@ -2,7 +2,7 @@
 #define Z_EFF_SS_HAHEN_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64math.h"
 
 typedef struct EffectSsHahenInitParams {
     /* 0x00 */ Vec3f pos;

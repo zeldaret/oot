@@ -26,18 +26,6 @@ NORETURN void func_80002384(const char* exp, const char* file, int line);
 #endif
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
-#if DEBUG_FEATURES
-void LogUtils_LogHexDump(void* ptr, s32 size0);
-void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, int line);
-void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, int line);
-void LogUtils_LogThreadId(const char* name, int line);
-#endif
-void LogUtils_HungupThread(const char* name, int line);
-void LogUtils_ResetHungup(void);
-
-EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params);
-EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params);
-void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnPos, s16 params);
 
 void FlagSet_Update(PlayState* play);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
@@ -56,14 +44,8 @@ void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text);
 void Regs_UpdateEditor(Input* input);
 #endif
 void Debug_DrawText(GraphicsContext* gfxCtx);
-void DebugDisplay_Init(void);
-DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, f32 scaleX,
-                                        f32 scaleY, f32 scaleZ, u8 red, u8 green, u8 blue, u8 alpha, s16 type,
-                                        GraphicsContext* gfxCtx);
-void DebugDisplay_DrawObjects(PlayState* play);
 
 void* MemCpy(void* dest, const void* src, s32 len);
-void GetItem_Draw(PlayState* play, s16 drawId);
 
 u16 QuestHint_GetSariaTextId(PlayState* play);
 u16 QuestHint_GetNaviTextId(PlayState* play);
@@ -74,6 +56,9 @@ void CutsceneFlags_Unset(PlayState* play, s16 flag);
 s32 CutsceneFlags_Get(PlayState* play, s16 flag);
 
 s32 Kanji_OffsetFromShiftJIS(s32 character);
+#if PLATFORM_IQUE
+void Font_LoadCharCHN(Font* font, u16 character, u16 codePointIndex);
+#endif
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxIcon(Font* font, u16 icon);
@@ -287,24 +272,6 @@ size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, voi
 // ? func_800FC83C(?);
 // ? func_800FCAB4(?);
 void SystemHeap_Init(void* start, u32 size);
-void PadUtils_Init(Input* input);
-void func_800FCB70(void);
-void PadUtils_ResetPressRel(Input* input);
-u32 PadUtils_CheckCurExact(Input* input, u16 value);
-u32 PadUtils_CheckCur(Input* input, u16 key);
-u32 PadUtils_CheckPressed(Input* input, u16 key);
-u32 PadUtils_CheckReleased(Input* input, u16 key);
-u16 PadUtils_GetCurButton(Input* input);
-u16 PadUtils_GetPressButton(Input* input);
-s8 PadUtils_GetCurX(Input* input);
-s8 PadUtils_GetCurY(Input* input);
-void PadUtils_SetRelXY(Input* input, s32 x, s32 y);
-s8 PadUtils_GetRelXImpl(Input* input);
-s8 PadUtils_GetRelYImpl(Input* input);
-s8 PadUtils_GetRelX(Input* input);
-s8 PadUtils_GetRelY(Input* input);
-void PadUtils_UpdateRelXY(Input* input);
-s32 PadSetup_Init(OSMesgQueue* mq, u8* outMask, OSContStatus* status);
 
 f32 absf(f32);
 

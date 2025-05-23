@@ -2,11 +2,11 @@
 #define Z_BG_HAKA_SGAMI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgHakaSgami;
 
-typedef void (*BgHakaSgamiActionFunc)(struct BgHakaSgami*, PlayState*);
+typedef void (*BgHakaSgamiActionFunc)(struct BgHakaSgami*, struct PlayState*);
 
 typedef struct BgHakaSgami {
     /* 0x0000 */ Actor actor;

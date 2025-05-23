@@ -1,4 +1,9 @@
-#include "global.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "z64draw.h"
+#include "z64play.h"
+
 #include "assets/objects/object_gi_key/object_gi_key.h"
 #include "assets/objects/object_gi_jewel/object_gi_jewel.h"
 #include "assets/objects/object_gi_melody/object_gi_melody.h"

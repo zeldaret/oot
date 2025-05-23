@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_haka_sgami.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
