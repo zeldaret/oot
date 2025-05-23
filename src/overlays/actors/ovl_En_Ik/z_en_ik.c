@@ -228,7 +228,7 @@ void EnIk_InitImpl(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, thisx, &sCylinderInit);
     Collider_InitTris(play, &this->shieldCollider);
-    Collider_SetTris(play, &this->shieldCollider, thisx, &sTrisInit, this->shieldColliderItems);
+    Collider_SetTris(play, &this->shieldCollider, thisx, &sTrisInit, this->shieldColliderElements);
     Collider_InitQuad(play, &this->axeCollider);
     Collider_SetQuad(play, &this->axeCollider, thisx, &sQuadInit);
 

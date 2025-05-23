@@ -70,7 +70,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgMenkuriEye_Init(Actor* thisx, PlayState* play) {
     BgMenkuriEye* this = (BgMenkuriEye*)thisx;
-    ColliderJntSphElement* colliderList;
+    s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(play, &this->collider);
@@ -78,8 +78,7 @@ void BgMenkuriEye_Init(Actor* thisx, PlayState* play) {
     this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
     this->collider.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y;
     this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
-    colliderList = this->collider.elements;
-    colliderList->dim.worldSphere.radius = colliderList->dim.modelSphere.radius;
+    this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
     if (!Flags_GetSwitch(play, this->actor.params)) {
         sNumEyesShot = 0;
     }
