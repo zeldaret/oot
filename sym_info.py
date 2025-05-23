@@ -371,25 +371,28 @@ def sym_info_main():
         sys.exit(0)
 
     infos: list[mapfile_parser.mapfile.FoundSymbolInfo] = []
-    possible_files: list[mapfile_parser.mapfile.File] = []
+    all_possible_files: list[mapfile_parser.mapfile.File] = []
     try:
         address = int(sym_name, 0)
-        if address >= 0x01000000:
+
+        if address >= 0x0100_0000:
             info, possible_files = map_file.findSymbolByVram(address)
             if info is not None:
-                infos = [info]
-        else:
-            info, possible_files = map_file.findSymbolByVrom(address)
-            if info is not None:
-                infos = [info]
+                infos += [info]
+            all_possible_files += possible_files
+
+        info, possible_files = map_file.findSymbolByVrom(address)
+        if info is not None:
+            infos += [info]
+        all_possible_files += possible_files
     except ValueError:
         infos = find_symbols_by_name(map_file, sym_name)
 
     if not infos:
         print(f"'{sym_name}' not found in map file '{map_path}'")
-        if len(possible_files) > 0:
+        if all_possible_files:
             print("But it may be a local symbol of either of the following files:")
-            for f in possible_files:
+            for f in all_possible_files:
                 print(f"    {f.asStr()})")
         sys.exit(1)
 
