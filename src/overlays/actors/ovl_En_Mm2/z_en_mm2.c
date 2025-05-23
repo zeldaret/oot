@@ -8,7 +8,7 @@
 #include "terminal.h"
 #include "assets/objects/object_mm/object_mm.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum RunningManAnimIndex {
     /* 0 */ RM2_ANIM_RUN,
@@ -75,7 +75,7 @@ static AnimationSpeedInfo sAnimationInfo[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_STOP),
 };
 
 void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {
@@ -100,7 +100,7 @@ void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {
 }
 
 void func_80AAEF70(EnMm2* this, PlayState* play) {
-    if (!GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+    if (!GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
         this->actor.textId = 0x6086;
     } else if (GET_INFTABLE(INFTABLE_17F)) {
         if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {

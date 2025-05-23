@@ -133,7 +133,7 @@ f32 D_801305E4[4] = { 1.0f, 1.12246f, 1.33484f, 1.33484f }; // 2**({0, 2, 5, 5}/
 f32 D_801305F4 = 1.0f;
 u8 sGanonsTowerLevelsVol[8] = { 127, 80, 75, 73, 70, 68, 65, 60 };
 u8 sEnterGanonsTowerTimer = 0;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s8 sSoundMode = SOUNDMODE_SURROUND;
 #else
 s8 sSoundMode = SOUNDMODE_STEREO;
@@ -161,7 +161,7 @@ u8 sAudioExtraFilter2 = 0;
 Vec3f* sSariaBgmPtr = NULL;
 f32 D_80130650 = 2000.0f;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u8 sSeqModeInput = 0;
 #endif
 
@@ -1150,7 +1150,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
     { 0, { 0 } },
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u32 sAudioUpdateStartTime;
 u32 sAudioUpdateEndTime;
 #endif
@@ -1163,7 +1163,7 @@ FreqLerp sWaterfallFreqScaleLerp;
 f32 D_8016B7D8;
 s8 D_8016B7DC;
 f32 D_8016B7E0;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u16 D_8016B7E4;
 struct {
     char str[5];
@@ -1176,11 +1176,11 @@ u8 sRiverSoundMainBgmLower;
 u8 sRiverSoundMainBgmRestore;
 u8 sGanonsTowerVol;
 SfxPlayerState sSfxChannelState[0x10];
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 char sBinToStrBuf[0x20];
 #endif
 u8 sMalonSingingTimer;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u8 sAudioSpecPeakNumNotes[0x12];
 #endif
 u8 sMalonSingingDisabled;
@@ -1188,7 +1188,7 @@ u8 D_8016B9F3;
 u8 sFanfareStartTimer;
 u16 sFanfareSeqId;
 
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
 u16 sPrevAmbienceSeqId;
 #endif
 
@@ -1213,7 +1213,7 @@ u16 sMusicStaffCurHeldLength[OCARINA_SONG_MAX];
 u16 sMusicStaffExpectedLength[OCARINA_SONG_MAX];
 u8 sMusicStaffExpectedPitch[OCARINA_SONG_MAX];
 OcarinaNote sScarecrowsLongSongSecondNote;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u8 sIsMalonSinging;
 f32 sMalonSingingDist;
 u32 sDebugPadHold;
@@ -1706,7 +1706,7 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
         } else {
             // no bending or vibrato for recording state OCARINA_RECORD_SCARECROW_SPAWN
             sCurOcarinaBendIndex = 0;
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
             sCurOcarinaVibrato = 0;
 #endif
             sCurOcarinaBendFreq = 1.0f; // No bend
@@ -1853,7 +1853,7 @@ void AudioOcarina_PlaybackSong(void) {
         }
 
         // Update vibrato
-#if OOT_VERSION < PAL_1_0 || PLATFORM_GC
+#if OOT_VERSION < PAL_1_0 || !PLATFORM_N64
         if (sNotePlaybackVibrato != sPlaybackSong[sPlaybackNotePos].vibrato) {
             sNotePlaybackVibrato = sPlaybackSong[sPlaybackNotePos].vibrato;
             // Sets vibrato to io port 6
@@ -2144,7 +2144,7 @@ void AudioOcarina_RecordSong(void) {
         } else if (sRecordOcarinaVolume != sCurOcarinaVolume) {
             noteChanged = true;
         } else if (sRecordOcarinaVibrato != sCurOcarinaVibrato) {
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
             if (sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN) {
                 noteChanged = true;
             }
@@ -2152,7 +2152,7 @@ void AudioOcarina_RecordSong(void) {
             noteChanged = true;
 #endif
         } else if (sRecordOcarinaBendIndex != sCurOcarinaBendIndex) {
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
             if (sRecordingState != OCARINA_RECORD_SCARECROW_SPAWN) {
                 noteChanged = true;
             }
@@ -2299,7 +2299,7 @@ void AudioOcarina_ResetStaffs(void) {
     sOcarinaDropInputTimer = 0;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #include "debug.inc.c"
 #else
 void AudioDebug_Draw(GfxPrint* printer) {
@@ -2317,7 +2317,7 @@ void Audio_UpdateFanfare(void);
  */
 void Audio_Update(void) {
     if (func_800FAD34() == 0) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         sAudioUpdateTaskStart = gAudioCtx.totalTaskCount;
         sAudioUpdateStartTime = osGetTime();
 #endif
@@ -2336,14 +2336,14 @@ void Audio_Update(void) {
         func_800F8F88();
         Audio_UpdateActiveSequences();
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         AudioDebug_SetInput();
         AudioDebug_ProcessInput();
 #endif
 
         AudioThread_ScheduleProcessCmds();
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         sAudioUpdateTaskEnd = gAudioCtx.totalTaskCount;
         sAudioUpdateEndTime = osGetTime();
 #endif
@@ -2493,7 +2493,7 @@ f32 Audio_ComputeSfxFreqScale(u8 bankId, u8 entryIdx) {
 
     switch (bankId) {
         case BANK_VOICE:
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
             if (((entry->sfxId & 0xFF) < 0x40) && (sAudioBaseFilter2 != 0)) {
                 phi_v0 = true;
             } else if (((entry->sfxId & 0xFF) >= 0x40) && (sAudioExtraFilter2 != 0)) {
@@ -2614,7 +2614,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
     f32 behindScreenZ;
     u8 baseFilter = 0;
     SfxBankEntry* entry = &gSfxBanks[bankId][entryIdx];
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
     s32 pad;
 #endif
 
@@ -2655,7 +2655,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
                 }
             }
             if (sAudioBaseFilter != 0) {
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
                 if ((bankId == BANK_PLAYER) || (bankId == BANK_ITEM) ||
                     ((bankId == BANK_VOICE) && ((entry->sfxId & 0xFF) < 0x40)))
 #else
@@ -2767,7 +2767,7 @@ void func_800F4010(Vec3f* pos, u16 sfxId, f32 arg2) {
     u8 phi_v0;
     u16 sfxId2;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     D_80131C8C = arg2;
 #endif
 
@@ -3239,7 +3239,7 @@ void Audio_PlaySceneSequence(u16 seqId) {
             AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
         }
 
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
         if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) {
             Audio_StopSequence(SEQ_PLAYER_BGM_MAIN, 0);
             AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
@@ -3358,7 +3358,7 @@ s32 Audio_IsSequencePlaying(u16 seqId) {
 void func_800F5ACC(u16 seqId) {
     u16 curSeqId = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
 
-#if !OOT_DEBUG
+#if !DEBUG_FEATURES
     if (1) {}
 #endif
 
@@ -3383,7 +3383,7 @@ void func_800F5B58(void) {
         if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         } else {
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
             if (sPrevMainBgmSeqId == NA_BGM_NATURE_AMBIENCE) {
                 sPrevMainBgmSeqId = sPrevAmbienceSeqId;
             }
@@ -3487,7 +3487,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
     u16 seqId;
     u8 volumeFadeOutTimer;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     sSeqModeInput = seqMode;
 #endif
 
@@ -3519,7 +3519,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
                                          volumeFadeInTimer);
                     SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_SUB, 10, 8, NA_BGM_ENEMY);
 
-#if OOT_VERSION < PAL_1_0 || PLATFORM_GC
+#if OOT_VERSION < PAL_1_0 || !PLATFORM_N64
                     if (seqId != NA_BGM_NATURE_AMBIENCE)
 #else
                     if (seqId > NA_BGM_NATURE_AMBIENCE)
@@ -3544,7 +3544,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
 
                 sPrevSeqMode = seqMode + 0x80;
             } else {
-#if OOT_VERSION < NTSC_1_1 || PLATFORM_GC
+#if OOT_VERSION < NTSC_1_1 || !PLATFORM_N64
                 // Empty
 #elif OOT_VERSION < PAL_1_0
                 if ((seqMode == SEQ_MODE_ENEMY) && (seqId != NA_BGM_FIELD_LOGIC) &&
@@ -3600,7 +3600,7 @@ void Audio_SetBgmEnemyVolume(f32 dist) {
             sAudioEnemyVol = ((350.0f - adjDist) * 127.0f) / 350.0f;
             Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_BGM_SUB, sAudioEnemyVol, 10);
 
-#if OOT_VERSION < PAL_1_0 || PLATFORM_GC
+#if OOT_VERSION < PAL_1_0 || !PLATFORM_N64
             if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE)
 #else
             if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId > NA_BGM_NATURE_AMBIENCE)
@@ -3610,7 +3610,7 @@ void Audio_SetBgmEnemyVolume(f32 dist) {
             }
         }
 
-#if OOT_VERSION < PAL_1_0 || PLATFORM_GC
+#if OOT_VERSION < PAL_1_0 || !PLATFORM_N64
         if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE)
 #else
         if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId > NA_BGM_NATURE_AMBIENCE)
@@ -3627,7 +3627,7 @@ void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
     s8 melodyVolume;
     s16 curSeqId;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     sIsMalonSinging = true;
     sMalonSingingDist = dist;
 #endif
@@ -3928,7 +3928,7 @@ void func_800F6C34(void) {
     sFanfareStartTimer = 0;
     D_8016B9F3 = 1;
     sMalonSingingDisabled = false;
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
     sPrevAmbienceSeqId = NA_BGM_DISABLED;
 #endif
 }
@@ -3941,7 +3941,7 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData) 
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) &&
         Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28 | NA_BGM_NATURE_AMBIENCE, SEQCMD_OP_MASK | 0xFF)) {
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         sAudioNatureFailed = true;
 #endif
 
@@ -3982,14 +3982,14 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
 
     channelIdx = false;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gStartSeqDisabled) {
         channelIdx = true;
         SEQCMD_DISABLE_PLAY_SEQUENCES(false);
     }
 #endif
 
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
     if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) &&
         (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_NATURE_AMBIENCE)) {
         Audio_StopSequence(SEQ_PLAYER_BGM_MAIN, 0);
@@ -4023,7 +4023,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId == NA_BGM_DISABLED) ||
         !(sSeqFlags[gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId & 0xFF & 0xFF] & SEQ_FLAG_NO_AMBIENCE)) {
 
-#if !(OOT_VERSION < NTSC_1_1 || PLATFORM_GC)
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
         if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) {
             sPrevAmbienceSeqId = gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId;
         }

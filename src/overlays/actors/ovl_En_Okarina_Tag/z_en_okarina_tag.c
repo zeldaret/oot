@@ -10,7 +10,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnOkarinaTag_Init(Actor* thisx, PlayState* play);
 void EnOkarinaTag_Destroy(Actor* thisx, PlayState* play);
@@ -35,8 +35,8 @@ ActorProfile En_Okarina_Tag_Profile = {
     /**/ NULL,
 };
 
-extern CutsceneData D_80ABF9D0[];
-extern CutsceneData D_80ABFB40[];
+extern CutsceneData gWindmillSpinningFasterCs[];
+extern CutsceneData gDoorOfTimeOpeningCs[];
 
 void EnOkarinaTag_Destroy(Actor* thisx, PlayState* play) {
 }
@@ -195,7 +195,7 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
     if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
+        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) &&
                    ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_1D)) &&
                    (this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
                    (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
@@ -247,19 +247,19 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 SET_EVENTCHKINF(EVENTCHKINF_39);
                 break;
             case 2:
-                play->csCtx.script = D_80ABF9D0;
+                play->csCtx.script = gWindmillSpinningFasterCs;
                 gSaveContext.cutsceneTrigger = 1;
                 // Increase pitch by 3 semitones i.e. 2^(3/12), scale tempo by same ratio
                 // Applies to the windmill bgm once the song of storms fanfare is complete
                 Audio_SetMainBgmTempoFreqAfterFanfare(1.18921f, 90);
                 break;
             case 4:
-                play->csCtx.script = D_80ABFB40;
+                play->csCtx.script = gDoorOfTimeOpeningCs;
                 gSaveContext.cutsceneTrigger = 1;
                 break;
             case 6:
-                play->csCtx.script = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
-                                                   : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
+                play->csCtx.script = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(gGraveyardTombOpeningAdultCs)
+                                                   : SEGMENTED_TO_VIRTUAL(gGraveyardTombOpeningChildCs);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
                 Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
@@ -324,7 +324,7 @@ void EnOkarinaTag_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         if (this->unk_15A != 0) {
             if (!(this->unk_15A & 1)) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

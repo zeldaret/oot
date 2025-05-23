@@ -1,10 +1,18 @@
+/*
+ * File: z_en_goma.c
+ * Overlay: ovl_En_Goma
+ * Description: Gohma Larva
+ */
+
 #include "z_en_goma.h"
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_gol/object_gol.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnGoma_Init(Actor* thisx, PlayState* play);
 void EnGoma_Destroy(Actor* thisx, PlayState* play);
@@ -498,7 +506,7 @@ void EnGoma_SetupJump(EnGoma* this) {
 }
 
 void EnGoma_Jump(EnGoma* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     SkelAnime_Update(&this->skelanime);
     Math_ApproachF(&this->actor.speed, 10.0f, 0.5f, 5.0f);
 

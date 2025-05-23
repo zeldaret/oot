@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum FlashState {
     /* 0x00 */ FLASH_NONE,
@@ -89,9 +89,9 @@ void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play2) {
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF("WHY !!!!!!!!!!!!!!!!\n");
-    PRINTF(VT_RST);
+    PRINTF_RST();
 }
 
 void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {

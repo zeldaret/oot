@@ -11,7 +11,7 @@
 #include "assets/objects/object_gnd_magic/object_gnd_magic.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void Demo6K_Init(Actor* thisx, PlayState* play);
 void Demo6K_Destroy(Actor* thisx, PlayState* play);
@@ -162,7 +162,7 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
         case 17:
         case 18:
         case 19:
-            this->actor.flags |= ACTOR_FLAG_5;
+            this->actor.flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
             this->drawFunc = func_8096865C;
             this->initActionFunc = func_80967410;
             this->flags |= 1;

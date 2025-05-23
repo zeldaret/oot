@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnGs_Init(Actor* thisx, PlayState* play);
 void EnGs_Destroy(Actor* thisx, PlayState* play);
@@ -139,12 +139,12 @@ s32 func_80A4E3EC(EnGs* this, PlayState* play) {
 void func_80A4E470(EnGs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     bREG(15) = 0;
 #endif
 
     if (this->actor.xzDistToPlayer <= 100.0f) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         bREG(15) = 1;
 #endif
 
@@ -356,8 +356,8 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
         Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
-            this->actor.flags |= ACTOR_FLAG_4;
-            this->actor.uncullZoneForward = 12000.0f;
+            this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+            this->actor.cullingVolumeDistance = 12000.0f;
 
             this->actor.gravity = 0.3f;
             this->unk_19F++;

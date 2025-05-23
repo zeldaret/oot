@@ -240,7 +240,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     JpegDecoder decoder;
     JpegDecoderState state;
     JpegWork* workBuff;
-    OSTime diff;
+    UNUSED_NDEBUG OSTime diff;
     OSTime time;
     OSTime curTime;
 
@@ -337,9 +337,9 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     x = y = 0;
     for (i = 0; i < 300; i += 4) {
         if (JpegDecoder_Decode(&decoder, (u16*)workBuff->data, 4, i != 0, &state)) {
-            PRINTF(VT_FGCOL(RED));
+            PRINTF_COLOR_RED();
             PRINTF("Error : Can't decode jpeg\n");
-            PRINTF(VT_RST);
+            PRINTF_RST();
         } else {
             Jpeg_ScheduleDecoderTask(&ctx);
             osInvalDCache(&workBuff->data, sizeof(workBuff->data[0]));

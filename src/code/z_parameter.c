@@ -1,6 +1,7 @@
 #include "global.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z64horse.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
@@ -632,7 +633,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
             break;
     }
 
-    if ((play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_1) && (interfaceCtx->minimapAlpha >= 255)) {
+    if ((play->roomCtx.curRoom.type == ROOM_TYPE_DUNGEON) && (interfaceCtx->minimapAlpha >= 255)) {
         interfaceCtx->minimapAlpha = 255;
     }
 }
@@ -790,7 +791,7 @@ void func_80083108(PlayState* play) {
                     gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                 }
-            } else if (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_1) {
+            } else if (GET_EVENTINF_INGO_RACE_STATE() == INGO_RACE_STATE_HORSE_RENTAL_PERIOD) {
                 if (player->stateFlags1 & PLAYER_STATE1_23) {
                     if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_BOW)) {
@@ -851,7 +852,7 @@ void func_80083108(PlayState* play) {
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE)) {
                         if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                            (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                            (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                             gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = true;
 
@@ -875,7 +876,7 @@ void func_80083108(PlayState* play) {
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE)) {
                         if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                            (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                            (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                             gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = true;
 
@@ -1134,7 +1135,7 @@ void Interface_SetSceneRestrictions(PlayState* play) {
             interfaceCtx->restrictions.dinsNayrus = (sRestrictionFlags[i].flags3 & 0x0C) >> 2;
             interfaceCtx->restrictions.all = (sRestrictionFlags[i].flags3 & 0x03) >> 0;
 
-            PRINTF(VT_FGCOL(YELLOW));
+            PRINTF_COLOR_YELLOW();
             PRINTF("parameter->button_status = %x,%x,%x\n", sRestrictionFlags[i].flags1, sRestrictionFlags[i].flags2,
                    sRestrictionFlags[i].flags3);
             PRINTF("h_gage=%d, b_button=%d, a_button=%d, c_bottle=%d\n", interfaceCtx->restrictions.hGauge,
@@ -1146,7 +1147,7 @@ void Interface_SetSceneRestrictions(PlayState* play) {
             PRINTF("c_sunmoon=%d, m_wind=%d, m_magic=%d, another=%d\n", interfaceCtx->restrictions.sunsSong,
                    interfaceCtx->restrictions.farores, interfaceCtx->restrictions.dinsNayrus,
                    interfaceCtx->restrictions.all);
-            PRINTF(VT_RST);
+            PRINTF_RST();
             return;
         }
         i++;
@@ -1345,7 +1346,7 @@ void func_80084BF4(PlayState* play, u16 flag) {
             }
         } else if (gSaveContext.save.info.equips.buttonItems[0] == ITEM_NONE) {
             if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) ||
-                (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
+                (gSaveContext.save.info.infTable[INFTABLE_INDEX_1DX] == 0)) {
                 gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 Interface_LoadItemIcon1(play, 0);
             }
@@ -1375,57 +1376,57 @@ u8 Item_Give(PlayState* play, u8 item) {
         slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
     }
 
-    PRINTF(VT_FGCOL(YELLOW));
+    PRINTF_COLOR_YELLOW();
     PRINTF("item_get_setting=%d  pt=%d  z=%x\n", item, slot, gSaveContext.save.info.inventory.items[slot]);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     if ((item >= ITEM_MEDALLION_FOREST) && (item <= ITEM_MEDALLION_LIGHT)) {
         gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST];
 
-        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF_COLOR_YELLOW();
         PRINTF(T("封印 = %x\n", "Seals = %x\n"), gSaveContext.save.info.inventory.questItems);
-        PRINTF(VT_RST);
+        PRINTF_RST();
 
         if (item == ITEM_MEDALLION_WATER) {
-            func_8006D0AC(play);
+            Horse_FixLakeHyliaPosition(play);
         }
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SONG_MINUET) && (item <= ITEM_SONG_STORMS)) {
         gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
 
-        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF_COLOR_YELLOW();
         PRINTF(T("楽譜 = %x\n", "Musical scores = %x\n"), gSaveContext.save.info.inventory.questItems);
         PRINTF(T("楽譜 = %x (%x) (%x)\n", "Musical scores = %x (%x) (%x)\n"),
                gSaveContext.save.info.inventory.questItems, gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET],
                gBitFlags[item - ITEM_SONG_MINUET]);
-        PRINTF(VT_RST);
+        PRINTF_RST();
 
         return ITEM_NONE;
     } else if ((item >= ITEM_KOKIRI_EMERALD) && (item <= ITEM_ZORA_SAPPHIRE)) {
         gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_KOKIRI_EMERALD + QUEST_KOKIRI_EMERALD];
 
-        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF_COLOR_YELLOW();
         PRINTF(T("精霊石 = %x\n", "Spiritual Stones = %x\n"), gSaveContext.save.info.inventory.questItems);
-        PRINTF(VT_RST);
+        PRINTF_RST();
 
         return ITEM_NONE;
     } else if ((item == ITEM_STONE_OF_AGONY) || (item == ITEM_GERUDOS_CARD)) {
         gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_STONE_OF_AGONY + QUEST_STONE_OF_AGONY];
 
-        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF_COLOR_YELLOW();
         PRINTF(T("アイテム = %x\n", "Items = %x\n"), gSaveContext.save.info.inventory.questItems);
-        PRINTF(VT_RST);
+        PRINTF_RST();
 
         return ITEM_NONE;
     } else if (item == ITEM_SKULL_TOKEN) {
         gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_SKULL_TOKEN + QUEST_SKULL_TOKEN];
         gSaveContext.save.info.inventory.gsTokens++;
 
-        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF_COLOR_YELLOW();
         PRINTF(T("Ｎコイン = %x(%d)\n", "N Coins = %x(%d)\n"), gSaveContext.save.info.inventory.questItems,
                gSaveContext.save.info.inventory.gsTokens);
-        PRINTF(VT_RST);
+        PRINTF_RST();
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BIGGORON)) {
@@ -1828,7 +1829,8 @@ u8 Item_Give(PlayState* play, u8 item) {
         }
     } else if ((item >= ITEM_WEIRD_EGG) && (item <= ITEM_CLAIM_CHECK)) {
         if (item == ITEM_POACHERS_SAW) {
-            SET_ITEMGETINF(ITEMGETINF_1F);
+            //! @bug Setting this shared flag makes getting the Deku Nut upgrade impossible
+            SET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_NUT_UPGRADE);
         }
 
         temp = INV_CONTENT(item);
@@ -1867,9 +1869,9 @@ u8 Item_CheckObtainability(u8 item) {
         slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
     }
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF("item_get_non_setting=%d  pt=%d  z=%x\n", item, slot, gSaveContext.save.info.inventory.items[slot]);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     if ((item >= ITEM_MEDALLION_FOREST) && (item <= ITEM_MEDALLION_LIGHT)) {
         return ITEM_NONE;
@@ -2211,7 +2213,7 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
  */
 s32 Health_ChangeBy(PlayState* play, s16 amount) {
     u16 heartCount;
-    u16 healthLevel;
+    UNUSED_NDEBUG u16 healthLevel;
 
     PRINTF(T("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", "*****  Fluctuation=%d (now=%d, max=%d)  ***"), amount,
            gSaveContext.save.info.playerData.health, gSaveContext.save.info.playerData.healthCapacity);
@@ -3543,10 +3545,11 @@ void Interface_Draw(PlayState* play) {
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
 #if OOT_VERSION >= NTSC_1_1
-                    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] &=
-                        (u16) ~(EVENTINF_HORSES_STATE_MASK | EVENTINF_HORSES_HORSETYPE_MASK | EVENTINF_HORSES_05_MASK |
-                                EVENTINF_HORSES_06_MASK | EVENTINF_HORSES_0F_MASK);
-                    PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_HORSES_INDEX]);
+                    gSaveContext.eventInf[EVENTINF_INDEX_HORSES] &=
+                        (u16) ~(EVENTINF_INGO_RACE_STATE_MASK | EVENTINF_MASK(EVENTINF_INGO_RACE_HORSETYPE) |
+                                EVENTINF_MASK(EVENTINF_INGO_RACE_LOST_ONCE) |
+                                EVENTINF_MASK(EVENTINF_INGO_RACE_SECOND_RACE) | EVENTINF_MASK(EVENTINF_INGO_RACE_0F));
+                    PRINTF("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_INDEX_HORSES]);
 #endif
                     play->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
@@ -3986,7 +3989,7 @@ void Interface_Draw(PlayState* play) {
         }
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (pauseCtx->debugState == 3) {
         FlagSet_Update(play);
     }
@@ -4012,7 +4015,7 @@ void Interface_Update(PlayState* play) {
     s16 risingAlpha;
     u16 action;
 
-#if OOT_DEBUG
+#if OOT_PAL && DEBUG_FEATURES
     {
         Input* debugInput = &play->state.input[2];
 
@@ -4274,13 +4277,13 @@ void Interface_Update(PlayState* play) {
         if (gSaveContext.save.info.playerData.isMagicAcquired && (gSaveContext.save.info.playerData.magicLevel == 0)) {
             gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.isDoubleMagicAcquired + 1;
             gSaveContext.magicState = MAGIC_STATE_STEP_CAPACITY;
-            PRINTF(VT_FGCOL(YELLOW));
+            PRINTF_COLOR_YELLOW();
             PRINTF(T("魔法スター─────ト！！！！！！！！！\n", "Magic Start!!!!!!!!!\n"));
             PRINTF("MAGIC_MAX=%d\n", gSaveContext.save.info.playerData.magicLevel);
             PRINTF("MAGIC_NOW=%d\n", gSaveContext.save.info.playerData.magic);
             PRINTF("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
             PRINTF("Z_MAGIC_NOW_MAX=%d\n", gSaveContext.magicCapacity);
-            PRINTF(VT_RST);
+            PRINTF_RST();
         }
 
         Magic_Update(play);
@@ -4368,8 +4371,7 @@ void Interface_Update(PlayState* play) {
                 gTimeSpeed = sPrevTimeSpeed;
                 play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
-        } else if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_1) &&
-                   (interfaceCtx->restrictions.sunsSong != 3)) {
+        } else if ((play->roomCtx.curRoom.type != ROOM_TYPE_DUNGEON) && (interfaceCtx->restrictions.sunsSong != 3)) {
             if ((gSaveContext.save.dayTime >= CLOCK_TIME(6, 30)) &&
                 (gSaveContext.save.dayTime < CLOCK_TIME(18, 0) + 1)) {
                 gSaveContext.nextDayTime = NEXT_TIME_NIGHT;

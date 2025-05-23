@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ObjOshihiki_Init(Actor* thisx, PlayState* play2);
 void ObjOshihiki_Destroy(Actor* thisx, PlayState* play);
@@ -59,9 +59,9 @@ static s16 sSceneIds[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 1800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1500, ICHAIN_STOP),
 };
 
 // The vertices and center of the bottom face
@@ -92,7 +92,7 @@ void ObjOshihiki_InitDynapoly(ObjOshihiki* this, PlayState* play, CollisionHeade
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
@@ -491,7 +491,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
             dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
             if (dynaPolyActor != NULL) {
                 DynaPolyActor_SetActorOnTop(dynaPolyActor);
-                func_80043538(dynaPolyActor);
+                DynaPolyActor_SetSwitchPressed(dynaPolyActor);
 
                 if ((this->timer <= 0) && (fabsf(this->dyna.unk_150) > 0.001f)) {
                     if (ObjOshihiki_StrongEnough(this) && ObjOshihiki_NoSwitchPress(this, dynaPolyActor, play) &&
@@ -520,7 +520,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
 
             if ((dynaPolyActor != NULL) && (dynaPolyActor->transformFlags & DYNA_TRANSFORM_POS)) {
                 DynaPolyActor_SetActorOnTop(dynaPolyActor);
-                func_80043538(dynaPolyActor);
+                DynaPolyActor_SetSwitchPressed(dynaPolyActor);
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             } else {
                 ObjOshihiki_SetupFall(this, play);
@@ -646,7 +646,7 @@ void ObjOshihiki_Draw(Actor* thisx, PlayState* play) {
 
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_oshihiki.c", 1308);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     switch (play->sceneId) {
         case SCENE_DEKU_TREE:
         case SCENE_DODONGOS_CAVERN:

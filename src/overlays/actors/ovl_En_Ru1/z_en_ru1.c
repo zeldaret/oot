@@ -10,7 +10,7 @@
 #include "versions.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4 | ACTOR_FLAG_26)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_CAN_PRESS_SWITCHES)
 
 void EnRu1_Init(Actor* thisx, PlayState* play);
 void EnRu1_Destroy(Actor* thisx, PlayState* play);
@@ -341,7 +341,7 @@ s32 func_80AEB1B4(PlayState* play) {
     return Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_80AEB1D8(EnRu1* this) {
     this->action = 36;
     this->drawConfig = 0;
@@ -862,7 +862,7 @@ void func_80AEC780(EnRu1* this, PlayState* play) {
         (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
         (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
-        play->csCtx.script = D_80AF0880;
+        play->csCtx.script = gRutoFirstMeetingCs;
         gSaveContext.cutsceneTrigger = 1;
         player->speedXZ = 0.0f;
         this->action = 8;
@@ -1552,7 +1552,7 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS &&
             dynaPolyActor->actor.params == 0 && !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
             func_80AEE02C(this);
-            play->csCtx.script = D_80AF10A4;
+            play->csCtx.script = gRutoObtainingSapphireCs;
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
@@ -1625,7 +1625,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
             func_80AED600(this);
             this->action = 34;
             this->unk_26C = 0.0f;
-            play->csCtx.script = D_80AF1728;
+            play->csCtx.script = gRutoFoundSapphireCs;
             gSaveContext.cutsceneTrigger = 1;
         }
         this->roomNum3 = curRoomNum;
@@ -2023,7 +2023,7 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
     s32 pad[2];
     s8 curRoomNum;
 
-    if (!(OOT_DEBUG && IS_CUTSCENE_LAYER) && EnRu1_IsCsStateIdle(play)) {
+    if (!(DEBUG_FEATURES && IS_CUTSCENE_LAYER) && EnRu1_IsCsStateIdle(play)) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_145);
         Flags_SetSwitch(play, func_80AEADE0(this));
@@ -2060,7 +2060,7 @@ void func_80AEF9D8(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEF624(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AEB220(this, play);
 #endif
 }
@@ -2076,7 +2076,7 @@ void func_80AEFA2C(EnRu1* this, PlayState* play) {
     func_80AEF5B8(this);
     func_80AEF40C(this);
     func_80AEF728(this, something);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AEB220(this, play);
 #endif
 }
@@ -2086,7 +2086,7 @@ void func_80AEFAAC(EnRu1* this, PlayState* play) {
     func_80AEAECC(this, play);
     EnRu1_UpdateSkelAnime(this);
     func_80AEF79C(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AEB220(this, play);
 #endif
 }
@@ -2099,7 +2099,7 @@ void func_80AEFB04(EnRu1* this, PlayState* play) {
     something = EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEF820(this, something);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AEB220(this, play);
 #endif
 }
@@ -2110,7 +2110,7 @@ void func_80AEFB68(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEF890(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AEB220(this, play);
 #endif
 }
@@ -2155,7 +2155,7 @@ void func_80AEFCE8(EnRu1* this, PlayState* play) {
 void func_80AEFD38(EnRu1* this, PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_37) && LINK_IS_CHILD) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->action = 44;
         this->drawConfig = 1;
     } else {
@@ -2235,7 +2235,7 @@ void func_80AEFF94(EnRu1* this, PlayState* play) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_80AF0050(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
     this->action = 36;
@@ -2286,7 +2286,7 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
         case 6:
             func_80AEFF94(this, play);
             break;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         case 10:
             func_80AF0050(this, play);
             break;

@@ -10,7 +10,9 @@
 #include "assets/objects/object_ganon_anime2/object_ganon_anime2.h"
 #include "assets/scenes/dungeons/ganon_boss/ganon_boss_scene.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BossGanon_Init(Actor* thisx, PlayState* play2);
 void BossGanon_Destroy(Actor* thisx, PlayState* play);
@@ -101,22 +103,22 @@ static ColliderCylinderInit sLightBallCylinderInit = {
 static u8 D_808E4C58[] = { 0, 12, 10, 12, 14, 16, 12, 14, 16, 12, 14, 16, 12, 14, 16, 10, 16, 14 };
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:0" \
-                               "pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:0" \
+                               "ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 static EnGanonMant* sCape;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 static BossGanon* sGanondorf;
 
@@ -578,7 +580,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             Play_ChangeCameraStatus(play, this->csCamIndex, CAM_STAT_ACTIVE);
             this->csCamFov = 60.0f;
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_78)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_GANONDORF_BATTLE)) {
                 // watched cutscene already, skip most of it
                 this->csState = 17;
                 this->csTimer = 0;
@@ -1096,12 +1098,12 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
                 gSegments[6] =
                     VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[Object_GetSlot(&play->objectCtx, OBJECT_GANON)].segment);
 
-                if (!GET_EVENTCHKINF(EVENTCHKINF_78)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_BEGAN_GANONDORF_BATTLE)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gGanondorfTitleCardTex),
                                            160, 180, 128, 40);
                 }
 
-                SET_EVENTCHKINF(EVENTCHKINF_78);
+                SET_EVENTCHKINF(EVENTCHKINF_BEGAN_GANONDORF_BATTLE);
             }
 
             if (this->csTimer >= 20) {
@@ -2580,7 +2582,7 @@ void BossGanon_Vulnerable(BossGanon* this, PlayState* play) {
                 this->fwork[GDF_FWORK_1] = Animation_GetLastFrame(&gGanondorfLandAnim);
                 Animation_MorphToPlayOnce(&this->skelAnime, &gGanondorfLandAnim, 0.0f);
                 this->timers[0] = 70;
-                this->actor.flags |= ACTOR_FLAG_10;
+                this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
             }
             break;
 
@@ -2613,7 +2615,7 @@ void BossGanon_Vulnerable(BossGanon* this, PlayState* play) {
 
                 this->unk_2E6 = 80;
                 this->unk_2E8 = 0;
-                this->actor.flags &= ~ACTOR_FLAG_10;
+                this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
             }
             break;
 

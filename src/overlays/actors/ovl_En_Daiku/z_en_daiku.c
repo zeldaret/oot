@@ -2,7 +2,9 @@
 #include "overlays/actors/ovl_En_GeldB/z_en_geldb.h"
 #include "assets/objects/object_daiku/object_daiku.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
+
+#define ENDAIKU_GET_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 2)
 
 typedef struct EnDaikuEscapeSubCamParam {
     Vec3f eyePosDeltaLocal;
@@ -150,21 +152,21 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
     EnDaiku* this = (EnDaiku*)thisx;
     s32 pad;
     s32 noKill = true;
-    s32 isFree = false;
+    s32 isRescued = false;
 
-    if (PARAMS_GET_U(this->actor.params, 0, 2) == 0 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(0))) {
-        isFree = true;
-    } else if (PARAMS_GET_U(this->actor.params, 0, 2) == 1 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(1))) {
-        isFree = true;
-    } else if (PARAMS_GET_U(this->actor.params, 0, 2) == 2 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(2))) {
-        isFree = true;
-    } else if (PARAMS_GET_U(this->actor.params, 0, 2) == 3 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(3))) {
-        isFree = true;
+    if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE0 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_0_RESCUED)) {
+        isRescued = true;
+    } else if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE1 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_1_RESCUED)) {
+        isRescued = true;
+    } else if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE2 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_2_RESCUED)) {
+        isRescued = true;
+    } else if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE3 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_3_RESCUED)) {
+        isRescued = true;
     }
 
-    if (isFree == true && play->sceneId == SCENE_THIEVES_HIDEOUT) {
+    if (isRescued == true && play->sceneId == SCENE_THIEVES_HIDEOUT) {
         noKill = false;
-    } else if (!isFree && play->sceneId == SCENE_CARPENTERS_TENT) {
+    } else if (!isRescued && play->sceneId == SCENE_CARPENTERS_TENT) {
         noKill = false;
     }
 
@@ -200,7 +202,7 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
         this->stateFlags |= ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2;
         this->actionFunc = EnDaiku_Jailed;
     } else {
-        if (PARAMS_GET_U(this->actor.params, 0, 2) == 1 || PARAMS_GET_U(this->actor.params, 0, 2) == 3) {
+        if (ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE1 || ENDAIKU_GET_TYPE(&this->actor) == ENDAIKU_TYPE3) {
             EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_SIT, &this->currentAnimIndex);
             this->stateFlags |= ENDAIKU_STATEFLAG_1;
         } else {
@@ -254,7 +256,7 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, PlayState* play) {
 
 void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
     s32 carpenterType;
-    s32 freedCount;
+    s32 rescuedCount;
     s16 sp2E;
     s16 sp2C;
 
@@ -268,15 +270,14 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
             Actor_OfferTalk(&this->actor, play, 100.0f) == 1) {
             if (play->sceneId == SCENE_THIEVES_HIDEOUT) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
-                    freedCount = 0;
+                    rescuedCount = 0;
                     for (carpenterType = 0; carpenterType < 4; carpenterType++) {
-                        if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
-                            EVENTCHKINF_CARPENTERS_FREE_MASK(carpenterType)) {
-                            freedCount++;
+                        if (ENDAIKU_IS_CARPENTER_RESCUED(carpenterType)) {
+                            rescuedCount++;
                         }
                     }
 
-                    switch (freedCount) {
+                    switch (rescuedCount) {
                         case 0:
                             this->actor.textId = 0x605B;
                             break;
@@ -295,15 +296,15 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
                     this->actor.textId = 0x6007;
                 }
             } else if (play->sceneId == SCENE_CARPENTERS_TENT) {
-                switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
-                    case 0:
+                switch (ENDAIKU_GET_TYPE(&this->actor)) {
+                    case ENDAIKU_TYPE0:
                         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                             this->actor.textId = 0x6060;
                         } else {
                             this->actor.textId = 0x605F;
                         }
                         break;
-                    case 1:
+                    case ENDAIKU_TYPE1:
                         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                             this->actor.textId = 0x6063;
                         } else {
@@ -314,7 +315,7 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
                             }
                         }
                         break;
-                    case 2:
+                    case ENDAIKU_TYPE2:
                         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                             this->actor.textId = 0x6066;
                         } else {
@@ -325,7 +326,7 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
                             }
                         }
                         break;
-                    case 3:
+                    case ENDAIKU_TYPE3:
                         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                             this->actor.textId = 0x6068;
                         } else {
@@ -385,7 +386,7 @@ void EnDaiku_WaitFreedom(EnDaiku* this, PlayState* play) {
 }
 
 /**
- * The carpenter is free, initializes his running away animation
+ * The carpenter is rescued, initializes his running away animation
  */
 void EnDaiku_InitEscape(EnDaiku* this, PlayState* play) {
     Path* path;
@@ -399,11 +400,10 @@ void EnDaiku_InitEscape(EnDaiku* this, PlayState* play) {
     EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 
-    gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] |=
-        EVENTCHKINF_CARPENTERS_FREE_MASK(PARAMS_GET_U(this->actor.params, 0, 2));
+    ENDAIKU_SET_CARPENTER_RESCUED(ENDAIKU_GET_TYPE(&this->actor));
 
     this->actor.gravity = -1.0f;
-    this->escapeSubCamTimer = sEscapeSubCamParams[PARAMS_GET_U(this->actor.params, 0, 2)].maxFramesActive;
+    this->escapeSubCamTimer = sEscapeSubCamParams[ENDAIKU_GET_TYPE(&this->actor)].maxFramesActive;
     EnDaiku_InitSubCamera(this, play);
 
     exitLoop = false;
@@ -444,11 +444,11 @@ void EnDaiku_InitSubCamera(EnDaiku* this, PlayState* play) {
     Vec3f eyePosDeltaWorld;
 
     this->subCamActive = true;
-    this->escapeSubCamTimer = sEscapeSubCamParams[PARAMS_GET_U(this->actor.params, 0, 2)].maxFramesActive;
+    this->escapeSubCamTimer = sEscapeSubCamParams[ENDAIKU_GET_TYPE(&this->actor)].maxFramesActive;
 
-    eyePosDeltaLocal.x = sEscapeSubCamParams[PARAMS_GET_U(this->actor.params, 0, 2)].eyePosDeltaLocal.x;
-    eyePosDeltaLocal.y = sEscapeSubCamParams[PARAMS_GET_U(this->actor.params, 0, 2)].eyePosDeltaLocal.y;
-    eyePosDeltaLocal.z = sEscapeSubCamParams[PARAMS_GET_U(this->actor.params, 0, 2)].eyePosDeltaLocal.z;
+    eyePosDeltaLocal.x = sEscapeSubCamParams[ENDAIKU_GET_TYPE(&this->actor)].eyePosDeltaLocal.x;
+    eyePosDeltaLocal.y = sEscapeSubCamParams[ENDAIKU_GET_TYPE(&this->actor)].eyePosDeltaLocal.y;
+    eyePosDeltaLocal.z = sEscapeSubCamParams[ENDAIKU_GET_TYPE(&this->actor)].eyePosDeltaLocal.z;
     Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_NEW);
     Matrix_MultVec3f(&eyePosDeltaLocal, &eyePosDeltaWorld);
 
@@ -493,7 +493,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
     this->subCamActive = false;
 
-    if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+    if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
         Actor* gerudoGuard;
         Vec3f vec;
 
@@ -594,13 +594,13 @@ void EnDaiku_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    if (PARAMS_GET_U(thisx->params, 0, 2) == 0) {
+    if (ENDAIKU_GET_TYPE(thisx) == ENDAIKU_TYPE0) {
         gDPSetEnvColor(POLY_OPA_DISP++, 170, 10, 70, 255);
-    } else if (PARAMS_GET_U(thisx->params, 0, 2) == 1) {
+    } else if (ENDAIKU_GET_TYPE(thisx) == ENDAIKU_TYPE1) {
         gDPSetEnvColor(POLY_OPA_DISP++, 170, 200, 255, 255);
-    } else if (PARAMS_GET_U(thisx->params, 0, 2) == 2) {
+    } else if (ENDAIKU_GET_TYPE(thisx) == ENDAIKU_TYPE2) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 230, 70, 255);
-    } else if (PARAMS_GET_U(thisx->params, 0, 2) == 3) {
+    } else if (ENDAIKU_GET_TYPE(thisx) == ENDAIKU_TYPE3) {
         gDPSetEnvColor(POLY_OPA_DISP++, 200, 0, 150, 255);
     }
 
@@ -637,7 +637,7 @@ void EnDaiku_PostLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3s* rot, vo
 
     if (limb == 15) { // head
         Matrix_MultVec3f(&targetPosHeadLocal, &this->actor.focus.pos);
-        gSPDisplayList(POLY_OPA_DISP++, hairDLists[PARAMS_GET_U(this->actor.params, 0, 2)]);
+        gSPDisplayList(POLY_OPA_DISP++, hairDLists[ENDAIKU_GET_TYPE(&this->actor)]);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_daiku.c", 1330);

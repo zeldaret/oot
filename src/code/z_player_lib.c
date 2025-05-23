@@ -24,8 +24,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         600,                         // REG(37)
         FRAMERATE_CONST(350, 420),   // REG(38)
-        800,                         // REG(43)
-        600,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        600,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         590,                         // IREG(66)
@@ -44,8 +44,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         1000,                        // REG(37)
         FRAMERATE_CONST(0, 0),       // REG(38)
-        800,                         // REG(43)
-        300,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        300,                         // R_RUN_SPEED_LIMIT
         -160,                        // REG(68)
         600,                         // REG(69)
         590,                         // IREG(66)
@@ -64,8 +64,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324),   // REG(36)
         600,                         // REG(37)
         FRAMERATE_CONST(600, 720),   // REG(38)
-        800,                         // REG(43)
-        550,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        550,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         540,                         // IREG(66)
@@ -84,8 +84,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(400, 480),   // REG(36)
         0,                           // REG(37)
         FRAMERATE_CONST(300, 360),   // REG(38)
-        800,                         // REG(43)
-        500,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        500,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         590,                         // IREG(66)
@@ -104,8 +104,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(270, 324), // REG(36)
         600,                       // REG(37)
         FRAMERATE_CONST(50, 60),   // REG(38)
-        800,                       // REG(43)
-        550,                       // REG(45)
+        800,                       // R_DECELERATE_RATE
+        550,                       // R_RUN_SPEED_LIMIT
         -40,                       // REG(68)
         400,                       // REG(69)
         540,                       // IREG(66)
@@ -124,8 +124,8 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
         FRAMERATE_CONST(400, 480),   // REG(36)
         800,                         // REG(37)
         FRAMERATE_CONST(400, 480),   // REG(38)
-        800,                         // REG(43)
-        550,                         // REG(45)
+        800,                         // R_DECELERATE_RATE
+        550,                         // R_RUN_SPEED_LIMIT
         -100,                        // REG(68)
         600,                         // REG(69)
         540,                         // IREG(66)
@@ -589,8 +589,8 @@ void Player_SetBootData(PlayState* play, Player* this) {
     REG(36) = bootRegs[5];
     REG(37) = bootRegs[6];
     REG(38) = bootRegs[7];
-    REG(43) = bootRegs[8];
-    REG(45) = bootRegs[9];
+    R_DECELERATE_RATE = bootRegs[8];
+    R_RUN_SPEED_LIMIT = bootRegs[9];
     REG(68) = bootRegs[10];
     REG(69) = bootRegs[11];
     IREG(66) = bootRegs[12];
@@ -599,8 +599,8 @@ void Player_SetBootData(PlayState* play, Player* this) {
     IREG(69) = bootRegs[15];
     MREG(95) = bootRegs[16];
 
-    if (play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_2) {
-        REG(45) = 500;
+    if (play->roomCtx.curRoom.type == ROOM_TYPE_INDOORS) {
+        R_RUN_SPEED_LIMIT = 500;
     }
 }
 
@@ -644,7 +644,7 @@ s32 Player_ActionToModelGroup(Player* this, s32 itemAction) {
 }
 
 void Player_SetModelsForHoldingShield(Player* this) {
-    if ((this->stateFlags1 & PLAYER_STATE1_22) &&
+    if ((this->stateFlags1 & PLAYER_STATE1_SHIELDING) &&
         ((this->itemAction < 0) || (this->itemAction == this->heldItemAction))) {
         if (!Player_HoldsTwoHandedWeapon(this) && !Player_IsChildWithHylianShield(this)) {
             this->rightHandType = PLAYER_MODELTYPE_RH_SHIELD;
@@ -928,7 +928,7 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
     EnvHazardTextTriggerEntry* triggerEntry;
     s32 envHazard;
 
-    if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
+    if (play->roomCtx.curRoom.environmentType == ROOM_ENV_HOT) { // Room is hot
         envHazard = PLAYER_ENV_HAZARD_HOTROOM - 1;
     } else if ((this->underwaterTimer > 80) &&
                ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterTimer >= 300))) {
@@ -1460,7 +1460,7 @@ void Player_UpdateShieldCollider(PlayState* play, Player* this, ColliderQuad* co
         COL_MATERIAL_METAL,
     };
 
-    if (this->stateFlags1 & PLAYER_STATE1_22) {
+    if (this->stateFlags1 & PLAYER_STATE1_SHIELDING) {
         Vec3f quadDest[4];
 
         this->shieldQuad.base.colMaterial = shieldColMaterials[this->currentShield];
@@ -1494,7 +1494,7 @@ void func_800906D4(PlayState* play, Player* this, Vec3f* newTipPos) {
     Matrix_MultVec3f(&D_801260A4[2], &newBasePos[2]);
 
     if (func_80090480(play, NULL, &this->meleeWeaponInfo[0], &newTipPos[0], &newBasePos[0]) &&
-        !(this->stateFlags1 & PLAYER_STATE1_22)) {
+        !(this->stateFlags1 & PLAYER_STATE1_SHIELDING)) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->meleeWeaponEffectIndex), &this->meleeWeaponInfo[0].tip,
                               &this->meleeWeaponInfo[0].base);
     }

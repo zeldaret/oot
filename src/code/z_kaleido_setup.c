@@ -72,7 +72,7 @@ void KaleidoSetup_Update(PlayState* play) {
         (play->sceneId != SCENE_BOMBCHU_BOWLING_ALLEY || !Flags_GetSwitch(play, 0x38))) {
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
-            if (OOT_DEBUG && BREG(0)) {
+            if (DEBUG_FEATURES && BREG(0)) {
                 pauseCtx->debugState = 3;
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {

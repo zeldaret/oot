@@ -10,7 +10,7 @@
 #include "../util.h"
 #include "vadpcm.h"
 
-// Levinson-Durbin algorithm for iteratively solving for prediction coefficients
+// Levinson-Durbin algorithm for iteratively solving for prediction and reflection coefficients, given autocorrelation
 // https://en.wikipedia.org/wiki/Levinson_recursion
 static int
 durbin(double *acvec, int order, double *reflection_coeffs, double *prediction_coeffs, double *error)
@@ -36,7 +36,7 @@ durbin(double *acvec, int order, double *reflection_coeffs, double *prediction_c
         reflection_coeffs[i] = prediction_coeffs[i];
 
         if (fabs(reflection_coeffs[i]) > 1.0) {
-            // incr when a predictor coefficient is > 1 (indicates numerical instability)
+            // incr when a reflection coefficient has a magnitude > 1 (indicates numerical instability in the model)
             ret++;
         }
 
@@ -82,7 +82,7 @@ kfroma(double *in, double *out, int order)
     int i, j;
     double div;
     double temp;
-    double next[(order + 1)];
+    double next[order + 1];
     int ret = 0;
 
     out[order] = in[order];
@@ -144,29 +144,28 @@ rfroma(double *in, int n, double *out)
 }
 
 static double
-model_dist(double *predictors, double *data, int order)
+model_dist(double *mean_predictors, double *frame_predictors, int order)
 {
-    double autocorrelation_data[order + 1];
-    double autocorrelation_predictors[order + 1];
+    double autocorrelation_frame_predictors[order + 1];
+    double autocorrelation_mean_predictors[order + 1];
     double ret;
     int i, j;
 
-    // autocorrelation from data
-    rfroma(data, order, autocorrelation_data);
+    // autocorrelation from frame predictors
+    rfroma(frame_predictors, order, autocorrelation_frame_predictors);
 
-    // autocorrelation from predictors
+    // autocorrelation from current mean predictors (?)
     for (i = 0; i <= order; i++) {
-        autocorrelation_predictors[i] = 0.0;
-        for (j = 0; j <= order - i; j++) {
-            autocorrelation_predictors[i] += predictors[j] * predictors[i + j];
-        }
+        autocorrelation_mean_predictors[i] = 0.0;
+        for (j = 0; j <= order - i; j++)
+            autocorrelation_mean_predictors[i] += mean_predictors[j] * mean_predictors[i + j];
     }
 
     // compute "model distance" (scaled L2 norm: 2 * inner(ac1, ac2) )
-    ret = autocorrelation_data[0] * autocorrelation_predictors[0];
-    for (i = 1; i <= order; i++) {
-        ret += 2 * autocorrelation_data[i] * autocorrelation_predictors[i];
-    }
+    // this compares how good the mean predictors are to the optimal predictors for this frame
+    ret = autocorrelation_frame_predictors[0] * autocorrelation_mean_predictors[0];
+    for (i = 1; i <= order; i++)
+        ret += 2 * autocorrelation_frame_predictors[i] * autocorrelation_mean_predictors[i];
 
     return ret;
 }
@@ -363,7 +362,8 @@ split(double **predictors, double *delta, int order, int npredictors, double sca
 }
 
 static void
-refine(double **predictors, int order, int npredictors, double *data, int data_size, int refine_iters)
+refine(double **predictors, int order, int npredictors, double *all_frame_predictors, int num_frame_predictors,
+       int refine_iters)
 {
     int iter;
     double dist;
@@ -376,50 +376,55 @@ refine(double **predictors, int order, int npredictors, double *data, int data_s
     int counts[npredictors];
     double vec[order + 1];
 
+    // For some number of refinement iterations
     for (iter = 0; iter < refine_iters; iter++) {
-        // For some number of refinement iterations
-
-        // Initialize averages
+        // Initialize average autocorrelations
         memset(counts, 0, npredictors * sizeof(int));
         memset(rsums, 0, npredictors * (order + 1) * sizeof(double));
 
-        // Sum autocorrelations
-        for (i = 0; i < data_size; i++) {
+        // Sum autocorrelations for averaging for each frame, binning them based on best fitting predictor set
+        for (i = 0; i < num_frame_predictors; i++) {
             best_value = 1e30;
             best_index = 0;
 
-            // Find index that minimizes the "model distance"
+            // Find the choice of predictor that minimizes the "model distance" for this frame
             for (j = 0; j < npredictors; j++) {
-                dist = model_dist(predictors[j], &data[(order + 1) * i], order);
+                // Compare with current mean predictors, the distance metric is based on autocorrelations
+                dist = model_dist(predictors[j], &all_frame_predictors[(order + 1) * i], order);
 
                 if (dist < best_value) {
+                    // Record the new best predictors
                     best_value = dist;
                     best_index = j;
                 }
             }
 
-            counts[best_index]++;
-            rfroma(&data[(order + 1) * i], order, vec); // compute autocorrelation from predictors
-
+            // Compute autocorrelation from optimal predictor
+            rfroma(&all_frame_predictors[(order + 1) * i], order, vec);
+            // Add to average autocorrelation for the best predictor choice
             for (j = 0; j <= order; j++)
-                rsums[best_index][j] += vec[j]; // add to average autocorrelation
+                rsums[best_index][j] += vec[j];
+
+            // Update the counter of how many frames we've summed for this predictor
+            counts[best_index]++;
         }
 
-        // finalize average autocorrelations
+        // Finalize average autocorrelations
         for (i = 0; i < npredictors; i++) {
-            if (counts[i] > 0) {
+            if (counts[i] > 1) {
+                // Need to divide by the number of frames we summed
                 for (j = 0; j <= order; j++) {
                     rsums[i][j] /= counts[i];
                 }
             }
         }
 
+        // Update the predictors with the new average autocorrelations in each bin
         for (i = 0; i < npredictors; i++) {
-            // compute predictors from average autocorrelation
+            // Compute predictors and reflection coefficients from average autocorrelation
             durbin(rsums[i], order, vec, predictors[i], &dummy);
-            // vec is reflection coeffs
 
-            // clamp reflection coeffs
+            // Clamp reflection coeffs for stability
             for (j = 1; j <= order; j++) {
                 if (vec[j] >= 1.0)
                     vec[j] = 0.9999999999;
@@ -427,44 +432,73 @@ refine(double **predictors, int order, int npredictors, double *data, int data_s
                     vec[j] = -0.9999999999;
             }
 
-            // clamped reflection coeffs -> predictors
+            // Convert clamped reflection coeffs to stable predictors
             afromk(vec, predictors[i], order);
         }
     }
 }
 
 static int
-read_row(int16_t *p, double *row, int order)
+read_row(int16_t *out, double *predictors, int order)
 {
-    double fval;
-    int ival;
     int i, j, k;
     int overflows;
     double table[8][order];
+
+    // (discussion is for order=2)
+    //
+    // Converts 2 predictors a,b into the coefficients for an FIR filter matrix
+    // [ c0, d0, 1,  0,  0,  0,  0,  0,  0,  0 ]
+    // [ c0, d1, d0, 1,  0,  0,  0,  0,  0,  0 ]
+    // [ c0, d2, d1, d0, 1,  0,  0,  0,  0,  0 ]
+    // [ c0, d3, d2, d1, d0, 1,  0,  0,  0,  0 ]
+    // [ c0, d4, d3, d2, d1, d0, 1,  0,  0,  0 ]
+    // [ c0, d5, d4, d3, d2, d1, d0, 1,  0,  0 ]
+    // [ c0, d6, d5, d4, d3, d2, d1, d0, 1,  0 ]
+    // [ c0, d7, d6, d5, d4, d3, d2, d1, d0, 1 ]
+    //
+    // Multiplication by this matrix on a vector containing the previous two samples p[-2] and p[-1] and 8 residuals
+    // s[i] decodes 8 samples p[i] simultaneously.
+    // Only c0..7 and d0..7 are actually stored in the book, the decoder arranges the rest.
+    //
+    // The coefficients are those you get by substituting decoded samples into the prediction model at each step to
+    // express each p[i] for i in [0, 8) as a linear combination of p[-2], p[-1] and past residuals
+    //      p[i] = a * p[i - 2] * b * p[i - 1] + s[i]
+    //
+    // c0 = a,          d0 = b
+    // c1 = ab,         d1 = a + b^2
+    // c2 = a^2 + ab^2, d2 = 2ab + b^3
+    // ...
 
     for (i = 0; i < order; i++) {
         for (j = 0; j < i; j++)
             table[i][j] = 0.0;
 
         for (j = i; j < order; j++)
-            table[i][j] = -row[order - j + i];
+            table[i][j] = -predictors[order - j + i];
     }
-
-    for (i = order; i < 8; i++)
+    for (i = order; i < 8; i++) {
         for (j = 0; j < order; j++)
             table[i][j] = 0.0;
+    }
 
-    for (i = 1; i < 8; i++)
-        for (j = 1; j <= order; j++)
-            if (i - j >= 0)
+    for (i = 1; i < 8; i++) {
+        for (j = 1; j <= order; j++) {
+            if (i >= j) {
                 for (k = 0; k < order; k++)
-                    table[i][k] -= row[j] * table[i - j][k];
+                    table[i][k] -= predictors[j] * table[i - j][k];
+            }
+        }
+    }
 
+    // Convert double-precision book entries into qs4.11 fixed point numbers,
+    // rounding away from 0 and checking for overflows
     overflows = 0;
-
     for (i = 0; i < order; i++) {
         for (j = 0; j < 8; j++) {
-            fval = table[j][i] * (double)(1 << 11);
+            int ival;
+            double fval = table[j][i] * (double)(1 << 11);
+
             if (fval < 0.0) {
                 ival = (int)(fval - 0.5);
                 if (ival < -0x8000)
@@ -475,7 +509,7 @@ read_row(int16_t *p, double *row, int order)
                     overflows++;
             }
 
-            *(p++) = ival;
+            *out++ = ival;
         }
     }
 
@@ -517,27 +551,30 @@ tabledesign_run(int16_t *order_out, int16_t *npredictors_out, int16_t **book_dat
     for (int i = 0; i < num_order; i++)
         autocorrelation_matrix[i] = MALLOC_CHECKED_INFO(num_order * sizeof(double), "num_order=%d", num_order);
 
+    // (back-)align to a multiple of the frame size
     size_t nframes = num_samples - (num_samples % frame_size);
 
-    double *data =
+    double *all_frame_predictors =
         MALLOC_CHECKED_INFO(nframes * num_order * sizeof(double), "nframes=%lu, num_order=%d", nframes, num_order);
-    uint32_t data_size = 0;
+    uint32_t num_frame_predictors = 0;
 
     int16_t *sample = sample_data;
-    // (back-)align to a multiple of the frame size
     int16_t *sample_end = sample + nframes;
 
-    memset(buffer, 0, frame_size * sizeof(int16_t));
+    memset(buffer, 0, frame_size * sizeof(*buffer));
+
+    // First, compute the optimal set of predictors for every complete frame in the signal, where optimal here means
+    // the predictors that minimize the mean-square error between the predicted signal and the true signal.
 
     for (; sample < sample_end; sample += frame_size) {
         // Copy sample data into second half of buffer, during the first iteration the first half is 0 while in
         // later iterations the second half of the previous iteration is shifted into the first half.
-        memcpy(&buffer[frame_size], sample, frame_size * sizeof(int16_t));
+        memcpy(&buffer[frame_size], sample, frame_size * sizeof(*buffer));
 
         // Compute autocorrelation vector of the two vectors in the buffer
         acvect(&buffer[frame_size], order, frame_size, vec);
 
-        // First element is the largest(?)
+        // First element of autocorrelation has the largest magnitude
         if (fabs(vec[0]) > design->thresh) {
             // Over threshold
 
@@ -552,15 +589,20 @@ tabledesign_run(int16_t *order_out, int16_t *npredictors_out, int16_t **book_dat
                 //  R = autocorrelation matrix
                 //  r = autocorrelation vector
                 //  a = linear prediction coefficients
-                // After this vec contains the prediction coefficients
+                // After this vec contains the prediction coefficients that minimize the mean-square error.
                 lubksb(autocorrelation_matrix, order, perm, vec);
                 vec[0] = 1.0;
 
                 // Compute reflection coefficients from prediction coefficients
                 if (kfroma(vec, reflection_coeffs, order) == 0) { // Continue only if numerically stable
-                    data[data_size * num_order + 0] = 1.0;
+                    all_frame_predictors[num_frame_predictors * num_order] = 1.0;
 
-                    // clamp the reflection coefficients
+                    // Clamp the reflection coefficients. Reflection coefficients are clamped rather than the
+                    // predictors themselves as the reflection coefficients have a direct relationship with the
+                    // stability of the model. If the reflection coefficients are outside of the interval (-1,1)
+                    // the model is unstable as the associated transfer function will contain poles outside the
+                    // complex unit disk. If the reflection coefficients are all inside the interval (-1,1) there
+                    // are no poles outside of the unit disk, guaranteeing the stability of the model.
                     for (int i = 1; i < num_order; i++) {
                         if (reflection_coeffs[i] >= 1.0)
                             reflection_coeffs[i] = 0.9999999999;
@@ -568,40 +610,44 @@ tabledesign_run(int16_t *order_out, int16_t *npredictors_out, int16_t **book_dat
                             reflection_coeffs[i] = -0.9999999999;
                     }
 
-                    // Compute prediction coefficients from reflection coefficients
-                    afromk(reflection_coeffs, &data[data_size * num_order], order);
-                    data_size++;
+                    // Compute prediction coefficients from clamped reflection coefficients
+                    afromk(reflection_coeffs, &all_frame_predictors[num_frame_predictors * num_order], order);
+                    num_frame_predictors++;
                 }
             }
         }
 
         // Move second vector to first vector
-        memcpy(&buffer[0], &buffer[frame_size], frame_size * sizeof(int16_t));
+        memcpy(&buffer[0], &buffer[frame_size], frame_size * sizeof(*buffer));
     }
+
+    // Now that predictors for every frame have been found, they need to be reduced to a manageable quantity
+    // (determined by npredictors) to build the prediction codebook that will be exported. First compute the average
+    // autocorrelation of the prediction models for all frames:
 
     // Create a vector [1.0, 0.0, ..., 0.0]
     vec[0] = 1.0;
     for (int i = 1; i < num_order; i++)
         vec[i] = 0.0;
 
-    for (uint32_t i = 0; i < data_size; i++) {
-        // Compute autocorrelation from predictors
-        rfroma(&data[i * num_order], order, predictors[0]);
+    for (uint32_t i = 0; i < num_frame_predictors; i++) {
+        // Compute autocorrelation from predictors, equivalent to computing the autocorrelation on the signal produced
+        // by following the prediction model exactly.
+        rfroma(&all_frame_predictors[i * num_order], order, predictors[0]);
 
         for (int k = 1; k < num_order; k++)
             vec[k] += predictors[0][k];
     }
 
     for (int i = 1; i < num_order; i++)
-        vec[i] /= data_size;
+        vec[i] /= num_frame_predictors;
 
-    // vec is the average autocorrelation
-
-    // Compute predictors for average autocorrelation using Levinson-Durbin algorithm
+    // vec now contains the average autocorrelation.
+    // Compute predictors for this average autocorrelation using the Levinson-Durbin algorithm.
     double dummy;
     durbin(vec, order, reflection_coeffs, predictors[0], &dummy);
 
-    // clamp results
+    // Clamp resulting reflection coefficients to ensure stability
     for (int i = 1; i < num_order; i++) {
         if (reflection_coeffs[i] >= 1.0)
             reflection_coeffs[i] = 0.9999999999;
@@ -609,27 +655,37 @@ tabledesign_run(int16_t *order_out, int16_t *npredictors_out, int16_t **book_dat
             reflection_coeffs[i] = -0.9999999999;
     }
 
-    // Convert clamped reflection coefficients to predictors
+    // Convert clamped reflection coefficients to stable predictors
     afromk(reflection_coeffs, predictors[0], order);
 
-    // Split and refine predictors
+    // Starting with the predictors obtained from the average autocorrelation, cluster the predictors for each frame
+    // via k-means until we have just npredictors worth of output
     for (unsigned cur_bits = 0; cur_bits < design->bits; cur_bits++) {
         double split_delta[num_order];
 
+        // Prepare [0, ..., -1, 0]
         for (int i = 0; i < num_order; i++)
             split_delta[i] = 0.0;
         split_delta[order - 1] = -1.0;
 
+        // Split the predictors into two halves
         split(predictors, split_delta, order, 1 << cur_bits, 0.01);
-        refine(predictors, order, 1 << (1 + cur_bits), data, data_size, design->refine_iters);
+
+        // Update the values of each half to the means of the halves
+        refine(predictors, order, 1 << (1 + cur_bits), all_frame_predictors, num_frame_predictors,
+               design->refine_iters);
     }
 
-    int16_t *book_data = MALLOC_CHECKED_INFO((8 * order * npredictors + 2) * sizeof(int16_t),
-                                             "order=%d, npredictors=%d", order, npredictors);
+    // Now we have the reduced set of predictors, write them into the book of size 8 * order * npredictors
+
+    int16_t *book_data =
+        MALLOC_CHECKED_INFO(8 * order * npredictors * sizeof(int16_t), "order=%d, npredictors=%d", order, npredictors);
 
     *order_out = order;
     *npredictors_out = npredictors;
 
+    // As a final step, we need to convert the predictors into coefficients for an FIR filter so that samples in a
+    // frame can be decoded in parallel taking advantage of the RSP's 8-lane SIMD instruction set.
     int num_oflow = 0;
     for (int i = 0; i < npredictors; i++)
         num_oflow += read_row(&book_data[8 * order * i], predictors[i], order);
@@ -641,7 +697,7 @@ tabledesign_run(int16_t *order_out, int16_t *npredictors_out, int16_t **book_dat
     *book_data_out = book_data;
 
     free(buffer);
-    free(data);
+    free(all_frame_predictors);
 
     for (int i = 0; i < num_order; i++)
         free(autocorrelation_matrix[i]);

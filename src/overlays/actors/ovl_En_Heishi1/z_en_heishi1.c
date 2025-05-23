@@ -8,7 +8,7 @@
 #include "assets/objects/object_sd/object_sd.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnHeishi1_Init(Actor* thisx, PlayState* play2);
 void EnHeishi1_Destroy(Actor* thisx, PlayState* play);
@@ -182,7 +182,7 @@ void EnHeishi1_Walk(EnHeishi1* this, PlayState* play) {
 
         Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale, this->headTurnSpeedMax);
 
-        if (OOT_DEBUG && (this->path == BREG(1)) && (BREG(0) != 0)) {
+        if (DEBUG_FEATURES && (this->path == BREG(1)) && (BREG(0) != 0)) {
             PRINTF(VT_FGCOL(RED) " 種類  %d\n" VT_RST, this->path);
             PRINTF(VT_FGCOL(RED) " ぱす  %d\n" VT_RST, this->waypoint);
             PRINTF(VT_FGCOL(RED) " 反転  %d\n" VT_RST, this->bodyTurnSpeed);
@@ -300,7 +300,7 @@ void EnHeishi1_Wait(EnHeishi1* this, PlayState* play) {
         Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale,
                        this->headTurnSpeedMax + this->headTurnSpeedMax);
 
-        if (OOT_DEBUG && (this->path == BREG(1)) && (BREG(0) != 0)) {
+        if (DEBUG_FEATURES && (this->path == BREG(1)) && (BREG(0) != 0)) {
             PRINTF(VT_FGCOL(GREEN) " 種類  %d\n" VT_RST, this->path);
             PRINTF(VT_FGCOL(GREEN) " ぱす  %d\n" VT_RST, this->waypoint);
             PRINTF(VT_FGCOL(GREEN) " 反転  %d\n" VT_RST, this->bodyTurnSpeed);
@@ -346,7 +346,7 @@ void EnHeishi1_Kick(EnHeishi1* this, PlayState* play) {
         if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
             Message_CloseTextbox(play);
             if (!this->loadStarted) {
-                SET_EVENTCHKINF(EVENTCHKINF_4E);
+                SET_EVENTCHKINF(EVENTCHKINF_CAUGHT_BY_CASTLE_GUARDS);
                 play->nextEntranceIndex = ENTR_HYRULE_CASTLE_3;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 this->loadStarted = true;
@@ -404,9 +404,9 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
 
         this->actionFunc(this, play);
 
-        this->actor.uncullZoneForward = 550.0f;
-        this->actor.uncullZoneScale = 350.0f;
-        this->actor.uncullZoneDownward = 700.0f;
+        this->actor.cullingVolumeDistance = 550.0f;
+        this->actor.cullingVolumeScale = 350.0f;
+        this->actor.cullingVolumeDownward = 700.0f;
 
         if (this->type != 5) {
             path = this->path * 2;
@@ -490,7 +490,7 @@ void EnHeishi1_Draw(Actor* thisx, PlayState* play) {
                       this);
     func_80033C30(&this->actor.world.pos, &matrixScale, 0xFF, play);
 
-    if (OOT_DEBUG && (this->path == BREG(1)) && (BREG(0) != 0)) {
+    if (DEBUG_FEATURES && (this->path == BREG(1)) && (BREG(0) != 0)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y + 100.0f, this->actor.world.pos.z,
                                17000, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0,
                                255, 4, play->state.gfxCtx);

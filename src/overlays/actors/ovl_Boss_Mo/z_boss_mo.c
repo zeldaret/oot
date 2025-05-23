@@ -13,7 +13,9 @@
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "pal-1.0:128 pal-1.1:128"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 #define MO_WATER_LEVEL(play) play->colCtx.colHeader->waterBoxes[0].ySurface
 
@@ -362,7 +364,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
             MO_WATER_LEVEL(play) = -500;
             return;
         }
-        if (GET_EVENTCHKINF(EVENTCHKINF_74)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_MORPHA_BATTLE)) {
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             this->tentMaxAngle = 5.0f;
             this->timers[0] = 50;
@@ -381,7 +383,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
     } else {
         Actor_SetScale(&this->actor, 0.01f);
         BossMo_SetupTentacle(this, play);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         MO_WATER_LEVEL(play) = -50;
         this->waterTexAlpha = 90.0f;
         this->actor.world.pos.y = MO_WATER_LEVEL(play);
@@ -630,7 +632,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             }
             break;
         case MO_TENT_ATTACK:
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
             Sfx_PlaySfxAtPos(&this->tentTipPos, NA_SE_EN_MOFER_ATTACK - SFX_FLAG);
             Math_ApproachF(&this->waterLevelMod, -5.0f, 0.1f, 0.4f);
             for (indS1 = 0; indS1 < 41; indS1++) {
@@ -1432,7 +1434,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
             if (this->timers[2] == 130) {
                 TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gMorphaTitleCardTex), 160,
                                        180, 128, 40);
-                SET_EVENTCHKINF(EVENTCHKINF_74);
+                SET_EVENTCHKINF(EVENTCHKINF_BEGAN_MORPHA_BATTLE);
             }
             break;
         case MO_INTRO_FINISH:
@@ -1745,7 +1747,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
     s16 i;
     Player* player = GET_PLAYER(play);
 
-    PRINTF(VT_FGCOL(YELLOW));
+    PRINTF_COLOR_YELLOW();
     PRINTF("Core_Damage_check START\n");
     if (this->coreCollider.base.atFlags & AT_HIT) {
         this->coreCollider.base.atFlags &= ~AT_HIT;
@@ -1841,7 +1843,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
     }
     // "end !!"
     PRINTF("Core_Damage_check 終わり ！！\n");
-    PRINTF(VT_RST);
+    PRINTF_RST();
 }
 
 void BossMo_Core(BossMo* this, PlayState* play) {
@@ -2232,7 +2234,7 @@ void BossMo_UpdateCore(Actor* thisx, PlayState* play) {
     } else {
         MO_WATER_LEVEL(play) = sMorphaTent2->waterLevelMod + ((s16)this->waterLevel + sMorphaTent1->waterLevelMod);
     }
-    this->actor.flags |= ACTOR_FLAG_9;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR;
     this->actor.focus.pos = this->actor.world.pos;
     this->work[MO_TENT_VAR_TIMER]++;
 

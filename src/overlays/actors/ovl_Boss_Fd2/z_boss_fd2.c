@@ -10,7 +10,9 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum BossFd2CutsceneState {
     /* 0 */ DEATH_START,
@@ -524,7 +526,7 @@ void BossFd2_Vulnerable(BossFd2* this, PlayState* play) {
     s16 i;
 
     this->disableAT = true;
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     SkelAnime_Update(&this->skelAnime);
     switch (this->work[FD2_ACTION_STATE]) {
         case 0:
@@ -875,10 +877,10 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
             }
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {
                 bossFd->actor.colChkInfo.health -= damage;
-                PRINTF(VT_FGCOL(GREEN));
+                PRINTF_COLOR_GREEN();
                 PRINTF("damage   %d\n", damage);
             }
-            PRINTF(VT_RST);
+            PRINTF_RST();
             PRINTF("hp %d\n", bossFd->actor.colChkInfo.health);
 
             if ((s8)bossFd->actor.colChkInfo.health <= 0) {
@@ -960,7 +962,7 @@ void BossFd2_Update(Actor* thisx, PlayState* play2) {
 
     PRINTF("FD2 move start \n");
     this->disableAT = false;
-    this->actor.flags &= ~ACTOR_FLAG_10;
+    this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     this->work[FD2_VAR_TIMER]++;
     this->work[FD2_UNK_TIMER]++;
 

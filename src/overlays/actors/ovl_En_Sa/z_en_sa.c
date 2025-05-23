@@ -4,7 +4,9 @@
 #include "assets/scenes/overworld/spot04/spot04_scene.h"
 #include "assets/scenes/overworld/spot05/spot05_scene.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnSa_Init(Actor* thisx, PlayState* play);
 void EnSa_Destroy(Actor* thisx, PlayState* play);
@@ -155,7 +157,7 @@ u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
             return 0x1047;
         }
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_02)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
         if (GET_INFTABLE(INFTABLE_03)) {
@@ -503,7 +505,7 @@ void EnSa_Init(Actor* thisx, PlayState* play) {
         case 4:
             this->unk_210 = 0;
             this->actor.gravity = -1.0f;
-            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gKokiriForestSariaGreetingCs);
             gSaveContext.cutsceneTrigger = 1;
             EnSa_ChangeAnim(this, ENSA_ANIM1_4);
             this->actionFunc = func_80AF68E4;
@@ -625,7 +627,7 @@ void func_80AF683C(EnSa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Play_InCsMode(play)) {
-        play->csCtx.script = SEGMENTED_TO_VIRTUAL(spot05_scene_Cs_005730);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gMeadowSariasSongCs);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = func_80AF68E4;
     }
@@ -738,7 +740,7 @@ void EnSa_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->actionFunc != func_80AF68E4) {
-        this->alpha = func_80034DD4(&this->actor, play, this->alpha, 400.0f);
+        this->alpha = Actor_UpdateAlphaByDistance(&this->actor, play, this->alpha, 400.0f);
     } else {
         this->alpha = 255;
     }

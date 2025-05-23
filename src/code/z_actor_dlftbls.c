@@ -24,7 +24,7 @@
 #undef DEFINE_ACTOR_UNSET
 
 // Actor Overlay Table definition
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 #define DEFINE_ACTOR(name, _1, allocType, nameString) \
     {                                                 \
@@ -80,7 +80,7 @@ s32 gMaxActorId = 0;
 static FaultClient sFaultClient;
 
 void ActorOverlayTable_LogPrint(void) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     ActorOverlay* overlayEntry;
     u32 i;
 
@@ -100,8 +100,8 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
     u32 overlaySize;
     uintptr_t ramStart;
     uintptr_t ramEnd;
-    u32 offset;
 #if PLATFORM_N64
+    u32 offset;
     uintptr_t pc = gFaultFaultedThread != NULL ? gFaultFaultedThread->context.pc : 0;
     uintptr_t ra = gFaultFaultedThread != NULL ? gFaultFaultedThread->context.ra : 0;
     u32 i;
@@ -125,7 +125,9 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
         overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
         ramStart = (uintptr_t)overlayEntry->loadedRamAddr;
         ramEnd = ramStart + overlaySize;
+#if PLATFORM_N64
         offset = (uintptr_t)overlayEntry->vramStart - ramStart;
+#endif
         if (ramStart != 0) {
 #if PLATFORM_N64
             Fault_Printf("%3d %08x-%08x %08x", i, ramStart, ramEnd, offset);
@@ -137,7 +139,7 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
             Fault_Printf("\n");
 #else
             Fault_Printf("%3d %08x-%08x %3d %s\n", i, ramStart, ramEnd, overlayEntry->numLoaded,
-                         (OOT_DEBUG && overlayEntry->name != NULL) ? overlayEntry->name : "");
+                         (DEBUG_FEATURES && overlayEntry->name != NULL) ? overlayEntry->name : "");
 #endif
         }
     }

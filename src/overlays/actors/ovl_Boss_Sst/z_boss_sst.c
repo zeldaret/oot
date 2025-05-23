@@ -14,7 +14,9 @@
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "pal-1.0:128 pal-1.1:128"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 #define vParity actionVar
 #define vVanish actionVar
@@ -381,7 +383,7 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
     Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
     Math_Vec3f_Copy(&sSubCamAt, &player->actor.world.pos);
-    if (GET_EVENTCHKINF(EVENTCHKINF_77)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_BONGO_BONGO_BATTLE)) {
         sSubCamEye.z = ROOM_CENTER_Z - 100.0f;
     }
 
@@ -417,7 +419,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
         Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_WAIT);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         Play_ClearCamera(play, sSubCamId);
-        SET_EVENTCHKINF(EVENTCHKINF_77);
+        SET_EVENTCHKINF(EVENTCHKINF_BEGAN_BONGO_BONGO_BATTLE);
         BossSst_HeadSetupNeutral(this);
         this->colliderJntSph.base.ocFlags1 |= OC1_ON;
         sHands[LEFT]->colliderJntSph.base.ocFlags1 |= OC1_ON;
@@ -440,7 +442,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
                 this->ready = true;
                 Rumble_Request(this->actor.xyzDistToPlayerSq, 255, 20, 150);
                 Actor_PlaySfx(&sFloor->dyna.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
-            } else if (GET_EVENTCHKINF(EVENTCHKINF_77)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_BONGO_BONGO_BATTLE)) {
                 //! @bug This condition assumes that the second bounce on the ground will occur before frame 545 on the
                 //! timer. However, it is possible to delay Player's descent to the ground by, for example, jumpslashing
                 //! on the last possible frame before the cutscene takes control. This delays Player's fall to the
@@ -573,7 +575,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
         }
         if (this->timer <= 198) {
             revealStateTimer = 198 - this->timer;
-            if (GET_EVENTCHKINF(EVENTCHKINF_77) && (revealStateTimer <= 44)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_BONGO_BONGO_BATTLE) && (revealStateTimer <= 44)) {
                 sSubCamAt.x += 492.0f * 0.01f;
                 sSubCamAt.y += 200.0f * 0.01f;
                 sSubCamEye.x -= 80.0f * 0.01f;
@@ -602,7 +604,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
                     sSubCamEye.y += 125.0f * 0.01f;
                     sSubCamEye.z -= 350.0f * 0.01f;
                 } else if (revealStateTimer == 85) {
-                    if (!GET_EVENTCHKINF(EVENTCHKINF_77)) {
+                    if (!GET_EVENTCHKINF(EVENTCHKINF_BEGAN_BONGO_BONGO_BATTLE)) {
                         TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gBongoTitleCardTex),
                                                160, 180, 128, 40);
                     }
@@ -894,7 +896,7 @@ void BossSst_HeadVulnerable(BossSst* this, PlayState* play) {
     Math_StepToF(&sHandOffsets[RIGHT].z, 600.0f, 20.0f);
     Math_StepToF(&sHandOffsets[LEFT].x, 200.0f, 20.0f);
     Math_StepToF(&sHandOffsets[RIGHT].x, -200.0f, 20.0f);
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         this->timer += 2;
         this->timer = CLAMP_MAX(this->timer, 50);
     } else {

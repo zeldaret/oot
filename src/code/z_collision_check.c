@@ -16,7 +16,7 @@
 #include "z_lib.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:104 pal-1.0:104 pal-1.1:104"
+                               "ntsc-1.0:96 ntsc-1.1:96 ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
@@ -25,7 +25,7 @@ typedef s32 (*ColChkLineFunc)(PlayState*, CollisionCheckContext*, Collider*, Vec
 
 #define SAC_ENABLE (1 << 0)
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Draws a red triangle with vertices vA, vB, and vC.
  */
@@ -367,9 +367,9 @@ s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJnt
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjJntSph_set():zelda_malloc()出来ません。\n", "ClObjJntSph_set():zelda_malloc() Can not.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
 
@@ -395,9 +395,9 @@ s32 Collider_SetJntSphAllocType1(PlayState* play, ColliderJntSph* dest, Actor* a
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjJntSph_set3():zelda_malloc_出来ません。\n", "ClObjJntSph_set3():zelda_malloc_ Can not.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
 
@@ -423,9 +423,9 @@ s32 Collider_SetJntSphAlloc(PlayState* play, ColliderJntSph* dest, Actor* actor,
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjJntSph_set5():zelda_malloc出来ません\n", "ClObjJntSph_set5():zelda_malloc Can not\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
@@ -729,9 +729,9 @@ s32 Collider_SetTrisAllocType1(PlayState* play, ColliderTris* dest, Actor* actor
     dest->elements = ZELDA_ARENA_MALLOC(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2156);
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjTris_set3():zelda_malloc()出来ません\n", "ClObjTris_set3():zelda_malloc() Can not\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
@@ -755,9 +755,9 @@ s32 Collider_SetTrisAlloc(PlayState* play, ColliderTris* dest, Actor* actor, Col
     dest->elements = ZELDA_ARENA_MALLOC(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2207);
 
     if (dest->elements == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjTris_set5():zelda_malloc出来ません\n", "ClObjTris_set5():zelda_malloc Can not\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         dest->count = 0;
         return false;
     }
@@ -1028,7 +1028,7 @@ void CollisionCheck_InitContext(PlayState* play, CollisionCheckContext* colChkCt
     colChkCtx->sacFlags = 0;
     CollisionCheck_ClearContext(play, colChkCtx);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     AREG(21) = true;
     AREG(22) = true;
     AREG(23) = true;
@@ -1082,7 +1082,7 @@ void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx
     colChkCtx->sacFlags &= ~SAC_ENABLE;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Draws a collider of any shape.
  * Math3D_DrawSphere and Math3D_DrawCylinder are noops, so JntSph and Cylinder are not drawn.
@@ -2225,7 +2225,7 @@ void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChk
 }
 
 #pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252" \
-                               "ntsc-1.2:252 pal-1.0:252 pal-1.1:252"
+                               "ntsc-1.0:252 ntsc-1.1:252 ntsc-1.2:252 pal-1.0:252 pal-1.1:252"
 
 void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
@@ -2339,7 +2339,7 @@ void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static s8 sBssDummy3;
 static s8 sBssDummy4;
 #endif
@@ -3351,7 +3351,7 @@ void Collider_SetTrisDim(PlayState* play, ColliderTris* tris, s32 elemIndex, Col
     Collider_SetTrisElementDim(play, &trisElem->dim, src);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 // The two static Vec3f variables in the function below cross a block index rollover, causing a bss order swap.
 //! In order to replicate this behavior, we declare a certain amount of sBssDummy variables throughout the file, which
 //! we fit inside padding added by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in
@@ -3734,7 +3734,7 @@ u8 CollisionCheck_GetSwordDamage(s32 dmgFlags) {
         damage = 8;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     KREG(7) = damage;
 #endif
 

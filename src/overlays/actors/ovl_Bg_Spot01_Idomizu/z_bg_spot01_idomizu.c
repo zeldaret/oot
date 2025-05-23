@@ -7,14 +7,14 @@
 #include "z_bg_spot01_idomizu.h"
 #include "assets/objects/object_spot01_objects/object_spot01_objects.h"
 
-#define FLAGS ACTOR_FLAG_5
+#define FLAGS ACTOR_FLAG_DRAW_CULLING_DISABLED
 
 void BgSpot01Idomizu_Init(Actor* thisx, PlayState* play);
 void BgSpot01Idomizu_Destroy(Actor* thisx, PlayState* play);
 void BgSpot01Idomizu_Update(Actor* thisx, PlayState* play);
 void BgSpot01Idomizu_Draw(Actor* thisx, PlayState* play);
 
-void func_808ABB84(BgSpot01Idomizu* this, PlayState* play);
+void BgSpot01Idomizu_UpdateWaterLevel(BgSpot01Idomizu* this, PlayState* play);
 
 ActorProfile Bg_Spot01_Idomizu_Profile = {
     /**/ ACTOR_BG_SPOT01_IDOMIZU,
@@ -36,20 +36,20 @@ void BgSpot01Idomizu_Init(Actor* thisx, PlayState* play) {
     BgSpot01Idomizu* this = (BgSpot01Idomizu*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    if (GET_EVENTCHKINF(EVENTCHKINF_67) || LINK_AGE_IN_YEARS == YEARS_ADULT) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL) || LINK_AGE_IN_YEARS == YEARS_ADULT) {
         this->waterHeight = -550.0f;
     } else {
         this->waterHeight = 52.0f;
     }
-    this->actionFunc = func_808ABB84;
+    this->actionFunc = BgSpot01Idomizu_UpdateWaterLevel;
     this->actor.world.pos.y = this->waterHeight;
 }
 
 void BgSpot01Idomizu_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void func_808ABB84(BgSpot01Idomizu* this, PlayState* play) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_67)) {
+void BgSpot01Idomizu_UpdateWaterLevel(BgSpot01Idomizu* this, PlayState* play) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL)) {
         this->waterHeight = -550.0f;
     }
     play->colCtx.colHeader->waterBoxes[0].ySurface = this->actor.world.pos.y;

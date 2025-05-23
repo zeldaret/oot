@@ -159,9 +159,9 @@ void func_80B9A534(ObjMure2* this) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 2100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 100, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 2100, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 100, ICHAIN_STOP),
 };
 
 void ObjMure2_Init(Actor* thisx, PlayState* play) {
@@ -169,7 +169,7 @@ void ObjMure2_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (play->csCtx.state != CS_STATE_IDLE) {
-        this->actor.uncullZoneForward += 1200.0f;
+        this->actor.cullingVolumeDistance += 1200.0f;
     }
     ObjMure2_SetupWait(this);
 }
@@ -189,7 +189,7 @@ void func_80B9A658(ObjMure2* this) {
 void func_80B9A668(ObjMure2* this, PlayState* play) {
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) <
         (sDistSquared1[PARAMS_GET_U(this->actor.params, 0, 2)] * this->unk_184)) {
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         ObjMure2_SpawnActors(this, play);
         func_80B9A6E8(this);
     }
@@ -203,7 +203,7 @@ void func_80B9A6F8(ObjMure2* this, PlayState* play) {
     func_80B9A534(this);
     if ((sDistSquared2[PARAMS_GET_U(this->actor.params, 0, 2)] * this->unk_184) <=
         Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         ObjMure2_CleanupAndDie(this, play);
         func_80B9A658(this);
     }

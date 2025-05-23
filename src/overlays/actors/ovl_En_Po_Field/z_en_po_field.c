@@ -8,8 +8,9 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_po_field/object_po_field.h"
 
-#define FLAGS \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_IGNORE_QUAKE)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoField_Init(Actor* thisx, PlayState* play);
 void EnPoField_Destroy(Actor* thisx, PlayState* play);
@@ -142,7 +143,8 @@ static EnPoFieldInfo sPoFieldInfo[2] = {
 
 static Vec3f D_80AD714C = { 0.0f, 1400.0f, 0.0f };
 
-#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128 ntsc-1.2:128"
+#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128 ntsc-1.2:128 pal-1.0:128" \
+                               "pal-1.1:128"
 
 static Vec3s sSpawnPositions[10];
 static u8 sSpawnSwitchFlags[10];

@@ -148,7 +148,7 @@
         <Item Key="actor_cue_9_0" ID="CS_CMD_ACTOR_CUE_9_0" Index="143"/>
         <Item Key="actor_cue_0_17" ID="CS_CMD_ACTOR_CUE_0_17" Index="144"/>
         <Item Key="destination" ID="CS_CMD_DESTINATION" Index="1000"/>
-        <Item Key="end" ID="CS_CMD_END" Index="65535"/>
+        <Item Key="end" ID="CS_CMD_END_OF_SCRIPT" Index="65535"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="miscType" ID="CutsceneMiscType">
         <!-- https://github.com/zeldaret/oot/blob/823e47a0f8e9fb9fab89bc61b57f45488ff6debe/include/z64cutscene.h#L167-L204 -->
@@ -172,8 +172,8 @@
         <Item Key="quake_stop" ID="CS_MISC_QUAKE_STOP" Index="17"/>
         <Item Key="stop_storm_and_advance_to_day" ID="CS_MISC_STOP_STORM_AND_ADVANCE_TO_DAY" Index="18"/>
         <Item Key="set_flag_fast_windmill" ID="CS_MISC_SET_FLAG_FAST_WINDMILL" Index="19"/>
-        <Item Key="set_flag_well_drained" ID="CS_MISC_SET_FLAG_WELL_DRAINED" Index="20"/>
-        <Item Key="set_flag_lake_hylia_restored" ID="CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED" Index="21"/>
+        <Item Key="set_flag_drained_well" ID="CS_MISC_SET_FLAG_DRAINED_WELL" Index="20"/>
+        <Item Key="set_flag_restored_lake_hylia" ID="CS_MISC_SET_FLAG_RESTORED_LAKE_HYLIA" Index="21"/>
         <Item Key="vismono_black_and_white" ID="CS_MISC_VISMONO_BLACK_AND_WHITE" Index="22"/>
         <Item Key="vismono_sepia" ID="CS_MISC_VISMONO_SEPIA" Index="23"/>
         <Item Key="hide_room" ID="CS_MISC_HIDE_ROOM" Index="24"/>
@@ -297,8 +297,8 @@
         <Item Key="lon_lon_ranch_credits_part_2" ID="CS_DEST_LON_LON_RANCH_CREDITS_PART_2" Index="74"/>
         <Item Key="lon_lon_ranch_credits_part_3" ID="CS_DEST_LON_LON_RANCH_CREDITS_PART_3" Index="75"/>
         <Item Key="lon_lon_ranch_credits_part_4" ID="CS_DEST_LON_LON_RANCH_CREDITS_PART_4" Index="76"/>
-        <Item Key="lon_lon_ranch_credits_part_5" ID="CS_DEST_LON_LON_RANCH_CREDITS_PART_5" Index="77"/>
-        <Item Key="lon_lon_ranch_credits_part_6" ID="CS_DEST_LON_LON_RANCH_CREDITS_PART_6" Index="78"/>
+        <Item Key="lon_lon_ranch_credits_part_5" ID="CS_DEST_LON_LON_RANCH_CREDITS_PART_5" Index="78"/>
+        <Item Key="lon_lon_ranch_credits_part_6" ID="CS_DEST_LON_LON_RANCH_CREDITS_PART_6" Index="77"/>
         <Item Key="lon_lon_ranch_1" ID="CS_DEST_LON_LON_RANCH_1" Index="79"/>
         <Item Key="lon_lon_ranch_2" ID="CS_DEST_LON_LON_RANCH_2" Index="80"/>
         <Item Key="lon_lon_ranch_3" ID="CS_DEST_LON_LON_RANCH_3" Index="81"/>

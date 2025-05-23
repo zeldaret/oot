@@ -11,7 +11,7 @@ typedef struct Arena {
 #if PLATFORM_N64
     /* 0x08 */ u32 size;
     /* 0x0C */ u8 allocFailures;
-#elif PLATFORM_GC
+#else
     /* 0x08 */ OSMesgQueue lockQueue;
     /* 0x20 */ u8 allocFailures; // only used in non-debug builds
     /* 0x21 */ u8 isInit;
@@ -25,7 +25,7 @@ typedef struct ArenaNode {
     /* 0x04 */ u32 size;
     /* 0x08 */ struct ArenaNode* next;
     /* 0x0C */ struct ArenaNode* prev;
-#if PLATFORM_N64 || OOT_DEBUG
+#if PLATFORM_N64 || DEBUG_FEATURES
     /* 0x10 */ const char* filename;
     /* 0x14 */ int line;
     /* 0x18 */ OSId threadId;
@@ -57,15 +57,19 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize);
 void ArenaImpl_GetSizes(Arena* arena, u32* outMaxFree, u32* outFree, u32* outAlloc);
 s32 __osCheckArena(Arena* arena);
 
-#if OOT_DEBUG
+#if PLATFORM_N64 || DEBUG_FEATURES
 void* __osMallocDebug(Arena* arena, u32 size, const char* file, int line);
 void* __osMallocRDebug(Arena* arena, u32 size, const char* file, int line);
 void __osFreeDebug(Arena* arena, void* ptr, const char* file, int line);
 void* __osReallocDebug(Arena* arena, void* ptr, u32 newSize, const char* file, int line);
-void __osDisplayArena(Arena* arena);
+#endif
 
+#if !PLATFORM_N64 && DEBUG_FEATURES
+void __osDisplayArena(Arena* arena);
 extern u32 __osMalloc_FreeBlockTest_Enable;
-#else
+#endif
+
+#if PLATFORM_N64
 extern u32 gTotalAllocFailures;
 #endif
 

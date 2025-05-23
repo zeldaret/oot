@@ -2,6 +2,7 @@
 #include "fault.h"
 #include "terminal.h"
 #include "versions.h"
+#include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
@@ -456,14 +457,11 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
     PRINTF(VT_COL(RED, WHITE) T("z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n",
                                 "z_room.c: Data consistent with camera id does not exist camid=%d\n") VT_RST,
            bgCamIndex);
-#if OOT_VERSION < NTSC_1_1
-    Fault_AddHungupAndCrash("../z_room.c", 724);
-#elif OOT_VERSION < PAL_1_0
-    Fault_AddHungupAndCrash("../z_room.c", 727);
-#elif OOT_VERSION < GC_JP
-    Fault_AddHungupAndCrash("../z_room.c", 721);
-#else
+
+#if !PLATFORM_N64
     LogUtils_HungupThread("../z_room.c", 726);
+#else
+    Fault_AddHungupAndCrash("../z_room.c", LN2(724, 727, 721));
 #endif
 
     return NULL;
@@ -547,14 +545,10 @@ void Room_DrawImage(PlayState* play, Room* room, u32 flags) {
     } else if (roomShape->amountType == ROOM_SHAPE_IMAGE_AMOUNT_MULTI) {
         Room_DrawImageMulti(play, room, flags);
     } else {
-#if OOT_VERSION < NTSC_1_1
-        Fault_AddHungupAndCrash("../z_room.c", 849);
-#elif OOT_VERSION < PAL_1_0
-        Fault_AddHungupAndCrash("../z_room.c", 852);
-#elif OOT_VERSION < GC_JP
-        Fault_AddHungupAndCrash("../z_room.c", 836);
-#else
+#if !PLATFORM_N64
         LogUtils_HungupThread("../z_room.c", 841);
+#else
+        Fault_AddHungupAndCrash("../z_room.c", LN2(849, 852, 836));
 #endif
     }
 }
@@ -617,14 +611,14 @@ u32 Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
         }
     }
 
-    PRINTF(VT_FGCOL(YELLOW));
+    PRINTF_COLOR_YELLOW();
     PRINTF(T("部屋バッファサイズ=%08x(%5.1fK)\n", "Room buffer size=%08x(%5.1fK)\n"), roomBufferSize,
            roomBufferSize / 1024.0f);
     roomCtx->bufPtrs[0] = GAME_STATE_ALLOC(&play->state, roomBufferSize, "../z_room.c", 946);
     PRINTF(T("部屋バッファ開始ポインタ=%08x\n", "Room buffer initial pointer=%08x\n"), roomCtx->bufPtrs[0]);
     roomCtx->bufPtrs[1] = (void*)((uintptr_t)roomCtx->bufPtrs[0] + roomBufferSize);
     PRINTF(T("部屋バッファ終了ポインタ=%08x\n", "Room buffer end pointer=%08x\n"), roomCtx->bufPtrs[1]);
-    PRINTF(VT_RST);
+    PRINTF_RST();
     roomCtx->activeBufPage = 0;
     roomCtx->status = 0;
 

@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef struct EnfHGPainting {
     /* 0x00 */ Vec3f pos;
@@ -65,7 +65,7 @@ static EnfHGPainting sPaintings[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_PHANTOM_GANON_PHASE_2, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 1200, ICHAIN_STOP),
 };
 
 void EnfHG_Init(Actor* thisx, PlayState* play2) {
@@ -128,13 +128,13 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             if ((fabsf(player->actor.world.pos.x - (GND_BOSSROOM_CENTER_X + 0.0f)) < 100.0f) &&
                 (fabsf(player->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 315.0f)) < 100.0f)) {
                 this->cutsceneState = INTRO_START;
-                if (GET_EVENTCHKINF(EVENTCHKINF_72)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_PHANTOM_GANON_BATTLE)) {
                     this->timers[0] = 57;
                 }
             }
             break;
         case INTRO_START:
-            if (GET_EVENTCHKINF(EVENTCHKINF_72)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_PHANTOM_GANON_BATTLE)) {
                 if (this->timers[0] == 55) {
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER,
                                        GND_BOSSROOM_CENTER_X + 0.0f, GND_BOSSROOM_CENTER_Y - 97.0f,
@@ -159,7 +159,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             this->timers[0] = 60;
             this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y - 7.0f;
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
-            SET_EVENTCHKINF(EVENTCHKINF_72);
+            SET_EVENTCHKINF(EVENTCHKINF_BEGAN_PHANTOM_GANON_BATTLE);
             Flags_SetSwitch(play, 0x23);
             FALLTHROUGH;
         case INTRO_FENCE:
@@ -651,7 +651,7 @@ void EnfHG_Retreat(EnfHG* this, PlayState* play) {
         BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
         s16 paintingIdxReal;
         s16 paintingIdxFake;
-        Actor* child;
+        UNUSED_NDEBUG Actor* child;
 
         if (this->actor.params != GND_REAL_BOSS) {
             this->killActor = true;

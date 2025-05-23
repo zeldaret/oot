@@ -78,6 +78,7 @@ void leoSetTimer(void) {
                     LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
                     return;
                 }
+                FALLTHROUGH;
             case 1:
                 // Month value cannot be 0
                 if (temp == 0) {
@@ -85,6 +86,7 @@ void leoSetTimer(void) {
                     LEOcur_command->header.status = LEO_STATUS_CHECK_CONDITION;
                     return;
                 }
+                FALLTHROUGH;
             default:
                 // Verify max value of each time info
                 if (ymdupper[ymd] < temp) {

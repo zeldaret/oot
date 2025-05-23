@@ -4,10 +4,21 @@
  * Description: Young Epona
  */
 
+#include "global.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "regs.h"
+#include "sfx.h"
+#include "z64actor.h"
+#include "z64horse.h"
+#include "z64player.h"
+#include "z64play.h"
 #include "z_en_horse_link_child.h"
 #include "assets/objects/object_horse_link_child/object_horse_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnHorseLinkChild_Init(Actor* thisx, PlayState* play);
 void EnHorseLinkChild_Destroy(Actor* thisx, PlayState* play);
@@ -136,7 +147,7 @@ f32 func_80A695A4(EnHorseLinkChild* this) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 1200, ICHAIN_STOP),
 };
 
 void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
@@ -451,7 +462,7 @@ void func_80A6A5A4(EnHorseLinkChild* this, PlayState* play) {
         yawDiff = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor) - this->actor.world.rot.y;
         // 0.7071 = cos(pi/4)
         if ((Math_CosS(yawDiff) < 0.7071f) && (this->animationIdx == 2)) {
-            func_8006DD9C(&this->actor, &GET_PLAYER(play)->actor.world.pos, 300);
+            Horse_RotateToPoint(&this->actor, &GET_PLAYER(play)->actor.world.pos, 300);
         }
 
         if (SkelAnime_Update(&this->skin.skelAnime)) {
@@ -488,9 +499,9 @@ void func_80A6A7D0(EnHorseLinkChild* this, PlayState* play) {
 
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
         if (!this->unk_1E8) {
-            func_8006DD9C(&this->actor, &player->actor.world.pos, 300);
+            Horse_RotateToPoint(&this->actor, &player->actor.world.pos, 300);
         } else {
-            func_8006DD9C(&this->actor, &this->actor.home.pos, 300);
+            Horse_RotateToPoint(&this->actor, &this->actor.home.pos, 300);
         }
     }
 

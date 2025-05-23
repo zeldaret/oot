@@ -10,7 +10,7 @@
 #include "terminal.h"
 #include "versions.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef void (*EnIkDrawFunc)(struct EnIk*, PlayState*);
 
@@ -202,7 +202,7 @@ void EnIk_InitImpl(Actor* thisx, PlayState* play) {
 
     thisx->update = EnIk_UpdateEnemy;
     thisx->draw = EnIk_DrawEnemy;
-    thisx->flags |= ACTOR_FLAG_10;
+    thisx->flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
 
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, thisx, &sCylinderInit);
@@ -1528,7 +1528,7 @@ void EnIk_StartDefeatCutscene(Actor* thisx, PlayState* play) {
         Cutscene_SetScript(play, gSpiritBossNabooruKnuckleDefeatCs);
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
-        SET_EVENTCHKINF(EVENTCHKINF_3C);
+        SET_EVENTCHKINF(EVENTCHKINF_DEFEATED_NABOORU_KNUCKLE);
         EnIk_SetupCsAction3(this, play);
     }
 }
@@ -1537,7 +1537,8 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
     s32 upperParams = IK_GET_UPPER_PARAMS(&this->actor);
 
-    if (((IK_GET_ARMOR_TYPE(&this->actor) == IK_TYPE_NABOORU) && GET_EVENTCHKINF(EVENTCHKINF_3C)) ||
+    if (((IK_GET_ARMOR_TYPE(&this->actor) == IK_TYPE_NABOORU) &&
+         GET_EVENTCHKINF(EVENTCHKINF_DEFEATED_NABOORU_KNUCKLE)) ||
         (upperParams != 0 && Flags_GetSwitch(play, upperParams >> 8))) {
         Actor_Kill(&this->actor);
     } else {

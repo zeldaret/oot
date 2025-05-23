@@ -57,7 +57,7 @@ void Idle_ThreadEntry(void* arg) {
     PRINTF(T("作製者    : %s\n", "Created by: %s\n"), gBuildCreator);
     PRINTF(T("作成日時  : %s\n", "Created   : %s\n"), gBuildDate);
     PRINTF("MAKEOPTION: %s\n", gBuildMakeOption);
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF(T("ＲＡＭサイズは %d キロバイトです(osMemSize/osGetMemSize)\n",
              "RAM size is %d kilobytes (osMemSize/osGetMemSize)\n"),
            (s32)osMemSize / 1024);
@@ -70,7 +70,7 @@ void Idle_ThreadEntry(void* arg) {
     PRINTF(T("ＹＩＥＬＤバッファのサイズは %d キロバイトです\n", "YIELD buffer size is %d kilobytes\n"), 3);
     PRINTF(T("オーディオヒープのサイズは %d キロバイトです\n", "Audio heap size is %d kilobytes\n"),
            ((intptr_t)&gAudioHeap[ARRAY_COUNT(gAudioHeap)] - (intptr_t)gAudioHeap) / 1024);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     osCreateViManager(OS_PRIORITY_VIMGR);
 
@@ -80,7 +80,7 @@ void Idle_ThreadEntry(void* arg) {
     gViConfigYScale = 1.0f;
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     // Allow both 60 Hz and 50 Hz
     switch (osTvType) {
         case OS_TV_NTSC:
@@ -96,7 +96,9 @@ void Idle_ThreadEntry(void* arg) {
         case OS_TV_PAL:
             gViConfigModeType = OS_VI_FPAL_LAN1;
             gViConfigMode = osViModeFpalLan1;
+#if OOT_VERSION >= PAL_1_0
             gViConfigYScale = 0.833f;
+#endif
             break;
     }
 #elif !OOT_PAL_N64

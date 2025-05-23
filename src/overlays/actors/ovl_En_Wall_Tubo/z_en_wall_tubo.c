@@ -11,7 +11,7 @@
 #include "overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnWallTubo_Init(Actor* thisx, PlayState* play);
 void EnWallTubo_Destroy(Actor* thisx, PlayState* play);
@@ -147,7 +147,7 @@ void EnWallTubo_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0, 0, 255, 255, 4, play->state.gfxCtx);

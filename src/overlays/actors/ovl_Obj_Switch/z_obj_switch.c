@@ -8,7 +8,7 @@
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 #define OBJSWITCH_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 3)
 #define OBJSWITCH_SUBTYPE(thisx) PARAMS_GET_U((thisx)->params, 4, 3)
@@ -176,9 +176,9 @@ static ColliderJntSphInit sCrystalJntSphInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_STOP),
 };
 
 void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 rotY) {
@@ -198,7 +198,7 @@ void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* c
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
@@ -322,9 +322,9 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     if (OBJSWITCH_FROZEN(&this->dyna.actor) && (ObjSwitch_SpawnIce(this, play) == NULL)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF("Error : 氷発生失敗 (%s %d)\n", "../z_obj_switch.c", 732);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         this->dyna.actor.params &= ~OBJSWITCH_FROZEN_FLAG;
     }
 
@@ -410,14 +410,14 @@ void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
                 break;
 
             case OBJSWITCH_SUBTYPE_HOLD:
-                if (func_800435B4(&this->dyna)) {
+                if (DynaPolyActor_IsSwitchPressed(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
                 break;
 
             case OBJSWITCH_SUBTYPE_HOLD_INVERTED:
-                if (func_800435B4(&this->dyna)) {
+                if (DynaPolyActor_IsSwitchPressed(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOff(this, play);
                 }
@@ -467,7 +467,7 @@ void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
 
         case OBJSWITCH_SUBTYPE_HOLD:
         case OBJSWITCH_SUBTYPE_HOLD_INVERTED:
-            if (!func_800435B4(&this->dyna) && !Player_InCsMode(play)) {
+            if (!DynaPolyActor_IsSwitchPressed(&this->dyna) && !Player_InCsMode(play)) {
                 if (this->releaseTimer <= 0) {
                     ObjSwitch_FloorReleaseInit(this);
                     if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_HOLD) {

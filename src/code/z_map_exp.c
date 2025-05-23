@@ -30,12 +30,12 @@ void Map_SetPaletteData(PlayState* play, s16 room) {
         interfaceCtx->mapPaletteIndex = paletteIndex;
     }
 
-    PRINTF(VT_FGCOL(YELLOW));
+    PRINTF_COLOR_YELLOW();
     PRINTF(T("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n",
              "PALETE Set 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n"),
            paletteIndex, room, mapIndex, gSaveContext.save.info.sceneFlags[mapIndex].rooms,
            interfaceCtx->mapPaletteIndex);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     interfaceCtx->mapPalette[paletteIndex * 2] = 2;
     interfaceCtx->mapPalette[paletteIndex * 2 + 1] = 0xBF;
@@ -122,17 +122,17 @@ void Map_InitData(PlayState* play, s16 room) {
                     extendedMapIndex = 0x15;
                 }
             } else if (play->sceneId == SCENE_GERUDO_VALLEY) {
-                if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+                if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
                     extendedMapIndex = 0x16;
                 }
             } else if (play->sceneId == SCENE_GERUDOS_FORTRESS) {
-                if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+                if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
                     extendedMapIndex = 0x17;
                 }
             }
-            PRINTF(VT_FGCOL(BLUE));
+            PRINTF_COLOR_BLUE();
             PRINTF("ＫＫＫ＝%d\n", extendedMapIndex);
-            PRINTF(VT_RST);
+            PRINTF_RST();
             sEntranceIconMapIndex = extendedMapIndex;
             DMA_REQUEST_SYNC(interfaceCtx->mapSegment,
                              (uintptr_t)_map_grand_staticSegmentRomStart +
@@ -158,19 +158,19 @@ void Map_InitData(PlayState* play, s16 room) {
         case SCENE_WATER_TEMPLE_BOSS:
         case SCENE_SPIRIT_TEMPLE_BOSS:
         case SCENE_SHADOW_TEMPLE_BOSS:
-            PRINTF(VT_FGCOL(YELLOW));
+            PRINTF_COLOR_YELLOW();
             PRINTF(T("デクの樹ダンジョンＭＡＰ テクスチャＤＭＡ(%x) scene_id_offset=%d  VREG(30)=%d\n",
                      "Deku Tree Dungeon MAP Texture DMA(%x) scene_id_offset=%d  VREG(30)=%d\n"),
                    room, mapIndex, VREG(30));
-            PRINTF(VT_RST);
+            PRINTF_RST();
 
 #if PLATFORM_N64
             if ((B_80121220 != NULL) && (B_80121220->unk_28 != NULL) && B_80121220->unk_28(play)) {
             } else {
-                DmaMgr_RequestSync(play->interfaceCtx.mapSegment,
-                                   (uintptr_t)_map_i_staticSegmentRomStart +
-                                       ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
-                                   MAP_I_TEX_SIZE);
+                DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
+                                 (uintptr_t)_map_i_staticSegmentRomStart +
+                                     ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
+                                 MAP_I_TEX_SIZE, "../z_map_exp.c", UNK_LINE);
             }
 #else
             DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
@@ -219,9 +219,9 @@ void Map_InitRoomData(PlayState* play, s16 room) {
                 interfaceCtx->mapRoomNum = room;
                 interfaceCtx->unk_25A = mapIndex;
                 Map_SetPaletteData(play, room);
-                PRINTF(VT_FGCOL(YELLOW));
+                PRINTF_COLOR_YELLOW();
                 PRINTF(T("部屋部屋＝%d\n", "Room Room = %d\n"), room);
-                PRINTF(VT_RST);
+                PRINTF_RST();
                 Map_InitData(play, room);
                 break;
         }
@@ -496,7 +496,7 @@ void Minimap_Draw(PlayState* play) {
                         (LINK_AGE_IN_YEARS != YEARS_ADULT)) {
                         if ((gMapData->owEntranceFlag[sEntranceIconMapIndex] == 0xFFFF) ||
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
-                             (gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX] &
+                             (gSaveContext.save.info.infTable[INFTABLE_INDEX_1AX] &
                               gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
 
                             gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b,
@@ -513,7 +513,7 @@ void Minimap_Draw(PlayState* play) {
                     }
 
                     if ((play->sceneId == SCENE_ZORAS_FOUNTAIN) &&
-                        (gSaveContext.save.info.infTable[INFTABLE_1AX_INDEX] & gBitFlags[INFTABLE_1A9_SHIFT])) {
+                        (gSaveContext.save.info.infTable[INFTABLE_INDEX_1AX] & gBitFlags[INFTABLE_1A9_SHIFT])) {
                         gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8,
                                             8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -600,9 +600,9 @@ void Map_Update(PlayState* play) {
                     if ((interfaceCtx->mapRoomNum == gMapData->switchFromRoom[mapIndex][i]) &&
                         (floor == gMapData->switchFromFloor[mapIndex][i])) {
                         interfaceCtx->mapRoomNum = gMapData->switchToRoom[mapIndex][i];
-                        PRINTF(VT_FGCOL(YELLOW));
+                        PRINTF_COLOR_YELLOW();
                         PRINTF(T("階層切替＝%x\n", "Layer switching = %x\n"), interfaceCtx->mapRoomNum);
-                        PRINTF(VT_RST);
+                        PRINTF_RST();
                         Map_InitData(play, interfaceCtx->mapRoomNum);
                         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                         Map_SavePlayerInitialInfo(play);

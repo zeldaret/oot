@@ -3,7 +3,7 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "assets/objects/object_in/object_in.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnIn_Init(Actor* thisx, PlayState* play);
 void EnIn_Destroy(Actor* thisx, PlayState* play);
@@ -71,6 +71,14 @@ typedef enum EnInAnimation {
     /* 8 */ ENIN_ANIM_8,
     /* 9 */ ENIN_ANIM_9
 } EnInAnimation;
+
+typedef enum EnInStartMode {
+    /* 0 */ ENIN_START_MODE_0,
+    /* 1 */ ENIN_START_MODE_1,
+    /* 2 */ ENIN_START_MODE_2,
+    /* 3 */ ENIN_START_MODE_3,
+    /* 4 */ ENIN_START_MODE_4
+} EnInStartMode;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {
     { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -140,8 +148,8 @@ u16 EnIn_GetTextIdAdult(PlayState* play) {
     if (IS_NIGHT) {
         return 0x204E;
     }
-    switch (GET_EVENTINF_HORSES_STATE()) {
-        case EVENTINF_HORSES_STATE_1:
+    switch (GET_EVENTINF_INGO_RACE_STATE()) {
+        case INGO_RACE_STATE_HORSE_RENTAL_PERIOD:
             if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_1B)) {
@@ -153,24 +161,27 @@ u16 EnIn_GetTextIdAdult(PlayState* play) {
             } else {
                 return 0x2037;
             }
-        case EVENTINF_HORSES_STATE_3:
-            if (GET_EVENTINF(EVENTINF_HORSES_06) || GET_EVENTINF(EVENTINF_HORSES_05)) {
+        case INGO_RACE_STATE_PLAYER_LOSE:
+            if (GET_EVENTINF(EVENTINF_INGO_RACE_SECOND_RACE) || GET_EVENTINF(EVENTINF_INGO_RACE_LOST_ONCE)) {
                 return 0x203E;
             } else {
                 return 0x203D;
             }
-        case EVENTINF_HORSES_STATE_4:
+        case INGO_RACE_STATE_FIRST_WIN:
             return 0x203A;
-        case EVENTINF_HORSES_STATE_5:
-        case EVENTINF_HORSES_STATE_6:
+        case INGO_RACE_STATE_TRAPPED_WIN_UNUSED:
+        case INGO_RACE_STATE_TRAPPED_WIN_EPONA:
             return 0x203C;
-        case EVENTINF_HORSES_STATE_7:
+        case INGO_RACE_STATE_REMATCH:
+            // Ask to race again after losing race
             return 0x205B;
-        case EVENTINF_HORSES_STATE_2:
+        case INGO_RACE_STATE_RACING:
         default:
             if (GET_INFTABLE(INFTABLE_9A)) {
+                // Pay to Ride
                 return 0x2031;
             } else {
+                // Adult Ingo first dialog, branches to pay to ride
                 return 0x2030;
             }
     }
@@ -256,9 +267,9 @@ s16 EnIn_UpdateTalkStateOnChoice(PlayState* play, Actor* thisx) {
                 talkState = NPC_TALK_STATE_ACTION;
             } else {
                 Message_ContinueTextbox(play, this->actor.textId = 0x2039);
-                SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
-                CLEAR_EVENTINF(EVENTINF_HORSES_05);
-                CLEAR_EVENTINF(EVENTINF_HORSES_06);
+                SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_OFFER_RENTAL);
+                CLEAR_EVENTINF(EVENTINF_INGO_RACE_LOST_ONCE);
+                CLEAR_EVENTINF(EVENTINF_INGO_RACE_SECOND_RACE);
                 this->actionFunc = func_80A7A4C8;
             }
             break;
@@ -361,40 +372,40 @@ s32 func_80A7975C(EnIn* this, PlayState* play) {
     return 1;
 }
 
-s32 func_80A79830(EnIn* this, PlayState* play) {
+s32 EnIn_GetStartMode(EnIn* this, PlayState* play) {
     if (play->sceneId == SCENE_LON_LON_RANCH && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
         !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-        return 1;
+        return ENIN_START_MODE_1;
     }
     if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
         GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-        return 1;
+        return ENIN_START_MODE_1;
     }
     if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_NIGHT) {
         if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-            return 1;
+            return ENIN_START_MODE_1;
         }
         if ((this->actor.shape.rot.z == 4) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-            return 1;
+            return ENIN_START_MODE_1;
         }
     }
     if (play->sceneId == SCENE_LON_LON_RANCH && LINK_IS_ADULT && IS_DAY) {
         if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-            return 2;
+            return ENIN_START_MODE_2;
         }
         if ((this->actor.shape.rot.z == 7) && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-            return 4;
+            return ENIN_START_MODE_4;
         }
     }
     if (play->sceneId == SCENE_LON_LON_BUILDINGS && LINK_IS_ADULT && IS_NIGHT) {
         if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-            return 3;
+            return ENIN_START_MODE_3;
         }
         if (this->actor.shape.rot.z == 8 && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
-            return 3;
+            return ENIN_START_MODE_3;
         }
     }
-    return 0;
+    return ENIN_START_MODE_0;
 }
 
 void EnIn_UpdateEyes(EnIn* this) {
@@ -434,7 +445,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     if (index == 0) {
-        AREG(6) = 0;
+        R_EXITED_SCENE_RIDING_HORSE = false;
     }
     gSaveContext.timerState = TIMER_STATE_OFF;
 }
@@ -489,7 +500,7 @@ void EnIn_Init(Actor* thisx, PlayState* play) {
     respawnPos = respawn->pos;
     // hardcoded coords for lon lon entrance
     if (D_80A7B998 == 0 && respawnPos.x == 1107.0f && respawnPos.y == 0.0f && respawnPos.z == -3740.0f) {
-        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
+        gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = 0;
         D_80A7B998 = 1;
     }
     this->actionFunc = EnIn_WaitForObject;
@@ -506,7 +517,7 @@ void EnIn_Destroy(Actor* thisx, PlayState* play) {
 // This function does not actually wait since it waits for OBJECT_IN,
 // but the object is already loaded at this point from being set in the ActorProfile data
 void EnIn_WaitForObject(EnIn* this, PlayState* play) {
-    s32 sp3C = 0;
+    s32 staySpawned = false;
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -515,7 +526,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         if (func_80A7975C(this, play)) {
-            SET_EVENTINF_HORSES_0F(0);
+            WRITE_EVENTINF_INGO_RACE_0F(0);
             return;
         }
         Actor_SetScale(&this->actor, 0.01f);
@@ -523,83 +534,83 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = func_80A7A4BC;
 
-        switch (func_80A79830(this, play)) {
-            case 1:
+        switch (EnIn_GetStartMode(this, play)) {
+            case ENIN_START_MODE_1:
                 EnIn_ChangeAnim(this, ENIN_ANIM_9);
                 this->actionFunc = func_80A7A4BC;
                 break;
-            case 3:
+            case ENIN_START_MODE_3:
                 EnIn_ChangeAnim(this, ENIN_ANIM_7);
                 this->actionFunc = func_80A7A4BC;
                 if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                     this->actor.params = 5;
                 }
                 break;
-            case 4:
+            case ENIN_START_MODE_4:
                 EnIn_ChangeAnim(this, ENIN_ANIM_8);
                 this->eyeIndex = 3;
                 this->actionFunc = func_80A7A4BC;
                 break;
-            case 0:
+            case ENIN_START_MODE_0:
                 Actor_Kill(&this->actor);
                 break;
-            default:
-                switch (GET_EVENTINF_HORSES_STATE()) {
-                    case EVENTINF_HORSES_STATE_0:
-                    case EVENTINF_HORSES_STATE_2:
-                    case EVENTINF_HORSES_STATE_3:
-                    case EVENTINF_HORSES_STATE_4:
-                    case EVENTINF_HORSES_STATE_7:
+            default: // ENIN_START_MODE_2
+                switch (GET_EVENTINF_INGO_RACE_STATE()) {
+                    case INGO_RACE_STATE_OFFER_RENTAL:
+                    case INGO_RACE_STATE_RACING:
+                    case INGO_RACE_STATE_PLAYER_LOSE:
+                    case INGO_RACE_STATE_FIRST_WIN:
+                    case INGO_RACE_STATE_REMATCH:
                         if (this->actor.params == 2) {
-                            sp3C = 1;
+                            staySpawned = true;
                         }
                         break;
-                    case EVENTINF_HORSES_STATE_1:
+                    case INGO_RACE_STATE_HORSE_RENTAL_PERIOD:
                         if (this->actor.params == 3) {
-                            sp3C = 1;
+                            staySpawned = true;
                         }
                         break;
-                    case EVENTINF_HORSES_STATE_5:
-                    case EVENTINF_HORSES_STATE_6:
+                    case INGO_RACE_STATE_TRAPPED_WIN_UNUSED:
+                    case INGO_RACE_STATE_TRAPPED_WIN_EPONA:
                         if (this->actor.params == 4) {
-                            sp3C = 1;
+                            staySpawned = true;
                         }
                         break;
                 }
-                if (sp3C != 1) {
+                if (staySpawned != true) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-                switch (GET_EVENTINF_HORSES_STATE()) {
-                    case EVENTINF_HORSES_STATE_0:
-                    case EVENTINF_HORSES_STATE_2:
+                switch (GET_EVENTINF_INGO_RACE_STATE()) {
+                    case INGO_RACE_STATE_OFFER_RENTAL:
+                    case INGO_RACE_STATE_RACING:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A4C8;
-                        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
+                        gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = 0;
                         break;
-                    case EVENTINF_HORSES_STATE_1:
+                    case INGO_RACE_STATE_HORSE_RENTAL_PERIOD:
                         this->actor.attentionRangeType = ATTENTION_RANGE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
                         Interface_SetTimer(60);
                         break;
-                    case EVENTINF_HORSES_STATE_3:
+                    case INGO_RACE_STATE_PLAYER_LOSE:
                         EnIn_ChangeAnim(this, ENIN_ANIM_4);
                         this->actionFunc = func_80A7A770;
                         break;
-                    case EVENTINF_HORSES_STATE_4:
+                    case INGO_RACE_STATE_FIRST_WIN:
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7A940;
                         break;
-                    case EVENTINF_HORSES_STATE_5:
-                    case EVENTINF_HORSES_STATE_6:
+                    case INGO_RACE_STATE_TRAPPED_WIN_UNUSED:
+                    case INGO_RACE_STATE_TRAPPED_WIN_EPONA:
                         this->actor.attentionRangeType = ATTENTION_RANGE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7AA40;
                         break;
-                    case EVENTINF_HORSES_STATE_7:
+                    case INGO_RACE_STATE_REMATCH:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A848;
                         break;
@@ -640,8 +651,8 @@ void func_80A7A4BC(EnIn* this, PlayState* play) {
 void func_80A7A4C8(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         func_80A79BAC(this, play, 1, TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST));
-        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_1);
-        SET_EVENTINF_HORSES_0F(1);
+        SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_HORSE_RENTAL_PERIOD);
+        WRITE_EVENTINF_INGO_RACE_0F(1);
         CLEAR_INFTABLE(INFTABLE_A2);
         Environment_ForcePlaySequence(NA_BGM_HORSE);
         play->msgCtx.stateTimer = 0;
@@ -672,8 +683,8 @@ void func_80A7A568(EnIn* this, PlayState* play) {
                 this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
                 return;
             }
-            SET_EVENTINF_HORSES_HORSETYPE(((EnHorse*)GET_PLAYER(play)->rideActor)->type);
-            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
+            WRITE_EVENTINF_INGO_RACE_HORSETYPE(((EnHorse*)GET_PLAYER(play)->rideActor)->type);
+            SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_RACING);
             phi_a2 = 2;
             transitionType = TRANS_TYPE_FADE_BLACK;
         } else {
@@ -685,13 +696,13 @@ void func_80A7A568(EnIn* this, PlayState* play) {
                     SET_INFTABLE(INFTABLE_AB);
                 }
             }
-            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
+            SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_OFFER_RENTAL);
             phi_a2 = 0;
             transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
         }
         func_80A79BAC(this, play, phi_a2, transitionType);
         play->msgCtx.stateTimer = 0;
-        SET_EVENTINF_HORSES_0F(1);
+        WRITE_EVENTINF_INGO_RACE_0F(1);
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
@@ -705,11 +716,10 @@ void func_80A7A770(EnIn* this, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         EnIn_ChangeAnim(this, ENIN_ANIM_3);
         this->actionFunc = func_80A7A848;
-        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_7);
+        SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_REMATCH);
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_05_MASK;
-        if (!GET_EVENTINF(EVENTINF_HORSES_06)) {
+        SET_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_LOST_ONCE);
+        if (!GET_EVENTINF(EVENTINF_INGO_RACE_SECOND_RACE)) {
             play->msgCtx.stateTimer = 4;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
@@ -720,18 +730,18 @@ void func_80A7A848(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         if ((play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees < 50) ||
             play->msgCtx.choiceIndex == 1) {
-            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
+            SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_OFFER_RENTAL);
             this->actionFunc = func_80A7A4C8;
         } else {
             func_80A79BAC(this, play, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
-            SET_EVENTINF_HORSES_0F(1);
+            SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_RACING);
+            WRITE_EVENTINF_INGO_RACE_0F(1);
             play->msgCtx.stateTimer = 0;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-        CLEAR_EVENTINF(EVENTINF_HORSES_05);
-        CLEAR_EVENTINF(EVENTINF_HORSES_06);
+        CLEAR_EVENTINF(EVENTINF_INGO_RACE_LOST_ONCE);
+        CLEAR_EVENTINF(EVENTINF_INGO_RACE_SECOND_RACE);
     }
 }
 
@@ -749,13 +759,12 @@ void func_80A7A940(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         func_80A79BAC(this, play, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
-        SET_EVENTINF_HORSES_0F(1);
+        SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_RACING);
+        WRITE_EVENTINF_INGO_RACE_0F(1);
         play->msgCtx.stateTimer = 0;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_06_MASK;
+        SET_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_SECOND_RACE);
     }
 }
 
@@ -904,8 +913,8 @@ void func_80A7B024(EnIn* this, PlayState* play) {
     }
 
     func_80A79BAC(this, play, 0, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-    SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
-    SET_EVENTINF_HORSES_0F(1);
+    SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_OFFER_RENTAL);
+    WRITE_EVENTINF_INGO_RACE_0F(1);
     play->msgCtx.stateTimer = 4;
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
@@ -925,7 +934,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     if (this->actionFunc != func_80A7A304) {
         SkelAnime_Update(&this->skelAnime);
         if (this->skelAnime.animation == &object_in_Anim_001BE0 &&
-            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6) {
+            GET_EVENTINF_INGO_RACE_STATE() != INGO_RACE_STATE_TRAPPED_WIN_EPONA) {
             func_80A79690(&this->skelAnime, this, play);
         }
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);

@@ -86,7 +86,7 @@ void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antia
     yScaleHiOddField = modeF ? (loResInterlaced ? (F210(0.75) << 16) : (F210(0.5) << 16)) : 0;
 
     viMode->customViMode.type = type;
-    viMode->customViMode.comRegs.ctrl = VI_CTRL_PIXEL_ADV_3 | VI_CTRL_GAMMA_ON | VI_CTRL_GAMMA_DITHER_ON |
+    viMode->customViMode.comRegs.ctrl = VI_CTRL_PIXEL_ADV(3) | VI_CTRL_GAMMA_ON | VI_CTRL_GAMMA_DITHER_ON |
                                         (!loResDeinterlaced ? VI_CTRL_SERRATE_ON : 0) |
                                         (antialiasOn ? VI_CTRL_DIVOT_ON : 0) |
                                         (fb32Bit ? VI_CTRL_TYPE_32 : VI_CTRL_TYPE_16);
@@ -149,15 +149,15 @@ void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antia
             viMode->customViMode.comRegs.hSync += HSYNC(1, 4);
         }
         if (tvType == OS_TV_MPAL) {
-            viMode->customViMode.comRegs.leap += LEAP((u16)-4, (u16)-2);
+            viMode->customViMode.comRegs.leap += LEAP(-4, -2);
         }
     } else {
-        viMode->customViMode.fldRegs[0].vStart += START((u16)-3, (u16)-2);
+        viMode->customViMode.fldRegs[0].vStart += START(-3, -2);
         if (tvType == OS_TV_MPAL) {
-            viMode->customViMode.fldRegs[0].vBurst += BURST((u8)-2, (u8)-1, 12, -1);
+            viMode->customViMode.fldRegs[0].vBurst += BURST(-2, -1, 12, -1);
         }
         if (tvType == OS_TV_PAL) {
-            viMode->customViMode.fldRegs[1].vBurst += BURST((u8)-2, (u8)-1, 2, 0);
+            viMode->customViMode.fldRegs[1].vBurst += BURST(-2, -1, 2, 0);
         }
     }
 

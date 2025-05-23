@@ -8,7 +8,9 @@
 #include "assets/objects/object_torch2/object_torch2.h"
 #include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum EnTorch2ActionStates {
     /* 0 */ ENTORCH2_WAIT,
@@ -408,7 +410,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                         sStickAngle = thisx->yawTowardsPlayer;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
                             (ABS(sp5A) >= 0x7800) &&
-                            (this->actor.isLockedOn || !(player->stateFlags1 & PLAYER_STATE1_22))) {
+                            (this->actor.isLockedOn || !(player->stateFlags1 & PLAYER_STATE1_SHIELDING))) {
                             EnTorch2_SwingSword(play, input, this);
                         } else {
                             f32 sp50 = 0.0f;
@@ -618,7 +620,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             }
         }
         this->actor.colChkInfo.damage = 0;
-        this->knockbackDamage = PLAYER_KNOCKBACK_NONE;
+        this->knockbackDamage = 0;
     }
 
     // Handles being frozen by a deku nut

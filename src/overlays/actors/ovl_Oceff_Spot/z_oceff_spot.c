@@ -7,7 +7,7 @@
 #include "z_oceff_spot.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void OceffSpot_Init(Actor* thisx, PlayState* play);
 void OceffSpot_Destroy(Actor* thisx, PlayState* play);
@@ -32,7 +32,7 @@ ActorProfile Oceff_Spot_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1500, ICHAIN_STOP),
 };
 
 void OceffSpot_SetupAction(OceffSpot* this, OceffSpotActionFunc actionFunc) {
@@ -81,21 +81,21 @@ void OceffSpot_End(OceffSpot* this, PlayState* play) {
     } else {
         Actor_Kill(&this->actor);
         if (gTimeSpeed != 400 && !play->msgCtx.disableSunsSong &&
-            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
+            GET_EVENTINF_INGO_RACE_STATE() != INGO_RACE_STATE_HORSE_RENTAL_PERIOD) {
             if (play->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
                 play->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
-                PRINTF(VT_FGCOL(YELLOW));
+                PRINTF_COLOR_YELLOW();
                 // "Sun's Song Flag"
                 PRINTF("z_oceff_spot  太陽の歌フラグ\n");
-                PRINTF(VT_RST);
+                PRINTF_RST();
             }
         } else {
             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-            PRINTF(VT_FGCOL(YELLOW));
+            PRINTF_COLOR_YELLOW();
             // "Ocarina End"
             PRINTF("z_oceff_spot  オカリナ終了\n");
-            PRINTF(VT_RST);
+            PRINTF_RST();
         }
     }
 }

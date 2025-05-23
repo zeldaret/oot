@@ -87,9 +87,9 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
         objectCtx->slots[i].id = OBJECT_INVALID;
     }
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF(T("オブジェクト入れ替えバンク情報 %8.3fKB\n", "Object exchange bank data %8.3fKB\n"), spaceSize / 1024.0f);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     objectCtx->spaceStart = objectCtx->slots[0].segment =
         GAME_STATE_ALLOC(&play->state, spaceSize, "../z_scene.c", 219);
@@ -195,9 +195,9 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
         if (cmdCode < ARRAY_COUNT(sSceneCmdHandlers)) {
             sSceneCmdHandlers[cmdCode](play, sceneCmd);
         } else {
-            PRINTF(VT_FGCOL(RED));
+            PRINTF_COLOR_RED();
             PRINTF(T("code の値が異常です\n", "code variable is abnormal\n"));
-            PRINTF(VT_RST);
+            PRINTF_RST();
         }
 
         sceneCmd++;
@@ -261,8 +261,8 @@ BAD_RETURN(s32) Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
 }
 
 BAD_RETURN(s32) Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
-    play->roomCtx.curRoom.behaviorType1 = cmd->roomBehavior.gpFlag1;
-    play->roomCtx.curRoom.behaviorType2 = cmd->roomBehavior.gpFlag2 & 0xFF;
+    play->roomCtx.curRoom.type = cmd->roomBehavior.gpFlag1;
+    play->roomCtx.curRoom.environmentType = cmd->roomBehavior.gpFlag2 & 0xFF;
     play->roomCtx.curRoom.lensMode = (cmd->roomBehavior.gpFlag2 >> 8) & 1;
     play->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }

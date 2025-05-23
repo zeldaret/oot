@@ -40,10 +40,8 @@
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
-#if PLATFORM_GC
-
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-eu-mq-dbg:176 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192" \
-                               "gc-us-mq:192"
+#pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-eu-mq-dbg:160 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160" \
+                               "gc-us-mq:160"
 
 #include "global.h"
 #include "alloca.h"
@@ -1327,9 +1325,7 @@ NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
 
     // Since the above line triggers an exception and transfers execution to the fault handler
     // this function does not return and the rest of the function is unreachable.
-#ifdef __GNUC__
-    __builtin_unreachable();
-#endif
+    UNREACHABLE();
 }
 
 /**
@@ -1342,5 +1338,3 @@ NORETURN void Fault_AddHungupAndCrash(const char* file, int line) {
     sprintf(msg, "HungUp %s:%d", file, line);
     Fault_AddHungupAndCrashImpl(msg, NULL);
 }
-
-#endif

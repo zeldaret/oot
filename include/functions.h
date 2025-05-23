@@ -9,23 +9,24 @@ void Main_ThreadEntry(void* arg);
 void Idle_ThreadEntry(void* arg);
 void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
-void* Yaz0_FirstDMA(void);
-void* Yaz0_NextDMA(u8* curSrcPos);
-void Yaz0_DecompressImpl(u8* src, u8* dst);
+#if !PLATFORM_IQUE
 void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
+#else
+void gzip_decompress(uintptr_t romStart, u8* dst, size_t size);
+#endif
 void Locale_Init(void);
 void Locale_ResetRegion(void);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void isPrintfInit(void);
 #endif
 void rmonPrintf(const char* fmt, ...);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* is_proutSyncPrintf(void* arg, const char* str, size_t count);
 NORETURN void func_80002384(const char* exp, const char* file, int line);
 #endif
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(u8* src, u8* dst);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void LogUtils_LogHexDump(void* ptr, s32 size0);
 void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, int line);
 void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, int line);
@@ -51,7 +52,7 @@ s32 func_800635D0(s32);
 void Regs_Init(void);
 void DebugCamera_ScreenText(u8 x, u8 y, const char* text);
 void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Regs_UpdateEditor(Input* input);
 #endif
 void Debug_DrawText(GraphicsContext* gfxCtx);
@@ -71,13 +72,6 @@ void CutsceneFlags_UnsetAll(PlayState* play);
 void CutsceneFlags_Set(PlayState* play, s16 flag);
 void CutsceneFlags_Unset(PlayState* play, s16 flag);
 s32 CutsceneFlags_Get(PlayState* play, s16 flag);
-s32 func_8006CFC0(s32 sceneId);
-void func_8006D074(PlayState* play);
-void func_8006D0AC(PlayState* play);
-void func_8006D0EC(PlayState* play, Player* player);
-void func_8006D684(PlayState* play, Player* player);
-void func_8006DC68(PlayState* play, Player* player);
-void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
 
 s32 Kanji_OffsetFromShiftJIS(s32 character);
 void Font_LoadCharWide(Font* font, u16 character, u16 codePointIndex);
@@ -231,7 +225,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 void GameState_Destroy(GameState* gameState);
 GameStateFunc GameState_GetInit(GameState* gameState);
 u32 GameState_IsRunning(GameState* gameState);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int line);
 void* GameAlloc_MallocDebug(GameAlloc* this, u32 size, const char* file, int line);
 #endif
@@ -273,7 +267,7 @@ void DebugArena_Check(void);
 void DebugArena_Init(void* start, u32 size);
 void DebugArena_Cleanup(void);
 s32 DebugArena_IsInitialized(void);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* DebugArena_MallocDebug(u32 size, const char* file, int line);
 void* DebugArena_MallocRDebug(u32 size, const char* file, int line);

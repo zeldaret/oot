@@ -2,7 +2,7 @@
 #include "assets/objects/object_spot18_obj/object_spot18_obj.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgSpot18Basket_Init(Actor* thisx, PlayState* play);
 void BgSpot18Basket_Destroy(Actor* thisx, PlayState* play);
@@ -123,9 +123,9 @@ void func_808B7770(BgSpot18Basket* this, PlayState* play, f32 arg2) {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
@@ -155,9 +155,9 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
                        this->dyna.actor.shape.rot.y + 0x1555, this->dyna.actor.shape.rot.z, -1);
 
     if (this->dyna.actor.child == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         Actor_Kill(&this->dyna.actor);
     }
 }

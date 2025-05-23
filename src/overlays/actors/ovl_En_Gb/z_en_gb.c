@@ -176,7 +176,7 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     Actor_SetScale(&this->dyna.actor, 0.01f);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->dyna.actor.speed = 0.0f;
     this->dyna.actor.velocity.y = 0.0f;
     this->dyna.actor.gravity = -1.0f;
@@ -284,7 +284,7 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
         s32 pad;
 
-        switch (func_8002F368(play)) {
+        switch (Actor_GetPlayerExchangeItemId(play)) {
             case EXCH_ITEM_NONE:
                 func_80A2F180(this);
                 this->actionFunc = func_80A2F94C;

@@ -12,7 +12,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum GSwitchMoveState {
     /* 0 */ MOVE_TARGET,
@@ -448,7 +448,7 @@ void EnGSwitch_Update(Actor* thisx, PlayState* play) {
         }
     }
 
-    if (OOT_DEBUG && BREG(0) != 0 && (this->type == ENGSWITCH_SILVER_TRACKER)) {
+    if (DEBUG_FEATURES && BREG(0) != 0 && (this->type == ENGSWITCH_SILVER_TRACKER)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);

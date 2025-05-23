@@ -9,7 +9,9 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_fw/object_fw.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_9)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR)
 
 void EnFd_Init(Actor* thisx, PlayState* play);
 void EnFd_Destroy(Actor* thisx, PlayState* play);
@@ -228,8 +230,8 @@ s32 EnFd_SpawnCore(EnFd* this, PlayState* play) {
         this->actor.child->colChkInfo.health = 8;
     }
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
-        func_8002DE04(play, &this->actor, this->actor.child);
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
+        Actor_SwapHookshotAttachment(play, &this->actor, this->actor.child);
     }
 
     this->coreActive = true;
@@ -461,7 +463,7 @@ void EnFd_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     Actor_SetScale(&this->actor, 0.01f);
     this->firstUpdateFlag = true;
     this->actor.gravity = -1.0f;
@@ -668,15 +670,14 @@ void EnFd_Update(Actor* thisx, PlayState* play) {
         EnFd_SpawnDot(this, play);
     }
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
-        // has been hookshoted
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         if (EnFd_SpawnCore(this, play)) {
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->invincibilityTimer = 30;
             Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_DAMAGE);
             Enemy_StartFinishingBlow(play, &this->actor);
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_13;
+            this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_ATTACHED;
         }
     } else if (this->actionFunc != EnFd_WaitForCore) {
         EnFd_ColliderCheck(this, play);

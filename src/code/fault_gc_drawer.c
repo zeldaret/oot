@@ -9,8 +9,6 @@
 #include "terminal.h"
 #pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
-#if PLATFORM_GC
-
 typedef struct FaultDrawer {
     /* 0x00 */ u16* fb;
     /* 0x04 */ u16 w;
@@ -344,5 +342,3 @@ void Fault_InitDrawer(void) {
     bcopy(&sFaultDrawerDefault, &sFaultDrawer, sizeof(FaultDrawer));
     sFaultDrawer.fb = (u16*)(PHYS_TO_K0(osMemSize) - sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
 }
-
-#endif

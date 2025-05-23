@@ -6,7 +6,7 @@
 
 #include "z_en_si.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_9)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR)
 
 void EnSi_Init(Actor* thisx, PlayState* play);
 void EnSi_Destroy(Actor* thisx, PlayState* play);
@@ -80,7 +80,7 @@ s32 func_80AFB748(EnSi* this, PlayState* play) {
 void func_80AFB768(EnSi* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         this->actionFunc = func_80AFB89C;
     } else {
         Math_SmoothStepToF(&this->actor.scale.x, 0.25f, 0.4f, 1.0f, 0.0f);
@@ -113,7 +113,7 @@ void func_80AFB89C(EnSi* this, PlayState* play) {
     Actor_SetScale(&this->actor, this->actor.scale.x);
     this->actor.shape.rot.y += 0x400;
 
-    if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
+    if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         Item_Give(play, ITEM_SKULL_TOKEN);
         player->actor.freezeTimer = 10;
         Message_StartTextbox(play, 0xB4, NULL);

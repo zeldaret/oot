@@ -15,7 +15,7 @@ typedef unsigned long   size_t;
 
 #endif
 
-#ifdef __GNUC__
+#if __GNUC__ >= 4
 #define offsetof(structure, member) __builtin_offsetof (structure, member)
 #else
 #define offsetof(structure, member) ((size_t)&(((structure*)0)->member))

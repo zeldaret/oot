@@ -8,7 +8,7 @@
 #include "assets/objects/object_geff/object_geff.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void DemoGeff_Init(Actor* thisx, PlayState* play);
 void DemoGeff_Destroy(Actor* thisx, PlayState* play);
@@ -166,7 +166,7 @@ void func_809782A0(DemoGeff* this, PlayState* play) {
 void func_80978308(DemoGeff* this, PlayState* play) {
     func_809781FC(this, play);
     func_809782A0(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80978030(this, play);
 #endif
 }

@@ -11,7 +11,7 @@
 #include "assets/objects/object_im/object_im.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void DemoIm_Init(Actor* thisx, PlayState* play);
 void DemoIm_Destroy(Actor* thisx, PlayState* play);
@@ -58,7 +58,7 @@ static void* sEyeTextures[] = {
     gImpaEyeClosedTex,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static u32 D_8098783C = 0;
 #endif
 
@@ -119,7 +119,7 @@ void func_80984BE0(DemoIm* this) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_80984C68(DemoIm* this) {
     this->action = 7;
     this->drawConfig = 0;
@@ -333,7 +333,7 @@ void func_8098544C(DemoIm* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
 
         this->action = 1;
-        play->csCtx.script = D_8098786C;
+        play->csCtx.script = gShadowMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_SHADOW);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
@@ -500,7 +500,7 @@ void func_80985B34(DemoIm* this, PlayState* play) {
 
 void func_80985C10(DemoIm* this, PlayState* play) {
     func_80985948(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80984C8C(this, play);
 #endif
 }
@@ -510,7 +510,7 @@ void func_80985C40(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_809859E0(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80984C8C(this, play);
 #endif
 }
@@ -520,7 +520,7 @@ void func_80985C94(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80985B34(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80984C8C(this, play);
 #endif
 }
@@ -841,7 +841,7 @@ s32 func_809869F8(DemoIm* this, PlayState* play) {
     f32 playerPosX = player->actor.world.pos.x;
     f32 thisPosX = this->actor.world.pos.x;
 
-    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_6)) {
+    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
         return true;
     } else {
         return false;
@@ -935,7 +935,7 @@ void func_80986CFC(DemoIm* this, PlayState* play) {
 }
 
 void func_80986D40(DemoIm* this, PlayState* play) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gSaveContext.sceneLayer == 6) {
         this->action = 19;
         this->drawConfig = 1;

@@ -10,7 +10,7 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
     EffectSs* effectSs;
     EffectSsOverlay* overlay;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
         overlay = &gEffectSsOverlayTable[i];
         PRINTF("effect index %3d:size=%6dbyte romsize=%6dbyte\n", i,
@@ -197,7 +197,7 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
             overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOC_R(overlaySize, "../z_effect_soft_sprite.c", 585);
 
             if (overlayEntry->loadedRamAddr == NULL) {
-                PRINTF(VT_FGCOL(RED));
+                PRINTF_COLOR_RED();
                 PRINTF(T("EffectSoftSprite2_makeEffect():zelda_malloc_r()により,%dbyteのメモリ確保ができま\n"
                          "せん。そのため、プログラムのロードも\n"
                          "出来ません。ただいま危険な状態です！\n"
@@ -207,18 +207,18 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
                          "cannot be loaded. What a dangerous situation!\n"
                          "Naturally, effects will not be produced either.\n"),
                        overlaySize);
-                PRINTF(VT_RST);
+                PRINTF_RST();
                 return;
             }
 
             Overlay_Load(overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
                          overlayEntry->vramEnd, overlayEntry->loadedRamAddr);
 
-            PRINTF(VT_FGCOL(GREEN));
+            PRINTF_COLOR_GREEN();
             PRINTF("EFFECT SS OVL:SegRom %08x %08x, Seg %08x %08x, RamStart %08x, type: %d\n",
                    overlayEntry->file.vromStart, overlayEntry->file.vromEnd, overlayEntry->vramStart,
                    overlayEntry->vramEnd, overlayEntry->loadedRamAddr, type);
-            PRINTF(VT_RST);
+            PRINTF_RST();
         }
 
         profile = (void*)(uintptr_t)((overlayEntry->profile != NULL)
@@ -246,14 +246,14 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     sEffectSsInfo.table[index].priority = priority;
 
     if (profile->init(play, index, &sEffectSsInfo.table[index], initParams) == 0) {
-        PRINTF(VT_FGCOL(GREEN));
+        PRINTF_COLOR_GREEN();
         PRINTF(T("EffectSoftSprite2_makeEffect():"
                  "何らかの理由でコンストラクト失敗。コンストラクターがエラーを返しました。"
                  "エフェクトの追加を中止します。\n",
                  "EffectSoftSprite2_makeEffect(): "
                  "Construction failed for some reason. The constructor returned an error. "
                  "Ceasing effect addition.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         EffectSs_Reset(&sEffectSsInfo.table[index]);
     }
 }
@@ -313,7 +313,7 @@ void EffectSs_DrawAll(PlayState* play) {
             if ((sEffectSsInfo.table[i].pos.x > 32000.0f) || (sEffectSsInfo.table[i].pos.x < -32000.0f) ||
                 (sEffectSsInfo.table[i].pos.y > 32000.0f) || (sEffectSsInfo.table[i].pos.y < -32000.0f) ||
                 (sEffectSsInfo.table[i].pos.z > 32000.0f) || (sEffectSsInfo.table[i].pos.z < -32000.0f)) {
-                PRINTF(VT_FGCOL(RED));
+                PRINTF_COLOR_RED();
                 PRINTF(T("EffectSoftSprite2_disp():位置が領域外のため "
                          "削除します。エフェクトラベルNo.%d:プログラムの方で対応をお願いします。ここです ==> "
                          "pos(%f, %f, %f)で、ラベルはz_effect_soft_sprite_dlftbls.declにあります。\n",
@@ -322,10 +322,10 @@ void EffectSs_DrawAll(PlayState* play) {
                          "pos(%f, %f, %f) and the label is in z_effect_soft_sprite_dlftbls.decl.\n"),
                        sEffectSsInfo.table[i].type, sEffectSsInfo.table[i].pos.x, sEffectSsInfo.table[i].pos.y,
                        sEffectSsInfo.table[i].pos.z);
-                PRINTF(VT_FGCOL(GREEN));
+                PRINTF_COLOR_GREEN();
                 PRINTF(T("もし、posを別のことに使っている場合相談に応じます。\n",
                          "If you are using pos for something else, consult me.\n"));
-                PRINTF(VT_RST);
+                PRINTF_RST();
 
                 EffectSs_Delete(&sEffectSsInfo.table[i]);
             } else {

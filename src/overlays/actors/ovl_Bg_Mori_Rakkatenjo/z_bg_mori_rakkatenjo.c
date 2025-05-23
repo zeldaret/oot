@@ -8,7 +8,7 @@
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 #include "quake.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play);
 void BgMoriRakkatenjo_Destroy(Actor* thisx, PlayState* play);
@@ -53,7 +53,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
 
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     // "Forest Temple obj. Falling Ceiling"
     PRINTF("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||

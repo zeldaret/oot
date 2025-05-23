@@ -10,7 +10,7 @@
 #include "assets/scenes/overworld/spot16/spot16_scene.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnOwl_Init(Actor* thisx, PlayState* play);
 void EnOwl_Destroy(Actor* thisx, PlayState* play);
@@ -99,9 +99,9 @@ static ColliderCylinderInit sOwlCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 25, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2400, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2400, ICHAIN_STOP),
 };
 
 void EnOwl_Init(Actor* thisx, PlayState* play) {
@@ -146,7 +146,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
     switch (owlType) {
         case OWL_DEFAULT:
             this->actionFunc = EnOwl_WaitDefault;
-            this->actor.uncullZoneForward = 4000.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
             this->unk_40A = 0;
             break;
         case OWL_OUTSIDE_KOKIRI:
@@ -220,11 +220,11 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             break;
         default:
             // Outside kokiri forest
-            PRINTF(VT_FGCOL(CYAN));
+            PRINTF_COLOR_CYAN();
             PRINTF("no = %d  \n", owlType);
             PRINTF(T("未完成のフクロウ未完成のフクロウ未完成のフクロウ\n",
                      "Unfinished owl unfinished owl unfinished owl\n"));
-            PRINTF(VT_RST);
+            PRINTF_RST();
             this->actionFlags |= 2;
             this->unk_3EE = 0x20;
             this->actionFunc = EnOwl_WaitOutsideKokiri;
@@ -833,7 +833,7 @@ void func_80ACBAB8(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACBC0C(EnOwl* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_5;
+    this->actor.flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
 
     if (this->actor.xzDistToPlayer > 6000.0f && !(this->actionFlags & 0x80)) {
         Actor_Kill(&this->actor);
@@ -927,14 +927,14 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 50.0f) {
         if (!Play_InCsMode(play)) {
             owlType = PARAMS_GET_S(this->actor.params, 6, 6);
-            PRINTF(VT_FGCOL(CYAN));
+            PRINTF_COLOR_CYAN();
             PRINTF(T("%dのフクロウ\n", "%d owl\n"), owlType);
-            PRINTF(VT_RST);
+            PRINTF_RST();
             switch (owlType) {
                 case 7:
-                    PRINTF(VT_FGCOL(CYAN));
+                    PRINTF_COLOR_CYAN();
                     PRINTF(T("SPOT 06 の デモがはしった\n", "Demo of SPOT 06 has been completed\n"));
-                    PRINTF(VT_RST);
+                    PRINTF_RST();
                     play->csCtx.script = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
                     this->actor.draw = NULL;
                     break;

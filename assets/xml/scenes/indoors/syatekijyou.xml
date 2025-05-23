@@ -1,6 +1,9 @@
 <Root>
     <File Name="syatekijyou_scene" Segment="2">
         <Scene Name="syatekijyou_scene" Offset="0x0"/>
+        <Cutscene Name="gShootingGalleryCameraRoll1UnusedCs" Offset="0x1450"/>
+        <Cutscene Name="gShootingGalleryCameraRoll2UnusedCs" Offset="0x1640"/>
+        <Cutscene Name="gShootingGalleryCameraRoll3UnusedCs" Offset="0x1830"/>
     </File>
     <File Name="syatekijyou_room_0" Segment="3">
         <Room Name="syatekijyou_room_0" Offset="0x0"/>

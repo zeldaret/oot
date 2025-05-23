@@ -2,6 +2,7 @@
     <File Name="jyasinboss_scene" Segment="2">
         <Cutscene Name="gSpiritBossNabooruKnuckleIntroCs" Offset="0x2BB0"/>
         <Cutscene Name="gSpiritBossNabooruKnuckleDefeatCs" Offset="0x3F80"/>
+        <Cutscene Name="gSpiritBossTitleCs" Offset="0x5850"/>
         <Scene Name="jyasinboss_scene" Offset="0x0"/>
     </File>
     <File Name="jyasinboss_room_0" Segment="3">

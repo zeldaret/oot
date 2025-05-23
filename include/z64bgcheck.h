@@ -469,7 +469,7 @@ u16 WaterBox_GetBgCamSetting(CollisionContext* colCtx, WaterBox* waterBox);
 u32 WaterBox_GetLightIndex(CollisionContext* colCtx, WaterBox* waterBox);
 s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* point, Vec3f* closestPoint);
 s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec3f* pointB, Vec3f* closestPoint);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void BgCheck_DrawDynaCollision(struct PlayState*, CollisionContext*);
 void BgCheck_DrawStaticCollision(struct PlayState*, CollisionContext*);
 #endif
@@ -481,11 +481,11 @@ void DynaPolyActor_UnsetAllInteractFlags(struct DynaPolyActor* dynaActor);
 void DynaPolyActor_SetActorOnTop(struct DynaPolyActor* dynaActor);
 void DynaPoly_SetPlayerOnTop(CollisionContext* colCtx, s32 floorBgId);
 void DynaPoly_SetPlayerAbove(CollisionContext* colCtx, s32 floorBgId);
-void func_80043538(struct DynaPolyActor* dynaActor);
+void DynaPolyActor_SetSwitchPressed(struct DynaPolyActor* dynaActor);
 s32 DynaPolyActor_IsActorOnTop(struct DynaPolyActor* dynaActor);
 s32 DynaPolyActor_IsPlayerOnTop(struct DynaPolyActor* dynaActor);
 s32 DynaPolyActor_IsPlayerAbove(struct DynaPolyActor* dynaActor);
-s32 func_800435B4(struct DynaPolyActor* dynaActor);
+s32 DynaPolyActor_IsSwitchPressed(struct DynaPolyActor* dynaActor);
 s32 func_800435D8(struct PlayState* play, struct DynaPolyActor* dynaActor, s16 arg2, s16 arg3, s16 arg4);
 
 #endif

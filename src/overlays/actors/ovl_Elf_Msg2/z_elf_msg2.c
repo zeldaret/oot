@@ -7,12 +7,12 @@
 #include "z_elf_msg2.h"
 #include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ElfMsg2_Init(Actor* thisx, PlayState* play);
 void ElfMsg2_Destroy(Actor* thisx, PlayState* play);
 void ElfMsg2_Update(Actor* thisx, PlayState* play);
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 void ElfMsg2_Draw(Actor* thisx, PlayState* play);
 #endif
 
@@ -29,7 +29,7 @@ ActorProfile Elf_Msg2_Profile = {
     /**/ ElfMsg2_Init,
     /**/ ElfMsg2_Destroy,
     /**/ ElfMsg2_Update,
-#if OOT_DEBUG
+#if DEBUG_ASSETS
     /**/ ElfMsg2_Draw,
 #else
     /**/ NULL,
@@ -38,7 +38,7 @@ ActorProfile Elf_Msg2_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_STOP),
 };
 
 void ElfMsg2_SetupAction(ElfMsg2* this, ElfMsg2ActionFunc actionFunc) {
@@ -153,7 +153,7 @@ void ElfMsg2_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 #include "assets/overlays/ovl_Elf_Msg2/ovl_Elf_Msg2.c"
 
 void ElfMsg2_Draw(Actor* thisx, PlayState* play) {

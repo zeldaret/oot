@@ -1,15 +1,9 @@
 #include "ultra64/asm.h"
+#include "ultra64/regdef.h"
 
-#if OOT_DEBUG
-.set noreorder
-#endif
-
-.section .text
-
-.balign 16
+.text
 
 LEAF(absf)
-    abs.s       $f0, $f12
-    jr          $ra
-     nop
+    abs.s       fv0, fa0
+    jr          ra
 END(absf)

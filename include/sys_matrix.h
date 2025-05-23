@@ -43,7 +43,7 @@ void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, 
 
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 Mtx* Matrix_ToMtx(Mtx* dest, const char* file, int line);
 Mtx* Matrix_Finalize(struct GraphicsContext* gfxCtx, const char* file, int line);

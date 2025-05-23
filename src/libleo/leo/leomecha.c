@@ -52,6 +52,7 @@ u8 leoChk_asic_ready(u32 asic_cmd) {
             if (asic_cmd == 0x80000) {
                 return 0;
             }
+            FALLTHROUGH;
         case 43:
             if (!(asic_cur_status & 0x800000)) {
                 if (asic_cmd == 0x90000) {
@@ -65,6 +66,7 @@ u8 leoChk_asic_ready(u32 asic_cmd) {
                     return 37;
                 }
             }
+            FALLTHROUGH;
         default:
             break;
 
@@ -72,7 +74,7 @@ u8 leoChk_asic_ready(u32 asic_cmd) {
             if (asic_cmd & 1) {
                 break;
             }
-
+            FALLTHROUGH;
         case 21:
             return 0;
     }
@@ -265,6 +267,7 @@ u32 leoChk_err_retry(u32 sense) {
         switch (sense) {
             case LEO_SENSE_POWERONRESET_DEVICERESET_OCCURED:
                 unit_atten |= 2;
+                FALLTHROUGH;
             case LEO_SENSE_DIAGNOSTIC_FAILURE:
             case LEO_SENSE_COMMAND_PHASE_ERROR:
             case LEO_SENSE_WAITING_NMI:
@@ -278,8 +281,10 @@ u32 leoChk_err_retry(u32 sense) {
         switch (sense) {
             case LEO_SENSE_POWERONRESET_DEVICERESET_OCCURED:
                 unit_atten |= 2;
+                FALLTHROUGH;
             case LEO_SENSE_MEDIUM_MAY_HAVE_CHANGED:
                 unit_atten |= 1;
+                FALLTHROUGH;
             case LEO_SENSE_DIAGNOSTIC_FAILURE:
             case LEO_SENSE_COMMAND_PHASE_ERROR:
             case LEO_SENSE_WAITING_NMI:

@@ -5,10 +5,11 @@
  */
 
 #include "z_en_ge2.h"
+#include "z64horse.h"
 #include "terminal.h"
 #include "assets/objects/object_gla/object_gla.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 #define GE2_STATE_ANIMCOMPLETE (1 << 1)
 #define GE2_STATE_KO (1 << 2)
@@ -38,7 +39,7 @@ void EnGe2_Destroy(Actor* thisx, PlayState* play);
 void EnGe2_Update(Actor* thisx, PlayState* play);
 void EnGe2_Draw(Actor* thisx, PlayState* play);
 
-s32 EnGe2_CheckCarpentersFreed(void);
+s32 EnGe2_CheckAllCarpentersRescued(void);
 void EnGe2_CaptureClose(EnGe2* this, PlayState* play);
 void EnGe2_CaptureCharge(EnGe2* this, PlayState* play);
 void EnGe2_CaptureTurn(EnGe2* this, PlayState* play);
@@ -124,9 +125,9 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
 
     if (play->sceneId == SCENE_GERUDO_VALLEY) {
-        this->actor.uncullZoneForward = 1000.0f;
+        this->actor.cullingVolumeDistance = 1000.0f;
     } else {
-        this->actor.uncullZoneForward = 1200.0f;
+        this->actor.cullingVolumeDistance = 1200.0f;
     }
 
     this->yDetectRange = (this->actor.world.rot.z + 1) * 40.0f;
@@ -136,14 +137,14 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     switch (PARAMS_GET_S(thisx->params, 0, 8)) {
         case GE2_TYPE_PATROLLING:
             EnGe2_ChangeAction(this, GE2_ACTION_WALK);
-            if (EnGe2_CheckCarpentersFreed()) {
+            if (EnGe2_CheckAllCarpentersRescued()) {
                 this->actor.update = EnGe2_UpdateFriendly;
                 this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
             break;
         case GE2_TYPE_STATIONARY:
             EnGe2_ChangeAction(this, GE2_ACTION_STAND);
-            if (EnGe2_CheckCarpentersFreed()) {
+            if (EnGe2_CheckAllCarpentersRescued()) {
                 this->actor.update = EnGe2_UpdateFriendly;
                 this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
@@ -223,13 +224,11 @@ s32 Ge2_DetectPlayerInUpdate(PlayState* play, EnGe2* this, Vec3f* pos, s16 yRot,
     return 1;
 }
 
-s32 EnGe2_CheckCarpentersFreed(void) {
-    if (CHECK_FLAG_ALL(gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
-                           (EVENTCHKINF_CARPENTERS_FREE_MASK_ALL | 0xF0),
-                       EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)) {
-        return 1;
+s32 EnGe2_CheckAllCarpentersRescued(void) {
+    if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED2()) {
+        return true;
     }
-    return 0;
+    return false;
 }
 
 // Actions
@@ -238,7 +237,7 @@ void EnGe2_CaptureClose(EnGe2* this, PlayState* play) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
@@ -264,7 +263,7 @@ void EnGe2_CaptureCharge(EnGe2* this, PlayState* play) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
@@ -593,7 +592,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     }
     EnGe2_MoveAndBlink(this, play);
 
-    if (EnGe2_CheckCarpentersFreed() && !(this->stateFlags & GE2_STATE_KO)) {
+    if (EnGe2_CheckAllCarpentersRescued() && !(this->stateFlags & GE2_STATE_KO)) {
         this->actor.update = EnGe2_UpdateFriendly;
         this->actor.attentionRangeType = ATTENTION_RANGE_6;
     }
@@ -619,7 +618,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 
-    if (EnGe2_CheckCarpentersFreed()) {
+    if (EnGe2_CheckAllCarpentersRescued()) {
         this->actor.update = EnGe2_UpdateFriendly;
         this->actor.attentionRangeType = ATTENTION_RANGE_6;
         this->actor.colorFilterTimer = 0;

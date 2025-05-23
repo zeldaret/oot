@@ -1,10 +1,18 @@
+/*
+ * File: z_boss_goma.c
+ * Overlay: ovl_Boss_Goma
+ * Description: Gohma
+ */
+
 #include "z_boss_goma.h"
 #include "assets/objects/object_goma/object_goma.h"
 #include "overlays/actors/ovl_En_Goma/z_en_goma.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 // IRIS_FOLLOW: gohma looks towards the player (iris rotation)
 // BONUS_IFRAMES: gain invincibility frames when the player does something (throwing things?), or
@@ -682,7 +690,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             // entrance of the boss room
             if (fabsf(player->actor.world.pos.x - 150.0f) < 60.0f &&
                 fabsf(player->actor.world.pos.z - 350.0f) < 60.0f) {
-                if (GET_EVENTCHKINF(EVENTCHKINF_70)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_GOHMA_BATTLE)) {
                     BossGoma_SetupEncounterState4(this, play);
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
                                        397.68002f, 0, -0x705C, 0, DOORSHUTTER_PARAMS(SHUTTER_GOHMA_BLOCK, 0));
@@ -920,13 +928,13 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             if (Animation_OnFrame(&this->skelanime, 40.0f)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_CRY1);
 
-                if (!GET_EVENTCHKINF(EVENTCHKINF_70)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_BEGAN_GOHMA_BATTLE)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gGohmaTitleCardTex),
                                            160, 180, 128, 40);
                 }
 
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
-                SET_EVENTCHKINF(EVENTCHKINF_70);
+                SET_EVENTCHKINF(EVENTCHKINF_BEGAN_GOHMA_BATTLE);
             }
 
             if (Animation_OnFrame(&this->skelanime, this->currentAnimFrameCount)) {
@@ -1296,7 +1304,7 @@ void BossGoma_FloorPrepareAttack(BossGoma* this, PlayState* play) {
 void BossGoma_FloorAttack(BossGoma* this, PlayState* play) {
     s16 i;
 
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     SkelAnime_Update(&this->skelanime);
 
     switch (this->actionState) {

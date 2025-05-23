@@ -146,7 +146,7 @@ void EnOkuta_Init(Actor* thisx, PlayState* play) {
     } else {
         ActorShape_Init(&thisx->shape, 1100.0f, ActorShadow_DrawCircle, 18.0f);
         thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-        thisx->flags |= ACTOR_FLAG_4;
+        thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, thisx, &sProjectileColliderInit);
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
@@ -578,7 +578,7 @@ void EnOkuta_Update(Actor* thisx, PlayState* play2) {
     Vec3f prevPos;
     s32 canRestorePrevPos;
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_TALKING | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         if (this->actor.params == 0) {
             EnOkuta_ColliderCheck(this, play);
             if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
@@ -624,7 +624,7 @@ void EnOkuta_Update(Actor* thisx, PlayState* play2) {
             this->collider.dim.radius = sOctorockColliderInit.dim.radius * this->actor.scale.x * 100.0f;
         }
         if (this->actor.params == 0x10) {
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnOkuta_WaitToAppear) {
