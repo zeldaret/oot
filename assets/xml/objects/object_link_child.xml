@@ -1,7 +1,8 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_link_child" Segment="6">
-        <Skeleton Name="gLinkChildSkel" Type="Flex" LimbType="LOD" Offset="0x2CF6C"/>
+        <Skeleton Name="gLinkChildSkel" Type="Flex" LimbType="LOD" LimbNone="PLAYER_LIMB_NONE" LimbMax="PLAYER_LIMB_MAX" EnumName="PlayerLimb" Offset="0x2CF6C"/>
+        <LimbTable Name="gLinkChildLimbs" LimbType="LOD" Count="21" Offset="0x2CF18"/>
 
         <!--Far Limb DLists-->
         <Array Name="gLinkChildLeftHandFarVtx" Count="39" Offset="0xF220">
@@ -152,27 +153,27 @@
         <DList Name="gLinkChildLeftForearmNearDL" Offset="0x21FE8"/>
 
         <!--Limbs-->
-        <Limb Name="gLinkChildRootLimb" LimbType="LOD" Offset="0x2CDC8"/>
-        <Limb Name="gLinkChildWaistLimb" LimbType="LOD" Offset="0x2CDD8"/>
-        <Limb Name="gLinkChildLowerControlLimb" LimbType="LOD" Offset="0x2CDE8"/>
-        <Limb Name="gLinkChildRightThighLimb" LimbType="LOD" Offset="0x2CDF8"/>
-        <Limb Name="gLinkChildRightShinLimb" LimbType="LOD" Offset="0x2CE08"/>
-        <Limb Name="gLinkChildRightFootLimb" LimbType="LOD" Offset="0x2CE18"/>
-        <Limb Name="gLinkChildLeftThighLimb" LimbType="LOD" Offset="0x2CE28"/>
-        <Limb Name="gLinkChildLeftShinLimb" LimbType="LOD" Offset="0x2CE38"/>
-        <Limb Name="gLinkChildLeftFootLimb" LimbType="LOD" Offset="0x2CE48"/>
-        <Limb Name="gLinkChildUpperControlLimb" LimbType="LOD" Offset="0x2CE58"/>
-        <Limb Name="gLinkChildHeadLimb" LimbType="LOD" Offset="0x2CE68"/>
-        <Limb Name="gLinkChildHatLimb" LimbType="LOD" Offset="0x2CE78"/>
-        <Limb Name="gLinkChildCollarLimb" LimbType="LOD" Offset="0x2CE88"/>
-        <Limb Name="gLinkChildLeftshoulderLimb" LimbType="LOD" Offset="0x2CE98"/>
-        <Limb Name="gLinkChildLeftForearmLimb" LimbType="LOD" Offset="0x2CEA8"/>
-        <Limb Name="gLinkChildLeftHandLimb" LimbType="LOD" Offset="0x2CEB8"/>
-        <Limb Name="gLinkChildRightshoulderLimb" LimbType="LOD" Offset="0x2CEC8"/>
-        <Limb Name="gLinkChildRightForearmLimb" LimbType="LOD" Offset="0x2CED8"/>
-        <Limb Name="gLinkChildRightHandLimb" LimbType="LOD" Offset="0x2CEE8"/>
-        <Limb Name="gLinkChildSwordAndSheathLimb" LimbType="LOD" Offset="0x2CEF8"/>
-        <Limb Name="gLinkChildTorsoLimb" LimbType="LOD" Offset="0x2CF08"/>
+        <Limb Name="gLinkChildRootLimb" LimbType="LOD" EnumName="PLAYER_LIMB_ROOT" Offset="0x2CDC8"/>
+        <Limb Name="gLinkChildWaistLimb" LimbType="LOD" EnumName="PLAYER_LIMB_WAIST" Offset="0x2CDD8"/>
+        <Limb Name="gLinkChildLowerControlLimb" LimbType="LOD" EnumName="PLAYER_LIMB_LOWER" Offset="0x2CDE8"/>
+        <Limb Name="gLinkChildRightThighLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_THIGH" Offset="0x2CDF8"/>
+        <Limb Name="gLinkChildRightShinLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_SHIN" Offset="0x2CE08"/>
+        <Limb Name="gLinkChildRightFootLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_FOOT" Offset="0x2CE18"/>
+        <Limb Name="gLinkChildLeftThighLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_THIGH" Offset="0x2CE28"/>
+        <Limb Name="gLinkChildLeftShinLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_SHIN" Offset="0x2CE38"/>
+        <Limb Name="gLinkChildLeftFootLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_FOOT" Offset="0x2CE48"/>
+        <Limb Name="gLinkChildUpperControlLimb" LimbType="LOD" EnumName="PLAYER_LIMB_UPPER" Offset="0x2CE58"/>
+        <Limb Name="gLinkChildHeadLimb" LimbType="LOD" EnumName="PLAYER_LIMB_HEAD" Offset="0x2CE68"/>
+        <Limb Name="gLinkChildHatLimb" LimbType="LOD" EnumName="PLAYER_LIMB_HAT" Offset="0x2CE78"/>
+        <Limb Name="gLinkChildCollarLimb" LimbType="LOD" EnumName="PLAYER_LIMB_COLLAR" Offset="0x2CE88"/>
+        <Limb Name="gLinkChildLeftshoulderLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_SHOULDER" Offset="0x2CE98"/>
+        <Limb Name="gLinkChildLeftForearmLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_FOREARM" Offset="0x2CEA8"/>
+        <Limb Name="gLinkChildLeftHandLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_HAND" Offset="0x2CEB8"/>
+        <Limb Name="gLinkChildRightshoulderLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_SHOULDER" Offset="0x2CEC8"/>
+        <Limb Name="gLinkChildRightForearmLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_FOREARM" Offset="0x2CED8"/>
+        <Limb Name="gLinkChildRightHandLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_HAND" Offset="0x2CEE8"/>
+        <Limb Name="gLinkChildSwordAndSheathLimb" LimbType="LOD" EnumName="PLAYER_LIMB_SHEATH" Offset="0x2CEF8"/>
+        <Limb Name="gLinkChildTorsoLimb" LimbType="LOD" EnumName="PLAYER_LIMB_TORSO" Offset="0x2CF08"/>
 
         <!--General DLists-->
         <Array Name="gLinkChildLinkDekuStickVtx" Count="36" Offset="0x6A80">
@@ -429,6 +430,7 @@
         <Texture Name="gLinkChildUnusedTLUT" OutName="unused_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5700"/>
         <Texture Name="gLinkChildHandTLUT" OutName="hand_tlut" Format="rgba16" Width="17" Height="4" Offset="0x9E88"/>
         <Texture Name="gLinkChildSwordsTLUT" OutName="swords_tlut" Format="rgba16" Width="16" Height="16" Offset="0x9F10"/> <!--For both the kokiri sword sheath and master sword-->
+        <Blob Name="gLinkChild_A110_Blob" Size="8" Offset="0xA110" />
         <Texture Name="gLinkChildSwordTLUT" OutName="sword_tlut" Format="rgba16" Width="27" Height="4" Offset="0xA118"/>
 
         <!--Eyes-->
