@@ -827,7 +827,7 @@ _RESET_SECTION
 .macro _wr_s16 value
     /* Ensure the provided arg value fits in 16 bits (signed) */
     _check_arg_bitwidth_s \value, 16
-    _wr16 \value
+    _wr16 \value & 0xFFFF
 .endm
 
 .macro _wr_u16 value
