@@ -741,6 +741,7 @@ _RESET_SECTION
     /* Write the sequence name into a special .note.name section */
     .pushsection .note.name, "", @note
         .asciz "\name"
+        .balign 4
     .popsection
 
     /* Reset section and write start symbol. */
@@ -1847,7 +1848,7 @@ $reladdr\@:
 .endm
 
 /**
- * ptraddi <value:u16>
+ * ptraddi <value:s16>
  *
  *  Like ptradd but for immediates instead of labels
  *
@@ -1855,7 +1856,7 @@ $reladdr\@:
  */
 .macro ptraddi value
     _wr_cmd_id  ptradd, ,ASEQ_OP_CHAN_PTRADD,,,,,,, 0, 0
-    _wr_u16     \value
+    _wr_s16     \value
 .endm
 
 /**
