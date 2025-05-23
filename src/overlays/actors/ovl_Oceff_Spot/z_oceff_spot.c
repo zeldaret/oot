@@ -13,6 +13,7 @@
 #include "regs.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64light.h"
 #include "z64ocarina.h"
@@ -99,15 +100,13 @@ void OceffSpot_End(OceffSpot* this, PlayState* play) {
                 play->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
                 PRINTF_COLOR_YELLOW();
-                // "Sun's Song Flag"
-                PRINTF("z_oceff_spot  太陽の歌フラグ\n");
+                PRINTF(T("z_oceff_spot  太陽の歌フラグ\n", "z_oceff_spot  Sun's Song Flag\n"));
                 PRINTF_RST();
             }
         } else {
             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             PRINTF_COLOR_YELLOW();
-            // "Ocarina End"
-            PRINTF("z_oceff_spot  オカリナ終了\n");
+            PRINTF(T("z_oceff_spot  オカリナ終了\n", "z_oceff_spot  Ocarina finished\n"));
             PRINTF_RST();
         }
     }

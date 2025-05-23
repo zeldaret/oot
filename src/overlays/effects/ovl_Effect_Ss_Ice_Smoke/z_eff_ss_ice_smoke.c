@@ -11,6 +11,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64play.h"
@@ -55,7 +56,8 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
         return 1;
     }
 
-    PRINTF("Effect_SS_Ice_Smoke_ct():バンク Object_Bank_Fzが有りません。\n");
+    PRINTF(T("Effect_SS_Ice_Smoke_ct():バンク Object_Bank_Fzが有りません。\n",
+             "Effect_SS_Ice_Smoke_ct(): Bank Object_Bank_Fz does not exist.\n"));
 
     return 0;
 }
