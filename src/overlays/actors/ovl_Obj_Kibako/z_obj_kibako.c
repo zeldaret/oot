@@ -11,6 +11,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64effect.h"
@@ -108,8 +109,8 @@ void ObjKibako_Init(Actor* thisx, PlayState* play) {
     ObjKibako_InitCollider(&this->actor, play);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sCCInfoInit);
     ObjKibako_SetupIdle(this);
-    // "wooden box"
-    PRINTF("(dungeon keep 木箱)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF(T("(dungeon keep 木箱)(arg_data 0x%04x)\n", "(dungeon keep wooden box)(arg_data 0x%04x)\n"),
+           this->actor.params);
 }
 
 void ObjKibako_Destroy(Actor* thisx, PlayState* play2) {

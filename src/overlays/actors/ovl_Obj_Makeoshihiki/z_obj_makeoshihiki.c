@@ -12,6 +12,7 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 
@@ -78,9 +79,9 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play) {
 
     if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_OSHIHIKI, spawnPos->x, spawnPos->y, spawnPos->z, 0,
                            block->rotY, 0, ((block->color << 6) & 0xC0) | (block->type & 0xF) | 0xFF00) == NULL) {
-        // "Push-pull block failure"
         PRINTF_COLOR_ERROR();
-        PRINTF("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "../z_obj_makeoshihiki.c", 194);
+        PRINTF(T("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "Error : Push/pull block failure (%s %d)\n"),
+               "../z_obj_makeoshihiki.c", 194);
         PRINTF_RST();
         Actor_Kill(thisx);
         return;

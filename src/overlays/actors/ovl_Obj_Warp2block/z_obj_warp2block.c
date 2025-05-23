@@ -15,6 +15,7 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64ocarina.h"
 #include "z64play.h"
@@ -234,7 +235,8 @@ void ObjWarp2block_Init(Actor* thisx, PlayState* play2) {
         ObjWarp2block_SetInactive(this);
     }
 
-    PRINTF("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n",
+    PRINTF(T("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n",
+             "Time Block (Warp 2) (<arg> %04xH <type> color:%d range:%d)\n"),
            PARAMS_GET_U(this->dyna.actor.params, 0, 16), this->dyna.actor.home.rot.z & 7,
            PARAMS_GET_U(this->dyna.actor.params, 11, 3));
 }
@@ -279,7 +281,9 @@ void func_80BA24F8(ObjWarp2block* this, PlayState* play) {
     this->unk_174++;
     if (this->unk_174 > 60) {
         PRINTF_COLOR_ERROR();
-        PRINTF("Error : 時のブロック(ワープ２)が対でセットされていません(%s %d)\n", "../z_obj_warp2block.c", 505);
+        PRINTF(T("Error : 時のブロック(ワープ２)が対でセットされていません(%s %d)\n",
+                 "Error : Time Blocks (Warp 2) are not set in pairs (%s %d)\n"),
+               "../z_obj_warp2block.c", 505);
         PRINTF_RST();
         Actor_Kill(&this->dyna.actor);
     }

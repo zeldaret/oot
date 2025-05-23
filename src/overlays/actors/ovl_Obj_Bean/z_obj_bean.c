@@ -492,16 +492,17 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
             path = PARAMS_GET_U(this->dyna.actor.params, 8, 5);
             if (path == 0x1F) {
                 PRINTF_COLOR_ERROR();
-                // "No path data?"
-                PRINTF("パスデータが無い？(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 909, this->dyna.actor.params);
+                PRINTF(T("パスデータが無い？(%s %d)(arg_data %xH)\n", "No path data? (%s %d)(arg_data %xH)\n"),
+                       "../z_obj_bean.c", 909, this->dyna.actor.params);
                 PRINTF_RST();
                 Actor_Kill(&this->dyna.actor);
                 return;
             }
             if (play->pathList[path].count < 3) {
                 PRINTF_COLOR_ERROR();
-                // "Incorrect number of path data"
-                PRINTF("パスデータ数が不正(%s %d)(arg_data %xH)\n", "../z_obj_bean.c", 921, this->dyna.actor.params);
+                PRINTF(T("パスデータ数が不正(%s %d)(arg_data %xH)\n",
+                         "Path data count is invalid (%s %d)(arg_data %xH)\n"),
+                       "../z_obj_bean.c", 921, this->dyna.actor.params);
                 PRINTF_RST();
                 Actor_Kill(&this->dyna.actor);
                 return;
@@ -530,8 +531,8 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
         ObjBean_SetupWaitForBean(this);
     }
     this->dyna.actor.world.rot.z = this->dyna.actor.home.rot.z = this->dyna.actor.shape.rot.z = 0;
-    // "Magic bean tree lift"
-    PRINTF("(魔法の豆の木リフト)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(魔法の豆の木リフト)(arg_data 0x%04x)\n", "(Magic beanstalk lift)(arg_data 0x%04x)\n"),
+           this->dyna.actor.params);
 }
 
 void ObjBean_Destroy(Actor* thisx, PlayState* play) {
@@ -908,8 +909,7 @@ void ObjBean_Update(Actor* thisx, PlayState* play) {
 
         if (ObjBean_CheckForHorseTrample(this, play)) {
             PRINTF_COLOR_CYAN();
-            // "Horse and bean tree lift collision"
-            PRINTF("馬と豆の木リフト衝突！！！\n");
+            PRINTF(T("馬と豆の木リフト衝突！！！\n", "Horse and beanstalk lift collide!!!\n"));
             PRINTF_RST();
             ObjBean_Break(this, play);
             DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);

@@ -218,7 +218,6 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, PlayState* play) {
             this->targetY = 233.0f;
             BgMoriElevator_StopMovement(this);
         } else {
-            // "Error:Forest Temple obj elevator Room setting is dangerous(%s %d)"
             PRINTF(T("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n",
                      "Error : Forest Temple obj elevator room setting is dangerous(%s %d)\n"),
                    "../z_bg_mori_elevator.c", 479);
