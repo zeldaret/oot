@@ -2,7 +2,7 @@
 #define Z_BG_SPOT03_TAKI_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum BgSpot03TakiState {
     WATERFALL_CLOSED,

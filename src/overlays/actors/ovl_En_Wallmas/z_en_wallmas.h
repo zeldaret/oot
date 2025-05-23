@@ -2,7 +2,7 @@
 #define Z_EN_WALLMAS_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum WallmasType {
     /* 0x00 */ WMT_TIMER,

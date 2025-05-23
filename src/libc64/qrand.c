@@ -42,7 +42,7 @@
  * @note Original name: qrand.c
  */
 #include "libc64/qrand.h"
-#include "z64math.h"
+#include "z_math.h"
 
 #define RAND_MULTIPLIER 1664525
 #define RAND_INCREMENT 1013904223

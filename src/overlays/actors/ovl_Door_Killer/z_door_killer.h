@@ -2,7 +2,7 @@
 #define Z_DOOR_KILLER_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 /*
  * Associated switch flag: (params >> 8) & 0x3F

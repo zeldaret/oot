@@ -14,8 +14,8 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64light.h"
-#include "z64play.h"
+#include "light.h"
+#include "play_state.h"
 
 #include "assets/objects/object_po_field/object_po_field.h"
 

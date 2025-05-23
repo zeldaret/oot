@@ -7,8 +7,8 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 

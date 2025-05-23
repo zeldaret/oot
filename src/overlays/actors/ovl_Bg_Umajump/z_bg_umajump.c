@@ -8,8 +8,8 @@
 
 #include "ichain.h"
 #include "regs.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_umajump/object_umajump.h"
 

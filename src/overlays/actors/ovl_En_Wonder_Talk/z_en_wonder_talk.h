@@ -2,7 +2,7 @@
 #define Z_EN_WONDER_TALK_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnWonderTalk;
 

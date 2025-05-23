@@ -2,7 +2,7 @@
 #define Z_EN_HY_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #define ENHY_GET_TYPE(thisx) PARAMS_GET_S((thisx)->params, 0, 7)
 #define ENHY_GET_PATH_INDEX(thisx) PARAMS_GET_S((thisx)->params, 7, 4)

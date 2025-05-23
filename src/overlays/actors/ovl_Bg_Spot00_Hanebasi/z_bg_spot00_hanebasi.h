@@ -2,8 +2,8 @@
 #define Z_BG_SPOT00_HANEBASI_H
 
 #include "ultra64.h"
-#include "z64actor.h"
-#include "z64light.h"
+#include "actor.h"
+#include "light.h"
 
 struct BgSpot00Hanebasi;
 

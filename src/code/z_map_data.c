@@ -1,5 +1,5 @@
 #include "map.h"
-#include "z64save.h"
+#include "save.h"
 
 static s16 sFloorTexIndexOffset[10][8] = {
     { 0, 0, 0, 0, 2, 4, 6, 8 }, { 0, 0, 0, 0, 0, 0, 0, 2 },

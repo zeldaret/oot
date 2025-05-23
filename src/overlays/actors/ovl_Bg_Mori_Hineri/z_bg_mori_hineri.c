@@ -14,9 +14,9 @@
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64curve.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "curve.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_box/object_box.h"

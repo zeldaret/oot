@@ -2,7 +2,7 @@
 #define Z_EN_ISHI_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 // The switch flag value for this actor is constructed in a unique way.
 // There are two separate param values which get OR'd together to create one final switch flag index.

@@ -1,7 +1,7 @@
 #ifndef SYS_MATRIX_H
 #define SYS_MATRIX_H
 
-#include "z64math.h"
+#include "z_math.h"
 
 struct GraphicsContext;
 struct GameState;

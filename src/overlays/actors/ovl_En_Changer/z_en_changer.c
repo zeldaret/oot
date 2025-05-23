@@ -13,9 +13,9 @@
 #include "rand.h"
 #include "regs.h"
 #include "terminal.h"
-#include "z64debug_display.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "debug_display.h"
+#include "play_state.h"
+#include "save.h"
 
 #define FLAGS 0
 

@@ -10,8 +10,8 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sys_matrix.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_blkobj/object_blkobj.h"
 

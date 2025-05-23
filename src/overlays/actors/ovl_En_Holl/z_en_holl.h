@@ -2,7 +2,7 @@
 #define Z_EN_HOLL_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #define ENHOLL_GET_TYPE(thisx)          PARAMS_GET_U((thisx)->params, 6, 3)
 #define ENHOLL_GET_SWITCH_FLAG(thisx)   PARAMS_GET_U((thisx)->params, 0, 6)

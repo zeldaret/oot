@@ -1,4 +1,4 @@
-#include "z64audio.h"
+#include "audio.h"
 
 AudioContext gAudioCtx;
 AudioCustomUpdateFunction gAudioCustomUpdateFunction;

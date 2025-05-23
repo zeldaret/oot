@@ -10,9 +10,9 @@
 #include "segment_symbols.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64map_mark.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "map_mark.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 

@@ -2,7 +2,7 @@
 #define Z_BG_MIZU_MOVEBG_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum BgMizuMovebgType {
     /* 0 */ MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTER_PILLAR,

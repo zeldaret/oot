@@ -75,7 +75,7 @@ class StandardLimbResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64animation.h",)
+        return ("animation.h",)
 
 
 class LODLimbResource(CDataResource):
@@ -111,7 +111,7 @@ class LODLimbResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64animation.h",)
+        return ("animation.h",)
 
 
 class LimbsArrayResourceABC(CDataArrayResource):
@@ -299,7 +299,7 @@ class SkeletonResourceABC(SkeletonResourceBaseABC):
         return ("array_count.h",)
 
     def get_h_includes(self):
-        return ("z64animation.h",)
+        return ("animation.h",)
 
 
 class SkeletonNormalResource(SkeletonResourceABC):
@@ -345,7 +345,7 @@ class SkeletonFlexResourceABC(SkeletonResourceBaseABC):
         return ("array_count.h",)
 
     def get_h_includes(self):
-        return ("z64animation.h",)
+        return ("animation.h",)
 
 
 class SkeletonFlexResource(SkeletonFlexResourceABC):

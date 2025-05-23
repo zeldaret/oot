@@ -2,7 +2,7 @@
 #define Z_EN_MD_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnMd;
 

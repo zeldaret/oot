@@ -8,7 +8,7 @@
 #include "regs.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64play.h"
+#include "play_state.h"
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);

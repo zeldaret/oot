@@ -12,11 +12,11 @@
 #include "sfx.h"
 #include "terminal.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64debug_display.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
 
 #define FLAGS 0
 

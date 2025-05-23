@@ -2,7 +2,7 @@
 #define Z_OBJ_WARP2BLOCK_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct ObjWarp2block;
 

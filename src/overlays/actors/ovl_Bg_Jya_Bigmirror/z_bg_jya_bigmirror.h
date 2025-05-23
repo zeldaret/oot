@@ -2,7 +2,7 @@
 #define Z_BG_JYA_BIGMIRROR_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #define BIGMIR_PUZZLE_COBRA1_SOLVED (1 << 0)
 #define BIGMIR_PUZZLE_COBRA2_SOLVED (1 << 1)

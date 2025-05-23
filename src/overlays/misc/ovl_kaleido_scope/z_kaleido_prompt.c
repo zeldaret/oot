@@ -3,7 +3,7 @@
 #include "libu64/pad.h"
 #include "regs.h"
 #include "sfx.h"
-#include "z64play.h"
+#include "play_state.h"
 
 static s16 sKaleidoPromptCursorAlphaVals[] = { 100, 255 };
 

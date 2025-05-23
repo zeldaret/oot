@@ -2,8 +2,8 @@
 #define Z_EN_HORSE_NORMAL_H
 
 #include "ultra64.h"
-#include "z64actor.h"
-#include "z64skin.h"
+#include "actor.h"
+#include "skin.h"
 
 struct EnHorseNormal;
 

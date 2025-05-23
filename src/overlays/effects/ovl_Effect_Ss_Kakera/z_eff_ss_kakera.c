@@ -14,9 +14,9 @@
 #include "printf.h"
 #include "sys_matrix.h"
 #include "versions.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #define rReg0 regs[0]
 #define rGravity regs[1]

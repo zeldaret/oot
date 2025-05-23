@@ -76,10 +76,10 @@ class ActorEntryListResource(CDataArrayNamedLengthResource):
         return f"ActorEntry {self.symbol_name}[{self.length_name}]"
 
     def get_c_includes(self):
-        return ("z64actor.h",)
+        return ("actor.h",)
 
     def get_h_includes(self):
-        return ("z64scene.h",)
+        return ("scene.h",)
 
 
 class ObjectListResource(CDataArrayNamedLengthResource):
@@ -91,7 +91,7 @@ class ObjectListResource(CDataArrayNamedLengthResource):
         return f"s16 {self.symbol_name}[{self.length_name}]"
 
     def get_c_includes(self):
-        return ("z64object.h",)
+        return ("object.h",)
 
     def get_h_includes(self):
         return ("ultra64.h",)
@@ -256,7 +256,7 @@ class SpawnListResource(CDataArrayResource):
         return f"Spawn {self.symbol_name}[]"
 
     def get_h_includes(self):
-        return ("z64scene.h",)
+        return ("scene.h",)
 
 
 class ExitListResource(CDataArrayResource):
@@ -316,7 +316,7 @@ class EnvLightSettingsListResource(CDataArrayNamedLengthResource):
         return f"EnvLightSettings {self.symbol_name}[{self.length_name}]"
 
     def get_h_includes(self):
-        return ("z64environment.h",)
+        return ("environment.h",)
 
 
 class TransitionActorEntryListResource(CDataArrayNamedLengthResource):
@@ -392,10 +392,10 @@ class TransitionActorEntryListResource(CDataArrayNamedLengthResource):
         return f"TransitionActorEntry {self.symbol_name}[{self.length_name}]"
 
     def get_c_includes(self):
-        return ("z64actor.h",)
+        return ("actor.h",)
 
     def get_h_includes(self):
-        return ("z64scene.h",)
+        return ("scene.h",)
 
 
 class PathListResource(CDataArrayResource):
@@ -454,4 +454,4 @@ class PathListResource(CDataArrayResource):
         return f"Path {self.symbol_name}[]"
 
     def get_h_includes(self):
-        return ("z64path.h",)
+        return ("path.h",)
