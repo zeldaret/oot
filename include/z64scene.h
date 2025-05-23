@@ -257,29 +257,19 @@ typedef union SceneCmd {
 typedef BAD_RETURN(s32) (*SceneCmdHandlerFunc)(struct PlayState*, SceneCmd*);
 
 #define DEFINE_SCENE(_0, _1, enum, _3, _4, _5) enum,
+#define DEFINE_SCENE_ENUM(enum) enum,
+#define DEFINE_SCENE_TABLE_END() \
+    SCENE_TABLE_MAX, \
+    SCENE_TABLE__ = SCENE_TABLE_MAX - 1,
 
 typedef enum SceneID {
     #include "tables/scene_table.h"
-    /* 0x6E */ SCENE_ID_MAX
+    SCENE_ID_MAX
 } SceneID;
 
 #undef DEFINE_SCENE
-
-// Fake enum values for scenes that are still referenced in the entrance table
-#if !DEBUG_ASSETS
-// Debug-only scenes
-#define SCENE_TEST01        0x65
-#define SCENE_BESITU        0x66
-#define SCENE_DEPTH_TEST    0x67
-#define SCENE_SYOTES        0x68
-#define SCENE_SYOTES2       0x69
-#define SCENE_SUTARU        0x6A
-#define SCENE_HAIRAL_NIWA2  0x6B
-#define SCENE_SASATEST      0x6C
-#define SCENE_TESTROOM      0x6D
-#endif
-// Deleted scene
-#define SCENE_UNUSED_6E     0x6E
+#undef DEFINE_SCENE_ENUM
+#undef DEFINE_SCENE_TABLE_END
 
 // Macros for `EntranceInfo.field`
 #define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
@@ -514,6 +504,6 @@ void Scene_SetTransitionForNextEntrance(struct PlayState* play);
 void Scene_Draw(struct PlayState* play);
 
 extern EntranceInfo gEntranceTable[ENTR_MAX];
-extern SceneTableEntry gSceneTable[SCENE_ID_MAX];
+extern SceneTableEntry gSceneTable[SCENE_TABLE_MAX];
 
 #endif
