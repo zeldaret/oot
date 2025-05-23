@@ -2694,7 +2694,7 @@ static s16 sItemVtxQuadsWithAmmo[] = {
 
 static s16 sEquipColumnsX[] = { -114, 12, 44, 76 };
 
-static u8 sEquipQuadsFirstByEquipType_[EQUIP_TYPE_MAX] = {
+static u8 sEquipQuadsFirstByEquipType[EQUIP_TYPE_MAX] = {
     EQUIP_QUAD_SWORD_KOKIRI, // EQUIP_TYPE_SWORD
     EQUIP_QUAD_SHIELD_DEKU,  // EQUIP_TYPE_SHIELD
     EQUIP_QUAD_TUNIC_KOKIRI, // EQUIP_TYPE_TUNIC
@@ -3167,7 +3167,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
 
     for (j = 0; j < EQUIP_TYPE_MAX; k += 4, j++) {
         if (CUR_EQUIP_VALUE(j) != 0) {
-            i = (CUR_EQUIP_VALUE(j) + sEquipQuadsFirstByEquipType_[j] - 1) * 4;
+            i = (CUR_EQUIP_VALUE(j) + sEquipQuadsFirstByEquipType[j] - 1) * 4;
 
             pauseCtx->equipVtx[k + 0].v.ob[0] = pauseCtx->equipVtx[k + 2].v.ob[0] =
                 pauseCtx->equipVtx[i].v.ob[0] + EQUIP_GRID_SELECTED_QUAD_MARGIN;
