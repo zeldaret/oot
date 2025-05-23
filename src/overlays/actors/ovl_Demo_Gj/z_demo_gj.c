@@ -239,15 +239,17 @@ s32 DemoGj_FindGanon(DemoGj* this, PlayState* play) {
             if (actor->id == ACTOR_BOSS_GANON2) {
                 this->ganon = (BossGanon2*)actor;
 
-                // "Demo_Gj_Search_Boss_Ganon %d: Discover Ganon !!!!"
-                PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params);
+                PRINTF(T("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n",
+                         "Demo_Gj_Search_Boss_Ganon %d: Ganon is discovered!!!!\n"),
+                       this->dyna.actor.params);
                 return true;
             }
             actor = actor->next;
         }
 
-        // "Demo_Gj_Search_Boss_Ganon %d: I couldn't find Ganon"
-        PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
+        PRINTF(T("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n",
+                 "Demo_Gj_Search_Boss_Ganon %d: Unable to find Ganon\n"),
+               this->dyna.actor.params);
         return false;
     }
     //! @bug Missing return value when `this->ganon` is already set. No caller uses the return value
@@ -404,8 +406,8 @@ void DemoGj_SetupRotation(DemoGj* this, PlayState* play) {
             break;
 
         default:
-            // "Demo_Gj_common_Reflect : This arg_data is not supported = %d"
-            PRINTF(VT_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" VT_RST,
+            PRINTF(VT_FGCOL(RED) T("Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n",
+                                   "Demo_Gj_common_Reflect : This arg_data is not supported = %d\n") VT_RST,
                    this->dyna.actor.params);
             return;
     }
@@ -558,8 +560,8 @@ void DemoGj_SetupMovement(DemoGj* this, PlayState* play) {
                 break;
 
             default:
-                // "Demo_Gj_Setup_Move_common : This arg_data is not supported = %d"
-                PRINTF(VT_FGCOL(RED) "Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n" VT_RST,
+                PRINTF(VT_FGCOL(RED) T("Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n",
+                                       "Demo_Gj_Setup_Move_common : This arg_data is not supported = %d\n") VT_RST,
                        actor->params);
                 break;
         }
@@ -1435,8 +1437,8 @@ void DemoGj_Init(Actor* thisx, PlayState* play) {
             break;
 
         default:
-            // "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!"
-            PRINTF(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(RED) T("Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n",
+                                   "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
             Actor_Kill(&this->dyna.actor);
     }
 }

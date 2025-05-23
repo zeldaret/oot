@@ -122,8 +122,8 @@ void DemoExt_HandleCues(DemoExt* this, PlayState* play) {
                     DemoExt_SetupDispellVortex(this);
                     break;
                 default:
-                    // "Demo_Ext_Check_DemoMode: there is no such action!"
-                    PRINTF("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ext_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
