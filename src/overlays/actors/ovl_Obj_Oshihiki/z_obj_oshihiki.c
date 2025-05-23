@@ -321,7 +321,7 @@ void ObjOshihiki_Init(Actor* thisx, PlayState* play2) {
     ObjOshihiki_SetColor(this, play);
     ObjOshihiki_ResetFloors(this);
     ObjOshihiki_SetupOnActor(this, play);
-    PRINTF(T("(dungeon keep 押し引きブロック)(arg_data 0x%04x)\n", "(dungeon keep push-pull block)(arg_data 0x%04x)\n"),
+    PRINTF(T("(dungeon keep 押し引きブロック)(arg_data 0x%04x)\n", "(dungeon keep push/pull block)(arg_data 0x%04x)\n"),
            this->dyna.actor.params);
 }
 
@@ -389,7 +389,7 @@ s32 ObjOshihiki_CheckFloor(ObjOshihiki* this, PlayState* play) {
 s32 ObjOshihiki_CheckGround(ObjOshihiki* this, PlayState* play) {
     if (this->dyna.actor.world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
         PRINTF(T("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n",
-                 "Warning : Push-pull block fell too much (%s %d)(arg_data 0x%04x)\n"),
+                 "Warning : Push/pull block fell too much (%s %d)(arg_data 0x%04x)\n"),
                "../z_obj_oshihiki.c", 809, this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
         return 0;
