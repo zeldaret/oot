@@ -50,6 +50,8 @@ typedef enum PauseMenuPage {
 
 #define PAUSE_EQUIP_PLAYER_WIDTH 64
 #define PAUSE_EQUIP_PLAYER_HEIGHT 112
+#define PAUSE_EQUIP_PLAYER_FRAG_HEIGHT (TMEM_SIZE / (PAUSE_EQUIP_PLAYER_WIDTH * G_IM_SIZ_16b_BYTES))
+#define PAUSE_EQUIP_PLAYER_FRAG_NUM (((PAUSE_EQUIP_PLAYER_HEIGHT - 1) / PAUSE_EQUIP_PLAYER_FRAG_HEIGHT) + 1)
 
 #define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
@@ -92,7 +94,7 @@ typedef enum PauseMainState {
     /* 4 */ PAUSE_MAIN_STATE_SONG_PROMPT_INIT, // Start the prompt for the player to play the song.
     /* 5 */ PAUSE_MAIN_STATE_SONG_PROMPT, // Waiting for the player to play the song.
     /* 6 */ PAUSE_MAIN_STATE_SONG_PROMPT_DONE, // The song prompt is done, the player either played the song successfully or made a mistake.
-    /* 7 */ PAUSE_MAIN_STATE_7,
+    /* 7 */ PAUSE_MAIN_STATE_EQUIP_CHANGED,
     /* 8 */ PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG, // Like PAUSE_MAIN_STATE_IDLE, but the quest page is active and the cursor is positioned on a song.
     /* 9 */ PAUSE_MAIN_STATE_SONG_PLAYBACK_START // Start playing the song back to the player.
 } PauseMainState;
