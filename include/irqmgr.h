@@ -46,4 +46,6 @@ void IrqMgr_RemoveClient(IrqMgr* irqMgr, IrqMgrClient* client);
 extern vu32 gIrqMgrResetStatus;
 extern volatile OSTime gIrqMgrRetraceTime;
 
+extern IrqMgr gIrqMgr;
+
 #endif

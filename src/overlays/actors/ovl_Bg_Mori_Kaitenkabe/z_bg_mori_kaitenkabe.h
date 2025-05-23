@@ -2,11 +2,11 @@
 #define Z_BG_MORI_KAITENKABE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgMoriKaitenkabe;
 
-typedef void (*BgMoriKaitenkabeActionFunc)(struct BgMoriKaitenkabe*, PlayState*);
+typedef void (*BgMoriKaitenkabeActionFunc)(struct BgMoriKaitenkabe*, struct PlayState*);
 
 typedef struct BgMoriKaitenkabe {
     /* 0x0000 */ DynaPolyActor dyna;

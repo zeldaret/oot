@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 void osStopThread(OSThread* thread) {
     register u32 prevInt = __osDisableInt();

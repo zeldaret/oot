@@ -2,11 +2,11 @@
 #define Z_BG_TOKI_HIKARI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgTokiHikari;
 
-typedef void (*BgTokiHikariActionFunc)(struct BgTokiHikari*, PlayState*);
+typedef void (*BgTokiHikariActionFunc)(struct BgTokiHikari*, struct PlayState*);
 
 typedef struct BgTokiHikari {
     /* 0x0000 */ Actor actor;

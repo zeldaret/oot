@@ -5,6 +5,15 @@
  */
 
 #include "z_bg_jya_lift.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
@@ -59,8 +68,7 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    // "Goddess lift CT"
-    PRINTF("女神リフト CT\n");
+    PRINTF(T("女神リフト CT\n", "Goddess lift CT\n"));
     BgJyaLift_InitDynapoly(this, play, &gLiftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
@@ -78,8 +86,7 @@ void BgJyaLift_Destroy(Actor* thisx, PlayState* play) {
 
     if (this->isSpawned) {
 
-        // "Goddess Lift DT"
-        PRINTF("女神リフト DT\n");
+        PRINTF(T("女神リフト DT\n", "Goddess lift DT\n"));
         sIsSpawned = false;
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     }

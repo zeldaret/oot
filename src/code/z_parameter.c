@@ -1,7 +1,30 @@
-#include "global.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "controller.h"
+#include "flag_set.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "language_array.h"
+#include "main.h"
+#include "map.h"
+#include "printf.h"
+#include "regs.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
+#include "z64audio.h"
+#include "z64lifemeter.h"
 #include "z64horse.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
@@ -2140,7 +2163,7 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
                           DO_ACTION_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
         osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
     } else {
-        gSegments[7] = VIRTUAL_TO_PHYSICAL(interfaceCtx->doActionSegment);
+        gSegments[7] = OS_K0_TO_PHYSICAL(interfaceCtx->doActionSegment);
         func_80086D5C(SEGMENTED_TO_VIRTUAL(sDoActionTextures[loadOffset]), DO_ACTION_TEX_SIZE / 4);
     }
 }
@@ -3429,7 +3452,7 @@ void Interface_Draw(PlayState* play) {
             gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->iconItemSegment);
             Gfx_SetupDL_42Overlay(play->state.gfxCtx);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
-            gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(OVERLAY_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             // PAUSE_CURSOR_QUAD_4
             pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] = pauseCtx->equipAnimX / 10;

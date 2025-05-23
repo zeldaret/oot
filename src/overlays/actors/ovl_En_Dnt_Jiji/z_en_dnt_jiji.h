@@ -2,11 +2,11 @@
 #define Z_EN_DNT_JIJI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDntJiji;
 
-typedef void (*EnDntJijiActionFunc)(struct EnDntJiji*, PlayState*);
+typedef void (*EnDntJijiActionFunc)(struct EnDntJiji*, struct PlayState*);
 
 typedef struct EnDntJiji {
     /* 0x0000 */ Actor actor;

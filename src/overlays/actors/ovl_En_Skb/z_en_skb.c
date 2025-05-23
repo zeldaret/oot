@@ -6,6 +6,21 @@
 
 #include "z_en_skb.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_skb/object_skb.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
@@ -168,7 +183,7 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     Actor_SetScale(&this->actor, ((this->actor.params * 0.1f) + 1.0f) * 0.01f);
 
     this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius =

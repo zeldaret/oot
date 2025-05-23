@@ -1,5 +1,4 @@
 #include "ultra64.h"
-#include "global.h"
 
 /*
  * s32 osContSetCh(u8 ch)

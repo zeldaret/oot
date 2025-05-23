@@ -1,7 +1,10 @@
 #ifndef REGS_H
 #define REGS_H
 
+#include "ultra64.h"
 #include "versions.h"
+
+struct PlayState;
 
 #define REG_GROUPS 29 // number of REG groups, i.e. REG, SREG, OREG, etc.
 #define REG_PAGES 6
@@ -418,6 +421,8 @@ typedef struct RegEditor {
     /* 0x10 */ s32  inputRepeatTimer;
     /* 0x14 */ s16  data[REG_GROUPS * REGS_PER_GROUP]; // Accessed through *REG macros, see regs.h
 } RegEditor; // size = 0x15D4
+
+void Regs_InitData(struct PlayState* play);
 
 extern RegEditor* gRegEditor;
 

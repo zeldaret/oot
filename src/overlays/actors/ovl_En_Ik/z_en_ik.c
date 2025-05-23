@@ -5,10 +5,31 @@
  */
 
 #include "z_en_ik.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sequence.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+#include "z64skin_matrix.h"
+
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/objects/object_ik/object_ik.h"
-#include "terminal.h"
-#include "versions.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -1359,7 +1380,8 @@ void EnIk_HandleCsCues(EnIk* this, PlayState* play) {
                     break;
 
                 default:
-                    PRINTF("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Ik_inConfrontion_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
 
             this->cueId = nextCueId;
@@ -1394,7 +1416,8 @@ void EnIk_UpdateCutscene(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
 
     if (this->csAction < 0 || this->csAction >= ARRAY_COUNT(sCsActionFuncs) || sCsActionFuncs[this->csAction] == NULL) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 
@@ -1488,7 +1511,8 @@ void EnIk_DrawCutscene(Actor* thisx, PlayState* play) {
 
     if (this->csDrawMode < 0 || this->csDrawMode >= ARRAY_COUNT(sCsDrawFuncs) ||
         sCsDrawFuncs[this->csDrawMode] == NULL) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 

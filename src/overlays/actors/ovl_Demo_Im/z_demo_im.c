@@ -7,9 +7,23 @@
 #include "z_demo_im.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
 #include "assets/objects/object_im/object_im.h"
-#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
@@ -633,7 +647,8 @@ void func_809861C4(DemoIm* this, PlayState* play) {
                     this->action = 12;
                     break;
                 default:
-                    PRINTF("Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Im_Ocarina_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -673,7 +688,8 @@ void func_809862E0(DemoIm* this, PlayState* play) {
                     func_80986148(this);
                     break;
                 default:
-                    PRINTF("Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Im_Ocarina_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -801,7 +817,8 @@ void func_8098680C(DemoIm* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    PRINTF("Demo_Im_Spot00_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Im_Spot00_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Im_Spot00_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -1071,7 +1088,8 @@ void func_809871E8(DemoIm* this, PlayState* play) {
                     func_80987174(this);
                     break;
                 default:
-                    PRINTF("Demo_Im_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Im_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Im_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -1110,7 +1128,8 @@ void DemoIm_Update(Actor* thisx, PlayState* play) {
     DemoIm* this = (DemoIm*)thisx;
 
     if ((this->action < 0) || (this->action >= 31) || (sActionFuncs[this->action] == NULL)) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -1221,7 +1240,8 @@ void DemoIm_Draw(Actor* thisx, PlayState* play) {
     DemoIm* this = (DemoIm*)thisx;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 3) || (sDrawFuncs[this->drawConfig] == NULL)) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

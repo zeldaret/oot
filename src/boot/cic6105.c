@@ -1,8 +1,11 @@
-#pragma increment_block_number "ntsc-1.2:128"
+#pragma increment_block_number "ntsc-1.0:132 ntsc-1.1:132 ntsc-1.2:132 pal-1.0:132 pal-1.1:132"
 
-#include "global.h"
+#include "audiomgr.h"
+#include "build.h"
 #include "cic6105.h"
 #include "fault.h"
+#include "regs.h"
+#include "sched.h"
 
 s32 func_80001714(void);
 

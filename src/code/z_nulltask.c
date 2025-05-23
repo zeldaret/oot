@@ -1,4 +1,5 @@
-#include "global.h"
+#include "ultra64.h"
+#include "sched.h"
 
 /**
  * Blocks the current thread until all queued scheduler tasks have completed.

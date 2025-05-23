@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_toki_hikari.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
 #define FLAGS ACTOR_FLAG_DRAW_CULLING_DISABLED

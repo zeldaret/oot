@@ -2,11 +2,11 @@
 #define Z_EN_TP_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnTp;
 
-typedef void (*EnTpActionFunc)(struct EnTp*, PlayState*);
+typedef void (*EnTpActionFunc)(struct EnTp*, struct PlayState*);
 
 typedef struct EnTp {
     /* 0x0000 */ Actor actor;
@@ -24,7 +24,7 @@ typedef struct EnTp {
     /* 0x016C */ f32 horizontalVariation;
     /* 0x0170 */ f32 extraHeightVariation;
     /* 0x0174 */ ColliderJntSph collider;
-    /* 0x0194 */ ColliderJntSphElement colliderItems[1];
+    /* 0x0194 */ ColliderJntSphElement colliderElements[1];
     /* 0x01D4 */ struct EnTp* head;
 } EnTp; // size = 0x01D8
 

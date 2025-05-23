@@ -5,6 +5,13 @@
  */
 
 #include "z_bg_ydan_maruta.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_ydan_objects/object_ydan_objects.h"
 
 #define FLAGS 0
@@ -86,7 +93,7 @@ void BgYdanMaruta_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     Collider_InitTris(play, &this->collider);
-    Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->elements);
+    Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderElements);
 
     this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 16);
     thisx->params = PARAMS_GET_U(thisx->params, 8, 8); // thisx is required to match here

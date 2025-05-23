@@ -1,11 +1,34 @@
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
-#include "global.h"
-#include "quake.h"
-#include "z64camera.h"
+                               "ique-cn:128 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+
+#include "libu64/gfxprint.h"
+#include "array_count.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfxalloc.h"
+#include "letterbox.h"
+#include "memory_utils.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
+#include "regs.h"
+#include "rumble.h"
+#include "quake.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64camera.h"
+#include "z64cutscene.h"
+#include "z64cutscene_flags.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 
@@ -126,8 +149,8 @@ u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:188 gc-jp-ce:188 gc-jp-mq:0 gc-us:188 gc-us-mq:0" \
-                               "ntsc-1.0:128 ntsc-1.1:80 ntsc-1.2:80 pal-1.0:80 pal-1.1:80"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;

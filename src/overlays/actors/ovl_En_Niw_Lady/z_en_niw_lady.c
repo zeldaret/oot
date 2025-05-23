@@ -1,9 +1,24 @@
 #include "z_en_niw_lady.h"
-#include "assets/objects/object_ane/object_ane.h"
-#include "assets/objects/object_os_anime/object_os_anime.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
+
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_ane/object_ane.h"
+#include "assets/objects/object_os_anime/object_os_anime.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
@@ -156,9 +171,9 @@ void func_80AB9F24(EnNiwLady* this, PlayState* play) {
 
     if (Object_IsLoaded(&play->objectCtx, this->aneObjectSlot) &&
         Object_IsLoaded(&play->objectCtx, this->osAnimeObjectSlot)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->aneObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->aneObjectSlot].segment);
         SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoLadySkel, NULL, this->jointTable, this->morphTable, 16);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
         Actor_SetScale(&this->actor, 0.01f);
@@ -519,7 +534,7 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
     if (this->unk_276 == 0) {
         Math_SmoothStepToS(&this->headRot.y, 0, 5, 3000, 0);
     }
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
     if (this->osAnimeObjectSlot >= 0) {
         if (this->unk_27E != 0) {
             if (this->unk_26E != 0) {

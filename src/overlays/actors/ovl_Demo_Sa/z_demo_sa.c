@@ -7,9 +7,22 @@
 #include "z_demo_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "assets/objects/object_sa/object_sa.h"
 
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sequence.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_sa/object_sa.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -579,7 +592,8 @@ void func_8098F654(DemoSa* this, PlayState* play) {
                     func_8098F5D0(this);
                     break;
                 default:
-                    PRINTF("Demo_Sa_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Sa_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Sa_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -728,7 +742,8 @@ void func_8098FB68(DemoSa* this, PlayState* play) {
                     func_8098FAE0(this);
                     break;
                 default:
-                    PRINTF("Demo_Sa_inPresent_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Sa_inPresent_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Sa_inPresent_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -768,7 +783,8 @@ void DemoSa_Update(Actor* thisx, PlayState* play) {
     DemoSa* this = (DemoSa*)thisx;
 
     if (this->action < 0 || this->action >= 21 || sActionFuncs[this->action] == NULL) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -838,7 +854,8 @@ void DemoSa_Draw(Actor* thisx, PlayState* play) {
     DemoSa* this = (DemoSa*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/bcp.h"
 
 typedef struct __osExceptionVector {
@@ -10,10 +10,13 @@ typedef struct __osExceptionVector {
 
 extern __osExceptionVector __osExceptionPreamble;
 
+extern OSPiHandle __Dom1SpeedParam;
+extern OSPiHandle __Dom2SpeedParam;
+
 u64 osClockRate = OS_CLOCK_RATE;
 s32 osViClock = VI_NTSC_CLOCK;
 u32 __osShutdown = false;
-OSHWIntr __OSGlobalIntMask = OS_IM_ALL;
+OSIntMask __OSGlobalIntMask = OS_IM_ALL;
 
 u32 __osFinalrom;
 
@@ -55,7 +58,7 @@ void OSINITIALIZE_FUNC(void) {
 
     __osFinalrom = true;
     __osSetSR(__osGetSR() | SR_CU1);
-    __osSetFpcCsr(FPCSR_FS | FPCSR_EV);
+    __osSetFpcCsr(FPCSR_FS | FPCSR_EV | FPCSR_RM_RN);
 #if LIBULTRA_VERSION >= LIBULTRA_VERSION_K
     __osSetWatchLo(0x04900000);
 #endif

@@ -2,11 +2,11 @@
 #define Z_BOSS_GOMA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossGoma;
 
-typedef void (*BossGomaActionFunc)(struct BossGoma*, PlayState*);
+typedef void (*BossGomaActionFunc)(struct BossGoma*, struct PlayState*);
 
 typedef enum BossGomaLimb {
     /*  0 */ BOSSGOMA_LIMB_NONE,
@@ -150,7 +150,7 @@ typedef struct BossGoma {
     /* 0x02A8 */ Vec3f defeatedLimbPositions[100]; // only 85/86 first indices actually used
     /* 0x0758 */ u8 deadLimbsState[100]; // only 85/90 first indices actually used
     /* 0x07BC */ ColliderJntSph collider;
-    /* 0x07DC */ ColliderJntSphElement colliderItems[13];
+    /* 0x07DC */ ColliderJntSphElement colliderElements[13];
 } BossGoma; // size = 0x0B1C
 
 #endif

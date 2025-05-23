@@ -1,9 +1,21 @@
-#include "global.h"
+#include "array_count.h"
+#include "buffers.h"
+#include "build.h"
+#include "idle.h"
+#include "main.h"
+#include "printf.h"
+#include "segment_symbols.h"
 #include "stack.h"
+#include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
+#include "vi_mode.h"
+#include "z64thread.h"
+#include "z64dma.h"
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ntsc-1.2:64"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 OSThread sMainThread;
 #if OOT_VERSION < PAL_1_0

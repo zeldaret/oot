@@ -5,10 +5,38 @@
  */
 
 #include "z_boss_mo.h"
-#include "assets/objects/object_mo/object_mo.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "letterbox.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+#include "z64skin_matrix.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_mo/object_mo.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "pal-1.0:128 pal-1.1:128"
@@ -389,7 +417,7 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
         this->actor.world.pos.y = MO_WATER_LEVEL(play);
         this->actor.prevPos = this->targetPos = this->actor.world.pos;
         Collider_InitJntSph(play, &this->tentCollider);
-        Collider_SetJntSph(play, &this->tentCollider, &this->actor, &sJntSphInit, this->tentElements);
+        Collider_SetJntSph(play, &this->tentCollider, &this->actor, &sJntSphInit, this->tentColliderElements);
         this->tentMaxAngle = 1.0f;
     }
 }
@@ -1151,7 +1179,7 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
     s16 i2;
     ColliderElement* acHitElem;
 
-    for (i1 = 0; i1 < ARRAY_COUNT(this->tentElements); i1++) {
+    for (i1 = 0; i1 < ARRAY_COUNT(this->tentColliderElements); i1++) {
         if (this->tentCollider.elements[i1].base.acElemFlags & ACELEM_HIT) {
 
             for (i2 = 0; i2 < 19; i2++) {
@@ -1758,20 +1786,17 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
     }
     if (this->coreCollider.base.acFlags & AC_HIT) {
         ColliderElement* acHitElem = this->coreCollider.elem.acHitElem;
-        // "hit!!"
-        PRINTF("Core_Damage_check 当り！！\n");
+        PRINTF(T("Core_Damage_check 当り！！\n", "Core_Damage_check hit!!\n"));
         this->coreCollider.base.acFlags &= ~AC_HIT;
         if ((acHitElem->atDmgInfo.dmgFlags & DMG_MAGIC_FIRE) && (this->work[MO_TENT_ACTION_STATE] == MO_CORE_ATTACK)) {
             this->work[MO_TENT_ACTION_STATE] = MO_CORE_RETREAT;
         }
-        // "hit 2 !!"
-        PRINTF("Core_Damage_check 当り 2 ！！\n");
+        PRINTF(T("Core_Damage_check 当り 2 ！！\n", "Core_Damage_check hit 2 !!\n"));
         if ((this->work[MO_TENT_ACTION_STATE] != MO_CORE_UNDERWATER) && (this->work[MO_TENT_INVINC_TIMER] == 0)) {
             u8 damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags);
 
             if ((damage != 0) && (this->work[MO_TENT_ACTION_STATE] < MO_CORE_ATTACK)) {
-                // "sword hit !!"
-                PRINTF("Core_Damage_check 剣 当り！！\n");
+                PRINTF(T("Core_Damage_check 剣 当り！！\n", "Core_Damage_check sword hit!!\n"));
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_STUNNED;
                 this->timers[0] = 25;
 
@@ -1841,8 +1866,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
             }
         }
     }
-    // "end !!"
-    PRINTF("Core_Damage_check 終わり ！！\n");
+    PRINTF(T("Core_Damage_check 終わり ！！\n", "Core_Damage_check end !!\n"));
     PRINTF_RST();
 }
 

@@ -2,11 +2,11 @@
 #define Z_EN_DEKUBABA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDekubaba;
 
-typedef void (*EnDekubabaActionFunc)(struct EnDekubaba*, PlayState*);
+typedef void (*EnDekubabaActionFunc)(struct EnDekubaba*, struct PlayState*);
 
 typedef enum DekuBabaType {
     /* 0 */ DEKUBABA_NORMAL,
@@ -25,7 +25,7 @@ typedef struct EnDekubaba {
     /* 0x01D0 */ Vec3s jointTable[8];
     /* 0x0200 */ Vec3s morphTable[8];
     /* 0x0230 */ f32 size; // Used everywhere to rescale offsets etc. for Big ones
-    /* 0x0234 */ CollisionPoly* boundFloor;
+    /* 0x0234 */ struct CollisionPoly* boundFloor;
     /* 0x0238 */ ColliderJntSph collider;
     /* 0x0258 */ ColliderJntSphElement colliderElements[7];
 } EnDekubaba; // size = 0x0418

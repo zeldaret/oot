@@ -1,10 +1,30 @@
-#include "global.h"
+#include "libu64/debug.h"
+#include "alignment.h"
+#include "carthandle.h"
+#include "line_numbers.h"
+#include "padmgr.h"
+#include "printf.h"
 #include "region.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
-#include "line_numbers.h"
+#include "vi_mode.h"
+#include "z_locale.h"
 
 s32 gCurrentRegion = 0;
+
+typedef struct LocaleCartInfo {
+    /* 0x00 */ char name[0x18];
+    /* 0x18 */ u32 mediaFormat;
+    /* 0x1C */ union {
+        struct {
+            u16 cartId;
+            u8 countryCode;
+            u8 version;
+        };
+        u32 regionInfo;
+    };
+} LocaleCartInfo; // size = 0x20
 
 void Locale_Init(void) {
 #if !PLATFORM_GC

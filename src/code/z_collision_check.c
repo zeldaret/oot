@@ -1,10 +1,11 @@
 #include "gfx.h"
-#include "macros.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64collision_check.h"
 #include "z64effect.h"
@@ -15,8 +16,8 @@
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 #include "z_lib.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:96 ntsc-1.1:96 ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ique-cn:192 ntsc-1.0:168 ntsc-1.1:168 ntsc-1.2:168 pal-1.0:168 pal-1.1:168"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
@@ -46,7 +47,7 @@ void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC,
 
     OPEN_DISPS(gfxCtx, "../z_collision_check.c", 713);
 
-    gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_OPA_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0xFF, r, g, b, 50);
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);

@@ -4,7 +4,6 @@
             <Vtx/>
         </Array>
         <Texture Name="sTransWipeTex" OutName="trans_wipe" Format="i4" Width="64" Height="64" Offset="0x190"/>
-        <!-- ZAPD isn't finding symbols correctly, instead finding them much later in `code`-->
-        <!-- <DList Name="sTransWipeDL" Offset="0x990"/> -->
+        <DList Name="sTransWipeDL" Offset="0x990"/>
     </File>
 </Root>

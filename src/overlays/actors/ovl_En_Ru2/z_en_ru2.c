@@ -5,9 +5,26 @@
  */
 
 #include "z_en_ru2.h"
-#include "assets/objects/object_ru2/object_ru2.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_ru2/object_ru2.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -686,8 +703,8 @@ void EnRu2_NextCreditsAction(EnRu2* this, PlayState* play) {
                     EnRu2_SetupTurnHeadDownLeftAnimation(this);
                     break;
                 default:
-                    // "There is no such action!"
-                    PRINTF("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Ru2_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -907,8 +924,8 @@ void EnRu2_Update(Actor* thisx, PlayState* play) {
     EnRu2* this = (EnRu2*)thisx;
 
     if ((this->action < 0) || (this->action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[this->action] == NULL)) {
-        // "Main Mode is improper!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -968,8 +985,8 @@ void EnRu2_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
         (sDrawFuncs[this->drawConfig] == NULL)) {
-        // "Draw Mode is improper!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

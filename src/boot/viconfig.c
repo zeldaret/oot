@@ -1,5 +1,6 @@
-#include "global.h"
+#include "printf.h"
 #include "terminal.h"
+#include "idle.h"
 
 s8 D_80009430 = 1;
 vu8 gViConfigBlack = true;

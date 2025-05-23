@@ -5,7 +5,21 @@
  */
 
 #include "z_en_fd.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_fw/object_fw.h"
 
@@ -230,7 +244,7 @@ s32 EnFd_SpawnCore(EnFd* this, PlayState* play) {
         this->actor.child->colChkInfo.health = 8;
     }
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         Actor_SwapHookshotAttachment(play, &this->actor, this->actor.child);
     }
 
@@ -460,7 +474,7 @@ void EnFd_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gFlareDancerSkel, NULL, this->jointTable, this->morphTable, 27);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 32.0f);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
@@ -670,7 +684,7 @@ void EnFd_Update(Actor* thisx, PlayState* play) {
         EnFd_SpawnDot(this, play);
     }
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         if (EnFd_SpawnCore(this, play)) {
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->invincibilityTimer = 30;

@@ -1,4 +1,7 @@
-#include "global.h"
+#include "libc64/sleep.h"
+#include "attributes.h"
+#include "printf.h"
+#include "sys_freeze.h"
 #include "terminal.h"
 
 NORETURN void func_800D31A0(void) {

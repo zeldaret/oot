@@ -6,6 +6,7 @@
 
 #include "z_bg_hidan_rsekizou.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -141,8 +142,8 @@ void BgHidanRsekizou_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gFireTempleSpinningFlamethrowerCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
-    for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
+    for (i = 0; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
     this->burnFrame = 0;
@@ -178,7 +179,7 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
     yawSine = Math_SinS(this->dyna.actor.shape.rot.y);
     yawCosine = Math_CosS(this->dyna.actor.shape.rot.y);
 
-    for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
+    for (i = 0; i < ARRAY_COUNT(this->colliderElements); i++) {
         sphere = &this->collider.elements[i];
         sphere->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + yawCosine * sphere->dim.modelSphere.center.x +
                                            yawSine * sphere->dim.modelSphere.center.z;
@@ -244,7 +245,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play) {
 
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568);
     gSPDisplayList(POLY_OPA_DISP++, gFireTempleSpinningFlamethrowerDL);
-    Matrix_MtxFCopy(&mf, &gMtxFClear);
+    Matrix_MtxFCopy(&mf, &gIdentityMtxF);
 
     POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
 

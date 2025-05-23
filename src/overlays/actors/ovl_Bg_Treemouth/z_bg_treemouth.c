@@ -5,9 +5,21 @@
  */
 
 #include "z_bg_treemouth.h"
-#include "versions.h"
-#include "assets/objects/object_spot04_objects/object_spot04_objects.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_spot04_objects/object_spot04_objects.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 

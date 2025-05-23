@@ -1,4 +1,17 @@
 #include "z_en_m_thunder.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64light.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0

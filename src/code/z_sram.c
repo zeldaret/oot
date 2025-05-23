@@ -1,6 +1,21 @@
-#include "global.h"
+#include "z64sram.h"
+
+#include "array_count.h"
+#include "file_select_state.h"
+#include "controller.h"
+#include "memory_utils.h"
+#include "printf.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
+#include "z64audio.h"
+#include "z64game.h"
+#include "z64interface.h"
+#include "z64message.h"
+#include "z64ocarina.h"
+#include "z64save.h"
+#include "z64scene.h"
+#include "z64ss_sram.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)
@@ -52,10 +67,13 @@ u16 gSramSlotOffsets[] = {
 };
 
 static u8 sSramDefaultHeader[] = {
-    // TODO: use enums for these
-    0, // SRAM_HEADER_SOUND
-    0, // SRAM_HEADER_ZTARGET
-    0, // SRAM_HEADER_LANGUAGE
+    SOUND_SETTING_STEREO,    // SRAM_HEADER_SOUND
+    Z_TARGET_SETTING_SWITCH, // SRAM_HEADER_Z_TARGET
+#if OOT_NTSC
+    LANGUAGE_JPN, // SRAM_HEADER_LANGUAGE
+#else
+    LANGUAGE_ENG, // SRAM_HEADER_LANGUAGE
+#endif
 
     // SRAM_HEADER_MAGIC
     0x98,
@@ -1016,8 +1034,8 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
         }
     }
 
-    gSaveContext.audioSetting = sramCtx->readBuff[SRAM_HEADER_SOUND] & 3;
-    gSaveContext.zTargetSetting = sramCtx->readBuff[SRAM_HEADER_ZTARGET] & 1;
+    gSaveContext.soundSetting = sramCtx->readBuff[SRAM_HEADER_SOUND] & 3;
+    gSaveContext.zTargetSetting = sramCtx->readBuff[SRAM_HEADER_Z_TARGET] & 1;
 
 #if OOT_PAL
     gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
@@ -1042,11 +1060,11 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     PRINTF(T("ＧＯＯＤ！ＧＯＯＤ！ サイズ＝%d + %d ＝ %d\n", "GOOD! GOOD! Size = %d + %d = %d\n"), sizeof(SaveInfo), 4,
            sizeof(SaveInfo) + 4);
     PRINTF_COLOR_BLUE();
-    PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-    PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-    PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+    PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
+    PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
+    PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
     PRINTF_RST();
-    func_800F6700(gSaveContext.audioSetting);
+    Audio_SetSoundOutputMode(gSaveContext.soundSetting);
 }
 
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
@@ -1054,5 +1072,5 @@ void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
     ASSERT(sramCtx->readBuff != NULL, "sram->read_buff != NULL", "../z_sram.c", 1295);
 }
 
-void Sram_Init(PlayState* play, SramContext* sramCtx) {
+void Sram_Init(GameState* gameState, SramContext* sramCtx) {
 }

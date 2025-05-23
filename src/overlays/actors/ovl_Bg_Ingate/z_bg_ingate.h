@@ -2,11 +2,11 @@
 #define Z_BG_INGATE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgInGate;
 
-typedef void (*BgInGateActionFunc)(struct BgInGate*, PlayState*);
+typedef void (*BgInGateActionFunc)(struct BgInGate*, struct PlayState*);
 
 typedef struct BgInGate {
     /* 0x0000 */ DynaPolyActor dyna;

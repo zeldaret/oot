@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "z64item.h"
-#include "z64save.h"
 
 struct PlayState;
 

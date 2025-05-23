@@ -5,6 +5,17 @@
  */
 
 #include "z_bg_mori_hashigo.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0
@@ -91,9 +102,9 @@ void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, PlayState* play, CollisionH
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        // "Warning : move BG login failed"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashigo.c", 164,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗",
+                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+               "../z_bg_mori_hashigo.c", 164, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -102,7 +113,7 @@ void BgMoriHashigo_InitCollider(BgMoriHashigo* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 
     this->collider.elements[0].dim.worldSphere.center.x = (s16)this->dyna.actor.world.pos.x;
     this->collider.elements[0].dim.worldSphere.center.y = (s16)this->dyna.actor.world.pos.y + 21;
@@ -129,9 +140,8 @@ s32 BgMoriHashigo_SpawnLadder(BgMoriHashigo* this, PlayState* play) {
     if (ladder != NULL) {
         return true;
     } else {
-        // "Ladder failure"
-        PRINTF("Error : 梯子の発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashigo.c", 220,
-               this->dyna.actor.params);
+        PRINTF("Error : " T("梯子の発生失敗", "Ladder spawn failure") "(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_mori_hashigo.c", 220, this->dyna.actor.params);
         return false;
     }
 }
@@ -171,14 +181,13 @@ void BgMoriHashigo_Init(Actor* thisx, PlayState* play) {
     }
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
-        // "Bank danger!"
-        PRINTF("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params, "../z_bg_mori_hashigo.c",
-               312);
+        PRINTF("Error : " T("バンク危険！", "Bank danger!") "(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
+               "../z_bg_mori_hashigo.c", 312);
         Actor_Kill(&this->dyna.actor);
     } else {
         BgMoriHashigo_SetupWaitForMoriTex(this);
-        // "(Forest Temple Ladder and its clasp)"
-        PRINTF("(森の神殿 梯子とその留め金)(arg_data 0x%04x)\n", this->dyna.actor.params);
+        PRINTF(T("(森の神殿 梯子とその留め金)", "(Forest Temple Ladder and its clasp)") "(arg_data 0x%04x)\n",
+               this->dyna.actor.params);
     }
 }
 

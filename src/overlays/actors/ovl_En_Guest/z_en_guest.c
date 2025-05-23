@@ -5,9 +5,22 @@
  */
 
 #include "z_en_guest.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "assets/objects/object_boj/object_boj.h"
-#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
@@ -81,7 +94,7 @@ void EnGuest_Update(Actor* thisx, PlayState* play) {
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
         SkelAnime_InitFlex(play, &this->skelAnime, &gHylianMan2Skel, NULL, this->jointTable, this->morphTable, 16);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         Animation_Change(&this->skelAnime, &gObjOsAnim_42AC, 1.0f, 0.0f, Animation_GetLastFrame(&gObjOsAnim_42AC),
                          ANIMMODE_LOOP, 0.0f);
 
@@ -159,7 +172,7 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
 
     Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
 
     SkelAnime_Update(&this->skelAnime);
     Actor_SetFocus(&this->actor, 60.0f);

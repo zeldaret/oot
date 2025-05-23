@@ -5,9 +5,28 @@
  */
 
 #include "z_en_nb.h"
-#include "terminal.h"
-#include "assets/objects/object_nb/object_nb.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "libc64/math64.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_nb/object_nb.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -676,8 +695,8 @@ void EnNb_CheckKidnapCsMode(EnNb* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    // "Operation Doesn't Exist!!!!!!!!"
-                    PRINTF("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Nb_Kidnap_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -895,8 +914,8 @@ void EnNb_CheckConfrontationCsMode(EnNb* this, PlayState* play) {
                     EnNb_SetupConfrontationDestroy(this);
                     break;
                 default:
-                    // "En_Nb_Confrontion_Check_DemoMode: Operation doesn't exist!!!!!!!!"
-                    PRINTF("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Nb_Confrontion_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -1083,8 +1102,8 @@ void EnNb_CheckCreditsCsModeImpl(EnNb* this, PlayState* play) {
                     EnNb_SetupCreditsHeadTurn(this);
                     break;
                 default:
-                    // "En_Nb_inEnding_Check_DemoMode: Operation doesn't exist!!!!!!!!"
-                    PRINTF("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Nb_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -1442,8 +1461,8 @@ void EnNb_Update(Actor* thisx, PlayState* play) {
     EnNb* this = (EnNb*)thisx;
 
     if (this->action < 0 || this->action > 30 || sActionFuncs[this->action] == NULL) {
-        // "Main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 
@@ -1550,8 +1569,8 @@ void EnNb_Draw(Actor* thisx, PlayState* play) {
     EnNb* this = (EnNb*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == NULL) {
-        // "Draw mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 

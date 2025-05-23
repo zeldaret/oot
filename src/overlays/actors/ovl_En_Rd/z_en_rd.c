@@ -14,12 +14,12 @@
 #include "rumble.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64player.h"
-
-#include "global.h"
+#include "z64save.h"
 
 #include "assets/objects/object_rd/object_rd.h"
 

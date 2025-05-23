@@ -1,4 +1,7 @@
-#include "global.h"
+#include "z_lib.h"
+#include "z64actor.h"
+#include "z64bgcheck.h"
+#include "z64play.h"
 
 /**
  * @param transformFlags How other actors standing on the dynapoly actor's collision move when the dynapoly actor moves.

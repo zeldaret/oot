@@ -5,10 +5,29 @@
  */
 
 #include "z_en_g_switch.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64debug_display.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_tsubo/object_tsubo.h"
 
@@ -202,7 +221,7 @@ void EnGSwitch_Break(EnGSwitch* this, PlayState* play) {
 
 void EnGSwitch_WaitForObject(EnGSwitch* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
         this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = EnGSwitch_DrawPot;
         this->actionFunc = EnGSwitch_ArcheryPot;

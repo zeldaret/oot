@@ -1,4 +1,15 @@
 #include "z_kaleido_scope.h"
+
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
@@ -156,8 +167,10 @@ void KaleidoScope_DrawPlayerWork(PlayState* play) {
                      BOOTS_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS)));
 }
 
+#ifndef AVOID_UB
 // Wrong prototype; this function is called with `play` even though it has no arguments
 void KaleidoScope_ProcessPlayerPreRender(PlayState* play);
+#endif
 
 void KaleidoScope_DrawEquipment(PlayState* play) {
     static s16 sEquipTimer = 0;
@@ -678,8 +691,12 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     }
 
     if ((pauseCtx->mainState == PAUSE_MAIN_STATE_EQUIP_CHANGED) && (sEquipTimer == 9)) {
+#ifndef AVOID_UB
         //! @bug: This function shouldn't take any arguments
         KaleidoScope_ProcessPlayerPreRender(play);
+#else
+        KaleidoScope_ProcessPlayerPreRender();
+#endif
     }
 
     gSPSegment(POLY_OPA_DISP++, 0x07, pauseCtx->playerSegment);

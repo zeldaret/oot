@@ -5,6 +5,15 @@
  */
 
 #include "z_item_b_heart.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64item.h"
+#include "z64play.h"
+
 #include "assets/objects/object_gi_hearts/object_gi_hearts.h"
 
 #define FLAGS 0

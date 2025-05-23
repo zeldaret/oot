@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "z64actor.h"
-#include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
 
 struct EnInsect;
 
@@ -22,7 +21,7 @@ typedef void (*EnInsectActionFunc)(struct EnInsect*, struct PlayState*);
 typedef struct EnInsect {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderJntSph collider;
-    /* 0x016C */ ColliderJntSphElement colliderItem;
+    /* 0x016C */ ColliderJntSphElement colliderElements[1];
     /* 0x01AC */ SkelAnime skelAnime;
     /* 0x01F0 */ Vec3s jointTable[24];
     /* 0x0280 */ Vec3s morphTable[24];
@@ -33,7 +32,7 @@ typedef struct EnInsect {
     /* 0x031A */ s16 actionTimer;
     /* 0x031C */ s16 lifeTimer;
     /* 0x031E */ s16 crawlSoundDelay;
-    /* 0x0320 */ ObjMakekinsuta* soilActor;
+    /* 0x0320 */ struct ObjMakekinsuta* soilActor;
     /* 0x0324 */ f32 unk_324;
     /* 0x0328 */ s16 unk_328;
     /* 0x032A */ u8 unk_32A;

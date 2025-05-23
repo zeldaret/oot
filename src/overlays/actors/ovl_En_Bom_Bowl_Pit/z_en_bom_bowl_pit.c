@@ -1,12 +1,14 @@
 #include "z_en_bom_bowl_pit.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "terminal.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

@@ -2,11 +2,11 @@
 #define Z_EN_VM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnVm;
 
-typedef void (*EnVmActionFunc)(struct EnVm*, PlayState*);
+typedef void (*EnVmActionFunc)(struct EnVm*, struct PlayState*);
 
 typedef struct EnVm {
     /* 0x0000 */ Actor actor;

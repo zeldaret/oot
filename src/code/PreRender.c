@@ -5,8 +5,13 @@
  * buffer copies and coverage drawing. Also contains software implementations of the Video Interface anti-aliasing and
  * divot filters.
  */
-#include "global.h"
+#include "libu64/debug.h"
 #include "alloca.h"
+#include "color.h"
+#include "gfx.h"
+#include "prerender.h"
+#include "printf.h"
+#include "regs.h"
 
 void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg) {
     this->widthSave = width;

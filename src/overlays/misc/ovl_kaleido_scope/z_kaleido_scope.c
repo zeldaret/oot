@@ -1,7 +1,32 @@
+#include "z_kaleido_scope.h"
+
+#include "libc64/sleep.h"
+#include "array_count.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "gfxalloc.h"
+#include "language_array.h"
+#include "map.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
-#include "z_kaleido_scope.h"
+#include "printf.h"
+#include "regs.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "title_setup_state.h"
+#include "versions.h"
+#include "z64audio.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
 #if OOT_NTSC
@@ -13,10 +38,9 @@
 #include "assets/textures/icon_item_fra_static/icon_item_fra_static.h"
 #endif
 #include "assets/textures/icon_item_gameover_static/icon_item_gameover_static.h"
-#include "terminal.h"
-#include "versions.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 #if !PLATFORM_GC
 #define KALEIDO_PROMPT_CURSOR_R 100
@@ -3724,7 +3748,7 @@ void KaleidoScope_Update(PlayState* play) {
             DMA_REQUEST_SYNC(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart, iconItemStaticSize,
                              "../z_kaleido_scope_PAL.c", 3662);
 
-            gSegments[8] = VIRTUAL_TO_PHYSICAL(pauseCtx->iconItemSegment);
+            gSegments[8] = OS_K0_TO_PHYSICAL(pauseCtx->iconItemSegment);
 
             for (i = 0; i < ARRAY_COUNTU(gItemAgeReqs); i++) {
                 if (!CHECK_AGE_REQ_ITEM(i)) {

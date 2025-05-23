@@ -4,6 +4,7 @@
 #include "libc64/qrand.h"
 #include "attributes.h"
 #include "gfx.h"
+#include "printf.h"
 #include "quake.h"
 #include "rand.h"
 #include "sfx.h"
@@ -12,6 +13,7 @@
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 

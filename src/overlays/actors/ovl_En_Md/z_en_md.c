@@ -5,8 +5,22 @@
  */
 
 #include "z_en_md.h"
-#include "assets/objects/object_md/object_md.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+
+#include "libc64/math64.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_md/object_md.h"
 
 #define FLAGS                                                                                  \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \

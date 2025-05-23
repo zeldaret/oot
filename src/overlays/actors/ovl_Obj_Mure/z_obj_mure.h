@@ -2,11 +2,11 @@
 #define Z_OBJ_MURE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjMure;
 
-typedef void (*ObjMureActionFunc)(struct ObjMure*, PlayState*);
+typedef void (*ObjMureActionFunc)(struct ObjMure*, struct PlayState*);
 
 #define OBJMURE_MAX_SPAWNS 15
 

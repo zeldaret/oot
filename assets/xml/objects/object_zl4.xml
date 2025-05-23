@@ -39,19 +39,21 @@
         <Animation Name="gChildZeldaAnim_00F894" Offset="0xF894"/>
 
         <!-- Child Zelda's mouth textures -->
-        <Texture Name="gChildZeldaMouthNeutralTex" OutName="child_zelda_mouth_neutral" Format="i8" Width="32" Height="32" Offset="0x46F0"/>
-        <Texture Name="gChildZeldaMouthHappyTex" OutName="child_zelda_mouth_happy" Format="i8" Width="32" Height="32" Offset="0x4AF0"/>
-        <Texture Name="gChildZeldaMouthWorriedTex" OutName="child_zelda_mouth_worried" Format="i8" Width="32" Height="32" Offset="0x4EF0"/>
-        <Texture Name="gChildZeldaMouthSurprisedTex" OutName="child_zelda_mouth_surprised" Format="i8" Width="32" Height="32" Offset="0x52F0"/>
+        <Texture Name="gChildZeldaMouthTLUT" Format="rgba16" Width="16" Height="16" Offset="0xA70"/>
+        <Texture Name="gChildZeldaMouthNeutralTex" OutName="child_zelda_mouth_neutral" Format="ci8" Width="32" Height="32" Offset="0x46F0" TlutOffset="0xA70"/>
+        <Texture Name="gChildZeldaMouthHappyTex" OutName="child_zelda_mouth_happy" Format="ci8" Width="32" Height="32" Offset="0x4AF0" TlutOffset="0xA70"/>
+        <Texture Name="gChildZeldaMouthWorriedTex" OutName="child_zelda_mouth_worried" Format="ci8" Width="32" Height="32" Offset="0x4EF0" TlutOffset="0xA70"/>
+        <Texture Name="gChildZeldaMouthSurprisedTex" OutName="child_zelda_mouth_surprised" Format="ci8" Width="32" Height="32" Offset="0x52F0" TlutOffset="0xA70"/>
 
         <!-- Child Zelda's eye textures -->
-        <Texture Name="gChildZeldaEyeOpenTex" OutName="child_zelda_eye_open" Format="i8" Width="32" Height="32" Offset="0x2AF0"/>
-        <Texture Name="gChildZeldaEyeBlinkTex" OutName="child_zelda_eye_blink" Format="i8" Width="32" Height="32" Offset="0x2EF0"/>
-        <Texture Name="gChildZeldaEyeShutTex" OutName="child_zelda_eye_shut" Format="i8" Width="32" Height="32" Offset="0x32F0"/>
-        <Texture Name="gChildZeldaEyeWideTex" OutName="child_zelda_eye_wide" Format="i8" Width="32" Height="32" Offset="0x36F0"/>
-        <Texture Name="gChildZeldaEyeSquintTex" OutName="child_zelda_eye_squint" Format="i8" Width="32" Height="32" Offset="0x3AF0"/>
-        <Texture Name="gChildZeldaEyeOutTex" OutName="child_zelda_eye_out" Format="i8" Width="32" Height="32" Offset="0x3EF0"/>
-        <Texture Name="gChildZeldaEyeInTex" OutName="child_zelda_eye_in" Format="i8" Width="32" Height="32" Offset="0x42F0"/>
+        <Texture Name="gChildZeldaEyeTLUT" Format="rgba16" Width="16" Height="16" Offset="0x870"/>
+        <Texture Name="gChildZeldaEyeOpenTex" OutName="child_zelda_eye_open" Format="ci8" Width="32" Height="32" Offset="0x2AF0" TlutOffset="0x870"/>
+        <Texture Name="gChildZeldaEyeBlinkTex" OutName="child_zelda_eye_blink" Format="ci8" Width="32" Height="32" Offset="0x2EF0" TlutOffset="0x870"/>
+        <Texture Name="gChildZeldaEyeShutTex" OutName="child_zelda_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x32F0" TlutOffset="0x870"/>
+        <Texture Name="gChildZeldaEyeWideTex" OutName="child_zelda_eye_wide" Format="ci8" Width="32" Height="32" Offset="0x36F0" TlutOffset="0x870"/>
+        <Texture Name="gChildZeldaEyeSquintTex" OutName="child_zelda_eye_squint" Format="ci8" Width="32" Height="32" Offset="0x3AF0" TlutOffset="0x870"/>
+        <Texture Name="gChildZeldaEyeOutTex" OutName="child_zelda_eye_out" Format="ci8" Width="32" Height="32" Offset="0x3EF0" TlutOffset="0x870"/>
+        <Texture Name="gChildZeldaEyeInTex" OutName="child_zelda_eye_in" Format="ci8" Width="32" Height="32" Offset="0x42F0" TlutOffset="0x870"/>
 
         <!-- Child Zelda's cutscene DLists (used by EnViewer)-->
         <DList Name="gChildZeldaCutsceneDressDL" Offset="0xC410"/>

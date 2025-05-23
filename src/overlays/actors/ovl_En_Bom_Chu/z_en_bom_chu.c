@@ -2,6 +2,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -41,7 +42,7 @@ ActorProfile En_Bom_Chu_Profile = {
     /**/ EnBomChu_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElemInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -64,8 +65,8 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sJntSphElemInit),
-    sJntSphElemInit,
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {

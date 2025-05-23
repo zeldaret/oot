@@ -5,6 +5,22 @@
  */
 
 #include "z_en_bb.h"
+
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_Bb/object_Bb.h"
 
@@ -209,7 +225,7 @@ ActorProfile En_Bb_Profile = {
     /**/ EnBb_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -233,7 +249,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sJntSphElementInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -319,7 +335,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
     this->unk_254 = 0;
     thisx->colChkInfo.health = 4;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->colliderElements);
 
     this->actionState = PARAMS_GET_NOMASK(thisx->params, 8);
 

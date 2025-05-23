@@ -2,11 +2,11 @@
 #define Z_EN_CROW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnCrow;
 
-typedef void (*EnCrowActionFunc)(struct EnCrow*, PlayState*);
+typedef void (*EnCrowActionFunc)(struct EnCrow*, struct PlayState*);
 
 typedef struct EnCrow {
     /* 0x0000 */ Actor actor;
@@ -19,7 +19,7 @@ typedef struct EnCrow {
     /* 0x01CA */ Vec3s jointTable[9];
     /* 0x0200 */ Vec3s morphTable[9];
     /* 0x0238 */ ColliderJntSph collider;
-    /* 0x0258 */ ColliderJntSphElement colliderItems[1];
+    /* 0x0258 */ ColliderJntSphElement colliderElements[1];
 } EnCrow; // size = 0x0298
 
 #endif

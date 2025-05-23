@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_ydan_hasi.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_ydan_objects/object_ydan_objects.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)

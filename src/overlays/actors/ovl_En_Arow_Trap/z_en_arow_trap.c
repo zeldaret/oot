@@ -6,6 +6,9 @@
 
 #include "z_en_arow_trap.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+
+#include "z64play.h"
+
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnArowTrap_Init(Actor* thisx, PlayState* play);

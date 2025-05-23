@@ -5,6 +5,20 @@
  */
 
 #include "z_bg_mizu_water.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "regs.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
@@ -108,7 +122,8 @@ void BgMizuWater_Init(Actor* thisx, PlayState* play) {
     switch (this->type) {
         case 0:
             if (bREG(15) == 0) {
-                PRINTF("<コンストラクト>%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
+                PRINTF(T("<コンストラクト>", "<construct>") "%x %x %x\n",
+                       Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
                        Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG),
                        Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
             }

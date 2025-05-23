@@ -1,8 +1,20 @@
-#include "global.h"
-#include "terminal.h"
+#include "libu64/debug.h"
+#include "array_count.h"
+#include "attributes.h"
 #include "line_numbers.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sys_math3d.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64bgcheck.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64skin_matrix.h"
 
-#pragma increment_block_number "ntsc-1.0:108 ntsc-1.1:104 ntsc-1.2:104"
+#pragma increment_block_number "ntsc-1.0:152 ntsc-1.1:152 ntsc-1.2:152"
 
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);

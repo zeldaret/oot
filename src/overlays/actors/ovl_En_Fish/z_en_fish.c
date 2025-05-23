@@ -5,9 +5,20 @@
  */
 
 #include "z_en_fish.h"
-#include "global.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64item.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
 
@@ -135,7 +146,7 @@ void EnFish_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(play, &this->skelAnime, &gFishSkel, &gFishInWaterAnim, this->jointTable, this->morphTable, 7);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     this->actor.colChkInfo.mass = 50;
     this->slowPhase = Rand_ZeroOne() * (0xFFFF + 0.5f);
     this->fastPhase = Rand_ZeroOne() * (0xFFFF + 0.5f);

@@ -9,7 +9,15 @@
  * @note The only coded effect has a visual effect to blend the tiles to a single point, which looks like the screen
  * gets sucked into.
  */
-#include "global.h"
+#include "transition_tile.h"
+
+#include "libc64/malloc.h"
+#include "libc64/sleep.h"
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "printf.h"
+#include "z64math.h"
+#include "z64transition_instances.h"
 
 // color framebuffer
 extern u16 D_0F000000[];

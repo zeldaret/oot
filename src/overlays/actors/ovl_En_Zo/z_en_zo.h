@@ -2,7 +2,7 @@
 #define Z_EN_ZO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnZo;
 
@@ -19,7 +19,7 @@ typedef struct EnZoEffect {
     /* 0x2C */ Vec3f vec; // Usage specific
 } EnZoEffect; // size = 0x38
 
-typedef void (*EnZoActionFunc)(struct EnZo*, PlayState*);
+typedef void (*EnZoActionFunc)(struct EnZo*, struct PlayState*);
 
 typedef struct EnZo {
     /* 0x0000 */ Actor actor;

@@ -5,6 +5,17 @@
  */
 
 #include "z_bg_relay_objects.h"
+
+#include "ichain.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64cutscene_flags.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_relay_objects/object_relay_objects.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

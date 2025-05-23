@@ -1,4 +1,6 @@
-#include "global.h"
+#include "ultra64.h"
+#include "z64face_reaction.h"
+#include "z64player.h"
 
 u16 sMaskReactionSetTextIds[MASK_REACTION_SET_MAX][PLAYER_MASK_MAX] = {
     // MASK_REACTION_SET_CARPENTER_BOSS
@@ -182,7 +184,7 @@ u16 sMaskReactionSetTextIds[MASK_REACTION_SET_MAX][PLAYER_MASK_MAX] = {
     { 0x0000, 0x7104, 0x7105, 0x7107, 0x7105, 0x710C, 0x7105, 0x7107, 0x7107 },
 };
 
-u16 MaskReaction_GetTextId(PlayState* play, u32 maskReactionSet) {
+u16 MaskReaction_GetTextId(struct PlayState* play, u32 maskReactionSet) {
     u8 currentMask = Player_GetMask(play);
 
     return sMaskReactionSetTextIds[maskReactionSet][currentMask];

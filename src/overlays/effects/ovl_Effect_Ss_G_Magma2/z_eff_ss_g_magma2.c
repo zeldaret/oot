@@ -5,6 +5,14 @@
  */
 
 #include "z_eff_ss_g_magma2.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 
 #define rPrimColorR regs[0]
@@ -45,7 +53,7 @@ u32 EffectSsGMagma2_Init(PlayState* play, u32 index, EffectSs* this, void* initP
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
         EffectSsGMagma2InitParams* initParams = (EffectSsGMagma2InitParams*)initParamsx;
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         this->rObjectSlot = objectSlot;
         this->pos = initParams->pos;
         this->velocity = zeroVec;
@@ -84,7 +92,7 @@ void EffectSsGMagma2_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+    gSegments[6] = OS_K0_TO_PHYSICAL(objectPtr);
     gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_g_magma2.c", 282);
 

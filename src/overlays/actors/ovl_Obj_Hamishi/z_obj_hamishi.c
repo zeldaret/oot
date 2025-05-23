@@ -5,6 +5,19 @@
  */
 
 #include "z_obj_hamishi.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0

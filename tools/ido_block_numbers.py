@@ -483,7 +483,7 @@ def find_compiler_command_line(
     found = 0
     for line in make_log:
         parts = line.split()
-        if "-o" in parts and str(filename) in parts:
+        if "./tools/preprocess.sh" in parts and "-o" in parts and str(filename) in parts:
             compiler_command_line = parts
             found += 1
 
@@ -551,7 +551,7 @@ def main():
     command_line = find_compiler_command_line(make_log, args.filename)
     if command_line is None:
         print(
-            f"Error: could not determine compiler command line for {filename}",
+            f"Error: could not determine compiler command line for {args.filename}",
             file=sys.stderr,
         )
         sys.exit(1)

@@ -1,5 +1,19 @@
 #include "z_bg_jya_bombchuiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 #define FLAGS ACTOR_FLAG_ATTENTION_ENABLED
 
@@ -65,7 +79,7 @@ void BgJyaBombchuiwa_SetupCollider(BgJyaBombchuiwa* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, &this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 }
 
 void BgJyaBombchuiwa_SetDrawFlags(BgJyaBombchuiwa* this, u8 drawFlags) {
@@ -181,9 +195,8 @@ void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, PlayState* play) {
     BgJyaBombchuiwa_SetDrawFlags(this, 4);
     if (Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 0) == NULL) {
-        // "Occurrence failure"
-        PRINTF("Ｅｒｒｏｒ : Mir_Ray 発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombchuiwa.c", 410,
-               this->actor.params);
+        PRINTF(T("Ｅｒｒｏｒ : Mir_Ray 発生失敗", "Error : Mir_Ray failed to occur") "(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_jya_bombchuiwa.c", 410, this->actor.params);
     }
 }
 

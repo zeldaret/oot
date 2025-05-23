@@ -1,8 +1,23 @@
 #include "z_demo_du.h"
-#include "assets/objects/object_du/object_du.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_du/object_du.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -907,8 +922,8 @@ void DemoDu_CsCredits_HandleCues(DemoDu* this, PlayState* play) {
                     DemoDu_CsCredits_AdvanceTo04(this);
                     break;
                 default:
-                    // "Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!"
-                    PRINTF("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Du_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -964,8 +979,8 @@ void DemoDu_Update(Actor* thisx, PlayState* play) {
     DemoDu* this = (DemoDu*)thisx;
 
     if (this->updateIndex < 0 || this->updateIndex >= 29 || sUpdateFuncs[this->updateIndex] == NULL) {
-        // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sUpdateFuncs[this->updateIndex](this, play);
@@ -1035,8 +1050,8 @@ void DemoDu_Draw(Actor* thisx, PlayState* play) {
     DemoDu* this = (DemoDu*)thisx;
 
     if (this->drawIndex < 0 || this->drawIndex >= 3 || sDrawFuncs[this->drawIndex] == NULL) {
-        // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawIndex](thisx, play);

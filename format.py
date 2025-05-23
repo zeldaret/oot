@@ -154,12 +154,22 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
 
 
 def list_files_to_format():
-    files = glob.glob("src/**/*.c", recursive=True)
+    files = (
+        glob.glob("src/**/*.c", recursive=True)
+        + glob.glob("assets/**/*.c", recursive=True)
+    )
     extra_files = (
         glob.glob("assets/**/*.xml", recursive=True)
         + glob.glob("include/**/*.h", recursive=True)
         + glob.glob("src/**/*.h", recursive=True)
+        + glob.glob("assets/**/*.h", recursive=True)
     )
+
+    # Do not format assets/text/ files
+    for assets_text_f in glob.glob("assets/text/**/*.c", recursive=True):
+        if assets_text_f in files:
+            files.remove(assets_text_f)
+
     return files, extra_files
 
 

@@ -1,18 +1,54 @@
-
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "array_count.h"
+#include "buffers.h"
+#include "color.h"
+#include "controller.h"
 #include "fault.h"
-#include "quake.h"
-#include "terminal.h"
-#include "versions.h"
+#include "file_select_state.h"
+#include "gfx.h"
+#include "gfxalloc.h"
+#include "kaleido_manager.h"
+#include "letterbox.h"
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
-
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "quake.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "title_setup_state.h"
+#include "transition_circle.h"
+#include "transition_fade.h"
+#include "transition_tile.h"
+#include "transition_triforce.h"
+#include "transition_wipe.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_actor_dlftbls.h"
+#include "zelda_arena.h"
+#include "z64audio.h"
+#include "z64cutscene_flags.h"
 #include "z64debug_display.h"
+#include "z64effect.h"
 #include "z64frame_advance.h"
+#include "z64light.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+#include "z64vis.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:224" \
+                               "ntsc-1.0:240 ntsc-1.1:240 ntsc-1.2:240 pal-1.0:240 pal-1.1:240"
 
 TransitionTile gTransitionTile;
 s32 gTransitionTileState;
@@ -301,7 +337,7 @@ void Play_Init(GameState* thisx) {
     Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_CHECK_BG_ALT | CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG |
                                                       CAM_STATE_EXTERNAL_FINISHED | CAM_STATE_CAM_FUNC_FINISH |
                                                       CAM_STATE_LOCK_MODE | CAM_STATE_DISTORTION | CAM_STATE_PLAY_INIT);
-    Sram_Init(this, &this->sramCtx);
+    Sram_Init(&this->state, &this->sramCtx);
     Regs_InitData(this);
     Message_Init(this);
     GameOver_Init(this);
@@ -548,9 +584,9 @@ void Play_Update(PlayState* this) {
     }
 #endif
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
-    gSegments[2] = VIRTUAL_TO_PHYSICAL(this->sceneSegment);
+    gSegments[4] = OS_K0_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSegments[5] = OS_K0_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
+    gSegments[2] = OS_K0_TO_PHYSICAL(this->sceneSegment);
 
     if (FrameAdvance_Update(&this->frameAdvCtx, &input[1])) {
         if ((this->transitionMode == TRANS_MODE_OFF) && (this->transitionTrigger != TRANS_TRIGGER_OFF)) {
@@ -1109,9 +1145,9 @@ void Play_Draw(PlayState* this) {
 
     OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
-    gSegments[2] = VIRTUAL_TO_PHYSICAL(this->sceneSegment);
+    gSegments[4] = OS_K0_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSegments[5] = OS_K0_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
+    gSegments[2] = OS_K0_TO_PHYSICAL(this->sceneSegment);
 
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     gSPSegment(POLY_XLU_DISP++, 0x00, NULL);
@@ -1294,7 +1330,7 @@ void Play_Draw(PlayState* this) {
         }
 
         if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
-            func_800315AC(this, &this->actorCtx);
+            Actor_DrawAll(this, &this->actorCtx);
         }
 
         if (!DEBUG_FEATURES || (R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LENS_FLARES) {
@@ -1570,7 +1606,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
 
     ASSERT(this->sceneSegment != NULL, "this->sceneSegment != NULL", "../z_play.c", 4960);
 
-    gSegments[2] = VIRTUAL_TO_PHYSICAL(this->sceneSegment);
+    gSegments[2] = OS_K0_TO_PHYSICAL(this->sceneSegment);
 
     Play_InitScene(this, spawn);
 

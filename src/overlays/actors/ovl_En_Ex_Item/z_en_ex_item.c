@@ -10,6 +10,7 @@
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"
@@ -18,6 +19,7 @@
 #include "z64draw.h"
 #include "z64play.h"
 #include "z64player.h"
+#include "z64save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

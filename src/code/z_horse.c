@@ -1,10 +1,14 @@
+#include "array_count.h"
 #include "terminal.h"
 #include "z_lib.h"
+#include "printf.h"
 #include "regs.h"
+#include "translation.h"
 #include "z64horse.h"
 #include "z64play.h"
 #include "z64player.h"
-#include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "z64save.h"
+#include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 /**
  * Tests if the player horse can be spawned

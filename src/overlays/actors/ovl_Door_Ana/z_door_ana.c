@@ -5,6 +5,17 @@
  */
 
 #include "z_door_ana.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64cutscene_flags.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_DURING_OCARINA

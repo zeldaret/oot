@@ -1,6 +1,6 @@
 // User-facing error handling
-#include "global.h"
 #include "n64dd.h"
+#include "z_locale.h"
 
 u8 B_801E0F80[0x600];
 u8 B_801E1580[0x2800];

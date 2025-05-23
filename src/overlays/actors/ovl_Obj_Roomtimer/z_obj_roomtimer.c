@@ -6,6 +6,11 @@
 
 #include "z_obj_roomtimer.h"
 
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ObjRoomtimer_Init(Actor* thisx, PlayState* play);

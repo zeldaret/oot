@@ -6,6 +6,23 @@
 
 #include "z_en_po_relay.h"
 #include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64light.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_tk/object_tk.h"
 
 #define FLAGS                                                                                  \

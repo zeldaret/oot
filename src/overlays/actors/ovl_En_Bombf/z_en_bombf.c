@@ -5,8 +5,21 @@
  */
 
 #include "z_en_bombf.h"
-#include "assets/objects/object_bombf/object_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/object_bombf/object_bombf.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
@@ -94,7 +107,7 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->bombCollider);
     Collider_InitJntSph(play, &this->explosionCollider);
     Collider_SetCylinder(play, &this->bombCollider, thisx, &sCylinderInit);
-    Collider_SetJntSph(play, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderItems[0]);
+    Collider_SetJntSph(play, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderElements[0]);
 
     if (thisx->params == BOMBFLOWER_BODY) {
         shapeUnk10 = 1000.0f;

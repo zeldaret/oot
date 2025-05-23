@@ -5,6 +5,7 @@
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "rand.h"
 #include "segmented_address.h"
 #include "sequence.h"
@@ -16,10 +17,11 @@
 #include "z_lib.h"
 #include "z64audio.h"
 #include "z64curve.h"
+#include "z64draw.h"
+#include "z64cutscene_flags.h"
 #include "z64effect.h"
 #include "z64play.h"
-
-#include "global.h"
+#include "z64save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_efc_crystal_light/object_efc_crystal_light.h"

@@ -2,11 +2,11 @@
 #define Z_EN_DIVING_GAME_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDivingGame;
 
-typedef void (*EnDivingGameActionFunc)(struct EnDivingGame*, PlayState*);
+typedef void (*EnDivingGameActionFunc)(struct EnDivingGame*, struct PlayState*);
 
 typedef struct EnDivingGame {
     /* 0x0000 */ Actor actor;

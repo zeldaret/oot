@@ -1,4 +1,7 @@
-#include "global.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "z64play.h"
 
 void Gfx_DrawDListOpa(PlayState* play, Gfx* dlist) {
     OPEN_DISPS(play->state.gfxCtx, "../z_cheap_proc.c", 214);

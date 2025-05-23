@@ -1,5 +1,12 @@
-#include "global.h"
+#include "vi_mode.h"
+
+#include "libu64/debug.h"
 #include "ultra64/viint.h"
+#include "controller.h"
+#include "gfx.h"
+#include "main.h"
+#include "printf.h"
+#include "regs.h"
 #include "versions.h"
 
 void ViMode_LogPrint(OSViMode* osViMode) {

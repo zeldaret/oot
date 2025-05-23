@@ -2,11 +2,11 @@
 #define Z_BOSS_FD2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossFd2;
 
-typedef void (*BossFd2ActionFunc)(struct BossFd2*, PlayState*);
+typedef void (*BossFd2ActionFunc)(struct BossFd2*, struct PlayState*);
 
 typedef enum BossFd2Signal {
     /* 0 */ FD2_SIGNAL_NONE,
@@ -83,7 +83,7 @@ typedef struct BossFd2 {
     /* 0x1414 */ f32 subCamAtYOffset;
     /* 0x1418 */ f32 subCamShake;
     /* 0x141C */ ColliderJntSph collider;
-    /* 0x143C */ ColliderJntSphElement elements[9];
+    /* 0x143C */ ColliderJntSphElement colliderElements[9];
 } BossFd2; // size = 0x167C
 
 #endif

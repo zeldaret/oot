@@ -6,6 +6,15 @@
 
 #include "z_en_dekunuts.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_dekunuts/object_dekunuts.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)

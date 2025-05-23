@@ -2,11 +2,11 @@
 #define Z_OBJ_MURE2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjMure2;
 
-typedef void (*ObjMure2ActionFunc)(struct ObjMure2*, PlayState*);
+typedef void (*ObjMure2ActionFunc)(struct ObjMure2*, struct PlayState*);
 
 typedef struct ObjMure2 {
     /* 0x0000 */ Actor actor;

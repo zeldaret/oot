@@ -1,5 +1,4 @@
-#include "global.h"
-#include "z_boss_mo.h"
+#include "z64collision_check.h"
 
 static ColliderJntSphElementInit sJntSphElementsInit[19] = {
     {

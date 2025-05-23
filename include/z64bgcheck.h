@@ -215,7 +215,7 @@ typedef enum ConveyorSpeed {
 } ConveyorSpeed;
 
 #define CONVEYOR_DIRECTION_TO_BINANG(conveyorDirection) ((conveyorDirection) * (0x10000 / 64))
-#define CONVEYOR_DIRECTION_FROM_BINANG(conveyorDirectionBinang) ((conveyorDirectionBinang) * (64 / 0x10000))
+#define CONVEYOR_DIRECTION_FROM_BINANG(conveyorDirectionBinang) ((conveyorDirectionBinang) / (0x10000 / 64))
 
 #define SURFACETYPE0(bgCamIndex, exitIndex, floorType, unk18, wallType, floorProperty, isSoft, isHorseBlocked) \
     ((((bgCamIndex)     & 0xFF) <<  0) | \

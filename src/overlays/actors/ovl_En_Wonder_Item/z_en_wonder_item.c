@@ -5,7 +5,17 @@
  */
 
 #include "z_en_wonder_item.h"
+
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64debug_display.h"
+#include "z64play.h"
+#include "z64player.h"
 
 #define FLAGS 0
 

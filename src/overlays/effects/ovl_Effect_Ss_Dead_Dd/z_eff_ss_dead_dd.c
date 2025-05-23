@@ -5,6 +5,15 @@
  */
 
 #include "z_eff_ss_dead_dd.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]

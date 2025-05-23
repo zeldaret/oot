@@ -58,7 +58,7 @@ void BgGndNisekabe_Draw(Actor* thisx, PlayState* play) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
     u32 index = PARAMS_GET_U(this->actor.params, 0, 8);
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, dLists[index]);
     } else {
         Gfx_DrawDListOpa(play, dLists[index]);

@@ -7,6 +7,24 @@
 #include "z_en_viewer.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 #include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64play.h"
+#include "z64save.h"
+#include "z64skin.h"
+
 #include "assets/objects/object_zl4/object_zl4.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_horse_zelda/object_horse_zelda.h"
@@ -123,7 +141,7 @@ void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, PlayState* play, void* sk
         SkelAnime_Init(play, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     }
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->animObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->animObjectSlot].segment);
     if (type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF ||
         type == ENVIEWER_TYPE_9_GANONDORF) {
         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 1.0f);
@@ -134,7 +152,7 @@ void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, PlayState* play, void* sk
 
 void EnViewer_InitAnimImpa(EnViewer* this, PlayState* play, void* skeletonHeaderSeg, AnimationHeader* anim) {
     SkelAnime_InitFlex(play, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->animObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->animObjectSlot].segment);
     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, anim, 3.0f);
 }
 
@@ -487,7 +505,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
 void EnViewer_Update(Actor* thisx, PlayState* play) {
     EnViewer* this = (EnViewer*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->animObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->animObjectSlot].segment);
     this->actionFunc(this, play);
 }
 

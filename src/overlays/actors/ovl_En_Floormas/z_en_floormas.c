@@ -5,6 +5,19 @@
  */
 
 #include "z_en_floormas.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_wallmaster/object_wallmaster.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
@@ -280,7 +293,7 @@ void EnFloormas_SetupLand(EnFloormas* this) {
 void EnFloormas_SetupSplit(EnFloormas* this) {
     Actor_SetScale(&this->actor, 0.004f);
     this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         this->actor.draw = EnFloormas_DrawHighlighted;
     } else {
         this->actor.draw = EnFloormas_Draw;

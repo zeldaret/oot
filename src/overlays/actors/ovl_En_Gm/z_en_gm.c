@@ -5,9 +5,22 @@
  */
 
 #include "z_en_gm.h"
+
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 #include "assets/objects/object_gm/object_gm.h"
-#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
@@ -105,7 +118,7 @@ void func_80A3D838(EnGm* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->gmObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
         Animation_Change(&this->skelAnime, &object_gm_Anim_0002B8, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_gm_Anim_0002B8), ANIMMODE_LOOP, 0.0f);
         this->actor.draw = EnGm_Draw;
@@ -274,7 +287,7 @@ void func_80A3DF60(EnGm* this, PlayState* play) {
 }
 
 void func_80A3DFBC(EnGm* this, PlayState* play) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
     this->timer++;
     this->actionFunc(this, play);
     this->actor.focus.rot.x = this->actor.world.rot.x;

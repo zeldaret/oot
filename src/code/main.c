@@ -1,5 +1,9 @@
+#include "sys_cfb.h"
 #include "ultra64.h"
 #include "versions.h"
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:0 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 // Declared before including other headers for BSS ordering
 extern uintptr_t gSegments[NUM_SEGMENTS];
@@ -12,19 +16,35 @@ extern struct Scheduler gScheduler;
 extern struct PadMgr gPadMgr;
 extern struct IrqMgr gIrqMgr;
 
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libu64/rcp_utils.h"
+#include "libu64/runtime.h"
+#include "array_count.h"
+#include "audiomgr.h"
+#include "debug_arena.h"
 #include "fault.h"
+#include "gfx.h"
+#include "idle.h"
+#include "padmgr.h"
+#include "prenmi_buff.h"
+#include "printf.h"
+#include "regs.h"
+#include "segment_symbols.h"
 #include "segmented_address.h"
 #include "stack.h"
+#include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #include "n64dd.h"
 #endif
+#include "z64debug.h"
+#include "z64thread.h"
 
-#pragma increment_block_number "gc-eu:144 gc-eu-mq:144 gc-jp:144 gc-jp-ce:144 gc-jp-mq:144 gc-us:144 gc-us-mq:144" \
-                               "ique-cn:128 ntsc-1.0:122 ntsc-1.1:122 ntsc-1.2:122 pal-1.0:120 pal-1.1:120"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:0 ntsc-1.0:34 ntsc-1.1:34 ntsc-1.2:34 pal-1.0:32 pal-1.1:32"
 
 extern u8 _buffersSegmentEnd[];
 
@@ -98,7 +118,7 @@ void Main(void* arg) {
     gSystemHeapSize = fb - systemHeapStart;
     PRINTF(T("システムヒープ初期化 %08x-%08x %08x\n", "System heap initialization %08x-%08x %08x\n"), systemHeapStart,
            fb, gSystemHeapSize);
-    SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
+    Runtime_Init((void*)systemHeapStart, gSystemHeapSize);
 
 #if DEBUG_FEATURES
     {

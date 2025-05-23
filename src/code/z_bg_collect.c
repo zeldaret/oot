@@ -1,5 +1,11 @@
-#include "global.h"
+#include "printf.h"
 #include "terminal.h"
+#include "translation.h"
+#include "ultra64.h"
+#include "z64actor.h"
+#include "z64bgcheck.h"
+#include "z64player.h"
+#include "z64skin_matrix.h"
 
 /**
  * Update the `carriedActor`'s position based on the dynapoly actor identified by `bgId`.
@@ -76,7 +82,7 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
         if (dynaActor != NULL) {
             DynaPolyActor_SetActorOnTop(dynaActor);
 
-            if (CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_CAN_PRESS_SWITCHES)) {
+            if (ACTOR_FLAGS_CHECK_ALL(actor, ACTOR_FLAG_CAN_PRESS_SWITCHES)) {
                 DynaPolyActor_SetSwitchPressed(dynaActor);
             }
         }
