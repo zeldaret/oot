@@ -7,53 +7,53 @@
 
 // Eyes textures
 
-u64 gLinkAdultEyesOpenTex[] = {
+u64 gLinkAdultEyesOpenTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesOpenTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesHalfTex[] = {
+u64 gLinkAdultEyesHalfTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesHalfTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesClosedfTex[] = {
+u64 gLinkAdultEyesClosedfTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesClosedfTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesLeftTex[] = {
+u64 gLinkAdultEyesLeftTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesLeftTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesRightTex[] = {
+u64 gLinkAdultEyesRightTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesRightTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesWideTex[] = {
+u64 gLinkAdultEyesWideTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesWideTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesDownTex[] = {
+u64 gLinkAdultEyesDownTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesDownTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesWincingTex[] = {
+u64 gLinkAdultEyesWincingTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesWincingTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
 // Mouth textures
 
-u64 gLinkAdultMouthClosedTex[] = {
+u64 gLinkAdultMouthClosedTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMouthClosedTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultMouthHalfTex[] = {
+u64 gLinkAdultMouthHalfTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMouthHalfTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultMouthOpenTex[] = {
+u64 gLinkAdultMouthOpenTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMouthOpenTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultMouthSmileTex[] = {
+u64 gLinkAdultMouthSmileTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMouthSmileTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
@@ -61,23 +61,25 @@ u64 gLinkAdultMouthSmileTex[] = {
 
 #define gLinkAdultEarTex_WIDTH 16
 #define gLinkAdultEarTex_HEIGHT 16
-u64 gLinkAdultEarTex[] = {
+u64 gLinkAdultEarTex[gLinkAdultEarTex_HEIGHT * gLinkAdultEarTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEarTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
 #define gLinkAdultNoseTex_WIDTH 16
 #define gLinkAdultNoseTex_HEIGHT 16
-u64 gLinkAdultNoseTex[] = {
+u64 gLinkAdultNoseTex[gLinkAdultNoseTex_HEIGHT * gLinkAdultNoseTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultNoseTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
 #define gLinkAdultNose2Tex_WIDTH 16
 #define gLinkAdultNose2Tex_HEIGHT 16
-u64 gLinkAdultNose2Tex[] = {
+u64 gLinkAdultNose2Tex[gLinkAdultNose2Tex_HEIGHT * gLinkAdultNose2Tex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultNose2Tex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultUnusedHandTex[] = {
+#define gLinkAdultUnusedHandTex_WIDTH 16
+#define gLinkAdultUnusedHandTex_HEIGHT 16
+u64 gLinkAdultUnusedHandTex[gLinkAdultUnusedHandTex_HEIGHT * gLinkAdultUnusedHandTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedHandTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
@@ -87,7 +89,7 @@ u64 gLinkAdultTLUT1[] = {
 
 #define gLinkAdultBootFarTex_WIDTH 16
 #define gLinkAdultBootFarTex_HEIGHT 32
-u64 gLinkAdultBootFarTex[] = {
+u64 gLinkAdultBootFarTex[gLinkAdultBootFarTex_HEIGHT * gLinkAdultBootFarTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBootFarTex.ci8.inc.c"
 };
 
@@ -113,155 +115,185 @@ u64 gLinkAdultTlut_005E00[] = {
 
 #define gLinkAdultBootTex_WIDTH 16
 #define gLinkAdultBootTex_HEIGHT 16
-u64 gLinkAdultBootTex[] = {
+u64 gLinkAdultBootTex[gLinkAdultBootTex_HEIGHT * gLinkAdultBootTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBootTex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultLegTex_WIDTH 16
 #define gLinkAdultLegTex_HEIGHT 32
-u64 gLinkAdultLegTex[] = {
+u64 gLinkAdultLegTex[gLinkAdultLegTex_HEIGHT * gLinkAdultLegTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultLegTex.ci8.tlut_gLinkAdultTLUT3.inc.c"
 };
 
 #define gLinkAdultBoot2Tex_WIDTH 16
 #define gLinkAdultBoot2Tex_HEIGHT 32
-u64 gLinkAdultBoot2Tex[] = {
+u64 gLinkAdultBoot2Tex[gLinkAdultBoot2Tex_HEIGHT * gLinkAdultBoot2Tex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBoot2Tex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultBootBuckleTex_WIDTH 32
 #define gLinkAdultBootBuckleTex_HEIGHT 16
-u64 gLinkAdultBootBuckleTex[] = {
+u64 gLinkAdultBootBuckleTex[gLinkAdultBootBuckleTex_HEIGHT * gLinkAdultBootBuckleTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBootBuckleTex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultSkirtAndHatTex_WIDTH 32
 #define gLinkAdultSkirtAndHatTex_HEIGHT 32
-u64 gLinkAdultSkirtAndHatTex[] = {
+u64 gLinkAdultSkirtAndHatTex[gLinkAdultSkirtAndHatTex_HEIGHT * gLinkAdultSkirtAndHatTex_WIDTH * 16 / 8 /
+                             sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSkirtAndHatTex.rgba16.inc.c"
 };
 
 #define gLinkAdultBeltTex_WIDTH 8
 #define gLinkAdultBeltTex_HEIGHT 16
-u64 gLinkAdultBeltTex[] = {
+u64 gLinkAdultBeltTex[gLinkAdultBeltTex_HEIGHT * gLinkAdultBeltTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBeltTex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultBeltClaspTex_WIDTH 32
 #define gLinkAdultBeltClaspTex_HEIGHT 16
-u64 gLinkAdultBeltClaspTex[] = {
+u64 gLinkAdultBeltClaspTex[gLinkAdultBeltClaspTex_HEIGHT * gLinkAdultBeltClaspTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBeltClaspTex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultEarringTex_WIDTH 32
 #define gLinkAdultEarringTex_HEIGHT 32
-u64 gLinkAdultEarringTex[] = {
+u64 gLinkAdultEarringTex[gLinkAdultEarringTex_HEIGHT * gLinkAdultEarringTex_WIDTH * 16 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEarringTex.ia16.inc.c"
 };
 
 #define gLinkAdultNeckTex_WIDTH 16
 #define gLinkAdultNeckTex_HEIGHT 32
-u64 gLinkAdultNeckTex[] = {
+u64 gLinkAdultNeckTex[gLinkAdultNeckTex_HEIGHT * gLinkAdultNeckTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultNeckTex.ci8.tlut_gLinkAdultTLUT3.inc.c"
 };
 
-u64 gLinkAdultUnusedGauntlet1Tex[] = {
+#define gLinkAdultUnusedGauntlet1Tex_WIDTH 16
+#define gLinkAdultUnusedGauntlet1Tex_HEIGHT 32
+u64 gLinkAdultUnusedGauntlet1Tex[gLinkAdultUnusedGauntlet1Tex_HEIGHT * gLinkAdultUnusedGauntlet1Tex_WIDTH * 8 / 8 /
+                                 sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedGauntlet1Tex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
-u64 gLinkAdultUnusedGauntlet2Tex[] = {
+#define gLinkAdultUnusedGauntlet2Tex_WIDTH 16
+#define gLinkAdultUnusedGauntlet2Tex_HEIGHT 32
+u64 gLinkAdultUnusedGauntlet2Tex[gLinkAdultUnusedGauntlet2Tex_HEIGHT * gLinkAdultUnusedGauntlet2Tex_WIDTH * 8 / 8 /
+                                 sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedGauntlet2Tex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultArmGauntletTex_WIDTH 32
 #define gLinkAdultArmGauntletTex_HEIGHT 32
-u64 gLinkAdultArmGauntletTex[] = {
+u64 gLinkAdultArmGauntletTex[gLinkAdultArmGauntletTex_HEIGHT * gLinkAdultArmGauntletTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultArmGauntletTex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
-u64 gLinkAdultUnusedSheathTex[] = {
+#define gLinkAdultUnusedSheathTex_WIDTH 32
+#define gLinkAdultUnusedSheathTex_HEIGHT 64
+u64 gLinkAdultUnusedSheathTex[gLinkAdultUnusedSheathTex_HEIGHT * gLinkAdultUnusedSheathTex_WIDTH * 8 / 8 /
+                              sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedSheathTex.ci8.tlut_gLinkAdultTlut_005E00.inc.c"
 };
 
-u64 gLinkAdultUnusedSheathBandTex[] = {
+#define gLinkAdultUnusedSheathBandTex_WIDTH 32
+#define gLinkAdultUnusedSheathBandTex_HEIGHT 16
+u64 gLinkAdultUnusedSheathBandTex[gLinkAdultUnusedSheathBandTex_HEIGHT * gLinkAdultUnusedSheathBandTex_WIDTH * 8 / 8 /
+                                  sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedSheathBandTex.ci8.tlut_gLinkAdultTlut_005E00.inc.c"
 };
 
-u64 gLinkAdultUnusedSwordPommelTex[] = {
+#define gLinkAdultUnusedSwordPommelTex_WIDTH 16
+#define gLinkAdultUnusedSwordPommelTex_HEIGHT 16
+u64 gLinkAdultUnusedSwordPommelTex[gLinkAdultUnusedSwordPommelTex_HEIGHT * gLinkAdultUnusedSwordPommelTex_WIDTH * 8 /
+                                   8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedSwordPommelTex.ci8.tlut_gLinkAdultTlut_005E00.inc.c"
 };
 
-u64 gLinkAdultUnusedSwordGuardTex[] = {
+#define gLinkAdultUnusedSwordGuardTex_WIDTH 32
+#define gLinkAdultUnusedSwordGuardTex_HEIGHT 32
+u64 gLinkAdultUnusedSwordGuardTex[gLinkAdultUnusedSwordGuardTex_HEIGHT * gLinkAdultUnusedSwordGuardTex_WIDTH * 8 / 8 /
+                                  sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedSwordGuardTex.ci8.tlut_gLinkAdultTlut_005E00.inc.c"
 };
 
-u64 gLinkAdultUnusedSwordEmblemTex[] = {
+#define gLinkAdultUnusedSwordEmblemTex_WIDTH 16
+#define gLinkAdultUnusedSwordEmblemTex_HEIGHT 16
+u64 gLinkAdultUnusedSwordEmblemTex[gLinkAdultUnusedSwordEmblemTex_HEIGHT * gLinkAdultUnusedSwordEmblemTex_WIDTH * 8 /
+                                   8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedSwordEmblemTex.ci8.tlut_gLinkAdultTlut_005E00.inc.c"
 };
 
 #define gLinkAdultTunicTex_WIDTH 16
 #define gLinkAdultTunicTex_HEIGHT 32
-u64 gLinkAdultTunicTex[] = {
+u64 gLinkAdultTunicTex[gLinkAdultTunicTex_HEIGHT * gLinkAdultTunicTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultTunicTex.ci8.tlut_gLinkAdultTLUT3.inc.c"
 };
 
 #define gLinkAdultCollarTex_WIDTH 16
 #define gLinkAdultCollarTex_HEIGHT 32
-u64 gLinkAdultCollarTex[] = {
+u64 gLinkAdultCollarTex[gLinkAdultCollarTex_HEIGHT * gLinkAdultCollarTex_WIDTH * 16 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultCollarTex.rgba16.inc.c"
 };
 
 #define gLinkAdultGauntletPlate1Tex_WIDTH 16
 #define gLinkAdultGauntletPlate1Tex_HEIGHT 32
-u64 gLinkAdultGauntletPlate1Tex[] = {
+u64 gLinkAdultGauntletPlate1Tex[gLinkAdultGauntletPlate1Tex_HEIGHT * gLinkAdultGauntletPlate1Tex_WIDTH * 16 / 8 /
+                                sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultGauntletPlate1Tex.rgba16.inc.c"
 };
 
 #define gLinkAdultGauntletPlate2Tex_WIDTH 32
 #define gLinkAdultGauntletPlate2Tex_HEIGHT 32
-u64 gLinkAdultGauntletPlate2Tex[] = {
+u64 gLinkAdultGauntletPlate2Tex[gLinkAdultGauntletPlate2Tex_HEIGHT * gLinkAdultGauntletPlate2Tex_WIDTH * 16 / 8 /
+                                sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultGauntletPlate2Tex.rgba16.inc.c"
 };
 
 #define gLinkAdultHoverBootsHeelTex_WIDTH 16
 #define gLinkAdultHoverBootsHeelTex_HEIGHT 8
-u64 gLinkAdultHoverBootsHeelTex[] = {
+u64 gLinkAdultHoverBootsHeelTex[gLinkAdultHoverBootsHeelTex_HEIGHT * gLinkAdultHoverBootsHeelTex_WIDTH * 16 / 8 /
+                                sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHoverBootsHeelTex.rgba16.inc.c"
 };
 
 #define gLinkAdultHoverBootsJetTex_WIDTH 32
 #define gLinkAdultHoverBootsJetTex_HEIGHT 32
-u64 gLinkAdultHoverBootsJetTex[] = {
+u64 gLinkAdultHoverBootsJetTex[gLinkAdultHoverBootsJetTex_HEIGHT * gLinkAdultHoverBootsJetTex_WIDTH * 16 / 8 /
+                               sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHoverBootsJetTex.rgba16.inc.c"
 };
 
 #define gLinkAdultHoverBootsFeatherTex_WIDTH 32
 #define gLinkAdultHoverBootsFeatherTex_HEIGHT 16
-u64 gLinkAdultHoverBootsFeatherTex[] = {
+u64 gLinkAdultHoverBootsFeatherTex[gLinkAdultHoverBootsFeatherTex_HEIGHT * gLinkAdultHoverBootsFeatherTex_WIDTH * 16 /
+                                   8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHoverBootsFeatherTex.rgba16.inc.c"
 };
 
 #define gLinkAdultMirrorShieldLowerDesignTex_WIDTH 32
 #define gLinkAdultMirrorShieldLowerDesignTex_HEIGHT 64
-u64 gLinkAdultMirrorShieldLowerDesignTex[] = {
+u64 gLinkAdultMirrorShieldLowerDesignTex[gLinkAdultMirrorShieldLowerDesignTex_HEIGHT *
+                                         gLinkAdultMirrorShieldLowerDesignTex_WIDTH * 16 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMirrorShieldLowerDesignTex.ia16.inc.c"
 };
 
 #define gLinkAdultMirrorShieldUpperDesignTex_WIDTH 64
 #define gLinkAdultMirrorShieldUpperDesignTex_HEIGHT 32
-u64 gLinkAdultMirrorShieldUpperDesignTex[] = {
+u64 gLinkAdultMirrorShieldUpperDesignTex[gLinkAdultMirrorShieldUpperDesignTex_HEIGHT *
+                                         gLinkAdultMirrorShieldUpperDesignTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMirrorShieldUpperDesignTex.ia8.inc.c"
 };
 
 #define gLinkAdultHookshotMetalTex_WIDTH 8
 #define gLinkAdultHookshotMetalTex_HEIGHT 8
-u64 gLinkAdultHookshotMetalTex[] = {
+u64 gLinkAdultHookshotMetalTex[gLinkAdultHookshotMetalTex_HEIGHT * gLinkAdultHookshotMetalTex_WIDTH * 16 / 8 /
+                               sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotMetalTex.rgba16.inc.c"
 };
 
 #define gLinkAdultBowBodyTex_WIDTH 8
 #define gLinkAdultBowBodyTex_HEIGHT 8
-u64 gLinkAdultBowBodyTex[] = {
+u64 gLinkAdultBowBodyTex[gLinkAdultBowBodyTex_HEIGHT * gLinkAdultBowBodyTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBowBodyTex.i8.inc.c"
 };
 
@@ -295,103 +327,113 @@ u64 gLinkAdultTLUT7[] = {
 
 #define gLinkAdultSwordPommelTex_WIDTH 16
 #define gLinkAdultSwordPommelTex_HEIGHT 16
-u64 gLinkAdultSwordPommelTex[] = {
+u64 gLinkAdultSwordPommelTex[gLinkAdultSwordPommelTex_HEIGHT * gLinkAdultSwordPommelTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSwordPommelTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultIronBootTex_WIDTH 16
 #define gLinkAdultIronBootTex_HEIGHT 16
-u64 gLinkAdultIronBootTex[] = {
+u64 gLinkAdultIronBootTex[gLinkAdultIronBootTex_HEIGHT * gLinkAdultIronBootTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultIronBootTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultDefaultGauntlet1Tex_WIDTH 16
 #define gLinkAdultDefaultGauntlet1Tex_HEIGHT 32
-u64 gLinkAdultDefaultGauntlet1Tex[] = {
+u64 gLinkAdultDefaultGauntlet1Tex[gLinkAdultDefaultGauntlet1Tex_HEIGHT * gLinkAdultDefaultGauntlet1Tex_WIDTH * 8 / 8 /
+                                  sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultDefaultGauntlet1Tex.ci8.tlut_gLinkAdultTLUT5.inc.c"
 };
 
 #define gLinkAdultShieldHandleTex_WIDTH 8
 #define gLinkAdultShieldHandleTex_HEIGHT 16
-u64 gLinkAdultShieldHandleTex[] = {
+u64 gLinkAdultShieldHandleTex[gLinkAdultShieldHandleTex_HEIGHT * gLinkAdultShieldHandleTex_WIDTH * 8 / 8 /
+                              sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultShieldHandleTex.ci8.tlut_gLinkAdultTLUT5.inc.c"
 };
 
 #define gLinkAdultDefaultGauntlet2Tex_WIDTH 16
 #define gLinkAdultDefaultGauntlet2Tex_HEIGHT 32
-u64 gLinkAdultDefaultGauntlet2Tex[] = {
+u64 gLinkAdultDefaultGauntlet2Tex[gLinkAdultDefaultGauntlet2Tex_HEIGHT * gLinkAdultDefaultGauntlet2Tex_WIDTH * 8 / 8 /
+                                  sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultDefaultGauntlet2Tex.ci8.tlut_gLinkAdultTLUT5.inc.c"
 };
 
 #define gLinkAdultHandTex_WIDTH 16
 #define gLinkAdultHandTex_HEIGHT 16
-u64 gLinkAdultHandTex[] = {
+u64 gLinkAdultHandTex[gLinkAdultHandTex_HEIGHT * gLinkAdultHandTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHandTex.ci8.tlut_gLinkAdultTLUT6.inc.c"
 };
 
 #define gLinkAdultClosedHandThumbTex_WIDTH 16
 #define gLinkAdultClosedHandThumbTex_HEIGHT 16
-u64 gLinkAdultClosedHandThumbTex[] = {
+u64 gLinkAdultClosedHandThumbTex[gLinkAdultClosedHandThumbTex_HEIGHT * gLinkAdultClosedHandThumbTex_WIDTH * 8 / 8 /
+                                 sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultClosedHandThumbTex.ci8.tlut_gLinkAdultTLUT6.inc.c"
 };
 
 #define gLinkAdultHylianShieldBackTex_WIDTH 16
 #define gLinkAdultHylianShieldBackTex_HEIGHT 32
-u64 gLinkAdultHylianShieldBackTex[] = {
+u64 gLinkAdultHylianShieldBackTex[gLinkAdultHylianShieldBackTex_HEIGHT * gLinkAdultHylianShieldBackTex_WIDTH * 8 / 8 /
+                                  sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHylianShieldBackTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultClosedHandSideTex_WIDTH 16
 #define gLinkAdultClosedHandSideTex_HEIGHT 16
-u64 gLinkAdultClosedHandSideTex[] = {
+u64 gLinkAdultClosedHandSideTex[gLinkAdultClosedHandSideTex_HEIGHT * gLinkAdultClosedHandSideTex_WIDTH * 8 / 8 /
+                                sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultClosedHandSideTex.ci8.tlut_gLinkAdultTLUT6.inc.c"
 };
 
 #define gLinkAdultSheathTex_WIDTH 32
 #define gLinkAdultSheathTex_HEIGHT 32
-u64 gLinkAdultSheathTex[] = {
+u64 gLinkAdultSheathTex[gLinkAdultSheathTex_HEIGHT * gLinkAdultSheathTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSheathTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultArmOutUpperGauntletTex_WIDTH 32
 #define gLinkAdultArmOutUpperGauntletTex_HEIGHT 32
-u64 gLinkAdultArmOutUpperGauntletTex[] = {
+u64 gLinkAdultArmOutUpperGauntletTex[gLinkAdultArmOutUpperGauntletTex_HEIGHT * gLinkAdultArmOutUpperGauntletTex_WIDTH *
+                                     8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultArmOutUpperGauntletTex.ci8.tlut_gLinkAdultTLUT5.inc.c"
 };
 
 #define gLinkAdultSwordGuardTex_WIDTH 32
 #define gLinkAdultSwordGuardTex_HEIGHT 32
-u64 gLinkAdultSwordGuardTex[] = {
+u64 gLinkAdultSwordGuardTex[gLinkAdultSwordGuardTex_HEIGHT * gLinkAdultSwordGuardTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSwordGuardTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultSheathBandTex_WIDTH 32
 #define gLinkAdultSheathBandTex_HEIGHT 16
-u64 gLinkAdultSheathBandTex[] = {
+u64 gLinkAdultSheathBandTex[gLinkAdultSheathBandTex_HEIGHT * gLinkAdultSheathBandTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSheathBandTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultSwordEmblemTex_WIDTH 16
 #define gLinkAdultSwordEmblemTex_HEIGHT 16
-u64 gLinkAdultSwordEmblemTex[] = {
+u64 gLinkAdultSwordEmblemTex[gLinkAdultSwordEmblemTex_HEIGHT * gLinkAdultSwordEmblemTex_WIDTH * 8 / 8 / sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSwordEmblemTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultHookshotHandleTex_WIDTH 16
 #define gLinkAdultHookshotHandleTex_HEIGHT 8
-u64 gLinkAdultHookshotHandleTex[] = {
+u64 gLinkAdultHookshotHandleTex[gLinkAdultHookshotHandleTex_HEIGHT * gLinkAdultHookshotHandleTex_WIDTH * 8 / 8 /
+                                sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotHandleTex.ci8.tlut_gLinkAdultTLUT5.inc.c"
 };
 
 #define gLinkAdultHookshotDesignTex_WIDTH 16
 #define gLinkAdultHookshotDesignTex_HEIGHT 32
-u64 gLinkAdultHookshotDesignTex[] = {
+u64 gLinkAdultHookshotDesignTex[gLinkAdultHookshotDesignTex_HEIGHT * gLinkAdultHookshotDesignTex_WIDTH * 8 / 8 /
+                                sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotDesignTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultArmOutSleeveTex_WIDTH 16
 #define gLinkAdultArmOutSleeveTex_HEIGHT 32
-u64 gLinkAdultArmOutSleeveTex[] = {
+u64 gLinkAdultArmOutSleeveTex[gLinkAdultArmOutSleeveTex_HEIGHT * gLinkAdultArmOutSleeveTex_WIDTH * 8 / 8 /
+                              sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultArmOutSleeveTex.ci8.inc.c"
 };
 
@@ -641,223 +683,223 @@ Vtx gLinkAdultRightHandHoldingMirrorShieldFarVtx2[] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingMirrorShieldFarVtx2.inc.c"
 };
 
-Gfx gLinkAdultHylianShieldSwordAndSheathNearDL[] = {
+Gfx gLinkAdultHylianShieldSwordAndSheathNearDL[127] = {
 #include "assets/objects/object_link_boy/gLinkAdultHylianShieldSwordAndSheathNearDL.inc.c"
 };
 
-Gfx gLinkAdultHylianShieldAndSheathNearDL[] = {
+Gfx gLinkAdultHylianShieldAndSheathNearDL[105] = {
 #include "assets/objects/object_link_boy/gLinkAdultHylianShieldAndSheathNearDL.inc.c"
 };
 
-Gfx gLinkAdultMirrorShieldSwordAndSheathNearDL[] = {
+Gfx gLinkAdultMirrorShieldSwordAndSheathNearDL[159] = {
 #include "assets/objects/object_link_boy/gLinkAdultMirrorShieldSwordAndSheathNearDL.inc.c"
 };
 
-Gfx gLinkAdultMirrorShieldAndSheathNearDL[] = {
+Gfx gLinkAdultMirrorShieldAndSheathNearDL[127] = {
 #include "assets/objects/object_link_boy/gLinkAdultMirrorShieldAndSheathNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandNearDL[] = {
+Gfx gLinkAdultLeftHandNearDL[72] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandClosedNearDL[] = {
+Gfx gLinkAdultLeftHandClosedNearDL[82] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandClosedNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandHoldingMasterSwordNearDL[] = {
+Gfx gLinkAdultLeftHandHoldingMasterSwordNearDL[164] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandHoldingMasterSwordNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandNearDL[] = {
+Gfx gLinkAdultRightHandNearDL[73] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandClosedNearDL[] = {
+Gfx gLinkAdultRightHandClosedNearDL[82] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandClosedNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingHylianShieldNearDL[] = {
+Gfx gLinkAdultRightHandHoldingHylianShieldNearDL[135] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingHylianShieldNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingBowNearDL[] = {
+Gfx gLinkAdultRightHandHoldingBowNearDL[119] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingBowNearDL.inc.c"
 };
 
-Gfx gLinkAdultMasterSwordAndSheathNearDL[] = {
+Gfx gLinkAdultMasterSwordAndSheathNearDL[80] = {
 #include "assets/objects/object_link_boy/gLinkAdultMasterSwordAndSheathNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandHoldingHammerNearDL[] = {
+Gfx gLinkAdultLeftHandHoldingHammerNearDL[157] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandHoldingHammerNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandHoldingBgsNearDL[] = {
+Gfx gLinkAdultLeftHandHoldingBgsNearDL[145] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandHoldingBgsNearDL.inc.c"
 };
 
-Gfx gLinkAdultHandHoldingBrokenGiantsKnifeDL[] = {
+Gfx gLinkAdultHandHoldingBrokenGiantsKnifeDL[142] = {
 #include "assets/objects/object_link_boy/gLinkAdultHandHoldingBrokenGiantsKnifeDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingMirrorShieldNearDL[] = {
+Gfx gLinkAdultRightHandHoldingMirrorShieldNearDL[155] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingMirrorShieldNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingOotNearDL[] = {
+Gfx gLinkAdultRightHandHoldingOotNearDL[104] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingOotNearDL.inc.c"
 };
 
-Gfx gLinkAdultSheathNearDL[] = {
+Gfx gLinkAdultSheathNearDL[48] = {
 #include "assets/objects/object_link_boy/gLinkAdultSheathNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandOutNearDL[] = {
+Gfx gLinkAdultLeftHandOutNearDL[67] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandOutNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingHookshotNearDL[] = {
+Gfx gLinkAdultRightHandHoldingHookshotNearDL[149] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingHookshotNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftGauntletPlate1DL[] = {
+Gfx gLinkAdultLeftGauntletPlate1DL[24] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftGauntletPlate1DL.inc.c"
 };
 
-Gfx gLinkAdultLeftGauntletPlate2DL[] = {
+Gfx gLinkAdultLeftGauntletPlate2DL[44] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftGauntletPlate2DL.inc.c"
 };
 
-Gfx gLinkAdultLeftGauntletPlate3DL[] = {
+Gfx gLinkAdultLeftGauntletPlate3DL[44] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftGauntletPlate3DL.inc.c"
 };
 
-Gfx gLinkAdultRightGauntletPlate1DL[] = {
+Gfx gLinkAdultRightGauntletPlate1DL[24] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightGauntletPlate1DL.inc.c"
 };
 
-Gfx gLinkAdultRightGauntletPlate2DL[] = {
+Gfx gLinkAdultRightGauntletPlate2DL[44] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightGauntletPlate2DL.inc.c"
 };
 
-Gfx gLinkAdultRightGauntletPlate3DL[] = {
+Gfx gLinkAdultRightGauntletPlate3DL[44] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightGauntletPlate3DL.inc.c"
 };
 
-Gfx gLinkAdultLeftIronBootDL[] = {
+Gfx gLinkAdultLeftIronBootDL[41] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftIronBootDL.inc.c"
 };
 
-Gfx gLinkAdultRightIronBootDL[] = {
+Gfx gLinkAdultRightIronBootDL[41] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightIronBootDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHoverBootDL[] = {
+Gfx gLinkAdultLeftHoverBootDL[65] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHoverBootDL.inc.c"
 };
 
-Gfx gLinkAdultRightHoverBootDL[] = {
+Gfx gLinkAdultRightHoverBootDL[65] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHoverBootDL.inc.c"
 };
 
-Gfx gLinkAdultHylianShieldSwordAndSheathFarDL[] = {
+Gfx gLinkAdultHylianShieldSwordAndSheathFarDL[96] = {
 #include "assets/objects/object_link_boy/gLinkAdultHylianShieldSwordAndSheathFarDL.inc.c"
 };
 
-Gfx gLinkAdultHylianShieldAndSheathFarDL[] = {
+Gfx gLinkAdultHylianShieldAndSheathFarDL[71] = {
 #include "assets/objects/object_link_boy/gLinkAdultHylianShieldAndSheathFarDL.inc.c"
 };
 
-Gfx gLinkAdultMirrorShieldSwordAndSheathFarDL[] = {
+Gfx gLinkAdultMirrorShieldSwordAndSheathFarDL[132] = {
 #include "assets/objects/object_link_boy/gLinkAdultMirrorShieldSwordAndSheathFarDL.inc.c"
 };
 
-Gfx gLinkAdultMirrorShieldAndSheathFarDL[] = {
+Gfx gLinkAdultMirrorShieldAndSheathFarDL[105] = {
 #include "assets/objects/object_link_boy/gLinkAdultMirrorShieldAndSheathFarDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandFarDL[] = {
+Gfx gLinkAdultLeftHandFarDL[51] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandFarDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandClosedFarDL[] = {
+Gfx gLinkAdultLeftHandClosedFarDL[81] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandClosedFarDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandHoldingMasterSwordFarDL[] = {
+Gfx gLinkAdultLeftHandHoldingMasterSwordFarDL[144] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandHoldingMasterSwordFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandFarDL[] = {
+Gfx gLinkAdultRightHandFarDL[51] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandClosedFarDL[] = {
+Gfx gLinkAdultRightHandClosedFarDL[81] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandClosedFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingHylianShieldFarDL[] = {
+Gfx gLinkAdultRightHandHoldingHylianShieldFarDL[78] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingHylianShieldFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingBowFarDL[] = {
+Gfx gLinkAdultRightHandHoldingBowFarDL[111] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingBowFarDL.inc.c"
 };
 
-Gfx gLinkAdultMasterSwordAndSheathFarDL[] = {
+Gfx gLinkAdultMasterSwordAndSheathFarDL[74] = {
 #include "assets/objects/object_link_boy/gLinkAdultMasterSwordAndSheathFarDL.inc.c"
 };
 
-Gfx gLinkAdultSheathFarDL[] = {
+Gfx gLinkAdultSheathFarDL[39] = {
 #include "assets/objects/object_link_boy/gLinkAdultSheathFarDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandHoldingHammerFarDL[] = {
+Gfx gLinkAdultLeftHandHoldingHammerFarDL[134] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandHoldingHammerFarDL.inc.c"
 };
 
-Gfx gLinkAdultLeftHandHoldingBgsFarDL[] = {
+Gfx gLinkAdultLeftHandHoldingBgsFarDL[145] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftHandHoldingBgsFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingMirrorShieldFarDL[] = {
+Gfx gLinkAdultRightHandHoldingMirrorShieldFarDL[131] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingMirrorShieldFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingOotFarDL[] = {
+Gfx gLinkAdultRightHandHoldingOotFarDL[82] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingOotFarDL.inc.c"
 };
 
-Gfx gLinkAdultHandHoldingBrokenGiantsKnifeFarDL[] = {
+Gfx gLinkAdultHandHoldingBrokenGiantsKnifeFarDL[131] = {
 #include "assets/objects/object_link_boy/gLinkAdultHandHoldingBrokenGiantsKnifeFarDL.inc.c"
 };
 
-Gfx gLinkAdultHandHoldingBottleDL[] = {
+Gfx gLinkAdultHandHoldingBottleDL[99] = {
 #include "assets/objects/object_link_boy/gLinkAdultHandHoldingBottleDL.inc.c"
 };
 
-Gfx gLinkAdultRightArmOutNearDL[] = {
+Gfx gLinkAdultRightArmOutNearDL[97] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightArmOutNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandOutNearDL[] = {
+Gfx gLinkAdultRightHandOutNearDL[112] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandOutNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftArmOutNearDL[] = {
+Gfx gLinkAdultLeftArmOutNearDL[85] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftArmOutNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingBowFirstPersonDL[] = {
+Gfx gLinkAdultRightHandHoldingBowFirstPersonDL[158] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingBowFirstPersonDL.inc.c"
 };
 
-Gfx gLinkAdultRightHandHoldingHookshotFarDL[] = {
+Gfx gLinkAdultRightHandHoldingHookshotFarDL[196] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightHandHoldingHookshotFarDL.inc.c"
 };
 
-Gfx gLinkAdultBottleDL[] = {
+Gfx gLinkAdultBottleDL[35] = {
 #include "assets/objects/object_link_boy/gLinkAdultBottleDL.inc.c"
 };
 
@@ -869,9 +911,10 @@ Vtx gLinkAdultHookshotChainVtx[] = {
 
 #define gLinkAdultHookshotChainTex_WIDTH 16
 #define gLinkAdultHookshotChainTex_HEIGHT 32
-u64 gLinkAdultHookshotChainTex[];
+u64 gLinkAdultHookshotChainTex[gLinkAdultHookshotChainTex_HEIGHT * gLinkAdultHookshotChainTex_WIDTH * 16 / 8 /
+                               sizeof(u64)];
 
-Gfx gLinkAdultHookshotChainDL[] = {
+Gfx gLinkAdultHookshotChainDL[23] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotChainDL.inc.c"
 };
 
@@ -879,7 +922,7 @@ Vtx gLinkAdultBowStringVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultBowStringVtx.inc.c"
 };
 
-Gfx gLinkAdultBowStringDL[] = {
+Gfx gLinkAdultBowStringDL[12] = {
 #include "assets/objects/object_link_boy/gLinkAdultBowStringDL.inc.c"
 };
 
@@ -887,11 +930,12 @@ Vtx gLinkAdultHookshotTipVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotTipVtx.inc.c"
 };
 
-Gfx gLinkAdultHookshotTipDL[] = {
+Gfx gLinkAdultHookshotTipDL[22] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotTipDL.inc.c"
 };
 
-u64 gLinkAdultHookshotChainTex[] = {
+u64 gLinkAdultHookshotChainTex[gLinkAdultHookshotChainTex_HEIGHT * gLinkAdultHookshotChainTex_WIDTH * 16 / 8 /
+                               sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotChainTex.rgba16.inc.c"
 };
 
@@ -899,7 +943,7 @@ Vtx gLinkAdultBrokenGiantsKnifeBladeVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultBrokenGiantsKnifeBladeVtx.inc.c"
 };
 
-Gfx gLinkAdultBrokenGiantsKnifeBladeDL[] = {
+Gfx gLinkAdultBrokenGiantsKnifeBladeDL[28] = {
 #include "assets/objects/object_link_boy/gLinkAdultBrokenGiantsKnifeBladeDL.inc.c"
 };
 
@@ -907,7 +951,8 @@ Gfx gLinkAdultBrokenGiantsKnifeBladeDL[] = {
 
 #define gLinkAdultHookshotReticleTex_WIDTH 64
 #define gLinkAdultHookshotReticleTex_HEIGHT 64
-u64 gLinkAdultHookshotReticleTex[] = {
+u64 gLinkAdultHookshotReticleTex[gLinkAdultHookshotReticleTex_HEIGHT * gLinkAdultHookshotReticleTex_WIDTH * 8 / 8 /
+                                 sizeof(u64)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotReticleTex.i8.inc.c"
 };
 
@@ -915,7 +960,7 @@ Vtx gLinkAdultHookshotReticleVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotReticleVtx.inc.c"
 };
 
-Gfx gLinkAdultHookshotReticleDL[] = {
+Gfx gLinkAdultHookshotReticleDL[13] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotReticleDL.inc.c"
 };
 
@@ -989,65 +1034,63 @@ Vtx gLinkAdultCollarFarVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultCollarFarVtx.inc.c"
 };
 
-// Far skeleton DLs
-
-Gfx gLinkAdultWaistFarDL[] = {
+Gfx gLinkAdultWaistFarDL[78] = {
 #include "assets/objects/object_link_boy/gLinkAdultWaistFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightThighFarDL[] = {
+Gfx gLinkAdultRightThighFarDL[67] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightThighFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightLegFarDL[] = {
+Gfx gLinkAdultRightLegFarDL[57] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightLegFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightFootFarDL[] = {
+Gfx gLinkAdultRightFootFarDL[36] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightFootFarDL.inc.c"
 };
 
-Gfx gLinkAdultLeftThighFarDL[] = {
+Gfx gLinkAdultLeftThighFarDL[68] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftThighFarDL.inc.c"
 };
 
-Gfx gLinkAdultLeftLegFarDL[] = {
+Gfx gLinkAdultLeftLegFarDL[57] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftLegFarDL.inc.c"
 };
 
-Gfx gLinkAdultLeftFootFarDL[] = {
+Gfx gLinkAdultLeftFootFarDL[36] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftFootFarDL.inc.c"
 };
 
-Gfx gLinkAdultCollarFarDL[] = {
+Gfx gLinkAdultCollarFarDL[21] = {
 #include "assets/objects/object_link_boy/gLinkAdultCollarFarDL.inc.c"
 };
 
-Gfx gLinkAdultTorsoFarDL[] = {
+Gfx gLinkAdultTorsoFarDL[54] = {
 #include "assets/objects/object_link_boy/gLinkAdultTorsoFarDL.inc.c"
 };
 
-Gfx gLinkAdultHeadFarDL[] = {
+Gfx gLinkAdultHeadFarDL[182] = {
 #include "assets/objects/object_link_boy/gLinkAdultHeadFarDL.inc.c"
 };
 
-Gfx gLinkAdultHatFarDL[] = {
+Gfx gLinkAdultHatFarDL[30] = {
 #include "assets/objects/object_link_boy/gLinkAdultHatFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightShoulderFarDL[] = {
+Gfx gLinkAdultRightShoulderFarDL[53] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightShoulderFarDL.inc.c"
 };
 
-Gfx gLinkAdultRightArmFarDL[] = {
+Gfx gLinkAdultRightArmFarDL[86] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightArmFarDL.inc.c"
 };
 
-Gfx gLinkAdultLeftShoulderFarDL[] = {
+Gfx gLinkAdultLeftShoulderFarDL[53] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftShoulderFarDL.inc.c"
 };
 
-Gfx gLinkAdultLeftArmFarDL[] = {
+Gfx gLinkAdultLeftArmFarDL[86] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftArmFarDL.inc.c"
 };
 
@@ -1121,65 +1164,63 @@ Vtx gLinkAdultCollarNearVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultCollarNearVtx.inc.c"
 };
 
-// Near skeleton DLs
-
-Gfx gLinkAdultWaistNearDL[] = {
+Gfx gLinkAdultWaistNearDL[105] = {
 #include "assets/objects/object_link_boy/gLinkAdultWaistNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightThighNearDL[] = {
+Gfx gLinkAdultRightThighNearDL[71] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightThighNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightLegNearDL[] = {
+Gfx gLinkAdultRightLegNearDL[86] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightLegNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightFootNearDL[] = {
+Gfx gLinkAdultRightFootNearDL[43] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightFootNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftThighNearDL[] = {
+Gfx gLinkAdultLeftThighNearDL[71] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftThighNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftLegNearDL[] = {
+Gfx gLinkAdultLeftLegNearDL[86] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftLegNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftFootNearDL[] = {
+Gfx gLinkAdultLeftFootNearDL[43] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftFootNearDL.inc.c"
 };
 
-Gfx gLinkAdultCollarNearDL[] = {
+Gfx gLinkAdultCollarNearDL[24] = {
 #include "assets/objects/object_link_boy/gLinkAdultCollarNearDL.inc.c"
 };
 
-Gfx gLinkAdultTorsoNearDL[] = {
+Gfx gLinkAdultTorsoNearDL[70] = {
 #include "assets/objects/object_link_boy/gLinkAdultTorsoNearDL.inc.c"
 };
 
-Gfx gLinkAdultHeadNearDL[] = {
+Gfx gLinkAdultHeadNearDL[233] = {
 #include "assets/objects/object_link_boy/gLinkAdultHeadNearDL.inc.c"
 };
 
-Gfx gLinkAdultHatNearDL[] = {
+Gfx gLinkAdultHatNearDL[37] = {
 #include "assets/objects/object_link_boy/gLinkAdultHatNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightShoulderNearDL[] = {
+Gfx gLinkAdultRightShoulderNearDL[56] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightShoulderNearDL.inc.c"
 };
 
-Gfx gLinkAdultRightArmNearDL[] = {
+Gfx gLinkAdultRightArmNearDL[63] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightArmNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftShoulderNearDL[] = {
+Gfx gLinkAdultLeftShoulderNearDL[57] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftShoulderNearDL.inc.c"
 };
 
-Gfx gLinkAdultLeftArmNearDL[] = {
+Gfx gLinkAdultLeftArmNearDL[79] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftArmNearDL.inc.c"
 };
 
