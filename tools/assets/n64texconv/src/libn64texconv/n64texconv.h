@@ -56,6 +56,9 @@ struct n64_palette *
 n64texconv_palette_reformat(struct n64_palette *pal, int fmt);
 
 struct n64_palette *
+n64texconv_palette_resize(struct n64_palette *pal, size_t new_count);
+
+struct n64_palette *
 n64texconv_palette_from_png(const char *path, int fmt);
 
 struct n64_palette *
