@@ -288,6 +288,13 @@ def sym_info_main():
         help="which version should be processed (default: gc-eu-mq-dbg)",
         default="gc-eu-mq-dbg",
     )
+    parser.add_argument(
+        "--build-dir",
+        dest="build_dir",
+        help="the build folder in which to read the map and elf (default: `build/VERSION/`)",
+        type=Path,
+        default=None,
+    )
 
     args = parser.parse_args()
 
@@ -302,14 +309,44 @@ def sym_info_main():
         else:
             colors = sys.stdout.isatty()
 
-    BUILTMAP = Path("build") / args.oot_version / f"oot-{args.oot_version}.map"
-    BUILTELF = Path("build") / args.oot_version / f"oot-{args.oot_version}.elf"
+    build_dir: Path = args.build_dir
+    if build_dir is None:
+        build_dir = Path("build") / args.oot_version
+        map_path = build_dir / f"oot-{args.oot_version}.map"
+        elf_path = build_dir / f"oot-{args.oot_version}.elf"
+    else:
+        map_paths = list(build_dir.glob("*.map"))
+        elf_paths = list(build_dir.glob("*.elf"))
 
-    map_path = BUILTMAP
-    elf_path = BUILTELF
+        if len(map_paths) > 1:
+            print(f"Found several .map files instead of just one:")
+            print("\n".join(map(str, map_paths)))
+            sys.exit(1)
+        if not map_paths:
+            print("Could not find map file")
+            sys.exit(1)
+
+        if len(elf_paths) > 1:
+            print(f"Found several .elf files instead of just one:")
+            print("\n".join(map(str, elf_paths)))
+            sys.exit(1)
+
+        map_path = map_paths[0]
+        elf_path = elf_paths[0] if elf_paths else None
+
     if args.use_expected:
-        map_path = "expected" / BUILTMAP
-        elf_path = "expected" / BUILTELF
+        map_path = (
+            Path("expected")
+            / "build"
+            / args.oot_version
+            / f"oot-{args.oot_version}.map"
+        )
+        elf_path = (
+            Path("expected")
+            / "build"
+            / args.oot_version
+            / f"oot-{args.oot_version}.elf"
+        )
 
     if not map_path.exists():
         print(f"Could not find map_file at '{map_path}'")
@@ -318,12 +355,14 @@ def sym_info_main():
     map_file = mapfile_parser.mapfile.MapFile()
     map_file.readMapFile(map_path)
 
-    if elf_path.exists():
+    if elf_path and elf_path.exists():
         local_symbols = read_local_symbols_from_mdebug(elf_path)
         merge_local_symbols(map_file, local_symbols)
     else:
         print(
-            f"Could not find ELF file at '{elf_path}', local symbols will not be available"
+            "Could not find ELF file"
+            + (f" at '{elf_path}'" if elf_path else "")
+            + ", local symbols will not be available"
         )
 
     sym_name = args.symname
@@ -332,25 +371,28 @@ def sym_info_main():
         sys.exit(0)
 
     infos: list[mapfile_parser.mapfile.FoundSymbolInfo] = []
-    possible_files: list[mapfile_parser.mapfile.File] = []
+    all_possible_files: list[mapfile_parser.mapfile.File] = []
     try:
         address = int(sym_name, 0)
-        if address >= 0x01000000:
+
+        if address >= 0x0100_0000:
             info, possible_files = map_file.findSymbolByVram(address)
             if info is not None:
-                infos = [info]
-        else:
-            info, possible_files = map_file.findSymbolByVrom(address)
-            if info is not None:
-                infos = [info]
+                infos += [info]
+            all_possible_files += possible_files
+
+        info, possible_files = map_file.findSymbolByVrom(address)
+        if info is not None:
+            infos += [info]
+        all_possible_files += possible_files
     except ValueError:
         infos = find_symbols_by_name(map_file, sym_name)
 
     if not infos:
         print(f"'{sym_name}' not found in map file '{map_path}'")
-        if len(possible_files) > 0:
+        if all_possible_files:
             print("But it may be a local symbol of either of the following files:")
-            for f in possible_files:
+            for f in all_possible_files:
                 print(f"    {f.asStr()})")
         sys.exit(1)
 
