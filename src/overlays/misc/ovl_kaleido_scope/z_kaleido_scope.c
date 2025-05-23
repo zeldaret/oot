@@ -4709,19 +4709,8 @@ void KaleidoScope_Update(PlayState* play) {
                         PRINTF("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
                         PRINTF_RST();
                     } else {
-#if OOT_VERSION != IQUE_CN
                         play->state.running = false;
                         SET_NEXT_GAMESTATE(&play->state, TitleSetup_Init, TitleSetupState);
-#else
-                        //! FIXME FAKE
-                        do {
-                            GameState* state = &play->state;
-                            GameStateFunc p = TitleSetup_Init;
-                            state->running = false;
-                            (state)->init = p;
-                            (state)->size = sizeof(TitleSetupState);
-                        } while (0);
-#endif
                     }
                 }
             }
