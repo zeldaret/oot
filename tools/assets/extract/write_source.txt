@@ -221,7 +221,6 @@ assets/objects/object_kz/object_kz.c
 assets/objects/object_lightbox/object_lightbox.c
 assets/objects/object_light_ring/object_light_ring.c
 assets/objects/object_lightswitch/object_lightswitch.c
-assets/objects/object_link_boy/object_link_boy.c
 assets/objects/object_link_child/object_link_child.c
 assets/objects/object_ma1/object_ma1.c
 assets/objects/object_ma2/object_ma2.c
