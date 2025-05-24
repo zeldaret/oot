@@ -246,9 +246,9 @@ class N64Palette(Structure):
         return deref(pal)
 
     def resize(self, new_count : int) -> Optional["N64Palette"]:
-        pal = ln64texconv.n64texconv_palette_resize(byref(self), new_count)
         if new_count > 256:
             raise ValueError("The largest possible palette size is 256")
+        pal = ln64texconv.n64texconv_palette_resize(byref(self), new_count)
         _object_refcount.add_ref(pal)
         return deref(pal)
 
