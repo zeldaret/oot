@@ -275,12 +275,19 @@ class TextureResource(Resource):
         self.width_name = f"{self.symbol_name}_WIDTH"
         self.height_name = f"{self.symbol_name}_HEIGHT"
 
+    def check_declare_length(self):
+        return (
+            hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_DL_AND_TEX_SIZES
+        ) and not self.is_tlut()
+
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON") and self.is_tlut():
             raise NotImplementedError
-        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_DL_AND_TEX_SIZES:
-            if not self.is_tlut():
-                return f"{self.elem_type} {self.symbol_name}[{self.height_name} * {self.width_name} * {self.siz.bpp} / 8 / sizeof({self.elem_type})]"
+        if self.check_declare_length():
+            return (
+                f"{self.elem_type} {self.symbol_name}"
+                f"[TEX_LEN({self.elem_type}, {self.width_name}, {self.height_name}, {self.siz.bpp})]"
+            )
         return f"{self.elem_type} {self.symbol_name}[]"
 
     def get_c_reference(self, resource_offset: int):
@@ -518,7 +525,10 @@ class TextureResource(Resource):
         super().write_c_declaration(h)
 
     def get_h_includes(self):
-        return ("ultra64.h",)
+        return (
+            "ultra64.h",
+            *(("tex_len.h",) if self.check_declare_length() else ()),
+        )
 
     @reprlib.recursive_repr()
     def __repr__(self):
