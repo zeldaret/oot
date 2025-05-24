@@ -1,8 +1,6 @@
 #ifndef ATTRIBUTES_H
 #define ATTRIBUTES_H
 
-#include "versions.h"
-
 #if !defined(__GNUC__) && !defined(__attribute__)
 #define __attribute__(x)
 #endif

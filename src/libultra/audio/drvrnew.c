@@ -1,5 +1,7 @@
 #include "libaudio.h"
 #include "synthInternals.h"
+#include "stdbool.h"
+#include "stddef.h"
 
 // WARNING: THE FOLLOWING CONSTANT MUST BE KEPT IN SYNC WITH SCALING IN MICROCODE!!!
 #define SCALE 16384

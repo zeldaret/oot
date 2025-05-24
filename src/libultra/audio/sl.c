@@ -1,4 +1,5 @@
 #include "libaudio.h"
+#include "stddef.h"
 
 ALGlobals* alGlobals = NULL;
 

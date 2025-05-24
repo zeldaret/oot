@@ -2,7 +2,7 @@
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
-#include "libc/stdint.h"
+#include "stdint.h"
 #include "attributes.h"
 
 #include "ultra64.h"

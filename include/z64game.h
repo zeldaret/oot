@@ -5,7 +5,6 @@
 #include "ultra64/ultratypes.h"
 #include "libu64/pad.h"
 #include "gamealloc.h"
-#include "romfile.h"
 #include "tha.h"
 
 struct GraphicsContext;

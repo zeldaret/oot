@@ -2,7 +2,6 @@
 #define Z64ACTOR_H
 
 #include "color.h"
-#include "romfile.h"
 #include "z64actor_profile.h"
 #include "z64animation.h"
 #include "z64math.h"

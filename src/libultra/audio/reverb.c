@@ -1,5 +1,8 @@
 #include "libaudio.h"
 #include "synthInternals.h"
+#include "stdbool.h"
+#include "stddef.h"
+#include "stdint.h"
 #include "ultra64/convert.h"
 
 #define RANGE 2.0

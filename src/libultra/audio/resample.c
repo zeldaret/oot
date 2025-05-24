@@ -1,5 +1,7 @@
 #include "libaudio.h"
 #include "synthInternals.h"
+#include "stdbool.h"
+#include "stddef.h"
 #include "ultra64/convert.h"
 
 Acmd* alResamplePull(void* filter, s16* outp, s32 outCnt, s32 sampleOffset, Acmd* p) {

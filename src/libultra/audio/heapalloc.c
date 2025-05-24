@@ -1,5 +1,6 @@
 #include "libaudio.h"
 #include "synthInternals.h"
+#include "stddef.h"
 
 void* alHeapDBAlloc(u8* file, s32 line, ALHeap* hp, s32 num, s32 size) {
     s32 bytes;

@@ -1,7 +1,7 @@
 #ifndef ROMFILE_H
 #define ROMFILE_H
 
-#include "ultra64.h"
+#include "stdint.h"
 
 typedef struct RomFile {
     /* 0x00 */ uintptr_t vromStart;

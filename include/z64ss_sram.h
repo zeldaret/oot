@@ -1,7 +1,7 @@
 #ifndef Z64SS_SRAM_H
 #define Z64SS_SRAM_H
 
-#include "libc/stddef.h"
+#include "stddef.h"
 #include "ultra64/ultratypes.h"
 
 void SsSram_Init(s32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,

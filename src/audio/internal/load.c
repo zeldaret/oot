@@ -2,6 +2,7 @@
  * Original Filename: system.c
  */
 
+#include "alignment.h"
 #include "array_count.h"
 #include "attributes.h"
 #include "buffers.h"

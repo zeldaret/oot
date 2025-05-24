@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "ultra64/gbi.h"
+#include "alignment.h"
 #include "sched.h"
 #include "thga.h"
 #include "versions.h"

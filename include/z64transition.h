@@ -2,7 +2,7 @@
 #define Z64TRANSITION_H
 
 #include "ultra64/ultratypes.h"
-#include "ultra64/gbi.h" // for Gfx
+#include "ultra64/gbi.h"
 #include "transition_circle.h"
 #include "transition_fade.h"
 #include "transition_triforce.h"
