@@ -10,6 +10,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"
@@ -173,8 +174,8 @@ void EnSyatekiMan_Init(Actor* thisx, PlayState* play) {
     EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     PRINTF("\n\n");
-    // "Old man appeared!! Muhohohohohohohon"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n",
+                             "☆☆☆☆☆ Old man appears!! Muhohohohohohoon ☆☆☆☆☆ \n") VT_RST);
     this->actor.attentionRangeType = ATTENTION_RANGE_1;
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gObjectOssanSkel, &gObjectOssanAnim_000338, this->jointTable,
@@ -421,8 +422,7 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, PlayState* play) {
 void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        // "Successful completion"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal termination ☆☆☆☆☆ \n") VT_RST);
         if (!LINK_IS_ADULT) {
             SET_ITEMGETINF(ITEMGETINF_0D);
         } else if ((this->getItemId == GI_QUIVER_40) || (this->getItemId == GI_QUIVER_50)) {
@@ -444,8 +444,7 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, PlayState* play) {
             gallery->signal = ENSYATEKI_START;
             this->gameResult = SYATEKI_RESULT_NONE;
             this->actionFunc = EnSyatekiMan_WaitForGame;
-            // "Let's try again! Baby!"
-            PRINTF(VT_FGCOL(BLUE) "再挑戦だぜ！ベイビー！" VT_RST "\n");
+            PRINTF(VT_FGCOL(BLUE) T("再挑戦だぜ！ベイビー！", "Let's try again! Baby!") VT_RST "\n");
         }
     }
 }

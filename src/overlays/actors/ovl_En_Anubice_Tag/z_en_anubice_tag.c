@@ -10,6 +10,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64debug_display.h"
 #include "z64play.h"
@@ -40,8 +41,9 @@ void EnAnubiceTag_Init(Actor* thisx, PlayState* play) {
     EnAnubiceTag* this = (EnAnubiceTag*)thisx;
 
     PRINTF("\n\n");
-    // "Anubis control tag generated"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Anubis control tag generated ☆☆☆☆☆ %d\n")
+               VT_RST,
+           this->actor.params);
 
     if (this->actor.params < -1) {
         this->actor.params = 0;

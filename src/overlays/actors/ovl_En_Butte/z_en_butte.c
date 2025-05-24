@@ -16,6 +16,7 @@
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"
@@ -182,8 +183,8 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
     EnButte_SetupFlyAround(this);
     this->actor.shape.rot.x -= 0x2320;
     this->drawSkelAnime = true;
-    // "field keep butterfly"
-    PRINTF("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
+    PRINTF(T("(field keep 蝶)(%x)(arg_data 0x%04x)\n", "(field keep butterfly)(%x)(arg_data 0x%04x)\n"), this,
+           this->actor.params);
 }
 
 void EnButte_Destroy(Actor* thisx, PlayState* play2) {

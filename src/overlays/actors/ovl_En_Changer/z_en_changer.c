@@ -13,6 +13,7 @@
 #include "rand.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64debug_display.h"
 #include "z64play.h"
 #include "z64save.h"
@@ -92,14 +93,14 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
     }
 
     PRINTF("\n\n");
-    // "Treasure generation (which room is it?)"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 宝発生(部屋はどれ？) %d\n" VT_RST, play->roomCtx.curRoom.num);
-    // "How is the Bit?"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ビットは？ \t     %x\n" VT_RST, play->actorCtx.flags.chest);
-    // "How is the Save BIT?"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ セーブＢＩＴは？     %x\n" VT_RST, sTreasureFlags[minigameRoomNum]);
-    // "Is it already a zombie?"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ もう、ゾンビ？\t     %d\n" VT_RST, this->roomChestsOpened);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 宝発生(部屋はどれ？) %d\n", "☆☆☆☆☆ Treasure found (which room?) %d\n") VT_RST,
+           play->roomCtx.curRoom.num);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ビットは？ \t     %x\n", "☆☆☆☆☆ What about bits? \t     %x\n") VT_RST,
+           play->actorCtx.flags.chest);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ セーブＢＩＴは？     %x\n", "☆☆☆☆☆ What is the save BIT?     %x\n") VT_RST,
+           sTreasureFlags[minigameRoomNum]);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もう、ゾンビ？\t     %d\n", "☆☆☆☆☆ Already a zombie?\t     %d\n") VT_RST,
+           this->roomChestsOpened);
     PRINTF("\n\n");
 
     minigameRoomNum *= 2;
@@ -120,8 +121,9 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
                                0xFF;
                 Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA, 20.0f, 20.0f, -2500.0f, 0, 0, 0,
                             ((sTreasureFlags[5] & 0x1F) << 8) + rewardParams);
-                // "Central treasure instance/occurrence (GREAT)"
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 中央宝発生(ＧＲＥＡＴ) ☆☆☆☆☆ %x\n" VT_RST, rewardChestParams);
+                PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 中央宝発生(ＧＲＥＡＴ) ☆☆☆☆☆ %x\n",
+                                          "☆☆☆☆☆ Central treasure occurrence (GREAT) ☆☆☆☆☆ %x\n") VT_RST,
+                       rewardChestParams);
                 this->actionFunc = EnChanger_SetHeartPieceFlag;
                 return;
             }
@@ -157,14 +159,15 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
         leftChestParams);
 
     if (this->leftChest != NULL) {
-        // "Left treasure generation (what does it contain?)"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n" VT_RST, leftChestParams);
-        // "What is the room number?"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 部屋番号は？  %x\n" VT_RST, play->roomCtx.curRoom.num);
-        // "What is the bit?"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ビットはなぁに？  %x\n" VT_RST, this->rightChestNum);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n",
+                                   "☆☆☆☆☆ Left treasure generation (what does it contain?) ☆☆☆☆☆ %x\n") VT_RST,
+               leftChestParams);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 部屋番号は？  %x\n", "☆☆☆☆☆ What is the room number?  %x\n") VT_RST,
+               play->roomCtx.curRoom.num);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ ビットはなぁに？  %x\n", "☆☆☆☆☆ What is the bit?  %x\n") VT_RST,
+               this->rightChestNum);
         // "Sukesuke-kun" (something to do with being invisible)
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ すけすけ君？ %x\n" VT_RST, rightChestItem);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ すけすけ君？ %x\n", "☆☆☆☆☆ See-through guy? %x\n") VT_RST, rightChestItem);
         PRINTF("\n\n");
         if (this->roomChestsOpened) {
             Flags_SetTreasure(play, this->leftChestNum & 0x1F);
@@ -181,14 +184,15 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
         rightChestParams);
 
     if (this->rightChest != NULL) {
-        // "Right treasure generation (what does it contain?)"
-        PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 右宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n" VT_RST, rightChestParams);
-        // "What is the room number?"
-        PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 部屋番号は？  %d\n" VT_RST, play->roomCtx.curRoom.num);
-        // "What is the bit?"
-        PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ ビットはなぁに？  %x\n" VT_RST, this->leftChestNum);
+        PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 右宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n",
+                                "☆☆☆☆☆ Right treasure generation (what does it contain?) ☆☆☆☆☆ %x\n") VT_RST,
+               rightChestParams);
+        PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 部屋番号は？  %d\n", "☆☆☆☆☆ What is the room number?  %d\n") VT_RST,
+               play->roomCtx.curRoom.num);
+        PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ ビットはなぁに？  %x\n", "☆☆☆☆☆ What is the bit?  %x\n") VT_RST,
+               this->leftChestNum);
         // "Sukesuke-kun" (something to do with being invisible)
-        PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ すけすけ君？ %x\n" VT_RST, leftChestItem);
+        PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ すけすけ君？ %x\n", "☆☆☆☆☆ See-through guy? %x\n") VT_RST, leftChestItem);
         PRINTF("\n\n");
 
         if (this->roomChestsOpened) {
@@ -249,8 +253,9 @@ void EnChanger_OpenChests(EnChanger* this, PlayState* play) {
                 } else {
                     unopenedChestItemType =
                         (s16)(this->rightChestGetItemId - GI_RUPEE_GREEN_LOSE) + EXITEM_GREEN_RUPEE_CHEST;
-                    // "Open right treasure (chest)"
-                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 右宝開く ☆☆☆☆☆ %d\n" VT_RST, unopenedChestItemType);
+                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 右宝開く ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Right treasure open ☆☆☆☆☆ %d\n")
+                               VT_RST,
+                           unopenedChestItemType);
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, xPos, yPos, zPos, 0, 0, 0,
                                 unopenedChestItemType);
                 }
@@ -267,8 +272,8 @@ void EnChanger_OpenChests(EnChanger* this, PlayState* play) {
                 } else {
                     unopenedChestItemType =
                         (s16)(this->leftChestGetItemId - GI_RUPEE_GREEN_LOSE) + EXITEM_GREEN_RUPEE_CHEST;
-                    // "Open left treasure (chest)"
-                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 左宝開く ☆☆☆☆☆ %d\n" VT_RST, unopenedChestItemType);
+                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 左宝開く ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Left treasure open ☆☆☆☆☆ %d\n") VT_RST,
+                           unopenedChestItemType);
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_ITEM, xPos, yPos, zPos, 0, 0, 0,
                                 unopenedChestItemType);
                 }
