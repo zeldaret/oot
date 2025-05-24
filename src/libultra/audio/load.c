@@ -1,4 +1,7 @@
 #include "libaudio.h"
+#include "stdbool.h"
+#include "stddef.h"
+#include "stdint.h"
 #include "synthInternals.h"
 #include "ultra64/R4300.h"
 
