@@ -462,15 +462,21 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
         assert(tlut_elem_size == 8 || tlut_elem_size == 4);
         sprintf(pal_inc_c_p, "%s/%s.tlut.rgba16%s.inc.c", out_dir_p, tlut_name, tlut_elem_size == 8 ? "" : ".u32");
 
-        const unsigned int max_colors = fmt->siz == G_IM_SIZ_4b                                  ? 16
-                                        : subfmt == SUBFMT_SPLIT_LO || subfmt == SUBFMT_SPLIT_HI ? 128
-                                                                                                 : 256;
+        const bool is_split_palette = subfmt == SUBFMT_SPLIT_LO || subfmt == SUBFMT_SPLIT_HI;
+        const unsigned int max_colors = fmt->siz == G_IM_SIZ_4b ? 16 : is_split_palette ? 128 : 256;
 
         if (all_other_pngs_match_ref_img_pal && ref_img->pal->count <= max_colors) {
             // write matching palette, and matching color indices for all pngs
 #ifdef VERBOSE
             fprintf(stderr, "Matching data detected!\n");
 #endif
+
+            if (is_split_palette && ref_img->pal->count < max_colors) {
+                // split palettes must be exactly 128 colors, resize to full size
+                struct n64_palette* old_pal = ref_img->pal;
+                ref_img->pal = n64texconv_palette_resize(ref_img->pal, max_colors);
+                n64texconv_palette_free(old_pal);
+            }
 
             // pass pad_to_8b=true to account for the case where this is in fact not matching data
             // (the png was silently palettized by n64texconv)
@@ -535,6 +541,13 @@ static bool handle_ci_shared_tlut(const char* png_p, const struct fmt_info* fmt,
                                                  num_images, max_colors, dither_level) == 0;
             if (!success) {
                 fprintf(stderr, "Could not co-palettize images\n");
+            }
+
+            if (is_split_palette) {
+                for (size_t i = out_pal_count; i < max_colors; i++) {
+                    out_pal[i] = (struct color){ .w = 0 };
+                }
+                out_pal_count = max_colors;
             }
 
             // write palette to .inc.c
