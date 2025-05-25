@@ -7,53 +7,53 @@
 
 // Eyes textures
 
-u64 gLinkAdultEyesOpenTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultEyesOpenTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesOpenTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesHalfTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultEyesHalfTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesHalfTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesClosedfTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultEyesClosedfTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesClosedfTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesLeftTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultEyesLeftTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesLeftTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesRightTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultEyesRightTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesRightTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesWideTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultEyesWideTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesWideTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesDownTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultEyesDownTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesDownTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultEyesWincingTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultEyesWincingTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEyesWincingTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
 // Mouth textures
 
-u64 gLinkAdultMouthClosedTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultMouthClosedTex[TEX_LEN(u64, LINK_ADULT_MOUTH_TEX_WIDTH, LINK_ADULT_MOUTH_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMouthClosedTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultMouthHalfTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultMouthHalfTex[TEX_LEN(u64, LINK_ADULT_MOUTH_TEX_WIDTH, LINK_ADULT_MOUTH_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMouthHalfTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultMouthOpenTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultMouthOpenTex[TEX_LEN(u64, LINK_ADULT_MOUTH_TEX_WIDTH, LINK_ADULT_MOUTH_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMouthOpenTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
-u64 gLinkAdultMouthSmileTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultMouthSmileTex[TEX_LEN(u64, LINK_ADULT_MOUTH_TEX_WIDTH, LINK_ADULT_MOUTH_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMouthSmileTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
@@ -61,25 +61,25 @@ u64 gLinkAdultMouthSmileTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HE
 
 #define gLinkAdultEarTex_WIDTH 16
 #define gLinkAdultEarTex_HEIGHT 16
-u64 gLinkAdultEarTex[gLinkAdultEarTex_HEIGHT * gLinkAdultEarTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultEarTex[TEX_LEN(u64, gLinkAdultEarTex_WIDTH, gLinkAdultEarTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEarTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
 #define gLinkAdultNoseTex_WIDTH 16
 #define gLinkAdultNoseTex_HEIGHT 16
-u64 gLinkAdultNoseTex[gLinkAdultNoseTex_HEIGHT * gLinkAdultNoseTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultNoseTex[TEX_LEN(u64, gLinkAdultNoseTex_WIDTH, gLinkAdultNoseTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultNoseTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
 #define gLinkAdultNose2Tex_WIDTH 16
 #define gLinkAdultNose2Tex_HEIGHT 16
-u64 gLinkAdultNose2Tex[gLinkAdultNose2Tex_HEIGHT * gLinkAdultNose2Tex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultNose2Tex[TEX_LEN(u64, gLinkAdultNose2Tex_WIDTH, gLinkAdultNose2Tex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultNose2Tex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
 #define gLinkAdultUnusedHandTex_WIDTH 16
 #define gLinkAdultUnusedHandTex_HEIGHT 16
-u64 gLinkAdultUnusedHandTex[gLinkAdultUnusedHandTex_HEIGHT * gLinkAdultUnusedHandTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultUnusedHandTex[TEX_LEN(u64, gLinkAdultUnusedHandTex_WIDTH, gLinkAdultUnusedHandTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedHandTex.ci8.tlut_gLinkAdultHeadTLUT.inc.c"
 };
 
@@ -89,7 +89,7 @@ u64 gLinkAdultTLUT1[] = {
 
 #define gLinkAdultBootFarTex_WIDTH 16
 #define gLinkAdultBootFarTex_HEIGHT 32
-u64 gLinkAdultBootFarTex[gLinkAdultBootFarTex_HEIGHT * gLinkAdultBootFarTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultBootFarTex[TEX_LEN(u64, gLinkAdultBootFarTex_WIDTH, gLinkAdultBootFarTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBootFarTex.ci8.inc.c"
 };
 
@@ -115,185 +115,183 @@ u64 gLinkAdultTlut_005E00[] = {
 
 #define gLinkAdultBootTex_WIDTH 16
 #define gLinkAdultBootTex_HEIGHT 16
-u64 gLinkAdultBootTex[gLinkAdultBootTex_HEIGHT * gLinkAdultBootTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultBootTex[TEX_LEN(u64, gLinkAdultBootTex_WIDTH, gLinkAdultBootTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBootTex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultLegTex_WIDTH 16
 #define gLinkAdultLegTex_HEIGHT 32
-u64 gLinkAdultLegTex[gLinkAdultLegTex_HEIGHT * gLinkAdultLegTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultLegTex[TEX_LEN(u64, gLinkAdultLegTex_WIDTH, gLinkAdultLegTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultLegTex.ci8.tlut_gLinkAdultTLUT3.inc.c"
 };
 
 #define gLinkAdultBoot2Tex_WIDTH 16
 #define gLinkAdultBoot2Tex_HEIGHT 32
-u64 gLinkAdultBoot2Tex[gLinkAdultBoot2Tex_HEIGHT * gLinkAdultBoot2Tex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultBoot2Tex[TEX_LEN(u64, gLinkAdultBoot2Tex_WIDTH, gLinkAdultBoot2Tex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBoot2Tex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultBootBuckleTex_WIDTH 32
 #define gLinkAdultBootBuckleTex_HEIGHT 16
-u64 gLinkAdultBootBuckleTex[gLinkAdultBootBuckleTex_HEIGHT * gLinkAdultBootBuckleTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultBootBuckleTex[TEX_LEN(u64, gLinkAdultBootBuckleTex_WIDTH, gLinkAdultBootBuckleTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBootBuckleTex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultSkirtAndHatTex_WIDTH 32
 #define gLinkAdultSkirtAndHatTex_HEIGHT 32
-u64 gLinkAdultSkirtAndHatTex[gLinkAdultSkirtAndHatTex_HEIGHT * gLinkAdultSkirtAndHatTex_WIDTH * 16 / 8 /
-                             sizeof(u64)] = {
+u64 gLinkAdultSkirtAndHatTex[TEX_LEN(u64, gLinkAdultSkirtAndHatTex_WIDTH, gLinkAdultSkirtAndHatTex_HEIGHT, 16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSkirtAndHatTex.rgba16.inc.c"
 };
 
 #define gLinkAdultBeltTex_WIDTH 8
 #define gLinkAdultBeltTex_HEIGHT 16
-u64 gLinkAdultBeltTex[gLinkAdultBeltTex_HEIGHT * gLinkAdultBeltTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultBeltTex[TEX_LEN(u64, gLinkAdultBeltTex_WIDTH, gLinkAdultBeltTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBeltTex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultBeltClaspTex_WIDTH 32
 #define gLinkAdultBeltClaspTex_HEIGHT 16
-u64 gLinkAdultBeltClaspTex[gLinkAdultBeltClaspTex_HEIGHT * gLinkAdultBeltClaspTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultBeltClaspTex[TEX_LEN(u64, gLinkAdultBeltClaspTex_WIDTH, gLinkAdultBeltClaspTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBeltClaspTex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultEarringTex_WIDTH 32
 #define gLinkAdultEarringTex_HEIGHT 32
-u64 gLinkAdultEarringTex[gLinkAdultEarringTex_HEIGHT * gLinkAdultEarringTex_WIDTH * 16 / 8 / sizeof(u64)] = {
+u64 gLinkAdultEarringTex[TEX_LEN(u64, gLinkAdultEarringTex_WIDTH, gLinkAdultEarringTex_HEIGHT, 16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultEarringTex.ia16.inc.c"
 };
 
 #define gLinkAdultNeckTex_WIDTH 16
 #define gLinkAdultNeckTex_HEIGHT 32
-u64 gLinkAdultNeckTex[gLinkAdultNeckTex_HEIGHT * gLinkAdultNeckTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultNeckTex[TEX_LEN(u64, gLinkAdultNeckTex_WIDTH, gLinkAdultNeckTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultNeckTex.ci8.tlut_gLinkAdultTLUT3.inc.c"
 };
 
 #define gLinkAdultUnusedGauntlet1Tex_WIDTH 16
 #define gLinkAdultUnusedGauntlet1Tex_HEIGHT 32
-u64 gLinkAdultUnusedGauntlet1Tex[gLinkAdultUnusedGauntlet1Tex_HEIGHT * gLinkAdultUnusedGauntlet1Tex_WIDTH * 8 / 8 /
-                                 sizeof(u64)] = {
+u64 gLinkAdultUnusedGauntlet1Tex[TEX_LEN(u64, gLinkAdultUnusedGauntlet1Tex_WIDTH, gLinkAdultUnusedGauntlet1Tex_HEIGHT,
+                                         8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedGauntlet1Tex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultUnusedGauntlet2Tex_WIDTH 16
 #define gLinkAdultUnusedGauntlet2Tex_HEIGHT 32
-u64 gLinkAdultUnusedGauntlet2Tex[gLinkAdultUnusedGauntlet2Tex_HEIGHT * gLinkAdultUnusedGauntlet2Tex_WIDTH * 8 / 8 /
-                                 sizeof(u64)] = {
+u64 gLinkAdultUnusedGauntlet2Tex[TEX_LEN(u64, gLinkAdultUnusedGauntlet2Tex_WIDTH, gLinkAdultUnusedGauntlet2Tex_HEIGHT,
+                                         8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedGauntlet2Tex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultArmGauntletTex_WIDTH 32
 #define gLinkAdultArmGauntletTex_HEIGHT 32
-u64 gLinkAdultArmGauntletTex[gLinkAdultArmGauntletTex_HEIGHT * gLinkAdultArmGauntletTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultArmGauntletTex[TEX_LEN(u64, gLinkAdultArmGauntletTex_WIDTH, gLinkAdultArmGauntletTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultArmGauntletTex.ci8.tlut_gLinkAdultTLUT2.inc.c"
 };
 
 #define gLinkAdultUnusedSheathTex_WIDTH 32
 #define gLinkAdultUnusedSheathTex_HEIGHT 64
-u64 gLinkAdultUnusedSheathTex[gLinkAdultUnusedSheathTex_HEIGHT * gLinkAdultUnusedSheathTex_WIDTH * 8 / 8 /
-                              sizeof(u64)] = {
+u64 gLinkAdultUnusedSheathTex[TEX_LEN(u64, gLinkAdultUnusedSheathTex_WIDTH, gLinkAdultUnusedSheathTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedSheathTex.ci8.tlut_gLinkAdultTlut_005E00.inc.c"
 };
 
 #define gLinkAdultUnusedSheathBandTex_WIDTH 32
 #define gLinkAdultUnusedSheathBandTex_HEIGHT 16
-u64 gLinkAdultUnusedSheathBandTex[gLinkAdultUnusedSheathBandTex_HEIGHT * gLinkAdultUnusedSheathBandTex_WIDTH * 8 / 8 /
-                                  sizeof(u64)] = {
+u64 gLinkAdultUnusedSheathBandTex[TEX_LEN(u64, gLinkAdultUnusedSheathBandTex_WIDTH,
+                                          gLinkAdultUnusedSheathBandTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedSheathBandTex.ci8.tlut_gLinkAdultTlut_005E00.inc.c"
 };
 
 #define gLinkAdultUnusedSwordPommelTex_WIDTH 16
 #define gLinkAdultUnusedSwordPommelTex_HEIGHT 16
-u64 gLinkAdultUnusedSwordPommelTex[gLinkAdultUnusedSwordPommelTex_HEIGHT * gLinkAdultUnusedSwordPommelTex_WIDTH * 8 /
-                                   8 / sizeof(u64)] = {
+u64 gLinkAdultUnusedSwordPommelTex[TEX_LEN(u64, gLinkAdultUnusedSwordPommelTex_WIDTH,
+                                           gLinkAdultUnusedSwordPommelTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedSwordPommelTex.ci8.tlut_gLinkAdultTlut_005E00.inc.c"
 };
 
 #define gLinkAdultUnusedSwordGuardTex_WIDTH 32
 #define gLinkAdultUnusedSwordGuardTex_HEIGHT 32
-u64 gLinkAdultUnusedSwordGuardTex[gLinkAdultUnusedSwordGuardTex_HEIGHT * gLinkAdultUnusedSwordGuardTex_WIDTH * 8 / 8 /
-                                  sizeof(u64)] = {
+u64 gLinkAdultUnusedSwordGuardTex[TEX_LEN(u64, gLinkAdultUnusedSwordGuardTex_WIDTH,
+                                          gLinkAdultUnusedSwordGuardTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedSwordGuardTex.ci8.tlut_gLinkAdultTlut_005E00.inc.c"
 };
 
 #define gLinkAdultUnusedSwordEmblemTex_WIDTH 16
 #define gLinkAdultUnusedSwordEmblemTex_HEIGHT 16
-u64 gLinkAdultUnusedSwordEmblemTex[gLinkAdultUnusedSwordEmblemTex_HEIGHT * gLinkAdultUnusedSwordEmblemTex_WIDTH * 8 /
-                                   8 / sizeof(u64)] = {
+u64 gLinkAdultUnusedSwordEmblemTex[TEX_LEN(u64, gLinkAdultUnusedSwordEmblemTex_WIDTH,
+                                           gLinkAdultUnusedSwordEmblemTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultUnusedSwordEmblemTex.ci8.tlut_gLinkAdultTlut_005E00.inc.c"
 };
 
 #define gLinkAdultTunicTex_WIDTH 16
 #define gLinkAdultTunicTex_HEIGHT 32
-u64 gLinkAdultTunicTex[gLinkAdultTunicTex_HEIGHT * gLinkAdultTunicTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultTunicTex[TEX_LEN(u64, gLinkAdultTunicTex_WIDTH, gLinkAdultTunicTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultTunicTex.ci8.tlut_gLinkAdultTLUT3.inc.c"
 };
 
 #define gLinkAdultCollarTex_WIDTH 16
 #define gLinkAdultCollarTex_HEIGHT 32
-u64 gLinkAdultCollarTex[gLinkAdultCollarTex_HEIGHT * gLinkAdultCollarTex_WIDTH * 16 / 8 / sizeof(u64)] = {
+u64 gLinkAdultCollarTex[TEX_LEN(u64, gLinkAdultCollarTex_WIDTH, gLinkAdultCollarTex_HEIGHT, 16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultCollarTex.rgba16.inc.c"
 };
 
 #define gLinkAdultGauntletPlate1Tex_WIDTH 16
 #define gLinkAdultGauntletPlate1Tex_HEIGHT 32
-u64 gLinkAdultGauntletPlate1Tex[gLinkAdultGauntletPlate1Tex_HEIGHT * gLinkAdultGauntletPlate1Tex_WIDTH * 16 / 8 /
-                                sizeof(u64)] = {
+u64 gLinkAdultGauntletPlate1Tex[TEX_LEN(u64, gLinkAdultGauntletPlate1Tex_WIDTH, gLinkAdultGauntletPlate1Tex_HEIGHT,
+                                        16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultGauntletPlate1Tex.rgba16.inc.c"
 };
 
 #define gLinkAdultGauntletPlate2Tex_WIDTH 32
 #define gLinkAdultGauntletPlate2Tex_HEIGHT 32
-u64 gLinkAdultGauntletPlate2Tex[gLinkAdultGauntletPlate2Tex_HEIGHT * gLinkAdultGauntletPlate2Tex_WIDTH * 16 / 8 /
-                                sizeof(u64)] = {
+u64 gLinkAdultGauntletPlate2Tex[TEX_LEN(u64, gLinkAdultGauntletPlate2Tex_WIDTH, gLinkAdultGauntletPlate2Tex_HEIGHT,
+                                        16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultGauntletPlate2Tex.rgba16.inc.c"
 };
 
 #define gLinkAdultHoverBootsHeelTex_WIDTH 16
 #define gLinkAdultHoverBootsHeelTex_HEIGHT 8
-u64 gLinkAdultHoverBootsHeelTex[gLinkAdultHoverBootsHeelTex_HEIGHT * gLinkAdultHoverBootsHeelTex_WIDTH * 16 / 8 /
-                                sizeof(u64)] = {
+u64 gLinkAdultHoverBootsHeelTex[TEX_LEN(u64, gLinkAdultHoverBootsHeelTex_WIDTH, gLinkAdultHoverBootsHeelTex_HEIGHT,
+                                        16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHoverBootsHeelTex.rgba16.inc.c"
 };
 
 #define gLinkAdultHoverBootsJetTex_WIDTH 32
 #define gLinkAdultHoverBootsJetTex_HEIGHT 32
-u64 gLinkAdultHoverBootsJetTex[gLinkAdultHoverBootsJetTex_HEIGHT * gLinkAdultHoverBootsJetTex_WIDTH * 16 / 8 /
-                               sizeof(u64)] = {
+u64 gLinkAdultHoverBootsJetTex[TEX_LEN(u64, gLinkAdultHoverBootsJetTex_WIDTH, gLinkAdultHoverBootsJetTex_HEIGHT,
+                                       16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHoverBootsJetTex.rgba16.inc.c"
 };
 
 #define gLinkAdultHoverBootsFeatherTex_WIDTH 32
 #define gLinkAdultHoverBootsFeatherTex_HEIGHT 16
-u64 gLinkAdultHoverBootsFeatherTex[gLinkAdultHoverBootsFeatherTex_HEIGHT * gLinkAdultHoverBootsFeatherTex_WIDTH * 16 /
-                                   8 / sizeof(u64)] = {
+u64 gLinkAdultHoverBootsFeatherTex[TEX_LEN(u64, gLinkAdultHoverBootsFeatherTex_WIDTH,
+                                           gLinkAdultHoverBootsFeatherTex_HEIGHT, 16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHoverBootsFeatherTex.rgba16.inc.c"
 };
 
 #define gLinkAdultMirrorShieldLowerDesignTex_WIDTH 32
 #define gLinkAdultMirrorShieldLowerDesignTex_HEIGHT 64
-u64 gLinkAdultMirrorShieldLowerDesignTex[gLinkAdultMirrorShieldLowerDesignTex_HEIGHT *
-                                         gLinkAdultMirrorShieldLowerDesignTex_WIDTH * 16 / 8 / sizeof(u64)] = {
+u64 gLinkAdultMirrorShieldLowerDesignTex[TEX_LEN(u64, gLinkAdultMirrorShieldLowerDesignTex_WIDTH,
+                                                 gLinkAdultMirrorShieldLowerDesignTex_HEIGHT, 16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMirrorShieldLowerDesignTex.ia16.inc.c"
 };
 
 #define gLinkAdultMirrorShieldUpperDesignTex_WIDTH 64
 #define gLinkAdultMirrorShieldUpperDesignTex_HEIGHT 32
-u64 gLinkAdultMirrorShieldUpperDesignTex[gLinkAdultMirrorShieldUpperDesignTex_HEIGHT *
-                                         gLinkAdultMirrorShieldUpperDesignTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultMirrorShieldUpperDesignTex[TEX_LEN(u64, gLinkAdultMirrorShieldUpperDesignTex_WIDTH,
+                                                 gLinkAdultMirrorShieldUpperDesignTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultMirrorShieldUpperDesignTex.ia8.inc.c"
 };
 
 #define gLinkAdultHookshotMetalTex_WIDTH 8
 #define gLinkAdultHookshotMetalTex_HEIGHT 8
-u64 gLinkAdultHookshotMetalTex[gLinkAdultHookshotMetalTex_HEIGHT * gLinkAdultHookshotMetalTex_WIDTH * 16 / 8 /
-                               sizeof(u64)] = {
+u64 gLinkAdultHookshotMetalTex[TEX_LEN(u64, gLinkAdultHookshotMetalTex_WIDTH, gLinkAdultHookshotMetalTex_HEIGHT,
+                                       16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotMetalTex.rgba16.inc.c"
 };
 
 #define gLinkAdultBowBodyTex_WIDTH 8
 #define gLinkAdultBowBodyTex_HEIGHT 8
-u64 gLinkAdultBowBodyTex[gLinkAdultBowBodyTex_HEIGHT * gLinkAdultBowBodyTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultBowBodyTex[TEX_LEN(u64, gLinkAdultBowBodyTex_WIDTH, gLinkAdultBowBodyTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultBowBodyTex.i8.inc.c"
 };
 
@@ -327,113 +325,111 @@ u64 gLinkAdultTLUT7[] = {
 
 #define gLinkAdultSwordPommelTex_WIDTH 16
 #define gLinkAdultSwordPommelTex_HEIGHT 16
-u64 gLinkAdultSwordPommelTex[gLinkAdultSwordPommelTex_HEIGHT * gLinkAdultSwordPommelTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultSwordPommelTex[TEX_LEN(u64, gLinkAdultSwordPommelTex_WIDTH, gLinkAdultSwordPommelTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSwordPommelTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultIronBootTex_WIDTH 16
 #define gLinkAdultIronBootTex_HEIGHT 16
-u64 gLinkAdultIronBootTex[gLinkAdultIronBootTex_HEIGHT * gLinkAdultIronBootTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultIronBootTex[TEX_LEN(u64, gLinkAdultIronBootTex_WIDTH, gLinkAdultIronBootTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultIronBootTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultDefaultGauntlet1Tex_WIDTH 16
 #define gLinkAdultDefaultGauntlet1Tex_HEIGHT 32
-u64 gLinkAdultDefaultGauntlet1Tex[gLinkAdultDefaultGauntlet1Tex_HEIGHT * gLinkAdultDefaultGauntlet1Tex_WIDTH * 8 / 8 /
-                                  sizeof(u64)] = {
+u64 gLinkAdultDefaultGauntlet1Tex[TEX_LEN(u64, gLinkAdultDefaultGauntlet1Tex_WIDTH,
+                                          gLinkAdultDefaultGauntlet1Tex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultDefaultGauntlet1Tex.ci8.tlut_gLinkAdultTLUT5.inc.c"
 };
 
 #define gLinkAdultShieldHandleTex_WIDTH 8
 #define gLinkAdultShieldHandleTex_HEIGHT 16
-u64 gLinkAdultShieldHandleTex[gLinkAdultShieldHandleTex_HEIGHT * gLinkAdultShieldHandleTex_WIDTH * 8 / 8 /
-                              sizeof(u64)] = {
+u64 gLinkAdultShieldHandleTex[TEX_LEN(u64, gLinkAdultShieldHandleTex_WIDTH, gLinkAdultShieldHandleTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultShieldHandleTex.ci8.tlut_gLinkAdultTLUT5.inc.c"
 };
 
 #define gLinkAdultDefaultGauntlet2Tex_WIDTH 16
 #define gLinkAdultDefaultGauntlet2Tex_HEIGHT 32
-u64 gLinkAdultDefaultGauntlet2Tex[gLinkAdultDefaultGauntlet2Tex_HEIGHT * gLinkAdultDefaultGauntlet2Tex_WIDTH * 8 / 8 /
-                                  sizeof(u64)] = {
+u64 gLinkAdultDefaultGauntlet2Tex[TEX_LEN(u64, gLinkAdultDefaultGauntlet2Tex_WIDTH,
+                                          gLinkAdultDefaultGauntlet2Tex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultDefaultGauntlet2Tex.ci8.tlut_gLinkAdultTLUT5.inc.c"
 };
 
 #define gLinkAdultHandTex_WIDTH 16
 #define gLinkAdultHandTex_HEIGHT 16
-u64 gLinkAdultHandTex[gLinkAdultHandTex_HEIGHT * gLinkAdultHandTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultHandTex[TEX_LEN(u64, gLinkAdultHandTex_WIDTH, gLinkAdultHandTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHandTex.ci8.tlut_gLinkAdultTLUT6.inc.c"
 };
 
 #define gLinkAdultClosedHandThumbTex_WIDTH 16
 #define gLinkAdultClosedHandThumbTex_HEIGHT 16
-u64 gLinkAdultClosedHandThumbTex[gLinkAdultClosedHandThumbTex_HEIGHT * gLinkAdultClosedHandThumbTex_WIDTH * 8 / 8 /
-                                 sizeof(u64)] = {
+u64 gLinkAdultClosedHandThumbTex[TEX_LEN(u64, gLinkAdultClosedHandThumbTex_WIDTH, gLinkAdultClosedHandThumbTex_HEIGHT,
+                                         8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultClosedHandThumbTex.ci8.tlut_gLinkAdultTLUT6.inc.c"
 };
 
 #define gLinkAdultHylianShieldBackTex_WIDTH 16
 #define gLinkAdultHylianShieldBackTex_HEIGHT 32
-u64 gLinkAdultHylianShieldBackTex[gLinkAdultHylianShieldBackTex_HEIGHT * gLinkAdultHylianShieldBackTex_WIDTH * 8 / 8 /
-                                  sizeof(u64)] = {
+u64 gLinkAdultHylianShieldBackTex[TEX_LEN(u64, gLinkAdultHylianShieldBackTex_WIDTH,
+                                          gLinkAdultHylianShieldBackTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHylianShieldBackTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultClosedHandSideTex_WIDTH 16
 #define gLinkAdultClosedHandSideTex_HEIGHT 16
-u64 gLinkAdultClosedHandSideTex[gLinkAdultClosedHandSideTex_HEIGHT * gLinkAdultClosedHandSideTex_WIDTH * 8 / 8 /
-                                sizeof(u64)] = {
+u64 gLinkAdultClosedHandSideTex[TEX_LEN(u64, gLinkAdultClosedHandSideTex_WIDTH, gLinkAdultClosedHandSideTex_HEIGHT,
+                                        8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultClosedHandSideTex.ci8.tlut_gLinkAdultTLUT6.inc.c"
 };
 
 #define gLinkAdultSheathTex_WIDTH 32
 #define gLinkAdultSheathTex_HEIGHT 32
-u64 gLinkAdultSheathTex[gLinkAdultSheathTex_HEIGHT * gLinkAdultSheathTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultSheathTex[TEX_LEN(u64, gLinkAdultSheathTex_WIDTH, gLinkAdultSheathTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSheathTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultArmOutUpperGauntletTex_WIDTH 32
 #define gLinkAdultArmOutUpperGauntletTex_HEIGHT 32
-u64 gLinkAdultArmOutUpperGauntletTex[gLinkAdultArmOutUpperGauntletTex_HEIGHT * gLinkAdultArmOutUpperGauntletTex_WIDTH *
-                                     8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultArmOutUpperGauntletTex[TEX_LEN(u64, gLinkAdultArmOutUpperGauntletTex_WIDTH,
+                                             gLinkAdultArmOutUpperGauntletTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultArmOutUpperGauntletTex.ci8.tlut_gLinkAdultTLUT5.inc.c"
 };
 
 #define gLinkAdultSwordGuardTex_WIDTH 32
 #define gLinkAdultSwordGuardTex_HEIGHT 32
-u64 gLinkAdultSwordGuardTex[gLinkAdultSwordGuardTex_HEIGHT * gLinkAdultSwordGuardTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultSwordGuardTex[TEX_LEN(u64, gLinkAdultSwordGuardTex_WIDTH, gLinkAdultSwordGuardTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSwordGuardTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultSheathBandTex_WIDTH 32
 #define gLinkAdultSheathBandTex_HEIGHT 16
-u64 gLinkAdultSheathBandTex[gLinkAdultSheathBandTex_HEIGHT * gLinkAdultSheathBandTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultSheathBandTex[TEX_LEN(u64, gLinkAdultSheathBandTex_WIDTH, gLinkAdultSheathBandTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSheathBandTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultSwordEmblemTex_WIDTH 16
 #define gLinkAdultSwordEmblemTex_HEIGHT 16
-u64 gLinkAdultSwordEmblemTex[gLinkAdultSwordEmblemTex_HEIGHT * gLinkAdultSwordEmblemTex_WIDTH * 8 / 8 / sizeof(u64)] = {
+u64 gLinkAdultSwordEmblemTex[TEX_LEN(u64, gLinkAdultSwordEmblemTex_WIDTH, gLinkAdultSwordEmblemTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultSwordEmblemTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultHookshotHandleTex_WIDTH 16
 #define gLinkAdultHookshotHandleTex_HEIGHT 8
-u64 gLinkAdultHookshotHandleTex[gLinkAdultHookshotHandleTex_HEIGHT * gLinkAdultHookshotHandleTex_WIDTH * 8 / 8 /
-                                sizeof(u64)] = {
+u64 gLinkAdultHookshotHandleTex[TEX_LEN(u64, gLinkAdultHookshotHandleTex_WIDTH, gLinkAdultHookshotHandleTex_HEIGHT,
+                                        8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotHandleTex.ci8.tlut_gLinkAdultTLUT5.inc.c"
 };
 
 #define gLinkAdultHookshotDesignTex_WIDTH 16
 #define gLinkAdultHookshotDesignTex_HEIGHT 32
-u64 gLinkAdultHookshotDesignTex[gLinkAdultHookshotDesignTex_HEIGHT * gLinkAdultHookshotDesignTex_WIDTH * 8 / 8 /
-                                sizeof(u64)] = {
+u64 gLinkAdultHookshotDesignTex[TEX_LEN(u64, gLinkAdultHookshotDesignTex_WIDTH, gLinkAdultHookshotDesignTex_HEIGHT,
+                                        8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotDesignTex.ci8.tlut_gLinkAdultTLUT4.inc.c"
 };
 
 #define gLinkAdultArmOutSleeveTex_WIDTH 16
 #define gLinkAdultArmOutSleeveTex_HEIGHT 32
-u64 gLinkAdultArmOutSleeveTex[gLinkAdultArmOutSleeveTex_HEIGHT * gLinkAdultArmOutSleeveTex_WIDTH * 8 / 8 /
-                              sizeof(u64)] = {
+u64 gLinkAdultArmOutSleeveTex[TEX_LEN(u64, gLinkAdultArmOutSleeveTex_WIDTH, gLinkAdultArmOutSleeveTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultArmOutSleeveTex.ci8.inc.c"
 };
 
@@ -911,8 +907,7 @@ Vtx gLinkAdultHookshotChainVtx[] = {
 
 #define gLinkAdultHookshotChainTex_WIDTH 16
 #define gLinkAdultHookshotChainTex_HEIGHT 32
-u64 gLinkAdultHookshotChainTex[gLinkAdultHookshotChainTex_HEIGHT * gLinkAdultHookshotChainTex_WIDTH * 16 / 8 /
-                               sizeof(u64)];
+u64 gLinkAdultHookshotChainTex[TEX_LEN(u64, gLinkAdultHookshotChainTex_WIDTH, gLinkAdultHookshotChainTex_HEIGHT, 16)];
 
 Gfx gLinkAdultHookshotChainDL[23] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotChainDL.inc.c"
@@ -934,8 +929,8 @@ Gfx gLinkAdultHookshotTipDL[22] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotTipDL.inc.c"
 };
 
-u64 gLinkAdultHookshotChainTex[gLinkAdultHookshotChainTex_HEIGHT * gLinkAdultHookshotChainTex_WIDTH * 16 / 8 /
-                               sizeof(u64)] = {
+u64 gLinkAdultHookshotChainTex[TEX_LEN(u64, gLinkAdultHookshotChainTex_WIDTH, gLinkAdultHookshotChainTex_HEIGHT,
+                                       16)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotChainTex.rgba16.inc.c"
 };
 
@@ -951,8 +946,8 @@ Gfx gLinkAdultBrokenGiantsKnifeBladeDL[28] = {
 
 #define gLinkAdultHookshotReticleTex_WIDTH 64
 #define gLinkAdultHookshotReticleTex_HEIGHT 64
-u64 gLinkAdultHookshotReticleTex[gLinkAdultHookshotReticleTex_HEIGHT * gLinkAdultHookshotReticleTex_WIDTH * 8 / 8 /
-                                 sizeof(u64)] = {
+u64 gLinkAdultHookshotReticleTex[TEX_LEN(u64, gLinkAdultHookshotReticleTex_WIDTH, gLinkAdultHookshotReticleTex_HEIGHT,
+                                         8)] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotReticleTex.i8.inc.c"
 };
 

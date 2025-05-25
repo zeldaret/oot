@@ -2,25 +2,26 @@
 #define OBJECT_LINK_BOY_H
 
 #include "ultra64.h"
+#include "tex_len.h"
 #include "z64animation.h"
 
 #define LINK_ADULT_EYES_TEX_WIDTH 64
 #define LINK_ADULT_EYES_TEX_HEIGHT 32
-extern u64 gLinkAdultEyesOpenTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
-extern u64 gLinkAdultEyesHalfTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
-extern u64 gLinkAdultEyesClosedfTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
-extern u64 gLinkAdultEyesLeftTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
-extern u64 gLinkAdultEyesRightTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
-extern u64 gLinkAdultEyesWideTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
-extern u64 gLinkAdultEyesDownTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
-extern u64 gLinkAdultEyesWincingTex[LINK_ADULT_EYES_TEX_WIDTH * LINK_ADULT_EYES_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
+extern u64 gLinkAdultEyesOpenTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)];
+extern u64 gLinkAdultEyesHalfTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)];
+extern u64 gLinkAdultEyesClosedfTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)];
+extern u64 gLinkAdultEyesLeftTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)];
+extern u64 gLinkAdultEyesRightTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)];
+extern u64 gLinkAdultEyesWideTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)];
+extern u64 gLinkAdultEyesDownTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)];
+extern u64 gLinkAdultEyesWincingTex[TEX_LEN(u64, LINK_ADULT_EYES_TEX_WIDTH, LINK_ADULT_EYES_TEX_HEIGHT, 8)];
 
 #define LINK_ADULT_MOUTH_TEX_WIDTH 32
 #define LINK_ADULT_MOUTH_TEX_HEIGHT 32
-extern u64 gLinkAdultMouthClosedTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
-extern u64 gLinkAdultMouthHalfTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
-extern u64 gLinkAdultMouthOpenTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
-extern u64 gLinkAdultMouthSmileTex[LINK_ADULT_MOUTH_TEX_WIDTH * LINK_ADULT_MOUTH_TEX_HEIGHT * 8 / 8 / sizeof(u64)];
+extern u64 gLinkAdultMouthClosedTex[TEX_LEN(u64, LINK_ADULT_MOUTH_TEX_WIDTH, LINK_ADULT_MOUTH_TEX_HEIGHT, 8)];
+extern u64 gLinkAdultMouthHalfTex[TEX_LEN(u64, LINK_ADULT_MOUTH_TEX_WIDTH, LINK_ADULT_MOUTH_TEX_HEIGHT, 8)];
+extern u64 gLinkAdultMouthOpenTex[TEX_LEN(u64, LINK_ADULT_MOUTH_TEX_WIDTH, LINK_ADULT_MOUTH_TEX_HEIGHT, 8)];
+extern u64 gLinkAdultMouthSmileTex[TEX_LEN(u64, LINK_ADULT_MOUTH_TEX_WIDTH, LINK_ADULT_MOUTH_TEX_HEIGHT, 8)];
 
 extern Gfx gLinkAdultHylianShieldSwordAndSheathNearDL[127];
 extern Gfx gLinkAdultHylianShieldAndSheathNearDL[105];
