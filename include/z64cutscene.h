@@ -344,42 +344,6 @@ typedef enum CutsceneDestination {
     /* 0x77 */ CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneDestination;
 
-// values `< 0xFFF0` indicate no cutscene, or a context in which manual cutscenes can be used; can be assigned to
-// - `gSaveContext.save.cutsceneIndex`
-// - `gSaveContext.nextCutsceneIndex`
-// using them implies an intention to have the Play state set `gSaveContext.sceneLayer` based on age and day time on state init
-// see enum values [`SCENE_LAYER_CHILD_DAY` .. `SCENE_LAYER_ADULT_NIGHT`]
-#define CS_INDEX_DEFAULT 0x0000
-#define CS_INDEX_UNK_8000 0x8000
-
-// values `>= 0xFFF0` indicate a "scripted" cutscene; can be assigned to
-// - `gSaveContext.save.cutsceneIndex`
-// - `gSaveContext.nextCutsceneIndex`
-// using them implies an intention to have `z_play.c` set `gSaveContext.sceneLayer` directly by index
-// see `GET_CUTSCENE_LAYER(index)`
-#define CS_INDEX_0 0xFFF0
-#define CS_INDEX_1 0xFFF1
-#define CS_INDEX_2 0xFFF2
-#define CS_INDEX_3 0xFFF3
-#define CS_INDEX_4 0xFFF4
-#define CS_INDEX_5 0xFFF5
-#define CS_INDEX_6 0xFFF6
-#define CS_INDEX_7 0xFFF7
-#define CS_INDEX_8 0xFFF8
-#define CS_INDEX_9 0xFFF9
-#define CS_INDEX_A 0xFFFA
-
-// This value is "out of range" even for the largest set of entrances in the entrance table
-// but `z_demo.c` immediately sets `CS_STATE_STOP` state
-#define CS_INDEX_UNK_FFFF 0xFFFF
-
-// sentinel value used for `cutsceneIndex` to indicate that it should be reset to default
-#define CS_INDEX_EMPTY 0xFFFD
-
-// sentinel value used for `nextCutsceneIndex` to indicate that it is empty
-// otherwise its value will be copied to `cutsceneIndex` on Play state init
-#define CS_INDEX_NEXT_EMPTY 0xFFEF
-
 typedef union CsCmdCam {
     struct {
         /* 0x00 */ u16 unused0;
