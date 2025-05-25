@@ -3022,10 +3022,10 @@ LAYER_140B:
 /* 0x1411 [0xCC 0x00               ] */ ldi         0
 /* 0x1413 [0x76                    ] */ stio        IO_PORT_6
 CHAN_1414:
-/* 0x1414 [0xCB 0x14 0x2D          ] */ ldseq       UNK_142D
+/* 0x1414 [0xCB 0x14 0x2D          ] */ ldseq       ARRAY_142D
 /* 0x1417 [0xC7 0x00 0x14 0x5B     ] */ stseq       0, LAYER_145A + STSEQ_TRANSPOSITION
 /* 0x141B [0x66                    ] */ ldio        IO_PORT_6
-/* 0x141C [0xCB 0x14 0x31          ] */ ldseq       UNK_1431
+/* 0x141C [0xCB 0x14 0x31          ] */ ldseq       ARRAY_1431
 /* 0x141F [0xC7 0x00 0x14 0x56     ] */ stseq       0, LAYER_1455 + STSEQ_NOTEDV_DELAY_HI
 /* 0x1423 [0xCC 0x18               ] */ ldi         24
 /* 0x1425 [0x71                    ] */ stio        IO_PORT_1
@@ -3033,14 +3033,14 @@ CHAN_1414:
 /* 0x1429 [0x89 0x14 0x35          ] */ ldlayer     1, LAYER_1435
 /* 0x142C [0xFF                    ] */ end
 
-UNK_142D:
-    .byte 0x00, 0x04, 0x08, 0x00
+.array ARRAY_142D
+    .byte 0, 4, 8, 0
 
-UNK_1431:
+.array ARRAY_1431
 #if !OOT_PAL_N64
-    .byte 0x60, 0x30, 0x18, 0x60
+    .byte 96, 48, 24, 96
 #else
-    .byte 0x73, 0x3A, 0x1D, 0x60
+    .byte 115, 58, 29, 96
 #endif
 
 .layer LAYER_1435
@@ -3943,15 +3943,15 @@ LAYER_1B5C:
 CHAN_1BA1:
 /* 0x1BA1 [0x66                    ] */ ldio        IO_PORT_6
 /* 0x1BA2 [0xC9 0x03               ] */ and         3
-/* 0x1BA4 [0xCB 0x1B 0xB6          ] */ ldseq       UNK_1BB6
+/* 0x1BA4 [0xCB 0x1B 0xB6          ] */ ldseq       ARRAY_1BB6
 /* 0x1BA7 [0xC7 0x00 0x1B 0xE7     ] */ stseq       0, LAYER_1BE6 + STSEQ_LDELAY
 /* 0x1BAB [0xC7 0x08 0x1B 0xB0     ] */ stseq       8, STSEQ_HERE + STSEQ_LDI_IMM
 /* 0x1BAF [0xCC 0x30               ] */ ldi         48
 /* 0x1BB1 [0xFC 0x00 0x48          ] */ call        CHAN_0048
 /* 0x1BB4 [0xF4 0xEB               ] */ rjump       CHAN_1BA1
 
-UNK_1BB6:
-    .byte 0x20, 0x0E, 0x05, 0x20
+.array ARRAY_1BB6
+    .byte 32, 14, 5, 32
 
 .layer LAYER_1BBA
 /* 0x1BBA [0xC2 0x30               ] */ transpose   48
@@ -4031,16 +4031,16 @@ CHAN_1C3B:
 /* 0x1C3B [0x63                    ] */ ldio        IO_PORT_3
 /* 0x1C3C [0xC9 0xF0               ] */ and         240
 /* 0x1C3E [0xF3 0x0E               ] */ rbeqz       CHAN_1C4E
-/* 0x1C40 [0xCE 0x00 0x00          ] */ ldptr       SEQ_0000
+/* 0x1C40 [0xCE 0x00 0x00          ] */ ldptri      0
 /* 0x1C43 [0xCF 0x1C 0x80          ] */ stptrtoseq  ENVELOPE_1C7A + STSEQ_ENVELOPE_POINT(3)
-/* 0x1C46 [0xCE 0x7F 0xBC          ] */ ldptr       SEQ_0_END + 0x1538
+/* 0x1C46 [0xCE 0x7F 0xBC          ] */ ldptri      32700
 /* 0x1C49 [0xCF 0x1C 0x8C          ] */ stptrtoseq  ENVELOPE_1C86 + STSEQ_ENVELOPE_POINT(3)
 /* 0x1C4C [0xF4 0x0C               ] */ rjump       CHAN_1C5A
 
 CHAN_1C4E:
-/* 0x1C4E [0xCE 0x00 0x00          ] */ ldptr       SEQ_0000
+/* 0x1C4E [0xCE 0x00 0x00          ] */ ldptri      0
 /* 0x1C51 [0xCF 0x1C 0x8C          ] */ stptrtoseq  ENVELOPE_1C86 + STSEQ_ENVELOPE_POINT(3)
-/* 0x1C54 [0xCE 0x7F 0xBC          ] */ ldptr       SEQ_0_END + 0x1538
+/* 0x1C54 [0xCE 0x7F 0xBC          ] */ ldptri      32700
 /* 0x1C57 [0xCF 0x1C 0x80          ] */ stptrtoseq  ENVELOPE_1C7A + STSEQ_ENVELOPE_POINT(3)
 CHAN_1C5A:
 /* 0x1C5A [0xCC 0x01               ] */ ldi         1
@@ -7056,9 +7056,9 @@ CHAN_2F7D:
 /* 0x2F85 [0xB8 0x02               ] */ rand        2
 /* 0x2F87 [0xC7 0x2F 0x2F 0xAC     ] */ stseq       47, LAYER_2FAB + STSEQ_TRANSPOSITION
 /* 0x2F8B [0xBD 0x00 0x6A 0x00 0x96] */ randptr     106, 150
-/* 0x2F90 [0xCF 0x2F 0xB6          ] */ stptrtoseq  UNK_2FB6
+/* 0x2F90 [0xCF 0x2F 0xB6          ] */ stptrtoseq  BUF_2FB6
 /* 0x2F93 [0xCC 0x01               ] */ ldi         1
-/* 0x2F95 [0xCB 0x2F 0xB6          ] */ ldseq       UNK_2FB6
+/* 0x2F95 [0xCB 0x2F 0xB6          ] */ ldseq       BUF_2FB6
 /* 0x2F98 [0xC7 0x00 0x2F 0xA0     ] */ stseq       0, CHAN_2F9F + STSEQ_LDI_IMM
 /* 0x2F9C [0x88 0x2F 0xAB          ] */ ldlayer     0, LAYER_2FAB
 CHAN_2F9F:
@@ -7077,8 +7077,8 @@ CHAN_2F9F:
 /* 0x2FB2 [0xC0 0xFD 0x00          ] */ ldelay      32000
 /* 0x2FB5 [0xFF                    ] */ end
 
-UNK_2FB6:
-    .half 0x0000
+BUF_2FB6:
+    .half 0
 
 .channel CHAN_2FB8
 /* 0x2FB8 [0x88 0x2F 0xBF          ] */ ldlayer     0, LAYER_2FBF
@@ -12265,9 +12265,9 @@ LAYER_53FD:
 .channel CHAN_5403
 /* 0x5403 [0xC1 0x7E               ] */ instr       FONTANY_INSTR_SFX
 /* 0x5405 [0x64                    ] */ ldio        IO_PORT_SFX_INDEX_LOBITS
-/* 0x5406 [0xC8 0xB0               ] */ sub         176
+/* 0x5406 [0xC8 0xB0               ] */ sub         NA_SE_EN_TWINROBA_LAUGH & 0xFF
 /* 0x5408 [0xC7 0x00 0x54 0x17     ] */ stseq       (ASEQ_OP_LAYER_NOTEDVG | PITCH_A0), LAYER_5417 + STSEQ_NOTEDVG_OPCODE_PITCH
-/* 0x540C [0xCB 0x54 0x1C          ] */ ldseq       UNK_541C
+/* 0x540C [0xCB 0x54 0x1C          ] */ ldseq       ARRAY_541C
 /* 0x540F [0xC7 0x00 0x54 0x19     ] */ stseq       0, LAYER_5417 + STSEQ_NOTEDVG_DELAY_LO
 /* 0x5413 [0x88 0x54 0x17          ] */ ldlayer     0, LAYER_5417
 /* 0x5416 [0xFF                    ] */ end
@@ -12276,10 +12276,10 @@ LAYER_53FD:
 /* 0x5417 [0x00 0x00 0x64 0x00     ] */ notedvg     PITCH_A0, 0, 100, 0
 /* 0x541B [0xFF                    ] */ end
 
-UNK_541C:
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
+.array ARRAY_541C
+    .byte 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100
+    .byte 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100
+    .byte 100, 100, 100, 100, 100, 100, 100
 
 .channel CHAN_5443
 /* 0x5443 [0x88 0x42 0x20          ] */ ldlayer     0, LAYER_4220
@@ -13861,11 +13861,11 @@ CHAN_5EE2:
 /* 0x5EF7 [0x71                    ] */ stio        IO_PORT_1
 /* 0x5EF8 [0x67                    ] */ ldio        IO_PORT_7
 /* 0x5EF9 [0xC9 0x07               ] */ and         7
-/* 0x5EFB [0xCB 0x5F 0x30          ] */ ldseq       UNK_5F30
+/* 0x5EFB [0xCB 0x5F 0x30          ] */ ldseq       ARRAY_5F30
 /* 0x5EFE [0xC7 0x00 0x5F 0x0D     ] */ stseq       0, CHAN_5F0C + STSEQ_INSTR
 /* 0x5F02 [0x67                    ] */ ldio        IO_PORT_7
 /* 0x5F03 [0xC9 0x07               ] */ and         7
-/* 0x5F05 [0xCB 0x5F 0x38          ] */ ldseq       UNK_5F38
+/* 0x5F05 [0xCB 0x5F 0x38          ] */ ldseq       ARRAY_5F38
 /* 0x5F08 [0xC7 0x00 0x5F 0x2E     ] */ stseq       0, LAYER_5F2B + STSEQ_NOTEDV_VELOCITY
 CHAN_5F0C:
 /* 0x5F0C [0xC1 0x34               ] */ instr       SF0_INST_52
@@ -13894,11 +13894,18 @@ LAYER_5F2B:
 /* 0x5F2B [0x67 0x81 0xE0 0x7F     ] */ notedv      PITCH_C4, 480, 127
 /* 0x5F2F [0xFF                    ] */ end
 
-UNK_5F30:
-    .byte 0x34, 0x55, 0x56, 0x59, 0x53, 0x52, 0x34, 0x34
+.array ARRAY_5F30
+    .byte SF0_INST_52
+    .byte SF0_INST_85
+    .byte SF0_INST_86
+    .byte SF0_INST_89
+    .byte SF0_INST_83
+    .byte SF0_INST_82
+    .byte SF0_INST_52
+    .byte SF0_INST_52
 
-UNK_5F38:
-    .byte 0x73, 0x73, 0x64, 0x73, 0x64, 0x73, 0x73, 0x73
+.array ARRAY_5F38
+    .byte 115, 115, 100, 115, 100, 115, 115, 115
 
 .channel CHAN_5F40
 /* 0x5F40 [0xCC 0x81               ] */ ldi         129
@@ -14044,11 +14051,11 @@ CHAN_6116:
 /* 0x6116 [0x3E 0x06               ] */ stcio       14, IO_PORT_6
 /* 0x6118 [0x3F 0x06               ] */ stcio       15, IO_PORT_6
 CHAN_611A:
-/* 0x611A [0xCB 0x61 0x6D          ] */ ldseq       UNK_616D
-/* 0x611D [0xC7 0x40 0x61 0x2D     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x611A [0xCB 0x61 0x6D          ] */ ldseq       ARRAY_616D
+/* 0x611D [0xC7 0x40 0x61 0x2D     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | SF0_EFFECT_0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x6121 [0x66                    ] */ ldio        IO_PORT_6
 CHAN_6122:
-/* 0x6122 [0xCB 0x61 0x71          ] */ ldseq       UNK_6171
+/* 0x6122 [0xCB 0x61 0x71          ] */ ldseq       ARRAY_6171
 CHAN_6125:
 /* 0x6125 [0xC7 0x00 0x61 0x2F     ] */ stseq       0, LAYER_612D + STSEQ_NOTEDV_VELOCITY_2
 /* 0x6129 [0x88 0x61 0x2D          ] */ ldlayer     0, LAYER_612D
@@ -14080,7 +14087,7 @@ CHAN_613E:
                                         // Reads the byte at (PTR + 0) into TR (the note)
 /* 0x6147 [0xB6                    ] */ dyntblv
                                         // Store ASEQ_OP_LAYER_NOTEDV + TR into the pitch
-/* 0x6148 [0xC7 0x40 0x61 0x2D     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x6148 [0xC7 0x40 0x61 0x2D     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | SF0_EFFECT_0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
                                         // Load 1 into TR
 /* 0x614C [0xCC 0x01               ] */ ldi         1
                                         // Reads the byte at (PTR + 1) into TR (the velocity)
@@ -14096,23 +14103,26 @@ CHAN_6151:
 /* 0x615B [0xF4 0xBD               ] */ rjump       CHAN_611A
 
 .channel CHAN_615D
-/* 0x615D [0xCE 0x61 0x6D          ] */ ldptr       UNK_616D
+/* 0x615D [0xCE 0x61 0x6D          ] */ ldptr       ARRAY_616D
 /* 0x6160 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6163 [0xCE 0x61 0x71          ] */ ldptr       UNK_6171
+/* 0x6163 [0xCE 0x61 0x71          ] */ ldptr       ARRAY_6171
 /* 0x6166 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6169 [0xCC 0x04               ] */ ldi         4
 /* 0x616B [0xF4 0x85               ] */ rjump       CHAN_60F2
 
-UNK_616D:
-    .byte 0x00, 0x01, 0x02, 0x03
+.array ARRAY_616D
+    .byte SF0_EFFECT_0
+    .byte SF0_EFFECT_1
+    .byte SF0_EFFECT_2
+    .byte SF0_EFFECT_3
 
-UNK_6171:
-    .byte 0x69, 0x69, 0x69, 0x69
+.array ARRAY_6171
+    .byte 105, 105, 105, 105
 
 .channel CHAN_6175
-/* 0x6175 [0xCE 0x61 0x97          ] */ ldptr       UNK_6197
+/* 0x6175 [0xCE 0x61 0x97          ] */ ldptr       ARRAY_6197
 /* 0x6178 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x617B [0xCE 0x61 0x99          ] */ ldptr       UNK_6199
+/* 0x617B [0xCE 0x61 0x99          ] */ ldptr       ARRAY_6199
 /* 0x617E [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6181 [0xB8 0x02               ] */ rand        2
 /* 0x6183 [0xF4 0xAF               ] */ rjump       CHAN_6134
@@ -14132,16 +14142,17 @@ CHAN_618C:
 CHAN_6196:
 /* 0x6196 [0x76                    ] */ stio        IO_PORT_6
 
-UNK_6197:
-    .byte 0x04, 0x05
+.array ARRAY_6197
+    .byte SF0_EFFECT_4
+    .byte SF0_EFFECT_5
 
-UNK_6199:
-    .byte 0x6E, 0x6E
+.array ARRAY_6199
+    .byte 110, 110
 
 .channel CHAN_619B
-/* 0x619B [0xCE 0x61 0xBD          ] */ ldptr       UNK_61BD
+/* 0x619B [0xCE 0x61 0xBD          ] */ ldptr       ARRAY_61BD
 /* 0x619E [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x61A1 [0xCE 0x61 0xBF          ] */ ldptr       UNK_61BF
+/* 0x61A1 [0xCE 0x61 0xBF          ] */ ldptr       ARRAY_61BF
 /* 0x61A4 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x61A7 [0xB8 0x02               ] */ rand        2
 /* 0x61A9 [0xF4 0x89               ] */ rjump       CHAN_6134
@@ -14161,109 +14172,119 @@ CHAN_61B2:
 CHAN_61BC:
 /* 0x61BC [0x76                    ] */ stio        IO_PORT_6
 
-UNK_61BD:
-    .byte 0x15, 0x16
+.array ARRAY_61BD
+    .byte SF0_EFFECT_21
+    .byte SF0_EFFECT_22
 
-UNK_61BF:
-    .byte 0x69, 0x69
+.array ARRAY_61BF
+    .byte 105, 105
 
 .channel CHAN_61C1
-/* 0x61C1 [0xCE 0x61 0xD1          ] */ ldptr       UNK_61D1
+/* 0x61C1 [0xCE 0x61 0xD1          ] */ ldptr       ARRAY_61D1
 /* 0x61C4 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x61C7 [0xCE 0x61 0xD3          ] */ ldptr       UNK_61D3
+/* 0x61C7 [0xCE 0x61 0xD3          ] */ ldptr       ARRAY_61D3
 /* 0x61CA [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x61CD [0xCC 0x00               ] */ ldi         0
 /* 0x61CF [0xF4 0x80               ] */ rjump       CHAN_6151
 
-UNK_61D1:
-    .byte 0x06, 0x19
+.array ARRAY_61D1
+    .byte SF0_EFFECT_6
+    .byte SF0_EFFECT_25
 
-UNK_61D3:
-    .byte 0x5F, 0x69
+.array ARRAY_61D3
+    .byte 95, 105
 
 .channel CHAN_61D5
-/* 0x61D5 [0xCE 0x61 0xE6          ] */ ldptr       UNK_61E6
+/* 0x61D5 [0xCE 0x61 0xE6          ] */ ldptr       ARRAY_61E6
 /* 0x61D8 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x61DB [0xCE 0x61 0xE8          ] */ ldptr       UNK_61E8
+/* 0x61DB [0xCE 0x61 0xE8          ] */ ldptr       ARRAY_61E8
 /* 0x61DE [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x61E1 [0xB8 0x02               ] */ rand        2
 /* 0x61E3 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_61E6:
-    .byte 0x07, 0x08
+.array ARRAY_61E6
+    .byte SF0_EFFECT_7
+    .byte SF0_EFFECT_8
 
-UNK_61E8:
-    .byte 0x48, 0x50
+.array ARRAY_61E8
+    .byte 72, 80
 
 .channel CHAN_61EA
-/* 0x61EA [0xCE 0x61 0xFB          ] */ ldptr       UNK_61FB
+/* 0x61EA [0xCE 0x61 0xFB          ] */ ldptr       ARRAY_61FB
 /* 0x61ED [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x61F0 [0xCE 0x61 0xFE          ] */ ldptr       UNK_61FE
+/* 0x61F0 [0xCE 0x61 0xFE          ] */ ldptr       ARRAY_61FE
 /* 0x61F3 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x61F6 [0xCC 0x03               ] */ ldi         3
 /* 0x61F8 [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
 
-UNK_61FB:
-    .byte 0x09, 0x0A, 0x0B
+.array ARRAY_61FB
+    .byte SF0_EFFECT_9
+    .byte SF0_EFFECT_10
+    .byte SF0_EFFECT_11
 
-UNK_61FE:
-    .byte 0x75, 0x75, 0x75
+.array ARRAY_61FE
+    .byte 117, 117, 117
 
 .channel CHAN_6201
-/* 0x6201 [0xCE 0x62 0x12          ] */ ldptr       UNK_6212
+/* 0x6201 [0xCE 0x62 0x12          ] */ ldptr       ARRAY_6212
 /* 0x6204 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6207 [0xCE 0x62 0x15          ] */ ldptr       UNK_6215
+/* 0x6207 [0xCE 0x62 0x15          ] */ ldptr       ARRAY_6215
 /* 0x620A [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x620D [0xCC 0x03               ] */ ldi         3
 /* 0x620F [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
 
-UNK_6212:
-    .byte 0x0C, 0x0D, 0x0E
+.array ARRAY_6212
+    .byte SF0_EFFECT_12
+    .byte SF0_EFFECT_13
+    .byte SF0_EFFECT_14
 
-UNK_6215:
-    .byte 0x71, 0x71, 0x71
+.array ARRAY_6215
+    .byte 113, 113, 113
 
 .channel CHAN_6218
-/* 0x6218 [0xCE 0x62 0x29          ] */ ldptr       UNK_6229
+/* 0x6218 [0xCE 0x62 0x29          ] */ ldptr       ARRAY_6229
 /* 0x621B [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x621E [0xCE 0x62 0x2B          ] */ ldptr       UNK_622B
+/* 0x621E [0xCE 0x62 0x2B          ] */ ldptr       ARRAY_622B
 /* 0x6221 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6224 [0xB8 0x02               ] */ rand        2
 /* 0x6226 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6229:
-    .byte 0x11, 0x12
+.array ARRAY_6229
+    .byte SF0_EFFECT_17
+    .byte SF0_EFFECT_18
 
-UNK_622B:
-    .byte 0x64, 0x64
+.array ARRAY_622B
+    .byte 100, 100
 
 .channel CHAN_622D
-/* 0x622D [0xCE 0x62 0x3E          ] */ ldptr       UNK_623E
+/* 0x622D [0xCE 0x62 0x3E          ] */ ldptr       ARRAY_623E
 /* 0x6230 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6233 [0xCE 0x62 0x40          ] */ ldptr       UNK_6240
+/* 0x6233 [0xCE 0x62 0x40          ] */ ldptr       ARRAY_6240
 /* 0x6236 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6239 [0xB8 0x02               ] */ rand        2
 /* 0x623B [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_623E:
-    .byte 0x0F, 0x10
+.array ARRAY_623E
+    .byte SF0_EFFECT_15
+    .byte SF0_EFFECT_16
 
-UNK_6240:
-    .byte 0x6E, 0x6E
+.array ARRAY_6240
+    .byte 110, 110
 
 .channel CHAN_6242
-/* 0x6242 [0xCE 0x62 0x53          ] */ ldptr       UNK_6253
+/* 0x6242 [0xCE 0x62 0x53          ] */ ldptr       ARRAY_6253
 /* 0x6245 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6248 [0xCE 0x62 0x55          ] */ ldptr       UNK_6255
+/* 0x6248 [0xCE 0x62 0x55          ] */ ldptr       ARRAY_6255
 /* 0x624B [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x624E [0xB8 0x02               ] */ rand        2
 /* 0x6250 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6253:
-    .byte 0x13, 0x17
+.array ARRAY_6253
+    .byte SF0_EFFECT_19
+    .byte SF0_EFFECT_23
 
-UNK_6255:
-    .byte 0x5A, 0x5A
+.array ARRAY_6255
+    .byte 90, 90
 
 .channel CHAN_6257
 /* 0x6257 [0x88 0x62 0x5B          ] */ ldlayer     0, LAYER_625B
@@ -14285,18 +14306,19 @@ UNK_6255:
 /* 0x626E [0xFF                    ] */ end
 
 .channel CHAN_626F
-/* 0x626F [0xCE 0x62 0x80          ] */ ldptr       UNK_6280
+/* 0x626F [0xCE 0x62 0x80          ] */ ldptr       ARRAY_6280
 /* 0x6272 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6275 [0xCE 0x62 0x82          ] */ ldptr       UNK_6282
+/* 0x6275 [0xCE 0x62 0x82          ] */ ldptr       ARRAY_6282
 /* 0x6278 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x627B [0xB8 0x02               ] */ rand        2
 /* 0x627D [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6280:
-    .byte 0x0F, 0x10
+.array ARRAY_6280
+    .byte SF0_EFFECT_15
+    .byte SF0_EFFECT_16
 
-UNK_6282:
-    .byte 0x69, 0x69
+.array ARRAY_6282
+    .byte 105, 105
 
 .channel CHAN_6284
 /* 0x6284 [0xFB 0x61 0xEA          ] */ jump        CHAN_61EA
@@ -14343,37 +14365,40 @@ UNK_6282:
 /* 0x62C5 [0xFF                    ] */ end
 
 .channel CHAN_62C6
-/* 0x62C6 [0xCE 0x62 0xCC          ] */ ldptr       UNK_62CC
+/* 0x62C6 [0xCE 0x62 0xCC          ] */ ldptr       ARRAY_62CC
 /* 0x62C9 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_62CC:
-    .byte 0x00, 0x64
+.array ARRAY_62CC
+    .byte SF0_EFFECT_0
+    .byte 100
 
 .channel CHAN_62CE
 /* 0x62CE [0x66                    ] */ ldio        IO_PORT_6
 /* 0x62CF [0xC8 0xFF               ] */ sub         255
 /* 0x62D1 [0x76                    ] */ stio        IO_PORT_6
 /* 0x62D2 [0xC9 0x01               ] */ and         1
-/* 0x62D4 [0xCB 0x62 0xE8          ] */ ldseq       UNK_62E8
-/* 0x62D7 [0xC7 0x40 0x64 0xBF     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x62D4 [0xCB 0x62 0xE8          ] */ ldseq       ARRAY_62E8
+/* 0x62D7 [0xC7 0x40 0x64 0xBF     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | SF0_EFFECT_0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x62DB [0xB8 0x02               ] */ rand        2
-/* 0x62DD [0xCB 0x62 0xEA          ] */ ldseq       UNK_62EA
+/* 0x62DD [0xCB 0x62 0xEA          ] */ ldseq       ARRAY_62EA
 /* 0x62E0 [0xC7 0x00 0x64 0xC1     ] */ stseq       0, LAYER_64BF + STSEQ_NOTEDV_VELOCITY_2
 /* 0x62E4 [0x88 0x64 0xBF          ] */ ldlayer     0, LAYER_64BF
 /* 0x62E7 [0xFF                    ] */ end
 
-UNK_62E8:
-    .byte 0x1A, 0x1B
+.array ARRAY_62E8
+    .byte SF0_EFFECT_26
+    .byte SF0_EFFECT_27
 
-UNK_62EA:
-    .byte 0x50, 0x55
+.array ARRAY_62EA
+    .byte 80, 85
 
 .channel CHAN_62EC
-/* 0x62EC [0xCE 0x62 0xF2          ] */ ldptr       UNK_62F2
+/* 0x62EC [0xCE 0x62 0xF2          ] */ ldptr       ARRAY_62F2
 /* 0x62EF [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_62F2:
-    .byte 0x05, 0x6E
+.array ARRAY_62F2
+    .byte SF0_EFFECT_5
+    .byte 110
 
 .channel CHAN_62F4
 /* 0x62F4 [0x88 0x62 0xF8          ] */ ldlayer     0, LAYER_62F8
@@ -14385,72 +14410,82 @@ UNK_62F2:
 /* 0x62FD [0xFF                    ] */ end
 
 .channel CHAN_62FE
-/* 0x62FE [0xCE 0x63 0x04          ] */ ldptr       UNK_6304
+/* 0x62FE [0xCE 0x63 0x04          ] */ ldptr       ARRAY_6304
 /* 0x6301 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6304:
-    .byte 0x04, 0x5F
+.array ARRAY_6304
+    .byte SF0_EFFECT_4
+    .byte 95
 
 .channel CHAN_6306
-/* 0x6306 [0xCE 0x63 0x0C          ] */ ldptr       UNK_630C
+/* 0x6306 [0xCE 0x63 0x0C          ] */ ldptr       ARRAY_630C
 /* 0x6309 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_630C:
-    .byte 0x07, 0x52
+.array ARRAY_630C
+    .byte SF0_EFFECT_7
+    .byte 82
 
 .channel CHAN_630E
-/* 0x630E [0xCE 0x63 0x14          ] */ ldptr       UNK_6314
+/* 0x630E [0xCE 0x63 0x14          ] */ ldptr       ARRAY_6314
 /* 0x6311 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6314:
-    .byte 0x06, 0x5F
+.array ARRAY_6314
+    .byte SF0_EFFECT_6
+    .byte 95
 
 .channel CHAN_6316
-/* 0x6316 [0xCE 0x63 0x1C          ] */ ldptr       UNK_631C
+/* 0x6316 [0xCE 0x63 0x1C          ] */ ldptr       ARRAY_631C
 /* 0x6319 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_631C:
-    .byte 0x18, 0x6E
+.array ARRAY_631C
+    .byte SF0_EFFECT_24
+    .byte 110
 
 .channel CHAN_631E
-/* 0x631E [0xCE 0x63 0x24          ] */ ldptr       UNK_6324
+/* 0x631E [0xCE 0x63 0x24          ] */ ldptr       ARRAY_6324
 /* 0x6321 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6324:
-    .byte 0x3C, 0x64
+.array ARRAY_6324
+    .byte SF0_EFFECT_60
+    .byte 100
 
 .channel CHAN_6326
-/* 0x6326 [0xCE 0x63 0x2C          ] */ ldptr       UNK_632C
+/* 0x6326 [0xCE 0x63 0x2C          ] */ ldptr       ARRAY_632C
 /* 0x6329 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_632C:
-    .byte 0x3D, 0x6E
+.array ARRAY_632C
+    .byte SF0_EFFECT_61
+    .byte 110
 
 .channel CHAN_632E
-/* 0x632E [0xCE 0x63 0x34          ] */ ldptr       UNK_6334
+/* 0x632E [0xCE 0x63 0x34          ] */ ldptr       ARRAY_6334
 /* 0x6331 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6334:
-    .byte 0x0D, 0x71
+.array ARRAY_6334
+    .byte SF0_EFFECT_13
+    .byte 113
 
 .channel CHAN_6336
-/* 0x6336 [0xCE 0x63 0x47          ] */ ldptr       UNK_6347
+/* 0x6336 [0xCE 0x63 0x47          ] */ ldptr       ARRAY_6347
 /* 0x6339 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x633C [0xCE 0x63 0x4B          ] */ ldptr       UNK_634B
+/* 0x633C [0xCE 0x63 0x4B          ] */ ldptr       ARRAY_634B
 /* 0x633F [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6342 [0xCC 0x04               ] */ ldi         4
 /* 0x6344 [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
 
-UNK_6347:
-    .byte 0x1C, 0x1D, 0x1E, 0x1F
+.array ARRAY_6347
+    .byte SF0_EFFECT_28
+    .byte SF0_EFFECT_29
+    .byte SF0_EFFECT_30
+    .byte SF0_EFFECT_31
 
-UNK_634B:
-    .byte 0x6E, 0x6E, 0x6E, 0x6E
+.array ARRAY_634B
+    .byte 110, 110, 110, 110
 
 .channel CHAN_634F
-/* 0x634F [0xCE 0x63 0x72          ] */ ldptr       UNK_6372
+/* 0x634F [0xCE 0x63 0x72          ] */ ldptr       ARRAY_6372
 /* 0x6352 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6355 [0xCE 0x63 0x74          ] */ ldptr       UNK_6374
+/* 0x6355 [0xCE 0x63 0x74          ] */ ldptr       ARRAY_6374
 /* 0x6358 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x635B [0xB8 0x02               ] */ rand        2
 /* 0x635D [0xFB 0x61 0x34          ] */ jump        CHAN_6134
@@ -14470,21 +14505,22 @@ CHAN_6367:
 CHAN_6371:
 /* 0x6371 [0x76                    ] */ stio        IO_PORT_6
 
-UNK_6372:
-    .byte 0x20, 0x21
+.array ARRAY_6372
+    .byte SF0_EFFECT_32
+    .byte SF0_EFFECT_33
 
-UNK_6374:
-    .byte 0x6E, 0x6E
+.array ARRAY_6374
+    .byte 110, 110
 
 .channel CHAN_6376
 /* 0x6376 [0x66                    ] */ ldio        IO_PORT_6
 /* 0x6377 [0xC8 0xFF               ] */ sub         255
 /* 0x6379 [0x76                    ] */ stio        IO_PORT_6
 /* 0x637A [0xC9 0x01               ] */ and         1
-/* 0x637C [0xCB 0x63 0x96          ] */ ldseq       UNK_6396
-/* 0x637F [0xC7 0x40 0x63 0x90     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A0), LAYER_6390 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x637C [0xCB 0x63 0x96          ] */ ldseq       ARRAY_6396
+/* 0x637F [0xC7 0x40 0x63 0x90     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | SF0_EFFECT_0), LAYER_6390 + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x6383 [0xB8 0x02               ] */ rand        2
-/* 0x6385 [0xCB 0x63 0x98          ] */ ldseq       UNK_6398
+/* 0x6385 [0xCB 0x63 0x98          ] */ ldseq       ARRAY_6398
 /* 0x6388 [0xC7 0x00 0x63 0x92     ] */ stseq       0, LAYER_6390 + STSEQ_NOTEDV_VELOCITY_2
 /* 0x638C [0x88 0x63 0x90          ] */ ldlayer     0, LAYER_6390
 /* 0x638F [0xFF                    ] */ end
@@ -14494,95 +14530,104 @@ UNK_6374:
 /* 0x6393 [0xC0 0x30               ] */ ldelay      48
 /* 0x6395 [0xFF                    ] */ end
 
-UNK_6396:
-    .byte 0x22, 0x32
+.array ARRAY_6396
+    .byte SF0_EFFECT_34
+    .byte SF0_EFFECT_50
 
-UNK_6398:
-    .byte 0x64, 0x64
+.array ARRAY_6398
+    .byte 100, 100
 
 .channel CHAN_639A
-/* 0x639A [0xCE 0x63 0xAB          ] */ ldptr       UNK_63AB
+/* 0x639A [0xCE 0x63 0xAB          ] */ ldptr       ARRAY_63AB
 /* 0x639D [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x63A0 [0xCE 0x63 0xAD          ] */ ldptr       UNK_63AD
+/* 0x63A0 [0xCE 0x63 0xAD          ] */ ldptr       ARRAY_63AD
 /* 0x63A3 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x63A6 [0xB8 0x02               ] */ rand        2
 /* 0x63A8 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_63AB:
-    .byte 0x23, 0x24
+.array ARRAY_63AB
+    .byte SF0_EFFECT_35
+    .byte SF0_EFFECT_36
 
-UNK_63AD:
-    .byte 0x5A, 0x46
+.array ARRAY_63AD
+    .byte 90, 70
 
 .channel CHAN_63AF
-/* 0x63AF [0xCE 0x63 0xC0          ] */ ldptr       UNK_63C0
+/* 0x63AF [0xCE 0x63 0xC0          ] */ ldptr       ARRAY_63C0
 /* 0x63B2 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x63B5 [0xCE 0x63 0xC3          ] */ ldptr       UNK_63C3
+/* 0x63B5 [0xCE 0x63 0xC3          ] */ ldptr       ARRAY_63C3
 /* 0x63B8 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x63BB [0xCC 0x03               ] */ ldi         3
 /* 0x63BD [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
 
-UNK_63C0:
-    .byte 0x25, 0x26, 0x27
+.array ARRAY_63C0
+    .byte SF0_EFFECT_37
+    .byte SF0_EFFECT_38
+    .byte SF0_EFFECT_39
 
-UNK_63C3:
-    .byte 0x6E, 0x6E, 0x6E
+.array ARRAY_63C3
+    .byte 110, 110, 110
 
 .channel CHAN_63C6
-/* 0x63C6 [0xCE 0x63 0xD7          ] */ ldptr       UNK_63D7
+/* 0x63C6 [0xCE 0x63 0xD7          ] */ ldptr       ARRAY_63D7
 /* 0x63C9 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x63CC [0xCE 0x63 0xDA          ] */ ldptr       UNK_63DA
+/* 0x63CC [0xCE 0x63 0xDA          ] */ ldptr       ARRAY_63DA
 /* 0x63CF [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x63D2 [0xCC 0x03               ] */ ldi         3
 /* 0x63D4 [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
 
-UNK_63D7:
-    .byte 0x28, 0x29, 0x2A
+.array ARRAY_63D7
+    .byte SF0_EFFECT_40
+    .byte SF0_EFFECT_41
+    .byte SF0_EFFECT_42
 
-UNK_63DA:
-    .byte 0x6E, 0x6E, 0x6E
+.array ARRAY_63DA
+    .byte 110, 110, 110
 
 .channel CHAN_63DD
-/* 0x63DD [0xCE 0x63 0xEE          ] */ ldptr       UNK_63EE
+/* 0x63DD [0xCE 0x63 0xEE          ] */ ldptr       ARRAY_63EE
 /* 0x63E0 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x63E3 [0xCE 0x63 0xF0          ] */ ldptr       UNK_63F0
+/* 0x63E3 [0xCE 0x63 0xF0          ] */ ldptr       ARRAY_63F0
 /* 0x63E6 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x63E9 [0xB8 0x02               ] */ rand        2
 /* 0x63EB [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_63EE:
-    .byte 0x2D, 0x2E
+.array ARRAY_63EE
+    .byte SF0_EFFECT_45
+    .byte SF0_EFFECT_46
 
-UNK_63F0:
-    .byte 0x64, 0x64
+.array ARRAY_63F0
+    .byte 100, 100
 
 .channel CHAN_63F2
-/* 0x63F2 [0xCE 0x64 0x03          ] */ ldptr       UNK_6403
+/* 0x63F2 [0xCE 0x64 0x03          ] */ ldptr       ARRAY_6403
 /* 0x63F5 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x63F8 [0xCE 0x64 0x05          ] */ ldptr       UNK_6405
+/* 0x63F8 [0xCE 0x64 0x05          ] */ ldptr       ARRAY_6405
 /* 0x63FB [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x63FE [0xB8 0x02               ] */ rand        2
 /* 0x6400 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6403:
-    .byte 0x2B, 0x2C
+.array ARRAY_6403
+    .byte SF0_EFFECT_43
+    .byte SF0_EFFECT_44
 
-UNK_6405:
-    .byte 0x64, 0x64
+.array ARRAY_6405
+    .byte 100, 100
 
 .channel CHAN_6407
-/* 0x6407 [0xCE 0x64 0x18          ] */ ldptr       UNK_6418
+/* 0x6407 [0xCE 0x64 0x18          ] */ ldptr       ARRAY_6418
 /* 0x640A [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x640D [0xCE 0x64 0x1A          ] */ ldptr       UNK_641A
+/* 0x640D [0xCE 0x64 0x1A          ] */ ldptr       ARRAY_641A
 /* 0x6410 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6413 [0xB8 0x02               ] */ rand        2
 /* 0x6415 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6418:
-    .byte 0x2F, 0x30
+.array ARRAY_6418
+    .byte SF0_EFFECT_47
+    .byte SF0_EFFECT_48
 
-UNK_641A:
-    .byte 0x55, 0x55
+.array ARRAY_641A
+    .byte 85, 85
 
 .channel CHAN_641C
 /* 0x641C [0x88 0x64 0x20          ] */ ldlayer     0, LAYER_6420
@@ -14604,25 +14649,27 @@ UNK_641A:
 /* 0x6433 [0xFF                    ] */ end
 
 .channel CHAN_6434
-/* 0x6434 [0xCE 0x64 0x45          ] */ ldptr       UNK_6445
+/* 0x6434 [0xCE 0x64 0x45          ] */ ldptr       ARRAY_6445
 /* 0x6437 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x643A [0xCE 0x64 0x47          ] */ ldptr       UNK_6447
+/* 0x643A [0xCE 0x64 0x47          ] */ ldptr       ARRAY_6447
 /* 0x643D [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6440 [0xB8 0x02               ] */ rand        2
 /* 0x6442 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6445:
-    .byte 0x2B, 0x2C
+.array ARRAY_6445
+    .byte SF0_EFFECT_43
+    .byte SF0_EFFECT_44
 
-UNK_6447:
-    .byte 0x64, 0x64
+.array ARRAY_6447
+    .byte 100, 100
 
 .channel CHAN_6449
-/* 0x6449 [0xCE 0x64 0x4F          ] */ ldptr       UNK_644F
+/* 0x6449 [0xCE 0x64 0x4F          ] */ ldptr       ARRAY_644F
 /* 0x644C [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_644F:
-    .byte 0x14, 0x64
+.array ARRAY_644F
+    .byte SF0_EFFECT_20
+    .byte 100
 
 .channel CHAN_6451
 /* 0x6451 [0x88 0x64 0x55          ] */ ldlayer     0, LAYER_6455
@@ -14667,11 +14714,12 @@ UNK_644F:
 /* 0x6492 [0xFF                    ] */ end
 
 .channel CHAN_6493
-/* 0x6493 [0xCE 0x64 0x99          ] */ ldptr       UNK_6499
+/* 0x6493 [0xCE 0x64 0x99          ] */ ldptr       ARRAY_6499
 /* 0x6496 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6499:
-    .byte 0x1C, 0x64
+.array ARRAY_6499
+    .byte SF0_EFFECT_28
+    .byte 100
 
 .channel CHAN_649B
 /* 0x649B [0x88 0x64 0x9F          ] */ ldlayer     0, LAYER_649F
@@ -14687,10 +14735,10 @@ UNK_6499:
 /* 0x64A6 [0xC8 0xFF               ] */ sub         255
 /* 0x64A8 [0x76                    ] */ stio        IO_PORT_6
 /* 0x64A9 [0xC9 0x01               ] */ and         1
-/* 0x64AB [0xCB 0x64 0xC5          ] */ ldseq       UNK_64C5
-/* 0x64AE [0xC7 0x40 0x64 0xBF     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x64AB [0xCB 0x64 0xC5          ] */ ldseq       ARRAY_64C5
+/* 0x64AE [0xC7 0x40 0x64 0xBF     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | SF0_EFFECT_0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x64B2 [0xB8 0x02               ] */ rand        2
-/* 0x64B4 [0xCB 0x64 0xC7          ] */ ldseq       UNK_64C7
+/* 0x64B4 [0xCB 0x64 0xC7          ] */ ldseq       ARRAY_64C7
 /* 0x64B7 [0xC7 0x00 0x64 0xC1     ] */ stseq       0, LAYER_64BF + STSEQ_NOTEDV_VELOCITY_2
 /* 0x64BB [0x88 0x64 0xBF          ] */ ldlayer     0, LAYER_64BF
 /* 0x64BE [0xFF                    ] */ end
@@ -14700,18 +14748,20 @@ UNK_6499:
 /* 0x64C2 [0xC0 0x30               ] */ ldelay      48
 /* 0x64C4 [0xFF                    ] */ end
 
-UNK_64C5:
-    .byte 0x35, 0x36
+.array ARRAY_64C5
+    .byte SF0_EFFECT_53
+    .byte SF0_EFFECT_54
 
-UNK_64C7:
-    .byte 0x50, 0x50
+.array ARRAY_64C7
+    .byte 80, 80
 
 .channel CHAN_64C9
-/* 0x64C9 [0xCE 0x64 0xCF          ] */ ldptr       UNK_64CF
+/* 0x64C9 [0xCE 0x64 0xCF          ] */ ldptr       ARRAY_64CF
 /* 0x64CC [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_64CF:
-    .byte 0x21, 0x6E
+.array ARRAY_64CF
+    .byte SF0_EFFECT_33
+    .byte 110
 
 .channel CHAN_64D1
 /* 0x64D1 [0x88 0x64 0xD5          ] */ ldlayer     0, LAYER_64D5
@@ -14723,53 +14773,60 @@ UNK_64CF:
 /* 0x64DA [0xFF                    ] */ end
 
 .channel CHAN_64DB
-/* 0x64DB [0xCE 0x64 0xE1          ] */ ldptr       UNK_64E1
+/* 0x64DB [0xCE 0x64 0xE1          ] */ ldptr       ARRAY_64E1
 /* 0x64DE [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_64E1:
-    .byte 0x20, 0x5F
+.array ARRAY_64E1
+    .byte SF0_EFFECT_32
+    .byte 95
 
 .channel CHAN_64E3
-/* 0x64E3 [0xCE 0x64 0xE9          ] */ ldptr       UNK_64E9
+/* 0x64E3 [0xCE 0x64 0xE9          ] */ ldptr       ARRAY_64E9
 /* 0x64E6 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_64E9:
-    .byte 0x23, 0x5A
+.array ARRAY_64E9
+    .byte SF0_EFFECT_35
+    .byte 90
 
 .channel CHAN_64EB
-/* 0x64EB [0xCE 0x64 0xF1          ] */ ldptr       UNK_64F1
+/* 0x64EB [0xCE 0x64 0xF1          ] */ ldptr       ARRAY_64F1
 /* 0x64EE [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_64F1:
-    .byte 0x22, 0x64
+.array ARRAY_64F1
+    .byte SF0_EFFECT_34
+    .byte 100
 
 .channel CHAN_64F3
-/* 0x64F3 [0xCE 0x64 0xF9          ] */ ldptr       UNK_64F9
+/* 0x64F3 [0xCE 0x64 0xF9          ] */ ldptr       ARRAY_64F9
 /* 0x64F6 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_64F9:
-    .byte 0x31, 0x73
+.array ARRAY_64F9
+    .byte SF0_EFFECT_49
+    .byte 115
 
 .channel CHAN_64FB
-/* 0x64FB [0xCE 0x65 0x01          ] */ ldptr       UNK_6501
+/* 0x64FB [0xCE 0x65 0x01          ] */ ldptr       ARRAY_6501
 /* 0x64FE [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6501:
-    .byte 0x3E, 0x64
+.array ARRAY_6501
+    .byte SF0_EFFECT_62
+    .byte 100
 
 .channel CHAN_6503
-/* 0x6503 [0xCE 0x65 0x09          ] */ ldptr       UNK_6509
+/* 0x6503 [0xCE 0x65 0x09          ] */ ldptr       ARRAY_6509
 /* 0x6506 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6509:
-    .byte 0x3F, 0x6E
+.array ARRAY_6509
+    .byte SF0_EFFECT_63
+    .byte 110
 
 .channel CHAN_650B
-/* 0x650B [0xCE 0x65 0x11          ] */ ldptr       UNK_6511
+/* 0x650B [0xCE 0x65 0x11          ] */ ldptr       ARRAY_6511
 /* 0x650E [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6511:
-    .byte 0x2C, 0x64
+.array ARRAY_6511
+    .byte SF0_EFFECT_44
+    .byte 100
 
 .channel CHAN_6513
 /* 0x6513 [0xCC 0x20               ] */ ldi         32
@@ -14784,9 +14841,9 @@ UNK_6511:
 
 .channel CHAN_6520
 /* 0x6520 [0x64                    ] */ ldio        IO_PORT_SFX_INDEX_LOBITS
-/* 0x6521 [0xC8 0x50               ] */ sub         80
+/* 0x6521 [0xC8 0x50               ] */ sub         NA_SE_VO_TA_SLEEP & 0xFF
 /* 0x6523 [0xC7 0x19 0x65 0x36     ] */ stseq       (ASEQ_OP_LAYER_NOTEDVG | PITCH_BF2), LAYER_6536 + STSEQ_NOTEDVG_OPCODE_PITCH
-/* 0x6527 [0xCB 0x65 0x3B          ] */ ldseq       UNK_653B
+/* 0x6527 [0xCB 0x65 0x3B          ] */ ldseq       ARRAY_653B
 /* 0x652A [0xC7 0x00 0x65 0x38     ] */ stseq       0, LAYER_6536 + STSEQ_NOTEDVG_DELAY_LO
 /* 0x652E [0x88 0x65 0x34          ] */ ldlayer     0, LAYER_6534
 /* 0x6531 [0xDC 0x60               ] */ panweight   96
@@ -14798,16 +14855,16 @@ LAYER_6536:
 /* 0x6536 [0x21 0x00 0x64 0x00     ] */ notedvg     PITCH_GF3, 0, 100, 0
 /* 0x653A [0xFF                    ] */ end
 
-UNK_653B:
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x6E, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x6E
+.array ARRAY_653B
+    .byte 100, 100, 100, 100, 100, 100, 100, 100, 110, 100, 100, 100, 100, 100, 100, 100
+    .byte 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100
+    .byte 100, 100, 100, 100, 100, 100, 110
 
 .channel CHAN_6562
 /* 0x6562 [0x64                    ] */ ldio        IO_PORT_SFX_INDEX_LOBITS
-/* 0x6563 [0xC8 0x77               ] */ sub         119
+/* 0x6563 [0xC8 0x77               ] */ sub         NA_SE_VO_Z1_OPENDOOR & 0xFF
 /* 0x6565 [0xC7 0x00 0x65 0x76     ] */ stseq       (ASEQ_OP_LAYER_NOTEDVG | PITCH_A0), LAYER_6576 + STSEQ_NOTEDVG_OPCODE_PITCH
-/* 0x6569 [0xCB 0x65 0x7B          ] */ ldseq       UNK_657B
+/* 0x6569 [0xCB 0x65 0x7B          ] */ ldseq       ARRAY_657B
 /* 0x656C [0xC7 0x00 0x65 0x78     ] */ stseq       0, LAYER_6576 + STSEQ_NOTEDVG_DELAY_LO
 /* 0x6570 [0x88 0x65 0x74          ] */ ldlayer     0, LAYER_6574
 /* 0x6573 [0xFF                    ] */ end
@@ -14818,16 +14875,16 @@ LAYER_6576:
 /* 0x6576 [0x00 0x00 0x64 0x00     ] */ notedvg     PITCH_A0, 0, 100, 0
 /* 0x657A [0xFF                    ] */ end
 
-UNK_657B:
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
+.array ARRAY_657B
+    .byte 100, 100, 100, 100, 100, 100
 
 .channel CHAN_6581
 /* 0x6581 [0xCC 0x20               ] */ ldi         32
 /* 0x6583 [0x71                    ] */ stio        IO_PORT_1
 /* 0x6584 [0x89 0x65 0x98          ] */ ldlayer     1, LAYER_6598
-/* 0x6587 [0xCE 0x65 0xA7          ] */ ldptr       UNK_65A7
+/* 0x6587 [0xCE 0x65 0xA7          ] */ ldptr       ARRAY_65A7
 /* 0x658A [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x658D [0xCE 0x65 0xAA          ] */ ldptr       UNK_65AA
+/* 0x658D [0xCE 0x65 0xAA          ] */ ldptr       ARRAY_65AA
 /* 0x6590 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6593 [0xCC 0x03               ] */ ldi         3
 /* 0x6595 [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
@@ -14840,11 +14897,13 @@ UNK_657B:
 /* 0x65A3 [0x78 0x30 0x41          ] */ notedv      PITCH_F5, 48, 65
 /* 0x65A6 [0xFF                    ] */ end
 
-UNK_65A7:
-    .byte 0x39, 0x3A, 0x3B
+.array ARRAY_65A7
+    .byte SF0_EFFECT_57
+    .byte SF0_EFFECT_58
+    .byte SF0_EFFECT_59
 
-UNK_65AA:
-    .byte 0x64, 0x5F, 0x69
+.array ARRAY_65AA
+    .byte 100, 95, 105
 
 .balign 16
 

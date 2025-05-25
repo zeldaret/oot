@@ -1,3 +1,4 @@
+#include "libaudio.h"
 #include "synthInternals.h"
 
 ALFxRef* alSynAllocFX(ALSynth* s, s16 bus, ALSynConfig* c, ALHeap* hp) {
