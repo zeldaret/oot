@@ -10,6 +10,7 @@
  * with identical lifetime.
  */
 #include "tha.h"
+#include "alignment.h"
 
 void* THA_GetHead(TwoHeadArena* tha) {
     return tha->head;

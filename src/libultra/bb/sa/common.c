@@ -1,4 +1,4 @@
-#include "libc/stddef.h"
+#include "stddef.h"
 
 int strcmp(const char* s, const char* t) {
     while (*s == *t) {
