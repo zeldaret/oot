@@ -510,8 +510,7 @@ void Minimap_Draw(PlayState* play) {
                         (LINK_AGE_IN_YEARS != YEARS_ADULT)) {
                         if ((gMapData->owEntranceFlag[sEntranceIconMapIndex] == 0xFFFF) ||
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
-                             (gSaveContext.save.info.infTable[INFTABLE_INDEX_1AX] &
-                              gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
+                             MINIMAP_GET_INFTABLE_FROM_OW_ENTRANCE_FLAG(gMapData->owEntranceFlag[mapIndex]))) {
 
                             gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b,
                                                 8, 8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
@@ -526,8 +525,7 @@ void Minimap_Draw(PlayState* play) {
                         }
                     }
 
-                    if ((play->sceneId == SCENE_ZORAS_FOUNTAIN) &&
-                        (gSaveContext.save.info.infTable[INFTABLE_INDEX_1AX] & gBitFlags[INFTABLE_1A9_SHIFT])) {
+                    if ((play->sceneId == SCENE_ZORAS_FOUNTAIN) && (MINIMAP_GET_INFTABLE(INFTABLE_1A9))) {
                         gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8,
                                             8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);

@@ -1908,6 +1908,7 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.dogParams = 0;
     gSaveContext.timerState = TIMER_STATE_OFF;
     gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
+    // RESET_EVENTINF()
     gSaveContext.eventInf[0] = 0;
     gSaveContext.eventInf[1] = 0;
     gSaveContext.eventInf[2] = 0;

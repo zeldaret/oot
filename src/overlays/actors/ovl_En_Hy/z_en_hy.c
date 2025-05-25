@@ -620,7 +620,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
     switch (ENHY_GET_TYPE(&this->actor)) {
         case ENHY_TYPE_DOG_LADY:
             if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
-                return (this->talonEventChkInf & EVENTCHKINF_MASK(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO))
+                return (ENHY_CHECK_COPY_EVENTCHKINF(this->talonEventChkInf, EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO))
                            ? 0x508D
                            : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
             } else if (play->sceneId == SCENE_MARKET_DAY) {
@@ -753,7 +753,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             if (!LINK_IS_ADULT) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
-                return (this->talonEventChkInf & EVENTCHKINF_MASK(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO))
+                return (ENHY_CHECK_COPY_EVENTCHKINF(this->talonEventChkInf, EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO))
                            ? 0x5062
                            : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
             }
@@ -1180,7 +1180,7 @@ void EnHy_WaitForObjects(EnHy* this, PlayState* play) {
         }
 
         if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
-            this->talonEventChkInf = gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_TALON_RETURNED_FROM_KAKARIKO];
+            this->talonEventChkInf = ENHY_GET_COPY_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO);
         }
 
         EnHy_InitSetProperties(this);

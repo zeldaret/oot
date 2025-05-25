@@ -519,7 +519,7 @@ void EnIn_Init(Actor* thisx, PlayState* play) {
     respawnPos = respawn->pos;
     // hardcoded coords for lon lon entrance
     if (D_80A7B998 == 0 && respawnPos.x == 1107.0f && respawnPos.y == 0.0f && respawnPos.z == -3740.0f) {
-        gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = 0;
+        RESET_EVENTINF_INGO_RACE2();
         D_80A7B998 = 1;
     }
     this->actionFunc = EnIn_WaitForObject;
@@ -605,7 +605,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                     case INGO_RACE_STATE_RACING:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A4C8;
-                        gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = 0;
+                        RESET_EVENTINF_INGO_RACE2();
                         break;
                     case INGO_RACE_STATE_HORSE_RENTAL_PERIOD:
                         this->actor.attentionRangeType = ATTENTION_RANGE_3;
