@@ -1,6 +1,7 @@
 #include "libaudio.h"
 #include "synthInternals.h"
-#include "libc/math.h"
+#include "stdbool.h"
+#include "stddef.h"
 #include "ultra64/convert.h"
 
 #define EQPOWER_LENGTH 128
