@@ -60,43 +60,13 @@ extern Gfx gLinkChildLeftFistAndKokiriSwordFarDL[78];
 extern Gfx gLinkChildRightHandHoldingOOTFarDL[74];
 extern Gfx gLinkChildRightHandHoldingFairyOcarinaFarDL[73];
 extern Gfx gLinkChildRightHandHoldingSlingshotFarDL[57];
-extern Gfx gLinkChildLeftHandUpFarDL[41];
 extern Gfx gLinkChildRightArmStretchedSlingshotDL[134];
 extern Gfx gLinkChildBottleDL[33];
-extern Gfx gLinkChildDL_18580[25];
-extern Gfx gLinkChildBottle2DL[34];
 
 extern Gfx gLinkChildWaistFarDL[70];
-extern Gfx gLinkChildRightThighFarDL[56];
-extern Gfx gLinkChildRightShinFarDL[75];
-extern Gfx gLinkChildRightFootFarDL[37];
-extern Gfx gLinkChildLeftThighFarDL[56];
-extern Gfx gLinkChildLeftShinFarDL[75];
-extern Gfx gLinkChildLeftFootFarDL[37];
-extern Gfx gLinkChildCollarFarDL[12];
-extern Gfx gLinkChildTorsoFarDL[57];
-extern Gfx gLinkChildHeadFarDL[161];
-extern Gfx gLinkChildHatFarDL[30];
-extern Gfx gLinkChildRightShoulderFarDL[56];
-extern Gfx gLinkChildRightForearmFarDL[38];
-extern Gfx gLinkChildLeftShoulderFarDL[56];
-extern Gfx gLinkChildLeftForearmFarDL[38];
 
 extern Gfx gLinkChildWaistNearDL[73];
-extern Gfx gLinkChildRightThighNearDL[63];
-extern Gfx gLinkChildRightShinNearDL[82];
-extern Gfx gLinkChildRightFootNearDL[44];
-extern Gfx gLinkChildLeftThighNearDL[63];
-extern Gfx gLinkChildLeftShinNearDL[82];
-extern Gfx gLinkChildLeftFootNearDL[44];
-extern Gfx gLinkChildCollarNearDL[14];
-extern Gfx gLinkChildTorsoNearDL[70];
-extern Gfx gLinkChildHeadNearDL[202];
-extern Gfx gLinkChildHatNearDL[39];
 extern Gfx gLinkChildRightShoulderNearDL[58];
-extern Gfx gLinkChildRightForearmNearDL[44];
-extern Gfx gLinkChildLeftShoulderNearDL[58];
-extern Gfx gLinkChildLeftForearmNearDL[44];
 
 extern Gfx gLinkChildSlingshotStringDL[12];
 
