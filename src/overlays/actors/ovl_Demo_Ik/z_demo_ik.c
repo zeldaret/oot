@@ -244,8 +244,8 @@ void func_809839D0(DemoIk* this, PlayState* play) {
                 case 6:
                     break;
                 default:
-                    // "there is no such action"
-                    PRINTF("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ik_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -393,8 +393,8 @@ void func_80984048(DemoIk* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    // "there is no such action"
-                    PRINTF("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ik_inFace_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
