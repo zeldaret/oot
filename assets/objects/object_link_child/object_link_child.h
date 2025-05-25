@@ -71,7 +71,6 @@ extern Gfx gLinkChildRightShoulderNearDL[58];
 extern Gfx gLinkChildSlingshotStringDL[12];
 
 extern Gfx gLinkChildDekuShieldDL[42];
-
 extern Gfx gLinkChildDekuShieldWithMatrixDL[3];
 
 extern Gfx gLinkChildSkullMaskDL[70];
