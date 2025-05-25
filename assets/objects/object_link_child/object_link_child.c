@@ -5,6 +5,8 @@
 #include "gfx.h"
 #include "z64player.h"
 
+// Eyes textures
+
 u64 gLinkChildEyesOpenTex[TEX_LEN(u64, LINK_CHILD_EYES_TEX_WIDTH, LINK_CHILD_EYES_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_child/gLinkChildEyesOpenTex.ci8.tlut_gLinkChildSkinTLUT.inc.c"
 };
@@ -37,6 +39,8 @@ u64 gLinkChildEyesWincingTex[TEX_LEN(u64, LINK_CHILD_EYES_TEX_WIDTH, LINK_CHILD_
 #include "assets/objects/object_link_child/gLinkChildEyesWincingTex.ci8.tlut_gLinkChildSkinTLUT.inc.c"
 };
 
+// Mouth textures
+
 u64 gLinkChildMouthClosedTex[TEX_LEN(u64, LINK_CHILD_MOUTH_TEX_WIDTH, LINK_CHILD_MOUTH_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_child/gLinkChildMouthClosedTex.ci8.tlut_gLinkChildSkinTLUT.inc.c"
 };
@@ -52,6 +56,8 @@ u64 gLinkChildMouthOpenTex[TEX_LEN(u64, LINK_CHILD_MOUTH_TEX_WIDTH, LINK_CHILD_M
 u64 gLinkChildMouthSmileTex[TEX_LEN(u64, LINK_CHILD_MOUTH_TEX_WIDTH, LINK_CHILD_MOUTH_TEX_HEIGHT, 8)] = {
 #include "assets/objects/object_link_child/gLinkChildMouthSmileTex.ci8.tlut_gLinkChildSkinTLUT.inc.c"
 };
+
+// Textures
 
 #define gLinkChildNoseTex_WIDTH 16
 #define gLinkChildNoseTex_HEIGHT 16
@@ -125,6 +131,8 @@ u64 gLinkChildBeltClaspTex[TEX_LEN(u64, gLinkChildBeltClaspTex_WIDTH, gLinkChild
 #include "assets/objects/object_link_child/gLinkChildBeltClaspTex.ci8.tlut_gLinkChildBeltTLUT.inc.c"
 };
 
+// Deku stick
+
 Vtx gLinkChildLinkDekuStickVtx[] = {
 #include "assets/objects/object_link_child/gLinkChildLinkDekuStickVtx.inc.c"
 };
@@ -132,6 +140,8 @@ Vtx gLinkChildLinkDekuStickVtx[] = {
 Gfx gLinkChildLinkDekuStickDL[41] = {
 #include "assets/objects/object_link_child/gLinkChildLinkDekuStickDL.inc.c"
 };
+
+// Textures
 
 #define gLinkChildFairyOcarinaTex_WIDTH 32
 #define gLinkChildFairyOcarinaTex_HEIGHT 16
@@ -232,6 +242,8 @@ u64 gLinkChildMasterSwordGuardTex[TEX_LEN(u64, gLinkChildMasterSwordGuardTex_WID
 u64 gLinkChildMasterSwordEmblemTex[TEX_LEN(u64, gLinkChildMasterSwordEmblemTex_WIDTH, gLinkChildMasterSwordEmblemTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_child/gLinkChildMasterSwordEmblemTex.ci8.tlut_gLinkChildSwordsTLUT.inc.c"
 };
+
+// Various vertices and DLs
 
 Vtx gLinkChildLeftHandNearVtx[] = {
 #include "assets/objects/object_link_child/gLinkChildLeftHandNearVtx.inc.c"
@@ -557,6 +569,8 @@ Gfx gLinkChildBottle2DL[34] = {
 #include "assets/objects/object_link_child/gLinkChildBottle2DL.inc.c"
 };
 
+// Far skeleton vertices and DLs
+
 Vtx gLinkChildRightFootFarVtx[] = {
 #include "assets/objects/object_link_child/gLinkChildRightFootFarVtx.inc.c"
 };
@@ -688,6 +702,8 @@ Gfx gLinkChildLeftShoulderFarDL[56] = {
 Gfx gLinkChildLeftForearmFarDL[38] = {
 #include "assets/objects/object_link_child/gLinkChildLeftForearmFarDL.inc.c"
 };
+
+// Near skeleton vertices and DLs
 
 Vtx gLinkChildRightFootNearVtx[] = {
 #include "assets/objects/object_link_child/gLinkChildRightFootNearVtx.inc.c"
@@ -821,6 +837,8 @@ Gfx gLinkChildLeftForearmNearDL[44] = {
 #include "assets/objects/object_link_child/gLinkChildLeftForearmNearDL.inc.c"
 };
 
+// Slingshot string
+
 Vtx gLinkChildSlingshotStringVtx[] = {
 #include "assets/objects/object_link_child/gLinkChildSlingshotStringVtx.inc.c"
 };
@@ -828,6 +846,8 @@ Vtx gLinkChildSlingshotStringVtx[] = {
 Gfx gLinkChildSlingshotStringDL[12] = {
 #include "assets/objects/object_link_child/gLinkChildSlingshotStringDL.inc.c"
 };
+
+// Deku shield
 
 Vtx gLinkChildDekuShieldVtx[] = {
 #include "assets/objects/object_link_child/gLinkChildDekuShieldVtx.inc.c"
@@ -844,6 +864,8 @@ Mtx gLinkChildDekuShieldMtx =
 Gfx gLinkChildDekuShieldWithMatrixDL[3] = {
 #include "assets/objects/object_link_child/gLinkChildDekuShieldWithMatrixDL.inc.c"
 };
+
+// Masks
 
 #define gLinkChildSpookyMaskTex_WIDTH 32
 #define gLinkChildSpookyMaskTex_HEIGHT 64
@@ -1027,6 +1049,8 @@ Gfx gLinkChildGerudoMaskDL[84] = {
 #include "assets/objects/object_link_child/gLinkChildGerudoMaskDL.inc.c"
 };
 
+// Bunny hood
+
 #define gLinkChildBunnyHoodEyeTex_WIDTH 16
 #define gLinkChildBunnyHoodEyeTex_HEIGHT 16
 u64 gLinkChildBunnyHoodEyeTex[TEX_LEN(u64, gLinkChildBunnyHoodEyeTex_WIDTH, gLinkChildBunnyHoodEyeTex_HEIGHT, 16)] = {
@@ -1052,6 +1076,8 @@ Vtx gLinkChildBunnyHoodVtx[] = {
 Gfx gLinkChildBunnyHoodDL[114] = {
 #include "assets/objects/object_link_child/gLinkChildBunnyHoodDL.inc.c"
 };
+
+// Skeleton
 
 LodLimb gLinkChildRootLimb = {
 #include "assets/objects/object_link_child/gLinkChildRootLimb.inc.c"
