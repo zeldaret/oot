@@ -2,7 +2,6 @@
 #define BUFFERS_H
 
 #include "gfx.h"
-#include "macros.h"
 #include "ultra64.h"
 
 extern u16 gZBuffer[SCREEN_HEIGHT][SCREEN_WIDTH]; // 0x25800 bytes

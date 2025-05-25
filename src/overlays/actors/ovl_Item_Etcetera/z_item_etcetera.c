@@ -8,6 +8,7 @@
 
 #include "libc64/qrand.h"
 #include "libu64/debug.h"
+#include "printf.h"
 #include "rand.h"
 #include "z64draw.h"
 #include "z64effect.h"

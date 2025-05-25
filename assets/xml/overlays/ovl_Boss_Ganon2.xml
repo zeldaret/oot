@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="ovl_Boss_Ganon2">
         <Texture Name="gGanonLightOrbTex" OutName="ganon_light_orb" Format="i8" Width="64" Height="64" Offset="0x0" Static="Off"/>
         <DList Name="gGanonLightOrbMaterialDL" Offset="0x1040" Static="Off"/>

@@ -1,4 +1,3 @@
-#include "global.h"
 #include "n64dd.h"
 
 const char* D_801D2EE0[2][8][4] = {

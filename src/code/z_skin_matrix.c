@@ -1,9 +1,10 @@
-#include "gfx.h"
-#include "terminal.h"
-#include "z_lib.h"
 #include "z64skin_matrix.h"
 
-#include "macros.h"
+#include "gfx.h"
+#include "printf.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
 
 // clang-format off
 MtxF sMtxFClear = {

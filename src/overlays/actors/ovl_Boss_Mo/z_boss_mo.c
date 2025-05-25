@@ -9,12 +9,14 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "letterbox.h"
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "rumble.h"
@@ -24,6 +26,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64audio.h"
 #include "z64effect.h"
@@ -31,8 +34,6 @@
 #include "z64player.h"
 #include "z64save.h"
 #include "z64skin_matrix.h"
-
-#include "global.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_mo/object_mo.h"
@@ -1785,20 +1786,17 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
     }
     if (this->coreCollider.base.acFlags & AC_HIT) {
         ColliderElement* acHitElem = this->coreCollider.elem.acHitElem;
-        // "hit!!"
-        PRINTF("Core_Damage_check 当り！！\n");
+        PRINTF(T("Core_Damage_check 当り！！\n", "Core_Damage_check hit!!\n"));
         this->coreCollider.base.acFlags &= ~AC_HIT;
         if ((acHitElem->atDmgInfo.dmgFlags & DMG_MAGIC_FIRE) && (this->work[MO_TENT_ACTION_STATE] == MO_CORE_ATTACK)) {
             this->work[MO_TENT_ACTION_STATE] = MO_CORE_RETREAT;
         }
-        // "hit 2 !!"
-        PRINTF("Core_Damage_check 当り 2 ！！\n");
+        PRINTF(T("Core_Damage_check 当り 2 ！！\n", "Core_Damage_check hit 2 !!\n"));
         if ((this->work[MO_TENT_ACTION_STATE] != MO_CORE_UNDERWATER) && (this->work[MO_TENT_INVINC_TIMER] == 0)) {
             u8 damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags);
 
             if ((damage != 0) && (this->work[MO_TENT_ACTION_STATE] < MO_CORE_ATTACK)) {
-                // "sword hit !!"
-                PRINTF("Core_Damage_check 剣 当り！！\n");
+                PRINTF(T("Core_Damage_check 剣 当り！！\n", "Core_Damage_check sword hit!!\n"));
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_STUNNED;
                 this->timers[0] = 25;
 
@@ -1868,8 +1866,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
             }
         }
     }
-    // "end !!"
-    PRINTF("Core_Damage_check 終わり ！！\n");
+    PRINTF(T("Core_Damage_check 終わり ！！\n", "Core_Damage_check end !!\n"));
     PRINTF_RST();
 }
 

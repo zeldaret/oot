@@ -32,5 +32,6 @@ void SystemArena_Display(void);
 #endif
 
 extern Arena gSystemArena;
+extern s32 gSystemArenaLogSeverity;
 
 #endif

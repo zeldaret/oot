@@ -11,8 +11,10 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64play.h"
@@ -129,9 +131,10 @@ void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
 
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) < CRACKED_STONE_FLOOR ||
         PARAMS_GET_U(this->dyna.actor.params, 0, 8) > LARGE_BOMBABLE_WALL) {
-        // "Error: Fire Temple Breakable Walls. arg_data I can't determine the (%s %d)(arg_data 0x%04x)"
-        PRINTF("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
-               "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
+        PRINTF(
+            T("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない",
+              "Error : arg_data for the Fire Temple breakable wall cannot be determined") "(%s %d)(arg_data 0x%04x)\n",
+            "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -145,8 +148,8 @@ void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->dyna.actor, 0.1f);
     BgHidanKowarerukabe_InitColliderSphere(this, play);
     BgHidanKowarerukabe_OffsetActorYPos(this);
-    // "(fire walls, floors, destroyed by bombs)(arg_data 0x%04x)"
-    PRINTF("(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(hidan 爆弾で壊れる 壁 床)", "(hidan bomb destroys walls and floors)") "(arg_data 0x%04x)\n",
+           this->dyna.actor.params);
 }
 
 void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play) {

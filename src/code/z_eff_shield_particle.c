@@ -1,14 +1,14 @@
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64effect.h"
 #include "z64light.h"
 #include "z64play.h"
 #include "z64skin_matrix.h"
-
-#include "macros.h"
-#include "global.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

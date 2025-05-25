@@ -9,7 +9,9 @@
 
 #include "libc64/qrand.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64effect.h"
@@ -123,7 +125,7 @@ s32 ObjTsubo_SnapToFloor(ObjTsubo* this, PlayState* play) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
-        PRINTF("地面に付着失敗\n");
+        PRINTF(T("地面に付着失敗\n", "Failed to attach to ground\n"));
         return false;
     }
 }
@@ -148,11 +150,12 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
     }
     this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[PARAMS_GET_U(this->actor.params, 8, 1)]);
     if (this->requiredObjectSlot < 0) {
-        PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
+        PRINTF(T("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               this->actor.params, "../z_obj_tsubo.c", 410);
         Actor_Kill(&this->actor);
     } else {
         ObjTsubo_SetupWaitForObject(this);
-        PRINTF("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
+        PRINTF(T("(dungeon keep 壷)(arg_data 0x%04x)\n", "(dungeon keep pot)(arg_data 0x%04x)\n"), this->actor.params);
     }
 }
 

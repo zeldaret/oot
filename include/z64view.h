@@ -1,7 +1,7 @@
 #ifndef Z64VIEW_H
 #define Z64VIEW_H
 
-#include "macros.h"
+#include "avoid_ub.h"
 #include "ultra64.h"
 #include "z64math.h"
 

@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "overlays/actors/ovl_Item_Etcetera/z_item_etcetera.h"
 
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "terminal.h"

@@ -1,17 +1,18 @@
 #include "libu64/debug.h"
+#include "avoid_ub.h"
 #include "gfx.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "segment_symbols.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
 #include "z64animation.h"
 #include "z64animation_legacy.h"
 #include "z64play.h"
-
-#include "macros.h"
 
 #define ANIM_INTERP 1
 

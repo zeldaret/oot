@@ -1,4 +1,6 @@
+#include "libaudio.h"
 #include "synthInternals.h"
+#include "stddef.h"
 
 #ifndef MIN
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))

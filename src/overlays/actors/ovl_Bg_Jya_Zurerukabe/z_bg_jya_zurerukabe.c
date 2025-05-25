@@ -6,9 +6,12 @@
 
 #include "z_bg_jya_zurerukabe.h"
 
+#include "array_count.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"
@@ -78,8 +81,9 @@ void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, PlayState* play, Collis
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 194,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗",
+                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+               "../z_bg_jya_zurerukabe.c", 194, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -133,14 +137,14 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
 
     if (i == ARRAY_COUNT(D_8089B9F0)) {
         PRINTF_COLOR_ERROR();
-        PRINTF("home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 299,
-               this->dyna.actor.params);
+        PRINTF(T("home pos が変更されたみたい", "It seems that the home pos has changed") "(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_jya_zurerukabe.c", 299, this->dyna.actor.params);
         PRINTF_RST();
     }
 
     this->unk_16E = D_8089B9F8[this->unk_168];
     func_8089B7B4(this);
-    PRINTF("(jya ずれる壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(jya " T("ずれる壁", "sliding wall") ")(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgJyaZurerukabe_Destroy(Actor* thisx, PlayState* play) {

@@ -2,7 +2,6 @@
 #include "z64math.h"
 #include "z64camera.h"
 #include "z64cutscene_spline.h"
-#include "macros.h"
 
 // The code in this file is very similar to a spline system used in Super Mario 64 for cutscene camera movement
 

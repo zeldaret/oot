@@ -56,7 +56,7 @@ typedef enum SeqCmdSetupCmdOp {
 
 // Subset of `SEQCMD_OP_GLOBAL_CMD`
 typedef enum SeqCmdSubCmdOp {
-    /* 0x0 */ SEQCMD_SUB_OP_GLOBAL_SET_SOUND_MODE,
+    /* 0x0 */ SEQCMD_SUB_OP_GLOBAL_SET_SOUND_OUTPUT_MODE,
     /* 0x1 */ SEQCMD_SUB_OP_GLOBAL_DISABLE_NEW_SEQUENCES
 } SeqCmdSubCmdOp;
 
@@ -479,12 +479,12 @@ typedef enum SeqCmdSubCmdOp {
  */
 
 /**
- * Change the sound mode of audio
+ * Change the sound output mode
  *
- * @param soundMode see the `SoundMode` enum
+ * @param soundOutputMode see the `SoundOutputMode` enum
  */
-#define SEQCMD_SET_SOUND_MODE(soundMode) \
-    Audio_QueueSeqCmd((SEQCMD_OP_GLOBAL_CMD << 28) | (SEQCMD_SUB_OP_GLOBAL_SET_SOUND_MODE << 8) | (u8)(soundMode))
+#define SEQCMD_SET_SOUND_OUTPUT_MODE(soundOutputMode) \
+    Audio_QueueSeqCmd((SEQCMD_OP_GLOBAL_CMD << 28) | (SEQCMD_SUB_OP_GLOBAL_SET_SOUND_OUTPUT_MODE << 8) | (u8)(soundOutputMode))
 
 /**
  * Disable (or reenable) new sequences from starting

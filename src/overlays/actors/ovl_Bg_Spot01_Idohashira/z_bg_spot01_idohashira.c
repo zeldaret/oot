@@ -9,10 +9,12 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64play.h"
@@ -191,7 +193,8 @@ f32 func_808AB1DC(f32 arg0, f32 arg1, u16 arg2, u16 arg3, u16 arg4) {
         temp_f12 = regFloat * diff43;
         return (((((arg1 - arg0) - temp_f12) / SQ(diff23)) * diff43) * diff43) + temp_f12;
     }
-    PRINTF(VT_FGCOL(RED) "Bg_Spot01_Idohashira_Get_FreeFallで割り算出来ない!!!!!!!!!!!!!!\n" VT_RST);
+    PRINTF(VT_FGCOL(RED) T("Bg_Spot01_Idohashira_Get_FreeFallで割り算出来ない!!!!!!!!!!!!!!\n",
+                           "Bg_Spot01_Idohashira_Get_FreeFall Cannot divide by!!!!!!!!!!!!!!\n") VT_RST);
     return 0.0f;
 }
 
@@ -266,7 +269,8 @@ void func_808AB444(BgSpot01Idohashira* this, PlayState* play) {
                     Actor_Kill(&this->dyna.actor);
                     break;
                 default:
-                    PRINTF("Bg_Spot01_Idohashira_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Bg_Spot01_Idohashira_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Bg_Spot01_Idohashira_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
 
             this->cueId = nextCueId;
@@ -296,7 +300,8 @@ void BgSpot01Idohashira_Update(Actor* thisx, PlayState* play) {
     BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
     if (this->action < 0 || this->action >= 4 || sActionFuncs[this->action] == NULL) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -347,7 +352,8 @@ void BgSpot01Idohashira_Draw(Actor* thisx, PlayState* play) {
     BgSpot01Idohashira* this = (BgSpot01Idohashira*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig > 0 || sDrawFuncs[this->drawConfig] == NULL) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

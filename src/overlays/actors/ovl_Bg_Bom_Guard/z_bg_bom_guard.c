@@ -7,8 +7,10 @@
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 
 #include "assets/objects/object_bowl/object_bowl.h"
@@ -47,7 +49,7 @@ void BgBomGuard_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 透明ガード出現 ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ " T("透明ガード出現", "Transparent guard appears") " ☆☆☆☆☆ \n" VT_RST);
 
     thisx->scale.x = 1.0f;
     thisx->scale.y = 1.0f;

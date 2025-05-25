@@ -7,7 +7,9 @@
 #include "z_obj_mure2.h"
 
 #include "ichain.h"
+#include "printf.h"
 #include "sys_math3d.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 
@@ -116,8 +118,9 @@ void ObjMure2_SpawnActors(ObjMure2* this, PlayState* play) {
 
     for (i = 0; i < D_80B9A818[actorNum]; i++) {
         if (this->actorSpawnPtrList[i] != NULL) {
-            // "Warning : I already have a child (%s %d)(arg_data 0x%04x)"
-            PRINTF("Warning : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure2.c", 269, this->actor.params);
+            PRINTF(T("Warning : 既に子供がいる(%s %d)(arg_data 0x%04x)\n",
+                     "Warning : I already have a child (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_obj_mure2.c", 269, this->actor.params);
             continue;
         }
 

@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/internal.h"
 
 s32 osEPiStartDma(OSPiHandle* handle, OSIoMesg* mb, s32 direction) {

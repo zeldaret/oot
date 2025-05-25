@@ -10,6 +10,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "terminal.h"
 #include "z_lib.h"

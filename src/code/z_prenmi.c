@@ -1,12 +1,11 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "prenmi_state.h"
+#include "printf.h"
 #include "regs.h"
 #include "terminal.h"
 #include "versions.h"
-
-#include "macros.h"
-#include "global.h"
+#include "vi_mode.h"
 
 void func_80092320(PreNMIState* this) {
     this->state.running = false;

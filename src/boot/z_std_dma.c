@@ -21,22 +21,32 @@
 #include "libc64/sleep.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
+#include "array_count.h"
 #include "attributes.h"
+#include "carthandle.h"
 #include "fault.h"
+#include "idle.h"
+#if PLATFORM_IQUE
+#include "inflate.h"
+#endif
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "segment_symbols.h"
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
+#if !PLATFORM_IQUE
+#include "yaz0.h"
+#endif
+#include "z64dma.h"
 #include "z64thread.h"
 
-#include "global.h"
-
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:12 pal-1.0:10 pal-1.1:10"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:86" \
+                               "pal-1.0:84 pal-1.1:84"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;

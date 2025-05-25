@@ -1,7 +1,7 @@
 #include "libc64/os_malloc.h"
 #include "debug_arena.h"
-
-#include "macros.h"
+#include "printf.h"
+#include "translation.h"
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_ERROR 2

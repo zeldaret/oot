@@ -4,7 +4,6 @@
 #include "ultra64.h"
 #include "libu64/pad.h"
 #include "irqmgr.h"
-#include "versions.h"
 
 typedef enum ControllerPakType {
     CONT_PAK_NONE,

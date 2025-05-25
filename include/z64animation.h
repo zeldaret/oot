@@ -1,10 +1,10 @@
 #ifndef Z64_ANIMATION_H
 #define Z64_ANIMATION_H
 
+#include "avoid_ub.h"
 #include "ultra64.h"
 #include "z64dma.h"
 #include "z64math.h"
-#include "macros.h"
 
 struct PlayState;
 struct Actor;

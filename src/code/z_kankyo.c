@@ -1,13 +1,15 @@
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ique-cn:64" \
-                               "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 #include "libc64/qrand.h"
 #include "libu64/gfxprint.h"
+#include "array_count.h"
 #include "buffers.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
 #include "ultra64.h"
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "segment_symbols.h"
@@ -19,6 +21,7 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64audio.h"
@@ -235,8 +238,8 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160 gc-us-mq:160" \
-                               "ique-cn:160 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:192 pal-1.1:192"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
@@ -903,9 +906,9 @@ void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     GfxPrint_SetPos(&printer, 22, 6);
 
     if (!IS_DAY) {
-        GfxPrint_Printf(&printer, "%s", "YORU"); // "night"
+        GfxPrint_Printf(&printer, "%s", T("YORU", "NIGHT"));
     } else {
-        GfxPrint_Printf(&printer, "%s", "HIRU"); // "day"
+        GfxPrint_Printf(&printer, "%s", T("HIRU", "DAY"));
     }
 
     *gfx = GfxPrint_Close(&printer);

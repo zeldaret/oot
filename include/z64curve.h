@@ -1,10 +1,10 @@
 #ifndef Z64_CURVE_H
 #define Z64_CURVE_H
 
-#include "ultra64/ultratypes.h"
-#include "z64math.h"
+#include "ultra64.h"
 
 struct PlayState;
+struct Actor;
 
 typedef struct CurveInterpKnot {
     /* 0x0 */ u16 flags;         // Only the bottom two bits are used, although others are set in objects
@@ -56,7 +56,7 @@ void SkelCurve_Destroy(struct PlayState* play, SkelCurve* skelCurve);
 void SkelCurve_SetAnim(SkelCurve* skelCurve, CurveAnimationHeader* animation, f32 arg2, f32 endFrame, f32 curFrame,
                        f32 playSpeed);
 s32 SkelCurve_Update(struct PlayState* play, SkelCurve* skelCurve);
-void SkelCurve_Draw(Actor* actor, struct PlayState* play, SkelCurve* skelCurve, OverrideCurveLimbDraw overrideLimbDraw,
+void SkelCurve_Draw(struct Actor* actor, struct PlayState* play, SkelCurve* skelCurve, OverrideCurveLimbDraw overrideLimbDraw,
                     PostCurveLimbDraw postLimbDraw, s32 lod, void* data);
 
 #endif

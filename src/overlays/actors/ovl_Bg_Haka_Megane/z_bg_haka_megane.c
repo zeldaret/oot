@@ -133,7 +133,7 @@ void BgHakaMegane_Update(Actor* thisx, PlayState* play) {
 void BgHakaMegane_Draw(Actor* thisx, PlayState* play) {
     BgHakaMegane* this = (BgHakaMegane*)thisx;
 
-    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    if (ACTOR_FLAGS_CHECK_ALL(thisx, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, sDLists[thisx->params]);
     } else {
         Gfx_DrawDListOpa(play, sDLists[thisx->params]);

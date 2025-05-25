@@ -6,9 +6,11 @@
 
 #include "z_en_kakasi3.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"

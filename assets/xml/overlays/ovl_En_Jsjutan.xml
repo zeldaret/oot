@@ -16,9 +16,6 @@
             <Vtx/>
         </Array>
 
-        <!-- D_80A8E610. Variable declared in `.bss` of EnJsjutan. Used by sShadowMaterialDL -->
-        <Symbol Name="sShadowTex" Type="u8" TypeSize="1" Count="0x800" Offset="0x3B78"/>
-
         <!-- D_80A8D598. Draws the carpet's texture. -->
         <DList Name="sCarpetMaterialDL" Offset="0x2B00"/>
         <!-- D_80A8D618. Draws the carpet's shadow texture. -->

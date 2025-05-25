@@ -3,7 +3,9 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z64curve.h"
 #include "z64play.h"
 #include "z64save.h"
@@ -57,8 +59,7 @@ void DemoTreLgt_Init(Actor* thisx, PlayState* play) {
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     if (!SkelCurve_Init(play, &this->skelCurve, &gTreasureChestCurveSkel, sAnimations[0])) {
-        // "Demo_Tre_Lgt_Actor_ct (); Construct failed"
-        PRINTF("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
+        PRINTF(T("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n", "Demo_Tre_Lgt_Actor_ct(); Construct failed\n"));
     }
 
     ASSERT(true, "1", "../z_demo_tre_lgt.c", UNK_LINE);

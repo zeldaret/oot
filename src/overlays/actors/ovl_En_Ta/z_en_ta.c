@@ -8,9 +8,11 @@
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "rand.h"
 #include "segmented_address.h"
 #include "seqcmd.h"

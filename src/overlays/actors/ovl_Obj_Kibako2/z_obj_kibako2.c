@@ -9,7 +9,9 @@
 
 #include "libc64/qrand.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64effect.h"
@@ -139,9 +141,8 @@ void ObjKibako2_Init(Actor* thisx, PlayState* play) {
     this->actionFunc = ObjKibako2_Idle;
     this->dyna.actor.home.rot.z = this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z =
         this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x = 0;
-    // "Wooden box (stationary)"
-    PRINTF("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->dyna.actor.params, this->collectibleFlag,
-           this->dyna.actor.home.rot.x);
+    PRINTF(T("木箱(据置)(arg %04xH)(item %04xH %d)\n", "Wooden box (stationary)(arg %04xH)(item %04xH %d)\n"),
+           this->dyna.actor.params, this->collectibleFlag, this->dyna.actor.home.rot.x);
 }
 
 void ObjKibako2_Destroy(Actor* thisx, PlayState* play) {

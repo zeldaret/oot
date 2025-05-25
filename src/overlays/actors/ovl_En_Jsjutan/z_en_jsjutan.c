@@ -7,6 +7,7 @@
 #include "z_en_jsjutan.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
@@ -37,6 +38,8 @@ ActorProfile En_Jsjutan_Profile = {
 };
 
 // Shadow texture. 32x64 I8.
+#define sShadowTex_WIDTH 32
+#define sShadowTex_HEIGHT 64
 static u8 sShadowTex[0x800];
 
 static Vec3s D_80A8EE10[0x90];

@@ -4,7 +4,9 @@
 #include "ultra64.h"
 #include "versions.h"
 #include "z64math.h"
-#include "libc/assert.h"
+#include "assert.h"
+
+#define MAX_CHANNELS_PER_BANK 3
 
 typedef enum SfxBankType {
     /* 0 */ BANK_PLAYER,
@@ -177,5 +179,37 @@ void Audio_ResetSfx(void);
 extern Vec3f gSfxDefaultPos;
 extern f32 gSfxDefaultFreqAndVolScale;
 extern s8 gSfxDefaultReverb;
+
+extern SfxParams* gSfxParams[7];
+extern char D_80133390[];
+extern char D_80133398[];
+extern u8 gSfxRequestWriteIndex;
+extern u8 gSfxRequestReadIndex;
+extern SfxBankEntry* gSfxBanks[7];
+extern u8 gSfxBankSizes[];
+extern u8 gSfxChannelLayout;
+extern u16 D_801333D0;
+extern Vec3f gSfxDefaultPos;
+extern f32 gSfxDefaultFreqAndVolScale;
+extern s8 gSfxDefaultReverb;
+
+#if DEBUG_FEATURES
+extern u8 D_801333F0;
+extern u8 gAudioSfxSwapOff;
+extern u8 D_801333F8;
+#endif
+
+extern SfxBankEntry D_8016BAD0[9];
+extern SfxBankEntry D_8016BC80[12];
+extern SfxBankEntry D_8016BEC0[22];
+extern SfxBankEntry D_8016C2E0[20];
+extern SfxBankEntry D_8016C6A0[8];
+extern SfxBankEntry D_8016C820[3];
+extern SfxBankEntry D_8016C8B0[5];
+extern ActiveSfx gActiveSfx[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
+extern u8 gSfxBankMuted[];
+extern u16 gAudioSfxSwapSource[10];
+extern u16 gAudioSfxSwapTarget[10];
+extern u8 gAudioSfxSwapMode[10];
 
 #endif

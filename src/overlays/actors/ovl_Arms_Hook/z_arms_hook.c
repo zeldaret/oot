@@ -176,7 +176,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
             if (this->collider.elem.atHitElem->acElemFlags & ACELEM_HOOKABLE) {
                 ArmsHook_AttachToActor(this, touchedActor);
 
-                if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)) {
+                if (ACTOR_FLAGS_CHECK_ALL(touchedActor, ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)) {
                     ArmsHook_PullPlayer(this);
                 }
             }
@@ -202,7 +202,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
 
         if (attachedActor != NULL) {
             if ((attachedActor->update == NULL) ||
-                !CHECK_FLAG_ALL(attachedActor->flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
+                !ACTOR_FLAGS_CHECK_ALL(attachedActor, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
                 attachedActor = NULL;
                 this->attachedActor = NULL;
             } else if (this->actor.child != NULL) {

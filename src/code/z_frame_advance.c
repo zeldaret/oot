@@ -4,7 +4,6 @@
 
 #include "controller.h"
 #include "libu64/pad.h"
-#include "macros.h"
 
 void FrameAdvance_Init(FrameAdvanceContext* frameAdvCtx) {
     frameAdvCtx->timer = 0;

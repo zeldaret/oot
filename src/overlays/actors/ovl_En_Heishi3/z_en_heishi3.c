@@ -8,6 +8,7 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "sfx.h"
 #include "terminal.h"
 #include "versions.h"

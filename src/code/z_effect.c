@@ -1,4 +1,6 @@
 #include "gfx.h"
+#include "printf.h"
+#include "translation.h"
 #include "z64effect.h"
 #include "z64frame_advance.h"
 #include "z64play.h"

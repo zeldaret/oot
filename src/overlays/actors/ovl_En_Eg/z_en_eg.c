@@ -6,11 +6,13 @@
 
 #include "z_en_eg.h"
 
+#include "printf.h"
 #include "regs.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64save.h"
@@ -73,8 +75,8 @@ void EnEg_Update(Actor* thisx, PlayState* play) {
     s32 action = this->action;
 
     if (((action < 0) || (0 < action)) || (sActionFuncs[action] == NULL)) {
-        // "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sActionFuncs[action](this, play);
     }

@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_zf" Segment="6">
         <Texture Name="gZfDinolfosTLUT" OutName="zf_dinolfos_tlut" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
         <Texture Name="object_zf_Tex_000200" OutName="tex_00000200" Format="ci8" Width="8" Height="8" Offset="0x200" TlutOffset="0x0"/>
@@ -109,7 +110,7 @@
         <DList Name="gZfLizalfosRightFootDL" Offset="0xD798"/>
         <DList Name="gZfLizalfosRightUpperArmDL" Offset="0xD968"/>
         <DList Name="gZfLizalfosRightForearmDL" Offset="0xDAA0"/>
-        <DList Name="gZfLizalfosSwordDL" Offset="0xDD20"/>
+        <DList Name="gZfLizalfosSwordDL" Offset="0xDD20" RawPointers="0x07000000"/>
         <DList Name="gZfEmptyHandDL" Offset="0xE198"/>
         <DList Name="gZfLizalfosJawDL" Offset="0xE3E8"/>
         <DList Name="gZfLizalfosHeadDL" Offset="0xE7E0"/>

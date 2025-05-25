@@ -1,10 +1,13 @@
 #include "z_demo_ik.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64effect.h"
 #include "z64play.h"
 
@@ -241,8 +244,8 @@ void func_809839D0(DemoIk* this, PlayState* play) {
                 case 6:
                     break;
                 default:
-                    // "there is no such action"
-                    PRINTF("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ik_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -390,8 +393,8 @@ void func_80984048(DemoIk* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    // "there is no such action"
-                    PRINTF("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ik_inFace_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -478,8 +481,8 @@ void DemoIk_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
         sActionFuncs[this->actionMode] == NULL) {
-        // "The main mode is strange"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->actionMode](this, play);
@@ -499,8 +502,8 @@ void DemoIk_Draw(Actor* thisx, PlayState* play) {
     DemoIk* this = (DemoIk*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
-        // "The draw mode is strange"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawMode](this, play);

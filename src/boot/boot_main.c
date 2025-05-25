@@ -1,4 +1,9 @@
 #include "boot.h"
+
+#include "carthandle.h"
+#include "idle.h"
+#include "is_debug.h"
+#include "segment_symbols.h"
 #include "stack.h"
 #include "stackcheck.h"
 #if PLATFORM_N64
@@ -6,8 +11,6 @@
 #endif
 #include "z_locale.h"
 #include "z64thread.h"
-
-#include "global.h"
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:128"
 

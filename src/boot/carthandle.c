@@ -1,3 +1,3 @@
-#include "ultra64.h"
+#include "carthandle.h"
 
 OSPiHandle* gCartHandle = NULL;

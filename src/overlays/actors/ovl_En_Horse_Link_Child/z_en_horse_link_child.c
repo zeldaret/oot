@@ -6,6 +6,7 @@
 
 #include "z_en_horse_link_child.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"

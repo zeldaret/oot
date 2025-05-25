@@ -1,12 +1,16 @@
+#include "z64view.h"
+
 #include "libc64/malloc.h"
 #include "libu64/debug.h"
+#include "avoid_ub.h"
 #include "gfx.h"
 #include "letterbox.h"
 #include "main.h"
+#include "printf.h"
 #include "regs.h"
 #include "sys_matrix.h"
 #include "terminal.h"
-#include "z64view.h"
+#include "translation.h"
 
 vu32 sLogOnNextViewInit = true;
 
