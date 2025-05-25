@@ -1170,6 +1170,3 @@ void* gLinkChildLimbs[] = {
 FlexSkeletonHeader gLinkChildSkel = {
 #include "assets/objects/object_link_child/gLinkChildSkel.inc.c"
 };
-
-u8 object_link_child_zeros_02CF78[8] = { 0 };
-
