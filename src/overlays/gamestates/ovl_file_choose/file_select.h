@@ -1,7 +1,7 @@
 #ifndef FILE_SELECT_H
 #define FILE_SELECT_H
 
-#include "libc/stddef.h"
+#include "stddef.h"
 #include "ultra64.h"
 #include "gfx.h"
 #include "versions.h"

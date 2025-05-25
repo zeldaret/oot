@@ -42,6 +42,8 @@ BEST_EFFORT = True
 VERBOSE_ColorIndexedTexturesManager = False
 VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER = True
 
+EXPLICIT_DL_AND_TEX_SIZES = True
+
 
 class MtxResource(CDataResource):
     braces_in_source = False
@@ -142,6 +144,12 @@ class VtxArrayResource(CDataResource):
         num = (range_end - range_start) // self.element_cdata_ext.size
         self.cdata_ext = CDataExt_Array(self.element_cdata_ext, num)
         super().__init__(file, range_start, name)
+
+    def get_as_xml(self):
+        return f"""\
+        <Array Name="{self.symbol_name}" Count="{(self.range_end - self.range_start) // self.element_cdata_ext.size}" Offset="0x{self.range_start:X}">
+            <Vtx/>
+        </Array>"""
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON"):
@@ -268,10 +276,11 @@ class TextureResource(Resource):
         self.height_name = f"{self.symbol_name}_HEIGHT"
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON"):
-            if self.is_tlut():
-                raise NotImplementedError
-            return f"{self.elem_type} {self.symbol_name}[{self.height_name}*{self.width_name}*{self.siz.bpp}/8/sizeof({self.elem_type})]"
+        if hasattr(self, "HACK_IS_STATIC_ON") and self.is_tlut():
+            raise NotImplementedError
+        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_DL_AND_TEX_SIZES:
+            if not self.is_tlut():
+                return f"{self.elem_type} {self.symbol_name}[{self.height_name} * {self.width_name} * {self.siz.bpp} / 8 / sizeof({self.elem_type})]"
         return f"{self.elem_type} {self.symbol_name}[]"
 
     def get_c_reference(self, resource_offset: int):
@@ -1329,7 +1338,7 @@ class DListResource(Resource, can_size_be_unknown=True):
         return RESOURCE_PARSE_SUCCESS
 
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON"):
+        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_DL_AND_TEX_SIZES:
             length = (self.range_end - self.range_start) // 8
             return f"Gfx {self.symbol_name}[{length}]"
         return f"Gfx {self.symbol_name}[]"
