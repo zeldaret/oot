@@ -1,10 +1,9 @@
 #include "object_link_child.h"
-#include "extracted/gc-eu-mq-dbg/assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #include "array_count.h"
 #include "gfx.h"
-#include "sys_matrix.h"
-#include "ultra64.h"
+#include "z64player.h"
 
 u64 gLinkChildEyesOpenTex[TEX_LEN(u64, gLinkChildEyesOpenTex_WIDTH, gLinkChildEyesOpenTex_HEIGHT, 8)] = {
 #include "assets/objects/object_link_child/gLinkChildEyesOpenTex.ci8.tlut_gLinkChildSkinTLUT.inc.c"

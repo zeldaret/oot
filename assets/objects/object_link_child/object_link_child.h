@@ -1,8 +1,8 @@
 #ifndef OBJECT_LINK_CHILD_H
 #define OBJECT_LINK_CHILD_H
 
-#include "tex_len.h"
 #include "ultra64.h"
+#include "tex_len.h"
 #include "z64animation.h"
 
 #define gLinkChildEyesOpenTex_WIDTH 64
@@ -41,6 +41,7 @@ extern u64 gLinkChildMouthOpenTex[TEX_LEN(u64, gLinkChildMouthOpenTex_WIDTH, gLi
 #define gLinkChildMouthSmileTex_WIDTH 32
 #define gLinkChildMouthSmileTex_HEIGHT 32
 extern u64 gLinkChildMouthSmileTex[TEX_LEN(u64, gLinkChildMouthSmileTex_WIDTH, gLinkChildMouthSmileTex_HEIGHT, 8)];
+
 #define gLinkChildNoseTex_WIDTH 16
 #define gLinkChildNoseTex_HEIGHT 16
 extern u64 gLinkChildNoseTex[TEX_LEN(u64, gLinkChildNoseTex_WIDTH, gLinkChildNoseTex_HEIGHT, 8)];
@@ -50,12 +51,6 @@ extern u64 gLinkChildUnusedHandTex[TEX_LEN(u64, gLinkChildUnusedHandTex_WIDTH, g
 #define gLinkChildEarTex_WIDTH 16
 #define gLinkChildEarTex_HEIGHT 16
 extern u64 gLinkChildEarTex[TEX_LEN(u64, gLinkChildEarTex_WIDTH, gLinkChildEarTex_HEIGHT, 8)];
-//#define gLinkChildBeltTLUT_TLUT_COUNT 256
-extern u64 gLinkChildBeltTLUT[];
-//#define gLinkChildSkinTLUT_TLUT_COUNT 256
-extern u64 gLinkChildSkinTLUT[];
-//#define gLinkChildUnusedTLUT_TLUT_COUNT 256
-extern u64 gLinkChildUnusedTLUT[];
 #define gLinkChildUnused1Tex_WIDTH 16
 #define gLinkChildUnused1Tex_HEIGHT 16
 extern u64 gLinkChildUnused1Tex[TEX_LEN(u64, gLinkChildUnused1Tex_WIDTH, gLinkChildUnused1Tex_HEIGHT, 8)];
@@ -77,7 +72,6 @@ extern u64 gLinkChildBeltTex[TEX_LEN(u64, gLinkChildBeltTex_WIDTH, gLinkChildBel
 #define gLinkChildBeltClaspTex_WIDTH 32
 #define gLinkChildBeltClaspTex_HEIGHT 16
 extern u64 gLinkChildBeltClaspTex[TEX_LEN(u64, gLinkChildBeltClaspTex_WIDTH, gLinkChildBeltClaspTex_HEIGHT, 8)];
-extern Vtx gLinkChildLinkDekuStickVtx[];
 extern Gfx gLinkChildLinkDekuStickDL[41];
 #define gLinkChildFairyOcarinaTex_WIDTH 32
 #define gLinkChildFairyOcarinaTex_HEIGHT 16
@@ -103,13 +97,6 @@ extern u64 gLinkChildSlingshotTex[TEX_LEN(u64, gLinkChildSlingshotTex_WIDTH, gLi
 #define gLinkChildSlingshotSeedTex_WIDTH 32
 #define gLinkChildSlingshotSeedTex_HEIGHT 32
 extern u64 gLinkChildSlingshotSeedTex[TEX_LEN(u64, gLinkChildSlingshotSeedTex_WIDTH, gLinkChildSlingshotSeedTex_HEIGHT, 16)];
-//#define gLinkChildHandTLUT_TLUT_COUNT 68
-extern u64 gLinkChildHandTLUT[];
-//#define gLinkChildSwordsTLUT_TLUT_COUNT 256
-extern u64 gLinkChildSwordsTLUT[];
-extern u8 gLinkChild_A110_Blob[];
-//#define gLinkChildSwordTLUT_TLUT_COUNT 108
-extern u64 gLinkChildSwordTLUT[];
 #define gLinkChildHandTex_WIDTH 16
 #define gLinkChildHandTex_HEIGHT 16
 extern u64 gLinkChildHandTex[TEX_LEN(u64, gLinkChildHandTex_WIDTH, gLinkChildHandTex_HEIGHT, 8)];
@@ -128,47 +115,7 @@ extern u64 gLinkChildMasterSwordGuardTex[TEX_LEN(u64, gLinkChildMasterSwordGuard
 #define gLinkChildMasterSwordEmblemTex_WIDTH 16
 #define gLinkChildMasterSwordEmblemTex_HEIGHT 16
 extern u64 gLinkChildMasterSwordEmblemTex[TEX_LEN(u64, gLinkChildMasterSwordEmblemTex_WIDTH, gLinkChildMasterSwordEmblemTex_HEIGHT, 8)];
-extern Vtx gLinkChildLeftHandNearVtx[];
-extern Vtx gLinkChildLeftFistNearVtx[];
-extern Vtx gLinkChildLeftFistAndKokiriSwordNearVtx[];
-extern Vtx gLinkChildRightHandNearVtx[];
-extern Vtx gLinkChildRightHandClosedNearVtx[];
-extern Vtx gLinkChildRightFistAndDekuShieldNearVtx[];
-extern Vtx gLinkChildLeftFistAndBoomerangNearVtx[];
-extern Vtx gLinkChildHylianShieldSwordAndSheathNearVtx[];
-extern Vtx gLinkChildHylianShieldAndSheathNearVtx[];
-extern Vtx gLinkChildDekuShieldSwordAndSheathNearVtx[];
-extern Vtx gLinkChildDekuShieldAndSheathNearVtx[];
-extern Vtx gLinkChildSwordAndSheathNearVtx[];
-extern Vtx gLinkChildSheathNearVtx[];
-extern Vtx gLinkChildLeftHandHoldingMasterSwordVtx[];
-extern Vtx gLinkChildRightHandAndOotNearVtx[];
-extern Vtx gLinkChildRightHandHoldingFairyOcarinaNearVtx[];
-extern Vtx gLinkChildRightHandHoldingSlingshotNearVtx[];
-extern Vtx gLinkChildLeftHandUpNearVtx[];
-extern Vtx gLinkChildGoronBraceletVtx1[];
-extern Vtx gLinkChildLeftHandFarVtx[];
-extern Vtx gLinkChildLeftFistFarVtx[];
-extern Vtx gLinkChildRightHandFarVtx[];
-extern Vtx gLinkChildRightHandClosedFarVtx[];
-extern Vtx gLinkChildRightFistAndDekuShieldFarVtx[];
-extern Vtx gLinkChildLeftFistAndBoomerangFarVtx[];
-extern Vtx gLinkChildHylianShieldSwordAndSheathFarVtx[];
-extern Vtx gLinkChildHylianShieldAndSheathFarVtx[];
-extern Vtx gLinkChildDekuShieldSwordAndSheathFarVtx[];
-extern Vtx gLinkChildDekuShieldAndSheathFarVtx[];
-extern Vtx gLinkChildSwordAndSheathFarVtx[];
-extern Vtx gLinkChildSheathFarVtx[];
-extern Vtx gLinkChildLeftFistAndKokiriSwordFarVtx[];
-extern Vtx gLinkChildRightHandHoldingOOTFarVtx[];
-extern Vtx gLinkChildRightHandHoldingFairyOcarinaFarVtx[];
-extern Vtx gLinkChildRightHandHoldingSlingshotFarVtx[];
-extern Vtx gLinkChildLeftHandUpFarVtx[];
-extern Vtx gLinkChildRightArmStretchedSlingshotVtx[];
-extern Vtx gLinkChildBottleVtx[];
-extern Vtx gLinkChildGoronBraceletVtx2[];
-extern Vtx gLinkChildDL_18580_Vtx[];
-extern Vtx gLinkChildBottle2Vtx[];
+
 extern Gfx gLinkChildLeftHandNearDL[45];
 extern Gfx gLinkChildLeftFistNearDL[36];
 extern Gfx gLinkChildLeftFistAndKokiriSwordNearDL[81];
@@ -209,24 +156,7 @@ extern Gfx gLinkChildRightArmStretchedSlingshotDL[134];
 extern Gfx gLinkChildBottleDL[33];
 extern Gfx gLinkChildDL_18580[25];
 extern Gfx gLinkChildBottle2DL[34];
-extern Vtx gLinkChildRightFootFarVtx[];
-extern Vtx gLinkChildRightShinFarVtx[];
-extern Vtx gLinkChildRightThighFarVtx[];
-extern Vtx gLinkChildLeftFootFarVtx[];
-extern Vtx gLinkChildLeftShinFarVtx[];
-extern Vtx gLinkChildLeftThighFarVtx[];
-extern Vtx gLinkChildWaistFarVtx[];
-extern Vtx gLinkChildHatFarVtx[];
-extern Vtx gLinkChildHeadFarVtx[];
-extern Vtx gLinkChildCollarFarVtx[];
-extern Vtx gLinkChildVtx_019E08[];
-extern Vtx gLinkChildLeftForearmFarVtx[];
-extern Vtx gLinkChildLeftShoulderFarVtx[];
-extern Vtx gLinkChildVtx_01A428[];
-extern Vtx gLinkChildRightForearmFarVtx[];
-extern Vtx gLinkChildRightShoulderFarVtx[];
-extern Vtx gLinkChildVtx_01AA98[];
-extern Vtx gLinkChildTorsoFarVtx[];
+
 extern Gfx gLinkChildWaistFarDL[70];
 extern Gfx gLinkChildRightThighFarDL[56];
 extern Gfx gLinkChildRightShinFarDL[75];
@@ -242,24 +172,7 @@ extern Gfx gLinkChildRightShoulderFarDL[56];
 extern Gfx gLinkChildRightForearmFarDL[38];
 extern Gfx gLinkChildLeftShoulderFarDL[56];
 extern Gfx gLinkChildLeftForearmFarDL[38];
-extern Vtx gLinkChildRightFootNearVtx[];
-extern Vtx gLinkChildRightShinNearVtx[];
-extern Vtx gLinkChildRightThighNearVtx[];
-extern Vtx gLinkChildLeftFootNearVtx[];
-extern Vtx gLinkChildLeftShinNearVtx[];
-extern Vtx gLinkChildLeftThighNearVtx[];
-extern Vtx gLinkChildWaistNearVtx[];
-extern Vtx gLinkChildHatNearVtx[];
-extern Vtx gLinkChildHeadNearVtx[];
-extern Vtx gLinkChildCollarNearVtx[];
-extern Vtx gLinkChildVtx_01EB38[];
-extern Vtx gLinkChildLeftForearmNearVtx[];
-extern Vtx gLinkChildLeftShoulderNearVtx[];
-extern Vtx gLinkChildVtx_01F2B8[];
-extern Vtx gLinkChildRightForearmNearVtx[];
-extern Vtx gLinkChildRightShoulderNearVtx[];
-extern Vtx gLinkChildVtx_01FA28[];
-extern Vtx gLinkChildTorsoNearVtx[];
+
 extern Gfx gLinkChildWaistNearDL[73];
 extern Gfx gLinkChildRightThighNearDL[63];
 extern Gfx gLinkChildRightShinNearDL[82];
@@ -275,12 +188,13 @@ extern Gfx gLinkChildRightShoulderNearDL[58];
 extern Gfx gLinkChildRightForearmNearDL[44];
 extern Gfx gLinkChildLeftShoulderNearDL[58];
 extern Gfx gLinkChildLeftForearmNearDL[44];
-extern Vtx gLinkChildSlingshotStringVtx[];
+
 extern Gfx gLinkChildSlingshotStringDL[12];
-extern Vtx gLinkChildDekuShieldVtx[];
+
 extern Gfx gLinkChildDekuShieldDL[42];
-extern Mtx gLinkChildDekuShieldMtx;
+
 extern Gfx gLinkChildDekuShieldWithMatrixDL[3];
+
 #define gLinkChildSpookyMaskTex_WIDTH 32
 #define gLinkChildSpookyMaskTex_HEIGHT 64
 extern u64 gLinkChildSpookyMaskTex[TEX_LEN(u64, gLinkChildSpookyMaskTex_WIDTH, gLinkChildSpookyMaskTex_HEIGHT, 16)];
@@ -344,13 +258,7 @@ extern u64 gLinkChildGerudoMaskHairTex[TEX_LEN(u64, gLinkChildGerudoMaskHairTex_
 #define gLinkChildGerudoMaskNoseTex_WIDTH 8
 #define gLinkChildGerudoMaskNoseTex_HEIGHT 8
 extern u64 gLinkChildGerudoMaskNoseTex[TEX_LEN(u64, gLinkChildGerudoMaskNoseTex_WIDTH, gLinkChildGerudoMaskNoseTex_HEIGHT, 16)];
-extern Vtx gLinkChildSkullMaskVtx[];
-extern Vtx gLinkChildSpookyMaskVtx[];
-extern Vtx gLinkChildKeatonMaskVtx[];
-extern Vtx gLinkChildMaskOfTruthVtx[];
-extern Vtx gLinkChildGoronMaskVtx[];
-extern Vtx gLinkChildZoraMaskVtx[];
-extern Vtx gLinkChildGerudoMaskVtx[];
+
 extern Gfx gLinkChildSkullMaskDL[70];
 extern Gfx gLinkChildSpookyMaskDL[30];
 extern Gfx gLinkChildKeatonMaskDL[50];
@@ -367,55 +275,8 @@ extern u64 gLinkChildBunnyHoodTex[TEX_LEN(u64, gLinkChildBunnyHoodTex_WIDTH, gLi
 #define gLinkChildBunnyHoodEarTex_WIDTH 16
 #define gLinkChildBunnyHoodEarTex_HEIGHT 32
 extern u64 gLinkChildBunnyHoodEarTex[TEX_LEN(u64, gLinkChildBunnyHoodEarTex_WIDTH, gLinkChildBunnyHoodEarTex_HEIGHT, 16)];
-extern Vtx gLinkChildBunnyHoodVtx[];
 extern Gfx gLinkChildBunnyHoodDL[114];
-extern LodLimb gLinkChildRootLimb;
-extern LodLimb gLinkChildWaistLimb;
-extern LodLimb gLinkChildLowerControlLimb;
-extern LodLimb gLinkChildRightThighLimb;
-extern LodLimb gLinkChildRightShinLimb;
-extern LodLimb gLinkChildRightFootLimb;
-extern LodLimb gLinkChildLeftThighLimb;
-extern LodLimb gLinkChildLeftShinLimb;
-extern LodLimb gLinkChildLeftFootLimb;
-extern LodLimb gLinkChildUpperControlLimb;
-extern LodLimb gLinkChildHeadLimb;
-extern LodLimb gLinkChildHatLimb;
-extern LodLimb gLinkChildCollarLimb;
-extern LodLimb gLinkChildLeftshoulderLimb;
-extern LodLimb gLinkChildLeftForearmLimb;
-extern LodLimb gLinkChildLeftHandLimb;
-extern LodLimb gLinkChildRightshoulderLimb;
-extern LodLimb gLinkChildRightForearmLimb;
-extern LodLimb gLinkChildRightHandLimb;
-extern LodLimb gLinkChildSwordAndSheathLimb;
-extern LodLimb gLinkChildTorsoLimb;
-extern void* gLinkChildLimbs[];
-typedef enum PlayerLimb {
-    /*  0 */ PLAYER_LIMB_NONE,
-    /*  1 */ PLAYER_LIMB_ROOT,
-    /*  2 */ PLAYER_LIMB_WAIST,
-    /*  3 */ PLAYER_LIMB_LOWER,
-    /*  4 */ PLAYER_LIMB_R_THIGH,
-    /*  5 */ PLAYER_LIMB_R_SHIN,
-    /*  6 */ PLAYER_LIMB_R_FOOT,
-    /*  7 */ PLAYER_LIMB_L_THIGH,
-    /*  8 */ PLAYER_LIMB_L_SHIN,
-    /*  9 */ PLAYER_LIMB_L_FOOT,
-    /* 10 */ PLAYER_LIMB_UPPER,
-    /* 11 */ PLAYER_LIMB_HEAD,
-    /* 12 */ PLAYER_LIMB_HAT,
-    /* 13 */ PLAYER_LIMB_COLLAR,
-    /* 14 */ PLAYER_LIMB_L_SHOULDER,
-    /* 15 */ PLAYER_LIMB_L_FOREARM,
-    /* 16 */ PLAYER_LIMB_L_HAND,
-    /* 17 */ PLAYER_LIMB_R_SHOULDER,
-    /* 18 */ PLAYER_LIMB_R_FOREARM,
-    /* 19 */ PLAYER_LIMB_R_HAND,
-    /* 20 */ PLAYER_LIMB_SHEATH,
-    /* 21 */ PLAYER_LIMB_TORSO,
-    /* 22 */ PLAYER_LIMB_MAX
-} PlayerLimb;
+
 extern FlexSkeletonHeader gLinkChildSkel;
 
 #endif
