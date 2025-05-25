@@ -17,6 +17,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64effect.h"
@@ -147,8 +148,7 @@ void EnAnubice_Init(Actor* thisx, PlayState* play) {
                    ANUBICE_LIMB_MAX);
 
     PRINTF("\n\n");
-    // "☆☆☆☆☆ Anubis occurence ☆☆☆☆☆"
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n", "☆☆☆☆☆ Anubis occurrence ☆☆☆☆☆ \n") VT_RST);
 
     this->actor.naviEnemyId = NAVI_ENEMY_ANUBIS;
 
@@ -196,9 +196,9 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, PlayState* play) {
                     currentProp = currentProp->next;
                 } else {
                     this->flameCircles[flameCirclesFound] = (BgHidanCurtain*)currentProp;
-                    // "☆☆☆☆☆ How many fires? ☆☆☆☆☆"
-                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n" VT_RST, flameCirclesFound);
-                    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n" VT_RST,
+                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ How many fires? ☆☆☆☆☆ %d\n") VT_RST,
+                           flameCirclesFound);
+                    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n", "☆☆☆☆☆ How many fires? ☆☆☆☆☆ %x\n") VT_RST,
                            this->flameCircles[flameCirclesFound]);
                     if (flameCirclesFound < ARRAY_COUNT(this->flameCircles) - 1) {
                         flameCirclesFound++;
