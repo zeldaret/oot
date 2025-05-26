@@ -656,7 +656,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
             this->actor.speed = 20.0f;
         }
         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
-        PRINTF(T("なぜだああああああああ      %d\n", "Why ah ah ah ah      %d\n"), this->work[FHGFIRE_VARIANCE_TIMER]);
+        PRINTF(T("なぜだああああああああ      %d\n", "Whyyyyyyyy      %d\n"), this->work[FHGFIRE_VARIANCE_TIMER]);
     }
 }
 
