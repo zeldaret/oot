@@ -703,8 +703,8 @@ void EnRu2_NextCreditsAction(EnRu2* this, PlayState* play) {
                     EnRu2_SetupTurnHeadDownLeftAnimation(this);
                     break;
                 default:
-                    // "There is no such action!"
-                    PRINTF("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Ru2_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;

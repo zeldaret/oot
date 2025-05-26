@@ -1,8 +1,7 @@
 #ifndef CURVE_H
 #define CURVE_H
 
-#include "ultra64/ultratypes.h"
-#include "z_math.h"
+#include "ultra64.h"
 
 struct PlayState;
 struct Actor;

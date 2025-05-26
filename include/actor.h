@@ -2,7 +2,6 @@
 #define ACTOR_H
 
 #include "color.h"
-#include "romfile.h"
 #include "actor_profile.h"
 #include "animation.h"
 #include "z_math.h"

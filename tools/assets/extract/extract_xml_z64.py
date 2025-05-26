@@ -51,6 +51,8 @@ class ExtractionContext:
     baserom_path: Path
     build_path: Path
     extracted_path: Path
+    write_source: set[str]
+    """Paths of source .c files to write"""
 
     def get_baserom_file_data(self, baserom_file_name: str):
         return memoryview((self.baserom_path / baserom_file_name).read_bytes())
@@ -289,7 +291,10 @@ def process_pool(
             file.write_resources_extracted(file_memctx)
 
         # "source" refers to the main .c and .h `#include`ing all the extracted resources
-        if WRITE_SOURCE:
+        if WRITE_SOURCE and (
+            str(file.source_c_path.relative_to(extraction_ctx.extracted_path))
+            in extraction_ctx.write_source
+        ):
             file.write_source()
 
 
@@ -404,6 +409,7 @@ def main():
         args.baserom_segments_dir,
         Path("build") / args.oot_version,
         args.output_dir,
+        set((Path(__file__).parent / "write_source.txt").read_text().splitlines()),
     )
 
     z64_resource_handlers.register_resource_handlers()

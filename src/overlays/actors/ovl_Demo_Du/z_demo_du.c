@@ -922,8 +922,8 @@ void DemoDu_CsCredits_HandleCues(DemoDu* this, PlayState* play) {
                     DemoDu_CsCredits_AdvanceTo04(this);
                     break;
                 default:
-                    // "Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!"
-                    PRINTF("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Du_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;

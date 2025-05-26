@@ -72,7 +72,8 @@ void DemoGeff_Init(Actor* thisx, PlayState* play) {
     DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->actor.params < 0 || this->actor.params >= 9) {
-        PRINTF(VT_FGCOL(RED) "Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n",
+                               "Demo_Geff_Actor_ct:arg_data is strange!!!!!!!!!!!!\n") VT_RST);
         Actor_Kill(&this->actor);
         return;
     }
@@ -190,7 +191,9 @@ void func_80978370(DemoGeff* this, PlayState* play) {
     s16 params = this->actor.params;
     DemoGeffInitFunc initFunc = sInitFuncs[params];
     if (initFunc == NULL) {
-        PRINTF(VT_FGCOL(RED) " Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, params);
+        PRINTF(VT_FGCOL(RED) T(" Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n",
+                               " Demo_Geff_main_init: Initialization process is wrong arg_data = %d!\n") VT_RST,
+               params);
         Actor_Kill(&this->actor);
         return;
     }
@@ -206,7 +209,9 @@ void func_809783D4(DemoGeff* this, PlayState* play) {
     s32 pad;
 
     if (objectSlot < 0) {
-        PRINTF(VT_FGCOL(RED) "Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, params);
+        PRINTF(VT_FGCOL(RED) T("Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n",
+                               "Demo_Geff_main_bank: Bank unreadable arg_data = %d!\n") VT_RST,
+               params);
         Actor_Kill(thisx);
         return;
     }

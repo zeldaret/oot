@@ -230,9 +230,9 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, PlayState* play) {
             ObjOshihiki_InitDynapoly(this, play, &gPushBlockCol, 1);
             break;
         default:
-            // "Error : type cannot be determined"
-            PRINTF("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 444,
-                   this->dyna.actor.params);
+            PRINTF(T("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n",
+                     "Error : type cannot be determined (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_obj_oshihiki.c", 444, this->dyna.actor.params);
             break;
     }
 }
@@ -274,8 +274,9 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play2) {
     }
 
     if (i >= ARRAY_COUNT(sColors)) {
-        // "Error : scene_data_ID cannot be determined"
-        PRINTF("Error : scene_data_ID が判別できない。(%s %d)\n", "../z_obj_oshihiki.c", 579);
+        PRINTF(T("Error : scene_data_ID が判別できない。(%s %d)\n",
+                 "Error : scene_data_ID cannot be determined. (%s %d)\n"),
+               "../z_obj_oshihiki.c", 579);
         color->r = color->g = color->b = 255;
     } else {
         src = &sColors[i][paramsColorIdx];
@@ -320,8 +321,8 @@ void ObjOshihiki_Init(Actor* thisx, PlayState* play2) {
     ObjOshihiki_SetColor(this, play);
     ObjOshihiki_ResetFloors(this);
     ObjOshihiki_SetupOnActor(this, play);
-    // "(dungeon keep push-pull block)"
-    PRINTF("(dungeon keep 押し引きブロック)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(dungeon keep 押し引きブロック)(arg_data 0x%04x)\n", "(dungeon keep push/pull block)(arg_data 0x%04x)\n"),
+           this->dyna.actor.params);
 }
 
 void ObjOshihiki_Destroy(Actor* thisx, PlayState* play) {
@@ -387,9 +388,9 @@ s32 ObjOshihiki_CheckFloor(ObjOshihiki* this, PlayState* play) {
 
 s32 ObjOshihiki_CheckGround(ObjOshihiki* this, PlayState* play) {
     if (this->dyna.actor.world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
-        // "Warning : Push-pull block fell too much"
-        PRINTF("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 809,
-               this->dyna.actor.params);
+        PRINTF(T("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n",
+                 "Warning : Push/pull block fell too much (%s %d)(arg_data 0x%04x)\n"),
+               "../z_obj_oshihiki.c", 809, this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
         return 0;
     }

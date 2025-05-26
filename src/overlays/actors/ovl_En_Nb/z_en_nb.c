@@ -695,8 +695,8 @@ void EnNb_CheckKidnapCsMode(EnNb* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    // "Operation Doesn't Exist!!!!!!!!"
-                    PRINTF("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Nb_Kidnap_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -914,8 +914,8 @@ void EnNb_CheckConfrontationCsMode(EnNb* this, PlayState* play) {
                     EnNb_SetupConfrontationDestroy(this);
                     break;
                 default:
-                    // "En_Nb_Confrontion_Check_DemoMode: Operation doesn't exist!!!!!!!!"
-                    PRINTF("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Nb_Confrontion_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -1102,8 +1102,8 @@ void EnNb_CheckCreditsCsModeImpl(EnNb* this, PlayState* play) {
                     EnNb_SetupCreditsHeadTurn(this);
                     break;
                 default:
-                    // "En_Nb_inEnding_Check_DemoMode: Operation doesn't exist!!!!!!!!"
-                    PRINTF("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Nb_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;

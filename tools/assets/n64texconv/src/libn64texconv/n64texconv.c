@@ -591,6 +591,24 @@ n64texconv_palette_reformat(struct n64_palette *pal, int fmt)
 }
 
 struct n64_palette *
+n64texconv_palette_resize(struct n64_palette *pal, size_t new_count)
+{
+    assert(pal != NULL);
+
+    struct n64_palette *new_pal = n64texconv_palette_new(new_count, pal->fmt);
+
+    size_t min_count = (new_count < pal->count) ? new_count : pal->count;
+
+    size_t i;
+    for (i = 0; i < min_count; i++)
+        new_pal->texels[i] = pal->texels[i];
+    for (i = min_count; i < new_count; i++)
+        new_pal->texels[i] = (struct color){ .w = 0 };
+
+    return new_pal;
+}
+
+struct n64_palette *
 n64texconv_palette_from_png(const char *path, int fmt)
 {
     assert(path != NULL);

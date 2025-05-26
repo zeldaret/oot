@@ -2043,7 +2043,8 @@ s32 EnXc_SetupNocturneState(Actor* thisx, PlayState* play) {
                     Actor_Kill(thisx);
                     break;
                 default:
-                    PRINTF("En_Oa2_Stalker_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Oa2_Stalker_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Oa2_Stalker_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
 

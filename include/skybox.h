@@ -4,8 +4,8 @@
 #include "ultra64/ultratypes.h"
 #include "ultra64/gbi.h"
 
+#include "romfile.h"
 #include "z_math.h"
-#include "dma.h" // for RomFile
 
 struct GameState;
 struct GraphicsContext;

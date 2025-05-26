@@ -1,3 +1,4 @@
+#include "alignment.h"
 #include "array_count.h"
 #include "buffers.h"
 #include "audio.h"

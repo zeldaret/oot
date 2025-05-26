@@ -592,7 +592,8 @@ void func_8098F654(DemoSa* this, PlayState* play) {
                     func_8098F5D0(this);
                     break;
                 default:
-                    PRINTF("Demo_Sa_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Sa_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Sa_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -741,7 +742,8 @@ void func_8098FB68(DemoSa* this, PlayState* play) {
                     func_8098FAE0(this);
                     break;
                 default:
-                    PRINTF("Demo_Sa_inPresent_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Sa_inPresent_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Sa_inPresent_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
