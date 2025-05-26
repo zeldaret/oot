@@ -142,7 +142,7 @@ void BgHakaSgami_Init(Actor* thisx, PlayState* play) {
     BgHakaSgami* this = (BgHakaSgami*)thisx;
     EffectBlureInit1 blureInit;
     s32 i;
-    ColliderTris* colliderScythe = &this->colliderScythe;
+    ColliderTris* scytheCollider = &this->scytheCollider;
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
@@ -153,8 +153,8 @@ void BgHakaSgami_Init(Actor* thisx, PlayState* play) {
         thisx->flags |= ACTOR_FLAG_REACT_TO_LENS;
     }
 
-    Collider_InitTris(play, colliderScythe);
-    Collider_SetTris(play, colliderScythe, thisx, &sTrisInit, this->colliderScytheItems);
+    Collider_InitTris(play, scytheCollider);
+    Collider_SetTris(play, scytheCollider, thisx, &sTrisInit, this->scytheColliderElements);
     Collider_InitCylinder(play, &this->scytheCenterCollider);
     Collider_SetCylinder(play, &this->scytheCenterCollider, thisx, &sCylinderInit);
 
@@ -199,7 +199,7 @@ void BgHakaSgami_Destroy(Actor* thisx, PlayState* play) {
 
     Effect_Delete(play, this->blureEffectIndex[0]);
     Effect_Delete(play, this->blureEffectIndex[1]);
-    Collider_DestroyTris(play, &this->colliderScythe);
+    Collider_DestroyTris(play, &this->scytheCollider);
     Collider_DestroyCylinder(play, &this->scytheCenterCollider);
 }
 
@@ -256,14 +256,14 @@ void BgHakaSgami_Spin(BgHakaSgami* this, PlayState* play) {
                                   elementInit->dim.vtx[j].x * actorRotYSin;
         }
 
-        Collider_SetTrisVertices(&this->colliderScythe, i, &scytheVertices[0], &scytheVertices[1], &scytheVertices[2]);
+        Collider_SetTrisVertices(&this->scytheCollider, i, &scytheVertices[0], &scytheVertices[1], &scytheVertices[2]);
 
         for (j = 0; j < 3; j++) {
             scytheVertices[j].x = (2 * this->actor.world.pos.x) - scytheVertices[j].x;
             scytheVertices[j].z = (2 * this->actor.world.pos.z) - scytheVertices[j].z;
         }
 
-        Collider_SetTrisVertices(&this->colliderScythe, (i + 2) % 4, &scytheVertices[0], &scytheVertices[1],
+        Collider_SetTrisVertices(&this->scytheCollider, (i + 2) % 4, &scytheVertices[0], &scytheVertices[1],
                                  &scytheVertices[2]);
     }
 
@@ -288,7 +288,7 @@ void BgHakaSgami_Spin(BgHakaSgami* this, PlayState* play) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->blureEffectIndex[1]), &scytheVertices[0], &scytheVertices[1]);
     }
 
-    CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderScythe.base);
+    CollisionCheck_SetAT(play, &play->colChkCtx, &this->scytheCollider.base);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->scytheCenterCollider.base);
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_ROLLCUTTER_MOTOR - SFX_FLAG);
 }

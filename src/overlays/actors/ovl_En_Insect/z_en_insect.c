@@ -83,7 +83,7 @@ static ColliderJntSphElementInit sColliderElementsInit[1] = {
     },
 };
 
-static ColliderJntSphInit sColliderInit = {
+static ColliderJntSphInit sColliderJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -206,7 +206,7 @@ void EnInsect_Init(Actor* thisx, PlayState* play2) {
 
     SkelAnime_Init(play, &this->skelAnime, &gBugSkel, &gBugCrawlAnim, this->jointTable, this->morphTable, 24);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, this->colliderElements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
 
     this->actor.colChkInfo.mass = 30;
 
