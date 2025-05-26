@@ -10,6 +10,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"
@@ -57,16 +58,16 @@ void EnEncount2_Init(Actor* thisx, PlayState* play) {
 
     if (!this->isNotDeathMountain) {
         PRINTF("\n\n");
-        // "☆☆☆☆☆ Death Mountain Encount2 set ☆☆☆☆☆"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デスマウンテンエンカウント２セットされました ☆☆☆☆☆ %d\n" VT_RST,
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ デスマウンテンエンカウント２セットされました ☆☆☆☆☆ %d\n",
+                                 "☆☆☆☆☆ Death Mountain Encount2 set ☆☆☆☆☆ %d\n") VT_RST,
                this->actor.params);
         if (LINK_IS_ADULT && GET_EVENTCHKINF(EVENTCHKINF_49)) { // flag for having used fire temple blue warp
             Actor_Kill(thisx);
         }
     } else {
         PRINTF("\n\n");
-        // "☆☆☆☆☆ Ganon Tower Escape Encount2 set ☆☆☆☆☆"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ガノンタワー脱出エンカウント２セットされました ☆☆☆☆☆ %d\n" VT_RST,
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ガノンタワー脱出エンカウント２セットされました ☆☆☆☆☆ %d\n",
+                                 "☆☆☆☆☆ Ganon Tower Escape Encount2 set ☆☆☆☆☆ %d\n") VT_RST,
                this->actor.params);
     }
 
@@ -248,12 +249,11 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
                 this->numSpawnedRocks++;
                 return;
             }
-            // "☆☆☆☆☆ Can't occur! ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n\n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n\n") VT_RST);
         }
     }
 }
