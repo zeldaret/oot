@@ -1,8 +1,5 @@
 #include "icon_item_static.h"
 
-#include "sys_matrix.h"
-#include "ultra64.h"
-
 u64 gItemIconDekuStickTex[TEX_LEN(u64, gItemIconDekuStickTex_WIDTH, gItemIconDekuStickTex_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconDekuStickTex.rgba32.inc.c"
 };

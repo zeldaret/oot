@@ -1,8 +1,8 @@
 #ifndef ICON_ITEM_STATIC_H
 #define ICON_ITEM_STATIC_H
 
-#include "tex_len.h"
 #include "ultra64.h"
+#include "tex_len.h"
 #include "versions.h"
 
 #define gItemIconDekuStickTex_WIDTH 32
