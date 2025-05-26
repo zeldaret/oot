@@ -21,6 +21,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64effect.h"
@@ -149,16 +150,15 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
     this->objectId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
         PRINTF("\n\n");
-        // "Deku Scrub target"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n", "☆☆☆☆☆ Deku Scrub target ☆☆☆☆☆ \n") VT_RST);
         Collider_InitQuad(play, &this->targetColliderQuad);
         Collider_SetQuad(play, &this->targetColliderQuad, &this->actor, &sTargetQuadInit);
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->objectId = OBJECT_HINTNUTS;
     } else {
         PRINTF("\n\n");
-        // "Deku Scrub mask show audience"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n",
+                                 "☆☆☆☆☆ Deku Scrub mask competition audience ☆☆☆☆☆ \n") VT_RST);
         Collider_InitCylinder(play, &this->bodyColliderCylinder);
         Collider_SetCylinder(play, &this->bodyColliderCylinder, &this->actor, &sBodyCylinderInit);
         this->objectId = OBJECT_DNK;
@@ -167,10 +167,9 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
         this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
         if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
-            // "What?"
-            PRINTF(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->requiredObjectSlot);
-            // "Bank is funny"
-            PRINTF(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
+            PRINTF(VT_FGCOL(MAGENTA) T(" なにみの？ %d\n", " What? %d\n") VT_RST "\n", this->requiredObjectSlot);
+            PRINTF(VT_FGCOL(CYAN) T(" バンクおかしいしぞ！%d\n", " The bank is weird! %d\n") VT_RST "\n",
+                   this->actor.params);
             return;
         }
     } else {
@@ -279,8 +278,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
             EffectSsExtra_Spawn(play, &scorePos, &scoreVel, &scoreAccel, 4, 2);
             Audio_StopSfxById(NA_SE_SY_TRE_BOX_APPEAR);
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
-            // "Big hit"
-            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n" VT_RST, this->hitCounter);
+            PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Big hit ☆☆☆☆☆ %d\n") VT_RST, this->hitCounter);
             if (!LINK_IS_ADULT && !GET_ITEMGETINF(ITEMGETINF_1D)) {
                 this->hitCounter++;
                 if (this->hitCounter >= 3) {
