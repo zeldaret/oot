@@ -1,5 +1,7 @@
 #include "icon_item_static.h"
 
+// Item icons textures
+
 u64 gItemIconDekuStickTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconDekuStickTex.rgba32.inc.c"
 };
@@ -360,6 +362,8 @@ u64 gItemIconFishingPoleTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)]
 #include "assets/textures/icon_item_static/gItemIconFishingPoleTex.rgba32.inc.c"
 };
 
+// Heart piece icons textures
+
 u64 gHeartPieceIcon1Tex[TEX_LEN(u64, HEART_PIECE_ICON_TEX_WIDTH, HEART_PIECE_ICON_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gHeartPieceIcon1Tex.ia8.inc.c"
 };
@@ -371,6 +375,8 @@ u64 gHeartPieceIcon2Tex[TEX_LEN(u64, HEART_PIECE_ICON_TEX_WIDTH, HEART_PIECE_ICO
 u64 gHeartPieceIcon3Tex[TEX_LEN(u64, HEART_PIECE_ICON_TEX_WIDTH, HEART_PIECE_ICON_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gHeartPieceIcon3Tex.ia8.inc.c"
 };
+
+// Pause menu cursor textures
 
 #define gPausePromptCursorTex_WIDTH 48
 #define gPausePromptCursorTex_HEIGHT 48
@@ -403,6 +409,8 @@ u64 gPauseMenuCursorBottomRightTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WID
                                            4)] = {
 #include "assets/textures/icon_item_static/gPauseMenuCursorBottomRightTex.ia4.inc.c"
 };
+
+// Pause menu pages background textures
 
 u64 gPauseEquipment00Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment00Tex.ia8.inc.c"
@@ -681,6 +689,8 @@ u64 gPauseSave24Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT
 u64 gPauseGameOver10Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseGameOver10Tex.ia8.inc.c"
 };
+
+// Various textures and DLs
 
 #define gABtnSymbolTex_WIDTH 24
 #define gABtnSymbolTex_HEIGHT 16
