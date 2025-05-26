@@ -3,6 +3,7 @@
 
 #include "tex_len.h"
 #include "ultra64.h"
+#include "versions.h"
 
 #define gItemIconDekuStickTex_WIDTH 32
 #define gItemIconDekuStickTex_HEIGHT 32
@@ -313,12 +314,14 @@ extern u64 gPauseMap00Tex[TEX_LEN(u64, gPauseMap00Tex_WIDTH, gPauseMap00Tex_HEIG
 #define gPauseMap20Tex_WIDTH 80
 #define gPauseMap20Tex_HEIGHT 32
 extern u64 gPauseMap20Tex[TEX_LEN(u64, gPauseMap20Tex_WIDTH, gPauseMap20Tex_HEIGHT, 8)];
+#if OOT_PAL
 #define gPauseQuestStatus00Tex_WIDTH 80
 #define gPauseQuestStatus00Tex_HEIGHT 32
 extern u64 gPauseQuestStatus00Tex[TEX_LEN(u64, gPauseQuestStatus00Tex_WIDTH, gPauseQuestStatus00Tex_HEIGHT, 8)];
 #define gPauseQuestStatus20Tex_WIDTH 80
 #define gPauseQuestStatus20Tex_HEIGHT 32
 extern u64 gPauseQuestStatus20Tex[TEX_LEN(u64, gPauseQuestStatus20Tex_WIDTH, gPauseQuestStatus20Tex_HEIGHT, 8)];
+#endif
 #define gPauseSave00Tex_WIDTH 80
 #define gPauseSave00Tex_HEIGHT 32
 extern u64 gPauseSave00Tex[TEX_LEN(u64, gPauseSave00Tex_WIDTH, gPauseSave00Tex_HEIGHT, 8)];

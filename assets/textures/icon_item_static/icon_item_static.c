@@ -415,6 +415,7 @@ u64 gPauseMap20Tex[TEX_LEN(u64, gPauseMap20Tex_WIDTH, gPauseMap20Tex_HEIGHT, 8)]
 #include "assets/textures/icon_item_static/gPauseMap20Tex.ia8.inc.c"
 };
 
+#if OOT_PAL
 u64 gPauseQuestStatus00Tex[TEX_LEN(u64, gPauseQuestStatus00Tex_WIDTH, gPauseQuestStatus00Tex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus00Tex.ia8.inc.c"
 };
@@ -422,6 +423,7 @@ u64 gPauseQuestStatus00Tex[TEX_LEN(u64, gPauseQuestStatus00Tex_WIDTH, gPauseQues
 u64 gPauseQuestStatus20Tex[TEX_LEN(u64, gPauseQuestStatus20Tex_WIDTH, gPauseQuestStatus20Tex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus20Tex.ia8.inc.c"
 };
+#endif
 
 u64 gPauseSave00Tex[TEX_LEN(u64, gPauseSave00Tex_WIDTH, gPauseSave00Tex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave00Tex.ia8.inc.c"
@@ -746,6 +748,3 @@ Gfx gPromptCursorLeftDL[10] = {
 Gfx gPromptCursorRightDL[10] = {
 #include "assets/textures/icon_item_static/gPromptCursorRightDL.inc.c"
 };
-
-u8 icon_item_static_zeros_089C98[8] = { 0 };
-
