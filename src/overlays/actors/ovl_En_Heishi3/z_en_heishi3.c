@@ -11,6 +11,7 @@
 #include "printf.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64play.h"
@@ -87,8 +88,8 @@ void EnHeishi3_Init(Actor* thisx, PlayState* play) {
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    // "Castle Gate Soldier - Power Up"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n", "☆☆☆☆☆ Castle gate soldier power-up ☆☆☆☆☆ \n")
+               VT_RST);
 
     this->actor.gravity = -3.0f;
     this->actor.focus.pos = this->actor.world.pos;
@@ -143,7 +144,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, PlayState* play) {
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Discovered! ☆☆☆☆☆ \n") VT_RST);
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 #if OOT_PAL_N64
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
@@ -174,7 +175,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, PlayState* play) {
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Discovered! ☆☆☆☆☆ \n") VT_RST);
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 #if OOT_PAL_N64
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
