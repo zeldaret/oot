@@ -384,19 +384,23 @@ u64 gPauseUnusedCursorTex[TEX_LEN(u64, gPauseUnusedCursorTex_WIDTH, gPauseUnused
 #include "assets/textures/icon_item_static/gPauseUnusedCursorTex.i8.inc.c"
 };
 
-u64 gPauseMenuCursorTopLeftTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT, 4)] = {
+u64 gPauseMenuCursorTopLeftTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT,
+                                       4)] = {
 #include "assets/textures/icon_item_static/gPauseMenuCursorTopLeftTex.ia4.inc.c"
 };
 
-u64 gPauseMenuCursorTopRightTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT, 4)] = {
+u64 gPauseMenuCursorTopRightTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT,
+                                        4)] = {
 #include "assets/textures/icon_item_static/gPauseMenuCursorTopRightTex.ia4.inc.c"
 };
 
-u64 gPauseMenuCursorBottomLeftTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT, 4)] = {
+u64 gPauseMenuCursorBottomLeftTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT,
+                                          4)] = {
 #include "assets/textures/icon_item_static/gPauseMenuCursorBottomLeftTex.ia4.inc.c"
 };
 
-u64 gPauseMenuCursorBottomRightTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT, 4)] = {
+u64 gPauseMenuCursorBottomRightTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT,
+                                           4)] = {
 #include "assets/textures/icon_item_static/gPauseMenuCursorBottomRightTex.ia4.inc.c"
 };
 
