@@ -372,336 +372,356 @@ u64 gHeartPieceIcon3Tex[TEX_LEN(u64, HEART_PIECE_ICON_TEX_WIDTH, HEART_PIECE_ICO
 #include "assets/textures/icon_item_static/gHeartPieceIcon3Tex.ia8.inc.c"
 };
 
+#define gPausePromptCursorTex_WIDTH 48
+#define gPausePromptCursorTex_HEIGHT 48
 u64 gPausePromptCursorTex[TEX_LEN(u64, gPausePromptCursorTex_WIDTH, gPausePromptCursorTex_HEIGHT, 4)] = {
 #include "assets/textures/icon_item_static/gPausePromptCursorTex.i4.inc.c"
 };
 
+#define gPauseUnusedCursorTex_WIDTH 24
+#define gPauseUnusedCursorTex_HEIGHT 24
 u64 gPauseUnusedCursorTex[TEX_LEN(u64, gPauseUnusedCursorTex_WIDTH, gPauseUnusedCursorTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseUnusedCursorTex.i8.inc.c"
 };
 
-u64 gPauseMenuCursorTopLeftTex[TEX_LEN(u64, gPauseMenuCursorTopLeftTex_WIDTH, gPauseMenuCursorTopLeftTex_HEIGHT, 4)] = {
+u64 gPauseMenuCursorTopLeftTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT, 4)] = {
 #include "assets/textures/icon_item_static/gPauseMenuCursorTopLeftTex.ia4.inc.c"
 };
 
-u64 gPauseMenuCursorTopRightTex[TEX_LEN(u64, gPauseMenuCursorTopRightTex_WIDTH, gPauseMenuCursorTopRightTex_HEIGHT, 4)] = {
+u64 gPauseMenuCursorTopRightTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT, 4)] = {
 #include "assets/textures/icon_item_static/gPauseMenuCursorTopRightTex.ia4.inc.c"
 };
 
-u64 gPauseMenuCursorBottomLeftTex[TEX_LEN(u64, gPauseMenuCursorBottomLeftTex_WIDTH, gPauseMenuCursorBottomLeftTex_HEIGHT, 4)] = {
+u64 gPauseMenuCursorBottomLeftTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT, 4)] = {
 #include "assets/textures/icon_item_static/gPauseMenuCursorBottomLeftTex.ia4.inc.c"
 };
 
-u64 gPauseMenuCursorBottomRightTex[TEX_LEN(u64, gPauseMenuCursorBottomRightTex_WIDTH, gPauseMenuCursorBottomRightTex_HEIGHT, 4)] = {
+u64 gPauseMenuCursorBottomRightTex[TEX_LEN(u64, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH, PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT, 4)] = {
 #include "assets/textures/icon_item_static/gPauseMenuCursorBottomRightTex.ia4.inc.c"
 };
 
-u64 gPauseEquipment00Tex[TEX_LEN(u64, gPauseEquipment00Tex_WIDTH, gPauseEquipment00Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment00Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment00Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment20Tex[TEX_LEN(u64, gPauseEquipment20Tex_WIDTH, gPauseEquipment20Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment20Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment20Tex.ia8.inc.c"
 };
 
-u64 gPauseMap00Tex[TEX_LEN(u64, gPauseMap00Tex_WIDTH, gPauseMap00Tex_HEIGHT, 8)] = {
+u64 gPauseMap00Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap00Tex.ia8.inc.c"
 };
 
-u64 gPauseMap20Tex[TEX_LEN(u64, gPauseMap20Tex_WIDTH, gPauseMap20Tex_HEIGHT, 8)] = {
+u64 gPauseMap20Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap20Tex.ia8.inc.c"
 };
 
 #if OOT_PAL
-u64 gPauseQuestStatus00Tex[TEX_LEN(u64, gPauseQuestStatus00Tex_WIDTH, gPauseQuestStatus00Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus00Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus00Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus20Tex[TEX_LEN(u64, gPauseQuestStatus20Tex_WIDTH, gPauseQuestStatus20Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus20Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus20Tex.ia8.inc.c"
 };
 #endif
 
-u64 gPauseSave00Tex[TEX_LEN(u64, gPauseSave00Tex_WIDTH, gPauseSave00Tex_HEIGHT, 8)] = {
+u64 gPauseSave00Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave00Tex.ia8.inc.c"
 };
 
-u64 gPauseSave20Tex[TEX_LEN(u64, gPauseSave20Tex_WIDTH, gPauseSave20Tex_HEIGHT, 8)] = {
+u64 gPauseSave20Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave20Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment01Tex[TEX_LEN(u64, gPauseEquipment01Tex_WIDTH, gPauseEquipment01Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment01Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment01Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment11Tex[TEX_LEN(u64, gPauseEquipment11Tex_WIDTH, gPauseEquipment11Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment11Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment11Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment21Tex[TEX_LEN(u64, gPauseEquipment21Tex_WIDTH, gPauseEquipment21Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment21Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment21Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem01Tex[TEX_LEN(u64, gPauseSelectItem01Tex_WIDTH, gPauseSelectItem01Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem01Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem01Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem11Tex[TEX_LEN(u64, gPauseSelectItem11Tex_WIDTH, gPauseSelectItem11Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem11Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem11Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem21Tex[TEX_LEN(u64, gPauseSelectItem21Tex_WIDTH, gPauseSelectItem21Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem21Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem21Tex.ia8.inc.c"
 };
 
-u64 gPauseMap01Tex[TEX_LEN(u64, gPauseMap01Tex_WIDTH, gPauseMap01Tex_HEIGHT, 8)] = {
+u64 gPauseMap01Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap01Tex.ia8.inc.c"
 };
 
-u64 gPauseMap11Tex[TEX_LEN(u64, gPauseMap11Tex_WIDTH, gPauseMap11Tex_HEIGHT, 8)] = {
+u64 gPauseMap11Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap11Tex.ia8.inc.c"
 };
 
-u64 gPauseMap21Tex[TEX_LEN(u64, gPauseMap21Tex_WIDTH, gPauseMap21Tex_HEIGHT, 8)] = {
+u64 gPauseMap21Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap21Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus01Tex[TEX_LEN(u64, gPauseQuestStatus01Tex_WIDTH, gPauseQuestStatus01Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus01Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus01Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus11Tex[TEX_LEN(u64, gPauseQuestStatus11Tex_WIDTH, gPauseQuestStatus11Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus11Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus11Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus21Tex[TEX_LEN(u64, gPauseQuestStatus21Tex_WIDTH, gPauseQuestStatus21Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus21Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus21Tex.ia8.inc.c"
 };
 
-u64 gPauseSave01Tex[TEX_LEN(u64, gPauseSave01Tex_WIDTH, gPauseSave01Tex_HEIGHT, 8)] = {
+u64 gPauseSave01Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave01Tex.ia8.inc.c"
 };
 
-u64 gPauseSave11Tex[TEX_LEN(u64, gPauseSave11Tex_WIDTH, gPauseSave11Tex_HEIGHT, 8)] = {
+u64 gPauseSave11Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave11Tex.ia8.inc.c"
 };
 
-u64 gPauseSave21Tex[TEX_LEN(u64, gPauseSave21Tex_WIDTH, gPauseSave21Tex_HEIGHT, 8)] = {
+u64 gPauseSave21Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave21Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment02Tex[TEX_LEN(u64, gPauseEquipment02Tex_WIDTH, gPauseEquipment02Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment02Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment02Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment12Tex[TEX_LEN(u64, gPauseEquipment12Tex_WIDTH, gPauseEquipment12Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment12Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment12Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment22Tex[TEX_LEN(u64, gPauseEquipment22Tex_WIDTH, gPauseEquipment22Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment22Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment22Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem02Tex[TEX_LEN(u64, gPauseSelectItem02Tex_WIDTH, gPauseSelectItem02Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem02Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem02Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem12Tex[TEX_LEN(u64, gPauseSelectItem12Tex_WIDTH, gPauseSelectItem12Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem12Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem12Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem22Tex[TEX_LEN(u64, gPauseSelectItem22Tex_WIDTH, gPauseSelectItem22Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem22Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem22Tex.ia8.inc.c"
 };
 
-u64 gPauseMap02Tex[TEX_LEN(u64, gPauseMap02Tex_WIDTH, gPauseMap02Tex_HEIGHT, 8)] = {
+u64 gPauseMap02Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap02Tex.ia8.inc.c"
 };
 
-u64 gPauseMap12Tex[TEX_LEN(u64, gPauseMap12Tex_WIDTH, gPauseMap12Tex_HEIGHT, 8)] = {
+u64 gPauseMap12Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap12Tex.ia8.inc.c"
 };
 
-u64 gPauseMap22Tex[TEX_LEN(u64, gPauseMap22Tex_WIDTH, gPauseMap22Tex_HEIGHT, 8)] = {
+u64 gPauseMap22Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap22Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus02Tex[TEX_LEN(u64, gPauseQuestStatus02Tex_WIDTH, gPauseQuestStatus02Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus02Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus02Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus12Tex[TEX_LEN(u64, gPauseQuestStatus12Tex_WIDTH, gPauseQuestStatus12Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus12Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus12Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus22Tex[TEX_LEN(u64, gPauseQuestStatus22Tex_WIDTH, gPauseQuestStatus22Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus22Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus22Tex.ia8.inc.c"
 };
 
-u64 gPauseSave02Tex[TEX_LEN(u64, gPauseSave02Tex_WIDTH, gPauseSave02Tex_HEIGHT, 8)] = {
+u64 gPauseSave02Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave02Tex.ia8.inc.c"
 };
 
-u64 gPauseSave12Tex[TEX_LEN(u64, gPauseSave12Tex_WIDTH, gPauseSave12Tex_HEIGHT, 8)] = {
+u64 gPauseSave12Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave12Tex.ia8.inc.c"
 };
 
-u64 gPauseSave22Tex[TEX_LEN(u64, gPauseSave22Tex_WIDTH, gPauseSave22Tex_HEIGHT, 8)] = {
+u64 gPauseSave22Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave22Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment03Tex[TEX_LEN(u64, gPauseEquipment03Tex_WIDTH, gPauseEquipment03Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment03Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment03Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment13Tex[TEX_LEN(u64, gPauseEquipment13Tex_WIDTH, gPauseEquipment13Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment13Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment13Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment23Tex[TEX_LEN(u64, gPauseEquipment23Tex_WIDTH, gPauseEquipment23Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment23Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment23Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem03Tex[TEX_LEN(u64, gPauseSelectItem03Tex_WIDTH, gPauseSelectItem03Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem03Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem03Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem13Tex[TEX_LEN(u64, gPauseSelectItem13Tex_WIDTH, gPauseSelectItem13Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem13Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem13Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem23Tex[TEX_LEN(u64, gPauseSelectItem23Tex_WIDTH, gPauseSelectItem23Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem23Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem23Tex.ia8.inc.c"
 };
 
-u64 gPauseMap03Tex[TEX_LEN(u64, gPauseMap03Tex_WIDTH, gPauseMap03Tex_HEIGHT, 8)] = {
+u64 gPauseMap03Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap03Tex.ia8.inc.c"
 };
 
-u64 gPauseMap13Tex[TEX_LEN(u64, gPauseMap13Tex_WIDTH, gPauseMap13Tex_HEIGHT, 8)] = {
+u64 gPauseMap13Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap13Tex.ia8.inc.c"
 };
 
-u64 gPauseMap23Tex[TEX_LEN(u64, gPauseMap23Tex_WIDTH, gPauseMap23Tex_HEIGHT, 8)] = {
+u64 gPauseMap23Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap23Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus03Tex[TEX_LEN(u64, gPauseQuestStatus03Tex_WIDTH, gPauseQuestStatus03Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus03Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus03Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus13Tex[TEX_LEN(u64, gPauseQuestStatus13Tex_WIDTH, gPauseQuestStatus13Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus13Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus13Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus23Tex[TEX_LEN(u64, gPauseQuestStatus23Tex_WIDTH, gPauseQuestStatus23Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus23Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus23Tex.ia8.inc.c"
 };
 
-u64 gPauseSave03Tex[TEX_LEN(u64, gPauseSave03Tex_WIDTH, gPauseSave03Tex_HEIGHT, 8)] = {
+u64 gPauseSave03Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave03Tex.ia8.inc.c"
 };
 
-u64 gPauseSave13Tex[TEX_LEN(u64, gPauseSave13Tex_WIDTH, gPauseSave13Tex_HEIGHT, 8)] = {
+u64 gPauseSave13Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave13Tex.ia8.inc.c"
 };
 
-u64 gPauseSave23Tex[TEX_LEN(u64, gPauseSave23Tex_WIDTH, gPauseSave23Tex_HEIGHT, 8)] = {
+u64 gPauseSave23Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave23Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment04Tex[TEX_LEN(u64, gPauseEquipment04Tex_WIDTH, gPauseEquipment04Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment04Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment04Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment14Tex[TEX_LEN(u64, gPauseEquipment14Tex_WIDTH, gPauseEquipment14Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment14Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment14Tex.ia8.inc.c"
 };
 
-u64 gPauseEquipment24Tex[TEX_LEN(u64, gPauseEquipment24Tex_WIDTH, gPauseEquipment24Tex_HEIGHT, 8)] = {
+u64 gPauseEquipment24Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseEquipment24Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem04Tex[TEX_LEN(u64, gPauseSelectItem04Tex_WIDTH, gPauseSelectItem04Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem04Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem04Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem14Tex[TEX_LEN(u64, gPauseSelectItem14Tex_WIDTH, gPauseSelectItem14Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem14Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem14Tex.ia8.inc.c"
 };
 
-u64 gPauseSelectItem24Tex[TEX_LEN(u64, gPauseSelectItem24Tex_WIDTH, gPauseSelectItem24Tex_HEIGHT, 8)] = {
+u64 gPauseSelectItem24Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSelectItem24Tex.ia8.inc.c"
 };
 
-u64 gPauseMap04Tex[TEX_LEN(u64, gPauseMap04Tex_WIDTH, gPauseMap04Tex_HEIGHT, 8)] = {
+u64 gPauseMap04Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap04Tex.ia8.inc.c"
 };
 
-u64 gPauseMap14Tex[TEX_LEN(u64, gPauseMap14Tex_WIDTH, gPauseMap14Tex_HEIGHT, 8)] = {
+u64 gPauseMap14Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap14Tex.ia8.inc.c"
 };
 
-u64 gPauseMap24Tex[TEX_LEN(u64, gPauseMap24Tex_WIDTH, gPauseMap24Tex_HEIGHT, 8)] = {
+u64 gPauseMap24Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseMap24Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus04Tex[TEX_LEN(u64, gPauseQuestStatus04Tex_WIDTH, gPauseQuestStatus04Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus04Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus04Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus14Tex[TEX_LEN(u64, gPauseQuestStatus14Tex_WIDTH, gPauseQuestStatus14Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus14Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus14Tex.ia8.inc.c"
 };
 
-u64 gPauseQuestStatus24Tex[TEX_LEN(u64, gPauseQuestStatus24Tex_WIDTH, gPauseQuestStatus24Tex_HEIGHT, 8)] = {
+u64 gPauseQuestStatus24Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseQuestStatus24Tex.ia8.inc.c"
 };
 
-u64 gPauseSave04Tex[TEX_LEN(u64, gPauseSave04Tex_WIDTH, gPauseSave04Tex_HEIGHT, 8)] = {
+u64 gPauseSave04Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave04Tex.ia8.inc.c"
 };
 
-u64 gPauseSave14Tex[TEX_LEN(u64, gPauseSave14Tex_WIDTH, gPauseSave14Tex_HEIGHT, 8)] = {
+u64 gPauseSave14Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave14Tex.ia8.inc.c"
 };
 
-u64 gPauseSave24Tex[TEX_LEN(u64, gPauseSave24Tex_WIDTH, gPauseSave24Tex_HEIGHT, 8)] = {
+u64 gPauseSave24Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseSave24Tex.ia8.inc.c"
 };
 
-u64 gPauseGameOver10Tex[TEX_LEN(u64, gPauseGameOver10Tex_WIDTH, gPauseGameOver10Tex_HEIGHT, 8)] = {
+u64 gPauseGameOver10Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gPauseGameOver10Tex.ia8.inc.c"
 };
 
+#define gABtnSymbolTex_WIDTH 24
+#define gABtnSymbolTex_HEIGHT 16
 u64 gABtnSymbolTex[TEX_LEN(u64, gABtnSymbolTex_WIDTH, gABtnSymbolTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gABtnSymbolTex.ia8.inc.c"
 };
 
+#define gBBtnSymbolTex_WIDTH 24
+#define gBBtnSymbolTex_HEIGHT 16
 u64 gBBtnSymbolTex[TEX_LEN(u64, gBBtnSymbolTex_WIDTH, gBBtnSymbolTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gBBtnSymbolTex.ia8.inc.c"
 };
 
+#define gCBtnSymbolsTex_WIDTH 48
+#define gCBtnSymbolsTex_HEIGHT 16
 u64 gCBtnSymbolsTex[TEX_LEN(u64, gCBtnSymbolsTex_WIDTH, gCBtnSymbolsTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gCBtnSymbolsTex.ia8.inc.c"
 };
 
+#define gNamePanelLeftTex_WIDTH 72
+#define gNamePanelLeftTex_HEIGHT 24
 u64 gNamePanelLeftTex[TEX_LEN(u64, gNamePanelLeftTex_WIDTH, gNamePanelLeftTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gNamePanelLeftTex.ia8.inc.c"
 };
 
+#define gNamePanelRightTex_WIDTH 72
+#define gNamePanelRightTex_HEIGHT 24
 u64 gNamePanelRightTex[TEX_LEN(u64, gNamePanelRightTex_WIDTH, gNamePanelRightTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gNamePanelRightTex.ia8.inc.c"
 };
 
+#define gLButtonTex_WIDTH 24
+#define gLButtonTex_HEIGHT 32
 u64 gLButtonTex[TEX_LEN(u64, gLButtonTex_WIDTH, gLButtonTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gLButtonTex.ia8.inc.c"
 };
 
+#define gRButtonTex_WIDTH 24
+#define gRButtonTex_HEIGHT 32
 u64 gRButtonTex[TEX_LEN(u64, gRButtonTex_WIDTH, gRButtonTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gRButtonTex.ia8.inc.c"
 };
 
+#define gUnknownJPNTex_WIDTH 80
+#define gUnknownJPNTex_HEIGHT 16
 u64 gUnknownJPNTex[TEX_LEN(u64, gUnknownJPNTex_WIDTH, gUnknownJPNTex_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gUnknownJPNTex.ia8.inc.c"
 };
