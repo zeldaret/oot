@@ -641,7 +641,7 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
 
     if (cue == NULL) {
         PRINTF(T("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n",
-                 "Warning : Demo ended without calling action 3 termination (%s %d)(arg_data 0x%04x)\n"),
+                 "Warning : Demo ended without action 3 being called (%s %d)(arg_data 0x%04x)\n"),
                "../z_en_sakana.c", 1169, this->actor.params);
         EnFish_ClearCutsceneData(this);
         Actor_Kill(&this->actor);
