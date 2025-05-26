@@ -1,7 +1,7 @@
 #ifndef IS_DEBUG_H
 #define IS_DEBUG_H
 
-#include "libc/stddef.h"
+#include "stddef.h"
 #include "attributes.h"
 
 #if DEBUG_FEATURES
