@@ -1,374 +1,374 @@
 #include "icon_item_static.h"
 
-u64 gItemIconDekuStickTex[TEX_LEN(u64, gItemIconDekuStickTex_WIDTH, gItemIconDekuStickTex_HEIGHT, 32)] = {
+u64 gItemIconDekuStickTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconDekuStickTex.rgba32.inc.c"
 };
 
-u64 gItemIconDekuNutTex[TEX_LEN(u64, gItemIconDekuNutTex_WIDTH, gItemIconDekuNutTex_HEIGHT, 32)] = {
+u64 gItemIconDekuNutTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconDekuNutTex.rgba32.inc.c"
 };
 
-u64 gItemIconBombTex[TEX_LEN(u64, gItemIconBombTex_WIDTH, gItemIconBombTex_HEIGHT, 32)] = {
+u64 gItemIconBombTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBombTex.rgba32.inc.c"
 };
 
-u64 gItemIconBowTex[TEX_LEN(u64, gItemIconBowTex_WIDTH, gItemIconBowTex_HEIGHT, 32)] = {
+u64 gItemIconBowTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBowTex.rgba32.inc.c"
 };
 
-u64 gItemIconArrowFireTex[TEX_LEN(u64, gItemIconArrowFireTex_WIDTH, gItemIconArrowFireTex_HEIGHT, 32)] = {
+u64 gItemIconArrowFireTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconArrowFireTex.rgba32.inc.c"
 };
 
-u64 gItemIconDinsFireTex[TEX_LEN(u64, gItemIconDinsFireTex_WIDTH, gItemIconDinsFireTex_HEIGHT, 32)] = {
+u64 gItemIconDinsFireTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconDinsFireTex.rgba32.inc.c"
 };
 
-u64 gItemIconSlingshotTex[TEX_LEN(u64, gItemIconSlingshotTex_WIDTH, gItemIconSlingshotTex_HEIGHT, 32)] = {
+u64 gItemIconSlingshotTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconSlingshotTex.rgba32.inc.c"
 };
 
-u64 gItemIconOcarinaFairyTex[TEX_LEN(u64, gItemIconOcarinaFairyTex_WIDTH, gItemIconOcarinaFairyTex_HEIGHT, 32)] = {
+u64 gItemIconOcarinaFairyTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconOcarinaFairyTex.rgba32.inc.c"
 };
 
-u64 gItemIconOcarinaOfTimeTex[TEX_LEN(u64, gItemIconOcarinaOfTimeTex_WIDTH, gItemIconOcarinaOfTimeTex_HEIGHT, 32)] = {
+u64 gItemIconOcarinaOfTimeTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconOcarinaOfTimeTex.rgba32.inc.c"
 };
 
-u64 gItemIconBombchuTex[TEX_LEN(u64, gItemIconBombchuTex_WIDTH, gItemIconBombchuTex_HEIGHT, 32)] = {
+u64 gItemIconBombchuTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBombchuTex.rgba32.inc.c"
 };
 
-u64 gItemIconHookshotTex[TEX_LEN(u64, gItemIconHookshotTex_WIDTH, gItemIconHookshotTex_HEIGHT, 32)] = {
+u64 gItemIconHookshotTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconHookshotTex.rgba32.inc.c"
 };
 
-u64 gItemIconLongshotTex[TEX_LEN(u64, gItemIconLongshotTex_WIDTH, gItemIconLongshotTex_HEIGHT, 32)] = {
+u64 gItemIconLongshotTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconLongshotTex.rgba32.inc.c"
 };
 
-u64 gItemIconArrowIceTex[TEX_LEN(u64, gItemIconArrowIceTex_WIDTH, gItemIconArrowIceTex_HEIGHT, 32)] = {
+u64 gItemIconArrowIceTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconArrowIceTex.rgba32.inc.c"
 };
 
-u64 gItemIconFaroresWindTex[TEX_LEN(u64, gItemIconFaroresWindTex_WIDTH, gItemIconFaroresWindTex_HEIGHT, 32)] = {
+u64 gItemIconFaroresWindTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconFaroresWindTex.rgba32.inc.c"
 };
 
-u64 gItemIconBoomerangTex[TEX_LEN(u64, gItemIconBoomerangTex_WIDTH, gItemIconBoomerangTex_HEIGHT, 32)] = {
+u64 gItemIconBoomerangTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBoomerangTex.rgba32.inc.c"
 };
 
-u64 gItemIconLensOfTruthTex[TEX_LEN(u64, gItemIconLensOfTruthTex_WIDTH, gItemIconLensOfTruthTex_HEIGHT, 32)] = {
+u64 gItemIconLensOfTruthTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconLensOfTruthTex.rgba32.inc.c"
 };
 
-u64 gItemIconMagicBeanTex[TEX_LEN(u64, gItemIconMagicBeanTex_WIDTH, gItemIconMagicBeanTex_HEIGHT, 32)] = {
+u64 gItemIconMagicBeanTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconMagicBeanTex.rgba32.inc.c"
 };
 
-u64 gItemIconHammerTex[TEX_LEN(u64, gItemIconHammerTex_WIDTH, gItemIconHammerTex_HEIGHT, 32)] = {
+u64 gItemIconHammerTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconHammerTex.rgba32.inc.c"
 };
 
-u64 gItemIconArrowLightTex[TEX_LEN(u64, gItemIconArrowLightTex_WIDTH, gItemIconArrowLightTex_HEIGHT, 32)] = {
+u64 gItemIconArrowLightTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconArrowLightTex.rgba32.inc.c"
 };
 
-u64 gItemIconNayrusLoveTex[TEX_LEN(u64, gItemIconNayrusLoveTex_WIDTH, gItemIconNayrusLoveTex_HEIGHT, 32)] = {
+u64 gItemIconNayrusLoveTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconNayrusLoveTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottleEmptyTex[TEX_LEN(u64, gItemIconBottleEmptyTex_WIDTH, gItemIconBottleEmptyTex_HEIGHT, 32)] = {
+u64 gItemIconBottleEmptyTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottleEmptyTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottlePotionRedTex[TEX_LEN(u64, gItemIconBottlePotionRedTex_WIDTH, gItemIconBottlePotionRedTex_HEIGHT, 32)] = {
+u64 gItemIconBottlePotionRedTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottlePotionRedTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottlePotionGreenTex[TEX_LEN(u64, gItemIconBottlePotionGreenTex_WIDTH, gItemIconBottlePotionGreenTex_HEIGHT, 32)] = {
+u64 gItemIconBottlePotionGreenTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottlePotionGreenTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottlePotionBlueTex[TEX_LEN(u64, gItemIconBottlePotionBlueTex_WIDTH, gItemIconBottlePotionBlueTex_HEIGHT, 32)] = {
+u64 gItemIconBottlePotionBlueTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottlePotionBlueTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottleFairyTex[TEX_LEN(u64, gItemIconBottleFairyTex_WIDTH, gItemIconBottleFairyTex_HEIGHT, 32)] = {
+u64 gItemIconBottleFairyTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottleFairyTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottleFishTex[TEX_LEN(u64, gItemIconBottleFishTex_WIDTH, gItemIconBottleFishTex_HEIGHT, 32)] = {
+u64 gItemIconBottleFishTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottleFishTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottleMilkFullTex[TEX_LEN(u64, gItemIconBottleMilkFullTex_WIDTH, gItemIconBottleMilkFullTex_HEIGHT, 32)] = {
+u64 gItemIconBottleMilkFullTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottleMilkFullTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottleRutosLetterTex[TEX_LEN(u64, gItemIconBottleRutosLetterTex_WIDTH, gItemIconBottleRutosLetterTex_HEIGHT, 32)] = {
+u64 gItemIconBottleRutosLetterTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottleRutosLetterTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottleBlueFireTex[TEX_LEN(u64, gItemIconBottleBlueFireTex_WIDTH, gItemIconBottleBlueFireTex_HEIGHT, 32)] = {
+u64 gItemIconBottleBlueFireTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottleBlueFireTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottleBugTex[TEX_LEN(u64, gItemIconBottleBugTex_WIDTH, gItemIconBottleBugTex_HEIGHT, 32)] = {
+u64 gItemIconBottleBugTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottleBugTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottleBigPoeTex[TEX_LEN(u64, gItemIconBottleBigPoeTex_WIDTH, gItemIconBottleBigPoeTex_HEIGHT, 32)] = {
+u64 gItemIconBottleBigPoeTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottleBigPoeTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottleMilkHalfTex[TEX_LEN(u64, gItemIconBottleMilkHalfTex_WIDTH, gItemIconBottleMilkHalfTex_HEIGHT, 32)] = {
+u64 gItemIconBottleMilkHalfTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottleMilkHalfTex.rgba32.inc.c"
 };
 
-u64 gItemIconBottlePoeTex[TEX_LEN(u64, gItemIconBottlePoeTex_WIDTH, gItemIconBottlePoeTex_HEIGHT, 32)] = {
+u64 gItemIconBottlePoeTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBottlePoeTex.rgba32.inc.c"
 };
 
-u64 gItemIconWeirdEggTex[TEX_LEN(u64, gItemIconWeirdEggTex_WIDTH, gItemIconWeirdEggTex_HEIGHT, 32)] = {
+u64 gItemIconWeirdEggTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconWeirdEggTex.rgba32.inc.c"
 };
 
-u64 gItemIconChickenTex[TEX_LEN(u64, gItemIconChickenTex_WIDTH, gItemIconChickenTex_HEIGHT, 32)] = {
+u64 gItemIconChickenTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconChickenTex.rgba32.inc.c"
 };
 
-u64 gItemIconZeldasLetterTex[TEX_LEN(u64, gItemIconZeldasLetterTex_WIDTH, gItemIconZeldasLetterTex_HEIGHT, 32)] = {
+u64 gItemIconZeldasLetterTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconZeldasLetterTex.rgba32.inc.c"
 };
 
-u64 gItemIconMaskKeatonTex[TEX_LEN(u64, gItemIconMaskKeatonTex_WIDTH, gItemIconMaskKeatonTex_HEIGHT, 32)] = {
+u64 gItemIconMaskKeatonTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconMaskKeatonTex.rgba32.inc.c"
 };
 
-u64 gItemIconMaskSkullTex[TEX_LEN(u64, gItemIconMaskSkullTex_WIDTH, gItemIconMaskSkullTex_HEIGHT, 32)] = {
+u64 gItemIconMaskSkullTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconMaskSkullTex.rgba32.inc.c"
 };
 
-u64 gItemIconMaskSpookyTex[TEX_LEN(u64, gItemIconMaskSpookyTex_WIDTH, gItemIconMaskSpookyTex_HEIGHT, 32)] = {
+u64 gItemIconMaskSpookyTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconMaskSpookyTex.rgba32.inc.c"
 };
 
-u64 gItemIconMaskBunnyHoodTex[TEX_LEN(u64, gItemIconMaskBunnyHoodTex_WIDTH, gItemIconMaskBunnyHoodTex_HEIGHT, 32)] = {
+u64 gItemIconMaskBunnyHoodTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconMaskBunnyHoodTex.rgba32.inc.c"
 };
 
-u64 gItemIconMaskGoronTex[TEX_LEN(u64, gItemIconMaskGoronTex_WIDTH, gItemIconMaskGoronTex_HEIGHT, 32)] = {
+u64 gItemIconMaskGoronTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconMaskGoronTex.rgba32.inc.c"
 };
 
-u64 gItemIconMaskZoraTex[TEX_LEN(u64, gItemIconMaskZoraTex_WIDTH, gItemIconMaskZoraTex_HEIGHT, 32)] = {
+u64 gItemIconMaskZoraTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconMaskZoraTex.rgba32.inc.c"
 };
 
-u64 gItemIconMaskGerudoTex[TEX_LEN(u64, gItemIconMaskGerudoTex_WIDTH, gItemIconMaskGerudoTex_HEIGHT, 32)] = {
+u64 gItemIconMaskGerudoTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconMaskGerudoTex.rgba32.inc.c"
 };
 
-u64 gItemIconMaskTruthTex[TEX_LEN(u64, gItemIconMaskTruthTex_WIDTH, gItemIconMaskTruthTex_HEIGHT, 32)] = {
+u64 gItemIconMaskTruthTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconMaskTruthTex.rgba32.inc.c"
 };
 
-u64 gItemIconSoldOutTex[TEX_LEN(u64, gItemIconSoldOutTex_WIDTH, gItemIconSoldOutTex_HEIGHT, 32)] = {
+u64 gItemIconSoldOutTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconSoldOutTex.rgba32.inc.c"
 };
 
-u64 gItemIconPocketEggTex[TEX_LEN(u64, gItemIconPocketEggTex_WIDTH, gItemIconPocketEggTex_HEIGHT, 32)] = {
+u64 gItemIconPocketEggTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconPocketEggTex.rgba32.inc.c"
 };
 
-u64 gItemIconPocketCuccoTex[TEX_LEN(u64, gItemIconPocketCuccoTex_WIDTH, gItemIconPocketCuccoTex_HEIGHT, 32)] = {
+u64 gItemIconPocketCuccoTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconPocketCuccoTex.rgba32.inc.c"
 };
 
-u64 gItemIconCojiroTex[TEX_LEN(u64, gItemIconCojiroTex_WIDTH, gItemIconCojiroTex_HEIGHT, 32)] = {
+u64 gItemIconCojiroTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconCojiroTex.rgba32.inc.c"
 };
 
-u64 gItemIconOddMushroomTex[TEX_LEN(u64, gItemIconOddMushroomTex_WIDTH, gItemIconOddMushroomTex_HEIGHT, 32)] = {
+u64 gItemIconOddMushroomTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconOddMushroomTex.rgba32.inc.c"
 };
 
-u64 gItemIconOddPotionTex[TEX_LEN(u64, gItemIconOddPotionTex_WIDTH, gItemIconOddPotionTex_HEIGHT, 32)] = {
+u64 gItemIconOddPotionTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconOddPotionTex.rgba32.inc.c"
 };
 
-u64 gItemIconPoachersSawTex[TEX_LEN(u64, gItemIconPoachersSawTex_WIDTH, gItemIconPoachersSawTex_HEIGHT, 32)] = {
+u64 gItemIconPoachersSawTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconPoachersSawTex.rgba32.inc.c"
 };
 
-u64 gItemIconBrokenGoronsSwordTex[TEX_LEN(u64, gItemIconBrokenGoronsSwordTex_WIDTH, gItemIconBrokenGoronsSwordTex_HEIGHT, 32)] = {
+u64 gItemIconBrokenGoronsSwordTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBrokenGoronsSwordTex.rgba32.inc.c"
 };
 
-u64 gItemIconPrescriptionTex[TEX_LEN(u64, gItemIconPrescriptionTex_WIDTH, gItemIconPrescriptionTex_HEIGHT, 32)] = {
+u64 gItemIconPrescriptionTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconPrescriptionTex.rgba32.inc.c"
 };
 
-u64 gItemIconEyeballFrogTex[TEX_LEN(u64, gItemIconEyeballFrogTex_WIDTH, gItemIconEyeballFrogTex_HEIGHT, 32)] = {
+u64 gItemIconEyeballFrogTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconEyeballFrogTex.rgba32.inc.c"
 };
 
-u64 gItemIconEyeDropsTex[TEX_LEN(u64, gItemIconEyeDropsTex_WIDTH, gItemIconEyeDropsTex_HEIGHT, 32)] = {
+u64 gItemIconEyeDropsTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconEyeDropsTex.rgba32.inc.c"
 };
 
-u64 gItemIconClaimCheckTex[TEX_LEN(u64, gItemIconClaimCheckTex_WIDTH, gItemIconClaimCheckTex_HEIGHT, 32)] = {
+u64 gItemIconClaimCheckTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconClaimCheckTex.rgba32.inc.c"
 };
 
-u64 gItemIconBowFireTex[TEX_LEN(u64, gItemIconBowFireTex_WIDTH, gItemIconBowFireTex_HEIGHT, 32)] = {
+u64 gItemIconBowFireTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBowFireTex.rgba32.inc.c"
 };
 
-u64 gItemIconBowIceTex[TEX_LEN(u64, gItemIconBowIceTex_WIDTH, gItemIconBowIceTex_HEIGHT, 32)] = {
+u64 gItemIconBowIceTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBowIceTex.rgba32.inc.c"
 };
 
-u64 gItemIconBowLightTex[TEX_LEN(u64, gItemIconBowLightTex_WIDTH, gItemIconBowLightTex_HEIGHT, 32)] = {
+u64 gItemIconBowLightTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBowLightTex.rgba32.inc.c"
 };
 
-u64 gItemIconSwordKokiriTex[TEX_LEN(u64, gItemIconSwordKokiriTex_WIDTH, gItemIconSwordKokiriTex_HEIGHT, 32)] = {
+u64 gItemIconSwordKokiriTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconSwordKokiriTex.rgba32.inc.c"
 };
 
-u64 gItemIconSwordMasterTex[TEX_LEN(u64, gItemIconSwordMasterTex_WIDTH, gItemIconSwordMasterTex_HEIGHT, 32)] = {
+u64 gItemIconSwordMasterTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconSwordMasterTex.rgba32.inc.c"
 };
 
-u64 gItemIconSwordBiggoronTex[TEX_LEN(u64, gItemIconSwordBiggoronTex_WIDTH, gItemIconSwordBiggoronTex_HEIGHT, 32)] = {
+u64 gItemIconSwordBiggoronTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconSwordBiggoronTex.rgba32.inc.c"
 };
 
-u64 gItemIconShieldDekuTex[TEX_LEN(u64, gItemIconShieldDekuTex_WIDTH, gItemIconShieldDekuTex_HEIGHT, 32)] = {
+u64 gItemIconShieldDekuTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconShieldDekuTex.rgba32.inc.c"
 };
 
-u64 gItemIconShieldHylianTex[TEX_LEN(u64, gItemIconShieldHylianTex_WIDTH, gItemIconShieldHylianTex_HEIGHT, 32)] = {
+u64 gItemIconShieldHylianTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconShieldHylianTex.rgba32.inc.c"
 };
 
-u64 gItemIconShieldMirrorTex[TEX_LEN(u64, gItemIconShieldMirrorTex_WIDTH, gItemIconShieldMirrorTex_HEIGHT, 32)] = {
+u64 gItemIconShieldMirrorTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconShieldMirrorTex.rgba32.inc.c"
 };
 
-u64 gItemIconTunicKokiriTex[TEX_LEN(u64, gItemIconTunicKokiriTex_WIDTH, gItemIconTunicKokiriTex_HEIGHT, 32)] = {
+u64 gItemIconTunicKokiriTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconTunicKokiriTex.rgba32.inc.c"
 };
 
-u64 gItemIconTunicGoronTex[TEX_LEN(u64, gItemIconTunicGoronTex_WIDTH, gItemIconTunicGoronTex_HEIGHT, 32)] = {
+u64 gItemIconTunicGoronTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconTunicGoronTex.rgba32.inc.c"
 };
 
-u64 gItemIconTunicZoraTex[TEX_LEN(u64, gItemIconTunicZoraTex_WIDTH, gItemIconTunicZoraTex_HEIGHT, 32)] = {
+u64 gItemIconTunicZoraTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconTunicZoraTex.rgba32.inc.c"
 };
 
-u64 gItemIconBootsKokiriTex[TEX_LEN(u64, gItemIconBootsKokiriTex_WIDTH, gItemIconBootsKokiriTex_HEIGHT, 32)] = {
+u64 gItemIconBootsKokiriTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBootsKokiriTex.rgba32.inc.c"
 };
 
-u64 gItemIconBootsIronTex[TEX_LEN(u64, gItemIconBootsIronTex_WIDTH, gItemIconBootsIronTex_HEIGHT, 32)] = {
+u64 gItemIconBootsIronTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBootsIronTex.rgba32.inc.c"
 };
 
-u64 gItemIconBootsHoverTex[TEX_LEN(u64, gItemIconBootsHoverTex_WIDTH, gItemIconBootsHoverTex_HEIGHT, 32)] = {
+u64 gItemIconBootsHoverTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBootsHoverTex.rgba32.inc.c"
 };
 
-u64 gItemIconBulletBag30Tex[TEX_LEN(u64, gItemIconBulletBag30Tex_WIDTH, gItemIconBulletBag30Tex_HEIGHT, 32)] = {
+u64 gItemIconBulletBag30Tex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBulletBag30Tex.rgba32.inc.c"
 };
 
-u64 gItemIconBulletBag40Tex[TEX_LEN(u64, gItemIconBulletBag40Tex_WIDTH, gItemIconBulletBag40Tex_HEIGHT, 32)] = {
+u64 gItemIconBulletBag40Tex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBulletBag40Tex.rgba32.inc.c"
 };
 
-u64 gItemIconBulletBag50Tex[TEX_LEN(u64, gItemIconBulletBag50Tex_WIDTH, gItemIconBulletBag50Tex_HEIGHT, 32)] = {
+u64 gItemIconBulletBag50Tex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBulletBag50Tex.rgba32.inc.c"
 };
 
-u64 gItemIconQuiver30Tex[TEX_LEN(u64, gItemIconQuiver30Tex_WIDTH, gItemIconQuiver30Tex_HEIGHT, 32)] = {
+u64 gItemIconQuiver30Tex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconQuiver30Tex.rgba32.inc.c"
 };
 
-u64 gItemIconQuiver40Tex[TEX_LEN(u64, gItemIconQuiver40Tex_WIDTH, gItemIconQuiver40Tex_HEIGHT, 32)] = {
+u64 gItemIconQuiver40Tex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconQuiver40Tex.rgba32.inc.c"
 };
 
-u64 gItemIconQuiver50Tex[TEX_LEN(u64, gItemIconQuiver50Tex_WIDTH, gItemIconQuiver50Tex_HEIGHT, 32)] = {
+u64 gItemIconQuiver50Tex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconQuiver50Tex.rgba32.inc.c"
 };
 
-u64 gItemIconBombBag20Tex[TEX_LEN(u64, gItemIconBombBag20Tex_WIDTH, gItemIconBombBag20Tex_HEIGHT, 32)] = {
+u64 gItemIconBombBag20Tex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBombBag20Tex.rgba32.inc.c"
 };
 
-u64 gItemIconBombBag30Tex[TEX_LEN(u64, gItemIconBombBag30Tex_WIDTH, gItemIconBombBag30Tex_HEIGHT, 32)] = {
+u64 gItemIconBombBag30Tex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBombBag30Tex.rgba32.inc.c"
 };
 
-u64 gItemIconBombBag40Tex[TEX_LEN(u64, gItemIconBombBag40Tex_WIDTH, gItemIconBombBag40Tex_HEIGHT, 32)] = {
+u64 gItemIconBombBag40Tex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBombBag40Tex.rgba32.inc.c"
 };
 
-u64 gItemIconGoronsBraceletTex[TEX_LEN(u64, gItemIconGoronsBraceletTex_WIDTH, gItemIconGoronsBraceletTex_HEIGHT, 32)] = {
+u64 gItemIconGoronsBraceletTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconGoronsBraceletTex.rgba32.inc.c"
 };
 
-u64 gItemIconSilverGauntletsTex[TEX_LEN(u64, gItemIconSilverGauntletsTex_WIDTH, gItemIconSilverGauntletsTex_HEIGHT, 32)] = {
+u64 gItemIconSilverGauntletsTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconSilverGauntletsTex.rgba32.inc.c"
 };
 
-u64 gItemIconGoldenGauntletsTex[TEX_LEN(u64, gItemIconGoldenGauntletsTex_WIDTH, gItemIconGoldenGauntletsTex_HEIGHT, 32)] = {
+u64 gItemIconGoldenGauntletsTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconGoldenGauntletsTex.rgba32.inc.c"
 };
 
-u64 gItemIconScaleSilverTex[TEX_LEN(u64, gItemIconScaleSilverTex_WIDTH, gItemIconScaleSilverTex_HEIGHT, 32)] = {
+u64 gItemIconScaleSilverTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconScaleSilverTex.rgba32.inc.c"
 };
 
-u64 gItemIconScaleGoldenTex[TEX_LEN(u64, gItemIconScaleGoldenTex_WIDTH, gItemIconScaleGoldenTex_HEIGHT, 32)] = {
+u64 gItemIconScaleGoldenTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconScaleGoldenTex.rgba32.inc.c"
 };
 
-u64 gItemIconBrokenGiantsKnifeTex[TEX_LEN(u64, gItemIconBrokenGiantsKnifeTex_WIDTH, gItemIconBrokenGiantsKnifeTex_HEIGHT, 32)] = {
+u64 gItemIconBrokenGiantsKnifeTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconBrokenGiantsKnifeTex.rgba32.inc.c"
 };
 
-u64 gItemIconAdultsWalletTex[TEX_LEN(u64, gItemIconAdultsWalletTex_WIDTH, gItemIconAdultsWalletTex_HEIGHT, 32)] = {
+u64 gItemIconAdultsWalletTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconAdultsWalletTex.rgba32.inc.c"
 };
 
-u64 gItemIconGiantsWalletTex[TEX_LEN(u64, gItemIconGiantsWalletTex_WIDTH, gItemIconGiantsWalletTex_HEIGHT, 32)] = {
+u64 gItemIconGiantsWalletTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconGiantsWalletTex.rgba32.inc.c"
 };
 
-u64 gItemIconDekuSeedsTex[TEX_LEN(u64, gItemIconDekuSeedsTex_WIDTH, gItemIconDekuSeedsTex_HEIGHT, 32)] = {
+u64 gItemIconDekuSeedsTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconDekuSeedsTex.rgba32.inc.c"
 };
 
-u64 gItemIconFishingPoleTex[TEX_LEN(u64, gItemIconFishingPoleTex_WIDTH, gItemIconFishingPoleTex_HEIGHT, 32)] = {
+u64 gItemIconFishingPoleTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)] = {
 #include "assets/textures/icon_item_static/gItemIconFishingPoleTex.rgba32.inc.c"
 };
 
-u64 gHeartPieceIcon1Tex[TEX_LEN(u64, gHeartPieceIcon1Tex_WIDTH, gHeartPieceIcon1Tex_HEIGHT, 8)] = {
+u64 gHeartPieceIcon1Tex[TEX_LEN(u64, HEART_PIECE_ICON_TEX_WIDTH, HEART_PIECE_ICON_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gHeartPieceIcon1Tex.ia8.inc.c"
 };
 
-u64 gHeartPieceIcon2Tex[TEX_LEN(u64, gHeartPieceIcon2Tex_WIDTH, gHeartPieceIcon2Tex_HEIGHT, 8)] = {
+u64 gHeartPieceIcon2Tex[TEX_LEN(u64, HEART_PIECE_ICON_TEX_WIDTH, HEART_PIECE_ICON_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gHeartPieceIcon2Tex.ia8.inc.c"
 };
 
-u64 gHeartPieceIcon3Tex[TEX_LEN(u64, gHeartPieceIcon3Tex_WIDTH, gHeartPieceIcon3Tex_HEIGHT, 8)] = {
+u64 gHeartPieceIcon3Tex[TEX_LEN(u64, HEART_PIECE_ICON_TEX_WIDTH, HEART_PIECE_ICON_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_static/gHeartPieceIcon3Tex.ia8.inc.c"
 };
 
