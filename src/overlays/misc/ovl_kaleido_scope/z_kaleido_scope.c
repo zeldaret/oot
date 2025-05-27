@@ -20,6 +20,7 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "title_setup_state.h"
+#include "translation.h"
 #include "versions.h"
 #include "audio.h"
 #include "ocarina.h"
@@ -1910,8 +1911,9 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (YREG(7) != 0) {
                 PRINTF_COLOR_YELLOW();
-                PRINTF("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAGS(YREG(6)),
-                       gAreaGsFlags[YREG(6)], gSaveContext.save.info.gsFlags[YREG(6) >> 2]);
+                PRINTF(T("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", "Kinsta Count(%d) Get_KIN_STA=%x (%x)  (%x)\n"),
+                       YREG(6), GET_GS_FLAGS(YREG(6)), gAreaGsFlags[YREG(6)],
+                       gSaveContext.save.info.gsFlags[YREG(6) >> 2]);
                 PRINTF_RST();
 
                 YREG(7) = 0;
@@ -3681,7 +3683,7 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->playerSegment = (void*)(((uintptr_t)play->objectCtx.spaceStart + 0x30) & ~0x3F);
 
             size1 = Player_InitPauseDrawData(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
-            PRINTF("プレイヤー size1＝%x\n", size1);
+            PRINTF(T("プレイヤー size1＝%x\n", "Player size1=%x\n"), size1);
 
             size0 = (uintptr_t)_icon_item_staticSegmentRomEnd - (uintptr_t)_icon_item_staticSegmentRomStart;
             pauseCtx->iconItemSegment = (void*)ALIGN16((uintptr_t)pauseCtx->playerSegment + size1);
@@ -3784,10 +3786,10 @@ void KaleidoScope_Update(PlayState* play) {
 
             pauseCtx->nameSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemLangSegment + size);
 
-            PRINTF("サイズ＝%x\n", size2 + size1 + size0 + size);
+            PRINTF(T("サイズ＝%x\n", "size=%x\n"), size2 + size1 + size0 + size);
             PRINTF("item_name I_N_PT=%x\n", 0x800);
             Interface_SetDoAction(play, DO_ACTION_DECIDE);
-            PRINTF("サイズ＝%x\n", size2 + size1 + size0 + size + 0x800);
+            PRINTF(T("サイズ＝%x\n", "size=%x\n"), size2 + size1 + size0 + size + 0x800);
 
             if (((void)0, gSaveContext.worldMapArea) < WORLD_MAP_AREA_MAX) {
 #if OOT_NTSC
