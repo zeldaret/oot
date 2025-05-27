@@ -436,8 +436,8 @@ class File:
             resource_buffer_markers[i_start:i_end] = [
                 ResourceBufferMarker(
                     fused[0].name.removesuffix("_fused_") + "_fused_",  # TODO
-                    fused[0].file_start,
-                    fused[-1].file_end,
+                    min(map(lambda _f: _f.file_start, fused)),
+                    max(map(lambda _f: _f.file_end, fused)),
                     users,
                 )
             ]
