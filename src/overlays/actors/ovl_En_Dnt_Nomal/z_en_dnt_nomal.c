@@ -167,7 +167,7 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
         this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
         if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
-            PRINTF(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->requiredObjectSlot);
+            PRINTF(VT_FGCOL(MAGENTA) T(" なにみの？ %d\n", " What? %d\n") VT_RST "\n", this->requiredObjectSlot);
             PRINTF(VT_FGCOL(CYAN) T(" バンクおかしいしぞ！%d\n", " The bank is weird! %d\n") VT_RST "\n",
                    this->actor.params);
             return;

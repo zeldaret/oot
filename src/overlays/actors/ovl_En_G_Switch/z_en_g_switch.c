@@ -19,6 +19,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64audio.h"
@@ -163,8 +164,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
             if (this->requiredObjectSlot < 0) {
                 Actor_Kill(&this->actor);
-                // "what?"
-                PRINTF(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->requiredObjectSlot);
+                PRINTF(VT_FGCOL(MAGENTA) T(" なにみの？ %d\n", " What? %d\n") VT_RST "\n", this->requiredObjectSlot);
                 // "bank is funny"
                 PRINTF(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             }
