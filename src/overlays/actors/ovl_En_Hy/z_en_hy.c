@@ -60,7 +60,7 @@ ActorProfile En_Hy_Profile = {
     /**/ EnHy_Draw,
 };
 
-static ColliderCylinderInit sColCylInit = {
+static ColliderCylinderInit sColliderCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -1169,7 +1169,7 @@ void EnHy_WaitForObjects(EnHy* this, PlayState* play) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotOsAnime].segment);
         Collider_InitCylinder(play, &this->collider);
-        Collider_SetCylinder(play, &this->collider, &this->actor, &sColCylInit);
+        Collider_SetCylinder(play, &this->collider, &this->actor, &sColliderCylinderInit);
         EnHy_InitCollider(this);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[ENHY_GET_TYPE(&this->actor)].animInfoIndex);

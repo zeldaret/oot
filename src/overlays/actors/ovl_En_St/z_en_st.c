@@ -439,21 +439,21 @@ s32 EnSt_CheckHitFrontside(EnSt* this) {
 }
 
 s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
-    ColliderCylinder* cyl = &this->colliderCylinders[0];
+    ColliderCylinder* collider = &this->colliderCylinders[0];
     s32 flags = 0; // damage flags from colliders 0 and 1
     s32 hit = false;
 
-    if (cyl->base.acFlags & AC_HIT) {
-        cyl->base.acFlags &= ~AC_HIT;
+    if (collider->base.acFlags & AC_HIT) {
+        collider->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->elem.acHitElem->atDmgInfo.dmgFlags;
+        flags |= collider->elem.acHitElem->atDmgInfo.dmgFlags;
     }
 
-    cyl = &this->colliderCylinders[1];
-    if (cyl->base.acFlags & AC_HIT) {
-        cyl->base.acFlags &= ~AC_HIT;
+    collider = &this->colliderCylinders[1];
+    if (collider->base.acFlags & AC_HIT) {
+        collider->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->elem.acHitElem->atDmgInfo.dmgFlags;
+        flags |= collider->elem.acHitElem->atDmgInfo.dmgFlags;
     }
 
     if (!hit) {

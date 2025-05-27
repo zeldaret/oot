@@ -510,16 +510,16 @@ s32 EnSsh_CheckHitFront(EnSsh* this) {
 }
 
 s32 EnSsh_CheckHitBack(EnSsh* this, PlayState* play) {
-    ColliderCylinder* cyl = &this->colliderCylinders[0];
+    ColliderCylinder* collider = &this->colliderCylinders[0];
     s32 hit = false;
 
-    if (cyl->base.acFlags & AC_HIT) {
-        cyl->base.acFlags &= ~AC_HIT;
+    if (collider->base.acFlags & AC_HIT) {
+        collider->base.acFlags &= ~AC_HIT;
         hit = true;
     }
-    cyl = &this->colliderCylinders[1];
-    if (cyl->base.acFlags & AC_HIT) {
-        cyl->base.acFlags &= ~AC_HIT;
+    collider = &this->colliderCylinders[1];
+    if (collider->base.acFlags & AC_HIT) {
+        collider->base.acFlags &= ~AC_HIT;
         hit = true;
     }
     if (!hit) {

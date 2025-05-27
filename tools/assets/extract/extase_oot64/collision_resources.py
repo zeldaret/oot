@@ -517,7 +517,11 @@ class CollisionResource(CDataResource):
                 CollisionVtxListResource(
                     file,
                     offset,
-                    f"{resource.name}_{address:08X}_VtxList",
+                    (
+                        f"{resource.name.removesuffix('Col')}VtxList"
+                        if resource.name.endswith("Col")
+                        else f"{resource.name}_{address:08X}_VtxList"
+                    ),
                     resource.cdata_unpacked["numVertices"],
                 ),
             ),
@@ -562,7 +566,11 @@ class CollisionResource(CDataResource):
                 CollisionPolyListResource(
                     file,
                     offset,
-                    f"{resource.name}_{address:08X}_PolyList",
+                    (
+                        f"{resource.name.removesuffix('Col')}PolyList"
+                        if resource.name.endswith("Col")
+                        else f"{resource.name}_{address:08X}_PolyList"
+                    ),
                     resource.cdata_unpacked["numPolygons"],
                 ),
             ),
@@ -615,7 +623,11 @@ class CollisionResource(CDataResource):
                     CollisionWaterBoxesResource(
                         file,
                         offset,
-                        f"{resource.name}_{address:08X}_WaterBoxes",
+                        (
+                            f"{resource.name.removesuffix('Col')}WaterBoxes"
+                            if resource.name.endswith("Col")
+                            else f"{resource.name}_{address:08X}_WaterBoxes"
+                        ),
                         length,
                     ),
                 ),
@@ -728,7 +740,11 @@ class CollisionResource(CDataResource):
                     CollisionSurfaceTypeListResource(
                         file,
                         offset,
-                        f"{self.name}_{surfaceTypeList_address:08X}_SurfaceTypes",
+                        (
+                            f"{self.name.removesuffix('Col')}SurfaceTypes"
+                            if self.name.endswith("Col")
+                            else f"{self.name}_{surfaceTypeList_address:08X}_SurfaceTypes"
+                        ),
                         length_surfaceTypeList,  # TODO change CollisionSurfaceTypeListResource to a CDataArrayResource (same with more resources)
                     ),
                 ),
@@ -760,7 +776,11 @@ class CollisionResource(CDataResource):
                         CollisionBgCamListResource(
                             file,
                             offset,
-                            f"{self.name}_{bgCamList_address:08X}_BgCamList",
+                            (
+                                f"{self.name.removesuffix('Col')}BgCamList"
+                                if self.name.endswith("Col")
+                                else f"{self.name}_{bgCamList_address:08X}_BgCamList"
+                            ),
                             length_bgCamList,
                         ),
                     ),

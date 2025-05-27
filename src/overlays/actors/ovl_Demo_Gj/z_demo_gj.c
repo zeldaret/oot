@@ -116,14 +116,14 @@ s32 DemoGj_GetType(DemoGj* this) {
     return type;
 }
 
-void DemoGj_InitCylinder(DemoGj* this, PlayState* play, ColliderCylinder* cylinder,
-                         ColliderCylinderInitType1* cylinderInit) {
-    Collider_InitCylinder(play, cylinder);
-    Collider_SetCylinderType1(play, cylinder, &this->dyna.actor, cylinderInit);
+void DemoGj_InitCylinder(DemoGj* this, PlayState* play, ColliderCylinder* collider,
+                         ColliderCylinderInitType1* colliderInit) {
+    Collider_InitCylinder(play, collider);
+    Collider_SetCylinderType1(play, collider, &this->dyna.actor, colliderInit);
 }
 
-s32 DemoGj_HitByExplosion(DemoGj* this, PlayState* play, ColliderCylinder* cylinder) {
-    if (Actor_GetCollidedExplosive(play, &cylinder->base) != NULL) {
+s32 DemoGj_HitByExplosion(DemoGj* this, PlayState* play, ColliderCylinder* collider) {
+    if (Actor_GetCollidedExplosive(play, &collider->base) != NULL) {
         return true;
     }
     return false;
@@ -1008,38 +1008,38 @@ void DemoGj_DoNothing1(DemoGj* this, PlayState* play) {
  * Used by DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1
  */
 void func_8097AEE8(DemoGj* this, PlayState* play) {
-    ColliderCylinder* cylinder0 = &this->colliderCylinders[0];
-    ColliderCylinder* cylinder1 = &this->colliderCylinders[1];
-    ColliderCylinder* cylinder2 = &this->colliderCylinders[2];
+    ColliderCylinder* collider0 = &this->colliderCylinders[0];
+    ColliderCylinder* collider1 = &this->colliderCylinders[1];
+    ColliderCylinder* collider2 = &this->colliderCylinders[2];
     Vec3f* actorPos = &this->dyna.actor.world.pos;
     s32 pad;
-    s16 theta = this->dyna.actor.world.rot.y;
-    f32 cos_theta = Math_CosS(theta);
-    f32 sin_theta = Math_SinS(theta);
+    s16 yaw = this->dyna.actor.world.rot.y;
+    f32 cos = Math_CosS(yaw);
+    f32 sin = Math_SinS(yaw);
 
-    cylinder0->dim.pos.z = actorPos->z + (20.0f * cos_theta) - (-20.0f * sin_theta);
-    cylinder0->dim.pos.x = actorPos->x + (20.0f * sin_theta) + (-20.0f * cos_theta);
-    cylinder0->dim.pos.y = actorPos->y;
+    collider0->dim.pos.z = actorPos->z + (20.0f * cos) - (-20.0f * sin);
+    collider0->dim.pos.x = actorPos->x + (20.0f * sin) + (-20.0f * cos);
+    collider0->dim.pos.y = actorPos->y;
 
-    cylinder1->dim.pos.z = actorPos->z + (-20.0f * cos_theta) - (20.0f * sin_theta);
-    cylinder1->dim.pos.x = actorPos->x + (-20.0f * sin_theta) + (20.0f * cos_theta);
-    cylinder1->dim.pos.y = actorPos->y;
+    collider1->dim.pos.z = actorPos->z + (-20.0f * cos) - (20.0f * sin);
+    collider1->dim.pos.x = actorPos->x + (-20.0f * sin) + (20.0f * cos);
+    collider1->dim.pos.y = actorPos->y;
 
-    cylinder2->dim.pos.z = actorPos->z + (-60.0f * cos_theta) - (60.0f * sin_theta);
-    cylinder2->dim.pos.x = actorPos->x + (-60.0f * sin_theta) + (60.0f * cos_theta);
-    cylinder2->dim.pos.y = actorPos->y;
+    collider2->dim.pos.z = actorPos->z + (-60.0f * cos) - (60.0f * sin);
+    collider2->dim.pos.x = actorPos->x + (-60.0f * sin) + (60.0f * cos);
+    collider2->dim.pos.y = actorPos->y;
 }
 
 void DemoGj_SetCylindersAsAC(DemoGj* this, PlayState* play) {
     s32 pad[2];
-    Collider* cylinder0 = &this->colliderCylinders[0].base;
-    Collider* cylinder1 = &this->colliderCylinders[1].base;
-    Collider* cylinder2 = &this->colliderCylinders[2].base;
+    Collider* collider0 = &this->colliderCylinders[0].base;
+    Collider* collider1 = &this->colliderCylinders[1].base;
+    Collider* collider2 = &this->colliderCylinders[2].base;
     s32 pad2[3];
 
-    CollisionCheck_SetAC(play, &play->colChkCtx, cylinder0);
-    CollisionCheck_SetAC(play, &play->colChkCtx, cylinder1);
-    CollisionCheck_SetAC(play, &play->colChkCtx, cylinder2);
+    CollisionCheck_SetAC(play, &play->colChkCtx, collider0);
+    CollisionCheck_SetAC(play, &play->colChkCtx, collider1);
+    CollisionCheck_SetAC(play, &play->colChkCtx, collider2);
 }
 
 void DemoGj_DirectedExplosion(DemoGj* this, PlayState* play, Vec3f* direction) {
@@ -1142,26 +1142,26 @@ void DemoGj_DoNothing2(DemoGj* this, PlayState* play) {
 
 // Moves the ColliderCylinder's relative to the actor's position.
 void func_8097B450(DemoGj* this, PlayState* play) {
-    ColliderCylinder* cylinder0 = &this->colliderCylinders[0];
-    ColliderCylinder* cylinder1 = &this->colliderCylinders[1];
-    ColliderCylinder* cylinder2 = &this->colliderCylinders[2];
+    ColliderCylinder* collider0 = &this->colliderCylinders[0];
+    ColliderCylinder* collider1 = &this->colliderCylinders[1];
+    ColliderCylinder* collider2 = &this->colliderCylinders[2];
     Vec3f* actorPos = &this->dyna.actor.world.pos;
     s32 pad;
-    s16 theta = this->dyna.actor.world.rot.y;
-    f32 cos_theta = Math_CosS(theta);
-    f32 sin_theta = Math_SinS(theta);
+    s16 yaw = this->dyna.actor.world.rot.y;
+    f32 cos = Math_CosS(yaw);
+    f32 sin = Math_SinS(yaw);
 
-    cylinder0->dim.pos.z = actorPos->z - (35.0f * sin_theta);
-    cylinder0->dim.pos.x = actorPos->x + (35.0f * cos_theta);
-    cylinder0->dim.pos.y = actorPos->y;
+    collider0->dim.pos.z = actorPos->z - (35.0f * sin);
+    collider0->dim.pos.x = actorPos->x + (35.0f * cos);
+    collider0->dim.pos.y = actorPos->y;
 
-    cylinder1->dim.pos.z = actorPos->z - (-10.0f * sin_theta);
-    cylinder1->dim.pos.x = actorPos->x + (-10.0f * cos_theta);
-    cylinder1->dim.pos.y = actorPos->y;
+    collider1->dim.pos.z = actorPos->z - (-10.0f * sin);
+    collider1->dim.pos.x = actorPos->x + (-10.0f * cos);
+    collider1->dim.pos.y = actorPos->y;
 
-    cylinder2->dim.pos.z = actorPos->z - (-55.0f * sin_theta);
-    cylinder2->dim.pos.x = actorPos->x + (-55.0f * cos_theta);
-    cylinder2->dim.pos.y = actorPos->y;
+    collider2->dim.pos.z = actorPos->z - (-55.0f * sin);
+    collider2->dim.pos.x = actorPos->x + (-55.0f * cos);
+    collider2->dim.pos.y = actorPos->y;
 }
 
 void DemoGj_SetCylindersAsAC2(DemoGj* this, PlayState* play) {
@@ -1307,12 +1307,12 @@ void func_8097B9BC(DemoGj* this, PlayState* play) {
  */
 void func_8097BA48(DemoGj* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
-    ColliderCylinder* cylinder = &this->colliderCylinders[0];
+    ColliderCylinder* collider = &this->colliderCylinders[0];
     s32 pad[2];
 
     if (func_809797E4(this, 4)) {
         Actor_Kill(thisx);
-    } else if (DemoGj_HitByExplosion(this, play, cylinder)) {
+    } else if (DemoGj_HitByExplosion(this, play, collider)) {
         Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
 
         DemoGj_DropCollectible(this, play);
@@ -1329,8 +1329,8 @@ void func_8097BA48(DemoGj* this, PlayState* play) {
         Actor_Kill(thisx);
     }
 
-    Collider_UpdateCylinder(thisx, cylinder);
-    CollisionCheck_SetAC(play, &play->colChkCtx, &cylinder->base);
+    Collider_UpdateCylinder(thisx, collider);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &collider->base);
 }
 
 // func_8097BB78

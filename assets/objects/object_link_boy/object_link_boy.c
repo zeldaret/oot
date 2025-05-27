@@ -959,7 +959,7 @@ Gfx gLinkAdultHookshotReticleDL[13] = {
 #include "assets/objects/object_link_boy/gLinkAdultHookshotReticleDL.inc.c"
 };
 
-// Far skeleton vertices
+// Far skeleton vertices and DLs
 
 Vtx gLinkAdultRightFootFarVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightFootFarVtx.inc.c"
@@ -1089,7 +1089,7 @@ Gfx gLinkAdultLeftArmFarDL[86] = {
 #include "assets/objects/object_link_boy/gLinkAdultLeftArmFarDL.inc.c"
 };
 
-// Near skeleton vertices
+// Near skeleton vertices and DLs
 
 Vtx gLinkAdultRightFootNearVtx[] = {
 #include "assets/objects/object_link_boy/gLinkAdultRightFootNearVtx.inc.c"

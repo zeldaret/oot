@@ -192,7 +192,7 @@ static ColliderCylinderInit sShieldColliderInit = {
     { 20, 70, -50, { 0, 0, 0 } },
 };
 
-static ColliderQuadInit sSwordColliderInit = {
+static ColliderQuadInit sSwordColliderQuadInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -294,7 +294,7 @@ void EnTest_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->shieldCollider, &this->actor, &sShieldColliderInit);
 
     Collider_InitQuad(play, &this->swordCollider);
-    Collider_SetQuad(play, &this->swordCollider, &this->actor, &sSwordColliderInit);
+    Collider_SetQuad(play, &this->swordCollider, &this->actor, &sSwordColliderQuadInit);
 
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 10;

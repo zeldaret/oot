@@ -46,7 +46,7 @@ ActorProfile En_Arrow_Profile = {
     /**/ EnArrow_Draw,
 };
 
-static ColliderQuadInit sColliderInit = {
+static ColliderQuadInit sColliderQuadInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
@@ -133,7 +133,7 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         }
 
         Collider_InitQuad(play, &this->collider);
-        Collider_SetQuad(play, &this->collider, &this->actor, &sColliderInit);
+        Collider_SetQuad(play, &this->collider, &this->actor, &sColliderQuadInit);
 
         if (this->actor.params <= ARROW_NORMAL) {
             this->collider.elem.atElemFlags &= ~ATELEM_SFX_MASK;
