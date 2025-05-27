@@ -441,7 +441,7 @@ typedef enum LinkAge {
 #define CS_INDEX_A 0xFFFA
 #define CS_INDEX_B 0xFFFB
 #define CS_INDEX_C 0xFFFC
-#define CS_INDEX_D 0xFFFD
+#define CS_INDEX_D 0xFFFD // does not load a cutscene scene layer (see above)
 #define CS_INDEX_E 0xFFFE
 #define CS_INDEX_F 0xFFFF
 
