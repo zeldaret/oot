@@ -150,7 +150,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
         func_80ABCDBC(this);
     } else {
         // This mode is unused in the final game
-        PRINTF(T("ダミーニュウ イニシャル[ %d ] ！！\n", "Dummy new initials [ %d ] !!\n"), this->actor.params);
+        PRINTF(T("ダミーニュウ イニシャル[ %d ] ！！\n", "Dummy new init [ %d ] !!\n"), this->actor.params);
         PRINTF("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actor.update = EnNy_UpdateUnused;
