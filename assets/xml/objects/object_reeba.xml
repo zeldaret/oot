@@ -4,21 +4,39 @@
         <DList Name="object_reeba_DL_000200" Offset="0x200"/>
         <DList Name="object_reeba_DL_0002D0" Offset="0x2D0"/>
         <DList Name="object_reeba_DL_0002E0" Offset="0x2E0"/>
+        <Array Name="object_reeba_Vtx_0002F0" Count="20" Offset="0x2F0">
+            <Vtx/>
+        </Array>
         <DList Name="object_reeba_DL_000430" Offset="0x430"/>
         <DList Name="object_reeba_DL_000570" Offset="0x570"/>
         <DList Name="object_reeba_DL_000580" Offset="0x580"/>
+        <Array Name="object_reeba_Vtx_000590" Count="29" Offset="0x590">
+            <Vtx/>
+        </Array>
         <DList Name="object_reeba_DL_000760" Offset="0x760"/>
         <DList Name="object_reeba_DL_0007F8" Offset="0x7F8"/>
         <DList Name="object_reeba_DL_000808" Offset="0x808"/>
+        <Array Name="object_reeba_Vtx_000818" Count="10" Offset="0x818">
+            <Vtx/>
+        </Array>
         <DList Name="object_reeba_DL_0008B8" Offset="0x8B8"/>
         <DList Name="object_reeba_DL_000950" Offset="0x950"/>
         <DList Name="object_reeba_DL_000960" Offset="0x960"/>
+        <Array Name="object_reeba_Vtx_000970" Count="10" Offset="0x970">
+            <Vtx/>
+        </Array>
         <DList Name="object_reeba_DL_000A10" Offset="0xA10"/>
         <DList Name="object_reeba_DL_000AB0" Offset="0xAB0"/>
         <DList Name="object_reeba_DL_000AC0" Offset="0xAC0"/>
+        <Array Name="object_reeba_Vtx_000AD0" Count="11" Offset="0xAD0">
+            <Vtx/>
+        </Array>
         <DList Name="object_reeba_DL_000B80" Offset="0xB80"/>
         <DList Name="object_reeba_DL_000C18" Offset="0xC18"/>
         <DList Name="object_reeba_DL_000C28" Offset="0xC28"/>
+        <Array Name="object_reeba_Vtx_000C38" Count="10" Offset="0xC38">
+            <Vtx/>
+        </Array>
         <Texture Name="object_reeba_Tex_000CD8" OutName="tex_00000CD8" Format="rgba16" Width="8" Height="16" Offset="0xCD8"/>
         <Texture Name="object_reeba_Tex_000DD8" OutName="tex_00000DD8" Format="rgba16" Width="32" Height="32" Offset="0xDD8"/>
         <Texture Name="object_reeba_Tex_0015D8" OutName="tex_000015D8" Format="rgba16" Width="32" Height="32" Offset="0x15D8"/>

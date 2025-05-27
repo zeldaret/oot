@@ -39,6 +39,51 @@
         <Limb Name="object_oA8_Limb_000001B0" LimbType="Standard" Offset="0x1B0"/>
         <Limb Name="object_oA8_Limb_000001BC" LimbType="Standard" Offset="0x1BC"/>
         <Skeleton Name="object_oA8_Skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
+        <Array Name="object_oA8_Vtx_000268" Count="20" Offset="0x268">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_0003A8" Count="23" Offset="0x3A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_000518" Count="42" Offset="0x518">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_0007B8" Count="3" Offset="0x7B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_0007E8" Count="12" Offset="0x7E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_0008A8" Count="16" Offset="0x8A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_0009A8" Count="3" Offset="0x9A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_0009D8" Count="3" Offset="0x9D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_000A08" Count="3" Offset="0xA08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_000A38" Count="3" Offset="0xA38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_000A68" Count="12" Offset="0xA68">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_000B28" Count="16" Offset="0xB28">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_000C28" Count="3" Offset="0xC28">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_000C58" Count="3" Offset="0xC58">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA8_Vtx_000C88" Count="3" Offset="0xC88">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA8_DL_00000CB8" Offset="0xCB8"/>
         <DList Name="object_oA8_DL_00000D90" Offset="0xD90"/>
         <DList Name="object_oA8_DL_00000E48" Offset="0xE48"/>

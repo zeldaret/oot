@@ -15,6 +15,72 @@
         <Texture Name="object_fr_Tex_005BA0" OutName="tex_00005BA0" Format="rgba16" Width="16" Height="16" Offset="0x5BA0"/>
         <Texture Name="object_fr_Tex_005DA0" OutName="tex_00005DA0" Format="ia16" Width="32" Height="32" Offset="0x5DA0"/>
         <Texture Name="object_fr_Tex_0065A0" OutName="tex_000065A0" Format="ia16" Width="32" Height="32" Offset="0x65A0"/>
+        <Array Name="object_fr_Vtx_006DA0" Count="61" Offset="0x6DA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_007170" Count="4" Offset="0x7170">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_0071B0" Count="24" Offset="0x71B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_007330" Count="4" Offset="0x7330">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_007370" Count="4" Offset="0x7370">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_0073B0" Count="4" Offset="0x73B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_0073F0" Count="73" Offset="0x73F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_007880" Count="32" Offset="0x7880">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_007A80" Count="4" Offset="0x7A80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_007AC0" Count="27" Offset="0x7AC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_007C70" Count="32" Offset="0x7C70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_007E70" Count="4" Offset="0x7E70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_007EB0" Count="27" Offset="0x7EB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_008060" Count="34" Offset="0x8060">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_008280" Count="32" Offset="0x8280">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_008480" Count="4" Offset="0x8480">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_0084C0" Count="29" Offset="0x84C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_008690" Count="33" Offset="0x8690">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_0088A0" Count="32" Offset="0x88A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_008AA0" Count="4" Offset="0x8AA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_008AE0" Count="29" Offset="0x8AE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fr_Vtx_008CB0" Count="33" Offset="0x8CB0">
+            <Vtx/>
+        </Array>
         <DList Name="object_fr_DL_008EC0" Offset="0x8EC0"/>
         <DList Name="object_fr_DL_008F60" Offset="0x8F60"/>
         <DList Name="object_fr_DL_009000" Offset="0x9000"/>
