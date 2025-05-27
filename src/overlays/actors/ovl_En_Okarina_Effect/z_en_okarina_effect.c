@@ -66,7 +66,7 @@ void EnOkarinaEffect_Init(Actor* thisx, PlayState* play) {
 
     PRINTF("\n\n");
     PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n",
-                              "☆☆☆☆☆ Ocarina storm effect, sparkling, sparkling, sparkling ☆☆☆☆☆ \n") VT_RST);
+                              "☆☆☆☆☆ Ocarina storm effect sparkle sparkle sparkle ☆☆☆☆☆ \n") VT_RST);
     PRINTF("\n\n");
     if (play->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
         Actor_Kill(&this->actor);
@@ -98,7 +98,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
         }
         PRINTF("\nthis->timer=[%d]", this->timer);
         if (this->timer == 308) {
-            PRINTF(T("\n\n\n豆よ のびろ 指定\n\n\n", "\n\n\nLet's grow some beans\n\n\n"));
+            PRINTF(T("\n\n\n豆よ のびろ 指定\n\n\n", "\n\n\nBeans, grow!\n\n\n"));
             CutsceneFlags_Set(play, 5);
         }
     }

@@ -94,7 +94,7 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
         case EN_WEATHER_TAG_TYPE_RAIN_LAKE_HYLIA:
             PRINTF("\n\n");
             PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n",
-                                      "☆☆☆☆☆ Wow wa wa na wa saa ki ha (^o^) ☆☆☆☆☆ \n") VT_RST);
+                                      "☆☆☆☆☆ Waaaa- Na-ga-sa-ki wa- (^o^) ☆☆☆☆☆ \n") VT_RST);
 
             if (GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                 Actor_Kill(&this->actor);
@@ -130,7 +130,7 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
         case EN_WEATHER_TAG_TYPE_THUNDERSTORM_GRAVEYARD:
             PRINTF("\n\n");
             PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n",
-                                      "☆☆☆☆☆ Wow wa wa na wa saa ki ha (^o^) ☆☆☆☆☆ \n") VT_RST);
+                                      "☆☆☆☆☆ Waaaa- Na-ga-sa-ki wa- (^o^) ☆☆☆☆☆ \n") VT_RST);
 
             EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledRainThunder);
             break;

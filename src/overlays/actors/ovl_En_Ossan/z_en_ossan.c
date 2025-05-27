@@ -2149,7 +2149,8 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
             return;
         }
 
-        PRINTF(VT_FGCOL(YELLOW) T("◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇", "◇◇◇ Shopkeeper ( %d ) init ◇◇◇") VT_RST "\n",
+        PRINTF(VT_FGCOL(YELLOW) T("◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇", "◇◇◇ Shopkeeper ( %d ) initial setting ◇◇◇")
+                   VT_RST "\n",
                this->actor.params);
 
         this->actor.world.pos.x += sShopkeeperPositionOffsets[this->actor.params].x;
