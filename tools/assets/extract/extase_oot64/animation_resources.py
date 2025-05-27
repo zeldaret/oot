@@ -138,7 +138,11 @@ class AnimationResource(CDataResource):
             lambda file, offset: AnimationFrameDataResource(
                 file,
                 offset,
-                f"{self.name}_{frameData_address:08X}_FrameData",
+                (
+                    f"{self.name.removesuffix('Anim')}FrameData"
+                    if self.name.endswith("Anim")
+                    else f"{self.name}_{frameData_address:08X}_FrameData"
+                ),
             ),
         )
 
@@ -151,7 +155,11 @@ class AnimationResource(CDataResource):
             lambda file, offset: AnimationJointIndicesResource(
                 file,
                 offset,
-                f"{self.name}_{jointIndices_address:08X}_JointIndices",
+                (
+                    f"{self.name.removesuffix('Anim')}JointIndices"
+                    if self.name.endswith("Anim")
+                    else f"{self.name}_{jointIndices_address:08X}_JointIndices"
+                ),
             ),
         )
 

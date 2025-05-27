@@ -59,7 +59,7 @@ ActorProfile En_Eiyer_Profile = {
     /**/ EnEiyer_Draw,
 };
 
-static ColliderCylinderInit sColCylInit = {
+static ColliderCylinderInit sColliderCylinderInit = {
     {
         COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_ENEMY,
@@ -135,7 +135,7 @@ void EnEiyer_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 600.0f, ActorShadow_DrawCircle, 65.0f);
     SkelAnime_Init(play, &this->skelanime, &gStingerSkel, &gStingerIdleAnim, this->jointTable, this->morphTable, 19);
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinder(play, &this->collider, &this->actor, &sColCylInit);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sColliderCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
     if (this->actor.params < 3) {
@@ -282,7 +282,7 @@ void EnEiyer_SetupLand(EnEiyer* this) {
     // Update BgCheck info, play sound, and spawn effect on the first frame of the land action
     this->timer = -1;
     this->actor.gravity = 0.0f;
-    this->collider.dim.height = sColCylInit.dim.height;
+    this->collider.dim.height = sColliderCylinderInit.dim.height;
     this->actionFunc = EnEiyer_Land;
 }
 
@@ -328,7 +328,7 @@ void EnEiyer_SetupStunned(EnEiyer* this) {
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
-    this->collider.dim.height = sColCylInit.dim.height + 8;
+    this->collider.dim.height = sColliderCylinderInit.dim.height + 8;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     this->collider.base.atFlags &= ~AT_ON;
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -606,7 +606,7 @@ void EnEiyer_Stunned(EnEiyer* this, PlayState* play) {
     if (this->timer == 0) {
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
-        this->collider.dim.height = sColCylInit.dim.height;
+        this->collider.dim.height = sColliderCylinderInit.dim.height;
         EnEiyer_SetupGlide(this);
     }
 }
@@ -638,7 +638,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_DAMAGE);
                 EnEiyer_SetupHurt(this);
             } else {
-                this->collider.dim.height = sColCylInit.dim.height;
+                this->collider.dim.height = sColliderCylinderInit.dim.height;
                 EnEiyer_SetupDie(this);
             }
         }

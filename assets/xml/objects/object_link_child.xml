@@ -1,123 +1,371 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_link_child" Segment="6">
-        <Skeleton Name="gLinkChildSkel" Type="Flex" LimbType="LOD" Offset="0x2CF6C"/>
+        <Skeleton Name="gLinkChildSkel" Type="Flex" LimbType="LOD" LimbNone="PLAYER_LIMB_NONE" LimbMax="PLAYER_LIMB_MAX" EnumName="PlayerLimb" Offset="0x2CF6C"/>
+        <LimbTable Name="gLinkChildLimbs" LimbType="LOD" Count="21" Offset="0x2CF18"/>
 
         <!--Far Limb DLists-->
+        <Array Name="gLinkChildLeftHandFarVtx" Count="39" Offset="0xF220">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftHandFarDL" Offset="0x16280"/>
+        <Array Name="gLinkChildRightHandFarVtx" Count="51" Offset="0xF6C0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightHandFarDL" Offset="0x164E0"/>
+        <Array Name="gLinkChildSwordAndSheathFarVtx" Count="31" Offset="0x10B70">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildSwordAndSheathFarDL" Offset="0x17360"/>
+        <Array Name="gLinkChildWaistFarVtx" Count="34" Offset="0x193F8">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildWaistFarDL" Offset="0x1AEC8"/>
+        <Array Name="gLinkChildRightThighFarVtx" Count="41" Offset="0x18B18">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightThighFarDL" Offset="0x1B0F8"/>
+        <Array Name="gLinkChildRightShinFarVtx" Count="34" Offset="0x188F8">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightShinFarDL" Offset="0x1B2B8"/>
+        <Array Name="gLinkChildRightFootFarVtx" Count="26" Offset="0x18758">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightFootFarDL" Offset="0x1B510"/>
+        <Array Name="gLinkChildLeftThighFarVtx" Count="40" Offset="0x19178">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftThighFarDL" Offset="0x1B638"/>
+        <Array Name="gLinkChildLeftShinFarVtx" Count="35" Offset="0x18F48">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftShinFarDL" Offset="0x1B7F8"/>
+        <Array Name="gLinkChildLeftFootFarVtx" Count="26" Offset="0x18DA8">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftFootFarDL" Offset="0x1BA50"/>
+        <Array Name="gLinkChildCollarFarVtx" Count="8" Offset="0x19D88">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildCollarFarDL" Offset="0x1BB78"/>
+        <Array Name="gLinkChildTorsoFarVtx" Count="27" Offset="0x1AD18">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildTorsoFarDL" Offset="0x1BBD8"/>
+        <Array Name="gLinkChildHeadFarVtx" Count="98" Offset="0x19768">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildHeadFarDL" Offset="0x1BDA0"/>
+        <Array Name="gLinkChildHatFarVtx" Count="21" Offset="0x19618">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildHatFarDL" Offset="0x1C2A8"/>
+        <Array Name="gLinkChildRightShoulderFarVtx" Count="38" Offset="0x1A838">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightShoulderFarDL" Offset="0x1C398"/>
+        <Array Name="gLinkChildRightForearmFarVtx" Count="26" Offset="0x1A698">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightForearmFarDL" Offset="0x1C558"/>
+        <Array Name="gLinkChildLeftShoulderFarVtx" Count="38" Offset="0x1A1C8">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftShoulderFarDL" Offset="0x1C688"/>
+        <Array Name="gLinkChildLeftForearmFarVtx" Count="25" Offset="0x1A038">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftForearmFarDL" Offset="0x1C848"/>
 
         <!--Near Limb DLists-->
+        <Array Name="gLinkChildLeftHandNearVtx" Count="54" Offset="0xABF0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftHandNearDL" Offset="0x13CB0"/>
+        <Array Name="gLinkChildRightHandNearVtx" Count="31" Offset="0xB6B0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightHandNearDL" Offset="0x141C0"/>
+        <Array Name="gLinkChildSwordAndSheathNearVtx" Count="35" Offset="0xD1C0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildSwordAndSheathNearDL" Offset="0x15248"/>
+        <Array Name="gLinkChildWaistNearVtx" Count="42" Offset="0x1DA28">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildWaistNearDL" Offset="0x202A8"/>
+        <Array Name="gLinkChildRightThighNearVtx" Count="50" Offset="0x1CEB8">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightThighNearDL" Offset="0x204F0"/>
+        <Array Name="gLinkChildRightShinNearVtx" Count="48" Offset="0x1CBB8">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightShinNearDL" Offset="0x206E8"/>
+        <Array Name="gLinkChildRightFootNearVtx" Count="36" Offset="0x1C978">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightFootNearDL" Offset="0x20978"/>
+        <Array Name="gLinkChildLeftThighNearVtx" Count="49" Offset="0x1D718">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftThighNearDL" Offset="0x20AD8"/>
+        <Array Name="gLinkChildLeftShinNearVtx" Count="48" Offset="0x1D418">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftShinNearDL" Offset="0x20CD0"/>
+        <Array Name="gLinkChildLeftFootNearVtx" Count="36" Offset="0x1D1D8">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftFootNearDL" Offset="0x20F60"/>
+        <Array Name="gLinkChildCollarNearVtx" Count="10" Offset="0x1EA98">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildCollarNearDL" Offset="0x210C0"/>
+        <Array Name="gLinkChildTorsoNearVtx" Count="74" Offset="0x1FE08">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildTorsoNearDL" Offset="0x21130"/>
+        <Array Name="gLinkChildHeadNearVtx" Count="183" Offset="0x1DF28">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildHeadNearDL" Offset="0x21360"/>
+        <Array Name="gLinkChildHatNearVtx" Count="38" Offset="0x1DCC8">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildHatNearDL" Offset="0x219B0"/>
+        <Array Name="gLinkChildRightShoulderNearVtx" Count="46" Offset="0x1F748">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightShoulderNearDL" Offset="0x21AE8"/>
+        <Array Name="gLinkChildRightForearmNearVtx" Count="34" Offset="0x1F528">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightForearmNearDL" Offset="0x21CB8"/>
+        <Array Name="gLinkChildLeftShoulderNearVtx" Count="47" Offset="0x1EFC8">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftShoulderNearDL" Offset="0x21E18"/>
+        <Array Name="gLinkChildLeftForearmNearVtx" Count="34" Offset="0x1EDA8">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftForearmNearDL" Offset="0x21FE8"/>
 
         <!--Limbs-->
-        <Limb Name="gLinkChildRootLimb" LimbType="LOD" Offset="0x2CDC8"/>
-        <Limb Name="gLinkChildWaistLimb" LimbType="LOD" Offset="0x2CDD8"/>
-        <Limb Name="gLinkChildLowerControlLimb" LimbType="LOD" Offset="0x2CDE8"/>
-        <Limb Name="gLinkChildRightThighLimb" LimbType="LOD" Offset="0x2CDF8"/>
-        <Limb Name="gLinkChildRightShinLimb" LimbType="LOD" Offset="0x2CE08"/>
-        <Limb Name="gLinkChildRightFootLimb" LimbType="LOD" Offset="0x2CE18"/>
-        <Limb Name="gLinkChildLeftThighLimb" LimbType="LOD" Offset="0x2CE28"/>
-        <Limb Name="gLinkChildLeftShinLimb" LimbType="LOD" Offset="0x2CE38"/>
-        <Limb Name="gLinkChildLeftFootLimb" LimbType="LOD" Offset="0x2CE48"/>
-        <Limb Name="gLinkChildUpperControlLimb" LimbType="LOD" Offset="0x2CE58"/>
-        <Limb Name="gLinkChildHeadLimb" LimbType="LOD" Offset="0x2CE68"/>
-        <Limb Name="gLinkChildHatLimb" LimbType="LOD" Offset="0x2CE78"/>
-        <Limb Name="gLinkChildCollarLimb" LimbType="LOD" Offset="0x2CE88"/>
-        <Limb Name="gLinkChildLeftshoulderLimb" LimbType="LOD" Offset="0x2CE98"/>
-        <Limb Name="gLinkChildLeftForearmLimb" LimbType="LOD" Offset="0x2CEA8"/>
-        <Limb Name="gLinkChildLeftHandLimb" LimbType="LOD" Offset="0x2CEB8"/>
-        <Limb Name="gLinkChildRightshoulderLimb" LimbType="LOD" Offset="0x2CEC8"/>
-        <Limb Name="gLinkChildRightForearmLimb" LimbType="LOD" Offset="0x2CED8"/>
-        <Limb Name="gLinkChildRightHandLimb" LimbType="LOD" Offset="0x2CEE8"/>
-        <Limb Name="gLinkChildSwordAndSheathLimb" LimbType="LOD" Offset="0x2CEF8"/>
-        <Limb Name="gLinkChildTorsoLimb" LimbType="LOD" Offset="0x2CF08"/>
+        <Limb Name="gLinkChildRootLimb" LimbType="LOD" EnumName="PLAYER_LIMB_ROOT" Offset="0x2CDC8"/>
+        <Limb Name="gLinkChildWaistLimb" LimbType="LOD" EnumName="PLAYER_LIMB_WAIST" Offset="0x2CDD8"/>
+        <Limb Name="gLinkChildLowerControlLimb" LimbType="LOD" EnumName="PLAYER_LIMB_LOWER" Offset="0x2CDE8"/>
+        <Limb Name="gLinkChildRightThighLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_THIGH" Offset="0x2CDF8"/>
+        <Limb Name="gLinkChildRightShinLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_SHIN" Offset="0x2CE08"/>
+        <Limb Name="gLinkChildRightFootLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_FOOT" Offset="0x2CE18"/>
+        <Limb Name="gLinkChildLeftThighLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_THIGH" Offset="0x2CE28"/>
+        <Limb Name="gLinkChildLeftShinLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_SHIN" Offset="0x2CE38"/>
+        <Limb Name="gLinkChildLeftFootLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_FOOT" Offset="0x2CE48"/>
+        <Limb Name="gLinkChildUpperControlLimb" LimbType="LOD" EnumName="PLAYER_LIMB_UPPER" Offset="0x2CE58"/>
+        <Limb Name="gLinkChildHeadLimb" LimbType="LOD" EnumName="PLAYER_LIMB_HEAD" Offset="0x2CE68"/>
+        <Limb Name="gLinkChildHatLimb" LimbType="LOD" EnumName="PLAYER_LIMB_HAT" Offset="0x2CE78"/>
+        <Limb Name="gLinkChildCollarLimb" LimbType="LOD" EnumName="PLAYER_LIMB_COLLAR" Offset="0x2CE88"/>
+        <Limb Name="gLinkChildLeftshoulderLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_SHOULDER" Offset="0x2CE98"/>
+        <Limb Name="gLinkChildLeftForearmLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_FOREARM" Offset="0x2CEA8"/>
+        <Limb Name="gLinkChildLeftHandLimb" LimbType="LOD" EnumName="PLAYER_LIMB_L_HAND" Offset="0x2CEB8"/>
+        <Limb Name="gLinkChildRightshoulderLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_SHOULDER" Offset="0x2CEC8"/>
+        <Limb Name="gLinkChildRightForearmLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_FOREARM" Offset="0x2CED8"/>
+        <Limb Name="gLinkChildRightHandLimb" LimbType="LOD" EnumName="PLAYER_LIMB_R_HAND" Offset="0x2CEE8"/>
+        <Limb Name="gLinkChildSwordAndSheathLimb" LimbType="LOD" EnumName="PLAYER_LIMB_SHEATH" Offset="0x2CEF8"/>
+        <Limb Name="gLinkChildTorsoLimb" LimbType="LOD" EnumName="PLAYER_LIMB_TORSO" Offset="0x2CF08"/>
 
         <!--General DLists-->
+        <Array Name="gLinkChildLinkDekuStickVtx" Count="36" Offset="0x6A80">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLinkDekuStickDL" Offset="0x6CC0"/>
+        <Array Name="gLinkChildLeftHandHoldingMasterSwordVtx" Count="163" Offset="0xD4E0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftHandHoldingMasterSwordDL" Offset="0x15540"/>
+        <!-- TODO distinguish gLinkChildGoronBraceletVtx1 and Vtx2 -->
+        <Array Name="gLinkChildGoronBraceletVtx1" Count="17" Offset="0xF110">
+            <Vtx/>
+        </Array>
+        <Array Name="gLinkChildGoronBraceletVtx2" Count="8" Offset="0x137D0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildGoronBraceletDL" Offset="0x16118"/>
 
         <!--Body Parts not used in Limbs-->
+        <Array Name="gLinkChildLeftFistNearVtx" Count="38" Offset="0xAF50">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftFistNearDL" Offset="0x13E18"/>
+        <Array Name="gLinkChildRightHandClosedNearVtx" Count="38" Offset="0xB8A0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightHandClosedNearDL" Offset="0x14320"/>
+        <Array Name="gLinkChildRightHandClosedFarVtx" Count="35" Offset="0xF9F0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightHandClosedFarDL" Offset="0x16620"/>
+        <Array Name="gLinkChildLeftFistFarVtx" Count="35" Offset="0xF490">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftFistFarDL" Offset="0x163C0"/>
+        <Array Name="gLinkChildLeftFistAndKokiriSwordNearVtx" Count="80" Offset="0xB1B0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftFistAndKokiriSwordNearDL" Offset="0x13F38"/>
+        <Array Name="gLinkChildLeftFistAndKokiriSwordFarVtx" Count="81" Offset="0x10E50">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftFistAndKokiriSwordFarDL" Offset="0x17630"/>
+        <Array Name="gLinkChildRightFistAndDekuShieldNearVtx" Count="79" Offset="0xBB00">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightFistAndDekuShieldNearDL" Offset="0x14440"/>
+        <Array Name="gLinkChildRightFistAndDekuShieldFarVtx" Count="45" Offset="0xFC20">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightFistAndDekuShieldFarDL" Offset="0x16740"/>
+        <Array Name="gLinkChildLeftFistAndBoomerangNearVtx" Count="89" Offset="0xBFF0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftFistAndBoomerangNearDL" Offset="0x14660"/>
+        <Array Name="gLinkChildLeftFistAndBoomerangFarVtx" Count="50" Offset="0xFEF0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftFistAndBoomerangFarDL" Offset="0x16908"/>
+        <Array Name="gLinkChildHylianShieldSwordAndSheathNearVtx" Count="51" Offset="0xC580">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildHylianShieldSwordAndSheathNearDL" Offset="0x148A8"/>
+        <Array Name="gLinkChildHylianShieldSwordAndSheathFarVtx" Count="44" Offset="0x10210">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildHylianShieldSwordAndSheathFarDL" Offset="0x16A98"/>
+        <Array Name="gLinkChildHylianShieldAndSheathNearVtx" Count="31" Offset="0xC8B0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildHylianShieldAndSheathNearDL" Offset="0x14B40"/>
+        <Array Name="gLinkChildHylianShieldAndSheathFarVtx" Count="28" Offset="0x104D0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildHylianShieldAndSheathFarDL" Offset="0x16CF8"/>
+        <Array Name="gLinkChildDekuShieldSwordAndSheathNearVtx" Count="67" Offset="0xCAA0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildDekuShieldSwordAndSheathNearDL" Offset="0x14D68"/>
+        <Array Name="gLinkChildDekuShieldSwordAndSheathFarVtx" Count="47" Offset="0x10690">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildDekuShieldSwordAndSheathFarDL" Offset="0x16EE8"/>
+        <Array Name="gLinkChildDekuShieldAndSheathNearVtx" Count="47" Offset="0xCED0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildDekuShieldAndSheathNearDL" Offset="0x15010"/>
+        <Array Name="gLinkChildDekuShieldAndSheathFarVtx" Count="31" Offset="0x10980">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildDekuShieldAndSheathFarDL" Offset="0x17150"/>
+        <Array Name="gLinkChildSheathNearVtx" Count="15" Offset="0xD3F0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildSheathNearDL" Offset="0x15408"/>
+        <Array Name="gLinkChildSheathFarVtx" Count="15" Offset="0x10D60">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildSheathFarDL" Offset="0x17500"/>
+        <Array Name="gLinkChildRightHandAndOotNearVtx" Count="76" Offset="0xDF10">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightHandAndOotNearDL" Offset="0x15958"/>
+        <Array Name="gLinkChildRightHandHoldingOOTFarVtx" Count="76" Offset="0x11360">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightHandHoldingOOTFarDL" Offset="0x178A0"/>
+        <Array Name="gLinkChildRightHandHoldingFairyOcarinaNearVtx" Count="89" Offset="0xE3D0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightHandHoldingFairyOcarinaNearDL" Offset="0x15BA8"/>
+        <Array Name="gLinkChildRightHandHoldingFairyOcarinaFarVtx" Count="89" Offset="0x11820">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightHandHoldingFairyOcarinaFarDL" Offset="0x17AF0"/>
+        <Array Name="gLinkChildRightHandHoldingSlingshotNearVtx" Count="84" Offset="0xE960">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightHandHoldingSlingshotNearDL" Offset="0x15DF0"/>
+        <Array Name="gLinkChildRightHandHoldingSlingshotFarVtx" Count="76" Offset="0x11DB0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightHandHoldingSlingshotFarDL" Offset="0x17D38"/>
+        <Array Name="gLinkChildLeftHandUpNearVtx" Count="39" Offset="0xEEA0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftHandUpNearDL" Offset="0x15FD0"/>
+        <Array Name="gLinkChildLeftHandUpFarVtx" Count="39" Offset="0x12270">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildLeftHandUpFarDL" Offset="0x17F00"/>
 
+        <Array Name="gLinkChildRightArmStretchedSlingshotVtx" Count="269" Offset="0x124E0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildRightArmStretchedSlingshotDL" Offset="0x18048"/>
+        <Array Name="gLinkChildBottleVtx" Count="34" Offset="0x135B0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildBottleDL" Offset="0x18478"/>
+        <Array Name="gLinkChildDL_18580_Vtx" Count="36" Offset="0x13850">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildDL_18580" Offset="0x18580"/>
+        <Array Name="gLinkChildBottle2Vtx" Count="34" Offset="0x13A90">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildBottle2DL" Offset="0x18648"/>
+        <Array Name="gLinkChildSlingshotStringVtx" Count="6" Offset="0x22148">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildSlingshotStringDL" Offset="0x221A8"/>
+        <Array Name="gLinkChildDekuShieldVtx" Count="47" Offset="0x22208">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildDekuShieldDL" Offset="0x224F8"/>
         <Mtx Name="gLinkChildDekuShieldMtx"  Offset="0x22648"/>
         <DList Name="gLinkChildDekuShieldWithMatrixDL" Offset="0x22688"/>
 
         <!--Masks-->
+        <Array Name="gLinkChildSkullMaskVtx" Count="69" Offset="0x29220">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildSkullMaskDL" Offset="0x2AD40"/>
+        <Array Name="gLinkChildSpookyMaskVtx" Count="28" Offset="0x29670">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildSpookyMaskDL" Offset="0x2AF70"/>
+        <Array Name="gLinkChildKeatonMaskVtx" Count="59" Offset="0x29830">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildKeatonMaskDL" Offset="0x2B060"/>
+        <Array Name="gLinkChildMaskOfTruthVtx" Count="42" Offset="0x29BE0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildMaskOfTruthDL" Offset="0x2B1F0"/>
+        <Array Name="gLinkChildGoronMaskVtx" Count="54" Offset="0x29E80">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildGoronMaskDL" Offset="0x2B350"/>
+        <Array Name="gLinkChildZoraMaskVtx" Count="50" Offset="0x2A1E0">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildZoraMaskDL" Offset="0x2B580"/>
+        <Array Name="gLinkChildGerudoMaskVtx" Count="132" Offset="0x2A500">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildGerudoMaskDL" Offset="0x2B788"/>
+        <Array Name="gLinkChildBunnyHoodVtx" Count="97" Offset="0x2C428">
+            <Vtx/>
+        </Array>
         <DList Name="gLinkChildBunnyHoodDL" Offset="0x2CA38"/>
 
         <!--Textures-->
@@ -182,6 +430,7 @@
         <Texture Name="gLinkChildUnusedTLUT" OutName="unused_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5700"/>
         <Texture Name="gLinkChildHandTLUT" OutName="hand_tlut" Format="rgba16" Width="17" Height="4" Offset="0x9E88"/>
         <Texture Name="gLinkChildSwordsTLUT" OutName="swords_tlut" Format="rgba16" Width="16" Height="16" Offset="0x9F10"/> <!--For both the kokiri sword sheath and master sword-->
+        <Blob Name="gLinkChild_A110_Blob" Size="8" Offset="0xA110" />
         <Texture Name="gLinkChildSwordTLUT" OutName="sword_tlut" Format="rgba16" Width="27" Height="4" Offset="0xA118"/>
 
         <!--Eyes-->

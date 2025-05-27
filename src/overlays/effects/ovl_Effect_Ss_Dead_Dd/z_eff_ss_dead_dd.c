@@ -10,6 +10,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
+#include "translation.h"
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64skin_matrix.h"
@@ -92,7 +93,7 @@ u32 EffectSsDeadDd_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
             this->accel.z = this->velocity.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
         }
     } else {
-        PRINTF("Effect_SS_Dd_disp_mode():mode_swが変です。\n");
+        PRINTF(T("Effect_SS_Dd_disp_mode():mode_swが変です。\n", "Effect_SS_Dd_disp_mode():mode_sw is strange.\n"));
         return 0;
     }
 

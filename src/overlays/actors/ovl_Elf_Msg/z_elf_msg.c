@@ -14,6 +14,7 @@
 #include "regs.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 #include "z64player.h"
 
@@ -88,12 +89,12 @@ s32 ElfMsg_KillCheck(ElfMsg* this, PlayState* play) {
 void ElfMsg_Init(Actor* thisx, PlayState* play) {
     ElfMsg* this = (ElfMsg*)thisx;
 
-    // "Conditions for Elf Tag disappearing"
-    PRINTF(VT_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" VT_RST "\n", PARAMS_GET_U(thisx->params, 8, 6));
+    PRINTF(VT_FGCOL(CYAN) T("\nエルフ タグ 消える条件 %d", "\nConditions for Elf Tag disappearing %d") VT_RST "\n",
+           PARAMS_GET_U(thisx->params, 8, 6));
     PRINTF(VT_FGCOL(CYAN) "\nthisx->shape.angle.sy = %d\n" VT_RST, thisx->shape.rot.y);
     if (thisx->shape.rot.y >= 0x41) {
-        // "Conditions for Elf Tag appearing"
-        PRINTF(VT_FGCOL(CYAN) "\nエルフ タグ 出現条件 %d" VT_RST "\n", thisx->shape.rot.y - 0x41);
+        PRINTF(VT_FGCOL(CYAN) T("\nエルフ タグ 出現条件 %d", "\nConditions for Elf Tag appearing %d") VT_RST "\n",
+               thisx->shape.rot.y - 0x41);
     }
 
     if (!ElfMsg_KillCheck(this, play)) {
