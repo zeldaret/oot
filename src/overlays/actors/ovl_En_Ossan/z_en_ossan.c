@@ -13,6 +13,7 @@
 #include "segmented_address.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"
@@ -677,8 +678,8 @@ void EnOssan_UpdateCursorPos(PlayState* play, EnOssan* this) {
 void EnOssan_EndInteraction(PlayState* play, EnOssan* this) {
     Player* player = GET_PLAYER(play);
 
-    // "End of conversation!"
-    PRINTF(VT_FGCOL(YELLOW) "%s[%d]:★★★ 会話終了！！ ★★★" VT_RST "\n", "../z_en_oB1.c", 1337);
+    PRINTF(VT_FGCOL(YELLOW) T("%s[%d]:★★★ 会話終了！！ ★★★", "%s[%d]:★★★ End of conversation!! ★★★") VT_RST "\n",
+           "../z_en_oB1.c", 1337);
     YREG(31) = 0;
     Actor_TalkOfferAccepted(&this->actor, play);
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -765,8 +766,7 @@ void EnOssan_State_Idle(EnOssan* this, PlayState* play, Player* player) {
     this->headTargetRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        // "Start conversation!!"
-        PRINTF(VT_FGCOL(YELLOW) "★★★ 会話開始！！ ★★★" VT_RST "\n");
+        PRINTF(VT_FGCOL(YELLOW) T("★★★ 会話開始！！ ★★★", "★★★ Start conversation!! ★★★") VT_RST "\n");
         player->stateFlags2 |= PLAYER_STATE2_29;
         Play_SetShopBrowsingViewpoint(play);
         EnOssan_SetStateStartShopping(play, this, false);
@@ -955,8 +955,7 @@ void EnOssan_State_StartConversation(EnOssan* this, PlayState* play, Player* pla
         }
 
         if (!EnOssan_TestEndInteraction(this, play, &play->state.input[0])) {
-            // "Shop around by moving the stick left and right"
-            PRINTF("「スティック左右で品物みてくれ！」\n");
+            PRINTF(T("「スティック左右で品物みてくれ！」\n", "「Shop around by moving the stick left and right!」\n"));
             EnOssan_StartShopping(play, this);
         }
     }
@@ -2145,14 +2144,13 @@ void EnOssan_InitActionFunc(EnOssan* this, PlayState* play) {
 
         if (this->shelves == NULL) {
             PRINTF_COLOR_ERROR();
-            // "Warning!! There are no shelves!!"
-            PRINTF("★★★ 警告！！ 棚がないよ！！ ★★★\n");
+            PRINTF(T("★★★ 警告！！ 棚がないよ！！ ★★★\n", "★★★ Warning!! There are no shelves!! ★★★\n"));
             PRINTF_RST();
             return;
         }
 
-        // "Shopkeeper (params) init"
-        PRINTF(VT_FGCOL(YELLOW) "◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇" VT_RST "\n", this->actor.params);
+        PRINTF(VT_FGCOL(YELLOW) T("◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇", "◇◇◇ Shopkeeper ( %d ) init ◇◇◇") VT_RST "\n",
+               this->actor.params);
 
         this->actor.world.pos.x += sShopkeeperPositionOffsets[this->actor.params].x;
         this->actor.world.pos.y += sShopkeeperPositionOffsets[this->actor.params].y;
