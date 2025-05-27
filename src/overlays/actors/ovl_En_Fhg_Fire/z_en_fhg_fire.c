@@ -20,6 +20,7 @@
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64effect.h"
 #include "z64play.h"
@@ -135,9 +136,9 @@ void EnFhgFire_Init(Actor* thisx, PlayState* play) {
         this->collider.dim.height = this->actor.world.rot.x * 0.13f;
         this->collider.dim.yShift = 0;
     } else if (this->actor.params == FHGFIRE_SPEAR_LIGHT) {
-        PRINTF("yari hikari ct 1\n"); // "light spear"
+        PRINTF(T("yari hikari ct 1\n", "spear light ct 1\n"));
         EnFhgFire_SetUpdate(this, EnFhgFire_SpearLight);
-        PRINTF("yari hikari ct 2\n");
+        PRINTF(T("yari hikari ct 2\n", "spear light ct 2\n"));
         this->work[FHGFIRE_TIMER] = this->actor.world.rot.x;
         this->work[FHGFIRE_FIRE_MODE] = this->actor.world.rot.y;
     } else if ((this->actor.params == FHGFIRE_WARP_EMERGE) || (this->actor.params == FHGFIRE_WARP_RETREAT) ||
@@ -655,8 +656,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
             this->actor.speed = 20.0f;
         }
         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
-        // "Why ah ah ah ah"
-        PRINTF("なぜだああああああああ      %d\n", this->work[FHGFIRE_VARIANCE_TIMER]);
+        PRINTF(T("なぜだああああああああ      %d\n", "Whyyyyyyyy      %d\n"), this->work[FHGFIRE_VARIANCE_TIMER]);
     }
 }
 

@@ -122,7 +122,7 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
         this->actor.draw = NULL;
         if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
-            PRINTF(T("なにみの？ %d\n", "What's that? %d\n"), this->actor.params);
+            PRINTF(T("なにみの？ %d\n", "What? %d\n"), this->actor.params);
             PRINTF(VT_FGCOL(MAGENTA) T(" バンクおかしいしぞ！%d\n", " The bank is weird!%d\n") VT_RST "\n",
                    this->actor.params);
             return;
