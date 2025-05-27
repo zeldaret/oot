@@ -245,6 +245,13 @@ class N64Palette(Structure):
         _object_refcount.add_ref(pal)
         return deref(pal)
 
+    def resize(self, new_count : int) -> Optional["N64Palette"]:
+        if new_count > 256:
+            raise ValueError("The largest possible palette size is 256")
+        pal = ln64texconv.n64texconv_palette_resize(byref(self), new_count)
+        _object_refcount.add_ref(pal)
+        return deref(pal)
+
     @staticmethod
     def from_png(path : str, fmt : int) -> Optional["N64Palette"]:
         if fmt not in (G_IM_FMT_RGBA, G_IM_FMT_IA):
@@ -305,6 +312,10 @@ ln64texconv.n64texconv_palette_copy.restype = POINTER(N64Palette)
 # struct n64_palette *n64texconv_palette_reformat(struct n64_palette *pal, int fmt);
 ln64texconv.n64texconv_palette_reformat.argtypes = [POINTER(N64Palette), c_int]
 ln64texconv.n64texconv_palette_reformat.restype = POINTER(N64Palette)
+
+# struct n64_palette *n64texconv_palette_resize(struct n64_palette *pal, size_t new_count);
+ln64texconv.n64texconv_palette_resize.argtypes = [POINTER(N64Palette), c_size_t]
+ln64texconv.n64texconv_palette_resize.restype = POINTER(N64Palette)
 
 # struct n64_palette *n64texconv_palette_from_png(const char *path, int fmt);
 ln64texconv.n64texconv_palette_from_png.argtypes = [c_char_p, c_int]

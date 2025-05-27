@@ -14,6 +14,7 @@
 #include "rand.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z64effect.h"
 #include "z64play.h"
 #include "z64player.h"
@@ -69,7 +70,7 @@ u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* init
             this->gfx = SEGMENTED_TO_VIRTUAL(gPhantomEnergyBallDL);
             gSegments[6] = prevSeg6;
         } else {
-            PRINTF("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n");
+            PRINTF(T("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n", "Effect_Ss_Fhg_Flash_ct():pffd->mode error\n"));
             return 0;
         }
     } else {

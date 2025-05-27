@@ -91,15 +91,15 @@ static InitChainEntry sInitChain[] = {
 static CollisionHeader* sCollisionHeaders[] = { &gPillarCol, &gThroneCol };
 
 void BgJyaIronobj_InitCylinder(BgJyaIronobj* this, PlayState* play) {
-    ColliderCylinder* colCylinder = &this->colliderCylinder;
+    s32 pad;
 
-    Collider_InitCylinder(play, colCylinder);
-    Collider_SetCylinder(play, colCylinder, &this->dyna.actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->colliderCylinder);
+    Collider_SetCylinder(play, &this->colliderCylinder, &this->dyna.actor, &sCylinderInit);
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 1) == 1) {
         this->colliderCylinder.dim.radius = 40;
         this->colliderCylinder.dim.height = 100;
     }
-    Collider_UpdateCylinder(&this->dyna.actor, colCylinder);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->colliderCylinder);
 }
 
 /*

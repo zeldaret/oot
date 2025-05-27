@@ -15,6 +15,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64draw.h"
 #include "z64play.h"
@@ -69,10 +70,10 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
     this->type = PARAMS_GET_U(this->actor.params, 0, 8);
     this->unusedParam = PARAMS_GET_U(this->actor.params, 8, 8);
     PRINTF("\n\n");
-    // "What will come out?"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->type);
-    // "What will come out?"
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->unusedParam);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ What will you get? ☆☆☆☆☆ %d\n") VT_RST,
+           this->type);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ What will you get? ☆☆☆☆☆ %d\n") VT_RST,
+           this->unusedParam);
     this->initPos = this->actor.world.pos;
     this->getItemObjectId = -1;
     switch (this->type) {
@@ -121,10 +122,9 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
         this->actor.draw = NULL;
         if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
-            // "What?"
-            PRINTF("なにみの？ %d\n", this->actor.params);
-            // "bank is funny"
-            PRINTF(VT_FGCOL(MAGENTA) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
+            PRINTF(T("なにみの？ %d\n", "What? %d\n"), this->actor.params);
+            PRINTF(VT_FGCOL(MAGENTA) T(" バンクおかしいしぞ！%d\n", " The bank is weird!%d\n") VT_RST "\n",
+                   this->actor.params);
             return;
         }
         this->actionFunc = EnExItem_WaitForObject;
@@ -135,12 +135,16 @@ void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
     s32 onCounter;
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        // "End of transfer"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-        PRINTF(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-        PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Transfer completed ☆☆☆☆☆ %d\n") VT_RST,
+               this->actor.params);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Transfer completed ☆☆☆☆☆ %d\n") VT_RST,
+               this->actor.params);
+        PRINTF(VT_FGCOL(BLUE) T("☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Transfer completed ☆☆☆☆☆ %d\n") VT_RST,
+               this->actor.params);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Transfer completed ☆☆☆☆☆ %d\n") VT_RST,
+               this->actor.params);
+        PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n", "☆☆☆☆☆ Transfer completed ☆☆☆☆☆ %d\n\n") VT_RST,
+               this->actor.params);
         this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = EnExItem_Draw;
         this->stopRotate = false;
@@ -314,14 +318,13 @@ void EnExItem_BowlPrize(EnExItem* this, PlayState* play) {
             this->actor.world.pos.z += (tmpf3 / tmpf4) * 5.0f;
         }
     } else {
-        // "parent"
-        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 母親ー？     ☆☆☆☆☆ %x\n" VT_RST, this->actor.parent);
-        // "Can it move?"
-        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 動いてねー？ ☆☆☆☆☆ %x\n" VT_RST, this->actor.parent->update);
+        PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 母親ー？     ☆☆☆☆☆ %x\n", " ☆☆☆☆☆ Mother?     ☆☆☆☆☆ %x\n") VT_RST,
+               this->actor.parent);
+        PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 動いてねー？ ☆☆☆☆☆ %x\n", " ☆☆☆☆☆ Is it moving? ☆☆☆☆☆ %x\n") VT_RST,
+               this->actor.parent->update);
         if ((this->actor.parent != NULL) && (this->actor.parent->update != NULL)) {
             ((EnBomBowlPit*)this->actor.parent)->exItemDone = 1;
-            // "It can't move!"
-            PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ さぁきえるぞ！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ さぁきえるぞ！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ Now it's gone! ☆☆☆☆☆ \n") VT_RST);
         }
         Actor_Kill(&this->actor);
     }
@@ -426,8 +429,7 @@ void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play) {
 
 void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        // "Successful completion"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal termination ☆☆☆☆☆ \n") VT_RST);
         SET_ITEMGETINF(ITEMGETINF_1D);
         Actor_Kill(&this->actor);
     }

@@ -20,6 +20,7 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "title_setup_state.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "z64ocarina.h"
@@ -1171,9 +1172,9 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
             gSPVertex(POLY_OPA_DISP++, pauseCtx->cursorVtx, 4 * 4, 0);
 
             for (i = j = 0; i < 4; i++, j += 4) {
-                gDPLoadTextureBlock_4b(POLY_OPA_DISP++, sCursorTexs[i], G_IM_FMT_IA, 16, 16, 0,
-                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                                       G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock_4b(POLY_OPA_DISP++, sCursorTexs[i], G_IM_FMT_IA, PAUSE_MENU_CURSOR_CORNER_TEX_WIDTH,
+                                       PAUSE_MENU_CURSOR_CORNER_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSP1Quadrangle(POLY_OPA_DISP++, j, j + 2, j + 3, j + 1, 0);
             }
         }
@@ -1954,8 +1955,9 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (YREG(7) != 0) {
                 PRINTF_COLOR_YELLOW();
-                PRINTF("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAGS(YREG(6)),
-                       gAreaGsFlags[YREG(6)], gSaveContext.save.info.gsFlags[YREG(6) >> 2]);
+                PRINTF(T("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", "Kinsta Count(%d) Get_KIN_STA=%x (%x)  (%x)\n"),
+                       YREG(6), GET_GS_FLAGS(YREG(6)), gAreaGsFlags[YREG(6)],
+                       gSaveContext.save.info.gsFlags[YREG(6) >> 2]);
                 PRINTF_RST();
 
                 YREG(7) = 0;
@@ -3009,10 +3011,10 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->cursorVtx[11].v.tc[1]
         // PAUSE_CURSOR_QUAD_BR
         = pauseCtx->cursorVtx[13].v.tc[0] = pauseCtx->cursorVtx[14].v.tc[1] = pauseCtx->cursorVtx[15].v.tc[0] =
-            pauseCtx->cursorVtx[15].v.tc[1] = 16 * (1 << 5);
+            pauseCtx->cursorVtx[15].v.tc[1] = PAUSE_MENU_CURSOR_CORNER_TEX_SIZE * (1 << 5);
     // PAUSE_CURSOR_QUAD_4
     pauseCtx->cursorVtx[17].v.tc[0] = pauseCtx->cursorVtx[18].v.tc[1] = pauseCtx->cursorVtx[19].v.tc[0] =
-        pauseCtx->cursorVtx[19].v.tc[1] = 32 * (1 << 5);
+        pauseCtx->cursorVtx[19].v.tc[1] = gMagicArrowEquipEffectTex_SIZE * (1 << 5);
 
     pauseCtx->itemVtx = GRAPH_ALLOC(gfxCtx, (ITEM_QUAD_MAX * 4) * sizeof(Vtx));
 
@@ -3738,7 +3740,7 @@ void KaleidoScope_Update(PlayState* play) {
 
             playerSegmentDrawPauseSize =
                 Player_InitPauseDrawData(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
-            PRINTF("プレイヤー size1＝%x\n", playerSegmentDrawPauseSize);
+            PRINTF(T("プレイヤー size1＝%x\n", "Player size1=%x\n"), playerSegmentDrawPauseSize);
 
             iconItemStaticSize =
                 (uintptr_t)_icon_item_staticSegmentRomEnd - (uintptr_t)_icon_item_staticSegmentRomStart;
@@ -3846,10 +3848,11 @@ void KaleidoScope_Update(PlayState* play) {
 
             // This printf may have been used to compute the size used on playerSegment at one point,
             // but is missing the size of icon_item_24_static
-            PRINTF("サイズ＝%x\n", size2 + playerSegmentDrawPauseSize + iconItemStaticSize + size);
+            PRINTF(T("サイズ＝%x\n", "size=%x\n"), size2 + playerSegmentDrawPauseSize + iconItemStaticSize + size);
             PRINTF("item_name I_N_PT=%x\n", 0x800);
             Interface_SetDoAction(play, DO_ACTION_DECIDE);
-            PRINTF("サイズ＝%x\n", size2 + playerSegmentDrawPauseSize + iconItemStaticSize + size + 0x800);
+            PRINTF(T("サイズ＝%x\n", "size=%x\n"),
+                   size2 + playerSegmentDrawPauseSize + iconItemStaticSize + size + 0x800);
 
             if (((void)0, gSaveContext.worldMapArea) < WORLD_MAP_AREA_MAX) {
 #if OOT_NTSC

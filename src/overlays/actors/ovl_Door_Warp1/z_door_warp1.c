@@ -9,6 +9,7 @@
 #include "sequence.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64light.h"
 #include "z64play.h"
@@ -509,7 +510,9 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
     this->warpTimer++;
 
     if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        PRINTF("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger, TRANS_TRIGGER_START);
+        PRINTF(T("\n\n\nじかんがきたからおーしまい fade_direction=[%d]",
+                 "\n\n\nThe time has come, so it's over. fade_direction=[%d]"),
+               play->transitionTrigger, TRANS_TRIGGER_START);
 
         if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS) {
             if (!Flags_GetEventChkInf(EVENTCHKINF_25)) {
@@ -536,7 +539,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
             play->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN_0;
             gSaveContext.nextCutsceneIndex = 0;
         }
-        PRINTF("\n\n\nおわりおわり");
+        PRINTF(T("\n\n\nおわりおわり", "\n\n\nThe end The end"));
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
         gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;

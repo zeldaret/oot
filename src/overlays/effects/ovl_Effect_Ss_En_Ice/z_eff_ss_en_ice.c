@@ -12,6 +12,7 @@
 #include "rand.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64effect.h"
@@ -90,7 +91,8 @@ u32 EffectSsEnIce_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         this->rEnvColorB = initParams->envColor.b;
         this->rAlphaMode = 0;
     } else {
-        PRINTF("Effect_Ss_En_Ice_ct():pid->mode_swがエラーです。\n");
+        PRINTF(T("Effect_Ss_En_Ice_ct():pid->mode_swがエラーです。\n",
+                 "Effect_Ss_En_Ice_ct():pid->mode_sw is an error.\n"));
         return 0;
     }
 
