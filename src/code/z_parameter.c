@@ -29,6 +29,8 @@
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
+#pragma increment_block_number
+
 typedef struct RestrictionFlags {
     /* 0x00 */ u8 sceneId;
     /* 0x01 */ u8 flags1;
