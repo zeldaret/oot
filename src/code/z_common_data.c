@@ -26,7 +26,7 @@ void SaveContext_Init(void) {
     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
     gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
     gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
-    gSaveContext.nextCutsceneIndex = CS_INDEX_NEXT_EMPTY;
+    gSaveContext.nextCutsceneIndex = NEXT_CS_INDEX_NONE;
     gSaveContext.cutsceneTrigger = 0;
     gSaveContext.chamberCutsceneNum = CHAMBER_CS_FOREST;
     gSaveContext.nextDayTime = NEXT_TIME_NONE;

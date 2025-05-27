@@ -3562,7 +3562,7 @@ void Interface_Draw(PlayState* play) {
             (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT)) {
             // Trade quest timer reached 0
             sSubTimerStateTimer = 40;
-            gSaveContext.save.cutsceneIndex = CS_INDEX_DEFAULT;
+            gSaveContext.save.cutsceneIndex = CS_INDEX_NIGHT;
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_FADE_WHITE;
             gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
@@ -3900,7 +3900,7 @@ void Interface_Draw(PlayState* play) {
                                                  (play->sceneId != SCENE_INSIDE_GANONS_CASTLE_COLLAPSE))) {
                                                 sSubTimerStateTimer = 40;
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_RESPAWN;
-                                                gSaveContext.save.cutsceneIndex = CS_INDEX_DEFAULT;
+                                                gSaveContext.save.cutsceneIndex = CS_INDEX_NIGHT;
                                                 Message_StartTextbox(play, 0x71B0, NULL);
                                                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
                                             } else {

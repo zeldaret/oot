@@ -409,19 +409,25 @@ typedef enum LinkAge {
 } LinkAge;
 
 
-// values `< 0xFFF0` indicate no cutscene, or a context in which manual cutscenes can be used; can be assigned to
-// - `gSaveContext.save.cutsceneIndex`
-// - `gSaveContext.nextCutsceneIndex`
-// using them implies an intention to have the Play state set `gSaveContext.sceneLayer` based on age and day time on state init
-// see enum values [`SCENE_LAYER_CHILD_DAY` .. `SCENE_LAYER_ADULT_NIGHT`]
-#define CS_INDEX_DEFAULT 0x0000
-#define CS_INDEX_UNK_8000 0x8000
+// Values that indicate that either no cutscene is playing or a
+// "manual"/"unscripted" cutscene is playing. The names "night"
+// and "day" are leftover from the original meaning of the cutscene
+// index (called "day_time"), and only map select uses these values
+// (to set gSaveContext.save.nightFlag).
+#define CS_INDEX_NIGHT 0x0000
+#define CS_INDEX_DAY 0x8000
 
-// values `>= 0xFFF0` indicate a "scripted" cutscene; can be assigned to
-// - `gSaveContext.save.cutsceneIndex`
-// - `gSaveContext.nextCutsceneIndex`
-// using them implies an intention to have `z_play.c` set `gSaveContext.sceneLayer` directly by index
-// see `GET_CUTSCENE_LAYER(index)`
+// Values 0xFFF0-0xFFFF indicate that a cutscene script should be played.
+// If the value of `nextCutsceneIndex` is 0xFFF0-0xFFFF on scene load,
+// `Play_Init` will copy the value to `gSaveContext.cutsceneIndex`, load a
+// corresponding scene layer and start the scripted cutscene in the scene layer
+// (except for the value 0xFFFD, which is special-cased to do nothing on Play init).
+// It loads layer 4 for 0xFFF0, layer 5 for 0xFFF1, and so on.
+//
+// The cutsceneIndex could also be set to one of these values to start a
+// scripted cutscene immediately. In the vanilla game, this is used to play
+// the cutscene where the barrier in Ganon's Castle is dispelled (using index 0xFFFF)
+// and to preview cutscenes in debug mode (using index 0xFFFD).
 #define CS_INDEX_0 0xFFF0
 #define CS_INDEX_1 0xFFF1
 #define CS_INDEX_2 0xFFF2
@@ -433,17 +439,14 @@ typedef enum LinkAge {
 #define CS_INDEX_8 0xFFF8
 #define CS_INDEX_9 0xFFF9
 #define CS_INDEX_A 0xFFFA
+#define CS_INDEX_B 0xFFFB
+#define CS_INDEX_C 0xFFFC
+#define CS_INDEX_D 0xFFFD
+#define CS_INDEX_E 0xFFFE
+#define CS_INDEX_F 0xFFFF
 
-// This value is "out of range" even for the largest set of entrances in the entrance table
-// but `z_demo.c` immediately sets `CS_STATE_STOP` state
-#define CS_INDEX_UNK_FFFF 0xFFFF
-
-// sentinel value used for `cutsceneIndex` to indicate that it should be reset to default
-#define CS_INDEX_EMPTY 0xFFFD
-
-// sentinel value used for `nextCutsceneIndex` to indicate that it is empty
-// otherwise its value will be copied to `cutsceneIndex` on Play state init
-#define CS_INDEX_NEXT_EMPTY 0xFFEF
+// Sentinel value for `nextCutsceneIndex` to indicate that no cutscene should be played next.
+#define NEXT_CS_INDEX_NONE 0xFFEF
 
 
 #define LINK_IS_ADULT (gSaveContext.save.linkAge == LINK_AGE_ADULT)

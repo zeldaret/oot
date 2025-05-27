@@ -348,13 +348,13 @@ void Play_Init(GameState* thisx) {
     AnimTaskQueue_Reset(&this->animTaskQueue);
     Cutscene_InitContext(this, &this->csCtx);
 
-    if (gSaveContext.nextCutsceneIndex != CS_INDEX_NEXT_EMPTY) {
+    if (gSaveContext.nextCutsceneIndex != NEXT_CS_INDEX_NONE) {
         gSaveContext.save.cutsceneIndex = gSaveContext.nextCutsceneIndex;
-        gSaveContext.nextCutsceneIndex = CS_INDEX_NEXT_EMPTY;
+        gSaveContext.nextCutsceneIndex = NEXT_CS_INDEX_NONE;
     }
 
-    if (gSaveContext.save.cutsceneIndex == CS_INDEX_EMPTY) {
-        gSaveContext.save.cutsceneIndex = CS_INDEX_DEFAULT;
+    if (gSaveContext.save.cutsceneIndex == CS_INDEX_D) {
+        gSaveContext.save.cutsceneIndex = CS_INDEX_NIGHT;
     }
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
