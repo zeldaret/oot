@@ -174,7 +174,7 @@ static s16 sSlotItems[] = {
     ITEM_BOOMERANG,  ITEM_LENS_OF_TRUTH, ITEM_MAGIC_BEAN, ITEM_HAMMER,   ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
 };
 
-void KaleidoScope_DrawDebugEditorText(Gfx** gfxP) {
+void KaleidoScope_DrawInventoryEditorText(Gfx** gfxP) {
     GfxPrint printer;
     s32 pad[2];
 
@@ -231,7 +231,7 @@ void KaleidoScope_DrawDigit(PlayState* play, s32 digit, s32 rectLeft, s32 rectTo
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_debug.c", 220);
 }
 
-void KaleidoScope_DrawDebugEditor(PlayState* play) {
+void KaleidoScope_DrawInventoryEditor(PlayState* play) {
     static s16 curSection = SECTION_RUPEES;
     static s16 curRow = 0;
     static s32 prevDBtnInput = 0;
@@ -268,7 +268,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     gfx = Gfx_Open(gfxRef);
     gSPDisplayList(OVERLAY_DISP++, gfx);
 
-    KaleidoScope_DrawDebugEditorText(&gfx);
+    KaleidoScope_DrawInventoryEditorText(&gfx);
 
     gSPEndDisplayList(gfx++);
     Gfx_Close(gfxRef, gfx);

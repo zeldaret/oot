@@ -3419,7 +3419,7 @@ void KaleidoScope_Draw(PlayState* play) {
 
     if ((pauseCtx->debugState == PAUSE_DEBUG_STATE_INVENTORY_EDITOR_OPENING) ||
         (pauseCtx->debugState == PAUSE_DEBUG_STATE_INVENTORY_EDITOR_OPEN)) {
-        KaleidoScope_DrawDebugEditor(play);
+        KaleidoScope_DrawInventoryEditor(play);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3254);
