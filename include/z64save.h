@@ -409,11 +409,11 @@ typedef enum LinkAge {
 } LinkAge;
 
 
-// Values that indicate that either no cutscene is playing or a
-// "manual"/"unscripted" cutscene is playing. The names "night"
+// Values that indicate that no cutscene script should be played
+// (or that an "unscripted" cutscene is playing). The names "night"
 // and "day" are leftover from the original meaning of the cutscene
 // index (called "day_time"), and only map select uses these values
-// (to set gSaveContext.save.nightFlag).
+// to indicate time of day (to set gSaveContext.save.nightFlag).
 #define CS_INDEX_NIGHT 0x0000
 #define CS_INDEX_DAY 0x8000
 
@@ -421,7 +421,7 @@ typedef enum LinkAge {
 // If the value of `nextCutsceneIndex` is 0xFFF0-0xFFFF on scene load,
 // `Play_Init` will copy the value to `gSaveContext.cutsceneIndex`, load a
 // corresponding scene layer and start the scripted cutscene in the scene layer
-// (except for the value 0xFFFD, which is special-cased to do nothing on Play init).
+// (except for the value 0xFFFD, which is special-cased to do nothing in `Play_Init`).
 // It loads layer 4 for 0xFFF0, layer 5 for 0xFFF1, and so on.
 //
 // The cutsceneIndex could also be set to one of these values to start a

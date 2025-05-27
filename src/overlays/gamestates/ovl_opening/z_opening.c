@@ -21,7 +21,7 @@ void TitleSetup_SetupTitleScreen(TitleSetupState* this) {
     Sram_InitDebugSave();
     gSaveContext.save.cutsceneIndex = CS_INDEX_3;
     // assigning scene layer here is redundant, as Play_Init sets it right away
-    gSaveContext.sceneLayer = 7;
+    gSaveContext.sceneLayer = GET_CUTSCENE_LAYER(CS_INDEX_3);
     SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
 
