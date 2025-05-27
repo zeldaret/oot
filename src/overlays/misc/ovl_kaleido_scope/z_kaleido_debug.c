@@ -238,7 +238,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     Gfx* gfx;
     Gfx* gfxRef;
     // Used for both storing the digits of the drawn numbers and digit positions
-    s16 buffer[4];
+    s16 digitBuf[4];
     s16 slot;
     s16 i;
     s16 j;
@@ -282,162 +282,162 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
     // Rupees
-    buffer[0] = buffer[1] = buffer[2] = 0;
-    buffer[3] = gSaveContext.save.info.playerData.rupees;
-    while (buffer[3] >= 1000) {
-        buffer[0]++;
-        buffer[3] -= 1000;
+    digitBuf[0] = digitBuf[1] = digitBuf[2] = 0;
+    digitBuf[3] = gSaveContext.save.info.playerData.rupees;
+    while (digitBuf[3] >= 1000) {
+        digitBuf[0]++;
+        digitBuf[3] -= 1000;
     }
 
-    while (buffer[3] >= 100) {
-        buffer[1]++;
-        buffer[3] -= 100;
+    while (digitBuf[3] >= 100) {
+        digitBuf[1]++;
+        digitBuf[3] -= 100;
     }
 
-    while (buffer[3] >= 10) {
-        buffer[2]++;
-        buffer[3] -= 10;
+    while (digitBuf[3] >= 10) {
+        digitBuf[2]++;
+        digitBuf[3] -= 10;
     }
 
     for (i = 0, x = 68; i < 4; i++, x += 10) {
-        KaleidoScope_DrawDigit(play, buffer[i], x, 15);
+        KaleidoScope_DrawDigit(play, digitBuf[i], x, 15);
     }
 
     // Health capacity
-    buffer[2] = 0;
-    buffer[3] = gSaveContext.save.info.playerData.healthCapacity / 0x10;
-    while (buffer[3] >= 10) {
-        buffer[2]++;
-        buffer[3] -= 10;
+    digitBuf[2] = 0;
+    digitBuf[3] = gSaveContext.save.info.playerData.healthCapacity / 0x10;
+    while (digitBuf[3] >= 10) {
+        digitBuf[2]++;
+        digitBuf[3] -= 10;
     }
 
-    KaleidoScope_DrawDigit(play, buffer[2], 146, 15);
-    KaleidoScope_DrawDigit(play, buffer[3], 156, 15);
+    KaleidoScope_DrawDigit(play, digitBuf[2], 146, 15);
+    KaleidoScope_DrawDigit(play, digitBuf[3], 156, 15);
 
     // Health
-    buffer[2] = 0;
-    buffer[3] = gSaveContext.save.info.playerData.health / 0x10;
-    while (buffer[3] >= 10) {
-        buffer[2]++;
-        buffer[3] -= 10;
+    digitBuf[2] = 0;
+    digitBuf[3] = gSaveContext.save.info.playerData.health / 0x10;
+    while (digitBuf[3] >= 10) {
+        digitBuf[2]++;
+        digitBuf[3] -= 10;
     }
 
-    KaleidoScope_DrawDigit(play, buffer[2], 172, 15);
-    KaleidoScope_DrawDigit(play, buffer[3], 182, 15);
+    KaleidoScope_DrawDigit(play, digitBuf[2], 172, 15);
+    KaleidoScope_DrawDigit(play, digitBuf[3], 182, 15);
 
     // Inventory
     for (slot = 0, i = 0, y = 35; i < 4; i++, y += 15) {
         for (j = 0, x = 78; j < 6; j++, slot++, x += 26) {
-            buffer[2] = 0;
+            digitBuf[2] = 0;
 
             if ((slot <= SLOT_BOW) || (slot == SLOT_SLINGSHOT) || (slot == SLOT_BOMBCHU) || (slot == SLOT_MAGIC_BEAN)) {
-                buffer[3] = AMMO(gAmmoItems[slot]);
+                digitBuf[3] = AMMO(gAmmoItems[slot]);
             } else if (slot == SLOT_OCARINA) {
-                buffer[3] = gSaveContext.save.info.inventory.items[slot];
+                digitBuf[3] = gSaveContext.save.info.inventory.items[slot];
             } else {
-                buffer[3] = gSaveContext.save.info.inventory.items[slot];
+                digitBuf[3] = gSaveContext.save.info.inventory.items[slot];
             }
 
-            if (buffer[3] != ITEM_NONE) {
-                while (buffer[3] >= 10) {
-                    buffer[2]++;
-                    buffer[3] -= 10;
+            if (digitBuf[3] != ITEM_NONE) {
+                while (digitBuf[3] >= 10) {
+                    digitBuf[2]++;
+                    digitBuf[3] -= 10;
                 }
             } else {
-                buffer[2] = buffer[3] = 0;
+                digitBuf[2] = digitBuf[3] = 0;
             }
 
-            KaleidoScope_DrawDigit(play, buffer[2], x, y);
-            KaleidoScope_DrawDigit(play, buffer[3], x + 10, y);
+            KaleidoScope_DrawDigit(play, digitBuf[2], x, y);
+            KaleidoScope_DrawDigit(play, digitBuf[3], x + 10, y);
         }
     }
 
     // Keys
-    for (buffer[1] = 78, i = 0; i < 17; i++) {
-        buffer[2] = 0;
+    for (digitBuf[1] = 78, i = 0; i < 17; i++) {
+        digitBuf[2] = 0;
 
-        if ((buffer[3] = gSaveContext.save.info.inventory.dungeonKeys[i]) >= 0) {
-            while (buffer[3] >= 10) {
-                buffer[2]++;
-                buffer[3] -= 10;
+        if ((digitBuf[3] = gSaveContext.save.info.inventory.dungeonKeys[i]) >= 0) {
+            while (digitBuf[3] >= 10) {
+                digitBuf[2]++;
+                digitBuf[3] -= 10;
             }
         } else {
-            buffer[2] = buffer[3] = 0;
+            digitBuf[2] = digitBuf[3] = 0;
         }
 
-        KaleidoScope_DrawDigit(play, buffer[3], buffer[1], 98);
-        buffer[1] += 10;
+        KaleidoScope_DrawDigit(play, digitBuf[3], digitBuf[1], 98);
+        digitBuf[1] += 10;
     }
 
     // Upgrades
-    for (buffer[1] = 78, i = 0; i < 8; i++, buffer[1] += 12) {
-        KaleidoScope_DrawDigit(play, CUR_UPG_VALUE(i), buffer[1], 115);
+    for (digitBuf[1] = 78, i = 0; i < 8; i++, digitBuf[1] += 12) {
+        KaleidoScope_DrawDigit(play, CUR_UPG_VALUE(i), digitBuf[1], 115);
     }
 
     // Equipment
-    for (buffer[1] = 202, i = 0; i < 4; i++, buffer[1] += 12) {
-        KaleidoScope_DrawDigit(play, ALL_EQUIP_VALUE(i), buffer[1], 115);
+    for (digitBuf[1] = 202, i = 0; i < 4; i++, digitBuf[1] += 12) {
+        KaleidoScope_DrawDigit(play, ALL_EQUIP_VALUE(i), digitBuf[1], 115);
     }
 
     // Dungeon Items
-    for (buffer[1] = 78, i = 0; i < 12; i++, buffer[1] += 12) {
-        buffer[2] = gSaveContext.save.info.inventory.dungeonItems[i] & gEquipMasks[0];
-        KaleidoScope_DrawDigit(play, buffer[2], buffer[1], 132);
+    for (digitBuf[1] = 78, i = 0; i < 12; i++, digitBuf[1] += 12) {
+        digitBuf[2] = gSaveContext.save.info.inventory.dungeonItems[i] & gEquipMasks[0];
+        KaleidoScope_DrawDigit(play, digitBuf[2], digitBuf[1], 132);
     }
 
     // Medallions
-    for (buffer[1] = 78, i = 0; i < 6; i++, buffer[1] += 12) {
-        buffer[2] = 0;
+    for (digitBuf[1] = 78, i = 0; i < 6; i++, digitBuf[1] += 12) {
+        digitBuf[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST + i)) {
-            buffer[2] = 1;
+            digitBuf[2] = 1;
         }
-        KaleidoScope_DrawDigit(play, buffer[2], buffer[1], 149);
+        KaleidoScope_DrawDigit(play, digitBuf[2], digitBuf[1], 149);
     }
 
     // Spiritual Stones
-    for (buffer[1] = 210, i = 0; i < 3; i++, buffer[1] += 12) {
-        buffer[2] = 0;
+    for (digitBuf[1] = 210, i = 0; i < 3; i++, digitBuf[1] += 12) {
+        digitBuf[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD + i)) {
-            buffer[2] = 1;
+            digitBuf[2] = 1;
         }
-        KaleidoScope_DrawDigit(play, buffer[2], buffer[1], 149);
+        KaleidoScope_DrawDigit(play, digitBuf[2], digitBuf[1], 149);
     }
 
     // Songs
-    for (buffer[1] = 78, i = 0; i < 12; i++, buffer[1] += 12) {
-        buffer[2] = 0;
+    for (digitBuf[1] = 78, i = 0; i < 12; i++, digitBuf[1] += 12) {
+        digitBuf[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_SONG_MINUET + i)) {
-            buffer[2] = 1;
+            digitBuf[2] = 1;
         }
-        KaleidoScope_DrawDigit(play, buffer[2], buffer[1], 166);
+        KaleidoScope_DrawDigit(play, digitBuf[2], digitBuf[1], 166);
     }
 
     // Other Quest Items
-    for (buffer[1] = 78, i = 0; i < 2; i++, buffer[1] += 12) {
-        buffer[2] = 0;
+    for (digitBuf[1] = 78, i = 0; i < 2; i++, digitBuf[1] += 12) {
+        digitBuf[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY + i)) {
-            buffer[2] = 1;
+            digitBuf[2] = 1;
         }
-        KaleidoScope_DrawDigit(play, buffer[2], buffer[1], 185);
+        KaleidoScope_DrawDigit(play, digitBuf[2], digitBuf[1], 185);
     }
 
     // GS Tokens
-    buffer[3] = gSaveContext.save.info.inventory.gsTokens;
-    buffer[1] = 0;
-    buffer[2] = 0;
-    while (buffer[3] >= 100) {
-        buffer[1]++;
-        buffer[3] -= 100;
+    digitBuf[3] = gSaveContext.save.info.inventory.gsTokens;
+    digitBuf[1] = 0;
+    digitBuf[2] = 0;
+    while (digitBuf[3] >= 100) {
+        digitBuf[1]++;
+        digitBuf[3] -= 100;
     }
 
-    while (buffer[3] >= 10) {
-        buffer[2]++;
-        buffer[3] -= 10;
+    while (digitBuf[3] >= 10) {
+        digitBuf[2]++;
+        digitBuf[3] -= 10;
     }
 
-    KaleidoScope_DrawDigit(play, buffer[1], 145, 185);
-    KaleidoScope_DrawDigit(play, buffer[2], 155, 185);
-    KaleidoScope_DrawDigit(play, buffer[3], 165, 185);
+    KaleidoScope_DrawDigit(play, digitBuf[1], 145, 185);
+    KaleidoScope_DrawDigit(play, digitBuf[2], 155, 185);
+    KaleidoScope_DrawDigit(play, digitBuf[3], 165, 185);
 
     // Heart Pieces (X / 4)
     KaleidoScope_DrawDigit(
