@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_fire" Segment="6">
+        <Array Name="gGiBlueFireChamberstickVtx" Count="130" Offset="0x400">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiBlueFireFlameVtx" Count="4" Offset="0xC20">
+            <Vtx/>
+        </Array>
         <DList Name="gGiBlueFireChamberstickDL" Offset="0x0C60"/>
         <DList Name="gGiBlueFireFlameDL" Offset="0x0F08"/>
     </File>

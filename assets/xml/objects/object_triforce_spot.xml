@@ -4,6 +4,12 @@
             <Vtx/>
         </Array>
 
+        <Array Name="gTriforceVtx" Count="54" Offset="0x200">
+            <Vtx/>
+        </Array>
+        <Array Name="gTriforceLightColumnVtx" Count="10" Offset="0x560">
+            <Vtx/>
+        </Array>
         <DList Name="gTriforceDL" Offset="0x0600"/>
         <DList Name="gTriforceLightColumnDL" Offset="0x0840"/>
 

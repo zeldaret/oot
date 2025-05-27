@@ -1,5 +1,8 @@
 <Root>
     <File Name="object_gi_golonmask" Segment="6">
+        <Array Name="gGiGoronMaskVtx" Count="91" Offset="0xF48">
+            <Vtx/>
+        </Array>
         <DList Name="gGiGoronMaskDL" Offset="0x14F8"/>
     </File>
 </Root>

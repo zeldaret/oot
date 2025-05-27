@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_prescription" Segment="6">
+        <Array Name="gGiPrescriptionVtx" Count="30" Offset="0x600">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiPrescriptionWritingVtx" Count="30" Offset="0x7E0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiPrescriptionDL" Offset="0x09C0"/>
         <DList Name="gGiPrescriptionWritingDL" Offset="0x0AF0"/>
     </File>

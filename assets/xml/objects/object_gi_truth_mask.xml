@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_truth_mask" Segment="6">
+        <Array Name="gGiMaskOfTruthVtx" Count="158" Offset="0x800">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiMaskOfTruthAccentsVtx" Count="31" Offset="0x11E0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiMaskOfTruthDL" Offset="0x13D0"/>
         <DList Name="gGiMaskOfTruthAccentsDL" Offset="0x16B0"/>
     </File>

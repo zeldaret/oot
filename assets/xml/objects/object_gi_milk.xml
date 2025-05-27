@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_milk" Segment="6">
+        <Array Name="gGiMilkBottleContentsVtx" Count="63" Offset="0x6C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiMilkBottleVtx" Count="91" Offset="0xAB0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiMilkBottleContentsDL" Offset="0x1060"/>
         <DList Name="gGiMilkBottleDL" Offset="0x1288"/>
     </File>
