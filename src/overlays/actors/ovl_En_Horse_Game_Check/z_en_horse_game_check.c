@@ -15,6 +15,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sys_math3d.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64player.h"
@@ -319,8 +320,7 @@ void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, PlayState
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
     } else {
-        // "not supported"
-        PRINTF("En_HGC_Spot20_Ta_end():対応せず\n");
+        PRINTF(T("En_HGC_Spot20_Ta_end():対応せず\n", "En_HGC_Spot20_Ta_end(): not supported\n"));
         gSaveContext.save.cutsceneIndex = 0;
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
