@@ -1,10 +1,6 @@
 <Root>
     <File Name="object_triforce_spot" Segment="6">
-        <Array Name="gTriforceVtx" Count="32" Offset="0x0000">
-            <Vtx/>
-        </Array>
-
-        <Array Name="gTriforceVtx" Count="54" Offset="0x200">
+        <Array Name="gTriforceVtx" Count="86" Offset="0x0000">
             <Vtx/>
         </Array>
         <Array Name="gTriforceLightColumnVtx" Count="10" Offset="0x560">
