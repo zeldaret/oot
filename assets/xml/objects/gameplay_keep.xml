@@ -709,10 +709,10 @@
         <Animation Name="gFishInWaterAnim" Offset="0x1953C"/>
         <Texture Name="gEffShockwaveTex" OutName="eff_shockwave" Format="i8" Width="64" Height="64" Offset="0x19550"/>
         <DList Name="gEffShockwaveDL" Offset="0x1A550"/>
-        <DList Name="gEffBubbleDL" Offset="0x1A600"/>
         <Array Name="gGameplayKeepVtx_01A120" Count="4" Offset="0x1A5C0">
             <Vtx/>
         </Array>
+        <DList Name="gEffBubbleDL" Offset="0x1A600"/>
 
         <Texture Name="gEffFireFootprint1Tex" OutName="eff_fire_footprint_1" Format="ia8" Width="32" Height="32" Offset="0x1A6C0"/>
         <Texture Name="gEffFireFootprint2Tex" OutName="eff_fire_footprint_2" Format="ia8" Width="32" Height="32" Offset="0x1AAC0"/>

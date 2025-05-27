@@ -15,6 +15,7 @@
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64play.h"
 #include "z64player.h"
 #include "z64save.h"
@@ -80,15 +81,14 @@ void EnGm_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    // "Medi Goron"
-    PRINTF(VT_FGCOL(GREEN) "%s[%d] : 中ゴロン[%d]" VT_RST "\n", "../z_en_gm.c", 133, this->actor.params);
+    PRINTF(VT_FGCOL(GREEN) T("%s[%d] : 中ゴロン[%d]", "%s[%d] : Medi Goron [%d]") VT_RST "\n", "../z_en_gm.c", 133,
+           this->actor.params);
 
     this->gmObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GM);
 
     if (this->gmObjectSlot < 0) {
         PRINTF_COLOR_ERROR();
-        // "There is no model bank! !! (Medi Goron)"
-        PRINTF("モデル バンクが無いよ！！（中ゴロン）\n");
+        PRINTF(T("モデル バンクが無いよ！！（中ゴロン）\n", "There is no model bank!! (Medi Goron)\n"));
         PRINTF_RST();
         ASSERT(0, "0", "../z_en_gm.c", 145);
     }

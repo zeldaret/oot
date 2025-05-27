@@ -17,6 +17,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64debug_display.h"
 #include "z64effect.h"
@@ -97,27 +98,32 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play2) {
         this->animParams[i] = sAnimParamsInit[this->type][i];
     }
 
-    // "type"
-    PRINTF(VT_FGCOL(GREEN) " 種類☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n" VT_RST, this->type);
-    // "path data"
+    PRINTF(VT_FGCOL(GREEN) T(" 種類☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n", " type                   ☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n") VT_RST,
+           this->type);
     PRINTF(VT_FGCOL(YELLOW) " れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n" VT_RST, this->path);
     PRINTF(VT_FGCOL(MAGENTA) " anime_frame_speed ☆☆☆☆☆☆ %f\n" VT_RST, this->animSpeed);
-    // "interpolation frame"
-    PRINTF(VT_FGCOL(MAGENTA) " 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n" VT_RST, this->animMorphFrames);
-    // "targeted movement speed value between points"
-    PRINTF(VT_FGCOL(MAGENTA) " point間の移動スピード目標値 ☆ %f\n" VT_RST, this->moveSpeedTarget);
-    // "maximum movement speed value between points"
-    PRINTF(VT_FGCOL(MAGENTA) " point間の移動スピード最大 ☆☆ %f\n" VT_RST, this->moveSpeedMax);
-    // "(body) targeted turning angle speed value"
-    PRINTF(VT_FGCOL(MAGENTA) " (体)反転アングルスピード目標値 %f\n" VT_RST, this->bodyTurnSpeedTarget);
-    // "(body) maximum turning angle speed"
-    PRINTF(VT_FGCOL(MAGENTA) " (体)反転アングルスピード最大☆ %f\n" VT_RST, this->bodyTurnSpeedMax);
-    // "(head) targeted turning angle speed value"
-    PRINTF(VT_FGCOL(MAGENTA) " (頭)反転アングルスピード加算値 %f\n" VT_RST, this->headTurnSpeedScale);
-    // "(head) maximum turning angle speed"
-    PRINTF(VT_FGCOL(MAGENTA) " (頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
-    PRINTF(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, ((void)0, gSaveContext.save.dayTime)); // "current time"
-    PRINTF(VT_FGCOL(YELLOW) " チェック時間 %d\n" VT_RST, CLOCK_TIME(17, 30) - 1);        // "check time"
+    PRINTF(VT_FGCOL(MAGENTA) T(" 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n", " interpolation frame          ☆☆☆☆☆☆☆☆☆ %f\n") VT_RST,
+           this->animMorphFrames);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" point間の移動スピード目標値 ☆ %f\n", " target speed of movement between points    ☆ %f\n") VT_RST,
+           this->moveSpeedTarget);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" point間の移動スピード最大 ☆☆ %f\n", " maximum speed of movement between points ☆☆ %f\n") VT_RST,
+           this->moveSpeedMax);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" (体)反転アングルスピード目標値 %f\n", " (body) reversing angle speed target value    %f\n") VT_RST,
+           this->bodyTurnSpeedTarget);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" (体)反転アングルスピード最大☆ %f\n", " (body) maximum turning angle speed        ☆ %f\n") VT_RST,
+           this->bodyTurnSpeedMax);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" (頭)反転アングルスピード加算値 %f\n", " (head) reverse angle speed additional value  %f\n") VT_RST,
+           this->headTurnSpeedScale);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" (頭)反転アングルスピード最大☆ %f\n", " (head) maximum turning angle speed        ☆ %f\n") VT_RST,
+           this->headTurnSpeedMax);
+    PRINTF(VT_FGCOL(GREEN) T(" 今時間 %d\n", " Current time %d\n") VT_RST, ((void)0, gSaveContext.save.dayTime));
+    PRINTF(VT_FGCOL(YELLOW) T(" チェック時間 %d\n", " Check time %d\n") VT_RST, CLOCK_TIME(17, 30) - 1);
     PRINTF("\n\n");
 
     if (this->path == 3) {
@@ -389,7 +395,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 100.0f) {
         Message_StartTextbox(play, 0x702D, &this->actor);
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Discovered! ☆☆☆☆☆ \n") VT_RST);
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
         this->actionFunc = EnHeishi1_SetupKick;
     }
@@ -472,8 +478,8 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
                                 // this 60 unit height check is so the player doesn't get caught when on the upper path
                                 if (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 60.0f) {
                                     Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
-                                    // "Discovered!"
-                                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST);
+                                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Discovered! ☆☆☆☆☆ \n")
+                                               VT_RST);
                                     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
                                     sPlayerIsCaught = true;
                                     this->actionFunc = EnHeishi1_SetupMoveToLink;

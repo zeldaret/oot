@@ -697,16 +697,16 @@
         <Texture Name="gEffUnknown5Tex" OutName="eff_unknown_5" Format="i8" Width="32" Height="64" Offset="0x17BD0"/>
         <DList Name="gEffFireCircleDL" Offset="0x184B0"/>
         <Animation Name="gFishOutOfWaterAnim" Offset="0x185FC"/>
-        <Skeleton Name="gFishSkel" Type="Flex" LimbType="Standard" Offset="0x18FE0"/>
-        <Animation Name="gFishInWaterAnim" Offset="0x1909C"/>
         <Texture Name="gFishTailTex" OutName="fish_tail" Format="rgba16" Width="16" Height="16" Offset="0x18B80"/>
         <Texture Name="gFishBodyTex" OutName="fish_body" Format="rgba16" Width="32" Height="8" Offset="0x18D80"/>
+        <Skeleton Name="gFishSkel" Type="Flex" LimbType="Standard" Offset="0x18FE0"/>
+        <Animation Name="gFishInWaterAnim" Offset="0x1909C"/>
         <Texture Name="gEffShockwaveTex" OutName="eff_shockwave" Format="i8" Width="64" Height="64" Offset="0x190B0"/>
         <DList Name="gEffShockwaveDL" Offset="0x1A0B0"/>
-        <DList Name="gEffBubbleDL" Offset="0x1A160"/>
         <Array Name="gGameplayKeepVtx_01A120" Count="4" Offset="0x1A120">
             <Vtx/>
         </Array>
+        <DList Name="gEffBubbleDL" Offset="0x1A160"/>
 
         <Texture Name="gEffFireFootprint1Tex" OutName="eff_fire_footprint_1" Format="ia8" Width="32" Height="32" Offset="0x1A220"/>
         <Texture Name="gEffFireFootprint2Tex" OutName="eff_fire_footprint_2" Format="ia8" Width="32" Height="32" Offset="0x1A620"/>
@@ -841,9 +841,9 @@
         <DList Name="gBugLimb9DL" Offset="0x34990"/>
         <DList Name="gBugLimb9WrapperDL" Offset="0x34A40"/>
         <DList Name="gBugLimb9WrapperWrapperDL" Offset="0x34A50"/>
-        <Skeleton Name="gBugSkel" Type="Normal" LimbType="Standard" Offset="0x35590"/>
         <Texture Name="gBugBodyTex" OutName="bug_body" Format="rgba16" Width="16" Height="64" Offset="0x34B20"/>
         <Texture Name="gBugLegTex" OutName="bug_leg" Format="rgba16" Width="8" Height="16" Offset="0x35320"/>
+        <Skeleton Name="gBugSkel" Type="Normal" LimbType="Standard" Offset="0x35590"/>
         <DList Name="gCuttableShrubStalkDL" Offset="0x355E0"/>
         <DList Name="gCuttableShrubTipDL" Offset="0x356A0"/>
         <Texture Name="gCuttableShrubLeafTFragmentTex" OutName="cuttable_shrub_leaf_fragment" Format="rgba16" Width="32" Height="32" Offset="0x35730"/>
@@ -898,8 +898,8 @@
         <Texture Name="gRupeeGreenTex" OutName="rupee_green" Format="rgba16" Width="4" Height="4" Offset="0x42140"/>
         <Texture Name="gRupeeBlueTex" OutName="rupee_blue" Format="rgba16" Width="4" Height="4" Offset="0x42160"/>
         <Texture Name="gRupeeRedTex" OutName="rupee_red" Format="rgba16" Width="4" Height="4" Offset="0x42180"/>
-        <Texture Name="gRupeePinkTex" OutName="rupee_pink" Format="rgba16" Width="4" Height="4" Offset="0x421C0"/>
         <Texture Name="gRupeeOrangeTex" OutName="rupee_orange" Format="rgba16" Width="4" Height="4" Offset="0x421A0"/>
+        <Texture Name="gRupeePinkTex" OutName="rupee_pink" Format="rgba16" Width="4" Height="4" Offset="0x421C0"/>
         <Texture Name="gRupeeSilverTex" OutName="rupee_silver" Format="rgba16" Width="4" Height="4" Offset="0x421E0"/>
         <DList Name="gRupeeDL" Offset="0x42440"/>
         <Texture Name="gRupeeLightRedTex" OutName="rupee_light_red" Format="rgba16" Width="4" Height="4" Offset="0x42510"/>

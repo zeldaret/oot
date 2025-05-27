@@ -19,6 +19,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64audio.h"
@@ -104,22 +105,21 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
     this->type = PARAMS_GET_U(this->actor.params, 12, 4);
     this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
     this->numEffects = EN_GSWITCH_EFFECT_COUNT;
-    // "index"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
-    // "save"
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ\t     ☆☆☆☆☆ %x\n" VT_RST, this->switchFlag);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Index ☆☆☆☆☆ %x\n") VT_RST, this->type);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ セーブ\t     ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Save\t ☆☆☆☆☆ %x\n") VT_RST, this->switchFlag);
     switch (this->type) {
         case ENGSWITCH_SILVER_TRACKER:
             PRINTF("\n\n");
-            // "parent switch spawn"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 親スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 親スイッチ発生 ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Parent switch spawn ☆☆☆☆☆ %x\n") VT_RST,
+                   this->actor.params);
             sCollectedCount = 0;
             // Ideally the following two lines would be
             // this->silverCount = PARAMS_GET_U(this->actor.params, 6, 6);
             this->silverCount = PARAMS_GET_NOMASK(this->actor.params, 6);
             this->silverCount &= 0x3F;
-            // "maximum number of checks"
-            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
+            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Maximum number of checks ☆☆☆☆☆ %d\n")
+                       VT_RST,
+                   this->silverCount);
             PRINTF("\n\n");
             if (Flags_GetSwitch(play, this->switchFlag)) {
                 // This is a reference to Hokuto no Ken
@@ -131,8 +131,8 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             break;
         case ENGSWITCH_SILVER_RUPEE:
             PRINTF("\n\n");
-            // "child switch spawn"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 子スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 子スイッチ発生 ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Child switch spawn ☆☆☆☆☆ %x\n") VT_RST,
+                   this->actor.params);
             this->colorIdx = 5;
             this->numEffects = 20;
             Collider_InitCylinder(play, &this->collider);
@@ -149,8 +149,8 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             break;
         case ENGSWITCH_ARCHERY_POT:
             PRINTF("\n\n");
-            // "Horseback archery destructible pot"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n",
+                                     "☆☆☆☆☆ Horseback archery destructible pot ☆☆☆☆☆ \n") VT_RST);
             this->actor.gravity = -3.0f;
             this->colorIdx = Rand_ZeroFloat(2.99f);
             Collider_InitCylinder(play, &this->collider);
@@ -163,10 +163,9 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
             if (this->requiredObjectSlot < 0) {
                 Actor_Kill(&this->actor);
-                // "what?"
-                PRINTF(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->requiredObjectSlot);
-                // "bank is funny"
-                PRINTF(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
+                PRINTF(VT_FGCOL(MAGENTA) T(" なにみの？ %d\n", " What? %d\n") VT_RST "\n", this->requiredObjectSlot);
+                PRINTF(VT_FGCOL(CYAN) T(" バンクおかしいしぞ！%d\n", " Bank is weird! %d\n") VT_RST "\n",
+                       this->actor.params);
             }
             this->collider.dim.radius = 24;
             this->collider.dim.height = 74;
@@ -233,18 +232,18 @@ void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, PlayState* play) {
 
     if (this->noteIndex < sCollectedCount) {
         if (sCollectedCount < 5) {
-            // "sound?"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->noteIndex);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n", "sound?") VT_RST, this->noteIndex);
             Audio_PlaySfxTransposed(&gSfxDefaultPos, NA_SE_EV_FIVE_COUNT_LUPY, majorScale[this->noteIndex]);
             this->noteIndex = sCollectedCount;
         }
     }
     if (sCollectedCount >= this->silverCount) {
-        // "It is now the end of the century."
-        // This another reference to Hokuto no Ken.
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
-        // "Last!"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n" VT_RST);
+        // This is another reference to Hokuto no Ken.
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n",
+                                 "☆☆☆☆☆ It is now the end of the century. ☆☆☆☆☆ %d\n") VT_RST,
+               this->switchFlag);
+        PRINTF(VT_FGCOL(GREEN)
+                   T("☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n", "☆☆☆☆☆ Last!                             ☆☆☆☆☆ \n") VT_RST);
         if ((play->sceneId == SCENE_GERUDO_TRAINING_GROUND) && (this->actor.room == 2)) {
             Flags_SetTempClear(play, this->actor.room);
         } else {
@@ -367,8 +366,9 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, PlayState* play) {
                 gallery->targetState[this->index] = ENSYATEKIHIT_HIT;
                 Sfx_PlaySfxCentered(NA_SE_EV_HIT_SOUND);
                 Sfx_PlaySfxCentered(NA_SE_SY_GET_RUPY);
-                // "Yeah !"
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n" VT_RST, gallery->hitCount);
+                PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Yeah! HIT!! ☆☆☆☆☆ %d\n")
+                           VT_RST,
+                       gallery->hitCount);
                 EnGSwitch_Break(this, play);
                 this->killTimer = 50;
                 this->broken = true;
