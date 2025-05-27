@@ -29,7 +29,7 @@
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
-#pragma increment_block_number
+#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 typedef struct RestrictionFlags {
     /* 0x00 */ u8 sceneId;
