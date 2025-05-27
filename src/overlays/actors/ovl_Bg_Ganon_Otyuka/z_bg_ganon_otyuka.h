@@ -2,7 +2,7 @@
 #define Z_BG_GANON_OTYUKA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #define OTYUKA_SIDE_EAST (1 << 0)
 #define OTYUKA_SIDE_WEST (1 << 1)
@@ -12,7 +12,7 @@
 
 struct BgGanonOtyuka;
 
-typedef void (*BgGanonOtyukaActionFunc)(struct BgGanonOtyuka*, PlayState*);
+typedef void (*BgGanonOtyukaActionFunc)(struct BgGanonOtyuka*, struct PlayState*);
 
 typedef struct BgGanonOtyuka {
     /* 0x0000 */ DynaPolyActor dyna;

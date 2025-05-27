@@ -1,4 +1,7 @@
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libu64/debug.h"
+#include "gamealloc.h"
+#include "printf.h"
 
 void GameAlloc_Log(GameAlloc* this) {
     GameAllocEntry* iter;
@@ -12,7 +15,7 @@ void GameAlloc_Log(GameAlloc* this) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* GameAlloc_MallocDebug(GameAlloc* this, u32 size, const char* file, int line) {
     GameAllocEntry* ptr = SystemArena_MallocDebug(size + sizeof(GameAllocEntry), file, line);
 

@@ -5,10 +5,25 @@
  */
 
 #include "z_en_syateki_niw.h"
-#include "assets/objects/object_niw/object_niw.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_niw/object_niw.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnSyatekiNiw_Init(Actor* thisx, PlayState* play);
 void EnSyatekiNiw_Destroy(Actor* thisx, PlayState* play);

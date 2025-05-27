@@ -1,12 +1,26 @@
 #include "ultra64/asm.h"
+#include "ultra64/regdef.h"
 
-.set noreorder
-
-.section .data
-
-.balign 16
+.data
 
 #if !PLATFORM_N64
+
+DATA(gPositiveInfinity)
+    .word 0x7F800000
+ENDDATA(gPositiveInfinity)
+
+DATA(gNegativeInfinity)
+    .word 0xFF800000
+ENDDATA(gNegativeInfinity)
+
+DATA(gPositiveZero)
+    .word 0x00000000
+ENDDATA(gPositiveZero)
+
+DATA(gNegativeZero)
+    .word 0x80000000
+ENDDATA(gNegativeZero)
+
 DATA(qNaN0x3FFFFF)
     .word 0x7FBFFFFF
 ENDDATA(qNaN0x3FFFFF)
@@ -18,150 +32,135 @@ ENDDATA(qNaN0x10000)
 DATA(sNaN0x3FFFFF)
     .word 0x7FFFFFFF
 ENDDATA(sNaN0x3FFFFF)
+
 #endif
 
-.section .text
-
-.balign 16
+.text
 
 LEAF(floorf)
-    floor.w.s   $f12, $f12
-    jr          $ra
-     cvt.s.w    $f0, $f12
+    floor.w.s   fa0, fa0
+    cvt.s.w     fv0, fa0
+    jr          ra
 END(floorf)
 
 LEAF(floor)
-    floor.w.d   $f12, $f12
-    jr          $ra
-     cvt.d.w    $f0, $f12
+    floor.w.d   fa0, fa0
+    cvt.d.w     fv0, fa0
+    jr          ra
 END(floor)
 
 LEAF(lfloorf)
-    floor.w.s   $f4, $f12
-    mfc1        $v0, $f4
-    jr          $ra
-     nop
+    floor.w.s   ft0, fa0
+    mfc1        v0, ft0
+    jr          ra
 END(lfloorf)
 
 LEAF(lfloor)
-    floor.w.d   $f4, $f12
-    mfc1        $v0, $f4
-    jr          $ra
-     nop
+    floor.w.d   ft0, fa0
+    mfc1        v0, ft0
+    jr          ra
 END(lfloor)
 
 LEAF(ceilf)
-    ceil.w.s    $f12, $f12
-    jr          $ra
-     cvt.s.w    $f0, $f12
+    ceil.w.s    fa0, fa0
+    cvt.s.w     fv0, fa0
+    jr          ra
 END(ceilf)
 
 LEAF(ceil)
-    ceil.w.d    $f12, $f12
-    jr          $ra
-     cvt.d.w    $f0, $f12
+    ceil.w.d    fa0, fa0
+    cvt.d.w     fv0, fa0
+    jr          ra
 END(ceil)
 
 LEAF(lceilf)
-    ceil.w.s    $f4, $f12
-    mfc1        $v0, $f4
-    jr          $ra
-     nop
+    ceil.w.s    ft0, fa0
+    mfc1        v0, ft0
+    jr          ra
 END(lceilf)
 
 LEAF(lceil)
-    ceil.w.d    $f4, $f12
-    mfc1        $v0, $f4
-    jr          $ra
-     nop
+    ceil.w.d    ft0, fa0
+    mfc1        v0, ft0
+    jr          ra
 END(lceil)
 
 LEAF(truncf)
-    trunc.w.s   $f12, $f12
-    jr          $ra
-     cvt.s.w    $f0, $f12
+    trunc.w.s   fa0, fa0
+    cvt.s.w     fv0, fa0
+    jr          ra
 END(truncf)
 
 LEAF(trunc)
-    trunc.w.d   $f12, $f12
-    jr          $ra
-     cvt.d.w    $f0, $f12
+    trunc.w.d   fa0, fa0
+    cvt.d.w     fv0, fa0
+    jr          ra
 END(trunc)
 
 LEAF(ltruncf)
-    trunc.w.s   $f4, $f12
-    mfc1        $v0, $f4
-    jr          $ra
-     nop
+    trunc.w.s   ft0, fa0
+    mfc1        v0, ft0
+    jr          ra
 END(ltruncf)
 
 LEAF(ltrunc)
-    trunc.w.d   $f4, $f12
-    mfc1        $v0, $f4
-    jr          $ra
-     nop
+    trunc.w.d   ft0, fa0
+    mfc1        v0, ft0
+    jr          ra
 END(ltrunc)
 
 LEAF(nearbyintf)
-    round.w.s   $f12, $f12
-    jr          $ra
-     cvt.s.w    $f0, $f12
+    round.w.s   fa0, fa0
+    cvt.s.w     fv0, fa0
+    jr          ra
 END(nearbyintf)
 
 LEAF(nearbyint)
-    round.w.d   $f12, $f12
-    jr          $ra
-     cvt.d.w    $f0, $f12
+    round.w.d   fa0, fa0
+    cvt.d.w     fv0, fa0
+    jr          ra
 END(nearbyint)
 
 LEAF(lnearbyintf)
-    round.w.s   $f4, $f12
-    mfc1        $v0, $f4
-    jr          $ra
-     nop
+    round.w.s   ft0, fa0
+    mfc1        v0, ft0
+    jr          ra
 END(lnearbyintf)
 
 LEAF(lnearbyint)
-    round.w.d   $f4, $f12
-    mfc1        $v0, $f4
-    jr          $ra
-     nop
+    round.w.d   ft0, fa0
+    mfc1        v0, ft0
+    jr          ra
 END(lnearbyint)
 
 LEAF(roundf)
-    li.s        $f4, 0.5
-    nop
-    add.s       $f0, $f12, $f4
-    floor.w.s   $f0, $f0
-    jr          $ra
-     cvt.s.w     $f0, $f0
+    li.s        ft0, 0.5
+    add.s       fv0, fa0, ft0
+    floor.w.s   fv0, fv0
+    cvt.s.w     fv0, fv0
+    jr          ra
 END(roundf)
 
 LEAF(round)
-    li.d        $f4, 0.5
-    nop
-    add.d       $f0, $f12, $f4
-    floor.w.d   $f0, $f0
-    jr          $ra
-     cvt.d.w     $f0, $f0
+    li.d        ft0, 0.5
+    add.d       fv0, fa0, ft0
+    floor.w.d   fv0, fv0
+    cvt.d.w     fv0, fv0
+    jr          ra
 END(round)
 
 LEAF(lroundf)
-    li.s        $f4, 0.5
-    nop
-    add.s       $f0, $f12, $f4
-    floor.w.s   $f0, $f0
-    mfc1        $v0, $f0
-    jr          $ra
-     nop
+    li.s        ft0, 0.5
+    add.s       fv0, fa0, ft0
+    floor.w.s   fv0, fv0
+    mfc1        v0, fv0
+    jr          ra
 END(lroundf)
 
 LEAF(lround)
-    li.d        $f4, 0.5
-    nop
-    add.d       $f0, $f12, $f4
-    floor.w.d   $f0, $f0
-    mfc1        $v0, $f0
-    jr          $ra
-     nop
+    li.d        ft0, 0.5
+    add.d       fv0, fa0, ft0
+    floor.w.d   fv0, fv0
+    mfc1        v0, fv0
+    jr          ra
 END(lround)

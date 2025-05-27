@@ -2,17 +2,17 @@
 #define Z_EN_NY_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnNy;
 
-typedef void (*EnNyActionFunc)(struct EnNy*, PlayState*);
+typedef void (*EnNyActionFunc)(struct EnNy*, struct PlayState*);
 
 typedef struct EnNy {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnNyActionFunc actionFunc;
     /* 0x0150 */ ColliderJntSph collider;
-    /* 0x0170 */ ColliderJntSphElement elements[1];
+    /* 0x0170 */ ColliderJntSphElement colliderElements[1];
     /* 0x01B0 */ char unk_1B0[0x18];
     /* 0x01C8 */ s16 timer;
     /* 0x01CA */ s16 unk_1CA;

@@ -2,6 +2,9 @@ build_system = "make"
 compiler_type = "ido"  # adjusts default weights for permuting
 
 [preserve_macros]
+NULL = "void"
+true = "int"
+false = "int"
 "g[DS]P.*" = "void"
 "gDma.*" = "void"
 "a[A-Z].*" = "void"
@@ -33,3 +36,4 @@ ACTOR_DEBUG_PRINTF = "void"
 [decompme.compilers]
 "tools/ido_recomp/*/7.1/cc" = "ido7.1"
 "tools/ido_recomp/*/5.3/cc" = "ido5.3"
+"tools/egcs/*/gcc" = "egcs_1.1.2-4c"

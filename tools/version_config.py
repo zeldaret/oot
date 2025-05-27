@@ -23,8 +23,8 @@ class VersionConfig:
     checksums: list[str]
     # ROM offset to start of DMA table
     dmadata_start: int
-    # Whether the languages are PAL (EN/DE/FR) or not (JP/EN)
-    text_lang_pal: bool
+    # "NTSC" (JP/EN), "PAL" (EN/DE/FR), or "CN" (JP/CN)
+    text_lang: str
     # DMA segment information, in ROM order
     dmadata_segments: OrderedDict[str, SegmentInfo]
     # ROM pieces that are copied directly into the build with .incbin
@@ -92,7 +92,7 @@ def load_version_config(version: str) -> VersionConfig:
         version=version,
         checksums=config.get("checksums", ["checksum"]),
         dmadata_start=config["dmadata_start"],
-        text_lang_pal=config["text_lang_pal"],
+        text_lang=config["text_lang"],
         dmadata_segments=load_dmadata_segments(version),
         incbins=incbins,
         variables=config["variables"],

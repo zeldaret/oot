@@ -1,7 +1,10 @@
 // Does some command processing
-#include "global.h"
+
 #include "n64dd.h"
+
+#include "array_count.h"
 #include "versions.h"
+#include "z_locale.h"
 
 void func_801C8554(void);
 void func_801C8578(void* arg0, void* arg1, OSId id, void* sp, OSPri pri);
@@ -301,7 +304,7 @@ s32 func_801C885C(void) {
     B_801E0D18.unk_64 = 3;
     func_801C85F0(&B_801E0D18, 1);
 
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
     D_801D2E90 = 0;
 #endif
 
@@ -317,7 +320,7 @@ s32 func_801C88AC(void) {
     B_801E0D18.unk_64 = 4;
     func_801C85F0(&B_801E0D18, 1);
 
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
     D_801D2E90 = 0;
 #endif
 

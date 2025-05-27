@@ -5,7 +5,22 @@
  */
 
 #include "z_en_dns.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_shopnuts/object_shopnuts.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
@@ -77,19 +92,19 @@ static u16 sStartingTextIds[] = {
     0x10A0, 0x10A1, 0x10A2, 0x10CA, 0x10CB, 0x10CC, 0x10CD, 0x10CE, 0x10CF, 0x10DC, 0x10DD,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static char* sItemDebugTxt[] = {
-    "デクの実売り            ", // "Deku Nuts"
-    "デクの棒売り            ", // "Deku Sticks"
-    "ハートの欠片売り        ", // "Piece of Heart"
-    "デクの種売り            ", // "Deku Seeds"
-    "デクの盾売り            ", // "Deku Shield"
-    "バクダン売り            ", // "Bombs"
-    "矢売り                  ", // "Arrows"
-    "赤のくすり売り          ", // "Red Potion"
-    "緑のくすり売り          ", // "Green Potion"
-    "デクの棒持てる数を増やす", // "Deku Stick Upgrade"
-    "デクの実持てる数を増やす", // "Deku Nut Upgrade"
+    T("デクの実売り            ", "Deku Nuts               "),
+    T("デクの棒売り            ", "Deku Sticks             "),
+    T("ハートの欠片売り        ", "Piece of Heart          "),
+    T("デクの種売り            ", "Deku Seeds              "),
+    T("デクの盾売り            ", "Deku Shield             "),
+    T("バクダン売り            ", "Bombs                   "),
+    T("矢売り                  ", "Arrows                  "),
+    T("赤のくすり売り          ", "Red Potion              "),
+    T("緑のくすり売り          ", "Green Potion            "),
+    T("デクの棒持てる数を増やす", "Deku Stick Upgrade      "),
+    T("デクの実持てる数を増やす", "Deku Nut Upgrade        "),
 };
 #endif
 
@@ -129,8 +144,9 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
     if (DNS_GET_TYPE(&this->actor) < 0) {
-        // "Function Error (Deku Salesman)"
-        PRINTF(VT_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" VT_RST "\n", this->actor.params);
+        PRINTF(VT_FGCOL(RED) T("引数エラー（売りナッツ）[ arg_data = %d ]",
+                               "Argument error (selling nuts) [ arg_data = %d ]") VT_RST "\n",
+               this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
@@ -140,8 +156,8 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
         DNS_GET_TYPE(&this->actor) = DNS_TYPE_DEKU_SEEDS_30;
     }
 
-    // "Deku Salesman"
-    PRINTF(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
+    PRINTF(VT_FGCOL(GREEN) T("◆◆◆ 売りナッツ『%s』 ◆◆◆", "◆◆◆ Selling nuts『%s』 ◆◆◆") VT_RST "\n",
+           sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -347,9 +363,9 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
         this->actionFunc = EnDns_Talk;
     } else {
         if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isLockedOn) {
-            this->actor.flags |= ACTOR_FLAG_16;
+            this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_16;
+            this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);

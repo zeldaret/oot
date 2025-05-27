@@ -2,11 +2,11 @@
 #define Z_BG_MJIN_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgMjin;
 
-typedef void (*BgMjinActionFunc)(struct BgMjin*, PlayState*);
+typedef void (*BgMjinActionFunc)(struct BgMjin*, struct PlayState*);
 
 typedef struct BgMjin {
     /* 0x0000 */ DynaPolyActor dyna;

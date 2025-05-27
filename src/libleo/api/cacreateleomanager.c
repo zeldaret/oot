@@ -1,13 +1,15 @@
-#include "global.h"
 #include "ultra64/asm.h"
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
-#include "libc/stdint.h"
+#include "stdint.h"
+#include "attributes.h"
+
+#include "ultra64.h"
 
 s32 LeoCACreateLeoManager(s32 comPri, s32 intPri, OSMesg* cmdBuf, s32 cmdMsgCnt) {
     OSPiHandle* driveRomHandle;
-    OSPiHandle* leoDiskHandle;
+    UNUSED OSPiHandle* leoDiskHandle;
     volatile LEOCmdInquiry cmdBlockInq;
     volatile LEOCmd cmdBlockID;
     LEODiskID thisID;

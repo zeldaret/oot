@@ -6,6 +6,12 @@
 
 #include "z_obj_mure3.h"
 
+#include "ichain.h"
+#include "sys_math3d.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #define FLAGS 0
 
 void ObjMure3_Init(Actor* thisx, PlayState* play);
@@ -34,9 +40,9 @@ ActorProfile Obj_Mure3_Profile = {
 static s16 sRupeeCounts[] = { 5, 5, 7, 0 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 100, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 100, ICHAIN_STOP),
 };
 
 void func_80B9A9D0(ObjMure3* this, PlayState* play) {
@@ -172,7 +178,7 @@ void func_80B9AF64(ObjMure3* this, PlayState* play) {
     static ObjMure3SpawnFunc spawnFuncs[] = { func_80B9A9D0, func_80B9AA90, func_80B9ABA0 };
 
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) < SQ(1150.0f)) {
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         spawnFuncs[PARAMS_GET_U(this->actor.params, 13, 3)](this, play);
         func_80B9AFEC(this);
     }
@@ -185,7 +191,7 @@ void func_80B9AFEC(ObjMure3* this) {
 void func_80B9AFFC(ObjMure3* this, PlayState* play) {
     func_80B9ADCC(this, play);
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) >= SQ(1450.0f)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         func_80B9ACE4(this, play);
         func_80B9AF54(this);
     }

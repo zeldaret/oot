@@ -6,9 +6,24 @@
 
 #include "z_obj_oshihiki.h"
 #include "overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ObjOshihiki_Init(Actor* thisx, PlayState* play2);
 void ObjOshihiki_Destroy(Actor* thisx, PlayState* play);
@@ -59,9 +74,9 @@ static s16 sSceneIds[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 1800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1500, ICHAIN_STOP),
 };
 
 // The vertices and center of the bottom face
@@ -92,13 +107,13 @@ void ObjOshihiki_InitDynapoly(ObjOshihiki* this, PlayState* play, CollisionHeade
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        // "Warning : move BG registration failure"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 280,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗",
+                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+               "../z_obj_oshihiki.c", 280, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -215,9 +230,9 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, PlayState* play) {
             ObjOshihiki_InitDynapoly(this, play, &gPushBlockCol, 1);
             break;
         default:
-            // "Error : type cannot be determined"
-            PRINTF("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 444,
-                   this->dyna.actor.params);
+            PRINTF(T("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n",
+                     "Error : type cannot be determined (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_obj_oshihiki.c", 444, this->dyna.actor.params);
             break;
     }
 }
@@ -259,8 +274,9 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play2) {
     }
 
     if (i >= ARRAY_COUNT(sColors)) {
-        // "Error : scene_data_ID cannot be determined"
-        PRINTF("Error : scene_data_ID が判別できない。(%s %d)\n", "../z_obj_oshihiki.c", 579);
+        PRINTF(T("Error : scene_data_ID が判別できない。(%s %d)\n",
+                 "Error : scene_data_ID cannot be determined. (%s %d)\n"),
+               "../z_obj_oshihiki.c", 579);
         color->r = color->g = color->b = 255;
     } else {
         src = &sColors[i][paramsColorIdx];
@@ -305,8 +321,8 @@ void ObjOshihiki_Init(Actor* thisx, PlayState* play2) {
     ObjOshihiki_SetColor(this, play);
     ObjOshihiki_ResetFloors(this);
     ObjOshihiki_SetupOnActor(this, play);
-    // "(dungeon keep push-pull block)"
-    PRINTF("(dungeon keep 押し引きブロック)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(dungeon keep 押し引きブロック)(arg_data 0x%04x)\n", "(dungeon keep push/pull block)(arg_data 0x%04x)\n"),
+           this->dyna.actor.params);
 }
 
 void ObjOshihiki_Destroy(Actor* thisx, PlayState* play) {
@@ -372,9 +388,9 @@ s32 ObjOshihiki_CheckFloor(ObjOshihiki* this, PlayState* play) {
 
 s32 ObjOshihiki_CheckGround(ObjOshihiki* this, PlayState* play) {
     if (this->dyna.actor.world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
-        // "Warning : Push-pull block fell too much"
-        PRINTF("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 809,
-               this->dyna.actor.params);
+        PRINTF(T("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n",
+                 "Warning : Push/pull block fell too much (%s %d)(arg_data 0x%04x)\n"),
+               "../z_obj_oshihiki.c", 809, this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
         return 0;
     }
@@ -491,7 +507,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
             dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
             if (dynaPolyActor != NULL) {
                 DynaPolyActor_SetActorOnTop(dynaPolyActor);
-                func_80043538(dynaPolyActor);
+                DynaPolyActor_SetSwitchPressed(dynaPolyActor);
 
                 if ((this->timer <= 0) && (fabsf(this->dyna.unk_150) > 0.001f)) {
                     if (ObjOshihiki_StrongEnough(this) && ObjOshihiki_NoSwitchPress(this, dynaPolyActor, play) &&
@@ -520,7 +536,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
 
             if ((dynaPolyActor != NULL) && (dynaPolyActor->transformFlags & DYNA_TRANSFORM_POS)) {
                 DynaPolyActor_SetActorOnTop(dynaPolyActor);
-                func_80043538(dynaPolyActor);
+                DynaPolyActor_SetSwitchPressed(dynaPolyActor);
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             } else {
                 ObjOshihiki_SetupFall(this, play);
@@ -646,7 +662,7 @@ void ObjOshihiki_Draw(Actor* thisx, PlayState* play) {
 
     MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_oshihiki.c", 1308);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     switch (play->sceneId) {
         case SCENE_DEKU_TREE:
         case SCENE_DODONGOS_CAVERN:

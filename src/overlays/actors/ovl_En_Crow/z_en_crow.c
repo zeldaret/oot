@@ -1,7 +1,20 @@
 #include "z_en_crow.h"
+
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_crow/object_crow.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_CAN_ATTACH_TO_ARROW)
 
 void EnCrow_Init(Actor* thisx, PlayState* play);
 void EnCrow_Destroy(Actor* thisx, PlayState* play);
@@ -97,7 +110,7 @@ static DamageTable sDamageTable = {
 static u32 sDeathCount = 0;
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 3000, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_GUAY, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -200, ICHAIN_CONTINUE),
     ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_STOP),
@@ -111,7 +124,7 @@ void EnCrow_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGuaySkel, &gGuayFlyAnim, this->jointTable, this->morphTable, 9);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawCircle, 20.0f);
@@ -175,12 +188,12 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 40);
     }
 
-    if (this->actor.flags & ACTOR_FLAG_15) {
+    if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {
         this->actor.speed = 0.0f;
     }
 
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 
     this->actionFunc = EnCrow_Damaged;
 }
@@ -329,7 +342,7 @@ void EnCrow_Damaged(EnCrow* this, PlayState* play) {
     Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     this->actor.colorFilterTimer = 40;
 
-    if (!(this->actor.flags & ACTOR_FLAG_15)) {
+    if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         if (this->actor.colorFilterParams & 0x4000) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
@@ -401,7 +414,7 @@ void EnCrow_Respawn(EnCrow* this, PlayState* play) {
         }
         if (Math_StepToF(&this->actor.scale.x, target, target * 0.1f)) {
             this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
-            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             this->actor.colChkInfo.health = 1;
             EnCrow_SetupFlyIdle(this);
         }

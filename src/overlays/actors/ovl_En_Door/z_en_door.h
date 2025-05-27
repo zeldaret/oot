@@ -2,7 +2,7 @@
 #define Z_EN_DOOR_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 /**
  * Actor Parameters
@@ -46,7 +46,7 @@ typedef enum EnDoorType {
 
 struct EnDoor;
 
-typedef void (*EnDoorActionFunc)(struct EnDoor*, PlayState*);
+typedef void (*EnDoorActionFunc)(struct EnDoor*, struct PlayState*);
 
 typedef struct EnDoor {
     /* 0x0000 */ DOOR_ACTOR_BASE;

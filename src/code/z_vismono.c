@@ -8,7 +8,12 @@
  * comments.
  */
 
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libu64/debug.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfxalloc.h"
+#include "z64vis.h"
 
 // Height of the fragments the color frame buffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into
@@ -183,7 +188,7 @@ void VisMono_Draw(VisMono* this, Gfx** gfxP) {
 }
 
 void VisMono_DrawOld(VisMono* this) {
-    Gfx* dListEnd;
+    UNUSED_NDEBUG Gfx* dListEnd;
 
     if (this->tlut == NULL) {
         this->tlut = SYSTEM_ARENA_MALLOC(256 * G_IM_SIZ_16b_BYTES, "../z_vismono.c", 283);

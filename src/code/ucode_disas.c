@@ -1,4 +1,13 @@
-#include "global.h"
+#include "libu64/mtxuty-cvt.h"
+#include "ultra64/gs2dex.h"
+#include "array_count.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "translation.h"
+#include "ucode_disas.h"
+#include "ultra64.h"
+
+#if DEBUG_FEATURES
 
 typedef struct F3dzexConst {
     /* 0x00 */ u32 value;
@@ -51,7 +60,7 @@ typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
 void* UCodeDisas_TranslateAddr(UCodeDisas* this, uintptr_t addr) {
     uintptr_t physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
 
-    return PHYSICAL_TO_VIRTUAL(physical);
+    return OS_PHYSICAL_TO_K0(physical);
 }
 
 F3dzexConst sUCodeDisasGeometryModes[] = {
@@ -223,7 +232,7 @@ void UCodeDisas_SetCurUCodeImpl(UCodeDisas* this, void* ptr) {
     }
     if (i >= this->ucodeInfoCount) {
         DISAS_LOG(T("マイクロコードが一致しなかった\n", "Microcode did not match\n"));
-        this->ucodeType = UCODE_NULL;
+        this->ucodeType = UCODE_TYPE_NULL;
     }
 }
 
@@ -800,8 +809,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
 
             default: {
                 switch (this->ucodeType) {
-                    case UCODE_F3DZEX:
-                    case UCODE_UNK: {
+                    case UCODE_TYPE_F3DZEX:
+                    case UCODE_TYPE_UNK: {
                         switch (cmd) {
                             case G_MTX: {
                                 Gdma2 gmtx = ptr->dma2;
@@ -1098,7 +1107,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                         }
                     } break;
 
-                    case UCODE_S2DEX: {
+                    case UCODE_TYPE_S2DEX: {
                         switch (cmd) {
                             case G_BG_COPY: {
                                 Gwords words = ptr->words;
@@ -1243,3 +1252,5 @@ void UCodeDisas_RegisterUCode(UCodeDisas* this, s32 count, UCodeInfo* ucodeArray
 void UCodeDisas_SetCurUCode(UCodeDisas* this, void* ptr) {
     UCodeDisas_SetCurUCodeImpl(this, ptr);
 }
+
+#endif

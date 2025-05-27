@@ -5,10 +5,23 @@
  */
 
 #include "z_en_bombf.h"
-#include "assets/objects/object_bombf/object_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/object_bombf/object_bombf.h"
+
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnBombf_Init(Actor* thisx, PlayState* play);
 void EnBombf_Destroy(Actor* thisx, PlayState* play);
@@ -94,7 +107,7 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->bombCollider);
     Collider_InitJntSph(play, &this->explosionCollider);
     Collider_SetCylinder(play, &this->bombCollider, thisx, &sCylinderInit);
-    Collider_SetJntSph(play, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderItems[0]);
+    Collider_SetJntSph(play, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderElements[0]);
 
     if (thisx->params == BOMBFLOWER_BODY) {
         shapeUnk10 = 1000.0f;
@@ -104,7 +117,7 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
     thisx->focus.pos = thisx->world.pos;
 
     if (Actor_FindNearby(play, thisx, ACTOR_BG_DDAN_KD, ACTORCAT_BG, 10000.0f) != NULL) {
-        thisx->flags |= ACTOR_FLAG_5;
+        thisx->flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
     }
 
     thisx->colChkInfo.cylRadius = 10.0f;
@@ -126,8 +139,8 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
         EnBombf_SetupGrowBomb(this, thisx->params);
     }
 
-    thisx->uncullZoneScale += 31000.0f;
-    thisx->uncullZoneForward += 31000.0f;
+    thisx->cullingVolumeScale += 31000.0f;
+    thisx->cullingVolumeDistance += 31000.0f;
 }
 
 void EnBombf_Destroy(Actor* thisx, PlayState* play) {
@@ -163,7 +176,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                 player->heldActor = NULL;
                 player->interactRangeActor = NULL;
                 this->actor.parent = NULL;
-                player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
+                player->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
             }
         } else if (this->bombCollider.base.acFlags & AC_HIT) {
             this->bombCollider.base.acFlags &= ~AC_HIT;
@@ -197,7 +210,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                     player->heldActor = NULL;
                     player->interactRangeActor = NULL;
                     this->actor.parent = NULL;
-                    player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
+                    player->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
                     this->actor.world.pos = this->actor.home.pos;
                 }
             }
@@ -215,7 +228,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
             this->actor.parent = NULL;
-            player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
+            player->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
             this->actor.world.pos = this->actor.home.pos;
         }
     }
@@ -260,7 +273,7 @@ void EnBombf_Explode(EnBombf* this, PlayState* play) {
     Player* player;
 
     if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
-        this->actor.flags |= ACTOR_FLAG_5;
+        this->actor.flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
         Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
     }
 
@@ -299,11 +312,11 @@ void EnBombf_Explode(EnBombf* this, PlayState* play) {
     if (this->timer == 0) {
         player = GET_PLAYER(play);
 
-        if ((player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) && (player->heldActor == &this->actor)) {
+        if ((player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
-            player->stateFlags1 &= ~PLAYER_STATE1_ACTOR_CARRY;
+            player->stateFlags1 &= ~PLAYER_STATE1_CARRYING_ACTOR;
         }
 
         Actor_Kill(&this->actor);
@@ -431,7 +444,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                 Camera_RequestQuake(&play->mainCamera, 2, 11, 8);
                 thisx->params = BOMBFLOWER_EXPLOSION;
                 this->timer = 10;
-                thisx->flags |= ACTOR_FLAG_5;
+                thisx->flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
                 EnBombf_SetupAction(this, EnBombf_Explode);
             }
         }

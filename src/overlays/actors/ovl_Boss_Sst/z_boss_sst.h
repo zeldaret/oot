@@ -2,11 +2,11 @@
 #define Z_BOSS_SST_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossSst;
 
-typedef void (*BossSstActionFunc)(struct BossSst*, PlayState*);
+typedef void (*BossSstActionFunc)(struct BossSst*, struct PlayState*);
 
 #define BOSS_SST_EFFECT_COUNT 18
 
@@ -46,8 +46,8 @@ typedef struct BossSst {
     /* 0x03C4 */ f32 radius;
     /* 0x03C8 */ Vec3f center;
     /* 0x03D4 */ ColliderJntSph colliderJntSph;
-    /* 0x03F4 */ ColliderJntSphElement colliderItems[11];
-    /* 0x06B4 */ ColliderCylinder colliderCyl;
+    /* 0x03F4 */ ColliderJntSphElement colliderJntSphElements[11];
+    /* 0x06B4 */ ColliderCylinder colliderCylinder;
     /* 0x0700 */ BossSstEffect effects[BOSS_SST_EFFECT_COUNT];
     /* 0x09D0 */ s16 trailIndex;
     /* 0x09D2 */ s16 trailCount;

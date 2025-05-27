@@ -2,12 +2,12 @@
 #define Z_EN_EX_ITEM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnExItem;
 
-typedef void (*EnExItemActionFunc)(struct EnExItem* this, PlayState* play);
-typedef void (*EnExItemLightFunc)(Actor*, PlayState*, s32);
+typedef void (*EnExItemActionFunc)(struct EnExItem* this, struct PlayState* play);
+typedef void (*EnExItemLightFunc)(Actor*, struct PlayState*, s32);
 
 typedef struct EnExItem {
     /* 0x0000 */ Actor actor;
@@ -51,9 +51,5 @@ typedef enum EnExItemType {
     /* 18 */ EXITEM_MAGIC_DARK,
     /* 19 */ EXITEM_BULLET_BAG
 } EnExItemType;
-
-#define EXITEM_COUNTER 5
-#define EXITEM_CHEST 10
-#define EXITEM_MAGIC 16
 
 #endif

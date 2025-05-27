@@ -5,13 +5,27 @@
  */
 
 #include "z_en_ko.h"
+
+#include "attributes.h"
+#include "gfx.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_fa/object_fa.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "assets/objects/object_km1/object_km1.h"
 #include "assets/objects/object_kw1/object_kw1.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 #define ENKO_TYPE PARAMS_GET_S(this->actor.params, 0, 8)
 #define ENKO_PATH PARAMS_GET_S(this->actor.params, 8, 8)
@@ -585,7 +599,11 @@ s16 EnKo_UpdateTalkState(PlayState* play, Actor* thisx) {
                         Message_ContinueTextbox(play, this->actor.textId);
                         break;
                     case 0x10B7:
+#if OOT_VERSION < NTSC_1_1
+                        SET_INFTABLE(INFTABLE_B6);
+#else
                         SET_INFTABLE(INFTABLE_BC);
+#endif
                         FALLTHROUGH;
                     case 0x10B8:
                         this->actor.textId = (play->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
@@ -704,7 +722,7 @@ s32 func_80A97D68(EnKo* this, PlayState* play) {
 s32 func_80A97E18(EnKo* this, PlayState* play) {
     s16 trackingMode;
 
-    func_80034F54(play, this->unk_2E4, this->unk_304, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
     if (EnKo_IsWithinTalkAngle(this) == true) {
         trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
@@ -723,7 +741,7 @@ s32 func_80A97EB0(EnKo* this, PlayState* play) {
     s16 trackingMode;
     s32 result;
 
-    func_80034F54(play, this->unk_2E4, this->unk_304, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
     result = EnKo_IsWithinTalkAngle(this);
     trackingMode = (result == true) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
@@ -731,7 +749,7 @@ s32 func_80A97EB0(EnKo* this, PlayState* play) {
 }
 
 s32 func_80A97F20(EnKo* this, PlayState* play) {
-    func_80034F54(play, this->unk_2E4, this->unk_304, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
     return 1;
 }
@@ -743,7 +761,7 @@ s32 func_80A97F70(EnKo* this, PlayState* play) {
         if ((this->skelAnime.animation == &gKokiriBlockingAnim) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_BLOCKING_STATIC);
         }
-        func_80034F54(play, this->unk_2E4, this->unk_304, 16);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
         trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
         if ((this->skelAnime.animation == &gKokiriCuttingGrassAnim) == false) {
@@ -763,7 +781,7 @@ s32 func_80A98034(EnKo* this, PlayState* play) {
         if ((this->skelAnime.animation == &gKokiriBlockingAnim) == false) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_BLOCKING_STATIC);
         }
-        func_80034F54(play, this->unk_2E4, this->unk_304, 16);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
         result = EnKo_IsWithinTalkAngle(this);
         trackingMode = (result == true) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
     } else {
@@ -779,7 +797,7 @@ s32 func_80A98034(EnKo* this, PlayState* play) {
 
 // Same as func_80A97F20
 s32 func_80A98124(EnKo* this, PlayState* play) {
-    func_80034F54(play, this->unk_2E4, this->unk_304, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
     return 1;
 }
@@ -793,7 +811,7 @@ s32 func_80A98174(EnKo* this, PlayState* play) {
         this->skelAnime.playSpeed = 1.0f;
     }
     if (this->skelAnime.playSpeed == 0.0f) {
-        func_80034F54(play, this->unk_2E4, this->unk_304, 16);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
     }
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2,
                    (this->skelAnime.playSpeed == 0.0f) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE);
@@ -829,6 +847,8 @@ s32 EnKo_ChildStart(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
 
 s32 EnKo_ChildStone(EnKo* this, PlayState* play) {
@@ -860,6 +880,8 @@ s32 EnKo_ChildStone(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
 
 s32 EnKo_ChildSaria(EnKo* this, PlayState* play) {
@@ -891,6 +913,8 @@ s32 EnKo_ChildSaria(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
 
 s32 EnKo_AdultEnemy(EnKo* this, PlayState* play) {
@@ -922,6 +946,8 @@ s32 EnKo_AdultEnemy(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
 
 s32 EnKo_AdultSaved(EnKo* this, PlayState* play) {
@@ -953,7 +979,10 @@ s32 EnKo_AdultSaved(EnKo* this, PlayState* play) {
         case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
+
 void func_80A9877C(EnKo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
@@ -975,8 +1004,12 @@ void func_80A9877C(EnKo* this, PlayState* play) {
         ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_LOST_WOODS) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
-        if (func_8002F368(play) == EXCH_ITEM_ODD_POTION) {
+        if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_ODD_POTION) {
+#if OOT_VERSION < NTSC_1_1
+            this->actor.textId = GET_INFTABLE(INFTABLE_B6) ? 0x10B8 : 0x10B7;
+#else
             this->actor.textId = GET_INFTABLE(INFTABLE_BC) ? 0x10B8 : 0x10B7;
+#endif
             this->unk_210 = 0;
         }
         player->actor.textId = this->actor.textId;
@@ -1127,6 +1160,8 @@ s32 func_80A98ECC(EnKo* this, PlayState* play) {
         case ENKO_FQS_ADULT_SAVED:
             return EnKo_AdultSaved(this, play);
     }
+    // Note this function assumes the kokiri type is valid
+    UNREACHABLE();
 }
 
 void EnKo_Init(Actor* thisx, PlayState* play) {
@@ -1149,13 +1184,13 @@ void EnKo_Destroy(Actor* thisx, PlayState* play) {
 
 void func_80A99048(EnKo* this, PlayState* play) {
     if (EnKo_IsOsAnimeLoaded(this, play) && EnKo_AreObjectsLoaded(this, play)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actor.objectSlot = this->legsObjectSlot;
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
         SkelAnime_InitFlex(play, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader, NULL,
                            this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -1270,7 +1305,7 @@ void EnKo_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != func_80A99048) {
         if ((s32)this->modelAlpha != 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+            gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
             SkelAnime_Update(&this->skelAnime);
             func_80A98DB4(this, play);
             EnKo_Blink(this);
@@ -1303,7 +1338,7 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == 15) {
         gSPSegment((*gfx)++, 0x06, play->objectCtx.slots[this->headObjectSlot].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->headObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->headObjectSlot].segment);
 
         headId = sModelInfo[ENKO_TYPE].headId;
         *dList = sHead[headId].dList;
@@ -1311,7 +1346,7 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
             eyeTexture = sHead[headId].eyeTextures[this->eyeTextureIndex];
             gSPSegment((*gfx)++, 0x0A, SEGMENTED_TO_VIRTUAL(eyeTexture));
         }
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->legsObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->legsObjectSlot].segment);
     }
     if (limbIndex == 8) {
         limbRot = this->interactInfo.torsoRot;
@@ -1326,8 +1361,8 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
-        rot->y += Math_SinS(this->unk_2E4[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->unk_304[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
     return false;
 }
@@ -1339,7 +1374,7 @@ void EnKo_PostLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
     if (limbIndex == 7) {
         gSPSegment((*gfx)++, 0x06, play->objectCtx.slots[this->bodyObjectSlot].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->bodyObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->bodyObjectSlot].segment);
     }
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80A9A774, &this->actor.focus.pos);

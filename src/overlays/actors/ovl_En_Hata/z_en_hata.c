@@ -5,6 +5,15 @@
  */
 
 #include "z_en_hata.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_hata/object_hata.h"
 
 #define FLAGS 0
@@ -61,9 +70,9 @@ void EnHata_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gFlagpoleCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->dyna.actor.uncullZoneScale = 500.0f;
-    this->dyna.actor.uncullZoneDownward = 550.0f;
-    this->dyna.actor.uncullZoneForward = 2200.0f;
+    this->dyna.actor.cullingVolumeScale = 500.0f;
+    this->dyna.actor.cullingVolumeDownward = 550.0f;
+    this->dyna.actor.cullingVolumeDistance = 2200.0f;
     this->invScale = 6;
     this->maxStep = 1000;
     this->minStep = 1;

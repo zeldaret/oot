@@ -5,6 +5,18 @@
  */
 
 #include "z_en_ani.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_ani/object_ani.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -64,7 +76,7 @@ void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 850, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 850, ICHAIN_STOP),
 };
 
 void EnAni_Init(Actor* thisx, PlayState* play) {

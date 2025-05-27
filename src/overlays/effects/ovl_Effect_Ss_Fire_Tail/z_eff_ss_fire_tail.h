@@ -2,10 +2,11 @@
 #define Z_EFF_SS_FIRE_TAIL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "color.h"
+#include "z64math.h"
 
 typedef struct EffectSsFireTailInitParams {
-    /* 0x00 */ Actor* actor;
+    /* 0x00 */ struct Actor* actor;
     /* 0x04 */ Vec3f pos;
     /* 0x10 */ f32 scale;
     /* 0x14 */ Vec3f unk_14;

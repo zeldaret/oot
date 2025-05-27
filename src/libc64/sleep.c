@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 void Sleep_Cycles(OSTime cycles) {
     OSMesgQueue mq;

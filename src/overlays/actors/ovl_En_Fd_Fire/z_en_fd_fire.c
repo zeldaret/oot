@@ -1,7 +1,17 @@
 #include "z_en_fd_fire.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnFdFire_Init(Actor* thisx, PlayState* play);
 void EnFdFire_Destroy(Actor* thisx, PlayState* play);

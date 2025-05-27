@@ -1,6 +1,7 @@
 #include "aseq.h"
 #include "Soundfont_1.h"
 #include "Soundfont_0.h"
+#include "versions.h"
 
 #define IO_PORT_SFX_INDEX_LOBITS IO_PORT_4
 #define IO_PORT_SFX_INDEX_HIBITS IO_PORT_5
@@ -1301,7 +1302,7 @@ CHAN_08EC:
 /* 0x08EE [0xC7 0x02 0x09 0x04     ] */ stseq       2, LAYER_0903 + STSEQ_NOTEDV_DELAY_HI
 /* 0x08F2 [0xC7 0x02 0x08 0xFD     ] */ stseq       2, CHAN_08FC + STSEQ_LDI_IMM
 /* 0x08F6 [0xB8 0x0C               ] */ rand        12
-/* 0x08F8 [0xC7 0x5C 0x09 0x03     ] */ stseq       (NOTEDV_OPCODE | PITCH_DF3), LAYER_0903 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x08F8 [0xC7 0x5C 0x09 0x03     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_DF3), LAYER_0903 + STSEQ_NOTEDV_OPCODE_PITCH
 CHAN_08FC:
 /* 0x08FC [0xCC 0x01               ] */ ldi         1
 /* 0x08FE [0xFC 0x00 0x48          ] */ call        CHAN_0048
@@ -1384,13 +1385,13 @@ LAYER_0947:
 .layer LAYER_0973
 /* 0x0973 [0xC6 0x0F               ] */ instr       SF0_INST_15
 /* 0x0975 [0xC7 0x81 0x2B 0xFF     ] */ portamento  0x81, PITCH_E4, 255
-/* 0x0979 [0x5F 0x80 0xB4 0x69     ] */ notedv      PITCH_E3, 180, 105
+/* 0x0979 [0x5F 0x80 0xB4 0x69     ] */ notedv      PITCH_E3, FRAMERATE_CONST(180, 216), 105
 /* 0x097D [0xFF                    ] */ end
 
 .layer LAYER_097E
 /* 0x097E [0xC6 0x50               ] */ instr       SF0_INST_80
 /* 0x0980 [0xC7 0x81 0x14 0xFF     ] */ portamento  0x81, PITCH_F2, 255
-/* 0x0984 [0x4E 0x80 0xB4 0x58     ] */ notedv      PITCH_B1, 180, 88
+/* 0x0984 [0x4E 0x80 0xB4 0x58     ] */ notedv      PITCH_B1, FRAMERATE_CONST(180, 216), 88
 /* 0x0988 [0xFF                    ] */ end
 
 .channel CHAN_0989
@@ -1528,23 +1529,23 @@ LAYER_0992:
 /* 0x0A4E [0xCF 0xDD               ] */ releaserate 221
 /* 0x0A50 [0xC4                    ] */ legato
 /* 0x0A51 [0xC7 0x85 0x00 0xFF     ] */ portamento  0x85, PITCH_A0, 255
-/* 0x0A55 [0x58 0x80 0xFA 0x4A     ] */ notedv      PITCH_A2, 250, 74
-/* 0x0A59 [0x70 0x64 0x4A          ] */ notedv      PITCH_A4, 100, 74
+/* 0x0A55 [0x58 0x80 0xFA 0x4A     ] */ notedv      PITCH_A2, FRAMERATE_CONST(250, 300), 74
+/* 0x0A59 [0x70 0x64 0x4A          ] */ notedv      PITCH_A4, FRAMERATE_CONST(100, 120), 74
 /* 0x0A5C [0xFF                    ] */ end
 
 .layer LAYER_0A5D
 /* 0x0A5D [0xC6 0x2F               ] */ instr       SF0_INST_47
 /* 0x0A5F [0xCF 0xDD               ] */ releaserate 221
-/* 0x0A61 [0x64 0x80 0x1E 0x64     ] */ noteldv     PITCH_A3, 30, 100
+/* 0x0A61 [0x64 0x80 0x1E 0x64     ] */ noteldv     PITCH_A3, FRAMERATE_CONST(30, 36), 100
 /* 0x0A65 [0xC7 0x81 0x00 0xFF     ] */ portamento  0x81, PITCH_A0, 255
-/* 0x0A69 [0x64 0x81 0x40 0x55     ] */ notedv      PITCH_A3, 320, 85
+/* 0x0A69 [0x64 0x81 0x40 0x55     ] */ notedv      PITCH_A3, FRAMERATE_CONST(320, 384), 85
 /* 0x0A6D [0xFF                    ] */ end
 
 .layer LAYER_0A6E
 /* 0x0A6E [0xC6 0x45               ] */ instr       SF0_INST_69
 /* 0x0A70 [0xCF 0xDD               ] */ releaserate 221
 /* 0x0A72 [0xC7 0x81 0x00 0xFF     ] */ portamento  0x81, PITCH_A0, 255
-/* 0x0A76 [0x70 0x81 0x5E 0x50     ] */ notedv      PITCH_A4, 350, 80
+/* 0x0A76 [0x70 0x81 0x5E 0x50     ] */ notedv      PITCH_A4, FRAMERATE_CONST(350, 420), 80
 /* 0x0A7A [0xFF                    ] */ end
 
 .channel CHAN_0A7B
@@ -1557,8 +1558,8 @@ LAYER_0992:
 /* 0x0A85 [0xFC 0x0A 0x95          ] */ call        LAYER_0A95
 /* 0x0A88 [0xC4                    ] */ legato
 /* 0x0A89 [0xC7 0x85 0x3E 0xFF     ] */ portamento  0x85, PITCH_B5, 255
-/* 0x0A8D [0x67 0x3C 0x55          ] */ notedv      PITCH_C4, 60, 85
-/* 0x0A90 [0x78 0x81 0xF4 0x55     ] */ notedv      PITCH_F5, 500, 85
+/* 0x0A8D [0x67 0x3C 0x55          ] */ notedv      PITCH_C4, FRAMERATE_CONST(60, 66), 85
+/* 0x0A90 [0x78 0x81 0xF4 0x55     ] */ notedv      PITCH_F5, FRAMERATE_CONST(500, 550), 85
 /* 0x0A94 [0xFF                    ] */ end
 
 .layer LAYER_0A95
@@ -1572,14 +1573,14 @@ LAYER_0992:
 /* 0x0AA2 [0xC6 0x0D               ] */ instr       SF0_INST_13
 /* 0x0AA4 [0xC2 0x18               ] */ transpose   24
 /* 0x0AA6 [0xCB 0x66 0xF4 0xC8     ] */ env         ENVELOPE_66F4, 200
-/* 0x0AAA [0x78 0x82 0x30 0x28     ] */ notedv      PITCH_F5, 560, 40
+/* 0x0AAA [0x78 0x82 0x30 0x28     ] */ notedv      PITCH_F5, FRAMERATE_CONST(560, 616), 40
 /* 0x0AAE [0xFF                    ] */ end
 
 .layer LAYER_0AAF
 /* 0x0AAF [0xC6 0x44               ] */ instr       SF0_INST_68
 /* 0x0AB1 [0xC2 0x0C               ] */ transpose   12
 /* 0x0AB3 [0xCB 0x67 0xD8 0xC8     ] */ env         ENVELOPE_67D8, 200
-/* 0x0AB7 [0x78 0x82 0x30 0x46     ] */ notedv      PITCH_F5, 560, 70
+/* 0x0AB7 [0x78 0x82 0x30 0x46     ] */ notedv      PITCH_F5, FRAMERATE_CONST(560, 616), 70
 /* 0x0ABB [0xFF                    ] */ end
 
 .channel CHAN_0ABC
@@ -1615,14 +1616,14 @@ CHAN_0ADA:
 /* 0x0AF2 [0xC2 0x24               ] */ transpose   36
 /* 0x0AF4 [0xC7 0x83 0x2C 0x7F     ] */ portamento  0x83, PITCH_F4, 127
 LAYER_0AF8:
-/* 0x0AF8 [0x70 0x60 0x40          ] */ notedv      PITCH_A4, 96, 64
+/* 0x0AF8 [0x70 0x60 0x40          ] */ notedv      PITCH_A4, FRAMERATE_CONST(96, 115), 64
 /* 0x0AFB [0xF4 0xFB               ] */ rjump       LAYER_0AF8
 
 .layer LAYER_0AFD
 /* 0x0AFD [0xC2 0x0C               ] */ transpose   12
 /* 0x0AFF [0xC7 0x83 0x2C 0x7F     ] */ portamento  0x83, PITCH_F4, 127
 LAYER_0B03:
-/* 0x0B03 [0x70 0x60 0x40          ] */ notedv      PITCH_A4, 96, 64
+/* 0x0B03 [0x70 0x60 0x40          ] */ notedv      PITCH_A4, FRAMERATE_CONST(96, 115), 64
 /* 0x0B06 [0xF4 0xFB               ] */ rjump       LAYER_0B03
 
 .channel CHAN_0B08
@@ -2040,7 +2041,7 @@ LAYER_0B74:
 .layer LAYER_0D74
 /* 0x0D74 [0xC6 0x2E               ] */ instr       SF0_INST_46
 /* 0x0D76 [0xC7 0x81 0x27 0x2D     ] */ portamento  0x81, PITCH_C4, 45
-/* 0x0D7A [0x6B 0x81 0x18 0x3C     ] */ notedv      PITCH_E4, 280, 60
+/* 0x0D7A [0x6B 0x81 0x18 0x3C     ] */ notedv      PITCH_E4, FRAMERATE_CONST(280, 336), 60
 /* 0x0D7E [0xFF                    ] */ end
 
 .channel CHAN_0D7F
@@ -2084,7 +2085,7 @@ CHAN_0DAF:
 /* 0x0DBE [0xCB 0x66 0x74 0xFB     ] */ env         ENVELOPE_6674, 251
 /* 0x0DC2 [0xC4                    ] */ legato
 LAYER_0DC3:
-/* 0x0DC3 [0x67 0x81 0xF4 0x23     ] */ notedv      PITCH_C4, 500, 35
+/* 0x0DC3 [0x67 0x81 0xF4 0x23     ] */ notedv      PITCH_C4, FRAMERATE_CONST(500, 600), 35
 /* 0x0DC7 [0xF4 0xFA               ] */ rjump       LAYER_0DC3
 
 .channel CHAN_0DC9
@@ -2101,7 +2102,7 @@ LAYER_0DC3:
 /* 0x0DD7 [0xC2 0x1E               ] */ transpose   30
 /* 0x0DD9 [0xC4                    ] */ legato
 /* 0x0DDA [0xC7 0x81 0x2B 0x40     ] */ portamento  0x81, PITCH_E4, 64
-/* 0x0DDE [0x69 0x80 0xAA 0x50     ] */ notedv      PITCH_D4, 170, 80
+/* 0x0DDE [0x69 0x80 0xAA 0x50     ] */ notedv      PITCH_D4, FRAMERATE_CONST(170, 204), 80
 /* 0x0DE2 [0xFF                    ] */ end
 
 .channel CHAN_0DE3
@@ -2407,8 +2408,12 @@ CHAN_0EDC:
 
 .layer LAYER_1029
 /* 0x1029 [0xC6 0x2F               ] */ instr       SF0_INST_47
+#if OOT_VERSION < PAL_1_0
+/* 0x102B [0xCB 0x66 0x4C 0xF0     ] */ env         ENVELOPE_664C, 240
+#else
 /* 0x102B [0xCB 0x66 0x4C 0xFF     ] */ env         ENVELOPE_664C, 255
-/* 0x102F [0x7E 0x0C 0x6C          ] */ notedv      PITCH_B5, 12, 108
+#endif
+/* 0x102F [0x7E 0x0C 0x6C          ] */ notedv      PITCH_B5, FRAMERATE_CONST(12, 15), 108
 /* 0x1032 [0xFF                    ] */ end
 
 .layer LAYER_1033
@@ -2760,7 +2765,7 @@ LAYER_1254:
 .layer LAYER_1266
 /* 0x1266 [0xC6 0x27               ] */ instr       SF0_INST_39
 /* 0x1268 [0xC7 0x81 0x33 0x2C     ] */ portamento  0x81, PITCH_C5, 44
-/* 0x126C [0x60 0x80 0x8C 0x5A     ] */ notedv      PITCH_F3, 140, 90
+/* 0x126C [0x60 0x80 0x8C 0x5A     ] */ notedv      PITCH_F3, FRAMERATE_CONST(140, 168), 90
 /* 0x1270 [0xFF                    ] */ end
 
 .channel CHAN_1271
@@ -2931,9 +2936,9 @@ CHAN_135C:
 /* 0x1381 [0xC6 0x51               ] */ instr       SF0_INST_81
 /* 0x1383 [0xCB 0x65 0xD8 0xFB     ] */ env         ENVELOPE_65D8, 251
 /* 0x1387 [0xC7 0x81 0x14 0xFF     ] */ portamento  0x81, PITCH_F2, 255
-/* 0x138B [0x57 0x08 0x55          ] */ notedv      PITCH_AF2, 8, 85
+/* 0x138B [0x57 0x08 0x55          ] */ notedv      PITCH_AF2, FRAMERATE_CONST(8, 10), 85
 /* 0x138E [0xC7 0x81 0x1B 0xFF     ] */ portamento  0x81, PITCH_C3, 255
-/* 0x1392 [0x4F 0x60 0x55          ] */ notedv      PITCH_C2, 96, 85
+/* 0x1392 [0x4F 0x60 0x55          ] */ notedv      PITCH_C2, FRAMERATE_CONST(96, 115), 85
 /* 0x1395 [0xFF                    ] */ end
 
 .channel CHAN_1396
@@ -2960,8 +2965,8 @@ LAYER_13B3:
 /* 0x13B5 [0xCB 0x66 0x38 0xFB     ] */ env         ENVELOPE_6638, 251
 /* 0x13B9 [0xC4                    ] */ legato
 /* 0x13BA [0xC7 0x85 0x2C 0xFF     ] */ portamento  0x85, PITCH_F4, 255
-/* 0x13BE [0x78 0x10 0x44          ] */ notedv      PITCH_F5, 16, 68
-/* 0x13C1 [0x45 0x2C 0x44          ] */ notedv      PITCH_D1, 44, 68
+/* 0x13BE [0x78 0x10 0x44          ] */ notedv      PITCH_F5, FRAMERATE_CONST(16, 19), 68
+/* 0x13C1 [0x45 0x2C 0x44          ] */ notedv      PITCH_D1, FRAMERATE_CONST(44, 53), 68
 /* 0x13C4 [0xFF                    ] */ end
 
 .layer LAYER_13C5
@@ -3017,10 +3022,10 @@ LAYER_140B:
 /* 0x1411 [0xCC 0x00               ] */ ldi         0
 /* 0x1413 [0x76                    ] */ stio        IO_PORT_6
 CHAN_1414:
-/* 0x1414 [0xCB 0x14 0x2D          ] */ ldseq       UNK_142D
+/* 0x1414 [0xCB 0x14 0x2D          ] */ ldseq       ARRAY_142D
 /* 0x1417 [0xC7 0x00 0x14 0x5B     ] */ stseq       0, LAYER_145A + STSEQ_TRANSPOSITION
 /* 0x141B [0x66                    ] */ ldio        IO_PORT_6
-/* 0x141C [0xCB 0x14 0x31          ] */ ldseq       UNK_1431
+/* 0x141C [0xCB 0x14 0x31          ] */ ldseq       ARRAY_1431
 /* 0x141F [0xC7 0x00 0x14 0x56     ] */ stseq       0, LAYER_1455 + STSEQ_NOTEDV_DELAY_HI
 /* 0x1423 [0xCC 0x18               ] */ ldi         24
 /* 0x1425 [0x71                    ] */ stio        IO_PORT_1
@@ -3028,11 +3033,15 @@ CHAN_1414:
 /* 0x1429 [0x89 0x14 0x35          ] */ ldlayer     1, LAYER_1435
 /* 0x142C [0xFF                    ] */ end
 
-UNK_142D:
-    .byte 0x00, 0x04, 0x08, 0x00
+.array ARRAY_142D
+    .byte 0, 4, 8, 0
 
-UNK_1431:
-    .byte 0x60, 0x30, 0x18, 0x60
+.array ARRAY_1431
+#if !OOT_PAL_N64
+    .byte 96, 48, 24, 96
+#else
+    .byte 115, 58, 29, 96
+#endif
 
 .layer LAYER_1435
 /* 0x1435 [0xFC 0x14 0x5A          ] */ call        LAYER_145A
@@ -3254,24 +3263,24 @@ CHAN_14CD:
 .layer LAYER_158A
 /* 0x158A [0xC6 0x2E               ] */ instr       SF0_INST_46
 /* 0x158C [0xC7 0x81 0x30 0xE7     ] */ portamento  0x81, PITCH_A4, 231
-/* 0x1590 [0x58 0x18 0x4B          ] */ notedv      PITCH_A2, 24, 75
+/* 0x1590 [0x58 0x18 0x4B          ] */ notedv      PITCH_A2, FRAMERATE_CONST(24, 48), 75
 /* 0x1593 [0xC6 0x4D               ] */ instr       SF0_INST_77
 /* 0x1595 [0xCB 0x67 0x40 0xE7     ] */ env         ENVELOPE_6740, 231
 /* 0x1599 [0xC7 0x81 0x26 0xFF     ] */ portamento  0x81, PITCH_B3, 255
-/* 0x159D [0x5A 0x80 0xE8 0x69     ] */ notedv      PITCH_B2, 232, 105
+/* 0x159D [0x5A 0x80 0xE8 0x69     ] */ notedv      PITCH_B2, FRAMERATE_CONST(232, 278), 105
 /* 0x15A1 [0xFF                    ] */ end
 
 .layer LAYER_15A2
 /* 0x15A2 [0xC6 0x11               ] */ instr       SF0_INST_17
 /* 0x15A4 [0xCB 0x67 0xCC 0xE7     ] */ env         ENVELOPE_67CC, 231
 /* 0x15A8 [0xC7 0x81 0x0E 0xFF     ] */ portamento  0x81, PITCH_B1, 255
-/* 0x15AC [0x5A 0x80 0xE8 0x5F     ] */ notedv      PITCH_B2, 232, 95
+/* 0x15AC [0x5A 0x80 0xE8 0x5F     ] */ notedv      PITCH_B2, FRAMERATE_CONST(232, 278), 95
 /* 0x15B0 [0xFF                    ] */ end
 
 .layer LAYER_15B1
 /* 0x15B1 [0xC6 0x2F               ] */ instr       SF0_INST_47
 /* 0x15B3 [0xCB 0x66 0x10 0xE7     ] */ env         ENVELOPE_6610, 231
-/* 0x15B7 [0x64 0x48 0x69          ] */ notedv      PITCH_A3, 72, 105
+/* 0x15B7 [0x64 0x48 0x69          ] */ notedv      PITCH_A3, FRAMERATE_CONST(72, 86), 105
 /* 0x15BA [0xFF                    ] */ end
 
 .channel CHAN_15BB
@@ -3285,7 +3294,7 @@ CHAN_14CD:
 .layer LAYER_15C7
 /* 0x15C7 [0xC6 0x2F               ] */ instr       SF0_INST_47
 /* 0x15C9 [0xCF 0xDD               ] */ releaserate 221
-/* 0x15CB [0x72 0x80 0xC8 0x55     ] */ notedv      PITCH_B4, 200, 85
+/* 0x15CB [0x72 0x80 0xC8 0x55     ] */ notedv      PITCH_B4, FRAMERATE_CONST(200, 240), 85
 /* 0x15CF [0xFF                    ] */ end
 
 .channel CHAN_15D0
@@ -3920,8 +3929,8 @@ LAYER_1B5C:
 /* 0x1B81 [0xC6 0x42               ] */ instr       SF0_INST_66
 /* 0x1B83 [0xCB 0x65 0xFC 0xFA     ] */ env         ENVELOPE_65FC, 250
 /* 0x1B87 [0xC7 0x83 0x20 0xFF     ] */ portamento  0x83, PITCH_F3, 255
-/* 0x1B8B [0x1D 0x18 0x64 0x7F     ] */ notedvg     PITCH_D3, 24, 100, 127
-/* 0x1B8F [0x67 0x48 0x64          ] */ notedv      PITCH_C4, 72, 100
+/* 0x1B8B [0x1D 0x18 0x64 0x7F     ] */ notedvg     PITCH_D3, FRAMERATE_CONST(24, 28), 100, 127
+/* 0x1B8F [0x67 0x48 0x64          ] */ notedv      PITCH_C4, FRAMERATE_CONST(72, 86), 100
 /* 0x1B92 [0xFF                    ] */ end
 
 .channel CHAN_1B93
@@ -3934,15 +3943,15 @@ LAYER_1B5C:
 CHAN_1BA1:
 /* 0x1BA1 [0x66                    ] */ ldio        IO_PORT_6
 /* 0x1BA2 [0xC9 0x03               ] */ and         3
-/* 0x1BA4 [0xCB 0x1B 0xB6          ] */ ldseq       UNK_1BB6
+/* 0x1BA4 [0xCB 0x1B 0xB6          ] */ ldseq       ARRAY_1BB6
 /* 0x1BA7 [0xC7 0x00 0x1B 0xE7     ] */ stseq       0, LAYER_1BE6 + STSEQ_LDELAY
 /* 0x1BAB [0xC7 0x08 0x1B 0xB0     ] */ stseq       8, STSEQ_HERE + STSEQ_LDI_IMM
 /* 0x1BAF [0xCC 0x30               ] */ ldi         48
 /* 0x1BB1 [0xFC 0x00 0x48          ] */ call        CHAN_0048
 /* 0x1BB4 [0xF4 0xEB               ] */ rjump       CHAN_1BA1
 
-UNK_1BB6:
-    .byte 0x20, 0x0E, 0x05, 0x20
+.array ARRAY_1BB6
+    .byte 32, 14, 5, 32
 
 .layer LAYER_1BBA
 /* 0x1BBA [0xC2 0x30               ] */ transpose   48
@@ -4022,16 +4031,16 @@ CHAN_1C3B:
 /* 0x1C3B [0x63                    ] */ ldio        IO_PORT_3
 /* 0x1C3C [0xC9 0xF0               ] */ and         240
 /* 0x1C3E [0xF3 0x0E               ] */ rbeqz       CHAN_1C4E
-/* 0x1C40 [0xCE 0x00 0x00          ] */ ldptr       SEQ_0000
+/* 0x1C40 [0xCE 0x00 0x00          ] */ ldptri      0
 /* 0x1C43 [0xCF 0x1C 0x80          ] */ stptrtoseq  ENVELOPE_1C7A + STSEQ_ENVELOPE_POINT(3)
-/* 0x1C46 [0xCE 0x7F 0xBC          ] */ ldptr       SEQ_0_END + 0x1538
+/* 0x1C46 [0xCE 0x7F 0xBC          ] */ ldptri      32700
 /* 0x1C49 [0xCF 0x1C 0x8C          ] */ stptrtoseq  ENVELOPE_1C86 + STSEQ_ENVELOPE_POINT(3)
 /* 0x1C4C [0xF4 0x0C               ] */ rjump       CHAN_1C5A
 
 CHAN_1C4E:
-/* 0x1C4E [0xCE 0x00 0x00          ] */ ldptr       SEQ_0000
+/* 0x1C4E [0xCE 0x00 0x00          ] */ ldptri      0
 /* 0x1C51 [0xCF 0x1C 0x8C          ] */ stptrtoseq  ENVELOPE_1C86 + STSEQ_ENVELOPE_POINT(3)
-/* 0x1C54 [0xCE 0x7F 0xBC          ] */ ldptr       SEQ_0_END + 0x1538
+/* 0x1C54 [0xCE 0x7F 0xBC          ] */ ldptri      32700
 /* 0x1C57 [0xCF 0x1C 0x80          ] */ stptrtoseq  ENVELOPE_1C7A + STSEQ_ENVELOPE_POINT(3)
 CHAN_1C5A:
 /* 0x1C5A [0xCC 0x01               ] */ ldi         1
@@ -4091,20 +4100,20 @@ LAYER_1C73:
 /* 0x1CBB [0xC4                    ] */ legato
 /* 0x1CBC [0xCF 0xFB               ] */ releaserate 251
 /* 0x1CBE [0xC7 0x85 0x35 0xFF     ] */ portamento  0x85, PITCH_D5, 255
-/* 0x1CC2 [0x75 0x81 0x90 0x5A     ] */ notedv      PITCH_D5, 400, 90
-/* 0x1CC6 [0x77 0x81 0xF4 0x5A     ] */ notedv      PITCH_E5, 500, 90
+/* 0x1CC2 [0x75 0x81 0x90 0x5A     ] */ notedv      PITCH_D5, FRAMERATE_CONST(400, 480), 90
+/* 0x1CC6 [0x77 0x81 0xF4 0x5A     ] */ notedv      PITCH_E5, FRAMERATE_CONST(500, 600), 90
 /* 0x1CCA [0xFF                    ] */ end
 
 .layer LAYER_1CCB
 /* 0x1CCB [0xCA 0x40               ] */ notepan     64
 /* 0x1CCD [0xC2 0x0C               ] */ transpose   12
 /* 0x1CCF [0x69 0x18 0x4B          ] */ notedv      PITCH_D4, 24, 75
-/* 0x1CD2 [0x75 0x81 0x90 0x4B     ] */ notedv      PITCH_D5, 400, 75
+/* 0x1CD2 [0x75 0x81 0x90 0x4B     ] */ notedv      PITCH_D5, FRAMERATE_CONST(400, 480), 75
 /* 0x1CD6 [0xC2 0x00               ] */ transpose   0
 /* 0x1CD8 [0xC6 0x40               ] */ instr       SF0_INST_64
 /* 0x1CDA [0xCB 0x67 0x78 0xFB     ] */ env         ENVELOPE_6778, 251
 /* 0x1CDE [0xC7 0x81 0x39 0xFF     ] */ portamento  0x81, PITCH_GF5, 255
-/* 0x1CE2 [0x7D 0x81 0xF4 0x32     ] */ notedv      PITCH_BF5, 500, 50
+/* 0x1CE2 [0x7D 0x81 0xF4 0x32     ] */ notedv      PITCH_BF5, FRAMERATE_CONST(500, 600), 50
 /* 0x1CE6 [0xFF                    ] */ end
 
 .layer LAYER_1CE7
@@ -4114,8 +4123,8 @@ LAYER_1C73:
 /* 0x1CEE [0xC4                    ] */ legato
 /* 0x1CEF [0xCF 0xFB               ] */ releaserate 251
 /* 0x1CF1 [0xC7 0x85 0x31 0xFF     ] */ portamento  0x85, PITCH_BF4, 255
-/* 0x1CF5 [0x71 0x81 0x90 0x5A     ] */ notedv      PITCH_BF4, 400, 90
-/* 0x1CF9 [0x73 0x81 0xF4 0x5A     ] */ notedv      PITCH_C5, 500, 90
+/* 0x1CF5 [0x71 0x81 0x90 0x5A     ] */ notedv      PITCH_BF4, FRAMERATE_CONST(400, 480), 90
+/* 0x1CF9 [0x73 0x81 0xF4 0x5A     ] */ notedv      PITCH_C5, FRAMERATE_CONST(500, 600), 90
 /* 0x1CFD [0xFF                    ] */ end
 
 .channel CHAN_1CFE
@@ -4614,14 +4623,14 @@ LAYER_1FCB:
 /* 0x203E [0xCB 0x66 0x94 0xE7     ] */ env         ENVELOPE_6694, 231
 /* 0x2042 [0xC4                    ] */ legato
 /* 0x2043 [0xC7 0x85 0x03 0xFF     ] */ portamento  0x85, PITCH_C1, 255
-/* 0x2047 [0x54 0x60 0x64          ] */ notedv      PITCH_F2, 96, 100
-/* 0x204A [0x67 0x80 0x96 0x64     ] */ notedv      PITCH_C4, 150, 100
+/* 0x2047 [0x54 0x60 0x64          ] */ notedv      PITCH_F2, FRAMERATE_CONST(96, 115), 100
+/* 0x204A [0x67 0x80 0x96 0x64     ] */ notedv      PITCH_C4, FRAMERATE_CONST(150, 180), 100
 /* 0x204E [0xC5                    ] */ nolegato
 /* 0x204F [0xC4                    ] */ legato
 /* 0x2050 [0xC8                    ] */ noportamento
 /* 0x2051 [0xCB 0x66 0xEC 0xE7     ] */ env         ENVELOPE_66EC, 231
 /* 0x2055 [0xC7 0x81 0x0F 0xFF     ] */ portamento  0x81, PITCH_C2, 255
-/* 0x2059 [0x67 0x80 0xC8 0x64     ] */ notedv      PITCH_C4, 200, 100
+/* 0x2059 [0x67 0x80 0xC8 0x64     ] */ notedv      PITCH_C4, FRAMERATE_CONST(200, 240), 100
 /* 0x205D [0xFF                    ] */ end
 
 /* 0x205E [0xC2 0xE2               ] */ transpose   -30
@@ -4635,9 +4644,9 @@ LAYER_2069:
 /* 0x2069 [0xCB 0x66 0x88 0xFB     ] */ env         ENVELOPE_6688, 251
 /* 0x206D [0xC4                    ] */ legato
 /* 0x206E [0xC7 0x85 0x0F 0xFF     ] */ portamento  0x85, PITCH_C2, 255
-/* 0x2072 [0x60 0x60 0x4A          ] */ notedv      PITCH_F3, 96, 74
-/* 0x2075 [0x73 0x80 0xC8 0x4A     ] */ notedv      PITCH_C5, 200, 74
-/* 0x2079 [0x7C 0x80 0x96 0x4A     ] */ notedv      PITCH_A5, 150, 74
+/* 0x2072 [0x60 0x60 0x4A          ] */ notedv      PITCH_F3, FRAMERATE_CONST(96, 115), 74
+/* 0x2075 [0x73 0x80 0xC8 0x4A     ] */ notedv      PITCH_C5, FRAMERATE_CONST(200, 240), 74
+/* 0x2079 [0x7C 0x80 0x96 0x4A     ] */ notedv      PITCH_A5, FRAMERATE_CONST(150, 180), 74
 /* 0x207D [0xFF                    ] */ end
 
 .channel CHAN_207E
@@ -4853,13 +4862,13 @@ LAYER_2196:
 
 .layer LAYER_21C7
 /* 0x21C7 [0xC6 0x22               ] */ instr       SF0_INST_34
-/* 0x21C9 [0x6B 0x18 0x50          ] */ notedv      PITCH_E4, 24, 80
+/* 0x21C9 [0x6B 0x18 0x50          ] */ notedv      PITCH_E4, FRAMERATE_CONST(24, 29), 80
 /* 0x21CC [0xFF                    ] */ end
 
 .layer LAYER_21CD
 /* 0x21CD [0xC6 0x1D               ] */ instr       SF0_INST_29
 /* 0x21CF [0xC7 0x81 0x1C 0xFF     ] */ portamento  0x81, PITCH_DF3, 255
-/* 0x21D3 [0x5E 0x18 0x5F          ] */ notedv      PITCH_EF3, 24, 95
+/* 0x21D3 [0x5E 0x18 0x5F          ] */ notedv      PITCH_EF3, FRAMERATE_CONST(24, 29), 95
 /* 0x21D6 [0xFF                    ] */ end
 
 .channel CHAN_21D7
@@ -4969,7 +4978,7 @@ CHAN_2274:
 /* 0x2284 [0x56                    ] */ subio       IO_PORT_6
 /* 0x2285 [0xC9 0x07               ] */ and         7
 CHAN_2287:
-/* 0x2287 [0xC7 0x60 0x22 0x98     ] */ stseq       (NOTEDV_OPCODE | PITCH_F3), LAYER_2298 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x2287 [0xC7 0x60 0x22 0x98     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_F3), LAYER_2298 + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x228B [0x66                    ] */ ldio        IO_PORT_6
 /* 0x228C [0xC8 0xFC               ] */ sub         252
 /* 0x228E [0xC9 0x04               ] */ and         4
@@ -5033,9 +5042,9 @@ LAYER_22E0:
 
 .layer LAYER_22EA
 /* 0x22EA [0xC6 0x2D               ] */ instr       SF0_INST_45
-/* 0x22EC [0x5B 0x13 0x69          ] */ notedv      PITCH_C3, 19, 105
+/* 0x22EC [0x5B 0x13 0x69          ] */ notedv      PITCH_C3, FRAMERATE_CONST(19, 23), 105
 /* 0x22EF [0xC6 0x42               ] */ instr       SF0_INST_66
-/* 0x22F1 [0x4E 0x49 0x67          ] */ notedv      PITCH_B1, 73, 103
+/* 0x22F1 [0x4E 0x49 0x67          ] */ notedv      PITCH_B1, FRAMERATE_CONST(73, 88), 103
 /* 0x22F4 [0xFF                    ] */ end
 
 .channel CHAN_22F5
@@ -5229,8 +5238,8 @@ LAYER_23CF:
 .layer LAYER_240A
 /* 0x240A [0xC4                    ] */ legato
 /* 0x240B [0xC7 0x85 0x18 0xFF     ] */ portamento  0x85, PITCH_A2, 255
-/* 0x240F [0x54 0x18 0x64          ] */ notedv      PITCH_F2, 24, 100
-/* 0x2412 [0x57 0x30 0x64          ] */ notedv      PITCH_AF2, 48, 100
+/* 0x240F [0x54 0x18 0x64          ] */ notedv      PITCH_F2, FRAMERATE_CONST(24, 28), 100
+/* 0x2412 [0x57 0x30 0x64          ] */ notedv      PITCH_AF2, FRAMERATE_CONST(48, 56), 100
 /* 0x2415 [0xFF                    ] */ end
 
 .channel CHAN_2416
@@ -5242,7 +5251,7 @@ LAYER_23CF:
 
 .layer LAYER_2422
 /* 0x2422 [0xC4                    ] */ legato
-/* 0x2423 [0xC0 0x28               ] */ ldelay      40
+/* 0x2423 [0xC0 0x28               ] */ ldelay      FRAMERATE_CONST(40, 48)
 /* 0x2425 [0xC7 0x85 0x3A 0xFF     ] */ portamento  0x85, PITCH_G5, 255
 /* 0x2429 [0x56 0x80 0x12 0x69     ] */ noteldv     PITCH_G2, 18, 105
 /* 0x242D [0x6E 0x80 0x1E 0x69     ] */ noteldv     PITCH_G4, 30, 105
@@ -5250,7 +5259,7 @@ LAYER_23CF:
 
 .layer LAYER_2432
 /* 0x2432 [0xC7 0x81 0x14 0xFF     ] */ portamento  0x81, PITCH_F2, 255
-/* 0x2436 [0x5A 0x60 0x64          ] */ notedv      PITCH_B2, 96, 100
+/* 0x2436 [0x5A 0x60 0x64          ] */ notedv      PITCH_B2, FRAMERATE_CONST(96, 115), 100
 /* 0x2439 [0xFF                    ] */ end
 
 .channel CHAN_243A
@@ -5321,7 +5330,7 @@ LAYER_245A:
 /* 0x24A5 [0xC2 0x08               ] */ transpose   8
 .layer LAYER_24A7
 /* 0x24A7 [0xC6 0x42               ] */ instr       SF0_INST_66
-/* 0x24A9 [0x4E 0x00 0x67          ] */ notedv      PITCH_B1, 0, 103
+/* 0x24A9 [0x4E 0x00 0x67          ] */ notedv      FRAMERATE_CONST(PITCH_B1, PITCH_A1), 0, 103
 /* 0x24AC [0xFF                    ] */ end
 
 .channel CHAN_24AD
@@ -5445,7 +5454,7 @@ LAYER_254E:
 /* 0x255B [0xC2 0x18               ] */ transpose   24
 /* 0x255D [0xC6 0x2A               ] */ instr       SF0_INST_42
 /* 0x255F [0xCB 0x67 0xCC 0xF1     ] */ env         ENVELOPE_67CC, 241
-/* 0x2563 [0x76 0x81 0x20 0x2A     ] */ notedv      PITCH_EF5, 288, 42
+/* 0x2563 [0x76 0x81 0x20 0x2A     ] */ notedv      PITCH_EF5, FRAMERATE_CONST(288, 346), 42
 /* 0x2567 [0xFF                    ] */ end
 
 .layer LAYER_2568
@@ -5525,7 +5534,7 @@ LAYER_2592:
 /* 0x25E1 [0xC4                    ] */ legato
 /* 0x25E2 [0xC7 0x85 0x1A 0xFF     ] */ portamento  0x85, PITCH_B2, 255
 LAYER_25E6:
-/* 0x25E6 [0x61 0x83 0xE8 0x50     ] */ notedv      PITCH_GF3, 1000, 80
+/* 0x25E6 [0x61 0x83 0xE8 0x50     ] */ notedv      PITCH_GF3, FRAMERATE_CONST(1000, 1200), 80
 /* 0x25EA [0xF4 0xFA               ] */ rjump       LAYER_25E6
 
 .layer LAYER_25EC
@@ -5535,7 +5544,7 @@ LAYER_25E6:
 /* 0x25F4 [0xC4                    ] */ legato
 /* 0x25F5 [0xC7 0x85 0x24 0xFF     ] */ portamento  0x85, PITCH_A3, 255
 LAYER_25F9:
-/* 0x25F9 [0x6C 0x83 0xE8 0x4B     ] */ notedv      PITCH_F4, 1000, 75
+/* 0x25F9 [0x6C 0x83 0xE8 0x4B     ] */ notedv      PITCH_F4, FRAMERATE_CONST(1000, 1200), 75
 /* 0x25FD [0xF4 0xFA               ] */ rjump       LAYER_25F9
 
 .channel CHAN_25FF
@@ -5551,7 +5560,7 @@ LAYER_25F9:
 /* 0x260E [0xC4                    ] */ legato
 /* 0x260F [0xC7 0x81 0x1B 0xFF     ] */ portamento  0x81, PITCH_C3, 255
 LAYER_2613:
-/* 0x2613 [0x6E 0x81 0xF4 0x50     ] */ notedv      PITCH_G4, 500, 80
+/* 0x2613 [0x6E 0x81 0xF4 0x50     ] */ notedv      PITCH_G4, FRAMERATE_CONST(500, 600), 80
 /* 0x2617 [0xF4 0xFA               ] */ rjump       LAYER_2613
 
 .channel CHAN_2619
@@ -5573,15 +5582,15 @@ LAYER_2625:
 
 .layer LAYER_2631
 /* 0x2631 [0xC6 0x42               ] */ instr       SF0_INST_66
-/* 0x2633 [0x5F 0x18 0x41          ] */ notedv      PITCH_E3, 24, 65
+/* 0x2633 [0x5F 0x18 0x41          ] */ notedv      PITCH_E3, FRAMERATE_CONST(24, 28), 65
 /* 0x2636 [0xC2 0x12               ] */ transpose   18
 .layer LAYER_2638
 /* 0x2638 [0xC6 0x07               ] */ instr       SF0_INST_7
 /* 0x263A [0xCB 0x66 0x88 0xFB     ] */ env         ENVELOPE_6688, 251
-/* 0x263E [0x5A 0x0E 0x5F          ] */ notedv      PITCH_B2, 14, 95
-/* 0x2641 [0x67 0x14 0x64          ] */ notedv      PITCH_C4, 20, 100
-/* 0x2644 [0x59 0x11 0x66          ] */ notedv      PITCH_BF2, 17, 102
-/* 0x2647 [0x65 0x50 0x67          ] */ notedv      PITCH_BF3, 80, 103
+/* 0x263E [0x5A 0x0E 0x5F          ] */ notedv      PITCH_B2, FRAMERATE_CONST(14, 16), 95
+/* 0x2641 [0x67 0x14 0x64          ] */ notedv      PITCH_C4, FRAMERATE_CONST(20, 24), 100
+/* 0x2644 [0x59 0x11 0x66          ] */ notedv      PITCH_BF2, FRAMERATE_CONST(17, 19), 102
+/* 0x2647 [0x65 0x50 0x67          ] */ notedv      PITCH_BF3, FRAMERATE_CONST(80, 96), 103
 /* 0x264A [0xFF                    ] */ end
 
 .channel CHAN_264B
@@ -5590,7 +5599,7 @@ LAYER_2625:
 /* 0x2650 [0xFF                    ] */ end
 
 .layer LAYER_2651
-/* 0x2651 [0x67 0x27 0x6E          ] */ notedv      PITCH_C4, 39, 110
+/* 0x2651 [0x67 0x27 0x6E          ] */ notedv      PITCH_C4, FRAMERATE_CONST(39, 47), 110
 /* 0x2654 [0xF4 0xFB               ] */ rjump       LAYER_2651
 
 .channel CHAN_2656
@@ -5642,7 +5651,7 @@ LAYER_2661:
 /* 0x269D [0xCB 0x66 0x94 0xEB     ] */ env         ENVELOPE_6694, 235
 /* 0x26A1 [0xC7 0x83 0x27 0xFF     ] */ portamento  0x83, PITCH_C4, 255
 /* 0x26A5 [0xF8 0x07               ] */ loop        7
-/* 0x26A7 [0x6E 0x40 0x40          ] */ notedv      PITCH_G4, 64, 64
+/* 0x26A7 [0x6E 0x40 0x40          ] */ notedv      PITCH_G4, FRAMERATE_CONST(64, 77), 64
 /* 0x26AA [0xF7                    ] */ loopend
 /* 0x26AB [0xC7 0x81 0x29 0xFF     ] */ portamento  0x81, PITCH_D4, 255
 /* 0x26AF [0x70 0x70 0x40          ] */ notedv      PITCH_A4, 112, 64
@@ -5653,7 +5662,7 @@ LAYER_2661:
 /* 0x26B5 [0xC6 0x44               ] */ instr       SF0_INST_68
 /* 0x26B7 [0xCB 0x66 0x94 0xEB     ] */ env         ENVELOPE_6694, 235
 /* 0x26BB [0xF8 0x07               ] */ loop        7
-/* 0x26BD [0x79 0x40 0x32          ] */ notedv      PITCH_GF5, 64, 50
+/* 0x26BD [0x79 0x40 0x32          ] */ notedv      PITCH_GF5, FRAMERATE_CONST(64, 77), 50
 /* 0x26C0 [0xF7                    ] */ loopend
 /* 0x26C1 [0xFF                    ] */ end
 
@@ -5672,7 +5681,7 @@ LAYER_2661:
 
 .layer LAYER_26D8
 /* 0x26D8 [0xC6 0x22               ] */ instr       SF0_INST_34
-/* 0x26DA [0x6D 0x4C 0x32          ] */ notedv      PITCH_GF4, 76, 50
+/* 0x26DA [0x6D 0x4C 0x32          ] */ notedv      PITCH_GF4, FRAMERATE_CONST(76, 84), 50
 /* 0x26DD [0xFF                    ] */ end
 
 .layer LAYER_26DE
@@ -5740,7 +5749,7 @@ CHAN_2731:
 /* 0x2743 [0xC2 0x18               ] */ transpose   24
 .layer LAYER_2745
 /* 0x2745 [0xC7 0x81 0x1F 0xFF     ] */ portamento  0x81, PITCH_E3, 255
-/* 0x2749 [0x62 0x80 0xF0 0x50     ] */ notedv      PITCH_G3, 240, 80
+/* 0x2749 [0x62 0x80 0xF0 0x50     ] */ notedv      PITCH_G3, FRAMERATE_CONST(240, 264), 80
 /* 0x274D [0xFF                    ] */ end
 
 .channel CHAN_274E
@@ -5755,7 +5764,7 @@ CHAN_2731:
 /* 0x2756 [0xC6 0x08               ] */ instr       SF0_INST_8
 /* 0x2758 [0xCB 0x67 0xCC 0xF5     ] */ env         ENVELOPE_67CC, 245
 /* 0x275C [0xC7 0x81 0x13 0x50     ] */ portamento  0x81, PITCH_E2, 80
-/* 0x2760 [0x63 0x6E 0x69          ] */ notedv      PITCH_AF3, 110, 105
+/* 0x2760 [0x63 0x6E 0x69          ] */ notedv      PITCH_AF3, FRAMERATE_CONST(110, 132), 105
 /* 0x2763 [0xFF                    ] */ end
 
 .channel CHAN_2764
@@ -5794,8 +5803,8 @@ LAYER_2786:
 /* 0x2790 [0xC6 0x44               ] */ instr       SF0_INST_68
 /* 0x2792 [0xCB 0x66 0x38 0xFB     ] */ env         ENVELOPE_6638, 251
 /* 0x2796 [0xC2 0x24               ] */ transpose   36
-/* 0x2798 [0x5D 0x0D 0x62          ] */ notedv      PITCH_D3, 13, 98
-/* 0x279B [0x69 0x64 0x62          ] */ notedv      PITCH_D4, 100, 98
+/* 0x2798 [0x5D 0x0D 0x62          ] */ notedv      PITCH_D3, FRAMERATE_CONST(13, 15), 98
+/* 0x279B [0x69 0x64 0x62          ] */ notedv      PITCH_D4, FRAMERATE_CONST(100, 120), 98
 /* 0x279E [0xFF                    ] */ end
 
 .channel CHAN_279F
@@ -5836,7 +5845,7 @@ CHAN_27B2:
 LAYER_27D3:
 /* 0x27D3 [0xC7 0x81 0x3A 0xFF     ] */ portamento  0x81, PITCH_G5, 255
 LAYER_27D7:
-/* 0x27D7 [0x7C 0x87 0xD0 0x4B     ] */ notedv      PITCH_A5, 2000, 75
+/* 0x27D7 [0x7C 0x87 0xD0 0x4B     ] */ notedv      PITCH_A5, FRAMERATE_CONST(2000, 2400), 75
 /* 0x27DB [0xF4 0xFA               ] */ rjump       LAYER_27D7
 
 .channel CHAN_27DD
@@ -5943,14 +5952,14 @@ LAYER_285C:
 /* 0x286D [0xC6 0x4D               ] */ instr       SF0_INST_77
 /* 0x286F [0xCB 0x66 0xFC 0xAA     ] */ env         ENVELOPE_66FC, 170
 /* 0x2873 [0xC7 0x81 0x20 0x91     ] */ portamento  0x81, PITCH_F3, 145
-/* 0x2877 [0x5D 0x82 0x44 0x69     ] */ notedv      PITCH_D3, 580, 105
+/* 0x2877 [0x5D 0x82 0x44 0x69     ] */ notedv      PITCH_D3, FRAMERATE_CONST(580, 696), 105
 /* 0x287B [0xFF                    ] */ end
 
 .layer LAYER_287C
 /* 0x287C [0xC6 0x50               ] */ instr       SF0_INST_80
 /* 0x287E [0xCB 0x66 0xFC 0xAA     ] */ env         ENVELOPE_66FC, 170
 /* 0x2882 [0xC7 0x81 0x05 0x91     ] */ portamento  0x81, PITCH_D1, 145
-/* 0x2886 [0x42 0x82 0x44 0x6E     ] */ notedv      PITCH_B0, 580, 110
+/* 0x2886 [0x42 0x82 0x44 0x6E     ] */ notedv      PITCH_B0, FRAMERATE_CONST(580, 696), 110
 /* 0x288A [0xFF                    ] */ end
 
 .channel CHAN_288B
@@ -6018,7 +6027,7 @@ CHAN_28BE:
 /* 0x28EC [0x89 0x29 0x00          ] */ ldlayer     1, LAYER_2900
 /* 0x28EF [0x8A 0x29 0x22          ] */ ldlayer     2, LAYER_2922
 /* 0x28F2 [0xD7 0x80               ] */ vibfreq     128
-/* 0x28F4 [0xE2 0x20 0x00 0x37     ] */ vibdepthgrad 32, 0, 55
+/* 0x28F4 [0xE2 0x20 0x00 0x37     ] */ vibdepthgrad 32, 0, FRAMERATE_CONST(55, 66)
 /* 0x28F8 [0xCC 0x01               ] */ ldi         1
 /* 0x28FA [0xFC 0x00 0x48          ] */ call        CHAN_0048
 /* 0x28FD [0xD8 0x00               ] */ vibdepth    0
@@ -6028,7 +6037,7 @@ CHAN_28BE:
 /* 0x2900 [0xC6 0x40               ] */ instr       SF0_INST_64
 /* 0x2902 [0xCB 0x67 0xE4 0xC8     ] */ env         ENVELOPE_67E4, 200
 /* 0x2906 [0xC7 0x81 0x26 0xB4     ] */ portamento  0x81, PITCH_B3, 180
-/* 0x290A [0x67 0x83 0x84 0x20     ] */ notedv      PITCH_C4, 900, 32
+/* 0x290A [0x67 0x83 0x84 0x20     ] */ notedv      PITCH_C4, FRAMERATE_CONST(900, 1080), 32
 /* 0x290E [0xFF                    ] */ end
 
 .layer LAYER_290F
@@ -6040,15 +6049,15 @@ CHAN_28BE:
 LAYER_2915:
 /* 0x2915 [0xCB 0x67 0xE4 0xC8     ] */ env         ENVELOPE_67E4, 200
 /* 0x2919 [0xC7 0x81 0x32 0xB4     ] */ portamento  0x81, PITCH_B4, 180
-/* 0x291D [0x73 0x83 0x84 0x50     ] */ notedv      PITCH_C5, 900, 80
+/* 0x291D [0x73 0x83 0x84 0x50     ] */ notedv      PITCH_C5, FRAMERATE_CONST(900, 1080), 80
 /* 0x2921 [0xFF                    ] */ end
 
 .layer LAYER_2922
 /* 0x2922 [0xCF 0xC8               ] */ releaserate 200
-/* 0x2924 [0x5B 0x82 0x58 0x40     ] */ notedv      PITCH_C3, 600, 64
+/* 0x2924 [0x5B 0x82 0x58 0x40     ] */ notedv      PITCH_C3, FRAMERATE_CONST(600, 720), 64
 /* 0x2928 [0xC2 0x1B               ] */ transpose   27
 /* 0x292A [0xCB 0x66 0xF4 0xDD     ] */ env         ENVELOPE_66F4, 221
-/* 0x292E [0x73 0x81 0x2C 0x46     ] */ notedv      PITCH_C5, 300, 70
+/* 0x292E [0x73 0x81 0x2C 0x46     ] */ notedv      PITCH_C5, FRAMERATE_CONST(300, 360), 70
 /* 0x2932 [0xFF                    ] */ end
 
 .channel CHAN_2933
@@ -6061,10 +6070,10 @@ LAYER_2915:
 /* 0x293D [0xC2 0x30               ] */ transpose   48
 /* 0x293F [0xC4                    ] */ legato
 /* 0x2940 [0xC7 0x85 0x2E 0xFF     ] */ portamento  0x85, PITCH_G4, 255
-/* 0x2944 [0x6D 0x50 0x50          ] */ notedv      PITCH_GF4, 80, 80
-/* 0x2947 [0x67 0x80 0xD2 0x50     ] */ notedv      PITCH_C4, 210, 80
+/* 0x2944 [0x6D 0x50 0x50          ] */ notedv      PITCH_GF4, FRAMERATE_CONST(80, 96), 80
+/* 0x2947 [0x67 0x80 0xD2 0x50     ] */ notedv      PITCH_C4, FRAMERATE_CONST(210, 252), 80
 LAYER_294B:
-/* 0x294B [0x67 0x81 0x13 0x50     ] */ notedv      PITCH_C4, 275, 80
+/* 0x294B [0x67 0x81 0x13 0x50     ] */ notedv      PITCH_C4, FRAMERATE_CONST(275, 330), 80
 /* 0x294F [0xF4 0xFA               ] */ rjump       LAYER_294B
 
 .channel CHAN_2951
@@ -6090,12 +6099,12 @@ LAYER_294B:
 /* 0x2974 [0xC2 0x30               ] */ transpose   48
 /* 0x2976 [0xC4                    ] */ legato
 /* 0x2977 [0xC7 0x85 0x20 0xFF     ] */ portamento  0x85, PITCH_F3, 255
-/* 0x297B [0x60 0x50 0x50          ] */ notedv      PITCH_F3, 80, 80
-/* 0x297E [0x6E 0x50 0x50          ] */ notedv      PITCH_G4, 80, 80
-/* 0x2981 [0x6E 0x82 0x08 0x50     ] */ notedv      PITCH_G4, 520, 80
-/* 0x2985 [0x67 0x80 0xD2 0x50     ] */ notedv      PITCH_C4, 210, 80
+/* 0x297B [0x60 0x50 0x50          ] */ notedv      PITCH_F3, FRAMERATE_CONST(80, 96), 80
+/* 0x297E [0x6E 0x50 0x50          ] */ notedv      PITCH_G4, FRAMERATE_CONST(80, 96), 80
+/* 0x2981 [0x6E 0x82 0x08 0x50     ] */ notedv      PITCH_G4, FRAMERATE_CONST(520, 672), 80
+/* 0x2985 [0x67 0x80 0xD2 0x50     ] */ notedv      PITCH_C4, FRAMERATE_CONST(210, 252), 80
 LAYER_2989:
-/* 0x2989 [0x60 0x64 0x50          ] */ notedv      PITCH_F3, 100, 80
+/* 0x2989 [0x60 0x64 0x50          ] */ notedv      PITCH_F3, FRAMERATE_CONST(100, 120), 80
 /* 0x298C [0xF4 0xFB               ] */ rjump       LAYER_2989
 
 .channel CHAN_298E
@@ -6143,14 +6152,14 @@ LAYER_29B9:
 /* 0x29D4 [0xC6 0x2E               ] */ instr       SF0_INST_46
 /* 0x29D6 [0xCB 0x66 0xF4 0xF1     ] */ env         ENVELOPE_66F4, 241
 /* 0x29DA [0xC7 0x81 0x27 0xFF     ] */ portamento  0x81, PITCH_C4, 255
-/* 0x29DE [0x5E 0x80 0xC6 0x5A     ] */ notedv      PITCH_EF3, 198, 90
+/* 0x29DE [0x5E 0x80 0xC6 0x5A     ] */ notedv      PITCH_EF3, FRAMERATE_CONST(198, 196), 90
 /* 0x29E2 [0xFF                    ] */ end
 
 .layer LAYER_29E3
-/* 0x29E3 [0xC0 0x80 0xBC          ] */ ldelay      188
+/* 0x29E3 [0xC0 0x80 0xBC          ] */ ldelay      FRAMERATE_CONST(188, 202)
 /* 0x29E6 [0xC6 0x08               ] */ instr       SF0_INST_8
 /* 0x29E8 [0xC7 0x81 0x03 0x20     ] */ portamento  0x81, PITCH_C1, 32
-/* 0x29EC [0x4F 0x40 0x69          ] */ notedv      PITCH_C2, 64, 105
+/* 0x29EC [0x4F 0x40 0x69          ] */ notedv      PITCH_C2, FRAMERATE_CONST(64, 77), 105
 /* 0x29EF [0xFF                    ] */ end
 
 .channel CHAN_29F0
@@ -6189,24 +6198,24 @@ LAYER_2A06:
 /* 0x2A27 [0xC6 0x4A               ] */ instr       SF0_INST_74
 /* 0x2A29 [0xCB 0x66 0xF4 0xDD     ] */ env         ENVELOPE_66F4, 221
 /* 0x2A2D [0xC7 0x81 0x27 0xFF     ] */ portamento  0x81, PITCH_C4, 255
-/* 0x2A31 [0x7E 0x82 0xE4 0x5F     ] */ notedv      PITCH_B5, 740, 95
+/* 0x2A31 [0x7E 0x82 0xE4 0x5F     ] */ notedv      PITCH_B5, FRAMERATE_CONST(740, 925), 95
 /* 0x2A35 [0xFF                    ] */ end
 
 .layer LAYER_2A36
 /* 0x2A36 [0xC7 0x81 0x1B 0xFF     ] */ portamento  0x81, PITCH_C3, 255
-/* 0x2A3A [0x72 0x82 0xE4 0x41     ] */ notedv      PITCH_B4, 740, 65
+/* 0x2A3A [0x72 0x82 0xE4 0x41     ] */ notedv      PITCH_B4, FRAMERATE_CONST(740, 925), 65
 /* 0x2A3E [0xFF                    ] */ end
 
 .layer LAYER_2A3F
 /* 0x2A3F [0xC2 0x30               ] */ transpose   48
 /* 0x2A41 [0xCF 0xB4               ] */ releaserate 180
 /* 0x2A43 [0xC7 0x81 0x1B 0xFF     ] */ portamento  0x81, PITCH_C3, 255
-/* 0x2A47 [0x72 0x82 0x1C 0x3E     ] */ notedv      PITCH_B4, 540, 62
+/* 0x2A47 [0x72 0x82 0x1C 0x3E     ] */ notedv      PITCH_B4, FRAMERATE_CONST(540, 675), 62
 /* 0x2A4B [0xC2 0x00               ] */ transpose   0
 /* 0x2A4D [0xC6 0x0D               ] */ instr       SF0_INST_13
 /* 0x2A4F [0xCB 0x66 0xF4 0xDD     ] */ env         ENVELOPE_66F4, 221
 /* 0x2A53 [0xC7 0x81 0x27 0xFF     ] */ portamento  0x81, PITCH_C4, 255
-/* 0x2A57 [0x7E 0x80 0xC8 0x55     ] */ notedv      PITCH_B5, 200, 85
+/* 0x2A57 [0x7E 0x80 0xC8 0x55     ] */ notedv      PITCH_B5, FRAMERATE_CONST(200, 250), 85
 /* 0x2A5B [0xFF                    ] */ end
 
 .channel CHAN_2A5C
@@ -6306,14 +6315,14 @@ LAYER_2A91:
 /* 0x2AF2 [0xC6 0x0C               ] */ instr       SF0_INST_12
 /* 0x2AF4 [0xCB 0x66 0xFC 0xE1     ] */ env         ENVELOPE_66FC, 225
 /* 0x2AF8 [0xC7 0x81 0x3E 0xFF     ] */ portamento  0x81, PITCH_B5, 255
-/* 0x2AFC [0x73 0x80 0xAA 0x60     ] */ notedv      PITCH_C5, 170, 96
+/* 0x2AFC [0x73 0x80 0xAA 0x60     ] */ notedv      PITCH_C5, FRAMERATE_CONST(170, 204), 96
 /* 0x2B00 [0xFF                    ] */ end
 
 .layer LAYER_2B01
 /* 0x2B01 [0xC6 0x23               ] */ instr       SF0_INST_35
 /* 0x2B03 [0xCB 0x66 0xFC 0xE1     ] */ env         ENVELOPE_66FC, 225
 /* 0x2B07 [0xC7 0x81 0x33 0xFF     ] */ portamento  0x81, PITCH_C5, 255
-/* 0x2B0B [0x58 0x80 0xAA 0x60     ] */ notedv      PITCH_A2, 170, 96
+/* 0x2B0B [0x58 0x80 0xAA 0x60     ] */ notedv      PITCH_A2, FRAMERATE_CONST(170, 204), 96
 /* 0x2B0F [0xFF                    ] */ end
 
 .channel CHAN_2B10
@@ -6328,10 +6337,10 @@ LAYER_2A91:
 
 .layer LAYER_2B1D
 /* 0x2B1D [0x61 0x09 0x6E          ] */ notedv      PITCH_GF3, 9, 110
-/* 0x2B20 [0xF8 0x20               ] */ loop        32
-/* 0x2B22 [0x63 0x08 0x73          ] */ notedv      PITCH_AF3, 8, 115
+/* 0x2B20 [0xF8 0x20               ] */ loop        FRAMERATE_CONST(32, 38)
+/* 0x2B22 [0x63 0x08 0x73          ] */ notedv      PITCH_AF3, FRAMERATE_CONST(8, 9), 115
 /* 0x2B25 [0xF7                    ] */ loopend
-/* 0x2B26 [0x65 0x0B 0x73          ] */ notedv      PITCH_BF3, 11, 115
+/* 0x2B26 [0x65 0x0B 0x73          ] */ notedv      PITCH_BF3, FRAMERATE_CONST(11, 13), 115
 /* 0x2B29 [0xFF                    ] */ end
 
 .channel CHAN_2B2A
@@ -6350,7 +6359,7 @@ LAYER_2A91:
 /* 0x2B3F [0xC2 0x30               ] */ transpose   48
 LAYER_2B41:
 /* 0x2B41 [0xC7 0x81 0x2C 0xFF     ] */ portamento  0x81, PITCH_F4, 255
-/* 0x2B45 [0x77 0x64 0x55          ] */ notedv      PITCH_E5, 100, 85
+/* 0x2B45 [0x77 0x64 0x55          ] */ notedv      PITCH_E5, FRAMERATE_CONST(100, 120), 85
 /* 0x2B48 [0xFF                    ] */ end
 
 .channel CHAN_2B49
@@ -6363,7 +6372,7 @@ LAYER_2B41:
 /* 0x2B5C [0xFF                    ] */ end
 
 .layer LAYER_2B5D
-/* 0x2B5D [0xC0 0x81 0x72          ] */ ldelay      370
+/* 0x2B5D [0xC0 0x81 0x72          ] */ ldelay      FRAMERATE_CONST(370, 444)
 /* 0x2B60 [0xFF                    ] */ end
 
 .channel CHAN_2B61
@@ -6421,7 +6430,7 @@ LAYER_2BAA:
 /* 0x2BBC [0xC6 0x1A               ] */ instr       SF0_INST_26
 /* 0x2BBE [0x53 0x0F 0x54          ] */ notedv      PITCH_E2, 15, 84
 /* 0x2BC1 [0xC6 0x22               ] */ instr       SF0_INST_34
-/* 0x2BC3 [0x67 0x3D 0x42          ] */ notedv      PITCH_C4, 61, 66
+/* 0x2BC3 [0x67 0x3D 0x42          ] */ notedv      PITCH_C4, FRAMERATE_CONST(61, 73), 66
 /* 0x2BC6 [0xFF                    ] */ end
 
 .layer LAYER_2BC7
@@ -6515,12 +6524,12 @@ LAYER_2BAA:
 /* 0x2C49 [0xC4                    ] */ legato
 /* 0x2C4A [0xC7 0x81 0x20 0xFF     ] */ portamento  0x81, PITCH_F3, 255
 LAYER_2C4E:
-/* 0x2C4E [0x4F 0x81 0x90 0x69     ] */ notedv      PITCH_C2, 400, 105
+/* 0x2C4E [0x4F 0x81 0x90 0x69     ] */ notedv      PITCH_C2, FRAMERATE_CONST(400, 480), 105
 /* 0x2C52 [0xF4 0xFA               ] */ rjump       LAYER_2C4E
 
 .channel CHAN_2C54
 /* 0x2C54 [0x89 0x2C 0x62          ] */ ldlayer     1, LAYER_2C62
-/* 0x2C57 [0xCC 0x58               ] */ ldi         (NOTEDV_OPCODE | PITCH_A2)
+/* 0x2C57 [0xCC 0x58               ] */ ldi         (ASEQ_OP_LAYER_NOTEDV | PITCH_A2)
 /* 0x2C59 [0xC7 0x00 0x22 0x88     ] */ stseq       0, CHAN_2287 + STSEQ_STSEQ_IMM
 /* 0x2C5D [0xFB 0x22 0x67          ] */ jump        CHAN_2267
 
@@ -6570,8 +6579,8 @@ LAYER_2C6D:
 /* 0x2C9D [0xC6 0x51               ] */ instr       SF0_INST_81
 /* 0x2C9F [0xCF 0xF0               ] */ releaserate 240
 /* 0x2CA1 [0xC7 0x83 0x08 0xFF     ] */ portamento  0x83, PITCH_F1, 255
-/* 0x2CA5 [0x0F 0x80 0xA8 0x55 0x05] */ notedvg     PITCH_C2, 168, 85, 5
-/* 0x2CAA [0x43 0x80 0x96 0x55     ] */ notedv      PITCH_C1, 150, 85
+/* 0x2CA5 [0x0F 0x80 0xA8 0x55 0x05] */ notedvg     PITCH_C2, FRAMERATE_CONST(168, 202), 85, 5
+/* 0x2CAA [0x43 0x80 0x96 0x55     ] */ notedv      PITCH_C1, FRAMERATE_CONST(150, 180), 85
 /* 0x2CAE [0xFF                    ] */ end
 
 .channel CHAN_2CAF
@@ -6640,7 +6649,7 @@ CHAN_2D01:
 .channel CHAN_2D13
 /* 0x2D13 [0x89 0x2D 0x25          ] */ ldlayer     1, LAYER_2D25
 /* 0x2D16 [0x8A 0x2D 0x23          ] */ ldlayer     2, LAYER_2D23
-/* 0x2D19 [0xCC 0x66               ] */ ldi         (NOTEDV_OPCODE | PITCH_B3)
+/* 0x2D19 [0xCC 0x66               ] */ ldi         (ASEQ_OP_LAYER_NOTEDV | PITCH_B3)
 /* 0x2D1B [0xC7 0x00 0x22 0x88     ] */ stseq       0, CHAN_2287 + STSEQ_STSEQ_IMM
 /* 0x2D1F [0xFB 0x22 0x67          ] */ jump        CHAN_2267
 /* 0x2D22 [0xFF                    ] */ end
@@ -6679,7 +6688,7 @@ LAYER_2D30:
 /* 0x2D55 [0xC6 0x2F               ] */ instr       SF0_INST_47
 /* 0x2D57 [0xCB 0x66 0x88 0xE6     ] */ env         ENVELOPE_6688, 230
 /* 0x2D5B [0xC7 0x81 0x0A 0xFF     ] */ portamento  0x81, PITCH_G1, 255
-/* 0x2D5F [0x70 0x46 0x5F          ] */ notedv      PITCH_A4, 70, 95
+/* 0x2D5F [0x70 0x46 0x5F          ] */ notedv      PITCH_A4, FRAMERATE_CONST(70, 84), 95
 /* 0x2D62 [0xFF                    ] */ end
 
 .channel CHAN_2D63
@@ -6713,7 +6722,7 @@ LAYER_2D7B:
 /* 0x2D8F [0xC6 0x40               ] */ instr       SF0_INST_64
 /* 0x2D91 [0xCB 0x66 0xFC 0xC3     ] */ env         ENVELOPE_66FC, 195
 /* 0x2D95 [0xC7 0x81 0x00 0xFF     ] */ portamento  0x81, PITCH_A0, 255
-/* 0x2D99 [0x54 0x7F 0x55          ] */ notedv      PITCH_F2, 127, 85
+/* 0x2D99 [0x54 0x7F 0x55          ] */ notedv      PITCH_F2, FRAMERATE_CONST(127, 152), 85
 /* 0x2D9C [0xFF                    ] */ end
 
 .channel CHAN_2D9D
@@ -6747,7 +6756,7 @@ LAYER_2D7B:
 
 .layer LAYER_2DC9
 /* 0x2DC9 [0xC7 0x81 0x1B 0x7F     ] */ portamento  0x81, PITCH_C3, 127
-/* 0x2DCD [0x60 0x64 0x64          ] */ notedv      PITCH_F3, 100, 100
+/* 0x2DCD [0x60 0x64 0x64          ] */ notedv      PITCH_F3, FRAMERATE_CONST(100, 120), 100
 /* 0x2DD0 [0xFF                    ] */ end
 
 .channel CHAN_2DD1
@@ -6900,12 +6909,12 @@ LAYER_2E80:
 /* 0x2EA0 [0xC6 0x40               ] */ instr       SF0_INST_64
 /* 0x2EA2 [0xCB 0x67 0xE4 0xC8     ] */ env         ENVELOPE_67E4, 200
 /* 0x2EA6 [0xC7 0x81 0x32 0xB4     ] */ portamento  0x81, PITCH_B4, 180
-/* 0x2EAA [0x73 0x80 0xC8 0x6E     ] */ notedv      PITCH_C5, 200, 110
+/* 0x2EAA [0x73 0x80 0xC8 0x6E     ] */ notedv      PITCH_C5, FRAMERATE_CONST(200, 240), 110
 /* 0x2EAE [0xFF                    ] */ end
 
 .layer LAYER_2EAF
 /* 0x2EAF [0xCF 0xC8               ] */ releaserate 200
-/* 0x2EB1 [0x67 0x80 0xC8 0x73     ] */ notedv      PITCH_C4, 200, 115
+/* 0x2EB1 [0x67 0x80 0xC8 0x73     ] */ notedv      PITCH_C4, FRAMERATE_CONST(200, 240), 115
 /* 0x2EB5 [0xFF                    ] */ end
 
 .channel CHAN_2EB6
@@ -7047,9 +7056,9 @@ CHAN_2F7D:
 /* 0x2F85 [0xB8 0x02               ] */ rand        2
 /* 0x2F87 [0xC7 0x2F 0x2F 0xAC     ] */ stseq       47, LAYER_2FAB + STSEQ_TRANSPOSITION
 /* 0x2F8B [0xBD 0x00 0x6A 0x00 0x96] */ randptr     106, 150
-/* 0x2F90 [0xCF 0x2F 0xB6          ] */ stptrtoseq  UNK_2FB6
+/* 0x2F90 [0xCF 0x2F 0xB6          ] */ stptrtoseq  BUF_2FB6
 /* 0x2F93 [0xCC 0x01               ] */ ldi         1
-/* 0x2F95 [0xCB 0x2F 0xB6          ] */ ldseq       UNK_2FB6
+/* 0x2F95 [0xCB 0x2F 0xB6          ] */ ldseq       BUF_2FB6
 /* 0x2F98 [0xC7 0x00 0x2F 0xA0     ] */ stseq       0, CHAN_2F9F + STSEQ_LDI_IMM
 /* 0x2F9C [0x88 0x2F 0xAB          ] */ ldlayer     0, LAYER_2FAB
 CHAN_2F9F:
@@ -7068,8 +7077,8 @@ CHAN_2F9F:
 /* 0x2FB2 [0xC0 0xFD 0x00          ] */ ldelay      32000
 /* 0x2FB5 [0xFF                    ] */ end
 
-UNK_2FB6:
-    .half 0x0000
+BUF_2FB6:
+    .half 0
 
 .channel CHAN_2FB8
 /* 0x2FB8 [0x88 0x2F 0xBF          ] */ ldlayer     0, LAYER_2FBF
@@ -8257,8 +8266,8 @@ LAYER_3B1D:
 .layer LAYER_3B42
 /* 0x3B42 [0xC4                    ] */ legato
 /* 0x3B43 [0xC7 0x85 0x0F 0xFF     ] */ portamento  0x85, PITCH_C2, 255
-/* 0x3B47 [0x51 0x32 0x64          ] */ notedv      PITCH_D2, 50, 100
-/* 0x3B4A [0x4E 0x32 0x64          ] */ notedv      PITCH_B1, 50, 100
+/* 0x3B47 [0x51 0x32 0x64          ] */ notedv      PITCH_D2, FRAMERATE_CONST(50, 60), 100
+/* 0x3B4A [0x4E 0x32 0x64          ] */ notedv      PITCH_B1, FRAMERATE_CONST(50, 60), 100
 /* 0x3B4D [0xC5                    ] */ nolegato
 /* 0x3B4E [0xF4 0xF2               ] */ rjump       LAYER_3B42
 
@@ -9192,7 +9201,7 @@ CHAN_4162:
 /* 0x4164 [0xC7 0x03 0x41 0x7A     ] */ stseq       3, LAYER_4179 + STSEQ_NOTEDV_DELAY_HI
 /* 0x4168 [0xC7 0x03 0x41 0x73     ] */ stseq       3, CHAN_4172 + STSEQ_LDI_IMM
 /* 0x416C [0xB8 0x08               ] */ rand        8
-/* 0x416E [0xC7 0x5B 0x41 0x79     ] */ stseq       (NOTEDV_OPCODE | PITCH_C3), LAYER_4179 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x416E [0xC7 0x5B 0x41 0x79     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_C3), LAYER_4179 + STSEQ_NOTEDV_OPCODE_PITCH
 CHAN_4172:
 /* 0x4172 [0xCC 0x01               ] */ ldi         1
 /* 0x4174 [0xFC 0x00 0x48          ] */ call        CHAN_0048
@@ -9754,7 +9763,7 @@ LAYER_4245:
 /* 0x44C9 [0x88 0x44 0xD7          ] */ ldlayer     0, LAYER_44D7
 /* 0x44CC [0xED 0x14               ] */ gain        20
 /* 0x44CE [0xB8 0x04               ] */ rand        4
-/* 0x44D0 [0xC7 0x6B 0x44 0xD7     ] */ stseq       (NOTEDV_OPCODE | PITCH_E4), LAYER_44D7 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x44D0 [0xC7 0x6B 0x44 0xD7     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_E4), LAYER_44D7 + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x44D4 [0xD9 0xE8               ] */ releaserate 232
 /* 0x44D6 [0xFF                    ] */ end
 
@@ -10344,7 +10353,7 @@ LAYER_47B3:
 /* 0x4860 [0x88 0x48 0x70          ] */ ldlayer     0, LAYER_4870
 CHAN_4863:
 /* 0x4863 [0xB8 0x04               ] */ rand        4
-/* 0x4865 [0xC7 0x60 0x48 0x70     ] */ stseq       (NOTEDV_OPCODE | PITCH_F3), LAYER_4870 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x4865 [0xC7 0x60 0x48 0x70     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_F3), LAYER_4870 + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x4869 [0xCC 0x12               ] */ ldi         18
 /* 0x486B [0xFC 0x00 0x48          ] */ call        CHAN_0048
 /* 0x486E [0xF4 0xF3               ] */ rjump       CHAN_4863
@@ -12256,9 +12265,9 @@ LAYER_53FD:
 .channel CHAN_5403
 /* 0x5403 [0xC1 0x7E               ] */ instr       FONTANY_INSTR_SFX
 /* 0x5405 [0x64                    ] */ ldio        IO_PORT_SFX_INDEX_LOBITS
-/* 0x5406 [0xC8 0xB0               ] */ sub         176
-/* 0x5408 [0xC7 0x00 0x54 0x17     ] */ stseq       (NOTEDVG_OPCODE | PITCH_A0), LAYER_5417 + STSEQ_NOTEDVG_OPCODE_PITCH
-/* 0x540C [0xCB 0x54 0x1C          ] */ ldseq       UNK_541C
+/* 0x5406 [0xC8 0xB0               ] */ sub         NA_SE_EN_TWINROBA_LAUGH & 0xFF
+/* 0x5408 [0xC7 0x00 0x54 0x17     ] */ stseq       (ASEQ_OP_LAYER_NOTEDVG | PITCH_A0), LAYER_5417 + STSEQ_NOTEDVG_OPCODE_PITCH
+/* 0x540C [0xCB 0x54 0x1C          ] */ ldseq       ARRAY_541C
 /* 0x540F [0xC7 0x00 0x54 0x19     ] */ stseq       0, LAYER_5417 + STSEQ_NOTEDVG_DELAY_LO
 /* 0x5413 [0x88 0x54 0x17          ] */ ldlayer     0, LAYER_5417
 /* 0x5416 [0xFF                    ] */ end
@@ -12267,10 +12276,10 @@ LAYER_53FD:
 /* 0x5417 [0x00 0x00 0x64 0x00     ] */ notedvg     PITCH_A0, 0, 100, 0
 /* 0x541B [0xFF                    ] */ end
 
-UNK_541C:
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
+.array ARRAY_541C
+    .byte 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100
+    .byte 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100
+    .byte 100, 100, 100, 100, 100, 100, 100
 
 .channel CHAN_5443
 /* 0x5443 [0x88 0x42 0x20          ] */ ldlayer     0, LAYER_4220
@@ -12631,7 +12640,7 @@ CHAN_565E:
 /* 0x5660 [0xC7 0x28 0x56 0x76     ] */ stseq       40, LAYER_5675 + STSEQ_NOTEDV_DELAY_HI
 /* 0x5664 [0xC7 0x28 0x56 0x6F     ] */ stseq       40, CHAN_566E + STSEQ_LDI_IMM
 /* 0x5668 [0xB8 0x06               ] */ rand        6
-/* 0x566A [0xC7 0x64 0x56 0x75     ] */ stseq       (NOTEDV_OPCODE | PITCH_A3), LAYER_5675 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x566A [0xC7 0x64 0x56 0x75     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_A3), LAYER_5675 + STSEQ_NOTEDV_OPCODE_PITCH
 CHAN_566E:
 /* 0x566E [0xCC 0x01               ] */ ldi         1
 /* 0x5670 [0xFC 0x00 0x48          ] */ call        CHAN_0048
@@ -13502,7 +13511,7 @@ LAYER_5BCE:
 /* 0x5CDE [0xC6 0x56               ] */ instr       SF0_INST_86
 /* 0x5CE0 [0xCB 0x67 0xCC 0xDD     ] */ env         ENVELOPE_67CC, 221
 /* 0x5CE4 [0xC2 0x18               ] */ transpose   24
-/* 0x5CE6 [0x7E 0x80 0x96 0x64     ] */ notedv      PITCH_B5, 150, 100
+/* 0x5CE6 [0x7E 0x80 0x96 0x64     ] */ notedv      PITCH_B5, FRAMERATE_CONST(150, 165), 100
 /* 0x5CEA [0xFF                    ] */ end
 
 .layer LAYER_5CEB
@@ -13510,7 +13519,7 @@ LAYER_5BCE:
 /* 0x5CED [0xCB 0x67 0xD8 0xDD     ] */ env         ENVELOPE_67D8, 221
 /* 0x5CF1 [0xC2 0x0C               ] */ transpose   12
 /* 0x5CF3 [0xC7 0x81 0x02 0xFF     ] */ portamento  0x81, PITCH_B0, 255
-/* 0x5CF7 [0x7E 0x80 0xFA 0x55     ] */ notedv      PITCH_B5, 250, 85
+/* 0x5CF7 [0x7E 0x80 0xFA 0x55     ] */ notedv      PITCH_B5, FRAMERATE_CONST(250, 275), 85
 /* 0x5CFB [0xFF                    ] */ end
 
 .channel CHAN_5CFC
@@ -13523,14 +13532,14 @@ LAYER_5BCE:
 /* 0x5D05 [0xC6 0x56               ] */ instr       SF0_INST_86
 /* 0x5D07 [0xCB 0x67 0xD8 0xC8     ] */ env         ENVELOPE_67D8, 200
 /* 0x5D0B [0xC2 0x18               ] */ transpose   24
-/* 0x5D0D [0x7E 0x80 0xC8 0x64     ] */ notedv      PITCH_B5, 200, 100
+/* 0x5D0D [0x7E 0x80 0xC8 0x64     ] */ notedv      PITCH_B5, FRAMERATE_CONST(200, 220), 100
 /* 0x5D11 [0xFF                    ] */ end
 
 .layer LAYER_5D12
 /* 0x5D12 [0xC6 0x0E               ] */ instr       SF0_INST_14
 /* 0x5D14 [0xCB 0x67 0xD8 0xC8     ] */ env         ENVELOPE_67D8, 200
 /* 0x5D18 [0xC2 0x0C               ] */ transpose   12
-/* 0x5D1A [0x7E 0x80 0xC8 0x55     ] */ notedv      PITCH_B5, 200, 85
+/* 0x5D1A [0x7E 0x80 0xC8 0x55     ] */ notedv      PITCH_B5, FRAMERATE_CONST(200, 220), 85
 /* 0x5D1E [0xFF                    ] */ end
 
 .channel CHAN_5D1F
@@ -13592,7 +13601,7 @@ LAYER_5BCE:
 /* 0x5D70 [0xFF                    ] */ end
 
 .layer LAYER_5D71
-/* 0x5D71 [0x40 0x48 0x46          ] */ notedv      PITCH_A0, 72, 70
+/* 0x5D71 [0x40 0x48 0x46          ] */ notedv      PITCH_A0, FRAMERATE_CONST(72, 74), 70
 /* 0x5D74 [0xF4 0xFB               ] */ rjump       LAYER_5D71
 
 .channel CHAN_5D76
@@ -13793,6 +13802,10 @@ CHAN_5EAB:
 /* 0x5EAF [0xF3 0x06               ] */ rbeqz       CHAN_5EB7
 /* 0x5EB1 [0xF1 0x01               ] */ allocnotelist 1
 /* 0x5EB3 [0xD1 0x02               ] */ notealloc   2
+#if OOT_PAL_N64
+/*        [0xCC 0x00               ] */ ldi         0
+/*        [0x76                    ] */ stio        IO_PORT_6
+#endif
 /* 0x5EB5 [0xF4 0x03               ] */ rjump       CHAN_5EBA
 
 CHAN_5EB7:
@@ -13808,8 +13821,10 @@ CHAN_5EC1:
 /* 0x5EC1 [0xD8 0x00               ] */ vibdepth    0
 /* 0x5EC3 [0xE5 0x00               ] */ reverbidx   0
 /* 0x5EC5 [0x90                    ] */ dellayer    0
+#if !OOT_PAL_N64
 /* 0x5EC6 [0xCC 0x00               ] */ ldi         0
 /* 0x5EC8 [0x76                    ] */ stio        IO_PORT_6
+#endif
 /* 0x5EC9 [0x64                    ] */ ldio        IO_PORT_SFX_INDEX_LOBITS
 /* 0x5ECA [0xE4                    ] */ dyncall
 CHAN_5ECB:
@@ -13846,11 +13861,11 @@ CHAN_5EE2:
 /* 0x5EF7 [0x71                    ] */ stio        IO_PORT_1
 /* 0x5EF8 [0x67                    ] */ ldio        IO_PORT_7
 /* 0x5EF9 [0xC9 0x07               ] */ and         7
-/* 0x5EFB [0xCB 0x5F 0x30          ] */ ldseq       UNK_5F30
+/* 0x5EFB [0xCB 0x5F 0x30          ] */ ldseq       ARRAY_5F30
 /* 0x5EFE [0xC7 0x00 0x5F 0x0D     ] */ stseq       0, CHAN_5F0C + STSEQ_INSTR
 /* 0x5F02 [0x67                    ] */ ldio        IO_PORT_7
 /* 0x5F03 [0xC9 0x07               ] */ and         7
-/* 0x5F05 [0xCB 0x5F 0x38          ] */ ldseq       UNK_5F38
+/* 0x5F05 [0xCB 0x5F 0x38          ] */ ldseq       ARRAY_5F38
 /* 0x5F08 [0xC7 0x00 0x5F 0x2E     ] */ stseq       0, LAYER_5F2B + STSEQ_NOTEDV_VELOCITY
 CHAN_5F0C:
 /* 0x5F0C [0xC1 0x34               ] */ instr       SF0_INST_52
@@ -13861,7 +13876,9 @@ CHAN_5F15:
 /* 0x5F15 [0x88 0x5F 0x28          ] */ ldlayer     0, LAYER_5F28
 CHAN_5F18:
 /* 0x5F18 [0x66                    ] */ ldio        IO_PORT_6
+#if !OOT_PAL_N64
 /* 0x5F19 [0xF2 0x06               ] */ rbltz       CHAN_5F21
+#endif
 /* 0x5F1B [0xC7 0x00 0x5F 0x20     ] */ stseq       0, STSEQ_HERE + STSEQ_VIBDEPTH
 /* 0x5F1F [0xD8 0x00               ] */ vibdepth    0
 CHAN_5F21:
@@ -13877,11 +13894,18 @@ LAYER_5F2B:
 /* 0x5F2B [0x67 0x81 0xE0 0x7F     ] */ notedv      PITCH_C4, 480, 127
 /* 0x5F2F [0xFF                    ] */ end
 
-UNK_5F30:
-    .byte 0x34, 0x55, 0x56, 0x59, 0x53, 0x52, 0x34, 0x34
+.array ARRAY_5F30
+    .byte SF0_INST_52
+    .byte SF0_INST_85
+    .byte SF0_INST_86
+    .byte SF0_INST_89
+    .byte SF0_INST_83
+    .byte SF0_INST_82
+    .byte SF0_INST_52
+    .byte SF0_INST_52
 
-UNK_5F38:
-    .byte 0x73, 0x73, 0x64, 0x73, 0x64, 0x73, 0x73, 0x73
+.array ARRAY_5F38
+    .byte 115, 115, 100, 115, 100, 115, 115, 115
 
 .channel CHAN_5F40
 /* 0x5F40 [0xCC 0x81               ] */ ldi         129
@@ -13900,7 +13924,7 @@ CHAN_5F42:
 /* 0x5F5A [0xC2 0x18               ] */ transpose   24
 .layer LAYER_5F5C
 /* 0x5F5C [0xC7 0x81 0x0F 0xFF     ] */ portamento  0x81, PITCH_C2, 255
-/* 0x5F60 [0x62 0x80 0x8C 0x50     ] */ notedv      PITCH_G3, 140, 80
+/* 0x5F60 [0x62 0x80 0x8C 0x50     ] */ notedv      PITCH_G3, FRAMERATE_CONST(140, 168), 80
 /* 0x5F64 [0xFF                    ] */ end
 
 .channel CHAN_5F65
@@ -13908,7 +13932,7 @@ CHAN_5F42:
 /* 0x5F67 [0xF4 0xD9               ] */ rjump       CHAN_5F42
 
 .channel CHAN_5F69
-/* 0x5F69 [0xCC 0x50               ] */ ldi         80
+/* 0x5F69 [0xCC 0x50               ] */ ldi         FRAMERATE_CONST(80, 96)
 /* 0x5F6B [0xC7 0x00 0x5F 0x91     ] */ stseq       0, LAYER_5F90 + STSEQ_NOTEDV_DELAY_HI
 /* 0x5F6F [0xCC 0x81               ] */ ldi         129
 CHAN_5F71:
@@ -13933,7 +13957,7 @@ LAYER_5F90:
 /* 0x5F95 [0xFF                    ] */ end
 
 .channel CHAN_5F96
-/* 0x5F96 [0xCC 0x28               ] */ ldi         40
+/* 0x5F96 [0xCC 0x28               ] */ ldi         FRAMERATE_CONST(40, 48)
 /* 0x5F98 [0xC7 0x00 0x5F 0x91     ] */ stseq       0, LAYER_5F90 + STSEQ_NOTEDV_DELAY_HI
 /* 0x5F9C [0xCC 0x82               ] */ ldi         130
 /* 0x5F9E [0xF4 0xD1               ] */ rjump       CHAN_5F71
@@ -14027,11 +14051,11 @@ CHAN_6116:
 /* 0x6116 [0x3E 0x06               ] */ stcio       14, IO_PORT_6
 /* 0x6118 [0x3F 0x06               ] */ stcio       15, IO_PORT_6
 CHAN_611A:
-/* 0x611A [0xCB 0x61 0x6D          ] */ ldseq       UNK_616D
-/* 0x611D [0xC7 0x40 0x61 0x2D     ] */ stseq       (NOTEDV_OPCODE | PITCH_A0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x611A [0xCB 0x61 0x6D          ] */ ldseq       ARRAY_616D
+/* 0x611D [0xC7 0x40 0x61 0x2D     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | SF0_EFFECT_0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x6121 [0x66                    ] */ ldio        IO_PORT_6
 CHAN_6122:
-/* 0x6122 [0xCB 0x61 0x71          ] */ ldseq       UNK_6171
+/* 0x6122 [0xCB 0x61 0x71          ] */ ldseq       ARRAY_6171
 CHAN_6125:
 /* 0x6125 [0xC7 0x00 0x61 0x2F     ] */ stseq       0, LAYER_612D + STSEQ_NOTEDV_VELOCITY_2
 /* 0x6129 [0x88 0x61 0x2D          ] */ ldlayer     0, LAYER_612D
@@ -14062,8 +14086,8 @@ CHAN_613E:
 /* 0x6145 [0xCC 0x00               ] */ ldi         0
                                         // Reads the byte at (PTR + 0) into TR (the note)
 /* 0x6147 [0xB6                    ] */ dyntblv
-                                        // Store NOTEDV_OPCODE + TR into the pitch
-/* 0x6148 [0xC7 0x40 0x61 0x2D     ] */ stseq       (NOTEDV_OPCODE | PITCH_A0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
+                                        // Store ASEQ_OP_LAYER_NOTEDV + TR into the pitch
+/* 0x6148 [0xC7 0x40 0x61 0x2D     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | SF0_EFFECT_0), LAYER_612D + STSEQ_NOTEDV_OPCODE_PITCH
                                         // Load 1 into TR
 /* 0x614C [0xCC 0x01               ] */ ldi         1
                                         // Reads the byte at (PTR + 1) into TR (the velocity)
@@ -14079,23 +14103,26 @@ CHAN_6151:
 /* 0x615B [0xF4 0xBD               ] */ rjump       CHAN_611A
 
 .channel CHAN_615D
-/* 0x615D [0xCE 0x61 0x6D          ] */ ldptr       UNK_616D
+/* 0x615D [0xCE 0x61 0x6D          ] */ ldptr       ARRAY_616D
 /* 0x6160 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6163 [0xCE 0x61 0x71          ] */ ldptr       UNK_6171
+/* 0x6163 [0xCE 0x61 0x71          ] */ ldptr       ARRAY_6171
 /* 0x6166 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6169 [0xCC 0x04               ] */ ldi         4
 /* 0x616B [0xF4 0x85               ] */ rjump       CHAN_60F2
 
-UNK_616D:
-    .byte 0x00, 0x01, 0x02, 0x03
+.array ARRAY_616D
+    .byte SF0_EFFECT_0
+    .byte SF0_EFFECT_1
+    .byte SF0_EFFECT_2
+    .byte SF0_EFFECT_3
 
-UNK_6171:
-    .byte 0x69, 0x69, 0x69, 0x69
+.array ARRAY_6171
+    .byte 105, 105, 105, 105
 
 .channel CHAN_6175
-/* 0x6175 [0xCE 0x61 0x97          ] */ ldptr       UNK_6197
+/* 0x6175 [0xCE 0x61 0x97          ] */ ldptr       ARRAY_6197
 /* 0x6178 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x617B [0xCE 0x61 0x99          ] */ ldptr       UNK_6199
+/* 0x617B [0xCE 0x61 0x99          ] */ ldptr       ARRAY_6199
 /* 0x617E [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6181 [0xB8 0x02               ] */ rand        2
 /* 0x6183 [0xF4 0xAF               ] */ rjump       CHAN_6134
@@ -14115,16 +14142,17 @@ CHAN_618C:
 CHAN_6196:
 /* 0x6196 [0x76                    ] */ stio        IO_PORT_6
 
-UNK_6197:
-    .byte 0x04, 0x05
+.array ARRAY_6197
+    .byte SF0_EFFECT_4
+    .byte SF0_EFFECT_5
 
-UNK_6199:
-    .byte 0x6E, 0x6E
+.array ARRAY_6199
+    .byte 110, 110
 
 .channel CHAN_619B
-/* 0x619B [0xCE 0x61 0xBD          ] */ ldptr       UNK_61BD
+/* 0x619B [0xCE 0x61 0xBD          ] */ ldptr       ARRAY_61BD
 /* 0x619E [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x61A1 [0xCE 0x61 0xBF          ] */ ldptr       UNK_61BF
+/* 0x61A1 [0xCE 0x61 0xBF          ] */ ldptr       ARRAY_61BF
 /* 0x61A4 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x61A7 [0xB8 0x02               ] */ rand        2
 /* 0x61A9 [0xF4 0x89               ] */ rjump       CHAN_6134
@@ -14144,109 +14172,119 @@ CHAN_61B2:
 CHAN_61BC:
 /* 0x61BC [0x76                    ] */ stio        IO_PORT_6
 
-UNK_61BD:
-    .byte 0x15, 0x16
+.array ARRAY_61BD
+    .byte SF0_EFFECT_21
+    .byte SF0_EFFECT_22
 
-UNK_61BF:
-    .byte 0x69, 0x69
+.array ARRAY_61BF
+    .byte 105, 105
 
 .channel CHAN_61C1
-/* 0x61C1 [0xCE 0x61 0xD1          ] */ ldptr       UNK_61D1
+/* 0x61C1 [0xCE 0x61 0xD1          ] */ ldptr       ARRAY_61D1
 /* 0x61C4 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x61C7 [0xCE 0x61 0xD3          ] */ ldptr       UNK_61D3
+/* 0x61C7 [0xCE 0x61 0xD3          ] */ ldptr       ARRAY_61D3
 /* 0x61CA [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x61CD [0xCC 0x00               ] */ ldi         0
 /* 0x61CF [0xF4 0x80               ] */ rjump       CHAN_6151
 
-UNK_61D1:
-    .byte 0x06, 0x19
+.array ARRAY_61D1
+    .byte SF0_EFFECT_6
+    .byte SF0_EFFECT_25
 
-UNK_61D3:
-    .byte 0x5F, 0x69
+.array ARRAY_61D3
+    .byte 95, 105
 
 .channel CHAN_61D5
-/* 0x61D5 [0xCE 0x61 0xE6          ] */ ldptr       UNK_61E6
+/* 0x61D5 [0xCE 0x61 0xE6          ] */ ldptr       ARRAY_61E6
 /* 0x61D8 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x61DB [0xCE 0x61 0xE8          ] */ ldptr       UNK_61E8
+/* 0x61DB [0xCE 0x61 0xE8          ] */ ldptr       ARRAY_61E8
 /* 0x61DE [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x61E1 [0xB8 0x02               ] */ rand        2
 /* 0x61E3 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_61E6:
-    .byte 0x07, 0x08
+.array ARRAY_61E6
+    .byte SF0_EFFECT_7
+    .byte SF0_EFFECT_8
 
-UNK_61E8:
-    .byte 0x48, 0x50
+.array ARRAY_61E8
+    .byte 72, 80
 
 .channel CHAN_61EA
-/* 0x61EA [0xCE 0x61 0xFB          ] */ ldptr       UNK_61FB
+/* 0x61EA [0xCE 0x61 0xFB          ] */ ldptr       ARRAY_61FB
 /* 0x61ED [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x61F0 [0xCE 0x61 0xFE          ] */ ldptr       UNK_61FE
+/* 0x61F0 [0xCE 0x61 0xFE          ] */ ldptr       ARRAY_61FE
 /* 0x61F3 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x61F6 [0xCC 0x03               ] */ ldi         3
 /* 0x61F8 [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
 
-UNK_61FB:
-    .byte 0x09, 0x0A, 0x0B
+.array ARRAY_61FB
+    .byte SF0_EFFECT_9
+    .byte SF0_EFFECT_10
+    .byte SF0_EFFECT_11
 
-UNK_61FE:
-    .byte 0x75, 0x75, 0x75
+.array ARRAY_61FE
+    .byte 117, 117, 117
 
 .channel CHAN_6201
-/* 0x6201 [0xCE 0x62 0x12          ] */ ldptr       UNK_6212
+/* 0x6201 [0xCE 0x62 0x12          ] */ ldptr       ARRAY_6212
 /* 0x6204 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6207 [0xCE 0x62 0x15          ] */ ldptr       UNK_6215
+/* 0x6207 [0xCE 0x62 0x15          ] */ ldptr       ARRAY_6215
 /* 0x620A [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x620D [0xCC 0x03               ] */ ldi         3
 /* 0x620F [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
 
-UNK_6212:
-    .byte 0x0C, 0x0D, 0x0E
+.array ARRAY_6212
+    .byte SF0_EFFECT_12
+    .byte SF0_EFFECT_13
+    .byte SF0_EFFECT_14
 
-UNK_6215:
-    .byte 0x71, 0x71, 0x71
+.array ARRAY_6215
+    .byte 113, 113, 113
 
 .channel CHAN_6218
-/* 0x6218 [0xCE 0x62 0x29          ] */ ldptr       UNK_6229
+/* 0x6218 [0xCE 0x62 0x29          ] */ ldptr       ARRAY_6229
 /* 0x621B [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x621E [0xCE 0x62 0x2B          ] */ ldptr       UNK_622B
+/* 0x621E [0xCE 0x62 0x2B          ] */ ldptr       ARRAY_622B
 /* 0x6221 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6224 [0xB8 0x02               ] */ rand        2
 /* 0x6226 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6229:
-    .byte 0x11, 0x12
+.array ARRAY_6229
+    .byte SF0_EFFECT_17
+    .byte SF0_EFFECT_18
 
-UNK_622B:
-    .byte 0x64, 0x64
+.array ARRAY_622B
+    .byte 100, 100
 
 .channel CHAN_622D
-/* 0x622D [0xCE 0x62 0x3E          ] */ ldptr       UNK_623E
+/* 0x622D [0xCE 0x62 0x3E          ] */ ldptr       ARRAY_623E
 /* 0x6230 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6233 [0xCE 0x62 0x40          ] */ ldptr       UNK_6240
+/* 0x6233 [0xCE 0x62 0x40          ] */ ldptr       ARRAY_6240
 /* 0x6236 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6239 [0xB8 0x02               ] */ rand        2
 /* 0x623B [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_623E:
-    .byte 0x0F, 0x10
+.array ARRAY_623E
+    .byte SF0_EFFECT_15
+    .byte SF0_EFFECT_16
 
-UNK_6240:
-    .byte 0x6E, 0x6E
+.array ARRAY_6240
+    .byte 110, 110
 
 .channel CHAN_6242
-/* 0x6242 [0xCE 0x62 0x53          ] */ ldptr       UNK_6253
+/* 0x6242 [0xCE 0x62 0x53          ] */ ldptr       ARRAY_6253
 /* 0x6245 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6248 [0xCE 0x62 0x55          ] */ ldptr       UNK_6255
+/* 0x6248 [0xCE 0x62 0x55          ] */ ldptr       ARRAY_6255
 /* 0x624B [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x624E [0xB8 0x02               ] */ rand        2
 /* 0x6250 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6253:
-    .byte 0x13, 0x17
+.array ARRAY_6253
+    .byte SF0_EFFECT_19
+    .byte SF0_EFFECT_23
 
-UNK_6255:
-    .byte 0x5A, 0x5A
+.array ARRAY_6255
+    .byte 90, 90
 
 .channel CHAN_6257
 /* 0x6257 [0x88 0x62 0x5B          ] */ ldlayer     0, LAYER_625B
@@ -14262,24 +14300,25 @@ UNK_6255:
 
 .layer LAYER_6263
 /* 0x6263 [0xC2 0x01               ] */ transpose   1
-/* 0x6265 [0x4D 0x57 0x64          ] */ notedv      PITCH_BF1, 87, 100
-/* 0x6268 [0x4E 0x61 0x64          ] */ notedv      PITCH_B1, 97, 100
-/* 0x626B [0x4F 0x47 0x64          ] */ notedv      PITCH_C2, 71, 100
+/* 0x6265 [0x4D 0x57 0x64          ] */ notedv      PITCH_BF1, FRAMERATE_CONST(87, 104), 100
+/* 0x6268 [0x4E 0x61 0x64          ] */ notedv      PITCH_B1, FRAMERATE_CONST(97, 116), 100
+/* 0x626B [0x4F 0x47 0x64          ] */ notedv      PITCH_C2, FRAMERATE_CONST(71, 85), 100
 /* 0x626E [0xFF                    ] */ end
 
 .channel CHAN_626F
-/* 0x626F [0xCE 0x62 0x80          ] */ ldptr       UNK_6280
+/* 0x626F [0xCE 0x62 0x80          ] */ ldptr       ARRAY_6280
 /* 0x6272 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6275 [0xCE 0x62 0x82          ] */ ldptr       UNK_6282
+/* 0x6275 [0xCE 0x62 0x82          ] */ ldptr       ARRAY_6282
 /* 0x6278 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x627B [0xB8 0x02               ] */ rand        2
 /* 0x627D [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6280:
-    .byte 0x0F, 0x10
+.array ARRAY_6280
+    .byte SF0_EFFECT_15
+    .byte SF0_EFFECT_16
 
-UNK_6282:
-    .byte 0x69, 0x69
+.array ARRAY_6282
+    .byte 105, 105
 
 .channel CHAN_6284
 /* 0x6284 [0xFB 0x61 0xEA          ] */ jump        CHAN_61EA
@@ -14290,9 +14329,9 @@ UNK_6282:
 
 .layer LAYER_628B
 /* 0x628B [0xC2 0x01               ] */ transpose   1
-/* 0x628D [0x50 0x7F 0x64          ] */ notedv      PITCH_DF2, 127, 100
-/* 0x6290 [0x51 0x81 0x18 0x64     ] */ notedv      PITCH_D2, 280, 100
-/* 0x6294 [0x52 0x81 0x3E 0x64     ] */ notedv      PITCH_EF2, 318, 100
+/* 0x628D [0x50 0x7F 0x64          ] */ notedv      PITCH_DF2, FRAMERATE_CONST(127, 152), 100
+/* 0x6290 [0x51 0x81 0x18 0x64     ] */ notedv      PITCH_D2, FRAMERATE_CONST(280, 336), 100
+/* 0x6294 [0x52 0x81 0x3E 0x64     ] */ notedv      PITCH_EF2, FRAMERATE_CONST(318, 382), 100
 /* 0x6298 [0xFF                    ] */ end
 
 .channel CHAN_6299
@@ -14301,9 +14340,9 @@ UNK_6282:
 
 .layer LAYER_629D
 /* 0x629D [0xC2 0x01               ] */ transpose   1
-/* 0x629F [0x53 0x81 0x22 0x64     ] */ notedv      PITCH_E2, 290, 100
-/* 0x62A3 [0x54 0x80 0xA3 0x64     ] */ notedv      PITCH_F2, 163, 100
-/* 0x62A7 [0x55 0x35 0x64          ] */ notedv      PITCH_GF2, 53, 100
+/* 0x629F [0x53 0x81 0x22 0x64     ] */ notedv      PITCH_E2, FRAMERATE_CONST(290, 378), 100
+/* 0x62A3 [0x54 0x80 0xA3 0x64     ] */ notedv      PITCH_F2, FRAMERATE_CONST(163, 196), 100
+/* 0x62A7 [0x55 0x35 0x64          ] */ notedv      PITCH_GF2, FRAMERATE_CONST(53, 64), 100
 /* 0x62AA [0xFF                    ] */ end
 
 .channel CHAN_62AB
@@ -14311,7 +14350,7 @@ UNK_6282:
 /* 0x62AE [0xFF                    ] */ end
 
 .layer LAYER_62AF
-/* 0x62AF [0x77 0x50 0x50          ] */ notedv      PITCH_E5, 80, 80
+/* 0x62AF [0x77 0x50 0x50          ] */ notedv      PITCH_E5, FRAMERATE_CONST(80, 96), 80
 /* 0x62B2 [0xF4 0xFB               ] */ rjump       LAYER_62AF
 
 .channel CHAN_62B4
@@ -14320,43 +14359,46 @@ UNK_6282:
 
 .layer LAYER_62B8
 /* 0x62B8 [0xC2 0x01               ] */ transpose   1
-/* 0x62BA [0x56 0x80 0xB9 0x64     ] */ notedv      PITCH_G2, 185, 100
-/* 0x62BE [0x57 0x80 0x86 0x64     ] */ notedv      PITCH_AF2, 134, 100
+/* 0x62BA [0x56 0x80 0xB9 0x64     ] */ notedv      PITCH_G2, FRAMERATE_CONST(185, 222), 100
+/* 0x62BE [0x57 0x80 0x86 0x64     ] */ notedv      PITCH_AF2, FRAMERATE_CONST(134, 161), 100
 /* 0x62C2 [0x58 0x74 0x64          ] */ notedv      PITCH_A2, 116, 100
 /* 0x62C5 [0xFF                    ] */ end
 
 .channel CHAN_62C6
-/* 0x62C6 [0xCE 0x62 0xCC          ] */ ldptr       UNK_62CC
+/* 0x62C6 [0xCE 0x62 0xCC          ] */ ldptr       ARRAY_62CC
 /* 0x62C9 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_62CC:
-    .byte 0x00, 0x64
+.array ARRAY_62CC
+    .byte SF0_EFFECT_0
+    .byte 100
 
 .channel CHAN_62CE
 /* 0x62CE [0x66                    ] */ ldio        IO_PORT_6
 /* 0x62CF [0xC8 0xFF               ] */ sub         255
 /* 0x62D1 [0x76                    ] */ stio        IO_PORT_6
 /* 0x62D2 [0xC9 0x01               ] */ and         1
-/* 0x62D4 [0xCB 0x62 0xE8          ] */ ldseq       UNK_62E8
-/* 0x62D7 [0xC7 0x40 0x64 0xBF     ] */ stseq       (NOTEDV_OPCODE | PITCH_A0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x62D4 [0xCB 0x62 0xE8          ] */ ldseq       ARRAY_62E8
+/* 0x62D7 [0xC7 0x40 0x64 0xBF     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | SF0_EFFECT_0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x62DB [0xB8 0x02               ] */ rand        2
-/* 0x62DD [0xCB 0x62 0xEA          ] */ ldseq       UNK_62EA
+/* 0x62DD [0xCB 0x62 0xEA          ] */ ldseq       ARRAY_62EA
 /* 0x62E0 [0xC7 0x00 0x64 0xC1     ] */ stseq       0, LAYER_64BF + STSEQ_NOTEDV_VELOCITY_2
 /* 0x62E4 [0x88 0x64 0xBF          ] */ ldlayer     0, LAYER_64BF
 /* 0x62E7 [0xFF                    ] */ end
 
-UNK_62E8:
-    .byte 0x1A, 0x1B
+.array ARRAY_62E8
+    .byte SF0_EFFECT_26
+    .byte SF0_EFFECT_27
 
-UNK_62EA:
-    .byte 0x50, 0x55
+.array ARRAY_62EA
+    .byte 80, 85
 
 .channel CHAN_62EC
-/* 0x62EC [0xCE 0x62 0xF2          ] */ ldptr       UNK_62F2
+/* 0x62EC [0xCE 0x62 0xF2          ] */ ldptr       ARRAY_62F2
 /* 0x62EF [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_62F2:
-    .byte 0x05, 0x6E
+.array ARRAY_62F2
+    .byte SF0_EFFECT_5
+    .byte 110
 
 .channel CHAN_62F4
 /* 0x62F4 [0x88 0x62 0xF8          ] */ ldlayer     0, LAYER_62F8
@@ -14368,72 +14410,82 @@ UNK_62F2:
 /* 0x62FD [0xFF                    ] */ end
 
 .channel CHAN_62FE
-/* 0x62FE [0xCE 0x63 0x04          ] */ ldptr       UNK_6304
+/* 0x62FE [0xCE 0x63 0x04          ] */ ldptr       ARRAY_6304
 /* 0x6301 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6304:
-    .byte 0x04, 0x5F
+.array ARRAY_6304
+    .byte SF0_EFFECT_4
+    .byte 95
 
 .channel CHAN_6306
-/* 0x6306 [0xCE 0x63 0x0C          ] */ ldptr       UNK_630C
+/* 0x6306 [0xCE 0x63 0x0C          ] */ ldptr       ARRAY_630C
 /* 0x6309 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_630C:
-    .byte 0x07, 0x52
+.array ARRAY_630C
+    .byte SF0_EFFECT_7
+    .byte 82
 
 .channel CHAN_630E
-/* 0x630E [0xCE 0x63 0x14          ] */ ldptr       UNK_6314
+/* 0x630E [0xCE 0x63 0x14          ] */ ldptr       ARRAY_6314
 /* 0x6311 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6314:
-    .byte 0x06, 0x5F
+.array ARRAY_6314
+    .byte SF0_EFFECT_6
+    .byte 95
 
 .channel CHAN_6316
-/* 0x6316 [0xCE 0x63 0x1C          ] */ ldptr       UNK_631C
+/* 0x6316 [0xCE 0x63 0x1C          ] */ ldptr       ARRAY_631C
 /* 0x6319 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_631C:
-    .byte 0x18, 0x6E
+.array ARRAY_631C
+    .byte SF0_EFFECT_24
+    .byte 110
 
 .channel CHAN_631E
-/* 0x631E [0xCE 0x63 0x24          ] */ ldptr       UNK_6324
+/* 0x631E [0xCE 0x63 0x24          ] */ ldptr       ARRAY_6324
 /* 0x6321 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6324:
-    .byte 0x3C, 0x64
+.array ARRAY_6324
+    .byte SF0_EFFECT_60
+    .byte 100
 
 .channel CHAN_6326
-/* 0x6326 [0xCE 0x63 0x2C          ] */ ldptr       UNK_632C
+/* 0x6326 [0xCE 0x63 0x2C          ] */ ldptr       ARRAY_632C
 /* 0x6329 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_632C:
-    .byte 0x3D, 0x6E
+.array ARRAY_632C
+    .byte SF0_EFFECT_61
+    .byte 110
 
 .channel CHAN_632E
-/* 0x632E [0xCE 0x63 0x34          ] */ ldptr       UNK_6334
+/* 0x632E [0xCE 0x63 0x34          ] */ ldptr       ARRAY_6334
 /* 0x6331 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6334:
-    .byte 0x0D, 0x71
+.array ARRAY_6334
+    .byte SF0_EFFECT_13
+    .byte 113
 
 .channel CHAN_6336
-/* 0x6336 [0xCE 0x63 0x47          ] */ ldptr       UNK_6347
+/* 0x6336 [0xCE 0x63 0x47          ] */ ldptr       ARRAY_6347
 /* 0x6339 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x633C [0xCE 0x63 0x4B          ] */ ldptr       UNK_634B
+/* 0x633C [0xCE 0x63 0x4B          ] */ ldptr       ARRAY_634B
 /* 0x633F [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6342 [0xCC 0x04               ] */ ldi         4
 /* 0x6344 [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
 
-UNK_6347:
-    .byte 0x1C, 0x1D, 0x1E, 0x1F
+.array ARRAY_6347
+    .byte SF0_EFFECT_28
+    .byte SF0_EFFECT_29
+    .byte SF0_EFFECT_30
+    .byte SF0_EFFECT_31
 
-UNK_634B:
-    .byte 0x6E, 0x6E, 0x6E, 0x6E
+.array ARRAY_634B
+    .byte 110, 110, 110, 110
 
 .channel CHAN_634F
-/* 0x634F [0xCE 0x63 0x72          ] */ ldptr       UNK_6372
+/* 0x634F [0xCE 0x63 0x72          ] */ ldptr       ARRAY_6372
 /* 0x6352 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x6355 [0xCE 0x63 0x74          ] */ ldptr       UNK_6374
+/* 0x6355 [0xCE 0x63 0x74          ] */ ldptr       ARRAY_6374
 /* 0x6358 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x635B [0xB8 0x02               ] */ rand        2
 /* 0x635D [0xFB 0x61 0x34          ] */ jump        CHAN_6134
@@ -14453,21 +14505,22 @@ CHAN_6367:
 CHAN_6371:
 /* 0x6371 [0x76                    ] */ stio        IO_PORT_6
 
-UNK_6372:
-    .byte 0x20, 0x21
+.array ARRAY_6372
+    .byte SF0_EFFECT_32
+    .byte SF0_EFFECT_33
 
-UNK_6374:
-    .byte 0x6E, 0x6E
+.array ARRAY_6374
+    .byte 110, 110
 
 .channel CHAN_6376
 /* 0x6376 [0x66                    ] */ ldio        IO_PORT_6
 /* 0x6377 [0xC8 0xFF               ] */ sub         255
 /* 0x6379 [0x76                    ] */ stio        IO_PORT_6
 /* 0x637A [0xC9 0x01               ] */ and         1
-/* 0x637C [0xCB 0x63 0x96          ] */ ldseq       UNK_6396
-/* 0x637F [0xC7 0x40 0x63 0x90     ] */ stseq       (NOTEDV_OPCODE | PITCH_A0), LAYER_6390 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x637C [0xCB 0x63 0x96          ] */ ldseq       ARRAY_6396
+/* 0x637F [0xC7 0x40 0x63 0x90     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | SF0_EFFECT_0), LAYER_6390 + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x6383 [0xB8 0x02               ] */ rand        2
-/* 0x6385 [0xCB 0x63 0x98          ] */ ldseq       UNK_6398
+/* 0x6385 [0xCB 0x63 0x98          ] */ ldseq       ARRAY_6398
 /* 0x6388 [0xC7 0x00 0x63 0x92     ] */ stseq       0, LAYER_6390 + STSEQ_NOTEDV_VELOCITY_2
 /* 0x638C [0x88 0x63 0x90          ] */ ldlayer     0, LAYER_6390
 /* 0x638F [0xFF                    ] */ end
@@ -14477,95 +14530,104 @@ UNK_6374:
 /* 0x6393 [0xC0 0x30               ] */ ldelay      48
 /* 0x6395 [0xFF                    ] */ end
 
-UNK_6396:
-    .byte 0x22, 0x32
+.array ARRAY_6396
+    .byte SF0_EFFECT_34
+    .byte SF0_EFFECT_50
 
-UNK_6398:
-    .byte 0x64, 0x64
+.array ARRAY_6398
+    .byte 100, 100
 
 .channel CHAN_639A
-/* 0x639A [0xCE 0x63 0xAB          ] */ ldptr       UNK_63AB
+/* 0x639A [0xCE 0x63 0xAB          ] */ ldptr       ARRAY_63AB
 /* 0x639D [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x63A0 [0xCE 0x63 0xAD          ] */ ldptr       UNK_63AD
+/* 0x63A0 [0xCE 0x63 0xAD          ] */ ldptr       ARRAY_63AD
 /* 0x63A3 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x63A6 [0xB8 0x02               ] */ rand        2
 /* 0x63A8 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_63AB:
-    .byte 0x23, 0x24
+.array ARRAY_63AB
+    .byte SF0_EFFECT_35
+    .byte SF0_EFFECT_36
 
-UNK_63AD:
-    .byte 0x5A, 0x46
+.array ARRAY_63AD
+    .byte 90, 70
 
 .channel CHAN_63AF
-/* 0x63AF [0xCE 0x63 0xC0          ] */ ldptr       UNK_63C0
+/* 0x63AF [0xCE 0x63 0xC0          ] */ ldptr       ARRAY_63C0
 /* 0x63B2 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x63B5 [0xCE 0x63 0xC3          ] */ ldptr       UNK_63C3
+/* 0x63B5 [0xCE 0x63 0xC3          ] */ ldptr       ARRAY_63C3
 /* 0x63B8 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x63BB [0xCC 0x03               ] */ ldi         3
 /* 0x63BD [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
 
-UNK_63C0:
-    .byte 0x25, 0x26, 0x27
+.array ARRAY_63C0
+    .byte SF0_EFFECT_37
+    .byte SF0_EFFECT_38
+    .byte SF0_EFFECT_39
 
-UNK_63C3:
-    .byte 0x6E, 0x6E, 0x6E
+.array ARRAY_63C3
+    .byte 110, 110, 110
 
 .channel CHAN_63C6
-/* 0x63C6 [0xCE 0x63 0xD7          ] */ ldptr       UNK_63D7
+/* 0x63C6 [0xCE 0x63 0xD7          ] */ ldptr       ARRAY_63D7
 /* 0x63C9 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x63CC [0xCE 0x63 0xDA          ] */ ldptr       UNK_63DA
+/* 0x63CC [0xCE 0x63 0xDA          ] */ ldptr       ARRAY_63DA
 /* 0x63CF [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x63D2 [0xCC 0x03               ] */ ldi         3
 /* 0x63D4 [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
 
-UNK_63D7:
-    .byte 0x28, 0x29, 0x2A
+.array ARRAY_63D7
+    .byte SF0_EFFECT_40
+    .byte SF0_EFFECT_41
+    .byte SF0_EFFECT_42
 
-UNK_63DA:
-    .byte 0x6E, 0x6E, 0x6E
+.array ARRAY_63DA
+    .byte 110, 110, 110
 
 .channel CHAN_63DD
-/* 0x63DD [0xCE 0x63 0xEE          ] */ ldptr       UNK_63EE
+/* 0x63DD [0xCE 0x63 0xEE          ] */ ldptr       ARRAY_63EE
 /* 0x63E0 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x63E3 [0xCE 0x63 0xF0          ] */ ldptr       UNK_63F0
+/* 0x63E3 [0xCE 0x63 0xF0          ] */ ldptr       ARRAY_63F0
 /* 0x63E6 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x63E9 [0xB8 0x02               ] */ rand        2
 /* 0x63EB [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_63EE:
-    .byte 0x2D, 0x2E
+.array ARRAY_63EE
+    .byte SF0_EFFECT_45
+    .byte SF0_EFFECT_46
 
-UNK_63F0:
-    .byte 0x64, 0x64
+.array ARRAY_63F0
+    .byte 100, 100
 
 .channel CHAN_63F2
-/* 0x63F2 [0xCE 0x64 0x03          ] */ ldptr       UNK_6403
+/* 0x63F2 [0xCE 0x64 0x03          ] */ ldptr       ARRAY_6403
 /* 0x63F5 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x63F8 [0xCE 0x64 0x05          ] */ ldptr       UNK_6405
+/* 0x63F8 [0xCE 0x64 0x05          ] */ ldptr       ARRAY_6405
 /* 0x63FB [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x63FE [0xB8 0x02               ] */ rand        2
 /* 0x6400 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6403:
-    .byte 0x2B, 0x2C
+.array ARRAY_6403
+    .byte SF0_EFFECT_43
+    .byte SF0_EFFECT_44
 
-UNK_6405:
-    .byte 0x64, 0x64
+.array ARRAY_6405
+    .byte 100, 100
 
 .channel CHAN_6407
-/* 0x6407 [0xCE 0x64 0x18          ] */ ldptr       UNK_6418
+/* 0x6407 [0xCE 0x64 0x18          ] */ ldptr       ARRAY_6418
 /* 0x640A [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x640D [0xCE 0x64 0x1A          ] */ ldptr       UNK_641A
+/* 0x640D [0xCE 0x64 0x1A          ] */ ldptr       ARRAY_641A
 /* 0x6410 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6413 [0xB8 0x02               ] */ rand        2
 /* 0x6415 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6418:
-    .byte 0x2F, 0x30
+.array ARRAY_6418
+    .byte SF0_EFFECT_47
+    .byte SF0_EFFECT_48
 
-UNK_641A:
-    .byte 0x55, 0x55
+.array ARRAY_641A
+    .byte 85, 85
 
 .channel CHAN_641C
 /* 0x641C [0x88 0x64 0x20          ] */ ldlayer     0, LAYER_6420
@@ -14581,31 +14643,33 @@ UNK_641A:
 
 .layer LAYER_6428
 /* 0x6428 [0xC2 0x01               ] */ transpose   1
-/* 0x642A [0x40 0x62 0x64          ] */ notedv      PITCH_A0, 98, 100
-/* 0x642D [0x41 0x6A 0x64          ] */ notedv      PITCH_BF0, 106, 100
+/* 0x642A [0x40 0x62 0x64          ] */ notedv      PITCH_A0, FRAMERATE_CONST(98, 118), 100
+/* 0x642D [0x41 0x6A 0x64          ] */ notedv      PITCH_BF0, FRAMERATE_CONST(106, 127), 100
 /* 0x6430 [0x42 0x3A 0x64          ] */ notedv      PITCH_B0, 58, 100
 /* 0x6433 [0xFF                    ] */ end
 
 .channel CHAN_6434
-/* 0x6434 [0xCE 0x64 0x45          ] */ ldptr       UNK_6445
+/* 0x6434 [0xCE 0x64 0x45          ] */ ldptr       ARRAY_6445
 /* 0x6437 [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x643A [0xCE 0x64 0x47          ] */ ldptr       UNK_6447
+/* 0x643A [0xCE 0x64 0x47          ] */ ldptr       ARRAY_6447
 /* 0x643D [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6440 [0xB8 0x02               ] */ rand        2
 /* 0x6442 [0xFB 0x61 0x34          ] */ jump        CHAN_6134
 
-UNK_6445:
-    .byte 0x2B, 0x2C
+.array ARRAY_6445
+    .byte SF0_EFFECT_43
+    .byte SF0_EFFECT_44
 
-UNK_6447:
-    .byte 0x64, 0x64
+.array ARRAY_6447
+    .byte 100, 100
 
 .channel CHAN_6449
-/* 0x6449 [0xCE 0x64 0x4F          ] */ ldptr       UNK_644F
+/* 0x6449 [0xCE 0x64 0x4F          ] */ ldptr       ARRAY_644F
 /* 0x644C [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_644F:
-    .byte 0x14, 0x64
+.array ARRAY_644F
+    .byte SF0_EFFECT_20
+    .byte 100
 
 .channel CHAN_6451
 /* 0x6451 [0x88 0x64 0x55          ] */ ldlayer     0, LAYER_6455
@@ -14613,9 +14677,9 @@ UNK_644F:
 
 .layer LAYER_6455
 /* 0x6455 [0xC2 0x01               ] */ transpose   1
-/* 0x6457 [0x43 0x81 0x0B 0x32     ] */ notedv      PITCH_C1, 267, 50
-/* 0x645B [0x43 0x80 0xC5 0x32     ] */ notedv      PITCH_C1, 197, 50
-/* 0x645F [0x45 0x80 0x87 0x64     ] */ notedv      PITCH_D1, 135, 100
+/* 0x6457 [0x43 0x81 0x0B 0x32     ] */ notedv      PITCH_C1, FRAMERATE_CONST(267, 320), 50
+/* 0x645B [0x43 0x80 0xC5 0x32     ] */ notedv      PITCH_C1, FRAMERATE_CONST(197, 236), 50
+/* 0x645F [0x45 0x80 0x87 0x64     ] */ notedv      PITCH_D1, FRAMERATE_CONST(135, 162), 100
 /* 0x6463 [0x46 0x21 0x64          ] */ notedv      PITCH_EF1, 33, 100
 /* 0x6466 [0xFF                    ] */ end
 
@@ -14625,8 +14689,8 @@ UNK_644F:
 
 .layer LAYER_646B
 /* 0x646B [0xC2 0x01               ] */ transpose   1
-/* 0x646D [0x47 0x80 0xD9 0x64     ] */ notedv      PITCH_E1, 217, 100
-/* 0x6471 [0x48 0x62 0x64          ] */ notedv      PITCH_F1, 98, 100
+/* 0x646D [0x47 0x80 0xD9 0x64     ] */ notedv      PITCH_E1, FRAMERATE_CONST(217, 260), 100
+/* 0x6471 [0x48 0x62 0x64          ] */ notedv      PITCH_F1, FRAMERATE_CONST(98, 118), 100
 /* 0x6474 [0x49 0x81 0x09 0x64     ] */ notedv      PITCH_GF1, 265, 100
 /* 0x6478 [0xFF                    ] */ end
 
@@ -14635,7 +14699,7 @@ UNK_644F:
 /* 0x647C [0xFF                    ] */ end
 
 .layer LAYER_647D
-/* 0x647D [0x73 0x50 0x50          ] */ notedv      PITCH_C5, 80, 80
+/* 0x647D [0x73 0x50 0x50          ] */ notedv      PITCH_C5, FRAMERATE_CONST(80, 96), 80
 /* 0x6480 [0xF4 0xFB               ] */ rjump       LAYER_647D
 
 .channel CHAN_6482
@@ -14644,17 +14708,18 @@ UNK_644F:
 
 .layer LAYER_6486
 /* 0x6486 [0xC2 0x01               ] */ transpose   1
-/* 0x6488 [0x4A 0x41 0x64          ] */ notedv      PITCH_G1, 65, 100
-/* 0x648B [0x4B 0x81 0x0A 0x64     ] */ notedv      PITCH_AF1, 266, 100
+/* 0x6488 [0x4A 0x41 0x64          ] */ notedv      PITCH_G1, FRAMERATE_CONST(65, 78), 100
+/* 0x648B [0x4B 0x81 0x0A 0x64     ] */ notedv      PITCH_AF1, FRAMERATE_CONST(266, 319), 100
 /* 0x648F [0x4C 0x53 0x64          ] */ notedv      PITCH_A1, 83, 100
 /* 0x6492 [0xFF                    ] */ end
 
 .channel CHAN_6493
-/* 0x6493 [0xCE 0x64 0x99          ] */ ldptr       UNK_6499
+/* 0x6493 [0xCE 0x64 0x99          ] */ ldptr       ARRAY_6499
 /* 0x6496 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6499:
-    .byte 0x1C, 0x64
+.array ARRAY_6499
+    .byte SF0_EFFECT_28
+    .byte 100
 
 .channel CHAN_649B
 /* 0x649B [0x88 0x64 0x9F          ] */ ldlayer     0, LAYER_649F
@@ -14670,10 +14735,10 @@ UNK_6499:
 /* 0x64A6 [0xC8 0xFF               ] */ sub         255
 /* 0x64A8 [0x76                    ] */ stio        IO_PORT_6
 /* 0x64A9 [0xC9 0x01               ] */ and         1
-/* 0x64AB [0xCB 0x64 0xC5          ] */ ldseq       UNK_64C5
-/* 0x64AE [0xC7 0x40 0x64 0xBF     ] */ stseq       (NOTEDV_OPCODE | PITCH_A0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x64AB [0xCB 0x64 0xC5          ] */ ldseq       ARRAY_64C5
+/* 0x64AE [0xC7 0x40 0x64 0xBF     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | SF0_EFFECT_0), LAYER_64BF + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x64B2 [0xB8 0x02               ] */ rand        2
-/* 0x64B4 [0xCB 0x64 0xC7          ] */ ldseq       UNK_64C7
+/* 0x64B4 [0xCB 0x64 0xC7          ] */ ldseq       ARRAY_64C7
 /* 0x64B7 [0xC7 0x00 0x64 0xC1     ] */ stseq       0, LAYER_64BF + STSEQ_NOTEDV_VELOCITY_2
 /* 0x64BB [0x88 0x64 0xBF          ] */ ldlayer     0, LAYER_64BF
 /* 0x64BE [0xFF                    ] */ end
@@ -14683,18 +14748,20 @@ UNK_6499:
 /* 0x64C2 [0xC0 0x30               ] */ ldelay      48
 /* 0x64C4 [0xFF                    ] */ end
 
-UNK_64C5:
-    .byte 0x35, 0x36
+.array ARRAY_64C5
+    .byte SF0_EFFECT_53
+    .byte SF0_EFFECT_54
 
-UNK_64C7:
-    .byte 0x50, 0x50
+.array ARRAY_64C7
+    .byte 80, 80
 
 .channel CHAN_64C9
-/* 0x64C9 [0xCE 0x64 0xCF          ] */ ldptr       UNK_64CF
+/* 0x64C9 [0xCE 0x64 0xCF          ] */ ldptr       ARRAY_64CF
 /* 0x64CC [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_64CF:
-    .byte 0x21, 0x6E
+.array ARRAY_64CF
+    .byte SF0_EFFECT_33
+    .byte 110
 
 .channel CHAN_64D1
 /* 0x64D1 [0x88 0x64 0xD5          ] */ ldlayer     0, LAYER_64D5
@@ -14706,53 +14773,60 @@ UNK_64CF:
 /* 0x64DA [0xFF                    ] */ end
 
 .channel CHAN_64DB
-/* 0x64DB [0xCE 0x64 0xE1          ] */ ldptr       UNK_64E1
+/* 0x64DB [0xCE 0x64 0xE1          ] */ ldptr       ARRAY_64E1
 /* 0x64DE [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_64E1:
-    .byte 0x20, 0x5F
+.array ARRAY_64E1
+    .byte SF0_EFFECT_32
+    .byte 95
 
 .channel CHAN_64E3
-/* 0x64E3 [0xCE 0x64 0xE9          ] */ ldptr       UNK_64E9
+/* 0x64E3 [0xCE 0x64 0xE9          ] */ ldptr       ARRAY_64E9
 /* 0x64E6 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_64E9:
-    .byte 0x23, 0x5A
+.array ARRAY_64E9
+    .byte SF0_EFFECT_35
+    .byte 90
 
 .channel CHAN_64EB
-/* 0x64EB [0xCE 0x64 0xF1          ] */ ldptr       UNK_64F1
+/* 0x64EB [0xCE 0x64 0xF1          ] */ ldptr       ARRAY_64F1
 /* 0x64EE [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_64F1:
-    .byte 0x22, 0x64
+.array ARRAY_64F1
+    .byte SF0_EFFECT_34
+    .byte 100
 
 .channel CHAN_64F3
-/* 0x64F3 [0xCE 0x64 0xF9          ] */ ldptr       UNK_64F9
+/* 0x64F3 [0xCE 0x64 0xF9          ] */ ldptr       ARRAY_64F9
 /* 0x64F6 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_64F9:
-    .byte 0x31, 0x73
+.array ARRAY_64F9
+    .byte SF0_EFFECT_49
+    .byte 115
 
 .channel CHAN_64FB
-/* 0x64FB [0xCE 0x65 0x01          ] */ ldptr       UNK_6501
+/* 0x64FB [0xCE 0x65 0x01          ] */ ldptr       ARRAY_6501
 /* 0x64FE [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6501:
-    .byte 0x3E, 0x64
+.array ARRAY_6501
+    .byte SF0_EFFECT_62
+    .byte 100
 
 .channel CHAN_6503
-/* 0x6503 [0xCE 0x65 0x09          ] */ ldptr       UNK_6509
+/* 0x6503 [0xCE 0x65 0x09          ] */ ldptr       ARRAY_6509
 /* 0x6506 [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6509:
-    .byte 0x3F, 0x6E
+.array ARRAY_6509
+    .byte SF0_EFFECT_63
+    .byte 110
 
 .channel CHAN_650B
-/* 0x650B [0xCE 0x65 0x11          ] */ ldptr       UNK_6511
+/* 0x650B [0xCE 0x65 0x11          ] */ ldptr       ARRAY_6511
 /* 0x650E [0xFB 0x61 0x3E          ] */ jump        CHAN_613E
 
-UNK_6511:
-    .byte 0x2C, 0x64
+.array ARRAY_6511
+    .byte SF0_EFFECT_44
+    .byte 100
 
 .channel CHAN_6513
 /* 0x6513 [0xCC 0x20               ] */ ldi         32
@@ -14767,9 +14841,9 @@ UNK_6511:
 
 .channel CHAN_6520
 /* 0x6520 [0x64                    ] */ ldio        IO_PORT_SFX_INDEX_LOBITS
-/* 0x6521 [0xC8 0x50               ] */ sub         80
-/* 0x6523 [0xC7 0x19 0x65 0x36     ] */ stseq       (NOTEDVG_OPCODE | PITCH_BF2), LAYER_6536 + STSEQ_NOTEDVG_OPCODE_PITCH
-/* 0x6527 [0xCB 0x65 0x3B          ] */ ldseq       UNK_653B
+/* 0x6521 [0xC8 0x50               ] */ sub         NA_SE_VO_TA_SLEEP & 0xFF
+/* 0x6523 [0xC7 0x19 0x65 0x36     ] */ stseq       (ASEQ_OP_LAYER_NOTEDVG | PITCH_BF2), LAYER_6536 + STSEQ_NOTEDVG_OPCODE_PITCH
+/* 0x6527 [0xCB 0x65 0x3B          ] */ ldseq       ARRAY_653B
 /* 0x652A [0xC7 0x00 0x65 0x38     ] */ stseq       0, LAYER_6536 + STSEQ_NOTEDVG_DELAY_LO
 /* 0x652E [0x88 0x65 0x34          ] */ ldlayer     0, LAYER_6534
 /* 0x6531 [0xDC 0x60               ] */ panweight   96
@@ -14781,16 +14855,16 @@ LAYER_6536:
 /* 0x6536 [0x21 0x00 0x64 0x00     ] */ notedvg     PITCH_GF3, 0, 100, 0
 /* 0x653A [0xFF                    ] */ end
 
-UNK_653B:
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x6E, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x6E
+.array ARRAY_653B
+    .byte 100, 100, 100, 100, 100, 100, 100, 100, 110, 100, 100, 100, 100, 100, 100, 100
+    .byte 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100
+    .byte 100, 100, 100, 100, 100, 100, 110
 
 .channel CHAN_6562
 /* 0x6562 [0x64                    ] */ ldio        IO_PORT_SFX_INDEX_LOBITS
-/* 0x6563 [0xC8 0x77               ] */ sub         119
-/* 0x6565 [0xC7 0x00 0x65 0x76     ] */ stseq       (NOTEDVG_OPCODE | PITCH_A0), LAYER_6576 + STSEQ_NOTEDVG_OPCODE_PITCH
-/* 0x6569 [0xCB 0x65 0x7B          ] */ ldseq       UNK_657B
+/* 0x6563 [0xC8 0x77               ] */ sub         NA_SE_VO_Z1_OPENDOOR & 0xFF
+/* 0x6565 [0xC7 0x00 0x65 0x76     ] */ stseq       (ASEQ_OP_LAYER_NOTEDVG | PITCH_A0), LAYER_6576 + STSEQ_NOTEDVG_OPCODE_PITCH
+/* 0x6569 [0xCB 0x65 0x7B          ] */ ldseq       ARRAY_657B
 /* 0x656C [0xC7 0x00 0x65 0x78     ] */ stseq       0, LAYER_6576 + STSEQ_NOTEDVG_DELAY_LO
 /* 0x6570 [0x88 0x65 0x74          ] */ ldlayer     0, LAYER_6574
 /* 0x6573 [0xFF                    ] */ end
@@ -14801,16 +14875,16 @@ LAYER_6576:
 /* 0x6576 [0x00 0x00 0x64 0x00     ] */ notedvg     PITCH_A0, 0, 100, 0
 /* 0x657A [0xFF                    ] */ end
 
-UNK_657B:
-    .byte 0x64, 0x64, 0x64, 0x64, 0x64, 0x64
+.array ARRAY_657B
+    .byte 100, 100, 100, 100, 100, 100
 
 .channel CHAN_6581
 /* 0x6581 [0xCC 0x20               ] */ ldi         32
 /* 0x6583 [0x71                    ] */ stio        IO_PORT_1
 /* 0x6584 [0x89 0x65 0x98          ] */ ldlayer     1, LAYER_6598
-/* 0x6587 [0xCE 0x65 0xA7          ] */ ldptr       UNK_65A7
+/* 0x6587 [0xCE 0x65 0xA7          ] */ ldptr       ARRAY_65A7
 /* 0x658A [0xCF 0x61 0x1B          ] */ stptrtoseq  CHAN_611A + STSEQ_PTR_LDSEQ
-/* 0x658D [0xCE 0x65 0xAA          ] */ ldptr       UNK_65AA
+/* 0x658D [0xCE 0x65 0xAA          ] */ ldptr       ARRAY_65AA
 /* 0x6590 [0xCF 0x61 0x23          ] */ stptrtoseq  CHAN_6122 + STSEQ_PTR_LDSEQ
 /* 0x6593 [0xCC 0x03               ] */ ldi         3
 /* 0x6595 [0xFB 0x60 0xF2          ] */ jump        CHAN_60F2
@@ -14823,11 +14897,13 @@ UNK_657B:
 /* 0x65A3 [0x78 0x30 0x41          ] */ notedv      PITCH_F5, 48, 65
 /* 0x65A6 [0xFF                    ] */ end
 
-UNK_65A7:
-    .byte 0x39, 0x3A, 0x3B
+.array ARRAY_65A7
+    .byte SF0_EFFECT_57
+    .byte SF0_EFFECT_58
+    .byte SF0_EFFECT_59
 
-UNK_65AA:
-    .byte 0x64, 0x5F, 0x69
+.array ARRAY_65AA
+    .byte 100, 95, 105
 
 .balign 16
 

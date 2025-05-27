@@ -40,16 +40,23 @@
  * DPad-Up may be pressed to enable sending fault pages over osSyncPrintf as well as displaying them on-screen.
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
-#if PLATFORM_GC
 
-#pragma increment_block_number "gc-eu:208 gc-eu-mq:208 gc-eu-mq-dbg:192 gc-jp:208 gc-jp-ce:208 gc-jp-mq:208 gc-us:208" \
-                               "gc-us-mq:208"
+#pragma increment_block_number "gc-eu:160 gc-eu-mq:160 gc-eu-mq-dbg:160 gc-jp:160 gc-jp-ce:160 gc-jp-mq:160 gc-us:160" \
+                               "gc-us-mq:160 ique-cn:160"
 
-#include "global.h"
+#include "libc64/sleep.h"
+#include "libc64/sprintf.h"
 #include "alloca.h"
+#include "array_count.h"
+#include "controller.h"
+#include "gfx.h"
+#include "padmgr.h"
 #include "fault.h"
 #include "stack.h"
+#include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z64thread.h"
 
 void Fault_Init(void);
 void Fault_SetOsSyncPrintfEnabled(u32 enabled);
@@ -1327,9 +1334,7 @@ NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
 
     // Since the above line triggers an exception and transfers execution to the fault handler
     // this function does not return and the rest of the function is unreachable.
-#ifdef __GNUC__
-    __builtin_unreachable();
-#endif
+    UNREACHABLE();
 }
 
 /**
@@ -1342,5 +1347,3 @@ NORETURN void Fault_AddHungupAndCrash(const char* file, int line) {
     sprintf(msg, "HungUp %s:%d", file, line);
     Fault_AddHungupAndCrashImpl(msg, NULL);
 }
-
-#endif

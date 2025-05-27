@@ -6,6 +6,21 @@
 
 #include "z_en_butte.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
@@ -36,7 +51,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
       },
       { 0, { { 0, 0, 0 }, 5 }, 100 } },
 };
-static ColliderJntSphInit sColliderInit = {
+static ColliderJntSphInit sColliderJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -139,9 +154,9 @@ void EnButte_DrawTransformationEffect(EnButte* this, PlayState* play) {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 700, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 20, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 600, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 700, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 20, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 600, ICHAIN_STOP),
 };
 
 void EnButte_Init(Actor* thisx, PlayState* play) {
@@ -154,12 +169,12 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     if (PARAMS_GET_U(this->actor.params, 0, 1) == 1) {
-        this->actor.uncullZoneScale = 200.0f;
+        this->actor.cullingVolumeScale = 200.0f;
     }
 
     SkelAnime_Init(play, &this->skelAnime, &gButterflySkel, &gButterflyAnim, this->jointTable, this->morphTable, 8);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
     this->actor.colChkInfo.mass = 0;
     this->unk_25C = Rand_ZeroOne() * 0xFFFF;
     this->unk_25E = Rand_ZeroOne() * 0xFFFF;
@@ -168,8 +183,8 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
     EnButte_SetupFlyAround(this);
     this->actor.shape.rot.x -= 0x2320;
     this->drawSkelAnime = true;
-    // "field keep butterfly"
-    PRINTF("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
+    PRINTF(T("(field keep 蝶)(%x)(arg_data 0x%04x)\n", "(field keep butterfly)(%x)(arg_data 0x%04x)\n"), this,
+           this->actor.params);
 }
 
 void EnButte_Destroy(Actor* thisx, PlayState* play2) {
@@ -347,7 +362,7 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
 
 void EnButte_SetupTransformIntoFairy(EnButte* this) {
     this->timer = 9;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->skelAnime.playSpeed = 1.0f;
     EnButte_ResetTransformationEffect();
     this->actionFunc = EnButte_TransformIntoFairy;

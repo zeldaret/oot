@@ -5,9 +5,19 @@
  */
 
 #include "z_en_ganon_mant.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnGanonMant_Init(Actor* thisx, PlayState* play);
 void EnGanonMant_Destroy(Actor* thisx, PlayState* play);
@@ -425,7 +435,7 @@ void EnGanonMant_Draw(Actor* thisx, PlayState* play) {
         midpoint.y = rightPos->y + yDiff * 0.5f;
         midpoint.z = rightPos->z + zDiff * 0.5f;
 
-        // Calculte base orientation for chosen endpoints
+        // Calculate base orientation for chosen endpoints
         yaw = Math_Atan2F(zDiff, xDiff);
         pitch = -Math_Atan2F(sqrtf(SQ(xDiff) + SQ(zDiff)), yDiff);
         diffHalfDist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff)) * 0.5f;

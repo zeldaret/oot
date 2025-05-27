@@ -5,6 +5,14 @@
  */
 
 #include "z_en_tana.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z64play.h"
+
 #include "assets/objects/object_shop_dungen/object_shop_dungen.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -27,7 +35,7 @@ ActorProfile En_Tana_Profile = {
     /**/ NULL,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 //! @bug A third entry is missing here. When printing the string indexed by `params` for type 2, the
 //! next data entry will be dereferenced and print garbage, stopping any future printing.
 //! In a non-matching context, this can cause a crash if the next item isn't a valid pointer.

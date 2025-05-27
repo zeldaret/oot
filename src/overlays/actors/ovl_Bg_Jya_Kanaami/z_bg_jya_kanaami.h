@@ -2,11 +2,11 @@
 #define Z_BG_JYA_KANAAMI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgJyaKanaami;
 
-typedef void (*BgJyaKanaamiActionFunc)(struct BgJyaKanaami*, PlayState*);
+typedef void (*BgJyaKanaamiActionFunc)(struct BgJyaKanaami*, struct PlayState*);
 
 typedef struct BgJyaKanaami {
     /* 0x0000 */ DynaPolyActor dyna;

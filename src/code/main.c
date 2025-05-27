@@ -1,29 +1,50 @@
+#include "sys_cfb.h"
 #include "ultra64.h"
+#include "versions.h"
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:0 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 // Declared before including other headers for BSS ordering
 extern uintptr_t gSegments[NUM_SEGMENTS];
 
 #pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252" \
-                               "ntsc-1.2:128"
+                               "ique-cn:252 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 extern struct PreNmiBuff* gAppNmiBufferPtr;
 extern struct Scheduler gScheduler;
 extern struct PadMgr gPadMgr;
 extern struct IrqMgr gIrqMgr;
 
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libu64/rcp_utils.h"
+#include "libu64/runtime.h"
+#include "array_count.h"
+#include "audiomgr.h"
+#include "debug_arena.h"
 #include "fault.h"
+#include "gfx.h"
+#include "idle.h"
+#include "padmgr.h"
+#include "prenmi_buff.h"
+#include "printf.h"
+#include "regs.h"
+#include "segment_symbols.h"
 #include "segmented_address.h"
 #include "stack.h"
+#include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #include "n64dd.h"
 #endif
+#include "z64debug.h"
+#include "z64thread.h"
 
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ntsc-1.2:168"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:0 ntsc-1.0:54 ntsc-1.1:54 ntsc-1.2:54 pal-1.0:52 pal-1.1:52"
 
 extern u8 _buffersSegmentEnd[];
 
@@ -39,7 +60,11 @@ uintptr_t gSegments[NUM_SEGMENTS];
 
 OSThread sGraphThread;
 STACK(sGraphStack, 0x1800);
+#if OOT_VERSION < PAL_1_0
+STACK(sSchedStack, 0x400);
+#else
 STACK(sSchedStack, 0x600);
+#endif
 STACK(sAudioStack, 0x800);
 STACK(sPadMgrStack, 0x500);
 STACK(sIrqMgrStack, 0x500);
@@ -52,13 +77,13 @@ AudioMgr sAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Main_LogSystemHeap(void) {
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF(
         T("システムヒープサイズ %08x(%dKB) 開始アドレス %08x\n", "System heap size %08x (%dKB) Start address %08x\n"),
         gSystemHeapSize, gSystemHeapSize / 1024, _buffersSegmentEnd);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 }
 #endif
 
@@ -78,7 +103,7 @@ void Main(void* arg) {
 #if PLATFORM_N64
     func_800AD410();
     if (D_80121211 != 0) {
-        systemHeapStart = (uintptr_t)&_n64ddSegmentEnd;
+        systemHeapStart = (uintptr_t)_n64ddSegmentEnd;
         SysCfb_Init(1);
     } else {
         func_800AD488();
@@ -91,11 +116,11 @@ void Main(void* arg) {
 #endif
     fb = (uintptr_t)SysCfb_GetFbPtr(0);
     gSystemHeapSize = fb - systemHeapStart;
-    PRINTF(T("システムヒープ初期化 %08x-%08x %08x\n", "System heap initalization %08x-%08x %08x\n"), systemHeapStart,
+    PRINTF(T("システムヒープ初期化 %08x-%08x %08x\n", "System heap initialization %08x-%08x %08x\n"), systemHeapStart,
            fb, gSystemHeapSize);
-    SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
+    Runtime_Init((void*)systemHeapStart, gSystemHeapSize);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     {
         void* debugHeapStart;
         u32 debugHeapSize;
@@ -120,7 +145,7 @@ void Main(void* arg) {
     osCreateMesgQueue(&sSerialEventQueue, sSerialMsgBuf, ARRAY_COUNT(sSerialMsgBuf));
     osSetEventMesg(OS_EVENT_SI, &sSerialEventQueue, NULL);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Main_LogSystemHeap();
 #endif
 
@@ -150,7 +175,10 @@ void Main(void* arg) {
     StackCheck_Init(&sGraphStackInfo, sGraphStack, STACK_TOP(sGraphStack), 0, 0x100, "graph");
     osCreateThread(&sGraphThread, THREAD_ID_GRAPH, Graph_ThreadEntry, arg, STACK_TOP(sGraphStack), THREAD_PRI_GRAPH);
     osStartThread(&sGraphThread);
+
+#if OOT_VERSION >= PAL_1_0
     osSetThreadPri(NULL, THREAD_PRI_MAIN);
+#endif
 
     while (true) {
         s16* msg = NULL;
@@ -162,6 +190,9 @@ void Main(void* arg) {
         switch (*msg) {
             case OS_SC_PRE_NMI_MSG:
                 PRINTF(T("main.c: リセットされたみたいだよ\n", "main.c: Looks like it's been reset\n"));
+#if OOT_VERSION < PAL_1_0
+                StackCheck_Check(NULL);
+#endif
                 PreNmiBuff_SetReset(gAppNmiBufferPtr);
                 break;
         }

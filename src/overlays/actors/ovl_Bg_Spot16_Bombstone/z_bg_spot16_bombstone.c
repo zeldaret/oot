@@ -1,10 +1,29 @@
 #include "z_bg_spot16_bombstone.h"
-#include "assets/objects/object_spot16_obj/object_spot16_obj.h"
-#include "assets/objects/object_bombiwa/object_bombiwa.h"
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_spot16_obj/object_spot16_obj.h"
+#include "assets/objects/object_bombiwa/object_bombiwa.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play);
 void BgSpot16Bombstone_Destroy(Actor* thisx, PlayState* play);
@@ -122,17 +141,17 @@ ActorProfile Bg_Spot16_Bombstone_Profile = {
 };
 
 static InitChainEntry sInitChainBoulder[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 static InitChainEntry sInitChainDebris[] = {
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 static Vec3f sVelocity = { 0.0f, 0.0f, 0.0f };
@@ -152,7 +171,7 @@ void func_808B4C4C(BgSpot16Bombstone* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->colliderJntSph);
-    Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderElements);
+    Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
     this->colliderJntSph.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
     this->colliderJntSph.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y + 50.0f;
     this->colliderJntSph.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
@@ -171,7 +190,7 @@ void func_808B4D04(BgSpot16Bombstone* this, PlayState* play) {
 
 s32 func_808B4D9C(BgSpot16Bombstone* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
-        PRINTF("Spot16 obj 爆弾石 破壊済み\n");
+        PRINTF(T("Spot16 obj 爆弾石 破壊済み\n", "Spot16 obj Bomb Stone destroyed\n"));
         return false;
     }
     Actor_ProcessInitChain(&this->actor, sInitChainBoulder);
@@ -221,7 +240,8 @@ s32 func_808B4E58(BgSpot16Bombstone* this, PlayState* play) {
     this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_BOMBIWA);
 
     if (this->requiredObjectSlot < 0) {
-        PRINTF("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params, "../z_bg_spot16_bombstone.c", 589);
+        PRINTF("Error : " T("バンク危険！", "Bank danger! ") "(arg_data 0x%04x)(%s %d)\n", actor->params,
+               "../z_bg_spot16_bombstone.c", 589);
         return false;
     }
 
@@ -251,10 +271,10 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
             shouldLive = func_808B4E58(this, play);
             break;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         default:
-            PRINTF("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot16_bombstone.c", 668,
-                   this->actor.params);
+            PRINTF(T("Error : arg_data おかしいな", "Error : arg_data is strange") "(%s %d)(arg_data 0x%04x)\n",
+                   "../z_bg_spot16_bombstone.c", 668, this->actor.params);
             shouldLive = false;
             break;
 #endif
@@ -264,7 +284,8 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    PRINTF("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x, this->actor.params);
+    PRINTF("Spot16 obj " T("爆弾石", "Bomb Stone") " (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x,
+           this->actor.params);
 }
 
 void BgSpot16Bombstone_Destroy(Actor* thisx, PlayState* play) {
@@ -387,8 +408,8 @@ void func_808B56BC(BgSpot16Bombstone* this, PlayState* play) {
                 player->actor.world.pos.x += sinValue * this->sinRotation;
                 player->actor.world.pos.z += sinValue * this->cosRotation;
             } else {
-                PRINTF("Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n", "../z_bg_spot16_bombstone.c", 935,
-                       this->actor.params, adjustedYawDiff);
+                PRINTF(T("Error 補正出来ない", "Error Can't correct") "(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n",
+                       "../z_bg_spot16_bombstone.c", 935, this->actor.params, adjustedYawDiff);
             }
         }
     }
@@ -416,7 +437,7 @@ void func_808B57E0(BgSpot16Bombstone* this, PlayState* play) {
                 OnePointCutscene_Init(play, 4180, sTimer, NULL, CAM_ID_MAIN);
             }
         }
-    } else if (player->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) {
+    } else if (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
         playerHeldActor = player->heldActor;
         if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVE &&
             playerHeldActor->id == ACTOR_EN_BOMBF) {
@@ -455,7 +476,7 @@ void func_808B5950(BgSpot16Bombstone* this, PlayState* play) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (mREG(64) == 1) {
         func_808B561C(this, play);
         mREG(64) = -10;

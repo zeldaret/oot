@@ -1,5 +1,6 @@
 # Output files
 *.exe
+bin2c
 elf2rom
 makeromfs
 mkdmadata
@@ -9,4 +10,5 @@ reloc_prereq
 vtxdis
 yaz0
 
-graphovl/
+ido_recomp/
+egcs/

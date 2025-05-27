@@ -1,5 +1,18 @@
-#include "global.h"
+#include "libu64/debug.h"
+#include "avoid_ub.h"
+#include "gfx.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "segment_symbols.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "zelda_arena.h"
+#include "z64animation.h"
+#include "z64animation_legacy.h"
+#include "z64play.h"
 
 #define ANIM_INTERP 1
 
@@ -71,9 +84,9 @@ void SkelAnime_DrawLod(PlayState* play, void** skeleton, Vec3s* jointTable, Over
     Vec3s rot;
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_Lod_draw():skelがNULLです。\n", "Si2_Lod_draw(): skel is NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return;
     }
 
@@ -184,9 +197,9 @@ void SkelAnime_DrawFlexLod(PlayState* play, void** skeleton, Vec3s* jointTable, 
     Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, dListCount * sizeof(Mtx));
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_Lod_draw_SV():skelがNULLです。\n", "Si2_Lod_draw_SV(): skel is NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return;
     }
 
@@ -287,9 +300,9 @@ void SkelAnime_DrawOpa(PlayState* play, void** skeleton, Vec3s* jointTable, Over
     Vec3s rot;
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_draw():skelがNULLです。\n", "Si2_draw(): skel is NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return;
     }
 
@@ -400,9 +413,9 @@ void SkelAnime_DrawFlexOpa(PlayState* play, void** skeleton, Vec3s* jointTable, 
     Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, dListCount * sizeof(Mtx));
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_draw_SV():skelがNULLです。\n", "Si2_draw_SV(): skel is NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return;
     }
 
@@ -553,9 +566,9 @@ Gfx* SkelAnime_Draw(PlayState* play, void** skeleton, Vec3s* jointTable, Overrid
     Vec3s rot;
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_draw2():skelがNULLです。NULLを返します。\n", "Si2_draw2(): skel is NULL. Returns NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return NULL;
     }
 
@@ -661,9 +674,9 @@ Gfx* SkelAnime_DrawFlex(PlayState* play, void** skeleton, Vec3s* jointTable, s32
     Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, dListCount * sizeof(*mtx));
 
     if (skeleton == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Si2_draw2_SV():skelがNULLです。NULLを返します。\n", "Si2_draw2_SV(): skel is NULL. Returns NULL.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return NULL;
     }
 
@@ -818,7 +831,7 @@ void AnimTaskQueue_SetNextGroup(PlayState* play) {
  * A transformative task is one that will alter the appearance of an animation.
  * These include Copy, Interp, CopyUsingMap, and CopyUsingMapInverted.
  *
- * LoadPlayerFrame and ActorMove, which don't alter the appearance of an existing animation,
+ * LoadPlayerFrame and ActorMovement, which don't alter the appearance of an existing animation,
  * will always run even if a group has its transformative tasks disabled.
  */
 void AnimTaskQueue_DisableTransformTasksForGroup(PlayState* play) {
@@ -849,7 +862,7 @@ AnimTask* AnimTaskQueue_NewTask(AnimTaskQueue* animTaskQueue, s32 type) {
     return task;
 }
 
-#if PLATFORM_N64
+#if !PLATFORM_GC
 #define LINK_ANIMATION_OFFSET(addr, offset) \
     (((uintptr_t)_link_animetionSegmentRomStart) + SEGMENT_OFFSET(addr) + (offset))
 #else
@@ -960,13 +973,13 @@ void AnimTaskQueue_AddCopyUsingMapInverted(PlayState* play, s32 vecCount, Vec3s*
 /**
  * Creates a task which will move an actor according to the translation of its root limb for the current frame.
  */
-void AnimTaskQueue_AddActorMove(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY) {
+void AnimTaskQueue_AddActorMovement(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY) {
     AnimTask* task = AnimTaskQueue_NewTask(&play->animTaskQueue, ANIMTASK_ACTOR_MOVE);
 
     if (task != NULL) {
-        task->data.actorMove.actor = actor;
-        task->data.actorMove.skelAnime = skelAnime;
-        task->data.actorMove.diffScaleY = moveDiffScaleY;
+        task->data.actorMovement.actor = actor;
+        task->data.actorMovement.skelAnime = skelAnime;
+        task->data.actorMovement.diffScaleY = moveDiffScaleY;
     }
 }
 
@@ -1049,9 +1062,10 @@ void AnimTask_CopyUsingMapInverted(PlayState* play, AnimTaskData* data) {
 
 /**
  * Move an actor according to the translation of its root limb for the current animation frame.
+ * The actor's current shape yaw will factor into the resulting movement.
  */
-void AnimTask_ActorMove(PlayState* play, AnimTaskData* data) {
-    AnimTaskActorMove* task = &data->actorMove;
+void AnimTask_ActorMovement(PlayState* play, AnimTaskData* data) {
+    AnimTaskActorMovement* task = &data->actorMovement;
     Actor* actor = task->actor;
     Vec3f diff;
 
@@ -1070,8 +1084,8 @@ typedef void (*AnimTaskFunc)(struct PlayState* play, AnimTaskData* data);
  */
 void AnimTaskQueue_Update(PlayState* play, AnimTaskQueue* animTaskQueue) {
     static AnimTaskFunc animTaskFuncs[] = {
-        AnimTask_LoadPlayerFrame,      AnimTask_Copy,      AnimTask_Interp, AnimTask_CopyUsingMap,
-        AnimTask_CopyUsingMapInverted, AnimTask_ActorMove,
+        AnimTask_LoadPlayerFrame,      AnimTask_Copy,          AnimTask_Interp, AnimTask_CopyUsingMap,
+        AnimTask_CopyUsingMapInverted, AnimTask_ActorMovement,
     };
     AnimTask* task = animTaskQueue->tasks;
 
@@ -1128,10 +1142,10 @@ void SkelAnime_InitLink(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeade
     }
 
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Skeleton_Info_Rom_SV_ct メモリアロケーションエラー\n",
                  "Skeleton_Info_Rom_SV_ct Memory allocation error\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 
     LinkAnimation_Change(play, skelAnime, animation, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, 0.0f);
@@ -1442,9 +1456,9 @@ BAD_RETURN(s32) SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHe
         skelAnime->morphTable = morphTable;
     }
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Skeleton_Info2_ct メモリアロケーションエラー\n", "Skeleton_Info2_ct Memory allocation error\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 
     if (animation != NULL) {
@@ -1475,10 +1489,10 @@ BAD_RETURN(s32) SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSk
         skelAnime->morphTable = morphTable;
     }
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Skeleton_Info_Rom_SV_ct メモリアロケーションエラー\n",
                  "Skeleton_Info_Rom_SV_ct Memory allocation error\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 
     if (animation != NULL) {
@@ -1500,10 +1514,10 @@ BAD_RETURN(s32) SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, Skelet
     skelAnime->morphTable =
         ZELDA_ARENA_MALLOC(skelAnime->limbCount * sizeof(*skelAnime->morphTable), "../z_skelanime.c", 3121);
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("Skeleton_Info2_skin2_ct メモリアロケーションエラー\n",
                  "Skeleton_Info2_skin2_ct Memory allocation error\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 
     if (animation != NULL) {
@@ -1838,7 +1852,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     f32 cos;
 
     // If `ANIM_FLAG_UPDATE_XZ` behaved as expected, it would also be checked here
-    if (skelAnime->moveFlags & ANIM_FLAG_ADJUST_STARTING_POS) {
+    if (skelAnime->movementFlags & ANIM_FLAG_ADJUST_STARTING_POS) {
         diff->x = diff->z = 0.0f;
     } else {
         x = skelAnime->jointTable[0].x;
@@ -1864,8 +1878,8 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     skelAnime->prevTransl.z = skelAnime->jointTable[0].z;
     skelAnime->jointTable[0].z = skelAnime->baseTransl.z;
 
-    if (skelAnime->moveFlags & ANIM_FLAG_UPDATE_Y) {
-        if (skelAnime->moveFlags & ANIM_FLAG_ADJUST_STARTING_POS) {
+    if (skelAnime->movementFlags & ANIM_FLAG_UPDATE_Y) {
+        if (skelAnime->movementFlags & ANIM_FLAG_ADJUST_STARTING_POS) {
             diff->y = 0.0f;
         } else {
             diff->y = skelAnime->jointTable[0].y - skelAnime->prevTransl.y;
@@ -1878,7 +1892,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
         skelAnime->prevTransl.y = skelAnime->jointTable[0].y;
     }
 
-    skelAnime->moveFlags &= ~ANIM_FLAG_ADJUST_STARTING_POS;
+    skelAnime->movementFlags &= ~ANIM_FLAG_ADJUST_STARTING_POS;
 }
 
 /**

@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_hidan_firewall.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
@@ -132,7 +142,7 @@ void BgHidanFirewall_Collide(BgHidanFirewall* this, PlayState* play) {
         phi_a3 = this->actor.shape.rot.y + 0x8000;
     }
 
-    func_8002F71C(play, &this->actor, 5.0f, phi_a3, 1.0f);
+    Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 5.0f, phi_a3, 1.0f);
 }
 
 void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, PlayState* play) {

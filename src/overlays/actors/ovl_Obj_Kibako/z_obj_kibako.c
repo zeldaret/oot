@@ -5,10 +5,22 @@
  */
 
 #include "z_obj_kibako.h"
-#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_26)
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_CAN_PRESS_SWITCHES)
 
 void ObjKibako_Init(Actor* thisx, PlayState* play);
 void ObjKibako_Destroy(Actor* thisx, PlayState* play2);
@@ -58,9 +70,9 @@ static CollisionCheckInfoInit sCCInfoInit = { 0, 12, 60, MASS_HEAVY };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 60, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 60, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void ObjKibako_SpawnCollectible(ObjKibako* this, PlayState* play) {
@@ -97,8 +109,8 @@ void ObjKibako_Init(Actor* thisx, PlayState* play) {
     ObjKibako_InitCollider(&this->actor, play);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sCCInfoInit);
     ObjKibako_SetupIdle(this);
-    // "wooden box"
-    PRINTF("(dungeon keep 木箱)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF(T("(dungeon keep 木箱)(arg_data 0x%04x)\n", "(dungeon keep wooden box)(arg_data 0x%04x)\n"),
+           this->actor.params);
 }
 
 void ObjKibako_Destroy(Actor* thisx, PlayState* play2) {

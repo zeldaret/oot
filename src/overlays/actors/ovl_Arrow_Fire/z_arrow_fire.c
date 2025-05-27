@@ -7,7 +7,16 @@
 #include "z_arrow_fire.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void ArrowFire_Init(Actor* thisx, PlayState* play);
 void ArrowFire_Destroy(Actor* thisx, PlayState* play);
@@ -33,7 +42,7 @@ ActorProfile Arrow_Fire_Profile = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_STOP),
 };
 
 void ArrowFire_SetupAction(ArrowFire* this, ArrowFireActionFunc actionFunc) {

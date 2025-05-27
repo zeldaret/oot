@@ -6,10 +6,23 @@
  */
 
 #include "z_bg_hidan_fwbig.h"
+
+#include "ichain.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum HidanFwbigMoveState {
     /* 0 */ FWBIG_MOVE,
@@ -64,7 +77,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_STOP),
 };
 
 void BgHidanFwbig_Init(Actor* thisx, PlayState* play2) {
@@ -94,7 +107,7 @@ void BgHidanFwbig_Init(Actor* thisx, PlayState* play2) {
         BgHidanFwbig_UpdatePosition(this);
         Actor_SetScale(&this->actor, 0.15f);
         this->collider.dim.height = 230;
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->moveState = FWBIG_MOVE;
         this->actionFunc = BgHidanFwbig_WaitForPlayer;
         this->actor.world.pos.y = this->actor.home.pos.y - (2400.0f * this->actor.scale.y);
@@ -222,7 +235,7 @@ void BgHidanFwbig_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        func_8002F71C(play, &this->actor, 5.0f, this->actor.world.rot.y, 1.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 5.0f, this->actor.world.rot.y, 1.0f);
         if (this->direction != 0) {
             this->actionFunc = BgHidanFwbig_Lower;
         }

@@ -7,6 +7,17 @@
 #include "z_en_jsjutan.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnJsjutan_Init(Actor* thisx, PlayState* play);
@@ -27,6 +38,8 @@ ActorProfile En_Jsjutan_Profile = {
 };
 
 // Shadow texture. 32x64 I8.
+#define sShadowTex_WIDTH 32
+#define sShadowTex_HEIGHT 64
 static u8 sShadowTex[0x800];
 
 static Vec3s D_80A8EE10[0x90];

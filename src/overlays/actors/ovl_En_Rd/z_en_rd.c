@@ -1,7 +1,31 @@
+/*
+ * File: z_en_rd.c
+ * Overlay: ovl_En_Rd
+ * Description: Redead and Gibdo
+ */
+
 #include "z_en_rd.h"
+
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_rd/object_rd.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_10)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 void EnRd_Init(Actor* thisx, PlayState* play);
 void EnRd_Destroy(Actor* thisx, PlayState* play);
@@ -361,8 +385,17 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
             if (this->playerStunWaitTimer == 0) {
                 if (!(this->rdFlags & 0x80)) {
                     player->actor.freezeTimer = 40;
-                    func_8008EEAC(play, &this->actor);
-                    GET_PLAYER(play)->unk_684 = &this->actor;
+
+                    // `player->actor.freezeTimer` gets set above which will prevent Player from updating.
+                    // Because of this, he cannot update things related to Z-Targeting.
+                    // If Player can't update, `player->zTargetActiveTimer` won't update, which means
+                    // the Attention system will not be notified of a new actor lock-on occurring.
+                    // So, no reticle will appear. But the camera will still focus on the actor.
+                    Player_SetAutoLockOnActor(play, &this->actor);
+
+                    // This is redundant, `autoLockOnActor` gets set by `Player_SetAutoLockOnActor` above
+                    GET_PLAYER(play)->autoLockOnActor = &this->actor;
+
                     Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
                 }
 
@@ -606,7 +639,9 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
         if (!(this->rdFlags & 0x80)) {
             player->actor.freezeTimer = 60;
             Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
-            func_8008EEAC(play, &this->actor);
+
+            // The same note mentioned with this function call in `EnRd_WalkToPlayer` applies here too
+            Player_SetAutoLockOnActor(play, &this->actor);
         }
 
         Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_AIM);

@@ -1,4 +1,17 @@
 #include "z_kaleido_scope.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "language_array.h"
+#include "map.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_ucode.h"
+#include "versions.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/textures/icon_item_24_static/icon_item_24_static.h"
 #if OOT_NTSC
 #include "assets/textures/icon_item_jpn_static/icon_item_jpn_static.h"
@@ -149,7 +162,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->cursorSpecialPos = 0;
                 pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot;
                 pauseCtx->cursorX[PAUSE_MAP] = 0;
-                j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
+                j = (pauseCtx->cursorSlot[PAUSE_MAP] + 18) * 4;
                 KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -180,7 +193,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 }
 
                 PRINTF("kscope->cursor_point====%d\n", pauseCtx->cursorPoint[PAUSE_MAP]);
-                j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
+                j = (pauseCtx->cursorSlot[PAUSE_MAP] + 18) * 4;
                 KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -202,7 +215,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
 
         pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP];
 
-        j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
+        j = (pauseCtx->cursorSlot[PAUSE_MAP] + 18) * 4;
         KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
 
         if (pauseCtx->cursorX[PAUSE_MAP] == 0) {
@@ -283,7 +296,8 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
-    pauseCtx->mapPageVtx[116].v.ob[1] = pauseCtx->mapPageVtx[117].v.ob[1] = pauseCtx->offsetY - (VREG(30) * 14) + 49;
+    pauseCtx->mapPageVtx[116].v.ob[1] = pauseCtx->mapPageVtx[117].v.ob[1] =
+        pauseCtx->pagesYOrigin1 + 50 - (VREG(30) * 14) - 1;
     pauseCtx->mapPageVtx[118].v.ob[1] = pauseCtx->mapPageVtx[119].v.ob[1] = pauseCtx->mapPageVtx[116].v.ob[1] - 16;
 
     gDPLoadTextureBlock(POLY_OPA_DISP++, gDungeonMapLinkHeadTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 16, 0,
@@ -295,7 +309,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
     if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, gSaveContext.mapIndex) &&
         (gMapData->skullFloorIconY[gSaveContext.mapIndex] != -99)) {
         pauseCtx->mapPageVtx[120].v.ob[1] = pauseCtx->mapPageVtx[121].v.ob[1] =
-            gMapData->skullFloorIconY[gSaveContext.mapIndex] + pauseCtx->offsetY;
+            gMapData->skullFloorIconY[gSaveContext.mapIndex] + pauseCtx->pagesYOrigin1;
         pauseCtx->mapPageVtx[122].v.ob[1] = pauseCtx->mapPageVtx[123].v.ob[1] = pauseCtx->mapPageVtx[120].v.ob[1] - 16;
 
         gDPLoadTextureBlock(POLY_OPA_DISP++, gDungeonMapSkullTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 16, 0,
@@ -548,9 +562,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
         if (pauseCtx->cursorSpecialPos == 0) {
             if (pauseCtx->stickAdjX > 30) {
-                D_8082A6D4 = 0;
-
                 do {
+                    D_8082A6D4 = 0;
                     pauseCtx->cursorPoint[PAUSE_WORLD_MAP]++;
                     if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] >= WORLD_MAP_POINT_MAX) {
                         pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = WORLD_MAP_POINT_MAX - 1;
@@ -560,9 +573,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                 } while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ==
                          WORLD_MAP_POINT_STATE_HIDE);
             } else if (pauseCtx->stickAdjX < -30) {
-                D_8082A6D4 = 0;
-
                 do {
+                    D_8082A6D4 = 0;
                     pauseCtx->cursorPoint[PAUSE_WORLD_MAP]--;
                     if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] < 0) {
                         pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 0;
@@ -583,8 +595,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->cursorItem[PAUSE_MAP] = gSaveContext.worldMapArea + 0x18;
             if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
                 if (pauseCtx->stickAdjX > 30) {
-                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 0;
                     pauseCtx->cursorSpecialPos = 0;
+                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 0;
 
                     while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ==
                            WORLD_MAP_POINT_STATE_HIDE) {
@@ -601,8 +613,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                 }
             } else {
                 if (pauseCtx->stickAdjX < -30) {
-                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = WORLD_MAP_POINT_MAX - 1;
                     pauseCtx->cursorSpecialPos = 0;
+                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = WORLD_MAP_POINT_MAX - 1;
 
                     while (pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ==
                            WORLD_MAP_POINT_STATE_HIDE) {
@@ -632,7 +644,13 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-#if OOT_DEBUG
+#if PLATFORM_N64 && OOT_VERSION != NTSC_1_2
+    if (0) {
+        s32 pad[3];
+    }
+#endif
+
+#if DEBUG_FEATURES
     if (HREG(15) == 0) {
         gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_POINT);
 
@@ -640,7 +658,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_RGBA16);
 
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[188], 32, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_IMAGE_FIRST) * 4], 32, 0);
 
         for (j = t = i = 0; i < 8; i++, t++, j += 4) {
             gDPLoadTextureBlock(
@@ -651,7 +669,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
             gSP1Quadrangle(POLY_OPA_DISP++, j, j + 2, j + 3, j + 1, 0);
         }
 
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[220], 28, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_IMAGE_FIRST + 8) * 4], 28, 0);
 
         for (j = i = 0; i < 6; i++, t++, j += 4) {
             gDPLoadTextureBlock(
@@ -673,8 +691,9 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
         gSPLoadUcodeL(gfx++, gspS2DEX2d_fifo);
 
-        Room_DrawBackground2D(&gfx, gWorldMapImageTex, gWorldMapImageTLUT, 216, 128, G_IM_FMT_CI, G_IM_SIZ_8b,
-                              G_TT_RGBA16, 256, HREG(13) / 100.0f, HREG(14) / 100.0f);
+        Room_DrawBackground2D(&gfx, gWorldMapImageTex, gWorldMapImageTLUT, WORLD_MAP_IMAGE_WIDTH,
+                              WORLD_MAP_IMAGE_HEIGHT, G_IM_FMT_CI, G_IM_SIZ_8b, G_TT_RGBA16, 256, HREG(13) / 100.0f,
+                              HREG(14) / 100.0f);
 
         gSPLoadUcode(gfx++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
 
@@ -756,25 +775,33 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
         // Quad PAGE_BG_QUADS + WORLD_MAP_QUAD_28
 
-        pauseCtx->mapPageVtx[172].v.ob[0] = pauseCtx->mapPageVtx[174].v.ob[0] =
-            areaBoxPosX[((void)0, gSaveContext.worldMapArea)];
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 0].v.ob[0] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 2].v.ob[0] =
+                areaBoxPosX[((void)0, gSaveContext.worldMapArea)];
 
-        pauseCtx->mapPageVtx[173].v.ob[0] = pauseCtx->mapPageVtx[175].v.ob[0] =
-            pauseCtx->mapPageVtx[172].v.ob[0] + areaBoxWidths[((void)0, gSaveContext.worldMapArea)];
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 1].v.ob[0] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 3].v.ob[0] =
+                pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 0].v.ob[0] +
+                areaBoxWidths[((void)0, gSaveContext.worldMapArea)];
 
-        pauseCtx->mapPageVtx[172].v.ob[1] = pauseCtx->mapPageVtx[173].v.ob[1] =
-            areaBoxPosY[((void)0, gSaveContext.worldMapArea)] + pauseCtx->offsetY;
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 0].v.ob[1] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 1].v.ob[1] =
+                areaBoxPosY[((void)0, gSaveContext.worldMapArea)] + pauseCtx->pagesYOrigin1;
 
-        pauseCtx->mapPageVtx[174].v.ob[1] = pauseCtx->mapPageVtx[175].v.ob[1] =
-            pauseCtx->mapPageVtx[172].v.ob[1] - areaBoxHeights[((void)0, gSaveContext.worldMapArea)];
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 2].v.ob[1] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 3].v.ob[1] =
+                pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 0].v.ob[1] -
+                areaBoxHeights[((void)0, gSaveContext.worldMapArea)];
 
-        pauseCtx->mapPageVtx[173].v.tc[0] = pauseCtx->mapPageVtx[175].v.tc[0] =
-            areaBoxWidths[((void)0, gSaveContext.worldMapArea)] << 5;
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 1].v.tc[0] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 3].v.tc[0] =
+                areaBoxWidths[((void)0, gSaveContext.worldMapArea)] << 5;
 
-        pauseCtx->mapPageVtx[174].v.tc[1] = pauseCtx->mapPageVtx[175].v.tc[1] =
-            areaBoxHeights[((void)0, gSaveContext.worldMapArea)] << 5;
+        pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 2].v.tc[1] =
+            pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4 + 3].v.tc[1] =
+                areaBoxHeights[((void)0, gSaveContext.worldMapArea)] << 5;
 
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[172], 4, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(PAGE_BG_QUADS + WORLD_MAP_QUAD_28) * 4], 4, 0);
 
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 100, 255, 255, pauseCtx->alpha);

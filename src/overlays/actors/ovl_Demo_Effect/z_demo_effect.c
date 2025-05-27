@@ -1,5 +1,29 @@
 #include "z_demo_effect.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64curve.h"
+#include "z64draw.h"
+#include "z64cutscene_flags.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_efc_crystal_light/object_efc_crystal_light.h"
 #include "assets/objects/object_efc_fire_ball/object_efc_fire_ball.h"
@@ -10,7 +34,7 @@
 #include "assets/objects/object_efc_tw/object_efc_tw.h"
 #include "assets/objects/object_gi_jewel/object_gi_jewel.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void DemoEffect_Init(Actor* thisx, PlayState* play2);
 void DemoEffect_Destroy(Actor* thisx, PlayState* play);
@@ -357,16 +381,16 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
         case DEMO_EFFECT_LIGHTRING_EXPANDING:
             this->initDrawFunc = DemoEffect_DrawLightRing;
             this->initUpdateFunc = DemoEffect_UpdateLightRingExpanding;
-            this->lightRing.timer = 20;
-            this->lightRing.timerIncrement = 4;
+            this->lightRing.timer = FRAMERATE_CONST(20, 6);
+            this->lightRing.timerIncrement = FRAMERATE_CONST(4, 5);
             this->lightRing.alpha = 255;
             break;
 
         case DEMO_EFFECT_LIGHTRING_TRIFORCE:
             this->initDrawFunc = DemoEffect_DrawLightRing;
             this->initUpdateFunc = DemoEffect_UpdateLightRingTriforce;
-            this->lightRing.timer = 20;
-            this->lightRing.timerIncrement = 4;
+            this->lightRing.timer = FRAMERATE_CONST(20, 6);
+            this->lightRing.timerIncrement = FRAMERATE_CONST(4, 5);
             this->lightRing.alpha = 0;
             this->cueChannel = 4;
             break;
@@ -374,8 +398,8 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
         case DEMO_EFFECT_LIGHTRING_SHRINKING:
             this->initDrawFunc = DemoEffect_DrawLightRing;
             this->initUpdateFunc = DemoEffect_UpdateLightRingShrinking;
-            this->lightRing.timer = 351;
-            this->lightRing.timerIncrement = 2;
+            this->lightRing.timer = FRAMERATE_CONST(351, 405);
+            this->lightRing.timerIncrement = FRAMERATE_CONST(2, 3);
             this->lightRing.alpha = 0;
             break;
 
@@ -445,7 +469,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
 
         case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE:
         case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL:
-            this->actor.flags |= ACTOR_FLAG_25;
+            this->actor.flags |= ACTOR_FLAG_UPDATE_DURING_OCARINA;
             FALLTHROUGH;
         case DEMO_EFFECT_TIMEWARP_MASTERSWORD:
             this->initDrawFunc = DemoEffect_DrawTimeWarp;
@@ -524,7 +548,7 @@ void DemoEffect_WaitForObject(DemoEffect* this, PlayState* play) {
         this->actor.draw = this->initDrawFunc;
         this->updateFunc = this->initUpdateFunc;
 
-        PRINTF(VT_FGCOL(CYAN) " 転送終了 move_wait " VT_RST);
+        PRINTF(VT_FGCOL(CYAN) T(" 転送終了 move_wait ", " Transfer completed move_wait ") VT_RST);
     }
 }
 
@@ -682,12 +706,12 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
-        PRINTF(VT_FGCOL(CYAN) " 縮むバージョン \n" VT_RST);
+        PRINTF(VT_FGCOL(CYAN) T(" 縮むバージョン \n", " Shrinking version \n") VT_RST);
     } else {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 1.0f, 1.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpPullMasterSword;
-        PRINTF(VT_FGCOL(CYAN) " 通常 バージョン \n" VT_RST);
+        PRINTF(VT_FGCOL(CYAN) T(" 通常 バージョン \n", " Normal version \n") VT_RST);
     }
 }
 
@@ -834,7 +858,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
         }
 
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0 && gSaveContext.sceneLayer == 6 &&
-            play->csCtx.curFrame == 143) {
+            play->csCtx.curFrame == FRAMERATE_CONST(143, 120)) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
     }
@@ -846,6 +870,9 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
  */
 void DemoEffect_UpdateLightRingShrinking(DemoEffect* this, PlayState* play) {
     if (this->lightRing.timer < this->lightRing.timerIncrement) {
+#if OOT_VERSION < PAL_1_0
+        this->lightRing.timer = 0;
+#endif
         Actor_Kill(&this->actor);
         this->lightRing.timer = 0;
     } else {
@@ -959,10 +986,18 @@ void DemoEffect_InitCreationFireball(DemoEffect* this, PlayState* play) {
     Actor* parent = this->actor.parent;
 
     this->actor.world.rot.y = parent->shape.rot.y;
-    this->fireBall.timer = 50;
-    this->actor.speed = 1.5f;
-    this->actor.minVelocityY = -1.5f;
+
+    this->fireBall.timer = FRAMERATE_CONST(50, 42);
+    this->actor.speed = FRAMERATE_CONST(1.5f, 1.8f);
+
+#if OOT_VERSION < PAL_1_0
     this->actor.gravity = -0.03f;
+    this->actor.minVelocityY = -1.5f;
+#else
+    this->actor.minVelocityY = FRAMERATE_CONST(-1.5f, -2.5f);
+    this->actor.gravity = FRAMERATE_CONST(-0.03f, -0.05f);
+#endif
+
     this->updateFunc = DemoEffect_UpdateCreationFireball;
 }
 
@@ -1093,7 +1128,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
 
 /**
  * Update action for the Lgt Shower Actor.
- * The Lgt Shower Actor is the green light effect spawned by Farore in the Kokiri Forst creation cutscene.
+ * The Lgt Shower Actor is the green light effect spawned by Farore in the Kokiri Forest creation cutscene.
  * This function updates the scale and alpha of the Actor.
  */
 void DemoEffect_UpdateLgtShower(DemoEffect* this, PlayState* play) {
@@ -1134,22 +1169,22 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, PlayState* play) {
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
-                    if (play->csCtx.curFrame == 288) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(288, 240)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
-                    if (play->csCtx.curFrame == 635) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(635, 535)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
                 case 6:
-                    if (play->csCtx.curFrame == 55) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(55, 25)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.curFrame == 350) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(350, 353)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1189,19 +1224,18 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
-                    if (play->csCtx.curFrame == 298) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(298, 248)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
-
                 case 6:
-                    if (play->csCtx.curFrame == 105) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(105, 88)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.curFrame == 360) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(360, 362)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1209,10 +1243,10 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
         }
 
         if (gSaveContext.save.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL_0 && gSaveContext.sceneLayer == 4) {
-            if (play->csCtx.curFrame == 72) {
+            if (play->csCtx.curFrame == FRAMERATE_CONST(72, 57)) {
                 Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
-            if (play->csCtx.curFrame == 80) {
+            if (play->csCtx.curFrame == FRAMERATE_CONST(80, 72)) {
                 Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_NAYRU_MAGIC);
             }
         }
@@ -1249,19 +1283,19 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
-                    if (play->csCtx.curFrame == 315) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(315, 265)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
                 case 6:
-                    if (play->csCtx.curFrame == 80) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(80, 60)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.curFrame == 370) {
+                    if (play->csCtx.curFrame == FRAMERATE_CONST(370, 371)) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1530,8 +1564,8 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
     if (play->csCtx.state && play->csCtx.actorCues[this->cueChannel]) {
         switch (play->csCtx.actorCues[this->cueChannel]->id) {
             case 3:
-                if (GET_EVENTCHKINF(EVENTCHKINF_4B)) {
-                    SET_EVENTCHKINF(EVENTCHKINF_4B);
+                if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
+                    SET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME);
                 }
                 DemoEffect_MoveJewelActivateDoorOfTime(this, play);
                 if ((play->gameplayFrames & 1) == 0) {
@@ -1564,7 +1598,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
     }
 
     if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
-        if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
             hasCue = (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[this->cueChannel] != NULL);
 
             if (!hasCue) {

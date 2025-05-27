@@ -5,6 +5,17 @@
  */
 
 #include "z_en_toryo.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_toryo/object_toryo.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -248,7 +259,7 @@ u32 EnToryo_ReactToExchangeItem(EnToryo* this, PlayState* play) {
             ret = 0x200F;
         }
     }
-    //! @bug return value may be unitialized
+    //! @bug return value may be uninitialized
     return ret;
 }
 
@@ -258,7 +269,7 @@ s32 EnToryo_GetTextId(EnToryo* this, PlayState* play) {
 
     if (textId == 0) {
         if (this->stateFlags & 1) {
-            if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+            if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
                 ret = 0x606C;
             } else if (GET_INFTABLE(INFTABLE_170)) {
                 ret = 0x606B;
@@ -318,7 +329,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
 
     if (this->messageState == 0) {
         if (Actor_TalkOfferAccepted(&this->actor, play)) {
-            this->exchangeItemId = func_8002F368(play);
+            this->exchangeItemId = Actor_GetPlayerExchangeItemId(play);
             if (this->exchangeItemId != EXCH_ITEM_NONE) {
                 player->actor.textId = EnToryo_ReactToExchangeItem(this, play);
                 this->actor.textId = player->actor.textId;

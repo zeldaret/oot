@@ -3,7 +3,13 @@
 
 #include "ultra64.h"
 #include "versions.h"
+#include "z64inventory.h"
 #include "z64math.h"
+
+typedef enum ZTargetSetting {
+    /* 0 */ Z_TARGET_SETTING_SWITCH,
+    /* 1 */ Z_TARGET_SETTING_HOLD
+} ZTargetSetting;
 
 typedef enum Language {
 #if OOT_NTSC
@@ -82,6 +88,10 @@ typedef struct Inventory {
     /* 0x5B */ s8 defenseHearts;
     /* 0x5C */ s16 gsTokens;
 } Inventory; // size = 0x5E
+
+typedef struct Checksum {
+    /* 0x00 */ u16 value;
+} Checksum; // size = 0x02
 
 typedef struct SavedSceneFlags {
     /* 0x00 */ u32 chest;
@@ -207,7 +217,7 @@ typedef enum WorldMapArea {
 typedef struct SavePlayerData {
     /* 0x00  0x001C */ char newf[6]; // string "ZELDAZ"
     /* 0x06  0x0022 */ u16 deaths;
-    /* 0x08  0x0024 */ char playerName[8];
+    /* 0x08  0x0024 */ u8 playerName[8];
     /* 0x10  0x002C */ s16 n64ddFlag;
     /* 0x12  0x002E */ s16 healthCapacity; // "max_life"
     /* 0x14  0x0030 */ s16 health; // "now_life"
@@ -253,7 +263,7 @@ typedef struct SaveInfo {
     /* 0x12AA  0x12C6 */ u8 scarecrowSpawnSong[0x80];
     /* 0x132A  0x1346 */ char unk_1346[0x02];
     /* 0x132C  0x1348 */ HorseData horseData;
-    /* 0x1336  0x1352 */ u16 checksum; // "check_sum"
+    /* 0x1336  0x1352 */ Checksum checksum; // "check_sum"
 } SaveInfo;
 
 typedef struct Save {
@@ -310,10 +320,10 @@ typedef struct SaveContext {
     /* 0x1404 */ u16 minigameState;
     /* 0x1406 */ u16 minigameScore; // "yabusame_total"
     /* 0x1408 */ char unk_1408[0x0001];
-    /* 0x1409 */ u8 language; // NTSC 0: Japanese; 1: English | PAL 0: English; 1: German; 2: French
-    /* 0x140A */ u8 audioSetting;
+    /* 0x1409 */ u8 language; // NTSC 0: Japanese; 1: English | PAL 0: English; 1: German; 2: French (see enum `Language`)
+    /* 0x140A */ u8 soundSetting; // 0: Stereo; 1: Mono; 2: Headset; 3: Surround (see enum `SoundSetting`)
     /* 0x140B */ char unk_140B[0x0001];
-    /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold
+    /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold (see enum `ZTargetSetting`)
     /* 0x140E */ u16 forcedSeqId; // immediately start playing the sequence if set
     /* 0x1410 */ u8 cutsceneTransitionControl; // context dependent usage: can either trigger a delayed fade or control fill alpha
     /* 0x1411 */ char unk_1411[0x0001];
@@ -398,6 +408,59 @@ typedef enum LinkAge {
 } LinkAge;
 
 
+#define LINK_IS_ADULT (gSaveContext.save.linkAge == LINK_AGE_ADULT)
+#define LINK_IS_CHILD (gSaveContext.save.linkAge == LINK_AGE_CHILD)
+
+#define YEARS_CHILD 5
+#define YEARS_ADULT 17
+#define LINK_AGE_IN_YEARS (!LINK_IS_ADULT ? YEARS_CHILD : YEARS_ADULT)
+
+#define CLOCK_TIME(hr, min) ((s32)(((hr) * 60 + (min)) * (f32)0x10000 / (24 * 60) + 0.5f))
+
+#define IS_DAY (gSaveContext.save.nightFlag == 0)
+#define IS_NIGHT (gSaveContext.save.nightFlag == 1)
+
+#define SLOT(item) gItemSlots[item]
+#define INV_CONTENT(item) gSaveContext.save.info.inventory.items[SLOT(item)]
+#define AMMO(item) gSaveContext.save.info.inventory.ammo[SLOT(item)]
+#define BEANS_BOUGHT AMMO(ITEM_MAGIC_BEAN + 1)
+
+#define ALL_EQUIP_VALUE(equip) ((s32)(gSaveContext.save.info.inventory.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
+#define CUR_EQUIP_VALUE(equip) ((s32)(gSaveContext.save.info.equips.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
+#define OWNED_EQUIP_FLAG(equip, value) (gBitFlags[value] << gEquipShifts[equip])
+#define OWNED_EQUIP_FLAG_ALT(equip, value) ((1 << (value)) << gEquipShifts[equip])
+#define CHECK_OWNED_EQUIP(equip, value) (gSaveContext.save.info.inventory.equipment & OWNED_EQUIP_FLAG(equip, value))
+#define CHECK_OWNED_EQUIP_ALT(equip, value) (gSaveContext.save.info.inventory.equipment & gBitFlags[(value) + (equip) * 4])
+
+#define SWORD_EQUIP_TO_PLAYER(swordEquip) (swordEquip)
+#define SHIELD_EQUIP_TO_PLAYER(shieldEquip) (shieldEquip)
+#define TUNIC_EQUIP_TO_PLAYER(tunicEquip) ((tunicEquip) - 1)
+#define BOOTS_EQUIP_TO_PLAYER(bootsEquip) ((bootsEquip) - 1)
+
+#define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.save.info.inventory.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
+#define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
+#define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
+
+#define CHECK_QUEST_ITEM(item) (gSaveContext.save.info.inventory.questItems & gBitFlags[item])
+#define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.save.info.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
+
+#define GET_GS_FLAGS(index) \
+    ((gSaveContext.save.info.gsFlags[(index) >> 2] & gGsFlagsMasks[(index) & 3]) >> gGsFlagsShifts[(index) & 3])
+#define SET_GS_FLAGS(index, value) \
+    (gSaveContext.save.info.gsFlags[(index) >> 2] |= (value) << gGsFlagsShifts[(index) & 3])
+
+#define HIGH_SCORE(score) (gSaveContext.save.info.highScores[score])
+
+#define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                     \
+                        ? ITEM_NONE                                                 \
+                        : (gSaveContext.save.info.equips.buttonItems[0] == ITEM_GIANTS_KNIFE) \
+                            ? ITEM_SWORD_BIGGORON                                   \
+                            : gSaveContext.save.info.equips.buttonItems[0])
+
+#define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[(button) + 1] != BTN_DISABLED) \
+                                ? gSaveContext.save.info.equips.buttonItems[(button) + 1]       \
+                                : ITEM_NONE)
+
 
 /*
  *
@@ -410,7 +473,18 @@ typedef enum LinkAge {
  * SaveContext.eventChkInf
  */
 
-#define EVENTCHKINF_02 0x02
+#define EVENTCHKINF_INDEX(flag) ((flag) >> 4)
+#define EVENTCHKINF_MASK(flag) (1 << ((flag) & 0xF))
+
+#define GET_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX(flag)] & EVENTCHKINF_MASK(flag))
+#define SET_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX(flag)] |= EVENTCHKINF_MASK(flag))
+#define CLEAR_EVENTCHKINF(flag) (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX(flag)] &= ~EVENTCHKINF_MASK(flag))
+
+// EVENTCHKINF 0x00-0x0F
+#define EVENTCHKINF_INDEX_0 0
+#define EVENTCHKINF_00_UNUSED 0x00 // flag is set in the debug save, but has no functionality
+#define EVENTCHKINF_01_UNUSED 0x01 // flag is set in the debug save, but has no functionality
+#define EVENTCHKINF_MIDO_DENIED_DEKU_TREE_ACCESS 0x02
 #define EVENTCHKINF_03 0x03
 #define EVENTCHKINF_04 0x04
 #define EVENTCHKINF_05 0x05
@@ -445,19 +519,17 @@ typedef enum LinkAge {
 #define EVENTCHKINF_30 0x30
 #define EVENTCHKINF_31 0x31
 #define EVENTCHKINF_32 0x32
-#define EVENTCHKINF_33 0x33
+#define EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA 0x33
 #define EVENTCHKINF_37 0x37
 #define EVENTCHKINF_38 0x38
 #define EVENTCHKINF_39 0x39
-#define EVENTCHKINF_3A 0x3A
+#define EVENTCHKINF_OPENED_JABU_JABU 0x3A
 #define EVENTCHKINF_3B 0x3B
-#define EVENTCHKINF_3C 0x3C
+#define EVENTCHKINF_DEFEATED_NABOORU_KNUCKLE 0x3C
 
-// 0x40
-#define EVENTCHKINF_40_INDEX 4
-#define EVENTCHKINF_40_SHIFT 0
-#define EVENTCHKINF_40_MASK (1 << EVENTCHKINF_40_SHIFT)
-#define EVENTCHKINF_40 ((EVENTCHKINF_40_INDEX << 4) | EVENTCHKINF_40_SHIFT)
+// EVENTCHKINF 0x40
+#define EVENTCHKINF_INDEX_40 EVENTCHKINF_INDEX(EVENTCHKINF_40)
+#define EVENTCHKINF_40 0x40
 
 #define EVENTCHKINF_41 0x41
 #define EVENTCHKINF_42 0x42
@@ -466,11 +538,11 @@ typedef enum LinkAge {
 #define EVENTCHKINF_48 0x48
 #define EVENTCHKINF_49 0x49
 #define EVENTCHKINF_4A 0x4A
-#define EVENTCHKINF_4B 0x4B
+#define EVENTCHKINF_OPENED_DOOR_OF_TIME 0x4B
 #define EVENTCHKINF_4C 0x4C
-#define EVENTCHKINF_4D 0x4D
-#define EVENTCHKINF_4E 0x4E
-#define EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS 0x4F // Cutscene in Temple of Time as adult after pulling the Master Sword for the first time
+#define EVENTCHKINF_CREATED_RAINBOW_BRIDGE 0x4D
+#define EVENTCHKINF_CAUGHT_BY_CASTLE_GUARDS 0x4E // set but unused
+#define EVENTCHKINF_REVEALED_MASTER_SWORD 0x4F // Cutscene in Temple of Time when entering the Master Sword chamber for the first time
 #define EVENTCHKINF_50 0x50
 #define EVENTCHKINF_51 0x51
 #define EVENTCHKINF_52 0x52
@@ -481,48 +553,63 @@ typedef enum LinkAge {
 #define EVENTCHKINF_5B 0x5B
 #define EVENTCHKINF_5C 0x5C
 #define EVENTCHKINF_65 0x65
-#define EVENTCHKINF_67 0x67
+#define EVENTCHKINF_DRAINED_WELL 0x67
 #define EVENTCHKINF_68 0x68
-#define EVENTCHKINF_69 0x69
+#define EVENTCHKINF_RESTORED_LAKE_HYLIA 0x69
 #define EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO 0x6A
 
-// 0x6B
-#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX 6
-#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT 11
-#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK (1 << EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT)
-#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO ((EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX << 4) | EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT)
+// EVENTCHKINF 0x6B
+#define EVENTCHKINF_INDEX_TALON_RETURNED_FROM_KAKARIKO EVENTCHKINF_INDEX(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO)
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO 0x6B
 
 #define EVENTCHKINF_6E 0x6E
 #define EVENTCHKINF_6F 0x6F
-#define EVENTCHKINF_70 0x70
-#define EVENTCHKINF_71 0x71
-#define EVENTCHKINF_72 0x72
-#define EVENTCHKINF_73 0x73
-#define EVENTCHKINF_74 0x74
-#define EVENTCHKINF_75 0x75
-#define EVENTCHKINF_76 0x76
-#define EVENTCHKINF_77 0x77
-#define EVENTCHKINF_78 0x78
+#define EVENTCHKINF_BEGAN_GOHMA_BATTLE 0x70
+#define EVENTCHKINF_BEGAN_KING_DODONGO_BATTLE 0x71
+#define EVENTCHKINF_BEGAN_PHANTOM_GANON_BATTLE 0x72
+#define EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE 0x73
+#define EVENTCHKINF_BEGAN_MORPHA_BATTLE 0x74
+#define EVENTCHKINF_BEGAN_TWINROVA_BATTLE 0x75
+#define EVENTCHKINF_BEGAN_BARINADE_BATTLE 0x76
+#define EVENTCHKINF_BEGAN_BONGO_BONGO_BATTLE 0x77
+#define EVENTCHKINF_BEGAN_GANONDORF_BATTLE 0x78
 #define EVENTCHKINF_80 0x80
 #define EVENTCHKINF_82 0x82
-#define EVENTCHKINF_8C 0x8C
-#define EVENTCHKINF_8D 0x8D
-#define EVENTCHKINF_8E 0x8E
-#define EVENTCHKINF_8F 0x8F
+#define EVENTCHKINF_PAID_BACK_KEATON_MASK 0x8C
+#define EVENTCHKINF_PAID_BACK_SKULL_MASK 0x8D
+#define EVENTCHKINF_PAID_BACK_SPOOKY_MASK 0x8E
+#define EVENTCHKINF_PAID_BACK_BUNNY_HOOD 0x8F
 
-// 0x90-0x93
-// carpenters freed from the gerudo
-#define EVENTCHKINF_CARPENTERS_FREE_INDEX 9
-#define EVENTCHKINF_CARPENTERS_FREE_SHIFT(n) (0 + (n))
-#define EVENTCHKINF_CARPENTERS_FREE_MASK(n) (1 << EVENTCHKINF_CARPENTERS_FREE_SHIFT(n))
-#define EVENTCHKINF_CARPENTERS_FREE(n) ((EVENTCHKINF_CARPENTERS_FREE_INDEX << 4) | EVENTCHKINF_CARPENTERS_FREE_SHIFT(n))
-#define EVENTCHKINF_CARPENTERS_FREE_MASK_ALL (\
-      EVENTCHKINF_CARPENTERS_FREE_MASK(0)     \
-    | EVENTCHKINF_CARPENTERS_FREE_MASK(1)     \
-    | EVENTCHKINF_CARPENTERS_FREE_MASK(2)     \
-    | EVENTCHKINF_CARPENTERS_FREE_MASK(3)    )
-#define GET_EVENTCHKINF_CARPENTERS_FREE_ALL() \
-    CHECK_FLAG_ALL(gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX], EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)
+// EVENTCHKINF 0x90-0x93
+// Carpenters rescued from Gerudo Fortress
+#define EVENTCHKINF_INDEX_CARPENTERS_RESCUED 0x9
+#define EVENTCHKINF_CARPENTER_0_RESCUED 0x90
+#define EVENTCHKINF_CARPENTER_1_RESCUED 0x91
+#define EVENTCHKINF_CARPENTER_2_RESCUED 0x92
+#define EVENTCHKINF_CARPENTER_3_RESCUED 0x93
+
+#define EVENTCHKINF_CARPENTERS_ALL_RESCUED_MASK                                                              \
+    (EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_0_RESCUED) | EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_1_RESCUED) | \
+     EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_2_RESCUED) | EVENTCHKINF_MASK(EVENTCHKINF_CARPENTER_3_RESCUED))
+
+#define GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED() \
+    ((gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_CARPENTERS_RESCUED] & EVENTCHKINF_CARPENTERS_ALL_RESCUED_MASK) == (EVENTCHKINF_CARPENTERS_ALL_RESCUED_MASK))
+
+#define GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED2() \
+    ((gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_CARPENTERS_RESCUED] & (EVENTCHKINF_CARPENTERS_ALL_RESCUED_MASK | 0xF0) & EVENTCHKINF_CARPENTERS_ALL_RESCUED_MASK) == (EVENTCHKINF_CARPENTERS_ALL_RESCUED_MASK))
+
+#define ENDAIKU_CARPENTER_RESCUED_MASK(carpenterType) (1 << (carpenterType))
+
+#define ENDAIKU_IS_CARPENTER_RESCUED(carpenterType)                            \
+    gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_CARPENTERS_RESCUED] & \
+        ENDAIKU_CARPENTER_RESCUED_MASK(carpenterType)
+
+#define ENDAIKU_SET_CARPENTER_RESCUED(carpenterType)                            \
+    gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_CARPENTERS_RESCUED] |= \
+        ENDAIKU_CARPENTER_RESCUED_MASK((carpenterType))
+
+#define GET_EVENTCHKINF_CARPENTERS_RESCUED_FLAGS() \
+    gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_CARPENTERS_RESCUED] & EVENTCHKINF_CARPENTERS_ALL_RESCUED_MASK
 
 #define EVENTCHKINF_94 0x94
 #define EVENTCHKINF_95 0x95
@@ -566,42 +653,34 @@ typedef enum LinkAge {
 #define EVENTCHKINF_C8 0xC8
 #define EVENTCHKINF_C9 0xC9
 
-// 0xD0-0xD6
-#define EVENTCHKINF_SONGS_FOR_FROGS_INDEX 13
-#define EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_SHIFT  0
-#define EVENTCHKINF_SONGS_FOR_FROGS_ZL_SHIFT     1
-#define EVENTCHKINF_SONGS_FOR_FROGS_EPONA_SHIFT  2
-#define EVENTCHKINF_SONGS_FOR_FROGS_SUNS_SHIFT   3
-#define EVENTCHKINF_SONGS_FOR_FROGS_SARIA_SHIFT  4
-#define EVENTCHKINF_SONGS_FOR_FROGS_SOT_SHIFT    5
-#define EVENTCHKINF_SONGS_FOR_FROGS_STORMS_SHIFT 6
-#define EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_MASK  (1 << EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_ZL_MASK     (1 << EVENTCHKINF_SONGS_FOR_FROGS_ZL_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_EPONA_MASK  (1 << EVENTCHKINF_SONGS_FOR_FROGS_EPONA_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SUNS_MASK   (1 << EVENTCHKINF_SONGS_FOR_FROGS_SUNS_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SARIA_MASK  (1 << EVENTCHKINF_SONGS_FOR_FROGS_SARIA_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SOT_MASK    (1 << EVENTCHKINF_SONGS_FOR_FROGS_SOT_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_STORMS_MASK (1 << EVENTCHKINF_SONGS_FOR_FROGS_STORMS_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_CHOIR  ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_ZL     ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_ZL_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_EPONA  ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_EPONA_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SUNS   ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_SUNS_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SARIA  ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_SARIA_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_SOT    ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_SOT_SHIFT)
-#define EVENTCHKINF_SONGS_FOR_FROGS_STORMS ((EVENTCHKINF_SONGS_FOR_FROGS_INDEX << 4) | EVENTCHKINF_SONGS_FOR_FROGS_STORMS_SHIFT)
+// EVENTCHKINF 0xD0-0xD6
+#define EVENTCHKINF_INDEX_SONGS_FOR_FROGS EVENTCHKINF_INDEX(EVENTCHKINF_SONGS_FOR_FROGS_CHOIR)
+#define EVENTCHKINF_SONGS_FOR_FROGS_CHOIR  0xD0
+#define EVENTCHKINF_SONGS_FOR_FROGS_ZL     0xD1
+#define EVENTCHKINF_SONGS_FOR_FROGS_EPONA  0xD2
+#define EVENTCHKINF_SONGS_FOR_FROGS_SUNS   0xD3
+#define EVENTCHKINF_SONGS_FOR_FROGS_SARIA  0xD4
+#define EVENTCHKINF_SONGS_FOR_FROGS_SOT    0xD5
+#define EVENTCHKINF_SONGS_FOR_FROGS_STORMS 0xD6
 
-// 0xDA-0xDE
-#define EVENTCHKINF_DA_DB_DC_DD_DE_INDEX 13
-#define EVENTCHKINF_DA_MASK (1 << 10)
-#define EVENTCHKINF_DB_MASK (1 << 11)
-#define EVENTCHKINF_DC_MASK (1 << 12)
-#define EVENTCHKINF_DD_MASK (1 << 13)
-#define EVENTCHKINF_DE_MASK (1 << 14)
+// EVENTCHKINF 0xDA-0xDE
+#define EVENTCHKINF_INDEX_SKULLTULA_REWARD 0xD
+#define EVENTCHKINF_SKULLTULA_REWARD_10 0xDA
+#define EVENTCHKINF_SKULLTULA_REWARD_20 0xDB
+#define EVENTCHKINF_SKULLTULA_REWARD_30 0xDC
+#define EVENTCHKINF_SKULLTULA_REWARD_40 0xDD
+#define EVENTCHKINF_SKULLTULA_REWARD_50 0xDE
 
 
 /*
  * SaveContext.itemGetInf
  */
+
+#define ITEMGETINF_INDEX(flag) ((flag) >> 4)
+#define ITEMGETINF_MASK(flag) (1 << ((flag) & 0xF))
+
+#define GET_ITEMGETINF(flag) (gSaveContext.save.info.itemGetInf[ITEMGETINF_INDEX(flag)] & ITEMGETINF_MASK(flag))
+#define SET_ITEMGETINF(flag) (gSaveContext.save.info.itemGetInf[ITEMGETINF_INDEX(flag)] |= ITEMGETINF_MASK(flag))
 
 #define ITEMGETINF_TALON_BOTTLE 0x02
 #define ITEMGETINF_03 0x03
@@ -625,23 +704,20 @@ typedef enum LinkAge {
 #define ITEMGETINF_16 0x16
 #define ITEMGETINF_17 0x17
 
-// 0x18-0x1A
-#define ITEMGETINF_18_19_1A_INDEX 1
-#define ITEMGETINF_18_SHIFT 8
-#define ITEMGETINF_19_SHIFT 9
-#define ITEMGETINF_1A_SHIFT 10
-#define ITEMGETINF_18_MASK (1 << ITEMGETINF_18_SHIFT)
-#define ITEMGETINF_19_MASK (1 << ITEMGETINF_19_SHIFT)
-#define ITEMGETINF_1A_MASK (1 << ITEMGETINF_1A_SHIFT)
-#define ITEMGETINF_18 ((ITEMGETINF_18_19_1A_INDEX << 4) | ITEMGETINF_18_SHIFT)
-#define ITEMGETINF_19 ((ITEMGETINF_18_19_1A_INDEX << 4) | ITEMGETINF_19_SHIFT)
-#define ITEMGETINF_1A ((ITEMGETINF_18_19_1A_INDEX << 4) | ITEMGETINF_1A_SHIFT)
+// ITEMGETINF 0x18-0x1A
+#define ITEMGETINF_INDEX_18_19_1A 1
+#define ITEMGETINF_18 0x18
+#define ITEMGETINF_19 0x19
+#define ITEMGETINF_1A 0x1A
 
 #define ITEMGETINF_1B 0x1B
 #define ITEMGETINF_1C 0x1C
 #define ITEMGETINF_1D 0x1D
-#define ITEMGETINF_1E 0x1E
-#define ITEMGETINF_1F 0x1F
+#define ITEMGETINF_FOREST_STAGE_STICK_UPGRADE 0x1E
+// This flag is shared by two events; It is set when obtaining the Deku Nut upgrade at the Forest Stage and when obtaining Poachers Saw.
+// This will make obtaining the Deku Nut upgrade impossible if Poachers Saw is obtained first.
+// This flag is never read for the Poachers Saw event, so the overlap only causes an issue for the Deku Nut Upgrade. It will not prevent obtaining Poachers Saw.
+#define ITEMGETINF_FOREST_STAGE_NUT_UPGRADE 0x1F
 #define ITEMGETINF_23 0x23
 #define ITEMGETINF_24 0x24
 #define ITEMGETINF_25 0x25
@@ -662,6 +738,15 @@ typedef enum LinkAge {
  * SaveContext.infTable
  */
 
+#define INFTABLE_INDEX(flag) ((flag) >> 4)
+#define INFTABLE_MASK(flag) (1 << ((flag) & 0xF))
+
+#define GET_INFTABLE(flag) (gSaveContext.save.info.infTable[INFTABLE_INDEX(flag)] & INFTABLE_MASK(flag))
+#define SET_INFTABLE(flag) (gSaveContext.save.info.infTable[INFTABLE_INDEX(flag)] |= INFTABLE_MASK(flag))
+#define CLEAR_INFTABLE(flag) (gSaveContext.save.info.infTable[INFTABLE_INDEX(flag)] &= ~INFTABLE_MASK(flag))
+
+// INFTABLE 0x0-0xF
+#define INFTABLE_INDEX_0 0
 #define INFTABLE_00 0x00
 #define INFTABLE_01 0x01
 #define INFTABLE_03 0x03
@@ -789,18 +874,18 @@ typedef enum LinkAge {
 #define INFTABLE_197 0x197
 #define INFTABLE_198 0x198
 
-// 0x199-0x19F
-#define INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX 25
-#define INFTABLE_199_MASK (1 << 9)
-#define INFTABLE_19A_MASK (1 << 10)
-#define INFTABLE_19B_MASK (1 << 11)
-#define INFTABLE_19C_MASK (1 << 12)
-#define INFTABLE_19D_MASK (1 << 13)
-#define INFTABLE_19E_MASK (1 << 14)
-#define INFTABLE_19F_MASK (1 << 15)
+// INFTABLE 0x199-0x19F
+#define INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F 25
+#define INFTABLE_199 0x199
+#define INFTABLE_19A 0x19A
+#define INFTABLE_19B 0x19B
+#define INFTABLE_19C 0x19C
+#define INFTABLE_19D 0x19D
+#define INFTABLE_19E 0x19E
+#define INFTABLE_19F 0x19F
 
-// 0x1A0-0x1AF
-#define INFTABLE_1AX_INDEX 26
+// INFTABLE 0x1A0-0x1AF
+#define INFTABLE_INDEX_1AX 26
 #define INFTABLE_1A0_SHIFT 0
 #define INFTABLE_1A1_SHIFT 1
 #define INFTABLE_1A2_SHIFT 2
@@ -814,83 +899,101 @@ typedef enum LinkAge {
 #define INFTABLE_1AB_SHIFT 11
 #define INFTABLE_1AD_SHIFT 13
 
-// 0x1D0-0x1DF
-#define INFTABLE_1DX_INDEX 29
+// INFTABLE 0x1D0-0x1DF
+#define INFTABLE_INDEX_1DX INFTABLE_INDEX(INFTABLE_1D0)
+#define INFTABLE_1D0 0x1D0
 
 
 /*
  * SaveContext.eventInf
  */
 
-// 0x00-0x0F
-// horses related
-#define EVENTINF_HORSES_INDEX 0
-#define EVENTINF_HORSES_STATE_SHIFT 0
-#define EVENTINF_HORSES_HORSETYPE_SHIFT 4
-#define EVENTINF_HORSES_05_SHIFT 5
-#define EVENTINF_HORSES_06_SHIFT 6
-#define EVENTINF_HORSES_08_SHIFT 8
-#define EVENTINF_HORSES_0A_SHIFT 10
-#define EVENTINF_HORSES_0F_SHIFT 15 // unused?
-#define EVENTINF_HORSES_STATE_MASK (0xF << EVENTINF_HORSES_STATE_SHIFT)
-#define EVENTINF_HORSES_HORSETYPE_MASK (1 << EVENTINF_HORSES_HORSETYPE_SHIFT)
-#define EVENTINF_HORSES_05_MASK (1 << EVENTINF_HORSES_05_SHIFT)
-#define EVENTINF_HORSES_06_MASK (1 << EVENTINF_HORSES_06_SHIFT)
-#define EVENTINF_HORSES_0F_MASK (1 << EVENTINF_HORSES_0F_SHIFT)
-#define EVENTINF_HORSES_05 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_05_SHIFT)
-#define EVENTINF_HORSES_06 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_06_SHIFT)
+#define EVENTINF_INDEX(flag) ((flag) >> 4)
+#define EVENTINF_MASK(flag) (1 << ((flag) & 0xF))
+
+#define GET_EVENTINF(flag) (gSaveContext.eventInf[EVENTINF_INDEX(flag)] & EVENTINF_MASK(flag))
+#define SET_EVENTINF(flag) (gSaveContext.eventInf[EVENTINF_INDEX(flag)] |= EVENTINF_MASK(flag))
+#define CLEAR_EVENTINF(flag) (gSaveContext.eventInf[EVENTINF_INDEX(flag)] &= ~EVENTINF_MASK(flag))
+
+// EVENTINF 0x00-0x0F
+// Ingo Race, Lon Lon Ranch minigames, and Horseback Archery minigame flags
+#define EVENTINF_INDEX_HORSES 0
+// EVENTINF 0x00-0x03 reserved for IngoRaceState
+#define EVENTINF_INGO_RACE_STATE_MASK (0xF << 0x00)
+typedef enum IngoRaceState {
+    /* 0 */ INGO_RACE_STATE_OFFER_RENTAL,
+    /* 1 */ INGO_RACE_STATE_HORSE_RENTAL_PERIOD,
+    /* 2 */ INGO_RACE_STATE_RACING,
+    /* 3 */ INGO_RACE_STATE_PLAYER_LOSE,
+    /* 4 */ INGO_RACE_STATE_FIRST_WIN,
+    /* 5 */ INGO_RACE_STATE_TRAPPED_WIN_UNUSED,
+    /* 6 */ INGO_RACE_STATE_TRAPPED_WIN_EPONA, // Ingo Traps you in Lon Lon
+    /* 7 */ INGO_RACE_STATE_REMATCH
+} IngoRaceState;
+
+#define EVENTINF_INGO_RACE_HORSETYPE 0x04
+#define EVENTINF_INGO_RACE_LOST_ONCE 0x05
+#define EVENTINF_INGO_RACE_SECOND_RACE 0x06
 // Used in z_en_ta (Talon) to store Cucco game winning status
 // and in z_en_ge1 (Gerudo) to store archery in-progress status
-#define EVENTINF_HORSES_08 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_08_SHIFT)
+#define EVENTINF_HORSES_08 0x08
 #define EVENTINF_CUCCO_GAME_WON EVENTINF_HORSES_08
 // Used in z_en_ta (Talon) and z_en_ma3 (Malon) to store minigame finishing status
-#define EVENTINF_HORSES_0A ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_0A_SHIFT)
+#define EVENTINF_HORSES_0A 0x0A
 #define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
-
-typedef enum EventInfHorsesState {
-    /* 0 */ EVENTINF_HORSES_STATE_0,
-    /* 1 */ EVENTINF_HORSES_STATE_1,
-    /* 2 */ EVENTINF_HORSES_STATE_2,
-    /* 3 */ EVENTINF_HORSES_STATE_3,
-    /* 4 */ EVENTINF_HORSES_STATE_4,
-    /* 5 */ EVENTINF_HORSES_STATE_5,
-    /* 6 */ EVENTINF_HORSES_STATE_6,
-    /* 7 */ EVENTINF_HORSES_STATE_7
-} EventInfHorsesState;
+#define EVENTINF_INGO_RACE_0F 0x0F // unused?
 
 // "InRaceSeq"
-#define GET_EVENTINF_HORSES_STATE() \
-    ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_HORSES_STATE_MASK) >> EVENTINF_HORSES_STATE_SHIFT)
-#define SET_EVENTINF_HORSES_STATE(v)                                                   \
-    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =                                     \
-        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_STATE_MASK) | \
-        ((v) << EVENTINF_HORSES_STATE_SHIFT)
+#define GET_EVENTINF_INGO_RACE_STATE() (gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & EVENTINF_INGO_RACE_STATE_MASK)
 
-#define GET_EVENTINF_HORSES_HORSETYPE() \
-    ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_HORSES_HORSETYPE_MASK) >> EVENTINF_HORSES_HORSETYPE_SHIFT)
-#define SET_EVENTINF_HORSES_HORSETYPE(v)                                                   \
-    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =                                         \
-        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_HORSETYPE_MASK) | \
-        ((v) << EVENTINF_HORSES_HORSETYPE_SHIFT)
+#define SET_EVENTINF_INGO_RACE_STATE(v)            \
+    gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = \
+        (gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & ~EVENTINF_INGO_RACE_STATE_MASK) | (v)
 
-#define SET_EVENTINF_HORSES_0F(v)                  \
-    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
-        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_0F_MASK) | ((v) << EVENTINF_HORSES_0F_SHIFT)
+#define GET_EVENTINF_INGO_RACE_FLAG(flag) \
+    ((gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & EVENTINF_MASK(flag)) >> ((flag) & 0xF))
 
+#define SET_EVENTINF_INGO_RACE_FLAG(flag)          \
+    gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = \
+        (gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & 0xFFFF) | EVENTINF_MASK(flag)
+
+#define WRITE_EVENTINF_INGO_RACE_FLAG(flag, v)     \
+    gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = \
+        (gSaveContext.eventInf[EVENTINF_INDEX_HORSES] & ~EVENTINF_MASK(flag)) | ((v) << ((flag) & 0xF))
+
+#define GET_EVENTINF_INGO_RACE_HORSETYPE() GET_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_HORSETYPE)
+#define WRITE_EVENTINF_INGO_RACE_HORSETYPE(v) WRITE_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_HORSETYPE, v)
+
+#define WRITE_EVENTINF_INGO_RACE_0F(v) WRITE_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_0F, v)
 
 // Is the running man race active
 #define EVENTINF_MARATHON_ACTIVE 0x10
 
-// 0x20-0x24
-#define EVENTINF_20_21_22_23_24_INDEX 2
-#define EVENTINF_20_MASK (1 << 0)
-#define EVENTINF_21_MASK (1 << 1)
-#define EVENTINF_22_MASK (1 << 2)
-#define EVENTINF_23_MASK (1 << 3)
-#define EVENTINF_24_MASK (1 << 4)
+// EVENTINF 0x20-0x24
+#define EVENTINF_INDEX_HAGGLING_TOWNSFOLK 0x2
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_0 0x20
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_1 0x21
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_2 0x22
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_3 0x23
+#define EVENTINF_HAGGLING_TOWNSFOLK_MESG_4 0x24
+
+#define EVENTINF_HAGGLING_TOWNSFOLK_MASK                                                                     \
+    (EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_0) | EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_1) | \
+     EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_2) | EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_3) | \
+     EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_4))
+
+#define GET_EVENTINF_ENMU_TALK_FLAGS() \
+    gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] & EVENTINF_HAGGLING_TOWNSFOLK_MASK
+
+#define SET_EVENTINF_ENMU_TALK_FLAGS(talkFlags) \
+    gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] |= (talkFlags);
+
+#define RESET_EVENTINF_ENMU_TALK_FLAGS() \
+    gSaveContext.eventInf[EVENTINF_INDEX_HAGGLING_TOWNSFOLK] &= ~(EVENTINF_HAGGLING_TOWNSFOLK_MASK);
 
 #define EVENTINF_30 0x30
 
+void SaveContext_Init(void);
 
 extern SaveContext gSaveContext;
 

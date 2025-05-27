@@ -5,10 +5,29 @@
  */
 
 #include "z_en_torch2.h"
-#include "assets/objects/object_torch2/object_torch2.h"
-#include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "libc64/qrand.h"
+#include "libu64/pad.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sequence.h"
+#include "versions.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_torch2/object_torch2.h"
+
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum EnTorch2ActionStates {
     /* 0 */ ENTORCH2_WAIT,
@@ -408,7 +427,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                         sStickAngle = thisx->yawTowardsPlayer;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
                             (ABS(sp5A) >= 0x7800) &&
-                            (this->actor.isLockedOn || !(player->stateFlags1 & PLAYER_STATE1_22))) {
+                            (this->actor.isLockedOn || !(player->stateFlags1 & PLAYER_STATE1_SHIELDING))) {
                             EnTorch2_SwingSword(play, input, this);
                         } else {
                             f32 sp50 = 0.0f;
@@ -581,11 +600,11 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
         if (!Actor_ApplyDamage(&this->actor)) {
             func_800F5B58();
             this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
-            this->unk_8A1 = 2;
-            this->unk_8A4 = 6.0f;
-            this->unk_8A8 = 6.0f;
-            this->unk_8A0 = this->actor.colChkInfo.damage;
-            this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
+            this->knockbackType = PLAYER_KNOCKBACK_LARGE;
+            this->knockbackSpeed = 6.0f;
+            this->knockbackYVelocity = 6.0f;
+            this->knockbackDamage = this->actor.colChkInfo.damage;
+            this->knockbackRot = this->actor.yawTowardsPlayer + 0x8000;
             sDeathFlag++;
             sActionState = ENTORCH2_DEATH;
             Enemy_StartFinishingBlow(play, &this->actor);
@@ -601,11 +620,11 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 }
             } else {
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-                this->unk_8A0 = this->actor.colChkInfo.damage;
-                this->unk_8A1 = 1;
-                this->unk_8A8 = 6.0f;
-                this->unk_8A4 = 8.0f;
-                this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
+                this->knockbackDamage = this->actor.colChkInfo.damage;
+                this->knockbackType = PLAYER_KNOCKBACK_SMALL;
+                this->knockbackYVelocity = 6.0f;
+                this->knockbackSpeed = 8.0f;
+                this->knockbackRot = this->actor.yawTowardsPlayer + 0x8000;
                 Actor_SetDropFlag(&this->actor, &this->cylinder.elem, true);
                 this->stateFlags3 &= ~PLAYER_STATE3_2;
                 this->stateFlags3 |= PLAYER_STATE3_0;
@@ -618,7 +637,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             }
         }
         this->actor.colChkInfo.damage = 0;
-        this->unk_8A0 = 0;
+        this->knockbackDamage = 0;
     }
 
     // Handles being frozen by a deku nut

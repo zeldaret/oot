@@ -2,11 +2,11 @@
 #define Z_BG_JYA_COBRA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgJyaCobra;
 
-typedef void (*BgJyaCobraActionFunc)(struct BgJyaCobra*, PlayState*);
+typedef void (*BgJyaCobraActionFunc)(struct BgJyaCobra*, struct PlayState*);
 
 #define COBRA_SHADOW_TEX_WIDTH 64
 #define COBRA_SHADOW_TEX_HEIGHT 64

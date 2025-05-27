@@ -1,6 +1,9 @@
 <Root>
     <File Name="spot08_scene" Segment="2">
         <Cutscene Name="gZorasFountainIntroCs" Offset="0x4A80"/>
+        <Cutscene Name="gZorasFountainSapphireCs" Offset="0x2D10"/>
+        <Cutscene Name="gZorasFountainUnusedJabuCs" Offset="0x3C80"/>
+        <Cutscene Name="gZorasFountainCreditsUnusedCs" Offset="0x41F0"/>
         <Scene Name="spot08_scene" Offset="0x0"/>
     </File>
     <File Name="spot08_room_0" Segment="3">

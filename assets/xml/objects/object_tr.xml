@@ -9,7 +9,9 @@
         <Animation Name="gKotakeKoumeFlyAnim" Offset="0x49C8"/>
         <Animation Name="gKotakeKoumeStandingBroomOverRightShoulderUnusedAnim" Offset="0x5308"/> <!-- Very similar to gKotakeKoumeStandingBroomOverRightShoulderAnim but not quite a duplicate -->
 
-        <Blob Name="object_tr_Blob_0062E0" Size="0x60" Offset="0x62E0"/>
+        <Array Name="gKotakeVtx" Count="288" Offset="0x5320">
+            <Vtx/>
+        </Array>
 
         <DList Name="gKotakePelvisDL" Offset="0x6520"/>
         <DList Name="gKotakeTorsoDL" Offset="0x66A0"/>
@@ -97,7 +99,9 @@
 
         <Animation Name="gKotakeKoumeTPoseAnim" Offset="0xC60C"/>
 
-        <Blob Name="object_tr_Blob_00D5E0" Size="0x60" Offset="0xD5E0"/>
+        <Array Name="gKoumeVtx" Count="288" Offset="0xC620">
+            <Vtx/>
+        </Array>
 
         <DList Name="gKoumePelvisDL" Offset="0xD820"/>
         <DList Name="gKoumeTorsoDL" Offset="0xD9A0"/>

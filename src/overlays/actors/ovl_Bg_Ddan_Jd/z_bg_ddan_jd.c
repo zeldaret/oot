@@ -5,9 +5,17 @@
  */
 
 #include "z_bg_ddan_jd.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgDdanJd_Init(Actor* thisx, PlayState* play);
 void BgDdanJd_Destroy(Actor* thisx, PlayState* play);

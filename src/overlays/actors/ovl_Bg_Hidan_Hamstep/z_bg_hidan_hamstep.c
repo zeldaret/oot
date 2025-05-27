@@ -5,8 +5,24 @@
  */
 
 #include "z_bg_hidan_hamstep.h"
-#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
 #include "quake.h"
+#include "regs.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "z64play.h"
+
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
 
@@ -140,7 +156,7 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
 
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderElements);
 
         for (i = 0; i < 2; i++) {
             for (i2 = 0; i2 < 3; i2++) {
@@ -179,13 +195,11 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.minVelocityY = -12.0f;
 
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
-        // "Fire Temple Object [Hammer Step] appears"
-        PRINTF("◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n");
+        PRINTF(T("◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n", "◯◯◯Fire Temple object [Hammer Step] appears\n"));
         if (BgHidanHamstep_SpawnChildren(this, play) == 0) {
             step = this;
 
-            // "[Hammer Step] I can't create a step!"
-            PRINTF("【ハンマーステップ】 足場産れない！！\n");
+            PRINTF(T("【ハンマーステップ】 足場産れない！！\n", "[Hammer Step] I can't create a step!!\n"));
             PRINTF("%s %d\n", "../z_bg_hidan_hamstep.c", 425);
 
             while (step != NULL) {
@@ -347,10 +361,11 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
     Actor_MoveXZGravity(&this->dyna.actor);
     func_80888694(this, (BgHidanHamstep*)this->dyna.actor.parent);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) <= 0 || PARAMS_GET_U(this->dyna.actor.params, 0, 8) >= 6) {
-        // "[Hammer Step] arg_data strange (arg_data = %d)"
-        PRINTF("【ハンマーステップ】 arg_data おかしい (arg_data = %d)", this->dyna.actor.params);
+        PRINTF(T("【ハンマーステップ】 arg_data おかしい (arg_data = %d)",
+                 "[Hammer Step] arg_data strange (arg_data = %d)"),
+               this->dyna.actor.params);
         PRINTF("%s %d\n", "../z_bg_hidan_hamstep.c", 696);
     }
 #endif
@@ -379,9 +394,11 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
                 Rumble_Request(SQ(100.0f), 255, 20, 150);
                 func_808884C8(this, play);
 
+#if OOT_VERSION >= PAL_1_0
                 if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 5) {
                     Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                 }
+#endif
 
                 PRINTF("B(%d)\n", this->dyna.actor.params);
             }

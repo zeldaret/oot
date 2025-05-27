@@ -1,4 +1,3 @@
-#include "global.h"
 #include "n64dd.h"
 
 // Padding in .rodata suggests that these are in a separate file

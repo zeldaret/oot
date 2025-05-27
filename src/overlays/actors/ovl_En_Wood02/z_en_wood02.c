@@ -5,6 +5,21 @@
  */
 
 #include "z_en_wood02.h"
+
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64skin_matrix.h"
+
 #include "assets/objects/object_wood02/object_wood02.h"
 
 #define FLAGS 0
@@ -104,11 +119,11 @@ s32 EnWood02_SpawnZoneCheck(EnWood02* this, PlayState* play, Vec3f* pos) {
 
     phi_f12 = ((this->actor.projectedW == 0.0f) ? 1000.0f : fabsf(1.0f / this->actor.projectedW));
 
-    if ((-this->actor.uncullZoneScale < this->actor.projectedPos.z) &&
-        (this->actor.projectedPos.z < (this->actor.uncullZoneForward + this->actor.uncullZoneScale)) &&
-        (((fabsf(this->actor.projectedPos.x) - this->actor.uncullZoneScale) * phi_f12) < 1.0f) &&
-        (((this->actor.projectedPos.y + this->actor.uncullZoneDownward) * phi_f12) > -1.0f) &&
-        (((this->actor.projectedPos.y - this->actor.uncullZoneScale) * phi_f12) < 1.0f)) {
+    if ((-this->actor.cullingVolumeScale < this->actor.projectedPos.z) &&
+        (this->actor.projectedPos.z < (this->actor.cullingVolumeDistance + this->actor.cullingVolumeScale)) &&
+        (((fabsf(this->actor.projectedPos.x) - this->actor.cullingVolumeScale) * phi_f12) < 1.0f) &&
+        (((this->actor.projectedPos.y + this->actor.cullingVolumeDownward) * phi_f12) > -1.0f) &&
+        (((this->actor.projectedPos.y - this->actor.cullingVolumeScale) * phi_f12) < 1.0f)) {
         return true;
     }
     return false;
@@ -200,9 +215,9 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
         case WOOD_BUSH_GREEN_LARGE:
         case WOOD_BUSH_BLACK_LARGE:
             actorScale = 1.5f;
-            this->actor.uncullZoneForward = 4000.0f;
-            this->actor.uncullZoneScale = 2000.0f;
-            this->actor.uncullZoneDownward = 2400.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
+            this->actor.cullingVolumeScale = 2000.0f;
+            this->actor.cullingVolumeDownward = 2400.0f;
             break;
         case WOOD_TREE_CONICAL_SPAWNER:
         case WOOD_TREE_OVAL_YELLOW_SPAWNER:
@@ -223,15 +238,15 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
         case WOOD_TREE_KAKARIKO_ADULT:
         case WOOD_BUSH_GREEN_SMALL:
         case WOOD_BUSH_BLACK_SMALL:
-            this->actor.uncullZoneForward = 4000.0f;
-            this->actor.uncullZoneScale = 800.0f;
-            this->actor.uncullZoneDownward = 1800.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
+            this->actor.cullingVolumeScale = 800.0f;
+            this->actor.cullingVolumeDownward = 1800.0f;
             break;
         case WOOD_TREE_CONICAL_SMALL:
             actorScale = 0.6f;
-            this->actor.uncullZoneForward = 4000.0f;
-            this->actor.uncullZoneScale = 400.0f;
-            this->actor.uncullZoneDownward = 1000.0f;
+            this->actor.cullingVolumeDistance = 4000.0f;
+            this->actor.cullingVolumeScale = 400.0f;
+            this->actor.cullingVolumeDownward = 1000.0f;
             break;
         case WOOD_LEAF_GREEN:
         case WOOD_LEAF_YELLOW:
@@ -275,7 +290,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
             this->actor.world.pos.x += (sSpawnSin * sSpawnDistance[5]);
             this->actor.world.pos.z += (sSpawnCos * sSpawnDistance[5]);
         } else {
-            this->actor.flags |= ACTOR_FLAG_4;
+            this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         }
 
         // Snap to floor, or remove if over void
@@ -309,7 +324,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
 
     // Despawn extra trees in a group if out of range
     if ((this->spawnType == WOOD_SPAWN_SPAWNED) && (this->actor.parent != NULL)) {
-        if (!(this->actor.flags & ACTOR_FLAG_6)) {
+        if (!(this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
             u8 new_var = this->unk_14E[0];
             u8 phi_v0 = 0;
             s32 pad;

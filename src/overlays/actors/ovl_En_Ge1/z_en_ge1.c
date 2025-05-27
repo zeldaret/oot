@@ -5,7 +5,23 @@
  */
 
 #include "z_en_ge1.h"
+
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64face_reaction.h"
+#include "z64horse.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_ge1/object_ge1.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -26,7 +42,7 @@ void EnGe1_Destroy(Actor* thisx, PlayState* play);
 void EnGe1_Update(Actor* thisx, PlayState* play);
 void EnGe1_Draw(Actor* thisx, PlayState* play);
 
-s32 EnGe1_CheckCarpentersFreed(void);
+s32 EnGe1_CheckAllCarpentersRescued(void);
 void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, PlayState* play);
 void EnGe1_SetNormalText(EnGe1* this, PlayState* play);
 void EnGe1_WatchForAndSensePlayer(EnGe1* this, PlayState* play);
@@ -101,7 +117,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);
 
-    this->actor.uncullZoneForward = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
+    this->actor.cullingVolumeDistance = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
 
     switch (PARAMS_GET_U(this->actor.params, 0, 8)) {
 
@@ -113,7 +129,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
         case GE1_TYPE_GATE_OPERATOR:
             this->hairstyle = GE1_HAIR_STRAIGHT;
 
-            if (EnGe1_CheckCarpentersFreed()) {
+            if (EnGe1_CheckAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_CheckGate_GateOp;
             } else {
                 this->actionFunc = EnGe1_WatchForPlayerFrontOnly;
@@ -123,7 +139,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
         case GE1_TYPE_NORMAL:
             this->hairstyle = GE1_HAIR_STRAIGHT;
 
-            if (EnGe1_CheckCarpentersFreed()) {
+            if (EnGe1_CheckAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_SetNormalText;
             } else {
                 this->actionFunc = EnGe1_WatchForAndSensePlayer;
@@ -132,8 +148,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
 
         case GE1_TYPE_VALLEY_FLOOR:
             if (LINK_IS_ADULT) {
-                // "Valley floor Gerudo withdrawal"
-                PRINTF(VT_FGCOL(CYAN) "谷底 ゲルド 撤退 \n" VT_RST);
+                PRINTF(VT_FGCOL(CYAN) T("谷底 ゲルド 撤退 \n", "Valley floor Gerudo withdrawal \n") VT_RST);
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -148,12 +163,13 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
             }
             this->actor.attentionRangeType = ATTENTION_RANGE_3;
             this->hairstyle = GE1_HAIR_BOB;
-            // "Horseback archery Gerudo EVENT_INF(0) ="
-            PRINTF(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
+            PRINTF(VT_FGCOL(CYAN)
+                       T("やぶさめ ゲルド EVENT_INF(0) = %x\n", "Horseback archery Gerudo EVENT_INF(0) = %x\n") VT_RST,
+                   gSaveContext.eventInf[0]);
 
             if (GET_EVENTINF(EVENTINF_HORSES_08)) {
                 this->actionFunc = EnGe1_TalkAfterGame_Archery;
-            } else if (EnGe1_CheckCarpentersFreed()) {
+            } else if (EnGe1_CheckAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_Wait_Archery;
             } else {
                 this->actionFunc = EnGe1_WatchForPlayerFrontOnly;
@@ -163,7 +179,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
         case GE1_TYPE_TRAINING_GROUNDS_GUARD:
             this->hairstyle = GE1_HAIR_STRAIGHT;
 
-            if (EnGe1_CheckCarpentersFreed()) {
+            if (EnGe1_CheckAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_CheckForCard_GTGGuard;
             } else {
                 this->actionFunc = EnGe1_WatchForPlayerFrontOnly;
@@ -207,9 +223,9 @@ void EnGe1_SetAnimationIdle(EnGe1* this) {
     this->animFunc = EnGe1_CueUpAnimation;
 }
 
-s32 EnGe1_CheckCarpentersFreed(void) {
-    if (!(GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(0)) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(1)) &&
-          GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(2)) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(3)))) {
+s32 EnGe1_CheckAllCarpentersRescued(void) {
+    if (!(GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_0_RESCUED) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_1_RESCUED) &&
+          GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_2_RESCUED) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_3_RESCUED))) {
         return false;
     }
     return true;
@@ -224,7 +240,7 @@ void EnGe1_KickPlayer(EnGe1* this, PlayState* play) {
     if (this->cutsceneTimer > 0) {
         this->cutsceneTimer--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
@@ -518,7 +534,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, PlayState* play) {
     s32 getItemId;
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->actionFunc = EnGe1_WaitTillItemGiven_Archery;
     }
 
@@ -545,7 +561,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, PlayState* play) {
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     } else {
         Actor_OfferTalk(&this->actor, play, 200.0f);
     }
@@ -567,7 +583,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
     Actor* horse;
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
 
         switch (play->msgCtx.choiceIndex) {
             case 0:
@@ -627,7 +643,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, PlayState* play) {
     // With the current `SaveContext` struct definition, the expression in the debug string is an out-of-bounds read,
     // see the other occurrence of this for more details.
     LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
-    this->actor.flags |= ACTOR_FLAG_16;
+    this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
 
     if (HIGH_SCORE(HS_HBA) < gSaveContext.minigameScore) {
         HIGH_SCORE(HS_HBA) = gSaveContext.minigameScore;
@@ -777,8 +793,8 @@ s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     // The purpose of the state flag GE1_STATE_STOP_FIDGET is to skip this code, which this actor has in lieu of an idle
     // animation.
     if ((limbIndex == GE1_LIMB_TORSO) || (limbIndex == GE1_LIMB_L_FOREARM) || (limbIndex == GE1_LIMB_R_FOREARM)) {
-        rot->y += Math_SinS(play->state.frames * (limbIndex * 50 + 0x814)) * 200.0f;
-        rot->z += Math_CosS(play->state.frames * (limbIndex * 50 + 0x940)) * 200.0f;
+        rot->y += Math_SinS(play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y)) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z)) * FIDGET_AMPLITUDE;
     }
     return 0;
 }

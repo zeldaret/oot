@@ -5,8 +5,20 @@
  */
 
 #include "z_en_heishi3.h"
-#include "assets/objects/object_sd/object_sd.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_sd/object_sd.h"
 
 #define FLAGS 0
 
@@ -76,8 +88,8 @@ void EnHeishi3_Init(Actor* thisx, PlayState* play) {
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    // "Castle Gate Soldier - Power Up"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n", "☆☆☆☆☆ Castle gate soldier power-up ☆☆☆☆☆ \n")
+               VT_RST);
 
     this->actor.gravity = -3.0f;
     this->actor.focus.pos = this->actor.world.pos;
@@ -132,8 +144,11 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, PlayState* play) {
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Discovered! ☆☆☆☆☆ \n") VT_RST);
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#if OOT_PAL_N64
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+#endif
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }
@@ -160,8 +175,11 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, PlayState* play) {
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Discovered! ☆☆☆☆☆ \n") VT_RST);
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+#if OOT_PAL_N64
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+#endif
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }
@@ -201,7 +219,7 @@ void func_80A55D00(EnHeishi3* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play) &&
         (this->respawnFlag == 0)) {
-        SET_EVENTCHKINF(EVENTCHKINF_4E);
+        SET_EVENTCHKINF(EVENTCHKINF_CAUGHT_BY_CASTLE_GUARDS);
         play->nextEntranceIndex = ENTR_HYRULE_CASTLE_4;
         play->transitionTrigger = TRANS_TRIGGER_START;
         this->respawnFlag = 1;

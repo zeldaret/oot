@@ -1,12 +1,22 @@
 // Main interface for the 64DD from the rest of the game. Starts background
 // threads and provides functions to submit commands to them.
-#include "global.h"
-#include "fault.h"
-#include "n64dd.h"
-#include "stack.h"
-#include "versions.h"
 
-#pragma increment_block_number "ntsc-1.2:128"
+#include "n64dd.h"
+
+#include "libc64/sleep.h"
+#include "array_count.h"
+#include "fault.h"
+#include "gfx.h"
+#include "irqmgr.h"
+#include "line_numbers.h"
+#include "stack.h"
+#include "stackcheck.h"
+#include "sys_freeze.h"
+#include "versions.h"
+#include "z64audio.h"
+#include "z64thread.h"
+
+#pragma increment_block_number "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
 typedef struct struct_801D9C30 {
     /* 0x000 */ s32 unk_000;       // disk start
@@ -112,14 +122,9 @@ void func_801C6FD8(void) {
 // Adds a HungupAndCrash
 void func_801C7018(void) {
     if (D_80121213 != 0) {
-#if OOT_VERSION == NTSC_1_0
-        Fault_AddHungupAndCrash("../z_n64dd.c", 503);
-#elif OOT_VERSION == NTSC_1_1
-        Fault_AddHungupAndCrash("../z_n64dd.c", 551);
-#else
-        Fault_AddHungupAndCrash("../z_n64dd.c", 573);
-#endif
+        Fault_AddHungupAndCrash("../z_n64dd.c", LN2(503, 551, 573));
     }
+
     D_80121213 = 1;
 }
 
@@ -131,7 +136,7 @@ s32 func_801C7064(void) {
 s32 func_801C7098(void) {
     s32 phi_v1;
 
-#if OOT_VERSION <= NTSC_1_1
+#if OOT_VERSION < PAL_1_0
     if (0) {}
 #endif
 
@@ -186,7 +191,7 @@ void func_801C711C(void* arg) {
     IrqMgr_RemoveClient(arg0->unk_98, &arg0->unk_90);
 }
 
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
 void func_801C7B28_ne2(void) {
     s32 temp;
 
@@ -215,7 +220,7 @@ void func_801C7268(void) {
     } else if (B_801D9DC8 != 0) {
         B_801D9DC8 = 0;
     }
-#if OOT_VERSION == NTSC_1_0
+#if OOT_VERSION < NTSC_1_1
     if (B_801D9DC0 != 0) {
         sp1C = (osGetTime() - B_801D9DC0) * 64 / 3000;
 
@@ -268,7 +273,7 @@ void func_801C746C(void* arg0, void* arg1, void* arg2) {
             if (arg2 != NULL) {
                 func_801CA1F0(arg2, 0, 176, 320, 32, 11, sp2C, SCREEN_WIDTH);
             }
-#if OOT_VERSION <= NTSC_1_1
+#if OOT_VERSION < PAL_1_0
             osViBlack(0);
 #endif
         }
@@ -306,7 +311,7 @@ s32 func_801C7658(void) {
         return 0;
     }
 
-#if OOT_VERSION <= NTSC_1_1
+#if OOT_VERSION < PAL_1_0
     StackCheck_Init(&B_801DAF88, B_801D9F88, STACK_TOP(B_801D9F88), 0, 0x100, "ddmsg");
     osCreateThread(&B_801D9DD8, THREAD_ID_DDMSG, &func_801C711C, &B_801D9B90, STACK_TOP(B_801D9F88), THREAD_PRI_DDMSG);
     osStartThread(&B_801D9DD8);
@@ -338,7 +343,7 @@ s32 func_801C7658(void) {
     B_801D9D50.unk_00 = 13;
     (&func_801C8000)(&B_801D9D50);
 
-#if OOT_VERSION > NTSC_1_1
+#if OOT_VERSION >= PAL_1_0
     StackCheck_Init(&B_801DAF88, B_801D9F88, STACK_TOP(B_801D9F88), 0, 0x100, "ddmsg");
     osCreateThread(&B_801D9DD8, THREAD_ID_DDMSG, &func_801C711C, &B_801D9B90, STACK_TOP(B_801D9F88), THREAD_PRI_DDMSG);
     osStartThread(&B_801D9DD8);
@@ -348,7 +353,7 @@ s32 func_801C7658(void) {
 }
 
 s32 func_801C7818(void) {
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
     B_801D9DB8 = 1;
     B_801D9DC0 = 0;
 #endif
@@ -361,7 +366,7 @@ s32 func_801C7818(void) {
         Sleep_Usec(1000000 * 1 / 60);
     }
 
-#if OOT_VERSION > NTSC_1_0
+#if OOT_VERSION >= NTSC_1_1
     if (D_801D2EA8 == 1 || B_801E0F60 == 1 || B_801E0F64 == 1) {
         B_801D9DC0 = osGetTime();
     }
@@ -519,7 +524,7 @@ void func_801C7C1C(void* dest, s32 offset, s32 size) {
             bcopy((u8*)sp4C, (u8*)dest + func_801C7BEC(sp5C) - sp54 + var_s1, sp50);
         }
     }
-#if OOT_VERSION == NTSC_1_0
+#if OOT_VERSION < NTSC_1_1
     if (B_801D9DC0 != 0) {
         temp_v1_2 = (osGetTime() - B_801D9DC0) * 64 / 3000;
         if (1000000 - temp_v1_2 > 0) {

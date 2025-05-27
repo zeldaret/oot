@@ -5,9 +5,18 @@
  */
 
 #include "z_en_weather_tag.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "printf.h"
+#include "regs.h"
+#include "terminal.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "z64debug_display.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnWeatherTag_Init(Actor* thisx, PlayState* play);
 void EnWeatherTag_Destroy(Actor* thisx, PlayState* play);
@@ -140,8 +149,13 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, PlayState* play, u8 s
             if (play->envCtx.stormRequest == STORM_REQUEST_NONE &&
                 ((play->envCtx.lightMode != LIGHT_MODE_TIME) ||
                  (play->envCtx.lightConfig != 1 && !play->envCtx.changeLightEnabled))) {
+#if OOT_VERSION >= PAL_1_0
                 gInterruptSongOfStorms = false;
+#endif
                 if (gWeatherMode != weatherMode) {
+#if OOT_VERSION < PAL_1_0
+                    gInterruptSongOfStorms = false;
+#endif
                     gWeatherMode = weatherMode;
                     if (play->envCtx.stormRequest == STORM_REQUEST_NONE) {
                         play->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
@@ -327,7 +341,7 @@ void EnWeatherTag_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 255, 255, 4, play->state.gfxCtx);

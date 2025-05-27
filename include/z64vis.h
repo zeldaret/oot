@@ -28,7 +28,6 @@ typedef struct Vis {
 } Vis; // size = 0x10
 
 
-
 /* Cvg: Coverage */
 
 #define FB_FILTER_TO_CVG_TYPE(filter) (filter)
@@ -50,7 +49,6 @@ void VisCvg_Destroy(VisCvg* this);
 void VisCvg_Draw(VisCvg* this, Gfx** gfxP);
 
 
-
 /* Mono: Desaturation */
 
 // Only one type
@@ -64,7 +62,6 @@ typedef struct VisMono {
 void VisMono_Init(VisMono* this);
 void VisMono_Destroy(VisMono* this);
 void VisMono_Draw(VisMono* this, Gfx** gfxP);
-
 
 
 /* ZBuf: Z-Buffer */

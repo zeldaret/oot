@@ -5,6 +5,18 @@
  */
 
 #include "z_bg_hidan_sekizou.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
@@ -115,8 +127,8 @@ static CollisionCheckInfoInit sColChkInfoInit = { 1, 40, 240, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 1500, ICHAIN_STOP),
 };
 
 static void* sFireballsTexs[] = {
@@ -154,8 +166,8 @@ void BgHidanSekizou_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
-    for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
+    for (i = 0; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
     if (this->dyna.actor.params == 0) {
@@ -210,7 +222,7 @@ void func_8088D434(BgHidanSekizou* this, PlayState* play) {
             }
         }
     }
-    for (i = 3 * phi_s4; i < ARRAY_COUNT(this->elements); i++) {
+    for (i = 3 * phi_s4; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].base.atElemFlags &= ~ATELEM_ON;
         this->collider.elements[i].base.ocElemFlags &= ~OCELEM_ON;
     }
@@ -259,7 +271,7 @@ void func_8088D750(BgHidanSekizou* this, PlayState* play) {
             phi_a3 = -0x4000;
         }
     }
-    func_8002F71C(play, &this->dyna.actor, 5.0f, phi_a3, 1.0f);
+    Actor_SetPlayerKnockbackLargeNoDamage(play, &this->dyna.actor, 5.0f, phi_a3, 1.0f);
 }
 
 void BgHidanSekizou_Update(Actor* thisx, PlayState* play2) {
@@ -349,7 +361,7 @@ Gfx* func_8088DC50(PlayState* play, BgHidanSekizou* this, s16 arg2, s16 arg3, Gf
     }
     temp_f20 = Math_SinS(arg2);
     temp_f22 = Math_CosS(arg2);
-    Matrix_MtxFCopy(&sp68, &gMtxFClear);
+    Matrix_MtxFCopy(&sp68, &gIdentityMtxF);
     temp_v1 = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - arg2;
 
     if (ABS(temp_v1) < 0x4000) {

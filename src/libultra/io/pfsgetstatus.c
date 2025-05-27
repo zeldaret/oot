@@ -1,7 +1,7 @@
 #include "ultra64.h"
-#include "global.h"
 
 s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel) {
+#ifndef BBPLAYER
     s32 ret = 0;
     OSMesg msg;
     OSContStatus data;
@@ -24,6 +24,12 @@ s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel) {
         return PFS_ERR_CONTRFAIL;
     }
     return ret;
+#else
+    if (__osBbPakAddress[channel] != 0) {
+        return 0;
+    }
+    return PFS_ERR_NOPACK;
+#endif
 }
 
 void __osPfsRequestOneChannel(s32 channel, u8 cmd) {

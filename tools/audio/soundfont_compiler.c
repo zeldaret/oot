@@ -12,6 +12,7 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "xml.h"
@@ -929,7 +930,7 @@ emit_c_header(FILE *out, soundfont *sf)
 }
 
 /**
- * Convert the compression type as indicated in the AIFC to the correspoding SampleCodec enum value.
+ * Convert the compression type as indicated in the AIFC to the corresponding SampleCodec enum value.
  * These must be kept in sync with the SampleCodec definition!
  */
 static const char *
@@ -1075,7 +1076,7 @@ emit_c_samples(FILE *out, soundfont *sf)
                    "NO_REORDER SECTION_DATA ALIGNED(16) AdpcmBookHeader SF%d_%s_BOOK_HEADER = {"    "\n"
                    "    %d, %d,"                                                                    "\n"
                    "};"                                                                             "\n"
-                   "NO_REORDER SECTION_DATA AdpcmBookData SF%d_%s_BOOK_DATA = {"                    "\n",
+                   "NO_REORDER SECTION_DATA s16 SF%d_%s_BOOK_DATA[] = {"                            "\n",
                     // clang-format on
                     sf->info.index, bookname, sample->aifc.book.order, sample->aifc.book.npredictors, sf->info.index,
                     bookname);
@@ -1590,7 +1591,7 @@ emit_h_effects(FILE *out, soundfont *sf)
 NORETURN static void
 usage(const char *progname)
 {
-    fprintf(stderr, "Usage: %s [--matching] <filename.xml> <out.c> <out.h>\n", progname);
+    fprintf(stderr, "Usage: %s [--matching] <filename.xml> <out.c> <out.h> <out.name>\n", progname);
     exit(EXIT_FAILURE);
 }
 
@@ -1748,12 +1749,12 @@ main(int argc, char **argv)
 
     fprintf(out_h,
             // clang-format off
-           "#ifdef _LANGUAGE_ASEQ"              "\n"
-           ".pushsection .fonts, \"\", @note"   "\n"
-           "    .byte %d /*sf id*/"             "\n"
-           ".popsection"                        "\n"
-           "#endif"                             "\n"
-                                                "\n",
+           "#ifdef _LANGUAGE_ASEQ"                  "\n"
+           ".pushsection .note.fonts, \"\", @note"  "\n"
+           "    .byte %d /*sf id*/"                 "\n"
+           ".popsection"                            "\n"
+           "#endif"                                 "\n"
+                                                    "\n",
             // clang-format on
             sf.info.index);
 
@@ -1778,8 +1779,11 @@ main(int argc, char **argv)
 
     // emit name marker
 
-    FILE *out_name = fopen(filename_out_name, "w");
-    fprintf(out_name, "%s", sf.info.name);
+    FILE *out_name = fopen(filename_out_name, "wb");
+    // We need to emit an explicit null terminator so that we can run objcopy --add-section to include the name
+    // in a .note.name section in the compiled object file. This is so that the string that ends up in the .note.name
+    // section is null-terminated, its length may be verified by any tools that read the name out of this section.
+    fprintf(out_name, "%s%c", sf.info.name, '\0');
     fclose(out_name);
 
     // emit dependency file if wanted

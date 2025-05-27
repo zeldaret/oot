@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 OSTime osGetTime(void) {
     u32 count;
@@ -11,5 +11,5 @@ OSTime osGetTime(void) {
     t = __osCurrentTime;
     __osRestoreInt(prevInt);
 
-    return base + t;
+    return t + base;
 }

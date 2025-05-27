@@ -2,11 +2,11 @@
 #define Z_EN_FW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnFw;
 
-typedef void (*EnFwActionFunc)(struct EnFw* this, PlayState* play);
+typedef void (*EnFwActionFunc)(struct EnFw* this, struct PlayState* play);
 
 #define EN_FW_EFFECT_COUNT 20
 
@@ -28,7 +28,7 @@ typedef struct EnFw {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnFwActionFunc actionFunc;
     /* 0x0194 */ ColliderJntSph collider;
-    /* 0x01B4 */ ColliderJntSphElement sphs[1];
+    /* 0x01B4 */ ColliderJntSphElement colliderElements[1];
     /* 0x01F4 */ Vec3f bompPos;
     /* 0x0200 */ u8 lastDmgHook;
     /* 0x0202 */ s16 runDirection;

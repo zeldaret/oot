@@ -8,6 +8,7 @@
  */
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "xml.h"
@@ -125,7 +126,7 @@ main(int argc, char **argv)
             sb.name, sb.name);
 
     // original tool appears to have a buffer clearing bug involving a buffer sized BUG_BUF_SIZE
-    match_buf_ptr = (matching) ? match_buf : NULL;
+    match_buf_ptr = (matching && sb.buffer_bug) ? match_buf : NULL;
     match_buf_pos = 0;
 
     for (size_t i = 0; i < sb.num_samples; i++) {
@@ -171,13 +172,13 @@ main(int argc, char **argv)
 
         fprintf(outf, ".incbin \"%s\", 0x%lX, 0x%lX\n", path, aifc.ssnd_offset, aifc.ssnd_size);
 
-        if (matching && sb.buffer_bug && i == sb.num_samples - 1) {
+        if (match_buf_ptr != NULL && i == sb.num_samples - 1) {
             // emplace garbage
-            size_t end = ALIGN16(match_buf_pos);
-
             fprintf(outf, "\n# Garbage data from buffer bug\n");
+
+            size_t end = ALIGN16(match_buf_pos);
             for (; match_buf_pos < end; match_buf_pos++)
-                fprintf(outf, ".byte 0x%02X\n", match_buf[match_buf_pos]);
+                fprintf(outf, ".byte 0x%02X\n", match_buf_ptr[match_buf_pos]);
         } else {
             fputs("\n.balign 16\n", outf);
         }

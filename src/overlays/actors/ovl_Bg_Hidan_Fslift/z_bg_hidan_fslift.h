@@ -2,11 +2,11 @@
 #define Z_BG_HIDAN_FSLIFT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgHidanFslift;
 
-typedef void (*BgHidanFsliftActionFunc)(struct BgHidanFslift*, PlayState*);
+typedef void (*BgHidanFsliftActionFunc)(struct BgHidanFslift*, struct PlayState*);
 
 typedef struct BgHidanFslift {
     /* 0x0000 */ DynaPolyActor dyna;

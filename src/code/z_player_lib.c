@@ -1,9 +1,24 @@
-#include "global.h"
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "z64draw.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+#include "z64skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "pal-1.0:0 pal-1.1:0"
 
 typedef struct BowSlingshotStringData {
     /* 0x00 */ Gfx* dList;
@@ -13,12 +28,126 @@ typedef struct BowSlingshotStringData {
 FlexSkeletonHeader* gPlayerSkelHeaders[] = { &gLinkAdultSkel, &gLinkChildSkel };
 
 s16 sBootData[PLAYER_BOOTS_MAX][17] = {
-    { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 },
-    { 200, 1000, 300, 700, 550, 270, 1000, 0, 800, 300, -160, 600, 590, 750, 125, 200, 130 },
-    { 200, 1000, 300, 700, 550, 270, 600, 600, 800, 550, -100, 600, 540, 270, 25, 0, 130 },
-    { 200, 1000, 300, 700, 380, 400, 0, 300, 800, 500, -100, 600, 590, 750, 125, 200, 130 },
-    { 80, 800, 150, 700, 480, 270, 600, 50, 800, 550, -40, 400, 540, 270, 25, 0, 80 },
-    { 200, 1000, 300, 800, 500, 400, 800, 400, 800, 550, -100, 600, 540, 750, 125, 400, 200 },
+    // PLAYER_BOOTS_KOKIRI
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(550, 660),   // REG(35)
+        FRAMERATE_CONST(270, 324),   // REG(36)
+        600,                         // REG(37)
+        FRAMERATE_CONST(350, 420),   // REG(38)
+        800,                         // R_DECELERATE_RATE
+        600,                         // R_RUN_SPEED_LIMIT
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        590,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        200,                         // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_IRON
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(550, 660),   // REG(35)
+        FRAMERATE_CONST(270, 324),   // REG(36)
+        1000,                        // REG(37)
+        FRAMERATE_CONST(0, 0),       // REG(38)
+        800,                         // R_DECELERATE_RATE
+        300,                         // R_RUN_SPEED_LIMIT
+        -160,                        // REG(68)
+        600,                         // REG(69)
+        590,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        200,                         // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_HOVER
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(550, 660),   // REG(35)
+        FRAMERATE_CONST(270, 324),   // REG(36)
+        600,                         // REG(37)
+        FRAMERATE_CONST(600, 720),   // REG(38)
+        800,                         // R_DECELERATE_RATE
+        550,                         // R_RUN_SPEED_LIMIT
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        540,                         // IREG(66)
+        270,                         // IREG(67)
+        25,                          // IREG(68)
+        0,                           // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_INDOOR
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        700,                         // REG(34)
+        FRAMERATE_CONST(380, 456),   // REG(35)
+        FRAMERATE_CONST(400, 480),   // REG(36)
+        0,                           // REG(37)
+        FRAMERATE_CONST(300, 360),   // REG(38)
+        800,                         // R_DECELERATE_RATE
+        500,                         // R_RUN_SPEED_LIMIT
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        590,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        200,                         // IREG(69)
+        FRAMERATE_CONST(130, 156),   // MREG(95)
+    },
+    // PLAYER_BOOTS_IRON_UNDERWATER
+    {
+        80,                        // REG(19)
+        FRAMERATE_CONST(800, 960), // REG(30)
+        FRAMERATE_CONST(150, 180), // REG(32)
+        700,                       // REG(34)
+        FRAMERATE_CONST(480, 576), // REG(35)
+        FRAMERATE_CONST(270, 324), // REG(36)
+        600,                       // REG(37)
+        FRAMERATE_CONST(50, 60),   // REG(38)
+        800,                       // R_DECELERATE_RATE
+        550,                       // R_RUN_SPEED_LIMIT
+        -40,                       // REG(68)
+        400,                       // REG(69)
+        540,                       // IREG(66)
+        270,                       // IREG(67)
+        25,                        // IREG(68)
+        0,                         // IREG(69)
+        FRAMERATE_CONST(80, 96),   // MREG(95)
+    },
+    // PLAYER_BOOTS_KOKIRI_CHILD
+    {
+        200,                         // REG(19)
+        FRAMERATE_CONST(1000, 1200), // REG(30)
+        FRAMERATE_CONST(300, 360),   // REG(32)
+        800,                         // REG(34)
+        FRAMERATE_CONST(500, 600),   // REG(35)
+        FRAMERATE_CONST(400, 480),   // REG(36)
+        800,                         // REG(37)
+        FRAMERATE_CONST(400, 480),   // REG(38)
+        800,                         // R_DECELERATE_RATE
+        550,                         // R_RUN_SPEED_LIMIT
+        -100,                        // REG(68)
+        600,                         // REG(69)
+        540,                         // IREG(66)
+        750,                         // IREG(67)
+        125,                         // IREG(68)
+        400,                         // IREG(69)
+        FRAMERATE_CONST(200, 240),   // MREG(95)
+    },
 };
 
 // Used to map item actions to model groups
@@ -474,8 +603,8 @@ void Player_SetBootData(PlayState* play, Player* this) {
     REG(36) = bootRegs[5];
     REG(37) = bootRegs[6];
     REG(38) = bootRegs[7];
-    REG(43) = bootRegs[8];
-    REG(45) = bootRegs[9];
+    R_DECELERATE_RATE = bootRegs[8];
+    R_RUN_SPEED_LIMIT = bootRegs[9];
     REG(68) = bootRegs[10];
     REG(69) = bootRegs[11];
     IREG(66) = bootRegs[12];
@@ -484,8 +613,8 @@ void Player_SetBootData(PlayState* play, Player* this) {
     IREG(69) = bootRegs[15];
     MREG(95) = bootRegs[16];
 
-    if (play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_2) {
-        REG(45) = 500;
+    if (play->roomCtx.curRoom.type == ROOM_TYPE_INDOORS) {
+        R_RUN_SPEED_LIMIT = 500;
     }
 }
 
@@ -529,7 +658,7 @@ s32 Player_ActionToModelGroup(Player* this, s32 itemAction) {
 }
 
 void Player_SetModelsForHoldingShield(Player* this) {
-    if ((this->stateFlags1 & PLAYER_STATE1_22) &&
+    if ((this->stateFlags1 & PLAYER_STATE1_SHIELDING) &&
         ((this->itemAction < 0) || (this->itemAction == this->heldItemAction))) {
         if (!Player_HoldsTwoHandedWeapon(this) && !Player_IsChildWithHylianShield(this)) {
             this->rightHandType = PLAYER_MODELTYPE_RH_SHIELD;
@@ -608,12 +737,17 @@ void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAc
     this->itemAction = itemAction;
 }
 
-void func_8008EDF0(Player* this) {
+void Player_ReleaseLockOn(Player* this) {
     this->focusActor = NULL;
     this->stateFlags2 &= ~PLAYER_STATE2_LOCK_ON_WITH_SWITCH;
 }
 
-void func_8008EE08(Player* this) {
+/**
+ * This function aims to clear Z-Target related state when it isn't in use.
+ * It also handles setting a specific free fall related state that is interntwined with Z-Targeting.
+ * TODO: Learn more about this and give a name to PLAYER_STATE1_19
+ */
+void Player_ClearZTargeting(Player* this) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
         (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
@@ -624,15 +758,29 @@ void func_8008EE08(Player* this) {
         this->stateFlags1 |= PLAYER_STATE1_19;
     }
 
-    func_8008EDF0(this);
+    Player_ReleaseLockOn(this);
 }
 
-void func_8008EEAC(PlayState* play, Actor* actor) {
+/**
+ * Sets the "auto lock-on actor" to lock onto an actor without Player's input.
+ * This function will first release any existing lock-on or (try to) release parallel.
+ *
+ * When using Switch Targeting, it is not possible to carry an auto lock-on actor into a normal
+ * lock-on when the auto lock-on is finished.
+ * This is because the `PLAYER_STATE2_LOCK_ON_WITH_SWITCH` flag is never set with an auto lock-on.
+ * With Hold Targeting it is possible to keep the auto lock-on going by keeping the Z button held down.
+ *
+ * The auto lock-on is considered "friendly" even if the actor is actually hostile. If the auto lock-on is hostile,
+ * Player's battle response will not occur (if he is actionable) and the camera behaves differently.
+ * When transitioning from auto lock-on to normal lock-on (with Hold Targeting) there will be a noticeable change
+ * when it switches from "friendly" mode to "hostile" mode.
+ */
+void Player_SetAutoLockOnActor(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
 
-    func_8008EE08(this);
+    Player_ClearZTargeting(this);
     this->focusActor = actor;
-    this->unk_684 = actor;
+    this->autoLockOnActor = actor;
     this->stateFlags1 |= PLAYER_STATE1_FRIENDLY_ACTOR_FOCUS;
     Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, actor);
     Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_TARGET_FRIENDLY);
@@ -794,7 +942,7 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
     EnvHazardTextTriggerEntry* triggerEntry;
     s32 envHazard;
 
-    if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
+    if (play->roomCtx.curRoom.environmentType == ROOM_ENV_HOT) { // Room is hot
         envHazard = PLAYER_ENV_HAZARD_HOTROOM - 1;
     } else if ((this->underwaterTimer > 80) &&
                ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterTimer >= 300))) {
@@ -1134,14 +1282,14 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         sCurBodyPartPos = &this->bodyPartsPos[0] - 1;
 
         if (!LINK_IS_ADULT) {
-            if (!(this->skelAnime.moveFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) ||
-                (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_XZ)) {
+            if (!(this->skelAnime.movementFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) ||
+                (this->skelAnime.movementFlags & ANIM_FLAG_UPDATE_XZ)) {
                 pos->x *= 0.64f;
                 pos->z *= 0.64f;
             }
 
-            if (!(this->skelAnime.moveFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) ||
-                (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_Y)) {
+            if (!(this->skelAnime.movementFlags & ANIM_FLAG_DISABLE_CHILD_ROOT_ADJUSTMENT) ||
+                (this->skelAnime.movementFlags & ANIM_FLAG_UPDATE_Y)) {
                 pos->y *= 0.64f;
             }
         }
@@ -1161,22 +1309,22 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         }
 
         if (limbIndex == PLAYER_LIMB_HEAD) {
-            rot->x += this->unk_6BA;
-            rot->y -= this->unk_6B8;
-            rot->z += this->unk_6B6;
+            rot->x += this->headLimbRot.z;
+            rot->y -= this->headLimbRot.y;
+            rot->z += this->headLimbRot.x;
         } else if (limbIndex == PLAYER_LIMB_UPPER) {
-            if (this->unk_6B0 != 0) {
+            if (this->upperLimbYawSecondary != 0) {
                 Matrix_RotateZ(BINANG_TO_RAD(0x44C), MTXMODE_APPLY);
-                Matrix_RotateY(BINANG_TO_RAD(this->unk_6B0), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->upperLimbYawSecondary), MTXMODE_APPLY);
             }
-            if (this->unk_6BE != 0) {
-                Matrix_RotateY(BINANG_TO_RAD(this->unk_6BE), MTXMODE_APPLY);
+            if (this->upperLimbRot.y != 0) {
+                Matrix_RotateY(BINANG_TO_RAD(this->upperLimbRot.y), MTXMODE_APPLY);
             }
-            if (this->unk_6BC != 0) {
-                Matrix_RotateX(BINANG_TO_RAD(this->unk_6BC), MTXMODE_APPLY);
+            if (this->upperLimbRot.x != 0) {
+                Matrix_RotateX(BINANG_TO_RAD(this->upperLimbRot.x), MTXMODE_APPLY);
             }
-            if (this->unk_6C0 != 0) {
-                Matrix_RotateZ(BINANG_TO_RAD(this->unk_6C0), MTXMODE_APPLY);
+            if (this->upperLimbRot.z != 0) {
+                Matrix_RotateZ(BINANG_TO_RAD(this->upperLimbRot.z), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
             s32 pad;
@@ -1326,7 +1474,7 @@ void Player_UpdateShieldCollider(PlayState* play, Player* this, ColliderQuad* co
         COL_MATERIAL_METAL,
     };
 
-    if (this->stateFlags1 & PLAYER_STATE1_22) {
+    if (this->stateFlags1 & PLAYER_STATE1_SHIELDING) {
         Vec3f quadDest[4];
 
         this->shieldQuad.base.colMaterial = shieldColMaterials[this->currentShield];
@@ -1360,7 +1508,7 @@ void func_800906D4(PlayState* play, Player* this, Vec3f* newTipPos) {
     Matrix_MultVec3f(&D_801260A4[2], &newBasePos[2]);
 
     if (func_80090480(play, NULL, &this->meleeWeaponInfo[0], &newTipPos[0], &newBasePos[0]) &&
-        !(this->stateFlags1 & PLAYER_STATE1_22)) {
+        !(this->stateFlags1 & PLAYER_STATE1_SHIELDING)) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->meleeWeaponEffectIndex), &this->meleeWeaponInfo[0].tip,
                               &this->meleeWeaponInfo[0].base);
     }
@@ -1377,7 +1525,7 @@ void Player_DrawGetItemImpl(PlayState* play, Player* this, Vec3f* refPos, s32 dr
 
     OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2401);
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(this->giObjectSegment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(this->giObjectSegment);
 
     gSPSegment(POLY_OPA_DISP++, 0x06, this->giObjectSegment);
     gSPSegment(POLY_XLU_DISP++, 0x06, this->giObjectSegment);
@@ -1491,8 +1639,8 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     }
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
-        MtxF sp14C;
-        Actor* hookedActor;
+        MtxF leftHandMtx;
+        Actor* heldActor;
 
         Math_Vec3f_Copy(&this->leftHandPos, sCurBodyPartPos);
 
@@ -1548,25 +1696,25 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         }
 
         if (this->actor.scale.y >= 0.0f) {
-            if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
+            if (!Player_HoldsHookshot(this) && ((heldActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & PLAYER_STATE1_9) {
                     static Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
 
-                    Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
+                    Matrix_MultVec3f(&D_80126128, &heldActor->world.pos);
                     Matrix_RotateZYX(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
-                    Matrix_Get(&sp14C);
-                    Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
-                    hookedActor->shape.rot = hookedActor->world.rot;
-                } else if (this->stateFlags1 & PLAYER_STATE1_ACTOR_CARRY) {
-                    Vec3s spB8;
+                    Matrix_Get(&leftHandMtx);
+                    Matrix_MtxFToYXZRotS(&leftHandMtx, &heldActor->world.rot, 0);
+                    heldActor->shape.rot = heldActor->world.rot;
+                } else if (this->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
+                    Vec3s leftHandRot;
 
-                    Matrix_Get(&sp14C);
-                    Matrix_MtxFToYXZRotS(&sp14C, &spB8, 0);
+                    Matrix_Get(&leftHandMtx);
+                    Matrix_MtxFToYXZRotS(&leftHandMtx, &leftHandRot, 0);
 
-                    if (hookedActor->flags & ACTOR_FLAG_17) {
-                        hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
+                    if (heldActor->flags & ACTOR_FLAG_CARRY_X_ROT_INFLUENCE) {
+                        heldActor->world.rot.x = heldActor->shape.rot.x = leftHandRot.x - this->unk_3BC.x;
                     } else {
-                        hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
+                        heldActor->world.rot.y = heldActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
                     }
                 }
             } else {
@@ -1654,7 +1802,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                     Matrix_MtxFToYXZRotS(&sp44, &heldActor->world.rot, 0);
                     heldActor->shape.rot = heldActor->world.rot;
 
-                    if (func_8002DD78(this) != 0) {
+                    if (func_8002DD78(this)) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
                         Player_DrawHookshotReticle(play, this,
                                                    (this->heldItemAction == PLAYER_IA_HOOKSHOT) ? 38600.0f : 77600.0f);
@@ -1731,9 +1879,9 @@ u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime)
 
     ptr = (void*)ALIGN16((uintptr_t)ptr + size);
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE);
+    gSegments[4] = OS_K0_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE);
     gSegments[6] =
-        VIRTUAL_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE);
+        OS_K0_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE);
 
     SkelAnime_InitLink(play, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.save.linkAge],
                        &gPlayerAnim_link_normal_wait, 9, ptr, ptr, PLAYER_LIMB_MAX);
@@ -1909,9 +2057,9 @@ void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f*
     Vec3s* srcTable;
     s32 i;
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE);
+    gSegments[4] = OS_K0_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE);
     gSegments[6] =
-        VIRTUAL_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE);
+        OS_K0_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE);
 
     if (!LINK_IS_ADULT) {
         if (shield == PLAYER_SHIELD_DEKU) {

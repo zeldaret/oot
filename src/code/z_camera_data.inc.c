@@ -1,5 +1,5 @@
+#include "array_count.h"
 #include "ultra64.h"
-#include "global.h"
 
 typedef struct CameraModeValue {
     s16 val;
@@ -27,7 +27,7 @@ typedef struct CameraSetting {
 /*==================================================================*/
 // Data
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s16 sOREGInit[] = {
     0,     // OREG(0)
     1,     // OREG(1)
@@ -119,7 +119,7 @@ s16 sCamDataRegsInit[CAM_DATA_MAX] = {
 
 s16 sCamDataRegsInitCount = ARRAY_COUNT(sCamDataRegsInit);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 char sCameraSettingNames[][12] = {
     "NONE      ",  // CAM_SET_NONE
     "NORMAL0    ", // CAM_SET_NORMAL0
@@ -2562,7 +2562,7 @@ s32 sInitRegs = 1;
 
 s32 gDebugCamEnabled = false;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 sDbgModeIdx = -1;
 #endif
 
@@ -2584,11 +2584,11 @@ s16 D_8011D3CC[] = {
 
 s32 sUpdateCameraDirection = 0;
 s32 D_8011D3EC = 0;
-s32 D_8011D3F0 = 0;
+s32 sSceneInitLetterboxTimer = 0;
 
 s32 sDemo5PrevAction12Frame = -16;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 char sCameraFunctionNames[][8] = {
     "NONE   ", // CAM_FUNC_NONE
     "NORM0()", // CAM_FUNC_NORM0
@@ -2681,7 +2681,7 @@ Vec3f D_8011D678[] = {
 
 PlayState* D_8015BD7C;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 DebugCam D_8015BD80;
 #endif
 

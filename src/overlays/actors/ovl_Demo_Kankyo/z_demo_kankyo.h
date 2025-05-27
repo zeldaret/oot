@@ -2,11 +2,11 @@
 #define Z_DEMO_KANKYO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct DemoKankyo;
 
-typedef void (*DemoKankyoActionFunc)(struct DemoKankyo*, PlayState*);
+typedef void (*DemoKankyoActionFunc)(struct DemoKankyo*, struct PlayState*);
 
 typedef enum DemoKankyoType {
     /* 0x00 */ DEMOKANKYO_BLUE_RAIN,

@@ -3,6 +3,13 @@
 
 #include "ultra64.h"
 
+typedef struct QuestHintCmd {
+    /* 0x00 */ u8 byte0;
+    /* 0x01 */ u8 byte1;
+    /* 0x02 */ u8 byte2;
+    /* 0x03 */ u8 byte3;
+} QuestHintCmd; // size = 0x4
+
 /*
  * Hint Command Types
  */

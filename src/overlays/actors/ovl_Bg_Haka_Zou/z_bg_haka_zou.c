@@ -5,10 +5,20 @@
  */
 
 #include "z_bg_haka_zou.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum ShadowTempleAssetsType {
     /* 0x0 */ STA_GIANT_BIRD_STATUE,
@@ -96,9 +106,9 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
         DynaPolyActor_Init(&this->dyna, 0);
 
         if (thisx->params == STA_GIANT_BIRD_STATUE) {
-            thisx->uncullZoneForward = 2000.0f;
-            thisx->uncullZoneScale = 3000.0f;
-            thisx->uncullZoneDownward = 3000.0f;
+            thisx->cullingVolumeDistance = 2000.0f;
+            thisx->cullingVolumeScale = 3000.0f;
+            thisx->cullingVolumeDownward = 3000.0f;
         }
     }
 
@@ -176,7 +186,7 @@ void BgHakaZou_Wait(BgHakaZou* this, PlayState* play) {
                 this->collider.dim.yShift = -30;
                 this->collider.dim.pos.x -= 56;
                 this->collider.dim.pos.z += 56;
-                this->dyna.actor.uncullZoneScale = 1500.0f;
+                this->dyna.actor.cullingVolumeScale = 1500.0f;
             } else if (this->dyna.actor.params == STA_BOMBABLE_SKULL_WALL) {
                 CollisionHeader_GetVirtual(&object_haka_objects_Col_005E30, &colHeader);
                 this->collider.dim.yShift = -50;

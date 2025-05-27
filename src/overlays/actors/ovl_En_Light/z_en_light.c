@@ -5,6 +5,17 @@
  */
 
 #include "z_en_light.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64light.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 

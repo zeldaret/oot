@@ -1,9 +1,37 @@
 #include "z_boss_tw.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
-#include "assets/objects/object_tw/object_tw.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+#include "z64skin_matrix.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_tw/object_tw.h"
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum TwEffType {
     /*  0 */ TWEFF_NONE,
@@ -233,7 +261,7 @@ static s16 D_8094C87C;
 static u8 D_8094C87E;
 static BossTwEffect sEffects[BOSS_TW_EFFECT_COUNT];
 
-void BossTw_AddDotEffect(PlayState* play, Vec3f* initalPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale, s16 args,
+void BossTw_AddDotEffect(PlayState* play, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, f32 scale, s16 args,
                          s16 countLimit) {
     s16 i;
     BossTwEffect* eff;
@@ -241,8 +269,8 @@ void BossTw_AddDotEffect(PlayState* play, Vec3f* initalPos, Vec3f* initalSpeed, 
     for (i = 0, eff = play->specialEffects; i < countLimit; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_DOT;
-            eff->pos = *initalPos;
-            eff->curSpeed = *initalSpeed;
+            eff->pos = *initialPos;
+            eff->curSpeed = *initialSpeed;
             eff->accel = *accel;
             eff->workf[EFF_SCALE] = scale / 1000.0f;
             eff->alpha = 255;
@@ -253,7 +281,7 @@ void BossTw_AddDotEffect(PlayState* play, Vec3f* initalPos, Vec3f* initalSpeed, 
     }
 }
 
-void BossTw_AddDmgCloud(PlayState* play, s16 type, Vec3f* initialPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale,
+void BossTw_AddDmgCloud(PlayState* play, s16 type, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, f32 scale,
                         s16 alpha, s16 args, s16 countLimit) {
     s16 i;
     BossTwEffect* eff;
@@ -262,7 +290,7 @@ void BossTw_AddDmgCloud(PlayState* play, s16 type, Vec3f* initialPos, Vec3f* ini
         if (eff->type == TWEFF_NONE) {
             eff->type = type;
             eff->pos = *initialPos;
-            eff->curSpeed = *initalSpeed;
+            eff->curSpeed = *initialSpeed;
             eff->accel = *accel;
             eff->workf[EFF_SCALE] = scale / 1000.0f;
             eff->work[EFF_ARGS] = args;
@@ -273,7 +301,7 @@ void BossTw_AddDmgCloud(PlayState* play, s16 type, Vec3f* initialPos, Vec3f* ini
     }
 }
 
-void BossTw_AddRingEffect(PlayState* play, Vec3f* initalPos, f32 scale, f32 arg3, s16 alpha, s16 args, s16 arg6,
+void BossTw_AddRingEffect(PlayState* play, Vec3f* initialPos, f32 scale, f32 arg3, s16 alpha, s16 args, s16 arg6,
                           s16 countLimit) {
     s16 i;
     BossTwEffect* eff;
@@ -281,7 +309,7 @@ void BossTw_AddRingEffect(PlayState* play, Vec3f* initalPos, f32 scale, f32 arg3
     for (i = 0, eff = play->specialEffects; i < countLimit; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_RING;
-            eff->pos = *initalPos;
+            eff->pos = *initialPos;
             eff->curSpeed = sZeroVector;
             eff->accel = sZeroVector;
             eff->workf[EFF_SCALE] = scale * 0.0025f;
@@ -320,15 +348,15 @@ void BossTw_AddPlayerFreezeEffect(PlayState* play, Actor* target) {
     }
 }
 
-void BossTw_AddFlameEffect(PlayState* play, Vec3f* initalPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale, s16 args) {
+void BossTw_AddFlameEffect(PlayState* play, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, f32 scale, s16 args) {
     s16 i;
     BossTwEffect* eff;
 
     for (i = 0, eff = play->specialEffects; i < BOSS_TW_EFFECT_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_FLAME;
-            eff->pos = *initalPos;
-            eff->curSpeed = *initalSpeed;
+            eff->pos = *initialPos;
+            eff->curSpeed = *initialSpeed;
             eff->accel = *accel;
             eff->workf[EFF_SCALE] = scale / 1000.0f;
             eff->work[EFF_ARGS] = args;
@@ -362,7 +390,7 @@ void BossTw_AddMergeFlameEffect(PlayState* play, Vec3f* initialPos, f32 scale, f
     }
 }
 
-void BossTw_AddShieldBlastEffect(PlayState* play, Vec3f* initalPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale,
+void BossTw_AddShieldBlastEffect(PlayState* play, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, f32 scale,
                                  f32 arg5, s16 alpha, s16 args) {
     s16 i;
     BossTwEffect* eff;
@@ -370,8 +398,8 @@ void BossTw_AddShieldBlastEffect(PlayState* play, Vec3f* initalPos, Vec3f* inita
     for (i = 0, eff = play->specialEffects; i < BOSS_TW_EFFECT_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_SHLD_BLST;
-            eff->pos = *initalPos;
-            eff->curSpeed = *initalSpeed;
+            eff->pos = *initialPos;
+            eff->curSpeed = *initialSpeed;
             eff->accel = *accel;
             eff->workf[EFF_SCALE] = scale / 1000.0f;
             eff->workf[EFF_DIST] = arg5 / 1000.0f;
@@ -484,7 +512,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
     }
 
     Actor_SetScale(&this->actor, 2.5 * 0.01f);
-    this->actor.colChkInfo.mass = 255;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.colChkInfo.health = 0;
     Collider_InitCylinder(play, &this->collider);
 
@@ -513,7 +541,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
         this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA_KOTAKE;
         SkelAnime_InitFlex(play, &this->skelAnime, &gTwinrovaKotakeSkel, &gTwinrovaKotakeKoumeFlyAnim, NULL, NULL, 0);
 
-        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_TWINROVA_BATTLE)) {
             // began twinrova battle
             BossTw_SetupFlyTo(this, play);
             this->actor.world.pos.x = -600.0f;
@@ -531,7 +559,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
         this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA_KOUME;
         SkelAnime_InitFlex(play, &this->skelAnime, &gTwinrovaKoumeSkel, &gTwinrovaKotakeKoumeFlyAnim, NULL, NULL, 0);
 
-        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_TWINROVA_BATTLE)) {
             // began twinrova battle
             BossTw_SetupFlyTo(this, play);
             this->actor.world.pos.x = 600.0f;
@@ -553,7 +581,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gTwinrovaSkel, &gTwinrovaTPoseAnim, NULL, NULL, 0);
         Animation_MorphToLoop(&this->skelAnime, &gTwinrovaTPoseAnim, -3.0f);
 
-        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_TWINROVA_BATTLE)) {
             // began twinrova battle
             BossTw_SetupWait(this, play);
         } else {
@@ -804,7 +832,7 @@ s32 BossTw_BeamHitPlayerCheck(BossTw* this, PlayState* play) {
         if (sTwinrovaPtr->timers[2] == 0) {
             sTwinrovaPtr->timers[2] = 150;
             this->beamDist = sqrtf(SQ(offset.x) + SQ(offset.y) + SQ(offset.z));
-            func_8002F6D4(play, &this->actor, 3.0f, this->actor.shape.rot.y, 0.0f, 0x20);
+            Actor_SetPlayerKnockbackLarge(play, &this->actor, 3.0f, this->actor.shape.rot.y, 0.0f, 0x20);
 
             if (this->actor.params == TW_KOTAKE) {
                 if (sFreezeState == 0) {
@@ -838,7 +866,7 @@ s32 BossTw_CheckBeamReflection(BossTw* this, PlayState* play) {
     Vec3f vec;
     Player* player = GET_PLAYER(play);
 
-    if (player->stateFlags1 & PLAYER_STATE1_22 &&
+    if (player->stateFlags1 & PLAYER_STATE1_SHIELDING &&
         (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) < 0x2000 &&
         (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) > -0x2000) {
         // player is shielding and facing angles are less than 45 degrees in either direction
@@ -980,7 +1008,7 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
 
     if (this->timers[1] != 0) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, this->rotateSpeed);
-        if ((player->stateFlags1 & PLAYER_STATE1_22) &&
+        if ((player->stateFlags1 & PLAYER_STATE1_SHIELDING) &&
             ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) < 0x2000) &&
             ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) > -0x2000)) {
             Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].x, 1.0f, 400.0f);
@@ -1757,7 +1785,7 @@ void BossTw_SetupCSWait(BossTw* this, PlayState* play) {
 }
 
 /**
- * Do nothing while waiting for the inital cutscene to start
+ * Do nothing while waiting for the initial cutscene to start
  */
 void BossTw_CSWait(BossTw* this, PlayState* play) {
 }
@@ -2217,7 +2245,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                 play->envCtx.lightBlend = 0.0f;
                 TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gTwinrovaTitleCardTex), 160,
                                        180, 128, 40);
-                SET_EVENTCHKINF(EVENTCHKINF_75);
+                SET_EVENTCHKINF(EVENTCHKINF_BEGAN_TWINROVA_BATTLE);
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             }
 
@@ -2974,7 +3002,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
     BossTw* this = (BossTw*)thisx;
     Player* player = GET_PLAYER(play);
 
-    this->actor.flags &= ~ACTOR_FLAG_10;
+    this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     this->unk_5F8 = 0;
     this->collider.base.colMaterial = COL_MATERIAL_HIT3;
 
@@ -5252,7 +5280,7 @@ void BossTw_TwinrovaStun(BossTw* this, PlayState* play) {
     s16 cloudType;
 
     this->unk_5F8 = 1;
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
 
     cloudType = sTwinrovaBlastType == 0 ? TWEFF_3 : TWEFF_2;
 

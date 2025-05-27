@@ -5,6 +5,19 @@
  */
 
 #include "z_obj_hamishi.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0
@@ -54,9 +67,9 @@ static s16 sEffectScales[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 250, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 250, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 500, ICHAIN_STOP),
 };
 
 void ObjHamishi_InitCollision(Actor* thisx, PlayState* play) {
@@ -140,7 +153,7 @@ void ObjHamishi_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        this->actor.uncullZoneForward += 1000.0f;
+        this->actor.cullingVolumeDistance += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.home.rot.y = Rand_ZeroFloat(65536.0f);

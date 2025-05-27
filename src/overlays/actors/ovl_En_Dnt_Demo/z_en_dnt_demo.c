@@ -5,10 +5,25 @@
  */
 
 #include "z_en_dnt_demo.h"
-
 #include "overlays/actors/ovl_En_Dnt_Jiji/z_en_dnt_jiji.h"
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
+
+#include "attributes.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64debug_display.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
 
 #define FLAGS 0
 
@@ -75,8 +90,8 @@ void EnDntDemo_Init(Actor* thisx, PlayState* play2) {
     s32 pad;
 
     PRINTF("\n\n");
-    // "Deku Scrub mask show start"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN)
+               T("☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n", "☆☆☆☆☆ Deku Scrub mask competition start ☆☆☆☆☆ \n") VT_RST);
     for (i = 0; i < 9; i++) {
         this->scrubPos[i] = sScrubPos[i];
         this->scrubs[i] = (EnDntNomal*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DNT_NOMAL,
@@ -94,8 +109,10 @@ void EnDntDemo_Init(Actor* thisx, PlayState* play2) {
     this->leader = (EnDntJiji*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DNT_JIJI,
                                                   this->leaderPos.x, this->leaderPos.y, this->leaderPos.z, 0, 0, 0, 0);
     if (this->leader != NULL) {
-        // "jiji jiji jiji jiji jiji" [onomatopoeia for the scrub sound?]
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
+        // onomatopoeia for the scrub sound?
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n", "☆☆☆☆☆ jiji jiji jiji jiji jiji ☆☆☆☆☆ %x\n")
+                   VT_RST,
+               this->leader);
     }
     this->subCamId = SUB_CAM_ID_DONE;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
@@ -156,7 +173,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
             delay = 0;
             switch (Player_GetMask(play)) {
                 case PLAYER_MASK_SKULL:
-                    if (!GET_ITEMGETINF(ITEMGETINF_1E)) {
+                    if (!GET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_STICK_UPGRADE)) {
                         reaction = DNT_SIGNAL_CELEBRATE;
                         this->prize = DNT_PRIZE_STICK;
                         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_SARIA_THEME);
@@ -164,7 +181,8 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                     }
                     FALLTHROUGH;
                 case PLAYER_MASK_TRUTH:
-                    if (!GET_ITEMGETINF(ITEMGETINF_1F) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
+                    if (!GET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_NUT_UPGRADE) &&
+                        (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
                         Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         this->prize = DNT_PRIZE_NUTS;
@@ -191,15 +209,17 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                         ignore = true;
                         delay = 8;
                         reaction = DNT_SIGNAL_HIDE;
-                        // "Special!"
-                        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 特別！ ☆☆☆☆☆ \n" VT_RST);
+                        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 特別！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Special! ☆☆☆☆☆ \n") VT_RST);
                     } else {
                         if (maskIdx >= PLAYER_MASK_MAX - 1) {
-                            // "This is dangerous!"
-                            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
-                            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
-                            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
-                            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
+                            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n", "☆☆☆☆☆ This is bad! ☆☆☆☆☆ \n")
+                                       VT_RST);
+                            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n", "☆☆☆☆☆ This is bad! ☆☆☆☆☆ \n")
+                                       VT_RST);
+                            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n", "☆☆☆☆☆ This is bad! ☆☆☆☆☆ \n")
+                                       VT_RST);
+                            PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n", "☆☆☆☆☆ This is bad! ☆☆☆☆☆ \n")
+                                       VT_RST);
                             maskIdx = Rand_ZeroFloat(7.99f);
                         }
 
@@ -222,17 +242,22 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                                 break;
                         }
                         PRINTF("\n\n");
-                        // "Each index 1"
-                        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス１ ☆☆☆☆☆ %d\n" VT_RST, rand9);
-                        // "Each index 2"
-                        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス２ ☆☆☆☆☆ %d\n" VT_RST, maskIdx);
-                        // "Each index 3"
-                        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス３ ☆☆☆☆☆ %d\n" VT_RST, resultIdx);
+                        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 各インデックス１ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Each index 1 ☆☆☆☆☆ %d\n")
+                                   VT_RST,
+                               rand9);
+                        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 各インデックス２ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Each index 2 ☆☆☆☆☆ %d\n")
+                                   VT_RST,
+                               maskIdx);
+                        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 各インデックス３ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Each index 3 ☆☆☆☆☆ %d\n")
+                                   VT_RST,
+                               resultIdx);
                         PRINTF("\n");
-                        // "What kind of evaluation?"
-                        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n" VT_RST, reaction);
-                        // "What kind of action?"
-                        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n" VT_RST, this->action);
+                        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n",
+                                                  "☆☆☆☆☆ What kind of evaluation? ☆☆☆☆☆☆ %d\n") VT_RST,
+                               reaction);
+                        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n",
+                                                   "☆☆☆☆☆ What kind of action?          ☆☆☆ %d\n") VT_RST,
+                               this->action);
                         PRINTF("\n\n");
                         break;
                     }
@@ -327,7 +352,7 @@ void EnDntDemo_Update(Actor* thisx, PlayState* play) {
     }
     this->actionFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         if (this->debugArrowTimer != 0) {
             if (!(this->debugArrowTimer & 1)) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

@@ -1,7 +1,10 @@
 #ifndef REGS_H
 #define REGS_H
 
+#include "ultra64.h"
 #include "versions.h"
+
+struct PlayState;
 
 #define REG_GROUPS 29 // number of REG groups, i.e. REG, SREG, OREG, etc.
 #define REG_PAGES 6
@@ -48,6 +51,7 @@
 #define R_ENV_Z_FAR                              REG(13)
 #define R_ENV_FOG_NEAR                           REG(14)
 #define R_ENV_TIME_SPEED_OLD                     REG(15) // Most likely used during development. Unused in the final game.
+#define R_DECELERATE_RATE                        REG(43)
 #define R_RUN_SPEED_LIMIT                        REG(45)
 #define R_ENABLE_ARENA_DBG                       SREG(0)
 #define R_AUDIOMGR_DEBUG_LEVEL                   SREG(20)
@@ -117,6 +121,8 @@
 #define R_MESSAGE_DEBUGGER_TEXTID                YREG(79)
 #define R_C_UP_ICON_X                            YREG(88)
 #define R_C_UP_ICON_Y                            YREG(89)
+#define R_EXITED_SCENE_RIDING_HORSE              AREG(6) // Used to spawn the player on top of Epona in the next scene
+#define R_DEBUG_FORCE_EPONA_OBTAINED             DREG(1) // If set, overrides EVENTCHKINF_EPONA_OBTAINED state giving Epona
 #define R_EPONAS_SONG_PLAYED                     DREG(53)
 #define R_MAGIC_FILL_COLOR(i)                    ZREG(0 + (i))
 #define R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON     ZREG(13)
@@ -134,6 +140,7 @@
 #define R_START_LABEL_Y(i)                       ZREG(51 + (i))
 #define R_START_LABEL_X(i)                       ZREG(54 + (i))
 #endif
+#define R_PAUSE_QUEST_MEDALLION_SHINE_TIME(i)    ZREG(61 + (i)) // i = 0..3 (clashes with ZREG(62) and ZREG(63))
 #define R_C_UP_BTN_X                             ZREG(62)
 #define R_C_UP_BTN_Y                             ZREG(63)
 #define R_START_BTN_X                            ZREG(68)
@@ -183,6 +190,8 @@
 #define R_ROOM_CULL_USED_ENTRIES                 iREG(88)
 #define R_ROOM_CULL_DEBUG_TARGET                 iREG(89)
 #define R_B_LABEL_DD                             WREG(0)
+#define R_PAUSE_PAGES_Y_ORIGIN_2                 WREG(2) // Complements PauseContext.pagesYOrigin1
+#define R_PAUSE_DEPTH_OFFSET                     WREG(3) // Offset position of all pages away from the camera
 #if OOT_NTSC
 #define R_B_LABEL_SCALE(i)                       WREG(8 + (i))
 #define R_B_LABEL_X(i)                           WREG(10 + (i))
@@ -218,6 +227,7 @@
 #define R_COMPASS_OFFSET_X                       VREG(16)
 #define R_COMPASS_OFFSET_Y                       VREG(17)
 #define R_MINIMAP_COLOR(i)                       VREG(18 + (i))
+#define R_PAUSE_SONG_OCA_BTN_Y(ocarinaBtnIndex)  VREG(21 + (ocarinaBtnIndex)) // VREG(21) to VREG(25)
 #define R_OCARINA_BUTTONS_XPOS                   VREG(28)
 #define R_OCARINA_BUTTONS_XPOS_OFFSET            VREG(29)
 #define R_TEXT_ADJUST_COLOR_1_R                  VREG(33)
@@ -227,6 +237,7 @@
 #define R_TEXT_ADJUST_COLOR_2_G                  VREG(37)
 #define R_TEXT_ADJUST_COLOR_2_B                  VREG(38)
 #define R_OCARINA_BUTTONS_YPOS(note)             VREG(45 + (note))
+#define R_OCARINA_BUTTONS_APPEAR_ALPHA_STEP      VREG(50)
 #define R_OCARINA_BUTTONS_YPOS_OFFSET            VREG(51)
 #define R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER_BASE VREG(60)
 #define R_KALEIDO_PROMPT_CURSOR_ALPHA            VREG(61)
@@ -275,7 +286,7 @@ typedef enum HRegMode {
 // HREG_MODE_UCODE_DISAS
 #define R_UCODE_DISAS_TOGGLE      HREG(81) // < 0 enables and prints some hardware reg info for 1 frame, > 0 enables constant disas
 #define R_UCODE_DISAS_LOG_MODE    HREG(82) // 1 and 2 print counts, 3 enables fault client, 4 disables open/close disps
-#define R_UCODE_DISAS_LOG_LEVEL   HREG(83) // enables various logging within the dissasembler itself
+#define R_UCODE_DISAS_LOG_LEVEL   HREG(83) // enables various logging within the dissassembler itself
 #define R_UCODE_DISAS_TOTAL_COUNT HREG(84) // read-only
 #define R_UCODE_DISAS_VTX_COUNT   HREG(85) // read-only
 #define R_UCODE_DISAS_SPVTX_COUNT HREG(86) // read-only
@@ -400,6 +411,8 @@ typedef struct RegEditor {
     /* 0x10 */ s32  inputRepeatTimer;
     /* 0x14 */ s16  data[REG_GROUPS * REGS_PER_GROUP]; // Accessed through *REG macros, see regs.h
 } RegEditor; // size = 0x15D4
+
+void Regs_InitData(struct PlayState* play);
 
 extern RegEditor* gRegEditor;
 

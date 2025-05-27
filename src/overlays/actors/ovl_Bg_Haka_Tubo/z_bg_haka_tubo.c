@@ -5,10 +5,22 @@
  */
 
 #include "z_bg_haka_tubo.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgHakaTubo_Init(Actor* thisx, PlayState* play);
 void BgHakaTubo_Destroy(Actor* thisx, PlayState* play);
@@ -114,7 +126,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, PlayState* play) {
     // Colliding with flame circle
     if (this->flamesCollider.base.atFlags & AT_HIT) {
         this->flamesCollider.base.atFlags &= ~AT_HIT;
-        func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 5.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 5.0f);
     }
     // Colliding with collider inside the pot
     if (this->potCollider.base.acFlags & AC_HIT) {

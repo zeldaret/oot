@@ -73,7 +73,7 @@ typedef struct __OSThreadTail {
 
 #else
 
-// OSThread struct member offsets
+/* OSThread struct member offsets */
 
 #define THREAD_NEXT     0x00
 #define THREAD_PRI      0x04

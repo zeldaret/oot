@@ -1,5 +1,11 @@
-#include "global.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "prenmi_state.h"
+#include "printf.h"
+#include "regs.h"
 #include "terminal.h"
+#include "versions.h"
+#include "vi_mode.h"
 
 void func_80092320(PreNMIState* this) {
     this->state.running = false;
@@ -17,7 +23,12 @@ void PreNMI_Update(PreNMIState* this) {
     }
 
     if (this->timer == 0) {
+#if OOT_VERSION < PAL_1_0
+        osViSetYScale(1.0f);
+        osViBlack(true);
+#else
         ViConfig_UpdateVi(true);
+#endif
         func_80092320(this);
         return;
     }

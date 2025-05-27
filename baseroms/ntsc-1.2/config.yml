@@ -2,7 +2,7 @@ checksums:
   - checksum-JP
   - checksum-US
 dmadata_start: 0x7960
-text_lang_pal: false
+text_lang: NTSC
 incbins:
   - name: ipl3
     segment: makerom
@@ -45,7 +45,7 @@ incbins:
     vram: 0x80115420
     size: 0x60
 variables:
-  gMtxClear: 0x800FF3F0
+  gIdentityMtx: 0x800FF3F0
   sJpnMessageEntryTable: 0x8010AFFC
   sNesMessageEntryTable: 0x8010F13C
   sStaffMessageEntryTable: 0x8011335C
@@ -58,7 +58,7 @@ assets:
 - name: code/fbdemo_circle
   xml_path: assets/xml/code/fbdemo_circle.xml
   start_offset: 0xEC0B8
-  end_offset: 0xED2D8
+  end_offset: 0xED3A8
 - name: code/fbdemo_triforce
   xml_path: assets/xml/code/fbdemo_triforce.xml
   start_offset: 0xEB540
@@ -66,7 +66,7 @@ assets:
 - name: code/fbdemo_wipe1
   xml_path: assets/xml/code/fbdemo_wipe1.xml
   start_offset: 0xEB610
-  end_offset: 0xEBFA0
+  end_offset: 0xEC098
 - name: n64dd/error_textures
   xml_path: assets/xml/n64dd/error_textures.xml
   start_offset: 0xC120
@@ -978,7 +978,7 @@ assets:
 - name: scenes/dungeons/ddan
   xml_path: assets/xml/scenes/dungeons/ddan.xml
 - name: scenes/dungeons/ddan_boss
-  xml_path: assets/xml/scenes/dungeons/ddan_boss.xml
+  xml_path: assets/xml/scenes/dungeons/ddan_boss_v2.xml
 - name: scenes/dungeons/FIRE_bs
   xml_path: assets/xml/scenes/dungeons/FIRE_bs.xml
 - name: scenes/dungeons/ganon
@@ -1006,7 +1006,7 @@ assets:
 - name: scenes/dungeons/HIDAN
   xml_path: assets/xml/scenes/dungeons/HIDAN.xml
 - name: scenes/dungeons/ice_doukutu
-  xml_path: assets/xml/scenes/dungeons/ice_doukutu.xml
+  xml_path: assets/xml/scenes/dungeons/ice_doukutu_v2.xml
 - name: scenes/dungeons/jyasinboss
   xml_path: assets/xml/scenes/dungeons/jyasinboss.xml
 - name: scenes/dungeons/jyasinzou
@@ -1148,7 +1148,7 @@ assets:
 - name: scenes/overworld/spot15
   xml_path: assets/xml/scenes/overworld/spot15.xml
 - name: scenes/overworld/spot16
-  xml_path: assets/xml/scenes/overworld/spot16.xml
+  xml_path: assets/xml/scenes/overworld/spot16_v2.xml
 - name: scenes/overworld/spot17
   xml_path: assets/xml/scenes/overworld/spot17.xml
 - name: scenes/overworld/spot18
@@ -1208,7 +1208,7 @@ assets:
 - name: textures/nes_font_static
   xml_path: assets/xml/textures/nes_font_static.xml
 - name: textures/nintendo_rogo_static
-  xml_path: assets/xml/textures/nintendo_rogo_static.xml
+  xml_path: assets/xml/textures/nintendo_rogo_static_v2.xml
 - name: textures/parameter_static
   xml_path: assets/xml/textures/parameter_static.xml
 - name: textures/place_title_cards

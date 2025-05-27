@@ -6,7 +6,14 @@
 
 #include "z_end_title.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EndTitle_Init(Actor* thisx, PlayState* play);
 void EndTitle_Destroy(Actor* thisx, PlayState* play);
@@ -45,18 +52,16 @@ void EndTitle_Update(Actor* thisx, PlayState* play) {
 
 // Used in the castle courtyard
 void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
-    MtxF* mf;
+    PlayState* play2 = (PlayState*)play;
     EndTitle* this = (EndTitle*)thisx;
-    s32 csCurFrame = play->csCtx.curFrame;
-    Player* player = GET_PLAYER(play);
-
-    mf = &player->mf_9E0;
+    s32 csCurFrame = play2->csCtx.curFrame;
+    Player* player = GET_PLAYER(play2);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_end_title.c", 403);
 
     // Draw the Triforce on Link's left hand
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    Matrix_Mult(mf, MTXMODE_NEW);
+    Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
     Matrix_Translate(0.0f, 150.0f, 170.0f, MTXMODE_APPLY);
     Matrix_Scale(0.13f, 0.13f, 0.13f, MTXMODE_APPLY);
     Matrix_RotateX(BINANG_TO_RAD(0xBB8), MTXMODE_APPLY);
@@ -70,14 +75,14 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_end_title.c", 419);
 
     // Draw title cards on the screen
-    if ((csCurFrame > 890) && (this->endAlpha < 200)) {
-        this->endAlpha += 7;
+    if ((csCurFrame > FRAMERATE_CONST(890, 740)) && (this->endAlpha < 200)) {
+        this->endAlpha += FRAMERATE_CONST(7, 8);
     }
-    if ((csCurFrame > 810) && (this->tlozAlpha < 200)) {
-        this->tlozAlpha += 15;
+    if ((csCurFrame > FRAMERATE_CONST(810, 675)) && (this->tlozAlpha < 200)) {
+        this->tlozAlpha += FRAMERATE_CONST(15, 18);
     }
-    if ((csCurFrame > 850) && (this->ootAlpha < 200)) {
-        this->ootAlpha += 15;
+    if ((csCurFrame > FRAMERATE_CONST(850, 710)) && (this->ootAlpha < 200)) {
+        this->ootAlpha += FRAMERATE_CONST(15, 18);
     }
 
     OVERLAY_DISP = Gfx_SetupDL_64(OVERLAY_DISP);
@@ -114,7 +119,7 @@ void EndTitle_DrawNintendoLogo(Actor* thisx, PlayState* play) {
     s32 pad;
     s32 csCurFrame = play->csCtx.curFrame;
 
-    if ((csCurFrame >= 1101) && (this->endAlpha < 255)) {
+    if ((csCurFrame > FRAMERATE_CONST(1100, 950)) && (this->endAlpha < 255)) {
         this->endAlpha += 3;
     }
 

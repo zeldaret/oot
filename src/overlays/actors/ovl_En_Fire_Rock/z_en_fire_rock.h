@@ -2,7 +2,7 @@
 #define Z_EN_FIRE_ROCK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 #include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 
@@ -17,7 +17,7 @@ typedef enum EnFireRockType {
 
 struct EnFireRock;
 
-typedef void (*EnFireRockActionFunc)(struct EnFireRock*, PlayState*);
+typedef void (*EnFireRockActionFunc)(struct EnFireRock*, struct PlayState*);
 
 typedef struct EnFireRock {
     /* 0x0000 */ Actor actor;

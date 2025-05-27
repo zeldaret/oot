@@ -2,11 +2,11 @@
 #define Z_EN_DH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDh;
 
-typedef void (*EnDhActionFunc)(struct EnDh*, PlayState*);
+typedef void (*EnDhActionFunc)(struct EnDh*, struct PlayState*);
 
 typedef struct EnDh {
     /* 0x0000 */ Actor actor;
@@ -24,8 +24,8 @@ typedef struct EnDh {
     /* 0x025C */ s16 timer;
     /* 0x025E */ s16 dirtWavePhase;
     /* 0x0260 */ ColliderCylinder collider1;
-    /* 0x02AC */ ColliderJntSph collider2;
-    /* 0x02CC */ ColliderJntSphElement elements[1];
+    /* 0x02AC */ ColliderJntSph colliderJntSph;
+    /* 0x02CC */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x030C */ Vec3f headPos;
     /* 0x0318 */ f32 dirtWaveSpread;
     /* 0x031C */ f32 dirtWaveHeight;

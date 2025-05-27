@@ -2,11 +2,11 @@
 #define Z_EN_RD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnRd;
 
-typedef void (*EnRdActionFunc)(struct EnRd*, PlayState*);
+typedef void (*EnRdActionFunc)(struct EnRd*, struct PlayState*);
 
 #define REDEAD_GET_RDFLAGS(thisx) PARAMS_GET_S((thisx)->params, 8, 8)
 

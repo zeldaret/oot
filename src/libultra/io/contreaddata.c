@@ -1,4 +1,5 @@
-#include "global.h"
+#include "array_count.h"
+#include "ultra64.h"
 
 s32 osContStartReadData(OSMesgQueue* mq) {
     s32 ret;
@@ -10,7 +11,11 @@ s32 osContStartReadData(OSMesgQueue* mq) {
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
     }
     ret = __osSiRawStartDma(OS_READ, &__osContPifRam);
+#ifdef BBPLAYER
+    __osContLastCmd = CONT_CMD_CHANNEL_RESET;
+#else
     __osContLastCmd = CONT_CMD_READ_BUTTON;
+#endif
     __osSiRelAccess();
     return ret;
 }
@@ -29,7 +34,18 @@ void osContGetReadData(OSContPad* contData) {
             contData->stick_x = read.joyX;
             contData->stick_y = read.joyY;
         }
-    };
+    }
+
+#ifdef BBPLAYER
+    if (__osBbIsBb && __osBbHackFlags != 0) {
+        OSContPad tmp;
+        contData -= __osMaxControllers;
+
+        tmp = contData[0];
+        contData[0] = contData[__osBbHackFlags];
+        contData[__osBbHackFlags] = tmp;
+    }
+#endif
 }
 
 void __osPackReadData(void) {

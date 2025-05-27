@@ -1,4 +1,11 @@
-#include "global.h"
+#include "avoid_ub.h"
+#include "buffers.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "z64light.h"
+#include "z64play.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define LIGHTS_BUFFER_SIZE 32
@@ -182,8 +189,7 @@ LightNode* Lights_FindBufSlot(void) {
     return node;
 }
 
-// return type must not be void to match
-s32 Lights_FreeNode(LightNode* light) {
+BAD_RETURN(s32) Lights_FreeNode(LightNode* light) {
     if (light != NULL) {
         sLightsBuffer.numOccupied--;
         light->info = NULL;

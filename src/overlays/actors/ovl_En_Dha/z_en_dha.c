@@ -6,9 +6,23 @@
 
 #include "z_en_dha.h"
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_dh/object_dh.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnDha_Init(Actor* thisx, PlayState* play);
 void EnDha_Destroy(Actor* thisx, PlayState* play);
@@ -165,7 +179,7 @@ void EnDha_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.health = 8;
     this->limbAngleX[0] = -0x4000;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
     EnDha_SetupWait(this);
@@ -242,11 +256,20 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
             this->handAngle.y -= this->actor.shape.rot.y + this->limbAngleY;
             this->handAngle.x -= this->actor.shape.rot.x + this->limbAngleX[0] + this->limbAngleX[1];
         } else {
+#if OOT_VERSION < NTSC_1_1
+            // Empty
+#elif OOT_VERSION < PAL_1_0
+            if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
+                player->stateFlags2 &= ~PLAYER_STATE2_7;
+                player->actor.parent = NULL;
+            }
+#else
             if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
                 player->av2.actionVar2 = 200;
             }
+#endif
 
             if (this->actor.home.rot.z != 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HAND_AT);
@@ -285,7 +308,9 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
         if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
             player->stateFlags2 &= ~PLAYER_STATE2_7;
             player->actor.parent = NULL;
+#if OOT_VERSION >= PAL_1_0
             player->av2.actionVar2 = 200;
+#endif
         }
 
         this->actor.home.rot.z = 1;
@@ -306,7 +331,9 @@ void EnDha_TakeDamage(EnDha* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
+#if OOT_VERSION >= PAL_1_0
         player->av2.actionVar2 = 200;
+#endif
     }
 
     Math_SmoothStepToS(&this->limbAngleX[1], 0, 1, 2000, 0);
@@ -344,7 +371,9 @@ void EnDha_Die(EnDha* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
+#if OOT_VERSION >= PAL_1_0
         player->av2.actionVar2 = 200;
+#endif
     }
 
     Math_SmoothStepToS(&this->limbAngleX[1], 0, 1, 0x7D0, 0);

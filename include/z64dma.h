@@ -34,7 +34,7 @@ extern size_t gDmaMgrDmaBuffSize;
 s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
                         OSMesg msg);
 s32 DmaMgr_RequestSync(void* ram, uintptr_t vrom, size_t size);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 DmaMgr_RequestAsyncDebug(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
                              OSMesg msg, const char* file, int line);
 s32 DmaMgr_RequestSyncDebug(void* ram, uintptr_t vrom, size_t size, const char* file, int line);
@@ -49,5 +49,13 @@ s32 DmaMgr_AudioDmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction);
 // Initialization
 
 void DmaMgr_Init(void);
+
+#if DEBUG_FEATURES
+#define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
+#define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
+#else
+#define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSync(ram, vrom, size)
+#define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsync(req, ram, vrom, size, unk5, queue, msg)
+#endif
 
 #endif

@@ -5,15 +5,27 @@
  */
 
 #include "z_elf_msg.h"
+
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "regs.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ElfMsg_Init(Actor* thisx, PlayState* play);
 void ElfMsg_Destroy(Actor* thisx, PlayState* play);
 void ElfMsg_Update(Actor* thisx, PlayState* play);
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 void ElfMsg_Draw(Actor* thisx, PlayState* play);
 #endif
 
@@ -29,7 +41,7 @@ ActorProfile Elf_Msg_Profile = {
     /**/ ElfMsg_Init,
     /**/ ElfMsg_Destroy,
     /**/ ElfMsg_Update,
-#if OOT_DEBUG
+#if DEBUG_ASSETS
     /**/ ElfMsg_Draw,
 #else
     /**/ NULL,
@@ -38,7 +50,7 @@ ActorProfile Elf_Msg_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_STOP),
 };
 
 void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
@@ -77,12 +89,12 @@ s32 ElfMsg_KillCheck(ElfMsg* this, PlayState* play) {
 void ElfMsg_Init(Actor* thisx, PlayState* play) {
     ElfMsg* this = (ElfMsg*)thisx;
 
-    // "Conditions for Elf Tag disappearing"
-    PRINTF(VT_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" VT_RST "\n", PARAMS_GET_U(thisx->params, 8, 6));
+    PRINTF(VT_FGCOL(CYAN) T("\nエルフ タグ 消える条件 %d", "\nConditions for Elf Tag disappearing %d") VT_RST "\n",
+           PARAMS_GET_U(thisx->params, 8, 6));
     PRINTF(VT_FGCOL(CYAN) "\nthisx->shape.angle.sy = %d\n" VT_RST, thisx->shape.rot.y);
     if (thisx->shape.rot.y >= 0x41) {
-        // "Conditions for Elf Tag appearing"
-        PRINTF(VT_FGCOL(CYAN) "\nエルフ タグ 出現条件 %d" VT_RST "\n", thisx->shape.rot.y - 0x41);
+        PRINTF(VT_FGCOL(CYAN) T("\nエルフ タグ 出現条件 %d", "\nConditions for Elf Tag appearing %d") VT_RST "\n",
+               thisx->shape.rot.y - 0x41);
     }
 
     if (!ElfMsg_KillCheck(this, play)) {
@@ -169,7 +181,7 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 #include "assets/overlays/ovl_Elf_Msg/ovl_Elf_Msg.c"
 
 void ElfMsg_Draw(Actor* thisx, PlayState* play) {

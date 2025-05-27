@@ -2,12 +2,12 @@
 #define Z_OBJ_SWITCH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ObjSwitch;
 
-typedef void (*ObjSwitchActionFunc)(struct ObjSwitch*, PlayState*);
-typedef void (*ObjSwitchDrawFunc)(Actor*, PlayState*);
+typedef void (*ObjSwitchActionFunc)(struct ObjSwitch*, struct PlayState*);
+typedef void (*ObjSwitchDrawFunc)(Actor*, struct PlayState*);
 
 typedef enum ObjSwitchType {
     /* 0 */ OBJSWITCH_TYPE_FLOOR,
@@ -26,13 +26,13 @@ typedef enum ObjSwitchSubType {
 } ObjSwitchSubType;
 
 typedef struct ObjSwitchJntSph {
-    /* 0x00 */ ColliderJntSph col;
-    /* 0x20 */ ColliderJntSphElement items[1];
+    /* 0x00 */ ColliderJntSph collider;
+    /* 0x20 */ ColliderJntSphElement colliderElements[1];
 } ObjSwitchJntSph;
 
 typedef struct ObjSwitchTris {
-    /* 0x00 */ ColliderTris col;
-    /* 0x20 */ ColliderTrisElement items[2];
+    /* 0x00 */ ColliderTris collider;
+    /* 0x20 */ ColliderTrisElement colliderElements[2];
 } ObjSwitchTris;
 
 typedef struct ObjSwitch {

@@ -5,6 +5,19 @@
  */
 
 #include "z_bg_spot08_iceblock.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_spot08_obj/object_spot08_obj.h"
 
 #define FLAGS 0
@@ -46,13 +59,13 @@ void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, PlayState* play, Coll
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        // "Warning: move BG registration failed"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 0xD9,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗",
+                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+               "../z_bg_spot08_iceblock.c", 0xD9, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -64,9 +77,9 @@ void BgSpot08Iceblock_CheckParams(BgSpot08Iceblock* this) {
             this->dyna.actor.params = 0x10;
             break;
         default:
-            // "Error: arg_data setting error"
-            PRINTF("Error : arg_data 設定ミスです。(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 0xF6,
-                   this->dyna.actor.params);
+            PRINTF(
+                T("Error : arg_data 設定ミスです。", "Error : arg_data setting error. ") "(%s %d)(arg_data 0x%04x)\n",
+                "../z_bg_spot08_iceblock.c", 0xF6, this->dyna.actor.params);
             this->dyna.actor.params = 0x10;
             break;
         case 1:
@@ -278,17 +291,16 @@ void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, PlayState* play) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2200, ICHAIN_STOP),
 };
 
 void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
     CollisionHeader* colHeader;
 
-    // "spot08 ice floe"
-    PRINTF("(spot08 流氷)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(spot08 " T("流氷", "ice floe") ")(arg_data 0x%04x)\n", this->dyna.actor.params);
     BgSpot08Iceblock_CheckParams(this);
 
     switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 9, 1)) {

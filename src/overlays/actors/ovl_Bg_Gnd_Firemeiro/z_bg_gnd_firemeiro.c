@@ -5,9 +5,18 @@
  */
 
 #include "z_bg_gnd_firemeiro.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgGndFiremeiro_Init(Actor* thisx, PlayState* play);
 void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play2);

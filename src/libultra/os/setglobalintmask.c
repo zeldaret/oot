@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 void __osSetGlobalIntMask(OSHWIntr mask) {
     register u32 prevInt = __osDisableInt();

@@ -1,0 +1,33 @@
+<Root>
+    <File Name="spot04_scene" Segment="2">
+        <Path Name="spot04_scenePathList_00030C" Offset="0x030C" NumPaths="3"/>
+        <Path Name="spot04_scenePathList_00D728" Offset="0xD758" NumPaths="2"/>
+        <Cutscene Name="gKokiriForestSariaGreetingCs" Offset="0x10E50"/>
+        <Cutscene Name="gKokiriForestIntroNaviFlyingCs" Offset="0xA6E0"/>
+        <Cutscene Name="gKokiriForestUnusedCs" Offset="0xB290"/>
+
+        <Cutscene Name="gKokiriForestCreditsDekuSproutCs" Offset="0xB9C4"/>
+        <Cutscene Name="gKokiriForestCreditsCameraPanCs" Offset="0xBB44"/>
+        <Cutscene Name="gKokiriForestCreditsCameraPanUnusedCs" Offset="0xB810"/>
+
+        <Cutscene Name="gKokiriForestDekuSproutPart1Cs" Offset="0xBCE0"/>
+        <Cutscene Name="gKokiriForestDekuSproutPart3Cs" Offset="0xCA00"/>
+
+        <Cutscene Name="gKokiriForestKokiriEmeraldPart1Cs" Offset="0x8DB0"/>
+        <Cutscene Name="gKokiriForestKokiriEmeraldPart7Cs" Offset="0x8954"/>
+        <Cutscene Name="gKokiriForestKokiriEmeraldPart9Cs" Offset="0x93B0"/>
+
+        <Scene Name="spot04_scene" Offset="0x0"/>
+    </File>
+    <File Name="spot04_room_0" Segment="3">
+        <Room Name="spot04_room_0" Offset="0x0"/>
+    </File>
+    <File Name="spot04_room_1" Segment="3">
+        <Room Name="spot04_room_1" Offset="0x0"/>
+    </File>
+    <File Name="spot04_room_2" Segment="3">
+        <DList Name="gSpot04DL_002BB8" Offset="0x2BB8"/>
+        <DList Name="gSpot04DL_005058" Offset="0x5058"/>
+        <Room Name="spot04_room_2" Offset="0x0"/>
+    </File>
+</Root>

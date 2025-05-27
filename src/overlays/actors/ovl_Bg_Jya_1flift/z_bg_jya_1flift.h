@@ -2,11 +2,11 @@
 #define Z_BG_JYA_1FLIFT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgJya1flift;
 
-typedef void (*BgJya1fliftActionFunc)(struct BgJya1flift*, PlayState*);
+typedef void (*BgJya1fliftActionFunc)(struct BgJya1flift*, struct PlayState*);
 
 typedef struct BgJya1flift {
     /* 0x0000 */ DynaPolyActor dyna;

@@ -6,10 +6,29 @@
 
 #include "z_en_diving_game.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
-#include "assets/objects/object_zo/object_zo.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/object_zo/object_zo.h"
+
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnDivingGame_Init(Actor* thisx, PlayState* play);
 void EnDivingGame_Destroy(Actor* thisx, PlayState* play);
@@ -479,8 +498,7 @@ void func_809EEA90(EnDivingGame* this, PlayState* play) {
 void func_809EEAF8(EnDivingGame* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        // "Successful completion"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal termination ☆☆☆☆☆ \n") VT_RST);
         this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;
         SET_EVENTCHKINF(EVENTCHKINF_38);
         this->actionFunc = func_809EDCB0;
@@ -561,8 +579,8 @@ s32 EnDivingGame_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
     }
 
     if (this->notPlayingMinigame && (limbIndex == 8 || limbIndex == 9 || limbIndex == 12)) {
-        rot->y += Math_SinS((play->state.frames * (limbIndex * 50 + 0x814))) * 200.0f;
-        rot->z += Math_CosS((play->state.frames * (limbIndex * 50 + 0x940))) * 200.0f;
+        rot->y += Math_SinS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
     }
 
     return 0;

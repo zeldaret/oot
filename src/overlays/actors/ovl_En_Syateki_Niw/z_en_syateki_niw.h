@@ -2,11 +2,11 @@
 #define Z_EN_SYATEKI_NIW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSyatekiNiw;
 
-typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, PlayState*);
+typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, struct PlayState*);
 
 typedef struct EnSyatekiNiwEffect {
     /* 0x00 */ u8    state;
@@ -34,7 +34,7 @@ typedef struct EnSyatekiNiw {
     /* 0x025A */ s16 archeryTimer;
     /* 0x025C */ s16 hopTimer; // intervals of jumping
     /* 0x025E */ s16 movementTimer; // intervals of changing location
-    /* 0x0260 */ s16 sootTimer; // cucco is covered in soot, smoke emmits
+    /* 0x0260 */ s16 sootTimer; // cucco is covered in soot, smoke emits
     /* 0x0262 */ s16 cluckTimer; // intervals of clucking SFX
     /* 0x0264 */ f32 headRotXTarget;
     /* 0x0268 */ f32 rightWingRotXTarget;

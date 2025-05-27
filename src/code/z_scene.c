@@ -1,6 +1,22 @@
-#include "global.h"
+#include "array_count.h"
+#include "avoid_ub.h"
+#include "printf.h"
+#include "regs.h"
+#include "romfile.h"
+#include "seqcmd.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
 #include "terminal.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_actor_dlftbls.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+#include "z64scene.h"
 
+SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX];
 RomFile sNaviQuestHintFiles[];
 
 /**
@@ -45,6 +61,15 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     return objectCtx->numEntries - 1;
 }
 
+// PAL N64 versions reduce the size of object space by 4 KiB in order to give some space back to
+// the Zelda arena, which can help prevent an issue where actors fail to spawn in specific areas
+// (sometimes referred to as the "Hyrule Field Glitch" although it can happen in more places than Hyrule Field).
+#if !OOT_PAL_N64
+#define OBJECT_SPACE_ADJUSTMENT 0
+#else
+#define OBJECT_SPACE_ADJUSTMENT (4 * 1024)
+#endif
+
 void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     PlayState* play2 = play;
     s32 pad;
@@ -52,21 +77,21 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     s32 i;
 
     if (play2->sceneId == SCENE_HYRULE_FIELD) {
-        spaceSize = 1000 * 1024;
+        spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else if (play2->sceneId == SCENE_GANON_BOSS) {
         if (gSaveContext.sceneLayer != 4) {
-            spaceSize = 1150 * 1024;
+            spaceSize = 1150 * 1024 - OBJECT_SPACE_ADJUSTMENT;
         } else {
-            spaceSize = 1000 * 1024;
+            spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
         }
     } else if (play2->sceneId == SCENE_SPIRIT_TEMPLE_BOSS) {
-        spaceSize = 1050 * 1024;
+        spaceSize = 1050 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else if (play2->sceneId == SCENE_CHAMBER_OF_THE_SAGES) {
-        spaceSize = 1050 * 1024;
+        spaceSize = 1050 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else if (play2->sceneId == SCENE_GANONDORF_BOSS) {
-        spaceSize = 1050 * 1024;
+        spaceSize = 1050 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else {
-        spaceSize = 1000 * 1024;
+        spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     }
 
     objectCtx->numEntries = objectCtx->numPersistentEntries = 0;
@@ -76,16 +101,16 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
         objectCtx->slots[i].id = OBJECT_INVALID;
     }
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF(T("オブジェクト入れ替えバンク情報 %8.3fKB\n", "Object exchange bank data %8.3fKB\n"), spaceSize / 1024.0f);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     objectCtx->spaceStart = objectCtx->slots[0].segment =
         GAME_STATE_ALLOC(&play->state, spaceSize, "../z_scene.c", 219);
     objectCtx->spaceEnd = (void*)((uintptr_t)objectCtx->spaceStart + spaceSize);
 
     objectCtx->mainKeepSlot = Object_SpawnPersistent(objectCtx, OBJECT_GAMEPLAY_KEEP);
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(objectCtx->slots[objectCtx->mainKeepSlot].segment);
+    gSegments[4] = OS_K0_TO_PHYSICAL(objectCtx->slots[objectCtx->mainKeepSlot].segment);
 }
 
 void Object_UpdateEntries(ObjectContext* objectCtx) {
@@ -181,12 +206,12 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
             break;
         }
 
-        if (cmdCode < ARRAY_COUNT(gSceneCmdHandlers)) {
-            gSceneCmdHandlers[cmdCode](play, sceneCmd);
+        if (cmdCode < ARRAY_COUNT(sSceneCmdHandlers)) {
+            sSceneCmdHandlers[cmdCode](play, sceneCmd);
         } else {
-            PRINTF(VT_FGCOL(RED));
+            PRINTF_COLOR_RED();
             PRINTF(T("code の値が異常です\n", "code variable is abnormal\n"));
-            PRINTF(VT_RST);
+            PRINTF_RST();
         }
 
         sceneCmd++;
@@ -241,7 +266,7 @@ BAD_RETURN(s32) Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
 BAD_RETURN(s32) Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
     if (cmd->specialFiles.keepObjectId != OBJECT_INVALID) {
         play->objectCtx.subKeepSlot = Object_SpawnPersistent(&play->objectCtx, cmd->specialFiles.keepObjectId);
-        gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[play->objectCtx.subKeepSlot].segment);
+        gSegments[5] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[play->objectCtx.subKeepSlot].segment);
     }
 
     if (cmd->specialFiles.naviQuestHintFileId != NAVI_QUEST_HINTS_NONE) {
@@ -250,8 +275,8 @@ BAD_RETURN(s32) Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
 }
 
 BAD_RETURN(s32) Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
-    play->roomCtx.curRoom.behaviorType1 = cmd->roomBehavior.gpFlag1;
-    play->roomCtx.curRoom.behaviorType2 = cmd->roomBehavior.gpFlag2 & 0xFF;
+    play->roomCtx.curRoom.type = cmd->roomBehavior.gpFlag1;
+    play->roomCtx.curRoom.environmentType = cmd->roomBehavior.gpFlag2 & 0xFF;
     play->roomCtx.curRoom.lensMode = (cmd->roomBehavior.gpFlag2 >> 8) & 1;
     play->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }
@@ -373,12 +398,21 @@ BAD_RETURN(s32) Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
 
     if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.save.entranceIndex == ENTR_LAKE_HYLIA_8)) {
+#if OOT_VERSION >= PAL_1_0
         gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
+#endif
 
+#if OOT_VERSION < PAL_1_0
+        if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(5, 0))) {
+            gSaveContext.skyboxTime = CLOCK_TIME(5, 0) + 1;
+        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(6, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(8, 0))) {
+            gSaveContext.skyboxTime = CLOCK_TIME(8, 0) + 1;
+#else
         if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {
             gSaveContext.skyboxTime = CLOCK_TIME(5, 0) + 1;
         } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(6, 30)) && (gSaveContext.skyboxTime <= CLOCK_TIME(8, 0))) {
             gSaveContext.skyboxTime = CLOCK_TIME(8, 0) + 1;
+#endif
         } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(16, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(17, 0))) {
             gSaveContext.skyboxTime = CLOCK_TIME(17, 0) + 1;
         } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(18, 0) + 1) &&
@@ -496,7 +530,7 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
     play->transitionType = ENTRANCE_INFO_START_TRANS_TYPE(gEntranceTable[entranceIndex].field);
 }
 
-SceneCmdHandlerFunc gSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
+SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
     Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_SPAWN_LIST
     Scene_CommandActorEntryList,           // SCENE_CMD_ID_ACTOR_LIST
     Scene_CommandUnused2,                  // SCENE_CMD_ID_UNUSED_2

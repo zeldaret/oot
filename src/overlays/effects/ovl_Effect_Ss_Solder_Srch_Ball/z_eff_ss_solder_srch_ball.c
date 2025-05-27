@@ -6,6 +6,11 @@
 
 #include "z_eff_ss_solder_srch_ball.h"
 
+#include "z64bgcheck.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #define rUnused regs[1]
 
 u32 EffectSsSolderSrchBall_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);

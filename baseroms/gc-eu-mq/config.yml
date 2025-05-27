@@ -1,5 +1,5 @@
 dmadata_start: 0x7170
-text_lang_pal: true
+text_lang: PAL
 incbins:
   - name: ipl3
     segment: makerom
@@ -42,7 +42,7 @@ incbins:
     vram: 0x801130D0
     size: 0x60
 variables:
-  gMtxClear: 0x800FBC00
+  gIdentityMtx: 0x800FBC00
   sNesMessageEntryTable: 0x801077F0
   sGerMessageEntryTable: 0x8010BA18
   sFraMessageEntryTable: 0x8010DB28
@@ -56,7 +56,7 @@ assets:
 - name: code/fbdemo_circle
   xml_path: assets/xml/code/fbdemo_circle.xml
   start_offset: 0xE90A8
-  end_offset: 0xEA2C8
+  end_offset: 0xEA398
 - name: code/fbdemo_triforce
   xml_path: assets/xml/code/fbdemo_triforce.xml
   start_offset: 0xE8530
@@ -64,7 +64,7 @@ assets:
 - name: code/fbdemo_wipe1
   xml_path: assets/xml/code/fbdemo_wipe1.xml
   start_offset: 0xE8600
-  end_offset: 0xE8F90
+  end_offset: 0xE9088
 - name: misc/link_animetion
   xml_path: assets/xml/misc/link_animetion.xml
 - name: misc/z_select_static
@@ -924,7 +924,7 @@ assets:
   start_offset: 0x6E0
   end_offset: 0x4088
 - name: overlays/ovl_file_choose
-  xml_path: assets/xml/overlays/ovl_file_choose_pal.xml
+  xml_path: assets/xml/overlays/ovl_file_choose_pal_gc.xml
   start_offset: 0xD740
   end_offset: 0xE010
 - name: overlays/ovl_Magic_Dark
@@ -972,7 +972,7 @@ assets:
 - name: scenes/dungeons/ddan
   xml_path: assets/xml/scenes/dungeons/ddan_mq.xml
 - name: scenes/dungeons/ddan_boss
-  xml_path: assets/xml/scenes/dungeons/ddan_boss.xml
+  xml_path: assets/xml/scenes/dungeons/ddan_boss_v2.xml
 - name: scenes/dungeons/FIRE_bs
   xml_path: assets/xml/scenes/dungeons/FIRE_bs.xml
 - name: scenes/dungeons/ganon
@@ -1142,7 +1142,7 @@ assets:
 - name: scenes/overworld/spot15
   xml_path: assets/xml/scenes/overworld/spot15.xml
 - name: scenes/overworld/spot16
-  xml_path: assets/xml/scenes/overworld/spot16.xml
+  xml_path: assets/xml/scenes/overworld/spot16_v2.xml
 - name: scenes/overworld/spot17
   xml_path: assets/xml/scenes/overworld/spot17.xml
 - name: scenes/overworld/spot18
@@ -1202,7 +1202,7 @@ assets:
 - name: textures/nes_font_static
   xml_path: assets/xml/textures/nes_font_static_v2.xml
 - name: textures/nintendo_rogo_static
-  xml_path: assets/xml/textures/nintendo_rogo_static.xml
+  xml_path: assets/xml/textures/nintendo_rogo_static_v2.xml
 - name: textures/parameter_static
   xml_path: assets/xml/textures/parameter_static.xml
 - name: textures/place_title_cards
@@ -1210,4 +1210,4 @@ assets:
 - name: textures/skyboxes
   xml_path: assets/xml/textures/skyboxes.xml
 - name: textures/title_static
-  xml_path: assets/xml/textures/title_static_pal.xml
+  xml_path: assets/xml/textures/title_static_pal_gc.xml

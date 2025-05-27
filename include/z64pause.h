@@ -50,6 +50,8 @@ typedef enum PauseMenuPage {
 
 #define PAUSE_EQUIP_PLAYER_WIDTH 64
 #define PAUSE_EQUIP_PLAYER_HEIGHT 112
+#define PAUSE_EQUIP_PLAYER_FRAG_HEIGHT (TMEM_SIZE / (PAUSE_EQUIP_PLAYER_WIDTH * G_IM_SIZ_16b_BYTES))
+#define PAUSE_EQUIP_PLAYER_FRAG_NUM (((PAUSE_EQUIP_PLAYER_HEIGHT - 1) / PAUSE_EQUIP_PLAYER_FRAG_HEIGHT) + 1)
 
 #define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
@@ -63,22 +65,22 @@ typedef enum PauseState {
     /*  5 */ PAUSE_STATE_OPENING_2, // Finish some animations for opening the menu.
     /*  6 */ PAUSE_STATE_MAIN, // Pause menu ready for player inputs.
     /*  7 */ PAUSE_STATE_SAVE_PROMPT,  // Save prompt in the pause menu
-    /*  8 */ PAUSE_STATE_8,
-    /*  9 */ PAUSE_STATE_9,
-    /* 10 */ PAUSE_STATE_10,
-    /* 11 */ PAUSE_STATE_11,
-    /* 12 */ PAUSE_STATE_12,
-    /* 13 */ PAUSE_STATE_13,
-    /* 14 */ PAUSE_STATE_14,
-    /* 15 */ PAUSE_STATE_15,
-    /* 16 */ PAUSE_STATE_16,
-    /* 17 */ PAUSE_STATE_17,
+    /*  8 */ PAUSE_STATE_GAME_OVER_START,
+    /*  9 */ PAUSE_STATE_GAME_OVER_WAIT_BG_PRERENDER,
+    /* 10 */ PAUSE_STATE_GAME_OVER_INIT,
+    /* 11 */ PAUSE_STATE_GAME_OVER_SHOW_MESSAGE,
+    /* 12 */ PAUSE_STATE_GAME_OVER_WINDOW_DELAY,
+    /* 13 */ PAUSE_STATE_GAME_OVER_SHOW_WINDOW, // Show background and animate
+    /* 14 */ PAUSE_STATE_GAME_OVER_SAVE_PROMPT, // Ask "Would you like to save?", apply the choice
+    /* 15 */ PAUSE_STATE_GAME_OVER_SAVED, // Show "Game saved.", wait for the delay or input
+    /* 16 */ PAUSE_STATE_GAME_OVER_CONTINUE_PROMPT, // Ask "Continue playing?"
+    /* 17 */ PAUSE_STATE_GAME_OVER_FINISH, // Fade out, then apply the choice
     /* 18 */ PAUSE_STATE_CLOSING, // Animate the pause menu closing
     /* 19 */ PAUSE_STATE_RESUME_GAMEPLAY // Handles returning to normal gameplay once the pause menu is visually closed
 } PauseState;
 
 #define IS_PAUSE_STATE_GAMEOVER(pauseCtx) \
-    (((pauseCtx)->state >= PAUSE_STATE_8) && ((pauseCtx)->state <= PAUSE_STATE_17))
+    (((pauseCtx)->state >= PAUSE_STATE_GAME_OVER_START) && ((pauseCtx)->state <= PAUSE_STATE_GAME_OVER_FINISH))
 
 #define IS_PAUSED(pauseCtx) \
     (((pauseCtx)->state != PAUSE_STATE_OFF) || ((pauseCtx)->debugState != 0))
@@ -87,14 +89,14 @@ typedef enum PauseState {
 typedef enum PauseMainState {
     /* 0 */ PAUSE_MAIN_STATE_IDLE,
     /* 1 */ PAUSE_MAIN_STATE_SWITCHING_PAGE,
-    /* 2 */ PAUSE_MAIN_STATE_2,
+    /* 2 */ PAUSE_MAIN_STATE_SONG_PLAYBACK, // The song is being played back to the player.
     /* 3 */ PAUSE_MAIN_STATE_3,
-    /* 4 */ PAUSE_MAIN_STATE_4,
-    /* 5 */ PAUSE_MAIN_STATE_5,
-    /* 6 */ PAUSE_MAIN_STATE_6,
-    /* 7 */ PAUSE_MAIN_STATE_7,
-    /* 8 */ PAUSE_MAIN_STATE_8,
-    /* 9 */ PAUSE_MAIN_STATE_9
+    /* 4 */ PAUSE_MAIN_STATE_SONG_PROMPT_INIT, // Start the prompt for the player to play the song.
+    /* 5 */ PAUSE_MAIN_STATE_SONG_PROMPT, // Waiting for the player to play the song.
+    /* 6 */ PAUSE_MAIN_STATE_SONG_PROMPT_DONE, // The song prompt is done, the player either played the song successfully or made a mistake.
+    /* 7 */ PAUSE_MAIN_STATE_EQUIP_CHANGED,
+    /* 8 */ PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG, // Like PAUSE_MAIN_STATE_IDLE, but the quest page is active and the cursor is positioned on a song.
+    /* 9 */ PAUSE_MAIN_STATE_SONG_PLAYBACK_START // Start playing the song back to the player.
 } PauseMainState;
 
 // Sub-states of PAUSE_STATE_SAVE_PROMPT
@@ -141,6 +143,11 @@ typedef enum WorldMapPointState {
     /* 2 */ WORLD_MAP_POINT_STATE_HIGHLIGHT
 } WorldMapPointState;
 
+// Values for PauseContext.pagesYOrigin1 and R_PAUSE_PAGES_Y_ORIGIN_2 respectively,
+// that make the pause pages rotate around their lower edge instead of the middle.
+#define PAUSE_PAGES_Y_ORIGIN_1_LOWER 80 // PAGE_BG_ROWS * PAGE_BG_QUAD_HEIGHT / 2
+#define PAUSE_PAGES_Y_ORIGIN_2_LOWER (s16)(-PAUSE_PAGES_Y_ORIGIN_1_LOWER * 0.78 * 100)
+
 typedef struct PauseContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ u8* iconItemSegment;
@@ -174,14 +181,14 @@ typedef struct PauseContext {
     /* 0x01E8 */ u16 pageIndex; // "kscp_pos"
     /* 0x01EA */ u16 pageSwitchTimer;
     /* 0x01EC */ u16 savePromptState;
-    /* 0x01F0 */ f32 unk_1F0;
-    /* 0x01F4 */ f32 unk_1F4;
-    /* 0x01F8 */ f32 unk_1F8;
-    /* 0x01FC */ f32 unk_1FC;
-    /* 0x0200 */ f32 unk_200;
-    /* 0x0204 */ f32 unk_204; // "angle_s"
+    /* 0x01F0 */ f32 promptDepthOffset; // Offset position of the prompt away from the camera
+    /* 0x01F4 */ f32 itemPagePitch; // Rotation of the item page around its local horizontal/sideways axis
+    /* 0x01F8 */ f32 equipPagePitch; // Rotation of the equip page around its local horizontal/sideways axis
+    /* 0x01FC */ f32 mapPagePitch; // Rotation of the map page around its local horizontal/sideways axis
+    /* 0x0200 */ f32 questPagePitch; // Rotation of the quest page around its local horizontal/sideways axis
+    /* 0x0204 */ f32 promptPitch; // Rotation of the prompt around its local horizontal/sideways axis. "angle_s"
     /* 0x0208 */ u16 alpha;
-    /* 0x020A */ s16 offsetY;
+    /* 0x020A */ s16 pagesYOrigin1;
     /* 0x020C */ char unk_20C[0x08];
     /* 0x0214 */ s16 stickAdjX;
     /* 0x0216 */ s16 stickAdjY;
@@ -244,5 +251,10 @@ typedef PauseMapMarkData PauseMapMarksData[3];
 void KaleidoSetup_Update(struct PlayState* play);
 void KaleidoSetup_Init(struct PlayState* play);
 void KaleidoSetup_Destroy(struct PlayState* play);
+
+extern u8 gBossMarkState;
+extern f32 gBossMarkScale;
+extern u32 D_8016139C;
+extern PauseMapMarksData* gLoadedPauseMarkDataTable;
 
 #endif

@@ -1,4 +1,19 @@
 #include "z_en_ny.h"
+
+#include "libc64/math64.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_ny/object_ny.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
@@ -49,7 +64,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     },
 };
 
-static ColliderJntSphInit sColliderInit = {
+static ColliderJntSphInit sColliderJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -110,7 +125,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 2;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     this->unk_1CA = 0;
     this->unk_1D0 = 0;
@@ -138,7 +153,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
         // "Dummy new initials"
         PRINTF("ダミーニュウ イニシャル[ %d ] ！！\n", this->actor.params);
         PRINTF("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actor.update = EnNy_UpdateUnused;
         this->collider.base.colMaterial = COL_MATERIAL_METAL;
     }

@@ -29,10 +29,10 @@ pipeline {
         // The ROMs are built in an order that maximizes compiler flags coverage in a "fail fast" approach.
         // Specifically we start with a retail ROM for BSS ordering, and make sure we cover all of
         // N64/GC/NTSC/PAL/MQ/DEBUG as quickly as possible.
-        stage('Build ntsc-1.2') {
+        stage('Build ntsc-1.0') {
             steps {
                 script {
-                    build('ntsc-1.2', 'oot-ntsc-1.2-us.z64')
+                    build('ntsc-1.0', 'oot-ntsc-1.0-us.z64')
                 }
            }
         }
@@ -56,6 +56,20 @@ pipeline {
                     build('gc-eu-mq-dbg', 'oot-gc-eu-mq-dbg.z64')
                 }
             }
+        }
+        stage('Build pal-1.0') {
+            steps {
+                script {
+                    build('pal-1.0', 'oot-pal-1.0.z64')
+                }
+           }
+        }
+        stage('Build ntsc-1.2') {
+            steps {
+                script {
+                    build('ntsc-1.2', 'oot-ntsc-1.2-us.z64')
+                }
+           }
         }
         stage('Build gc-us') {
             steps {
@@ -85,10 +99,31 @@ pipeline {
                 }
             }
         }
+        stage('Build pal-1.1') {
+            steps {
+                script {
+                    build('pal-1.1', 'oot-pal-1.1.z64')
+                }
+           }
+        }
+        stage('Build ntsc-1.1') {
+            steps {
+                script {
+                    build('ntsc-1.1', 'oot-ntsc-1.1-us.z64')
+                }
+           }
+        }
         stage('Build gc-us-mq') {
             steps {
                 script {
                     build('gc-us-mq', 'oot-gc-us-mq.z64')
+                }
+            }
+        }
+        stage('Build ique-cn') {
+            steps {
+                script {
+                    build('ique-cn', 'oot-ique-cn.z64')
                 }
             }
         }

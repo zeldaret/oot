@@ -1,9 +1,11 @@
 #ifndef FILE_SELECT_H
 #define FILE_SELECT_H
 
-#include "libc/stddef.h"
+#include "stddef.h"
 #include "ultra64.h"
-#include "global.h"
+#include "gfx.h"
+#include "versions.h"
+#include "z64game.h"
 
 
 #define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + offsetof(SaveContext, save.info.playerData.newf[index])])
@@ -16,7 +18,7 @@
      (GET_NEWF(sramCtx, slotNum, 4) == 'A') || \
      (GET_NEWF(sramCtx, slotNum, 5) == 'Z'))
 
-// Init mode: Initial setup as the file select is starting up, fades and slides in various menu elements
+// Init mode: Loads saves from SRAM, handles initial language selection in PAL N64 versions
 // Config mode: Handles the bulk of the file select, various configuration tasks like picking a file, copy/erase, and the options menu
 // Select mode: Displays the selected file with various details about it, and allows the player to confirm and open it
 typedef enum MenuMode {
@@ -139,20 +141,19 @@ typedef enum ConfirmButtonIndex {
 
 typedef enum ActionButtonIndex {
     /* 0 */ FS_BTN_ACTION_COPY,
-    /* 1 */ FS_BTN_ACTION_ERASE
+    /* 1 */ FS_BTN_ACTION_ERASE,
+    /* 2 */ FS_BTN_ACTION_YES,
+    /* 3 */ FS_BTN_ACTION_QUIT
 } ActionButtonIndex;
 
 typedef enum SettingIndex {
     /* 0 */ FS_SETTING_AUDIO,
-    /* 1 */ FS_SETTING_TARGET
+    /* 1 */ FS_SETTING_TARGET,
+#if OOT_PAL_N64
+    /* 2 */ FS_SETTING_LANGUAGE,
+#endif
+    /*   */ FS_SETTING_MAX
 } SettingIndex;
-
-typedef enum AudioOption {
-    /* 0 */ FS_AUDIO_STEREO,
-    /* 1 */ FS_AUDIO_MONO,
-    /* 2 */ FS_AUDIO_HEADSET,
-    /* 3 */ FS_AUDIO_SURROUND
-} AudioOption;
 
 typedef enum CharPage {
     /* 0 */ FS_CHAR_PAGE_HIRA,
@@ -219,5 +220,9 @@ void FileSelect_DrawOptions(GameState* thisx);
 
 void FileSelect_DrawNameEntry(GameState* thisx);
 void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
+
+#if OOT_VERSION == PAL_1_1
+extern s16 D_808124C0[];
+#endif
 
 #endif

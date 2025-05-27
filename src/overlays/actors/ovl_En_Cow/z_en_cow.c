@@ -6,6 +6,18 @@
 
 #include "z_en_cow.h"
 
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnCow_Init(Actor* thisx, PlayState* play);
@@ -217,7 +229,7 @@ void EnCow_UpdateAnimation(EnCow* this, PlayState* play) {
 
 void EnCow_TalkEnd(EnCow* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Message_CloseTextbox(play);
         this->actionFunc = EnCow_Idle;
     }
@@ -225,7 +237,7 @@ void EnCow_TalkEnd(EnCow* this, PlayState* play) {
 
 void EnCow_GiveMilkEnd(EnCow* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->actionFunc = EnCow_Idle;
     }
 }
@@ -241,7 +253,7 @@ void EnCow_GiveMilkWait(EnCow* this, PlayState* play) {
 
 void EnCow_GiveMilk(EnCow* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Message_CloseTextbox(play);
         this->actionFunc = EnCow_GiveMilkWait;
         Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 100.0f);
@@ -264,7 +276,7 @@ void EnCow_Talk(EnCow* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnCow_CheckForEmptyBottle;
     } else {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalk(&this->actor, play, 170.0f);
         this->actor.textId = 0x2006;
     }
@@ -290,7 +302,7 @@ void EnCow_Idle(EnCow* this, PlayState* play) {
                     (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 25000)) {
                     R_EPONAS_SONG_PLAYED = false;
                     this->actionFunc = EnCow_Talk;
-                    this->actor.flags |= ACTOR_FLAG_16;
+                    this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
                     Actor_OfferTalk(&this->actor, play, 170.0f);
                     this->actor.textId = 0x2006;
                 } else {

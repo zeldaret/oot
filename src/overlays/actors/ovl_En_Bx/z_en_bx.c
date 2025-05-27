@@ -5,9 +5,22 @@
  */
 
 #include "z_en_bx.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_bxa/object_bxa.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnBx_Init(Actor* thisx, PlayState* play);
 void EnBx_Destroy(Actor* thisx, PlayState* play);
@@ -98,7 +111,7 @@ void EnBx_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->colliderQuad, &this->actor, &sQuadInit);
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->unk_14C = 0;
-    thisx->uncullZoneDownward = 2000.0f;
+    thisx->cullingVolumeDownward = 2000.0f;
     if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 8, 8))) {
         Actor_Kill(&this->actor);
     }
@@ -146,14 +159,14 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
             }
             if ((&player->actor != this->collider.base.at) && (&player->actor != this->collider.base.ac) &&
                 (&player->actor != this->colliderQuad.base.at) && (player->invincibilityTimer <= 0)) {
-                if (player->invincibilityTimer < -39) {
+                if (player->invincibilityTimer <= -40) {
                     player->invincibilityTimer = 0;
                 } else {
                     player->invincibilityTimer = 0;
                     play->damagePlayer(play, -4);
                 }
             }
-            func_8002F71C(play, &this->actor, 6.0f, tmp32, 6.0f);
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 6.0f, tmp32, 6.0f);
             player->invincibilityTimer = tmp33;
         }
 

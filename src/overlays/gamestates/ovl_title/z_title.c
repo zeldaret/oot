@@ -4,18 +4,34 @@
  * Description: Displays the Nintendo Logo
  */
 
-#include "global.h"
-#include "alloca.h"
-#include "versions.h"
-
+#include "libu64/gfxprint.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #include "n64dd.h"
 #endif
 
+#include "alloca.h"
+#include "build.h"
+#include "console_logo_state.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "padmgr.h"
+#include "printf.h"
+#include "regs.h"
+#include "segment_symbols.h"
+#include "sequence.h"
+#include "sys_matrix.h"
+#include "sys_debug_controller.h"
+#include "sys_freeze.h"
+#include "title_setup_state.h"
+#include "versions.h"
+#include "z64actor.h"
+#include "z64environment.h"
+#include "z64save.h"
+
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
     Gfx* gfx;
     GfxPrint* printer;
@@ -40,7 +56,7 @@ void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
 #endif
 
 void ConsoleLogo_Calc(ConsoleLogoState* this) {
-#if PLATFORM_N64
+#if !PLATFORM_GC
     if ((this->coverAlpha == 0) && (this->visibleDuration != 0)) {
         this->unk_1D4--;
         this->visibleDuration--;
@@ -74,8 +90,8 @@ void ConsoleLogo_SetupView(ConsoleLogoState* this, f32 x, f32 y, f32 z) {
     eye.y = y;
     eye.z = z;
     up.x = up.z = 0.0f;
-    lookAt.x = lookAt.y = lookAt.z = 0.0f;
     up.y = 1.0f;
+    lookAt.x = lookAt.y = lookAt.z = 0.0f;
 
     View_SetPerspective(view, 30.0f, 10.0f, 12800.0f);
     View_LookAt(view, &eye, &lookAt, &up);
@@ -92,7 +108,8 @@ void ConsoleLogo_Draw(ConsoleLogoState* this) {
     Vec3f v3;
     Vec3f v1;
     Vec3f v2;
-    s32 pad2[2];
+    s32 pad2;
+    s32 pad3;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_title.c", 395);
 
@@ -156,13 +173,17 @@ void ConsoleLogo_Main(GameState* thisx) {
     ConsoleLogo_Calc(this);
     ConsoleLogo_Draw(this);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gIsCtrlr2Valid) {
         Gfx* gfx = POLY_OPA_DISP;
 
         ConsoleLogo_PrintBuildInfo(&gfx);
         POLY_OPA_DISP = gfx;
     }
+#endif
+
+#if PLATFORM_IQUE
+    this->exit = true;
 #endif
 
     if (this->exit) {
@@ -221,7 +242,7 @@ void ConsoleLogo_Init(GameState* thisx) {
     this->state.destroy = ConsoleLogo_Destroy;
     this->exit = false;
 
-#if OOT_VERSION < GC_US
+#if OOT_VERSION < GC_US || PLATFORM_IQUE
     if (!(gPadMgr.validCtrlrsMask & 1)) {
         gSaveContext.fileNum = 0xFEDC;
     } else {

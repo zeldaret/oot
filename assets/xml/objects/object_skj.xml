@@ -41,27 +41,25 @@
         <DList Name="gSkullKidRightArmDL" Offset="0x4810"/>
 
         <Animation Name="gSkullKidBackflipAnim" Offset="0x051C"/>
+        <Blob Name="object_skj_zeroes_Blob_52C" Size="0x24" Offset="0x52C"/>
         <Animation Name="gSkullKidShootNeedleAnim" Offset="0x07A4"/>
         <Animation Name="gSkullKidPlayFluteAnim" Offset="0x0E10"/>
+        <Blob Name="object_skj_zeroes_Blob_E20" Size="0x30" Offset="0xE20"/>
         <Animation Name="gSkullKidDieAnim" Offset="0x6A98"/>
+        <Blob Name="object_skj_zeroes_Blob_EAA8" Size="0x48" Offset="0x6AA8"/>
         <Animation Name="gSkullKidHitAnim" Offset="0x6D84"/>
+        <Blob Name="object_skj_zeroes_Blob_ED94" Size="0x1C" Offset="0x6D94"/>
         <Animation Name="gSkullKidLandAnim" Offset="0x7128"/>
+        <Blob Name="object_skj_zeroes_Blob_7138" Size="0x18" Offset="0x7138"/>
         <Animation Name="gSkullKidLookLeftAndRightAnim" Offset="0x8174"/>
+        <Blob Name="object_skj_zeroes_Blob_8184" Size="0x6C" Offset="0x8184"/>
         <Animation Name="gSkullKidFightingStanceAnim" Offset="0x8374"/>
+        <Blob Name="object_skj_zeroes_Blob_8BAC" Size="0x54" Offset="0x8BAC"/>
         <Animation Name="gSkullKidWaitAnim" Offset="0x8B9C"/>
         <Animation Name="gSkullKidWalkToPlayerAnim" Offset="0x8E14"/>
 
         <Texture Name="gSkullKidSkullMaskTex" OutName="skull_mask" Format="rgba16" Width="16" Height="16" Offset="0xF08"/>
         <Texture Name="gSkullKidSkullMaskTeethTex" OutName="skull_mask_teeth" Format="rgba16" Width="8" Height="8" Offset="0x1108"/>
         <Texture Name="gSkullKidSkullMaskNoseTex" OutName="skull_mask_nose" Format="rgba16" Width="8" Height="8" Offset="0x1188"/>
-
-        <!--Unaccounted blocks larger than the padding of a file-->
-        <Blob Name="gSKJunaccounted_52C" Size="0x24" Offset="0x52C"/>
-        <Blob Name="gSKJunaccounted_E20" Size="0x30" Offset="0xE20"/>
-        <Blob Name="gSKJunaccounted_EAA8" Size="0x48" Offset="0x6AA8"/>
-        <Blob Name="gSKJunaccounted_ED94" Size="0x1C" Offset="0x6D94"/>
-        <Blob Name="gSKJunaccounted_7138" Size="0x18" Offset="0x7138"/>
-        <Blob Name="gSKJunaccounted_8184" Size="0x6C" Offset="0x8184"/>
-        <Blob Name="gSKJunaccounted_8BAC" Size="0x54" Offset="0x8BAC"/>
     </File>
 </Root>
