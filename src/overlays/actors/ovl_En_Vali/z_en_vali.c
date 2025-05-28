@@ -98,47 +98,47 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 18, 32, MASS_HEAVY };
 
 typedef enum BariDamageReaction {
-    /* 0x0 */ BARI_DMGREAC_NONE,
-    /* 0x1 */ BARI_DMGREAC_STUN,
-    /* 0x2 */ BARI_DMGREAC_FIRE,
-    /* 0x3 */ BARI_DMGREAC_ICE,
-    /* 0xE */ BARI_DMGREAC_SLINGSHOT = 0xE,
-    /* 0xF */ BARI_DMGREAC_SWORD
+    /* 0x0 */ BARI_DMG_REAC_NONE,
+    /* 0x1 */ BARI_DMG_REAC_STUN,
+    /* 0x2 */ BARI_DMG_REAC_FIRE,
+    /* 0x3 */ BARI_DMG_REAC_ICE,
+    /* 0xE */ BARI_DMG_REAC_SLINGSHOT = 0xE,
+    /* 0xF */ BARI_DMG_REAC_SWORD
 } BariDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, BARI_DMGREAC_STUN),
-    /* Deku stick    */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Slingshot     */ DMG_ENTRY(0, BARI_DMGREAC_SLINGSHOT),
-    /* Explosive     */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Boomerang     */ DMG_ENTRY(0, BARI_DMGREAC_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Hookshot      */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Kokiri sword  */ DMG_ENTRY(1, BARI_DMGREAC_SWORD),
-    /* Master sword  */ DMG_ENTRY(2, BARI_DMGREAC_SWORD),
-    /* Giant's Knife */ DMG_ENTRY(4, BARI_DMGREAC_SWORD),
-    /* Fire arrow    */ DMG_ENTRY(4, BARI_DMGREAC_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(4, BARI_DMGREAC_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, BARI_DMGREAC_FIRE),
-    /* Ice magic     */ DMG_ENTRY(4, BARI_DMGREAC_ICE),
-    /* Light magic   */ DMG_ENTRY(0, BARI_DMGREAC_NONE),
-    /* Shield        */ DMG_ENTRY(0, BARI_DMGREAC_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, BARI_DMGREAC_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, BARI_DMGREAC_NONE),
-    /* Giant spin    */ DMG_ENTRY(4, BARI_DMGREAC_NONE),
-    /* Master spin   */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Kokiri jump   */ DMG_ENTRY(2, BARI_DMGREAC_NONE),
-    /* Giant jump    */ DMG_ENTRY(8, BARI_DMGREAC_NONE),
-    /* Master jump   */ DMG_ENTRY(4, BARI_DMGREAC_NONE),
-    /* Unknown 1     */ DMG_ENTRY(0, BARI_DMGREAC_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, BARI_DMGREAC_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, BARI_DMGREAC_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, BARI_DMGREAC_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, BARI_DMG_REAC_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Slingshot     */ DMG_ENTRY(0, BARI_DMG_REAC_SLINGSHOT),
+    /* Explosive     */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, BARI_DMG_REAC_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Hookshot      */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, BARI_DMG_REAC_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, BARI_DMG_REAC_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, BARI_DMG_REAC_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(4, BARI_DMG_REAC_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(4, BARI_DMG_REAC_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, BARI_DMG_REAC_FIRE),
+    /* Ice magic     */ DMG_ENTRY(4, BARI_DMG_REAC_ICE),
+    /* Light magic   */ DMG_ENTRY(0, BARI_DMG_REAC_NONE),
+    /* Shield        */ DMG_ENTRY(0, BARI_DMG_REAC_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, BARI_DMG_REAC_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, BARI_DMG_REAC_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, BARI_DMG_REAC_NONE),
+    /* Master spin   */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, BARI_DMG_REAC_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, BARI_DMG_REAC_NONE),
+    /* Master jump   */ DMG_ENTRY(4, BARI_DMG_REAC_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, BARI_DMG_REAC_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, BARI_DMG_REAC_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, BARI_DMG_REAC_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, BARI_DMG_REAC_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -512,21 +512,21 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
-        if ((this->actor.colChkInfo.damageReaction != BARI_DMGREAC_NONE) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != BARI_DMG_REAC_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-            } else if ((this->actor.colChkInfo.damageReaction != BARI_DMGREAC_STUN) &&
-                       (this->actor.colChkInfo.damageReaction != BARI_DMGREAC_SLINGSHOT)) {
+            } else if ((this->actor.colChkInfo.damageReaction != BARI_DMG_REAC_STUN) &&
+                       (this->actor.colChkInfo.damageReaction != BARI_DMG_REAC_SLINGSHOT)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DAMAGE);
             }
 
-            if (this->actor.colChkInfo.damageReaction == BARI_DMGREAC_STUN) {
+            if (this->actor.colChkInfo.damageReaction == BARI_DMG_REAC_STUN) {
                 if (this->actionFunc != EnVali_Stunned) {
                     EnVali_SetupStunned(this);
                 }
-            } else if (this->actor.colChkInfo.damageReaction == BARI_DMGREAC_SWORD) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REAC_SWORD) {
                 if (this->actionFunc != EnVali_Stunned) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
                     this->actor.params = BARI_TYPE_SWORD_DAMAGE;
@@ -534,11 +534,11 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
                 } else {
                     EnVali_SetupRetaliate(this);
                 }
-            } else if (this->actor.colChkInfo.damageReaction == BARI_DMGREAC_FIRE) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REAC_FIRE) {
                 EnVali_SetupBurnt(this);
-            } else if (this->actor.colChkInfo.damageReaction == BARI_DMGREAC_ICE) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REAC_ICE) {
                 EnVali_SetupFrozen(this);
-            } else if (this->actor.colChkInfo.damageReaction == BARI_DMGREAC_SLINGSHOT) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REAC_SLINGSHOT) {
                 if (this->slingshotReactionTimer == 0) {
                     this->slingshotReactionTimer = 20;
                 }

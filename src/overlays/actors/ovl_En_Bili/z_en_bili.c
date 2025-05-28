@@ -79,47 +79,47 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 9, 28, -20, 30 };
 
 typedef enum BiriDamageReaction {
-    /* 0x0 */ BIRI_DMGREAC_NONE,
-    /* 0x1 */ BIRI_DMGREAC_DEKUNUT,
-    /* 0x2 */ BIRI_DMGREAC_FIRE,
-    /* 0x3 */ BIRI_DMGREAC_ICE,
-    /* 0xE */ BIRI_DMGREAC_SLINGSHOT = 0xE,
-    /* 0xF */ BIRI_DMGREAC_SWORD
+    /* 0x0 */ BIRI_DMG_REAC_NONE,
+    /* 0x1 */ BIRI_DMG_REAC_DEKUNUT,
+    /* 0x2 */ BIRI_DMG_REAC_FIRE,
+    /* 0x3 */ BIRI_DMG_REAC_ICE,
+    /* 0xE */ BIRI_DMG_REAC_SLINGSHOT = 0xE,
+    /* 0xF */ BIRI_DMG_REAC_SWORD
 } BiriDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, BIRI_DMGREAC_DEKUNUT),
-    /* Deku stick    */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Slingshot     */ DMG_ENTRY(0, BIRI_DMGREAC_SLINGSHOT),
-    /* Explosive     */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Boomerang     */ DMG_ENTRY(1, BIRI_DMGREAC_NONE),
-    /* Normal arrow  */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Hookshot      */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Kokiri sword  */ DMG_ENTRY(1, BIRI_DMGREAC_SWORD),
-    /* Master sword  */ DMG_ENTRY(2, BIRI_DMGREAC_SWORD),
-    /* Giant's Knife */ DMG_ENTRY(4, BIRI_DMGREAC_SWORD),
-    /* Fire arrow    */ DMG_ENTRY(4, BIRI_DMGREAC_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(4, BIRI_DMGREAC_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, BIRI_DMGREAC_FIRE),
-    /* Ice magic     */ DMG_ENTRY(4, BIRI_DMGREAC_ICE),
-    /* Light magic   */ DMG_ENTRY(0, BIRI_DMGREAC_NONE),
-    /* Shield        */ DMG_ENTRY(0, BIRI_DMGREAC_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, BIRI_DMGREAC_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, BIRI_DMGREAC_NONE),
-    /* Giant spin    */ DMG_ENTRY(4, BIRI_DMGREAC_NONE),
-    /* Master spin   */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Kokiri jump   */ DMG_ENTRY(2, BIRI_DMGREAC_NONE),
-    /* Giant jump    */ DMG_ENTRY(8, BIRI_DMGREAC_NONE),
-    /* Master jump   */ DMG_ENTRY(4, BIRI_DMGREAC_NONE),
-    /* Unknown 1     */ DMG_ENTRY(0, BIRI_DMGREAC_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, BIRI_DMGREAC_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, BIRI_DMGREAC_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, BIRI_DMGREAC_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, BIRI_DMG_REAC_DEKUNUT),
+    /* Deku stick    */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Slingshot     */ DMG_ENTRY(0, BIRI_DMG_REAC_SLINGSHOT),
+    /* Explosive     */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Boomerang     */ DMG_ENTRY(1, BIRI_DMG_REAC_NONE),
+    /* Normal arrow  */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Hookshot      */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, BIRI_DMG_REAC_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, BIRI_DMG_REAC_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, BIRI_DMG_REAC_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(4, BIRI_DMG_REAC_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(4, BIRI_DMG_REAC_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, BIRI_DMG_REAC_FIRE),
+    /* Ice magic     */ DMG_ENTRY(4, BIRI_DMG_REAC_ICE),
+    /* Light magic   */ DMG_ENTRY(0, BIRI_DMG_REAC_NONE),
+    /* Shield        */ DMG_ENTRY(0, BIRI_DMG_REAC_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, BIRI_DMG_REAC_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, BIRI_DMG_REAC_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, BIRI_DMG_REAC_NONE),
+    /* Master spin   */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, BIRI_DMG_REAC_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, BIRI_DMG_REAC_NONE),
+    /* Master jump   */ DMG_ENTRY(4, BIRI_DMG_REAC_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, BIRI_DMG_REAC_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, BIRI_DMG_REAC_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, BIRI_DMG_REAC_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, BIRI_DMG_REAC_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -581,11 +581,11 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
 
             damageReaction = this->actor.colChkInfo.damageReaction;
 
-            if (damageReaction == BIRI_DMGREAC_DEKUNUT) {
+            if (damageReaction == BIRI_DMG_REAC_DEKUNUT) {
                 if (this->actionFunc != EnBili_Stunned) {
                     EnBili_SetupStunned(this);
                 }
-            } else if (damageReaction == BIRI_DMGREAC_SWORD) {
+            } else if (damageReaction == BIRI_DMG_REAC_SWORD) {
                 if (this->actionFunc != EnBili_Stunned) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 10);
 
@@ -596,12 +596,12 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
                 } else {
                     EnBili_SetupBurnt(this);
                 }
-            } else if (damageReaction == BIRI_DMGREAC_FIRE) {
+            } else if (damageReaction == BIRI_DMG_REAC_FIRE) {
                 EnBili_SetupBurnt(this);
                 this->timer = 2;
-            } else if (damageReaction == BIRI_DMGREAC_ICE) {
+            } else if (damageReaction == BIRI_DMG_REAC_ICE) {
                 EnBili_SetupFrozen(this, play);
-            } else if (damageReaction == BIRI_DMGREAC_SLINGSHOT) {
+            } else if (damageReaction == BIRI_DMG_REAC_SLINGSHOT) {
                 EnBili_SetupRecoil(this);
             } else {
                 EnBili_SetupBurnt(this);

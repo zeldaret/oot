@@ -49,48 +49,48 @@ void EnReeba_Stunned(EnReeba* this, PlayState* play);
 void EnReeba_StunDie(EnReeba* this, PlayState* play);
 
 typedef enum LeeverDamageReaction {
-    /* 0x00 */ LEEVER_DMGREAC_NONE, // used by anything that cant kill the Leever
-    /* 0x01 */ LEEVER_DMGREAC_UNK,  // used by "unknown 1" attack
-    /* 0x03 */ LEEVER_DMGREAC_ICE = 3,
-    /* 0x0B */ LEEVER_DMGREAC_UNUSED = 11, // not used in the damage table, but still checked for.
-    /* 0x0C */ LEEVER_DMGREAC_BOOMERANG,
-    /* 0x0D */ LEEVER_DMGREAC_HOOKSHOT,
-    /* 0x0E */ LEEVER_DMGREAC_OTHER
+    /* 0x00 */ LEEVER_DMG_REAC_NONE, // used by anything that cant kill the Leever
+    /* 0x01 */ LEEVER_DMG_REAC_UNK,  // used by "unknown 1" attack
+    /* 0x03 */ LEEVER_DMG_REAC_ICE = 3,
+    /* 0x0B */ LEEVER_DMG_REAC_UNUSED = 11, // not used in the damage table, but still checked for.
+    /* 0x0C */ LEEVER_DMG_REAC_BOOMERANG,
+    /* 0x0D */ LEEVER_DMG_REAC_HOOKSHOT,
+    /* 0x0E */ LEEVER_DMG_REAC_OTHER
 } LeeverDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, LEEVER_DMGREAC_NONE),
-    /* Deku stick    */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Slingshot     */ DMG_ENTRY(1, LEEVER_DMGREAC_OTHER),
-    /* Explosive     */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Boomerang     */ DMG_ENTRY(1, LEEVER_DMGREAC_BOOMERANG),
-    /* Normal arrow  */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Hammer swing  */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Hookshot      */ DMG_ENTRY(2, LEEVER_DMGREAC_HOOKSHOT),
-    /* Kokiri sword  */ DMG_ENTRY(1, LEEVER_DMGREAC_OTHER),
-    /* Master sword  */ DMG_ENTRY(4, LEEVER_DMGREAC_OTHER),
-    /* Giant's Knife */ DMG_ENTRY(6, LEEVER_DMGREAC_OTHER),
-    /* Fire arrow    */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Ice arrow     */ DMG_ENTRY(4, LEEVER_DMGREAC_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Unk arrow 1   */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Unk arrow 2   */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Unk arrow 3   */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Fire magic    */ DMG_ENTRY(0, LEEVER_DMGREAC_NONE),
-    /* Ice magic     */ DMG_ENTRY(4, LEEVER_DMGREAC_ICE),
-    /* Light magic   */ DMG_ENTRY(0, LEEVER_DMGREAC_NONE),
-    /* Shield        */ DMG_ENTRY(0, LEEVER_DMGREAC_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, LEEVER_DMGREAC_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Giant spin    */ DMG_ENTRY(8, LEEVER_DMGREAC_OTHER),
-    /* Master spin   */ DMG_ENTRY(4, LEEVER_DMGREAC_OTHER),
-    /* Kokiri jump   */ DMG_ENTRY(2, LEEVER_DMGREAC_OTHER),
-    /* Giant jump    */ DMG_ENTRY(8, LEEVER_DMGREAC_OTHER),
-    /* Master jump   */ DMG_ENTRY(4, LEEVER_DMGREAC_OTHER),
-    /* Unknown 1     */ DMG_ENTRY(0, LEEVER_DMGREAC_UNK),
-    /* Unblockable   */ DMG_ENTRY(0, LEEVER_DMGREAC_NONE),
-    /* Hammer jump   */ DMG_ENTRY(0, LEEVER_DMGREAC_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, LEEVER_DMGREAC_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, LEEVER_DMG_REAC_NONE),
+    /* Deku stick    */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Slingshot     */ DMG_ENTRY(1, LEEVER_DMG_REAC_OTHER),
+    /* Explosive     */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Boomerang     */ DMG_ENTRY(1, LEEVER_DMG_REAC_BOOMERANG),
+    /* Normal arrow  */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Hammer swing  */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Hookshot      */ DMG_ENTRY(2, LEEVER_DMG_REAC_HOOKSHOT),
+    /* Kokiri sword  */ DMG_ENTRY(1, LEEVER_DMG_REAC_OTHER),
+    /* Master sword  */ DMG_ENTRY(4, LEEVER_DMG_REAC_OTHER),
+    /* Giant's Knife */ DMG_ENTRY(6, LEEVER_DMG_REAC_OTHER),
+    /* Fire arrow    */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Ice arrow     */ DMG_ENTRY(4, LEEVER_DMG_REAC_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Unk arrow 1   */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Unk arrow 2   */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Unk arrow 3   */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Fire magic    */ DMG_ENTRY(0, LEEVER_DMG_REAC_NONE),
+    /* Ice magic     */ DMG_ENTRY(4, LEEVER_DMG_REAC_ICE),
+    /* Light magic   */ DMG_ENTRY(0, LEEVER_DMG_REAC_NONE),
+    /* Shield        */ DMG_ENTRY(0, LEEVER_DMG_REAC_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, LEEVER_DMG_REAC_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Giant spin    */ DMG_ENTRY(8, LEEVER_DMG_REAC_OTHER),
+    /* Master spin   */ DMG_ENTRY(4, LEEVER_DMG_REAC_OTHER),
+    /* Kokiri jump   */ DMG_ENTRY(2, LEEVER_DMG_REAC_OTHER),
+    /* Giant jump    */ DMG_ENTRY(8, LEEVER_DMG_REAC_OTHER),
+    /* Master jump   */ DMG_ENTRY(4, LEEVER_DMG_REAC_OTHER),
+    /* Unknown 1     */ DMG_ENTRY(0, LEEVER_DMG_REAC_UNK),
+    /* Unblockable   */ DMG_ENTRY(0, LEEVER_DMG_REAC_NONE),
+    /* Hammer jump   */ DMG_ENTRY(0, LEEVER_DMG_REAC_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, LEEVER_DMG_REAC_NONE),
 };
 
 ActorProfile En_Reeba_Profile = {
@@ -556,8 +556,8 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
             this->stunType = LEEVER_STUN_NONE;
 
             switch (this->actor.colChkInfo.damageReaction) {
-                case LEEVER_DMGREAC_UNUSED:
-                case LEEVER_DMGREAC_BOOMERANG:
+                case LEEVER_DMG_REAC_UNUSED:
+                case LEEVER_DMG_REAC_BOOMERANG:
                     if ((this->actor.colChkInfo.health > 1) && (this->stunType != LEEVER_STUN_OTHER)) {
                         this->stunType = LEEVER_STUN_OTHER;
                         Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -567,7 +567,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         break;
                     }
                     FALLTHROUGH;
-                case LEEVER_DMGREAC_HOOKSHOT:
+                case LEEVER_DMG_REAC_HOOKSHOT:
                     if ((this->actor.colChkInfo.health > 2) && (this->stunType != LEEVER_STUN_OTHER)) {
                         this->stunType = LEEVER_STUN_OTHER;
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
@@ -577,7 +577,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         break;
                     }
                     FALLTHROUGH;
-                case LEEVER_DMGREAC_OTHER:
+                case LEEVER_DMG_REAC_OTHER:
                     this->unkDamageField = 6;
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
@@ -593,7 +593,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                     }
                     break;
 
-                case LEEVER_DMGREAC_ICE:
+                case LEEVER_DMG_REAC_ICE:
                     Actor_ApplyDamage(&this->actor);
                     this->unkDamageField = 2;
                     this->stunType = LEEVER_STUN_ICE;
@@ -601,7 +601,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                     this->actionfunc = EnReeba_SetupStunned;
                     break;
 
-                case LEEVER_DMGREAC_UNK:
+                case LEEVER_DMG_REAC_UNK:
                     if (this->stunType != LEEVER_STUN_OTHER) {
                         this->stunType = LEEVER_STUN_OTHER;
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,

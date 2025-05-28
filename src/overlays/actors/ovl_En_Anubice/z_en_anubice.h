@@ -41,7 +41,7 @@ typedef struct EnAnubice {
     /* 0x025C */ s16 knockbackTimer;
     /* 0x025E */ s16 isMirroringPlayer;
     /* 0x0260 */ s16 isPlayerOutOfRange;
-    /* 0x0262 */ s16 isKnockedback; // Hit by an attack without ANUBICE_DMGREAC_FIRE
+    /* 0x0262 */ s16 isKnockedback; // Hit by an attack without ANUBICE_DMG_REAC_FIRE
     /* 0x0264 */ s16 hasSearchedForFlameCircles;
     /* 0x0268 */ f32 hoverVelocityTimer;
     /* 0x026C */ f32 animLastFrame;

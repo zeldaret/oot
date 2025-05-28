@@ -128,47 +128,47 @@ static ColliderQuadInit sQuadInit = {
 };
 
 typedef enum ArmosDamageReaction {
-    /*  0 */ AM_DMGREAC_NONE, // used by anything that can't kill the armos
-    /*  1 */ AM_DMGREAC_NUT,
-    /*  6 */ AM_DMGREAC_STUN = 6, // doesn't include deku nuts
-    /* 13 */ AM_DMGREAC_ICE = 13,
-    /* 14 */ AM_DMGREAC_MAGIC_FIRE_LIGHT,
-    /* 15 */ AM_DMGREAC_KILL // any damage source that can kill the armos (and isn't a special case)
+    /*  0 */ AM_DMG_REAC_NONE, // used by anything that can't kill the armos
+    /*  1 */ AM_DMG_REAC_NUT,
+    /*  6 */ AM_DMG_REAC_STUN = 6, // doesn't include deku nuts
+    /* 13 */ AM_DMG_REAC_ICE = 13,
+    /* 14 */ AM_DMG_REAC_MAGIC_FIRE_LIGHT,
+    /* 15 */ AM_DMG_REAC_KILL // any damage source that can kill the armos (and isn't a special case)
 } ArmosDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, AM_DMGREAC_NUT),
-    /* Deku stick    */ DMG_ENTRY(2, AM_DMGREAC_NONE),
-    /* Slingshot     */ DMG_ENTRY(1, AM_DMGREAC_NONE),
-    /* Explosive     */ DMG_ENTRY(2, AM_DMGREAC_KILL),
-    /* Boomerang     */ DMG_ENTRY(0, AM_DMGREAC_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, AM_DMGREAC_KILL),
-    /* Hammer swing  */ DMG_ENTRY(2, AM_DMGREAC_KILL),
-    /* Hookshot      */ DMG_ENTRY(0, AM_DMGREAC_STUN),
-    /* Kokiri sword  */ DMG_ENTRY(1, AM_DMGREAC_NONE),
-    /* Master sword  */ DMG_ENTRY(2, AM_DMGREAC_KILL),
-    /* Giant's Knife */ DMG_ENTRY(4, AM_DMGREAC_KILL),
-    /* Fire arrow    */ DMG_ENTRY(2, AM_DMGREAC_KILL),
-    /* Ice arrow     */ DMG_ENTRY(4, AM_DMGREAC_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, AM_DMGREAC_KILL),
-    /* Unk arrow 1   */ DMG_ENTRY(2, AM_DMGREAC_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, AM_DMGREAC_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, AM_DMGREAC_NONE),
-    /* Fire magic    */ DMG_ENTRY(0, AM_DMGREAC_MAGIC_FIRE_LIGHT),
-    /* Ice magic     */ DMG_ENTRY(3, AM_DMGREAC_ICE),
-    /* Light magic   */ DMG_ENTRY(0, AM_DMGREAC_MAGIC_FIRE_LIGHT),
-    /* Shield        */ DMG_ENTRY(0, AM_DMGREAC_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, AM_DMGREAC_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, AM_DMGREAC_NONE),
-    /* Giant spin    */ DMG_ENTRY(4, AM_DMGREAC_KILL),
-    /* Master spin   */ DMG_ENTRY(2, AM_DMGREAC_KILL),
-    /* Kokiri jump   */ DMG_ENTRY(2, AM_DMGREAC_NONE),
-    /* Giant jump    */ DMG_ENTRY(8, AM_DMGREAC_KILL),
-    /* Master jump   */ DMG_ENTRY(4, AM_DMGREAC_KILL),
-    /* Unknown 1     */ DMG_ENTRY(0, AM_DMGREAC_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, AM_DMGREAC_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, AM_DMGREAC_KILL),
-    /* Unknown 2     */ DMG_ENTRY(0, AM_DMGREAC_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, AM_DMG_REAC_NUT),
+    /* Deku stick    */ DMG_ENTRY(2, AM_DMG_REAC_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, AM_DMG_REAC_NONE),
+    /* Explosive     */ DMG_ENTRY(2, AM_DMG_REAC_KILL),
+    /* Boomerang     */ DMG_ENTRY(0, AM_DMG_REAC_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, AM_DMG_REAC_KILL),
+    /* Hammer swing  */ DMG_ENTRY(2, AM_DMG_REAC_KILL),
+    /* Hookshot      */ DMG_ENTRY(0, AM_DMG_REAC_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, AM_DMG_REAC_NONE),
+    /* Master sword  */ DMG_ENTRY(2, AM_DMG_REAC_KILL),
+    /* Giant's Knife */ DMG_ENTRY(4, AM_DMG_REAC_KILL),
+    /* Fire arrow    */ DMG_ENTRY(2, AM_DMG_REAC_KILL),
+    /* Ice arrow     */ DMG_ENTRY(4, AM_DMG_REAC_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, AM_DMG_REAC_KILL),
+    /* Unk arrow 1   */ DMG_ENTRY(2, AM_DMG_REAC_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, AM_DMG_REAC_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, AM_DMG_REAC_NONE),
+    /* Fire magic    */ DMG_ENTRY(0, AM_DMG_REAC_MAGIC_FIRE_LIGHT),
+    /* Ice magic     */ DMG_ENTRY(3, AM_DMG_REAC_ICE),
+    /* Light magic   */ DMG_ENTRY(0, AM_DMG_REAC_MAGIC_FIRE_LIGHT),
+    /* Shield        */ DMG_ENTRY(0, AM_DMG_REAC_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, AM_DMG_REAC_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, AM_DMG_REAC_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, AM_DMG_REAC_KILL),
+    /* Master spin   */ DMG_ENTRY(2, AM_DMG_REAC_KILL),
+    /* Kokiri jump   */ DMG_ENTRY(2, AM_DMG_REAC_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, AM_DMG_REAC_KILL),
+    /* Master jump   */ DMG_ENTRY(4, AM_DMG_REAC_KILL),
+    /* Unknown 1     */ DMG_ENTRY(0, AM_DMG_REAC_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, AM_DMG_REAC_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, AM_DMG_REAC_KILL),
+    /* Unknown 2     */ DMG_ENTRY(0, AM_DMG_REAC_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -735,7 +735,7 @@ void EnAm_SetupStunned(EnAm* this, PlayState* play) {
 
     Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 100);
 
-    if (this->damageReaction == AM_DMGREAC_ICE) {
+    if (this->damageReaction == AM_DMG_REAC_ICE) {
         this->iceTimer = 48;
     }
 
@@ -810,27 +810,27 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
         } else if ((this->hurtCollider.base.acFlags & AC_HIT) && (this->behavior >= AM_BEHAVIOR_5)) {
             this->hurtCollider.base.acFlags &= ~AC_HIT;
 
-            if (this->dyna.actor.colChkInfo.damageReaction != AM_DMGREAC_MAGIC_FIRE_LIGHT) {
+            if (this->dyna.actor.colChkInfo.damageReaction != AM_DMG_REAC_MAGIC_FIRE_LIGHT) {
                 this->unk_264 = 0;
                 this->damageReaction = this->dyna.actor.colChkInfo.damageReaction;
                 Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.elem, false);
 
-                if ((this->dyna.actor.colChkInfo.damageReaction == AM_DMGREAC_NUT) ||
-                    (this->dyna.actor.colChkInfo.damageReaction == AM_DMGREAC_STUN) ||
-                    (this->dyna.actor.colChkInfo.damageReaction == AM_DMGREAC_ICE)) {
+                if ((this->dyna.actor.colChkInfo.damageReaction == AM_DMG_REAC_NUT) ||
+                    (this->dyna.actor.colChkInfo.damageReaction == AM_DMG_REAC_STUN) ||
+                    (this->dyna.actor.colChkInfo.damageReaction == AM_DMG_REAC_ICE)) {
                     if (this->behavior != AM_BEHAVIOR_STUNNED) {
                         EnAm_SetupStunned(this, play);
 
                         if (this->dyna.actor.colChkInfo.damage != 0) {
                             this->dyna.actor.colChkInfo.health = 0;
                         }
-                    } else if (this->dyna.actor.colChkInfo.damageReaction == AM_DMGREAC_STUN) {
+                    } else if (this->dyna.actor.colChkInfo.damageReaction == AM_DMG_REAC_STUN) {
                         Vec3f sparkPos = this->dyna.actor.world.pos;
 
                         sparkPos.y += 50.0f;
                         CollisionCheck_SpawnShieldParticlesMetal(play, &sparkPos);
                     }
-                } else if ((this->dyna.actor.colChkInfo.damageReaction == AM_DMGREAC_KILL) ||
+                } else if ((this->dyna.actor.colChkInfo.damageReaction == AM_DMG_REAC_KILL) ||
                            (this->behavior == AM_BEHAVIOR_STUNNED)) {
                     this->dyna.actor.colChkInfo.health = 0;
 
@@ -857,7 +857,7 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
         EnAm_UpdateDamage(this, play);
     }
 
-    if (this->dyna.actor.colChkInfo.damageReaction != AM_DMGREAC_MAGIC_FIRE_LIGHT) {
+    if (this->dyna.actor.colChkInfo.damageReaction != AM_DMG_REAC_MAGIC_FIRE_LIGHT) {
         if (this->attackTimer != 0) {
             this->attackTimer--;
         }
