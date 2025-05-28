@@ -1007,8 +1007,8 @@ void* sEyeTextures[PLAYER_EYES_MAX] = {
     gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
     gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
     gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
-    gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
-    gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
+    gLinkAdultEyesRightTex,   // PLAYER_EYES_LEFT
+    gLinkAdultEyesLeftTex,    // PLAYER_EYES_RIGHT
     gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
     gLinkAdultEyesDownTex,    // PLAYER_EYES_DOWN
     gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
@@ -1027,8 +1027,8 @@ void* sEyeTextures[][PLAYER_EYES_MAX] = {
         gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
         gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
         gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
-        gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
-        gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
+        gLinkAdultEyesRightTex,   // PLAYER_EYES_LEFT
+        gLinkAdultEyesLeftTex,    // PLAYER_EYES_RIGHT
         gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
         gLinkAdultEyesDownTex,    // PLAYER_EYES_DOWN
         gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
