@@ -378,8 +378,8 @@ DrawItemTableEntry sDrawItemTable[] = {
  * Draw "Get Item" Model
  * Calls the corresponding draw function for the given draw ID
  */
-void GetItem_Draw(PlayState* play, s16 drawId) {
-    sDrawItemTable[drawId].drawFunc(play, drawId);
+void GetItem_Draw(PlayState* play, s16 giDrawId) {
+    sDrawItemTable[giDrawId].drawFunc(play, giDrawId);
 }
 
 // All remaining functions in this file are draw functions referenced in the table and called by the function above
