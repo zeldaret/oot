@@ -194,7 +194,7 @@ s32 Collider_DestroyElementDamageInfoAC(PlayState* play, ColliderElementDamageIn
 s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo,
                                     ColliderElementDamageInfoACInit* init) {
     acDmgInfo->dmgFlags = init->dmgFlags;
-    acDmgInfo->effect = init->effect;
+    acDmgInfo->hitBacklash = init->effect;
     acDmgInfo->defense = init->defense;
     return true;
 }
@@ -1739,7 +1739,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
         atElem->atHitElem = acElem;
         atElem->atElemFlags |= ATELEM_HIT;
         if (atCol->actor != NULL) {
-            atCol->actor->colChkInfo.atHitBacklash = acElem->acDmgInfo.effect;
+            atCol->actor->colChkInfo.atHitBacklash = acElem->acDmgInfo.hitBacklash;
         }
     }
     acCol->acFlags |= AC_HIT;
