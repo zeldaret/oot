@@ -391,7 +391,7 @@ typedef struct CollisionCheckContext {
 #define OCLINE_NONE 0 // Did not have an OcLine collision
 #define OCLINE_HIT (1 << 0) // Had an OcLine collision
 
-#define DMG_ENTRY(damage, effect) ((damage) | ((effect) << 4))
+#define DMG_ENTRY(damage, reaction) ((damage) | ((reaction) << 4))
 
 #define DMG_DEKU_NUT     (1 << 0)
 #define DMG_DEKU_STICK   (1 << 1)
