@@ -324,7 +324,7 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
             effectPos.y = this->collider.elements[0].base.acDmgInfo.hitPos.y;
             effectPos.z = this->collider.elements[0].base.acDmgInfo.hitPos.z;
             if ((this->unk_1E0 == 0.25f) && (this->unk_1D4 == 0xFF)) {
-                switch (this->actor.colChkInfo.damageEffect) {
+                switch (this->actor.colChkInfo.damageReaction) {
                     case 0xE:
                         sp3F = 1;
                         FALLTHROUGH;

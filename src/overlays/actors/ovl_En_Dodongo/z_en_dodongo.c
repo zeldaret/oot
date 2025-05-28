@@ -733,9 +733,9 @@ void EnDodongo_CollisionCheck(EnDodongo* this, PlayState* play) {
     } else if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->actionState > DODONGO_DEATH)) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->bodyCollider, false);
-        if (this->actor.colChkInfo.damageEffect != 0xE) {
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
-            if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
+        if (this->actor.colChkInfo.damageReaction != 0xE) {
+            this->damageEffect = this->actor.colChkInfo.damageReaction;
+            if ((this->actor.colChkInfo.damageReaction == 1) || (this->actor.colChkInfo.damageReaction == 0xF)) {
                 if (this->actionState != DODONGO_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -783,7 +783,7 @@ void EnDodongo_Update(Actor* thisx, PlayState* play) {
     EnDodongo* this = (EnDodongo*)thisx;
 
     EnDodongo_CollisionCheck(this, play);
-    if (this->actor.colChkInfo.damageEffect != 0xE) {
+    if (this->actor.colChkInfo.damageReaction != 0xE) {
         this->actionFunc(this, play);
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 60.0f, 70.0f,

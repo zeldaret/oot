@@ -555,7 +555,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
             this->actor.shape.rot.x = this->actor.shape.rot.z = 0;
             this->stunType = LEEVER_STUN_NONE;
 
-            switch (this->actor.colChkInfo.damageEffect) {
+            switch (this->actor.colChkInfo.damageReaction) {
                 case LEEVER_DMGEFF_UNUSED:
                 case LEEVER_DMGEFF_BOOMERANG:
                     if ((this->actor.colChkInfo.health > 1) && (this->stunType != LEEVER_STUN_OTHER)) {

@@ -512,21 +512,21 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
-        if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-            } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
-                       (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
+            } else if ((this->actor.colChkInfo.damageReaction != BARI_DMGEFF_STUN) &&
+                       (this->actor.colChkInfo.damageReaction != BARI_DMGEFF_SLINGSHOT)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DAMAGE);
             }
 
-            if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_STUN) {
+            if (this->actor.colChkInfo.damageReaction == BARI_DMGEFF_STUN) {
                 if (this->actionFunc != EnVali_Stunned) {
                     EnVali_SetupStunned(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SWORD) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMGEFF_SWORD) {
                 if (this->actionFunc != EnVali_Stunned) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
                     this->actor.params = BARI_TYPE_SWORD_DAMAGE;
@@ -534,11 +534,11 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
                 } else {
                     EnVali_SetupRetaliate(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_FIRE) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMGEFF_FIRE) {
                 EnVali_SetupBurnt(this);
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_ICE) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMGEFF_ICE) {
                 EnVali_SetupFrozen(this);
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SLINGSHOT) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMGEFF_SLINGSHOT) {
                 if (this->slingshotReactionTimer == 0) {
                     this->slingshotReactionTimer = 20;
                 }

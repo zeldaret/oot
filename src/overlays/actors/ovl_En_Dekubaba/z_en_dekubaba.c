@@ -1049,14 +1049,14 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
 
         if ((this->collider.base.colMaterial != COL_MATERIAL_HARD) &&
-            ((this->actor.colChkInfo.damageEffect != DEKUBABA_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0))) {
+            ((this->actor.colChkInfo.damageReaction != DEKUBABA_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0))) {
 
             phi_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
 
             if (this->actionFunc != EnDekubaba_StunnedVertical) {
-                if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) ||
-                    (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_DEKUNUT)) {
-                    if (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) {
+                if ((this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_BOOMERANG) ||
+                    (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_DEKUNUT)) {
+                    if (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_BOOMERANG) {
                         phi_s0 = this->actor.colChkInfo.health;
                     }
 
@@ -1070,14 +1070,14 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
                 } else {
                     EnDekubaba_SetupHit(this, 0);
                 }
-            } else if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) ||
-                       (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_SWORD)) {
+            } else if ((this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_BOOMERANG) ||
+                       (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_SWORD)) {
                 if (phi_s0 > 0) {
                     EnDekubaba_SetupSway(this);
                 } else {
                     EnDekubaba_SetupPrunedSomersault(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect != DEKUBABA_DMGEFF_DEKUNUT) {
+            } else if (this->actor.colChkInfo.damageReaction != DEKUBABA_DMGEFF_DEKUNUT) {
                 EnDekubaba_SetupHit(this, 0);
             } else {
                 return;
@@ -1085,7 +1085,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
 
             this->actor.colChkInfo.health = CLAMP_MIN(phi_s0, 0);
 
-            if (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_FIRE) {
+            if (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_FIRE) {
                 firePos = &this->actor.world.pos;
                 fireScale = (this->size * 70.0f);
 

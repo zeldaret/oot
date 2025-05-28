@@ -706,10 +706,10 @@ void func_809D0584(EnBw* this, PlayState* play) {
     } else {
         if (this->collider2.base.acFlags & AC_HIT) {
             this->collider2.base.acFlags &= ~AC_HIT;
-            if ((this->actor.colChkInfo.damageEffect == 0) || (this->unk_220 == 6)) {
+            if ((this->actor.colChkInfo.damageReaction == 0) || (this->unk_220 == 6)) {
                 return;
             }
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
+            this->damageEffect = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->collider2.elem, false);
             if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
                 if (this->unk_23C == 0) {
@@ -771,7 +771,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
     Color_RGBA8 sp44 = { 0, 0, 0, 220 };
 
     func_809D0584(this, play);
-    if (thisx->colChkInfo.damageEffect != 6) {
+    if (thisx->colChkInfo.damageReaction != 6) {
         this->actionFunc(this, play);
         if (this->unk_23C == 0) {
             this->unk_23A = (this->unk_23A + 4) & 0x7F;

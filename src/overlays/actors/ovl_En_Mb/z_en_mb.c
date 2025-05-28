@@ -1440,8 +1440,8 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
     } else if ((this->bodyCollider.base.acFlags & AC_HIT) && this->state >= ENMB_STATE_STUNNED) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_IGNORE &&
-            this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {
+        if (this->actor.colChkInfo.damageReaction != ENMB_DMGEFF_IGNORE &&
+            this->actor.colChkInfo.damageReaction != ENMB_DMGEFF_FREEZE) {
             if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
@@ -1450,11 +1450,11 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
 #endif
                 Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 6.0f, this->actor.world.rot.y, 6.0f);
             }
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
+            this->damageEffect = this->actor.colChkInfo.damageReaction;
             this->attack = ENMB_ATTACK_NONE;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
-            if (this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN ||
-                this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN_ICE) {
+            if (this->actor.colChkInfo.damageReaction == ENMB_DMGEFF_STUN ||
+                this->actor.colChkInfo.damageReaction == ENMB_DMGEFF_STUN_ICE) {
                 if (this->state != ENMB_STATE_STUNNED) {
                     Actor_ApplyDamage(&this->actor);
                     EnMb_SetupStunned(this);
@@ -1485,7 +1485,7 @@ void EnMb_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     EnMb_CheckColliding(this, play);
-    if (thisx->colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {
+    if (thisx->colChkInfo.damageReaction != ENMB_DMGEFF_FREEZE) {
         this->actionFunc(this, play);
         Actor_MoveXZGravity(thisx);
         Actor_UpdateBgCheckInfo(play, thisx, 40.0f, 40.0f, 70.0f,

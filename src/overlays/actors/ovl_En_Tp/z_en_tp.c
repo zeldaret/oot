@@ -604,10 +604,10 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
 
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
-        this->damageEffect = this->actor.colChkInfo.damageEffect;
+        this->damageEffect = this->actor.colChkInfo.damageReaction;
 
-        if (this->actor.colChkInfo.damageEffect != TAILPASARAN_DMGEFF_NONE) {
-            if (this->actor.colChkInfo.damageEffect == TAILPASARAN_DMGEFF_DEKUNUT) {
+        if (this->actor.colChkInfo.damageReaction != TAILPASARAN_DMGEFF_NONE) {
+            if (this->actor.colChkInfo.damageReaction == TAILPASARAN_DMGEFF_DEKUNUT) {
                 phi_s4 = 1;
             }
 
@@ -622,7 +622,7 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
 
                 if (head->actor.params <= TAILPASARAN_HEAD) {
                     EnTp_SetupDie(head);
-                    head->damageEffect = this->actor.colChkInfo.damageEffect;
+                    head->damageEffect = this->actor.colChkInfo.damageReaction;
                     head->actor.params = TAILPASARAN_HEAD_DYING;
                 }
             } else {

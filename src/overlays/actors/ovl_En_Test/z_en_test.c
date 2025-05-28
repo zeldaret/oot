@@ -1678,9 +1678,9 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
     } else if (this->bodyCollider.base.acFlags & AC_HIT) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-        if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING) &&
-            (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC)) {
-            this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
+        if ((this->actor.colChkInfo.damageReaction != STALFOS_DMGEFF_SLING) &&
+            (this->actor.colChkInfo.damageReaction != STALFOS_DMGEFF_FIREMAGIC)) {
+            this->lastDamageEffect = this->actor.colChkInfo.damageReaction;
             if (this->swordState >= 1) {
                 this->swordState = 0;
             }
@@ -1689,9 +1689,9 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
-            if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||
-                (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_FREEZE) ||
-                (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_LIGHT)) {
+            if ((this->actor.colChkInfo.damageReaction == STALFOS_DMGEFF_STUN) ||
+                (this->actor.colChkInfo.damageReaction == STALFOS_DMGEFF_FREEZE) ||
+                (this->actor.colChkInfo.damageReaction == STALFOS_DMGEFF_LIGHT)) {
                 if (this->unk_7C8 != 0xB) {
                     Actor_ApplyDamage(&this->actor);
                     EnTest_SetupStunned(this);
@@ -1723,7 +1723,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
 
     EnTest_UpdateDamage(this, play);
 
-    if (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC) {
+    if (this->actor.colChkInfo.damageReaction != STALFOS_DMGEFF_FIREMAGIC) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |

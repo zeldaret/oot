@@ -2028,12 +2028,12 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
 
         if (((this->actor.params < ENZF_TYPE_LIZALFOS_MINIBOSS_A) /* not miniboss */ ||
              (D_80B4A1B4 != this->actor.params)) &&
-            (this->actor.colChkInfo.damageEffect != ENZF_DMGEFF_IMMUNE)) {
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
+            (this->actor.colChkInfo.damageReaction != ENZF_DMGEFF_IMMUNE)) {
+            this->damageEffect = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
 
-            if ((this->actor.colChkInfo.damageEffect == ENZF_DMGEFF_STUN) ||
-                (this->actor.colChkInfo.damageEffect == ENZF_DMGEFF_ICE)) {
+            if ((this->actor.colChkInfo.damageReaction == ENZF_DMGEFF_STUN) ||
+                (this->actor.colChkInfo.damageReaction == ENZF_DMGEFF_ICE)) {
                 if (this->action != ENZF_ACTION_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -2072,7 +2072,7 @@ void EnZf_Update(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     EnZf_UpdateDamage(this, play);
-    if (this->actor.colChkInfo.damageEffect != ENZF_DMGEFF_IMMUNE) {
+    if (this->actor.colChkInfo.damageReaction != ENZF_DMGEFF_IMMUNE) {
         this->unk_3F8 = false;
         if ((this->hopAnimIndex != 1) && (this->action != ENZF_ACTION_HOP_AWAY)) {
             if (this->actor.speed != 0.0f) {

@@ -3027,7 +3027,7 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
  */
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage = 0;
-    info->damageEffect = 0;
+    info->damageReaction = 0;
     info->atHitEffect = 0;
     info->acHitEffect = 0;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
@@ -3108,7 +3108,7 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
         }
 
         damage = tbl->table[i] & 0xF;
-        col->actor->colChkInfo.damageEffect = tbl->table[i] >> 4 & 0xF;
+        col->actor->colChkInfo.damageReaction = tbl->table[i] >> 4 & 0xF;
     }
     if (!(col->acFlags & AC_HARD)) {
         col->actor->colChkInfo.damage += damage;

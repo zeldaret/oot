@@ -1283,15 +1283,15 @@ void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
             this->bodyColliderCylinder.base.acFlags &= ~AC_HIT;
             this->tailColliderCylinder.base.acFlags &= ~AC_HIT;
 
-            if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
-                this->damageEffect = this->actor.colChkInfo.damageEffect;
+            if (this->actor.colChkInfo.damageReaction != ENWF_DMGEFF_ICE_MAGIC) {
+                this->damageEffect = this->actor.colChkInfo.damageReaction;
                 Actor_SetDropFlag(&this->actor, &this->bodyColliderCylinder.elem, true);
 #if OOT_VERSION >= PAL_1_0
                 this->slashStatus = 0;
 #endif
 
-                if ((this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_STUN) ||
-                    (this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_UNDEF)) {
+                if ((this->actor.colChkInfo.damageReaction == ENWF_DMGEFF_STUN) ||
+                    (this->actor.colChkInfo.damageReaction == ENWF_DMGEFF_UNDEF)) {
                     if (this->action != WOLFOS_ACTION_STUNNED) {
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA,
                                              80);
@@ -1323,7 +1323,7 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
 
     EnWf_UpdateDamage(this, play);
 
-    if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
+    if (this->actor.colChkInfo.damageReaction != ENWF_DMGEFF_ICE_MAGIC) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 32.0f, 30.0f, 60.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
