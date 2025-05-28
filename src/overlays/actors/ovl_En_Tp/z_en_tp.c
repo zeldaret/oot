@@ -96,45 +96,45 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 typedef enum TailpasaranDamageEffect {
-    /* 00 */ TAILPASARAN_DMGEFF_NONE,
-    /* 01 */ TAILPASARAN_DMGEFF_DEKUNUT,
-    /* 14 */ TAILPASARAN_DMGEFF_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
-    /* 15 */ TAILPASARAN_DMGEFF_INSULATING     // Kills the Tailpasaran and does not shock Player
+    /* 00 */ TAILPASARAN_DMGREAC_NONE,
+    /* 01 */ TAILPASARAN_DMGREAC_DEKUNUT,
+    /* 14 */ TAILPASARAN_DMGREAC_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
+    /* 15 */ TAILPASARAN_DMGREAC_INSULATING     // Kills the Tailpasaran and does not shock Player
 } TailpasaranDamageEffect;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_DEKUNUT),
-    /* Deku stick    */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_INSULATING),
-    /* Slingshot     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Explosive     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_INSULATING),
-    /* Normal arrow  */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Hookshot      */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Kokiri sword  */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Master sword  */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Giant's Knife */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Fire arrow    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Ice arrow     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Light arrow   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Ice magic     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Light magic   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Shield        */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Giant spin    */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Master spin   */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Kokiri jump   */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Giant jump    */ DMG_ENTRY(8, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Master jump   */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Unknown 1     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Unknown 2     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_DEKUNUT),
+    /* Deku stick    */ DMG_ENTRY(2, TAILPASARAN_DMGREAC_INSULATING),
+    /* Slingshot     */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Explosive     */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Boomerang     */ DMG_ENTRY(1, TAILPASARAN_DMGREAC_INSULATING),
+    /* Normal arrow  */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Hookshot      */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Master sword  */ DMG_ENTRY(2, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Giant's Knife */ DMG_ENTRY(4, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Fire arrow    */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Ice arrow     */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Light arrow   */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Fire magic    */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Ice magic     */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Light magic   */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Shield        */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Giant spin    */ DMG_ENTRY(4, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Master spin   */ DMG_ENTRY(2, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Kokiri jump   */ DMG_ENTRY(2, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Giant jump    */ DMG_ENTRY(8, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Master jump   */ DMG_ENTRY(4, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Unknown 1     */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, TAILPASARAN_DMGREAC_SHOCKING),
+    /* Unknown 2     */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -606,8 +606,8 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
         this->damageReaction = this->actor.colChkInfo.damageReaction;
 
-        if (this->actor.colChkInfo.damageReaction != TAILPASARAN_DMGEFF_NONE) {
-            if (this->actor.colChkInfo.damageReaction == TAILPASARAN_DMGEFF_DEKUNUT) {
+        if (this->actor.colChkInfo.damageReaction != TAILPASARAN_DMGREAC_NONE) {
+            if (this->actor.colChkInfo.damageReaction == TAILPASARAN_DMGREAC_DEKUNUT) {
                 phi_s4 = 1;
             }
 
@@ -686,7 +686,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
     s16 yawToWall;
 
     if (player->stateFlags1 & PLAYER_STATE1_26) { // Shielding
-        this->damageReaction = TAILPASARAN_DMGEFF_NONE;
+        this->damageReaction = TAILPASARAN_DMGREAC_NONE;
     }
 
     if (this->actor.colChkInfo.health != 0) {
@@ -737,7 +737,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
 
     this->actor.focus.pos = this->actor.world.pos;
 
-    if (this->damageReaction == TAILPASARAN_DMGEFF_SHOCKING) {
+    if (this->damageReaction == TAILPASARAN_DMGREAC_SHOCKING) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 

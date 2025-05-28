@@ -151,83 +151,83 @@ static ColliderJntSphInit sJntSphInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 25, 25, MASS_IMMOVABLE };
 
 typedef enum DekuBabaDamageEffect {
-    /* 0x0 */ DEKUBABA_DMGEFF_NONE,
-    /* 0x1 */ DEKUBABA_DMGEFF_DEKUNUT,
-    /* 0x2 */ DEKUBABA_DMGEFF_FIRE,
-    /* 0xE */ DEKUBABA_DMGEFF_BOOMERANG = 14,
-    /* 0xF */ DEKUBABA_DMGEFF_SWORD
+    /* 0x0 */ DEKUBABA_DMGREAC_NONE,
+    /* 0x1 */ DEKUBABA_DMGREAC_DEKUNUT,
+    /* 0x2 */ DEKUBABA_DMGREAC_FIRE,
+    /* 0xE */ DEKUBABA_DMGREAC_BOOMERANG = 14,
+    /* 0xF */ DEKUBABA_DMGREAC_SWORD
 } DekuBabaDamageEffect;
 
 static DamageTable sDekuBabaDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, DEKUBABA_DMGEFF_DEKUNUT),
-    /* Deku stick    */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Slingshot     */ DMG_ENTRY(1, DEKUBABA_DMGEFF_NONE),
-    /* Explosive     */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(2, DEKUBABA_DMGEFF_BOOMERANG),
-    /* Normal arrow  */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Hookshot      */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Kokiri sword  */ DMG_ENTRY(1, DEKUBABA_DMGEFF_SWORD),
-    /* Master sword  */ DMG_ENTRY(2, DEKUBABA_DMGEFF_SWORD),
-    /* Giant's Knife */ DMG_ENTRY(4, DEKUBABA_DMGEFF_SWORD),
-    /* Fire arrow    */ DMG_ENTRY(4, DEKUBABA_DMGEFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Light arrow   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, DEKUBABA_DMGEFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Light magic   */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Shield        */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, DEKUBABA_DMGEFF_SWORD),
-    /* Giant spin    */ DMG_ENTRY(4, DEKUBABA_DMGEFF_SWORD),
-    /* Master spin   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_SWORD),
-    /* Kokiri jump   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_SWORD),
-    /* Giant jump    */ DMG_ENTRY(8, DEKUBABA_DMGEFF_SWORD),
-    /* Master jump   */ DMG_ENTRY(4, DEKUBABA_DMGEFF_SWORD),
-    /* Unknown 1     */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, DEKUBABA_DMGREAC_DEKUNUT),
+    /* Deku stick    */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, DEKUBABA_DMGREAC_NONE),
+    /* Explosive     */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Boomerang     */ DMG_ENTRY(2, DEKUBABA_DMGREAC_BOOMERANG),
+    /* Normal arrow  */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Hookshot      */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, DEKUBABA_DMGREAC_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, DEKUBABA_DMGREAC_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, DEKUBABA_DMGREAC_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(4, DEKUBABA_DMGREAC_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Light arrow   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, DEKUBABA_DMGREAC_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Light magic   */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Shield        */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, DEKUBABA_DMGREAC_SWORD),
+    /* Giant spin    */ DMG_ENTRY(4, DEKUBABA_DMGREAC_SWORD),
+    /* Master spin   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_SWORD),
+    /* Kokiri jump   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_SWORD),
+    /* Giant jump    */ DMG_ENTRY(8, DEKUBABA_DMGREAC_SWORD),
+    /* Master jump   */ DMG_ENTRY(4, DEKUBABA_DMGREAC_SWORD),
+    /* Unknown 1     */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, DEKUBABA_DMGREAC_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
 };
 
 // The only difference is that for Big Deku Babas, Hookshot will act the same as Deku Nuts: i.e. it will stun, but
 // cannot kill.
 static DamageTable sBigDekuBabaDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, DEKUBABA_DMGEFF_DEKUNUT),
-    /* Deku stick    */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Slingshot     */ DMG_ENTRY(1, DEKUBABA_DMGEFF_NONE),
-    /* Explosive     */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(2, DEKUBABA_DMGEFF_BOOMERANG),
-    /* Normal arrow  */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Hookshot      */ DMG_ENTRY(0, DEKUBABA_DMGEFF_DEKUNUT),
-    /* Kokiri sword  */ DMG_ENTRY(1, DEKUBABA_DMGEFF_SWORD),
-    /* Master sword  */ DMG_ENTRY(2, DEKUBABA_DMGEFF_SWORD),
-    /* Giant's Knife */ DMG_ENTRY(4, DEKUBABA_DMGEFF_SWORD),
-    /* Fire arrow    */ DMG_ENTRY(4, DEKUBABA_DMGEFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Light arrow   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, DEKUBABA_DMGEFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Light magic   */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Shield        */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, DEKUBABA_DMGEFF_SWORD),
-    /* Giant spin    */ DMG_ENTRY(4, DEKUBABA_DMGEFF_SWORD),
-    /* Master spin   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_SWORD),
-    /* Kokiri jump   */ DMG_ENTRY(2, DEKUBABA_DMGEFF_SWORD),
-    /* Giant jump    */ DMG_ENTRY(8, DEKUBABA_DMGEFF_SWORD),
-    /* Master jump   */ DMG_ENTRY(4, DEKUBABA_DMGEFF_SWORD),
-    /* Unknown 1     */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, DEKUBABA_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, DEKUBABA_DMGREAC_DEKUNUT),
+    /* Deku stick    */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, DEKUBABA_DMGREAC_NONE),
+    /* Explosive     */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Boomerang     */ DMG_ENTRY(2, DEKUBABA_DMGREAC_BOOMERANG),
+    /* Normal arrow  */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Hookshot      */ DMG_ENTRY(0, DEKUBABA_DMGREAC_DEKUNUT),
+    /* Kokiri sword  */ DMG_ENTRY(1, DEKUBABA_DMGREAC_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, DEKUBABA_DMGREAC_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, DEKUBABA_DMGREAC_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(4, DEKUBABA_DMGREAC_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Light arrow   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, DEKUBABA_DMGREAC_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Light magic   */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Shield        */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, DEKUBABA_DMGREAC_SWORD),
+    /* Giant spin    */ DMG_ENTRY(4, DEKUBABA_DMGREAC_SWORD),
+    /* Master spin   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_SWORD),
+    /* Kokiri jump   */ DMG_ENTRY(2, DEKUBABA_DMGREAC_SWORD),
+    /* Giant jump    */ DMG_ENTRY(8, DEKUBABA_DMGREAC_SWORD),
+    /* Master jump   */ DMG_ENTRY(4, DEKUBABA_DMGREAC_SWORD),
+    /* Unknown 1     */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, DEKUBABA_DMGREAC_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, DEKUBABA_DMGREAC_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -257,7 +257,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         // (Of course they reckoned without each age being able to use the other's items, so Stick and Master Sword
         // jumpslash can give the Stick drop as adult, and neither will as child.)
         if (!LINK_IS_ADULT) {
-            sBigDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE); // DMG_JUMP_MASTER
+            sBigDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGREAC_NONE); // DMG_JUMP_MASTER
         }
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sBigDekuBabaDamageTable, &sColChkInfoInit);
@@ -272,7 +272,7 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
         }
 
         if (!LINK_IS_ADULT) {
-            sDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE); // DMG_JUMP_MASTER
+            sDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGREAC_NONE); // DMG_JUMP_MASTER
         }
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDekuBabaDamageTable, &sColChkInfoInit);
@@ -1049,14 +1049,14 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
 
         if ((this->collider.base.colMaterial != COL_MATERIAL_HARD) &&
-            ((this->actor.colChkInfo.damageReaction != DEKUBABA_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0))) {
+            ((this->actor.colChkInfo.damageReaction != DEKUBABA_DMGREAC_NONE) || (this->actor.colChkInfo.damage != 0))) {
 
             phi_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
 
             if (this->actionFunc != EnDekubaba_StunnedVertical) {
-                if ((this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_BOOMERANG) ||
-                    (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_DEKUNUT)) {
-                    if (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_BOOMERANG) {
+                if ((this->actor.colChkInfo.damageReaction == DEKUBABA_DMGREAC_BOOMERANG) ||
+                    (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGREAC_DEKUNUT)) {
+                    if (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGREAC_BOOMERANG) {
                         phi_s0 = this->actor.colChkInfo.health;
                     }
 
@@ -1070,14 +1070,14 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
                 } else {
                     EnDekubaba_SetupHit(this, 0);
                 }
-            } else if ((this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_BOOMERANG) ||
-                       (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_SWORD)) {
+            } else if ((this->actor.colChkInfo.damageReaction == DEKUBABA_DMGREAC_BOOMERANG) ||
+                       (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGREAC_SWORD)) {
                 if (phi_s0 > 0) {
                     EnDekubaba_SetupSway(this);
                 } else {
                     EnDekubaba_SetupPrunedSomersault(this);
                 }
-            } else if (this->actor.colChkInfo.damageReaction != DEKUBABA_DMGEFF_DEKUNUT) {
+            } else if (this->actor.colChkInfo.damageReaction != DEKUBABA_DMGREAC_DEKUNUT) {
                 EnDekubaba_SetupHit(this, 0);
             } else {
                 return;
@@ -1085,7 +1085,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
 
             this->actor.colChkInfo.health = CLAMP_MIN(phi_s0, 0);
 
-            if (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGEFF_FIRE) {
+            if (this->actor.colChkInfo.damageReaction == DEKUBABA_DMGREAC_FIRE) {
                 firePos = &this->actor.world.pos;
                 fireScale = (this->size * 70.0f);
 

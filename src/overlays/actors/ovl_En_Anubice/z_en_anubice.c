@@ -74,44 +74,44 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 typedef enum AnubiceDamageEffect {
-    /* 0x0 */ ANUBICE_DMGEFF_NONE,
-    /* 0x2 */ ANUBICE_DMGEFF_FIRE = 2,
-    /* 0xF */ ANUBICE_DMGEFF_0xF = 0xF // Treated the same as ANUBICE_DMGEFF_NONE in code
+    /* 0x0 */ ANUBICE_DMGREAC_NONE,
+    /* 0x2 */ ANUBICE_DMGREAC_FIRE = 2,
+    /* 0xF */ ANUBICE_DMGREAC_0xF = 0xF // Treated the same as ANUBICE_DMGREAC_NONE in code
 } AnubiceDamageEffect;
 
 static DamageTable sDamageTable[] = {
-    /* Deku nut      */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Deku stick    */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Slingshot     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Explosive     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Boomerang     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Normal arrow  */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Hammer swing  */ DMG_ENTRY(1, ANUBICE_DMGEFF_0xF),
-    /* Hookshot      */ DMG_ENTRY(2, ANUBICE_DMGEFF_0xF),
-    /* Kokiri sword  */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Master sword  */ DMG_ENTRY(2, ANUBICE_DMGEFF_0xF),
-    /* Giant's Knife */ DMG_ENTRY(6, ANUBICE_DMGEFF_0xF),
-    /* Fire arrow    */ DMG_ENTRY(2, ANUBICE_DMGEFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Light arrow   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Unk arrow 1   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Unk arrow 2   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Unk arrow 3   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Fire magic    */ DMG_ENTRY(3, ANUBICE_DMGEFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Light magic   */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Shield        */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Giant spin    */ DMG_ENTRY(6, ANUBICE_DMGEFF_0xF),
-    /* Master spin   */ DMG_ENTRY(2, ANUBICE_DMGEFF_0xF),
-    /* Kokiri jump   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Giant jump    */ DMG_ENTRY(12, ANUBICE_DMGEFF_0xF),
-    /* Master jump   */ DMG_ENTRY(4, ANUBICE_DMGEFF_0xF),
-    /* Unknown 1     */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, ANUBICE_DMGREAC_NONE),
+    /* Deku stick    */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Slingshot     */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Explosive     */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Boomerang     */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Normal arrow  */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Hammer swing  */ DMG_ENTRY(1, ANUBICE_DMGREAC_0xF),
+    /* Hookshot      */ DMG_ENTRY(2, ANUBICE_DMGREAC_0xF),
+    /* Kokiri sword  */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Master sword  */ DMG_ENTRY(2, ANUBICE_DMGREAC_0xF),
+    /* Giant's Knife */ DMG_ENTRY(6, ANUBICE_DMGREAC_0xF),
+    /* Fire arrow    */ DMG_ENTRY(2, ANUBICE_DMGREAC_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Light arrow   */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Unk arrow 2   */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Unk arrow 3   */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Fire magic    */ DMG_ENTRY(3, ANUBICE_DMGREAC_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, ANUBICE_DMGREAC_NONE),
+    /* Light magic   */ DMG_ENTRY(0, ANUBICE_DMGREAC_NONE),
+    /* Shield        */ DMG_ENTRY(0, ANUBICE_DMGREAC_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ANUBICE_DMGREAC_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Giant spin    */ DMG_ENTRY(6, ANUBICE_DMGREAC_0xF),
+    /* Master spin   */ DMG_ENTRY(2, ANUBICE_DMGREAC_0xF),
+    /* Kokiri jump   */ DMG_ENTRY(0, ANUBICE_DMGREAC_0xF),
+    /* Giant jump    */ DMG_ENTRY(12, ANUBICE_DMGREAC_0xF),
+    /* Master jump   */ DMG_ENTRY(4, ANUBICE_DMGREAC_0xF),
+    /* Unknown 1     */ DMG_ENTRY(0, ANUBICE_DMGREAC_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, ANUBICE_DMGREAC_NONE),
+    /* Hammer jump   */ DMG_ENTRY(0, ANUBICE_DMGREAC_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, ANUBICE_DMGREAC_NONE),
 };
 
 void EnAnubice_Hover(EnAnubice* this, PlayState* play) {
@@ -399,7 +399,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
 
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            if (this->actor.colChkInfo.damageReaction == ANUBICE_DMGEFF_FIRE) {
+            if (this->actor.colChkInfo.damageReaction == ANUBICE_DMGREAC_FIRE) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 Enemy_StartFinishingBlow(play, &this->actor);

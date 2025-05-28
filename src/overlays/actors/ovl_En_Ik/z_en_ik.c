@@ -53,11 +53,11 @@ typedef enum EnIkCsDrawMode {
 } EnIkCsDrawMode;
 
 typedef enum EnIkDamageEffect {
-    /* 0x0 */ EN_IK_DMGEFF_NONE,
-    /* 0x6 */ EN_IK_DMGEFF_ELEMENTAL_MAGIC = 0x6,
-    /* 0xD */ EN_IK_DMGEFF_SPARKS_NO_DMG = 0xD,
-    /* 0xE */ EN_IK_DMGEFF_PROJECTILE,
-    /* 0xF */ EN_IK_DMGEFF_DAMAGE
+    /* 0x0 */ EN_IK_DMGREAC_NONE,
+    /* 0x6 */ EN_IK_DMGREAC_ELEMENTAL_MAGIC = 0x6,
+    /* 0xD */ EN_IK_DMGREAC_SPARKS_NO_DMG = 0xD,
+    /* 0xE */ EN_IK_DMGREAC_PROJECTILE,
+    /* 0xF */ EN_IK_DMGREAC_DAMAGE
 } EnIkDamageEffect;
 
 void EnIk_UpdateEnemy(Actor* thisx, PlayState* play);
@@ -166,38 +166,38 @@ static ColliderQuadInit sQuadInit = {
 };
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, EN_IK_DMGEFF_SPARKS_NO_DMG),
-    /* Deku stick    */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Slingshot     */ DMG_ENTRY(1, EN_IK_DMGEFF_PROJECTILE),
-    /* Explosive     */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Boomerang     */ DMG_ENTRY(0, EN_IK_DMGEFF_SPARKS_NO_DMG),
-    /* Normal arrow  */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Hammer swing  */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Hookshot      */ DMG_ENTRY(0, EN_IK_DMGEFF_SPARKS_NO_DMG),
-    /* Kokiri sword  */ DMG_ENTRY(1, EN_IK_DMGEFF_DAMAGE),
-    /* Master sword  */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Giant's Knife */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
-    /* Fire arrow    */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Ice arrow     */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Light arrow   */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Unk arrow 3   */ DMG_ENTRY(15, EN_IK_DMGEFF_PROJECTILE),
-    /* Fire magic    */ DMG_ENTRY(0, EN_IK_DMGEFF_ELEMENTAL_MAGIC),
-    /* Ice magic     */ DMG_ENTRY(0, EN_IK_DMGEFF_ELEMENTAL_MAGIC),
-    /* Light magic   */ DMG_ENTRY(0, EN_IK_DMGEFF_ELEMENTAL_MAGIC),
-    /* Shield        */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, EN_IK_DMGEFF_DAMAGE),
-    /* Giant spin    */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
-    /* Master spin   */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Kokiri jump   */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Giant jump    */ DMG_ENTRY(8, EN_IK_DMGEFF_DAMAGE),
-    /* Master jump   */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
-    /* Unknown 1     */ DMG_ENTRY(10, EN_IK_DMGEFF_DAMAGE),
-    /* Unblockable   */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
-    /* Unknown 2     */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, EN_IK_DMGREAC_SPARKS_NO_DMG),
+    /* Deku stick    */ DMG_ENTRY(2, EN_IK_DMGREAC_DAMAGE),
+    /* Slingshot     */ DMG_ENTRY(1, EN_IK_DMGREAC_PROJECTILE),
+    /* Explosive     */ DMG_ENTRY(2, EN_IK_DMGREAC_DAMAGE),
+    /* Boomerang     */ DMG_ENTRY(0, EN_IK_DMGREAC_SPARKS_NO_DMG),
+    /* Normal arrow  */ DMG_ENTRY(2, EN_IK_DMGREAC_PROJECTILE),
+    /* Hammer swing  */ DMG_ENTRY(2, EN_IK_DMGREAC_DAMAGE),
+    /* Hookshot      */ DMG_ENTRY(0, EN_IK_DMGREAC_SPARKS_NO_DMG),
+    /* Kokiri sword  */ DMG_ENTRY(1, EN_IK_DMGREAC_DAMAGE),
+    /* Master sword  */ DMG_ENTRY(2, EN_IK_DMGREAC_DAMAGE),
+    /* Giant's Knife */ DMG_ENTRY(4, EN_IK_DMGREAC_DAMAGE),
+    /* Fire arrow    */ DMG_ENTRY(2, EN_IK_DMGREAC_PROJECTILE),
+    /* Ice arrow     */ DMG_ENTRY(2, EN_IK_DMGREAC_PROJECTILE),
+    /* Light arrow   */ DMG_ENTRY(2, EN_IK_DMGREAC_PROJECTILE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, EN_IK_DMGREAC_PROJECTILE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, EN_IK_DMGREAC_PROJECTILE),
+    /* Unk arrow 3   */ DMG_ENTRY(15, EN_IK_DMGREAC_PROJECTILE),
+    /* Fire magic    */ DMG_ENTRY(0, EN_IK_DMGREAC_ELEMENTAL_MAGIC),
+    /* Ice magic     */ DMG_ENTRY(0, EN_IK_DMGREAC_ELEMENTAL_MAGIC),
+    /* Light magic   */ DMG_ENTRY(0, EN_IK_DMGREAC_ELEMENTAL_MAGIC),
+    /* Shield        */ DMG_ENTRY(0, EN_IK_DMGREAC_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, EN_IK_DMGREAC_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, EN_IK_DMGREAC_DAMAGE),
+    /* Giant spin    */ DMG_ENTRY(4, EN_IK_DMGREAC_DAMAGE),
+    /* Master spin   */ DMG_ENTRY(2, EN_IK_DMGREAC_DAMAGE),
+    /* Kokiri jump   */ DMG_ENTRY(2, EN_IK_DMGREAC_DAMAGE),
+    /* Giant jump    */ DMG_ENTRY(8, EN_IK_DMGREAC_DAMAGE),
+    /* Master jump   */ DMG_ENTRY(4, EN_IK_DMGREAC_DAMAGE),
+    /* Unknown 1     */ DMG_ENTRY(10, EN_IK_DMGREAC_DAMAGE),
+    /* Unblockable   */ DMG_ENTRY(0, EN_IK_DMGREAC_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, EN_IK_DMGREAC_DAMAGE),
+    /* Unknown 2     */ DMG_ENTRY(0, EN_IK_DMGREAC_NONE),
 };
 
 void EnIk_Destroy(Actor* thisx, PlayState* play) {
@@ -757,9 +757,9 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         this->damageReaction = this->actor.colChkInfo.damageReaction;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-        if ((this->damageReaction == EN_IK_DMGEFF_NONE) || (this->damageReaction == EN_IK_DMGEFF_SPARKS_NO_DMG) ||
-            ((this->armorStatusFlag == 0) && (this->damageReaction == EN_IK_DMGEFF_PROJECTILE))) {
-            if (this->damageReaction != EN_IK_DMGEFF_NONE) {
+        if ((this->damageReaction == EN_IK_DMGREAC_NONE) || (this->damageReaction == EN_IK_DMGREAC_SPARKS_NO_DMG) ||
+            ((this->armorStatusFlag == 0) && (this->damageReaction == EN_IK_DMGREAC_PROJECTILE))) {
+            if (this->damageReaction != EN_IK_DMGREAC_NONE) {
                 // spawn sparks and don't damage
                 CollisionCheck_SpawnShieldParticlesMetal(play, &sparksPos);
             }
