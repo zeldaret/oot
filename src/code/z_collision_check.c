@@ -3028,7 +3028,7 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage = 0;
     info->damageEffect = 0;
-    info->atHitBacklash = 0;
+    info->atHitBacklash = HIT_BACKLASH_0;
     info->acHitEffect = 0;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
 }
