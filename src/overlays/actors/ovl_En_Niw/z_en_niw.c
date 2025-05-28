@@ -154,8 +154,8 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == 0xB) {
         if (sLowerRiverSpawned) {
             Actor_Kill(&this->actor);
-            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n", "☆☆☆☆☆ Hara is already here Ver.1 ☆☆☆☆☆ \n")
-                       VT_RST);
+            PRINTF(VT_FGCOL(YELLOW)
+                       T("☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n", "☆☆☆☆☆ Original is already here Ver.1 ☆☆☆☆☆ \n") VT_RST);
             return;
         }
         sLowerRiverSpawned = true;
@@ -166,8 +166,8 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == 0xC) {
         if (sUpperRiverSpawned) {
             Actor_Kill(&this->actor);
-            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n", "☆☆☆☆☆ Hara is already here Ver.2 ☆☆☆☆☆ \n")
-                       VT_RST);
+            PRINTF(VT_FGCOL(YELLOW)
+                       T("☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n", "☆☆☆☆☆ Original is already here Ver.2 ☆☆☆☆☆ \n") VT_RST);
             return;
         }
         sUpperRiverSpawned = true;
@@ -993,11 +993,11 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         cam.y = play->view.at.y - play->view.eye.y;
         cam.z = play->view.at.z - play->view.eye.z;
         camResult = cam.y / sqrtf(SQ(cam.x) + SQ(cam.y) + SQ(cam.z));
-        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Out of range X! ☆☆☆☆☆ %f\n") VT_RST,
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ X out of range! ☆☆☆☆☆ %f\n") VT_RST,
                thisx->world.pos.x);
-        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Out of range Y! ☆☆☆☆☆ %f\n") VT_RST,
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Y out of range! ☆☆☆☆☆ %f\n") VT_RST,
                thisx->world.pos.y);
-        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Out of range Z! ☆☆☆☆☆ %f\n") VT_RST,
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Z out of range! ☆☆☆☆☆ %f\n") VT_RST,
                thisx->world.pos.z);
         PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Set X! ☆☆☆☆☆ %f\n") VT_RST, thisx->home.pos.x);
         PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Set Y! ☆☆☆☆☆ %f\n") VT_RST, thisx->home.pos.y);
