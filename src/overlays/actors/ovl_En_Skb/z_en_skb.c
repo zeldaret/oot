@@ -473,7 +473,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageReaction != 6) {
-                this->lastDamageEffect = this->actor.colChkInfo.damageReaction;
+                this->lastDamageReaction = this->actor.colChkInfo.damageReaction;
                 Actor_SetDropFlag(&this->actor, &this->collider.elements[1].base, true);
                 this->setColliderAT = false;
                 if (this->actor.colChkInfo.damageReaction == 1) {
