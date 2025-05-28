@@ -1313,12 +1313,12 @@ void EnTest_SetupStunned(EnTest* this) {
     this->skelAnime.playSpeed = 0.0f;
     this->actor.speed = -4.0f;
 
-    if (this->lastDamageEffect == STALFOS_DMGREAC_LIGHT) {
+    if (this->lastDamageReaction == STALFOS_DMGREAC_LIGHT) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 120, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
 
-        if (this->lastDamageEffect == STALFOS_DMGREAC_FREEZE) {
+        if (this->lastDamageReaction == STALFOS_DMGREAC_FREEZE) {
             this->iceTimer = 36;
         } else {
             Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalfosFlinchFromHitFrontAnim, 0.0f);
@@ -1680,7 +1680,7 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
 
         if ((this->actor.colChkInfo.damageReaction != STALFOS_DMGREAC_SLING) &&
             (this->actor.colChkInfo.damageReaction != STALFOS_DMGREAC_FIREMAGIC)) {
-            this->lastDamageEffect = this->actor.colChkInfo.damageReaction;
+            this->lastDamageReaction = this->actor.colChkInfo.damageReaction;
             if (this->swordState >= 1) {
                 this->swordState = 0;
             }
