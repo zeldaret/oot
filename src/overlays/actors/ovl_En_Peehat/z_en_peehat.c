@@ -138,47 +138,47 @@ static ColliderQuadInit sQuadInit = {
 };
 
 typedef enum DamageReaction {
-    /* 00 */ PEAHAT_DMG_EFF_ATTACK = 0,
-    /* 06 */ PEAHAT_DMG_EFF_LIGHT_ICE_ARROW = 6,
-    /* 12 */ PEAHAT_DMG_EFF_FIRE = 12,
-    /* 13 */ PEAHAT_DMG_EFF_HOOKSHOT = 13,
-    /* 14 */ PEAHAT_DMG_EFF_BOOMERANG = 14,
-    /* 15 */ PEAHAT_DMG_EFF_NUT = 15
+    /* 00 */ PEAHAT_DMGREAC_ATTACK = 0,
+    /* 06 */ PEAHAT_DMGREAC_LIGHT_ICE_ARROW = 6,
+    /* 12 */ PEAHAT_DMGREAC_FIRE = 12,
+    /* 13 */ PEAHAT_DMGREAC_HOOKSHOT = 13,
+    /* 14 */ PEAHAT_DMGREAC_BOOMERANG = 14,
+    /* 15 */ PEAHAT_DMGREAC_NUT = 15
 } DamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, PEAHAT_DMG_EFF_NUT),
-    /* Deku stick    */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Slingshot     */ DMG_ENTRY(1, PEAHAT_DMG_EFF_ATTACK),
-    /* Explosive     */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Boomerang     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_BOOMERANG),
-    /* Normal arrow  */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Hammer swing  */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Hookshot      */ DMG_ENTRY(2, PEAHAT_DMG_EFF_HOOKSHOT),
-    /* Kokiri sword  */ DMG_ENTRY(1, PEAHAT_DMG_EFF_ATTACK),
-    /* Master sword  */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Giant's Knife */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
-    /* Fire arrow    */ DMG_ENTRY(4, PEAHAT_DMG_EFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Light arrow   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Unk arrow 1   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Unk arrow 2   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Unk arrow 3   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Fire magic    */ DMG_ENTRY(3, PEAHAT_DMG_EFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_LIGHT_ICE_ARROW),
-    /* Light magic   */ DMG_ENTRY(0, PEAHAT_DMG_EFF_LIGHT_ICE_ARROW),
-    /* Shield        */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
-    /* Mirror Ray    */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
-    /* Kokiri spin   */ DMG_ENTRY(1, PEAHAT_DMG_EFF_ATTACK),
-    /* Giant spin    */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
-    /* Master spin   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Kokiri jump   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Giant jump    */ DMG_ENTRY(8, PEAHAT_DMG_EFF_ATTACK),
-    /* Master jump   */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
-    /* Unknown 1     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
-    /* Unblockable   */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
-    /* Hammer jump   */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
-    /* Unknown 2     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
+    /* Deku nut      */ DMG_ENTRY(0, PEAHAT_DMGREAC_NUT),
+    /* Deku stick    */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Slingshot     */ DMG_ENTRY(1, PEAHAT_DMGREAC_ATTACK),
+    /* Explosive     */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Boomerang     */ DMG_ENTRY(0, PEAHAT_DMGREAC_BOOMERANG),
+    /* Normal arrow  */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Hammer swing  */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Hookshot      */ DMG_ENTRY(2, PEAHAT_DMGREAC_HOOKSHOT),
+    /* Kokiri sword  */ DMG_ENTRY(1, PEAHAT_DMGREAC_ATTACK),
+    /* Master sword  */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Giant's Knife */ DMG_ENTRY(4, PEAHAT_DMGREAC_ATTACK),
+    /* Fire arrow    */ DMG_ENTRY(4, PEAHAT_DMGREAC_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Light arrow   */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Unk arrow 1   */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Unk arrow 2   */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Unk arrow 3   */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Fire magic    */ DMG_ENTRY(3, PEAHAT_DMGREAC_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, PEAHAT_DMGREAC_LIGHT_ICE_ARROW),
+    /* Light magic   */ DMG_ENTRY(0, PEAHAT_DMGREAC_LIGHT_ICE_ARROW),
+    /* Shield        */ DMG_ENTRY(0, PEAHAT_DMGREAC_ATTACK),
+    /* Mirror Ray    */ DMG_ENTRY(0, PEAHAT_DMGREAC_ATTACK),
+    /* Kokiri spin   */ DMG_ENTRY(1, PEAHAT_DMGREAC_ATTACK),
+    /* Giant spin    */ DMG_ENTRY(4, PEAHAT_DMGREAC_ATTACK),
+    /* Master spin   */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Kokiri jump   */ DMG_ENTRY(2, PEAHAT_DMGREAC_ATTACK),
+    /* Giant jump    */ DMG_ENTRY(8, PEAHAT_DMGREAC_ATTACK),
+    /* Master jump   */ DMG_ENTRY(4, PEAHAT_DMGREAC_ATTACK),
+    /* Unknown 1     */ DMG_ENTRY(0, PEAHAT_DMGREAC_ATTACK),
+    /* Unblockable   */ DMG_ENTRY(0, PEAHAT_DMGREAC_ATTACK),
+    /* Hammer jump   */ DMG_ENTRY(4, PEAHAT_DMGREAC_ATTACK),
+    /* Unknown 2     */ DMG_ENTRY(0, PEAHAT_DMGREAC_ATTACK),
 };
 
 typedef enum PeahatState {
@@ -902,13 +902,13 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, PlayState* play) {
     } else if (this->colliderJntSph.base.acFlags & AC_HIT) {
         this->colliderJntSph.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->colliderJntSph, true);
-        if (this->actor.colChkInfo.damageReaction == PEAHAT_DMG_EFF_NUT ||
-            this->actor.colChkInfo.damageReaction == PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
+        if (this->actor.colChkInfo.damageReaction == PEAHAT_DMGREAC_NUT ||
+            this->actor.colChkInfo.damageReaction == PEAHAT_DMGREAC_LIGHT_ICE_ARROW) {
             return;
         }
-        if (this->actor.colChkInfo.damageReaction == PEAHAT_DMG_EFF_HOOKSHOT) {
+        if (this->actor.colChkInfo.damageReaction == PEAHAT_DMGREAC_HOOKSHOT) {
             this->actor.colChkInfo.health = 0;
-        } else if (this->actor.colChkInfo.damageReaction == PEAHAT_DMG_EFF_BOOMERANG) {
+        } else if (this->actor.colChkInfo.damageReaction == PEAHAT_DMGREAC_BOOMERANG) {
             if (this->state != PEAHAT_STATE_STUNNED) {
                 EnPeehat_SetStateBoomerangStunned(this);
             }
@@ -919,7 +919,7 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_DAMAGE);
         }
 
-        if (this->actor.colChkInfo.damageReaction == PEAHAT_DMG_EFF_FIRE) {
+        if (this->actor.colChkInfo.damageReaction == PEAHAT_DMGREAC_FIRE) {
             Vec3f pos;
             s32 i;
             for (i = 4; i >= 0; i--) {
@@ -949,7 +949,7 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
     if (thisx->params <= 0) {
         EnPeehat_Adult_CollisionCheck(this, play);
     }
-    if (thisx->colChkInfo.damageReaction != PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
+    if (thisx->colChkInfo.damageReaction != PEAHAT_DMGREAC_LIGHT_ICE_ARROW) {
         if (thisx->speed != 0.0f || thisx->velocity.y != 0.0f) {
             Actor_MoveXZGravity(thisx);
             Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
