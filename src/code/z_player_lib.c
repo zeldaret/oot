@@ -1037,6 +1037,12 @@ void* sEyeTextures[][PLAYER_EYES_MAX] = {
         gLinkChildEyesOpenTex,    // PLAYER_EYES_OPEN
         gLinkChildEyesHalfTex,    // PLAYER_EYES_HALF
         gLinkChildEyesClosedfTex, // PLAYER_EYES_CLOSED
+        /*
+        Note `PLAYER_EYES_RIGHT` corresponds to the "left" eyes texture, and vice-versa with the "right" eyes textures.
+        This is because on the textures Link appears to look left/right as if facing outwards the screen,
+        but the image is mirrored by the child Link model's UVs, reversing the direction actually looked in,
+        which results in-game in the correct eyes direction.
+        */
         gLinkChildEyesLeftTex,    // PLAYER_EYES_RIGHT
         gLinkChildEyesRightTex,   // PLAYER_EYES_LEFT
         gLinkChildEyesWideTex,    // PLAYER_EYES_WIDE
