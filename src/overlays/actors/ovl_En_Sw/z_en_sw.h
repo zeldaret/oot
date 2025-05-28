@@ -49,9 +49,9 @@ typedef struct EnSw {
 } EnSw; // size = 0x04D8
 
 // Skullwalltula type stored in last 3 bits of params.
-#define ENSW_GET_TYPE(thisx) ((thisx->params & 0xE000) >> 0xD)
+#define ENSW_GET_TYPE(thisx) PARAMS_GET_S(thisx->params,13,3)
 // version of the macro used for the whole entity struct.
-#define ENSW_GET_TYPE_EN(this) ((this->actor.params & 0xE000) >> 0xD)
+#define ENSW_GET_TYPE_EN(this) PARAMS_GET_S(this->actor.params,13,3)
 
 typedef enum {
     SW_TYPE_NORMAL, // normal Skull(wall)tula
