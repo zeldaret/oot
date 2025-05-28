@@ -1049,7 +1049,8 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
 
         if ((this->collider.base.colMaterial != COL_MATERIAL_HARD) &&
-            ((this->actor.colChkInfo.damageReaction != DEKUBABA_DMGREAC_NONE) || (this->actor.colChkInfo.damage != 0))) {
+            ((this->actor.colChkInfo.damageReaction != DEKUBABA_DMGREAC_NONE) ||
+             (this->actor.colChkInfo.damage != 0))) {
 
             phi_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
 
