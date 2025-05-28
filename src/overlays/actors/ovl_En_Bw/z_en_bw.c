@@ -617,7 +617,7 @@ void func_809D01CC(EnBw* this) {
     this->actor.speed = 0.0f;
     this->unk_25C = (Rand_ZeroOne() * 0.25f) + 1.0f;
     this->unk_260 = 0.0f;
-    if (this->damageEffect == 0xE) {
+    if (this->damageReaction == 0xE) {
         this->iceTimer = 0x50;
     }
     this->unk_222 = (this->actor.colorFilterParams & 0x4000) ? 25 : 80;
@@ -658,7 +658,7 @@ void func_809D0268(EnBw* this, PlayState* play) {
 
 void func_809D03CC(EnBw* this) {
     this->actor.speed = 0.0f;
-    if (this->damageEffect == 0xE) {
+    if (this->damageReaction == 0xE) {
         this->iceTimer = 32;
     }
     this->unk_23C = this->actor.colorFilterTimer;
@@ -709,9 +709,9 @@ void func_809D0584(EnBw* this, PlayState* play) {
             if ((this->actor.colChkInfo.damageReaction == 0) || (this->unk_220 == 6)) {
                 return;
             }
-            this->damageEffect = this->actor.colChkInfo.damageReaction;
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->collider2.elem, false);
-            if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
+            if ((this->damageReaction == 1) || (this->damageReaction == 0xE)) {
                 if (this->unk_23C == 0) {
                     Actor_ApplyDamage(&this->actor);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);

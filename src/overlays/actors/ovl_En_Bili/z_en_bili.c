@@ -566,7 +566,7 @@ void EnBili_Frozen(EnBili* this, PlayState* play) {
 }
 
 void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
-    u8 damageEffect;
+    u8 damageReaction;
 
     if ((this->actor.colChkInfo.health != 0) && (this->collider.base.acFlags & AC_HIT)) {
         this->collider.base.acFlags &= ~AC_HIT;
@@ -579,13 +579,13 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
 
-            damageEffect = this->actor.colChkInfo.damageReaction;
+            damageReaction = this->actor.colChkInfo.damageReaction;
 
-            if (damageEffect == BIRI_DMGEFF_DEKUNUT) {
+            if (damageReaction == BIRI_DMGEFF_DEKUNUT) {
                 if (this->actionFunc != EnBili_Stunned) {
                     EnBili_SetupStunned(this);
                 }
-            } else if (damageEffect == BIRI_DMGEFF_SWORD) {
+            } else if (damageReaction == BIRI_DMGEFF_SWORD) {
                 if (this->actionFunc != EnBili_Stunned) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 10);
 
@@ -596,12 +596,12 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
                 } else {
                     EnBili_SetupBurnt(this);
                 }
-            } else if (damageEffect == BIRI_DMGEFF_FIRE) {
+            } else if (damageReaction == BIRI_DMGEFF_FIRE) {
                 EnBili_SetupBurnt(this);
                 this->timer = 2;
-            } else if (damageEffect == BIRI_DMGEFF_ICE) {
+            } else if (damageReaction == BIRI_DMGEFF_ICE) {
                 EnBili_SetupFrozen(this, play);
-            } else if (damageEffect == BIRI_DMGEFF_SLINGSHOT) {
+            } else if (damageReaction == BIRI_DMGEFF_SLINGSHOT) {
                 EnBili_SetupRecoil(this);
             } else {
                 EnBili_SetupBurnt(this);

@@ -1284,7 +1284,7 @@ void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
             this->tailColliderCylinder.base.acFlags &= ~AC_HIT;
 
             if (this->actor.colChkInfo.damageReaction != ENWF_DMGEFF_ICE_MAGIC) {
-                this->damageEffect = this->actor.colChkInfo.damageReaction;
+                this->damageReaction = this->actor.colChkInfo.damageReaction;
                 Actor_SetDropFlag(&this->actor, &this->bodyColliderCylinder.elem, true);
 #if OOT_VERSION >= PAL_1_0
                 this->slashStatus = 0;
@@ -1301,7 +1301,7 @@ void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
                 } else { // LIGHT_MAGIC, FIRE, NONE
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
 
-                    if (this->damageEffect == ENWF_DMGEFF_FIRE) {
+                    if (this->damageReaction == ENWF_DMGEFF_FIRE) {
                         this->fireTimer = 40;
                     }
 

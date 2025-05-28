@@ -768,7 +768,7 @@ void EnRd_SetupStunned(EnRd* this) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, COLORFILTER_INTENSITY_FLAG | 200,
                              COLORFILTER_BUFFLAG_OPA, 255);
-    } else if (this->damageEffect == REDEAD_DMGEFF_HOOKSHOT) {
+    } else if (this->damageReaction == REDEAD_DMGEFF_HOOKSHOT) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_PlaySfx(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
@@ -835,7 +835,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        this->damageEffect = this->actor.colChkInfo.damageReaction;
+        this->damageReaction = this->actor.colChkInfo.damageReaction;
 
         if (this->action != REDEAD_ACTION_RISE_FROM_COFFIN) {
             Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
@@ -843,9 +843,9 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
                 this->unk_31D = player->unk_845;
             }
 
-            if ((this->damageEffect != REDEAD_DMGEFF_NONE) && (this->damageEffect != REDEAD_DMGEFF_ICE_MAGIC)) {
-                if (((this->damageEffect == REDEAD_DMGEFF_HOOKSHOT) ||
-                     (this->damageEffect == REDEAD_DMGEFF_LIGHT_MAGIC)) &&
+            if ((this->damageReaction != REDEAD_DMGEFF_NONE) && (this->damageReaction != REDEAD_DMGEFF_ICE_MAGIC)) {
+                if (((this->damageReaction == REDEAD_DMGEFF_HOOKSHOT) ||
+                     (this->damageReaction == REDEAD_DMGEFF_LIGHT_MAGIC)) &&
                     (this->action != REDEAD_ACTION_STUNNED)) {
                     Actor_ApplyDamage(&this->actor);
                     EnRd_SetupStunned(this);
@@ -855,7 +855,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
                 this->stunnedBySunsSong = false;
                 this->sunsSongStunTimer = 0;
 
-                if (this->damageEffect == REDEAD_DMGEFF_FIRE_MAGIC) {
+                if (this->damageReaction == REDEAD_DMGEFF_FIRE_MAGIC) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 80);
                     this->fireTimer = 40;
                 } else {
@@ -887,8 +887,8 @@ void EnRd_Update(Actor* thisx, PlayState* play) {
         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
 
-    if (this->damageEffect != REDEAD_DMGEFF_ICE_MAGIC &&
-        ((this->action != REDEAD_ACTION_RISE_FROM_COFFIN) || (this->damageEffect != REDEAD_DMGEFF_FIRE_MAGIC))) {
+    if (this->damageReaction != REDEAD_DMGEFF_ICE_MAGIC &&
+        ((this->action != REDEAD_ACTION_RISE_FROM_COFFIN) || (this->damageReaction != REDEAD_DMGEFF_FIRE_MAGIC))) {
         if (this->playerStunWaitTimer != 0) {
             this->playerStunWaitTimer--;
         }

@@ -605,7 +605,7 @@ void EnMb_SetupStunned(EnMb* this) {
     this->state = ENMB_STATE_STUNNED;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
-    if (this->damageEffect == ENMB_DMGEFF_STUN_ICE) {
+    if (this->damageReaction == ENMB_DMGEFF_STUN_ICE) {
         this->iceEffectTimer = 40;
     } else {
         if (this->actor.params != ENMB_TYPE_CLUB) {
@@ -1450,7 +1450,7 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
 #endif
                 Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 6.0f, this->actor.world.rot.y, 6.0f);
             }
-            this->damageEffect = this->actor.colChkInfo.damageReaction;
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
             this->attack = ENMB_ATTACK_NONE;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
             if (this->actor.colChkInfo.damageReaction == ENMB_DMGEFF_STUN ||

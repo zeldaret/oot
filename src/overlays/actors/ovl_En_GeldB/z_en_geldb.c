@@ -1030,10 +1030,10 @@ void EnGeldB_SetupStunned(EnGeldB* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speed = 0.0f;
     }
-    if ((this->damageEffect != GELDB_DMG_FREEZE) || (this->action == GELDB_SPIN_ATTACK)) {
+    if ((this->damageReaction != GELDB_DMG_FREEZE) || (this->action == GELDB_SPIN_ATTACK)) {
         Animation_PlayOnceSetSpeed(&this->skelAnime, &gGerudoRedDamageAnim, 0.0f);
     }
-    if (this->damageEffect == GELDB_DMG_FREEZE) {
+    if (this->damageReaction == GELDB_DMG_FREEZE) {
         this->iceTimer = 36;
     }
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -1391,7 +1391,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
                (this->spinAttackState < 2)) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageReaction != GELDB_DMG_UNK_6) {
-            this->damageEffect = this->actor.colChkInfo.damageReaction;
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
             if ((this->actor.colChkInfo.damageReaction == GELDB_DMG_STUN) ||

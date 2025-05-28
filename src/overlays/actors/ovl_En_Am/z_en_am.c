@@ -735,7 +735,7 @@ void EnAm_SetupStunned(EnAm* this, PlayState* play) {
 
     Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 100);
 
-    if (this->damageEffect == AM_DMGEFF_ICE) {
+    if (this->damageReaction == AM_DMGEFF_ICE) {
         this->iceTimer = 48;
     }
 
@@ -812,7 +812,7 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
 
             if (this->dyna.actor.colChkInfo.damageReaction != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
                 this->unk_264 = 0;
-                this->damageEffect = this->dyna.actor.colChkInfo.damageReaction;
+                this->damageReaction = this->dyna.actor.colChkInfo.damageReaction;
                 Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.elem, false);
 
                 if ((this->dyna.actor.colChkInfo.damageReaction == AM_DMGEFF_NUT) ||

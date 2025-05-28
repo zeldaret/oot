@@ -1324,7 +1324,7 @@ void EnZf_SetupStunned(EnZf* this) {
         this->hopAnimIndex = 1;
     }
 
-    if (this->damageEffect == ENZF_DMGEFF_ICE) {
+    if (this->damageReaction == ENZF_DMGEFF_ICE) {
         this->iceTimer = 36;
     } else {
         Animation_PlayOnceSetSpeed(&this->skelAnime, &gZfKnockedBackAnim, 0.0f);
@@ -1685,7 +1685,7 @@ void EnZf_Damaged(EnZf* this, PlayState* play) {
         SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
         if (D_80B4A1B4 != -1) {
-            if (this->damageEffect == ENZF_DMGEFF_PROJECTILE) {
+            if (this->damageReaction == ENZF_DMGEFF_PROJECTILE) {
                 D_80B4A1B0++;
             } else {
                 this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -2029,7 +2029,7 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
         if (((this->actor.params < ENZF_TYPE_LIZALFOS_MINIBOSS_A) /* not miniboss */ ||
              (D_80B4A1B4 != this->actor.params)) &&
             (this->actor.colChkInfo.damageReaction != ENZF_DMGEFF_IMMUNE)) {
-            this->damageEffect = this->actor.colChkInfo.damageReaction;
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
 
             if ((this->actor.colChkInfo.damageReaction == ENZF_DMGEFF_STUN) ||
@@ -2056,7 +2056,7 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
                 } else {
                     if ((D_80B4A1B4 != -1) && ((this->actor.colChkInfo.health + this->actor.colChkInfo.damage) >= 4) &&
                         (this->actor.colChkInfo.health < 4)) {
-                        this->damageEffect = ENZF_DMGEFF_PROJECTILE;
+                        this->damageReaction = ENZF_DMGEFF_PROJECTILE;
                     }
 
                     EnZf_SetupDamaged(this);

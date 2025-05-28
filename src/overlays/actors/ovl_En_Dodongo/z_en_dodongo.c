@@ -415,7 +415,7 @@ void EnDodongo_SetupStunned(EnDodongo* this) {
     Animation_Change(&this->skelAnime, &gDodongoBreatheFireAnim, 0.0f, 25.0f, 0.0f, ANIMMODE_ONCE, -4.0f);
     this->actionState = DODONGO_STUNNED;
     this->actor.speed = 0.0f;
-    if (this->damageEffect == 0xF) {
+    if (this->damageReaction == 0xF) {
         this->iceTimer = 36;
     }
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -734,7 +734,7 @@ void EnDodongo_CollisionCheck(EnDodongo* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->bodyCollider, false);
         if (this->actor.colChkInfo.damageReaction != 0xE) {
-            this->damageEffect = this->actor.colChkInfo.damageReaction;
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
             if ((this->actor.colChkInfo.damageReaction == 1) || (this->actor.colChkInfo.damageReaction == 0xF)) {
                 if (this->actionState != DODONGO_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);

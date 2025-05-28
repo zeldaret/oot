@@ -604,7 +604,7 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
 
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
-        this->damageEffect = this->actor.colChkInfo.damageReaction;
+        this->damageReaction = this->actor.colChkInfo.damageReaction;
 
         if (this->actor.colChkInfo.damageReaction != TAILPASARAN_DMGEFF_NONE) {
             if (this->actor.colChkInfo.damageReaction == TAILPASARAN_DMGEFF_DEKUNUT) {
@@ -622,7 +622,7 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
 
                 if (head->actor.params <= TAILPASARAN_HEAD) {
                     EnTp_SetupDie(head);
-                    head->damageEffect = this->actor.colChkInfo.damageReaction;
+                    head->damageReaction = this->actor.colChkInfo.damageReaction;
                     head->actor.params = TAILPASARAN_HEAD_DYING;
                 }
             } else {
@@ -686,7 +686,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
     s16 yawToWall;
 
     if (player->stateFlags1 & PLAYER_STATE1_26) { // Shielding
-        this->damageEffect = TAILPASARAN_DMGEFF_NONE;
+        this->damageReaction = TAILPASARAN_DMGEFF_NONE;
     }
 
     if (this->actor.colChkInfo.health != 0) {
@@ -737,7 +737,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
 
     this->actor.focus.pos = this->actor.world.pos;
 
-    if (this->damageEffect == TAILPASARAN_DMGEFF_SHOCKING) {
+    if (this->damageReaction == TAILPASARAN_DMGEFF_SHOCKING) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 

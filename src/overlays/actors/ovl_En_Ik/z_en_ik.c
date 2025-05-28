@@ -747,19 +747,19 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
     } else if (this->bodyCollider.base.acFlags & AC_HIT) {
         s16 pad;
         u8 prevHealth;
-        s32 damageEffect;
+        s32 damageReaction;
         Vec3f sparksPos = this->actor.world.pos;
 
         sparksPos.y += 50.0f;
 
         Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
-        this->damageEffect = this->actor.colChkInfo.damageReaction;
+        this->damageReaction = this->actor.colChkInfo.damageReaction;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-        if ((this->damageEffect == EN_IK_DMGEFF_NONE) || (this->damageEffect == EN_IK_DMGEFF_SPARKS_NO_DMG) ||
-            ((this->armorStatusFlag == 0) && (this->damageEffect == EN_IK_DMGEFF_PROJECTILE))) {
-            if (this->damageEffect != EN_IK_DMGEFF_NONE) {
+        if ((this->damageReaction == EN_IK_DMGEFF_NONE) || (this->damageReaction == EN_IK_DMGEFF_SPARKS_NO_DMG) ||
+            ((this->armorStatusFlag == 0) && (this->damageReaction == EN_IK_DMGEFF_PROJECTILE))) {
+            if (this->damageReaction != EN_IK_DMGEFF_NONE) {
                 // spawn sparks and don't damage
                 CollisionCheck_SpawnShieldParticlesMetal(play, &sparksPos);
             }
