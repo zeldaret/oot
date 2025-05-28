@@ -142,7 +142,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
     this->unk_1E8 = 0.0f;
     this->unk_1E0 = 0.25f;
     if (this->actor.params == 0) {
-        PRINTF(T("ニュウ イニシャル[ %d ] ！！\n", "New initials [ %d ] !!\n"), this->actor.params);
+        PRINTF(T("ニュウ イニシャル[ %d ] ！！\n", "New init [ %d ] !!\n"), this->actor.params);
         this->actor.colChkInfo.mass = 0;
         this->unk_1D4 = 0;
         this->unk_1D8 = 0xFF;

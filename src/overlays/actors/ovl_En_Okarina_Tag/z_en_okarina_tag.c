@@ -321,8 +321,7 @@ void func_80ABF708(EnOkarinaTag* this, PlayState* play) {
 }
 
 void func_80ABF7CC(EnOkarinaTag* this, PlayState* play) {
-    PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 開けゴマゴマゴマ！ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Open sesame sesame sesame! ☆☆☆☆☆ %d\n")
-               VT_RST,
+    PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 開けゴマゴマゴマ！ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Open gomagomagoma! ☆☆☆☆☆ %d\n") VT_RST,
            Message_GetState(&play->msgCtx));
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
