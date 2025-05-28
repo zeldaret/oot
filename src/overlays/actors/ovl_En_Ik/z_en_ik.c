@@ -52,13 +52,13 @@ typedef enum EnIkCsDrawMode {
     /* 0x02 */ IK_CS_DRAW_DEFEAT
 } EnIkCsDrawMode;
 
-typedef enum EnIkDamageEffect {
+typedef enum EnIkDamageReaction {
     /* 0x0 */ EN_IK_DMGREAC_NONE,
     /* 0x6 */ EN_IK_DMGREAC_ELEMENTAL_MAGIC = 0x6,
     /* 0xD */ EN_IK_DMGREAC_SPARKS_NO_DMG = 0xD,
     /* 0xE */ EN_IK_DMGREAC_PROJECTILE,
     /* 0xF */ EN_IK_DMGREAC_DAMAGE
-} EnIkDamageEffect;
+} EnIkDamageReaction;
 
 void EnIk_UpdateEnemy(Actor* thisx, PlayState* play);
 void EnIk_DrawEnemy(Actor* thisx, PlayState* play);

@@ -44,7 +44,7 @@ typedef enum EnRrReachState {
     /* 5 */ REACH_CLOSE
 } EnRrReachState;
 
-typedef enum EnRrDamageEffect {
+typedef enum EnRrDamageReaction {
     /* 0x0 */ RR_DMG_NONE,
     /* 0x1 */ RR_DMG_STUN,
     /* 0x2 */ RR_DMG_FIRE,
@@ -55,7 +55,7 @@ typedef enum EnRrDamageEffect {
     /* 0xD */ RR_DMG_WIND_ARROW,
     /* 0xE */ RR_DMG_SPRT_ARROW,
     /* 0xF */ RR_DMG_NORMAL
-} EnRrDamageEffect;
+} EnRrDamageReaction;
 
 typedef enum EnRrDropType {
     /* 0 */ RR_DROP_RANDOM_RUPEE,

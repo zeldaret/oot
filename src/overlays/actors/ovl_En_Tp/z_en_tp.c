@@ -95,12 +95,12 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef enum TailpasaranDamageEffect {
+typedef enum TailpasaranDamageReaction {
     /* 00 */ TAILPASARAN_DMGREAC_NONE,
     /* 01 */ TAILPASARAN_DMGREAC_DEKUNUT,
     /* 14 */ TAILPASARAN_DMGREAC_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
     /* 15 */ TAILPASARAN_DMGREAC_INSULATING     // Kills the Tailpasaran and does not shock Player
-} TailpasaranDamageEffect;
+} TailpasaranDamageReaction;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, TAILPASARAN_DMGREAC_DEKUNUT),

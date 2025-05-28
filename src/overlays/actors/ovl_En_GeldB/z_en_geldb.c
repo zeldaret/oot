@@ -177,14 +177,14 @@ static ColliderQuadInit sSwordQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum EnGeldBDamageEffects {
+typedef enum EnGeldBDamageReactions {
     /* 0x0 */ GELDB_DMG_NORMAL,
     /* 0x1 */ GELDB_DMG_STUN,
     /* 0x6 */ GELDB_DMG_UNK_6 = 0x6,
     /* 0xD */ GELDB_DMG_UNK_D = 0xD,
     /* 0xE */ GELDB_DMG_UNK_E,
     /* 0xF */ GELDB_DMG_FREEZE
-} EnGeldBDamageEffects;
+} EnGeldBDamageReactions;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, GELDB_DMG_STUN),

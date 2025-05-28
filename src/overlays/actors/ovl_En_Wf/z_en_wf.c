@@ -162,14 +162,14 @@ static ColliderCylinderInit sTailCylinderInit = {
     { 15, 20, -15, { 0, 0, 0 } },
 };
 
-typedef enum EnWfDamageEffect {
+typedef enum EnWfDamageReaction {
     /*  0 */ ENWF_DMGREAC_NONE,
     /*  1 */ ENWF_DMGREAC_STUN,
     /*  6 */ ENWF_DMGREAC_ICE_MAGIC = 6,
     /* 13 */ ENWF_DMGREAC_LIGHT_MAGIC = 13,
     /* 14 */ ENWF_DMGREAC_FIRE,
     /* 15 */ ENWF_DMGREAC_UNDEF // used like STUN in the code, but not in the table
-} EnWfDamageEffect;
+} EnWfDamageReaction;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, ENWF_DMGREAC_STUN),

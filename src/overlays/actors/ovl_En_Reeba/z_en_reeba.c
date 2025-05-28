@@ -48,7 +48,7 @@ void EnReeba_Die(EnReeba* this, PlayState* play);
 void EnReeba_Stunned(EnReeba* this, PlayState* play);
 void EnReeba_StunDie(EnReeba* this, PlayState* play);
 
-typedef enum LeeverDamageEffect {
+typedef enum LeeverDamageReaction {
     /* 0x00 */ LEEVER_DMGREAC_NONE, // used by anything that cant kill the Leever
     /* 0x01 */ LEEVER_DMGREAC_UNK,  // used by "unknown 1" attack
     /* 0x03 */ LEEVER_DMGREAC_ICE = 3,
@@ -56,7 +56,7 @@ typedef enum LeeverDamageEffect {
     /* 0x0C */ LEEVER_DMGREAC_BOOMERANG,
     /* 0x0D */ LEEVER_DMGREAC_HOOKSHOT,
     /* 0x0E */ LEEVER_DMGREAC_OTHER
-} LeeverDamageEffect;
+} LeeverDamageReaction;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, LEEVER_DMGREAC_NONE),

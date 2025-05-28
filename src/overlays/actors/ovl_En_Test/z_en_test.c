@@ -212,14 +212,14 @@ static ColliderQuadInit sSwordColliderQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum StalfosDamageEffect {
+typedef enum StalfosDamageReaction {
     /* 0x0 */ STALFOS_DMGREAC_NORMAL,
     /* 0x1 */ STALFOS_DMGREAC_STUN,
     /* 0x6 */ STALFOS_DMGREAC_FIREMAGIC = 6,
     /* 0xD */ STALFOS_DMGREAC_SLING = 0xD,
     /* 0xE */ STALFOS_DMGREAC_LIGHT,
     /* 0xF */ STALFOS_DMGREAC_FREEZE
-} StalfosDamageEffect;
+} StalfosDamageReaction;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, STALFOS_DMGREAC_STUN),

@@ -137,14 +137,14 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum DamageEffect {
+typedef enum DamageReaction {
     /* 00 */ PEAHAT_DMG_EFF_ATTACK = 0,
     /* 06 */ PEAHAT_DMG_EFF_LIGHT_ICE_ARROW = 6,
     /* 12 */ PEAHAT_DMG_EFF_FIRE = 12,
     /* 13 */ PEAHAT_DMG_EFF_HOOKSHOT = 13,
     /* 14 */ PEAHAT_DMG_EFF_BOOMERANG = 14,
     /* 15 */ PEAHAT_DMG_EFF_NUT = 15
-} DamageEffect;
+} DamageReaction;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, PEAHAT_DMG_EFF_NUT),

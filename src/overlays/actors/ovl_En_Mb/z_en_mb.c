@@ -184,13 +184,13 @@ static ColliderQuadInit sAttackColliderQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum EnMbDamageEffect {
+typedef enum EnMbDamageReaction {
     /* 0x0 */ ENMB_DMGREAC_IGNORE,
     /* 0x1 */ ENMB_DMGREAC_STUN,
     /* 0x5 */ ENMB_DMGREAC_FREEZE = 0x5,
     /* 0x6 */ ENMB_DMGREAC_STUN_ICE,
     /* 0xF */ ENMB_DMGREAC_DEFAULT = 0xF
-} EnMbDamageEffect;
+} EnMbDamageReaction;
 
 static DamageTable sSpearMoblinDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, ENMB_DMGREAC_FREEZE),

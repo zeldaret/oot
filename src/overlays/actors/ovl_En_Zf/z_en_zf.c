@@ -169,13 +169,13 @@ static ColliderQuadInit sSwordQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum EnZfDamageEffect {
+typedef enum EnZfDamageReaction {
     /* 0x0 */ ENZF_DMGREAC_NONE,
     /* 0x1 */ ENZF_DMGREAC_STUN,
     /* 0x6 */ ENZF_DMGREAC_IMMUNE = 6,       // Skips damage code, but also skips the top half of Update
     /* 0xD */ ENZF_DMGREAC_PROJECTILE = 0xD, // Projectiles that don't have another damageeffect
     /* 0xF */ ENZF_DMGREAC_ICE = 0xF
-} EnZfDamageEffect;
+} EnZfDamageReaction;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, ENZF_DMGREAC_STUN),

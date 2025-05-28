@@ -127,14 +127,14 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum ArmosDamageEffect {
+typedef enum ArmosDamageReaction {
     /*  0 */ AM_DMGREAC_NONE, // used by anything that can't kill the armos
     /*  1 */ AM_DMGREAC_NUT,
     /*  6 */ AM_DMGREAC_STUN = 6, // doesn't include deku nuts
     /* 13 */ AM_DMGREAC_ICE = 13,
     /* 14 */ AM_DMGREAC_MAGIC_FIRE_LIGHT,
     /* 15 */ AM_DMGREAC_KILL // any damage source that can kill the armos (and isn't a special case)
-} ArmosDamageEffect;
+} ArmosDamageReaction;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, AM_DMGREAC_NUT),

@@ -97,14 +97,14 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 18, 32, MASS_HEAVY };
 
-typedef enum BariDamageEffect {
+typedef enum BariDamageReaction {
     /* 0x0 */ BARI_DMGREAC_NONE,
     /* 0x1 */ BARI_DMGREAC_STUN,
     /* 0x2 */ BARI_DMGREAC_FIRE,
     /* 0x3 */ BARI_DMGREAC_ICE,
     /* 0xE */ BARI_DMGREAC_SLINGSHOT = 0xE,
     /* 0xF */ BARI_DMGREAC_SWORD
-} BariDamageEffect;
+} BariDamageReaction;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, BARI_DMGREAC_STUN),

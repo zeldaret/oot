@@ -73,11 +73,11 @@ static ColliderCylinderInit sCylinderInit = {
     { 29, 103, 0, { 0, 0, 0 } },
 };
 
-typedef enum AnubiceDamageEffect {
+typedef enum AnubiceDamageReaction {
     /* 0x0 */ ANUBICE_DMGREAC_NONE,
     /* 0x2 */ ANUBICE_DMGREAC_FIRE = 2,
     /* 0xF */ ANUBICE_DMGREAC_0xF = 0xF // Treated the same as ANUBICE_DMGREAC_NONE in code
-} AnubiceDamageEffect;
+} AnubiceDamageReaction;
 
 static DamageTable sDamageTable[] = {
     /* Deku nut      */ DMG_ENTRY(0, ANUBICE_DMGREAC_NONE),

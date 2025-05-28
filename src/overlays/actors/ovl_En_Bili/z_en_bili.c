@@ -78,14 +78,14 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 9, 28, -20, 30 };
 
-typedef enum BiriDamageEffect {
+typedef enum BiriDamageReaction {
     /* 0x0 */ BIRI_DMGREAC_NONE,
     /* 0x1 */ BIRI_DMGREAC_DEKUNUT,
     /* 0x2 */ BIRI_DMGREAC_FIRE,
     /* 0x3 */ BIRI_DMGREAC_ICE,
     /* 0xE */ BIRI_DMGREAC_SLINGSHOT = 0xE,
     /* 0xF */ BIRI_DMGREAC_SWORD
-} BiriDamageEffect;
+} BiriDamageReaction;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, BIRI_DMGREAC_DEKUNUT),

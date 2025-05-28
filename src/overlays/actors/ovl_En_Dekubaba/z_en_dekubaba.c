@@ -150,13 +150,13 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum DekuBabaDamageEffect {
+typedef enum DekuBabaDamageReaction {
     /* 0x0 */ DEKUBABA_DMGREAC_NONE,
     /* 0x1 */ DEKUBABA_DMGREAC_DEKUNUT,
     /* 0x2 */ DEKUBABA_DMGREAC_FIRE,
     /* 0xE */ DEKUBABA_DMGREAC_BOOMERANG = 14,
     /* 0xF */ DEKUBABA_DMGREAC_SWORD
-} DekuBabaDamageEffect;
+} DekuBabaDamageReaction;
 
 static DamageTable sDekuBabaDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, DEKUBABA_DMGREAC_DEKUNUT),

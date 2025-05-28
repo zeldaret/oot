@@ -108,14 +108,14 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-typedef enum EnRdDamageEffect {
+typedef enum EnRdDamageReaction {
     /* 0x0 */ REDEAD_DMGREAC_NONE,              // Does not interact with the Gibdo/Redead at all
     /* 0x1 */ REDEAD_DMGREAC_HOOKSHOT,          // Stuns the Gibdo/Redead
     /* 0x6 */ REDEAD_DMGREAC_ICE_MAGIC = 0x6,   // Does not interact with the Gibdo/Redead at all
     /* 0xD */ REDEAD_DMGREAC_LIGHT_MAGIC = 0xD, // Stuns the Gibdo/Redead
     /* 0xE */ REDEAD_DMGREAC_FIRE_MAGIC,        // Applies a fire effect
     /* 0xF */ REDEAD_DMGREAC_DAMAGE             // Deals damage without stunning or applying an effect
-} EnRdDamageEffect;
+} EnRdDamageReaction;
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, REDEAD_DMGREAC_NONE),
