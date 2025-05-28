@@ -1,8 +1,9 @@
-#include "global.h"
+#include "ultra64.h"
 
 #define STEP 0x100000
 
 u32 osGetMemSize(void) {
+#ifndef BBPLAYER
     vu32* ptr;
     u32 size = 0x400000;
     u32 data0;
@@ -28,4 +29,7 @@ u32 osGetMemSize(void) {
     }
 
     return size;
+#else
+    return osMemSize;
+#endif
 }

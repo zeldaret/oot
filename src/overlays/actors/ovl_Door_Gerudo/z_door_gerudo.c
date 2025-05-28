@@ -5,6 +5,17 @@
  */
 
 #include "z_door_gerudo.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_door_gerudo/object_door_gerudo.h"
 
 #define FLAGS 0

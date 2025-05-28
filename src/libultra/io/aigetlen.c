@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 /**
  * Returns the number of bytes remaining in a currently ongoing audio DMA.

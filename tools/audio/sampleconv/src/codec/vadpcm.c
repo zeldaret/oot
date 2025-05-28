@@ -14,6 +14,18 @@
 
 #include "codec.h"
 
+/**
+ * Creates FIR filter matrices for each page of the prediction codebook.
+ * For order=2: each page contains coefficients c0..7 and d0..7, the matrix resembles:
+ * [ c0, d0, 1,  0,  0,  0,  0,  0,  0,  0 ]
+ * [ c0, d1, d0, 1,  0,  0,  0,  0,  0,  0 ]
+ * [ c0, d2, d1, d0, 1,  0,  0,  0,  0,  0 ]
+ * [ c0, d3, d2, d1, d0, 1,  0,  0,  0,  0 ]
+ * [ c0, d4, d3, d2, d1, d0, 1,  0,  0,  0 ]
+ * [ c0, d5, d4, d3, d2, d1, d0, 1,  0,  0 ]
+ * [ c0, d6, d5, d4, d3, d2, d1, d0, 1,  0 ]
+ * [ c0, d7, d6, d5, d4, d3, d2, d1, d0, 1 ]
+ */
 int
 expand_codebook(int16_t *book_data, int32_t ****table_out, int32_t order, int32_t npredictors)
 {
@@ -25,19 +37,25 @@ expand_codebook(int16_t *book_data, int32_t ****table_out, int32_t order, int32_
             table[i][j] = MALLOC_CHECKED_INFO((order + 8) * sizeof(int32_t), "order=%d", order);
     }
 
+    // For each page, create the associated matrix
     for (int32_t i = 0; i < npredictors; i++) {
         int32_t **table_entry = table[i];
 
+        // Fill the first columns of the FIR filter matrix, up to the "order" column
         for (int32_t j = 0; j < order; j++) {
             for (int32_t k = 0; k < 8; k++)
                 table_entry[k][j] = *(book_data++);
         }
 
+        // For each row fill except the first in the "order" column
         for (int32_t k = 1; k < 8; k++)
             table_entry[k][order] = table_entry[k - 1][order - 1];
 
-        table_entry[0][order] = 1 << 11;
+        // Place the 1.0 in the first row of the "order" column
+        table_entry[0][order] = 1 << 11; // 1.0 in qs4.11 fixed point
 
+        // Fill the remaining columns as a shifted-down copy of the previous column,
+        // adding 0s as-needed.
         for (int32_t k = 1; k < 8; k++) {
             int32_t j = 0;
 
@@ -52,6 +70,10 @@ expand_codebook(int16_t *book_data, int32_t ****table_out, int32_t order, int32_
     return 0;
 }
 
+/**
+ * For each FIR filter matrix associated with a codebook page, pointed to by `table`, store the first
+ * "order" columns to a codebook at `book_data_out`.
+ */
 int
 compressed_expanded_codebook(int16_t **book_data_out, int32_t ***table, int order, int npredictors)
 {
@@ -59,9 +81,9 @@ compressed_expanded_codebook(int16_t **book_data_out, int32_t ***table, int orde
         MALLOC_CHECKED_INFO(sizeof(int16_t) * 8 * order * npredictors, "order=%d, npredictors=%d", order, npredictors);
 
     int n = 0;
-    for (int32_t i = 0; i < npredictors; i++) {
-        for (int32_t j = 0; j < order; j++) {
-            for (int32_t k = 0; k < 8; k++)
+    for (int32_t i = 0; i < npredictors; i++) { // For each matrix
+        for (int32_t j = 0; j < order; j++) { // For each column
+            for (int32_t k = 0; k < 8; k++) // For each row
                 book_data[n++] = table[i][k][j];
         }
     }
@@ -207,7 +229,8 @@ vdecodeframe(uint8_t *frame, int32_t *prescaled, int32_t *state, int32_t order, 
 
     int32_t **coef_page = coef_tbl[optimalp];
 
-    // Inner product with predictor coefficients
+    // Matrix multiplication with FIR filter matrix associated with the book page, the matrix operates on
+    // 8 samples simultaneously so this needs to be done twice for all 16 samples in the output frame.
     for (int32_t j = 0; j < 2; j++) {
         int32_t in_vec[16];
 

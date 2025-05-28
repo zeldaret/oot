@@ -5,6 +5,12 @@
  */
 
 #include "z_en_tg.h"
+
+#include "gfx.h"
+#include "sys_matrix.h"
+#include "z64face_reaction.h"
+#include "z64play.h"
+
 #include "assets/objects/object_mu/object_mu.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)

@@ -5,8 +5,21 @@
  */
 
 #include "z_bg_hidan_kowarerukabe.h"
-#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
@@ -92,7 +105,7 @@ void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, PlayState
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 
     this->collider.elements[0].dim.modelSphere.radius = sphereRadii[PARAMS_GET_U(this->dyna.actor.params, 0, 8)];
     this->collider.elements[0].dim.modelSphere.center.y = sphereYPositions[PARAMS_GET_U(this->dyna.actor.params, 0, 8)];
@@ -106,9 +119,9 @@ void BgHidanKowarerukabe_OffsetActorYPos(BgHidanKowarerukabe* this) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
@@ -118,9 +131,10 @@ void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
 
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) < CRACKED_STONE_FLOOR ||
         PARAMS_GET_U(this->dyna.actor.params, 0, 8) > LARGE_BOMBABLE_WALL) {
-        // "Error: Fire Temple Breakable Walls. arg_data I can't determine the (%s %d)(arg_data 0x%04x)"
-        PRINTF("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
-               "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
+        PRINTF(
+            T("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない",
+              "Error : arg_data for the Fire Temple breakable wall cannot be determined") "(%s %d)(arg_data 0x%04x)\n",
+            "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -134,8 +148,8 @@ void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->dyna.actor, 0.1f);
     BgHidanKowarerukabe_InitColliderSphere(this, play);
     BgHidanKowarerukabe_OffsetActorYPos(this);
-    // "(fire walls, floors, destroyed by bombs)(arg_data 0x%04x)"
-    PRINTF("(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(hidan 爆弾で壊れる 壁 床)", "(hidan bomb destroys walls and floors)") "(arg_data 0x%04x)\n",
+           this->dyna.actor.params);
 }
 
 void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play) {

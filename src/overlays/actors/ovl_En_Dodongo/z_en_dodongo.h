@@ -2,11 +2,11 @@
 #define Z_EN_DODONGO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnDodongo;
 
-typedef void (*EnDodongoActionFunc)(struct EnDodongo*, PlayState*);
+typedef void (*EnDodongoActionFunc)(struct EnDodongo*, struct PlayState*);
 
 typedef struct EnDodongo {
     /* 0x0000 */ Actor actor;
@@ -35,8 +35,8 @@ typedef struct EnDodongo {
     /* 0x03D4 */ ColliderQuad colliderAT;
     /* 0x0454 */ ColliderTris colliderHard;
     /* 0x0474 */ ColliderTrisElement trisElements[3];
-    /* 0x0588 */ ColliderJntSph colliderBody;
-    /* 0x05A8 */ ColliderJntSphElement sphElements[6];
+    /* 0x0588 */ ColliderJntSph bodyCollider;
+    /* 0x05A8 */ ColliderJntSphElement bodyColliderElements[6];
 } EnDodongo; // size = 0x0728
 
 typedef enum EnDodongoParam {

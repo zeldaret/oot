@@ -1,7 +1,13 @@
-#include "global.h"
+#include "controller.h"
+#include "letterbox.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
+#include "regs.h"
+#include "z64audio.h"
+#include "z64play.h"
+#include "z64save.h"
 
 /*
  * The following three arrays are effectively unused.
@@ -72,7 +78,7 @@ void KaleidoSetup_Update(PlayState* play) {
         (play->sceneId != SCENE_BOMBCHU_BOWLING_ALLEY || !Flags_GetSwitch(play, 0x38))) {
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
-            if (OOT_DEBUG && BREG(0)) {
+            if (DEBUG_FEATURES && BREG(0)) {
                 pauseCtx->debugState = 3;
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
@@ -144,7 +150,7 @@ void KaleidoSetup_Init(PlayState* play) {
 
     pauseCtx->cursorPoint[PAUSE_ITEM] = 0;
     pauseCtx->cursorPoint[PAUSE_MAP] = VREG(30) + 3;
-    pauseCtx->cursorPoint[PAUSE_QUEST] = 0;
+    pauseCtx->cursorPoint[PAUSE_QUEST] = QUEST_MEDALLION_FOREST;
     pauseCtx->cursorPoint[PAUSE_EQUIP] = 1;
     pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 10;
 
@@ -154,8 +160,8 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->cursorY[PAUSE_MAP] = 0;
     pauseCtx->cursorX[PAUSE_QUEST] = 0;
     pauseCtx->cursorY[PAUSE_QUEST] = 0;
-    pauseCtx->cursorX[PAUSE_EQUIP] = 1;
-    pauseCtx->cursorY[PAUSE_EQUIP] = 0;
+    pauseCtx->cursorX[PAUSE_EQUIP] = EQUIP_VALUE_SWORD_KOKIRI;
+    pauseCtx->cursorY[PAUSE_EQUIP] = EQUIP_TYPE_SWORD;
 
     pauseCtx->cursorItem[PAUSE_ITEM] = PAUSE_ITEM_NONE;
     pauseCtx->cursorItem[PAUSE_MAP] = VREG(30) + 3;

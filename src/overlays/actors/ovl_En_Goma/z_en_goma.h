@@ -2,7 +2,7 @@
 #define Z_EN_GOMA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 typedef enum GomaType {
     /* 0 */ ENGOMA_NORMAL,
@@ -13,7 +13,7 @@ typedef enum GomaType {
 
 struct EnGoma;
 
-typedef void (*EnGomaActionFunc)(struct EnGoma*, PlayState*);
+typedef void (*EnGomaActionFunc)(struct EnGoma*, struct PlayState*);
 
 typedef enum EnGomaLimb {
     /*  0 */ GOMA_LIMB_NONE,
@@ -73,8 +73,8 @@ typedef struct EnGoma {
     /* 0x2F8 */ s16 stunTimer;
     /* 0x2FC */ Vec3f shieldKnockbackVel;
     /* 0x308 */ Gfx* bossLimbDL; // set by z_boss_goma
-    /* 0x30C */ ColliderCylinder colCyl1;
-    /* 0x358 */ ColliderCylinder colCyl2;
+    /* 0x30C */ ColliderCylinder colliderCylinder1;
+    /* 0x358 */ ColliderCylinder colliderCylinder2;
 } EnGoma; // size = 0x03A4
 
 #endif

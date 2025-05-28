@@ -2,11 +2,11 @@
 #define Z_BOSS_MO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BossMo;
 
-typedef void (*BossMoActionFunc)(struct BossMo*, PlayState*);
+typedef void (*BossMoActionFunc)(struct BossMo*, struct PlayState*);
 
 typedef enum BossMoTentS16Var {
     /* 0 */ MO_TENT_ACTION_STATE,
@@ -124,7 +124,7 @@ typedef struct BossMo {
     /* 0x100C */ f32 subCamYawShake;
     /* 0x1010 */ Vec3f tentTipPos;
     /* 0x101C */ ColliderJntSph tentCollider;
-    /* 0x103C */ ColliderJntSphElement tentElements[19];
+    /* 0x103C */ ColliderJntSphElement tentColliderElements[19];
     /* 0x14FC */ ColliderCylinder coreCollider;
     /* 0x1548 */ char unk_1548[0x44];
 } BossMo; // size = 0x158C

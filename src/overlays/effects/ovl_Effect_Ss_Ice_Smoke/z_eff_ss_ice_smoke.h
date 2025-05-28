@@ -2,7 +2,7 @@
 #define Z_EFF_SS_ICE_SMOKE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64math.h"
 
 typedef struct EffectSsIceSmokeInitParams {
     /* 0x00 */ Vec3f pos;

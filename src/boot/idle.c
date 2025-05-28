@@ -1,24 +1,50 @@
-#include "global.h"
+#include "array_count.h"
+#include "buffers.h"
+#include "build.h"
+#include "idle.h"
+#include "main.h"
+#include "printf.h"
+#include "segment_symbols.h"
 #include "stack.h"
+#include "stackcheck.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
+#include "vi_mode.h"
+#include "z64thread.h"
+#include "z64dma.h"
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ntsc-1.2:64"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 OSThread sMainThread;
+#if OOT_VERSION < PAL_1_0
+STACK(sMainStack, 0x800);
+#else
 STACK(sMainStack, 0x900);
+#endif
 StackEntry sMainStackInfo;
 OSMesg sPiMgrCmdBuff[50];
 OSMesgQueue gPiMgrCmdQueue;
 OSViMode gViConfigMode;
-u8 gViConfigModeType;
 
-s8 D_80009430 = 1;
-vu8 gViConfigBlack = true;
-u8 gViConfigAdditionalScanLines = 0;
-u32 gViConfigFeatures = OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_OFF;
-f32 gViConfigXScale = 1.0;
-f32 gViConfigYScale = 1.0;
+#if OOT_VERSION < PAL_1_0
+u8 gViConfigModeType = OS_VI_NTSC_LPN1;
+#else
+u8 gViConfigModeType;
+#endif
+
+// Unused
+void* D_80009410[] = {
+    osStopThread,  __osSetHWIntrRoutine,
+#if PLATFORM_N64
+    osEPiWriteIo,  osEPiReadIo,
+#endif
+    __osSetFpcCsr, __osGetFpcCsr,        __osGetHWIntrRoutine, __osSetHWIntrRoutine, osViGetNextFramebuffer,
+#if !PLATFORM_N64
+    bcmp,
+#endif
+};
 
 void Main_ThreadEntry(void* arg) {
     OSTime time;
@@ -43,7 +69,7 @@ void Idle_ThreadEntry(void* arg) {
     PRINTF(T("作製者    : %s\n", "Created by: %s\n"), gBuildCreator);
     PRINTF(T("作成日時  : %s\n", "Created   : %s\n"), gBuildDate);
     PRINTF("MAKEOPTION: %s\n", gBuildMakeOption);
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF(T("ＲＡＭサイズは %d キロバイトです(osMemSize/osGetMemSize)\n",
              "RAM size is %d kilobytes (osMemSize/osGetMemSize)\n"),
            (s32)osMemSize / 1024);
@@ -56,15 +82,17 @@ void Idle_ThreadEntry(void* arg) {
     PRINTF(T("ＹＩＥＬＤバッファのサイズは %d キロバイトです\n", "YIELD buffer size is %d kilobytes\n"), 3);
     PRINTF(T("オーディオヒープのサイズは %d キロバイトです\n", "Audio heap size is %d kilobytes\n"),
            ((intptr_t)&gAudioHeap[ARRAY_COUNT(gAudioHeap)] - (intptr_t)gAudioHeap) / 1024);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     osCreateViManager(OS_PRIORITY_VIMGR);
 
+#if OOT_VERSION >= PAL_1_0
     gViConfigFeatures = OS_VI_GAMMA_OFF | OS_VI_DITHER_FILTER_ON;
     gViConfigXScale = 1.0f;
     gViConfigYScale = 1.0f;
+#endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     // Allow both 60 Hz and 50 Hz
     switch (osTvType) {
         case OS_TV_NTSC:
@@ -80,7 +108,9 @@ void Idle_ThreadEntry(void* arg) {
         case OS_TV_PAL:
             gViConfigModeType = OS_VI_FPAL_LAN1;
             gViConfigMode = osViModeFpalLan1;
+#if OOT_VERSION >= PAL_1_0
             gViConfigYScale = 0.833f;
+#endif
             break;
     }
 #elif !OOT_PAL_N64
@@ -110,11 +140,17 @@ void Idle_ThreadEntry(void* arg) {
     }
 #endif
 
+#if OOT_VERSION < PAL_1_0
+    osViSetMode(&gViConfigMode);
+    osViBlack(true);
+#else
     D_80009430 = 1;
     osViSetMode(&gViConfigMode);
     ViConfig_UpdateVi(true);
     osViBlack(true);
     osViSwapBuffer((void*)0x803DA80); //! @bug Invalid vram address (probably intended to be 0x803DA800)
+#endif
+
     osCreatePiManager(OS_PRIORITY_PIMGR, &gPiMgrCmdQueue, sPiMgrCmdBuff, ARRAY_COUNT(sPiMgrCmdBuff));
     StackCheck_Init(&sMainStackInfo, sMainStack, STACK_TOP(sMainStack), 0, 0x400, "main");
     osCreateThread(&sMainThread, THREAD_ID_MAIN, Main_ThreadEntry, arg, STACK_TOP(sMainStack), THREAD_PRI_MAIN_INIT);

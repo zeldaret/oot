@@ -1,9 +1,20 @@
-#include "global.h"
-#include "terminal.h"
-#include "assets/textures/parameter_static/parameter_static.h"
+#include "libu64/debug.h"
+#include "libu64/overlay.h"
+#include "map.h"
+#include "printf.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "regs.h"
+#include "romfile.h"
+#include "segment_symbols.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z64map_mark.h"
+#include "z64play.h"
+#include "z64save.h"
+
+#include "assets/textures/parameter_static/parameter_static.h"
 
 typedef struct MapMarkInfo {
     /* 0x00 */ void* texture;
@@ -118,8 +129,8 @@ void MapMark_DrawForDungeon(PlayState* play) {
                                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                rectLeft = ((OOT_DEBUG ? GREG(94) : 0) + markPoint->x + 204) << 2;
-                rectTop = ((OOT_DEBUG ? GREG(95) : 0) + markPoint->y + 140) << 2;
+                rectLeft = ((DEBUG_FEATURES ? GREG(94) : 0) + markPoint->x + 204) << 2;
+                rectTop = ((DEBUG_FEATURES ? GREG(95) : 0) + markPoint->y + 140) << 2;
                 gSPTextureRectangle(OVERLAY_DISP++, rectLeft, rectTop, markInfo->rectWidth + rectLeft,
                                     rectTop + markInfo->rectHeight, G_TX_RENDERTILE, 0, 0, markInfo->dsdx,
                                     markInfo->dtdy);

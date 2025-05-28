@@ -7,16 +7,36 @@
 #include "z_en_xc.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64save.h"
+#include "z64skin_matrix.h"
+
 #include "assets/objects/object_xc/object_xc.h"
 #include "assets/scenes/overworld/spot05/spot05_scene.h"
 #include "assets/scenes/overworld/spot17/spot17_scene.h"
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
-#include "terminal.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:0"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnXc_Init(Actor* thisx, PlayState* play);
 void EnXc_Destroy(Actor* thisx, PlayState* play);
@@ -228,7 +248,7 @@ void func_80B3C7D4(EnXc* this, s32 action1, s32 action2, s32 action3) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 EnXc_NoCutscenePlaying(PlayState* play) {
     if (play->csCtx.state == CS_STATE_IDLE) {
         return true;
@@ -304,7 +324,7 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
             if (!Play_InCsMode(play)) {
                 s32 pad;
 
-                play->csCtx.script = SEGMENTED_TO_VIRTUAL(gMinuetCs);
+                play->csCtx.script = SEGMENTED_TO_VIRTUAL(gMeadowMinuetCs);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_50);
                 Item_Give(play, ITEM_SONG_MINUET);
@@ -351,8 +371,8 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
-    if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && OOT_DEBUG) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
-        LINK_IS_ADULT) {
+    if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && DEBUG_FEATURES) &&
+        !GET_EVENTCHKINF(EVENTCHKINF_52) && LINK_IS_ADULT) {
         s32 pad;
 
         this->action = SHEIK_ACTION_SERENADE;
@@ -487,7 +507,7 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
 
                 if (D_80B41D90 != 0) {
                     f32 speed = Math3D_Vec3f_DistXYZ(&D_80B42DB0, eye) / 7.058922f;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                     static f32 sMaxSpeed = 0.0f;
 
                     sMaxSpeed = CLAMP_MIN(sMaxSpeed, speed);
@@ -1395,7 +1415,8 @@ void func_80B3F3D8(void) {
     Sfx_PlaySfxCentered2(NA_SE_PL_SKIP);
 }
 
-#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ntsc-1.2:64"
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ique-cn:64" \
+                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 void EnXc_PlayDiveSFX(Vec3f* src, PlayState* play) {
     static Vec3f D_80B42DA0;
@@ -1692,7 +1713,7 @@ void EnXc_ActionFunc54(EnXc* this, PlayState* play) {
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetupShowTriforceAction(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80B3C888(this, play);
 #endif
 }
@@ -1705,7 +1726,7 @@ void EnXc_ShowTriforce(EnXc* this, PlayState* play) {
     EnXc_CalcTriforce(&this->actor, play);
     func_80B3FAE0(this);
     EnXc_SetupShowTriforceIdleAction(this, animFinished);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80B3C888(this, play);
 #endif
 }
@@ -1847,7 +1868,7 @@ void EnXc_SetupContortions(EnXc* this, PlayState* play) {
     s32 pad[2];
     SkelAnime* skelAnime = &this->skelAnime;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim), ANIMMODE_LOOP,
                      0.0f);
 #endif
@@ -2022,7 +2043,8 @@ s32 EnXc_SetupNocturneState(Actor* thisx, PlayState* play) {
                     Actor_Kill(thisx);
                     break;
                 default:
-                    PRINTF("En_Oa2_Stalker_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Oa2_Stalker_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Oa2_Stalker_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
 
@@ -2331,7 +2353,8 @@ void EnXc_Update(Actor* thisx, PlayState* play) {
     s32 action = this->action;
 
     if ((action < 0) || (action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[action] == NULL)) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sActionFuncs[action](this, play);
     }
@@ -2373,7 +2396,7 @@ void EnXc_Init(Actor* thisx, PlayState* play) {
         case SHEIK_TYPE_9:
             EnXc_InitTempleOfTime(this, play);
             break;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         case SHEIK_TYPE_0:
             EnXc_DoNothing(this, play);
             break;
@@ -2448,8 +2471,8 @@ void EnXc_Draw(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
 
     if (this->drawMode < 0 || this->drawMode > 5 || sDrawFuncs[this->drawMode] == NULL) {
-        // "Draw mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sDrawFuncs[this->drawMode](thisx, play);
     }

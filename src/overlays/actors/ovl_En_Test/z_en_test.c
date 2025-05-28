@@ -5,9 +5,24 @@
  */
 
 #include "z_en_test.h"
+
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_sk2/object_sk2.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnTest_Init(Actor* thisx, PlayState* play);
 void EnTest_Destroy(Actor* thisx, PlayState* play);
@@ -177,7 +192,7 @@ static ColliderCylinderInit sShieldColliderInit = {
     { 20, 70, -50, { 0, 0, 0 } },
 };
 
-static ColliderQuadInit sSwordColliderInit = {
+static ColliderQuadInit sSwordColliderQuadInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -279,7 +294,7 @@ void EnTest_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->shieldCollider, &this->actor, &sShieldColliderInit);
 
     Collider_InitQuad(play, &this->swordCollider);
-    Collider_SetQuad(play, &this->swordCollider, &this->actor, &sSwordColliderInit);
+    Collider_SetQuad(play, &this->swordCollider, &this->actor, &sSwordColliderQuadInit);
 
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 10;
@@ -1838,7 +1853,7 @@ s32 EnTest_OverrideLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3f*
     }
 
     if ((this->actor.params == STALFOS_TYPE_INVISIBLE) &&
-        !CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+        !ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         *dList = NULL;
     }
 

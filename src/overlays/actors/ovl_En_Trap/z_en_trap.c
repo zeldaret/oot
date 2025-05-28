@@ -5,9 +5,15 @@
  */
 
 #include "z_en_trap.h"
+
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+
 #include "assets/objects/object_trap/object_trap.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 #define BEGIN_MOVE_OUT 65535.0f
 
@@ -113,7 +119,7 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     thisx->attentionRangeType = ATTENTION_RANGE_3;
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void EnTrap_Destroy(Actor* thisx, PlayState* play) {

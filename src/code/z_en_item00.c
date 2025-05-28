@@ -1,10 +1,28 @@
-#include "global.h"
+#include "z_en_item00.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
-#pragma increment_block_number \
-    "gc-eu:0 gc-eu-mq:0 gc-eu-mq-dbg:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64draw.h"
+#include "z64effect.h"
+#include "z64item.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-eu-mq-dbg:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128" \
+                               "gc-us-mq:128 ique-cn:128 ntsc-1.0:128 ntsc-1.2:128"
 
 #define FLAGS 0
 
@@ -75,64 +93,293 @@ static void* sItemDropTex[] = {
 };
 
 static u8 sItemDropIds[] = {
-    ITEM00_RUPEE_GREEN,    ITEM00_RUPEE_BLUE,     ITEM00_NONE,           ITEM00_NONE,           ITEM00_RUPEE_BLUE,
-    ITEM00_RUPEE_GREEN,    ITEM00_MAGIC_SMALL,    ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_NONE,
-    ITEM00_MAGIC_SMALL,    ITEM00_FLEXIBLE,       ITEM00_SEEDS,          ITEM00_SEEDS,          ITEM00_NONE,
-    ITEM00_RUPEE_BLUE,     ITEM00_RUPEE_GREEN,    ITEM00_MAGIC_SMALL,    ITEM00_RUPEE_GREEN,    ITEM00_RUPEE_BLUE,
-    ITEM00_RECOVERY_HEART, ITEM00_NONE,           ITEM00_RECOVERY_HEART, ITEM00_NONE,           ITEM00_FLEXIBLE,
-    ITEM00_NONE,           ITEM00_BOMBS_A,        ITEM00_NONE,           ITEM00_SEEDS,          ITEM00_NONE,
-    ITEM00_NONE,           ITEM00_MAGIC_SMALL,    ITEM00_RUPEE_GREEN,    ITEM00_RUPEE_GREEN,    ITEM00_MAGIC_SMALL,
-    ITEM00_NONE,           ITEM00_RECOVERY_HEART, ITEM00_NONE,           ITEM00_NONE,           ITEM00_RECOVERY_HEART,
-    ITEM00_NONE,           ITEM00_SEEDS,          ITEM00_SEEDS,          ITEM00_NONE,           ITEM00_BOMBS_A,
-    ITEM00_NONE,           ITEM00_FLEXIBLE,       ITEM00_MAGIC_SMALL,    ITEM00_RUPEE_GREEN,    ITEM00_RUPEE_GREEN,
-    ITEM00_NUTS,           ITEM00_NONE,           ITEM00_SEEDS,          ITEM00_SEEDS,          ITEM00_NUTS,
-    ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_SEEDS,          ITEM00_NONE,           ITEM00_FLEXIBLE,
-    ITEM00_NONE,           ITEM00_NONE,           ITEM00_NONE,           ITEM00_NONE,           ITEM00_RUPEE_GREEN,
-    ITEM00_RUPEE_GREEN,    ITEM00_SEEDS,          ITEM00_BOMBS_A,        ITEM00_MAGIC_SMALL,    ITEM00_BOMBS_A,
-    ITEM00_NONE,           ITEM00_NONE,           ITEM00_RECOVERY_HEART, ITEM00_NONE,           ITEM00_NONE,
-    ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_NONE,           ITEM00_NONE,           ITEM00_MAGIC_SMALL,
-    ITEM00_RUPEE_GREEN,    ITEM00_MAGIC_SMALL,    ITEM00_RUPEE_GREEN,    ITEM00_NONE,           ITEM00_RUPEE_BLUE,
-    ITEM00_NONE,           ITEM00_NONE,           ITEM00_RECOVERY_HEART, ITEM00_NONE,           ITEM00_NONE,
-    ITEM00_RECOVERY_HEART, ITEM00_FLEXIBLE,       ITEM00_SEEDS,          ITEM00_SEEDS,          ITEM00_NONE,
-    ITEM00_MAGIC_SMALL,    ITEM00_RUPEE_GREEN,    ITEM00_RUPEE_BLUE,     ITEM00_NONE,           ITEM00_RUPEE_GREEN,
-    ITEM00_NONE,           ITEM00_RECOVERY_HEART, ITEM00_NONE,           ITEM00_NONE,           ITEM00_BOMBS_A,
-    ITEM00_ARROWS_SMALL,   ITEM00_NONE,           ITEM00_ARROWS_MEDIUM,  ITEM00_MAGIC_SMALL,    ITEM00_FLEXIBLE,
-    ITEM00_NONE,           ITEM00_MAGIC_LARGE,    ITEM00_RUPEE_GREEN,    ITEM00_NONE,           ITEM00_RUPEE_BLUE,
-    ITEM00_NONE,           ITEM00_RUPEE_GREEN,    ITEM00_RECOVERY_HEART, ITEM00_FLEXIBLE,       ITEM00_BOMBS_A,
-    ITEM00_ARROWS_SMALL,   ITEM00_NONE,           ITEM00_NONE,           ITEM00_NONE,           ITEM00_MAGIC_SMALL,
-    ITEM00_NONE,           ITEM00_NONE,           ITEM00_MAGIC_LARGE,    ITEM00_ARROWS_LARGE,   ITEM00_ARROWS_MEDIUM,
-    ITEM00_ARROWS_MEDIUM,  ITEM00_ARROWS_SMALL,   ITEM00_ARROWS_SMALL,   ITEM00_FLEXIBLE,       ITEM00_ARROWS_SMALL,
-    ITEM00_ARROWS_SMALL,   ITEM00_ARROWS_SMALL,   ITEM00_ARROWS_MEDIUM,  ITEM00_ARROWS_SMALL,   ITEM00_ARROWS_SMALL,
-    ITEM00_ARROWS_SMALL,   ITEM00_ARROWS_MEDIUM,  ITEM00_ARROWS_LARGE,   ITEM00_ARROWS_LARGE,   ITEM00_MAGIC_LARGE,
-    ITEM00_MAGIC_SMALL,    ITEM00_MAGIC_SMALL,    ITEM00_MAGIC_SMALL,    ITEM00_MAGIC_SMALL,    ITEM00_MAGIC_LARGE,
-    ITEM00_MAGIC_SMALL,    ITEM00_MAGIC_SMALL,    ITEM00_MAGIC_SMALL,    ITEM00_MAGIC_LARGE,    ITEM00_MAGIC_SMALL,
-    ITEM00_MAGIC_LARGE,    ITEM00_MAGIC_SMALL,    ITEM00_MAGIC_SMALL,    ITEM00_MAGIC_SMALL,    ITEM00_MAGIC_LARGE,
-    ITEM00_BOMBS_A,        ITEM00_NONE,           ITEM00_BOMBS_A,        ITEM00_NONE,           ITEM00_BOMBS_A,
-    ITEM00_FLEXIBLE,       ITEM00_BOMBS_A,        ITEM00_BOMBS_A,        ITEM00_BOMBS_A,        ITEM00_NONE,
-    ITEM00_NONE,           ITEM00_NONE,           ITEM00_NONE,           ITEM00_BOMBS_A,        ITEM00_NONE,
-    ITEM00_BOMBS_A,        ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART,
-    ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART,
-    ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART,
-    ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_RUPEE_RED,      ITEM00_RUPEE_BLUE,     ITEM00_RUPEE_BLUE,
-    ITEM00_RUPEE_RED,      ITEM00_RUPEE_BLUE,     ITEM00_RUPEE_BLUE,     ITEM00_RUPEE_BLUE,     ITEM00_RUPEE_RED,
-    ITEM00_RUPEE_RED,      ITEM00_RUPEE_BLUE,     ITEM00_RUPEE_RED,      ITEM00_RUPEE_BLUE,     ITEM00_RUPEE_RED,
-    ITEM00_RUPEE_RED,      ITEM00_RUPEE_RED,      ITEM00_RUPEE_RED,      ITEM00_SEEDS,          ITEM00_NONE,
-    ITEM00_NUTS,           ITEM00_NONE,           ITEM00_STICK,          ITEM00_NONE,           ITEM00_NONE,
-    ITEM00_SEEDS,          ITEM00_NONE,           ITEM00_NONE,           ITEM00_NONE,           ITEM00_NUTS,
-    ITEM00_NONE,           ITEM00_NUTS,           ITEM00_RECOVERY_HEART, ITEM00_SEEDS,          ITEM00_RECOVERY_HEART,
-    ITEM00_NONE,           ITEM00_SEEDS,          ITEM00_NONE,           ITEM00_RECOVERY_HEART, ITEM00_NONE,
-    ITEM00_NONE,           ITEM00_RECOVERY_HEART, ITEM00_RECOVERY_HEART, ITEM00_NONE,           ITEM00_NONE,
-    ITEM00_RECOVERY_HEART, ITEM00_NONE,           ITEM00_RECOVERY_HEART, ITEM00_SEEDS,          ITEM00_FLEXIBLE,
+    // 0
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_FLEXIBLE,
+    ITEM00_SEEDS,
+    ITEM00_SEEDS,
+    ITEM00_NONE,
+    ITEM00_RUPEE_BLUE,
+
+    // 1
+    ITEM00_RUPEE_GREEN,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_FLEXIBLE,
+    ITEM00_NONE,
+    ITEM00_BOMBS_A,
+    ITEM00_NONE,
+    ITEM00_SEEDS,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_MAGIC_SMALL,
+
+    // 2
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_SEEDS,
+    ITEM00_SEEDS,
+    ITEM00_NONE,
+    ITEM00_BOMBS_A,
+    ITEM00_NONE,
+    ITEM00_FLEXIBLE,
+    ITEM00_MAGIC_SMALL,
+
+    // 3
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_NUTS,
+    ITEM00_NONE,
+    ITEM00_SEEDS,
+    ITEM00_SEEDS,
+    ITEM00_NUTS,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_SEEDS,
+    ITEM00_NONE,
+    ITEM00_FLEXIBLE,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_NONE,
+
+    // 4
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_SEEDS,
+    ITEM00_BOMBS_A,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_BOMBS_A,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_MAGIC_SMALL,
+
+    // 5
+    ITEM00_RUPEE_GREEN,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_NONE,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_FLEXIBLE,
+    ITEM00_SEEDS,
+    ITEM00_SEEDS,
+    ITEM00_NONE,
+    ITEM00_MAGIC_SMALL,
+
+    // 6
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_NONE,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_BOMBS_A,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_NONE,
+    ITEM00_ARROWS_MEDIUM,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_FLEXIBLE,
+    ITEM00_NONE,
+    ITEM00_MAGIC_LARGE,
+
+    // 7
+    ITEM00_RUPEE_GREEN,
+    ITEM00_NONE,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_NONE,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_FLEXIBLE,
+    ITEM00_BOMBS_A,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_MAGIC_LARGE,
+
+    // 8
+    ITEM00_ARROWS_LARGE,
+    ITEM00_ARROWS_MEDIUM,
+    ITEM00_ARROWS_MEDIUM,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_FLEXIBLE,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_MEDIUM,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_MEDIUM,
+    ITEM00_ARROWS_LARGE,
+    ITEM00_ARROWS_LARGE,
+
+    // 9
+    ITEM00_MAGIC_LARGE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_LARGE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_LARGE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_LARGE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_LARGE,
+
+    // 10
+    ITEM00_BOMBS_A,
+    ITEM00_NONE,
+    ITEM00_BOMBS_A,
+    ITEM00_NONE,
+    ITEM00_BOMBS_A,
+    ITEM00_FLEXIBLE,
+    ITEM00_BOMBS_A,
+    ITEM00_BOMBS_A,
+    ITEM00_BOMBS_A,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_BOMBS_A,
+    ITEM00_NONE,
+    ITEM00_BOMBS_A,
+
+    // 11
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+
+    // 12
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_RED,
+
+    // 13
+    ITEM00_SEEDS,
+    ITEM00_NONE,
+    ITEM00_NUTS,
+    ITEM00_NONE,
+    ITEM00_STICK,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_SEEDS,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_NUTS,
+    ITEM00_NONE,
+    ITEM00_NUTS,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_SEEDS,
+
+    // 14
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_SEEDS,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_NONE,
+    ITEM00_RECOVERY_HEART,
+    ITEM00_SEEDS,
+    ITEM00_FLEXIBLE,
 };
 
 static u8 sDropQuantities[] = {
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-    1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 1, 3, 1, 3, 1, 1, 1, 3, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 0
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 1
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 2
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, // 3
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, // 4
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, // 5
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 6
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 7
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 8
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 9
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, // 10
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, // 11
+    3, 3, 3, 1, 3, 3, 3, 1, 1, 3, 1, 3, 1, 1, 1, 3, // 12
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 13
+    3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, // 14
 };
 
 void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
@@ -980,7 +1227,7 @@ EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params) {
                     (spawnedActor->actor.params != ITEM00_HEART_CONTAINER)) {
                     spawnedActor->actor.room = -1;
                 }
-                spawnedActor->actor.flags |= ACTOR_FLAG_4;
+                spawnedActor->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             }
         }
     }
@@ -1012,7 +1259,7 @@ EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params) {
                 spawnedActor->actor.speed = 0.0f;
                 spawnedActor->actor.gravity = param4000 ? 0.0f : -0.9f;
                 spawnedActor->actor.world.rot.y = Rand_CenteredFloat(65536.0f);
-                spawnedActor->actor.flags |= ACTOR_FLAG_4;
+                spawnedActor->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             }
         }
     }
@@ -1126,7 +1373,7 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
                         spawnedActor->actor.world.rot.y = Rand_ZeroOne() * 40000.0f;
                         Actor_SetScale(&spawnedActor->actor, 0.0f);
                         EnItem00_SetupAction(spawnedActor, func_8001E304);
-                        spawnedActor->actor.flags |= ACTOR_FLAG_4;
+                        spawnedActor->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                         if ((spawnedActor->actor.params != ITEM00_SMALL_KEY) &&
                             (spawnedActor->actor.params != ITEM00_HEART_PIECE) &&
                             (spawnedActor->actor.params != ITEM00_HEART_CONTAINER)) {

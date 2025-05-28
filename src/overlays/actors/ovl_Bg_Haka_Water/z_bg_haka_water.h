@@ -2,11 +2,11 @@
 #define Z_BG_HAKA_WATER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgHakaWater;
 
-typedef void (*BgHakaWaterActionFunc)(struct BgHakaWater*, PlayState*);
+typedef void (*BgHakaWaterActionFunc)(struct BgHakaWater*, struct PlayState*);
 
 typedef struct BgHakaWater {
     /* 0x0000 */ Actor actor;

@@ -2,11 +2,11 @@
 #define Z_EN_MB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnMb;
 
-typedef void (*EnMbActionFunc)(struct EnMb*, PlayState*);
+typedef void (*EnMbActionFunc)(struct EnMb*, struct PlayState*);
 
 typedef enum EnMbState {
     /*  0 */ ENMB_STATE_SPEAR_SPEARPATH_DAMAGED,
@@ -46,8 +46,8 @@ typedef struct EnMb {
     /* 0x0364 */ f32 playerDetectionRange;
     /* 0x0368 */ ColliderCylinder bodyCollider;
     /* 0x03B4 */ ColliderQuad attackCollider; // for attacking the player
-    /* 0x0434 */ ColliderTris frontShielding; // Moblins don't have shields, but this acts as one
-    /* 0x0454 */ ColliderTrisElement frontShieldingTris[2];
+    /* 0x0434 */ ColliderTris frontShieldingCollider; // Moblins don't have shields, but this acts as one
+    /* 0x0454 */ ColliderTrisElement frontShieldingColliderElements[2];
 } EnMb; // size = 0x050C
 
 #endif

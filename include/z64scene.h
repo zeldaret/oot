@@ -1,17 +1,19 @@
 #ifndef Z64SCENE_H
 #define Z64SCENE_H
 
-#include "macros.h"
+#include "avoid_ub.h"
 #include "ultra64.h"
 #include "z64bgcheck.h"
-#include "z64dma.h"
 #include "z64environment.h"
 #include "z64light.h"
 #include "z64math.h"
+#include "z64path.h"
 
 #include "command_macros_base.h"
 
+struct GameState;
 struct PlayState;
+struct RoomShapeBase;
 
 typedef struct SceneTableEntry {
     /* 0x00 */ RomFile sceneFile;
@@ -49,159 +51,6 @@ typedef struct Spawn {
     /* 0x00 */ u8 playerEntryIndex;
     /* 0x01 */ u8 room;
 } Spawn;
-
-typedef struct Path {
-    /* 0x00 */ u8 count; // number of points in the path
-    /* 0x04 */ Vec3s* points; // Segment Address to the array of points
-} Path; // size = 0x8
-
-// Room shapes
-
-typedef enum RoomShapeType {
-    /* 0 */ ROOM_SHAPE_TYPE_NORMAL,
-    /* 1 */ ROOM_SHAPE_TYPE_IMAGE,
-    /* 2 */ ROOM_SHAPE_TYPE_CULLABLE,
-    /* 3 */ ROOM_SHAPE_TYPE_MAX
-} RoomShapeType;
-
-typedef struct RoomShapeBase {
-    /* 0x00 */ u8 type;
-} RoomShapeBase; // size = 0x01
-
-typedef struct RoomShapeDListsEntry {
-    /* 0x00 */ Gfx* opa;
-    /* 0x04 */ Gfx* xlu;
-} RoomShapeDListsEntry; // size = 0x08
-
-typedef struct RoomShapeNormal {
-    /* 0x00 */ RoomShapeBase base;
-    /* 0x01 */ u8 numEntries;
-    /* 0x04 */ RoomShapeDListsEntry* entries;
-    /* 0x08 */ RoomShapeDListsEntry* entriesEnd;
-} RoomShapeNormal; // size = 0x0C
-
-typedef enum RoomShapeImageAmountType {
-    /* 1 */ ROOM_SHAPE_IMAGE_AMOUNT_SINGLE = 1,
-    /* 2 */ ROOM_SHAPE_IMAGE_AMOUNT_MULTI
-} RoomShapeImageAmountType;
-
-typedef struct RoomShapeImageBase {
-    /* 0x00 */ RoomShapeBase base;
-    /* 0x01 */ u8    amountType; // RoomShapeImageAmountType
-    /* 0x04 */ RoomShapeDListsEntry* entry;
-} RoomShapeImageBase; // size = 0x08
-
-typedef struct RoomShapeImageSingle {
-    /* 0x00 */ RoomShapeImageBase base;
-    /* 0x08 */ void* source;
-    /* 0x0C */ u32   unk_0C;
-    /* 0x10 */ void* tlut;
-    /* 0x14 */ u16   width;
-    /* 0x16 */ u16   height;
-    /* 0x18 */ u8    fmt;
-    /* 0x19 */ u8    siz;
-    /* 0x1A */ u16   tlutMode;
-    /* 0x1C */ u16   tlutCount;
-} RoomShapeImageSingle; // size = 0x20
-
-typedef struct RoomShapeImageMultiBgEntry {
-    /* 0x00 */ u16   unk_00;
-    /* 0x02 */ u8    bgCamIndex; // for which bg cam index is this entry for
-    /* 0x04 */ void* source;
-    /* 0x08 */ u32   unk_0C;
-    /* 0x0C */ void* tlut;
-    /* 0x10 */ u16   width;
-    /* 0x12 */ u16   height;
-    /* 0x14 */ u8    fmt;
-    /* 0x15 */ u8    siz;
-    /* 0x16 */ u16   tlutMode;
-    /* 0x18 */ u16   tlutCount;
-} RoomShapeImageMultiBgEntry; // size = 0x1C
-
-typedef struct RoomShapeImageMulti {
-    /* 0x00 */ RoomShapeImageBase base;
-    /* 0x08 */ u8    numBackgrounds;
-    /* 0x0C */ RoomShapeImageMultiBgEntry* backgrounds;
-} RoomShapeImageMulti; // size = 0x10
-
-typedef struct RoomShapeCullableEntry {
-    /* 0x00 */ Vec3s boundsSphereCenter;
-    /* 0x06 */ s16   boundsSphereRadius;
-    /* 0x08 */ Gfx* opa;
-    /* 0x0C */ Gfx* xlu;
-} RoomShapeCullableEntry; // size = 0x10
-
-#define ROOM_SHAPE_CULLABLE_MAX_ENTRIES 64
-
-typedef struct RoomShapeCullable {
-    /* 0x00 */ RoomShapeBase base;
-    /* 0x01 */ u8 numEntries;
-    /* 0x04 */ RoomShapeCullableEntry* entries;
-    /* 0x08 */ RoomShapeCullableEntry* entriesEnd;
-} RoomShapeCullable; // size = 0x0C
-
-typedef union RoomShape {
-    RoomShapeBase base;
-    RoomShapeNormal normal;
-    union {
-        RoomShapeImageBase base;
-        RoomShapeImageSingle single;
-        RoomShapeImageMulti multi;
-    } image;
-    RoomShapeCullable cullable;
-} RoomShape; // "Ground Shape"
-
-typedef enum RoomBehaviorType1 {
-    /* 0 */ ROOM_BEHAVIOR_TYPE1_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE1_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE1_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE1_3, // unused
-    /* 4 */ ROOM_BEHAVIOR_TYPE1_4, // unused
-    /* 5 */ ROOM_BEHAVIOR_TYPE1_5
-} RoomBehaviorType1;
-
-typedef enum RoomBehaviorType2 {
-    /* 0 */ ROOM_BEHAVIOR_TYPE2_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE2_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE2_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE2_3,
-    /* 4 */ ROOM_BEHAVIOR_TYPE2_4,
-    /* 5 */ ROOM_BEHAVIOR_TYPE2_5,
-    /* 6 */ ROOM_BEHAVIOR_TYPE2_6
-} RoomBehaviorType2;
-
-typedef struct Room {
-    /* 0x00 */ s8 num; // -1 is invalid room
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 behaviorType2;
-    /* 0x03 */ u8 behaviorType1;
-    /* 0x04 */ s8 echo;
-    /* 0x05 */ u8 lensMode;
-    /* 0x08 */ RoomShape* roomShape; // original name: "ground_shape"
-    /* 0x0C */ void* segment;
-    /* 0x10 */ char unk_10[0x4];
-} Room; // size = 0x14
-
-typedef struct RoomContext {
-    /* 0x00 */ Room curRoom;
-    /* 0x14 */ Room prevRoom;
-    /* 0x28 */ void* bufPtrs[2]; // Start and end pointers for the room buffer. Can be split into two pages, where page 0 is allocated from the start pointer and page 1 is allocated from the end pointer.
-    /* 0x30 */ u8 activeBufPage; // 0 - First page in memory, 1 - Last page in memory
-    /* 0x31 */ s8 status; // 0 - Free for new room request, 1 - DmaRequest for a new room is in progress
-    /* 0x34 */ void* roomRequestAddr; // Pointer to where the requested room segment will be stored
-    /* 0x38 */ DmaRequest dmaRequest;
-    /* 0x58 */ OSMesgQueue loadQueue;
-    /* 0x70 */ OSMesg loadMsg;
-    /* 0x74 */ s16 drawParams[2]; // context-specific data used by the current scene draw config
-} RoomContext; // size = 0x78
-
-typedef struct RoomList {
-    /* 0x00 */ u8 count;
-    /* 0x04 */ RomFile* romFiles; // Array of rom addresses for each room in a scene
-} RoomList;
-
-#define ROOM_DRAW_OPA (1 << 0)
-#define ROOM_DRAW_XLU (1 << 1)
 
 // Scene commands
 
@@ -272,7 +121,7 @@ typedef struct SCmdRoomBehavior {
 typedef struct SCmdMesh {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x04 */ RoomShapeBase* data;
+    /* 0x04 */ struct RoomShapeBase* data;
 } SCmdMesh;
 
 typedef struct SCmdObjectList {
@@ -417,7 +266,7 @@ typedef enum SceneID {
 #undef DEFINE_SCENE
 
 // Fake enum values for scenes that are still referenced in the entrance table
-#if !OOT_DEBUG
+#if !DEBUG_ASSETS
 // Debug-only scenes
 #define SCENE_TEST01        0x65
 #define SCENE_BESITU        0x66
@@ -431,6 +280,26 @@ typedef enum SceneID {
 #endif
 // Deleted scene
 #define SCENE_UNUSED_6E     0x6E
+
+// Macros for `EntranceInfo.field`
+#define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
+#define ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG (1 << 14)
+#define ENTRANCE_INFO_END_TRANS_TYPE_MASK 0x3F80
+#define ENTRANCE_INFO_END_TRANS_TYPE_SHIFT 7
+#define ENTRANCE_INFO_END_TRANS_TYPE(field)          \
+    (((field) >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) \
+     & (ENTRANCE_INFO_END_TRANS_TYPE_MASK >> ENTRANCE_INFO_END_TRANS_TYPE_SHIFT))
+#define ENTRANCE_INFO_START_TRANS_TYPE_MASK 0x7F
+#define ENTRANCE_INFO_START_TRANS_TYPE_SHIFT 0
+#define ENTRANCE_INFO_START_TRANS_TYPE(field)          \
+    (((field) >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) \
+     & (ENTRANCE_INFO_START_TRANS_TYPE_MASK >> ENTRANCE_INFO_START_TRANS_TYPE_SHIFT))
+
+typedef struct EntranceInfo {
+    /* 0x00 */ s8  sceneId;
+    /* 0x01 */ s8  spawn;
+    /* 0x02 */ u16 field;
+} EntranceInfo; // size = 0x4
 
 // Entrance Index Enum
 #define DEFINE_ENTRANCE(enum, _1, _2, _3, _4, _5, _6) enum,
@@ -584,9 +453,9 @@ typedef enum SceneCommandTypeID {
 #define SCENE_CMD_SPECIAL_FILES(naviQuestHintFileId, keepObjectId) \
     { SCENE_CMD_ID_SPECIAL_FILES, naviQuestHintFileId, CMD_W(keepObjectId) }
 
-#define SCENE_CMD_ROOM_BEHAVIOR(curRoomUnk3, curRoomUnk2, showInvisActors, disableWarpSongs) \
-    { SCENE_CMD_ID_ROOM_BEHAVIOR, curRoomUnk3, \
-        curRoomUnk2 | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(disableWarpSongs, 10, 1) }
+#define SCENE_CMD_ROOM_BEHAVIOR(type, environment, showInvisActors, disableWarpSongs) \
+    { SCENE_CMD_ID_ROOM_BEHAVIOR, type, \
+        environment | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(disableWarpSongs, 10, 1) }
 
 #define SCENE_CMD_UNK_09() \
     { SCENE_CMD_ID_UNDEFINED_9, 0, CMD_W(0) }
@@ -639,5 +508,12 @@ typedef enum SceneCommandTypeID {
 #define SCENE_CMD_MISC_SETTINGS(sceneCamType, worldMapLocation) \
     { SCENE_CMD_ID_MISC_SETTINGS, sceneCamType, CMD_W(worldMapLocation) }
 
+s32 Scene_ExecuteCommands(struct PlayState* play, SceneCmd* sceneCmd);
+void Scene_ResetTransitionActorList(struct GameState* state, TransitionActorList* transitionActors);
+void Scene_SetTransitionForNextEntrance(struct PlayState* play);
+void Scene_Draw(struct PlayState* play);
+
+extern EntranceInfo gEntranceTable[ENTR_MAX];
+extern SceneTableEntry gSceneTable[SCENE_ID_MAX];
 
 #endif

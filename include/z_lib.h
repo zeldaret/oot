@@ -1,8 +1,8 @@
 #ifndef Z_LIB_H
 #define Z_LIB_H
 
-#include "libc/stddef.h"
-#include "padmgr.h"
+#include "stddef.h"
+#include "libu64/pad.h"
 #include "z64math.h"
 #include "color.h"
 

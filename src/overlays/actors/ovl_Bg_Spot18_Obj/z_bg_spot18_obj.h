@@ -2,12 +2,12 @@
 #define Z_BG_SPOT18_OBJ_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgSpot18Obj;
 
-typedef void (*BgSpot18ObjActionFunc)(struct BgSpot18Obj*, PlayState*);
-typedef s32 (*BgSpot18ObjInitFunc)(struct BgSpot18Obj*, PlayState*);
+typedef void (*BgSpot18ObjActionFunc)(struct BgSpot18Obj*, struct PlayState*);
+typedef s32 (*BgSpot18ObjInitFunc)(struct BgSpot18Obj*, struct PlayState*);
 
 typedef struct BgSpot18Obj {
     /* 0x0000 */ DynaPolyActor dyna;

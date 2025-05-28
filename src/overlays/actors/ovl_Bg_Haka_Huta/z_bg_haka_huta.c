@@ -5,11 +5,22 @@
  */
 
 #include "z_bg_haka_huta.h"
-#include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "overlays/actors/ovl_En_Rd/z_en_rd.h"
-#include "quake.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "quake.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/object_hakach_objects/object_hakach_objects.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgHakaHuta_Init(Actor* thisx, PlayState* play);
 void BgHakaHuta_Destroy(Actor* thisx, PlayState* play);

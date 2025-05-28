@@ -1,9 +1,9 @@
 #include "attributes.h"
 #include "z64audio.h"
+#include "versions.h"
 
 // Symbol definition
 
-extern AudioTable gSequenceTable;
 #pragma weak gSequenceTable = sSequenceTableHeader
 
 // Externs for table

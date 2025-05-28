@@ -2,11 +2,11 @@
 #define Z_EN_SA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnSa;
 
-typedef void (*EnSaActionFunc)(struct EnSa*, PlayState*);
+typedef void (*EnSaActionFunc)(struct EnSa*, struct PlayState*);
 
 typedef struct EnSa {
     /* 0x0000 */ Actor actor;

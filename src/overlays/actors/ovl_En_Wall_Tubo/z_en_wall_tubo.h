@@ -2,12 +2,12 @@
 #define Z_EN_WALL_TUBO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 
 struct EnWallTubo;
 
-typedef void (*EnWallTuboActionFunc)(struct EnWallTubo*, PlayState*);
+typedef void (*EnWallTuboActionFunc)(struct EnWallTubo*, struct PlayState*);
 
 typedef struct EnWallTubo {
     /* 0x0000 */ Actor actor;

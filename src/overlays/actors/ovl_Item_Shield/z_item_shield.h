@@ -2,11 +2,11 @@
 #define Z_ITEM_SHIELD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ItemShield;
 
-typedef void (*ItemShieldActionFunc)(struct ItemShield*, PlayState*);
+typedef void (*ItemShieldActionFunc)(struct ItemShield*, struct PlayState*);
 
 typedef struct ItemShield {
     /* 0x0000 */ Actor actor;

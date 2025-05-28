@@ -2,8 +2,6 @@
 
 # Disassemble a cutscene script
 
-from overlayhelpers import filemap
-
 import argparse, os, struct
 import math
 
@@ -94,8 +92,8 @@ cutscene_destinations = {
     0x4A: "CS_DEST_LON_LON_RANCH_CREDITS_PART_2",
     0x4B: "CS_DEST_LON_LON_RANCH_CREDITS_PART_3",
     0x4C: "CS_DEST_LON_LON_RANCH_CREDITS_PART_4",
-    0x4D: "CS_DEST_LON_LON_RANCH_CREDITS_PART_5",
-    0x4E: "CS_DEST_LON_LON_RANCH_CREDITS_PART_6",
+    0x4D: "CS_DEST_LON_LON_RANCH_CREDITS_PART_6",
+    0x4E: "CS_DEST_LON_LON_RANCH_CREDITS_PART_5",
     0x4F: "CS_DEST_LON_LON_RANCH_1",
     0x50: "CS_DEST_LON_LON_RANCH_2",
     0x51: "CS_DEST_LON_LON_RANCH_3",
@@ -329,8 +327,8 @@ cutscene_misc_types = {
     0x11: "CS_MISC_QUAKE_STOP",
     0x12: "CS_MISC_STOP_STORM_AND_ADVANCE_TO_DAY",
     0x13: "CS_MISC_SET_FLAG_FAST_WINDMILL",
-    0x14: "CS_MISC_SET_FLAG_WELL_DRAINED",
-    0x15: "CS_MISC_SET_FLAG_LAKE_HYLIA_RESTORED",
+    0x14: "CS_MISC_SET_FLAG_DRAINED_WELL",
+    0x15: "CS_MISC_SET_FLAG_RESTORED_LAKE_HYLIA",
     0x16: "CS_MISC_VISMONO_BLACK_AND_WHITE",
     0x17: "CS_MISC_VISMONO_SEPIA",
     0x18: "CS_MISC_HIDE_ROOM",
@@ -484,7 +482,7 @@ Argument format:
 """
 cutscene_command_macros = {
     -1:
-        ("CS_END()", 1, None, None,
+        ("CS_END_OF_SCRIPT()", 1, None, None,
               None, None),
     3:
         ("CS_MISC_LIST(%w1:1:s)", 2, None, 0,
@@ -506,7 +504,7 @@ cutscene_command_macros = {
               "CS_RUMBLE_CONTROLLER(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %b4:3:x, %b3:3:x, %h1:3:x)", 3),
     140:
         ("CS_TIME_LIST(%w1:1:s)", 2, None, 0,
-              "CS_TIME(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %w1:3:x)", 3),
+              "CS_TIME(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x)", 3),
     10:
         ("CS_PLAYER_CUE_LIST(%w1:1:s)", 2, None, 0,
               "CS_PLAYER_CUE(%h2:1:e6, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
@@ -551,7 +549,7 @@ cutscene_command_macros = {
               None, None),
 }
 
-begin_cutscene_entry = ("CS_BEGIN_CUTSCENE(%w1:0:s, %w1:1:s)", 2, None, None,
+begin_cutscene_entry = ("CS_HEADER(%w1:0:s, %w1:1:s)", 2, None, None,
                             None, None)
 
 unk_data_entry = ("CS_UNK_DATA_LIST(%w1:0:x, %w1:1:s)", 2, None, 0,
@@ -711,7 +709,12 @@ Note that this isn't protected against indexing errors since a cutscene should a
 end before the end of the file it's in.
 """
 
-def disassemble_cutscene(cs_in):
+def disassemble_cutscene(cs_in) -> tuple[int, str]:
+    """
+    Takes a sequence of words cs_in
+
+    Returns a tuple (cutscene_size_in_words, cutscene_macros_source)
+    """
     i = 0
     total_entries = cs_in[i]
     i+=1
@@ -720,12 +723,14 @@ def disassemble_cutscene(cs_in):
     if (total_entries < 0 or cutscene_end_frame < 0):
         print("This cutscene would abort if played in-engine")
         if total_entries < 0:
-            return "Could not disassemble cutscene: Number of commands is negative"
+            raise Exception("Could not disassemble cutscene: Number of commands is negative")
     macros = format_cmd(begin_cutscene_entry[0], [total_entries, cutscene_end_frame])+line_end
+    # iterate total_entries+1 times to also parse the CS_END_OF_SCRIPT command,
+    # which is not included in the count
     for k in range(0,total_entries+1):
         cmd_type = cs_in[i]
         if (cmd_type == 0xFFFFFFFF):
-            return macros + multi_key(-1)[0]+line_end
+            return (i+2), (macros + multi_key(-1)[0]+line_end)
         entry = multi_key(cmd_type)
         if entry is None:
             entry = unk_data_entry
@@ -757,13 +762,15 @@ def disassemble_cutscene(cs_in):
                     i += n_words_list_item
         else:
             i += n_words
-    print("Warning: cutscene reached maximum entries without encountering a CS_END command")
-    return macros
+    print("Warning: cutscene reached maximum entries without encountering a CS_END_SCRIPT command")
+    return i, macros
 
 def hex_parse(s):
     return int(s, 16)
 
 def main():
+    from overlayhelpers import filemap
+
     parser = argparse.ArgumentParser(description="Disassembles cutscenes for OoT")
     parser.add_argument('address', help="VRAM or ROM address to disassemble at", type=hex_parse)
     args = parser.parse_args()
@@ -785,7 +792,7 @@ def main():
         ovl_file.seek(file_result.offset)
         cs_data = [i[0] for i in struct.iter_unpack(">I",  bytearray(ovl_file.read()))]
     if cs_data is not None:
-        print("static CutsceneData D_" + hex(args.address).replace("0x","").upper() + "[] = {\n" + indent+disassemble_cutscene(cs_data).replace(linesep,linesep+indent).rstrip()+"\n};")
+        print("static CutsceneData D_" + hex(args.address).replace("0x","").upper() + "[] = {\n" + indent+disassemble_cutscene(cs_data)[1].replace(linesep,linesep+indent).rstrip()+"\n};")
 
 if __name__ == "__main__":
     main()

@@ -2,11 +2,11 @@
 #define Z_EN_OWL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnOwl;
 
-typedef void (*EnOwlActionFunc)(struct EnOwl*, PlayState*);
+typedef void (*EnOwlActionFunc)(struct EnOwl*, struct PlayState*);
 typedef void (*OwlFunc)(struct EnOwl*);
 
 typedef struct EnOwl {

@@ -5,9 +5,20 @@
  */
 
 #include "z_bg_gnd_iceblock.h"
+
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum BgGndIceblockAction {
     /* 0 */ GNDICE_IDLE,
@@ -84,7 +95,7 @@ void BgGndIceblock_Destroy(Actor* thisx, PlayState* play) {
  * | 3     h8    15    19 |
  * | 4      9 11 XX   *20*|
  * |*5*    XX 12      *21*|
- *  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+ *  ----------------------
  * XX are rocks
  * ** are pits
  * h is the hole.

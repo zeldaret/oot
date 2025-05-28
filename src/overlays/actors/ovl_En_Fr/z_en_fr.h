@@ -2,11 +2,12 @@
 #define Z_EN_FR_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64light.h"
 
 struct EnFr;
 
-typedef void (*EnFrActionFunc)(struct EnFr*, PlayState*);
+typedef void (*EnFrActionFunc)(struct EnFr*, struct PlayState*);
 typedef void (*EnFrBlinkFunc)(struct EnFr*);
 
 typedef enum FrogType {

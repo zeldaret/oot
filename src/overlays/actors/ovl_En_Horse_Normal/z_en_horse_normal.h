@@ -2,11 +2,12 @@
 #define Z_EN_HORSE_NORMAL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
+#include "z64skin.h"
 
 struct EnHorseNormal;
 
-typedef void (*EnHorseNormalActionFunc)(struct EnHorseNormal*, PlayState*);
+typedef void (*EnHorseNormalActionFunc)(struct EnHorseNormal*, struct PlayState*);
 
 typedef struct EnHorseNormal {
     /* 0x0000 */ Actor actor;
@@ -26,7 +27,7 @@ typedef struct EnHorseNormal {
     /* 0x0224 */ char unk_224[0x04];
     /* 0x0228 */ ColliderCylinder bodyCollider;
     /* 0x0274 */ ColliderJntSph headCollider;
-    /* 0x0294 */ ColliderJntSphElement headElements[1];
+    /* 0x0294 */ ColliderJntSphElement headColliderElements[1];
     /* 0x02D4 */ ColliderCylinder cloneCollider;
     /* 0x0320 */ char unk_320[0x04];
     /* 0x0324 */ s32 waypoint;

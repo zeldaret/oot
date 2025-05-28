@@ -61,6 +61,10 @@ f64 sqrt(f64 f);
 #endif
 
 #if !PLATFORM_N64
+extern float gPositiveInfinity;
+extern float gNegativeInfinity;
+extern float gPositiveZero;
+extern float gNegativeZero;
 extern float qNaN0x3FFFFF;
 extern float qNaN0x10000;
 extern float sNaN0x3FFFFF;

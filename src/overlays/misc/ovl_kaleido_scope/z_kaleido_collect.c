@@ -1,4 +1,15 @@
 #include "z_kaleido_scope.h"
+
+#include "array_count.h"
+#include "controller.h"
+#include "gfx.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
@@ -489,8 +500,9 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
-    gDPLoadTextureBlock(POLY_OPA_DISP++, gSongNoteTex, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, gSongNoteTex, G_IM_FMT_IA, G_IM_SIZ_8b, gSongNoteTex_WIDTH,
+                        gSongNoteTex_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     for (j = 0; j < QUEST_KOKIRI_EMERALD - QUEST_SONG_MINUET; j++, bufI += 4) {
         if (CHECK_QUEST_ITEM(QUEST_SONG_MINUET + j)) {
@@ -578,7 +590,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         sHpPrimBlue = sHpPrimColors[sHpPrimState][2];
         sHpPrimAlpha = sHpPrimColors[sHpPrimState][3];
         sHpPrimTimer = ZREG(24 + sHpPrimState);
-        if (++sHpPrimState >= 4) {
+        if (++sHpPrimState >= ARRAY_COUNT(sHpPrimColors)) {
             sHpPrimState = 0;
         }
     }

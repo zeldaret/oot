@@ -454,7 +454,7 @@ CHAN_0308:
 /* 0x0319 [0xC7 0x60 0x10 0x00     ] */ stseq       96, ENVELOPE_0FFA + STSEQ_ENVELOPE_POINT(3)
 CHAN_031D:
 /* 0x031D [0xB8 0x18               ] */ rand        24
-/* 0x031F [0xC7 0x62 0x03 0x6F     ] */ stseq       (NOTEDV_OPCODE | PITCH_G3), LAYER_036F + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x031F [0xC7 0x62 0x03 0x6F     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_G3), LAYER_036F + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x0323 [0xCC 0x40               ] */ ldi         64
 /* 0x0325 [0x53                    ] */ subio       IO_PORT_3
 /* 0x0326 [0xC7 0x00 0x03 0x2B     ] */ stseq       0, STSEQ_HERE + STSEQ_RAND
@@ -482,7 +482,7 @@ CHAN_0335:
 /* 0x034B [0xC8 0xFF               ] */ sub         255
 /* 0x034D [0xC7 0x64 0x03 0x87     ] */ stseq       100, LAYER_0385 + STSEQ_NOTEDV_VELOCITY_2
 /* 0x0351 [0xC7 0x64 0x03 0x8A     ] */ stseq       100, LAYER_0388 + STSEQ_NOTEDV_VELOCITY_2
-/* 0x0355 [0xC7 0x67 0x03 0x85     ] */ stseq       (NOTEDV_OPCODE | PITCH_C4), LAYER_0385 + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x0355 [0xC7 0x67 0x03 0x85     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_C4), LAYER_0385 + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x0359 [0xFF                    ] */ end
 
 UNK_035A:
@@ -1664,7 +1664,7 @@ CHAN_0E72:
 /* 0x0E84 [0xB8 0x02               ] */ rand        2
 /* 0x0E86 [0x73                    ] */ stio        IO_PORT_3
 CHAN_0E87:
-/* 0x0E87 [0xC7 0x67 0x0E 0xCF     ] */ stseq       (NOTEDV_OPCODE | PITCH_C4), LAYER_0ECF + STSEQ_NOTEDV_OPCODE_PITCH
+/* 0x0E87 [0xC7 0x67 0x0E 0xCF     ] */ stseq       (ASEQ_OP_LAYER_NOTEDV | PITCH_C4), LAYER_0ECF + STSEQ_NOTEDV_OPCODE_PITCH
 /* 0x0E8B [0xB8 0x1E               ] */ rand        30
 /* 0x0E8D [0xC7 0x31 0x0E 0xCC     ] */ stseq       49, LAYER_0ECB + STSEQ_NOTEPAN
 /* 0x0E91 [0x76                    ] */ stio        IO_PORT_6

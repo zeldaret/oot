@@ -2,11 +2,11 @@
 #define Z_BG_HIDAN_HROCK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct BgHidanHrock;
 
-typedef void (*BgHidanHrockActionFunc)(struct BgHidanHrock*, PlayState*);
+typedef void (*BgHidanHrockActionFunc)(struct BgHidanHrock*, struct PlayState*);
 
 typedef struct BgHidanHrock {
     /* 0x0000 */ DynaPolyActor dyna;
@@ -14,7 +14,7 @@ typedef struct BgHidanHrock {
     /* 0x0168 */ s16 unk_168;
     /* 0x016A */ u8 unk_16A;
     /* 0x016C */ ColliderTris collider;
-    /* 0x018C */ ColliderTrisElement colliderItems[2];
+    /* 0x018C */ ColliderTrisElement colliderElements[2];
 } BgHidanHrock; // size = 0x0244
 
 #endif

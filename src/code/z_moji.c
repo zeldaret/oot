@@ -2,7 +2,8 @@
  * Unused. A very simple utility for drawing text on screen.
  */
 
-#include "global.h"
+#include "gfx.h"
+#include "printf.h"
 
 // how big to draw the characters on screen
 #define DISP_CHAR_WIDTH 8

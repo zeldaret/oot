@@ -2,11 +2,11 @@
 #define Z_EN_YUKABYUN_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnYukabyun;
 
-typedef void (*EnYukabyunActionFunc)(struct EnYukabyun*, PlayState*);
+typedef void (*EnYukabyunActionFunc)(struct EnYukabyun*, struct PlayState*);
 
 typedef struct EnYukabyun {
     /* 0x0000 */ Actor actor;

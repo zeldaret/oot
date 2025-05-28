@@ -5,10 +5,22 @@
  */
 
 #include "z_en_mm2.h"
+
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "z64play.h"
+#include "z64save.h"
+
 #include "assets/objects/object_mm/object_mm.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum RunningManAnimIndex {
     /* 0 */ RM2_ANIM_RUN,
@@ -75,7 +87,7 @@ static AnimationSpeedInfo sAnimationInfo[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_STOP),
 };
 
 void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {
@@ -100,7 +112,7 @@ void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {
 }
 
 void func_80AAEF70(EnMm2* this, PlayState* play) {
-    if (!GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+    if (!GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
         this->actor.textId = 0x6086;
     } else if (GET_INFTABLE(INFTABLE_17F)) {
         if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {

@@ -1,11 +1,8 @@
 #ifndef Z64MATH_H
 #define Z64MATH_H
 
-#include "ultra64.h"
 #include "math.h"
-
-#define SQ(x) ((x)*(x))
-#define VEC_SET(V,X,Y,Z) (V).x=(X);(V).y=(Y);(V).z=(Z)
+#include "ultra64.h"
 
 typedef union FloatInt {
     f32 f;
@@ -95,6 +92,27 @@ typedef VecSphGeo VecSph;
 // Pitch is 0 along the xz-plane (horizon)
 typedef VecSphGeo VecGeo;
 
+/**
+ * Macros
+ */
+
+// General number macros
+#define SQ(x) ((x)*(x))
+#define ABS(x) ((x) >= 0 ? (x) : -(x))
+#define DECR(x) ((x) == 0 ? 0 : --(x))
+#define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
+#define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
+#define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
+
+#define SWAP(type, a, b)    \
+    {                       \
+        type _temp = (a);   \
+        (a) = (b);          \
+        (b) = _temp;        \
+    }                       \
+    (void)0
+
+// LERP macros
 #define LERP(x, y, scale) (((y) - (x)) * (scale) + (x))
 #define LERP32(x, y, scale) ((s32)(((y) - (x)) * (scale)) + (x))
 #define LERP16(x, y, scale) ((s16)(((y) - (x)) * (scale)) + (x))
@@ -110,6 +128,7 @@ typedef VecSphGeo VecGeo;
     (dst)->z = (v0)->z + (((v1)->z - (v0)->z) * t); \
 }
 
+// Floating point macros
 #define IS_ZERO(f) (fabsf(f) < 0.008f)
 
 // Casting a float to an integer, when the float value is larger than what the integer type can hold,
@@ -145,6 +164,7 @@ typedef VecSphGeo VecGeo;
 #define CAM_BINANG_TO_DEG(binang) ((f32)(binang) * (360.0001525f / 65535.0f))
 
 // Vector macros
+#define VEC_SET(V,X,Y,Z) (V).x=(X);(V).y=(Y);(V).z=(Z)
 #define SQXZ(vec) ((vec).x * (vec).x + (vec).z * (vec).z)
 #define DOTXZ(vec1, vec2) ((vec1).x * (vec2).x + (vec1).z * (vec2).z)
 #define SQXYZ(vec) ((vec).x * (vec).x + (vec).y * (vec).y + (vec).z * (vec).z)

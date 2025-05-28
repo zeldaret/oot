@@ -2,11 +2,11 @@
 #define Z_EN_OKARINA_EFFECT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnOkarinaEffect;
 
-typedef void (*EnOkarinaEffectActionFunc)(struct EnOkarinaEffect*, PlayState*);
+typedef void (*EnOkarinaEffectActionFunc)(struct EnOkarinaEffect*, struct PlayState*);
 
 typedef struct EnOkarinaEffect {
     /* 0x0000 */ Actor actor;

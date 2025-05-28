@@ -50,6 +50,8 @@ typedef enum PauseMenuPage {
 
 #define PAUSE_EQUIP_PLAYER_WIDTH 64
 #define PAUSE_EQUIP_PLAYER_HEIGHT 112
+#define PAUSE_EQUIP_PLAYER_FRAG_HEIGHT (TMEM_SIZE / (PAUSE_EQUIP_PLAYER_WIDTH * G_IM_SIZ_16b_BYTES))
+#define PAUSE_EQUIP_PLAYER_FRAG_NUM (((PAUSE_EQUIP_PLAYER_HEIGHT - 1) / PAUSE_EQUIP_PLAYER_FRAG_HEIGHT) + 1)
 
 #define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
 #define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
@@ -63,22 +65,22 @@ typedef enum PauseState {
     /*  5 */ PAUSE_STATE_OPENING_2, // Finish some animations for opening the menu.
     /*  6 */ PAUSE_STATE_MAIN, // Pause menu ready for player inputs.
     /*  7 */ PAUSE_STATE_SAVE_PROMPT,  // Save prompt in the pause menu
-    /*  8 */ PAUSE_STATE_8,
-    /*  9 */ PAUSE_STATE_9,
-    /* 10 */ PAUSE_STATE_10,
-    /* 11 */ PAUSE_STATE_11,
-    /* 12 */ PAUSE_STATE_12,
-    /* 13 */ PAUSE_STATE_13,
-    /* 14 */ PAUSE_STATE_14,
-    /* 15 */ PAUSE_STATE_15,
-    /* 16 */ PAUSE_STATE_16,
-    /* 17 */ PAUSE_STATE_17,
+    /*  8 */ PAUSE_STATE_GAME_OVER_START,
+    /*  9 */ PAUSE_STATE_GAME_OVER_WAIT_BG_PRERENDER,
+    /* 10 */ PAUSE_STATE_GAME_OVER_INIT,
+    /* 11 */ PAUSE_STATE_GAME_OVER_SHOW_MESSAGE,
+    /* 12 */ PAUSE_STATE_GAME_OVER_WINDOW_DELAY,
+    /* 13 */ PAUSE_STATE_GAME_OVER_SHOW_WINDOW, // Show background and animate
+    /* 14 */ PAUSE_STATE_GAME_OVER_SAVE_PROMPT, // Ask "Would you like to save?", apply the choice
+    /* 15 */ PAUSE_STATE_GAME_OVER_SAVED, // Show "Game saved.", wait for the delay or input
+    /* 16 */ PAUSE_STATE_GAME_OVER_CONTINUE_PROMPT, // Ask "Continue playing?"
+    /* 17 */ PAUSE_STATE_GAME_OVER_FINISH, // Fade out, then apply the choice
     /* 18 */ PAUSE_STATE_CLOSING, // Animate the pause menu closing
     /* 19 */ PAUSE_STATE_RESUME_GAMEPLAY // Handles returning to normal gameplay once the pause menu is visually closed
 } PauseState;
 
 #define IS_PAUSE_STATE_GAMEOVER(pauseCtx) \
-    (((pauseCtx)->state >= PAUSE_STATE_8) && ((pauseCtx)->state <= PAUSE_STATE_17))
+    (((pauseCtx)->state >= PAUSE_STATE_GAME_OVER_START) && ((pauseCtx)->state <= PAUSE_STATE_GAME_OVER_FINISH))
 
 #define IS_PAUSED(pauseCtx) \
     (((pauseCtx)->state != PAUSE_STATE_OFF) || ((pauseCtx)->debugState != 0))
@@ -92,7 +94,7 @@ typedef enum PauseMainState {
     /* 4 */ PAUSE_MAIN_STATE_SONG_PROMPT_INIT, // Start the prompt for the player to play the song.
     /* 5 */ PAUSE_MAIN_STATE_SONG_PROMPT, // Waiting for the player to play the song.
     /* 6 */ PAUSE_MAIN_STATE_SONG_PROMPT_DONE, // The song prompt is done, the player either played the song successfully or made a mistake.
-    /* 7 */ PAUSE_MAIN_STATE_7,
+    /* 7 */ PAUSE_MAIN_STATE_EQUIP_CHANGED,
     /* 8 */ PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG, // Like PAUSE_MAIN_STATE_IDLE, but the quest page is active and the cursor is positioned on a song.
     /* 9 */ PAUSE_MAIN_STATE_SONG_PLAYBACK_START // Start playing the song back to the player.
 } PauseMainState;
@@ -249,5 +251,10 @@ typedef PauseMapMarkData PauseMapMarksData[3];
 void KaleidoSetup_Update(struct PlayState* play);
 void KaleidoSetup_Init(struct PlayState* play);
 void KaleidoSetup_Destroy(struct PlayState* play);
+
+extern u8 gBossMarkState;
+extern f32 gBossMarkScale;
+extern u32 D_8016139C;
+extern PauseMapMarksData* gLoadedPauseMarkDataTable;
 
 #endif

@@ -5,9 +5,21 @@
  */
 
 #include "z_bg_hidan_kousi.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgHidanKousi_Init(Actor* thisx, PlayState* play);
 void BgHidanKousi_Destroy(Actor* thisx, PlayState* play);
@@ -69,14 +81,15 @@ void BgHidanKousi_Init(Actor* thisx, PlayState* play) {
 
     DynaPolyActor_Init(&this->dyna, 0);
     Actor_SetFocus(thisx, 50.0f);
-    PRINTF("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params,
-           PARAMS_GET_U(thisx->params, 0, 8), PARAMS_GET_U((s32)thisx->params, 8, 8));
+    PRINTF(T("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n",
+             "◯◯◯ Fire Temple object [lattice (arg_data : %0x)] appeared (%d %d)\n"),
+           thisx->params, PARAMS_GET_U(thisx->params, 0, 8), PARAMS_GET_U((s32)thisx->params, 8, 8));
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (PARAMS_GET_U(thisx->params, 0, 8) < 0 || PARAMS_GET_U(thisx->params, 0, 8) >= 3) {
-        PRINTF("arg_data おかしい 【格子】\n");
+        PRINTF(T("arg_data おかしい 【格子】\n", "arg_data is strange [lattice]\n"));
     }
 #endif
 

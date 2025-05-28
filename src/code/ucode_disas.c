@@ -1,5 +1,13 @@
-#include "global.h"
+#include "libu64/mtxuty-cvt.h"
+#include "ultra64/gs2dex.h"
+#include "array_count.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "translation.h"
 #include "ucode_disas.h"
+#include "ultra64.h"
+
+#if DEBUG_FEATURES
 
 typedef struct F3dzexConst {
     /* 0x00 */ u32 value;
@@ -52,7 +60,7 @@ typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
 void* UCodeDisas_TranslateAddr(UCodeDisas* this, uintptr_t addr) {
     uintptr_t physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
 
-    return PHYSICAL_TO_VIRTUAL(physical);
+    return OS_PHYSICAL_TO_K0(physical);
 }
 
 F3dzexConst sUCodeDisasGeometryModes[] = {
@@ -1244,3 +1252,5 @@ void UCodeDisas_RegisterUCode(UCodeDisas* this, s32 count, UCodeInfo* ucodeArray
 void UCodeDisas_SetCurUCode(UCodeDisas* this, void* ptr) {
     UCodeDisas_SetCurUCodeImpl(this, ptr);
 }
+
+#endif

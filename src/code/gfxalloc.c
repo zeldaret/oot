@@ -1,4 +1,5 @@
-#include "global.h"
+#include "gfxalloc.h"
+#include "alignment.h"
 
 Gfx* Gfx_Open(Gfx* gfx) {
     return gfx + 1;

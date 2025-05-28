@@ -17,6 +17,7 @@
 #define CONT_CMD_WRITE_MEMPACK 3
 #define CONT_CMD_READ_EEPROM 4
 #define CONT_CMD_WRITE_EEPROM 5
+#define CONT_CMD_CHANNEL_RESET 0xFD
 #define CONT_CMD_RESET 0xFF
 
 #define CONT_CMD_REQUEST_STATUS_TX 1
@@ -180,5 +181,10 @@ typedef struct __OSContReadFormat {
     /* 0x06 */ s8 joyX;
     /* 0x07 */ s8 joyY;
 } __OSContReadFormat; // size = 0x8
+
+extern u8 __osContLastCmd;
+extern OSPifRam __osContPifRam;
+extern OSPifRam __osPfsPifRam;
+extern u8 __osMaxControllers;
 
 #endif

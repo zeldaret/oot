@@ -2,11 +2,11 @@
 #define Z_EN_IK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct EnIk;
 
-typedef void (*EnIkActionFunc)(struct EnIk*, PlayState*);
+typedef void (*EnIkActionFunc)(struct EnIk*, struct PlayState*);
 
 #define IK_GET_UPPER_PARAMS(thisx)  PARAMS_GET_NOSHIFT(this->actor.params, 8, 8)
 #define IK_GET_ARMOR_TYPE(thisx)    PARAMS_GET_U((thisx)->params, 0, 8)
@@ -109,7 +109,7 @@ typedef struct EnIk {
     /* 0x0320 */ ColliderCylinder bodyCollider;
     /* 0x036C */ ColliderQuad axeCollider;
     /* 0x03EC */ ColliderTris shieldCollider;
-    /* 0x040C */ ColliderTrisElement shieldColliderItems[2];
+    /* 0x040C */ ColliderTrisElement shieldColliderElements[2];
     /* 0x04C4 */ s32 blureIdx;
     /* 0x04C8 */ s32 csAction;
     /* 0x04CC */ s32 csDrawMode;

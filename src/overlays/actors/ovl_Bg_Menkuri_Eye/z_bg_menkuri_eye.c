@@ -5,9 +5,18 @@
  */
 
 #include "z_bg_menkuri_eye.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "z64play.h"
+
 #include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
 
-#define FLAGS ACTOR_FLAG_5
+#define FLAGS ACTOR_FLAG_DRAW_CULLING_DISABLED
 
 void BgMenkuriEye_Init(Actor* thisx, PlayState* play);
 void BgMenkuriEye_Destroy(Actor* thisx, PlayState* play);
@@ -61,16 +70,15 @@ static InitChainEntry sInitChain[] = {
 
 void BgMenkuriEye_Init(Actor* thisx, PlayState* play) {
     BgMenkuriEye* this = (BgMenkuriEye*)thisx;
-    ColliderJntSphElement* colliderList;
+    s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
     this->collider.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y;
     this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
-    colliderList = this->collider.elements;
-    colliderList->dim.worldSphere.radius = colliderList->dim.modelSphere.radius;
+    this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
     if (!Flags_GetSwitch(play, this->actor.params)) {
         sNumEyesShot = 0;
     }

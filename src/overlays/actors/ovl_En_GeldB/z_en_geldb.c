@@ -5,9 +5,27 @@
  */
 
 #include "z_en_geldb.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_geldb/object_geldb.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 typedef enum EnGeldBAction {
     /*  0 */ GELDB_WAIT,
@@ -81,7 +99,7 @@ ActorProfile En_GeldB_Profile = {
     /**/ EnGeldB_Draw,
 };
 
-static ColliderCylinderInit sBodyCylInit = {
+static ColliderCylinderInit sBodyCylinderInit = {
     {
         COL_MATERIAL_HIT5,
         AT_NONE,
@@ -235,7 +253,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, &gGerudoRedNeutralAnim, this->jointTable,
                        this->morphTable, GELDB_LIMB_MAX);
     Collider_InitCylinder(play, &this->bodyCollider);
-    Collider_SetCylinder(play, &this->bodyCollider, thisx, &sBodyCylInit);
+    Collider_SetCylinder(play, &this->bodyCollider, thisx, &sBodyCylinderInit);
     Collider_InitTris(play, &this->blockCollider);
     Collider_SetTris(play, &this->blockCollider, thisx, &sBlockTrisInit, this->blockElements);
     Collider_InitQuad(play, &this->swordCollider);

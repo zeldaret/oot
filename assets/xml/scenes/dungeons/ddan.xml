@@ -1,5 +1,6 @@
 <Root>
     <File Name="ddan_scene" Segment="2">
+        <Texture Name="gDCSceneTLUT" Format="rgba16" Width="16" Height="16" Offset="0x11D70"/>
         <Texture Name="gDCDayEntranceTex" OutName="day_entrance" Format="ci8" Width="32" Height="64" Offset="0x12378" TlutOffset="0x11D70"/>
         <Texture Name="gDCNightEntranceTex" OutName="night_entrance" Format="ci8" Width="32" Height="64" Offset="0x13378" TlutOffset="0x11D70"/>
 
@@ -18,6 +19,7 @@
     </File>
     <File Name="ddan_room_0" Segment="3">
         <Room Name="ddan_room_0" Offset="0x0"/>
+        <Texture Name="gDCRoom0TLUT" Format="rgba16" Width="16" Height="16" Offset="0x11290"/>
     </File>
     <File Name="ddan_room_1" Segment="3">
         <Room Name="ddan_room_1" Offset="0x0"/>

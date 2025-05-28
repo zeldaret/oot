@@ -2,11 +2,11 @@
 #define Z_ITEM_OCARINA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z64actor.h"
 
 struct ItemOcarina;
 
-typedef void (*ItemOcarinaActionFunc)(struct ItemOcarina*, PlayState*);
+typedef void (*ItemOcarinaActionFunc)(struct ItemOcarina*, struct PlayState*);
 
 typedef struct ItemOcarina {
     /* 0x0000 */ Actor actor;

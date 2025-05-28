@@ -1,10 +1,10 @@
 #ifndef Z64_ANIMATION_H
 #define Z64_ANIMATION_H
 
+#include "avoid_ub.h"
 #include "ultra64.h"
 #include "z64dma.h"
 #include "z64math.h"
-#include "macros.h"
 
 struct PlayState;
 struct Actor;
@@ -144,7 +144,7 @@ typedef enum AnimationTapers {
 // frames have their translation occur relative to this new starting point.
 //
 // Note that for Player, this flag is only relevant when transitioning from an animation that was also using
-// ActorMovement. This is because of how `prevTransl` gets reset in `Player_AnimReplaceApplyFlags`.
+// ActorMovement. This is because of how `prevTransl` gets reset in `Player_StartAnimMovement`.
 #define ANIM_FLAG_ADJUST_STARTING_POS (1 << 4)
 
 // Disables "normal" movement from sources like speed/velocity and collisions, which allows the

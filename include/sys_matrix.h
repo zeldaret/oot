@@ -11,8 +11,8 @@ typedef enum MatrixMode {
     /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
 
-extern Mtx gMtxClear;
-extern MtxF gMtxFClear;
+extern Mtx gIdentityMtx;
+extern MtxF gIdentityMtxF;
 
 /* Stack operations */
 
@@ -43,7 +43,7 @@ void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, 
 
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 Mtx* Matrix_ToMtx(Mtx* dest, const char* file, int line);
 Mtx* Matrix_Finalize(struct GraphicsContext* gfxCtx, const char* file, int line);
@@ -63,6 +63,9 @@ Mtx* Matrix_Finalize(struct GraphicsContext* gfxCtx);
 #define MATRIX_CHECK_FLOATS(mtx, file, line) (mtx)
 
 #endif
+
+#define MATRIX_FINALIZE_AND_LOAD(pkt, gfxCtx, file, line) \
+    gSPMatrix(pkt, MATRIX_FINALIZE(gfxCtx, file, line), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW)
 
 /* Vector operations */
 

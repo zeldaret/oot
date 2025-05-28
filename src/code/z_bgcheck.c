@@ -1,7 +1,20 @@
-#include "global.h"
+#include "libu64/debug.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "line_numbers.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sys_math3d.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64bgcheck.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64skin_matrix.h"
 
-#pragma increment_block_number "ntsc-1.2:144"
+#pragma increment_block_number "ntsc-1.0:152 ntsc-1.1:152 ntsc-1.2:152"
 
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);
@@ -81,18 +94,18 @@ u16 sSurfaceMaterialToSfxOffset[SURFACE_MATERIAL_MAX] = {
     SURFACE_SFX_OFFSET_CARPET,        // SURFACE_MATERIAL_CARPET
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * original name: T_BGCheck_PosErrorCheck
  */
 s32 BgCheck_PosErrorCheck(Vec3f* pos, const char* file, int line) {
     if (pos->x >= BGCHECK_XYZ_ABSMAX || pos->x <= -BGCHECK_XYZ_ABSMAX || pos->y >= BGCHECK_XYZ_ABSMAX ||
         pos->y <= -BGCHECK_XYZ_ABSMAX || pos->z >= BGCHECK_XYZ_ABSMAX || pos->z <= -BGCHECK_XYZ_ABSMAX) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("T_BGCheck_PosErrorCheck():位置が妥当ではありません。pos (%f,%f,%f) file:%s line:%d\n",
                  "T_BGCheck_PosErrorCheck(): Position is invalid. pos (%f,%f,%f) file:%s line:%d\n"),
                pos->x, pos->y, pos->z, file, line);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return true;
     }
     return false;
@@ -306,11 +319,11 @@ void CollisionPoly_GetVerticesByBgId(CollisionPoly* poly, s32 bgId, CollisionCon
     Vec3s* vtxList;
 
     if (poly == NULL || bgId > BG_ACTOR_MAX || dest == NULL) {
-        PRINTF(VT_COL(RED, WHITE));
+        PRINTF_COLOR_ERROR();
         PRINTF(T("T_Polygon_GetVertex_bg_ai(): Error %d %d %d 引数が適切ではありません。処理を終了します。\n",
                  "T_Polygon_GetVertex_bg_ai(): Error %d %d %d Argument not appropriate. Processing terminated.\n"),
                poly == NULL, bgId > BG_ACTOR_MAX, dest == NULL);
-        PRINTF(VT_RST);
+        PRINTF_RST();
 
         if (dest != NULL) {
             //! @bug: dest[2] x and y are not set to 0
@@ -1541,7 +1554,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     };
     u32 tblMax;
     u32 memSize;
-    u32 lookupTblMemSize;
+    UNUSED_NDEBUG u32 lookupTblMemSize;
     s32 customNodeListMax;
     SSNodeList* nodeList;
     u32 customMemSize;
@@ -1610,9 +1623,11 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
                                            colCtx->subdivAmount.x * sizeof(StaticLookup) * colCtx->subdivAmount.y *
                                                colCtx->subdivAmount.z,
                                            ALIGNOF_MASK(StaticLookup));
+
     if (colCtx->lookupTbl == NULL) {
-        LogUtils_HungupThread("../z_bgcheck.c", 4176);
+        LogUtils_HungupThread("../z_bgcheck.c", LN1(4173, 4176));
     }
+
     colCtx->minBounds.x = colCtx->colHeader->minBounds.x;
     colCtx->minBounds.y = colCtx->colHeader->minBounds.y;
     colCtx->minBounds.z = colCtx->colHeader->minBounds.z;
@@ -1629,13 +1644,14 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
               colCtx->colHeader->numPolygons * sizeof(u8) + colCtx->dyna.polyNodesMax * sizeof(SSNode) +
               colCtx->dyna.polyListMax * sizeof(CollisionPoly) + colCtx->dyna.vtxListMax * sizeof(Vec3s) +
               sizeof(CollisionContext);
+
     if (customNodeListMax > 0) {
         // tblMax is set without checking if customNodeListMax will result in a memory overflow
         // this is a non-issue as long as sceneSubdivisionList.nodeListMax is -1
         tblMax = customNodeListMax;
     } else {
         if (colCtx->memSize < memSize) {
-            LogUtils_HungupThread("../z_bgcheck.c", 4230);
+            LogUtils_HungupThread("../z_bgcheck.c", LN1(4227, 4230));
         }
         tblMax = (colCtx->memSize - memSize) / sizeof(SSNode);
     }
@@ -1644,10 +1660,10 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     SSNodeList_Alloc(play, &colCtx->polyNodes, tblMax, colCtx->colHeader->numPolygons);
 
     lookupTblMemSize = BgCheck_InitializeStaticLookup(colCtx, play, colCtx->lookupTbl);
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF(T("/*---結局 BG使用サイズ %dbyte---*/\n", "/*---BG size used in the end %dbyte---*/\n"),
            memSize + lookupTblMemSize);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     DynaPoly_Init(play, &colCtx->dyna);
     DynaPoly_Alloc(play, &colCtx->dyna);
@@ -1665,10 +1681,10 @@ CollisionHeader* BgCheck_GetCollisionHeader(CollisionContext* colCtx, s32 bgId) 
         return NULL;
     }
     if (!(colCtx->dyna.bgActorFlags[bgId] & BGACTOR_IN_USE)) {
-        PRINTF(VT_COL(YELLOW, BLACK));
+        PRINTF_COLOR_WARNING();
         PRINTF(T("T_BGCheck_getBGDataInfo():そのbg_actor_indexは使われておりません。index=%d\n",
                  "T_BGCheck_getBGDataInfo(): That bg_actor_index is not in use. index=%d\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return NULL;
     }
     return colCtx->dyna.bgActors[bgId].colHeader;
@@ -1716,7 +1732,7 @@ f32 BgCheck_RaycastDownImpl(PlayState* play, CollisionContext* colCtx, u16 xpFla
             break;
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (BgCheck_PosErrorCheck(&checkPos, "../z_bgcheck.c", 4410)) {
             if (actor != NULL) {
                 PRINTF(T("こいつ,pself_actor->name %d\n", "This guy, pself_actor->name %d\n"), actor->id);
@@ -1968,7 +1984,7 @@ s32 BgCheck_CheckWallImpl(CollisionContext* colCtx, u16 xpFlags, Vec3f* posResul
     dy = posNext->y - posPrev->y;
     dz = posNext->z - posPrev->z;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BgCheck_PosErrorCheck(posNext, "../z_bgcheck.c", 4831) == true ||
         BgCheck_PosErrorCheck(posPrev, "../z_bgcheck.c", 4832) == true) {
         if (actor != NULL) {
@@ -2162,7 +2178,7 @@ s32 BgCheck_CheckCeilingImpl(CollisionContext* colCtx, u16 xpFlags, f32* outY, V
     *outBgId = BGCHECK_SCENE;
     *outY = pos->y;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BgCheck_PosErrorCheck(pos, "../z_bgcheck.c", 5206) == true) {
         if (actor != NULL) {
             PRINTF(T("こいつ,pself_actor->name %d\n", "This guy, pself_actor->name %d\n"), actor->id);
@@ -2235,7 +2251,7 @@ s32 BgCheck_CheckLineImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, 
 
     *outBgId = BGCHECK_SCENE;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BgCheck_PosErrorCheck(posA, "../z_bgcheck.c", 5334) == true ||
         BgCheck_PosErrorCheck(posB, "../z_bgcheck.c", 5335) == true) {
         if (actor != NULL) {
@@ -2458,7 +2474,7 @@ s32 BgCheck_SphVsFirstPolyImpl(CollisionContext* colCtx, u16 xpFlags, CollisionP
 
     *outBgId = BGCHECK_SCENE;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BgCheck_PosErrorCheck(center, "../z_bgcheck.c", 5852) == true) {
         if (actor != NULL) {
             PRINTF(T("こいつ,pself_actor->name %d\n", "This guy, pself_actor->name %d\n"), actor->id);
@@ -2734,10 +2750,10 @@ s32 DynaPoly_SetBgActor(PlayState* play, DynaCollisionContext* dyna, Actor* acto
     }
 
     if (!foundSlot) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("DynaPolyInfo_setActor():ダイナミックポリゴン 空きインデックスはありません\n",
                  "DynaPolyInfo_setActor(): Dynamic polygon no free indexes\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return BG_ACTOR_MAX;
     }
 
@@ -2745,9 +2761,9 @@ s32 DynaPoly_SetBgActor(PlayState* play, DynaCollisionContext* dyna, Actor* acto
     dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
 
     dyna->bgActorFlags[bgId] &= ~BGACTOR_1;
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF("DynaPolyInfo_setActor():index %d\n", bgId);
-    PRINTF(VT_RST);
+    PRINTF_RST();
     return bgId;
 }
 
@@ -2797,27 +2813,27 @@ void DynaPoly_EnableCeilingCollision(PlayState* play, DynaCollisionContext* dyna
 void DynaPoly_DeleteBgActor(PlayState* play, DynaCollisionContext* dyna, s32 bgId) {
     DynaPolyActor* actor;
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF("DynaPolyInfo_delReserve():index %d\n", bgId);
-    PRINTF(VT_RST);
+    PRINTF_RST();
     if (!DynaPoly_IsBgIdBgActor(bgId)) {
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (bgId == -1) {
-            PRINTF(VT_FGCOL(GREEN));
+            PRINTF_COLOR_GREEN();
             PRINTF(T("DynaPolyInfo_delReserve():削除されているはずの(?)\n"
                      "インデックス(== -1)のため,処理を中止します。\n",
                      "DynaPolyInfo_delReserve():The index that should have been deleted(?)\n"
                      " was(== -1), processing aborted.\n"));
-            PRINTF(VT_RST);
+            PRINTF_RST();
         } else {
-            PRINTF(VT_FGCOL(RED));
+            PRINTF_COLOR_RED();
             PRINTF(T("DynaPolyInfo_delReserve():"
                      "確保していない／出来なかったインデックスの解放のため、処理を中止します。index == %d\n",
                      "DynaPolyInfo_delReserve():"
                      " Unable to deallocate index / index unallocated, processing aborted. index == %d\n"),
                    bgId);
-            PRINTF(VT_RST);
+            PRINTF_RST();
         }
 #endif
 
@@ -2874,16 +2890,16 @@ void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s3
         return;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (!(dyna->polyListMax >= *polyStartIndex + pbgdata->numPolygons)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("DynaPolyInfo_expandSRT():polygon over %dが%dを越えるとダメ\n",
                  "DynaPolyInfo_expandSRT():polygon over do not use if %d exceeds %d\n"),
                *polyStartIndex + pbgdata->numPolygons, dyna->polyListMax);
     }
 
     if (!(dyna->vtxListMax >= *vtxStartIndex + pbgdata->numVertices)) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("DynaPolyInfo_expandSRT():vertex over %dが%dを越えるとダメ\n",
                  "DynaPolyInfo_expandSRT():vertex over do not use if %d exceeds %d\n"),
                *vtxStartIndex + pbgdata->numVertices, dyna->vtxListMax);
@@ -3063,9 +3079,9 @@ void DynaPoly_UpdateContext(PlayState* play, DynaCollisionContext* dyna) {
     for (i = 0; i < BG_ACTOR_MAX; i++) {
         if (dyna->bgActorFlags[i] & BGACTOR_1) {
             // Initialize BgActor
-            PRINTF(VT_FGCOL(GREEN));
+            PRINTF_COLOR_GREEN();
             PRINTF(T("DynaPolyInfo_setup():削除 index=%d\n", "DynaPolyInfo_setup(): Delete index=%d\n"), i);
-            PRINTF(VT_RST);
+            PRINTF_RST();
 
             dyna->bgActorFlags[i] = 0;
             BgActor_Initialize(play, &dyna->bgActors[i]);
@@ -3073,9 +3089,9 @@ void DynaPoly_UpdateContext(PlayState* play, DynaCollisionContext* dyna) {
         }
         if (dyna->bgActors[i].actor != NULL && dyna->bgActors[i].actor->update == NULL) {
             // Delete BgActor
-            PRINTF(VT_FGCOL(GREEN));
+            PRINTF_COLOR_GREEN();
             PRINTF(T("DynaPolyInfo_setup():削除 index=%d\n", "DynaPolyInfo_setup(): Delete index=%d\n"), i);
-            PRINTF(VT_RST);
+            PRINTF_RST();
             actor = DynaPoly_GetActor(&play->colCtx, i);
             if (actor == NULL) {
                 return;
@@ -4439,7 +4455,7 @@ s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec
     return result;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Draw a list of dyna polys, specified by `ssList`
  */

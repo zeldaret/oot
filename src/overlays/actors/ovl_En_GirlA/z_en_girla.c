@@ -5,9 +5,17 @@
  */
 
 #include "z_en_girla.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#include "printf.h"
+#include "rand.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "z64draw.h"
+#include "z64play.h"
+#include "z64save.h"
+
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnGirlA_Init(Actor* thisx, PlayState* play);
 void EnGirlA_Destroy(Actor* thisx, PlayState* play);
@@ -79,7 +87,7 @@ ActorProfile En_GirlA_Profile = {
     /**/ NULL,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static char* sShopItemDescriptions[] = {
     "デクの実×5   ",  // "Deku nut x5"
     "矢×30        ",  // "Arrow x30"
@@ -382,9 +390,9 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
 
     if ((params >= SI_MAX) && (params < 0)) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_COL(RED, WHITE));
+        PRINTF_COLOR_ERROR();
         PRINTF("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         ASSERT(0, "0", "../z_en_girlA.c", 1421);
         return;
     }
@@ -393,9 +401,9 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
 
     if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_COL(RED, WHITE));
+        PRINTF_COLOR_ERROR();
         PRINTF("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
-        PRINTF(VT_RST);
+        PRINTF_RST();
         ASSERT(0, "0", "../z_en_girlA.c", 1434);
         return;
     }
@@ -982,7 +990,7 @@ void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play) {
     ShopItemEntry* itemEntry = &sShopItemEntries[params];
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actor.objectSlot = this->requiredObjectSlot;
         switch (this->actor.params) {
             case SI_KEATON_MASK:

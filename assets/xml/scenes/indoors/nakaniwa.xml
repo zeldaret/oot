@@ -4,6 +4,8 @@
         <Cutscene Name="gZeldasCourtyardWindowCs" Offset="0x444"/>
         <Cutscene Name="gZeldasCourtyardMeetCs" Offset="0x3994"/>
         <Cutscene Name="gZeldasCourtyardLullabyCs" Offset="0x2524"/>
+        <Cutscene Name="gZeldasCourtyardTheEndCs" Offset="0x1C04"/>
+        <Cutscene Name="gZeldasCourtyardLullabyUnusedCs" Offset="0x34B0"/>
 
         <Scene Name="nakaniwa_scene" Offset="0x0"/>
     </File>

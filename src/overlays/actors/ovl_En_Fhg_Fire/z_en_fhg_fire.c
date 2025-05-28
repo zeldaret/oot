@@ -5,13 +5,31 @@
  */
 
 #include "z_en_fhg_fire.h"
-#include "assets/objects/object_fhg/object_fhg.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64effect.h"
+#include "z64play.h"
+#include "z64player.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_fhg/object_fhg.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum StrikeMode {
     /*  0 */ STRIKE_INIT,
@@ -118,9 +136,9 @@ void EnFhgFire_Init(Actor* thisx, PlayState* play) {
         this->collider.dim.height = this->actor.world.rot.x * 0.13f;
         this->collider.dim.yShift = 0;
     } else if (this->actor.params == FHGFIRE_SPEAR_LIGHT) {
-        PRINTF("yari hikari ct 1\n"); // "light spear"
+        PRINTF(T("yari hikari ct 1\n", "spear light ct 1\n"));
         EnFhgFire_SetUpdate(this, EnFhgFire_SpearLight);
-        PRINTF("yari hikari ct 2\n");
+        PRINTF(T("yari hikari ct 2\n", "spear light ct 2\n"));
         this->work[FHGFIRE_TIMER] = this->actor.world.rot.x;
         this->work[FHGFIRE_FIRE_MODE] = this->actor.world.rot.y;
     } else if ((this->actor.params == FHGFIRE_WARP_EMERGE) || (this->actor.params == FHGFIRE_WARP_RETREAT) ||
@@ -638,8 +656,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
             this->actor.speed = 20.0f;
         }
         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
-        // "Why ah ah ah ah"
-        PRINTF("なぜだああああああああ      %d\n", this->work[FHGFIRE_VARIANCE_TIMER]);
+        PRINTF(T("なぜだああああああああ      %d\n", "Whyyyyyyyy      %d\n"), this->work[FHGFIRE_VARIANCE_TIMER]);
     }
 }
 

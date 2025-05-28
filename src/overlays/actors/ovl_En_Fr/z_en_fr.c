@@ -1,9 +1,35 @@
 #include "z_en_fr.h"
-#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
+
+#include "array_count.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64debug_display.h"
+#include "z64effect.h"
+#include "z64light.h"
+#include "z64ocarina.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "assets/objects/object_fr/object_fr.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnFr_Init(Actor* thisx, PlayState* play);
 void EnFr_Destroy(Actor* thisx, PlayState* play);
@@ -106,22 +132,22 @@ static EnFrPointers sEnFrPointers = {
 };
 
 #define FROG_HAS_SONG_BEEN_PLAYED(frogSongIndex)                             \
-    (gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] & \
+    (gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_SONGS_FOR_FROGS] & \
      sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex])
 
 #define FROG_SET_SONG_PLAYED(frogSongIndex)                                  \
-    gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] |= \
+    gSaveContext.save.info.eventChkInf[EVENTCHKINF_INDEX_SONGS_FOR_FROGS] |= \
         sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex];
 
 static u16 sFrogSongIndexToEventChkInfSongsForFrogsMask[] = {
-    EVENTCHKINF_SONGS_FOR_FROGS_ZL_MASK,     // FROG_ZL
-    EVENTCHKINF_SONGS_FOR_FROGS_EPONA_MASK,  // FROG_EPONA
-    EVENTCHKINF_SONGS_FOR_FROGS_SARIA_MASK,  // FROG_SARIA
-    EVENTCHKINF_SONGS_FOR_FROGS_SUNS_MASK,   // FROG_SUNS
-    EVENTCHKINF_SONGS_FOR_FROGS_SOT_MASK,    // FROG_SOT
-    EVENTCHKINF_SONGS_FOR_FROGS_STORMS_MASK, // FROG_STORMS
-    EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_MASK,  // FROG_CHOIR_SONG
-    0,                                       // FROG_NO_SONG
+    EVENTCHKINF_MASK(EVENTCHKINF_SONGS_FOR_FROGS_ZL),     // FROG_ZL
+    EVENTCHKINF_MASK(EVENTCHKINF_SONGS_FOR_FROGS_EPONA),  // FROG_EPONA
+    EVENTCHKINF_MASK(EVENTCHKINF_SONGS_FOR_FROGS_SARIA),  // FROG_SARIA
+    EVENTCHKINF_MASK(EVENTCHKINF_SONGS_FOR_FROGS_SUNS),   // FROG_SUNS
+    EVENTCHKINF_MASK(EVENTCHKINF_SONGS_FOR_FROGS_SOT),    // FROG_SOT
+    EVENTCHKINF_MASK(EVENTCHKINF_SONGS_FOR_FROGS_STORMS), // FROG_STORMS
+    EVENTCHKINF_MASK(EVENTCHKINF_SONGS_FOR_FROGS_CHOIR),  // FROG_CHOIR_SONG
+    0,                                                    // FROG_NO_SONG
 };
 
 static u8 sFrogToFrogSongIndex[] = {
@@ -236,27 +262,26 @@ void EnFr_Init(Actor* thisx, PlayState* play) {
         this->actor.destroy = NULL;
         this->actor.draw = NULL;
         this->actor.update = EnFr_UpdateIdle;
-        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED);
         this->actor.flags &= ~0;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
         this->actor.textId = 0x40AC;
         this->actionFunc = EnFr_Idle;
     } else {
         if ((this->actor.params >= 6) || (this->actor.params < 0)) {
-            PRINTF(VT_COL(RED, WHITE));
-            // "The argument is wrong!!"
-            PRINTF("%s[%d] : 引数が間違っている！！(%d)\n", "../z_en_fr.c", 370, this->actor.params);
-            PRINTF(VT_RST);
+            PRINTF_COLOR_ERROR();
+            PRINTF(T("%s[%d] : 引数が間違っている！！(%d)\n", "%s[%d] : The argument is wrong!! (%d)\n"),
+                   "../z_en_fr.c", 370, this->actor.params);
+            PRINTF_RST();
             ASSERT(0, "0", "../z_en_fr.c", 372);
         }
 
         this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
         if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
-            PRINTF(VT_COL(RED, WHITE));
-            // "There is no bank!!"
-            PRINTF("%s[%d] : バンクが無いよ！！\n", "../z_en_fr.c", 380);
-            PRINTF(VT_RST);
+            PRINTF_COLOR_ERROR();
+            PRINTF(T("%s[%d] : バンクが無いよ！！\n", "%s[%d] : There is no bank!!\n"), "../z_en_fr.c", 380);
+            PRINTF_RST();
             ASSERT(0, "0", "../z_en_fr.c", 382);
         }
     }
@@ -278,7 +303,7 @@ void EnFr_Update(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         frogIndex = this->actor.params - 1;
         sEnFrPointers.frogs[frogIndex] = this;
         Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -978,10 +1003,9 @@ void EnFr_Deactivate(EnFr* this, PlayState* play) {
         EnFr* frog = sEnFrPointers.frogs[frogIndex];
 
         if (frog == NULL) {
-            PRINTF(VT_COL(RED, WHITE));
-            // "There are no frogs!?"
-            PRINTF("%s[%d]カエルがいない！？\n", "../z_en_fr.c", 1604);
-            PRINTF(VT_RST);
+            PRINTF_COLOR_ERROR();
+            PRINTF(T("%s[%d]カエルがいない！？\n", "%s[%d] There are no frogs!?\n"), "../z_en_fr.c", 1604);
+            PRINTF_RST();
             return;
         } else if (frog->isDeactivating != true) {
             return;
@@ -992,10 +1016,9 @@ void EnFr_Deactivate(EnFr* this, PlayState* play) {
         EnFr* frog = sEnFrPointers.frogs[frogIndex];
 
         if (frog == NULL) {
-            PRINTF(VT_COL(RED, WHITE));
-            // "There are no frogs!?"
-            PRINTF("%s[%d]カエルがいない！？\n", "../z_en_fr.c", 1618);
-            PRINTF(VT_RST);
+            PRINTF_COLOR_ERROR();
+            PRINTF(T("%s[%d]カエルがいない！？\n", "%s[%d] There are no frogs!?\n"), "../z_en_fr.c", 1618);
+            PRINTF_RST();
             return;
         }
         frog->isDeactivating = false;
@@ -1029,7 +1052,7 @@ void EnFr_SetIdle(EnFr* this, PlayState* play) {
 void EnFr_UpdateIdle(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);

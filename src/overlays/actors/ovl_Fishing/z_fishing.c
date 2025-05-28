@@ -5,24 +5,46 @@
  */
 
 #include "z_fishing.h"
-#include "global.h"
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
+#include "libc64/math64.h"
+#include "attributes.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
 #include "ichain.h"
+#include "letterbox.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "z64audio.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+#include "z64skin_matrix.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:121 gc-eu-mq:121 gc-jp:123 gc-jp-ce:123 gc-jp-mq:123 gc-us:123 gc-us-mq:123"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:0" \
+                               "ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 #define WATER_SURFACE_Y(play) play->colCtx.colHeader->waterBoxes->ySurface
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define KREG_DEBUG(i) KREG(i)
 #else
 #define KREG_DEBUG(i) 0
@@ -434,7 +456,6 @@ static f32 sFishGroupAngle1;
 static f32 sFishGroupAngle2;
 static f32 sFishGroupAngle3;
 static FishingEffect sEffects[FISHING_EFFECT_COUNT];
-static Vec3f sStreamSfxProjectedPos;
 
 void Fishing_SetColliderElement(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 scale) {
     collider->elements[index].dim.worldSphere.center.x = pos->x;
@@ -494,7 +515,7 @@ void Fishing_SpawnRipple(Vec3f* projectedPos, FishingEffect* effect, Vec3f* pos,
         return;
     }
 
-    for (i = 0; i < countLimit; i++) {
+    for (i = 0; i < countLimit; i++, effect++) {
         if (effect->type == FS_EFF_NONE) {
             effect->type = FS_EFF_RIPPLE;
             effect->pos = *pos;
@@ -515,8 +536,6 @@ void Fishing_SpawnRipple(Vec3f* projectedPos, FishingEffect* effect, Vec3f* pos,
             }
             break;
         }
-
-        effect++;
     }
 }
 
@@ -528,7 +547,7 @@ void Fishing_SpawnDustSplash(Vec3f* projectedPos, FishingEffect* effect, Vec3f* 
         return;
     }
 
-    for (i = 0; i < 100; i++) {
+    for (i = 0; i < 100; i++, effect++) {
         if ((effect->type == FS_EFF_NONE) || (effect->type == FS_EFF_RAIN_DROP) ||
             (effect->type == FS_EFF_RAIN_RIPPLE) || (effect->type == FS_EFF_RAIN_SPLASH)) {
             effect->type = FS_EFF_DUST_SPLASH;
@@ -539,8 +558,6 @@ void Fishing_SpawnDustSplash(Vec3f* projectedPos, FishingEffect* effect, Vec3f* 
             effect->scale = scale;
             break;
         }
-
-        effect++;
     }
 }
 
@@ -552,7 +569,7 @@ void Fishing_SpawnWaterDust(Vec3f* projectedPos, FishingEffect* effect, Vec3f* p
         return;
     }
 
-    for (i = 0; i < 90; i++) {
+    for (i = 0; i < 90; i++, effect++) {
         if (effect->type == FS_EFF_NONE) {
             effect->type = FS_EFF_WATER_DUST;
             effect->pos = *pos;
@@ -564,8 +581,6 @@ void Fishing_SpawnWaterDust(Vec3f* projectedPos, FishingEffect* effect, Vec3f* p
             effect->rot.x = 2.0f * scale;
             break;
         }
-
-        effect++;
     }
 }
 
@@ -577,7 +592,7 @@ void Fishing_SpawnBubble(Vec3f* projectedPos, FishingEffect* effect, Vec3f* pos,
         return;
     }
 
-    for (i = 0; i < 90; i++) {
+    for (i = 0; i < 90; i++, effect++) {
         if (effect->type == FS_EFF_NONE) {
             effect->type = FS_EFF_BUBBLE;
             effect->pos = *pos;
@@ -588,8 +603,6 @@ void Fishing_SpawnBubble(Vec3f* projectedPos, FishingEffect* effect, Vec3f* pos,
             effect->state = state;
             break;
         }
-
-        effect++;
     }
 }
 
@@ -603,7 +616,7 @@ void Fishing_SpawnRainDrop(FishingEffect* effect, Vec3f* pos, Vec3f* rot) {
 
     effect += 30;
 
-    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++, effect++) {
         if (effect->type == FS_EFF_NONE) {
             effect->type = FS_EFF_RAIN_DROP;
             effect->pos = *pos;
@@ -616,8 +629,6 @@ void Fishing_SpawnRainDrop(FishingEffect* effect, Vec3f* pos, Vec3f* rot) {
             Matrix_MultVec3f(&velSrc, &effect->vel);
             break;
         }
-
-        effect++;
     }
 }
 
@@ -772,7 +783,7 @@ void Fishing_InitPondProps(Fishing* this, PlayState* play) {
 
     Fishing_SeedRand(1, 29100, 9786);
 
-    for (i = 0; i < POND_PROP_COUNT; i++) {
+    for (i = 0; i < POND_PROP_COUNT; i++, prop++) {
         if (sPondPropInits[i].type == FS_PROP_INIT_STOP) {
             break;
         }
@@ -781,8 +792,7 @@ void Fishing_InitPondProps(Fishing* this, PlayState* play) {
         prop->pos.x = sPondPropInits[i].pos.x;
         prop->pos.y = sPondPropInits[i].pos.y;
         prop->pos.z = sPondPropInits[i].pos.z;
-        prop->rotX = 0.0f;
-        prop->reedAngle = 0.0f;
+        prop->rotX = prop->reedAngle = 0.0f;
 
         prop->timer = Rand_ZeroFloat(100.0f);
         prop->drawDistance = 800.0f;
@@ -816,8 +826,6 @@ void Fishing_InitPondProps(Fishing* this, PlayState* play) {
             prop->drawDistance = 1000.0f;
             Fishing_SetColliderElement(i, &sFishingMain->collider, &prop->pos, prop->scale);
         }
-
-        prop++;
     }
 }
 
@@ -844,7 +852,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (KREG(5) != 0) {
         sLinkAge = LINK_AGE_CHILD;
     } else {
@@ -855,7 +863,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
 #endif
 
     if (thisx->params < EN_FISH_PARAM) {
-        FishingGroupFish* fish;
+        s32 pad;
 
 #if PLATFORM_N64
         // Anti-piracy check, if the check fails the line can't be reeled in if
@@ -929,14 +937,14 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
             sFishingFoggy = 0;
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (((sFishGameNumber & 7) == 6) || (KREG(3) != 0))
 #else
         if ((sFishGameNumber & 7) == 6)
 #endif
         {
             sStormChanceTimer = 100;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (KREG(3) != 0) {
                 KREG(3) = 0;
                 HIGH_SCORE(HS_FISHING) &= ~(HS_FISH_PLAYED * 255);
@@ -960,32 +968,30 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
         sFishGroupAngle3 = 4.6f;
 
         for (i = 0; i < GROUP_FISH_COUNT; i++) {
-            fish = &sGroupFishes[i];
-
-            fish->type = FS_GROUP_FISH_NORMAL;
+            sGroupFishes[i].type = FS_GROUP_FISH_NORMAL;
 
             if (i <= 20) {
-                fish->homePos.x = fish->pos.x = sinf(sFishGroupAngle1) * 720.0f;
-                fish->homePos.z = fish->pos.z = cosf(sFishGroupAngle1) * 720.0f;
+                sGroupFishes[i].homePos.x = sGroupFishes[i].pos.x = sinf(sFishGroupAngle1) * 720.0f;
+                sGroupFishes[i].homePos.z = sGroupFishes[i].pos.z = cosf(sFishGroupAngle1) * 720.0f;
             } else if (i <= 40) {
-                fish->homePos.x = fish->pos.x = sinf(sFishGroupAngle2) * 720.0f;
-                fish->homePos.z = fish->pos.z = cosf(sFishGroupAngle2) * 720.0f;
+                sGroupFishes[i].homePos.x = sGroupFishes[i].pos.x = sinf(sFishGroupAngle2) * 720.0f;
+                sGroupFishes[i].homePos.z = sGroupFishes[i].pos.z = cosf(sFishGroupAngle2) * 720.0f;
             } else {
-                fish->homePos.x = fish->pos.x = sinf(sFishGroupAngle3) * 720.0f;
-                fish->homePos.z = fish->pos.z = cosf(sFishGroupAngle3) * 720.0f;
+                sGroupFishes[i].homePos.x = sGroupFishes[i].pos.x = sinf(sFishGroupAngle3) * 720.0f;
+                sGroupFishes[i].homePos.z = sGroupFishes[i].pos.z = cosf(sFishGroupAngle3) * 720.0f;
             }
 
-            fish->homePos.y = fish->pos.y = -35.0f;
+            sGroupFishes[i].homePos.y = sGroupFishes[i].pos.y = -35.0f;
 
-            fish->timer = Rand_ZeroFloat(100.0f);
+            sGroupFishes[i].timer = Rand_ZeroFloat(100.0f);
 
-            fish->unk_3C = 0;
-            fish->unk_3E = 0;
-            fish->unk_40 = 0;
+            sGroupFishes[i].unk_3C = 0;
+            sGroupFishes[i].unk_3E = 0;
+            sGroupFishes[i].unk_40 = 0;
 
             if (sLinkAge != LINK_AGE_CHILD) {
                 if (((i >= 15) && (i < 20)) || ((i >= 35) && (i < 40)) || ((i >= 55) && (i < 60))) {
-                    fish->type = FS_GROUP_FISH_NONE;
+                    sGroupFishes[i].type = FS_GROUP_FISH_NONE;
                 }
             }
         }
@@ -995,7 +1001,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
                            ENKANBAN_FISHING);
         Actor_Spawn(&play->actorCtx, play, ACTOR_FISHING, 0.0f, 0.0f, 0.0f, 0, 0, 0, 200);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if ((KREG(1) == 1) || ((sFishGameNumber & 3) == 3))
 #else
         if ((sFishGameNumber & 3) == 3)
@@ -1033,7 +1039,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
         thisx->attentionRangeType = ATTENTION_RANGE_0;
         thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
-        this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
+        this->lightNode = LightContext_InsertLight(play2, &play->lightCtx, &this->lightInfo);
     } else {
         this->fishState = 10;
         this->fishStateNext = 10;
@@ -1049,7 +1055,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
             this->fishLength += Rand_ZeroFloat(7.99999f);
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (KREG(6) != 0) {
             this->fishLength = KREG(6) + 80.0f;
         }
@@ -1079,7 +1085,7 @@ void Fishing_UpdateEffects(FishingEffect* effect, PlayState* play) {
     f32 rippleY;
     s16 i;
 
-    for (i = 0; i < FISHING_EFFECT_COUNT; i++) {
+    for (i = 0; i < FISHING_EFFECT_COUNT; i++, effect++) {
         if (effect->type) {
             effect->timer++;
             effect->pos.x += effect->vel.x;
@@ -1109,8 +1115,7 @@ void Fishing_UpdateEffects(FishingEffect* effect, PlayState* play) {
                 effect->alpha -= 10;
 
                 if (effect->pos.y > (WATER_SURFACE_Y(play) - 5.0f)) {
-                    effect->accel.y = 0.0f;
-                    effect->vel.y = 0.0f;
+                    effect->vel.y = effect->accel.y = 0.0f;
                     effect->alpha -= 5;
                 }
 
@@ -1216,16 +1221,14 @@ void Fishing_UpdateEffects(FishingEffect* effect, PlayState* play) {
                 }
             }
         }
-
-        effect++;
     }
 }
 
-void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
+void Fishing_DrawEffects(FishingEffect* effect, PlayState* play2) {
     u8 materialFlag = 0;
     f32 rotY;
     s16 i;
-    s32 pad;
+    PlayState* play = (PlayState*)play2;
     FishingEffect* firstEffect = effect;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 2271);
@@ -1234,7 +1237,7 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
 
     gDPPipeSync(POLY_XLU_DISP++);
 
-    for (i = 0; i < 100; i++) {
+    for (i = 0; i < 100; i++, effect++) {
         if (effect->type == FS_EFF_RIPPLE) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRippleMaterialDL);
@@ -1251,12 +1254,11 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
 
             gSPDisplayList(POLY_XLU_DISP++, gFishingRippleModelDL);
         }
-        effect++;
     }
 
-    effect = firstEffect;
     materialFlag = 0;
-    for (i = 0; i < 100; i++) {
+    effect = firstEffect;
+    for (i = 0; i < 100; i++, effect++) {
         if (effect->type == FS_EFF_DUST_SPLASH) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingDustSplashMaterialDL);
@@ -1267,19 +1269,18 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->alpha);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
+            Matrix_ReplaceRotation(&play2->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_fishing.c", 2346);
 
             gSPDisplayList(POLY_XLU_DISP++, gFishingDustSplashModelDL);
         }
-        effect++;
     }
 
-    effect = firstEffect;
     materialFlag = 0;
-    for (i = 0; i < 100; i++) {
+    effect = firstEffect;
+    for (i = 0; i < 100; i++, effect++) {
         if (effect->type == FS_EFF_WATER_DUST) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingWaterDustMaterialDL);
@@ -1294,19 +1295,18 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
                                         (effect->timer + (i * 3)) * 5, 32, 64, 1, 0, 0, 32, 32));
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
+            Matrix_ReplaceRotation(&play2->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_fishing.c", 2394);
 
             gSPDisplayList(POLY_OPA_DISP++, gFishingWaterDustModelDL);
         }
-        effect++;
     }
 
-    effect = firstEffect;
     materialFlag = 0;
-    for (i = 0; i < 100; i++) {
+    effect = firstEffect;
+    for (i = 0; i < 100; i++, effect++) {
         if (effect->type == FS_EFF_BUBBLE) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingBubbleMaterialDL);
@@ -1316,19 +1316,19 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
+            Matrix_ReplaceRotation(&play2->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_fishing.c", 2423);
 
             gSPDisplayList(POLY_XLU_DISP++, gFishingBubbleModelDL);
         }
-        effect++;
     }
 
-    effect = firstEffect + 30;
     materialFlag = 0;
-    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
+    effect = firstEffect;
+    effect += 30;
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++, effect++) {
         if (effect->type == FS_EFF_RAIN_DROP) {
             if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
@@ -1347,14 +1347,14 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
 
             gSPDisplayList(POLY_XLU_DISP++, gFishingRainDropModelDL);
         }
-        effect++;
     }
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    effect = firstEffect + 30;
     materialFlag = 0;
-    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
+    effect = firstEffect;
+    effect += 30;
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++, effect++) {
         if (effect->type == FS_EFF_RAIN_RIPPLE) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRippleMaterialDL);
@@ -1370,12 +1370,12 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
 
             gSPDisplayList(POLY_XLU_DISP++, gFishingRippleModelDL);
         }
-        effect++;
     }
 
-    effect = firstEffect + 30;
     materialFlag = 0;
-    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
+    effect = firstEffect;
+    effect += 30;
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++, effect++) {
         if (effect->type == FS_EFF_RAIN_SPLASH) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRainSplashMaterialDL);
@@ -1390,7 +1390,7 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
+            Matrix_ReplaceRotation(&play2->billboardMtxF);
             Matrix_RotateY(rotY, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
@@ -1398,7 +1398,6 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
 
             gSPDisplayList(POLY_XLU_DISP++, gFishingRainSplashModelDL);
         }
-        effect++;
     }
 
     effect = firstEffect;
@@ -1463,7 +1462,7 @@ void Fishing_UpdateLine(PlayState* play, Vec3f* basePos, Vec3f* pos, Vec3f* rot,
     f32 dist;
     f32 spD8;
     s16 spooled;
-    s32 pad;
+    f32 segDist;
     f32 temp_f20;
     Vec3f posSrc = { 0.0f, 0.0f, 0.0f };
     Vec3f posStep;
@@ -1484,12 +1483,12 @@ void Fishing_UpdateLine(PlayState* play, Vec3f* basePos, Vec3f* pos, Vec3f* rot,
         sp90 = segPos.y - tempPos.y;
         sp8C = segPos.z - tempPos.z;
 
-        temp_f20 = sqrtf(SQ(sp94) + SQ(sp90) + SQ(sp8C)) * 0.97f;
-        if (temp_f20 > 1000.0f) {
-            temp_f20 = 1000.0f;
+        segDist = sqrtf(SQ(sp94) + SQ(sp90) + SQ(sp8C)) * 0.97f;
+        if (segDist > 1000.0f) {
+            segDist = 1000.0f;
         }
 
-        sRodLineSpooled = 200.0f - (temp_f20 * 200.0f * 0.001f);
+        sRodLineSpooled = 200.0f - (segDist * 200.0f * 0.001f);
     }
 
     spooled = sRodLineSpooled;
@@ -1500,22 +1499,22 @@ void Fishing_UpdateLine(PlayState* play, Vec3f* basePos, Vec3f* pos, Vec3f* rot,
             pos[i] = *basePos;
         } else if (D_80B7A6A4 != 0) {
             temp_f20 = (f32)(i - spooled) / (f32)(LINE_SEG_COUNT - spooled + 1);
-            Math_ApproachF(&pos[i].x, (sp94 * temp_f20) + tempPos.x, 1.0f, 20.0f);
-            Math_ApproachF(&pos[i].y, (sp90 * temp_f20) + tempPos.y, 1.0f, 20.0f);
-            Math_ApproachF(&pos[i].z, (sp8C * temp_f20) + tempPos.z, 1.0f, 20.0f);
+            Math_ApproachF(&pos[i].x, tempPos.x + (sp94 * temp_f20), 1.0f, 20.0f);
+            Math_ApproachF(&pos[i].y, tempPos.y + (sp90 * temp_f20), 1.0f, 20.0f);
+            Math_ApproachF(&pos[i].z, tempPos.z + (sp8C * temp_f20), 1.0f, 20.0f);
         }
     }
 
     for (i = spooled + 1, k = 0; i < LINE_SEG_COUNT; i++, k++) {
-        temp_f18 = 2.0f * D_80B7E148;
-
         dx = (pos + i)->x - (pos + i - 1)->x;
         spD8 = (pos + i)->y;
+
+        temp_f18 = 2.0f * D_80B7E148;
 
         sqDistXZ = SQ((pos + i)->x) + SQ((pos + i)->z);
 
         if (sqDistXZ > SQ(920.0f)) {
-            phi_f12 = ((sqrtf(sqDistXZ) - 920.0f) * 0.11f) + WATER_SURFACE_Y(play);
+            phi_f12 = WATER_SURFACE_Y(play) + ((sqrtf(sqDistXZ) - 920.0f) * 0.11f);
         } else {
             phi_f12 = WATER_SURFACE_Y(play);
         }
@@ -1524,7 +1523,7 @@ void Fishing_UpdateLine(PlayState* play, Vec3f* basePos, Vec3f* pos, Vec3f* rot,
             s32 pad;
 
             if (spD8 < phi_f12) {
-                phi_f12 = ((sqrtf(sqDistXZ) - 920.0f) * 0.147f) + WATER_SURFACE_Y(play);
+                phi_f12 = WATER_SURFACE_Y(play) + ((sqrtf(sqDistXZ) - 920.0f) * 0.147f);
                 if (spD8 > phi_f12) {
                     f32 phi_f2 = (spD8 - phi_f12) * 0.05f;
 
@@ -1720,8 +1719,7 @@ void Fishing_UpdateSinkingLure(PlayState* play) {
     Vec3f posStep;
     Vec3f sp94;
     Vec3f sp88;
-    f32 offsetX;
-    f32 offsetZ;
+    Vec3f offset;
     Player* player = GET_PLAYER(play);
     Vec3f* pos;
 
@@ -1749,15 +1747,15 @@ void Fishing_UpdateSinkingLure(PlayState* play) {
         pos = sSinkingLurePos;
 
         if ((i < 10) && (sRodCastState == 5)) {
-            offsetX = (10 - i) * sp88.x * 0.1f;
-            offsetZ = (10 - i) * sp88.z * 0.1f;
+            offset.x = sp88.x * (10 - i) * 0.1f;
+            offset.z = sp88.z * (10 - i) * 0.1f;
         } else {
-            offsetX = offsetZ = 0.0f;
+            offset.x = offset.z = 0.0f;
         }
 
-        dx = (pos + i)->x - (pos + i - 1)->x + offsetX;
+        dx = (pos + i)->x - (pos + i - 1)->x + offset.x;
         dy = (pos + i)->y - (pos + i - 1)->y + offsetY;
-        dz = (pos + i)->z - (pos + i - 1)->z + offsetZ;
+        dz = (pos + i)->z - (pos + i - 1)->z + offset.z;
 
         ry = Math_Atan2F(dz, dx);
         dist = sqrtf(SQ(dx) + SQ(dz));
@@ -1778,15 +1776,15 @@ static f32 sSinkingLureSizes[] = {
     0.9f, 0.85f, 0.8f, 0.7f, 0.8f, 1.0f, 1.2f, 1.1f, 1.0f, 0.8f,
 };
 
-void Fishing_DrawSinkingLure(PlayState* play) {
+void Fishing_DrawSinkingLure(PlayState* play2) {
+    PlayState* play = (PlayState*)play2;
     s16 i;
-    f32 scale;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 3209);
 
-    Fishing_UpdateSinkingLure(play);
+    Fishing_UpdateSinkingLure(play2);
 
-    if (sLurePos.y < WATER_SURFACE_Y(play)) {
+    if (sLurePos.y < WATER_SURFACE_Y(play2)) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
         gSPDisplayList(POLY_OPA_DISP++, gFishingSinkingLureSegmentMaterialDL);
@@ -1794,9 +1792,10 @@ void Fishing_DrawSinkingLure(PlayState* play) {
         for (i = SINKING_LURE_SEG_COUNT - 1; i >= 0; i--) {
             if ((i + sSinkingLureSegmentIndex) < SINKING_LURE_SEG_COUNT) {
                 Matrix_Translate(sSinkingLurePos[i].x, sSinkingLurePos[i].y, sSinkingLurePos[i].z, MTXMODE_NEW);
-                scale = sSinkingLureSizes[i + sSinkingLureSegmentIndex] * 0.04f;
-                Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-                Matrix_ReplaceRotation(&play->billboardMtxF);
+                Matrix_Scale(sSinkingLureSizes[i + sSinkingLureSegmentIndex] * 0.04f,
+                             sSinkingLureSizes[i + sSinkingLureSegmentIndex] * 0.04f,
+                             sSinkingLureSizes[i + sSinkingLureSegmentIndex] * 0.04f, MTXMODE_APPLY);
+                Matrix_ReplaceRotation(&play2->billboardMtxF);
 
                 MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_fishing.c", 3239);
                 gSPDisplayList(POLY_OPA_DISP++, gFishingSinkingLureSegmentModelDL);
@@ -1810,9 +1809,10 @@ void Fishing_DrawSinkingLure(PlayState* play) {
         for (i = SINKING_LURE_SEG_COUNT - 1; i >= 0; i--) {
             if ((i + sSinkingLureSegmentIndex) < SINKING_LURE_SEG_COUNT) {
                 Matrix_Translate(sSinkingLurePos[i].x, sSinkingLurePos[i].y, sSinkingLurePos[i].z, MTXMODE_NEW);
-                scale = sSinkingLureSizes[i + sSinkingLureSegmentIndex] * 0.04f;
-                Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-                Matrix_ReplaceRotation(&play->billboardMtxF);
+                Matrix_Scale(sSinkingLureSizes[i + sSinkingLureSegmentIndex] * 0.04f,
+                             sSinkingLureSizes[i + sSinkingLureSegmentIndex] * 0.04f,
+                             sSinkingLureSizes[i + sSinkingLureSegmentIndex] * 0.04f, MTXMODE_APPLY);
+                Matrix_ReplaceRotation(&play2->billboardMtxF);
 
                 MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_fishing.c", 3265);
                 gSPDisplayList(POLY_XLU_DISP++, gFishingSinkingLureSegmentModelDL);
@@ -1986,14 +1986,14 @@ static f32 sRodBendRatios[22] = {
 
 static Vec3f sRodTipOffset = { 0.0f, 0.0f, 0.0f };
 
-void Fishing_DrawRod(PlayState* play) {
+void Fishing_DrawRod(PlayState* play2) {
     s16 i;
     f32 lureXZLen;
     f32 spC4;
     f32 spC0;
-    Input* input = &play->state.input[0];
+    PlayState* play = (PlayState*)play2;
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    Input* input = &play->state.input[0];
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 3600);
 
@@ -2088,13 +2088,13 @@ void Fishing_DrawRod(PlayState* play) {
     Matrix_RotateX((D_80B7A6C0 + 20.0f) * 0.01f * M_PI, MTXMODE_APPLY);
     Matrix_Scale(0.70000005f, 0.70000005f, 0.70000005f, MTXMODE_APPLY);
 
-    spC0 = (D_80B7A6BC * (((player->unk_85C - 1.0f) * -0.25f) + 0.5f)) + (D_80B7A6AC + D_80B7A6B8);
+    spC0 = D_80B7A6AC + D_80B7A6B8 + (D_80B7A6BC * ((((*player).unk_85C - 1.0f) * -0.25f) + 0.5f));
 
     Matrix_Translate(0.0f, 0.0f, -1300.0f, MTXMODE_APPLY);
 
     for (i = 0; i < 22; i++) {
-        Matrix_RotateY(sRodBendRatios[i] * sRodBendRotY * 0.5f, MTXMODE_APPLY);
-        Matrix_RotateX(sRodBendRatios[i] * spC0 * 0.5f, MTXMODE_APPLY);
+        Matrix_RotateY(sRodBendRotY * sRodBendRatios[i] * 0.5f, MTXMODE_APPLY);
+        Matrix_RotateX(spC0 * sRodBendRatios[i] * 0.5f, MTXMODE_APPLY);
 
         Matrix_Push();
         Matrix_Scale(sRodScales[i], sRodScales[i], 0.52f, MTXMODE_APPLY);
@@ -2219,7 +2219,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
         case 0:
             sSinkingLureSegmentIndex = 0;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (KREG(14) != 0) {
                 KREG(14) = 0;
                 sLureEquipped = FS_LURE_SINKING - sLureEquipped;
@@ -2330,7 +2330,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                     }
                 }
 
-                spE4 = ((sqrtf(lureXZLen) - 920.0f) * 0.11f) + WATER_SURFACE_Y(play);
+                spE4 = WATER_SURFACE_Y(play) + ((sqrtf(lureXZLen) - 920.0f) * 0.11f);
                 if (sLurePos.y <= spE4) {
                     sLurePos.y = spE4;
                     sLurePosDelta.x = sLurePosDelta.y = sLurePosDelta.z = 0.0f;
@@ -2363,7 +2363,6 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                         for (i = 0; i < 50; i++) {
                             f32 sp7C = Rand_ZeroFloat(1.5f) + 0.5f;
                             f32 sp78 = Rand_ZeroFloat(6.28f);
-                            s32 pad;
 
                             sp9C.x = sinf(sp78) * sp7C;
                             sp9C.z = cosf(sp78) * sp7C;
@@ -2425,8 +2424,8 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
             player->unk_860 = 2;
 
             if (sLureWigglePosY < 3.0f) {
-                spD0 = sLureRotXTarget * Math_SinS(sLureTimer * 0x1060);
-                Math_ApproachF(&sLureRot.x, -M_PI / 6.0f + spD0, 0.3f, sLureRotXStep);
+                lureXZLen = Math_SinS(sLureTimer * 0x1060) * sLureRotXTarget;
+                Math_ApproachF(&sLureRot.x, -M_PI / 6.0f + lureXZLen, 0.3f, sLureRotXStep);
                 Math_ApproachF(&sLureRotXStep, 0.5f, 1.0f, 0.02f);
                 Math_ApproachZeroF(&sLureRotXTarget, 1.0f, 0.02f);
             } else {
@@ -2439,20 +2438,21 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
             lureXZLen = SQ(sLurePos.x) + SQ(sLurePos.z);
             if (lureXZLen < SQ(920.0f)) {
                 if (sLurePos.y <= spE4 + 4) {
+                    Input* input2 = &play->state.input[0];
                     f32 wiggle = 0.0f;
 
                     if (D_80B7E150 == 0) {
-                        if (fabsf(input->rel.stick_x) > 30.0f) {
-                            wiggle = fabsf((input->rel.stick_x - sStickAdjXPrev) * (1.0f / 60.0f));
-                        } else if (fabsf(input->rel.stick_y) > 30.0f) {
-                            wiggle = fabsf((input->rel.stick_y - sStickAdjYPrev) * (1.0f / 60.0f));
+                        if (fabsf(input2->rel.stick_x) > 30.0f) {
+                            wiggle = fabsf((input2->rel.stick_x - sStickAdjXPrev) * (1.0f / 60.0f));
+                        } else if (fabsf(input2->rel.stick_y) > 30.0f) {
+                            wiggle = fabsf((input2->rel.stick_y - sStickAdjYPrev) * (1.0f / 60.0f));
                         }
                     }
 
                     if (wiggle > 1.0f) {
                         wiggle = 1.0f;
                     }
-                    if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
+                    if (CHECK_BTN_ALL(input2->press.button, BTN_B)) {
                         wiggle = 0.5f;
                     }
 
@@ -2475,7 +2475,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                         sp90.z = player->actor.world.pos.z - sLurePos.z;
                         sp90.y = Math_Atan2F(sp90.z, sp90.x);
 
-                        sLureWiggleRotYTarget = (wiggle * sLureWiggleSign) + sp90.y;
+                        sLureWiggleRotYTarget = sp90.y + (wiggle * sLureWiggleSign);
                         sLureWiggleSign *= -1.0f;
                         sLureWigglePosY = fabsf(wiggle) * 6.0f;
                         sLureRot.x = 0.0f;
@@ -2489,7 +2489,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                             sReelLinePos[LINE_SEG_COUNT - 1].y += sLureLineSegPosDelta.y;
                             sLurePos.y += sLureLineSegPosDelta.y;
                         }
-                    } else if (CHECK_BTN_ALL(input->cur.button, BTN_A)) {
+                    } else if (CHECK_BTN_ALL(input2->cur.button, BTN_A)) {
                         spDC = 0x500;
                         sLureWiggleRotYTarget = sReelLineRot[LINE_SEG_COUNT - 2].y + M_PI;
                         sLureRot.x = 0.0f;
@@ -2508,7 +2508,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                     }
                 }
             } else {
-                spE4 = ((sqrtf(lureXZLen) - 920.0f) * 0.11f) + WATER_SURFACE_Y(play);
+                spE4 = WATER_SURFACE_Y(play) + ((sqrtf(lureXZLen) - 920.0f) * 0.11f);
                 if (sLurePos.y <= spE4) {
                     sLurePos.y = spE4;
                     spDC = 0x500;
@@ -2698,9 +2698,20 @@ s32 Fishing_SplashBySize(Fishing* this, PlayState* play, u8 ignorePosCheck) {
         return false;
     }
 
-    // Necessary to match
-    if (this->fishLength) {}
+    if (this->fishLength >= 60.0f) {
+        // Unknown optimized-out code
+        count = 0;
+        scale = 0.0f;
+    }
 
+    //! @bug Probably intended to be an else-if.
+    if (this->fishLength >= 50.0f) {
+        // Unknown optimized-out code
+        count = 0;
+        scale = 0.0f;
+    }
+
+    //! @bug Probably intended to be an else-if.
     if (this->fishLength >= 40.0f) {
         count = 40;
         scale = 1.2f;
@@ -2745,9 +2756,13 @@ void Fishing_SplashBySize2(Fishing* this, PlayState* play) {
     f32 speedXZ;
     f32 angle;
 
-    // Necessary to match
-    if (this->fishLength) {}
+    if (this->fishLength >= 60.0f) {
+        // Unknown optimized-out code
+        count = 0;
+        scale = 0.0f;
+    }
 
+    //! @bug Probably intended to be an else-if.
     if (this->fishLength >= 45.0f) {
         count = 30;
         scale = 0.5f;
@@ -2937,13 +2952,9 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
     f32 phi_f0;
     f32 phi_f2;
     Vec3f bubblePos;
-    Vec3f spB8;
-    f32 temp_f0;
-    f32 temp;
-    f32 rumbleStrength;
 
-    this->actor.uncullZoneForward = 700.0f;
-    this->actor.uncullZoneScale = 50.0f;
+    this->actor.cullingVolumeDistance = 700.0f;
+    this->actor.cullingVolumeScale = 50.0f;
 
     if (this->isLoach == 0) {
         playerSpeedMod = (player->actor.speed * 0.15f) + 0.25f;
@@ -3013,11 +3024,10 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
         this->fishLimbRotPhase += this->fishLimbRotPhaseStep;
 
-        temp = cosf(this->fishLimbRotPhase);
-        this->fishLimb23RotYDelta = this->unk_16E + (s16)(temp * this->fishLimbRotPhaseMag);
+        this->fishLimb23RotYDelta = (s16)(cosf(this->fishLimbRotPhase) * this->fishLimbRotPhaseMag) + (*this).unk_16E;
 
-        temp = cosf(this->fishLimbRotPhase + -1.2f);
-        this->fishLimb4RotYDelta = this->unk_16E + (s16)(temp * this->fishLimbRotPhaseMag * 1.6f);
+        this->fishLimb4RotYDelta =
+            (s16)(cosf(this->fishLimbRotPhase + -1.2f) * this->fishLimbRotPhaseMag * 1.6f) + (*this).unk_16E;
     } else {
         Actor_SetScale(&this->actor, this->fishLength * 65.0f * 0.000001f);
 
@@ -3027,12 +3037,11 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         this->fishLimbRotPhase += this->fishLimbRotPhaseStep * 0.8f;
 
         for (i = 0; i < 3; i++) {
-            temp = cosf(this->fishLimbRotPhase + (i * 2.1f));
-            this->loachRotYDelta[i] = this->unk_16E + (s16)(temp * this->fishLimbRotPhaseMag * 2.0f);
+            this->loachRotYDelta[i] =
+                (s16)(cosf(this->fishLimbRotPhase + (i * 2.1f)) * this->fishLimbRotPhaseMag * 2.0f) + (*this).unk_16E;
         }
 
-        temp = cosf(this->fishLimbRotPhase + 0.4f);
-        this->fishLimb23RotYDelta = (this->fishLimbRotPhaseMag * temp * 2.0f) * 0.6f;
+        this->fishLimb23RotYDelta = (cosf(this->fishLimbRotPhase + 0.4f) * (*this).fishLimbRotPhaseMag * 2.0f) * 0.6f;
     }
 
     distX = this->fishTargetPos.x - this->actor.world.pos.x;
@@ -3062,8 +3071,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         case 100:
             Fishing_HandleAquariumDialog(this, play);
 
-            this->actor.uncullZoneForward = 500.0f;
-            this->actor.uncullZoneScale = 300.0f;
+            this->actor.cullingVolumeDistance = 500.0f;
+            this->actor.cullingVolumeScale = 300.0f;
 
             Lights_PointNoGlowSetInfo(&this->lightInfo, (s16)this->actor.world.pos.x,
                                       (s16)this->actor.world.pos.y + 20.0f, (s16)this->actor.world.pos.z - 50.0f, 255,
@@ -3147,7 +3156,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 }
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (KREG(15) != 0) {
                 KREG(15) = 0;
                 this->fishState = 7;
@@ -3250,7 +3259,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 this->fishState = 10;
                 this->fishStateNext = 10;
             } else if ((KREG_DEBUG(2) != 0) || (((this->unk_1A4 & 0x7FF) == 0) && (this->unk_1A4 < 15000))) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 KREG(2) = 0;
 #endif
                 this->fishState = -2;
@@ -3279,6 +3288,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     Math_ApproachZeroF(&this->actor.speed, 1.0f, 0.01f);
 
                     if ((this->actor.speed == 0.0f) || (this->actor.world.pos.y > (WATER_SURFACE_Y(play) - 5.0f))) {
+                        Vec3f spB8;
+
                         this->fishTargetPos.x = Rand_ZeroFloat(300.0f);
                         this->fishTargetPos.z = Rand_ZeroFloat(300.0f);
                         this->fishTargetPos.y = this->actor.floorHeight + 10.0f;
@@ -3335,7 +3346,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             this->fishTargetPos.z = sLurePos.z + targetPosOffset.z;
 
             if (sLureEquipped == FS_LURE_SINKING) {
-                this->fishTargetPos.y = sLurePos.y;
+                this->fishTargetPos.y = sLurePos.y + 0.0f;
             } else if (this->isLoach == 0) {
                 this->fishTargetPos.y = sLurePos.y - 15.0f;
             } else {
@@ -3346,7 +3357,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 this->fishTargetPos.y = this->actor.floorHeight + 3.0f;
             }
 
-            if ((sLureEquipped != FS_LURE_SINKING) && (this->fishTargetPos.y < this->actor.world.pos.y)) {
+            if ((sLureEquipped != FS_LURE_SINKING) && (this->actor.world.pos.y > this->fishTargetPos.y)) {
                 Math_ApproachF(&this->actor.world.pos.y, this->fishTargetPos.y, 0.1f,
                                (this->actor.world.pos.y - this->fishTargetPos.y) * 0.1f);
             }
@@ -3411,7 +3422,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 chance *= 5.0f;
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (((this->timerArray[0] == 1) || (Rand_ZeroOne() < chance)) &&
                 ((Rand_ZeroOne() < (this->perception * multiplier)) || ((this->isLoach + 1) == KREG(69))))
 #else
@@ -3571,8 +3582,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 (sqrtf(SQ(sLurePos.x) + SQ(sLurePos.z)) > 800.0f)) {
 
                 this->timerArray[0] = 0;
-                this->unk_190 = 1.0f;
                 this->fishState = this->fishStateNext;
+                this->unk_190 = 1.0f;
                 this->unk_194 = 2000.0f;
             } else if (distToTarget < 10.0f) {
                 if (sLurePos.y > (WATER_SURFACE_Y(play) - 10.0f)) {
@@ -3609,8 +3620,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             break;
 
         case 5:
-            this->actor.uncullZoneForward = 1200.0f;
-            this->actor.uncullZoneScale = 200.0f;
+            this->actor.cullingVolumeDistance = 1200.0f;
+            this->actor.cullingVolumeScale = 200.0f;
 
             sFishFightTime++;
             PRINTF("HIT FISH %dcm\n", (u8)this->fishLength);
@@ -3628,6 +3639,10 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             if ((sLureBitTimer != 0) && (sLineHooked == 0)) { // pull the line to hook it
                 if (((input->rel.stick_y < -50) && (sStickAdjYPrev > -40)) ||
                     CHECK_BTN_ALL(input->press.button, BTN_A)) {
+                    f32 temp_f0;
+                    s32 pad;
+                    f32 rumbleStrength;
+
                     if (input->rel.stick_y < -50) {
                         temp_f0 = 40.0f - ((this->fishLength - 30.0f) * 1.333333f);
                         if (temp_f0 > 0.0f) {
@@ -3898,7 +3913,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             Math_ApproachS(&this->fishLimbDRotZDelta, 11000, 2, 4000);
             Math_ApproachF(&sCatchCamX, 15.0f, 0.05f, 0.75f);
 
-            multiVecSrc.x = sCatchCamX;
+            multiVecSrc.x = sCatchCamX + 0.0f;
             if (sLinkAge != LINK_AGE_CHILD) {
                 multiVecSrc.y = 30.0f;
                 multiVecSrc.z = 55.0f;
@@ -3973,7 +3988,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                                         sLureCaughtWith = sLureEquipped;
                                         Actor_Kill(&this->actor);
                                     } else if ((this->isLoach == 0) && (sFishOnHandIsLoach == 0) &&
-                                               ((s16)this->fishLength < (s16)sFishOnHandLength)) {
+                                               ((s16)sFishOnHandLength > (s16)this->fishLength)) {
                                         this->keepState = 1;
                                         this->timerArray[0] = 0x3C;
 
@@ -4183,11 +4198,13 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         }
 
         if ((this->actor.world.pos.y < WATER_SURFACE_Y(play)) &&
-            (this->actor.world.pos.y > (WATER_SURFACE_Y(play) - 10.0f)) && ((this->stateAndTimer & 1) == 0) &&
-            (this->actor.speed > 0.0f)) {
-            Vec3f pos = this->actor.world.pos;
-            pos.y = WATER_SURFACE_Y(play);
-            Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &pos, 80.0f, 500.0f, 150, 90);
+            (this->actor.world.pos.y > (WATER_SURFACE_Y(play) - 10.0f))) {
+            if (((this->stateAndTimer & 1) == 0) && (this->actor.speed > 0.0f)) {
+                Vec3f pos = this->actor.world.pos;
+
+                pos.y = WATER_SURFACE_Y(play);
+                Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &pos, 80.0f, 500.0f, 150, 90);
+            }
         }
 
         if ((this->actor.speed > 0.0f) || (this->fishState == 5)) {
@@ -4240,8 +4257,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     if ((this->fishState == 5) && ((this->stateAndTimer & 1) == 0)) {
                         Vec3f pos;
 
-                        pos.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
-                        pos.z = Rand_CenteredFloat(10.0f) + this->actor.world.pos.z;
+                        pos.x = this->actor.world.pos.x + Rand_CenteredFloat(10.0f);
+                        pos.z = this->actor.world.pos.z + Rand_CenteredFloat(10.0f);
                         pos.y = this->actor.floorHeight + 5.0f;
                         Fishing_SpawnWaterDust(&this->actor.projectedPos, play->specialEffects, &pos,
                                                (this->fishLength * 0.005f) + 0.15f);
@@ -4259,9 +4276,9 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         this->bubbleTime--;
 
         for (i = 0; i < 2; i++) {
-            pos.x = Rand_CenteredFloat(range) + this->actor.world.pos.x;
-            pos.y = Rand_CenteredFloat(range) + this->actor.world.pos.y;
-            pos.z = Rand_CenteredFloat(range) + this->actor.world.pos.z;
+            pos.x = this->actor.world.pos.x + Rand_CenteredFloat(range);
+            pos.y = this->actor.world.pos.y + Rand_CenteredFloat(range);
+            pos.z = this->actor.world.pos.z + Rand_CenteredFloat(range);
             Fishing_SpawnBubble(&this->actor.projectedPos, play->specialEffects, &pos, Rand_ZeroFloat(0.035f) + 0.04f,
                                 0);
         }
@@ -4327,9 +4344,9 @@ void Fishing_DrawFish(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_RotateY(BINANG_TO_RAD_ALT(this->unk_162 + this->actor.shape.rot.y), MTXMODE_APPLY);
-    Matrix_RotateX(BINANG_TO_RAD_ALT(this->unk_160 + this->actor.shape.rot.x), MTXMODE_APPLY);
-    Matrix_RotateZ(BINANG_TO_RAD_ALT(this->unk_164 + this->actor.shape.rot.z), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y + (*this).unk_162), MTXMODE_APPLY);
+    Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x + (*this).unk_160), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z + (*this).unk_164), MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
 
     if (this->isLoach == 0) {
@@ -4387,7 +4404,7 @@ void Fishing_UpdatePondProps(PlayState* play) {
     Actor* actor;
     s16 i;
 
-    for (i = 0; i < POND_PROP_COUNT; i++) {
+    for (i = 0; i < POND_PROP_COUNT; i++, prop++) {
         if (prop->type != FS_PROP_NONE) {
             prop->shouldDraw = false;
             prop->timer++;
@@ -4429,13 +4446,11 @@ void Fishing_UpdatePondProps(PlayState* play) {
 
                     Math_ApproachS(&prop->lilyPadAngle, 0, 20, 80);
                     prop->pos.y =
-                        (Math_SinS(prop->timer * 0x1000) * prop->lilyPadOffset) + (WATER_SURFACE_Y(play) + 2.0f);
+                        WATER_SURFACE_Y(play) + 2.0f + (Math_SinS(prop->timer * 0x1000) * prop->lilyPadOffset);
                     Math_ApproachZeroF(&prop->lilyPadOffset, 0.1f, 0.02f);
                 }
             }
         }
-
-        prop++;
     }
 
     if (sSubCamId == SUB_CAM_ID_DONE) {
@@ -4453,7 +4468,7 @@ void Fishing_DrawPondProps(PlayState* play) {
 
     Matrix_Push();
 
-    for (i = 0; i < POND_PROP_COUNT; i++) {
+    for (i = 0; i < POND_PROP_COUNT; i++, prop++) {
         if (prop->type == FS_PROP_REED) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingReedMaterialDL);
@@ -4471,13 +4486,11 @@ void Fishing_DrawPondProps(PlayState* play) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingReedModelDL);
             }
         }
-
-        prop++;
     }
 
-    prop = &sPondProps[0];
     materialFlag = 0;
-    for (i = 0; i < POND_PROP_COUNT; i++) {
+    prop = &sPondProps[0];
+    for (i = 0; i < POND_PROP_COUNT; i++, prop++) {
         if (prop->type == FS_PROP_WOOD_POST) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingWoodPostMaterialDL);
@@ -4492,13 +4505,11 @@ void Fishing_DrawPondProps(PlayState* play) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingWoodPostModelDL);
             }
         }
-
-        prop++;
     }
 
-    prop = &sPondProps[0];
     materialFlag = 0;
-    for (i = 0; i < POND_PROP_COUNT; i++) {
+    prop = &sPondProps[0];
+    for (i = 0; i < POND_PROP_COUNT; i++, prop++) {
         if (prop->type == FS_PROP_LILY_PAD) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingLilyPadMaterialDL);
@@ -4516,13 +4527,11 @@ void Fishing_DrawPondProps(PlayState* play) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingLilyPadModelDL);
             }
         }
-
-        prop++;
     }
 
-    prop = &sPondProps[0];
     materialFlag = 0;
-    for (i = 0; i < POND_PROP_COUNT; i++) {
+    prop = &sPondProps[0];
+    for (i = 0; i < POND_PROP_COUNT; i++, prop++) {
         if (prop->type == FS_PROP_ROCK) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingRockMaterialDL);
@@ -4538,8 +4547,6 @@ void Fishing_DrawPondProps(PlayState* play) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingRockModelDL);
             }
         }
-
-        prop++;
     }
 
     Matrix_Pop();
@@ -4579,10 +4586,10 @@ void Fishing_UpdateGroupFishes(PlayState* play) {
     basePos[0].y = -35.0f;
     basePos[0].z = cosf(sFishGroupAngle1) * 720.0f;
 
-    temp1 = refPos->x - basePos[0].x;
-    temp2 = refPos->z - basePos[0].z;
+    dx = refPos->x - basePos[0].x;
+    dz = refPos->z - basePos[0].z;
 
-    if ((SQ(temp1) + SQ(temp2)) < SQ(50.0f)) {
+    if ((SQ(dx) + SQ(dz)) < SQ(50.0f)) {
         sFishGroupAngle1 += 0.3f;
         groupContactFlags |= 1;
     } else if (sFishGroupVar != 0.0f) {
@@ -4596,10 +4603,10 @@ void Fishing_UpdateGroupFishes(PlayState* play) {
     basePos[1].y = -35.0f;
     basePos[1].z = cosf(sFishGroupAngle2) * 720.0f;
 
-    temp1 = refPos->x - basePos[1].x;
-    temp2 = refPos->z - basePos[1].z;
+    dx = refPos->x - basePos[1].x;
+    dz = refPos->z - basePos[1].z;
 
-    if ((SQ(temp1) + SQ(temp2)) < SQ(50.0f)) {
+    if ((SQ(dx) + SQ(dz)) < SQ(50.0f)) {
         sFishGroupAngle2 -= 0.3f;
         groupContactFlags |= 2;
     } else if (sFishGroupVar != 0.0f) {
@@ -4613,10 +4620,10 @@ void Fishing_UpdateGroupFishes(PlayState* play) {
     basePos[2].y = -35.0f;
     basePos[2].z = cosf(sFishGroupAngle3) * 720.0f;
 
-    temp1 = refPos->x - basePos[2].x;
-    temp2 = refPos->z - basePos[2].z;
+    dx = refPos->x - basePos[2].x;
+    dz = refPos->z - basePos[2].z;
 
-    if ((SQ(temp1) + SQ(temp2)) < SQ(50.0f)) {
+    if ((SQ(dx) + SQ(dz)) < SQ(50.0f)) {
         sFishGroupAngle3 -= 0.3f;
         groupContactFlags |= 4;
     } else if (sFishGroupVar != 0.0f) {
@@ -4632,7 +4639,7 @@ void Fishing_UpdateGroupFishes(PlayState* play) {
         spD8 = 1.0f;
     }
 
-    for (i = 0; i < GROUP_FISH_COUNT; i++) {
+    for (i = 0; i < GROUP_FISH_COUNT; i++, fish++) {
         if (fish->type != FS_GROUP_FISH_NONE) {
             fish->timer++;
 
@@ -4713,7 +4720,7 @@ void Fishing_UpdateGroupFishes(PlayState* play) {
             Math_ApproachF(&fish->velY, 0.75f, 1.0f, 0.05f);
 
             temp1 = fish->velY * spD8;
-            temp2 = Math_CosS(fish->unk_3C) * temp1;
+            temp2 = temp1 * Math_CosS(fish->unk_3C);
 
             fish->pos.x += temp2 * Math_SinS(fish->unk_3E);
             fish->pos.y += temp1 * Math_SinS(fish->unk_3C);
@@ -4726,8 +4733,6 @@ void Fishing_UpdateGroupFishes(PlayState* play) {
                 fish->scaleX = (cosf(fish->unk_30) * fish->unk_38) + offset;
             }
         }
-
-        fish++;
     }
 
     sFishGroupVar = 0.0f;
@@ -4760,7 +4765,7 @@ void Fishing_DrawGroupFishes(PlayState* play) {
                 Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
                 Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
                 Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
-                Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
+                Matrix_Scale(scale * fish->scaleX, scale, scale, MTXMODE_APPLY);
 
                 MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_fishing.c", 8093);
                 gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
@@ -5046,8 +5051,8 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                         }
                     }
                 } else {
-                    getItemId = GI_RUPEE_PURPLE;
                     sFishOnHandLength = 0.0f; // doesn't record loach
+                    getItemId = GI_RUPEE_PURPLE;
                 }
 
                 this->actor.parent = NULL;
@@ -5085,7 +5090,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
             break;
 
         case 22:
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (play) {}
 #endif
 
@@ -5135,6 +5140,7 @@ static Vec3s sSinkingLureLocations[] = {
 };
 
 void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
+    static Vec3f sStreamSfxProjectedPos;
     PlayState* play = play2;
     Fishing* this = (Fishing*)thisx;
     Vec3f multiVecSrc;
@@ -5149,14 +5155,14 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     Player* player = GET_PLAYER(play);
     Input* input = &play->state.input[0];
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (0) {
         // Strings existing only in rodata
-        PRINTF(VT_FGCOL(GREEN));
-        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF_COLOR_GREEN();
+        PRINTF_COLOR_YELLOW();
         PRINTF("plays %x\n");
         PRINTF("ys %x\n");
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 #endif
 
@@ -5175,7 +5181,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     if ((sOwnerTheftTimer != 0) || (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE)) {
         this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
-        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_5;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
     }
 
     if ((this->actor.xzDistToPlayer < 120.0f) || (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE)) {
@@ -5214,7 +5220,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         f32 dz = sOwnerHeadPos.z - sLurePos.z;
 
         if ((sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 25.0f) || (KREG_DEBUG(77) > 0)) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             KREG(77) = 0;
 #endif
             sOwnerHair = FS_OWNER_BALD;
@@ -5230,7 +5236,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         HIGH_SCORE(HS_FISHING) &= ~HS_FISH_STOLE_HAT;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (KREG(77) < 0) {
         KREG(77) = 0;
         sIsOwnersHatSunk = true;
@@ -5279,7 +5285,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 20);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (KREG(0) != 0) {
         s32 pad[3];
 
@@ -5340,6 +5346,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             Math_ApproachF(&sSubCamAt.y, sLurePos.y, subCamAtMaxVelFrac, 50.0f * sSubCamVelFactor);
             Math_ApproachF(&sSubCamAt.z, sLurePos.z, subCamAtMaxVelFrac, fabsf(lureDist.z) * sSubCamVelFactor);
 
+            multiVecSrc.x = -30.0f;
             multiVecSrc.x = 0.0f - D_80B7FED0;
             if (sLinkAge != LINK_AGE_CHILD) {
                 multiVecSrc.y = 80.0f;
@@ -5521,7 +5528,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
             Math_ApproachF(&sCatchCamX, 15.0f, 0.1f, 0.75f);
 
-            multiVecSrc.x = sCatchCamX - 15.0f;
+            multiVecSrc.x = sCatchCamX + 0.0f - 15.0f;
 
             if (sLinkAge != LINK_AGE_CHILD) {
                 multiVecSrc.y = 60.0f;
@@ -5601,8 +5608,8 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         ((play->gameplayFrames % 2) == 0)) {
         Vec3f pos;
 
-        pos.x = Rand_CenteredFloat(20.0f) + player->actor.world.pos.x;
-        pos.z = Rand_CenteredFloat(20.0f) + player->actor.world.pos.z;
+        pos.x = player->actor.world.pos.x + Rand_CenteredFloat(20.0f);
+        pos.z = player->actor.world.pos.z + Rand_CenteredFloat(20.0f);
         pos.y = player->actor.floorHeight + 5.0f;
         Fishing_SpawnWaterDust(NULL, play->specialEffects, &pos, 0.5f);
     }
@@ -5633,7 +5640,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         }
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (sREG(15) != 0) {
         if (sStormStrengthTarget != (sREG(15) - 1)) {
             if (sStormStrengthTarget == 0) {
@@ -5654,11 +5661,11 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     }
 
     sREG(14) = 0;
-#endif
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF("zelda_time %x\n", ((void)0, gSaveContext.save.dayTime));
-    PRINTF(VT_RST);
+    PRINTF_RST();
+#endif
 
     if (sStormChanceTimer >= 2) {
         sStormChanceTimer--;
@@ -5723,9 +5730,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         rot.z = (Camera_GetInputDirYaw(mainCam) * -(M_PI / 0x8000)) + rot.y;
 
         for (i = 0; i < (u8)sStormStrength; i++) {
-            pos.x = Rand_CenteredFloat(700.0f) + play->view.eye.x;
+            pos.x = play->view.eye.x + Rand_CenteredFloat(700.0f);
             pos.y = (Rand_ZeroFloat(100.0f) + 150.0f) - 170.0f;
-            pos.z = Rand_CenteredFloat(700.0f) + play->view.eye.z;
+            pos.z = play->view.eye.z + Rand_CenteredFloat(700.0f);
 
             if (pos.z < 1160.0f) {
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &sProjectedW);
@@ -5755,14 +5762,14 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     gSaveContext.minigameScore = (SQ((f32)sFishLengthToWeigh) * 0.0036f) + 0.5f;
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (BREG(26) != 0) {
         BREG(26) = 0;
         Message_StartTextbox(play, 0x407B + BREG(27), NULL);
     }
-#endif
 
     PRINTF("HI_SCORE = %x\n", HIGH_SCORE(HS_FISHING));
+#endif
 }
 
 s32 Fishing_OwnerOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -5797,7 +5804,7 @@ static void* sFishingOwnerEyeTexs[] = {
 };
 
 void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
-    s32 pad;
+    PlayState* play2 = (PlayState*)play;
     Fishing* this = (Fishing*)thisx;
     Input* input = &play->state.input[0];
 
@@ -5813,10 +5820,10 @@ void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
                               Fishing_OwnerOverrideLimbDraw, Fishing_OwnerPostLimbDraw, this);
     }
 
-    Fishing_DrawPondProps(play);
-    Fishing_DrawEffects(play->specialEffects, play);
-    Fishing_DrawGroupFishes(play);
-    Fishing_DrawStreamSplash(play);
+    Fishing_DrawPondProps(play2);
+    Fishing_DrawEffects(play2->specialEffects, play2);
+    Fishing_DrawGroupFishes(play2);
+    Fishing_DrawStreamSplash(play2);
 
     if (sFishingMusicDelay != 0) {
         sFishingMusicDelay--;
@@ -5837,10 +5844,10 @@ void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
     }
 
     if ((sFishingPlayingState != 0) && sIsRodVisible) {
-        Fishing_DrawRod(play);
+        Fishing_DrawRod(play2);
         Fishing_UpdateLinePos(sReelLinePos);
-        Fishing_UpdateLine(play, &sRodTipPos, sReelLinePos, sReelLineRot, sReelLineUnk);
-        Fishing_DrawLureAndLine(play, sReelLinePos, sReelLineRot);
+        Fishing_UpdateLine(play2, &sRodTipPos, sReelLinePos, sReelLineRot, sReelLineUnk);
+        Fishing_DrawLureAndLine(play2, sReelLinePos, sReelLineRot);
 
         sStickAdjXPrev = input->rel.stick_x;
         sStickAdjYPrev = input->rel.stick_y;
@@ -5858,7 +5865,7 @@ void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
     gSPDisplayList(POLY_XLU_DISP++, gFishingAquariumContainerDL);
 
     if ((sFishingPlayingState != 0) && (sLureEquipped == FS_LURE_SINKING)) {
-        Fishing_DrawSinkingLure(play);
+        Fishing_DrawSinkingLure(play2);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_fishing.c", 9305);

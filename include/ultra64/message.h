@@ -4,7 +4,11 @@
 #define OS_MESG_NOBLOCK         0
 #define OS_MESG_BLOCK           1
 
+#ifndef BBPLAYER
 #define OS_NUM_EVENTS           15
+#else
+#define OS_NUM_EVENTS           31
+#endif
 
 #define OS_EVENT_SW1            0     /* CPU SW1 interrupt */
 #define OS_EVENT_SW2            1     /* CPU SW2 interrupt */
@@ -21,6 +25,16 @@
 #define OS_EVENT_FAULT          12    /* CPU fault event: used by rmon */
 #define OS_EVENT_THREADSTATUS   13    /* CPU thread status: used by rmon */
 #define OS_EVENT_PRENMI         14    /* Pre NMI interrupt */
+#ifdef BBPLAYER
+#define OS_EVENT_FLASH          23    /* NAND flash operation complete */
+#define OS_EVENT_AES            24    /* AES decryption complete */
+#define OS_EVENT_IDE            25    /* IDE transfer complete */
+#define OS_EVENT_PI_ERR         26    /* PI Error? */
+#define OS_EVENT_USB0           27    /* USB Controller 0 */
+#define OS_EVENT_USB1           28    /* USB Controller 1 */
+#define OS_EVENT_UNK_29         29    /* ? */
+#define OS_EVENT_MD             30    /* Memory card removed */
+#endif
 
 #ifdef _LANGUAGE_C
 
@@ -47,7 +61,7 @@ typedef struct OSMesgQueue {
 
 #else
 
-// OSMesgQueue struct member offsets
+/* OSMesgQueue struct member offsets */
 
 #define MQ_MTQUEUE      0x00
 #define MQ_FULLQUEUE    0x04

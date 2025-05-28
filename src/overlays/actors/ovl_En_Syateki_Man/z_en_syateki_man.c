@@ -1,9 +1,25 @@
 #include "z_en_syateki_man.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "regs.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z64play.h"
+#include "z64player.h"
+#include "z64save.h"
+
 #include "assets/objects/object_ossan/object_ossan.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_LOCK_ON_DISABLED)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_LOCK_ON_DISABLED)
 
 typedef enum EnSyatekiManGameResult {
     /* 0 */ SYATEKI_RESULT_NONE,
@@ -40,7 +56,7 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, PlayState* play);
 void EnSyatekiMan_BlinkWait(EnSyatekiMan* this);
 void EnSyatekiMan_Blink(EnSyatekiMan* this);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void EnSyatekiMan_SetBgm(void);
 #endif
 
@@ -56,7 +72,7 @@ ActorProfile En_Syateki_Man_Profile = {
     /**/ EnSyatekiMan_Draw,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static u16 sBgmList[] = {
     NA_BGM_GENERAL_SFX,
     NA_BGM_NATURE_AMBIENCE,
@@ -158,8 +174,8 @@ void EnSyatekiMan_Init(Actor* thisx, PlayState* play) {
     EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
     PRINTF("\n\n");
-    // "Old man appeared!! Muhohohohohohohon"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n",
+                             "☆☆☆☆☆ Old man appears!! Muhohohohohohoon ☆☆☆☆☆ \n") VT_RST);
     this->actor.attentionRangeType = ATTENTION_RANGE_1;
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gObjectOssanSkel, &gObjectOssanAnim_000338, this->jointTable,
@@ -406,8 +422,7 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, PlayState* play) {
 void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        // "Successful completion"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal termination ☆☆☆☆☆ \n") VT_RST);
         if (!LINK_IS_ADULT) {
             SET_ITEMGETINF(ITEMGETINF_0D);
         } else if ((this->getItemId == GI_QUIVER_40) || (this->getItemId == GI_QUIVER_50)) {
@@ -429,8 +444,7 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, PlayState* play) {
             gallery->signal = ENSYATEKI_START;
             this->gameResult = SYATEKI_RESULT_NONE;
             this->actionFunc = EnSyatekiMan_WaitForGame;
-            // "Let's try again! Baby!"
-            PRINTF(VT_FGCOL(BLUE) "再挑戦だぜ！ベイビー！" VT_RST "\n");
+            PRINTF(VT_FGCOL(BLUE) T("再挑戦だぜ！ベイビー！", "Let's try again! Baby!") VT_RST "\n");
         }
     }
 }
@@ -473,7 +487,7 @@ void EnSyatekiMan_Update(Actor* thisx, PlayState* play) {
     }
     this->actionFunc(this, play);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     EnSyatekiMan_SetBgm();
 #endif
 
@@ -511,7 +525,7 @@ void EnSyatekiMan_Draw(Actor* thisx, PlayState* play) {
                           EnSyatekiMan_OverrideLimbDraw, NULL, this);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void EnSyatekiMan_SetBgm(void) {
     if (BREG(80)) {
         BREG(80) = false;
