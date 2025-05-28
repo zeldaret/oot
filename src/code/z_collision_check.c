@@ -1739,7 +1739,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
         atElem->atHitElem = acElem;
         atElem->atElemFlags |= ATELEM_HIT;
         if (atCol->actor != NULL) {
-            atCol->actor->colChkInfo.atHitEffect = acElem->acDmgInfo.effect;
+            atCol->actor->colChkInfo.atHitBacklash = acElem->acDmgInfo.effect;
         }
     }
     acCol->acFlags |= AC_HIT;
@@ -3028,7 +3028,7 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage = 0;
     info->damageEffect = 0;
-    info->atHitEffect = 0;
+    info->atHitBacklash = 0;
     info->acHitEffect = 0;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
 }
