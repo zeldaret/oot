@@ -1224,25 +1224,22 @@ Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
 }
 
 void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
-    static s16 sCursorColors_D_8082ACF4[][3] = {
-        // "white" ?
+    static s16 D_8082ACF4[][3] = {
         { 0, 0, 0 },
         { 0, 0, 0 },
         { 0, 0, 0 },
         { 0, 0, 0 },
-        // yellow
         { 255, 255, 0 },
         { 0, 0, 0 },
         { 0, 0, 0 },
         { 255, 255, 0 },
-        // n64: ? / gc: green
         { KALEIDO_COLOR_CURSOR_UNK_R, KALEIDO_COLOR_CURSOR_UNK_G, KALEIDO_COLOR_CURSOR_UNK_B },
         { 0, 0, 0 },
         { 0, 0, 0 },
         { KALEIDO_COLOR_CURSOR_UNK_R, KALEIDO_COLOR_CURSOR_UNK_G, KALEIDO_COLOR_CURSOR_UNK_B },
     };
-    static s16 sCursorColorBlinkTimer_D_8082AD3C = 20;
-    static s16 sCursorColorBlinkOffset_D_8082AD40 = 0;
+    static s16 D_8082AD3C = 20;
+    static s16 D_8082AD40 = 0;
 
     static s16 sStickXRepeatTimer = 0;
     static s16 sStickYRepeatTimer = 0;
@@ -1258,43 +1255,34 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
     if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
         if (pauseCtx->state != PAUSE_STATE_SAVE_PROMPT) {
-            stepR = ABS(D_8082AB8C -
-                        sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][0]) /
-                    sCursorColorBlinkTimer_D_8082AD3C;
-            stepG = ABS(D_8082AB90 -
-                        sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][1]) /
-                    sCursorColorBlinkTimer_D_8082AD3C;
-            stepB = ABS(D_8082AB94 -
-                        sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][2]) /
-                    sCursorColorBlinkTimer_D_8082AD3C;
-            if (D_8082AB8C >=
-                sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][0]) {
+            stepR = ABS(D_8082AB8C - D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][0]) / D_8082AD3C;
+            stepG = ABS(D_8082AB90 - D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][1]) / D_8082AD3C;
+            stepB = ABS(D_8082AB94 - D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][2]) / D_8082AD3C;
+            if (D_8082AB8C >= D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][0]) {
                 D_8082AB8C -= stepR;
             } else {
                 D_8082AB8C += stepR;
             }
-            if (D_8082AB90 >=
-                sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][1]) {
+            if (D_8082AB90 >= D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][1]) {
                 D_8082AB90 -= stepG;
             } else {
                 D_8082AB90 += stepG;
             }
-            if (D_8082AB94 >=
-                sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][2]) {
+            if (D_8082AB94 >= D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][2]) {
                 D_8082AB94 -= stepB;
             } else {
                 D_8082AB94 += stepB;
             }
 
-            sCursorColorBlinkTimer_D_8082AD3C--;
-            if (sCursorColorBlinkTimer_D_8082AD3C == 0) {
-                D_8082AB8C = sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][0];
-                D_8082AB90 = sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][1];
-                D_8082AB94 = sCursorColors_D_8082ACF4[pauseCtx->cursorColorSet + sCursorColorBlinkOffset_D_8082AD40][2];
-                sCursorColorBlinkTimer_D_8082AD3C = ZREG(28 + sCursorColorBlinkOffset_D_8082AD40);
-                sCursorColorBlinkOffset_D_8082AD40++;
-                if (sCursorColorBlinkOffset_D_8082AD40 >= 4) {
-                    sCursorColorBlinkOffset_D_8082AD40 = 0;
+            D_8082AD3C--;
+            if (D_8082AD3C == 0) {
+                D_8082AB8C = D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][0];
+                D_8082AB90 = D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][1];
+                D_8082AB94 = D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][2];
+                D_8082AD3C = ZREG(28 + D_8082AD40);
+                D_8082AD40++;
+                if (D_8082AD40 >= 4) {
+                    D_8082AD40 = 0;
                 }
             }
 
