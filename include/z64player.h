@@ -695,6 +695,9 @@ typedef struct PlayerAgeProperties {
     /* 0xCC */ LinkAnimationHeader* unk_CC[2];
 } PlayerAgeProperties; // size = 0xD4
 
+#define MELEE_WEAPON_INFO_TIP(weaponInfo) (&(weaponInfo)->posA)
+#define MELEE_WEAPON_INFO_BASE(weaponInfo) (&(weaponInfo)->posB)
+
 typedef struct WeaponInfo {
     /* 0x00 */ s32 active;
     /* 0x04 */ Vec3f posA; // For melee weapons, this is the tip (furthest from the player hand)

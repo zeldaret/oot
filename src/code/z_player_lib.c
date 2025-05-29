@@ -803,7 +803,7 @@ int Player_IsBurningStickInRange(PlayState* play, Vec3f* pos, f32 xzRange, f32 y
     s32 pad;
 
     if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_860 != 0)) {
-        Math_Vec3f_Diff(&this->meleeWeaponInfo[0].posA, pos, &diff);
+        Math_Vec3f_Diff(MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]), pos, &diff);
         return ((SQ(diff.x) + SQ(diff.z)) <= SQ(xzRange)) && (0.0f <= diff.y) && (diff.y <= yRange);
     } else {
         return false;
@@ -1669,7 +1669,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 if (this->meleeWeaponState != 0) {
                     Player_UpdateMeleeWeaponInfo(play, this, tipPositions);
                 } else {
-                    Math_Vec3f_Copy(&this->meleeWeaponInfo[0].posA, &tipPositions[0]);
+                    Math_Vec3f_Copy(MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]), &tipPositions[0]);
                 }
             }
 
