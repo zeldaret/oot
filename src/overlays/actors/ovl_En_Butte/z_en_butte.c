@@ -355,8 +355,8 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
         EnButte_SetupFlyAround(this);
     } else if (distSqFromHome > SQ(240.0f)) {
         distSqFromSword = Math3D_Dist2DSq(MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->x,
-                                          MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->z, this->actor.world.pos.x,
-                                          this->actor.world.pos.z);
+                                          MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->z,
+                                          this->actor.world.pos.x, this->actor.world.pos.z);
         if (distSqFromSword < SQ(60.0f)) {
             EnButte_SetupTransformIntoFairy(this);
         }
