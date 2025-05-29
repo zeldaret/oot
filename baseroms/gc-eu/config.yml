@@ -867,6 +867,10 @@ assets:
   xml_path: assets/xml/overlays/ovl_Boss_Sst.xml
   start_offset: 0xA380
   end_offset: 0xAD30
+- name: overlays/ovl_Demo_Kankyo
+  xml_path: assets/xml/overlays/ovl_Demo_Kankyo.xml
+  start_offset: 0x28D0
+  end_offset: 0x3290
 - name: overlays/ovl_Demo_Shd
   xml_path: assets/xml/overlays/ovl_Demo_Shd.xml
   start_offset: 0x410
@@ -919,6 +923,10 @@ assets:
   xml_path: assets/xml/overlays/ovl_En_Sth.xml
   start_offset: 0xE70
   end_offset: 0x3E44
+- name: overlays/ovl_En_Zl1
+  xml_path: assets/xml/overlays/ovl_En_Zl1.xml
+  start_offset: 0x1A80
+  end_offset: 0x2A70
 - name: overlays/ovl_End_Title
   xml_path: assets/xml/overlays/ovl_End_Title.xml
   start_offset: 0x6E0

@@ -21,6 +21,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
+#include "assets/overlays/ovl_Demo_Kankyo/ovl_Demo_Kankyo.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:0 pal-1.1:0"
@@ -47,19 +48,6 @@ void DemoKankyo_DrawDoorOfTime(Actor* thisx, PlayState* play);
 void DemoKankyo_DrawLightPlane(Actor* thisx, PlayState* play);
 void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play);
 void DemoKankyo_DrawSparkles(Actor* thisx, PlayState* play);
-
-// adult warp songs cutscenes
-extern CutsceneData gAdultWarpInCS[];
-extern CutsceneData gAdultWarpOutCS[];
-// adult warp songs cutscenes in temple of time
-extern CutsceneData gAdultWarpInToTCS[];
-extern CutsceneData gAdultWarpOutToTCS[];
-// child warp songs cutscenes
-extern CutsceneData gChildWarpInCS[];
-extern CutsceneData gChildWarpOutCS[];
-// child warp songs cutscenes in temple of time
-extern CutsceneData gChildWarpInToTCS[];
-extern CutsceneData gChildWarpOutToTCS[];
 
 ActorProfile Demo_Kankyo_Profile = {
     /**/ ACTOR_DEMO_KANKYO,

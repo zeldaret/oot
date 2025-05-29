@@ -391,6 +391,7 @@ assets/overlays/ovl_Boss_Dodongo/ovl_Boss_Dodongo.c
 assets/overlays/ovl_Boss_Ganon2/ovl_Boss_Ganon2.c
 assets/overlays/ovl_Boss_Ganon/ovl_Boss_Ganon.c
 assets/overlays/ovl_Boss_Sst/ovl_Boss_Sst.c
+assets/overlays/ovl_Demo_Kankyo/ovl_Demo_Kankyo.c
 assets/overlays/ovl_Demo_Shd/ovl_Demo_Shd.c
 assets/overlays/ovl_Effect_Ss_Fhg_Flash/ovl_Effect_Ss_Fhg_Flash.c
 assets/overlays/ovl_Elf_Msg2/ovl_Elf_Msg2.c
@@ -408,6 +409,7 @@ assets/overlays/ovl_En_Sda/ovl_En_Sda.c
 assets/overlays/ovl_En_Ssh/ovl_En_Ssh.c
 assets/overlays/ovl_En_Sth/ovl_En_Sth.c
 assets/overlays/ovl_En_St/ovl_En_St.c
+assets/overlays/ovl_En_Zl1/ovl_En_Zl1.c
 assets/overlays/ovl_file_choose/ovl_file_choose.c
 assets/overlays/ovl_Magic_Dark/ovl_Magic_Dark.c
 assets/overlays/ovl_Magic_Fire/ovl_Magic_Fire.c

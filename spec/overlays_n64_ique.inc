@@ -169,7 +169,7 @@ endseg
 beginseg
     name "ovl_En_Zl1"
     compress
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Zl1/z_en_zl1_cutscene_data.o"
+    include "$(BUILD_DIR)/assets/overlays/ovl_En_Zl1/ovl_En_Zl1.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Zl1/z_en_zl1.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Zl1/ovl_En_Zl1_reloc.o"
 endseg
@@ -776,14 +776,7 @@ endseg
 beginseg
     name "ovl_Demo_Kankyo"
     compress
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data1.o"
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data2.o"
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data3.o"
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data4.o"
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data5.o"
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data6.o"
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data7.o"
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data8.o"
+    include "$(BUILD_DIR)/assets/overlays/ovl_Demo_Kankyo/ovl_Demo_Kankyo.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Demo_Kankyo/ovl_Demo_Kankyo_reloc.o"
 endseg

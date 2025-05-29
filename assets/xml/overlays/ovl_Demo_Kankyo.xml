@@ -1,0 +1,12 @@
+<Root>
+    <File Name="ovl_Demo_Kankyo">
+        <Cutscene Name="gAdultWarpInCS" Offset="0x0"/>
+        <Cutscene Name="gAdultWarpOutCS" Offset="0x110"/>
+        <Cutscene Name="gAdultWarpInToTCS" Offset="0x290"/>
+        <Cutscene Name="gAdultWarpOutToTCS" Offset="0x3A0"/>
+        <Cutscene Name="gChildWarpInCS" Offset="0x4C0"/>
+        <Cutscene Name="gChildWarpOutCS" Offset="0x5F0"/>
+        <Cutscene Name="gChildWarpInToTCS" Offset="0x770"/>
+        <Cutscene Name="gChildWarpOutToTCS" Offset="0x8A0"/>
+    </File>
+</Root>

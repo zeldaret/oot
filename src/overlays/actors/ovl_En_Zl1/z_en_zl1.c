@@ -20,6 +20,7 @@
 #include "z64save.h"
 
 #include "assets/objects/object_zl1/object_zl1.h"
+#include "assets/overlays/ovl_En_Zl1/ovl_En_Zl1.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
@@ -36,8 +37,6 @@ void func_80B4B8B4(EnZl1* this, PlayState* play);
 void func_80B4BBC4(EnZl1* this, PlayState* play);
 void func_80B4BC78(EnZl1* this, PlayState* play);
 void func_80B4BF2C(EnZl1* this, PlayState* play);
-
-extern CutsceneData gTriforceCreationStartCs[];
 
 #include "z_en_zl1_camera_data.inc.c"
 
