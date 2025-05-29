@@ -387,6 +387,7 @@ assets/overlays/ovl_Arrow_Ice/ovl_Arrow_Ice.c
 assets/overlays/ovl_Arrow_Light/ovl_Arrow_Light.c
 assets/overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c
 assets/overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c
+assets/overlays/ovl_Bg_Toki_Swd/ovl_Bg_Toki_Swd.c
 assets/overlays/ovl_Bg_Treemouth/ovl_Bg_Treemouth.c
 assets/overlays/ovl_Boss_Dodongo/ovl_Boss_Dodongo.c
 assets/overlays/ovl_Boss_Ganon2/ovl_Boss_Ganon2.c

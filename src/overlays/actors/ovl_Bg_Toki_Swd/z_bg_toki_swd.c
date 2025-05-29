@@ -19,6 +19,7 @@
 #include "z64save.h"
 
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
+#include "assets/overlays/ovl_Bg_Toki_Swd/ovl_Bg_Toki_Swd.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -30,10 +31,6 @@ void BgTokiSwd_Draw(Actor* thisx, PlayState* play2);
 void func_808BAF40(BgTokiSwd* this, PlayState* play);
 void func_808BB0AC(BgTokiSwd* this, PlayState* play);
 void func_808BB128(BgTokiSwd* this, PlayState* play);
-
-extern CutsceneData gPullMasterSwordCs[];
-extern CutsceneData gPlaceMasterSwordCs[];
-extern CutsceneData gRevealMasterSwordCs[];
 
 ActorProfile Bg_Toki_Swd_Profile = {
     /**/ ACTOR_BG_TOKI_SWD,

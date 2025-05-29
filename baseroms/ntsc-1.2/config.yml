@@ -857,6 +857,10 @@ assets:
   xml_path: assets/xml/overlays/ovl_Bg_Jya_Cobra.xml
   start_offset: 0x1830
   end_offset: 0x18A8
+- name: overlays/ovl_Bg_Toki_Swd
+  xml_path: assets/xml/overlays/ovl_Bg_Toki_Swd.xml
+  start_offset: 0x490
+  end_offset: 0x1560
 - name: overlays/ovl_Bg_Treemouth
   xml_path: assets/xml/overlays/ovl_Bg_Treemouth.xml
   start_offset: 0x8F0
