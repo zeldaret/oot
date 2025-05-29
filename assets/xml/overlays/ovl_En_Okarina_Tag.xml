@@ -1,0 +1,6 @@
+<Root>
+    <File Name="ovl_En_Okarina_Tag">
+        <Cutscene Name="gWindmillSpinningFasterCs" Offset="0x0"/>
+        <Cutscene Name="gDoorOfTimeOpeningCs" Offset="0x170"/>
+    </File>
+</Root>

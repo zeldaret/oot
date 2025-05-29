@@ -407,6 +407,7 @@ assets/overlays/ovl_En_Holl/ovl_En_Holl.c
 assets/overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c
 assets/overlays/ovl_En_Kanban/ovl_En_Kanban.c
 assets/overlays/ovl_En_Mag/ovl_En_Mag.c
+assets/overlays/ovl_En_Okarina_Tag/ovl_En_Okarina_Tag.c
 assets/overlays/ovl_En_Sda/ovl_En_Sda.c
 assets/overlays/ovl_En_Ssh/ovl_En_Ssh.c
 assets/overlays/ovl_En_Sth/ovl_En_Sth.c

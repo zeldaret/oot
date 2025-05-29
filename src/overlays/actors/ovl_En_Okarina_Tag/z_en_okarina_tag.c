@@ -23,6 +23,7 @@
 
 #include "assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
+#include "assets/overlays/ovl_En_Okarina_Tag/ovl_En_Okarina_Tag.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
@@ -48,9 +49,6 @@ ActorProfile En_Okarina_Tag_Profile = {
     /**/ EnOkarinaTag_Update,
     /**/ NULL,
 };
-
-extern CutsceneData gWindmillSpinningFasterCs[];
-extern CutsceneData gDoorOfTimeOpeningCs[];
 
 void EnOkarinaTag_Destroy(Actor* thisx, PlayState* play) {
 }

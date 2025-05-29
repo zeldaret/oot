@@ -2398,7 +2398,7 @@ endseg
 beginseg
     name "ovl_En_Okarina_Tag"
     compress
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Okarina_Tag/z_en_okarina_tag_cutscene_data.o"
+    include "$(BUILD_DIR)/assets/overlays/ovl_En_Okarina_Tag/ovl_En_Okarina_Tag.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Okarina_Tag/z_en_okarina_tag.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Okarina_Tag/ovl_En_Okarina_Tag_reloc.o"
 endseg

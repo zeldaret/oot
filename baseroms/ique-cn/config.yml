@@ -918,6 +918,10 @@ assets:
   xml_path: assets/xml/overlays/ovl_En_Mag_ique.xml
   start_offset: 0x2D8C
   end_offset: 0x2E0C
+- name: overlays/ovl_En_Okarina_Tag
+  xml_path: assets/xml/overlays/ovl_En_Okarina_Tag.xml
+  start_offset: 0xAE0
+  end_offset: 0x13F0
 - name: overlays/ovl_En_Sda
   xml_path: assets/xml/overlays/ovl_En_Sda.xml
   start_offset: 0x1498

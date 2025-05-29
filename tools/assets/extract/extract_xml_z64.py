@@ -92,6 +92,7 @@ def create_file_resources(rescoll: ResourcesDescCollection, file: File):
             "ovl_Bg_Toki_Swd",
             "ovl_Bg_Treemouth",
             "ovl_Demo_Kankyo",
+            "ovl_En_Okarina_Tag",
             "ovl_En_Zl1",
             "ovl_file_choose",
         }:
