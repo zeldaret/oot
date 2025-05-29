@@ -20,6 +20,7 @@
 #include "z64save.h"
 
 #include "assets/objects/object_spot04_objects/object_spot04_objects.h"
+#include "assets/overlays/ovl_Bg_Treemouth/ovl_Bg_Treemouth.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
@@ -36,11 +37,6 @@ void BgTreemouth_DoNothing(BgTreemouth* this, PlayState* play);
 void func_808BC8B8(BgTreemouth* this, PlayState* play);
 void func_808BC9EC(BgTreemouth* this, PlayState* play);
 void func_808BCAF0(BgTreemouth* this, PlayState* play);
-
-extern CutsceneData gDekuTreeMeetingCs[];
-extern CutsceneData gDekuTreeChoiceCs[];
-extern CutsceneData gDekuTreeMouthOpeningCs[];
-extern CutsceneData gDekuTreeAskAgainCs[];
 
 ActorProfile Bg_Treemouth_Profile = {
     /**/ ACTOR_BG_TREEMOUTH,

@@ -850,6 +850,10 @@ assets:
   xml_path: assets/xml/overlays/ovl_Bg_Jya_Cobra.xml
   start_offset: 0x1850
   end_offset: 0x18C8
+- name: overlays/ovl_Bg_Treemouth
+  xml_path: assets/xml/overlays/ovl_Bg_Treemouth.xml
+  start_offset: 0x8F0
+  end_offset: 0x1460
 - name: overlays/ovl_Boss_Dodongo
   xml_path: assets/xml/overlays/ovl_Boss_Dodongo.xml
   start_offset: 0x61E8

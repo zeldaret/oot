@@ -1,0 +1,8 @@
+<Root>
+    <File Name="ovl_Bg_Treemouth">
+        <Cutscene Name="gDekuTreeMeetingCs" Offset="0x0"/>
+        <Cutscene Name="gDekuTreeChoiceCs" Offset="0x480"/>
+        <Cutscene Name="gDekuTreeMouthOpeningCs" Offset="0x700"/>
+        <Cutscene Name="gDekuTreeAskAgainCs" Offset="0x970"/>
+    </File>
+</Root>

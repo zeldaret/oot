@@ -89,6 +89,7 @@ def create_file_resources(rescoll: ResourcesDescCollection, file: File):
         # not that this is really a required long term feature as it's only relevant
         # for writing the source files (main .c/.h), not extracting
         if file.name.startswith("ovl_") and file.name not in {
+            "ovl_Bg_Treemouth",
             "ovl_Demo_Kankyo",
             "ovl_En_Zl1",
             "ovl_file_choose",

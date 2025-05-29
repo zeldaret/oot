@@ -844,7 +844,7 @@ endseg
 beginseg
     name "ovl_Bg_Treemouth"
     compress
-    include "$(BUILD_DIR)/src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth_cutscene_data.o"
+    include "$(BUILD_DIR)/assets/overlays/ovl_Bg_Treemouth/ovl_Bg_Treemouth.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth.o"
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Bg_Treemouth/ovl_Bg_Treemouth_reloc.o"
 endseg
