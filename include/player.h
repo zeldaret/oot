@@ -269,11 +269,10 @@ typedef enum PlayerDoorType {
     /*  3 */ PLAYER_DOORTYPE_FAKE
 } PlayerDoorType;
 
-typedef enum PlayerFacePart {
-    /* 0 */ PLAYER_FACEPART_EYES,
-    /* 1 */ PLAYER_FACEPART_MOUTH,
-    /* 2 */ PLAYER_FACEPART_MAX
-} PlayerFacePart;
+typedef struct PlayerFaceIndices {
+    /* 0x0 */ u8 eyeIndex;
+    /* 0x1 */ u8 mouthIndex;
+} PlayerFaceIndices; // size = 0x2
 
 typedef enum PlayerEyes {
     /* 0 */ PLAYER_EYES_OPEN,

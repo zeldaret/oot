@@ -970,7 +970,7 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
     return envHazard + 1;
 }
 
-u8 sPlayerFaces[PLAYER_FACE_MAX][PLAYER_FACEPART_MAX] = {
+PlayerFaceIndices sPlayerFaces[PLAYER_FACE_MAX] = {
     // The first 6 faces defined must be default blinking faces. See relevant code in `Player_UpdateCommon`.
     { PLAYER_EYES_OPEN, PLAYER_MOUTH_CLOSED },   // PLAYER_FACE_NEUTRAL
     { PLAYER_EYES_HALF, PLAYER_MOUTH_CLOSED },   // PLAYER_FACE_NEUTRAL_BLINKING_HALF
@@ -1093,7 +1093,7 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
 
     // If the eyes index provided by the animation is negative, use the value provided by the `face` argument instead
     if (eyesIndex < 0) {
-        eyesIndex = sPlayerFaces[face][PLAYER_FACEPART_EYES];
+        eyesIndex = sPlayerFaces[face].eyeIndex;
     }
 
 #ifndef AVOID_UB
@@ -1104,7 +1104,7 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
 
     // If the mouth index provided by the animation is negative, use the value provided by the `face` argument instead
     if (mouthIndex < 0) {
-        mouthIndex = sPlayerFaces[face][PLAYER_FACEPART_MOUTH];
+        mouthIndex = sPlayerFaces[face].mouthIndex;
     }
 
 #ifndef AVOID_UB
