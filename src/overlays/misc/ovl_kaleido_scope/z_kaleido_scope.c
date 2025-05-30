@@ -1657,12 +1657,12 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 }
 
 void KaleidoScope_DrawInfoPanel(PlayState* play) {
-    static void* D_8082AD54_toEquipTextTextures_[] =
+    static void* sToEquipTextTextures[] =
         LANGUAGE_ARRAY(gPauseToEquipJPNTex, gPauseToEquipENGTex, gPauseToEquipGERTex, gPauseToEquipFRATex);
-    static void* D_8082AD60_toDecideTextTextures_[] =
+    static void* sToDecideTextTextures[] =
         LANGUAGE_ARRAY(gPauseToDecideJPNTex, gPauseToDecideENGTex, gPauseToDecideGERTex, gPauseToDecideFRATex);
-    static void* D_8082AD6C_toPlayMelodyTextTextures_[] = LANGUAGE_ARRAY(
-        gPauseToPlayMelodyJPNTex, gPauseToPlayMelodyENGTex, gPauseToPlayMelodyGERTex, gPauseToPlayMelodyFRATex);
+    static void* sToPlayMelodyTextTextures[] = LANGUAGE_ARRAY(gPauseToPlayMelodyJPNTex, gPauseToPlayMelodyENGTex,
+                                                              gPauseToPlayMelodyGERTex, gPauseToPlayMelodyFRATex);
     static void* D_8082AD78_scrollLeftLabels_[][LANGUAGE_MAX] = {
         LANGUAGE_ARRAY(gPauseToEquipmentJPNTex, gPauseToEquipmentENGTex, gPauseToEquipmentGERTex,
                        gPauseToEquipmentFRATex),
@@ -1681,15 +1681,19 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         LANGUAGE_ARRAY(gPauseToSelectItemJPNTex, gPauseToSelectItemENGTex, gPauseToSelectItemGERTex,
                        gPauseToSelectItemFRATex),
     };
-    static u16 D_8082ADD8_toEquipTextWidth_[] = LANGUAGE_ARRAY(56, 56, 88, 80);
-    static u16 D_8082ADE0_toDecideTextWidth_[] = LANGUAGE_ARRAY(48, 64, 88, 72);
-    static u16 D_8082ADE8_toPlayMelodyTextWidth_[] = LANGUAGE_ARRAY(96, 80, 104, 112);
-    static s16 sCursorLeftRightSelectedPrimColors[][4] = {
+    static u16 sToEquipTextWidth[] = LANGUAGE_ARRAY(gPauseToEquipJPNTex_WIDTH, gPauseToEquipENGTex_WIDTH,
+                                                    gPauseToEquipGERTex_WIDTH, gPauseToEquipFRATex_WIDTH);
+    static u16 sToDecideTextWidth[] = LANGUAGE_ARRAY(gPauseToDecideJPNTex_WIDTH, gPauseToDecideENGTex_WIDTH,
+                                                     gPauseToDecideGERTex_WIDTH, gPauseToDecideFRATex_WIDTH);
+    static u16 sToPlayMelodyTextWidth[] =
+        LANGUAGE_ARRAY(gPauseToPlayMelodyJPNTex_WIDTH, gPauseToPlayMelodyENGTex_WIDTH, gPauseToPlayMelodyGERTex_WIDTH,
+                       gPauseToPlayMelodyFRATex_WIDTH);
+    static s16 sLRSelectedPrimColors[][4] = {
         { 180, 210, 255, 220 },
         { 100, 100, 150, 220 },
     };
-    static s16 sCursorLeftRightSelectedPrimTimer = 20;
-    static s16 sCursorLeftRightSelectedPrimState = 0;
+    static s16 sLRSelectedPrimTimer = 20;
+    static s16 sLRSelectedPrimState = 0;
     static s16 D_8082AE08[] = {
         10, 16, 16, 17, 12, 13, 18, 17, 17, 19, 13, 21, 20, 21, 14, 15, 15, 15, 11, 14,
     };
@@ -1707,10 +1711,10 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         12, // WORLD_MAP_POINT_KOKIRI_FOREST
         17, // WORLD_MAP_POINT_ZORAS_DOMAIN
     };
-    static s16 sCursorLeftRightSelectedPrimRed;
-    static s16 sCursorLeftRightSelectedPrimGreen;
-    static s16 sCursorLeftRightSelectedPrimBlue;
-    static s16 sCursorLeftRightSelectedPrimAlpha;
+    static s16 sLRSelectedPrimR;
+    static s16 sLRSelectedPrimG;
+    static s16 sLRSelectedPrimB;
+    static s16 sLRSelectedPrimA;
 
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 stepR;
@@ -1723,51 +1727,43 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 1676);
 
-    stepR = ABS(sCursorLeftRightSelectedPrimRed -
-                sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][0]) /
-            sCursorLeftRightSelectedPrimTimer;
-    stepG = ABS(sCursorLeftRightSelectedPrimGreen -
-                sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][1]) /
-            sCursorLeftRightSelectedPrimTimer;
-    stepB = ABS(sCursorLeftRightSelectedPrimBlue -
-                sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][2]) /
-            sCursorLeftRightSelectedPrimTimer;
-    stepA = ABS(sCursorLeftRightSelectedPrimAlpha -
-                sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][3]) /
-            sCursorLeftRightSelectedPrimTimer;
-    if (sCursorLeftRightSelectedPrimRed >= sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][0]) {
-        sCursorLeftRightSelectedPrimRed -= stepR;
+    stepR = ABS(sLRSelectedPrimR - sLRSelectedPrimColors[sLRSelectedPrimState][0]) / sLRSelectedPrimTimer;
+    stepG = ABS(sLRSelectedPrimG - sLRSelectedPrimColors[sLRSelectedPrimState][1]) / sLRSelectedPrimTimer;
+    stepB = ABS(sLRSelectedPrimB - sLRSelectedPrimColors[sLRSelectedPrimState][2]) / sLRSelectedPrimTimer;
+    stepA = ABS(sLRSelectedPrimA - sLRSelectedPrimColors[sLRSelectedPrimState][3]) / sLRSelectedPrimTimer;
+    if (sLRSelectedPrimR >= sLRSelectedPrimColors[sLRSelectedPrimState][0]) {
+        sLRSelectedPrimR -= stepR;
     } else {
-        sCursorLeftRightSelectedPrimRed += stepR;
+        sLRSelectedPrimR += stepR;
     }
-    if (sCursorLeftRightSelectedPrimGreen >= sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][1]) {
-        sCursorLeftRightSelectedPrimGreen -= stepG;
+    if (sLRSelectedPrimG >= sLRSelectedPrimColors[sLRSelectedPrimState][1]) {
+        sLRSelectedPrimG -= stepG;
     } else {
-        sCursorLeftRightSelectedPrimGreen += stepG;
+        sLRSelectedPrimG += stepG;
     }
-    if (sCursorLeftRightSelectedPrimBlue >= sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][2]) {
-        sCursorLeftRightSelectedPrimBlue -= stepB;
+    if (sLRSelectedPrimB >= sLRSelectedPrimColors[sLRSelectedPrimState][2]) {
+        sLRSelectedPrimB -= stepB;
     } else {
-        sCursorLeftRightSelectedPrimBlue += stepB;
+        sLRSelectedPrimB += stepB;
     }
-    if (sCursorLeftRightSelectedPrimAlpha >= sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][3]) {
-        sCursorLeftRightSelectedPrimAlpha -= stepA;
+    if (sLRSelectedPrimA >= sLRSelectedPrimColors[sLRSelectedPrimState][3]) {
+        sLRSelectedPrimA -= stepA;
     } else {
-        sCursorLeftRightSelectedPrimAlpha += stepA;
+        sLRSelectedPrimA += stepA;
     }
 
-    sCursorLeftRightSelectedPrimTimer--;
-    if (sCursorLeftRightSelectedPrimTimer == 0) {
-        sCursorLeftRightSelectedPrimRed = sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][0];
-        sCursorLeftRightSelectedPrimGreen = sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][1];
-        sCursorLeftRightSelectedPrimBlue = sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][2];
-        sCursorLeftRightSelectedPrimAlpha = sCursorLeftRightSelectedPrimColors[sCursorLeftRightSelectedPrimState][3];
-        sCursorLeftRightSelectedPrimTimer = R_PAUSE_CURSOR_L_R_SELECTED_PRIM_TIMER;
-        sCursorLeftRightSelectedPrimState ^= 1;
+    sLRSelectedPrimTimer--;
+    if (sLRSelectedPrimTimer == 0) {
+        sLRSelectedPrimR = sLRSelectedPrimColors[sLRSelectedPrimState][0];
+        sLRSelectedPrimG = sLRSelectedPrimColors[sLRSelectedPrimState][1];
+        sLRSelectedPrimB = sLRSelectedPrimColors[sLRSelectedPrimState][2];
+        sLRSelectedPrimA = sLRSelectedPrimColors[sLRSelectedPrimState][3];
+        sLRSelectedPrimTimer = R_PAUSE_CURSOR_L_R_SELECTED_PRIM_TIMER;
+        sLRSelectedPrimState ^= 1;
     }
 
     y = pauseCtx->infoPanelOffsetY - 76;
-    for (j = 0, i = 0; i < 7; i++, j += 4) {
+    for (j = 0, i = 0; i < INFO_PANEL_QUAD_MAX; i++, j += 4) {
         pauseCtx->infoPanelVtx[j + 0].v.ob[0] = pauseCtx->infoPanelVtx[j + 2].v.ob[0] = -72;
 
         pauseCtx->infoPanelVtx[j + 1].v.ob[0] = pauseCtx->infoPanelVtx[j + 3].v.ob[0] = 0;
@@ -1787,6 +1783,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
         pauseCtx->infoPanelVtx[j + 1].v.tc[0] = pauseCtx->infoPanelVtx[j + 3].v.tc[0] = 72 * (1 << 5);
 
+        // 24 = gInfoPanelBgLeftTex_HEIGHT, gInfoPanelBgRightTex_HEIGHT, gQuestIconGoldSkulltulaTex_HEIGHT
         pauseCtx->infoPanelVtx[j + 2].v.tc[1] = pauseCtx->infoPanelVtx[j + 3].v.tc[1] = 24 * (1 << 5);
 
         pauseCtx->infoPanelVtx[j + 0].v.cn[0] = pauseCtx->infoPanelVtx[j + 2].v.cn[0] =
@@ -1800,10 +1797,12 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             pauseCtx->infoPanelVtx[j + 1].v.cn[3] = pauseCtx->infoPanelVtx[j + 3].v.cn[3] = pauseCtx->alpha;
     }
 
+    // INFO_PANEL_QUAD_BG_RIGHT
     pauseCtx->infoPanelVtx[4].v.ob[0] = pauseCtx->infoPanelVtx[6].v.ob[0] = pauseCtx->infoPanelVtx[0].v.ob[0] + 72;
 
     pauseCtx->infoPanelVtx[5].v.ob[0] = pauseCtx->infoPanelVtx[7].v.ob[0] = pauseCtx->infoPanelVtx[4].v.ob[0] + 72;
 
+    // INFO_PANEL_QUAD_BUTTON_LEFT
     if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
         pauseCtx->infoPanelVtx[8].v.ob[0] = pauseCtx->infoPanelVtx[10].v.ob[0] = R_PAUSE_CURSOR_LEFT_X;
 
@@ -1824,33 +1823,35 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             pauseCtx->infoPanelVtx[8].v.ob[1] - 26;
     }
 
+    // INFO_PANEL_QUAD_BUTTON_RIGHT
     if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
         pauseCtx->infoPanelVtx[12].v.ob[0] = pauseCtx->infoPanelVtx[14].v.ob[0] = R_PAUSE_CURSOR_RIGHT_X;
 
         pauseCtx->infoPanelVtx[13].v.ob[0] = pauseCtx->infoPanelVtx[15].v.ob[0] =
-            pauseCtx->infoPanelVtx[12].v.ob[0] + 24;
+            pauseCtx->infoPanelVtx[12].v.ob[0] + INFO_PANEL_QUAD_BUTTON_LR_WIDTH;
 
         pauseCtx->infoPanelVtx[12].v.ob[1] = pauseCtx->infoPanelVtx[13].v.ob[1] = R_PAUSE_CURSOR_LEFT_RIGHT_Y;
 
         pauseCtx->infoPanelVtx[14].v.ob[1] = pauseCtx->infoPanelVtx[15].v.ob[1] =
-            pauseCtx->infoPanelVtx[12].v.ob[1] - 32;
+            pauseCtx->infoPanelVtx[12].v.ob[1] - INFO_PANEL_QUAD_BUTTON_LR_HEIGHT;
     } else {
         pauseCtx->infoPanelVtx[12].v.ob[0] = pauseCtx->infoPanelVtx[14].v.ob[0] = R_PAUSE_CURSOR_RIGHT_X + 3;
 
         pauseCtx->infoPanelVtx[13].v.ob[0] = pauseCtx->infoPanelVtx[15].v.ob[0] =
-            pauseCtx->infoPanelVtx[12].v.ob[0] + 18;
+            pauseCtx->infoPanelVtx[12].v.ob[0] + (INFO_PANEL_QUAD_BUTTON_LR_WIDTH - 2 * 3);
 
         pauseCtx->infoPanelVtx[12].v.ob[1] = pauseCtx->infoPanelVtx[13].v.ob[1] = R_PAUSE_CURSOR_LEFT_RIGHT_Y - 3;
 
         pauseCtx->infoPanelVtx[14].v.ob[1] = pauseCtx->infoPanelVtx[15].v.ob[1] =
-            pauseCtx->infoPanelVtx[12].v.ob[1] - 26;
+            pauseCtx->infoPanelVtx[12].v.ob[1] - (INFO_PANEL_QUAD_BUTTON_LR_HEIGHT - 2 * 3);
     }
 
+    // INFO_PANEL_QUAD_BUTTON_LEFT, INFO_PANEL_QUAD_BUTTON_RIGHT
     pauseCtx->infoPanelVtx[9].v.tc[0] = pauseCtx->infoPanelVtx[11].v.tc[0] = pauseCtx->infoPanelVtx[13].v.tc[0] =
-        pauseCtx->infoPanelVtx[15].v.tc[0] = 24 * (1 << 5);
+        pauseCtx->infoPanelVtx[15].v.tc[0] = INFO_PANEL_QUAD_BUTTON_LR_TEX_WIDTH * (1 << 5);
 
     pauseCtx->infoPanelVtx[10].v.tc[1] = pauseCtx->infoPanelVtx[11].v.tc[1] = pauseCtx->infoPanelVtx[14].v.tc[1] =
-        pauseCtx->infoPanelVtx[15].v.tc[1] = 32 * (1 << 5);
+        pauseCtx->infoPanelVtx[15].v.tc[1] = INFO_PANEL_QUAD_BUTTON_LR_TEX_HEIGHT * (1 << 5);
 
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
@@ -1862,37 +1863,41 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 90, 100, 130, 255);
     gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[0], 16, 0);
 
-    gSPDisplayList(POLY_OPA_DISP++, gItemNamePanelDL);
+    // Draw INFO_PANEL_QUAD_BG_LEFT, INFO_PANEL_QUAD_BG_RIGHT
+    gSPDisplayList(POLY_OPA_DISP++, gInfoPanelBgDL);
 
     if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
-        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sCursorLeftRightSelectedPrimRed, sCursorLeftRightSelectedPrimGreen,
-                        sCursorLeftRightSelectedPrimBlue, sCursorLeftRightSelectedPrimAlpha);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sLRSelectedPrimR, sLRSelectedPrimG, sLRSelectedPrimB, sLRSelectedPrimA);
     }
 
+    // Draw INFO_PANEL_QUAD_BUTTON_LEFT
     gSPDisplayList(POLY_OPA_DISP++, gLButtonIconDL);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 210, 255, 220);
 
     if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
-        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sCursorLeftRightSelectedPrimRed, sCursorLeftRightSelectedPrimGreen,
-                        sCursorLeftRightSelectedPrimBlue, sCursorLeftRightSelectedPrimAlpha);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sLRSelectedPrimR, sLRSelectedPrimG, sLRSelectedPrimB, sLRSelectedPrimA);
     }
 
+    // Draw INFO_PANEL_QUAD_BUTTON_RIGHT
     gSPDisplayList(POLY_OPA_DISP++, gRButtonIconDL);
 
     if (pauseCtx->cursorSpecialPos != 0) {
-        j = (pauseCtx->cursorSpecialPos - 8) * 4;
+        j = (pauseCtx->cursorSpecialPos - PAUSE_CURSOR_PAGE_LEFT + INFO_PANEL_QUAD_BUTTON_LEFT) * 4;
         pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->infoPanelVtx[j].v.ob[0];
         pauseCtx->cursorVtx[0].v.ob[1] = pauseCtx->infoPanelVtx[j].v.ob[1];
         KaleidoScope_DrawCursor(play, pauseCtx->pageIndex);
     }
 
+    // INFO_PANEL_QUAD_INFO_ICON
     y = pauseCtx->infoPanelOffsetY - 80;
     pauseCtx->infoPanelVtx[16].v.ob[1] = pauseCtx->infoPanelVtx[17].v.ob[1] = y;
 
-    pauseCtx->infoPanelVtx[18].v.ob[1] = pauseCtx->infoPanelVtx[19].v.ob[1] = pauseCtx->infoPanelVtx[16].v.ob[1] - 16;
+    pauseCtx->infoPanelVtx[18].v.ob[1] = pauseCtx->infoPanelVtx[19].v.ob[1] =
+        pauseCtx->infoPanelVtx[16].v.ob[1] - INFO_PANEL_QUAD_INFO_ICON_HEIGHT;
 
-    pauseCtx->infoPanelVtx[18].v.tc[1] = pauseCtx->infoPanelVtx[19].v.tc[1] = 16 * (1 << 5);
+    pauseCtx->infoPanelVtx[18].v.tc[1] = pauseCtx->infoPanelVtx[19].v.tc[1] =
+        INFO_PANEL_QUAD_INFO_ICON_TEX_HEIGHT * (1 << 5);
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
@@ -1914,12 +1919,13 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
              (pauseCtx->mainState <= PAUSE_MAIN_STATE_EQUIP_CHANGED)) ||
             (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) {
 
+            // INFO_PANEL_QUAD_INFO_ICON
             pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = -63;
 
             pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
-                pauseCtx->infoPanelVtx[16].v.ob[0] + 128;
+                pauseCtx->infoPanelVtx[16].v.ob[0] + ITEM_NAME_TEX_WIDTH;
 
-            pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 128 * (1 << 5);
+            pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = ITEM_NAME_TEX_WIDTH * (1 << 5);
 
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[16], 4, 0);
 
@@ -1955,6 +1961,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             if (GET_GS_FLAGS(D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]) ==
                 gAreaGsFlags[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]]) {
 
+                // INFO_PANEL_QUAD_HAVE_ALL_GS
                 pauseCtx->infoPanelVtx[24].v.ob[0] = pauseCtx->infoPanelVtx[26].v.ob[0] = -74;
 
                 pauseCtx->infoPanelVtx[25].v.ob[0] = pauseCtx->infoPanelVtx[27].v.ob[0] =
@@ -1966,7 +1973,8 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 pauseCtx->infoPanelVtx[26].v.ob[1] = pauseCtx->infoPanelVtx[27].v.ob[1] =
                     pauseCtx->infoPanelVtx[24].v.ob[1] - 19;
 
-                pauseCtx->infoPanelVtx[25].v.tc[0] = pauseCtx->infoPanelVtx[27].v.tc[0] = 24 * (1 << 5);
+                pauseCtx->infoPanelVtx[25].v.tc[0] = pauseCtx->infoPanelVtx[27].v.tc[0] =
+                    gQuestIconGoldSkulltulaTex_WIDTH * (1 << 5);
 
                 gDPPipeSync(POLY_OPA_DISP++);
                 gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[24], 4, 0);
@@ -1982,6 +1990,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         }
     } else if ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) || (pauseCtx->mainState == PAUSE_MAIN_STATE_EQUIP_CHANGED) ||
                (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) {
+        // INFO_PANEL_QUAD_INFO_TEXT
         pauseCtx->infoPanelVtx[20].v.ob[1] = pauseCtx->infoPanelVtx[21].v.ob[1] = y;
 
         pauseCtx->infoPanelVtx[22].v.ob[1] = pauseCtx->infoPanelVtx[23].v.ob[1] =
@@ -1992,33 +2001,37 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[16], 8, 0);
 
         if (pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) {
+            // INFO_PANEL_QUAD_INFO_ICON
             pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
-                R_KALEIDO_UNK5(gSaveContext.language);
+                R_PAUSE_INFO_PANEL_ICON_SAVE_PROMPT_X(gSaveContext.language);
 
             pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
-                pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
+                pauseCtx->infoPanelVtx[16].v.ob[0] + gABtnSymbolTex_WIDTH;
 
+            // INFO_PANEL_QUAD_INFO_TEXT
             pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
-                pauseCtx->infoPanelVtx[16].v.ob[0] + R_KALEIDO_UNK2(gSaveContext.language);
+                pauseCtx->infoPanelVtx[16].v.ob[0] + R_PAUSE_INFO_PANEL_TEXT_X(gSaveContext.language);
 
             pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
-                pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADE0_toDecideTextWidth_[gSaveContext.language];
+                pauseCtx->infoPanelVtx[20].v.ob[0] + sToDecideTextWidth[gSaveContext.language];
 
-            pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 24 * (1 << 5);
+            // INFO_PANEL_QUAD_INFO_ICON
+            pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = gABtnSymbolTex_WIDTH * (1 << 5);
 
+            // INFO_PANEL_QUAD_INFO_TEXT
             pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
-                D_8082ADE0_toDecideTextWidth_[gSaveContext.language] << 5;
+                sToDecideTextWidth[gSaveContext.language] << 5;
 
             gSPDisplayList(POLY_OPA_DISP++, gAButtonIconDL);
 
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
-            POLY_OPA_DISP =
-                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082AD60_toDecideTextTextures_[gSaveContext.language],
-                                            D_8082ADE0_toDecideTextWidth_[gSaveContext.language], 16, 4);
+            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sToDecideTextTextures[gSaveContext.language],
+                                                        sToDecideTextWidth[gSaveContext.language], 16, 4);
         } else if (pauseCtx->cursorSpecialPos != 0) {
             if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
+                // INFO_PANEL_QUAD_INFO_ICON
                 pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = -63;
 
                 pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
@@ -2041,31 +2054,35 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             }
         } else {
             if ((u32)pauseCtx->pageIndex == PAUSE_ITEM) {
+                // INFO_PANEL_QUAD_INFO_ICON
                 pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
-                    R_KALEIDO_UNK1(gSaveContext.language);
+                    R_PAUSE_INFO_PANEL_ICON_C_ITEM_X(gSaveContext.language);
 
                 pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
-                    pauseCtx->infoPanelVtx[16].v.ob[0] + 48;
+                    pauseCtx->infoPanelVtx[16].v.ob[0] + gCBtnSymbolsTex_WIDTH;
 
+                // INFO_PANEL_QUAD_INFO_TEXT
                 pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
-                    pauseCtx->infoPanelVtx[16].v.ob[0] + R_KALEIDO_UNK4(gSaveContext.language);
+                    pauseCtx->infoPanelVtx[16].v.ob[0] + R_PAUSE_INFO_PANEL_TEXT_C_ITEM_X(gSaveContext.language);
 
                 pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
-                    pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADD8_toEquipTextWidth_[gSaveContext.language];
+                    pauseCtx->infoPanelVtx[20].v.ob[0] + sToEquipTextWidth[gSaveContext.language];
 
-                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 48 * (1 << 5);
+                // INFO_PANEL_QUAD_INFO_ICON
+                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] =
+                    gCBtnSymbolsTex_WIDTH * (1 << 5);
 
+                // INFO_PANEL_QUAD_INFO_TEXT
                 pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
-                    D_8082ADD8_toEquipTextWidth_[gSaveContext.language] << 5;
+                    sToEquipTextWidth[gSaveContext.language] << 5;
 
                 gSPDisplayList(POLY_OPA_DISP++, gCButtonIconsDL);
 
                 gDPPipeSync(POLY_OPA_DISP++);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
-                POLY_OPA_DISP =
-                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082AD54_toEquipTextTextures_[gSaveContext.language],
-                                                D_8082ADD8_toEquipTextWidth_[gSaveContext.language], 16, 4);
+                POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sToEquipTextTextures[gSaveContext.language],
+                                                            sToEquipTextWidth[gSaveContext.language], 16, 4);
             } else if ((pauseCtx->pageIndex == PAUSE_MAP) && sInDungeonScene) {
 
             } else if ((pauseCtx->pageIndex == PAUSE_QUEST) &&
@@ -2074,14 +2091,16 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 if (pauseCtx->namedItem != PAUSE_ITEM_NONE) {
                     // The cursor is on a learned song
 
+                    // INFO_PANEL_QUAD_INFO_ICON
                     pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
-                        R_KALEIDO_UNK3(gSaveContext.language);
+                        R_PAUSE_INFO_PANEL_ICON_PLAY_SONG_X(gSaveContext.language);
 
                     pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                         pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
 
+                    // INFO_PANEL_QUAD_INFO_TEXT
                     pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
-                        pauseCtx->infoPanelVtx[16].v.ob[0] + R_KALEIDO_UNK2(gSaveContext.language);
+                        pauseCtx->infoPanelVtx[16].v.ob[0] + R_PAUSE_INFO_PANEL_TEXT_X(gSaveContext.language);
 
 #if OOT_PAL
                     if (gSaveContext.language == LANGUAGE_GER) {
@@ -2091,12 +2110,15 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 #endif
 
                     pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
-                        pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADE8_toPlayMelodyTextWidth_[gSaveContext.language];
+                        pauseCtx->infoPanelVtx[20].v.ob[0] + sToPlayMelodyTextWidth[gSaveContext.language];
 
-                    pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 24 * (1 << 5);
+                    // INFO_PANEL_QUAD_INFO_ICON
+                    pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] =
+                        gABtnSymbolTex_WIDTH * (1 << 5);
 
+                    // INFO_PANEL_QUAD_INFO_TEXT
                     pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
-                        D_8082ADE8_toPlayMelodyTextWidth_[gSaveContext.language] << 5;
+                        sToPlayMelodyTextWidth[gSaveContext.language] << 5;
 
                     gSPDisplayList(POLY_OPA_DISP++, gAButtonIconDL);
 
@@ -2104,35 +2126,39 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
                     POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(
-                        POLY_OPA_DISP, D_8082AD6C_toPlayMelodyTextTextures_[gSaveContext.language],
-                        D_8082ADE8_toPlayMelodyTextWidth_[gSaveContext.language], 16, 4);
+                        POLY_OPA_DISP, sToPlayMelodyTextTextures[gSaveContext.language],
+                        sToPlayMelodyTextWidth[gSaveContext.language], INFO_PANEL_QUAD_INFO_TEXT_TEX_HEIGHT, 4);
                 }
             } else if (pauseCtx->pageIndex == PAUSE_EQUIP) {
+                // INFO_PANEL_QUAD_INFO_ICON
                 pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
-                    R_KALEIDO_UNK6(gSaveContext.language);
+                    R_PAUSE_INFO_PANEL_ICON_EQUIP_X(gSaveContext.language);
 
                 pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
                     pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
 
+                // INFO_PANEL_QUAD_INFO_TEXT
                 pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
-                    pauseCtx->infoPanelVtx[16].v.ob[0] + R_KALEIDO_UNK2(gSaveContext.language);
+                    pauseCtx->infoPanelVtx[16].v.ob[0] + R_PAUSE_INFO_PANEL_TEXT_X(gSaveContext.language);
 
                 pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
-                    pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADD8_toEquipTextWidth_[gSaveContext.language];
+                    pauseCtx->infoPanelVtx[20].v.ob[0] + sToEquipTextWidth[gSaveContext.language];
 
-                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 24 * (1 << 5);
+                // INFO_PANEL_QUAD_INFO_ICON
+                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] =
+                    gABtnSymbolTex_WIDTH * (1 << 5);
 
+                // INFO_PANEL_QUAD_INFO_TEXT
                 pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
-                    D_8082ADD8_toEquipTextWidth_[gSaveContext.language] << 5;
+                    sToEquipTextWidth[gSaveContext.language] << 5;
 
                 gSPDisplayList(POLY_OPA_DISP++, gAButtonIconDL);
 
                 gDPPipeSync(POLY_OPA_DISP++);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
-                POLY_OPA_DISP =
-                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082AD54_toEquipTextTextures_[gSaveContext.language],
-                                                D_8082ADD8_toEquipTextWidth_[gSaveContext.language], 16, 4);
+                POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sToEquipTextTextures[gSaveContext.language],
+                                                            sToEquipTextWidth[gSaveContext.language], 16, 4);
             }
         }
     }
@@ -3365,7 +3391,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->questVtx[k + 3].v.cn[3] = pauseCtx->alpha;
     }
 
-    pauseCtx->infoPanelVtx = GRAPH_ALLOC(gfxCtx, 28 * sizeof(Vtx));
+    pauseCtx->infoPanelVtx = GRAPH_ALLOC(gfxCtx, (INFO_PANEL_QUAD_MAX * 4) * sizeof(Vtx));
 
     pauseCtx->promptPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_PROMPT_QUADS) * 4) * sizeof(Vtx));
     KaleidoScope_SetPageVertices(play, pauseCtx->promptPageVtx, VTX_PAGE_PROMPT, VTX_PAGE_PROMPT_QUADS);
