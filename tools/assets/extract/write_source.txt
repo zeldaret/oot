@@ -978,7 +978,6 @@ assets/textures/icon_item_dungeon_static/icon_item_dungeon_static.c
 assets/textures/icon_item_field_static/icon_item_field_static.c
 assets/textures/icon_item_gameover_static/icon_item_gameover_static.c
 assets/textures/icon_item_static/icon_item_static.c
-assets/textures/item_name_static/item_name_static.c
 assets/textures/kanji/kanji.c
 assets/textures/map_48x85_static/map_48x85_static.c
 assets/textures/map_grand_static/map_grand_static.c
