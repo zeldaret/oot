@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_goddess" Segment="6">
+        <Array Name="gGiMagicSpellDiamondVtx" Count="20" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiMagicSpellOrbVtx" Count="126" Offset="0x140">
+            <Vtx/>
+        </Array>
         <DList Name="gGiMagicSpellDiamondDL" Offset="0x0920"/>
         <DList Name="gGiDinsFireColorDL" Offset="0x09E0"/>
         <DList Name="gGiFaroresWindColorDL" Offset="0x0A00"/>

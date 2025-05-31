@@ -1,6 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_nuts" Segment="6">
+        <Array Name="gGiNutVtx" Count="169" Offset="0x400">
+            <Vtx/>
+        </Array>
         <DList Name="gGiNutDL" Offset="0x0E90"/>
     </File>
 </Root>

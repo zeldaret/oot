@@ -1,7 +1,13 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_hookshot" Segment="6">
+        <Array Name="gGiHookshotVtx" Count="117" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiHookshotDL" Offset="0x0750"/>
+        <Array Name="gGiLongshotVtx" Count="127" Offset="0xA50">
+            <Vtx/>
+        </Array>
         <DList Name="gGiLongshotDL" Offset="0x1240"/>
     </File>
 </Root>

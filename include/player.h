@@ -278,8 +278,8 @@ typedef enum PlayerEyes {
     /* 0 */ PLAYER_EYES_OPEN,
     /* 1 */ PLAYER_EYES_HALF,
     /* 2 */ PLAYER_EYES_CLOSED,
-    /* 3 */ PLAYER_EYES_LEFT,
-    /* 4 */ PLAYER_EYES_RIGHT,
+    /* 3 */ PLAYER_EYES_RIGHT,
+    /* 4 */ PLAYER_EYES_LEFT,
     /* 5 */ PLAYER_EYES_WIDE,
     /* 6 */ PLAYER_EYES_DOWN,
     /* 7 */ PLAYER_EYES_WINCING,
@@ -301,12 +301,12 @@ typedef enum PlayerFace {
     /*  3 */ PLAYER_FACE_NEUTRAL_2,                 // same as `PLAYER_FACE_NEUTRAL`
     /*  4 */ PLAYER_FACE_NEUTRAL_BLINKING_HALF_2,   // same as `PLAYER_FACE_NEUTRAL_BLINKING_HALF`
     /*  5 */ PLAYER_FACE_NEUTRAL_BLINKING_CLOSED_2, // same as `PLAYER_FACE_NEUTRAL_BLINKING_CLOSED`
-    /*  6 */ PLAYER_FACE_LOOK_RIGHT,                // eyes looking right and mouth closed
+    /*  6 */ PLAYER_FACE_LOOK_LEFT,                 // eyes looking left and mouth closed
     /*  7 */ PLAYER_FACE_SURPRISED,                 // wide eyes and grimacing mouth
     /*  8 */ PLAYER_FACE_HURT,                      // eyes wincing in pain and mouth open
     /*  9 */ PLAYER_FACE_GASP,                      // eyes and mouth open
-    /* 10 */ PLAYER_FACE_LOOK_LEFT,                 // eyes looking left and mouth closed
-    /* 11 */ PLAYER_FACE_LOOK_RIGHT_2,              // duplicate of `PLAYER_FACE_LOOK_RIGHT`
+    /* 10 */ PLAYER_FACE_LOOK_RIGHT,                // eyes looking right and mouth closed
+    /* 11 */ PLAYER_FACE_LOOK_LEFT_2,               // duplicate of `PLAYER_FACE_LOOK_LEFT`
     /* 12 */ PLAYER_FACE_EYES_CLOSED_MOUTH_OPEN,    // eyes closed and mouth open
     /* 13 */ PLAYER_FACE_OPENING,                   // eyes and mouth both halfway open
     /* 14 */ PLAYER_FACE_EYES_AND_MOUTH_OPEN,       // eyes and mouth open

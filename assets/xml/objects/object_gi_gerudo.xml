@@ -1,6 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_gerudo" Segment="6">
+        <Array Name="gGiGerudoCardVtx" Count="182" Offset="0x400">
+            <Vtx/>
+        </Array>
         <DList Name="gGiGerudoCardDL" Offset="0x0F60"/>
     </File>
 </Root>

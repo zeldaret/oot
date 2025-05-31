@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_glasses" Segment="6">
+        <Array Name="gGiLensVtx" Count="181" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiLensGlassVtx" Count="35" Offset="0xB50">
+            <Vtx/>
+        </Array>
         <DList Name="gGiLensDL" Offset="0x0D80"/>
         <DList Name="gGiLensGlassDL" Offset="0x1010"/>
     </File>

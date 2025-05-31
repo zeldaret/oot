@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_gloves" Segment="6">
+        <Array Name="gGiGauntletsVtx" Count="152" Offset="0x800">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiGauntletsPlateVtx" Count="52" Offset="0x1180">
+            <Vtx/>
+        </Array>
         <DList Name="gGiSilverGauntletsColorDL" Offset="0x14C0"/>
         <DList Name="gGiGoldenGauntletsColorDL" Offset="0x14E0"/>
         <DList Name="gGiSilverGauntletsPlateColorDL" Offset="0x1500"/>
