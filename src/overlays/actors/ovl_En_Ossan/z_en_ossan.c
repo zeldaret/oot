@@ -173,17 +173,10 @@ static s16 D_80AC8904[] = { 0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x00
 
 #if DEBUG_FEATURES
 static char* sShopkeeperPrintName[] = {
-    "コキリの店  ", // "Kokiri Shop"
-    "薬屋        ", // "Potion Shop"
-    "夜の店      ", // "Night Shop"
-    "路地裏の店  ", // "Back Alley Shop"
-    "盾の店      ", // "Shield Shop"
-    "大人の店    ", // "Adult Shop"
-    "タロンの店  ", // "Talon Shop"
-    "ゾーラの店  ", // "Zora Shop"
-    "ゴロン夜の店", // "Goron Night Shop"
-    "インゴーの店", // "Ingo Store"
-    "お面屋      ", // "Mask Shop"
+    T("コキリの店  ", "Kokiri Shop"),     T("薬屋        ", "Potion Shop"), T("夜の店      ", "Night Shop"),
+    T("路地裏の店  ", "Back Alley Shop"), T("盾の店      ", "Shield Shop"), T("大人の店    ", "Adult Shop"),
+    T("タロンの店  ", "Talon Shop"),      T("ゾーラの店  ", "Zora Shop"),   T("ゴロン夜の店", "Goron Night Shop"),
+    T("インゴーの店", "Ingo Store"),      T("お面屋      ", "Mask Shop"),
 };
 #endif
 
@@ -612,7 +605,8 @@ void EnOssan_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params > OSSAN_TYPE_MASK && this->actor.params < OSSAN_TYPE_KOKIRI) {
         Actor_Kill(&this->actor);
         PRINTF_COLOR_ERROR();
-        PRINTF("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
+        PRINTF(T("引数がおかしいよ(arg_data=%d)！！\n", "The arguments are strange (arg_data=%d)!!\n"),
+               this->actor.params);
         PRINTF_RST();
         ASSERT(0, "0", "../z_en_oB1.c", 1246);
         return;

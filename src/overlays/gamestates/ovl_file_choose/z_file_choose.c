@@ -22,6 +22,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64audio.h"
@@ -365,7 +366,7 @@ void FileSelect_InitModeUpdate(GameState* thisx) {
         this->nextTitleLabel = FS_TITLE_OPEN_FILE;
         PRINTF("Ｓｒａｍ Ｓｔａｒｔ─Ｌｏａｄ  》》》》》  ");
         Sram_VerifyAndLoadAllSaves(this, sramCtx);
-        PRINTF("終了！！！\n");
+        PRINTF(T("終了！！！\n", "End!!!\n"));
     }
 #else
     if (this->configMode == CM_FADE_IN_START) {
