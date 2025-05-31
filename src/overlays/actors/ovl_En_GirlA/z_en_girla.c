@@ -10,6 +10,7 @@
 #include "rand.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64draw.h"
 #include "z64play.h"
@@ -402,7 +403,7 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
     if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
         PRINTF_COLOR_ERROR();
-        PRINTF("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
+        PRINTF(T("バンクが無いよ！！(%s)\n", "There is no bank!! (%s)\n"), sShopItemDescriptions[params]);
         PRINTF_RST();
         ASSERT(0, "0", "../z_en_girlA.c", 1434);
         return;

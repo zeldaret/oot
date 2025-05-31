@@ -20,6 +20,7 @@
 #include "sys_matrix.h"
 #include "quake.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64effect.h"
@@ -143,8 +144,7 @@ s32 EnIshi_SnapToFloor(EnIshi* this, PlayState* play, f32 arg2) {
         return true;
     } else {
         PRINTF_COLOR_WARNING();
-        // "Failure attaching to ground"
-        PRINTF("地面に付着失敗(%s %d)\n", "../z_en_ishi.c", 388);
+        PRINTF(T("地面に付着失敗(%s %d)\n", "Failed to attach to ground (%s %d)\n"), "../z_en_ishi.c", 388);
         PRINTF_RST();
         return false;
     }
