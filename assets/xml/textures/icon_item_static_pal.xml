@@ -171,14 +171,14 @@
         <Texture Name="gABtnSymbolTex" OutName="a_button_symbol" Format="ia8" Width="24" Height="16" Offset="0x875C0"/>
         <Texture Name="gBBtnSymbolTex" OutName="b_button_symbol" Format="ia8" Width="24" Height="16" Offset="0x87740"/>
         <Texture Name="gCBtnSymbolsTex" OutName="c_button_symbols" Format="ia8" Width="48" Height="16" Offset="0x878C0"/>
-        <Texture Name="gNamePanelLeftTex" OutName="name_panel_left" Format="ia8" Width="72" Height="24" Offset="0x87BC0"/>
-        <Texture Name="gNamePanelRightTex" OutName="name_panel_right" Format="ia8" Width="72" Height="24" Offset="0x88280"/>
+        <Texture Name="gInfoPanelBgLeftTex" OutName="name_panel_left" Format="ia8" Width="72" Height="24" Offset="0x87BC0"/>
+        <Texture Name="gInfoPanelBgRightTex" OutName="name_panel_right" Format="ia8" Width="72" Height="24" Offset="0x88280"/>
         <Texture Name="gLButtonTex" OutName="l_button" Format="ia8" Width="24" Height="32" Offset="0x88940"/>
         <Texture Name="gRButtonTex" OutName="r_button" Format="ia8" Width="24" Height="32" Offset="0x88C40"/>
         <Texture Name="gUnknownJPNTex" OutName="unknown_jpn" Format="ia8" Width="80" Height="16" Offset="0x88F40"/>
         <Texture Name="gSongNoteTex" OutName="song_note" Format="ia8" Width="16" Height="24" Offset="0x89440"/>
         <Texture Name="gMagicArrowEquipEffectTex" OutName="magic_arrow_equip_effect" Format="ia8" Width="32" Height="32" Offset="0x895C0"/>
-        <DList Name="gItemNamePanelDL" Offset="0x899C0"/>
+        <DList Name="gInfoPanelBgDL" Offset="0x899C0"/>
         <DList Name="gLButtonIconDL" Offset="0x89A50"/>
         <DList Name="gRButtonIconDL" Offset="0x89AA0"/>
         <DList Name="gCButtonIconsDL" Offset="0x89AF0"/>
