@@ -6,10 +6,10 @@
 
 #include "z_eff_ss_solder_srch_ball.h"
 
-#include "z64bgcheck.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "bgcheck.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #define rUnused regs[1]
 

@@ -11,7 +11,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_shop_dungen/object_shop_dungen.h"
 

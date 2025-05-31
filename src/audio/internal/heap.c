@@ -1,7 +1,7 @@
 #include "alignment.h"
 #include "ultra64.h"
 #include "versions.h"
-#include "z64audio.h"
+#include "audio.h"
 
 void AudioHeap_InitSampleCaches(u32 persistentSampleCacheSize, u32 temporarySampleCacheSize);
 SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size);

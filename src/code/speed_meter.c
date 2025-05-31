@@ -9,8 +9,8 @@
 #include "speed_meter.h"
 #include "terminal.h"
 #include "zelda_arena.h"
-#include "z64game.h"
-#include "z64view.h"
+#include "game.h"
+#include "view.h"
 
 /**
  * How much time the audio update on the audio thread (`AudioThread_Update`) took in total, between scheduling the last

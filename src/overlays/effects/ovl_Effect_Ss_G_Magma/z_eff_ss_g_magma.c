@@ -8,8 +8,8 @@
 
 #include "libc64/qrand.h"
 #include "segmented_address.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

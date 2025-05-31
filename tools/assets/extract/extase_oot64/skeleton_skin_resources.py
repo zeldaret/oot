@@ -38,7 +38,7 @@ class SkinVertexArrayResource(CDataArrayResource):
         return f"SkinVertex {self.symbol_name}[]"
 
     def get_h_includes(self):
-        return ("z64skin.h",)
+        return ("skin.h",)
 
 
 class SkinTransformationArrayResource(CDataArrayResource):
@@ -58,7 +58,7 @@ class SkinTransformationArrayResource(CDataArrayResource):
         return f"SkinTransformation {self.symbol_name}[]"
 
     def get_h_includes(self):
-        return ("z64skin.h",)
+        return ("skin.h",)
 
 
 class SkinLimbModifArrayResource(CDataArrayResource):
@@ -132,7 +132,7 @@ class SkinLimbModifArrayResource(CDataArrayResource):
         return f"SkinLimbModif {self.symbol_name}[]"
 
     def get_h_includes(self):
-        return ("z64skin.h",)
+        return ("skin.h",)
 
 
 class SkinAnimatedLimbDataResource(CDataResource):
@@ -186,7 +186,7 @@ class SkinAnimatedLimbDataResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64skin.h",)
+        return ("skin.h",)
 
 
 class SkinLimbResource(CDataResource):
@@ -267,7 +267,7 @@ class SkinLimbResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64skin.h",)
+        return ("skin.h",)
 
 
 class SkinLimbsArrayResource(skeleton_resources.LimbsArrayResourceABC):

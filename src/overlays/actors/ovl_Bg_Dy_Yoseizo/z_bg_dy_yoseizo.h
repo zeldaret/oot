@@ -2,7 +2,7 @@
 #define Z_BG_DY_YOSEIZO_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 

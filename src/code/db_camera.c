@@ -10,14 +10,14 @@
 #include "regs.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64camera.h"
-#include "z64cutscene.h"
-#include "z64cutscene_spline.h"
-#include "z64debug.h"
-#include "z64debug_display.h"
-#include "z64olib.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "camera.h"
+#include "cutscene.h"
+#include "cutscene_spline.h"
+#include "debug.h"
+#include "debug_display.h"
+#include "olib.h"
+#include "play_state.h"
+#include "save.h"
 
 #define DEBUG_CAM_CONTROLLER_PORT 2
 

@@ -2,7 +2,7 @@
 #define Z_DOOR_SHUTTER_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 /**
  * Actor Parameters

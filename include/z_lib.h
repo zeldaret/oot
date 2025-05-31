@@ -3,7 +3,7 @@
 
 #include "stddef.h"
 #include "libu64/pad.h"
-#include "z64math.h"
+#include "z_math.h"
 #include "color.h"
 
 void Lib_MemSet(u8* dest, size_t len, u8 val);

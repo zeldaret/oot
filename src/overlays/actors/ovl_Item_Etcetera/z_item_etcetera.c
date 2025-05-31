@@ -10,10 +10,10 @@
 #include "libu64/debug.h"
 #include "printf.h"
 #include "rand.h"
-#include "z64draw.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "draw.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

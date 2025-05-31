@@ -5,9 +5,9 @@
 #include "terminal.h"
 #include "translation.h"
 #include "zelda_arena.h"
-#include "z64frame_advance.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "frame_advance.h"
+#include "effect.h"
+#include "play_state.h"
 
 EffectSsInfo sEffectSsInfo = { 0 }; // "EffectSS2Info"
 

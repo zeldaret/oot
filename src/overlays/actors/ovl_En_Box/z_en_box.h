@@ -2,7 +2,7 @@
 #define Z_EN_BOX_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #define ENBOX_TREASURE_FLAG_UNK_MIN 20
 #define ENBOX_TREASURE_FLAG_UNK_MAX 32

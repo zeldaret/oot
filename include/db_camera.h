@@ -2,8 +2,8 @@
 #define DB_CAMERA_H
 
 #include "ultra64.h"
-#include "z64cutscene.h"
-#include "z64math.h"
+#include "cutscene.h"
+#include "z_math.h"
 
 struct Camera;
 

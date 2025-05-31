@@ -1,5 +1,5 @@
 #include "z_demo_kankyo.h"
-#include "z64cutscene_commands.h"
+#include "cutscene_commands.h"
 
 // clang-format off
 CutsceneData gChildWarpInCS[] = {

@@ -1,5 +1,5 @@
 #include "ultra64.h"
-#include "z64math.h" // TODO: libultra should not have access to game-side headers
+#include "z_math.h" // TODO: libultra should not have access to game-side headers
 
 static const du P[] = {
     { 0x3FF00000, 0x00000000 }, { 0xBFC55554, 0xBC83656D }, { 0x3F8110ED, 0x3804C2A0 },

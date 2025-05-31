@@ -2,7 +2,7 @@
 #define Z_OCEFF_WIPE3_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct OceffWipe3;
 

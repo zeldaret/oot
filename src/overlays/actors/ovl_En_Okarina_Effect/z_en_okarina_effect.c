@@ -11,12 +11,12 @@
 #include "sequence.h"
 #include "terminal.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64cutscene_flags.h"
-#include "z64debug_display.h"
-#include "z64frame_advance.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "cutscene_flags.h"
+#include "debug_display.h"
+#include "frame_advance.h"
+#include "play_state.h"
+#include "save.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 

@@ -2,7 +2,7 @@
 #define Z_EN_RU1_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #include "overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"

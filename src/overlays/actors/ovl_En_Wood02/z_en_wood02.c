@@ -16,9 +16,9 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64skin_matrix.h"
+#include "play_state.h"
+#include "player.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/object_wood02/object_wood02.h"
 

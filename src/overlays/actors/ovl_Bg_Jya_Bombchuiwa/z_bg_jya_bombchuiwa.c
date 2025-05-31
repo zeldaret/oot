@@ -11,8 +11,8 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 #define FLAGS ACTOR_FLAG_ATTENTION_ENABLED

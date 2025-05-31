@@ -3,9 +3,9 @@
 #include "sequence.h"
 #include "versions.h"
 #include "z_locale.h"
-#include "z64environment.h"
-#include "z64save.h"
-#include "z64transition.h"
+#include "environment.h"
+#include "save.h"
+#include "transition.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"

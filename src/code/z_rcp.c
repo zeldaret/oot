@@ -5,7 +5,7 @@
 #include "letterbox.h"
 #include "main.h"
 #include "regs.h"
-#include "z64play.h"
+#include "play_state.h"
 
 Gfx sSetupDL[SETUPDL_MAX][6] = {
     {

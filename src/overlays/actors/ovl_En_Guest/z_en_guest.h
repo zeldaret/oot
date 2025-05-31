@@ -2,7 +2,7 @@
 #define Z_EN_GUEST_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnGuest;
 

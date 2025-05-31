@@ -19,10 +19,10 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ru2/object_ru2.h"
 

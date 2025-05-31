@@ -5,7 +5,7 @@
 #include "setup_state.h"
 #include "title_setup_state.h"
 #include "z_game_dlftbls.h"
-#include "z64play.h"
+#include "play_state.h"
 
 // Linker symbol declarations (used in the table below)
 #define DEFINE_GAMESTATE(typeName, enumName, name) DECLARE_OVERLAY_SEGMENT(name)

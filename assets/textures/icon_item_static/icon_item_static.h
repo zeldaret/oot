@@ -5,7 +5,7 @@
 #include "src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope.h"
 #include "tex_len.h"
 #include "versions.h"
-#include "z64interface.h"
+#include "interface.h"
 
 extern u64 gItemIconDekuStickTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];
 extern u64 gItemIconDekuNutTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];

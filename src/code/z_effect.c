@@ -1,9 +1,9 @@
 #include "gfx.h"
 #include "printf.h"
 #include "translation.h"
-#include "z64effect.h"
-#include "z64frame_advance.h"
-#include "z64play.h"
+#include "effect.h"
+#include "frame_advance.h"
+#include "play_state.h"
 
 EffectContext sEffectContext;
 

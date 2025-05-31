@@ -1,7 +1,7 @@
 #include "alignment.h"
 #include "array_count.h"
 #include "buffers.h"
-#include "z64audio.h"
+#include "audio.h"
 
 #include "assets/audio/sequence_sizes.h"
 #include "assets/audio/soundfont_sizes.h"

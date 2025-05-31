@@ -2,8 +2,8 @@
 #define Z_EN_PO_SISTERS_H
 
 #include "ultra64.h"
-#include "z64actor.h"
-#include "z64light.h"
+#include "actor.h"
+#include "light.h"
 
 struct EnPoSisters;
 

@@ -8,7 +8,7 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #define FLAGS 0
 

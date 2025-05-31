@@ -1,5 +1,5 @@
 #include "ultra64.h"
-#include "z64dma.h"
+#include "dma.h"
 #include "segment_symbols.h"
 #include "n64dd.h"
 

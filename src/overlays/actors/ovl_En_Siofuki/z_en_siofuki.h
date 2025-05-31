@@ -2,7 +2,7 @@
 #define Z_EN_SIOFUKI_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum EnSiofukiType {
     /* 0x00 */ EN_SIOFUKI_RAISING,
