@@ -294,9 +294,9 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
     webPos.x = this->dyna.actor.world.pos.x;
     webPos.y = this->dyna.actor.world.pos.y - 50.0f;
     webPos.z = this->dyna.actor.world.pos.z;
-    if (Player_IsBurningStickInRange(play, &webPos, 70.0f, 50.0f) != 0) {
-        this->dyna.actor.home.pos.x = player->meleeWeaponInfo[0].tip.x;
-        this->dyna.actor.home.pos.z = player->meleeWeaponInfo[0].tip.z;
+    if (Player_IsBurningStickInRange(play, &webPos, 70.0f, 50.0f)) {
+        this->dyna.actor.home.pos.x = MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->x;
+        this->dyna.actor.home.pos.z = MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->z;
         BgYdanSp_BurnWeb(this, play);
         return;
     }
@@ -412,10 +412,10 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, PlayState* play) {
         this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, play);
     } else if (player->heldItemAction == PLAYER_IA_DEKU_STICK && player->unk_860 != 0) {
-        Actor_WorldToActorCoords(&this->dyna.actor, &sp30, &player->meleeWeaponInfo[0].tip);
+        Actor_WorldToActorCoords(&this->dyna.actor, &sp30, MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0]));
         if (fabsf(sp30.x) < 100.0f && sp30.z < 1.0f && sp30.y < 200.0f) {
             OnePointCutscene_Init(play, 3020, 40, &this->dyna.actor, CAM_ID_MAIN);
-            Math_Vec3f_Copy(&this->dyna.actor.home.pos, &player->meleeWeaponInfo[0].tip);
+            Math_Vec3f_Copy(&this->dyna.actor.home.pos, MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0]));
             BgYdanSp_BurnWeb(this, play);
         }
     }
