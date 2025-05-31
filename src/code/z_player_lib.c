@@ -984,12 +984,12 @@ PlayerFaceIndices sPlayerFaces[PLAYER_FACE_MAX] = {
     { PLAYER_EYES_CLOSED, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_NEUTRAL_BLINKING_CLOSED_2
 
     // The rest of these faces go unused. Face data encoded within animations handles all other faces.
-    { PLAYER_EYES_RIGHT, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_LOOK_RIGHT
+    { PLAYER_EYES_LEFT, PLAYER_MOUTH_CLOSED },  // PLAYER_FACE_LOOK_LEFT
     { PLAYER_EYES_WIDE, PLAYER_MOUTH_HALF },    // PLAYER_FACE_SURPRISED
     { PLAYER_EYES_WINCING, PLAYER_MOUTH_OPEN }, // PLAYER_FACE_HURT
     { PLAYER_EYES_OPEN, PLAYER_MOUTH_OPEN },    // PLAYER_FACE_GASP
-    { PLAYER_EYES_LEFT, PLAYER_MOUTH_CLOSED },  // PLAYER_FACE_LOOK_LEFT
-    { PLAYER_EYES_RIGHT, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_LOOK_RIGHT_2
+    { PLAYER_EYES_RIGHT, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_LOOK_RIGHT
+    { PLAYER_EYES_LEFT, PLAYER_MOUTH_CLOSED },  // PLAYER_FACE_LOOK_LEFT_2
     { PLAYER_EYES_CLOSED, PLAYER_MOUTH_OPEN },  // PLAYER_FACE_EYES_CLOSED_MOUTH_OPEN
     { PLAYER_EYES_HALF, PLAYER_MOUTH_HALF },    // PLAYER_FACE_OPENING
     { PLAYER_EYES_OPEN, PLAYER_MOUTH_OPEN },    // PLAYER_FACE_EYES_AND_MOUTH_OPEN
@@ -1007,8 +1007,8 @@ void* sEyeTextures[PLAYER_EYES_MAX] = {
     gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
     gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
     gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
-    gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
     gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
+    gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
     gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
     gLinkAdultEyesDownTex,    // PLAYER_EYES_DOWN
     gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
@@ -1027,8 +1027,8 @@ void* sEyeTextures[][PLAYER_EYES_MAX] = {
         gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
         gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
         gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
-        gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
         gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
+        gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
         gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
         gLinkAdultEyesDownTex,    // PLAYER_EYES_DOWN
         gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
@@ -1037,8 +1037,14 @@ void* sEyeTextures[][PLAYER_EYES_MAX] = {
         gLinkChildEyesOpenTex,    // PLAYER_EYES_OPEN
         gLinkChildEyesHalfTex,    // PLAYER_EYES_HALF
         gLinkChildEyesClosedfTex, // PLAYER_EYES_CLOSED
-        gLinkChildEyesLeftTex,    // PLAYER_EYES_LEFT
-        gLinkChildEyesRightTex,   // PLAYER_EYES_RIGHT
+        /*
+        Note `PLAYER_EYES_RIGHT` corresponds to the "left" eyes texture, and vice-versa with the "right" eyes textures.
+        This is because on the textures Link appears to look left/right as if facing outwards the screen,
+        but the image is mirrored by the child Link model's UVs, reversing the direction actually looked in,
+        which results in-game in the correct eyes direction.
+        */
+        gLinkChildEyesLeftTex,    // PLAYER_EYES_RIGHT
+        gLinkChildEyesRightTex,   // PLAYER_EYES_LEFT
         gLinkChildEyesWideTex,    // PLAYER_EYES_WIDE
         gLinkChildEyesDownTex,    // PLAYER_EYES_DOWN
         gLinkChildEyesWincingTex, // PLAYER_EYES_WINCING
