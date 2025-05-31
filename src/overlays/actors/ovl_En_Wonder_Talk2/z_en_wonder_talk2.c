@@ -9,6 +9,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64debug_display.h"
 #include "z64item.h"
 #include "z64play.h"
@@ -48,8 +49,8 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
     EnWonderTalk2* this = (EnWonderTalk2*)thisx;
 
     PRINTF("\n\n");
-    // "Transparent message"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 透明メッセージ君 ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Transparent message ☆☆☆☆☆ %x\n") VT_RST,
+           this->actor.params);
     this->baseMsgId = PARAMS_GET_U(this->actor.params, 6, 8);
     if (this->actor.world.rot.z > 0) {
         s32 rangeIndex = 0;
@@ -68,12 +69,12 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
         this->actor.attentionRangeType = D_80B3A8E0[rangeIndex];
 
         PRINTF("\n\n");
-        // "originally?"
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元は？       ☆☆☆☆☆ %d\n" VT_RST, this->actor.world.rot.z);
-        // "The range is?"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ レンジは？   ☆☆☆☆☆ %d\n" VT_RST, this->actor.attentionRangeType);
-        // "Is the range?"
-        PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ は、範囲わ？ ☆☆☆☆☆ %f\n" VT_RST, this->triggerRange);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 元は？       ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Originally?   ☆☆☆☆☆ %d\n") VT_RST,
+               this->actor.world.rot.z);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ レンジは？   ☆☆☆☆☆ %d\n", "☆☆☆☆☆ The range is? ☆☆☆☆☆ %d\n") VT_RST,
+               this->actor.attentionRangeType);
+        PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ は、範囲わ？ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ The range is? ☆☆☆☆☆ %f\n") VT_RST,
+               this->triggerRange);
         PRINTF("\n\n");
         PRINTF("\n\n");
         PRINTF("\n\n");
@@ -127,8 +128,9 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
     } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if ((this->switchFlag >= 0) && (this->talkMode != 2)) {
             Flags_SetSwitch(play, this->switchFlag);
-            // "I saved it! All of it!"
-            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ セーブしたよ！おもいっきり！ %x\n" VT_RST, this->switchFlag);
+            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ セーブしたよ！おもいっきり！ %x\n", "☆☆☆☆☆ I saved it! All of it! %x\n")
+                       VT_RST,
+                   this->switchFlag);
         }
 
         this->actionFunc = func_80B3A10C;
@@ -140,30 +142,33 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
 
             if (DEBUG_FEATURES && this->unk_158 >= 2) {
                 PRINTF("\n\n");
-                // "Transparent Message Kimi Set"
-                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君せっと %x\n" VT_RST, this->actor.params);
-                // "Save Information"
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報 \t           %x\n" VT_RST, this->switchFlag);
-                // "Specified message type"
-                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 指定メッセージ種類     %x\n" VT_RST, this->baseMsgId);
-                // "Actual message type"
-                PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" VT_RST, this->actor.textId);
-                // "Specified range"
-                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" VT_RST, this->actor.world.rot.z);
-                // "Processing range"
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 処理範囲               %f\n" VT_RST, this->triggerRange);
+                PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 透明メッセージ君せっと %x\n", "☆☆☆☆☆ Transparent Message Kimi Set %x\n")
+                           VT_RST,
+                       this->actor.params);
+                PRINTF(VT_FGCOL(YELLOW)
+                           T("☆☆☆☆☆ セーブ情報 \t           %x\n", "☆☆☆☆☆ Save Information \t           %x\n") VT_RST,
+                       this->switchFlag);
+                PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 指定メッセージ種類     %x\n", "☆☆☆☆☆ Specified message type     %x\n")
+                           VT_RST,
+                       this->baseMsgId);
+                PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 実質メッセージ種類     %x\n", "☆☆☆☆☆ Actual message type     %x\n")
+                           VT_RST,
+                       this->actor.textId);
+                PRINTF(VT_FGCOL(GREEN)
+                           T("☆☆☆☆☆ 指定範囲               %d\n", "☆☆☆☆☆ Specified range               %d\n") VT_RST,
+                       this->actor.world.rot.z);
+                PRINTF(VT_FGCOL(YELLOW)
+                           T("☆☆☆☆☆ 処理範囲               %f\n", "☆☆☆☆☆ Processing range               %f\n") VT_RST,
+                       this->triggerRange);
                 switch (this->talkMode) {
                     case 0:
-                        // "Normal"
-                        PRINTF(VT_FGCOL(MAGENTA) " ☆☆ 通常 ☆☆ \n" VT_RST);
+                        PRINTF(VT_FGCOL(MAGENTA) T(" ☆☆ 通常 ☆☆ \n", " ☆☆ Normal ☆☆ \n") VT_RST);
                         break;
                     case 2:
-                        // "Check only"
-                        PRINTF(VT_FGCOL(MAGENTA) " ☆☆ チェックのみ ☆☆ \n" VT_RST);
+                        PRINTF(VT_FGCOL(MAGENTA) T(" ☆☆ チェックのみ ☆☆ \n", " ☆☆ Check only ☆☆ \n") VT_RST);
                         break;
                     case 3:
-                        // "Lock only"
-                        PRINTF(VT_FGCOL(MAGENTA) " ☆☆ ロックのみ ☆☆ \n" VT_RST);
+                        PRINTF(VT_FGCOL(MAGENTA) T(" ☆☆ ロックのみ ☆☆ \n", " ☆☆ Lock only ☆☆ \n") VT_RST);
                         break;
                 }
             }
@@ -176,8 +181,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
 
 void func_80B3A3D4(EnWonderTalk2* this, PlayState* play) {
     if (BREG(2) != 0) {
-        // "Oh"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ わー %d\n" VT_RST, Message_GetState(&play->msgCtx));
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ わー %d\n", "☆☆☆☆☆ Oh %d\n") VT_RST, Message_GetState(&play->msgCtx));
     }
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -193,8 +197,9 @@ void func_80B3A3D4(EnWonderTalk2* this, PlayState* play) {
         case TEXT_STATE_NONE:
             if ((this->switchFlag >= 0) && (this->talkMode != 4)) {
                 Flags_SetSwitch(play, this->switchFlag);
-                // "(Forced) I saved it! All of it!"
-                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ (強制)セーブしたよ！おもいっきり！ %x\n" VT_RST, this->switchFlag);
+                PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ (強制)セーブしたよ！おもいっきり！ %x\n",
+                                           "☆☆☆☆☆ (Forced) I saved it! All of it! %x\n") VT_RST,
+                       this->switchFlag);
             }
 
             if (this->talkMode == 4) {
@@ -220,8 +225,7 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
         }
     } else if ((this->talkMode != 4) || !this->unk_15A) {
         if (BREG(2) != 0) {
-            // "distance"
-            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ きょり %f\n" VT_RST, this->actor.xzDistToPlayer);
+            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ きょり %f\n", "☆☆☆☆☆ distance %f\n") VT_RST, this->actor.xzDistToPlayer);
         }
         if (((this->actor.xzDistToPlayer < (40.0f + this->triggerRange)) &&
              (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f)) &&
@@ -229,30 +233,34 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
 
             if (DEBUG_FEATURES && this->unk_158 >= 2) {
                 PRINTF("\n\n");
-                // "Transparent Message Kimi Seto"
-                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君せっと %x\n" VT_RST, this->actor.params);
-                // "Save Information"
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報 \t           %x\n" VT_RST, this->switchFlag);
-                // "Specified message type"
-                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 指定メッセージ種類     %x\n" VT_RST, this->baseMsgId);
-                // "Real message type"
-                PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" VT_RST, this->actor.textId);
-                // "Specified range"
-                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" VT_RST, this->actor.world.rot.z);
-                // "Processing range"
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 処理範囲               %f\n" VT_RST, this->triggerRange);
-                // "What is your range?"
-                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ レンジは？ \t\t   %d\n" VT_RST, this->actor.attentionRangeType);
+                PRINTF(VT_FGCOL(GREEN)
+                           T("☆☆☆☆☆ 透明メッセージ君せっと %x\n", "☆☆☆☆☆ Transparent Message Kimi Seto %x\n") VT_RST,
+                       this->actor.params);
+                PRINTF(VT_FGCOL(YELLOW)
+                           T("☆☆☆☆☆ セーブ情報 \t           %x\n", "☆☆☆☆☆ Save Information \t           %x\n") VT_RST,
+                       this->switchFlag);
+                PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 指定メッセージ種類     %x\n", "☆☆☆☆☆ Specified message type     %x\n")
+                           VT_RST,
+                       this->baseMsgId);
+                PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 実質メッセージ種類     %x\n", "☆☆☆☆☆ Real message type     %x\n") VT_RST,
+                       this->actor.textId);
+                PRINTF(VT_FGCOL(GREEN)
+                           T("☆☆☆☆☆ 指定範囲               %d\n", "☆☆☆☆☆ Specified range               %d\n") VT_RST,
+                       this->actor.world.rot.z);
+                PRINTF(VT_FGCOL(YELLOW)
+                           T("☆☆☆☆☆ 処理範囲               %f\n", "☆☆☆☆☆ Processing range               %f\n") VT_RST,
+                       this->triggerRange);
+                PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ レンジは？ \t\t   %d\n", "☆☆☆☆☆ The range is? \t\t   %d\n") VT_RST,
+                       this->actor.attentionRangeType);
                 PRINTF("\n\n");
                 PRINTF("\n\n");
                 switch (this->talkMode) {
                     case 1:
-                        // "Compulsion"
-                        PRINTF(VT_FGCOL(MAGENTA) " ☆☆ 強制 ☆☆ \n" VT_RST);
+                        PRINTF(VT_FGCOL(MAGENTA) T(" ☆☆ 強制 ☆☆ \n", " ☆☆ Compulsion ☆☆ \n") VT_RST);
                         break;
                     case 4:
-                        // "Gerudo Training Grounds Forced Check Only"
-                        PRINTF(VT_FGCOL(RED) " ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n" VT_RST);
+                        PRINTF(VT_FGCOL(RED) T(" ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n",
+                                               " ☆☆ Gerudo Training Grounds Forced Check Only ☆☆ \n") VT_RST);
                         break;
                 }
 

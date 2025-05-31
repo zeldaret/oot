@@ -16,6 +16,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -468,9 +469,9 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     dropType++; // magic jar
                     FALLTHROUGH;
                 case RR_DMG_NORMAL:
-                    // "ouch"
-                    PRINTF(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n", this->frameCount,
-                           this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
+                    PRINTF(VT_FGCOL(RED) T("いてっ( %d : LIFE %d : DAMAGE %d : %x )！！",
+                                           "ouch ( %d : LIFE %d : DAMAGE %d : %x )!!") VT_RST "\n",
+                           this->frameCount, this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
                            this->actor.colChkInfo.damageEffect);
                     this->stopScroll = false;
                     Actor_ApplyDamage(&this->actor);
@@ -532,8 +533,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
             ((this->collider1.base.ocFlags1 & OC1_HIT) || (this->collider2.base.ocFlags1 & OC1_HIT))) {
             this->collider1.base.ocFlags1 &= ~OC1_HIT;
             this->collider2.base.ocFlags1 &= ~OC1_HIT;
-            // "catch"
-            PRINTF(VT_FGCOL(GREEN) "キャッチ(%d)！！" VT_RST "\n", this->frameCount);
+            PRINTF(VT_FGCOL(GREEN) T("キャッチ(%d)！！", "catch (%d)!!") VT_RST "\n", this->frameCount);
             if (play->grabPlayer(play, player)) {
                 player->actor.parent = &this->actor;
                 this->stopScroll = false;
@@ -714,8 +714,7 @@ void EnRr_Death(EnRr* this, PlayState* play) {
                 Item_DropCollectible(play, &dropPos, ITEM00_TUNIC_ZORA);
                 break;
         }
-        // "dropped"
-        PRINTF(VT_FGCOL(GREEN) "「%s」が出た！！" VT_RST "\n", sDropNames[this->dropType]);
+        PRINTF(VT_FGCOL(GREEN) T("「%s」が出た！！", "「%s」dropped!!") VT_RST "\n", sDropNames[this->dropType]);
         switch (this->dropType) {
             case RR_DROP_MAGIC:
                 Item_DropCollectible(play, &dropPos, ITEM00_MAGIC_SMALL);

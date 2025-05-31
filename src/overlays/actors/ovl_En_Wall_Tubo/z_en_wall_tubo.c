@@ -15,6 +15,7 @@
 #include "printf.h"
 #include "quake.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64debug_display.h"
 #include "z64effect.h"
@@ -46,8 +47,7 @@ void EnWallTubo_Init(Actor* thisx, PlayState* play) {
     EnWallTubo* this = (EnWallTubo*)thisx;
 
     PRINTF("\n\n");
-    // "Wall Target"
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n", "☆☆☆☆☆ Points on the wall ☆☆☆☆☆ \n") VT_RST);
     this->unk_164 = this->actor.world.pos;
     this->actionFunc = EnWallTubo_FindGirl;
 }

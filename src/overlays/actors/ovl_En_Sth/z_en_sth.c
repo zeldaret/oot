@@ -12,6 +12,7 @@
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64save.h"
@@ -107,18 +108,17 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
     s32 params = this->actor.params;
     s32 objectSlot;
 
-    PRINTF(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
+    PRINTF(VT_FGCOL(BLUE) T("金スタル屋 no = %d\n", "Gold Skulltula Shop no = %d\n") VT_RST, params);
     if (this->actor.params == 0) {
         if (gSaveContext.save.info.inventory.gsTokens < 100) {
             Actor_Kill(&this->actor);
-            // "Gold Skulltula Shop I still can't be a human"
-            PRINTF("金スタル屋 まだ 人間に戻れない \n");
+            PRINTF(T("金スタル屋 まだ 人間に戻れない \n", "Gold Skulltula Shop I still can't be a human \n"));
             return;
         }
     } else if (gSaveContext.save.info.inventory.gsTokens < (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
-        // "Gold Skulltula Shop I still can't be a human"
-        PRINTF(VT_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" VT_RST);
+        PRINTF(VT_FGCOL(BLUE) T("金スタル屋 まだ 人間に戻れない \n", "Gold Skulltula Shop I still can't be a human \n")
+                   VT_RST);
         return;
     }
 
