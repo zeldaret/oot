@@ -39,6 +39,30 @@
         <Limb Name="object_oE5_Limb_0001B0" LimbType="Standard" Offset="0x1B0"/>
         <Limb Name="object_oE5_Limb_0001BC" LimbType="Standard" Offset="0x1BC"/>
         <Skeleton Name="object_oE5_Skel_000260" Type="Normal" LimbType="Standard" Offset="0x260"/>-->
+        <Array Name="object_oE5_Vtx_000268" Count="76" Offset="0x268">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE5_Vtx_000728" Count="240" Offset="0x728">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE5_Vtx_001628" Count="58" Offset="0x1628">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE5_Vtx_0019C8" Count="20" Offset="0x19C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE5_Vtx_001B08" Count="40" Offset="0x1B08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE5_Vtx_001D88" Count="58" Offset="0x1D88">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE5_Vtx_002128" Count="20" Offset="0x2128">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE5_Vtx_002268" Count="40" Offset="0x2268">
+            <Vtx/>
+        </Array>
         <DList Name="object_oE5_DL_0024E8" Offset="0x24E8"/>
         <DList Name="object_oE5_DL_002690" Offset="0x2690"/>
         <DList Name="object_oE5_DL_002C60" Offset="0x2C60"/>

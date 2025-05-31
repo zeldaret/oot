@@ -1,11 +1,26 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_field_keep/"/>
     <File Name="object_wood02" Segment="6">
+        <Array Name="object_wood02_Vtx_000000" Count="9" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_000090" Offset="0x90"/>
+        <Array Name="object_wood02_Vtx_000130" Count="3" Offset="0x130">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_000160" Offset="0x160"/>
+        <Array Name="object_wood02_Vtx_0001F0" Count="21" Offset="0x1F0">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_000340" Offset="0x340"/>
+        <Array Name="object_wood02_Vtx_000410" Count="3" Offset="0x410">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_000440" Offset="0x440"/>
         <Texture Name="object_wood02_Tex_0004D0" OutName="tex_000004D0" Format="rgba16" Width="16" Height="16" Offset="0x4D0"/>
+        <Array Name="object_wood02_Vtx_0006D0" Count="3" Offset="0x6D0">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_000700" Offset="0x700"/>
         <Texture Name="object_wood02_Tex_000790" OutName="tex_00000790" Format="rgba16" Width="32" Height="32" Offset="0x790"/>
         <Texture Name="object_wood02_Tex_000F90" OutName="tex_00000F90" Format="ia4" Width="32" Height="128" Offset="0xF90"/>
@@ -18,16 +33,46 @@
         <Texture Name="object_wood02_Tex_005F90" OutName="tex_00005F90" Format="ia8" Width="32" Height="64" Offset="0x5F90"/>
         <Texture Name="object_wood02_Tex_006790" OutName="tex_00006790" Format="ia8" Width="32" Height="64" Offset="0x6790"/>
         <Texture Name="object_wood02_Tex_006F90" OutName="tex_00006F90" Format="ia8" Width="32" Height="64" Offset="0x6F90"/>
+        <Array Name="object_wood02_Vtx_007790" Count="11" Offset="0x7790">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wood02_Vtx_007840" Count="9" Offset="0x7840">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_0078D0" Offset="0x78D0"/>
         <DList Name="object_wood02_DL_007968" Offset="0x7968"/>
         <Collision Name="object_wood02_Col_007A70" Offset="0x7A70"/>
+        <Array Name="object_wood02_Vtx_007AA0" Count="3" Offset="0x7AA0">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_007AD0" Offset="0x7AD0"/>
+        <Array Name="object_wood02_Vtx_007B60" Count="11" Offset="0x7B60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wood02_Vtx_007C10" Count="9" Offset="0x7C10">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_007CA0" Offset="0x7CA0"/>
         <DList Name="object_wood02_DL_007D38" Offset="0x7D38"/>
+        <Array Name="object_wood02_Vtx_007DF0" Count="3" Offset="0x7DF0">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_007E20" Offset="0x7E20"/>
+        <Array Name="object_wood02_Vtx_007EB0" Count="25" Offset="0x7EB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wood02_Vtx_008040" Count="9" Offset="0x8040">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_0080D0" Offset="0x80D0"/>
         <DList Name="object_wood02_DL_0081A8" Offset="0x81A8"/>
+        <Array Name="object_wood02_Vtx_008240" Count="7" Offset="0x8240">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_0082B0" Offset="0x82B0"/>
+        <Array Name="object_wood02_Vtx_008320" Count="3" Offset="0x8320">
+            <Vtx/>
+        </Array>
         <DList Name="object_wood02_DL_008350" Offset="0x8350"/>
         <DList Name="object_wood02_DL_0083E0" Offset="0x83E0"/>
         <DList Name="object_wood02_DL_0085C0" Offset="0x85C0"/>

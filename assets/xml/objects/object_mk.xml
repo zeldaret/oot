@@ -4,6 +4,42 @@
         <Animation Name="object_mk_Anim_000724" Offset="0x724"/>
         <Animation Name="object_mk_Anim_000AC0" Offset="0xAC0"/>
         <Animation Name="object_mk_Anim_000D88" Offset="0xD88"/>
+        <Array Name="object_mk_Vtx_000DA0" Count="54" Offset="0xDA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_001100" Count="231" Offset="0x1100">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_001F70" Count="20" Offset="0x1F70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_0020B0" Count="48" Offset="0x20B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_0023B0" Count="39" Offset="0x23B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_002620" Count="27" Offset="0x2620">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_0027D0" Count="27" Offset="0x27D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_002980" Count="39" Offset="0x2980">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_002BF0" Count="27" Offset="0x2BF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_002DA0" Count="27" Offset="0x2DA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_002F50" Count="65" Offset="0x2F50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mk_Vtx_003360" Count="17" Offset="0x3360">
+            <Vtx/>
+        </Array>
         <DList Name="object_mk_DL_003470" Offset="0x3470"/>
         <DList Name="object_mk_DL_003760" Offset="0x3760"/>
         <DList Name="object_mk_DL_003AB0" Offset="0x3AB0"/>

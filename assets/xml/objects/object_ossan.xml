@@ -4,12 +4,39 @@
         <Array Name="gObjectOssanUnusedVtx" Count="97" Offset="0x350">
             <Vtx/>
         </Array>
+        <Array Name="object_ossan_Vtx_000960" Count="117" Offset="0x960">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ossan_Vtx_0010B0" Count="42" Offset="0x10B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ossan_Vtx_001350" Count="61" Offset="0x1350">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ossan_Vtx_001720" Count="117" Offset="0x1720">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ossan_Vtx_001E70" Count="42" Offset="0x1E70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ossan_Vtx_002110" Count="61" Offset="0x2110">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ossan_Vtx_0024E0" Count="149" Offset="0x24E0">
+            <Vtx/>
+        </Array>
         <Texture Name="gOssanEyesTLUT" OutName="ossan_eyes_tlut" Format="rgba16" Width="63" Height="4" Offset="0x4530"/>
         <Texture Name="gOssanTLUT" OutName="ossan_tlut" Format="rgba16" Width="168" Height="1" Offset="0x4728"/>
         <Texture Name="gOssanEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x4878" TlutOffset="0x4530"/>
         <Texture Name="gOssanBeardTex" OutName="beard" Format="ci8" Width="32" Height="32" Offset="0x4C78" TlutOffset="0x4728"/>
         <Texture Name="gOssanEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x52B8" TlutOffset="0x4530"/>
         <Texture Name="gOssanEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x56B8" TlutOffset="0x4530"/>
+        <Array Name="object_ossan_Vtx_005AF8" Count="169" Offset="0x5AF8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ossan_Vtx_006588" Count="234" Offset="0x6588">
+            <Vtx/>
+        </Array>
         <DList Name="gObjectOssanEnSyatekiManDL_007E28" Offset="0x7E28"/>
         <Skeleton Name="gObjectOssanSkel" Type="Flex" LimbType="Standard" Offset="0x9B38"/>
     </File>

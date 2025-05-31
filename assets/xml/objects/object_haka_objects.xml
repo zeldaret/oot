@@ -1,55 +1,148 @@
 <Root>
     <File Name="object_haka_objects" Segment="6">
+        <Array Name="object_haka_objects_Vtx_000000" Count="4" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_000040" Offset="0x40"/>
         <Collision Name="object_haka_objects_Col_000118" Offset="0x118"/>
+        <Array Name="object_haka_objects_Vtx_000150" Count="253" Offset="0x150">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_001120" Offset="0x1120"/>
+        <Array Name="object_haka_objects_Vtx_001450" Count="74" Offset="0x1450">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_0018F0" Offset="0x18F0"/>
+        <Array Name="object_haka_objects_Vtx_001AF0" Count="318" Offset="0x1AF0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_002ED0" Offset="0x2ED0"/>
+        <Array Name="object_haka_objects_Vtx_0032F0" Count="160" Offset="0x32F0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_003CF0" Offset="0x3CF0"/>
+        <Array Name="object_haka_objects_Vtx_003F70" Count="24" Offset="0x3F70">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_0040F0" Offset="0x40F0"/>
         <Collision Name="object_haka_objects_Col_004330" Offset="0x4330"/>
+        <Array Name="object_haka_objects_Vtx_004360" Count="5" Offset="0x4360">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_0043B0" Offset="0x43B0"/>
         <Collision Name="object_haka_objects_Col_0044D0" Offset="0x44D0"/>
+        <Array Name="object_haka_objects_Vtx_004500" Count="10" Offset="0x4500">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_0045A0" Offset="0x45A0"/>
         <Collision Name="object_haka_objects_Col_004780" Offset="0x4780"/>
+        <Array Name="object_haka_objects_Vtx_0047B0" Count="4" Offset="0x47B0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_0047F0" Offset="0x47F0"/>
         <Collision Name="object_haka_objects_Col_004940" Offset="0x4940"/>
+        <Array Name="object_haka_objects_Vtx_004970" Count="4" Offset="0x4970">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_0049B0" Offset="0x49B0"/>
         <Collision Name="object_haka_objects_Col_004B00" Offset="0x4B00"/>
+        <Array Name="object_haka_objects_Vtx_004B30" Count="4" Offset="0x4B30">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_004B70" Offset="0x4B70"/>
         <Collision Name="object_haka_objects_Col_004CC0" Offset="0x4CC0"/>
+        <Array Name="object_haka_objects_Vtx_004CF0" Count="49" Offset="0x4CF0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_005000" Offset="0x5000"/>
         <Collision Name="object_haka_objects_Col_005334" Offset="0x5334"/>
+        <Array Name="object_haka_objects_Vtx_005360" Count="113" Offset="0x5360">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_005A70" Offset="0x5A70"/>
+        <Array Name="object_haka_objects_Vtx_005C90" Count="5" Offset="0x5C90">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_005CE0" Offset="0x5CE0"/>
         <Collision Name="object_haka_objects_Col_005E30" Offset="0x5E30"/>
+        <Array Name="object_haka_objects_Vtx_005E60" Count="104" Offset="0x5E60">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_0064E0" Offset="0x64E0"/>
         <Collision Name="object_haka_objects_Col_006F70" Offset="0x6F70"/>
+        <Array Name="object_haka_objects_Vtx_006FA0" Count="50" Offset="0x6FA0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_0072C0" Offset="0x72C0"/>
+        <Array Name="object_haka_objects_Vtx_0074B0" Count="22" Offset="0x74B0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_007610" Offset="0x7610"/>
+        <Array Name="object_haka_objects_Vtx_007770" Count="120" Offset="0x7770">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_007EF0" Offset="0x7EF0"/>
         <Collision Name="object_haka_objects_Col_0081D0" Offset="0x81D0"/>
+        <Array Name="object_haka_objects_Vtx_008200" Count="130" Offset="0x8200">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_008A20" Offset="0x8A20"/>
         <Collision Name="object_haka_objects_Col_008D10" Offset="0x8D10"/>
+        <Array Name="object_haka_objects_Vtx_008D40" Count="23" Offset="0x8D40">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_008EB0" Offset="0x8EB0"/>
         <Collision Name="object_haka_objects_Col_009168" Offset="0x9168"/>
+        <Array Name="object_haka_objects_Vtx_0091A0" Count="108" Offset="0x91A0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_009860" Offset="0x9860"/>
         <Collision Name="object_haka_objects_Col_009CD0" Offset="0x9CD0"/>
+        <Array Name="object_haka_objects_Vtx_009D00" Count="74" Offset="0x9D00">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_00A1A0" Offset="0xA1A0"/>
         <Collision Name="object_haka_objects_Col_00A7F4" Offset="0xA7F4"/>
+        <Array Name="object_haka_objects_Vtx_00A820" Count="4" Offset="0xA820">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_00A860" Offset="0xA860"/>
         <Collision Name="object_haka_objects_Col_00A938" Offset="0xA938"/>
+        <Array Name="object_haka_objects_Vtx_00A970" Count="347" Offset="0xA970">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_00BF20" Offset="0xBF20"/>
+        <Array Name="object_haka_objects_Vtx_00C400" Count="243" Offset="0xC400">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_00D330" Offset="0xD330"/>
         <Collision Name="object_haka_objects_Col_00E408" Offset="0xE408"/>
+        <Array Name="object_haka_objects_Vtx_00E440" Count="77" Offset="0xE440">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_00E910" Offset="0xE910"/>
         <Collision Name="object_haka_objects_Col_00ED7C" Offset="0xED7C"/>
+        <Array Name="object_haka_objects_Vtx_00EDB0" Count="64" Offset="0xEDB0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_00F1B0" Offset="0xF1B0"/>
+        <Array Name="object_haka_objects_Vtx_00F3C0" Count="168" Offset="0xF3C0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_00FE40" Offset="0xFE40"/>
         <Collision Name="object_haka_objects_Col_0108B8" Offset="0x108B8"/>
+        <Array Name="object_haka_objects_Vtx_0108F0" Count="18" Offset="0x108F0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_010A10" Offset="0x10A10"/>
+        <Array Name="object_haka_objects_Vtx_010AF0" Count="18" Offset="0x10AF0">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_010C10" Offset="0x10C10"/>
         <Collision Name="object_haka_objects_Col_010E10" Offset="0x10E10"/>
+        <Array Name="object_haka_objects_Vtx_010E40" Count="323" Offset="0x10E40">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_objects_DL_012270" Offset="0x12270"/>
         <Collision Name="object_haka_objects_Col_0131C4" Offset="0x131C4"/>
         <Texture Name="object_haka_objects_Tex_0131F0" OutName="tex_000131F0" Format="ia8" Width="32" Height="32" Offset="0x131F0"/>

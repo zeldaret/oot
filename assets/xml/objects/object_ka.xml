@@ -1,6 +1,75 @@
 <Root>
     <File Name="object_ka" Segment="6">
         <Animation Name="object_ka_Anim_000214" Offset="0x214"/>
+        <Array Name="object_ka_Vtx_000230" Count="4" Offset="0x230">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000270" Count="4" Offset="0x270">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_0002B0" Count="4" Offset="0x2B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_0002F0" Count="4" Offset="0x2F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000330" Count="4" Offset="0x330">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000370" Count="11" Offset="0x370">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000420" Count="57" Offset="0x420">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_0007B0" Count="23" Offset="0x7B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000920" Count="4" Offset="0x920">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000960" Count="4" Offset="0x960">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_0009A0" Count="4" Offset="0x9A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_0009E0" Count="19" Offset="0x9E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000B10" Count="23" Offset="0xB10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000C80" Count="4" Offset="0xC80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000CC0" Count="4" Offset="0xCC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000D00" Count="4" Offset="0xD00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000D40" Count="19" Offset="0xD40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_000E70" Count="56" Offset="0xE70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_0011F0" Count="32" Offset="0x11F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_0013F0" Count="4" Offset="0x13F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_001430" Count="4" Offset="0x1430">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_001470" Count="4" Offset="0x1470">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ka_Vtx_0014B0" Count="10" Offset="0x14B0">
+            <Vtx/>
+        </Array>
         <DList Name="object_ka_DL_001550" Offset="0x1550"/>
         <DList Name="object_ka_DL_001600" Offset="0x1600"/>
         <DList Name="object_ka_DL_0017D8" Offset="0x17D8"/>

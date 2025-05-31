@@ -39,6 +39,51 @@
         <Limb Name="object_oE3_Limb_0001B0" LimbType="Standard" Offset="0x1B0"/>
         <Limb Name="object_oE3_Limb_0001BC" LimbType="Standard" Offset="0x1BC"/>
         <Skeleton Name="object_oE3_Skel_000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
+        <Array Name="object_oE3_Vtx_000268" Count="86" Offset="0x268">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_0007C8" Count="42" Offset="0x7C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_000A68" Count="262" Offset="0xA68">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_001AC8" Count="58" Offset="0x1AC8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_001E68" Count="30" Offset="0x1E68">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_002048" Count="48" Offset="0x2048">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_002348" Count="24" Offset="0x2348">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_0024C8" Count="24" Offset="0x24C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_002648" Count="48" Offset="0x2648">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_002948" Count="58" Offset="0x2948">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_002CE8" Count="30" Offset="0x2CE8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_002EC8" Count="44" Offset="0x2EC8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_003188" Count="24" Offset="0x3188">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_003308" Count="24" Offset="0x3308">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE3_Vtx_003488" Count="48" Offset="0x3488">
+            <Vtx/>
+        </Array>
         <DList Name="object_oE3_DL_003788" Offset="0x3788"/>
         <DList Name="object_oE3_DL_003938" Offset="0x3938"/>
         <DList Name="object_oE3_DL_003A30" Offset="0x3A30"/>

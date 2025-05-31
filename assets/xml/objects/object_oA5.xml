@@ -39,20 +39,65 @@
         <Limb Name="object_oA5_Limb_000001B0" LimbType="Standard" Offset="0x1B0"/>
         <Limb Name="object_oA5_Limb_000001BC" LimbType="Standard" Offset="0x1BC"/>
         <Skeleton Name="object_oA5_Skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
+        <Array Name="object_oA5_Vtx_000268" Count="3" Offset="0x268">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000298" Offset="0x298"/>
+        <Array Name="object_oA5_Vtx_0002E8" Count="3" Offset="0x2E8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000318" Offset="0x318"/>
+        <Array Name="object_oA5_Vtx_000368" Count="3" Offset="0x368">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000398" Offset="0x398"/>
+        <Array Name="object_oA5_Vtx_0003E8" Count="6" Offset="0x3E8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000448" Offset="0x448"/>
+        <Array Name="object_oA5_Vtx_0004D8" Count="4" Offset="0x4D8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000518" Offset="0x518"/>
+        <Array Name="object_oA5_Vtx_0005A8" Count="5" Offset="0x5A8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_000005F8" Offset="0x5F8"/>
+        <Array Name="object_oA5_Vtx_000688" Count="3" Offset="0x688">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_000006B8" Offset="0x6B8"/>
+        <Array Name="object_oA5_Vtx_000708" Count="3" Offset="0x708">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000738" Offset="0x738"/>
+        <Array Name="object_oA5_Vtx_000788" Count="3" Offset="0x788">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_000007B8" Offset="0x7B8"/>
+        <Array Name="object_oA5_Vtx_000808" Count="6" Offset="0x808">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000868" Offset="0x868"/>
+        <Array Name="object_oA5_Vtx_0008F8" Count="4" Offset="0x8F8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000938" Offset="0x938"/>
+        <Array Name="object_oA5_Vtx_0009C8" Count="5" Offset="0x9C8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000A18" Offset="0xA18"/>
+        <Array Name="object_oA5_Vtx_000AA8" Count="40" Offset="0xAA8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000D28" Offset="0xD28"/>
+        <Array Name="object_oA5_Vtx_000EA0" Count="21" Offset="0xEA0">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00000FF0" Offset="0xFF0"/>
+        <Array Name="object_oA5_Vtx_001098" Count="30" Offset="0x1098">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA5_DL_00001278" Offset="0x1278"/>
         <Texture Name="object_oA5_Tex_00001330" OutName="tex_00001330" Format="rgba16" Width="8" Height="8" Offset="0x1330"/>
         <Texture Name="object_oA5_Tex_000013B0" OutName="tex_000013B0" Format="rgba16" Width="8" Height="8" Offset="0x13B0"/>

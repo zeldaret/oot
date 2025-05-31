@@ -1,6 +1,15 @@
 <Root>
     <File Name="object_lightswitch" Segment="6">
         <!-- face, uses rgba16 32x32 texture at 0x08000000, branches to dlist 0x09000000, uses env color -->
+        <Array Name="object_lightswitch_Vtx_000000" Count="30" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_lightswitch_Vtx_0001E0" Count="4" Offset="0x1E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_lightswitch_Vtx_000220" Count="4" Offset="0x220">
+            <Vtx/>
+        </Array>
         <DList Name="object_lightswitch_DL_000260" Offset="0x260"/>
         <!-- flame ring, branches to dlist 0x09000000, uses env color -->
         <DList Name="object_lightswitch_DL_000398" Offset="0x398"/>

@@ -3,9 +3,18 @@
     <File Name="object_efc_erupc" Segment="6">
         <Texture Name="object_efc_erupc_Tex_000000" OutName="tex_00000000" Format="i8" Width="32" Height="64" Offset="0x0"/>
         <Texture Name="object_efc_erupc_Tex_000800" OutName="tex_00000800" Format="i4" Width="64" Height="64" Offset="0x800"/>
+        <Array Name="object_efc_erupc_Vtx_001000" Count="114" Offset="0x1000">
+            <Vtx/>
+        </Array>
         <DList Name="object_efc_erupc_DL_001720" Offset="0x1720"/>
         <Texture Name="object_efc_erupc_Tex_001A30" OutName="tex_00001A30" Format="i8" Width="16" Height="128" Offset="0x1A30"/>
+        <Array Name="object_efc_erupc_Vtx_002230" Count="52" Offset="0x2230">
+            <Vtx/>
+        </Array>
         <DList Name="object_efc_erupc_DL_002570" Offset="0x2570"/>
+        <Array Name="object_efc_erupc_Vtx_002730" Count="3" Offset="0x2730">
+            <Vtx/>
+        </Array>
         <DList Name="object_efc_erupc_DL_002760" Offset="0x2760"/>
         <DList Name="object_efc_erupc_DL_0027D8" Offset="0x27D8"/>
         <Texture Name="object_efc_erupc_Tex_0027F0" OutName="tex_000027F0" Format="i8" Width="16" Height="16" Offset="0x27F0"/>

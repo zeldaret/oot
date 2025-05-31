@@ -1,5 +1,14 @@
 <Root>
     <File Name="object_dh" Segment="6">
+        <Array Name="object_dh_Vtx_000000" Count="94" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_0005E0" Count="18" Offset="0x5E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_000700" Count="6" Offset="0x700">
+            <Vtx/>
+        </Array>
         <DList Name="object_dh_DL_000760" Offset="0x760"/>
         <DList Name="object_dh_DL_000808" Offset="0x808"/>
         <DList Name="object_dh_DL_000910" Offset="0x910"/>
@@ -22,6 +31,48 @@
         <Texture Name="object_dh_Tex_004E70" OutName="tex_00004E70" Format="rgba16" Width="16" Height="16" Offset="0x4E70"/>
         <Texture Name="object_dh_Tex_005070" OutName="tex_00005070" Format="rgba16" Width="16" Height="16" Offset="0x5070"/>
         <Animation Name="object_dh_Anim_005880" Offset="0x5880"/>
+        <Array Name="object_dh_Vtx_005890" Count="10" Offset="0x5890">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_005930" Count="24" Offset="0x5930">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_005AB0" Count="25" Offset="0x5AB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_005C40" Count="10" Offset="0x5C40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_005CE0" Count="24" Offset="0x5CE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_005E60" Count="25" Offset="0x5E60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_005FF0" Count="32" Offset="0x5FF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_0061F0" Count="75" Offset="0x61F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_0066A0" Count="10" Offset="0x66A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_006740" Count="10" Offset="0x6740">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_0067E0" Count="29" Offset="0x67E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_0069B0" Count="12" Offset="0x69B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_006A70" Count="28" Offset="0x6A70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dh_Vtx_006C30" Count="14" Offset="0x6C30">
+            <Vtx/>
+        </Array>
         <DList Name="object_dh_DL_006D10" Offset="0x6D10"/>
         <DList Name="object_dh_DL_006DD8" Offset="0x6DD8"/>
         <DList Name="object_dh_DL_006EF8" Offset="0x6EF8"/>
@@ -52,6 +103,9 @@
         <Limb Name="object_dh_Limb_007E34" LimbType="Standard" Offset="0x7E34"/>
         <Limb Name="object_dh_Limb_007E40" LimbType="Standard" Offset="0x7E40"/>
         <Skeleton Name="object_dh_Skel_007E88" Type="Flex" LimbType="Standard" Offset="0x7E88"/>
+        <Array Name="object_dh_Vtx_007EA0" Count="18" Offset="0x7EA0">
+            <Vtx/>
+        </Array>
         <DList Name="object_dh_DL_007FC0" Offset="0x7FC0"/>
         <Texture Name="object_dh_Tex_0080C0" OutName="tex_000080C0" Format="i8" Width="32" Height="64" Offset="0x80C0"/>
         <Texture Name="object_dh_Tex_0088C0" OutName="tex_000088C0" Format="i8" Width="32" Height="64" Offset="0x88C0"/>

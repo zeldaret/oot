@@ -54,6 +54,30 @@
         <!--
         <Skeleton Name="object_oB2_Skel_000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
         -->
+        <Array Name="object_oB2_Vtx_000268" Count="106" Offset="0x268">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB2_Vtx_000908" Count="119" Offset="0x908">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB2_Vtx_001078" Count="73" Offset="0x1078">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB2_Vtx_001508" Count="21" Offset="0x1508">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB2_Vtx_001658" Count="30" Offset="0x1658">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB2_Vtx_001838" Count="64" Offset="0x1838">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB2_Vtx_001C38" Count="21" Offset="0x1C38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB2_Vtx_001D88" Count="30" Offset="0x1D88">
+            <Vtx/>
+        </Array>
         <DList Name="object_oB2_DL_001F68" Offset="0x1F68"/>
         <DList Name="object_oB2_DL_0021D0" Offset="0x21D0"/>
         <DList Name="object_oB2_DL_002450" Offset="0x2450"/>

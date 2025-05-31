@@ -39,6 +39,51 @@
         <Limb Name="object_oB4_Limb_000001B0" LimbType="Standard" Offset="0x1B0"/>
         <Limb Name="object_oB4_Limb_000001BC" LimbType="Standard" Offset="0x1BC"/>
         <Skeleton Name="object_oB4_Skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
+        <Array Name="object_oB4_Vtx_000268" Count="15" Offset="0x268">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_000358" Count="35" Offset="0x358">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_000588" Count="9" Offset="0x588">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_000618" Count="12" Offset="0x618">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_0006D8" Count="6" Offset="0x6D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_000738" Count="3" Offset="0x738">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_000768" Count="3" Offset="0x768">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_000798" Count="3" Offset="0x798">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_0007C8" Count="9" Offset="0x7C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_000858" Count="12" Offset="0x858">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_000918" Count="6" Offset="0x918">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_000978" Count="3" Offset="0x978">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_0009A8" Count="3" Offset="0x9A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_0009D8" Count="3" Offset="0x9D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB4_Vtx_000A08" Count="30" Offset="0xA08">
+            <Vtx/>
+        </Array>
         <DList Name="object_oB4_DL_00000BE8" Offset="0xBE8"/>
         <DList Name="object_oB4_DL_00000C90" Offset="0xC90"/>
         <DList Name="object_oB4_DL_00000DF8" Offset="0xDF8"/>

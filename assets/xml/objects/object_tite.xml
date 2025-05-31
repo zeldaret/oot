@@ -17,6 +17,33 @@
         <Texture Name="object_tite_Tex_001B00" OutName="tex_00001B00" Format="rgba16" Width="16" Height="32" Offset="0x1B00"/>
         <Texture Name="object_tite_Tex_001F00" OutName="tex_00001F00" Format="rgba16" Width="16" Height="16" Offset="0x1F00"/>
         <Texture Name="object_tite_Tex_002100" OutName="tex_00002100" Format="rgba16" Width="8" Height="16" Offset="0x2100"/>
+        <Array Name="object_tite_Vtx_002200" Count="39" Offset="0x2200">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tite_Vtx_002470" Count="34" Offset="0x2470">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tite_Vtx_002690" Count="12" Offset="0x2690">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tite_Vtx_002750" Count="34" Offset="0x2750">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tite_Vtx_002970" Count="12" Offset="0x2970">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tite_Vtx_002A30" Count="34" Offset="0x2A30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tite_Vtx_002C50" Count="12" Offset="0x2C50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tite_Vtx_002D10" Count="34" Offset="0x2D10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tite_Vtx_002F30" Count="12" Offset="0x2F30">
+            <Vtx/>
+        </Array>
         <DList Name="object_tite_DL_002FF0" Offset="0x2FF0"/>
         <DList Name="object_tite_DL_003160" Offset="0x3160"/>
         <DList Name="object_tite_DL_003290" Offset="0x3290"/>
