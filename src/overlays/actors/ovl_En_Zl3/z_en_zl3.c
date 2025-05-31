@@ -1606,9 +1606,12 @@ void func_80B56F10(EnZl3* this, PlayState* play) {
         pathHead += waypoint;
         this->unk_30C = pathHead;
         this->unk_310 = pathHead->count;
-        PRINTF("En_Zl3_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", waypoint);
+        PRINTF(T("En_Zl3_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n",
+                 "En_Zl3_Get_path_info Got the rail data = %d!!!!!!!!!!!!!!\n"),
+               waypoint);
     } else {
-        PRINTF("En_Zl3_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF(T("En_Zl3_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n",
+                 "En_Zl3_Get_path_info No rail data!!!!!!!!!!!!!!!!!!!!\n"));
     }
 }
 

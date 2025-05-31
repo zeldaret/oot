@@ -9,6 +9,7 @@
 #include "rand.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -141,8 +142,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
     this->unk_1E8 = 0.0f;
     this->unk_1E0 = 0.25f;
     if (this->actor.params == 0) {
-        // "New initials"
-        PRINTF("ニュウ イニシャル[ %d ] ！！\n", this->actor.params);
+        PRINTF(T("ニュウ イニシャル[ %d ] ！！\n", "New init [ %d ] !!\n"), this->actor.params);
         this->actor.colChkInfo.mass = 0;
         this->unk_1D4 = 0;
         this->unk_1D8 = 0xFF;
@@ -150,8 +150,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
         func_80ABCDBC(this);
     } else {
         // This mode is unused in the final game
-        // "Dummy new initials"
-        PRINTF("ダミーニュウ イニシャル[ %d ] ！！\n", this->actor.params);
+        PRINTF(T("ダミーニュウ イニシャル[ %d ] ！！\n", "Dummy new init [ %d ] !!\n"), this->actor.params);
         PRINTF("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actor.update = EnNy_UpdateUnused;

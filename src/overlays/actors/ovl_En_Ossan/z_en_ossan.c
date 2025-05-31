@@ -13,6 +13,7 @@
 #include "segmented_address.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "play_state.h"
 #include "player.h"
@@ -640,7 +641,7 @@ void EnOssan_Init(Actor* thisx, PlayState* play) {
     if (this->objectSlot1 < 0) {
         Actor_Kill(&this->actor);
         PRINTF_COLOR_ERROR();
-        PRINTF("バンクが無いよ！！(%s)\n", sShopkeeperPrintName[this->actor.params]);
+        PRINTF(T("バンクが無いよ！！(%s)\n", "There is no bank!! (%s)\n"), sShopkeeperPrintName[this->actor.params]);
         PRINTF_RST();
         ASSERT(0, "0", "../z_en_oB1.c", 1284);
         return;
@@ -649,7 +650,8 @@ void EnOssan_Init(Actor* thisx, PlayState* play) {
     if (EnOssan_TryGetObjBankIndices(this, play, objectIds) == 0) {
         Actor_Kill(&this->actor);
         PRINTF_COLOR_ERROR();
-        PRINTF("予備バンクが無いよ！！(%s)\n", sShopkeeperPrintName[this->actor.params]);
+        PRINTF(T("予備バンクが無いよ！！(%s)\n", "There is no spare bank!! (%s)\n"),
+               sShopkeeperPrintName[this->actor.params]);
         PRINTF_RST();
         ASSERT(0, "0", "../z_en_oB1.c", 1295);
         return;

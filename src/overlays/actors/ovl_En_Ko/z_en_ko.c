@@ -13,6 +13,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "face_reaction.h"
@@ -1195,8 +1196,7 @@ void func_80A99048(EnKo* this, PlayState* play) {
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         if (ENKO_TYPE == ENKO_TYPE_CHILD_7) {
-            // "Angle Z"
-            PRINTF(VT_BGCOL(BLUE) "  アングルＺ->(%d)\n" VT_RST, this->actor.shape.rot.z);
+            PRINTF(VT_BGCOL(BLUE) T("  アングルＺ->(%d)\n", "  Angle Z->(%d)\n") VT_RST, this->actor.shape.rot.z);
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (this->actor.shape.rot.z != 1) {
                     Actor_Kill(&this->actor);
