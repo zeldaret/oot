@@ -507,7 +507,7 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
 
     if ((this->colliderJntSph.base.acFlags & AC_HIT) && !this->retreat) {
         this->colliderJntSph.base.acFlags &= ~AC_HIT;
-        if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 6)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) && (this->actor.colChkInfo.damageReaction != 6)) {
             this->colliderJntSph.base.atFlags = this->colliderJntSph.elements[0].base.atElemFlags =
                 AT_NONE; // also ATELEM_NONE
             this->colliderJntSph.elements[0].base.atDmgInfo.dmgFlags =

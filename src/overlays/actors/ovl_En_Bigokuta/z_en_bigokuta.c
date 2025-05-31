@@ -767,12 +767,12 @@ void func_809BE798(EnBigokuta* this, PlayState* play) {
 void EnBigokuta_UpdateDamage(EnBigokuta* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
-            if (this->actor.colChkInfo.damageEffect == 1) {
+        if (this->actor.colChkInfo.damageReaction != 0 || this->actor.colChkInfo.damage != 0) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->actionFunc != func_809BE058) {
                     func_809BD524(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 0xF) {
+            } else if (this->actor.colChkInfo.damageReaction == 0xF) {
                 func_809BD47C(this);
             } else if (!Actor_IsFacingPlayer(&this->actor, 0x4000)) {
                 if (Actor_ApplyDamage(&this->actor) == 0) { // Dead

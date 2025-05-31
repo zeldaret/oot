@@ -1402,7 +1402,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
         if (this->timer >= 0) {
             if (this->invincibilityTimer == 0) {
                 this->invincibilityTimer = 8;
-                if (this->actor.colChkInfo.damageEffect != 1) {
+                if (this->actor.colChkInfo.damageReaction != 1) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);

@@ -456,9 +456,9 @@ void EnDekunuts_ColliderCheck(EnDekunuts* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         if (this->actor.colChkInfo.mass == 50) {
-            if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
-                if (this->actor.colChkInfo.damageEffect != 1) {
-                    if (this->actor.colChkInfo.damageEffect == 2) {
+            if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
+                if (this->actor.colChkInfo.damageReaction != 1) {
+                    if (this->actor.colChkInfo.damageReaction == 2) {
                         EffectSsFCircle_Spawn(play, &this->actor, &this->actor.world.pos, 40, 50);
                     }
                     EnDekunuts_SetupBeDamaged(this);

@@ -393,7 +393,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
         tookDamage = false;
         this->collider.base.acFlags &= ~AC_HIT;
 
-        switch (this->actor.colChkInfo.damageEffect) {
+        switch (this->actor.colChkInfo.damageReaction) {
             case 14: // wind arrow
                 hitByWindArrow = true;
                 FALLTHROUGH;

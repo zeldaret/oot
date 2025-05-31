@@ -391,7 +391,7 @@ typedef struct CollisionCheckContext {
 #define OCLINE_NONE 0 // Did not have an OcLine collision
 #define OCLINE_HIT (1 << 0) // Had an OcLine collision
 
-#define DMG_ENTRY(damage, effect) ((damage) | ((effect) << 4))
+#define DMG_ENTRY(damage, reaction) ((damage) | ((reaction) << 4))
 
 #define DMG_DEKU_NUT     (1 << 0)
 #define DMG_DEKU_STICK   (1 << 1)
@@ -464,7 +464,7 @@ typedef struct CollisionCheckInfo {
     /* 0x16 */ u8 mass; // Used to compute displacement for OC collisions
     /* 0x17 */ u8 health; // Note: some actors may use their own health variable instead of this one
     /* 0x18 */ u8 damage; // Amount to decrement health by
-    /* 0x19 */ u8 damageEffect; // Stores what effect should occur when hit by a weapon
+    /* 0x19 */ u8 damageReaction; // Stores what reaction should occur after being hit
     /* 0x1A */ u8 atHitEffect; // Stores what effect should occur when AT connects with an AC
     /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
 } CollisionCheckInfo; // size = 0x1C
