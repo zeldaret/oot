@@ -306,6 +306,138 @@ sequence_ids = {
     0xFFFF: "NA_BGM_DISABLED",
 }
 
+cutscene_cmd_ids = {
+    0xFFFF: "CS_CMD_END_OF_SCRIPT",
+    0x0001: "CS_CMD_CAM_EYE_SPLINE",
+    0x0002: "CS_CMD_CAM_AT_SPLINE",
+    0x0003: "CS_CMD_MISC",
+    0x0004: "CS_CMD_LIGHT_SETTING",
+    0x0005: "CS_CMD_CAM_EYE_SPLINE_REL_TO_PLAYER",
+    0x0006: "CS_CMD_CAM_AT_SPLINE_REL_TO_PLAYER",
+    0x0007: "CS_CMD_CAM_EYE",
+    0x0008: "CS_CMD_CAM_AT",
+    0x0009: "CS_CMD_RUMBLE_CONTROLLER",
+    0x000A: "CS_CMD_PLAYER_CUE",
+    0x000B: "CS_CMD_UNIMPLEMENTED_B",
+    0x000D: "CS_CMD_UNIMPLEMENTED_D",
+    0x000E: "CS_CMD_ACTOR_CUE_1_0",
+    0x000F: "CS_CMD_ACTOR_CUE_0_0",
+    0x0010: "CS_CMD_ACTOR_CUE_1_1",
+    0x0011: "CS_CMD_ACTOR_CUE_0_1",
+    0x0012: "CS_CMD_ACTOR_CUE_0_2",
+    0x0013: "CS_CMD_TEXT",
+    0x0015: "CS_CMD_UNIMPLEMENTED_15",
+    0x0016: "CS_CMD_UNIMPLEMENTED_16",
+    0x0017: "CS_CMD_ACTOR_CUE_0_3",
+    0x0018: "CS_CMD_ACTOR_CUE_1_2",
+    0x0019: "CS_CMD_ACTOR_CUE_2_0",
+    0x001B: "CS_CMD_UNIMPLEMENTED_1B",
+    0x001C: "CS_CMD_UNIMPLEMENTED_1C",
+    0x001D: "CS_CMD_ACTOR_CUE_3_0",
+    0x001E: "CS_CMD_ACTOR_CUE_4_0",
+    0x001F: "CS_CMD_ACTOR_CUE_6_0",
+    0x0020: "CS_CMD_UNIMPLEMENTED_20",
+    0x0021: "CS_CMD_UNIMPLEMENTED_21",
+    0x0022: "CS_CMD_ACTOR_CUE_0_4",
+    0x0023: "CS_CMD_ACTOR_CUE_1_3",
+    0x0024: "CS_CMD_ACTOR_CUE_2_1",
+    0x0025: "CS_CMD_ACTOR_CUE_3_1",
+    0x0026: "CS_CMD_ACTOR_CUE_4_1",
+    0x0027: "CS_CMD_ACTOR_CUE_0_5",
+    0x0028: "CS_CMD_ACTOR_CUE_1_4",
+    0x0029: "CS_CMD_ACTOR_CUE_2_2",
+    0x002A: "CS_CMD_ACTOR_CUE_3_2",
+    0x002B: "CS_CMD_ACTOR_CUE_4_2",
+    0x002C: "CS_CMD_ACTOR_CUE_5_0",
+    0x002D: "CS_CMD_TRANSITION",
+    0x002E: "CS_CMD_ACTOR_CUE_0_6",
+    0x002F: "CS_CMD_ACTOR_CUE_4_3",
+    0x0030: "CS_CMD_ACTOR_CUE_1_5",
+    0x0031: "CS_CMD_ACTOR_CUE_7_0",
+    0x0032: "CS_CMD_ACTOR_CUE_2_3",
+    0x0033: "CS_CMD_ACTOR_CUE_3_3",
+    0x0034: "CS_CMD_ACTOR_CUE_6_1",
+    0x0035: "CS_CMD_ACTOR_CUE_3_4",
+    0x0036: "CS_CMD_ACTOR_CUE_4_4",
+    0x0037: "CS_CMD_ACTOR_CUE_5_1",
+    0x0039: "CS_CMD_ACTOR_CUE_6_2",
+    0x003A: "CS_CMD_ACTOR_CUE_6_3",
+    0x003B: "CS_CMD_UNIMPLEMENTED_3B",
+    0x003C: "CS_CMD_ACTOR_CUE_7_1",
+    0x003D: "CS_CMD_UNIMPLEMENTED_3D",
+    0x003E: "CS_CMD_ACTOR_CUE_8_0",
+    0x003F: "CS_CMD_ACTOR_CUE_3_5",
+    0x0040: "CS_CMD_ACTOR_CUE_1_6",
+    0x0041: "CS_CMD_ACTOR_CUE_3_6",
+    0x0042: "CS_CMD_ACTOR_CUE_3_7",
+    0x0043: "CS_CMD_ACTOR_CUE_2_4",
+    0x0044: "CS_CMD_ACTOR_CUE_1_7",
+    0x0045: "CS_CMD_ACTOR_CUE_2_5",
+    0x0046: "CS_CMD_ACTOR_CUE_1_8",
+    0x0047: "CS_CMD_UNIMPLEMENTED_47",
+    0x0048: "CS_CMD_ACTOR_CUE_2_6",
+    0x0049: "CS_CMD_UNIMPLEMENTED_49",
+    0x004A: "CS_CMD_ACTOR_CUE_2_7",
+    0x004B: "CS_CMD_ACTOR_CUE_3_8",
+    0x004C: "CS_CMD_ACTOR_CUE_0_7",
+    0x004D: "CS_CMD_ACTOR_CUE_5_2",
+    0x004E: "CS_CMD_ACTOR_CUE_1_9",
+    0x004F: "CS_CMD_ACTOR_CUE_4_5",
+    0x0050: "CS_CMD_ACTOR_CUE_1_10",
+    0x0051: "CS_CMD_ACTOR_CUE_2_8",
+    0x0052: "CS_CMD_ACTOR_CUE_3_9",
+    0x0053: "CS_CMD_ACTOR_CUE_4_6",
+    0x0054: "CS_CMD_ACTOR_CUE_5_3",
+    0x0055: "CS_CMD_ACTOR_CUE_0_8",
+    0x0056: "CS_CMD_START_SEQ",
+    0x0057: "CS_CMD_STOP_SEQ",
+    0x0058: "CS_CMD_ACTOR_CUE_6_4",
+    0x0059: "CS_CMD_ACTOR_CUE_7_2",
+    0x005A: "CS_CMD_ACTOR_CUE_5_4",
+    0x005D: "CS_CMD_ACTOR_CUE_0_9",
+    0x005E: "CS_CMD_ACTOR_CUE_1_11",
+    0x0069: "CS_CMD_ACTOR_CUE_0_10",
+    0x006A: "CS_CMD_ACTOR_CUE_2_9",
+    0x006B: "CS_CMD_ACTOR_CUE_0_11",
+    0x006C: "CS_CMD_ACTOR_CUE_3_10",
+    0x006D: "CS_CMD_UNIMPLEMENTED_6D",
+    0x006E: "CS_CMD_ACTOR_CUE_0_12",
+    0x006F: "CS_CMD_ACTOR_CUE_7_3",
+    0x0070: "CS_CMD_UNIMPLEMENTED_70",
+    0x0071: "CS_CMD_UNIMPLEMENTED_71",
+    0x0072: "CS_CMD_ACTOR_CUE_7_4",
+    0x0073: "CS_CMD_ACTOR_CUE_6_5",
+    0x0074: "CS_CMD_ACTOR_CUE_1_12",
+    0x0075: "CS_CMD_ACTOR_CUE_2_10",
+    0x0076: "CS_CMD_ACTOR_CUE_1_13",
+    0x0077: "CS_CMD_ACTOR_CUE_0_13",
+    0x0078: "CS_CMD_ACTOR_CUE_1_14",
+    0x0079: "CS_CMD_ACTOR_CUE_2_11",
+    0x007B: "CS_CMD_ACTOR_CUE_0_14",
+    0x007C: "CS_CMD_FADE_OUT_SEQ",
+    0x007D: "CS_CMD_ACTOR_CUE_1_15",
+    0x007E: "CS_CMD_ACTOR_CUE_2_12",
+    0x007F: "CS_CMD_ACTOR_CUE_3_11",
+    0x0080: "CS_CMD_ACTOR_CUE_4_7",
+    0x0081: "CS_CMD_ACTOR_CUE_5_5",
+    0x0082: "CS_CMD_ACTOR_CUE_6_6",
+    0x0083: "CS_CMD_ACTOR_CUE_1_16",
+    0x0084: "CS_CMD_ACTOR_CUE_2_13",
+    0x0085: "CS_CMD_ACTOR_CUE_3_12",
+    0x0086: "CS_CMD_ACTOR_CUE_7_5",
+    0x0087: "CS_CMD_ACTOR_CUE_4_8",
+    0x0088: "CS_CMD_ACTOR_CUE_5_6",
+    0x0089: "CS_CMD_ACTOR_CUE_6_7",
+    0x008A: "CS_CMD_ACTOR_CUE_0_15",
+    0x008B: "CS_CMD_ACTOR_CUE_0_16",
+    0x008C: "CS_CMD_TIME",
+    0x008D: "CS_CMD_ACTOR_CUE_1_17",
+    0x008E: "CS_CMD_ACTOR_CUE_7_6",
+    0x008F: "CS_CMD_ACTOR_CUE_9_0",
+    0x0090: "CS_CMD_ACTOR_CUE_0_17",
+    0x03E8: "CS_CMD_DESTINATION",
+}
+
 cutscene_misc_types = {
     0x00: "CS_MISC_UNIMPLEMENTED_0",
     0x01: "CS_MISC_RAIN",
@@ -508,17 +640,17 @@ cutscene_command_macros = {
     10:
         ("CS_PLAYER_CUE_LIST(%w1:1:s)", 2, None, 0,
               "CS_PLAYER_CUE(%h2:1:e6, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
-    (15,17,18,23,34,39,46,76,85,93,105,107,110,119,123,138,139,144, # npc action 1
-     14,16,24,35,40,48,64,68,70,78,80,94,116,118,120,125,131,141,   # npc action 2
-     25,36,41,50,67,69,72,74,81,106,117,121,126,132,                # npc action 3
-     29,37,42,51,53,63,65,66,75,82,108,127,133,                     # npc action 4
-     30,38,43,47,54,79,83,128,135,                                  # npc action 5
-     44,55,77,84,90,129,136,                                        # npc action 6
-     31,52,57,58,88,115,130,137,                                    # npc action 7
-     49,60,89,111,114,134,142,                                      # npc action 8
-     62,                                                            # npc action 9
-     143):                                                          # npc action 10
-        ("CS_ACTOR_CUE_LIST(%w1:0:s, %w1:1:s)", 2, None, 0,
+    (15,17,18,23,34,39,46,76,85,93,105,107,110,119,123,138,139,144, # actor cue 1
+     14,16,24,35,40,48,64,68,70,78,80,94,116,118,120,125,131,141,   # actor cue 2
+     25,36,41,50,67,69,72,74,81,106,117,121,126,132,                # actor cue 3
+     29,37,42,51,53,63,65,66,75,82,108,127,133,                     # actor cue 4
+     30,38,43,47,54,79,83,128,135,                                  # actor cue 5
+     44,55,77,84,90,129,136,                                        # actor cue 6
+     31,52,57,58,88,115,130,137,                                    # actor cue 7
+     49,60,89,111,114,134,142,                                      # actor cue 8
+     62,                                                            # actor cue 9
+     143):                                                          # actor cue 10
+        ("CS_ACTOR_CUE_LIST(%w1:0:e8, %w1:1:s)", 2, None, 0,
               "CS_ACTOR_CUE(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
     1:
         ("CS_CAM_EYE_SPLINE(%h1:1:s, %h2:2:s)", 3, 0, None,
@@ -672,6 +804,8 @@ def format_arg(arg, words):
             result = player_cue_ids[unsigned_value]
         elif enum_no == 7:
             result = fade_out_seq_player[unsigned_value]
+        elif enum_no == 8:
+            result = cutscene_cmd_ids[unsigned_value]
     elif format_type == "u":
         result = str(value)
     elif format_type == "s":
