@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_bombpouch" Segment="6">
+        <Array Name="gGiBombBagVtx" Count="152" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiBombBagRingVtx" Count="21" Offset="0x980">
+            <Vtx/>
+        </Array>
         <DList Name="gGiBombBag20BagColorDL" Offset="0x0AD0"/>
         <DList Name="gGiBombBag30BagColorDL" Offset="0x0AF0"/>
         <DList Name="gGiBombBag40BagColorDL" Offset="0x0B10"/>

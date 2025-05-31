@@ -1,8 +1,17 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_dangeon_keep/"/>
     <File Name="object_syokudai" Segment="6">
+        <Array Name="gGoldenTorchVtx" Count="58" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGoldenTorchDL" Offset="0x3A0"/>
+        <Array Name="gWoodenTorchVtx" Count="48" Offset="0x570">
+            <Vtx/>
+        </Array>
         <DList Name="gWoodenTorchDL" Offset="0x870"/>
+        <Array Name="gTimedTorchVtx" Count="28" Offset="0x9D0">
+            <Vtx/>
+        </Array>
         <DList Name="gTimedTorchDL" Offset="0xB90"/>
         <Texture Name="gGoldenTorch1Tex" OutName="golden_torch_1" Format="rgba16" Width="32" Height="32" Offset="0xC90"/>
         <Texture Name="gGoldenTorch2Tex" OutName="golden_torch_2" Format="rgba16" Width="32" Height="64" Offset="0x1490"/>
