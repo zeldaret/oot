@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_ocarina" Segment="6">
+        <Array Name="gGiOcarinaTimeVtx" Count="100" Offset="0x100">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiOcarinaTimeHolesVtx" Count="24" Offset="0x740">
+            <Vtx/>
+        </Array>
         <DList Name="gGiOcarinaTimeDL" Offset="0x08C0"/>
         <DList Name="gGiOcarinaTimeHolesDL" Offset="0x0AF8"/>
     </File>

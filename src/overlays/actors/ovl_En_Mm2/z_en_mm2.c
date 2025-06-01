@@ -14,6 +14,7 @@
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 #include "z64save.h"
@@ -162,7 +163,7 @@ void EnMm2_Init(Actor* thisx, PlayState* play2) {
     }
     if (this->actor.params == 1) {
         if (!GET_INFTABLE(INFTABLE_17F) || !GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
-            PRINTF(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
+            PRINTF(VT_FGCOL(CYAN) T(" マラソン 開始されていない \n", " Marathon not started \n") VT_RST "\n");
             Actor_Kill(&this->actor);
         }
     }

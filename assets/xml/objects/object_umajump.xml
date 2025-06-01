@@ -2,6 +2,9 @@
     <File Name="object_umajump" Segment="6">
         <Texture Name="gJumpableHorseFenceBrickTex" OutName="brick" Format="rgba16" Width="16" Height="64" Offset="0x0"/>
         <Texture Name="gJumpableHorseFenceMetalBarTex" OutName="metal_bar" Format="rgba16" Width="16" Height="64" Offset="0x800"/>
+        <Array Name="gJumpableHorseFenceVtx" Count="34" Offset="0x1000">
+            <Vtx/>
+        </Array>
         <DList Name="gJumpableHorseFenceDL" Offset="0x1220"/>
         <Collision Name="gJumpableHorseFenceCol" Offset="0x1438"/>
     </File>

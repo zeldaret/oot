@@ -1,7 +1,13 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_map" Segment="6">
+        <Array Name="gGiDungeonMapVtx" Count="60" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiDungeonMapDL" Offset="0x03C0"/>
+        <Array Name="gGiStoneOfAgonyVtx" Count="91" Offset="0x5C0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiStoneOfAgonyDL" Offset="0x0B70"/>
     </File>
 </Root>

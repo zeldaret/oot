@@ -1,5 +1,8 @@
 <Root>
     <File Name="object_rr" Segment="6">
+        <Array Name="gLikeLikeVtx" Count="71" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gLikeLikeDL" Offset="0x470"/>
         <Texture Name="gLikeLikeBodyPattern1Tex" OutName="body_pattern_1" Format="rgba16" Width="16" Height="16" Offset="0x800"/>
         <Texture Name="gLikeLikeBodyPattern2Tex" OutName="body_pattern_2" Format="rgba16" Width="16" Height="16" Offset="0xA00"/>

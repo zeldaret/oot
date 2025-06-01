@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_butterfly" Segment="6">
+        <Array Name="gGiButterflyContainerVtx" Count="65" Offset="0x240">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiButterflyGlassVtx" Count="30" Offset="0x650">
+            <Vtx/>
+        </Array>
         <DList Name="gGiButterflyContainerDL" Offset="0x0830"/>
         <DList Name="gGiButterflyGlassDL" Offset="0x0A70"/>
     </File>

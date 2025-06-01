@@ -233,9 +233,9 @@ def find_symbols_by_name(
 def print_map_file(map_file: mapfile_parser.mapfile.MapFile, *, colors: bool):
     for segment in map_file:
         print(
-            f"{colorama.Fore.GREEN if colors else ""}"
+            f"{colorama.Fore.GREEN if colors else ''}"
             f"{segment.name}"
-            f"{colorama.Fore.RESET if colors else ""}"
+            f"{colorama.Fore.RESET if colors else ''}"
         )
         for file in segment:
             # Ignore debug sections
@@ -246,9 +246,9 @@ def print_map_file(map_file: mapfile_parser.mapfile.MapFile, *, colors: bool):
             ):
                 continue
             print(
-                f"{colorama.Fore.CYAN if colors else ""}"
+                f"{colorama.Fore.CYAN if colors else ''}"
                 f"    {file.asStr()}"
-                f"{colorama.Fore.RESET if colors else ""}"
+                f"{colorama.Fore.RESET if colors else ''}"
             )
             for sym in file:
                 vram_str = f"{sym.vram:08X}"

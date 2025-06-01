@@ -56,9 +56,9 @@
         <Texture Name="gEyeBallFrogItemNameJPNTex" OutName="eyeball_frog_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0xD400"/>
         <Texture Name="gEyeDropsItemNameJPNTex" OutName="eyedrops_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0xD800"/>
         <Texture Name="gClaimCheckItemNameJPNTex" OutName="claim_check_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0xDC00"/>
-        <Texture Name="gUnusedWindMedallionItemName1JPNTex" OutName="wind_medallion_item_name_unused_jpn_1" Format="ia4" Width="128" Height="16" Offset="0xE000"/>
-        <Texture Name="gUnusedFireMedallionItemName1JPNTex" OutName="fire_medallion_item_name_unused_jpn_1" Format="ia4" Width="128" Height="16" Offset="0xE400"/>
-        <Texture Name="gUnusedIceMedallionItemName1JPNTex" OutName="ice_medallion_item_name_unused_jpn_1" Format="ia4" Width="128" Height="16" Offset="0xE800"/>
+        <Texture Name="gUnusedWindMedallionItemNameJPNTex" OutName="wind_medallion_item_name_unused_jpn_1" Format="ia4" Width="128" Height="16" Offset="0xE000"/>
+        <Texture Name="gUnusedFireMedallionItemNameJPNTex" OutName="fire_medallion_item_name_unused_jpn_1" Format="ia4" Width="128" Height="16" Offset="0xE400"/>
+        <Texture Name="gUnusedIceMedallionItemNameJPNTex" OutName="ice_medallion_item_name_unused_jpn_1" Format="ia4" Width="128" Height="16" Offset="0xE800"/>
         <Texture Name="gKokiriSwordItemNameJPNTex" OutName="kokiri_sword_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0xEC00"/>
         <Texture Name="gMasterSwordItemNameJPNTex" OutName="master_sword_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0xF000"/>
         <Texture Name="gGiantsKnifeItemNameJPNTex" OutName="giants_knife_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0xF400"/>
@@ -115,7 +115,7 @@
         <Texture Name="gGerudosCardItemNameJPNTex" OutName="gerudos_card_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0x1C000"/>
         <Texture Name="gGoldSkulltulaItemNameJPNTex" OutName="gold_skulltula_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0x1C400"/>
         <Texture Name="gPieceOfHeartItemNameJPNTex" OutName="piece_of_heart_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0x1C800"/>
-        <Texture Name="gUnusedPieceOfHeartItemName1JPNTex" OutName="piece_of_heart_item_name_unused_jpn_1" Format="ia4" Width="128" Height="16" Offset="0x1CC00"/>
+        <Texture Name="gUnusedPieceOfHeartItemNameJPNTex" OutName="piece_of_heart_item_name_unused_jpn_1" Format="ia4" Width="128" Height="16" Offset="0x1CC00"/>
         <Texture Name="gUnusedBigKeyItemNameJPNTex" OutName="bigkey_item_name_unused_jpn" Format="ia4" Width="128" Height="16" Offset="0x1D000"/>
         <Texture Name="gCompassItemNameJPNTex" OutName="compass_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0x1D400"/>
         <Texture Name="gDungeonMapItemNameJPNTex" OutName="dungeon_map_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0x1D800"/>
@@ -123,11 +123,12 @@
         <Texture Name="gUnusedBossKeyItemName6JPNTex" OutName="boss_key_item_name_unused_jpn_6" Format="ia4" Width="128" Height="16" Offset="0x1E000"/>
         <Texture Name="gUnusedBossKeyItemName7JPNTex" OutName="boss_key_item_name_unused_jpn_7" Format="ia4" Width="128" Height="16" Offset="0x1E400"/>
         <Texture Name="gBiggoronsSwordItemNameJPNTex" OutName="biggorons_sword_item_name_jpn" Format="ia4" Width="128" Height="16" Offset="0x1E800"/>
+
         <Texture Name="gDekuStickItemNameENGTex" OutName="deku_stick_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1EC00"/>
         <Texture Name="gDekuNutItemNameENGTex" OutName="deku_nut_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1F000"/>
-        <Texture Name="gBombItemNameItemNameENGTex" OutName="bomb_item_name_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1F400"/>
+        <Texture Name="gBombItemNameENGTex" OutName="bomb_item_name_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1F400"/>
         <Texture Name="gFairyBowItemNameENGTex" OutName="fairy_bow_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1F800"/>
-        <Texture Name="gFireArrowItemNameUnk2ENGTex" OutName="fire_arrow_item_name_unk2_eng" Format="ia4" Width="128" Height="16" Offset="0x1FC00"/>
+        <Texture Name="gFireArrowItemNameENGTex" OutName="fire_arrow_item_name_unk2_eng" Format="ia4" Width="128" Height="16" Offset="0x1FC00"/>
         <Texture Name="gDinsFireItemNameENGTex" OutName="dins_fire_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x20000"/>
         <Texture Name="gFairySlingshotItemNameENGTex" OutName="fairy_slingshot_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x20400"/>
         <Texture Name="gFairyOcarinaItemNameENGTex" OutName="fairy_ocarina_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x20800"/>
@@ -179,9 +180,9 @@
         <Texture Name="gEyeBallFrogItemNameENGTex" OutName="eyeball_frog_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2C000"/>
         <Texture Name="gEyeDropsItemNameENGTex" OutName="eyedrops_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2C400"/>
         <Texture Name="gClaimCheckItemNameENGTex" OutName="claim_check_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2C800"/>
-        <Texture Name="gUnusedWindMedallionItemName2JPNTex" OutName="wind_medallion_item_name_unused_jpn_2" Format="ia4" Width="128" Height="16" Offset="0x2CC00"/>
-        <Texture Name="gUnusedFireMedallionItemName2JPNTex" OutName="fire_medallion_item_name_unused_jpn_2" Format="ia4" Width="128" Height="16" Offset="0x2D000"/>
-        <Texture Name="gUnusedIceMedallionItemName2JPNTex" OutName="ice_medallion_item_name_unused_jpn_2" Format="ia4" Width="128" Height="16" Offset="0x2D400"/>
+        <Texture Name="gUnusedWindMedallionItemName1JPNTex" OutName="wind_medallion_item_name_unused_jpn_2" Format="ia4" Width="128" Height="16" Offset="0x2CC00"/>
+        <Texture Name="gUnusedFireMedallionItemName1JPNTex" OutName="fire_medallion_item_name_unused_jpn_2" Format="ia4" Width="128" Height="16" Offset="0x2D000"/>
+        <Texture Name="gUnusedIceMedallionItemName1JPNTex" OutName="ice_medallion_item_name_unused_jpn_2" Format="ia4" Width="128" Height="16" Offset="0x2D400"/>
         <Texture Name="gKokiriSwordItemNameENGTex" OutName="kokiri_sword_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2D800"/>
         <Texture Name="gMasterSwordItemNameENGTex" OutName="master_sword_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2DC00"/>
         <Texture Name="gGiantsKnifeItemNameENGTex" OutName="giants_knife_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2E000"/>
@@ -209,10 +210,10 @@
         <Texture Name="gSilverScaleItemNameENGTex" OutName="silver_scale_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x33800"/>
         <Texture Name="gGoldenScaleItemNameENGTex" OutName="golden_scale_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x33C00"/>
         <Texture Name="gBrokenGiantsKnifeItemNameENGTex" OutName="broken_giants_knife_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x34000"/>
-        <Texture Name="gUnusedBossKeyItemName8JPNTex" OutName="boss_key_item_name_unused_jpn_8" Format="ia4" Width="128" Height="16" Offset="0x34400"/>
-        <Texture Name="gUnusedBossKeyItemName9JPNTex" OutName="boss_key_item_name_unused_jpn_9" Format="ia4" Width="128" Height="16" Offset="0x34800"/>
-        <Texture Name="gUnusedBossKeyItemName10JPNTex" OutName="boss_key_item_name_unused_jpn_10" Format="ia4" Width="128" Height="16" Offset="0x34C00"/>
-        <Texture Name="gUnusedBossKeyItemName11JPNTex" OutName="boss_key_item_name_unused_jpn_11" Format="ia4" Width="128" Height="16" Offset="0x35000"/>
+        <Texture Name="gUnusedBossKeyItemName11JPNTex" OutName="boss_key_item_name_unused_jpn_8" Format="ia4" Width="128" Height="16" Offset="0x34400"/>
+        <Texture Name="gUnusedBossKeyItemName21JPNTex" OutName="boss_key_item_name_unused_jpn_9" Format="ia4" Width="128" Height="16" Offset="0x34800"/>
+        <Texture Name="gUnusedBossKeyItemName31JPNTex" OutName="boss_key_item_name_unused_jpn_10" Format="ia4" Width="128" Height="16" Offset="0x34C00"/>
+        <Texture Name="gUnusedBossKeyItemName41JPNTex" OutName="boss_key_item_name_unused_jpn_11" Format="ia4" Width="128" Height="16" Offset="0x35000"/>
         <Texture Name="gMinuetOfForestItemNameENGTex" OutName="minuet_of_forest_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x35400"/>
         <Texture Name="gBoleroOfFireItemNameENGTex" OutName="bolero_of_fire_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x35800"/>
         <Texture Name="gSerenadeOfWaterItemNameENGTex" OutName="serenade_of_water_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x35C00"/>
@@ -237,14 +238,14 @@
         <Texture Name="gStoneofAgonyItemNameENGTex" OutName="stone_of_agony_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3A800"/>
         <Texture Name="gGerudosCardItemNameENGTex" OutName="gerudos_card_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3AC00"/>
         <Texture Name="gGoldSkulltulaItemNameENGTex" OutName="gold_skulltula_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3B000"/>
-        <Texture Name="gHeartContainerItemNameENGTex" OutName="heart_container_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3B400"/>
-        <Texture Name="gUnusedPieceOfHeartItemName2JPNTex" OutName="piece_of_heart_item_name_unused_jpn_2" Format="ia4" Width="128" Height="16" Offset="0x3B800"/>
-        <Texture Name="gBigKeyItemNameENGTex" OutName="big_key_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3BC00"/>
+        <Texture Name="gPieceOfHeartItemNameENGTex" OutName="heart_container_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3B400"/>
+        <Texture Name="gUnusedPieceOfHeartItemName1JPNTex" OutName="piece_of_heart_item_name_unused_jpn_2" Format="ia4" Width="128" Height="16" Offset="0x3B800"/>
+        <Texture Name="gUnusedBigKeyItemNameENGTex" OutName="big_key_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3BC00"/>
         <Texture Name="gCompassItemNameENGTex" OutName="compass_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3C000"/>
         <Texture Name="gDungeonMapItemNameENGTex" OutName="dungeon_map_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3C400"/>
-        <Texture Name="gUnusedBossKeyItemName12JPNTex" OutName="boss_key_item_name_unused_jpn_12" Format="ia4" Width="128" Height="16" Offset="0x3C800"/>
-        <Texture Name="gUnusedBossKeyItemName13JPNTex" OutName="boss_key_item_name_unused_jpn_13" Format="ia4" Width="128" Height="16" Offset="0x3CC00"/>
-        <Texture Name="gUnusedBossKeyItemName14JPNTex" OutName="boss_key_item_name_unused_jpn_14" Format="ia4" Width="128" Height="16" Offset="0x3D000"/>
+        <Texture Name="gUnusedBossKeyItemName51JPNTex" OutName="boss_key_item_name_unused_jpn_12" Format="ia4" Width="128" Height="16" Offset="0x3C800"/>
+        <Texture Name="gUnusedBossKeyItemName61JPNTex" OutName="boss_key_item_name_unused_jpn_13" Format="ia4" Width="128" Height="16" Offset="0x3CC00"/>
+        <Texture Name="gUnusedBossKeyItemName71JPNTex" OutName="boss_key_item_name_unused_jpn_14" Format="ia4" Width="128" Height="16" Offset="0x3D000"/>
         <Texture Name="gBiggoronsSwordItemNameENGTex" OutName="biggorons_sword_item_name_eng" Format="ia4" Width="128" Height="16" Offset="0x3D400"/>
     </File>
 </Root>

@@ -20,6 +20,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64audio.h"
 #include "z64face_reaction.h"
@@ -176,8 +177,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
 
     switch (this->actor.params) {
         case ENTA_IN_KAKARIKO:
-            // "Exile Talon"
-            PRINTF(VT_FGCOL(CYAN) " 追放タロン \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T(" 追放タロン \n", " Exile Talon \n") VT_RST);
             if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
@@ -197,15 +197,14 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             break;
 
         case ENTA_RETURNED_FROM_KAKARIKO:
-            // "Return Talon"
-            PRINTF(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T(" 出戻りタロン \n", " Return Talon \n") VT_RST);
             if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             } else if (play->sceneId == SCENE_STABLE && !IS_DAY) {
                 Actor_Kill(&this->actor);
-                PRINTF(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
+                PRINTF(VT_FGCOL(CYAN) T(" 夜はいない \n", " He's not here at night \n") VT_RST);
             } else {
                 EnTa_SetupAction(this, EnTa_IdleAtRanch, EnTa_AnimRepeatCurrent);
                 this->eyeIndex = TALON_EYE_INDEX_OPEN;
@@ -215,8 +214,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             break;
 
         default: // Child era Talon
-            // "Other Talon"
-            PRINTF(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T(" その他のタロン \n", " Other Talon \n") VT_RST);
             if (play->sceneId == SCENE_HYRULE_CASTLE) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);

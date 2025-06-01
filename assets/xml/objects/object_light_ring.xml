@@ -1,5 +1,8 @@
 <Root>
     <File Name="object_light_ring" Segment="6">
+        <Array Name="gGoldenGoddessLightRingVtx" Count="25" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGoldenGoddessLightRingDL" Offset="0x0190"/>
         <Texture Name="gGoldenGoddessLightRingTex" OutName="goddess_light_ring" Format="i8" Width="32" Height="128" Offset="0x0278"/>
     </File>

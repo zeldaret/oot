@@ -2,6 +2,30 @@
     <File Name="object_rs" Segment="6">
         <Animation Name="gBombchuShopkeeperIdleAnim" Offset="0x65C"/>
 
+        <Array Name="gBombchuShopkeeperHeadVtx" Count="163" Offset="0x670">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombchuShopkeeperLeftHandVtx" Count="47" Offset="0x10A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombchuShopkeeperLeftForearmVtx" Count="27" Offset="0x1390">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombchuShopkeeperLeftUpperArmVtx" Count="26" Offset="0x1540">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombchuShopkeeperRightHandVtx" Count="47" Offset="0x16E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombchuShopkeeperRightForearmVtx" Count="27" Offset="0x19D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombchuShopkeeperRightUpperArmVtx" Count="26" Offset="0x1B80">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombchuShopkeeperTorsoVtx" Count="40" Offset="0x1D20">
+            <Vtx/>
+        </Array>
         <DList Name="gBombchuShopkeeperTorsoDL" Offset="0x1FA0"/>
         <DList Name="gBombchuShopkeeperHeadDL" Offset="0x21F8"/>
         <DList Name="gBombchuShopkeeperRightUpperArmDL" Offset="0x25F8"/>

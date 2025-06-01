@@ -1,7 +1,13 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_magicpot" Segment="6">
+        <Array Name="gGiMagicJarSmallVtx" Count="88" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiMagicJarSmallDL" Offset="0x0580"/>
+        <Array Name="gGiMagicJarLargeVtx" Count="111" Offset="0x7F0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiMagicJarLargeDL" Offset="0x0EE0"/>
     </File>
 </Root>

@@ -51,6 +51,33 @@
         <Texture Name="gKotakeKoumeEyeHalfTex" OutName="kotake_koume_eye_half" Format="ci8" Width="32" Height="32" Offset="0x94D8" TlutOffset="0x7730"/>
         <Texture Name="gKotakeKoumeEyeClosedTex" OutName="kotake_koume_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x98D8" TlutOffset="0x7730"/>
 
+        <Array Name="gKotakeHeadVtx" Count="159" Offset="0x9CD8">
+            <Vtx/>
+        </Array>
+        <Array Name="gKotakeTeethVtx" Count="9" Offset="0xA6C8">
+            <Vtx/>
+        </Array>
+        <Array Name="gKotakeRightShinVtx" Count="7" Offset="0xA758">
+            <Vtx/>
+        </Array>
+        <Array Name="gKotakeLeftShinVtx" Count="7" Offset="0xA7C8">
+            <Vtx/>
+        </Array>
+        <Array Name="gKotakeBroomVtx" Count="48" Offset="0xA838">
+            <Vtx/>
+        </Array>
+        <Array Name="gKotakeRightFootVtx" Count="4" Offset="0xAB38">
+            <Vtx/>
+        </Array>
+        <Array Name="gKotakeLeftFootVtx" Count="4" Offset="0xAB78">
+            <Vtx/>
+        </Array>
+        <Array Name="gKotakeRightHandVtx" Count="28" Offset="0xABB8">
+            <Vtx/>
+        </Array>
+        <Array Name="gKotakeLeftHandVtx" Count="28" Offset="0xAD78">
+            <Vtx/>
+        </Array>
         <DList Name="gKotakeHeadDL" Offset="0xAF38"/>
         <DList Name="gKotakeTeethDL" Offset="0xB568"/>
         <DList Name="gKotakeRightShinDL" Offset="0xB5C8"/>
@@ -125,6 +152,33 @@
         <Texture Name="gKoumeRobeTex" OutName="koume_robe" Format="rgba16" Width="16" Height="16" Offset="0xF230"/>
         <Texture Name="gKoumeJewelTex" OutName="koume_jewel" Format="rgba16" Width="8" Height="8" Offset="0xF430"/>
 
+        <Array Name="gKoumeHeadVtx" Count="159" Offset="0xF4B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gKoumeTeethVtx" Count="9" Offset="0xFEA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gKoumeRightShinVtx" Count="7" Offset="0xFF30">
+            <Vtx/>
+        </Array>
+        <Array Name="gKoumeLeftShinVtx" Count="7" Offset="0xFFA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gKoumeBroomVtx" Count="48" Offset="0x10010">
+            <Vtx/>
+        </Array>
+        <Array Name="gKoumeRightFootVtx" Count="4" Offset="0x10310">
+            <Vtx/>
+        </Array>
+        <Array Name="gKoumeLeftFootVtx" Count="4" Offset="0x10350">
+            <Vtx/>
+        </Array>
+        <Array Name="gKoumeRightHandVtx" Count="28" Offset="0x10390">
+            <Vtx/>
+        </Array>
+        <Array Name="gKoumeLeftHandVtx" Count="28" Offset="0x10550">
+            <Vtx/>
+        </Array>
         <DList Name="gKoumeHeadDL" Offset="0x10710"/>
         <DList Name="gKoumeTeethDL" Offset="0x10D40"/>
         <DList Name="gKoumeRightShinDL" Offset="0x10DA0"/>

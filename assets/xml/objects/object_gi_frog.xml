@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_frog" Segment="6">
+        <Array Name="gGiFrogVtx" Count="139" Offset="0x400">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiFrogEyesVtx" Count="11" Offset="0xCB0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiFrogDL" Offset="0x0D60"/>
         <DList Name="gGiFrogEyesDL" Offset="0x1060"/>
     </File>

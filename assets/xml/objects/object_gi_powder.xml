@@ -1,6 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_powder" Segment="6">
+        <Array Name="gGiOddPotionVtx" Count="139" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiOddPotionDL" Offset="0x08B0"/>
     </File>
 </Root>

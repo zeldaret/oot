@@ -11,6 +11,66 @@
         <Texture Name="object_zf_Tex_000580" OutName="tex_00000580" Format="i8" Width="8" Height="16" Offset="0x580"/>
         <Texture Name="object_zf_Tex_000600" OutName="tex_00000600" Format="ci8" Width="16" Height="16" Offset="0x600" TlutOffset="0x0"/>
         <Texture Name="gZfDinolfosNormalEyeTex" OutName="zf_dinolfos_normal_eye" Format="rgba16" Width="16" Height="16" Offset="0x700"/>
+        <Array Name="gZfDinolfosRightThighVtx" Count="34" Offset="0x900">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosRightShinVtx" Count="22" Offset="0xB20">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosRightFootVtx" Count="30" Offset="0xC80">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosLeftThighVtx" Count="34" Offset="0xE60">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosLeftShinVtx" Count="22" Offset="0x1080">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosLeftFootVtx" Count="30" Offset="0x11E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosRightUpperArmVtx" Count="21" Offset="0x13C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosRightForearmVtx" Count="14" Offset="0x1510">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosSwordVtx" Count="25" Offset="0x15F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosLeftUpperArmVtx" Count="21" Offset="0x1780">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosLeftForearmVtx" Count="14" Offset="0x18D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosLeftHandVtx" Count="35" Offset="0x19B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosTailBaseVtx" Count="27" Offset="0x1BE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosTailTipVtx" Count="14" Offset="0x1D90">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosScabbardVtx" Count="16" Offset="0x1E70">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosTrunkVtx" Count="50" Offset="0x1F70">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosChestArmorVtx" Count="72" Offset="0x2290">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosNeckVtx" Count="29" Offset="0x2710">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosJawVtx" Count="59" Offset="0x28E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gZfDinolfosHeadVtx" Count="136" Offset="0x2C90">
+            <Vtx/>
+        </Array>
         <DList Name="gZfDinolfosRightThighDL" Offset="0x3510"/>
         <DList Name="gZfDinolfosRightShinDL" Offset="0x3778"/>
         <DList Name="gZfDinolfosRightFootDL" Offset="0x3908"/>
@@ -99,27 +159,93 @@
         <Texture Name="object_zf_Tex_00C020" OutName="tex_0000C020" Format="rgba16" Width="16" Height="16" Offset="0xC020"/>
         <Texture Name="object_zf_Tex_00C220" OutName="tex_0000C220" Format="rgba16" Width="8" Height="8" Offset="0xC220"/>
         <Texture Name="object_zf_Tex_00C2A0" OutName="tex_0000C2A0" Format="rgba16" Width="8" Height="8" Offset="0xC2A0"/>
+        <Array Name="gZfLizalfosLeftThighVtx" Count="15" Offset="0xC320">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosLeftThighDL" Offset="0xC410"/>
+        <Array Name="gZfLizalfosLeftShinVtx" Count="23" Offset="0xC4D0">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosLeftShinDL" Offset="0xC640"/>
+        <Array Name="gZfLizalfosLeftFootVtx" Count="30" Offset="0xC798">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosLeftFootDL" Offset="0xC978"/>
+        <Array Name="gZfLizalfosLeftUpperArmVtx" Count="11" Offset="0xCA98">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosLeftUpperArmDL" Offset="0xCB48"/>
+        <Array Name="gZfLizalfosLeftForearmVtx" Count="8" Offset="0xCC00">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosLeftForearmDL" Offset="0xCC80"/>
+        <Array Name="gZfLizalfosLeftHandVtx" Count="39" Offset="0xCD80">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosLeftHandDL" Offset="0xCFF0"/>
+        <Array Name="gZfLizalfosRightThighVtx" Count="15" Offset="0xD140">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosRightThighDL" Offset="0xD230"/>
+        <Array Name="gZfLizalfosRightShinVtx" Count="23" Offset="0xD2F0">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosRightShinDL" Offset="0xD460"/>
+        <Array Name="gZfLizalfosRightFootVtx" Count="30" Offset="0xD5B8">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosRightFootDL" Offset="0xD798"/>
+        <Array Name="gZfLizalfosRightUpperArmVtx" Count="11" Offset="0xD8B8">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosRightUpperArmDL" Offset="0xD968"/>
+        <Array Name="gZfLizalfosRightForearmVtx" Count="8" Offset="0xDA20">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosRightForearmDL" Offset="0xDAA0"/>
+        <Array Name="gZfLizalfosSwordVtx" Count="24" Offset="0xDBA0">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosSwordDL" Offset="0xDD20" RawPointers="0x07000000"/>
+        <Array Name="gZfEmptyHandVtx" Count="39" Offset="0xDF28">
+            <Vtx/>
+        </Array>
         <DList Name="gZfEmptyHandDL" Offset="0xE198"/>
+        <Array Name="gZfLizalfosJawVtx" Count="16" Offset="0xE2E8">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosJawDL" Offset="0xE3E8"/>
+        <Array Name="gZfLizalfosHeadVtx" Count="48" Offset="0xE4E0">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosHeadDL" Offset="0xE7E0"/>
+        <Array Name="gZfLizalfosTrunkVtx" Count="32" Offset="0xE9A8">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosTrunkDL" Offset="0xEBA8"/>
+        <Array Name="gZfLizalfosNeckVtx" Count="17" Offset="0xED50">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosNeckDL" Offset="0xEE60"/>
+        <Array Name="gZfLizalfosChestArmorVtx" Count="104" Offset="0xEFA0">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosChestArmorDL" Offset="0xF620"/>
+        <Array Name="gZfLizalfosTailBaseVtx" Count="19" Offset="0xF840">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosTailBaseDL" Offset="0xF970"/>
+        <Array Name="gZfLizalfosTailTipVtx" Count="15" Offset="0xFA98">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosTailTipDL" Offset="0xFB88"/>
+        <Array Name="gZfLizalfosScabbardVtx" Count="16" Offset="0xFCA0">
+            <Vtx/>
+        </Array>
         <DList Name="gZfLizalfosScabbardDL" Offset="0xFDA0"/>
+        <Array Name="gZfSheathedSwordVtx" Count="29" Offset="0xFE90">
+            <Vtx/>
+        </Array>
         <DList Name="gZfSheathedSwordDL" Offset="0x10060"/>
         <Limb Name="gZfLizalfosRootLimb" LimbType="Standard" Offset="0x101B8"/>
         <Limb Name="gZfLizalfosBodyRootLimb" LimbType="Standard" Offset="0x101C4"/>
