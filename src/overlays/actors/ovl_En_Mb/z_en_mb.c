@@ -185,81 +185,81 @@ static ColliderQuadInit sAttackColliderQuadInit = {
 };
 
 typedef enum EnMbDamageReaction {
-    /* 0x0 */ ENMB_DMG_REAC_IGNORE,
-    /* 0x1 */ ENMB_DMG_REAC_STUN,
-    /* 0x5 */ ENMB_DMG_REAC_FREEZE = 0x5,
-    /* 0x6 */ ENMB_DMG_REAC_STUN_ICE,
-    /* 0xF */ ENMB_DMG_REAC_DEFAULT = 0xF
+    /* 0x0 */ ENMB_DMG_REACT_IGNORE,
+    /* 0x1 */ ENMB_DMG_REACT_STUN,
+    /* 0x5 */ ENMB_DMG_REACT_FREEZE = 0x5,
+    /* 0x6 */ ENMB_DMG_REACT_STUN_ICE,
+    /* 0xF */ ENMB_DMG_REACT_DEFAULT = 0xF
 } EnMbDamageReaction;
 
 static DamageTable sSpearMoblinDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, ENMB_DMG_REAC_FREEZE),
-    /* Deku stick    */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Slingshot     */ DMG_ENTRY(1, ENMB_DMG_REAC_DEFAULT),
-    /* Explosive     */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Boomerang     */ DMG_ENTRY(0, ENMB_DMG_REAC_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Hammer swing  */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Hookshot      */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Kokiri sword  */ DMG_ENTRY(1, ENMB_DMG_REAC_DEFAULT),
-    /* Master sword  */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Giant's Knife */ DMG_ENTRY(4, ENMB_DMG_REAC_DEFAULT),
-    /* Fire arrow    */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Ice arrow     */ DMG_ENTRY(4, ENMB_DMG_REAC_STUN_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Unk arrow 1   */ DMG_ENTRY(4, ENMB_DMG_REAC_DEFAULT),
-    /* Unk arrow 2   */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Unk arrow 3   */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Fire magic    */ DMG_ENTRY(0, ENMB_DMG_REAC_FREEZE),
-    /* Ice magic     */ DMG_ENTRY(3, ENMB_DMG_REAC_STUN_ICE),
-    /* Light magic   */ DMG_ENTRY(0, ENMB_DMG_REAC_FREEZE),
-    /* Shield        */ DMG_ENTRY(0, ENMB_DMG_REAC_IGNORE),
-    /* Mirror Ray    */ DMG_ENTRY(0, ENMB_DMG_REAC_IGNORE),
-    /* Kokiri spin   */ DMG_ENTRY(1, ENMB_DMG_REAC_DEFAULT),
-    /* Giant spin    */ DMG_ENTRY(4, ENMB_DMG_REAC_DEFAULT),
-    /* Master spin   */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Kokiri jump   */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Giant jump    */ DMG_ENTRY(8, ENMB_DMG_REAC_DEFAULT),
-    /* Master jump   */ DMG_ENTRY(4, ENMB_DMG_REAC_DEFAULT),
-    /* Unknown 1     */ DMG_ENTRY(0, ENMB_DMG_REAC_FREEZE),
-    /* Unblockable   */ DMG_ENTRY(0, ENMB_DMG_REAC_IGNORE),
-    /* Hammer jump   */ DMG_ENTRY(4, ENMB_DMG_REAC_DEFAULT),
-    /* Unknown 2     */ DMG_ENTRY(0, ENMB_DMG_REAC_IGNORE),
+    /* Deku nut      */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Deku stick    */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Slingshot     */ DMG_ENTRY(1, ENMB_DMG_REACT_DEFAULT),
+    /* Explosive     */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Boomerang     */ DMG_ENTRY(0, ENMB_DMG_REACT_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Hammer swing  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Hookshot      */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Kokiri sword  */ DMG_ENTRY(1, ENMB_DMG_REACT_DEFAULT),
+    /* Master sword  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Giant's Knife */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Fire arrow    */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Ice arrow     */ DMG_ENTRY(4, ENMB_DMG_REACT_STUN_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 1   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 2   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 3   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Fire magic    */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Ice magic     */ DMG_ENTRY(3, ENMB_DMG_REACT_STUN_ICE),
+    /* Light magic   */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Shield        */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Kokiri spin   */ DMG_ENTRY(1, ENMB_DMG_REACT_DEFAULT),
+    /* Giant spin    */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Master spin   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Kokiri jump   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Giant jump    */ DMG_ENTRY(8, ENMB_DMG_REACT_DEFAULT),
+    /* Master jump   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unknown 1     */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Unblockable   */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Hammer jump   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unknown 2     */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
 };
 
 static DamageTable sClubMoblinDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, ENMB_DMG_REAC_FREEZE),
-    /* Deku stick    */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Slingshot     */ DMG_ENTRY(0, ENMB_DMG_REAC_IGNORE),
-    /* Explosive     */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Boomerang     */ DMG_ENTRY(0, ENMB_DMG_REAC_IGNORE),
-    /* Normal arrow  */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Hammer swing  */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Hookshot      */ DMG_ENTRY(0, ENMB_DMG_REAC_STUN),
-    /* Kokiri sword  */ DMG_ENTRY(1, ENMB_DMG_REAC_DEFAULT),
-    /* Master sword  */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Giant's Knife */ DMG_ENTRY(4, ENMB_DMG_REAC_DEFAULT),
-    /* Fire arrow    */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Ice arrow     */ DMG_ENTRY(4, ENMB_DMG_REAC_STUN_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Unk arrow 1   */ DMG_ENTRY(4, ENMB_DMG_REAC_DEFAULT),
-    /* Unk arrow 2   */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Unk arrow 3   */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Fire magic    */ DMG_ENTRY(0, ENMB_DMG_REAC_FREEZE),
-    /* Ice magic     */ DMG_ENTRY(3, ENMB_DMG_REAC_STUN_ICE),
-    /* Light magic   */ DMG_ENTRY(0, ENMB_DMG_REAC_FREEZE),
-    /* Shield        */ DMG_ENTRY(0, ENMB_DMG_REAC_IGNORE),
-    /* Mirror Ray    */ DMG_ENTRY(0, ENMB_DMG_REAC_IGNORE),
-    /* Kokiri spin   */ DMG_ENTRY(1, ENMB_DMG_REAC_DEFAULT),
-    /* Giant spin    */ DMG_ENTRY(4, ENMB_DMG_REAC_DEFAULT),
-    /* Master spin   */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Kokiri jump   */ DMG_ENTRY(2, ENMB_DMG_REAC_DEFAULT),
-    /* Giant jump    */ DMG_ENTRY(8, ENMB_DMG_REAC_DEFAULT),
-    /* Master jump   */ DMG_ENTRY(4, ENMB_DMG_REAC_DEFAULT),
-    /* Unknown 1     */ DMG_ENTRY(0, ENMB_DMG_REAC_FREEZE),
-    /* Unblockable   */ DMG_ENTRY(0, ENMB_DMG_REAC_IGNORE),
-    /* Hammer jump   */ DMG_ENTRY(4, ENMB_DMG_REAC_DEFAULT),
-    /* Unknown 2     */ DMG_ENTRY(0, ENMB_DMG_REAC_IGNORE),
+    /* Deku nut      */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Deku stick    */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Slingshot     */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Explosive     */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Boomerang     */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Normal arrow  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Hammer swing  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Hookshot      */ DMG_ENTRY(0, ENMB_DMG_REACT_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, ENMB_DMG_REACT_DEFAULT),
+    /* Master sword  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Giant's Knife */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Fire arrow    */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Ice arrow     */ DMG_ENTRY(4, ENMB_DMG_REACT_STUN_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 1   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 2   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 3   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Fire magic    */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Ice magic     */ DMG_ENTRY(3, ENMB_DMG_REACT_STUN_ICE),
+    /* Light magic   */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Shield        */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Kokiri spin   */ DMG_ENTRY(1, ENMB_DMG_REACT_DEFAULT),
+    /* Giant spin    */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Master spin   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Kokiri jump   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Giant jump    */ DMG_ENTRY(8, ENMB_DMG_REACT_DEFAULT),
+    /* Master jump   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unknown 1     */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Unblockable   */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Hammer jump   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unknown 2     */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -605,7 +605,7 @@ void EnMb_SetupStunned(EnMb* this) {
     this->state = ENMB_STATE_STUNNED;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
-    if (this->damageReaction == ENMB_DMG_REAC_STUN_ICE) {
+    if (this->damageReaction == ENMB_DMG_REACT_STUN_ICE) {
         this->iceEffectTimer = 40;
     } else {
         if (this->actor.params != ENMB_TYPE_CLUB) {
@@ -1440,8 +1440,8 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
     } else if ((this->bodyCollider.base.acFlags & AC_HIT) && this->state >= ENMB_STATE_STUNNED) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageReaction != ENMB_DMG_REAC_IGNORE &&
-            this->actor.colChkInfo.damageReaction != ENMB_DMG_REAC_FREEZE) {
+        if (this->actor.colChkInfo.damageReaction != ENMB_DMG_REACT_IGNORE &&
+            this->actor.colChkInfo.damageReaction != ENMB_DMG_REACT_FREEZE) {
             if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
@@ -1453,8 +1453,8 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
             this->damageReaction = this->actor.colChkInfo.damageReaction;
             this->attack = ENMB_ATTACK_NONE;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
-            if (this->actor.colChkInfo.damageReaction == ENMB_DMG_REAC_STUN ||
-                this->actor.colChkInfo.damageReaction == ENMB_DMG_REAC_STUN_ICE) {
+            if (this->actor.colChkInfo.damageReaction == ENMB_DMG_REACT_STUN ||
+                this->actor.colChkInfo.damageReaction == ENMB_DMG_REACT_STUN_ICE) {
                 if (this->state != ENMB_STATE_STUNNED) {
                     Actor_ApplyDamage(&this->actor);
                     EnMb_SetupStunned(this);
@@ -1485,7 +1485,7 @@ void EnMb_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     EnMb_CheckColliding(this, play);
-    if (thisx->colChkInfo.damageReaction != ENMB_DMG_REAC_FREEZE) {
+    if (thisx->colChkInfo.damageReaction != ENMB_DMG_REACT_FREEZE) {
         this->actionFunc(this, play);
         Actor_MoveXZGravity(thisx);
         Actor_UpdateBgCheckInfo(play, thisx, 40.0f, 40.0f, 70.0f,
