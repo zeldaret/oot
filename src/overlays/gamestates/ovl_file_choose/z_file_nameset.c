@@ -12,6 +12,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64audio.h"
 #include "z64save.h"
@@ -1370,7 +1371,7 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
         PRINTF_RST();
         Audio_SetSoundOutputMode(gSaveContext.soundSetting);
-        PRINTF("終了\n");
+        PRINTF(T("終了\n", "end\n"));
         return;
     }
 
