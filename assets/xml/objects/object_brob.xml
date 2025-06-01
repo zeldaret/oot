@@ -1,6 +1,21 @@
 <Root>
     <File Name="object_brob" Segment="6">
         <Animation Name="gBrobStunnedAnim" Offset="0x290"/>
+        <Array Name="gBrobTopSegmentVtx" Count="20" Offset="0x2A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBrobUpperSegmentVtx" Count="16" Offset="0x3E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBrobMiddleSegmentVtx" Count="16" Offset="0x4E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBrobLowerSegmentVtx" Count="16" Offset="0x5E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBrobBaseSegmentVtx" Count="16" Offset="0x6E0">
+            <Vtx/>
+        </Array>
         <DList Name="gBrobBaseSegmentDL" Offset="0x7E0"/>
         <DList Name="gBrobLowerSegmentDL" Offset="0x898"/>
         <DList Name="gBrobMiddleSegmentDL" Offset="0x9D0"/>

@@ -970,7 +970,7 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
     return envHazard + 1;
 }
 
-u8 sPlayerFaces[PLAYER_FACE_MAX][PLAYER_FACEPART_MAX] = {
+PlayerFaceIndices sPlayerFaces[PLAYER_FACE_MAX] = {
     // The first 6 faces defined must be default blinking faces. See relevant code in `Player_UpdateCommon`.
     { PLAYER_EYES_OPEN, PLAYER_MOUTH_CLOSED },   // PLAYER_FACE_NEUTRAL
     { PLAYER_EYES_HALF, PLAYER_MOUTH_CLOSED },   // PLAYER_FACE_NEUTRAL_BLINKING_HALF
@@ -984,12 +984,12 @@ u8 sPlayerFaces[PLAYER_FACE_MAX][PLAYER_FACEPART_MAX] = {
     { PLAYER_EYES_CLOSED, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_NEUTRAL_BLINKING_CLOSED_2
 
     // The rest of these faces go unused. Face data encoded within animations handles all other faces.
-    { PLAYER_EYES_RIGHT, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_LOOK_RIGHT
+    { PLAYER_EYES_LEFT, PLAYER_MOUTH_CLOSED },  // PLAYER_FACE_LOOK_LEFT
     { PLAYER_EYES_WIDE, PLAYER_MOUTH_HALF },    // PLAYER_FACE_SURPRISED
     { PLAYER_EYES_WINCING, PLAYER_MOUTH_OPEN }, // PLAYER_FACE_HURT
     { PLAYER_EYES_OPEN, PLAYER_MOUTH_OPEN },    // PLAYER_FACE_GASP
-    { PLAYER_EYES_LEFT, PLAYER_MOUTH_CLOSED },  // PLAYER_FACE_LOOK_LEFT
-    { PLAYER_EYES_RIGHT, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_LOOK_RIGHT_2
+    { PLAYER_EYES_RIGHT, PLAYER_MOUTH_CLOSED }, // PLAYER_FACE_LOOK_RIGHT
+    { PLAYER_EYES_LEFT, PLAYER_MOUTH_CLOSED },  // PLAYER_FACE_LOOK_LEFT_2
     { PLAYER_EYES_CLOSED, PLAYER_MOUTH_OPEN },  // PLAYER_FACE_EYES_CLOSED_MOUTH_OPEN
     { PLAYER_EYES_HALF, PLAYER_MOUTH_HALF },    // PLAYER_FACE_OPENING
     { PLAYER_EYES_OPEN, PLAYER_MOUTH_OPEN },    // PLAYER_FACE_EYES_AND_MOUTH_OPEN
@@ -1007,8 +1007,8 @@ void* sEyeTextures[PLAYER_EYES_MAX] = {
     gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
     gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
     gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
-    gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
     gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
+    gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
     gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
     gLinkAdultEyesDownTex,    // PLAYER_EYES_DOWN
     gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
@@ -1027,8 +1027,8 @@ void* sEyeTextures[][PLAYER_EYES_MAX] = {
         gLinkAdultEyesOpenTex,    // PLAYER_EYES_OPEN
         gLinkAdultEyesHalfTex,    // PLAYER_EYES_HALF
         gLinkAdultEyesClosedfTex, // PLAYER_EYES_CLOSED
-        gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
         gLinkAdultEyesRightTex,   // PLAYER_EYES_RIGHT
+        gLinkAdultEyesLeftTex,    // PLAYER_EYES_LEFT
         gLinkAdultEyesWideTex,    // PLAYER_EYES_WIDE
         gLinkAdultEyesDownTex,    // PLAYER_EYES_DOWN
         gLinkAdultEyesWincingTex, // PLAYER_EYES_WINCING
@@ -1037,8 +1037,14 @@ void* sEyeTextures[][PLAYER_EYES_MAX] = {
         gLinkChildEyesOpenTex,    // PLAYER_EYES_OPEN
         gLinkChildEyesHalfTex,    // PLAYER_EYES_HALF
         gLinkChildEyesClosedfTex, // PLAYER_EYES_CLOSED
-        gLinkChildEyesLeftTex,    // PLAYER_EYES_LEFT
-        gLinkChildEyesRightTex,   // PLAYER_EYES_RIGHT
+        /*
+        Note `PLAYER_EYES_RIGHT` corresponds to the "left" eyes texture, and vice-versa with the "right" eyes textures.
+        This is because on the textures Link appears to look left/right as if facing outwards the screen,
+        but the image is mirrored by the child Link model's UVs, reversing the direction actually looked in,
+        which results in-game in the correct eyes direction.
+        */
+        gLinkChildEyesLeftTex,    // PLAYER_EYES_RIGHT
+        gLinkChildEyesRightTex,   // PLAYER_EYES_LEFT
         gLinkChildEyesWideTex,    // PLAYER_EYES_WIDE
         gLinkChildEyesDownTex,    // PLAYER_EYES_DOWN
         gLinkChildEyesWincingTex, // PLAYER_EYES_WINCING
@@ -1093,7 +1099,7 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
 
     // If the eyes index provided by the animation is negative, use the value provided by the `face` argument instead
     if (eyesIndex < 0) {
-        eyesIndex = sPlayerFaces[face][PLAYER_FACEPART_EYES];
+        eyesIndex = sPlayerFaces[face].eyeIndex;
     }
 
 #ifndef AVOID_UB
@@ -1104,7 +1110,7 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
 
     // If the mouth index provided by the animation is negative, use the value provided by the `face` argument instead
     if (mouthIndex < 0) {
-        mouthIndex = sPlayerFaces[face][PLAYER_FACEPART_MOUTH];
+        mouthIndex = sPlayerFaces[face].mouthIndex;
     }
 
 #ifndef AVOID_UB

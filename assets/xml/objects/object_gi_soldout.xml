@@ -1,5 +1,8 @@
 <Root>
     <File Name="object_gi_soldout" Segment="6">
+        <Array Name="gGiSoldOutVtx" Count="4" Offset="0x400">
+            <Vtx/>
+        </Array>
         <DList Name="gGiSoldOutDL" Offset="0x0440"/>
     </File>
 </Root>

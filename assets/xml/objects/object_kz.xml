@@ -18,6 +18,39 @@
         <Texture Name="gKzHandAndFootTex" OutName="hand_and_foot" Format="ci8" Width="16" Height="16" Offset="0x2470" TlutOffset="0x770"/>
         <Texture Name="object_kz_Tex_002570" OutName="tex_002570" Format="ci8" Width="16" Height="16" Offset="0x2570" TlutOffset="0x770"/>
         <Texture Name="gKzCloakOutlineTex" OutName="cloak_outline" Format="ci8" Width="32" Height="32" Offset="0x2670" TlutOffset="0x770"/>
+        <Array Name="gKzHeadVtx" Count="239" Offset="0x2A70">
+            <Vtx/>
+        </Array>
+        <Array Name="gKzLeftHandVtx" Count="31" Offset="0x3960">
+            <Vtx/>
+        </Array>
+        <Array Name="gKzRightHandVtx" Count="31" Offset="0x3B50">
+            <Vtx/>
+        </Array>
+        <Array Name="gKzCloakAndTorsoVtx" Count="236" Offset="0x3D40">
+            <Vtx/>
+        </Array>
+        <Array Name="gKzLeftFootVtx" Count="33" Offset="0x4C00">
+            <Vtx/>
+        </Array>
+        <Array Name="gKzLeftLegVtx" Count="24" Offset="0x4E10">
+            <Vtx/>
+        </Array>
+        <Array Name="gKzLeftThighVtx" Count="26" Offset="0x4F90">
+            <Vtx/>
+        </Array>
+        <Array Name="gKzRightFootVtx" Count="33" Offset="0x5130">
+            <Vtx/>
+        </Array>
+        <Array Name="gKzRightLegVtx" Count="24" Offset="0x5340">
+            <Vtx/>
+        </Array>
+        <Array Name="gKzRightThighVtx" Count="26" Offset="0x54C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gKzPelvisVtx" Count="44" Offset="0x5660">
+            <Vtx/>
+        </Array>
         <DList Name="gKzCloakAndTorsoDL" Offset="0x5920"/>
         <DList Name="gKzHeadDL" Offset="0x6420"/>
         <DList Name="gKzRightHandDL" Offset="0x7298"/>

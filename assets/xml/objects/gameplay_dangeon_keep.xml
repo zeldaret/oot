@@ -1,36 +1,108 @@
 <Root>
     <File Name="gameplay_dangeon_keep" Segment="5">
+        <Array Name="gUnusedCandleVtx" Count="4" Offset="0x400">
+            <Vtx/>
+        </Array>
         <DList Name="gUnusedCandleDL" Offset="0x440"/>
+        <Array Name="gBrownFragmentVtx" Count="3" Offset="0x500">
+            <Vtx/>
+        </Array>
         <DList Name="gBrownFragmentDL" Offset="0x530"/>
         <Texture Name="gUnusedStoneTex" OutName="unused_stone" Format="rgba16" Width="32" Height="32" Offset="0x7C0"/>
+        <Array Name="gDoorLockVtx" Count="20" Offset="0xFC0">
+            <Vtx/>
+        </Array>
         <DList Name="gDoorLockDL" Offset="0x1100"/>
+        <Array Name="gDoorChainVtx" Count="4" Offset="0x11B0">
+            <Vtx/>
+        </Array>
         <DList Name="gDoorChainDL" Offset="0x11F0"/>
         <Texture Name="gUnusedGoldLockTex" OutName="unused_gold_lock" Format="rgba16" Width="32" Height="32" Offset="0x1A80"/>
         <Texture Name="gDoorChainTex" OutName="door_chain" Format="rgba16" Width="16" Height="128" Offset="0x2280"/>
+        <Array Name="gUnusedBombBagVtx" Count="4" Offset="0x3280">
+            <Vtx/>
+        </Array>
         <DList Name="gUnusedBombBagDL" Offset="0x32C0"/>
         <Texture Name="gPushBlockSilverTex" OutName="block_silver" Format="i4" Width="64" Height="64" Offset="0x3350"/>
         <Texture Name="gPushBlockBaseTex" OutName="block_base" Format="i4" Width="64" Height="64" Offset="0x3B50"/>
         <Texture Name="gPushBlockGrayTex" OutName="block_gray" Format="i4" Width="64" Height="64" Offset="0x4350"/>
+        <Array Name="gPushBlockVtx" Count="24" Offset="0x4B50">
+            <Vtx/>
+        </Array>
         <DList Name="gPushBlockDL" Offset="0x4CD0"/>
         <Collision Name="gPushBlockCol" Offset="0x4E98"/>
+        <Array Name="gWoodenPlatofrmVtx" Count="24" Offset="0x4ED0">
+            <Vtx/>
+        </Array>
         <DList Name="gWoodenPlatofrmDL" Offset="0x5050"/>
+        <Array Name="gSmallWoodenBoxVtx" Count="24" Offset="0x5110">
+            <Vtx/>
+        </Array>
         <DList Name="gSmallWoodenBoxDL" Offset="0x5290"/>
+        <Array Name="gSmallWoodenBoxFragmentVtx" Count="3" Offset="0x5350">
+            <Vtx/>
+        </Array>
         <DList Name="gSmallWoodenBoxFragmentDL" Offset="0x5380"/>
+        <Array Name="gBetaKokiriSwordSpriteVtx" Count="4" Offset="0x5410">
+            <Vtx/>
+        </Array>
         <DList Name="gBetaKokiriSwordSpriteDL" Offset="0x5450"/>
+        <Array Name="gMagicJarSpriteVtx" Count="4" Offset="0x54E0">
+            <Vtx/>
+        </Array>
         <DList Name="gMagicJarSpriteDL" Offset="0x5520"/>
+        <Array Name="gBetaSlingshotSpriteVtx" Count="4" Offset="0x55B0">
+            <Vtx/>
+        </Array>
         <DList Name="gBetaSlingshotSpriteDL" Offset="0x55F0"/>
+        <Array Name="gFloorSwitch1Vtx" Count="24" Offset="0x5680">
+            <Vtx/>
+        </Array>
         <DList Name="gFloorSwitch1DL" Offset="0x5800"/>
+        <Array Name="gRustyFloorSwitchVtx" Count="24" Offset="0x5950">
+            <Vtx/>
+        </Array>
         <DList Name="gRustyFloorSwitchDL" Offset="0x5AD0"/>
+        <Array Name="gFloorSwitch2Vtx" Count="24" Offset="0x5BD0">
+            <Vtx/>
+        </Array>
         <DList Name="gFloorSwitch2DL" Offset="0x5D50"/>
         <Collision Name="gFloorSwitchCol" Offset="0x5FB8"/>
+        <Array Name="gFloorSwitch3Vtx" Count="24" Offset="0x5FF0">
+            <Vtx/>
+        </Array>
         <DList Name="gFloorSwitch3DL" Offset="0x6170"/>
+        <Array Name="gBetaFloorSwitchVtx" Count="24" Offset="0x6270">
+            <Vtx/>
+        </Array>
         <DList Name="gBetaFloorSwitchDL" Offset="0x63F0"/>
+        <Array Name="gEyeSwitch1Vtx" Count="18" Offset="0x64F0">
+            <Vtx/>
+        </Array>
         <DList Name="gEyeSwitch1DL" Offset="0x6610"/>
+        <Array Name="gEyeSwitch2Vtx" Count="19" Offset="0x66E0">
+            <Vtx/>
+        </Array>
         <DList Name="gEyeSwitch2DL" Offset="0x6810"/>
+        <Array Name="gCrystalSwitchCoreOpaVtx" Count="43" Offset="0x68E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gCrystalSwitchCoreXluVtx" Count="24" Offset="0x6B90">
+            <Vtx/>
+        </Array>
         <DList Name="gCrystalSwitchCoreOpaDL" Offset="0x6D10"/>
         <DList Name="gCrystalSwitchCoreXluDL" Offset="0x6E60"/>
+        <Array Name="gCrystalSwitchDiamondOpaVtx" Count="43" Offset="0x6F10">
+            <Vtx/>
+        </Array>
+        <Array Name="gCrystalSwitchDiamondXluVtx" Count="24" Offset="0x71C0">
+            <Vtx/>
+        </Array>
         <DList Name="gCrystalSwitchDiamondOpaDL" Offset="0x7340"/>
         <DList Name="gCrystalSwitchDiamondXluDL" Offset="0x7488"/>
+        <Array Name="gBetaCrystalSwitchVtx" Count="39" Offset="0x7540">
+            <Vtx/>
+        </Array>
         <DList Name="gBetaCrystalSwitchDL" Offset="0x77B0"/>
         <Texture Name="gEyeSwitchGoldClosedTex" OutName="eye_gold_closed" Format="rgba16" Width="32" Height="32" Offset="0x90A0"/>
         <Texture Name="gEyeSwitchGoldOpeningTex" OutName="eye_gold_opening" Format="rgba16" Width="32" Height="32" Offset="0x98A0"/>
@@ -46,7 +118,13 @@
         <Texture Name="gDungeonKeepTex_00F0A0" OutName="dungeon_keep_tex_00F0A0" Format="rgba16" Width="32" Height="32" Offset="0xF0A0"/>
         <Texture Name="gCrstalSwitchRedTex" OutName="crystal_red" Format="rgba16" Width="32" Height="32" Offset="0x144B0"/>
         <Texture Name="gCrstalSwitchBlueTex" OutName="crystal_blue" Format="rgba16" Width="32" Height="32" Offset="0x14CB0"/>
+        <Array Name="gPotVtx" Count="60" Offset="0x174B0">
+            <Vtx/>
+        </Array>
         <DList Name="gPotDL" Offset="0x17870"/>
+        <Array Name="gPotFragmentVtx" Count="3" Offset="0x17A30">
+            <Vtx/>
+        </Array>
         <DList Name="gPotFragmentDL" Offset="0x17A60"/>
     </File>
 </Root>

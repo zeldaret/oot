@@ -1,6 +1,15 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_ghost" Segment="6">
+        <Array Name="gGiGhostContainerLidVtx" Count="56" Offset="0x400">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiGhostContainerGlassVtx" Count="25" Offset="0x780">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiGhostContainerContentsVtx" Count="4" Offset="0x910">
+            <Vtx/>
+        </Array>
         <DList Name="gGiPoeColorDL" Offset="0x0950"/>
         <DList Name="gGiBigPoeColorDL" Offset="0x0970"/>
         <DList Name="gGiGhostContainerLidDL" Offset="0x0990"/>
