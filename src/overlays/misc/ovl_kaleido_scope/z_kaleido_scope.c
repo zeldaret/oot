@@ -1973,8 +1973,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 pauseCtx->infoPanelVtx[26].v.ob[1] = pauseCtx->infoPanelVtx[27].v.ob[1] =
                     pauseCtx->infoPanelVtx[24].v.ob[1] - 19;
 
-                pauseCtx->infoPanelVtx[25].v.tc[0] = pauseCtx->infoPanelVtx[27].v.tc[0] =
-                    gQuestIconGoldSkulltulaTex_WIDTH * (1 << 5);
+                pauseCtx->infoPanelVtx[25].v.tc[0] = pauseCtx->infoPanelVtx[27].v.tc[0] = QUEST_ICON_WIDTH * (1 << 5);
 
                 gDPPipeSync(POLY_OPA_DISP++);
                 gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[24], 4, 0);
