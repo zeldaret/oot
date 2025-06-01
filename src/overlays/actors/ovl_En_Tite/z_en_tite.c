@@ -17,6 +17,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64effect.h"
@@ -226,8 +227,9 @@ void EnTite_Destroy(Actor* thisx, PlayState* play) {
             spawner->curNumSpawn--;
         }
         PRINTF("\n\n");
-        // "Number of simultaneous occurrences"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, spawner->curNumSpawn);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of simultaneous occurrences ☆☆☆☆☆%d\n")
+                   VT_RST,
+               spawner->curNumSpawn);
         PRINTF("\n\n");
     }
     Collider_DestroyJntSph(play, &this->collider);
