@@ -1,6 +1,12 @@
 <Root>
     <File Name="object_jya_door" Segment="6">
+        <Array Name="gSpiritDoorVtx" Count="16" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gSpiritDoorDL" Offset="0x0100"/>
+        <Array Name="gJyaDoorMetalBarsVtx" Count="4" Offset="0x1B0">
+            <Vtx/>
+        </Array>
         <DList Name="gJyaDoorMetalBarsDL" Offset="0x01F0"/>
         <Texture Name="gSpiritDoorTex" OutName="door" Format="rgba16" Width="64" Height="32" Offset="0x0280"/>
         <Texture Name="gSpiritDoorMetalBarsTex" OutName="metal_bars" Format="rgba16" Width="32" Height="64" Offset="0x1280"/>

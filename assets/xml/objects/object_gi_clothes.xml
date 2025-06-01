@@ -1,5 +1,11 @@
 <Root>
     <File Name="object_gi_clothes" Segment="6">
+        <Array Name="gGiTunicCollarVtx" Count="16" Offset="0x800">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiTunicVtx" Count="190" Offset="0x900">
+            <Vtx/>
+        </Array>
         <DList Name="gGiGoronCollarColorDL" Offset="0x14E0"/>
         <DList Name="gGiZoraCollarColorDL" Offset="0x1500"/>
         <DList Name="gGiGoronTunicColorDL" Offset="0x1520"/>

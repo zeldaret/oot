@@ -15,6 +15,7 @@
 #include "rand.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "z64effect.h"
@@ -128,8 +129,7 @@ s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
         return true;
     } else {
         PRINTF_COLOR_WARNING();
-        // "Failure attaching to ground"
-        PRINTF("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
+        PRINTF(T("地面に付着失敗(%s %d)\n", "Failed to attach to ground (%s %d)\n"), "../z_en_kusa.c", 323);
         PRINTF_RST();
         return false;
     }
@@ -268,8 +268,8 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
     this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[PARAMS_GET_U(thisx->params, 0, 2)]);
 
     if (this->requiredObjectSlot < 0) {
-        // "Bank danger!"
-        PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", thisx->params, "../z_en_kusa.c", 561);
+        PRINTF(T("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               thisx->params, "../z_en_kusa.c", 561);
         Actor_Kill(&this->actor);
         return;
     }

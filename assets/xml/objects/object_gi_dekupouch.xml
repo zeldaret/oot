@@ -1,6 +1,15 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_dekupouch" Segment="6">
+        <Array Name="gGiBulletBagVtx" Count="111" Offset="0x300">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiBulletBagStringVtx" Count="11" Offset="0x9F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiBulletBagWritingVtx" Count="5" Offset="0xAA0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiBulletBagColorDL" Offset="0x0AF0"/>
         <DList Name="gGiBulletBag50ColorDL" Offset="0x0B10"/>
         <DList Name="gGiBulletBagStringColorDL" Offset="0x0B30"/>

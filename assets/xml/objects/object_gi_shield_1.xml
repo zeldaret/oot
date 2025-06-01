@@ -1,6 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_shield_1" Segment="6">
+        <Array Name="gGiDekuShieldVtx" Count="101" Offset="0x400">
+            <Vtx/>
+        </Array>
         <DList Name="gGiDekuShieldDL" Offset="0x0A50"/>
     </File>
 </Root>
