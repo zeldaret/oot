@@ -120,7 +120,7 @@ static char* sShopItemDescriptions[] = {
     T("ボムチュウ    ", "Bombchu       "),
     T("ボムチュウ    ", "Bombchu       "),
     T("デクのタネ    ", "Deku seeds    "),
-    T("キータンのお面", "Keetan mask   "),
+    T("キータンのお面", "Keaton mask   "),
     T("こわそなお面  ", "Scary mask    "),
     T("ドクロのお面  ", "Skull mask    "),
     T("ウサギずきん  ", "Rabbit hood   "),
