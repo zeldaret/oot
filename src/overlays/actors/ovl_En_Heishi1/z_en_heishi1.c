@@ -207,11 +207,11 @@ void EnHeishi1_Walk(EnHeishi1* this, PlayState* play) {
         Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale, this->headTurnSpeedMax);
 
         if (DEBUG_FEATURES && (this->path == BREG(1)) && (BREG(0) != 0)) {
-            PRINTF(VT_FGCOL(RED) T(" 種類  %d\n"," Type  %d\n") VT_RST, this->path);
-            PRINTF(VT_FGCOL(RED) T(" ぱす  %d\n"," Path  %d\n") VT_RST, this->waypoint);
-            PRINTF(VT_FGCOL(RED) T(" 反転  %d\n"," Turning around  %d\n") VT_RST, this->bodyTurnSpeed);
-            PRINTF(VT_FGCOL(RED) T(" 時間  %d\n"," Time  %d\n") VT_RST, this->waypointTimer);
-            PRINTF(VT_FGCOL(RED) T(" 点座  %d\n"," Tenza  %d\n") VT_RST, path->count);
+            PRINTF(VT_FGCOL(RED) T(" 種類  %d\n", " Type  %d\n") VT_RST, this->path);
+            PRINTF(VT_FGCOL(RED) T(" ぱす  %d\n", " Path  %d\n") VT_RST, this->waypoint);
+            PRINTF(VT_FGCOL(RED) T(" 反転  %d\n", " Turning around  %d\n") VT_RST, this->bodyTurnSpeed);
+            PRINTF(VT_FGCOL(RED) T(" 時間  %d\n", " Time  %d\n") VT_RST, this->waypointTimer);
+            PRINTF(VT_FGCOL(RED) T(" 点座  %d\n", " Tenza  %d\n") VT_RST, path->count);
             PRINTF("\n\n");
         }
 
@@ -325,10 +325,10 @@ void EnHeishi1_Wait(EnHeishi1* this, PlayState* play) {
                        this->headTurnSpeedMax + this->headTurnSpeedMax);
 
         if (DEBUG_FEATURES && (this->path == BREG(1)) && (BREG(0) != 0)) {
-            PRINTF(VT_FGCOL(GREEN) T(" 種類  %d\n"," Type  %d\n") VT_RST, this->path);
-            PRINTF(VT_FGCOL(GREEN) T(" ぱす  %d\n"," Path  %d\n") VT_RST, this->waypoint);
-            PRINTF(VT_FGCOL(GREEN) T(" 反転  %d\n"," Turning around  %d\n") VT_RST, this->bodyTurnSpeed);
-            PRINTF(VT_FGCOL(GREEN) T(" 時間  %d\n"," Time  %d\n") VT_RST, this->waypointTimer);
+            PRINTF(VT_FGCOL(GREEN) T(" 種類  %d\n", " Type  %d\n") VT_RST, this->path);
+            PRINTF(VT_FGCOL(GREEN) T(" ぱす  %d\n", " Path  %d\n") VT_RST, this->waypoint);
+            PRINTF(VT_FGCOL(GREEN) T(" 反転  %d\n", " Turning around  %d\n") VT_RST, this->bodyTurnSpeed);
+            PRINTF(VT_FGCOL(GREEN) T(" 時間  %d\n", " Time  %d\n") VT_RST, this->waypointTimer);
             PRINTF("\n\n");
         }
     }
