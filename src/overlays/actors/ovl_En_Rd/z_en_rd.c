@@ -843,7 +843,8 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
                 this->unk_31D = player->unk_845;
             }
 
-            if ((this->damageReaction != REDEAD_DMG_REACT_NONE) && (this->damageReaction != REDEAD_DMG_REACT_ICE_MAGIC)) {
+            if ((this->damageReaction != REDEAD_DMG_REACT_NONE) &&
+                (this->damageReaction != REDEAD_DMG_REACT_ICE_MAGIC)) {
                 if (((this->damageReaction == REDEAD_DMG_REACT_HOOKSHOT) ||
                      (this->damageReaction == REDEAD_DMG_REACT_LIGHT_MAGIC)) &&
                     (this->action != REDEAD_ACTION_STUNNED)) {
