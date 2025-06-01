@@ -101,7 +101,7 @@ void EnDivingGame_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gZoraSkel, &gZoraIdleAnim, this->jointTable, this->morphTable, 20);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n", "☆☆☆☆☆ Skin diving GO ☆☆☆☆☆ \n") VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n", "☆☆☆☆☆ Diving GO ☆☆☆☆☆ \n") VT_RST);
     this->actor.room = -1;
     this->actor.scale.x = 0.01f;
     this->actor.scale.y = 0.012999999f;
