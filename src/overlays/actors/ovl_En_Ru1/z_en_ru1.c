@@ -322,8 +322,8 @@ BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
         }
         actorIt = actorIt->next;
     }
-    // "There is no stand"
-    PRINTF(VT_FGCOL(RED) "お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    PRINTF(VT_FGCOL(RED) T("お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n", "There is no stand!!!!!!!!!!!!!!!!!!!!!!!!!\n")
+               VT_RST);
     return NULL;
 }
 
@@ -2246,11 +2246,9 @@ void func_80AEFF94(EnRu1* this, PlayState* play) {
         this->roomNum1 = actorRoom;
         this->roomNum3 = actorRoom;
         this->roomNum2 = actorRoom;
-        // "Ruto switch set"
-        PRINTF("スイッチルトセット!!!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF(T("スイッチルトセット!!!!!!!!!!!!!!!!!!!!!!\n", "Ruto switch set!!!!!!!!!!!!!!!!!!!!!!\n"));
     } else {
-        // "Ruto switch not set"
-        PRINTF("スイッチルトセットしない!!!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF(T("スイッチルトセットしない!!!!!!!!!!!!!!!!!!!!!!\n", "Ruto switch not set!!!!!!!!!!!!!!!!!!!!!!\n"));
         Actor_Kill(&this->actor);
     }
 }
@@ -2313,8 +2311,7 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
 #endif
         default:
             Actor_Kill(&this->actor);
-            // "Relevant arge_data = %d unacceptable"
-            PRINTF("該当 arge_data = %d 無し\n", func_80AEADF0(this));
+            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), func_80AEADF0(this));
             break;
     }
 }
@@ -2340,8 +2337,8 @@ s32 EnRu1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     EnRu1* this = (EnRu1*)thisx;
 
     if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*sPreLimbDrawFuncs[this->unk_290] == NULL)) {
-        // "Neck rotation mode is improper!"
-        PRINTF(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "Neck rotation mode is improper!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sPreLimbDrawFuncs[this->unk_290](this, play, limbIndex, rot);
     }

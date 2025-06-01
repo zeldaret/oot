@@ -1,6 +1,30 @@
 <Root>
     <File Name="object_ds2" Segment="6">
         <Animation Name="object_ds2_Anim_0002E4" Offset="0x2E4"/>
+        <Array Name="object_ds2_Vtx_000300" Count="110" Offset="0x300">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ds2_Vtx_0009E0" Count="44" Offset="0x9E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ds2_Vtx_000CA0" Count="32" Offset="0xCA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ds2_Vtx_000EA0" Count="25" Offset="0xEA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ds2_Vtx_001030" Count="44" Offset="0x1030">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ds2_Vtx_0012F0" Count="32" Offset="0x12F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ds2_Vtx_0014F0" Count="25" Offset="0x14F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ds2_Vtx_001680" Count="49" Offset="0x1680">
+            <Vtx/>
+        </Array>
         <DList Name="object_ds2_DL_001990" Offset="0x1990"/>
         <DList Name="object_ds2_DL_001C98" Offset="0x1C98"/>
         <DList Name="object_ds2_DL_002188" Offset="0x2188"/>

@@ -11,6 +11,33 @@
         <Texture Name="object_ts_Tex_000D70" OutName="tex_00000D70" Format="ci8" Width="32" Height="32" Offset="0xD70" TlutOffset="0x4B0"/>
         <Texture Name="object_ts_Tex_001170" OutName="tex_00001170" Format="ci8" Width="16" Height="16" Offset="0x1170" TlutOffset="0x4B0"/>
         <Texture Name="object_ts_Tex_001270" OutName="tex_00001270" Format="ci8" Width="32" Height="64" Offset="0x1270" TlutOffset="0x4B0"/>
+        <Array Name="object_ts_Vtx_001A70" Count="74" Offset="0x1A70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ts_Vtx_001F10" Count="124" Offset="0x1F10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ts_Vtx_0026D0" Count="45" Offset="0x26D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ts_Vtx_0029A0" Count="34" Offset="0x29A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ts_Vtx_002BC0" Count="56" Offset="0x2BC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ts_Vtx_002F40" Count="45" Offset="0x2F40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ts_Vtx_003210" Count="34" Offset="0x3210">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ts_Vtx_003430" Count="56" Offset="0x3430">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ts_Vtx_0037B0" Count="82" Offset="0x37B0">
+            <Vtx/>
+        </Array>
         <DList Name="object_ts_DL_003CD0" Offset="0x3CD0"/>
         <DList Name="object_ts_DL_003ED8" Offset="0x3ED8"/>
         <DList Name="object_ts_DL_004378" Offset="0x4378"/>

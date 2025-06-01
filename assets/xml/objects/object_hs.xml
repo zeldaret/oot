@@ -3,6 +3,39 @@
         <Animation Name="object_hs_Anim_000304" Offset="0x304"/>
         <Animation Name="object_hs_Anim_000528" Offset="0x528"/>
         <Animation Name="object_hs_Anim_0005C0" Offset="0x5C0"/>
+        <Array Name="object_hs_Vtx_0005D0" Count="129" Offset="0x5D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hs_Vtx_000DE0" Count="18" Offset="0xDE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hs_Vtx_000F00" Count="53" Offset="0xF00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hs_Vtx_001250" Count="42" Offset="0x1250">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hs_Vtx_0014F0" Count="24" Offset="0x14F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hs_Vtx_001670" Count="39" Offset="0x1670">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hs_Vtx_0018E0" Count="42" Offset="0x18E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hs_Vtx_001B80" Count="24" Offset="0x1B80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hs_Vtx_001D00" Count="39" Offset="0x1D00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hs_Vtx_001F70" Count="193" Offset="0x1F70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hs_Vtx_002B80" Count="190" Offset="0x2B80">
+            <Vtx/>
+        </Array>
         <DList Name="object_hs_DL_003760" Offset="0x3760"/>
         <DList Name="object_hs_DL_003AB0" Offset="0x3AB0"/>
         <DList Name="object_hs_DL_004140" Offset="0x4140"/>

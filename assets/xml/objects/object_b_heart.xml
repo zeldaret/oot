@@ -1,5 +1,11 @@
 <Root>
     <File Name="object_b_heart" Segment="6">
+        <Array Name="object_b_heart_Vtx_000000" Count="32" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_b_heart_Vtx_000200" Count="4" Offset="0x200">
+            <Vtx/>
+        </Array>
         <DList Name="object_b_heart_DL_000240" Offset="0x240"/>
         <DList Name="object_b_heart_DL_000348" Offset="0x348"/>
         <Texture Name="object_b_heart_Tex_0003C0" OutName="tex_000003C0" Format="i4" Width="32" Height="32" Offset="0x3C0"/>
