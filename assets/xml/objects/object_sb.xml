@@ -15,6 +15,12 @@
         <Texture Name="object_sb_Tex_001920" OutName="tex_00001920" Format="rgba16" Width="8" Height="8" Offset="0x1920"/>
         <Texture Name="object_sb_Tex_0019A0" OutName="tex_000019A0" Format="rgba16" Width="8" Height="8" Offset="0x19A0"/>
         <Texture Name="object_sb_Tex_001A20" OutName="tex_00001A20" Format="rgba16" Width="8" Height="8" Offset="0x1A20"/>
+        <Array Name="object_sb_Vtx_001AA0" Count="85" Offset="0x1AA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_sb_Vtx_001FF0" Count="92" Offset="0x1FF0">
+            <Vtx/>
+        </Array>
         <DList Name="object_sb_DL_0025B0" Offset="0x25B0"/>
         <DList Name="object_sb_DL_002858" Offset="0x2858"/>
         <Texture Name="object_sb_Tex_002AF0" OutName="tex_00002AF0" Format="rgba16" Width="8" Height="8" Offset="0x2AF0"/>

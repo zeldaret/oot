@@ -39,6 +39,51 @@
         <Limb Name="object_oA6_Limb_000001B0" LimbType="Standard" Offset="0x1B0"/>
         <Limb Name="object_oA6_Limb_000001BC" LimbType="Standard" Offset="0x1BC"/>
         <Skeleton Name="object_oA6_Skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
+        <Array Name="object_oA6_Vtx_000268" Count="26" Offset="0x268">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_000408" Count="11" Offset="0x408">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_0004B8" Count="42" Offset="0x4B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_000758" Count="8" Offset="0x758">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_0007D8" Count="4" Offset="0x7D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_000818" Count="8" Offset="0x818">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_000898" Count="6" Offset="0x898">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_0008F8" Count="4" Offset="0x8F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_000938" Count="12" Offset="0x938">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_0009F8" Count="8" Offset="0x9F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_000A78" Count="4" Offset="0xA78">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_000AB8" Count="8" Offset="0xAB8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_000B38" Count="6" Offset="0xB38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_000B98" Count="4" Offset="0xB98">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA6_Vtx_000BD8" Count="12" Offset="0xBD8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA6_DL_00000C98" Offset="0xC98"/>
         <DList Name="object_oA6_DL_00000D50" Offset="0xD50"/>
         <DList Name="object_oA6_DL_00000DE8" Offset="0xDE8"/>
