@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 
@@ -64,7 +65,7 @@ void ArrowFire_Init(Actor* thisx, PlayState* play) {
 
 void ArrowFire_Destroy(Actor* thisx, PlayState* play) {
     Magic_Reset(play);
-    LOG_STRING("消滅", "../z_arrow_fire.c", 421); // "Disappearance"
+    LOG_STRING_T("消滅", "Disappearance", "../z_arrow_fire.c", 421);
 }
 
 void ArrowFire_Charge(ArrowFire* this, PlayState* play) {

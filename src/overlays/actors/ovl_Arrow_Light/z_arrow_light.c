@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
 
@@ -64,7 +65,7 @@ void ArrowLight_Init(Actor* thisx, PlayState* play) {
 
 void ArrowLight_Destroy(Actor* thisx, PlayState* play) {
     Magic_Reset(play);
-    LOG_STRING("消滅", "../z_arrow_light.c", 403); // "Disappearance"
+    LOG_STRING_T("消滅", "Disappearance", "../z_arrow_light.c", 403);
 }
 
 void ArrowLight_Charge(ArrowLight* this, PlayState* play) {

@@ -13,4 +13,7 @@
  */
 #define T(jp, en) jp
 
+// Note: need to also include debug.h if using this macro
+#define LOG_STRING_T(stringJP, stringEN, file, line) LOG(#stringJP, stringJP, "%s", file, line)
+
 #endif
