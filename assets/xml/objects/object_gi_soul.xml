@@ -1,6 +1,15 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_soul" Segment="6">
+        <Array Name="gGiFairyContainerBaseCapVtx" Count="69" Offset="0x400">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiFairyContainerGlassVtx" Count="52" Offset="0x850">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiFairyContainerContentsVtx" Count="4" Offset="0xB90">
+            <Vtx/>
+        </Array>
         <DList Name="gGiFairyContainerBaseCapDL" Offset="0x0BD0"/>
         <DList Name="gGiFairyContainerGlassDL" Offset="0x0DB8"/>
         <DList Name="gGiFairyContainerContentsDL" Offset="0x0EF0"/>

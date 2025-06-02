@@ -1,24 +1,45 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_medal" Segment="6">
+        <Array Name="gGiForestMedallionFaceVtx" Count="55" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiMedallionVtx" Count="148" Offset="0x370">
+            <Vtx/>
+        </Array>
         <DList Name="gGiForestMedallionFaceDL" Offset="0x0CB0"/>
         <DList Name="gGiMedallionDL" Offset="0x0E18"/>
+        <Array Name="gGiFireMedallionFaceVtx" Count="27" Offset="0x1000">
+            <Vtx/>
+        </Array>
         <Array Name="gGiFireMedallionUnusedVtx" Count="148" Offset="0x11B0">
             <Vtx/>
         </Array>
         <DList Name="gGiFireMedallionFaceDL" Offset="0x1AF0"/>
+        <Array Name="gGiWaterMedallionFaceVtx" Count="51" Offset="0x1C10">
+            <Vtx/>
+        </Array>
         <Array Name="gGiWaterMedallionUnusedVtx" Count="143" Offset="0x1F40">
             <Vtx/>
         </Array>
         <DList Name="gGiWaterMedallionFaceDL" Offset="0x2830"/>
+        <Array Name="gGiSpiritMedallionFaceVtx" Count="56" Offset="0x29A0">
+            <Vtx/>
+        </Array>
         <Array Name="gGiSpiritMedallionUnusedVtx" Count="143" Offset="0x2D20">
             <Vtx/>
         </Array>
         <DList Name="gGiSpiritMedallionFaceDL" Offset="0x3610"/>
+        <Array Name="gGiShadowMedallionFaceVtx" Count="45" Offset="0x3770">
+            <Vtx/>
+        </Array>
         <Array Name="gGiShadowMedallionUnusedVtx" Count="143" Offset="0x3A40">
             <Vtx/>
         </Array>
         <DList Name="gGiShadowMedallionFaceDL" Offset="0x4330"/>
+        <Array Name="gGiLightMedallionFaceVtx" Count="77" Offset="0x4460">
+            <Vtx/>
+        </Array>
         <Array Name="gGiLightMedallionUnusedVtx" Count="143" Offset="0x4930">
             <Vtx/>
         </Array>

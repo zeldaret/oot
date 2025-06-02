@@ -10,6 +10,7 @@
 #include "rand.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "z64draw.h"
 #include "z64play.h"
@@ -386,12 +387,13 @@ s32 EnGirlA_TryChangeShopItem(EnGirlA* this) {
 void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
     s16 params = this->actor.params;
 
-    PRINTF("%s(%2d)初期設定\n", sShopItemDescriptions[params], params);
+    PRINTF(T("%s(%2d)初期設定\n", "%s(%2d) Initial setup\n"), sShopItemDescriptions[params], params);
 
     if ((params >= SI_MAX) && (params < 0)) {
         Actor_Kill(&this->actor);
         PRINTF_COLOR_ERROR();
-        PRINTF("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
+        PRINTF(T("引数がおかしいよ(arg_data=%d)！！\n", "The arguments are strange (arg_data=%d)!!\n"),
+               this->actor.params);
         PRINTF_RST();
         ASSERT(0, "0", "../z_en_girlA.c", 1421);
         return;
@@ -402,7 +404,7 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
     if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
         PRINTF_COLOR_ERROR();
-        PRINTF("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
+        PRINTF(T("バンクが無いよ！！(%s)\n", "There is no bank!! (%s)\n"), sShopItemDescriptions[params]);
         PRINTF_RST();
         ASSERT(0, "0", "../z_en_girlA.c", 1434);
         return;
@@ -417,7 +419,8 @@ void EnGirlA_Init(Actor* thisx, PlayState* play) {
 
     EnGirlA_TryChangeShopItem(this);
     EnGirlA_InitItem(this, play);
-    PRINTF("%s(%2d)初期設定\n", sShopItemDescriptions[this->actor.params], this->actor.params);
+    PRINTF(T("%s(%2d)初期設定\n", "%s(%2d) Initial setup\n"), sShopItemDescriptions[this->actor.params],
+           this->actor.params);
 }
 
 void EnGirlA_Destroy(Actor* thisx, PlayState* play) {

@@ -1,5 +1,8 @@
 <Root>
     <File Name="object_gi_gerudomask" Segment="6">
+        <Array Name="gGiGerudoMaskVtx" Count="138" Offset="0x848">
+            <Vtx/>
+        </Array>
         <DList Name="gGiGerudoMaskDL" Offset="0x10E8"/>
     </File>
 </Root>

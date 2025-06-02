@@ -2,14 +2,32 @@
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_jewel" Segment="6">
         <Texture Name="gGiKokiriEmeraldScintillationTex" OutName="kokiri_emerald_scintillation" Format="i4" Width="64" Height="64" Offset="0x0000"/>
+        <Array Name="gGiKokiriEmeraldSettingVtx" Count="89" Offset="0x800">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiKokiriEmeraldGemVtx" Count="53" Offset="0xD90">
+            <Vtx/>
+        </Array>
         <DList Name="gGiKokiriEmeraldSettingDL" Offset="0x10E0"/>
         <DList Name="gGiKokiriEmeraldGemDL" Offset="0x1240"/>
 
         <Texture Name="gGiGoronRubyScintillationTex" OutName="goron_ruby_scintillation" Format="i8" Width="32" Height="64" Offset="0x13E0"/>
+        <Array Name="gGiGoronRubySettingVtx" Count="27" Offset="0x1BE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiGoronRubyGemVtx" Count="34" Offset="0x1D90">
+            <Vtx/>
+        </Array>
         <DList Name="gGiGoronRubySettingDL" Offset="0x1FB0"/>
         <DList Name="gGiGoronRubyGemDL" Offset="0x20A0"/>
 
         <Texture Name="gGiZoraSapphireScintillationTex" OutName="zora_sapphire_scintillation" Format="i4" Width="64" Height="64" Offset="0x21F0"/>
+        <Array Name="gGiZoraSapphireSettingVtx" Count="104" Offset="0x29F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiZoraSapphireGemVtx" Count="48" Offset="0x3070">
+            <Vtx/>
+        </Array>
         <DList Name="gGiZoraSapphireSettingDL" Offset="0x3370"/>
         <DList Name="gGiZoraSapphireGemDL" Offset="0x3530"/>
     </File>

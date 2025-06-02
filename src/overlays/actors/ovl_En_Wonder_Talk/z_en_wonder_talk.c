@@ -9,6 +9,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z64debug_display.h"
 #include "z64play.h"
 #include "z64save.h"
@@ -42,8 +43,8 @@ void EnWonderTalk_Init(Actor* thisx, PlayState* play) {
     EnWonderTalk* this = (EnWonderTalk*)thisx;
 
     PRINTF("\n\n");
-    // "Special conversation"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 特殊会話くん ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 特殊会話くん ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Special conversation ☆☆☆☆☆ %x\n") VT_RST,
+           this->actor.params);
 
     this->unk_150 = PARAMS_GET_U(this->actor.params, 11, 5);
     this->unk_152 = PARAMS_GET_U(this->actor.params, 6, 5);
@@ -67,19 +68,17 @@ void func_80B391CC(EnWonderTalk* this, PlayState* play) {
     if (this->switchFlag < 0 || !Flags_GetSwitch(play, this->switchFlag)) {
         switch (this->unk_150) {
             case 1:
-                // "Slate GO!"
-                PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 石板ＧＯ！ ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 石板ＧＯ！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ Slate GO! ☆☆☆☆☆ \n") VT_RST);
                 this->height = 0.0f;
                 this->unk_15C = 80.0f;
-                // "Attention coordinates"
-                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
+                PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n",
+                                           "☆☆☆☆☆ Attention coordinates\t       \t☆☆☆☆☆ %f\n") VT_RST,
+                       0.0f);
                 if (!LINK_IS_ADULT) {
                     this->actor.textId = 0x7040;
-                    // "Children"
-                    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ こども ☆☆☆☆☆ \n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ こども ☆☆☆☆☆ \n", " ☆☆☆☆☆ Child ☆☆☆☆☆ \n") VT_RST);
                 } else {
-                    // "Adult"
-                    PRINTF(VT_FGCOL(CYAN) " ☆☆☆☆☆ おとな ☆☆☆☆☆ \n" VT_RST);
+                    PRINTF(VT_FGCOL(CYAN) T(" ☆☆☆☆☆ おとな ☆☆☆☆☆ \n", " ☆☆☆☆☆ Adult ☆☆☆☆☆ \n") VT_RST);
                     this->actor.textId = 0x7088;
                 }
 
@@ -87,29 +86,31 @@ void func_80B391CC(EnWonderTalk* this, PlayState* play) {
                 PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n" VT_RST, this->actor.textId);
                 break;
             case 2:
-                // "Diary start!"
-                PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 日記帳スタート！ ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 日記帳スタート！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ Diary start! ☆☆☆☆☆ \n") VT_RST);
                 this->actor.textId = 0x5002;
                 this->unk_156 = TEXT_STATE_CHOICE;
                 this->unk_15C = 40.0f;
                 this->height = 30.0f;
-                // "Attention coordinates"
-                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 30.0f);
+                PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n",
+                                           "☆☆☆☆☆ Attention coordinates\t       \t☆☆☆☆☆ %f\n") VT_RST,
+                       30.0f);
                 break;
             case 3:
                 this->actor.textId = 0x501E;
                 this->unk_156 = TEXT_STATE_EVENT;
                 this->height = 0.0f;
                 this->unk_15C = 110.0f;
-                // "Attention coordinates"
-                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
+                PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n",
+                                           "☆☆☆☆☆ Attention coordinates\t       \t☆☆☆☆☆ %f\n") VT_RST,
+                       0.0f);
                 break;
             case 4:
                 this->actor.textId = 0x5020;
                 this->unk_156 = TEXT_STATE_DONE;
                 this->height = 0.0f;
-                // "Attention coordinates"
-                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
+                PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n",
+                                           "☆☆☆☆☆ Attention coordinates\t       \t☆☆☆☆☆ %f\n") VT_RST,
+                       0.0f);
                 this->unk_15C = 120.0f;
                 if (GET_EVENTCHKINF(EVENTCHKINF_1D)) {
                     Actor_Kill(&this->actor);
@@ -120,8 +121,9 @@ void func_80B391CC(EnWonderTalk* this, PlayState* play) {
                 this->unk_156 = TEXT_STATE_EVENT;
                 this->height = 0.0f;
                 this->unk_15C = 110.0f;
-                // "Attention coordinates"
-                PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
+                PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n",
+                                           "☆☆☆☆☆ Attention coordinates\t       \t☆☆☆☆☆ %f\n") VT_RST,
+                       0.0f);
                 break;
             default:
                 this->actor.textId = 0x7072;
@@ -161,14 +163,18 @@ void func_80B3943C(EnWonderTalk* this, PlayState* play) {
             if (yawDiff < 0x4000) {
                 if (this->unk_15A >= 2) {
                     PRINTF("\n\n");
-                    // "Save information"
-                    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報\t\t☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
-                    // "Type index"
-                    PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 種類インデックス\t☆☆☆☆☆ %d\n" VT_RST, this->unk_150);
-                    // "Actual message type"
-                    PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" VT_RST, this->actor.textId);
-                    // "Specified range"
-                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" VT_RST, this->actor.world.rot.z);
+                    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ セーブ情報\t\t☆☆☆☆☆ %d\n", "☆☆☆☆☆ Save information\t\t☆☆☆☆☆ %d\n")
+                               VT_RST,
+                           this->switchFlag);
+                    PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 種類インデックス\t☆☆☆☆☆ %d\n", "☆☆☆☆☆ Type index\t☆☆☆☆☆ %d\n")
+                               VT_RST,
+                           this->unk_150);
+                    PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 実質メッセージ種類     %x\n", "☆☆☆☆☆ Actual message type     %x\n")
+                               VT_RST,
+                           this->actor.textId);
+                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 指定範囲               %d\n",
+                                             "☆☆☆☆☆ Specified range               %d\n") VT_RST,
+                           this->actor.world.rot.z);
                     PRINTF("\n\n");
                 }
                 this->unk_15A = 0;
@@ -193,18 +199,17 @@ void func_80B395F0(EnWonderTalk* this, PlayState* play) {
                 switch (play->msgCtx.choiceIndex) {
                     case 0:
                         if (!LINK_IS_ADULT) {
-                            // "I'm still a child!"
-                            PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ まだコドモなの！ ☆☆☆☆☆ \n" VT_RST);
+                            PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ まだコドモなの！ ☆☆☆☆☆ \n",
+                                                     " ☆☆☆☆☆ I'm still a child! ☆☆☆☆☆ \n") VT_RST);
                             this->actor.textId = 0x5001;
                         } else {
-                            // "I'm an adult. .. .."
-                            PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ アダルトなの。。。 ☆☆☆☆☆ \n" VT_RST);
+                            PRINTF(VT_FGCOL(YELLOW) T(" ☆☆☆☆☆ アダルトなの。。。 ☆☆☆☆☆ \n",
+                                                      " ☆☆☆☆☆ I'm an adult... ☆☆☆☆☆ \n") VT_RST);
                             this->actor.textId = 0x5003;
                         }
                         break;
                     case 1:
-                        // "Out!"
-                        PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n" VT_RST);
+                        PRINTF(VT_FGCOL(MAGENTA) T(" ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ No luck! ☆☆☆☆☆ \n") VT_RST);
                         this->actor.textId = 0x5004;
                         break;
                 }

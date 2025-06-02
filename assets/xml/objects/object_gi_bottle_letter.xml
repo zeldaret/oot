@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_bottle_letter" Segment="6">
+        <Array Name="gGiLetterBottleContentsVtx" Count="65" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiLetterBottleVtx" Count="77" Offset="0x410">
+            <Vtx/>
+        </Array>
         <DList Name="gGiLetterBottleContentsDL" Offset="0x08E0"/>
         <DList Name="gGiLetterBottleDL" Offset="0x0AE0"/>
     </File>

@@ -31,6 +31,51 @@
         <Texture Name="object_oE1s_Tex_001A78" OutName="tex_00001A78" Format="rgba16" Width="16" Height="8" Offset="0x1A78"/>
         <Texture Name="object_oE1s_Tex_001B78" OutName="tex_00001B78" Format="ci8" Width="16" Height="16" Offset="0x1B78"  TlutOffset="0x3A0"/>
         <Blob Name="object_oE1s_Blob_001C78" Size="0x400" Offset="0x1C78"/>
+        <Array Name="object_oE1s_Vtx_002078" Count="154" Offset="0x2078">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_002A18" Count="19" Offset="0x2A18">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_002B48" Count="235" Offset="0x2B48">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_0039F8" Count="49" Offset="0x39F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_003D08" Count="18" Offset="0x3D08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_003E28" Count="33" Offset="0x3E28">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004038" Count="13" Offset="0x4038">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004108" Count="16" Offset="0x4108">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004208" Count="28" Offset="0x4208">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_0043C8" Count="49" Offset="0x43C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_0046D8" Count="18" Offset="0x46D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_0047F8" Count="33" Offset="0x47F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004A08" Count="13" Offset="0x4A08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004AD8" Count="16" Offset="0x4AD8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004BD8" Count="28" Offset="0x4BD8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oE1s_DL_004D98" Offset="0x4D98"/>
         <DList Name="object_oE1s_DL_005010" Offset="0x5010"/>
         <DList Name="object_oE1s_DL_005150" Offset="0x5150"/>

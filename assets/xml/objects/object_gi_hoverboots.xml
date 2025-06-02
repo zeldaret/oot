@@ -1,6 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_hoverboots" Segment="6">
+        <Array Name="gGiHoverBootsVtx" Count="325" Offset="0x400">
+            <Vtx/>
+        </Array>
         <DList Name="gGiHoverBootsDL" Offset="0x1850"/>
     </File>
 </Root>

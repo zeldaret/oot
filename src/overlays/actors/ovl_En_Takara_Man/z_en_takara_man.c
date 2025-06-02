@@ -12,6 +12,7 @@
 #include "rand.h"
 #include "segmented_address.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z64play.h"
 #include "z64save.h"
@@ -56,14 +57,14 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
 
     if (sTakaraIsInitialized) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST); // "Already initialized"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n", "☆☆☆☆☆ Already initialized ☆☆☆☆☆ \n") VT_RST);
         return;
     }
 
     sTakaraIsInitialized = true;
     PRINTF("\n\n");
-    // "Bun! %x" (needs a better translation)
-    PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, play->actorCtx.flags.chest);
+    PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Bang! ☆☆☆☆☆ %x\n") VT_RST,
+           play->actorCtx.flags.chest);
     play->actorCtx.flags.chest = 0;
     gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitFlex(play, &this->skelAnime, &object_ts_Skel_004FE0, &object_ts_Anim_000498, this->jointTable,

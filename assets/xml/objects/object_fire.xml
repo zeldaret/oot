@@ -1,5 +1,8 @@
 <Root>
     <File Name="object_fire" Segment="6">
+        <Array Name="gFireVtx" Count="4" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireDL" Offset="0x40"/>
 
         <Texture Name="gFire0Tex" OutName="fire_0" Format="ia8" Width="32" Height="64" Offset="0x00A0"/>

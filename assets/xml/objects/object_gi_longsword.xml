@@ -1,6 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_longsword" Segment="6">
+        <Array Name="gGiBiggoronSwordVtx" Count="96" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiBiggoronSwordDL" Offset="0x0600"/>
     </File>
 </Root>

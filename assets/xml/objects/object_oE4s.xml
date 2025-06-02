@@ -27,6 +27,51 @@
         <Texture Name="object_oE4s_Tex_000B60" OutName="tex_00000B60" Format="i4" Width="16" Height="16" Offset="0xB60"/>
         <Texture Name="object_oE4s_Tex_000BE0" OutName="tex_00000BE0" Format="ci8" Width="16" Height="16" Offset="0xBE0" TlutOffset="0x1A8"/>
         <Texture Name="object_oE4s_Tex_000CE0" OutName="tex_00000CE0" Format="rgba16" Width="16" Height="16" Offset="0xCE0"/>
+        <Array Name="object_oE4s_Vtx_000EE0" Count="73" Offset="0xEE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_001370" Count="43" Offset="0x1370">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_001620" Count="250" Offset="0x1620">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_0025C0" Count="49" Offset="0x25C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_0028D0" Count="20" Offset="0x28D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_002A10" Count="19" Offset="0x2A10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_002B40" Count="23" Offset="0x2B40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_002CB0" Count="17" Offset="0x2CB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_002DC0" Count="31" Offset="0x2DC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_002FB0" Count="49" Offset="0x2FB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_0032C0" Count="20" Offset="0x32C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_003400" Count="19" Offset="0x3400">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_003530" Count="23" Offset="0x3530">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_0036A0" Count="17" Offset="0x36A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4s_Vtx_0037B0" Count="28" Offset="0x37B0">
+            <Vtx/>
+        </Array>
         <DList Name="object_oE4s_DL_003970" Offset="0x3970"/>
         <DList Name="object_oE4s_DL_003B28" Offset="0x3B28"/>
         <DList Name="object_oE4s_DL_003C40" Offset="0x3C40"/>

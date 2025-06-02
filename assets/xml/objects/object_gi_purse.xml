@@ -1,5 +1,17 @@
 <Root>
     <File Name="object_gi_purse" Segment="6">
+        <Array Name="gGiWalletVtx" Count="32" Offset="0x1000">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiWalletRupeeOuterVtx" Count="22" Offset="0x1200">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiWalletStringVtx" Count="53" Offset="0x1360">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiWalletRupeeInnerVtx" Count="10" Offset="0x16B0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiAdultWalletColorDL" Offset="0x1750"/>
         <DList Name="gGiGiantsWalletColorDL" Offset="0x1770"/>
         <DList Name="gGiAdultWalletRupeeOuterColorDL" Offset="0x1790"/>

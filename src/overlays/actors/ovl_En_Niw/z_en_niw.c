@@ -21,6 +21,7 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "z64effect.h"
@@ -153,7 +154,8 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == 0xB) {
         if (sLowerRiverSpawned) {
             Actor_Kill(&this->actor);
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW)
+                       T("☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n", "☆☆☆☆☆ Original is already here Ver.1 ☆☆☆☆☆ \n") VT_RST);
             return;
         }
         sLowerRiverSpawned = true;
@@ -164,7 +166,8 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == 0xC) {
         if (sUpperRiverSpawned) {
             Actor_Kill(&this->actor);
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW)
+                       T("☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n", "☆☆☆☆☆ Original is already here Ver.2 ☆☆☆☆☆ \n") VT_RST);
             return;
         }
         sUpperRiverSpawned = true;
@@ -181,7 +184,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
             if (fabsf(this->actor.world.pos.x - sKakarikoPosList[i].x) < 40.0f &&
                 fabsf(this->actor.world.pos.z - sKakarikoPosList[i].z) < 40.0f) {
                 this->unk_2AA = i;
-                PRINTF(VT_FGCOL(YELLOW) " 通常鶏index %d\n" VT_RST, this->unk_2AA);
+                PRINTF(VT_FGCOL(YELLOW) T(" 通常鶏index %d\n", " Normal chicken index %d\n") VT_RST, this->unk_2AA);
                 if (gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F] &
                     sKakarikoFlagList[i]) {
                     this->actor.world.pos.x = 300.0f;
@@ -259,7 +262,8 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
             break;
     }
 
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ どんな奴？ ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ どんな奴？ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ What kind of guy? ☆☆☆☆☆ %d\n") VT_RST,
+           this->actor.params);
     PRINTF("\n\n");
     this->actionFunc = EnNiw_ResetAction;
 }
@@ -386,7 +390,7 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, PlayState* play) {
             this->timer5 = 10;
         } else {
             PRINTF("\n\n");
-            PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n", " ☆☆☆☆☆ Cannot occur  ☆☆☆☆☆ \n") VT_RST);
         }
     }
 }
@@ -983,17 +987,21 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         f32 camResult;
         s32 pad3[10];
 
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" VT_RST, thisx->floorHeight);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Up and down? ☆☆☆☆☆ %f\n") VT_RST,
+               thisx->floorHeight);
         cam.x = play->view.at.x - play->view.eye.x;
         cam.y = play->view.at.y - play->view.eye.y;
         cam.z = play->view.at.z - play->view.eye.z;
         camResult = cam.y / sqrtf(SQ(cam.x) + SQ(cam.y) + SQ(cam.z));
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.x);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.y);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.z);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->home.pos.x);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->home.pos.y);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ セットＺ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->home.pos.z);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ X out of range! ☆☆☆☆☆ %f\n") VT_RST,
+               thisx->world.pos.x);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Y out of range! ☆☆☆☆☆ %f\n") VT_RST,
+               thisx->world.pos.y);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Z out of range! ☆☆☆☆☆ %f\n") VT_RST,
+               thisx->world.pos.z);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Set X! ☆☆☆☆☆ %f\n") VT_RST, thisx->home.pos.x);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Set Y! ☆☆☆☆☆ %f\n") VT_RST, thisx->home.pos.y);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ セットＺ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Set Z! ☆☆☆☆☆ %f\n") VT_RST, thisx->home.pos.z);
         thisx->world.pos.x = thisx->home.pos.x;
         thisx->world.pos.z = thisx->home.pos.z;
         thisx->world.pos.y = ((thisx->home.pos.y + play->view.eye.y) + (camResult * 160.0f));
@@ -1002,9 +1010,12 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
             thisx->world.pos.y = thisx->home.pos.y + 300.0f;
         }
 
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｘ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.x);
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｙ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.y);
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｚ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.z);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 修整後Ｘ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ X after correction! ☆☆☆☆☆ %f\n") VT_RST,
+               thisx->world.pos.x);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 修整後Ｙ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Y after correction! ☆☆☆☆☆ %f\n") VT_RST,
+               thisx->world.pos.y);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 修整後Ｚ！ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Z after correction! ☆☆☆☆☆ %f\n") VT_RST,
+               thisx->world.pos.z);
         PRINTF("\n\n");
         thisx->speed = 0.0f;
         thisx->gravity = -2.0f;
@@ -1045,7 +1056,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 400);
         this->timer5 = 0;
         PRINTF("\n\n");
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n", "☆☆☆☆☆ Bubbling ☆☆☆☆☆ \n") VT_RST);
         PRINTF("\n\n");
         this->actionFunc = func_80AB6F04;
         return;

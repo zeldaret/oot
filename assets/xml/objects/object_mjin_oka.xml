@@ -1,5 +1,8 @@
 <Root>
     <File Name="object_mjin_oka" Segment="6">
+        <Array Name="gOcarinaWarpPadVtx" Count="20" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gOcarinaWarpPadDL" Offset="0x140"/>
         <Collision Name="gOcarinaWarpPadCol" Offset="0x330"/>
         <Texture Name="gOcarinaWarpPadSideTex" OutName="side" Format="rgba16" Width="64" Height="16" Offset="0x360"/>

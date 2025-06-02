@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_niwatori" Segment="6">
+        <Array Name="gGiChickenVtx" Count="153" Offset="0xC00">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiChickenEyesVtx" Count="6" Offset="0x1590">
+            <Vtx/>
+        </Array>
         <DList Name="gGiChickenColorDL" Offset="0x15F0"/>
         <DList Name="gGiCojiroColorDL" Offset="0x1610"/>
         <DList Name="gGiChickenDL" Offset="0x1630"/>

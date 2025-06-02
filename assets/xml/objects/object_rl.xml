@@ -3,6 +3,30 @@
         <Animation Name="object_rl_Anim_00040C" Offset="0x40C"/>
         <Animation Name="object_rl_Anim_000830" Offset="0x830"/>
         <Animation Name="object_rl_Anim_000A3C" Offset="0xA3C"/>
+        <Array Name="object_rl_Vtx_000A50" Count="45" Offset="0xA50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_rl_Vtx_000D20" Count="27" Offset="0xD20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_rl_Vtx_000ED0" Count="12" Offset="0xED0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_rl_Vtx_000F90" Count="45" Offset="0xF90">
+            <Vtx/>
+        </Array>
+        <Array Name="object_rl_Vtx_001260" Count="27" Offset="0x1260">
+            <Vtx/>
+        </Array>
+        <Array Name="object_rl_Vtx_001410" Count="12" Offset="0x1410">
+            <Vtx/>
+        </Array>
+        <Array Name="object_rl_Vtx_0014D0" Count="191" Offset="0x14D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_rl_Vtx_0020C0" Count="23" Offset="0x20C0">
+            <Vtx/>
+        </Array>
         <DList Name="object_rl_DL_002230" Offset="0x2230"/>
         <DList Name="object_rl_DL_0023D8" Offset="0x23D8"/>
         <DList Name="object_rl_DL_0029A0" Offset="0x29A0"/>
@@ -20,6 +44,9 @@
         <Texture Name="object_rl_Tex_003B60" OutName="tex_00003B60" Format="ci8" Width="32" Height="16" Offset="0x3B60" TlutOffset="0x32A0"/>
         <Texture Name="object_rl_Tex_003D60" OutName="tex_00003D60" Format="ci8" Width="8" Height="8" Offset="0x3D60" TlutOffset="0x32A0"/>
         <Texture Name="object_rl_Tex_003DA0" OutName="tex_00003DA0" Format="ci8" Width="16" Height="16" Offset="0x3DA0" TlutOffset="0x32A0"/>
+        <Array Name="object_rl_Vtx_003EA0" Count="312" Offset="0x3EA0">
+            <Vtx/>
+        </Array>
         <DList Name="object_rl_DL_005220" Offset="0x5220"/>
         <Texture Name="object_rl_TLUT_006318" OutName="tlut_00006318" Format="rgba16" Width="16" Height="16" Offset="0x6318"/>
         <Texture Name="object_rl_Tex_006518" OutName="tex_00006518" Format="ci8" Width="16" Height="16" Offset="0x6518" TlutOffset="0x6318"/>
