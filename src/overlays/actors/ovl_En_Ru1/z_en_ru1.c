@@ -327,15 +327,15 @@ BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
     return NULL;
 }
 
-void func_80AEB0EC(EnRu1* this, s32 cameraSetting) {
-    if (this->unk_28C != NULL) {
-        this->unk_28C->cameraSetting = cameraSetting;
+void EnRu1_SetCameraSetting(EnRu1* this, s32 cameraSetting) {
+    if (this->jabuJabuCtx != NULL) {
+        this->jabuJabuCtx->cameraSetting = cameraSetting;
     }
 }
 
-s32 func_80AEB104(EnRu1* this) {
-    if (this->unk_28C != NULL) {
-        return this->unk_28C->cameraSetting;
+s32 EnRu1_GetCameraSetting(EnRu1* this) {
+    if (this->jabuJabuCtx != NULL) {
+        return this->jabuJabuCtx->cameraSetting;
     } else {
         return 0;
     }
@@ -371,7 +371,7 @@ void func_80AEB1D8(EnRu1* this) {
     this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
-    func_80AEB0EC(this, 0);
+    EnRu1_SetCameraSetting(this, 0);
 }
 
 void func_80AEB220(EnRu1* this, PlayState* play) {
@@ -1576,7 +1576,7 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
-            this->unk_28C = (BgBdanObjects*)dynaPolyActor;
+            this->jabuJabuCtx = (BgBdanObjects*)dynaPolyActor;
             this->actor.shape.shadowAlpha = 0;
             return true;
         }
@@ -1958,7 +1958,7 @@ void func_80AEF51C(EnRu1* this) {
 }
 
 void func_80AEF540(EnRu1* this) {
-    if (func_80AEB104(this) == 2) {
+    if (EnRu1_GetCameraSetting(this) == 2) {
         EnRu1_SetEyeIndex(this, 3);
         EnRu1_SetMouthIndex(this, 2);
         if (this->skelAnime.mode != 2) {
@@ -2047,14 +2047,14 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_145);
         Flags_SetSwitch(play, func_80AEADE0(this));
-        func_80AEB0EC(this, 1);
+        EnRu1_SetCameraSetting(this, 1);
         this->action = 42;
         this->actor.room = curRoomNum;
     }
 }
 
 void func_80AEF930(EnRu1* this, PlayState* play) {
-    if (func_80AEB104(this) == 3) {
+    if (EnRu1_GetCameraSetting(this) == 3) {
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = 0x4048;
 #if !OOT_PAL_N64
@@ -2070,7 +2070,7 @@ void func_80AEF930(EnRu1* this, PlayState* play) {
 
 void func_80AEF99C(EnRu1* this, PlayState* play) {
     if (func_80AEB1B4(play) != 0) {
-        func_80AEB0EC(this, 4);
+        EnRu1_SetCameraSetting(this, 4);
         Actor_Kill(&this->actor);
     }
 }
@@ -2155,8 +2155,8 @@ void func_80AEFC54(EnRu1* this, PlayState* play) {
 
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 41;
-        this->unk_28C = EnRu1_FindSwitch(play);
-        func_80AEB0EC(this, 1);
+        this->jabuJabuCtx = EnRu1_FindSwitch(play);
+        EnRu1_SetCameraSetting(this, 1);
         this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     } else {
         Actor_Kill(&this->actor);
@@ -2164,11 +2164,11 @@ void func_80AEFC54(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEFCE8(EnRu1* this, PlayState* play) {
-    this->unk_28C = EnRu1_FindSwitch(play);
-    if (this->unk_28C != NULL) {
+    this->jabuJabuCtx = EnRu1_FindSwitch(play);
+    if (this->jabuJabuCtx != NULL) {
         this->action = 42;
         this->drawConfig = 1;
-        func_80AEB0EC(this, 1);
+        EnRu1_SetCameraSetting(this, 1);
     }
 }
 
@@ -2258,7 +2258,7 @@ void func_80AF0050(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
     this->action = 36;
     this->roomNum1 = this->actor.room;
-    this->unk_28C = EnRu1_FindSwitch(play);
+    this->jabuJabuCtx = EnRu1_FindSwitch(play);
     this->actor.room = -1;
 }
 #endif
