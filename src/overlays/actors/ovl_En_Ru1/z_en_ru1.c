@@ -209,16 +209,16 @@ void func_80AEADD8(EnRu1* this) {
     this->unk_34C = 0;
 }
 
-u8 func_80AEADE0(EnRu1* this) {
-    u8 params = PARAMS_GET_U(this->actor.params, 8, 8);
+u8 EnRu1_GetSwitchFlag(EnRu1* this) {
+    u8 switchFlag = PARAMS_GET_U(this->actor.params, 8, 8);
 
-    return params;
+    return switchFlag;
 }
 
-u8 func_80AEADF0(EnRu1* this) {
-    u8 params = PARAMS_GET_U(this->actor.params, 0, 8);
+u8 EnRu1_GetType(EnRu1* this) {
+    u8 type = PARAMS_GET_U(this->actor.params, 0, 8);
 
-    return params;
+    return type;
 }
 
 void EnRu1_Destroy(Actor* thisx, PlayState* play) {
@@ -2046,7 +2046,7 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
     if (!(DEBUG_FEATURES && IS_CUTSCENE_LAYER) && EnRu1_IsCsStateIdle(play)) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_145);
-        Flags_SetSwitch(play, func_80AEADE0(this));
+        Flags_SetSwitch(play, EnRu1_GetSwitchFlag(this));
         func_80AEB0EC(this, 1);
         this->action = 42;
         this->actor.room = curRoomNum;
@@ -2282,7 +2282,7 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
     func_80AEAD20(&this->actor, play);
-    switch (func_80AEADF0(this)) {
+    switch (EnRu1_GetType(this)) {
         case 0:
             func_80AECDA0(this, play);
             break;
@@ -2311,7 +2311,7 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
 #endif
         default:
             Actor_Kill(&this->actor);
-            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), func_80AEADF0(this));
+            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), EnRu1_GetType(this));
             break;
     }
 }
