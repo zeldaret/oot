@@ -578,20 +578,20 @@ void func_80AEBA2C(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEBAFC(EnRu1* this) {
+void EnRu1_PlayDivingEntrySoundEffect(EnRu1* this) {
     if (this->unk_298 == 0) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_DIVE_INTO_WATER);
         this->unk_298 = 1;
     }
 }
 
-void func_80AEBB3C(EnRu1* this) {
+void EnRu1_PlayResurfacingSoundEffect(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_FACE_UP);
     }
 }
 
-void func_80AEBB78(EnRu1* this) {
+void EnRu1_PlaySwimStrokeSoundEffect(EnRu1* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (Animation_OnFrame(skelAnime, 4.0f) || Animation_OnFrame(skelAnime, 13.0f) ||
@@ -600,7 +600,7 @@ void func_80AEBB78(EnRu1* this) {
     }
 }
 
-void func_80AEBBF4(EnRu1* this) {
+void EnRu1_PlaySubmergeSoundEffect(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_SUBMERGE);
     }
@@ -616,7 +616,10 @@ void func_80AEBC30(PlayState* play) {
     }
 }
 
-void func_80AEBC84(EnRu1* this, PlayState* play) {
+/**
+ * Ruto giggles at Link outside of Jabu-Jabu.
+ */
+void EnRu1_PlayGiggleSoundEffect(EnRu1* this, PlayState* play) {
     if (play->csCtx.curFrame == 130) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
@@ -721,13 +724,13 @@ void func_80AEC070(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
 void func_80AEC0B4(EnRu1* this, PlayState* play) {
     func_80AEB89C(this, play);
     EnRu1_UpdateSkelAnime(this);
-    func_80AEBC84(this, play);
+    EnRu1_PlayGiggleSoundEffect(this, play);
     func_80AEBC30(play);
     func_80AEBD1C(this, play);
 }
 
 void func_80AEC100(EnRu1* this, PlayState* play) {
-    func_80AEBAFC(this);
+    EnRu1_PlayDivingEntrySoundEffect(this);
     func_80AEBD94(this, play);
 }
 
@@ -735,7 +738,7 @@ void func_80AEC130(EnRu1* this, PlayState* play) {
     s32 something = EnRu1_UpdateSkelAnime(this);
 
     func_80AEAECC(this, play);
-    func_80AEBB3C(this);
+    EnRu1_PlayResurfacingSoundEffect(this);
     func_80AEBE3C(this, play, something);
 }
 
@@ -755,7 +758,7 @@ void func_80AEC1D4(EnRu1* this, PlayState* play) {
     EnRu1_UpdateEyes(this);
     func_80AEB50C(this, play);
     func_80AEBCB8(this, something);
-    func_80AEBBF4(this);
+    EnRu1_PlaySubmergeSoundEffect(this);
     func_80AEBF60(this, play);
 }
 
@@ -768,7 +771,7 @@ void func_80AEC244(EnRu1* this, PlayState* play) {
     EnRu1_UpdateEyes(this);
     func_80AEB50C(this, play);
     func_80AEBCB8(this, something);
-    func_80AEBB78(this);
+    EnRu1_PlaySwimStrokeSoundEffect(this);
     func_80AEBFD8(this, play);
 }
 
@@ -850,7 +853,7 @@ s32 func_80AEC5FC(EnRu1* this, PlayState* play) {
     return false;
 }
 
-void func_80AEC650(EnRu1* this) {
+void EnRu1_PlayStepSoundEffect(EnRu1* this) {
     s32 pad[2];
 
     if (this->unk_280 == 0) {
@@ -860,7 +863,7 @@ void func_80AEC650(EnRu1* this) {
     }
 }
 
-void func_80AEC6B0(EnRu1* this) {
+void EnRu1_PlayFallingSoundEffects(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_FALL_DOWN_DIRT);
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_FALL);
 }
@@ -870,7 +873,7 @@ void func_80AEC6E4(EnRu1* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gRutoChildBringArmsUpAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildBringArmsUpAnim), ANIMMODE_ONCE, -8.0f);
         this->unk_280 = 1;
-        func_80AEC6B0(this);
+        EnRu1_PlayFallingSoundEffects(this);
     }
 }
 
@@ -979,7 +982,7 @@ void func_80AECB60(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC650(this);
+    EnRu1_PlayStepSoundEffect(this);
     func_80AEC9C4(this);
 }
 
@@ -989,7 +992,7 @@ void func_80AECBB8(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC650(this);
+    EnRu1_PlayStepSoundEffect(this);
     func_80AECA18(this);
 }
 
@@ -999,7 +1002,7 @@ void func_80AECC1C(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC650(this);
+    EnRu1_PlayStepSoundEffect(this);
     func_80AECA44(this, play);
 }
 
@@ -1214,11 +1217,11 @@ void func_80AED44C(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AED4FC(EnRu1* this) {
+void EnRu1_PlayHittingSurfaceSoundEffect(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_LAND_DIRT);
 }
 
-void func_80AED520(EnRu1* this, PlayState* play) {
+void EnRu1_PlayLiftingSoundEffects(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Audio_PlaySfxGeneral(NA_SE_PL_PULL_UP_RUTO, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -1226,21 +1229,24 @@ void func_80AED520(EnRu1* this, PlayState* play) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_LIFT);
 }
 
-void func_80AED57C(EnRu1* this) {
+void EnRu1_PlayThrowingSoundEffect(EnRu1* this) {
     if (this->actor.speed != 0.0f) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
     }
 }
 
-void func_80AED5B8(EnRu1* this) {
+void EnRu1_PlayBouncingOffWallSoundEffect(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_CRASH);
 }
 
-void func_80AED5DC(EnRu1* this) {
+/**
+ * Ruto periodically squirms while being carried if Link is idle for long enough. This sound effect plays then.
+ */
+void EnRu1_PlayUnbalancingSoundEffect(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_UNBALLANCE);
 }
 
-void func_80AED600(EnRu1* this) {
+void EnRu1_PlaySeeingSapphireSoundEffect(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_DISCOVER);
 }
 
@@ -1387,7 +1393,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
                     *gravity = 0.0f;
                 }
             }
-            func_80AED4FC(this);
+            EnRu1_PlayHittingSurfaceSoundEffect(this);
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
@@ -1402,7 +1408,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         }
         if (*velocityY >= 0.0f) {
             *velocityY *= -((kREG(20) * 0.01f) + 0.6f);
-            func_80AED4FC(this);
+            EnRu1_PlayHittingSurfaceSoundEffect(this);
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
@@ -1430,8 +1436,8 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
                     *speedXZ = 0.0f;
                 }
                 this->actor.world.rot.y = temp_a1_2;
-                func_80AED4FC(this);
-                func_80AED5B8(this);
+                EnRu1_PlayHittingSurfaceSoundEffect(this);
+                EnRu1_PlayBouncingOffWallSoundEffect(this);
             }
         }
     }
@@ -1591,7 +1597,7 @@ void func_80AEE488(EnRu1* this, PlayState* play) {
         curRoomNum = play->roomCtx.curRoom.num;
         this->roomNum3 = curRoomNum;
         this->action = 31;
-        func_80AED520(this, play);
+        EnRu1_PlayLiftingSoundEffects(this, play);
     } else if (!func_80AEE394(this, play) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         s32 pad;
 
@@ -1642,7 +1648,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
         if (!Player_InCsMode(play)) {
             Animation_Change(&this->skelAnime, &gRutoChildSeesSapphireAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
-            func_80AED600(this);
+            EnRu1_PlaySeeingSapphireSoundEffect(this);
             this->action = 34;
             this->unk_26C = 0.0f;
             play->csCtx.script = gRutoFoundSapphireCs;
@@ -1669,7 +1675,7 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
         this->actor.velocity.y *= (kREG(26) * 0.01f) + 1.0f;
         this->actor.minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
         this->actor.gravity = -((kREG(23) * 0.01f) + 1.3f);
-        func_80AED57C(this);
+        EnRu1_PlayThrowingSoundEffect(this);
         this->action = 28;
         *unk_370 = 0.0f;
     } else if (func_80AEE6D0(this, play)) {
@@ -1687,7 +1693,7 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
 
                         Animation_Change(&this->skelAnime, &gRutoChildSquirmAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP,
                                          -8.0f);
-                        func_80AED5DC(this);
+                        EnRu1_PlayUnbalancingSoundEffect(this);
                         this->action = 32;
                     }
                     *unk_370 = 0.0f;
@@ -1845,7 +1851,7 @@ void func_80AEEFEC(EnRu1* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
 }
 
-void func_80AEF080(EnRu1* this) {
+void EnRu1_PlaySittingSoundEffect(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_LAND_DIRT);
     }
@@ -1927,7 +1933,7 @@ void func_80AEF3A8(EnRu1* this, PlayState* play) {
 
     func_80AED83C(this);
     something = EnRu1_UpdateSkelAnime(this);
-    func_80AEF080(this);
+    EnRu1_PlaySittingSoundEffect(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
     func_80AEF1F0(this, play, something);
@@ -1943,17 +1949,21 @@ void func_80AEF40C(EnRu1* this) {
     }
 }
 
-void func_80AEF4A8(EnRu1* this, PlayState* play) {
+void EnRu1_PlayAbductedSoundEffect(EnRu1* this, PlayState* play) {
     SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.projectedPos, 20, NA_SE_VO_RT_FALL);
 }
 
-void func_80AEF4E0(EnRu1* this) {
+void EnRu1_PlayLaughingSoundEffect(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
 }
 
-void func_80AEF51C(EnRu1* this) {
+/**
+ * Sound effect when Ruto is startled as the platform starts moving.
+ * Note: this is the same sound effect as when she is thrown.
+ */
+void EnRu1_PlayStartledSoundEffect(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
 }
 
@@ -1963,7 +1973,7 @@ void func_80AEF540(EnRu1* this) {
         EnRu1_SetMouthIndex(this, 2);
         if (this->skelAnime.mode != 2) {
             func_80AEB264(this, &gRutoChildShutterAnim, 2, -8.0f, 0);
-            func_80AEF51C(this);
+            EnRu1_PlayStartledSoundEffect(this);
         }
     }
 }
@@ -1976,7 +1986,7 @@ void func_80AEF5B8(EnRu1* this) {
         if (curFrame >= 60.0f) {
             EnRu1_SetEyeIndex(this, 3);
             EnRu1_SetMouthIndex(this, 0);
-            func_80AED57C(this);
+            EnRu1_PlayThrowingSoundEffect(this);
             D_80AF1938 = 1;
         }
     }
@@ -2062,7 +2072,7 @@ void func_80AEF930(EnRu1* this, PlayState* play) {
 #else
         Message_StartTextbox(play, this->actor.textId, NULL);
 #endif
-        func_80AEF4A8(this, play);
+        EnRu1_PlayAbductedSoundEffect(this, play);
         this->action = 43;
         this->drawConfig = 0;
     }
@@ -2092,7 +2102,7 @@ void func_80AEFA2C(EnRu1* this, PlayState* play) {
     func_80AEB364(this, play);
     func_80AEAECC(this, play);
     something = EnRu1_UpdateSkelAnime(this);
-    func_80AEF4E0(this);
+    EnRu1_PlayLaughingSoundEffect(this);
     func_80AEF5B8(this);
     func_80AEF40C(this);
     func_80AEF728(this, something);
