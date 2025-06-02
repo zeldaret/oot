@@ -603,59 +603,29 @@
 
         <!-- Probably a file boundary here. -->
 
-        <Array Name="gDebugPyramidVtx" Count="12" Offset="0x3500">
-            <Vtx/>
-        </Array>
         <DList Name="gDebugPyramidDL" Offset="0x35C0"/>
         <Texture Name="gDebugCircleTex" OutName="debug_circle" Format="i8" Width="16" Height="16" Offset="0x35F0"/>
         <Texture Name="gDebugBallTex" OutName="debug_ball" Format="i8" Width="16" Height="16" Offset="0x36F0"/>
         <Texture Name="gDebugCursorTex" OutName="debug_cursor" Format="i8" Width="16" Height="16" Offset="0x37F0"/>
         <Texture Name="gDebugCrossTex" OutName="debug_cross" Format="i8" Width="16" Height="16" Offset="0x38F0"/>
         <DList Name="gDebugArrowDL" Offset="0x39F0"/>
-        <Array Name="gDebugArrowVtx" Count="36" Offset="0x3A50">
-            <Vtx/>
-        </Array>
         <DList Name="gDebugCameraDL" Offset="0x3C90"/>
-        <Array Name="gDebugCameraVtx" Count="40" Offset="0x3D08">
-            <Vtx/>
-        </Array>
-        <Array Name="gDebugCheckeredFloorVtx" Count="4" Offset="0x3F88">
-            <Vtx/>
-        </Array>
         <DList Name="gDebugCheckeredFloorDL" Offset="0x3FC8"/>
         <Texture Name="gDebugCheckeredFloorTex" OutName="debug_checkered_floor" Format="ia4" Width="32" Height="32" Offset="0x4058"/>
-        <Array Name="gDebugSpriteVtx" Count="4" Offset="0x4258">
-            <Vtx/>
-        </Array>
         <DList Name="gDebugSpriteDL" Offset="0x4298"/>
         <Animation Name="gArrow1Anim" Offset="0x4310"/>
         <Animation Name="gArrow2Anim" Offset="0x436C"/>
         <Texture Name="gArrowShaftTex" OutName="arrow_shaft" Format="rgba16" Width="16" Height="128" Offset="0x4380"/>
         <Texture Name="gArrowFletchingTex" OutName="arrow_fletching" Format="rgba16" Width="32" Height="16" Offset="0x5380"/>
-        <Array Name="gArrowNearVtx" Count="50" Offset="0x5780">
-            <Vtx/>
-        </Array>
         <DList Name="gArrowNearDL" Offset="0x5AA0"/>
-        <Array Name="gArrowFarVtx" Count="26" Offset="0x5C80">
-            <Vtx/>
-        </Array>
         <DList Name="gArrowFarDL" Offset="0x5E20"/>
         <Skeleton Name="gArrowSkel" Type="Normal" LimbType="LOD" Offset="0x6010"/> <!-- fix pointer for this! -->
         <Texture Name="gUnknownEffBlureTex" OutName="unknown_eff_blure" Format="i8" Width="64" Height="32" Offset="0x6020"/>
         <Texture Name="gBombBodyTex" OutName="bomb_body" Format="ia8" Width="64" Height="64" Offset="0x6820"/>
-        <Array Name="gBombBodyVtx" Count="4" Offset="0x7820">
-            <Vtx/>
-        </Array>
         <DList Name="gBombBodyDL" Offset="0x7860"/>
         <Texture Name="gBombCapTex" OutName="bomb_cap" Format="rgba16" Width="8" Height="8" Offset="0x78F0"/>
-        <Array Name="gBombCapVtx" Count="14" Offset="0x7970">
-            <Vtx/>
-        </Array>
         <DList Name="gBombCapDL" Offset="0x7A50"/>
         <Texture Name="gBombchuBodyTex" OutName="bombchu_body" Format="rgba16" Width="8" Height="8" Offset="0x7B10"/>
-        <Array Name="gBombchuVtx" Count="40" Offset="0x7B90">
-            <Vtx/>
-        </Array>
         <DList Name="gBombchuDL" Offset="0x7E10"/>
         <Texture Name="gEffBombExplosion1Tex" OutName="eff_bomb_explosion_1" Format="ia16" Width="32" Height="32" Offset="0x7F80"/>
         <Texture Name="gEffBombExplosion2Tex" OutName="eff_bomb_explosion_2" Format="ia16" Width="32" Height="32" Offset="0x8780"/>
@@ -668,74 +638,35 @@
         <DList Name="gEffBombExplosion1DL" Offset="0xBF80"/>
         <DList Name="gEffBombExplosion2DL" Offset="0xBFE8"/>
         <DList Name="gEffBombExplosion3DL" Offset="0xC040"/>
-        <Array Name="gEffBombExplosion1DL_0400C058_Vtx_fused__MULTIUSERMAGIC_Vtx" Count="4" Offset="0xC058">
-            <Vtx/>
-        </Array>
-        <Array Name="gEffFragments1Vtx" Count="3" Offset="0xC0A0">
-            <Vtx/>
-        </Array>
         <DList Name="gEffFragments1DL" Offset="0xC0D0"/>
         <Texture Name="gWitheredLeafTex" OutName="withered_leaf" Format="rgba16" Width="16" Height="16" Offset="0xC160"/>
-        <Array Name="gBoomerangVtx" Count="51" Offset="0xC360">
-            <Vtx/>
-        </Array>
         <DList Name="gUnknownBlankDL" Offset="0xC690"/>
         <DList Name="gBoomerangDL" Offset="0xC698"/>
         <DList Name="gBoomerangRefDL" Offset="0xC808"/>
         <DList Name="gCompassArrowDL" Offset="0xC820"/>
 
-        <Array Name="gCompassArrowVtx" Count="3" Offset="0xC848">
-            <Vtx/>
-        </Array>
-        <Array Name="gLockOnArrowVtx" Count="47" Offset="0xC880">
-            <Vtx/>
-        </Array>
         <DList Name="gGameplayKeepDL_C8B0" Offset="0xC8B0"/>
 
         <DList Name="gLockOnArrowDL" Offset="0xCC10"/>
-        <Array Name="gEffFragments2Vtx" Count="12" Offset="0xCCC0">
-            <Vtx/>
-        </Array>
         <Texture Name="gHilite3Tex" OutName="hilite_3" Format="i8" Width="8" Height="8" Offset="0xCD20"/>
         <DList Name="gEffFragments2DL" Offset="0xCE20"/>
 
         <Texture Name="gGameplayKeepTex_CE60" OutName="gameplay_keep_tex_CE60" Format="ia8" Width="32" Height="32" Offset="0xCE60"/>
 
-        <Array Name="gUnusedRockFragmentVtx" Count="24" Offset="0xD0C0">
-            <Vtx/>
-        </Array>
         <Texture Name="gSelectionCursorTex" OutName="selection_cursor" Format="ia4" Width="16" Height="16" Offset="0xD260"/>
         <Texture Name="gControlStickTex" OutName="control_stick" Format="ia8" Width="16" Height="16" Offset="0xD2E0"/>
         <Texture Name="gArrowCursorTex" OutName="arrow_cursor" Format="ia8" Width="16" Height="24" Offset="0xD3E0"/>
-        <Array Name="gBoulderFragmentsVtx" Count="12" Offset="0xD418">
-            <Vtx/>
-        </Array>
         <DList Name="gUnusedRockFragmentDL" Offset="0xD6E0"/>
         <DList Name="gBoulderFragmentsDL" Offset="0xD7E0"/>
         <Texture Name="gRockFragment1Tex" OutName="rock_fragment_1" Format="rgba16" Width="32" Height="32" Offset="0xD980"/>
         <Texture Name="gRockFragment2Tex" OutName="rock_fragment_2" Format="rgba16" Width="32" Height="32" Offset="0xE180"/>
-        <Array Name="gDoorLeftVtx" Count="34" Offset="0xE770">
-            <Vtx/>
-        </Array>
-        <Array Name="gDoorRightVtx" Count="34" Offset="0xE990">
-            <Vtx/>
-        </Array>
         <Animation Name="gDoorChildOpeningLeftAnim" Offset="0xEA54"/>
         <Animation Name="gDoorChildOpeningRightAnim" Offset="0xEB40"/>
-        <Array Name="gDoorFrameVtx" Count="8" Offset="0xEBB0">
-            <Vtx/>
-        </Array>
         <Animation Name="gDoorAdultOpeningLeftAnim" Offset="0xEBF8"/>
         <DList Name="gDoorFrameDL" Offset="0xF0D0"/>
         <DList Name="gDoorLeftDL" Offset="0xF158"/>
         <DList Name="gDoorRightDL" Offset="0xF2A0"/>
         <Texture Name="gWoodenDoorTex" OutName="wooden_door" Format="rgba16" Width="32" Height="64" Offset="0xF3D8"/>
-        <Array Name="gEffDustVtx" Count="4" Offset="0x100A8">
-            <Vtx/>
-        </Array>
-        <Array Name="gEffFlash1DL_040100F0_Vtx_fused__MULTIUSERMAGIC_Vtx" Count="4" Offset="0x100F0">
-            <Vtx/>
-        </Array>
         <Skeleton Name="gDoorSkel" Type="Normal" LimbType="Standard" Offset="0x10418"/>
         <Animation Name="gDoorAdultOpeningRightAnim" Offset="0x104D8"/>
         <DList Name="gEffDustDL" Offset="0x104F0"/>
@@ -744,55 +675,19 @@
         <Texture Name="gFlashTex" OutName="flash" Format="i8" Width="64" Height="64" Offset="0x106C8"/>
         <Texture Name="gTorchFlameTex" OutName="torch_flame" Format="i8" Width="64" Height="32" Offset="0x116D0"/>
         <Texture Name="gEffUnknown1Tex" OutName="eff_unknown_1" Format="i8" Width="64" Height="32" Offset="0x11ED0"/>
-        <Array Name="gSpinAttack1Vtx" Count="26" Offset="0x12230">
-            <Vtx/>
-        </Array>
-        <Array Name="gSpinAttack2Vtx" Count="26" Offset="0x123D0">
-            <Vtx/>
-        </Array>
-        <Array Name="gSpinAttack3Vtx" Count="26" Offset="0x127B0">
-            <Vtx/>
-        </Array>
-        <Array Name="gSpinAttack4Vtx" Count="26" Offset="0x12950">
-            <Vtx/>
-        </Array>
         <DList Name="gSpinAttack1DL" Offset="0x12A10"/>
         <DList Name="gSpinAttack2DL" Offset="0x12B30"/>
         <DList Name="gSpinAttack3DL" Offset="0x12F90"/>
         <DList Name="gSpinAttack4DL" Offset="0x130B0"/>
         <Texture Name="gFlameWall1Tex" OutName="flame_wall_1" Format="i8" Width="32" Height="32" Offset="0x131D0"/>
-        <Array Name="gSpinAttackChargingVtx" Count="14" Offset="0x13530">
-            <Vtx/>
-        </Array>
         <Texture Name="gFlameWall2Tex" OutName="flame_wall_2" Format="i8" Width="32" Height="32" Offset="0x135D0"/>
         <DList Name="gSpinAttackChargingDL" Offset="0x13AB0"/>
         <Texture Name="gEffUnknown2Tex" OutName="eff_unknown_2" Format="i8" Width="32" Height="64" Offset="0x13BA0"/>
         <Texture Name="gEffUnknown3Tex" OutName="eff_unknown_3" Format="i8" Width="32" Height="64" Offset="0x143A0"/>
-        <Array Name="gUnusedBeamBladeVtx" Count="44" Offset="0x14700">
-            <Vtx/>
-        </Array>
         <DList Name="gUnusedBeamBladeDL" Offset="0x14E60"/>
         <Animation Name="gFairyAnim" Offset="0x15044"/>
         <Texture Name="gFairyWingTex" OutName="fairy_wing" Format="i8" Width="32" Height="64" Offset="0x15060"/>
-        <Array Name="gFairyWing1Vtx" Count="4" Offset="0x153C0">
-            <Vtx/>
-        </Array>
-        <Array Name="gFairyWing2Vtx" Count="4" Offset="0x15488">
-            <Vtx/>
-        </Array>
-        <Array Name="gFairyWing3Vtx" Count="4" Offset="0x15550">
-            <Vtx/>
-        </Array>
-        <Array Name="gFairyWing4Vtx" Count="4" Offset="0x15618">
-            <Vtx/>
-        </Array>
-        <Array Name="gGlowCircleVtx" Count="4" Offset="0x156E0">
-            <Vtx/>
-        </Array>
         <DList Name="gFairyWing1DL" Offset="0x158A0"/>
-        <Array Name="gGlowCircleSmallVtx" Count="8" Offset="0x158E8">
-            <Vtx/>
-        </Array>
         <DList Name="gFairyWing2DL" Offset="0x15968"/>
         <DList Name="gFairyWing3DL" Offset="0x15A30"/>
         <DList Name="gFairyWing4DL" Offset="0x15AF8"/>
@@ -806,18 +701,6 @@
         <Texture Name="gHilite4Tex" OutName="hilite_4" Format="rgba16" Width="32" Height="32" Offset="0x17070"/>
         <Texture Name="gEffUnknown4Tex" OutName="eff_unknown_4" Format="i8" Width="32" Height="64" Offset="0x17870"/>
         <Texture Name="gEffUnknown5Tex" OutName="eff_unknown_5" Format="i8" Width="32" Height="64" Offset="0x18070"/>
-        <Array Name="gEffFireCircleVtx" Count="14" Offset="0x183D0">
-            <Vtx/>
-        </Array>
-        <Array Name="gameplay_keep_Vtx_018610" Count="4" Offset="0x18610">
-            <Vtx/>
-        </Array>
-        <Array Name="gameplay_keep_Vtx_018650" Count="16" Offset="0x18650">
-            <Vtx/>
-        </Array>
-        <Array Name="gameplay_keep_Vtx_018750" Count="22" Offset="0x18750">
-            <Vtx/>
-        </Array>
         <DList Name="gEffFireCircleDL" Offset="0x18950"/>
         <Animation Name="gFishOutOfWaterAnim" Offset="0x18A9C"/>
         <Texture Name="gFishTailTex" OutName="fish_tail" Format="rgba16" Width="16" Height="16" Offset="0x19020"/>
@@ -825,12 +708,6 @@
         <Skeleton Name="gFishSkel" Type="Flex" LimbType="Standard" Offset="0x19480"/>
         <Animation Name="gFishInWaterAnim" Offset="0x1953C"/>
         <Texture Name="gEffShockwaveTex" OutName="eff_shockwave" Format="i8" Width="64" Height="64" Offset="0x19550"/>
-        <Array Name="gGameplayKeepVtx_01A120_MULTIUSERMAGIC_Vtx" Count="4" Offset="0x1A120">
-            <Vtx/>
-        </Array>
-        <Array Name="gEffBubbleVtx" Count="4" Offset="0x1A1D8">
-            <Vtx/>
-        </Array>
         <DList Name="gEffShockwaveDL" Offset="0x1A550"/>
         <Array Name="gGameplayKeepVtx_01A120" Count="4" Offset="0x1A5C0">
             <Vtx/>
@@ -844,9 +721,6 @@
         <Texture Name="gEffFireFootprint5Tex" OutName="eff_fire_footprint_5" Format="ia8" Width="32" Height="32" Offset="0x1B6C0"/>
         <Texture Name="gEffFireFootprint6Tex" OutName="eff_fire_footprint_6" Format="ia8" Width="32" Height="32" Offset="0x1BAC0"/>
         <Texture Name="gEffFireFootprint7Tex" OutName="eff_fire_footprint_7" Format="ia8" Width="32" Height="32" Offset="0x1BEC0"/>
-        <Array Name="gEffFireFootprintVtx" Count="4" Offset="0x1C280">
-            <Vtx/>
-        </Array>
         <Texture Name="gEffFireFootprint8Tex" OutName="eff_fire_footprint_8" Format="ia8" Width="32" Height="32" Offset="0x1C2C0"/>
         <DList Name="gEffFireFootprintDL" Offset="0x1C6C0"/>
         <Texture Name="gEffUnusedBubbles1Tex" OutName="eff_unused_bubbles_1" Format="ia8" Width="32" Height="32" Offset="0x1C760"/>
@@ -856,9 +730,6 @@
         <Texture Name="gEffUnusedBubbles5Tex" OutName="eff_unused_bubbles_5" Format="ia8" Width="32" Height="32" Offset="0x1D760"/>
         <Texture Name="gEffUnusedBubbles6Tex" OutName="eff_unused_bubbles_6" Format="ia8" Width="32" Height="32" Offset="0x1DB60"/>
         <Texture Name="gEffUnusedBubbles7Tex" OutName="eff_unused_bubbles_7" Format="ia8" Width="32" Height="32" Offset="0x1DF60"/>
-        <Array Name="gEffUnusedBubblesVtx" Count="4" Offset="0x1E330">
-            <Vtx/>
-        </Array>
         <Texture Name="gEffUnusedBubbles8Tex" OutName="eff_unused_bubbles_8" Format="ia8" Width="32" Height="32" Offset="0x1E360"/>
         <DList Name="gEffUnusedBubblesDL" Offset="0x1E760"/>
         <Texture Name="gLensOfTruthMaskTex" OutName="lens_of_truth_mask" Format="i8" Width="64" Height="64" Offset="0x1E810"/>
@@ -884,9 +755,6 @@
         <Texture Name="gEffHitMark20Tex" OutName="eff_hit_mark_20" Format="i4" Width="32" Height="24" Offset="0x21490"/>
         <Texture Name="gEffHitMark21Tex" OutName="eff_hit_mark_21" Format="i4" Width="32" Height="24" Offset="0x21610"/>
         <Texture Name="gEffHitMark22Tex" OutName="eff_hit_mark_22" Format="i4" Width="32" Height="24" Offset="0x21790"/>
-        <Array Name="gEffHitMarkVtx" Count="4" Offset="0x217C8">
-            <Vtx/>
-        </Array>
         <Texture Name="gEffHitMark23Tex" OutName="eff_hit_mark_23" Format="i4" Width="32" Height="24" Offset="0x21910"/>
         <Texture Name="gEffHitMark24Tex" OutName="eff_hit_mark_24" Format="i4" Width="32" Height="24" Offset="0x21A90"/>
         <DList Name="gEffHitMarkDL" Offset="0x21C10"/>
@@ -899,19 +767,10 @@
         <Texture Name="gEffMagmaBubble4Tex" OutName="eff_magma_bubbles_4" Format="ia8" Width="16" Height="24" Offset="0x24130"/>
         <Texture Name="gEffMagmaBubble5Tex" OutName="eff_magma_bubbles_5" Format="ia8" Width="16" Height="24" Offset="0x242B0"/>
         <Texture Name="gEffMagmaBubble6Tex" OutName="eff_magma_bubbles_6" Format="ia8" Width="16" Height="24" Offset="0x24430"/>
-        <Array Name="gEffMagmaBubbleVtx" Count="4" Offset="0x24470">
-            <Vtx/>
-        </Array>
         <Texture Name="gEffMagmaBubble7Tex" OutName="eff_magma_bubbles_7" Format="ia8" Width="16" Height="24" Offset="0x245B0"/>
         <Texture Name="gEffMagmaBubble8Tex" OutName="eff_magma_bubbles_8" Format="ia8" Width="16" Height="24" Offset="0x24730"/>
         <DList Name="gEffMagmaBubbleDL" Offset="0x248B0"/>
         <Texture Name="gEffWaterRippleTex" OutName="eff_ss_g_ripple" Format="i8" Width="64" Height="64" Offset="0x24950"/>
-        <Array Name="gEffWaterRippleVtx" Count="4" Offset="0x25510">
-            <Vtx/>
-        </Array>
-        <Array Name="gEffSparkVtx" Count="4" Offset="0x255B0">
-            <Vtx/>
-        </Array>
         <DList Name="gEffWaterRippleDL" Offset="0x25950"/>
         <DList Name="gEffSparkDL" Offset="0x259F0"/>
         <Texture Name="gEffWaterSplash1Tex" OutName="eff_water_splash_1" Format="i8" Width="32" Height="40" Offset="0x25A90"/>
@@ -922,9 +781,6 @@
         <Texture Name="gEffWaterSplash6Tex" OutName="eff_water_splash_6" Format="i8" Width="32" Height="40" Offset="0x27390"/>
         <Texture Name="gEffWaterSplash7Tex" OutName="eff_water_splash_7" Format="i8" Width="32" Height="40" Offset="0x27890"/>
         <Texture Name="gEffWaterSplash8Tex" OutName="eff_water_splash_8" Format="i8" Width="32" Height="40" Offset="0x27D90"/>
-        <Array Name="gEffWaterSplashVtx" Count="4" Offset="0x27E50">
-            <Vtx/>
-        </Array>
         <DList Name="gEffWaterSplashDL" Offset="0x28290"/>
         <Texture Name="gUnknownEffStone1Tex" OutName="unknown_eff_stone_1" Format="ia8" Width="32" Height="32" Offset="0x28330"/>
         <Texture Name="gUnknownEffStone2Tex" OutName="unknown_eff_stone_2" Format="ia8" Width="32" Height="32" Offset="0x28730"/>
@@ -933,9 +789,6 @@
         <Texture Name="gUnknownEffStone5Tex" OutName="unknown_eff_stone_5" Format="ia8" Width="32" Height="32" Offset="0x29330"/>
         <Texture Name="gUnknownEffStone6Tex" OutName="unknown_eff_stone_6" Format="ia8" Width="32" Height="32" Offset="0x29730"/>
         <Texture Name="gUnknownEffStone7Tex" OutName="unknown_eff_stone_7" Format="ia8" Width="32" Height="32" Offset="0x29B30"/>
-        <Array Name="gUnknownEffStoneVtx" Count="4" Offset="0x29EF0">
-            <Vtx/>
-        </Array>
         <Texture Name="gUnknownEffStone8Tex" OutName="unknown_eff_stone_8" Format="ia8" Width="32" Height="32" Offset="0x29F30"/>
         <DList Name="gUnknownEffStoneDL" Offset="0x2A330"/>
         <Texture Name="gEffLightning1Tex" OutName="eff_lightning_1" Format="i8" Width="16" Height="96" Offset="0x2A3D0"/>
@@ -946,9 +799,6 @@
         <Texture Name="gEffLightning6Tex" OutName="eff_lightning_6" Format="i8" Width="16" Height="96" Offset="0x2C1D0"/>
         <Texture Name="gEffLightning7Tex" OutName="eff_lightning_7" Format="i8" Width="16" Height="96" Offset="0x2C7D0"/>
         <Texture Name="gEffLightning8Tex" OutName="eff_lightning_8" Format="i8" Width="16" Height="96" Offset="0x2CDD0"/>
-        <Array Name="gEffLightningVtx" Count="4" Offset="0x2CF98">
-            <Vtx/>
-        </Array>
         <DList Name="gEffLightningDL" Offset="0x2D3D0"/>
         <Texture Name="gEffEnemyDeathFlame1Tex" OutName="eff_enemy_death_flame_1" Format="i8" Width="32" Height="64" Offset="0x2D480"/>
         <Texture Name="gEffEnemyDeathFlame2Tex" OutName="eff_enemy_death_flame_2" Format="i8" Width="32" Height="64" Offset="0x2DC80"/>
@@ -960,64 +810,28 @@
         <Texture Name="gEffEnemyDeathFlame8Tex" OutName="eff_enemy_death_flame_8" Format="i8" Width="32" Height="64" Offset="0x30C80"/>
         <Texture Name="gEffEnemyDeathFlame9Tex" OutName="eff_enemy_death_flame_9" Format="i8" Width="32" Height="64" Offset="0x31480"/>
         <Texture Name="gEffEnemyDeathFlame10Tex" OutName="eff_enemy_death_flame_10" Format="i8" Width="32" Height="64" Offset="0x31C80"/>
-        <Array Name="gEffEnemyDeathFlameVtx" Count="4" Offset="0x32048">
-            <Vtx/>
-        </Array>
         <DList Name="gEffEnemyDeathFlameDL" Offset="0x32480"/>
         <Texture Name="gEffUnknown9Tex" OutName="eff_unknown_9" Format="i8" Width="32" Height="32" Offset="0x32530"/>
         <Texture Name="gEffUnknown10Tex" OutName="eff_unknown_10" Format="i8" Width="32" Height="32" Offset="0x32930"/>
         <Texture Name="gEffUnknown11Tex" OutName="eff_unknown_11" Format="i8" Width="32" Height="32" Offset="0x32D30"/>
         <Texture Name="gEffUnknown12Tex" OutName="eff_unknown_12" Format="i8" Width="32" Height="32" Offset="0x33130"/>
-        <Array Name="gEffIceFragment1DL_04033490_Vtx_fused__MULTIUSERMAGIC_Vtx" Count="41" Offset="0x33490">
-            <Vtx/>
-        </Array>
         <Texture Name="gUnknownWoodBoardTex" OutName="unknown_wood_board" Format="i8" Width="32" Height="32" Offset="0x33530"/>
-        <Array Name="gEffIceFragment3Vtx" Count="93" Offset="0x33910">
-            <Vtx/>
-        </Array>
         <DList Name="gEffIceFragment1DL" Offset="0x33BC0"/>
         <DList Name="gEffIceFragment2DL" Offset="0x33CB8"/>
-        <Array Name="gBugLimb1Vtx" Count="3" Offset="0x342D0">
-            <Vtx/>
-        </Array>
         <DList Name="gEffIceFragment3DL" Offset="0x34380"/>
-        <Array Name="gBugLimb2Vtx" Count="3" Offset="0x343C0">
-            <Vtx/>
-        </Array>
-        <Array Name="gBugLimb3Vtx" Count="3" Offset="0x344B0">
-            <Vtx/>
-        </Array>
-        <Array Name="gBugLimb4Vtx" Count="3" Offset="0x345A0">
-            <Vtx/>
-        </Array>
-        <Array Name="gBugLimb5Vtx" Count="3" Offset="0x34690">
-            <Vtx/>
-        </Array>
         <Animation Name="gBugCrawlAnim" Offset="0x3469C"/>
         <DList Name="gBugLimb1DL" Offset="0x346B0"/>
         <DList Name="gBugLimb1WrapperDL" Offset="0x34750"/>
         <DList Name="gBugLimb1WrapperWrapperDL" Offset="0x34760"/>
-        <Array Name="gBugLimb6Vtx" Count="3" Offset="0x34780">
-            <Vtx/>
-        </Array>
         <DList Name="gBugLimb2DL" Offset="0x347A0"/>
         <DList Name="gBugLimb2WrapperDL" Offset="0x34840"/>
         <DList Name="gBugLimb2WrapperWrapperDL" Offset="0x34850"/>
-        <Array Name="gBugLimb7Vtx" Count="3" Offset="0x34870">
-            <Vtx/>
-        </Array>
         <DList Name="gBugLimb3DL" Offset="0x34890"/>
         <DList Name="gBugLimb3WrapperDL" Offset="0x34930"/>
         <DList Name="gBugLimb3WrapperWrapperDL" Offset="0x34940"/>
-        <Array Name="gBugLimb8Vtx" Count="3" Offset="0x34960">
-            <Vtx/>
-        </Array>
         <DList Name="gBugLimb4DL" Offset="0x34980"/>
         <DList Name="gBugLimb4WrapperDL" Offset="0x34A20"/>
         <DList Name="gBugLimb4WrapperWrapperDL" Offset="0x34A30"/>
-        <Array Name="gBugLimb9Vtx" Count="12" Offset="0x34A60">
-            <Vtx/>
-        </Array>
         <DList Name="gBugLimb5DL" Offset="0x34A70"/>
         <DList Name="gBugLimb5WrapperDL" Offset="0x34B10"/>
         <DList Name="gBugLimb5WrapperWrapperDL" Offset="0x34B20"/>
@@ -1034,12 +848,6 @@
         <DList Name="gBugLimb9WrapperDL" Offset="0x34EE0"/>
         <DList Name="gBugLimb9WrapperWrapperDL" Offset="0x34EF0"/>
         <Texture Name="gBugBodyTex" OutName="bug_body" Format="rgba16" Width="16" Height="64" Offset="0x34FC0"/>
-        <Array Name="gCuttableShrubStalkVtx" Count="4" Offset="0x355A0">
-            <Vtx/>
-        </Array>
-        <Array Name="gCuttableShrubTipVtx" Count="3" Offset="0x35670">
-            <Vtx/>
-        </Array>
         <Texture Name="gBugLegTex" OutName="bug_leg" Format="rgba16" Width="8" Height="16" Offset="0x357C0"/>
         <Skeleton Name="gBugSkel" Type="Normal" LimbType="Standard" Offset="0x35A30"/>
         <DList Name="gCuttableShrubStalkDL" Offset="0x35A80"/>
@@ -1048,86 +856,41 @@
         <Texture Name="gCuttableShrubTex" OutName="cuttanble_shrub" Format="rgba16" Width="32" Height="32" Offset="0x363D0"/>
         <Texture Name="gLensFlareCircleTex" OutName="lens_flare_circle" Format="i4" Width="64" Height="64" Offset="0x36BD0"/>
         <Texture Name="gLensFlareRingTex" OutName="lens_flare_ring" Format="i4" Width="64" Height="64" Offset="0x373D0"/>
-        <Array Name="gLensFlareCircleDL_04037800_Vtx_fused__MULTIUSERMAGIC_Vtx" Count="4" Offset="0x37800">
-            <Vtx/>
-        </Array>
-        <Array Name="gEffSparklesVtx" Count="4" Offset="0x37840">
-            <Vtx/>
-        </Array>
         <DList Name="gLensFlareCircleDL" Offset="0x37BD0"/>
         <DList Name="gLensFlareRingDL" Offset="0x37C38"/>
         <DList Name="gEffSparklesDL" Offset="0x37D20"/>
-        <Array Name="gHoverBootsCircleVtx" Count="13" Offset="0x37D60">
-            <Vtx/>
-        </Array>
         <Texture Name="gEffSparklesTex" OutName="eff_sparkles" Format="i4" Width="16" Height="16" Offset="0x37D80"/>
         <Texture Name="gEffUnknown13Tex" OutName="eff_unknown_tex_13" Format="i8" Width="16" Height="32" Offset="0x37E00"/>
         <Texture Name="gEffUnknown14Tex" OutName="eff_unknown_tex_14" Format="i8" Width="16" Height="32" Offset="0x38000"/>
         <DList Name="gHoverBootsCircleDL" Offset="0x382D0"/>
         <Texture Name="gMoonTex" OutName="moon" Format="ia8" Width="64" Height="64" Offset="0x383A0"/>
-        <Array Name="gMoonVtx" Count="4" Offset="0x38F70">
-            <Vtx/>
-        </Array>
         <DList Name="gMoonDL" Offset="0x393A0"/>
         <Texture Name="gUnknownCircle6Tex" OutName="unknown_circle_6" Format="i8" Width="32" Height="32" Offset="0x39450"/>
 
-        <Array Name="gLiftableRockVtx" Count="24" Offset="0x394E0">
-            <Vtx/>
-        </Array>
-        <Array Name="gUnusedRockRectangularPrism1Vtx" Count="24" Offset="0x39710">
-            <Vtx/>
-        </Array>
         <DList Name="gGameplayKeepDL_39890" Offset="0x39890"/>
         <DList Name="gGameplayKeepDL_399B0" Offset="0x399B0"/>
         <DList Name="gGameplayKeepDL_39A80" Offset="0x39A80"/>
         <DList Name="gGameplayKeepDL_39B50" Offset="0x39B50"/>
 
         <Collision Name="gLargerCubeCol" Offset="0x39CE0"/> <!-- unused in game -->
-        <Array Name="gUnusedRockRectangularPrism3Vtx" Count="24" Offset="0x39DF0">
-            <Vtx/>
-        </Array>
         <DList Name="gLiftableRockDL" Offset="0x39E90"/>
 
         <!-- unused in game -->
         <DList Name="gUnusedRockRectangularPrism1DL" Offset="0x3A0C0"/>
-        <Array Name="gFlatRotBlockVtx" Count="24" Offset="0x3A150">
-            <Vtx/>
-        </Array>
         <Collision Name="gWideTallBlockCol" Offset="0x3A278"/>
         <DList Name="gFlatBlockDL" Offset="0x3A430"/>
-        <Array Name="gSmallCubeVtx" Count="24" Offset="0x3A4B0">
-            <Vtx/>
-        </Array>
         <Collision Name="gTallBlockCol" Offset="0x3A5F0"/>
         <DList Name="gUnusedRockRectangularPrism3DL" Offset="0x3A7A0"/>
-        <Array Name="gTreeStumpVtx" Count="25" Offset="0x3A820">
-            <Vtx/>
-        </Array>
         <Collision Name="gSmallerFlatBlockCol" Offset="0x3A950"/>
-        <Array Name="gGrassBladesVtx" Count="12" Offset="0x3AAC0">
-            <Vtx/>
-        </Array>
         <DList Name="gFlatRotBlockDL" Offset="0x3AB00"/>
         <Collision Name="gLargerFlatBlockCol" Offset="0x3ACB0"/>
-        <Array Name="gHeartPieceInteriorVtx" Count="48" Offset="0x3AD30">
-            <Vtx/>
-        </Array>
         <DList Name="gSmallCubeDL" Offset="0x3AE60"/>
         <Collision Name="gSmallerCubeCol" Offset="0x3B020"/>
         <DList Name="gTreeStumpDL" Offset="0x3B1E0"/>
         <DList Name="gGrassBladesDL" Offset="0x3B3B0"/>
 
         <Texture Name="gHeartShapeTex" OutName="heart_shape" Format="i8" Width="16" Height="16" Offset="0x3B460"/>
-        <Array Name="gHeartContainerInteriorVtx" Count="76" Offset="0x3B6E0">
-            <Vtx/>
-        </Array>
         <DList Name="gHeartPieceInteriorDL" Offset="0x3B860"/>
-        <Array Name="gSignRectangularVtx" Count="39" Offset="0x3BDE0">
-            <Vtx/>
-        </Array>
-        <Array Name="gSignDirectionalVtx" Count="45" Offset="0x3C2E0">
-            <Vtx/>
-        </Array>
         <DList Name="gHeartPieceExteriorDL" Offset="0x3C3D0"/>
         <DList Name="gHeartContainerInteriorDL" Offset="0x3C508"/>
 
@@ -1140,9 +903,6 @@
         <Texture Name="gDropArrows2Tex" OutName="drop_arrows_2" Format="rgba16" Width="32" Height="32" Offset="0x3DD80"/>
         <Texture Name="gDropArrows1Tex" OutName="drop_arrows_1" Format="rgba16" Width="32" Height="32" Offset="0x3E580"/>
         <Texture Name="gDropArrows3Tex" OutName="drop_arrows_3" Format="rgba16" Width="32" Height="32" Offset="0x3ED80"/>
-        <Array Name="gItemDropVtx" Count="4" Offset="0x3F0F8">
-            <Vtx/>
-        </Array>
         <Texture Name="gDropBombTex" OutName="drop_bomb" Format="rgba16" Width="32" Height="32" Offset="0x3F580"/>
 
         <Texture Name="gGameplayKeepTex_3FD80" OutName="gameplay_keep_tex_3FD80" Format="rgba16" Width="32" Height="32" Offset="0x3FD80"/>
@@ -1154,9 +914,6 @@
 
         <DList Name="gItemDropDL" Offset="0x41D80"/>
         <Texture Name="gDropKeySmallTex" OutName="drop_key_small" Format="rgba16" Width="32" Height="32" Offset="0x41E50"/>
-        <Array Name="gRupeeVtx" Count="36" Offset="0x42200">
-            <Vtx/>
-        </Array>
         <Texture Name="gDropMagicSmallTex" OutName="drop_magic_small" Format="rgba16" Width="32" Height="32" Offset="0x42650"/>
         <Texture Name="gDropDekuNutTex" OutName="drop_deku_nut" Format="rgba16" Width="32" Height="32" Offset="0x42E50"/>
         <Texture Name="gDropDekuSeedsTex" OutName="drop_deku_seeds" Format="rgba16" Width="32" Height="32" Offset="0x43650"/>
@@ -1181,62 +938,26 @@
         <Texture Name="gGameplayKeepTex_47260" OutName="gameplay_keep_tex_47260" Format="rgba16" Width="32" Height="32" Offset="0x47260"/>
 
         <Texture Name="gUnknownStone1Tex" OutName="unknown_stone_1" Format="rgba16" Width="32" Height="32" Offset="0x47A60"/>
-        <Array Name="gRaindropVtx" Count="3" Offset="0x48130">
-            <Vtx/>
-        </Array>
-        <Array Name="gFootShadowVtx" Count="3" Offset="0x481E0">
-            <Vtx/>
-        </Array>
         <Texture Name="gUnknownStone2Tex" OutName="unknown_stone_2" Format="rgba16" Width="32" Height="32" Offset="0x48260"/>
         <Texture Name="gUnusedTreeStumpTopTex" OutName="unused_tree_stump_top" Format="rgba16" Width="32" Height="32" Offset="0x48A60"/>
         <Texture Name="gUnusedTreeStumpBarkTex" OutName="unused_tree_stump_bark" Format="rgba16" Width="32" Height="32" Offset="0x49260"/>
         <Texture Name="gUnusedGrassBladesTex" OutName="unused_grass_blades" Format="rgba16" Width="64" Height="32" Offset="0x49A60"/>
-        <Array Name="gHorseShadowVtx" Count="4" Offset="0x49A90">
-            <Vtx/>
-        </Array>
-        <Array Name="gDungeonDoorVtx" Count="12" Offset="0x49F20">
-            <Vtx/>
-        </Array>
         <Texture Name="gUnusedStoneHookshotTargetTex" OutName="unused_stone_hookshot_target" Format="rgba16" Width="32" Height="32" Offset="0x4AA60"/>
-        <Array Name="gDoorMetalBarsVtx" Count="4" Offset="0x4B090">
-            <Vtx/>
-        </Array>
         <Texture Name="gUnknownStone3Tex" OutName="unknown_stone_3" Format="rgba16" Width="32" Height="32" Offset="0x4B260"/>
         <Texture Name="gSignRectangularSideTex" OutName="sign_rectangular_side" Format="rgba16" Width="32" Height="16" Offset="0x4BA60"/>
         <Texture Name="gSignRectangularFrontTex" OutName="sign_rectangular_front" Format="rgba16" Width="32" Height="16" Offset="0x4BE60"/>
         <Texture Name="gSignPostWoodTex" OutName="sign_post_wood" Format="rgba16" Width="64" Height="8" Offset="0x4C260"/>
         <Texture Name="gSignLetteringTex" OutName="sign_lettering" Format="rgba16" Width="64" Height="32" Offset="0x4C660"/>
-        <Array Name="gSunVtx" Count="12" Offset="0x4D348">
-            <Vtx/>
-        </Array>
-        <Array Name="gKokiriDustMoteModelVtx" Count="4" Offset="0x4D408">
-            <Vtx/>
-        </Array>
-        <Array Name="gLockOnReticleTriangleVtx" Count="3" Offset="0x4D468">
-            <Vtx/>
-        </Array>
-        <Array Name="gEffFire1DL_0404D4A0_Vtx_fused__MULTIUSERMAGIC_Vtx" Count="4" Offset="0x4D4A0">
-            <Vtx/>
-        </Array>
         <DList Name="gRaindropDL" Offset="0x4D690"/>
         <DList Name="gFootShadowDL" Offset="0x4D6B0"/>
         <Texture Name="gFootShadowTex" OutName="footprint_shadow" Format="ia16" Width="32" Height="64" Offset="0x4D740"/>
-        <Array Name="gUnusedUnknownShape1Vtx" Count="197" Offset="0x4E660">
-            <Vtx/>
-        </Array>
         <DList Name="gCircleShadowDL" Offset="0x4E740"/>
         <Texture Name="gCircleShadowTex" OutName="circular_shadow" Format="ia16" Width="32" Height="32" Offset="0x4E7C0"/>
         <DList Name="gHorseShadowDL" Offset="0x4F000"/>
         <Texture Name="gHorseShadowTex" OutName="horse_shadow" Format="i8" Width="16" Height="64" Offset="0x4F050"/>
         <DList Name="gDungeonDoorDL" Offset="0x4F510"/>
         <Texture Name="gDoorMetalBarsTex" OutName="door_metal_bars" Format="ia8" Width="32" Height="128" Offset="0x4F5C0"/>
-        <Array Name="gUnusedUnknownShape2Vtx" Count="202" Offset="0x4F640">
-            <Vtx/>
-        </Array>
         <DList Name="gDoorMetalBarsDL" Offset="0x50600"/>
-        <Array Name="gUnusedUnknownShape3Vtx" Count="199" Offset="0x50610">
-            <Vtx/>
-        </Array>
         <Texture Name="gGenericDungeonDoorTex" OutName="generic_dungeon_door" Format="rgba16" Width="32" Height="64" Offset="0x50690"/>
         <Texture Name="gSun1Tex" OutName="sun_1" Format="i4" Width="64" Height="31" Offset="0x51690"/>
         <Texture Name="gSun2Tex" OutName="sun_2" Format="i4" Width="64" Height="16" Offset="0x51A70"/>
