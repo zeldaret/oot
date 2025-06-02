@@ -90,6 +90,21 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
+typedef enum {
+    /* 00 */ ENRU1_EYES_OPEN,
+    /* 01 */ ENRU1_EYES_HALF_BLINK,
+    /* 02 */ ENRU1_EYES_CLOSED,
+    /* 03 */ ENRU1_EYES_UP,
+    /* 04 */ ENRU1_EYES_GAZING,
+    /* 05 */ ENRU1_EYES_ANGRY,
+} EnRu1EyeIndex;
+
+typedef enum {
+    /* 00 */ ENRU1_MOUTH_SMILING,
+    /* 01 */ ENRU1_MOUTH_FROWNING,
+    /* 02 */ ENRU1_MOUTH_OPEN,
+} EnRu1MouthIndex;
+
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
         COL_MATERIAL_HIT0,
@@ -237,8 +252,8 @@ void EnRu1_UpdateEyes(EnRu1* this) {
     }
 
     *eyeIndex = *blinkTimer;
-    if (*eyeIndex >= 3) {
-        *eyeIndex = 0;
+    if (*eyeIndex >= ENRU1_EYES_UP) {
+        *eyeIndex = ENRU1_EYES_OPEN;
     }
 }
 
@@ -429,8 +444,8 @@ void func_80AEB3DC(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWaitHandsBehindBackAnim, 0, 0, 0);
     this->action = 0;
     this->drawConfig = 1;
-    EnRu1_SetEyeIndex(this, 4);
-    EnRu1_SetMouthIndex(this, 0);
+    EnRu1_SetEyeIndex(this, ENRU1_EYES_GAZING);
+    EnRu1_SetMouthIndex(this, ENRU1_MOUTH_SMILING);
 }
 
 CsCmdActorCue* EnRu1_GetCueChannel3(PlayState* play) {
@@ -786,7 +801,7 @@ void func_80AEC320(EnRu1* this, PlayState* play) {
     if (!GET_INFTABLE(INFTABLE_141)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 7;
-        EnRu1_SetMouthIndex(this, 1);
+        EnRu1_SetMouthIndex(this, ENRU1_MOUTH_FROWNING);
     } else if (GET_INFTABLE(INFTABLE_147) && !GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
@@ -1031,8 +1046,8 @@ void func_80AECDA0(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWaitHandsOnHipsAnim, 0, 0, 0);
     this->action = 15;
     this->actor.shape.yOffset = -10000.0f;
-    EnRu1_SetEyeIndex(this, 5);
-    EnRu1_SetMouthIndex(this, 2);
+    EnRu1_SetEyeIndex(this, ENRU1_EYES_ANGRY);
+    EnRu1_SetMouthIndex(this, ENRU1_MOUTH_OPEN);
 }
 
 void func_80AECE04(EnRu1* this, PlayState* play) {
@@ -1959,8 +1974,8 @@ void func_80AEF51C(EnRu1* this) {
 
 void func_80AEF540(EnRu1* this) {
     if (func_80AEB104(this) == 2) {
-        EnRu1_SetEyeIndex(this, 3);
-        EnRu1_SetMouthIndex(this, 2);
+        EnRu1_SetEyeIndex(this, ENRU1_EYES_UP);
+        EnRu1_SetMouthIndex(this, ENRU1_MOUTH_OPEN);
         if (this->skelAnime.mode != 2) {
             func_80AEB264(this, &gRutoChildShutterAnim, 2, -8.0f, 0);
             func_80AEF51C(this);
@@ -1974,8 +1989,8 @@ void func_80AEF5B8(EnRu1* this) {
     if (D_80AF1938 == 0) {
         curFrame = this->skelAnime.curFrame;
         if (curFrame >= 60.0f) {
-            EnRu1_SetEyeIndex(this, 3);
-            EnRu1_SetMouthIndex(this, 0);
+            EnRu1_SetEyeIndex(this, ENRU1_EYES_UP);
+            EnRu1_SetMouthIndex(this, ENRU1_MOUTH_SMILING);
             func_80AED57C(this);
             D_80AF1938 = 1;
         }
