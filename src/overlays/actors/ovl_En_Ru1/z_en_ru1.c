@@ -1479,18 +1479,20 @@ void func_80AEE02C(EnRu1* this) {
 
 void EnRu1_UpdateWaterState(EnRu1* this) {
     s32 pad;
-    f32 sp28;
-    f32 sp24;
+    f32 bobMagnitude;
+    f32 startY;
     EnRu1* thisx = this; // necessary to match
 
     if (this->waterState == ENRU1_WATER_OUTSIDE) {
         if ((this->actor.minVelocityY == 0.0f) && (this->actor.speed == 0.0f)) {
+            // When Ruto's velocity has been slowed enough by the water, stop her motion
             this->waterState = ENRU1_WATER_IMMERSED;
             func_80AEE02C(this);
-            this->unk_35C = 0;
-            this->unk_358 = (this->actor.depthInWater - 10.0f) * 0.5f;
-            this->unk_354 = this->actor.world.pos.y + thisx->unk_358; // thisx only used here
+            this->bobPhase = 0;
+            this->bobDepth = (this->actor.depthInWater - 10.0f) * 0.5f;
+            this->sinkingStartPosY = this->actor.world.pos.y + thisx->bobDepth; // thisx only used here
         } else {
+            // Ruto is touching the water but still traveling along some path, e.g. from being thrown
             this->actor.gravity = 0.0f;
             this->actor.minVelocityY *= 0.2f;
             this->actor.velocity.y *= 0.2f;
@@ -1508,23 +1510,23 @@ void EnRu1_UpdateWaterState(EnRu1* this) {
         }
     } else {
         if (this->waterState == ENRU1_WATER_IMMERSED) {
-            if (this->unk_358 <= 1.0f) {
+            if (this->bobDepth <= 1.0f) {
                 func_80AEE02C(this);
                 this->waterState = ENRU1_WATER_BOBBING;
-                this->unk_360 = 0.0f;
+                this->isSinking = 0.0f;
             } else {
-                f32 temp_f10;
+                f32 deltaY;
 
-                sp28 = this->unk_358;
-                sp24 = this->unk_354;
-                temp_f10 = Math_CosS(this->unk_35C) * -sp28;
-                this->actor.world.pos.y = temp_f10 + sp24;
-                this->unk_35C += 0x3E8;
-                this->unk_358 *= 0.95f;
+                bobMagnitude = this->bobDepth;
+                startY = this->sinkingStartPosY;
+                deltaY = Math_CosS(this->bobPhase) * -bobMagnitude;
+                this->actor.world.pos.y = deltaY + startY;
+                this->bobPhase += 0x3E8;
+                this->bobDepth *= 0.95f;
             }
         } else {
-            this->unk_360 += 1.0f;
-            if (this->unk_360 > 0.0f) {
+            this->isSinking += 1.0f;
+            if (this->isSinking > 0.0f) {
                 this->waterState = ENRU1_WATER_SINKING;
             }
         }
