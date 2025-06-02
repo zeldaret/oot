@@ -313,7 +313,7 @@ s32 func_80AEB020(EnRu1* this, PlayState* play) {
     return false;
 }
 
-BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
+BgBdanObjects* EnRu1_FindBigOctoPlatform(PlayState* play) {
     Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BG].head;
 
     while (actorIt != NULL) {
@@ -328,14 +328,14 @@ BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
 }
 
 void EnRu1_SetCameraSetting(EnRu1* this, s32 cameraSetting) {
-    if (this->jabuJabuCtx != NULL) {
-        this->jabuJabuCtx->cameraSetting = cameraSetting;
+    if (this->bigOctoPlatform != NULL) {
+        this->bigOctoPlatform->cameraSetting = cameraSetting;
     }
 }
 
 s32 EnRu1_GetCameraSetting(EnRu1* this) {
-    if (this->jabuJabuCtx != NULL) {
-        return this->jabuJabuCtx->cameraSetting;
+    if (this->bigOctoPlatform != NULL) {
+        return this->bigOctoPlatform->cameraSetting;
     } else {
         return 0;
     }
@@ -1576,7 +1576,7 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
-            this->jabuJabuCtx = (BgBdanObjects*)dynaPolyActor;
+            this->bigOctoPlatform = (BgBdanObjects*)dynaPolyActor;
             this->actor.shape.shadowAlpha = 0;
             return true;
         }
@@ -2155,7 +2155,7 @@ void func_80AEFC54(EnRu1* this, PlayState* play) {
 
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 41;
-        this->jabuJabuCtx = EnRu1_FindSwitch(play);
+        this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
         EnRu1_SetCameraSetting(this, 1);
         this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     } else {
@@ -2164,8 +2164,8 @@ void func_80AEFC54(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEFCE8(EnRu1* this, PlayState* play) {
-    this->jabuJabuCtx = EnRu1_FindSwitch(play);
-    if (this->jabuJabuCtx != NULL) {
+    this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
+    if (this->bigOctoPlatform != NULL) {
         this->action = 42;
         this->drawConfig = 1;
         EnRu1_SetCameraSetting(this, 1);
@@ -2258,7 +2258,7 @@ void func_80AF0050(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
     this->action = 36;
     this->roomNum1 = this->actor.room;
-    this->jabuJabuCtx = EnRu1_FindSwitch(play);
+    this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
     this->actor.room = -1;
 }
 #endif
