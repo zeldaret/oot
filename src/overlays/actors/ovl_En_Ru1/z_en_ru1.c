@@ -257,7 +257,7 @@ void EnRu1_SetMouthIndex(EnRu1* this, s16 mouthIndex) {
     this->mouthIndex = mouthIndex;
 }
 
-void func_80AEAECC(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateBgCheckInfo(EnRu1* this, PlayState* play) {
     f32* velocityY = &this->actor.velocity.y;
     f32 velocityYHeld = *velocityY;
 
@@ -641,7 +641,7 @@ void func_80AEBD1C(EnRu1* this, PlayState* play) {
         this->action = 1;
         this->drawConfig = 0;
         func_80AEB914(this, play);
-        func_80AEAECC(this, play);
+        EnRu1_UpdateBgCheckInfo(this, play);
         EnRu1_SpawnSplash(this, play);
         func_80AEB59C(this, play);
     }
@@ -741,14 +741,14 @@ void func_80AEC100(EnRu1* this, PlayState* play) {
 void func_80AEC130(EnRu1* this, PlayState* play) {
     s32 something = EnRu1_UpdateSkelAnime(this);
 
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEBB3C(this);
     func_80AEBE3C(this, play, something);
 }
 
 void func_80AEC17C(EnRu1* this, PlayState* play) {
     func_80AEB974(this, play);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateSkelAnime(this);
     func_80AEB50C(this, play);
     func_80AEBEC8(this, play);
@@ -758,7 +758,7 @@ void func_80AEC1D4(EnRu1* this, PlayState* play) {
     s32 something;
 
     something = EnRu1_UpdateSkelAnime(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateEyes(this);
     func_80AEB50C(this, play);
     func_80AEBCB8(this, something);
@@ -771,7 +771,7 @@ void func_80AEC244(EnRu1* this, PlayState* play) {
 
     something = EnRu1_UpdateSkelAnime(this);
     func_80AEBA2C(this, play);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateEyes(this);
     func_80AEB50C(this, play);
     func_80AEBCB8(this, something);
@@ -783,7 +783,7 @@ void func_80AEC2C0(EnRu1* this, PlayState* play) {
     s32 something;
 
     something = EnRu1_UpdateSkelAnime(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateEyes(this);
     func_80AEB50C(this, play);
     func_80AEC070(this, play, something);
@@ -968,7 +968,7 @@ void func_80AECAB4(EnRu1* this, PlayState* play) {
 void func_80AECAD4(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEC8B8(this, play);
 }
 
@@ -977,7 +977,7 @@ void func_80AECB18(EnRu1* this, PlayState* play) {
 
     something = EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEC93C(this, something);
 }
 
@@ -985,7 +985,7 @@ void func_80AECB60(EnRu1* this, PlayState* play) {
     func_80AEC40C(this);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEC650(this);
     func_80AEC9C4(this);
 }
@@ -995,7 +995,7 @@ void func_80AECBB8(EnRu1* this, PlayState* play) {
     func_80AEC6E4(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEC650(this);
     func_80AECA18(this);
 }
@@ -1005,7 +1005,7 @@ void func_80AECC1C(EnRu1* this, PlayState* play) {
     func_80AEC6E4(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEC650(this);
     func_80AECA44(this, play);
 }
@@ -1190,13 +1190,13 @@ void func_80AED3A4(EnRu1* this, PlayState* play) {
 }
 
 void func_80AED3E0(EnRu1* this, PlayState* play) {
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AED218(this, EnRu1_UpdateSkelAnime(this));
 }
 
 void func_80AED414(EnRu1* this, PlayState* play) {
     func_80AECE20(this, play);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateSkelAnime(this);
 }
 
@@ -1346,7 +1346,7 @@ void EnRu1_UpdateHeadRotation(EnRu1* this) {
     }
 }
 
-void func_80AEDAE0(EnRu1* this, PlayState* play) {
+void EnRu1_ResetBgCheckFlags(EnRu1* this, PlayState* play) {
     DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
 
     if (dynaPolyActor == NULL || dynaPolyActor->actor.id == ACTOR_EN_BOX) {
@@ -1354,7 +1354,7 @@ void func_80AEDAE0(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEDB30(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateBgCheckFlags(EnRu1* this, PlayState* play) {
     f32* velocityY;
     f32* speedXZ;
     f32* gravity;
@@ -1417,26 +1417,26 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         if (*speedXZ != 0.0f) {
             s16 wallYaw;
             s16 rotY;
-            s32 temp_a1_2;
-            s32 temp_a0;
-            s32 phi_v1;
+            s32 exitY;
+            s32 reflY;
+            s32 normalAngle;
 
             rotY = this->actor.world.rot.y;
             wallYaw = this->actor.wallYaw;
-            temp_a0 = (wallYaw * 2) - rotY;
-            temp_a1_2 = temp_a0 + 0x8000;
-            if ((s16)((temp_a0 - wallYaw) + 0x8000) >= 0) {
-                phi_v1 = (s16)(temp_a1_2 - wallYaw);
+            reflY = (wallYaw * 2) - rotY;
+            exitY = reflY + 0x8000;
+            if ((s16)((reflY - wallYaw) + 0x8000) >= 0) {
+                normalAngle = (s16)(exitY - wallYaw);
             } else {
-                phi_v1 = -(s16)(temp_a1_2 - wallYaw);
+                normalAngle = -(s16)(exitY - wallYaw);
             }
-            if (phi_v1 < 0x4001) {
+            if (normalAngle < 0x4001) {
                 if (*speedXZ >= (kREG(27) * 0.01f) + 3.0f) {
                     *speedXZ *= (kREG(21) * 0.01f) + 0.6f;
                 } else {
                     *speedXZ = 0.0f;
                 }
-                this->actor.world.rot.y = temp_a1_2;
+                this->actor.world.rot.y = exitY;
                 func_80AED4FC(this);
                 func_80AED5B8(this);
             }
@@ -1463,7 +1463,7 @@ void func_80AEDEF4(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEDFF4(EnRu1* this, PlayState* play) {
-    func_80AEDB30(this, play);
+    EnRu1_UpdateBgCheckFlags(this, play);
     func_80AEDEF4(this, play);
     Actor_MoveXZGravity(&this->actor);
 }
@@ -1749,31 +1749,31 @@ void func_80AEEBB4(EnRu1* this, PlayState* play) {
 void func_80AEEBD4(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
     EnRu1_UpdateSittingOC(this, play);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEEBB4(this, play);
     func_80AEE488(this, play);
     func_80AED624(this, play);
-    func_80AEDAE0(this, play);
+    EnRu1_ResetBgCheckFlags(this, play);
 }
 
 void func_80AEEC5C(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
     EnRu1_UpdateSittingAT(this, play);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEE2F8(this, play);
     func_80AEDFF4(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEE568(this, play);
     func_80AED624(this, play);
-    func_80AEDAE0(this, play);
+    EnRu1_ResetBgCheckFlags(this, play);
 }
 
 void func_80AEECF0(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateWaterState(this);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
@@ -1783,19 +1783,19 @@ void func_80AEECF0(EnRu1* this, PlayState* play) {
 
 void func_80AEED58(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     Actor_MoveXZGravity(&this->actor);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_CheckHitBottomUnderwater(this, play);
     func_80AED624(this, play);
-    func_80AEDAE0(this, play);
+    EnRu1_ResetBgCheckFlags(this, play);
 }
 
 void func_80AEEDCC(EnRu1* this, PlayState* play) {
     EnRu1_UpdateHeadRotation(this);
     EnRu1_UpdateSkelAnime(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEE2F8(this, play);
     EnRu1_UpdateEyes(this);
     func_80AED6F8(play);
@@ -1805,7 +1805,7 @@ void func_80AEEDCC(EnRu1* this, PlayState* play) {
 void func_80AEEE34(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
     EnRu1_UpdateSkelAnime(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEE2F8(this, play);
     EnRu1_UpdateEyes(this);
     func_80AED6F8(play);
@@ -1814,7 +1814,7 @@ void func_80AEEE34(EnRu1* this, PlayState* play) {
 
 void func_80AEEE9C(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEDFF4(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
@@ -1825,7 +1825,7 @@ void func_80AEEE9C(EnRu1* this, PlayState* play) {
 void func_80AEEF08(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
     EnRu1_UpdateSkelAnime(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateEyes(this);
     func_80AEE628(this, play);
 }
@@ -1917,7 +1917,7 @@ void func_80AEF2D0(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_UpdateStandingOC(this, play);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     cond = func_80AEE264(this, play);
     func_80AED624(this, play);
     func_80AEF170(this, play, cond);
@@ -1927,7 +1927,7 @@ void func_80AEF354(EnRu1* this, PlayState* play) {
     func_80AEEFEC(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEF188(this, play);
 }
 
@@ -1938,7 +1938,7 @@ void func_80AEF3A8(EnRu1* this, PlayState* play) {
     something = EnRu1_UpdateSkelAnime(this);
     func_80AEF080(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEF1F0(this, play, something);
 }
 
@@ -2099,7 +2099,7 @@ void func_80AEFA2C(EnRu1* this, PlayState* play) {
 
     func_80AED83C(this);
     func_80AEB364(this, play);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     something = EnRu1_UpdateSkelAnime(this);
     func_80AEF4E0(this);
     func_80AEF5B8(this);
@@ -2112,7 +2112,7 @@ void func_80AEFA2C(EnRu1* this, PlayState* play) {
 
 void func_80AEFAAC(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateSkelAnime(this);
     func_80AEF79C(this, play);
 #if DEBUG_FEATURES
@@ -2124,7 +2124,7 @@ void func_80AEFB04(EnRu1* this, PlayState* play) {
     s32 something;
 
     func_80AED83C(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     something = EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEF820(this, something);
@@ -2135,7 +2135,7 @@ void func_80AEFB04(EnRu1* this, PlayState* play) {
 
 void func_80AEFB68(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEF890(this, play);
@@ -2146,7 +2146,7 @@ void func_80AEFB68(EnRu1* this, PlayState* play) {
 
 void func_80AEFBC8(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEF540(this);
@@ -2230,7 +2230,7 @@ void func_80AEFECC(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     EnRu1_UpdateStandingOC(this, play);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEFE84(this, play, func_80AEFDC0(this, play));
 }
 
@@ -2238,7 +2238,7 @@ void func_80AEFF40(EnRu1* this, PlayState* play) {
     func_80AEEFEC(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAECC(this, play);
+    EnRu1_UpdateBgCheckInfo(this, play);
     func_80AEFE9C(this, play);
 }
 
