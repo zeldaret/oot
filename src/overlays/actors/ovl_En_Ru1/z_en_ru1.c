@@ -1311,7 +1311,7 @@ void EnRu1_UpdateHeadRotation(EnRu1* this) {
     s32 headRotOffset;
     s16* headRotTimer = &this->headRotTimer;
     s16* headRotY = &this->interactInfo.headRot.y;
-    s16* headRotAngle = &this->headRotAngle;
+    s16* headTurnSpeed = &this->headTurnSpeed;
     s32 pad[2];
 
     if (DECR(*headRotTimer) == 0) {
@@ -1324,18 +1324,18 @@ void EnRu1_UpdateHeadRotation(EnRu1* this) {
         } else {
             this->headRotDirection = 0;
         }
-        *headRotAngle = 0;
+        *headTurnSpeed = 0;
     }
 
     if (this->headRotDirection == 0) {
-        Math_SmoothStepToS(headRotAngle, 0 - *headRotY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotY, 0, 3, ABS(*headRotAngle), 0x64);
+        Math_SmoothStepToS(headTurnSpeed, 0 - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0, 3, ABS(*headTurnSpeed), 0x64);
     } else if (this->headRotDirection == 1) {
-        Math_SmoothStepToS(headRotAngle, -0x2AAA - *headRotY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotY, -0x2AAA, 3, ABS(*headRotAngle), 0x64);
+        Math_SmoothStepToS(headTurnSpeed, -0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, -0x2AAA, 3, ABS(*headTurnSpeed), 0x64);
     } else {
-        Math_SmoothStepToS(headRotAngle, 0x2AAA - *headRotY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotY, 0x2AAA, 3, ABS(*headRotAngle), 0x64);
+        Math_SmoothStepToS(headTurnSpeed, 0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0x2AAA, 3, ABS(*headTurnSpeed), 0x64);
     }
 }
 

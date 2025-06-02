@@ -38,7 +38,7 @@ typedef struct EnRu1 {
     /* 0x0294 */ char unk_294[0x4];
     /* 0x0298 */ s32 unk_298;
     /* 0x029C */ char unk_29C[0x2];
-    /* 0x029E */ s16 headRotAngle;
+    /* 0x029E */ s16 headTurnSpeed;
     /* 0x02A0 */ char unk_2A0[0x4];
     /* 0x02A4 */ f32 unk_2A4;
     /* 0x02A8 */ s32 alpha;
