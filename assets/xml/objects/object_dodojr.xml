@@ -5,6 +5,21 @@
         <Animation Name="object_dodojr_Anim_000724" Offset="0x724"/>
         <Animation Name="object_dodojr_Anim_000860" Offset="0x860"/>
         <Animation Name="object_dodojr_Anim_0009D4" Offset="0x9D4"/>
+        <Array Name="object_dodojr_Vtx_0009F0" Count="34" Offset="0x9F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodojr_Vtx_000C10" Count="15" Offset="0xC10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodojr_Vtx_000D00" Count="37" Offset="0xD00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodojr_Vtx_000F50" Count="23" Offset="0xF50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodojr_Vtx_0010C0" Count="12" Offset="0x10C0">
+            <Vtx/>
+        </Array>
         <DList Name="object_dodojr_DL_001180" Offset="0x1180"/>
         <DList Name="object_dodojr_DL_0012E0" Offset="0x12E0"/>
         <DList Name="object_dodojr_DL_0013E8" Offset="0x13E8"/>

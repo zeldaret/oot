@@ -2,11 +2,23 @@
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_toki_objects" Segment="6">
         <Texture Name="object_toki_objects_Tex_000000" OutName="tex_000000" Format="i8" Width="32" Height="64" Offset="0x0"/>
+        <Array Name="object_toki_objects_Vtx_000800" Count="8" Offset="0x800">
+            <Vtx/>
+        </Array>
         <DList Name="object_toki_objects_DL_000880" Offset="0x880"/>
+        <Array Name="object_toki_objects_Vtx_000930" Count="9" Offset="0x930">
+            <Vtx/>
+        </Array>
         <DList Name="object_toki_objects_DL_0009C0" Offset="0x9C0"/>
         <Texture Name="object_toki_objects_Tex_000A30" OutName="tex_000A30" Format="rgba16" Width="16" Height="16" Offset="0xA30"/>
         <Texture Name="object_toki_objects_Tex_000C30" OutName="tex_000C30" Format="rgba16" Width="32" Height="32" Offset="0xC30"/>
+        <Array Name="object_toki_objects_Vtx_001430" Count="122" Offset="0x1430">
+            <Vtx/>
+        </Array>
         <DList Name="object_toki_objects_DL_001BD0" Offset="0x1BD0"/>
+        <Array Name="object_toki_objects_Vtx_001FA0" Count="148" Offset="0x1FA0">
+            <Vtx/>
+        </Array>
         <DList Name="object_toki_objects_DL_0028E0" Offset="0x28E0"/>
         <Texture Name="object_toki_objects_Tex_002DC0" OutName="tex_002DC0" Format="rgba16" Width="32" Height="32" Offset="0x2DC0"/>
         <Texture Name="object_toki_objects_Tex_0035C0" OutName="tex_0035C0" Format="ia8" Width="64" Height="32" Offset="0x35C0"/>
@@ -16,12 +28,30 @@
         <Texture Name="object_toki_objects_Tex_0065C0" OutName="tex_0065C0" Format="rgba16" Width="16" Height="16" Offset="0x65C0"/>
         <Texture Name="object_toki_objects_Tex_0067C0" OutName="tex_0067C0" Format="rgba16" Width="32" Height="32" Offset="0x67C0"/>
         <Texture Name="object_toki_objects_Tex_006FC0" OutName="tex_006FC0" Format="rgba16" Width="16" Height="16" Offset="0x6FC0"/>
+        <Array Name="object_toki_objects_Vtx_0071C0" Count="20" Offset="0x71C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toki_objects_Vtx_007300" Count="20" Offset="0x7300">
+            <Vtx/>
+        </Array>
         <DList Name="object_toki_objects_DL_007440" Offset="0x7440"/> <!-- Door of Time left -->
         <DList Name="object_toki_objects_DL_007578" Offset="0x7578"/> <!-- Door of Time right -->
         <Collision Name="gDoorTokiCol" Offset="0x7888"/>
+        <Array Name="object_toki_objects_Vtx_0078C0" Count="24" Offset="0x78C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toki_objects_Vtx_007A40" Count="62" Offset="0x7A40">
+            <Vtx/>
+        </Array>
         <DList Name="object_toki_objects_DL_007E20" Offset="0x7E20"/>
         <DList Name="object_toki_objects_DL_007EE0" Offset="0x7EE0"/>
+        <Array Name="object_toki_objects_Vtx_008010" Count="24" Offset="0x8010">
+            <Vtx/>
+        </Array>
         <DList Name="object_toki_objects_DL_008190" Offset="0x8190"/>
+        <Array Name="object_toki_objects_Vtx_008250" Count="20" Offset="0x8250">
+            <Vtx/>
+        </Array>
         <DList Name="object_toki_objects_DL_008390" Offset="0x8390"/> <!-- light plane -->
     </File>
 </Root>

@@ -3,6 +3,24 @@
         <Animation Name="object_Bb_Anim_000184" Offset="0x184"/>
         <Animation Name="object_Bb_Anim_0002AC" Offset="0x2AC"/>
         <Animation Name="object_Bb_Anim_000444" Offset="0x444"/>
+        <Array Name="object_Bb_Vtx_000460" Count="6" Offset="0x460">
+            <Vtx/>
+        </Array>
+        <Array Name="object_Bb_Vtx_0004C0" Count="3" Offset="0x4C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_Bb_Vtx_0004F0" Count="33" Offset="0x4F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_Bb_Vtx_000700" Count="73" Offset="0x700">
+            <Vtx/>
+        </Array>
+        <Array Name="object_Bb_Vtx_000B90" Count="3" Offset="0xB90">
+            <Vtx/>
+        </Array>
+        <Array Name="object_Bb_Vtx_000BC0" Count="6" Offset="0xBC0">
+            <Vtx/>
+        </Array>
         <DList Name="object_Bb_DL_000C20" Offset="0xC20"/>
         <DList Name="object_Bb_DL_000CB0" Offset="0xCB0"/>
         <DList Name="object_Bb_DL_000D40" Offset="0xD40"/>
