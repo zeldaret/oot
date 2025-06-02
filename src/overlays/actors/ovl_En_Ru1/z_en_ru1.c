@@ -1307,35 +1307,35 @@ void func_80AED83C(EnRu1* this) {
     Math_SmoothStepToS(&torsoRot->y, 0, 0x14, 0x1838, 0x64);
 }
 
-void func_80AED8DC(EnRu1* this) {
-    s32 temp_hi;
-    s16* unk_2AC = &this->unk_2AC;
+void EnRu1_UpdateHeadRotation(EnRu1* this) {
+    s32 headRotOffset;
+    s16* headRotTimer = &this->headRotTimer;
     s16* headRotY = &this->interactInfo.headRot.y;
-    s16* unk_29E = &this->unk_29E;
+    s16* headRotAngle = &this->headRotAngle;
     s32 pad[2];
 
-    if (DECR(*unk_2AC) == 0) {
-        *unk_2AC = Rand_S16Offset(0xA, 0x19);
-        temp_hi = *unk_2AC % 5;
-        if (temp_hi == 0) {
-            this->unk_2B0 = 1;
-        } else if (temp_hi == 1) {
-            this->unk_2B0 = 2;
+    if (DECR(*headRotTimer) == 0) {
+        *headRotTimer = Rand_S16Offset(0xA, 0x19);
+        headRotOffset = *headRotTimer % 5;
+        if (headRotOffset == 0) {
+            this->headRotDirection = 1;
+        } else if (headRotOffset == 1) {
+            this->headRotDirection = 2;
         } else {
-            this->unk_2B0 = 0;
+            this->headRotDirection = 0;
         }
-        *unk_29E = 0;
+        *headRotAngle = 0;
     }
 
-    if (this->unk_2B0 == 0) {
-        Math_SmoothStepToS(unk_29E, 0 - *headRotY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotY, 0, 3, ABS(*unk_29E), 0x64);
-    } else if (this->unk_2B0 == 1) {
-        Math_SmoothStepToS(unk_29E, -0x2AAA - *headRotY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
+    if (this->headRotDirection == 0) {
+        Math_SmoothStepToS(headRotAngle, 0 - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0, 3, ABS(*headRotAngle), 0x64);
+    } else if (this->headRotDirection == 1) {
+        Math_SmoothStepToS(headRotAngle, -0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, -0x2AAA, 3, ABS(*headRotAngle), 0x64);
     } else {
-        Math_SmoothStepToS(unk_29E, 0x2AAA - *headRotY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(headRotAngle, 0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0x2AAA, 3, ABS(*headRotAngle), 0x64);
     }
 }
 
@@ -1784,7 +1784,7 @@ void func_80AEED58(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEEDCC(EnRu1* this, PlayState* play) {
-    func_80AED8DC(this);
+    EnRu1_UpdateHeadRotation(this);
     EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, play);
     func_80AEE2F8(this, play);
