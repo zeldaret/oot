@@ -135,12 +135,11 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play) {
 
         if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
             wall->isHit = true;
-            // "You did it field!" (repeated 5 times)
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ Yay Hara! ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ Yay Hara! ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(BLUE) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ Yay Hara! ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ Yay Hara! ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ Yay Hara! ☆☆☆☆☆ \n") VT_RST);
         }
 
         Actor_Kill(&this->actor);
