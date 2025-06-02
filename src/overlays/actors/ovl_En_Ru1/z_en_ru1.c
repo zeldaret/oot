@@ -1477,7 +1477,7 @@ void func_80AEE02C(EnRu1* this) {
     this->actor.minVelocityY = 0.0f;
 }
 
-void func_80AEE050(EnRu1* this) {
+void EnRu1_UpdateWaterState(EnRu1* this) {
     s32 pad;
     f32 sp28;
     f32 sp24;
@@ -1718,7 +1718,7 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
     }
 }
 
-s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
+s32 EnRu1_CheckHitBottomUnderwater(EnRu1* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         s32 pad;
 
@@ -1731,8 +1731,8 @@ s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
     return false;
 }
 
-void func_80AEEB24(EnRu1* this, PlayState* play) {
-    if ((func_80AEEAC8(this, play) == 0) && (this->waterState == ENRU1_WATER_SINKING)) {
+void EnRu1_CheckSinkingState(EnRu1* this, PlayState* play) {
+    if ((EnRu1_CheckHitBottomUnderwater(this, play) == 0) && (this->waterState == ENRU1_WATER_SINKING)) {
         this->action = 30;
         func_80AEE02C(this);
         this->actor.gravity = -0.1f;
@@ -1772,10 +1772,10 @@ void func_80AEEC5C(EnRu1* this, PlayState* play) {
 void func_80AEECF0(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
     func_80AEAECC(this, play);
-    func_80AEE050(this);
+    EnRu1_UpdateWaterState(this);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEEB24(this, play);
+    EnRu1_CheckSinkingState(this, play);
     func_80AED624(this, play);
 }
 
@@ -1785,7 +1785,7 @@ void func_80AEED58(EnRu1* this, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEEAC8(this, play);
+    EnRu1_CheckHitBottomUnderwater(this, play);
     func_80AED624(this, play);
     func_80AEDAE0(this, play);
 }
