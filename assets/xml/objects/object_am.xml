@@ -6,5 +6,22 @@
         <Animation Name="gArmosDamagedAnim" Offset="0x5B3C"/>
         <Collision Name="gArmosCol" Offset="0x118"/>
         <DList Name="gArmosUnusedDL" Offset="0x7A8"/>
+
+        <!-- Vertices -->
+        <Array Name="object_am_Vtx_000350" Count="40" Offset="0x350">
+            <Vtx/>
+        </Array>
+        <Array Name="gArmosUnusedVtx" Count="12" Offset="0x6E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_am_Vtx_000838" Count="233" Offset="0x838">
+            <Vtx/>
+        </Array>
+        <Array Name="object_am_Vtx_001EA8" Count="61" Offset="0x1EA8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_am_Vtx_002440" Count="17" Offset="0x2440">
+            <Vtx/>
+        </Array>
     </File>
 </Root>
