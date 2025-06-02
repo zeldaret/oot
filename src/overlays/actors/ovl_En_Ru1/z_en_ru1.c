@@ -84,7 +84,7 @@ void func_80AEFC24(EnRu1* this, PlayState* play);
 void func_80AEFECC(EnRu1* this, PlayState* play);
 void func_80AEFF40(EnRu1* this, PlayState* play);
 
-void func_80AF0278(EnRu1* this, PlayState* play, s32 limbIndex, Vec3s* rot);
+void EnRu1_PreLimbDraw(EnRu1* this, PlayState* play, s32 limbIndex, Vec3s* rot);
 
 void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
@@ -142,7 +142,7 @@ static EnRu1ActionFunc sActionFuncs[] = {
 };
 
 static EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
-    func_80AF0278,
+    EnRu1_PreLimbDraw,
 };
 
 static Vec3f sMultVec = { 0.0f, 10.0f, 0.0f };
@@ -2316,7 +2316,7 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
     }
 }
 
-void func_80AF0278(EnRu1* this, PlayState* play, s32 limbIndex, Vec3s* rot) {
+void EnRu1_PreLimbDraw(EnRu1* this, PlayState* play, s32 limbIndex, Vec3s* rot) {
     Vec3s* torsoRot = &this->interactInfo.torsoRot;
     Vec3s* headRot = &this->interactInfo.headRot;
 
@@ -2336,11 +2336,12 @@ s32 EnRu1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
                            Gfx** gfx) {
     EnRu1* this = (EnRu1*)thisx;
 
-    if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*sPreLimbDrawFuncs[this->unk_290] == NULL)) {
+    if ((this->preLimbDrawIndex < 0) || (this->preLimbDrawIndex > 0) ||
+        (*sPreLimbDrawFuncs[this->preLimbDrawIndex] == NULL)) {
         PRINTF(VT_FGCOL(RED) T("首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
                                "Neck rotation mode is improper!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
-        sPreLimbDrawFuncs[this->unk_290](this, play, limbIndex, rot);
+        sPreLimbDrawFuncs[this->preLimbDrawIndex](this, play, limbIndex, rot);
     }
     return false;
 }
@@ -2349,14 +2350,14 @@ void EnRu1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     EnRu1* this = (EnRu1*)thisx;
 
     if (limbIndex == RUTO_CHILD_HEAD) {
-        Vec3f vec1;
-        Vec3f vec2;
+        Vec3f src;
+        Vec3f dest;
 
-        vec1 = sMultVec;
-        Matrix_MultVec3f(&vec1, &vec2);
-        this->actor.focus.pos.x = vec2.x;
-        this->actor.focus.pos.y = vec2.y;
-        this->actor.focus.pos.z = vec2.z;
+        src = sMultVec;
+        Matrix_MultVec3f(&src, &dest);
+        this->actor.focus.pos.x = dest.x;
+        this->actor.focus.pos.y = dest.y;
+        this->actor.focus.pos.z = dest.z;
         this->actor.focus.rot.x = this->actor.world.rot.x;
         this->actor.focus.rot.y = this->actor.world.rot.y;
         this->actor.focus.rot.z = this->actor.world.rot.z;
