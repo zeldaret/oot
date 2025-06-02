@@ -101,8 +101,6 @@ static CollisionHeader sCol = {
 #include "assets/overlays/ovl_En_Jsjutan/sCol.inc.c"
 };
 
-static u8 sZeros[4] = { 0 };
-
 void EnJsjutan_Init(Actor* thisx, PlayState* play) {
     EnJsjutan* this = (EnJsjutan*)thisx;
     s32 pad;
