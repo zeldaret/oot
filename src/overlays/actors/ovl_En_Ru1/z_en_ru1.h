@@ -44,9 +44,9 @@ typedef struct EnRu1 {
     /* 0x02A8 */ s32 alpha;
     /* 0x02AC */ s16 unk_2AC;
     /* 0x02B0 */ s32 unk_2B0;
-    /* 0x02B4 */ ColliderCylinder collider;
-    /* 0x0300 */ ColliderCylinder collider2;
-    /* 0x034C */ s32 unk_34C;
+    /* 0x02B4 */ ColliderCylinder standingCollider;
+    /* 0x0300 */ ColliderCylinder sittingCollider;
+    /* 0x034C */ s32 isSittingOCActive;
     /* 0x0350 */ s32 unk_350;
     /* 0x0354 */ f32 unk_354;
     /* 0x0358 */ f32 unk_358;

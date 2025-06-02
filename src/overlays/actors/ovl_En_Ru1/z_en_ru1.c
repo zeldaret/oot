@@ -90,7 +90,7 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
-static ColliderCylinderInitType1 sCylinderInit1 = {
+static ColliderCylinderInitType1 sStandingCylinderInit = {
     {
         COL_MATERIAL_HIT0,
         AT_NONE,
@@ -102,7 +102,7 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
     { 25, 80, 0, { 0 } },
 };
 
-static ColliderCylinderInitType1 sCylinderInit2 = {
+static ColliderCylinderInitType1 sSittingCylinderInit = {
     {
         COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_PLAYER,
@@ -165,48 +165,48 @@ ActorProfile En_Ru1_Profile = {
     /**/ EnRu1_Draw,
 };
 
-void func_80AEAC10(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateStandingObjectCollider(EnRu1* this, PlayState* play) {
     s32 pad[5];
 
-    Collider_UpdateCylinder(&this->actor, &this->collider);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+    Collider_UpdateCylinder(&this->actor, &this->standingCollider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->standingCollider.base);
 }
 
-void func_80AEAC54(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateSittingObjectCollider(EnRu1* this, PlayState* play) {
     s32 pad[5];
 
-    Collider_UpdateCylinder(&this->actor, &this->collider2);
-    if (this->unk_34C != 0) {
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider2.base);
+    Collider_UpdateCylinder(&this->actor, &this->sittingCollider);
+    if (this->isSittingOCActive != 0) {
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->sittingCollider.base);
     } else if (this->actor.xzDistToPlayer > 32.0f) {
-        this->unk_34C = 1;
+        this->isSittingOCActive = 1;
     }
 }
 
-void func_80AEACDC(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateSittingAttackCollider(EnRu1* this, PlayState* play) {
     s32 pad[5];
 
-    Collider_UpdateCylinder(&this->actor, &this->collider2);
-    CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider2.base);
+    Collider_UpdateCylinder(&this->actor, &this->sittingCollider);
+    CollisionCheck_SetAT(play, &play->colChkCtx, &this->sittingCollider.base);
 }
 
-void func_80AEAD20(Actor* thisx, PlayState* play) {
+void EnRu1_InitColliders(Actor* thisx, PlayState* play) {
     EnRu1* this = (EnRu1*)thisx;
 
-    Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinderType1(play, &this->collider, &this->actor, &sCylinderInit1);
+    Collider_InitCylinder(play, &this->standingCollider);
+    Collider_SetCylinderType1(play, &this->standingCollider, &this->actor, &sStandingCylinderInit);
 
-    Collider_InitCylinder(play, &this->collider2);
-    Collider_SetCylinderType1(play, &this->collider2, &this->actor, &sCylinderInit2);
+    Collider_InitCylinder(play, &this->sittingCollider);
+    Collider_SetCylinderType1(play, &this->sittingCollider, &this->actor, &sSittingCylinderInit);
 }
 
 void EnRu1_DestroyColliders(EnRu1* this, PlayState* play) {
-    Collider_DestroyCylinder(play, &this->collider);
-    Collider_DestroyCylinder(play, &this->collider2);
+    Collider_DestroyCylinder(play, &this->standingCollider);
+    Collider_DestroyCylinder(play, &this->sittingCollider);
 }
 
-void func_80AEADD8(EnRu1* this) {
-    this->unk_34C = 0;
+void EnRu1_DisableSittingObjectCollider(EnRu1* this) {
+    this->isSittingOCActive = 0;
 }
 
 u8 func_80AEADE0(EnRu1* this) {
@@ -1610,7 +1610,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
             func_80AEE02C(this);
             Actor_OfferCarry(&this->actor, play);
             this->action = 27;
-            func_80AEADD8(this);
+            EnRu1_DisableSittingObjectCollider(this);
             return;
         }
 
@@ -1718,7 +1718,7 @@ s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
         func_80AEE02C(this);
         Actor_OfferCarry(&this->actor, play);
         this->action = 27;
-        func_80AEADD8(this);
+        EnRu1_DisableSittingObjectCollider(this);
         return true;
     }
     return false;
@@ -1739,7 +1739,7 @@ void func_80AEEBB4(EnRu1* this, PlayState* play) {
 
 void func_80AEEBD4(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    func_80AEAC54(this, play);
+    EnRu1_UpdateSittingObjectCollider(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
@@ -1751,7 +1751,7 @@ void func_80AEEBD4(EnRu1* this, PlayState* play) {
 
 void func_80AEEC5C(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    func_80AEACDC(this, play);
+    EnRu1_UpdateSittingAttackCollider(this, play);
     func_80AEAECC(this, play);
     func_80AEE2F8(this, play);
     func_80AEDFF4(this, play);
@@ -1887,7 +1887,7 @@ void func_80AEF1F0(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
         func_80AED6DC(this, play);
         Actor_OfferCarry(&this->actor, play);
         this->action = 27;
-        func_80AEADD8(this);
+        EnRu1_DisableSittingObjectCollider(this);
     }
 }
 
@@ -1907,7 +1907,7 @@ void func_80AEF2D0(EnRu1* this, PlayState* play) {
     func_80AEEF68(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAC10(this, play);
+    EnRu1_UpdateStandingObjectCollider(this, play);
     func_80AEAECC(this, play);
     cond = func_80AEE264(this, play);
     func_80AED624(this, play);
@@ -2220,7 +2220,7 @@ void func_80AEFECC(EnRu1* this, PlayState* play) {
     func_80AEEF68(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAC10(this, play);
+    EnRu1_UpdateStandingObjectCollider(this, play);
     func_80AEAECC(this, play);
     func_80AEFE84(this, play, func_80AEFDC0(this, play));
 }
@@ -2281,7 +2281,7 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
-    func_80AEAD20(&this->actor, play);
+    EnRu1_InitColliders(&this->actor, play);
     switch (func_80AEADF0(this)) {
         case 0:
             func_80AECDA0(this, play);
