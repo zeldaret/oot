@@ -668,7 +668,7 @@
         <DList Name="gEffBombExplosion1DL" Offset="0xBF80"/>
         <DList Name="gEffBombExplosion2DL" Offset="0xBFE8"/>
         <DList Name="gEffBombExplosion3DL" Offset="0xC040"/>
-        <Array Name="gEffBombExplosion1DL_0400C058_Vtx_fused__MULTIUSERMAGIC_Vtx" Count="4" Offset="0xC058">
+        <Array Name="gEffBombExplosionVtx" Count="4" Offset="0xC058">
             <Vtx/>
         </Array>
         <Array Name="gEffFragments1Vtx" Count="3" Offset="0xC0A0">
@@ -730,7 +730,7 @@
         <Array Name="gEffDustVtx" Count="4" Offset="0x100A8">
             <Vtx/>
         </Array>
-        <Array Name="gEffFlash1DL_040100F0_Vtx_fused__MULTIUSERMAGIC_Vtx" Count="4" Offset="0x100F0">
+        <Array Name="gEffFlashVtx" Count="4" Offset="0x100F0">
             <Vtx/>
         </Array>
         <DList Name="gEffFlash1DL" Offset="0x10130"/>
@@ -960,7 +960,7 @@
         <Texture Name="gEffUnknown11Tex" OutName="eff_unknown_11" Format="i8" Width="32" Height="32" Offset="0x32890"/>
         <Texture Name="gEffUnknown12Tex" OutName="eff_unknown_12" Format="i8" Width="32" Height="32" Offset="0x32C90"/>
         <Texture Name="gUnknownWoodBoardTex" OutName="unknown_wood_board" Format="i8" Width="32" Height="32" Offset="0x33090"/>
-        <Array Name="gEffIceFragment1DL_04033490_Vtx_fused__MULTIUSERMAGIC_Vtx" Count="41" Offset="0x33490">
+        <Array Name="gEffIceFragmentVtx" Count="41" Offset="0x33490">
             <Vtx/>
         </Array>
         <DList Name="gEffIceFragment1DL" Offset="0x33720"/>
@@ -1041,7 +1041,7 @@
         <Texture Name="gLensFlareRingTex" OutName="lens_flare_ring" Format="i4" Width="64" Height="64" Offset="0x36F30"/>
         <DList Name="gLensFlareCircleDL" Offset="0x37730"/>
         <DList Name="gLensFlareRingDL" Offset="0x37798"/>
-        <Array Name="gLensFlareCircleDL_04037800_Vtx_fused__MULTIUSERMAGIC_Vtx" Count="4" Offset="0x37800">
+        <Array Name="gLensFlareVtx" Count="4" Offset="0x37800">
             <Vtx/>
         </Array>
         <Array Name="gEffSparklesVtx" Count="4" Offset="0x37840">
@@ -1208,7 +1208,7 @@
         <Array Name="gLockOnReticleTriangleVtx" Count="3" Offset="0x4D468">
             <Vtx/>
         </Array>
-        <Array Name="gEffFire1DL_0404D4A0_Vtx_fused__MULTIUSERMAGIC_Vtx" Count="4" Offset="0x4D4A0">
+        <Array Name="gEffFireVtx" Count="4" Offset="0x4D4A0">
             <Vtx/>
         </Array>
         <DList Name="gEffFire1DL" Offset="0x4D4E0"/>
