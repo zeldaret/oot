@@ -90,6 +90,13 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
+typedef enum {
+    /* 00 */ ENRU1_WATER_OUTSIDE,
+    /* 01 */ ENRU1_WATER_IMMERSED,
+    /* 02 */ ENRU1_WATER_BOBBING,
+    /* 03 */ ENRU1_WATER_SINKING,
+} EnRu1WaterState;
+
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
         COL_MATERIAL_HIT0,
@@ -1476,9 +1483,9 @@ void func_80AEE050(EnRu1* this) {
     f32 sp24;
     EnRu1* thisx = this; // necessary to match
 
-    if (this->unk_350 == 0) {
+    if (this->waterState == ENRU1_WATER_OUTSIDE) {
         if ((this->actor.minVelocityY == 0.0f) && (this->actor.speed == 0.0f)) {
-            this->unk_350 = 1;
+            this->waterState = ENRU1_WATER_IMMERSED;
             func_80AEE02C(this);
             this->unk_35C = 0;
             this->unk_358 = (this->actor.depthInWater - 10.0f) * 0.5f;
@@ -1500,10 +1507,10 @@ void func_80AEE050(EnRu1* this) {
             Actor_UpdatePos(&this->actor);
         }
     } else {
-        if (this->unk_350 == 1) {
+        if (this->waterState == ENRU1_WATER_IMMERSED) {
             if (this->unk_358 <= 1.0f) {
                 func_80AEE02C(this);
-                this->unk_350 = 2;
+                this->waterState = ENRU1_WATER_BOBBING;
                 this->unk_360 = 0.0f;
             } else {
                 f32 temp_f10;
@@ -1518,7 +1525,7 @@ void func_80AEE050(EnRu1* this) {
         } else {
             this->unk_360 += 1.0f;
             if (this->unk_360 > 0.0f) {
-                this->unk_350 = 3;
+                this->waterState = ENRU1_WATER_SINKING;
             }
         }
     }
@@ -1616,7 +1623,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
 
         if (this->actor.depthInWater > 0.0f) {
             this->action = 29;
-            this->unk_350 = 0;
+            this->waterState = ENRU1_WATER_OUTSIDE;
         }
     }
 }
@@ -1725,7 +1732,7 @@ s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEEB24(EnRu1* this, PlayState* play) {
-    if ((func_80AEEAC8(this, play) == 0) && (this->unk_350 == 3)) {
+    if ((func_80AEEAC8(this, play) == 0) && (this->waterState == ENRU1_WATER_SINKING)) {
         this->action = 30;
         func_80AEE02C(this);
         this->actor.gravity = -0.1f;
