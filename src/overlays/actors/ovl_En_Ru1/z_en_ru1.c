@@ -645,10 +645,10 @@ void func_80AEBD94(EnRu1* this, PlayState* play) {
     f32 frameCount;
 
     if (func_80AEB480(play, 3)) {
-        frameCount = Animation_GetLastFrame(&gRutoChildAnim_009060);
+        frameCount = Animation_GetLastFrame(&gRutoChildResurfaceAnim);
         func_80AEB934(this, play);
         func_80AEB738(this, play);
-        Animation_Change(&this->skelAnime, &gRutoChildAnim_009060, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+        Animation_Change(&this->skelAnime, &gRutoChildResurfaceAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
         this->action = 2;
         this->drawConfig = 1;
     }
