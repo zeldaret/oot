@@ -863,7 +863,7 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
 
 #if DEBUG_FEATURES
     if (fileSelect->buttonIndex == 0) {
-        gSaveContext.save.cutsceneIndex = CS_INDEX_NIGHT;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
     }
 #endif
 

@@ -414,7 +414,8 @@ typedef enum LinkAge {
 // and "day" are leftover from the original meaning of the cutscene
 // index (called "day_time"), and only map select uses these values
 // to indicate time of day (to set gSaveContext.save.nightFlag).
-#define CS_INDEX_NIGHT 0x0000
+#define CS_INDEX_NONE 0x0000
+#define CS_INDEX_NIGHT CS_INDEX_NONE
 #define CS_INDEX_DAY 0x8000
 
 // Values 0xFFF0-0xFFFF indicate that a cutscene script should be played.
