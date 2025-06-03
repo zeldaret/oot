@@ -53,7 +53,7 @@ typedef struct EnRu1 {
     /* 0x035C */ s16 unk_35C;
     /* 0x0360 */ f32 unk_360;
     /* 0x0364 */ Vec3f unk_364;
-    /* 0x0370 */ f32 carryTimer;
+    /* 0x0370 */ f32 carryIdleTimer;
     /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
 
