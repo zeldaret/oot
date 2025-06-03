@@ -1603,7 +1603,8 @@ void func_80B52114(EnZl2* this, PlayState* play) {
             break;
 #endif
         default:
-            PRINTF(VT_FGCOL(RED) " En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(RED) T(" En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                                   " En_Oa2 arg_data is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
             func_80B4FD90(this, play);
     }
 }
@@ -1616,7 +1617,8 @@ void func_80B521A0(EnZl2* this, PlayState* play) {
 
 #if DEBUG_FEATURES
     if (objectSlot < 0) {
-        PRINTF(VT_FGCOL(RED) "En_Zl2_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("En_Zl2_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n",
+                               "En_Zl2_main_bank Can't read animation bank!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 #endif
@@ -1665,7 +1667,8 @@ s32 EnZl2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if (this->overrideLimbDrawConfig < 0 || this->overrideLimbDrawConfig > 0 ||
         sOverrideLimbDrawFuncs[this->overrideLimbDrawConfig] == NULL) {
-        PRINTF(VT_FGCOL(RED) "描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The pre-drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return 0;
     }
     return sOverrideLimbDrawFuncs[this->overrideLimbDrawConfig](play, limbIndex, dList, pos, rot, thisx, gfx);
