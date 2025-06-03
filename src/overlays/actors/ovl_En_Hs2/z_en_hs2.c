@@ -11,6 +11,7 @@
 #include "printf.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
 #include "face_reaction.h"
 #include "play_state.h"
@@ -69,7 +70,7 @@ void EnHs2_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
-    PRINTF(VT_FGCOL(CYAN) " ヒヨコの店(子人の時) \n" VT_RST);
+    PRINTF(VT_FGCOL(CYAN) T(" ヒヨコの店(子人の時) \n", " Chick's Shop (Children's Time) \n") VT_RST);
     this->actionFunc = func_80A6F1A4;
     this->unk_2A8 = 0;
     this->actor.attentionRangeType = ATTENTION_RANGE_6;

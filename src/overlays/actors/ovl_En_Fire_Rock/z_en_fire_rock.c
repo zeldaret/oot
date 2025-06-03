@@ -270,7 +270,7 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play) {
                 }
                 spawnedFireRock->scale = this->scale - 0.01f;
             } else {
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n", "☆☆☆☆☆ It's full ☆☆☆☆☆ \n") VT_RST);
             }
         }
         Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
@@ -291,7 +291,7 @@ void FireRock_WaitSpawnRocksFromCeiling(EnFireRock* this, PlayState* play) {
             if (spawnedFireRock != NULL) {
                 spawnedFireRock->timer = 10;
             } else {
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n", "☆☆☆☆☆ It's full ☆☆☆☆☆ \n") VT_RST);
             }
         }
         this->playerNearby = 1;

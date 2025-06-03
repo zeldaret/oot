@@ -113,8 +113,8 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
 
         } else {
             PRINTF("\n\n");
-            // "No, I'm completely disappointed" (message for when shooting guard window in courtyard)
-            PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA)
+                       T(" ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n", " ☆☆☆☆☆ Oh, no, I was just careless. ☆☆☆☆☆ \n") VT_RST);
 
             Actor_SetScale(&this->actor, 0.02f);
 
