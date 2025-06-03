@@ -1,4 +1,3 @@
-#include "libu64/debug.h"
 #include "rand.h"
 #include "translation.h"
 #include "z64play.h"

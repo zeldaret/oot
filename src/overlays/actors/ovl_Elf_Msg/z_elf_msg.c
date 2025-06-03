@@ -6,7 +6,6 @@
 
 #include "z_elf_msg.h"
 
-#include "libu64/debug.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"

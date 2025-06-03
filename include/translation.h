@@ -1,6 +1,8 @@
 #ifndef TRANSLATION_H
 #define TRANSLATION_H
 
+#include "libu64/debug.h"
+
 /**
  * The "T" macro holds translations in English for original debug strings written in Japanese.
  * The translated strings are only direct translations. Certain names or terms may not reflect
@@ -13,7 +15,6 @@
  */
 #define T(jp, en) jp
 
-// Note: need to also include debug.h if using this macro
 #define LOG_STRING_T(stringJP, stringEN, file, line) LOG(#stringJP, stringJP, "%s", file, line)
 
 #endif

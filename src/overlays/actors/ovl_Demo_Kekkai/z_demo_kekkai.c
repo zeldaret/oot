@@ -6,7 +6,6 @@
 
 #include "z_demo_kekkai.h"
 
-#include "libu64/debug.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"
