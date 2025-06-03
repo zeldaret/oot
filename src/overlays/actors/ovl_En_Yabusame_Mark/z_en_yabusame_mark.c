@@ -91,6 +91,7 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     EnYabusameMark* this = (EnYabusameMark*)thisx;
 
     PRINTF("\n\n");
+    // "まと" could be a typo for "まこ", in which case this could be "Yabusame mark"
     PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Yabusame mato ☆☆☆☆☆ %x\n") VT_RST,
            this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
