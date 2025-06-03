@@ -6,6 +6,7 @@
 
 #include "z_en_ge2.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -131,7 +132,8 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     s16 params = this->actor.params;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoPurpleSkel, NULL, this->jointTable, this->morphTable, 22);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoPurpleSkel, NULL, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     Animation_PlayLoop(&this->skelAnime, &gGerudoPurpleWalkingAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

@@ -6,6 +6,7 @@
 
 #include "z_en_wallmas.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -133,7 +134,7 @@ void EnWallmas_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0, NULL, 0.5f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gWallmasterSkel, &gWallmasterWaitAnim, this->jointTable,
-                       this->morphTable, 25);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);

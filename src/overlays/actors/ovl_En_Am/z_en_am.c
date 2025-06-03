@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -226,7 +227,8 @@ void EnAm_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 48.0f);
-    SkelAnime_Init(play, &this->skelAnime, &gArmosSkel, &gArmosRicochetAnim, this->jointTable, this->morphTable, 14);
+    SkelAnime_Init(play, &this->skelAnime, &gArmosSkel, &gArmosRicochetAnim, this->jointTable, this->morphTable,
+                   ARRAY_COUNT(this->jointTable));
     Actor_SetScale(&this->dyna.actor, 0.01f);
     DynaPolyActor_Init(&this->dyna, 0);
     Collider_InitCylinder(play, &this->hurtCollider);

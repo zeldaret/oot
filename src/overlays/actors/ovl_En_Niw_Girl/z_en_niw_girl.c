@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -72,7 +73,8 @@ void EnNiwGirl_Init(Actor* thisx, PlayState* play) {
     Vec3f vec2;
     s32 pad2;
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &gNiwGirlSkel, &gNiwGirlRunAnim, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gNiwGirlSkel, &gNiwGirlRunAnim, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.attentionRangeType = ATTENTION_RANGE_6;

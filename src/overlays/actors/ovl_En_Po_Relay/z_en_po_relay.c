@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -109,7 +110,8 @@ void EnPoRelay_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 42.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gDampeSkel, &gDampeFloatAnim, this->jointTable, this->morphTable, 18);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gDampeSkel, &gDampeFloatAnim, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);

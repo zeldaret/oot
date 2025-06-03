@@ -7,6 +7,7 @@
 #include "z_en_mb.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -293,7 +294,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
     switch (this->actor.params) {
         case ENMB_TYPE_SPEAR_GUARD:
             SkelAnime_InitFlex(play, &this->skelAnime, &gEnMbSpearSkel, &gEnMbSpearStandStillAnim, this->jointTable,
-                               this->morphTable, 28);
+                               this->morphTable, ARRAY_COUNT(this->jointTable));
             this->actor.colChkInfo.health = 2;
             this->actor.colChkInfo.mass = MASS_HEAVY;
             this->maxHomeDist = 1000.0f;
@@ -302,7 +303,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
             break;
         case ENMB_TYPE_CLUB:
             SkelAnime_InitFlex(play, &this->skelAnime, &gEnMbClubSkel, &gEnMbClubStandStillClubDownAnim,
-                               this->jointTable, this->morphTable, 28);
+                               this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
 
             this->actor.colChkInfo.health = 6;
             this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -331,7 +332,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
             break;
         default: /* Spear Patrol */
             SkelAnime_InitFlex(play, &this->skelAnime, &gEnMbSpearSkel, &gEnMbSpearStandStillAnim, this->jointTable,
-                               this->morphTable, 28);
+                               this->morphTable, ARRAY_COUNT(this->jointTable));
 
             Actor_SetScale(&this->actor, 0.014f);
             this->path = PARAMS_GET_S(thisx->params, 8, 8);

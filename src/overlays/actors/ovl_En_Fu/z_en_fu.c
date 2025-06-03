@@ -6,6 +6,7 @@
 
 #include "z_en_fu.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
@@ -92,7 +93,7 @@ void EnFu_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelanime, &gWindmillManSkel, &gWindmillManPlayStillAnim, this->jointTable,
-                       this->morphTable, FU_LIMB_MAX);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
     Animation_PlayLoop(&this->skelanime, &gWindmillManPlayStillAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

@@ -7,6 +7,7 @@
 #include "z_en_bb.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -331,7 +332,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     SkelAnime_Init(play, &this->skelAnime, &object_Bb_Skel_001A30, &object_Bb_Anim_000444, this->jointTable,
-                   this->morphTable, 16);
+                   this->morphTable, ARRAY_COUNT(this->jointTable));
     this->unk_254 = 0;
     thisx->colChkInfo.health = 4;
     Collider_InitJntSph(play, &this->collider);

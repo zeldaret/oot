@@ -7,6 +7,7 @@
 #include "z_en_vali.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -156,7 +157,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
     SkelAnime_Init(play, &this->skelAnime, &gBariSkel, &gBariLurkingAnim, this->jointTable, this->morphTable,
-                   EN_VALI_LIMB_MAX);
+                   ARRAY_COUNT(this->jointTable));
 
     Collider_InitQuad(play, &this->leftArmCollider);
     Collider_SetQuad(play, &this->leftArmCollider, &this->actor, &sQuadInit);

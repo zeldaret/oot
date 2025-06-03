@@ -343,12 +343,12 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
         thisx->colChkInfo.health = 12;
         thisx->naviEnemyId = NAVI_ENEMY_DINOLFOS;
         SkelAnime_Init(play, &this->skelAnime, &gZfDinolfosSkel, &gZfCryingAnim, this->jointTable, this->morphTable,
-                       ENZF_LIMB_MAX);
+                       ARRAY_COUNT(this->jointTable));
     } else { // Lizalfos
         thisx->colChkInfo.health = 6;
         thisx->naviEnemyId = NAVI_ENEMY_LIZALFOS;
         SkelAnime_Init(play, &this->skelAnime, &gZfLizalfosSkel, &gZfCryingAnim, this->jointTable, this->morphTable,
-                       ENZF_LIMB_MAX);
+                       ARRAY_COUNT(this->jointTable));
     }
 
     if (thisx->params < ENZF_TYPE_LIZALFOS_MINIBOSS_A) { // Not minibosses

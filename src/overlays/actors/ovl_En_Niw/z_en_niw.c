@@ -177,7 +177,8 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
 
     if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
         for (i = 0; i < ARRAY_COUNT(sKakarikoPosList); i++) {

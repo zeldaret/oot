@@ -177,7 +177,7 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gPoeSellerCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     SkelAnime_InitFlex(play, &this->skelAnime, &gPoeSellerSkel, &gPoeSellerIdleAnim, this->jointTable, this->morphTable,
-                       12);
+                       ARRAY_COUNT(this->jointTable));
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinderType1(play, &this->collider, &this->dyna.actor, &sCylinderInit);
 

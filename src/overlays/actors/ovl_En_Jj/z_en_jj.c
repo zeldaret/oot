@@ -7,6 +7,7 @@
 #include "z_en_jj.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -100,7 +101,7 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
     switch (this->dyna.actor.params) {
         case JABUJABU_MAIN:
             SkelAnime_InitFlex(play, &this->skelAnime, &gJabuJabuSkel, &gJabuJabuAnim, this->jointTable,
-                               this->morphTable, 22);
+                               this->morphTable, ARRAY_COUNT(this->jointTable));
             Animation_PlayLoop(&this->skelAnime, &gJabuJabuAnim);
             this->unk_30A = 0;
             this->eyeIndex = 0;

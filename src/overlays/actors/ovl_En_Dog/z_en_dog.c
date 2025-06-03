@@ -6,6 +6,7 @@
 
 #include "z_en_dog.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
@@ -253,7 +254,8 @@ void EnDog_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gDogSkel, NULL, this->jointTable, this->morphTable, 13);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gDogSkel, NULL, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_0);
 
     if (!PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {

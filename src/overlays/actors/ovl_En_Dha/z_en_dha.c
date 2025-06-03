@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -171,7 +172,7 @@ void EnDha_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     SkelAnime_InitFlex(play, &this->skelAnime, &object_dh_Skel_000BD8, &object_dh_Anim_0015B0, this->jointTable,
-                       this->morphTable, 4);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFeet, 90.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 50.0f;

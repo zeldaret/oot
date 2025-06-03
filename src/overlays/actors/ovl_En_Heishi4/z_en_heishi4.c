@@ -1,5 +1,6 @@
 #include "z_en_heishi4.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -76,12 +77,12 @@ void EnHeishi4_Init(Actor* thisx, PlayState* play) {
         this->height = 30.0f;
         ActorShape_Init(&thisx->shape, 0.0f, NULL, 30.0f);
         SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiDyingGuardAnim_00C444, this->jointTable,
-                       this->morphTable, 17);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
     } else {
         this->height = 60.0f;
         ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
         SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable,
-                       17);
+                       ARRAY_COUNT(this->jointTable));
     }
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);

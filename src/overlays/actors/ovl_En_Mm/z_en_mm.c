@@ -7,6 +7,7 @@
 #include "z_en_mm.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -176,7 +177,8 @@ void EnMm_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 21.0f);
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &gRunningManSkel, NULL, this->jointTable, this->morphTable, 16);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gRunningManSkel, NULL, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

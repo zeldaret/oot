@@ -1,6 +1,7 @@
 #include "z_en_niw_lady.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -174,7 +175,8 @@ void func_80AB9F24(EnNiwLady* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->aneObjectSlot) &&
         Object_IsLoaded(&play->objectCtx, this->osAnimeObjectSlot)) {
         gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->aneObjectSlot].segment);
-        SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoLadySkel, NULL, this->jointTable, this->morphTable, 16);
+        SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoLadySkel, NULL, this->jointTable, this->morphTable,
+                           ARRAY_COUNT(this->jointTable));
         gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;

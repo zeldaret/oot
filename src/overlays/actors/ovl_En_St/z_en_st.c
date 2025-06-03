@@ -802,7 +802,8 @@ void EnSt_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 14.0f);
-    SkelAnime_Init(play, &this->skelAnime, &object_st_Skel_005298, NULL, this->jointTable, this->morphTable, 30);
+    SkelAnime_Init(play, &this->skelAnime, &object_st_Skel_005298, NULL, this->jointTable, this->morphTable,
+                   ARRAY_COUNT(this->jointTable));
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_0);
     this->blureIdx = EnSt_CreateBlureEffect(play);
     EnSt_InitColliders(this, play);

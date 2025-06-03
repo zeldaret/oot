@@ -9,6 +9,7 @@
 
 #include "libc64/qrand.h"
 #include "libu64/debug.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -341,7 +342,8 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
     s32 i;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    SkelAnime_Init(play, &this->skelAnime, &gFairySkel, &gFairyAnim, this->jointTable, this->morphTable, 15);
+    SkelAnime_Init(play, &this->skelAnime, &gFairySkel, &gFairyAnim, this->jointTable, this->morphTable,
+                   ARRAY_COUNT(this->jointTable));
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 15.0f);
     thisx->shape.shadowAlpha = 0xFF;
 

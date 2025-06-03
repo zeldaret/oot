@@ -7,6 +7,7 @@
 #include "z_en_test.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -275,9 +276,9 @@ void EnTest_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     SkelAnime_Init(play, &this->skelAnime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->jointTable, this->morphTable,
-                   STALFOS_LIMB_MAX);
+                   ARRAY_COUNT(this->jointTable));
     SkelAnime_Init(play, &this->upperSkelanime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->upperJointTable,
-                   this->upperMorphTable, STALFOS_LIMB_MAX);
+                   this->upperMorphTable, ARRAY_COUNT(this->upperJointTable));
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
 

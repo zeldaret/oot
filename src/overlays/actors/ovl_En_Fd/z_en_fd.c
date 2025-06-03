@@ -8,6 +8,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
@@ -471,7 +472,8 @@ void EnFd_Fade(EnFd* this, PlayState* play) {
 void EnFd_Init(Actor* thisx, PlayState* play) {
     EnFd* this = (EnFd*)thisx;
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &gFlareDancerSkel, NULL, this->jointTable, this->morphTable, 27);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gFlareDancerSkel, NULL, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 32.0f);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
