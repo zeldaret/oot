@@ -1953,7 +1953,7 @@ void EnRu1_PlayAbductedSfx(EnRu1* this, PlayState* play) {
     SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.projectedPos, 20, NA_SE_VO_RT_FALL);
 }
 
-/** 
+/**
  * Ruto laughs while picking up the Spiritual Stone.
  */
 void EnRu1_PlayLaughingSfx(EnRu1* this) {
