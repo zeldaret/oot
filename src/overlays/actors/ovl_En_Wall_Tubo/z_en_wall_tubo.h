@@ -2,7 +2,7 @@
 #define Z_EN_WALL_TUBO_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 
 struct EnWallTubo;

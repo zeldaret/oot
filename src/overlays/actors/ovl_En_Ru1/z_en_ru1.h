@@ -2,7 +2,7 @@
 #define Z_EN_RU1_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #include "overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
@@ -33,7 +33,7 @@ typedef struct EnRu1 {
     /* 0x0285 */ s8 roomNum2;
     /* 0x0286 */ s8 roomNum3;
     /* 0x0288 */ f32 unk_288;
-    /* 0x028C */ BgBdanObjects* unk_28C;
+    /* 0x028C */ BgBdanObjects* bigOctoPlatform;
     /* 0x0290 */ s32 unk_290;
     /* 0x0294 */ char unk_294[0x4];
     /* 0x0298 */ s32 unk_298;

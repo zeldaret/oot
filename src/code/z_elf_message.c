@@ -1,10 +1,10 @@
-#include "libu64/debug.h"
 #include "rand.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64quest_hint.h"
-#include "z64quest_hint_commands.h"
-#include "z64save.h"
+#include "translation.h"
+#include "play_state.h"
+#include "player.h"
+#include "quest_hint.h"
+#include "quest_hint_commands.h"
+#include "save.h"
 
 QuestHintCmd sChildSariaQuestHints[] = {
     QUEST_HINT_STRENGTH_UPG(SKIP, 0, false, 3),
@@ -73,7 +73,7 @@ u32 QuestHint_CheckCondition(QuestHintCmd* hintCmd) {
             }
     }
 
-    LOG_STRING("企画外 条件", "../z_elf_message.c", 156); // "Unplanned conditions"
+    LOG_STRING_T("企画外 条件", "Unplanned conditions", "../z_elf_message.c", 156);
     ASSERT(0, "0", "../z_elf_message.c", 157);
 
     return false;
@@ -170,7 +170,7 @@ u16 QuestHint_GetTextIdFromScript(QuestHintCmd* hintCmd) {
                 return hintCmd->byte2 | 0x100;
 
             default:
-                LOG_STRING("企画外 条件", "../z_elf_message.c", 281); // "Unplanned conditions"
+                LOG_STRING_T("企画外 条件", "Unplanned conditions", "../z_elf_message.c", 281);
                 ASSERT(0, "0", "../z_elf_message.c", 282);
         }
 

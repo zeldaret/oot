@@ -58,7 +58,7 @@ class CollisionVtxListResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64math.h",)
+        return ("z_math.h",)
 
 
 class CollisionPolyListResource(CDataResource):
@@ -177,7 +177,7 @@ class CollisionPolyListResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64bgcheck.h",)
+        return ("bgcheck.h",)
 
 
 class CollisionSurfaceTypeListResource(CDataResource):
@@ -305,7 +305,7 @@ class CollisionSurfaceTypeListResource(CDataResource):
         return ("stdbool.h",)
 
     def get_h_includes(self):
-        return ("z64bgcheck.h",)
+        return ("bgcheck.h",)
 
 
 class BgCamFuncDataResource(CDataResource):
@@ -332,7 +332,7 @@ class BgCamFuncDataResource(CDataResource):
         return f"&{self.symbol_name}[{index}]"
 
     def get_h_includes(self):
-        return ("z64math.h",)
+        return ("z_math.h",)
 
 
 class CollisionBgCamListResource(CDataResource):
@@ -429,10 +429,10 @@ class CollisionBgCamListResource(CDataResource):
             raise ValueError()
 
     def get_c_includes(self):
-        return ("z64camera.h",)
+        return ("camera.h",)
 
     def get_h_includes(self):
-        return ("z64bgcheck.h",)
+        return ("bgcheck.h",)
 
 
 class CollisionWaterBoxesResource(CDataResource):
@@ -479,7 +479,7 @@ class CollisionWaterBoxesResource(CDataResource):
         return ("stdbool.h",)
 
     def get_h_includes(self):
-        return ("z64bgcheck.h",)
+        return ("bgcheck.h",)
 
 
 def transfer_HACK_IS_STATIC_ON(source, dest):
@@ -829,4 +829,4 @@ class CollisionResource(CDataResource):
         return ("array_count.h",)
 
     def get_h_includes(self):
-        return ("z64bgcheck.h",)
+        return ("bgcheck.h",)

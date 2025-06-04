@@ -2,7 +2,7 @@
 #define Z_BG_GANON_OTYUKA_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #define OTYUKA_SIDE_EAST (1 << 0)
 #define OTYUKA_SIDE_WEST (1 << 1)
