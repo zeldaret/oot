@@ -361,7 +361,7 @@ typedef struct DynaLineTest {
     /* 0x28 */ f32 chkDist;    // distance from poly
 } DynaLineTest;
 
-void func_80038A28(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest);
+void CollisionPoly_GetGroundMtxF(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest);
 f32 CollisionPoly_GetPointDistanceFromPlane(CollisionPoly* poly, Vec3f* point);
 void CollisionPoly_GetVerticesByBgId(CollisionPoly* poly, s32 bgId, CollisionContext* colCtx, Vec3f* dest);
 void BgCheck_Allocate(CollisionContext* colCtx, struct PlayState* play, CollisionHeader* colHeader);
