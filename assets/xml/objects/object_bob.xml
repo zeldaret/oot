@@ -32,6 +32,53 @@
         <Texture Name="gHylianWoman2CollarTex" OutName="collar" Format="ci8" Width="8" Height="8" Offset="0x21C8" TlutOffset="0x108"/>
         <Texture Name="gHylianWoman2DressTex" OutName="dress" Format="ci8" Width="16" Height="16" Offset="0x2208" TlutOffset="0x108"/>
 
+        <!-- Vertices -->
+        <Array Name="gHylianWoman2HeadVtx" Count="125" Offset="0x2308">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2LeftHandVtx" Count="40" Offset="0x2AD8">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2LeftForearmVtx" Count="21" Offset="0x2D58">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2LeftUpperArmVtx" Count="23" Offset="0x2EA8">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2RightHandVtx" Count="40" Offset="0x3018">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2RightForearmVtx" Count="21" Offset="0x3298">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2RightUpperArmVtx" Count="23" Offset="0x33E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2TorsoVtx" Count="66" Offset="0x3558">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2LeftFootVtx" Count="3" Offset="0x3978">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2LeftShinVtx" Count="3" Offset="0x39A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2LeftThighVtx" Count="3" Offset="0x39D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2RightFootVtx" Count="3" Offset="0x3A08">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2RightShinVtx" Count="3" Offset="0x3A38">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2RightThighVtx" Count="3" Offset="0x3A68">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman2PelvisVtx" Count="14" Offset="0x3A98">
+            <Vtx/>
+        </Array>
+
         <!-- DLs -->
         <DList Name="gHylianWoman2HeadDL" Offset="0x3B78"/>
         <DList Name="gHylianWoman2RightHandDL" Offset="0x3F68"/>

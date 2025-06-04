@@ -3,11 +3,26 @@
         <!-- Torch Slug Animation -->
         <Animation Name="gTorchSlugEyestalkWaveAnim" Offset="0x228"/> <!-- Original name is "bw_aruku" ("to walk"). Used for when the Torch Slug moves around. -->
 
-        <!-- Torch Slug Limb DisplayLists -->
+        <!-- Torch Slug Limb Vertices and DisplayLists -->
+        <Array Name="gTorchSlugLeftLowerEyestalkVtx" Count="8" Offset="0x240">
+            <Vtx/>
+        </Array>
         <DList Name="gTorchSlugLeftLowerEyestalkDL" Offset="0x2C0"/>
+        <Array Name="gTorchSlugLeftUpperEyestalkVtx" Count="9" Offset="0x358">
+            <Vtx/>
+        </Array>
         <DList Name="gTorchSlugLeftUpperEyestalkDL" Offset="0x3E8"/>
+        <Array Name="gTorchSlugRightLowerEyestalkVtx" Count="8" Offset="0x4D8">
+            <Vtx/>
+        </Array>
         <DList Name="gTorchSlugRightLowerEyestalkDL" Offset="0x558"/>
+        <Array Name="gTorchSlugRightUpperEyestalkVtx" Count="9" Offset="0x5F0">
+            <Vtx/>
+        </Array>
         <DList Name="gTorchSlugRightUpperEyestalkDL" Offset="0x680"/>
+        <Array Name="gTorchSlugBodyVtx" Count="142" Offset="0x770">
+            <Vtx/>
+        </Array>
         <DList Name="gTorchSlugBodyDL" Offset="0x1050"/>
 
         <!-- Torch Slug Textures -->

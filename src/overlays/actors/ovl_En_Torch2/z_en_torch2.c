@@ -612,7 +612,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             this->stateFlags3 &= ~PLAYER_STATE3_2;
         } else {
             func_800F5ACC(NA_BGM_MINI_BOSS);
-            if (this->actor.colChkInfo.damageEffect == 1) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 if (sAlpha == 255) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
                 } else {

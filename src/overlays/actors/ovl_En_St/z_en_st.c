@@ -461,7 +461,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     }
 
     this->invulnerableTimer = 8;
-    if (this->actor.colChkInfo.damageEffect == 1) {
+    if (this->actor.colChkInfo.damageReaction == 1) {
         if (this->stunTimer == 0) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;

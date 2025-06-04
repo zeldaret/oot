@@ -696,7 +696,7 @@ void EnTite_SetupStunned(EnTite* this) {
     this->action = TEKTITE_STUNNED;
     this->actor.speed = -6.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    if (this->damageEffect == 0xF) {
+    if (this->damageReaction == 0xF) {
         this->spawnIceTimer = 48;
     }
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -867,11 +867,11 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
 
     if ((this->collider.base.acFlags & AC_HIT) && (this->action >= TEKTITE_IDLE)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (thisx->colChkInfo.damageEffect != 0xE) { // Immune to fire magic
-            this->damageEffect = thisx->colChkInfo.damageEffect;
+        if (thisx->colChkInfo.damageReaction != 0xE) { // Immune to fire magic
+            this->damageReaction = thisx->colChkInfo.damageReaction;
             Actor_SetDropFlag(thisx, &this->collider.elements[0].base, false);
             // Stun if Tektite hit by nut, boomerang, hookshot, ice arrow or ice magic
-            if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)) {
+            if ((thisx->colChkInfo.damageReaction == 1) || (thisx->colChkInfo.damageReaction == 0xF)) {
                 if (this->action != TEKTITE_STUNNED) {
                     Actor_SetColorFilter(thisx, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(thisx);
@@ -917,7 +917,7 @@ void EnTite_Update(Actor* thisx, PlayState* play) {
 
     EnTite_CheckDamage(thisx, play);
     // Stay still if hit by immunity damage type this frame
-    if (thisx->colChkInfo.damageEffect != 0xE) {
+    if (thisx->colChkInfo.damageReaction != 0xE) {
         this->actionFunc(this, play);
         Actor_MoveXZGravity(thisx);
         Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 40.0f, 20.0f, this->unk_2DC);

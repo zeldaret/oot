@@ -425,7 +425,7 @@ void func_80AEB3CC(EnRu1* this) {
     this->skelAnime.movementFlags &= ~ANIM_FLAG_UPDATE_XZ;
 }
 
-void func_80AEB3DC(EnRu1* this, PlayState* play) {
+void EnRu1_InitOutsideJabuJabu(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWaitHandsBehindBackAnim, 0, 0, 0);
     this->action = 0;
     this->drawConfig = 1;
@@ -782,7 +782,7 @@ void func_80AEC2C0(EnRu1* this, PlayState* play) {
     func_80AEC070(this, play, something);
 }
 
-void func_80AEC320(EnRu1* this, PlayState* play) {
+void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
     if (!GET_INFTABLE(INFTABLE_141)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 7;
@@ -1027,7 +1027,7 @@ void func_80AECCB0(EnRu1* this, PlayState* play) {
                                                     spawnY, spawnZ, 0, yawTowardsPlayer, 0, WARP_BLUE_RUTO);
 }
 
-void func_80AECDA0(EnRu1* this, PlayState* play) {
+void EnRu1_InitInBossRoom(EnRu1* this, PlayState* play) {
     func_80AEB264(this, &gRutoChildWaitHandsOnHipsAnim, 0, 0, 0);
     this->action = 15;
     this->actor.shape.yOffset = -10000.0f;
@@ -1193,7 +1193,7 @@ void func_80AED414(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
 }
 
-void func_80AED44C(EnRu1* this, PlayState* play) {
+void EnRu1_InitInJabuJabuBasement(EnRu1* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_141) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
         !GET_INFTABLE(INFTABLE_147)) {
         if (!func_80AEB020(this, play)) {
@@ -2149,7 +2149,7 @@ void func_80AEFC24(EnRu1* this, PlayState* play) {
     func_80AEF99C(this, play);
 }
 
-void func_80AEFC54(EnRu1* this, PlayState* play) {
+void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_146)) {
         s32 pad;
 
@@ -2172,7 +2172,7 @@ void func_80AEFCE8(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEFD38(EnRu1* this, PlayState* play) {
+void EnRu1_InitBesideKingZora(EnRu1* this, PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_37) && LINK_IS_CHILD) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
@@ -2233,7 +2233,10 @@ void func_80AEFF40(EnRu1* this, PlayState* play) {
     func_80AEFE9C(this, play);
 }
 
-void func_80AEFF94(EnRu1* this, PlayState* play) {
+/**
+ * Places Ruto beside the door switch outside the room with the map.
+ */
+void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
     if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
@@ -2284,25 +2287,25 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
     func_80AEAD20(&this->actor, play);
     switch (func_80AEADF0(this)) {
         case 0:
-            func_80AECDA0(this, play);
+            EnRu1_InitInBossRoom(this, play);
             break;
         case 1:
-            func_80AEB3DC(this, play);
+            EnRu1_InitOutsideJabuJabu(this, play);
             break;
         case 2:
-            func_80AEC320(this, play);
+            EnRu1_InitInJabuJabuHolesRoom(this, play);
             break;
         case 3:
-            func_80AED44C(this, play);
+            EnRu1_InitInJabuJabuBasement(this, play);
             break;
         case 4:
-            func_80AEFC54(this, play);
+            EnRu1_InitInSapphireRoom(this, play);
             break;
         case 5:
-            func_80AEFD38(this, play);
+            EnRu1_InitBesideKingZora(this, play);
             break;
         case 6:
-            func_80AEFF94(this, play);
+            EnRu1_InitBesideDoorSwitch(this, play);
             break;
 #if DEBUG_FEATURES
         case 10:

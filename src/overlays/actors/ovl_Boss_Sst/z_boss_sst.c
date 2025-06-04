@@ -2552,7 +2552,7 @@ void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
         s32 bothHands = true;
 
         this->colliderJntSph.base.acFlags &= ~AC_HIT;
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
             this->colliderJntSph.base.acFlags &= ~AC_ON;
             this->colliderJntSph.base.ocFlags1 &= ~OC1_NO_PUSH;
@@ -2563,7 +2563,7 @@ void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
             }
 
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-            if (this->actor.colChkInfo.damageEffect == 3) {
+            if (this->actor.colChkInfo.damageReaction == 3) {
                 BossSst_HandSetupFrozen(this);
             } else {
                 BossSst_HandSetupReel(this);
@@ -2583,7 +2583,7 @@ void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
 void BossSst_HeadCollisionCheck(BossSst* this, PlayState* play) {
     if (this->colliderCylinder.base.acFlags & AC_HIT) {
         this->colliderCylinder.base.acFlags &= ~AC_HIT;
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actionFunc == BossSst_HeadVulnerable) {
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     Enemy_StartFinishingBlow(play, &this->actor);
