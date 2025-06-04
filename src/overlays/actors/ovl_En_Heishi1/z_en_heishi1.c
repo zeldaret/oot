@@ -100,7 +100,8 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play2) {
 
     PRINTF(VT_FGCOL(GREEN) T(" 種類☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n", " type                   ☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n") VT_RST,
            this->type);
-    PRINTF(VT_FGCOL(YELLOW) " れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n" VT_RST, this->path);
+    PRINTF(VT_FGCOL(YELLOW) T(" れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n", " rail data                      ☆☆☆☆☆☆☆☆ %d\n") VT_RST,
+           this->path);
     PRINTF(VT_FGCOL(MAGENTA) " anime_frame_speed ☆☆☆☆☆☆ %f\n" VT_RST, this->animSpeed);
     PRINTF(VT_FGCOL(MAGENTA) T(" 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n", " interpolation frame          ☆☆☆☆☆☆☆☆☆ %f\n") VT_RST,
            this->animMorphFrames);

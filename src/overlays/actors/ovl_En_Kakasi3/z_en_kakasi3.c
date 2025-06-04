@@ -85,8 +85,7 @@ void EnKakasi3_Init(Actor* thisx, PlayState* play) {
     EnKakasi3* this = (EnKakasi3*)thisx;
 
     PRINTF("\n\n");
-    // "Obonur" -- Related to the name of the scarecrow (Bonooru)
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n", "☆☆☆☆☆ Bonooru ☆☆☆☆☆ \n") VT_RST);
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
 
     Collider_InitCylinder(play, &this->collider);
