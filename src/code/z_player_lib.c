@@ -894,9 +894,9 @@ int Player_HoldsBrokenKnife(Player* this) {
 }
 
 s32 Player_ActionToBottle(Player* this, s32 itemAction) {
-    s32 bottle = itemAction - PLAYER_IA_BOTTLE;
+    s32 bottle = ACTION_TO_BOTTLE(itemAction);
 
-    if ((bottle >= 0) && (bottle < 13)) {
+    if ((bottle >= ACTION_TO_BOTTLE(PLAYER_IA_BOTTLE)) && (bottle <= ACTION_TO_BOTTLE(PLAYER_IA_BOTTLE_FAIRY))) {
         return bottle;
     } else {
         return -1;
