@@ -3902,7 +3902,7 @@ void Actor_SetTextWithPrefix(PlayState* play, Actor* actor, s16 baseTextId) {
         case SCENE_KOKIRI_FOREST:
         case SCENE_SACRED_FOREST_MEADOW:
         case SCENE_LOST_WOODS:
-        case 112:
+        case SCENE_UNUSED_70:
             prefix = 0x1000;
             break;
         case SCENE_STABLE:
