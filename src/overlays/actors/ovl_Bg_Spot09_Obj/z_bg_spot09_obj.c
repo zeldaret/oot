@@ -153,8 +153,8 @@ void BgSpot09Obj_Init(Actor* thisx, PlayState* play) {
            this->dyna.actor.params, GET_EVENTCHKINF_CARPENTERS_RESCUED_FLAGS());
     this->dyna.actor.params &= 0xFF;
     if ((this->dyna.actor.params < 0) || (this->dyna.actor.params >= 5)) {
-        PRINTF(T("Error : Spot 09 object の arg_data が判別出来ない",
-                 "Error : Spot 09 object arg_data cannot be determined") "(%s %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
+                 "Error : Spot 09 object arg_data cannot be determined (%s %d)(arg_data 0x%04x)\n"),
                "../z_bg_spot09_obj.c", 322, this->dyna.actor.params);
     }
 

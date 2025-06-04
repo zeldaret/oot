@@ -410,7 +410,8 @@ void func_808B56BC(BgSpot16Bombstone* this, PlayState* play) {
                 player->actor.world.pos.x += sinValue * this->sinRotation;
                 player->actor.world.pos.z += sinValue * this->cosRotation;
             } else {
-                PRINTF(T("Error 補正出来ない", "Error Can't correct") "(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n",
+                PRINTF(T("Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n",
+                         "Error Can't correct (%s %d)(arg_data 0x%04x)(hosei_angY %x)\n"),
                        "../z_bg_spot16_bombstone.c", 935, this->actor.params, adjustedYawDiff);
             }
         }

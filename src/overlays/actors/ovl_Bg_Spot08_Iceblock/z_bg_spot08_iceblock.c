@@ -77,9 +77,9 @@ void BgSpot08Iceblock_CheckParams(BgSpot08Iceblock* this) {
             this->dyna.actor.params = 0x10;
             break;
         default:
-            PRINTF(
-                T("Error : arg_data 設定ミスです。", "Error : arg_data setting error. ") "(%s %d)(arg_data 0x%04x)\n",
-                "../z_bg_spot08_iceblock.c", 0xF6, this->dyna.actor.params);
+            PRINTF(T("Error : arg_data 設定ミスです。(%s %d)(arg_data 0x%04x)\n",
+                     "Error : arg_data setting error. (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_bg_spot08_iceblock.c", 0xF6, this->dyna.actor.params);
             this->dyna.actor.params = 0x10;
             break;
         case 1:

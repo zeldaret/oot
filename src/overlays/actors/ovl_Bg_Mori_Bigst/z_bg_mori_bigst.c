@@ -85,8 +85,8 @@ void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgMoriBigst* this = (BgMoriBigst*)thisx;
 
-    PRINTF(T("mori (bigST.鍵型天井)",
-             "mori (bigST. key-shaped ceiling)") "(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n",
+    PRINTF(T("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n",
+             "mori (bigST. key-shaped ceiling)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n"),
            this->dyna.actor.params, Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6)),
            Flags_GetTempClear(play, this->dyna.actor.room), Flags_GetClear(play, this->dyna.actor.room),
            GET_PLAYER(play)->actor.world.pos.y);
