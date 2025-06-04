@@ -5,6 +5,17 @@
         <Animation Name="gBiriClimbAnim" Offset="0x64"/>
         <Animation Name="gBiriDefaultAnim" Offset="0xA4"/><!-- Used in various states, not just as an idle -->
 
+        <!-- Vertices -->
+        <Array Name="gBiriTentaclesVtx" Count="4" Offset="0xC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBiriInnerHoodVtx" Count="14" Offset="0x100">
+            <Vtx/>
+        </Array>
+        <Array Name="gBiriOuterHoodVtx" Count="29" Offset="0x1E0">
+            <Vtx/>
+        </Array>
+
         <!-- Biri DLists -->
         <DList Name="gBiriTentaclesDL" Offset="0x3B0"/>
         <DList Name="gBiriInnerHoodDL" Offset="0x448"/>
