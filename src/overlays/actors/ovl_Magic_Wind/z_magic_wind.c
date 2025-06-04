@@ -6,7 +6,6 @@
 
 #include "z_magic_wind.h"
 
-#include "libu64/debug.h"
 #include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -69,8 +68,7 @@ void MagicWind_Init(Actor* thisx, PlayState* play) {
         case 1:
             SkelCurve_SetAnim(&this->skelCurve, &sAnim, 60.0f, 0.0f, 60.0f, -1.0f);
             MagicWind_SetupAction(this, MagicWind_Shrink);
-            // "Means start"
-            LOG_STRING("表示開始", "../z_magic_wind.c", 486);
+            LOG_STRING_T("表示開始", "Start displaying", "../z_magic_wind.c", 486);
             Player_PlaySfx(player, NA_SE_PL_MAGIC_WIND_WARP);
             break;
     }
@@ -80,8 +78,7 @@ void MagicWind_Destroy(Actor* thisx, PlayState* play) {
     MagicWind* this = (MagicWind*)thisx;
     SkelCurve_Destroy(play, &this->skelCurve);
     Magic_Reset(play);
-    // "wipe out"
-    LOG_STRING("消滅", "../z_magic_wind.c", 505);
+    LOG_STRING_T("消滅", "Disappearance", "../z_magic_wind.c", 505);
 }
 
 void MagicWind_UpdateAlpha(f32 alpha) {
@@ -100,8 +97,7 @@ void MagicWind_WaitForTimer(MagicWind* this, PlayState* play) {
         return;
     }
 
-    // "Means start"
-    LOG_STRING("表示開始", "../z_magic_wind.c", 539);
+    LOG_STRING_T("表示開始", "Start displaying", "../z_magic_wind.c", 539);
     Player_PlaySfx(player, NA_SE_PL_MAGIC_WIND_NORMAL);
     MagicWind_UpdateAlpha(1.0f);
     MagicWind_SetupAction(this, MagicWind_Grow);

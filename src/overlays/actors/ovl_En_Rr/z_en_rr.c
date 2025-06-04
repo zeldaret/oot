@@ -99,8 +99,8 @@ ActorProfile En_Rr_Profile = {
 
 #if DEBUG_FEATURES
 static char* sDropNames[] = {
-    // "type 7", "small magic jar", "arrow", "fairy", "20 rupees", "50 rupees"
-    "タイプ７  ", "魔法の壷小", "矢        ", "妖精      ", "20ルピー  ", "50ルピー  ",
+    T("タイプ７  ", "Type 7    "), T("魔法の壷小", "Small magic jar"), T("矢        ", "Arrow     "),
+    T("妖精      ", "Fairy     "), T("20ルピー  ", "20 rupees "),      T("50ルピー  ", "50 rupees "),
 };
 #endif
 
@@ -438,8 +438,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
 
     if (this->collider2.base.acFlags & AC_HIT) {
         this->collider2.base.acFlags &= ~AC_HIT;
-        // "Kakin" (not sure what this means)
-        PRINTF(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
+        PRINTF(VT_FGCOL(GREEN) T("カキン(%d)！！", "Kakin (%d)!!") VT_RST "\n", this->frameCount);
         hitPos.x = this->collider2.elem.acDmgInfo.hitPos.x;
         hitPos.y = this->collider2.elem.acDmgInfo.hitPos.y;
         hitPos.z = this->collider2.elem.acDmgInfo.hitPos.z;

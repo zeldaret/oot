@@ -895,8 +895,8 @@ void Play_Update(PlayState* this) {
                         this->envCtx.sandstormState = SANDSTORM_DISSIPATE;
                         this->envCtx.sandstormPrimA = 255;
                         this->envCtx.sandstormEnvA = 255;
-                        // "It's here!!!!!!!!!"
-                        LOG_STRING("来た!!!!!!!!!!!!!!!!!!!!!", "../z_play.c", 3471);
+                        LOG_STRING_T("来た!!!!!!!!!!!!!!!!!!!!!", "It's here!!!!!!!!!!!!!!!!!!!!!", "../z_play.c",
+                                     3471);
                         this->transitionMode = TRANS_MODE_SANDSTORM_END;
                     } else {
                         this->transitionMode = TRANS_MODE_SANDSTORM_INIT;
