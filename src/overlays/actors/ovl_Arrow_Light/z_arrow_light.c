@@ -12,6 +12,7 @@
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "tex_len.h"
 #include "translation.h"
 #include "z_lib.h"
 #include "z64play.h"
@@ -27,7 +28,29 @@ void ArrowLight_Charge(ArrowLight* this, PlayState* play);
 void ArrowLight_Fly(ArrowLight* this, PlayState* play);
 void ArrowLight_Hit(ArrowLight* this, PlayState* play);
 
-#include "assets/overlays/ovl_Arrow_Light/ovl_Arrow_Light.c"
+#define s1Tex_WIDTH 32
+#define s1Tex_HEIGHT 64
+static u64 s1Tex[TEX_LEN(u64, s1Tex_WIDTH, s1Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Light/s1Tex.i8.inc.c"
+};
+
+#define s2Tex_WIDTH 32
+#define s2Tex_HEIGHT 64
+static u64 s2Tex[TEX_LEN(u64, s2Tex_WIDTH, s2Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Light/s2Tex.i8.inc.c"
+};
+
+static Vtx sVtx[] = {
+#include "assets/overlays/ovl_Arrow_Light/sVtx.inc.c"
+};
+
+static Gfx sMaterialDL[22] = {
+#include "assets/overlays/ovl_Arrow_Light/sMaterialDL.inc.c"
+};
+
+static Gfx sModelDL[24] = {
+#include "assets/overlays/ovl_Arrow_Light/sModelDL.inc.c"
+};
 
 ActorProfile Arrow_Light_Profile = {
     /**/ ACTOR_ARROW_LIGHT,
