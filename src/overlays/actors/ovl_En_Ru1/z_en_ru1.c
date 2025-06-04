@@ -1655,10 +1655,10 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
     return false;
 }
 
-void func_80AEE7C4(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
     s32 pad[9];
     Player* player;
-    f32* unk_370 = &this->unk_370;
+    f32* carryIdleTimer = &this->carryIdleTimer;
 
     if (Actor_HasNoParent(&this->actor, play)) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
@@ -1671,17 +1671,17 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
         this->actor.gravity = -((kREG(23) * 0.01f) + 1.3f);
         func_80AED57C(this);
         this->action = 28;
-        *unk_370 = 0.0f;
+        *carryIdleTimer = 0.0f;
     } else if (func_80AEE6D0(this, play)) {
         s32 pad;
 
-        *unk_370 = 0.0f;
+        *carryIdleTimer = 0.0f;
     } else {
         player = GET_PLAYER(play);
         if (player->stateFlags2 & PLAYER_STATE2_IDLE_FIDGET) {
-            this->unk_370 += 1.0f;
+            this->carryIdleTimer += 1.0f;
             if (this->action != 32) {
-                if (*unk_370 > 30.0f) {
+                if (*carryIdleTimer > 30.0f) {
                     if (Rand_S16Offset(0, 3) == 0) {
                         f32 frameCount = Animation_GetLastFrame(&gRutoChildSquirmAnim);
 
@@ -1690,23 +1690,23 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
                         func_80AED5DC(this);
                         this->action = 32;
                     }
-                    *unk_370 = 0.0f;
+                    *carryIdleTimer = 0.0f;
                 }
             } else {
-                if (*unk_370 > 50.0f) {
+                if (*carryIdleTimer > 50.0f) {
                     f32 frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
 
                     Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP,
                                      -8.0f);
                     this->action = 31;
-                    *unk_370 = 0.0f;
+                    *carryIdleTimer = 0.0f;
                 }
             }
         } else {
             f32 frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
 
             Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
-            *unk_370 = 0.0f;
+            *carryIdleTimer = 0.0f;
         }
     }
 }
@@ -1790,7 +1790,7 @@ void func_80AEEDCC(EnRu1* this, PlayState* play) {
     func_80AEE2F8(this, play);
     EnRu1_UpdateEyes(this);
     func_80AED6F8(play);
-    func_80AEE7C4(this, play);
+    EnRu1_UpdateCarriedBehavior(this, play);
 }
 
 void func_80AEEE34(EnRu1* this, PlayState* play) {
@@ -1800,7 +1800,7 @@ void func_80AEEE34(EnRu1* this, PlayState* play) {
     func_80AEE2F8(this, play);
     EnRu1_UpdateEyes(this);
     func_80AED6F8(play);
-    func_80AEE7C4(this, play);
+    EnRu1_UpdateCarriedBehavior(this, play);
 }
 
 void func_80AEEE9C(EnRu1* this, PlayState* play) {
