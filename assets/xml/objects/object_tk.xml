@@ -10,11 +10,74 @@
         <Texture Name="gDampeEyeClosedTex" OutName="dampe_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x4B40"/>
         <Texture Name="gDampeUnused1Tex" OutName="dampe_unused_1" Format="ci8" Width="16" Height="16" Offset="0x5540" TlutOffset="0x3780"/>
         <Texture Name="gDampeUnused2Tex" OutName="dampe_unused_2" Format="ci8" Width="8" Height="16" Offset="0x5640" TlutOffset="0x3780"/>
+        <Array Name="object_tk_Vtx_0057C0" Count="38" Offset="0x57C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_005A20" Count="129" Offset="0x5A20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006230" Count="28" Offset="0x6230">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_0063F0" Count="57" Offset="0x63F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006780" Count="24" Offset="0x6780">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006900" Count="27" Offset="0x6900">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006AB0" Count="57" Offset="0x6AB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006E40" Count="24" Offset="0x6E40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006FC0" Count="27" Offset="0x6FC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_007170" Count="87" Offset="0x7170">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_0076E0" Count="6" Offset="0x76E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_007740" Count="33" Offset="0x7740">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_007950" Count="6" Offset="0x7950">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_0079B0" Count="33" Offset="0x79B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_007BC0" Count="70" Offset="0x7BC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_009E40" Count="43" Offset="0x9E40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_00A0F0" Count="43" Offset="0xA0F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDampeShovelVtx" Count="103" Offset="0xA3A0">
+            <Vtx/>
+        </Array>
         <DList Name="gDampeShovelDL" Offset="0xACE0"/>
+        <Array Name="gDampeLanternVtx" Count="27" Offset="0xB688">
+            <Vtx/>
+        </Array>
         <DList Name="gDampeLanternDL" Offset="0xB838"/>
+        <Array Name="gDampeHaloVtx" Count="30" Offset="0xB9C0">
+            <Vtx/>
+        </Array>
         <DList Name="gDampeHaloDL" Offset="0xBBA0"/>
         <DList Name="gDampeEff1DL" Offset="0xBC90"/>
         <DList Name="gDampeEff2DL" Offset="0xBCA0"/>
+        <Array Name="gDampeEff2Vtx" Count="4" Offset="0xBCF0">
+            <Vtx/>
+        </Array>
         <Skeleton Name="gDampeSkel" Type="Flex" LimbType="Standard" Offset="0xBE40"/>
     </File>
 </Root>

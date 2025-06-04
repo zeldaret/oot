@@ -17,12 +17,78 @@
         <Animation Name="gYoungGanondorfLaughLoopAnim" Offset="0x48B0"/> <!-- Original name is "gnd_demo_ukabi_warai_wait" -->
         <Animation Name="gYoungGanondorfWalkAnim" Offset="0x50A8"/> <!-- Original name is "gnd_walk" -->
 
-        <!-- Young Ganondorf Limb DisplayLists -->
+        <!-- Young Ganondorf Limb Vertices and DisplayLists -->
+        <Array Name="gYoungGanondorfChinVtx" Count="43" Offset="0x50C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfJawVtx" Count="30" Offset="0x5370">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfHeadVtx" Count="161" Offset="0x5550">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightUpperLipVtx" Count="19" Offset="0x5F60">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftUpperLipVtx" Count="19" Offset="0x6090">
+            <Vtx/>
+        </Array>
         <DList Name="gYoungGanondorfHeadDL" Offset="0x61C0"/>
         <DList Name="gYoungGanondorfRightUpperLipDL" Offset="0x69F8"/>
         <DList Name="gYoungGanondorfChinDL" Offset="0x6B78"/>
         <DList Name="gYoungGanondorfJawDL" Offset="0x6D90"/>
         <DList Name="gYoungGanondorfLeftUpperLipDL" Offset="0x6FC8"/>
+        <Array Name="gYoungGanondorfPelvisVtx" Count="110" Offset="0x70F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfTorsoVtx" Count="180" Offset="0x77D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfJewelVtx" Count="7" Offset="0x8318">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfKnifeVtx" Count="48" Offset="0x8388">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftUpperArmVtx" Count="42" Offset="0x8688">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightUpperArmVtx" Count="42" Offset="0x8928">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftForearmVtx" Count="44" Offset="0x8BC8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightForearmVtx" Count="44" Offset="0x8E88">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftHandVtx" Count="53" Offset="0x9148">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightHandVtx" Count="53" Offset="0x9498">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftFootVtx" Count="44" Offset="0x97E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightFootVtx" Count="44" Offset="0x9AA8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftThighVtx" Count="27" Offset="0x9D68">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftShinVtx" Count="41" Offset="0x9F18">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightThighVtx" Count="27" Offset="0xA1A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightShinVtx" Count="41" Offset="0xA358">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfTeethVtx" Count="12" Offset="0xA5E8">
+            <Vtx/>
+        </Array>
         <DList Name="gYoungGanondorfPelvisDL" Offset="0xA6A8"/>
         <DList Name="gYoungGanondorfTorsoDL" Offset="0xAB10"/>
         <DList Name="gYoungGanondorfJewelDL" Offset="0xB410"/>
@@ -40,6 +106,9 @@
         <DList Name="gYoungGanondorfRightThighDL" Offset="0xD278"/>
         <DList Name="gYoungGanondorfRightShinDL" Offset="0xD470"/>
         <DList Name="gYoungGanondorfTeethDL" Offset="0xD668"/>
+        <Array Name="gYoungGanondorfOpenLeftHandVtx" Count="170" Offset="0xD708">
+            <Vtx/>
+        </Array>
         <DList Name="gYoungGanondorfOpenLeftHandDL" Offset="0xE1A8"/>
 
         <!-- Young Ganondorf Textures -->

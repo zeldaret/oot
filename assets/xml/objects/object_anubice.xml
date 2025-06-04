@@ -16,5 +16,40 @@
         <!-- I think those might be for taking damage or something -->
         <Animation Name="gAnubiceAnim_000A48" Offset="0xA48"/>
         <Animation Name="gAnubiceAnim_000BAC" Offset="0xBAC"/>
+
+        <!-- Vertices -->
+        <Array Name="object_anubice_Vtx_001B10" Count="62" Offset="0x1B10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_001EF0" Count="20" Offset="0x1EF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_002030" Count="20" Offset="0x2030">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_002170" Count="20" Offset="0x2170">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_0022B0" Count="17" Offset="0x22B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_0023C0" Count="5" Offset="0x23C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_002410" Count="16" Offset="0x2410">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_002510" Count="115" Offset="0x2510">
+            <Vtx/>
+        </Array>
+        <Array Name="gAnubiceEyesVtx" Count="10" Offset="0x2C40">
+            <Vtx/>
+        </Array>
+        <Array Name="gAnubiceFireAttackVtx" Count="4" Offset="0x3590">
+            <Vtx/>
+        </Array>
+        <Array Name="gAnubiceUnusedParticleModelVtx" Count="4" Offset="0x35D0">
+            <Vtx/>
+        </Array>
     </File>
 </Root>
