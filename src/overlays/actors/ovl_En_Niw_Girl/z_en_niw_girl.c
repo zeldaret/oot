@@ -94,7 +94,8 @@ void EnNiwGirl_Init(Actor* thisx, PlayState* play) {
         PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n",
                                  "☆☆☆☆☆ That's so mean! Punpun ☆☆☆☆☆ %d\n") VT_RST,
                this->actor.params);
-        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Kyaaaaaa, wait ☆☆☆☆☆ %d\n") VT_RST,
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Kyahahahaha, wait ☆☆☆☆☆ %d\n")
+                   VT_RST,
                this->path);
         PRINTF("\n\n");
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
