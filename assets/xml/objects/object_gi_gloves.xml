@@ -1,6 +1,7 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_gloves" Segment="6">
+        <Texture Name="object_gi_gloves_000000_Tex" Format="i8" Width="64" Height="32" Offset="0x0"/>
         <Array Name="gGiGauntletsVtx" Count="152" Offset="0x800">
             <Vtx/>
         </Array>

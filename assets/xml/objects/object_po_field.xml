@@ -13,6 +13,15 @@
             <Vtx/>
         </Array>
         <DList Name="gPoeFieldSoulDL" Offset="0x23B0"/>
+        <Texture Name="object_po_field_002470_Tex" Format="rgba16" Width="16" Height="16" Offset="0x2470"/>
+        <Texture Name="object_po_field_002670_Tex" Format="rgba16" Width="16" Height="16" Offset="0x2670"/>
+        <Texture Name="object_po_field_002870_Tex" Format="rgba16" Width="32" Height="32" Offset="0x2870"/>
+        <Texture Name="object_po_field_003070_Tex" Format="rgba16" Width="16" Height="16" Offset="0x3070"/>
+        <Texture Name="object_po_field_003270_Tex" Format="rgba16" Width="8" Height="8" Offset="0x3270"/>
+        <Texture Name="object_po_field_0032F0_Tex" Format="rgba16" Width="16" Height="8" Offset="0x32F0"/>
+        <Texture Name="object_po_field_0033F0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x33F0"/>
+        <Texture Name="object_po_field_0035F0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x35F0"/>
+        <Texture Name="object_po_field_0037F0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x37F0"/>
         <Array Name="gPoeFieldLanternVtx" Count="17" Offset="0x39F0">
             <Vtx/>
         </Array>
@@ -54,13 +63,32 @@
         </Array>
         <DList Name="gPoeFieldLanternDL" Offset="0x4BA0"/>
         <DList Name="gPoeFieldLanternTopDL" Offset="0x4CC0"/>
+        <DList Name="object_po_field_004D48_DL" Offset="0x4D48"/>
+        <DList Name="object_po_field_004DF8_DL" Offset="0x4DF8"/>
+        <DList Name="object_po_field_004F60_DL" Offset="0x4F60"/>
+        <DList Name="object_po_field_005058_DL" Offset="0x5058"/>
+        <DList Name="object_po_field_0050F8_DL" Offset="0x50F8"/>
+        <DList Name="object_po_field_0051A0_DL" Offset="0x51A0"/>
+        <DList Name="object_po_field_005288_DL" Offset="0x5288"/>
+        <DList Name="object_po_field_005328_DL" Offset="0x5328"/>
         <DList Name="gBigPoeCloakDL" Offset="0x5620"/>
         <DList Name="gBigPoeFaceDL" Offset="0x5900"/>
         <DList Name="gBigPoeBodyDL" Offset="0x59F0"/>
+        <Texture Name="object_po_field_005AB0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5AB0"/>
+        <Texture Name="object_po_field_005CB0_Tex" Format="rgba16" Width="8" Height="8" Offset="0x5CB0"/>
         <Array Name="gPoeFieldBurnVtx" Count="154" Offset="0x5D30">
             <Vtx/>
         </Array>
         <DList Name="gPoeFieldBurnDL" Offset="0x66D0"/>
+        <Limb Name="object_po_field_0069A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_FIELD_0069A0" Offset="0x69A0"/>
+        <Limb Name="object_po_field_0069AC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_FIELD_0069AC" Offset="0x69AC"/>
+        <Limb Name="object_po_field_0069B8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_FIELD_0069B8" Offset="0x69B8"/>
+        <Limb Name="object_po_field_0069C4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_FIELD_0069C4" Offset="0x69C4"/>
+        <Limb Name="object_po_field_0069D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_FIELD_0069D0" Offset="0x69D0"/>
+        <Limb Name="object_po_field_0069DC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_FIELD_0069DC" Offset="0x69DC"/>
+        <Limb Name="object_po_field_0069E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_FIELD_0069E8" Offset="0x69E8"/>
+        <Limb Name="object_po_field_0069F4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_FIELD_0069F4" Offset="0x69F4"/>
+        <Limb Name="object_po_field_006A00_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_FIELD_006A00" Offset="0x6A00"/>
         <Skeleton Name="gPoeFieldSkel" Type="Normal" LimbType="Standard" Offset="0x6A30"/>
     </File>
 </Root>
