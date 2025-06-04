@@ -205,7 +205,7 @@ void EnRu1_DestroyColliders(EnRu1* this, PlayState* play) {
     Collider_DestroyCylinder(play, &this->sittingCollider);
 }
 
-void EnRu1_DisableSittingObjectCollider(EnRu1* this) {
+void EnRu1_DisableSittingOC(EnRu1* this) {
     this->isSittingOCActive = false;
 }
 
@@ -1610,7 +1610,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
             func_80AEE02C(this);
             Actor_OfferCarry(&this->actor, play);
             this->action = 27;
-            EnRu1_DisableSittingObjectCollider(this);
+            EnRu1_DisableSittingOC(this);
             return;
         }
 
@@ -1718,7 +1718,7 @@ s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
         func_80AEE02C(this);
         Actor_OfferCarry(&this->actor, play);
         this->action = 27;
-        EnRu1_DisableSittingObjectCollider(this);
+        EnRu1_DisableSittingOC(this);
         return true;
     }
     return false;
@@ -1887,7 +1887,7 @@ void func_80AEF1F0(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
         func_80AED6DC(this, play);
         Actor_OfferCarry(&this->actor, play);
         this->action = 27;
-        EnRu1_DisableSittingObjectCollider(this);
+        EnRu1_DisableSittingOC(this);
     }
 }
 
