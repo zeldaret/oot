@@ -1,29 +1,53 @@
 <Root>
     <File Name="object_gj" Segment="6">
         <!-- This is the decorative rubble around the fight arena -->
+        <Array Name="gGanonsCastleRubbleAroundArenaVtx" Count="220" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubbleAroundArenaDL" Offset="0xDC0"/>
         <Collision Name="gGanonsCastleRubbleAroundArenaCol" Offset="0x1B70"/>
 
         <!-- Those four are used as the pile of rubble from where Ganondorf rises to transform into Ganon -->
+        <Array Name="gGanonsCastleRubble4Vtx" Count="24" Offset="0x2480">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble4DL" Offset="0x2600"/>
         <Collision Name="gGanonsCastleRubble4Col" Offset="0x2850"/>
 
+        <Array Name="gGanonsCastleRubble5Vtx" Count="28" Offset="0x2880">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble5DL" Offset="0x2A40"/>
         <Collision Name="gGanonsCastleRubble5Col" Offset="0x2D28"/>
 
+        <Array Name="gGanonsCastleRubble6Vtx" Count="18" Offset="0x2D60">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble6DL" Offset="0x2E80"/>
         <Collision Name="gGanonsCastleRubble6Col" Offset="0x2FE4"/>
 
+        <Array Name="gGanonsCastleRubble7Vtx" Count="24" Offset="0x3010">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble7DL" Offset="0x3190"/>
         <Collision Name="gGanonsCastleRubble7Col" Offset="0x33E0"/>
 
         <!-- This three rubbles are the ones that Ganon can destroy during the fight -->
+        <Array Name="gGanonsCastleRubble2Vtx" Count="24" Offset="0x1BA0">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble2DL" Offset="0x1D20"/>
         <Collision Name="gGanonsCastleRubble2Col" Offset="0x1F70"/>
 
+        <Array Name="gGanonsCastleRubble3Vtx" Count="28" Offset="0x1FA0">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble3DL" Offset="0x2160"/>
         <Collision Name="gGanonsCastleRubble3Col" Offset="0x2448"/>
 
+        <Array Name="gGanonsCastleRubbleTallVtx" Count="48" Offset="0x3410">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubbleTallDL" Offset="0x3710"/>
         <Collision Name="gGanonsCastleRubbleTallCol" Offset="0x3AF0"/>
 
