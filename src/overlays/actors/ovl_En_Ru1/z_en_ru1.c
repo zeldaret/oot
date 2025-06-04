@@ -165,25 +165,25 @@ ActorProfile En_Ru1_Profile = {
     /**/ EnRu1_Draw,
 };
 
-void EnRu1_UpdateStandingObjectCollider(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateStandingOC(EnRu1* this, PlayState* play) {
     s32 pad[5];
 
     Collider_UpdateCylinder(&this->actor, &this->standingCollider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->standingCollider.base);
 }
 
-void EnRu1_UpdateSittingObjectCollider(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateSittingOC(EnRu1* this, PlayState* play) {
     s32 pad[5];
 
     Collider_UpdateCylinder(&this->actor, &this->sittingCollider);
-    if (this->isSittingOCActive != 0) {
+    if (this->isSittingOCActive) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->sittingCollider.base);
     } else if (this->actor.xzDistToPlayer > 32.0f) {
-        this->isSittingOCActive = 1;
+        this->isSittingOCActive = true;
     }
 }
 
-void EnRu1_UpdateSittingAttackCollider(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateSittingAT(EnRu1* this, PlayState* play) {
     s32 pad[5];
 
     Collider_UpdateCylinder(&this->actor, &this->sittingCollider);
@@ -206,7 +206,7 @@ void EnRu1_DestroyColliders(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_DisableSittingObjectCollider(EnRu1* this) {
-    this->isSittingOCActive = 0;
+    this->isSittingOCActive = false;
 }
 
 u8 func_80AEADE0(EnRu1* this) {
@@ -1739,7 +1739,7 @@ void func_80AEEBB4(EnRu1* this, PlayState* play) {
 
 void func_80AEEBD4(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    EnRu1_UpdateSittingObjectCollider(this, play);
+    EnRu1_UpdateSittingOC(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
@@ -1751,7 +1751,7 @@ void func_80AEEBD4(EnRu1* this, PlayState* play) {
 
 void func_80AEEC5C(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    EnRu1_UpdateSittingAttackCollider(this, play);
+    EnRu1_UpdateSittingAT(this, play);
     func_80AEAECC(this, play);
     func_80AEE2F8(this, play);
     func_80AEDFF4(this, play);
@@ -1907,7 +1907,7 @@ void func_80AEF2D0(EnRu1* this, PlayState* play) {
     func_80AEEF68(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    EnRu1_UpdateStandingObjectCollider(this, play);
+    EnRu1_UpdateStandingOC(this, play);
     func_80AEAECC(this, play);
     cond = func_80AEE264(this, play);
     func_80AED624(this, play);
@@ -2220,7 +2220,7 @@ void func_80AEFECC(EnRu1* this, PlayState* play) {
     func_80AEEF68(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    EnRu1_UpdateStandingObjectCollider(this, play);
+    EnRu1_UpdateStandingOC(this, play);
     func_80AEAECC(this, play);
     func_80AEFE84(this, play, func_80AEFDC0(this, play));
 }
