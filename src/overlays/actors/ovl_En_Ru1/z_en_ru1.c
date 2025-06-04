@@ -361,7 +361,7 @@ Actor* func_80AEB124(PlayState* play) {
     Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
     while (actorIt != NULL) {
-        if ((actorIt->id == ACTOR_DEMO_EFFECT) && (ENRU1_TYPE(actorIt) == DEMO_EFFECT_JEWEL_ZORA)) {
+        if ((actorIt->id == ACTOR_DEMO_EFFECT) && (PARAMS_GET_U(actorIt->params, 0, 8) == DEMO_EFFECT_JEWEL_ZORA)) {
             return actorIt;
         }
         actorIt = actorIt->next;
