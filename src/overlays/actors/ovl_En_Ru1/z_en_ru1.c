@@ -327,13 +327,13 @@ BgBdanObjects* EnRu1_FindBigOctoPlatform(PlayState* play) {
     return NULL;
 }
 
-void EnRu1_SetCameraSetting(EnRu1* this, s32 cameraSetting) {
+void EnRu1_SetPlatformCamSetting(EnRu1* this, s32 cameraSetting) {
     if (this->bigOctoPlatform != NULL) {
         this->bigOctoPlatform->cameraSetting = cameraSetting;
     }
 }
 
-s32 EnRu1_GetCameraSetting(EnRu1* this) {
+s32 EnRu1_GetPlatformCamSetting(EnRu1* this) {
     if (this->bigOctoPlatform != NULL) {
         return this->bigOctoPlatform->cameraSetting;
     } else {
@@ -371,7 +371,7 @@ void func_80AEB1D8(EnRu1* this) {
     this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
-    EnRu1_SetCameraSetting(this, 0);
+    EnRu1_SetPlatformCamSetting(this, 0);
 }
 
 void func_80AEB220(EnRu1* this, PlayState* play) {
@@ -1958,7 +1958,7 @@ void func_80AEF51C(EnRu1* this) {
 }
 
 void func_80AEF540(EnRu1* this) {
-    if (EnRu1_GetCameraSetting(this) == 2) {
+    if (EnRu1_GetPlatformCamSetting(this) == 2) {
         EnRu1_SetEyeIndex(this, 3);
         EnRu1_SetMouthIndex(this, 2);
         if (this->skelAnime.mode != 2) {
@@ -2047,14 +2047,14 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_145);
         Flags_SetSwitch(play, func_80AEADE0(this));
-        EnRu1_SetCameraSetting(this, 1);
+        EnRu1_SetPlatformCamSetting(this, 1);
         this->action = 42;
         this->actor.room = curRoomNum;
     }
 }
 
 void func_80AEF930(EnRu1* this, PlayState* play) {
-    if (EnRu1_GetCameraSetting(this) == 3) {
+    if (EnRu1_GetPlatformCamSetting(this) == 3) {
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = 0x4048;
 #if !OOT_PAL_N64
@@ -2070,7 +2070,7 @@ void func_80AEF930(EnRu1* this, PlayState* play) {
 
 void func_80AEF99C(EnRu1* this, PlayState* play) {
     if (func_80AEB1B4(play) != 0) {
-        EnRu1_SetCameraSetting(this, 4);
+        EnRu1_SetPlatformCamSetting(this, 4);
         Actor_Kill(&this->actor);
     }
 }
@@ -2156,7 +2156,7 @@ void func_80AEFC54(EnRu1* this, PlayState* play) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 41;
         this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
-        EnRu1_SetCameraSetting(this, 1);
+        EnRu1_SetPlatformCamSetting(this, 1);
         this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     } else {
         Actor_Kill(&this->actor);
@@ -2168,7 +2168,7 @@ void func_80AEFCE8(EnRu1* this, PlayState* play) {
     if (this->bigOctoPlatform != NULL) {
         this->action = 42;
         this->drawConfig = 1;
-        EnRu1_SetCameraSetting(this, 1);
+        EnRu1_SetPlatformCamSetting(this, 1);
     }
 }
 
