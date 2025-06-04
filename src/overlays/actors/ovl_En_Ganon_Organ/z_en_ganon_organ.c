@@ -10,7 +10,7 @@
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "sys_matrix.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 

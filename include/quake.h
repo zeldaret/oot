@@ -1,8 +1,8 @@
 #ifndef QUAKE_H
 #define QUAKE_H
 
-#include "z64camera.h"
-#include "z64math.h"
+#include "camera.h"
+#include "z_math.h"
 
 typedef struct ShakeInfo {
     /* 0x00 */ Vec3f atOffset;

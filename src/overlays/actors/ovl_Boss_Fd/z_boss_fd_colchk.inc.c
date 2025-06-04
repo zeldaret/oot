@@ -1,4 +1,4 @@
-#include "z64collision_check.h"
+#include "collision_check.h"
 
 static ColliderJntSphElementInit sJntSphElementsInit[19] = {
     {

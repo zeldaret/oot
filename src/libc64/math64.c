@@ -1,5 +1,5 @@
 #include "libc64/math64.h"
-#include "z64math.h"
+#include "z_math.h"
 
 #if !PLATFORM_N64
 s32 gUseAtanContFrac;

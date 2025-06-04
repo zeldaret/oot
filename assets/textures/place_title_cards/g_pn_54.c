@@ -1,7 +1,7 @@
 #include "ultra64.h"
 #include "tex_len.h"
 #include "versions.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #if OOT_NTSC
 u64 gBottomOfTheWellTitleCardJPNTex[TEX_LEN(u64, PLACE_NAME_TEX_WIDTH, PLACE_NAME_TEX_HEIGHT, 8)] = {

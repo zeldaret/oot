@@ -1,5 +1,5 @@
 #include "attributes.h"
-#include "z64audio.h"
+#include "audio.h"
 
 // Symbol definition
 

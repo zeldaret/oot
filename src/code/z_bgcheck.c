@@ -9,10 +9,10 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64bgcheck.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64skin_matrix.h"
+#include "bgcheck.h"
+#include "play_state.h"
+#include "player.h"
+#include "skin_matrix.h"
 
 #pragma increment_block_number "ntsc-1.0:144 ntsc-1.1:144 ntsc-1.2:144"
 
