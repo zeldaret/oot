@@ -135,11 +135,12 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play) {
 
         if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
             wall->isHit = true;
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ Yay Hara! ☆☆☆☆☆ \n") VT_RST);
-            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ Yay Hara! ☆☆☆☆☆ \n") VT_RST);
-            PRINTF(VT_FGCOL(BLUE) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ Yay Hara! ☆☆☆☆☆ \n") VT_RST);
-            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ Yay Hara! ☆☆☆☆☆ \n") VT_RST);
-            PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ Yay Hara! ☆☆☆☆☆ \n") VT_RST);
+            // "Hara" may stand for the developer name Kuzuhara
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(BLUE) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
         }
 
         Actor_Kill(&this->actor);
