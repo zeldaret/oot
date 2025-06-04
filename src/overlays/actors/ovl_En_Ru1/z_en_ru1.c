@@ -381,7 +381,7 @@ void func_80AEB220(EnRu1* this, PlayState* play) {
 }
 #endif
 
-void EnRu1_AnimationChange(EnRu1* this, AnimationHeader* animation, AnimationMode mode, f32 morphFrames, s32 playReversed) {
+void EnRu1_AnimationChange(EnRu1* this, AnimationHeader* animation, u8 mode, f32 morphFrames, s32 playReversed) {
     s32 pad[2];
     AnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
     f32 frameCount = Animation_GetLastFrame(animHeader);
