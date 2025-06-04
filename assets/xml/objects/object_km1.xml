@@ -34,6 +34,9 @@
         <Texture Name="gKm1Ear2Tex" OutName="ear2" Format="ci8" Width="8" Height="8" Offset="0x8FC" TlutOffset="0x83C"/>
         <Texture Name="gKm1Skin2Tex" OutName="skin2" Format="ci8" Width="8" Height="8" Offset="0x93C" TlutOffset="0x83C"/>
         <Texture Name="gKm1HairTex" OutName="hair" Format="ci8" Width="16" Height="32" Offset="0x97C" TlutOffset="0x83C"/>
+        <Array Name="gKm1Vtx" Count="209" Offset="0xB80">
+            <Vtx/>
+        </Array>
         <DList Name="gKm1DL" Offset="0x1890"/>
     </File>
 </Root>

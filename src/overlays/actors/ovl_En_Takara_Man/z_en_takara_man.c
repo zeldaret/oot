@@ -57,7 +57,7 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
 
     if (sTakaraIsInitialized) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n", "☆☆☆☆☆ Already initialized ☆☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n", "☆☆☆☆☆ Original is already here ☆☆☆☆☆ \n") VT_RST);
         return;
     }
 

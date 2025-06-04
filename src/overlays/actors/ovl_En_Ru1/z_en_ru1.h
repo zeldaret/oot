@@ -38,12 +38,12 @@ typedef struct EnRu1 {
     /* 0x0294 */ char unk_294[0x4];
     /* 0x0298 */ s32 unk_298;
     /* 0x029C */ char unk_29C[0x2];
-    /* 0x029E */ s16 unk_29E;
+    /* 0x029E */ s16 headTurnSpeed;
     /* 0x02A0 */ char unk_2A0[0x4];
     /* 0x02A4 */ f32 unk_2A4;
     /* 0x02A8 */ s32 alpha;
-    /* 0x02AC */ s16 unk_2AC;
-    /* 0x02B0 */ s32 unk_2B0;
+    /* 0x02AC */ s16 headRotTimer;
+    /* 0x02B0 */ s32 headRotDirection;
     /* 0x02B4 */ ColliderCylinder collider;
     /* 0x0300 */ ColliderCylinder collider2;
     /* 0x034C */ s32 unk_34C;
@@ -53,7 +53,7 @@ typedef struct EnRu1 {
     /* 0x035C */ s16 bobPhase;
     /* 0x0360 */ f32 isSinking;
     /* 0x0364 */ Vec3f unk_364;
-    /* 0x0370 */ f32 unk_370;
+    /* 0x0370 */ f32 carryIdleTimer;
     /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
 

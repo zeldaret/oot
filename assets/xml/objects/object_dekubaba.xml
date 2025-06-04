@@ -4,12 +4,30 @@
         <Animation Name="gDekuBabaPauseChompAnim" Offset="0x208"/>
         <Animation Name="gDekuBabaFastChompAnim" Offset="0x2B8"/>
 
-        <!-- Deku Baba body DLists (not all are limb DLists) -->
+        <!-- Deku Baba body Vertices and DLists (not all are limb DLists) -->
+        <Array Name="gDekuBabaLowerJawVtx" Count="43" Offset="0x2D0">
+            <Vtx/>
+        </Array>
         <DList Name="gDekuBabaLowerJawDL" Offset="0x580"/>
+        <Array Name="gDekuBabaUpperJawVtx" Count="76" Offset="0x6A8">
+            <Vtx/>
+        </Array>
         <DList Name="gDekuBabaUpperJawDL" Offset="0xB68"/>
+        <Array Name="gDekuBabaBaseLeavesVtx" Count="63" Offset="0xD00">
+            <Vtx/>
+        </Array>
         <DList Name="gDekuBabaBaseLeavesDL" Offset="0x10F0"/>
+        <Array Name="gDekuBabaStemTopVtx" Count="16" Offset="0x1230">
+            <Vtx/>
+        </Array>
         <DList Name="gDekuBabaStemTopDL" Offset="0x1330"/>
+        <Array Name="gDekuBabaStemMiddleVtx" Count="36" Offset="0x13E8">
+            <Vtx/>
+        </Array>
         <DList Name="gDekuBabaStemMiddleDL" Offset="0x1628"/>
+        <Array Name="gDekuBabaStemBaseVtx" Count="16" Offset="0x1728">
+            <Vtx/>
+        </Array>
         <DList Name="gDekuBabaStemBaseDL" Offset="0x1828"/>
 
         <!-- Deku Baba body textures -->
@@ -32,6 +50,9 @@
         <Skeleton Name="gDekuBabaSkel" Type="Normal" LimbType="Standard" Offset="0x2A40"/>
 
         <!-- Deku Baba stick drop -->
+        <Array Name="gDekuBabaStickDropVtx" Count="98" Offset="0x2A50">
+            <Vtx/>
+        </Array>
         <DList Name="gDekuBabaStickDropDL" Offset="0x3070"/>
         <Texture Name="gDekuBabaStickDropTex" OutName="deku_baba_stick_drop" Format="rgba16" Width="32" Height="32" Offset="0x31C0"/>
     </File>

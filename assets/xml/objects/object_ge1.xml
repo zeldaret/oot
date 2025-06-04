@@ -74,5 +74,61 @@
         <Animation Name="gGerudoWhiteIdleAnim" Offset="0x0228"/>
         <Animation Name="gGerudoWhiteClapAnim" Offset="0xA048"/>
         <Animation Name="gGerudoWhiteDismissiveAnim" Offset="0xA498"/>
+
+        <!-- Vertices -->
+        <Array Name="gGerudoWhiteHeadVtx" Count="123" Offset="0x2B08">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteLeftHandVtx" Count="55" Offset="0x32B8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteLeftForearmVtx" Count="24" Offset="0x3628">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteLeftUpperArmVtx" Count="24" Offset="0x37A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteRightHandVtx" Count="55" Offset="0x3928">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteRightForearmVtx" Count="24" Offset="0x3C98">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteRightUpperArmVtx" Count="24" Offset="0x3E18">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteTorsoVtx" Count="118" Offset="0x3F98">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteLeftFootVtx" Count="49" Offset="0x46F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteLeftShinVtx" Count="32" Offset="0x4A08">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteLeftThighVtx" Count="28" Offset="0x4C08">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteRightFootVtx" Count="49" Offset="0x4DC8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteRightShinVtx" Count="32" Offset="0x50D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteRightThighVtx" Count="28" Offset="0x52D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteWaistVtx" Count="23" Offset="0x5498">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteHairstyleBobVtx" Count="161" Offset="0x7588">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteHairstyleStraightFringeVtx" Count="125" Offset="0x7F98">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoWhiteHairstyleSpikyVtx" Count="163" Offset="0x8768">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

@@ -37,5 +37,46 @@
 
         <!-- Fire Effect -->
         <DList Name="gDodongoFireDL" Offset="0x98A0"/>
+
+        <!-- Vertices -->
+        <Array Name="object_dodongo_Vtx_004C30" Count="30" Offset="0x4C30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_004E10" Count="29" Offset="0x4E10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_004FE0" Count="19" Offset="0x4FE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_005110" Count="57" Offset="0x5110">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_0054A0" Count="27" Offset="0x54A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_005650" Count="19" Offset="0x5650">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_005780" Count="12" Offset="0x5780">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_005840" Count="68" Offset="0x5840">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_005C80" Count="78" Offset="0x5C80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_006160" Count="19" Offset="0x6160">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_006290" Count="29" Offset="0x6290">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodongo_Vtx_006460" Count="30" Offset="0x6460">
+            <Vtx/>
+        </Array>
+        <Array Name="gDodongoFireVtx" Count="4" Offset="0x9900">
+            <Vtx/>
+        </Array>
     </File>
 </Root>
