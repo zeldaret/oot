@@ -32,8 +32,8 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_CAN_PRESS_SWITCHES)
 
-#define ENRU1_SWITCH_FLAG(thisx) PARAMS_GET_U(thisx->actor.params, 8, 8)
-#define ENRU1_TYPE(thisx) PARAMS_GET_U(thisx->actor.params, 0, 8)
+#define ENRU1_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 8)
+#define ENRU1_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 8)
 
 void EnRu1_Init(Actor* thisx, PlayState* play);
 void EnRu1_Destroy(Actor* thisx, PlayState* play);
@@ -226,13 +226,13 @@ void func_80AEADD8(EnRu1* this) {
 }
 
 u8 EnRu1_GetSwitchFlag(EnRu1* this) {
-    u8 switchFlag = ENRU1_SWITCH_FLAG(this);
+    u8 switchFlag = ENRU1_SWITCH_FLAG(&this->actor);
 
     return switchFlag;
 }
 
 u8 EnRu1_GetType(EnRu1* this) {
-    u8 type = ENRU1_TYPE(this);
+    u8 type = ENRU1_TYPE(&this->actor);
 
     return type;
 }
@@ -361,7 +361,7 @@ Actor* func_80AEB124(PlayState* play) {
     Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
     while (actorIt != NULL) {
-        if ((actorIt->id == ACTOR_DEMO_EFFECT) && (PARAMS_GET_U(actorIt->params, 0, 8) == DEMO_EFFECT_JEWEL_ZORA)) {
+        if ((actorIt->id == ACTOR_DEMO_EFFECT) && (ENRU1_TYPE(actorIt) == DEMO_EFFECT_JEWEL_ZORA)) {
             return actorIt;
         }
         actorIt = actorIt->next;
