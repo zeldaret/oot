@@ -95,8 +95,8 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
         Actor_Kill(&this->dyna.actor);
-        PRINTF("Error : " T("バンク危険！", "Bank danger!") "(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
-               "../z_bg_mori_hashira4.c", 196);
+        PRINTF(T("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               this->dyna.actor.params, "../z_bg_mori_hashira4.c", 196);
         return;
     }
     if ((this->dyna.actor.params != 0) && Flags_GetSwitch(play, this->switchFlag)) {
@@ -105,7 +105,8 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     }
     Actor_SetFocus(&this->dyna.actor, 50.0f);
     BgMoriHashira4_SetupWaitForMoriTex(this);
-    PRINTF(T("(森の神殿 ４本柱)", "Forest Temple 4 Pillars") "(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(森の神殿 ４本柱)(arg_data 0x%04x)\n", "(Forest Temple 4 Pillars)(arg_data 0x%04x)\n"),
+           this->dyna.actor.params);
     sUnkTimer = 0;
 }
 

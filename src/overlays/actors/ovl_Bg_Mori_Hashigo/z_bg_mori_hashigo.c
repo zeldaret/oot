@@ -182,12 +182,13 @@ void BgMoriHashigo_Init(Actor* thisx, PlayState* play) {
     }
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
-        PRINTF("Error : " T("バンク危険！", "Bank danger!") "(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
-               "../z_bg_mori_hashigo.c", 312);
+        PRINTF(T("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               this->dyna.actor.params, "../z_bg_mori_hashigo.c", 312);
         Actor_Kill(&this->dyna.actor);
     } else {
         BgMoriHashigo_SetupWaitForMoriTex(this);
-        PRINTF(T("(森の神殿 梯子とその留め金)", "(Forest Temple Ladder and its clasp)") "(arg_data 0x%04x)\n",
+        PRINTF(T("(森の神殿 梯子とその留め金)(arg_data 0x%04x)\n",
+                 "(Forest Temple Ladder and its clasp)(arg_data 0x%04x)\n"),
                this->dyna.actor.params);
     }
 }

@@ -78,7 +78,7 @@ void BgJyaKanaami_Init(Actor* thisx, PlayState* play) {
     } else {
         func_80899880(this);
     }
-    PRINTF("(jya " T("金網", "wire mesh") ")(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(jya 金網)(arg_data 0x%04x)\n", "(jya wire mesh)(arg_data 0x%04x)\n"), this->dyna.actor.params);
 }
 
 void BgJyaKanaami_Destroy(Actor* thisx, PlayState* play) {

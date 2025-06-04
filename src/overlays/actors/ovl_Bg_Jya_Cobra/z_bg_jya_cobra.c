@@ -445,8 +445,9 @@ void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
         BgJyaCobra_UpdateShadowFromTop(this);
     }
 
-    PRINTF("(jya " T("コブラ", "cobra") ")(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
-           &this->shadowTextureBuffer, COBRA_SHADOW_TEX_PTR(this));
+    PRINTF(T("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n",
+             "(jya cobra)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n"),
+           this->dyna.actor.params, this, &this->shadowTextureBuffer, COBRA_SHADOW_TEX_PTR(this));
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, PlayState* play) {

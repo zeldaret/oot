@@ -300,7 +300,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
     CollisionHeader* colHeader;
 
-    PRINTF("(spot08 " T("流氷", "ice floe") ")(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(spot08 流氷)(arg_data 0x%04x)\n", "(spot08 ice floe)(arg_data 0x%04x)\n"), this->dyna.actor.params);
     BgSpot08Iceblock_CheckParams(this);
 
     switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 9, 1)) {

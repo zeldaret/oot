@@ -227,8 +227,7 @@ void EnTite_Destroy(Actor* thisx, PlayState* play) {
             spawner->curNumSpawn--;
         }
         PRINTF("\n\n");
-        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of simultaneous spawns ☆☆☆☆☆%d\n")
-                   VT_RST,
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of simultaneous spawns ☆☆☆☆☆%d\n") VT_RST,
                spawner->curNumSpawn);
         PRINTF("\n\n");
     }
