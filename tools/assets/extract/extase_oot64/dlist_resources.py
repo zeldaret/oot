@@ -275,6 +275,15 @@ class TextureResource(Resource):
         self.width_name = f"{self.symbol_name}_WIDTH"
         self.height_name = f"{self.symbol_name}_HEIGHT"
 
+    def get_as_xml(self):
+        tlut_offset_attr = (
+            f' TlutOffset="0x{self.resource_tlut.range_start:X}"'
+            if self.resource_tlut
+            else ""
+        )
+        return f"""\
+        <Texture Name="{self.symbol_name}" Format="{self.fmt.name.lower()}{self.siz.bpp}" Width="{self.width}" Height="{self.height}" Offset="0x{self.range_start:X}"{tlut_offset_attr}/>"""
+
     def check_declare_length(self):
         return (
             hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_DL_AND_TEX_SIZES
@@ -1346,6 +1355,10 @@ class DListResource(Resource, can_size_be_unknown=True):
             print(self.name, hex(offset), hex(self.range_end))
 
         return RESOURCE_PARSE_SUCCESS
+
+    def get_as_xml(self):
+        return f"""\
+        <DList Name="{self.symbol_name}" Offset="0x{self.range_start:X}"/>"""
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_DL_AND_TEX_SIZES:
