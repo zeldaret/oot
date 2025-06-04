@@ -38,5 +38,118 @@
         <Array Name="gHoleVolvagiaVtx_00D000" Count="150" Offset="0xD000">
             <Vtx/>
         </Array>
+
+        <!-- Vertices -->
+        <Array Name="object_fd2_Vtx_000000" Count="67" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000430" Count="23" Offset="0x430">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_0005A0" Count="32" Offset="0x5A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_0007A0" Count="20" Offset="0x7A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_0008E0" Count="20" Offset="0x8E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000A20" Count="12" Offset="0xA20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000AE0" Count="8" Offset="0xAE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000B60" Count="5" Offset="0xB60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000BB0" Count="8" Offset="0xBB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000C30" Count="8" Offset="0xC30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000CB0" Count="8" Offset="0xCB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000D30" Count="9" Offset="0xD30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000DC0" Count="8" Offset="0xDC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000E40" Count="5" Offset="0xE40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000E90" Count="8" Offset="0xE90">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000F10" Count="8" Offset="0xF10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_000F90" Count="8" Offset="0xF90">
+            <Vtx/>
+        </Array>
+        <Array Name="gHoleVolvagiaManeModelVtx" Count="4" Offset="0x4B08">
+            <Vtx/>
+        </Array>
+        <Array Name="gHoleVolvagiaBrokenFaceVtx" Count="21" Offset="0x4CE8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00CDC0" Count="36" Offset="0xCDC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00D960" Count="66" Offset="0xD960">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00E720" Count="25" Offset="0xE720">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00E8B0" Count="25" Offset="0xE8B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00EA40" Count="25" Offset="0xEA40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00EBD0" Count="26" Offset="0xEBD0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00ED70" Count="25" Offset="0xED70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00EF00" Count="25" Offset="0xEF00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00F090" Count="25" Offset="0xF090">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00F220" Count="20" Offset="0xF220">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00F360" Count="25" Offset="0xF360">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00F4F0" Count="26" Offset="0xF4F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00F690" Count="20" Offset="0xF690">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00F7D0" Count="21" Offset="0xF7D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00F920" Count="25" Offset="0xF920">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00FAB0" Count="26" Offset="0xFAB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00FC50" Count="25" Offset="0xFC50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_fd2_Vtx_00FDE0" Count="25" Offset="0xFDE0">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

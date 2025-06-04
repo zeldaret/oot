@@ -22,6 +22,44 @@
         <!-- Forest Stage scrub Deku Nut (used by Nutsball) -->
         <DList Name="gDntStageNutDL" Offset="0x1890"/>
 
+        <!-- Vertices -->
+        <Array Name="object_dnk_Vtx_000B80" Count="6" Offset="0xB80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000BE0" Count="10" Offset="0xBE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000C80" Count="15" Offset="0xC80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000D70" Count="28" Offset="0xD70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000F30" Count="6" Offset="0xF30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000F90" Count="6" Offset="0xF90">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000FF0" Count="4" Offset="0xFF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_001030" Count="4" Offset="0x1030">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_001070" Count="7" Offset="0x1070">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_0010E0" Count="7" Offset="0x10E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDntStageNutVtx" Count="3" Offset="0x1860">
+            <Vtx/>
+        </Array>
+        <Array Name="gDntStageFlowerVtx" Count="30" Offset="0x1920">
+            <Vtx/>
+        </Array>
+
         <!-- Unused Content -->
 
         <!-- Forest Stage scrub animation -->

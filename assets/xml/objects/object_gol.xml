@@ -55,5 +55,37 @@
         <Limb Name="gObjectGolRightFootLimb" LimbType="Standard" Offset="0x3AC0"/>
         <Limb Name="gObjectGolRightShinLimb" LimbType="Standard" Offset="0x3ACC"/>
         <Limb Name="gObjectGolRightThighLimb" LimbType="Standard" Offset="0x3AD8"/>
+
+        <!-- Vertices -->
+        <Array Name="gObjectGolLeftFootVtx" Count="10" Offset="0x1560">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolLeftThighVtx" Count="26" Offset="0x16C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolLeftShinVtx" Count="10" Offset="0x1958">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolRightFootVtx" Count="10" Offset="0x1A88">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolRightThighVtx" Count="25" Offset="0x1BE8">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolRightShinVtx" Count="10" Offset="0x1E70">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolBodyVtx" Count="84" Offset="0x1FA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolEggVtx" Count="59" Offset="0x26C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolEyeIrisVtx" Count="3" Offset="0x2BE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolAntennaVtx" Count="34" Offset="0x2C98">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

@@ -7,5 +7,28 @@
         <Texture Name="gGuayTailTex" OutName="tail" Format="rgba16" Width="16" Height="16" Offset="0xE40"/>
 
         <Skeleton Name="gGuaySkel" Type="Flex" LimbType="Standard" Offset="0x10C0"/>
+
+        <!-- Vertices -->
+        <Array Name="object_crow_Vtx_000100" Count="8" Offset="0x100">
+            <Vtx/>
+        </Array>
+        <Array Name="object_crow_Vtx_000180" Count="5" Offset="0x180">
+            <Vtx/>
+        </Array>
+        <Array Name="object_crow_Vtx_0001D0" Count="8" Offset="0x1D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_crow_Vtx_000250" Count="5" Offset="0x250">
+            <Vtx/>
+        </Array>
+        <Array Name="object_crow_Vtx_0002A0" Count="25" Offset="0x2A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_crow_Vtx_000430" Count="3" Offset="0x430">
+            <Vtx/>
+        </Array>
+        <Array Name="object_crow_Vtx_000460" Count="3" Offset="0x460">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

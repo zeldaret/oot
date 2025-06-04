@@ -17,5 +17,39 @@
         <Texture Name="gFireKeeseEarTex" OutName="fire_ear" Format="rgba16" Width="16" Height="8" Offset="0x310"/>
         <Texture Name="gFireKeeseTalonTex" OutName="fire_talon" Format="rgba16" Width="8" Height="16" Offset="0x410"/>
         <Texture Name="gFireKeeseWingTex" OutName="fire_wing" Format="rgba16" Width="4" Height="16" Offset="0x510"/>
+
+        <Array Name="object_firefly_Vtx_000890" Count="26" Offset="0x890">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000A30" Count="17" Offset="0xA30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000B40" Count="3" Offset="0xB40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000B70" Count="4" Offset="0xB70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000BB0" Count="3" Offset="0xBB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000BE0" Count="3" Offset="0xBE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000C10" Count="3" Offset="0xC10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000C40" Count="3" Offset="0xC40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000C70" Count="3" Offset="0xC70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000CA0" Count="3" Offset="0xCA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gKeeseEyesVtx" Count="6" Offset="0xCD0">
+            <Vtx/>
+        </Array>
     </File>
 </Root>
