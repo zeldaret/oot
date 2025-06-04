@@ -18,7 +18,6 @@
 #include "z64save.h"
 
 #include "assets/textures/title_static/title_static.h"
-#include "assets/overlays/ovl_file_choose/ovl_file_choose.h"
 
 void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
     OPEN_DISPS(gfxCtx, "../z_file_nameset_PAL.c", 110);

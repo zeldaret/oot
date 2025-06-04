@@ -41,7 +41,7 @@ void* SystemArena_Malloc(u32 size) {
     ptr = __osMalloc(&gSystemArena, size);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc", "確保"); // "Secure"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc", T("確保", "Secure"));
     return ptr;
 }
 
@@ -54,7 +54,7 @@ void* SystemArena_MallocDebug(u32 size, const char* file, int line) {
     ptr = __osMallocDebug(&gSystemArena, size, file, line);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_DEBUG", "確保"); // "Secure"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_DEBUG", T("確保", "Secure"));
     return ptr;
 }
 #endif
@@ -67,7 +67,7 @@ void* SystemArena_MallocR(u32 size) {
     ptr = __osMallocR(&gSystemArena, size);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_r", "確保"); // "Secure"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_r", T("確保", "Secure"));
     return ptr;
 }
 
@@ -80,7 +80,7 @@ void* SystemArena_MallocRDebug(u32 size, const char* file, int line) {
     ptr = __osMallocRDebug(&gSystemArena, size, file, line);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_r_DEBUG", "確保"); // "Secure"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_r_DEBUG", T("確保", "Secure"));
     return ptr;
 }
 #endif
@@ -92,7 +92,7 @@ void* SystemArena_Realloc(void* ptr, u32 newSize) {
     ptr = __osRealloc(&gSystemArena, ptr, newSize);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, newSize, "realloc", "再確保"); // "Re-securing"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, newSize, "realloc", T("再確保", "Re-secure"));
     return ptr;
 }
 
@@ -104,7 +104,7 @@ void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int lin
     ptr = __osReallocDebug(&gSystemArena, ptr, newSize, file, line);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, newSize, "realloc_DEBUG", "再確保"); // "Re-securing"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, newSize, "realloc_DEBUG", T("再確保", "Re-secure"));
     return ptr;
 }
 #endif
@@ -140,7 +140,7 @@ void* SystemArena_Calloc(u32 num, u32 size) {
         bzero(ret, n);
     }
 
-    SYSTEM_ARENA_CHECK_POINTER(ret, n, "calloc", "確保");
+    SYSTEM_ARENA_CHECK_POINTER(ret, n, "calloc", T("確保", "Secure"));
     return ret;
 }
 
