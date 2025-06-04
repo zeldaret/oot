@@ -2,6 +2,9 @@
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_ps" Segment="6">
         <Animation Name="gPoeSellerIdleAnim" Offset="0x049C"/>
+        <Array Name="object_ps_Vtx_002A78" Count="476" Offset="0x2A78">
+            <Vtx/>
+        </Array>
         <Texture Name="gPoeSellerMetalFrameTex" OutName="poe_seller_metal_frame" Format="rgba16" Width="8" Height="8" Offset="0x5A80"/>
         <Texture Name="gPoeSellerMattressTex" OutName="poe_seller_mattress" Format="rgba16" Width="8" Height="8" Offset="0x5B00"/>
         <Texture Name="gPoeSellerClothTex" OutName="poe_seller_cloth" Format="rgba16" Width="32" Height="32" Offset="0x5B80"/>
@@ -9,9 +12,39 @@
         <Texture Name="gPoeSellerBottleLabelTex" OutName="poe_seller_bottle_label" Format="rgba16" Width="16" Height="16" Offset="0x6580"/>
         <Texture Name="gPoeSellerWoodenPanelTex" OutName="poe_seller_wooden_panel" Format="rgba16" Width="32" Height="32" Offset="0x6780"/>
         <Texture Name="gPoeSellerLanternTex" OutName="poe_seller_lantern" Format="rgba16" Width="16" Height="16" Offset="0x6F80"/>
+        <Array Name="object_ps_Vtx_008040" Count="55" Offset="0x8040">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_0083B0" Count="8" Offset="0x83B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_008430" Count="24" Offset="0x8430">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_0085B0" Count="103" Offset="0x85B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_008C20" Count="30" Offset="0x8C20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_008E00" Count="14" Offset="0x8E00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_008EE0" Count="30" Offset="0x8EE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_0090C0" Count="14" Offset="0x90C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_0091A0" Count="82" Offset="0x91A0">
+            <Vtx/>
+        </Array>
         <Texture Name="gPoeSellerAngrySoulTex" OutName="poe_seller_angry_soul" Format="i8" Width="32" Height="64" Offset="0xA870"/>
         <Texture Name="gPoeSellerHappySoulTex" OutName="poe_seller_happy_soul" Format="i8" Width="32" Height="64" Offset="0xB070"/>
         <Texture Name="gPoeSellerSadSoulTex" OutName="poe_seller_sad_soul" Format="i8" Width="32" Height="64" Offset="0xB870"/>
+        <Array Name="gPoeSellerCagedSoulVtx" Count="4" Offset="0xC070">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeSellerCagedSoulDL" Offset="0xC0B0"/>
         <Skeleton Name="gPoeSellerSkel" Type="Flex" LimbType="Standard" Offset="0xC220"/>
         <Collision Name="gPoeSellerCol" Offset="0xC2D0"/>

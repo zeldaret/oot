@@ -1169,7 +1169,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
     }
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        this->dmgEffect = this->actor.colChkInfo.damageEffect;
+        this->dmgEffect = this->actor.colChkInfo.damageReaction;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, false);
         switch (this->dmgEffect) {
             case 7:
@@ -1252,7 +1252,7 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
     if (this->actor.params <= ENBB_BLUE) {
         EnBb_CollisionCheck(this, play);
     }
-    if (this->actor.colChkInfo.damageEffect != 0xD) {
+    if (this->actor.colChkInfo.damageReaction != 0xD) {
         this->actionFunc(this, play);
         if ((this->actor.params <= ENBB_BLUE) && (this->actor.speed >= -6.0f) &&
             !(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
