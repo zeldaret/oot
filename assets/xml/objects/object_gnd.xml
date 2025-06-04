@@ -82,5 +82,60 @@
         <DList Name="gPhantomGanonBarsDL" Offset="0x12AB0"/>
         <Collision Name="gPhantomGanonBarsCol" Offset="0x12FD0"/>
 
+        <!-- Vertices -->
+        <Array Name="gPhantomGanonFaceVtx" Count="209" Offset="0x41B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_005548" Count="188" Offset="0x5548">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_006108" Count="35" Offset="0x6108">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_006338" Count="11" Offset="0x6338">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_0063E8" Count="30" Offset="0x63E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_0065C8" Count="147" Offset="0x65C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_006EF8" Count="61" Offset="0x6EF8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_0072C8" Count="47" Offset="0x72C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_0075B8" Count="15" Offset="0x75B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_0076A8" Count="17" Offset="0x76A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_0077B8" Count="20" Offset="0x77B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_0078F8" Count="30" Offset="0x78F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_007AD8" Count="11" Offset="0x7AD8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_007B88" Count="35" Offset="0x7B88">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_007DB8" Count="15" Offset="0x7DB8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_007EA8" Count="20" Offset="0x7EA8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gnd_Vtx_007FE8" Count="17" Offset="0x7FE8">
+            <Vtx/>
+        </Array>
+        <Array Name="gPhantomGanonBarsVtx" Count="12" Offset="0x129F0">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

@@ -824,7 +824,13 @@ static f32 sCutAngles[] = {
 
 static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 
-#include "assets/overlays/ovl_En_Kanban/ovl_En_Kanban.c"
+static Vtx sShadowVtx[] = {
+#include "assets/overlays/ovl_En_Kanban/sShadowVtx.inc.c"
+};
+
+static Gfx sShadowDL[16] = {
+#include "assets/overlays/ovl_En_Kanban/sShadowDL.inc.c"
+};
 
 void EnKanban_Draw(Actor* thisx, PlayState* play) {
     EnKanban* this = (EnKanban*)thisx;

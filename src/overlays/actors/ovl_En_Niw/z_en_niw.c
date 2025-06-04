@@ -155,7 +155,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
         if (sLowerRiverSpawned) {
             Actor_Kill(&this->actor);
             PRINTF(VT_FGCOL(YELLOW)
-                       T("☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n", "☆☆☆☆☆ Original is already here Ver.1 ☆☆☆☆☆ \n") VT_RST);
+                       T("☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n", "☆☆☆☆☆ I'm already here -Hara Ver.1 ☆☆☆☆☆ \n") VT_RST);
             return;
         }
         sLowerRiverSpawned = true;
@@ -167,7 +167,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
         if (sUpperRiverSpawned) {
             Actor_Kill(&this->actor);
             PRINTF(VT_FGCOL(YELLOW)
-                       T("☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n", "☆☆☆☆☆ Original is already here Ver.2 ☆☆☆☆☆ \n") VT_RST);
+                       T("☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n", "☆☆☆☆☆ I'm already here -Hara Ver.2 ☆☆☆☆☆ \n") VT_RST);
             return;
         }
         sUpperRiverSpawned = true;

@@ -51,5 +51,51 @@
         <Limb Name="gWindmillManRightHandAndCrankLimb" LimbType="Standard" Offset="0x6C30"/>
         <Limb Name="gWindmillManHeadLimb" LimbType="Standard" Offset="0x6C3C"/>
         <Limb Name="gWindmillManHornLimb" LimbType="Standard" Offset="0x6C48"/>
+
+        <Array Name="gWindmillManBlueTriangleVtx" Count="3" Offset="0xB20">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManLeftArmAndMusicBoxVtx" Count="59" Offset="0xB50">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightHandAndCrankVtx" Count="58" Offset="0xF00">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightArmVtx" Count="24" Offset="0x12A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightShoulderVtx" Count="24" Offset="0x1420">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManHornVtx" Count="48" Offset="0x15A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManHeadVtx" Count="133" Offset="0x18A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManChestAndMusicBoxPipeVtx" Count="112" Offset="0x20F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManLeftFootVtx" Count="14" Offset="0x27F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManLeftLegVtx" Count="28" Offset="0x28D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManLeftThighVtx" Count="23" Offset="0x2A90">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightFootVtx" Count="14" Offset="0x2C00">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightLegVtx" Count="28" Offset="0x2CE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightThighVtx" Count="23" Offset="0x2EA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManTorsoVtx" Count="18" Offset="0x3010">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

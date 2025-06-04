@@ -186,8 +186,7 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     LOG_NUM("this->actor.arg_data", this->actor.params, "../z_mir_ray.c", 518);
 
     if (this->actor.params >= 0xA) {
-        // "Reflected light generation failure"
-        LOG_STRING("反射光 発生失敗", "../z_mir_ray.c", 521);
+        LOG_STRING_T("反射光 発生失敗", "Reflected light generation failure", "../z_mir_ray.c", 521);
         Actor_Kill(&this->actor);
     }
 

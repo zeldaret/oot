@@ -107,7 +107,7 @@ void EnDivingGame_Init(Actor* thisx, PlayState* play) {
     this->actor.scale.y = 0.012999999f;
     this->actor.scale.z = 0.0139999995f;
     if (D_809EF0B0) {
-        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n", "☆☆☆☆☆ Original is already here ☆☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n", "☆☆☆☆☆ I'm already here -Hara ☆☆☆☆☆ \n") VT_RST);
         this->unk_31F = 1;
         Actor_Kill(&this->actor);
     } else {

@@ -39,8 +39,6 @@ EffectSsProfile Effect_Ss_Fhg_Flash_Profile = {
     EffectSsFhgFlash_Init,
 };
 
-// Should eventually come from assets/overlays/ovl_Effect_Ss_Fhg_Flash/ovl_Effect_Ss_Fhg_Flash.h
-//! TODO: investigate having ZAPD forward declare static variables
 static Gfx sShockDL[15];
 
 u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
@@ -216,4 +214,18 @@ void EffectSsFhgFlash_UpdateShock(PlayState* play, u32 index, EffectSs* this) {
     }
 }
 
-#include "assets/overlays/ovl_Effect_Ss_Fhg_Flash/ovl_Effect_Ss_Fhg_Flash.c"
+static Vtx sShockVtx[] = {
+#include "assets/overlays/ovl_Effect_Ss_Fhg_Flash/sShockVtx.inc.c"
+};
+
+#define sShockTex_WIDTH 32
+#define sShockTex_HEIGHT 32
+static u64 sShockTex[TEX_LEN(u64, sShockTex_WIDTH, sShockTex_HEIGHT, 8)];
+
+static Gfx sShockDL[15] = {
+#include "assets/overlays/ovl_Effect_Ss_Fhg_Flash/sShockDL.inc.c"
+};
+
+static u64 sShockTex[TEX_LEN(u64, sShockTex_WIDTH, sShockTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Effect_Ss_Fhg_Flash/sShockTex.i8.inc.c"
+};

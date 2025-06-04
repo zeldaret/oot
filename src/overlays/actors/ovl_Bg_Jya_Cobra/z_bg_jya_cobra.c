@@ -28,7 +28,13 @@ void func_80896950(BgJyaCobra* this, PlayState* play);
 void func_808969F8(BgJyaCobra* this, PlayState* play);
 void func_80896ABC(BgJyaCobra* this, PlayState* play);
 
-#include "assets/overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
+static Vtx sShadowVtx[] = {
+#include "assets/overlays/ovl_Bg_Jya_Cobra/sShadowVtx.inc.c"
+};
+
+static Gfx sShadowDL[7] = {
+#include "assets/overlays/ovl_Bg_Jya_Cobra/sShadowDL.inc.c"
+};
 
 ActorProfile Bg_Jya_Cobra_Profile = {
     /**/ ACTOR_BG_JYA_COBRA,

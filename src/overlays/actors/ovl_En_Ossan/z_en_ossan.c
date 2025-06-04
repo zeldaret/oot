@@ -1203,7 +1203,7 @@ void EnOssan_State_BrowseLeftShelf(EnOssan* this, PlayState* play, Player* playe
     s32 d;
 
     if (!EnOssan_ReturnItemToShelf(this)) {
-        PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2152);
+        PRINTF("%s[%d]:" VT_FGCOL(GREEN) T("ズーム中！！", "Zooming!!") VT_RST "\n", "../z_en_oB1.c", 2152);
         this->delayTimer = 3;
         return;
     }
@@ -1262,7 +1262,7 @@ void EnOssan_State_BrowseRightShelf(EnOssan* this, PlayState* play, Player* play
 
     prevIndex = this->cursorIndex;
     if (!EnOssan_ReturnItemToShelf(this)) {
-        PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2244);
+        PRINTF("%s[%d]:" VT_FGCOL(GREEN) T("ズーム中！！", "Zooming!!") VT_RST "\n", "../z_en_oB1.c", 2244);
         this->delayTimer = 3;
         return;
     }
@@ -1327,7 +1327,7 @@ void EnOssan_State_LookFromShelfToShopkeeper(EnOssan* this, PlayState* play, Pla
 
 void EnOssan_State_DisplayOnlyBombDialog(EnOssan* this, PlayState* play, Player* player) {
     if (!EnOssan_ReturnItemToShelf(this)) {
-        PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2355);
+        PRINTF("%s[%d]:" VT_FGCOL(GREEN) T("ズーム中！！", "Zooming!!") VT_RST "\n", "../z_en_oB1.c", 2355);
         return;
     }
     Math_ApproachF(&this->cameraFaceAngle, 0.0f, 0.5f, 10.0f);
@@ -1344,7 +1344,7 @@ void EnOssan_State_DisplayOnlyBombDialog(EnOssan* this, PlayState* play, Player*
 void EnOssan_GiveItemWithFanfare(PlayState* play, EnOssan* this) {
     Player* player = GET_PLAYER(play);
 
-    PRINTF("\n" VT_FGCOL(YELLOW) "初めて手にいれた！！" VT_RST "\n\n");
+    PRINTF("\n" VT_FGCOL(YELLOW) T("初めて手にいれた！！", "I got it for the first time!!") VT_RST "\n\n");
     Actor_OfferGetItem(&this->actor, play, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
@@ -1354,7 +1354,7 @@ void EnOssan_GiveItemWithFanfare(PlayState* play, EnOssan* this) {
     this->drawCursor = 0;
     EnOssan_UpdateCameraDirection(this, play, 0.0f);
     this->stateFlag = OSSAN_STATE_GIVE_ITEM_FANFARE;
-    PRINTF(VT_FGCOL(YELLOW) "持ち上げ開始！！" VT_RST "\n\n");
+    PRINTF(VT_FGCOL(YELLOW) T("持ち上げ開始！！", "Start lifting!!") VT_RST "\n\n");
 }
 
 void EnOssan_SetStateCantGetItem(PlayState* play, EnOssan* this, u16 textId) {
@@ -1506,7 +1506,7 @@ void EnOssan_State_ItemSelected(EnOssan* this, PlayState* play2, Player* player)
     PlayState* play = play2; // Necessary for OKs
 
     if (!EnOssan_TakeItemOffShelf(this)) {
-        PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2654);
+        PRINTF("%s[%d]:" VT_FGCOL(GREEN) T("ズーム中！！", "Zooming!!") VT_RST "\n", "../z_en_oB1.c", 2654);
         return;
     }
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE &&
@@ -1527,7 +1527,7 @@ void EnOssan_State_SelectMilkBottle(EnOssan* this, PlayState* play2, Player* pla
     PlayState* play = play2; // Need for OK
 
     if (!EnOssan_TakeItemOffShelf(this)) {
-        PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2693);
+        PRINTF("%s[%d]:" VT_FGCOL(GREEN) T("ズーム中！！", "Zooming!!") VT_RST "\n", "../z_en_oB1.c", 2693);
         return;
     }
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE &&
@@ -1548,7 +1548,7 @@ void EnOssan_State_SelectWeirdEgg(EnOssan* this, PlayState* play2, Player* playe
     PlayState* play = play2; // Needed for OK
 
     if (!EnOssan_TakeItemOffShelf(this)) {
-        PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2732);
+        PRINTF("%s[%d]:" VT_FGCOL(GREEN) T("ズーム中！！", "Zooming!!") VT_RST "\n", "../z_en_oB1.c", 2732);
         return;
     }
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE &&
@@ -1567,7 +1567,7 @@ void EnOssan_State_SelectWeirdEgg(EnOssan* this, PlayState* play2, Player* playe
 
 void EnOssan_State_SelectUnimplementedItem(EnOssan* this, PlayState* play, Player* player) {
     if (!EnOssan_TakeItemOffShelf(this)) {
-        PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2771);
+        PRINTF("%s[%d]:" VT_FGCOL(GREEN) T("ズーム中！！", "Zooming!!") VT_RST "\n", "../z_en_oB1.c", 2771);
         return;
     }
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(play)) {
@@ -1578,10 +1578,10 @@ void EnOssan_State_SelectUnimplementedItem(EnOssan* this, PlayState* play, Playe
 
 void EnOssan_State_SelectBombs(EnOssan* this, PlayState* play, Player* player) {
     if (!EnOssan_TakeItemOffShelf(this)) {
-        PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2798);
+        PRINTF("%s[%d]:" VT_FGCOL(GREEN) T("ズーム中！！", "Zooming!!") VT_RST "\n", "../z_en_oB1.c", 2798);
         return;
     }
-    PRINTF("店主の依頼 ( %d )\n", GET_INFTABLE(INFTABLE_FC));
+    PRINTF(T("店主の依頼 ( %d )\n", "Shopkeeper's request ( %d )\n"), GET_INFTABLE(INFTABLE_FC));
     if (this->actor.params != OSSAN_TYPE_GORON) {
         EnOssan_State_ItemSelected(this, play, player);
         return;
@@ -1605,7 +1605,7 @@ void EnOssan_State_SelectMaskItem(EnOssan* this, PlayState* play, Player* player
     EnGirlA* item = this->shelfSlots[this->cursorIndex];
 
     if (!EnOssan_TakeItemOffShelf(this)) {
-        PRINTF("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2845);
+        PRINTF("%s[%d]:" VT_FGCOL(GREEN) T("ズーム中！！", "Zooming!!") VT_RST "\n", "../z_en_oB1.c", 2845);
         return;
     }
     if (talkState == TEXT_STATE_EVENT) {
@@ -1722,7 +1722,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
 
                 switch (play->msgCtx.choiceIndex) {
                     case 0:
-                        PRINTF(VT_FGCOL(YELLOW) "★★★ 続けるよ！！ ★★★" VT_RST "\n");
+                        PRINTF(VT_FGCOL(YELLOW) T("★★★ 続けるよ！！ ★★★", "★★★ I will continue!! ★★★") VT_RST "\n");
                         player->actor.shape.rot.y += 0x8000;
                         player->stateFlags2 |= PLAYER_STATE2_29;
                         Play_SetViewpoint(play, VIEWPOINT_PIVOT);
@@ -1732,7 +1732,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
                         break;
                     case 1:
                     default:
-                        PRINTF(VT_FGCOL(YELLOW) "★★★ やめるよ！！ ★★★" VT_RST "\n");
+                        PRINTF(VT_FGCOL(YELLOW) T("★★★ やめるよ！！ ★★★", "★★★ I'm quitting!! ★★★") VT_RST "\n");
                         EnOssan_EndInteraction(play, this);
                         break;
                 }

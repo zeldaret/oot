@@ -231,7 +231,8 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     this->actor.shape.shadowScale = 54.0f;
                 }
             } else if (play->sceneId == SCENE_LON_LON_BUILDINGS) {
-                PRINTF(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
+                PRINTF(VT_FGCOL(CYAN) T(" ロンロン牧場の倉庫 の タロン\n", " Talon in the warehouse at Lon Lon Ranch\n")
+                           VT_RST);
                 if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
                 } else if (LINK_IS_ADULT) {
