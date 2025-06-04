@@ -2,9 +2,9 @@
 #define CONSOLE_LOGO_STATE_H
 
 #include "ultra64.h"
-#include "z64game.h"
-#include "z64sram.h"
-#include "z64view.h"
+#include "game.h"
+#include "sram.h"
+#include "view.h"
 
 typedef struct ConsoleLogoState {
     /* 0x0000 */ GameState state;

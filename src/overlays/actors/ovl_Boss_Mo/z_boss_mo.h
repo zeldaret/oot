@@ -2,7 +2,7 @@
 #define Z_BOSS_MO_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct BossMo;
 

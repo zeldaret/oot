@@ -2,7 +2,7 @@
 #define Z_BG_VB_SIMA_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct BgVbSima;
 

@@ -2,7 +2,7 @@
 #define Z_EN_SHOPNUTS_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
 
 struct EnShopnuts;

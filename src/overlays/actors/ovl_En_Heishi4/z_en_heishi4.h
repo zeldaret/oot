@@ -2,7 +2,7 @@
 #define Z_EN_HEISHI4_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum Heishi4Type {
     /* 0x00 */ HEISHI4_AT_KAKARIKO_ENTRANCE,

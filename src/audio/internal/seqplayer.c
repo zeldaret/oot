@@ -19,7 +19,7 @@
 #include "assert.h"
 #include "attributes.h"
 #include "ultra64.h"
-#include "z64audio.h"
+#include "audio.h"
 
 static_assert(MML_VERSION == MML_VERSION_OOT, "This file implements the OoT version of the MML");
 

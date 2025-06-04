@@ -20,7 +20,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 

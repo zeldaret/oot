@@ -79,7 +79,7 @@ class LegacyLimbResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64animation_legacy.h",)
+        return ("animation_legacy.h",)
 
 
 class LegacyJointKeyArrayResource(CDataArrayResource):
@@ -104,7 +104,7 @@ class LegacyJointKeyArrayResource(CDataArrayResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64animation_legacy.h",)
+        return ("animation_legacy.h",)
 
 
 class LegacyAnimationResource(CDataResource):
@@ -207,7 +207,7 @@ class LegacyAnimationResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64animation_legacy.h",)
+        return ("animation_legacy.h",)
 
 
 class LegacyLimbsArrayResource(skeleton_resources.LimbsArrayResourceABC):
@@ -215,4 +215,4 @@ class LegacyLimbsArrayResource(skeleton_resources.LimbsArrayResourceABC):
     c_limb_type = "LegacyLimb"
 
     def get_h_includes(self):
-        return ("z64animation_legacy.h",)
+        return ("animation_legacy.h",)

@@ -5,10 +5,10 @@
 #include "printf.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64effect.h"
-#include "z64light.h"
-#include "z64play.h"
-#include "z64skin_matrix.h"
+#include "effect.h"
+#include "light.h"
+#include "play_state.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

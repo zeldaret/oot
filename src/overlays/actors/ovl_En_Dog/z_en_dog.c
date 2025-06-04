@@ -10,8 +10,8 @@
 #include "gfx_setupdl.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_dog/object_dog.h"
 

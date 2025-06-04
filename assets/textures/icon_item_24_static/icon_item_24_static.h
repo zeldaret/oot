@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "tex_len.h"
-#include "z64interface.h"
+#include "interface.h"
 
 extern u64 gQuestIconMedallionForestTex[TEX_LEN(u64, QUEST_ICON_WIDTH, QUEST_ICON_HEIGHT, 32)];
 extern u64 gQuestIconMedallionFireTex[TEX_LEN(u64, QUEST_ICON_WIDTH, QUEST_ICON_HEIGHT, 32)];

@@ -2,7 +2,7 @@
 #define Z_EN_DNS_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
 
 #define DNS_GET_TYPE(thisx) ((thisx)->params)

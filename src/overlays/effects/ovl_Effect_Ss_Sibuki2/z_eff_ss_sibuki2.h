@@ -2,7 +2,7 @@
 #define Z_EFF_SS_SIBUKI2_H
 
 #include "ultra64.h"
-#include "z64math.h"
+#include "z_math.h"
 
 typedef struct EffectSsSibuki2InitParams {
     /* 0x00 */ Vec3f pos;
