@@ -81,5 +81,60 @@
         <Animation Name="gGerudoPurpleLookingAboutAnim" Offset="0x98AC"/>
         <Animation Name="gGerudoPurpleWalkingAnim" Offset="0x9ED4"/>
 
+        <!-- Vertices -->
+        <Array Name="gGerudoPurpleRightForearmVtx" Count="30" Offset="0x1B50">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleRightUpperArmVtx" Count="25" Offset="0x1D30">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleLeftForearmVtx" Count="30" Offset="0x1EC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleLeftUpperArmVtx" Count="25" Offset="0x20A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleTorsoVtx" Count="97" Offset="0x2230">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleLeftShinVtx" Count="53" Offset="0x2840">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleLeftThighVtx" Count="32" Offset="0x2B90">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleRightShinVtx" Count="53" Offset="0x2D90">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleRightThighVtx" Count="32" Offset="0x30E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleWaistVtx" Count="38" Offset="0x32E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleLeftFootVtx" Count="43" Offset="0x5FF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleRightFootVtx" Count="43" Offset="0x62A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleLeftHandVtx" Count="34" Offset="0x6558">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleRightHandVtx" Count="34" Offset="0x6778">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleGlaiveVtx" Count="25" Offset="0x6998">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleVeilVtx" Count="12" Offset="0x6B28">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurplePonytailVtx" Count="14" Offset="0x6BE8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGerudoPurpleHeadVtx" Count="203" Offset="0x6CC8">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

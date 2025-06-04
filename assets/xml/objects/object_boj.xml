@@ -34,6 +34,53 @@
         <Texture Name="gHylianMan2BeltShoeTex" OutName="belt_shoe" Format="ci8" Width="8" Height="8" Offset="0xA3C" TlutOffset="0xFC"/>
         <Texture Name="gHylianMan2PantsTex" OutName="pants" Format="i8" Width="8" Height="8" Offset="0xA7C"/>
 
+        <!-- Vertices -->
+        <Array Name="gHylianMan2MustachedHeadVtx" Count="83" Offset="0xAC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2LeftHandVtx" Count="28" Offset="0xFF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2LeftForearmVtx" Count="24" Offset="0x11B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2LeftUpperArmVtx" Count="26" Offset="0x1330">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2RightHandVtx" Count="28" Offset="0x14D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2RightForearmVtx" Count="24" Offset="0x1690">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2RightUpperArmVtx" Count="26" Offset="0x1810">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2TorsoVtx" Count="42" Offset="0x19B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2LeftFootVtx" Count="18" Offset="0x1C50">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2LeftShinVtx" Count="27" Offset="0x1D70">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2LeftThighVtx" Count="23" Offset="0x1F20">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2RightFootVtx" Count="18" Offset="0x2090">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2RightShinVtx" Count="27" Offset="0x21B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2RightThighVtx" Count="23" Offset="0x2360">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2PelvisVtx" Count="34" Offset="0x24D0">
+            <Vtx/>
+        </Array>
+
         <!-- DLs -->
         <DList Name="gHylianMan2MustachedHeadDL" Offset="0x26F0"/>
         <DList Name="gHylianMan2RightHandDL" Offset="0x2AC8"/>
@@ -62,6 +109,21 @@
         <Texture Name="gHylianMan2AltMustachedBeardedEyeTex" OutName="alt_mustached_bearded_eye" Format="ci8" Width="16" Height="16" Offset="0x4250" TlutOffset="0x3B98"/>
 
         <!-- Alternate Head DLs -->
+        <Array Name="gHylianMan2BaldHeadVtx" Count="52" Offset="0x4350">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2LongHairHeadVtx" Count="46" Offset="0x4690">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2AltMustachedHeadVtx" Count="71" Offset="0x4970">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2BeardedHeadVtx" Count="71" Offset="0x4DE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan2BagVtx" Count="9" Offset="0x5250">
+            <Vtx/>
+        </Array>
         <DList Name="gHylianMan2BaldHeadDL" Offset="0x52E0"/>
         <DList Name="gHylianMan2LongHairHeadDL" Offset="0x5528"/>
         <DList Name="gHylianMan2AltMustachedHeadDL" Offset="0x5738"/>
