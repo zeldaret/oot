@@ -90,11 +90,11 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
-typedef enum {
-    /* 00 */ ENRU1_WATER_OUTSIDE,
-    /* 01 */ ENRU1_WATER_IMMERSED,
-    /* 02 */ ENRU1_WATER_BOBBING,
-    /* 03 */ ENRU1_WATER_SINKING,
+typedef enum EnRu1WaterState {
+    /* 0 */ ENRU1_WATER_OUTSIDE,
+    /* 1 */ ENRU1_WATER_IMMERSED,
+    /* 2 */ ENRU1_WATER_BOBBING,
+    /* 3 */ ENRU1_WATER_SINKING,
 } EnRu1WaterState;
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
