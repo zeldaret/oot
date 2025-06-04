@@ -7,6 +7,9 @@
 #include "overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
+#define ENRU1_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 8)
+#define ENRU1_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 8)
+
 struct EnRu1;
 
 typedef void (*EnRu1ActionFunc)(struct EnRu1*, struct PlayState*);

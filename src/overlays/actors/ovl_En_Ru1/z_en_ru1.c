@@ -32,9 +32,6 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_CAN_PRESS_SWITCHES)
 
-#define ENRU1_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 8)
-#define ENRU1_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 8)
-
 void EnRu1_Init(Actor* thisx, PlayState* play);
 void EnRu1_Destroy(Actor* thisx, PlayState* play);
 void EnRu1_Update(Actor* thisx, PlayState* play);
