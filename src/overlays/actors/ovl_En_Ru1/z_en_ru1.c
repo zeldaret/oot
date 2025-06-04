@@ -2258,7 +2258,7 @@ void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
 
 #if DEBUG_FEATURES
 void func_80AF0050(EnRu1* this, PlayState* play) {
-    EnRu1_AnimationChange(this, &gRutoChildWait2Anim, 0, 0, 0);
+    EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
     this->action = 36;
     this->roomNum1 = this->actor.room;
     this->unk_28C = EnRu1_FindSwitch(play);
