@@ -5,7 +5,7 @@
 #include "translation.h"
 #include "ultra64.h"
 #include "z_lib.h"
-#include "z64math.h"
+#include "z_math.h"
 
 #pragma increment_block_number "gc-eu:76 gc-eu-mq:76 gc-jp:76 gc-jp-ce:76 gc-jp-mq:76 gc-us:76 gc-us-mq:76 ique-cn:66" \
                                "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"

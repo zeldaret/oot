@@ -1,10 +1,10 @@
 #include "array_count.h"
 #include "segmented_address.h"
 #include "zelda_arena.h"
-#include "z64actor.h"
-#include "z64play.h"
-#include "z64skin.h"
-#include "z64skin_matrix.h"
+#include "actor.h"
+#include "play_state.h"
+#include "skin.h"
+#include "skin_matrix.h"
 
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 

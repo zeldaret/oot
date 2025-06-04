@@ -14,8 +14,8 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_spot17_obj/object_spot17_obj.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"

@@ -10,7 +10,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sys_matrix.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_skj/object_skj.h"
 

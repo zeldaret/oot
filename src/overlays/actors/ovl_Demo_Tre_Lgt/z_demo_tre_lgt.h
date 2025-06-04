@@ -2,8 +2,8 @@
 #define Z_DEMO_TRE_LGT_H
 
 #include "ultra64.h"
-#include "z64actor.h"
-#include "z64curve.h"
+#include "actor.h"
+#include "curve.h"
 
 struct DemoTreLgt;
 

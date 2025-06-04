@@ -2,10 +2,10 @@
 #include "terminal.h"
 #include "translation.h"
 #include "ultra64.h"
-#include "z64actor.h"
-#include "z64bgcheck.h"
-#include "z64player.h"
-#include "z64skin_matrix.h"
+#include "actor.h"
+#include "bgcheck.h"
+#include "player.h"
+#include "skin_matrix.h"
 
 /**
  * Update the `carriedActor`'s position based on the dynapoly actor identified by `bgId`.

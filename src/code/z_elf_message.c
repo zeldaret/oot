@@ -1,10 +1,10 @@
 #include "rand.h"
 #include "translation.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64quest_hint.h"
-#include "z64quest_hint_commands.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "quest_hint.h"
+#include "quest_hint_commands.h"
+#include "save.h"
 
 QuestHintCmd sChildSariaQuestHints[] = {
     QUEST_HINT_STRENGTH_UPG(SKIP, 0, false, 3),

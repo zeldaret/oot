@@ -15,9 +15,9 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64item.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "item.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

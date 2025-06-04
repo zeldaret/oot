@@ -14,8 +14,8 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_ts/object_ts.h"
 

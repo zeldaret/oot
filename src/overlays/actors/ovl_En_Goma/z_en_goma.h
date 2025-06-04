@@ -2,7 +2,7 @@
 #define Z_EN_GOMA_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum GomaType {
     /* 0 */ ENGOMA_NORMAL,

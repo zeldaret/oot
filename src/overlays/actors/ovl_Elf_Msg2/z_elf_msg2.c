@@ -14,7 +14,7 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

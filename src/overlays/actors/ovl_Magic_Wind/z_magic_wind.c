@@ -12,9 +12,9 @@
 #include "printf.h"
 #include "sfx.h"
 #include "translation.h"
-#include "z64curve.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "curve.h"
+#include "play_state.h"
+#include "player.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 

@@ -10,8 +10,8 @@
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_yabusame_point/object_yabusame_point.h"
 
