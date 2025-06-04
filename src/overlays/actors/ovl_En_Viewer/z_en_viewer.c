@@ -34,6 +34,8 @@
 #include "assets/objects/object_ganon/object_ganon.h"
 #include "assets/objects/object_opening_demo1/object_opening_demo1.h"
 
+#pragma increment_block_number "ntsc-1.0:128"
+
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnViewer_Init(Actor* thisx, PlayState* play);
