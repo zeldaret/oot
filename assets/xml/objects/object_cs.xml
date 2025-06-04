@@ -17,6 +17,52 @@
         <Limb Name="gGraveyardKidRightHandLimb" LimbType="Standard" Offset="0x84EC"/>
         <Limb Name="gGraveyardKidHeadLimb" LimbType="Standard" Offset="0x84F8"/>
 
+        <Array Name="gGraveyardKidHeadVtx" Count="119" Offset="0x3D70">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidLeftHandVtx" Count="43" Offset="0x44E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidLeftArmVtx" Count="23" Offset="0x4790">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidLeftUpperArmVtx" Count="28" Offset="0x4900">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidRightHandVtx" Count="61" Offset="0x4AC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidRightArmVtx" Count="23" Offset="0x4E90">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidRightUpperArmVtx" Count="28" Offset="0x5000">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidChestVtx" Count="124" Offset="0x51C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidRightFootVtx" Count="39" Offset="0x5980">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidRightShinVtx" Count="15" Offset="0x5BF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidRightThighVtx" Count="33" Offset="0x5CE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidLeftFootVtx" Count="39" Offset="0x5EF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidLeftShinVtx" Count="15" Offset="0x6160">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidLeftThighVtx" Count="33" Offset="0x6250">
+            <Vtx/>
+        </Array>
+        <Array Name="gGraveyardKidTorsoVtx" Count="21" Offset="0x6460">
+            <Vtx/>
+        </Array>
+
         <DList Name="gGraveyardKidTorsoDL" Offset="0x7910"/>
         <DList Name="gGraveyardKidLeftThighDL" Offset="0x7F00"/>
         <DList Name="gGraveyardKidLeftShinDL" Offset="0x8050"/>

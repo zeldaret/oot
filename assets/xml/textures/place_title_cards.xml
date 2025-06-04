@@ -184,8 +184,8 @@
         <Texture Name="gFishingPondTitleCardENGTex" OutName="fishing_pond_eng" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
     </File>
     <File Name="g_pn_47">
-        <Texture Name="gBombchuBowlingAlleyCardENGTex" OutName="bombchu_bowling_alley_jpn" Format="ia8" Width="144" Height="24" Offset="0x0"/>
-        <Texture Name="gBombchuBowlingAlleyCardGERTex" OutName="bombchu_bowling_alley_eng" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gBombchuBowlingAlleyCardJPNTex" OutName="bombchu_bowling_alley_jpn" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gBombchuBowlingAlleyCardENGTex" OutName="bombchu_bowling_alley_eng" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
     </File>
     <File Name="g_pn_48">
         <Texture Name="gStableTitleCardJPNTex" OutName="stable_jpn" Format="ia8" Width="144" Height="24" Offset="0x0"/>

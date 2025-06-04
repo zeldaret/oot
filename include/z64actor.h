@@ -452,6 +452,9 @@ typedef enum AttentionRangeType {
     /* 10 */ ATTENTION_RANGE_MAX
 } AttentionRangeType;
 
+#define PLACE_NAME_TEX_WIDTH 144
+#define PLACE_NAME_TEX_HEIGHT 24
+
 typedef struct TitleCardContext {
     /* 0x00 */ void* texture;
     /* 0x04 */ s16 x;

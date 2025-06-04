@@ -7,8 +7,41 @@
         <Animation Name="gPoeFloatAnim" Offset="0x0A60"/>
         <Animation Name="gPoeAppearAnim" Offset="0x11C4"/>
         <Animation Name="gPoeDisappearAnim" Offset="0x15B0"/>
+        <Array Name="object_poh_Vtx_0015C0" Count="6" Offset="0x15C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_poh_Vtx_0016B8" Count="30" Offset="0x16B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_poh_Vtx_001A18" Count="6" Offset="0x1A18">
+            <Vtx/>
+        </Array>
+        <Array Name="object_poh_Vtx_001B10" Count="6" Offset="0x1B10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_poh_Vtx_001C08" Count="6" Offset="0x1C08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_poh_Vtx_001CE0" Count="45" Offset="0x1CE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoeBurnVtx" Count="75" Offset="0x2158">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeBurnDL" Offset="0x2608"/>
+        <Array Name="object_poh_Vtx_0027C0" Count="21" Offset="0x27C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoeLanternVtx" Count="53" Offset="0x29D8">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeLanternDL" Offset="0x2D28"/>
+        <Array Name="object_poh_Vtx_002EB8" Count="10" Offset="0x2EB8">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoeSoulVtx" Count="4" Offset="0x3810">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeSoulDL" Offset="0x3850"/>
         <Skeleton Name="gPoeSkel" Type="Normal" LimbType="Standard" Offset="0x50D0"/>
     </File>
