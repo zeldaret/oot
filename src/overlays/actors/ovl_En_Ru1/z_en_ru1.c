@@ -90,18 +90,18 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
-typedef enum EnRu1ActorType {
-    ENRU1_BOSS_ROOM,
-    ENRU1_FOUNTAIN,
-    ENRU1_HOLES_ROOM,
-    ENRU1_BASEMENT,
-    ENRU1_SAPPHIRE_ROOM,
-    ENRU1_BESIDE_KZ,
-    ENRU1_BESIDE_DOOR_SWITCH,
+typedef enum EnRu1Type {
+    ENRU1_TYPE_BOSS_ROOM,
+    ENRU1_TYPE_FOUNTAIN,
+    ENRU1_TYPE_HOLES_ROOM,
+    ENRU1_TYPE_BASEMENT,
+    ENRU1_TYPE_SAPPHIRE_ROOM,
+    ENRU1_TYPE_BESIDE_KZ,
+    ENRU1_TYPE_BESIDE_DOOR_SWITCH,
 #if DEBUG_FEATURES
-    ENRU1_DEBUG = 10,
+    ENRU1_TYPE_DEBUG = 10,
 #endif
-} EnRu1ActorType;
+} EnRu1Type;
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
@@ -2299,29 +2299,29 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
     func_80AEAD20(&this->actor, play);
     switch (EnRu1_GetType(this)) {
-        case ENRU1_BOSS_ROOM:
+        case ENRU1_TYPE_BOSS_ROOM:
             EnRu1_InitInBossRoom(this, play);
             break;
-        case ENRU1_FOUNTAIN:
+        case ENRU1_TYPE_FOUNTAIN:
             EnRu1_InitOutsideJabuJabu(this, play);
             break;
-        case ENRU1_HOLES_ROOM:
+        case ENRU1_TYPE_HOLES_ROOM:
             EnRu1_InitInJabuJabuHolesRoom(this, play);
             break;
-        case ENRU1_BASEMENT:
+        case ENRU1_TYPE_BASEMENT:
             EnRu1_InitInJabuJabuBasement(this, play);
             break;
-        case ENRU1_SAPPHIRE_ROOM:
+        case ENRU1_TYPE_SAPPHIRE_ROOM:
             EnRu1_InitInSapphireRoom(this, play);
             break;
-        case ENRU1_BESIDE_KZ:
+        case ENRU1_TYPE_BESIDE_KZ:
             EnRu1_InitBesideKingZora(this, play);
             break;
-        case ENRU1_BESIDE_DOOR_SWITCH:
+        case ENRU1_TYPE_BESIDE_DOOR_SWITCH:
             EnRu1_InitBesideDoorSwitch(this, play);
             break;
 #if DEBUG_FEATURES
-        case ENRU1_DEBUG:
+        case ENRU1_TYPE_DEBUG:
             func_80AF0050(this, play);
             break;
 #endif
