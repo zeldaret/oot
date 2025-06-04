@@ -60,7 +60,7 @@ void EnOkarinaTag_Init(Actor* thisx, PlayState* play) {
     EnOkarinaTag* this = (EnOkarinaTag*)thisx;
 
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Ocarina tag occurrence ☆☆☆☆☆ %x\n") VT_RST,
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Ocarina tag spawn ☆☆☆☆☆ %x\n") VT_RST,
            this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->type = PARAMS_GET_U(this->actor.params, 10, 6);

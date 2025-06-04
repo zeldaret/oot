@@ -78,7 +78,7 @@ void ShotSun_Init(Actor* thisx, PlayState* play) {
     ShotSun* this = (ShotSun*)thisx;
     s32 params;
 
-    PRINTF(T("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", "%d ---- Ocarina secret occurrence!!!!!!!!!!!!!\n"),
+    PRINTF(T("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", "%d ---- Ocarina secret spawn!!!!!!!!!!!!!\n"),
            this->actor.params);
     params = PARAMS_GET_U(this->actor.params, 0, 8);
     if (params == 0x40 || params == 0x41) {

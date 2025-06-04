@@ -140,7 +140,8 @@ s32 BgMoriHashigo_SpawnLadder(BgMoriHashigo* this, PlayState* play) {
     if (ladder != NULL) {
         return true;
     } else {
-        PRINTF("Error : " T("梯子の発生失敗", "Ladder spawn failure") "(%s %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Error : 梯子の発生失敗(%s %d)(arg_data 0x%04x)\n",
+                 "Error : Ladder failed to spawn (%s %d)(arg_data 0x%04x)\n"),
                "../z_bg_mori_hashigo.c", 220, this->dyna.actor.params);
         return false;
     }

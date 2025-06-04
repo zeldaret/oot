@@ -249,11 +249,11 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
                 this->numSpawnedRocks++;
                 return;
             }
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't spawn! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't spawn! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't spawn! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't spawn! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n\n", "☆☆☆☆☆ Can't spawn! ☆☆☆☆☆\n\n") VT_RST);
         }
     }
 }

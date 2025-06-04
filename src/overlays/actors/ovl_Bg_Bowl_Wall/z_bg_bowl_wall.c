@@ -75,7 +75,7 @@ void BgBowlWall_Init(Actor* thisx, PlayState* play) {
     this->initPos = this->dyna.actor.world.pos;
     PRINTF("\n\n");
     PRINTF(
-        VT_FGCOL(GREEN) " ☆☆☆☆☆ " T("ボーリングおじゃま壁発生", "Bowling obstacle wall appears") " ☆☆☆☆☆ %d\n" VT_RST,
+        VT_FGCOL(GREEN) " ☆☆☆☆☆ " T("ボーリングおじゃま壁発生", "Bowling obstacle wall spawns") " ☆☆☆☆☆ %d\n" VT_RST,
         this->dyna.actor.params);
     this->actionFunc = BgBowlWall_SpawnBullseyes;
     this->dyna.actor.scale.x = this->dyna.actor.scale.y = this->dyna.actor.scale.z = 1.0f;

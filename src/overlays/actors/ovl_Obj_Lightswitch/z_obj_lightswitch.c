@@ -205,7 +205,7 @@ void ObjLightswitch_Init(Actor* thisx, PlayState* play) {
                                (0xFF << 8) | PUSHBLOCK_SMALL_START_ON) == NULL) {
             PRINTF_COLOR_ERROR();
             PRINTF(T("押引ブロック発生失敗(%s %d)(arg_data 0x%04x)\n",
-                     "Push/pull block failure(%s %d)(arg_data 0x%04x)\n"),
+                     "Push/pull block failed to spawn (%s %d)(arg_data 0x%04x)\n"),
                    "../z_obj_lightswitch.c", 452, this->actor.params);
             PRINTF_RST();
             removeSelf = true;

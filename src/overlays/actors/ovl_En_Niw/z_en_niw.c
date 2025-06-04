@@ -390,7 +390,7 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, PlayState* play) {
             this->timer5 = 10;
         } else {
             PRINTF("\n\n");
-            PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n", " ☆☆☆☆☆ Cannot occur  ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n", " ☆☆☆☆☆ Cannot spawn  ☆☆☆☆☆ \n") VT_RST);
         }
     }
 }

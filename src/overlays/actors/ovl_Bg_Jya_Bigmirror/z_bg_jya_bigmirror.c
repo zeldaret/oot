@@ -96,7 +96,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
                 this->actor.child = NULL;
 
                 if (curCobraInfo->cobra == NULL) {
-                    PRINTF("Error : " T("コブラ発生失敗", "Cobra generation failed") " (%s %d)\n",
+                    PRINTF("Error : " T("コブラ発生失敗", "Cobra failed to spawn") " (%s %d)\n",
                            "../z_bg_jya_bigmirror.c", 221);
                 }
             }
@@ -164,7 +164,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
 
 #if DEBUG_FEATURES
                     if (this->lightBeams[i] == NULL) {
-                        PRINTF("Error : " T("Mir Ray 発生失敗", "Mir Ray generation failed") " (%s %d)\n",
+                        PRINTF("Error : " T("Mir Ray 発生失敗", "Mir Ray failed to spawn") " (%s %d)\n",
                                "../z_bg_jya_bigmirror.c", 310);
                     }
 #endif

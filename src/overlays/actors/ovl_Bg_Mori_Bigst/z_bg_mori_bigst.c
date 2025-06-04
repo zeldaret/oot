@@ -151,7 +151,7 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, PlayState* play) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.home.rot.z++;
     } else {
-        PRINTF(T("Warning : 第２スタルフォス発生失敗\n", "Warning : Second Stalfos failed to generate\n"));
+        PRINTF(T("Warning : 第２スタルフォス発生失敗\n", "Warning : Second Stalfos failed to spawn\n"));
     }
     Flags_SetClear(play, this->dyna.actor.room);
 }
@@ -212,7 +212,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.home.rot.z++;
     } else {
-        PRINTF(T("Warning : 第３-1スタルフォス発生失敗\n", "Warning : 3-1 Stalfos generation failure\n"));
+        PRINTF(T("Warning : 第３-1スタルフォス発生失敗\n", "Warning : 3-1 Stalfos failed to spawn\n"));
     }
     stalfos2 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_TEST, 170.0f, 827.0f, -3260.0f, 0,
                                   0, 0, 5);
@@ -220,7 +220,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.home.rot.z++;
     } else {
-        PRINTF(T("Warning : 第３-2スタルフォス発生失敗\n", "Warning : 3-2 Stalfos generation failure\n"));
+        PRINTF(T("Warning : 第３-2スタルフォス発生失敗\n", "Warning : 3-2 Stalfos failed to spawn\n"));
     }
     Flags_SetClear(play, this->dyna.actor.room);
 }

@@ -148,7 +148,7 @@ void EnAnubice_Init(Actor* thisx, PlayState* play) {
                    ANUBICE_LIMB_MAX);
 
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n", "☆☆☆☆☆ Anubis occurrence ☆☆☆☆☆ \n") VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n", "☆☆☆☆☆ Anubis spawn ☆☆☆☆☆ \n") VT_RST);
 
     this->actor.naviEnemyId = NAVI_ENEMY_ANUBIS;
 
