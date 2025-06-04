@@ -64,5 +64,51 @@
         <Animation Name="gRoofManGettingUpAfterKnockbackAnim" Offset="0x70F0"/>
         <Animation Name="gRoofManIdleAnim" Offset="0x76EC"/>
 
+        <!-- Vertices -->
+        <Array Name="gRoofManHeadVtx" Count="124" Offset="0x2518">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftHandVtx" Count="32" Offset="0x2FA8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftForearmVtx" Count="26" Offset="0x31A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftUpperArmVtx" Count="26" Offset="0x3348">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightHandVtx" Count="32" Offset="0x34E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightForearmVtx" Count="26" Offset="0x36E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightUpperArmVtx" Count="26" Offset="0x3888">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManTorsoVtx" Count="80" Offset="0x3A28">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftFootVtx" Count="16" Offset="0x3F28">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftLegVtx" Count="41" Offset="0x4028">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftThighVtx" Count="23" Offset="0x42B8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightFootVtx" Count="16" Offset="0x4428">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightLegVtx" Count="45" Offset="0x4528">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightThighVtx" Count="23" Offset="0x47F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManWaistVtx" Count="16" Offset="0x4968">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

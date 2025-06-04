@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "tex_len.h"
 #include "z_lib.h"
 #include "z64play.h"
 
@@ -27,7 +28,29 @@ void ArrowIce_Charge(ArrowIce* this, PlayState* play);
 void ArrowIce_Fly(ArrowIce* this, PlayState* play);
 void ArrowIce_Hit(ArrowIce* this, PlayState* play);
 
-#include "assets/overlays/ovl_Arrow_Ice/ovl_Arrow_Ice.c"
+#define s1Tex_WIDTH 32
+#define s1Tex_HEIGHT 64
+static u64 s1Tex[TEX_LEN(u64, s1Tex_WIDTH, s1Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Ice/s1Tex.i8.inc.c"
+};
+
+#define s2Tex_WIDTH 32
+#define s2Tex_HEIGHT 64
+static u64 s2Tex[TEX_LEN(u64, s2Tex_WIDTH, s2Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Ice/s2Tex.i8.inc.c"
+};
+
+static Vtx sVtx[] = {
+#include "assets/overlays/ovl_Arrow_Ice/sVtx.inc.c"
+};
+
+static Gfx sMaterialDL[22] = {
+#include "assets/overlays/ovl_Arrow_Ice/sMaterialDL.inc.c"
+};
+
+static Gfx sModelDL[24] = {
+#include "assets/overlays/ovl_Arrow_Ice/sModelDL.inc.c"
+};
 
 ActorProfile Arrow_Ice_Profile = {
     /**/ ACTOR_ARROW_ICE,
