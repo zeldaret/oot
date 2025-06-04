@@ -1490,9 +1490,9 @@ void EnRu1_UpdateWaterState(EnRu1* this) {
             func_80AEE02C(this);
             this->bobPhase = 0;
             this->bobDepth = (this->actor.depthInWater - 10.0f) * 0.5f;
-            this->sinkingStartPosY = this->actor.world.pos.y + thisx->bobDepth; // thisx only used here
+            this->sinkingStartPosY = this->actor.world.pos.y + thisx->bobDepth;
         } else {
-            // Ruto is touching the water but still traveling along some path, e.g. from being thrown
+            // Ruto is touching the water but still in motion, e.g. from being thrown
             this->actor.gravity = 0.0f;
             this->actor.minVelocityY *= 0.2f;
             this->actor.velocity.y *= 0.2f;
