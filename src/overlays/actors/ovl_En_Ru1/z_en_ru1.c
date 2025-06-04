@@ -32,6 +32,9 @@
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_CAN_PRESS_SWITCHES)
 
+#define ENRU1_SWITCH_FLAG(thisx) PARAMS_GET_U(thisx->params, 8, 8)
+#define ENRU1_TYPE(thisx) PARAMS_GET_U(thisx->params, 0, 8)
+
 void EnRu1_Init(Actor* thisx, PlayState* play);
 void EnRu1_Destroy(Actor* thisx, PlayState* play);
 void EnRu1_Update(Actor* thisx, PlayState* play);
@@ -89,6 +92,19 @@ void func_80AF0278(EnRu1* this, PlayState* play, s32 limbIndex, Vec3s* rot);
 void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
+
+typedef enum EnRu1ActorType {
+    ENRU1_BOSS_ROOM,
+    ENRU1_FOUNTAIN,
+    ENRU1_HOLES_ROOM,
+    ENRU1_BASEMENT,
+    ENRU1_SAPPHIRE_ROOM,
+    ENRU1_BESIDE_KZ,
+    ENRU1_BESIDE_DOOR_SWITCH,
+#if DEBUG_FEATURES
+    ENRU1_DEBUG = 10,
+#endif
+} EnRu1ActorType;
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
@@ -210,13 +226,13 @@ void func_80AEADD8(EnRu1* this) {
 }
 
 u8 EnRu1_GetSwitchFlag(EnRu1* this) {
-    u8 switchFlag = PARAMS_GET_U(this->actor.params, 8, 8);
+    u8 switchFlag = ENRU1_SWITCH_FLAG(this);
 
     return switchFlag;
 }
 
 u8 EnRu1_GetType(EnRu1* this) {
-    u8 type = PARAMS_GET_U(this->actor.params, 0, 8);
+    u8 type = ENRU1_TYPE(this);
 
     return type;
 }
@@ -2286,29 +2302,29 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
     func_80AEAD20(&this->actor, play);
     switch (EnRu1_GetType(this)) {
-        case 0:
+        case ENRU1_BOSS_ROOM:
             EnRu1_InitInBossRoom(this, play);
             break;
-        case 1:
+        case ENRU1_FOUNTAIN:
             EnRu1_InitOutsideJabuJabu(this, play);
             break;
-        case 2:
+        case ENRU1_HOLES_ROOM:
             EnRu1_InitInJabuJabuHolesRoom(this, play);
             break;
-        case 3:
+        case ENRU1_BASEMENT:
             EnRu1_InitInJabuJabuBasement(this, play);
             break;
-        case 4:
+        case ENRU1_SAPPHIRE_ROOM:
             EnRu1_InitInSapphireRoom(this, play);
             break;
-        case 5:
+        case ENRU1_BESIDE_KZ:
             EnRu1_InitBesideKingZora(this, play);
             break;
-        case 6:
+        case ENRU1_BESIDE_DOOR_SWITCH:
             EnRu1_InitBesideDoorSwitch(this, play);
             break;
 #if DEBUG_FEATURES
-        case 10:
+        case ENRU1_DEBUG:
             func_80AF0050(this, play);
             break;
 #endif
