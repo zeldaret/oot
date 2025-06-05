@@ -245,24 +245,24 @@ void EnRu1_Destroy(Actor* thisx, PlayState* play) {
 void EnRu1_UpdateEyes(EnRu1* this) {
     s32 pad[3];
     s16* blinkTimer = &this->blinkTimer;
-    s16* eyeIndex = &this->eyeIndex;
+    s16* eyes = &this->eyes;
 
     if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    *eyeIndex = *blinkTimer;
-    if (*eyeIndex >= ENRU1_EYES_UP) {
-        *eyeIndex = ENRU1_EYES_OPEN;
+    *eyes = *blinkTimer;
+    if (*eyes >= ENRU1_EYES_UP) {
+        *eyes = ENRU1_EYES_OPEN;
     }
 }
 
-void EnRu1_SetEyes(EnRu1* this, s16 eyeIndex) {
-    this->eyeIndex = eyeIndex;
+void EnRu1_SetEyes(EnRu1* this, s16 eyes) {
+    this->eyes = eyes;
 }
 
-void EnRu1_SetMouth(EnRu1* this, s16 mouthIndex) {
-    this->mouthIndex = mouthIndex;
+void EnRu1_SetMouth(EnRu1* this, s16 mouth) {
+    this->mouth = mouth;
 }
 
 void func_80AEAECC(EnRu1* this, PlayState* play) {
@@ -2386,11 +2386,11 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play) {
 
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeIndex = this->eyeIndex;
-    void* eyeTex = sEyeTextures[eyeIndex];
-    s16 mouthIndex = this->mouthIndex;
+    s16 eyes = this->eyes;
+    void* eyeTex = sEyeTextures[eyes];
+    s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* mouthTex = sMouthTextures[mouthIndex];
+    void* mouthTex = sMouthTextures[mouth];
     s32 pad1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru1.c", 1282);
@@ -2411,11 +2411,11 @@ void EnRu1_DrawOpa(EnRu1* this, PlayState* play) {
 
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play) {
     s32 pad[2];
-    s16 eyeIndex = this->eyeIndex;
-    void* eyeTex = sEyeTextures[eyeIndex];
-    s16 mouthIndex = this->mouthIndex;
+    s16 eyes = this->eyes;
+    void* eyeTex = sEyeTextures[eyes];
+    s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
-    void* mouthTex = sMouthTextures[mouthIndex];
+    void* mouthTex = sMouthTextures[mouth];
     s32 pad1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru1.c", 1324);
