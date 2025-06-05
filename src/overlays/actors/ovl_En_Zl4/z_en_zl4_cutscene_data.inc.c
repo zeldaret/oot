@@ -1,4 +1,4 @@
-#include "z64cutscene_commands.h"
+#include "cutscene_commands.h"
 
 static CutsceneCameraDirection sCamDirections[] = {
     { { -490.0f, 120.0f, 0.0f }, { -440.0f, 117.0f, 0.0f }, 0, 45 },

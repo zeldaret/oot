@@ -5,9 +5,9 @@
 #endif
 #include "printf.h"
 #include "regs.h"
-#include "z64audio.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "play_state.h"
+#include "save.h"
 
 /*
  * The following three arrays are effectively unused.

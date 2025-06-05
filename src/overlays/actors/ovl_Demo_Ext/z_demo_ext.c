@@ -14,8 +14,8 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64play.h"
-#include "z64skin.h"
+#include "play_state.h"
+#include "skin.h"
 
 #include "assets/objects/object_fhg/object_fhg.h"
 

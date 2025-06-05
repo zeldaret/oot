@@ -5,10 +5,10 @@
 #include "printf.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_sd/object_sd.h"
 

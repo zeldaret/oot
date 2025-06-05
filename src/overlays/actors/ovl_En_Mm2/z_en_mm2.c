@@ -16,8 +16,8 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_mm/object_mm.h"
 

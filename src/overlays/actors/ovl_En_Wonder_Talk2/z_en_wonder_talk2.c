@@ -10,10 +10,10 @@
 #include "regs.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64debug_display.h"
-#include "z64item.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "debug_display.h"
+#include "item.h"
+#include "play_state.h"
+#include "player.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_LOCK_ON_DISABLED)
 

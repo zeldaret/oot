@@ -9,9 +9,9 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64skin_matrix.h"
+#include "effect.h"
+#include "play_state.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/object_dodongo/object_dodongo.h"
 
