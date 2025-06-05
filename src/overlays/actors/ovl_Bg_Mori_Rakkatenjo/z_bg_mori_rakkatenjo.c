@@ -68,7 +68,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
 #if DEBUG_FEATURES
-    PRINTF(T("森の神殿 obj. 落下天井", "Forest Temple obj. Falling Ceiling") " (home posY %f)\n",
+    PRINTF(T("森の神殿 obj. 落下天井 (home posY %f)\n", "Forest Temple obj. Falling Ceiling (home posY %f)\n"),
            this->dyna.actor.home.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||
         (fabsf(683.0f - this->dyna.actor.home.pos.y) > 0.001f) ||

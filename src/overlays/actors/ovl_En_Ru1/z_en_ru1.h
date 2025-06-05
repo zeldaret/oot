@@ -50,11 +50,11 @@ typedef struct EnRu1 {
     /* 0x02B4 */ ColliderCylinder standingCollider;
     /* 0x0300 */ ColliderCylinder sittingCollider;
     /* 0x034C */ s32 isSittingOCActive;
-    /* 0x0350 */ s32 unk_350;
-    /* 0x0354 */ f32 unk_354;
-    /* 0x0358 */ f32 unk_358;
-    /* 0x035C */ s16 unk_35C;
-    /* 0x0360 */ f32 unk_360;
+    /* 0x0350 */ s32 waterState;
+    /* 0x0354 */ f32 sinkingStartPosY;
+    /* 0x0358 */ f32 bobDepth;
+    /* 0x035C */ s16 bobPhase;
+    /* 0x0360 */ f32 isSinking;
     /* 0x0364 */ Vec3f unk_364;
     /* 0x0370 */ f32 carryIdleTimer;
     /* 0x0374 */ NpcInteractInfo interactInfo;

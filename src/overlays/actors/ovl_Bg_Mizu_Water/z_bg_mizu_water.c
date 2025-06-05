@@ -122,7 +122,7 @@ void BgMizuWater_Init(Actor* thisx, PlayState* play) {
     switch (this->type) {
         case 0:
             if (bREG(15) == 0) {
-                PRINTF(T("<コンストラクト>", "<construct>") "%x %x %x\n",
+                PRINTF(T("<コンストラクト>%x %x %x\n", "<construct>%x %x %x\n"),
                        Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
                        Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG),
                        Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
