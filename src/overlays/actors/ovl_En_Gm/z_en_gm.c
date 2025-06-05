@@ -16,9 +16,9 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 #include "assets/objects/object_gm/object_gm.h"

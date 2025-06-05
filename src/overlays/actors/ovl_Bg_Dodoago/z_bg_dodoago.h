@@ -2,7 +2,7 @@
 #define Z_BG_DODOAGO_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum BgDodoagoEye {
     /* 0 */ BGDODOAGO_EYE_LEFT,

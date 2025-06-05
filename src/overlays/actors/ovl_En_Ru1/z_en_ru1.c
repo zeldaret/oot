@@ -22,11 +22,11 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ru1/object_ru1.h"
 
@@ -209,16 +209,16 @@ void func_80AEADD8(EnRu1* this) {
     this->unk_34C = 0;
 }
 
-u8 func_80AEADE0(EnRu1* this) {
-    u8 params = PARAMS_GET_U(this->actor.params, 8, 8);
+u8 EnRu1_GetSwitchFlag(EnRu1* this) {
+    u8 switchFlag = ENRU1_SWITCH_FLAG(&this->actor);
 
-    return params;
+    return switchFlag;
 }
 
-u8 func_80AEADF0(EnRu1* this) {
-    u8 params = PARAMS_GET_U(this->actor.params, 0, 8);
+u8 EnRu1_GetType(EnRu1* this) {
+    u8 type = ENRU1_TYPE(&this->actor);
 
-    return params;
+    return type;
 }
 
 void EnRu1_Destroy(Actor* thisx, PlayState* play) {
@@ -313,7 +313,7 @@ s32 func_80AEB020(EnRu1* this, PlayState* play) {
     return false;
 }
 
-BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
+BgBdanObjects* EnRu1_FindBigOctoPlatform(PlayState* play) {
     Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BG].head;
 
     while (actorIt != NULL) {
@@ -327,15 +327,15 @@ BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
     return NULL;
 }
 
-void func_80AEB0EC(EnRu1* this, s32 cameraSetting) {
-    if (this->unk_28C != NULL) {
-        this->unk_28C->cameraSetting = cameraSetting;
+void EnRu1_SetPlatformCamSetting(EnRu1* this, s32 cameraSetting) {
+    if (this->bigOctoPlatform != NULL) {
+        this->bigOctoPlatform->cameraSetting = cameraSetting;
     }
 }
 
-s32 func_80AEB104(EnRu1* this) {
-    if (this->unk_28C != NULL) {
-        return this->unk_28C->cameraSetting;
+s32 EnRu1_GetPlatformCamSetting(EnRu1* this) {
+    if (this->bigOctoPlatform != NULL) {
+        return this->bigOctoPlatform->cameraSetting;
     } else {
         return 0;
     }
@@ -371,7 +371,7 @@ void func_80AEB1D8(EnRu1* this) {
     this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
-    func_80AEB0EC(this, 0);
+    EnRu1_SetPlatformCamSetting(this, 0);
 }
 
 void func_80AEB220(EnRu1* this, PlayState* play) {
@@ -381,25 +381,25 @@ void func_80AEB220(EnRu1* this, PlayState* play) {
 }
 #endif
 
-void func_80AEB264(EnRu1* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
+void EnRu1_AnimationChange(EnRu1* this, AnimationHeader* animation, u8 mode, f32 morphFrames, s32 playReversed) {
     s32 pad[2];
     AnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
     f32 frameCount = Animation_GetLastFrame(animHeader);
     f32 playbackSpeed;
-    f32 unk0;
-    f32 fc;
+    f32 startFrame;
+    f32 endFrame;
 
-    if (arg4 == 0) {
-        unk0 = 0.0f;
-        fc = frameCount;
+    if (!playReversed) {
+        startFrame = 0.0f;
+        endFrame = frameCount;
         playbackSpeed = 1.0f;
     } else {
-        unk0 = frameCount;
-        fc = 0.0f;
+        startFrame = frameCount;
+        endFrame = 0.0f;
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animHeader, playbackSpeed, unk0, fc, arg2, morphFrames);
+    Animation_Change(&this->skelAnime, animHeader, playbackSpeed, startFrame, endFrame, mode, morphFrames);
 }
 
 s32 EnRu1_UpdateSkelAnime(EnRu1* this) {
@@ -426,7 +426,7 @@ void func_80AEB3CC(EnRu1* this) {
 }
 
 void EnRu1_InitOutsideJabuJabu(EnRu1* this, PlayState* play) {
-    func_80AEB264(this, &gRutoChildWaitHandsBehindBackAnim, 0, 0, 0);
+    EnRu1_AnimationChange(this, &gRutoChildWaitHandsBehindBackAnim, ANIMMODE_LOOP, 0, false);
     this->action = 0;
     this->drawConfig = 1;
     EnRu1_SetEyeIndex(this, 4);
@@ -784,14 +784,14 @@ void func_80AEC2C0(EnRu1* this, PlayState* play) {
 
 void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
     if (!GET_INFTABLE(INFTABLE_141)) {
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = 7;
         EnRu1_SetMouthIndex(this, 1);
     } else if (GET_INFTABLE(INFTABLE_147) && !GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
 
-            func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+            EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
             actorRoom = this->actor.room;
             this->action = 22;
             this->actor.room = -1;
@@ -1028,7 +1028,7 @@ void func_80AECCB0(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_InitInBossRoom(EnRu1* this, PlayState* play) {
-    func_80AEB264(this, &gRutoChildWaitHandsOnHipsAnim, 0, 0, 0);
+    EnRu1_AnimationChange(this, &gRutoChildWaitHandsOnHipsAnim, ANIMMODE_LOOP, 0, false);
     this->action = 15;
     this->actor.shape.yOffset = -10000.0f;
     EnRu1_SetEyeIndex(this, 5);
@@ -1199,7 +1199,7 @@ void EnRu1_InitInJabuJabuBasement(EnRu1* this, PlayState* play) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
 
-            func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+            EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
             actorRoom = this->actor.room;
             this->action = 22;
             this->actor.room = -1;
@@ -1576,7 +1576,7 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
-            this->unk_28C = (BgBdanObjects*)dynaPolyActor;
+            this->bigOctoPlatform = (BgBdanObjects*)dynaPolyActor;
             this->actor.shape.shadowAlpha = 0;
             return true;
         }
@@ -1958,11 +1958,11 @@ void func_80AEF51C(EnRu1* this) {
 }
 
 void func_80AEF540(EnRu1* this) {
-    if (func_80AEB104(this) == 2) {
+    if (EnRu1_GetPlatformCamSetting(this) == 2) {
         EnRu1_SetEyeIndex(this, 3);
         EnRu1_SetMouthIndex(this, 2);
         if (this->skelAnime.mode != 2) {
-            func_80AEB264(this, &gRutoChildShutterAnim, 2, -8.0f, 0);
+            EnRu1_AnimationChange(this, &gRutoChildShutterAnim, ANIMMODE_ONCE, -8.0f, false);
             func_80AEF51C(this);
         }
     }
@@ -2046,15 +2046,15 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
     if (!(DEBUG_FEATURES && IS_CUTSCENE_LAYER) && EnRu1_IsCsStateIdle(play)) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_145);
-        Flags_SetSwitch(play, func_80AEADE0(this));
-        func_80AEB0EC(this, 1);
+        Flags_SetSwitch(play, EnRu1_GetSwitchFlag(this));
+        EnRu1_SetPlatformCamSetting(this, 1);
         this->action = 42;
         this->actor.room = curRoomNum;
     }
 }
 
 void func_80AEF930(EnRu1* this, PlayState* play) {
-    if (func_80AEB104(this) == 3) {
+    if (EnRu1_GetPlatformCamSetting(this) == 3) {
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = 0x4048;
 #if !OOT_PAL_N64
@@ -2070,7 +2070,7 @@ void func_80AEF930(EnRu1* this, PlayState* play) {
 
 void func_80AEF99C(EnRu1* this, PlayState* play) {
     if (func_80AEB1B4(play) != 0) {
-        func_80AEB0EC(this, 4);
+        EnRu1_SetPlatformCamSetting(this, 4);
         Actor_Kill(&this->actor);
     }
 }
@@ -2153,10 +2153,10 @@ void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_146)) {
         s32 pad;
 
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = 41;
-        this->unk_28C = EnRu1_FindSwitch(play);
-        func_80AEB0EC(this, 1);
+        this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
+        EnRu1_SetPlatformCamSetting(this, 1);
         this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     } else {
         Actor_Kill(&this->actor);
@@ -2164,17 +2164,17 @@ void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEFCE8(EnRu1* this, PlayState* play) {
-    this->unk_28C = EnRu1_FindSwitch(play);
-    if (this->unk_28C != NULL) {
+    this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
+    if (this->bigOctoPlatform != NULL) {
         this->action = 42;
         this->drawConfig = 1;
-        func_80AEB0EC(this, 1);
+        EnRu1_SetPlatformCamSetting(this, 1);
     }
 }
 
 void EnRu1_InitBesideKingZora(EnRu1* this, PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_37) && LINK_IS_CHILD) {
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->action = 44;
         this->drawConfig = 1;
@@ -2241,7 +2241,7 @@ void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
 
     if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
         (!(func_80AEB020(this, play)))) {
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         actorRoom = this->actor.room;
         this->action = 22;
         this->actor.room = -1;
@@ -2258,10 +2258,10 @@ void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
 
 #if DEBUG_FEATURES
 void func_80AF0050(EnRu1* this, PlayState* play) {
-    func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+    EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
     this->action = 36;
     this->roomNum1 = this->actor.room;
-    this->unk_28C = EnRu1_FindSwitch(play);
+    this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
     this->actor.room = -1;
 }
 #endif
@@ -2285,36 +2285,36 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
     func_80AEAD20(&this->actor, play);
-    switch (func_80AEADF0(this)) {
-        case 0:
+    switch (EnRu1_GetType(this)) {
+        case ENRU1_TYPE_BOSS_ROOM:
             EnRu1_InitInBossRoom(this, play);
             break;
-        case 1:
+        case ENRU1_TYPE_FOUNTAIN:
             EnRu1_InitOutsideJabuJabu(this, play);
             break;
-        case 2:
+        case ENRU1_TYPE_HOLES_ROOM:
             EnRu1_InitInJabuJabuHolesRoom(this, play);
             break;
-        case 3:
+        case ENRU1_TYPE_BASEMENT:
             EnRu1_InitInJabuJabuBasement(this, play);
             break;
-        case 4:
+        case ENRU1_TYPE_SAPPHIRE_ROOM:
             EnRu1_InitInSapphireRoom(this, play);
             break;
-        case 5:
+        case ENRU1_TYPE_BESIDE_KZ:
             EnRu1_InitBesideKingZora(this, play);
             break;
-        case 6:
+        case ENRU1_TYPE_BESIDE_DOOR_SWITCH:
             EnRu1_InitBesideDoorSwitch(this, play);
             break;
 #if DEBUG_FEATURES
-        case 10:
+        case ENRU1_TYPE_DEBUG:
             func_80AF0050(this, play);
             break;
 #endif
         default:
             Actor_Kill(&this->actor);
-            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), func_80AEADF0(this));
+            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), EnRu1_GetType(this));
             break;
     }
 }

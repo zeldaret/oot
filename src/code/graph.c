@@ -26,9 +26,9 @@
 #include "versions.h"
 #include "vi_mode.h"
 #include "z_game_dlftbls.h"
-#include "z64audio.h"
-#include "z64save.h"
-#include "z64play.h"
+#include "audio.h"
+#include "save.h"
+#include "play_state.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678

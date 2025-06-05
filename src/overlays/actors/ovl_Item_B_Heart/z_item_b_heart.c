@@ -11,8 +11,8 @@
 #include "ichain.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64item.h"
-#include "z64play.h"
+#include "item.h"
+#include "play_state.h"
 
 #include "assets/objects/object_gi_hearts/object_gi_hearts.h"
 

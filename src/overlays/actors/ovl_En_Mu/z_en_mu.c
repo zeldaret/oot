@@ -10,9 +10,9 @@
 #include "gfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_mu/object_mu.h"
 

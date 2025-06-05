@@ -1,4 +1,4 @@
-#include "z64view.h"
+#include "view.h"
 
 #include "libc64/malloc.h"
 #include "libu64/debug.h"

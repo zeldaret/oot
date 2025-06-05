@@ -2,7 +2,7 @@
 #define Z_EN_NUTSBALL_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #define NUTSBALL_GET_TYPE(thisx) ((thisx)->params)
 

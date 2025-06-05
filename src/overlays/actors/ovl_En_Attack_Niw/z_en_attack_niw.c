@@ -15,9 +15,9 @@
 #include "sfx.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_niw/object_niw.h"
 

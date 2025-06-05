@@ -2,10 +2,13 @@
 #define Z_EN_RU1_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #include "overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#define ENRU1_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 8)
+#define ENRU1_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 8)
 
 struct EnRu1;
 
@@ -33,7 +36,7 @@ typedef struct EnRu1 {
     /* 0x0285 */ s8 roomNum2;
     /* 0x0286 */ s8 roomNum3;
     /* 0x0288 */ f32 unk_288;
-    /* 0x028C */ BgBdanObjects* unk_28C;
+    /* 0x028C */ BgBdanObjects* bigOctoPlatform;
     /* 0x0290 */ s32 unk_290;
     /* 0x0294 */ char unk_294[0x4];
     /* 0x0298 */ s32 unk_298;
@@ -57,17 +60,30 @@ typedef struct EnRu1 {
     /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
 
+typedef enum EnRu1Type {
+    /*  0 */ ENRU1_TYPE_BOSS_ROOM,
+    /*  1 */ ENRU1_TYPE_FOUNTAIN,
+    /*  2 */ ENRU1_TYPE_HOLES_ROOM,
+    /*  3 */ ENRU1_TYPE_BASEMENT,
+    /*  4 */ ENRU1_TYPE_SAPPHIRE_ROOM,
+    /*  5 */ ENRU1_TYPE_BESIDE_KZ,
+    /*  6 */ ENRU1_TYPE_BESIDE_DOOR_SWITCH,
+#if DEBUG_FEATURES
+    /* 10 */ ENRU1_TYPE_DEBUG = 10,
+#endif
+} EnRu1Type;
+
 typedef enum RutoLimb {
-    /* 0 */ RUTO_CHILD_NONE,
-    /* 1 */ RUTO_CHILD_ROOT,
-    /* 2 */ RUTO_CHILD_LEFT_THIGH,
-    /* 3 */ RUTO_CHILD_LEFT_SHIN,
-    /* 4 */ RUTO_CHILD_LEFT_FOOT,
-    /* 5 */ RUTO_CHILD_RIGHT_THIGH,
-    /* 6 */ RUTO_CHILD_RIGHT_SHIN,
-    /* 7 */ RUTO_CHILD_RIGHT_FOOT,
-    /* 8 */ RUTO_CHILD_CHEST,
-    /* 9 */ RUTO_CHILD_LEFT_UPPER_ARM,
+    /*  0 */ RUTO_CHILD_NONE,
+    /*  1 */ RUTO_CHILD_ROOT,
+    /*  2 */ RUTO_CHILD_LEFT_THIGH,
+    /*  3 */ RUTO_CHILD_LEFT_SHIN,
+    /*  4 */ RUTO_CHILD_LEFT_FOOT,
+    /*  5 */ RUTO_CHILD_RIGHT_THIGH,
+    /*  6 */ RUTO_CHILD_RIGHT_SHIN,
+    /*  7 */ RUTO_CHILD_RIGHT_FOOT,
+    /*  8 */ RUTO_CHILD_CHEST,
+    /*  9 */ RUTO_CHILD_LEFT_UPPER_ARM,
     /* 10 */ RUTO_CHILD_LEFT_FIN,
     /* 11 */ RUTO_CHILD_LEFT_HAND,
     /* 12 */ RUTO_CHILD_RIGHT_UPPER_ARM,

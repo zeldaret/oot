@@ -3,9 +3,9 @@
 
 #include "ultra64.h"
 #include "ultra64/leo.h"
-#include "z64pause.h"
-#include "z64scene.h"
-#include "z64map_mark.h"
+#include "pause.h"
+#include "scene.h"
+#include "map_mark.h"
 #include "versions.h"
 
 struct Font;

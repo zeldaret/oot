@@ -2,7 +2,7 @@
 #define Z_BG_BDAN_SWITCH_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum BgBdanSwitchType {
     /* 0x00 */ BLUE,

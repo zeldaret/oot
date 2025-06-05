@@ -36,16 +36,16 @@
 #include "versions.h"
 #include "z_actor_dlftbls.h"
 #include "zelda_arena.h"
-#include "z64audio.h"
-#include "z64cutscene_flags.h"
-#include "z64debug_display.h"
-#include "z64effect.h"
-#include "z64frame_advance.h"
-#include "z64light.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
-#include "z64vis.h"
+#include "audio.h"
+#include "cutscene_flags.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "frame_advance.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+#include "vis.h"
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:224" \
                                "ntsc-1.0:240 ntsc-1.1:240 ntsc-1.2:240 pal-1.0:240 pal-1.1:240"
@@ -895,8 +895,8 @@ void Play_Update(PlayState* this) {
                         this->envCtx.sandstormState = SANDSTORM_DISSIPATE;
                         this->envCtx.sandstormPrimA = 255;
                         this->envCtx.sandstormEnvA = 255;
-                        // "It's here!!!!!!!!!"
-                        LOG_STRING("来た!!!!!!!!!!!!!!!!!!!!!", "../z_play.c", 3471);
+                        LOG_STRING_T("来た!!!!!!!!!!!!!!!!!!!!!", "It's here!!!!!!!!!!!!!!!!!!!!!", "../z_play.c",
+                                     3471);
                         this->transitionMode = TRANS_MODE_SANDSTORM_END;
                     } else {
                         this->transitionMode = TRANS_MODE_SANDSTORM_INIT;
