@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ma2.c
+ * Overlay: En_Ma2
+ * Description: Adult Malon (Stables / Ranch Pre-Epona)
+ */
+
 #include "z_en_ma2.h"
 
 #include "gfx.h"
