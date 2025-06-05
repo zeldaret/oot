@@ -83,8 +83,8 @@ void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, PlayState* play, CollisionHe
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF(T("Warning : move BG 登録失敗",
-                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
                "../z_bg_jya_bombiwa.c", 174, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
@@ -102,8 +102,8 @@ void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
 
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 6) != 0x29) {
         PRINTF_COLOR_WARNING();
-        PRINTF(T("Ｗａｒｎｉｎｇ : Switch Number が変更された",
-                 "Warning : Switch Number has been changed") "(%s %d)(SW %d)\n",
+        PRINTF(T("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n",
+                 "Warning : Switch Number has been changed (%s %d)(SW %d)\n"),
                "../z_bg_jya_bombiwa.c", 218, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         PRINTF_RST();
     }
@@ -114,7 +114,8 @@ void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
     } else {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-        PRINTF(T("(jya 爆弾で破壊岩)", "(jya bomb destroys rocks)") "(arg_data 0x%04x)\n", this->dyna.actor.params);
+        PRINTF(T("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", "(jya bomb destroys rocks)(arg_data 0x%04x)\n"),
+               this->dyna.actor.params);
     }
 }
 

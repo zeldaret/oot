@@ -98,8 +98,9 @@ void EnDntDemo_Init(Actor* thisx, PlayState* play2) {
                                                           this->scrubPos[i].x, this->scrubPos[i].y, this->scrubPos[i].z,
                                                           0, 0, 0, i + ENDNTNOMAL_STAGE);
         if (this->scrubs[i] != NULL) {
-            // "zako zako" [small fries]
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n" VT_RST, this->scrubs[i]);
+            // [small fry]
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n", "☆☆☆☆☆ zako zako ☆☆☆☆☆ %x\n") VT_RST,
+                   this->scrubs[i]);
         }
     }
 
@@ -161,8 +162,8 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
             }
         }
         if (this->judgeTimer > 40) {
-            // "gera gera" [onomatopoeia for loud giggling]
-            PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ げらげら ☆☆☆☆☆ \n" VT_RST);
+            // [onomatopoeia for loud giggling]
+            PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ げらげら ☆☆☆☆☆ \n", "☆☆☆☆☆ gera gera ☆☆☆☆☆ \n") VT_RST);
             func_800F436C(&this->actor.projectedPos, NA_SE_EV_CROWD - SFX_FLAG, 2.0f);
         }
         if (this->judgeTimer < 120) {

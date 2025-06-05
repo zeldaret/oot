@@ -293,7 +293,7 @@ void EnWf_Destroy(Actor* thisx, PlayState* play) {
             }
 
             PRINTF("\n\n");
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of simultaneous occurrences ☆☆☆☆☆%d\n")
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of simultaneous spawns ☆☆☆☆☆%d\n")
                        VT_RST,
                    parent->curNumSpawn);
             PRINTF("\n\n");
