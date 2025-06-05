@@ -39,24 +39,24 @@ void EnNiw_Update(Actor* thisx, PlayState* play);
 void EnNiw_Draw(Actor* thisx, PlayState* play);
 
 void EnNiw_ResetAction(EnNiw* this, PlayState* play);
-void func_80AB6324(EnNiw* this, PlayState* play);
-void func_80AB63A8(EnNiw* this, PlayState* play);
-void func_80AB6450(EnNiw* this, PlayState* play);
-void func_80AB6570(EnNiw* this, PlayState* play);
+void EnNiw_IdleSuperCucco(EnNiw* this, PlayState* play);
+void EnNiw_SuperCuccoFallingIntoPosition(EnNiw* this, PlayState* play);
+void EnNiw_IdleKakarikoCrate(EnNiw* this, PlayState* play);
+void EnNiw_IdleWalk(EnNiw* this, PlayState* play);
 void func_80AB6A38(EnNiw* this, PlayState* play);
-void func_80AB6BF8(EnNiw* this, PlayState* play);
-void func_80AB6D08(EnNiw* this, PlayState* play);
-void func_80AB6EB4(EnNiw* this, PlayState* play);
-void func_80AB70F8(EnNiw* this, PlayState* play);
+void EnNiw_PlayerCarrying(EnNiw* this, PlayState* play);
+void EnNiw_PlayerReleased(EnNiw* this, PlayState* play);
+void EnNiw_PlayerReleaseSuperCucco(EnNiw* this, PlayState* play);
+void EnNiw_AngryCutsceneWait(EnNiw* this, PlayState* play);
 void func_80AB714C(EnNiw* this, PlayState* play);
-void func_80AB7204(EnNiw* this, PlayState* play);
-void func_80AB7290(EnNiw* this, PlayState* play);
-void func_80AB7328(EnNiw* this, PlayState* play);
+void EnNiw_SetupAttackPlayer(EnNiw* this, PlayState* play);
+void EnNiw_SetupFleePlayer(EnNiw* this, PlayState* play);
+void EnNiw_FleePlayer(EnNiw* this, PlayState* play);
 void EnNiw_SpawnFeather(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 void EnNiw_UpdateEffects(EnNiw* this, PlayState* play);
 void EnNiw_DrawEffects(EnNiw* this, PlayState* play);
 
-static s16 D_80AB85E0 = 0;
+static s16 sHasAttackStarted = false;
 
 ActorProfile En_Niw_Profile = {
     /**/ ACTOR_EN_NIW,
@@ -92,7 +92,6 @@ static s16 sKakarikoFlagList[] = {
 };
 
 static u8 sLowerRiverSpawned = false;
-
 static u8 sUpperRiverSpawned = false;
 
 static ColliderCylinderInit sCylinderInit1 = {
@@ -147,11 +146,11 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     s32 i;
 
     if (this->actor.params < 0) {
-        this->actor.params = 0;
+        this->actor.params = EN_NIW_TYPE_0;
     }
 
     // Cucco at at the very beginning of Zora's River
-    if (this->actor.params == 0xB) {
+    if (this->actor.params == EN_NIW_TYPE_ZORA_RIVER_LOWER) {
         if (sLowerRiverSpawned) {
             Actor_Kill(&this->actor);
             PRINTF(VT_FGCOL(YELLOW)
@@ -163,7 +162,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     }
 
     // Cucco at tall platform in the first room of Zora's River
-    if (this->actor.params == 0xC) {
+    if (this->actor.params == EN_NIW_TYPE_ZORA_RIVER_UPPER) {
         if (sUpperRiverSpawned) {
             Actor_Kill(&this->actor);
             PRINTF(VT_FGCOL(YELLOW)
@@ -183,14 +182,13 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
         for (i = 0; i < ARRAY_COUNT(sKakarikoPosList); i++) {
             if (fabsf(this->actor.world.pos.x - sKakarikoPosList[i].x) < 40.0f &&
                 fabsf(this->actor.world.pos.z - sKakarikoPosList[i].z) < 40.0f) {
-                this->unk_2AA = i;
-                PRINTF(VT_FGCOL(YELLOW) T(" 通常鶏index %d\n", " Normal chicken index %d\n") VT_RST, this->unk_2AA);
-                if (gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F] &
-                    sKakarikoFlagList[i]) {
+                this->kakarikoIdx = i;
+                PRINTF(VT_FGCOL(YELLOW) T(" 通常鶏index %d\n", " Normal chicken index %d\n") VT_RST, this->kakarikoIdx);
+                if (gSaveContext.save.info.infTable[INFTABLE_INDEX_KAKARIKO_CUCCO] & sKakarikoFlagList[i]) {
                     this->actor.world.pos.x = 300.0f;
                     this->actor.world.pos.y = 100.0f;
                     this->actor.world.pos.z = 1530.0f;
-                    this->actor.params = 0;
+                    this->actor.params = EN_NIW_TYPE_0;
                 }
             }
         }
@@ -200,46 +198,46 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     Math_Vec3f_Copy(&this->unk_2B8, &this->actor.world.pos);
     this->unk_304 = 10.0f;
     Actor_SetScale(&this->actor, 0.01f);
-    this->unk_2A4 = (s16)Rand_ZeroFloat(3.99f) + 5;
+    this->health = (s16)Rand_ZeroFloat(3.99f) + 5;
 
-    if (this->unk_2A4 < 0) {
-        this->unk_2A4 = 1;
+    if (this->health < 0) {
+        this->health = 1;
     }
 
     switch (this->actor.params) {
-        case 2:
+        case EN_NIW_TYPE_2:
             if (IS_DAY) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case 1:
+        case EN_NIW_TYPE_1:
             if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case 3:
+        case EN_NIW_TYPE_3:
             if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case 5:
+        case EN_NIW_TYPE_5:
             if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case 7:
+        case EN_NIW_TYPE_7:
             if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case 0xD:
+        case EN_NIW_TYPE_SUPER_CUCCO:
             this->actor.gravity = 0.0f;
             FALLTHROUGH;
-        case 0xE:
+        case EN_NIW_TYPE_TALON_CUCCO:
             this->actor.colChkInfo.mass = 0;
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             break;
-        case 4:
+        case EN_NIW_TYPE_KAKARIKO_CRATE:
             this->actor.gravity = 0.0f;
             break;
     }
@@ -247,11 +245,11 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
 
     switch (this->actor.params) {
-        case 0xA:
+        case EN_NIW_TYPE_A:
             this->actor.colChkInfo.mass = MASS_IMMOVABLE;
             FALLTHROUGH;
-        case 0xD:
-        case 0xE:
+        case EN_NIW_TYPE_SUPER_CUCCO:
+        case EN_NIW_TYPE_TALON_CUCCO:
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit2);
             if (play->sceneId == SCENE_LINKS_HOUSE && !GET_EVENTCHKINF(EVENTCHKINF_HORSE_RACE_COW_UNLOCK)) {
                 Actor_Kill(&this->actor);
@@ -277,7 +275,7 @@ void EnNiw_Destroy(Actor* thisx, PlayState* play) {
 void func_80AB5BF8(EnNiw* this, PlayState* play, s16 arg2) {
     f32 factor = 1.0f;
 
-    if (this->actor.params == 0xD) {
+    if (this->actor.params == EN_NIW_TYPE_SUPER_CUCCO) {
         factor = 2.0f;
     }
     if (this->timer1 == 0) {
@@ -436,28 +434,28 @@ void EnNiw_ResetAction(EnNiw* this, PlayState* play) {
                      -10.0f);
 
     switch (this->actor.params) {
-        case 4:
-            this->actionFunc = func_80AB6450;
+        case EN_NIW_TYPE_KAKARIKO_CRATE:
+            this->actionFunc = EnNiw_IdleKakarikoCrate;
             break;
-        case 0xD:
-            this->actionFunc = func_80AB6324;
+        case EN_NIW_TYPE_SUPER_CUCCO:
+            this->actionFunc = EnNiw_IdleSuperCucco;
             break;
         default:
-            this->actionFunc = func_80AB6570;
+            this->actionFunc = EnNiw_IdleWalk;
             break;
     }
 }
 
-void func_80AB6324(EnNiw* this, PlayState* play) {
-    if (this->unk_308 != 0) {
+void EnNiw_IdleSuperCucco(EnNiw* this, PlayState* play) {
+    if (this->isSuperCuccoThrown) {
         this->actor.velocity.y = Rand_ZeroFloat(2.0f) + 4.0f;
         this->actor.speed = Rand_ZeroFloat(2.0f) + 3.0f;
-        this->actionFunc = func_80AB63A8;
+        this->actionFunc = EnNiw_SuperCuccoFallingIntoPosition;
     }
     func_80AB5BF8(this, play, 1);
 }
 
-void func_80AB63A8(EnNiw* this, PlayState* play) {
+void EnNiw_SuperCuccoFallingIntoPosition(EnNiw* this, PlayState* play) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.velocity.y < 0.0f) {
         this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
         this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
@@ -467,19 +465,19 @@ void func_80AB63A8(EnNiw* this, PlayState* play) {
         this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speed = this->unk_2FC =
             this->unk_300 = 0.0f;
 
-        this->actionFunc = func_80AB6570;
+        this->actionFunc = EnNiw_IdleWalk;
     } else {
         func_80AB5BF8(this, play, 2);
     }
 }
 
-void func_80AB6450(EnNiw* this, PlayState* play) {
+void EnNiw_IdleKakarikoCrate(EnNiw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->actor.xzDistToPlayer < 30.0f && fabsf(this->actor.world.pos.y - player->actor.world.pos.y) < 5.0f) {
         this->timer6 = 100;
         this->actor.gravity = -2.0f;
-        this->actionFunc = func_80AB7290;
+        this->actionFunc = EnNiw_SetupFleePlayer;
     } else if (Actor_HasParent(&this->actor, play)) {
         this->actor.gravity = -2.0f;
         Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
@@ -488,7 +486,7 @@ void func_80AB6450(EnNiw* this, PlayState* play) {
         this->timer4 = 30;
         this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.speed = 0.0f;
-        this->actionFunc = func_80AB6BF8;
+        this->actionFunc = EnNiw_PlayerCarrying;
     } else {
         // GI_NONE in this case allows the player to lift the actor
         Actor_OfferGetItem(&this->actor, play, GI_NONE, 25.0f, 10.0f);
@@ -496,13 +494,13 @@ void func_80AB6450(EnNiw* this, PlayState* play) {
     }
 }
 
-void func_80AB6570(EnNiw* this, PlayState* play) {
+void EnNiw_IdleWalk(EnNiw* this, PlayState* play) {
     s32 pad[2];
     f32 posY = Rand_CenteredFloat(100.0f);
     f32 posZ = Rand_CenteredFloat(100.0f);
     s16 tmp;
 
-    if (this->actor.params != 0xA) {
+    if (this->actor.params != EN_NIW_TYPE_A) {
         if (Actor_HasParent(&this->actor, play)) {
             Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
             this->sfxTimer1 = 30;
@@ -510,7 +508,7 @@ void func_80AB6570(EnNiw* this, PlayState* play) {
             this->timer4 = 30;
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.speed = 0.0f;
-            this->actionFunc = func_80AB6BF8;
+            this->actionFunc = EnNiw_PlayerCarrying;
             return;
         }
         Actor_OfferCarry(&this->actor, play);
@@ -546,7 +544,7 @@ void func_80AB6570(EnNiw* this, PlayState* play) {
         if (this->unk_29E >= 8) {
             this->timer5 = Rand_ZeroFloat(30.0f);
             this->unk_29E = Rand_ZeroFloat(3.99f);
-            if (this->actor.params != 0xA && this->actor.params != 8) {
+            if (this->actor.params != EN_NIW_TYPE_A && this->actor.params != EN_NIW_TYPE_8) {
                 if (posY < 0.0f) {
                     posY -= 100.0f;
                 } else {
@@ -648,7 +646,7 @@ void func_80AB6A38(EnNiw* this, PlayState* play) {
     }
 }
 
-void func_80AB6BF8(EnNiw* this, PlayState* play) {
+void EnNiw_PlayerCarrying(EnNiw* this, PlayState* play) {
     if (this->timer4 == 0) {
         this->unk_2A6 = 2;
         this->timer4 = 10;
@@ -659,10 +657,10 @@ void func_80AB6BF8(EnNiw* this, PlayState* play) {
     this->actor.shape.rot.z = Rand_CenteredFloat(5000.0f);
 
     if (Actor_HasNoParent(&this->actor, play)) {
-        if (this->actor.params == 0xD) {
+        if (this->actor.params == EN_NIW_TYPE_SUPER_CUCCO) {
             this->sfxTimer1 = 0;
             this->unk_2A6 = 1;
-            this->actionFunc = func_80AB6EB4;
+            this->actionFunc = EnNiw_PlayerReleaseSuperCucco;
             this->actor.velocity.y = 4.0f;
             return;
         }
@@ -670,17 +668,17 @@ void func_80AB6BF8(EnNiw* this, PlayState* play) {
         this->actor.shape.rot.y = this->actor.shape.rot.z;
         this->actor.shape.rot.x = this->actor.shape.rot.z;
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
-        this->actionFunc = func_80AB6D08;
+        this->actionFunc = EnNiw_PlayerReleased;
     }
     func_80AB5BF8(this, play, 2);
 }
 
-void func_80AB6D08(EnNiw* this, PlayState* play) {
+void EnNiw_PlayerReleased(EnNiw* this, PlayState* play) {
     if (this->path == 0) {
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             return;
         }
-        if (this->actor.params == 0xE) {
+        if (this->actor.params == EN_NIW_TYPE_TALON_CUCCO) {
             this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
             this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
             this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
@@ -707,7 +705,7 @@ void func_80AB6D08(EnNiw* this, PlayState* play) {
             this->timer6 = 100;
             this->timer4 = 0;
             this->path = 0;
-            this->actionFunc = func_80AB7290;
+            this->actionFunc = EnNiw_SetupFleePlayer;
             return;
         }
     }
@@ -719,7 +717,7 @@ void func_80AB6D08(EnNiw* this, PlayState* play) {
         this->timer4 = 30;
         this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.speed = 0.0f;
-        this->actionFunc = func_80AB6BF8;
+        this->actionFunc = EnNiw_PlayerCarrying;
     } else {
         if (this->timer5 >= 6) {
             Actor_OfferCarry(&this->actor, play);
@@ -728,7 +726,7 @@ void func_80AB6D08(EnNiw* this, PlayState* play) {
     }
 }
 
-void func_80AB6EB4(EnNiw* this, PlayState* play) {
+void EnNiw_PlayerReleaseSuperCucco(EnNiw* this, PlayState* play) {
     if (this->actor.world.pos.y > 400.0f) {
         Actor_Kill(&this->actor);
     }
@@ -739,7 +737,7 @@ void func_80AB6EB4(EnNiw* this, PlayState* play) {
 void func_80AB6F04(EnNiw* this, PlayState* play) {
     Vec3f pos;
 
-    if (this->unk_2A8 != 0) {
+    if (this->isAngry) {
         EnNiw_SpawnAttackCucco(this, play);
     }
 
@@ -776,10 +774,10 @@ void func_80AB6F04(EnNiw* this, PlayState* play) {
             this->timer6 = 100;
             this->timer4 = 0;
             this->actor.velocity.y = 0.0f;
-            if (this->unk_2A8 == 0) {
-                this->actionFunc = func_80AB7290;
+            if (!this->isAngry) {
+                this->actionFunc = EnNiw_SetupFleePlayer;
             } else {
-                this->actionFunc = func_80AB7204;
+                this->actionFunc = EnNiw_SetupAttackPlayer;
             }
         }
     }
@@ -787,14 +785,14 @@ void func_80AB6F04(EnNiw* this, PlayState* play) {
     func_80AB5BF8(this, play, 2);
 }
 
-void func_80AB70A0(EnNiw* this, PlayState* play) {
+void EnNiw_AngryCutsceneStart(EnNiw* this, PlayState* play) {
     OnePointCutscene_Init(play, 2290, -99, &this->actor, CAM_ID_MAIN);
     this->timer5 = 100;
     this->unk_2A2 = 1;
-    this->actionFunc = func_80AB70F8;
+    this->actionFunc = EnNiw_AngryCutsceneWait;
 }
 
-void func_80AB70F8(EnNiw* this, PlayState* play) {
+void EnNiw_AngryCutsceneWait(EnNiw* this, PlayState* play) {
     this->sfxTimer1 = 100;
 
     if (this->timer5 == 0) {
@@ -825,13 +823,13 @@ void func_80AB714C(EnNiw* this, PlayState* play) {
         this->timer7 = 10;
         this->unk_2E4 = this->actor.yawTowardsPlayer;
         this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-        this->actionFunc = func_80AB7204;
+        this->actionFunc = EnNiw_SetupAttackPlayer;
     }
 
     func_80AB5BF8(this, play, this->unk_2A2);
 }
 
-void func_80AB7204(EnNiw* this, PlayState* play) {
+void EnNiw_SetupAttackPlayer(EnNiw* this, PlayState* play) {
     EnNiw_SpawnAttackCucco(this, play);
 
     if (this->timer7 < 2) {
@@ -845,15 +843,15 @@ void func_80AB7204(EnNiw* this, PlayState* play) {
     }
 }
 
-void func_80AB7290(EnNiw* this, PlayState* play) {
+void EnNiw_SetupFleePlayer(EnNiw* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
     this->unk_2A0 = Rand_ZeroFloat(1.99f);
     this->actor.speed = 4.0f;
-    this->actionFunc = func_80AB7328;
+    this->actionFunc = EnNiw_FleePlayer;
 }
 
-void func_80AB7328(EnNiw* this, PlayState* play) {
+void EnNiw_FleePlayer(EnNiw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->timer6 == 0) {
@@ -863,8 +861,8 @@ void func_80AB7328(EnNiw* this, PlayState* play) {
         this->timer5 = this->timer4 = this->unk_29E = 0;
         this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speed = this->unk_2FC =
             this->unk_300 = 0.0f;
-        if (this->actor.params == 4) {
-            this->actor.params = 0;
+        if (this->actor.params == EN_NIW_TYPE_KAKARIKO_CRATE) {
+            this->actor.params = EN_NIW_TYPE_0;
         }
         this->actionFunc = EnNiw_ResetAction;
     } else {
@@ -877,24 +875,24 @@ void func_80AB7328(EnNiw* this, PlayState* play) {
 
 void func_80AB7420(EnNiw* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        this->unk_2A4 = (s16)Rand_ZeroFloat(3.99f) + 5;
+        this->health = (s16)Rand_ZeroFloat(3.99f) + 5;
         this->actionFunc = EnNiw_ResetAction;
     }
 }
 
 void func_80AB747C(EnNiw* this, PlayState* play) {
-    if (this->unk_2A8 == 0 && this->actor.params != 0xA && this->actionFunc != func_80AB6450 &&
+    if (this->isAngry == 0 && this->actor.params != EN_NIW_TYPE_A && this->actionFunc != EnNiw_IdleKakarikoCrate &&
         this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->sfxTimer1 = 30;
-        if (this->unk_2A4 > 0 && D_80AB85E0 == 0) {
-            this->unk_2A4--;
+        if (this->health > 0 && sHasAttackStarted == false) {
+            this->health--;
         }
         this->unk_2A6 = 1;
         Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
         this->timer6 = 100;
         this->path = 0;
-        this->actionFunc = func_80AB7290;
+        this->actionFunc = EnNiw_SetupFleePlayer;
     }
 }
 
@@ -917,7 +915,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
 
     this->unk_294++;
 
-    if (this->actionFunc != func_80AB6570) {
+    if (this->actionFunc != EnNiw_IdleWalk) {
         this->unk_26C[9] = 0.0f;
     }
     if (this->unk_2A6) {
@@ -972,7 +970,8 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
     Actor_SetFocus(&this->actor, this->unk_304);
     Actor_MoveXZGravity(&this->actor);
 
-    if (this->actionFunc != func_80AB6EB4 && this->actionFunc != func_80AB6450 && play->sceneId != SCENE_ZORAS_RIVER) {
+    if (this->actionFunc != EnNiw_PlayerReleaseSuperCucco && this->actionFunc != EnNiw_IdleKakarikoCrate &&
+        play->sceneId != SCENE_ZORAS_RIVER) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 60.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
                                     UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
@@ -1034,20 +1033,21 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         this->unk_2C4 = 0.0f;
         this->unk_2DC = 0.0f;
         this->unk_2E0 = 0.0f;
-        this->unk_2A8 = this->unk_294 = this->unk_298 = this->unk_2A6 = this->unk_29E = this->unk_2A0 = this->unk_2A2 =
+        this->isAngry = this->unk_294 = this->unk_298 = this->unk_2A6 = this->unk_29E = this->unk_2A0 = this->unk_2A2 =
             0;
 
         for (i = 0; i < ARRAY_COUNT(this->unk_26C); i++) {
             this->unk_26C[i] = 0;
         }
 
-        this->unk_2A8 = 0;
+        this->isAngry = false;
         this->actionFunc = func_80AB7420;
         return;
     }
 
     if ((thisx->bgCheckFlags & BGCHECKFLAG_WATER) && thisx->depthInWater > 15.0f && this->actionFunc != func_80AB6F04 &&
-        thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
+        thisx->params != EN_NIW_TYPE_SUPER_CUCCO && thisx->params != EN_NIW_TYPE_TALON_CUCCO &&
+        thisx->params != EN_NIW_TYPE_A) {
         thisx->velocity.y = 0.0f;
         thisx->gravity = 0.0f;
         Math_Vec3f_Copy(&pos, &thisx->world.pos);
@@ -1062,11 +1062,12 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         return;
     }
 
-    if (D_80AB85E0 == 0 && this->unk_2A4 <= 0 && thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
+    if (sHasAttackStarted == false && this->health <= 0 && thisx->params != EN_NIW_TYPE_SUPER_CUCCO &&
+        thisx->params != EN_NIW_TYPE_TALON_CUCCO && thisx->params != EN_NIW_TYPE_A) {
         this->timer6 = 100;
 
         if (thisx->xzDistToPlayer > 10.0f) {
-            D_80AB85E0 = 1;
+            sHasAttackStarted = true;
             this->timer5 = this->timer4 = this->unk_29E = 0;
             thisx->speed = 0.0f;
             this->unk_2FC = 0.0f;
@@ -1076,11 +1077,11 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
             this->unk_26C[6] = 0.0f;
             this->unk_26C[8] = 0.0f;
             this->sfxTimer1 = 10000;
-            this->unk_2A8 = 1;
+            this->isAngry = true;
             this->unk_2AC.x = this->unk_2B8.x = thisx->world.pos.x;
             this->unk_2AC.y = this->unk_2B8.y = thisx->world.pos.y;
             this->unk_2AC.z = this->unk_2B8.z = thisx->world.pos.z;
-            this->actionFunc = func_80AB70A0;
+            this->actionFunc = EnNiw_AngryCutsceneStart;
             return;
         }
     }
@@ -1088,9 +1089,9 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
     dist = 20.0f;
 
 #if OOT_VERSION < NTSC_1_1
-    if (this->unk_2A8 != 0 && thisx->xyzDistToPlayerSq < SQ(dist) && !(player->stateFlags1 & PLAYER_STATE1_26))
+    if (this->isAngry && thisx->xyzDistToPlayerSq < SQ(dist) && !(player->stateFlags1 & PLAYER_STATE1_26))
 #else
-    if (this->unk_2A8 != 0 && thisx->xyzDistToPlayerSq < SQ(dist) && player->invincibilityTimer == 0)
+    if (this->isAngry && thisx->xyzDistToPlayerSq < SQ(dist) && player->invincibilityTimer == 0)
 #endif
     {
         Actor_SetPlayerKnockbackLarge(play, &this->actor, 2.0f, thisx->world.rot.y, 0.0f, 0x10);
@@ -1098,12 +1099,12 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
 
     func_80AB747C(this, play);
 
-    if (this->sfxTimer2 == 0 && this->actionFunc == func_80AB6BF8) {
+    if (this->sfxTimer2 == 0 && this->actionFunc == EnNiw_PlayerCarrying) {
         this->sfxTimer2 = 7;
         Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_WAKEUP);
     }
     if (this->sfxTimer1 == 0) {
-        if (this->actionFunc != func_80AB6570) {
+        if (this->actionFunc != EnNiw_IdleWalk) {
             this->sfxTimer1 = 30;
             Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
         } else {
@@ -1111,15 +1112,16 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_N);
         }
     }
-    if (this->unk_2A8 == 0) {
+    if (!this->isAngry) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
-        if (thisx->params != 0xA && thisx->params != 0xD && thisx->params != 0xE && thisx->params != 4) {
+        if (thisx->params != EN_NIW_TYPE_A && thisx->params != EN_NIW_TYPE_SUPER_CUCCO &&
+            thisx->params != EN_NIW_TYPE_TALON_CUCCO && thisx->params != EN_NIW_TYPE_KAKARIKO_CRATE) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
-        if (this->actionFunc != func_80AB6BF8 && this->actionFunc != func_80AB6D08 &&
-            this->actionFunc != func_80AB6324 && this->actionFunc != func_80AB63A8 &&
-            this->actionFunc != func_80AB6450) {
+        if (this->actionFunc != EnNiw_PlayerCarrying && this->actionFunc != EnNiw_PlayerReleased &&
+            this->actionFunc != EnNiw_IdleSuperCucco && this->actionFunc != EnNiw_SuperCuccoFallingIntoPosition &&
+            this->actionFunc != EnNiw_IdleKakarikoCrate) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
         }
     }
@@ -1158,7 +1160,7 @@ void EnNiw_Draw(Actor* thisx, PlayState* play) {
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnNiw_OverrideLimbDraw, NULL, this);
 
-    if (this->actionFunc == func_80AB6450) {
+    if (this->actionFunc == EnNiw_IdleKakarikoCrate) {
         func_80033C30(&this->actor.world.pos, &scale, 255, play);
     }
 

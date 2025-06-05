@@ -240,15 +240,18 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     if (IS_DAY) {
                         this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                         this->superCuccoTimers[0] = this->superCuccoTimers[1] = this->superCuccoTimers[2] = 7;
-                        this->superCuccos[0] = (EnNiw*)Actor_Spawn(
-                            &play->actorCtx, play, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
-                            this->actor.world.pos.y + 3.0f, this->actor.world.pos.z + 26.0f, 0, 0, 0, 0xD);
-                        this->superCuccos[1] = (EnNiw*)Actor_Spawn(
-                            &play->actorCtx, play, ACTOR_EN_NIW, this->actor.world.pos.x - 20.0f,
-                            this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
-                        this->superCuccos[2] = (EnNiw*)Actor_Spawn(
-                            &play->actorCtx, play, ACTOR_EN_NIW, this->actor.world.pos.x + 20.0f,
-                            this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
+                        this->superCuccos[0] =
+                            (EnNiw*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
+                                                this->actor.world.pos.y + 3.0f, this->actor.world.pos.z + 26.0f, 0, 0,
+                                                0, EN_NIW_TYPE_SUPER_CUCCO);
+                        this->superCuccos[1] =
+                            (EnNiw*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NIW, this->actor.world.pos.x - 20.0f,
+                                                this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0,
+                                                0, EN_NIW_TYPE_SUPER_CUCCO);
+                        this->superCuccos[2] =
+                            (EnNiw*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NIW, this->actor.world.pos.x + 20.0f,
+                                                this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0,
+                                                0, EN_NIW_TYPE_SUPER_CUCCO);
                         EnTa_SetTextForTalkInLonLonHouse(this, play);
 
                         if (GET_EVENTINF(EVENTINF_CUCCO_GAME_FINISHED)) {
@@ -861,7 +864,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
 
                 // Mark the cucco as a super cucco, this will cause the cucco
                 // to set random xz and y velocities
-                niw->unk_308 = 1;
+                niw->isSuperCuccoThrown = true;
                 niw->actor.gravity = 0.0f;
             }
         }
