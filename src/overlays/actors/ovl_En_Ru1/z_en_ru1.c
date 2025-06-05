@@ -209,16 +209,16 @@ void func_80AEADD8(EnRu1* this) {
     this->unk_34C = 0;
 }
 
-u8 func_80AEADE0(EnRu1* this) {
-    u8 params = PARAMS_GET_U(this->actor.params, 8, 8);
+u8 EnRu1_GetSwitchFlag(EnRu1* this) {
+    u8 switchFlag = ENRU1_SWITCH_FLAG(&this->actor);
 
-    return params;
+    return switchFlag;
 }
 
-u8 func_80AEADF0(EnRu1* this) {
-    u8 params = PARAMS_GET_U(this->actor.params, 0, 8);
+u8 EnRu1_GetType(EnRu1* this) {
+    u8 type = ENRU1_TYPE(&this->actor);
 
-    return params;
+    return type;
 }
 
 void EnRu1_Destroy(Actor* thisx, PlayState* play) {
@@ -2046,7 +2046,7 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
     if (!(DEBUG_FEATURES && IS_CUTSCENE_LAYER) && EnRu1_IsCsStateIdle(play)) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_145);
-        Flags_SetSwitch(play, func_80AEADE0(this));
+        Flags_SetSwitch(play, EnRu1_GetSwitchFlag(this));
         EnRu1_SetPlatformCamSetting(this, 1);
         this->action = 42;
         this->actor.room = curRoomNum;
@@ -2285,36 +2285,36 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
     func_80AEAD20(&this->actor, play);
-    switch (func_80AEADF0(this)) {
-        case 0:
+    switch (EnRu1_GetType(this)) {
+        case ENRU1_TYPE_BOSS_ROOM:
             EnRu1_InitInBossRoom(this, play);
             break;
-        case 1:
+        case ENRU1_TYPE_FOUNTAIN:
             EnRu1_InitOutsideJabuJabu(this, play);
             break;
-        case 2:
+        case ENRU1_TYPE_HOLES_ROOM:
             EnRu1_InitInJabuJabuHolesRoom(this, play);
             break;
-        case 3:
+        case ENRU1_TYPE_BASEMENT:
             EnRu1_InitInJabuJabuBasement(this, play);
             break;
-        case 4:
+        case ENRU1_TYPE_SAPPHIRE_ROOM:
             EnRu1_InitInSapphireRoom(this, play);
             break;
-        case 5:
+        case ENRU1_TYPE_BESIDE_KZ:
             EnRu1_InitBesideKingZora(this, play);
             break;
-        case 6:
+        case ENRU1_TYPE_BESIDE_DOOR_SWITCH:
             EnRu1_InitBesideDoorSwitch(this, play);
             break;
 #if DEBUG_FEATURES
-        case 10:
+        case ENRU1_TYPE_DEBUG:
             func_80AF0050(this, play);
             break;
 #endif
         default:
             Actor_Kill(&this->actor);
-            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), func_80AEADF0(this));
+            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), EnRu1_GetType(this));
             break;
     }
 }
