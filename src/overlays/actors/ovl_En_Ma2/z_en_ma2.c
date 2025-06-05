@@ -92,9 +92,9 @@ u16 EnMa2_GetTextId(PlayState* play, Actor* thisx) {
         return 0x2056;
     }
     if (IS_NIGHT) {
-        if (GET_INFTABLE(INFTABLE_8C)) {
+        if (GET_INFTABLE(INFTABLE_TALKED_TO_ADULT_MALON_AFTER_SONG)) {
             return 0x2052;
-        } else if (GET_INFTABLE(INFTABLE_8E)) {
+        } else if (GET_INFTABLE(INFTABLE_PLAYED_SONG_FOR_ADULT_MALON)) {
             return 0x2051;
         } else {
             return 0x2050;
@@ -110,10 +110,11 @@ s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2051:
-                    SET_INFTABLE(INFTABLE_8C);
+                    SET_INFTABLE(INFTABLE_TALKED_TO_ADULT_MALON_AFTER_SONG);
                     talkState = NPC_TALK_STATE_ACTION;
                     break;
-                case 0x2053:
+                // unreachable, 0x2053 is a text id for Gossip Stones, which EnMa2 never sets
+                case 0x2053: 
                     SET_INFTABLE(INFTABLE_8D);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
@@ -313,7 +314,7 @@ void EnMa2_WaitForEponasSong(EnMa2* this, PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->timer = 0x1E;
-        SET_INFTABLE(INFTABLE_8E);
+        SET_INFTABLE(INFTABLE_PLAYED_SONG_FOR_ADULT_MALON);
         this->actionFunc = EnMa2_ForceTalkAfterSong;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
