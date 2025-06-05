@@ -310,7 +310,6 @@ void EnMa2_WaitForEponasSong(EnMa2* this, PlayState* play) {
         this->actionFunc = EnMa2_WaitForOcarina;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        osSyncPrintf("OCARINA MODE IS EQUAL TO 3\n");
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->timer = 0x1E;
@@ -341,11 +340,6 @@ void EnMa2_ForceTalkAfterSong(EnMa2* this, PlayState* play) {
 void EnMa2_Update(Actor* thisx, PlayState* play) {
     EnMa2* this = (EnMa2*)thisx;
     s32 pad;
-
-    // osSyncPrintf("\n---------------------\n");
-    // osSyncPrintf("OCARINA MODE: %d\n", play->msgCtx.ocarinaMode);
-    // osSyncPrintf("MALON TIMER: %d\n", this->timer);
-    // osSyncPrintf("MALON TALK STATE: %d\n", this->interactInfo.talkState);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
