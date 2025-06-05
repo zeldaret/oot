@@ -519,7 +519,7 @@ void DmaMgr_ThreadEntry(void* arg) {
         }
 
         if (0) {
-            PRINTF(T("ＤＭＡ登録受付", "DMA registration acceptance") " dmap=%08x\n", req);
+            PRINTF(T("ＤＭＡ登録受付 dmap=%08x\n", "DMA registration acceptance dmap=%08x\n"), req);
         }
 
         // Process the DMA request

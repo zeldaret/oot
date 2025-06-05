@@ -105,6 +105,13 @@ typedef enum EnRu1Mouth {
     /* 2 */ ENRU1_MOUTH_OPEN,
 } EnRu1Mouth;
 
+typedef enum EnRu1WaterState {
+    /* 0 */ ENRU1_WATER_OUTSIDE,
+    /* 1 */ ENRU1_WATER_IMMERSED,
+    /* 2 */ ENRU1_WATER_BOBBING,
+    /* 3 */ ENRU1_WATER_SINKING,
+} EnRu1WaterState;
+
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
         COL_MATERIAL_HIT0,
@@ -224,16 +231,16 @@ void func_80AEADD8(EnRu1* this) {
     this->unk_34C = 0;
 }
 
-u8 func_80AEADE0(EnRu1* this) {
-    u8 params = PARAMS_GET_U(this->actor.params, 8, 8);
+u8 EnRu1_GetSwitchFlag(EnRu1* this) {
+    u8 switchFlag = ENRU1_SWITCH_FLAG(&this->actor);
 
-    return params;
+    return switchFlag;
 }
 
-u8 func_80AEADF0(EnRu1* this) {
-    u8 params = PARAMS_GET_U(this->actor.params, 0, 8);
+u8 EnRu1_GetType(EnRu1* this) {
+    u8 type = ENRU1_TYPE(&this->actor);
 
-    return params;
+    return type;
 }
 
 void EnRu1_Destroy(Actor* thisx, PlayState* play) {
@@ -1485,20 +1492,22 @@ void func_80AEE02C(EnRu1* this) {
     this->actor.minVelocityY = 0.0f;
 }
 
-void func_80AEE050(EnRu1* this) {
+void EnRu1_UpdateWaterState(EnRu1* this) {
     s32 pad;
-    f32 sp28;
-    f32 sp24;
+    f32 bobMagnitude;
+    f32 startY;
     EnRu1* thisx = this; // necessary to match
 
-    if (this->unk_350 == 0) {
+    if (this->waterState == ENRU1_WATER_OUTSIDE) {
         if ((this->actor.minVelocityY == 0.0f) && (this->actor.speed == 0.0f)) {
-            this->unk_350 = 1;
+            // When Ruto's velocity has been slowed enough by the water, stop her motion
+            this->waterState = ENRU1_WATER_IMMERSED;
             func_80AEE02C(this);
-            this->unk_35C = 0;
-            this->unk_358 = (this->actor.depthInWater - 10.0f) * 0.5f;
-            this->unk_354 = this->actor.world.pos.y + thisx->unk_358; // thisx only used here
+            this->bobPhase = 0;
+            this->bobDepth = (this->actor.depthInWater - 10.0f) * 0.5f;
+            this->sinkingStartPosY = this->actor.world.pos.y + thisx->bobDepth;
         } else {
+            // Ruto is touching the water but still in motion, e.g. from being thrown
             this->actor.gravity = 0.0f;
             this->actor.minVelocityY *= 0.2f;
             this->actor.velocity.y *= 0.2f;
@@ -1515,25 +1524,25 @@ void func_80AEE050(EnRu1* this) {
             Actor_UpdatePos(&this->actor);
         }
     } else {
-        if (this->unk_350 == 1) {
-            if (this->unk_358 <= 1.0f) {
+        if (this->waterState == ENRU1_WATER_IMMERSED) {
+            if (this->bobDepth <= 1.0f) {
                 func_80AEE02C(this);
-                this->unk_350 = 2;
-                this->unk_360 = 0.0f;
+                this->waterState = ENRU1_WATER_BOBBING;
+                this->isSinking = 0.0f;
             } else {
-                f32 temp_f10;
+                f32 deltaY;
 
-                sp28 = this->unk_358;
-                sp24 = this->unk_354;
-                temp_f10 = Math_CosS(this->unk_35C) * -sp28;
-                this->actor.world.pos.y = temp_f10 + sp24;
-                this->unk_35C += 0x3E8;
-                this->unk_358 *= 0.95f;
+                bobMagnitude = this->bobDepth;
+                startY = this->sinkingStartPosY;
+                deltaY = Math_CosS(this->bobPhase) * -bobMagnitude;
+                this->actor.world.pos.y = deltaY + startY;
+                this->bobPhase += 0x3E8;
+                this->bobDepth *= 0.95f;
             }
         } else {
-            this->unk_360 += 1.0f;
-            if (this->unk_360 > 0.0f) {
-                this->unk_350 = 3;
+            this->isSinking += 1.0f;
+            if (this->isSinking > 0.0f) {
+                this->waterState = ENRU1_WATER_SINKING;
             }
         }
     }
@@ -1631,7 +1640,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
 
         if (this->actor.depthInWater > 0.0f) {
             this->action = 29;
-            this->unk_350 = 0;
+            this->waterState = ENRU1_WATER_OUTSIDE;
         }
     }
 }
@@ -1726,7 +1735,7 @@ void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
     }
 }
 
-s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
+s32 EnRu1_CheckHitBottomUnderwater(EnRu1* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         s32 pad;
 
@@ -1739,8 +1748,8 @@ s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
     return false;
 }
 
-void func_80AEEB24(EnRu1* this, PlayState* play) {
-    if ((func_80AEEAC8(this, play) == 0) && (this->unk_350 == 3)) {
+void EnRu1_CheckSinkingState(EnRu1* this, PlayState* play) {
+    if ((EnRu1_CheckHitBottomUnderwater(this, play) == 0) && (this->waterState == ENRU1_WATER_SINKING)) {
         this->action = 30;
         func_80AEE02C(this);
         this->actor.gravity = -0.1f;
@@ -1780,10 +1789,10 @@ void func_80AEEC5C(EnRu1* this, PlayState* play) {
 void func_80AEECF0(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
     func_80AEAECC(this, play);
-    func_80AEE050(this);
+    EnRu1_UpdateWaterState(this);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEEB24(this, play);
+    EnRu1_CheckSinkingState(this, play);
     func_80AED624(this, play);
 }
 
@@ -1793,7 +1802,7 @@ void func_80AEED58(EnRu1* this, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEEAC8(this, play);
+    EnRu1_CheckHitBottomUnderwater(this, play);
     func_80AED624(this, play);
     func_80AEDAE0(this, play);
 }
@@ -2061,7 +2070,7 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
     if (!(DEBUG_FEATURES && IS_CUTSCENE_LAYER) && EnRu1_IsCsStateIdle(play)) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_145);
-        Flags_SetSwitch(play, func_80AEADE0(this));
+        Flags_SetSwitch(play, EnRu1_GetSwitchFlag(this));
         EnRu1_SetPlatformCamSetting(this, 1);
         this->action = 42;
         this->actor.room = curRoomNum;
@@ -2300,36 +2309,36 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
     func_80AEAD20(&this->actor, play);
-    switch (func_80AEADF0(this)) {
-        case 0:
+    switch (EnRu1_GetType(this)) {
+        case ENRU1_TYPE_BOSS_ROOM:
             EnRu1_InitInBossRoom(this, play);
             break;
-        case 1:
+        case ENRU1_TYPE_FOUNTAIN:
             EnRu1_InitOutsideJabuJabu(this, play);
             break;
-        case 2:
+        case ENRU1_TYPE_HOLES_ROOM:
             EnRu1_InitInJabuJabuHolesRoom(this, play);
             break;
-        case 3:
+        case ENRU1_TYPE_BASEMENT:
             EnRu1_InitInJabuJabuBasement(this, play);
             break;
-        case 4:
+        case ENRU1_TYPE_SAPPHIRE_ROOM:
             EnRu1_InitInSapphireRoom(this, play);
             break;
-        case 5:
+        case ENRU1_TYPE_BESIDE_KZ:
             EnRu1_InitBesideKingZora(this, play);
             break;
-        case 6:
+        case ENRU1_TYPE_BESIDE_DOOR_SWITCH:
             EnRu1_InitBesideDoorSwitch(this, play);
             break;
 #if DEBUG_FEATURES
-        case 10:
+        case ENRU1_TYPE_DEBUG:
             func_80AF0050(this, play);
             break;
 #endif
         default:
             Actor_Kill(&this->actor);
-            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), func_80AEADF0(this));
+            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), EnRu1_GetType(this));
             break;
     }
 }

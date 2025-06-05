@@ -7,6 +7,9 @@
 #include "overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
+#define ENRU1_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 8)
+#define ENRU1_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 8)
+
 struct EnRu1;
 
 typedef void (*EnRu1ActionFunc)(struct EnRu1*, struct PlayState*);
@@ -47,27 +50,40 @@ typedef struct EnRu1 {
     /* 0x02B4 */ ColliderCylinder collider;
     /* 0x0300 */ ColliderCylinder collider2;
     /* 0x034C */ s32 unk_34C;
-    /* 0x0350 */ s32 unk_350;
-    /* 0x0354 */ f32 unk_354;
-    /* 0x0358 */ f32 unk_358;
-    /* 0x035C */ s16 unk_35C;
-    /* 0x0360 */ f32 unk_360;
+    /* 0x0350 */ s32 waterState;
+    /* 0x0354 */ f32 sinkingStartPosY;
+    /* 0x0358 */ f32 bobDepth;
+    /* 0x035C */ s16 bobPhase;
+    /* 0x0360 */ f32 isSinking;
     /* 0x0364 */ Vec3f unk_364;
     /* 0x0370 */ f32 carryIdleTimer;
     /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
 
+typedef enum EnRu1Type {
+    /*  0 */ ENRU1_TYPE_BOSS_ROOM,
+    /*  1 */ ENRU1_TYPE_FOUNTAIN,
+    /*  2 */ ENRU1_TYPE_HOLES_ROOM,
+    /*  3 */ ENRU1_TYPE_BASEMENT,
+    /*  4 */ ENRU1_TYPE_SAPPHIRE_ROOM,
+    /*  5 */ ENRU1_TYPE_BESIDE_KZ,
+    /*  6 */ ENRU1_TYPE_BESIDE_DOOR_SWITCH,
+#if DEBUG_FEATURES
+    /* 10 */ ENRU1_TYPE_DEBUG = 10,
+#endif
+} EnRu1Type;
+
 typedef enum RutoLimb {
-    /* 0 */ RUTO_CHILD_NONE,
-    /* 1 */ RUTO_CHILD_ROOT,
-    /* 2 */ RUTO_CHILD_LEFT_THIGH,
-    /* 3 */ RUTO_CHILD_LEFT_SHIN,
-    /* 4 */ RUTO_CHILD_LEFT_FOOT,
-    /* 5 */ RUTO_CHILD_RIGHT_THIGH,
-    /* 6 */ RUTO_CHILD_RIGHT_SHIN,
-    /* 7 */ RUTO_CHILD_RIGHT_FOOT,
-    /* 8 */ RUTO_CHILD_CHEST,
-    /* 9 */ RUTO_CHILD_LEFT_UPPER_ARM,
+    /*  0 */ RUTO_CHILD_NONE,
+    /*  1 */ RUTO_CHILD_ROOT,
+    /*  2 */ RUTO_CHILD_LEFT_THIGH,
+    /*  3 */ RUTO_CHILD_LEFT_SHIN,
+    /*  4 */ RUTO_CHILD_LEFT_FOOT,
+    /*  5 */ RUTO_CHILD_RIGHT_THIGH,
+    /*  6 */ RUTO_CHILD_RIGHT_SHIN,
+    /*  7 */ RUTO_CHILD_RIGHT_FOOT,
+    /*  8 */ RUTO_CHILD_CHEST,
+    /*  9 */ RUTO_CHILD_LEFT_UPPER_ARM,
     /* 10 */ RUTO_CHILD_LEFT_FIN,
     /* 11 */ RUTO_CHILD_LEFT_HAND,
     /* 12 */ RUTO_CHILD_RIGHT_UPPER_ARM,
