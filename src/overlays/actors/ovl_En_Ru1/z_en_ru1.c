@@ -90,19 +90,6 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
-typedef enum EnRu1Type {
-    ENRU1_TYPE_BOSS_ROOM,
-    ENRU1_TYPE_FOUNTAIN,
-    ENRU1_TYPE_HOLES_ROOM,
-    ENRU1_TYPE_BASEMENT,
-    ENRU1_TYPE_SAPPHIRE_ROOM,
-    ENRU1_TYPE_BESIDE_KZ,
-    ENRU1_TYPE_BESIDE_DOOR_SWITCH,
-#if DEBUG_FEATURES
-    ENRU1_TYPE_DEBUG = 10,
-#endif
-} EnRu1Type;
-
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
         COL_MATERIAL_HIT0,
