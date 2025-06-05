@@ -90,6 +90,13 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
+typedef enum EnRu1WaterState {
+    /* 0 */ ENRU1_WATER_OUTSIDE,
+    /* 1 */ ENRU1_WATER_IMMERSED,
+    /* 2 */ ENRU1_WATER_BOBBING,
+    /* 3 */ ENRU1_WATER_SINKING,
+} EnRu1WaterState;
+
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
         COL_MATERIAL_HIT0,
@@ -1470,20 +1477,22 @@ void func_80AEE02C(EnRu1* this) {
     this->actor.minVelocityY = 0.0f;
 }
 
-void func_80AEE050(EnRu1* this) {
+void EnRu1_UpdateWaterState(EnRu1* this) {
     s32 pad;
-    f32 sp28;
-    f32 sp24;
+    f32 bobMagnitude;
+    f32 startY;
     EnRu1* thisx = this; // necessary to match
 
-    if (this->unk_350 == 0) {
+    if (this->waterState == ENRU1_WATER_OUTSIDE) {
         if ((this->actor.minVelocityY == 0.0f) && (this->actor.speed == 0.0f)) {
-            this->unk_350 = 1;
+            // When Ruto's velocity has been slowed enough by the water, stop her motion
+            this->waterState = ENRU1_WATER_IMMERSED;
             func_80AEE02C(this);
-            this->unk_35C = 0;
-            this->unk_358 = (this->actor.depthInWater - 10.0f) * 0.5f;
-            this->unk_354 = this->actor.world.pos.y + thisx->unk_358; // thisx only used here
+            this->bobPhase = 0;
+            this->bobDepth = (this->actor.depthInWater - 10.0f) * 0.5f;
+            this->sinkingStartPosY = this->actor.world.pos.y + thisx->bobDepth;
         } else {
+            // Ruto is touching the water but still in motion, e.g. from being thrown
             this->actor.gravity = 0.0f;
             this->actor.minVelocityY *= 0.2f;
             this->actor.velocity.y *= 0.2f;
@@ -1500,25 +1509,25 @@ void func_80AEE050(EnRu1* this) {
             Actor_UpdatePos(&this->actor);
         }
     } else {
-        if (this->unk_350 == 1) {
-            if (this->unk_358 <= 1.0f) {
+        if (this->waterState == ENRU1_WATER_IMMERSED) {
+            if (this->bobDepth <= 1.0f) {
                 func_80AEE02C(this);
-                this->unk_350 = 2;
-                this->unk_360 = 0.0f;
+                this->waterState = ENRU1_WATER_BOBBING;
+                this->isSinking = 0.0f;
             } else {
-                f32 temp_f10;
+                f32 deltaY;
 
-                sp28 = this->unk_358;
-                sp24 = this->unk_354;
-                temp_f10 = Math_CosS(this->unk_35C) * -sp28;
-                this->actor.world.pos.y = temp_f10 + sp24;
-                this->unk_35C += 0x3E8;
-                this->unk_358 *= 0.95f;
+                bobMagnitude = this->bobDepth;
+                startY = this->sinkingStartPosY;
+                deltaY = Math_CosS(this->bobPhase) * -bobMagnitude;
+                this->actor.world.pos.y = deltaY + startY;
+                this->bobPhase += 0x3E8;
+                this->bobDepth *= 0.95f;
             }
         } else {
-            this->unk_360 += 1.0f;
-            if (this->unk_360 > 0.0f) {
-                this->unk_350 = 3;
+            this->isSinking += 1.0f;
+            if (this->isSinking > 0.0f) {
+                this->waterState = ENRU1_WATER_SINKING;
             }
         }
     }
@@ -1616,7 +1625,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
 
         if (this->actor.depthInWater > 0.0f) {
             this->action = 29;
-            this->unk_350 = 0;
+            this->waterState = ENRU1_WATER_OUTSIDE;
         }
     }
 }
@@ -1711,7 +1720,7 @@ void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
     }
 }
 
-s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
+s32 EnRu1_CheckHitBottomUnderwater(EnRu1* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         s32 pad;
 
@@ -1724,8 +1733,8 @@ s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
     return false;
 }
 
-void func_80AEEB24(EnRu1* this, PlayState* play) {
-    if ((func_80AEEAC8(this, play) == 0) && (this->unk_350 == 3)) {
+void EnRu1_CheckSinkingState(EnRu1* this, PlayState* play) {
+    if ((EnRu1_CheckHitBottomUnderwater(this, play) == 0) && (this->waterState == ENRU1_WATER_SINKING)) {
         this->action = 30;
         func_80AEE02C(this);
         this->actor.gravity = -0.1f;
@@ -1765,10 +1774,10 @@ void func_80AEEC5C(EnRu1* this, PlayState* play) {
 void func_80AEECF0(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
     func_80AEAECC(this, play);
-    func_80AEE050(this);
+    EnRu1_UpdateWaterState(this);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEEB24(this, play);
+    EnRu1_CheckSinkingState(this, play);
     func_80AED624(this, play);
 }
 
@@ -1778,7 +1787,7 @@ void func_80AEED58(EnRu1* this, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEEAC8(this, play);
+    EnRu1_CheckHitBottomUnderwater(this, play);
     func_80AED624(this, play);
     func_80AEDAE0(this, play);
 }
