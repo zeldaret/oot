@@ -21,10 +21,10 @@
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_bv/object_bv.h"
@@ -1402,7 +1402,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
         if (this->timer >= 0) {
             if (this->invincibilityTimer == 0) {
                 this->invincibilityTimer = 8;
-                if (this->actor.colChkInfo.damageEffect != 1) {
+                if (this->actor.colChkInfo.damageReaction != 1) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);

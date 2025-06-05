@@ -13,10 +13,10 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_wallmaster/object_wallmaster.h"
 
@@ -423,7 +423,7 @@ void EnFloormas_SetupRecover(EnFloormas* this) {
 void EnFloormas_SetupFreeze(EnFloormas* this) {
     Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.5f, 0, 20.0f, ANIMMODE_ONCE, -3.0f);
     this->actor.speed = 0.0f;
-    if (this->actor.colChkInfo.damageEffect == 4) {
+    if (this->actor.colChkInfo.damageReaction == 4) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
@@ -992,7 +992,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->collider.base.colMaterial != COL_MATERIAL_HARD) {
                 isSmall = false;
                 if (this->actor.scale.x < 0.01f) {
@@ -1000,7 +1000,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
                 }
                 if (isSmall && this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT) {
                     this->actor.colChkInfo.damage = 2;
-                    this->actor.colChkInfo.damageEffect = 0;
+                    this->actor.colChkInfo.damageReaction = 0;
                 }
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     if (isSmall) {
@@ -1014,12 +1014,12 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_DAMAGE);
                 }
 
-                if ((this->actor.colChkInfo.damageEffect == 4) || (this->actor.colChkInfo.damageEffect == 1)) {
+                if ((this->actor.colChkInfo.damageReaction == 4) || (this->actor.colChkInfo.damageReaction == 1)) {
                     if (this->actionFunc != EnFloormas_Freeze) {
                         EnFloormas_SetupFreeze(this);
                     }
                 } else {
-                    if (this->actor.colChkInfo.damageEffect == 2) {
+                    if (this->actor.colChkInfo.damageReaction == 2) {
                         EffectSsFCircle_Spawn(play, &this->actor, &this->actor.world.pos, this->actor.scale.x * 4000.0f,
                                               this->actor.scale.x * 4000.0f);
                     }

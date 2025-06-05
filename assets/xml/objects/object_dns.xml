@@ -23,6 +23,50 @@
         <!-- Forest Stage leader deku nut (used by NutsBall) -->
         <DList Name="gDntJijiNutDL" Offset="0x2410"/>
 
+        <!-- Vertices -->
+        <Array Name="object_dns_Vtx_0012C0" Count="6" Offset="0x12C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001320" Count="7" Offset="0x1320">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001390" Count="7" Offset="0x1390">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001400" Count="10" Offset="0x1400">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_0014A0" Count="15" Offset="0x14A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001590" Count="29" Offset="0x1590">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001760" Count="4" Offset="0x1760">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_0017A0" Count="4" Offset="0x17A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_0017E0" Count="4" Offset="0x17E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001820" Count="4" Offset="0x1820">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001860" Count="6" Offset="0x1860">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_0018C0" Count="4" Offset="0x18C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDntJijiFlowerVtx" Count="30" Offset="0x2130">
+            <Vtx/>
+        </Array>
+        <Array Name="gDntJijiNutVtx" Count="3" Offset="0x23E0">
+            <Vtx/>
+        </Array>
+
         <!-- Unused Content -->
 
         <!-- Forest Stage leader unused animations -->
@@ -30,6 +74,5 @@
         <Animation Name="gDntJijiDanceAnim" Offset="0x82C"/>
         <Animation Name="gDntJijiUnkAnim" Offset="0xF98"/> <!-- This animation seems corrupted-->
         <Animation Name="gDntJijiWaitAnim" Offset="0x364C"/>
-
     </File>
 </Root>

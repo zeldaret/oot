@@ -3,13 +3,23 @@
         <!-- Illusion Room Collision -->
         <Collision Name="gIllusionRoomCol" Offset="0x7564"/>
 
+        <!-- Illusion Room Vertices -->
+        <Array Name="gIllusionRoomNormalVtx" Count="334" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gIllusionRoomIllusionVtx" Count="842" Offset="0x1F30">
+            <Vtx/>
+        </Array>
+
         <!-- Illusion Room DLists -->
         <DList Name="gIllusionRoomNormalDL" Offset="0x14E0"/>
         <DList Name="gIllusionRoomIllusionDL" Offset="0x53D0"/>
 
         <!-- Unused Content -->
 
-        <!-- Illusion room DLists -->
+        <Array Name="gIllusionRoomTreeVtx" Count="146" Offset="0x7590">
+            <Vtx/>
+        </Array>
         <DList Name="gIllusionRoomTreeDL" Offset="0x7EB0"/>
     </File>
 </Root>

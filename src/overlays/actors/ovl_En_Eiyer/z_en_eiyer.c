@@ -7,9 +7,9 @@
 #include "sfx.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_ei/object_ei.h"
 
@@ -616,7 +616,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
 
-        if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
+        if (this->actor.colChkInfo.damageReaction != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_DEAD);
@@ -630,7 +630,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
                 } else {
                     EnEiyer_SetupDie(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 1) {
+            } else if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->actionFunc != EnEiyer_Stunned) {
                     EnEiyer_SetupStunned(this);
                 }

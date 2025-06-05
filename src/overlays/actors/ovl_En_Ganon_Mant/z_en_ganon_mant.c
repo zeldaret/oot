@@ -12,8 +12,9 @@
 #include "segmented_address.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
+#include "tex_len.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
@@ -102,12 +103,39 @@ static u16 sVerticesMap[GANON_MANT_NUM_STRANDS * GANON_MANT_NUM_JOINTS] = {
     MAP_STRAND_TO_VTX(3),  MAP_STRAND_TO_VTX(2),  MAP_STRAND_TO_VTX(1), MAP_STRAND_TO_VTX(0),
 };
 
-#define MANT_TEX_WIDTH 32
-#define MANT_TEX_HEIGHT 64
-
 static u64 sForceAlignment = 0;
 
-#include "assets/overlays/ovl_En_Ganon_Mant/ovl_En_Ganon_Mant.c"
+#define gMantTex_WIDTH 32
+#define gMantTex_HEIGHT 64
+static u64 gMantTex[TEX_LEN(u64, gMantTex_WIDTH, gMantTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_En_Ganon_Mant/gMantTex.rgba16.inc.c"
+};
+
+#define gMantUnusedTex_WIDTH 32
+#define gMantUnusedTex_HEIGHT 32
+static u64 gMantUnusedTex[TEX_LEN(u64, gMantUnusedTex_WIDTH, gMantUnusedTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_En_Ganon_Mant/gMantUnusedTex.rgba16.inc.c"
+};
+
+static Vtx gMant1Vtx[] = {
+#include "assets/overlays/ovl_En_Ganon_Mant/gMant1Vtx.inc.c"
+};
+
+static Gfx gMantMaterialDL[11] = {
+#include "assets/overlays/ovl_En_Ganon_Mant/gMantMaterialDL.inc.c"
+};
+
+static Gfx gMantUnusedMaterialDL[11] = {
+#include "assets/overlays/ovl_En_Ganon_Mant/gMantUnusedMaterialDL.inc.c"
+};
+
+static Gfx gMantDL[138] = {
+#include "assets/overlays/ovl_En_Ganon_Mant/gMantDL.inc.c"
+};
+
+static Vtx gMant2Vtx[] = {
+#include "assets/overlays/ovl_En_Ganon_Mant/gMant2Vtx.inc.c"
+};
 
 void EnGanonMant_Init(Actor* thisx, PlayState* play) {
     EnGanonMant* this = (EnGanonMant*)thisx;
@@ -127,8 +155,8 @@ void EnGanonMant_Tear(EnGanonMant* this) {
     s16 areaX;
     s16 areaY;
     s16 texIdx;
-    f32 tx = Rand_ZeroFloat(MANT_TEX_WIDTH);
-    f32 ty = Rand_ZeroFloat(MANT_TEX_HEIGHT);
+    f32 tx = Rand_ZeroFloat(gMantTex_WIDTH);
+    f32 ty = Rand_ZeroFloat(gMantTex_HEIGHT);
     f32 tearAngle = Rand_ZeroFloat(2 * M_PI);
     f32 tearDirX = sinf(tearAngle);
     f32 tearDirY = cosf(tearAngle);
@@ -137,11 +165,11 @@ void EnGanonMant_Tear(EnGanonMant* this) {
     s16* tearAreaSizes = shape->tearAreaSizes;
 
     for (i = 0; i < count; i++) {
-        if ((0 <= tx && tx < MANT_TEX_WIDTH) && (0 <= ty && ty < MANT_TEX_HEIGHT)) {
+        if ((0 <= tx && tx < gMantTex_WIDTH) && (0 <= ty && ty < gMantTex_HEIGHT)) {
             for (areaX = 0; areaX <= tearAreaSizes[i]; areaX++) {
                 for (areaY = 0; areaY <= tearAreaSizes[i]; areaY++) {
-                    texIdx = (s16)((s16)tx + ((s16)ty * MANT_TEX_WIDTH)) + ((s16)areaX + ((s16)areaY * MANT_TEX_WIDTH));
-                    if (texIdx >= MANT_TEX_WIDTH * MANT_TEX_HEIGHT) {
+                    texIdx = (s16)((s16)tx + ((s16)ty * gMantTex_WIDTH)) + ((s16)areaX + ((s16)areaY * gMantTex_WIDTH));
+                    if (texIdx >= gMantTex_WIDTH * gMantTex_HEIGHT) {
                         continue;
                     }
                     ((u16*)gMantTex)[texIdx] = 0;

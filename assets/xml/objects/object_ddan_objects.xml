@@ -28,5 +28,22 @@
         <Collision Name="gDodongoLowerJawCol" Offset="0x1DDC"/>
         <Collision Name="gDodongoRisingPlatformCol" Offset="0x3CE0"/>
         <Collision Name="gDodongoFallingStairsCol" Offset="0x4F30"/>
+
+        <!-- Vertices -->
+        <Array Name="gDodongoDoorVtx" Count="12" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDodongoBarsVtx" Count="8" Offset="0x170">
+            <Vtx/>
+        </Array>
+        <Array Name="gDodongoLowerJawVtx" Count="116" Offset="0xC10">
+            <Vtx/>
+        </Array>
+        <Array Name="gDodongoRisingPlatformVtx" Count="58" Offset="0x3418">
+            <Vtx/>
+        </Array>
+        <Array Name="gDodongoFallingStairsVtx" Count="89" Offset="0x4318">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

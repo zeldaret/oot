@@ -21,14 +21,14 @@
 #include "sfx.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64camera.h"
-#include "z64cutscene.h"
-#include "z64cutscene_flags.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "camera.h"
+#include "cutscene.h"
+#include "cutscene_flags.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 
@@ -388,7 +388,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
 
         case CS_MISC_SHOW_TITLE_CARD:
             if (isFirstFrame) {
-                TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, player->giObjectSegment, 160, 120, 144, 24, 20);
+                TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, player->giObjectSegment, 160, 120,
+                                        PLACE_NAME_TEX_WIDTH, PLACE_NAME_TEX_HEIGHT, 20);
             }
             break;
 

@@ -2,7 +2,7 @@
 #define Z_EN_RU1_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #include "overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
@@ -33,17 +33,17 @@ typedef struct EnRu1 {
     /* 0x0285 */ s8 roomNum2;
     /* 0x0286 */ s8 roomNum3;
     /* 0x0288 */ f32 unk_288;
-    /* 0x028C */ BgBdanObjects* unk_28C;
+    /* 0x028C */ BgBdanObjects* bigOctoPlatform;
     /* 0x0290 */ s32 unk_290;
     /* 0x0294 */ char unk_294[0x4];
     /* 0x0298 */ s32 unk_298;
     /* 0x029C */ char unk_29C[0x2];
-    /* 0x029E */ s16 unk_29E;
+    /* 0x029E */ s16 headTurnSpeed;
     /* 0x02A0 */ char unk_2A0[0x4];
     /* 0x02A4 */ f32 unk_2A4;
     /* 0x02A8 */ s32 alpha;
-    /* 0x02AC */ s16 unk_2AC;
-    /* 0x02B0 */ s32 unk_2B0;
+    /* 0x02AC */ s16 headRotTimer;
+    /* 0x02B0 */ s32 headRotDirection;
     /* 0x02B4 */ ColliderCylinder collider;
     /* 0x0300 */ ColliderCylinder collider2;
     /* 0x034C */ s32 unk_34C;
@@ -53,7 +53,7 @@ typedef struct EnRu1 {
     /* 0x035C */ s16 unk_35C;
     /* 0x0360 */ f32 unk_360;
     /* 0x0364 */ Vec3f unk_364;
-    /* 0x0370 */ f32 unk_370;
+    /* 0x0370 */ f32 carryIdleTimer;
     /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
 

@@ -52,5 +52,40 @@
         <Animation Name="gStingerBackflipAnim" Offset="0x704"/>
         <Animation Name="gStingerHitAnim" Offset="0xFC0"/>
         <Animation Name="gStingerIdleAnim" Offset="0x12AC"/>
+
+        <!-- Vertices -->
+        <Array Name="gStingerLeftWingBaseVtx" Count="24" Offset="0x1700">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerLeftWingEndVtx" Count="30" Offset="0x1880">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerRightWingBaseVtx" Count="24" Offset="0x1A60">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerRightWingEndVtx" Count="30" Offset="0x1BE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerBodyVtx" Count="25" Offset="0x1DC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerTailRootVtx" Count="28" Offset="0x1F50">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerTailUpperVtx" Count="10" Offset="0x2110">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerTailLowerVtx" Count="5" Offset="0x21B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerHeadVtx" Count="23" Offset="0x2200">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerFinUpperVtx" Count="9" Offset="0x2370">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerFinLowerVtx" Count="7" Offset="0x2400">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

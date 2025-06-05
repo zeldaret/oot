@@ -15,8 +15,8 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_sb/object_sb.h"
 
@@ -393,7 +393,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
         tookDamage = false;
         this->collider.base.acFlags &= ~AC_HIT;
 
-        switch (this->actor.colChkInfo.damageEffect) {
+        switch (this->actor.colChkInfo.damageReaction) {
             case 14: // wind arrow
                 hitByWindArrow = true;
                 FALLTHROUGH;

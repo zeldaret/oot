@@ -12,9 +12,9 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_dodongo/object_dodongo.h"
 
@@ -415,7 +415,7 @@ void EnDodongo_SetupStunned(EnDodongo* this) {
     Animation_Change(&this->skelAnime, &gDodongoBreatheFireAnim, 0.0f, 25.0f, 0.0f, ANIMMODE_ONCE, -4.0f);
     this->actionState = DODONGO_STUNNED;
     this->actor.speed = 0.0f;
-    if (this->damageEffect == 0xF) {
+    if (this->damageReaction == 0xF) {
         this->iceTimer = 36;
     }
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -733,9 +733,9 @@ void EnDodongo_CollisionCheck(EnDodongo* this, PlayState* play) {
     } else if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->actionState > DODONGO_DEATH)) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->bodyCollider, false);
-        if (this->actor.colChkInfo.damageEffect != 0xE) {
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
-            if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
+        if (this->actor.colChkInfo.damageReaction != 0xE) {
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
+            if ((this->actor.colChkInfo.damageReaction == 1) || (this->actor.colChkInfo.damageReaction == 0xF)) {
                 if (this->actionState != DODONGO_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -783,7 +783,7 @@ void EnDodongo_Update(Actor* thisx, PlayState* play) {
     EnDodongo* this = (EnDodongo*)thisx;
 
     EnDodongo_CollisionCheck(this, play);
-    if (this->actor.colChkInfo.damageEffect != 0xE) {
+    if (this->actor.colChkInfo.damageReaction != 0xE) {
         this->actionFunc(this, play);
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 60.0f, 70.0f,

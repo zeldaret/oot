@@ -18,7 +18,7 @@
         <Animation Name="gRutoChildWalkAnim" Offset="0x78E4"/>
         <Animation Name="gRutoChildTransitionFromSwimOnBackAnim" Offset="0x8100"/>
         <Animation Name="gRutoChildTransitionToSwimOnBackAnim" Offset="0x8AA8"/>
-        <Animation Name="gRutoChildAnim_009060" Offset="0x9060"/>
+        <Animation Name="gRutoChildResurfaceAnim" Offset="0x9060"/>
         <Animation Name="gRutoChildWait2Anim" Offset="0x97B8"/>
         <Animation Name="gRutoChildSwimOnBackAnim" Offset="0x12E94"/>
         <Animation Name="gRutoChildTreadWaterAnim" Offset="0x13A64"/>

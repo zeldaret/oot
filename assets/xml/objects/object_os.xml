@@ -3,6 +3,32 @@
         <!-- Happy Mask Salesman Animation -->
         <Animation Name="gHappyMaskSalesmanIdleAnim" Offset="0x2E4"/>
 
+        <!-- Happy Mask Salesman Vertices -->
+        <Array Name="gHappyMaskSalesmanHeadVtx" Count="154" Offset="0x300">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanLeftHandVtx" Count="53" Offset="0xCA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanLeftForearmVtx" Count="24" Offset="0xFF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanLeftUpperArmVtx" Count="24" Offset="0x1170">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanRightHandVtx" Count="54" Offset="0x12F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanRightForearmVtx" Count="24" Offset="0x1650">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanRightUpperArmVtx" Count="24" Offset="0x17D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanTorsoVtx" Count="67" Offset="0x1950">
+            <Vtx/>
+        </Array>
+
         <!-- Happy Mask Salesman DLists -->
         <DList Name="gHappyMaskSalesmanTorsoDL" Offset="0x1D80"/>
         <DList Name="gHappyMaskSalesmanHeadDL" Offset="0x20A8"/>

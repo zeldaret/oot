@@ -12,14 +12,14 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64debug_display.h"
-#include "z64face_reaction.h"
-#include "z64ocarina.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "debug_display.h"
+#include "face_reaction.h"
+#include "ocarina.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_skj/object_skj.h"
 
@@ -606,7 +606,7 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
 
     if (!((this->unk_2D3 == 0) || (D_80B01EA0 != 0) || !(this->collider.base.acFlags & AC_HIT))) {
         this->collider.base.acFlags &= ~AC_HIT;
-        switch (this->actor.colChkInfo.damageEffect) {
+        switch (this->actor.colChkInfo.damageReaction) {
             case 0xF:
                 effectPos.x = this->collider.elem.acDmgInfo.hitPos.x;
                 effectPos.y = this->collider.elem.acDmgInfo.hitPos.y;

@@ -9,7 +9,7 @@
 #include "regs.h"
 #include "rumble.h"
 #include "ultra64.h"
-#include "z64debug.h"
+#include "debug.h"
 
 typedef struct DebugCamTextBufferEntry {
     /* 0x0 */ u8 x;
