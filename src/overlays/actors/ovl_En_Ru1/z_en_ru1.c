@@ -380,8 +380,7 @@ s32 func_80AEB020(EnRu1* this, PlayState* play) {
         if (actorIt->id == ACTOR_EN_RU1) {
             someEnRu1 = (EnRu1*)actorIt;
             if (someEnRu1 != this) {
-                if ((someEnRu1->action == ENRU1_ACTION_31) ||
-                    (someEnRu1->action == ENRU1_ACTION_32) ||
+                if ((someEnRu1->action == ENRU1_ACTION_31) || (someEnRu1->action == ENRU1_ACTION_32) ||
                     (someEnRu1->action == ENRU1_ACTION_24)) {
                     return true;
                 }
