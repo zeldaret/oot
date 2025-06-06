@@ -629,20 +629,20 @@ void EnRu1_SwimAwayFromLink(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEBAFC(EnRu1* this) {
+void EnRu1_PlayDivingEntrySfx(EnRu1* this) {
     if (this->unk_298 == 0) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_DIVE_INTO_WATER);
         this->unk_298 = 1;
     }
 }
 
-void func_80AEBB3C(EnRu1* this) {
+void EnRu1_PlayResurfacingSfx(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_FACE_UP);
     }
 }
 
-void func_80AEBB78(EnRu1* this) {
+void EnRu1_PlaySwimStrokeSfx(EnRu1* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (Animation_OnFrame(skelAnime, 4.0f) || Animation_OnFrame(skelAnime, 13.0f) ||
@@ -651,7 +651,7 @@ void func_80AEBB78(EnRu1* this) {
     }
 }
 
-void func_80AEBBF4(EnRu1* this) {
+void EnRu1_PlaySubmergeSfx(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_SUBMERGE);
     }
@@ -670,7 +670,10 @@ void EnRu1_LinkFallsIntoFountain(PlayState* play) {
     }
 }
 
-void func_80AEBC84(EnRu1* this, PlayState* play) {
+/**
+ * Ruto giggles at Link outside of Jabu-Jabu.
+ */
+void EnRu1_PlayGiggleSfx(EnRu1* this, PlayState* play) {
     if (play->csCtx.curFrame == 130) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
@@ -775,13 +778,13 @@ void EnRu1_EndGivingSapphire(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
 void EnRu1_GazingAtLink(EnRu1* this, PlayState* play) {
     EnRu1_InitPositionFromFountainCue(this, play);
     EnRu1_UpdateSkelAnime(this);
-    func_80AEBC84(this, play);
+    EnRu1_PlayGiggleSfx(this, play);
     EnRu1_LinkFallsIntoFountain(play);
     EnRu1_EnterFountainWater(this, play);
 }
 
 void EnRu1_DivingIntoFountain(EnRu1* this, PlayState* play) {
-    func_80AEBAFC(this);
+    EnRu1_PlayDivingEntrySfx(this);
     EnRu1_Resurface(this, play);
 }
 
@@ -789,7 +792,7 @@ void EnRu1_Resurfacing(EnRu1* this, PlayState* play) {
     s32 doneAnim = EnRu1_UpdateSkelAnime(this);
 
     func_80AEAECC(this, play);
-    func_80AEBB3C(this);
+    EnRu1_PlayResurfacingSfx(this);
     EnRu1_ResurfaceProgress(this, play, doneAnim);
 }
 
@@ -809,7 +812,7 @@ void EnRu1_StartingSwimBack(EnRu1* this, PlayState* play) {
     EnRu1_UpdateEyes(this);
     EnRu1_SpawnRippleTreading(this, play);
     EnRu1_StartBackSwimming(this, doneAnim);
-    func_80AEBBF4(this);
+    EnRu1_PlaySubmergeSfx(this);
     EnRu1_TransitionToBackSwimming(this, play);
 }
 
@@ -822,7 +825,7 @@ void EnRu1_SwimmingBack(EnRu1* this, PlayState* play) {
     EnRu1_UpdateEyes(this);
     EnRu1_SpawnRippleTreading(this, play);
     EnRu1_StartBackSwimming(this, doneAnim);
-    func_80AEBB78(this);
+    EnRu1_PlaySwimStrokeSfx(this);
     EnRu1_EndSwimBack(this, play);
 }
 
