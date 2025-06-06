@@ -175,5 +175,25 @@
         <DList Name="gFireTempleDoorBackDL" Offset="0x11F20"/>
 
         <Texture Name="gFireTempleDoorKillerTex" OutName="fire_temple_door_killer" Format="rgba16" Width="32" Height="64" Offset="0xE5A0"/>
+        <Texture Name="object_hidan_objects_000000_TLUT" Format="rgba16" Width="16" Height="1" Offset="0x0"/>
+        <Texture Name="object_hidan_objects_000020_TLUT" Format="rgba16" Width="16" Height="1" Offset="0x20"/>
+        <Texture Name="object_hidan_objects_000040_Tex" Format="ci4" Width="32" Height="32" Offset="0x40" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_000240_Tex" Format="rgba16" Width="32" Height="32" Offset="0x240"/>
+        <Texture Name="object_hidan_objects_000A40_Tex" Format="rgba16" Width="32" Height="64" Offset="0xA40"/>
+        <Texture Name="object_hidan_objects_001A40_Tex" Format="rgba16" Width="32" Height="64" Offset="0x1A40"/>
+        <Texture Name="object_hidan_objects_002A40_Tex" Format="rgba16" Width="32" Height="64" Offset="0x2A40"/>
+        <Texture Name="object_hidan_objects_003A40_Tex" Format="rgba16" Width="32" Height="32" Offset="0x3A40"/>
+        <Texture Name="object_hidan_objects_004240_Tex" Format="rgba16" Width="16" Height="64" Offset="0x4240"/>
+        <Texture Name="object_hidan_objects_004A40_Tex" Format="rgba16" Width="32" Height="32" Offset="0x4A40"/>
+        <Texture Name="object_hidan_objects_005240_Tex" Format="ci4" Width="32" Height="64" Offset="0x5240" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_005640_Tex" Format="ci4" Width="32" Height="64" Offset="0x5640" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_005A40_Tex" Format="ci4" Width="64" Height="32" Offset="0x5A40" TlutOffset="0x20"/>
+        <Texture Name="object_hidan_objects_005E40_Tex" Format="rgba16" Width="32" Height="32" Offset="0x5E40"/>
+        <Texture Name="object_hidan_objects_006640_Tex" Format="ci4" Width="32" Height="64" Offset="0x6640" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_006A40_Tex" Format="ci4" Width="32" Height="32" Offset="0x6A40" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_006C40_Tex" Format="ci4" Width="32" Height="32" Offset="0x6C40" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_006E40_Tex" Format="rgba16" Width="32" Height="32" Offset="0x6E40"/>
+        <Texture Name="object_hidan_objects_00FB20_Tex" Format="rgba16" Width="32" Height="64" Offset="0xFB20"/>
+        <Texture Name="object_hidan_objects_010D90_Tex" Format="rgba16" Width="32" Height="64" Offset="0x10D90"/>
     </File>
 </Root>

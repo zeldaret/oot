@@ -58,5 +58,22 @@
         <Texture Name="gFieldSandstorm2Tex" OutName="sandstorm_2" Format="ia8" Width="64" Height="32" Offset="0xC270"/>
         <DList Name="gFieldSandstormDL" Offset="0xCA70"/>
         <Texture Name="gFieldKeepTex_00CB30" OutName="gFieldKeep_00CB30" Format="rgba16" Width="32" Height="32" Offset="0xCB30"/>
+
+        <DList Name="gameplay_field_keep_002530_DL" Offset="0x2530"/>
+        <DList Name="gameplay_field_keep_002630_DL" Offset="0x2630"/>
+        <Limb Name="gameplay_field_keep_003680_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_003680" Offset="0x3680"/>
+        <Limb Name="gameplay_field_keep_00368C_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_00368C" Offset="0x368C"/>
+        <Limb Name="gameplay_field_keep_003698_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_003698" Offset="0x3698"/>
+        <Limb Name="gameplay_field_keep_0036A4_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_0036A4" Offset="0x36A4"/>
+        <Limb Name="gameplay_field_keep_0036B0_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_0036B0" Offset="0x36B0"/>
+        <Limb Name="gameplay_field_keep_0036BC_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_0036BC" Offset="0x36BC"/>
+        <Limb Name="gameplay_field_keep_0036C8_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_0036C8" Offset="0x36C8"/>
+        <DList Name="gameplay_field_keep_0061F8_DL" Offset="0x61F8"/>
+        <DList Name="gameplay_field_keep_006458_DL" Offset="0x6458"/>
+        <Limb Name="gameplay_field_keep_0088A8_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_0088A8" Offset="0x88A8"/>
+        <Limb Name="gameplay_field_keep_0088B4_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_0088B4" Offset="0x88B4"/>
+        <Limb Name="gameplay_field_keep_0088C0_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_0088C0" Offset="0x88C0"/>
+        <Limb Name="gameplay_field_keep_0088CC_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_0088CC" Offset="0x88CC"/>
+        <Limb Name="gameplay_field_keep_0088D8_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_FIELD_KEEP_0088D8" Offset="0x88D8"/>
     </File>
 </Root>
