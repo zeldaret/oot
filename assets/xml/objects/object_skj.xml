@@ -120,5 +120,16 @@
         <Texture Name="gSkullKidSkullMaskTex" OutName="skull_mask" Format="rgba16" Width="16" Height="16" Offset="0xF08"/>
         <Texture Name="gSkullKidSkullMaskTeethTex" OutName="skull_mask_teeth" Format="rgba16" Width="8" Height="8" Offset="0x1108"/>
         <Texture Name="gSkullKidSkullMaskNoseTex" OutName="skull_mask_nose" Format="rgba16" Width="8" Height="8" Offset="0x1188"/>
+
+        <DList Name="object_skj_0036A0_DL" Offset="0x36A0"/>
+        <DList Name="object_skj_003E48_DL" Offset="0x3E48"/>
+        <Texture Name="object_skj_005300_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5300"/>
+        <Texture Name="object_skj_005500_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5500"/>
+        <Texture Name="object_skj_005700_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5700"/>
+        <Texture Name="object_skj_005900_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5900"/>
+        <Texture Name="object_skj_005B00_Tex" Format="rgba16" Width="8" Height="8" Offset="0x5B00"/>
+        <Texture Name="object_skj_005B80_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5B80"/>
+        <Texture Name="object_skj_005D80_Tex" Format="rgba16" Width="4" Height="4" Offset="0x5D80"/>
+        <Texture Name="object_skj_005DA0_Tex" Format="ia16" Width="8" Height="8" Offset="0x5DA0"/>
     </File>
 </Root>
