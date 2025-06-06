@@ -63,7 +63,7 @@
 #define KALEIDO_COLOR_CURSOR_UNK_B 50
 #endif
 
-typedef enum {
+typedef enum VtxPageInit {
     /* 0 */ VTX_PAGE_ITEM,
     /* 1 */ VTX_PAGE_EQUIP,
     /* 2 */ VTX_PAGE_MAP_DUNGEON,
