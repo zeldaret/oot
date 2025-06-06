@@ -5,9 +5,20 @@
  */
 
 #include "z_en_toryo.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_toryo/object_toryo.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnToryo_Init(Actor* thisx, PlayState* play);
 void EnToryo_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +29,7 @@ void EnToryo_Idle(EnToryo* this, PlayState* play);
 s32 EnToryo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnToryo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-ActorInit En_Toryo_InitVars = {
+ActorProfile En_Toryo_Profile = {
     /**/ ACTOR_EN_TORYO,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -32,7 +43,7 @@ ActorInit En_Toryo_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -40,7 +51,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -127,7 +138,7 @@ void EnToryo_Init(Actor* thisx, PlayState* play) {
                      Animation_GetLastFrame(sEnToryoAnimation.animation), sEnToryoAnimation.mode,
                      sEnToryoAnimation.morphFrames);
     this->stateFlags |= 8;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->actionFunc = EnToryo_Idle;
 }
 
@@ -248,7 +259,7 @@ u32 EnToryo_ReactToExchangeItem(EnToryo* this, PlayState* play) {
             ret = 0x200F;
         }
     }
-    //! @bug return value may be unitialized
+    //! @bug return value may be uninitialized
     return ret;
 }
 
@@ -258,7 +269,7 @@ s32 EnToryo_GetTextId(EnToryo* this, PlayState* play) {
 
     if (textId == 0) {
         if (this->stateFlags & 1) {
-            if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
+            if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED()) {
                 ret = 0x606C;
             } else if (GET_INFTABLE(INFTABLE_170)) {
                 ret = 0x606B;
@@ -318,7 +329,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
 
     if (this->messageState == 0) {
         if (Actor_TalkOfferAccepted(&this->actor, play)) {
-            this->exchangeItemId = func_8002F368(play);
+            this->exchangeItemId = Actor_GetPlayerExchangeItemId(play);
             if (this->exchangeItemId != EXCH_ITEM_NONE) {
                 player->actor.textId = EnToryo_ReactToExchangeItem(this, play);
                 this->actor.textId = player->actor.textId;
@@ -367,7 +378,7 @@ void EnToryo_Update(Actor* thisx, PlayState* play) {
         }
 
         rot = thisx->yawTowardsPlayer - thisx->shape.rot.y;
-        if ((rot < 14563.0f) && (rot > -14563.0f)) {
+        if ((rot < DEG_TO_BINANG2(80.0f)) && (rot > DEG_TO_BINANG2(-80.0f))) {
             Npc_TrackPoint(thisx, &this->interactInfo, 0, NPC_TRACKING_HEAD_AND_TORSO);
         } else {
             Npc_TrackPoint(thisx, &this->interactInfo, 0, NPC_TRACKING_NONE);

@@ -2,13 +2,13 @@
 #define Z_EN_MB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnMb;
 
-typedef void (*EnMbActionFunc)(struct EnMb*, PlayState*);
+typedef void (*EnMbActionFunc)(struct EnMb*, struct PlayState*);
 
-typedef enum {
+typedef enum EnMbState {
     /*  0 */ ENMB_STATE_SPEAR_SPEARPATH_DAMAGED,
     /*  1 */ ENMB_STATE_CLUB_DEAD,
     /*  2 */ ENMB_STATE_CLUB_KNEELING_DAMAGED,
@@ -23,7 +23,7 @@ typedef enum {
 typedef struct EnMb {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Vec3s bodyPartsPos[10];
-    /* 0x0188 */ u8 damageEffect;
+    /* 0x0188 */ u8 damageReaction;
     /* 0x018C */ SkelAnime skelAnime;
     /* 0x01D0 */ Vec3s jointTable[28];
     /* 0x0278 */ Vec3s morphTable[28];
@@ -46,8 +46,8 @@ typedef struct EnMb {
     /* 0x0364 */ f32 playerDetectionRange;
     /* 0x0368 */ ColliderCylinder bodyCollider;
     /* 0x03B4 */ ColliderQuad attackCollider; // for attacking the player
-    /* 0x0434 */ ColliderTris frontShielding; // Moblins don't have shields, but this acts as one
-    /* 0x0454 */ ColliderTrisElement frontShieldingTris[2];
+    /* 0x0434 */ ColliderTris frontShieldingCollider; // Moblins don't have shields, but this acts as one
+    /* 0x0454 */ ColliderTrisElement frontShieldingColliderElements[2];
 } EnMb; // size = 0x050C
 
 #endif

@@ -6,16 +6,87 @@
 
         <DList Name="gKeeseEyesDL" Offset="0x1678"/>
 
-        <Texture Name="gKeeseEyeTex" OutName="eye" Format="rgba16" Width="8" Height="8" Offset="0x190"/>
-        <Texture Name="gKeeseBodyTex" OutName="body" Format="rgba16" Width="8" Height="8" Offset="0x590"/>
-        <Texture Name="gKeeseTalonTex" OutName="talon" Format="rgba16" Width="8" Height="16" Offset="0x610"/>
-        <Texture Name="gKeeseWingTex" OutName="wing" Format="rgba16" Width="4" Height="16" Offset="0x710"/>
-        <Texture Name="gKeeseEarTex" OutName="ear" Format="rgba16" Width="16" Height="8" Offset="0x790"/>
+        <Texture Name="gKeeseEyeTex" Format="rgba16" Width="8" Height="8" Offset="0x190"/>
+        <Texture Name="gKeeseBodyTex" Format="rgba16" Width="8" Height="8" Offset="0x590"/>
+        <Texture Name="gKeeseTalonTex" Format="rgba16" Width="8" Height="16" Offset="0x610"/>
+        <Texture Name="gKeeseWingTex" Format="rgba16" Width="4" Height="16" Offset="0x710"/>
+        <Texture Name="gKeeseEarTex" Format="rgba16" Width="16" Height="8" Offset="0x790"/>
 
-        <Texture Name="gFireKeeseBodyTex" OutName="fire_body" Format="rgba16" Width="8" Height="8" Offset="0x210"/>
-        <Texture Name="gFireKeeseEyeTex" OutName="fire_eye" Format="rgba16" Width="8" Height="8" Offset="0x290"/>
-        <Texture Name="gFireKeeseEarTex" OutName="fire_ear" Format="rgba16" Width="16" Height="8" Offset="0x310"/>
-        <Texture Name="gFireKeeseTalonTex" OutName="fire_talon" Format="rgba16" Width="8" Height="16" Offset="0x410"/>
-        <Texture Name="gFireKeeseWingTex" OutName="fire_wing" Format="rgba16" Width="4" Height="16" Offset="0x510"/>
+        <Texture Name="gFireKeeseBodyTex" Format="rgba16" Width="8" Height="8" Offset="0x210"/>
+        <Texture Name="gFireKeeseEyeTex" Format="rgba16" Width="8" Height="8" Offset="0x290"/>
+        <Texture Name="gFireKeeseEarTex" Format="rgba16" Width="16" Height="8" Offset="0x310"/>
+        <Texture Name="gFireKeeseTalonTex" Format="rgba16" Width="8" Height="16" Offset="0x410"/>
+        <Texture Name="gFireKeeseWingTex" Format="rgba16" Width="4" Height="16" Offset="0x510"/>
+
+        <Array Name="object_firefly_Vtx_000890" Count="26" Offset="0x890">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000A30" Count="17" Offset="0xA30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000B40" Count="3" Offset="0xB40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000B70" Count="4" Offset="0xB70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000BB0" Count="3" Offset="0xBB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000BE0" Count="3" Offset="0xBE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000C10" Count="3" Offset="0xC10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000C40" Count="3" Offset="0xC40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000C70" Count="3" Offset="0xC70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_firefly_Vtx_000CA0" Count="3" Offset="0xCA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gKeeseEyesVtx" Count="6" Offset="0xCD0">
+            <Vtx/>
+        </Array>
+        <DList Name="object_firefly_000D30_DL" Offset="0xD30"/>
+        <DList Name="object_firefly_000F40_DL" Offset="0xF40"/>
+        <DList Name="object_firefly_001038_DL" Offset="0x1038"/>
+        <DList Name="object_firefly_001100_DL" Offset="0x1100"/>
+        <DList Name="object_firefly_0011C8_DL" Offset="0x11C8"/>
+        <DList Name="object_firefly_001290_DL" Offset="0x1290"/>
+        <DList Name="object_firefly_001358_DL" Offset="0x1358"/>
+        <DList Name="object_firefly_001420_DL" Offset="0x1420"/>
+        <DList Name="object_firefly_0014E8_DL" Offset="0x14E8"/>
+        <DList Name="object_firefly_0015B0_DL" Offset="0x15B0"/>
+        <Limb Name="object_firefly_001708_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001708" Offset="0x1708"/>
+        <Limb Name="object_firefly_001714_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001714" Offset="0x1714"/>
+        <Limb Name="object_firefly_001720_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001720" Offset="0x1720"/>
+        <Limb Name="object_firefly_00172C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_00172C" Offset="0x172C"/>
+        <Limb Name="object_firefly_001738_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001738" Offset="0x1738"/>
+        <Limb Name="object_firefly_001744_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001744" Offset="0x1744"/>
+        <Limb Name="object_firefly_001750_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001750" Offset="0x1750"/>
+        <Limb Name="object_firefly_00175C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_00175C" Offset="0x175C"/>
+        <Limb Name="object_firefly_001768_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001768" Offset="0x1768"/>
+        <Limb Name="object_firefly_001774_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001774" Offset="0x1774"/>
+        <Limb Name="object_firefly_001780_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001780" Offset="0x1780"/>
+        <Limb Name="object_firefly_00178C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_00178C" Offset="0x178C"/>
+        <Limb Name="object_firefly_001798_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001798" Offset="0x1798"/>
+        <Limb Name="object_firefly_0017A4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_0017A4" Offset="0x17A4"/>
+        <Limb Name="object_firefly_0017B0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_0017B0" Offset="0x17B0"/>
+        <Limb Name="object_firefly_0017BC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_0017BC" Offset="0x17BC"/>
+        <Limb Name="object_firefly_0017C8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_0017C8" Offset="0x17C8"/>
+        <Limb Name="object_firefly_0017D4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_0017D4" Offset="0x17D4"/>
+        <Limb Name="object_firefly_0017E0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_0017E0" Offset="0x17E0"/>
+        <Limb Name="object_firefly_0017EC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_0017EC" Offset="0x17EC"/>
+        <Limb Name="object_firefly_0017F8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_0017F8" Offset="0x17F8"/>
+        <Limb Name="object_firefly_001804_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001804" Offset="0x1804"/>
+        <Limb Name="object_firefly_001810_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001810" Offset="0x1810"/>
+        <Limb Name="object_firefly_00181C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_00181C" Offset="0x181C"/>
+        <Limb Name="object_firefly_001828_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001828" Offset="0x1828"/>
+        <Limb Name="object_firefly_001834_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001834" Offset="0x1834"/>
+        <Limb Name="object_firefly_001840_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FIREFLY_001840" Offset="0x1840"/>
     </File>
 </Root>

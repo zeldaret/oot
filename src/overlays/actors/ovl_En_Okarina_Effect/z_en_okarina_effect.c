@@ -5,9 +5,21 @@
  */
 
 #include "z_en_okarina_effect.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "printf.h"
+#include "regs.h"
+#include "sequence.h"
+#include "terminal.h"
+#include "translation.h"
+#include "versions.h"
+#include "audio.h"
+#include "cutscene_flags.h"
+#include "debug_display.h"
+#include "frame_advance.h"
+#include "play_state.h"
+#include "save.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnOkarinaEffect_Init(Actor* thisx, PlayState* play);
 void EnOkarinaEffect_Destroy(Actor* thisx, PlayState* play);
@@ -16,7 +28,7 @@ void EnOkarinaEffect_Update(Actor* thisx, PlayState* play);
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, PlayState* play);
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play);
 
-ActorInit En_Okarina_Effect_InitVars = {
+ActorProfile En_Okarina_Effect_Profile = {
     /**/ ACTOR_EN_OKARINA_EFFECT,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -36,8 +48,13 @@ void EnOkarinaEffect_Destroy(Actor* thisx, PlayState* play) {
     EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
+#if OOT_VERSION < PAL_1_0
+    if ((gWeatherMode == WEATHER_MODE_CLEAR) && (play->envCtx.stormRequest == STORM_REQUEST_START))
+#else
     if ((gWeatherMode != WEATHER_MODE_RAIN) && (gWeatherMode != WEATHER_MODE_HEAVY_RAIN) &&
-        (play->envCtx.stormRequest == STORM_REQUEST_START)) {
+        (play->envCtx.stormRequest == STORM_REQUEST_START))
+#endif
+    {
         play->envCtx.stormRequest = STORM_REQUEST_STOP;
         Environment_StopStormNatureAmbience(play);
     }
@@ -48,8 +65,8 @@ void EnOkarinaEffect_Init(Actor* thisx, PlayState* play) {
     EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     PRINTF("\n\n");
-    // "Ocarina Storm Effect"
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n",
+                              "☆☆☆☆☆ Ocarina storm effect sparkle sparkle sparkle ☆☆☆☆☆ \n") VT_RST);
     PRINTF("\n\n");
     if (play->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
         Actor_Kill(&this->actor);
@@ -81,7 +98,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
         }
         PRINTF("\nthis->timer=[%d]", this->timer);
         if (this->timer == 308) {
-            PRINTF("\n\n\n豆よ のびろ 指定\n\n\n"); // "Let's grow some beans"
+            PRINTF(T("\n\n\n豆よ のびろ 指定\n\n\n", "\n\n\nBeans, grow!\n\n\n"));
             CutsceneFlags_Set(play, 5);
         }
     }
@@ -116,7 +133,7 @@ void EnOkarinaEffect_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0xFF, 0, 0xFF, 0xFF, 4, play->state.gfxCtx);

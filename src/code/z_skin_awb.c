@@ -1,4 +1,11 @@
-#include "global.h"
+#include "array_count.h"
+#include "segmented_address.h"
+#include "zelda_arena.h"
+#include "actor.h"
+#include "play_state.h"
+#include "skin.h"
+#include "skin_matrix.h"
+
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 
 /**

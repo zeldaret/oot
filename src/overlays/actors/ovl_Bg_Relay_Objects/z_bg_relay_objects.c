@@ -5,11 +5,22 @@
  */
 
 #include "z_bg_relay_objects.h"
+
+#include "ichain.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "cutscene_flags.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_relay_objects/object_relay_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
-typedef enum {
+typedef enum WindmillSetpiecesMode {
     /* 0 */ WINDMILL_ROTATING_GEAR,
     /* 1 */ WINDMILL_DAMPE_STONE_DOOR
 } WindmillSetpiecesMode;
@@ -26,7 +37,7 @@ void BgRelayObjects_DoNothing(BgRelayObjects* this, PlayState* play);
 void func_808A932C(BgRelayObjects* this, PlayState* play);
 void func_808A939C(BgRelayObjects* this, PlayState* play);
 
-ActorInit Bg_Relay_Objects_InitVars = {
+ActorProfile Bg_Relay_Objects_Profile = {
     /**/ ACTOR_BG_RELAY_OBJECTS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -50,8 +61,8 @@ void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->switchFlag = thisx->params & 0x3F;
-    thisx->params = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 0, 6);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     if (thisx->params == WINDMILL_ROTATING_GEAR) {
         CollisionHeader_GetVirtual(&gWindmillRotatingPlatformCol, &colHeader);
@@ -62,7 +73,7 @@ void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
         }
         Audio_PlayWindmillBgm();
         thisx->room = -1;
-        thisx->flags |= ACTOR_FLAG_5;
+        thisx->flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
         if (D_808A9508 & 2) {
             thisx->params = 0xFF;
             Actor_Kill(thisx);
@@ -134,7 +145,7 @@ void func_808A91AC(BgRelayObjects* this, PlayState* play) {
         if (this->timer != 0) {
             this->timer--;
         }
-        func_8002F994(&this->dyna.actor, this->timer);
+        Actor_PlaySfx_FlaggedTimer(&this->dyna.actor, this->timer);
     }
     if ((this->timer == 0) || (this->unk_169 == play->roomCtx.curRoom.num)) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
@@ -154,7 +165,7 @@ void func_808A9234(BgRelayObjects* this, PlayState* play) {
             return;
         }
         Flags_UnsetSwitch(play, this->switchFlag);
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         if (play->roomCtx.curRoom.num == 4) {
             gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
         }

@@ -2,16 +2,16 @@
 #define Z_EN_BOX_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 #define ENBOX_TREASURE_FLAG_UNK_MIN 20
 #define ENBOX_TREASURE_FLAG_UNK_MAX 32
 
 struct EnBox;
 
-typedef void (*EnBoxActionFunc)(struct EnBox*, PlayState*);
+typedef void (*EnBoxActionFunc)(struct EnBox*, struct PlayState*);
 
-typedef enum {
+typedef enum EnBoxType {
     /*
     only values 1-11 are used explicitly, other values (like 0) default to another separate behavior
     */

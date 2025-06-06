@@ -5,9 +5,17 @@
  */
 
 #include "z_bg_ddan_jd.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgDdanJd_Init(Actor* thisx, PlayState* play);
 void BgDdanJd_Destroy(Actor* thisx, PlayState* play);
@@ -17,7 +25,7 @@ void BgDdanJd_Draw(Actor* thisx, PlayState* play);
 void BgDdanJd_Idle(BgDdanJd* this, PlayState* play);
 void BgDdanJd_Move(BgDdanJd* this, PlayState* play);
 
-ActorInit Bg_Ddan_Jd_InitVars = {
+ActorProfile Bg_Ddan_Jd_Profile = {
     /**/ ACTOR_BG_DDAN_JD,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -33,7 +41,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-typedef enum {
+typedef enum BgDdanJdState {
     /* 0 */ STATE_GO_BOTTOM,
     /* 1 */ STATE_GO_MIDDLE_FROM_BOTTOM,
     /* 2 */ STATE_GO_MIDDLE_FROM_TOP,
@@ -146,7 +154,7 @@ void BgDdanJd_MoveEffects(BgDdanJd* this, PlayState* play) {
         func_80033480(play, &dustPos, 5.0f, 1, 20, 60, 1);
     }
     if (this->ySpeed == SHORTCUT_Y_SPEED) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
     }
 }
 

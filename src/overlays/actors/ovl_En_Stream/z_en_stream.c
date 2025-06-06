@@ -5,9 +5,20 @@
  */
 
 #include "z_en_stream.h"
+
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_stream/object_stream.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnStream_Init(Actor* thisx, PlayState* play);
 void EnStream_Destroy(Actor* thisx, PlayState* play);
@@ -15,7 +26,7 @@ void EnStream_Update(Actor* thisx, PlayState* play);
 void EnStream_Draw(Actor* thisx, PlayState* play);
 void EnStream_WaitForPlayer(EnStream* this, PlayState* play);
 
-ActorInit En_Stream_InitVars = {
+ActorProfile En_Stream_Profile = {
     /**/ ACTOR_EN_STREAM,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -38,7 +49,7 @@ void EnStream_SetupAction(EnStream* this, EnStreamActionFunc actionFunc) {
 void EnStream_Init(Actor* thisx, PlayState* play) {
     EnStream* this = (EnStream*)thisx;
 
-    this->unk_150 = thisx->params & 0xFF;
+    this->unk_150 = PARAMS_GET_U(thisx->params, 0, 8);
     Actor_ProcessInitChain(thisx, sInitChain);
     if ((this->unk_150 != 0) && (this->unk_150 == 1)) {
         thisx->scale.y = 0.01f;
@@ -124,7 +135,7 @@ void EnStream_Update(Actor* thisx, PlayState* play) {
     EnStream* this = (EnStream*)thisx;
 
     this->actionFunc(this, play);
-    func_8002F948(thisx, NA_SE_EV_WHIRLPOOL - SFX_FLAG);
+    Actor_PlaySfx_FlaggedCentered2(thisx, NA_SE_EV_WHIRLPOOL - SFX_FLAG);
 }
 
 void EnStream_Draw(Actor* thisx, PlayState* play) {
@@ -133,8 +144,7 @@ void EnStream_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_stream.c", 295);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_stream.c", 299),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_stream.c", 299);
     multipliedFrames = frames * 20;
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frames * 30, -multipliedFrames, 0x40, 0x40, 1,

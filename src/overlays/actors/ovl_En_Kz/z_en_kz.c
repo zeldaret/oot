@@ -5,9 +5,24 @@
  */
 
 #include "z_en_kz.h"
+
+#include "libc64/math64.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_kz/object_kz.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnKz_Init(Actor* thisx, PlayState* play);
 void EnKz_Destroy(Actor* thisx, PlayState* play);
@@ -22,7 +37,7 @@ void EnKz_Wait(EnKz* this, PlayState* play);
 void EnKz_SetupGetItem(EnKz* this, PlayState* play);
 void EnKz_StartTimer(EnKz* this, PlayState* play);
 
-ActorInit En_Kz_InitVars = {
+ActorProfile En_Kz_Profile = {
     /**/ ACTOR_EN_KZ,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -36,7 +51,7 @@ ActorInit En_Kz_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -44,7 +59,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -56,7 +71,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnKzAnimation {
     /* 0 */ ENKZ_ANIM_0,
     /* 1 */ ENKZ_ANIM_1,
     /* 2 */ ENKZ_ANIM_2
@@ -73,7 +88,7 @@ u16 EnKz_GetTextIdChild(PlayState* play, EnKz* this) {
 
     if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
         return 0x402B;
-    } else if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
         return 0x401C;
     } else {
         player->exchangeItemId = EXCH_ITEM_BOTTLE_RUTOS_LETTER;
@@ -120,6 +135,27 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
     s16 talkState = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+            break;
+#if OOT_VERSION < PAL_1_0
+        case TEXT_STATE_CLOSING:
+            talkState = NPC_TALK_STATE_IDLE;
+            switch (this->actor.textId) {
+                case 0x4012:
+                    SET_INFTABLE(INFTABLE_139);
+                    FALLTHROUGH;
+                case 0x401B:
+                    talkState = NPC_TALK_STATE_ACTION;
+                    break;
+                case 0x401F:
+                    SET_INFTABLE(INFTABLE_139);
+                    break;
+            }
+            break;
+#else
+        case TEXT_STATE_CLOSING:
+            break;
         case TEXT_STATE_DONE:
             talkState = NPC_TALK_STATE_IDLE;
             switch (this->actor.textId) {
@@ -135,6 +171,7 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
                     break;
             }
             break;
+#endif
         case TEXT_STATE_DONE_FADING:
             if (this->actor.textId != 0x4014) {
                 if (this->actor.textId == 0x401B && !this->sfxPlayed) {
@@ -154,7 +191,9 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
             }
             if (this->actor.textId == 0x4014) {
                 if (play->msgCtx.choiceIndex == 0) {
+#if OOT_VERSION >= PAL_1_0
                     EnKz_SetupGetItem(this, play);
+#endif
                     talkState = NPC_TALK_STATE_ACTION;
                 } else {
                     this->actor.textId = 0x4016;
@@ -167,9 +206,13 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
                 talkState = NPC_TALK_STATE_ACTION;
             }
             break;
-        case TEXT_STATE_NONE:
-        case TEXT_STATE_DONE_HAS_NEXT:
-        case TEXT_STATE_CLOSING:
+#if OOT_VERSION < PAL_1_0
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(play)) {
+                talkState = NPC_TALK_STATE_ITEM_GIVEN;
+            }
+            break;
+#endif
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
@@ -206,6 +249,7 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
         return true;
     }
 
+#if OOT_VERSION >= PAL_1_0
     if (*talkState != NPC_TALK_STATE_IDLE) {
         *talkState = updateTalkState(play, thisx);
         return false;
@@ -214,16 +258,24 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
     yaw = Math_Vec3f_Yaw(&thisx->home.pos, &player->actor.world.pos);
     yaw -= thisx->shape.rot.y;
     if ((fabsf(yaw) > 1638.0f) || (thisx->xzDistToPlayer < 265.0f)) {
-        thisx->flags &= ~ACTOR_FLAG_0;
+        thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         return false;
     }
 
-    thisx->flags |= ACTOR_FLAG_0;
+    thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+#endif
 
     Actor_GetScreenPos(play, thisx, &x, &y);
     if (!((x >= -30) && (x < 361) && (y >= -10) && (y < 241))) {
         return false;
     }
+
+#if OOT_VERSION < PAL_1_0
+    if (*talkState != NPC_TALK_STATE_IDLE) {
+        *talkState = updateTalkState(play, thisx);
+        return false;
+    }
+#endif
 
     xzDistToPlayer = thisx->xzDistToPlayer;
     thisx->xzDistToPlayer = Math_Vec3f_DistXZ(&thisx->home.pos, &player->actor.world.pos);
@@ -239,11 +291,22 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
 
 void func_80A9CB18(EnKz* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
+    f32 yaw;
+
+#if OOT_VERSION < PAL_1_0
+    yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
+    yaw -= this->actor.shape.rot.y;
+    if (fabsf(yaw) > 1820.0f) {
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+        return;
+    }
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+#endif
 
     if (EnKz_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, 340.0f, EnKz_GetTextId,
                            EnKz_UpdateTalkState)) {
-        if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_33)) {
-            if (func_8002F368(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
+        if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
+            if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
             } else {
@@ -255,15 +318,19 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
 
         if (LINK_IS_ADULT) {
             if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) &&
-                (func_8002F368(play) == EXCH_ITEM_PRESCRIPTION)) {
+                (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_PRESCRIPTION)) {
                 this->actor.textId = 0x4014;
                 this->sfxPlayed = false;
                 player->actor.textId = this->actor.textId;
+#if OOT_VERSION >= PAL_1_0
                 this->isTrading = true;
+#endif
                 return;
             }
 
+#if OOT_VERSION >= PAL_1_0
             this->isTrading = false;
+#endif
             if (GET_INFTABLE(INFTABLE_139)) {
                 this->actor.textId = CHECK_QUEST_ITEM(QUEST_SONG_SERENADE) ? 0x4045 : 0x401A;
                 player->actor.textId = this->actor.textId;
@@ -281,11 +348,11 @@ s32 EnKz_FollowPath(EnKz* this, PlayState* play) {
     f32 pathDiffX;
     f32 pathDiffZ;
 
-    if ((this->actor.params & 0xFF00) == 0xFF00) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 8, 8) == 0xFF00) {
         return 0;
     }
 
-    path = &play->pathList[(this->actor.params & 0xFF00) >> 8];
+    path = &play->pathList[PARAMS_GET_S(this->actor.params, 8, 8)];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->waypoint;
 
@@ -307,11 +374,11 @@ s32 EnKz_SetMovedPos(EnKz* this, PlayState* play) {
     Path* path;
     Vec3s* lastPointPos;
 
-    if ((this->actor.params & 0xFF00) == 0xFF00) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 8, 8) == 0xFF00) {
         return 0;
     }
 
-    path = &play->pathList[(this->actor.params & 0xFF00) >> 8];
+    path = &play->pathList[PARAMS_GET_S(this->actor.params, 8, 8)];
     lastPointPos = SEGMENTED_TO_VIRTUAL(path->points);
     lastPointPos += path->count - 1;
 
@@ -332,11 +399,11 @@ void EnKz_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.01);
-    this->actor.targetMode = 3;
+    this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_0);
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
         EnKz_SetMovedPos(this, play);
     }
 
@@ -363,7 +430,7 @@ void EnKz_PreMweepWait(EnKz* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnKz_SetupMweep;
     } else {
-        func_80034F54(play, this->unk_2A6, this->unk_2BE, 12);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 12);
     }
 }
 
@@ -402,7 +469,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
         Inventory_ReplaceItem(play, ITEM_BOTTLE_RUTOS_LETTER, ITEM_BOTTLE_EMPTY);
         EnKz_SetMovedPos(this, play);
-        SET_EVENTCHKINF(EVENTCHKINF_33);
+        SET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA);
         this->actor.speed = 0.0;
         this->actionFunc = EnKz_StopMweep;
     }
@@ -420,10 +487,13 @@ void EnKz_StopMweep(EnKz* this, PlayState* play) {
 
 void EnKz_Wait(EnKz* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
+#if OOT_VERSION < PAL_1_0
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
+#endif
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, play);
     } else {
-        func_80034F54(play, this->unk_2A6, this->unk_2BE, 12);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 12);
     }
 }
 
@@ -437,7 +507,11 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
         this->actionFunc = EnKz_StartTimer;
     } else {
+#if OOT_VERSION < PAL_1_0
+        getItemId = Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_PRESCRIPTION ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
+#else
         getItemId = this->isTrading == true ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
+#endif
         yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzRange = this->actor.xzDistToPlayer + 1.0f;
         Actor_OfferGetItem(&this->actor, play, getItemId, xzRange, yRange);
@@ -445,7 +519,12 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
 }
 
 void EnKz_StartTimer(EnKz* this, PlayState* play) {
-    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
+#if OOT_VERSION < PAL_1_0
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN)
+#else
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play))
+#endif
+    {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEBALL_FROG) {
             Interface_SetSubTimer(180);
             CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
@@ -467,9 +546,13 @@ void EnKz_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
     EnKz_UpdateEyes(this);
     Actor_MoveXZGravity(&this->actor);
+#if OOT_VERSION < PAL_1_0
+    func_80A9CB18(this, play);
+#else
     if (this->actionFunc != EnKz_StartTimer) {
         func_80A9CB18(this, play);
     }
+#endif
     this->actionFunc(this, play);
 }
 
@@ -477,8 +560,8 @@ s32 EnKz_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     EnKz* this = (EnKz*)thisx;
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 10) {
-        rot->y += Math_SinS(this->unk_2A6[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->unk_2BE[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
     if (limbIndex) {}
     return false;

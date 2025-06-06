@@ -5,10 +5,23 @@
  */
 
 #include "z_en_takara_man.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
 #include "terminal.h"
+#include "translation.h"
+#include "versions.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_ts/object_ts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void EnTakaraMan_Init(Actor* thisx, PlayState* play);
 void EnTakaraMan_Destroy(Actor* thisx, PlayState* play);
@@ -22,7 +35,7 @@ void func_80B17934(EnTakaraMan* this, PlayState* play);
 void func_80B17A6C(EnTakaraMan* this, PlayState* play);
 void func_80B17AC4(EnTakaraMan* this, PlayState* play);
 
-ActorInit En_Takara_Man_InitVars = {
+ActorProfile En_Takara_Man_Profile = {
     /**/ ACTOR_EN_TAKARA_MAN,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -44,14 +57,14 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
 
     if (sTakaraIsInitialized) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST); // "Already initialized"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n", "☆☆☆☆☆ I'm already here -Hara ☆☆☆☆☆ \n") VT_RST);
         return;
     }
 
     sTakaraIsInitialized = true;
     PRINTF("\n\n");
-    // "Bun! %x" (needs a better translation)
-    PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, play->actorCtx.flags.chest);
+    PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Bang! ☆☆☆☆☆ %x\n") VT_RST,
+           play->actorCtx.flags.chest);
     play->actorCtx.flags.chest = 0;
     gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitFlex(play, &this->skelAnime, &object_ts_Skel_004FE0, &object_ts_Anim_000498, this->jointTable,
@@ -66,7 +79,7 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
     this->originalRoomNum = thisx->room;
     thisx->room = -1;
     thisx->world.rot.y = thisx->shape.rot.y = -0x4E20;
-    thisx->targetMode = 1;
+    thisx->attentionRangeType = ATTENTION_RANGE_1;
     this->actionFunc = func_80B176E0;
 }
 
@@ -113,11 +126,11 @@ void func_80B1778C(EnTakaraMan* this, PlayState* play) {
         absYawDiff = ABS(yawDiff);
         if (absYawDiff < 0x4300) {
             if (play->roomCtx.curRoom.num != this->originalRoomNum) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 this->unk_218 = 0;
             } else {
                 if (!this->unk_218) {
-                    this->actor.flags |= ACTOR_FLAG_0;
+                    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                     this->unk_218 = 1;
                 }
                 Actor_OfferTalk(&this->actor, play, 100.0f);
@@ -160,7 +173,11 @@ void func_80B17A6C(EnTakaraMan* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = func_80B17AC4;
     } else {
+#if OOT_VERSION < NTSC_1_1
+        Actor_OfferGetItem(&this->actor, play, GI_SMALL_KEY, 2000.0f, 1000.0f);
+#else
         Actor_OfferGetItem(&this->actor, play, GI_DOOR_KEY, 2000.0f, 1000.0f);
+#endif
     }
 }
 

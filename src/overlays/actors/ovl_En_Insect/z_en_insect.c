@@ -5,7 +5,23 @@
  */
 
 #include "z_en_insect.h"
+#include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_math3d.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
@@ -42,7 +58,7 @@ static s16 sCaughtCount = 0;
  */
 static s16 sDroppedCount = 0;
 
-ActorInit En_Insect_InitVars = {
+ActorProfile En_Insect_Profile = {
     /**/ ACTOR_EN_INSECT,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -54,10 +70,10 @@ ActorInit En_Insect_InitVars = {
     /**/ EnInsect_Draw,
 };
 
-static ColliderJntSphElementInit sColliderItemInit[1] = {
+static ColliderJntSphElementInit sColliderElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -68,9 +84,9 @@ static ColliderJntSphElementInit sColliderItemInit[1] = {
     },
 };
 
-static ColliderJntSphInit sColliderInit = {
+static ColliderJntSphInit sColliderJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_1,
@@ -78,7 +94,7 @@ static ColliderJntSphInit sColliderInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sColliderItemInit,
+    sColliderElementsInit,
 };
 
 /**
@@ -93,13 +109,13 @@ static u16 sInitInsectFlags[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 700, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 20, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 600, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 700, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 20, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 600, ICHAIN_STOP),
 };
 
 void EnInsect_InitFlags(EnInsect* this) {
-    this->insectFlags = sInitInsectFlags[this->actor.params & 3];
+    this->insectFlags = sInitInsectFlags[PARAMS_GET_U(this->actor.params, 0, 2)];
 }
 
 f32 EnInsect_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
@@ -187,11 +203,11 @@ void EnInsect_Init(Actor* thisx, PlayState* play2) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnInsect_InitFlags(this);
 
-    type = this->actor.params & 3;
+    type = PARAMS_GET_U(this->actor.params, 0, 2);
 
     SkelAnime_Init(play, &this->skelAnime, &gBugSkel, &gBugCrawlAnim, this->jointTable, this->morphTable, 24);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, &this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
 
     this->actor.colChkInfo.mass = 30;
 
@@ -202,7 +218,7 @@ void EnInsect_Init(Actor* thisx, PlayState* play2) {
 
     if (this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) {
         this->lifeTimer = Rand_S16Offset(200, 40);
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 
     if (type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) {
@@ -242,7 +258,7 @@ void EnInsect_Destroy(Actor* thisx, PlayState* play) {
     s16 type;
     EnInsect* this = (EnInsect*)thisx;
 
-    type = this->actor.params & 3;
+    type = PARAMS_GET_U(this->actor.params, 0, 2);
     Collider_DestroyJntSph(play, &this->collider);
     if ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) && sDroppedCount > 0) {
         sDroppedCount--;
@@ -261,7 +277,7 @@ void EnInsect_SlowDown(EnInsect* this, PlayState* play) {
     s16 type;
     f32 playSpeed;
 
-    type = this->actor.params & 3;
+    type = PARAMS_GET_U(this->actor.params, 0, 2);
 
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 0.5f, 0.0f);
 
@@ -297,7 +313,7 @@ void EnInsect_Crawl(EnInsect* this, PlayState* play) {
     s32 pad1;
     s32 pad2;
     s16 yaw;
-    s16 type = this->actor.params & 3;
+    s16 type = PARAMS_GET_U(this->actor.params, 0, 2);
 
     Math_SmoothStepToF(&this->actor.speed, 1.5f, 0.1f, 0.5f, 0.0f);
 
@@ -469,7 +485,7 @@ void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
     s16 type;
     Vec3f ripplePoint;
 
-    type = this->actor.params & 3;
+    type = PARAMS_GET_U(this->actor.params, 0, 2);
 
     if (this->actionTimer > 80) {
         Math_StepToF(&this->actor.speed, 0.6f, 0.08f);
@@ -477,7 +493,7 @@ void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
         Math_StepToF(&this->actor.speed, 0.0f, 0.02f);
     }
     this->actor.velocity.y = 0.0f;
-    this->actor.world.pos.y += this->actor.yDistToWater;
+    this->actor.world.pos.y += this->actor.depthInWater;
     this->skelAnime.playSpeed = CLAMP(this->actionTimer * 0.018f, 0.1f, 1.9f);
 
     SkelAnime_Update(&this->skelAnime);
@@ -500,7 +516,7 @@ void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
 
     if (Rand_ZeroOne() < 0.03f) {
         ripplePoint.x = this->actor.world.pos.x;
-        ripplePoint.y = this->actor.world.pos.y + this->actor.yDistToWater;
+        ripplePoint.y = this->actor.world.pos.y + this->actor.depthInWater;
         ripplePoint.z = this->actor.world.pos.z;
         EffectSsGRipple_Spawn(play, &ripplePoint, 20, 100, 4);
         EffectSsGRipple_Spawn(play, &ripplePoint, 40, 200, 8);
@@ -537,7 +553,7 @@ void EnInsect_Drown(EnInsect* this, PlayState* play) {
     this->actor.shape.rot.y += 200;
     Actor_SetScale(&this->actor, CLAMP_MIN(this->actor.scale.x - 0.00005f, 0.001f));
 
-    if (this->actor.yDistToWater > 5.0f && this->actor.yDistToWater < 30.0f && Rand_ZeroOne() < 0.3f) {
+    if (this->actor.depthInWater > 5.0f && this->actor.depthInWater < 30.0f && Rand_ZeroOne() < 0.3f) {
         EffectSsBubble_Spawn(play, &this->actor.world.pos, -5.0f, 5.0f, 5.0f, (Rand_ZeroOne() * 0.04f) + 0.02f);
     }
 
@@ -571,16 +587,16 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
     f32 sp34;
 
     sp50 = 0;
-    type = this->actor.params & 3;
+    type = PARAMS_GET_U(this->actor.params, 0, 2);
 
     if (this->soilActor != NULL) {
         distanceSq = Math3D_Vec3fDistSq(&this->actor.world.pos, &this->soilActor->actor.world.pos);
     } else {
         if (this->insectFlags & INSECT_FLAG_FOUND_SOIL) {
-            PRINTF(VT_COL(YELLOW, BLACK));
-            // "warning: target Actor is NULL"
-            PRINTF("warning:目標 Actor が NULL (%s %d)\n", "../z_en_mushi.c", 1046);
-            PRINTF(VT_RST);
+            PRINTF_COLOR_WARNING();
+            PRINTF(T("warning:目標 Actor が NULL (%s %d)\n", "warning: target Actor is NULL (%s %d)\n"),
+                   "../z_en_mushi.c", 1046);
+            PRINTF_RST();
         }
         distanceSq = 40.0f;
     }
@@ -672,8 +688,8 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
         !(this->insectFlags & INSECT_FLAG_7)) {
         if (this->unk_32A >= 15) {
             if (this->soilActor != NULL) {
-                if (!(GET_GS_FLAGS(((this->soilActor->actor.params >> 8) & 0x1F) - 1) &
-                      (this->soilActor->actor.params & 0xFF))) {
+                if (!(GET_GS_FLAGS(PARAMS_GET_U(this->soilActor->actor.params, 8, 5) - 1) &
+                      PARAMS_GET_U(this->soilActor->actor.params, 0, 8))) {
                     Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
@@ -705,10 +721,10 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
     } else if ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
                (this->insectFlags & INSECT_FLAG_0) && this->lifeTimer <= 0 && this->actionTimer <= 0 &&
                this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f) {
-        PRINTF(VT_COL(YELLOW, BLACK));
-        // "BG missing? To do Actor_delete"
-        PRINTF("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_mushi.c", 1197);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_WARNING();
+        PRINTF(T("BG 抜け？ Actor_delete します(%s %d)\n", "BG missing? To do Actor_delete (%s %d)\n"),
+               "../z_en_mushi.c", 1197);
+        PRINTF_RST();
         Actor_Kill(&this->actor);
     }
 }
@@ -764,7 +780,7 @@ void EnInsect_Update(Actor* thisx, PlayState* play) {
 
         if (Actor_HasParent(&this->actor, play)) {
             this->actor.parent = NULL;
-            tmp = this->actor.params & 3;
+            tmp = PARAMS_GET_U(this->actor.params, 0, 2);
 
             if (tmp == INSECT_TYPE_FIRST_DROPPED || tmp == INSECT_TYPE_EXTRA_DROPPED) {
                 Actor_Kill(&this->actor);

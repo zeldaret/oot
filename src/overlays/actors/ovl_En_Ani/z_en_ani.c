@@ -5,9 +5,21 @@
  */
 
 #include "z_en_ani.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_ani/object_ani.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnAni_Init(Actor* thisx, PlayState* play);
 void EnAni_Destroy(Actor* thisx, PlayState* play);
@@ -26,7 +38,7 @@ void func_809B0994(EnAni* this, PlayState* play);
 void func_809B0A28(EnAni* this, PlayState* play);
 void func_809B0A6C(EnAni* this, PlayState* play);
 
-ActorInit En_Ani_InitVars = {
+ActorProfile En_Ani_Profile = {
     /**/ ACTOR_EN_ANI,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -40,7 +52,7 @@ ActorInit En_Ani_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -48,7 +60,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -64,7 +76,7 @@ void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 850, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 850, ICHAIN_STOP),
 };
 
 void EnAni_Init(Actor* thisx, PlayState* play) {

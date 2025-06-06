@@ -11,8 +11,11 @@
  *
  * @note Original filename is likely z_vibrate.c or similar as it is ordered after z_ss_sram.c and before z_view.c
  */
-#include "global.h"
+#include "rumble.h"
+#include "padmgr.h"
+#include "z_math.h"
 
+static s32 sUnused[4];
 RumbleMgr sRumbleMgr;
 
 /**

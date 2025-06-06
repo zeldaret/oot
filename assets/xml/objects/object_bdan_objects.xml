@@ -1,39 +1,41 @@
 <Root>
     <File Name="object_bdan_objects" Segment="6">
         <!-- Textures -->
-        <Texture Name="gJabuObjectsTex_00140" OutName="jabu_objects_tex_00000140" Format="ci8" Width="32" Height="32" Offset="0x0140" TlutOffset="0x0000"/>
-        <Texture Name="gJabuObjectsTex_007A0" OutName="jabu_objects_tex_000007A0" Format="ci8" Width="32" Height="32" Offset="0x07A0" TlutOffset="0x0660"/>
-        <Texture Name="gJabuObjectsTex_00E00" OutName="jabu_objects_tex_00000E00" Format="ci8" Width="32" Height="32" Offset="0x0E00" TlutOffset="0x0CC0"/>
-        <Texture Name="gJabuObjectsTex_01460" OutName="jabu_objects_tex_00001460" Format="ci8" Width="32" Height="32" Offset="0x1460" TlutOffset="0x1320"/>
-        <Texture Name="gJabuObjectsTex_01AC0" OutName="jabu_objects_tex_00001AC0" Format="ci8" Width="32" Height="32" Offset="0x1AC0" TlutOffset="0x1980"/>
-        <Texture Name="gJabuObjectsTex_02120" OutName="jabu_objects_tex_00002120" Format="ci8" Width="32" Height="32" Offset="0x2120" TlutOffset="0x1FE0"/>
-        <Texture Name="gJabuObjectsTex_02780" OutName="jabu_objects_tex_00002780" Format="ci8" Width="32" Height="32" Offset="0x2780" TlutOffset="0x2640"/>
-        <Texture Name="gJabuObjectsTex_02DE0" OutName="jabu_objects_tex_00002DE0" Format="ci8" Width="32" Height="32" Offset="0x2DE0" TlutOffset="0x2CA0"/>
-        <Texture Name="gJabuObjectsTex_03498" OutName="jabu_objects_tex_00003498" Format="ci8" Width="32" Height="32" Offset="0x3498" TlutOffset="0x3300"/>
-        <Texture Name="gJabuObjectsTex_03BB8" OutName="jabu_objects_tex_00003BB8" Format="ci8" Width="32" Height="64" Offset="0x3BB8" TlutOffset="0x39B0"/>
-        <Texture Name="gJabuObjectsTex_043B8" OutName="jabu_objects_tex_000043B8" Format="ci8" Width="32" Height="32" Offset="0x43B8" TlutOffset="0x39B0"/>
-        <Texture Name="gJabuObjectsTex_06748" OutName="jabu_objects_tex_00006748" Format="ci8" Width="32" Height="32" Offset="0x6748" TlutOffset="0x6540"/>
-        <Texture Name="gJabuObjectsTex_06B48" OutName="jabu_objects_tex_00006B48" Format="ci8" Width="32" Height="64" Offset="0x6B48" TlutOffset="0x6540"/>
-        <Texture Name="gJabuObjectsTex_07348" OutName="jabu_objects_tex_00007348" Format="ci8" Width="32" Height="64" Offset="0x7348" TlutOffset="0x6540"/>
-        <Texture Name="gJabuObjectsTex_08D10" OutName="jabu_objects_tex_00008D10" Format="rgba16" Width="32" Height="64" Offset="0x8D10"/>
-        <Texture Name="gJabuObjectsTex_09D10" OutName="jabu_objects_tex_00009D10" Format="rgba16" Width="32" Height="32" Offset="0x9D10"/>
-        <Texture Name="gJabuObjectsTex_0A510" OutName="jabu_objects_tex_0000A510" Format="rgba16" Width="32" Height="64" Offset="0xA510"/>
-        <Texture Name="gJabuObjectsTex_0B510" OutName="jabu_objects_tex_0000B510" Format="rgba16" Width="32" Height="32" Offset="0xB510"/>
-        <Texture Name="gJabuObjectsTex_0BD10" OutName="jabu_objects_tex_0000BD10" Format="rgba16" Width="32" Height="32" Offset="0xBD10"/>
-        <Texture Name="gJabuObjectsTex_0C510" OutName="jabu_objects_tex_0000C510" Format="rgba16" Width="32" Height="32" Offset="0xC510"/>
+        <Texture Name="gJabuObjectsTex_00140" Format="ci8" Width="32" Height="32" Offset="0x0140" TlutOffset="0x0000"/>
+        <Texture Name="gJabuObjectsTex_007A0" Format="ci8" Width="32" Height="32" Offset="0x07A0" TlutOffset="0x0660"/>
+        <Texture Name="gJabuObjectsTex_00E00" Format="ci8" Width="32" Height="32" Offset="0x0E00" TlutOffset="0x0CC0"/>
+        <Texture Name="gJabuObjectsTex_01460" Format="ci8" Width="32" Height="32" Offset="0x1460" TlutOffset="0x1320"/>
+        <Texture Name="gJabuObjectsTex_01AC0" Format="ci8" Width="32" Height="32" Offset="0x1AC0" TlutOffset="0x1980"/>
+        <Texture Name="gJabuObjectsTex_02120" Format="ci8" Width="32" Height="32" Offset="0x2120" TlutOffset="0x1FE0"/>
+        <Texture Name="gJabuObjectsTex_02780" Format="ci8" Width="32" Height="32" Offset="0x2780" TlutOffset="0x2640"/>
+        <Texture Name="gJabuObjectsTex_02DE0" Format="ci8" Width="32" Height="32" Offset="0x2DE0" TlutOffset="0x2CA0"/>
+        <Texture Name="gJabuObjectsTex_03498" Format="ci8" Width="32" Height="32" Offset="0x3498" TlutOffset="0x3300"/>
+        <Texture Name="gJabuObjectsTex_03BB8" Format="ci8" Width="32" Height="64" Offset="0x3BB8" TlutOffset="0x39B0"/>
+        <Texture Name="gJabuObjectsTex_043B8" Format="ci8" Width="32" Height="32" Offset="0x43B8" TlutOffset="0x39B0"/>
+        <Texture Name="gJabuObjectsTex_06748" Format="ci8" Width="32" Height="32" Offset="0x6748" TlutOffset="0x6540"/>
+        <Texture Name="gJabuObjectsTex_06B48" Format="ci8" Width="32" Height="64" Offset="0x6B48" TlutOffset="0x6540"/>
+        <Texture Name="gJabuObjectsTex_07348" Format="ci8" Width="32" Height="64" Offset="0x7348" TlutOffset="0x6540"/>
+        <Texture Name="gJabuObjectsTex_08D10" Format="rgba16" Width="32" Height="64" Offset="0x8D10"/>
+        <Texture Name="gJabuObjectsTex_09D10" Format="rgba16" Width="32" Height="32" Offset="0x9D10"/>
+        <Texture Name="gJabuObjectsTex_0A510" Format="rgba16" Width="32" Height="64" Offset="0xA510"/>
+        <Texture Name="gJabuObjectsTex_0B510" Format="rgba16" Width="32" Height="32" Offset="0xB510"/>
+        <Texture Name="gJabuObjectsTex_0BD10" Format="rgba16" Width="32" Height="32" Offset="0xBD10"/>
+        <Texture Name="gJabuObjectsTex_0C510" Format="rgba16" Width="32" Height="32" Offset="0xC510"/>
 
         <!-- Palettes -->
-        <Texture Name="gJabuObjects1TLUT" OutName="jabu_objects_1_tlut" Format="rgba16" Width="160" Height="1" Offset="0x0000"/>
-        <Texture Name="gJabuObjects2TLUT" OutName="jabu_objects_2_tlut" Format="rgba16" Width="160" Height="1" Offset="0x0660"/>
-        <Texture Name="gJabuObjects3TLUT" OutName="jabu_objects_3_tlut" Format="rgba16" Width="160" Height="1" Offset="0x0CC0"/>
-        <Texture Name="gJabuObjects4TLUT" OutName="jabu_objects_4_tlut" Format="rgba16" Width="160" Height="1" Offset="0x1320"/>
-        <Texture Name="gJabuObjects5TLUT" OutName="jabu_objects_5_tlut" Format="rgba16" Width="160" Height="1" Offset="0x1980"/>
-        <Texture Name="gJabuObjects6TLUT" OutName="jabu_objects_6_tlut" Format="rgba16" Width="160" Height="1" Offset="0x1FE0"/>
-        <Texture Name="gJabuObjects7TLUT" OutName="jabu_objects_7_tlut" Format="rgba16" Width="160" Height="1" Offset="0x2640"/>
-        <Texture Name="gJabuObjects8TLUT" OutName="jabu_objects_8_tlut" Format="rgba16" Width="160" Height="1" Offset="0x2CA0"/>
-        <Texture Name="gJabuObjects9TLUT" OutName="jabu_objects_9_tlut" Format="rgba16" Width="204" Height="1" Offset="0x3300"/>
-        <Texture Name="gJabuObjects10TLUT" OutName="jabu_objects_10_tlut" Format="rgba16" Width="16" Height="16" Offset="0x39B0"/>
-        <Texture Name="gJabuObjects11TLUT" OutName="jabu_objects_11_tlut" Format="rgba16" Width="16" Height="16" Offset="0x6540"/>
+        <Texture Name="gJabuObjects1TLUT" Format="rgba16" Width="160" Height="1" Offset="0x0000"/>
+        <Texture Name="gJabuObjects2TLUT" Format="rgba16" Width="160" Height="1" Offset="0x0660"/>
+        <Texture Name="gJabuObjects3TLUT" Format="rgba16" Width="160" Height="1" Offset="0x0CC0"/>
+        <Texture Name="gJabuObjects4TLUT" Format="rgba16" Width="160" Height="1" Offset="0x1320"/>
+        <Texture Name="gJabuObjects5TLUT" Format="rgba16" Width="160" Height="1" Offset="0x1980"/>
+        <Texture Name="gJabuObjects6TLUT" Format="rgba16" Width="160" Height="1" Offset="0x1FE0"/>
+        <Texture Name="gJabuObjects7TLUT" Format="rgba16" Width="160" Height="1" Offset="0x2640"/>
+        <Texture Name="gJabuObjects8TLUT" Format="rgba16" Width="160" Height="1" Offset="0x2CA0"/>
+        <Texture Name="gJabuObjects9TLUT" Format="rgba16" Width="204" Height="1" Offset="0x3300"/>
+        <Texture Name="gJabuObjects10TLUT" Format="rgba16" Width="16" Height="16" Offset="0x39B0"/>
+        <Blob Name="object_bdan_objects_003BB0_Blob" Size="0x8" Offset="0x3BB0"/>
+        <Texture Name="gJabuObjects11TLUT" Format="rgba16" Width="16" Height="16" Offset="0x6540"/>
+        <Blob Name="object_bdan_objects_006740_Blob" Size="0x8" Offset="0x6740"/>
 
         <!-- DLists -->
         <DList Name="gJabuDoorSection1DL" Offset="0x0590"/>
@@ -57,5 +59,52 @@
         <Collision Name="gJabuLoweringPlatformCol" Offset="0x5580"/>
         <Collision Name="gJabuFloorSwitchCol" Offset="0x5CF8"/>
         <Collision Name="gJabuBigOctoPlatformCol" Offset="0x8CE0"/>
+
+        <!-- Vertices -->
+        <Array Name="gJabuDoorSection1Vtx" Count="5" Offset="0x540">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuDoorSection2Vtx" Count="5" Offset="0xBA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuDoorSection3Vtx" Count="5" Offset="0x1200">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuDoorSection4Vtx" Count="5" Offset="0x1860">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuDoorSection5Vtx" Count="5" Offset="0x1EC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuDoorSection6Vtx" Count="5" Offset="0x2520">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuDoorSection7Vtx" Count="5" Offset="0x2B80">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuDoorSection8Vtx" Count="5" Offset="0x31E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuWaterVtx" Count="5" Offset="0x3898">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuElevatorPlatformVtx" Count="67" Offset="0x47B8">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuFallingPlatformVtx" Count="24" Offset="0x5080">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuBlueFloorSwitchVtx" Count="71" Offset="0x55B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuYellowFloorSwitchVtx" Count="71" Offset="0x5D30">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuWebDoorVtx" Count="16" Offset="0x6360">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuObjectsLargeRotatingSpikePlatformVtx" Count="173" Offset="0x7B48">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

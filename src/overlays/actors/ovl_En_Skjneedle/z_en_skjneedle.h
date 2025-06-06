@@ -2,7 +2,7 @@
 #define Z_EN_SKJNEEDLE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnSkjneedle;
 

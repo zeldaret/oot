@@ -2,13 +2,13 @@
 #define Z_EN_MA2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnMa2;
 
-typedef void (*EnMa2ActionFunc)(struct EnMa2*, PlayState*);
+typedef void (*EnMa2ActionFunc)(struct EnMa2*, struct PlayState*);
 
-typedef enum {
+typedef enum AdultMalonLimb {
     /* 0x00 */ MALON_ADULT_LIMB_NONE,
     /* 0x01 */ MALON_ADULT_ROOT_LIMB,
     /* 0x02 */ MALON_ADULT_LOWER_CONTROL_LIMB,

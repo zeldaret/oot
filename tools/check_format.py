@@ -23,14 +23,15 @@ def get_modified_files_to_format(compare_to):
     modified_files_str = subprocess.check_output(
         ["git", "diff", "--name-only", compare_to], text=True
     )
-    modified_files = modified_files_str.splitlines()
-    modified_c_files = [
-        f
-        for f in modified_files
-        if f.startswith("src" + os.path.sep) and f.endswith(".c")
-    ]
-    modified_c_files_existing = [f for f in modified_c_files if os.path.exists(f)]
-    return modified_c_files_existing
+    modified_files = set(modified_files_str.splitlines())
+
+    all_src_files, all_extra_files = format.list_files_to_format()
+    # Split modified_files between source files and extra files (see format.py)
+    # This also filters out deleted files that no longer exist
+    modified_src_files_existing = list(modified_files.intersection(all_src_files))
+    modified_extra_files_existing = list(modified_files.intersection(all_extra_files))
+
+    return modified_src_files_existing, modified_extra_files_existing
 
 
 def main():
@@ -40,21 +41,23 @@ def main():
     args = parser.parse_args()
 
     if args.compare_to:
-        src_files = get_modified_files_to_format(args.compare_to)
+        src_files, extra_files = get_modified_files_to_format(args.compare_to)
         if args.verbose:
-            print("Formatting specific files:", len(src_files), src_files)
-        if not src_files:
+            print("Formatting specific files:")
+            print(len(src_files), src_files)
+            print(len(extra_files), extra_files)
+        if not src_files and not extra_files:
             if args.verbose:
                 print("Nothing to format")
             exit(0)
     else:
-        src_files = glob.glob("src/**/*.c", recursive=True)
+        src_files, extra_files = format.list_files_to_format()
 
     nb_jobs = multiprocessing.cpu_count()
 
     git_status_pre = get_git_status()
 
-    format.format_files(src_files, [], nb_jobs)
+    format.format_files(src_files, extra_files, nb_jobs)
 
     git_status_post = get_git_status()
 

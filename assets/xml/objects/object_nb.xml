@@ -24,6 +24,59 @@
         <Limb Name="gNabooruPonytailLimb" LimbType="Standard" Offset="0x18168"/>
         <Limb Name="gNabooruWaistLimb" LimbType="Standard" Offset="0x18174"/>
 
+        <!-- Nabooru Limb Vertices -->
+        <Array Name="gNabooruHeadMouthClosedVtx" Count="297" Offset="0xDD68">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruPonytailVtx" Count="49" Offset="0xF1E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftHandVtx" Count="64" Offset="0xF4F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightHandVtx" Count="64" Offset="0xF8F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightFootVtx" Count="32" Offset="0xFCF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftFootVtx" Count="32" Offset="0xFEF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruHeadMouthOpenVtx" Count="315" Offset="0x100F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightForearmVtx" Count="32" Offset="0x142F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightUpperArmVtx" Count="28" Offset="0x144F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftForearmVtx" Count="32" Offset="0x146B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftUpperArmVtx" Count="44" Offset="0x148B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruTorsoVtx" Count="129" Offset="0x14B70">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightShinVtx" Count="74" Offset="0x15380">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightThighVtx" Count="34" Offset="0x15820">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftShinVtx" Count="74" Offset="0x15A40">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftThighVtx" Count="33" Offset="0x15EE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruWaistVtx" Count="58" Offset="0x160F0">
+            <Vtx/>
+        </Array>
+
         <!-- Nabooru Limb DisplayLists -->
         <DList Name="gNabooruHeadMouthOpenDL" Offset="0x13158"/>
         <DList Name="gNabooruLeftThighDL" Offset="0x17B40"/>
@@ -45,46 +98,46 @@
         <DList Name="gNabooruWaistDL" Offset="0x16490"/>
 
         <!-- Nabooru palettes -->
-        <Texture Name="gNabooru1TLUT" OutName="nabooru_1_tlut" Format="rgba16" Width="16" Height="16" Offset="0x096B0"/>
-        <Texture Name="gNabooru2TLUT" OutName="nabooru_2_tlut" Format="rgba16" Width="4" Height="59" Offset="0x0AE70"/>
-        <Texture Name="gNabooru3TLUT" OutName="nabooru_3_tlut" Format="rgba16" Width="16" Height="16" Offset="0x0B048"/>
+        <Texture Name="gNabooru1TLUT" Format="rgba16" Width="16" Height="16" Offset="0x096B0"/>
+        <Texture Name="gNabooru2TLUT" Format="rgba16" Width="4" Height="59" Offset="0x0AE70"/>
+        <Texture Name="gNabooru3TLUT" Format="rgba16" Width="16" Height="16" Offset="0x0B048"/>
 
         <!-- Nabooru Displaylist Textures -->
-        <Texture Name="gNabooruClothesButtonsTex" OutName="nabooru_clothes_buttons" Format="ci8" Width="16" Height="16" Offset="0x098B0" TlutOffset="0x096B0"/>
-        <Texture Name="gNabooruSkinGradient1Tex" OutName="nabooru_skin_gradient_1" Format="ci8" Width="8" Height="8" Offset="0x099B0" TlutOffset="0x096B0"/>
-        <Texture Name="gNabooruNavelTex" OutName="nabooru_navel" Format="ci8" Width="16" Height="16" Offset="0x099F0" TlutOffset="0x096B0"/>
-        <Texture Name="gNabooruPendantJewelTex" OutName="nabooru_pendant_jewel" Format="ci8" Width="32" Height="32" Offset="0x09AF0" TlutOffset="0x096B0"/>
-        <Texture Name="gNabooruCleavageTex" OutName="nabooru_cleavage" Format="ci8" Width="8" Height="8" Offset="0x09EF0" TlutOffset="0x096B0"/>
-        <Texture Name="gNabooruTopFabricPatternTex" OutName="nabooru_top_fabric_pattern" Format="rgba16" Width="16" Height="16" Offset="0x09F30"/>
-        <Texture Name="gNabooruAnkleBraceletTex" OutName="nabooru_ankle_bracelet" Format="ci8" Width="16" Height="16" Offset="0x0A130" TlutOffset="0x096B0"/>
-        <Texture Name="gNabooruTrousersShadowTex" OutName="nabooru_trousers_shadow" Format="ci8" Width="8" Height="8" Offset="0x0A230" TlutOffset="0x096B0"/>
-        <Texture Name="gNabooruTrousersFabricTex" OutName="nabooru_trousers_fabric" Format="ci8" Width="16" Height="16" Offset="0x0A270" TlutOffset="0x096B0"/>
-        <Texture Name="gNabooruTrouserCuffPatternTex" OutName="nabooru_trouser_cuff_pattern" Format="rgba16" Width="16" Height="16" Offset="0x0A370"/>
-        <Texture Name="gNabooruBeltJewelTex" OutName="nabooru_belt_jewel" Format="ci8" Width="16" Height="16" Offset="0x0A570" TlutOffset="0x096B0"/>
-        <Texture Name="gNabooruBeltTex" OutName="nabooru_belt" Format="rgba16" Width="32" Height="32" Offset="0x0A670"/>
-        <Texture Name="gNabooruSkinGradient2Tex" OutName="nabooru_skin_gradient_2" Format="ci8" Width="8" Height="8" Offset="0x0B248" TlutOffset="0x0AE70"/><!-- Looks like 0x099B0, but uses 2TLUT -->
-        <Texture Name="gNabooruForeheadJewelSettingTopTex" OutName="nabooru_forehead_jewel_setting_top" Format="ci8" Width="8" Height="4" Offset="0x0B288" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruForeheadJewelSettingBottomTex" OutName="nabooru_forehead_jewel_setting_bottom" Format="ci8" Width="8" Height="16" Offset="0x0B2A8" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruForeheadJewelSettingSideTex" OutName="nabooru_forehead_jewel_setting_side" Format="ci8" Width="16" Height="16" Offset="0x0B328" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruHairTex" OutName="nabooru_hair" Format="ci8" Width="16" Height="16" Offset="0x0B828" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruForeheadJewelTex" OutName="nabooru_forehead_jewel" Format="ci8" Width="16" Height="16" Offset="0x0B928" TlutOffset="0x0AE70"/><!-- Looks like 0x0A570, but uses 2TLUT -->
-        <Texture Name="gNabooruEarTex" OutName="nabooru_ear" Format="ci8" Width="8" Height="16" Offset="0x0BA28" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruFingersBackSideTex" OutName="nabooru_fingers_back_side" Format="ci8" Width="32" Height="32" Offset="0x0BAA8" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruEarringsNecklaceArmletTex" OutName="nabooru_earrings_necklace_armlet" Format="rgba16" Width="32" Height="32" Offset="0x0BEA8"/>
-        <Texture Name="gNabooruPonytailCuffJewelTex" OutName="nabooru_ponytail_cuff_jewel" Format="ci8" Width="32" Height="32" Offset="0x0C6A8" TlutOffset="0x0AE70"/><!-- Looks like 0x09AF0, but uses 2TLUT -->
-        <Texture Name="gNabooruGloveHandBackTex" OutName="nabooru_glove_hand_back" Format="ci8" Width="16" Height="16" Offset="0x0CAA8" TlutOffset="0x0AE70"/><!-- Looks like 0x098B0, but uses 2TLUT -->
-        <Texture Name="gNabooruGloveHandPalmTex" OutName="nabooru_glove_hand_palm" Format="ci8" Width="8" Height="8" Offset="0x0CBA8" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruShoeUpperMouthTex" OutName="nabooru_shoe_upper_mouth" Format="ci8" Width="8" Height="8" Offset="0x0CBE8" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruShoeSoleTex" OutName="nabooru_shoe_sole" Format="ci8" Width="8" Height="8" Offset="0x0CC28" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruTopOfFootTex" OutName="nabooru_top_of_foot" Format="ci8" Width="8" Height="16" Offset="0x0CC68" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruFingersPalmSideTex" OutName="nabooru_fingers_palm_side" Format="ci8" Width="32" Height="32" Offset="0x0CCE8" TlutOffset="0x0AE70"/>
-        <Texture Name="gNabooruLipsTex" OutName="nabooru_lips" Format="rgba16" Width="8" Height="8" Offset="0x0DCE8"/>
+        <Texture Name="gNabooruClothesButtonsTex" Format="ci8" Width="16" Height="16" Offset="0x098B0" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruSkinGradient1Tex" Format="ci8" Width="8" Height="8" Offset="0x099B0" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruNavelTex" Format="ci8" Width="16" Height="16" Offset="0x099F0" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruPendantJewelTex" Format="ci8" Width="32" Height="32" Offset="0x09AF0" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruCleavageTex" Format="ci8" Width="8" Height="8" Offset="0x09EF0" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruTopFabricPatternTex" Format="rgba16" Width="16" Height="16" Offset="0x09F30"/>
+        <Texture Name="gNabooruAnkleBraceletTex" Format="ci8" Width="16" Height="16" Offset="0x0A130" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruTrousersShadowTex" Format="ci8" Width="8" Height="8" Offset="0x0A230" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruTrousersFabricTex" Format="ci8" Width="16" Height="16" Offset="0x0A270" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruTrouserCuffPatternTex" Format="rgba16" Width="16" Height="16" Offset="0x0A370"/>
+        <Texture Name="gNabooruBeltJewelTex" Format="ci8" Width="16" Height="16" Offset="0x0A570" TlutOffset="0x096B0"/>
+        <Texture Name="gNabooruBeltTex" Format="rgba16" Width="32" Height="32" Offset="0x0A670"/>
+        <Texture Name="gNabooruSkinGradient2Tex" Format="ci8" Width="8" Height="8" Offset="0x0B248" TlutOffset="0x0AE70"/><!-- Looks like 0x099B0, but uses 2TLUT -->
+        <Texture Name="gNabooruForeheadJewelSettingTopTex" Format="ci8" Width="8" Height="4" Offset="0x0B288" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruForeheadJewelSettingBottomTex" Format="ci8" Width="8" Height="16" Offset="0x0B2A8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruForeheadJewelSettingSideTex" Format="ci8" Width="16" Height="16" Offset="0x0B328" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruHairTex" Format="ci8" Width="16" Height="16" Offset="0x0B828" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruForeheadJewelTex" Format="ci8" Width="16" Height="16" Offset="0x0B928" TlutOffset="0x0AE70"/><!-- Looks like 0x0A570, but uses 2TLUT -->
+        <Texture Name="gNabooruEarTex" Format="ci8" Width="8" Height="16" Offset="0x0BA28" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruFingersBackSideTex" Format="ci8" Width="32" Height="32" Offset="0x0BAA8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruEarringsNecklaceArmletTex" Format="rgba16" Width="32" Height="32" Offset="0x0BEA8"/>
+        <Texture Name="gNabooruPonytailCuffJewelTex" Format="ci8" Width="32" Height="32" Offset="0x0C6A8" TlutOffset="0x0AE70"/><!-- Looks like 0x09AF0, but uses 2TLUT -->
+        <Texture Name="gNabooruGloveHandBackTex" Format="ci8" Width="16" Height="16" Offset="0x0CAA8" TlutOffset="0x0AE70"/><!-- Looks like 0x098B0, but uses 2TLUT -->
+        <Texture Name="gNabooruGloveHandPalmTex" Format="ci8" Width="8" Height="8" Offset="0x0CBA8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruShoeUpperMouthTex" Format="ci8" Width="8" Height="8" Offset="0x0CBE8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruShoeSoleTex" Format="ci8" Width="8" Height="8" Offset="0x0CC28" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruTopOfFootTex" Format="ci8" Width="8" Height="16" Offset="0x0CC68" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruFingersPalmSideTex" Format="ci8" Width="32" Height="32" Offset="0x0CCE8" TlutOffset="0x0AE70"/>
+        <Texture Name="gNabooruLipsTex" Format="rgba16" Width="8" Height="8" Offset="0x0DCE8"/>
 
         <!-- Nabooru Eye Textures -->
-        <Texture Name="gNabooruEyeOpenTex" OutName="nabooru_eye_open" Format="ci8" Width="32" Height="32" Offset="0x0B428" TlutOffset="0x0B048"/>
-        <Texture Name="gNabooruEyeHalfTex" OutName="nabooru_eye_half" Format="ci8" Width="32" Height="32" Offset="0x0D0E8" TlutOffset="0x0B048"/>
-        <Texture Name="gNabooruEyeClosedTex" OutName="nabooru_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x0D4E8" TlutOffset="0x0B048"/>
-        <Texture Name="gNabooruEyeWideTex" OutName="nabooru_eye_wide" Format="ci8" Width="32" Height="32" Offset="0x0D8E8" TlutOffset="0x0B048"/>
+        <Texture Name="gNabooruEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x0B428" TlutOffset="0x0B048"/>
+        <Texture Name="gNabooruEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x0D0E8" TlutOffset="0x0B048"/>
+        <Texture Name="gNabooruEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x0D4E8" TlutOffset="0x0B048"/>
+        <Texture Name="gNabooruEyeWideTex" Format="ci8" Width="32" Height="32" Offset="0x0D8E8" TlutOffset="0x0B048"/>
 
         <!-- Nabooru Animations -->
         <Animation Name="gNabooruPuttingHandsTogetherCastingMagicAnim" Offset="0x00410"/>

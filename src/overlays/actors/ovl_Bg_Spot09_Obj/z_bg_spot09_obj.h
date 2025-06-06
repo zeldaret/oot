@@ -2,7 +2,7 @@
 #define Z_BG_SPOT09_OBJ_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct BgSpot09Obj;
 

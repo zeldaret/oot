@@ -5,9 +5,28 @@
  */
 
 #include "z_bg_heavy_block.h"
-#include "assets/objects/object_heavy_object/object_heavy_object.h"
+
+#include "libu64/debug.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
 #include "quake.h"
+#include "rand.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/object_heavy_object/object_heavy_object.h"
 
 #define FLAGS 0
 
@@ -27,7 +46,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play);
 void BgHeavyBlock_Land(BgHeavyBlock* this, PlayState* play);
 void BgHeavyBlock_DoNothing(BgHeavyBlock* this, PlayState* play);
 
-ActorInit Bg_Heavy_Block_InitVars = {
+ActorProfile Bg_Heavy_Block_Profile = {
     /**/ ACTOR_BG_HEAVY_BLOCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -41,9 +60,9 @@ ActorInit Bg_Heavy_Block_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 400, ICHAIN_STOP),
 };
 
 void BgHeavyBlock_SetPieceRandRot(BgHeavyBlock* this, f32 scale) {
@@ -76,7 +95,8 @@ void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
 void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
-    this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_17;
+    this->dyna.actor.flags |=
+        ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_CARRY_X_ROT_INFLUENCE;
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gHeavyBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -94,13 +114,13 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
         thisx->params |= 4;
     }
 
-    switch (thisx->params & 0xFF) {
+    switch (PARAMS_GET_U(thisx->params, 0, 8)) {
         case HEAVYBLOCK_BIG_PIECE:
             thisx->draw = BgHeavyBlock_DrawPiece;
             this->actionFunc = BgHeavyBlock_MovePiece;
             BgHeavyBlock_InitPiece(this, 1.0f);
             this->timer = 120;
-            thisx->flags |= ACTOR_FLAG_4;
+            thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             this->unk_164.y = -50.0f;
             break;
         case HEAVYBLOCK_SMALL_PIECE:
@@ -108,13 +128,13 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = BgHeavyBlock_MovePiece;
             BgHeavyBlock_InitPiece(this, 2.0f);
             this->timer = 120;
-            thisx->flags |= ACTOR_FLAG_4;
+            thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             this->unk_164.y = -20.0f;
             break;
         case HEAVYBLOCK_BREAKABLE:
             BgHeavyBlock_SetupDynapoly(this, play);
 
-            if (Flags_GetSwitch(play, (thisx->params >> 8) & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 8, 6))) {
                 Actor_Kill(thisx);
                 return;
             }
@@ -124,7 +144,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
         case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
             BgHeavyBlock_SetupDynapoly(this, play);
 
-            if (Flags_GetSwitch(play, (thisx->params >> 8) & 0x3F)) {
+            if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 8, 6))) {
                 this->actionFunc = BgHeavyBlock_DoNothing;
                 thisx->shape.rot.x = thisx->world.rot.x = 0x8AD0;
                 thisx->shape.rot.y = thisx->world.rot.y = 0xC000;
@@ -145,13 +165,12 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = BgHeavyBlock_Wait;
             break;
     }
-    // "Largest Block Save Bit %x"
-    PRINTF(VT_FGCOL(CYAN) " 最大 ブロック セーブビット %x\n" VT_RST, thisx->params);
+    PRINTF(VT_FGCOL(CYAN) T(" 最大 ブロック セーブビット %x\n", " Largest Block Save Bit %x\n") VT_RST, thisx->params);
 }
 
 void BgHeavyBlock_Destroy(Actor* thisx, PlayState* play) {
     BgHeavyBlock* this = (BgHeavyBlock*)thisx;
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case HEAVYBLOCK_BIG_PIECE:
             break;
         case HEAVYBLOCK_SMALL_PIECE:
@@ -320,7 +339,7 @@ void BgHeavyBlock_Wait(BgHeavyBlock* this, PlayState* play) {
     if (Actor_HasParent(&this->dyna.actor, play)) {
         this->timer = 0;
 
-        switch (this->dyna.actor.params & 0xFF) {
+        switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
             case HEAVYBLOCK_BREAKABLE:
                 OnePointCutscene_Init(play, 4020, 270, &this->dyna.actor, CAM_ID_MAIN);
                 break;
@@ -393,10 +412,10 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play) {
     if (this->dyna.actor.home.pos.y <= yIntersect) {
         Rumble_Request(0.0f, 255, 60, 4);
 
-        switch (this->dyna.actor.params & 0xFF) {
+        switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
             case HEAVYBLOCK_BREAKABLE:
                 BgHeavyBlock_SpawnPieces(this, play);
-                Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+                Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));
                 Actor_Kill(&this->dyna.actor);
 
                 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
@@ -420,7 +439,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play) {
                 Quake_SetDuration(quakeIndex, 40);
 
                 this->actionFunc = BgHeavyBlock_Land;
-                Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+                Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));
                 break;
             case HEAVYBLOCK_UNBREAKABLE:
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
@@ -457,7 +476,7 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, PlayState* play) {
         this->dyna.actor.world.pos = this->dyna.actor.home.pos;
         Actor_MoveXZGravity(&this->dyna.actor);
         this->dyna.actor.home.pos = this->dyna.actor.world.pos;
-        switch (this->dyna.actor.params & 0xFF) {
+        switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
                 BgHeavyBlock_SpawnDust(play, Rand_CenteredFloat(30.0f) + 1678.0f, Rand_ZeroFloat(100.0f) + 1286.0f,
                                        Rand_CenteredFloat(30.0f) + 552.0f, 0.0f, 0.0f, 0.0f, 0);
@@ -470,7 +489,7 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, PlayState* play) {
                 break;
         }
     } else {
-        this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
+        this->dyna.actor.flags &= ~(ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED);
         this->actionFunc = BgHeavyBlock_DoNothing;
     }
 }
@@ -505,15 +524,14 @@ void BgHeavyBlock_Draw(Actor* thisx, PlayState* play) {
     Matrix_MultVec3f(&D_80884ED4, &thisx->home.pos);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_heavy_block.c", 931),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_heavy_block.c", 931);
     gSPDisplayList(POLY_OPA_DISP++, gHeavyBlockEntirePillarDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_heavy_block.c", 935);
 }
 
 void BgHeavyBlock_DrawPiece(Actor* thisx, PlayState* play) {
-    switch (thisx->params & 0xFF) {
+    switch (PARAMS_GET_U(thisx->params, 0, 8)) {
         case HEAVYBLOCK_BIG_PIECE:
             Matrix_Translate(50.0f, -260.0f, -20.0f, MTXMODE_APPLY);
             Gfx_DrawDListOpa(play, gHeavyBlockBigPieceDL);

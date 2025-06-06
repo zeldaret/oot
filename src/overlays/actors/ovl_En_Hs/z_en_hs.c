@@ -5,10 +5,22 @@
  */
 
 #include "z_en_hs.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_hs/object_hs.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnHs_Init(Actor* thisx, PlayState* play);
 void EnHs_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +30,7 @@ void EnHs_Draw(Actor* thisx, PlayState* play);
 void func_80A6E9AC(EnHs* this, PlayState* play);
 void func_80A6E6B0(EnHs* this, PlayState* play);
 
-ActorInit En_Hs_InitVars = {
+ActorProfile En_Hs_Profile = {
     /**/ ACTOR_EN_HS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -32,7 +44,7 @@ ActorInit En_Hs_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -40,7 +52,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -74,22 +86,19 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
     }
 
     if (this->actor.params == 1) {
-        // "chicken shop (adult era)"
-        PRINTF(VT_FGCOL(CYAN) " ヒヨコの店(大人の時) \n" VT_RST);
+        PRINTF(VT_FGCOL(CYAN) T(" ヒヨコの店(大人の時) \n", " chicken shop (adult era) \n") VT_RST);
         func_80A6E3A0(this, func_80A6E9AC);
         if (GET_ITEMGETINF(ITEMGETINF_30)) {
-            // "chicken shop closed"
-            PRINTF(VT_FGCOL(CYAN) " ヒヨコ屋閉店 \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T(" ヒヨコ屋閉店 \n", " chicken shop closed \n") VT_RST);
             Actor_Kill(&this->actor);
         }
     } else {
-        // "chicken shop (child era)"
-        PRINTF(VT_FGCOL(CYAN) " ヒヨコの店(子人の時) \n" VT_RST);
+        PRINTF(VT_FGCOL(CYAN) T(" ヒヨコの店(子人の時) \n", " chicken shop (child era) \n") VT_RST);
         func_80A6E3A0(this, func_80A6E9AC);
     }
 
     this->unk_2A8 = 0;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
 }
 
 void EnHs_Destroy(Actor* thisx, PlayState* play) {
@@ -206,7 +215,7 @@ void func_80A6E9AC(EnHs* this, PlayState* play) {
     s16 yawDiff;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        if (func_8002F368(play) == EXCH_ITEM_COJIRO) {
+        if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_COJIRO) {
             player->actor.textId = 0x10B2;
             func_80A6E3A0(this, func_80A6E8CC);
             Animation_Change(&this->skelAnime, &object_hs_Anim_000304, 1.0f, 0.0f,

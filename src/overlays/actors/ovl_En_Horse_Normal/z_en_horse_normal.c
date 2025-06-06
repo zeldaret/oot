@@ -5,22 +5,39 @@
  */
 
 #include "z_en_horse_normal.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+#include "skin.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_horse_normal/object_horse_normal.h"
 
 #define FLAGS 0
 
-typedef struct {
+typedef struct EnHorseNormalUnkStruct1 {
     Vec3s pos;
     u8 unk_06; // this may be a s16 if the always-0 following byte is actually not padding
 } EnHorseNormalUnkStruct1;
 
-typedef struct {
+typedef struct EnHorseNormalUnkStruct2 {
     s32 len;
     EnHorseNormalUnkStruct1* items;
 } EnHorseNormalUnkStruct2;
 
-typedef enum {
+typedef enum EnHorseNormalAction {
     /* 0x00 */ HORSE_CYCLE_ANIMATIONS,
     /* 0x01 */ HORSE_WANDER,
     /* 0x02 */ HORSE_WAIT,
@@ -39,7 +56,7 @@ void func_80A6BCEC(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 
-ActorInit En_Horse_Normal_InitVars = {
+ActorProfile En_Horse_Normal_Profile = {
     /**/ ACTOR_EN_HORSE_NORMAL,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -59,7 +76,7 @@ static AnimationHeader* sAnimations[] = {
 
 static ColliderCylinderInit sCylinderInit1 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -67,7 +84,7 @@ static ColliderCylinderInit sCylinderInit1 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -79,7 +96,7 @@ static ColliderCylinderInit sCylinderInit1 = {
 
 static ColliderCylinderInit sCylinderInit2 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -87,7 +104,7 @@ static ColliderCylinderInit sCylinderInit2 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -100,7 +117,7 @@ static ColliderCylinderInit sCylinderInit2 = {
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_NONE,
@@ -113,7 +130,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -177,8 +194,8 @@ f32 func_80A6B30C(EnHorseNormal* this) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 300, ICHAIN_STOP),
 };
 
 void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
@@ -197,7 +214,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sCylinderInit1);
     Collider_InitJntSph(play, &this->headCollider);
-    Collider_SetJntSph(play, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
+    Collider_SetJntSph(play, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderElements);
     Collider_InitCylinder(play, &this->cloneCollider);
     Collider_SetCylinder(play, &this->cloneCollider, &this->actor, &sCylinderInit2);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -216,7 +233,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || (DREG(1) != 0)) {
+        } else if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED) {
             if (this->actor.world.rot.z != 7) {
                 Actor_Kill(&this->actor);
                 return;
@@ -259,7 +276,7 @@ void EnHorseNormal_Init(Actor* thisx, PlayState* play) {
         Skin_Init(play, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     }
-    if ((this->actor.params & 0xF0) == 0x10 && (this->actor.params & 0xF) != 0xF) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x10 && PARAMS_GET_U(this->actor.params, 0, 4) != 0xF) {
         func_80A6B91C(this, play);
     } else {
         func_80A6BC48(this);
@@ -276,7 +293,7 @@ void EnHorseNormal_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80A6B91C(EnHorseNormal* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->action = HORSE_FOLLOW_PATH;
     this->animationIdx = 6;
     this->waypoint = 0;
@@ -286,7 +303,7 @@ void func_80A6B91C(EnHorseNormal* this, PlayState* play) {
 }
 
 void EnHorseNormal_FollowPath(EnHorseNormal* this, PlayState* play) {
-    Path* path = &play->pathList[this->actor.params & 0xF];
+    Path* path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 4)];
     Vec3s* pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     f32 dx;
     f32 dz;
@@ -520,7 +537,7 @@ void func_80A6C6B0(EnHorseNormal* this) {
     this->unk_218 = 0.0f;
     this->unk_21C = 0;
     this->unk_21E = 0;
-    this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
                      Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
@@ -706,7 +723,7 @@ void EnHorseNormal_Draw(Actor* thisx, PlayState* play2) {
         if (mtx == NULL) {
             return;
         }
-        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_OPA_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_800A63CC(&this->actor, play, &this->skin, NULL, NULL, true, 0,
                       SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS | SKIN_DRAW_FLAG_CUSTOM_MATRIX);
@@ -720,7 +737,7 @@ void EnHorseNormal_Draw(Actor* thisx, PlayState* play2) {
         temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.shadowScale;
         Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD(cloneRotY), MTXMODE_APPLY);
-        mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_horse_normal.c", 2329);
+        mtx = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_horse_normal.c", 2329);
         if (mtx != NULL) {
             gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gHorseShadowDL);

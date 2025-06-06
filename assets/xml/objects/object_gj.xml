@@ -1,35 +1,71 @@
 <Root>
     <File Name="object_gj" Segment="6">
         <!-- This is the decorative rubble around the fight arena -->
+        <Array Name="gGanonsCastleRubbleAroundArenaVtx" Count="220" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubbleAroundArenaDL" Offset="0xDC0"/>
         <Collision Name="gGanonsCastleRubbleAroundArenaCol" Offset="0x1B70"/>
 
         <!-- Those four are used as the pile of rubble from where Ganondorf rises to transform into Ganon -->
+        <Array Name="gGanonsCastleRubble4Vtx" Count="24" Offset="0x2480">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble4DL" Offset="0x2600"/>
         <Collision Name="gGanonsCastleRubble4Col" Offset="0x2850"/>
 
+        <Array Name="gGanonsCastleRubble5Vtx" Count="28" Offset="0x2880">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble5DL" Offset="0x2A40"/>
         <Collision Name="gGanonsCastleRubble5Col" Offset="0x2D28"/>
 
+        <Array Name="gGanonsCastleRubble6Vtx" Count="18" Offset="0x2D60">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble6DL" Offset="0x2E80"/>
         <Collision Name="gGanonsCastleRubble6Col" Offset="0x2FE4"/>
 
+        <Array Name="gGanonsCastleRubble7Vtx" Count="24" Offset="0x3010">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble7DL" Offset="0x3190"/>
         <Collision Name="gGanonsCastleRubble7Col" Offset="0x33E0"/>
 
         <!-- This three rubbles are the ones that Ganon can destroy during the fight -->
+        <Array Name="gGanonsCastleRubble2Vtx" Count="24" Offset="0x1BA0">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble2DL" Offset="0x1D20"/>
         <Collision Name="gGanonsCastleRubble2Col" Offset="0x1F70"/>
 
+        <Array Name="gGanonsCastleRubble3Vtx" Count="28" Offset="0x1FA0">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubble3DL" Offset="0x2160"/>
         <Collision Name="gGanonsCastleRubble3Col" Offset="0x2448"/>
 
+        <Array Name="gGanonsCastleRubbleTallVtx" Count="48" Offset="0x3410">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonsCastleRubbleTallDL" Offset="0x3710"/>
         <Collision Name="gGanonsCastleRubbleTallCol" Offset="0x3AF0"/>
 
         <!-- The following are unused -->
-        <Texture Name="gGanonsCastleUnusedSpikeVariantTex" OutName="ganons_castle_unused_spike_variant" Format="ia16" Width="64" Height="32" Offset="0x8B20"/>
-        <Texture Name="gGanonsCastleUnusedWallTex" OutName="ganons_castle_unused_wall" Format="rgba16" Width="32" Height="32" Offset="0x9B20"/>
-        <Texture Name="gGanonsCastleUnusedTex_00A320" OutName="ganons_castle_unused_00A320" Format="ia16" Width="16" Height="32" Offset="0xA320"/>
+        <Texture Name="gGanonsCastleUnusedSpikeVariantTex" Format="ia16" Width="64" Height="32" Offset="0x8B20"/>
+        <Texture Name="gGanonsCastleUnusedWallTex" Format="rgba16" Width="32" Height="32" Offset="0x9B20"/>
+        <Texture Name="gGanonsCastleUnusedTex_00A320" Format="ia16" Width="16" Height="32" Offset="0xA320"/>
+
+
+        <Texture Name="object_gj_003B20_Tex" Format="ia8" Width="16" Height="16" Offset="0x3B20"/>
+        <Texture Name="object_gj_003C20_Tex" Format="i4" Width="16" Height="32" Offset="0x3C20"/>
+        <Texture Name="object_gj_003D20_Tex" Format="rgba16" Width="16" Height="16" Offset="0x3D20"/>
+        <Texture Name="object_gj_003F20_Tex" Format="i8" Width="64" Height="64" Offset="0x3F20"/>
+        <Texture Name="object_gj_004F20_Tex" Format="i8" Width="64" Height="64" Offset="0x4F20"/>
+        <Texture Name="object_gj_005F20_Tex" Format="i8" Width="64" Height="64" Offset="0x5F20"/>
+        <Texture Name="object_gj_006F20_Tex" Format="i4" Width="32" Height="64" Offset="0x6F20"/>
+        <Texture Name="object_gj_007320_Tex" Format="i8" Width="64" Height="16" Offset="0x7320"/>
+        <Texture Name="object_gj_007720_Tex" Format="ia8" Width="32" Height="32" Offset="0x7720"/>
+        <Texture Name="object_gj_007B20_Tex" Format="i8" Width="128" Height="32" Offset="0x7B20"/>
     </File>
 </Root>

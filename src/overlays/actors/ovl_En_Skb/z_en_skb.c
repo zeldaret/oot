@@ -6,11 +6,26 @@
 
 #include "z_en_skb.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_skb/object_skb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
-typedef enum {
+typedef enum StalchildBehavior {
     SKB_BEHAVIOR_BURIED,
     SKB_BEHAVIOR_DYING,
     SKB_BEHAVIOR_DAMAGED,
@@ -43,7 +58,7 @@ void EnSkb_Death(EnSkb* this, PlayState* play);
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -54,7 +69,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -67,7 +82,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -113,7 +128,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-ActorInit En_Skb_InitVars = {
+ActorProfile En_Skb_Profile = {
     /**/ ACTOR_EN_SKB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -149,7 +164,7 @@ void EnSkb_SpawnDebris(PlayState* play, EnSkb* this, Vec3f* spawnPos) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
 
@@ -160,7 +175,7 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     this->actor.focus.pos = this->actor.world.pos;
-    this->actor.colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
     SkelAnime_Init(play, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlingAnim, this->jointTable,
@@ -168,7 +183,7 @@ void EnSkb_Init(Actor* thisx, PlayState* play) {
     this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     Actor_SetScale(&this->actor, ((this->actor.params * 0.1f) + 1.0f) * 0.01f);
 
     this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius =
@@ -210,7 +225,7 @@ void EnSkb_DecideNextAction(EnSkb* this) {
 void EnSkb_SetupRiseFromGround(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_APPEAR);
     EnSkb_SetupAction(this, EnSkb_RiseFromGround);
 }
@@ -220,7 +235,7 @@ void EnSkb_RiseFromGround(EnSkb* this, PlayState* play) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     } else {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     }
     Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 800.0f, 0.0f);
     Math_SmoothStepToF(&this->actor.shape.shadowScale, 25.0f, 1.0f, 2.5f, 0.0f);
@@ -237,7 +252,7 @@ void EnSkb_SetupDespawn(EnSkb* this) {
                      Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, ANIMMODE_ONCE, -4.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
     this->setColliderAT = false;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     EnSkb_SetupAction(this, EnSkb_Despawn);
@@ -416,7 +431,7 @@ void EnSkb_SetupDeath(EnSkb* this, PlayState* play) {
         this->actor.speed = -6.0f;
     }
     this->actionState = SKB_BEHAVIOR_DYING;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     BodyBreak_Alloc(&this->bodyBreak, 18, play);
     this->breakFlags |= 4;
     EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_STALKID_DEAD, 1, 1, 0x28);
@@ -450,18 +465,18 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
 
     if ((this->actionState != SKB_BEHAVIOR_DYING) &&
         (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
-        (this->actor.yDistToWater >= 40.0f)) {
+        (this->actor.depthInWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
         this->setColliderAT = false;
         EnSkb_SetupDeath(this, play);
     } else if (this->actionState >= SKB_BEHAVIOR_ATTACKING) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            if (this->actor.colChkInfo.damageEffect != 6) {
-                this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
+            if (this->actor.colChkInfo.damageReaction != 6) {
+                this->lastDamageReaction = this->actor.colChkInfo.damageReaction;
                 Actor_SetDropFlag(&this->actor, &this->collider.elements[1].base, true);
                 this->setColliderAT = false;
-                if (this->actor.colChkInfo.damageEffect == 1) {
+                if (this->actor.colChkInfo.damageReaction == 1) {
                     if (this->actionState != SKB_BEHAVIOR_STUNNED) {
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA,
                                              80);
@@ -470,7 +485,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                     }
                 } else {
                     colorFilterDuration = 8;
-                    if (this->actor.colChkInfo.damageEffect == 7) {
+                    if (this->actor.colChkInfo.damageReaction == 7) {
                         scale = this->actor.scale.y * 7500.0f;
                         for (i = 4; i >= 0; i--) {
                             flamePos = this->actor.world.pos;
@@ -489,8 +504,8 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                     }
                     player = GET_PLAYER(play);
                     if (this->breakFlags == 0) {
-                        if ((this->actor.colChkInfo.damageEffect == 0xD) ||
-                            ((this->actor.colChkInfo.damageEffect == 0xE) &&
+                        if ((this->actor.colChkInfo.damageReaction == 0xD) ||
+                            ((this->actor.colChkInfo.damageReaction == 0xE) &&
                              ((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H &&
                                player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H) ||
                               (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT ||

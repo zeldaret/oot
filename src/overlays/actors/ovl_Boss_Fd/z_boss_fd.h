@@ -2,13 +2,13 @@
 #define Z_BOSS_FD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct BossFd;
 
-typedef void (*BossFdActionFunc)(struct BossFd*, PlayState*);
+typedef void (*BossFdActionFunc)(struct BossFd*, struct PlayState*);
 
-typedef enum {
+typedef enum BossFdActionState {
     /*  -1 */ BOSSFD_WAIT_INTRO = -1,
     /*   0 */ BOSSFD_FLY_MAIN,
     /*   1 */ BOSSFD_FLY_HOLE,
@@ -26,7 +26,7 @@ typedef enum {
     /* 205 */ BOSSFD_SKULL_BURN
 } BossFdActionState;
 
-typedef enum {
+typedef enum BossFdCutsceneState {
     /* 0 */ BFD_CS_NONE,
     /* 1 */ BFD_CS_WAIT,
     /* 2 */ BFD_CS_START,
@@ -38,7 +38,7 @@ typedef enum {
 
 #define BOSSFD_EFFECT_COUNT 180
 
-typedef struct {
+typedef struct BossFdEffect {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
@@ -58,7 +58,7 @@ typedef struct {
 #define vFdFxRotY bFdFxFloat2
 #define vFdFxYStop bFdFxFloat2
 
-typedef enum {
+typedef enum BossFdEffectType {
     /* 0 */ BFD_FX_NONE,
     /* 1 */ BFD_FX_EMBER,
     /* 2 */ BFD_FX_DEBRIS,
@@ -67,13 +67,13 @@ typedef enum {
     /* 5 */ BFD_FX_SKULL_PIECE
 } BossFdEffectType;
 
-typedef struct {
+typedef struct BossFdMane {
     /* 0x000 */ Vec3f pos[30];
     /* 0x168 */ f32 scale[30];
     /* 0x1E0 */ Vec3f head;
 } BossFdMane; // size = 0x1EC
 
-typedef enum {
+typedef enum BossFdS16Var {
     /*  0 */ BFD_ACTION_STATE,
     /*  1 */ BFD_MOVE_TIMER,
     /*  2 */ BFD_VAR_TIMER,
@@ -96,7 +96,7 @@ typedef enum {
     /* 19 */ BFD_SHORT_COUNT
 } BossFdS16Var;
 
-typedef enum {
+typedef enum BossFdF32Var {
     /*  0 */ BFD_TEX1_SCROLL_X,
     /*  1 */ BFD_TEX1_SCROLL_Y,
     /*  2 */ BFD_TEX2_SCROLL_X,
@@ -175,7 +175,7 @@ typedef struct BossFd {
     /* 0x1488 */ f32 subCamAtYOffset;
     /* 0x148C */ f32 subCamShake;
     /* 0x1490 */ ColliderJntSph collider;
-    /* 0x14B0 */ ColliderJntSphElement elements[19];
+    /* 0x14B0 */ ColliderJntSphElement colliderElements[19];
     /* 0x1970 */ BossFdEffect effects[BOSSFD_EFFECT_COUNT];
 } BossFd; // size = 0x43A0
 

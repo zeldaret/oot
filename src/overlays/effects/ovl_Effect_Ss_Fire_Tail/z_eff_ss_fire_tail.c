@@ -5,6 +5,15 @@
  */
 
 #include "z_eff_ss_fire_tail.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
@@ -25,7 +34,7 @@ u32 EffectSsFireTail_Init(PlayState* play, u32 index, EffectSs* this, void* init
 void EffectSsFireTail_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsFireTail_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Fire_Tail_InitVars = {
+EffectSsProfile Effect_Ss_Fire_Tail_Profile = {
     EFFECT_SS_FIRE_TAIL,
     EffectSsFireTail_Init,
 };
@@ -119,8 +128,7 @@ void EffectSsFireTail_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     Matrix_Scale(1.0f, temp1, 1.0f / temp1, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_eff_fire_tail.c", 238),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_eff_fire_tail.c", 238);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, 0);

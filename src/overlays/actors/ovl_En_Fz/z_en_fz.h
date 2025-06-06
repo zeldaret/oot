@@ -2,14 +2,14 @@
 #define Z_EN_FZ_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnFz;
 
-typedef void (*EnFzActionFunc)(struct EnFz*, PlayState*);
+typedef void (*EnFzActionFunc)(struct EnFz*, struct PlayState*);
 typedef void (*EnFzSpawnIceSmokeFunc)(struct EnFz*);
 
-typedef struct {
+typedef struct EnFzEffect {
     /* 0x0000 */ u8 type; // 0,1,2: State of freezard (1 not freezing, 2 freezing)
     /* 0x0001 */ u8 timer; // increments primAlphaState after reaching 7 (freezing), used in Gfx_TwoTexScroll
     /* 0x0004 */ Vec3f pos; // Random position within 20.0f of actor

@@ -5,10 +5,26 @@
  */
 
 #include "z_en_tk.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_tk/object_tk.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnTk_Init(Actor* thisx, PlayState* play);
 void EnTk_Destroy(Actor* thisx, PlayState* play);
@@ -20,7 +36,7 @@ void EnTk_Rest(EnTk* this, PlayState* play);
 void EnTk_Walk(EnTk* this, PlayState* play);
 void EnTk_Dig(EnTk* this, PlayState* play);
 
-ActorInit En_Tk_InitVars = {
+ActorProfile En_Tk_Profile = {
     /**/ ACTOR_EN_TK,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -112,8 +128,7 @@ void EnTkEff_Draw(EnTk* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->size, eff->size, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_tk_eff.c", 140),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_tk_eff.c", 140);
 
         imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustTextures) / eff->timeTotal);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTextures[imageIdx]));
@@ -139,7 +154,7 @@ s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -147,7 +162,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -497,7 +512,7 @@ void EnTk_Init(Actor* thisx, PlayState* play) {
 
     Actor_SetScale(&this->actor, 0.01f);
 
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->actor.gravity = -0.1f;
     this->currentReward = -1;
     this->currentSpot = NULL;

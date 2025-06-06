@@ -19,18 +19,63 @@
         <Limb Name="object_oE1s_Limb_000144" LimbType="Standard" Offset="0x144"/>
         <Skeleton Name="object_oE1s_Skel_000190" Type="Flex" LimbType="Standard" Offset="0x190"/>
         <!--Blob Name="object_oE1s_Blob_00019C" Size="0x204" Offset="0x19C" /-->
-        <Texture Name="object_oE1s_TLUT_0003A0" OutName="tlut_000003A0" Format="rgba16" Width="108" Height="1" Offset="0x3A0"/>
+        <Texture Name="object_oE1s_TLUT_0003A0" Format="rgba16" Width="108" Height="1" Offset="0x3A0"/>
         <!--Blob Name="object_oE1s_Blob_0005A0" Size="0x2D8" Offset="0x5A0" /-->
-        <Texture Name="object_oE1s_Tex_000878" OutName="tex_00000878" Format="ci8" Width="8" Height="8" Offset="0x878"  TlutOffset="0x3A0"/>
-        <Texture Name="object_oE1s_Tex_0008B8" OutName="tex_000008B8" Format="rgba16" Width="16" Height="32" Offset="0x8B8"/>
-        <Texture Name="object_oE1s_Tex_000CB8" OutName="tex_00000CB8" Format="rgba16" Width="32" Height="32" Offset="0xCB8"/>
-        <Texture Name="object_oE1s_Tex_0014B8" OutName="tex_000014B8" Format="ci8" Width="16" Height="16" Offset="0x14B8"  TlutOffset="0x3A0"/>
-        <Texture Name="object_oE1s_Tex_0015B8" OutName="tex_000015B8" Format="i4" Width="16" Height="8" Offset="0x15B8"/>
+        <Texture Name="object_oE1s_Tex_000878" Format="ci8" Width="8" Height="8" Offset="0x878"  TlutOffset="0x3A0"/>
+        <Texture Name="object_oE1s_Tex_0008B8" Format="rgba16" Width="16" Height="32" Offset="0x8B8"/>
+        <Texture Name="object_oE1s_Tex_000CB8" Format="rgba16" Width="32" Height="32" Offset="0xCB8"/>
+        <Texture Name="object_oE1s_Tex_0014B8" Format="ci8" Width="16" Height="16" Offset="0x14B8"  TlutOffset="0x3A0"/>
+        <Texture Name="object_oE1s_Tex_0015B8" Format="i4" Width="16" Height="8" Offset="0x15B8"/>
         <Blob Name="object_oE1s_Blob_0015F8" Size="0x400" Offset="0x15F8"/>
-        <Texture Name="object_oE1s_Tex_0019F8" OutName="tex_000019F8" Format="i4" Width="16" Height="16" Offset="0x19F8"/>
-        <Texture Name="object_oE1s_Tex_001A78" OutName="tex_00001A78" Format="rgba16" Width="16" Height="8" Offset="0x1A78"/>
-        <Texture Name="object_oE1s_Tex_001B78" OutName="tex_00001B78" Format="ci8" Width="16" Height="16" Offset="0x1B78"  TlutOffset="0x3A0"/>
+        <Texture Name="object_oE1s_Tex_0019F8" Format="i4" Width="16" Height="16" Offset="0x19F8"/>
+        <Texture Name="object_oE1s_Tex_001A78" Format="rgba16" Width="16" Height="8" Offset="0x1A78"/>
+        <Texture Name="object_oE1s_Tex_001B78" Format="ci8" Width="16" Height="16" Offset="0x1B78"  TlutOffset="0x3A0"/>
         <Blob Name="object_oE1s_Blob_001C78" Size="0x400" Offset="0x1C78"/>
+        <Array Name="object_oE1s_Vtx_002078" Count="154" Offset="0x2078">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_002A18" Count="19" Offset="0x2A18">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_002B48" Count="235" Offset="0x2B48">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_0039F8" Count="49" Offset="0x39F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_003D08" Count="18" Offset="0x3D08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_003E28" Count="33" Offset="0x3E28">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004038" Count="13" Offset="0x4038">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004108" Count="16" Offset="0x4108">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004208" Count="28" Offset="0x4208">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_0043C8" Count="49" Offset="0x43C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_0046D8" Count="18" Offset="0x46D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_0047F8" Count="33" Offset="0x47F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004A08" Count="13" Offset="0x4A08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004AD8" Count="16" Offset="0x4AD8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE1s_Vtx_004BD8" Count="28" Offset="0x4BD8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oE1s_DL_004D98" Offset="0x4D98"/>
         <DList Name="object_oE1s_DL_005010" Offset="0x5010"/>
         <DList Name="object_oE1s_DL_005150" Offset="0x5150"/>

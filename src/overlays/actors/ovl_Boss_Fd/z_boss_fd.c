@@ -5,29 +5,52 @@
  */
 
 #include "z_boss_fd.h"
-#include "assets/objects/object_fd/object_fd.h"
 #include "overlays/actors/ovl_En_Vb_Ball/z_en_vb_ball.h"
 #include "overlays/actors/ovl_Bg_Vb_Sima/z_bg_vb_sima.h"
 #include "overlays/actors/ovl_Boss_Fd2/z_boss_fd2.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_fd/object_fd.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
-typedef enum {
+typedef enum BossFdIntroFlyState {
     /* 0 */ INTRO_FLY_EMERGE,
     /* 1 */ INTRO_FLY_HOLE,
     /* 2 */ INTRO_FLY_CAMERA,
     /* 3 */ INTRO_FLY_RETRAT
 } BossFdIntroFlyState;
 
-typedef enum {
+typedef enum BossFdManeIndex {
     /* 0 */ MANE_CENTER,
     /* 1 */ MANE_RIGHT,
     /* 2 */ MANE_LEFT
 } BossFdManeIndex;
 
-typedef enum {
+typedef enum BossFdEyeState {
     /* 0 */ EYE_OPEN,
     /* 1 */ EYE_HALF,
     /* 2 */ EYE_CLOSED
@@ -44,7 +67,7 @@ void BossFd_Wait(BossFd* this, PlayState* play);
 void BossFd_UpdateEffects(BossFd* this, PlayState* play);
 void BossFd_DrawBody(PlayState* play, BossFd* this);
 
-ActorInit Boss_Fd_InitVars = {
+ActorProfile Boss_Fd_Profile = {
     /**/ ACTOR_BOSS_FD,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -59,10 +82,10 @@ ActorInit Boss_Fd_InitVars = {
 #include "z_boss_fd_colchk.inc.c"
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_VOLVAGIA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 0, ICHAIN_STOP),
 };
 
 void BossFd_SpawnEmber(BossFdEffect* effect, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
@@ -191,7 +214,7 @@ void BossFd_Init(Actor* thisx, PlayState* play) {
     this->actor.world.pos.x = this->actor.world.pos.z = 0.0f;
     this->actor.world.pos.y = -200.0f;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
     for (i = 0; i < 100; i++) {
         this->bodySegsPos[i].x = this->actor.world.pos.x;
@@ -337,7 +360,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     this->timers[0] = 0;
                     this->subCamVelFactor = 0.0f;
                     this->subCamAccel = 0.0f;
-                    if (GET_EVENTCHKINF(EVENTCHKINF_73)) {
+                    if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE)) {
                         this->introState = BFD_CS_EMERGE;
                         this->subCamEyeNext.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
                         this->subCamEyeNext.y = player2->actor.world.pos.y + 100.0f - 50.0f;
@@ -459,7 +482,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 PRINTF("WAY_SPD X = %f\n", this->subCamAtVel.x);
                 PRINTF("WAY_SPD Y = %f\n", this->subCamAtVel.y);
                 PRINTF("WAY_SPD Z = %f\n", this->subCamAtVel.z);
-                if ((this->timers[3] > 190) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
+                if ((this->timers[3] > 190) && !GET_EVENTCHKINF(EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE)) {
                     Audio_PlaySfxGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
@@ -486,7 +509,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 if (this->timers[3] == 160) {
                     SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_FIRE_BOSS);
                 }
-                if ((this->timers[3] == 130) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
+                if ((this->timers[3] == 130) && !GET_EVENTCHKINF(EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gVolvagiaTitleCardTex),
                                            160, 180, 128, 40);
                 }
@@ -539,7 +562,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                     this->actionFunc = BossFd_Wait;
                     this->handoffSignal = FD2_SIGNAL_GROUND;
-                    SET_EVENTCHKINF(EVENTCHKINF_73);
+                    SET_EVENTCHKINF(EVENTCHKINF_BEGAN_VOLVAGIA_BATTLE);
                 }
                 break;
         }
@@ -687,7 +710,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
             }
             break;
         case BOSSFD_FLY_CHASE:
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
             temp_y = Math_SinS(this->work[BFD_MOVE_TIMER] * 2396.0f) * 30.0f + this->fwork[BFD_TARGET_Y_OFFSET];
             this->targetPosition.x = player->actor.world.pos.x;
             this->targetPosition.y = player->actor.world.pos.y + temp_y + 30.0f;
@@ -1277,19 +1300,19 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
     }
 
     if ((this->actor.world.pos.y < 90.0f) || (700.0f < this->actor.world.pos.y) || (this->actionFunc == BossFd_Wait)) {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     }
 }
 
 void BossFd_CollisionCheck(BossFd* this, PlayState* play) {
-    ColliderJntSphElement* headCollider = &this->collider.elements[0];
+    ColliderJntSphElement* headColliderElem = &this->collider.elements[0];
     ColliderElement* acHitElem;
 
-    if (headCollider->base.acElemFlags & ACELEM_HIT) {
-        headCollider->base.acElemFlags &= ~ACELEM_HIT;
-        acHitElem = headCollider->base.acHitElem;
+    if (headColliderElem->base.acElemFlags & ACELEM_HIT) {
+        headColliderElem->base.acElemFlags &= ~ACELEM_HIT;
+        acHitElem = headColliderElem->base.acHitElem;
         this->actor.colChkInfo.health -= 2;
         if (acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_ICE) {
             this->actor.colChkInfo.health -= 2;
@@ -1485,7 +1508,7 @@ void BossFd_UpdateEffects(BossFd* this, PlayState* play) {
                 diff.z = player->actor.world.pos.z - effect->pos.z;
                 if ((this->timers[3] == 0) && (sqrtf(SQ(diff.x) + SQ(diff.y) + SQ(diff.z)) < 20.0f)) {
                     this->timers[3] = 50;
-                    func_8002F6D4(play, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
+                    Actor_SetPlayerKnockbackLarge(play, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
                     if (!player->bodyIsBurning) {
                         s16 i2;
 
@@ -1545,8 +1568,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_fd.c", 4046),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_fd.c", 4046);
             gSPDisplayList(POLY_XLU_DISP++, gVolvagiaEmberModelDL);
         }
     }
@@ -1566,8 +1588,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
             Matrix_RotateX(effect->vFdFxRotX, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_fd.c", 4068),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_boss_fd.c", 4068);
             gSPDisplayList(POLY_OPA_DISP++, gVolvagiaDebrisModelDL);
         }
     }
@@ -1588,8 +1609,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
             Matrix_ReplaceRotation(&play->billboardMtxF);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_fd.c", 4104),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_fd.c", 4104);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[effect->timer2]));
             gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustModelDL);
         }
@@ -1611,8 +1631,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
             Matrix_ReplaceRotation(&play->billboardMtxF);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_fd.c", 4154),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_fd.c", 4154);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[effect->timer2]));
             gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustModelDL);
         }
@@ -1633,8 +1652,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
             Matrix_RotateX(effect->vFdFxRotX, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_fd.c", 4192),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_fd.c", 4192);
             gSPDisplayList(POLY_XLU_DISP++, gVolvagiaSkullPieceModelDL);
         }
     }
@@ -1768,8 +1786,7 @@ void BossFd_DrawMane(PlayState* play, BossFd* this, Vec3f* manePos, Vec3f* maneR
         Matrix_Scale(maneScale[maneIndex] * (0.01f - (i * 0.0008f)), maneScale[maneIndex] * (0.01f - (i * 0.0008f)),
                      0.01f, MTXMODE_APPLY);
         Matrix_RotateX(-M_PI / 2.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_fd.c", 4480),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_fd.c", 4480);
         gSPDisplayList(POLY_XLU_DISP++, gVolvagiaManeModelDL);
     }
 
@@ -1910,8 +1927,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
                     spD4 = spD8 = spD8 * sp84;
                 }
                 Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_fd.c", 4768),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_boss_fd.c", 4768);
                 gSPDisplayList(POLY_OPA_DISP++, gVolvagiaRibsDL);
 
                 if (this->bodyFallApart[i] == 1) {
@@ -1959,7 +1975,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
     SkelAnime_DrawOpa(play, this->skelAnimeHead.skeleton, this->skelAnimeHead.jointTable, BossFd_OverrideHeadDraw,
                       BossFd_PostHeadDraw, &this->actor);
     PRINTF("SK\n");
-    {
+    if (1) {
         Vec3f spB0 = { 0.0f, 1700.0f, 7000.0f };
         Vec3f spA4 = { -1000.0f, 700.0f, 7000.0f };
 

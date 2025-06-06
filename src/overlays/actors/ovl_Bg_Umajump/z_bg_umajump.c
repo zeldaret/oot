@@ -5,6 +5,12 @@
  */
 
 #include "z_bg_umajump.h"
+
+#include "ichain.h"
+#include "regs.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_umajump/object_umajump.h"
 
 #define FLAGS 0
@@ -14,7 +20,7 @@ void BgUmaJump_Destroy(Actor* thisx, PlayState* play);
 void BgUmaJump_Update(Actor* thisx, PlayState* play);
 void BgUmaJump_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Umajump_InitVars = {
+ActorProfile Bg_Umajump_Profile = {
     /**/ ACTOR_BG_UMAJUMP,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -41,11 +47,11 @@ void BgUmaJump_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.actor.params == 1) {
-        if (!Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) && (DREG(1) == 0)) {
+        if (!(Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || R_DEBUG_FORCE_EPONA_OBTAINED)) {
             Actor_Kill(&this->dyna.actor);
             return;
         }
-        this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+        this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
     }
 }
 

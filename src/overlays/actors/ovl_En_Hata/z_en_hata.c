@@ -5,6 +5,15 @@
  */
 
 #include "z_en_hata.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_hata/object_hata.h"
 
 #define FLAGS 0
@@ -14,7 +23,7 @@ void EnHata_Destroy(Actor* thisx, PlayState* play);
 void EnHata_Update(Actor* thisx, PlayState* play2);
 void EnHata_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Hata_InitVars = {
+ActorProfile En_Hata_Profile = {
     /**/ ACTOR_EN_HATA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -29,7 +38,7 @@ ActorInit En_Hata_InitVars = {
 // Unused Collider and CollisionCheck data
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -37,7 +46,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000080, 0x00, 0x00 },
         ATELEM_NONE | ATELEM_SFX_NORMAL,
@@ -61,9 +70,9 @@ void EnHata_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gFlagpoleCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->dyna.actor.uncullZoneScale = 500.0f;
-    this->dyna.actor.uncullZoneDownward = 550.0f;
-    this->dyna.actor.uncullZoneForward = 2200.0f;
+    this->dyna.actor.cullingVolumeScale = 500.0f;
+    this->dyna.actor.cullingVolumeDownward = 550.0f;
+    this->dyna.actor.cullingVolumeDistance = 2200.0f;
     this->invScale = 6;
     this->maxStep = 1000;
     this->minStep = 1;

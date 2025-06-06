@@ -5,9 +5,20 @@
  */
 
 #include "z_bg_sst_floor.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_sst/object_sst.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgSstFloor_Init(Actor* thisx, PlayState* play);
 void BgSstFloor_Destroy(Actor* thisx, PlayState* play);
@@ -16,7 +27,7 @@ void BgSstFloor_Draw(Actor* thisx, PlayState* play);
 
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
-ActorInit Bg_Sst_Floor_InitVars = {
+ActorProfile Bg_Sst_Floor_Profile = {
     /**/ ACTOR_BG_SST_FLOOR,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -128,8 +139,7 @@ void BgSstFloor_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Scale(1.0f, this->drumHeight * -0.0025f, 1.0f, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_sst_floor.c", 283),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_sst_floor.c", 283);
 
     gSPDisplayList(POLY_OPA_DISP++, gBongoDrumDL);
 

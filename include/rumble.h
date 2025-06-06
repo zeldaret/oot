@@ -5,13 +5,13 @@
 
 #define RUMBLE_MAX_REQUESTS 64
 
-typedef enum {
+typedef enum RumbleState {
     RUMBLE_STATE_CLEAR,
     RUMBLE_STATE_RUNNING,
     RUMBLE_STATE_RESET
 } RumbleState;
 
-typedef struct {
+typedef struct RumbleMgr {
     /* 0x000 */ u8 rumbleEnable[MAXCONTROLLERS];
     /* 0x004 */ u8 reqStrengths[RUMBLE_MAX_REQUESTS];       // Source strength modulated by distance to the source
     /* 0x044 */ u8 reqDurations[RUMBLE_MAX_REQUESTS];       // Duration until decreaseRate kicks in

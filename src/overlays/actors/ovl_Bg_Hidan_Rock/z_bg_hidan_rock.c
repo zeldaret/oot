@@ -5,6 +5,19 @@
  */
 
 #include "z_bg_hidan_rock.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
@@ -29,7 +42,7 @@ void func_8088BC40(PlayState* play, BgHidanRock* this);
 
 static Vec3f D_8088BF60 = { 3310.0f, 120.0f, 0.0f };
 
-ActorInit Bg_Hidan_Rock_InitVars = {
+ActorProfile Bg_Hidan_Rock_Profile = {
     /**/ ACTOR_BG_HIDAN_ROCK,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -43,7 +56,7 @@ ActorInit Bg_Hidan_Rock_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -51,7 +64,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
@@ -74,10 +87,10 @@ void BgHidanRock_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
-    this->type = thisx->params & 0xFF;
+    this->type = PARAMS_GET_U(thisx->params, 0, 8);
     this->unk_169 = 0;
 
-    thisx->params = ((thisx->params) >> 8) & 0xFF;
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
@@ -91,7 +104,7 @@ void BgHidanRock_Init(Actor* thisx, PlayState* play) {
         } else {
             this->actionFunc = func_8088B268;
         }
-        thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+        thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
         CollisionHeader_GetVirtual(&gFireTempleStoneBlock1Col, &colHeader);
     } else {
         CollisionHeader_GetVirtual(&gFireTempleStoneBlock2Col, &colHeader);
@@ -114,7 +127,7 @@ void BgHidanRock_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_8088B24C(BgHidanRock* this) {
-    this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+    this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
     this->actionFunc = func_8088B990;
 }
 
@@ -157,7 +170,7 @@ void func_8088B268(BgHidanRock* this, PlayState* play) {
                 this->timer = 5;
             }
 
-            func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
         } else {
             player->stateFlags2 &= ~PLAYER_STATE2_4;
             this->dyna.unk_150 = 0.0f;
@@ -247,7 +260,7 @@ void func_8088B79C(BgHidanRock* this, PlayState* play) {
         } else {
             this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 15.0f;
             this->actionFunc = func_8088B90C;
-            this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
+            this->dyna.actor.flags &= ~(ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED);
         }
 
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
@@ -369,8 +382,7 @@ void func_8088BC40(PlayState* play, BgHidanRock* this) {
     Matrix_Scale(6.0f, this->unk_16C, 6.0f, MTXMODE_APPLY);
 
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sVerticalFlamesTexs[play->gameplayFrames & 7]));
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_rock.c", 853),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_hidan_rock.c", 853);
     gSPDisplayList(POLY_XLU_DISP++, gFireTempleBigVerticalFlameDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_hidan_rock.c", 857);

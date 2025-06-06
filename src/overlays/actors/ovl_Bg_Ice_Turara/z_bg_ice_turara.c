@@ -5,6 +5,15 @@
  */
 
 #include "z_bg_ice_turara.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
 #define FLAGS 0
@@ -22,7 +31,7 @@ void BgIceTurara_Regrow(BgIceTurara* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -30,7 +39,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0x4FC007CA, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -40,7 +49,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 13, 120, 0, { 0, 0, 0 } },
 };
 
-ActorInit Bg_Ice_Turara_InitVars = {
+ActorProfile Bg_Ice_Turara_Profile = {
     /**/ ACTOR_BG_ICE_TURARA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -53,7 +62,7 @@ ActorInit Bg_Ice_Turara_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 600, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -3, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -30, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

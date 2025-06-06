@@ -1,17 +1,32 @@
 <Root>
     <File Name="object_menkuri_objects" Segment="6">
-        <Texture Name="gGTGDoorTex" OutName="gtg_door" Format="i4" Width="64" Height="128" Offset="0x0"/>
-        <Texture Name="gGTGFakeWallTex" OutName="gtg_fake_wall" Format="rgba16" Width="64" Height="32" Offset="0x1180"/>
-        <Texture Name="gGTGFakeCeilingTex" OutName="gtg_fake_ceiling" Format="rgba16" Width="32" Height="32" Offset="0x2340"/>
-        <Texture Name="gGTGRotatingRingPlatformInnerCircleTex" OutName="gtg_rotating_ring_platform_inner_circle" Format="i4" Width="64" Height="128" Offset="0x4310"/>
-        <Texture Name="gGTGStatueTex" OutName="gtg_statue" Format="i4" Width="64" Height="128" Offset="0x5310"/>
-        <Texture Name="gGTGTex_6310" OutName="gtg_6310" Format="rgba16" Width="32" Height="32" Offset="0x6310"/>
-        <Texture Name="gGTGStatueEyeTex" OutName="gtg_statue_eye" Format="i4" Width="64" Height="128" Offset="0x6B10"/>
-        <Texture Name="gGTGRotatingRingPlatformOuterCircleTex" OutName="gtg_rotating_ring_platform_outer_circle" Format="i4" Width="128" Height="64" Offset="0x7B10"/>
+        <Texture Name="gGTGDoorTex" Format="i4" Width="64" Height="128" Offset="0x0"/>
+        <Texture Name="gGTGFakeWallTex" Format="rgba16" Width="64" Height="32" Offset="0x1180"/>
+        <Texture Name="gGTGFakeCeilingTex" Format="rgba16" Width="32" Height="32" Offset="0x2340"/>
+        <Texture Name="gGTGRotatingRingPlatformInnerCircleTex" Format="i4" Width="64" Height="128" Offset="0x4310"/>
+        <Texture Name="gGTGStatueTex" Format="i4" Width="64" Height="128" Offset="0x5310"/>
+        <Texture Name="gGTGTex_6310" Format="rgba16" Width="32" Height="32" Offset="0x6310"/>
+        <Texture Name="gGTGStatueEyeTex" Format="i4" Width="64" Height="128" Offset="0x6B10"/>
+        <Texture Name="gGTGRotatingRingPlatformOuterCircleTex" Format="i4" Width="128" Height="64" Offset="0x7B10"/>
+        <Array Name="gGTGDoorVtx" Count="13" Offset="0x1000">
+            <Vtx/>
+        </Array>
         <DList Name="gGTGDoorDL" Offset="0x10D0"/>
+        <Array Name="gGTGFakeWallVtx" Count="16" Offset="0x2180">
+            <Vtx/>
+        </Array>
         <DList Name="gGTGFakeWallDL" Offset="0x2280"/>
+        <Array Name="gGTGFakeCeilingVtx" Count="8" Offset="0x2B40">
+            <Vtx/>
+        </Array>
         <DList Name="gGTGFakeCeilingDL" Offset="0x2BC0"/>
+        <Array Name="gGTGEyeStatueEyeVtx" Count="12" Offset="0x2C60">
+            <Vtx/>
+        </Array>
         <DList Name="gGTGEyeStatueEyeDL" Offset="0x2D20"/>
+        <Array Name="gGTGRotatingRingPlatformVtx" Count="176" Offset="0x2DD0">
+            <Vtx/>
+        </Array>
         <DList Name="gGTGRotatingRingPlatformDL" Offset="0x38D0"/>
         <Collision Name="gGTGRotatingRingPlatformCol" Offset="0x42D8"/>
     </File>

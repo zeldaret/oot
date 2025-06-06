@@ -2,11 +2,11 @@
 #define Z_EN_HORSE_GAME_CHECK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnHorseGameCheckBase;
 
-typedef s32 (*EnHorseGameCheckFunc)(struct EnHorseGameCheckBase* this, PlayState* play);
+typedef s32 (*EnHorseGameCheckFunc)(struct EnHorseGameCheckBase* this, struct PlayState* play);
 
 typedef struct EnHorseGameCheckBase {
     /* 0x0000 */ Actor actor;
@@ -54,7 +54,7 @@ typedef union EnHorseGameCheck {
     EnHorseGameCheckMalonRace malon;
 } EnHorseGameCheck; // size = 0x01A4
 
-typedef enum {
+typedef enum EnHorseGameCheckType {
     /* 0 */ HORSEGAME_NONE,
     /* 1 */ HORSEGAME_INGO_RACE,
     /* 2 */ HORSEGAME_GERUDO_ARCHERY,

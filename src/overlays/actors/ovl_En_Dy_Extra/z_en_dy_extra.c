@@ -5,10 +5,21 @@
  */
 
 #include "z_en_dy_extra.h"
-#include "assets/objects/object_dy_obj/object_dy_obj.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#include "assets/objects/object_dy_obj/object_dy_obj.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnDyExtra_Init(Actor* thisx, PlayState* play);
 void EnDyExtra_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +29,7 @@ void EnDyExtra_Draw(Actor* thisx, PlayState* play);
 void EnDyExtra_WaitForTrigger(EnDyExtra* this, PlayState* play);
 void EnDyExtra_FallAndKill(EnDyExtra* this, PlayState* play);
 
-ActorInit En_Dy_Extra_InitVars = {
+ActorProfile En_Dy_Extra_Profile = {
     /**/ ACTOR_EN_DY_EXTRA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -37,8 +48,8 @@ void EnDyExtra_Init(Actor* thisx, PlayState* play) {
     EnDyExtra* this = (EnDyExtra*)thisx;
 
     PRINTF("\n\n");
-    // "Big fairy effect"
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Big fairy effect ☆☆☆☆☆ %d\n") VT_RST,
+           this->actor.params);
     this->type = this->actor.params;
     this->scale.x = 0.025f;
     this->scale.y = 0.039f;
@@ -116,8 +127,7 @@ void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->state.frames * 2, 0, 0x20, 0x40, 1,
                                 play->state.frames, play->state.frames * -8, 0x10, 0x10));
     gDPPipeSync(POLY_XLU_DISP++);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dy_extra.c", 307),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_dy_extra.c", 307);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
                     primColors[this->type].b, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b, 128);

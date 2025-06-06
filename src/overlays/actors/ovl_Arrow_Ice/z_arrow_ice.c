@@ -5,10 +5,19 @@
  */
 
 #include "z_arrow_ice.h"
-
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "tex_len.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void ArrowIce_Init(Actor* thisx, PlayState* play);
 void ArrowIce_Destroy(Actor* thisx, PlayState* play);
@@ -19,9 +28,31 @@ void ArrowIce_Charge(ArrowIce* this, PlayState* play);
 void ArrowIce_Fly(ArrowIce* this, PlayState* play);
 void ArrowIce_Hit(ArrowIce* this, PlayState* play);
 
-#include "assets/overlays/ovl_Arrow_Ice/ovl_Arrow_Ice.c"
+#define s1Tex_WIDTH 32
+#define s1Tex_HEIGHT 64
+static u64 s1Tex[TEX_LEN(u64, s1Tex_WIDTH, s1Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Ice/s1Tex.i8.inc.c"
+};
 
-ActorInit Arrow_Ice_InitVars = {
+#define s2Tex_WIDTH 32
+#define s2Tex_HEIGHT 64
+static u64 s2Tex[TEX_LEN(u64, s2Tex_WIDTH, s2Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Ice/s2Tex.i8.inc.c"
+};
+
+static Vtx sVtx[] = {
+#include "assets/overlays/ovl_Arrow_Ice/sVtx.inc.c"
+};
+
+static Gfx sMaterialDL[22] = {
+#include "assets/overlays/ovl_Arrow_Ice/sMaterialDL.inc.c"
+};
+
+static Gfx sModelDL[24] = {
+#include "assets/overlays/ovl_Arrow_Ice/sModelDL.inc.c"
+};
+
+ActorProfile Arrow_Ice_Profile = {
     /**/ ACTOR_ARROW_ICE,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -34,7 +65,7 @@ ActorInit Arrow_Ice_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_STOP),
 };
 
 void ArrowIce_SetupAction(ArrowIce* this, ArrowIceActionFunc actionFunc) {
@@ -56,7 +87,7 @@ void ArrowIce_Init(Actor* thisx, PlayState* play) {
 
 void ArrowIce_Destroy(Actor* thisx, PlayState* play) {
     Magic_Reset(play);
-    LOG_STRING("消滅", "../z_arrow_ice.c", 415); // "Disappearance"
+    LOG_STRING_T("消滅", "Disappearance", "../z_arrow_ice.c", 415);
 }
 
 void ArrowIce_Charge(ArrowIce* this, PlayState* play) {
@@ -75,7 +106,7 @@ void ArrowIce_Charge(ArrowIce* this, PlayState* play) {
     this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
-    func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_ICE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_PL_ARROW_CHARGE_ICE - SFX_FLAG);
 
     // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
@@ -239,8 +270,7 @@ void ArrowIce_Draw(Actor* thisx, PlayState* play) {
     }
     Matrix_Scale(this->radius * 0.2f, this->unk_160 * 3.0f, this->radius * 0.2f, MTXMODE_APPLY);
     Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_arrow_ice.c", 660),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_arrow_ice.c", 660);
     gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 511 - (stateFrames * 5) % 512, 0, 128, 32, 1,

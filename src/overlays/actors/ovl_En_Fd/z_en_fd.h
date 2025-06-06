@@ -2,13 +2,13 @@
 #define Z_EN_FD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnFd;
 
-typedef void (*EnFdActionFunc)(struct EnFd* this, PlayState* play);
+typedef void (*EnFdActionFunc)(struct EnFd* this, struct PlayState* play);
 
-typedef enum {
+typedef enum FDEffectType {
     FD_EFFECT_NONE,
     FD_EFFECT_FLAME,
     FD_EFFECT_DOT
@@ -16,7 +16,7 @@ typedef enum {
 
 #define EN_FD_EFFECT_COUNT 200
 
-typedef struct {
+typedef struct EnFdEffect {
     /* 0x0000 */ u8 type;
     /* 0x0001 */ u8 timer;
     /* 0x0002 */ u8 initialTimer;
@@ -34,7 +34,7 @@ typedef struct EnFd {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnFdActionFunc actionFunc;
     /* 0x0194 */ ColliderJntSph collider;
-    /* 0x01B4 */ ColliderJntSphElement colSphs[12];
+    /* 0x01B4 */ ColliderJntSphElement colliderElements[12];
     /* 0x04B4 */ u8 coreActive;
     /* 0x04B6 */ s16 initYawToInitPos;
     /* 0x04B8 */ s16 curYawToInitPos;

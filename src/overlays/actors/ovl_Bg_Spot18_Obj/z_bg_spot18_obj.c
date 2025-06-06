@@ -6,6 +6,18 @@
  */
 
 #include "z_bg_spot18_obj.h"
+
+#include "array_count.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_spot18_obj/object_spot18_obj.h"
 
 #define FLAGS 0
@@ -30,7 +42,7 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play);
 void func_808B9030(BgSpot18Obj* this);
 void func_808B9040(BgSpot18Obj* this, PlayState* play);
 
-ActorInit Bg_Spot18_Obj_InitVars = {
+ActorProfile Bg_Spot18_Obj_Profile = {
     /**/ ACTOR_BG_SPOT18_OBJ,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -67,15 +79,15 @@ static BgSpot18ObjInitFunc D_808B910C[] = {
 };
 
 static InitChainEntry sInitChain1[] = {
-    ICHAIN_F32(minVelocityY, -10, ICHAIN_CONTINUE),       ICHAIN_F32(gravity, -4, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
+    ICHAIN_F32(minVelocityY, -10, ICHAIN_CONTINUE),           ICHAIN_F32(gravity, -4, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 1400, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 800, ICHAIN_STOP),
 };
 
 static InitChainEntry sInitChain2[] = {
-    ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 700, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 700, ICHAIN_STOP),
 };
 
 static BgSpot18ObjInitFunc D_808B913C[] = {
@@ -96,31 +108,34 @@ s32 func_808B8910(BgSpot18Obj* this, PlayState* play) {
     } else if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         age = 0;
     } else {
-        PRINTF("Error : リンク年齢不詳 (%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 182,
-               this->dyna.actor.params);
+        PRINTF(T("Error : リンク年齢不詳 (%s %d)(arg_data 0x%04x)\n",
+                 "Error : Link age unknown (%s %d)(arg_data 0x%04x)\n"),
+               "../z_bg_spot18_obj.c", 182, this->dyna.actor.params);
         return 0;
     }
 
-    switch (D_808B90F0[this->dyna.actor.params & 0xF][age]) {
+    switch (D_808B90F0[PARAMS_GET_U(this->dyna.actor.params, 0, 4)][age]) {
         case 0:
         case 1:
-            if (D_808B90F0[this->dyna.actor.params & 0xF][age] == 0) {
-                PRINTF("出現しない Object (0x%04x)\n", this->dyna.actor.params);
+            if (D_808B90F0[PARAMS_GET_U(this->dyna.actor.params, 0, 4)][age] == 0) {
+                PRINTF(T("出現しない Object (0x%04x)\n", "Non-appearing Object (0x%04x)\n"), this->dyna.actor.params);
             }
-            return D_808B90F0[this->dyna.actor.params & 0xF][age];
+            return D_808B90F0[PARAMS_GET_U(this->dyna.actor.params, 0, 4)][age];
         case 2:
-            PRINTF("Error : Obj出現判定が設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 202,
-                   this->dyna.actor.params);
+            PRINTF(T("Error : Obj出現判定が設定されていない(%s %d)(arg_data 0x%04x)\n",
+                     "Error : Obj appearance detection is not set (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_bg_spot18_obj.c", 202, this->dyna.actor.params);
             return 0;
         default:
-            PRINTF("Error : Obj出現判定失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 210,
-                   this->dyna.actor.params);
+            PRINTF(T("Error : Obj出現判定失敗(%s %d)(arg_data 0x%04x)\n",
+                     "Error : Obj appearance check failed (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_bg_spot18_obj.c", 210, this->dyna.actor.params);
     }
     return 0;
 }
 
 s32 func_808B8A5C(BgSpot18Obj* this, PlayState* play) {
-    Actor_SetScale(&this->dyna.actor, D_808B90F4[this->dyna.actor.params & 0xF]);
+    Actor_SetScale(&this->dyna.actor, D_808B90F4[PARAMS_GET_U(this->dyna.actor.params, 0, 4)]);
     return 1;
 }
 
@@ -129,13 +144,13 @@ s32 func_808B8A98(BgSpot18Obj* this, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
-    CollisionHeader_GetVirtual(D_808B90FC[this->dyna.actor.params & 0xF], &colHeader);
+    CollisionHeader_GetVirtual(D_808B90FC[PARAMS_GET_U(this->dyna.actor.params, 0, 4)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     return 1;
 }
 
 s32 func_808B8B08(BgSpot18Obj* this, PlayState* play) {
-    this->dyna.actor.flags |= D_808B9104[this->dyna.actor.params & 0xF];
+    this->dyna.actor.flags |= D_808B9104[PARAMS_GET_U(this->dyna.actor.params, 0, 4)];
     return 1;
 }
 
@@ -155,7 +170,7 @@ s32 func_808B8BB4(BgSpot18Obj* this, PlayState* play) {
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         func_808B9030(this);
-    } else if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+    } else if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
         func_808B9030(this);
         this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
@@ -172,8 +187,8 @@ s32 func_808B8C90(BgSpot18Obj* this, PlayState* play) {
 }
 
 s32 func_808B8CC8(BgSpot18Obj* this, PlayState* play) {
-    if ((D_808B913C[this->dyna.actor.params & 0xF] != NULL) &&
-        (!D_808B913C[this->dyna.actor.params & 0xF](this, play))) {
+    if ((D_808B913C[PARAMS_GET_U(this->dyna.actor.params, 0, 4)] != NULL) &&
+        (!D_808B913C[PARAMS_GET_U(this->dyna.actor.params, 0, 4)](this, play))) {
         return 0;
     }
     return 1;
@@ -255,11 +270,11 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play) {
         this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
-        Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
 }
 
@@ -281,5 +296,5 @@ void BgSpot18Obj_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgSpot18Obj_Draw(Actor* thisx, PlayState* play) {
-    Gfx_DrawDListOpa(play, sDlists[thisx->params & 0xF]);
+    Gfx_DrawDListOpa(play, sDlists[PARAMS_GET_U(thisx->params, 0, 4)]);
 }

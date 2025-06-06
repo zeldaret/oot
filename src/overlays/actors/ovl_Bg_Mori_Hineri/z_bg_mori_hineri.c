@@ -5,6 +5,19 @@
  */
 
 #include "z_bg_mori_hineri.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "curve.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_box/object_box.h"
 #include "assets/objects/object_mori_hineri1/object_mori_hineri1.h"
@@ -13,7 +26,7 @@
 #include "assets/objects/object_mori_hineri2a/object_mori_hineri2a.h"
 #include "assets/objects/object_mori_tex/object_mori_tex.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgMoriHineri_Init(Actor* thisx, PlayState* play);
 void BgMoriHineri_Destroy(Actor* thisx, PlayState* play);
@@ -29,7 +42,7 @@ void func_808A3D58(BgMoriHineri* this, PlayState* play);
 
 static s16 sSubCamId = CAM_ID_NONE;
 
-ActorInit Bg_Mori_Hineri_InitVars = {
+ActorProfile Bg_Mori_Hineri_Profile = {
     /**/ ACTOR_BG_MORI_HINERI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -61,16 +74,16 @@ void BgMoriHineri_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
-    switchFlagParam = this->dyna.actor.params & 0x3F;
-    t6 = this->dyna.actor.params & 0x4000;
+    switchFlagParam = PARAMS_GET_U(this->dyna.actor.params, 0, 6);
+    t6 = PARAMS_GET_NOSHIFT(this->dyna.actor.params, 14, 1);
 
     if (t6 != 0) {
         this->switchFlag = switchFlagParam;
     } else {
-        this->switchFlag = ((this->dyna.actor.params >> 8) & 0x3F);
+        this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 8, 6);
         this->switchFlag = (Flags_GetSwitch(play, this->switchFlag)) ? 1 : 0;
     }
-    this->dyna.actor.params = ((this->dyna.actor.params & 0x8000) >> 0xE);
+    this->dyna.actor.params = TWISTED_HALLWAY_GET_PARAM_15(&this->dyna.actor);
     if (Flags_GetSwitch(play, switchFlagParam)) {
         if (this->dyna.actor.params == 0) {
             this->dyna.actor.params = 1;
@@ -203,7 +216,9 @@ void func_808A3E54(BgMoriHineri* this, PlayState* play) {
             this->moriHineriObjectSlot = objectSlot;
             this->dyna.actor.params ^= 1;
             sSubCamId = SUB_CAM_ID_DONE;
+#if OOT_VERSION >= PAL_1_0
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
+#endif
         } else {
             this->dyna.actor.draw = NULL;
             this->actionFunc = func_808A3D58;
@@ -211,7 +226,7 @@ void func_808A3E54(BgMoriHineri* this, PlayState* play) {
         }
     }
     if ((sSubCamId >= CAM_ID_SUB_FIRST) && ((GET_ACTIVE_CAM(play)->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
-        func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
 }
 
@@ -223,15 +238,14 @@ void BgMoriHineri_Update(Actor* thisx, PlayState* play) {
 
 void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
     BgMoriHineri* this = (BgMoriHineri*)thisx;
-    s32 pad;
+    PlayState* play2 = (PlayState*)play;
     MtxF mtx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hineri.c", 611);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_hineri.c", 618),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPSegment(POLY_OPA_DISP++, 0x08, play2->objectCtx.slots[this->moriTexObjectSlot].segment);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play2->state.gfxCtx, "../z_bg_mori_hineri.c", 618);
     gSPDisplayList(POLY_OPA_DISP++, sDLists[this->dyna.actor.params]);
     if (this->boxObjectSlot > 0) {
         Matrix_Get(&mtx);
@@ -245,31 +259,28 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, PlayState* play) {
         }
         Matrix_RotateZYX(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_hineri.c", 652),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_hineri.c", 652);
         gSPDisplayList(POLY_OPA_DISP++, gDungeonDoorDL);
     }
-    if ((this->boxObjectSlot > 0) && ((this->boxObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_BOX)) > 0) &&
-        Object_IsLoaded(&play->objectCtx, this->boxObjectSlot)) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->boxObjectSlot].segment);
+    if ((this->boxObjectSlot > 0) && ((this->boxObjectSlot = Object_GetSlot(&play2->objectCtx, OBJECT_BOX)) > 0) &&
+        Object_IsLoaded(&play2->objectCtx, this->boxObjectSlot)) {
+        gSPSegment(POLY_OPA_DISP++, 0x06, play2->objectCtx.slots[this->boxObjectSlot].segment);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);
         Matrix_Translate(147.0f, -245.0f, -453.0f, MTXMODE_APPLY);
         Matrix_RotateY(M_PI / 2, MTXMODE_APPLY);
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_hineri.c", 689),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_hineri.c", 689);
         gSPDisplayList(POLY_OPA_DISP++, gTreasureChestBossKeyChestFrontDL);
         Matrix_Put(&mtx);
         Matrix_Translate(167.0f, -218.0f, -453.0f, MTXMODE_APPLY);
-        if (Flags_GetTreasure(play, 0xE)) {
+        if (Flags_GetTreasure(play2, 0xE)) {
             Matrix_RotateZ(BINANG_TO_RAD(0x3500), MTXMODE_APPLY);
         } else {
             Matrix_RotateZ(M_PI, MTXMODE_APPLY);
         }
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_hineri.c", 703),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_hineri.c", 703);
         gSPDisplayList(POLY_OPA_DISP++, gTreasureChestBossKeyChestSideAndTopDL);
     }
 

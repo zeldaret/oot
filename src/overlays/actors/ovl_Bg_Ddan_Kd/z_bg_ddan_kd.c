@@ -5,9 +5,20 @@
  */
 
 #include "z_bg_ddan_kd.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "rand.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgDdanKd_Init(Actor* thisx, PlayState* play);
 void BgDdanKd_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +29,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play);
 void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play);
 void BgDdanKd_DoNothing(BgDdanKd* this, PlayState* play);
 
-ActorInit Bg_Ddan_Kd_InitVars = {
+ActorProfile Bg_Ddan_Kd_Profile = {
     /**/ ACTOR_BG_DDAN_KD,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -32,7 +43,7 @@ ActorInit Bg_Ddan_Kd_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ALL,
         OC1_NONE,
@@ -40,7 +51,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -52,9 +63,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 32767, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 32767, ICHAIN_STOP),
 };
 
 void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {

@@ -1,8 +1,17 @@
 <Root>
     <File Name="object_heavy_object" Segment="6">
-        <Texture Name="gHeavyBlockTex" OutName="block" Format="i4" Width="64" Height="128" Offset="0x0"/>
+        <Texture Name="gHeavyBlockTex" Format="i4" Width="64" Height="128" Offset="0x0"/>
+        <Array Name="gHeavyBlockEntirePillarVtx" Count="60" Offset="0x1000">
+            <Vtx/>
+        </Array>
         <DList Name="gHeavyBlockEntirePillarDL" Offset="0x13C0"/>
+        <Array Name="gHeavyBlockBigPieceVtx" Count="29" Offset="0x16D0">
+            <Vtx/>
+        </Array>
         <DList Name="gHeavyBlockBigPieceDL" Offset="0x18A0"/>
+        <Array Name="gHeavyBlockSmallPieceVtx" Count="11" Offset="0x1980">
+            <Vtx/>
+        </Array>
         <DList Name="gHeavyBlockSmallPieceDL" Offset="0x1A30"/>
         <Collision Name="gHeavyBlockCol" Offset="0x169C"/>
     </File>

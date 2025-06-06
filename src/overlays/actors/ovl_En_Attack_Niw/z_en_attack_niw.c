@@ -5,10 +5,23 @@
  */
 
 #include "z_en_attack_niw.h"
-#include "assets/objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/object_niw/object_niw.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnAttackNiw_Init(Actor* thisx, PlayState* play);
 void EnAttackNiw_Destroy(Actor* thisx, PlayState* play);
@@ -19,7 +32,7 @@ void func_809B5670(EnAttackNiw* this, PlayState* play);
 void func_809B5C18(EnAttackNiw* this, PlayState* play);
 void func_809B59B0(EnAttackNiw* this, PlayState* play);
 
-ActorInit En_Attack_Niw_InitVars = {
+ActorProfile En_Attack_Niw_Profile = {
     /**/ ACTOR_EN_ATTACK_NIW,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -32,9 +45,9 @@ ActorInit En_Attack_Niw_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 1, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_1, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 0, ICHAIN_STOP),
 };
 
 void EnAttackNiw_Init(Actor* thisx, PlayState* play) {
@@ -53,7 +66,7 @@ void EnAttackNiw_Init(Actor* thisx, PlayState* play) {
     this->unk_298.y = Rand_CenteredFloat(10.0f);
     this->unk_298.z = Rand_CenteredFloat(100.0f);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.shape.rot.y = this->actor.world.rot.y = (Rand_ZeroOne() - 0.5f) * 60000.0f;
     this->actionFunc = func_809B5670;
 }
@@ -345,7 +358,7 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
         s32 pad;
 
         Math_Vec3f_Copy(&sp30, &this->actor.world.pos);
-        sp30.y += this->actor.yDistToWater;
+        sp30.y += this->actor.depthInWater;
         EffectSsGSplash_Spawn(play, &sp30, NULL, NULL, 0, 0x190);
         this->unk_2DC = 0.0f;
         this->actor.gravity = 0.0f;
@@ -359,8 +372,14 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     if (this->actor.xyzDistToPlayerSq < SQ(tmpf1)) {
         cucco = (EnNiw*)this->actor.parent;
         if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL) &&
-            (cucco->timer9 == 0) && (player->invincibilityTimer == 0)) {
-            func_8002F6D4(play, &this->actor, 2.0f, this->actor.world.rot.y, 0.0f, 0x10);
+            (cucco->timer9 == 0) &&
+#if OOT_VERSION < NTSC_1_1
+            !(player->stateFlags1 & PLAYER_STATE1_26)
+#else
+            (player->invincibilityTimer == 0)
+#endif
+        ) {
+            Actor_SetPlayerKnockbackLarge(play, &this->actor, 2.0f, this->actor.world.rot.y, 0.0f, 0x10);
             cucco->timer9 = 0x46;
         }
     }

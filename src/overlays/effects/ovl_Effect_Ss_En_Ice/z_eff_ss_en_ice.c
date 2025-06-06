@@ -5,6 +5,19 @@
  */
 
 #include "z_eff_ss_en_ice.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rLifespan regs[0]
@@ -26,7 +39,7 @@ void EffectSsEnIce_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsEnIce_Update(PlayState* play, u32 index, EffectSs* this);
 void EffectSsEnIce_UpdateFlying(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_En_Ice_InitVars = {
+EffectSsProfile Effect_Ss_En_Ice_Profile = {
     EFFECT_SS_EN_ICE,
     EffectSsEnIce_Init,
 };
@@ -78,7 +91,8 @@ u32 EffectSsEnIce_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         this->rEnvColorB = initParams->envColor.b;
         this->rAlphaMode = 0;
     } else {
-        PRINTF("Effect_Ss_En_Ice_ct():pid->mode_swがエラーです。\n");
+        PRINTF(T("Effect_Ss_En_Ice_ct():pid->mode_swがエラーです。\n",
+                 "Effect_Ss_En_Ice_ct():pid->mode_sw is an error.\n"));
         return 0;
     }
 
@@ -113,8 +127,7 @@ void EffectSsEnIce_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_RotateY(BINANG_TO_RAD(this->rYaw), MTXMODE_APPLY);
     Matrix_RotateX(BINANG_TO_RAD(this->rPitch), MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_en_ice.c", 261),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_en_ice.c", 261);
 
     hiliteLightDir.x = 89.8f;
     hiliteLightDir.y = 0.0f;
@@ -134,9 +147,9 @@ void EffectSsEnIce_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsEnIce_UpdateFlying(PlayState* play, u32 index, EffectSs* this) {
-    s16 rand;
-
+#if OOT_VERSION >= NTSC_1_1
     if ((this->actor != NULL) && (this->actor->update != NULL)) {
+#endif
         if ((this->life >= 9) && (this->actor->colorFilterTimer != 0) && !(this->actor->colorFilterParams & 0xC000)) {
             this->pos.x = this->actor->world.pos.x + this->vec.x;
             this->pos.y = this->actor->world.pos.y + this->vec.y;
@@ -148,9 +161,11 @@ void EffectSsEnIce_UpdateFlying(PlayState* play, u32 index, EffectSs* this) {
             this->accel.y = -1.5f;
             this->velocity.y = 5.0f;
         }
+#if OOT_VERSION >= NTSC_1_1
     } else {
         if (this->life >= 9) {
-            rand = Rand_CenteredFloat(65535.0f);
+            s16 rand = Rand_CenteredFloat(65535.0f);
+
             this->accel.x = Math_SinS(rand) * (Rand_ZeroOne() + 1.0f);
             this->accel.z = Math_CosS(rand) * (Rand_ZeroOne() + 1.0f);
             this->life = 8;
@@ -158,6 +173,7 @@ void EffectSsEnIce_UpdateFlying(PlayState* play, u32 index, EffectSs* this) {
             this->velocity.y = 5.0f;
         }
     }
+#endif
 }
 
 void EffectSsEnIce_Update(PlayState* play, u32 index, EffectSs* this) {

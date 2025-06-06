@@ -5,9 +5,24 @@
  */
 
 #include "z_mir_ray.h"
+
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_mir_ray/object_mir_ray.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void MirRay_Init(Actor* thisx, PlayState* play);
 void MirRay_Destroy(Actor* thisx, PlayState* play);
@@ -17,7 +32,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play);
 s32 MirRay_CheckInFrustum(Vec3f* vecA, Vec3f* vecB, f32 pointx, f32 pointy, f32 pointz, s16 radiusA, s16 radiusB);
 
 // Locations of light beams in sMirRayData
-typedef enum {
+typedef enum MirRayBeamLocations {
     /* 0 */ MIRRAY_SPIRIT_BOMBCHUIWAROOM_DOWNLIGHT,
     /* 1 */ MIRRAY_SPIRIT_SUNBLOCKROOM_DOWNLIGHT,
     /* 2 */ MIRRAY_SPIRIT_SINGLECOBRAROOM_DOWNLIGHT,
@@ -30,7 +45,7 @@ typedef enum {
     /* 9 */ MIRRAY_GANONSCASTLE_SPIRITTRIAL_DOWNLIGHT
 } MirRayBeamLocations;
 
-ActorInit Mir_Ray_InitVars = {
+ActorProfile Mir_Ray_Profile = {
     /**/ ACTOR_MIR_RAY,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -46,7 +61,7 @@ static u8 D_80B8E670 = 0;
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -54,7 +69,7 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00200000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -67,7 +82,7 @@ static ColliderQuadInit sQuadInit = {
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00200000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -80,7 +95,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -106,9 +121,9 @@ static MirRayDataEntry sMirRayData[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void MirRay_SetupCollider(MirRay* this) {
@@ -118,10 +133,11 @@ void MirRay_SetupCollider(MirRay* this) {
     colliderOffset.x = (this->poolPt.x - this->sourcePt.x) * dataEntry->unk_10;
     colliderOffset.y = (this->poolPt.y - this->sourcePt.y) * dataEntry->unk_10;
     colliderOffset.z = (this->poolPt.z - this->sourcePt.z) * dataEntry->unk_10;
-    this->colliderSph.elements[0].dim.worldSphere.center.x = colliderOffset.x + this->sourcePt.x;
-    this->colliderSph.elements[0].dim.worldSphere.center.y = colliderOffset.y + this->sourcePt.y;
-    this->colliderSph.elements[0].dim.worldSphere.center.z = colliderOffset.z + this->sourcePt.z;
-    this->colliderSph.elements[0].dim.worldSphere.radius = dataEntry->unk_14 * this->colliderSph.elements->dim.scale;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.x = colliderOffset.x + this->sourcePt.x;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.y = colliderOffset.y + this->sourcePt.y;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.z = colliderOffset.z + this->sourcePt.z;
+    this->colliderJntSph.elements[0].dim.worldSphere.radius =
+        dataEntry->unk_14 * this->colliderJntSph.elements->dim.scale;
 }
 
 // Set up a light point between source point and reflection point. Reflection point is the pool point (for windows) or
@@ -136,7 +152,7 @@ void MirRay_MakeShieldLight(MirRay* this, PlayState* play) {
                               player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->sourceEndRad,
                               this->poolEndRad)) {
 
-        if (dataEntry->params & 8) { // Light beams from mirrors
+        if (PARAMS_GET_NOSHIFT(dataEntry->params, 3, 1)) { // Light beams from mirrors
             Math_Vec3f_Diff(&player->actor.world.pos, &this->sourcePt, &reflectionPt);
         } else { // Light beams from windows
             Math_Vec3f_Diff(&this->poolPt, &this->sourcePt, &reflectionPt);
@@ -165,13 +181,12 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-    // "Generation of reflectable light!"
-    PRINTF("反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    PRINTF(T("反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+             "Spawn of reflectable light!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
     LOG_NUM("this->actor.arg_data", this->actor.params, "../z_mir_ray.c", 518);
 
     if (this->actor.params >= 0xA) {
-        // "Reflected light generation failure"
-        LOG_STRING("反射光 発生失敗", "../z_mir_ray.c", 521);
+        LOG_STRING_T("反射光 発生失敗", "Reflected light failed to spawn", "../z_mir_ray.c", 521);
         Actor_Kill(&this->actor);
     }
 
@@ -207,10 +222,10 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     this->shieldCorners[5].x = 758.0f;
     this->shieldCorners[5].y = -800.0f;
 
-    if (dataEntry->params & 2) {
-        Collider_InitJntSph(play, &this->colliderSph);
-        Collider_SetJntSph(play, &this->colliderSph, &this->actor, &sJntSphInit, &this->colliderSphItem);
-        if (!(dataEntry->params & 4)) { // Beams not from mirrors
+    if (PARAMS_GET_NOSHIFT(dataEntry->params, 1, 1)) {
+        Collider_InitJntSph(play, &this->colliderJntSph);
+        Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
+        if (!PARAMS_GET_NOSHIFT(dataEntry->params, 2, 1)) { // Beams not from mirrors
             MirRay_SetupCollider(this);
         }
     }
@@ -230,7 +245,7 @@ void MirRay_Destroy(Actor* thisx, PlayState* play) {
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
 
     if (sMirRayData[this->actor.params].params & 2) {
-        Collider_DestroyJntSph(play, &this->colliderSph);
+        Collider_DestroyJntSph(play, &this->colliderJntSph);
     }
 
     Collider_DestroyQuad(play, &this->shieldRay);
@@ -248,7 +263,7 @@ void MirRay_Update(Actor* thisx, PlayState* play) {
             if (sMirRayData[this->actor.params].params & 4) { // Beams from mirrors
                 MirRay_SetupCollider(this);
             }
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderSph.base);
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
         }
         if (this->reflectIntensity > 0.0f) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->shieldRay.base);
@@ -256,7 +271,7 @@ void MirRay_Update(Actor* thisx, PlayState* play) {
         MirRay_MakeShieldLight(this, play);
 
         if (this->reflectIntensity > 0.0f) {
-            func_8002F8F0(&player->actor, NA_SE_IT_SHIELD_BEAM - SFX_FLAG);
+            Actor_PlaySfx_Flagged2(&player->actor, NA_SE_IT_SHIELD_BEAM - SFX_FLAG);
         }
     }
 }
@@ -472,7 +487,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 i;
     MirRayShieldReflection reflection[6];
-    s32 temp;
+    s32 pad;
 
     this->reflectIntensity = 0.0f;
     if ((D_80B8E670 == 0) && !this->unLit && Player_HasMirrorShieldSetToDraw(play)) {
@@ -483,9 +498,8 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
 
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_Scale(1.0f, 1.0f, this->reflectIntensity * 5.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_mir_ray.c", 972),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)(temp = this->reflectIntensity * 100.0f));
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_mir_ray.c", 972);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s32)(this->reflectIntensity * 100.0f) & 0xFF);
             gSPDisplayList(POLY_XLU_DISP++, gShieldBeamGlowDL);
             MirRay_SetupReflectionPolys(this, play, reflection);
             MirRay_RemoveSimilarReflections(reflection);
@@ -506,8 +520,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
                     Matrix_Translate(reflection[i].pos.x, reflection[i].pos.y, reflection[i].pos.z, MTXMODE_NEW);
                     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
                     Matrix_Mult(&reflection[i].mtx, MTXMODE_APPLY);
-                    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_mir_ray.c", 1006),
-                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_mir_ray.c", 1006);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, reflection[0].opacity);
                     gSPDisplayList(POLY_XLU_DISP++, gShieldBeamImageDL);

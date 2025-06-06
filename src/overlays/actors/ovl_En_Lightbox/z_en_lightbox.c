@@ -5,16 +5,22 @@
  */
 
 #include "z_en_lightbox.h"
+
+#include "regs.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_lightbox/object_lightbox.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnLightbox_Init(Actor* thisx, PlayState* play);
 void EnLightbox_Destroy(Actor* thisx, PlayState* play);
 void EnLightbox_Update(Actor* thisx, PlayState* play);
 void EnLightbox_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_Lightbox_InitVars = {
+ActorProfile En_Lightbox_Profile = {
     /**/ ACTOR_EN_LIGHTBOX,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -53,7 +59,7 @@ void EnLightbox_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
     this->dyna.interactFlags = 0;
     this->dyna.transformFlags = 0;
-    thisx->targetMode = 0;
+    thisx->attentionRangeType = ATTENTION_RANGE_0;
     thisx->gravity = -2.0f;
     CollisionHeader_GetVirtual(&object_lightbox_Col_001F10, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);

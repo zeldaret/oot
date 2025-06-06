@@ -7,11 +7,25 @@
 #include "z_demo_im.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
 #include "assets/objects/object_im/object_im.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void DemoIm_Init(Actor* thisx, PlayState* play);
 void DemoIm_Destroy(Actor* thisx, PlayState* play);
@@ -58,11 +72,13 @@ static void* sEyeTextures[] = {
     gImpaEyeClosedTex,
 };
 
+#if DEBUG_FEATURES
 static u32 D_8098783C = 0;
+#endif
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -90,7 +106,7 @@ static DemoImDrawFunc sDrawFuncs[] = {
     DemoIm_DrawTranslucent,
 };
 
-ActorInit Demo_Im_InitVars = {
+ActorProfile Demo_Im_Profile = {
     /**/ ACTOR_DEMO_IM,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -117,7 +133,7 @@ void func_80984BE0(DemoIm* this) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_80984C68(DemoIm* this) {
     this->action = 7;
     this->drawConfig = 0;
@@ -331,7 +347,7 @@ void func_8098544C(DemoIm* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
 
         this->action = 1;
-        play->csCtx.script = D_8098786C;
+        play->csCtx.script = gShadowMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_SHADOW);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
@@ -498,7 +514,7 @@ void func_80985B34(DemoIm* this, PlayState* play) {
 
 void func_80985C10(DemoIm* this, PlayState* play) {
     func_80985948(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80984C8C(this, play);
 #endif
 }
@@ -508,7 +524,7 @@ void func_80985C40(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_809859E0(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80984C8C(this, play);
 #endif
 }
@@ -518,7 +534,7 @@ void func_80985C94(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80985B34(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80984C8C(this, play);
 #endif
 }
@@ -631,7 +647,8 @@ void func_809861C4(DemoIm* this, PlayState* play) {
                     this->action = 12;
                     break;
                 default:
-                    PRINTF("Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Im_Ocarina_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -671,7 +688,8 @@ void func_809862E0(DemoIm* this, PlayState* play) {
                     func_80986148(this);
                     break;
                 default:
-                    PRINTF("Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Im_Ocarina_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -799,7 +817,8 @@ void func_8098680C(DemoIm* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    PRINTF("Demo_Im_Spot00_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Im_Spot00_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Im_Spot00_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -839,7 +858,7 @@ s32 func_809869F8(DemoIm* this, PlayState* play) {
     f32 playerPosX = player->actor.world.pos.x;
     f32 thisPosX = this->actor.world.pos.x;
 
-    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_6)) {
+    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
         return true;
     } else {
         return false;
@@ -859,7 +878,7 @@ s32 func_80986A5C(DemoIm* this, PlayState* play) {
 }
 
 s32 func_80986AD0(DemoIm* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
     if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.textId = 0x708E;
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
@@ -933,7 +952,7 @@ void func_80986CFC(DemoIm* this, PlayState* play) {
 }
 
 void func_80986D40(DemoIm* this, PlayState* play) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gSaveContext.sceneLayer == 6) {
         this->action = 19;
         this->drawConfig = 1;
@@ -955,7 +974,7 @@ void func_80986DC8(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, play);
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
 }
 
 void func_80986E20(DemoIm* this, PlayState* play) {
@@ -1002,7 +1021,7 @@ void func_80986FA8(DemoIm* this, PlayState* play) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, play);
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     DemoIm_UpdateCollider(this, play);
     func_80986CFC(this, play);
 }
@@ -1069,7 +1088,8 @@ void func_809871E8(DemoIm* this, PlayState* play) {
                     func_80987174(this);
                     break;
                 default:
-                    PRINTF("Demo_Im_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Im_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Im_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -1108,7 +1128,8 @@ void DemoIm_Update(Actor* thisx, PlayState* play) {
     DemoIm* this = (DemoIm*)thisx;
 
     if ((this->action < 0) || (this->action >= 31) || (sActionFuncs[this->action] == NULL)) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -1120,7 +1141,7 @@ void DemoIm_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     DemoIm_InitCollider(thisx, play);
     SkelAnime_InitFlex(play, &this->skelAnime, &gImpaSkel, NULL, this->jointTable, this->morphTable, 17);
-    thisx->flags &= ~ACTOR_FLAG_0;
+    thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
     switch (this->actor.params) {
         case 2:
@@ -1219,7 +1240,8 @@ void DemoIm_Draw(Actor* thisx, PlayState* play) {
     DemoIm* this = (DemoIm*)thisx;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 3) || (sDrawFuncs[this->drawConfig] == NULL)) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

@@ -5,11 +5,22 @@
  */
 
 #include "z_bg_haka_huta.h"
-#include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "overlays/actors/ovl_En_Rd/z_en_rd.h"
-#include "quake.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "quake.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/object_hakach_objects/object_hakach_objects.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgHakaHuta_Init(Actor* thisx, PlayState* play);
 void BgHakaHuta_Destroy(Actor* thisx, PlayState* play);
@@ -24,7 +35,7 @@ void BgHakaHuta_SlideOpen(BgHakaHuta* this, PlayState* play);
 void func_8087D720(BgHakaHuta* this, PlayState* play);
 void BgHakaHuta_DoNothing(BgHakaHuta* this, PlayState* play);
 
-ActorInit Bg_Haka_Huta_InitVars = {
+ActorProfile Bg_Haka_Huta_Profile = {
     /**/ ACTOR_BG_HAKA_HUTA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -49,7 +60,7 @@ void BgHakaHuta_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gBotwCoffinLidCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
-    this->unk_16A = (thisx->params >> 8) & 0xFF;
+    this->unk_16A = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     if (Flags_GetSwitch(play, thisx->params)) {
         this->counter = -1;

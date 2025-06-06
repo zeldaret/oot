@@ -5,10 +5,30 @@
  */
 
 #include "z_demo_gj.h"
-#include "assets/objects/object_gj/object_gj.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "draw.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_gj/object_gj.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void DemoGj_Init(Actor* thisx, PlayState* play);
 void DemoGj_Destroy(Actor* thisx, PlayState* play);
@@ -17,14 +37,14 @@ void DemoGj_Draw(Actor* thisx, PlayState* play);
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_NONE,
@@ -36,14 +56,14 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
 
 static ColliderCylinderInitType1 sCylinderInit2 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_NONE,
@@ -55,14 +75,14 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
 
 static ColliderCylinderInitType1 sCylinderInit3 = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_NONE,
@@ -77,33 +97,33 @@ typedef void (*DemoGjDrawFunc)(DemoGj*, PlayState*);
 
 // bits 11-15
 s32 DemoGj_GetCollectibleType(DemoGj* this) {
-    s32 params = this->dyna.actor.params >> 0xB;
+    s32 type = PARAMS_GET_U(this->dyna.actor.params, 11, 5);
 
-    return params & 0x1F;
+    return type;
 }
 
 // bits 8-10
 s32 DemoGj_GetCollectibleAmount(DemoGj* this) {
-    s32 params = this->dyna.actor.params >> 0x8;
+    s32 amount = PARAMS_GET_U(this->dyna.actor.params, 8, 3);
 
-    return params & 7;
+    return amount;
 }
 
 // bits 0-7
 s32 DemoGj_GetType(DemoGj* this) {
-    s32 params = this->dyna.actor.params;
+    s32 type = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
 
-    return params & 0xFF;
+    return type;
 }
 
-void DemoGj_InitCylinder(DemoGj* this, PlayState* play, ColliderCylinder* cylinder,
-                         ColliderCylinderInitType1* cylinderInit) {
-    Collider_InitCylinder(play, cylinder);
-    Collider_SetCylinderType1(play, cylinder, &this->dyna.actor, cylinderInit);
+void DemoGj_InitCylinder(DemoGj* this, PlayState* play, ColliderCylinder* collider,
+                         ColliderCylinderInitType1* colliderInit) {
+    Collider_InitCylinder(play, collider);
+    Collider_SetCylinderType1(play, collider, &this->dyna.actor, colliderInit);
 }
 
-s32 DemoGj_HitByExplosion(DemoGj* this, PlayState* play, ColliderCylinder* cylinder) {
-    if (Actor_GetCollidedExplosive(play, &cylinder->base) != NULL) {
+s32 DemoGj_HitByExplosion(DemoGj* this, PlayState* play, ColliderCylinder* collider) {
+    if (Actor_GetCollidedExplosive(play, &collider->base) != NULL) {
         return true;
     }
     return false;
@@ -112,19 +132,19 @@ s32 DemoGj_HitByExplosion(DemoGj* this, PlayState* play, ColliderCylinder* cylin
 void DemoGj_DestroyCylinder(DemoGj* this, PlayState* play) {
     switch (DemoGj_GetType(this)) {
         case DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1:
-            Collider_DestroyCylinder(play, &this->cylinders[0]);
-            Collider_DestroyCylinder(play, &this->cylinders[1]);
-            Collider_DestroyCylinder(play, &this->cylinders[2]);
+            Collider_DestroyCylinder(play, &this->colliderCylinders[0]);
+            Collider_DestroyCylinder(play, &this->colliderCylinders[1]);
+            Collider_DestroyCylinder(play, &this->colliderCylinders[2]);
             break;
 
         case DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_2:
-            Collider_DestroyCylinder(play, &this->cylinders[0]);
-            Collider_DestroyCylinder(play, &this->cylinders[1]);
-            Collider_DestroyCylinder(play, &this->cylinders[2]);
+            Collider_DestroyCylinder(play, &this->colliderCylinders[0]);
+            Collider_DestroyCylinder(play, &this->colliderCylinders[1]);
+            Collider_DestroyCylinder(play, &this->colliderCylinders[2]);
             break;
 
         case DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_TALL:
-            Collider_DestroyCylinder(play, &this->cylinders[0]);
+            Collider_DestroyCylinder(play, &this->colliderCylinders[0]);
             break;
     }
 }
@@ -219,18 +239,21 @@ s32 DemoGj_FindGanon(DemoGj* this, PlayState* play) {
             if (actor->id == ACTOR_BOSS_GANON2) {
                 this->ganon = (BossGanon2*)actor;
 
-                // "Demo_Gj_Search_Boss_Ganon %d: Discover Ganon !!!!"
-                PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params);
+                PRINTF(T("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n",
+                         "Demo_Gj_Search_Boss_Ganon %d: Ganon is discovered!!!!\n"),
+                       this->dyna.actor.params);
                 return true;
             }
             actor = actor->next;
         }
 
-        // "Demo_Gj_Search_Boss_Ganon %d: I couldn't find Ganon"
-        PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
+        PRINTF(T("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n",
+                 "Demo_Gj_Search_Boss_Ganon %d: Unable to find Ganon\n"),
+               this->dyna.actor.params);
         return false;
     }
-    //! @bug: Missing return value when `this->ganon` is already set.
+    //! @bug Missing return value when `this->ganon` is already set. No caller uses the return value
+    //! so it doesn't matter.
 }
 
 static InitChainEntry sInitChain[] = {
@@ -263,14 +286,14 @@ s32 DemoGj_InitSetIndices(DemoGj* this, PlayState* play, s32 updateMode, s32 dra
 }
 
 void DemoGj_DrawCommon(DemoGj* this, PlayState* play, Gfx* displayList) {
-    if (!OOT_DEBUG || kREG(0) == 0) {
+    if (!DEBUG_FEATURES || kREG(0) == 0) {
         GraphicsContext* gfxCtx = play->state.gfxCtx;
 
         OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1163);
 
         Gfx_SetupDL_25Opa(gfxCtx);
 
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_gj.c", 1165),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_FINALIZE(gfxCtx, "../z_demo_gj.c", 1165),
                   G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gSPDisplayList(POLY_OPA_DISP++, displayList);
@@ -383,8 +406,8 @@ void DemoGj_SetupRotation(DemoGj* this, PlayState* play) {
             break;
 
         default:
-            // "Demo_Gj_common_Reflect : This arg_data is not supported = %d"
-            PRINTF(VT_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" VT_RST,
+            PRINTF(VT_FGCOL(RED) T("Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n",
+                                   "Demo_Gj_common_Reflect : This arg_data is not supported = %d\n") VT_RST,
                    this->dyna.actor.params);
             return;
     }
@@ -537,8 +560,8 @@ void DemoGj_SetupMovement(DemoGj* this, PlayState* play) {
                 break;
 
             default:
-                // "Demo_Gj_Setup_Move_common : This arg_data is not supported = %d"
-                PRINTF(VT_FGCOL(RED) "Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n" VT_RST,
+                PRINTF(VT_FGCOL(RED) T("Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n",
+                                       "Demo_Gj_Setup_Move_common : This arg_data is not supported = %d\n") VT_RST,
                        actor->params);
                 break;
         }
@@ -970,12 +993,12 @@ void DemoGj_DrawRubbleAroundArena(DemoGj* this, PlayState* play) {
 // Inits the three cylinders with `sCylinderInit1`
 void DemoGj_InitDestructableRubble1(DemoGj* this, PlayState* play) {
     DemoGj_InitSetIndices(this, play, 15, 0, NULL);
-    DemoGj_InitCylinder(this, play, &this->cylinders[0], &sCylinderInit1);
-    DemoGj_InitCylinder(this, play, &this->cylinders[1], &sCylinderInit1);
-    DemoGj_InitCylinder(this, play, &this->cylinders[2], &sCylinderInit1);
+    DemoGj_InitCylinder(this, play, &this->colliderCylinders[0], &sCylinderInit1);
+    DemoGj_InitCylinder(this, play, &this->colliderCylinders[1], &sCylinderInit1);
+    DemoGj_InitCylinder(this, play, &this->colliderCylinders[2], &sCylinderInit1);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void DemoGj_DoNothing1(DemoGj* this, PlayState* play) {
 }
 #endif
@@ -985,38 +1008,38 @@ void DemoGj_DoNothing1(DemoGj* this, PlayState* play) {
  * Used by DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1
  */
 void func_8097AEE8(DemoGj* this, PlayState* play) {
-    ColliderCylinder* cylinder0 = &this->cylinders[0];
-    ColliderCylinder* cylinder1 = &this->cylinders[1];
-    ColliderCylinder* cylinder2 = &this->cylinders[2];
+    ColliderCylinder* collider0 = &this->colliderCylinders[0];
+    ColliderCylinder* collider1 = &this->colliderCylinders[1];
+    ColliderCylinder* collider2 = &this->colliderCylinders[2];
     Vec3f* actorPos = &this->dyna.actor.world.pos;
     s32 pad;
-    s16 theta = this->dyna.actor.world.rot.y;
-    f32 cos_theta = Math_CosS(theta);
-    f32 sin_theta = Math_SinS(theta);
+    s16 yaw = this->dyna.actor.world.rot.y;
+    f32 cos = Math_CosS(yaw);
+    f32 sin = Math_SinS(yaw);
 
-    cylinder0->dim.pos.z = actorPos->z + (20.0f * cos_theta) - (-20.0f * sin_theta);
-    cylinder0->dim.pos.x = actorPos->x + (20.0f * sin_theta) + (-20.0f * cos_theta);
-    cylinder0->dim.pos.y = actorPos->y;
+    collider0->dim.pos.z = actorPos->z + (20.0f * cos) - (-20.0f * sin);
+    collider0->dim.pos.x = actorPos->x + (20.0f * sin) + (-20.0f * cos);
+    collider0->dim.pos.y = actorPos->y;
 
-    cylinder1->dim.pos.z = actorPos->z + (-20.0f * cos_theta) - (20.0f * sin_theta);
-    cylinder1->dim.pos.x = actorPos->x + (-20.0f * sin_theta) + (20.0f * cos_theta);
-    cylinder1->dim.pos.y = actorPos->y;
+    collider1->dim.pos.z = actorPos->z + (-20.0f * cos) - (20.0f * sin);
+    collider1->dim.pos.x = actorPos->x + (-20.0f * sin) + (20.0f * cos);
+    collider1->dim.pos.y = actorPos->y;
 
-    cylinder2->dim.pos.z = actorPos->z + (-60.0f * cos_theta) - (60.0f * sin_theta);
-    cylinder2->dim.pos.x = actorPos->x + (-60.0f * sin_theta) + (60.0f * cos_theta);
-    cylinder2->dim.pos.y = actorPos->y;
+    collider2->dim.pos.z = actorPos->z + (-60.0f * cos) - (60.0f * sin);
+    collider2->dim.pos.x = actorPos->x + (-60.0f * sin) + (60.0f * cos);
+    collider2->dim.pos.y = actorPos->y;
 }
 
 void DemoGj_SetCylindersAsAC(DemoGj* this, PlayState* play) {
     s32 pad[2];
-    Collider* cylinder0 = &this->cylinders[0].base;
-    Collider* cylinder1 = &this->cylinders[1].base;
-    Collider* cylinder2 = &this->cylinders[2].base;
+    Collider* collider0 = &this->colliderCylinders[0].base;
+    Collider* collider1 = &this->colliderCylinders[1].base;
+    Collider* collider2 = &this->colliderCylinders[2].base;
     s32 pad2[3];
 
-    CollisionCheck_SetAC(play, &play->colChkCtx, cylinder0);
-    CollisionCheck_SetAC(play, &play->colChkCtx, cylinder1);
-    CollisionCheck_SetAC(play, &play->colChkCtx, cylinder2);
+    CollisionCheck_SetAC(play, &play->colChkCtx, collider0);
+    CollisionCheck_SetAC(play, &play->colChkCtx, collider1);
+    CollisionCheck_SetAC(play, &play->colChkCtx, collider2);
 }
 
 void DemoGj_DirectedExplosion(DemoGj* this, PlayState* play, Vec3f* direction) {
@@ -1043,13 +1066,13 @@ void func_8097B128(DemoGj* this, PlayState* play) {
 }
 
 s32 DemoGj_HasCylinderAnyExploded(DemoGj* this, PlayState* play) {
-    if (DemoGj_HitByExplosion(this, play, &this->cylinders[0])) {
+    if (DemoGj_HitByExplosion(this, play, &this->colliderCylinders[0])) {
         return true;
     }
-    if (DemoGj_HitByExplosion(this, play, &this->cylinders[1])) {
+    if (DemoGj_HitByExplosion(this, play, &this->colliderCylinders[1])) {
         return true;
     }
-    if (DemoGj_HitByExplosion(this, play, &this->cylinders[2])) {
+    if (DemoGj_HitByExplosion(this, play, &this->colliderCylinders[2])) {
         return true;
     }
     return false;
@@ -1095,7 +1118,7 @@ void DemoGj_Update15(DemoGj* this, PlayState* play) {
 // func_8097B370
 void DemoGj_Update18(DemoGj* this, PlayState* play) {
     func_8097B22C(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoGj_DoNothing1(this, play);
 #endif
 }
@@ -1107,45 +1130,45 @@ void DemoGj_DrawDestructableRubble1(DemoGj* this, PlayState* play) {
 // Inits the three cylinders with `sCylinderInit2`
 void DemoGj_InitDestructableRubble2(DemoGj* this, PlayState* play) {
     DemoGj_InitSetIndices(this, play, 16, 0, NULL);
-    DemoGj_InitCylinder(this, play, &this->cylinders[0], &sCylinderInit2);
-    DemoGj_InitCylinder(this, play, &this->cylinders[1], &sCylinderInit2);
-    DemoGj_InitCylinder(this, play, &this->cylinders[2], &sCylinderInit2);
+    DemoGj_InitCylinder(this, play, &this->colliderCylinders[0], &sCylinderInit2);
+    DemoGj_InitCylinder(this, play, &this->colliderCylinders[1], &sCylinderInit2);
+    DemoGj_InitCylinder(this, play, &this->colliderCylinders[2], &sCylinderInit2);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void DemoGj_DoNothing2(DemoGj* this, PlayState* play) {
 }
 #endif
 
 // Moves the ColliderCylinder's relative to the actor's position.
 void func_8097B450(DemoGj* this, PlayState* play) {
-    ColliderCylinder* cylinder0 = &this->cylinders[0];
-    ColliderCylinder* cylinder1 = &this->cylinders[1];
-    ColliderCylinder* cylinder2 = &this->cylinders[2];
+    ColliderCylinder* collider0 = &this->colliderCylinders[0];
+    ColliderCylinder* collider1 = &this->colliderCylinders[1];
+    ColliderCylinder* collider2 = &this->colliderCylinders[2];
     Vec3f* actorPos = &this->dyna.actor.world.pos;
     s32 pad;
-    s16 theta = this->dyna.actor.world.rot.y;
-    f32 cos_theta = Math_CosS(theta);
-    f32 sin_theta = Math_SinS(theta);
+    s16 yaw = this->dyna.actor.world.rot.y;
+    f32 cos = Math_CosS(yaw);
+    f32 sin = Math_SinS(yaw);
 
-    cylinder0->dim.pos.z = actorPos->z - (35.0f * sin_theta);
-    cylinder0->dim.pos.x = actorPos->x + (35.0f * cos_theta);
-    cylinder0->dim.pos.y = actorPos->y;
+    collider0->dim.pos.z = actorPos->z - (35.0f * sin);
+    collider0->dim.pos.x = actorPos->x + (35.0f * cos);
+    collider0->dim.pos.y = actorPos->y;
 
-    cylinder1->dim.pos.z = actorPos->z - (-10.0f * sin_theta);
-    cylinder1->dim.pos.x = actorPos->x + (-10.0f * cos_theta);
-    cylinder1->dim.pos.y = actorPos->y;
+    collider1->dim.pos.z = actorPos->z - (-10.0f * sin);
+    collider1->dim.pos.x = actorPos->x + (-10.0f * cos);
+    collider1->dim.pos.y = actorPos->y;
 
-    cylinder2->dim.pos.z = actorPos->z - (-55.0f * sin_theta);
-    cylinder2->dim.pos.x = actorPos->x + (-55.0f * cos_theta);
-    cylinder2->dim.pos.y = actorPos->y;
+    collider2->dim.pos.z = actorPos->z - (-55.0f * sin);
+    collider2->dim.pos.x = actorPos->x + (-55.0f * cos);
+    collider2->dim.pos.y = actorPos->y;
 }
 
 void DemoGj_SetCylindersAsAC2(DemoGj* this, PlayState* play) {
     s32 pad[2];
-    Collider* cylinder0 = &this->cylinders[0].base;
-    Collider* cylinder1 = &this->cylinders[1].base;
-    Collider* cylinder2 = &this->cylinders[2].base;
+    Collider* cylinder0 = &this->colliderCylinders[0].base;
+    Collider* cylinder1 = &this->colliderCylinders[1].base;
+    Collider* cylinder2 = &this->colliderCylinders[2].base;
     s32 pad2[3];
 
     CollisionCheck_SetAC(play, &play->colChkCtx, cylinder0);
@@ -1155,13 +1178,13 @@ void DemoGj_SetCylindersAsAC2(DemoGj* this, PlayState* play) {
 
 // Does the same as `DemoGj_HasCylinderAnyExploded`
 s32 DemoGj_HasCylinderAnyExploded2(DemoGj* this, PlayState* play) {
-    if (DemoGj_HitByExplosion(this, play, &this->cylinders[0])) {
+    if (DemoGj_HitByExplosion(this, play, &this->colliderCylinders[0])) {
         return true;
     }
-    if (DemoGj_HitByExplosion(this, play, &this->cylinders[1])) {
+    if (DemoGj_HitByExplosion(this, play, &this->colliderCylinders[1])) {
         return true;
     }
-    if (DemoGj_HitByExplosion(this, play, &this->cylinders[2])) {
+    if (DemoGj_HitByExplosion(this, play, &this->colliderCylinders[2])) {
         return true;
     }
     return false;
@@ -1230,7 +1253,7 @@ void DemoGj_Update16(DemoGj* this, PlayState* play) {
 // func_8097B894
 void DemoGj_Update19(DemoGj* this, PlayState* play) {
     func_8097B750(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoGj_DoNothing2(this, play);
 #endif
 }
@@ -1242,10 +1265,10 @@ void DemoGj_DemoGj_InitDestructableRubble2(DemoGj* this, PlayState* play) {
 // Inits the first cylinder (only that one) with `sCylinderInit3`
 void DemoGj_InitDestructableRubbleTall(DemoGj* this, PlayState* play) {
     DemoGj_InitSetIndices(this, play, 17, 0, NULL);
-    DemoGj_InitCylinder(this, play, &this->cylinders[0], &sCylinderInit3);
+    DemoGj_InitCylinder(this, play, &this->colliderCylinders[0], &sCylinderInit3);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void DemoGj_DoNothing3(DemoGj* this, PlayState* play) {
 }
 #endif
@@ -1284,12 +1307,12 @@ void func_8097B9BC(DemoGj* this, PlayState* play) {
  */
 void func_8097BA48(DemoGj* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
-    ColliderCylinder* cylinder = &this->cylinders[0];
+    ColliderCylinder* collider = &this->colliderCylinders[0];
     s32 pad[2];
 
     if (func_809797E4(this, 4)) {
         Actor_Kill(thisx);
-    } else if (DemoGj_HitByExplosion(this, play, cylinder)) {
+    } else if (DemoGj_HitByExplosion(this, play, collider)) {
         Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
 
         DemoGj_DropCollectible(this, play);
@@ -1306,8 +1329,8 @@ void func_8097BA48(DemoGj* this, PlayState* play) {
         Actor_Kill(thisx);
     }
 
-    Collider_UpdateCylinder(thisx, cylinder);
-    CollisionCheck_SetAC(play, &play->colChkCtx, &cylinder->base);
+    Collider_UpdateCylinder(thisx, collider);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &collider->base);
 }
 
 // func_8097BB78
@@ -1319,7 +1342,7 @@ void DemoGj_Update17(DemoGj* this, PlayState* play) {
 // func_8097BBA8
 void DemoGj_Update20(DemoGj* this, PlayState* play) {
     func_8097BA48(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoGj_DoNothing3(this, play);
 #endif
 }
@@ -1357,8 +1380,8 @@ void DemoGj_Update(Actor* thisx, PlayState* play) {
 
     if (this->updateMode < 0 || this->updateMode >= ARRAY_COUNT(sUpdateFuncs) ||
         sUpdateFuncs[this->updateMode] == NULL) {
-        // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 
@@ -1414,8 +1437,8 @@ void DemoGj_Init(Actor* thisx, PlayState* play) {
             break;
 
         default:
-            // "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!"
-            PRINTF(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, play, this);
+            PRINTF(VT_FGCOL(RED) T("Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n",
+                                   "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
             Actor_Kill(&this->dyna.actor);
     }
 }
@@ -1449,15 +1472,15 @@ void DemoGj_Draw(Actor* thisx, PlayState* play) {
     DemoGj* this = (DemoGj*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == NULL) {
-        // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 
     sDrawFuncs[this->drawConfig](this, play);
 }
 
-ActorInit Demo_Gj_InitVars = {
+ActorProfile Demo_Gj_Profile = {
     /**/ ACTOR_DEMO_GJ,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

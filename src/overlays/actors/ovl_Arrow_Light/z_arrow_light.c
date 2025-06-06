@@ -5,10 +5,19 @@
  */
 
 #include "z_arrow_light.h"
-
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "tex_len.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void ArrowLight_Init(Actor* thisx, PlayState* play);
 void ArrowLight_Destroy(Actor* thisx, PlayState* play);
@@ -19,9 +28,31 @@ void ArrowLight_Charge(ArrowLight* this, PlayState* play);
 void ArrowLight_Fly(ArrowLight* this, PlayState* play);
 void ArrowLight_Hit(ArrowLight* this, PlayState* play);
 
-#include "assets/overlays/ovl_Arrow_Light/ovl_Arrow_Light.c"
+#define s1Tex_WIDTH 32
+#define s1Tex_HEIGHT 64
+static u64 s1Tex[TEX_LEN(u64, s1Tex_WIDTH, s1Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Light/s1Tex.i8.inc.c"
+};
 
-ActorInit Arrow_Light_InitVars = {
+#define s2Tex_WIDTH 32
+#define s2Tex_HEIGHT 64
+static u64 s2Tex[TEX_LEN(u64, s2Tex_WIDTH, s2Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Light/s2Tex.i8.inc.c"
+};
+
+static Vtx sVtx[] = {
+#include "assets/overlays/ovl_Arrow_Light/sVtx.inc.c"
+};
+
+static Gfx sMaterialDL[22] = {
+#include "assets/overlays/ovl_Arrow_Light/sMaterialDL.inc.c"
+};
+
+static Gfx sModelDL[24] = {
+#include "assets/overlays/ovl_Arrow_Light/sModelDL.inc.c"
+};
+
+ActorProfile Arrow_Light_Profile = {
     /**/ ACTOR_ARROW_LIGHT,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -34,7 +65,7 @@ ActorInit Arrow_Light_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_STOP),
 };
 
 void ArrowLight_SetupAction(ArrowLight* this, ArrowLightActionFunc actionFunc) {
@@ -56,7 +87,7 @@ void ArrowLight_Init(Actor* thisx, PlayState* play) {
 
 void ArrowLight_Destroy(Actor* thisx, PlayState* play) {
     Magic_Reset(play);
-    LOG_STRING("消滅", "../z_arrow_light.c", 403); // "Disappearance"
+    LOG_STRING_T("消滅", "Disappearance", "../z_arrow_light.c", 403);
 }
 
 void ArrowLight_Charge(ArrowLight* this, PlayState* play) {
@@ -74,7 +105,7 @@ void ArrowLight_Charge(ArrowLight* this, PlayState* play) {
     this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
-    func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_LIGHT - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_PL_ARROW_CHARGE_LIGHT - SFX_FLAG);
 
     // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
@@ -237,8 +268,7 @@ void ArrowLight_Draw(Actor* thisx, PlayState* play) {
     }
     Matrix_Scale(this->radius * 0.2f, this->unk_160 * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
     Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_arrow_light.c", 648),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_arrow_light.c", 648);
     gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 511 - (stateFrames * 5) % 512, 0, 4, 32, 1,

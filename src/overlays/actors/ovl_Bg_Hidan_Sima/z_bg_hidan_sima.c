@@ -5,6 +5,19 @@
  */
 
 #include "z_bg_hidan_sima.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
@@ -21,7 +34,7 @@ void func_8088E760(BgHidanSima* this, PlayState* play);
 void func_8088E7A8(BgHidanSima* this, PlayState* play);
 void func_8088E90C(BgHidanSima* this);
 
-ActorInit Bg_Hidan_Sima_InitVars = {
+ActorProfile Bg_Hidan_Sima_Profile = {
     /**/ ACTOR_BG_HIDAN_SIMA,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -36,7 +49,7 @@ ActorInit Bg_Hidan_Sima_InitVars = {
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NONE,
@@ -47,7 +60,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NONE,
@@ -60,7 +73,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -95,7 +108,7 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     }
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
     for (i = 0; i < ARRAY_COUNT(sJntSphElementsInit); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
@@ -188,7 +201,7 @@ void func_8088E7A8(BgHidanSima* this, PlayState* play) {
         this->timer = 20;
         this->actionFunc = func_8088E760;
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
 }
 
 void func_8088E90C(BgHidanSima* this) {
@@ -226,14 +239,14 @@ void BgHidanSima_Update(Actor* thisx, PlayState* play) {
 
 Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     MtxF mtxF;
-    s32 phi_s5;
     s32 s3;
     s32 v0;
+    s32 phi_s5;
     f32 cos;
     f32 sin;
     s32 pad[2];
 
-    Matrix_MtxFCopy(&mtxF, &gMtxFClear);
+    Matrix_MtxFCopy(&mtxF, &gIdentityMtxF);
     cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
     sin = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
 
@@ -280,8 +293,7 @@ void BgHidanSima_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_sima.c", 645);
     if (this->dyna.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform1DL);
     } else {

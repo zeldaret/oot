@@ -1,8 +1,19 @@
 #include "z_demo_ik.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ik/object_ik.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void DemoIk_Init(Actor* thisx, PlayState* play);
 void DemoIk_Destroy(Actor* thisx, PlayState* play);
@@ -54,12 +65,12 @@ s32 DemoIk_CheckForCue(PlayState* play, u16 cueId, s32 cueChannel) {
 }
 
 void DemoIk_SetMove(DemoIk* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_0;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void DemoIk_EndMove(DemoIk* this) {
-    this->skelAnime.moveFlags &= ~ANIM_FLAG_0;
+    this->skelAnime.movementFlags &= ~ANIM_FLAG_UPDATE_XZ;
 }
 
 f32 DemoIk_GetCurFrame(DemoIk* this) {
@@ -159,7 +170,7 @@ void DemoIk_MoveToStartPos(DemoIk* this, PlayState* play, s32 cueChannel) {
 
 void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
     s32 pad[3];
-    SkeletonHeader* skeleton;
+    FlexSkeletonHeader* skeleton;
     AnimationHeader* animation;
     f32 phi_f0;
 
@@ -181,7 +192,8 @@ void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
             // No break is required for matching
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, phi_f0);
-    SkelAnime_Init(play, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
+    //! @bug Flex skeleton is used as normal skeleton
+    SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)skeleton, NULL, this->jointTable, this->morphTable, 2);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
 }
 
@@ -232,8 +244,8 @@ void func_809839D0(DemoIk* this, PlayState* play) {
                 case 6:
                     break;
                 default:
-                    // "there is no such action"
-                    PRINTF("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ik_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -266,13 +278,11 @@ void DemoIk_Type1PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
     if (limbIndex == 1) {
         switch (this->actor.params) {
             case 0:
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_ik_inArmer.c", 390),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inArmer.c", 390);
                 gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
                 break;
             case 2:
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_ik_inArmer.c", 396),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inArmer.c", 396);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
                 break;
         }
@@ -383,8 +393,8 @@ void func_80984048(DemoIk* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    // "there is no such action"
-                    PRINTF("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ik_inFace_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -423,23 +433,19 @@ void DemoIk_Type2PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
     if (limbIndex == 1 && (frame >= 30.0f)) {
         switch (this->actor.params) {
             case 3:
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_ik_inFace.c", 274),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 274);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_017028);
                 break;
             case 4:
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_ik_inFace.c", 280),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 280);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_017170);
                 break;
             case 5:
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_ik_inFace.c", 286),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 286);
                 gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
                 break;
             default:
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_ik_inFace.c", 292),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_demo_ik_inFace.c", 292);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
                 break;
         }
@@ -475,8 +481,8 @@ void DemoIk_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
         sActionFuncs[this->actionMode] == NULL) {
-        // "The main mode is strange"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->actionMode](this, play);
@@ -496,14 +502,14 @@ void DemoIk_Draw(Actor* thisx, PlayState* play) {
     DemoIk* this = (DemoIk*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
-        // "The draw mode is strange"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawMode](this, play);
 }
 
-ActorInit Demo_Ik_InitVars = {
+ActorProfile Demo_Ik_Profile = {
     /**/ ACTOR_DEMO_IK,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

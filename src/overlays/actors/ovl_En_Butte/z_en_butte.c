@@ -6,6 +6,21 @@
 
 #include "z_en_butte.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
@@ -27,7 +42,7 @@ void EnButte_WaitToDie(EnButte* this, PlayState* play);
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     { {
-          ELEMTYPE_UNK0,
+          ELEM_MATERIAL_UNK0,
           { 0x00000000, 0x00, 0x00 },
           { 0xFFCFFFFF, 0x000, 0x00 },
           ATELEM_NONE,
@@ -36,9 +51,9 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
       },
       { 0, { { 0, 0, 0 }, 5 }, 100 } },
 };
-static ColliderJntSphInit sColliderInit = {
+static ColliderJntSphInit sColliderJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_1,
@@ -49,7 +64,7 @@ static ColliderJntSphInit sColliderInit = {
     sJntSphElementsInit,
 };
 
-ActorInit En_Butte_InitVars = {
+ActorProfile En_Butte_Profile = {
     /**/ ACTOR_EN_BUTTE,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -61,7 +76,7 @@ ActorInit En_Butte_InitVars = {
     /**/ EnButte_Draw,
 };
 
-typedef struct {
+typedef struct EnButteFlightParams {
     /* 0x00 */ s16 minTime;
     /* 0x02 */ s16 maxTime;
     /* 0x04 */ f32 speedXZTarget;
@@ -129,8 +144,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, PlayState* play) {
     Matrix_SetTranslateRotateYXZ(this->actor.focus.pos.x + sp5C.x, this->actor.focus.pos.y + sp5C.y,
                                  this->actor.focus.pos.z + sp5C.z, &camDir);
     Matrix_Scale(sTransformationEffectScale, sTransformationEffectScale, sTransformationEffectScale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_choo.c", 317),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_choo.c", 317);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 180, alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 210, 255);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffFlash1DL));
@@ -140,9 +154,9 @@ void EnButte_DrawTransformationEffect(EnButte* this, PlayState* play) {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 700, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 20, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 600, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 700, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 20, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 600, ICHAIN_STOP),
 };
 
 void EnButte_Init(Actor* thisx, PlayState* play) {
@@ -154,13 +168,13 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    if ((this->actor.params & 1) == 1) {
-        this->actor.uncullZoneScale = 200.0f;
+    if (PARAMS_GET_U(this->actor.params, 0, 1) == 1) {
+        this->actor.cullingVolumeScale = 200.0f;
     }
 
     SkelAnime_Init(play, &this->skelAnime, &gButterflySkel, &gButterflyAnim, this->jointTable, this->morphTable, 8);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
     this->actor.colChkInfo.mass = 0;
     this->unk_25C = Rand_ZeroOne() * 0xFFFF;
     this->unk_25E = Rand_ZeroOne() * 0xFFFF;
@@ -169,8 +183,8 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
     EnButte_SetupFlyAround(this);
     this->actor.shape.rot.x -= 0x2320;
     this->drawSkelAnime = true;
-    // "field keep butterfly"
-    PRINTF("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
+    PRINTF(T("(field keep 蝶)(%x)(arg_data 0x%04x)\n", "(field keep butterfly)(%x)(arg_data 0x%04x)\n"), this,
+           this->actor.params);
 }
 
 void EnButte_Destroy(Actor* thisx, PlayState* play2) {
@@ -268,7 +282,7 @@ void EnButte_FlyAround(EnButte* this, PlayState* play) {
         EnButte_SelectFlightParams(this, &sFlyAroundParams[this->flightParamsIdx]);
     }
 
-    if (((this->actor.params & 1) == 1) && (player->heldItemAction == PLAYER_IA_DEKU_STICK) &&
+    if ((PARAMS_GET_U(this->actor.params, 0, 1) == 1) && (player->heldItemAction == PLAYER_IA_DEKU_STICK) &&
         (this->swordDownTimer <= 0) &&
         ((Math3D_Dist2DSq(player->actor.world.pos.x, player->actor.world.pos.z, this->actor.home.pos.x,
                           this->actor.home.pos.z) < SQ(120.0f)) ||
@@ -348,7 +362,7 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
 
 void EnButte_SetupTransformIntoFairy(EnButte* this) {
     this->timer = 9;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->skelAnime.playSpeed = 1.0f;
     EnButte_ResetTransformationEffect();
     this->actionFunc = EnButte_TransformIntoFairy;
@@ -396,7 +410,7 @@ void EnButte_Update(Actor* thisx, PlayState* play) {
     this->unk_25E += 0x1000;
     this->unk_260 += 0x600;
 
-    if ((this->actor.params & 1) == 1) {
+    if (PARAMS_GET_U(this->actor.params, 0, 1) == 1) {
         if (GET_PLAYER(play)->meleeWeaponState == 0) {
             if (this->swordDownTimer > 0) {
                 this->swordDownTimer--;
@@ -427,7 +441,7 @@ void EnButte_Draw(Actor* thisx, PlayState* play) {
         Collider_UpdateSpheres(0, &this->collider);
     }
 
-    if (((this->actor.params & 1) == 1) && (this->actionFunc == EnButte_TransformIntoFairy)) {
+    if ((PARAMS_GET_U(this->actor.params, 0, 1) == 1) && (this->actionFunc == EnButte_TransformIntoFairy)) {
         EnButte_DrawTransformationEffect(this, play);
     }
 }

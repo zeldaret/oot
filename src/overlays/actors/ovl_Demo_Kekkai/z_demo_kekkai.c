@@ -5,10 +5,25 @@
  */
 
 #include "z_demo_kekkai.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "assets/scenes/dungeons/ganontika/ganontika_scene.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void DemoKekkai_Init(Actor* thisx, PlayState* play);
 void DemoKekkai_Destroy(Actor* thisx, PlayState* play);
@@ -21,7 +36,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play);
 
-ActorInit Demo_Kekkai_InitVars = {
+ActorProfile Demo_Kekkai_Profile = {
     /**/ ACTOR_DEMO_KEKKAI,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -35,7 +50,7 @@ ActorInit Demo_Kekkai_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -43,7 +58,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x20000000, 0x07, 0x04 },
         { 0x00002000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -178,7 +193,7 @@ void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play) {
         }
     }
     if (!(this->sfxFlag & 1)) {
-        func_8002F974(&this->actor, NA_SE_EV_TOWER_BARRIER - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TOWER_BARRIER - SFX_FLAG);
     }
 }
 
@@ -188,7 +203,7 @@ void DemoKekkai_Update(Actor* thisx, PlayState* play2) {
 
     if (this->energyAlpha > 0.99f) {
         if ((this->collider1.base.atFlags & AT_HIT) || (this->collider2.base.atFlags & AT_HIT)) {
-            func_8002F71C(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
         }
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider1.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider1.base);
@@ -226,7 +241,7 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play) {
         this->orbScale = 0.0f;
     }
     if (this->orbScale != 0.0f) {
-        func_8002F974(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);
     }
     this->timer++;
 }
@@ -246,21 +261,20 @@ void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play) {
     DemoKekkai* this = (DemoKekkai*)thisx;
 
     if (this->collider1.base.atFlags & AT_HIT) {
-        func_8002F71C(play, &this->actor, 5.0f, this->actor.yawTowardsPlayer, 5.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 5.0f, this->actor.yawTowardsPlayer, 5.0f);
     }
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider1.base);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider1.base);
     if (this->collider2.base.acFlags & AC_HIT) {
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
-        // "I got it"
-        LOG_STRING("当ったよ", "../z_demo_kekkai.c", 572);
+        LOG_STRING_T("当ったよ", "I got it", "../z_demo_kekkai.c", 572);
         this->actor.update = DemoKekkai_TrialBarrierDispel;
         this->timer = 0;
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(sSageCutscenes[this->actor.params]);
         gSaveContext.cutsceneTrigger = 1;
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider2.base);
-    func_8002F974(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TOWER_ENERGY - SFX_FLAG);
 }
 
 void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2) {
@@ -298,15 +312,13 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2) {
     Matrix_Translate(0.0f, 1200.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(this->orbScale, this->orbScale, this->orbScale, MTXMODE_APPLY);
     Matrix_Translate(0.0f, -1200.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kekkai.c", 639),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kekkai.c", 639);
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frames * 5, frames * -10, 0x20, 0x20, 1,
                                 frames * 5, frames * -10, 0x20, 0x20));
     gSPDisplayList(POLY_XLU_DISP++, gTrialBarrierOrbDL);
     Matrix_Pop();
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kekkai.c", 656),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kekkai.c", 656);
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 50, 0, 100, 255);
     gSPSegment(POLY_XLU_DISP++, 0x0A,
@@ -333,8 +345,7 @@ void DemoKekkai_DrawTowerBarrier(Actor* thisx, PlayState* play) {
     scroll = (s32)this->barrierScroll & 0xFFFF;
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kekkai.c", 705);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kekkai.c", 707),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_kekkai.c", 707);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 170, 255, 255);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 2, scroll * -4, 0x20, 0x40, 1, scroll * 2,

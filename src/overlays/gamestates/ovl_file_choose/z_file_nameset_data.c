@@ -1,11 +1,83 @@
 #include "file_select.h"
 
-#include "assets/overlays/ovl_File_Choose/ovl_file_choose.c"
+#include "ultra64.h"
+#include "gfx.h"
+#include "versions.h"
 
-s16 D_808123F0[] = {
-    0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016,
-    0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023,
-    0x0024, 0x0025, 0x0026, 0x0027, 0x0028, 0x0029, 0x002A, 0x002B, 0x002C, 0x002D, 0x002E, 0x002F, 0x0030,
-    0x0031, 0x0032, 0x0033, 0x0034, 0x0035, 0x0036, 0x0037, 0x0038, 0x0039, 0x003A, 0x003B, 0x003C, 0x003D,
-    0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x0000, 0x0040, 0x003F, 0x003E,
+Vtx gNameEntryVtx[] = {
+#include "assets/overlays/ovl_file_choose/gNameEntryVtx.inc.c"
 };
+
+#if OOT_NTSC
+s16 gCharPageHira[] = {
+#include "assets/overlays/ovl_file_choose/gCharPageHira.inc.c"
+};
+
+s16 gCharPageKata[] = {
+#include "assets/overlays/ovl_file_choose/gCharPageKata.inc.c"
+};
+
+s16 gCharPageEng[] = {
+#include "assets/overlays/ovl_file_choose/gCharPageEng.inc.c"
+};
+
+s16 gNextCharPage[] = {
+#include "assets/overlays/ovl_file_choose/gNextCharPage.inc.c"
+};
+#endif
+
+Vtx gOptionsMenuHeadersVtx[] = {
+#include "assets/overlays/ovl_file_choose/gOptionsMenuHeadersVtx.inc.c"
+};
+
+#if OOT_PAL && PLATFORM_GC
+Vtx gOptionsMenuHeadersGERVtx[] = {
+#include "assets/overlays/ovl_file_choose/gOptionsMenuHeadersGERVtx.inc.c"
+};
+#endif
+
+Vtx gOptionsMenuSettingsVtx[] = {
+#include "assets/overlays/ovl_file_choose/gOptionsMenuSettingsVtx.inc.c"
+};
+
+#if OOT_PAL && PLATFORM_GC
+Vtx gOptionsMenuSettingsGERVtx[] = {
+#include "assets/overlays/ovl_file_choose/gOptionsMenuSettingsGERVtx.inc.c"
+};
+#endif
+
+#if OOT_PAL && PLATFORM_N64
+Vtx gOptionsMenuBrightnessVtx[] = {
+#include "assets/overlays/ovl_file_choose/gOptionsMenuBrightnessVtx.inc.c"
+};
+
+Vtx gOptionsMenuLanguageVtx[] = {
+#include "assets/overlays/ovl_file_choose/gOptionsMenuLanguageVtx.inc.c"
+};
+
+u8 ovl_file_choose_zeros_000640[320] = { 0 };
+#endif
+
+Vtx gOptionsDividerSoundVtx[] = {
+#include "assets/overlays/ovl_file_choose/gOptionsDividerSoundVtx.inc.c"
+};
+
+Vtx gOptionsDividerZTargetVtx[] = {
+#include "assets/overlays/ovl_file_choose/gOptionsDividerZTargetVtx.inc.c"
+};
+
+Vtx gOptionsDividerBrightnessVtx[] = {
+#include "assets/overlays/ovl_file_choose/gOptionsDividerBrightnessVtx.inc.c"
+};
+
+#if OOT_PAL && PLATFORM_N64
+Vtx gOptionsDividerLanguageVtx[] = {
+#include "assets/overlays/ovl_file_choose/gOptionsDividerLanguageVtx.inc.c"
+};
+#endif
+
+#if OOT_PAL
+s16 gCharPageEng[] = {
+#include "assets/overlays/ovl_file_choose/gCharPageEng.inc.c"
+};
+#endif

@@ -2,14 +2,15 @@
 #define Z_EN_FR_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "light.h"
 
 struct EnFr;
 
-typedef void (*EnFrActionFunc)(struct EnFr*, PlayState*);
+typedef void (*EnFrActionFunc)(struct EnFr*, struct PlayState*);
 typedef void (*EnFrBlinkFunc)(struct EnFr*);
 
-typedef enum {
+typedef enum FrogType {
     /* 0 */ FROG_YELLOW,   // Middle
     /* 1 */ FROG_BLUE,     // Front Left
     /* 2 */ FROG_RED,      // Front Right
@@ -17,7 +18,7 @@ typedef enum {
     /* 4 */ FROG_WHITE     // Back Right
 } FrogType;
 
-typedef enum {
+typedef enum FrogSongType {
     /* 0 */ FROG_ZL,
     /* 1 */ FROG_EPONA,
     /* 2 */ FROG_SARIA,

@@ -5,10 +5,18 @@
  */
 
 #include "z_bg_spot01_objects2.h"
+
+#include "ichain.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "translation.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_spot01_matoya/object_spot01_matoya.h"
 #include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgSpot01Objects2_Init(Actor* thisx, PlayState* play);
 void BgSpot01Objects2_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +26,7 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play);
 void func_808AC474(BgSpot01Objects2* this, PlayState* play);
 void func_808AC4A4(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Spot01_Objects2_InitVars = {
+ActorProfile Bg_Spot01_Objects2_Profile = {
     /**/ ACTOR_BG_SPOT01_OBJECTS2,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -31,9 +39,9 @@ ActorInit Bg_Spot01_Objects2_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 12800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 12800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1500, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -45,7 +53,7 @@ static Gfx* D_808AC510[] = {
 void BgSpot01Objects2_Init(Actor* thisx, PlayState* play) {
     BgSpot01Objects2* this = (BgSpot01Objects2*)thisx;
 
-    switch (this->dyna.actor.params & 7) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 3)) {
         case 0:
         case 1:
         case 2:
@@ -61,8 +69,8 @@ void BgSpot01Objects2_Init(Actor* thisx, PlayState* play) {
     if (this->objectId >= 0) {
         this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
         if (this->requiredObjectSlot < 0) {
-            // "There was no bank setting."
-            PRINTF("-----------------------------バンク設定ありませんでした.");
+            PRINTF(T("-----------------------------バンク設定ありませんでした.",
+                     "----------------------------- There was no bank setting."));
             Actor_Kill(&this->dyna.actor);
             return;
         }
@@ -92,14 +100,13 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
     Vec3f position;
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        // "---- Successful bank switching!!"
-        PRINTF("-----バンク切り換え成功！！\n");
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+        PRINTF(T("-----バンク切り換え成功！！\n", "----- Successful bank switching!!\n"));
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
 
         this->dyna.actor.objectSlot = this->requiredObjectSlot;
         DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
-        switch (this->dyna.actor.params & 7) {
+        switch (PARAMS_GET_U(this->dyna.actor.params, 0, 3)) {
             case 4: // Shooting gallery
                 CollisionHeader_GetVirtual(&gKakarikoShootingGalleryCol, &colHeader);
                 this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
@@ -108,10 +115,10 @@ void func_808AC2BC(BgSpot01Objects2* this, PlayState* play) {
                 CollisionHeader_GetVirtual(&object_spot01_matoyab_col, &colHeader);
                 this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
                 if (IS_DAY) {
-                    func_808AC22C(play->pathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
+                    func_808AC22C(play->pathList, &position, PARAMS_GET_U((s32)thisx->params, 8, 8), 0);
                     Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_EN_DAIKU_KAKARIKO, position.x, position.y,
                                        position.z, thisx->world.rot.x, thisx->world.rot.y, thisx->world.rot.z,
-                                       ((((s32)thisx->params >> 8) & 0xFF) << 8) + 1);
+                                       (PARAMS_GET_U((s32)thisx->params, 8, 8) << 8) + 1);
                 }
                 break;
             case 0: // Potion Shop Poster
@@ -135,5 +142,5 @@ void BgSpot01Objects2_Update(Actor* thisx, PlayState* play) {
 }
 
 void func_808AC4A4(Actor* thisx, PlayState* play) {
-    Gfx_DrawDListOpa(play, D_808AC510[thisx->params & 7]);
+    Gfx_DrawDListOpa(play, D_808AC510[PARAMS_GET_U(thisx->params, 0, 3)]);
 }

@@ -1,7 +1,14 @@
 #ifndef SFX_H
 #define SFX_H
 
-typedef enum {
+#include "ultra64.h"
+#include "versions.h"
+#include "z_math.h"
+#include "assert.h"
+
+#define MAX_CHANNELS_PER_BANK 3
+
+typedef enum SfxBankType {
     /* 0 */ BANK_PLAYER,
     /* 1 */ BANK_ITEM,
     /* 2 */ BANK_ENV,
@@ -11,7 +18,7 @@ typedef enum {
     /* 6 */ BANK_VOICE
 } SfxBankType;
 
-typedef enum {
+typedef enum SfxState {
     /* 0 */ SFX_STATE_EMPTY,
     /* 1 */ SFX_STATE_QUEUED,
     /* 2 */ SFX_STATE_READY,
@@ -20,7 +27,7 @@ typedef enum {
     /* 5 */ SFX_STATE_PLAYING_2
 } SfxState;
 
-typedef struct {
+typedef struct SfxBankEntry {
     /* 0x00 */ f32* posX;
     /* 0x04 */ f32* posY;
     /* 0x08 */ f32* posZ;
@@ -55,26 +62,51 @@ typedef struct {
  * bank     1111000000000000    observed in audio code
  */
 
-#define DEFINE_SFX(enum, _1, _2, _3, _4) enum,
+#define DEFINE_SFX(_0, enum, _2, _3, _4, _5) enum,
 
-typedef enum {
+typedef enum SfxId {
     NA_SE_NONE, // Requesting a sfx with this id will play no sound
+
     NA_SE_PL_BASE = 0x7FF,
     #include "tables/sfx/playerbank_table.h"
+    NA_SE_PL_END,
+
     NA_SE_IT_BASE = 0x17FF,
     #include "tables/sfx/itembank_table.h"
+    NA_SE_IT_END,
+
     NA_SE_EV_BASE = 0x27FF,
     #include "tables/sfx/environmentbank_table.h"
+    NA_SE_EV_END,
+
     NA_SE_EN_BASE = 0x37FF,
     #include "tables/sfx/enemybank_table.h"
+    NA_SE_EN_END,
+
     NA_SE_SY_BASE = 0x47FF,
     #include "tables/sfx/systembank_table.h"
+    NA_SE_SY_END,
+
     NA_SE_OC_BASE = 0x57FF,
     #include "tables/sfx/ocarinabank_table.h"
+    NA_SE_OC_END,
+
     NA_SE_VO_BASE = 0x67FF,
     #include "tables/sfx/voicebank_table.h"
+    NA_SE_VO_END,
+
     NA_SE_MAX
 } SfxId;
+
+// These limits are due to the way Sequence 0 is programmed. There is also a global limit of 512 entries for every bank
+// enforced in Audio_PlayActiveSfx in sfx.c
+static_assert(NA_SE_PL_END - (NA_SE_PL_BASE + 1) <= 256, "Player Bank SFX Table is limited to 256 entries due to Sequence 0");
+static_assert(NA_SE_IT_END - (NA_SE_IT_BASE + 1) <= 128, "Item Bank SFX Table is limited to 128 entries due to Sequence 0");
+static_assert(NA_SE_EV_END - (NA_SE_EV_BASE + 1) <= 256, "Environment Bank SFX Table is limited to 256 entries due to Sequence 0");
+static_assert(NA_SE_EN_END - (NA_SE_EN_BASE + 1) <= 512, "Enemy Bank SFX Table is limited to 512 entries due to Sequence 0");
+static_assert(NA_SE_SY_END - (NA_SE_SY_BASE + 1) <= 128, "System Bank SFX Table is limited to 128 entries due to Sequence 0");
+static_assert(NA_SE_OC_END - (NA_SE_OC_BASE + 1) <= 128, "Ocarina Bank SFX Table is limited to 128 entries due to Sequence 0");
+static_assert(NA_SE_VO_END - (NA_SE_VO_BASE + 1) <= 256, "Voice Bank SFX Table is limited to 256 entries due to Sequence 0");
 
 #undef DEFINE_SFX
 
@@ -87,7 +119,7 @@ typedef enum {
 
 #define SFX_FLAG 0x800
 
-typedef struct {
+typedef struct ActiveSfx {
     u32 priority; // lower is more prioritized
     u8 entryIndex;
 } ActiveSfx;
@@ -114,15 +146,70 @@ typedef struct {
 #define SFX_FLAG_14 (1 << 14)
 #define SFX_FLAG_15 (1 << 15)
 
-typedef struct {
+typedef struct SfxParams {
     u8 importance;
     u16 params;
 } SfxParams;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define SFX_DIST_SCALING 1.0f
 #else
 #define SFX_DIST_SCALING 10.0f
 #endif
+
+void Audio_SetSfxBanksMute(u16 muteMask);
+void Audio_QueueSeqCmdMute(u8 channelIndex);
+void Audio_ClearBGMMute(u8 channelIndex);
+void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd);
+void Audio_ProcessSfxRequest(void);
+void Audio_ChooseActiveSfx(u8 bankId);
+void Audio_PlayActiveSfx(u8 bankId);
+void Audio_StopSfxByBank(u8 bankId);
+void Audio_RemoveSfxFromBankByPos(u8 bankId, Vec3f* pos);
+void Audio_StopSfxByPosAndBank(u8 bankId, Vec3f* pos);
+void Audio_StopSfxByPos(Vec3f* pos);
+void Audio_StopSfxByPosAndId(Vec3f* pos, u16 sfxId);
+void Audio_StopSfxByTokenAndId(u8 token, u16 sfxId);
+void Audio_StopSfxById(u32 sfxId);
+void Audio_ProcessSfxRequests(void);
+void func_800F8F88(void);
+u8 Audio_IsSfxPlaying(u32 sfxId);
+void Audio_ResetSfx(void);
+
+extern Vec3f gSfxDefaultPos;
+extern f32 gSfxDefaultFreqAndVolScale;
+extern s8 gSfxDefaultReverb;
+
+extern SfxParams* gSfxParams[7];
+extern char D_80133390[];
+extern char D_80133398[];
+extern u8 gSfxRequestWriteIndex;
+extern u8 gSfxRequestReadIndex;
+extern SfxBankEntry* gSfxBanks[7];
+extern u8 gSfxBankSizes[];
+extern u8 gSfxChannelLayout;
+extern u16 D_801333D0;
+extern Vec3f gSfxDefaultPos;
+extern f32 gSfxDefaultFreqAndVolScale;
+extern s8 gSfxDefaultReverb;
+
+#if DEBUG_FEATURES
+extern u8 D_801333F0;
+extern u8 gAudioSfxSwapOff;
+extern u8 D_801333F8;
+#endif
+
+extern SfxBankEntry D_8016BAD0[9];
+extern SfxBankEntry D_8016BC80[12];
+extern SfxBankEntry D_8016BEC0[22];
+extern SfxBankEntry D_8016C2E0[20];
+extern SfxBankEntry D_8016C6A0[8];
+extern SfxBankEntry D_8016C820[3];
+extern SfxBankEntry D_8016C8B0[5];
+extern ActiveSfx gActiveSfx[7][MAX_CHANNELS_PER_BANK]; // total size = 0xA8
+extern u8 gSfxBankMuted[];
+extern u16 gAudioSfxSwapSource[10];
+extern u16 gAudioSfxSwapTarget[10];
+extern u8 gAudioSfxSwapMode[10];
 
 #endif

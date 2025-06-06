@@ -5,6 +5,13 @@
  */
 
 #include "z_bg_haka_meganebg.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0
@@ -23,7 +30,7 @@ void func_8087E288(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E34C(BgHakaMeganeBG* this, PlayState* play);
 
-ActorInit Bg_Haka_MeganeBG_InitVars = {
+ActorProfile Bg_Haka_MeganeBG_Profile = {
     /**/ ACTOR_BG_HAKA_MEGANEBG,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -36,8 +43,8 @@ ActorInit Bg_Haka_MeganeBG_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -59,12 +66,12 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->unk_168 = (thisx->params >> 8) & 0xFF;
+    this->unk_168 = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     if (thisx->params == 2) {
         DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
-        thisx->flags |= ACTOR_FLAG_4;
+        thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         CollisionHeader_GetVirtual(&object_haka_objects_Col_005334, &colHeader);
         this->actionFunc = func_8087E258;
     } else {
@@ -83,15 +90,15 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = func_8087E34C;
                 thisx->world.pos.y = thisx->home.pos.y;
             } else {
-                thisx->flags |= ACTOR_FLAG_4;
+                thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                 this->actionFunc = func_8087E288;
             }
         } else {
             CollisionHeader_GetVirtual(&object_haka_objects_Col_00A7F4, &colHeader);
             this->unk_16A = 80;
             this->actionFunc = func_8087E10C;
-            thisx->uncullZoneScale = 3000.0f;
-            thisx->uncullZoneDownward = 3000.0f;
+            thisx->cullingVolumeScale = 3000.0f;
+            thisx->cullingVolumeDownward = 3000.0f;
         }
     }
 
@@ -147,7 +154,7 @@ void func_8087E10C(BgHakaMeganeBG* this, PlayState* play) {
 
     if (!Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 640.0f,
                       this->dyna.actor.velocity.y)) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
     }
 
     if (this->unk_16A == 0) {
@@ -159,7 +166,7 @@ void func_8087E10C(BgHakaMeganeBG* this, PlayState* play) {
 
 void func_8087E1E0(BgHakaMeganeBG* this, PlayState* play) {
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 16.0f / 3.0f);
-    func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
 
     if (this->unk_16A != 0) {
         this->unk_16A--;
@@ -173,7 +180,7 @@ void func_8087E1E0(BgHakaMeganeBG* this, PlayState* play) {
 
 void func_8087E258(BgHakaMeganeBG* this, PlayState* play) {
     this->dyna.actor.shape.rot.y += 0x180;
-    func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
 }
 
 void func_8087E288(BgHakaMeganeBG* this, PlayState* play) {
@@ -190,7 +197,7 @@ void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play) {
         Actor_SetFocus(&this->dyna.actor, 50.0f);
         this->actionFunc = func_8087E34C;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
     }
 }
 

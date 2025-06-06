@@ -6,17 +6,26 @@
 
 #include "z_bg_spot11_bakudankabe.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_spot11_obj/object_spot11_obj.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgSpot11Bakudankabe_Init(Actor* thisx, PlayState* play);
 void BgSpot11Bakudankabe_Destroy(Actor* thisx, PlayState* play);
 void BgSpot11Bakudankabe_Update(Actor* thisx, PlayState* play);
 void BgSpot11Bakudankabe_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Spot11_Bakudankabe_InitVars = {
+ActorProfile Bg_Spot11_Bakudankabe_Profile = {
     /**/ ACTOR_BG_SPOT11_BAKUDANKABE,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -30,7 +39,7 @@ ActorInit Bg_Spot11_Bakudankabe_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -38,7 +47,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_NONE,
@@ -113,7 +122,7 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
-    if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -121,7 +130,7 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gDesertColossusBombableWallCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_SetScale(&this->dyna.actor, 1.0f);
-    PRINTF("(spot11 爆弾壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(spot11 爆弾壁)(arg_data 0x%04x)\n", "(spot11 Bomb Wall)(arg_data 0x%04x)\n"), this->dyna.actor.params);
 }
 
 void BgSpot11Bakudankabe_Destroy(Actor* thisx, PlayState* play) {
@@ -136,7 +145,7 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         func_808B2218(this, play);
-        Flags_SetSwitch(play, (this->dyna.actor.params & 0x3F));
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         SfxSource_PlaySfxAtFixedWorldPos(play, &D_808B2738, 40, NA_SE_EV_WALL_BROKEN);
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);

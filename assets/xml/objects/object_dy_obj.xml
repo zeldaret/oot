@@ -70,34 +70,34 @@
         <DList Name="gGreatFairySpiralBeamDL" Offset="0x1C160"/>
 
         <!-- Great Fairy Palettes -->
-        <Texture Name="gGreatFairyTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x165F0"/>
+        <Texture Name="gGreatFairyTLUT" Format="rgba16" Width="16" Height="16" Offset="0x165F0"/>
 
         <!-- Great Fairy DisplayList Textures -->
-        <Texture Name="gGreatFairyParticleTex" OutName="particle" Format="i4" Width="32" Height="32" Offset="0x58F0"/>
-        <Texture Name="gGreatFairyBetaGradient1Tex" OutName="beta_gradient_1" Format="rgba16" Width="32" Height="32" Offset="0x86B0"/>
-        <Texture Name="gGreatFairyBetaGradient2Tex" OutName="beta_gradient_2" Format="rgba16" Width="32" Height="32" Offset="0x8EB0"/>
-        <Texture Name="gGreatFairyBetaClothesTex" OutName="beta_clothes" Format="rgba16" Width="16" Height="16" Offset="0x96B0"/>
-        <Texture Name="gGreatFairyFlowerTex" OutName="flower" Format="ia16" Width="32" Height="32" Offset="0x98B0"/>
-        <Texture Name="gGreatFairyBootPatternTex" OutName="boot_pattern" Format="ci8" Width="32" Height="64" Offset="0x167F0" TlutOffset="0x165F0"/>
-        <Texture Name="gGreatFairyLeavesPattern1Tex" OutName="leaves_pattern_1" Format="ci8" Width="32" Height="32" Offset="0x16FF0" TlutOffset="0x165F0"/>
-        <Texture Name="gGreatFairySkinGradient" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x173F0" TlutOffset="0x165F0"/>
-        <Texture Name="gGreatFairyLeavesPattern2Tex" OutName="leaves_pattern_2" Format="rgba16" Width="32" Height="16" Offset="0x17430"/>
-        <Texture Name="gGreatFairyHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x17830" TlutOffset="0x165F0"/>
-        <Texture Name="gGreatFairyEar1Tex" OutName="ear_1" Format="ci8" Width="8" Height="8" Offset="0x1B130" TlutOffset="0x165F0"/>
-        <Texture Name="gGreatFairyEar2Tex" OutName="ear_2" Format="ci8" Width="8" Height="8" Offset="0x1B170" TlutOffset="0x165F0"/>
-        <Texture Name="gGreatFairyBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="16" Height="16" Offset="0x1B1B0" TlutOffset="0x165F0"/>
-        <Texture Name="gGreatFairyLeavesPattern3Tex" OutName="leaves_pattern_3" Format="ci8" Width="32" Height="32" Offset="0x1B2B0" TlutOffset="0x165F0"/>
-        <Texture Name="gGreatFairySpiralBeamPatternTex" OutName="spiral_beam_pattern" Format="i8" Width="16" Height="16" Offset="0x1B6B0"/>
-        <Texture Name="gGreatFairySpiralBeamGradientTex" OutName="spiral_beam_gradient" Format="i8" Width="32" Height="64" Offset="0x1B7B0"/>
+        <Texture Name="gGreatFairyParticleTex" Format="i4" Width="32" Height="32" Offset="0x58F0"/>
+        <Texture Name="gGreatFairyBetaGradient1Tex" Format="rgba16" Width="32" Height="32" Offset="0x86B0"/>
+        <Texture Name="gGreatFairyBetaGradient2Tex" Format="rgba16" Width="32" Height="32" Offset="0x8EB0"/>
+        <Texture Name="gGreatFairyBetaClothesTex" Format="rgba16" Width="16" Height="16" Offset="0x96B0"/>
+        <Texture Name="gGreatFairyFlowerTex" Format="ia16" Width="32" Height="32" Offset="0x98B0"/>
+        <Texture Name="gGreatFairyBootPatternTex" Format="ci8" Width="32" Height="64" Offset="0x167F0" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyLeavesPattern1Tex" Format="ci8" Width="32" Height="32" Offset="0x16FF0" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairySkinGradient" Format="ci8" Width="8" Height="8" Offset="0x173F0" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyLeavesPattern2Tex" Format="rgba16" Width="32" Height="16" Offset="0x17430"/>
+        <Texture Name="gGreatFairyHairTex" Format="ci8" Width="16" Height="16" Offset="0x17830" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyEar1Tex" Format="ci8" Width="8" Height="8" Offset="0x1B130" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyEar2Tex" Format="ci8" Width="8" Height="8" Offset="0x1B170" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyBackOfHandTex" Format="ci8" Width="16" Height="16" Offset="0x1B1B0" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyLeavesPattern3Tex" Format="ci8" Width="32" Height="32" Offset="0x1B2B0" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairySpiralBeamPatternTex" Format="i8" Width="16" Height="16" Offset="0x1B6B0"/>
+        <Texture Name="gGreatFairySpiralBeamGradientTex" Format="i8" Width="32" Height="64" Offset="0x1B7B0"/>
 
         <!-- Great Fairy Eye Textures -->
-        <Texture Name="gGreatFairyEyeOpenTex" OutName="eye_open" Format="rgba16" Width="32" Height="32" Offset="0x17930"/>
-        <Texture Name="gGreatFairyEyeHalfTex" OutName="eye_half" Format="rgba16" Width="32" Height="32" Offset="0x18130"/>
-        <Texture Name="gGreatFairyEyeClosedTex" OutName="eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x18930"/>
+        <Texture Name="gGreatFairyEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x17930"/>
+        <Texture Name="gGreatFairyEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x18130"/>
+        <Texture Name="gGreatFairyEyeClosedTex" Format="rgba16" Width="32" Height="32" Offset="0x18930"/>
 
         <!-- Great Fairy Mouth Textures -->
-        <Texture Name="gGreatFairyMouthClosedTex" OutName="mouth_closed" Format="rgba16" Width="64" Height="32" Offset="0x19130"/>
-        <Texture Name="gGreatFairyMouthOpenTex" OutName="mouth_open" Format="rgba16" Width="64" Height="32" Offset="0x1A130"/>
+        <Texture Name="gGreatFairyMouthClosedTex" Format="rgba16" Width="64" Height="32" Offset="0x19130"/>
+        <Texture Name="gGreatFairyMouthOpenTex" Format="rgba16" Width="64" Height="32" Offset="0x1A130"/>
 
         <!-- Great Fairy Animations -->
         <Animation Name="gGreatFairyAnim_000108" Offset="0x108"/>
@@ -117,5 +117,96 @@
             <Vtx/>
         </Array>
 
+        <!-- Vertices -->
+        <Array Name="gGreatFairyParticleModelVtx" Count="4" Offset="0x5820">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyBetaVtx" Count="778" Offset="0xA0B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyFlowerVtx" Count="6" Offset="0xD150">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyLeftFootVtx" Count="28" Offset="0xDD00">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyLeftLegVtx" Count="33" Offset="0xDEC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyLeftThighVtx" Count="75" Offset="0xE0D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyLeftHairTipVtx" Count="7" Offset="0xE580">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyLeftHairUpperPartVtx" Count="31" Offset="0xE5F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyLeftHairMiddlePartVtx" Count="13" Offset="0xE7E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyLeftHairLowerPartVtx" Count="43" Offset="0xE8B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyRightHairTipVtx" Count="7" Offset="0xEB60">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyRightHairUpperPartVtx" Count="13" Offset="0xEBD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyRightHairMiddlePartVtx" Count="27" Offset="0xECA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyRightHairLowerPartVtx" Count="19" Offset="0xEE50">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyMiddleHairTipVtx" Count="9" Offset="0xEF80">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyMiddleHairUpperPartVtx" Count="17" Offset="0xF010">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyMiddleHairMiddlePartVtx" Count="17" Offset="0xF120">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyMiddleHairLowerPartVtx" Count="41" Offset="0xF230">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyHeadVtx" Count="221" Offset="0xF4C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyLeftHandVtx" Count="120" Offset="0x10290">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyLeftForearmVtx" Count="47" Offset="0x10A10">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyLeftUpperArmVtx" Count="25" Offset="0x10D00">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyRightHandVtx" Count="120" Offset="0x10E90">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyRightForearmVtx" Count="47" Offset="0x11610">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyRightUpperArmVtx" Count="25" Offset="0x11900">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyTorsoVtx" Count="275" Offset="0x11A90">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyRightFootVtx" Count="28" Offset="0x12BC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyRightLegVtx" Count="33" Offset="0x12D80">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyRightThighVtx" Count="60" Offset="0x12F90">
+            <Vtx/>
+        </Array>
+        <Array Name="gGreatFairyWaistVtx" Count="56" Offset="0x13350">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

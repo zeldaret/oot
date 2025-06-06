@@ -2,20 +2,21 @@
 #define Z_EN_GB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "light.h"
 
 struct EnGb;
 
-typedef void (*EnGbActionFunc)(struct EnGb*, PlayState*);
+typedef void (*EnGbActionFunc)(struct EnGb*, struct PlayState*);
 
-typedef struct {
+typedef struct EnGbCagedSoulInfo {
     /* 0x00 */ Color_RGBA8 prim;
     /* 0x04 */ Color_RGBA8 env;
     /* 0x08 */ void* texture;
     /* 0x0C */ s16 timerMultiplier;
 } EnGbCagedSoulInfo; // size = 0x10
 
-typedef struct {
+typedef struct EnGbCagedSoul {
     /* 0x00 */ u8    infoIdx;
     /* 0x01 */ u8    unk_1;
     /* 0x02 */ u8    unk_2;

@@ -9,7 +9,15 @@
  * @note The only coded effect has a visual effect to blend the tiles to a single point, which looks like the screen
  * gets sucked into.
  */
-#include "global.h"
+#include "transition_tile.h"
+
+#include "libc64/malloc.h"
+#include "libc64/sleep.h"
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "printf.h"
+#include "z_math.h"
+#include "transition_instances.h"
 
 // color framebuffer
 extern u16 D_0F000000[];
@@ -90,8 +98,8 @@ void TransitionTile_InitGraphics(TransitionTile* this) {
     for (row = 0; row < this->rows; row++) {
         gSPVertex(gfx++, SEGMENT_ADDR(0xA, (u32)row * (this->cols + 1) * sizeof(Vtx)), 2 * (this->cols + 1), 0);
 
-        colTex = 0;
         col2 = 0;
+        colTex = 0;
         col = 0;
         while (col < this->cols) {
             gDPPipeSync(gfx++);

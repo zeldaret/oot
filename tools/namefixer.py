@@ -111,7 +111,7 @@ simpleReplace = {
 }
 
 # all occurrences of keys will be replaced by associated value,
-# if the occurence is the whole word
+# if the occurrence is the whole word
 # for example, if there is a space before and an open parenthesis after,
 # like for a function call: ` func_8002E4B4(`
 wordReplace = {
@@ -216,13 +216,13 @@ wordReplace = {
     "bumper.flags":"bumper.dmgFlags",
     "maskA ":"ocFlags1 ",
     "maskB ":"ocFlags2 ",
-    ".base.type":".base.colType",
-    "COLTYPE_UNK11":"COLTYPE_HARD",
-    "COLTYPE_UNK12":"COLTYPE_WOOD",
-    "COLTYPE_UNK13":"COLTYPE_TREE",
-    "COLTYPE_METAL_SHIELD":"COLTYPE_METAL",
-    "COLTYPE_UNK10":"COLTYPE_NONE",
-    "COLTYPE_UNK":"COLTYPE_HIT",
+    ".base.type":".base.colMaterial",
+    "COLTYPE_UNK11":"COL_MATERIAL_HARD",
+    "COLTYPE_UNK12":"COL_MATERIAL_WOOD",
+    "COLTYPE_UNK13":"COL_MATERIAL_TREE",
+    "COLTYPE_METAL_SHIELD":"COL_MATERIAL_METAL",
+    "COLTYPE_UNK10":"COL_MATERIAL_NONE",
+    "COLTYPE_UNK":"COL_MATERIAL_HIT",
     "info.flags":"info.elemtype",
     "ColliderBody":"ColliderInfo",
     "ColliderJntSphItem":"ColliderJntSphElement",
@@ -451,7 +451,7 @@ def replace_single(file):
                 custom_behavior_ignore_offset, custom_behavior_ignore_match = custom_behavior_ignore_data
         else:
             custom_behavior = False
-        # replace `old` with `new` if the occurence of `old` is the whole word
+        # replace `old` with `new` if the occurrence of `old` is the whole word
         oldStartIdx = srcdata.find(old)
         if oldStartIdx >= 0:
             old_start_as_word = is_word_char(old[0])

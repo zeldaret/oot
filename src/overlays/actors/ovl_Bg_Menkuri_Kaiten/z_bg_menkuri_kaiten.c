@@ -5,16 +5,21 @@
  */
 
 #include "z_bg_menkuri_kaiten.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "play_state.h"
+
 #include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgMenkuriKaiten_Init(Actor* thisx, PlayState* play);
 void BgMenkuriKaiten_Destroy(Actor* thisx, PlayState* play);
 void BgMenkuriKaiten_Update(Actor* thisx, PlayState* play);
 void BgMenkuriKaiten_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Menkuri_Kaiten_InitVars = {
+ActorProfile Bg_Menkuri_Kaiten_Profile = {
     /**/ ACTOR_BG_MENKURI_KAITEN,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -51,7 +56,7 @@ void BgMenkuriKaiten_Update(Actor* thisx, PlayState* play) {
     BgMenkuriKaiten* this = (BgMenkuriKaiten*)thisx;
 
     if (!Flags_GetSwitch(play, this->dyna.actor.params) && DynaPolyActor_IsPlayerAbove(&this->dyna)) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
         this->dyna.actor.shape.rot.y += 0x80;
     }
 }

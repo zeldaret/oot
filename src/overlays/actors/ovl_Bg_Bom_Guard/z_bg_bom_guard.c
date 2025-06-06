@@ -6,10 +6,16 @@
 
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
-#include "assets/objects/object_bowl/object_bowl.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "printf.h"
+#include "regs.h"
+#include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+
+#include "assets/objects/object_bowl/object_bowl.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgBomGuard_Init(Actor* thisx, PlayState* play);
 void BgBomGuard_Destroy(Actor* thisx, PlayState* play);
@@ -17,7 +23,7 @@ void BgBomGuard_Update(Actor* thisx, PlayState* play);
 
 void func_8086E638(BgBomGuard* this, PlayState* play);
 
-ActorInit Bg_Bom_Guard_InitVars = {
+ActorProfile Bg_Bom_Guard_Profile = {
     /**/ ACTOR_BG_BOM_GUARD,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -43,7 +49,7 @@ void BgBomGuard_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 透明ガード出現 ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 透明ガード出現 ☆☆☆☆☆ \n", " ☆☆☆☆☆ Transparent guard appears ☆☆☆☆☆ \n") VT_RST);
 
     thisx->scale.x = 1.0f;
     thisx->scale.y = 1.0f;

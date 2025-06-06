@@ -5,13 +5,26 @@
  */
 
 #include "z_bg_hidan_kowarerukabe.h"
-#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
 
-typedef enum {
+typedef enum FireTempleBombableObjectsType {
     /* 0 */ CRACKED_STONE_FLOOR,
     /* 1 */ BOMBABLE_WALL,
     /* 2 */ LARGE_BOMBABLE_WALL
@@ -22,7 +35,7 @@ void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
+ActorProfile Bg_Hidan_Kowarerukabe_Profile = {
     /**/ ACTOR_BG_HIDAN_KOWARERUKABE,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -43,7 +56,7 @@ static Gfx* sBreakableWallDLists[] = {
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
             ATELEM_NONE,
@@ -56,7 +69,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -77,9 +90,9 @@ void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, PlayState* play
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    if (collisionHeaders[this->dyna.actor.params & 0xFF] != NULL) {
+    if (collisionHeaders[PARAMS_GET_U(this->dyna.actor.params, 0, 8)] != NULL) {
         DynaPolyActor_Init(&this->dyna, 0);
-        CollisionHeader_GetVirtual(collisionHeaders[this->dyna.actor.params & 0xFF], &colHeader);
+        CollisionHeader_GetVirtual(collisionHeaders[PARAMS_GET_U(this->dyna.actor.params, 0, 8)], &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     } else {
         this->dyna.bgId = BGACTOR_NEG_ONE;
@@ -92,22 +105,23 @@ void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, PlayState
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 
-    this->collider.elements[0].dim.modelSphere.radius = sphereRadii[this->dyna.actor.params & 0xFF];
-    this->collider.elements[0].dim.modelSphere.center.y = sphereYPositions[this->dyna.actor.params & 0xFF];
+    this->collider.elements[0].dim.modelSphere.radius = sphereRadii[PARAMS_GET_U(this->dyna.actor.params, 0, 8)];
+    this->collider.elements[0].dim.modelSphere.center.y = sphereYPositions[PARAMS_GET_U(this->dyna.actor.params, 0, 8)];
 }
 
 void BgHidanKowarerukabe_OffsetActorYPos(BgHidanKowarerukabe* this) {
     static f32 actorYPosOffsets[] = { 0.7f, 0.0f, 0.0f };
 
-    this->dyna.actor.world.pos.y = actorYPosOffsets[this->dyna.actor.params & 0xFF] + this->dyna.actor.home.pos.y;
+    this->dyna.actor.world.pos.y =
+        actorYPosOffsets[PARAMS_GET_U(this->dyna.actor.params, 0, 8)] + this->dyna.actor.home.pos.y;
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
@@ -115,16 +129,16 @@ void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
 
     BgHidanKowarerukabe_InitDynaPoly(this, play);
 
-    if (((this->dyna.actor.params & 0xFF) < CRACKED_STONE_FLOOR) ||
-        ((this->dyna.actor.params & 0xFF) > LARGE_BOMBABLE_WALL)) {
-        // "Error: Fire Temple Breakable Walls. arg_data I can't determine the (%s %d)(arg_data 0x%04x)"
-        PRINTF("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
+    if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) < CRACKED_STONE_FLOOR ||
+        PARAMS_GET_U(this->dyna.actor.params, 0, 8) > LARGE_BOMBABLE_WALL) {
+        PRINTF(T("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
+                 "Error : arg_data for the Fire Temple breakable wall cannot be determined (%s %d)(arg_data 0x%04x)\n"),
                "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
         return;
     }
 
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -133,8 +147,9 @@ void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->dyna.actor, 0.1f);
     BgHidanKowarerukabe_InitColliderSphere(this, play);
     BgHidanKowarerukabe_OffsetActorYPos(this);
-    // "(fire walls, floors, destroyed by bombs)(arg_data 0x%04x)"
-    PRINTF("(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(
+        T("(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n", "(hidan bomb destroys walls and floors)(arg_data 0x%04x)\n"),
+        this->dyna.actor.params);
 }
 
 void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play) {
@@ -283,7 +298,7 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, PlayState* pl
 }
 
 void BgHidanKowarerukabe_Break(BgHidanKowarerukabe* this, PlayState* play) {
-    switch (this->dyna.actor.params & 0xFF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case CRACKED_STONE_FLOOR:
             BgHidanKowarerukabe_FloorBreak(this, play);
             break;
@@ -304,9 +319,9 @@ void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play) {
 
     if (Actor_GetCollidedExplosive(play, &this->collider.base) != NULL) {
         BgHidanKowarerukabe_Break(this, play);
-        Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6));
 
-        if ((this->dyna.actor.params & 0xFF) == 0) {
+        if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_EXPLOSION);
         } else {
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
@@ -327,9 +342,8 @@ void BgHidanKowarerukabe_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_kowarerukabe.c", 568),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, sBreakableWallDLists[this->dyna.actor.params & 0xFF]);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_kowarerukabe.c", 568);
+    gSPDisplayList(POLY_OPA_DISP++, sBreakableWallDLists[PARAMS_GET_U(this->dyna.actor.params, 0, 8)]);
 
     Collider_UpdateSpheres(0, &this->collider);
 

@@ -2,9 +2,9 @@
 #define Z_EFF_SS_G_RIPPLE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z_math.h"
 
-typedef struct {
+typedef struct EffectSsGRippleInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 radius;
     /* 0x0E */ s16 radiusMax;

@@ -25,26 +25,78 @@
         <Animation Name="gMalonChildIdleAnim" Offset="0x820"/>
         <Animation Name="gMalonChildSingAnim" Offset="0x8D64"/>
 
-        <Texture Name="gMalonChildDressTLUT" OutName="dress_tlut" Format="rgba16" Width="16" Height="16" Offset="0x830"/>
-        <Texture Name="gMalonChildDressDesignTex" OutName="dress_design" Format="ci8" Width="8" Height="16" Offset="0xA30" TlutOffset="0x830"/>
-        <Texture Name="gMalonChildFingersTex" OutName="fingers" Format="rgba16" Width="16" Height="16" Offset="0xAB0"/>
-        <Texture Name="gMalonChildBowserTex" OutName="bowser" Format="rgba16" Width="16" Height="32" Offset="0xCB0"/>
-        <Texture Name="gMalonChildScarfTex" OutName="scarf" Format="ci8" Width="8" Height="8" Offset="0x10B0" TlutOffset="0x830"/>
-        <Texture Name="gMalonChildBootTex" OutName="boot" Format="ci8" Width="64" Height="16" Offset="0x10F0" TlutOffset="0x830"/>
-        <Texture Name="gMalonChildHairTLUT" OutName="hair_tlut" Format="rgba16" Width="96" Height="1" Offset="0x14F0"/>
-        <Texture Name="gMalonChildSkinGradientTex" OutName="skin_gradient" Format="rgba16" Width="8" Height="8" Offset="0x1718"/>
-        <Texture Name="gMalonChildBrownCircleTex" OutName="unk_circle" Format="rgba16" Width="8" Height="8" Offset="0x1798"/>
-        <Texture Name="gMalonChildEarTex" OutName="ear" Format="rgba16" Width="16" Height="16" Offset="0x1818"/>
-        <Texture Name="gMalonChildHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x1A18" TlutOffset="0x14F0"/>
+        <Texture Name="gMalonChildDressTLUT" Format="rgba16" Width="16" Height="16" Offset="0x830"/>
+        <Texture Name="gMalonChildDressDesignTex" Format="ci8" Width="8" Height="16" Offset="0xA30" TlutOffset="0x830"/>
+        <Texture Name="gMalonChildFingersTex" Format="rgba16" Width="16" Height="16" Offset="0xAB0"/>
+        <Texture Name="gMalonChildBowserTex" Format="rgba16" Width="16" Height="32" Offset="0xCB0"/>
+        <Texture Name="gMalonChildScarfTex" Format="ci8" Width="8" Height="8" Offset="0x10B0" TlutOffset="0x830"/>
+        <Texture Name="gMalonChildBootTex" Format="ci8" Width="64" Height="16" Offset="0x10F0" TlutOffset="0x830"/>
+        <Texture Name="gMalonChildHairTLUT" Format="rgba16" Width="96" Height="1" Offset="0x14F0"/>
+        <Texture Name="gMalonChildSkinGradientTex" Format="rgba16" Width="8" Height="8" Offset="0x1718"/>
+        <Texture Name="gMalonChildBrownCircleTex" Format="rgba16" Width="8" Height="8" Offset="0x1798"/>
+        <Texture Name="gMalonChildEarTex" Format="rgba16" Width="16" Height="16" Offset="0x1818"/>
+        <Texture Name="gMalonChildHairTex" Format="ci8" Width="16" Height="16" Offset="0x1A18" TlutOffset="0x14F0"/>
 
-        <Texture Name="gMalonChildNeutralMouthTex" OutName="neutral_mouth" Format="rgba16" Width="32" Height="16" Offset="0x1F18"/>
-        <Texture Name="gMalonChildSmilingMouthTex" OutName="smiling_mouth" Format="rgba16" Width="32" Height="16" Offset="0x2B18"/>
-        <Texture Name="gMalonChildTalkingMouthTex" OutName="talking_mouth" Format="rgba16" Width="32" Height="16" Offset="0x2F18"/>
+        <Texture Name="gMalonChildNeutralMouthTex" Format="rgba16" Width="32" Height="16" Offset="0x1F18"/>
+        <Texture Name="gMalonChildSmilingMouthTex" Format="rgba16" Width="32" Height="16" Offset="0x2B18"/>
+        <Texture Name="gMalonChildTalkingMouthTex" Format="rgba16" Width="32" Height="16" Offset="0x2F18"/>
 
-        <Texture Name="gMalonChildEyeTLUT" OutName="eye_tlut" Format="rgba16" Width="15" Height="12" Offset="0x15B0"/>
-        <Texture Name="gMalonChildEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x1B18" TlutOffset="0x15B0"/>
-        <Texture Name="gMalonChildEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x2318" TlutOffset="0x15B0"/>
-        <Texture Name="gMalonChildEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x2718" TlutOffset="0x15B0"/>
+        <Texture Name="gMalonChildEyeTLUT" Format="rgba16" Width="15" Height="12" Offset="0x15B0"/>
+        <Texture Name="gMalonChildEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x1B18" TlutOffset="0x15B0"/>
+        <Texture Name="gMalonChildEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x2318" TlutOffset="0x15B0"/>
+        <Texture Name="gMalonChildEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x2718" TlutOffset="0x15B0"/>
+
+        <Array Name="gMalonChildHeadVtx" Count="227" Offset="0x3318">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildDressLowerVtx" Count="52" Offset="0x4B18">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildDressMiddleVtx" Count="35" Offset="0x4E58">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftHandVtx" Count="40" Offset="0x5088">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftArmVtx" Count="24" Offset="0x5308">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftShoulderVtx" Count="40" Offset="0x5488">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightHandVtx" Count="40" Offset="0x5708">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightArmVtx" Count="24" Offset="0x5988">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightShoulderVtx" Count="40" Offset="0x5B08">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildChestVtx" Count="120" Offset="0x5D88">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightFoorVtx" Count="29" Offset="0x6508">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightShinVtx" Count="17" Offset="0x66D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightThighVtx" Count="3" Offset="0x67E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftFootVtx" Count="29" Offset="0x6818">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftShinVtx" Count="17" Offset="0x69E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftThighVtx" Count="3" Offset="0x6AF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildDressUpperVtx" Count="20" Offset="0x6B28">
+            <Vtx/>
+        </Array>
 
         <DList Name="gMalonChildHeadDL" Offset="0x4148"/>
         <DList Name="gMalonChildDressLowerDL" Offset="0x6C68"/>

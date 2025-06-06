@@ -1,6 +1,7 @@
-#include "global.h"
+#include "array_count.h"
+#include "ultra64.h"
 
-OSMesg siAccessBuf[1];
+static OSMesg siAccessBuf[1];
 OSMesgQueue __osSiAccessQueue;
 u32 __osSiAccessQueueEnabled = false;
 

@@ -1,7 +1,19 @@
 #include "z_efc_erupc.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sequence.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_efc_erupc/object_efc_erupc.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EfcErupc_Init(Actor* thisx, PlayState* play);
 void EfcErupc_Destroy(Actor* thisx, PlayState* play);
@@ -14,7 +26,7 @@ void EfcErupc_UpdateEffects(EfcErupc* this, PlayState* play);
 void EfcErupc_SpawnEffect(EfcErupcEffect* effect, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor);
 void EfcErupc_InitEffects(EfcErupcEffect* effect);
 
-ActorInit Efc_Erupc_InitVars = {
+ActorProfile Efc_Erupc_Profile = {
     /**/ ACTOR_EFC_ERUPC,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -132,8 +144,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
 
     Matrix_Push();
     Matrix_Scale(0.8f, 0.8f, 0.8f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_efc_erupc.c", 321),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_efc_erupc.c", 321);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
         if ((play->csCtx.actorCues[1] != NULL) && (play->csCtx.actorCues[1]->id == 2)) {
@@ -142,8 +153,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
     }
     Matrix_Pop();
     Matrix_Scale(3.4f, 3.4f, 3.4f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_efc_erupc.c", 333),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_efc_erupc.c", 333);
     if (play->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
@@ -177,8 +187,7 @@ void EfcErupc_DrawEffects(EfcErupcEffect* effect, PlayState* play) {
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_efc_erupc.c", 393),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_efc_erupc.c", 393);
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_0027D8);
         }
     }

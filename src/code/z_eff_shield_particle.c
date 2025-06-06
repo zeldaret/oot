@@ -1,5 +1,15 @@
-#include "global.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
 #include "terminal.h"
+#include "translation.h"
+#include "effect.h"
+#include "light.h"
+#include "play_state.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 static Vtx sVertices[5] = {
@@ -18,9 +28,10 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
     if ((this != NULL) && (initParams != NULL)) {
         this->numElements = initParams->numElements;
         if (this->numElements > ARRAY_COUNT(this->elements)) {
-            PRINTF(VT_FGCOL(RED));
-            PRINTF("EffectShieldParticle_ct():パーティクル数がオーバしてます。\n");
-            PRINTF(VT_RST);
+            PRINTF_COLOR_RED();
+            PRINTF(T("EffectShieldParticle_ct():パーティクル数がオーバしてます。\n",
+                     "EffectShieldParticle_ct(): Number of particles exceeded.\n"));
+            PRINTF_RST();
             return;
         }
 

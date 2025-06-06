@@ -1,0 +1,102 @@
+<!-- This file is only for extraction of vanilla data. For other purposes see assets/audio/soundfonts/ -->
+<SoundFont Name="Soundfont_1" Index="1">
+    <Envelopes>
+        <Envelope Name="Env0"/>
+    </Envelopes>
+    <Instruments>
+        <Instrument ProgramNumber="0" Name="INST_0"/>
+        <Instrument ProgramNumber="1" Name="INST_1"/>
+        <Instrument ProgramNumber="2" Name="INST_2"/>
+        <Instrument ProgramNumber="18" Name="INST_18"/>
+        <Instrument ProgramNumber="19" Name="INST_19"/>
+        <Instrument ProgramNumber="20" Name="INST_20"/>
+        <Instrument ProgramNumber="3" Name="INST_3"/>
+        <Instrument ProgramNumber="4" Name="INST_4"/>
+        <Instrument ProgramNumber="5" Name="INST_5"/>
+        <Instrument ProgramNumber="6" Name="INST_6"/>
+        <Instrument ProgramNumber="7" Name="INST_7"/>
+        <Instrument ProgramNumber="11" Name="INST_11"/>
+        <Instrument ProgramNumber="8" Name="INST_8"/>
+        <Instrument ProgramNumber="9" Name="INST_9"/>
+        <Instrument ProgramNumber="10" Name="INST_10"/>
+        <Instrument ProgramNumber="23" Name="INST_23"/>
+        <Instrument ProgramNumber="12" Name="INST_12"/>
+        <Instrument ProgramNumber="13" Name="INST_13"/>
+        <Instrument ProgramNumber="15" Name="INST_15"/>
+        <Instrument ProgramNumber="14" Name="INST_14"/>
+        <Instrument ProgramNumber="16" Name="INST_16"/>
+        <Instrument ProgramNumber="17" Name="INST_17"/>
+        <Instrument ProgramNumber="25" Name="INST_25"/>
+        <Instrument ProgramNumber="26" Name="INST_26"/>
+        <Instrument ProgramNumber="27" Name="INST_27"/>
+        <Instrument ProgramNumber="28" Name="INST_28"/>
+        <Instrument ProgramNumber="21" Name="INST_21"/>
+        <Instrument ProgramNumber="24" Name="INST_24"/>
+        <Instrument ProgramNumber="29" Name="INST_29"/>
+        <Instrument ProgramNumber="30" Name="INST_30"/>
+        <Instrument ProgramNumber="31" Name="INST_31"/>
+        <Instrument ProgramNumber="32" Name="INST_32"/>
+        <Instrument ProgramNumber="33" Name="INST_33"/>
+        <Instrument ProgramNumber="34" Name="INST_34"/>
+        <Instrument ProgramNumber="35" Name="INST_35"/>
+        <Instrument ProgramNumber="36" Name="INST_36"/>
+        <Instrument ProgramNumber="37" Name="INST_37"/>
+        <Instrument ProgramNumber="41" Name="INST_41"/>
+        <Instrument ProgramNumber="42" Name="INST_42"/>
+        <Instrument ProgramNumber="43" Name="INST_43"/>
+        <Instrument ProgramNumber="45" Name="INST_45"/>
+        <Instrument ProgramNumber="46" Name="INST_46"/>
+        <Instrument ProgramNumber="48" Name="INST_48"/>
+        <Instrument ProgramNumber="50" Name="INST_50"/>
+        <Instrument ProgramNumber="38" Name="INST_38"/>
+        <Instrument ProgramNumber="39" Name="INST_39"/>
+        <Instrument ProgramNumber="40" Name="INST_40"/>
+        <Instrument ProgramNumber="44" Name="INST_44"/>
+        <Instrument ProgramNumber="22" Name="INST_22"/>
+        <Instrument ProgramNumber="47" Name="INST_47"/>
+        <Instrument ProgramNumber="49" Name="INST_49"/>
+    </Instruments>
+    <Effects>
+        <Effect Name="EFFECT_0"/>
+        <Effect Name="EFFECT_1"/>
+        <Effect Name="EFFECT_2"/>
+        <Effect Name="EFFECT_3"/>
+        <Effect Name="EFFECT_4"/>
+        <Effect Name="EFFECT_5"/>
+        <Effect Name="EFFECT_6"/>
+        <Effect Name="EFFECT_7"/>
+        <Effect Name="EFFECT_8"/>
+        <Effect Name="EFFECT_9"/>
+        <Effect Name="EFFECT_10"/>
+        <Effect Name="EFFECT_11"/>
+        <Effect Name="EFFECT_12"/>
+        <Effect Name="EFFECT_13"/>
+        <Effect Name="EFFECT_14"/>
+        <Effect Name="EFFECT_15"/>
+        <Effect Name="EFFECT_16"/>
+        <Effect Name="EFFECT_17"/>
+        <Effect Name="EFFECT_18"/>
+        <Effect Name="EFFECT_19"/>
+        <Effect Name="EFFECT_20"/>
+        <Effect Name="EFFECT_21"/>
+        <Effect Name="EFFECT_22"/>
+        <Effect Name="EFFECT_23"/>
+        <Effect Name="EFFECT_24"/>
+        <Effect Name="EFFECT_25"/>
+        <Effect Name="EFFECT_26"/>
+        <Effect Name="EFFECT_27"/>
+        <Effect Name="EFFECT_28"/>
+        <Effect Name="EFFECT_29"/>
+        <Effect Name="EFFECT_30"/>
+        <Effect Name="EFFECT_31"/>
+        <Effect Name="EFFECT_32"/>
+        <Effect Name="EFFECT_33"/>
+        <Effect Name="EFFECT_34"/>
+        <Effect Name="EFFECT_35"/>
+        <Effect Name="EFFECT_36"/>
+        <Effect Name="EFFECT_37"/>
+        <Effect Name="EFFECT_38"/>
+        <Effect Name="EFFECT_39"/>
+        <Effect Name="EFFECT_40"/>
+    </Effects>
+</SoundFont>

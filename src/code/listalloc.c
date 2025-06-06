@@ -1,4 +1,5 @@
-#include "global.h"
+#include "libc64/malloc.h"
+#include "listalloc.h"
 
 ListAlloc* ListAlloc_Init(ListAlloc* this) {
     this->prev = NULL;

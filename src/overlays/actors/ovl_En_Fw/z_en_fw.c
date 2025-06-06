@@ -5,11 +5,26 @@
  */
 
 #include "z_en_fw.h"
-#include "assets/objects/object_fw/object_fw.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_fw/object_fw.h"
+
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR)
 
 void EnFw_Init(Actor* thisx, PlayState* play);
 void EnFw_Destroy(Actor* thisx, PlayState* play);
@@ -24,7 +39,7 @@ void EnFw_Run(EnFw* this, PlayState* play);
 void EnFw_JumpToParentInitPos(EnFw* this, PlayState* play);
 void EnFw_TurnToParentInitPos(EnFw* this, PlayState* play);
 
-ActorInit En_Fw_InitVars = {
+ActorProfile En_Fw_Profile = {
     /**/ ACTOR_EN_FW,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -39,7 +54,7 @@ ActorInit En_Fw_InitVars = {
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x04 },
             { 0xFFCFFFFE, 0x00, 0x00 },
             ATELEM_NONE,
@@ -52,7 +67,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -65,7 +80,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnFwAnimation {
     /* 0 */ ENFW_ANIM_0,
     /* 1 */ ENFW_ANIM_1,
     /* 2 */ ENFW_ANIM_2
@@ -191,7 +206,7 @@ void EnFw_Init(Actor* thisx, PlayState* play) {
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->sphs);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x10), &D_80A1FB94);
     Actor_SetScale(&this->actor, 0.01f);
     this->runDirection = -this->actor.params;
@@ -361,8 +376,7 @@ void EnFw_Update(Actor* thisx, PlayState* play) {
     EnFw* this = (EnFw*)thisx;
 
     SkelAnime_Update(&this->skelAnime);
-    if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
-        // not attached to hookshot.
+    if (!ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         this->actionFunc(this, play);
@@ -480,8 +494,7 @@ void EnFw_DrawEffects(EnFw* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fw.c", 1229),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fw.c", 1229);
         idx = eff->timer * (8.0f / eff->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
         gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);

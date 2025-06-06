@@ -2,12 +2,12 @@
 #define Z_EFF_DUST_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EffDust;
 
-typedef void (*EffDustActionFunc)(struct EffDust*, PlayState*);
-typedef void (*EffDustDrawFunc)(Actor*, PlayState*);
+typedef void (*EffDustActionFunc)(struct EffDust*, struct PlayState*);
+typedef void (*EffDustDrawFunc)(Actor*, struct PlayState*);
 
 typedef struct EffDust {
     /* 0x0000 */ Actor actor;
@@ -23,7 +23,7 @@ typedef struct EffDust {
     /* 0x0564 */ EffDustDrawFunc drawFunc;
 } EffDust; // size = 0x0568
 
-typedef enum {
+typedef enum EffDustType {
     /* 0x00 */ EFF_DUST_TYPE_0,
     /* 0x01 */ EFF_DUST_TYPE_1,
     /* 0x02 */ EFF_DUST_TYPE_2,

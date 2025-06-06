@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_jya_block.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0
@@ -14,7 +24,7 @@ void BgJyaBlock_Destroy(Actor* thisx, PlayState* play);
 void BgJyaBlock_Update(Actor* thisx, PlayState* play);
 void BgJyaBlock_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Jya_Block_InitVars = {
+ActorProfile Bg_Jya_Block_Profile = {
     /**/ ACTOR_BG_JYA_BLOCK,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -28,9 +38,9 @@ ActorInit Bg_Jya_Block_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 333, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1500, ICHAIN_STOP),
 };
 
 void BgJyaBlock_Init(Actor* thisx, PlayState* play) {
@@ -43,7 +53,7 @@ void BgJyaBlock_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    if ((LINK_AGE_IN_YEARS != YEARS_CHILD) || !Flags_GetSwitch(play, thisx->params & 0x3F)) {
+    if ((LINK_AGE_IN_YEARS != YEARS_CHILD) || !Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -68,8 +78,7 @@ void BgJyaBlock_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gPushBlockGrayTex));
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_jya_block.c", 153),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_jya_block.c", 153);
     gDPSetEnvColor(POLY_OPA_DISP++, 232, 210, 176, 255);
     gSPDisplayList(POLY_OPA_DISP++, gPushBlockDL);
 

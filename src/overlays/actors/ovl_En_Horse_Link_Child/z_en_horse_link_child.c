@@ -5,9 +5,27 @@
  */
 
 #include "z_en_horse_link_child.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "z_lib.h"
+#include "actor.h"
+#include "horse.h"
+#include "player.h"
+#include "play_state.h"
+#include "save.h"
+#include "skin.h"
+
 #include "assets/objects/object_horse_link_child/object_horse_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnHorseLinkChild_Init(Actor* thisx, PlayState* play);
 void EnHorseLinkChild_Destroy(Actor* thisx, PlayState* play);
@@ -19,7 +37,7 @@ void func_80A69EC0(EnHorseLinkChild* this);
 void func_80A6A4DC(EnHorseLinkChild* this);
 void func_80A6A724(EnHorseLinkChild* this);
 
-ActorInit En_Horse_Link_Child_InitVars = {
+ActorProfile En_Horse_Link_Child_Profile = {
     /**/ ACTOR_EN_HORSE_LINK_CHILD,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -38,14 +56,14 @@ static AnimationHeader* sAnimations[] = {
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -55,10 +73,10 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 20, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphElementInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_NONE,
@@ -71,7 +89,7 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -79,7 +97,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sJntSphElementInit,
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit sColCheckInfoInit = { 10, 35, 100, MASS_HEAVY };
@@ -136,7 +154,7 @@ f32 func_80A695A4(EnHorseLinkChild* this) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 1200, ICHAIN_STOP),
 };
 
 void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
@@ -157,7 +175,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinderType1(play, &this->bodyCollider, &this->actor, &sCylinderInit);
     Collider_InitJntSph(play, &this->headCollider);
-    Collider_SetJntSph(play, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
+    Collider_SetJntSph(play, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColCheckInfoInit);
     this->unk_1F0 = 0;
     this->eyeTexIndex = 0;
@@ -451,7 +469,7 @@ void func_80A6A5A4(EnHorseLinkChild* this, PlayState* play) {
         yawDiff = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor) - this->actor.world.rot.y;
         // 0.7071 = cos(pi/4)
         if ((Math_CosS(yawDiff) < 0.7071f) && (this->animationIdx == 2)) {
-            func_8006DD9C(&this->actor, &GET_PLAYER(play)->actor.world.pos, 300);
+            Horse_RotateToPoint(&this->actor, &GET_PLAYER(play)->actor.world.pos, 300);
         }
 
         if (SkelAnime_Update(&this->skin.skelAnime)) {
@@ -488,9 +506,9 @@ void func_80A6A7D0(EnHorseLinkChild* this, PlayState* play) {
 
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
         if (!this->unk_1E8) {
-            func_8006DD9C(&this->actor, &player->actor.world.pos, 300);
+            Horse_RotateToPoint(&this->actor, &player->actor.world.pos, 300);
         } else {
-            func_8006DD9C(&this->actor, &this->actor.home.pos, 300);
+            Horse_RotateToPoint(&this->actor, &this->actor.home.pos, 300);
         }
     }
 

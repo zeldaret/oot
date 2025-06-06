@@ -2,9 +2,9 @@
 #define Z_EFF_SS_BUBBLE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z_math.h"
 
-typedef struct {
+typedef struct EffectSsBubbleInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ f32 yPosOffset;
     /* 0x10 */ f32 yPosRandScale;

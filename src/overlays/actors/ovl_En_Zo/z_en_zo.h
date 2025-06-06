@@ -2,13 +2,13 @@
 #define Z_EN_ZO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnZo;
 
 #define EN_ZO_EFFECT_COUNT 15
 
-typedef struct {
+typedef struct EnZoEffect {
     /* 0x00 */ u8 type;
     /* 0x04 */ f32 scale;
     /* 0x08 */ f32 targetScale;
@@ -19,7 +19,7 @@ typedef struct {
     /* 0x2C */ Vec3f vec; // Usage specific
 } EnZoEffect; // size = 0x38
 
-typedef void (*EnZoActionFunc)(struct EnZo*, PlayState*);
+typedef void (*EnZoActionFunc)(struct EnZo*, struct PlayState*);
 
 typedef struct EnZo {
     /* 0x0000 */ Actor actor;
@@ -38,8 +38,8 @@ typedef struct EnZo {
     /* 0x0650 */ s16 timeToDive;
     /* 0x0652 */ s16 blinkTimer;
     /* 0x0654 */ s16 eyeTexture;
-    /* 0x0656 */ s16 unk_656[20];
-    /* 0x067E */ s16 unk_67E[20];
+    /* 0x0656 */ s16 fidgetTableY[20];
+    /* 0x067E */ s16 fidgetTableZ[20];
 } EnZo; // size = 0x06A8
 
 #endif

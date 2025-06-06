@@ -5,6 +5,11 @@
  */
 
 #include "z_eff_ss_dead_sound.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "effect.h"
+#include "play_state.h"
 
 #define rSfxId regs[10]
 #define rRepeatMode regs[11] // sound is replayed every update. unused in the original game
@@ -12,7 +17,7 @@
 u32 EffectSsDeadSound_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsDeadSound_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Dead_Sound_InitVars = {
+EffectSsProfile Effect_Ss_Dead_Sound_Profile = {
     EFFECT_SS_DEAD_SOUND,
     EffectSsDeadSound_Init,
 };
@@ -29,7 +34,7 @@ u32 EffectSsDeadSound_Init(PlayState* play, u32 index, EffectSs* this, void* ini
     this->update = EffectSsDeadSound_Update;
     this->rRepeatMode = initParams->repeatMode;
     this->rSfxId = initParams->sfxId;
-    PRINTF("コンストラクター3\n"); // "constructor 3"
+    PRINTF(T("コンストラクター3\n", "Constructor 3\n"));
 
     return 1;
 }

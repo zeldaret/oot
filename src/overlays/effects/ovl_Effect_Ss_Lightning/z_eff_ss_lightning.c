@@ -5,6 +5,17 @@
  */
 
 #include "z_eff_ss_lightning.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
@@ -24,7 +35,7 @@ u32 EffectSsLightning_Init(PlayState* play, u32 index, EffectSs* this, void* ini
 void EffectSsLightning_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsLightning_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Lightning_InitVars = {
+EffectSsProfile Effect_Ss_Lightning_Profile = {
     EFFECT_SS_LIGHTNING,
     EffectSsLightning_Init,
 };
@@ -100,7 +111,7 @@ void EffectSsLightning_Draw(PlayState* play, u32 index, EffectSs* this) {
     SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfRotate, &mfTransBillboardRotate);
     SkinMatrix_MtxFMtxFMult(&mfTransBillboardRotate, &mfScale, &mfResult);
 
-    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 

@@ -4,8 +4,8 @@
 
 #define BUFF_LEN 0x20
 
-short _Ldunscale(short*, _Pft*);
-void _Genld(_Pft*, char, char*, short, short);
+static short _Ldunscale(short*, _Pft*);
+static void _Genld(_Pft*, char, char*, short, short);
 
 static const double pows[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 10e127L, 10e255L };
 
@@ -56,7 +56,7 @@ void _Ldtob(_Pft* args, char code) {
     } else if (args->prec == 0 && (code == 'g' || code == 'G')) {
         args->prec = 1;
     }
-    err = _Ldunscale(&exp, (_Pft*)args);
+    err = _Ldunscale(&exp, args);
     if (err > 0) {
         memcpy(args->s, err == 2 ? "NaN" : "Inf", args->n1 = 3);
         return;
@@ -76,7 +76,7 @@ void _Ldtob(_Pft* args, char code) {
 
         exp = exp * 30103 / 100000 - 4;
         if (exp < 0) {
-            n = (3 - exp) & ~3;
+            n = (-exp + 3) & ~3;
             exp = -n;
             for (i = 0; n > 0; n >>= 1, i++) {
                 if ((n & 1) != 0) {
@@ -95,7 +95,7 @@ void _Ldtob(_Pft* args, char code) {
             val /= factor;
         }
 
-        gen = ((code == 'f') ? exp + 10 : 6) + args->prec;
+        gen = args->prec + ((code == 'f') ? exp + 10 : 6);
         if (gen > 0x13) {
             gen = 0x13;
         }
@@ -128,19 +128,13 @@ void _Ldtob(_Pft* args, char code) {
             --gen, --exp;
         }
 
-        nsig = ((code == 'f') ? exp + 1 : ((code == 'e' || code == 'E') ? 1 : 0)) + args->prec;
+        nsig = args->prec + ((code == 'f') ? exp + 1 : ((code == 'e' || code == 'E') ? 1 : 0));
         if (gen < nsig) {
             nsig = gen;
         }
         if (nsig > 0) {
-            char drop;
+            char drop = (nsig < gen && ptr[nsig] > '4') ? '9' : '0';
             int n2;
-
-            if (nsig < gen && ptr[nsig] > '4') {
-                drop = '9';
-            } else {
-                drop = '0';
-            }
 
             for (n2 = nsig; ptr[--n2] == drop;) {
                 nsig--;
@@ -156,7 +150,7 @@ void _Ldtob(_Pft* args, char code) {
     _Genld((_Pft*)args, code, ptr, nsig, exp);
 }
 
-short _Ldunscale(short* pex, _Pft* px) {
+static short _Ldunscale(short* pex, _Pft* px) {
     unsigned short* ps = (unsigned short*)px;
     short xchar = (ps[_D0] & _DMASK) >> _DOFF;
 
@@ -176,7 +170,7 @@ short _Ldunscale(short* pex, _Pft* px) {
     }
 }
 
-void _Genld(_Pft* px, char code, char* p, short nsig, short xexp) {
+static void _Genld(_Pft* px, char code, char* p, short nsig, short xexp) {
     const char point = '.';
 
     if (nsig <= 0) {

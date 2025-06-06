@@ -2,7 +2,7 @@
 #define Z_EN_BOMBF_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnBombf;
 
@@ -12,7 +12,7 @@ typedef struct EnBombf {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder bombCollider;
     /* 0x0198 */ ColliderJntSph explosionCollider;
-    /* 0x01B8 */ ColliderJntSphElement explosionColliderItems[1];
+    /* 0x01B8 */ ColliderJntSphElement explosionColliderElements[1];
     /* 0x01F8 */ s16 timer;
     /* 0x01FC */ EnBombfActionFunc actionFunc;
     /* 0x0200 */ s32 isFuseEnabled; // enables the ability to ignite and tick down to explode
@@ -22,7 +22,7 @@ typedef struct EnBombf {
     /* 0x020C */ f32 flowerBombScale;
 } EnBombf; // size = 0x0210
 
-typedef enum {
+typedef enum EnBombfType {
     /* 0xFFFF */ BOMBFLOWER_FLOWER = -1,
     /* 0x0000 */ BOMBFLOWER_BODY,
     /* 0x0001 */ BOMBFLOWER_EXPLOSION

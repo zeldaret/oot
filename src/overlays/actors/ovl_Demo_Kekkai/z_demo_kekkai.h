@@ -2,11 +2,11 @@
 #define Z_DEMO_KEKKAI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct DemoKekkai;
 
-typedef void (*DemoKekkaiUpdateFunc)(struct DemoKekkai* this, PlayState* play);
+typedef void (*DemoKekkaiUpdateFunc)(struct DemoKekkai* this, struct PlayState* play);
 
 typedef struct DemoKekkai {
     /* 0x0000 */ Actor actor;
@@ -21,7 +21,7 @@ typedef struct DemoKekkai {
     /* 0x01F8 */ DemoKekkaiUpdateFunc updateFunc;
 } DemoKekkai; // size = 0x01FC
 
-typedef enum {
+typedef enum DemoKekkaiType {
     /* 0 */ KEKKAI_TOWER,
     /* 1 */ KEKKAI_WATER,
     /* 2 */ KEKKAI_LIGHT,

@@ -1,5 +1,10 @@
-#include "global.h"
+#include "skin_matrix.h"
+
+#include "gfx.h"
+#include "printf.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
 
 // clang-format off
 MtxF sMtxFClear = {
@@ -252,9 +257,10 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
             // Reaching row = 4 means the column is either all 0 or a duplicate column.
             // Therefore src is a singular matrix (0 determinant).
 
-            PRINTF(VT_COL(YELLOW, BLACK));
-            PRINTF("Skin_Matrix_InverseMatrix():逆行列つくれません\n");
-            PRINTF(VT_RST);
+            PRINTF_COLOR_WARNING();
+            PRINTF(T("Skin_Matrix_InverseMatrix():逆行列つくれません\n",
+                     "Skin_Matrix_InverseMatrix(): Cannot create inverse matrix\n"));
+            PRINTF_RST();
             return 2;
         }
 
@@ -589,7 +595,8 @@ Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src) {
     Mtx* mtx = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
 
     if (mtx == NULL) {
-        PRINTF("Skin_Matrix_to_Mtx_new() 確保失敗:NULLを返して終了\n", mtx);
+        PRINTF(T("Skin_Matrix_to_Mtx_new() 確保失敗:NULLを返して終了\n",
+                 "Skin_Matrix_to_Mtx_new() allocation failed: Return NULL and exit\n"));
         return NULL;
     }
     SkinMatrix_MtxFToMtx(src, mtx);

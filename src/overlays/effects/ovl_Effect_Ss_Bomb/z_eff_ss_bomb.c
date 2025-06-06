@@ -5,6 +5,18 @@
  */
 
 #include "z_eff_ss_bomb.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define EFFSSBOMB_LIFESPAN 20
@@ -16,7 +28,7 @@ u32 EffectSsBomb_Init(PlayState* play, u32 index, EffectSs* this, void* initPara
 void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBomb_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Bomb_InitVars = {
+EffectSsProfile Effect_Ss_Bomb_Profile = {
     EFFECT_SS_BOMB,
     EffectSsBomb_Init,
 };
@@ -67,7 +79,7 @@ void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this) {
     SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
     SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
 
-    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 

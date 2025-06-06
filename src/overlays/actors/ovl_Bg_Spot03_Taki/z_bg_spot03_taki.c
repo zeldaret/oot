@@ -5,18 +5,28 @@
  */
 
 #include "z_bg_spot03_taki.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "audio.h"
+#include "play_state.h"
+
 #include "assets/objects/object_spot03_object/object_spot03_object.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgSpot03Taki_Init(Actor* thisx, PlayState* play);
 void BgSpot03Taki_Destroy(Actor* thisx, PlayState* play);
 void BgSpot03Taki_Update(Actor* thisx, PlayState* play);
 void BgSpot03Taki_Draw(Actor* thisx, PlayState* play);
 
-void func_808ADEF0(BgSpot03Taki* this, PlayState* play);
+void BgSpot03Taki_HandleWaterfallState(BgSpot03Taki* this, PlayState* play);
 
-ActorInit Bg_Spot03_Taki_InitVars = {
+ActorProfile Bg_Spot03_Taki_Profile = {
     /**/ ACTOR_BG_SPOT03_TAKI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -47,7 +57,7 @@ void BgSpot03Taki_Init(Actor* thisx, PlayState* play) {
     s16 pad;
     CollisionHeader* colHeader = NULL;
 
-    this->switchFlag = (this->dyna.actor.params & 0x3F);
+    this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 6);
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_spot03_object_Col_000C98, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -56,7 +66,7 @@ void BgSpot03Taki_Init(Actor* thisx, PlayState* play) {
     this->openingAlpha = 255.0f;
     BgSpot03Taki_ApplyOpeningAlpha(this, 0);
     BgSpot03Taki_ApplyOpeningAlpha(this, 1);
-    this->actionFunc = func_808ADEF0;
+    this->actionFunc = BgSpot03Taki_HandleWaterfallState;
 }
 
 void BgSpot03Taki_Destroy(Actor* thisx, PlayState* play) {
@@ -65,7 +75,7 @@ void BgSpot03Taki_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808ADEF0(BgSpot03Taki* this, PlayState* play) {
+void BgSpot03Taki_HandleWaterfallState(BgSpot03Taki* this, PlayState* play) {
     if (this->state == WATERFALL_CLOSED) {
         if (Flags_GetSwitch(play, this->switchFlag)) {
             this->state = WATERFALL_OPENING_ANIMATED;
@@ -122,8 +132,7 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot03_taki.c", 325),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot03_taki.c", 325);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
@@ -146,8 +155,6 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play) {
                                 -gameplayFrames, gameplayFrames * 3, 64, 64));
 
     gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_001580);
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 

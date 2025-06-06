@@ -6,6 +6,16 @@
 
 #include "z_obj_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_bombiwa/object_bombiwa.h"
 
 #define FLAGS 0
@@ -18,7 +28,7 @@ void ObjBombiwa_Draw(Actor* thisx, PlayState* play);
 
 void ObjBombiwa_Break(ObjBombiwa* this, PlayState* play);
 
-ActorInit Obj_Bombiwa_InitVars = {
+ActorProfile Obj_Bombiwa_Profile = {
     /**/ ACTOR_OBJ_BOMBIWA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -32,7 +42,7 @@ ActorInit Obj_Bombiwa_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -40,7 +50,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x4FC1FFFE, 0x00, 0x00 },
         ATELEM_NONE,
@@ -54,9 +64,9 @@ static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 350, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 350, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 static s16 sEffectScales[] = {
@@ -74,7 +84,7 @@ void ObjBombiwa_InitCollision(Actor* thisx, PlayState* play) {
 void ObjBombiwa_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     ObjBombiwa_InitCollision(thisx, play);
-    if ((Flags_GetSwitch(play, thisx->params & 0x3F) != 0)) {
+    if ((Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6)) != 0)) {
         Actor_Kill(thisx);
     } else {
         CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
@@ -127,9 +137,9 @@ void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
     if ((func_80033684(play, &this->actor) != NULL) ||
         ((this->collider.base.acFlags & AC_HIT) && (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HAMMER))) {
         ObjBombiwa_Break(this, play);
-        Flags_SetSwitch(play, this->actor.params & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6));
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
-        if (((this->actor.params >> 0xF) & 1) != 0) {
+        if (PARAMS_GET_U(this->actor.params, 15, 1) != 0) {
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
         Actor_Kill(&this->actor);

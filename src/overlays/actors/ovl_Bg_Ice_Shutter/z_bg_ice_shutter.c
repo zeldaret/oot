@@ -5,9 +5,16 @@
  */
 
 #include "z_bg_ice_shutter.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgIceShutter_Init(Actor* thisx, PlayState* play);
 void BgIceShutter_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +25,7 @@ void func_80891CF4(BgIceShutter* this, PlayState* play);
 void func_80891D6C(BgIceShutter* this, PlayState* play);
 void func_80891DD4(BgIceShutter* this, PlayState* play);
 
-ActorInit Bg_Ice_Shutter_InitVars = {
+ActorProfile Bg_Ice_Shutter_Profile = {
     /**/ ACTOR_BG_ICE_SHUTTER,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -53,8 +60,8 @@ void BgIceShutter_Init(Actor* thisx, PlayState* play) {
     colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
-    sp28 = this->dyna.actor.params & 0xFF;
-    this->dyna.actor.params = (this->dyna.actor.params >> 8) & 0xFF;
+    sp28 = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
+    this->dyna.actor.params = PARAMS_GET_U(this->dyna.actor.params, 8, 8);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002854, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (sp28 == 2) {

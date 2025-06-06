@@ -7,12 +7,25 @@
 #include "z_en_kusa.h"
 #include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "assets/objects/object_kusa/object_kusa.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_THROW_ONLY)
 
 void EnKusa_Init(Actor* thisx, PlayState* play);
 void EnKusa_Destroy(Actor* thisx, PlayState* play2);
@@ -41,7 +54,7 @@ static s16 rotSpeedX = 0;
 static s16 rotSpeedYtarget = 0;
 static s16 rotSpeedY = 0;
 
-ActorInit En_Kusa_InitVars = {
+ActorProfile En_Kusa_Profile = {
     /**/ ACTOR_EN_KUSA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -57,7 +70,7 @@ static s16 sObjectIds[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_2,
@@ -65,7 +78,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x4FC00758, 0x00, 0x00 },
         ATELEM_NONE,
@@ -88,8 +101,8 @@ static s16 sFragmentScales[] = { 108, 102, 96, 84, 66, 55, 42, 38 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 400, ICHAIN_CONTINUE),         ICHAIN_F32_DIV1000(gravity, -3200, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(minVelocityY, -17000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),         ICHAIN_F32(uncullZoneDownward, 120, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(minVelocityY, -17000, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 100, ICHAIN_CONTINUE),      ICHAIN_F32(cullingVolumeDownward, 120, ICHAIN_STOP),
 };
 
 void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
@@ -115,10 +128,9 @@ s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
-        PRINTF(VT_COL(YELLOW, BLACK));
-        // "Failure attaching to ground"
-        PRINTF("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_WARNING();
+        PRINTF(T("地面に付着失敗(%s %d)\n", "Failed to attach to ground (%s %d)\n"), "../z_en_kusa.c", 323);
+        PRINTF_RST();
         return false;
     }
 }
@@ -126,10 +138,10 @@ s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
 void EnKusa_DropCollectible(EnKusa* this, PlayState* play) {
     s16 dropParams;
 
-    switch (this->actor.params & 3) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
         case ENKUSA_TYPE_0:
         case ENKUSA_TYPE_2:
-            dropParams = (this->actor.params >> 8) & 0xF;
+            dropParams = PARAMS_GET_U(this->actor.params, 8, 4);
 
             if (dropParams >= 0xD) {
                 dropParams = 0;
@@ -234,7 +246,7 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        this->actor.uncullZoneForward += 1000.0f;
+        this->actor.cullingVolumeDistance += 1000.0f;
     }
 
     EnKusa_InitCollider(thisx, play);
@@ -253,11 +265,11 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[thisx->params & 3]);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[PARAMS_GET_U(thisx->params, 0, 2)]);
 
     if (this->requiredObjectSlot < 0) {
-        // "Bank danger!"
-        PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", thisx->params, "../z_en_kusa.c", 561);
+        PRINTF(T("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               thisx->params, "../z_en_kusa.c", 561);
         Actor_Kill(&this->actor);
         return;
     }
@@ -278,7 +290,7 @@ void EnKusa_SetupWaitForObject(EnKusa* this) {
 
 void EnKusa_WaitForObject(EnKusa* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
+        if (this->actor.flags & ACTOR_FLAG_GRASS_DESTROYED) {
             EnKusa_SetupCut(this);
         } else {
             EnKusa_SetupMain(this);
@@ -286,13 +298,13 @@ void EnKusa_WaitForObject(EnKusa* this, PlayState* play) {
 
         this->actor.draw = EnKusa_Draw;
         this->actor.objectSlot = this->requiredObjectSlot;
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 }
 
 void EnKusa_SetupMain(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_Main);
-    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void EnKusa_Main(EnKusa* this, PlayState* play) {
@@ -307,17 +319,17 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
         EnKusa_DropCollectible(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
 
-        if ((this->actor.params >> 4) & 1) {
+        if (PARAMS_GET_U(this->actor.params, 4, 1)) {
             EnKusa_SpawnBugs(this, play);
         }
 
-        if ((this->actor.params & 3) == ENKUSA_TYPE_0) {
+        if (PARAMS_GET_U(this->actor.params, 0, 2) == ENKUSA_TYPE_0) {
             Actor_Kill(&this->actor);
             return;
         }
 
         EnKusa_SetupCut(this);
-        this->actor.flags |= ACTOR_FLAG_ENKUSA_CUT;
+        this->actor.flags |= ACTOR_FLAG_GRASS_DESTROYED;
     } else {
         if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 12.0f)) {
             this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
@@ -340,7 +352,7 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
 void EnKusa_SetupLiftedUp(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_LiftedUp);
     this->actor.room = -1;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void EnKusa_LiftedUp(EnKusa* this, PlayState* play) {
@@ -379,7 +391,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
         }
         EnKusa_SpawnFragments(this, play);
         EnKusa_DropCollectible(this, play);
-        switch (this->actor.params & 3) {
+        switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
             case ENKUSA_TYPE_0:
             case ENKUSA_TYPE_2:
                 Actor_Kill(&this->actor);
@@ -394,7 +406,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         contactPos.x = this->actor.world.pos.x;
-        contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+        contactPos.y = this->actor.world.pos.y + this->actor.depthInWater;
         contactPos.z = this->actor.world.pos.z;
         EffectSsGSplash_Spawn(play, &contactPos, NULL, NULL, 0, 400);
         EffectSsGRipple_Spawn(play, &contactPos, 150, 650, 0);
@@ -424,7 +436,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
 }
 
 void EnKusa_SetupCut(EnKusa* this) {
-    switch (this->actor.params & 3) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
         case ENKUSA_TYPE_2:
             EnKusa_SetupAction(this, EnKusa_DoNothing);
             break;
@@ -466,7 +478,7 @@ void EnKusa_SetupRegrow(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_Regrow);
     EnKusa_SetScaleSmall(this);
     this->actor.shape.rot = this->actor.home.rot;
-    this->actor.flags &= ~ACTOR_FLAG_ENKUSA_CUT;
+    this->actor.flags &= ~ACTOR_FLAG_GRASS_DESTROYED;
 }
 
 void EnKusa_Regrow(EnKusa* this, PlayState* play) {
@@ -490,7 +502,7 @@ void EnKusa_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
+    if (this->actor.flags & ACTOR_FLAG_GRASS_DESTROYED) {
         this->actor.shape.yOffset = -6.25f;
     } else {
         this->actor.shape.yOffset = 0.0f;
@@ -501,9 +513,9 @@ void EnKusa_Draw(Actor* thisx, PlayState* play) {
     static Gfx* dLists[] = { gFieldBushDL, object_kusa_DL_000140, object_kusa_DL_000140 };
     EnKusa* this = (EnKusa*)thisx;
 
-    if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
+    if (this->actor.flags & ACTOR_FLAG_GRASS_DESTROYED) {
         Gfx_DrawDListOpa(play, object_kusa_DL_0002E0);
     } else {
-        Gfx_DrawDListOpa(play, dLists[thisx->params & 3]);
+        Gfx_DrawDListOpa(play, dLists[PARAMS_GET_U(thisx->params, 0, 2)]);
     }
 }

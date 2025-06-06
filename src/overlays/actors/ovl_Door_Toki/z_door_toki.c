@@ -5,6 +5,11 @@
  */
 
 #include "z_door_toki.h"
+
+#include "ichain.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
 #define FLAGS 0
@@ -13,7 +18,7 @@ void DoorToki_Init(Actor* thisx, PlayState* play);
 void DoorToki_Destroy(Actor* thisx, PlayState* play);
 void DoorToki_Update(Actor* thisx, PlayState* play);
 
-ActorInit Door_Toki_InitVars = {
+ActorProfile Door_Toki_Profile = {
     /**/ ACTOR_DOOR_TOKI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -49,7 +54,7 @@ void DoorToki_Destroy(Actor* thisx, PlayState* play) {
 void DoorToki_Update(Actor* thisx, PlayState* play) {
     DoorToki* this = (DoorToki*)thisx;
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
         DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);

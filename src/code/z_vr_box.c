@@ -1,8 +1,16 @@
-#include "global.h"
-#include "terminal.h"
-#include "z64environment.h"
+#include "skybox.h"
 
-typedef struct {
+#include "array_count.h"
+#include "printf.h"
+#include "segment_symbols.h"
+#include "terminal.h"
+#include "ultra64.h"
+#include "environment.h"
+#include "game.h"
+#include "play_state.h"
+#include "save.h"
+
+typedef struct SkyboxFaceParams {
     /* 0x000 */ s32 xStart;
     /* 0x004 */ s32 yStart;
     /* 0x008 */ s32 zStart;
@@ -69,10 +77,10 @@ s32 Skybox_CalculateFace256(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 roomVtxS
     s32 k;
     u16 index;
     s16 m;
+    s16 l;
     s16 ult;
     s16 uls;
     s16 vtxIdx;
-    s16 l;
     s32 xPoints[9 * 5];
     s32 yPoints[9 * 5];
     s32 zPoints[9 * 5];
@@ -303,6 +311,8 @@ s32 Skybox_CalculateFace128(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 roomVtxS
             }
             break;
     }
+
+    if (1) {}
 
     // Select gfx buffer
     skyboxCtx->gfx = &skyboxCtx->dListBuf[2 * faceNum][0];
@@ -1028,7 +1038,7 @@ void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId) {
 
     // Precompute vertices and display lists for drawing the skybox
     if (skyboxId != SKYBOX_NONE) {
-        PRINTF(VT_FGCOL(GREEN));
+        PRINTF_COLOR_GREEN();
 
         if (skyboxCtx->drawType != SKYBOX_DRAW_128) {
             skyboxCtx->dListBuf = GAME_STATE_ALLOC(state, 8 * 150 * sizeof(Gfx), "../z_vr_box.c", 1636);
@@ -1054,6 +1064,6 @@ void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId) {
                 Skybox_Calculate128(skyboxCtx, 5); // compute 5 faces, excludes the bottom face
             }
         }
-        PRINTF(VT_RST);
+        PRINTF_RST();
     }
 }

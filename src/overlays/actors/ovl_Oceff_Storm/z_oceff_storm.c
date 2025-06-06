@@ -6,7 +6,14 @@
 
 #include "z_oceff_storm.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void OceffStorm_Init(Actor* thisx, PlayState* play);
 void OceffStorm_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +25,7 @@ void OceffStorm_Draw2(Actor* thisx, PlayState* play);
 void OceffStorm_DefaultAction(OceffStorm* this, PlayState* play);
 void OceffStorm_UnkAction(OceffStorm* this, PlayState* play);
 
-ActorInit Oceff_Storm_InitVars = {
+ActorProfile Oceff_Storm_Profile = {
     /**/ ACTOR_OCEFF_STORM,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -162,8 +169,7 @@ void OceffStorm_Draw(Actor* thisx, PlayState* play) {
     vtxPtr[0].v.cn[3] = vtxPtr[6].v.cn[3] = vtxPtr[16].v.cn[3] = vtxPtr[25].v.cn[3] = this->vtxAlpha >> 1;
     vtxPtr[10].v.cn[3] = vtxPtr[22].v.cn[3] = this->vtxAlpha;
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_oceff_storm.c", 498),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_storm.c", 498);
 
     gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 4, (0 - scroll) * 8,

@@ -5,9 +5,14 @@
  */
 
 #include "z_bg_hidan_syoku.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "play_state.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgHidanSyoku_Init(Actor* thisx, PlayState* play);
 void BgHidanSyoku_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +23,7 @@ void func_8088F4B8(BgHidanSyoku* this, PlayState* play);
 void func_8088F514(BgHidanSyoku* this, PlayState* play);
 void func_8088F62C(BgHidanSyoku* this, PlayState* play);
 
-ActorInit Bg_Hidan_Syoku_InitVars = {
+ActorProfile Bg_Hidan_Syoku_Profile = {
     /**/ ACTOR_BG_HIDAN_SYOKU,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -74,7 +79,7 @@ void func_8088F514(BgHidanSyoku* this, PlayState* play) {
     if (this->timer == 0) {
         func_8088F47C(this);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
 }
 
@@ -86,7 +91,7 @@ void func_8088F5A0(BgHidanSyoku* this, PlayState* play) {
     if (this->timer == 0) {
         func_8088F47C(this);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
 }
 

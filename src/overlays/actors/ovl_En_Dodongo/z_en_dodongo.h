@@ -2,11 +2,11 @@
 #define Z_EN_DODONGO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnDodongo;
 
-typedef void (*EnDodongoActionFunc)(struct EnDodongo*, PlayState*);
+typedef void (*EnDodongoActionFunc)(struct EnDodongo*, struct PlayState*);
 
 typedef struct EnDodongo {
     /* 0x0000 */ Actor actor;
@@ -30,16 +30,16 @@ typedef struct EnDodongo {
     /* 0x0358 */ Vec3f icePos[9];
     /* 0x03C4 */ Color_RGBA8 bombSmokePrimColor;
     /* 0x03C8 */ Color_RGBA8 bombSmokeEnvColor;
-    /* 0x03CC */ u8 damageEffect;
+    /* 0x03CC */ u8 damageReaction;
     /* 0x03D0 */ s32 blureIdx;
     /* 0x03D4 */ ColliderQuad colliderAT;
     /* 0x0454 */ ColliderTris colliderHard;
     /* 0x0474 */ ColliderTrisElement trisElements[3];
-    /* 0x0588 */ ColliderJntSph colliderBody;
-    /* 0x05A8 */ ColliderJntSphElement sphElements[6];
+    /* 0x0588 */ ColliderJntSph bodyCollider;
+    /* 0x05A8 */ ColliderJntSphElement bodyColliderElements[6];
 } EnDodongo; // size = 0x0728
 
-typedef enum {
+typedef enum EnDodongoParam {
     EN_DODONGO_NORMAL = -1,
     EN_DODONGO_SMOKE_DEATH
 } EnDodongoParam;

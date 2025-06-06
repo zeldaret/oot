@@ -7,14 +7,26 @@
 #include "z_en_jsjutan.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "tex_len.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnJsjutan_Init(Actor* thisx, PlayState* play);
 void EnJsjutan_Destroy(Actor* thisx, PlayState* play);
 void EnJsjutan_Update(Actor* thisx, PlayState* play2);
 void EnJsjutan_Draw(Actor* thisx, PlayState* play2);
 
-ActorInit En_Jsjutan_InitVars = {
+ActorProfile En_Jsjutan_Profile = {
     /**/ ACTOR_EN_JSJUTAN,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -27,20 +39,74 @@ ActorInit En_Jsjutan_InitVars = {
 };
 
 // Shadow texture. 32x64 I8.
+#define sShadowTex_WIDTH 32
+#define sShadowTex_HEIGHT 64
 static u8 sShadowTex[0x800];
 
 static Vec3s D_80A8EE10[0x90];
 
 static s32 sUnused[2] = { 0, 0 };
 
-#include "assets/overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c"
+#define sCarpetTex_WIDTH 32
+#define sCarpetTex_HEIGHT 64
+static u64 sCarpetTex[TEX_LEN(u64, sCarpetTex_WIDTH, sCarpetTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_En_Jsjutan/sCarpetTex.rgba16.inc.c"
+};
+
+static Vtx gShadowOddVtx[] = {
+#include "assets/overlays/ovl_En_Jsjutan/gShadowOddVtx.inc.c"
+};
+
+static Vtx sShadowEvenVtx[] = {
+#include "assets/overlays/ovl_En_Jsjutan/sShadowEvenVtx.inc.c"
+};
+
+static Vtx sCarpetOddVtx[] = {
+#include "assets/overlays/ovl_En_Jsjutan/sCarpetOddVtx.inc.c"
+};
+
+static Gfx sCarpetMaterialDL[16] = {
+#include "assets/overlays/ovl_En_Jsjutan/sCarpetMaterialDL.inc.c"
+};
+
+static Gfx sShadowMaterialDL[14] = {
+#include "assets/overlays/ovl_En_Jsjutan/sShadowMaterialDL.inc.c"
+};
+
+static Gfx sModelDL[134] = {
+#include "assets/overlays/ovl_En_Jsjutan/sModelDL.inc.c"
+};
+
+static Vtx sCarpetEvenVtx[] = {
+#include "assets/overlays/ovl_En_Jsjutan/sCarpetEvenVtx.inc.c"
+};
+
+static BgCamInfo sBgCamList[] = {
+#include "assets/overlays/ovl_En_Jsjutan/sBgCamList.inc.c"
+};
+
+static SurfaceType sSurfaceTypes[] = {
+#include "assets/overlays/ovl_En_Jsjutan/sSurfaceTypes.inc.c"
+};
+
+static CollisionPoly sPolyList[] = {
+#include "assets/overlays/ovl_En_Jsjutan/sPolyList.inc.c"
+};
+
+static Vec3s sVtxList[] = {
+#include "assets/overlays/ovl_En_Jsjutan/sVtxList.inc.c"
+};
+
+static CollisionHeader sCol = {
+#include "assets/overlays/ovl_En_Jsjutan/sCol.inc.c"
+};
 
 void EnJsjutan_Init(Actor* thisx, PlayState* play) {
     EnJsjutan* this = (EnJsjutan*)thisx;
     s32 pad;
     CollisionHeader* header = NULL;
 
-    this->dyna.actor.flags &= ~ACTOR_FLAG_0;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&sCol, &header);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, header);
@@ -407,8 +473,7 @@ void EnJsjutan_Draw(Actor* thisx, PlayState* play2) {
     Matrix_Translate(thisx->world.pos.x, 3.0f, thisx->world.pos.z, MTXMODE_NEW);
     Matrix_Scale(thisx->scale.x, 1.0f, thisx->scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_jsjutan.c", 782),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_jsjutan.c", 782);
 
     // Draws the carpet's shadow texture.
     gSPDisplayList(POLY_OPA_DISP++, sShadowMaterialDL);
@@ -426,8 +491,7 @@ void EnJsjutan_Draw(Actor* thisx, PlayState* play2) {
     Matrix_Translate(thisx->world.pos.x, this->unk_168 + 3.0f, thisx->world.pos.z, MTXMODE_NEW);
     Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_jsjutan.c", 805),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_jsjutan.c", 805);
     // Draws the carpet's texture.
     gSPDisplayList(POLY_OPA_DISP++, sCarpetMaterialDL);
 

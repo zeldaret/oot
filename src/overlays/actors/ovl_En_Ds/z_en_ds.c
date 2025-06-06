@@ -5,9 +5,19 @@
  */
 
 #include "z_en_ds.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ds/object_ds.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnDs_Init(Actor* thisx, PlayState* play);
 void EnDs_Destroy(Actor* thisx, PlayState* play);
@@ -16,7 +26,7 @@ void EnDs_Draw(Actor* thisx, PlayState* play);
 
 void EnDs_Wait(EnDs* this, PlayState* play);
 
-ActorInit En_Ds_InitVars = {
+ActorProfile En_Ds_Profile = {
     /**/ ACTOR_EN_DS,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -41,9 +51,9 @@ void EnDs_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.013f);
 
     this->actionFunc = EnDs_Wait;
-    this->actor.targetMode = 1;
+    this->actor.attentionRangeType = ATTENTION_RANGE_1;
     this->unk_1E8 = 0;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk_1E4 = 0.0f;
 }
 
@@ -53,7 +63,7 @@ void EnDs_Destroy(Actor* thisx, PlayState* play) {
 void EnDs_Talk(EnDs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = EnDs_Wait;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
     this->unk_1E8 |= 1;
 }
@@ -70,7 +80,7 @@ void EnDs_TalkAfterGiveOddPotion(EnDs* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnDs_Talk;
     } else {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalk(&this->actor, play, 1000.0f);
     }
 }
@@ -188,7 +198,7 @@ void EnDs_OfferBluePotion(EnDs* this, PlayState* play) {
                         return;
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
-                        this->actor.flags &= ~ACTOR_FLAG_16;
+                        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
                         Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
@@ -206,7 +216,7 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
     s16 yawDiff;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        if (func_8002F368(play) == EXCH_ITEM_ODD_MUSHROOM) {
+        if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_ODD_MUSHROOM) {
             Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             player->actor.textId = 0x504A;

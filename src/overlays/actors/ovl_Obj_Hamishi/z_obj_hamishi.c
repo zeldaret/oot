@@ -5,6 +5,19 @@
  */
 
 #include "z_obj_hamishi.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0
@@ -14,7 +27,7 @@ void ObjHamishi_Destroy(Actor* thisx, PlayState* play2);
 void ObjHamishi_Update(Actor* thisx, PlayState* play);
 void ObjHamishi_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Hamishi_InitVars = {
+ActorProfile Obj_Hamishi_Profile = {
     /**/ ACTOR_OBJ_HAMISHI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -28,7 +41,7 @@ ActorInit Obj_Hamishi_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -36,7 +49,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x4FC1FFF6, 0x00, 0x00 },
         ATELEM_NONE,
@@ -54,9 +67,9 @@ static s16 sEffectScales[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 250, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 250, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 500, ICHAIN_STOP),
 };
 
 void ObjHamishi_InitCollision(Actor* thisx, PlayState* play) {
@@ -140,7 +153,7 @@ void ObjHamishi_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        this->actor.uncullZoneForward += 1000.0f;
+        this->actor.cullingVolumeDistance += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.home.rot.y = Rand_ZeroFloat(65536.0f);
@@ -149,7 +162,7 @@ void ObjHamishi_Init(Actor* thisx, PlayState* play) {
     ObjHamishi_InitCollision(&this->actor, play);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
-    if (Flags_GetSwitch(play, this->actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6))) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -180,7 +193,7 @@ void ObjHamishi_Update(Actor* thisx, PlayState* play) {
         } else {
             ObjHamishi_Break(this, play);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
-            Flags_SetSwitch(play, this->actor.params & 0x3F);
+            Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6));
             Actor_Kill(&this->actor);
         }
     } else {
@@ -198,8 +211,7 @@ void ObjHamishi_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_hamishi.c", 404),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_hamishi.c", 404);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 170, 130, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);
 

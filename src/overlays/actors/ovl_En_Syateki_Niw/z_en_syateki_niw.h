@@ -2,13 +2,13 @@
 #define Z_EN_SYATEKI_NIW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnSyatekiNiw;
 
-typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, PlayState*);
+typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, struct PlayState*);
 
-typedef struct {
+typedef struct EnSyatekiNiwEffect {
     /* 0x00 */ u8    state;
     /* 0x0C */ Vec3f pos;
     /* 0x10 */ Vec3f vel;
@@ -34,7 +34,7 @@ typedef struct EnSyatekiNiw {
     /* 0x025A */ s16 archeryTimer;
     /* 0x025C */ s16 hopTimer; // intervals of jumping
     /* 0x025E */ s16 movementTimer; // intervals of changing location
-    /* 0x0260 */ s16 sootTimer; // cucco is covered in soot, smoke emmits
+    /* 0x0260 */ s16 sootTimer; // cucco is covered in soot, smoke emits
     /* 0x0262 */ s16 cluckTimer; // intervals of clucking SFX
     /* 0x0264 */ f32 headRotXTarget;
     /* 0x0268 */ f32 rightWingRotXTarget;
@@ -70,7 +70,7 @@ typedef struct EnSyatekiNiw {
     /* 0x0348 */ EnSyatekiNiwEffect effects[EN_SYATEKI_NIW_EFFECT_COUNT]; // feather particles
 } EnSyatekiNiw; // size = 0x0460
 
-typedef enum {
+typedef enum EnSyatekiMinigame {
     SYATEKI_MINIGAME_ARCHERY, // unused archery game behavior
     SYATEKI_MINIGAME_ALLEY // Bombchu Alley behavior
 } EnSyatekiMinigame;

@@ -1,13 +1,32 @@
-#include "global.h"
+#include "gfx.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "versions.h"
+#include "collision_check.h"
+#include "effect.h"
+#include "frame_advance.h"
+#include "zelda_arena.h"
+#include "play_state.h"
+
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
+#include "z_lib.h"
+
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ique-cn:192 ntsc-1.0:168 ntsc-1.1:168 ntsc-1.2:168 pal-1.0:168 pal-1.1:168"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
 typedef void (*ColChkVsFunc)(PlayState*, CollisionCheckContext*, Collider*, Collider*);
 typedef s32 (*ColChkLineFunc)(PlayState*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*);
 
-#if OOT_DEBUG
+#define SAC_ENABLE (1 << 0)
+
+#if DEBUG_FEATURES
 /**
  * Draws a red triangle with vertices vA, vB, and vC.
  */
@@ -28,7 +47,7 @@ void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC,
 
     OPEN_DISPS(gfxCtx, "../z_collision_check.c", 713);
 
-    gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_OPA_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0xFF, r, g, b, 50);
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
@@ -74,7 +93,7 @@ void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC,
 
 s32 Collider_InitBase(PlayState* play, Collider* col) {
     static Collider init = {
-        NULL, NULL, NULL, NULL, AT_NONE, AC_NONE, OC1_NONE, OC2_NONE, COLTYPE_HIT3, COLSHAPE_MAX,
+        NULL, NULL, NULL, NULL, AT_NONE, AC_NONE, OC1_NONE, OC2_NONE, COL_MATERIAL_HIT3, COLSHAPE_MAX,
     };
 
     *col = init;
@@ -86,7 +105,7 @@ s32 Collider_DestroyBase(PlayState* play, Collider* col) {
 }
 
 /**
- * Uses default OC2_TYPE_1 and COLTYPE_HIT0
+ * Uses default OC2_TYPE_1 and COL_MATERIAL_HIT0
  */
 s32 Collider_SetBaseToActor(PlayState* play, Collider* col, ColliderInitToActor* src) {
     col->actor = src->actor;
@@ -103,7 +122,7 @@ s32 Collider_SetBaseToActor(PlayState* play, Collider* col, ColliderInitToActor*
  */
 s32 Collider_SetBaseType1(PlayState* play, Collider* col, Actor* actor, ColliderInitType1* src) {
     col->actor = actor;
-    col->colType = src->colType;
+    col->colMaterial = src->colMaterial;
     col->atFlags = src->atFlags;
     col->acFlags = src->acFlags;
     col->ocFlags1 = src->ocFlags1;
@@ -114,7 +133,7 @@ s32 Collider_SetBaseType1(PlayState* play, Collider* col, Actor* actor, Collider
 
 s32 Collider_SetBase(PlayState* play, Collider* col, Actor* actor, ColliderInit* src) {
     col->actor = actor;
-    col->colType = src->colType;
+    col->colMaterial = src->colMaterial;
     col->atFlags = src->atFlags;
     col->acFlags = src->acFlags;
     col->ocFlags1 = src->ocFlags1;
@@ -182,11 +201,16 @@ s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC
 
 s32 Collider_InitElement(PlayState* play, ColliderElement* elem) {
     static ColliderElement init = {
-        { 0, 0, 0 },   { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
-        ELEMTYPE_UNK0, ATELEM_NONE,
-        ACELEM_NONE,   OCELEM_NONE,
-        NULL,          NULL,
-        NULL,          NULL,
+        { 0, 0, 0 },
+        { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
+        ELEM_MATERIAL_UNK0,
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_NONE,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
     };
 
     *elem = init;
@@ -202,7 +226,7 @@ s32 Collider_DestroyElement(PlayState* play, ColliderElement* elem) {
 }
 
 s32 Collider_SetElement(PlayState* play, ColliderElement* elem, ColliderElementInit* elemInit) {
-    elem->elemType = elemInit->elemType;
+    elem->elemMaterial = elemInit->elemMaterial;
     Collider_SetElementDamageInfoAT(play, &elem->atDmgInfo, &elemInit->atDmgInfo);
     Collider_SetElementDamageInfoAC(play, &elem->acDmgInfo, &elemInit->acDmgInfo);
     elem->atElemFlags = elemInit->atElemFlags;
@@ -332,7 +356,7 @@ s32 Collider_DestroyJntSph(PlayState* play, ColliderJntSph* jntSph) {
 
 /**
  * Sets up the ColliderJntSph using the values in src, sets it to the actor specified in src, and dynamically allocates
- * the element array. Uses default OC2_TYPE_1 and COLTYPE_HIT0. Unused.
+ * the element array. Uses default OC2_TYPE_1 and COL_MATERIAL_HIT0. Unused.
  */
 s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJntSphInitToActor* src) {
     ColliderJntSphElement* destElem;
@@ -344,9 +368,9 @@ s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJnt
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
-        PRINTF("ClObjJntSph_set():zelda_malloc()出来ません。\n"); // "Can not."
-        PRINTF(VT_RST);
+        PRINTF_COLOR_RED();
+        PRINTF(T("ClObjJntSph_set():zelda_malloc()出来ません。\n", "ClObjJntSph_set():zelda_malloc() Can not.\n"));
+        PRINTF_RST();
         return false;
     }
 
@@ -372,9 +396,9 @@ s32 Collider_SetJntSphAllocType1(PlayState* play, ColliderJntSph* dest, Actor* a
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
-        PRINTF("ClObjJntSph_set3():zelda_malloc_出来ません。\n"); // "Can not."
-        PRINTF(VT_RST);
+        PRINTF_COLOR_RED();
+        PRINTF(T("ClObjJntSph_set3():zelda_malloc_出来ません。\n", "ClObjJntSph_set3():zelda_malloc_ Can not.\n"));
+        PRINTF_RST();
         return false;
     }
 
@@ -400,9 +424,9 @@ s32 Collider_SetJntSphAlloc(PlayState* play, ColliderJntSph* dest, Actor* actor,
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
-        PRINTF("ClObjJntSph_set5():zelda_malloc出来ません\n"); // "Can not."
-        PRINTF(VT_RST);
+        PRINTF_COLOR_RED();
+        PRINTF(T("ClObjJntSph_set5():zelda_malloc出来ません\n", "ClObjJntSph_set5():zelda_malloc Can not\n"));
+        PRINTF_RST();
         return false;
     }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
@@ -517,7 +541,7 @@ s32 Collider_DestroyCylinder(PlayState* play, ColliderCylinder* cyl) {
 
 /**
  * Sets up the ColliderCylinder using the values in src and sets it to the actor specified in src. Uses default
- * OC2_TYPE_1 and COLTYPE_0. Used only by DekuJr, who sets it to himself anyways.
+ * OC2_TYPE_1 and COL_MATERIAL_0. Used only by DekuJr, who sets it to himself anyways.
  */
 s32 Collider_SetCylinderToActor(PlayState* play, ColliderCylinder* dest, ColliderCylinderInitToActor* src) {
     Collider_SetBaseToActor(play, &dest->base, &src->base);
@@ -706,9 +730,9 @@ s32 Collider_SetTrisAllocType1(PlayState* play, ColliderTris* dest, Actor* actor
     dest->elements = ZELDA_ARENA_MALLOC(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2156);
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
-        PRINTF("ClObjTris_set3():zelda_malloc()出来ません\n"); // "Can not."
-        PRINTF(VT_RST);
+        PRINTF_COLOR_RED();
+        PRINTF(T("ClObjTris_set3():zelda_malloc()出来ません\n", "ClObjTris_set3():zelda_malloc() Can not\n"));
+        PRINTF_RST();
         return false;
     }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
@@ -732,9 +756,9 @@ s32 Collider_SetTrisAlloc(PlayState* play, ColliderTris* dest, Actor* actor, Col
     dest->elements = ZELDA_ARENA_MALLOC(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2207);
 
     if (dest->elements == NULL) {
-        PRINTF(VT_FGCOL(RED));
-        PRINTF("ClObjTris_set5():zelda_malloc出来ません\n"); // "Can not."
-        PRINTF(VT_RST);
+        PRINTF_COLOR_RED();
+        PRINTF(T("ClObjTris_set5():zelda_malloc出来ません\n", "ClObjTris_set5():zelda_malloc Can not\n"));
+        PRINTF_RST();
         dest->count = 0;
         return false;
     }
@@ -1005,7 +1029,7 @@ void CollisionCheck_InitContext(PlayState* play, CollisionCheckContext* colChkCt
     colChkCtx->sacFlags = 0;
     CollisionCheck_ClearContext(play, colChkCtx);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     AREG(21) = true;
     AREG(22) = true;
     AREG(23) = true;
@@ -1059,7 +1083,7 @@ void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx
     colChkCtx->sacFlags &= ~SAC_ENABLE;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Draws a collider of any shape.
  * Math3D_DrawSphere and Math3D_DrawCylinder are noops, so JntSph and Cylinder are not drawn.
@@ -1163,8 +1187,8 @@ s32 CollisionCheck_SetAT(PlayState* play, CollisionCheckContext* colChkCtx, Coll
         return -1;
     }
     if (colChkCtx->colATCount >= COLLISION_CHECK_AT_MAX) {
-        // "Index exceeded and cannot add more"
-        PRINTF("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
+        PRINTF(T("CollisionCheck_setAT():インデックスがオーバーして追加不能\n",
+                 "CollisionCheck_setAT(): Index exceeded and cannot add more\n"));
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1191,15 +1215,16 @@ s32 CollisionCheck_SetAT_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
         if (!(index < colChkCtx->colATCount)) {
-            // "You are trying to register a location that is larger than the total number of data."
-            PRINTF("CollisionCheck_setAT_SAC():全データ数より大きいところに登録しようとしている。\n");
+            PRINTF(T("CollisionCheck_setAT_SAC():全データ数より大きいところに登録しようとしている。\n",
+                     "CollisionCheck_setAT_SAC(): You are trying to register a location that is larger than the total "
+                     "number of data.\n"));
             return -1;
         }
         colChkCtx->colAT[index] = collider;
     } else {
         if (!(colChkCtx->colATCount < COLLISION_CHECK_AT_MAX)) {
-            // "Index exceeded and cannot add more"
-            PRINTF("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
+            PRINTF(T("CollisionCheck_setAT():インデックスがオーバーして追加不能\n",
+                     "CollisionCheck_setAT(): Index exceeded and cannot add more\n"));
             return -1;
         }
         index = colChkCtx->colATCount;
@@ -1231,8 +1256,8 @@ s32 CollisionCheck_SetAC(PlayState* play, CollisionCheckContext* colChkCtx, Coll
         return -1;
     }
     if (colChkCtx->colACCount >= COLLISION_CHECK_AC_MAX) {
-        // "Index exceeded and cannot add more"
-        PRINTF("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
+        PRINTF(T("CollisionCheck_setAC():インデックスがオーバして追加不能\n",
+                 "CollisionCheck_setAC(): Index exceeded and cannot add more\n"));
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1259,15 +1284,16 @@ s32 CollisionCheck_SetAC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
         if (!(index < colChkCtx->colACCount)) {
-            // "You are trying to register a location that is larger than the total number of data."
-            PRINTF("CollisionCheck_setAC_SAC():全データ数より大きいところに登録しようとしている。\n");
+            PRINTF(T("CollisionCheck_setAC_SAC():全データ数より大きいところに登録しようとしている。\n",
+                     "CollisionCheck_setAC_SAC(): You are trying to register a location that is larger than the total "
+                     "number of data.\n"));
             return -1;
         }
         colChkCtx->colAC[index] = collider;
     } else {
         if (!(colChkCtx->colACCount < COLLISION_CHECK_AC_MAX)) {
-            // "Index exceeded and cannot add more"
-            PRINTF("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
+            PRINTF(T("CollisionCheck_setAC():インデックスがオーバして追加不能\n",
+                     "CollisionCheck_setAC(): Index exceeded and cannot add more\n"));
             return -1;
         }
         index = colChkCtx->colACCount;
@@ -1301,8 +1327,8 @@ s32 CollisionCheck_SetOC(PlayState* play, CollisionCheckContext* colChkCtx, Coll
         return -1;
     }
     if (colChkCtx->colOCCount >= COLLISION_CHECK_OC_MAX) {
-        // "Index exceeded and cannot add more"
-        PRINTF("CollisionCheck_setOC():インデックスがオーバして追加不能\n");
+        PRINTF(T("CollisionCheck_setOC():インデックスがオーバして追加不能\n",
+                 "CollisionCheck_setOC(): Index exceeded and cannot add more\n"));
         return -1;
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
@@ -1329,16 +1355,17 @@ s32 CollisionCheck_SetOC_SAC(PlayState* play, CollisionCheckContext* colChkCtx, 
     }
     if (colChkCtx->sacFlags & SAC_ENABLE) {
         if (!(index < colChkCtx->colOCCount)) {
-            // "You are trying to register a location that is larger than the total number of data."
-            PRINTF("CollisionCheck_setOC_SAC():全データ数より大きいところに登録しようとしている。\n");
+            PRINTF(T("CollisionCheck_setOC_SAC():全データ数より大きいところに登録しようとしている。\n",
+                     "CollisionCheck_setOC_SAC(): You are trying to register a location that is larger than the total "
+                     "number of data.\n"));
             return -1;
         }
         //! @bug Should be colOC
         colChkCtx->colAT[index] = collider;
     } else {
         if (!(colChkCtx->colOCCount < COLLISION_CHECK_OC_MAX)) {
-            // "Index exceeded and cannot add more"
-            PRINTF("CollisionCheck_setOC():インデックスがオーバして追加不能\n");
+            PRINTF(T("CollisionCheck_setOC():インデックスがオーバして追加不能\n",
+                     "CollisionCheck_setOC(): Index exceeded and cannot add more\n"));
             return -1;
         }
         index = colChkCtx->colOCCount;
@@ -1359,8 +1386,8 @@ s32 CollisionCheck_SetOCLine(PlayState* play, CollisionCheckContext* colChkCtx, 
     }
     Collider_ResetLineOC(play, collider);
     if (!(colChkCtx->colLineCount < COLLISION_CHECK_OC_LINE_MAX)) {
-        // "Index exceeded and cannot add more"
-        PRINTF("CollisionCheck_setOCLine():インデックスがオーバして追加不能\n");
+        PRINTF(T("CollisionCheck_setOCLine():インデックスがオーバして追加不能\n",
+                 "CollisionCheck_setOCLine(): Index exceeded and cannot add more\n"));
         return -1;
     }
     index = colChkCtx->colLineCount;
@@ -1536,7 +1563,7 @@ void CollisionCheck_RedBloodUnused(PlayState* play, Collider* collider, Vec3f* v
 void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* collider, Vec3f* hitPos) {
     s32 flags = elem->atElemFlags & ATELEM_SFX_MASK;
 
-    if (flags == ATELEM_SFX_NORMAL && collider->colType != COLTYPE_METAL) {
+    if (flags == ATELEM_SFX_NORMAL && collider->colMaterial != COL_MATERIAL_METAL) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
         if (collider->actor == NULL) {
             Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -1545,7 +1572,7 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* c
             Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
-    } else if (flags == ATELEM_SFX_NORMAL) { // collider->colType == COLTYPE_METAL
+    } else if (flags == ATELEM_SFX_NORMAL) { // collider->colMaterial == COL_MATERIAL_METAL
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_METAL, hitPos);
         if (collider->actor == NULL) {
             CollisionCheck_SpawnShieldParticlesMetal(play, hitPos);
@@ -1574,20 +1601,20 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* c
 }
 
 /**
- * Plays a hit sound effect for AT colliders attached to Player based on the AC element's elemType.
+ * Plays a hit sound effect for AT colliders attached to Player based on the AC element's elemMaterial.
  */
 s32 CollisionCheck_SwordHitAudio(Collider* atCol, ColliderElement* acElem) {
     if (atCol->actor != NULL && atCol->actor->category == ACTORCAT_PLAYER) {
-        if (acElem->elemType == ELEMTYPE_UNK0) {
+        if (acElem->elemMaterial == ELEM_MATERIAL_UNK0) {
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        } else if (acElem->elemType == ELEMTYPE_UNK1) {
+        } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK1) {
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &atCol->actor->projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        } else if (acElem->elemType == ELEMTYPE_UNK2) {
+        } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK2) {
             Audio_PlaySfxGeneral(NA_SE_NONE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        } else if (acElem->elemType == ELEMTYPE_UNK3) {
+        } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK3) {
             Audio_PlaySfxGeneral(NA_SE_NONE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
@@ -1595,12 +1622,12 @@ s32 CollisionCheck_SwordHitAudio(Collider* atCol, ColliderElement* acElem) {
     return true;
 }
 
-typedef struct {
+typedef struct HitInfo {
     /* 0x0 */ u8 blood;
     /* 0x1 */ u8 effect;
 } HitInfo; // size = 0x2
 
-typedef enum {
+typedef enum ColChkBloodType {
     /* 0 */ BLOOD_NONE,
     /* 1 */ BLOOD_BLUE,
     /* 2 */ BLOOD_GREEN,
@@ -1609,7 +1636,7 @@ typedef enum {
     /* 5 */ BLOOD_RED2
 } ColChkBloodType;
 
-typedef enum {
+typedef enum ColChkHitType {
     /* 0 */ HIT_WHITE,
     /* 1 */ HIT_DUST,
     /* 2 */ HIT_RED,
@@ -1630,24 +1657,24 @@ static ColChkBloodFunc sBloodFuncs[] = {
 };
 
 static HitInfo sHitInfo[] = {
-    { BLOOD_BLUE, HIT_WHITE },  // COLTYPE_HIT0
-    { BLOOD_NONE, HIT_DUST },   // COLTYPE_HIT1
-    { BLOOD_GREEN, HIT_DUST },  // COLTYPE_HIT2
-    { BLOOD_NONE, HIT_WHITE },  // COLTYPE_HIT3
-    { BLOOD_WATER, HIT_NONE },  // COLTYPE_HIT4
-    { BLOOD_NONE, HIT_RED },    // COLTYPE_HIT5
-    { BLOOD_GREEN, HIT_WHITE }, // COLTYPE_HIT6
-    { BLOOD_RED, HIT_WHITE },   // COLTYPE_HIT7
-    { BLOOD_BLUE, HIT_RED },    // COLTYPE_HIT8
-    { BLOOD_NONE, HIT_SOLID },  // COLTYPE_METAL
-    { BLOOD_NONE, HIT_NONE },   // COLTYPE_NONE
-    { BLOOD_NONE, HIT_SOLID },  // COLTYPE_WOOD
-    { BLOOD_NONE, HIT_SOLID },  // COLTYPE_HARD
-    { BLOOD_NONE, HIT_WOOD },   // COLTYPE_TREE
+    { BLOOD_BLUE, HIT_WHITE },  // COL_MATERIAL_HIT0
+    { BLOOD_NONE, HIT_DUST },   // COL_MATERIAL_HIT1
+    { BLOOD_GREEN, HIT_DUST },  // COL_MATERIAL_HIT2
+    { BLOOD_NONE, HIT_WHITE },  // COL_MATERIAL_HIT3
+    { BLOOD_WATER, HIT_NONE },  // COL_MATERIAL_HIT4
+    { BLOOD_NONE, HIT_RED },    // COL_MATERIAL_HIT5
+    { BLOOD_GREEN, HIT_WHITE }, // COL_MATERIAL_HIT6
+    { BLOOD_RED, HIT_WHITE },   // COL_MATERIAL_HIT7
+    { BLOOD_BLUE, HIT_RED },    // COL_MATERIAL_HIT8
+    { BLOOD_NONE, HIT_SOLID },  // COL_MATERIAL_METAL
+    { BLOOD_NONE, HIT_NONE },   // COL_MATERIAL_NONE
+    { BLOOD_NONE, HIT_SOLID },  // COL_MATERIAL_WOOD
+    { BLOOD_NONE, HIT_SOLID },  // COL_MATERIAL_HARD
+    { BLOOD_NONE, HIT_WOOD },   // COL_MATERIAL_TREE
 };
 
 /**
- * Handles hitmarks, blood, and sound effects for each AC collision, determined by the AC collider's colType
+ * Handles hitmarks, blood, and sound effects for each AC collision, determined by the AC collider's colMaterial
  */
 void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement* atElem, Collider* acCol,
                                ColliderElement* acElem, Vec3f* hitPos) {
@@ -1658,12 +1685,12 @@ void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement
         return;
     }
     if (acCol->actor != NULL) {
-        sBloodFuncs[sHitInfo[acCol->colType].blood](play, acCol, hitPos);
+        sBloodFuncs[sHitInfo[acCol->colMaterial].blood](play, acCol, hitPos);
     }
     if (acCol->actor != NULL) {
-        if (sHitInfo[acCol->colType].effect == HIT_SOLID) {
+        if (sHitInfo[acCol->colMaterial].effect == HIT_SOLID) {
             CollisionCheck_HitSolid(play, atElem, acCol, hitPos);
-        } else if (sHitInfo[acCol->colType].effect == HIT_WOOD) {
+        } else if (sHitInfo[acCol->colMaterial].effect == HIT_WOOD) {
             if (atCol->actor == NULL) {
                 CollisionCheck_SpawnShieldParticles(play, hitPos);
                 Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -1671,8 +1698,8 @@ void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement
             } else {
                 CollisionCheck_SpawnShieldParticlesWood(play, hitPos, &atCol->actor->projectedPos);
             }
-        } else if (sHitInfo[acCol->colType].effect != HIT_NONE) {
-            EffectSsHitMark_SpawnFixedScale(play, sHitInfo[acCol->colType].effect, hitPos);
+        } else if (sHitInfo[acCol->colMaterial].effect != HIT_NONE) {
+            EffectSsHitMark_SpawnFixedScale(play, sHitInfo[acCol->colMaterial].effect, hitPos);
             if (!(acElem->acElemFlags & ACELEM_NO_SWORD_SFX)) {
                 CollisionCheck_SwordHitAudio(atCol, acElem);
             }
@@ -1726,8 +1753,8 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
     acElem->acDmgInfo.hitPos.x = hitPos->x;
     acElem->acDmgInfo.hitPos.y = hitPos->y;
     acElem->acDmgInfo.hitPos.z = hitPos->z;
-    if (!(atElem->atElemFlags & ATELEM_AT_HITMARK) && acCol->colType != COLTYPE_METAL &&
-        acCol->colType != COLTYPE_WOOD && acCol->colType != COLTYPE_HARD) {
+    if (!(atElem->atElemFlags & ATELEM_AT_HITMARK) && acCol->colMaterial != COL_MATERIAL_METAL &&
+        acCol->colMaterial != COL_MATERIAL_WOOD && acCol->colMaterial != COL_MATERIAL_HARD) {
         acElem->acElemFlags |= ACELEM_DRAW_HITMARK;
     } else {
         CollisionCheck_HitEffects(play, atCol, atElem, acCol, acElem, hitPos);
@@ -1814,7 +1841,6 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                 Vec3f hitPos;
                 Vec3f atPos;
                 Vec3f acPos;
-                f32 acToHit;
 
                 atPos.x = atJntSphElem->dim.worldSphere.center.x;
                 atPos.y = atJntSphElem->dim.worldSphere.center.y;
@@ -1823,7 +1849,13 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                 acPos.y = acCyl->dim.pos.y;
                 acPos.z = acCyl->dim.pos.z;
                 if (!IS_ZERO(centerDist)) {
-                    acToHit = acCyl->dim.radius / centerDist;
+                    f32 acToHit = acCyl->dim.radius / centerDist;
+
+#if OOT_VERSION < PAL_1_0
+                    hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
+                    hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
+                    hitPos.z = ((atPos.z - acPos.z) * acToHit) + acPos.z;
+#else
                     if (acToHit <= 1.0f) {
                         hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
                         hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
@@ -1831,6 +1863,7 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                     } else {
                         Math_Vec3f_Copy(&hitPos, &atPos);
                     }
+#endif
                 } else {
                     Math_Vec3f_Copy(&hitPos, &atPos);
                 }
@@ -1875,7 +1908,13 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
                 acPos.y = acJntSphElem->dim.worldSphere.center.y;
                 acPos.z = acJntSphElem->dim.worldSphere.center.z;
                 if (!IS_ZERO(centerDist)) {
-                    acToHit = acJntSphElem->dim.worldSphere.radius / centerDist;
+                    f32 acToHit = acJntSphElem->dim.worldSphere.radius / centerDist;
+
+#if OOT_VERSION < PAL_1_0
+                    hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
+                    hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
+                    hitPos.z = ((atPos.z - acPos.z) * acToHit) + acPos.z;
+#else
                     if (acToHit <= 1.0f) {
                         hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
                         hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
@@ -1883,6 +1922,7 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
                     } else {
                         Math_Vec3f_Copy(&hitPos, &atPos);
                     }
+#endif
                 } else {
                     Math_Vec3f_Copy(&hitPos, &atPos);
                 }
@@ -2185,6 +2225,9 @@ void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
+#pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252" \
+                               "ique-cn:252 ntsc-1.0:252 ntsc-1.1:252 ntsc-1.2:252 pal-1.0:252 pal-1.1:252"
+
 void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
     static TriNorm tri2;
@@ -2237,9 +2280,6 @@ void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChk
         }
     }
 }
-
-static s8 sBssDummy0;
-static s8 sBssDummy1;
 
 void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
@@ -2300,10 +2340,10 @@ void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
+#if DEBUG_FEATURES
 static s8 sBssDummy3;
 static s8 sBssDummy4;
-static s8 sBssDummy5;
-static s8 sBssDummy6;
+#endif
 
 void CollisionCheck_ATTrisVsACTris(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                    Collider* acCol) {
@@ -2349,11 +2389,6 @@ void CollisionCheck_ATTrisVsACTris(PlayState* play, CollisionCheckContext* colCh
         }
     }
 }
-
-static s8 sBssDummy7;
-static s8 sBssDummy8;
-static s8 sBssDummy9;
-static s8 sBssDummy10;
 
 void CollisionCheck_ATTrisVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol,
                                    Collider* acCol) {
@@ -2586,9 +2621,10 @@ static ColChkApplyFunc sColChkApplyFuncs[] = {
  */
 void CollisionCheck_SetHitEffects(PlayState* play, CollisionCheckContext* colChkCtx) {
     Collider** acColP;
+    Collider* acCol;
 
     for (acColP = colChkCtx->colAC; acColP < colChkCtx->colAC + colChkCtx->colACCount; acColP++) {
-        Collider* acCol = *acColP;
+        acCol = *acColP;
 
         if (acCol != NULL && acCol->acFlags & AC_ON) {
             if (acCol->actor != NULL && acCol->actor->update == NULL) {
@@ -2635,9 +2671,10 @@ static ColChkVsFunc sACVsFuncs[COLSHAPE_MAX][COLSHAPE_MAX] = {
  */
 void CollisionCheck_AC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol) {
     Collider** acColP;
+    Collider* acCol;
 
     for (acColP = colChkCtx->colAC; acColP < colChkCtx->colAC + colChkCtx->colACCount; acColP++) {
-        Collider* acCol = *acColP;
+        acCol = *acColP;
 
         if (acCol != NULL && acCol->acFlags & AC_ON) {
             if (acCol->actor != NULL && acCol->actor->update == NULL) {
@@ -2661,12 +2698,13 @@ void CollisionCheck_AC(PlayState* play, CollisionCheckContext* colChkCtx, Collid
  */
 void CollisionCheck_AT(PlayState* play, CollisionCheckContext* colChkCtx) {
     Collider** atColP;
+    Collider* atCol;
 
     if (colChkCtx->colATCount == 0 || colChkCtx->colACCount == 0) {
         return;
     }
     for (atColP = colChkCtx->colAT; atColP < colChkCtx->colAT + colChkCtx->colATCount; atColP++) {
-        Collider* atCol = *atColP;
+        atCol = *atColP;
 
         if (atCol != NULL && atCol->atFlags & AT_ON) {
             if (atCol->actor != NULL && atCol->actor->update == NULL) {
@@ -2678,7 +2716,7 @@ void CollisionCheck_AT(PlayState* play, CollisionCheckContext* colChkCtx) {
     CollisionCheck_SetHitEffects(play, colChkCtx);
 }
 
-typedef enum {
+typedef enum ColChkMassType {
     /* 0 */ MASSTYPE_IMMOVABLE,
     /* 1 */ MASSTYPE_HEAVY,
     /* 2 */ MASSTYPE_NORMAL
@@ -2964,8 +3002,8 @@ void CollisionCheck_OC(PlayState* play, CollisionCheckContext* colChkCtx) {
             }
             vsFunc = sOCVsFuncs[(*leftColP)->shape][(*rightColP)->shape];
             if (vsFunc == NULL) {
-                // "Not compatible"
-                PRINTF("CollisionCheck_OC():未対応 %d, %d\n", (*leftColP)->shape, (*rightColP)->shape);
+                PRINTF(T("CollisionCheck_OC():未対応 %d, %d\n", "CollisionCheck_OC(): Not compatible %d, %d\n"),
+                       (*leftColP)->shape, (*rightColP)->shape);
                 continue;
             }
             vsFunc(play, colChkCtx, *leftColP, *rightColP);
@@ -2989,7 +3027,7 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
  */
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage = 0;
-    info->damageEffect = 0;
+    info->damageReaction = 0;
     info->atHitEffect = 0;
     info->acHitEffect = 0;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
@@ -3070,7 +3108,7 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
         }
 
         damage = tbl->table[i] & 0xF;
-        col->actor->colChkInfo.damageEffect = tbl->table[i] >> 4 & 0xF;
+        col->actor->colChkInfo.damageReaction = tbl->table[i] >> 4 & 0xF;
     }
     if (!(col->acFlags & AC_HARD)) {
         col->actor->colChkInfo.damage += damage;
@@ -3134,9 +3172,10 @@ static ColChkApplyFunc sApplyDamageFuncs[COLSHAPE_MAX] = {
  */
 void CollisionCheck_Damage(PlayState* play, CollisionCheckContext* colChkCtx) {
     s32 i;
+    Collider* col;
 
     for (i = 0; i < colChkCtx->colACCount; i++) {
-        Collider* col = colChkCtx->colAC[i];
+        col = colChkCtx->colAC[i];
 
         if (col == NULL) {
             continue;
@@ -3225,8 +3264,9 @@ s32 CollisionCheck_LineOC(PlayState* play, CollisionCheckContext* colChkCtx, Vec
         }
         lineCheck = sOCLineCheckFuncs[(*col)->shape];
         if (lineCheck == NULL) {
-            // "type %d not supported"
-            PRINTF("CollisionCheck_generalLineOcCheck():未対応 %dタイプ\n", (*col)->shape);
+            PRINTF(T("CollisionCheck_generalLineOcCheck():未対応 %dタイプ\n",
+                     "CollisionCheck_generalLineOcCheck(): type %d not supported\n"),
+                   (*col)->shape);
         } else {
             result = lineCheck(play, colChkCtx, (*col), a, b);
             if (result) {
@@ -3312,12 +3352,12 @@ void Collider_SetTrisDim(PlayState* play, ColliderTris* tris, s32 elemIndex, Col
     Collider_SetTrisElementDim(play, &trisElem->dim, src);
 }
 
-// Due to an unknown reason, bss ordering changed between the 2 static Vec3f variables in the function below.
-// In order to reproduce this behavior, we need a specific number of bss variables in the file before that point.
-// For this, we introduce a certain amount of dummy variables throughout the file, which we fit inside padding added
-// by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in bss.
-static s8 sBssDummy11;
-static s8 sBssDummy12;
+#if DEBUG_FEATURES
+// The two static Vec3f variables in the function below cross a block index rollover, causing a bss order swap.
+//! In order to replicate this behavior, we declare a certain amount of sBssDummy variables throughout the file, which
+//! we fit inside padding added by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in
+//! bss.
+#endif
 
 /**
  * Updates the world spheres for all of the collider's JntSph elements attached to the specified limb
@@ -3695,7 +3735,7 @@ u8 CollisionCheck_GetSwordDamage(s32 dmgFlags) {
         damage = 8;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     KREG(7) = damage;
 #endif
 

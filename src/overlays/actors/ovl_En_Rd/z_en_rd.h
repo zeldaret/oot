@@ -2,15 +2,15 @@
 #define Z_EN_RD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnRd;
 
-typedef void (*EnRdActionFunc)(struct EnRd*, PlayState*);
+typedef void (*EnRdActionFunc)(struct EnRd*, struct PlayState*);
 
-#define REDEAD_GET_FLAGS(thisx) (((thisx)->params & 0xFF00) >> 8)
+#define REDEAD_GET_RDFLAGS(thisx) PARAMS_GET_S((thisx)->params, 8, 8)
 
-typedef enum {
+typedef enum RedeadGibdoLimb {
     /*  0 */ REDEAD_GIBDO_LIMB_NONE,
     /*  1 */ REDEAD_GIBDO_LIMB_ROOT,
     /*  2 */ REDEAD_GIBDO_LIMB_LEFT_LEG_ROOT,
@@ -40,7 +40,7 @@ typedef enum {
     /* 26 */ REDEAD_GIBDO_LIMB_MAX
 } RedeadGibdoLimb;
 
-typedef enum {
+typedef enum EnRdType {
     /* -3 */ REDEAD_TYPE_GIBDO_RISING_OUT_OF_COFFIN = -3,
     /* -2 */ REDEAD_TYPE_GIBDO,
     /* -1 */ REDEAD_TYPE_DOES_NOT_MOURN,
@@ -71,7 +71,7 @@ typedef struct EnRd {
     /* 0x0319 */ u8 grabDamageTimer;
     /* 0x031A */ u8 fireTimer;
     /* 0x031B */ u8 action;
-    /* 0x031C */ u8 damageEffect;
+    /* 0x031C */ u8 damageReaction;
     /* 0x031D */ u8 unk_31D; // related to player->unk_845
     /* 0x0320 */ ColliderCylinder collider;
 } EnRd; // size = 0x036C

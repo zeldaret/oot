@@ -6,7 +6,14 @@
 
 #include "z_demo_shd.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sequence.h"
+#include "sys_matrix.h"
+#include "audio.h"
+#include "play_state.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void DemoShd_Init(Actor* thisx, PlayState* play);
 void DemoShd_Destroy(Actor* thisx, PlayState* play);
@@ -15,7 +22,7 @@ void DemoShd_Draw(Actor* thisx, PlayState* play);
 
 void func_80991298(DemoShd* this, PlayState* play);
 
-ActorInit Demo_Shd_InitVars = {
+ActorProfile Demo_Shd_Profile = {
     /**/ ACTOR_DEMO_SHD,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -101,8 +108,7 @@ void DemoShd_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_shd.c", 729),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_demo_shd.c", 729);
     gSPDisplayList(POLY_XLU_DISP++, D_809932D0);
 
     if (this->unk_14C & 1) {
@@ -116,8 +122,6 @@ void DemoShd_Draw(Actor* thisx, PlayState* play) {
                                         256, 1, 0, 255 - ((unk_14E * 5) & 255), 32, 32));
         gSPDisplayList(POLY_XLU_DISP++, D_809934B8);
     }
-
-    if (1) {} // Necessary to match
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_shd.c", 762);
 }

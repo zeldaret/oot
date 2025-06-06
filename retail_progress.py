@@ -192,7 +192,9 @@ def get_section_hex_dump(path: Path, section: str) -> List[str]:
 def parse_hex_dump(lines: List[str]) -> bytes:
     result = bytearray()
     for line in lines:
-        data = line[6:41].replace(" ", "")
+        # strip offset
+        line = " ".join(line.strip().split(" ", 1)[1])
+        data = line[:35].replace(" ", "")
         result.extend(bytes.fromhex(data))
 
     # pad to 0x10-byte alignment
@@ -387,7 +389,11 @@ if __name__ == "__main__":
         help="find functions with diffs in the given source file (if omitted, print summary of diffs for all files)",
     )
     parser.add_argument(
-        "-v", "--version", help="version to compare", default="gc-eu-mq"
+        "-v",
+        "--version",
+        dest="oot_version",
+        help="version to compare",
+        default="ique-cn",
     )
     parser.add_argument(
         "--data",
@@ -405,8 +411,8 @@ if __name__ == "__main__":
 
     if args.file is not None:
         if args.data:
-            find_data_diffs(args.version, args.file)
+            find_data_diffs(args.oot_version, args.file)
         else:
-            find_functions_with_diffs(args.version, args.file)
+            find_functions_with_diffs(args.oot_version, args.file)
     else:
-        print_summary(args.version, args.csv, args.only_not_ok)
+        print_summary(args.oot_version, args.csv, args.only_not_ok)

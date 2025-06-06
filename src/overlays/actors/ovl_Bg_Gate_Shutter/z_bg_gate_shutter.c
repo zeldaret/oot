@@ -5,8 +5,19 @@
  */
 
 #include "z_bg_gate_shutter.h"
-#include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+
+#include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
 #define FLAGS 0
 
@@ -20,7 +31,7 @@ void func_80878300(BgGateShutter* this, PlayState* play);
 void func_808783AC(BgGateShutter* this, PlayState* play);
 void func_808783D4(BgGateShutter* this, PlayState* play);
 
-ActorInit Bg_Gate_Shutter_InitVars = {
+ActorProfile Bg_Gate_Shutter_Profile = {
     /**/ ACTOR_BG_GATE_SHUTTER,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -51,7 +62,7 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     thisx->scale.y = 1.0f;
     thisx->scale.z = 1.0f;
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 柵でたなぁ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 柵でたなぁ ☆☆☆☆☆ \n", " ☆☆☆☆☆ There's a fence ☆☆☆☆☆ \n") VT_RST);
     this->actionFunc = func_8087828C;
 }
 
@@ -126,8 +137,7 @@ void BgGateShutter_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_gate_shutter.c", 328);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoGuardGateDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_gate_shutter.c", 333);

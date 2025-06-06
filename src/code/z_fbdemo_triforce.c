@@ -1,6 +1,10 @@
-#include "global.h"
+#include "transition_triforce.h"
 
-#include "assets/code/fbdemo_triforce/z_fbdemo_triforce.c"
+#include "printf.h"
+#include "z_math.h"
+#include "transition_instances.h"
+
+#include "assets/code/fbdemo_triforce/code.c"
 
 void TransitionTriforce_Start(void* thisx) {
     TransitionTriforce* this = (TransitionTriforce*)thisx;
@@ -88,10 +92,10 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
     gSPDisplayList(gfx++, sTransTriforceDL);
     gDPSetColor(gfx++, G_SETPRIMCOLOR, this->color.rgba);
     gDPSetCombineMode(gfx++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
-    gSPMatrix(gfx++, &this->projection, G_MTX_LOAD | G_MTX_PROJECTION);
-    gSPMatrix(gfx++, &modelView[0], G_MTX_LOAD);
-    gSPMatrix(gfx++, &modelView[1], G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_MUL);
-    gSPMatrix(gfx++, &modelView[2], G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_MUL);
+    gSPMatrix(gfx++, &this->projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPMatrix(gfx++, &modelView[0], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(gfx++, &modelView[1], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+    gSPMatrix(gfx++, &modelView[2], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gSPVertex(gfx++, sTransTriforceVtx, 10, 0);
 
     if (!TransitionTriforce_IsDone(this)) {

@@ -2,16 +2,16 @@
 #define Z_EN_SIOFUKI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
-typedef enum {
+typedef enum EnSiofukiType {
     /* 0x00 */ EN_SIOFUKI_RAISING,
     /* 0x01 */ EN_SIOFUKI_LOWERING
 } EnSiofukiType;
 
 struct EnSiofuki;
 
-typedef void (*EnSiofukiActionFunc)(struct EnSiofuki*, PlayState*);
+typedef void (*EnSiofukiActionFunc)(struct EnSiofuki*, struct PlayState*);
 
 typedef struct EnSiofuki {
     /* 0x0000 */ DynaPolyActor dyna;

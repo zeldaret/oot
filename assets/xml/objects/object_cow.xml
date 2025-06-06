@@ -41,15 +41,47 @@
         <Animation Name="gCowTailSwishAnim" Offset="0x4E98"/>
 
         <!-- Cow Palettes -->
-        <Texture Name="gCowTLUT" OutName="cow_tlut" Format="rgba16" Width="16" Height="16" Offset="0x2880"/>
+        <Texture Name="gCowTLUT" Format="rgba16" Width="16" Height="16" Offset="0x2880"/>
 
         <!-- Cow DisplayList Textures -->
-        <Texture Name="gCowUdderTex" OutName="cow_udder" Format="ci8" Width="16" Height="16" Offset="0x2A80" TlutOffset="0x2880"/>
-        <Texture Name="gCowNoseRingTex" OutName="cow_nose_ring" Format="ci8" Width="8" Height="8" Offset="0x2B80" TlutOffset="0x2880"/>
-        <Texture Name="gCowNoseTex" OutName="cow_nose" Format="ci8" Width="16" Height="16" Offset="0x2BC0" TlutOffset="0x2880"/>
-        <Texture Name="gCowSpottedPatternTex" OutName="cow_spotted_pattern" Format="i8" Width="64" Height="64" Offset="0x2CC0"/>
-        <Texture Name="gCowEarTex" OutName="cow_ear" Format="ci8" Width="8" Height="16" Offset="0x3CC0" TlutOffset="0x2880"/>
-        <Texture Name="gCowEyelidTex" OutName="cow_eyelid" Format="rgba16" Width="16" Height="16" Offset="0x3D40"/>
-        <Texture Name="gCowTailTex" OutName="cow_tail" Format="ci8" Width="8" Height="16" Offset="0x3F40" TlutOffset="0x2880"/>
+        <Texture Name="gCowUdderTex" Format="ci8" Width="16" Height="16" Offset="0x2A80" TlutOffset="0x2880"/>
+        <Texture Name="gCowNoseRingTex" Format="ci8" Width="8" Height="8" Offset="0x2B80" TlutOffset="0x2880"/>
+        <Texture Name="gCowNoseTex" Format="ci8" Width="16" Height="16" Offset="0x2BC0" TlutOffset="0x2880"/>
+        <Texture Name="gCowSpottedPatternTex" Format="i8" Width="64" Height="64" Offset="0x2CC0"/>
+        <Texture Name="gCowEarTex" Format="ci8" Width="8" Height="16" Offset="0x3CC0" TlutOffset="0x2880"/>
+        <Texture Name="gCowEyelidTex" Format="rgba16" Width="16" Height="16" Offset="0x3D40"/>
+        <Texture Name="gCowTailTex" Format="ci8" Width="8" Height="16" Offset="0x3F40" TlutOffset="0x2880"/>
+
+        <!-- Vertices -->
+        <Array Name="gCowJawVtx" Count="21" Offset="0x1E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gCowNoseRingVtx" Count="17" Offset="0x330">
+            <Vtx/>
+        </Array>
+        <Array Name="gCowNoseVtx" Count="36" Offset="0x440">
+            <Vtx/>
+        </Array>
+        <Array Name="gCowHeadVtx" Count="129" Offset="0x680">
+            <Vtx/>
+        </Array>
+        <Array Name="gCowTorsoVtx" Count="191" Offset="0xE90">
+            <Vtx/>
+        </Array>
+        <Array Name="gCowTailEndVtx" Count="15" Offset="0x4360">
+            <Vtx/>
+        </Array>
+        <Array Name="gCowTailLowerVtx" Count="12" Offset="0x4450">
+            <Vtx/>
+        </Array>
+        <Array Name="gCowTailMiddleVtx" Count="12" Offset="0x4510">
+            <Vtx/>
+        </Array>
+        <Array Name="gCowTailUpperVtx" Count="12" Offset="0x45D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gCowTailConnectionVtx" Count="6" Offset="0x4690">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

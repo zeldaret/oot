@@ -1,5 +1,14 @@
-#include "global.h"
+#include "sys_math3d.h"
+
+#include "printf.h"
 #include "terminal.h"
+#include "translation.h"
+#include "ultra64.h"
+#include "z_lib.h"
+#include "z_math.h"
+
+#pragma increment_block_number "gc-eu:76 gc-eu-mq:76 gc-jp:76 gc-jp-ce:76 gc-jp-mq:76 gc-us:76 gc-us-mq:76 ique-cn:66" \
+                               "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                       Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);
@@ -120,11 +129,11 @@ void Math3D_LineClosestToPoint(InfiniteLine* line, Vec3f* pos, Vec3f* closestPoi
 
     dirVectorLengthSq = Math3D_Vec3fMagnitudeSq(&line->dir);
     if (IS_ZERO(dirVectorLengthSq)) {
-        PRINTF(VT_COL(YELLOW, BLACK));
-        // "Math3D_lineVsPosSuisenCross(): No straight line length"
-        PRINTF("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
-        PRINTF("cross = pos を返します。\n"); // "Returns cross = pos."
-        PRINTF(VT_RST);
+        PRINTF_COLOR_WARNING();
+        PRINTF(T("Math3D_lineVsPosSuisenCross():直線の長さがありません\n",
+                 "Math3D_lineVsPosSuisenCross(): No straight line length\n"));
+        PRINTF(T("cross = pos を返します。\n", "Returns cross = pos.\n"));
+        PRINTF_RST();
         Math_Vec3f_Copy(closestPoint, pos);
         //! @bug Missing early return
     }
@@ -922,11 +931,12 @@ f32 Math3D_Plane(Plane* plane, Vec3f* pointOnPlane) {
  * `nx`, `ny`, `nz`, and `originDist`
  */
 f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
-    if (OOT_DEBUG && IS_ZERO(sqrtf(SQ(nx) + SQ(ny) + SQ(nz)))) {
-        PRINTF(VT_COL(YELLOW, BLACK));
-        // "Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f"
-        PRINTF("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
-        PRINTF(VT_RST);
+    if (DEBUG_FEATURES && IS_ZERO(sqrtf(SQ(nx) + SQ(ny) + SQ(nz)))) {
+        PRINTF_COLOR_WARNING();
+        PRINTF(T("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n",
+                 "Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f\n"),
+               nx, ny, nz);
+        PRINTF_RST();
         return 0.0f;
     }
     return fabsf(Math3D_DistPlaneToPos(nx, ny, nz, originDist, p));
@@ -941,10 +951,11 @@ f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
     normMagnitude = sqrtf(SQ(nx) + SQ(ny) + SQ(nz));
     if (IS_ZERO(normMagnitude)) {
-        PRINTF(VT_COL(YELLOW, BLACK));
-        // "Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f"
-        PRINTF("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_WARNING();
+        PRINTF(T("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n",
+                 "Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f\n"),
+               nx, ny, nz);
+        PRINTF_RST();
         return 0.0f;
     }
     return Math3D_Planef(nx, ny, nz, originDist, p) / normMagnitude;
@@ -2143,11 +2154,3 @@ s32 Math3D_YZInSphere(Sphere16* sphere, f32 y, f32 z) {
     }
     return false;
 }
-
-#if OOT_DEBUG
-void Math3D_DrawSphere(PlayState* play, Sphere16* sph) {
-}
-
-void Math3D_DrawCylinder(PlayState* play, Cylinder16* cyl) {
-}
-#endif

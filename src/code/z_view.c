@@ -1,5 +1,16 @@
-#include "global.h"
+#include "view.h"
+
+#include "libc64/malloc.h"
+#include "libu64/debug.h"
+#include "avoid_ub.h"
+#include "gfx.h"
+#include "letterbox.h"
+#include "main.h"
+#include "printf.h"
+#include "regs.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 
 vu32 sLogOnNextViewInit = true;
 
@@ -24,7 +35,7 @@ View* View_New(GraphicsContext* gfxCtx) {
     View* view = SYSTEM_ARENA_MALLOC(sizeof(View), "../z_view.c", 285);
 
     if (view != NULL) {
-        __osMemset(view, 0, sizeof(View));
+        memset(view, 0, sizeof(View));
         View_Init(view, gfxCtx);
     }
 
@@ -142,8 +153,8 @@ void View_GetViewport(View* view, Viewport* viewport) {
 
 void View_ApplyLetterbox(View* view) {
     GraphicsContext* gfxCtx = view->gfxCtx;
-    s32 letterboxSize;
     s32 pillarboxSize;
+    s32 letterboxSize;
     s32 ulx;
     s32 uly;
     s32 lrx;
@@ -201,7 +212,7 @@ void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ) {
     view->distortionScale.z = scaleZ;
 }
 
-s32 View_SetDistortionSpeed(View* view, f32 speed) {
+BAD_RETURN(s32) View_SetDistortionSpeed(View* view, f32 speed) {
     view->distortionSpeed = speed;
 }
 
@@ -316,7 +327,7 @@ s32 View_ApplyPerspective(View* view) {
     height = view->viewport.bottomY - view->viewport.topY;
     aspect = (f32)width / (f32)height;
 
-    if (OOT_DEBUG && R_HREG_MODE == HREG_MODE_PERSPECTIVE) {
+    if (DEBUG_FEATURES && R_HREG_MODE == HREG_MODE_PERSPECTIVE) {
         if (R_PERSPECTIVE_INIT != HREG_MODE_PERSPECTIVE) {
             R_PERSPECTIVE_INIT = HREG_MODE_PERSPECTIVE;
             R_PERSPECTIVE_FOVY = 60;
@@ -331,7 +342,7 @@ s32 View_ApplyPerspective(View* view) {
         guPerspective(projection, &view->normal, view->fovy, aspect, view->zNear, view->zFar, view->scale);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (QREG(88) & 1) {
         s32 i;
         MtxF mf;
@@ -375,11 +386,12 @@ s32 View_ApplyPerspective(View* view) {
 
     view->viewing = *viewing;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     // Debug print view matrix
     if (QREG(88) & 2) {
         s32 i;
         MtxF mf;
+
         Matrix_MtxToMtxF(view->viewingPtr, &mf);
 
         PRINTF("viewing\n");
@@ -399,9 +411,9 @@ s32 View_ApplyPerspective(View* view) {
 }
 
 s32 View_ApplyOrtho(View* view) {
+    GraphicsContext* gfxCtx = view->gfxCtx;
     Vp* vp;
     Mtx* projection;
-    GraphicsContext* gfxCtx = view->gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 726);
 
@@ -624,7 +636,7 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP) {
     return 1;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Logs an error and returns nonzero if camera is too far from the origin.
  */
@@ -646,10 +658,11 @@ s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ) {
     }
 
     if (error != 0) {
-        PRINTF(VT_FGCOL(RED));
-        // "Is too large"
-        PRINTF("eye が大きすぎます eye=[%8.3f %8.3f %8.3f] error=%d\n", eyeX, eyeY, eyeZ, error);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_RED();
+        PRINTF(T("eye が大きすぎます eye=[%8.3f %8.3f %8.3f] error=%d\n",
+                 "eye is too large eye=[%8.3f %8.3f %8.3f] error=%d\n"),
+               eyeX, eyeY, eyeZ, error);
+        PRINTF_RST();
     }
 
     return error;

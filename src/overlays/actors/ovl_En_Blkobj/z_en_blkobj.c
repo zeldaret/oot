@@ -5,9 +5,17 @@
  */
 
 #include "z_en_blkobj.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_blkobj/object_blkobj.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnBlkobj_Init(Actor* thisx, PlayState* play);
 void EnBlkobj_Destroy(Actor* thisx, PlayState* play);
@@ -19,7 +27,7 @@ void EnBlkobj_SpawnDarkLink(EnBlkobj* this, PlayState* play);
 void EnBlkobj_DarkLinkFight(EnBlkobj* this, PlayState* play);
 void EnBlkobj_DoNothing(EnBlkobj* this, PlayState* play);
 
-ActorInit En_Blkobj_InitVars = {
+ActorProfile En_Blkobj_Profile = {
     /**/ ACTOR_EN_BLKOBJ,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -33,9 +41,9 @@ ActorInit En_Blkobj_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 300, ICHAIN_STOP),
 };
 
 static Gfx sSetupOpaDL[] = {
@@ -87,7 +95,7 @@ void EnBlkobj_Wait(EnBlkobj* this, PlayState* play) {
 }
 
 void EnBlkobj_SpawnDarkLink(EnBlkobj* this, PlayState* play) {
-    if (!(this->dyna.actor.flags & ACTOR_FLAG_6)) {
+    if (!(this->dyna.actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TORCH2, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
                     this->dyna.actor.world.pos.z, 0, this->dyna.actor.yawTowardsPlayer, 0, 0);
         EnBlkobj_SetupAction(this, EnBlkobj_DarkLinkFight);
@@ -159,8 +167,7 @@ void EnBlkobj_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(
         POLY_XLU_DISP++, 0x0D,
         Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames, 0, 32, 32, 1, gameplayFrames, 0, 32, 32));
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_blkobj.c", 363),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_blkobj.c", 363);
 
     if (this->alpha != 0) {
         EnBlkobj_DrawAlpha(play, gIllusionRoomNormalDL, this->alpha);

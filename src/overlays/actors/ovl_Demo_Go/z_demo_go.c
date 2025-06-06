@@ -5,10 +5,22 @@
  */
 
 #include "z_demo_go.h"
-#include "assets/objects/object_oF1d_map/object_oF1d_map.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "skin_matrix.h"
+
+#include "assets/objects/object_oF1d_map/object_oF1d_map.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void DemoGo_Init(Actor* thisx, PlayState* play);
 void DemoGo_Destroy(Actor* thisx, PlayState* play);
@@ -37,7 +49,7 @@ static DemoGoDrawFunc D_8097D468[] = {
     func_8097D29C,
 };
 
-ActorInit Demo_Go_InitVars = {
+ActorProfile Demo_Go_Profile = {
     /**/ ACTOR_DEMO_GO,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -320,7 +332,8 @@ void DemoGo_Update(Actor* thisx, PlayState* play) {
     DemoGo* this = (DemoGo*)thisx;
 
     if (this->action < 0 || this->action >= 7 || D_8097D44C[this->action] == NULL) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     D_8097D44C[this->action](this, play);
@@ -361,7 +374,8 @@ void DemoGo_Draw(Actor* thisx, PlayState* play) {
     DemoGo* this = (DemoGo*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == NULL) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     D_8097D468[this->drawConfig](this, play);

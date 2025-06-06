@@ -2,11 +2,11 @@
 #define Z_EN_GELDB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnGeldB;
 
-typedef enum {
+typedef enum EnGeldBLimb {
     /* 0x00 */ GELDB_LIMB_NONE,
     /* 0x01 */ GELDB_LIMB_ROOT,
     /* 0x02 */ GELDB_LIMB_TORSO,
@@ -34,7 +34,7 @@ typedef enum {
     /* 0x18 */ GELDB_LIMB_MAX
 } EnGeldBLimb;
 
-typedef void (*EnGeldBActionFunc)(struct EnGeldB*, PlayState*);
+typedef void (*EnGeldBActionFunc)(struct EnGeldB*, struct PlayState*);
 
 typedef struct EnGeldB {
     /* 0x0000 */ Actor actor;
@@ -48,7 +48,7 @@ typedef struct EnGeldB {
     /* 0x02F8 */ s16 unkTimer;
     /* 0x02FA */ s16 lookTimer;
     /* 0x02FC */ s16 iceTimer;
-    /* 0x02FE */ u8 damageEffect;
+    /* 0x02FE */ u8 damageReaction;
     /* 0x0300 */ s32 timer;
     /* 0x0304 */ f32 approachRate;
     /* 0x0308 */ char unk_308[4];

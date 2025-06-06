@@ -1,5 +1,13 @@
-#include "global.h"
+#include "jpeg.h"
+
+#include "array_count.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "printf.h"
+#include "sys_ucode.h"
 #include "terminal.h"
+#include "translation.h"
+#include "ultra64.h"
 
 #define MARKER_ESCAPE 0x00
 #define MARKER_SOI 0xD8
@@ -40,12 +48,12 @@ void Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
     JpegWork* workBuf = ctx->workBuf;
     s32 pad[2];
 
-    workBuf->taskData.address = VIRTUAL_TO_PHYSICAL(&workBuf->data);
+    workBuf->taskData.address = OS_K0_TO_PHYSICAL(&workBuf->data);
     workBuf->taskData.mode = ctx->mode;
     workBuf->taskData.mbCount = 4;
-    workBuf->taskData.qTableYPtr = VIRTUAL_TO_PHYSICAL(&workBuf->qTableY);
-    workBuf->taskData.qTableUPtr = VIRTUAL_TO_PHYSICAL(&workBuf->qTableU);
-    workBuf->taskData.qTableVPtr = VIRTUAL_TO_PHYSICAL(&workBuf->qTableV);
+    workBuf->taskData.qTableYPtr = OS_K0_TO_PHYSICAL(&workBuf->qTableY);
+    workBuf->taskData.qTableUPtr = OS_K0_TO_PHYSICAL(&workBuf->qTableU);
+    workBuf->taskData.qTableVPtr = OS_K0_TO_PHYSICAL(&workBuf->qTableV);
 
     sJpegTask.t.flags = 0;
     sJpegTask.t.ucode_boot = SysUcode_GetUCodeBoot();
@@ -178,22 +186,23 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                 case MARKER_SOF: {
                     // Start of Frame, stores important metadata of the image.
                     // Only used for extracting the sampling factors (ctx->mode).
-                    PRINTF("MARKER_SOF   %d "
-                           "精度%02x " // "accuracy"
-                           "垂直%d "   // "vertical"
-                           "水平%d "   // "horizontal"
-                           "compo%02x "
-                           "(1:Y)%d (H0=2,V0=1(422) or 2(420))%02x (量子化テーブル)%02x "
-                           "(2:Cb)%d (H1=1,V1=1)%02x (量子化テーブル)%02x "
-                           "(3:Cr)%d (H2=1,V2=1)%02x (量子化テーブル)%02x\n",
+                    PRINTF(T("MARKER_SOF   %d "
+                             "精度%02x 垂直%d 水平%d compo%02x "
+                             "(1:Y)%d (H0=2,V0=1(422) or 2(420))%02x (量子化テーブル)%02x "
+                             "(2:Cb)%d (H1=1,V1=1)%02x (量子化テーブル)%02x "
+                             "(3:Cr)%d (H2=1,V2=1)%02x (量子化テーブル)%02x\n",
+                             "MARKER_SOF   %d "
+                             "accuracy%02x vertical%d horizontal%d compo%02x "
+                             "(1:Y)%d (H0=2,V0=1(422) or 2(420))%02x (quantization tables)%02x "
+                             "(2:Cb)%d (H1=1,V1=1)%02x (quantization tables)%02x "
+                             "(3:Cr)%d (H2=1,V2=1)%02x (quantization tables)%02x\n"),
                            Jpeg_GetUnalignedU16(ptr),
-                           ptr[2],                        // precision
-                           Jpeg_GetUnalignedU16(ptr + 3), // height
-                           Jpeg_GetUnalignedU16(ptr + 5), // width
-                           ptr[7],                        // component count (assumed to be 3)
-                           ptr[8], ptr[9], ptr[10],       // Y component
-                           ptr[11], ptr[12], ptr[13],     // Cb component
-                           ptr[14], ptr[15], ptr[16]      // Cr component
+                           // precision, height, width, component count (assumed to be 3)
+                           ptr[2], Jpeg_GetUnalignedU16(ptr + 3), Jpeg_GetUnalignedU16(ptr + 5), ptr[7],
+                           //
+                           ptr[8], ptr[9], ptr[10],   // Y component
+                           ptr[11], ptr[12], ptr[13], // Cb component
+                           ptr[14], ptr[15], ptr[16]  // Cr component
                     );
 
                     if (ptr[9] == 0x21) {
@@ -220,7 +229,7 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                     break;
                 }
                 default: {
-                    PRINTF("マーカー不明 %02x\n", ptr[-1]); // "Unknown marker"
+                    PRINTF(T("マーカー不明 %02x\n", "Unknown marker %02x\n"), ptr[-1]);
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
@@ -239,7 +248,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     JpegDecoder decoder;
     JpegDecoderState state;
     JpegWork* workBuff;
-    OSTime diff;
+    UNUSED_NDEBUG OSTime diff;
     OSTime time;
     OSTime curTime;
 
@@ -256,8 +265,9 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     curTime = osGetTime();
     diff = curTime - time;
     time = curTime;
-    // "Wait for synchronization of fifo buffer"
-    PRINTF("*** fifoバッファの同期待ち time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF(T("*** fifoバッファの同期待ち time = %6.3f ms ***\n",
+             "*** Wait for synchronization of fifo buffer time = %6.3f ms ***\n"),
+           OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     ctx.workBuf = workBuff;
     Jpeg_ParseMarkers(data, &ctx);
@@ -265,8 +275,9 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     curTime = osGetTime();
     diff = curTime - time;
     time = curTime;
-    // "Check markers for each segment"
-    PRINTF("*** 各セグメントのマーカーのチェック time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF(T("*** 各セグメントのマーカーのチェック time = %6.3f ms ***\n",
+             "*** Check markers for each segment time = %6.3f ms ***\n"),
+           OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     switch (ctx.dqtCount) {
         case 1:
@@ -289,8 +300,8 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     curTime = osGetTime();
     diff = curTime - time;
     time = curTime;
-    // "Create quantization table"
-    PRINTF("*** 量子化テーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF(T("*** 量子化テーブル作成 time = %6.3f ms ***\n", "*** Create quantization table time = %6.3f ms ***\n"),
+           OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     switch (ctx.dhtCount) {
         case 1:
@@ -319,8 +330,8 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     curTime = osGetTime();
     diff = curTime - time;
     time = curTime;
-    // "Huffman table creation"
-    PRINTF("*** ハフマンテーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF(T("*** ハフマンテーブル作成 time = %6.3f ms ***\n", "*** Huffman table creation time = %6.3f ms ***\n"),
+           OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     decoder.imageData = ctx.imageData;
     decoder.mode = ctx.mode;
@@ -334,9 +345,9 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     x = y = 0;
     for (i = 0; i < 300; i += 4) {
         if (JpegDecoder_Decode(&decoder, (u16*)workBuff->data, 4, i != 0, &state)) {
-            PRINTF(VT_FGCOL(RED));
+            PRINTF_COLOR_RED();
             PRINTF("Error : Can't decode jpeg\n");
-            PRINTF(VT_RST);
+            PRINTF_RST();
         } else {
             Jpeg_ScheduleDecoderTask(&ctx);
             osInvalDCache(&workBuff->data, sizeof(workBuff->data[0]));
@@ -356,8 +367,8 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     curTime = osGetTime();
     diff = curTime - time;
     time = curTime;
-    // "Unfold & draw"
-    PRINTF("*** 展開 & 描画 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF(T("*** 展開 & 描画 time = %6.3f ms ***\n", "*** Unfold & draw time = %6.3f ms ***\n"),
+           OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     return 0;
 }

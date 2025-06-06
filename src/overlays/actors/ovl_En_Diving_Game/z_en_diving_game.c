@@ -6,10 +6,29 @@
 
 #include "z_en_diving_game.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
-#include "assets/objects/object_zo/object_zo.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "effect.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_zo/object_zo.h"
+
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnDivingGame_Init(Actor* thisx, PlayState* play);
 void EnDivingGame_Destroy(Actor* thisx, PlayState* play);
@@ -33,7 +52,7 @@ void func_809EEA00(EnDivingGame* this, PlayState* play);
 void func_809EEA90(EnDivingGame* this, PlayState* play);
 void func_809EEAF8(EnDivingGame* this, PlayState* play);
 
-ActorInit En_Diving_Game_InitVars = {
+ActorProfile En_Diving_Game_Profile = {
     /**/ ACTOR_EN_DIVING_GAME,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -50,7 +69,7 @@ static u8 D_809EF0B0 = false;
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -58,7 +77,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE | ATELEM_SFX_NORMAL,
@@ -82,18 +101,18 @@ void EnDivingGame_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gZoraSkel, &gZoraIdleAnim, this->jointTable, this->morphTable, 20);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n", "☆☆☆☆☆ Diving GO ☆☆☆☆☆ \n") VT_RST);
     this->actor.room = -1;
     this->actor.scale.x = 0.01f;
     this->actor.scale.y = 0.012999999f;
     this->actor.scale.z = 0.0139999995f;
     if (D_809EF0B0) {
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n", "☆☆☆☆☆ I'm already here -Hara ☆☆☆☆☆ \n") VT_RST);
         this->unk_31F = 1;
         Actor_Kill(&this->actor);
     } else {
         D_809EF0B0 = true;
-        this->actor.targetMode = 0;
+        this->actor.attentionRangeType = ATTENTION_RANGE_0;
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actionFunc = func_809EDCB0;
     }
@@ -479,8 +498,7 @@ void func_809EEA90(EnDivingGame* this, PlayState* play) {
 void func_809EEAF8(EnDivingGame* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        // "Successful completion"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal termination ☆☆☆☆☆ \n") VT_RST);
         this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;
         SET_EVENTCHKINF(EVENTCHKINF_38);
         this->actionFunc = func_809EDCB0;
@@ -561,8 +579,8 @@ s32 EnDivingGame_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
     }
 
     if (this->notPlayingMinigame && (limbIndex == 8 || limbIndex == 9 || limbIndex == 12)) {
-        rot->y += Math_SinS((play->state.frames * (limbIndex * 50 + 0x814))) * 200.0f;
-        rot->z += Math_CosS((play->state.frames * (limbIndex * 50 + 0x940))) * 200.0f;
+        rot->y += Math_SinS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
     }
 
     return 0;

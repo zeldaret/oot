@@ -5,27 +5,45 @@
  */
 
 #include "z_en_fhg_fire.h"
-#include "assets/objects/object_fhg/object_fhg.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
-typedef enum {
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_fhg/object_fhg.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
+
+typedef enum StrikeMode {
     /*  0 */ STRIKE_INIT,
     /* 10 */ STRIKE_BURST = 10,
     /* 11 */ STRIKE_TRAILS
 } StrikeMode;
 
-typedef enum {
+typedef enum TrailMode {
     /* 0 */ TRAIL_INIT,
     /* 1 */ TRAIL_APPEAR,
     /* 2 */ TRAIL_DISSIPATE
 } TrailMode;
 
-typedef enum {
+typedef enum BallKillMode {
     /* 0 */ BALL_FIZZLE,
     /* 1 */ BALL_BURST,
     /* 2 */ BALL_IMPACT
@@ -44,7 +62,7 @@ void EnFhgFire_SpearLight(EnFhgFire* this, PlayState* play);
 void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play);
 void EnFhgFire_PhantomWarp(EnFhgFire* this, PlayState* play);
 
-ActorInit En_Fhg_Fire_InitVars = {
+ActorProfile En_Fhg_Fire_Profile = {
     /**/ 0,
     /**/ ACTORCAT_BOSS,
     /**/ FLAGS,
@@ -58,7 +76,7 @@ ActorInit En_Fhg_Fire_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -66,7 +84,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK6,
+        ELEM_MATERIAL_UNK6,
         { 0x00100700, 0x03, 0x20 },
         { 0x0D900700, 0x00, 0x00 },
         ATELEM_ON,
@@ -118,9 +136,9 @@ void EnFhgFire_Init(Actor* thisx, PlayState* play) {
         this->collider.dim.height = this->actor.world.rot.x * 0.13f;
         this->collider.dim.yShift = 0;
     } else if (this->actor.params == FHGFIRE_SPEAR_LIGHT) {
-        PRINTF("yari hikari ct 1\n"); // "light spear"
+        PRINTF(T("yari hikari ct 1\n", "spear light ct 1\n"));
         EnFhgFire_SetUpdate(this, EnFhgFire_SpearLight);
-        PRINTF("yari hikari ct 2\n");
+        PRINTF(T("yari hikari ct 2\n", "spear light ct 2\n"));
         this->work[FHGFIRE_TIMER] = this->actor.world.rot.x;
         this->work[FHGFIRE_FIRE_MODE] = this->actor.world.rot.y;
     } else if ((this->actor.params == FHGFIRE_WARP_EMERGE) || (this->actor.params == FHGFIRE_WARP_RETREAT) ||
@@ -535,7 +553,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                     if ((bossGnd->flyMode >= GND_FLY_VOLLEY) && (this->work[FHGFIRE_RETURN_COUNT] >= 2)) {
                         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_LAUGH);
                     }
-                    func_8002F698(play, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f, 3, 0x10);
+                    Actor_SetPlayerKnockback(play, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f,
+                                             PLAYER_KNOCKBACK_LARGE_SHOCK, 0x10);
                 }
                 break;
             case FHGFIRE_LIGHT_BLUE:
@@ -637,8 +656,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
             this->actor.speed = 20.0f;
         }
         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
-        // "Why ah ah ah ah"
-        PRINTF("なぜだああああああああ      %d\n", this->work[FHGFIRE_VARIANCE_TIMER]);
+        PRINTF(T("なぜだああああああああ      %d\n", "Whyyyyyyyy      %d\n"), this->work[FHGFIRE_VARIANCE_TIMER]);
     }
 }
 
@@ -713,8 +731,7 @@ void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->fwork[FHGFIRE_ALPHA]);
         gDPSetEnvColor(POLY_XLU_DISP++, 165, 255, 75, 0);
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1745);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gPhantomLightningBlastDL));
     } else if ((this->actor.params == FHGFIRE_SPEAR_LIGHT) || (this->actor.params == FHGFIRE_ENERGY_BALL)) {
         PRINTF("yari hikari draw 1\n");
@@ -729,8 +746,7 @@ void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
         }
         gDPPipeSync(POLY_XLU_DISP++);
         Matrix_RotateZ((this->actor.shape.rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1801);
         gSPDisplayList(POLY_XLU_DISP++, gPhantomEnergyBallDL);
     } else if ((this->actor.params == FHGFIRE_WARP_EMERGE) || (this->actor.params == FHGFIRE_WARP_RETREAT) ||
                (this->actor.params == FHGFIRE_WARP_DEATH)) {
@@ -738,8 +754,7 @@ void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, (u8)this->fwork[FHGFIRE_WARP_ALPHA]);
         gDPSetEnvColor(POLY_XLU_DISP++, 90, 50, 95, (s8)(this->fwork[FHGFIRE_WARP_ALPHA] * 0.5f));
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1833);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (s16)this->fwork[FHGFIRE_WARP_TEX_1_X],
                                     (s16)this->fwork[FHGFIRE_WARP_TEX_1_Y], 0x40, 0x40, 1,
@@ -753,8 +768,7 @@ void EnFhgFire_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->fwork[FHGFIRE_ALPHA]);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 30, 0);
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fhg_fire.c", 1892);
         gSPDisplayList(POLY_XLU_DISP++, gPhantomLightningDL);
         PRINTF("FF DRAW 2\n");
     }

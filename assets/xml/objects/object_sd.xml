@@ -25,6 +25,55 @@
         <Animation Name="gEnHeishiDyingGuardDieAnim" Offset="0xC374"/>
         <Animation Name="gEnHeishiDyingGuardAnim_00C444" Offset="0xC444"/>
 
+        <Array Name="gHeishiKingGuardVtx" Count="489" Offset="0xD80">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiHeadVtx" Count="147" Offset="0x6CC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiTorsoArmorVtx" Count="136" Offset="0x75F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiTorsoVtx" Count="39" Offset="0x7E70">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiRightFootVtx" Count="30" Offset="0x80E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiLeg1Vtx" Count="28" Offset="0x82C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiUpperLeg1Vtx" Count="36" Offset="0x8480">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiSpearVtx" Count="94" Offset="0x86C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiLowerRightArmVtx" Count="32" Offset="0x8CA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiUpperArmVtx" Count="43" Offset="0x8EA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiLeftFootVtx" Count="30" Offset="0x9150">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiLeftShinVtx" Count="28" Offset="0x9330">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiLeftThighVtx" Count="36" Offset="0x94F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiHandVtx" Count="64" Offset="0x9730">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiLeftArmVtx" Count="32" Offset="0x9B30">
+            <Vtx/>
+        </Array>
+        <Array Name="gEnHeishiUpperLeftArmVtx" Count="48" Offset="0x9D30">
+            <Vtx/>
+        </Array>
+
         <DList Name="gHeishiKingGuardDL" Offset="0x2C10"/>
         <DList Name="gEnHeishiHeadDL" Offset="0xA030"/>
         <DList Name="gEnHeishiTorsoArmorDL" Offset="0xA440"/>
@@ -43,28 +92,28 @@
         <DList Name="gEnHeishiUpperLeftArmDL" Offset="0xB8C0"/>
 
         <!--King Guard Textures-->
-        <Texture Name="gEnHeishiKingGuardTLUT" OutName="king_guard_tlut" Format="rgba16" Width="16" Height="16" Offset="0x0000"/>
+        <Texture Name="gEnHeishiKingGuardTLUT" Format="rgba16" Width="16" Height="16" Offset="0x0000"/>
         <Texture Name="gEnHeishiKingGuardTex_200" Format="ci8" Width="8" Height="8" Offset="0x0200" TlutOffset="0x0000"/><!--Mouth?-->
         <Texture Name="gEnHeishiKingGuardTex_240" Format="ci8" Width="8" Height="8" Offset="0x0240" TlutOffset="0x0000"/><!--Eyes?-->
-        <Texture Name="gEnHeishiKingGuardArmorTex" OutName="king_guard_armor" Format="ci8" Width="8" Height="8" Offset="0x0280" TlutOffset="0x0000"/>
-        <Texture Name="gEnHeishiKingGuardShoulderGuardTex" OutName="king_guard_shoulder_guard" Format="ci8" Width="8" Height="16" Offset="0x02C0" TlutOffset="0x0000"/>
-        <Texture Name="gEnHeishiKingGuardChestArmorTex" OutName="king_guard_chest_armor" Format="ci8" Width="32" Height="64" Offset="0x0340" TlutOffset="0x0000"/>
+        <Texture Name="gEnHeishiKingGuardArmorTex" Format="ci8" Width="8" Height="8" Offset="0x0280" TlutOffset="0x0000"/>
+        <Texture Name="gEnHeishiKingGuardShoulderGuardTex" Format="ci8" Width="8" Height="16" Offset="0x02C0" TlutOffset="0x0000"/>
+        <Texture Name="gEnHeishiKingGuardChestArmorTex" Format="ci8" Width="32" Height="64" Offset="0x0340" TlutOffset="0x0000"/>
         <Texture Name="gEnHeishiKingGuardTex_B40" Format="ci8" Width="16" Height="16" Offset="0x0B40" TlutOffset="0x0000"/> <!--Leg Armor?-->
-        <Texture Name="gEnHeishiKingGuardHandTex" OutName="king_guard_hand" Format="ci8" Width="8" Height="8" Offset="0x0C40" TlutOffset="0x0000"/>
-        <Texture Name="gEnHeishiKingGuardPantsTex" OutName="king_guard_pants" Format="ci8" Width="16" Height="16" Offset="0x0C80" TlutOffset="0x0000"/>
+        <Texture Name="gEnHeishiKingGuardHandTex" Format="ci8" Width="8" Height="8" Offset="0x0C40" TlutOffset="0x0000"/>
+        <Texture Name="gEnHeishiKingGuardPantsTex" Format="ci8" Width="16" Height="16" Offset="0x0C80" TlutOffset="0x0000"/>
 
         <!--Normal Guard Textures-->
-        <Texture Name="gHeishiTLUT" OutName="guard_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5C40"/>
-        <Texture Name="gEnHeishiMouthTex" OutName="mouth_tex" Format="ci8" Width="16" Height="16" Offset="0x5E40" TlutOffset="0x5C40"/>
-        <Texture Name="gEnHeishiGradient1Tex" OutName="gradient1" Format="ci8" Width="8" Height="8" Offset="0x5F40" TlutOffset="0x5C40"/>
-        <Texture Name="gEnHeishiGradient2Tex" OutName="gradient2" Format="ci8" Width="8" Height="8" Offset="0x5F80" TlutOffset="0x5C40"/>
-        <Texture Name="gEnHeishiArmorTex" OutName="armor" Format="ci8" Width="8" Height="8" Offset="0x5FC0" TlutOffset="0x5C40"/>
-        <Texture Name="gEnHeishiUniform1Tex" OutName="uniform1" Format="i4" Width="16" Height="16" Offset="0x6000"/>
-        <Texture Name="gEnHeishiUniform2Tex" OutName="uniform2" Format="i4" Width="16" Height="8" Offset="0x6080"/>
-        <Texture Name="gEnHeishiUniformGreyTriforceTex" OutName="uniform_grey_triforce" Format="i4" Width="32" Height="32" Offset="0x60C0"/>
-        <Texture Name="gEnHeishiUniformGoldTriforceTex" OutName="uniform_gold_triforce" Format="ci8" Width="32" Height="32" Offset="0x62C0" TlutOffset="0x5C40"/>
-        <Texture Name="gEnHeishiLegTex" OutName="leg" Format="ci8" Width="16" Height="16" Offset="0x66C0" TlutOffset="0x5C40"/>
+        <Texture Name="gHeishiTLUT" Format="rgba16" Width="16" Height="16" Offset="0x5C40"/>
+        <Texture Name="gEnHeishiMouthTex" Format="ci8" Width="16" Height="16" Offset="0x5E40" TlutOffset="0x5C40"/>
+        <Texture Name="gEnHeishiGradient1Tex" Format="ci8" Width="8" Height="8" Offset="0x5F40" TlutOffset="0x5C40"/>
+        <Texture Name="gEnHeishiGradient2Tex" Format="ci8" Width="8" Height="8" Offset="0x5F80" TlutOffset="0x5C40"/>
+        <Texture Name="gEnHeishiArmorTex" Format="ci8" Width="8" Height="8" Offset="0x5FC0" TlutOffset="0x5C40"/>
+        <Texture Name="gEnHeishiUniform1Tex" Format="i4" Width="16" Height="16" Offset="0x6000"/>
+        <Texture Name="gEnHeishiUniform2Tex" Format="i4" Width="16" Height="8" Offset="0x6080"/>
+        <Texture Name="gEnHeishiUniformGreyTriforceTex" Format="i4" Width="32" Height="32" Offset="0x60C0"/>
+        <Texture Name="gEnHeishiUniformGoldTriforceTex" Format="ci8" Width="32" Height="32" Offset="0x62C0" TlutOffset="0x5C40"/>
+        <Texture Name="gEnHeishiLegTex" Format="ci8" Width="16" Height="16" Offset="0x66C0" TlutOffset="0x5C40"/>
         <Texture Name="gEnHeishiTex_0067C0" Format="ci8" Width="32" Height="32" Offset="0x67C0" TlutOffset="0x5C40"/>
-        <Texture Name="gEnHeishiHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0x6BC0" TlutOffset="0x5C40"/>
+        <Texture Name="gEnHeishiHandTex" Format="ci8" Width="16" Height="16" Offset="0x6BC0" TlutOffset="0x5C40"/>
     </File>
 </Root>

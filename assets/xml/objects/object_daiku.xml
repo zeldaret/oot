@@ -3,19 +3,79 @@
         <Animation Name="object_daiku_Anim_000600" Offset="0x600"/>
         <Animation Name="object_daiku_Anim_000C44" Offset="0xC44"/>
         <Animation Name="object_daiku_Anim_001AB0" Offset="0x1AB0"/>
-        <Texture Name="object_daiku_TLUT_001AC0" OutName="tlut_00001AC0" Format="rgba16" Width="16" Height="16" Offset="0x1AC0"/>
-        <Texture Name="object_daiku_Tex_001CC0" OutName="tex_00001CC0" Format="ci8" Width="8" Height="8" Offset="0x1CC0" TlutOffset="0x1AC0"/>
-        <Texture Name="object_daiku_Tex_001D00" OutName="tex_00001D00" Format="ci8" Width="16" Height="16" Offset="0x1D00" TlutOffset="0x1AC0"/>
-        <Texture Name="object_daiku_Tex_001E00" OutName="tex_00001E00" Format="rgba16" Width="4" Height="4" Offset="0x1E00"/>
-        <Texture Name="object_daiku_Tex_001E20" OutName="tex_00001E20" Format="ci8" Width="8" Height="16" Offset="0x1E20" TlutOffset="0x1AC0"/>
-        <Texture Name="object_daiku_Tex_001EA0" OutName="tex_00001EA0" Format="ci8" Width="8" Height="8" Offset="0x1EA0" TlutOffset="0x1AC0"/>
-        <Texture Name="object_daiku_Tex_001EE0" OutName="tex_00001EE0" Format="ci8" Width="16" Height="16" Offset="0x1EE0" TlutOffset="0x1AC0"/>
-        <Texture Name="object_daiku_Tex_001FE0" OutName="tex_00001FE0" Format="ci8" Width="8" Height="8" Offset="0x1FE0" TlutOffset="0x1AC0"/>
-        <Texture Name="object_daiku_Tex_002020" OutName="tex_00002020" Format="rgba16" Width="32" Height="32" Offset="0x2020"/>
-        <Texture Name="object_daiku_Tex_002820" OutName="tex_00002820" Format="ci8" Width="16" Height="16" Offset="0x2820" TlutOffset="0x1AC0"/>
-        <Texture Name="object_daiku_Tex_002920" OutName="tex_00002920" Format="ci8" Width="8" Height="8" Offset="0x2920" TlutOffset="0x1AC0"/>
-        <Texture Name="object_daiku_Tex_002960" OutName="tex_00002960" Format="ci8" Width="8" Height="8" Offset="0x2960" TlutOffset="0x1AC0"/>
-        <Texture Name="object_daiku_Tex_0029A0" OutName="tex_000029A0" Format="ci8" Width="8" Height="8" Offset="0x29A0" TlutOffset="0x1AC0"/>
+        <Texture Name="object_daiku_TLUT_001AC0" Format="rgba16" Width="16" Height="16" Offset="0x1AC0"/>
+        <Texture Name="object_daiku_Tex_001CC0" Format="ci8" Width="8" Height="8" Offset="0x1CC0" TlutOffset="0x1AC0"/>
+        <Texture Name="object_daiku_Tex_001D00" Format="ci8" Width="16" Height="16" Offset="0x1D00" TlutOffset="0x1AC0"/>
+        <Texture Name="object_daiku_Tex_001E00" Format="rgba16" Width="4" Height="4" Offset="0x1E00"/>
+        <Texture Name="object_daiku_Tex_001E20" Format="ci8" Width="8" Height="16" Offset="0x1E20" TlutOffset="0x1AC0"/>
+        <Texture Name="object_daiku_Tex_001EA0" Format="ci8" Width="8" Height="8" Offset="0x1EA0" TlutOffset="0x1AC0"/>
+        <Texture Name="object_daiku_Tex_001EE0" Format="ci8" Width="16" Height="16" Offset="0x1EE0" TlutOffset="0x1AC0"/>
+        <Texture Name="object_daiku_Tex_001FE0" Format="ci8" Width="8" Height="8" Offset="0x1FE0" TlutOffset="0x1AC0"/>
+        <Texture Name="object_daiku_Tex_002020" Format="rgba16" Width="32" Height="32" Offset="0x2020"/>
+        <Texture Name="object_daiku_Tex_002820" Format="ci8" Width="16" Height="16" Offset="0x2820" TlutOffset="0x1AC0"/>
+        <Texture Name="object_daiku_Tex_002920" Format="ci8" Width="8" Height="8" Offset="0x2920" TlutOffset="0x1AC0"/>
+        <Texture Name="object_daiku_Tex_002960" Format="ci8" Width="8" Height="8" Offset="0x2960" TlutOffset="0x1AC0"/>
+        <Texture Name="object_daiku_Tex_0029A0" Format="ci8" Width="8" Height="8" Offset="0x29A0" TlutOffset="0x1AC0"/>
+        <Array Name="object_daiku_Vtx_0029E0" Count="52" Offset="0x29E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_002D20" Count="20" Offset="0x2D20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_002E60" Count="22" Offset="0x2E60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_002FC0" Count="17" Offset="0x2FC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_0030D0" Count="16" Offset="0x30D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_0031D0" Count="104" Offset="0x31D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_003850" Count="43" Offset="0x3850">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_003B00" Count="24" Offset="0x3B00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_003C80" Count="24" Offset="0x3C80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_003E00" Count="43" Offset="0x3E00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_0040B0" Count="24" Offset="0x40B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_004230" Count="24" Offset="0x4230">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_0043B0" Count="88" Offset="0x43B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_004930" Count="20" Offset="0x4930">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_004A70" Count="19" Offset="0x4A70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_004BA0" Count="33" Offset="0x4BA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_004DB0" Count="20" Offset="0x4DB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_004EF0" Count="19" Offset="0x4EF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_005020" Count="33" Offset="0x5020">
+            <Vtx/>
+        </Array>
+        <Array Name="object_daiku_Vtx_005230" Count="38" Offset="0x5230">
+            <Vtx/>
+        </Array>
         <DList Name="object_daiku_DL_005490" Offset="0x5490"/>
         <DList Name="object_daiku_DL_005880" Offset="0x5880"/>
         <DList Name="object_daiku_DL_005990" Offset="0x5990"/>

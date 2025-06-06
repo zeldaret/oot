@@ -5,9 +5,20 @@
  */
 
 #include "z_bg_mori_idomizu.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgMoriIdomizu_Init(Actor* thisx, PlayState* play);
 void BgMoriIdomizu_Destroy(Actor* thisx, PlayState* play);
@@ -21,7 +32,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-ActorInit Bg_Mori_Idomizu_InitVars = {
+ActorProfile Bg_Mori_Idomizu_Profile = {
     /**/ ACTOR_BG_MORI_IDOMIZU,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -58,7 +69,7 @@ void BgMoriIdomizu_Init(Actor* thisx, PlayState* play) {
     this->actor.scale.z = 1.0f;
     this->actor.world.pos.x = 119.0f;
     this->actor.world.pos.z = -1820.0f;
-    this->prevSwitchFlagSet = Flags_GetSwitch(play, this->actor.params & 0x3F);
+    this->prevSwitchFlagSet = Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6));
     if (this->prevSwitchFlagSet != 0) {
         this->actor.world.pos.y = -282.0f;
         BgMoriIdomizu_SetWaterLevel(play, -282);
@@ -69,16 +80,16 @@ void BgMoriIdomizu_Init(Actor* thisx, PlayState* play) {
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
         Actor_Kill(&this->actor);
-        // "Bank danger!"
-        PRINTF("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_bg_mori_idomizu.c", 202);
+        PRINTF(T("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               this->actor.params, "../z_bg_mori_idomizu.c", 202);
         return;
     }
     BgMoriIdomizu_SetupWaitForMoriTex(this);
     sIsSpawned = true;
     this->isLoaded = true;
     this->actor.room = -1;
-    // "Forest Temple well water"
-    PRINTF("(森の神殿 井戸水)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF(T("(森の神殿 井戸水)(arg_data 0x%04x)\n", "(Forest Temple well water)(arg_data 0x%04x)\n"),
+           this->actor.params);
 }
 
 void BgMoriIdomizu_Destroy(Actor* thisx, PlayState* play) {
@@ -111,7 +122,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play) {
     s32 switchFlagSet;
 
     roomNum = play->roomCtx.curRoom.num;
-    switchFlagSet = Flags_GetSwitch(play, thisx->params & 0x3F);
+    switchFlagSet = Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6));
     if (switchFlagSet) {
         this->targetWaterLevel = -282.0f;
     } else {
@@ -165,8 +176,7 @@ void BgMoriIdomizu_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_idomizu.c", 360),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_mori_idomizu.c", 360);
 
     gSPSegment(POLY_XLU_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 

@@ -5,6 +5,18 @@
  */
 
 #include "z_eff_ss_sibuki.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
@@ -23,7 +35,7 @@ u32 EffectSsSibuki_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 void EffectSsSibuki_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsSibuki_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Sibuki_InitVars = {
+EffectSsProfile Effect_Ss_Sibuki_Profile = {
     EFFECT_SS_SIBUKI,
     EffectSsSibuki_Init,
 };
@@ -67,8 +79,7 @@ void EffectSsSibuki_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_ss_sibuki.c", 176),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_eff_ss_sibuki.c", 176);
     Gfx_SetupDL_25Opa(gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
     gDPSetEnvColor(POLY_OPA_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);

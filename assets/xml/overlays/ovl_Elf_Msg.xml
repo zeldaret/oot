@@ -1,16 +1,16 @@
 <Root>
-    <File Name="ovl_Elf_Msg" BaseAddress="0x809ACB20" RangeStart="0x758" RangeEnd="0x9D8">
+    <File Name="ovl_Elf_Msg">
 
-        <DList Name="D_809AD278" Offset="0x758"/>
+        <DList Name="D_809AD278" Offset="0x0"/>
 
-        <Array Name="sCylinderVtx" Count="16" Offset="0x798">
+        <Array Name="sCylinderVtx" Count="16" Offset="0x40">
             <Vtx/>
         </Array>
-        <DList Name="sCylinderDL" Offset="0x898"/>
+        <DList Name="sCylinderDL" Offset="0x140"/>
 
-        <Array Name="sCubeVtx" Count="8" Offset="0x918">
+        <Array Name="sCubeVtx" Count="8" Offset="0x1C0">
             <Vtx/>
         </Array>
-        <DList Name="sCubeDL" Offset="0x998"/>
+        <DList Name="sCubeDL" Offset="0x240"/>
     </File>
 </Root>

@@ -5,9 +5,12 @@
 
 #define GU_PI 3.1415926
 
+#define FTOFIX32(x) (s32)((x) * (f32)0x00010000)
+#define FIX32TOF(x) ((f32)(x) * (1.0f / (f32)0x00010000))
+
 #define ROUND(x) (s32)(((x) >= 0.0) ? ((x) + 0.5) : ((x) - 0.5))
 
-typedef union {
+typedef union du {
     struct {
         u32 hi;
         u32 lo;
@@ -16,10 +19,16 @@ typedef union {
     f64 d;
 } du;
 
-typedef union {
+typedef union fu {
     u32 i;
     f32 f;
 } fu;
+
+f32 sinf(f32 angle);
+s16 sins(u16 angle);
+
+f32 cosf(f32 angle);
+s16 coss(u16 angle);
 
 extern f32 __libm_qnan_f;
 

@@ -1,9 +1,25 @@
 #include "z_en_ex_ruppy.h"
+#include "overlays/actors/ovl_En_Diving_Game/z_en_diving_game.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
-#include "../ovl_En_Diving_Game/z_en_diving_game.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnExRuppy_Init(Actor* thisx, PlayState* play);
 void EnExRuppy_Destroy(Actor* thisx, PlayState* play);
@@ -28,7 +44,7 @@ static s16 sRupeeValues[] = {
     1, 5, 20, 500, 50,
 };
 
-ActorInit En_Ex_Ruppy_InitVars = {
+ActorProfile En_Ex_Ruppy_Profile = {
     /**/ ACTOR_EN_EX_RUPPY,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -48,8 +64,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
     s16 temp3;
 
     this->type = this->actor.params;
-    // "Index"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Index ☆☆☆☆☆ %x\n") VT_RST, this->type);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
 
     switch (this->type) {
@@ -105,7 +120,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             this->unk_15A = this->actor.world.rot.z;
             this->actor.world.rot.z = 0;
             this->timer = 30;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actionFunc = EnExRuppy_DropIntoWater;
             break;
 
@@ -119,11 +134,10 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
                 this->colorIdx = (s16)Rand_ZeroFloat(3.99f) + 1;
             }
             this->actor.gravity = -3.0f;
-            // "Wow Coin"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n", "☆☆☆☆☆ Wow Coin ☆☆☆☆☆ \n") VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actionFunc = EnExRuppy_WaitToBlowUp;
             break;
 
@@ -141,17 +155,16 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
                     break;
             }
             this->actor.gravity = -3.0f;
-            // "Normal rupee"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal rupee ☆☆☆☆☆ \n") VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
 
         case 4: // Progress markers in the shooting gallery
             this->actor.gravity = -3.0f;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             Actor_SetScale(&this->actor, 0.01f);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = -700.0f;
@@ -249,9 +262,9 @@ void EnExRuppy_Sink(EnExRuppy* this, PlayState* play) {
     Vec3f pos;
     s32 pad;
 
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.depthInWater > 15.0f)) {
         pos = this->actor.world.pos;
-        pos.y += this->actor.yDistToWater;
+        pos.y += this->actor.depthInWater;
         this->actor.velocity.y = -1.0f;
         this->actor.gravity = -0.2f;
         EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 800);
@@ -302,7 +315,7 @@ void EnExRuppy_Kill(EnExRuppy* this, PlayState* play) {
     }
 }
 
-typedef struct {
+typedef struct EnExRuppyParentActor {
     /* 0x000 */ Actor actor;
     /* 0x14C */ char unk_14C[0x11A];
     /* 0x226 */ s16 unk_226;
@@ -327,10 +340,10 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
                 parent->unk_226 = 1;
             }
         } else {
-            // "That idiot! error"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n",
+                                     "☆☆☆☆☆ That's stupid! Error!!!!! ☆☆☆☆☆ \n") VT_RST);
         }
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n" VT_RST); // "Stupid!"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Stupid! ☆☆☆☆☆ \n") VT_RST);
         explosionScale = 100;
         explosionScaleStep = 30;
         if (this->type == 2) {
@@ -338,7 +351,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
             explosionScaleStep = 6;
         }
         EffectSsBomb2_SpawnLayered(play, &this->actor.world.pos, &velocity, &accel, explosionScale, explosionScaleStep);
-        func_8002F71C(play, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f);
         Actor_PlaySfx(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
         Actor_Kill(&this->actor);
     }
@@ -387,8 +400,7 @@ void EnExRuppy_Draw(Actor* thisx, PlayState* play) {
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         func_8002EBCC(thisx, play, 0);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ex_ruppy.c", 780);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(rupeeTextures[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
 

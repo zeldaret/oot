@@ -1,4 +1,11 @@
-#include "global.h"
+#include "segment_symbols.h"
+#include "console_logo_state.h"
+#include "file_select_state.h"
+#include "map_select_state.h"
+#include "setup_state.h"
+#include "title_setup_state.h"
+#include "z_game_dlftbls.h"
+#include "play_state.h"
 
 // Linker symbol declarations (used in the table below)
 #define DEFINE_GAMESTATE(typeName, enumName, name) DECLARE_OVERLAY_SEGMENT(name)

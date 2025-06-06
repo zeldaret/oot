@@ -2,11 +2,11 @@
 #define Z_EN_BB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnBb;
 
-typedef void (*EnBbActionFunc)(struct EnBb*, PlayState*);
+typedef void (*EnBbActionFunc)(struct EnBb*, struct PlayState*);
 
 typedef struct EnBb {
     /* 0x0000 */ Actor actor;
@@ -41,12 +41,12 @@ typedef struct EnBb {
     /* 0x02A8 */ s16 fireIceTimer;
     /* 0x02AA */ u8 dmgEffect;
     /* 0x02AC */ ColliderJntSph collider;
-    /* 0x02CC */ ColliderJntSphElement elements[1];
+    /* 0x02CC */ ColliderJntSphElement colliderElements[1];
     /* 0x030C */ BodyBreak bodyBreak;
     /* 0x0324 */ Actor* targetActor;
 } EnBb; // size = 0x0328
 
-typedef enum {
+typedef enum EnBbType {
     ENBB_GREEN_BIG = -5,
     ENBB_GREEN,
     ENBB_WHITE,

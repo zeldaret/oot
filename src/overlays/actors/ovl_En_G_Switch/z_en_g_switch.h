@@ -2,13 +2,13 @@
 #define Z_EN_G_SWITCH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnGSwitch;
 
-typedef void (*EnGSwitchActionFunc)(struct EnGSwitch*, PlayState*);
+typedef void (*EnGSwitchActionFunc)(struct EnGSwitch*, struct PlayState*);
 
-typedef enum {
+typedef enum EnGSwitchMoveMode {
     /* 0 */ GSWITCH_NONE,
     /* 1 */ GSWITCH_APPEAR,
     /* 2 */ GSWITCH_THROW,
@@ -17,7 +17,7 @@ typedef enum {
     /* 5 */ GSWITCH_RIGHT
 } EnGSwitchMoveMode;
 
-typedef enum {
+typedef enum EnGSwitchType {
     /* 0 */ ENGSWITCH_SILVER_TRACKER,
     /* 1 */ ENGSWITCH_SILVER_RUPEE,
     /* 2 */ ENGSWITCH_ARCHERY_POT,
@@ -26,7 +26,7 @@ typedef enum {
 
 #define EN_GSWITCH_EFFECT_COUNT 100
 
-typedef struct {
+typedef struct EnGSwitchEffect {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 scale;
     /* 0x0E */ s16 timer;

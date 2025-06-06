@@ -5,6 +5,15 @@
  */
 
 #include "z_eff_ss_blast.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rInnerColorR regs[0]
@@ -24,7 +33,7 @@ u32 EffectSsBlast_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
 void EffectSsBlast_Update(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBlast_Draw(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Blast_InitVars = {
+EffectSsProfile Effect_Ss_Blast_Profile = {
     EFFECT_SS_BLAST,
     EffectSsBlast_Init,
 };
@@ -72,8 +81,7 @@ void EffectSsBlast_Draw(PlayState* play, u32 index, EffectSs* this) {
                     this->rInnerColorA);
     Matrix_Put(&mf);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_ss_blast.c", 199),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_blast.c", 199);
     gSPDisplayList(POLY_XLU_DISP++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_blast.c", 204);

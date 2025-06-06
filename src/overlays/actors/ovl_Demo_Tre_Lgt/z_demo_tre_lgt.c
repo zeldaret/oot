@@ -1,8 +1,18 @@
 #include "z_demo_tre_lgt.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "curve.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_box/object_box.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void DemoTreLgt_Init(Actor* thisx, PlayState* play);
 void DemoTreLgt_Destroy(Actor* thisx, PlayState* play);
@@ -14,7 +24,7 @@ void func_80993754(DemoTreLgt* this);
 void func_8099375C(DemoTreLgt* this, PlayState* play);
 void func_809937B4(DemoTreLgt* this, PlayState* play, f32 currentFrame);
 
-typedef struct {
+typedef struct DemoTreLgtInfo {
     /* 0x00 */ f32 startFrame;
     /* 0x04 */ f32 endFrame;
     /* 0x08 */ f32 unk_08;
@@ -26,7 +36,7 @@ static DemoTreLgtInfo sDemoTreLgtInfo[] = {
     { 1.0f, 136.0f, 220.0f, 50.0f },
 };
 
-ActorInit Demo_Tre_Lgt_InitVars = {
+ActorProfile Demo_Tre_Lgt_Profile = {
     /**/ ACTOR_DEMO_TRE_LGT,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -49,8 +59,7 @@ void DemoTreLgt_Init(Actor* thisx, PlayState* play) {
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     if (!SkelCurve_Init(play, &this->skelCurve, &gTreasureChestCurveSkel, sAnimations[0])) {
-        // "Demo_Tre_Lgt_Actor_ct (); Construct failed"
-        PRINTF("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
+        PRINTF(T("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n", "Demo_Tre_Lgt_Actor_ct(); Construct failed\n"));
     }
 
     ASSERT(true, "1", "../z_demo_tre_lgt.c", UNK_LINE);

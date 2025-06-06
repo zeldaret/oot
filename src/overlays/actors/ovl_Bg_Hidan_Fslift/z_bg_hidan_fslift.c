@@ -5,9 +5,15 @@
  */
 
 #include "z_bg_hidan_fslift.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgHidanFslift_Init(Actor* thisx, PlayState* play);
 void BgHidanFslift_Destroy(Actor* thisx, PlayState* play);
@@ -18,7 +24,7 @@ void BgHidanFslift_Idle(BgHidanFslift* this, PlayState* play);
 void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play);
 void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play);
 
-ActorInit Bg_Hidan_Fslift_InitVars = {
+ActorProfile Bg_Hidan_Fslift_Profile = {
     /**/ ACTOR_BG_HIDAN_FSLIFT,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -32,9 +38,9 @@ ActorInit Bg_Hidan_Fslift_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 350, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 300, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 350, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_STOP),
 };
 
 void BgHidanFslift_Init(Actor* thisx, PlayState* play) {
@@ -102,7 +108,7 @@ void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         BgHidanFslift_SetupIdle(this);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
     BgHidanFslift_SetHookshotTargetPos(this);
 }
@@ -113,7 +119,7 @@ void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
             BgHidanFslift_SetupIdle(this);
         } else {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
         }
     } else {
         BgHidanFslift_SetupIdle(this);

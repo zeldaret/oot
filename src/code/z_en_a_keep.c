@@ -1,8 +1,15 @@
-#include "global.h"
+#include "z_en_a_obj.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_d_hsblock/object_d_hsblock.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnAObj_Init(Actor* thisx, PlayState* play);
 void EnAObj_Destroy(Actor* thisx, PlayState* play);
@@ -20,7 +27,7 @@ void EnAObj_SetupBlockRot(EnAObj* this, s16 type);
 void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type);
 void EnAObj_SetupBlock(EnAObj* this, s16 type);
 
-ActorInit En_A_Obj_InitVars = {
+ActorProfile En_A_Obj_Profile = {
     /**/ ACTOR_EN_A_OBJ,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -34,7 +41,7 @@ ActorInit En_A_Obj_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ALL,
         OC1_ON | OC1_TYPE_ALL,
@@ -42,7 +49,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -80,7 +87,7 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
     EnAObj* this = (EnAObj*)thisx;
     f32 shadowScale = 6.0f;
 
-    this->textId = (thisx->params >> 8) & 0xFF;
+    this->textId = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     switch (thisx->params) {
@@ -114,8 +121,8 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = BGACTOR_NEG_ONE;
     this->dyna.interactFlags = 0;
     this->dyna.transformFlags = 0;
-    thisx->uncullZoneDownward = 1200.0f;
-    thisx->uncullZoneScale = 200.0f;
+    thisx->cullingVolumeDownward = 1200.0f;
+    thisx->cullingVolumeScale = 200.0f;
 
     switch (thisx->params) {
         case A_OBJ_BLOCK_LARGE:
@@ -132,7 +139,7 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
             break;
         case A_OBJ_UNKNOWN_6:
             this->focusYoffset = 10.0f;
-            thisx->flags |= ACTOR_FLAG_0;
+            thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->dyna.bgId = 5;
             thisx->gravity = -2.0f;
             EnAObj_SetupWaitTalk(this, thisx->params);
@@ -145,14 +152,14 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
             thisx->textId = (this->textId & 0xFF) | 0x300;
-            thisx->targetArrowOffset = 500.0f;
-            thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+            thisx->lockOnArrowOffset = 500.0f;
+            thisx->flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
             this->focusYoffset = 45.0f;
             EnAObj_SetupWaitTalk(this, thisx->params);
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
             thisx->colChkInfo.mass = MASS_IMMOVABLE;
-            thisx->targetMode = 0;
+            thisx->attentionRangeType = ATTENTION_RANGE_0;
             break;
         case A_OBJ_BOULDER_FRAGMENT:
             thisx->gravity = -1.5f;
@@ -288,8 +295,8 @@ void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
 }
 
 void EnAObj_SetupBlock(EnAObj* this, s16 type) {
-    this->dyna.actor.uncullZoneDownward = 1200.0f;
-    this->dyna.actor.uncullZoneScale = 720.0f;
+    this->dyna.actor.cullingVolumeDownward = 1200.0f;
+    this->dyna.actor.cullingVolumeScale = 720.0f;
     EnAObj_SetupAction(this, EnAObj_Block);
 }
 
@@ -353,7 +360,7 @@ void EnAObj_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 1, 60, 60, 60, 50);
     }
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_a_keep.c", 712), G_MTX_MODELVIEW | G_MTX_LOAD);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_a_keep.c", 712);
     gSPDisplayList(POLY_OPA_DISP++, sDLists[type]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_a_keep.c", 715);

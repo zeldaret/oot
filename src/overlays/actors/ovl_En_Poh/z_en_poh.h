@@ -2,25 +2,26 @@
 #define Z_EN_POH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "light.h"
 
 struct EnPoh;
 
-typedef void (*EnPohActionFunc)(struct EnPoh*, PlayState*);
+typedef void (*EnPohActionFunc)(struct EnPoh*, struct PlayState*);
 
-typedef enum {
+typedef enum EnPohType {
     EN_POH_NORMAL,
     EN_POH_RUPEE,
     EN_POH_SHARP,
     EN_POH_FLAT
 } EnPohType;
 
-typedef enum {
+typedef enum EnPohInfoType {
     EN_POH_INFO_NORMAL,
     EN_POH_INFO_COMPOSER
 } EnPohInfoType;
 
-typedef struct {
+typedef struct EnPohInfo {
     /* 0x0000 */ Color_RGB8 primColor;
     /* 0x0003 */ Color_RGB8 lightColor;
     /* 0x0006 */ u8 unk_6; // limb index
@@ -53,9 +54,9 @@ typedef struct EnPoh {
     /* 0x02A4 */ EnPohInfo* info;
     /* 0x02A8 */ LightNode* lightNode;
     /* 0x02AC */ LightInfo lightInfo;
-    /* 0x02BC */ ColliderCylinder colliderCyl;
-    /* 0x0308 */ ColliderJntSph colliderSph;
-    /* 0x0328 */ ColliderJntSphElement colliderSphItem;
+    /* 0x02BC */ ColliderCylinder colliderCylinder;
+    /* 0x0308 */ ColliderJntSph colliderJntSph;
+    /* 0x0328 */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x0368 */ MtxF unk_368;
 } EnPoh; // size = 0x03A8
 

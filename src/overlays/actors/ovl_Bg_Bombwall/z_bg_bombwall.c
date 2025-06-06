@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_bombwall.h"
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS ACTOR_FLAG_IGNORE_POINT_LIGHTS
@@ -23,7 +31,7 @@ void func_8086EE94(BgBombwall* this, PlayState* play);
 static ColliderTrisElementInit sTrisElementsInit[3] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000048, 0x00, 0x00 },
             ATELEM_NONE,
@@ -34,7 +42,7 @@ static ColliderTrisElementInit sTrisElementsInit[3] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000048, 0x00, 0x00 },
             ATELEM_NONE,
@@ -45,7 +53,7 @@ static ColliderTrisElementInit sTrisElementsInit[3] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000048, 0x00, 0x00 },
             ATELEM_NONE,
@@ -58,7 +66,7 @@ static ColliderTrisElementInit sTrisElementsInit[3] = {
 
 static ColliderTrisInit sTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -69,7 +77,7 @@ static ColliderTrisInit sTrisInit = {
     sTrisElementsInit,
 };
 
-ActorInit Bg_Bombwall_InitVars = {
+ActorProfile Bg_Bombwall_Profile = {
     /**/ ACTOR_BG_BOMBWALL,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -91,9 +99,8 @@ void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG login failed"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
-               this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗", "Warning : move BG registration failed") "(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_bombwall.c", 243, this->dyna.actor.params);
     }
 }
 
@@ -104,9 +111,9 @@ void BgBombwall_RotateVec(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 1800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 300, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void BgBombwall_Init(Actor* thisx, PlayState* play) {
@@ -122,13 +129,13 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     Actor_SetScale(&this->dyna.actor, 0.1f);
 
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         func_8086EE94(this, play);
     } else {
         BgBombwall_InitDynapoly(this, play);
         this->unk_2A2 |= 2;
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderElements);
 
         for (i = 0; i <= 2; i++) {
             for (j = 0; j <= 2; j++) {
@@ -149,8 +156,9 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
         func_8086ED50(this, play);
     }
 
-    PRINTF("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n", this->dyna.actor.params,
-           this->dyna.actor.shape.rot.y);
+    PRINTF(T("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n",
+             "(field keep general purpose bomb wall)(arg_data 0x%04x)(angY %d)\n"),
+           this->dyna.actor.params, this->dyna.actor.shape.rot.y);
 }
 
 void BgBombwall_DestroyCollision(BgBombwall* this, PlayState* play) {
@@ -213,7 +221,7 @@ void func_8086ED70(BgBombwall* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         func_8086EDFC(this, play);
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
     } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
@@ -232,7 +240,7 @@ void func_8086EE40(BgBombwall* this, PlayState* play) {
     } else {
         func_8086EE94(this, play);
 
-        if (((this->dyna.actor.params >> 0xF) & 1) != 0) {
+        if (PARAMS_GET_U(this->dyna.actor.params, 15, 1) != 0) {
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
     }
