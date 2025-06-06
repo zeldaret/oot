@@ -23,6 +23,52 @@
         <Animation Name="gRutoChildSwimOnBackAnim" Offset="0x12E94"/>
         <Animation Name="gRutoChildTreadWaterAnim" Offset="0x13A64"/>
 
+        <Array Name="gRutoChildLeftFootVtx" Count="26" Offset="0x97D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildLeftShinVtx" Count="59" Offset="0x9970">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildLeftThighVtx" Count="52" Offset="0x9D20">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightFootVtx" Count="26" Offset="0xA060">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightShinVtx" Count="59" Offset="0xA200">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightThighVtx" Count="52" Offset="0xA5B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildChestVtx" Count="104" Offset="0xA8F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightHandVtx" Count="56" Offset="0xAF70">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightFinVtx" Count="39" Offset="0xB2F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightUpperArmVtx" Count="34" Offset="0xB560">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildLeftHandVtx" Count="56" Offset="0xB780">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildLeftFinVtx" Count="39" Offset="0xBB00">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildLeftUpperArmVtx" Count="34" Offset="0xBD70">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildTorsoVtx" Count="17" Offset="0xBF90">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildHeadVtx" Count="188" Offset="0x10E38">
+            <Vtx/>
+        </Array>
+
         <DList Name="gRutoChildTorsoDL" Offset="0xC0A0"/>
         <DList Name="gRutoChildLeftThighDL" Offset="0xC188"/>
         <DList Name="gRutoChildLeftShinDL" Offset="0xC3D8"/>

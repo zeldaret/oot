@@ -27,6 +27,71 @@
         <Limb Name="gAdultRutoHeadLimb" LimbType="Standard" Offset="0xC690"/>
         <Limb Name="gAdultRutoWaistLimb" LimbType="Standard" Offset="0xC69C"/>
 
+        <!-- Adult Ruto Limb Vertices -->
+        <Array Name="gAdultRutoHeadVtx" Count="173" Offset="0x33E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoLeftHandVtx" Count="55" Offset="0x5EC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoLeftForearmVtx" Count="23" Offset="0x6230">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoLeftLowerWingVtx" Count="8" Offset="0x63A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoLeftUpperWingVtx" Count="6" Offset="0x6420">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoLeftUpperArmVtx" Count="30" Offset="0x6480">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoRightHandVtx" Count="55" Offset="0x6660">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoRightForearmVtx" Count="23" Offset="0x69D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoRightLowerWingVtx" Count="8" Offset="0x6B40">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoRightUpperWingVtx" Count="6" Offset="0x6BC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoRightUpperArmVtx" Count="30" Offset="0x6C20">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoTorsoVtx" Count="128" Offset="0x6E00">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoLeftFootVtx" Count="26" Offset="0x7600">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoLeftLegVtx" Count="52" Offset="0x77A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoLeftTailVtx" Count="15" Offset="0x7AE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoLeftThighVtx" Count="37" Offset="0x7BD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoRightFootVtx" Count="26" Offset="0x7E20">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoRightLegVtx" Count="52" Offset="0x7FC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoRightTailVtx" Count="15" Offset="0x8300">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoRightThighVtx" Count="37" Offset="0x83F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gAdultRutoWaistVtx" Count="43" Offset="0x8640">
+            <Vtx/>
+        </Array>
+
         <!-- Adult Ruto Limb DisplayLists -->
         <DList Name="gAdultRutoLeftThighDL" Offset="0xB8E0"/>
         <DList Name="gAdultRutoLeftLegDL" Offset="0xBE38"/>
