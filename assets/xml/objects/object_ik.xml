@@ -53,6 +53,66 @@
         <Texture Name="object_ik_Tex_0117E0" Format="ci8" Width="8" Height="16" Offset="0x117E0" TlutOffset="0xf630"/>
         <Texture Name="object_ik_Tex_011860" Format="ci8" Width="16" Height="16" Offset="0x11860" TlutOffset="0xf630"/>
         <Texture Name="object_ik_Tex_011960" Format="ia8" Width="16" Height="16" Offset="0x11960"/>
+        <Array Name="object_ik_Vtx_011A60" Count="44" Offset="0x11A60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_011D20" Count="28" Offset="0x11D20">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleNabooruHelmetVtx" Count="90" Offset="0x11EE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleAxeVtx" Count="69" Offset="0x12480">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleShockedNabooruHeadVtx" Count="282" Offset="0x128D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_013A70" Count="29" Offset="0x13A70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_013C40" Count="14" Offset="0x13C40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_013D20" Count="31" Offset="0x13D20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_013F10" Count="14" Offset="0x13F10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_013FF0" Count="21" Offset="0x13FF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_014140" Count="21" Offset="0x14140">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleSplitHelmetLeftVtx" Count="55" Offset="0x14290">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleSplitHelmetRightVtx" Count="44" Offset="0x14600">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleArmorRivetAndSymbolVtx" Count="14" Offset="0x148C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_0149A0" Count="10" Offset="0x149A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_014A40" Count="47" Offset="0x14A40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_014D30" Count="14" Offset="0x14D30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_014E10" Count="14" Offset="0x14E10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_014EF0" Count="24" Offset="0x14EF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_015070" Count="24" Offset="0x15070">
+            <Vtx/>
+        </Array>
         <DList Name="object_ik_DL_0151F0" Offset="0x151F0"/>
         <DList Name="object_ik_DL_015380" Offset="0x15380"/>
         <DList Name="gIronKnuckleNabooruHelmetDL" Offset="0x154E0"/>
@@ -80,9 +140,57 @@
         <Texture Name="object_ik_Tex_0175B8" Format="ci8" Width="8" Height="16" Offset="0x175B8" TlutOffset="0x17288"/>
         <Texture Name="object_ik_Tex_017638" Format="ci8" Width="8" Height="16" Offset="0x17638" TlutOffset="0x17288"/>
         <Texture Name="object_ik_Tex_0176B8" Format="ci8" Width="16" Height="16" Offset="0x176B8" TlutOffset="0x17288"/>
+        <Array Name="gIronKnuckleHelmetVtx" Count="105" Offset="0x177B8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleGerudoHeadVtx" Count="208" Offset="0x17E48">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleHelmetMarkingVtx" Count="51" Offset="0x18B48">
+            <Vtx/>
+        </Array>
         <DList Name="gIronKnuckleHelmetDL" Offset="0x18E78"/>
         <DList Name="gIronKnuckleGerudoHeadDL" Offset="0x19100"/>
         <DList Name="gIronKnuckleHelmetMarkingDL" Offset="0x19E08"/>
+        <Array Name="object_ik_Vtx_019F38" Count="28" Offset="0x19F38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A0F8" Count="15" Offset="0x1A0F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A1E8" Count="33" Offset="0x1A1E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A3F8" Count="28" Offset="0x1A3F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A5B8" Count="15" Offset="0x1A5B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A6A8" Count="34" Offset="0x1A6A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A8C8" Count="62" Offset="0x1A8C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01ACA8" Count="33" Offset="0x1ACA8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01AEB8" Count="25" Offset="0x1AEB8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01B048" Count="33" Offset="0x1B048">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01B258" Count="25" Offset="0x1B258">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleTorsoVtx" Count="79" Offset="0x1B3E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01B8D8" Count="26" Offset="0x1B8D8">
+            <Vtx/>
+        </Array>
         <DList Name="gIronKnuckleTorsoDL" Offset="0x1BA78"/>
         <DList Name="object_ik_DL_01BE98" Offset="0x1BE98"/>
         <DList Name="object_ik_DL_01C130" Offset="0x1C130"/>
