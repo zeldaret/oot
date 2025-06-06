@@ -136,7 +136,7 @@ typedef enum EnRu1Action {
     /* 42 */ ENRU1_ACTION_42,
     /* 43 */ ENRU1_ACTION_43,
     /* 44 */ ENRU1_ACTION_44,
-    /* 45 */ ENRU1_ACTION_45,
+    /* 45 */ ENRU1_ACTION_45
 } EnRu1Action;
 
 typedef enum EnRu1DrawConfig {
@@ -151,20 +151,20 @@ typedef enum EnRu1Eyes {
     /* 2 */ ENRU1_EYES_CLOSED,
     /* 3 */ ENRU1_EYES_UP,
     /* 4 */ ENRU1_EYES_GAZING,
-    /* 5 */ ENRU1_EYES_BLUSH,
+    /* 5 */ ENRU1_EYES_BLUSH
 } EnRu1Eyes;
 
 typedef enum EnRu1Mouth {
     /* 0 */ ENRU1_MOUTH_SMILING,
     /* 1 */ ENRU1_MOUTH_FROWNING,
-    /* 2 */ ENRU1_MOUTH_OPEN,
+    /* 2 */ ENRU1_MOUTH_OPEN
 } EnRu1Mouth;
 
 typedef enum EnRu1WaterState {
     /* 0 */ ENRU1_WATER_OUTSIDE,
     /* 1 */ ENRU1_WATER_IMMERSED,
     /* 2 */ ENRU1_WATER_BOBBING,
-    /* 3 */ ENRU1_WATER_SINKING,
+    /* 3 */ ENRU1_WATER_SINKING
 } EnRu1WaterState;
 
 static ColliderCylinderInitType1 sStandingCylinderInit = {
