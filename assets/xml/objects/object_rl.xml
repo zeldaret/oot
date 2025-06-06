@@ -36,6 +36,8 @@
         <DList Name="object_rl_DL_002F20" Offset="0x2F20"/>
         <DList Name="object_rl_DL_003058" Offset="0x3058"/>
         <Texture Name="object_rl_TLUT_0032A0" OutName="tlut_000032A0" Format="rgba16" Width="160" Height="1" Offset="0x32A0"/>
+        <Texture Name="object_rl_0033E0_Tex" Format="ci8" Width="8" Height="8" Offset="0x33E0" TlutOffset="0x32A0"/>
+        <Texture Name="object_rl_003420_Tex" Format="ci8" Width="16" Height="16" Offset="0x3420" TlutOffset="0x32A0"/>
         <Texture Name="object_rl_Tex_003520" OutName="tex_00003520" Format="ci8" Width="16" Height="16" Offset="0x3520" TlutOffset="0x32A0"/>
         <Texture Name="object_rl_Tex_003620" OutName="tex_00003620" Format="ci8" Width="32" Height="16" Offset="0x3620" TlutOffset="0x32A0"/>
         <Texture Name="object_rl_Tex_003820" OutName="tex_00003820" Format="ci8" Width="16" Height="16" Offset="0x3820" TlutOffset="0x32A0"/>

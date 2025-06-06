@@ -1,6 +1,7 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_soul" Segment="6">
+        <Texture Name="object_gi_soul_000000_Tex" Format="i8" Width="32" Height="32" Offset="0x0"/>
         <Array Name="gGiFairyContainerBaseCapVtx" Count="69" Offset="0x400">
             <Vtx/>
         </Array>
