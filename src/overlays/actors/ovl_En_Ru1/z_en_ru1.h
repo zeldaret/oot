@@ -26,11 +26,11 @@ typedef struct EnRu1 {
     /* 0x0260 */ s16 mouth;
     /* 0x0264 */ s32 action;
     /* 0x0268 */ s32 drawConfig;
-    /* 0x026C */ f32 unk_26C;
+    /* 0x026C */ f32 walkingFrame;
     /* 0x0270 */ f32 unk_270;
     /* 0x0274 */ char unk_274[0x4];
     /* 0x0278 */ DoorWarp1* blueWarp;
-    /* 0x027C */ f32 unk_27C;
+    /* 0x027C */ f32 xzDistToPlayerInBlueWarp;
     /* 0x0280 */ s32 unk_280;
     /* 0x0284 */ s8 roomNum1;
     /* 0x0285 */ s8 roomNum2;
