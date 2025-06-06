@@ -44,14 +44,14 @@ void func_80AEC17C(EnRu1* this, PlayState* play);
 void func_80AEC1D4(EnRu1* this, PlayState* play);
 void func_80AEC244(EnRu1* this, PlayState* play);
 void func_80AEC2C0(EnRu1* this, PlayState* play);
-void func_80AECA94(EnRu1* this, PlayState* play);
-void func_80AECAB4(EnRu1* this, PlayState* play);
-void func_80AECAD4(EnRu1* this, PlayState* play);
-void func_80AECB18(EnRu1* this, PlayState* play);
-void func_80AECB60(EnRu1* this, PlayState* play);
-void func_80AECBB8(EnRu1* this, PlayState* play);
-void func_80AECC1C(EnRu1* this, PlayState* play);
-void func_80AECC84(EnRu1* this, PlayState* play);
+void EnRu1_FirstEncounterRangeCheck(EnRu1* this, PlayState* play);
+void EnRu1_FirstEncounterInitPosition(EnRu1* this, PlayState* play);
+void EnRu1_FirstEncounterFacingLink(EnRu1* this, PlayState* play);
+void EnRu1_TurningAround(EnRu1* this, PlayState* play);
+void EnRu1_WalkingAwayAccel(EnRu1* this, PlayState* play);
+void EnRu1_WalkingAwayConstant(EnRu1* this, PlayState* play);
+void EnRu1_FallingDownHole(EnRu1* this, PlayState* play);
+void EnRu1_FirstEncounterEnd(EnRu1* this, PlayState* play);
 void func_80AED304(EnRu1* this, PlayState* play);
 void func_80AED324(EnRu1* this, PlayState* play);
 void func_80AED344(EnRu1* this, PlayState* play);
@@ -139,13 +139,52 @@ static s32 sUnused = 0;
 static u32 D_80AF1938 = 0;
 
 static EnRu1ActionFunc sActionFuncs[] = {
-    func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C, func_80AEC1D4, func_80AEC244, func_80AEC2C0,
-    func_80AECA94, func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60, func_80AECBB8, func_80AECC1C,
-    func_80AECC84, func_80AED304, func_80AED324, func_80AED344, func_80AED374, func_80AED3A4, func_80AED3E0,
-    func_80AED414, func_80AEF29C, func_80AEF2AC, func_80AEF2D0, func_80AEF354, func_80AEF3A8, func_80AEEBD4,
-    func_80AEEC5C, func_80AEECF0, func_80AEED58, func_80AEEDCC, func_80AEEE34, func_80AEEE9C, func_80AEEF08,
-    func_80AEEF5C, func_80AEF9D8, func_80AEFA2C, func_80AEFAAC, func_80AEFB04, func_80AEFB68, func_80AEFCE8,
-    func_80AEFBC8, func_80AEFC24, func_80AEFECC, func_80AEFF40,
+    func_80AEC0B4,
+    func_80AEC100,
+    func_80AEC130,
+    func_80AEC17C,
+    func_80AEC1D4,
+    func_80AEC244,
+    func_80AEC2C0,
+    EnRu1_FirstEncounterRangeCheck,
+    EnRu1_FirstEncounterInitPosition,
+    EnRu1_FirstEncounterFacingLink,
+    EnRu1_TurningAround,
+    EnRu1_WalkingAwayAccel,
+    EnRu1_WalkingAwayConstant,
+    EnRu1_FallingDownHole,
+    EnRu1_FirstEncounterEnd,
+    func_80AED304,
+    func_80AED324,
+    func_80AED344,
+    func_80AED374,
+    func_80AED3A4,
+    func_80AED3E0,
+    func_80AED414,
+    func_80AEF29C,
+    func_80AEF2AC,
+    func_80AEF2D0,
+    func_80AEF354,
+    func_80AEF3A8,
+    func_80AEEBD4,
+    func_80AEEC5C,
+    func_80AEECF0,
+    func_80AEED58,
+    func_80AEEDCC,
+    func_80AEEE34,
+    func_80AEEE9C,
+    func_80AEEF08,
+    func_80AEEF5C,
+    func_80AEF9D8,
+    func_80AEFA2C,
+    func_80AEFAAC,
+    func_80AEFB04,
+    func_80AEFB68,
+    func_80AEFCE8,
+    func_80AEFBC8,
+    func_80AEFC24,
+    func_80AEFECC,
+    func_80AEFF40,
 };
 
 static EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
@@ -790,7 +829,7 @@ void func_80AEC2C0(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
-    if (!GET_INFTABLE(INFTABLE_141)) {
+    if (!GET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME)) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = 7;
         EnRu1_SetMouthIndex(this, 1);
@@ -814,11 +853,14 @@ void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEC40C(EnRu1* this) {
-    f32 unk_26C = this->unk_26C;
+/**
+ * Accelerates Ruto forward as she starts to walk away. This lasts for eight frames.
+ */
+void EnRu1_AccelerateAway(EnRu1* this) {
+    f32 walkingFrame = this->walkingFrame;
 
-    if (unk_26C < 8.0f) {
-        this->actor.speed = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * unk_26C;
+    if (walkingFrame < 8.0f) {
+        this->actor.speed = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * walkingFrame;
     } else {
         this->actor.speed = (kREG(3) * 0.01f) + 2.7f;
     }
@@ -826,19 +868,25 @@ void func_80AEC40C(EnRu1* this) {
     Actor_MoveXZGravity(&this->actor);
 }
 
-void func_80AEC4CC(EnRu1* this) {
+/**
+ * Moves Ruto forward at a constant speed walking away from Link.
+ */
+void EnRu1_MoveForwardConstant(EnRu1* this) {
     this->actor.velocity.y = -1.0f;
     Actor_MoveXZGravity(&this->actor);
 }
 
-void func_80AEC4F4(EnRu1* this) {
+/**
+ * Accelerate's Ruto's actor downward as she falls down the hole.
+ */
+void EnRu1_AccelerateDownHole(EnRu1* this) {
     f32* speedXZ = &this->actor.speed;
-    f32* unk_26C = &this->unk_26C;
+    f32* walkingFrame = &this->walkingFrame;
 
-    if (this->unk_26C < 8.0f) {
-        *unk_26C += 1.0f;
-        *speedXZ *= (8.0f - *unk_26C) / 8.0f;
-        this->actor.velocity.y = -*unk_26C * (((kREG(4) * 0.01f) + 13.0f) / 8.0f);
+    if (this->walkingFrame < 8.0f) {
+        *walkingFrame += 1.0f;
+        *speedXZ *= (8.0f - *walkingFrame) / 8.0f;
+        this->actor.velocity.y = -*walkingFrame * (((kREG(4) * 0.01f) + 13.0f) / 8.0f);
     } else {
         *speedXZ = 0.0f;
         this->actor.velocity.y = -((kREG(4) * 0.01f) + 13.0f);
@@ -846,7 +894,7 @@ void func_80AEC4F4(EnRu1* this) {
     Actor_MoveXZGravity(&this->actor);
 }
 
-s32 func_80AEC5FC(EnRu1* this, PlayState* play) {
+s32 EnRu1_IsPlayerInRangeForFirstEncounter(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 thisPosZ = this->actor.world.pos.z;
     f32 playerPosZ = player->actor.world.pos.z;
@@ -857,35 +905,38 @@ s32 func_80AEC5FC(EnRu1* this, PlayState* play) {
     return false;
 }
 
-void func_80AEC650(EnRu1* this) {
+void EnRu1_PlayStepSoundEffect(EnRu1* this) {
     s32 pad[2];
 
-    if (this->unk_280 == 0) {
+    if (this->isFalling == 0) {
         if (Animation_OnFrame(&this->skelAnime, 2.0f) || Animation_OnFrame(&this->skelAnime, 7.0f)) {
             Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
         }
     }
 }
 
-void func_80AEC6B0(EnRu1* this) {
+void EnRu1_PlayFallingSoundEffects(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_FALL_DOWN_DIRT);
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_FALL);
 }
 
-void func_80AEC6E4(EnRu1* this, PlayState* play) {
-    if ((func_80AEAFA0(play, 4, 3)) && (this->unk_280 == 0)) {
+/**
+ * Checks if Ruto is standing over the Jabu Jabu hole and initiates her reaction to falling.
+ */
+void EnRu1_RespondToFalling(EnRu1* this, PlayState* play) {
+    if ((func_80AEAFA0(play, 4, 3)) && (this->isFalling == 0)) {
         Animation_Change(&this->skelAnime, &gRutoChildBringArmsUpAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildBringArmsUpAnim), ANIMMODE_ONCE, -8.0f);
-        this->unk_280 = 1;
-        func_80AEC6B0(this);
+        this->isFalling = 1;
+        EnRu1_PlayFallingSoundEffects(this);
     }
 }
 
-void func_80AEC780(EnRu1* this, PlayState* play) {
+void EnRu1_CheckStartFirstEncounter(EnRu1* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    if ((func_80AEC5FC(this, play)) && (!Play_InCsMode(play)) &&
+    if ((EnRu1_IsPlayerInRangeForFirstEncounter(this, play)) && (!Play_InCsMode(play)) &&
         (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
         (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
@@ -896,7 +947,7 @@ void func_80AEC780(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEC81C(EnRu1* this, PlayState* play) {
+void EnRu1_SetupPositionForFirstEncounter(EnRu1* this, PlayState* play) {
     CsCmdActorCue* cue;
     s16 newRotY;
 
@@ -913,7 +964,7 @@ void func_80AEC81C(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEC8B8(EnRu1* this, PlayState* play) {
+void EnRu1_CheckTurnAround(EnRu1* this, PlayState* play) {
     if (func_80AEAFA0(play, 3, 3)) {
         Animation_Change(&this->skelAnime, &gRutoChildTurnAroundAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildTurnAroundAnim), ANIMMODE_ONCE, -8.0f);
@@ -921,96 +972,96 @@ void func_80AEC8B8(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEC93C(EnRu1* this, UNK_TYPE arg1) {
-    if (arg1 != 0) {
+void EnRu1_StartWalkingAway(EnRu1* this, s32 doneTurning) {
+    if (doneTurning) {
         Animation_Change(&this->skelAnime, &gRutoChildWalkAnim, 1.0f, 0, Animation_GetLastFrame(&gRutoChildWalkAnim),
                          ANIMMODE_LOOP, -8.0f);
         this->actor.world.rot.y += 0x8000;
         this->action = 0xB;
-        this->unk_26C = 0.0f;
+        this->walkingFrame = 0.0f;
     }
 }
 
-void func_80AEC9C4(EnRu1* this) {
-    this->unk_26C += 1.0f;
-    if (this->unk_26C >= 8.0f) {
+void EnRu1_AdvanceWalkingAway(EnRu1* this) {
+    this->walkingFrame += 1.0f;
+    if (this->walkingFrame >= 8.0f) {
         this->action = 12;
-        this->unk_26C = 0.0f;
+        this->walkingFrame = 0.0f;
         this->actor.velocity.y = -1.0f;
     }
 }
 
-void func_80AECA18(EnRu1* this) {
+void EnRu1_CheckStartFalling(EnRu1* this) {
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         s32 pad;
 
         this->action = 13;
-        this->unk_26C = 0.0f;
+        this->walkingFrame = 0.0f;
         this->actor.velocity.y = 0.0f;
     }
 }
 
-void func_80AECA44(EnRu1* this, PlayState* play) {
+void EnRu1_FinishFirstEncounter(EnRu1* this, PlayState* play) {
     if (func_80AEAFA0(play, 5, 3)) {
-        SET_INFTABLE(INFTABLE_141);
+        SET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME);
         this->action = 14;
     }
 }
 
-void func_80AECA94(EnRu1* this, PlayState* play) {
-    func_80AEC780(this, play);
+void EnRu1_FirstEncounterRangeCheck(EnRu1* this, PlayState* play) {
+    EnRu1_CheckStartFirstEncounter(this, play);
 }
 
-void func_80AECAB4(EnRu1* this, PlayState* play) {
-    func_80AEC81C(this, play);
+void EnRu1_FirstEncounterInitPosition(EnRu1* this, PlayState* play) {
+    EnRu1_SetupPositionForFirstEncounter(this, play);
 }
 
-void func_80AECAD4(EnRu1* this, PlayState* play) {
+void EnRu1_FirstEncounterFacingLink(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC8B8(this, play);
+    EnRu1_CheckTurnAround(this, play);
 }
 
-void func_80AECB18(EnRu1* this, PlayState* play) {
-    s32 something;
+void EnRu1_TurningAround(EnRu1* this, PlayState* play) {
+    s32 doneAnim;
 
-    something = EnRu1_UpdateSkelAnime(this);
+    doneAnim = EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC93C(this, something);
+    EnRu1_StartWalkingAway(this, doneAnim);
 }
 
-void func_80AECB60(EnRu1* this, PlayState* play) {
-    func_80AEC40C(this);
+void EnRu1_WalkingAwayAccel(EnRu1* this, PlayState* play) {
+    EnRu1_AccelerateAway(this);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC650(this);
-    func_80AEC9C4(this);
+    EnRu1_PlayStepSoundEffect(this);
+    EnRu1_AdvanceWalkingAway(this);
 }
 
-void func_80AECBB8(EnRu1* this, PlayState* play) {
-    func_80AEC4CC(this);
-    func_80AEC6E4(this, play);
+void EnRu1_WalkingAwayConstant(EnRu1* this, PlayState* play) {
+    EnRu1_MoveForwardConstant(this);
+    EnRu1_RespondToFalling(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC650(this);
-    func_80AECA18(this);
+    EnRu1_PlayStepSoundEffect(this);
+    EnRu1_CheckStartFalling(this);
 }
 
-void func_80AECC1C(EnRu1* this, PlayState* play) {
-    func_80AEC4F4(this);
-    func_80AEC6E4(this, play);
+void EnRu1_FallingDownHole(EnRu1* this, PlayState* play) {
+    EnRu1_AccelerateDownHole(this);
+    EnRu1_RespondToFalling(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    func_80AEC650(this);
-    func_80AECA44(this, play);
+    EnRu1_PlayStepSoundEffect(this);
+    EnRu1_FinishFirstEncounter(this, play);
 }
 
-void func_80AECC84(EnRu1* this, PlayState* play) {
+void EnRu1_FirstEncounterEnd(EnRu1* this, PlayState* play) {
     if (play->csCtx.state == CS_STATE_IDLE) {
         Actor_Kill(&this->actor);
     }
@@ -1080,8 +1131,8 @@ s32 func_80AECF6C(EnRu1* this, PlayState* play) {
     f32 temp2;
     s32 pad2[5];
 
-    this->unk_26C += 1.0f;
-    if ((player->actor.speed == 0.0f) && (this->unk_26C >= 3.0f)) {
+    this->walkingFrame += 1.0f;
+    if ((player->actor.speed == 0.0f) && (this->walkingFrame >= 3.0f)) {
         otherPlayer = GET_PLAYER(play);
         player->actor.world.pos.x = otherPlayer->unk_450.x;
         player->actor.world.pos.y = otherPlayer->unk_450.y;
@@ -1136,7 +1187,7 @@ void func_80AED110(EnRu1* this) {
 void func_80AED154(EnRu1* this, PlayState* play) {
     if (func_80AED084(this, WARP_BLUE_RUTO_STATE_ENTERED)) {
         this->action = 0x13;
-        this->unk_26C = 0.0f;
+        this->walkingFrame = 0.0f;
         func_80AECEB4(this, play);
     }
 }
@@ -1201,7 +1252,7 @@ void func_80AED414(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_InitInJabuJabuBasement(EnRu1* this, PlayState* play) {
-    if (GET_INFTABLE(INFTABLE_141) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
+    if (GET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
         !GET_INFTABLE(INFTABLE_147)) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
@@ -1653,7 +1704,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
             func_80AED600(this);
             this->action = 34;
-            this->unk_26C = 0.0f;
+            this->walkingFrame = 0.0f;
             play->csCtx.script = gRutoFoundSapphireCs;
             gSaveContext.cutsceneTrigger = 1;
         }
@@ -2248,7 +2299,7 @@ void func_80AEFF40(EnRu1* this, PlayState* play) {
 void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
-    if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
+    if (GET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
         (!(func_80AEB020(this, play)))) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         actorRoom = this->actor.room;
