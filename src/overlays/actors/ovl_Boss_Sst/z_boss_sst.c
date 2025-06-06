@@ -23,11 +23,11 @@
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/object_sst/object_sst.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
@@ -2552,7 +2552,7 @@ void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
         s32 bothHands = true;
 
         this->colliderJntSph.base.acFlags &= ~AC_HIT;
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
             this->colliderJntSph.base.acFlags &= ~AC_ON;
             this->colliderJntSph.base.ocFlags1 &= ~OC1_NO_PUSH;
@@ -2563,7 +2563,7 @@ void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
             }
 
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-            if (this->actor.colChkInfo.damageEffect == 3) {
+            if (this->actor.colChkInfo.damageReaction == 3) {
                 BossSst_HandSetupFrozen(this);
             } else {
                 BossSst_HandSetupReel(this);
@@ -2583,7 +2583,7 @@ void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
 void BossSst_HeadCollisionCheck(BossSst* this, PlayState* play) {
     if (this->colliderCylinder.base.acFlags & AC_HIT) {
         this->colliderCylinder.base.acFlags &= ~AC_HIT;
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actionFunc == BossSst_HeadVulnerable) {
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     Enemy_StartFinishingBlow(play, &this->actor);

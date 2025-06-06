@@ -17,7 +17,7 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 
@@ -211,8 +211,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitFloor,
                                       this->colliderElements)) {
-                    PRINTF(T("Error : コリジョンデータセット失敗",
-                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                    PRINTF(T("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n",
+                             "Error : Collision data set failure (%s %d)(arg_data 0x%04x)\n"),
                            "../z_bg_mizu_bwall.c", 484, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
@@ -252,8 +252,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitRutoWall,
                                       this->colliderElements)) {
-                    PRINTF(T("Error : コリジョンデータセット失敗",
-                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                    PRINTF(T("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n",
+                             "Error : Collision data set failure (%s %d)(arg_data 0x%04x)\n"),
                            "../z_bg_mizu_bwall.c", 558, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
@@ -293,8 +293,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitUnusedWall,
                                       this->colliderElements)) {
-                    PRINTF(T("Error : コリジョンデータセット失敗",
-                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                    PRINTF(T("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n",
+                             "Error : Collision data set failure (%s %d)(arg_data 0x%04x)\n"),
                            "../z_bg_mizu_bwall.c", 638, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
@@ -336,8 +336,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitStingerWall,
                                       this->colliderElements)) {
-                    PRINTF(T("Error : コリジョンデータセット失敗",
-                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                    PRINTF(T("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n",
+                             "Error : Collision data set failure (%s %d)(arg_data 0x%04x)\n"),
                            "../z_bg_mizu_bwall.c", 724, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
@@ -379,8 +379,8 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitStingerWall,
                                       this->colliderElements)) {
-                    PRINTF(T("Error : コリジョンデータセット失敗",
-                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                    PRINTF(T("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n",
+                             "Error : Collision data set failure (%s %d)(arg_data 0x%04x)\n"),
                            "../z_bg_mizu_bwall.c", 798, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {

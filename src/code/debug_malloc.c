@@ -34,7 +34,7 @@ void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* 
 void* DebugArena_Malloc(u32 size) {
     void* ptr = __osMalloc(&sDebugArena, size);
 
-    DEBUG_ARENA_CHECK_POINTER(ptr, size, "debug_malloc", "確保"); // "Secure"
+    DEBUG_ARENA_CHECK_POINTER(ptr, size, "debug_malloc", T("確保", "Secure"));
     return ptr;
 }
 
@@ -42,7 +42,7 @@ void* DebugArena_Malloc(u32 size) {
 void* DebugArena_MallocDebug(u32 size, const char* file, int line) {
     void* ptr = __osMallocDebug(&sDebugArena, size, file, line);
 
-    DEBUG_ARENA_CHECK_POINTER(ptr, size, "debug_malloc_DEBUG", "確保"); // "Secure"
+    DEBUG_ARENA_CHECK_POINTER(ptr, size, "debug_malloc_DEBUG", T("確保", "Secure"));
     return ptr;
 }
 #endif
@@ -50,7 +50,7 @@ void* DebugArena_MallocDebug(u32 size, const char* file, int line) {
 void* DebugArena_MallocR(u32 size) {
     void* ptr = __osMallocR(&sDebugArena, size);
 
-    DEBUG_ARENA_CHECK_POINTER(ptr, size, "debug_malloc_r", "確保"); // "Secure"
+    DEBUG_ARENA_CHECK_POINTER(ptr, size, "debug_malloc_r", T("確保", "Secure"));
     return ptr;
 }
 
@@ -58,21 +58,21 @@ void* DebugArena_MallocR(u32 size) {
 void* DebugArena_MallocRDebug(u32 size, const char* file, int line) {
     void* ptr = __osMallocRDebug(&sDebugArena, size, file, line);
 
-    DEBUG_ARENA_CHECK_POINTER(ptr, size, "debug_malloc_r_DEBUG", "確保"); // "Secure"
+    DEBUG_ARENA_CHECK_POINTER(ptr, size, "debug_malloc_r_DEBUG", T("確保", "Secure"));
     return ptr;
 }
 #endif
 
 void* DebugArena_Realloc(void* ptr, u32 newSize) {
     ptr = __osRealloc(&sDebugArena, ptr, newSize);
-    DEBUG_ARENA_CHECK_POINTER(ptr, newSize, "debug_realloc", "再確保"); // "Re-securing"
+    DEBUG_ARENA_CHECK_POINTER(ptr, newSize, "debug_realloc", T("再確保", "Re-secure"));
     return ptr;
 }
 
 #if DEBUG_FEATURES
 void* DebugArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line) {
     ptr = __osReallocDebug(&sDebugArena, ptr, newSize, file, line);
-    DEBUG_ARENA_CHECK_POINTER(ptr, newSize, "debug_realloc_DEBUG", "再確保"); // "Re-securing"
+    DEBUG_ARENA_CHECK_POINTER(ptr, newSize, "debug_realloc_DEBUG", T("再確保", "Re-secure"));
     return ptr;
 }
 #endif
@@ -96,7 +96,7 @@ void* DebugArena_Calloc(u32 num, u32 size) {
         bzero(ret, n);
     }
 
-    DEBUG_ARENA_CHECK_POINTER(ret, n, "debug_calloc", "確保");
+    DEBUG_ARENA_CHECK_POINTER(ret, n, "debug_calloc", T("確保", "Secure"));
     return ret;
 }
 

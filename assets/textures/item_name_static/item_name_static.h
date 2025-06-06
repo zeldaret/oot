@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "tex_len.h"
 #include "versions.h"
-#include "z64item.h"
+#include "item.h"
 
 #if OOT_NTSC
 

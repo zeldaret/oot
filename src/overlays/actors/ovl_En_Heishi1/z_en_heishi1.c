@@ -19,11 +19,11 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64debug_display.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_sd/object_sd.h"
 
@@ -100,7 +100,8 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play2) {
 
     PRINTF(VT_FGCOL(GREEN) T(" 種類☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n", " type                   ☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n") VT_RST,
            this->type);
-    PRINTF(VT_FGCOL(YELLOW) " れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n" VT_RST, this->path);
+    PRINTF(VT_FGCOL(YELLOW) T(" れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n", " rail data                      ☆☆☆☆☆☆☆☆ %d\n") VT_RST,
+           this->path);
     PRINTF(VT_FGCOL(MAGENTA) " anime_frame_speed ☆☆☆☆☆☆ %f\n" VT_RST, this->animSpeed);
     PRINTF(VT_FGCOL(MAGENTA) T(" 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n", " interpolation frame          ☆☆☆☆☆☆☆☆☆ %f\n") VT_RST,
            this->animMorphFrames);
@@ -207,11 +208,11 @@ void EnHeishi1_Walk(EnHeishi1* this, PlayState* play) {
         Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale, this->headTurnSpeedMax);
 
         if (DEBUG_FEATURES && (this->path == BREG(1)) && (BREG(0) != 0)) {
-            PRINTF(VT_FGCOL(RED) " 種類  %d\n" VT_RST, this->path);
-            PRINTF(VT_FGCOL(RED) " ぱす  %d\n" VT_RST, this->waypoint);
-            PRINTF(VT_FGCOL(RED) " 反転  %d\n" VT_RST, this->bodyTurnSpeed);
-            PRINTF(VT_FGCOL(RED) " 時間  %d\n" VT_RST, this->waypointTimer);
-            PRINTF(VT_FGCOL(RED) " 点座  %d\n" VT_RST, path->count);
+            PRINTF(VT_FGCOL(RED) T(" 種類  %d\n", " Type  %d\n") VT_RST, this->path);
+            PRINTF(VT_FGCOL(RED) T(" ぱす  %d\n", " Path  %d\n") VT_RST, this->waypoint);
+            PRINTF(VT_FGCOL(RED) T(" 反転  %d\n", " Turning around  %d\n") VT_RST, this->bodyTurnSpeed);
+            PRINTF(VT_FGCOL(RED) T(" 時間  %d\n", " Time  %d\n") VT_RST, this->waypointTimer);
+            PRINTF(VT_FGCOL(RED) T(" 点座  %d\n", " Tenza  %d\n") VT_RST, path->count);
             PRINTF("\n\n");
         }
 
@@ -325,10 +326,10 @@ void EnHeishi1_Wait(EnHeishi1* this, PlayState* play) {
                        this->headTurnSpeedMax + this->headTurnSpeedMax);
 
         if (DEBUG_FEATURES && (this->path == BREG(1)) && (BREG(0) != 0)) {
-            PRINTF(VT_FGCOL(GREEN) " 種類  %d\n" VT_RST, this->path);
-            PRINTF(VT_FGCOL(GREEN) " ぱす  %d\n" VT_RST, this->waypoint);
-            PRINTF(VT_FGCOL(GREEN) " 反転  %d\n" VT_RST, this->bodyTurnSpeed);
-            PRINTF(VT_FGCOL(GREEN) " 時間  %d\n" VT_RST, this->waypointTimer);
+            PRINTF(VT_FGCOL(GREEN) T(" 種類  %d\n", " Type  %d\n") VT_RST, this->path);
+            PRINTF(VT_FGCOL(GREEN) T(" ぱす  %d\n", " Path  %d\n") VT_RST, this->waypoint);
+            PRINTF(VT_FGCOL(GREEN) T(" 反転  %d\n", " Turning around  %d\n") VT_RST, this->bodyTurnSpeed);
+            PRINTF(VT_FGCOL(GREEN) T(" 時間  %d\n", " Time  %d\n") VT_RST, this->waypointTimer);
             PRINTF("\n\n");
         }
     }

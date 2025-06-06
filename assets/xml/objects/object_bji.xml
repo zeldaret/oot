@@ -33,6 +33,53 @@
         <Texture Name="gHylianOldManEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0xDFC" TlutOffset="0xFC"/>
         <Texture Name="gHylianOldManClothesSideTex" OutName="clothes_side" Format="i8" Width="8" Height="8" Offset="0x11FC"/>
 
+        <!-- Vertices -->
+        <Array Name="gHylianOldManLeftFootVtx" Count="3" Offset="0x1240">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManLeftShinVtx" Count="3" Offset="0x1270">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManLeftThighVtx" Count="3" Offset="0x12A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManRightFootVtx" Count="3" Offset="0x12D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManRightShinVtx" Count="3" Offset="0x1300">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManRightThighVtx" Count="3" Offset="0x1330">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManHeadVtx" Count="112" Offset="0x1360">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManLeftHandVtx" Count="3" Offset="0x1A60">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManLeftForearmVtx" Count="19" Offset="0x1A90">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManLeftUpperArmVtx" Count="24" Offset="0x1BC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManRightHandVtx" Count="3" Offset="0x1D40">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManRightForearmVtx" Count="19" Offset="0x1D70">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManRightUpperArmVtx" Count="24" Offset="0x1EA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManTorsoVtx" Count="57" Offset="0x2020">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianOldManPelvisVtx" Count="27" Offset="0x23B0">
+            <Vtx/>
+        </Array>
+
         <!-- DLs -->
         <DList Name="gHylianOldManHeadDL" Offset="0x2560"/>
         <DList Name="gHylianOldManRightHandDL" Offset="0x2B88"/>
@@ -56,6 +103,9 @@
         <Texture Name="gHylianOldManBaldEyeTex" OutName="bald_eye" Format="rgba16" Width="8" Height="8" Offset="0x3A08"/>
 
         <!-- Bald Head DL -->
+        <Array Name="gHylianOldManBaldHeadVtx" Count="78" Offset="0x3A88">
+            <Vtx/>
+        </Array>
         <DList Name="gHylianOldManBaldHeadDL" Offset="0x3F68"/>
     </File>
 </Root>

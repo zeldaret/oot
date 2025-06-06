@@ -24,6 +24,59 @@
         <Limb Name="gNabooruPonytailLimb" LimbType="Standard" Offset="0x18168"/>
         <Limb Name="gNabooruWaistLimb" LimbType="Standard" Offset="0x18174"/>
 
+        <!-- Nabooru Limb Vertices -->
+        <Array Name="gNabooruHeadMouthClosedVtx" Count="297" Offset="0xDD68">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruPonytailVtx" Count="49" Offset="0xF1E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftHandVtx" Count="64" Offset="0xF4F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightHandVtx" Count="64" Offset="0xF8F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightFootVtx" Count="32" Offset="0xFCF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftFootVtx" Count="32" Offset="0xFEF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruHeadMouthOpenVtx" Count="315" Offset="0x100F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightForearmVtx" Count="32" Offset="0x142F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightUpperArmVtx" Count="28" Offset="0x144F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftForearmVtx" Count="32" Offset="0x146B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftUpperArmVtx" Count="44" Offset="0x148B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruTorsoVtx" Count="129" Offset="0x14B70">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightShinVtx" Count="74" Offset="0x15380">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruRightThighVtx" Count="34" Offset="0x15820">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftShinVtx" Count="74" Offset="0x15A40">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruLeftThighVtx" Count="33" Offset="0x15EE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gNabooruWaistVtx" Count="58" Offset="0x160F0">
+            <Vtx/>
+        </Array>
+
         <!-- Nabooru Limb DisplayLists -->
         <DList Name="gNabooruHeadMouthOpenDL" Offset="0x13158"/>
         <DList Name="gNabooruLeftThighDL" Offset="0x17B40"/>

@@ -16,9 +16,9 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64light.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_mir_ray/object_mir_ray.h"
 
@@ -182,12 +182,11 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     PRINTF(T("反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n",
-             "Generation of reflectable light!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
+             "Spawn of reflectable light!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
     LOG_NUM("this->actor.arg_data", this->actor.params, "../z_mir_ray.c", 518);
 
     if (this->actor.params >= 0xA) {
-        // "Reflected light generation failure"
-        LOG_STRING("反射光 発生失敗", "../z_mir_ray.c", 521);
+        LOG_STRING_T("反射光 発生失敗", "Reflected light failed to spawn", "../z_mir_ray.c", 521);
         Actor_Kill(&this->actor);
     }
 

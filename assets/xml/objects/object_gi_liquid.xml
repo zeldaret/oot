@@ -1,6 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_liquid" Segment="6">
+        <Texture Name="object_gi_liquid_000000_Tex" Format="ia8" Width="16" Height="32" Offset="0x0"/>
+        <Texture Name="object_gi_liquid_000200_Tex" Format="ia8" Width="16" Height="32" Offset="0x200"/>
+        <Texture Name="object_gi_liquid_000400_Tex" Format="ia8" Width="16" Height="32" Offset="0x400"/>
         <Array Name="gGiPotionPotVtx" Count="176" Offset="0x600">
             <Vtx/>
         </Array>

@@ -2,7 +2,7 @@
 #define Z_EN_ITEM00_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum Item00Type {
     /* 0x00 */ ITEM00_RUPEE_GREEN,

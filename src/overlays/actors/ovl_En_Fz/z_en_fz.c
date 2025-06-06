@@ -9,8 +9,8 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_fz/object_fz.h"
 
@@ -356,7 +356,7 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
             this->collider1.base.acFlags &= ~AC_HIT;
         } else if (this->collider1.base.acFlags & AC_HIT) {
             this->collider1.base.acFlags &= ~AC_HIT;
-            switch (this->actor.colChkInfo.damageEffect) {
+            switch (this->actor.colChkInfo.damageReaction) {
                 case 0xF:
                     Actor_ApplyDamage(&this->actor);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 8);

@@ -13,6 +13,29 @@
         <Limb Name="gBeanSalesmanBodyLimb" LimbType="Standard" Offset="0x3D88"/>
         <Limb Name="gBeanSalesmanBeanbagLimb" LimbType="Standard" Offset="0x3D94"/>
 
+        <!-- Bean Salesman Limb Vertices -->
+        <Array Name="gBeanSalesmanLeftHandVtx" Count="43" Offset="0x600">
+            <Vtx/>
+        </Array>
+        <Array Name="gBeanSalesmanLeftForearmVtx" Count="26" Offset="0x8B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBeanSalesmanLeftUpperArmVtx" Count="32" Offset="0xA50">
+            <Vtx/>
+        </Array>
+        <Array Name="gBeanSalesmanMouthVtx" Count="22" Offset="0xC50">
+            <Vtx/>
+        </Array>
+        <Array Name="gBeanSalesmanHeadVtx" Count="114" Offset="0xDB0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBeanSalesmanBodyVtx" Count="188" Offset="0x14D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBeanSalesmanBeanbagVtx" Count="21" Offset="0x2090">
+            <Vtx/>
+        </Array>
+
         <!-- Bean Salesman Limb DisplayLists -->
         <DList Name="gBeanSalesmanLeftUpperArmDL" Offset="0x2E58"/>
         <DList Name="gBeanSalesmanLeftForearmDL" Offset="0x2F90"/>

@@ -17,10 +17,10 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ka/object_ka.h"
 
@@ -85,8 +85,7 @@ void EnKakasi3_Init(Actor* thisx, PlayState* play) {
     EnKakasi3* this = (EnKakasi3*)thisx;
 
     PRINTF("\n\n");
-    // "Obonur" -- Related to the name of the scarecrow (Bonooru)
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n", "☆☆☆☆☆ Bonooru ☆☆☆☆☆ \n") VT_RST);
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
 
     Collider_InitCylinder(play, &this->collider);

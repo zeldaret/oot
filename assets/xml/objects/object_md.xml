@@ -21,6 +21,53 @@
         <Limb Name="gMidoRightHandLimb" LimbType="Standard" Offset="0x7F60"/>
         <Limb Name="gMidoHeadLimb" LimbType="Standard" Offset="0x7F6C"/>
 
+        <!-- Mido Limb Vertices -->
+        <Array Name="gMidoLeftHandVtx" Count="48" Offset="0x15E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoLeftForearmVtx" Count="24" Offset="0x18E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoLeftUpperArmVtx" Count="24" Offset="0x1A60">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoRightHandVtx" Count="48" Offset="0x1BE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoRightForearmVtx" Count="24" Offset="0x1EE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoRightUpperArmVtx" Count="24" Offset="0x2060">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoTorsoVtx" Count="70" Offset="0x21E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoLeftFootVtx" Count="30" Offset="0x2640">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoLeftLegVtx" Count="22" Offset="0x2820">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoLeftThighVtx" Count="33" Offset="0x2980">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoRightFootVtx" Count="30" Offset="0x2B90">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoRightLegVtx" Count="22" Offset="0x2D70">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoRightThighVtx" Count="33" Offset="0x2ED0">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoWaistVtx" Count="31" Offset="0x30E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gMidoHeadVtx" Count="229" Offset="0x6530">
+            <Vtx/>
+        </Array>
+
         <!-- Mido Limb DisplayLists -->
         <DList Name="gMidoWaistDL" Offset="0x4218"/>
         <DList Name="gMidoLeftThighDL" Offset="0x47D0"/>

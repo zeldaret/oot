@@ -18,10 +18,10 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_sd/object_sd.h"
 #include "assets/objects/object_link_child/object_link_child.h"
@@ -113,8 +113,8 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
 
         } else {
             PRINTF("\n\n");
-            // "No, I'm completely disappointed" (message for when shooting guard window in courtyard)
-            PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA)
+                       T(" ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n", " ☆☆☆☆☆ Oh, no, I was just careless. ☆☆☆☆☆ \n") VT_RST);
 
             Actor_SetScale(&this->actor, 0.02f);
 

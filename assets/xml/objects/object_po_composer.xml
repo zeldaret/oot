@@ -7,11 +7,59 @@
         <Animation Name="gPoeComposerFloatAnim" Offset="0x09DC"/>
         <Animation Name="gPoeComposerAppearAnim" Offset="0x0FE4"/>
         <Animation Name="gPoeComposerDisappearAnim" Offset="0x1440"/>
+        <Array Name="gPoeComposerSoulVtx" Count="4" Offset="0x1C50">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeComposerSoulDL" Offset="0x1C90"/>
+        <Array Name="object_po_composer_Vtx_001D50" Count="21" Offset="0x1D50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_composer_Vtx_001EA0" Count="41" Offset="0x1EA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_composer_Vtx_002130" Count="6" Offset="0x2130">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_composer_Vtx_002190" Count="8" Offset="0x2190">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_composer_Vtx_002210" Count="47" Offset="0x2210">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_composer_Vtx_002500" Count="16" Offset="0x2500">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_composer_Vtx_002600" Count="8" Offset="0x2600">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_composer_Vtx_002680" Count="47" Offset="0x2680">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_composer_Vtx_003500" Count="69" Offset="0x3500">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_composer_Vtx_003950" Count="9" Offset="0x3950">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoeComposerLanternBottomVtx" Count="7" Offset="0x39E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoeComposerLanternTopVtx" Count="10" Offset="0x3A50">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoeComposerLanternVtx" Count="13" Offset="0x3AF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoeComposerFlatHeadVtx" Count="84" Offset="0x3BC0">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeComposerLanternBottomDL" Offset="0x4498"/>
         <DList Name="gPoeComposerLanternTopDL" Offset="0x4530"/>
         <DList Name="gPoeComposerLanternDL" Offset="0x45A0"/>
         <DList Name="gPoeComposerFlatHeadDL" Offset="0x4638"/>
+        <Array Name="gPoeComposerBurnVtx" Count="127" Offset="0x4A30">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeComposerBurnDL" Offset="0x5220"/>
         <Skeleton Name="gPoeComposerSkel" Type="Flex" LimbType="Standard" Offset="0x6F90"/>
     </File>

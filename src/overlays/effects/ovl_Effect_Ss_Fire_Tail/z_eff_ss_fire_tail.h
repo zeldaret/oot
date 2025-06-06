@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "color.h"
-#include "z64math.h"
+#include "z_math.h"
 
 typedef struct EffectSsFireTailInitParams {
     /* 0x00 */ struct Actor* actor;

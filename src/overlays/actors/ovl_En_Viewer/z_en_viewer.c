@@ -20,10 +20,10 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64skin.h"
+#include "audio.h"
+#include "play_state.h"
+#include "save.h"
+#include "skin.h"
 
 #include "assets/objects/object_zl4/object_zl4.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
@@ -33,6 +33,8 @@
 #include "assets/objects/object_gndd/object_gndd.h"
 #include "assets/objects/object_ganon/object_ganon.h"
 #include "assets/objects/object_opening_demo1/object_opening_demo1.h"
+
+#pragma increment_block_number "ntsc-1.0:128"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

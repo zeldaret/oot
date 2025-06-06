@@ -19,6 +19,38 @@
         <Texture Name="gImpaSwordHandleTex" OutName="sword_handle" Format="rgba16" Width="8" Height="16" Offset="0x2880"/>
         <Texture Name="gImpaPantsAndSkinTex" OutName="pants_and_skin" Format="rgba16" Width="16" Height="32" Offset="0x2980"/>
         <Texture Name="gImpaBlackTex" OutName="black_square" Format="ci8" Width="8" Height="8" Offset="0x2D80" TlutOffset="0x1880"/> <!-- Used on the bottom of the leg -->
+
+        <Array Name="gImpaLeftArmVtx" Count="32" Offset="0x2DC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaLeftShoulderVtx" Count="42" Offset="0x2FC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaRightArmVtx" Count="32" Offset="0x3260">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaRightShoulderVtx" Count="42" Offset="0x3460">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaChestVtx" Count="194" Offset="0x3700">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaLeftLegVtx" Count="37" Offset="0x4320">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaLeftThighVtx" Count="45" Offset="0x4570">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaRightLegVtx" Count="37" Offset="0x4840">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaRightThighVtx" Count="45" Offset="0x4A90">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaTorsoVtx" Count="46" Offset="0x4D60">
+            <Vtx/>
+        </Array>
+
         <DList Name="gImpaChestDL" Offset="0x5040"/>
         <DList Name="gImpaRightShoulderDL" Offset="0x5D60"/>
         <DList Name="gImpaRightArmDL" Offset="0x6048"/>
@@ -36,6 +68,9 @@
         <Texture Name="gImpaEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x8150" TlutOffset="0x6F40"/>
 
         <Texture Name="gImpaEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x7610" TlutOffset="0x7140"/> <!-- Also used in gImpaHandPointingDL DList -->
+        <Array Name="gImpaHeadUnmaskedVtx" Count="306" Offset="0x8550">
+            <Vtx/>
+        </Array>
         <DList Name="gImpaHeadUnmaskedDL" Offset="0xBDC0"/>
         <Texture Name="gImpaHeadGradientTex" OutName="head_gradient" Format="ci8" Width="8" Height="8" Offset="0x7710" TlutOffset="0x7140"/>
 
@@ -46,6 +81,26 @@
         <Texture Name="object_im_Tex_007B10" OutName="tex_00007B10" Format="ci8" Width="8" Height="8" Offset="0x7B10" TlutOffset="0x7140"/>
         <Texture Name="object_im_Tex_007B50" OutName="tex_00007B50" Format="ci8" Width="16" Height="16" Offset="0x7B50" TlutOffset="0x7140"/>
         <Texture Name="gImpaFingers2Tex" OutName="fingers_2" Format="ci8" Width="16" Height="16" Offset="0x7C50" TlutOffset="0x7140"/> <!-- Used in the gImpaHandPointingDL DList -->
+
+        <Array Name="gImpaHeadMaskedVtx" Count="258" Offset="0x9870">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaLeftFootVtx" Count="33" Offset="0xA890">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaLeftHandVtx" Count="70" Offset="0xAAA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaRightFootVtx" Count="33" Offset="0xAF00">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaRightHandVtx" Count="70" Offset="0xB110">
+            <Vtx/>
+        </Array>
+        <Array Name="gImpaHandPointingVtx" Count="133" Offset="0xB570">
+            <Vtx/>
+        </Array>
+
         <DList Name="gImpaHeadMaskedDL" Offset="0xD0D8"/>
         <DList Name="gImpaLeftFootDL" Offset="0xDDB8"/>
         <DList Name="gImpaLeftHandDL" Offset="0xE0F0"/>

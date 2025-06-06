@@ -51,6 +51,27 @@
         <!--
         <Skeleton Name="object_oA11_Skel_000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
         -->
+        <Array Name="object_oA11_Vtx_000268" Count="27" Offset="0x268">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA11_Vtx_000418" Count="12" Offset="0x418">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA11_Vtx_0004D8" Count="12" Offset="0x4D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA11_Vtx_000598" Count="20" Offset="0x598">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA11_Vtx_0006D8" Count="24" Offset="0x6D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA11_Vtx_000858" Count="12" Offset="0x858">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oA11_Vtx_000918" Count="20" Offset="0x918">
+            <Vtx/>
+        </Array>
         <DList Name="object_oA11_DL_000A58" Offset="0xA58"/>
         <DList Name="object_oA11_DL_000BA8" Offset="0xBA8"/>
         <DList Name="object_oA11_DL_000C40" Offset="0xC40"/>

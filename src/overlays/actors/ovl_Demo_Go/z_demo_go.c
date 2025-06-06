@@ -15,8 +15,8 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64skin_matrix.h"
+#include "play_state.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 

@@ -1,5 +1,8 @@
 <Root>
     <File Name="object_oE12" Segment="6">
+        <Array Name="object_oE12_Vtx_000000" Count="258" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="object_oE12_DL_001020" Offset="0x1020"/>
         <Texture Name="object_oE12_TLUT_001600" OutName="tlut_00001600" Format="rgba16" Width="16" Height="16" Offset="0x1600"/>
         <Texture Name="object_oE12_Tex_001800" OutName="tex_00001800" Format="ci8" Width="32" Height="32" Offset="0x1800" TlutOffset="0x1600"/>

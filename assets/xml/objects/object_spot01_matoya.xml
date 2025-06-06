@@ -1,7 +1,13 @@
 <Root>
     <File Name="object_spot01_matoya" Segment="6">
         <!-- Kakariko Shooting Gallery -->
+        <Array Name="gKakarikoShootingGalleryVtx" Count="50" Offset="0x1208">
+            <Vtx/>
+        </Array>
         <DList Name="gKakarikoShootingGalleryDL" Offset="0x1528"/>
+        <Array Name="gKakarikoShootingGallerySignVtx" Count="4" Offset="0x2740">
+            <Vtx/>
+        </Array>
         <DList Name="gKakarikoShootingGallerySignDL" Offset="0x2780"/>
         <Texture Name="gKakarikoShootingGalleryRoofEdgeTex" OutName="shooting_gallery_roof_edge" Format="ci8" Width="32" Height="32" Offset="0x208" TlutOffset="0x0"/>
         <Texture Name="gKakarikoShootingGalleryRoofTex" OutName="shooting_gallery_roof" Format="ci8" Width="16" Height="32" Offset="0x608" TlutOffset="0x0"/>
@@ -11,14 +17,23 @@
         <Collision Name="gKakarikoShootingGalleryCol" Offset="0x1A38"/>
 
         <!-- Kakariko Potion Shop -->
+        <Array Name="gKakarikoPotionShopSignVtx" Count="4" Offset="0x1E70">
+            <Vtx/>
+        </Array>
         <DList Name="gKakarikoPotionShopSignDL" Offset="0x1EB0"/>
         <Texture Name="gKakarikoPotionShopSignTex" OutName="potion_shop_sign" Format="rgba16" Width="32" Height="16" Offset="0x1A70"/>
 
         <!-- Kakariko Bazaar -->
+        <Array Name="gKakarikoBazaarSignVtx" Count="4" Offset="0x3038">
+            <Vtx/>
+        </Array>
         <DList Name="gKakarikoBazaarSignDL" Offset="0x3078"/>
         <Texture Name="gKakarikoBazaarSignTex" OutName="bazaar_sign" Format="ci4" Width="64" Height="64" Offset="0x2838" TlutOffset="0x2810"/>
 
         <!-- BOTW Stone -->
+        <Array Name="gKakarikoBOTWStoneVtx" Count="30" Offset="0x3940">
+            <Vtx/>
+        </Array>
         <DList Name="gKakarikoBOTWStoneDL" Offset="0x3B20"/>
         <Texture Name="gKakarikoBOTWStoneTex" OutName="botw_stone" Format="rgba16" Width="32" Height="32" Offset="0x3140"/>
         <Collision Name="gKakarikoBOTWStoneCol" Offset="0x3C64"/>

@@ -3,7 +3,7 @@
 
 #include "array_count.h"
 #include "gfx.h"
-#include "z64player.h"
+#include "player.h"
 
 // Eyes textures
 

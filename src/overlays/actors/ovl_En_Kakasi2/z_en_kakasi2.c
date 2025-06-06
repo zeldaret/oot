@@ -14,11 +14,11 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64debug_display.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "debug_display.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ka/object_ka.h"
 
@@ -146,7 +146,8 @@ void func_80A90264(EnKakasi2* this, PlayState* play) {
             Flags_SetSwitch(play, this->switchFlag);
         }
 
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ SAVE finished ☆☆☆☆☆ %d\n") VT_RST,
+               this->switchFlag);
         this->actionFunc = func_80A904D8;
     } else if ((this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
                (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y) &&
@@ -157,7 +158,8 @@ void func_80A90264(EnKakasi2* this, PlayState* play) {
             if (this->switchFlag >= 0) {
                 Flags_SetSwitch(play, this->switchFlag);
             }
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ SAVE finished ☆☆☆☆☆ %d\n") VT_RST,
+                   this->switchFlag);
             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             this->actor.draw = func_80A90948;
             Collider_InitCylinder(play, &this->collider);

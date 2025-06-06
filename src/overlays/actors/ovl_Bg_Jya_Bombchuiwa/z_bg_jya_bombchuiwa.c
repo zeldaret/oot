@@ -11,8 +11,8 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 #define FLAGS ACTOR_FLAG_ATTENTION_ENABLED
@@ -195,7 +195,8 @@ void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, PlayState* play) {
     BgJyaBombchuiwa_SetDrawFlags(this, 4);
     if (Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 0) == NULL) {
-        PRINTF(T("Ｅｒｒｏｒ : Mir_Ray 発生失敗", "Error : Mir_Ray failed to occur") "(%s %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Ｅｒｒｏｒ : Mir_Ray 発生失敗(%s %d)(arg_data 0x%04x)\n",
+                 "Error : Mir_Ray failed to spawn (%s %d)(arg_data 0x%04x)\n"),
                "../z_bg_jya_bombchuiwa.c", 410, this->actor.params);
     }
 }

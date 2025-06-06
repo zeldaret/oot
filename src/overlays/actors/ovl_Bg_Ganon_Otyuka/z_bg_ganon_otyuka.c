@@ -16,10 +16,11 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "tex_len.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
@@ -76,7 +77,75 @@ static Vec3f sSideCenters[] = {
 
 static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
-#include "assets/overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c"
+#define sPlatformTex_WIDTH 32
+#define sPlatformTex_HEIGHT 32
+static u64 sPlatformTex[TEX_LEN(u64, sPlatformTex_WIDTH, sPlatformTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformTex.rgba16.inc.c"
+};
+
+static u8 sZeros[8] = { 0 };
+
+static Vtx sPlatformTopVtx[4] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformTopVtx.inc.c"
+};
+
+static Gfx sPlatformMaterialDL[17] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformMaterialDL.inc.c"
+};
+
+static Gfx sPlatformTopDL[3] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformTopDL.inc.c"
+};
+
+static Vtx sPlatformBottomVtx[4] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformBottomVtx.inc.c"
+};
+
+static Gfx sPlatformBottomDL[3] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformBottomDL.inc.c"
+};
+
+static Vtx sPlatformSideVtx[4] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformSideVtx.inc.c"
+};
+
+static Gfx sPlatformSideDL[3] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformSideDL.inc.c"
+};
+
+#define sFlashTex_WIDTH 32
+#define sFlashTex_HEIGHT 64
+static u64 sFlashTex[TEX_LEN(u64, sFlashTex_WIDTH, sFlashTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sFlashTex.i8.inc.c"
+};
+
+static Vtx sFlashVtx[8] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sFlashVtx.inc.c"
+};
+
+static Gfx sFlashDL[22] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sFlashDL.inc.c"
+};
+
+static BgCamInfo sBgCamList[1] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sBgCamList.inc.c"
+};
+
+static SurfaceType sSurfaceTypes[2] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sSurfaceTypes.inc.c"
+};
+
+static CollisionPoly sPolyList[10] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPolyList.inc.c"
+};
+
+static Vec3s sVtxList[8] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sVtxList.inc.c"
+};
+
+static CollisionHeader sCol = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sCol.inc.c"
+};
 
 void BgGanonOtyuka_Init(Actor* thisx, PlayState* play2) {
     BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
