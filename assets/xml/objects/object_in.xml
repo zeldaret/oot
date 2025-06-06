@@ -37,6 +37,67 @@
         <Texture Name="gIngoEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x4BD0" TlutOffset="0x3210"/>
         <Texture Name="gIngoEyeClosed2Tex" OutName="eye_closed_2" Format="ci8" Width="32" Height="32" Offset="0x4390" TlutOffset="0x3210"/>
 
+        <Array Name="gIngoChildEraHeadVtx" Count="152" Offset="0x4FD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraRightEyebrowVtx" Count="7" Offset="0x5950">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraLeftEyebrowVtx" Count="7" Offset="0x59C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraMustacheVtx" Count="10" Offset="0x5A30">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraLeftFootVtx" Count="42" Offset="0x5AD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraRightFootVtx" Count="42" Offset="0x5D70">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraBasketVtx" Count="61" Offset="0x6010">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraPitchForkVtx" Count="53" Offset="0x63E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraLeftHandVtx" Count="70" Offset="0x7F98">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraLeftArmVtx" Count="33" Offset="0x83F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraLeftShoulderVtx" Count="30" Offset="0x8608">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraRightHandVtx" Count="70" Offset="0x87E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraRightArmVtx" Count="33" Offset="0x8C48">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraRightShoulderVtx" Count="30" Offset="0x8E58">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraChestVtx" Count="78" Offset="0x9038">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraLeftLegVtx" Count="36" Offset="0x9518">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraLeftThighVtx" Count="39" Offset="0x9758">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraRightLegVtx" Count="36" Offset="0x99C8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraRightThighVtx" Count="39" Offset="0x9C08">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoChildEraTorsoVtx" Count="38" Offset="0x9E78">
+            <Vtx/>
+        </Array>
+
         <DList Name="gIngoChildEraHeadDL" Offset="0x6730"/>
         <DList Name="gIngoChildEraRightEyebrowDL" Offset="0x7398"/>
         <DList Name="gIngoChildEraLeftEyebrowDL" Offset="0x74C0"/>
@@ -80,6 +141,61 @@
         <Texture Name="gIngoAdultEraShirtTex" OutName="adult_era_shirt" Format="ci8" Width="16" Height="16" Offset="0xE998" TlutOffset="0xC298"/>
         <Texture Name="gIngoAdultEraShoesTex" OutName="adult_era_shoes" Format="ci8" Width="8" Height="8" Offset="0xEA98" TlutOffset="0xC298"/>
         <Texture Name="gIngoAdultEraPantsTex" OutName="adult_era_pants" Format="ci8" Width="8" Height="8" Offset="0xEAD8" TlutOffset="0xC298"/>
+
+        <Array Name="gIngoAdultEraRightEyebrowVtx" Count="7" Offset="0xEB18">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraLeftEyebrowVtx" Count="7" Offset="0xEB88">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraMustacheVtx" Count="10" Offset="0xEBF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraHeadVtx" Count="137" Offset="0xEC98">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraLeftHandVtx" Count="70" Offset="0xF528">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraLeftArmVtx" Count="27" Offset="0xF988">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraLeftShoulderVtx" Count="27" Offset="0xFB38">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraRightHandVtx" Count="70" Offset="0xFCE8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraRightArmVtx" Count="27" Offset="0x10148">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraRightShoulderVtx" Count="27" Offset="0x102F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraChestVtx" Count="99" Offset="0x104A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraLeftFootVtx" Count="29" Offset="0x10AD8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraLeftLegVtx" Count="27" Offset="0x10CA8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraLeftThighVtx" Count="29" Offset="0x10E58">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraRightFootVtx" Count="29" Offset="0x11028">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraRightLegVtx" Count="27" Offset="0x111F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraRightThighVtx" Count="29" Offset="0x113A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIngoAdultEraTorsoVtx" Count="30" Offset="0x11578">
+            <Vtx/>
+        </Array>
 
         <DList Name="gIngoAdultEraChestDL" Offset="0x11758"/>
         <DList Name="gIngoAdultEraHeadDL" Offset="0x11AD8"/>

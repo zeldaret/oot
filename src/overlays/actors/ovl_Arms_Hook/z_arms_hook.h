@@ -2,8 +2,8 @@
 #define Z_ARMS_HOOK_H
 
 #include "ultra64.h"
-#include "z64actor.h"
-#include "z64player.h"
+#include "actor.h"
+#include "player.h"
 
 struct ArmsHook;
 

@@ -26,9 +26,9 @@
 #include "versions.h"
 #include "vi_mode.h"
 #include "z_game_dlftbls.h"
-#include "z64audio.h"
-#include "z64save.h"
-#include "z64play.h"
+#include "audio.h"
+#include "save.h"
+#include "play_state.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
@@ -331,10 +331,10 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 #if DEBUG_FEATURES
     OPEN_DISPS(gfxCtx, "../graph.c", 966);
 
-    gDPNoOpString(WORK_DISP++, "WORK_DISP 開始", 0);
-    gDPNoOpString(POLY_OPA_DISP++, "POLY_OPA_DISP 開始", 0);
-    gDPNoOpString(POLY_XLU_DISP++, "POLY_XLU_DISP 開始", 0);
-    gDPNoOpString(OVERLAY_DISP++, "OVERLAY_DISP 開始", 0);
+    gDPNoOpString(WORK_DISP++, T("WORK_DISP 開始", "WORK_DISP start"), 0);
+    gDPNoOpString(POLY_OPA_DISP++, T("POLY_OPA_DISP 開始", "POLY_OPA_DISP start"), 0);
+    gDPNoOpString(POLY_XLU_DISP++, T("POLY_XLU_DISP 開始", "POLY_XLU_DISP start"), 0);
+    gDPNoOpString(OVERLAY_DISP++, T("OVERLAY_DISP 開始", "OVERLAY_DISP start"), 0);
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 975);
 #endif
@@ -345,10 +345,10 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 #if DEBUG_FEATURES
     OPEN_DISPS(gfxCtx, "../graph.c", 987);
 
-    gDPNoOpString(WORK_DISP++, "WORK_DISP 終了", 0);
-    gDPNoOpString(POLY_OPA_DISP++, "POLY_OPA_DISP 終了", 0);
-    gDPNoOpString(POLY_XLU_DISP++, "POLY_XLU_DISP 終了", 0);
-    gDPNoOpString(OVERLAY_DISP++, "OVERLAY_DISP 終了", 0);
+    gDPNoOpString(WORK_DISP++, T("WORK_DISP 終了", "WORK_DISP end"), 0);
+    gDPNoOpString(POLY_OPA_DISP++, T("POLY_OPA_DISP 終了", "POLY_OPA_DISP end"), 0);
+    gDPNoOpString(POLY_XLU_DISP++, T("POLY_XLU_DISP 終了", "POLY_XLU_DISP end"), 0);
+    gDPNoOpString(OVERLAY_DISP++, T("OVERLAY_DISP 終了", "OVERLAY_DISP end"), 0);
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 996);
 #endif

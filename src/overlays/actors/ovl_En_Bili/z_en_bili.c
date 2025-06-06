@@ -17,8 +17,8 @@
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_bl/object_bl.h"
 
@@ -78,48 +78,48 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 9, 28, -20, 30 };
 
-typedef enum BiriDamageEffect {
-    /* 0x0 */ BIRI_DMGEFF_NONE,
-    /* 0x1 */ BIRI_DMGEFF_DEKUNUT,
-    /* 0x2 */ BIRI_DMGEFF_FIRE,
-    /* 0x3 */ BIRI_DMGEFF_ICE,
-    /* 0xE */ BIRI_DMGEFF_SLINGSHOT = 0xE,
-    /* 0xF */ BIRI_DMGEFF_SWORD
-} BiriDamageEffect;
+typedef enum BiriDamageReaction {
+    /* 0x0 */ BIRI_DMG_REACT_NONE,
+    /* 0x1 */ BIRI_DMG_REACT_DEKUNUT,
+    /* 0x2 */ BIRI_DMG_REACT_FIRE,
+    /* 0x3 */ BIRI_DMG_REACT_ICE,
+    /* 0xE */ BIRI_DMG_REACT_SLINGSHOT = 0xE,
+    /* 0xF */ BIRI_DMG_REACT_SWORD
+} BiriDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, BIRI_DMGEFF_DEKUNUT),
-    /* Deku stick    */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Slingshot     */ DMG_ENTRY(0, BIRI_DMGEFF_SLINGSHOT),
-    /* Explosive     */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(1, BIRI_DMGEFF_NONE),
-    /* Normal arrow  */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Hookshot      */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Kokiri sword  */ DMG_ENTRY(1, BIRI_DMGEFF_SWORD),
-    /* Master sword  */ DMG_ENTRY(2, BIRI_DMGEFF_SWORD),
-    /* Giant's Knife */ DMG_ENTRY(4, BIRI_DMGEFF_SWORD),
-    /* Fire arrow    */ DMG_ENTRY(4, BIRI_DMGEFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(4, BIRI_DMGEFF_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, BIRI_DMGEFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(4, BIRI_DMGEFF_ICE),
-    /* Light magic   */ DMG_ENTRY(0, BIRI_DMGEFF_NONE),
-    /* Shield        */ DMG_ENTRY(0, BIRI_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, BIRI_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, BIRI_DMGEFF_NONE),
-    /* Giant spin    */ DMG_ENTRY(4, BIRI_DMGEFF_NONE),
-    /* Master spin   */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Kokiri jump   */ DMG_ENTRY(2, BIRI_DMGEFF_NONE),
-    /* Giant jump    */ DMG_ENTRY(8, BIRI_DMGEFF_NONE),
-    /* Master jump   */ DMG_ENTRY(4, BIRI_DMGEFF_NONE),
-    /* Unknown 1     */ DMG_ENTRY(0, BIRI_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, BIRI_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, BIRI_DMGEFF_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, BIRI_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, BIRI_DMG_REACT_DEKUNUT),
+    /* Deku stick    */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(0, BIRI_DMG_REACT_SLINGSHOT),
+    /* Explosive     */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(1, BIRI_DMG_REACT_NONE),
+    /* Normal arrow  */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, BIRI_DMG_REACT_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, BIRI_DMG_REACT_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, BIRI_DMG_REACT_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(4, BIRI_DMG_REACT_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(4, BIRI_DMG_REACT_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, BIRI_DMG_REACT_FIRE),
+    /* Ice magic     */ DMG_ENTRY(4, BIRI_DMG_REACT_ICE),
+    /* Light magic   */ DMG_ENTRY(0, BIRI_DMG_REACT_NONE),
+    /* Shield        */ DMG_ENTRY(0, BIRI_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, BIRI_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, BIRI_DMG_REACT_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, BIRI_DMG_REACT_NONE),
+    /* Master spin   */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, BIRI_DMG_REACT_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, BIRI_DMG_REACT_NONE),
+    /* Master jump   */ DMG_ENTRY(4, BIRI_DMG_REACT_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, BIRI_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, BIRI_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, BIRI_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, BIRI_DMG_REACT_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -566,26 +566,26 @@ void EnBili_Frozen(EnBili* this, PlayState* play) {
 }
 
 void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
-    u8 damageEffect;
+    u8 damageReaction;
 
     if ((this->actor.colChkInfo.health != 0) && (this->collider.base.acFlags & AC_HIT)) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
 
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
 
-            damageEffect = this->actor.colChkInfo.damageEffect;
+            damageReaction = this->actor.colChkInfo.damageReaction;
 
-            if (damageEffect == BIRI_DMGEFF_DEKUNUT) {
+            if (damageReaction == BIRI_DMG_REACT_DEKUNUT) {
                 if (this->actionFunc != EnBili_Stunned) {
                     EnBili_SetupStunned(this);
                 }
-            } else if (damageEffect == BIRI_DMGEFF_SWORD) {
+            } else if (damageReaction == BIRI_DMG_REACT_SWORD) {
                 if (this->actionFunc != EnBili_Stunned) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_XLU, 10);
 
@@ -596,12 +596,12 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
                 } else {
                     EnBili_SetupBurnt(this);
                 }
-            } else if (damageEffect == BIRI_DMGEFF_FIRE) {
+            } else if (damageReaction == BIRI_DMG_REACT_FIRE) {
                 EnBili_SetupBurnt(this);
                 this->timer = 2;
-            } else if (damageEffect == BIRI_DMGEFF_ICE) {
+            } else if (damageReaction == BIRI_DMG_REACT_ICE) {
                 EnBili_SetupFrozen(this, play);
-            } else if (damageEffect == BIRI_DMGEFF_SLINGSHOT) {
+            } else if (damageReaction == BIRI_DMG_REACT_SLINGSHOT) {
                 EnBili_SetupRecoil(this);
             } else {
                 EnBili_SetupBurnt(this);

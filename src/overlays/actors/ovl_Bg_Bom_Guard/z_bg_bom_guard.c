@@ -11,7 +11,7 @@
 #include "regs.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_bowl/object_bowl.h"
 
@@ -49,7 +49,7 @@ void BgBomGuard_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ " T("透明ガード出現", "Transparent guard appears") " ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 透明ガード出現 ☆☆☆☆☆ \n", " ☆☆☆☆☆ Transparent guard appears ☆☆☆☆☆ \n") VT_RST);
 
     thisx->scale.x = 1.0f;
     thisx->scale.y = 1.0f;

@@ -15,8 +15,8 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
@@ -137,8 +137,8 @@ void BgIceShelter_InitDynaPoly(BgIceShelter* this, PlayState* play, CollisionHea
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF(T("Warning : move BG 登録失敗",
-                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
                "../z_bg_ice_shelter.c", 362, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif

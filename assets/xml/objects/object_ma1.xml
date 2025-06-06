@@ -46,6 +46,58 @@
         <Texture Name="gMalonChildEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x2318" TlutOffset="0x15B0"/>
         <Texture Name="gMalonChildEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x2718" TlutOffset="0x15B0"/>
 
+        <Array Name="gMalonChildHeadVtx" Count="227" Offset="0x3318">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildDressLowerVtx" Count="52" Offset="0x4B18">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildDressMiddleVtx" Count="35" Offset="0x4E58">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftHandVtx" Count="40" Offset="0x5088">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftArmVtx" Count="24" Offset="0x5308">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftShoulderVtx" Count="40" Offset="0x5488">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightHandVtx" Count="40" Offset="0x5708">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightArmVtx" Count="24" Offset="0x5988">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightShoulderVtx" Count="40" Offset="0x5B08">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildChestVtx" Count="120" Offset="0x5D88">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightFoorVtx" Count="29" Offset="0x6508">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightShinVtx" Count="17" Offset="0x66D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildRightThighVtx" Count="3" Offset="0x67E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftFootVtx" Count="29" Offset="0x6818">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftShinVtx" Count="17" Offset="0x69E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildLeftThighVtx" Count="3" Offset="0x6AF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMalonChildDressUpperVtx" Count="20" Offset="0x6B28">
+            <Vtx/>
+        </Array>
+
         <DList Name="gMalonChildHeadDL" Offset="0x4148"/>
         <DList Name="gMalonChildDressLowerDL" Offset="0x6C68"/>
         <DList Name="gMalonChildDressMiddleDL" Offset="0x6DD8"/>

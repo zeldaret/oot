@@ -2,8 +2,8 @@
 #define Z_EN_ZL3_H
 
 #include "ultra64.h"
-#include "z64actor.h"
-#include "z64scene.h"
+#include "actor.h"
+#include "scene.h"
 
 #include "overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.h"
 

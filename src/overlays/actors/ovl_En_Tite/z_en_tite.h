@@ -2,7 +2,7 @@
 #define Z_EN_TITE_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnTite;
 
@@ -26,7 +26,7 @@ typedef struct EnTite {
     /* 0x02E0 */ s16 actionVar1; // Usage depends on current action function
     /* 0x02E2 */ u8 actionVar2; // Usage depends on current action function
     /* 0x02E3 */ u8 spawnIceTimer;
-    /* 0x02E4 */ u8 damageEffect;
+    /* 0x02E4 */ u8 damageReaction;
     /* 0x02E8 */ ColliderJntSph collider;
     /* 0x0308 */ ColliderJntSphElement colliderElements[1];
     /* 0x0348 */ Vec3f frontLeftFootPos;

@@ -11,7 +11,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "translation.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #define FLAGS 0
 
@@ -176,7 +176,7 @@ void ObjMure_SpawnActors0(ObjMure* this, PlayState* play) {
                     this->children[i]->flags |= ACTOR_FLAG_GRASS_DESTROYED;
                     this->children[i]->room = actor->room;
                 } else {
-                    PRINTF(T("warning 発生失敗 (%s %d)\n", "warning failed to occur (%s %d)\n"), "../z_obj_mure.c",
+                    PRINTF(T("warning 発生失敗 (%s %d)\n", "warning failed to spawn (%s %d)\n"), "../z_obj_mure.c",
                            359);
                 }
                 break;
@@ -188,7 +188,7 @@ void ObjMure_SpawnActors0(ObjMure* this, PlayState* play) {
                 if (this->children[i] != NULL) {
                     this->children[i]->room = actor->room;
                 } else {
-                    PRINTF(T("warning 発生失敗 (%s %d)\n", "warning failed to occur (%s %d)\n"), "../z_obj_mure.c",
+                    PRINTF(T("warning 発生失敗 (%s %d)\n", "warning failed to spawn (%s %d)\n"), "../z_obj_mure.c",
                            382);
                 }
                 break;
@@ -221,7 +221,7 @@ void ObjMure_SpawnActors1(ObjMure* this, PlayState* play2) {
             this->children[i]->room = actor->room;
         } else {
             this->childrenStates[i] = OBJMURE_CHILD_STATE_1;
-            PRINTF(T("warning 発生失敗 (%s %d)\n", "warning failed to occur (%s %d)\n"), "../z_obj_mure.c", 438);
+            PRINTF(T("warning 発生失敗 (%s %d)\n", "warning failed to spawn (%s %d)\n"), "../z_obj_mure.c", 438);
         }
     }
 }

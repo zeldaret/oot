@@ -21,11 +21,11 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/object_xc/object_xc.h"
 #include "assets/scenes/overworld/spot05/spot05_scene.h"
@@ -1416,7 +1416,7 @@ void func_80B3F3D8(void) {
 }
 
 #pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ique-cn:64" \
-                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ntsc-1.0:64 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 void EnXc_PlayDiveSFX(Vec3f* src, PlayState* play) {
     static Vec3f D_80B42DA0;

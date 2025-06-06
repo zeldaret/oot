@@ -4,10 +4,11 @@
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "terminal.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "translation.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_sd/object_sd.h"
 
@@ -104,9 +105,15 @@ void EnHeishi4_Init(Actor* thisx, PlayState* play) {
     }
     this->unk_27C = PARAMS_GET_U(thisx->params, 8, 8);
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
-    PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n" VT_RST, this->type);
-    PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, PARAMS_GET_U(thisx->params, 8, 4));
+    PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n", " ☆☆☆☆☆ Soldier Set 2 Completed! ☆☆☆☆☆ %d\n")
+               VT_RST,
+           thisx->params);
+    PRINTF(VT_FGCOL(YELLOW) T(" ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n", " ☆☆☆☆☆ Identification Completed!\t ☆☆☆☆☆ %d\n")
+               VT_RST,
+           this->type);
+    PRINTF(VT_FGCOL(MAGENTA) T(" ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n", " ☆☆☆☆☆ Message completed!       ☆☆☆☆☆ %x\n\n")
+               VT_RST,
+           PARAMS_GET_U(thisx->params, 8, 4));
     PRINTF("\n\n");
 }
 
@@ -176,7 +183,7 @@ void func_80A56544(EnHeishi4* this, PlayState* play) {
 
     Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
-        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n", " ☆☆☆☆☆ Oh, no! I'm an adult! ☆☆☆☆☆ \n") VT_RST);
         Actor_Kill(&this->actor);
     } else {
         this->actionFunc = func_80A56614;
@@ -223,7 +230,8 @@ void func_80A5673C(EnHeishi4* this, PlayState* play) {
     f32 frames;
 
     if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
-        PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(YELLOW) T(" ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n",
+                                  " ☆☆☆☆☆ Congratulations on obtaining the Master Sword! ☆☆☆☆☆ \n") VT_RST);
         Actor_Kill(&this->actor);
         return;
     }
@@ -236,11 +244,11 @@ void func_80A5673C(EnHeishi4* this, PlayState* play) {
             this->actor.textId = 0x7007;
             this->unk_282 = TEXT_STATE_EVENT;
             this->unk_284 = 1;
-            PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ デモ開始！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T(" ☆☆☆☆☆ デモ開始！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ Demo begins! ☆☆☆☆☆ \n") VT_RST);
         } else {
             this->actor.textId = 0x7008;
             this->unk_282 = TEXT_STATE_DONE;
-            PRINTF(VT_FGCOL(BLUE) " ☆☆☆☆☆ 返事なし ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(BLUE) T(" ☆☆☆☆☆ 返事なし ☆☆☆☆☆ \n", " ☆☆☆☆☆ No reply ☆☆☆☆☆ \n") VT_RST);
         }
         this->actionFunc = func_80A56874;
     } else {

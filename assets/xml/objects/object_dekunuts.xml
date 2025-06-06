@@ -28,5 +28,40 @@
         <!-- Deku Nut -->
         <DList Name="gDekuNutsDekuNutDL" Offset="0x2028"/>
         <Texture Name="gDekuNutsDekuNutTex" OutName="deku_nut" Format="rgba16" Width="16" Height="16" Offset="0x2EE8"/>
+
+        <!-- Vertices -->
+        <Array Name="object_dekunuts_Vtx_001040" Count="24" Offset="0x1040">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_0011C0" Count="7" Offset="0x11C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_001230" Count="5" Offset="0x1230">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_001280" Count="6" Offset="0x1280">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_0012E0" Count="15" Offset="0x12E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_0013D0" Count="5" Offset="0x13D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_001420" Count="7" Offset="0x1420">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_001490" Count="43" Offset="0x1490">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_001740" Count="24" Offset="0x1740">
+            <Vtx/>
+        </Array>
+        <Array Name="gDekuNutsDekuNutVtx" Count="3" Offset="0x1FF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gDekuNutsFlowerVtx" Count="30" Offset="0x20B8">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

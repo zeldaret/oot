@@ -22,6 +22,57 @@
         <Limb Name="gChildZelda1RightHandLimb" LimbType="Standard" Offset="0xF57C"/>
         <Limb Name="gChildZelda1HeadLimb" LimbType="Standard" Offset="0xF588"/>
 
+
+        <!-- Child Zelda 1 Limb Vertices -->
+        <Array Name="gChildZelda1Dress3Vtx" Count="33" Offset="0x23D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1Dress2Vtx" Count="38" Offset="0x25E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1Dress1Vtx" Count="36" Offset="0x2840">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1WaistVtx" Count="85" Offset="0x2A80">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1LeftHandVtx" Count="45" Offset="0x2FD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1LeftForearmVtx" Count="36" Offset="0x32A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1LeftUpperArmVtx" Count="62" Offset="0x34E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1RightHandVtx" Count="45" Offset="0x38C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1RightForearmVtx" Count="36" Offset="0x3B90">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1RightUpperArmVtx" Count="62" Offset="0x3DD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1TorsoVtx" Count="154" Offset="0x41B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1HeadVtx" Count="226" Offset="0xAF48">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1LeftFootVtx" Count="53" Offset="0xC698">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1RightFootVtx" Count="53" Offset="0xC9E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1RightLegVtx" Count="3" Offset="0xCD38">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1LeftLegVtx" Count="3" Offset="0xCD68">
+            <Vtx/>
+        </Array>
+
         <!-- Child Zelda 1 Limb DisplayLists -->
         <DList Name="gChildZelda1WaistDL" Offset="0x6008"/>
         <DList Name="gChildZelda1LeftLegDL" Offset="0xEE00"/>
@@ -72,8 +123,14 @@
         <Texture Name="gChildZelda1HeaddressTex_A8C8" OutName="headdress_A8C8" Format="ci8" Width="8" Height="16" Offset="0xA8C8" TlutOffset="0x70C8"/>
         <Texture Name="gChildZelda1HeaddressStripeTex" OutName="headdress_stripe" Format="ci8" Width="16" Height="32" Offset="0xA948" TlutOffset="0x70C8"/>
 
-        <!-- Other DisplayLists -->
+        <!-- Other Vertices and DisplayLists -->
+        <Array Name="gChildZelda1AlternateDressVtx" Count="147" Offset="0xBD68">
+            <Vtx/>
+        </Array>
         <DList Name="gChildZelda1AlternateDressDL" Offset="0xDEC8"/>
+        <Array Name="gChildZelda1OcarinaVtx" Count="21" Offset="0xF258">
+            <Vtx/>
+        </Array>
         <DList Name="gChildZelda1OcarinaDL" Offset="0xF3A8"/>
 
         <!-- Palettes -->

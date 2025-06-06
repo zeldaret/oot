@@ -11,12 +11,13 @@
 #include "sequence.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64debug_display.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
 
 #define FLAGS 0
 
@@ -90,11 +91,14 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     EnYabusameMark* this = (EnYabusameMark*)thisx;
 
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
+    // "まと" could be a typo for "まこ", in which case this could be "Yabusame mark"
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Yabusame mato ☆☆☆☆☆ %x\n") VT_RST,
+           this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->typeIndex = this->actor.params;
     this->actor.attentionRangeType = ATTENTION_RANGE_5;
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 種類インデックス \t   ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 種類インデックス \t   ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Type index \t   ☆☆☆☆☆ %d\n") VT_RST,
+           this->typeIndex);
     switch (this->typeIndex) {
         case 0:
             this->subTypeIndex = 0;
@@ -120,8 +124,9 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 種類       ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
-    PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ さらに分類 ☆☆☆☆☆ %d\n" VT_RST, this->subTypeIndex);
+    PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 種類       ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Type       ☆☆☆☆☆ %d\n") VT_RST, this->typeIndex);
+    PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ さらに分類 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Further classification ☆☆☆☆☆ %d\n") VT_RST,
+           this->subTypeIndex);
     this->actionFunc = func_80B42F74;
 }
 
@@ -177,8 +182,8 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play) {
         PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＸ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].x);
         PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＹ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].y);
         PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＺ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].z);
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 小    ☆☆☆☆☆ %f\n" VT_RST, scoreDistance100);
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 大    ☆☆☆☆☆ %f\n" VT_RST, scoreDistance60);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 小    ☆☆☆☆☆ %f\n", "☆☆☆☆☆ small ☆☆☆☆☆ %f\n") VT_RST, scoreDistance100);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 大    ☆☆☆☆☆ %f\n", "☆☆☆☆☆ large ☆☆☆☆☆ %f\n") VT_RST, scoreDistance60);
         PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ point ☆☆☆☆☆ %d\n" VT_RST, scoreIndex);
         PRINTF("\n\n");
 

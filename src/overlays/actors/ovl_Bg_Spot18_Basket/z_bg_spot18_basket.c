@@ -11,9 +11,9 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_spot18_obj/object_spot18_obj.h"
 
@@ -171,7 +171,7 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
 
     if (this->dyna.actor.child == NULL) {
         PRINTF_COLOR_RED();
-        PRINTF(T("Ｅｒｒｏｒ : 変化壷蓋発生失敗", "Error : Failed to generate the change pot cover") "(%s %d)\n",
+        PRINTF(T("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "Error : Failed to spawn the change pot cover (%s %d)\n"),
                "../z_bg_spot18_basket.c", 351);
         PRINTF_RST();
         Actor_Kill(&this->dyna.actor);

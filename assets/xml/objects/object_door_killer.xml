@@ -48,6 +48,14 @@
             <Vtx/>
         </Array>
         <DList Name="object_door_killer_DL_001A58" Offset="0x1A58"/>
+        <Limb Name="object_door_killer_001B28_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_DOOR_KILLER_001B28" Offset="0x1B28"/>
+        <Limb Name="object_door_killer_001B38_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_DOOR_KILLER_001B38" Offset="0x1B38"/>
+        <Limb Name="object_door_killer_001B48_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_DOOR_KILLER_001B48" Offset="0x1B48"/>
+        <Limb Name="object_door_killer_001B58_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_DOOR_KILLER_001B58" Offset="0x1B58"/>
+        <Limb Name="object_door_killer_001B68_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_DOOR_KILLER_001B68" Offset="0x1B68"/>
+        <Limb Name="object_door_killer_001B78_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_DOOR_KILLER_001B78" Offset="0x1B78"/>
+        <Limb Name="object_door_killer_001B88_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_DOOR_KILLER_001B88" Offset="0x1B88"/>
+        <Limb Name="object_door_killer_001B98_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_DOOR_KILLER_001B98" Offset="0x1B98"/>
         <Skeleton Name="object_door_killer_Skel_001BC8" Type="Flex" LimbType="LOD" Offset="0x1BC8"/>
     </File>
 </Root>

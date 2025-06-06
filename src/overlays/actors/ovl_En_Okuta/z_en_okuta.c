@@ -8,10 +8,10 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_okuta/object_okuta.h"
 
@@ -570,11 +570,11 @@ void EnOkuta_ColliderCheck(EnOkuta* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             Enemy_StartFinishingBlow(play, &this->actor);
             this->actor.colChkInfo.health = 0;
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-            if (this->actor.colChkInfo.damageEffect == 3) {
+            if (this->actor.colChkInfo.damageReaction == 3) {
                 EnOkuta_SetupFreeze(this);
             } else {
                 EnOkuta_SetupWaitToDie(this);

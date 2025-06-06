@@ -11,8 +11,8 @@
 #include "gfx_setupdl.h"
 #include "sfx.h"
 #include "sys_matrix.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_brob/object_brob.h"
 

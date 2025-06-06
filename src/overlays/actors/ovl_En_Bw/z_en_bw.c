@@ -19,9 +19,9 @@
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_bw/object_bw.h"
@@ -617,7 +617,7 @@ void func_809D01CC(EnBw* this) {
     this->actor.speed = 0.0f;
     this->unk_25C = (Rand_ZeroOne() * 0.25f) + 1.0f;
     this->unk_260 = 0.0f;
-    if (this->damageEffect == 0xE) {
+    if (this->damageReaction == 0xE) {
         this->iceTimer = 0x50;
     }
     this->unk_222 = (this->actor.colorFilterParams & 0x4000) ? 25 : 80;
@@ -658,7 +658,7 @@ void func_809D0268(EnBw* this, PlayState* play) {
 
 void func_809D03CC(EnBw* this) {
     this->actor.speed = 0.0f;
-    if (this->damageEffect == 0xE) {
+    if (this->damageReaction == 0xE) {
         this->iceTimer = 32;
     }
     this->unk_23C = this->actor.colorFilterTimer;
@@ -706,12 +706,12 @@ void func_809D0584(EnBw* this, PlayState* play) {
     } else {
         if (this->collider2.base.acFlags & AC_HIT) {
             this->collider2.base.acFlags &= ~AC_HIT;
-            if ((this->actor.colChkInfo.damageEffect == 0) || (this->unk_220 == 6)) {
+            if ((this->actor.colChkInfo.damageReaction == 0) || (this->unk_220 == 6)) {
                 return;
             }
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->collider2.elem, false);
-            if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
+            if ((this->damageReaction == 1) || (this->damageReaction == 0xE)) {
                 if (this->unk_23C == 0) {
                     Actor_ApplyDamage(&this->actor);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
@@ -771,7 +771,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
     Color_RGBA8 sp44 = { 0, 0, 0, 220 };
 
     func_809D0584(this, play);
-    if (thisx->colChkInfo.damageEffect != 6) {
+    if (thisx->colChkInfo.damageReaction != 6) {
         this->actionFunc(this, play);
         if (this->unk_23C == 0) {
             this->unk_23A = (this->unk_23A + 4) & 0x7F;

@@ -84,7 +84,7 @@ class AnimationJointIndicesResource(CDataResource, can_size_be_unknown=True):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64animation.h",)
+        return ("animation.h",)
 
 
 class AnimationResource(CDataResource):
@@ -210,4 +210,4 @@ class AnimationResource(CDataResource):
         return f"AnimationHeader {self.symbol_name}"
 
     def get_h_includes(self):
-        return ("z64animation.h",)
+        return ("animation.h",)

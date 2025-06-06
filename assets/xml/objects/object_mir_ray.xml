@@ -1,6 +1,14 @@
 <Root>
     <File Name="object_mir_ray" Segment="6">
 
+        <!-- Shield beam vertices -->
+        <Array Name="gShieldBeamImageVtx" Count="11" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gShieldBeamGlowVtx" Count="12" Offset="0xB90">
+            <Vtx/>
+        </Array>
+
         <!-- Shield beam displaylists -->
         <DList Name="gShieldBeamImageDL" Offset="0xB0"/>
         <DList Name="gShieldBeamGlowDL" Offset="0xC50"/>

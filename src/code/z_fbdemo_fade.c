@@ -6,8 +6,8 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64save.h"
-#include "z64transition_instances.h"
+#include "save.h"
+#include "transition_instances.h"
 
 typedef enum TransitionFadeDirection {
     /* 0 */ TRANS_FADE_DIR_IN,

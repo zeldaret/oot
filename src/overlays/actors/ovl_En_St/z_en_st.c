@@ -14,9 +14,9 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_st/object_st.h"
 
@@ -36,7 +36,13 @@ void EnSt_Die(EnSt* this, PlayState* play);
 void EnSt_BounceAround(EnSt* this, PlayState* play);
 void EnSt_FinishBouncing(EnSt* this, PlayState* play);
 
-#include "assets/overlays/ovl_En_St/ovl_En_St.c"
+static Vtx sSkulltulaUnusedVtx[] = {
+#include "assets/overlays/ovl_En_St/sSkulltulaUnusedVtx.inc.c"
+};
+
+static Gfx sSkulltulaUnusedDL[10] = {
+#include "assets/overlays/ovl_En_St/sSkulltulaUnusedDL.inc.c"
+};
 
 ActorProfile En_St_Profile = {
     /**/ ACTOR_EN_ST,
@@ -461,7 +467,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     }
 
     this->invulnerableTimer = 8;
-    if (this->actor.colChkInfo.damageEffect == 1) {
+    if (this->actor.colChkInfo.damageReaction == 1) {
         if (this->stunTimer == 0) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;

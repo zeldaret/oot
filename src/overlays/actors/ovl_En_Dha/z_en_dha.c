@@ -16,9 +16,9 @@
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_dh/object_dh.h"
 
@@ -409,7 +409,7 @@ void EnDha_UpdateHealth(EnDha* this, PlayState* play) {
     if (!((this->unk_1C0 >= 8) || !(this->collider.base.acFlags & AC_HIT))) {
         this->collider.base.acFlags &= ~AC_HIT;
 
-        if (this->actor.colChkInfo.damageEffect == 0 || this->actor.colChkInfo.damageEffect == 6) {
+        if (this->actor.colChkInfo.damageReaction == 0 || this->actor.colChkInfo.damageReaction == 6) {
             return;
         } else {
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
