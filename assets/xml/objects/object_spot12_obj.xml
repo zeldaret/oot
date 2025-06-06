@@ -1,11 +1,17 @@
 <Root>
     <File Name="object_spot12_obj" Segment="6">
         <!-- Gerudo Fortress Wasteland Gate -->
+        <Array Name="gGerudoFortressWastelandGateVtx" Count="8" Offset="0x1000">
+            <Vtx/>
+        </Array>
         <DList Name="gGerudoFortressWastelandGateDL" Offset="0x1080"/>
         <Texture Name="gGerudoFortressWastelandGateTex" Format="rgba16" Width="16" Height="128" Offset="0x0"/>
         <Collision Name="gGerudoFortressWastelandGateCol" Offset="0x11EC"/>
 
         <!-- Gerudo Fortress GTG Shutter -->
+        <Array Name="gGerudoFortressGTGShutterVtx" Count="4" Offset="0x2220">
+            <Vtx/>
+        </Array>
         <DList Name="gGerudoFortressGTGShutterDL" Offset="0x2260"/>
         <Texture Name="gGerudoFortressGTGShutterTex" Format="rgba16" Width="32" Height="64" Offset="0x1220"/>
         <Collision Name="gGerudoFortressGTGShutterCol" Offset="0x238C"/>

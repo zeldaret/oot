@@ -10,6 +10,9 @@
         <Animation Name="gWallmasterWaitAnim" Offset="0x9DB0"/>
         <Animation Name="gWallmasterStandUpAnim" Offset="0xA054"/>
 
+        <Array Name="gWallmasterFingerVtx" Count="58" Offset="0x82E8">
+            <Vtx/>
+        </Array>
         <DList Name="gWallmasterFingerDL" Offset="0x8688"/>
 
         <Texture Name="gWallmasterExposedBoneTex" Format="rgba16" Width="8" Height="16" Offset="0x88F0"/>
@@ -33,6 +36,48 @@
         <Animation Name="gWallmasterMissAnim" Offset="0x3120"/>
 
 
+        <Array Name="object_wallmaster_Vtx_004210" Count="43" Offset="0x4210">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_0044C0" Count="31" Offset="0x44C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_0046B0" Count="50" Offset="0x46B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_0049D0" Count="29" Offset="0x49D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_004BA0" Count="31" Offset="0x4BA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_004D90" Count="51" Offset="0x4D90">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_0050C0" Count="35" Offset="0x50C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_0052F0" Count="30" Offset="0x52F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_0054D0" Count="51" Offset="0x54D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_005800" Count="34" Offset="0x5800">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_005A20" Count="31" Offset="0x5A20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_005C10" Count="51" Offset="0x5C10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_005F40" Count="36" Offset="0x5F40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_wallmaster_Vtx_006180" Count="78" Offset="0x6180">
+            <Vtx/>
+        </Array>
         <DList Name="object_wallmaster_006660_DL" Offset="0x6660"/>
         <DList Name="object_wallmaster_006800_DL" Offset="0x6800"/>
         <DList Name="object_wallmaster_006A20_DL" Offset="0x6A20"/>

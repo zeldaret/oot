@@ -3,11 +3,17 @@
         <Collision Name="object_spot01_matoyab_col" Offset="0x1C58"/>
 
         <!-- Kakariko Guard Gate -->
+        <Array Name="gKakarikoGuardGateVtx" Count="4" Offset="0x1C90">
+            <Vtx/>
+        </Array>
         <DList Name="gKakarikoGuardGateDL" Offset="0x1CD0"/>
         <Texture Name="gKakarikoGuardGateMetalSidebarDL" Format="rgba16" Width="8" Height="64" Offset="0x1DE0"/>
         <Collision Name="gKakarikoGuardGateCol" Offset="0x1DA8"/>
 
         <!-- Kakariko Construction Site -->
+        <Array Name="gKakarikoConstructionSiteVtx" Count="154" Offset="0x888">
+            <Vtx/>
+        </Array>
         <DList Name="gKakarikoConstructionSiteDL" Offset="0x1228"/>
         <Texture Name="gKakarikoConstructionSiteTLUT" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
         <Blob Name="object_spot01_matoyab_000200_Blob" Size="0x8" Offset="0x200"/>
