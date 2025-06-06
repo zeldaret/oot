@@ -1,14 +1,29 @@
 #include "z_en_ssh.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ssh/object_ssh.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 #define SSH_STATE_STUNNED (1 << 0)
 #define SSH_STATE_GROUND_START (1 << 2)
 #define SSH_STATE_ATTACKED (1 << 3)
 #define SSH_STATE_SPIN (1 << 4)
 
-typedef enum {
+typedef enum EnSshAnimation {
     SSH_ANIM_UNK0, // Unused animation. Possibly being knocked back?
     SSH_ANIM_UP,
     SSH_ANIM_WAIT,
@@ -30,21 +45,21 @@ void EnSsh_Start(EnSsh* this, PlayState* play);
 
 #include "assets/overlays/ovl_En_Ssh/ovl_En_Ssh.c"
 
-const ActorInit En_Ssh_InitVars = {
-    ACTOR_EN_SSH,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SSH,
-    sizeof(EnSsh),
-    (ActorFunc)EnSsh_Init,
-    (ActorFunc)EnSsh_Destroy,
-    (ActorFunc)EnSsh_Update,
-    (ActorFunc)EnSsh_Draw,
+ActorProfile En_Ssh_Profile = {
+    /**/ ACTOR_EN_SSH,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SSH,
+    /**/ sizeof(EnSsh),
+    /**/ EnSsh_Init,
+    /**/ EnSsh_Destroy,
+    /**/ EnSsh_Update,
+    /**/ EnSsh_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -52,11 +67,11 @@ static ColliderCylinderInit sCylinderInit1 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 32, 50, -24, { 0, 0, 0 } },
@@ -66,7 +81,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 0, 0, 0, MASS_IMMOVABLE };
 
 static ColliderCylinderInit sCylinderInit2 = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -74,11 +89,11 @@ static ColliderCylinderInit sCylinderInit2 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 20, 60, -30, { 0, 0, 0 } },
@@ -87,11 +102,11 @@ static ColliderCylinderInit sCylinderInit2 = {
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, -240, 0 }, 28 }, 100 },
@@ -100,7 +115,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -122,7 +137,7 @@ void EnSsh_SpawnShockwave(EnSsh* this, PlayState* play) {
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.floorHeight;
     pos.z = this->actor.world.pos.z;
-    EffectSsBlast_SpawnWhiteCustomScale(play, &pos, &zeroVec, &zeroVec, 100, 220, 8);
+    EffectSsBlast_SpawnWhiteShockwaveSetScale(play, &pos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
 s32 EnSsh_CreateBlureEffect(PlayState* play) {
@@ -196,25 +211,25 @@ void EnSsh_InitColliders(EnSsh* this, PlayState* play) {
     s32 pad;
 
     for (i = 0; i < ARRAY_COUNT(cylinders); i++) {
-        Collider_InitCylinder(play, &this->colCylinder[i]);
-        Collider_SetCylinder(play, &this->colCylinder[i], &this->actor, cylinders[i]);
+        Collider_InitCylinder(play, &this->colliderCylinders[i]);
+        Collider_SetCylinder(play, &this->colliderCylinders[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].info.bumper.dmgFlags =
+    this->colliderCylinders[0].elem.acDmgInfo.dmgFlags =
         DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT;
-    this->colCylinder[1].info.bumper.dmgFlags =
+    this->colliderCylinders[1].elem.acDmgInfo.dmgFlags =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
         ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
-    this->colCylinder[2].base.colType = COLTYPE_METAL;
-    this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
-    this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].info.bumper.dmgFlags =
+    this->colliderCylinders[2].base.colMaterial = COL_MATERIAL_METAL;
+    this->colliderCylinders[2].elem.acElemFlags = ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO;
+    this->colliderCylinders[2].elem.elemMaterial = ELEM_MATERIAL_UNK2;
+    this->colliderCylinders[2].elem.acDmgInfo.dmgFlags =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT);
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
 
-    Collider_InitJntSph(play, &this->colSph);
-    Collider_SetJntSph(play, &this->colSph, &this->actor, &sJntSphInit, this->colSphElements);
+    Collider_InitJntSph(play, &this->colliderJntSph);
+    Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
 }
 
 f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
@@ -238,7 +253,7 @@ void EnSsh_SetWaitAnimation(EnSsh* this) {
 }
 
 void EnSsh_SetReturnAnimation(EnSsh* this) {
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_UP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_UP);
     EnSsh_SetAnimation(this, SSH_ANIM_UP);
 }
 
@@ -268,21 +283,21 @@ void EnSsh_SetColliderScale(EnSsh* this, f32 scale, f32 radiusMod) {
     f32 yShift;
     s32 i;
 
-    radius = this->colSph.elements[0].dim.modelSphere.radius;
+    radius = this->colliderJntSph.elements[0].dim.modelSphere.radius;
     radius *= scale;
-    this->colSph.elements[0].dim.modelSphere.radius = radius;
+    this->colliderJntSph.elements[0].dim.modelSphere.radius = radius;
 
     for (i = 0; i < 6; i++) {
-        yShift = this->colCylinder[i].dim.yShift;
-        radius = this->colCylinder[i].dim.radius;
-        height = this->colCylinder[i].dim.height;
+        yShift = this->colliderCylinders[i].dim.yShift;
+        radius = this->colliderCylinders[i].dim.radius;
+        height = this->colliderCylinders[i].dim.height;
         yShift *= scale;
         radius *= scale * radiusMod;
         height *= scale;
 
-        this->colCylinder[i].dim.yShift = yShift;
-        this->colCylinder[i].dim.radius = radius;
-        this->colCylinder[i].dim.height = height;
+        this->colliderCylinders[i].dim.yShift = yShift;
+        this->colliderCylinders[i].dim.radius = radius;
+        this->colliderCylinders[i].dim.height = height;
     }
     Actor_SetScale(&this->actor, 0.04f * scale);
     this->floorHeightOffset = 40.0f * scale;
@@ -291,7 +306,7 @@ void EnSsh_SetColliderScale(EnSsh* this, f32 scale, f32 radiusMod) {
 
 s32 EnSsh_Damaged(EnSsh* this) {
     if ((this->stunTimer == 120) && (this->stateFlags & SSH_STATE_STUNNED)) {
-        Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, this->stunTimer);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, this->stunTimer);
     }
     if (DECR(this->stunTimer) != 0) {
         Math_SmoothStepToS(&this->maxTurnRate, 0x2710, 0xA, 0x3E8, 1);
@@ -303,8 +318,8 @@ s32 EnSsh_Damaged(EnSsh* this) {
         if (this->swayTimer == 0) {
             this->spinTimer = 30;
         }
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_ROLL);
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_ST_ATTACK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_ROLL);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_ST_ATTACK);
         return true;
     }
 }
@@ -434,17 +449,17 @@ void EnSsh_Sway(EnSsh* this) {
 }
 
 void EnSsh_CheckBodyStickHit(EnSsh* this, PlayState* play) {
-    ColliderInfo* info = &this->colCylinder[0].info;
+    ColliderElement* elem = &this->colliderCylinders[0].elem;
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        info->bumper.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[1].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[2].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        elem->acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
+        this->colliderCylinders[1].elem.acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colliderCylinders[2].elem.acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
-        info->bumper.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[1].info.bumper.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[2].info.bumper.dmgFlags |= DMG_DEKU_STICK;
+        elem->acDmgInfo.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colliderCylinders[1].elem.acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
+        this->colliderCylinders[2].elem.acDmgInfo.dmgFlags |= DMG_DEKU_STICK;
     }
 }
 
@@ -456,8 +471,8 @@ s32 EnSsh_CheckHitPlayer(EnSsh* this, PlayState* play) {
         return false;
     }
     for (i = 0; i < 3; i++) {
-        if (this->colCylinder[i + 3].base.ocFlags2 & OC2_HIT_PLAYER) {
-            this->colCylinder[i + 3].base.ocFlags2 &= ~OC2_HIT_PLAYER;
+        if (this->colliderCylinders[i + 3].base.ocFlags2 & OC2_HIT_PLAYER) {
+            this->colliderCylinders[i + 3].base.ocFlags2 &= ~OC2_HIT_PLAYER;
             hit = true;
         }
     }
@@ -468,10 +483,10 @@ s32 EnSsh_CheckHitPlayer(EnSsh* this, PlayState* play) {
     if (this->swayTimer == 0) {
         this->spinTimer = this->hitTimer;
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_ROLL);
-    Audio_PlayActorSound2(&this->actor, NA_SE_VO_ST_ATTACK);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_ROLL);
+    Actor_PlaySfx(&this->actor, NA_SE_VO_ST_ATTACK);
     play->damagePlayer(play, -8);
-    func_8002F71C(play, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
+    Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
     this->hitCount--;
     return true;
 }
@@ -479,13 +494,13 @@ s32 EnSsh_CheckHitPlayer(EnSsh* this, PlayState* play) {
 s32 EnSsh_CheckHitFront(EnSsh* this) {
     u32 acFlags;
 
-    if (this->colCylinder[2].base.acFlags) {} // Needed for matching
-    acFlags = this->colCylinder[2].base.acFlags;
+    if (this->colliderCylinders[2].base.acFlags) {} // Needed for matching
+    acFlags = this->colliderCylinders[2].base.acFlags;
 
     if (!!(acFlags & AC_HIT) == 0) {
         return 0;
     } else {
-        this->colCylinder[2].base.acFlags &= ~AC_HIT;
+        this->colliderCylinders[2].base.acFlags &= ~AC_HIT;
         this->invincibilityTimer = 8;
         if ((this->swayTimer == 0) && (this->hitTimer == 0) && (this->stunTimer == 0)) {
             this->swayTimer = 60;
@@ -495,16 +510,16 @@ s32 EnSsh_CheckHitFront(EnSsh* this) {
 }
 
 s32 EnSsh_CheckHitBack(EnSsh* this, PlayState* play) {
-    ColliderCylinder* cyl = &this->colCylinder[0];
+    ColliderCylinder* collider = &this->colliderCylinders[0];
     s32 hit = false;
 
-    if (cyl->base.acFlags & AC_HIT) {
-        cyl->base.acFlags &= ~AC_HIT;
+    if (collider->base.acFlags & AC_HIT) {
+        collider->base.acFlags &= ~AC_HIT;
         hit = true;
     }
-    cyl = &this->colCylinder[1];
-    if (cyl->base.acFlags & AC_HIT) {
-        cyl->base.acFlags &= ~AC_HIT;
+    collider = &this->colliderCylinders[1];
+    if (collider->base.acFlags & AC_HIT) {
+        collider->base.acFlags &= ~AC_HIT;
         hit = true;
     }
     if (!hit) {
@@ -515,8 +530,8 @@ s32 EnSsh_CheckHitBack(EnSsh* this, PlayState* play) {
         this->hitCount++;
     }
     if (this->stunTimer == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_ST_DAMAGE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_ST_DAMAGE);
     }
     EnSsh_SetStunned(this);
     this->stateFlags |= SSH_STATE_STUNNED;
@@ -532,8 +547,8 @@ s32 EnSsh_CollisionCheck(EnSsh* this, PlayState* play) {
     } else if (play->actorCtx.unk_02 != 0) {
         this->invincibilityTimer = 8;
         if (this->stunTimer == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-            Audio_PlayActorSound2(&this->actor, NA_SE_VO_ST_DAMAGE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+            Actor_PlaySfx(&this->actor, NA_SE_VO_ST_DAMAGE);
         }
         EnSsh_SetStunned(this);
         this->stateFlags |= SSH_STATE_STUNNED;
@@ -545,19 +560,19 @@ s32 EnSsh_CollisionCheck(EnSsh* this, PlayState* play) {
 }
 
 void EnSsh_SetBodyCylinderAC(EnSsh* this, PlayState* play) {
-    Collider_UpdateCylinder(&this->actor, &this->colCylinder[0]);
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colCylinder[0].base);
+    Collider_UpdateCylinder(&this->actor, &this->colliderCylinders[0]);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinders[0].base);
 }
 
 void EnSsh_SetLegsCylinderAC(EnSsh* this, PlayState* play) {
     s16 angleTowardsLink = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
     if (angleTowardsLink < 90 * (0x10000 / 360)) {
-        Collider_UpdateCylinder(&this->actor, &this->colCylinder[2]);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colCylinder[2].base);
+        Collider_UpdateCylinder(&this->actor, &this->colliderCylinders[2]);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinders[2].base);
     } else {
-        Collider_UpdateCylinder(&this->actor, &this->colCylinder[1]);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colCylinder[1].base);
+        Collider_UpdateCylinder(&this->actor, &this->colliderCylinders[1]);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinders[1].base);
     }
 }
 
@@ -580,18 +595,18 @@ s32 EnSsh_SetCylinderOC(EnSsh* this, PlayState* play) {
         Matrix_RotateY(BINANG_TO_RAD_ALT(this->initialYaw), MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
         Matrix_Pop();
-        this->colCylinder[i + 3].dim.pos.x = cylPos.x;
-        this->colCylinder[i + 3].dim.pos.y = cylPos.y;
-        this->colCylinder[i + 3].dim.pos.z = cylPos.z;
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colCylinder[i + 3].base);
+        this->colliderCylinders[i + 3].dim.pos.x = cylPos.x;
+        this->colliderCylinders[i + 3].dim.pos.y = cylPos.y;
+        this->colliderCylinders[i + 3].dim.pos.z = cylPos.z;
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinders[i + 3].base);
     }
     return 1;
 }
 
 void EnSsh_SetColliders(EnSsh* this, PlayState* play) {
     if (this->actor.colChkInfo.health == 0) {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colSph.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colSph.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
     } else {
         if (this->hitTimer == 0) {
             EnSsh_SetCylinderOC(this, play);
@@ -610,11 +625,11 @@ void EnSsh_Init(Actor* thisx, PlayState* play) {
 
     frameCount = Animation_GetLastFrame(&object_ssh_Anim_000304);
     if (this->actor.params == ENSSH_FATHER) {
-        if (gSaveContext.inventory.gsTokens >= 100) {
+        if (gSaveContext.save.info.inventory.gsTokens >= 100) {
             Actor_Kill(&this->actor);
             return;
         }
-    } else if (gSaveContext.inventory.gsTokens >= (this->actor.params * 10)) {
+    } else if (gSaveContext.save.info.inventory.gsTokens >= (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -643,9 +658,9 @@ void EnSsh_Destroy(Actor* thisx, PlayState* play) {
 
     Effect_Delete(play, this->blureIdx);
     for (i = 0; i < 6; i++) {
-        Collider_DestroyCylinder(play, &this->colCylinder[i]);
+        Collider_DestroyCylinder(play, &this->colliderCylinders[i]);
     }
-    Collider_DestroyJntSph(play, &this->colSph);
+    Collider_DestroyJntSph(play, &this->colliderJntSph);
 }
 
 void EnSsh_Wait(EnSsh* this, PlayState* play) {
@@ -666,7 +681,7 @@ void EnSsh_Talk(EnSsh* this, PlayState* play) {
 
 void EnSsh_Idle(EnSsh* this, PlayState* play) {
     if (1) {}
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnSsh_Talk;
         if (this->actor.params == ENSSH_FATHER) {
             SET_EVENTCHKINF(EVENTCHKINF_96);
@@ -689,17 +704,17 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
             EnSsh_SetupAction(this, EnSsh_Return);
         } else {
             if (DECR(this->sfxTimer) == 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_LAUGH);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_LAUGH);
                 this->sfxTimer = 64;
             }
             EnSsh_Bob(this, play);
             if ((this->unkTimer == 0) && (this->animTimer == 0)) {
-                this->actor.textId = Text_GetFaceReaction(play, 0xD);
+                this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CURSED_SKULLTULA_MAN);
                 if (this->actor.textId == 0) {
                     if (this->actor.params == ENSSH_FATHER) {
-                        if (gSaveContext.inventory.gsTokens >= 50) {
+                        if (gSaveContext.save.info.inventory.gsTokens >= 50) {
                             this->actor.textId = 0x29;
-                        } else if (gSaveContext.inventory.gsTokens >= 10) {
+                        } else if (gSaveContext.save.info.inventory.gsTokens >= 10) {
                             if (GET_INFTABLE(INFTABLE_197)) {
                                 this->actor.textId = 0x24;
                             } else {
@@ -716,7 +731,7 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
                         this->actor.textId = 0x22;
                     }
                 }
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
         }
     }
@@ -748,7 +763,7 @@ void EnSsh_Drop(EnSsh* this, PlayState* play) {
         EnSsh_SetLandAnimation(this);
         EnSsh_SetupAction(this, EnSsh_Land);
     } else if (DECR(this->sfxTimer) == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DOWN);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_DOWN);
         this->sfxTimer = 3;
     }
 }
@@ -816,7 +831,7 @@ void EnSsh_Update(Actor* thisx, PlayState* play) {
         EnSsh_Damaged(this);
     } else {
         SkelAnime_Update(&this->skelAnime);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->actionFunc(this, play);
     }
@@ -867,7 +882,7 @@ s32 EnSsh_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnSsh_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSsh* this = (EnSsh*)thisx;
 
-    Collider_UpdateSpheres(limbIndex, &this->colSph);
+    Collider_UpdateSpheres(limbIndex, &this->colliderJntSph);
 }
 
 void EnSsh_Draw(Actor* thisx, PlayState* play) {

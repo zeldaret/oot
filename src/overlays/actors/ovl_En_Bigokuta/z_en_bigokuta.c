@@ -1,11 +1,31 @@
 #include "z_en_bigokuta.h"
+
+#include "array_count.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "rumble.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_bigokuta/object_bigokuta.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play);
 void EnBigokuta_Destroy(Actor* thisx, PlayState* play);
-void EnBigokuta_Update(Actor* thisx, PlayState* play);
+void EnBigokuta_Update(Actor* thisx, PlayState* play2);
 void EnBigokuta_Draw(Actor* thisx, PlayState* play);
 
 void func_809BD318(EnBigokuta* this);
@@ -30,26 +50,26 @@ static Color_RGBA8 sEffectPrimColor = { 255, 255, 255, 255 };
 static Color_RGBA8 sEffectEnvColor = { 100, 255, 255, 255 };
 static Vec3f sEffectPosAccel = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit En_Bigokuta_InitVars = {
-    ACTOR_EN_BIGOKUTA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BIGOKUTA,
-    sizeof(EnBigokuta),
-    (ActorFunc)EnBigokuta_Init,
-    (ActorFunc)EnBigokuta_Destroy,
-    (ActorFunc)EnBigokuta_Update,
-    (ActorFunc)EnBigokuta_Draw,
+ActorProfile En_Bigokuta_Profile = {
+    /**/ ACTOR_EN_BIGOKUTA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BIGOKUTA,
+    /**/ sizeof(EnBigokuta),
+    /**/ EnBigokuta_Init,
+    /**/ EnBigokuta_Destroy,
+    /**/ EnBigokuta_Update,
+    /**/ EnBigokuta_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK1,
+            ELEM_MATERIAL_UNK1,
             { 0x20000000, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_HARD,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_HARD,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 1, { { 0, 45, -30 }, 75 }, 100 },
@@ -58,20 +78,20 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sJntSphElementInit),
-    sJntSphElementInit,
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
 
 static ColliderCylinderInit sCylinderInit[] = {
     { {
-          COLTYPE_HARD,
+          COL_MATERIAL_HARD,
           AT_ON | AT_TYPE_ENEMY,
           AC_ON | AC_HARD | AC_TYPE_PLAYER,
           OC1_ON | OC1_TYPE_ALL,
@@ -79,16 +99,16 @@ static ColliderCylinderInit sCylinderInit[] = {
           COLSHAPE_CYLINDER,
       },
       {
-          ELEMTYPE_UNK1,
+          ELEM_MATERIAL_UNK1,
           { 0x20000000, 0x00, 0x08 },
           { 0xFFCFFFE7, 0x00, 0x00 },
-          TOUCH_ON | TOUCH_SFX_HARD,
-          BUMP_ON,
+          ATELEM_ON | ATELEM_SFX_HARD,
+          ACELEM_ON,
           OCELEM_ON,
       },
       { 50, 100, 0, { 30, 0, 12 } } },
     { {
-          COLTYPE_HARD,
+          COL_MATERIAL_HARD,
           AT_ON | AT_TYPE_ENEMY,
           AC_ON | AC_HARD | AC_TYPE_PLAYER,
           OC1_ON | OC1_TYPE_ALL,
@@ -96,11 +116,11 @@ static ColliderCylinderInit sCylinderInit[] = {
           COLSHAPE_CYLINDER,
       },
       {
-          ELEMTYPE_UNK1,
+          ELEM_MATERIAL_UNK1,
           { 0x20000000, 0x00, 0x08 },
           { 0xFFCFFFE7, 0x00, 0x00 },
-          TOUCH_ON | TOUCH_SFX_HARD,
-          BUMP_ON,
+          ATELEM_ON | ATELEM_SFX_HARD,
+          ACELEM_ON,
           OCELEM_ON,
       },
       { 50, 100, 0, { -30, 0, 12 } } },
@@ -144,15 +164,15 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BIGOCTO, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 33, ICHAIN_STOP),
 };
 
 // possibly color data
-static s32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
+static u32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play) {
     EnBigokuta* this = (EnBigokuta*)thisx;
@@ -163,13 +183,13 @@ void EnBigokuta_Init(Actor* thisx, PlayState* play) {
                        this->jointTable, this->morphTable, 20);
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, &this->element);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
-    this->collider.elements->dim.worldSphere.radius = this->collider.elements->dim.modelSphere.radius;
+    this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
 
     for (i = 0; i < ARRAY_COUNT(sCylinderInit); i++) {
-        Collider_InitCylinder(play, &this->cylinder[i]);
-        Collider_SetCylinder(play, &this->cylinder[i], &this->actor, &sCylinderInit[i]);
+        Collider_InitCylinder(play, &this->colliderCylinders[i]);
+        Collider_SetCylinder(play, &this->colliderCylinders[i], &this->actor, &sCylinderInit[i]);
     }
 
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, sColChkInfoInit);
@@ -192,8 +212,8 @@ void EnBigokuta_Destroy(Actor* thisx, PlayState* play) {
     s32 i;
 
     Collider_DestroyJntSph(play, &this->collider);
-    for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
-        Collider_DestroyCylinder(play, &this->cylinder[i]);
+    for (i = 0; i < ARRAY_COUNT(this->colliderCylinders); i++) {
+        Collider_DestroyCylinder(play, &this->colliderCylinders[i]);
     }
 }
 
@@ -244,7 +264,7 @@ void func_809BCF68(EnBigokuta* this, PlayState* play) {
     }
     EffectSsGSplash_Spawn(play, &effectPos, NULL, NULL, 1, 800);
     if (this->actionFunc != func_809BE4A4) {
-        func_8002F974(&this->actor, NA_SE_EN_DAIOCTA_SPLASH - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_DAIOCTA_SPLASH - SFX_FLAG);
     }
 }
 
@@ -260,9 +280,9 @@ void func_809BD1C8(EnBigokuta* this, PlayState* play) {
         EffectSsGSplash_Spawn(play, &effectPos, NULL, NULL, 1, 2000);
     }
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_LAND_WATER);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_LAND_BIG);
-    func_80033E88(&this->actor, play, 0xA, 8);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_LAND_WATER);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOLON_LAND_BIG);
+    Actor_RequestQuakeAndRumble(&this->actor, play, 10, 8);
 }
 
 void func_809BD2E4(EnBigokuta* this) {
@@ -283,7 +303,7 @@ void func_809BD318(EnBigokuta* this) {
 
 void func_809BD370(EnBigokuta* this) {
     this->unk_196 = 21;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actionFunc = func_809BD8DC;
 }
 
@@ -305,7 +325,7 @@ void func_809BD3F8(EnBigokuta* this) {
     this->unk_198 = 80;
     this->unk_19A = this->unk_194 * -0x200;
     func_809BCE3C(this);
-    this->cylinder[0].base.atFlags |= AT_ON;
+    this->colliderCylinders[0].base.atFlags |= AT_ON;
     this->collider.base.acFlags |= AC_ON;
     this->actionFunc = func_809BDC08;
 }
@@ -323,7 +343,7 @@ void func_809BD4A4(EnBigokuta* this) {
     this->actor.world.rot.x = this->actor.shape.rot.y + 0x8000;
     this->unk_19A = this->unk_194 * 0x200;
     this->collider.base.acFlags &= ~AC_ON;
-    this->cylinder[0].base.atFlags |= AT_ON;
+    this->colliderCylinders[0].base.atFlags |= AT_ON;
     this->actionFunc = func_809BDFC8;
 }
 
@@ -331,16 +351,16 @@ void func_809BD524(EnBigokuta* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_bigokuta_Anim_000D1C, -5.0f);
     this->unk_196 = 80;
     this->unk_19A = 0;
-    this->cylinder[0].base.atFlags |= AT_ON;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_MAHI);
-    if (this->collider.elements->info.acHitInfo->toucher.dmgFlags & DMG_DEKU_NUT) {
+    this->colliderCylinders[0].base.atFlags |= AT_ON;
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_MAHI);
+    if (this->collider.elements[0].base.acHitElem->atDmgInfo.dmgFlags & DMG_DEKU_NUT) {
         this->unk_195 = true;
         this->unk_196 = 20;
     } else {
         this->unk_195 = false;
         this->unk_196 = 80;
     }
-    Actor_SetColorFilter(&this->actor, 0, 255, 0, this->unk_196);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, this->unk_196);
     this->actionFunc = func_809BE058;
 }
 
@@ -348,14 +368,14 @@ void func_809BD5E0(EnBigokuta* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_bigokuta_Anim_000444, -5.0f);
     this->unk_196 = 24;
     this->unk_19A = 0;
-    this->cylinder[0].base.atFlags &= ~AT_ON;
-    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 24);
+    this->colliderCylinders[0].base.atFlags &= ~AT_ON;
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 24);
     this->actionFunc = func_809BE180;
 }
 void func_809BD658(EnBigokuta* this) {
 
     Animation_MorphToPlayOnce(&this->skelAnime, &object_bigokuta_Anim_000A74, -5.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_DEAD2);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_DEAD2);
     this->unk_196 = 38;
     this->unk_198 = 10;
     this->actionFunc = func_809BE26C;
@@ -383,9 +403,9 @@ void func_809BD6B8(EnBigokuta* this) {
 void func_809BD768(EnBigokuta* this) {
     this->unk_194 = Rand_ZeroOne() < 0.5f ? -1 : 1;
     this->unk_19A = 0;
-    this->actor.flags &= ~ACTOR_FLAG_0;
-    this->cylinder[0].base.atFlags &= ~AT_ON;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_SINK);
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+    this->colliderCylinders[0].base.atFlags &= ~AT_ON;
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_SINK);
     this->actionFunc = func_809BE4A4;
 }
 
@@ -402,7 +422,7 @@ void func_809BD84C(EnBigokuta* this, PlayState* play) {
     this->unk_196--;
 
     if (this->unk_196 == 13 || this->unk_196 == -20) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
     }
     if (this->unk_196 == 1) {
         func_800F5ACC(NA_BGM_MINI_BOSS);
@@ -433,9 +453,9 @@ void func_809BD8DC(EnBigokuta* this, PlayState* play) {
             EffectSsGSplash_Spawn(play, &effectPos, NULL, NULL, 1, 2000);
             effectPos.x = this->actor.world.pos.x - 40.0f;
             EffectSsGSplash_Spawn(play, &effectPos, NULL, NULL, 1, 2000);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_LAND_WATER);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_LAND_BIG);
-            func_800AA000(0.0f, 0xFF, 0x14, 0x96);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_LAND_WATER);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOLON_LAND_BIG);
+            Rumble_Request(0.0f, 255, 20, 150);
         }
     } else if (this->unk_196 < -1) {
         this->actor.world.pos.y = this->actor.home.pos.y - (sinf((this->unk_196 + 1) * (M_PI / 10)) * 20.0f);
@@ -455,7 +475,7 @@ void func_809BDAE8(EnBigokuta* this, PlayState* play) {
             this->actor.home.pos.y = this->actor.world.pos.y;
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
             this->actor.params = 2;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
             func_809BD3E0(this);
         }
     }
@@ -483,7 +503,7 @@ void func_809BDC08(EnBigokuta* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
     }
 
     if (this->unk_196 < 0) {
@@ -498,7 +518,7 @@ void func_809BDC08(EnBigokuta* this, PlayState* play) {
     }
 
     phi_v1 = (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) - 180.0f) * (8.0f / 15);
-    func_8002DBD0(&this->actor, &sp28, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &sp28, &player->actor.world.pos);
     if (fabsf(sp28.x) > 263.0f || ((sp28.z > 0.0f) && !Actor_IsFacingPlayer(&this->actor, 0x1B00) &&
                                    !Player_IsFacingActor(&this->actor, 0x2000, play))) {
         phi_v1 -= 0x80;
@@ -562,7 +582,7 @@ void func_809BDFC8(EnBigokuta* this, PlayState* play) {
         this->unk_196--;
     }
     if (this->unk_196 == 20) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
     }
     if ((this->unk_196 == 0) && Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.x, 0x800)) {
         this->unk_194 = -this->unk_194;
@@ -580,12 +600,12 @@ void func_809BE058(EnBigokuta* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->collider.base.ocFlags1 & OC1_HIT) || (this->cylinder[0].base.ocFlags1 & OC1_HIT) ||
-        (this->cylinder[1].base.ocFlags1 & OC1_HIT)) {
-        speedXZ = CLAMP_MIN(player->actor.speedXZ, 1.0f);
+    if ((this->collider.base.ocFlags1 & OC1_HIT) || (this->colliderCylinders[0].base.ocFlags1 & OC1_HIT) ||
+        (this->colliderCylinders[1].base.ocFlags1 & OC1_HIT)) {
+        speedXZ = CLAMP_MIN(player->actor.speed, 1.0f);
         if (!(this->collider.base.ocFlags1 & OC1_HIT)) {
-            this->cylinder[0].base.ocFlags1 &= ~OC1_HIT;
-            this->cylinder[1].base.ocFlags1 &= ~OC1_HIT;
+            this->colliderCylinders[0].base.ocFlags1 &= ~OC1_HIT;
+            this->colliderCylinders[1].base.ocFlags1 &= ~OC1_HIT;
             speedXZ *= -1.0f;
         }
         player->actor.world.pos.x -= speedXZ * Math_SinS(this->actor.shape.rot.y);
@@ -636,13 +656,13 @@ void func_809BE26C(EnBigokuta* this, PlayState* play) {
             effectPos.z = this->actor.world.pos.z;
             func_8002829C(play, &effectPos, &sEffectPosAccel, &sEffectPosAccel, &sEffectPrimColor, &sEffectEnvColor,
                           1200, 20);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
         }
         if (this->unk_198 == 0 && Math_StepToF(&this->actor.scale.y, 0.0f, 0.001f)) {
             Flags_SetClear(play, this->actor.room);
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
-            func_8005ACFC(play->cameraPtrs[CAM_ID_MAIN], 4);
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 50, NA_SE_EN_OCTAROCK_BUBLE);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+            Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 50, NA_SE_EN_OCTAROCK_BUBLE);
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xB0);
             Actor_Kill(&this->actor);
         }
@@ -684,7 +704,7 @@ void func_809BE4A4(EnBigokuta* this, PlayState* play) {
 
 void func_809BE518(EnBigokuta* this, PlayState* play) {
     if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 10.0f)) {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         func_809BD3F8(this);
     }
 }
@@ -694,21 +714,21 @@ void func_809BE568(EnBigokuta* this) {
     f32 sin = Math_SinS(this->actor.shape.rot.y);
     f32 cos = Math_CosS(this->actor.shape.rot.y);
 
-    this->collider.elements->dim.worldSphere.center.x =
-        (this->collider.elements->dim.modelSphere.center.z * sin) +
-        (this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
-    this->collider.elements->dim.worldSphere.center.z =
-        (this->actor.world.pos.z + (this->collider.elements->dim.modelSphere.center.z * cos)) -
-        (this->collider.elements->dim.modelSphere.center.x * sin);
-    this->collider.elements->dim.worldSphere.center.y =
-        this->collider.elements->dim.modelSphere.center.y + this->actor.world.pos.y;
+    this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x +
+                                                          (this->collider.elements[0].dim.modelSphere.center.x * cos) +
+                                                          (this->collider.elements[0].dim.modelSphere.center.z * sin);
+    this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z +
+                                                          (this->collider.elements[0].dim.modelSphere.center.z * cos) -
+                                                          (this->collider.elements[0].dim.modelSphere.center.x * sin);
+    this->collider.elements[0].dim.worldSphere.center.y =
+        this->actor.world.pos.y + this->collider.elements[0].dim.modelSphere.center.y;
 
-    for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
-        this->cylinder[i].dim.pos.x =
+    for (i = 0; i < ARRAY_COUNT(this->colliderCylinders); i++) {
+        this->colliderCylinders[i].dim.pos.x =
             this->actor.world.pos.x + sCylinderInit[i].dim.pos.z * sin + sCylinderInit[i].dim.pos.x * cos;
-        this->cylinder[i].dim.pos.z =
+        this->colliderCylinders[i].dim.pos.z =
             this->actor.world.pos.z + sCylinderInit[i].dim.pos.z * cos - sCylinderInit[i].dim.pos.x * sin;
-        this->cylinder[i].dim.pos.y = this->actor.world.pos.y;
+        this->colliderCylinders[i].dim.pos.y = this->actor.world.pos.y;
     }
 }
 
@@ -716,10 +736,10 @@ void func_809BE798(EnBigokuta* this, PlayState* play) {
     s16 effectRot;
     s16 yawDiff;
 
-    if ((this->cylinder[0].base.atFlags & AT_HIT) || (this->cylinder[1].base.atFlags & AT_HIT) ||
+    if ((this->colliderCylinders[0].base.atFlags & AT_HIT) || (this->colliderCylinders[1].base.atFlags & AT_HIT) ||
         (this->collider.base.atFlags & AT_HIT)) {
-        this->cylinder[0].base.atFlags &= ~AT_HIT;
-        this->cylinder[1].base.atFlags &= ~AT_HIT;
+        this->colliderCylinders[0].base.atFlags &= ~AT_HIT;
+        this->colliderCylinders[1].base.atFlags &= ~AT_HIT;
         this->collider.base.atFlags &= ~AT_HIT;
         yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
         if (yawDiff > 0x4000) {
@@ -731,7 +751,7 @@ void func_809BE798(EnBigokuta* this, PlayState* play) {
         } else {
             effectRot = -0x6000;
         }
-        func_8002F71C(play, &this->actor, 10.0f, this->actor.world.rot.y + effectRot, 5.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 10.0f, this->actor.world.rot.y + effectRot, 5.0f);
         if (this->actionFunc == func_809BDC08) {
             func_809BD4A4(this);
             this->unk_196 = 40;
@@ -747,19 +767,19 @@ void func_809BE798(EnBigokuta* this, PlayState* play) {
 void EnBigokuta_UpdateDamage(EnBigokuta* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
-            if (this->actor.colChkInfo.damageEffect == 1) {
+        if (this->actor.colChkInfo.damageReaction != 0 || this->actor.colChkInfo.damage != 0) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->actionFunc != func_809BE058) {
                     func_809BD524(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 0xF) {
+            } else if (this->actor.colChkInfo.damageReaction == 0xF) {
                 func_809BD47C(this);
             } else if (!Actor_IsFacingPlayer(&this->actor, 0x4000)) {
                 if (Actor_ApplyDamage(&this->actor) == 0) { // Dead
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_DEAD);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_DEAD);
                     Enemy_StartFinishingBlow(play, &this->actor);
                 } else {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_DAMAGE);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_DAMAGE);
                 }
                 func_809BD5E0(this);
             }
@@ -777,22 +797,22 @@ void EnBigokuta_Update(Actor* thisx, PlayState* play2) {
     this->actionFunc(this, play);
     func_809BD2E4(this);
     func_809BE568(this);
-    Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BIG_OCTO);
-    func_8005AD1C(play->cameraPtrs[CAM_ID_MAIN], 4);
+    Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BIG_OCTO);
+    Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
 
-    if (this->cylinder[0].base.atFlags & AT_ON) {
+    if (this->colliderCylinders[0].base.atFlags & AT_ON) {
         if (this->actionFunc != func_809BE058) {
-            for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
-                CollisionCheck_SetAT(play, &play->colChkCtx, &this->cylinder[i].base);
+            for (i = 0; i < ARRAY_COUNT(this->colliderCylinders); i++) {
+                CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinders[i].base);
             }
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
         } else {
-            for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
-                CollisionCheck_SetOC(play, &play->colChkCtx, &this->cylinder[i].base);
+            for (i = 0; i < ARRAY_COUNT(this->colliderCylinders); i++) {
+                CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinders[i].base);
             }
         }
-        for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->cylinder[i].base);
+        for (i = 0; i < ARRAY_COUNT(this->colliderCylinders); i++) {
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinders[i].base);
         }
         if (this->collider.base.acFlags & AC_ON) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
@@ -848,7 +868,6 @@ s32 EnBigokuta_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
         }
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, intensity, intensity, intensity, intensity);
-
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_bigokuta.c", 1972);
     } else if (limbIndex == 17 && this->actionFunc == func_809BE26C) {
         if (this->unk_198 < 5) {

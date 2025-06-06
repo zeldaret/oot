@@ -1,7 +1,15 @@
+#if PLATFORM_N64
+#include "n64dd.h"
+#endif
+#include "regs.h"
+#include "sys_matrix.h"
 #include "z_kaleido_scope.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/textures/parameter_static/parameter_static.h"
 
-typedef struct {
+typedef struct PauseMapMarkInfo {
     /* 0x00 */ void* texture;
     /* 0x04 */ u32 imageFormat;
     /* 0x08 */ u32 imageSize;
@@ -13,24 +21,13 @@ typedef struct {
     /* 0x20 */ u32 dtdy;
 } PauseMapMarkInfo; // size = 0x24
 
+#define GDP_LOADTEXTUREBLOCK_RUNTIME_QUALIFIERS const
+#include "src/code/gDPLoadTextureBlock_Runtime.inc.c"
+
 static PauseMapMarkInfo sMapMarkInfoTable[] = {
     { gMapChestIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1 << 10, 1 << 10 },
     { gMapBossIconTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1 << 10, 1 << 10 },
 };
-
-static const u32 sBaseImageSizes[] = { 0, 1, 2, 3 };
-static const u32 sLoadBlockImageSizes[] = { 2, 2, 2, 3 };
-static const u32 sIncrImageSizes[] = { 3, 1, 0, 0 };
-static const u32 sShiftImageSizes[] = { 2, 1, 0, 0 };
-static const u32 sBytesImageSizes[] = { 0, 1, 2, 4 };
-static const u32 sLineBytesImageSizes[] = { 0, 1, 2, 2 };
-
-#define G_IM_SIZ_MARK sBaseImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_LOAD_BLOCK sLoadBlockImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_INCR sIncrImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_SHIFT sShiftImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_BYTES sBytesImageSizes[markInfo->imageSize]
-#define G_IM_SIZ_MARK_LINE_BYTES sLineBytesImageSizes[markInfo->imageSize]
 
 extern PauseMapMarksData gPauseMapMarkDataTable[];
 
@@ -38,9 +35,19 @@ void PauseMapMark_Init(PlayState* play) {
     gBossMarkState = 0;
     gBossMarkScale = 1.0f;
     gLoadedPauseMarkDataTable = gPauseMapMarkDataTable;
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_34 != NULL)) {
+        B_80121220->unk_34(&gLoadedPauseMarkDataTable);
+    }
+#endif
 }
 
 void PauseMapMark_Clear(PlayState* play) {
+#if PLATFORM_N64
+    if ((B_80121220 != NULL) && (B_80121220->unk_38 != NULL)) {
+        B_80121220->unk_38(&gLoadedPauseMarkDataTable);
+    }
+#endif
     gLoadedPauseMarkDataTable = NULL;
 }
 
@@ -60,8 +67,8 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
             break;
         }
 
-        if ((mapMarkData->markType == PAUSE_MAP_MARK_BOSS) && (play->sceneNum >= SCENE_YDAN_BOSS) &&
-            (play->sceneNum <= SCENE_GANON_FINAL)) {
+        if ((mapMarkData->markType == PAUSE_MAP_MARK_BOSS) && (play->sceneId >= SCENE_DEKU_TREE_BOSS) &&
+            (play->sceneId <= SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR)) {
             if (gBossMarkState == 0) {
                 Math_ApproachF(&gBossMarkScale, 1.5f, 1.0f, 0.041f);
                 if (gBossMarkScale == 1.5f) {
@@ -80,7 +87,7 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
 
         Matrix_Push();
 
-        if ((play->pauseCtx.state == 4) || (play->pauseCtx.state >= 0x12)) {
+        if ((play->pauseCtx.state == PAUSE_STATE_OPENING_1) || (play->pauseCtx.state >= PAUSE_STATE_CLOSING)) {
             Matrix_Translate(-36.0f, 101.0f, 0.0f, MTXMODE_APPLY);
         } else {
             Matrix_Translate(-36.0f, 21.0f, 0.0f, MTXMODE_APPLY);
@@ -98,15 +105,15 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
                 if (Flags_GetTreasure(play, markPoint->chestFlag)) {
                     display = false;
                 } else {
-                    switch (play->sceneNum) {
-                        case SCENE_YDAN_BOSS:
-                        case SCENE_DDAN_BOSS:
-                        case SCENE_BDAN_BOSS:
-                        case SCENE_MORIBOSSROOM:
-                        case SCENE_FIRE_BS:
-                        case SCENE_MIZUSIN_BS:
-                        case SCENE_JYASINBOSS:
-                        case SCENE_HAKADAN_BS:
+                    switch (play->sceneId) {
+                        case SCENE_DEKU_TREE_BOSS:
+                        case SCENE_DODONGOS_CAVERN_BOSS:
+                        case SCENE_JABU_JABU_BOSS:
+                        case SCENE_FOREST_TEMPLE_BOSS:
+                        case SCENE_FIRE_TEMPLE_BOSS:
+                        case SCENE_WATER_TEMPLE_BOSS:
+                        case SCENE_SPIRIT_TEMPLE_BOSS:
+                        case SCENE_SHADOW_TEMPLE_BOSS:
                             display = false;
                             break;
                         default:
@@ -122,15 +129,21 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
                 markInfo = &sMapMarkInfoTable[mapMarkData->markType];
 
                 gDPPipeSync(POLY_OPA_DISP++);
-                gDPLoadTextureBlock(POLY_OPA_DISP++, markInfo->texture, markInfo->imageFormat, G_IM_SIZ_MARK,
-                                    markInfo->textureWidth, markInfo->textureHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock_Runtime(POLY_OPA_DISP++, markInfo->texture, markInfo->imageFormat,
+                                            markInfo->imageSize, markInfo->textureWidth, markInfo->textureHeight, 0,
+                                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                 Matrix_Push();
-                Matrix_Translate(GREG(92) + markPoint->x, GREG(93) + markPoint->y, 0.0f, MTXMODE_APPLY);
+
+#if DEBUG_FEATURES
+                Matrix_Translate(markPoint->x + GREG(92), markPoint->y + GREG(93), 0.0f, MTXMODE_APPLY);
+#else
+                Matrix_Translate(markPoint->x, markPoint->y, 0.0f, MTXMODE_APPLY);
+#endif
+
                 Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_lmap_mark.c", 272),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_lmap_mark.c", 272);
                 Matrix_Pop();
 
                 gSPVertex(POLY_OPA_DISP++, mapMarkData->vtx, mapMarkData->vtxCount, 0);
@@ -150,17 +163,17 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
 void PauseMapMark_Draw(PlayState* play) {
     PauseMapMark_Init(play);
 
-    switch (play->sceneNum) {
-        case SCENE_YDAN:
-        case SCENE_DDAN:
-        case SCENE_BDAN:
-        case SCENE_BMORI1:
-        case SCENE_HIDAN:
-        case SCENE_MIZUSIN:
-        case SCENE_JYASINZOU:
-        case SCENE_HAKADAN:
-        case SCENE_HAKADANCH:
-        case SCENE_ICE_DOUKUTO:
+    switch (play->sceneId) {
+        case SCENE_DEKU_TREE:
+        case SCENE_DODONGOS_CAVERN:
+        case SCENE_JABU_JABU:
+        case SCENE_FOREST_TEMPLE:
+        case SCENE_FIRE_TEMPLE:
+        case SCENE_WATER_TEMPLE:
+        case SCENE_SPIRIT_TEMPLE:
+        case SCENE_SHADOW_TEMPLE:
+        case SCENE_BOTTOM_OF_THE_WELL:
+        case SCENE_ICE_CAVERN:
             PauseMapMark_DrawForDungeon(play);
             break;
     }

@@ -6,12 +6,17 @@
 
 #include "z_eff_ss_solder_srch_ball.h"
 
+#include "bgcheck.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #define rUnused regs[1]
 
 u32 EffectSsSolderSrchBall_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsSolderSrchBall_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Solder_Srch_Ball_InitVars = {
+EffectSsProfile Effect_Ss_Solder_Srch_Ball_Profile = {
     EFFECT_SS_SOLDER_SRCH_BALL,
     EffectSsSolderSrchBall_Init,
 };

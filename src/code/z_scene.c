@@ -1,109 +1,148 @@
-#include "global.h"
-#include "vt.h"
+#include "array_count.h"
+#include "avoid_ub.h"
+#include "printf.h"
+#include "regs.h"
+#include "romfile.h"
+#include "seqcmd.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
+#include "terminal.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_actor_dlftbls.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+#include "scene.h"
 
-RomFile sNaviMsgFiles[];
+SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX];
+RomFile sNaviQuestHintFiles[];
 
-s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
+/**
+ * Spawn an object file of a specified ID that will persist through room changes.
+ *
+ * This waits for the file to be fully loaded, the data is available when the function returns.
+ *
+ * @return The new object slot corresponding to the requested object ID.
+ *
+ * @note This function is not meant to be called externally to spawn object files on the fly.
+ * When an object is spawned with this function, all objects that come before it in the entry list will be treated as
+ * persistent, which will likely cause either the amount of free slots or object space memory to run out.
+ * This function is only meant to be called internally on scene load, before the object list from any room is processed.
+ */
+s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     u32 size;
 
-    objectCtx->status[objectCtx->num].id = objectId;
+    objectCtx->slots[objectCtx->numEntries].id = objectId;
     size = gObjectTable[objectId].vromEnd - gObjectTable[objectId].vromStart;
 
-    osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectId, size / 1024.0f, objectCtx->status[objectCtx->num].segment);
+    PRINTF("OBJECT[%d] SIZE %fK SEG=%x\n", objectId, size / 1024.0f, objectCtx->slots[objectCtx->numEntries].segment);
 
-    osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (s32)objectCtx->status[objectCtx->num].segment + size,
-                 objectCtx->spaceEnd);
+    PRINTF("num=%d adrs=%x end=%x\n", objectCtx->numEntries,
+           (uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size, objectCtx->spaceEnd);
 
-    ASSERT(((objectCtx->num < OBJECT_EXCHANGE_BANK_MAX) &&
-            (((s32)objectCtx->status[objectCtx->num].segment + size) < (u32)objectCtx->spaceEnd)),
+    ASSERT(((objectCtx->numEntries < ARRAY_COUNT(objectCtx->slots)) &&
+            (((uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size) < (uintptr_t)objectCtx->spaceEnd)),
            "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
            "../z_scene.c", 142);
 
-    DmaMgr_SendRequest1(objectCtx->status[objectCtx->num].segment, gObjectTable[objectId].vromStart, size,
-                        "../z_scene.c", 145);
+    DMA_REQUEST_SYNC(objectCtx->slots[objectCtx->numEntries].segment, gObjectTable[objectId].vromStart, size,
+                     "../z_scene.c", 145);
 
-    if (objectCtx->num < OBJECT_EXCHANGE_BANK_MAX - 1) {
-        objectCtx->status[objectCtx->num + 1].segment =
-            (void*)ALIGN16((s32)objectCtx->status[objectCtx->num].segment + size);
+    if (objectCtx->numEntries < (ARRAY_COUNT(objectCtx->slots) - 1)) {
+        objectCtx->slots[objectCtx->numEntries + 1].segment =
+            (void*)ALIGN16((uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size);
     }
 
-    objectCtx->num++;
-    objectCtx->unk_09 = objectCtx->num;
+    objectCtx->numEntries++;
+    objectCtx->numPersistentEntries = objectCtx->numEntries;
 
-    return objectCtx->num - 1;
+    return objectCtx->numEntries - 1;
 }
 
-void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
-    PlayState* play2 = play; // Needs to be a new variable to match (possibly a sub struct?)
+// PAL N64 versions reduce the size of object space by 4 KiB in order to give some space back to
+// the Zelda arena, which can help prevent an issue where actors fail to spawn in specific areas
+// (sometimes referred to as the "Hyrule Field Glitch" although it can happen in more places than Hyrule Field).
+#if !OOT_PAL_N64
+#define OBJECT_SPACE_ADJUSTMENT 0
+#else
+#define OBJECT_SPACE_ADJUSTMENT (4 * 1024)
+#endif
+
+void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
+    PlayState* play2 = play;
+    s32 pad;
     u32 spaceSize;
     s32 i;
 
-    if (play2->sceneNum == SCENE_SPOT00) {
-        spaceSize = 1024000;
-    } else if (play2->sceneNum == SCENE_GANON_DEMO) {
-        if (gSaveContext.sceneSetupIndex != 4) {
-            spaceSize = 1177600;
+    if (play2->sceneId == SCENE_HYRULE_FIELD) {
+        spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
+    } else if (play2->sceneId == SCENE_GANON_BOSS) {
+        if (gSaveContext.sceneLayer != 4) {
+            spaceSize = 1150 * 1024 - OBJECT_SPACE_ADJUSTMENT;
         } else {
-            spaceSize = 1024000;
+            spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
         }
-    } else if (play2->sceneNum == SCENE_JYASINBOSS) {
-        spaceSize = 1075200;
-    } else if (play2->sceneNum == SCENE_KENJYANOMA) {
-        spaceSize = 1075200;
-    } else if (play2->sceneNum == SCENE_GANON_BOSS) {
-        spaceSize = 1075200;
+    } else if (play2->sceneId == SCENE_SPIRIT_TEMPLE_BOSS) {
+        spaceSize = 1050 * 1024 - OBJECT_SPACE_ADJUSTMENT;
+    } else if (play2->sceneId == SCENE_CHAMBER_OF_THE_SAGES) {
+        spaceSize = 1050 * 1024 - OBJECT_SPACE_ADJUSTMENT;
+    } else if (play2->sceneId == SCENE_GANONDORF_BOSS) {
+        spaceSize = 1050 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     } else {
-        spaceSize = 1024000;
+        spaceSize = 1000 * 1024 - OBJECT_SPACE_ADJUSTMENT;
     }
 
-    objectCtx->num = objectCtx->unk_09 = 0;
-    objectCtx->mainKeepIndex = objectCtx->subKeepIndex = 0;
+    objectCtx->numEntries = objectCtx->numPersistentEntries = 0;
+    objectCtx->mainKeepSlot = objectCtx->subKeepSlot = 0;
 
-    for (i = 0; i < OBJECT_EXCHANGE_BANK_MAX; i++) {
-        objectCtx->status[i].id = OBJECT_INVALID;
+    for (i = 0; i < ARRAY_COUNT(objectCtx->slots); i++) {
+        objectCtx->slots[i].id = OBJECT_INVALID;
     }
 
-    osSyncPrintf(VT_FGCOL(GREEN));
-    // "Object exchange bank data %8.3fKB"
-    osSyncPrintf("オブジェクト入れ替えバンク情報 %8.3fKB\n", spaceSize / 1024.0f);
-    osSyncPrintf(VT_RST);
+    PRINTF_COLOR_GREEN();
+    PRINTF(T("オブジェクト入れ替えバンク情報 %8.3fKB\n", "Object exchange bank data %8.3fKB\n"), spaceSize / 1024.0f);
+    PRINTF_RST();
 
-    objectCtx->spaceStart = objectCtx->status[0].segment =
-        GameState_Alloc(&play->state, spaceSize, "../z_scene.c", 219);
-    objectCtx->spaceEnd = (void*)((s32)objectCtx->spaceStart + spaceSize);
+    objectCtx->spaceStart = objectCtx->slots[0].segment =
+        GAME_STATE_ALLOC(&play->state, spaceSize, "../z_scene.c", 219);
+    objectCtx->spaceEnd = (void*)((uintptr_t)objectCtx->spaceStart + spaceSize);
 
-    objectCtx->mainKeepIndex = Object_Spawn(objectCtx, OBJECT_GAMEPLAY_KEEP);
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(objectCtx->status[objectCtx->mainKeepIndex].segment);
+    objectCtx->mainKeepSlot = Object_SpawnPersistent(objectCtx, OBJECT_GAMEPLAY_KEEP);
+    gSegments[4] = OS_K0_TO_PHYSICAL(objectCtx->slots[objectCtx->mainKeepSlot].segment);
 }
 
-void Object_UpdateBank(ObjectContext* objectCtx) {
+void Object_UpdateEntries(ObjectContext* objectCtx) {
     s32 i;
-    ObjectStatus* status = &objectCtx->status[0];
+    ObjectEntry* entry = &objectCtx->slots[0];
     RomFile* objectFile;
     u32 size;
 
-    for (i = 0; i < objectCtx->num; i++) {
-        if (status->id < 0) {
-            if (status->dmaRequest.vromAddr == 0) {
-                osCreateMesgQueue(&status->loadQueue, &status->loadMsg, 1);
-                objectFile = &gObjectTable[-status->id];
+    for (i = 0; i < objectCtx->numEntries; i++) {
+        if (entry->id < 0) {
+            if (entry->dmaRequest.vromAddr == 0) {
+                osCreateMesgQueue(&entry->loadQueue, &entry->loadMsg, 1);
+                objectFile = &gObjectTable[-entry->id];
                 size = objectFile->vromEnd - objectFile->vromStart;
-                osSyncPrintf("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, status->segment);
-                DmaMgr_SendRequest2(&status->dmaRequest, status->segment, objectFile->vromStart, size, 0,
-                                    &status->loadQueue, NULL, "../z_scene.c", 266);
-            } else if (osRecvMesg(&status->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
-                status->id = -status->id;
+
+                PRINTF("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, entry->segment);
+
+                DMA_REQUEST_ASYNC(&entry->dmaRequest, entry->segment, objectFile->vromStart, size, 0, &entry->loadQueue,
+                                  NULL, "../z_scene.c", 266);
+            } else if (osRecvMesg(&entry->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
+                entry->id = -entry->id;
             }
         }
-        status++;
+        entry++;
     }
 }
 
-s32 Object_GetIndex(ObjectContext* objectCtx, s16 objectId) {
+s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId) {
     s32 i;
 
-    for (i = 0; i < objectCtx->num; i++) {
-        if (ABS(objectCtx->status[i].id) == objectId) {
+    for (i = 0; i < objectCtx->numEntries; i++) {
+        if (ABS(objectCtx->slots[i].id) == objectId) {
             return i;
         }
     }
@@ -111,8 +150,8 @@ s32 Object_GetIndex(ObjectContext* objectCtx, s16 objectId) {
     return -1;
 }
 
-s32 Object_IsLoaded(ObjectContext* objectCtx, s32 bankIndex) {
-    if (objectCtx->status[bankIndex].id > 0) {
+s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot) {
+    if (objectCtx->slots[slot].id > 0) {
         return true;
     } else {
         return false;
@@ -124,180 +163,181 @@ void func_800981B8(ObjectContext* objectCtx) {
     s32 id;
     u32 size;
 
-    for (i = 0; i < objectCtx->num; i++) {
-        id = objectCtx->status[i].id;
+    for (i = 0; i < objectCtx->numEntries; i++) {
+        id = objectCtx->slots[i].id;
         size = gObjectTable[id].vromEnd - gObjectTable[id].vromStart;
-        osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectCtx->status[i].id, size / 1024.0f,
-                     objectCtx->status[i].segment);
-        osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (s32)objectCtx->status[i].segment + size,
-                     objectCtx->spaceEnd);
-        DmaMgr_SendRequest1(objectCtx->status[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
+        PRINTF("OBJECT[%d] SIZE %fK SEG=%x\n", objectCtx->slots[i].id, size / 1024.0f, objectCtx->slots[i].segment);
+        PRINTF("num=%d adrs=%x end=%x\n", objectCtx->numEntries, (uintptr_t)objectCtx->slots[i].segment + size,
+               objectCtx->spaceEnd);
+        DMA_REQUEST_SYNC(objectCtx->slots[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
     }
 }
 
-void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
-    ObjectStatus* status = &objectCtx->status[bankIndex];
+void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
+    ObjectEntry* entry = &objectCtx->slots[slot];
     RomFile* objectFile = &gObjectTable[objectId];
     u32 size;
     void* nextPtr;
 
-    status->id = -objectId;
-    status->dmaRequest.vromAddr = 0;
+    entry->id = -objectId;
+    entry->dmaRequest.vromAddr = 0;
 
     size = objectFile->vromEnd - objectFile->vromStart;
-    osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", bankIndex, objectId, size / 1024.0f);
+    PRINTF("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", slot, objectId, size / 1024.0f);
 
-    nextPtr = (void*)ALIGN16((s32)status->segment + size);
-    if (1) {} // Necessary to match
+    nextPtr = (void*)ALIGN16((uintptr_t)entry->segment + size);
 
     ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
-    // "Object exchange free size=%08x"
-    osSyncPrintf("オブジェクト入れ替え空きサイズ=%08x\n", (s32)objectCtx->spaceEnd - (s32)nextPtr);
+    PRINTF(T("オブジェクト入れ替え空きサイズ=%08x\n", "Object exchange free size=%08x\n"),
+           (uintptr_t)objectCtx->spaceEnd - (uintptr_t)nextPtr);
 
     return nextPtr;
 }
 
 s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
-    u32 cmdCode;
-
     while (true) {
-        cmdCode = sceneCmd->base.code;
-        osSyncPrintf("*** Scene_Word = { code=%d, data1=%02x, data2=%04x } ***\n", cmdCode, sceneCmd->base.data1,
-                     sceneCmd->base.data2);
+        u32 cmdCode = sceneCmd->base.code;
+
+        PRINTF("*** Scene_Word = { code=%d, data1=%02x, data2=%04x } ***\n", cmdCode, sceneCmd->base.data1,
+               sceneCmd->base.data2);
 
         if (cmdCode == SCENE_CMD_ID_END) {
             break;
         }
 
-        if (cmdCode < ARRAY_COUNT(gSceneCmdHandlers)) {
-            gSceneCmdHandlers[cmdCode](play, sceneCmd);
+        if (cmdCode < ARRAY_COUNT(sSceneCmdHandlers)) {
+            sSceneCmdHandlers[cmdCode](play, sceneCmd);
         } else {
-            osSyncPrintf(VT_FGCOL(RED));
-            osSyncPrintf("code の値が異常です\n"); // "code variable is abnormal"
-            osSyncPrintf(VT_RST);
+            PRINTF_COLOR_RED();
+            PRINTF(T("code の値が異常です\n", "code variable is abnormal\n"));
+            PRINTF_RST();
         }
+
         sceneCmd++;
     }
+
     return 0;
 }
 
-void Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
-    ActorEntry* linkEntry = play->linkActorEntry =
-        (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.data) + play->setupEntranceList[play->curSpawn].spawn;
+BAD_RETURN(s32) Scene_CommandPlayerEntryList(PlayState* play, SceneCmd* cmd) {
+    ActorEntry* playerEntry = play->playerEntry =
+        (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->playerEntryList.data) + play->spawnList[play->spawn].playerEntryIndex;
     s16 linkObjectId;
 
-    play->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
+    play->linkAgeOnLoad = ((void)0, gSaveContext.save.linkAge);
 
-    linkObjectId = gLinkObjectIds[((void)0, gSaveContext.linkAge)];
+    linkObjectId = gLinkObjectIds[((void)0, gSaveContext.save.linkAge)];
 
-    gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
-    Object_Spawn(&play->objectCtx, linkObjectId);
+    gActorOverlayTable[playerEntry->id].profile->objectId = linkObjectId;
+    Object_SpawnPersistent(&play->objectCtx, linkObjectId);
 }
 
-void Scene_CommandActorList(PlayState* play, SceneCmd* cmd) {
-    play->numSetupActors = cmd->actorList.length;
-    play->setupActorList = SEGMENTED_TO_VIRTUAL(cmd->actorList.data);
+BAD_RETURN(s32) Scene_CommandActorEntryList(PlayState* play, SceneCmd* cmd) {
+    play->numActorEntries = cmd->actorEntryList.length;
+    play->actorEntryList = SEGMENTED_TO_VIRTUAL(cmd->actorEntryList.data);
 }
 
-void Scene_CommandUnused2(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandUnused2(PlayState* play, SceneCmd* cmd) {
     play->unk_11DFC = SEGMENTED_TO_VIRTUAL(cmd->unused02.segment);
 }
 
-void Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandCollisionHeader(PlayState* play, SceneCmd* cmd) {
     CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(cmd->colHeader.data);
 
     colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
     colHeader->polyList = SEGMENTED_TO_VIRTUAL(colHeader->polyList);
     colHeader->surfaceTypeList = SEGMENTED_TO_VIRTUAL(colHeader->surfaceTypeList);
-    colHeader->cameraDataList = SEGMENTED_TO_VIRTUAL(colHeader->cameraDataList);
+    colHeader->bgCamList = SEGMENTED_TO_VIRTUAL(colHeader->bgCamList);
     colHeader->waterBoxes = SEGMENTED_TO_VIRTUAL(colHeader->waterBoxes);
 
     BgCheck_Allocate(&play->colCtx, play, colHeader);
 }
 
-void Scene_CommandRoomList(PlayState* play, SceneCmd* cmd) {
-    play->numRooms = cmd->roomList.length;
-    play->roomList = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
+BAD_RETURN(s32) Scene_CommandRoomList(PlayState* play, SceneCmd* cmd) {
+    play->roomList.count = cmd->roomList.length;
+    play->roomList.romFiles = SEGMENTED_TO_VIRTUAL(cmd->roomList.data);
 }
 
-void Scene_CommandEntranceList(PlayState* play, SceneCmd* cmd) {
-    play->setupEntranceList = SEGMENTED_TO_VIRTUAL(cmd->entranceList.data);
+BAD_RETURN(s32) Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
+    play->spawnList = SEGMENTED_TO_VIRTUAL(cmd->spawnList.data);
 }
 
-void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
     if (cmd->specialFiles.keepObjectId != OBJECT_INVALID) {
-        play->objectCtx.subKeepIndex = Object_Spawn(&play->objectCtx, cmd->specialFiles.keepObjectId);
-        gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[play->objectCtx.subKeepIndex].segment);
+        play->objectCtx.subKeepSlot = Object_SpawnPersistent(&play->objectCtx, cmd->specialFiles.keepObjectId);
+        gSegments[5] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[play->objectCtx.subKeepSlot].segment);
     }
 
-    if (cmd->specialFiles.cUpElfMsgNum != 0) {
-        play->cUpElfMsgs = Play_LoadFile(play, &sNaviMsgFiles[cmd->specialFiles.cUpElfMsgNum - 1]);
+    if (cmd->specialFiles.naviQuestHintFileId != NAVI_QUEST_HINTS_NONE) {
+        play->naviQuestHints = Play_LoadFile(play, &sNaviQuestHintFiles[cmd->specialFiles.naviQuestHintFileId - 1]);
     }
 }
 
-void Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
-    play->roomCtx.curRoom.behaviorType1 = cmd->roomBehavior.gpFlag1;
-    play->roomCtx.curRoom.behaviorType2 = cmd->roomBehavior.gpFlag2 & 0xFF;
+BAD_RETURN(s32) Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
+    play->roomCtx.curRoom.type = cmd->roomBehavior.gpFlag1;
+    play->roomCtx.curRoom.environmentType = cmd->roomBehavior.gpFlag2 & 0xFF;
     play->roomCtx.curRoom.lensMode = (cmd->roomBehavior.gpFlag2 >> 8) & 1;
     play->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }
 
-void Scene_CommandMeshHeader(PlayState* play, SceneCmd* cmd) {
-    play->roomCtx.curRoom.meshHeader = SEGMENTED_TO_VIRTUAL(cmd->mesh.data);
+BAD_RETURN(s32) Scene_CommandRoomShape(PlayState* play, SceneCmd* cmd) {
+    play->roomCtx.curRoom.roomShape = SEGMENTED_TO_VIRTUAL(cmd->mesh.data);
 }
 
-void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
     s32 i;
     s32 j;
     s32 k;
-    ObjectStatus* status;
-    ObjectStatus* status2;
-    ObjectStatus* firstStatus;
-    s16* objectEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.data);
+    ObjectEntry* entry;
+    ObjectEntry* invalidatedEntry;
+    ObjectEntry* entries;
+    s16* objectListEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.data);
     void* nextPtr;
 
     k = 0;
-    i = play->objectCtx.unk_09;
-    firstStatus = &play->objectCtx.status[0];
-    status = &play->objectCtx.status[i];
+    i = play->objectCtx.numPersistentEntries;
+    entries = play->objectCtx.slots;
+    entry = &play->objectCtx.slots[i];
 
-    while (i < play->objectCtx.num) {
-        if (status->id != *objectEntry) {
-            status2 = &play->objectCtx.status[i];
-            for (j = i; j < play->objectCtx.num; j++) {
-                status2->id = OBJECT_INVALID;
-                status2++;
+    while (i < play->objectCtx.numEntries) {
+        if (entry->id != *objectListEntry) {
+
+            invalidatedEntry = &play->objectCtx.slots[i];
+            for (j = i; j < play->objectCtx.numEntries; j++) {
+                invalidatedEntry->id = OBJECT_INVALID;
+                invalidatedEntry++;
             }
-            play->objectCtx.num = i;
-            func_80031A28(play, &play->actorCtx);
+
+            play->objectCtx.numEntries = i;
+            Actor_KillAllWithMissingObject(play, &play->actorCtx);
 
             continue;
         }
 
         i++;
         k++;
-        objectEntry++;
-        status++;
+        objectListEntry++;
+        entry++;
     }
 
-    ASSERT(cmd->objectList.length <= OBJECT_EXCHANGE_BANK_MAX,
+    ASSERT(cmd->objectList.length <= ARRAY_COUNT(play->objectCtx.slots),
            "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
 
     while (k < cmd->objectList.length) {
-        nextPtr = func_800982FC(&play->objectCtx, i, *objectEntry);
-        if (i < OBJECT_EXCHANGE_BANK_MAX - 1) {
-            firstStatus[i + 1].segment = nextPtr;
+        nextPtr = func_800982FC(&play->objectCtx, i, *objectListEntry);
+        if (i < (ARRAY_COUNT(play->objectCtx.slots) - 1)) {
+            entries[i + 1].segment = nextPtr;
         }
         i++;
         k++;
-        objectEntry++;
+        objectListEntry++;
     }
 
-    play->objectCtx.num = i;
+    play->objectCtx.numEntries = i;
 }
 
-void Scene_CommandLightList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandLightList(PlayState* play, SceneCmd* cmd) {
     s32 i;
     LightInfo* lightInfo = SEGMENTED_TO_VIRTUAL(cmd->lightList.data);
 
@@ -307,38 +347,38 @@ void Scene_CommandLightList(PlayState* play, SceneCmd* cmd) {
     }
 }
 
-void Scene_CommandPathList(PlayState* play, SceneCmd* cmd) {
-    play->setupPathList = SEGMENTED_TO_VIRTUAL(cmd->pathList.data);
+BAD_RETURN(s32) Scene_CommandPathList(PlayState* play, SceneCmd* cmd) {
+    play->pathList = SEGMENTED_TO_VIRTUAL(cmd->pathList.data);
 }
 
-void Scene_CommandTransitionActorList(PlayState* play, SceneCmd* cmd) {
-    play->transiActorCtx.numActors = cmd->transiActorList.length;
-    play->transiActorCtx.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.data);
+BAD_RETURN(s32) Scene_CommandTransitionActorEntryList(PlayState* play, SceneCmd* cmd) {
+    play->transitionActors.count = cmd->transiActorList.length;
+    play->transitionActors.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.data);
 }
 
-void TransitionActor_InitContext(GameState* state, TransitionActorContext* transiActorCtx) {
-    transiActorCtx->numActors = 0;
+void Scene_ResetTransitionActorList(GameState* state, TransitionActorList* transitionActors) {
+    transitionActors->count = 0;
 }
 
-void Scene_CommandLightSettingsList(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandLightSettingsList(PlayState* play, SceneCmd* cmd) {
     play->envCtx.numLightSettings = cmd->lightSettingList.length;
     play->envCtx.lightSettingsList = SEGMENTED_TO_VIRTUAL(cmd->lightSettingList.data);
 }
 
-void Scene_CommandSkyboxSettings(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandSkyboxSettings(PlayState* play, SceneCmd* cmd) {
     play->skyboxId = cmd->skyboxSettings.skyboxId;
     play->envCtx.skyboxConfig = play->envCtx.changeSkyboxNextConfig = cmd->skyboxSettings.skyboxConfig;
     play->envCtx.lightMode = cmd->skyboxSettings.envLightMode;
 }
 
-void Scene_CommandSkyboxDisables(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandSkyboxDisables(PlayState* play, SceneCmd* cmd) {
     play->envCtx.skyboxDisabled = cmd->skyboxDisables.skyboxDisabled;
     play->envCtx.sunMoonDisabled = cmd->skyboxDisables.sunMoonDisabled;
 }
 
-void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
-        gSaveContext.skyboxTime = gSaveContext.dayTime =
+        gSaveContext.skyboxTime = gSaveContext.save.dayTime =
             ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / ((f32)(24 * 60) / 0x10000);
     }
 
@@ -352,18 +392,27 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
         gTimeSpeed = play->envCtx.sceneTimeSpeed;
     }
 
-    play->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    play->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    play->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
+    play->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    play->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    play->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
-    if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
-        (gSaveContext.entranceIndex == ENTR_SPOT06_8)) {
-        gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
+    if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) ||
+        (gSaveContext.save.entranceIndex == ENTR_LAKE_HYLIA_8)) {
+#if OOT_VERSION >= PAL_1_0
+        gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
+#endif
 
+#if OOT_VERSION < PAL_1_0
+        if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(5, 0))) {
+            gSaveContext.skyboxTime = CLOCK_TIME(5, 0) + 1;
+        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(6, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(8, 0))) {
+            gSaveContext.skyboxTime = CLOCK_TIME(8, 0) + 1;
+#else
         if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {
             gSaveContext.skyboxTime = CLOCK_TIME(5, 0) + 1;
         } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(6, 30)) && (gSaveContext.skyboxTime <= CLOCK_TIME(8, 0))) {
             gSaveContext.skyboxTime = CLOCK_TIME(8, 0) + 1;
+#endif
         } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(16, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(17, 0))) {
             gSaveContext.skyboxTime = CLOCK_TIME(17, 0) + 1;
         } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(18, 0) + 1) &&
@@ -373,7 +422,7 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     }
 }
 
-void Scene_CommandWindSettings(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandWindSettings(PlayState* play, SceneCmd* cmd) {
     s8 x = cmd->windSettings.x;
     s8 y = cmd->windSettings.y;
     s8 z = cmd->windSettings.z;
@@ -385,51 +434,47 @@ void Scene_CommandWindSettings(PlayState* play, SceneCmd* cmd) {
     play->envCtx.windSpeed = cmd->windSettings.unk_07;
 }
 
-void Scene_CommandExitList(PlayState* play, SceneCmd* cmd) {
-    play->setupExitList = SEGMENTED_TO_VIRTUAL(cmd->exitList.data);
+BAD_RETURN(s32) Scene_CommandExitList(PlayState* play, SceneCmd* cmd) {
+    play->exitList = SEGMENTED_TO_VIRTUAL(cmd->exitList.data);
 }
 
-void Scene_CommandUndefined9(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandUndefined9(PlayState* play, SceneCmd* cmd) {
 }
 
-void Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
-    play->sequenceCtx.seqId = cmd->soundSettings.seqId;
-    play->sequenceCtx.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
+BAD_RETURN(s32) Scene_CommandSoundSettings(PlayState* play, SceneCmd* cmd) {
+    play->sceneSequences.seqId = cmd->soundSettings.seqId;
+    play->sceneSequences.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
 
     if (gSaveContext.seqId == (u8)NA_BGM_DISABLED) {
-        Audio_QueueSeqCmd(cmd->soundSettings.specId | 0xF0000000);
+        SEQCMD_RESET_AUDIO_HEAP(0, cmd->soundSettings.specId);
     }
 }
 
-void Scene_CommandEchoSettings(PlayState* play, SceneCmd* cmd) {
+BAD_RETURN(s32) Scene_CommandEchoSettings(PlayState* play, SceneCmd* cmd) {
     play->roomCtx.curRoom.echo = cmd->echoSettings.echo;
 }
 
-void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
-    s32 pad;
-    SceneCmd* altHeader;
+BAD_RETURN(s32) Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
+    PRINTF("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.save.linkAge));
+    PRINTF("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.save.cutsceneIndex));
+    PRINTF("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneLayer));
 
-    osSyncPrintf("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.linkAge));
-    osSyncPrintf("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.cutsceneIndex));
-    osSyncPrintf("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneSetupIndex));
-
-    if (gSaveContext.sceneSetupIndex != 0) {
-        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneSetupIndex - 1];
-
-        if (1) {}
+    if (gSaveContext.sceneLayer != 0) {
+        SceneCmd* altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
 
         if (altHeader != NULL) {
             Scene_ExecuteCommands(play, SEGMENTED_TO_VIRTUAL(altHeader));
             (cmd + 1)->base.code = SCENE_CMD_ID_END;
         } else {
-            // "Coughh! There is no specified dataaaaa!"
-            osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
+            PRINTF(T("\nげぼはっ！ 指定されたデータがないでええっす！", "\nCoughh! There is no specified dataaaaa!"));
 
-            if (gSaveContext.sceneSetupIndex == 3) {
-                altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneSetupIndex - 2];
+            if (gSaveContext.sceneLayer == SCENE_LAYER_ADULT_NIGHT) {
+                // Due to the condition above, this is equivalent to accessing altHeaders[SCENE_LAYER_ADULT_DAY - 1]
+                SceneCmd* altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(
+                    cmd->altHeaders
+                        .data))[(gSaveContext.sceneLayer - SCENE_LAYER_ADULT_NIGHT) + SCENE_LAYER_ADULT_DAY - 1];
 
-                // "Using adult day data there!"
-                osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");
+                PRINTF(T("\nそこで、大人の昼データを使用するでええっす！！", "\nUsing adult day data there!!"));
 
                 if (altHeader != NULL) {
                     Scene_ExecuteCommands(play, SEGMENTED_TO_VIRTUAL(altHeader));
@@ -440,91 +485,81 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
     }
 }
 
-void Scene_CommandCutsceneData(PlayState* play, SceneCmd* cmd) {
-    osSyncPrintf("\ngame_play->demo_play.data=[%x]", play->csCtx.segment);
-    play->csCtx.segment = SEGMENTED_TO_VIRTUAL(cmd->cutsceneData.data);
+BAD_RETURN(s32) Scene_CommandCutsceneData(PlayState* play, SceneCmd* cmd) {
+    PRINTF("\ngame_play->demo_play.data=[%x]", play->csCtx.script);
+    play->csCtx.script = SEGMENTED_TO_VIRTUAL(cmd->cutsceneData.data);
 }
 
-// Camera & World Map Area
-void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
-    YREG(15) = cmd->miscSettings.cameraMovement;
+BAD_RETURN(s32) Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
+    R_SCENE_CAM_TYPE = cmd->miscSettings.sceneCamType;
     gSaveContext.worldMapArea = cmd->miscSettings.area;
 
-    if ((play->sceneNum == SCENE_SHOP1) || (play->sceneNum == SCENE_SYATEKIJYOU)) {
+    if ((play->sceneId == SCENE_BAZAAR) || (play->sceneId == SCENE_SHOOTING_GALLERY)) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-            gSaveContext.worldMapArea = 1;
+            gSaveContext.worldMapArea = WORLD_MAP_AREA_KAKARIKO_VILLAGE;
         }
     }
 
-    if (((play->sceneNum >= SCENE_SPOT00) && (play->sceneNum <= SCENE_GANON_TOU)) ||
-        ((play->sceneNum >= SCENE_ENTRA) && (play->sceneNum <= SCENE_SHRINE_R))) {
-        if (gSaveContext.cutsceneIndex < 0xFFF0) {
-            gSaveContext.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
-            osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.worldMapAreaData,
-                         gSaveContext.worldMapArea);
+    if (((play->sceneId >= SCENE_HYRULE_FIELD) && (play->sceneId <= SCENE_OUTSIDE_GANONS_CASTLE)) ||
+        ((play->sceneId >= SCENE_MARKET_ENTRANCE_DAY) && (play->sceneId <= SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS))) {
+        if (gSaveContext.save.cutsceneIndex < 0xFFF0) {
+            gSaveContext.save.info.worldMapAreaData |= gBitFlags[((void)0, gSaveContext.worldMapArea)];
+            PRINTF("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.save.info.worldMapAreaData,
+                   ((void)0, gSaveContext.worldMapArea));
         }
     }
 }
 
-void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
-    Scene_CommandSpawnList,           // SCENE_CMD_ID_SPAWN_LIST
-    Scene_CommandActorList,           // SCENE_CMD_ID_ACTOR_LIST
-    Scene_CommandUnused2,             // SCENE_CMD_ID_UNUSED_2
-    Scene_CommandCollisionHeader,     // SCENE_CMD_ID_COLLISION_HEADER
-    Scene_CommandRoomList,            // SCENE_CMD_ID_ROOM_LIST
-    Scene_CommandWindSettings,        // SCENE_CMD_ID_WIND_SETTINGS
-    Scene_CommandEntranceList,        // SCENE_CMD_ID_ENTRANCE_LIST
-    Scene_CommandSpecialFiles,        // SCENE_CMD_ID_SPECIAL_FILES
-    Scene_CommandRoomBehavior,        // SCENE_CMD_ID_ROOM_BEHAVIOR
-    Scene_CommandUndefined9,          // SCENE_CMD_ID_UNDEFINED_9
-    Scene_CommandMeshHeader,          // SCENE_CMD_ID_MESH_HEADER
-    Scene_CommandObjectList,          // SCENE_CMD_ID_OBJECT_LIST
-    Scene_CommandLightList,           // SCENE_CMD_ID_LIGHT_LIST
-    Scene_CommandPathList,            // SCENE_CMD_ID_PATH_LIST
-    Scene_CommandTransitionActorList, // SCENE_CMD_ID_TRANSITION_ACTOR_LIST
-    Scene_CommandLightSettingsList,   // SCENE_CMD_ID_LIGHT_SETTINGS_LIST
-    Scene_CommandTimeSettings,        // SCENE_CMD_ID_TIME_SETTINGS
-    Scene_CommandSkyboxSettings,      // SCENE_CMD_ID_SKYBOX_SETTINGS
-    Scene_CommandSkyboxDisables,      // SCENE_CMD_ID_SKYBOX_DISABLES
-    Scene_CommandExitList,            // SCENE_CMD_ID_EXIT_LIST
-    NULL,                             // SCENE_CMD_ID_END
-    Scene_CommandSoundSettings,       // SCENE_CMD_ID_SOUND_SETTINGS
-    Scene_CommandEchoSettings,        // SCENE_CMD_ID_ECHO_SETTINGS
-    Scene_CommandCutsceneData,        // SCENE_CMD_ID_CUTSCENE_DATA
-    Scene_CommandAlternateHeaderList, // SCENE_CMD_ID_ALTERNATE_HEADER_LIST
-    Scene_CommandMiscSettings,        // SCENE_CMD_ID_MISC_SETTINGS
+void Scene_SetTransitionForNextEntrance(PlayState* play) {
+    s16 entranceIndex;
+
+    if (!IS_DAY) {
+        if (!LINK_IS_ADULT) {
+            entranceIndex = play->nextEntranceIndex + 1;
+        } else {
+            entranceIndex = play->nextEntranceIndex + 3;
+        }
+    } else {
+        if (!LINK_IS_ADULT) {
+            entranceIndex = play->nextEntranceIndex;
+        } else {
+            entranceIndex = play->nextEntranceIndex + 2;
+        }
+    }
+
+    play->transitionType = ENTRANCE_INFO_START_TRANS_TYPE(gEntranceTable[entranceIndex].field);
+}
+
+SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
+    Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_SPAWN_LIST
+    Scene_CommandActorEntryList,           // SCENE_CMD_ID_ACTOR_LIST
+    Scene_CommandUnused2,                  // SCENE_CMD_ID_UNUSED_2
+    Scene_CommandCollisionHeader,          // SCENE_CMD_ID_COLLISION_HEADER
+    Scene_CommandRoomList,                 // SCENE_CMD_ID_ROOM_LIST
+    Scene_CommandWindSettings,             // SCENE_CMD_ID_WIND_SETTINGS
+    Scene_CommandSpawnList,                // SCENE_CMD_ID_ENTRANCE_LIST
+    Scene_CommandSpecialFiles,             // SCENE_CMD_ID_SPECIAL_FILES
+    Scene_CommandRoomBehavior,             // SCENE_CMD_ID_ROOM_BEHAVIOR
+    Scene_CommandUndefined9,               // SCENE_CMD_ID_UNDEFINED_9
+    Scene_CommandRoomShape,                // SCENE_CMD_ID_ROOM_SHAPE
+    Scene_CommandObjectList,               // SCENE_CMD_ID_OBJECT_LIST
+    Scene_CommandLightList,                // SCENE_CMD_ID_LIGHT_LIST
+    Scene_CommandPathList,                 // SCENE_CMD_ID_PATH_LIST
+    Scene_CommandTransitionActorEntryList, // SCENE_CMD_ID_TRANSITION_ACTOR_LIST
+    Scene_CommandLightSettingsList,        // SCENE_CMD_ID_LIGHT_SETTINGS_LIST
+    Scene_CommandTimeSettings,             // SCENE_CMD_ID_TIME_SETTINGS
+    Scene_CommandSkyboxSettings,           // SCENE_CMD_ID_SKYBOX_SETTINGS
+    Scene_CommandSkyboxDisables,           // SCENE_CMD_ID_SKYBOX_DISABLES
+    Scene_CommandExitList,                 // SCENE_CMD_ID_EXIT_LIST
+    NULL,                                  // SCENE_CMD_ID_END
+    Scene_CommandSoundSettings,            // SCENE_CMD_ID_SOUND_SETTINGS
+    Scene_CommandEchoSettings,             // SCENE_CMD_ID_ECHO_SETTINGS
+    Scene_CommandCutsceneData,             // SCENE_CMD_ID_CUTSCENE_DATA
+    Scene_CommandAlternateHeaderList,      // SCENE_CMD_ID_ALTERNATE_HEADER_LIST
+    Scene_CommandMiscSettings,             // SCENE_CMD_ID_MISC_SETTINGS
 };
 
-RomFile sNaviMsgFiles[] = {
+RomFile sNaviQuestHintFiles[] = {
     ROM_FILE(elf_message_field),
     ROM_FILE(elf_message_ydan),
-    ROM_FILE_UNSET,
 };
-
-s16 gLinkObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
-
-u32 gObjectTableSize = ARRAY_COUNT(gObjectTable);
-
-// Object linker symbol declarations (used in the table below)
-#define DEFINE_OBJECT(name, _1) DECLARE_ROM_SEGMENT(name)
-#define DEFINE_OBJECT_NULL(_0, _1)
-#define DEFINE_OBJECT_UNSET(_0)
-
-#include "tables/object_table.h"
-
-#undef DEFINE_OBJECT
-#undef DEFINE_OBJECT_NULL
-#undef DEFINE_OBJECT_UNSET
-
-// Object Table definition
-#define DEFINE_OBJECT(name, _1) ROM_FILE(name),
-#define DEFINE_OBJECT_NULL(name, _1) ROM_FILE_EMPTY(name),
-#define DEFINE_OBJECT_UNSET(_0) { 0 },
-
-RomFile gObjectTable[] = {
-#include "tables/object_table.h"
-};
-
-#undef DEFINE_OBJECT
-#undef DEFINE_OBJECT_NULL
-#undef DEFINE_OBJECT_UNSET

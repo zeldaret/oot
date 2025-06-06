@@ -6,8 +6,17 @@
 
 #include "z_bg_jya_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
-#include "vt.h"
 
 #define FLAGS 0
 
@@ -16,26 +25,26 @@ void BgJyaBombiwa_Destroy(Actor* thisx, PlayState* play);
 void BgJyaBombiwa_Update(Actor* thisx, PlayState* play);
 void BgJyaBombiwa_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Jya_Bombiwa_InitVars = {
-    ACTOR_BG_JYA_BOMBIWA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaBombiwa),
-    (ActorFunc)BgJyaBombiwa_Init,
-    (ActorFunc)BgJyaBombiwa_Destroy,
-    (ActorFunc)BgJyaBombiwa_Update,
-    (ActorFunc)BgJyaBombiwa_Draw,
+ActorProfile Bg_Jya_Bombiwa_Profile = {
+    /**/ ACTOR_BG_JYA_BOMBIWA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaBombiwa),
+    /**/ BgJyaBombiwa_Init,
+    /**/ BgJyaBombiwa_Destroy,
+    /**/ BgJyaBombiwa_Update,
+    /**/ BgJyaBombiwa_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 50 }, 100 },
@@ -44,7 +53,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -57,54 +66,56 @@ static ColliderJntSphInit sJntSphInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, PlayState* play, CollisionHeader* collision, s32 flag) {
-    s16 pad1;
+    s32 pad1;
     CollisionHeader* colHeader = NULL;
-    s16 pad2;
 
     DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.bgId == BG_ACTOR_MAX) {
 
-        // "Warning: move BG registration failed"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombiwa.c", 174,
-                     this->dyna.actor.id, this->dyna.actor.params);
+#if DEBUG_FEATURES
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
+        s32 pad2;
+
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_bg_jya_bombiwa.c", 174, this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
     BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
-    if ((this->dyna.actor.params & 0x3F) != 0x29) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
-
-        // "Warning: Switch Number changed (%s %d)(SW %d)"
-        osSyncPrintf("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n", "../z_bg_jya_bombiwa.c", 218,
-                     this->dyna.actor.params & 0x3F);
-        osSyncPrintf(VT_RST);
+    if (PARAMS_GET_U(this->dyna.actor.params, 0, 6) != 0x29) {
+        PRINTF_COLOR_WARNING();
+        PRINTF(T("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n",
+                 "Warning : Switch Number has been changed (%s %d)(SW %d)\n"),
+               "../z_bg_jya_bombiwa.c", 218, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
+        PRINTF_RST();
     }
-    BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, DPM_UNK);
+    BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, 0);
     BgJyaBombiwa_InitCollider(this, play);
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         Actor_Kill(&this->dyna.actor);
     } else {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-        // "Rock destroyed by jya bomb"
-        osSyncPrintf("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", this->dyna.actor.params);
+        PRINTF(T("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", "(jya bomb destroys rocks)(arg_data 0x%04x)\n"),
+               this->dyna.actor.params);
     }
 }
 
@@ -164,8 +175,8 @@ void BgJyaBombiwa_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, play);
-        Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

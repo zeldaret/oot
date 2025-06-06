@@ -1,55 +1,73 @@
-#include "global.h"
+#include "array_count.h"
+#include "ultra64.h"
 
 s32 osContStartReadData(OSMesgQueue* mq) {
     s32 ret;
 
     __osSiGetAccess();
-    if (__osContLastPoll != 1) {
+    if (__osContLastCmd != CONT_CMD_READ_BUTTON) {
         __osPackReadData();
-        __osSiRawStartDma(OS_WRITE, &__osPifInternalBuff);
+        __osSiRawStartDma(OS_WRITE, &__osContPifRam);
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
     }
-    ret = __osSiRawStartDma(OS_READ, &__osPifInternalBuff);
-    __osContLastPoll = CONT_CMD_READ_BUTTON;
+    ret = __osSiRawStartDma(OS_READ, &__osContPifRam);
+#ifdef BBPLAYER
+    __osContLastCmd = CONT_CMD_CHANNEL_RESET;
+#else
+    __osContLastCmd = CONT_CMD_READ_BUTTON;
+#endif
     __osSiRelAccess();
     return ret;
 }
 
 void osContGetReadData(OSContPad* contData) {
-    u8* bufptr = (u8*)(&__osPifInternalBuff);
-    __OSContReadHeader read;
+    u8* ptr = (u8*)&__osContPifRam;
+    __OSContReadFormat read;
     s32 i;
 
-    for (i = 0; i < __osMaxControllers; i++, bufptr += sizeof(read), contData++) {
-        read = *((__OSContReadHeader*)bufptr);
-        contData->errno = (read.rxsize & 0xC0) >> 4;
+    for (i = 0; i < __osMaxControllers; i++, ptr += sizeof(read), contData++) {
+        read = *((__OSContReadFormat*)ptr);
+
+        contData->errno = CHNL_ERR(read);
         if (contData->errno == 0) {
             contData->button = read.button;
             contData->stick_x = read.joyX;
             contData->stick_y = read.joyY;
         }
-    };
+    }
+
+#ifdef BBPLAYER
+    if (__osBbIsBb && __osBbHackFlags != 0) {
+        OSContPad tmp;
+        contData -= __osMaxControllers;
+
+        tmp = contData[0];
+        contData[0] = contData[__osBbHackFlags];
+        contData[__osBbHackFlags] = tmp;
+    }
+#endif
 }
 
 void __osPackReadData(void) {
-    u8* bufptr = (u8*)(&__osPifInternalBuff);
-    __OSContReadHeader read;
+    u8* ptr = (u8*)&__osContPifRam;
+    __OSContReadFormat read;
     s32 i;
 
-    for (i = 0; i < 0xF; i++) {
-        __osPifInternalBuff.ram[i] = 0;
+    for (i = 0; i < ARRAY_COUNT(__osContPifRam.ram); i++) {
+        __osContPifRam.ram[i] = 0;
     }
-    __osPifInternalBuff.status = 1;
-    read.align = 0xFF;
-    read.txsize = 1;
-    read.rxsize = 4;
-    read.poll = CONT_CMD_READ_BUTTON;
+    __osContPifRam.status = CONT_CMD_EXE;
+
+    read.align = CONT_CMD_NOP;
+    read.txsize = CONT_CMD_READ_BUTTON_TX;
+    read.rxsize = CONT_CMD_READ_BUTTON_RX;
+    read.cmd = CONT_CMD_READ_BUTTON;
     read.button = 0xFFFF;
-    read.joyX = 0xFF;
-    read.joyY = 0xFF;
+    read.joyX = -1;
+    read.joyY = -1;
     for (i = 0; i < __osMaxControllers; i++) {
-        *((__OSContReadHeader*)bufptr) = read;
-        bufptr += sizeof(read);
+        *((__OSContReadFormat*)ptr) = read;
+        ptr += sizeof(read);
     }
-    *((u8*)bufptr) = CONT_CMD_END;
+    *ptr = CONT_CMD_END;
 }

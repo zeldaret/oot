@@ -2,11 +2,11 @@
 #define Z_OBJECT_KANKYO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct ObjectKankyo;
 
-typedef void (*ObjectKankyoActionFunc)(struct ObjectKankyo*, PlayState*);
+typedef void (*ObjectKankyoActionFunc)(struct ObjectKankyo*, struct PlayState*);
 
 typedef struct ObjectKankyoEffect {
     /* 0x00 */ u8 state;
@@ -30,7 +30,7 @@ typedef struct ObjectKankyo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ObjectKankyoEffect effects[64];
     /* 0x164C */ Vec3f prevEyePos;
-    /* 0x1658 */ u8 requiredObjBankIndex;
+    /* 0x1658 */ u8 requiredObjectSlot;
     /* 0x1659 */ u8 requiredObjectLoaded;
     /* 0x165C */ ObjectKankyoActionFunc actionFunc;
 } ObjectKankyo; // size = 0x1660

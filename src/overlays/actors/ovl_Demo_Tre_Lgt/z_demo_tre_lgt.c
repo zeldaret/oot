@@ -1,8 +1,18 @@
 #include "z_demo_tre_lgt.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "curve.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_box/object_box.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void DemoTreLgt_Init(Actor* thisx, PlayState* play);
 void DemoTreLgt_Destroy(Actor* thisx, PlayState* play);
@@ -14,7 +24,7 @@ void func_80993754(DemoTreLgt* this);
 void func_8099375C(DemoTreLgt* this, PlayState* play);
 void func_809937B4(DemoTreLgt* this, PlayState* play, f32 currentFrame);
 
-typedef struct {
+typedef struct DemoTreLgtInfo {
     /* 0x00 */ f32 startFrame;
     /* 0x04 */ f32 endFrame;
     /* 0x08 */ f32 unk_08;
@@ -26,16 +36,16 @@ static DemoTreLgtInfo sDemoTreLgtInfo[] = {
     { 1.0f, 136.0f, 220.0f, 50.0f },
 };
 
-const ActorInit Demo_Tre_Lgt_InitVars = {
-    ACTOR_DEMO_TRE_LGT,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_BOX,
-    sizeof(DemoTreLgt),
-    (ActorFunc)DemoTreLgt_Init,
-    (ActorFunc)DemoTreLgt_Destroy,
-    (ActorFunc)DemoTreLgt_Update,
-    (ActorFunc)DemoTreLgt_Draw,
+ActorProfile Demo_Tre_Lgt_Profile = {
+    /**/ ACTOR_DEMO_TRE_LGT,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_BOX,
+    /**/ sizeof(DemoTreLgt),
+    /**/ DemoTreLgt_Init,
+    /**/ DemoTreLgt_Destroy,
+    /**/ DemoTreLgt_Update,
+    /**/ DemoTreLgt_Draw,
 };
 
 static CurveAnimationHeader* sAnimations[] = { &gTreasureChestCurveAnim_4B60, &gTreasureChestCurveAnim_4F70 };
@@ -49,8 +59,7 @@ void DemoTreLgt_Init(Actor* thisx, PlayState* play) {
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     if (!SkelCurve_Init(play, &this->skelCurve, &gTreasureChestCurveSkel, sAnimations[0])) {
-        // "Demo_Tre_Lgt_Actor_ct (); Construct failed"
-        osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
+        PRINTF(T("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n", "Demo_Tre_Lgt_Actor_ct(); Construct failed\n"));
     }
 
     ASSERT(true, "1", "../z_demo_tre_lgt.c", UNK_LINE);
@@ -85,8 +94,9 @@ void func_809937B4(DemoTreLgt* this, PlayState* play, f32 currentFrame) {
 
     this->action = DEMO_TRE_LGT_ACTION_ANIMATE;
 
-    SkelCurve_SetAnim(skelCurve, sAnimations[gSaveContext.linkAge], 1.0f,
-                      sDemoTreLgtInfo[gSaveContext.linkAge].endFrame + sDemoTreLgtInfo[gSaveContext.linkAge].unk_08,
+    SkelCurve_SetAnim(skelCurve, sAnimations[gSaveContext.save.linkAge], 1.0f,
+                      sDemoTreLgtInfo[gSaveContext.save.linkAge].endFrame +
+                          sDemoTreLgtInfo[gSaveContext.save.linkAge].unk_08,
                       currentFrame, 1.0f);
     SkelCurve_Update(play, skelCurve);
 }
@@ -94,31 +104,32 @@ void func_809937B4(DemoTreLgt* this, PlayState* play, f32 currentFrame) {
 void func_80993848(DemoTreLgt* this, PlayState* play) {
     f32 currentFrame = this->skelCurve.curFrame;
 
-    if (currentFrame < sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].endFrame) {
+    if (currentFrame < sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].endFrame) {
         this->unk_170 = 255;
     } else {
-        if (currentFrame <= (sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].endFrame +
-                             sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].unk_08)) {
-            this->unk_170 = ((((sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].endFrame - currentFrame) /
-                               sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].unk_08) *
+        if (currentFrame <= (sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].endFrame +
+                             sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_08)) {
+            this->unk_170 = ((((sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].endFrame - currentFrame) /
+                               sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_08) *
                               255.0f) +
                              255.0f);
         } else {
             this->unk_170 = 0;
         }
     }
-    if (currentFrame < sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].unk_0C) {
+    if (currentFrame < sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_0C) {
         this->unk_174 = 255;
-    } else if (currentFrame < (sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].unk_0C + 10.0f)) {
+    } else if (currentFrame < (sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_0C + 10.0f)) {
         this->unk_174 =
-            ((((sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].unk_0C - currentFrame) / 10.0f) * 255.0f) + 255.0f);
+            ((((sDemoTreLgtInfo[((void)0, gSaveContext.save.linkAge)].unk_0C - currentFrame) / 10.0f) * 255.0f) +
+             255.0f);
     } else {
         this->unk_174 = 0;
     }
     if ((currentFrame > 30.0f) && !(this->status & 1)) {
         this->status |= 1;
-        Audio_PlaySoundGeneral(NA_SE_EV_TRE_BOX_FLASH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EV_TRE_BOX_FLASH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
     if (SkelCurve_Update(play, &this->skelCurve)) {
         Actor_Kill(&this->actor);
@@ -137,7 +148,7 @@ s32 DemoTreLgt_OverrideLimbDraw(PlayState* play, SkelCurve* skelCurve, s32 limbI
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_tre_lgt.c", 423);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->state.frames * 2) % 256, 0, 64, 32, 1,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->state.frames * 2) % 256, 0, 64, 32, 1,
                                 (play->state.frames * -2) % 256, 0, 64, 32));
 
     if (limbIndex == 1) {

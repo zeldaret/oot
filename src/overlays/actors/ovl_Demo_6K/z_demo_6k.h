@@ -2,11 +2,12 @@
 #define Z_DEMO_6K_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "light.h"
 
 struct Demo6K;
 
-typedef void (*Demo6KActionFunc)(struct Demo6K*, PlayState*);
+typedef void (*Demo6KActionFunc)(struct Demo6K*, struct PlayState*);
 
 typedef struct Demo6K {
     /* 0x0000 */ Actor actor;
@@ -27,7 +28,7 @@ typedef struct Demo6K {
     /* 0x028C */ u16 flags;
     /* 0x028E */ u16 timer1;
     /* 0x0290 */ u16 timer2;
-    /* 0x0292 */ u8 objBankIndex;
+    /* 0x0292 */ u8 requiredObjectSlot;
     /* 0x0293 */ u8 unk_293;
 } Demo6K; // size = 0x0294
 

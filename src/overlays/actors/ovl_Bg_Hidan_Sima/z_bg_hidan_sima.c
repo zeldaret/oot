@@ -5,6 +5,19 @@
  */
 
 #include "z_bg_hidan_sima.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
@@ -21,37 +34,37 @@ void func_8088E760(BgHidanSima* this, PlayState* play);
 void func_8088E7A8(BgHidanSima* this, PlayState* play);
 void func_8088E90C(BgHidanSima* this);
 
-const ActorInit Bg_Hidan_Sima_InitVars = {
-    ACTOR_BG_HIDAN_SIMA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanSima),
-    (ActorFunc)BgHidanSima_Init,
-    (ActorFunc)BgHidanSima_Destroy,
-    (ActorFunc)BgHidanSima_Update,
-    (ActorFunc)BgHidanSima_Draw,
+ActorProfile Bg_Hidan_Sima_Profile = {
+    /**/ ACTOR_BG_HIDAN_SIMA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanSima),
+    /**/ BgHidanSima_Init,
+    /**/ BgHidanSima_Destroy,
+    /**/ BgHidanSima_Update,
+    /**/ BgHidanSima_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 1, { { 0, 40, 100 }, 22 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_NONE,
         },
         { 1, { { 0, 40, 145 }, 30 }, 100 },
@@ -60,7 +73,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -87,7 +100,7 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     s32 i;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     if (this->dyna.actor.params == 0) {
         CollisionHeader_GetVirtual(&gFireTempleStonePlatform1Col, &colHeader);
     } else {
@@ -95,7 +108,7 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     }
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
     for (i = 0; i < ARRAY_COUNT(sJntSphElementsInit); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
@@ -117,7 +130,7 @@ void func_8088E518(BgHidanSima* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.4f);
-    if (func_8004356C(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
         this->timer = 20;
         this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4000;
         if (this->dyna.actor.home.pos.y <= this->dyna.actor.world.pos.y) {
@@ -143,13 +156,13 @@ void func_8088E5D0(BgHidanSima* this, PlayState* play) {
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
     }
     if (!(this->timer % 4)) {
-        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+        Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
 void func_8088E6D0(BgHidanSima* this, PlayState* play) {
-    if (func_8004356C(&this->dyna)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         this->timer = 20;
     } else if (this->timer != 0) {
         this->timer--;
@@ -188,7 +201,7 @@ void func_8088E7A8(BgHidanSima* this, PlayState* play) {
         this->timer = 20;
         this->actionFunc = func_8088E760;
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
 }
 
 void func_8088E90C(BgHidanSima* this) {
@@ -226,14 +239,14 @@ void BgHidanSima_Update(Actor* thisx, PlayState* play) {
 
 Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     MtxF mtxF;
-    s32 phi_s5;
     s32 s3;
     s32 v0;
+    s32 phi_s5;
     f32 cos;
     f32 sin;
     s32 pad[2];
 
-    Matrix_MtxFCopy(&mtxF, &gMtxFClear);
+    Matrix_MtxFCopy(&mtxF, &gIdentityMtxF);
     cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
     sin = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
 
@@ -259,8 +272,8 @@ Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
 
         gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[(this->timer + s3) % 7]));
         gSPMatrix(gfx++,
-                  Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 611),
-                                   Graph_Alloc(play->state.gfxCtx, sizeof(Mtx))),
+                  Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(&mtxF, "../z_bg_hidan_sima.c", 611),
+                                   GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx))),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfx++, gFireTempleFireballDL);
     }
@@ -268,8 +281,8 @@ Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     mtxF.zw = this->dyna.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
     gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[(this->timer + s3) % 7]));
     gSPMatrix(gfx++,
-              Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 624),
-                               Graph_Alloc(play->state.gfxCtx, sizeof(Mtx))),
+              Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(&mtxF, "../z_bg_hidan_sima.c", 624),
+                               GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfx++, gFireTempleFireballDL);
     return gfx;
@@ -280,8 +293,7 @@ void BgHidanSima_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_sima.c", 645);
     if (this->dyna.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform1DL);
     } else {

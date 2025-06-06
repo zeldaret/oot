@@ -5,12 +5,26 @@
  */
 
 #include "z_en_mm.h"
+
+#include "libc64/math64.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_mm/object_mm.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
-typedef enum {
+typedef enum RunningManAnimIndex {
     /* 0 */ RM_ANIM_RUN,
     /* 1 */ RM_ANIM_SIT,
     /* 2 */ RM_ANIM_SIT_WAIT,
@@ -20,7 +34,7 @@ typedef enum {
     /* 6 */ RM_ANIM_HAPPY    // plays when you sell him the bunny hood
 } RunningManAnimIndex;
 
-typedef enum {
+typedef enum RunningManMouthTex {
     /* 0 */ RM_MOUTH_CLOSED,
     /* 1 */ RM_MOUTH_OPEN
 } RunningManMouthTex;
@@ -39,21 +53,21 @@ s32 func_80AADA70(void);
 s32 EnMm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 
-const ActorInit En_Mm_InitVars = {
-    ACTOR_EN_MM,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MM,
-    sizeof(EnMm),
-    (ActorFunc)EnMm_Init,
-    (ActorFunc)EnMm_Destroy,
-    (ActorFunc)EnMm_Update,
-    (ActorFunc)EnMm_Draw,
+ActorProfile En_Mm_Profile = {
+    /**/ ACTOR_EN_MM,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MM,
+    /**/ sizeof(EnMm),
+    /**/ EnMm_Init,
+    /**/ EnMm_Destroy,
+    /**/ EnMm_Update,
+    /**/ EnMm_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -61,11 +75,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 63, 0, { 0, 0, 0 } },
@@ -115,7 +129,7 @@ static AnimationSpeedInfo sAnimationInfo[] = {
     { &gRunningManHappyAnim, 1.0f, ANIMMODE_LOOP, -12.0f },
 };
 
-typedef struct {
+typedef struct EnMmPathInfo {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
@@ -130,7 +144,7 @@ static EnMmPathInfo sPathInfo[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_STOP),
 };
 
 void EnMm_ChangeAnim(EnMm* this, s32 index, s32* currentIndex) {
@@ -173,13 +187,13 @@ void EnMm_Init(Actor* thisx, PlayState* play) {
                      Animation_GetLastFrame(sAnimationInfo[RM_ANIM_RUN].animation), sAnimationInfo[RM_ANIM_RUN].mode,
                      sAnimationInfo[RM_ANIM_RUN].morphFrames);
 
-    this->path = this->actor.params & 0xFF;
+    this->path = PARAMS_GET_U(this->actor.params, 0, 8);
     this->unk_1F0 = 2;
     this->unk_1E8 = 0;
-    this->actor.targetMode = 2;
+    this->actor.attentionRangeType = ATTENTION_RANGE_2;
     this->actor.gravity = -1.0f;
     this->speedXZ = 3.0f;
-    this->unk_204 = this->actor.objBankIndex;
+    this->unk_204 = this->actor.objectSlot;
 
     if (func_80AADA70() == 1) {
         this->mouthTexIndex = RM_MOUTH_OPEN;
@@ -202,7 +216,7 @@ void EnMm_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80AADA70(void) {
     s32 isDay = false;
 
-    if ((gSaveContext.dayTime > CLOCK_TIME(5, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(20, 0) + 1)) {
+    if ((gSaveContext.save.dayTime > CLOCK_TIME(5, 0)) && (gSaveContext.save.dayTime <= CLOCK_TIME(20, 0) + 1)) {
         isDay = true;
     }
 
@@ -259,9 +273,7 @@ s32 func_80AADAA0(EnMm* this, PlayState* play) {
 
 s32 EnMm_GetTextId(EnMm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 textId;
-
-    textId = Text_GetFaceReaction(play, 0x1C);
+    s32 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUNNING_MAN);
 
     if (GET_ITEMGETINF(ITEMGETINF_3B)) {
         if (textId == 0) {
@@ -288,13 +300,13 @@ void func_80AADCD0(EnMm* this, PlayState* play) {
     } else if (this->unk_1E0 == 1) {
         this->unk_1E0 = func_80AADAA0(this, play);
     } else {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->unk_1E0 = 1;
 
             if (this->curAnimIndex != 5) {
                 if ((this->actor.textId == 0x202A) || (this->actor.textId == 0x202B)) {
                     EnMm_ChangeAnim(this, RM_ANIM_EXCITED, &this->curAnimIndex);
-                    func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
         } else {
@@ -302,7 +314,7 @@ void func_80AADCD0(EnMm* this, PlayState* play) {
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
             if ((sp26 >= 0) && (sp26 <= 0x140) && (sp24 >= 0) && (sp24 <= 0xF0) && (yawDiff <= 17152.0f) &&
-                (this->unk_1E0 != 3) && func_8002F2CC(&this->actor, play, 100.0f)) {
+                (this->unk_1E0 != 3) && Actor_OfferTalk(&this->actor, play, 100.0f)) {
                 this->actor.textId = EnMm_GetTextId(this, play);
             }
         }
@@ -331,12 +343,12 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
     s32 phi_a2;
     s32 phi_v1;
 
-    func_80AADE60(play->setupPathList, &waypointPos, this->path, this->waypoint);
+    func_80AADE60(play->pathList, &waypointPos, this->path, this->waypoint);
 
     xDiff = waypointPos.x - this->actor.world.pos.x;
     zDiff = waypointPos.z - this->actor.world.pos.z;
 
-    this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
+    this->yawToWaypoint = RAD_TO_BINANG2(Math_FAtan2F(xDiff, zDiff));
     this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
 
     while ((this->distToWaypoint <= 10.44f) && (this->unk_1E8 != 0)) {
@@ -349,7 +361,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
                 phi_a2 = 0;
                 break;
             case 1:
-                phi_a2 = EnMm_GetPointCount(play->setupPathList, this->path) - 1;
+                phi_a2 = EnMm_GetPointCount(play->pathList, this->path) - 1;
                 break;
             case 2:
                 phi_a2 = this->unk_1F0;
@@ -363,7 +375,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
                 phi_v1 = 0;
                 break;
             case 1:
-                phi_v1 = EnMm_GetPointCount(play->setupPathList, this->path) - 1;
+                phi_v1 = EnMm_GetPointCount(play->pathList, this->path) - 1;
                 break;
             case 2:
                 phi_v1 = this->unk_1F0;
@@ -376,19 +388,19 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
             this->waypoint = sPathInfo[this->unk_1E8].unk_08;
         }
 
-        func_80AADE60(play->setupPathList, &waypointPos, this->path, this->waypoint);
+        func_80AADE60(play->pathList, &waypointPos, this->path, this->waypoint);
 
         xDiff = waypointPos.x - this->actor.world.pos.x;
         zDiff = waypointPos.z - this->actor.world.pos.z;
 
-        this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
+        this->yawToWaypoint = RAD_TO_BINANG2(Math_FAtan2F(xDiff, zDiff));
         this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
     }
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->yawToWaypoint, 1, 2500, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    Math_SmoothStepToF(&this->actor.speedXZ, this->speedXZ, 0.6f, this->distToWaypoint, 0.0f);
-    Actor_MoveForward(&this->actor);
+    Math_SmoothStepToF(&this->actor.speed, this->speedXZ, 0.6f, this->distToWaypoint, 0.0f);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     return 0;
@@ -401,7 +413,7 @@ void func_80AAE224(EnMm* this, PlayState* play) {
         this->mouthTexIndex = RM_MOUTH_CLOSED;
         this->unk_254 |= 1;
         this->unk_1E0 = 0;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         EnMm_ChangeAnim(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
     }
 }
@@ -415,7 +427,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
 
         if (this->curAnimIndex == 0) {
             if (((s32)this->skelAnime.curFrame == 1) || ((s32)this->skelAnime.curFrame == 6)) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND);
+                Actor_PlaySfx(&this->actor, NA_SE_PL_WALK_GROUND);
             }
         }
 
@@ -423,7 +435,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
             if (((this->skelAnime.curFrame - this->skelAnime.playSpeed < 9.0f) && (this->skelAnime.curFrame >= 9.0f)) ||
                 ((this->skelAnime.curFrame - this->skelAnime.playSpeed < 19.0f) &&
                  (this->skelAnime.curFrame >= 19.0f))) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
             }
         }
 
@@ -459,12 +471,12 @@ void func_80AAE294(EnMm* this, PlayState* play) {
             dustPos.y = this->actor.world.pos.y;
             dustPos.z = this->actor.world.pos.z;
 
-            if (gSaveContext.gameMode != 3) {
+            if (gSaveContext.gameMode != GAMEMODE_END_CREDITS) {
                 func_80033480(play, &dustPos, 50.0f, 2, 350, 20, 0);
             }
 
             if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
-                func_8002F71C(play, &this->actor, 3.0f, this->actor.yawTowardsPlayer, 4.0f);
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 3.0f, this->actor.yawTowardsPlayer, 4.0f);
             }
         }
     }
@@ -514,8 +526,6 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnMm* this = (EnMm*)thisx;
 
-    if (0) {}
-
     OPEN_DISPS(play->state.gfxCtx, "../z_en_mm.c", 1065);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
@@ -524,38 +534,41 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
                           EnMm_OverrideLimbDraw, EnMm_PostLimbDraw, this);
 
     if (GET_ITEMGETINF(ITEMGETINF_3B)) {
-        s32 linkChildObjBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_LINK_CHILD);
+        s32 linkChildObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_LINK_CHILD);
 
-        if (linkChildObjBankIndex >= 0) {
+        // Draw Bunny Hood
+        if (linkChildObjectSlot >= 0) {
             Mtx* mtx;
-            Vec3s sp50;
+            Vec3s earRot;
             Mtx* mtx2;
 
-            mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 2);
+            mtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 2);
 
             Matrix_Put(&this->unk_208);
-            mtx2 = Matrix_NewMtx(play->state.gfxCtx, "../z_en_mm.c", 1111);
+            mtx2 = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_mm.c", 1111);
 
-            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[linkChildObjBankIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx2 - 7);
 
-            sp50.x = 994;
-            sp50.y = 3518;
-            sp50.z = -13450;
+            // Draw the ears in the neutral position (unlike Player, no flopping physics)
 
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp50);
-            Matrix_ToMtx(mtx++, "../z_en_mm.c", 1124);
+            // Right ear
+            earRot.x = 0x3E2;
+            earRot.y = 0xDBE;
+            earRot.z = -0x348A;
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &earRot);
+            MATRIX_TO_MTX(mtx++, "../z_en_mm.c", 1124);
 
-            sp50.x = -994;
-            sp50.y = -3518;
-            sp50.z = -13450;
-
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp50);
-            Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
+            // Left ear
+            earRot.x = -0x3E2;
+            earRot.y = -0xDBE;
+            earRot.z = -0x348A;
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &earRot);
+            MATRIX_TO_MTX(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
-            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->actor.objBankIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);
         }
     }
 

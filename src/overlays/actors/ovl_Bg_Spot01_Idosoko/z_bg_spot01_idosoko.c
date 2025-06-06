@@ -5,9 +5,17 @@
  */
 
 #include "z_bg_spot01_idosoko.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_spot01_matoya/object_spot01_matoya.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play);
 void BgSpot01Idosoko_Destroy(Actor* thisx, PlayState* play);
@@ -16,16 +24,16 @@ void BgSpot01Idosoko_Draw(Actor* thisx, PlayState* play);
 
 void func_808ABF54(BgSpot01Idosoko* this, PlayState* play);
 
-const ActorInit Bg_Spot01_Idosoko_InitVars = {
-    ACTOR_BG_SPOT01_IDOSOKO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT01_MATOYA,
-    sizeof(BgSpot01Idosoko),
-    (ActorFunc)BgSpot01Idosoko_Init,
-    (ActorFunc)BgSpot01Idosoko_Destroy,
-    (ActorFunc)BgSpot01Idosoko_Update,
-    (ActorFunc)BgSpot01Idosoko_Draw,
+ActorProfile Bg_Spot01_Idosoko_Profile = {
+    /**/ ACTOR_BG_SPOT01_IDOSOKO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT01_MATOYA,
+    /**/ sizeof(BgSpot01Idosoko),
+    /**/ BgSpot01Idosoko_Init,
+    /**/ BgSpot01Idosoko_Destroy,
+    /**/ BgSpot01Idosoko_Update,
+    /**/ BgSpot01Idosoko_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -42,7 +50,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     CollisionHeader_GetVirtual(&gKakarikoBOTWStoneCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -73,8 +81,7 @@ void BgSpot01Idosoko_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoBOTWStoneDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot01_idosoko.c", 171);

@@ -5,93 +5,105 @@
  */
 
 #include "z_bg_hidan_sekizou.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
 
 void BgHidanSekizou_Init(Actor* thisx, PlayState* play);
-void BgHidanSekizou_Destroy(Actor* thisx, PlayState* play);
-void BgHidanSekizou_Update(Actor* thisx, PlayState* play);
-void BgHidanSekizou_Draw(Actor* thisx, PlayState* play);
+void BgHidanSekizou_Destroy(Actor* thisx, PlayState* play2);
+void BgHidanSekizou_Update(Actor* thisx, PlayState* play2);
+void BgHidanSekizou_Draw(Actor* thisx, PlayState* play2);
 
 void func_8088D434(BgHidanSekizou* this, PlayState* play);
 void func_8088D720(BgHidanSekizou* this, PlayState* play);
 
-const ActorInit Bg_Hidan_Sekizou_InitVars = {
-    ACTOR_BG_HIDAN_SEKIZOU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanSekizou),
-    (ActorFunc)BgHidanSekizou_Init,
-    (ActorFunc)BgHidanSekizou_Destroy,
-    (ActorFunc)BgHidanSekizou_Update,
-    (ActorFunc)BgHidanSekizou_Draw,
+ActorProfile Bg_Hidan_Sekizou_Profile = {
+    /**/ ACTOR_BG_HIDAN_SEKIZOU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanSekizou),
+    /**/ BgHidanSekizou_Init,
+    /**/ BgHidanSekizou_Destroy,
+    /**/ BgHidanSekizou_Update,
+    /**/ BgHidanSekizou_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 30, 40 }, 23 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 32, 87 }, 30 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 35, 150 }, 40 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 30, 40 }, 23 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 32, 87 }, 30 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x01, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, 35, 150 }, 40 }, 100 },
@@ -100,7 +112,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -115,8 +127,8 @@ static CollisionCheckInfoInit sColChkInfoInit = { 1, 40, 240, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 1500, ICHAIN_STOP),
 };
 
 static void* sFireballsTexs[] = {
@@ -130,17 +142,18 @@ void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
     s32 end = start + 3;
     f32 sp30 = Math_SinS(arg2);
     f32 sp2C = Math_CosS(arg2);
+    ColliderJntSphElement* element;
 
     for (i = start; i < end; i++) {
-        ColliderJntSphElement* element = &this->collider.elements[i];
+        element = &this->collider.elements[i];
 
         element->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + (sp2C * element->dim.modelSphere.center.x) +
                                             (sp30 * element->dim.modelSphere.center.z);
         element->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + element->dim.modelSphere.center.y;
         element->dim.worldSphere.center.z = this->dyna.actor.home.pos.z - (sp30 * element->dim.modelSphere.center.x) +
                                             (sp2C * element->dim.modelSphere.center.z);
-        element->info.toucherFlags |= TOUCH_ON;
-        element->info.ocElemFlags |= OCELEM_ON;
+        element->base.atElemFlags |= ATELEM_ON;
+        element->base.ocElemFlags |= OCELEM_ON;
     }
 }
 
@@ -151,10 +164,10 @@ void BgHidanSekizou_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
-    for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
+    for (i = 0; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
     if (this->dyna.actor.params == 0) {
@@ -209,9 +222,9 @@ void func_8088D434(BgHidanSekizou* this, PlayState* play) {
             }
         }
     }
-    for (i = 3 * phi_s4; i < ARRAY_COUNT(this->elements); i++) {
-        this->collider.elements[i].info.toucherFlags &= ~TOUCH_ON;
-        this->collider.elements[i].info.ocElemFlags &= ~OCELEM_ON;
+    for (i = 3 * phi_s4; i < ARRAY_COUNT(this->colliderElements); i++) {
+        this->collider.elements[i].base.atElemFlags &= ~ATELEM_ON;
+        this->collider.elements[i].base.ocElemFlags &= ~OCELEM_ON;
     }
 }
 
@@ -258,7 +271,7 @@ void func_8088D750(BgHidanSekizou* this, PlayState* play) {
             phi_a3 = -0x4000;
         }
     }
-    func_8002F71C(play, &this->dyna.actor, 5.0f, phi_a3, 1.0f);
+    Actor_SetPlayerKnockbackLargeNoDamage(play, &this->dyna.actor, 5.0f, phi_a3, 1.0f);
 }
 
 void BgHidanSekizou_Update(Actor* thisx, PlayState* play2) {
@@ -283,26 +296,26 @@ void BgHidanSekizou_Update(Actor* thisx, PlayState* play2) {
         if (this->unk_168[0] > 0) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-            func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         }
     } else {
         if ((this->unk_168[0] > 0) || (this->unk_168[1] > 0) || (this->unk_168[2] > 0) || (this->unk_168[3] > 0)) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-            func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         }
     }
 }
 
-Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* arg3, f32 arg4, f32 arg5, s16 arg6,
+Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* mtx, f32 arg4, f32 arg5, s16 arg6,
                    Gfx* arg7) {
-    f32 temp_f0;
+    MtxF* mtx2;
     f32 temp_f2;
     f32 phi_f12;
 
     arg6 = (((arg6 + arg2) % 8) * 7) * (1 / 7.0f);
-    arg2++;
     gSPSegment(arg7++, 9, SEGMENTED_TO_VIRTUAL(sFireballsTexs[arg6]));
+    arg2++;
     if (arg2 != 4) {
         phi_f12 = arg2 + ((4 - this->unk_170) / 4.0f);
     } else {
@@ -311,15 +324,16 @@ Gfx* func_8088D9F4(PlayState* play, BgHidanSekizou* this, s16 arg2, MtxF* arg3, 
     gDPSetPrimColor(arg7++, 0, 1, 255, 255, 0, 150);
     gDPSetEnvColor(arg7++, 255, 0, 0, 255);
 
-    arg3->xx = arg3->yy = arg3->zz = (0.7f * phi_f12) + 0.5f;
+    mtx2 = mtx;
+    mtx2->xx = mtx2->yy = mtx2->zz = (0.7f * phi_f12) + 0.5f;
 
-    temp_f2 = (arg3->xx * 10.0f * phi_f12) + 20.0f;
-    arg3->xw = (temp_f2 * arg4) + this->dyna.actor.world.pos.x;
-    arg3->yw = this->dyna.actor.world.pos.y + 30.0f + (.7f * phi_f12);
-    arg3->zw = (temp_f2 * arg5) + this->dyna.actor.world.pos.z;
+    temp_f2 = ((mtx2->xx * 10.0f) * phi_f12) + 20.0f;
+    mtx2->xw = (temp_f2 * arg4) + this->dyna.actor.world.pos.x;
+    mtx2->yw = this->dyna.actor.world.pos.y + 30.0f + (.7f * phi_f12);
+    mtx2->zw = (temp_f2 * arg5) + this->dyna.actor.world.pos.z;
     gSPMatrix(arg7++,
-              Matrix_MtxFToMtx(Matrix_CheckFloats(arg3, "../z_bg_hidan_sekizou.c", 711),
-                               Graph_Alloc(play->state.gfxCtx, sizeof(Mtx))),
+              Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(mtx2, "../z_bg_hidan_sekizou.c", 711),
+                               GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(arg7++, gFireTempleFireballDL);
@@ -347,7 +361,7 @@ Gfx* func_8088DC50(PlayState* play, BgHidanSekizou* this, s16 arg2, s16 arg3, Gf
     }
     temp_f20 = Math_SinS(arg2);
     temp_f22 = Math_CosS(arg2);
-    Matrix_MtxFCopy(&sp68, &gMtxFClear);
+    Matrix_MtxFCopy(&sp68, &gIdentityMtxF);
     temp_v1 = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - arg2;
 
     if (ABS(temp_v1) < 0x4000) {
@@ -396,8 +410,7 @@ void BgHidanSekizou_Draw(Actor* thisx, PlayState* play2) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_sekizou.c", 827);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_sekizou.c", 831),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_sekizou.c", 831);
     if (this->dyna.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStationaryFlamethrowerShortDL);
     } else {

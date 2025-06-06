@@ -2,11 +2,12 @@
 #define Z_EN_ARROW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "player.h"
 
 struct EnArrow;
 
-typedef void (*EnArrowActionFunc)(struct EnArrow*, PlayState*);
+typedef void (*EnArrowActionFunc)(struct EnArrow*, struct PlayState*);
 
 typedef struct EnArrow {
     /* 0x0000 */ Actor actor;
@@ -25,19 +26,19 @@ typedef struct EnArrow {
     /* 0x025C */ EnArrowActionFunc actionFunc;
 } EnArrow; // size = 0x0260
 
-typedef enum {
+typedef enum ArrowType {
     /* -10 */ ARROW_CS_NUT = -10, // cutscene deku nuts are allowed to update in blocking mode
-    /* -1  */ ARROW_NORMAL_SILENT = -1, // normal arrow that does not make a sound when being shot
-    /*  0  */ ARROW_NORMAL_LIT, // normal arrow lit on fire
-    /*  1  */ ARROW_NORMAL_HORSE, // normal arrow shot while riding a horse
-    /*  2  */ ARROW_NORMAL,
-    /*  3  */ ARROW_FIRE,
-    /*  4  */ ARROW_ICE,
-    /*  5  */ ARROW_LIGHT,
-    /*  6  */ ARROW_0C,
-    /*  7  */ ARROW_0D,
-    /*  8  */ ARROW_0E,
-    /*  9  */ ARROW_SEED,
+    /*  -1 */ ARROW_NORMAL_SILENT = -1, // normal arrow that does not make a sound when being shot
+    /*   0 */ ARROW_NORMAL_LIT, // normal arrow lit on fire
+    /*   1 */ ARROW_NORMAL_HORSE, // normal arrow shot while riding a horse
+    /*   2 */ ARROW_NORMAL,
+    /*   3 */ ARROW_FIRE,
+    /*   4 */ ARROW_ICE,
+    /*   5 */ ARROW_LIGHT,
+    /*   6 */ ARROW_0C,
+    /*   7 */ ARROW_0D,
+    /*   8 */ ARROW_0E,
+    /*   9 */ ARROW_SEED,
     /*  10 */ ARROW_NUT
 } ArrowType;
 

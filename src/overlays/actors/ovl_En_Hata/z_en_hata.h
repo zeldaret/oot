@@ -2,10 +2,10 @@
 #define Z_EN_HATA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 
-typedef enum {
+typedef enum EnHataLimb {
     /* 0x00 */ FLAGPOLE_LIMB_NONE,
     /* 0x01 */ FLAGPOLE_LIMB_POLE_BASE,
     /* 0x02 */ FLAGPOLE_LIMB_POLE,
@@ -30,7 +30,7 @@ typedef enum {
     /* 0x15 */ FLAGPOLE_LIMB_MAX
 } EnHataLimb;
 
-typedef struct {
+typedef struct EnHata {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ SkelAnime skelAnime;
     /* 0x01A8 */ ColliderCylinder collider; // Unused, but indicated by the form of the unused data

@@ -2,13 +2,13 @@
 #define Z_DEMO_KANKYO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct DemoKankyo;
 
-typedef void (*DemoKankyoActionFunc)(struct DemoKankyo*, PlayState*);
+typedef void (*DemoKankyoActionFunc)(struct DemoKankyo*, struct PlayState*);
 
-typedef enum {
+typedef enum DemoKankyoType {
     /* 0x00 */ DEMOKANKYO_BLUE_RAIN,
     /* 0x01 */ DEMOKANKYO_BLUE_RAIN_2,
     /* 0x02 */ DEMOKANKYO_ROCK_1,
@@ -29,7 +29,7 @@ typedef enum {
     /* 0x11 */ DEMOKANKYO_SPARKLES
 } DemoKankyoType;
 
-typedef struct {
+typedef struct DemoKankyoUnk150 {
     /* 0x00 */ Vec3f unk_0;
     /* 0x0C */ Vec3f unk_C;
     /* 0x18 */ f32 unk_18;     // For Door of Time, this is the amount to translate it by used for when it's opening
@@ -42,7 +42,7 @@ typedef struct {
 
 typedef struct DemoKankyo {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u8 objBankIndex;
+    /* 0x014C */ u8 requiredObjectSlot;
     /* 0x014D */ u8 sparkleCounter;
     /* 0x014E */ u8 warpTimer;
     /* 0x0150 */ DemoKankyoUnk150 unk_150[30];

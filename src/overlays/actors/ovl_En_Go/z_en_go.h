@@ -2,13 +2,13 @@
 #define Z_EN_GO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnGo;
 
-typedef void (*EnGoActionFunc)(struct EnGo*, PlayState*);
-typedef u16 (*callback1_80A3ED24)(PlayState*, struct EnGo*);
-typedef s16 (*callback2_80A3ED24)(PlayState*, struct EnGo*);
+typedef void (*EnGoActionFunc)(struct EnGo*, struct PlayState*);
+typedef u16 (*callback1_80A3ED24)(struct PlayState*, struct EnGo*);
+typedef s16 (*callback2_80A3ED24)(struct PlayState*, struct EnGo*);
 
 // WIP type docs
 // /* 0x00 */ GORON1_CITY_LINK,
@@ -22,10 +22,9 @@ typedef s16 (*callback2_80A3ED24)(PlayState*, struct EnGo*);
 // /* 0x80 */ // Not Used
 // /* 0x90 */ GORON1_DMT_BIGGORON,
 
-
 #define EN_GO_EFFECT_COUNT 20
 
-typedef struct {
+typedef struct EnGoEffect {
     /* 0x0000 */ u8 type;
     /* 0x0001 */ u8 timer;
     /* 0x0002 */ u8 initialTimer;
@@ -43,7 +42,7 @@ typedef struct EnGo {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnGoActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ struct_80034A14_arg1 unk_1E0;
+    /* 0x01E0 */ NpcInteractInfo interactInfo;
     /* 0x0208 */ char unk_208[0x4];
     /* 0x020C */ s16 unk_20C;
     /* 0x020E */ s16 unk_20E;
@@ -55,8 +54,8 @@ typedef struct EnGo {
     /* 0x021A */ s16 unk_21A;
     /* 0x021C */ s16 unk_21C;
     /* 0x021E */ s16 unk_21E;
-    /* 0x0220 */ s16 jointTable[18];
-    /* 0x0244 */ s16 morphTable[18];
+    /* 0x0220 */ s16 fidgetTableY[18];
+    /* 0x0244 */ s16 fidgetTableZ[18];
     /* 0x0268 */ EnGoEffect effects[EN_GO_EFFECT_COUNT];
 } EnGo; // size = 0x06C8
 

@@ -43,7 +43,7 @@ def GetMapsPerScene(ptrs):
 
 def GetPoints(data, ptr, numPoints):
     points = []
-    off = RamToOff(ptr);
+    off = RamToOff(ptr)
     for i in range(numPoints):
         points.append(struct.unpack_from(">bBB", data[off:off+3]))
         off = off + 3
@@ -97,7 +97,7 @@ repo = scriptDir + os.sep +  ".." + os.sep + ".."
 
 
 map_mark_data = []
-with open(repo + "/baserom/ovl_map_mark_data", "rb") as file:
+with open(repo + "/extracted/gc-eu-mq-dbg/baserom/ovl_map_mark_data", "rb") as file:
     map_mark_data = bytearray(file.read())
 
 scenemaps = []

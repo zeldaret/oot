@@ -1,14 +1,17 @@
-#include "global.h"
+#include "array_count.h"
+#include "ultra64.h"
 
-OSPifRam __osPifInternalBuff;
-u8 __osContLastPoll;
+OSPifRam __osContPifRam;
+u8 __osContLastCmd;
 u8 __osMaxControllers; // always 4
 
+#ifndef BBPLAYER
 OSTimer __osEepromTimer;
+#endif
 OSMesgQueue __osEepromTimerMsgQueue;
 OSMesg __osEepromTimerMsg;
 
-u32 gOSContInitialized = 0;
+u32 __osContInitialized = false;
 
 #define HALF_SECOND OS_USEC_TO_CYCLES(500000)
 
@@ -17,78 +20,106 @@ s32 osContInit(OSMesgQueue* mq, u8* ctlBitfield, OSContStatus* status) {
     s32 ret = 0;
     OSTime currentTime;
     OSTimer timer;
-    OSMesgQueue timerqueue;
+    OSMesgQueue timerMesgQueue;
 
-    if (gOSContInitialized) {
+    if (__osContInitialized) {
         return 0;
     }
+    __osContInitialized = true;
 
-    gOSContInitialized = 1;
     currentTime = osGetTime();
-    if (HALF_SECOND > currentTime) {
-        osCreateMesgQueue(&timerqueue, &msg, 1);
-        osSetTimer(&timer, HALF_SECOND - currentTime, 0, &timerqueue, &msg);
-        osRecvMesg(&timerqueue, &msg, OS_MESG_BLOCK);
+    if (currentTime < HALF_SECOND) {
+        osCreateMesgQueue(&timerMesgQueue, &msg, 1);
+        osSetTimer(&timer, HALF_SECOND - currentTime, 0, &timerMesgQueue, &msg);
+        osRecvMesg(&timerMesgQueue, &msg, OS_MESG_BLOCK);
     }
+
     __osMaxControllers = MAXCONTROLLERS;
     __osPackRequestData(CONT_CMD_REQUEST_STATUS);
-    ret = __osSiRawStartDma(OS_WRITE, &__osPifInternalBuff);
+
+    ret = __osSiRawStartDma(OS_WRITE, &__osContPifRam);
     osRecvMesg(mq, &msg, OS_MESG_BLOCK);
-    ret = __osSiRawStartDma(OS_READ, &__osPifInternalBuff);
+
+    ret = __osSiRawStartDma(OS_READ, &__osContPifRam);
     osRecvMesg(mq, &msg, OS_MESG_BLOCK);
+
     __osContGetInitData(ctlBitfield, status);
-    __osContLastPoll = CONT_CMD_REQUEST_STATUS;
+#ifdef BBPLAYER
+    __osContLastCmd = CONT_CMD_CHANNEL_RESET;
+#else
+    __osContLastCmd = CONT_CMD_REQUEST_STATUS;
+#endif
     __osSiCreateAccessQueue();
     osCreateMesgQueue(&__osEepromTimerMsgQueue, &__osEepromTimerMsg, 1);
 
     return ret;
 }
 
-void __osContGetInitData(u8* ctlBitfield, OSContStatus* status) {
-    u8* bufptr;
-    __OSContRequestHeader req;
+void __osContGetInitData(u8* ctlBitfield, OSContStatus* data) {
+    u8* ptr;
+    __OSContRequesFormat req;
     s32 i;
-    u8 bitfieldTemp = 0;
+    u8 bits = 0;
 
-    bufptr = (u8*)(&__osPifInternalBuff);
+    ptr = (u8*)&__osContPifRam;
 
-    for (i = 0; i < __osMaxControllers; i++, bufptr += sizeof(req), status++) {
-        req = *((__OSContRequestHeader*)bufptr);
-        status->errno = (req.rxsize & 0xC0) >> 4;
-        if (status->errno) {
+    for (i = 0; i < __osMaxControllers; i++, ptr += sizeof(req), data++) {
+        req = *(__OSContRequesFormat*)ptr;
+        data->errno = CHNL_ERR(req);
+        if (data->errno) {
             continue;
         }
-        status->type = req.typel << 8 | req.typeh;
-        status->status = req.status;
-        bitfieldTemp |= 1 << i;
+        data->type = req.typel << 8 | req.typeh;
+#ifdef BBPLAYER
+        data->status = __osBbPakAddress[i] != 0;
+#else
+        data->status = req.status;
+#endif
+        bits |= 1 << i;
     }
-    *ctlBitfield = bitfieldTemp;
+
+#ifdef BBPLAYER
+    if (__osBbIsBb && __osBbHackFlags != 0) {
+        OSContStatus tmp;
+
+        bits = (bits & ~((1 << __osBbHackFlags) | 1)) | ((bits & 1) << __osBbHackFlags) |
+               ((bits & (1 << __osBbHackFlags)) >> __osBbHackFlags);
+
+        data -= __osMaxControllers;
+
+        tmp = data[0];
+        data[0] = data[__osBbHackFlags];
+        data[__osBbHackFlags] = tmp;
+    }
+#endif
+
+    *ctlBitfield = bits;
 }
 
 void __osPackRequestData(u8 poll) {
-    u8* bufptr;
-    __OSContRequestHeader req;
+    u8* ptr;
+    __OSContRequesFormat req;
     s32 i;
 
-    for (i = 0; i < 0xF; i++) {
-        __osPifInternalBuff.ram[i] = 0;
+    for (i = 0; i < ARRAY_COUNT(__osContPifRam.ram); i++) {
+        __osContPifRam.ram[i] = 0;
     }
-    __osPifInternalBuff.status = 1;
+    __osContPifRam.status = CONT_CMD_EXE;
 
-    bufptr = (u8*)(&__osPifInternalBuff);
+    ptr = (u8*)&__osContPifRam;
 
-    req.align = 0xFF;
-    req.txsize = 1;
-    req.rxsize = 3;
-    req.poll = poll;
-    req.typeh = 0xFF;
-    req.typel = 0xFF;
-    req.status = 0xFF;
-    req.align1 = 0xFF;
+    req.align = CONT_CMD_NOP;
+    req.txsize = CONT_CMD_RESET_TX;
+    req.rxsize = CONT_CMD_RESET_RX;
+    req.cmd = poll;
+    req.typeh = CONT_CMD_NOP;
+    req.typel = CONT_CMD_NOP;
+    req.status = CONT_CMD_NOP;
+    req.align1 = CONT_CMD_NOP;
 
     for (i = 0; i < __osMaxControllers; i++) {
-        *((__OSContRequestHeader*)bufptr) = req;
-        bufptr += sizeof(req);
+        *((__OSContRequesFormat*)ptr) = req;
+        ptr += sizeof(req);
     }
-    *((u8*)bufptr) = 254;
+    *ptr = CONT_CMD_END;
 }

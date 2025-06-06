@@ -1,7 +1,17 @@
 #include "z_en_fd_fire.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnFdFire_Init(Actor* thisx, PlayState* play);
 void EnFdFire_Destroy(Actor* thisx, PlayState* play);
@@ -12,21 +22,21 @@ void func_80A0E70C(EnFdFire* this, PlayState* play);
 void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play);
 void EnFdFire_WaitToDie(EnFdFire* this, PlayState* play);
 
-const ActorInit En_Fd_Fire_InitVars = {
-    ACTOR_EN_FD_FIRE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(EnFdFire),
-    (ActorFunc)EnFdFire_Init,
-    (ActorFunc)EnFdFire_Destroy,
-    (ActorFunc)EnFdFire_Update,
-    (ActorFunc)EnFdFire_Draw,
+ActorProfile En_Fd_Fire_Profile = {
+    /**/ ACTOR_EN_FD_FIRE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(EnFdFire),
+    /**/ EnFdFire_Init,
+    /**/ EnFdFire_Destroy,
+    /**/ EnFdFire_Update,
+    /**/ EnFdFire_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -34,11 +44,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x01, 0x08 },
         { 0x0D840008, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 12, 46, 0, { 0, 0, 0 } },
@@ -88,9 +98,9 @@ void EnFdFire_UpdatePos(EnFdFire* this, Vec3f* targetPos) {
     f32 zDiff = targetPos->z - this->actor.world.pos.z;
 
     dist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff));
-    if (fabsf(dist) > fabsf(this->actor.speedXZ)) {
-        this->actor.velocity.x = (xDiff / dist) * this->actor.speedXZ;
-        this->actor.velocity.z = (zDiff / dist) * this->actor.speedXZ;
+    if (fabsf(dist) > fabsf(this->actor.speed)) {
+        this->actor.velocity.x = (xDiff / dist) * this->actor.speed;
+        this->actor.velocity.z = (zDiff / dist) * this->actor.speed;
     } else {
         this->actor.velocity.x = 0.0f;
         this->actor.velocity.z = 0.0f;
@@ -128,9 +138,9 @@ void EnFdFire_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInit);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.gravity = -0.6f;
-    this->actor.speedXZ = 5.0f;
+    this->actor.speed = 5.0f;
     this->actor.velocity.y = 12.0f;
     this->spawnRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.world.pos);
     this->scale = 3.0f;
@@ -153,9 +163,9 @@ void func_80A0E70C(EnFdFire* this, PlayState* play) {
     EnFdFire_UpdatePos(this, &targetPos);
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (!(this->actor.velocity.y > 0.0f))) {
         this->actor.velocity = velocity;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
-        if (this->actor.params & 0x8000) {
+        if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
             this->deathTimer = 200;
             this->actionFunc = EnFdFire_DanceTowardsPlayer;
         } else {
@@ -179,7 +189,7 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play) {
     Vec3f pos;
     s16 idx;
 
-    idx = ((play->state.frames / 10) + (this->actor.params & 0x7FFF)) % ARRAY_COUNT(angles);
+    idx = ((play->state.frames / 10) + PARAMS_GET_S(this->actor.params, 0, 15)) % ARRAY_COUNT(angles);
     pos = player->actor.world.pos;
     pos.x += 120.0f * sinf(angles[idx]);
     pos.z += 120.0f * cosf(angles[idx]);
@@ -188,17 +198,17 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play) {
         this->actionFunc = EnFdFire_Disappear;
     } else {
         Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &pos), 8, 0xFA0, 1);
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
-        if (this->actor.speedXZ < 0.1f) {
-            this->actor.speedXZ = 5.0f;
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.4f, 1.0f, 0.0f);
+        if (this->actor.speed < 0.1f) {
+            this->actor.speed = 5.0f;
         }
-        func_8002D868(&this->actor);
+        Actor_UpdateVelocityXZGravity(&this->actor);
     }
 }
 
 void EnFdFire_Disappear(EnFdFire* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.6f, 9.0f, 0.0f);
-    func_8002D868(&this->actor);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.6f, 9.0f, 0.0f);
+    Actor_UpdateVelocityXZGravity(&this->actor);
     Math_SmoothStepToF(&this->scale, 0.0f, 0.3f, 0.1f, 0.0f);
     this->actor.shape.shadowScale = 20.0f;
     this->actor.shape.shadowScale *= (this->scale / 3.0f);
@@ -217,7 +227,7 @@ void EnFdFire_Update(Actor* thisx, PlayState* play) {
         }
     }
 
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     this->actionFunc(this, play);
     Actor_UpdateBgCheckInfo(play, &this->actor, 12.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
@@ -248,14 +258,11 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fd_fire.c", 572);
 
-    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-    sp8E = Math_Vec3f_Yaw(&scale, &this->actor.velocity) - Camera_GetCamDirYaw(GET_ACTIVE_CAM(play));
+    Matrix_Translate(thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z, MTXMODE_NEW);
+    sp8E = Math_Vec3f_Yaw(&scale, &thisx->velocity) - Camera_GetCamDirYaw(GET_ACTIVE_CAM(play));
     sp84 = fabsf(Math_CosS(sp8E));
     sp88 = Math_SinS(sp8E);
-    sp80 = Math_Vec3f_DistXZ(&scale, &this->actor.velocity) / 1.5f;
-    if (1) {}
-    if (1) {}
-    if (1) {}
+    sp80 = Math_Vec3f_DistXZ(&scale, &thisx->velocity) / 1.5f;
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000)), MTXMODE_APPLY);
     Matrix_RotateZ(DEG_TO_RAD((sp88 * -10.0f) * sp80), MTXMODE_APPLY);
     scale.x = scale.y = scale.z = this->scale * 0.001f;
@@ -265,20 +272,17 @@ void EnFdFire_Draw(Actor* thisx, PlayState* play) {
         sp84 = 0.1f;
     }
     Matrix_Scale(1.0f, sp84, 1.0f / sp84, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fd_fire.c", 623),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fd_fire.c", 623);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPSegment(
-        POLY_XLU_DISP++, 0x8,
-        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, play->state.frames * this->tile2Y, 0x20, 0x80));
-    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, primColors[((this->actor.params & 0x8000) >> 0xF)].r,
-                    primColors[((this->actor.params & 0x8000) >> 0xF)].g,
-                    primColors[((this->actor.params & 0x8000) >> 0xF)].b,
-                    primColors[((this->actor.params & 0x8000) >> 0xF)].a);
-    gDPSetEnvColor(POLY_XLU_DISP++, envColors[((this->actor.params & 0x8000) >> 0xF)].r,
-                   envColors[((this->actor.params & 0x8000) >> 0xF)].g,
-                   envColors[((this->actor.params & 0x8000) >> 0xF)].b,
-                   envColors[((this->actor.params & 0x8000) >> 0xF)].a);
+    gSPSegment(POLY_XLU_DISP++, 0x8,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
+                                play->state.frames * this->tile2Y, 0x20, 0x80));
+    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, primColors[PARAMS_GET_S(thisx->params, 15, 1)].r,
+                    primColors[PARAMS_GET_S(thisx->params, 15, 1)].g, primColors[PARAMS_GET_S(thisx->params, 15, 1)].b,
+                    primColors[PARAMS_GET_S(thisx->params, 15, 1)].a);
+    gDPSetEnvColor(POLY_XLU_DISP++, envColors[PARAMS_GET_S(thisx->params, 15, 1)].r,
+                   envColors[PARAMS_GET_S(thisx->params, 15, 1)].g, envColors[PARAMS_GET_S(thisx->params, 15, 1)].b,
+                   envColors[PARAMS_GET_S(thisx->params, 15, 1)].a);
     gDPPipeSync(POLY_XLU_DISP++);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 

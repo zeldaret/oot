@@ -2,17 +2,17 @@
 #define Z_BG_DY_YOSEIZO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 #include "overlays/actors/ovl_En_Dy_Extra/z_en_dy_extra.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 struct BgDyYoseizo;
 
-typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, PlayState*);
+typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, struct PlayState*);
 
 #define BG_DY_YOSEIZO_EFFECT_COUNT 200
 
-typedef struct {
+typedef struct BgDyYoseizoEffect {
     /* 0x00 */ u8 alive; // drawn if 1, respawn if 0
     /* 0x04 */ Vec3f pos;
     /* 0x10 */ Vec3f velocity;

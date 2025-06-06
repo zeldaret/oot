@@ -2,23 +2,23 @@
 #define Z_ITEM_ETC_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct ItemEtcetera;
 
-typedef void (*ItemEtceteraActionFunc)(struct ItemEtcetera*, PlayState*);
+typedef void (*ItemEtceteraActionFunc)(struct ItemEtcetera*, struct PlayState*);
 
 typedef struct ItemEtcetera {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ItemEtceteraActionFunc futureActionFunc;
     /* 0x0150 */ s16 giDrawId;
     /* 0x0152 */ s16 getItemId;
-    /* 0x0154 */ u8 objBankIndex;
+    /* 0x0154 */ u8 requiredObjectSlot;
     /* 0x0158 */ ActorFunc drawFunc;
     /* 0x015C */ ItemEtceteraActionFunc actionFunc;
 } ItemEtcetera; // size = 0x0160
 
-typedef enum {
+typedef enum ItemEtceteraType {
     /* 0x00 */ ITEM_ETC_BOTTLE,
     /* 0x01 */ ITEM_ETC_LETTER,
     /* 0x02 */ ITEM_ETC_SHIELD_HYLIAN,

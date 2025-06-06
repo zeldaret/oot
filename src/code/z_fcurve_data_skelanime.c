@@ -25,8 +25,16 @@
  * - higher detail draws both.
  */
 
-#include "global.h"
-#include "z64curve.h"
+#include "gfx.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "zelda_arena.h"
+#include "actor.h"
+#include "curve.h"
+#include "play_state.h"
 
 void SkelCurve_Clear(SkelCurve* skelCurve) {
     skelCurve->limbCount = 0;
@@ -52,8 +60,8 @@ s32 SkelCurve_Init(PlayState* play, SkelCurve* skelCurve, CurveSkeletonHeader* s
     skelCurve->limbCount = skeletonHeader->limbCount;
     skelCurve->skeleton = SEGMENTED_TO_VIRTUAL(skeletonHeader->limbs);
 
-    skelCurve->jointTable = ZeldaArena_MallocDebug(sizeof(*skelCurve->jointTable) * skelCurve->limbCount,
-                                                   "../z_fcurve_data_skelanime.c", 125);
+    skelCurve->jointTable =
+        ZELDA_ARENA_MALLOC(sizeof(*skelCurve->jointTable) * skelCurve->limbCount, "../z_fcurve_data_skelanime.c", 125);
     ASSERT(skelCurve->jointTable != NULL, "this->now_joint != NULL", "../z_fcurve_data_skelanime.c", 127);
     skelCurve->curFrame = 0.0f;
     return true;
@@ -64,7 +72,7 @@ s32 SkelCurve_Init(PlayState* play, SkelCurve* skelCurve, CurveSkeletonHeader* s
  */
 void SkelCurve_Destroy(PlayState* play, SkelCurve* skelCurve) {
     if (skelCurve->jointTable != NULL) {
-        ZeldaArena_FreeDebug(skelCurve->jointTable, "../z_fcurve_data_skelanime.c", 146);
+        ZELDA_ARENA_FREE(skelCurve->jointTable, "../z_fcurve_data_skelanime.c", 146);
     }
 }
 
@@ -77,7 +85,7 @@ void SkelCurve_SetAnim(SkelCurve* skelCurve, CurveAnimationHeader* animation, f3
     skelCurve->animation = animation;
 }
 
-typedef enum {
+typedef enum SkelCurveVecType {
     /* 0 */ SKELCURVE_VEC_TYPE_SCALE,
     /* 1 */ SKELCURVE_VEC_TYPE_ROTATION,
     /* 2 */ SKELCURVE_VEC_TYPE_POSIITON,
@@ -192,8 +200,7 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
 
             dList = limb->dList[0];
             if (dList != NULL) {
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 321),
-                          G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 321);
                 gSPDisplayList(POLY_OPA_DISP++, dList);
             }
         } else if (lod == 1) {
@@ -201,19 +208,16 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, Ov
 
             dList = limb->dList[0];
             if (dList != NULL) {
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 332),
-                          G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 332);
                 gSPDisplayList(POLY_OPA_DISP++, dList);
             }
             dList = limb->dList[1];
             if (dList != NULL) {
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 338),
-                          G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 338);
                 gSPDisplayList(POLY_XLU_DISP++, dList);
             }
         } else {
-            // "FcSkeletonInfo_draw_child (): Not supported"
-            osSyncPrintf("FcSkeletonInfo_draw_child():未対応\n");
+            PRINTF(T("FcSkeletonInfo_draw_child():未対応\n", "FcSkeletonInfo_draw_child(): Not supported\n"));
         }
     }
 

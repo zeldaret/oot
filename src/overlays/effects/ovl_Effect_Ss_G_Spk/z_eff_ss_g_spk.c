@@ -5,6 +5,16 @@
  */
 
 #include "z_eff_ss_g_spk.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
@@ -15,7 +25,7 @@
 #define rEnvColorG regs[5]
 #define rEnvColorB regs[6]
 #define rEnvColorA regs[7]
-#define rTexIdx regs[8]
+#define rTexIndex regs[8]
 #define rScale regs[9]
 #define rScaleStep regs[10]
 
@@ -24,7 +34,7 @@ void EffectSsGSpk_Update(PlayState* play, u32 index, EffectSs* this);
 void EffectSsGSpk_UpdateNoAccel(PlayState* play, u32 index, EffectSs* this);
 void EffectSsGSpk_Draw(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_G_Spk_InitVars = {
+EffectSsProfile Effect_Ss_G_Spk_Profile = {
     EFFECT_SS_G_SPK,
     EffectSsGSpk_Init,
 };
@@ -57,7 +67,7 @@ u32 EffectSsGSpk_Init(PlayState* play, u32 index, EffectSs* this, void* initPara
     this->rEnvColorG = initParams->envColor.g;
     this->rEnvColorB = initParams->envColor.b;
     this->rEnvColorA = initParams->envColor.a;
-    this->rTexIdx = 0;
+    this->rTexIndex = 0;
     this->rScale = initParams->scale;
     this->rScaleStep = initParams->scaleStep;
     this->actor = initParams->actor;
@@ -76,7 +86,7 @@ void EffectSsGSpk_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfResult;
-    MtxF mfTrans11DA0;
+    MtxF mfTransBillboard;
     Mtx* mtx;
     f32 scale;
     s32 pad;
@@ -86,14 +96,14 @@ void EffectSsGSpk_Draw(PlayState* play, u32 index, EffectSs* this) {
     scale = this->rScale * 0.0025f;
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTrans11DA0);
-    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
+    SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sparkTextures[this->rTexIdx]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sparkTextures[this->rTexIndex]));
         Gfx_SetupDL_60NoCDXlu(gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
@@ -101,8 +111,6 @@ void EffectSsGSpk_Draw(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (1) {}
-    if (1) {}
-
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_spk.c", 255);
 }
 
@@ -122,22 +130,22 @@ void EffectSsGSpk_Update(PlayState* play, u32 index, EffectSs* this) {
     this->vec.x += this->accel.x;
     this->vec.z += this->accel.z;
 
-    this->rTexIdx++;
-    this->rTexIdx &= 3;
+    this->rTexIndex++;
+    this->rTexIndex &= 3;
     this->rScale += this->rScaleStep;
 }
 
 // this update mode is unused in the original game
-// with this update mode, the sparks dont move randomly in the xz plane, appearing to be on top of each other
+// with this update mode, the sparks don't move randomly in the xz plane, appearing to be on top of each other
 void EffectSsGSpk_UpdateNoAccel(PlayState* play, u32 index, EffectSs* this) {
     if (this->actor != NULL) {
         if ((this->actor->category == ACTORCAT_EXPLOSIVE) && (this->actor->update != NULL)) {
-            this->pos.x += (Math_SinS(this->actor->world.rot.y) * this->actor->speedXZ);
-            this->pos.z += (Math_CosS(this->actor->world.rot.y) * this->actor->speedXZ);
+            this->pos.x += (Math_SinS(this->actor->world.rot.y) * this->actor->speed);
+            this->pos.z += (Math_CosS(this->actor->world.rot.y) * this->actor->speed);
         }
     }
 
-    this->rTexIdx++;
-    this->rTexIdx &= 3;
+    this->rTexIndex++;
+    this->rTexIndex &= 3;
     this->rScale += this->rScaleStep;
 }

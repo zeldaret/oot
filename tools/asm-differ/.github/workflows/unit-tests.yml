@@ -1,0 +1,15 @@
+name: unit tests
+
+on:
+  pull_request:
+  push:
+
+permissions: read-all
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: python3 -m pip install --user colorama watchdog levenshtein cxxfilt
+      - run: python3 test.py

@@ -5,6 +5,15 @@
  */
 
 #include "z_item_b_heart.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "item.h"
+#include "play_state.h"
+
 #include "assets/objects/object_gi_hearts/object_gi_hearts.h"
 
 #define FLAGS 0
@@ -16,23 +25,23 @@ void ItemBHeart_Draw(Actor* thisx, PlayState* play);
 
 void func_80B85264(ItemBHeart* this, PlayState* play);
 
-const ActorInit Item_B_Heart_InitVars = {
-    ACTOR_ITEM_B_HEART,
-    ACTORCAT_MISC,
-    FLAGS,
-    OBJECT_GI_HEARTS,
-    sizeof(ItemBHeart),
-    (ActorFunc)ItemBHeart_Init,
-    (ActorFunc)ItemBHeart_Destroy,
-    (ActorFunc)ItemBHeart_Update,
-    (ActorFunc)ItemBHeart_Draw,
+ActorProfile Item_B_Heart_Profile = {
+    /**/ ACTOR_ITEM_B_HEART,
+    /**/ ACTORCAT_MISC,
+    /**/ FLAGS,
+    /**/ OBJECT_GI_HEARTS,
+    /**/ sizeof(ItemBHeart),
+    /**/ ItemBHeart_Init,
+    /**/ ItemBHeart_Destroy,
+    /**/ ItemBHeart_Update,
+    /**/ ItemBHeart_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 800, ICHAIN_STOP),
 };
 
 void ItemBHeart_Init(Actor* thisx, PlayState* play) {
@@ -58,7 +67,7 @@ void ItemBHeart_Update(Actor* thisx, PlayState* play) {
         Flags_SetCollectible(play, 0x1F);
         Actor_Kill(&this->actor);
     } else {
-        func_8002F434(&this->actor, play, GI_HEART_CONTAINER_2, 30.0f, 40.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_HEART_CONTAINER_2, 30.0f, 40.0f);
     }
 }
 
@@ -94,14 +103,12 @@ void ItemBHeart_Draw(Actor* thisx, PlayState* play) {
 
     if (flag) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_item_b_heart.c", 551),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_item_b_heart.c", 551);
         gSPDisplayList(POLY_XLU_DISP++, gGiHeartBorderDL);
         gSPDisplayList(POLY_XLU_DISP++, gGiHeartContainerDL);
     } else {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_item_b_heart.c", 557),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_item_b_heart.c", 557);
         gSPDisplayList(POLY_OPA_DISP++, gGiHeartBorderDL);
         gSPDisplayList(POLY_OPA_DISP++, gGiHeartContainerDL);
     }

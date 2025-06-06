@@ -5,32 +5,35 @@
  */
 
 #include "z_bg_gnd_nisekabe.h"
+
+#include "play_state.h"
+
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgGndNisekabe_Init(Actor* thisx, PlayState* play);
 void BgGndNisekabe_Destroy(Actor* thisx, PlayState* play);
 void BgGndNisekabe_Update(Actor* thisx, PlayState* play);
 void BgGndNisekabe_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Gnd_Nisekabe_InitVars = {
-    ACTOR_BG_GND_NISEKABE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndNisekabe),
-    (ActorFunc)BgGndNisekabe_Init,
-    (ActorFunc)BgGndNisekabe_Destroy,
-    (ActorFunc)BgGndNisekabe_Update,
-    (ActorFunc)BgGndNisekabe_Draw,
+ActorProfile Bg_Gnd_Nisekabe_Profile = {
+    /**/ ACTOR_BG_GND_NISEKABE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndNisekabe),
+    /**/ BgGndNisekabe_Init,
+    /**/ BgGndNisekabe_Destroy,
+    /**/ BgGndNisekabe_Update,
+    /**/ BgGndNisekabe_Draw,
 };
 
 void BgGndNisekabe_Init(Actor* thisx, PlayState* play) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
 
     Actor_SetScale(&this->actor, 0.1);
-    this->actor.uncullZoneForward = 3000.0;
+    this->actor.cullingVolumeDistance = 3000.0;
 }
 
 void BgGndNisekabe_Destroy(Actor* thisx, PlayState* play) {
@@ -40,9 +43,9 @@ void BgGndNisekabe_Update(Actor* thisx, PlayState* play) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
 
     if (play->actorCtx.lensActive) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_7;
+        this->actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
     }
 }
 
@@ -53,9 +56,9 @@ void BgGndNisekabe_Draw(Actor* thisx, PlayState* play) {
         gGanonsCastleScrubsFakeWallDL,
     };
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
-    u32 index = this->actor.params & 0xFF;
+    u32 index = PARAMS_GET_U(this->actor.params, 0, 8);
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, dLists[index]);
     } else {
         Gfx_DrawDListOpa(play, dLists[index]);

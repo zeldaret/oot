@@ -1,6 +1,6 @@
 # VSCode
 
-A lot of people on this project use VSCode as their coding environment. 
+A lot of people on this project use VSCode as their coding environment.
 
 ## Extensions
 
@@ -23,7 +23,7 @@ There are a number of useful extensions available to make work more efficient:
 - Ctrl + P offers a box to use to search for and open files.
 - Ctrl + Shift + P offers a box for commands like editing settings or reloading the window.
 
-- Make use of VSCode's search/search-and-replace features. 
+- Make use of VSCode's search/search-and-replace features.
     - Ctrl + Click goes to a definition.
     - Ctrl + F for search in current file
     - Ctrl + H for replace in current file
@@ -35,30 +35,42 @@ Many of VS Code's other shortcuts can be found on [its getting started page](htt
 
 ## C/C++ configuration
 
-You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configurations (JSON)` in the command box to customise how IntelliSense reads the repository (stuff like where to look for includes, flags, compiler defines, etc.) to make VSCode's IntelliSense plugin better able to understand the structure of the repository. This is a good default one to use for this project's repository:
+You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configurations (JSON)` in the command box to customise how IntelliSense reads the repository (stuff like where to look for includes, flags, compiler defines, etc.) to make VSCode's IntelliSense plugin better able to understand the structure of the repository.
+
+Below is a good default one to use for this project's repository, for the oot-gc-eu-mq-dbg version specifically.
+
+A more complete `c_cpp_properties.json` with configurations for all supported versions [can be found here](c_cpp_properties.json).
 
 ```jsonc
 {
     "configurations": [
         {
-            "name": "Linux",
-            "compilerPath": "${default}", // Needs to not be "" for -m32 to work
+            "name": "oot-gc-eu-mq-dbg",
             "compilerArgs": [
                 "-m32" // Removes integer truncation warnings with gbi macros
             ],
-            "intelliSenseMode": "${default}", // Shouldn't matter
             "includePath": [ // Matches makefile's includes
-                "${workspaceFolder}/**",
+                "include",
+                "include/libc",
                 "src",
-                "assets",
-                "build",
-                "include"
+                "build/gc-eu-mq-dbg",
+                ".",
+                "extracted/gc-eu-mq-dbg"
             ],
             "defines": [
-                "_LANGUAGE_C" // For gbi.h
+                "_LANGUAGE_C", // For gbi.h
+                // Version-specific
+                "OOT_VERSION=GC_EU_MQ_DBG",
+                "OOT_REGION=REGION_EU",
+                "PLATFORM_N64=0",
+                "PLATFORM_GC=1",
+                "DEBUG_FEATURES=1",
+                "F3DEX_GBI_2",
+                "F3DEX_GBI_PL",
+                "GBI_DOWHILE",
+                "GBI_DEBUG"
             ],
             "cStandard": "gnu89", // C89 + some GNU extensions from C99 like C++ comments
-            "cppStandard": "${default}" // Only ZAPD uses C++, so doesn't really matter
         }
     ],
     "version": 4
@@ -74,7 +86,7 @@ Add the following to (or create) the `.vscode/settings.json` file for VSCode to 
     "search.useIgnoreFiles": false,
     "search.exclude": {
         "**/.git": true,
-        "baserom/**": true,
+        "baseroms/**": true,
         "build/**": true,
         "expected/**": true,
     },

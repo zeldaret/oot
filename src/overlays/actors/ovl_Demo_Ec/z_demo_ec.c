@@ -5,7 +5,18 @@
  */
 
 #include "z_demo_ec.h"
-#include "vt.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_zo/object_zo.h"
 #include "assets/objects/object_ec/object_ec.h"
 #include "assets/objects/object_ma2/object_ma2.h"
@@ -37,14 +48,14 @@
 #include "assets/objects/object_bba/object_bba.h"
 #include "assets/objects/object_ane/object_ane.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void DemoEc_Init(Actor* thisx, PlayState* play);
 void DemoEc_Destroy(Actor* thisx, PlayState* play);
 void DemoEc_Update(Actor* thisx, PlayState* play);
 void DemoEc_Draw(Actor* thisx, PlayState* play);
 
-typedef enum {
+typedef enum DemoEcUpdateMode {
     /* 00 */ EC_UPDATE_COMMON,
     /* 01 */ EC_UPDATE_INGO,
     /* 02 */ EC_UPDATE_TALON,
@@ -76,7 +87,7 @@ typedef enum {
     /* 28 */ EC_UPDATE_MALON
 } DemoEcUpdateMode;
 
-typedef enum {
+typedef enum DemoEcDrawconfig {
     /* 00 */ EC_DRAW_COMMON,
     /* 01 */ EC_DRAW_INGO,
     /* 02 */ EC_DRAW_TALON,
@@ -158,7 +169,8 @@ void DemoEc_Init(Actor* thisx, PlayState* play) {
     DemoEc* this = (DemoEc*)thisx;
 
     if ((this->actor.params < 0) || (this->actor.params > 34)) {
-        osSyncPrintf(VT_FGCOL(RED) "Demo_Ec_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("Demo_Ec_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n",
+                               "Demo_Ec_Actor_ct:arg_data is strange!!!!!!!!!!!!\n") VT_RST);
         Actor_Kill(&this->actor);
     } else {
         this->updateMode = EC_UPDATE_COMMON;
@@ -176,20 +188,20 @@ void DemoEc_UpdateBgFlags(DemoEc* this, PlayState* play) {
 }
 
 void func_8096D594(DemoEc* this, PlayState* play) {
-    this->skelAnime.moveFlags |= 3;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_8096D5D4(DemoEc* this, PlayState* play) {
     this->skelAnime.baseTransl = this->skelAnime.jointTable[0];
     this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
-    this->skelAnime.moveFlags |= 3;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_8096D64C(DemoEc* this, PlayState* play) {
-    this->skelAnime.moveFlags |= 3;
-    AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
+    this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+    AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void DemoEc_UpdateEyes(DemoEc* this) {
@@ -242,7 +254,7 @@ void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 mode, f
 Gfx* DemoEc_AllocColorDList(GraphicsContext* gfxCtx, u8* color) {
     Gfx* dList;
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
+    dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 2);
     gDPSetEnvColor(dList, color[0], color[1], color[2], color[3]);
     gSPEndDisplayList(dList + 1);
 
@@ -285,11 +297,11 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
 
     Gfx_SetupDL_25Opa(gfxCtx);
 
-    if (arg2 != 0) {
+    if (arg2 != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(arg2));
     }
 
-    if (arg3 != 0) {
+    if (arg3 != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x0B, SEGMENTED_TO_VIRTUAL(arg3));
     }
 
@@ -314,41 +326,43 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
 
 void DemoEc_UseDrawObject(DemoEc* this, PlayState* play) {
     s32 pad[2];
-    s32 drawObjBankIndex = this->drawObjBankIndex;
+    s32 drawObjectSlot = this->drawObjectSlot;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_ec.c", 662);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[drawObjBankIndex].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[drawObjBankIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[drawObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[drawObjectSlot].segment);
     if (!play) {}
 
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 670);
 }
 
 void DemoEc_UseAnimationObject(DemoEc* this, PlayState* play) {
-    s32 animObjBankIndex = this->animObjBankIndex;
+    s32 animObjectSlot = this->animObjectSlot;
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.status[animObjBankIndex].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[animObjectSlot].segment);
 }
 
-CsCmdActorAction* DemoEc_GetNpcAction(PlayState* play, s32 actionIndex) {
+CsCmdActorCue* DemoEc_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.npcActions[actionIndex];
-    } else {
-        return NULL;
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
+
+    return NULL;
 }
 
-void DemoEc_SetNpcActionPosRot(DemoEc* this, PlayState* play, s32 actionIndex) {
-    CsCmdActorAction* npcAction = DemoEc_GetNpcAction(play, actionIndex);
+void DemoEc_SetStartPosRotFromCue(DemoEc* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoEc_GetCue(play, cueChannel);
 
-    if (npcAction != NULL) {
-        this->actor.world.pos.x = npcAction->startPos.x;
-        this->actor.world.pos.y = npcAction->startPos.y;
-        this->actor.world.pos.z = npcAction->startPos.z;
+    if (cue != NULL) {
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
 
-        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
     }
 }
 
@@ -370,7 +384,7 @@ void DemoEc_UpdateIngo(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_DrawIngo(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, gIngoEyeClosed2Tex, gIngoRedTex, 0, 0);
+    DemoEc_DrawSkeleton(this, play, gIngoEyeClosed2Tex, gIngoRedTex, NULL, NULL);
 }
 
 void DemoEc_InitTalon(DemoEc* this, PlayState* play) {
@@ -502,7 +516,7 @@ void DemoEc_DrawKokiriGirl(DemoEc* this, PlayState* play) {
 }
 void DemoEc_InitOldMan(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_bji_Skel_0000F0);
+    DemoEc_InitSkelAnime(this, play, &gHylianOldManSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -520,9 +534,9 @@ void DemoEc_UpdateOldMan(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawOldMan(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        object_bji_Tex_0005FC,
-        object_bji_Tex_0009FC,
-        object_bji_Tex_000DFC,
+        gHylianOldManEyeOpenTex,
+        gHylianOldManEyeHalfTex,
+        gHylianOldManEyeClosedTex,
     };
     static u8 color1[] = { 0, 50, 100, 255 };
     static u8 color2[] = { 0, 50, 160, 255 };
@@ -534,7 +548,7 @@ void DemoEc_DrawOldMan(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitBeardedMan(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_ahg_Skel_0000F0);
+    DemoEc_InitSkelAnime(this, play, &gHylianMan1Skel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -552,9 +566,9 @@ void DemoEc_UpdateBeardedMan(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawBeardedMan(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        object_ahg_Tex_00057C,
-        object_ahg_Tex_00067C,
-        object_ahg_Tex_00077C,
+        gHylianMan1BeardedEyeOpenTex,
+        gHylianMan1BeardedEyeHalfTex,
+        gHylianMan1BeardedEyeClosedTex,
     };
     static u8 color1[] = { 255, 255, 255, 255 };
     static u8 color2[] = { 255, 255, 255, 255 };
@@ -566,7 +580,7 @@ void DemoEc_DrawBeardedMan(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitWoman(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_bob_Skel_0000F0);
+    DemoEc_InitSkelAnime(this, play, &gHylianWoman2Skel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -584,9 +598,9 @@ void DemoEc_UpdateWoman(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawWoman(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        object_bob_Tex_0007C8,
-        object_bob_Tex_000FC8,
-        object_bob_Tex_0017C8,
+        gHylianWoman2EyeOpenTex,
+        gHylianWoman2EyeHalfTex,
+        gHylianWoman2EyeClosedTex,
     };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
@@ -596,7 +610,7 @@ void DemoEc_DrawWoman(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitOldWoman(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_bba_Skel_0000F0);
+    DemoEc_InitSkelAnime(this, play, &gHylianOldWomanSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -612,7 +626,7 @@ void DemoEc_UpdateOldWoman(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_DrawOldWoman(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, &object_bba_Tex_0004C8, NULL, NULL, NULL);
+    DemoEc_DrawSkeleton(this, play, &gHylianOldWomanEyeTex, NULL, NULL, NULL);
 }
 
 void DemoEc_InitBossCarpenter(DemoEc* this, PlayState* play) {
@@ -689,7 +703,7 @@ Gfx* DemoEc_GetCarpenterPostLimbDList(DemoEc* this) {
         case 13:
             return object_daiku_DL_005880;
         default:
-            osSyncPrintf(VT_FGCOL(RED) "かつらが無い!!!!!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(RED) T("かつらが無い!!!!!!!!!!!!!!!!\n", "No wig!!!!!!!!!!!!!!!!\n") VT_RST);
             return NULL;
     }
 }
@@ -705,7 +719,7 @@ void DemoEc_CarpenterPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
 }
 
 void DemoEc_DrawCarpenter(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, NULL, 0, DemoEc_CarpenterOverrideLimbDraw, DemoEc_CarpenterPostLimbDraw);
+    DemoEc_DrawSkeleton(this, play, NULL, NULL, DemoEc_CarpenterOverrideLimbDraw, DemoEc_CarpenterPostLimbDraw);
 }
 
 void DemoEc_InitGerudo(DemoEc* this, PlayState* play) {
@@ -735,7 +749,7 @@ Gfx* DemoEc_GetGerudoPostLimbDList(DemoEc* this) {
         case 18:
             return gGerudoWhiteHairstyleSpikyDL;
         default:
-            osSyncPrintf(VT_FGCOL(RED) "かつらが無い!!!!!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(RED) T("かつらが無い!!!!!!!!!!!!!!!!\n", "No wig!!!!!!!!!!!!!!!!\n") VT_RST);
             return NULL;
     }
 }
@@ -823,20 +837,21 @@ void func_8096F26C(DemoEc* this, s32 arg1) {
     }
 }
 
-void func_8096F2B0(DemoEc* this, PlayState* play, s32 arg2) {
-    CsCmdActorAction* npcAction;
-    s32 sp18;
+void func_8096F2B0(DemoEc* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoEc_GetCue(play, cueChannel);
 
-    npcAction = DemoEc_GetNpcAction(play, arg2);
+    if (cue != NULL) {
+        s32 nextCueId = cue->id;
+        s32 currentCueId = this->cueId;
 
-    if (npcAction != NULL) {
-        sp18 = npcAction->action;
-        if (sp18 != this->npcAction) {
-            if (this->npcAction) {}
-            if (sp18 == 2) {
-                func_8096F224(this, play);
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
+                case 2:
+                    func_8096F224(this, play);
+                    break;
             }
-            this->npcAction = sp18;
+
+            this->cueId = nextCueId;
         }
     }
 }
@@ -844,7 +859,7 @@ void func_8096F2B0(DemoEc* this, PlayState* play, s32 arg2) {
 void DemoEc_UpdateKingZora(DemoEc* this, PlayState* play) {
     DemoEc_UpdateSkelAnime(this);
     func_8096D594(this, play);
-    DemoEc_SetNpcActionPosRot(this, play, 6);
+    DemoEc_SetStartPosRotFromCue(this, play, 6);
     DemoEc_UpdateBgFlags(this, play);
     func_8096F2B0(this, play, 6);
 }
@@ -897,19 +912,23 @@ void func_8096F544(DemoEc* this, s32 changeAnim) {
     }
 }
 
-void func_8096F578(DemoEc* this, PlayState* play, s32 arg2) {
-    CsCmdActorAction* npcAction;
-    s32 sp18;
+void func_8096F578(DemoEc* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue;
 
-    npcAction = DemoEc_GetNpcAction(play, arg2);
-    if (npcAction != NULL) {
-        sp18 = npcAction->action;
-        if (sp18 != this->npcAction) {
-            if (this->npcAction) {}
-            if (sp18 == 2) {
-                func_8096F4FC(this, play);
+    cue = DemoEc_GetCue(play, cueChannel);
+
+    if (cue != NULL) {
+        s32 nextCueId = cue->id;
+        s32 currentCueId = this->cueId;
+
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
+                case 2:
+                    func_8096F4FC(this, play);
+                    break;
             }
-            this->npcAction = sp18;
+
+            this->cueId = nextCueId;
         }
     }
 }
@@ -917,7 +936,7 @@ void func_8096F578(DemoEc* this, PlayState* play, s32 arg2) {
 void DemoEc_UpdateMido(DemoEc* this, PlayState* play) {
     DemoEc_UpdateSkelAnime(this);
     func_8096D594(this, play);
-    DemoEc_SetNpcActionPosRot(this, play, 7);
+    DemoEc_SetStartPosRotFromCue(this, play, 7);
     DemoEc_UpdateBgFlags(this, play);
     func_8096F578(this, play, 7);
 }
@@ -1038,7 +1057,7 @@ void DemoEc_DrawPotionShopOwner(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitMaskShopOwner(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_os_Skel_004658);
+    DemoEc_InitSkelAnime(this, play, &gHappyMaskSalesmanSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -1054,7 +1073,7 @@ void DemoEc_UpdateMaskShopOwner(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_DrawMaskShopOwner(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, gOsEyeClosedTex, NULL, NULL, NULL);
+    DemoEc_DrawSkeleton(this, play, gHappyMaskSalesmanEyeClosedTex, NULL, NULL, NULL);
 }
 
 void DemoEc_InitFishingOwner(DemoEc* this, PlayState* play) {
@@ -1078,7 +1097,7 @@ void DemoEc_UpdateFishingOwner(DemoEc* this, PlayState* play) {
 void DemoEc_FishingOwnerPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     DemoEc* this = (DemoEc*)thisx;
 
-    if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & 0x1000)) {
+    if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & HS_FISH_STOLE_HAT)) {
         gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(gFishingOwnerHatDL));
     }
 }
@@ -1097,7 +1116,7 @@ void DemoEc_DrawFishingOwner(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitBombchuShopOwner(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_rs_Skel_004868);
+    DemoEc_InitSkelAnime(this, play, &gBombchuShopkeeperSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -1241,8 +1260,9 @@ void DemoEc_InitNpc(DemoEc* this, PlayState* play) {
     s16 type = this->actor.params;
 
     if (sInitFuncs[type] == NULL) {
-        // "Demo_Ec_main_init: Initialization process is wrong arg_data"
-        osSyncPrintf(VT_FGCOL(RED) " Demo_Ec_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, type);
+        PRINTF(VT_FGCOL(RED) T(" Demo_Ec_main_init:初期化処理がおかしいarg_data = %d!\n",
+                               " Demo_Ec_main_init: Initialization process is wrong arg_data = %d!\n") VT_RST,
+               type);
         Actor_Kill(&this->actor);
         return;
     }
@@ -1256,26 +1276,28 @@ void DemoEc_InitCommon(DemoEc* this, PlayState* play) {
     s32 type;
     s16 pad2;
     s16 sp28;
-    s32 primaryBankIndex;
-    s32 secondaryBankIndex;
+    s32 primaryObjectSlot;
+    s32 secondaryObjectSlot;
 
     type = this->actor.params;
     primary = sDrawObjects[type];
     sp28 = sAnimationObjects[type];
-    primaryBankIndex = Object_GetIndex(&play->objectCtx, primary);
-    secondaryBankIndex = Object_GetIndex(&play->objectCtx, sp28);
+    primaryObjectSlot = Object_GetSlot(&play->objectCtx, primary);
+    secondaryObjectSlot = Object_GetSlot(&play->objectCtx, sp28);
 
-    if ((secondaryBankIndex < 0) || (primaryBankIndex < 0)) {
-        // "Demo_Ec_main_bank: Bank unreadable arg_data = %d!"
-        osSyncPrintf(VT_FGCOL(RED) "Demo_Ec_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, type);
+    if ((secondaryObjectSlot < 0) || (primaryObjectSlot < 0)) {
+        PRINTF(VT_FGCOL(RED) T("Demo_Ec_main_bank:バンクを読めない arg_data = %d!\n",
+                               "Demo_Ec_main_bank: Bank unreadable arg_data = %d!\n") VT_RST,
+               type);
         Actor_Kill(&this->actor);
         return;
     }
 
-    if (Object_IsLoaded(&play->objectCtx, primaryBankIndex) && Object_IsLoaded(&play->objectCtx, secondaryBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, primaryObjectSlot) &&
+        Object_IsLoaded(&play->objectCtx, secondaryObjectSlot)) {
 
-        this->drawObjBankIndex = primaryBankIndex;
-        this->animObjBankIndex = secondaryBankIndex;
+        this->drawObjectSlot = primaryObjectSlot;
+        this->animObjectSlot = secondaryObjectSlot;
 
         DemoEc_InitNpc(this, play);
     }
@@ -1318,8 +1340,8 @@ void DemoEc_Update(Actor* thisx, PlayState* play) {
     s32 updateMode = this->updateMode;
 
     if ((updateMode < 0) || (updateMode >= ARRAY_COUNT(sUpdateFuncs)) || sUpdateFuncs[updateMode] == NULL) {
-        // "The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         if (updateMode != EC_UPDATE_COMMON) {
             DemoEc_UseAnimationObject(this, play);
@@ -1351,8 +1373,8 @@ void DemoEc_Draw(Actor* thisx, PlayState* play) {
     s32 drawConfig = this->drawConfig;
 
     if ((drawConfig < 0) || (drawConfig >= ARRAY_COUNT(sDrawFuncs)) || sDrawFuncs[drawConfig] == NULL) {
-        // "The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         if (drawConfig != EC_DRAW_COMMON) {
             DemoEc_UseDrawObject(this, play);
@@ -1361,14 +1383,14 @@ void DemoEc_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit Demo_Ec_InitVars = {
-    ACTOR_DEMO_EC,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_EC,
-    sizeof(DemoEc),
-    (ActorFunc)DemoEc_Init,
-    (ActorFunc)DemoEc_Destroy,
-    (ActorFunc)DemoEc_Update,
-    (ActorFunc)DemoEc_Draw,
+ActorProfile Demo_Ec_Profile = {
+    /**/ ACTOR_DEMO_EC,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_EC,
+    /**/ sizeof(DemoEc),
+    /**/ DemoEc_Init,
+    /**/ DemoEc_Destroy,
+    /**/ DemoEc_Update,
+    /**/ DemoEc_Draw,
 };

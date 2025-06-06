@@ -7,6 +7,47 @@
         <Animation Name="gBariUnusedAnim_000D9C" Offset="0xD9C"/><!-- Arms down, moving back and forth a little -->
         <Animation Name="gBariLurkingAnim" Offset="0x14AC"/><!-- Flap arms medium and slow -->
 
+        <!-- Bari Vertices -->
+        <Array Name="gBariInnerHoodVtx" Count="53" Offset="0x14C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariNucleusVtx" Count="4" Offset="0x1810">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariOuterHoodVtx" Count="46" Offset="0x1850">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariRightMandibleVtx" Count="18" Offset="0x1B30">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariLeftMandibleVtx" Count="18" Offset="0x1C50">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariRightClawTipVtx" Count="12" Offset="0x1D70">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariRightClawBodyVtx" Count="18" Offset="0x1E30">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariRightForearmVtx" Count="19" Offset="0x1F50">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariRightUpperArmVtx" Count="20" Offset="0x2080">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariLeftClawTipVtx" Count="12" Offset="0x21C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariLeftClawBodyVtx" Count="18" Offset="0x2280">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariLeftForearmVtx" Count="19" Offset="0x23A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBariLeftUpperArmVtx" Count="20" Offset="0x24D0">
+            <Vtx/>
+        </Array>
+
         <!-- Bari DLists -->
         <DList Name="gBariInnerHoodDL" Offset="0x2610"/>
         <DList Name="gBariNucleusDL" Offset="0x2740"/>
@@ -23,11 +64,11 @@
         <DList Name="gBariLeftUpperArmDL" Offset="0x3060"/>
 
         <!-- Bari DList textures -->
-        <Texture Name="gBariNucleusTex" OutName="bari_nucleus" Format="ia16" Width="32" Height="32" Offset="0x3108"/>
-        <Texture Name="gBariMandibleClawTex" OutName="bari_mandible_claw" Format="ia16" Width="8" Height="8" Offset="0x3908"/>
-        <Texture Name="gBariOuterHoodForearmTex" OutName="bari_outer_hood_forearm" Format="ia16" Width="16" Height="32" Offset="0x3988"/>
-        <Texture Name="gBariOuterHoodBottomTex" OutName="bari_outer_hood_bottom" Format="ia16" Width="8" Height="16" Offset="0x3D88"/>
-        <Texture Name="gBariInnerHoodTex" OutName="bari_inner_hood" Format="ia16" Width="32" Height="32" Offset="0x3E88"/>
+        <Texture Name="gBariNucleusTex" Format="ia16" Width="32" Height="32" Offset="0x3108"/>
+        <Texture Name="gBariMandibleClawTex" Format="ia16" Width="8" Height="8" Offset="0x3908"/>
+        <Texture Name="gBariOuterHoodForearmTex" Format="ia16" Width="16" Height="32" Offset="0x3988"/>
+        <Texture Name="gBariOuterHoodBottomTex" Format="ia16" Width="8" Height="16" Offset="0x3D88"/>
+        <Texture Name="gBariInnerHoodTex" Format="ia16" Width="32" Height="32" Offset="0x3E88"/>
 
         <!-- Bari Limbs and Skeleton -->
         <Limb Name="gBariNucleusBaseLimb" LimbType="Standard" Offset="0x4688"/>

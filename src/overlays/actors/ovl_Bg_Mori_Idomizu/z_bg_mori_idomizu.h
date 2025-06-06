@@ -2,11 +2,11 @@
 #define Z_BG_MORI_IDOMIZU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct BgMoriIdomizu;
 
-typedef void (*BgMoriIdomizuActionFunc)(struct BgMoriIdomizu*, PlayState*);
+typedef void (*BgMoriIdomizuActionFunc)(struct BgMoriIdomizu*, struct PlayState*);
 
 typedef struct BgMoriIdomizu {
     /* 0x0000 */ Actor actor;
@@ -15,7 +15,7 @@ typedef struct BgMoriIdomizu {
     /* 0x0154 */ s32 prevSwitchFlagSet;
     /* 0x0158 */ s16 isLoaded;
     /* 0x015A */ s16 drainTimer;
-    /* 0x015C */ s8 moriTexObjIndex;
+    /* 0x015C */ s8 moriTexObjectSlot;
 } BgMoriIdomizu; // size = 0x0160
 
 #endif

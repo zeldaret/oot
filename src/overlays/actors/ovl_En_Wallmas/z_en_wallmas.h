@@ -2,9 +2,9 @@
 #define Z_EN_WALLMAS_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
-typedef enum {
+typedef enum WallmasType {
     /* 0x00 */ WMT_TIMER,
     /* 0x01 */ WMT_PROXIMITY,
     /* 0x02 */ WMT_FLAG
@@ -12,7 +12,7 @@ typedef enum {
 
 struct EnWallmas;
 
-typedef void (*EnWallmasActionFunc)(struct EnWallmas*, PlayState*);
+typedef void (*EnWallmasActionFunc)(struct EnWallmas*, struct PlayState*);
 
 typedef struct EnWallmas {
     /* 0x0000 */ Actor actor;

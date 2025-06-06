@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "asm-differ"
+version = "0.1.0"
+description = ""
+authors = ["Simon Lindholm <simon.lindholm10@gmail.com>"]
+license = "UNLICENSE"
+readme = "README.md"
+packages = [{ include = "diff.py" }]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+colorama = "^0.4.6"
+ansiwrap = "^0.8.4"
+watchdog = "^2.2.0"
+levenshtein = "^0.20.9"
+cxxfilt = "^0.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

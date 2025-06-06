@@ -1,18 +1,46 @@
-#include "global.h"
+#include "segment_symbols.h"
+#include "console_logo_state.h"
+#include "file_select_state.h"
+#include "map_select_state.h"
+#include "setup_state.h"
+#include "title_setup_state.h"
+#include "z_game_dlftbls.h"
+#include "play_state.h"
 
-#define GAMESTATE_OVERLAY(name, init, destroy, size)                                                         \
-    {                                                                                                        \
-        NULL, (u32)_ovl_##name##SegmentRomStart, (u32)_ovl_##name##SegmentRomEnd, _ovl_##name##SegmentStart, \
-            _ovl_##name##SegmentEnd, NULL, init, destroy, NULL, NULL, 0, size                                \
-    }
-#define GAMESTATE_OVERLAY_INTERNAL(init, destroy, size) \
-    { NULL, 0, 0, NULL, NULL, NULL, init, destroy, NULL, NULL, 0, size }
+// Linker symbol declarations (used in the table below)
+#define DEFINE_GAMESTATE(typeName, enumName, name) DECLARE_OVERLAY_SEGMENT(name)
+#define DEFINE_GAMESTATE_INTERNAL(typeName, enumName)
+
+#include "tables/gamestate_table.h"
+
+#undef DEFINE_GAMESTATE
+#undef DEFINE_GAMESTATE_INTERNAL
+
+// Gamestate Overlay Table definition
+#define DEFINE_GAMESTATE_INTERNAL(typeName, enumName)                                                     \
+    {                                                                                                     \
+        NULL, ROM_FILE_UNSET,          NULL, NULL, NULL, typeName##_Init, typeName##_Destroy, NULL, NULL, \
+        0,    sizeof(typeName##State),                                                                    \
+    },
+
+#define DEFINE_GAMESTATE(typeName, enumName, name) \
+    {                                              \
+        NULL,                                      \
+        ROM_FILE(ovl_##name),                      \
+        _ovl_##name##SegmentStart,                 \
+        _ovl_##name##SegmentEnd,                   \
+        NULL,                                      \
+        typeName##_Init,                           \
+        typeName##_Destroy,                        \
+        NULL,                                      \
+        NULL,                                      \
+        0,                                         \
+        sizeof(typeName##State),                   \
+    },
 
 GameStateOverlay gGameStateOverlayTable[] = {
-    GAMESTATE_OVERLAY_INTERNAL(TitleSetup_Init, TitleSetup_Destroy, sizeof(GameState)),
-    GAMESTATE_OVERLAY(select, Select_Init, Select_Destroy, sizeof(SelectContext)),
-    GAMESTATE_OVERLAY(title, Title_Init, Title_Destroy, sizeof(TitleContext)),
-    GAMESTATE_OVERLAY_INTERNAL(Play_Init, Play_Destroy, sizeof(PlayState)),
-    GAMESTATE_OVERLAY(opening, Opening_Init, Opening_Destroy, sizeof(OpeningContext)),
-    GAMESTATE_OVERLAY(file_choose, FileChoose_Init, FileChoose_Destroy, sizeof(FileChooseContext)),
+#include "tables/gamestate_table.h"
 };
+
+#undef DEFINE_GAMESTATE
+#undef DEFINE_GAMESTATE_INTERNAL

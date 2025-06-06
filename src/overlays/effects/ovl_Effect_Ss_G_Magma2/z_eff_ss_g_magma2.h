@@ -2,9 +2,10 @@
 #define Z_EFF_SS_G_MAGMA2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "color.h"
+#include "z_math.h"
 
-typedef struct {
+typedef struct EffectSsGMagma2InitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Color_RGBA8 primColor;
     /* 0x10 */ Color_RGBA8 envColor;

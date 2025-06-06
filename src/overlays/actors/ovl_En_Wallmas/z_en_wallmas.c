@@ -5,16 +5,26 @@
  */
 
 #include "z_en_wallmas.h"
-#include "assets/objects/object_wallmaster/object_wallmaster.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_wallmaster/object_wallmaster.h"
+
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 #define TIMER_SCALE ((f32)OS_CLOCK_RATE / 10000000000)
-
-#define DAMAGE_EFFECT_BURN 2
-#define DAMAGE_EFFECT_STUN_WHITE 4
-#define DAMAGE_EFFECT_STUN_BLUE 1
 
 void EnWallmas_Init(Actor* thisx, PlayState* play);
 void EnWallmas_Destroy(Actor* thisx, PlayState* play);
@@ -38,21 +48,21 @@ void EnWallmas_WaitForSwitchFlag(EnWallmas* this, PlayState* play);
 void EnWallmas_Stun(EnWallmas* this, PlayState* play);
 void EnWallmas_Walk(EnWallmas* this, PlayState* play);
 
-const ActorInit En_Wallmas_InitVars = {
-    ACTOR_EN_WALLMAS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_WALLMASTER,
-    sizeof(EnWallmas),
-    (ActorFunc)EnWallmas_Init,
-    (ActorFunc)EnWallmas_Destroy,
-    (ActorFunc)EnWallmas_Update,
-    (ActorFunc)EnWallmas_Draw,
+ActorProfile En_Wallmas_Profile = {
+    /**/ ACTOR_EN_WALLMAS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_WALLMASTER,
+    /**/ sizeof(EnWallmas),
+    /**/ EnWallmas_Init,
+    /**/ EnWallmas_Destroy,
+    /**/ EnWallmas_Update,
+    /**/ EnWallmas_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -60,11 +70,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0 } },
@@ -72,44 +82,51 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 4, 30, 40, 150 };
 
+typedef enum EnWallmasDamageReaction {
+    /* 0 */ WALLMAS_DMG_REACT_NONE,
+    /* 1 */ WALLMAS_DMG_REACT_STUN_BLUE,
+    /* 2 */ WALLMAS_DMG_REACT_BURN,
+    /* 4 */ WALLMAS_DMG_REACT_STUN_WHITE = 4
+} EnWallmasDamageReaction;
+
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x1),
-    /* Deku stick    */ DMG_ENTRY(2, 0x0),
-    /* Slingshot     */ DMG_ENTRY(1, 0x0),
-    /* Explosive     */ DMG_ENTRY(2, 0x0),
-    /* Boomerang     */ DMG_ENTRY(0, 0x1),
-    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
-    /* Hookshot      */ DMG_ENTRY(0, 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
-    /* Master sword  */ DMG_ENTRY(2, 0x0),
-    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
-    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
-    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
-    /* Light arrow   */ DMG_ENTRY(4, 0x4),
-    /* Unk arrow 1   */ DMG_ENTRY(4, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
-    /* Fire magic    */ DMG_ENTRY(4, 0x2),
-    /* Ice magic     */ DMG_ENTRY(0, 0x0),
-    /* Light magic   */ DMG_ENTRY(4, 0x4),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
-    /* Giant spin    */ DMG_ENTRY(4, 0x0),
-    /* Master spin   */ DMG_ENTRY(2, 0x0),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
-    /* Giant jump    */ DMG_ENTRY(8, 0x0),
-    /* Master jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, WALLMAS_DMG_REACT_STUN_BLUE),
+    /* Deku stick    */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, WALLMAS_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, WALLMAS_DMG_REACT_STUN_BLUE),
+    /* Normal arrow  */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(0, WALLMAS_DMG_REACT_STUN_BLUE),
+    /* Kokiri sword  */ DMG_ENTRY(1, WALLMAS_DMG_REACT_NONE),
+    /* Master sword  */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Giant's Knife */ DMG_ENTRY(4, WALLMAS_DMG_REACT_NONE),
+    /* Fire arrow    */ DMG_ENTRY(4, WALLMAS_DMG_REACT_BURN),
+    /* Ice arrow     */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Light arrow   */ DMG_ENTRY(4, WALLMAS_DMG_REACT_STUN_WHITE),
+    /* Unk arrow 1   */ DMG_ENTRY(4, WALLMAS_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, WALLMAS_DMG_REACT_BURN),
+    /* Ice magic     */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
+    /* Light magic   */ DMG_ENTRY(4, WALLMAS_DMG_REACT_STUN_WHITE),
+    /* Shield        */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, WALLMAS_DMG_REACT_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, WALLMAS_DMG_REACT_NONE),
+    /* Master spin   */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, WALLMAS_DMG_REACT_NONE),
+    /* Master jump   */ DMG_ENTRY(4, WALLMAS_DMG_REACT_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, WALLMAS_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_WALLMASTER, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 5500, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 5500, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1500, ICHAIN_STOP),
 };
 
@@ -124,8 +141,8 @@ void EnWallmas_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->switchFlag = (u8)(thisx->params >> 0x8);
-    thisx->params = thisx->params & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
+    thisx->params = PARAMS_GET_U(thisx->params, 0, 8);
 
     if (thisx->params == WMT_FLAG) {
         if (Flags_GetSwitch(play, this->switchFlag) != 0) {
@@ -150,8 +167,8 @@ void EnWallmas_Destroy(Actor* thisx, PlayState* play) {
 void EnWallmas_TimerInit(EnWallmas* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
-    this->actor.flags |= ACTOR_FLAG_5;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+    this->actor.flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
     this->timer = 0x82;
     this->actor.velocity.y = 0.0f;
     this->actor.world.pos.y = player->actor.world.pos.y;
@@ -171,8 +188,8 @@ void EnWallmas_SetupDrop(EnWallmas* this, PlayState* play) {
     this->actor.world.pos.y = player->actor.world.pos.y + 300.0f;
     this->actor.world.rot.y = player->actor.shape.rot.y + 0x8000;
     this->actor.floorHeight = player->actor.floorHeight;
-    this->actor.flags |= ACTOR_FLAG_0;
-    this->actor.flags &= ~ACTOR_FLAG_5;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+    this->actor.flags &= ~ACTOR_FLAG_DRAW_CULLING_DISABLED;
     this->actionFunc = EnWallmas_Drop;
 }
 
@@ -184,7 +201,7 @@ void EnWallmas_SetupLand(EnWallmas* this, PlayState* play) {
                      ANIMMODE_ONCE, -3.0f);
 
     Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 300, 100, true);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_LAND);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_LAND);
     this->actionFunc = EnWallmas_Land;
 }
 
@@ -196,20 +213,20 @@ void EnWallmas_SetupStand(EnWallmas* this) {
 void EnWallmas_SetupWalk(EnWallmas* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gWallmasterWalkAnim, 3.0f);
     this->actionFunc = EnWallmas_Walk;
-    this->actor.speedXZ = 3.0f;
+    this->actor.speed = 3.0f;
 }
 
 void EnWallmas_SetupJumpToCeiling(EnWallmas* this) {
     Animation_PlayOnce(&this->skelAnime, &gWallmasterStopWalkAnim);
     this->actionFunc = EnWallmas_JumpToCeiling;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
     AnimationHeader* objSegFrameCount = &gWallmasterJumpAnim;
     AnimationHeader* objSegChangee = &gWallmasterJumpAnim;
 
     this->timer = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 
     Animation_Change(&this->skelAnime, objSegChangee, 3.0f, 0.0f, Animation_GetLastFrame(objSegFrameCount),
                      ANIMMODE_ONCE, -3.0f);
@@ -219,21 +236,21 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
 
 void EnWallmas_SetupTakeDamage(EnWallmas* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterDamageAnim, -3.0f);
-    if (this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
+    if (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
 
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x14);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 20);
     this->actionFunc = EnWallmas_TakeDamage;
-    this->actor.speedXZ = 5.0f;
+    this->actor.speed = 5.0f;
     this->actor.velocity.y = 10.0f;
 }
 
 void EnWallmas_SetupCooldown(EnWallmas* this) {
     Animation_PlayOnce(&this->skelAnime, &gWallmasterRecoverFromDamageAnim);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actionFunc = EnWallmas_Cooldown;
@@ -241,7 +258,7 @@ void EnWallmas_SetupCooldown(EnWallmas* this) {
 
 void EnWallmas_SetupDie(EnWallmas* this, PlayState* play) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
 
     EffectSsDeadDb_Spawn(play, &this->actor.world.pos, &zeroVec, &zeroVec, 250, -10, 255, 255, 255, 255, 0, 0, 255, 1,
@@ -255,18 +272,18 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, PlayState* play) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterHoverAnim, -5.0f);
     this->timer = -0x1E;
     this->actionFunc = EnWallmas_TakePlayer;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
 
     this->yTarget = this->actor.yDistToPlayer;
-    func_8002DF38(play, &this->actor, 0x25);
+    Player_SetCsAction(play, &this->actor, PLAYER_CSACTION_37);
     OnePointCutscene_Init(play, 9500, 9999, &this->actor, CAM_ID_MAIN);
 }
 
 void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {
     this->timer = 0;
     this->actor.draw = NULL;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     if (this->actor.params == WMT_PROXIMITY) {
         this->actionFunc = EnWallmas_WaitForProximity;
     } else {
@@ -277,12 +294,12 @@ void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {
 void EnWallmas_SetupStun(EnWallmas* this) {
     Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.5f, 0, 20.0f, ANIMMODE_ONCE, -3.0f);
 
-    this->actor.speedXZ = 0.0f;
-    if (this->actor.colChkInfo.damageEffect == 4) {
-        Actor_SetColorFilter(&this->actor, -0x8000, 0xFF, 0, 0x50);
+    this->actor.speed = 0.0f;
+    if (this->actor.colChkInfo.damageReaction == 4) {
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
-        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     }
 
     this->timer = 0x50;
@@ -309,7 +326,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, PlayState* play) {
     }
 
     if (this->timer == 0x50) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_AIM);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_AIM);
     }
 
     if (this->timer == 0) {
@@ -328,13 +345,13 @@ void EnWallmas_Drop(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_Land(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupStand(this);
     }
 }
 
 void EnWallmas_Stand(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupWalk(this);
     }
 
@@ -342,7 +359,7 @@ void EnWallmas_Stand(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_Walk(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupJumpToCeiling(this);
     }
 
@@ -350,12 +367,12 @@ void EnWallmas_Walk(EnWallmas* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f) ||
         Animation_OnFrame(&this->skelAnime, 24.0f) || Animation_OnFrame(&this->skelAnime, 36.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_WALK);
     }
 }
 
 void EnWallmas_JumpToCeiling(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupReturnToCeiling(this);
     }
 }
@@ -365,11 +382,11 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->skelAnime.curFrame > 20.0f) {
         this->timer += 9;
-        this->actor.world.pos.y = this->actor.world.pos.y + 30.0f;
+        this->actor.world.pos.y += 30.0f;
     }
 
     if (Animation_OnFrame(&this->skelAnime, 20.0f) != 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_UP);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_UP);
     }
 
     if (this->actor.yDistToPlayer < -900.0f) {
@@ -388,7 +405,7 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_TakeDamage(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health == 0) {
             EnWallmas_SetupDie(this, play);
         } else {
@@ -396,14 +413,14 @@ void EnWallmas_TakeDamage(EnWallmas* this, PlayState* play) {
         }
     }
     if (Animation_OnFrame(&this->skelAnime, 13.0f) != 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.2f);
 }
 
 void EnWallmas_Cooldown(EnWallmas* this, PlayState* play) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnWallmas_SetupReturnToCeiling(this);
     }
 }
@@ -423,21 +440,23 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelAnime, 1.0f) != 0) {
         if (!LINK_IS_ADULT) {
-            func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
+            //! @bug: This is an unsafe cast, although the sound effect will still play
+            Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
         } else {
-            func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S);
+            //! @bug: This is an unsafe cast, although the sound effect will still play
+            Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_DAMAGE_S);
         }
 
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_CATCH);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_CATCH);
     }
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         player->actor.world.pos.x = this->actor.world.pos.x;
         player->actor.world.pos.z = this->actor.world.pos.z;
 
         if (this->timer < 0) {
-            this->actor.world.pos.y = this->actor.world.pos.y + 2.0f;
+            this->actor.world.pos.y += 2.0f;
         } else {
-            this->actor.world.pos.y = this->actor.world.pos.y + 10.0f;
+            this->actor.world.pos.y += 10.0f;
         }
 
         if (!LINK_IS_ADULT) {
@@ -448,16 +467,18 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
 
         if (this->timer == -0x1E) {
             if (!LINK_IS_ADULT) {
-                func_8002F7DC(&this->actor, NA_SE_VO_LI_TAKEN_AWAY_KID);
+                //! @bug: This is an unsafe cast, although the sound effect will still play
+                Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_TAKEN_AWAY_KID);
             } else {
-                func_8002F7DC(&this->actor, NA_SE_VO_LI_TAKEN_AWAY);
+                //! @bug: This is an unsafe cast, although the sound effect will still play
+                Player_PlaySfx((Player*)&this->actor, NA_SE_VO_LI_TAKEN_AWAY);
             }
         }
         if (this->timer == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_UP);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_UP);
         }
 
-        this->timer = this->timer + 2;
+        this->timer += 2;
     } else {
         Math_StepToF(&this->actor.world.pos.y, player->actor.world.pos.y + (!LINK_IS_ADULT ? 30.0f : 50.0f), 5.0f);
     }
@@ -466,7 +487,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
     Math_StepToF(&this->actor.world.pos.z, player->actor.world.pos.z, 3.0f);
 
     if (this->timer == 0x1E) {
-        func_80078884(NA_SE_OC_ABYSS);
+        Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
         Play_TriggerRespawn(play);
     }
 }
@@ -503,25 +524,25 @@ void EnWallmas_Stun(EnWallmas* this, PlayState* play) {
 void EnWallmas_ColUpdate(EnWallmas* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DEAD);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_DEAD);
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             } else {
                 if (this->actor.colChkInfo.damage != 0) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DAMAGE);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_DAMAGE);
                 }
             }
 
-            if ((this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_WHITE) ||
-                (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_BLUE)) {
+            if ((this->actor.colChkInfo.damageReaction == WALLMAS_DMG_REACT_STUN_WHITE) ||
+                (this->actor.colChkInfo.damageReaction == WALLMAS_DMG_REACT_STUN_BLUE)) {
                 if (this->actionFunc != EnWallmas_Stun) {
                     EnWallmas_SetupStun(this);
                 }
             } else {
-                if (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_BURN) {
+                if (this->actor.colChkInfo.damageReaction == WALLMAS_DMG_REACT_BURN) {
                     EffectSsFCircle_Spawn(play, &this->actor, &this->actor.world.pos, 40, 40);
                 }
 
@@ -544,7 +565,7 @@ void EnWallmas_Update(Actor* thisx, PlayState* play) {
     }
 
     if ((this->actionFunc != EnWallmas_ReturnToCeiling) && (this->actionFunc != EnWallmas_TakePlayer)) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
     }
 
     if (this->actionFunc != EnWallmas_Drop) {
@@ -602,7 +623,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, PlayState* play) {
     }
 
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_wallmas.c", 1421);
     gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_wallmas.c", 1426);
@@ -631,7 +652,7 @@ void EnWallMas_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
         Matrix_RotateZ(DEG_TO_RAD(15), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_wallmas.c", 1489), G_MTX_LOAD);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_wallmas.c", 1489);
         gSPDisplayList(POLY_OPA_DISP++, gWallmasterFingerDL);
 
         Matrix_Pop();

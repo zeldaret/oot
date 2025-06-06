@@ -1,4 +1,13 @@
-#include "global.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "lifemeter.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/textures/parameter_static/parameter_static.h"
 
 static s16 sHeartsPrimColors[3][3] = {
@@ -115,7 +124,7 @@ void Health_InitMeter(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     interfaceCtx->unk_228 = 0x140;
-    interfaceCtx->unk_226 = gSaveContext.health;
+    interfaceCtx->unk_226 = gSaveContext.save.info.playerData.health;
     interfaceCtx->beatingHeartOscillator = interfaceCtx->heartColorOscillator = 0;
     interfaceCtx->beatingHeartOscillatorDirection = interfaceCtx->heartColorOscillatorDirection = 0;
 
@@ -242,7 +251,7 @@ void Health_UpdateMeter(PlayState* play) {
 
 // Unused
 s32 func_80078E18(PlayState* play) {
-    gSaveContext.health = play->interfaceCtx.unk_226;
+    gSaveContext.save.info.playerData.health = play->interfaceCtx.unk_226;
     return 1;
 }
 
@@ -253,8 +262,8 @@ s32 func_80078E34(PlayState* play) {
     interfaceCtx->unk_228 = 0x140;
     interfaceCtx->unk_226 += 0x10;
 
-    if (interfaceCtx->unk_226 >= gSaveContext.health) {
-        interfaceCtx->unk_226 = gSaveContext.health;
+    if (interfaceCtx->unk_226 >= gSaveContext.save.info.playerData.health) {
+        interfaceCtx->unk_226 = gSaveContext.save.info.playerData.health;
         return 1;
     }
 
@@ -272,7 +281,7 @@ s32 func_80078E84(PlayState* play) {
         interfaceCtx->unk_226 -= 0x10;
         if (interfaceCtx->unk_226 <= 0) {
             interfaceCtx->unk_226 = 0;
-            play->damagePlayer(play, -(gSaveContext.health + 1));
+            play->damagePlayer(play, -(gSaveContext.save.info.playerData.health + 1));
             return 1;
         }
     }
@@ -309,18 +318,18 @@ void Health_DrawMeter(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     Vtx* beatingHeartVtx = interfaceCtx->beatingHeartVtx;
-    s32 curHeartFraction = gSaveContext.health % 0x10;
-    s16 totalHeartCount = gSaveContext.healthCapacity / 0x10;
-    s16 fullHeartCount = gSaveContext.health / 0x10;
+    s32 curHeartFraction = gSaveContext.save.info.playerData.health % 0x10;
+    s16 totalHeartCount = gSaveContext.save.info.playerData.healthCapacity / 0x10;
+    s16 fullHeartCount = gSaveContext.save.info.playerData.health / 0x10;
     s32 pad2;
     f32 beatingHeartPulsingSize = interfaceCtx->beatingHeartOscillator * 0.1f;
     s32 curCombineModeSet = 0;
     u8* curBgImgLoaded = NULL;
-    s32 ddHeartCountMinusOne = gSaveContext.inventory.defenseHearts - 1;
+    s32 ddHeartCountMinusOne = gSaveContext.save.info.inventory.defenseHearts - 1;
 
     OPEN_DISPS(gfxCtx, "../z_lifemeter.c", 353);
 
-    if (!(gSaveContext.health % 0x10)) {
+    if (!(gSaveContext.save.info.playerData.health % 0x10)) {
         fullHeartCount--;
     }
 
@@ -475,11 +484,11 @@ void Health_DrawMeter(PlayState* play) {
             }
 
             {
-                Mtx* matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
+                Mtx* matrix = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
                 Matrix_SetTranslateScaleMtx2(
                     matrix, 1.0f - (0.32f * beatingHeartPulsingSize), 1.0f - (0.32f * beatingHeartPulsingSize),
                     1.0f - (0.32f * beatingHeartPulsingSize), -130.0f + offsetX, 94.5f - offsetY, 0.0f);
-                gSPMatrix(OVERLAY_DISP++, matrix, G_MTX_MODELVIEW | G_MTX_LOAD);
+                gSPMatrix(OVERLAY_DISP++, matrix, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPVertex(OVERLAY_DISP++, beatingHeartVtx, 4, 0);
                 gSP1Quadrangle(OVERLAY_DISP++, 0, 2, 3, 1, 0);
             }
@@ -506,9 +515,8 @@ void Health_UpdateBeatingHeart(PlayState* play) {
         if (interfaceCtx->beatingHeartOscillator <= 0) {
             interfaceCtx->beatingHeartOscillator = 0;
             interfaceCtx->beatingHeartOscillatorDirection = 0;
-            if (!Player_InCsMode(play) && (play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0) &&
-                Health_IsCritical() && !Play_InCsMode(play)) {
-                func_80078884(NA_SE_SY_HITPOINT_ALARM);
+            if (!Player_InCsMode(play) && !IS_PAUSED(&play->pauseCtx) && Health_IsCritical() && !Play_InCsMode(play)) {
+                Sfx_PlaySfxCentered(NA_SE_SY_HITPOINT_ALARM);
             }
         }
     } else {
@@ -523,17 +531,18 @@ void Health_UpdateBeatingHeart(PlayState* play) {
 u32 Health_IsCritical(void) {
     s32 criticalHealth;
 
-    if (gSaveContext.healthCapacity <= 0x50) {
+    if (gSaveContext.save.info.playerData.healthCapacity <= 0x50) {
         criticalHealth = 0x10;
-    } else if (gSaveContext.healthCapacity <= 0xA0) {
+    } else if (gSaveContext.save.info.playerData.healthCapacity <= 0xA0) {
         criticalHealth = 0x18;
-    } else if (gSaveContext.healthCapacity <= 0xF0) {
+    } else if (gSaveContext.save.info.playerData.healthCapacity <= 0xF0) {
         criticalHealth = 0x20;
     } else {
         criticalHealth = 0x2C;
     }
 
-    if ((criticalHealth >= gSaveContext.health) && (gSaveContext.health > 0)) {
+    if ((criticalHealth >= gSaveContext.save.info.playerData.health) &&
+        (gSaveContext.save.info.playerData.health > 0)) {
         return true;
     } else {
         return false;

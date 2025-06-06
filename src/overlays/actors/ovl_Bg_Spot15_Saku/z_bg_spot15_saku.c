@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_spot15_saku.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_spot15_obj/object_spot15_obj.h"
 
 #define FLAGS 0
@@ -18,16 +26,16 @@ void func_808B4930(BgSpot15Saku* this, PlayState* play);
 void func_808B4978(BgSpot15Saku* this, PlayState* play);
 void func_808B4A04(BgSpot15Saku* this, PlayState* play);
 
-const ActorInit Bg_Spot15_Saku_InitVars = {
-    ACTOR_BG_SPOT15_SAKU,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_SPOT15_OBJ,
-    sizeof(BgSpot15Saku),
-    (ActorFunc)BgSpot15Saku_Init,
-    (ActorFunc)BgSpot15Saku_Destroy,
-    (ActorFunc)BgSpot15Saku_Update,
-    (ActorFunc)BgSpot15Saku_Draw,
+ActorProfile Bg_Spot15_Saku_Profile = {
+    /**/ ACTOR_BG_SPOT15_SAKU,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT15_OBJ,
+    /**/ sizeof(BgSpot15Saku),
+    /**/ BgSpot15Saku_Init,
+    /**/ BgSpot15Saku_Destroy,
+    /**/ BgSpot15Saku_Update,
+    /**/ BgSpot15Saku_Draw,
 };
 
 void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
@@ -36,7 +44,7 @@ void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gLonLonCorralFenceCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->dyna.actor.scale.x = 0.1f;
@@ -66,10 +74,10 @@ void func_808B4930(BgSpot15Saku* this, PlayState* play) {
 
 void func_808B4978(BgSpot15Saku* this, PlayState* play) {
     if (this->timer == 0) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         this->dyna.actor.world.pos.z -= 2.0f;
         if (this->dyna.actor.world.pos.z < 2660.0f) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->timer = 30;
             this->actionFunc = func_808B4A04;
         }
@@ -98,8 +106,7 @@ void BgSpot15Saku_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot15_saku.c", 263);
     gSPDisplayList(POLY_XLU_DISP++, gLonLonCorralFenceDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot15_saku.c", 268);

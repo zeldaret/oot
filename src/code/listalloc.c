@@ -1,4 +1,5 @@
-#include "global.h"
+#include "libc64/malloc.h"
+#include "listalloc.h"
 
 ListAlloc* ListAlloc_Init(ListAlloc* this) {
     this->prev = NULL;
@@ -7,7 +8,7 @@ ListAlloc* ListAlloc_Init(ListAlloc* this) {
 }
 
 void* ListAlloc_Alloc(ListAlloc* this, u32 size) {
-    ListAlloc* ptr = SystemArena_MallocDebug(size + sizeof(ListAlloc), "../listalloc.c", 40);
+    ListAlloc* ptr = SYSTEM_ARENA_MALLOC(size + sizeof(ListAlloc), "../listalloc.c", 40);
     ListAlloc* next;
 
     if (ptr == NULL) {
@@ -49,7 +50,7 @@ void ListAlloc_Free(ListAlloc* this, void* data) {
         this->next = ptr->prev;
     }
 
-    SystemArena_FreeDebug(ptr, "../listalloc.c", 72);
+    SYSTEM_ARENA_FREE(ptr, "../listalloc.c", 72);
 }
 
 void ListAlloc_FreeAll(ListAlloc* this) {

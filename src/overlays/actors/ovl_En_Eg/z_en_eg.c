@@ -5,9 +5,19 @@
  */
 
 #include "z_en_eg.h"
-#include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "printf.h"
+#include "regs.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnEg_Init(Actor* thisx, PlayState* play);
 void EnEg_Destroy(Actor* thisx, PlayState* play);
@@ -16,26 +26,26 @@ void EnEg_Draw(Actor* thisx, PlayState* play);
 
 void func_809FFDC8(EnEg* this, PlayState* play);
 
-static s32 voided = false;
+static s32 sVoided = false;
 
 static EnEgActionFunc sActionFuncs[] = {
     func_809FFDC8,
 };
 
-const ActorInit En_Eg_InitVars = {
-    ACTOR_EN_EG,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_ZL2,
-    sizeof(EnEg),
-    (ActorFunc)EnEg_Init,
-    (ActorFunc)EnEg_Destroy,
-    (ActorFunc)EnEg_Update,
-    (ActorFunc)EnEg_Draw,
+ActorProfile En_Eg_Profile = {
+    /**/ ACTOR_EN_EG,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL2,
+    /**/ sizeof(EnEg),
+    /**/ EnEg_Init,
+    /**/ EnEg_Destroy,
+    /**/ EnEg_Update,
+    /**/ EnEg_Draw,
 };
 
-void EnEg_PlayVoidOutSFX() {
-    func_800788CC(NA_SE_OC_ABYSS);
+void EnEg_PlayVoidOutSFX(void) {
+    Sfx_PlaySfxCentered2(NA_SE_OC_ABYSS);
 }
 
 void EnEg_Destroy(Actor* thisx, PlayState* play) {
@@ -48,14 +58,15 @@ void EnEg_Init(Actor* thisx, PlayState* play) {
 }
 
 void func_809FFDC8(EnEg* this, PlayState* play) {
-    if (!voided && (gSaveContext.timer2Value < 1) && Flags_GetSwitch(play, 0x36) && (kREG(0) == 0)) {
+    if (!sVoided && (gSaveContext.subTimerSeconds <= 0) && Flags_GetSwitch(play, 0x36) &&
+        (!DEBUG_FEATURES || kREG(0) == 0)) {
         // Void the player out
         Play_TriggerRespawn(play);
         gSaveContext.respawnFlag = -2;
-        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         play->transitionType = TRANS_TYPE_FADE_BLACK;
         EnEg_PlayVoidOutSFX();
-        voided = true;
+        sVoided = true;
     }
 }
 
@@ -64,8 +75,8 @@ void EnEg_Update(Actor* thisx, PlayState* play) {
     s32 action = this->action;
 
     if (((action < 0) || (0 < action)) || (sActionFuncs[action] == NULL)) {
-        // "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sActionFuncs[action](this, play);
     }

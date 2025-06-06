@@ -5,30 +5,43 @@
  */
 
 #include "z_en_bx.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_bxa/object_bxa.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnBx_Init(Actor* thisx, PlayState* play);
 void EnBx_Destroy(Actor* thisx, PlayState* play);
 void EnBx_Update(Actor* thisx, PlayState* play);
 void EnBx_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Bx_InitVars = {
-    ACTOR_EN_BX,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BXA,
-    sizeof(EnBx),
-    (ActorFunc)EnBx_Init,
-    (ActorFunc)EnBx_Destroy,
-    (ActorFunc)EnBx_Update,
-    (ActorFunc)EnBx_Draw,
+ActorProfile En_Bx_Profile = {
+    /**/ ACTOR_EN_BX,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BXA,
+    /**/ sizeof(EnBx),
+    /**/ EnBx_Init,
+    /**/ EnBx_Destroy,
+    /**/ EnBx_Update,
+    /**/ EnBx_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -36,11 +49,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0xFFCFFFFF, 0x03, 0x04 },
         { 0xFFCFFFFF, 0x01, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 60, 100, 100, { 0, 0, 0 } },
@@ -48,7 +61,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -56,11 +69,11 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x03, 0x04 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -71,7 +84,7 @@ void EnBx_Init(Actor* thisx, PlayState* play) {
     Vec3f sp48 = { 0.015f, 0.015f, 0.015f };
     Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
     static InitChainEntry sInitChain[] = {
-        ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
+        ICHAIN_F32(lockOnArrowOffset, 5300, ICHAIN_STOP),
     };
     s32 i;
     s32 pad;
@@ -80,7 +93,8 @@ void EnBx_Init(Actor* thisx, PlayState* play) {
     thisx->scale.x = thisx->scale.z = 0.01f;
     thisx->scale.y = 0.03f;
 
-    thisx->world.pos.y = thisx->world.pos.y - 100.0f;
+    thisx->world.pos.y -= 100.0f;
+
     for (i = 0; i < 4; i++) {
         this->unk_184[i] = sp48;
         if (i == 0) {
@@ -97,8 +111,8 @@ void EnBx_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->colliderQuad, &this->actor, &sQuadInit);
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->unk_14C = 0;
-    thisx->uncullZoneDownward = 2000.0f;
-    if (Flags_GetSwitch(play, (thisx->params >> 8) & 0xFF)) {
+    thisx->cullingVolumeDownward = 2000.0f;
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 8, 8))) {
         Actor_Kill(&this->actor);
     }
     thisx->params &= 0xFF;
@@ -140,19 +154,19 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
             (&player->actor == this->collider.base.ac) || (&player->actor == this->colliderQuad.base.at)) {
             tmp33 = player->invincibilityTimer & 0xFF;
             tmp32 = thisx->world.rot.y;
-            if (!(thisx->params & 0x80)) {
+            if (!PARAMS_GET_NOSHIFT(thisx->params, 7, 1)) {
                 tmp32 = thisx->yawTowardsPlayer;
             }
             if ((&player->actor != this->collider.base.at) && (&player->actor != this->collider.base.ac) &&
                 (&player->actor != this->colliderQuad.base.at) && (player->invincibilityTimer <= 0)) {
-                if (player->invincibilityTimer < -39) {
+                if (player->invincibilityTimer <= -40) {
                     player->invincibilityTimer = 0;
                 } else {
                     player->invincibilityTimer = 0;
                     play->damagePlayer(play, -4);
                 }
             }
-            func_8002F71C(play, &this->actor, 6.0f, tmp32, 6.0f);
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 6.0f, tmp32, 6.0f);
             player->invincibilityTimer = tmp33;
         }
 
@@ -183,13 +197,13 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
             }
         }
 
-        Audio_PlayActorSound2(thisx, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
+        Actor_PlaySfx(thisx, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
     }
     thisx->focus.pos = thisx->world.pos;
     Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-    if (thisx->params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 7, 1)) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderQuad.base);
     }
 }
@@ -202,21 +216,22 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
     };
     EnBx* this = (EnBx*)thisx;
     s32 pad;
-    Mtx* mtx = Graph_Alloc(play->state.gfxCtx, 4 * sizeof(Mtx));
+    Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, 4 * sizeof(Mtx));
     s16 i;
+    s16 off;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bx.c", 464);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, mtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[this->actor.params & 0x7F]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[PARAMS_GET_U(this->actor.params, 0, 7)]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 16, 16, 1, 0, (play->gameplayFrames * -10) % 128, 32, 32));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bx.c", 478),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 16, 16, 1, 0,
+                                (play->gameplayFrames * -10) % 128, 32, 32));
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bx.c", 478);
 
-    if (this->actor.params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 7, 1)) {
         func_809D1D0C(&this->actor, play);
     }
 
@@ -224,7 +239,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
     thisx->scale.z = thisx->scale.x = (Math_CosS(this->unk_14E) * 0.0075f) + 0.015f;
 
     for (i = 3; i >= 0; i--) {
-        s16 off = (0x2000 * i);
+        off = (0x2000 * i);
 
         this->unk_184[i].z = this->unk_184[i].x = (Math_CosS(this->unk_14E + off) * 0.0075f) + 0.015f;
         this->unk_1B4[i].x = thisx->shape.rot.x;
@@ -236,7 +251,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
         Matrix_Translate(this->unk_154[i].x, this->unk_154[i].y, this->unk_154[i].z, MTXMODE_NEW);
         Matrix_RotateZYX(this->unk_1B4[i].x, this->unk_1B4[i].y, this->unk_1B4[i].z, MTXMODE_APPLY);
         Matrix_Scale(this->unk_184[i].x, this->unk_184[i].y, this->unk_184[i].z, MTXMODE_APPLY);
-        Matrix_ToMtx(mtx, "../z_en_bx.c", 507);
+        MATRIX_TO_MTX(mtx, "../z_en_bx.c", 507);
     }
 
     gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_0022F0);

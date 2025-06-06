@@ -5,11 +5,28 @@
  */
 
 #include "z_en_tp.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_tp/object_tp.h"
 
 #define FLAGS 0
 
-void EnTp_Init(Actor* thisx, PlayState* play);
+void EnTp_Init(Actor* thisx, PlayState* play2);
 void EnTp_Destroy(Actor* thisx, PlayState* play);
 void EnTp_Update(Actor* thisx, PlayState* play);
 void EnTp_Draw(Actor* thisx, PlayState* play);
@@ -29,7 +46,7 @@ void EnTp_Head_Wait(EnTp* this, PlayState* play);
 void EnTp_Head_SetupBurrowReturnHome(EnTp* this);
 void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play);
 
-typedef enum {
+typedef enum TailpasaranAction {
     /* 0 */ TAILPASARAN_ACTION_FRAGMENT_FADE,
     /* 1 */ TAILPASARAN_ACTION_DIE,
     /* 2 */ TAILPASARAN_ACTION_TAIL_FOLLOWHEAD,
@@ -39,26 +56,26 @@ typedef enum {
     /* 9 */ TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME
 } TailpasaranAction;
 
-const ActorInit En_Tp_InitVars = {
-    ACTOR_EN_TP,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_TP,
-    sizeof(EnTp),
-    (ActorFunc)EnTp_Init,
-    (ActorFunc)EnTp_Destroy,
-    (ActorFunc)EnTp_Update,
-    (ActorFunc)EnTp_Draw,
+ActorProfile En_Tp_Profile = {
+    /**/ ACTOR_EN_TP,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_TP,
+    /**/ sizeof(EnTp),
+    /**/ EnTp_Init,
+    /**/ EnTp_Destroy,
+    /**/ EnTp_Update,
+    /**/ EnTp_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x03, 0x08 },
             { 0xFFCFFFFF, 0x01, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 4 }, 100 },
@@ -67,7 +84,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT1,
+        COL_MATERIAL_HIT1,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -78,50 +95,50 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef enum {
-    /* 00 */ TAILPASARAN_DMGEFF_NONE,
-    /* 01 */ TAILPASARAN_DMGEFF_DEKUNUT,
-    /* 14 */ TAILPASARAN_DMGEFF_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
-    /* 15 */ TAILPASARAN_DMGEFF_INSULATING     // Kills the Tailpasaran and does not shock Player
-} TailpasaranDamageEffect;
+typedef enum TailpasaranDamageReaction {
+    /* 00 */ TAILPASARAN_DMG_REACT_NONE,
+    /* 01 */ TAILPASARAN_DMG_REACT_DEKUNUT,
+    /* 14 */ TAILPASARAN_DMG_REACT_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
+    /* 15 */ TAILPASARAN_DMG_REACT_INSULATING     // Kills the Tailpasaran and does not shock Player
+} TailpasaranDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_DEKUNUT),
-    /* Deku stick    */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_INSULATING),
-    /* Slingshot     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Explosive     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_INSULATING),
-    /* Normal arrow  */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Hookshot      */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Kokiri sword  */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Master sword  */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Giant's Knife */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Fire arrow    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Ice arrow     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Light arrow   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Ice magic     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Light magic   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Shield        */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Giant spin    */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Master spin   */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Kokiri jump   */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Giant jump    */ DMG_ENTRY(8, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Master jump   */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Unknown 1     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Unknown 2     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_DEKUNUT),
+    /* Deku stick    */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_INSULATING),
+    /* Slingshot     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(1, TAILPASARAN_DMG_REACT_INSULATING),
+    /* Normal arrow  */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Hookshot      */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Master sword  */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Giant's Knife */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Fire arrow    */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Ice arrow     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Light arrow   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Ice magic     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Light magic   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Shield        */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Giant spin    */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Master spin   */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Kokiri jump   */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Giant jump    */ DMG_ENTRY(8, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Master jump   */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Unknown 1     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Unknown 2     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 10, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 10, ICHAIN_STOP),
 };
 
 void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
@@ -136,7 +153,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     s32 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.targetMode = 3;
+    this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);
     this->unk_150 = 0;
@@ -144,23 +161,24 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     now = this;
     this->alpha = 255;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
         this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
         this->timer = 0;
         this->collider.base.acFlags |= AC_HARD;
-        this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;
+        this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius = 8;
         EnTp_Head_SetupWait(this);
         this->actor.focus.pos = this->actor.world.pos;
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         Actor_SetScale(&this->actor, 1.5f);
 
         for (i = 0; i <= 6; i++) {
             next = (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
                                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0 * i);
 
-            if (0 * i) {} // Very fake, but needed to get the s registers right
+            if ((0 * i) != 0) {} // Very fake, but needed to get the s registers right
+
             if (next != NULL) {
                 now->actor.child = &next->actor;
                 next->actor.parent = &now->actor;
@@ -169,14 +187,16 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
                 Actor_SetScale(&next->actor, 0.3f);
 
                 if (i == 2) {
-                    next->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
+                    next->actor.flags |=
+                        ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                     next->unk_150 = 1; // Why?
                 }
 
                 next->timer = next->unk_15C = i * -5;
                 next->horizontalVariation = 6.0f - (i * 0.75f);
                 now = next;
-                if (0 * i) {}
+
+                if ((0 * i) != 0) {}
             }
         }
     } else if (this->actor.params == TAILPASARAN_TAIL) {
@@ -209,13 +229,13 @@ void EnTp_Tail_FollowHead(EnTp* this, PlayState* play) {
         }
     } else {
         if (this->unk_150 != 0) {
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         }
 
         if (this->head->unk_150 != 0) {
-            this->actor.speedXZ = this->red = this->actor.velocity.y = this->heightPhase = 0.0f;
+            this->actor.speed = this->red = this->actor.velocity.y = this->heightPhase = 0.0f;
             if (this->actor.world.pos.y < this->head->actor.home.pos.y) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
 
             this->actor.world.pos = this->actor.parent->prevPos;
@@ -241,8 +261,8 @@ void EnTp_Head_ApproachPlayer(EnTp* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
-    Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    Audio_PlaySfxGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
@@ -261,7 +281,7 @@ void EnTp_Head_ApproachPlayer(EnTp* this, PlayState* play) {
 
     this->actor.world.pos.y += Math_CosF(this->heightPhase) * (2.0f + this->extraHeightVariation);
     this->heightPhase += 0.2f;
-    Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
     this->timer--;
 
     if (this->timer != 0) {
@@ -284,7 +304,7 @@ void EnTp_SetupDie(EnTp* this) {
         }
 
         this->timer = 13;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TAIL_DEAD);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
     this->actionIndex = TAILPASARAN_ACTION_DIE;
     EnTp_SetupAction(this, EnTp_Die);
@@ -317,7 +337,12 @@ void EnTp_Die(EnTp* this, PlayState* play) {
                                  255, 1, 9, 1);
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
         } else {
-            for (i = 0; i < 1; i++) {
+#if OOT_VERSION < NTSC_1_1
+            for (i = 0; i < 2; i++)
+#else
+            for (i = 0; i < 1; i++)
+#endif
+            {
                 now =
                     (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, TAILPASARAN_FRAGMENT);
@@ -348,12 +373,12 @@ void EnTp_Fragment_SetupFade(EnTp* this) {
     this->actor.velocity.x = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     EnTp_SetupAction(this, EnTp_Fragment_Fade);
 }
 
 void EnTp_Fragment_Fade(EnTp* this, PlayState* play) {
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     this->alpha -= 20;
 
     if (this->alpha < 20) {
@@ -375,11 +400,11 @@ void EnTp_Head_TakeOff(EnTp* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->horizontalVariation, 1.0f,
-                       this->actor.speedXZ * 0.25f, 0.0f);
-    Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                       this->actor.speed * 0.25f, 0.0f);
+    Audio_PlaySfxGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
@@ -397,7 +422,7 @@ void EnTp_Head_TakeOff(EnTp* this, PlayState* play) {
     }
 
     this->actor.world.pos.y +=
-        Math_CosF(this->heightPhase) * ((this->actor.speedXZ * 0.25f) + this->extraHeightVariation);
+        Math_CosF(this->heightPhase) * ((this->actor.speed * 0.25f) + this->extraHeightVariation);
     this->actor.world.rot.y += this->unk_164;
     this->heightPhase += 0.2f;
 
@@ -421,7 +446,7 @@ void EnTp_Head_SetupWait(EnTp* this) {
     this->actor.shape.rot.x = -0x4000;
     this->timer = 60;
     this->unk_15C = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnTp_SetupAction(this, EnTp_Head_Wait);
 }
 
@@ -476,8 +501,8 @@ void EnTp_Head_Wait(EnTp* this, PlayState* play) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
     if (this->actor.world.pos.y != this->actor.home.pos.y) {
-        Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -515,13 +540,13 @@ void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play) {
             if (this->actor.shape.rot.x != -0x4000) {
                 this->timer = 80;
                 this->actor.velocity.y = 0.0f;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 this->actor.world.pos = this->actor.home.pos;
                 this->actor.shape.rot.x = -0x4000;
 
                 for (now = (EnTp*)this->actor.child; now != NULL; now = (EnTp*)now->actor.child) {
                     now->actor.velocity.y = 0.0f;
-                    now->actor.speedXZ = 0.0f;
+                    now->actor.speed = 0.0f;
                     now->actor.world.pos = this->actor.home.pos;
                     now->actor.world.pos.y = this->actor.home.pos.y - 80.0f;
                 }
@@ -538,7 +563,7 @@ void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play) {
             this->red -= 15;
         }
 
-        this->actor.speedXZ = 2.0f * Math_CosS(this->actor.shape.rot.x);
+        this->actor.speed = 2.0f * Math_CosS(this->actor.shape.rot.x);
         this->actor.velocity.y = Math_SinS(this->actor.shape.rot.x) * -2.0f;
 
         if ((this->actor.world.pos.y - this->actor.floorHeight) < 20.0f) {
@@ -546,8 +571,8 @@ void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play) {
         }
 
         if (this->actor.world.pos.y != this->actor.home.pos.y) {
-            Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
 
         if (closeToFloor && ((play->gameplayFrames & 1) != 0)) {
@@ -579,10 +604,10 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
 
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
-        this->damageEffect = this->actor.colChkInfo.damageEffect;
+        this->damageReaction = this->actor.colChkInfo.damageReaction;
 
-        if (this->actor.colChkInfo.damageEffect != TAILPASARAN_DMGEFF_NONE) {
-            if (this->actor.colChkInfo.damageEffect == TAILPASARAN_DMGEFF_DEKUNUT) {
+        if (this->actor.colChkInfo.damageReaction != TAILPASARAN_DMG_REACT_NONE) {
+            if (this->actor.colChkInfo.damageReaction == TAILPASARAN_DMG_REACT_DEKUNUT) {
                 phi_s4 = 1;
             }
 
@@ -592,22 +617,24 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
             }
 
             if (this->actor.colChkInfo.health == 0) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 head = this->head;
 
                 if (head->actor.params <= TAILPASARAN_HEAD) {
                     EnTp_SetupDie(head);
-                    head->damageEffect = this->actor.colChkInfo.damageEffect;
+                    head->damageReaction = this->actor.colChkInfo.damageReaction;
                     head->actor.params = TAILPASARAN_HEAD_DYING;
                 }
             } else {
                 if (phi_s4 != 0) {
                     this->actor.freezeTimer = 80;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     if (phi_s2 != 0) {
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                     } else {
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                             80);
                     }
                 }
 
@@ -616,12 +643,14 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
 
                     if (phi_s4 != 0) {
                         now->actor.freezeTimer = 80;
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
 
                         if (phi_s2 != 0) {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                                 80);
                         } else {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0x2000, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                                 80);
                         }
                     }
                 }
@@ -632,9 +661,11 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
                         now->actor.freezeTimer = 80;
 
                         if (phi_s2 != 0) {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                                 80);
                         } else {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0x2000, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                                 80);
                         }
                     }
                 }
@@ -655,7 +686,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
     s16 yawToWall;
 
     if (player->stateFlags1 & PLAYER_STATE1_26) { // Shielding
-        this->damageEffect = TAILPASARAN_DMGEFF_NONE;
+        this->damageReaction = TAILPASARAN_DMG_REACT_NONE;
     }
 
     if (this->actor.colChkInfo.health != 0) {
@@ -665,7 +696,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
 
         if (this->actionIndex != TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 15.0f, 10.0f,
@@ -673,7 +704,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
         }
 
         // Turn away from wall
-        if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+        if ((this->actor.speed != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             yawToWall = this->actor.wallYaw - this->actor.world.rot.y;
 
             if (ABS(yawToWall) > 0x4000) {
@@ -690,8 +721,8 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
         this->actor.shape.rot.z += 0x800;
 
         if (this->actor.shape.rot.z == 0) {
-            Audio_PlaySoundGeneral(NA_SE_EN_TAIL_CRY, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_EN_TAIL_CRY, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
 
         if (this->actionIndex >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD) {
@@ -706,7 +737,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
 
     this->actor.focus.pos = this->actor.world.pos;
 
-    if (this->damageEffect == TAILPASARAN_DMGEFF_SHOCKING) {
+    if (this->damageReaction == TAILPASARAN_DMG_REACT_SHOCKING) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 
@@ -736,8 +767,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
         if ((thisx->params <= TAILPASARAN_HEAD) || (thisx->params == TAILPASARAN_HEAD_DYING)) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tp.c", 1459),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1459);
             gSPDisplayList(POLY_OPA_DISP++, gTailpasaranHeadDL);
 
             Matrix_Translate(0.0f, 0.0f, 8.0f, MTXMODE_APPLY);
@@ -753,8 +783,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
             gDPPipeSync(POLY_XLU_DISP++);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gTailpasaranTailSegmentTex));
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tp.c", 1480),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1480);
             gSPDisplayList(POLY_XLU_DISP++, gTailpasaranTailSegmentDL);
         }
     }

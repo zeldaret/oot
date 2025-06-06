@@ -2,14 +2,13 @@
 #define Z_EN_ANUBICE_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
+#include "actor.h"
 
 struct EnAnubice;
 
 typedef void (*EnAnubiceActionFunc)(struct EnAnubice*, struct PlayState*);
 
-typedef enum {
+typedef enum AnubiceLimbs {
     /*  0 */ ANUBICE_LIMB_NONE,
     /*  1 */ ANUBICE_LIMB_ROOT,
     /*  2 */ ANUBICE_LIMB_BODY_ROOT,
@@ -42,7 +41,7 @@ typedef struct EnAnubice {
     /* 0x025C */ s16 knockbackTimer;
     /* 0x025E */ s16 isMirroringPlayer;
     /* 0x0260 */ s16 isPlayerOutOfRange;
-    /* 0x0262 */ s16 isKnockedback; // Hit by an attack without ANUBICE_DMGEFF_FIRE
+    /* 0x0262 */ s16 isKnockedback; // Hit by an attack without ANUBICE_DMG_REACT_FIRE
     /* 0x0264 */ s16 hasSearchedForFlameCircles;
     /* 0x0268 */ f32 hoverVelocityTimer;
     /* 0x026C */ f32 animLastFrame;
@@ -54,7 +53,7 @@ typedef struct EnAnubice {
     /* 0x028C */ Vec3f fireballRot;
     /* 0x0298 */ Vec3f home;
     /* 0x02A4 */ Vec3f knockbackRecoveryVelocity;
-    /* 0x02B0 */ BgHidanCurtain* flameCircles[5];
+    /* 0x02B0 */ struct BgHidanCurtain* flameCircles[5];
     /* 0x02C4 */ char unk_2C4[0x4]; // Possibly another element of flameCircles
     /* 0x02C8 */ ColliderCylinder collider;
 } EnAnubice; // size = 0x0314

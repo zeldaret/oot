@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import os
-import struct
 import json
 
 table = None
@@ -82,9 +81,9 @@ def CreateTable():
         json.dump(dict, table)
 
 def AddressLookup(lookupTable, addr):
-    start = 0;
-    end = 0;
-    key = None;
+    start = 0
+    end = 0
+    key = None
 
     for k, v in lookupTable.items():
         if addr >= k:

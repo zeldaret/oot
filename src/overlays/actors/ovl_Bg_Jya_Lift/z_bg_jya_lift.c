@@ -5,13 +5,22 @@
  */
 
 #include "z_bg_jya_lift.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgJyaLift_Init(Actor* thisx, PlayState* play);
 void BgJyaLift_Destroy(Actor* thisx, PlayState* play);
-void BgJyaLift_Update(Actor* thisx, PlayState* play);
+void BgJyaLift_Update(Actor* thisx, PlayState* play2);
 void BgJyaLift_Draw(Actor* thisx, PlayState* play);
 
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);
@@ -22,23 +31,23 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-const ActorInit Bg_Jya_Lift_InitVars = {
-    ACTOR_BG_JYA_LIFT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaLift),
-    (ActorFunc)BgJyaLift_Init,
-    (ActorFunc)BgJyaLift_Destroy,
-    (ActorFunc)BgJyaLift_Update,
-    (ActorFunc)BgJyaLift_Draw,
+ActorProfile Bg_Jya_Lift_Profile = {
+    /**/ ACTOR_BG_JYA_LIFT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaLift),
+    /**/ BgJyaLift_Init,
+    /**/ BgJyaLift_Destroy,
+    /**/ BgJyaLift_Update,
+    /**/ BgJyaLift_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2500, ICHAIN_STOP),
 };
 
 void BgJyaLift_InitDynapoly(BgJyaLift* this, PlayState* play, CollisionHeader* collisionHeader, s32 moveFlag) {
@@ -59,11 +68,10 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    // "Goddess lift CT"
-    osSyncPrintf("女神リフト CT\n");
-    BgJyaLift_InitDynapoly(this, play, &gLiftCol, DPM_UNK);
+    PRINTF(T("女神リフト CT\n", "Goddess lift CT\n"));
+    BgJyaLift_InitDynapoly(this, play, &gLiftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
-    if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         BgJyaLift_SetFinalPosY(this);
     } else {
         BgJyaLift_SetInitPosY(this);
@@ -78,8 +86,7 @@ void BgJyaLift_Destroy(Actor* thisx, PlayState* play) {
 
     if (this->isSpawned) {
 
-        // "Goddess Lift DT"
-        osSyncPrintf("女神リフト DT\n");
+        PRINTF(T("女神リフト DT\n", "Goddess lift DT\n"));
         sIsSpawned = false;
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     }
@@ -92,7 +99,7 @@ void BgJyaLift_SetInitPosY(BgJyaLift* this) {
 }
 
 void BgJyaLift_DelayMove(BgJyaLift* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) || (this->moveDelay > 0)) {
         this->moveDelay++;
         if (this->moveDelay >= 20) {
             OnePointCutscene_Init(play, 3430, -99, &this->dyna.actor, CAM_ID_MAIN);
@@ -113,13 +120,13 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play) {
     tempVelocity = (this->dyna.actor.velocity.y < 0.2f) ? 0.2f : this->dyna.actor.velocity.y;
     distFromBottom = Math_SmoothStepToF(&this->dyna.actor.world.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
     if ((this->dyna.actor.world.pos.y < 1440.0f) && (1440.0f <= this->dyna.actor.prevPos.y)) {
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
     }
     if (fabsf(distFromBottom) < 0.001f) {
         BgJyaLift_SetFinalPosY(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
     }
 }
 
@@ -135,13 +142,14 @@ void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
     if (this->actionFunc != NULL) {
         this->actionFunc(this, play);
     }
-    if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
-    } else if (((this->dyna.unk_160 & 4) == 0) && (this->unk_16B & 4) &&
+    if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) && !(this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE)) {
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
+    } else if (!(this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) &&
+               (this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE) &&
                (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
-    this->unk_16B = this->dyna.unk_160;
+    this->unk_16B = this->dyna.interactFlags;
 
     // Spirit Temple room 5 is the main room with the statue room 25 is directly above room 5
     if ((play->roomCtx.curRoom.num != 5) && (play->roomCtx.curRoom.num != 25)) {

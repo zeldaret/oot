@@ -5,11 +5,20 @@
  */
 
 #include "z_bg_spot08_bakudankabe.h"
-#include "assets/objects/object_spot08_obj/object_spot08_obj.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS ACTOR_FLAG_22
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
+#include "assets/objects/object_spot08_obj/object_spot08_obj.h"
+
+#define FLAGS ACTOR_FLAG_IGNORE_POINT_LIGHTS
 
 void BgSpot08Bakudankabe_Init(Actor* thisx, PlayState* play);
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, PlayState* play);
@@ -19,48 +28,48 @@ void BgSpot08Bakudankabe_Draw(Actor* thisx, PlayState* play);
 void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play);
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play);
 
-const ActorInit Bg_Spot08_Bakudankabe_InitVars = {
-    ACTOR_BG_SPOT08_BAKUDANKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT08_OBJ,
-    sizeof(BgSpot08Bakudankabe),
-    (ActorFunc)BgSpot08Bakudankabe_Init,
-    (ActorFunc)BgSpot08Bakudankabe_Destroy,
-    (ActorFunc)BgSpot08Bakudankabe_Update,
-    (ActorFunc)BgSpot08Bakudankabe_Draw,
+ActorProfile Bg_Spot08_Bakudankabe_Profile = {
+    /**/ ACTOR_BG_SPOT08_BAKUDANKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT08_OBJ,
+    /**/ sizeof(BgSpot08Bakudankabe),
+    /**/ BgSpot08Bakudankabe_Init,
+    /**/ BgSpot08Bakudankabe_Destroy,
+    /**/ BgSpot08Bakudankabe_Update,
+    /**/ BgSpot08Bakudankabe_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 50, 50 }, 70 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { -100, 50, 50 }, 70 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 100, 50, 50 }, 70 }, 100 },
@@ -69,7 +78,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -88,16 +97,16 @@ static Vec3f D_808B08AC[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 3200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 3200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderElements);
 }
 
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play) {
@@ -161,8 +170,8 @@ void BgSpot08Bakudankabe_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
+    DynaPolyActor_Init(&this->dyna, 0);
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -184,9 +193,9 @@ void BgSpot08Bakudankabe_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         func_808B0324(this, play);
-        Flags_SetSwitch(play, (this->dyna.actor.params & 0x3F));
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
     } else if (this->dyna.actor.xzDistToPlayer < 800.0f) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

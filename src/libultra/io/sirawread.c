@@ -1,9 +1,9 @@
-#include "global.h"
+#include "ultra64.h"
 
 s32 __osSiRawReadIo(void* devAddr, u32* dst) {
     if (__osSiDeviceBusy()) {
         return -1;
     }
-    *dst = HW_REG((u32)devAddr, u32);
+    *dst = IO_READ(devAddr);
     return 0;
 }

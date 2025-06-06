@@ -2,11 +2,11 @@
 #define Z_EN_DNT_NOMAL_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnDntNomal;
 
-typedef void (*EnDntNomalActionFunc)(struct EnDntNomal*, PlayState*);
+typedef void (*EnDntNomalActionFunc)(struct EnDntNomal*, struct PlayState*);
 
 typedef struct EnDntNomal {
     /* 0x0000 */ Actor actor;
@@ -24,7 +24,7 @@ typedef struct EnDntNomal {
     /* 0x0260 */ s16 blinkTimer;
     /* 0x0262 */ s16 unkCounter;
     /* 0x0264 */ s16 timer3;
-    /* 0x0266 */ s16 objId;
+    /* 0x0266 */ s16 objectId;
     /* 0x0268 */ s16 eyeState;
     /* 0x026A */ s16 type;
     /* 0x026C */ s16 hitCounter;
@@ -35,11 +35,11 @@ typedef struct EnDntNomal {
     /* 0x0276 */ u8 ignore;
     /* 0x0277 */ u8 spawnedItem;
     /* 0x0278 */ u8 stagePrize;
-    /* 0x0279 */ s8 objIndex;
+    /* 0x0279 */ s8 requiredObjectSlot;
     /* 0x027C */ Vec3f mouthPos;
     /* 0x0288 */ Vec3f targetPos;
-    /* 0x0294 */ ColliderQuad targetQuad;
-    /* 0x0314 */ ColliderCylinder bodyCyl;
+    /* 0x0294 */ ColliderQuad targetColliderQuad;
+    /* 0x0314 */ ColliderCylinder bodyColliderCylinder;
 } EnDntNomal; // size = 0x0360
 
 #define ENDNTNOMAL_TARGET 0

@@ -1,19 +1,19 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import argparse
-from collections import OrderedDict
 import os
-import re
-import pickle
 import sys
+from collections import OrderedDict
+
+gAddressWidth = 18 # if your ld >= 2.40 change this to 10
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
 asm_dir = root_dir + "asm/non_matchings/overlays/actors"
-build_dir = root_dir + "build/"
+build_dir = root_dir + "build/gc-eu-mq-dbg/"
 
 def read_rom():
-    with open("baserom.z64", "rb") as f:
+    with open("baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", "rb") as f:
         return f.read()
 
 
@@ -54,8 +54,8 @@ def parse_map(fname):
                 if "noload" in line or "noload" in prev_line:
                     ram_offset = None
                     continue
-                ram = int(line[16 : 16 + 18], 0)
-                rom = int(line[59 : 59 + 18], 0)
+                ram = int(line[16 : 16 + gAddressWidth], 0)
+                rom = int(line[16 + gAddressWidth + 25 : 16 + gAddressWidth + 25 + gAddressWidth], 0)
                 ram_offset = ram - rom
                 continue
             prev_line = line
@@ -67,7 +67,7 @@ def parse_map(fname):
                 or " 0x" not in line
             ):
                 continue
-            ram = int(line[16 : 16 + 18], 0)
+            ram = int(line[16 : 16 + gAddressWidth], 0)
             rom = ram - ram_offset
             fn = line.split()[-1]
             if "0x" in fn:
@@ -162,7 +162,7 @@ parser.add_argument("--num-out", help="number of functions to display", type=int
 args = parser.parse_args()
 
 rom_bytes = read_rom()
-map_syms = parse_map(build_dir + "z64.map")
+map_syms = parse_map(build_dir + "oot-gc-eu-mq-dbg.map")
 map_offsets = get_map_offsets(map_syms)
 
 s_files = get_all_s_files()

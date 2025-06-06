@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import os
 import struct
-import sys
 
 SIMPLIFY_OUTPUT = True
 OVL_KALEIDO_SCOPE_RAM = 0x80813820
@@ -73,7 +72,7 @@ repo = scriptDir + os.sep +  ".." + os.sep + ".."
 
 
 kaleido_scope_data = []
-with open(repo + "/baserom/ovl_kaleido_scope", "rb") as file:
+with open(repo + "/extracted/gc-eu-mq-dbg/baserom/ovl_kaleido_scope", "rb") as file:
     kaleido_scope_data = bytearray(file.read())
 
 scenemaps = []
@@ -88,7 +87,7 @@ for name, numMaps in SCENES:
 
 cstr = ""
 
-cstr += f"PauseMapMarksData gPauseMapMarkDataTable[] = {{\n"
+cstr += "PauseMapMarksData gPauseMapMarkDataTable[] = {\n"
 for scenemap in scenemaps:
     for mapId, map in enumerate(scenemap[1]):
         cstr += IND(1) + f"// {scenemap[0]} map {mapId}\n"

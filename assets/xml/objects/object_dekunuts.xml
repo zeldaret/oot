@@ -16,17 +16,86 @@
         <Animation Name="gDekuNutsRunAnim" Offset="0x3650"/>
 
         <!-- Deku Scrub textures -->
-        <Texture Name="gDekuNutsLeafTex" OutName="leaf" Format="rgba16" Width="32" Height="32" Offset="0x2368"/>
-        <Texture Name="gDekuNutsBodyTex" OutName="body" Format="rgba16" Width="16" Height="16" Offset="0x2B68"/>
-        <Texture Name="gDekuNutsEyeTex" OutName="eye" Format="rgba16" Width="8" Height="8" Offset="0x2D68"/>
-        <Texture Name="gDekuNutsSnoutTex" OutName="snout" Format="rgba16" Width="8" Height="8" Offset="0x2DE8"/>
-        <Texture Name="gDekuNutsMouthTex" OutName="mouth" Format="rgba16" Width="8" Height="8" Offset="0x2E68"/>
+        <Texture Name="gDekuNutsLeafTex" Format="rgba16" Width="32" Height="32" Offset="0x2368"/>
+        <Texture Name="gDekuNutsBodyTex" Format="rgba16" Width="16" Height="16" Offset="0x2B68"/>
+        <Texture Name="gDekuNutsEyeTex" Format="rgba16" Width="8" Height="8" Offset="0x2D68"/>
+        <Texture Name="gDekuNutsSnoutTex" Format="rgba16" Width="8" Height="8" Offset="0x2DE8"/>
+        <Texture Name="gDekuNutsMouthTex" Format="rgba16" Width="8" Height="8" Offset="0x2E68"/>
 
         <!-- Deku Scrub flower -->
         <DList Name="gDekuNutsFlowerDL" Offset="0x2298"/>
 
         <!-- Deku Nut -->
         <DList Name="gDekuNutsDekuNutDL" Offset="0x2028"/>
-        <Texture Name="gDekuNutsDekuNutTex" OutName="deku_nut" Format="rgba16" Width="16" Height="16" Offset="0x2EE8"/>
+        <Texture Name="gDekuNutsDekuNutTex" Format="rgba16" Width="16" Height="16" Offset="0x2EE8"/>
+
+        <!-- Vertices -->
+        <Array Name="object_dekunuts_Vtx_001040" Count="24" Offset="0x1040">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_0011C0" Count="7" Offset="0x11C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_001230" Count="5" Offset="0x1230">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_001280" Count="6" Offset="0x1280">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_0012E0" Count="15" Offset="0x12E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_0013D0" Count="5" Offset="0x13D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_001420" Count="7" Offset="0x1420">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_001490" Count="43" Offset="0x1490">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dekunuts_Vtx_001740" Count="24" Offset="0x1740">
+            <Vtx/>
+        </Array>
+        <Array Name="gDekuNutsDekuNutVtx" Count="3" Offset="0x1FF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gDekuNutsFlowerVtx" Count="30" Offset="0x20B8">
+            <Vtx/>
+        </Array>
+
+        <DList Name="object_dekunuts_0018C0_DL" Offset="0x18C0"/>
+        <DList Name="object_dekunuts_0019F8_DL" Offset="0x19F8"/>
+        <DList Name="object_dekunuts_001AA8_DL" Offset="0x1AA8"/>
+        <DList Name="object_dekunuts_001B48_DL" Offset="0x1B48"/>
+        <DList Name="object_dekunuts_001BF0_DL" Offset="0x1BF0"/>
+        <DList Name="object_dekunuts_001D08_DL" Offset="0x1D08"/>
+        <DList Name="object_dekunuts_001DA8_DL" Offset="0x1DA8"/>
+        <DList Name="object_dekunuts_001E58_DL" Offset="0x1E58"/>
+        <DList Name="object_dekunuts_001F50_DL" Offset="0x1F50"/>
+        <Limb Name="object_dekunuts_0030E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_0030E8" Offset="0x30E8"/>
+        <Limb Name="object_dekunuts_0030F4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_0030F4" Offset="0x30F4"/>
+        <Limb Name="object_dekunuts_003100_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_003100" Offset="0x3100"/>
+        <Limb Name="object_dekunuts_00310C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_00310C" Offset="0x310C"/>
+        <Limb Name="object_dekunuts_003118_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_003118" Offset="0x3118"/>
+        <Limb Name="object_dekunuts_003124_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_003124" Offset="0x3124"/>
+        <Limb Name="object_dekunuts_003130_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_003130" Offset="0x3130"/>
+        <Limb Name="object_dekunuts_00313C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_00313C" Offset="0x313C"/>
+        <Limb Name="object_dekunuts_003148_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_003148" Offset="0x3148"/>
+        <Limb Name="object_dekunuts_003154_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_003154" Offset="0x3154"/>
+        <Limb Name="object_dekunuts_003160_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_003160" Offset="0x3160"/>
+        <Limb Name="object_dekunuts_00316C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_00316C" Offset="0x316C"/>
+        <Limb Name="object_dekunuts_003178_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_003178" Offset="0x3178"/>
+        <Limb Name="object_dekunuts_003184_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_003184" Offset="0x3184"/>
+        <Limb Name="object_dekunuts_003190_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_003190" Offset="0x3190"/>
+        <Limb Name="object_dekunuts_00319C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_00319C" Offset="0x319C"/>
+        <Limb Name="object_dekunuts_0031A8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_0031A8" Offset="0x31A8"/>
+        <Limb Name="object_dekunuts_0031B4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_0031B4" Offset="0x31B4"/>
+        <Limb Name="object_dekunuts_0031C0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_0031C0" Offset="0x31C0"/>
+        <Limb Name="object_dekunuts_0031CC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_0031CC" Offset="0x31CC"/>
+        <Limb Name="object_dekunuts_0031D8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_0031D8" Offset="0x31D8"/>
+        <Limb Name="object_dekunuts_0031E4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_0031E4" Offset="0x31E4"/>
+        <Limb Name="object_dekunuts_0031F0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_0031F0" Offset="0x31F0"/>
+        <Limb Name="object_dekunuts_0031FC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DEKUNUTS_0031FC" Offset="0x31FC"/>
     </File>
 </Root>

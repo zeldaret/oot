@@ -1,150 +1,190 @@
-#include "global.h"
+#include "map.h"
+#include "printf.h"
+#include "regs.h"
+#include "segment_symbols.h"
+#include "translation.h"
+#include "versions.h"
+#include "lifemeter.h"
+#include "interface.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "save.h"
 
-void func_80110990(PlayState* play) {
+void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
 }
 
-void func_801109B0(PlayState* play) {
+#define ICON_ITEM_SEGMENT_SIZE (4 * ITEM_ICON_SIZE)
+
+void Interface_Init(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     u32 parameterSize;
     u16 doActionOffset;
-    u8 temp;
+    u8 timerId;
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
-    gSaveContext.unk_13E8 = gSaveContext.unk_13EA = 0;
+    gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
 
     View_Init(&interfaceCtx->view, play->state.gfxCtx);
 
-    interfaceCtx->unk_1FA = interfaceCtx->unk_261 = interfaceCtx->unk_1FC = 0;
     interfaceCtx->unk_1EC = interfaceCtx->unk_1EE = interfaceCtx->unk_1F0 = 0;
+    interfaceCtx->unk_1F4 = 0.0f;
+    interfaceCtx->unk_1FA = interfaceCtx->unk_261 = interfaceCtx->unk_1FC = 0;
+
     interfaceCtx->unk_22E = 0;
     interfaceCtx->lensMagicConsumptionTimer = 16;
-    interfaceCtx->unk_1F4 = 0.0f;
     interfaceCtx->unk_228 = XREG(95);
-    interfaceCtx->minimapAlpha = 0;
-    interfaceCtx->unk_260 = 0;
     interfaceCtx->unk_244 = interfaceCtx->aAlpha = interfaceCtx->bAlpha = interfaceCtx->cLeftAlpha =
         interfaceCtx->cDownAlpha = interfaceCtx->cRightAlpha = interfaceCtx->healthAlpha = interfaceCtx->startAlpha =
             interfaceCtx->magicAlpha = 0;
+    interfaceCtx->minimapAlpha = 0;
+    interfaceCtx->unk_260 = 0;
 
-    parameterSize = (u32)_parameter_staticSegmentRomEnd - (u32)_parameter_staticSegmentRomStart;
+    parameterSize = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
 
-    // "Permanent PARAMETER Segment = %x"
-    osSyncPrintf("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
+    PRINTF(T("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", "Permanent PARAMETER Segment = %x\n"), parameterSize);
 
-    interfaceCtx->parameterSegment = GameState_Alloc(&play->state, parameterSize, "../z_construct.c", 159);
+    interfaceCtx->parameterSegment = GAME_STATE_ALLOC(&play->state, parameterSize, "../z_construct.c", 159);
 
-    osSyncPrintf("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
+    PRINTF("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
 
     ASSERT(interfaceCtx->parameterSegment != NULL, "parameter->parameterSegment != NULL", "../z_construct.c", 161);
-    DmaMgr_SendRequest1(interfaceCtx->parameterSegment, (u32)_parameter_staticSegmentRomStart, parameterSize,
-                        "../z_construct.c", 162);
+    DMA_REQUEST_SYNC(interfaceCtx->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, parameterSize,
+                     "../z_construct.c", 162);
 
-    interfaceCtx->doActionSegment = GameState_Alloc(&play->state, 0x480, "../z_construct.c", 166);
+    interfaceCtx->doActionSegment = GAME_STATE_ALLOC(&play->state, 3 * DO_ACTION_TEX_SIZE, "../z_construct.c", 166);
 
-    osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480); // "DO Action Texture Initialization"
-    osSyncPrintf("parameter->do_actionSegment=%x\n", interfaceCtx->doActionSegment);
+    PRINTF(T("ＤＯアクション テクスチャ初期=%x\n", "DO Action Texture Initialization = %x\n"), 3 * DO_ACTION_TEX_SIZE);
+    PRINTF("parameter->do_actionSegment=%x\n", interfaceCtx->doActionSegment);
 
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
 
-    if (gSaveContext.language == LANGUAGE_ENG) {
-        doActionOffset = 0;
-    } else if (gSaveContext.language == LANGUAGE_GER) {
-        doActionOffset = 0x2B80;
+#if OOT_NTSC
+    if (gSaveContext.language == LANGUAGE_JPN) {
+        doActionOffset = (LANGUAGE_JPN * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = 0x5700;
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     }
-
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (u32)_do_action_staticSegmentRomStart + doActionOffset, 0x300,
-                        "../z_construct.c", 174);
-
+#else
     if (gSaveContext.language == LANGUAGE_ENG) {
-        doActionOffset = 0x480;
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
-        doActionOffset = 0x3000;
+        doActionOffset = (LANGUAGE_GER * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = 0x5B80;
+        doActionOffset = (LANGUAGE_FRA * DO_ACTION_MAX + DO_ACTION_ATTACK) * DO_ACTION_TEX_SIZE;
     }
+#endif
 
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300, (u32)_do_action_staticSegmentRomStart + doActionOffset,
-                        0x180, "../z_construct.c", 178);
+    DMA_REQUEST_SYNC(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
+                     2 * DO_ACTION_TEX_SIZE, "../z_construct.c", 174);
 
-    interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, 0x4000, "../z_construct.c", 190);
+#if OOT_NTSC
+    if (gSaveContext.language == LANGUAGE_JPN) {
+        doActionOffset = (LANGUAGE_JPN * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
+    } else {
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
+    }
+#else
+    if (gSaveContext.language == LANGUAGE_ENG) {
+        doActionOffset = (LANGUAGE_ENG * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
+    } else if (gSaveContext.language == LANGUAGE_GER) {
+        doActionOffset = (LANGUAGE_GER * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
+    } else {
+        doActionOffset = (LANGUAGE_FRA * DO_ACTION_MAX + DO_ACTION_RETURN) * DO_ACTION_TEX_SIZE;
+    }
+#endif
 
-    // "Icon Item Texture Initialization = %x"
-    osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 0x4000);
-    osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
+    DMA_REQUEST_SYNC(interfaceCtx->doActionSegment + 2 * DO_ACTION_TEX_SIZE,
+                     (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, DO_ACTION_TEX_SIZE,
+                     "../z_construct.c", 178);
+
+    interfaceCtx->iconItemSegment = GAME_STATE_ALLOC(&play->state, ICON_ITEM_SEGMENT_SIZE, "../z_construct.c", 190);
+
+    PRINTF(T("アイコンアイテム テクスチャ初期=%x\n", "Icon Item Texture Initialization = %x\n"),
+           ICON_ITEM_SEGMENT_SIZE);
+    PRINTF("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
 
-    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.equips.buttonItems[0],
-                 gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
-                 gSaveContext.equips.buttonItems[3]);
+    PRINTF("Register_Item[%x, %x, %x, %x]\n", gSaveContext.save.info.equips.buttonItems[0],
+           gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
+           gSaveContext.save.info.equips.buttonItems[3]);
 
-    if (gSaveContext.equips.buttonItems[0] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
-                            "../z_construct.c", 198);
-    } else if (gSaveContext.equips.buttonItems[0] != 0xFF) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
-                            "../z_construct.c", 203);
+    if (gSaveContext.save.info.equips.buttonItems[0] < 0xF0) {
+        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
+
+                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
+                         "../z_construct.c", 198);
+    } else if (gSaveContext.save.info.equips.buttonItems[0] != 0xFF) {
+        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
+
+                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
+                         "../z_construct.c", 203);
     }
 
-    if (gSaveContext.equips.buttonItems[1] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x1000,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[1] * 0x1000, 0x1000,
-                            "../z_construct.c", 209);
+    if (gSaveContext.save.info.equips.buttonItems[1] < 0xF0) {
+        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (1 * ITEM_ICON_SIZE),
+                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[1]), ITEM_ICON_SIZE,
+                         "../z_construct.c", 209);
     }
 
-    if (gSaveContext.equips.buttonItems[2] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x2000,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[2] * 0x1000, 0x1000,
-                            "../z_construct.c", 214);
+    if (gSaveContext.save.info.equips.buttonItems[2] < 0xF0) {
+        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (2 * ITEM_ICON_SIZE),
+                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[2]), ITEM_ICON_SIZE,
+                         "../z_construct.c", 214);
     }
 
-    if (gSaveContext.equips.buttonItems[3] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x3000,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[3] * 0x1000, 0x1000,
-                            "../z_construct.c", 219);
+    if (gSaveContext.save.info.equips.buttonItems[3] < 0xF0) {
+        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (3 * ITEM_ICON_SIZE),
+                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[3]), ITEM_ICON_SIZE,
+                         "../z_construct.c", 219);
     }
 
-    osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timer1State));
+    PRINTF("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timerState));
 
-    if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8) || (gSaveContext.timer2State == 4) ||
-        (gSaveContext.timer2State == 10)) {
-        osSyncPrintf("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
+    if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) ||
+        (gSaveContext.timerState == TIMER_STATE_DOWN_TICK) ||
+        (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_TICK) ||
+        (gSaveContext.subTimerState == SUBTIMER_STATE_UP_TICK)) {
+        PRINTF("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
 
         if ((gSaveContext.respawnFlag == -1) || (gSaveContext.respawnFlag == 1)) {
-            if (gSaveContext.timer1State == 4) {
-                gSaveContext.timer1State = 1;
-                gSaveContext.timerX[0] = 140;
-                gSaveContext.timerY[0] = 80;
+            if (gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) {
+                gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_INIT;
+                gSaveContext.timerX[TIMER_ID_MAIN] = 140;
+                gSaveContext.timerY[TIMER_ID_MAIN] = 80;
             }
         }
 
-        if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8)) {
-            temp = 0;
+        if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) ||
+            (gSaveContext.timerState == TIMER_STATE_DOWN_TICK)) {
+            timerId = TIMER_ID_MAIN;
         } else {
-            temp = 1;
+            timerId = TIMER_ID_SUB;
         }
 
-        gSaveContext.timerX[temp] = 26;
+        gSaveContext.timerX[timerId] = 26;
 
-        if (gSaveContext.healthCapacity > 0xA0) {
-            gSaveContext.timerY[temp] = 54;
+        if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
+            gSaveContext.timerY[timerId] = 54; // two rows of hearts
         } else {
-            gSaveContext.timerY[temp] = 46;
+            gSaveContext.timerY[timerId] = 46; // one row of hearts
         }
     }
-
-    if ((gSaveContext.timer1State >= 11) && (gSaveContext.timer1State < 16)) {
-        gSaveContext.timer1State = 0;
-        // "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timer1State);
+#if OOT_VERSION < PAL_1_0
+    else if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE))
+#else
+    // No "else"
+    if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE))
+#endif
+    {
+        gSaveContext.timerState = TIMER_STATE_OFF;
+        PRINTF(T("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n",
+                 "Timer Stop!!!!!!!!!!!!!!!!!!!!!  = %d\n"),
+               gSaveContext.timerState);
     }
 
-    osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300); // "Parameter Area = %x"
+    PRINTF(T("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", "Parameter Area = %x\n"), parameterSize + 0x5300);
 
     Health_InitMeter(play);
     Map_Init(play);
@@ -152,21 +192,28 @@ void func_801109B0(PlayState* play) {
     interfaceCtx->unk_23C = interfaceCtx->unk_242 = 0;
 
     R_ITEM_BTN_X(0) = B_BUTTON_X;
-    R_B_BTN_COLOR(0) = 255;
-    R_B_BTN_COLOR(1) = 30;
-    R_B_BTN_COLOR(2) = 30;
+
+    R_B_BTN_COLOR(0) = B_BUTTON_R;
+    R_B_BTN_COLOR(1) = B_BUTTON_G;
+    R_B_BTN_COLOR(2) = B_BUTTON_B;
+
     R_ITEM_ICON_X(0) = B_BUTTON_X;
     R_ITEM_AMMO_X(0) = B_BUTTON_X + 2;
+
     R_A_BTN_X = A_BUTTON_X;
     R_A_ICON_X = A_BUTTON_X;
-    R_A_BTN_COLOR(0) = 0;
-    R_A_BTN_COLOR(1) = 200;
-    R_A_BTN_COLOR(2) = 50;
+
+    R_A_BTN_COLOR(0) = A_BUTTON_R;
+    R_A_BTN_COLOR(1) = A_BUTTON_G;
+    R_A_BTN_COLOR(2) = A_BUTTON_B;
 }
+
+#define TEXTBOX_SEGMENT_SIZE \
+    (MESSAGE_STATIC_TEX_SIZE + MAX(MAX(ITEM_ICON_SIZE, QUEST_ICON_SIZE), 2 * MESSAGE_TEXTURE_STATIC_TEX_SIZE))
 
 void Message_Init(PlayState* play) {
     MessageContext* msgCtx = &play->msgCtx;
-    s32 pad;
+    Font* font = &msgCtx->font;
 
     Message_SetTables();
 
@@ -179,22 +226,22 @@ void Message_Init(PlayState* play) {
 
     View_Init(&msgCtx->view, play->state.gfxCtx);
 
-    msgCtx->textboxSegment = GameState_Alloc(&play->state, 0x2200, "../z_construct.c", 349);
+    msgCtx->textboxSegment = GAME_STATE_ALLOC(&play->state, TEXTBOX_SEGMENT_SIZE, "../z_construct.c", 349);
 
-    osSyncPrintf("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
+    PRINTF("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
 
-    osSyncPrintf("吹き出しgame_alloc=%x\n", 0x2200); // "Textbox game_alloc=%x"
+    PRINTF(T("吹き出しgame_alloc=%x\n", "Textbox game_alloc=%x\n"), TEXTBOX_SEGMENT_SIZE);
     ASSERT(msgCtx->textboxSegment != NULL, "message->fukidashiSegment != NULL", "../z_construct.c", 352);
 
-    Font_LoadOrderedFont(&play->msgCtx.font);
+    Font_LoadOrderedFont(font);
 
     YREG(31) = 0;
 }
 
-void func_80111070(void) {
+void Regs_InitDataImpl(void) {
     YREG(8) = 10;
     YREG(14) = 0;
-    YREG(15) = 0;
+    R_SCENE_CAM_TYPE = SCENE_CAM_TYPE_DEFAULT;
     R_TEXTBOX_TEXWIDTH = 0;
     R_TEXTBOX_TEXHEIGHT = 0;
     R_TEXTBOX_WIDTH = 50;
@@ -219,6 +266,22 @@ void func_80111070(void) {
     YREG(45) = 236;
     YREG(46) = 36;
     YREG(47) = 0;
+
+#if OOT_NTSC
+    R_KALEIDO_UNK1(0) = -45;
+    R_KALEIDO_UNK1(1) = -48;
+    R_KALEIDO_UNK2(0) = 16;
+    R_KALEIDO_UNK2(1) = 22;
+    R_KALEIDO_UNK3(0) = -55;
+    R_KALEIDO_UNK3(1) = -53;
+    R_KALEIDO_UNK4(0) = 43;
+    R_KALEIDO_UNK4(1) = 47;
+    R_KALEIDO_UNK5(0) = -33;
+    R_KALEIDO_UNK5(1) = -42;
+    R_KALEIDO_UNK6(0) = -33;
+    R_KALEIDO_UNK6(1) = -37;
+#else
+    // Same as above, although these regs are now unused for PAL versions
     YREG(48) = -45;
     YREG(49) = -48;
     YREG(50) = 16;
@@ -231,6 +294,8 @@ void func_80111070(void) {
     YREG(57) = -42;
     YREG(58) = -33;
     YREG(59) = -37;
+#endif
+
     YREG(60) = 14;
     YREG(61) = -2;
     YREG(62) = -2;
@@ -244,7 +309,7 @@ void func_80111070(void) {
     R_TEXTBOX_ICON_YPOS = 10;
     YREG(73) = -8;
     YREG(74) = 8;
-    R_TEXTBOX_ICON_SIZE = 24;
+    R_TEXTBOX_ICON_DIMENSION = 24;
     YREG(76) = 32;
     YREG(77) = 0;
     R_MESSAGE_DEBUGGER_SELECT = 0;
@@ -270,7 +335,7 @@ void func_80111070(void) {
     ZREG(10) = 200;
     ZREG(11) = 0;
     ZREG(12) = 200;
-    ZREG(13) = 0;
+    R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON = false;
     ZREG(14) = 110;
     ZREG(15) = 56;
     ZREG(16) = 1;
@@ -300,6 +365,17 @@ void func_80111070(void) {
     R_C_BTN_COLOR(2) = 0;
     ZREG(46) = 1;
     ZREG(47) = 1;
+
+#if OOT_NTSC
+    R_START_LABEL_DD(0) = 86;
+    R_START_LABEL_DD(1) = 100;
+    R_START_LABEL_WIDTH = 0;
+    R_START_LABEL_HEIGHT = 0;
+    R_START_LABEL_Y(0) = 21;
+    R_START_LABEL_Y(1) = 20;
+    R_START_LABEL_X(0) = 122;
+    R_START_LABEL_X(1) = 120;
+#else
     R_START_LABEL_DD(0) = 100;
     R_START_LABEL_DD(1) = 89;
     R_START_LABEL_DD(2) = 92;
@@ -309,12 +385,20 @@ void func_80111070(void) {
     R_START_LABEL_X(0) = 120;
     R_START_LABEL_X(1) = 119;
     R_START_LABEL_X(2) = 119;
-    ZREG(61) = 1;
-    R_C_UP_BTN_X = C_UP_BUTTON_X;
-    R_C_UP_BTN_Y = C_UP_BUTTON_Y;
-    ZREG(64) = 20;
+#endif
+
+    R_PAUSE_QUEST_MEDALLION_SHINE_TIME(0) = 1;
+    //! @bug Overlapping reg usage
+    R_C_UP_BTN_X = C_UP_BUTTON_X; // R_PAUSE_QUEST_MEDALLION_SHINE_TIME(1)
+    R_C_UP_BTN_Y = C_UP_BUTTON_Y; // R_PAUSE_QUEST_MEDALLION_SHINE_TIME(2)
+    R_PAUSE_QUEST_MEDALLION_SHINE_TIME(3) = 20;
+
     ZREG(65) = 21;
     ZREG(66) = 122;
+#if OOT_VERSION < PAL_1_0
+    R_START_BTN_X = 132;
+    R_START_BTN_Y = 17;
+#endif
     R_ITEM_BTN_X(1) = C_LEFT_BUTTON_X;
     R_ITEM_BTN_X(2) = C_DOWN_BUTTON_X;
     R_ITEM_BTN_X(3) = C_RIGHT_BUTTON_X;
@@ -345,9 +429,9 @@ void func_80111070(void) {
     XREG(3) = -4;
     XREG(4) = 3;
     XREG(5) = 0;
-    XREG(6) = 2;
+    R_PAUSE_STICK_REPEAT_DELAY = 2;
     XREG(7) = 30;
-    XREG(8) = 10;
+    R_PAUSE_STICK_REPEAT_DELAY_FIRST = 10;
     XREG(9) = 0;
     XREG(10) = -9550;
     XREG(11) = 9950;
@@ -409,7 +493,11 @@ void func_80111070(void) {
     R_TEXTBOX_X_TARGET = 54;
     R_TEXTBOX_Y_TARGET = 48;
     R_TEXTBOX_WIDTH_TARGET = 128;
+#if !PLATFORM_IQUE
     R_TEXTBOX_HEIGHT_TARGET = 64;
+#else
+    R_TEXTBOX_HEIGHT_TARGET = 74;
+#endif
     R_TEXTBOX_TEXWIDTH_TARGET = 2048;
     R_TEXTBOX_TEXHEIGHT_TARGET = 512;
     XREG(78) = 96;
@@ -430,12 +518,24 @@ void func_80111070(void) {
     XREG(93) = 100;
     XREG(94) = 160;
     XREG(95) = 200;
-    WREG(2) = -6080;
-    WREG(3) = 9355;
+    R_PAUSE_PAGES_Y_ORIGIN_2 = -6080;
+    R_PAUSE_DEPTH_OFFSET = 9355;
     WREG(4) = 8;
     WREG(5) = 3;
     WREG(6) = 8;
     WREG(7) = 0;
+
+#if OOT_NTSC
+    R_B_LABEL_SCALE(0) = 100;
+    R_B_LABEL_SCALE(1) = 109;
+    R_B_LABEL_X(0) = 151;
+    R_B_LABEL_X(1) = 148;
+    R_B_LABEL_Y(0) = 23;
+    R_B_LABEL_Y(1) = 22;
+    R_A_LABEL_Z(0) = -380;
+    R_A_LABEL_Z(1) = -350;
+#else
+    // Same as above, although these regs are now unused in PAL versions
     WREG(8) = 100;
     WREG(9) = 109;
     WREG(10) = 151;
@@ -444,6 +544,8 @@ void func_80111070(void) {
     WREG(13) = 22;
     WREG(14) = -380;
     WREG(15) = -350;
+#endif
+
     WREG(16) = -175;
     WREG(17) = 155;
     WREG(18) = 10;
@@ -464,36 +566,40 @@ void func_80111070(void) {
     WREG(33) = 60;
     WREG(35) = 0;
     WREG(36) = 0;
-    WREG(37) = 100;
-    WREG(38) = 99;
-    WREG(39) = 109;
+
+#if OOT_PAL
+    R_B_LABEL_SCALE(0) = 100;
+    R_B_LABEL_SCALE(1) = 99;
+    R_B_LABEL_SCALE(2) = 109;
     R_B_LABEL_X(0) = B_BUTTON_X - 9;
     R_B_LABEL_X(1) = B_BUTTON_X - 11;
     R_B_LABEL_X(2) = B_BUTTON_X - 12;
     R_B_LABEL_Y(0) = B_BUTTON_Y + 6;
     R_B_LABEL_Y(1) = B_BUTTON_Y + 5;
     R_B_LABEL_Y(2) = B_BUTTON_Y + 5;
-    WREG(46) = -380;
-    WREG(47) = -360;
-    WREG(48) = -350;
-    WREG(49) = -48;
-    WREG(50) = 16;
-    WREG(51) = -62;
-    WREG(52) = 22;
-    WREG(53) = -84;
-    WREG(54) = 20;
-    WREG(55) = -53;
-    WREG(56) = 40;
-    WREG(57) = -64;
-    WREG(58) = 47;
-    WREG(59) = -84;
-    WREG(60) = 44;
-    WREG(61) = -42;
-    WREG(62) = 32;
-    WREG(63) = -45;
-    WREG(64) = -37;
-    WREG(65) = 30;
-    WREG(66) = -50;
+    R_A_LABEL_Z(0) = -380;
+    R_A_LABEL_Z(1) = -360;
+    R_A_LABEL_Z(2) = -350;
+    R_KALEIDO_UNK1(0) = -48;
+    R_KALEIDO_UNK1(1) = 16;
+    R_KALEIDO_UNK1(2) = -62;
+    R_KALEIDO_UNK2(0) = 22;
+    R_KALEIDO_UNK2(1) = -84;
+    R_KALEIDO_UNK2(2) = 20;
+    R_KALEIDO_UNK3(0) = -53;
+    R_KALEIDO_UNK3(1) = 40;
+    R_KALEIDO_UNK3(2) = -64;
+    R_KALEIDO_UNK4(0) = 47;
+    R_KALEIDO_UNK4(1) = -84;
+    R_KALEIDO_UNK4(2) = 44;
+    R_KALEIDO_UNK5(0) = -42;
+    R_KALEIDO_UNK5(1) = 32;
+    R_KALEIDO_UNK5(2) = -45;
+    R_KALEIDO_UNK6(0) = -37;
+    R_KALEIDO_UNK6(1) = 30;
+    R_KALEIDO_UNK6(2) = -50;
+#endif
+
     R_DGN_MINIMAP_X = 204;
     R_DGN_MINIMAP_Y = 140;
     WREG(87) = 80;
@@ -506,7 +612,7 @@ void func_80111070(void) {
     WREG(94) = 3;
     WREG(95) = 6;
 
-    if (gSaveContext.gameMode == 0) {
+    if (gSaveContext.gameMode == GAMEMODE_NORMAL) {
         R_TEXTBOX_X = 52;
         R_TEXTBOX_Y = 36;
         VREG(2) = 214;
@@ -526,11 +632,12 @@ void func_80111070(void) {
         R_MINIMAP_COLOR(2) = 255;
     }
 
-    VREG(21) = 0;
-    VREG(22) = 0;
-    VREG(23) = 0;
-    VREG(24) = 0;
-    VREG(25) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_A) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_DOWN) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_RIGHT) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_LEFT) = 0;
+    R_PAUSE_SONG_OCA_BTN_Y(OCARINA_BTN_C_UP) = 0;
+
     VREG(26) = 0;
     VREG(27) = 0;
     R_OCARINA_BUTTONS_XPOS = 98;
@@ -556,7 +663,7 @@ void func_80111070(void) {
     R_OCARINA_BUTTONS_YPOS(2) = 176;
     R_OCARINA_BUTTONS_YPOS(3) = 172;
     R_OCARINA_BUTTONS_YPOS(4) = 170;
-    VREG(50) = 30;
+    R_OCARINA_BUTTONS_APPEAR_ALPHA_STEP = 30;
     R_OCARINA_BUTTONS_YPOS_OFFSET = 0;
     VREG(52) = -16;
     VREG(53) = 230;
@@ -566,10 +673,10 @@ void func_80111070(void) {
     VREG(57) = 255;
     VREG(58) = 255;
     VREG(59) = 255;
-    VREG(60) = 20;
-    VREG(61) = 100;
-    VREG(62) = 0;
-    VREG(63) = 10;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER_BASE = 20;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA = 100;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_STATE = 0;
+    R_KALEIDO_PROMPT_CURSOR_ALPHA_TIMER = 10;
     R_ITEM_AMMO_X(1) = C_LEFT_BUTTON_X + 1;
     R_ITEM_AMMO_X(2) = C_DOWN_BUTTON_X + 1;
     R_ITEM_AMMO_X(3) = C_RIGHT_BUTTON_X + 1;
@@ -595,11 +702,13 @@ void func_80111070(void) {
     VREG(87) = 64;
     VREG(88) = 66;
     VREG(89) = 0;
-    VREG(90) = 126;
-    VREG(91) = 124;
-    VREG(92) = -63;
+    R_GAME_OVER_RUMBLE_STRENGTH = 126;
+    R_GAME_OVER_RUMBLE_DURATION = 124;
+    //! @bug This is eventually cast to a u8 after some scaling in `GameOver_Update`, negative numbers typically
+    //! become large (fast) decrease rates
+    R_GAME_OVER_RUMBLE_DECREASE_RATE = -63;
 }
 
-void func_80112098(PlayState* play) {
-    func_80111070();
+void Regs_InitData(PlayState* play) {
+    Regs_InitDataImpl();
 }

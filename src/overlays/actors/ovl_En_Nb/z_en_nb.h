@@ -2,11 +2,11 @@
 #define Z_EN_NB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnNb;
 
-typedef enum {
+typedef enum EnNbLimb {
     /* 0x00 */ NB_LIMB_NONE,
     /* 0x01 */ NB_LIMB_ROOT,
     /* 0x02 */ NB_LIMB_L_THIGH,
@@ -29,8 +29,8 @@ typedef enum {
     /* 0x13 */ NB_LIMB_MAX
 } EnNbLimb;
 
-typedef void (*EnNbActionFunc)(struct EnNb*, PlayState*);
-typedef void (*EnNbDrawFunc)(struct EnNb*, PlayState*);
+typedef void (*EnNbActionFunc)(struct EnNb*, struct PlayState*);
+typedef void (*EnNbDrawFunc)(struct EnNb*, struct PlayState*);
 
 typedef struct EnNb {
     /* 0x0000 */ Actor actor;
@@ -44,7 +44,7 @@ typedef struct EnNb {
     /* 0x0280 */ f32 alphaTimer;
     /* 0x0284 */ u32 alpha;
     /* 0x0288 */ s32 flag;
-    /* 0x028C */ s32 previousCsAction;
+    /* 0x028C */ s32 cueId;
     /* 0x0290 */ f32 timer;
     /* 0x0294 */ ColliderCylinder collider;
     /* 0x02E0 */ s32 headTurnFlag;
@@ -52,10 +52,10 @@ typedef struct EnNb {
     /* 0x02F0 */ Vec3f finalPos;
     /* 0x02FC */ s16 pathYaw;
     /* 0x02FE */ u16 movementTimer;
-    /* 0x0300 */ struct_80034A14_arg1 unk_300;
+    /* 0x0300 */ NpcInteractInfo interactInfo;
 } EnNb; // size = 0x0328
 
-typedef enum {
+typedef enum EnNbType {
     /* 0x02 */ NB_TYPE_DEMO02 = 2,
     /* 0x03 */ NB_TYPE_KIDNAPPED,
     /* 0x04 */ NB_TYPE_KNUCKLE,

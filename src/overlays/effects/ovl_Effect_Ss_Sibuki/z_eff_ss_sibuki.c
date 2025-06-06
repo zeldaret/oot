@@ -5,6 +5,18 @@
  */
 
 #include "z_eff_ss_sibuki.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
@@ -23,7 +35,7 @@ u32 EffectSsSibuki_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 void EffectSsSibuki_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsSibuki_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Sibuki_InitVars = {
+EffectSsProfile Effect_Ss_Sibuki_Profile = {
     EFFECT_SS_SIBUKI,
     EffectSsSibuki_Init,
 };
@@ -67,8 +79,7 @@ void EffectSsSibuki_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_sibuki.c", 176),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_eff_ss_sibuki.c", 176);
     Gfx_SetupDL_25Opa(gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
     gDPSetEnvColor(POLY_OPA_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
@@ -79,10 +90,9 @@ void EffectSsSibuki_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsSibuki_Update(PlayState* play, u32 index, EffectSs* this) {
-    s32 pad[3];
-    f32 xzVelScale;
-    s16 yaw;
     Player* player = GET_PLAYER(play);
+    s32 pad[2];
+    f32 xzVelScale;
 
     if (this->pos.y <= player->actor.floorHeight) {
         this->life = 0;
@@ -92,7 +102,8 @@ void EffectSsSibuki_Update(PlayState* play, u32 index, EffectSs* this) {
         this->rMoveDelay--;
 
         if (this->rMoveDelay == 0) {
-            yaw = Camera_GetInputDirYaw(Play_GetCamera(play, CAM_ID_MAIN));
+            s16 yaw = Camera_GetInputDirYaw(Play_GetCamera(play, CAM_ID_MAIN));
+
             xzVelScale = ((200.0f + KREG(20)) * 0.01f) + ((0.1f * Rand_ZeroOne()) * (KREG(23) + 20.0f));
 
             if (this->rDirection != 0) {

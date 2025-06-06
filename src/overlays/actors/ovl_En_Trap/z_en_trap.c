@@ -5,9 +5,15 @@
  */
 
 #include "z_en_trap.h"
+
+#include "sfx.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_trap/object_trap.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 #define BEGIN_MOVE_OUT 65535.0f
 
@@ -34,28 +40,28 @@ void EnTrap_Destroy(Actor* thisx, PlayState* play);
 void EnTrap_Update(Actor* thisx, PlayState* play);
 void EnTrap_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Trap_InitVars = {
-    ACTOR_EN_TRAP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_TRAP,
-    sizeof(EnTrap),
-    (ActorFunc)EnTrap_Init,
-    (ActorFunc)EnTrap_Destroy,
-    (ActorFunc)EnTrap_Update,
-    (ActorFunc)EnTrap_Draw,
+ActorProfile En_Trap_Profile = {
+    /**/ ACTOR_EN_TRAP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_TRAP,
+    /**/ sizeof(EnTrap),
+    /**/ EnTrap_Init,
+    /**/ EnTrap_Destroy,
+    /**/ EnTrap_Update,
+    /**/ EnTrap_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_NO_PUSH | OC1_TYPE_1 | OC1_TYPE_2,
         OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, TOUCH_NONE, BUMP_ON, OCELEM_ON },
+    { ELEM_MATERIAL_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, ATELEM_NONE, ACELEM_ON, OCELEM_ON },
     { 30, 20, 0, { 0, 0, 0 } },
 };
 
@@ -67,13 +73,13 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     EnTrap* this = (EnTrap*)thisx;
     ColliderCylinder* unused = &this->collider; // required to match
 
-    this->upperParams = (thisx->params >> 8) & 0xFF;
+    this->upperParams = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     Actor_SetScale(thisx, 0.1f);
     thisx->gravity = -2.0f;
     if (thisx->params & SPIKETRAP_MODE_LINEAR) {
-        thisx->speedXZ = this->moveSpeedForwardBack.z = this->upperParams & 0xF;
-        Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+        thisx->speed = this->moveSpeedForwardBack.z = this->upperParams & 0xF;
+        Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
     } else if (thisx->params & SPIKETRAP_MODE_CIRCULAR) {
         this->vRadius = (this->upperParams & 0xF) * 40.0f;
         this->vAngularVel = ((this->upperParams & 0xF0) + 0x10) << 5;
@@ -112,8 +118,8 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
-    thisx->targetMode = 3;
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->attentionRangeType = ATTENTION_RANGE_3;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void EnTrap_Destroy(Actor* thisx, PlayState* play) {
@@ -135,7 +141,6 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
     Vec3f colPoint;         // unused return value from function
     CollisionPoly* colPoly; // unused return value from function
     s32 bgId;               // unused return value from function
-    f32 temp_cond;
 
     touchingActor = false;
     blockedOnReturn = false;
@@ -150,7 +155,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         icePos = thisx->world.pos;
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetColorFilter(thisx, 0, 250, 0, 250);
+        Actor_SetColorFilter(thisx, COLORFILTER_COLORFLAG_BLUE, 250, COLORFILTER_BUFFLAG_OPA, 250);
         icePos.y += 10.0f;
         icePos.z += 10.0f;
         EffectSsEnIce_SpawnFlyingVec3f(play, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);
@@ -176,7 +181,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                 angleToKnockPlayer = thisx->yawTowardsPlayer;
             }
             play->damagePlayer(play, -4);
-            func_8002F7A0(play, thisx, 6.0f, angleToKnockPlayer, 6.0f);
+            Actor_SetPlayerKnockbackSmallNoDamage(play, thisx, 6.0f, angleToKnockPlayer, 6.0f);
             this->playerDmgTimer = 15;
         }
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {
@@ -206,14 +211,15 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
             // If any of the above three conditions are met, turn around
             if (this->vContinue == 0.0f) {
                 thisx->world.rot.y += 0x8000;
-                Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+                Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
             }
         } else if (thisx->params & SPIKETRAP_MODE_CIRCULAR) {
-            temp_cond = Math_SinS(this->vAngularPos);
+            f32 temp_cond = Math_SinS(this->vAngularPos);
+
             this->vAngularPos += this->vAngularVel;
             // Every full circle make a sound:
             if ((temp_cond < 0.0f) && (Math_SinS(this->vAngularPos) >= 0.0f)) {
-                Audio_PlayActorSound2(thisx, NA_SE_EV_ROUND_TRAP_MOVE);
+                Actor_PlaySfx(thisx, NA_SE_EV_ROUND_TRAP_MOVE);
             }
             thisx->world.pos.x = (this->vRadius * Math_SinS(this->vAngularPos)) + thisx->home.pos.x;
             thisx->world.pos.z = (this->vRadius * Math_CosS(this->vAngularPos)) + thisx->home.pos.z;
@@ -234,7 +240,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                         }
                         if (this->vMovementMetric != 0.0f) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
-                                Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+                                Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
                             this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.z, this->targetPosFwd.z, 1.0f,
                                                                        this->moveSpeedForwardBack.z, 0.0f);
@@ -257,7 +263,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                         }
                         if (this->vMovementMetric != 0.0f) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
-                                Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+                                Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
                             this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.x, this->targetPosLeft.x, 1.0f,
                                                                        this->moveSpeedLeftRight.x, 0.0f);
@@ -278,7 +284,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                         }
                         if (this->vMovementMetric != 0.0f) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
-                                Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+                                Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
                             this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.z, this->targetPosBack.z, 1.0f,
                                                                        this->moveSpeedForwardBack.z, 0.0f);
@@ -301,7 +307,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                         }
                         if (this->vMovementMetric != 0.0f) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
-                                Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+                                Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
                             this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.x, this->targetPosRight.x,
                                                                        1.0f, this->moveSpeedLeftRight.x, 0.0f);
@@ -372,7 +378,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                 }
             }
         }
-        Actor_MoveForward(thisx); // Only used by straight line logic
+        Actor_MoveXZGravity(thisx); // Only used by straight line logic
         // Adjust position using bgcheck, but do not adjust x, z position if in straight line mode:
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {
             posTemp = thisx->world.pos;

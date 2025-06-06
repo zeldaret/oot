@@ -5,9 +5,17 @@
  */
 
 #include "z_en_anubice_tag.h"
-#include "vt.h"
+#include "overlays/actors/ovl_En_Anubice/z_en_anubice.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "printf.h"
+#include "regs.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "debug_display.h"
+#include "play_state.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnAnubiceTag_Init(Actor* thisx, PlayState* play);
 void EnAnubiceTag_Destroy(Actor* thisx, PlayState* play);
@@ -17,24 +25,25 @@ void EnAnubiceTag_Draw(Actor* thisx, PlayState* play);
 void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, PlayState* play);
 void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, PlayState* play);
 
-const ActorInit En_Anubice_Tag_InitVars = {
-    ACTOR_EN_ANUBICE_TAG,
-    ACTORCAT_SWITCH,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnAnubiceTag),
-    (ActorFunc)EnAnubiceTag_Init,
-    (ActorFunc)EnAnubiceTag_Destroy,
-    (ActorFunc)EnAnubiceTag_Update,
-    (ActorFunc)EnAnubiceTag_Draw,
+ActorProfile En_Anubice_Tag_Profile = {
+    /**/ ACTOR_EN_ANUBICE_TAG,
+    /**/ ACTORCAT_SWITCH,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnAnubiceTag),
+    /**/ EnAnubiceTag_Init,
+    /**/ EnAnubiceTag_Destroy,
+    /**/ EnAnubiceTag_Update,
+    /**/ EnAnubiceTag_Draw,
 };
 
 void EnAnubiceTag_Init(Actor* thisx, PlayState* play) {
     EnAnubiceTag* this = (EnAnubiceTag*)thisx;
 
-    osSyncPrintf("\n\n");
-    // "Anubis control tag generated"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+    PRINTF("\n\n");
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Anubis control tag spawn ☆☆☆☆☆ %d\n")
+               VT_RST,
+           this->actor.params);
 
     if (this->actor.params < -1) {
         this->actor.params = 0;
@@ -99,7 +108,7 @@ void EnAnubiceTag_Update(Actor* thisx, PlayState* play) {
 void EnAnubiceTag_Draw(Actor* thisx, PlayState* play) {
     EnAnubiceTag* this = (EnAnubiceTag*)thisx;
 
-    if (BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);

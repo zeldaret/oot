@@ -1,10 +1,25 @@
 #include "z_demo_du.h"
-#include "assets/objects/object_du/object_du.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_du/object_du.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef void (*DemoDuActionFunc)(DemoDu*, PlayState*);
 typedef void (*DemoDuDrawFunc)(Actor*, PlayState*);
@@ -16,7 +31,7 @@ void DemoDu_Draw(Actor* thisx, PlayState* play);
 
 static s32 sUnused = 0;
 
-#include "z_demo_du_cutscene_data.c" EARLY
+#include "z_demo_du_cutscene_data.inc.c"
 
 static void* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
 static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
@@ -67,6 +82,7 @@ void DemoDu_SetMouthTexIndex(DemoDu* this, s16 mouthTexIndex) {
     this->mouthTexIndex = mouthTexIndex;
 }
 
+#if DEBUG_FEATURES
 // Resets all the values used in this cutscene.
 void DemoDu_CsAfterGanon_Reset(DemoDu* this) {
     this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
@@ -86,12 +102,12 @@ void DemoDu_CsAfterGanon_CheckIfShouldReset(DemoDu* this, PlayState* play) {
                 DemoDu_CsAfterGanon_Reset(this);
             }
             D_8096CE94 = false;
-            return;
         }
     } else if (!D_8096CE94) {
         D_8096CE94 = true;
     }
 }
+#endif
 
 s32 DemoDu_UpdateSkelAnime(DemoDu* this) {
     return SkelAnime_Update(&this->skelAnime);
@@ -101,41 +117,44 @@ void DemoDu_UpdateBgCheckInfo(DemoDu* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
-CsCmdActorAction* DemoDu_GetNpcAction(PlayState* play, s32 idx) {
+CsCmdActorCue* DemoDu_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.npcActions[idx];
+        CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+
+        return cue;
     }
+
     return NULL;
 }
 
-s32 DemoDu_IsNpcDoingThisAction(DemoDu* this, PlayState* play, u16 action, s32 idx) {
-    CsCmdActorAction* npcAction = DemoDu_GetNpcAction(play, idx);
+s32 DemoDu_CheckForCue(DemoDu* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoDu_GetCue(play, cueChannel);
 
-    if ((npcAction != NULL) && (npcAction->action == action)) {
+    if ((cue != NULL) && (cue->id == cueId)) {
         return true;
     }
     return false;
 }
 
-s32 DemoDu_IsNpcNotDoingThisAction(DemoDu* this, PlayState* play, u16 action, s32 idx) {
-    CsCmdActorAction* npcAction = DemoDu_GetNpcAction(play, idx);
+s32 DemoDu_CheckForNoCue(DemoDu* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoDu_GetCue(play, cueChannel);
 
-    if ((npcAction != NULL) && (npcAction->action != action)) {
+    if ((cue != NULL) && (cue->id != cueId)) {
         return true;
     }
     return false;
 }
 
-void DemoDu_MoveToNpcPos(DemoDu* this, PlayState* play, s32 idx) {
-    CsCmdActorAction* npcAction = DemoDu_GetNpcAction(play, idx);
+void DemoDu_SetStartPosRotFromCue(DemoDu* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoDu_GetCue(play, cueChannel);
     s32 pad;
 
-    if (npcAction != NULL) {
-        this->actor.world.pos.x = npcAction->startPos.x;
-        this->actor.world.pos.y = npcAction->startPos.y;
-        this->actor.world.pos.z = npcAction->startPos.z;
+    if (cue != NULL) {
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
 
-        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
     }
 }
 
@@ -193,11 +212,11 @@ void func_80969FB4(DemoDu* this, PlayState* play) {
 void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, PlayState* play) {
     s32 pad[2];
 
-    if ((gSaveContext.chamberCutsceneNum == 1) && (gSaveContext.sceneSetupIndex < 4)) {
+    if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_FIRE) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
 
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(1);
-        play->csCtx.segment = D_8096C1A4;
+        play->csCtx.script = gFireMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_FIRE);
 
@@ -207,9 +226,9 @@ void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, PlayState* play) {
 
 void DemoDu_CsFireMedallion_AdvanceTo02(DemoDu* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = play->csCtx.npcActions[2];
+        CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
-        if ((npcAction != NULL) && (npcAction->action != 1)) {
+        if ((cue != NULL) && (cue->id != 1)) {
             this->updateIndex = CS_FIREMEDALLION_SUBSCENE(2);
             this->drawIndex = 1;
             DemoDu_CsFireMedallion_SpawnDoorWarp(this, play);
@@ -226,9 +245,9 @@ void DemoDu_CsFireMedallion_AdvanceTo03(DemoDu* this) {
 
 void DemoDu_CsFireMedallion_AdvanceTo04(DemoDu* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = play->csCtx.npcActions[2];
+        CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
-        if ((npcAction != NULL) && (npcAction->action != 2)) {
+        if ((cue != NULL) && (cue->id != 2)) {
             Animation_Change(&this->skelAnime, &gDaruniaItemGiveAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gDaruniaItemGiveAnim), 2, 0.0f);
             this->updateIndex = CS_FIREMEDALLION_SUBSCENE(4);
@@ -246,9 +265,9 @@ void DemoDu_CsFireMedallion_AdvanceTo05(DemoDu* this, s32 animFinished) {
 
 void DemoDu_CsFireMedallion_AdvanceTo06(DemoDu* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = play->csCtx.npcActions[6];
+        CsCmdActorCue* cue = play->csCtx.actorCues[6];
 
-        if ((npcAction != NULL) && (npcAction->action == 2)) {
+        if ((cue != NULL) && (cue->id == 2)) {
             this->updateIndex = CS_FIREMEDALLION_SUBSCENE(6);
             func_80969F38(this, play);
         }
@@ -302,14 +321,14 @@ void DemoDu_InitCs_GoronsRuby(DemoDu* this, PlayState* play) {
 // Cutscene: Darunia gives Link the Goron's Ruby.
 // Sfx played when Darunia lands at the floor at the start of the cutscene.
 void DemoDu_CsPlaySfx_GoronLanding(DemoDu* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_EN_GOLON_LAND_BIG);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EN_GOLON_LAND_BIG);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
 // Sfx played when Darunia is falling at the start of the cutscene.
 void DemoDu_CsPlaySfx_DaruniaFalling(PlayState* play) {
-    if (play->csCtx.frames == 160) {
-        func_800788CC(NA_SE_EV_OBJECT_FALL);
+    if (play->csCtx.curFrame == 160) {
+        Sfx_PlaySfxCentered2(NA_SE_EV_OBJECT_FALL);
     }
 }
 
@@ -318,40 +337,40 @@ void DemoDu_CsPlaySfx_DaruniaHitsLink(PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 pad;
 
-    func_80078914(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
-    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    Sfx_PlaySfxAtPos(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
+    Audio_PlaySfxGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
 void DemoDu_CsPlaySfx_HitBreast(DemoDu* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_BREAST - SFX_FLAG);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_BREAST - SFX_FLAG);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
 // Sfx played when Link is escaping from the gorons at the end of the scene.
 void DemoDu_CsPlaySfx_LinkEscapeFromGorons(PlayState* play) {
-    if (play->csCtx.frames == 1400) {
+    if (play->csCtx.curFrame == 1400) {
         Player* player = GET_PLAYER(play);
 
-        Audio_PlaySoundGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
 // Sfx played when Link is surprised by Darunia falling from the sky.
 void DemoDu_CsPlaySfx_LinkSurprised(PlayState* play) {
-    if (play->csCtx.frames == 174) {
+    if (play->csCtx.curFrame == 174) {
         Player* player = GET_PLAYER(play);
 
-        Audio_PlaySoundGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
 void DemoDu_CsGoronsRuby_UpdateFaceTextures(DemoDu* this, PlayState* play) {
-    u16* frames = &play->csCtx.frames;
+    u16* frames = &play->csCtx.curFrame;
 
     if (*frames < 260) {
         DemoDu_UpdateEyes(this);
@@ -437,25 +456,25 @@ void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
 
     if (csCtx->state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = csCtx->npcActions[2];
+        CsCmdActorCue* cue = csCtx->actorCues[2];
         Vec3f startPos;
         Vec3f endPos;
         Vec3f* pos = &this->actor.world.pos;
 
-        if (npcAction != NULL) {
-            f32 traveledPercent = Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
+        if (cue != NULL) {
+            f32 traveledPercent = Environment_LerpWeight(cue->endFrame, cue->startFrame, csCtx->curFrame);
 
-            startPos.x = npcAction->startPos.x;
-            startPos.y = npcAction->startPos.y;
-            startPos.z = npcAction->startPos.z;
+            startPos.x = cue->startPos.x;
+            startPos.y = cue->startPos.y;
+            startPos.z = cue->startPos.z;
 
-            endPos.x = npcAction->endPos.x;
-            endPos.y = npcAction->endPos.y;
-            endPos.z = npcAction->endPos.z;
+            endPos.x = cue->endPos.x;
+            endPos.y = cue->endPos.y;
+            endPos.z = cue->endPos.z;
 
-            pos->x = ((endPos.x - startPos.x) * traveledPercent) + startPos.x;
-            pos->y = ((endPos.y - startPos.y) * traveledPercent) + startPos.y;
-            pos->z = ((endPos.z - startPos.z) * traveledPercent) + startPos.z;
+            pos->x = LERP(startPos.x, endPos.x, traveledPercent);
+            pos->y = LERP(startPos.y, endPos.y, traveledPercent);
+            pos->z = LERP(startPos.z, endPos.z, traveledPercent);
         }
     }
 }
@@ -466,9 +485,9 @@ void DemoDu_CsGoronsRuby_AdvanceTo01(DemoDu* this, PlayState* play) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo02(DemoDu* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = play->csCtx.npcActions[2];
+        CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
-        if ((npcAction != NULL) && (npcAction->action != 1)) {
+        if ((cue != NULL) && (cue->id != 1)) {
             Animation_Change(&this->skelAnime, &gDaruniaStandUpAfterFallingAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gDaruniaStandUpAfterFallingAnim), 2, 0.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(2);
@@ -482,9 +501,9 @@ void DemoDu_CsGoronsRuby_AdvanceTo03(DemoDu* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
 
     if (csCtx->state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = csCtx->npcActions[2];
+        CsCmdActorCue* cue = csCtx->actorCues[2];
 
-        if ((npcAction != NULL) && (csCtx->frames >= npcAction->endFrame)) {
+        if ((cue != NULL) && (csCtx->curFrame >= cue->endFrame)) {
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(3);
             func_8096A630(this, play);
         }
@@ -493,9 +512,9 @@ void DemoDu_CsGoronsRuby_AdvanceTo03(DemoDu* this, PlayState* play) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo04(DemoDu* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = play->csCtx.npcActions[2];
+        CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
-        if ((npcAction != NULL) && (npcAction->action != 2)) {
+        if ((cue != NULL) && (cue->id != 2)) {
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(4);
         }
     }
@@ -511,9 +530,9 @@ void DemoDu_CsGoronsRuby_AdvanceTo05(DemoDu* this, s32 animFinished) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo06(DemoDu* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = play->csCtx.npcActions[2];
+        CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
-        if ((npcAction != NULL) && (npcAction->action != 3)) {
+        if ((cue != NULL) && (cue->id != 3)) {
             Animation_Change(&this->skelAnime, &gDaruniaHitBreastAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gDaruniaHitBreastAnim), 2, -4.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(6);
@@ -531,9 +550,9 @@ void DemoDu_CsGoronsRuby_AdvanceTo07(DemoDu* this, s32 animFinished) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo08(DemoDu* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = play->csCtx.npcActions[2];
+        CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
-        if ((npcAction != NULL) && (npcAction->action != 4)) {
+        if ((cue != NULL) && (cue->id != 4)) {
             Animation_Change(&this->skelAnime, &gDaruniaHitLinkAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gDaruniaHitLinkAnim), 2, 0.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(8);
@@ -559,9 +578,9 @@ void DemoDu_CsGoronsRuby_AdvanceTo10(DemoDu* this, s32 animFinished) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo11(DemoDu* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = play->csCtx.npcActions[2];
+        CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
-        if ((npcAction != NULL) && (npcAction->action != 5)) {
+        if ((cue != NULL) && (cue->id != 5)) {
             Animation_Change(&this->skelAnime, &gDaruniaItemGiveAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gDaruniaItemGiveAnim), 2, 0.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(11);
@@ -579,9 +598,9 @@ void DemoDu_CsGoronsRuby_AdvanceTo12(DemoDu* this, s32 animFinished) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo13(DemoDu* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction = play->csCtx.npcActions[2];
+        CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
-        if ((npcAction != NULL) && (npcAction->action != 6)) {
+        if ((cue != NULL) && (cue->id != 6)) {
             Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
                              ANIMMODE_LOOP, 0.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(13);
@@ -707,8 +726,8 @@ void DemoDu_InitCs_AfterGanon(DemoDu* this, PlayState* play) {
     this->actor.shape.shadowAlpha = 0;
 }
 
-void DemoDu_CsPlaySfx_WhiteOut() {
-    func_800788CC(NA_SE_SY_WHITE_OUT_T);
+void DemoDu_CsPlaySfx_WhiteOut(void) {
+    Sfx_PlaySfxCentered2(NA_SE_SY_WHITE_OUT_T);
 }
 
 void DemoDu_CsAfterGanon_SpawnDemo6K(DemoDu* this, PlayState* play) {
@@ -717,7 +736,7 @@ void DemoDu_CsAfterGanon_SpawnDemo6K(DemoDu* this, PlayState* play) {
 }
 
 void DemoDu_CsAfterGanon_AdvanceTo01(DemoDu* this, PlayState* play) {
-    if (DemoDu_IsNpcDoingThisAction(this, play, 4, 2)) {
+    if (DemoDu_CheckForCue(this, play, 4, 2)) {
         this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(1);
         this->drawIndex = 2;
         this->shadowAlpha = 0;
@@ -731,7 +750,7 @@ void DemoDu_CsAfterGanon_AdvanceTo02(DemoDu* this, PlayState* play) {
     f32* unk_1A4 = &this->unk_1A4;
     s32 shadowAlpha = 255;
 
-    if (DemoDu_IsNpcDoingThisAction(this, play, 4, 2)) {
+    if (DemoDu_CheckForCue(this, play, 4, 2)) {
         *unk_1A4 += 1.0f;
         if (*unk_1A4 >= kREG(5) + 10.0f) {
             this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(2);
@@ -758,7 +777,7 @@ void DemoDu_CsAfterGanon_AdvanceTo02(DemoDu* this, PlayState* play) {
 }
 
 void DemoDu_CsAfterGanon_BackTo01(DemoDu* this, PlayState* play) {
-    if (DemoDu_IsNpcNotDoingThisAction(this, play, 4, 2)) {
+    if (DemoDu_CheckForNoCue(this, play, 4, 2)) {
         this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(1);
         this->drawIndex = 2;
         this->unk_1A4 = kREG(5) + 10.0f;
@@ -773,7 +792,9 @@ void DemoDu_CsAfterGanon_BackTo01(DemoDu* this, PlayState* play) {
 
 void DemoDu_UpdateCs_AG_00(DemoDu* this, PlayState* play) {
     DemoDu_CsAfterGanon_AdvanceTo01(this, play);
+#if DEBUG_FEATURES
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
+#endif
 }
 
 void DemoDu_UpdateCs_AG_01(DemoDu* this, PlayState* play) {
@@ -781,7 +802,9 @@ void DemoDu_UpdateCs_AG_01(DemoDu* this, PlayState* play) {
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     DemoDu_CsAfterGanon_AdvanceTo02(this, play);
+#if DEBUG_FEATURES
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
+#endif
 }
 
 void DemoDu_UpdateCs_AG_02(DemoDu* this, PlayState* play) {
@@ -789,7 +812,9 @@ void DemoDu_UpdateCs_AG_02(DemoDu* this, PlayState* play) {
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     DemoDu_CsAfterGanon_BackTo01(this, play);
+#if DEBUG_FEATURES
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
+#endif
 }
 
 // Similar to DemoDu_Draw_01, but this uses POLY_XLU_DISP. Also uses this->shadowAlpha for setting the env color.
@@ -849,7 +874,7 @@ void DemoDu_CsCredits_UpdateShadowAlpha(DemoDu* this) {
 }
 
 void DemoDu_CsCredits_AdvanceTo01(DemoDu* this, PlayState* play) {
-    DemoDu_MoveToNpcPos(this, play, 2);
+    DemoDu_SetStartPosRotFromCue(this, play, 2);
     this->updateIndex = CS_CREDITS_SUBSCENE(1);
     this->drawIndex = 2;
 }
@@ -878,15 +903,15 @@ void DemoDu_CsCredits_BackTo02(DemoDu* this, s32 animFinished) {
     }
 }
 
-void DemoDu_CsCredits_HandleSubscenesByNpcAction(DemoDu* this, PlayState* play) {
-    CsCmdActorAction* npcAction = DemoDu_GetNpcAction(play, 2);
+void DemoDu_CsCredits_HandleCues(DemoDu* this, PlayState* play) {
+    CsCmdActorCue* cue = DemoDu_GetCue(play, 2);
 
-    if (npcAction != NULL) {
-        s32 action = npcAction->action;
-        s32 lastAction = this->lastAction;
+    if (cue != NULL) {
+        s32 nextCueId = cue->id;
+        s32 currentCueId = this->cueId;
 
-        if (action != lastAction) {
-            switch (action) {
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 9:
                     DemoDu_CsCredits_AdvanceTo01(this, play);
                     break;
@@ -897,17 +922,17 @@ void DemoDu_CsCredits_HandleSubscenesByNpcAction(DemoDu* this, PlayState* play) 
                     DemoDu_CsCredits_AdvanceTo04(this);
                     break;
                 default:
-                    // "Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!"
-                    osSyncPrintf("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Du_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
-            this->lastAction = action;
+            this->cueId = nextCueId;
         }
     }
 }
 
 void DemoDu_UpdateCs_CR_00(DemoDu* this, PlayState* play) {
-    DemoDu_CsCredits_HandleSubscenesByNpcAction(this, play);
+    DemoDu_CsCredits_HandleCues(this, play);
 }
 
 void DemoDu_UpdateCs_CR_01(DemoDu* this, PlayState* play) {
@@ -922,14 +947,14 @@ void DemoDu_UpdateCs_CR_02(DemoDu* this, PlayState* play) {
     DemoDu_UpdateBgCheckInfo(this, play);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    DemoDu_CsCredits_HandleSubscenesByNpcAction(this, play);
+    DemoDu_CsCredits_HandleCues(this, play);
 }
 
 void DemoDu_UpdateCs_CR_03(DemoDu* this, PlayState* play) {
     DemoDu_UpdateBgCheckInfo(this, play);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    DemoDu_CsCredits_HandleSubscenesByNpcAction(this, play);
+    DemoDu_CsCredits_HandleCues(this, play);
 }
 
 void DemoDu_UpdateCs_CR_04(DemoDu* this, PlayState* play) {
@@ -954,8 +979,8 @@ void DemoDu_Update(Actor* thisx, PlayState* play) {
     DemoDu* this = (DemoDu*)thisx;
 
     if (this->updateIndex < 0 || this->updateIndex >= 29 || sUpdateFuncs[this->updateIndex] == NULL) {
-        // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sUpdateFuncs[this->updateIndex](this, play);
@@ -1025,21 +1050,21 @@ void DemoDu_Draw(Actor* thisx, PlayState* play) {
     DemoDu* this = (DemoDu*)thisx;
 
     if (this->drawIndex < 0 || this->drawIndex >= 3 || sDrawFuncs[this->drawIndex] == NULL) {
-        // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawIndex](thisx, play);
 }
 
-const ActorInit Demo_Du_InitVars = {
-    ACTOR_DEMO_DU,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DU,
-    sizeof(DemoDu),
-    (ActorFunc)DemoDu_Init,
-    (ActorFunc)DemoDu_Destroy,
-    (ActorFunc)DemoDu_Update,
-    (ActorFunc)DemoDu_Draw,
+ActorProfile Demo_Du_Profile = {
+    /**/ ACTOR_DEMO_DU,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DU,
+    /**/ sizeof(DemoDu),
+    /**/ DemoDu_Init,
+    /**/ DemoDu_Destroy,
+    /**/ DemoDu_Update,
+    /**/ DemoDu_Draw,
 };

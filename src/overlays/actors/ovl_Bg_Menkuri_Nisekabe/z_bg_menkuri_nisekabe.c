@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_menkuri_nisekabe.h"
+
+#include "play_state.h"
+
 #include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
 
 #define FLAGS 0
@@ -14,16 +17,16 @@ void BgMenkuriNisekabe_Destroy(Actor* thisx, PlayState* play);
 void BgMenkuriNisekabe_Update(Actor* thisx, PlayState* play);
 void BgMenkuriNisekabe_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Menkuri_Nisekabe_InitVars = {
-    ACTOR_BG_MENKURI_NISEKABE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_MENKURI_OBJECTS,
-    sizeof(BgMenkuriNisekabe),
-    (ActorFunc)BgMenkuriNisekabe_Init,
-    (ActorFunc)BgMenkuriNisekabe_Destroy,
-    (ActorFunc)BgMenkuriNisekabe_Update,
-    (ActorFunc)BgMenkuriNisekabe_Draw,
+ActorProfile Bg_Menkuri_Nisekabe_Profile = {
+    /**/ ACTOR_BG_MENKURI_NISEKABE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_MENKURI_OBJECTS,
+    /**/ sizeof(BgMenkuriNisekabe),
+    /**/ BgMenkuriNisekabe_Init,
+    /**/ BgMenkuriNisekabe_Destroy,
+    /**/ BgMenkuriNisekabe_Update,
+    /**/ BgMenkuriNisekabe_Draw,
 };
 
 static Gfx* sDLists[] = { gGTGFakeWallDL, gGTGFakeCeilingDL };
@@ -41,17 +44,17 @@ void BgMenkuriNisekabe_Update(Actor* thisx, PlayState* play) {
     BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
 
     if (play->actorCtx.lensActive) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_7;
+        this->actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
     }
 }
 
 void BgMenkuriNisekabe_Draw(Actor* thisx, PlayState* play) {
     BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
-    u32 index = this->actor.params & 0xFF;
+    u32 index = PARAMS_GET_U(this->actor.params, 0, 8);
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, sDLists[index]);
     } else {
         Gfx_DrawDListOpa(play, sDLists[index]);

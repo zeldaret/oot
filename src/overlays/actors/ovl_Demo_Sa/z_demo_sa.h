@@ -2,12 +2,12 @@
 #define Z_DEMO_SA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct DemoSa;
 
-typedef void (*DemoSaActionFunc)(struct DemoSa*, PlayState*);
-typedef void (*DemoSaDrawFunc)(struct DemoSa*, PlayState*);
+typedef void (*DemoSaActionFunc)(struct DemoSa*, struct PlayState*);
+typedef void (*DemoSaDrawFunc)(struct DemoSa*, struct PlayState*);
 
 typedef struct DemoSa {
     /* 0x0000 */ Actor actor;
@@ -20,7 +20,7 @@ typedef struct DemoSa {
     /* 0x01A0 */ f32 unk_1A0;
     /* 0x01A4 */ s32 alpha;
     /* 0x01A8 */ s32 unk_1A8;
-    /* 0x01AC */ s32 unk_1AC;
+    /* 0x01AC */ s32 cueId;
     /* 0x01B0 */ s32 unk_1B0;
 } DemoSa; // size = 0x01B4
 

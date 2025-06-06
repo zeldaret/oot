@@ -5,8 +5,18 @@
  */
 
 #include "z_bg_spot16_doughnut.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_efc_doughnut/object_efc_doughnut.h"
-#include "vt.h"
 
 #define FLAGS 0
 
@@ -18,22 +28,22 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Spot16_Doughnut_InitVars = {
-    ACTOR_BG_SPOT16_DOUGHNUT,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_EFC_DOUGHNUT,
-    sizeof(BgSpot16Doughnut),
-    (ActorFunc)BgSpot16Doughnut_Init,
-    (ActorFunc)BgSpot16Doughnut_Destroy,
-    (ActorFunc)BgSpot16Doughnut_Update,
-    (ActorFunc)BgSpot16Doughnut_Draw,
+ActorProfile Bg_Spot16_Doughnut_Profile = {
+    /**/ ACTOR_BG_SPOT16_DOUGHNUT,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_EFC_DOUGHNUT,
+    /**/ sizeof(BgSpot16Doughnut),
+    /**/ BgSpot16Doughnut_Init,
+    /**/ BgSpot16Doughnut_Destroy,
+    /**/ BgSpot16Doughnut_Update,
+    /**/ BgSpot16Doughnut_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 5500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 5000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 5000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 5500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 5000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 5000, ICHAIN_STOP),
 };
 
 static s16 sScales[] = {
@@ -56,26 +66,27 @@ void BgSpot16Doughnut_Init(Actor* thisx, PlayState* play) {
     } else {
         // Scales this actor for scenes where it is featured in the background,
         // Death Mountain itself falls into the default case.
-        switch (play->sceneNum) {
-            case SCENE_SPOT01:
+        switch (play->sceneId) {
+            case SCENE_KAKARIKO_VILLAGE:
                 Actor_SetScale(&this->actor, 0.04f);
                 break;
-            case SCENE_SHRINE:
-            case SCENE_SHRINE_N:
-            case SCENE_SHRINE_R:
+            case SCENE_TEMPLE_OF_TIME_EXTERIOR_DAY:
+            case SCENE_TEMPLE_OF_TIME_EXTERIOR_NIGHT:
+            case SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS:
                 Actor_SetScale(&this->actor, 0.018f);
                 break;
             default:
                 Actor_SetScale(&this->actor, 0.1f);
                 break;
         }
-        osSyncPrintf(VT_FGCOL(CYAN) "%f" VT_RST "\n", this->actor.scale.x);
+        PRINTF(VT_FGCOL(CYAN) "%f" VT_RST "\n", this->actor.scale.x);
         if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_2F)) {
             this->fireFlag &= ~1;
         } else {
             this->fireFlag |= 1;
         }
-        osSyncPrintf("(ｓｐｏｔ１６ ドーナツ雲)(arg_data 0x%04x)\n", this->actor.params);
+        PRINTF(T("(ｓｐｏｔ１６ ドーナツ雲)(arg_data 0x%04x)\n", "(spot16 Donut Cloud)(arg_data 0x%04x)\n"),
+               this->actor.params);
     }
 }
 
@@ -92,8 +103,8 @@ void BgSpot16Doughnut_Update(Actor* thisx, PlayState* play) {
         } else {
             this->envColorAlpha = 255;
         }
-    } else if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[2] != NULL &&
-               play->csCtx.npcActions[2]->action == 2) {
+    } else if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[2] != NULL &&
+               play->csCtx.actorCues[2]->id == 2) {
         if (this->envColorAlpha >= 6) {
             this->envColorAlpha -= 5;
         } else {
@@ -125,13 +136,11 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    if (1) {}
-
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213);
     if (this->fireFlag & 1) {
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * (-1), 0, 16, 32, 1, scroll, scroll * (-2), 16, 32));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * (-1), 0, 16, 32, 1, scroll,
+                                    scroll * (-2), 16, 32));
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, this->envColorAlpha);
         gSPDisplayList(POLY_XLU_DISP++, gDeathMountainCloudCircleFieryDL);
     } else {
@@ -151,8 +160,7 @@ void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->envColorAlpha);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
     gSPDisplayList(POLY_XLU_DISP++, gDeathMountainCloudCircleNormalDL);

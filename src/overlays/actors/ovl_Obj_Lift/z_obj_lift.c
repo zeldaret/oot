@@ -5,39 +5,51 @@
  */
 
 #include "z_obj_lift.h"
-#include "assets/objects/object_d_lift/object_d_lift.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "ichain.h"
+#include "printf.h"
+#include "quake.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
+#include "assets/objects/object_d_lift/object_d_lift.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ObjLift_Init(Actor* thisx, PlayState* play);
 void ObjLift_Destroy(Actor* thisx, PlayState* play);
 void ObjLift_Update(Actor* thisx, PlayState* play);
 void ObjLift_Draw(Actor* thisx, PlayState* play);
 
-void func_80B9651C(ObjLift* this);
-void func_80B9664C(ObjLift* this);
-void func_80B967C0(ObjLift* this);
+void ObjLift_SetupWait(ObjLift* this);
+void ObjLift_SetupShake(ObjLift* this);
+void ObjLift_SetupFall(ObjLift* this);
 
-void func_80B96560(ObjLift* this, PlayState* play);
-void func_80B96678(ObjLift* this, PlayState* play);
-void func_80B96840(ObjLift* this, PlayState* play);
+void ObjLift_Wait(ObjLift* this, PlayState* play);
+void ObjLift_Shake(ObjLift* this, PlayState* play);
+void ObjLift_Fall(ObjLift* this, PlayState* play);
 
-const ActorInit Obj_Lift_InitVars = {
-    ACTOR_OBJ_LIFT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_D_LIFT,
-    sizeof(ObjLift),
-    (ActorFunc)ObjLift_Init,
-    (ActorFunc)ObjLift_Destroy,
-    (ActorFunc)ObjLift_Update,
-    (ActorFunc)ObjLift_Draw,
+ActorProfile Obj_Lift_Profile = {
+    /**/ ACTOR_OBJ_LIFT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_D_LIFT,
+    /**/ sizeof(ObjLift),
+    /**/ ObjLift_Init,
+    /**/ ObjLift_Destroy,
+    /**/ ObjLift_Update,
+    /**/ ObjLift_Draw,
 };
 
 static s16 sFallTimerDurations[] = { 0, 10, 20, 30, 40, 50, 60 };
 
-typedef struct {
+typedef struct ObjLiftFramgentScale {
     /* 0x00 */ s16 x;
     /* 0x02 */ s16 z;
 } ObjLiftFramgentScale; // size = 0x4
@@ -48,9 +60,9 @@ static ObjLiftFramgentScale sFragmentScales[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32_DIV1000(gravity, -600, ICHAIN_CONTINUE),   ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -600, ICHAIN_CONTINUE),       ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_STOP),
 };
 
 static f32 sScales[] = { 0.1f, 0.05f };
@@ -63,19 +75,23 @@ void ObjLift_SetupAction(ObjLift* this, ObjLiftActionFunc actionFunc) {
 void ObjLift_InitDynaPoly(ObjLift* this, PlayState* play, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_lift.c", 188,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        s32 pad2;
+
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_obj_lift.c", 188, this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
-void func_80B96160(ObjLift* this, PlayState* play) {
+void ObjLift_SpawnFragments(ObjLift* this, PlayState* play) {
     Vec3f pos;
     Vec3f velocity;
     Vec3f* temp_s3;
@@ -96,9 +112,9 @@ void func_80B96160(ObjLift* this, PlayState* play) {
                              OBJECT_D_LIFT, gCollapsingPlatformDL);
     }
 
-    if (((this->dyna.actor.params >> 1) & 1) == 0) {
+    if (PARAMS_GET_U(this->dyna.actor.params, 1, 1) == 0) {
         func_80033480(play, &this->dyna.actor.world.pos, 120.0f, 12, 120, 100, 1);
-    } else if (((this->dyna.actor.params >> 1) & 1) == 1) {
+    } else if (PARAMS_GET_U(this->dyna.actor.params, 1, 1) == 1) {
         func_80033480(play, &this->dyna.actor.world.pos, 60.0f, 8, 60, 100, 1);
     }
 }
@@ -106,20 +122,20 @@ void func_80B96160(ObjLift* this, PlayState* play) {
 void ObjLift_Init(Actor* thisx, PlayState* play) {
     ObjLift* this = (ObjLift*)thisx;
 
-    ObjLift_InitDynaPoly(this, play, &gCollapsingPlatformCol, DPM_PLAYER);
+    ObjLift_InitDynaPoly(this, play, &gCollapsingPlatformCol, DYNA_TRANSFORM_POS);
 
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 2) & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 2, 6))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
 
-    Actor_SetScale(&this->dyna.actor, sScales[(this->dyna.actor.params >> 1) & 1]);
+    Actor_SetScale(&this->dyna.actor, sScales[PARAMS_GET_U(this->dyna.actor.params, 1, 1)]);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->unk_168.x = Rand_ZeroOne() * 65535.5f;
-    this->unk_168.y = Rand_ZeroOne() * 65535.5f;
-    this->unk_168.z = Rand_ZeroOne() * 65535.5f;
-    func_80B9651C(this);
-    osSyncPrintf("(Dungeon Lift)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    this->shakeOrientation.x = Rand_ZeroOne() * 65535.5f;
+    this->shakeOrientation.y = Rand_ZeroOne() * 65535.5f;
+    this->shakeOrientation.z = Rand_ZeroOne() * 65535.5f;
+    ObjLift_SetupWait(this);
+    PRINTF("(Dungeon Lift)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void ObjLift_Destroy(Actor* thisx, PlayState* play) {
@@ -128,80 +144,82 @@ void ObjLift_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_80B9651C(ObjLift* this) {
-    this->timer = sFallTimerDurations[(this->dyna.actor.params >> 8) & 7];
-    ObjLift_SetupAction(this, func_80B96560);
+void ObjLift_SetupWait(ObjLift* this) {
+    this->timer = sFallTimerDurations[PARAMS_GET_U(this->dyna.actor.params, 8, 3)];
+    ObjLift_SetupAction(this, ObjLift_Wait);
 }
 
-void func_80B96560(ObjLift* this, PlayState* play) {
+void ObjLift_Wait(ObjLift* this, PlayState* play) {
     s32 pad;
     s32 quakeIndex;
 
-    if (func_8004356C(&this->dyna)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->timer <= 0) {
-            if (((this->dyna.actor.params >> 8) & 7) == 7) {
-                func_80B967C0(this);
+            if (PARAMS_GET_U(this->dyna.actor.params, 8, 3) == 7) {
+                ObjLift_SetupFall(this);
             } else {
-                quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 1);
+                quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
                 Quake_SetSpeed(quakeIndex, 10000);
-                Quake_SetQuakeValues(quakeIndex, 2, 0, 0, 0);
-                Quake_SetCountdown(quakeIndex, 20);
-                func_80B9664C(this);
+                Quake_SetPerturbations(quakeIndex, 2, 0, 0, 0);
+                Quake_SetDuration(quakeIndex, 20);
+                ObjLift_SetupShake(this);
             }
         }
     } else {
-        this->timer = sFallTimerDurations[(this->dyna.actor.params >> 8) & 7];
+        this->timer = sFallTimerDurations[PARAMS_GET_U(this->dyna.actor.params, 8, 3)];
     }
 }
 
-void func_80B9664C(ObjLift* this) {
+void ObjLift_SetupShake(ObjLift* this) {
     this->timer = 20;
-    ObjLift_SetupAction(this, func_80B96678);
+    ObjLift_SetupAction(this, ObjLift_Shake);
 }
 
-void func_80B96678(ObjLift* this, PlayState* play) {
+void ObjLift_Shake(ObjLift* this, PlayState* play) {
     if (this->timer <= 0) {
-        func_80B967C0(this);
+        ObjLift_SetupFall(this);
     } else {
-        this->unk_168.x += 10000;
-        this->dyna.actor.world.rot.x = (s16)(Math_SinS(this->unk_168.x) * 300.0f) + this->dyna.actor.home.rot.x;
-        this->dyna.actor.world.rot.z = (s16)(Math_CosS(this->unk_168.x) * 300.0f) + this->dyna.actor.home.rot.z;
+        this->shakeOrientation.x += 10000;
+        this->dyna.actor.world.rot.x =
+            (s16)(Math_SinS(this->shakeOrientation.x) * 300.0f) + this->dyna.actor.home.rot.x;
+        this->dyna.actor.world.rot.z =
+            (s16)(Math_CosS(this->shakeOrientation.x) * 300.0f) + this->dyna.actor.home.rot.z;
         this->dyna.actor.shape.rot.x = this->dyna.actor.world.rot.x;
         this->dyna.actor.shape.rot.z = this->dyna.actor.world.rot.z;
-        this->unk_168.y += 18000;
-        this->dyna.actor.world.pos.y = Math_SinS(this->unk_168.y) + this->dyna.actor.home.pos.y;
-        this->unk_168.z += 18000;
-        this->dyna.actor.world.pos.x = Math_SinS(this->unk_168.z) * 3.0f + this->dyna.actor.home.pos.x;
-        this->dyna.actor.world.pos.z = Math_CosS(this->unk_168.z) * 3.0f + this->dyna.actor.home.pos.z;
+        this->shakeOrientation.y += 18000;
+        this->dyna.actor.world.pos.y = Math_SinS(this->shakeOrientation.y) + this->dyna.actor.home.pos.y;
+        this->shakeOrientation.z += 18000;
+        this->dyna.actor.world.pos.x = Math_SinS(this->shakeOrientation.z) * 3.0f + this->dyna.actor.home.pos.x;
+        this->dyna.actor.world.pos.z = Math_CosS(this->shakeOrientation.z) * 3.0f + this->dyna.actor.home.pos.z;
     }
 
     if ((this->timer & 3) == 3) {
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 16, NA_SE_EV_BLOCK_SHAKE);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 16, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
-void func_80B967C0(ObjLift* this) {
-    ObjLift_SetupAction(this, func_80B96840);
+void ObjLift_SetupFall(ObjLift* this) {
+    ObjLift_SetupAction(this, ObjLift_Fall);
     Math_Vec3f_Copy(&this->dyna.actor.world.pos, &this->dyna.actor.home.pos);
     this->dyna.actor.shape.rot = this->dyna.actor.world.rot = this->dyna.actor.home.rot;
 }
 
-void func_80B96840(ObjLift* this, PlayState* play) {
+void ObjLift_Fall(ObjLift* this, PlayState* play) {
     s32 pad;
     s32 bgId;
-    Vec3f sp2C;
+    Vec3f pos;
 
-    Actor_MoveForward(&this->dyna.actor);
-    Math_Vec3f_Copy(&sp2C, &this->dyna.actor.prevPos);
-    sp2C.y += sMaxFallDistances[(this->dyna.actor.params >> 1) & 1];
+    Actor_MoveXZGravity(&this->dyna.actor);
+    Math_Vec3f_Copy(&pos, &this->dyna.actor.prevPos);
+    pos.y += sMaxFallDistances[PARAMS_GET_U(this->dyna.actor.params, 1, 1)];
     this->dyna.actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &sp2C);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &pos);
 
     if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >=
-        (sMaxFallDistances[(this->dyna.actor.params >> 1) & 1] - 0.001f)) {
-        func_80B96160(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_BOX_BREAK);
-        Flags_SetSwitch(play, (this->dyna.actor.params >> 2) & 0x3F);
+        (sMaxFallDistances[PARAMS_GET_U(this->dyna.actor.params, 1, 1)] - 0.001f)) {
+        ObjLift_SpawnFragments(this, play);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_BOX_BREAK);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 2, 6));
         Actor_Kill(&this->dyna.actor);
     }
 }

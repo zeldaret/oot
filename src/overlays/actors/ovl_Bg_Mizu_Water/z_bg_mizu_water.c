@@ -5,9 +5,23 @@
  */
 
 #include "z_bg_mizu_water.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "regs.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgMizuWater_Init(Actor* thisx, PlayState* play);
 void BgMizuWater_Destroy(Actor* thisx, PlayState* play);
@@ -17,7 +31,7 @@ void BgMizuWater_Draw(Actor* thisx, PlayState* play);
 void BgMizuWater_WaitForAction(BgMizuWater* this, PlayState* play);
 void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play);
 
-typedef struct {
+typedef struct WaterLevel {
     s32 switchFlag;
     s32 yDiff;
 } WaterLevel;
@@ -29,16 +43,16 @@ static WaterLevel sWaterLevels[] = {
     { WATER_TEMPLE_WATER_F1_FLAG, WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_F3_Y },
 };
 
-const ActorInit Bg_Mizu_Water_InitVars = {
-    ACTOR_BG_MIZU_WATER,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuWater),
-    (ActorFunc)BgMizuWater_Init,
-    (ActorFunc)BgMizuWater_Destroy,
-    (ActorFunc)BgMizuWater_Update,
-    (ActorFunc)BgMizuWater_Draw,
+ActorProfile Bg_Mizu_Water_Profile = {
+    /**/ ACTOR_BG_MIZU_WATER,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuWater),
+    /**/ BgMizuWater_Init,
+    /**/ BgMizuWater_Destroy,
+    /**/ BgMizuWater_Update,
+    /**/ BgMizuWater_Draw,
 };
 
 static f32 sUnused1 = 0;
@@ -53,6 +67,7 @@ static InitChainEntry sInitChain[] = {
 u32 BgMizuWater_GetWaterLevelActionIndex(s16 switchFlag, PlayState* play) {
     u32 ret;
 
+#if DEBUG_FEATURES
     if (bREG(0) != 0) {
         switch (bREG(1)) {
             case 0:
@@ -67,6 +82,8 @@ u32 BgMizuWater_GetWaterLevelActionIndex(s16 switchFlag, PlayState* play) {
         }
         bREG(0) = 0;
     }
+#endif
+
     if (Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG) && (switchFlag != WATER_TEMPLE_WATER_F1_FLAG)) {
         ret = 3;
     } else if (Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG) && (switchFlag != WATER_TEMPLE_WATER_F2_FLAG)) {
@@ -95,8 +112,8 @@ void BgMizuWater_Init(Actor* thisx, PlayState* play) {
     s32 waterLevelActionIndex;
 
     waterBoxes = play->colCtx.colHeader->waterBoxes;
-    this->type = this->actor.params & 0xFF;
-    this->switchFlag = (this->actor.params >> 8) & 0xFF;
+    this->type = PARAMS_GET_U(this->actor.params, 0, 8);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 8, 8);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     initialActorY = this->actor.world.pos.y;
     this->baseY = initialActorY;
@@ -105,9 +122,10 @@ void BgMizuWater_Init(Actor* thisx, PlayState* play) {
     switch (this->type) {
         case 0:
             if (bREG(15) == 0) {
-                osSyncPrintf("<コンストラクト>%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
-                             Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG),
-                             Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
+                PRINTF(T("<コンストラクト>%x %x %x\n", "<construct>%x %x %x\n"),
+                       Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
+                       Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG),
+                       Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
             }
             waterLevelActionIndex = BgMizuWater_GetWaterLevelActionIndex(-1, play);
             this->actor.world.pos.y = sWaterLevels[waterLevelActionIndex].yDiff + this->baseY;
@@ -235,7 +253,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
             }
 
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 5.0f)) {
-                play->roomCtx.unk_74[0] = 0;
+                play->roomCtx.drawParams[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
                 Message_CloseTextbox(play);
             }
@@ -250,7 +268,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
                 this->targetY = this->baseY;
             }
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 1.0f)) {
-                play->roomCtx.unk_74[0] = 0;
+                play->roomCtx.drawParams[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[6].ySurface = this->actor.world.pos.y;
@@ -262,7 +280,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
                 this->targetY = this->baseY;
             }
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 1.0f)) {
-                play->roomCtx.unk_74[0] = 0;
+                play->roomCtx.drawParams[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[8].ySurface = this->actor.world.pos.y;
@@ -274,7 +292,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
                 this->targetY = this->baseY;
             }
             if (Math_StepToF(&this->actor.world.pos.y, this->targetY, 1.0f)) {
-                play->roomCtx.unk_74[0] = 0;
+                play->roomCtx.drawParams[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[16].ySurface = this->actor.world.pos.y;
@@ -282,11 +300,11 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
     }
 
     if (this->targetY < this->actor.world.pos.y) {
-        func_800AA000(0.0f, 0x78, 0x14, 0xA);
-        func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+        Rumble_Request(0.0f, 120, 20, 10);
+        Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else if (this->targetY > this->actor.world.pos.y) {
-        func_800AA000(0.0f, 0x78, 0x14, 0xA);
-        func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+        Rumble_Request(0.0f, 120, 20, 10);
+        Actor_PlaySfx_FlaggedCentered2(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
 }
 
@@ -297,11 +315,13 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
     s32 unk1;
     s32 pad;
 
+#if DEBUG_FEATURES
     if (bREG(15) == 0) {
-        osSyncPrintf("%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
-                     Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG),
-                     Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
+        PRINTF("%x %x %x\n", Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG),
+               Flags_GetSwitch(play, WATER_TEMPLE_WATER_F2_FLAG), Flags_GetSwitch(play, WATER_TEMPLE_WATER_F3_FLAG));
     }
+#endif
+
     if (this->type == 0) {
         posY = this->actor.world.pos.y;
         unk0 = 0;
@@ -318,7 +338,7 @@ void BgMizuWater_Update(Actor* thisx, PlayState* play) {
             unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F2_Y) / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) *
                                (255 - 160));
         }
-        play->roomCtx.unk_74[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
+        play->roomCtx.drawParams[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
     }
 
     this->actionFunc(this, play);
@@ -333,11 +353,10 @@ void BgMizuWater_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x0C,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, -gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1, 0,
-                                -gameplayFrames * 1, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1,
+                                0, -gameplayFrames * 1, 32, 32));
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mizu_water.c", 749),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_mizu_water.c", 749);
 
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
 

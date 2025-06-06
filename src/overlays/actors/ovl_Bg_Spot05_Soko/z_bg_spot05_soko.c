@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_spot05_soko.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_spot05_objects/object_spot05_objects.h"
 
 #define FLAGS 0
@@ -17,16 +25,16 @@ void func_808AE5A8(BgSpot05Soko* this, PlayState* play);
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play);
 void func_808AE630(BgSpot05Soko* this, PlayState* play);
 
-const ActorInit Bg_Spot05_Soko_InitVars = {
-    ACTOR_BG_SPOT05_SOKO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT05_OBJECTS,
-    sizeof(BgSpot05Soko),
-    (ActorFunc)BgSpot05Soko_Init,
-    (ActorFunc)BgSpot05Soko_Destroy,
-    (ActorFunc)BgSpot05Soko_Update,
-    (ActorFunc)BgSpot05Soko_Draw,
+ActorProfile Bg_Spot05_Soko_Profile = {
+    /**/ ACTOR_BG_SPOT05_SOKO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT05_OBJECTS,
+    /**/ sizeof(BgSpot05Soko),
+    /**/ BgSpot05Soko_Init,
+    /**/ BgSpot05Soko_Destroy,
+    /**/ BgSpot05Soko_Update,
+    /**/ BgSpot05Soko_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -45,9 +53,9 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     if (thisx->params == 0) {
         CollisionHeader_GetVirtual(&object_spot05_objects_Col_000918, &colHeader);
         if (LINK_IS_ADULT) {
@@ -61,7 +69,7 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
             Actor_Kill(thisx);
         } else {
             this->actionFunc = func_808AE5B4;
-            thisx->flags |= ACTOR_FLAG_4;
+            thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         }
     }
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
@@ -78,17 +86,17 @@ void func_808AE5A8(BgSpot05Soko* this, PlayState* play) {
 
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
         Actor_SetFocus(&this->dyna.actor, 50.0f);
         OnePointCutscene_Attention(play, &this->dyna.actor);
         this->actionFunc = func_808AE630;
-        this->dyna.actor.speedXZ = 0.5f;
+        this->dyna.actor.speed = 0.5f;
     }
 }
 
 void func_808AE630(BgSpot05Soko* this, PlayState* play) {
-    this->dyna.actor.speedXZ *= 1.5f;
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speedXZ) !=
+    this->dyna.actor.speed *= 1.5f;
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speed) !=
         0) {
         Actor_Kill(&this->dyna.actor);
     }

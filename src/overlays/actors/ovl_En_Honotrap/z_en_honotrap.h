@@ -2,18 +2,18 @@
 #define Z_EN_HONOTRAP_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnHonotrap;
 
-typedef void (*EnHonotrapActionFunc)(struct EnHonotrap*, PlayState*);
+typedef void (*EnHonotrapActionFunc)(struct EnHonotrap*, struct PlayState*);
 
-typedef union {
+typedef union EnHonotrapCollider {
     struct {
-        ColliderTris tris;
-        ColliderTrisElement elements[2];
+        /* 0x00 */ ColliderTris tris;
+        /* 0x20 */ ColliderTrisElement elements[2];
     };
-    ColliderCylinder cyl;
+    /* 0x00 */ ColliderCylinder cyl;
 } EnHonotrapCollider; // size = 0xD8
 
 typedef struct EnHonotrap {
@@ -29,10 +29,10 @@ typedef struct EnHonotrap {
     /* 0x0240 */ u8 colChkFlags;
 } EnHonotrap; // size = 0x0244
 
-typedef enum {
-    HONOTRAP_EYE,
-    HONOTRAP_FLAME_MOVE,
-    HONOTRAP_FLAME_DROP
+typedef enum EnHonotrapType {
+    HONOTRAP_TYPE_EYE,
+    HONOTRAP_TYPE_FLAME_MOVE,
+    HONOTRAP_TYPE_FLAME_DROP
 } EnHonotrapType;
 
 #endif

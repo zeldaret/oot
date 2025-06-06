@@ -5,15 +5,30 @@
         <Animation Name="object_dodojr_Anim_000724" Offset="0x724"/>
         <Animation Name="object_dodojr_Anim_000860" Offset="0x860"/>
         <Animation Name="object_dodojr_Anim_0009D4" Offset="0x9D4"/>
+        <Array Name="object_dodojr_Vtx_0009F0" Count="34" Offset="0x9F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodojr_Vtx_000C10" Count="15" Offset="0xC10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodojr_Vtx_000D00" Count="37" Offset="0xD00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodojr_Vtx_000F50" Count="23" Offset="0xF50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dodojr_Vtx_0010C0" Count="12" Offset="0x10C0">
+            <Vtx/>
+        </Array>
         <DList Name="object_dodojr_DL_001180" Offset="0x1180"/>
         <DList Name="object_dodojr_DL_0012E0" Offset="0x12E0"/>
         <DList Name="object_dodojr_DL_0013E8" Offset="0x13E8"/>
         <DList Name="object_dodojr_DL_001508" Offset="0x1508"/>
         <DList Name="object_dodojr_DL_001618" Offset="0x1618"/>
-        <Texture Name="object_dodojr_Tex_001700" OutName="tex_00001700" Format="rgba16" Width="16" Height="16" Offset="0x1700"/>
-        <Texture Name="object_dodojr_Tex_001900" OutName="tex_00001900" Format="rgba16" Width="8" Height="16" Offset="0x1900"/>
-        <Texture Name="object_dodojr_Tex_001A00" OutName="tex_00001A00" Format="rgba16" Width="32" Height="8" Offset="0x1A00"/>
-        <Texture Name="object_dodojr_Tex_001C00" OutName="tex_00001C00" Format="rgba16" Width="16" Height="32" Offset="0x1C00"/>
+        <Texture Name="object_dodojr_Tex_001700" Format="rgba16" Width="16" Height="16" Offset="0x1700"/>
+        <Texture Name="object_dodojr_Tex_001900" Format="rgba16" Width="8" Height="16" Offset="0x1900"/>
+        <Texture Name="object_dodojr_Tex_001A00" Format="rgba16" Width="32" Height="8" Offset="0x1A00"/>
+        <Texture Name="object_dodojr_Tex_001C00" Format="rgba16" Width="16" Height="32" Offset="0x1C00"/>
         <Limb Name="object_dodojr_Limb_002000" LimbType="Standard" Offset="0x2000"/>
         <Limb Name="object_dodojr_Limb_00200C" LimbType="Standard" Offset="0x200C"/>
         <Limb Name="object_dodojr_Limb_002018" LimbType="Standard" Offset="0x2018"/>

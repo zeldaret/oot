@@ -5,12 +5,22 @@
  */
 
 #include "z_bg_po_syokudai.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "light.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_syokudai/object_syokudai.h"
 
 #define FLAGS 0
 
-typedef enum {
+typedef enum PoeFlameColor {
     POE_FLAME_PURPLE, // Meg
     POE_FLAME_RED,    // Joelle
     POE_FLAME_BLUE,   // Beth
@@ -26,7 +36,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -34,11 +44,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 12, 60, 0, { 0, 0, 0 } },
@@ -58,16 +68,16 @@ static Color_RGBA8 sEnvColors[] = {
     { 0, 150, 0, 255 },
 };
 
-const ActorInit Bg_Po_Syokudai_InitVars = {
-    ACTOR_BG_PO_SYOKUDAI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SYOKUDAI,
-    sizeof(BgPoSyokudai),
-    (ActorFunc)BgPoSyokudai_Init,
-    (ActorFunc)BgPoSyokudai_Destroy,
-    (ActorFunc)BgPoSyokudai_Update,
-    (ActorFunc)BgPoSyokudai_Draw,
+ActorProfile Bg_Po_Syokudai_Profile = {
+    /**/ ACTOR_BG_PO_SYOKUDAI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SYOKUDAI,
+    /**/ sizeof(BgPoSyokudai),
+    /**/ BgPoSyokudai_Init,
+    /**/ BgPoSyokudai_Destroy,
+    /**/ BgPoSyokudai_Update,
+    /**/ BgPoSyokudai_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -80,7 +90,7 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
-    this->flameColor = (thisx->params >> 8) & 0xFF;
+    this->flameColor = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0x3F;
 
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
@@ -135,7 +145,7 @@ void BgPoSyokudai_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     if (Flags_GetSwitch(play, this->actor.params)) {
-        func_8002F974(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
     this->flameTextureScroll++;
 }
@@ -150,8 +160,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_po_syokudai.c", 315);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_po_syokudai.c", 319);
     gSPDisplayList(POLY_OPA_DISP++, gGoldenTorchDL);
 
     if (Flags_GetSwitch(play, this->actor.params)) {
@@ -168,8 +177,8 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->flameTextureScroll * -20) & 0x1FF,
-                                    32, 128));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 64, 1, 0,
+                                    (this->flameTextureScroll * -20) & 0x1FF, 32, 128));
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, primColor->r, primColor->g, primColor->b, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, envColor->r, envColor->g, envColor->b, 255);
@@ -180,8 +189,7 @@ void BgPoSyokudai_Draw(Actor* thisx, PlayState* play) {
             MTXMODE_APPLY);
         Matrix_Scale(0.0027f, 0.0027f, 0.0027f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_po_syokudai.c", 368);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_po_syokudai.c", 373);

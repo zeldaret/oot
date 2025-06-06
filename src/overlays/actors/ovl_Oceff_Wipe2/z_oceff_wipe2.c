@@ -5,25 +5,34 @@
  */
 
 #include "z_oceff_wipe2.h"
-#include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void OceffWipe2_Init(Actor* thisx, PlayState* play);
 void OceffWipe2_Destroy(Actor* thisx, PlayState* play);
 void OceffWipe2_Update(Actor* thisx, PlayState* play);
 void OceffWipe2_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Oceff_Wipe2_InitVars = {
-    ACTOR_OCEFF_WIPE2,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(OceffWipe2),
-    (ActorFunc)OceffWipe2_Init,
-    (ActorFunc)OceffWipe2_Destroy,
-    (ActorFunc)OceffWipe2_Update,
-    (ActorFunc)OceffWipe2_Draw,
+ActorProfile Oceff_Wipe2_Profile = {
+    /**/ ACTOR_OCEFF_WIPE2,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(OceffWipe2),
+    /**/ OceffWipe2_Init,
+    /**/ OceffWipe2_Destroy,
+    /**/ OceffWipe2_Update,
+    /**/ OceffWipe2_Draw,
 };
 
 void OceffWipe2_Init(Actor* thisx, PlayState* play) {
@@ -32,7 +41,7 @@ void OceffWipe2_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.1f);
     this->timer = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(play)->eye;
-    osSyncPrintf(VT_FGCOL(CYAN) " WIPE2 arg_data = %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(CYAN) " WIPE2 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
 void OceffWipe2_Destroy(Actor* thisx, PlayState* play) {
@@ -41,7 +50,7 @@ void OceffWipe2_Destroy(Actor* thisx, PlayState* play) {
 
     Magic_Reset(play);
     if (gSaveContext.nayrusLoveTimer != 0) {
-        player->stateFlags3 |= PLAYER_STATE3_6;
+        player->stateFlags3 |= PLAYER_STATE3_RESTORE_NAYRUS_LOVE;
     }
 }
 
@@ -66,10 +75,10 @@ void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
     s32 pad[2];
     Vec3f eye;
     Vtx* vtxPtr;
-    Vec3f vec;
+    Vec3f quakeOffset;
 
     eye = GET_ACTIVE_CAM(play)->eye;
-    Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(play));
+    quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(play));
     if (this->timer < 32) {
         z = Math_SinS(this->timer << 9) * 1330;
     } else {
@@ -91,19 +100,18 @@ void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
+    Matrix_Translate(eye.x + quakeOffset.x, eye.y + quakeOffset.y, eye.z + quakeOffset.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
     Matrix_ReplaceRotation(&play->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_wipe2.c", 400),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_wipe2.c", 400);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 100, 0, 128);
     gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 6, scroll * (-6), 64, 64, 1,
-                                                     scroll * (-6), 0, 64, 64));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 6, scroll * (-6), 64,
+                                                     64, 1, scroll * (-6), 0, 64, 64));
     gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_wipe2.c", 417);

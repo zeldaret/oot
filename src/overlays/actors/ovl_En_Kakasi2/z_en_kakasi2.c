@@ -5,14 +5,30 @@
  */
 
 #include "z_en_kakasi2.h"
-#include "vt.h"
+
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "debug_display.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ka/object_ka.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
+#define FLAGS                                                                                               \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED | \
+     ACTOR_FLAG_UPDATE_DURING_OCARINA | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -20,11 +36,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON | BUMP_HOOKABLE,
+        ATELEM_NONE,
+        ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },
     { 20, 70, 0, { 0, 0, 0 } },
@@ -32,7 +48,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnKakasi2_Init(Actor* thisx, PlayState* play);
 void EnKakasi2_Destroy(Actor* thisx, PlayState* play);
-void EnKakasi2_Update(Actor* thisx, PlayState* play);
+void EnKakasi2_Update(Actor* thisx, PlayState* play2);
 void func_80A90948(Actor* thisx, PlayState* play);
 
 void func_80A9062C(EnKakasi2* this, PlayState* play);
@@ -41,16 +57,16 @@ void func_80A904D8(EnKakasi2* this, PlayState* play);
 void func_80A90578(EnKakasi2* this, PlayState* play);
 void func_80A906C4(EnKakasi2* this, PlayState* play);
 
-const ActorInit En_Kakasi2_InitVars = {
-    ACTOR_EN_KAKASI2,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_KA,
-    sizeof(EnKakasi2),
-    (ActorFunc)EnKakasi2_Init,
-    (ActorFunc)EnKakasi2_Destroy,
-    (ActorFunc)EnKakasi2_Update,
-    NULL,
+ActorProfile En_Kakasi2_Profile = {
+    /**/ ACTOR_EN_KAKASI2,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_KA,
+    /**/ sizeof(EnKakasi2),
+    /**/ EnKakasi2_Init,
+    /**/ EnKakasi2_Destroy,
+    /**/ EnKakasi2_Update,
+    /**/ NULL,
 };
 
 void EnKakasi2_Init(Actor* thisx, PlayState* play) {
@@ -59,37 +75,36 @@ void EnKakasi2_Init(Actor* thisx, PlayState* play) {
     f32 spawnRangeY;
     f32 spawnRangeXZ;
 
-    osSyncPrintf("\n\n");
-    // "Visit Umeda"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF("\n\n");
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Umeda Sangyo visit! ☆☆☆☆☆ \n") VT_RST);
 
-    this->switchFlag = this->actor.params & 0x3F;
-    spawnRangeY = (this->actor.params >> 6) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
+    spawnRangeY = PARAMS_GET_U(this->actor.params, 6, 8);
     spawnRangeXZ = this->actor.world.rot.z;
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
-    this->actor.targetMode = 4;
+    this->actor.attentionRangeType = ATTENTION_RANGE_4;
     this->maxSpawnDistance.x = (spawnRangeY * 40.0f) + 40.0f;
     this->maxSpawnDistance.y = (spawnRangeXZ * 40.0f) + 40.0f;
 
-    // "Former? (Argument 0)"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(引数０) ☆☆☆☆ %f\n" VT_RST, spawnRangeY);
-    // "Former? (Z angle)"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(Ｚアングル) ☆☆ %f\n" VT_RST, spawnRangeXZ);
-    // "Correction coordinates X"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｘ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
-    // "Correction coordinates Y"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｙ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.y);
-    // "Correction coordinates Z"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｚ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.z);
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ SAVE       ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
-    osSyncPrintf("\n\n");
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 元？(引数０) ☆☆☆☆ %f\n", "☆☆☆☆☆ Former? (Argument 0)       ☆☆☆☆ %f\n") VT_RST,
+           spawnRangeY);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 元？(Ｚアングル) ☆☆ %f\n", "☆☆☆☆☆ Former? (Z angle)             ☆☆ %f\n") VT_RST,
+           spawnRangeXZ);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 補正座標Ｘ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Correction coordinates X ☆☆☆☆☆ %f\n") VT_RST,
+           this->maxSpawnDistance.x);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 補正座標Ｙ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Correction coordinates Y ☆☆☆☆☆ %f\n") VT_RST,
+           this->maxSpawnDistance.y);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 補正座標Ｚ ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Correction coordinates Z ☆☆☆☆☆ %f\n") VT_RST,
+           this->maxSpawnDistance.z);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ SAVE       ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
+    PRINTF("\n\n");
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->height = 60.0f;
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     this->unk_198 = this->actor.shape.rot.y;
 
     if (this->switchFlag >= 0 && Flags_GetSwitch(play, this->switchFlag)) {
@@ -116,7 +131,7 @@ void func_80A90264(EnKakasi2* this, PlayState* play) {
 
     this->unk_194++;
 
-    if ((BREG(1) != 0) && (this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
+    if (DEBUG_FEATURES && (BREG(1) != 0) && (this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
         (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y)) {
 
         this->actor.draw = func_80A90948;
@@ -124,14 +139,15 @@ void func_80A90264(EnKakasi2* this, PlayState* play) {
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         SkelAnime_InitFlex(play, &this->skelAnime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
         OnePointCutscene_Attention(play, &this->actor);
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_27;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_LOCK_ON_DISABLED;
 
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         if (this->switchFlag >= 0) {
             Flags_SetSwitch(play, this->switchFlag);
         }
 
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ SAVE finished ☆☆☆☆☆ %d\n") VT_RST,
+               this->switchFlag);
         this->actionFunc = func_80A904D8;
     } else if ((this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
                (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y) &&
@@ -142,16 +158,17 @@ void func_80A90264(EnKakasi2* this, PlayState* play) {
             if (this->switchFlag >= 0) {
                 Flags_SetSwitch(play, this->switchFlag);
             }
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ SAVE finished ☆☆☆☆☆ %d\n") VT_RST,
+                   this->switchFlag);
             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             this->actor.draw = func_80A90948;
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
             SkelAnime_InitFlex(play, &this->skelAnime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
             OnePointCutscene_Attention(play, &this->actor);
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
 
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_27;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_LOCK_ON_DISABLED;
             this->actionFunc = func_80A904D8;
         }
     }
@@ -161,7 +178,7 @@ void func_80A904D8(EnKakasi2* this, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&object_ka_Anim_000214);
 
     Animation_Change(&this->skelAnime, &object_ka_Anim_000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
     this->actionFunc = func_80A90578;
 }
 
@@ -172,7 +189,7 @@ void func_80A90578(EnKakasi2* this, PlayState* play) {
 
     currentFrame = this->skelAnime.curFrame;
     if (currentFrame == 11 || currentFrame == 17) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_SWING);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_KAKASHI_SWING);
     }
 
     this->actor.shape.rot.y += 0x800;
@@ -206,19 +223,19 @@ void EnKakasi2_Update(Actor* thisx, PlayState* play2) {
     this->actor.world.rot = this->actor.shape.rot;
     Actor_SetFocus(&this->actor, this->height);
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (this->actor.shape.yOffset == 0.0f) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
-    if (BREG(0) != 0) {
+
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         if (BREG(5) != 0) {
-            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n" VT_RST,
-                         this->actor.xzDistToPlayer);
-            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
-            osSyncPrintf("\n\n");
+            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistToPlayer);
+            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
+            PRINTF("\n\n");
         }
         if (this->actor.draw == NULL) {
             if (this->unk_194 != 0) {

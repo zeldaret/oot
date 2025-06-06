@@ -5,6 +5,15 @@
  */
 
 #include "z_eff_ss_dead_db.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "effect.h"
+#include "play_state.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
@@ -17,14 +26,14 @@
 #define rEnvColorG regs[7]
 #define rEnvColorB regs[8]
 #define rScaleStep regs[9]
-#define rPlaySound regs[10]
+#define rPlaySfx regs[10]
 #define rReg11 regs[11]
 
 u32 EffectSsDeadDb_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsDeadDb_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsDeadDb_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Dead_Db_InitVars = {
+EffectSsProfile Effect_Ss_Dead_Db_Profile = {
     EFFECT_SS_DEAD_DB,
     EffectSsDeadDb_Init,
 };
@@ -44,7 +53,7 @@ u32 EffectSsDeadDb_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
     this->update = EffectSsDeadDb_Update;
     this->rScale = initParams->scale;
     this->rTextIdx = 0;
-    this->rPlaySound = initParams->playSound;
+    this->rPlaySfx = initParams->playSfx;
     this->rPrimColorR = initParams->primColor.r;
     this->rPrimColorG = initParams->primColor.g;
     this->rPrimColorB = initParams->primColor.b;
@@ -130,9 +139,9 @@ void EffectSsDeadDb_Update(PlayState* play, u32 index, EffectSs* this) {
         this->rEnvColorB = 0;
     }
 
-    if (this->rPlaySound && (this->rTextIdx == 1)) {
+    if (this->rPlaySfx && (this->rTextIdx == 1)) {
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->pos, &this->vec, &w);
-        Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->vec, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_EXTINCT, &this->vec, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultReverb);
     }
 }

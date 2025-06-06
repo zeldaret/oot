@@ -5,6 +5,11 @@
  */
 
 #include "z_bg_spot00_break.h"
+
+#include "ichain.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_spot00_break/object_spot00_break.h"
 
 #define FLAGS 0
@@ -14,22 +19,22 @@ void BgSpot00Break_Destroy(Actor* thisx, PlayState* play);
 void BgSpot00Break_Update(Actor* thisx, PlayState* play);
 void BgSpot00Break_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Spot00_Break_InitVars = {
-    ACTOR_BG_SPOT00_BREAK,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT00_BREAK,
-    sizeof(BgSpot00Break),
-    (ActorFunc)BgSpot00Break_Init,
-    (ActorFunc)BgSpot00Break_Destroy,
-    (ActorFunc)BgSpot00Break_Update,
-    (ActorFunc)BgSpot00Break_Draw,
+ActorProfile Bg_Spot00_Break_Profile = {
+    /**/ ACTOR_BG_SPOT00_BREAK,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT00_BREAK,
+    /**/ sizeof(BgSpot00Break),
+    /**/ BgSpot00Break_Init,
+    /**/ BgSpot00Break_Destroy,
+    /**/ BgSpot00Break_Update,
+    /**/ BgSpot00Break_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -39,7 +44,7 @@ void BgSpot00Break_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
 
     if (this->dyna.actor.params == 1) {
         CollisionHeader_GetVirtual(&gBarbedWireFenceCol, &colHeader);

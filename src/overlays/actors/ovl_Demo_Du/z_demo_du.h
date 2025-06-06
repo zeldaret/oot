@@ -2,7 +2,7 @@
 #define Z_DEMO_DU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct DemoDu;
 
@@ -18,7 +18,7 @@ typedef struct DemoDu {
     /* 0x01A4 */ f32 unk_1A4;
     /* 0x01A8 */ s32 shadowAlpha;
     /* 0x01AC */ s32 demo6KSpawned;
-    /* 0x01B0 */ s32 lastAction;
+    /* 0x01B0 */ s32 cueId;
 } DemoDu; // size = 0x01B4
 
 // This is the parameter of this actor,

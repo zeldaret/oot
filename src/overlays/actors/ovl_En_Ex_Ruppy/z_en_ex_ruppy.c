@@ -1,9 +1,25 @@
 #include "z_en_ex_ruppy.h"
-#include "vt.h"
-#include "../ovl_En_Diving_Game/z_en_diving_game.h"
+#include "overlays/actors/ovl_En_Diving_Game/z_en_diving_game.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnExRuppy_Init(Actor* thisx, PlayState* play);
 void EnExRuppy_Destroy(Actor* thisx, PlayState* play);
@@ -28,16 +44,16 @@ static s16 sRupeeValues[] = {
     1, 5, 20, 500, 50,
 };
 
-const ActorInit En_Ex_Ruppy_InitVars = {
-    ACTOR_EN_EX_RUPPY,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnExRuppy),
-    (ActorFunc)EnExRuppy_Init,
-    (ActorFunc)EnExRuppy_Destroy,
-    (ActorFunc)EnExRuppy_Update,
-    (ActorFunc)EnExRuppy_Draw,
+ActorProfile En_Ex_Ruppy_Profile = {
+    /**/ ACTOR_EN_EX_RUPPY,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnExRuppy),
+    /**/ EnExRuppy_Init,
+    /**/ EnExRuppy_Destroy,
+    /**/ EnExRuppy_Update,
+    /**/ EnExRuppy_Draw,
 };
 
 void EnExRuppy_Init(Actor* thisx, PlayState* play) {
@@ -48,8 +64,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
     s16 temp3;
 
     this->type = this->actor.params;
-    // "Index"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Index ☆☆☆☆☆ %x\n") VT_RST, this->type);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
 
     switch (this->type) {
@@ -105,7 +120,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             this->unk_15A = this->actor.world.rot.z;
             this->actor.world.rot.z = 0;
             this->timer = 30;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actionFunc = EnExRuppy_DropIntoWater;
             break;
 
@@ -119,11 +134,10 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
                 this->colorIdx = (s16)Rand_ZeroFloat(3.99f) + 1;
             }
             this->actor.gravity = -3.0f;
-            // "Wow Coin"
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n", "☆☆☆☆☆ Wow Coin ☆☆☆☆☆ \n") VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actionFunc = EnExRuppy_WaitToBlowUp;
             break;
 
@@ -141,17 +155,16 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
                     break;
             }
             this->actor.gravity = -3.0f;
-            // "Normal rupee"
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal rupee ☆☆☆☆☆ \n") VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
 
         case 4: // Progress markers in the shooting gallery
             this->actor.gravity = -3.0f;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             Actor_SetScale(&this->actor, 0.01f);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = -700.0f;
@@ -210,15 +223,15 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, PlayState* play) {
     this->actor.shape.rot.y += 0x7A8;
     Math_ApproachF(&this->actor.gravity, -2.0f, 0.3f, 1.0f);
     EnExRuppy_SpawnSparkles(this, play, 2, 0);
-    func_80078884(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
+    Sfx_PlaySfxCentered(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
     divingGame = (EnDivingGame*)this->actor.parent;
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) &&
         ((divingGame->unk_296 == 0) || (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) || (this->timer == 0))) {
         this->invisible = true;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
         this->actor.gravity = 0.0f;
-        func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
         this->actionFunc = EnExRuppy_EnterWater;
     }
 }
@@ -249,13 +262,13 @@ void EnExRuppy_Sink(EnExRuppy* this, PlayState* play) {
     Vec3f pos;
     s32 pad;
 
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.depthInWater > 15.0f)) {
         pos = this->actor.world.pos;
-        pos.y += this->actor.yDistToWater;
+        pos.y += this->actor.depthInWater;
         this->actor.velocity.y = -1.0f;
         this->actor.gravity = -0.2f;
-        EffectSsGSplash_Spawn(play, &pos, 0, 0, 0, 800);
-        func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
+        EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 800);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
         this->actionFunc = EnExRuppy_WaitInGame;
     }
     divingGame = (EnDivingGame*)this->actor.parent;
@@ -284,7 +297,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, PlayState* play) {
                 if (1) {}
             } else if (this->actor.xyzDistToPlayerSq < SQ(localConst)) {
                 Rupees_ChangeBy(this->rupeeValue);
-                func_80078884(NA_SE_SY_GET_RUPY);
+                Sfx_PlaySfxCentered(NA_SE_SY_GET_RUPY);
                 divingGame->grabbedRupeesCounter++;
                 Actor_Kill(&this->actor);
             }
@@ -295,14 +308,14 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, PlayState* play) {
 }
 
 void EnExRuppy_Kill(EnExRuppy* this, PlayState* play) {
-    this->invisible += 1;
+    this->invisible++;
     this->invisible &= 1; // Net effect is this->invisible = !this->invisible;
     if (this->timer == 0) {
         Actor_Kill(&this->actor);
     }
 }
 
-typedef struct {
+typedef struct EnExRuppyParentActor {
     /* 0x000 */ Actor actor;
     /* 0x14C */ char unk_14C[0x11A];
     /* 0x226 */ s16 unk_226;
@@ -315,6 +328,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
     f32 distToBlowUp = 50.0f;
     s16 explosionScale;
     s16 explosionScaleStep;
+    s32 pad;
 
     if (this->type == 2) {
         distToBlowUp = 30.0f;
@@ -326,10 +340,10 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
                 parent->unk_226 = 1;
             }
         } else {
-            // "That idiot! error"
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n",
+                                     "☆☆☆☆☆ That's stupid! Error!!!!! ☆☆☆☆☆ \n") VT_RST);
         }
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n" VT_RST); // "Stupid!"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Stupid! ☆☆☆☆☆ \n") VT_RST);
         explosionScale = 100;
         explosionScaleStep = 30;
         if (this->type == 2) {
@@ -337,8 +351,8 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
             explosionScaleStep = 6;
         }
         EffectSsBomb2_SpawnLayered(play, &this->actor.world.pos, &velocity, &accel, explosionScale, explosionScaleStep);
-        func_8002F71C(play, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f);
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
         Actor_Kill(&this->actor);
     }
 }
@@ -347,7 +361,7 @@ void EnExRuppy_WaitAsCollectible(EnExRuppy* this, PlayState* play) {
     f32 localConst = 30.0f;
 
     if (this->actor.xyzDistToPlayerSq < SQ(localConst)) {
-        func_80078884(NA_SE_SY_GET_RUPY);
+        Sfx_PlaySfxCentered(NA_SE_SY_GET_RUPY);
         Item_DropCollectible(play, &this->actor.world.pos, (sEnExRuppyCollectibleTypes[this->colorIdx] | 0x8000));
         Actor_Kill(&this->actor);
     }
@@ -369,7 +383,7 @@ void EnExRuppy_Update(Actor* thisx, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 50.0f,
                             UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 }
@@ -386,8 +400,7 @@ void EnExRuppy_Draw(Actor* thisx, PlayState* play) {
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         func_8002EBCC(thisx, play, 0);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_ex_ruppy.c", 780);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(rupeeTextures[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
 

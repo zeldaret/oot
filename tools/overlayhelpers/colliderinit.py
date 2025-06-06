@@ -3,27 +3,27 @@
 import os
 import struct
 import argparse
-from filemap import FileResult, GetFromVRam, GetFromRom
+from filemap import GetFromVRam, GetFromRom
 
 T_DEFAULT = ''
 TType1 = 'Type1'
 T_ACTOR = '_Actor'
 
 TYPE_ENUM = [
-    "COLTYPE_HIT0",
-    "COLTYPE_HIT1",
-    "COLTYPE_HIT2",
-    "COLTYPE_HIT3",
-    "COLTYPE_HIT4",
-    "COLTYPE_HIT5",
-    "COLTYPE_HIT6",
-    "COLTYPE_HIT7",
-    "COLTYPE_HIT8",
-    "COLTYPE_METAL",
-    "COLTYPE_NONE",
-    "COLTYPE_WOOD",
-    "COLTYPE_HARD",
-    "COLTYPE_TREE"  ]
+    "COL_MATERIAL_HIT0",
+    "COL_MATERIAL_HIT1",
+    "COL_MATERIAL_HIT2",
+    "COL_MATERIAL_HIT3",
+    "COL_MATERIAL_HIT4",
+    "COL_MATERIAL_HIT5",
+    "COL_MATERIAL_HIT6",
+    "COL_MATERIAL_HIT7",
+    "COL_MATERIAL_HIT8",
+    "COL_MATERIAL_METAL",
+    "COL_MATERIAL_NONE",
+    "COL_MATERIAL_WOOD",
+    "COL_MATERIAL_HARD",
+    "COL_MATERIAL_TREE"  ]
 
 SHAPE_ENUM = [
     "COLSHAPE_JNTSPH",
@@ -31,14 +31,14 @@ SHAPE_ENUM = [
     "COLSHAPE_TRIS",
     "COLSHAPE_QUAD" ]
 
-ELEMTYPE_UNKENUM = [
-    "ELEMTYPE_UNK0",
-    "ELEMTYPE_UNK1",
-    "ELEMTYPE_UNK2",
-    "ELEMTYPE_UNK3",
-    "ELEMTYPE_UNK4",
-    "ELEMTYPE_UNK5",
-    "ELEMTYPE_UNK6"]
+ELEM_MATERIAL_UNKENUM = [
+    "ELEM_MATERIAL_UNK0",
+    "ELEM_MATERIAL_UNK1",
+    "ELEM_MATERIAL_UNK2",
+    "ELEM_MATERIAL_UNK3",
+    "ELEM_MATERIAL_UNK4",
+    "ELEM_MATERIAL_UNK5",
+    "ELEM_MATERIAL_UNK6"]
 
 ATFLAGS_ENUM = [
     "AT_ON",
@@ -244,7 +244,7 @@ def GetColliderStr(data, off, type):
     else:
         cBase[i] = '0x{0:02X}'.format(cBase[i])
 
-    return cf[1].format(*cBase);
+    return cf[1].format(*cBase)
 
 def GetItems(data, off, count, structf, fmt, size):
     result = ''
@@ -254,7 +254,7 @@ def GetItems(data, off, count, structf, fmt, size):
         cItem = struct.unpack_from(structf, data, off + 0x18 + ioff)
 
         if cBody[0] < 7:
-            cBody[0] = ELEMTYPE_UNKENUM[cBody[0]]
+            cBody[0] = ELEM_MATERIAL_UNKENUM[cBody[0]]
         else:
             cBody[0] = '0x{0:02X}'.format(cBody[0])
 
@@ -302,7 +302,7 @@ def GetCylinder(data, off, type):
     cCyl16 = struct.unpack_from(sf_Cylinder16, data, off + 0x20)
 
     if cBody[0] < 7:
-        cBody[0] = ELEMTYPE_UNKENUM[cBody[0]]
+        cBody[0] = ELEM_MATERIAL_UNKENUM[cBody[0]]
     else:
         cBody[0] = '0x{0:02X}'.format(cBody[0])
 
@@ -335,7 +335,7 @@ def GetQuad(data, off, type):
     cQuad = struct.unpack_from(sf_Quad, data, off + 0x20)
 
     if cBody[0] < 7:
-        cBody[0] = ELEMTYPE_UNKENUM[cBody[0]]
+        cBody[0] = ELEM_MATERIAL_UNKENUM[cBody[0]]
     else:
         cBody[0] = '0x{0:02X}'.format(cBody[0])
 
@@ -387,7 +387,7 @@ def GetColliderInit(address, type, num, path):
     else:
         return("ItemInit type must specify number of elements")
 
-    ovlFile = open(path + "/baserom/" + fileResult.name, "rb")
+    ovlFile = open(path + "/extracted/gc-eu-mq-dbg/baserom/" + fileResult.name, "rb")
     ovlData = bytearray(ovlFile.read())
     ovlFile.close()
 
@@ -470,7 +470,7 @@ print(GetColliderInitFull(args.address, args.type, args.num, repo))
 
 # script_dir = os.path.dirname(os.path.realpath(__file__))
 
-# ovlFile = open(script_dir + "/../../baserom/" + fileResult.name, "rb")
+# ovlFile = open(script_dir + "/../../baseroms/" + fileResult.name, "rb")
 # ovlData = bytearray(ovlFile.read())
 # ovlFile.close()
 

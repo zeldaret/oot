@@ -2,20 +2,20 @@
 #define Z_EN_ZF_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnZf;
 
-typedef void (*EnZfActionFunc)(struct EnZf*, PlayState*);
+typedef void (*EnZfActionFunc)(struct EnZf*, struct PlayState*);
 
-typedef enum {
+typedef enum EnZfType {
     /* -2 */ ENZF_TYPE_DINOLFOS = -2,
     /* -1 */ ENZF_TYPE_LIZALFOS_LONE, // Not a miniboss, e.g. Spirit Temple
     /*  0 */ ENZF_TYPE_LIZALFOS_MINIBOSS_A, // Pair with B
     /*  1 */ ENZF_TYPE_LIZALFOS_MINIBOSS_B // Pair with A
 } EnZfType;
 
-typedef enum {
+typedef enum EnZfAction {
     /*  0 */ ENZF_ACTION_DROP_IN,
     /*  3 */ ENZF_ACTION_3 = 3, // stop and choose action?
     /*  5 */ ENZF_ACTION_APPROACH_PLAYER = 5,
@@ -36,7 +36,7 @@ typedef enum {
     /* 22 */ ENZF_ACTION_JUMP_UP
 } EnZfAction;
 
-typedef enum {
+typedef enum EnZfLimb {
     /* 0x00 */ ENZF_LIMB_NONE,
     /* 0x01 */ ENZF_LIMB_ROOT,
     /* 0x02 */ ENZF_LIMB_BODY_ROOT,
@@ -112,7 +112,7 @@ typedef struct EnZf {
     /* 0x0404 */ u8 alpha;
     /* 0x0408 */ f32 unk_408; // related to XZ speeds
     /* 0x040C */ f32 unk_40C; // related to y velocity
-    /* 0x0410 */ u8 damageEffect;
+    /* 0x0410 */ u8 damageReaction;
     /* 0x0414 */ s32 blureIndex;
     /* 0x0418 */ ColliderCylinder bodyCollider;
     /* 0x0464 */ ColliderQuad swordCollider;

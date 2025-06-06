@@ -2,9 +2,10 @@
 #define Z_EFF_SS_DEAD_DB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "color.h"
+#include "z_math.h"
 
-typedef struct {
+typedef struct EffectSsDeadDbInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
@@ -14,7 +15,7 @@ typedef struct {
     /* 0x2C */ Color_RGBA8 envColor;
     /* 0x30 */ s16 unused;
     /* 0x34 */ s32 unk_34;
-    /* 0x38 */ s16 playSound;
+    /* 0x38 */ s16 playSfx;
 } EffectSsDeadDbInitParams; // size = 0x3C
 
 #endif

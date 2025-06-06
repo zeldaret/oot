@@ -2,13 +2,13 @@
 #define Z_BG_ICE_TURARA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct BgIceTurara;
 
-typedef void (*BgIceTuraraActionFunc)(struct BgIceTurara*, PlayState*);
+typedef void (*BgIceTuraraActionFunc)(struct BgIceTurara*, struct PlayState*);
 
-typedef enum {
+typedef enum BgIceTuraraType {
     /* 0 */ TURARA_STALAGMITE,
     /* 1 */ TURARA_STALACTITE,
     /* 2 */ TURARA_STALACTITE_REGROW

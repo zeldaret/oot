@@ -5,15 +5,33 @@
  */
 
 #include "z_obj_switch.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
-#include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
-// type:        (this->dyna.actor.params & 7)
-// subtype:     (this->dyna.actor.params >> 4 & 7)
-// switch flag: (this->dyna.actor.params >> 8 & 0x3F)
-// frozen:      this->dyna.actor.params >> 7 & 1
+#define OBJSWITCH_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 3)
+#define OBJSWITCH_SUBTYPE(thisx) PARAMS_GET_U((thisx)->params, 4, 3)
+#define OBJSWITCH_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 6)
+#define OBJSWITCH_FROZEN(thisx) PARAMS_GET_U((thisx)->params, 7, 1)
+
+#define OBJSWITCH_FROZEN_FLAG (1 << 7)
 
 void ObjSwitch_Init(Actor* thisx, PlayState* play);
 void ObjSwitch_Destroy(Actor* thisx, PlayState* play);
@@ -49,39 +67,45 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play);
 void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, PlayState* play);
 
-const ActorInit Obj_Switch_InitVars = {
-    ACTOR_OBJ_SWITCH,
-    ACTORCAT_SWITCH,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(ObjSwitch),
-    (ActorFunc)ObjSwitch_Init,
-    (ActorFunc)ObjSwitch_Destroy,
-    (ActorFunc)ObjSwitch_Update,
-    (ActorFunc)ObjSwitch_Draw,
+ActorProfile Obj_Switch_Profile = {
+    /**/ ACTOR_OBJ_SWITCH,
+    /**/ ACTORCAT_SWITCH,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(ObjSwitch),
+    /**/ ObjSwitch_Init,
+    /**/ ObjSwitch_Destroy,
+    /**/ ObjSwitch_Update,
+    /**/ ObjSwitch_Draw,
 };
 
-static f32 sHeights[] = { 10, 10, 0, 30, 30 };
+static f32 sFocusHeights[] = {
+    10, // OBJSWITCH_TYPE_FLOOR
+    10, // OBJSWITCH_TYPE_FLOOR_RUSTY
+    0,  // OBJSWITCH_TYPE_EYE
+    30, // OBJSWITCH_TYPE_CRYSTAL
+    30, // OBJSWITCH_TYPE_CRYSTAL_TARGETABLE
+};
 
-static ColliderTrisElementInit D_80B9EC34[2] = {
+static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { -20.0f, 19.0f, -20.0f }, { -20.0f, 19.0f, 20.0f }, { 20.0f, 19.0f, 20.0f } } },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 20.0f, 19.0f, 20.0f }, { 20.0f, 19.0f, -20.0f }, { -20.0f, 19.0f, -20.0f } } },
@@ -90,92 +114,92 @@ static ColliderTrisElementInit D_80B9EC34[2] = {
 
 static ColliderTrisInit sRustyFloorTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    ARRAY_COUNT(D_80B9EC34),
-    D_80B9EC34,
+    ARRAY_COUNT(sRustyFloorTrisElementsInit),
+    sRustyFloorTrisElementsInit,
 };
 
-static ColliderTrisElementInit D_80B9ECBC[2] = {
+static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK4,
+            ELEM_MATERIAL_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 0.0f, 23.0f, 8.5f }, { -23.0f, 0.0f, 8.5f }, { 0.0f, -23.0f, 8.5f } } },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 0.0f, 23.0f, 8.5f }, { 0.0f, -23.0f, 8.5f }, { 23.0f, 0.0f, 8.5f } } },
     },
 };
 
-static ColliderTrisInit trisColliderEye = {
+static ColliderTrisInit sEyeTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    ARRAY_COUNT(D_80B9ECBC),
-    D_80B9ECBC,
+    ARRAY_COUNT(sEyeTrisElementsInit),
+    sEyeTrisElementsInit,
 };
 
-static ColliderJntSphElementInit D_80B9ED44[1] = {
+static ColliderJntSphElementInit sCrystalJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xEFC1FFFE, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 0, { { 0, 300, 0 }, 20 }, 100 },
     },
 };
 
-static ColliderJntSphInit sCrystalJntSphereInit = {
+static ColliderJntSphInit sCrystalJntSphInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(D_80B9ED44),
-    D_80B9ED44,
+    ARRAY_COUNT(sCrystalJntSphElementsInit),
+    sCrystalJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_STOP),
 };
 
-void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
-    f32 s = Math_SinS(angle);
-    f32 c = Math_CosS(angle);
+void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 rotY) {
+    f32 s = Math_SinS(rotY);
+    f32 c = Math_CosS(rotY);
 
     dest->x = src->z * s + src->x * c;
     dest->y = src->y;
@@ -185,24 +209,27 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 angle) {
 void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG registration failure"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_switch.c", 531,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        s32 pad2;
+
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_obj_switch.c", 531, this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void ObjSwitch_InitJntSphCollider(ObjSwitch* this, PlayState* play, ColliderJntSphInit* colliderJntSphInit) {
-    ColliderJntSph* colliderJntSph = &this->jntSph.col;
+    ColliderJntSph* colliderJntSph = &this->jntSph.collider;
 
     Collider_InitJntSph(play, colliderJntSph);
-    Collider_SetJntSph(play, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.items);
+    Collider_SetJntSph(play, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.colliderElements);
     Matrix_SetTranslateRotateYXZ(this->dyna.actor.world.pos.x,
                                  this->dyna.actor.world.pos.y +
                                      this->dyna.actor.shape.yOffset * this->dyna.actor.scale.y,
@@ -212,13 +239,13 @@ void ObjSwitch_InitJntSphCollider(ObjSwitch* this, PlayState* play, ColliderJntS
 }
 
 void ObjSwitch_InitTrisCollider(ObjSwitch* this, PlayState* play, ColliderTrisInit* colliderTrisInit) {
-    ColliderTris* colliderTris = &this->tris.col;
+    ColliderTris* colliderTris = &this->tris.collider;
     s32 i;
     s32 j;
     Vec3f pos[3];
 
     Collider_InitTris(play, colliderTris);
-    Collider_SetTris(play, colliderTris, &this->dyna.actor, colliderTrisInit, this->tris.items);
+    Collider_SetTris(play, colliderTris, &this->dyna.actor, colliderTrisInit, this->tris.colliderElements);
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
@@ -235,18 +262,18 @@ Actor* ObjSwitch_SpawnIce(ObjSwitch* this, PlayState* play) {
 
     return Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_ICE_POLY, thisx->world.pos.x, thisx->world.pos.y,
                               thisx->world.pos.z, thisx->world.rot.x, thisx->world.rot.y, thisx->world.rot.z,
-                              (this->dyna.actor.params >> 8 & 0x3F) << 8);
+                              OBJSWITCH_SWITCH_FLAG(&this->dyna.actor) << 8);
 }
 
 void ObjSwitch_SetOn(ObjSwitch* this, PlayState* play) {
     s32 pad;
     s32 subType;
 
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F))) {
+    if (Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
         this->cooldownOn = false;
     } else {
-        subType = (this->dyna.actor.params >> 4 & 7);
-        Flags_SetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F));
+        subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
+        Flags_SetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor));
 
         if (subType == OBJSWITCH_SUBTYPE_ONCE || subType == OBJSWITCH_SUBTYPE_SYNC) {
             OnePointCutscene_AttentionSetSfx(play, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
@@ -261,10 +288,10 @@ void ObjSwitch_SetOn(ObjSwitch* this, PlayState* play) {
 void ObjSwitch_SetOff(ObjSwitch* this, PlayState* play) {
     this->cooldownOn = false;
 
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F))) {
-        Flags_UnsetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F));
+    if (Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
+        Flags_UnsetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor));
 
-        if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_TOGGLE) {
+        if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_TOGGLE) {
             OnePointCutscene_AttentionSetSfx(play, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
             this->cooldownOn = true;
         }
@@ -280,14 +307,11 @@ void ObjSwitch_UpdateTwoTexScrollXY(ObjSwitch* this) {
 
 void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     ObjSwitch* this = (ObjSwitch*)thisx;
-    s32 switchFlagSet;
-    s32 type;
-
-    switchFlagSet = Flags_GetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F));
-    type = (this->dyna.actor.params & 7);
+    s32 isSwitchFlagSet = Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor));
+    s32 type = OBJSWITCH_TYPE(&this->dyna.actor);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        ObjSwitch_InitDynaPoly(this, play, &gFloorSwitchCol, DPM_PLAYER);
+        ObjSwitch_InitDynaPoly(this, play, &gFloorSwitchCol, DYNA_TRANSFORM_POS);
     }
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -296,75 +320,76 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 1.0f;
     }
 
-    Actor_SetFocus(&this->dyna.actor, sHeights[type]);
+    Actor_SetFocus(&this->dyna.actor, sFocusHeights[type]);
 
     if (type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         ObjSwitch_InitTrisCollider(this, play, &sRustyFloorTrisInit);
     } else if (type == OBJSWITCH_TYPE_EYE) {
-        ObjSwitch_InitTrisCollider(this, play, &trisColliderEye);
+        ObjSwitch_InitTrisCollider(this, play, &sEyeTrisInit);
     } else if (type == OBJSWITCH_TYPE_CRYSTAL || type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
-        ObjSwitch_InitJntSphCollider(this, play, &sCrystalJntSphereInit);
+        ObjSwitch_InitJntSphCollider(this, play, &sCrystalJntSphInit);
     }
 
     if (type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
-        this->dyna.actor.flags |= ACTOR_FLAG_0;
-        this->dyna.actor.targetMode = 4;
+        this->dyna.actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+        this->dyna.actor.attentionRangeType = ATTENTION_RANGE_4;
     }
 
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
-    if ((this->dyna.actor.params >> 7 & 1) && (ObjSwitch_SpawnIce(this, play) == NULL)) {
-        osSyncPrintf(VT_FGCOL(RED));
-        osSyncPrintf("Error : 氷発生失敗 (%s %d)\n", "../z_obj_switch.c", 732);
-        osSyncPrintf(VT_RST);
-        this->dyna.actor.params &= ~0x80;
+    if (OBJSWITCH_FROZEN(&this->dyna.actor) && (ObjSwitch_SpawnIce(this, play) == NULL)) {
+        PRINTF_COLOR_RED();
+        PRINTF(T("Error : 氷発生失敗 (%s %d)\n", "Error : Ice failed to spawn (%s %d)\n"), "../z_obj_switch.c", 732);
+        PRINTF_RST();
+        this->dyna.actor.params &= ~OBJSWITCH_FROZEN_FLAG;
     }
 
-    if (this->dyna.actor.params >> 7 & 1) {
+    if (OBJSWITCH_FROZEN(&this->dyna.actor)) {
         ObjSwitch_EyeFrozenInit(this);
     } else if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         //! @bug This condition does not account for OBJSWITCH_SUBTYPE_HOLD_INVERTED which expects
         //! the relationship between the switch position and the switch flag to be inverted
-        if (switchFlagSet) {
+        if (isSwitchFlagSet) {
             ObjSwitch_FloorDownInit(this);
         } else {
             ObjSwitch_FloorUpInit(this);
         }
     } else if (type == OBJSWITCH_TYPE_EYE) {
-        if (switchFlagSet) {
+        if (isSwitchFlagSet) {
             ObjSwitch_EyeClosedInit(this);
         } else {
             ObjSwitch_EyeOpenInit(this);
         }
     } else if (type == OBJSWITCH_TYPE_CRYSTAL || type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
-        if (switchFlagSet) {
+        if (isSwitchFlagSet) {
             ObjSwitch_CrystalOnInit(this);
         } else {
             ObjSwitch_CrystalOffInit(this);
         }
     }
 
-    osSyncPrintf("(Dungeon switch)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(Dungeon switch)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void ObjSwitch_Destroy(Actor* thisx, PlayState* play) {
     ObjSwitch* this = (ObjSwitch*)thisx;
 
-    switch (this->dyna.actor.params & 7) {
+    switch (OBJSWITCH_TYPE(&this->dyna.actor)) {
         case OBJSWITCH_TYPE_FLOOR:
         case OBJSWITCH_TYPE_FLOOR_RUSTY:
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
             break;
     }
 
-    switch (this->dyna.actor.params & 7) {
+    switch (OBJSWITCH_TYPE(&this->dyna.actor)) {
         case OBJSWITCH_TYPE_FLOOR_RUSTY:
         case OBJSWITCH_TYPE_EYE:
-            Collider_DestroyTris(play, &this->tris.col);
+            Collider_DestroyTris(play, &this->tris.collider);
             break;
+
         case OBJSWITCH_TYPE_CRYSTAL:
         case OBJSWITCH_TYPE_CRYSTAL_TARGETABLE:
-            Collider_DestroyJntSph(play, &this->jntSph.col);
+            Collider_DestroyJntSph(play, &this->jntSph.collider);
             break;
     }
 }
@@ -375,36 +400,40 @@ void ObjSwitch_FloorUpInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
-    if ((this->dyna.actor.params & 7) == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        if (this->tris.col.base.acFlags & AC_HIT) {
+    if (OBJSWITCH_TYPE(&this->dyna.actor) == OBJSWITCH_TYPE_FLOOR_RUSTY) {
+        if (this->tris.collider.base.acFlags & AC_HIT) {
             ObjSwitch_FloorPressInit(this);
             ObjSwitch_SetOn(this, play);
-            this->tris.col.base.acFlags &= ~AC_HIT;
+            this->tris.collider.base.acFlags &= ~AC_HIT;
         } else {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.col.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.collider.base);
         }
     } else {
-        switch (this->dyna.actor.params >> 4 & 7) {
+        switch (OBJSWITCH_SUBTYPE(&this->dyna.actor)) {
             case OBJSWITCH_SUBTYPE_ONCE:
-                if (func_8004356C(&this->dyna)) {
+                if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
                 break;
+
             case OBJSWITCH_SUBTYPE_TOGGLE:
-                if ((this->dyna.unk_160 & 2) && !(this->unk_17F & 2)) {
+                if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) &&
+                    !(this->prevColFlags & DYNA_INTERACT_PLAYER_ON_TOP)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
                 break;
+
             case OBJSWITCH_SUBTYPE_HOLD:
-                if (func_800435B4(&this->dyna)) {
+                if (DynaPolyActor_IsSwitchPressed(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
                 break;
+
             case OBJSWITCH_SUBTYPE_HOLD_INVERTED:
-                if (func_800435B4(&this->dyna)) {
+                if (DynaPolyActor_IsSwitchPressed(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOff(this, play);
                 }
@@ -419,13 +448,13 @@ void ObjSwitch_FloorPressInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_FloorPress(ObjSwitch* this, PlayState* play) {
-    if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_HOLD_INVERTED || !this->cooldownOn ||
+    if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_HOLD_INVERTED || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         this->dyna.actor.scale.y -= 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y <= 33.0f / 2000.0f) {
             ObjSwitch_FloorDownInit(this);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
-            func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
         }
     }
 }
@@ -437,24 +466,27 @@ void ObjSwitch_FloorDownInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
-    switch (this->dyna.actor.params >> 4 & 7) {
+    switch (OBJSWITCH_SUBTYPE(&this->dyna.actor)) {
         case OBJSWITCH_SUBTYPE_ONCE:
-            if (!Flags_GetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F))) {
+            if (!Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
                 ObjSwitch_FloorReleaseInit(this);
             }
             break;
+
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->dyna.unk_160 & 2) && !(this->unk_17F & 2)) {
+            if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) &&
+                !(this->prevColFlags & DYNA_INTERACT_PLAYER_ON_TOP)) {
                 ObjSwitch_FloorReleaseInit(this);
                 ObjSwitch_SetOff(this, play);
             }
             break;
+
         case OBJSWITCH_SUBTYPE_HOLD:
         case OBJSWITCH_SUBTYPE_HOLD_INVERTED:
-            if (!func_800435B4(&this->dyna) && !Player_InCsMode(play)) {
+            if (!DynaPolyActor_IsSwitchPressed(&this->dyna) && !Player_InCsMode(play)) {
                 if (this->releaseTimer <= 0) {
                     ObjSwitch_FloorReleaseInit(this);
-                    if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_HOLD) {
+                    if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_HOLD) {
                         ObjSwitch_SetOff(this, play);
                     } else {
                         ObjSwitch_SetOn(this, play);
@@ -473,16 +505,17 @@ void ObjSwitch_FloorReleaseInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_FloorRelease(ObjSwitch* this, PlayState* play) {
-    s16 subType = (this->dyna.actor.params >> 4 & 7);
+    s16 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
     if (((subType != OBJSWITCH_SUBTYPE_TOGGLE) && (subType != OBJSWITCH_SUBTYPE_HOLD_INVERTED)) || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
+
         this->dyna.actor.scale.y += 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y >= 33.0f / 200.0f) {
             ObjSwitch_FloorUpInit(this);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
             if (subType == OBJSWITCH_SUBTYPE_TOGGLE) {
-                func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
+                Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
             }
         }
     }
@@ -492,16 +525,16 @@ s32 ObjSwitch_EyeIsHit(ObjSwitch* this) {
     Actor* collidingActor;
     s16 yawDiff;
 
-    if ((this->tris.col.base.acFlags & AC_HIT) && !(this->unk_17F & AC_HIT)) {
-        collidingActor = this->tris.col.base.ac;
+    if ((this->tris.collider.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT)) {
+        collidingActor = this->tris.collider.base.ac;
         if (collidingActor != NULL) {
             yawDiff = collidingActor->world.rot.y - this->dyna.actor.shape.rot.y;
             if (ABS(yawDiff) > 0x5000) {
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 void ObjSwitch_EyeFrozenInit(ObjSwitch* this) {
@@ -509,7 +542,7 @@ void ObjSwitch_EyeFrozenInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeInit(ObjSwitch* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F))) {
+    if (Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
         ObjSwitch_EyeClosedInit(this);
     } else {
         ObjSwitch_EyeOpenInit(this);
@@ -522,10 +555,10 @@ void ObjSwitch_EyeOpenInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeOpen(ObjSwitch* this, PlayState* play) {
-    if (ObjSwitch_EyeIsHit(this) || (this->dyna.actor.params >> 7 & 1)) {
+    if (ObjSwitch_EyeIsHit(this) || OBJSWITCH_FROZEN(&this->dyna.actor)) {
         ObjSwitch_EyeClosingInit(this);
         ObjSwitch_SetOn(this, play);
-        this->dyna.actor.params &= ~0x80;
+        this->dyna.actor.params &= ~OBJSWITCH_FROZEN_FLAG;
     }
 }
 
@@ -539,7 +572,7 @@ void ObjSwitch_EyeClosing(ObjSwitch* this, PlayState* play) {
         this->eyeTexIndex++;
         if (this->eyeTexIndex >= 3) {
             ObjSwitch_EyeClosedInit(this);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
         }
     }
 }
@@ -550,18 +583,19 @@ void ObjSwitch_EyeClosedInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeClosed(ObjSwitch* this, PlayState* play) {
-    switch (this->dyna.actor.params >> 4 & 7) {
+    switch (OBJSWITCH_SUBTYPE(&this->dyna.actor)) {
         case OBJSWITCH_SUBTYPE_ONCE:
-            if (!Flags_GetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F))) {
+            if (!Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
                 ObjSwitch_EyeOpeningInit(this);
-                this->dyna.actor.params &= ~0x80;
+                this->dyna.actor.params &= ~OBJSWITCH_FROZEN_FLAG;
             }
             break;
+
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if (ObjSwitch_EyeIsHit(this) || (this->dyna.actor.params >> 7 & 1)) {
+            if (ObjSwitch_EyeIsHit(this) || OBJSWITCH_FROZEN(&this->dyna.actor)) {
                 ObjSwitch_EyeOpeningInit(this);
                 ObjSwitch_SetOff(this, play);
-                this->dyna.actor.params &= ~0x80;
+                this->dyna.actor.params &= ~OBJSWITCH_FROZEN_FLAG;
             }
             break;
     }
@@ -573,12 +607,13 @@ void ObjSwitch_EyeOpeningInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_EyeOpening(ObjSwitch* this, PlayState* play) {
-    if ((this->dyna.actor.params >> 4 & 7) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn ||
+    if (OBJSWITCH_SUBTYPE(&this->dyna.actor) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
+
         this->eyeTexIndex--;
         if (this->eyeTexIndex <= 0) {
             ObjSwitch_EyeOpenInit(this);
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
         }
     }
 }
@@ -592,24 +627,28 @@ void ObjSwitch_CrystalOffInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
-    switch (this->dyna.actor.params >> 4 & 7) {
+    switch (OBJSWITCH_SUBTYPE(&this->dyna.actor)) {
         case OBJSWITCH_SUBTYPE_ONCE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) {
+            if ((this->jntSph.collider.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
                 ObjSwitch_CrystalTurnOnInit(this);
             }
             break;
+
         case OBJSWITCH_SUBTYPE_SYNC:
-            if (((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) ||
-                Flags_GetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F))) {
+            if (((this->jntSph.collider.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) ||
+                Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
+
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
                 ObjSwitch_CrystalTurnOnInit(this);
             }
             break;
+
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->unk_17F & AC_HIT) && this->disableAcTimer <= 0) {
+            if ((this->jntSph.collider.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
+                this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
                 ObjSwitch_CrystalTurnOnInit(this);
@@ -627,10 +666,10 @@ void ObjSwitch_CrystalTurnOnInit(ObjSwitch* this) {
 void ObjSwitch_CrystalTurnOn(ObjSwitch* this, PlayState* play) {
     if (!this->cooldownOn || func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         ObjSwitch_CrystalOnInit(this);
-        if ((this->dyna.actor.params >> 4 & 7) == OBJSWITCH_SUBTYPE_TOGGLE) {
+        if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_TOGGLE) {
             ObjSwitch_UpdateTwoTexScrollXY(this);
         }
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);
     }
 }
 
@@ -643,17 +682,18 @@ void ObjSwitch_CrystalOnInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play) {
-    switch (this->dyna.actor.params >> 4 & 7) {
+    switch (OBJSWITCH_SUBTYPE(&this->dyna.actor)) {
         case OBJSWITCH_SUBTYPE_ONCE:
         case OBJSWITCH_SUBTYPE_SYNC:
-            if (!Flags_GetSwitch(play, (this->dyna.actor.params >> 8 & 0x3F))) {
+            if (!Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
                 ObjSwitch_CrystalTurnOffInit(this);
             }
             break;
+
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->unk_17F & AC_HIT) && this->disableAcTimer <= 0) {
+            if ((this->jntSph.collider.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
+                this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
-                play = play;
                 ObjSwitch_CrystalTurnOffInit(this);
                 ObjSwitch_SetOff(this, play);
             }
@@ -668,11 +708,11 @@ void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this) {
 }
 
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, PlayState* play) {
-    if ((this->dyna.actor.params >> 4 & 7) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn ||
+    if (OBJSWITCH_SUBTYPE(&this->dyna.actor) != OBJSWITCH_SUBTYPE_TOGGLE || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         ObjSwitch_CrystalOffInit(this);
         ObjSwitch_UpdateTwoTexScrollXY(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);
     }
 }
 
@@ -688,80 +728,97 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    switch (this->dyna.actor.params & 7) {
+    switch (OBJSWITCH_TYPE(&this->dyna.actor)) {
         case OBJSWITCH_TYPE_FLOOR:
         case OBJSWITCH_TYPE_FLOOR_RUSTY:
-            this->unk_17F = this->dyna.unk_160;
+            this->prevColFlags = this->dyna.interactFlags;
             break;
+
         case OBJSWITCH_TYPE_EYE:
-            this->unk_17F = this->tris.col.base.acFlags;
-            this->tris.col.base.acFlags &= ~AC_HIT;
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.col.base);
+            this->prevColFlags = this->tris.collider.base.acFlags;
+            this->tris.collider.base.acFlags &= ~AC_HIT;
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.collider.base);
             break;
+
         case OBJSWITCH_TYPE_CRYSTAL:
         case OBJSWITCH_TYPE_CRYSTAL_TARGETABLE:
             if (!Player_InCsMode(play) && this->disableAcTimer > 0) {
                 this->disableAcTimer--;
             }
-            this->unk_17F = this->jntSph.col.base.acFlags;
-            this->jntSph.col.base.acFlags &= ~AC_HIT;
+            this->prevColFlags = this->jntSph.collider.base.acFlags;
+            this->jntSph.collider.base.acFlags &= ~AC_HIT;
             if (this->disableAcTimer <= 0) {
-                CollisionCheck_SetAC(play, &play->colChkCtx, &this->jntSph.col.base);
+                CollisionCheck_SetAC(play, &play->colChkCtx, &this->jntSph.collider.base);
             }
-            CollisionCheck_SetOC(play, &play->colChkCtx, &this->jntSph.col.base);
+            CollisionCheck_SetOC(play, &play->colChkCtx, &this->jntSph.collider.base);
             break;
     }
 }
 
-void ObjSwitch_DrawFloor(ObjSwitch* this, PlayState* play) {
-    static Gfx* floorSwitchDLists[] = { gFloorSwitch1DL, gFloorSwitch3DL, gFloorSwitch2DL, gFloorSwitch2DL };
+void ObjSwitch_DrawFloor(Actor* thisx, PlayState* play) {
+    static Gfx* floorSwitchDLists[] = {
+        gFloorSwitch1DL, // OBJSWITCH_SUBTYPE_ONCE
+        gFloorSwitch3DL, // OBJSWITCH_SUBTYPE_TOGGLE
+        gFloorSwitch2DL, // OBJSWITCH_SUBTYPE_HOLD
+        gFloorSwitch2DL, // OBJSWITCH_SUBTYPE_HOLD_INVERTED
+    };
 
-    Gfx_DrawDListOpa(play, floorSwitchDLists[(this->dyna.actor.params >> 4 & 7)]);
+    Gfx_DrawDListOpa(play, floorSwitchDLists[OBJSWITCH_SUBTYPE(thisx)]);
 }
 
-void ObjSwitch_DrawFloorRusty(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawFloorRusty(Actor* thisx, PlayState* play) {
     Gfx_DrawDListOpa(play, gRustyFloorSwitchDL);
 }
 
-void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawEye(Actor* thisx, PlayState* play) {
     static void* eyeTextures[][4] = {
+        // OBJSWITCH_SUBTYPE_ONCE
         { gEyeSwitchGoldOpenTex, gEyeSwitchGoldOpeningTex, gEyeSwitchGoldClosingTex, gEyeSwitchGoldClosedTex },
+        // OBJSWITCH_SUBTYPE_TOGGLE
         { gEyeSwitchSilverOpenTex, gEyeSwitchSilverHalfTex, gEyeSwitchSilverClosedTex, gEyeSwitchSilverClosedTex },
     };
-    static Gfx* eyeDlists[] = { gEyeSwitch1DL, gEyeSwitch2DL };
-    s32 pad;
-    s32 subType = (this->dyna.actor.params >> 4 & 7);
+    static Gfx* eyeSwitchDLs[] = {
+        gEyeSwitch1DL, // OBJSWITCH_SUBTYPE_ONCE
+        gEyeSwitch2DL, // OBJSWITCH_SUBTYPE_TOGGLE
+    };
+    ObjSwitch* this = (ObjSwitch*)thisx;
+    s32 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1459);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_switch.c", 1462),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_switch.c", 1462);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[subType][this->eyeTexIndex]));
-    gSPDisplayList(POLY_OPA_DISP++, eyeDlists[subType]);
+    gSPDisplayList(POLY_OPA_DISP++, eyeSwitchDLs[subType]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1471);
 }
 
-void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
-    static Gfx* xluDLists[] = { gCrystalSwitchCoreXluDL, gCrystalSwitchDiamondXluDL, NULL, NULL,
-                                gCrystalSwitchCoreXluDL };
-    static Gfx* opaDLists[] = { gCrystalSwitchCoreOpaDL, gCrystalSwitchDiamondOpaDL, NULL, NULL,
-                                gCrystalSwitchCoreOpaDL };
-    s32 pad1;
-    s32 pad2;
-    s32 subType;
+void ObjSwitch_DrawCrystal(Actor* thisx, PlayState* play) {
+    static Gfx* xluDLists[] = {
+        gCrystalSwitchCoreXluDL,    // OBJSWITCH_SUBTYPE_ONCE
+        gCrystalSwitchDiamondXluDL, // OBJSWITCH_SUBTYPE_TOGGLE
+        NULL,                       // OBJSWITCH_SUBTYPE_HOLD
+        NULL,                       // OBJSWITCH_SUBTYPE_HOLD_INVERTED
+        gCrystalSwitchCoreXluDL,    // OBJSWITCH_SUBTYPE_SYNC
+    };
+    static Gfx* opaDLists[] = {
+        gCrystalSwitchCoreOpaDL,    // OBJSWITCH_SUBTYPE_ONCE
+        gCrystalSwitchDiamondOpaDL, // OBJSWITCH_SUBTYPE_TOGGLE
+        NULL,                       // OBJSWITCH_SUBTYPE_HOLD
+        NULL,                       // OBJSWITCH_SUBTYPE_HOLD_INVERTED
+        gCrystalSwitchCoreOpaDL     // OBJSWITCH_SUBTYPE_SYNC
+    };
+    ObjSwitch* this = (ObjSwitch*)thisx;
+    s32 pad;
+    s32 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
-    subType = (this->dyna.actor.params >> 4 & 7);
     func_8002ED80(&this->dyna.actor, play, 0);
-
-    if (1) {}
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1494);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_switch.c", 1497),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_obj_switch.c", 1497);
     gSPDisplayList(POLY_XLU_DISP++, xluDLists[subType]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1502);
@@ -769,8 +826,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1507);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_switch.c", 1511),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_switch.c", 1511);
 
     if (subType == OBJSWITCH_SUBTYPE_TOGGLE) {
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(this->crystalSubtype1texture));
@@ -778,19 +834,21 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
 
     gDPSetEnvColor(POLY_OPA_DISP++, this->crystalColor.r, this->crystalColor.g, this->crystalColor.b, 128);
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->x1TexScroll, this->y1TexScroll, 0x20, 0x20, 1,
-                                this->x2TexScroll, this->y2TexScroll, 0x20, 0x20));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, this->x1TexScroll, this->y1TexScroll, 0x20, 0x20,
+                                1, this->x2TexScroll, this->y2TexScroll, 0x20, 0x20));
     gSPDisplayList(POLY_OPA_DISP++, opaDLists[subType]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1533);
 }
 
-static ObjSwitchActionFunc sDrawFuncs[] = {
-    ObjSwitch_DrawFloor, ObjSwitch_DrawFloorRusty, ObjSwitch_DrawEye, ObjSwitch_DrawCrystal, ObjSwitch_DrawCrystal,
+static ObjSwitchDrawFunc sDrawFuncs[] = {
+    ObjSwitch_DrawFloor,      // OBJSWITCH_TYPE_FLOOR
+    ObjSwitch_DrawFloorRusty, // OBJSWITCH_TYPE_FLOOR_RUSTY
+    ObjSwitch_DrawEye,        // OBJSWITCH_TYPE_EYE
+    ObjSwitch_DrawCrystal,    // OBJSWITCH_TYPE_CRYSTAL
+    ObjSwitch_DrawCrystal,    // OBJSWITCH_TYPE_CRYSTAL_TARGETABLE
 };
 
 void ObjSwitch_Draw(Actor* thisx, PlayState* play) {
-    ObjSwitch* this = (ObjSwitch*)thisx;
-
-    sDrawFuncs[(this->dyna.actor.params & 7)](this, play);
+    sDrawFuncs[OBJSWITCH_TYPE(thisx)](thisx, play);
 }

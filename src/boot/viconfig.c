@@ -1,14 +1,19 @@
-#include "global.h"
-#include "vt.h"
+#include "printf.h"
+#include "terminal.h"
+#include "idle.h"
 
-// this should probably go elsewhere but right now viconfig.o is the only object between idle and z_std_dma
-OSPiHandle* gCartHandle = NULL;
+s8 D_80009430 = 1;
+vu8 gViConfigBlack = true;
+u8 gViConfigAdditionalScanLines = 0;
+u32 gViConfigFeatures = OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_OFF;
+f32 gViConfigXScale = 1.0;
+f32 gViConfigYScale = 1.0;
 
 void ViConfig_UpdateVi(u32 black) {
     if (black) {
         // Black the screen on next call to ViConfig_UpdateBlack, skip most VI configuration
 
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "osViSetYScale1(%f);\n" VT_RST, 1.0f);
+        PRINTF(VT_COL(YELLOW, BLACK) "osViSetYScale1(%f);\n" VT_RST, 1.0f);
 
         if (osTvType == OS_TV_PAL) {
             osViSetMode(&osViModePalLan1);
@@ -34,7 +39,7 @@ void ViConfig_UpdateVi(u32 black) {
         }
 
         if (gViConfigYScale != 1.0f) {
-            osSyncPrintf(VT_COL(YELLOW, BLACK) "osViSetYScale3(%f);\n" VT_RST, gViConfigYScale);
+            PRINTF(VT_COL(YELLOW, BLACK) "osViSetYScale3(%f);\n" VT_RST, gViConfigYScale);
             osViSetYScale(gViConfigYScale);
         }
     }

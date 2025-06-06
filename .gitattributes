@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# Set browser syntax highlighting for certain files
+*.inc linguist-language=gas
+*.seq linguist-language=gas
+include/audio/aseq.h linguist-language=gas

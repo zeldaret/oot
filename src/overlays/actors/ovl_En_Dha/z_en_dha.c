@@ -6,9 +6,23 @@
 
 #include "z_en_dha.h"
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_dh/object_dh.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnDha_Init(Actor* thisx, PlayState* play);
 void EnDha_Destroy(Actor* thisx, PlayState* play);
@@ -23,16 +37,16 @@ void EnDha_SetupDeath(EnDha* this);
 void EnDha_Die(EnDha* this, PlayState* play);
 void EnDha_UpdateHealth(EnDha* this, PlayState* play);
 
-const ActorInit En_Dha_InitVars = {
-    ACTOR_EN_DHA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_DH,
-    sizeof(EnDha),
-    (ActorFunc)EnDha_Init,
-    (ActorFunc)EnDha_Destroy,
-    (ActorFunc)EnDha_Update,
-    (ActorFunc)EnDha_Draw,
+ActorProfile En_Dha_Profile = {
+    /**/ ACTOR_EN_DHA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_DH,
+    /**/ sizeof(EnDha),
+    /**/ EnDha_Init,
+    /**/ EnDha_Destroy,
+    /**/ EnDha_Update,
+    /**/ EnDha_Draw,
 };
 
 static DamageTable sDamageTable = {
@@ -73,55 +87,55 @@ static DamageTable sDamageTable = {
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 1, { { 0, 0, 0 }, 12 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 2, { { 3200, 0, 0 }, 10 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 3, { { 1200, 0, 0 }, 10 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 4, { { 2700, 0, 0 }, 10 }, 100 },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 5, { { 1200, 0, 0 }, 10 }, 100 },
@@ -130,7 +144,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_1,
@@ -143,7 +157,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DEAD_HANDS_HAND, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
 };
 
@@ -165,8 +179,8 @@ void EnDha_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.health = 8;
     this->limbAngleX[0] = -0x4000;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
     EnDha_SetupWait(this);
 }
@@ -182,7 +196,7 @@ void EnDha_SetupWait(EnDha* this) {
     Animation_PlayLoop(&this->skelAnime, &object_dh_Anim_0015B0);
     this->unk_1C0 = 0;
     this->actionTimer = ((Rand_ZeroOne() * 10.0f) + 5.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.home.rot.z = 1;
     EnDha_SetupAction(this, EnDha_Wait);
@@ -221,7 +235,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
                         this->actor.parent->params = ENDH_START_ATTACK_GRAB;
                     }
 
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_GRIP);
                 }
             } else {
                 this->timer += 0x1194;
@@ -234,7 +248,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
                 }
 
                 if (this->timer < -0x6E6B) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_GRIP);
                 }
             }
 
@@ -242,14 +256,23 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
             this->handAngle.y -= this->actor.shape.rot.y + this->limbAngleY;
             this->handAngle.x -= this->actor.shape.rot.x + this->limbAngleX[0] + this->limbAngleX[1];
         } else {
+#if OOT_VERSION < NTSC_1_1
+            // Empty
+#elif OOT_VERSION < PAL_1_0
             if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
-                player->unk_850 = 200;
             }
+#else
+            if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
+                player->stateFlags2 &= ~PLAYER_STATE2_7;
+                player->actor.parent = NULL;
+                player->av2.actionVar2 = 200;
+            }
+#endif
 
             if (this->actor.home.rot.z != 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HAND_AT);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HAND_AT);
                 this->actor.home.rot.z = 0;
             }
         }
@@ -285,7 +308,9 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
         if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
             player->stateFlags2 &= ~PLAYER_STATE2_7;
             player->actor.parent = NULL;
-            player->unk_850 = 200;
+#if OOT_VERSION >= PAL_1_0
+            player->av2.actionVar2 = 200;
+#endif
         }
 
         this->actor.home.rot.z = 1;
@@ -306,7 +331,9 @@ void EnDha_TakeDamage(EnDha* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->unk_850 = 200;
+#if OOT_VERSION >= PAL_1_0
+        player->av2.actionVar2 = 200;
+#endif
     }
 
     Math_SmoothStepToS(&this->limbAngleX[1], 0, 1, 2000, 0);
@@ -326,7 +353,7 @@ void EnDha_SetupDeath(EnDha* this) {
 
     if (this->actor.parent != NULL) {
         if (this->actor.parent->params != ENDH_DEATH) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HAND_DEAD);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HAND_DEAD);
         }
         if (this->actor.parent->params <= ENDH_WAIT_UNDERGROUND) {
             this->actor.parent->params--;
@@ -344,7 +371,9 @@ void EnDha_Die(EnDha* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->unk_850 = 200;
+#if OOT_VERSION >= PAL_1_0
+        player->av2.actionVar2 = 200;
+#endif
     }
 
     Math_SmoothStepToS(&this->limbAngleX[1], 0, 1, 0x7D0, 0);
@@ -380,16 +409,16 @@ void EnDha_UpdateHealth(EnDha* this, PlayState* play) {
     if (!((this->unk_1C0 >= 8) || !(this->collider.base.acFlags & AC_HIT))) {
         this->collider.base.acFlags &= ~AC_HIT;
 
-        if (this->actor.colChkInfo.damageEffect == 0 || this->actor.colChkInfo.damageEffect == 6) {
+        if (this->actor.colChkInfo.damageReaction == 0 || this->actor.colChkInfo.damageReaction == 6) {
             return;
         } else {
-            Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 EnDha_SetupDeath(this);
                 this->actor.colChkInfo.health = 8;
                 Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xE0);
             } else {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
                 this->unk_1C0 = 9;
                 EnDha_SetupTakeDamage(this);
             }

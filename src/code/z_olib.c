@@ -1,4 +1,7 @@
-#include "global.h"
+#include "z_math.h"
+#include "libc64/math64.h"
+#include "olib.h"
+#include "z_lib.h"
 
 /**
  * Calculates the distances between `a` and `b`
@@ -50,7 +53,7 @@ f32 OLib_ClampMaxDist(f32 val, f32 max) {
 /**
  * Takes the difference of points b and a, and creates a normal vector
  */
-Vec3f* OLib_Vec3fDistNormalize(Vec3f* dest, Vec3f* a, Vec3f* b) {
+Vec3f OLib_Vec3fDistNormalize(Vec3f* a, Vec3f* b) {
     Vec3f v1;
     Vec3f v2;
     f32 dist;
@@ -65,15 +68,13 @@ Vec3f* OLib_Vec3fDistNormalize(Vec3f* dest, Vec3f* a, Vec3f* b) {
     v2.y = v1.y / dist;
     v2.z = v1.z / dist;
 
-    *dest = v2;
-
-    return dest;
+    return v2;
 }
 
 /**
  * Takes the spherical coordinate `sph`, and converts it into a x,y,z position
  */
-Vec3f* OLib_VecSphToVec3f(Vec3f* dest, VecSph* sph) {
+Vec3f OLib_VecSphToVec3f(VecSph* sph) {
     Vec3f v;
     f32 sinPitch;
     f32 cosPitch = Math_CosS(sph->pitch);
@@ -87,138 +88,125 @@ Vec3f* OLib_VecSphToVec3f(Vec3f* dest, VecSph* sph) {
     v.y = sph->r * cosPitch;
     v.z = sph->r * sinPitch * cosYaw;
 
-    *dest = v;
-
-    return dest;
+    return v;
 }
 
 /**
- * Takes the geographic point `sph` and converts it into a x,y,z position
+ * Takes the geographic point `geo` and converts it into a x,y,z position
  */
-Vec3f* OLib_VecSphGeoToVec3f(Vec3f* dest, VecSph* sph) {
-    VecSph geo;
+Vec3f OLib_VecGeoToVec3f(VecGeo* geo) {
+    VecSph sph;
 
-    geo.r = sph->r;
-    geo.pitch = 0x3FFF - sph->pitch;
-    geo.yaw = sph->yaw;
+    sph.r = geo->r;
+    sph.pitch = 0x3FFF - geo->pitch;
+    sph.yaw = geo->yaw;
 
-    return OLib_VecSphToVec3f(dest, &geo);
+    return OLib_VecSphToVec3f(&sph);
 }
 
 /**
  * Takes the point `vec`, and converts it into a spherical coordinate
  */
-VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec) {
+VecSph OLib_Vec3fToVecSph(Vec3f* vec) {
     VecSph sph;
+    f32 distXZSq = SQ(vec->x) + SQ(vec->z);
+    f32 distXZ = sqrtf(distXZSq);
 
-    f32 distSquared = SQ(vec->x) + SQ(vec->z);
-    f32 dist = sqrtf(distSquared);
-
-    if ((dist == 0.0f) && (vec->y == 0.0f)) {
+    if ((distXZ == 0.0f) && (vec->y == 0.0f)) {
         sph.pitch = 0;
     } else {
-        sph.pitch = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(dist, vec->y)));
+        sph.pitch = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(distXZ, vec->y)));
     }
 
-    sph.r = sqrtf(SQ(vec->y) + distSquared);
+    sph.r = sqrtf(SQ(vec->y) + distXZSq);
     if ((vec->x == 0.0f) && (vec->z == 0.0f)) {
         sph.yaw = 0;
     } else {
         sph.yaw = CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(vec->x, vec->z)));
     }
 
-    *dest = sph;
-
-    return dest;
+    return sph;
 }
 
 /**
  * Takes the point `vec`, and converts it to a geographic coordinate
  */
-VecSph* OLib_Vec3fToVecSphGeo(VecSph* dest, Vec3f* vec) {
+VecGeo OLib_Vec3fToVecGeo(Vec3f* vec) {
     VecSph sph;
 
-    OLib_Vec3fToVecSph(&sph, vec);
+    sph = OLib_Vec3fToVecSph(vec);
     sph.pitch = 0x3FFF - sph.pitch;
 
-    *dest = sph;
-
-    return dest;
+    return sph;
 }
 
 /**
  * Takes the differences of positions `a` and `b`, and converts them to spherical coordinates
  */
-VecSph* OLib_Vec3fDiffToVecSph(VecSph* dest, Vec3f* a, Vec3f* b) {
-    Vec3f sph;
+VecSph OLib_Vec3fDiffToVecSph(Vec3f* a, Vec3f* b) {
+    Vec3f diff;
 
-    sph.x = b->x - a->x;
-    sph.y = b->y - a->y;
-    sph.z = b->z - a->z;
+    diff.x = b->x - a->x;
+    diff.y = b->y - a->y;
+    diff.z = b->z - a->z;
 
-    return OLib_Vec3fToVecSph(dest, &sph);
+    return OLib_Vec3fToVecSph(&diff);
 }
 
 /**
  * Takes the difference of positions `a` and `b`, and converts them to geographic coordinates
  */
-VecSph* OLib_Vec3fDiffToVecSphGeo(VecSph* dest, Vec3f* a, Vec3f* b) {
-    Vec3f sph;
+VecGeo OLib_Vec3fDiffToVecGeo(Vec3f* a, Vec3f* b) {
+    Vec3f diff;
 
-    sph.x = b->x - a->x;
-    sph.y = b->y - a->y;
-    sph.z = b->z - a->z;
+    diff.x = b->x - a->x;
+    diff.y = b->y - a->y;
+    diff.z = b->z - a->z;
 
-    return OLib_Vec3fToVecSphGeo(dest, &sph);
+    return OLib_Vec3fToVecGeo(&diff);
 }
 
 /**
  * Gets the pitch/yaw of the vector formed from `b`-`a`, result is in radians
  */
-Vec3f* OLib_Vec3fDiffRad(Vec3f* dest, Vec3f* a, Vec3f* b) {
+Vec3f OLib_Vec3fDiffRad(Vec3f* a, Vec3f* b) {
     Vec3f anglesRad;
 
     anglesRad.x = Math_FAtan2F(b->z - a->z, b->y - a->y);
     anglesRad.y = Math_FAtan2F(b->x - a->x, b->z - a->z);
     anglesRad.z = 0;
 
-    *dest = anglesRad;
-
-    return dest;
+    return anglesRad;
 }
 
 /**
  * Gets the pitch/yaw of the vector formed from `b`-`a`, result is in degrees
  */
-Vec3f* OLib_Vec3fDiffDegF(Vec3f* dest, Vec3f* a, Vec3f* b) {
+Vec3f OLib_Vec3fDiffDegF(Vec3f* a, Vec3f* b) {
     Vec3f anglesRad;
     Vec3f anglesDegrees;
 
-    OLib_Vec3fDiffRad(&anglesRad, a, b);
+    anglesRad = OLib_Vec3fDiffRad(a, b);
 
     anglesDegrees.x = RAD_TO_DEG(anglesRad.x);
     anglesDegrees.y = RAD_TO_DEG(anglesRad.y);
     anglesDegrees.z = 0.0f;
 
-    *dest = anglesDegrees;
-
-    return dest;
+    return anglesDegrees;
 }
 
 /**
  * Gets the pitch/yaw of the vector formed from `b`-`a`, result is in binary degrees
  */
-Vec3s* OLib_Vec3fDiffBinAng(Vec3s* dest, Vec3f* a, Vec3f* b) {
+Vec3s OLib_Vec3fDiffBinAng(Vec3f* a, Vec3f* b) {
     Vec3f anglesRad;
     Vec3s anglesBinAng;
 
-    OLib_Vec3fDiffRad(&anglesRad, a, b);
+    anglesRad = OLib_Vec3fDiffRad(a, b);
 
     anglesBinAng.x = CAM_DEG_TO_BINANG(RAD_TO_DEG(anglesRad.x));
     anglesBinAng.y = CAM_DEG_TO_BINANG(RAD_TO_DEG(anglesRad.y));
     anglesBinAng.z = 0.0f;
 
-    *dest = anglesBinAng;
-
-    return dest;
+    return anglesBinAng;
 }

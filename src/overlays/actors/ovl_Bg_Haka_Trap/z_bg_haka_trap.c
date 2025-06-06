@@ -5,6 +5,17 @@
  */
 
 #include "z_bg_haka_trap.h"
+
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0
@@ -29,21 +40,21 @@ void func_80880D68(BgHakaTrap* this);
 
 static UNK_TYPE D_80880F30 = 0;
 
-const ActorInit Bg_Haka_Trap_InitVars = {
-    ACTOR_BG_HAKA_TRAP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA_OBJECTS,
-    sizeof(BgHakaTrap),
-    (ActorFunc)BgHakaTrap_Init,
-    (ActorFunc)BgHakaTrap_Destroy,
-    (ActorFunc)BgHakaTrap_Update,
-    (ActorFunc)BgHakaTrap_Draw,
+ActorProfile Bg_Haka_Trap_Profile = {
+    /**/ ACTOR_BG_HAKA_TRAP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA_OBJECTS,
+    /**/ sizeof(BgHakaTrap),
+    /**/ BgHakaTrap_Init,
+    /**/ BgHakaTrap_Destroy,
+    /**/ BgHakaTrap_Update,
+    /**/ BgHakaTrap_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -51,11 +62,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 90, 0, { 0, 0, 0 } },
@@ -64,22 +75,22 @@ static ColliderCylinderInit sCylinderInit = {
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00020000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 1800.0f, 1200.0f, 0.0f }, { -1800.0f, 1200.0f, 0.0f }, { -1800.0f, 0.0f, 0.0f } } },
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00020000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 1800.0f, 1200.0f, 0.0f }, { -1800.0f, 0.0f, 0.0f }, { 1800.0f, 0.0f, 0.0f } } },
@@ -88,7 +99,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
 
 static ColliderTrisInit sTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -130,8 +141,8 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
 
             this->actionFunc = func_80880484;
         } else {
-            DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-            thisx->flags |= ACTOR_FLAG_4;
+            DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
+            thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
                 CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &colHeader);
@@ -160,14 +171,14 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                     CollisionHeader_GetVirtual(&object_haka_objects_Col_008D10, &colHeader);
                 }
 
-                Collider_InitTris(play, &this->colliderSpikes);
-                Collider_SetTris(play, &this->colliderSpikes, thisx, &sTrisInit, this->colliderSpikesItem);
+                Collider_InitTris(play, &this->spikesCollider);
+                Collider_SetTris(play, &this->spikesCollider, thisx, &sTrisInit, this->spikesColliderElements);
 
                 this->colliderCylinder.dim.radius = 18;
                 this->colliderCylinder.dim.height = 115;
 
-                this->colliderCylinder.info.toucherFlags &= ~TOUCH_SFX_NORMAL;
-                this->colliderCylinder.info.toucherFlags |= TOUCH_SFX_WOOD;
+                this->colliderCylinder.elem.atElemFlags &= ~ATELEM_SFX_NORMAL;
+                this->colliderCylinder.elem.atElemFlags |= ATELEM_SFX_WOOD;
 
                 this->actionFunc = func_808801B8;
             }
@@ -177,10 +188,10 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
     } else {
         this->timer = 40;
         this->actionFunc = func_808809B0;
-        thisx->uncullZoneScale = 500.0f;
+        thisx->cullingVolumeScale = 500.0f;
     }
 
-    CollisionCheck_SetInfo(&thisx->colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {
@@ -191,7 +202,7 @@ void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
             if ((this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) ||
                 (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2)) {
-                Collider_DestroyTris(play, &this->colliderSpikes);
+                Collider_DestroyTris(play, &this->spikesCollider);
             }
         }
 
@@ -208,7 +219,7 @@ void func_8087FFC0(BgHakaTrap* this, PlayState* play) {
     f32 zNonNegative;
     Player* player = GET_PLAYER(play);
 
-    func_8002DBD0(&this->dyna.actor, &sp28, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &sp28, &player->actor.world.pos);
 
     sine = Math_SinS(this->dyna.actor.shape.rot.y);
     cosine = Math_CosS(this->dyna.actor.shape.rot.y);
@@ -232,7 +243,7 @@ void func_808801B8(BgHakaTrap* this, PlayState* play) {
 
     if ((D_80880F30 == 0) && (!Player_InCsMode(play))) {
         if (!Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x, 0.5f)) {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
         } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) {
             D_80881018 |= 1;
         } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2) {
@@ -242,7 +253,7 @@ void func_808801B8(BgHakaTrap* this, PlayState* play) {
 
     func_8087FFC0(this, play);
 
-    if (this->colliderSpikes.base.acFlags & AC_HIT) {
+    if (this->spikesCollider.base.acFlags & AC_HIT) {
         this->timer = 20;
         D_80880F30 = 1;
         this->actionFunc = func_808802D8;
@@ -262,7 +273,7 @@ void func_808802D8(BgHakaTrap* this, PlayState* play) {
         this->timer--;
     }
 
-    func_8002F974(&this->dyna.actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BURN_OUT - SFX_FLAG);
 
     for (i = 0; i < 2; i++) {
         f32 rand = Rand_ZeroOne();
@@ -301,13 +312,13 @@ void func_80880484(BgHakaTrap* this, PlayState* play) {
     timer = this->timer;
 
     if ((timer == 10 && !this->unk_16A) || (timer == 13 && this->unk_16A)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
     }
 
     if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.0f;
         this->timer = (this->unk_16A) ? 10 : 40;
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
         this->actionFunc = func_808805C0;
     }
 
@@ -333,7 +344,7 @@ void func_808805C0(BgHakaTrap* this, PlayState* play) {
         }
 
         if (this->timer == 20) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
         }
     }
 
@@ -349,10 +360,10 @@ void func_808805C0(BgHakaTrap* this, PlayState* play) {
 
 void func_808806BC(BgHakaTrap* this, PlayState* play) {
     Vec3f vector;
-    f32 tempf20;
-    f32 temp;
+    f32 floorHeight;
+    f32 yIntersect;
     s32 i;
-    s32 sp64;
+    s32 bgId;
 
     this->dyna.actor.velocity.y *= 1.6f;
 
@@ -364,28 +375,28 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
     vector.y = (this->dyna.actor.world.pos.y + 1.0f) + 25.0f;
     vector.z = this->dyna.actor.world.pos.z;
 
-    tempf20 = this->dyna.actor.floorHeight;
+    floorHeight = this->dyna.actor.floorHeight;
 
     for (i = 0; i < 3; i++) {
-        temp =
-            BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &sp64, &this->dyna.actor, &vector) -
+        yIntersect =
+            BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &vector) -
             25.0f;
-        if (tempf20 < temp) {
-            tempf20 = temp;
+        if (floorHeight < yIntersect) {
+            floorHeight = yIntersect;
         }
 
         vector.x -= 90.0f;
     }
 
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, tempf20, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, floorHeight, this->dyna.actor.velocity.y)) {
         if (this->dyna.actor.velocity.y > 0.01f) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
         }
         this->dyna.actor.velocity.y = 0.0f;
     }
 
     if (this->dyna.actor.velocity.y >= 0.01f) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
     }
 
     if (this->timer == 0) {
@@ -431,7 +442,7 @@ void func_808809E4(BgHakaTrap* this, PlayState* play, s16 arg2) {
     Player* player = GET_PLAYER(play);
     Vec3f sp18;
 
-    func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->dyna.actor, &sp18, &player->actor.world.pos);
 
     if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
         (GET_PLAYER(play)->currentBoots != PLAYER_BOOTS_IRON)) {
@@ -455,7 +466,7 @@ void func_80880AE8(BgHakaTrap* this, PlayState* play) {
 
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z;
     if (this->dyna.actor.world.rot.z >= 0x1801) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
     }
 
     func_808809E4(this, play, this->dyna.actor.world.rot.z);
@@ -466,7 +477,7 @@ void func_80880C0C(BgHakaTrap* this, PlayState* play) {
         this->timer--;
     }
 
-    func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
 
     if (this->timer == 0) {
         this->timer = 1;
@@ -491,7 +502,7 @@ void BgHakaTrap_Update(Actor* thisx, PlayState* play) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder.base);
         } else {
             if (this->actionFunc == func_808801B8) {
-                CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSpikes.base);
+                CollisionCheck_SetAC(play, &play->colChkCtx, &this->spikesCollider.base);
             }
 
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinder.base);
@@ -507,10 +518,10 @@ void func_80880D68(BgHakaTrap* this) {
     Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[0], &vec1);
     Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[1], &vec2);
     Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[2], &vec3);
-    Collider_SetTrisVertices(&this->colliderSpikes, 0, &vec1, &vec2, &vec3);
+    Collider_SetTrisVertices(&this->spikesCollider, 0, &vec1, &vec2, &vec3);
 
     Matrix_MultVec3f(&sTrisElementsInit[1].dim.vtx[2], &vec2);
-    Collider_SetTrisVertices(&this->colliderSpikes, 1, &vec1, &vec3, &vec2);
+    Collider_SetTrisVertices(&this->spikesCollider, 1, &vec1, &vec3, &vec2);
 }
 
 void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
@@ -543,6 +554,6 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
         sp2C.y = this->dyna.actor.world.pos.y + 110.0f;
 
         SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &sp2C, &this->unk_16C);
-        func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
+        Sfx_PlaySfxAtPos(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
     }
 }

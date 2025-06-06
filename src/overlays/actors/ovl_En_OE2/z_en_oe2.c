@@ -6,7 +6,9 @@
 
 #include "z_en_oe2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#include "play_state.h"
+
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnOE2_Init(Actor* thisx, PlayState* play);
 void EnOE2_Destroy(Actor* thisx, PlayState* play);
@@ -15,16 +17,16 @@ void EnOE2_Draw(Actor* thisx, PlayState* play);
 
 void EnOE2_DoNothing(EnOE2* this, PlayState* play);
 
-const ActorInit En_OE2_InitVars = {
-    ACTOR_EN_OE2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OE2,
-    sizeof(EnOE2),
-    (ActorFunc)EnOE2_Init,
-    (ActorFunc)EnOE2_Destroy,
-    (ActorFunc)EnOE2_Update,
-    (ActorFunc)EnOE2_Draw,
+ActorProfile En_OE2_Profile = {
+    /**/ ACTOR_EN_OE2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OE2,
+    /**/ sizeof(EnOE2),
+    /**/ EnOE2_Init,
+    /**/ EnOE2_Destroy,
+    /**/ EnOE2_Update,
+    /**/ EnOE2_Draw,
 };
 
 void EnOE2_SetupAction(EnOE2* this, EnOE2ActionFunc actionFunc) {

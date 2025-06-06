@@ -1,9 +1,16 @@
-#include "global.h"
+#include "avoid_ub.h"
+#include "buffers.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "light.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define LIGHTS_BUFFER_SIZE 32
 
-typedef struct {
+typedef struct LightsBuffer {
     /* 0x000 */ s32 numOccupied;
     /* 0x004 */ s32 searchIndex;
     /* 0x008 */ LightNode buf[LIGHTS_BUFFER_SIZE];
@@ -61,23 +68,19 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_lights.c", 339);
 
-    gSPNumLights(POLY_OPA_DISP++, lights->numLights);
-    gSPNumLights(POLY_XLU_DISP++, lights->numLights);
+    gSPNumLights(POLY_OPA_DISP++, (u32)lights->numLights);
+    gSPNumLights(POLY_XLU_DISP++, (u32)lights->numLights);
 
-    i = 0;
     light = &lights->l.l[0];
+    i = 0;
 
     while (i < lights->numLights) {
-        i++;
-        gSPLight(POLY_OPA_DISP++, light, i);
-        gSPLight(POLY_XLU_DISP++, light, i);
-        light++;
+        gSPLight(POLY_OPA_DISP++, light, ++i);
+        gSPLight(POLY_XLU_DISP++, light++, i);
     }
 
-    if (0) {}
-
-    i++; // ambient light is total number of lights + 1
-    gSPLight(POLY_OPA_DISP++, &lights->l.a, i);
+    // ambient light is total number of lights + 1
+    gSPLight(POLY_OPA_DISP++, &lights->l.a, ++i);
     gSPLight(POLY_XLU_DISP++, &lights->l.a, i);
 
     CLOSE_DISPS(gfxCtx, "../z_lights.c", 352);
@@ -111,7 +114,7 @@ void Lights_BindPoint(Lights* lights, LightParams* params, Vec3f* vec) {
 
             if (light != NULL) {
                 posDiff = sqrtf(posDiff);
-                if (1) {}
+
                 scale = posDiff / scale;
                 scale = 1 - SQ(scale);
 
@@ -147,7 +150,7 @@ void Lights_BindDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
  * a light to it. Then apply color and positional/directional info for each light
  * based on the parameters supplied by the node.
  *
- * Note: Lights in a given list can only be binded to however many free slots are
+ * Note: Lights in a given list can only be bound to however many free slots are
  * available in the Lights group. This is at most 7 slots for a new group, but could be less.
  */
 void Lights_BindAll(Lights* lights, LightNode* listHead, Vec3f* vec) {
@@ -161,7 +164,7 @@ void Lights_BindAll(Lights* lights, LightNode* listHead, Vec3f* vec) {
     }
 }
 
-LightNode* Lights_FindBufSlot() {
+LightNode* Lights_FindBufSlot(void) {
     LightNode* node;
 
     if (sLightsBuffer.numOccupied >= LIGHTS_BUFFER_SIZE) {
@@ -186,8 +189,7 @@ LightNode* Lights_FindBufSlot() {
     return node;
 }
 
-// return type must not be void to match
-s32 Lights_FreeNode(LightNode* light) {
+BAD_RETURN(s32) Lights_FreeNode(LightNode* light) {
     if (light != NULL) {
         sLightsBuffer.numOccupied--;
         light->info = NULL;
@@ -198,7 +200,7 @@ s32 Lights_FreeNode(LightNode* light) {
 void LightContext_Init(PlayState* play, LightContext* lightCtx) {
     LightContext_InitList(play, lightCtx);
     LightContext_SetAmbientColor(lightCtx, 80, 80, 80);
-    LightContext_SetFog(lightCtx, 0, 0, 0, 996, 12800);
+    LightContext_SetFog(lightCtx, 0, 0, 0, ENV_FOGNEAR_MAX, ENV_ZFAR_MAX);
     bzero(&sLightsBuffer, sizeof(sLightsBuffer));
 }
 
@@ -208,16 +210,16 @@ void LightContext_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b) {
     lightCtx->ambientColor[2] = b;
 }
 
-void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, s16 fogFar) {
+void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, s16 zFar) {
     lightCtx->fogColor[0] = r;
     lightCtx->fogColor[1] = g;
     lightCtx->fogColor[2] = b;
     lightCtx->fogNear = fogNear;
-    lightCtx->fogFar = fogFar;
+    lightCtx->zFar = zFar;
 }
 
 /**
- * Allocate a new Lights group and initilize the ambient color with that provided by LightContext
+ * Allocate a new Lights group and initialize the ambient color with that provided by LightContext
  */
 Lights* LightContext_NewLights(LightContext* lightCtx, GraphicsContext* gfxCtx) {
     return Lights_New(gfxCtx, lightCtx->ambientColor[0], lightCtx->ambientColor[1], lightCtx->ambientColor[2]);
@@ -282,7 +284,7 @@ Lights* Lights_NewAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 
     Lights* lights;
     s32 i;
 
-    lights = Graph_Alloc(gfxCtx, sizeof(Lights));
+    lights = GRAPH_ALLOC(gfxCtx, sizeof(Lights));
 
     lights->l.a.l.col[0] = lights->l.a.l.colc[0] = ambientR;
     lights->l.a.l.col[1] = lights->l.a.l.colc[1] = ambientG;
@@ -306,7 +308,7 @@ Lights* Lights_NewAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 
 Lights* Lights_New(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB) {
     Lights* lights;
 
-    lights = Graph_Alloc(gfxCtx, sizeof(Lights));
+    lights = GRAPH_ALLOC(gfxCtx, sizeof(Lights));
 
     lights->l.a.l.col[0] = lights->l.a.l.colc[0] = ambientR;
     lights->l.a.l.col[1] = lights->l.a.l.colc[1] = ambientG;
@@ -317,22 +319,20 @@ Lights* Lights_New(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambient
 }
 
 void Lights_GlowCheck(PlayState* play) {
-    LightNode* node;
-    LightPoint* params;
-    Vec3f pos;
-    Vec3f multDest;
-    f32 cappedInvWDest;
-    f32 wX;
-    f32 wY;
-    s32 wZ;
-    s32 zBuf;
-
-    node = play->lightCtx.listHead;
+    LightNode* node = play->lightCtx.listHead;
 
     while (node != NULL) {
-        params = &node->info->params.point;
+        LightPoint* params = &node->info->params.point;
 
         if (node->info->type == LIGHT_POINT_GLOW) {
+            Vec3f pos;
+            Vec3f multDest;
+            f32 cappedInvWDest;
+            f32 wX;
+            f32 wY;
+            s32 wZ;
+            s32 zBuf;
+
             pos.x = params->x;
             pos.y = params->y;
             pos.z = params->z;
@@ -342,11 +342,18 @@ void Lights_GlowCheck(PlayState* play) {
             wY = multDest.y * cappedInvWDest;
 
             if ((multDest.z > 1.0f) && (fabsf(wX) < 1.0f) && (fabsf(wY) < 1.0f)) {
-                wZ = (s32)((multDest.z * cappedInvWDest) * 16352.0f) + 16352;
-                zBuf = gZBuffer[(s32)((wY * -120.0f) + 120.0f)][(s32)((wX * 160.0f) + 160.0f)] * 4;
+                // Compute screen z value assuming the viewport scale and translation both have value G_MAXZ / 2
+                // The multiplication by 32 follows from how the RSP microcode computes the screen z value.
+                wZ = (s32)((multDest.z * cappedInvWDest) * ((G_MAXZ / 2) * 32)) + ((G_MAXZ / 2) * 32);
+                // Obtain the z-buffer value for the screen pixel corresponding to the center of the glow.
+                zBuf = gZBuffer[(s32)((wY * -(SCREEN_HEIGHT / 2)) + (SCREEN_HEIGHT / 2))]
+                               [(s32)((wX * (SCREEN_WIDTH / 2)) + (SCREEN_WIDTH / 2))]
+                       << 2;
                 if (1) {}
                 if (1) {}
 
+                // Compare the computed screen z value to the integer part of the z-buffer value in fixed point. If
+                // it is less than the value from the z-buffer the depth test passes and the glow can draw.
                 if (wZ < (Environment_ZBufValToFixedPoint(zBuf) >> 3)) {
                     params->drawGlow = true;
                 }
@@ -358,9 +365,7 @@ void Lights_GlowCheck(PlayState* play) {
 
 void Lights_DrawGlow(PlayState* play) {
     s32 pad;
-    LightNode* node;
-
-    node = play->lightCtx.listHead;
+    LightNode* node = play->lightCtx.listHead;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_lights.c", 887);
 
@@ -370,23 +375,19 @@ void Lights_DrawGlow(PlayState* play) {
     gSPDisplayList(POLY_XLU_DISP++, gGlowCircleTextureLoadDL);
 
     while (node != NULL) {
-        LightInfo* info;
-        LightPoint* params;
-        f32 scale;
-        s32 pad[4];
+        if ((node->info->type == LIGHT_POINT_GLOW)) {
+            s32 pad[6];
+            LightPoint* params = &node->info->params.point;
 
-        info = node->info;
-        params = &info->params.point;
+            if (params->drawGlow) {
+                f32 scale = SQ(params->radius) * 0.0000026f;
 
-        if ((info->type == LIGHT_POINT_GLOW) && (params->drawGlow)) {
-            scale = SQ(params->radius) * 0.0000026f;
-
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, params->color[0], params->color[1], params->color[2], 50);
-            Matrix_Translate(params->x, params->y, params->z, MTXMODE_NEW);
-            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_lights.c", 918),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gGlowCircleDL);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, params->color[0], params->color[1], params->color[2], 50);
+                Matrix_Translate(params->x, params->y, params->z, MTXMODE_NEW);
+                Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_lights.c", 918);
+                gSPDisplayList(POLY_XLU_DISP++, gGlowCircleDL);
+            }
         }
 
         node = node->next;

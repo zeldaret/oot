@@ -5,9 +5,14 @@
  */
 
 #include "z_obj_makekinsuta.h"
-#include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "printf.h"
+#include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+#include "player.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ObjMakekinsuta_Init(Actor* thisx, PlayState* play);
 void ObjMakekinsuta_Update(Actor* thisx, PlayState* play);
@@ -15,31 +20,30 @@ void ObjMakekinsuta_Update(Actor* thisx, PlayState* play);
 void func_80B98320(ObjMakekinsuta* this, PlayState* play);
 void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, PlayState* play);
 
-const ActorInit Obj_Makekinsuta_InitVars = {
-    ACTOR_OBJ_MAKEKINSUTA,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjMakekinsuta),
-    (ActorFunc)ObjMakekinsuta_Init,
-    (ActorFunc)Actor_Noop,
-    (ActorFunc)ObjMakekinsuta_Update,
-    NULL,
+ActorProfile Obj_Makekinsuta_Profile = {
+    /**/ ACTOR_OBJ_MAKEKINSUTA,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjMakekinsuta),
+    /**/ ObjMakekinsuta_Init,
+    /**/ Actor_Noop,
+    /**/ ObjMakekinsuta_Update,
+    /**/ NULL,
 };
 
 void ObjMakekinsuta_Init(Actor* thisx, PlayState* play) {
     ObjMakekinsuta* this = (ObjMakekinsuta*)thisx;
 
-    if ((this->actor.params & 0x6000) == 0x4000) {
-        osSyncPrintf(VT_FGCOL(BLUE));
-        // "Gold Star Enemy(arg_data %x)"
-        osSyncPrintf("金スタ発生敵(arg_data %x)\n", this->actor.params);
-        osSyncPrintf(VT_RST);
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 13, 2) == 0x4000) {
+        PRINTF_COLOR_BLUE();
+        PRINTF(T("金スタ発生敵(arg_data %x)\n", "Gold Star Enemy(arg_data %x)\n"), this->actor.params);
+        PRINTF_RST();
     } else {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // "Invalid Argument (arg_data %x)(%s %d)"
-        osSyncPrintf("引数不正 (arg_data %x)(%s %d)\n", this->actor.params, "../z_obj_makekinsuta.c", 119);
-        osSyncPrintf(VT_RST);
+        PRINTF_COLOR_WARNING();
+        PRINTF(T("引数不正 (arg_data %x)(%s %d)\n", "Invalid Argument (arg_data %x)(%s %d)\n"), this->actor.params,
+               "../z_obj_makekinsuta.c", 119);
+        PRINTF_RST();
     }
     this->actionFunc = func_80B98320;
 }

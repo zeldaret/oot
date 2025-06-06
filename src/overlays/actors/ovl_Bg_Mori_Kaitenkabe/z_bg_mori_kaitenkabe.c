@@ -5,6 +5,18 @@
  */
 
 #include "z_bg_mori_kaitenkabe.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0
@@ -20,22 +32,22 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, PlayState* play);
 void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this);
 void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, PlayState* play);
 
-const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
-    ACTOR_BG_MORI_KAITENKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriKaitenkabe),
-    (ActorFunc)BgMoriKaitenkabe_Init,
-    (ActorFunc)BgMoriKaitenkabe_Destroy,
-    (ActorFunc)BgMoriKaitenkabe_Update,
-    NULL,
+ActorProfile Bg_Mori_Kaitenkabe_Profile = {
+    /**/ ACTOR_BG_MORI_KAITENKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriKaitenkabe),
+    /**/ BgMoriKaitenkabe_Init,
+    /**/ BgMoriKaitenkabe_Destroy,
+    /**/ BgMoriKaitenkabe_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -50,17 +62,18 @@ void BgMoriKaitenkabe_Init(Actor* thisx, PlayState* play) {
     BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    // "Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears"
-    osSyncPrintf("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n", this->dyna.actor.params);
+    PRINTF(T("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n",
+             "◯◯◯Forest Temple object [Rotating wall(arg_data : 0x%04x)] appears \n"),
+           this->dyna.actor.params);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gMoriKaitenkabeCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
+    this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjectSlot < 0) {
         Actor_Kill(&this->dyna.actor);
-        // "【Rotating wall】 Bank danger!"
-        osSyncPrintf("【回転壁】 バンク危険！(%s %d)\n", "../z_bg_mori_kaitenkabe.c", 176);
+        PRINTF(T("【回転壁】 バンク危険！(%s %d)\n", "[Rotating wall] Bank danger! (%s %d)\n"),
+               "../z_bg_mori_kaitenkabe.c", 176);
     } else {
         this->actionFunc = BgMoriKaitenkabe_WaitForMoriTex;
     }
@@ -74,7 +87,7 @@ void BgMoriKaitenkabe_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void BgMoriKaitenkabe_WaitForMoriTex(BgMoriKaitenkabe* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjectSlot)) {
         BgMoriKaitenkabe_SetupWait(this);
         this->dyna.actor.draw = BgMoriKaitenkabe_Draw;
     }
@@ -95,7 +108,7 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, PlayState* play) {
         this->timer++;
         if ((this->timer > 28) && !Player_InCsMode(play)) {
             BgMoriKaitenkabe_SetupRotate(this);
-            func_8002DF54(play, &this->dyna.actor, 8);
+            Player_SetCsActionWithHaltedActors(play, &this->dyna.actor, PLAYER_CSACTION_8);
             Math_Vec3f_Copy(&this->lockedPlayerPos, &player->actor.world.pos);
             push.x = Math_SinS(this->dyna.unk_158);
             push.y = 0.0f;
@@ -129,18 +142,18 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, PlayState* play) {
     Math_StepToF(&this->rotSpeed, 0.6f, 0.02f);
     if (Math_StepToF(&this->rotYdeg, this->rotDirection * 45.0f, this->rotSpeed)) {
         BgMoriKaitenkabe_SetupWait(this);
-        func_8002DF54(play, thisx, 7);
+        Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_7);
         if (this->rotDirection > 0.0f) {
             thisx->home.rot.y += 0x2000;
         } else {
             thisx->home.rot.y -= 0x2000;
         }
         thisx->world.rot.y = thisx->shape.rot.y = thisx->home.rot.y;
-        func_800788CC(NA_SE_EV_STONEDOOR_STOP);
+        Sfx_PlaySfxCentered2(NA_SE_EV_STONEDOOR_STOP);
     } else {
-        rotY = this->rotYdeg * (0x10000 / 360.0f);
+        rotY = DEG_TO_BINANG(this->rotYdeg);
         thisx->world.rot.y = thisx->shape.rot.y = thisx->home.rot.y + rotY;
-        func_800788CC(NA_SE_EV_WALL_SLIDE - SFX_FLAG);
+        Sfx_PlaySfxCentered2(NA_SE_EV_WALL_SLIDE - SFX_FLAG);
     }
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
@@ -163,10 +176,9 @@ void BgMoriKaitenkabe_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 347);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.status[this->moriTexObjIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 352),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 352);
 
     gSPDisplayList(POLY_OPA_DISP++, gMoriKaitenkabeDL);
 

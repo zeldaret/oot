@@ -2,16 +2,32 @@
 #define Z_EN_BW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnBw;
-typedef void (*EnBwActionFunc)(struct EnBw*, PlayState*);
+typedef void (*EnBwActionFunc)(struct EnBw*, struct PlayState*);
+
+typedef enum TorchSlugLimb {
+    /*  0 */ TORCH_SLUG_LIMB_NONE,
+    /*  1 */ TORCH_SLUG_LIMB_BODY,
+    /*  2 */ TORCH_SLUG_LIMB_LEFT_EYESTALK_ROOT_ROOT,
+    /*  3 */ TORCH_SLUG_LIMB_LEFT_EYESTALK_ROOT,
+    /*  4 */ TORCH_SLUG_LIMB_LEFT_UPPER_EYESTALK_ROOT,
+    /*  5 */ TORCH_SLUG_LIMB_LEFT_UPPER_EYESTALK,
+    /*  6 */ TORCH_SLUG_LIMB_LEFT_LOWER_EYESTALK,
+    /*  7 */ TORCH_SLUG_LIMB_RIGHT_EYESTALK_ROOT_ROOT,
+    /*  8 */ TORCH_SLUG_LIMB_RIGHT_EYESTALK_ROOT,
+    /*  9 */ TORCH_SLUG_LIMB_RIGHT_UPPER_EYESTALK_ROOT,
+    /* 10 */ TORCH_SLUG_LIMB_RIGHT_UPPER_EYESTALK,
+    /* 11 */ TORCH_SLUG_LIMB_RIGHT_LOWER_EYESTALK,
+    /* 12 */ TORCH_SLUG_LIMB_MAX
+} TorchSlugLimb;
 
 typedef struct EnBw {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s jointTable[12];
-    /* 0x01D8 */ Vec3s morphTable[12];
+    /* 0x0190 */ Vec3s jointTable[TORCH_SLUG_LIMB_MAX];
+    /* 0x01D8 */ Vec3s morphTable[TORCH_SLUG_LIMB_MAX];
     /* 0x0220 */ u8 unk_220;
     /* 0x0221 */ u8 unk_221;
     /* 0x0222 */ s16 unk_222;
@@ -19,7 +35,7 @@ typedef struct EnBw {
     /* 0x0228 */ EnBwActionFunc actionFunc;
     /* 0x022C */ Color_RGBA8 color1;
     /* 0x0230 */ u8 unk_230;
-    /* 0x0231 */ u8 damageEffect;
+    /* 0x0231 */ u8 damageReaction;
     /* 0x0232 */ u8 unk_232;
     /* 0x0234 */ s16 unk_234;
     /* 0x0236 */ s16 unk_236;

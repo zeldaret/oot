@@ -2,13 +2,13 @@
 #define Z_BOSS_MO_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct BossMo;
 
-typedef void (*BossMoActionFunc)(struct BossMo*, PlayState*);
+typedef void (*BossMoActionFunc)(struct BossMo*, struct PlayState*);
 
-typedef enum {
+typedef enum BossMoTentS16Var {
     /* 0 */ MO_TENT_ACTION_STATE,
     /* 1 */ MO_TENT_MOVE_TIMER,
     /* 2 */ MO_TENT_VAR_TIMER,
@@ -21,7 +21,7 @@ typedef enum {
     /* 9 */ MO_TENT_SHORT_MAX
 } BossMoTentS16Var;
 
-typedef enum {
+typedef enum BossMoCoreS16Var {
     /* 0 */ MO_CORE_ACTION_STATE,
     /* 1 */ MO_CORE_MOVE_TIMER,
     /* 2 */ MO_CORE_VAR_TIMER,
@@ -34,7 +34,7 @@ typedef enum {
     /* 9 */ MO_CORE_SHORT_MAX
 } BossMoCoreS16Var;
 
-typedef enum {
+typedef enum BossMoTentF32Var {
     /* 0 */ MO_TENT_SWING_LAG_X,
     /* 1 */ MO_TENT_SWING_SIZE_X,
     /* 2 */ MO_TENT_SWING_RATE_X,
@@ -45,7 +45,7 @@ typedef enum {
     /* 7 */ MO_TENT_FLOAT_MAX
 } BossMoTentF32Var;
 
-typedef enum {
+typedef enum BossMoCoreF32Var {
     /* 0 */ MO_CORE_INTRO_WATER_ALPHA,
     /* 1 */ MO_CORE_FLOAT_MAX
 } BossMoCoreF32Var;
@@ -67,7 +67,7 @@ typedef struct BossMo {
     /* 0x0170 */ s16 zSwing;
     /* 0x0172 */ s16 cutIndex;
     /* 0x0174 */ s16 meltIndex;
-    /* 0x0176 */ s16 linkToLeft;
+    /* 0x0176 */ s16 playerToLeft;
     /* 0x0178 */ s16 mashCounter;
     /* 0x017A */ s16 noBubbles;
     /* 0x017C */ s16 sfxTimer;
@@ -87,7 +87,7 @@ typedef struct BossMo {
     /* 0x01CE */ s16 attackAngleMod;
     /* 0x01D0 */ u8 unk_1D0; // unused?
     /* 0x01D1 */ u8 drawActor;
-    /* 0x01D2 */ u8 linkHitTimer;
+    /* 0x01D2 */ u8 playerHitTimer;
     /* 0x01D4 */ Vec3f targetPos;
     /* 0x01E0 */ f32 tentRippleSize;
     /* 0x01E4 */ PosRot grabPosRot;
@@ -124,7 +124,7 @@ typedef struct BossMo {
     /* 0x100C */ f32 subCamYawShake;
     /* 0x1010 */ Vec3f tentTipPos;
     /* 0x101C */ ColliderJntSph tentCollider;
-    /* 0x103C */ ColliderJntSphElement tentElements[19];
+    /* 0x103C */ ColliderJntSphElement tentColliderElements[19];
     /* 0x14FC */ ColliderCylinder coreCollider;
     /* 0x1548 */ char unk_1548[0x44];
 } BossMo; // size = 0x158C

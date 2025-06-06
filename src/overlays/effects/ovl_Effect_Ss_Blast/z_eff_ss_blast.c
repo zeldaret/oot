@@ -5,17 +5,26 @@
  */
 
 #include "z_eff_ss_blast.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define rPrimColorR regs[0]
-#define rPrimColorG regs[1]
-#define rPrimColorB regs[2]
-#define rPrimColorA regs[3]
-#define rEnvColorR regs[4]
-#define rEnvColorG regs[5]
-#define rEnvColorB regs[6]
-#define rEnvColorA regs[7]
-#define rAlphaTarget regs[8]
+#define rInnerColorR regs[0]
+#define rInnerColorG regs[1]
+#define rInnerColorB regs[2]
+#define rInnerColorA regs[3]
+#define rOuterColorR regs[4]
+#define rOuterColorG regs[5]
+#define rOuterColorB regs[6]
+#define rOuterColorA regs[7]
+#define rAlphaStep regs[8]
 #define rScale regs[9]
 #define rScaleStep regs[10]
 #define rScaleStepDecay regs[11]
@@ -24,7 +33,7 @@ u32 EffectSsBlast_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
 void EffectSsBlast_Update(PlayState* play, u32 index, EffectSs* this);
 void EffectSsBlast_Draw(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Blast_InitVars = {
+EffectSsProfile Effect_Ss_Blast_Profile = {
     EFFECT_SS_BLAST,
     EffectSsBlast_Init,
 };
@@ -40,18 +49,18 @@ u32 EffectSsBlast_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
     this->life = initParams->life;
     this->draw = EffectSsBlast_Draw;
     this->update = EffectSsBlast_Update;
-    this->rPrimColorR = initParams->primColor.r;
-    this->rPrimColorG = initParams->primColor.g;
-    this->rPrimColorB = initParams->primColor.b;
-    this->rPrimColorA = initParams->primColor.a;
-    this->rEnvColorR = initParams->envColor.r;
-    this->rEnvColorG = initParams->envColor.g;
-    this->rEnvColorB = initParams->envColor.b;
-    this->rEnvColorA = initParams->envColor.a;
-    this->rAlphaTarget = initParams->primColor.a / initParams->life;
+    this->rInnerColorR = initParams->innerColor.r;
+    this->rInnerColorG = initParams->innerColor.g;
+    this->rInnerColorB = initParams->innerColor.b;
+    this->rInnerColorA = initParams->innerColor.a;
+    this->rOuterColorR = initParams->outerColor.r;
+    this->rOuterColorG = initParams->outerColor.g;
+    this->rOuterColorB = initParams->outerColor.b;
+    this->rOuterColorA = initParams->outerColor.a;
+    this->rAlphaStep = initParams->innerColor.a / initParams->life;
     this->rScale = initParams->scale;
     this->rScaleStep = initParams->scaleStep;
-    this->rScaleStepDecay = initParams->sclaeStepDecay;
+    this->rScaleStepDecay = initParams->scaleStepDecay;
     return 1;
 }
 
@@ -59,29 +68,29 @@ void EffectSsBlast_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     MtxF mf;
     s32 pad;
-    f32 radius;
+    f32 scale;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_blast.c", 170);
 
-    radius = this->rScale * 0.0025f;
+    scale = this->rScale * (1 / 400.0f);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+    gDPSetEnvColor(POLY_XLU_DISP++, this->rOuterColorR, this->rOuterColorG, this->rOuterColorB, this->rOuterColorA);
     func_800BFCB8(play, &mf, &this->pos);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rInnerColorR, this->rInnerColorG, this->rInnerColorB,
+                    this->rInnerColorA);
     Matrix_Put(&mf);
-    Matrix_Scale(radius, radius, radius, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_blast.c", 199),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_blast.c", 199);
     gSPDisplayList(POLY_XLU_DISP++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_blast.c", 204);
 }
 
 void EffectSsBlast_Update(PlayState* play, u32 index, EffectSs* this) {
-    Math_StepToS(&this->rPrimColorA, 0, this->rAlphaTarget);
-    this->rScale += this->rScaleStep;
+    Math_StepToS(&this->rInnerColorA, 0, this->rAlphaStep);
 
+    this->rScale += this->rScaleStep;
     if (this->rScaleStep != 0) {
         this->rScaleStep -= this->rScaleStepDecay;
     }

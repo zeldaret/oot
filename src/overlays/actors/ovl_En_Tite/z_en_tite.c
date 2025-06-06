@@ -7,10 +7,26 @@
 #include "z_en_tite.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
-#include "vt.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_tite/object_tite.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 // EnTite_Idle
 #define vIdleTimer actionVar1
@@ -23,7 +39,7 @@
 #define vOnBackTimer actionVar1
 #define vLegTwitchTimer actionVar2
 
-typedef enum {
+typedef enum EnTiteAction {
     /* 0x0 */ TEKTITE_DEATH_CRY,
     /* 0x1 */ TEKTITE_UNK_1,
     /* 0x2 */ TEKTITE_UNK_2,
@@ -39,14 +55,14 @@ typedef enum {
     /* 0xC */ TEKTITE_MOVE_TOWARD_PLAYER
 } EnTiteAction;
 
-typedef enum {
+typedef enum EnTiteAttackState {
     /* 0x0 */ TEKTITE_BEGIN_LUNGE,
     /* 0x1 */ TEKTITE_MID_LUNGE,
     /* 0x2 */ TEKTITE_LANDED,
     /* 0x2 */ TEKTITE_SUBMERGED
 } EnTiteAttackState;
 
-typedef enum {
+typedef enum EnTiteFlipState {
     /* 0x0 */ TEKTITE_INITIAL,
     /* 0x1 */ TEKTITE_UNFLIPPED,
     /* 0x2 */ TEKTITE_FLIPPED
@@ -74,26 +90,26 @@ void EnTite_FallApart(EnTite* this, PlayState* play);
 void EnTite_FlipOnBack(EnTite* this, PlayState* play);
 void EnTite_FlipUpright(EnTite* this, PlayState* play);
 
-const ActorInit En_Tite_InitVars = {
-    ACTOR_EN_TITE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_TITE,
-    sizeof(EnTite),
-    (ActorFunc)EnTite_Init,
-    (ActorFunc)EnTite_Destroy,
-    (ActorFunc)EnTite_Update,
-    (ActorFunc)EnTite_Draw,
+ActorProfile En_Tite_Profile = {
+    /**/ ACTOR_EN_TITE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_TITE,
+    /**/ sizeof(EnTite),
+    /**/ EnTite_Init,
+    /**/ EnTite_Destroy,
+    /**/ EnTite_Update,
+    /**/ EnTite_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 0, { { 0, 1500, 0 }, 20 }, 100 },
@@ -102,7 +118,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -150,7 +166,7 @@ static DamageTable sDamageTable[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_RED_TEKTITE, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -40, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_STOP),
 };
@@ -177,7 +193,7 @@ void EnTite_Init(Actor* thisx, PlayState* play) {
     EnTite* this = (EnTite*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    thisx->targetMode = 3;
+    thisx->attentionRangeType = ATTENTION_RANGE_3;
     Actor_SetScale(thisx, 0.01f);
     SkelAnime_Init(play, &this->skelAnime, &object_tite_Skel_003A20, &object_tite_Anim_0012E4, this->jointTable,
                    this->morphTable, 25);
@@ -191,12 +207,12 @@ void EnTite_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.health = 2;
     thisx->colChkInfo.mass = MASS_HEAVY;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, &this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->colliderElements);
     this->unk_2DC = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4;
     if (this->actor.params == TEKTITE_BLUE) {
         this->unk_2DC |= UPDBGCHECKINFO_FLAG_6; // Don't use the actor engine's ripple spawning code
         thisx->colChkInfo.health = 4;
-        thisx->naviEnemyId += 1; // NAVI_ENEMY_BLUE_TEKTITE
+        thisx->naviEnemyId += NAVI_ENEMY_BLUE_TEKTITE - NAVI_ENEMY_RED_TEKTITE;
     }
     EnTite_SetupIdle(this);
 }
@@ -210,10 +226,10 @@ void EnTite_Destroy(Actor* thisx, PlayState* play) {
         if (spawner->curNumSpawn > 0) {
             spawner->curNumSpawn--;
         }
-        osSyncPrintf("\n\n");
-        // "Number of simultaneous occurrences"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, spawner->curNumSpawn);
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of simultaneous spawns ☆☆☆☆☆%d\n") VT_RST,
+               spawner->curNumSpawn);
+        PRINTF("\n\n");
     }
     Collider_DestroyJntSph(play, &this->collider);
 }
@@ -222,19 +238,19 @@ void EnTite_SetupIdle(EnTite* this) {
     Animation_MorphToLoop(&this->skelAnime, &object_tite_Anim_0012E4, 4.0f);
     this->action = TEKTITE_IDLE;
     this->vIdleTimer = Rand_S16Offset(15, 30);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnTite_SetupAction(this, EnTite_Idle);
 }
 
 void EnTite_Idle(EnTite* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     if (this->actor.params == TEKTITE_BLUE) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             // Float on water surface
             this->actor.gravity = 0.0f;
             Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.yDistToWater, 1.0f, 2.0f,
+            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.depthInWater, 1.0f, 2.0f,
                                0.0f);
         } else {
             this->actor.gravity = -1.0f;
@@ -256,7 +272,7 @@ void EnTite_SetupAttack(EnTite* this) {
     this->action = TEKTITE_ATTACK;
     this->vAttackState = TEKTITE_BEGIN_LUNGE;
     this->vQueuedJumps = Rand_S16Offset(1, 3);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     EnTite_SetupAction(this, EnTite_Attack);
@@ -265,9 +281,8 @@ void EnTite_SetupAttack(EnTite* this) {
 void EnTite_Attack(EnTite* this, PlayState* play) {
     s16 angleToPlayer;
     s32 attackState;
-    Vec3f ripplePos;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         attackState = this->vAttackState; // for deciding whether to change animation
         switch (this->vAttackState) {
             case TEKTITE_BEGIN_LUNGE:
@@ -277,19 +292,19 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                     if (this->actor.floorHeight > BGCHECK_Y_MIN) {
                         this->actor.world.pos.y = this->actor.floorHeight;
                     }
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
                 } else {
-                    this->actor.world.pos.y += this->actor.yDistToWater;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
+                    this->actor.world.pos.y += this->actor.depthInWater;
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
                 }
                 this->actor.velocity.y = 8.0f;
                 this->actor.gravity = -1.0f;
-                this->actor.speedXZ = 4.0f;
+                this->actor.speed = 4.0f;
                 break;
             case TEKTITE_MID_LUNGE:
                 // Continue trajectory until tektite has negative velocity and has landed on ground/water surface
                 // Snap to ground/water surface, or if falling fast dip into the water and slow fall speed
-                this->actor.flags |= ACTOR_FLAG_24;
+                this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
                 if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
                     ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) {
                     if (this->actor.velocity.y <= 0.0f) {
@@ -299,19 +314,20 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                                 this->actor.world.pos.y = this->actor.floorHeight;
                             }
                             this->actor.velocity.y = 0.0f;
-                            this->actor.speedXZ = 0.0f;
+                            this->actor.speed = 0.0f;
                         } else {
                             this->actor.gravity = 0.0f;
                             if (this->actor.velocity.y < -8.0f) {
-                                ripplePos = this->actor.world.pos;
-                                ripplePos.y += this->actor.yDistToWater;
+                                Vec3f ripplePos = this->actor.world.pos;
+
+                                ripplePos.y += this->actor.depthInWater;
                                 this->vAttackState++; // TEKTITE_SUBMERGED
                                 this->actor.velocity.y *= 0.75f;
                                 attackState = this->vAttackState;
                                 EffectSsGRipple_Spawn(play, &ripplePos, 0, 500, 0);
                             } else {
                                 this->actor.velocity.y = 0.0f;
-                                this->actor.speedXZ = 0.0f;
+                                this->actor.speed = 0.0f;
                             }
                         }
                         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -330,7 +346,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                 break;
             case TEKTITE_SUBMERGED:
                 // Check if floated to surface
-                if (this->actor.yDistToWater == 0.0f) {
+                if (this->actor.depthInWater == 0.0f) {
                     this->vAttackState = TEKTITE_LANDED;
                     attackState = this->vAttackState;
                 }
@@ -355,7 +371,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
             }
             break;
         case TEKTITE_MID_LUNGE:
-            // Generate sparkles at feet upon landing, set jumping animation and hurtbox and check if hit player
+            // Generate sparkles at feet upon landing, set jumping animation and attack collider and check if hit player
             if (this->actor.velocity.y >= 5.0f) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                     func_800355B8(play, &this->frontLeftFootPos);
@@ -364,17 +380,17 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                     func_800355B8(play, &this->backLeftFootPos);
                 }
             }
-            if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & ACTOR_FLAG_6)) {
+            if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
                 CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
             } else {
                 Player* player = GET_PLAYER(play);
                 this->collider.base.atFlags &= ~AT_HIT;
                 Animation_MorphToLoop(&this->skelAnime, &object_tite_Anim_0012E4, 4.0f);
-                this->actor.speedXZ = -6.0f;
+                this->actor.speed = -6.0f;
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 if (&player->actor == this->collider.base.at) {
                     if (!(this->collider.base.atFlags & AT_BOUNCED)) {
-                        Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
+                        Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
                     }
                 }
                 EnTite_SetupAction(this, EnTite_Recoil);
@@ -387,8 +403,8 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
         case TEKTITE_SUBMERGED:
             // Float up to water surface
             Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.yDistToWater, 1.0f, 2.0f,
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
+            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.depthInWater, 1.0f, 2.0f,
                                0.0f);
             break;
     }
@@ -401,22 +417,22 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
             func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
         }
     }
-    // if landed, kill XZ speed and play appropriate sounds
+    // if landed, kill XZ speed and play appropriate sound effect
     if (this->actor.params == TEKTITE_BLUE) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             if (this->vAttackState == TEKTITE_SUBMERGED) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_LAND_WATER);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_LAND_WATER);
             } else {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
             }
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
         } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         }
     } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+        this->actor.speed = 0.0f;
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 }
 
@@ -428,7 +444,7 @@ void EnTite_SetupTurnTowardPlayer(EnTite* this) {
         if (this->actor.velocity.y <= 0.0f) {
             this->actor.gravity = 0.0f;
             this->actor.velocity.y = 0.0f;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     }
     EnTite_SetupAction(this, EnTite_TurnTowardPlayer);
@@ -443,11 +459,11 @@ void EnTite_TurnTowardPlayer(EnTite* this, PlayState* play) {
         (this->actor.velocity.y <= 0.0f)) {
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
     // Calculate turn velocity and animation speed based on angle to player
     if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-        this->actor.world.pos.y += this->actor.yDistToWater;
+        this->actor.world.pos.y += this->actor.depthInWater;
     }
     angleToPlayer = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor) - this->actor.world.rot.y;
     if (angleToPlayer > 0) {
@@ -464,14 +480,14 @@ void EnTite_TurnTowardPlayer(EnTite* this, PlayState* play) {
     }
 
     /**
-     * Play sounds once every animation cycle
+     * Play sound effect once every animation cycle
      */
     SkelAnime_Update(&this->skelAnime);
     if (((s16)this->skelAnime.curFrame & 7) == 0) {
         if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_WALK_WATER);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_WALK_WATER);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_WALK);
         }
     }
 
@@ -493,12 +509,12 @@ void EnTite_SetupMoveTowardPlayer(EnTite* this) {
     this->action = TEKTITE_MOVE_TOWARD_PLAYER;
     this->actor.velocity.y = 10.0f;
     this->actor.gravity = -1.0f;
-    this->actor.speedXZ = 4.0f;
+    this->actor.speed = 4.0f;
     this->vQueuedJumps = Rand_S16Offset(1, 3);
     if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
     } else {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     }
     EnTite_SetupAction(this, EnTite_MoveTowardPlayer);
 }
@@ -507,7 +523,7 @@ void EnTite_SetupMoveTowardPlayer(EnTite* this) {
  *  Jumping toward player as a method of travel (different from attacking, has no hitbox)
  */
 void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 1.0f, 0.0f);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WATER_TOUCH)) {
@@ -516,9 +532,9 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
             func_80033480(play, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_LAND_WATER);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_LAND_WATER);
         }
     }
 
@@ -536,7 +552,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
           (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)))) &&
         (this->actor.velocity.y <= 0.0f)) {
         // slightly turn toward player upon landing and snap to ground or water.
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4000, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if ((this->actor.params != TEKTITE_BLUE) || !(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
@@ -546,7 +562,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
         } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
             Vec3f ripplePos = this->actor.world.pos;
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-            ripplePos.y += this->actor.yDistToWater;
+            ripplePos.y += this->actor.depthInWater;
             this->actor.gravity = 0.0f;
             this->actor.velocity.y *= 0.75f;
             EffectSsGRipple_Spawn(play, &ripplePos, 0, 500, 0);
@@ -554,9 +570,9 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
         } else {
             // If submerged, float to surface
             Math_SmoothStepToF(&this->actor.velocity.y, 0.0f, 1.0f, 2.0f, 0.0f);
-            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.yDistToWater, 1.0f, 2.0f,
+            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.world.pos.y + this->actor.depthInWater, 1.0f, 2.0f,
                                0.0f);
-            if (this->actor.yDistToWater != 0.0f) {
+            if (this->actor.depthInWater != 0.0f) {
                 // Do not change state until tekite has floated to surface
                 return;
             }
@@ -570,30 +586,30 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
                 EnTite_SetupTurnTowardPlayer(this);
             } else {
                 this->actor.velocity.y = 10.0f;
-                this->actor.speedXZ = 4.0f;
-                this->actor.flags |= ACTOR_FLAG_24;
+                this->actor.speed = 4.0f;
+                this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
                 this->actor.gravity = -1.0f;
                 if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
                 } else {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
                 }
             }
         } else {
             this->actor.velocity.y = 10.0f;
-            this->actor.speedXZ = 4.0f;
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.speed = 4.0f;
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
             this->actor.gravity = -1.0f;
             if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
             } else {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
             }
         }
         // If in midair:
     } else {
         // Turn slowly toward player
-        this->actor.flags |= ACTOR_FLAG_24;
+        this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 1000, 0);
         if (this->actor.velocity.y >= 6.0f) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
@@ -609,7 +625,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
 void EnTite_SetupRecoil(EnTite* this) {
     this->action = TEKTITE_RECOIL;
     Animation_MorphToLoop(&this->skelAnime, &object_tite_Anim_0012E4, 4.0f);
-    this->actor.speedXZ = -6.0f;
+    this->actor.speed = -6.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actor.gravity = -1.0f;
     EnTite_SetupAction(this, EnTite_Recoil);
@@ -622,7 +638,7 @@ void EnTite_Recoil(EnTite* this, PlayState* play) {
     s16 angleToPlayer;
 
     // Snap to ground or water surface upon landing
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
          (this->actor.params == TEKTITE_BLUE && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) &&
         (this->actor.velocity.y <= 0.0f)) {
@@ -633,27 +649,27 @@ void EnTite_Recoil(EnTite* this, PlayState* play) {
         } else {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = 0.0f;
-            this->actor.world.pos.y += this->actor.yDistToWater;
+            this->actor.world.pos.y += this->actor.depthInWater;
         }
     }
 
-    // play sound and generate ripples
+    // play sound effect and generate ripples
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WATER_TOUCH)) {
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
             func_80033480(play, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
         }
     }
 
     // If player is far away, idle. Otherwise attack or move
     angleToPlayer = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
-    if ((this->actor.speedXZ == 0.0f) &&
+    if ((this->actor.speed == 0.0f) &&
         ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
          ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -677,12 +693,12 @@ void EnTite_SetupStunned(EnTite* this) {
     Animation_Change(&this->skelAnime, &object_tite_Anim_0012E4, 0.0f, 0.0f,
                      (f32)Animation_GetLastFrame(&object_tite_Anim_0012E4), ANIMMODE_LOOP, 4.0f);
     this->action = TEKTITE_STUNNED;
-    this->actor.speedXZ = -6.0f;
+    this->actor.speed = -6.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    if (this->damageEffect == 0xF) {
+    if (this->damageReaction == 0xF) {
         this->spawnIceTimer = 48;
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnTite_SetupAction(this, EnTite_Stunned);
 }
 
@@ -692,7 +708,7 @@ void EnTite_SetupStunned(EnTite* this) {
 void EnTite_Stunned(EnTite* this, PlayState* play) {
     s16 angleToPlayer;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     // Snap to ground or water
     if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
          ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) &&
@@ -704,25 +720,25 @@ void EnTite_Stunned(EnTite* this, PlayState* play) {
         } else {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = 0.0f;
-            this->actor.world.pos.y += this->actor.yDistToWater;
+            this->actor.world.pos.y += this->actor.depthInWater;
         }
     }
-    // Play sounds and spawn dirt effects upon landing
+    // Play sound effect and spawn dirt effects upon landing
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WATER_TOUCH)) {
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
             func_80033480(play, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
         }
     }
     // Decide on next action based on health, flip state and player distance
     angleToPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (((this->actor.colorFilterTimer == 0) && (this->actor.speedXZ == 0.0f)) &&
+    if (((this->actor.colorFilterTimer == 0) && (this->actor.speed == 0.0f)) &&
         ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
          ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -748,7 +764,7 @@ void EnTite_Stunned(EnTite* this, PlayState* play) {
 void EnTite_SetupDeathCry(EnTite* this) {
     this->action = TEKTITE_DEATH_CRY;
     this->actor.colorFilterTimer = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnTite_SetupAction(this, EnTite_DeathCry);
 }
 
@@ -780,10 +796,10 @@ void EnTite_FallApart(EnTite* this, PlayState* play) {
 void EnTite_SetupFlipOnBack(EnTite* this) {
 
     Animation_PlayLoopSetSpeed(&this->skelAnime, &object_tite_Anim_000A14, 1.5f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_REVERSE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_REVERSE);
     this->flipState = TEKTITE_FLIPPED;
     this->vOnBackTimer = 500;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = -1.0f;
     this->vLegTwitchTimer = (Rand_ZeroOne() * 50.0f);
     this->actor.velocity.y = 11.0f;
@@ -806,7 +822,7 @@ void EnTite_FlipOnBack(EnTite* this, PlayState* play) {
         // Upon landing, spawn dust and make noise
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 20.0f, 11, 4.0f, 0, 0, false);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->vOnBackTimer--;
         if (this->vOnBackTimer == 0) {
@@ -825,7 +841,7 @@ void EnTite_SetupFlipUpright(EnTite* this) {
     this->actionVar1 = 1000; // value unused here and overwritten in SetupIdle
     //! @bug flying tektite: water sets gravity to 0 so y velocity will never decrease from 13
     this->actor.velocity.y = 13.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_REVERSE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_REVERSE);
     EnTite_SetupAction(this, EnTite_FlipUpright);
 }
 
@@ -840,7 +856,7 @@ void EnTite_FlipUpright(EnTite* this, PlayState* play) {
         func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
         this->actor.shape.yOffset = 0.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnTite_SetupIdle(this);
     }
 }
@@ -850,27 +866,27 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
 
     if ((this->collider.base.acFlags & AC_HIT) && (this->action >= TEKTITE_IDLE)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (thisx->colChkInfo.damageEffect != 0xE) { // Immune to fire magic
-            this->damageEffect = thisx->colChkInfo.damageEffect;
-            Actor_SetDropFlag(thisx, &this->collider.elements[0].info, false);
+        if (thisx->colChkInfo.damageReaction != 0xE) { // Immune to fire magic
+            this->damageReaction = thisx->colChkInfo.damageReaction;
+            Actor_SetDropFlag(thisx, &this->collider.elements[0].base, false);
             // Stun if Tektite hit by nut, boomerang, hookshot, ice arrow or ice magic
-            if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)) {
+            if ((thisx->colChkInfo.damageReaction == 1) || (thisx->colChkInfo.damageReaction == 0xF)) {
                 if (this->action != TEKTITE_STUNNED) {
-                    Actor_SetColorFilter(thisx, 0, 0x78, 0, 0x50);
+                    Actor_SetColorFilter(thisx, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(thisx);
                     EnTite_SetupStunned(this);
                 }
                 // Otherwise apply damage and handle death where necessary
             } else {
                 if ((thisx->colorFilterTimer == 0) || ((thisx->colorFilterParams & 0x4000) == 0)) {
-                    Actor_SetColorFilter(thisx, 0x4000, 0xFF, 0, 8);
+                    Actor_SetColorFilter(thisx, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
                     Actor_ApplyDamage(thisx);
                 }
                 if (thisx->colChkInfo.health == 0) {
                     EnTite_SetupDeathCry(this);
                 } else {
                     // Flip tektite back up if it's on its back
-                    Audio_PlayActorSound2(thisx, NA_SE_EN_TEKU_DAMAGE);
+                    Actor_PlaySfx(thisx, NA_SE_EN_TEKU_DAMAGE);
                     if (this->flipState != TEKTITE_FLIPPED) {
                         EnTite_SetupRecoil(this);
                     } else {
@@ -900,9 +916,9 @@ void EnTite_Update(Actor* thisx, PlayState* play) {
 
     EnTite_CheckDamage(thisx, play);
     // Stay still if hit by immunity damage type this frame
-    if (thisx->colChkInfo.damageEffect != 0xE) {
+    if (thisx->colChkInfo.damageReaction != 0xE) {
         this->actionFunc(this, play);
-        Actor_MoveForward(thisx);
+        Actor_MoveXZGravity(thisx);
         Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 40.0f, 20.0f, this->unk_2DC);
         // If on water, snap feet to surface and spawn ripples
         if ((this->actor.params == TEKTITE_BLUE) && (thisx->bgCheckFlags & BGCHECKFLAG_WATER)) {
@@ -980,7 +996,7 @@ void EnTite_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** limbDList, Vec3s*
             break;
     }
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 24, 24, limbDList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 24, 24, limbDList, BODYBREAK_OBJECT_SLOT_DEFAULT);
 }
 
 void EnTite_Draw(Actor* thisx, PlayState* play) {

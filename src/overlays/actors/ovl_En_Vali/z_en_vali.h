@@ -2,13 +2,13 @@
 #define Z_EN_VALI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnVali;
 
-typedef void (*EnValiActionFunc)(struct EnVali*, PlayState*);
+typedef void (*EnValiActionFunc)(struct EnVali*, struct PlayState*);
 
-typedef enum {
+typedef enum EnValiLimb {
     /* 0x00 */ EN_VALI_LIMB_NONE,
     /* 0x01 */ EN_VALI_LIMB_NUCLEUS_BASE,
     /* 0x02 */ EN_VALI_LIMB_NUCLEUS,
@@ -57,7 +57,7 @@ typedef struct EnVali {
     /* 0x03FC */ ColliderCylinder bodyCollider;
 } EnVali; // size = 0x0448
 
-typedef enum {
+typedef enum EnValiType {
     /* 0 */ BARI_TYPE_NORMAL,
     /* 1 */ BARI_TYPE_SWORD_DAMAGE
 } EnValiType;

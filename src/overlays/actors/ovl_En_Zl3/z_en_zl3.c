@@ -6,13 +6,36 @@
 
 #include "z_en_zl3.h"
 
-#include "vt.h"
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "frame_advance.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/objects/object_zl2/object_zl2.h"
 #include "assets/objects/object_zl2_anime2/object_zl2_anime2.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnZl3_Init(Actor* thisx, PlayState* play);
 void EnZl3_Destroy(Actor* thisx, PlayState* play);
@@ -22,18 +45,18 @@ void func_80B59AD0(EnZl3* this, PlayState* play);
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 25, 80, 0, { 0, 0, 0 } },
@@ -49,20 +72,6 @@ static s32 D_80B5A468 = 0;
 static Vec3f D_80B5A46C = { 0.0f, 0.0f, 0.0f };
 
 static Vec3f D_80B5A478 = { 0.0f, 10.0f, 0.0f };
-
-static f32 D_80B5A484 = 0.0f;
-
-static Vec3f D_80B5A488 = { 0.0f, 0.0f, 0.0f };
-
-static s32 D_80B5A494 = -1;
-
-static Vec3f D_80B5A498 = { 148.0f, 260.0f, -87.0f };
-
-static Vec3f D_80B5A4A4 = { -12.0f, 260.0f, -147.0f };
-
-static Vec3f D_80B5A4B0 = { 42.0f, 260.0f, 13.0f };
-
-static u32 D_80B5A4BC = 0;
 
 void func_80B533B0(Actor* thisx, PlayState* play) {
     EnZl3* this = (EnZl3*)thisx;
@@ -86,7 +95,7 @@ void EnZl3_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80B53468(void) {
-    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ESCAPE);
+    SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_ESCAPE);
 }
 
 BossGanon2* func_80B53488(EnZl3* this, PlayState* play) {
@@ -133,7 +142,7 @@ void func_80B5357C(EnZl3* this, PlayState* play) {
     sp20.x = thisPos->x + ((Rand_ZeroOne() - 0.5f) * 10.0f);
     sp20.y = thisPos->y;
     sp20.z = thisPos->z + ((Rand_ZeroOne() - 0.5f) * 10.0f);
-    Item_DropCollectible(play, &sp20, ITEM00_HEART);
+    Item_DropCollectible(play, &sp20, ITEM00_RECOVERY_HEART);
 }
 
 void func_80B53614(EnZl3* this, PlayState* play) {
@@ -150,21 +159,21 @@ void func_80B536B4(EnZl3* this) {
 
 void func_80B536C4(EnZl3* this) {
     s32 pad[2];
-    Vec3s* vec1 = &this->unk_3F8.unk_08;
-    Vec3s* vec2 = &this->unk_3F8.unk_0E;
+    Vec3s* headRot = &this->interactInfo.headRot;
+    Vec3s* torsoRot = &this->interactInfo.torsoRot;
 
-    Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec2->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec2->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->y, 0, 20, 6200, 100);
 }
 
 void func_80B53764(EnZl3* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_3F8.unk_18 = player->actor.world.pos;
-    this->unk_3F8.unk_14 = kREG(16) - 16.0f;
-    func_80034A14(&this->actor, &this->unk_3F8, kREG(17) + 0xC, 2);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) - 16.0f;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 s32 func_80B537E8(EnZl3* this) {
@@ -254,7 +263,7 @@ void func_80B53980(EnZl3* thisx, s16 y, s32 idx) {
                 curFrame = skelAnime->curFrame;
                 unk_3DC = this->unk_3DC;
                 yTemp = (s32)((curFrame / unk_3DC) * -11000) + y;
-                if (0) {};
+
                 if (temp28C >= yTemp) {
                     temp28C = yTemp;
                     if (temp25C > 0) {
@@ -285,7 +294,6 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
     s32 temp_a0;
     s32 phi_v0;
     s32 phi_v1;
-    s32 phi_v1_2;
 
     if (idx == 2) {
         phi_a1 = 15000;
@@ -329,18 +337,26 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
 
         if (idx == 2 && (action == 5 || action == 24)) {
             if (phi_v1 != 0) {
+                s32 pad;
+
                 phi_v0 -= (phi_v1 - phi_v0) / 10;
             }
         } else if (idx == 2 && action == 22 && skelAnime->mode == 2) {
             if (phi_v1 != 0) {
+                s32 pad;
+
                 phi_v0 -= (phi_v1 - phi_v0) / 10;
             }
         } else if (idx == 2 && (action == 20 || action == 21) && skelAnime->mode == 2) {
             if (phi_v1 != 0) {
+                s32 pad;
+
                 phi_v0 -= (phi_v1 - phi_v0) / 10;
             }
         } else {
             if (phi_v1 != 0) {
+                s32 pad;
+
                 phi_v0 += (phi_v1 - phi_v0) / 16;
             }
         }
@@ -366,8 +382,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 if (skelAnime->mode == 2) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E0 = this->unk_3E0;
+                    s32 phi_v1_2 = (s32)(((unk_3E0 - curFrame) / unk_3E0) * -2000.0f) + phi_a1;
 
-                    phi_v1_2 = (s32)(((unk_3E0 - curFrame) / unk_3E0) * -2000.0f) + phi_a1;
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -379,8 +395,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 if (skelAnime->mode == 2) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E4 = this->unk_3E4;
+                    s32 phi_v1_2 = (s32)((curFrame / unk_3E4) * -2000.0f) + phi_a1;
 
-                    phi_v1_2 = (s32)((curFrame / unk_3E4) * -2000.0f) + phi_a1;
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -388,7 +404,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                         }
                     }
                 } else {
-                    phi_v1_2 = phi_a1 - 2000;
+                    s32 phi_v1_2 = phi_a1 - 2000;
+
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -400,6 +417,7 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 if (skelAnime->mode == 2) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3F4 = this->unk_3F4;
+                    s32 phi_v1_2;
 
                     if (curFrame <= 42.0f) {
                         phi_v1_2 = phi_a1 - 2000;
@@ -414,7 +432,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                         }
                     }
                 } else {
-                    phi_v1_2 = phi_a1 + 4200;
+                    s32 phi_v1_2 = phi_a1 + 4200;
+
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -426,8 +445,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 if (skelAnime->mode == 2) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3EC = this->unk_3EC;
+                    s32 phi_v1_2 = (s32)(((curFrame / unk_3EC) * -5200.0f) + 4200.0f) + phi_a1;
 
-                    phi_v1_2 = (s32)(((curFrame / unk_3EC) * -5200.0f) + 4200.0f) + phi_a1;
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -435,7 +454,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                         }
                     }
                 } else {
-                    phi_v1_2 = phi_a1 - 2000;
+                    s32 phi_v1_2 = phi_a1 - 2000;
+
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -447,8 +467,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 if (skelAnime->mode == 2) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3F0 = this->unk_3F0;
+                    s32 phi_v1_2 = (s32)(((curFrame / unk_3F0) * -7600.0f) + -2000.0f) + phi_a1;
 
-                    phi_v1_2 = (s32)(((curFrame / unk_3F0) * -7600.0f) + -2000.0f) + phi_a1;
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -456,7 +476,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                         }
                     }
                 } else {
-                    phi_v1_2 = phi_a1 - 9600;
+                    s32 phi_v1_2 = phi_a1 - 9600;
+
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -468,8 +489,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 if (skelAnime->mode == 2) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E8 = this->unk_3E8;
+                    s32 phi_v1_2 = (s32)(((curFrame / unk_3E8) * 21000.0f) + -9600.0f) + phi_a1;
 
-                    phi_v1_2 = (s32)(((curFrame / unk_3E8) * 21000.0f) + -9600.0f) + phi_a1;
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -477,7 +498,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                         }
                     }
                 } else {
-                    phi_v1_2 = phi_a1 + 11400;
+                    s32 phi_v1_2 = phi_a1 + 11400;
+
                     if (phi_v1_2 >= temp_a0) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 < 0) {
@@ -491,8 +513,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 if (skelAnime->mode == 2) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E0 = this->unk_3E0;
+                    s32 phi_v1_2 = (s32)((curFrame / unk_3E0) * -7000.0f) + phi_a1;
 
-                    phi_v1_2 = (s32)((curFrame / unk_3E0) * -7000.0f) + phi_a1;
                     if (temp_a0 >= phi_v1_2) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 > 0) {
@@ -500,7 +522,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                         }
                     }
                 } else {
-                    phi_v1_2 = phi_a1 - 7000;
+                    s32 phi_v1_2 = phi_a1 - 7000;
+
                     if (temp_a0 >= phi_v1_2) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 > 0) {
@@ -512,8 +535,8 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                 if (skelAnime->mode == 2) {
                     f32 curFrame = skelAnime->curFrame;
                     f32 unk_3E4 = this->unk_3E4;
+                    s32 phi_v1_2 = (s32)(((unk_3E4 - curFrame) / unk_3E4) * -7000.0f) + phi_a1;
 
-                    phi_v1_2 = (s32)(((unk_3E4 - curFrame) / unk_3E4) * -7000.0f) + phi_a1;
                     if (temp_a0 >= phi_v1_2) {
                         temp_a0 = phi_v1_2;
                         if (phi_v0 > 0) {
@@ -537,7 +560,7 @@ void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
         s32 temp_t3 = this->unk_25C[arg2];
         s32 phi_v0 = temp_t3;
         s32 index25C;
-        s32 phi_t5;
+        int phi_t5;
 
         temp_t3 = arg1 - this->unk_2BC[arg2];
 
@@ -596,19 +619,20 @@ void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
 }
 
 s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
-    s32 pad[3];
+    s32 pad[2];
     EnZl3* this = (EnZl3*)thisx;
-    s16* unk_28C = this->unk_28C;
-    Mtx* sp78;
-    MtxF sp38;
-    Vec3s sp30;
-    Vec3s* unk_3F8_unk_08 = &this->unk_3F8.unk_08;
-    Vec3s* unk_3F8_unk_0E = &this->unk_3F8.unk_0E;
+    Vec3s* headRot = &this->interactInfo.headRot;
+    Vec3s* torsoRot = &this->interactInfo.torsoRot;
 
     if (limbIndex == 14) {
-        sp78 = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 7);
-        rot->x += unk_3F8_unk_08->y;
-        rot->z += unk_3F8_unk_08->x;
+        Mtx* sp78 = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 7);
+        MtxF sp38;
+        Vec3s sp30;
+        s16* unk_28C = this->unk_28C;
+        s32 pad2;
+
+        rot->x += headRot->y;
+        rot->z += headRot->x;
         gSPSegment((*gfx)++, 0x0C, sp78);
 
         Matrix_Push();
@@ -625,7 +649,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_28C[0] + kREG(31), unk_28C[1] + kREG(32), unk_28C[2] + kREG(33), MTXMODE_APPLY);
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp78[0], "../z_en_zl3.c", 1490);
+        MATRIX_TO_MTX(&sp78[0], "../z_en_zl3.c", 1490);
         Matrix_Get(&sp38);
         Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
@@ -633,7 +657,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_28C[3] + kREG(34), unk_28C[4] + kREG(35), unk_28C[5] + kREG(36), MTXMODE_APPLY);
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp78[1], "../z_en_zl3.c", 1534);
+        MATRIX_TO_MTX(&sp78[1], "../z_en_zl3.c", 1534);
         Matrix_Get(&sp38);
         Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
@@ -641,7 +665,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_28C[6] + kREG(37), unk_28C[7] + kREG(38), unk_28C[8] + kREG(39), MTXMODE_APPLY);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp78[2], "../z_en_zl3.c", 1554);
+        MATRIX_TO_MTX(&sp78[2], "../z_en_zl3.c", 1554);
         Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
@@ -654,7 +678,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_28C[9] + kREG(40), unk_28C[10] + kREG(41), unk_28C[11] + kREG(42), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp78[3], "../z_en_zl3.c", 1579);
+        MATRIX_TO_MTX(&sp78[3], "../z_en_zl3.c", 1579);
         Matrix_Get(&sp38);
         Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
@@ -664,7 +688,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_28C[12] + kREG(43), unk_28C[13] + kREG(44), unk_28C[14] + kREG(45), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp78[4], "../z_en_zl3.c", 1598);
+        MATRIX_TO_MTX(&sp78[4], "../z_en_zl3.c", 1598);
         Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
@@ -677,7 +701,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_28C[15] + kREG(46), unk_28C[16] + kREG(47), unk_28C[17] + kREG(48), MTXMODE_APPLY);
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp78[5], "../z_en_zl3.c", 1623);
+        MATRIX_TO_MTX(&sp78[5], "../z_en_zl3.c", 1623);
         Matrix_Get(&sp38);
         Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(play)) {
@@ -687,13 +711,13 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         }
         Matrix_RotateZYX(unk_28C[18] + kREG(49), unk_28C[19] + kREG(50), unk_28C[20] + kREG(51), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&sp78[6], "../z_en_zl3.c", 1642);
+        MATRIX_TO_MTX(&sp78[6], "../z_en_zl3.c", 1642);
         Matrix_Pop();
         Matrix_Pop();
         this->unk_2FC = 1;
     } else if (limbIndex == 7) {
-        rot->x += unk_3F8_unk_0E->y;
-        rot->y -= unk_3F8_unk_0E->x;
+        rot->x += torsoRot->y;
+        rot->y -= torsoRot->x;
     }
     return false;
 }
@@ -701,16 +725,16 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
 void EnZl3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnZl3* this = (EnZl3*)thisx;
     s32 pad;
-    Vec3f sp34;
-    s32 pad2;
-    Vec3f sp24;
-    Vec3f sp18;
 
     if (limbIndex == 13) {
-        sp34 = D_80B5A46C;
+        Vec3f sp34 = D_80B5A46C;
+        s32 pad2;
+
         Matrix_MultVec3f(&sp34, &this->unk_31C);
     } else if (limbIndex == 14) {
-        sp24 = D_80B5A478;
+        Vec3f sp24 = D_80B5A478;
+        Vec3f sp18;
+
         Matrix_MultVec3f(&sp24, &sp18);
         this->actor.focus.pos.x = sp18.x;
         this->actor.focus.pos.y = sp18.y;
@@ -722,27 +746,27 @@ void EnZl3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 s32 func_80B54DB4(EnZl3* this) {
-    s32 params = this->actor.params >> 8;
+    s32 params = PARAMS_GET_U(this->actor.params, 8, 8);
 
-    return params & 0xFF;
+    return params;
 }
 
 s32 func_80B54DC4(EnZl3* this) {
-    s32 params = this->actor.params >> 4;
+    s32 params = PARAMS_GET_U(this->actor.params, 4, 4);
 
-    return params & 0xF;
+    return params;
 }
 
 s32 func_80B54DD4(EnZl3* this) {
-    s32 params = this->actor.params;
+    s32 params = PARAMS_GET_U(this->actor.params, 0, 4);
 
-    return params & 0xF;
+    return params;
 }
 
 void func_80B54DE0(EnZl3* this, PlayState* play) {
-    s32 idx = this->unk_318;
+    s32 objectSlot = this->zl2Anime2ObjectSlot;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[idx].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 }
 
 void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
@@ -773,7 +797,7 @@ void func_80B54EA4(EnZl3* this, PlayState* play) {
 }
 
 void func_80B54EF4(EnZl3* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B54F18(EnZl3* this, PlayState* play) {
@@ -789,7 +813,8 @@ void func_80B54F18(EnZl3* this, PlayState* play) {
 }
 
 void func_80B54FB4(EnZl3* this, PlayState* play) {
-    osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_inFinal_Init通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    PRINTF(T("ゼルダ姫のEn_Zl3_Actor_inFinal_Init通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+             "I'm going through Princess Zelda's En_Zl3_Actor_inFinal_Init!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
     func_80B54E14(this, &gZelda2Anime2Anim_008AD0, 0, 0.0f, 0);
     EnZl3_setEyeIndex(this, 4);
     EnZl3_setMouthIndex(this, 2);
@@ -799,7 +824,8 @@ void func_80B54FB4(EnZl3* this, PlayState* play) {
     this->actor.shape.rot.z = 0;
     this->unk_3C4 = this->actor.world.rot.z;
     this->actor.world.rot.z = this->actor.shape.rot.z;
-    osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_inFinal_Initは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    PRINTF(T("ゼルダ姫のEn_Zl3_Actor_inFinal_Initは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+             "Princess Zelda's En_Zl3_Actor_inFinal_Init passed!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
 }
 
 void func_80B55054(EnZl3* this) {
@@ -810,6 +836,8 @@ void func_80B55054(EnZl3* this) {
             f32* temp_v0 = &this->unk_2EC;
 
             if (*temp_v0 < 19.0f) {
+                s32 pad;
+
                 ((DoorWarp1*)child)->crystalAlpha = (20.0f - *temp_v0) * 12.75f;
                 *temp_v0 += 1.0f;
             } else {
@@ -831,15 +859,13 @@ void func_80B550F0(EnZl3* this) {
 }
 
 void func_80B55144(EnZl3* this) {
-    f32* fl = &D_80B5A484;
+    static f32 D_80B5A484 = 0.0f;
 
-    if (1) {} // necessary to match
-
-    if (*fl < 2.0f) {
-        *fl += 1.0f;
+    if (D_80B5A484 < 2.0f) {
+        D_80B5A484 += 1.0f;
         EnZl3_setEyeIndex(this, 2);
-    } else if (*fl < 4.0f) {
-        *fl += 1.0f;
+    } else if (D_80B5A484 < 4.0f) {
+        D_80B5A484 += 1.0f;
         EnZl3_setEyeIndex(this, 1);
     } else {
         EnZl3_UpdateEyes(this);
@@ -944,7 +970,8 @@ void func_80B55444(EnZl3* this, PlayState* play) {
                     this->unk_328 = 1;
                     FALLTHROUGH;
                 default:
-                    osSyncPrintf("En_Zl3_inFinal_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Zl3_inFinal_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Zl3_inFinal_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->unk_2F0 = temp_v0;
@@ -1003,28 +1030,32 @@ void func_80B5572C(EnZl3* this, PlayState* play) {
 }
 
 void func_80B55780(EnZl3* this, PlayState* play) {
-    osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_inFinal2_Init通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    PRINTF(T("ゼルダ姫のEn_Zl3_Actor_inFinal2_Init通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+             "I'm going through Princess Zelda's En_Zl3_Actor_inFinal2_Init!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
     func_80B54E14(this, &gZelda2Anime2Anim_005A0C, 0, 0.0f, 0);
     this->action = 7;
     this->drawConfig = 1;
-    osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_inFinal2_Initは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    PRINTF(T("ゼルダ姫のEn_Zl3_Actor_inFinal2_Initは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+             "Princess Zelda's En_Zl3_Actor_inFinal2_Init passed!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
     EnZl3_setMouthIndex(this, 1);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void func_80B55808(EnZl3* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
+static Vec3f D_80B5A488 = { 0.0f, 0.0f, 0.0f };
+
 void func_80B5582C(EnZl3* this) {
-    Audio_PlaySoundRandom(&D_80B5A488, NA_SE_VO_Z1_CRY_0, NA_SE_VO_Z1_CRY_1 - NA_SE_VO_Z1_CRY_0 + 1);
+    Audio_PlaySfxRandom(&D_80B5A488, NA_SE_VO_Z1_CRY_0, NA_SE_VO_Z1_CRY_1 - NA_SE_VO_Z1_CRY_0 + 1);
 }
 
 void func_80B5585C(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if ((skelAnime->mode == 2) && Animation_OnFrame(skelAnime, 4.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
     }
 }
 
@@ -1106,8 +1137,8 @@ void func_80B55C4C(EnZl3* this, s32 arg1) {
 void func_80B55C70(EnZl3* this) {
     func_80B54E14(this, &gZelda2Anime2Anim_008684, 2, -8.0f, 0);
     this->action = 12;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void func_80B55CCC(EnZl3* this, s32 arg1) {
@@ -1117,23 +1148,23 @@ void func_80B55CCC(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55D00(EnZl3* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->action = 13;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.textId = 0x70D5;
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
 }
 
 void func_80B55DB0(EnZl3* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->action = 12;
     }
 }
@@ -1173,20 +1204,20 @@ void func_80B55F38(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55F6C(EnZl3* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->action = 0x12;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, play);
 
         if ((bossGanon2 != NULL) && (bossGanon2->unk_324 <= (10.0f / 81.0f))) {
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.textId = 0x7059;
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
     } else {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
 }
 
@@ -1211,8 +1242,8 @@ void func_80B56090(EnZl3* this, s32 arg1) {
 
 void func_80B56108(EnZl3* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->action = 16;
     }
 }
@@ -1234,29 +1265,29 @@ void func_80B561E0(EnZl3* this, s32 arg1) {
 }
 
 void func_80B56214(EnZl3* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->action = 21;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, play);
 
         if (bossGanon2 != NULL) {
             if (bossGanon2->unk_324 <= (10.0f / 81.0f)) {
-                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-                this->actor.flags |= ACTOR_FLAG_0;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
+                this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
                 this->actor.textId = 0x7059;
-                func_8002F2F4(&this->actor, play);
+                Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
             }
         }
     } else {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
 }
 
 void func_80B562F4(EnZl3* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         this->action = 20;
     }
 }
@@ -1295,15 +1326,13 @@ void func_80B56474(EnZl3* this, s32 arg1) {
 }
 
 void func_80B564A8(EnZl3* this, PlayState* play) {
-    s32 temp_v0;
-    s32* val = &D_80B5A494;
+    static s32 D_80B5A494 = -1;
+    s32 temp_v0 = func_80B5396C(this);
 
-    temp_v0 = func_80B5396C(this);
-
-    if (*val > 0) {
-        *val -= 1;
-    } else if (*val == 0) {
-        *val -= 1;
+    if (D_80B5A494 > 0) {
+        D_80B5A494--;
+    } else if (D_80B5A494 == 0) {
+        D_80B5A494--;
         if (temp_v0 == 8) {
             func_80B5604C(this);
         }
@@ -1339,7 +1368,7 @@ void func_80B564A8(EnZl3* this, PlayState* play) {
                     func_80B55EF0(this);
                     break;
                 case 8:
-                    *val = 10;
+                    D_80B5A494 = 10;
                     break;
                 case 9:
                     func_80B56160(this);
@@ -1360,7 +1389,8 @@ void func_80B564A8(EnZl3* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    osSyncPrintf("En_Zl3_inFinal2_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Zl3_inFinal2_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Zl3_inFinal2_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->unk_2F0 = temp_v0;
         }
@@ -1535,18 +1565,18 @@ void func_80B56D44(EnZl3* this, PlayState* play) {
 }
 
 void func_80B56DA4(EnZl3* this) {
-    func_800788CC(NA_SE_EV_ZELDA_POWER);
+    Sfx_PlaySfxCentered2(NA_SE_EV_ZELDA_POWER);
 }
 
 void func_80B56DC8(EnZl3* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B56DEC(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if ((skelAnime->mode == 2) && Animation_OnFrame(skelAnime, 9.0f) != 0) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
     }
 }
 
@@ -1557,9 +1587,9 @@ void func_80B56E38(EnZl3* this, PlayState* play) {
 
     if ((Animation_OnFrame(sp20, 6.0f) || Animation_OnFrame(sp20, 0.0f)) &&
         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        sfxId = 0x800;
-        sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        func_80078914(&this->actor.projectedPos, sfxId);
+        sfxId = NA_SE_PL_WALK_GROUND;
+        sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, sfxId);
     }
 }
 
@@ -1573,16 +1603,19 @@ s32 func_80B56EE4(EnZl3* this, PlayState* play) {
 
 void func_80B56F10(EnZl3* this, PlayState* play) {
     s32 waypoint;
-    Path* pathHead = play->setupPathList;
+    Path* pathHead = play->pathList;
 
     if (pathHead != NULL) {
         waypoint = func_80B54DC4(this);
         pathHead += waypoint;
         this->unk_30C = pathHead;
         this->unk_310 = pathHead->count;
-        osSyncPrintf("En_Zl3_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", waypoint);
+        PRINTF(T("En_Zl3_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n",
+                 "En_Zl3_Get_path_info Got the rail data = %d!!!!!!!!!!!!!!\n"),
+               waypoint);
     } else {
-        osSyncPrintf("En_Zl3_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF(T("En_Zl3_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n",
+                 "En_Zl3_Get_path_info No rail data!!!!!!!!!!!!!!!!!!!!\n"));
     }
 }
 
@@ -1673,12 +1706,12 @@ void func_80B57298(EnZl3* this) {
 }
 
 u16 func_80B572F0(PlayState* play) {
-    s16 sceneNum = play->sceneNum;
+    s16 sceneId = play->sceneId;
     u16 ret;
 
-    if (sceneNum == SCENE_GANON_SONOGO) {
+    if (sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) {
         ret = 0x71A8;
-    } else if (sceneNum == SCENE_GANON_FINAL) {
+    } else if (sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) {
         ret = 0x71A9;
     } else {
         ret = 0x71AB;
@@ -1687,7 +1720,7 @@ u16 func_80B572F0(PlayState* play) {
 }
 
 s32 func_80B57324(EnZl3* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         return 1;
     }
     return 0;
@@ -1697,9 +1730,9 @@ void func_80B57350(EnZl3* this, PlayState* play) {
     s16 temp_v0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (ABS(temp_v0) <= 0x4300) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = func_80B572F0(play);
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     }
 }
 
@@ -1768,9 +1801,9 @@ s32 func_80B575D0(EnZl3* this, PlayState* play) {
 }
 
 s32 func_80B575F0(EnZl3* this, PlayState* play) {
-    s16 sceneNum = play->sceneNum;
+    s16 sceneId = play->sceneId;
 
-    if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
+    if ((sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) && (func_80B54DB4(this) == 0x26)) {
         s32 unk_314 = this->unk_314;
 
         if (unk_314 == 1) {
@@ -1781,9 +1814,9 @@ s32 func_80B575F0(EnZl3* this, PlayState* play) {
 }
 
 void func_80B5764C(EnZl3* this, PlayState* play) {
-    s16 sceneNum = play->sceneNum;
+    s16 sceneId = play->sceneId;
 
-    if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
+    if ((sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) && (func_80B54DB4(this) == 0x26)) {
         s32 unk_314 = this->unk_314 + 1;
 
         if ((unk_314 == 1) && !Play_InCsMode(play)) {
@@ -1793,8 +1826,12 @@ void func_80B5764C(EnZl3* this, PlayState* play) {
 }
 
 s32 func_80B576C8(EnZl3* this, PlayState* play) {
-    if (func_80B575F0(this, play) && (this->unk_3D8 == 0)) {
-        return 1;
+    if (func_80B575F0(this, play)) {
+        s32 pad;
+
+        if (this->unk_3D8 == 0) {
+            return 1;
+        }
     }
     return 0;
 }
@@ -1831,6 +1868,10 @@ void func_80B577BC(PlayState* play, Vec3f* vec) {
                 RAD_TO_BINANG(Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ)), 0, 5);
 }
 
+static Vec3f D_80B5A498 = { 148.0f, 260.0f, -87.0f };
+static Vec3f D_80B5A4A4 = { -12.0f, 260.0f, -147.0f };
+static Vec3f D_80B5A4B0 = { 42.0f, 260.0f, 13.0f };
+
 void func_80B57858(PlayState* play) {
     func_80B577BC(play, &D_80B5A498);
     func_80B577BC(play, &D_80B5A4A4);
@@ -1838,49 +1879,50 @@ void func_80B57858(PlayState* play) {
 
 s32 func_80B57890(EnZl3* this, PlayState* play) {
     s8 pad[2];
-    u8 curSpawn = play->curSpawn;
-    s16 sceneNum = play->sceneNum;
+    u8 spawn = play->spawn;
+    s16 sceneId = play->sceneId;
     s32 result = func_80B54DB4(this);
 
     if (play) {} // Needed to match, this if can be almost anywhere and it still matches
 
-    if (sceneNum == SCENE_GANON_SONOGO) {
-        if ((result == 0x24) && (curSpawn == 0)) {
+    if (sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) {
+        if ((result == 0x24) && (spawn == 0)) {
             return 1;
         }
-        if ((result == 0x25) && (curSpawn == 2)) {
+        if ((result == 0x25) && (spawn == 2)) {
             return 1;
         }
-        if ((result == 0x26) && (curSpawn == 4)) {
+        if ((result == 0x26) && (spawn == 4)) {
             return 1;
         }
-        if ((result == 0x27) && (curSpawn == 6)) {
+        if ((result == 0x27) && (spawn == 6)) {
             return 1;
         }
-        if ((result == 0x28) && (curSpawn == 6)) {
+        if ((result == 0x28) && (spawn == 6)) {
             return 1;
         }
-    } else if (sceneNum == SCENE_GANON_FINAL) {
-        if ((result == 0x20) && (curSpawn == 0) && Flags_GetSwitch(play, 0x37)) {
-            if ((play->sceneNum == SCENE_GANON_DEMO) || (play->sceneNum == SCENE_GANON_FINAL) ||
-                (play->sceneNum == SCENE_GANON_SONOGO) || (play->sceneNum == SCENE_GANONTIKA_SONOGO)) {
+    } else if (sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) {
+        if ((result == 0x20) && (spawn == 0) && Flags_GetSwitch(play, 0x37)) {
+            if ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+                (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
+                (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) {
                 return 1;
             }
         }
-        if ((result == 0x21) && (curSpawn == 2)) {
+        if ((result == 0x21) && (spawn == 2)) {
             return 1;
         }
-        if ((result == 0x22) && (curSpawn == 4)) {
+        if ((result == 0x22) && (spawn == 4)) {
             return 1;
         }
-        if ((result == 0x23) && (curSpawn == 6)) {
+        if ((result == 0x23) && (spawn == 6)) {
             return 1;
         }
-    } else if (sceneNum == SCENE_GANONTIKA_SONOGO) {
-        if ((result == 0x29) && (curSpawn == 0)) {
+    } else if (sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE) {
+        if ((result == 0x29) && (spawn == 0)) {
             return 1;
         }
-        if ((result == 0x2A) && (curSpawn == 0)) {
+        if ((result == 0x2A) && (spawn == 0)) {
             return 1;
         }
     }
@@ -1915,7 +1957,7 @@ void func_80B57AE0(EnZl3* this, PlayState* play) {
     f32 zDiff;
 
     this->unk_344 = 0;
-    this->unk_314 += 1;
+    this->unk_314++;
     this->unk_360 = 0.0f;
     this->unk_364 = 0.0f;
     this->unk_368 = 0.0f;
@@ -1958,7 +2000,7 @@ void func_80B57CB4(EnZl3* this, PlayState* play) {
     Vec3f* thisPos = &this->actor.world.pos;
     f32 temp_f0;
 
-    this->unk_344 += 1;
+    this->unk_344++;
     temp_f0 = Environment_LerpWeightAccelDecel(this->unk_346, 0, this->unk_344, 3, 3);
     thisPos->x = unk_348->x + (temp_f0 * (unk_354->x - unk_348->x));
     thisPos->y = (unk_348->y + (temp_f0 * (unk_354->y - unk_348->y))) + this->unk_360;
@@ -1972,18 +2014,18 @@ void func_80B57D60(EnZl3* this, PlayState* play) {
 s32 func_80B57D80(EnZl3* this, PlayState* play) {
     s32 pad;
     s16* sp32 = &this->actor.shape.rot.y;
-    struct_80034A14_arg1* unk_3F8 = &this->unk_3F8;
+    NpcInteractInfo* interactInfo = &this->interactInfo;
     Player* player = GET_PLAYER(play);
     s32 unk_314 = this->unk_314;
     s16 temp_v0 = func_80B57104(this, unk_314);
     s32 pad2;
     s16 phi_v1;
 
-    unk_3F8->unk_18.y = player->actor.world.pos.y;
-    unk_3F8->unk_18.x = (Math_SinS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.x;
-    unk_3F8->unk_18.z = (Math_CosS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.z;
-    unk_3F8->unk_14 = kREG(16) - 16.0f;
-    func_80034A14(&this->actor, unk_3F8, kREG(17) + 0xC, 4);
+    interactInfo->trackPos.y = player->actor.world.pos.y;
+    interactInfo->trackPos.x = (Math_SinS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.x;
+    interactInfo->trackPos.z = (Math_CosS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.z;
+    interactInfo->yOffset = kREG(16) - 16.0f;
+    Npc_TrackPoint(&this->actor, interactInfo, kREG(17) + 0xC, NPC_TRACKING_FULL_BODY);
 
     phi_v1 = ABS(temp_v0 - *sp32);
     if (phi_v1 <= 0x320) {
@@ -1997,6 +2039,8 @@ s32 func_80B57D80(EnZl3* this, PlayState* play) {
 
 void func_80B57EAC(EnZl3* this, PlayState* play) {
     if (func_80B57324(this, play)) {
+        s32 pad;
+
         this->action = 26;
     } else {
         func_80B57350(this, play);
@@ -2013,7 +2057,7 @@ void func_80B57F1C(EnZl3* this, PlayState* play) {
     if (func_80B57D80(this, play) == 0) {
         func_80B54E14(this, &gZelda2Anime2Anim_009BE4, 0, -8.0f, 0);
         this->action = 34;
-        this->unk_314 -= 1;
+        this->unk_314--;
         func_80B57AE0(this, play);
     }
 }
@@ -2039,6 +2083,8 @@ void func_80B58014(EnZl3* this, PlayState* play) {
         this->action = 29;
         func_80B538B0(this);
     } else if (func_80B57C8C(this) && func_80B57F84(this, play)) {
+        s32 pad;
+
         OnePointCutscene_Init(play, 4000, -99, &this->actor, CAM_ID_MAIN);
         this->unk_3D0 = 0;
     } else if (func_80B576C8(this, play) && func_80B575B0(this, play) && !Play_InCsMode(play)) {
@@ -2053,7 +2099,7 @@ void func_80B58014(EnZl3* this, PlayState* play) {
         this->action = 34;
         this->unk_3D0 = 0;
         func_80B57AE0(this, play);
-    } else if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
+    } else if ((invincibilityTimer > 0) || (player->fallDistance >= 51)) {
         func_80B54E14(this, &gZelda2Anime2Anim_007664, 0, -11.0f, 0);
         this->action = 30;
         func_80B537E8(this);
@@ -2099,7 +2145,7 @@ void func_80B582C8(EnZl3* this, PlayState* play) {
         *unk_3CC += 1.0f;
         func_80B57858(play);
     } else if (*unk_3CC == kREG(17) + 40.0f) {
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         *unk_3CC += 1.0f;
     } else if (*unk_3CC >= ((kREG(17) + 40.0f) + 1.0f)) {
         this->action = 32;
@@ -2108,6 +2154,8 @@ void func_80B582C8(EnZl3* this, PlayState* play) {
         *unk_3CC += 1.0f;
     }
 }
+
+static u32 D_80B5A4BC = 0;
 
 void func_80B584B4(EnZl3* this, PlayState* play) {
     s32 pad;
@@ -2138,7 +2186,7 @@ void func_80B584B4(EnZl3* this, PlayState* play) {
 }
 
 void func_80B58624(EnZl3* this, PlayState* play) {
-    s32 pad[4];
+    s32 pad[3];
     f32* unk_3CC = &this->unk_3CC;
 
     if (*unk_3CC == (kREG(18) + 10.0f)) {
@@ -2146,6 +2194,8 @@ void func_80B58624(EnZl3* this, PlayState* play) {
         func_80B54E14(this, &gZelda2Anime2Anim_008050, 0, -12.0f, 0);
         func_80B5772C(this, play);
     } else if (*unk_3CC == kREG(19) + 20.0f) {
+        s32 pad2;
+
         *unk_3CC += 1.0f;
         this->actor.textId = 0x71AC;
         Message_StartTextbox(play, this->actor.textId, NULL);
@@ -2162,7 +2212,7 @@ void func_80B58624(EnZl3* this, PlayState* play) {
     } else {
         if (*unk_3CC >= kREG(20) + 30.0f) {
             this->action = 28;
-            func_8005B1A4(GET_ACTIVE_CAM(play));
+            Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
             func_80B54E14(this, &gZelda2Anime2Anim_009FBC, 0, -12.0f, 0);
             *unk_3CC = 0.0f;
         } else {
@@ -2204,7 +2254,7 @@ s32 func_80B5899C(EnZl3* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
         s8 invincibilityTimer = player->invincibilityTimer;
 
-        if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
+        if ((invincibilityTimer > 0) || (player->fallDistance >= 51)) {
             func_80B54E14(this, &gZelda2Anime2Anim_007664, 2, -11.0f, 0);
             this->action = 35;
             func_80B56DC8(this);
@@ -2257,7 +2307,7 @@ void func_80B58C08(EnZl3* this, PlayState* play) {
     s32 sp28;
     f32 temp_f0;
 
-    this->unk_344 += 1;
+    this->unk_344++;
 
     unk_344 = this->unk_344;
     unk_346 = this->unk_346;
@@ -2447,36 +2497,36 @@ void func_80B593D0(EnZl3* this, PlayState* play) {
 
 s32 func_80B5944C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     if (limbIndex == 14) {
-        Mtx* mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 7);
+        Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 7);
         EnZl3* this = (EnZl3*)thisx;
-        Vec3s* vec = &this->unk_3F8.unk_08;
+        Vec3s* headRot = &this->interactInfo.headRot;
 
         gSPSegment(gfx[0]++, 0x0C, mtx);
 
-        rot->x += vec->y;
-        rot->z += vec->x;
+        rot->x += headRot->y;
+        rot->z += headRot->x;
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
         Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Translate(174.0f, -317.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&mtx[0], "../z_en_zl3_inEscape.c", 2471);
+        MATRIX_TO_MTX(&mtx[0], "../z_en_zl3_inEscape.c", 2471);
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&mtx[1], "../z_en_zl3_inEscape.c", 2474);
+        MATRIX_TO_MTX(&mtx[1], "../z_en_zl3_inEscape.c", 2474);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&mtx[2], "../z_en_zl3_inEscape.c", 2477);
+        MATRIX_TO_MTX(&mtx[2], "../z_en_zl3_inEscape.c", 2477);
         Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(40.0f, 264.0f, 386.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&mtx[3], "../z_en_zl3_inEscape.c", 2483);
+        MATRIX_TO_MTX(&mtx[3], "../z_en_zl3_inEscape.c", 2483);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&mtx[4], "../z_en_zl3_inEscape.c", 2486);
+        MATRIX_TO_MTX(&mtx[4], "../z_en_zl3_inEscape.c", 2486);
         Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(40.0f, 264.0f, -386.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&mtx[5], "../z_en_zl3_inEscape.c", 2492);
+        MATRIX_TO_MTX(&mtx[5], "../z_en_zl3_inEscape.c", 2492);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
-        Matrix_ToMtx(&mtx[6], "../z_en_zl3_inEscape.c", 2495);
+        MATRIX_TO_MTX(&mtx[6], "../z_en_zl3_inEscape.c", 2495);
         Matrix_Pop();
         Matrix_Pop();
     }
@@ -2485,14 +2535,15 @@ s32 func_80B5944C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
 
 s32 func_80B59698(EnZl3* this, PlayState* play) {
     s32 cond = Flags_GetSwitch(play, 0x37) &&
-               ((play->sceneNum == SCENE_GANON_DEMO) || (play->sceneNum == SCENE_GANON_FINAL) ||
-                (play->sceneNum == SCENE_GANON_SONOGO) || (play->sceneNum == SCENE_GANONTIKA_SONOGO));
+               ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+                (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
+                (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE));
 
     if (cond) {
-        u8 curSpawn = play->curSpawn;
+        u8 spawn = play->spawn;
 
-        if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) &&
-            ((gSaveContext.timer2Value <= 0) || (gSaveContext.timer2State == 0))) {
+        if ((func_80B54DB4(this) == 0x20) && (spawn == 0) &&
+            ((gSaveContext.subTimerSeconds <= 0) || (gSaveContext.subTimerState == SUBTIMER_STATE_OFF))) {
             return 1;
         }
     }
@@ -2501,13 +2552,14 @@ s32 func_80B59698(EnZl3* this, PlayState* play) {
 
 s32 func_80B59768(EnZl3* this, PlayState* play) {
     s32 cond = Flags_GetSwitch(play, 0x37) &&
-               ((play->sceneNum == SCENE_GANON_DEMO) || (play->sceneNum == SCENE_GANON_FINAL) ||
-                (play->sceneNum == SCENE_GANON_SONOGO) || (play->sceneNum == SCENE_GANONTIKA_SONOGO));
+               ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+                (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
+                (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE));
 
     if (cond) {
-        u8 curSpawn = play->curSpawn;
+        u8 spawn = play->spawn;
 
-        if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) && (gSaveContext.timer2Value <= 0)) {
+        if ((func_80B54DB4(this) == 0x20) && (spawn == 0) && (gSaveContext.subTimerSeconds <= 0)) {
             return 1;
         }
     }
@@ -2515,11 +2567,11 @@ s32 func_80B59768(EnZl3* this, PlayState* play) {
 }
 
 void func_80B59828(EnZl3* this, PlayState* play) {
-    if (func_80B59698(this, play) || (!func_80B56EE4(this, play) && func_80B57890(this, play))) {
-        s16 newRotY;
+    s16 newRotY;
 
+    if (func_80B59698(this, play) || (!func_80B56EE4(this, play) && func_80B57890(this, play))) {
         func_80B54E14(this, &gZelda2Anime2Anim_009FBC, 0, 0.0f, 0);
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         func_80B56F10(this, play);
         newRotY = func_80B571A8(this);
         this->actor.shape.rot.y = newRotY;
@@ -2534,7 +2586,7 @@ void func_80B59828(EnZl3* this, PlayState* play) {
     }
 
     if (func_80B59698(this, play) != 0) {
-        func_80088AA0(180);
+        Interface_SetSubTimer(180);
         func_80B53468();
         gSaveContext.healthAccumulator = 320;
         Magic_Fill(play);
@@ -2559,8 +2611,9 @@ void func_80B59828(EnZl3* this, PlayState* play) {
 
         func_80B54EA4(this, play);
         cond = Flags_GetSwitch(play, 0x37) &&
-               ((play->sceneNum == SCENE_GANON_DEMO) || (play->sceneNum == SCENE_GANON_FINAL) ||
-                (play->sceneNum == SCENE_GANON_SONOGO) || (play->sceneNum == SCENE_GANONTIKA_SONOGO));
+               ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+                (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
+                (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE));
         if (cond) {
             func_80B53614(this, play);
         }
@@ -2569,17 +2622,16 @@ void func_80B59828(EnZl3* this, PlayState* play) {
 
 void func_80B59A80(EnZl3* this, PlayState* play) {
     if (func_80B59768(this, play)) {
-        Audio_PlaySoundGeneral(NA_SE_OC_REVENGE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_OC_REVENGE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
 void func_80B59AD0(EnZl3* this, PlayState* play) {
-    // todo look into
-    Actor* thisx = &this->actor; // unused, necessary to use 'this' first to fix regalloc
+    Actor* thisx = &this->actor;
 
     Flags_SetSwitch(play, 0x36);
-    func_80088AA0(180);
+    Interface_SetSubTimer(180);
     func_80B54EA4(this, play);
     func_80B53614(this, play);
     CLEAR_EVENTCHKINF(EVENTCHKINF_C7);
@@ -2612,24 +2664,28 @@ void func_80B59B6C(EnZl3* this, PlayState* play) {
             func_80B59828(this, play);
             break;
         default:
-            osSyncPrintf(VT_FGCOL(RED) " En_Oa3 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(RED) T(" En_Oa3 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                                   " En_Oa3 arg_data is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
             Actor_Kill(&this->actor);
     }
 }
 
 void func_80B59DB8(EnZl3* this, PlayState* play) {
     s32 pad;
-    ObjectContext* objCtx = &play->objectCtx;
-    s32 objIndex = Object_GetIndex(objCtx, OBJECT_ZL2_ANIME2);
+    ObjectContext* objectCtx = &play->objectCtx;
+    s32 objectSlot = Object_GetSlot(objectCtx, OBJECT_ZL2_ANIME2);
     s32 pad2;
 
-    if (objIndex < 0) {
-        osSyncPrintf(VT_FGCOL(RED) "En_Zl3_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
+#if DEBUG_FEATURES
+    if (objectSlot < 0) {
+        PRINTF(VT_FGCOL(RED) T("En_Zl3_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n",
+                               "En_Zl3_main_bank Can't read animation bank!!!!!!!!!!!!\n") VT_RST);
         return;
     }
+#endif
 
-    if (Object_IsLoaded(objCtx, objIndex)) {
-        this->unk_318 = objIndex;
+    if (Object_IsLoaded(objectCtx, objectSlot)) {
+        this->zl2Anime2ObjectSlot = objectSlot;
         func_80B54DE0(this, play);
         func_80B59B6C(this, play);
     }
@@ -2648,7 +2704,8 @@ void EnZl3_Update(Actor* thisx, PlayState* play) {
     EnZl3* this = (EnZl3*)thisx;
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -2659,7 +2716,8 @@ void EnZl3_Init(Actor* thisx, PlayState* play) {
     ActorShape* shape = &this->actor.shape;
     s32 pad;
 
-    osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_ct通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    PRINTF(T("ゼルダ姫のEn_Zl3_Actor_ct通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+             "I'm going through Princess Zelda's En_Zl3_Actor_ct!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
     ActorShape_Init(shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     shape->shadowAlpha = 0;
     func_80B533B0(thisx, play);
@@ -2667,14 +2725,15 @@ void EnZl3_Init(Actor* thisx, PlayState* play) {
 
     switch (func_80B54DD4(this)) {
         case 1:
-            gSaveContext.timer2State = 0;
+            gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
             break;
         case 3:
             func_80B59A80(this, play);
             break;
     }
 
-    osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_ctは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    PRINTF(T("ゼルダ姫のEn_Zl3_Actor_ctは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+             "Princess Zelda's En_Zl3_Actor_ct passed!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
 }
 
 static OverrideLimbDraw sOverrideLimbDrawFuncs[] = {
@@ -2688,7 +2747,8 @@ s32 EnZl3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if (this->unk_308 < 0 || this->unk_308 >= ARRAY_COUNT(sOverrideLimbDrawFuncs) ||
         sOverrideLimbDrawFuncs[this->unk_308] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The pre-drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return 0;
     }
     return sOverrideLimbDrawFuncs[this->unk_308](play, limbIndex, dList, pos, rot, thisx, gfx);
@@ -2757,20 +2817,21 @@ void EnZl3_Draw(Actor* thisx, PlayState* play) {
     EnZl3* this = (EnZl3*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);
 }
 
-const ActorInit En_Zl3_InitVars = {
-    ACTOR_EN_ZL3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL2,
-    sizeof(EnZl3),
-    (ActorFunc)EnZl3_Init,
-    (ActorFunc)EnZl3_Destroy,
-    (ActorFunc)EnZl3_Update,
-    (ActorFunc)EnZl3_Draw,
+ActorProfile En_Zl3_Profile = {
+    /**/ ACTOR_EN_ZL3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL2,
+    /**/ sizeof(EnZl3),
+    /**/ EnZl3_Init,
+    /**/ EnZl3_Destroy,
+    /**/ EnZl3_Update,
+    /**/ EnZl3_Draw,
 };

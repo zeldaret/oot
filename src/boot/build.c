@@ -1,3 +1,7 @@
-const char gBuildTeam[] = "zelda@srd022j";
-const char gBuildDate[] = "03-02-21 00:16:31";
+#include "build.h"
+
+#include "versions.h"
+
+const char gBuildCreator[] = BUILD_CREATOR;
+const char gBuildDate[] = BUILD_DATE " " BUILD_TIME;
 const char gBuildMakeOption[] = "";

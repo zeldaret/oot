@@ -5,22 +5,34 @@
  */
 
 #include "z_en_jj.h"
-#include "assets/objects/object_jj/object_jj.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
-typedef enum {
+#include "assets/objects/object_jj/object_jj.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
+
+typedef enum EnJjEyeState {
     /* 0 */ JABUJABU_EYE_OPEN,
     /* 1 */ JABUJABU_EYE_HALF,
     /* 2 */ JABUJABU_EYE_CLOSED,
     /* 3 */ JABUJABU_EYE_MAX
 } EnJjEyeState;
 
-void EnJj_Init(Actor* thisx, PlayState* play);
+void EnJj_Init(Actor* thisx, PlayState* play2);
 void EnJj_Destroy(Actor* thisx, PlayState* play);
 void EnJj_Update(Actor* thisx, PlayState* play);
-void EnJj_Draw(Actor* thisx, PlayState* play);
+void EnJj_Draw(Actor* thisx, PlayState* play2);
 
 void EnJj_UpdateStaticCollision(Actor* thisx, PlayState* play);
 void EnJj_WaitToOpenMouth(EnJj* this, PlayState* play);
@@ -28,27 +40,27 @@ void EnJj_WaitForFish(EnJj* this, PlayState* play);
 void EnJj_BeginCutscene(EnJj* this, PlayState* play);
 void EnJj_RemoveDust(EnJj* this, PlayState* play);
 
-const ActorInit En_Jj_InitVars = {
-    ACTOR_EN_JJ,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnJj),
-    (ActorFunc)EnJj_Init,
-    (ActorFunc)EnJj_Destroy,
-    (ActorFunc)EnJj_Update,
-    (ActorFunc)EnJj_Draw,
+ActorProfile En_Jj_Profile = {
+    /**/ ACTOR_EN_JJ,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnJj),
+    /**/ EnJj_Init,
+    /**/ EnJj_Destroy,
+    /**/ EnJj_Update,
+    /**/ EnJj_Draw,
 };
 
 static s32 sUnused = 0;
 
-#include "z_en_jj_cutscene_data.c" EARLY
+#include "z_en_jj_cutscene_data.inc.c"
 
 static s32 sUnused2[] = { 0, 0 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -56,11 +68,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000004, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 170, 150, 0, { 0, 0, 0 } },
@@ -68,9 +80,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 87, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 3300, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 3300, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1100, ICHAIN_STOP),
 };
 
 void EnJj_SetupAction(EnJj* this, EnJjActionFunc actionFunc) {
@@ -96,7 +108,7 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
             this->extraBlinkCounter = 0;
             this->extraBlinkTotal = 0;
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_3A)) { // Fish given
+            if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU)) {
                 EnJj_SetupAction(this, EnJj_WaitToOpenMouth);
             } else {
                 EnJj_SetupAction(this, EnJj_WaitForFish);
@@ -118,7 +130,7 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
             DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&gJabuJabuBodyCol, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
-            func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DisableCeilingCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->dyna.actor.update = EnJj_UpdateStaticCollision;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.087f);
@@ -181,7 +193,7 @@ void EnJj_OpenMouth(EnJj* this, PlayState* play) {
         this->mouthOpenAngle -= 102;
 
         if (this->mouthOpenAngle < -2600) {
-            func_8003EBF8(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
+            DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
         }
     }
 }
@@ -214,17 +226,17 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
         this->cutsceneCountdownTimer--;
     } else {
         EnJj_SetupAction(this, EnJj_RemoveDust);
-        play->csCtx.segment = &D_80A88164;
+        play->csCtx.script = gJabuInhalingCs;
         gSaveContext.cutsceneTrigger = 1;
-        func_8003EBF8(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
-        func_8005B1A4(GET_ACTIVE_CAM(play));
-        SET_EVENTCHKINF(EVENTCHKINF_3A);
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
+        SET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
 }
 
 void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
-    switch (play->csCtx.npcActions[2]->action) {
+    switch (play->csCtx.actorCues[2]->id) {
         case 1:
             if (this->unk_30A & 2) {
                 this->eyeIndex = 0;
@@ -257,7 +269,7 @@ void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
     }
 
     if (this->unk_30A & 1) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
 
         if (this->mouthOpenAngle >= -5200) {
             this->mouthOpenAngle -= 102;
@@ -285,13 +297,13 @@ void EnJj_UpdateStaticCollision(Actor* thisx, PlayState* play) {
 void EnJj_Update(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[2] != NULL)) {
         EnJj_CutsceneUpdate(this, play);
     } else {
         this->actionFunc(this, play);
 
         if (this->skelAnime.curFrame == 41.0f) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
         }
     }
 

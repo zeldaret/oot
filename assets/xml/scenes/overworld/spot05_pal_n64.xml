@@ -1,0 +1,15 @@
+<Root>
+    <File Name="spot05_scene" Segment="2">
+        <Cutscene Name="gMeadowMinuetCs" Offset="0x3F84"/>
+        <Cutscene Name="gMeadowSariasSongCs" Offset="0x5740"/>
+
+        <Path Name="spot05_scenePathList_0069D8" Offset="0x69E8" NumPaths="5"/>
+
+        <Scene Name="spot05_scene" Offset="0x0"/>
+    </File>
+    <File Name="spot05_room_0" Segment="3">
+        <DList Name="gSpot05DL_009A60" Offset="0x9A60"/>
+        <DList Name="gSpot05DL_009EE0" Offset="0x9EE0"/>
+        <Room Name="spot05_room_0" Offset="0x0"/>
+    </File>
+</Root>

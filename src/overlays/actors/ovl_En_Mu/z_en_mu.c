@@ -5,9 +5,18 @@
  */
 
 #include "z_en_mu.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_mu/object_mu.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnMu_Init(Actor* thisx, PlayState* play);
 void EnMu_Destroy(Actor* thisx, PlayState* play);
@@ -15,11 +24,11 @@ void EnMu_Update(Actor* thisx, PlayState* play);
 void EnMu_Draw(Actor* thisx, PlayState* play);
 
 void EnMu_Pose(EnMu* this, PlayState* play);
-s16 EnMu_CheckDialogState(PlayState* play, Actor* thisx);
+s16 EnMu_UpdateTalkState(PlayState* play, Actor* thisx);
 
 static ColliderCylinderInit D_80AB0BD0 = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -27,11 +36,11 @@ static ColliderCylinderInit D_80AB0BD0 = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 100, 70, 0, { 0, 0, 0 } },
@@ -39,16 +48,16 @@ static ColliderCylinderInit D_80AB0BD0 = {
 
 static CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-const ActorInit En_Mu_InitVars = {
-    ACTOR_EN_MU,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MU,
-    sizeof(EnMu),
-    (ActorFunc)EnMu_Init,
-    (ActorFunc)EnMu_Destroy,
-    (ActorFunc)EnMu_Update,
-    (ActorFunc)EnMu_Draw,
+ActorProfile En_Mu_Profile = {
+    /**/ ACTOR_EN_MU,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MU,
+    /**/ sizeof(EnMu),
+    /**/ EnMu_Init,
+    /**/ EnMu_Destroy,
+    /**/ EnMu_Update,
+    /**/ EnMu_Draw,
 };
 
 void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {
@@ -58,21 +67,21 @@ void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {
 void EnMu_Interact(EnMu* this, PlayState* play) {
     u8 textIdOffset[] = { 0x42, 0x43, 0x3F, 0x41, 0x3E };
     u8 bitmask[] = {
-        EVENTINF_20_MASK, EVENTINF_21_MASK, EVENTINF_22_MASK, EVENTINF_23_MASK, EVENTINF_24_MASK,
+        EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_0), EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_1),
+        EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_2), EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_3),
+        EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_4),
     };
-    u8 textFlags;
+    u8 talkFlags;
     s32 randomIndex;
     s32 i;
 
-    textFlags = gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] &
-                (EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
-    gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] &=
-        ~(EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
+    talkFlags = GET_EVENTINF_ENMU_TALK_FLAGS();
+    RESET_EVENTINF_ENMU_TALK_FLAGS();
     randomIndex = (play->state.frames + (s32)(Rand_ZeroOne() * 5.0f)) % 5;
 
+    // Starting at randomIndex, scan sequentially for the next unspoken message
     for (i = 0; i < 5; i++) {
-
-        if (!(textFlags & bitmask[randomIndex])) {
+        if (!(talkFlags & bitmask[randomIndex])) {
             break;
         }
 
@@ -82,33 +91,33 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
         }
     }
 
+    // If all 5 messages have been spoken, reset but prevent the last message from being repeated
     if (i == 5) {
-        if (this->defFaceReaction == (textIdOffset[randomIndex] | 0x7000)) {
+        if (this->defaultTextId == (textIdOffset[randomIndex] | 0x7000)) {
             randomIndex++;
             if (randomIndex >= 5) {
                 randomIndex = 0;
             }
         }
-        textFlags = 0;
+        talkFlags = 0;
     }
 
-    textFlags |= bitmask[randomIndex];
-    this->defFaceReaction = textIdOffset[randomIndex] | 0x7000;
-    textFlags &= EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK | 0xE0;
-    gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] |= textFlags;
+    talkFlags |= (u8)bitmask[randomIndex];
+    this->defaultTextId = textIdOffset[randomIndex] | 0x7000;
+    SET_EVENTINF_ENMU_TALK_FLAGS(talkFlags);
 }
 
-u16 EnMu_GetFaceReaction(PlayState* play, Actor* thisx) {
+u16 EnMu_GetTextId(PlayState* play, Actor* thisx) {
     EnMu* this = (EnMu*)thisx;
-    u16 faceReaction = Text_GetFaceReaction(play, this->actor.params + 0x3A);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HAGGLING_TOWNSPEOPLE_1 + this->actor.params);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
-    return this->defFaceReaction;
+    return this->defaultTextId;
 }
 
-s16 EnMu_CheckDialogState(PlayState* play, Actor* thisx) {
+s16 EnMu_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnMu* this = (EnMu*)thisx;
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -121,12 +130,12 @@ s16 EnMu_CheckDialogState(PlayState* play, Actor* thisx) {
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
-            return 1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_CLOSING:
             EnMu_Interact(this, play);
-            return 0;
+            return NPC_TALK_STATE_IDLE;
         default:
-            return 1;
+            return NPC_TALK_STATE_TALKING;
     }
 }
 
@@ -139,7 +148,7 @@ void EnMu_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &D_80AB0BD0);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AB0BFC);
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);
     EnMu_Interact(this, play);
     EnMu_SetupAction(this, EnMu_Pose);
@@ -152,7 +161,7 @@ void EnMu_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnMu_Pose(EnMu* this, PlayState* play) {
-    func_80034F54(play, this->unk_20A, this->unk_22A, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
 }
 
 void EnMu_Update(Actor* thisx, PlayState* play) {
@@ -172,7 +181,7 @@ void EnMu_Update(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
     talkDist = this->collider.dim.radius + 30.0f;
-    func_800343CC(play, &this->actor, &this->npcInfo.unk_00, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+    Npc_UpdateTalking(play, &this->actor, &this->npcInfo.talkState, talkDist, EnMu_GetTextId, EnMu_UpdateTalkState);
 
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 60.0f;
@@ -183,8 +192,8 @@ s32 EnMu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7) || (limbIndex == 11) || (limbIndex == 12) ||
         (limbIndex == 13) || (limbIndex == 14)) {
-        rot->y += Math_SinS(this->unk_20A[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->unk_22A[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
     return false;
 }
@@ -195,7 +204,7 @@ void EnMu_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 Gfx* EnMu_DisplayListSetColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* dlist;
 
-    dlist = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    dlist = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
     gDPSetEnvColor(dlist, r, g, b, a);
     gSPEndDisplayList(dlist + 1);
     return dlist;

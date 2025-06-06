@@ -1,5 +1,28 @@
 <Root>
-    <File Name="object_mori_tex" Segment="6">
-        <Blob Name="object_moriTex_Blob_000000" Size="0x9E00" Offset="0x0"/>
+    <File Name="object_mori_tex" Segment="8">
+        <Texture Name="gMoriElevatorBarTex" Format="rgba16" Height="64" Width="16" Offset="0x0"/>
+        <Texture Name="gMoriElevatorTopTex" Format="rgba16" Height="32" Width="32" Offset="0x800"/>
+        <Texture Name="gMoriElevatorSideTex" Format="rgba16" Height="16" Width="16" Offset="0x1000"/>
+
+        <Texture Name="gMoriStoneWallTex" Format="rgba16" Height="32" Width="32" Offset="0x1200"/>
+        <Texture Name="gMoriKaitenkabeMetalWallTex" Format="rgba16" Height="32" Width="32" Offset="0x1A00"/>
+        <Texture Name="gMoriRakkatenjoCheckerboardTex" Format="rgba16" Height="64" Width="32" Offset="0x2200"/>
+
+        <Texture Name="gMoriStalfosPlatformSideTex" Format="rgba16" Height="32" Width="64" Offset="0x3200"/>
+        <Texture Name="gMoriStalfosPlatformTopTex" Format="rgba16" Height="32" Width="32" Offset="0x4200"/>
+
+        <Texture Name="gMoriHashiraPlatformsTex" Format="rgba16" Height="16" Width="16" Offset="0x4A00"/>
+        <Texture Name="gMoriWaterTex" Format="rgba16" Height="32" Width="32" Offset="0x4C00"/>
+
+        <Texture Name="gMoriHashigoLadderTex" Format="rgba16" Height="32" Width="32" Offset="0x5400"/>
+
+        <Texture Name="gForestTwistedHallwayPillarTex" Format="rgba16" Height="64" Width="16" Offset="0x5C00"/>
+        <Texture Name="gForestTwistedHallwayWallAndFloorTex" Format="rgba16" Width="32" Height="32" Offset="0x6400"/>
+        <Texture Name="gForestTwistedHallwayWallDesignTex" Format="rgba16" Width="64" Height="32" Offset="0x6C00"/>
+        <Texture Name="gForestTwistedHallCarpetTex" Format="rgba16" Width="16" Height="16" Offset="0x7C00"/>
+        <Texture Name="gForestTwistedHallLadderTex" Format="rgba16" Height="32" Width="32" Offset="0x7E00"/>
+        <Texture Name="gForestTwistedHallBrickTex" Format="rgba16" Width="32" Height="32" Offset="0x8600"/>
+
+        <Texture Name="gMoriHashiraGateTex" Format="rgba16" Width="32" Height="64" Offset="0x8E00"/>
     </File>
 </Root>

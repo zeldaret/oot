@@ -5,9 +5,17 @@
  */
 
 #include "z_bg_ddan_jd.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgDdanJd_Init(Actor* thisx, PlayState* play);
 void BgDdanJd_Destroy(Actor* thisx, PlayState* play);
@@ -17,23 +25,23 @@ void BgDdanJd_Draw(Actor* thisx, PlayState* play);
 void BgDdanJd_Idle(BgDdanJd* this, PlayState* play);
 void BgDdanJd_Move(BgDdanJd* this, PlayState* play);
 
-const ActorInit Bg_Ddan_Jd_InitVars = {
-    ACTOR_BG_DDAN_JD,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_DDAN_OBJECTS,
-    sizeof(BgDdanJd),
-    (ActorFunc)BgDdanJd_Init,
-    (ActorFunc)BgDdanJd_Destroy,
-    (ActorFunc)BgDdanJd_Update,
-    (ActorFunc)BgDdanJd_Draw,
+ActorProfile Bg_Ddan_Jd_Profile = {
+    /**/ ACTOR_BG_DDAN_JD,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_DDAN_OBJECTS,
+    /**/ sizeof(BgDdanJd),
+    /**/ BgDdanJd_Init,
+    /**/ BgDdanJd_Destroy,
+    /**/ BgDdanJd_Update,
+    /**/ BgDdanJd_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-typedef enum {
+typedef enum BgDdanJdState {
     /* 0 */ STATE_GO_BOTTOM,
     /* 1 */ STATE_GO_MIDDLE_FROM_BOTTOM,
     /* 2 */ STATE_GO_MIDDLE_FROM_TOP,
@@ -56,7 +64,7 @@ void BgDdanJd_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gDodongoRisingPlatformCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->idleTimer = IDLE_FRAMES;
@@ -146,7 +154,7 @@ void BgDdanJd_MoveEffects(BgDdanJd* this, PlayState* play) {
         func_80033480(play, &dustPos, 5.0f, 1, 20, 60, 1);
     }
     if (this->ySpeed == SHORTCUT_Y_SPEED) {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
     }
 }
 
@@ -162,7 +170,7 @@ void BgDdanJd_Move(BgDdanJd* this, PlayState* play) {
         this->actionFunc = BgDdanJd_Idle;
         OnePointCutscene_Init(play, 3060, -99, &this->dyna.actor, CAM_ID_MAIN);
     } else if (Math_StepToF(&this->dyna.actor.world.pos.y, this->targetY, this->ySpeed)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
         this->actionFunc = BgDdanJd_Idle;
     }
     BgDdanJd_MoveEffects(this, play);

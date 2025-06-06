@@ -6,10 +6,24 @@
 
 #include "z_eff_ss_fhg_flash.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "skin.h"
+
 #include "assets/objects/object_fhg/object_fhg.h"
 
 #define rAlpha regs[0]
-#define rObjBankIdx regs[2]
+#define rObjectSlot regs[2]
 #define rXZRot regs[3]
 #define rParam regs[4]
 #define rScale regs[8]
@@ -20,29 +34,28 @@ void EffectSsFhgFlash_UpdateLightBall(PlayState* play, u32 index, EffectSs* this
 void EffectSsFhgFlash_DrawShock(PlayState* play, u32 index, EffectSs* this);
 void EffectSsFhgFlash_UpdateShock(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Fhg_Flash_InitVars = {
+EffectSsProfile Effect_Ss_Fhg_Flash_Profile = {
     EFFECT_SS_FHG_FLASH,
     EffectSsFhgFlash_Init,
 };
 
-static UNK_TYPE D_809A5178[258];
-static Gfx D_809A5100[15];
+static Gfx sShockDL[15];
 
 u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
     s32 pad;
-    s32 objBankIdx;
+    s32 objectSlot;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp34 = { 0.0f, -1000.0f, 0.0f };
-    void* oldSeg6;
+    Vec3f farAwayVec = { 0.0f, -1000.0f, 0.0f };
+    uintptr_t prevSeg6;
 
     if (initParams->type == FHGFLASH_LIGHTBALL) {
-        objBankIdx = Object_GetIndex(&play->objectCtx, OBJECT_FHG);
+        objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_FHG);
 
-        if ((objBankIdx > -1) && Object_IsLoaded(&play->objectCtx, objBankIdx)) {
-            oldSeg6 = gSegments[6];
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[objBankIdx].segment);
-            this->rObjBankIdx = objBankIdx;
+        if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
+            prevSeg6 = gSegments[6];
+            gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+            this->rObjectSlot = objectSlot;
             this->pos = initParams->pos;
             this->velocity = initParams->velocity;
             this->accel = initParams->accel;
@@ -53,9 +66,9 @@ u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* init
             this->draw = EffectSsFhgFlash_DrawLightBall;
             this->update = EffectSsFhgFlash_UpdateLightBall;
             this->gfx = SEGMENTED_TO_VIRTUAL(gPhantomEnergyBallDL);
-            gSegments[6] = oldSeg6;
+            gSegments[6] = prevSeg6;
         } else {
-            osSyncPrintf("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n");
+            PRINTF(T("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n", "Effect_Ss_Fhg_Flash_ct():pffd->mode error\n"));
             return 0;
         }
     } else {
@@ -69,17 +82,17 @@ u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* init
         this->rParam = initParams->param;
 
         if (initParams->param != FHGFLASH_SHOCK_NO_ACTOR) {
-            this->pos = sp34;
-            this->gfx = SEGMENTED_TO_VIRTUAL(D_809A5100);
+            this->pos = farAwayVec; // Set the initial position to where the effect cannot be seen
+            this->gfx = SEGMENTED_TO_VIRTUAL(sShockDL);
         } else {
             this->pos = initParams->pos;
-            this->gfx = SEGMENTED_TO_VIRTUAL(D_809A5100);
+            this->gfx = SEGMENTED_TO_VIRTUAL(sShockDL);
         }
     }
     return 1;
 }
 
-static Color_RGB8 sColors[] = {
+static Color_RGB8 sLightBallColors[] = {
     { 165, 255, 61 }, { 0, 255, 255 }, { 255, 40, 0 }, { 255, 255, 0 }, { 0, 0, 255 },
     { 255, 0, 255 },  { 255, 150, 0 }, { 0, 0, 0 },    { 0, 0, 0 },
 };
@@ -88,25 +101,25 @@ void EffectSsFhgFlash_DrawLightBall(PlayState* play, u32 index, EffectSs* this) 
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s32 pad;
     f32 scale;
-    void* object;
+    void* objectPtr;
 
     scale = this->rScale / 100.0f;
-    object = play->objectCtx.status[this->rObjBankIdx].segment;
+    objectPtr = play->objectCtx.slots[this->rObjectSlot].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 268);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(POLY_XLU_DISP++, 0x06, object);
+    gSegments[6] = OS_K0_TO_PHYSICAL(objectPtr);
+    gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->rAlpha);
-    gDPSetEnvColor(POLY_XLU_DISP++, sColors[this->rParam].r, sColors[this->rParam].g, sColors[this->rParam].b, 0);
+    gDPSetEnvColor(POLY_XLU_DISP++, sLightBallColors[this->rParam].r, sLightBallColors[this->rParam].g,
+                   sLightBallColors[this->rParam].b, 0);
     gDPPipeSync(POLY_XLU_DISP++);
     Matrix_ReplaceRotation(&play->billboardMtxF);
-    Matrix_RotateZ((this->rXZRot / 32768.0f) * 3.1416f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_fhg_flash.c", 326),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    Matrix_RotateZ((this->rXZRot / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_fhg_flash.c", 326);
     gSPDisplayList(POLY_XLU_DISP++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 330);
@@ -126,7 +139,7 @@ void EffectSsFhgFlash_DrawShock(PlayState* play, u32 index, EffectSs* this) {
 
     if (this->rParam != FHGFLASH_SHOCK_NO_ACTOR) {
         Gfx_SetupDL_44Xlu(play->state.gfxCtx);
-        Matrix_RotateX((this->rXZRot / 32768.0f) * 1.1416f, MTXMODE_APPLY);
+        Matrix_RotateX((this->rXZRot / (f32)0x8000) * 1.1416f, MTXMODE_APPLY);
         gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_DECAL2);
     } else {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
@@ -137,9 +150,8 @@ void EffectSsFhgFlash_DrawShock(PlayState* play, u32 index, EffectSs* this) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->rAlpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 155, 0);
-    Matrix_RotateZ((this->rXZRot / 32768.0f) * 3.1416f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_fhg_flash.c", 395),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    Matrix_RotateZ((this->rXZRot / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_fhg_flash.c", 395);
     gSPDisplayList(POLY_XLU_DISP++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 399);
@@ -170,21 +182,20 @@ void EffectSsFhgFlash_UpdateLightBall(PlayState* play, u32 index, EffectSs* this
 
 void EffectSsFhgFlash_UpdateShock(PlayState* play, u32 index, EffectSs* this) {
     s16 randBodyPart;
-    Player* player;
-    BossGanondrof* phantomGanon;
-    s16 rand;
+    s16 rotStep = Rand_ZeroOne() * 20000.0f;
 
-    rand = (Rand_ZeroOne() * 20000.0f);
-    this->rXZRot = (this->rXZRot + rand) + 0x4000;
+    this->rXZRot += rotStep + 0x4000;
 
     if (this->rParam == FHGFLASH_SHOCK_PLAYER) {
-        player = GET_PLAYER(play);
+        Player* player = GET_PLAYER(play);
+
         randBodyPart = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
         this->pos.x = player->bodyPartsPos[randBodyPart].x + Rand_CenteredFloat(10.0f);
         this->pos.y = player->bodyPartsPos[randBodyPart].y + Rand_CenteredFloat(15.0f);
         this->pos.z = player->bodyPartsPos[randBodyPart].z + Rand_CenteredFloat(10.0f);
     } else if (this->rParam == FHGFLASH_SHOCK_PG) {
-        phantomGanon = (BossGanondrof*)this->actor;
+        BossGanondrof* phantomGanon = (BossGanondrof*)this->actor;
+
         randBodyPart = Rand_ZeroFloat(23.9f);
         this->pos.x = phantomGanon->bodyPartsPos[randBodyPart].x + Rand_CenteredFloat(15.0f);
         this->pos.y = phantomGanon->bodyPartsPos[randBodyPart].y + Rand_CenteredFloat(20.0f);
@@ -192,6 +203,8 @@ void EffectSsFhgFlash_UpdateShock(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (this->life < 100) {
+        s32 pad;
+
         this->rAlpha -= 50;
 
         if (this->rAlpha < 0) {
@@ -201,55 +214,18 @@ void EffectSsFhgFlash_UpdateShock(PlayState* play, u32 index, EffectSs* this) {
     }
 }
 
-static Vtx D_809A50C0[4] = {
-    VTX(-10, -10, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(10, -10, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(10, 10, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-10, 10, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+static Vtx sShockVtx[] = {
+#include "assets/overlays/ovl_Effect_Ss_Fhg_Flash/sShockVtx.inc.c"
 };
 
-static Gfx D_809A5100[15] = {
-    gsDPPipeSync(),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(D_809A5178, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_MIRROR | G_TX_WRAP,
-                         G_TX_MIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD),
-    gsDPSetCombineLERP(PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
-                       COMBINED),
-    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsSPVertex(D_809A50C0, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
+#define sShockTex_WIDTH 32
+#define sShockTex_HEIGHT 32
+static u64 sShockTex[TEX_LEN(u64, sShockTex_WIDTH, sShockTex_HEIGHT, 8)];
+
+static Gfx sShockDL[15] = {
+#include "assets/overlays/ovl_Effect_Ss_Fhg_Flash/sShockDL.inc.c"
 };
 
-static UNK_TYPE D_809A5178[258] = {
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x005B3000, 0x00000000, 0x00000000,
-    0x00000000, 0x000B0000, 0x07000000, 0x00000000, 0x00000000, 0x005BB64B, 0x3A000000, 0x00000000, 0x00000000,
-    0x005B0000, 0x00000000, 0x00000000, 0x00000000, 0x001E00B6, 0xFF5B0000, 0x00000000, 0x00000000, 0x00251F0C,
-    0x07000000, 0x0A000000, 0x00000000, 0x00000000, 0xB6FF0000, 0x00000000, 0x00000000, 0x00255B00, 0x071F1E14,
-    0x0A000000, 0x00000000, 0x00000000, 0x00457350, 0x00000000, 0x00000000, 0x00295B8C, 0x5B5B0000, 0x00000000,
-    0x00000000, 0x00000000, 0x00455C39, 0x0F000000, 0x00000000, 0x0000A1FF, 0x5B000000, 0x00000000, 0x00000000,
-    0x00000000, 0x005B5B00, 0x00000000, 0x00000000, 0x005B311C, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x5BB60000, 0x00000000, 0x00000000, 0x5BB63100, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0xFFB60000,
-    0x00000000, 0x00000046, 0xEA310000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x0072B646, 0x00000000,
-    0x0000B6A1, 0x81000000, 0x00000000, 0x00000000, 0x00000000, 0x000C0000, 0x00172E19, 0xBDAB5D41, 0x366BEAEA,
-    0x81000000, 0x00000000, 0x00000000, 0x00000000, 0x06000000, 0x00000074, 0xFFFF0500, 0x0A2342B6, 0xFF000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x005B0000, 0x03030100, 0x00FF0700, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00020503, 0x00000000, 0x00466200, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00076200, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00002962, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00003EA1, 0x62000000, 0x00000000, 0x00000000, 0x0000002E, 0xB6350000,
-    0x00000000, 0x00000000, 0x000000EA, 0x46000000, 0x00000000, 0x00000000, 0x00002EFF, 0xFF5A0000, 0x00000000,
-    0x00000000, 0x000000FF, 0xFF001700, 0x00000000, 0x00000000, 0x01015BFF, 0xA1A10000, 0x00000000, 0x00000000,
-    0x00030046, 0x97732100, 0x00000000, 0x00000000, 0x040CB65E, 0x4A5B4600, 0x00000000, 0x00000003, 0x0C0E8C46,
-    0x1C035C00, 0x00000000, 0x00000017, 0x134F5B00, 0x00000046, 0x46000000, 0x00000000, 0x34D20000, 0x0401005B,
-    0x00000000, 0x00000000, 0x5BB60000, 0x00000000, 0x30FCB600, 0x0000A1E7, 0x00000001, 0x0100141E, 0x5B000000,
-    0x00000000, 0x00000000, 0x00000000, 0x0000A1FF, 0x5B46FF00, 0x00000100, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x000000FC, 0xFFA13100, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0xB6000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
+static u64 sShockTex[TEX_LEN(u64, sShockTex_WIDTH, sShockTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Effect_Ss_Fhg_Flash/sShockTex.i8.inc.c"
 };

@@ -2,7 +2,7 @@
 #define Z_EN_DOOR_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 /**
  * Actor Parameters
@@ -22,13 +22,18 @@
  *
  */
 
-typedef struct {
-    /* 0x00 */ s16 sceneNum;
-    /* 0x02 */ u8 dListIndex;
-    /* 0x04 */ s16 objectId;
-} EnDoorInfo;
+#define ENDOOR_PARAMS_TYPE_SHIFT                7
+#define ENDOOR_PARAMS_TYPE_MASK                 PARAMS_MAKE_MASK(7, 3)
+#define ENDOOR_GET_TYPE(thisx)                  PARAMS_GET_U((thisx)->params, 7, 3)
 
-typedef enum {
+#define ENDOOR_PARAMS_IS_DOUBLE_DOOR_MASK       PARAMS_MAKE_MASK(6, 1)
+#define ENDOOR_GET_IS_DOUBLE_DOOR(thisx)        PARAMS_GET_NOSHIFT((thisx)->params, 6, 1)
+
+#define ENDOOR_GET_LOCKED_SWITCH_FLAG(thisx)    PARAMS_GET_U((thisx)->params, 0, 6)
+
+#define ENDOOR_GET_CHECKABLE_TEXT_ID(thisx)     PARAMS_GET_U((thisx)->params, 0, 6)
+
+typedef enum EnDoorType {
     /* 0x00 */ DOOR_ROOMLOAD,  // loads rooms
     /* 0x01 */ DOOR_LOCKED,    // small key locked door
     /* 0x02 */ DOOR_ROOMLOAD2, // loads rooms
@@ -41,15 +46,12 @@ typedef enum {
 
 struct EnDoor;
 
-typedef void (*EnDoorActionFunc)(struct EnDoor*, PlayState*);
+typedef void (*EnDoorActionFunc)(struct EnDoor*, struct PlayState*);
 
 typedef struct EnDoor {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ u8 animStyle; // Must be at same offset as animStyle in DoorKiller due to the cast in func_80839800
-    /* 0x0191 */ u8 playerIsOpening; // Must be at same offset as playerIsOpening in DoorKiller due to the cast in func_80839800
+    /* 0x0000 */ DOOR_ACTOR_BASE;
     /* 0x0192 */ u8 unk_192;
-    /* 0x0193 */ s8 requiredObjBankIndex;
+    /* 0x0193 */ s8 requiredObjectSlot;
     /* 0x0194 */ s8 dListIndex;
     /* 0x0196 */ s16 lockTimer;
     /* 0x0198 */ Vec3s jointTable[5];

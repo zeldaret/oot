@@ -5,11 +5,36 @@
  */
 
 #include "z_boss_va.h"
-#include "assets/objects/object_bv/object_bv.h"
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_bv/object_bv.h"
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:0" \
+                               "ntsc-1.1:0 ntsc-1.2:0 pal-1.0:128 pal-1.1:128"
+
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 #define GET_BODY(this) ((BossVa*)(this)->actor.parent)
 #define vaGorePulse offset.x
@@ -41,7 +66,7 @@ typedef struct BossVaEffect {
     /* 0x54 */ struct BossVa* parent;
 } BossVaEffect; // size = 0x58
 
-typedef enum {
+typedef enum BossVaEffectType {
     /* 0 */ VA_NONE,
     /* 1 */ VA_LARGE_SPARK,
     /* 2 */ VA_BLAST_SPARK,
@@ -53,7 +78,7 @@ typedef enum {
     /* 8 */ VA_GORE
 } BossVaEffectType;
 
-typedef enum {
+typedef enum BossVaSparkMode {
     /* 1 */ SPARK_TETHER = 1,
     /* 2 */ SPARK_BARI,
     /* 3 */ SPARK_BLAST,
@@ -62,25 +87,25 @@ typedef enum {
     /* 6 */ SPARK_LINK
 } BossVaSparkMode;
 
-typedef enum {
+typedef enum BossVaBloodMode {
     /* 0 */ BLOOD_DROPLET,
     /* 1 */ BLOOD_SPLATTER,
     /* 2 */ BLOOD_SPOT
 } BossVaBloodMode;
 
-typedef enum {
+typedef enum BossVaTumorMode {
     /* 0 */ TUMOR_UNUSED,
     /* 1 */ TUMOR_BODY,
     /* 2 */ TUMOR_ARM
 } BossVaTumorMode;
 
-typedef enum {
+typedef enum BossVaGoreMode {
     /* 0 */ GORE_PERMANENT,
     /* 1 */ GORE_FLOOR,
     /* 2 */ GORE_FADING
 } BossVaGoreMode;
 
-typedef enum {
+typedef enum BossVaCutscene {
     /* -5 */ INTRO_UNUSED_START = -5,
     /* -4 */ INTRO_START,
     /* -3 */ INTRO_LOOK_DOOR,
@@ -113,9 +138,9 @@ typedef enum {
     /* 24 */ DEATH_FINISH
 } BossVaCutscene;
 
-void BossVa_Init(Actor* thisx, PlayState* play);
+void BossVa_Init(Actor* thisx, PlayState* play2);
 void BossVa_Destroy(Actor* thisx, PlayState* play);
-void BossVa_Update(Actor* thisx, PlayState* play);
+void BossVa_Update(Actor* thisx, PlayState* play2);
 void BossVa_Draw(Actor* thisx, PlayState* play);
 
 void BossVa_UpdateEffects(PlayState* play);
@@ -188,21 +213,21 @@ void BossVa_SpawnBloodDroplets(PlayState* play, BossVaEffect* effect, Vec3f* pos
 void BossVa_Tumor(PlayState* play, BossVa* this, s32 count, s16 scale, f32 xzSpread, f32 ySpread, u8 mode, f32 range,
                   u8 fixed);
 
-const ActorInit Boss_Va_InitVars = {
-    ACTOR_BOSS_VA,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_BV,
-    sizeof(BossVa),
-    (ActorFunc)BossVa_Init,
-    (ActorFunc)BossVa_Destroy,
-    (ActorFunc)BossVa_Update,
-    (ActorFunc)BossVa_Draw,
+ActorProfile Boss_Va_Profile = {
+    /**/ ACTOR_BOSS_VA,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_BV,
+    /**/ sizeof(BossVa),
+    /**/ BossVa_Init,
+    /**/ BossVa_Destroy,
+    /**/ BossVa_Update,
+    /**/ BossVa_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -210,11 +235,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFEF, 0x03, 0x08 },
         { 0x00000010, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 85, 120, 0, { 0, 0, 0 } },
@@ -223,11 +248,11 @@ static ColliderCylinderInit sCylinderInit = {
 static ColliderJntSphElementInit sJntSphElementsInitSupport[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000010, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 25 }, 100 },
@@ -236,7 +261,7 @@ static ColliderJntSphElementInit sJntSphElementsInitSupport[1] = {
 
 static ColliderJntSphInit sJntSphInitSupport = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -250,11 +275,11 @@ static ColliderJntSphInit sJntSphInitSupport = {
 static ColliderJntSphElementInit sJntSphElementsInitBari[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x03, 0x04 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 30 }, 100 },
@@ -263,7 +288,7 @@ static ColliderJntSphElementInit sJntSphElementsInitBari[1] = {
 
 static ColliderJntSphInit sJntSphInitBari = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -276,7 +301,7 @@ static ColliderJntSphInit sJntSphInitBari = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -284,11 +309,11 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x20000000, 0x03, 0x04 },
         { 0x00000010, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -507,33 +532,33 @@ void BossVa_Tumor(PlayState* play, BossVa* this, s32 count, s16 scale, f32 xzSpr
 }
 
 void BossVa_SetSparkEnv(PlayState* play) {
-    play->envCtx.adjAmbientColor[0] = 0xA;
-    play->envCtx.adjAmbientColor[1] = 0xA;
-    play->envCtx.adjAmbientColor[2] = 0xA;
-    play->envCtx.adjLight1Color[0] = 0x73;
-    play->envCtx.adjLight1Color[1] = 0x41;
-    play->envCtx.adjLight1Color[2] = 0x64;
-    play->envCtx.adjFogColor[0] = 0x78;
-    play->envCtx.adjFogColor[1] = 0x78;
-    play->envCtx.adjFogColor[2] = 0x46;
+    play->envCtx.adjAmbientColor[0] = 10;
+    play->envCtx.adjAmbientColor[1] = 10;
+    play->envCtx.adjAmbientColor[2] = 10;
+    play->envCtx.adjLight1Color[0] = 115;
+    play->envCtx.adjLight1Color[1] = 65;
+    play->envCtx.adjLight1Color[2] = 100;
+    play->envCtx.adjFogColor[0] = 120;
+    play->envCtx.adjFogColor[1] = 120;
+    play->envCtx.adjFogColor[2] = 70;
 }
 
 void BossVa_SetDeathEnv(PlayState* play) {
-    play->envCtx.adjFogColor[0] = 0xDC;
-    play->envCtx.adjFogColor[1] = 0xDC;
-    play->envCtx.adjFogColor[2] = 0x96;
-    play->envCtx.adjFogNear = -0x3E8;
-    play->envCtx.adjFogFar = -0x384;
-    play->envCtx.adjAmbientColor[0] = 0xC8;
-    play->envCtx.adjAmbientColor[1] = 0xC8;
-    play->envCtx.adjAmbientColor[2] = 0xC8;
-    play->envCtx.adjLight1Color[0] = 0xD7;
-    play->envCtx.adjLight1Color[1] = 0xA5;
-    play->envCtx.adjLight1Color[2] = 0xC8;
-    play->envCtx.screenFillColor[0] = 0xDC;
-    play->envCtx.screenFillColor[1] = 0xDC;
-    play->envCtx.screenFillColor[2] = 0x96;
-    play->envCtx.screenFillColor[3] = 0x64;
+    play->envCtx.adjFogColor[0] = 220;
+    play->envCtx.adjFogColor[1] = 220;
+    play->envCtx.adjFogColor[2] = 150;
+    play->envCtx.adjFogNear = -1000;
+    play->envCtx.adjZFar = -900;
+    play->envCtx.adjAmbientColor[0] = 200;
+    play->envCtx.adjAmbientColor[1] = 200;
+    play->envCtx.adjAmbientColor[2] = 200;
+    play->envCtx.adjLight1Color[0] = 215;
+    play->envCtx.adjLight1Color[1] = 165;
+    play->envCtx.adjLight1Color[2] = 200;
+    play->envCtx.screenFillColor[0] = 220;
+    play->envCtx.screenFillColor[1] = 220;
+    play->envCtx.screenFillColor[2] = 150;
+    play->envCtx.screenFillColor[3] = 100;
 }
 
 EnBoom* BossVa_FindBoomerang(PlayState* play) {
@@ -581,13 +606,13 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
     s16 warpId;
 
     Actor_SetScale(&this->actor, 0.1f);
-    this->actor.targetMode = 5;
+    this->actor.attentionRangeType = ATTENTION_RANGE_5;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
             SkelAnime_Init(play, &this->skelAnime, &gBarinadeBodySkel, &gBarinadeBodyAnim, NULL, NULL, 0);
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
             break;
         case BOSSVA_SUPPORT_1:
         case BOSSVA_SUPPORT_2:
@@ -606,8 +631,10 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
             SkelAnime_InitFlex(play, &this->skelAnime, &gBarinadeStumpSkel, &gBarinadeStumpAnim, NULL, NULL, 0);
             break;
         default:
-            this->actor.flags |= ACTOR_FLAG_24;
-            SkelAnime_Init(play, &this->skelAnime, &gBarinadeBariSkel, &gBarinadeBariAnim, NULL, NULL, 0);
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
+            //! @bug Flex skeleton is used as normal skeleton
+            SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)&gBarinadeBariSkel, &gBarinadeBariAnim, NULL, NULL,
+                           0);
             this->actor.shape.yOffset = 400.0f;
             break;
         case BOSSVA_DOOR:
@@ -637,15 +664,15 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
             } else {
                 this->actor.colChkInfo.damageTable = sDamageTable;
                 sPhase2Timer = 0xFFFF;
-                if (GET_EVENTCHKINF(EVENTCHKINF_76)) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_BARINADE_BATTLE)) {
                     sCsState = INTRO_CALL_BARI;
                     sDoorState = 100;
-                    func_8002DF54(play, &this->actor, 1);
+                    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
                     play->envCtx.screenFillColor[0] = 0xDC;
                     play->envCtx.screenFillColor[1] = 0xDC;
                     play->envCtx.screenFillColor[2] = 0xBE;
                     play->envCtx.screenFillColor[3] = 0xD2;
-                    func_80064520(play, &play->csCtx);
+                    Cutscene_StartManual(play, &play->csCtx);
                     sSubCamId = Play_CreateSubCamera(play);
                     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                     Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
@@ -655,7 +682,7 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
                     sSubCamAtNext.x = sSubCamAt.x = 10.0f;
                     sSubCamAtNext.y = sSubCamAt.y = 50.0f;
                     sSubCamAtNext.z = sSubCamAt.z = -220.0f;
-                    Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+                    Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
                     this->timer = 20;
 
                     for (i = BOSSVA_BARI_LOWER_5; i >= BOSSVA_BARI_UPPER_1; i--) {
@@ -675,8 +702,8 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
                 }
 
                 this->zapHeadPos.x = 1.0f;
-                Collider_InitCylinder(play, &this->colliderBody);
-                Collider_SetCylinder(play, &this->colliderBody, &this->actor, &sCylinderInit);
+                Collider_InitCylinder(play, &this->bodyCollider);
+                Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sCylinderInit);
 
                 for (i = BOSSVA_ZAPPER_3; i >= BOSSVA_SUPPORT_1; i--) {
                     Actor_SpawnAsChild(
@@ -697,8 +724,9 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
         case BOSSVA_SUPPORT_1:
         case BOSSVA_SUPPORT_2:
         case BOSSVA_SUPPORT_3:
-            Collider_InitJntSph(play, &this->colliderSph);
-            Collider_SetJntSph(play, &this->colliderSph, &this->actor, &sJntSphInitSupport, this->elements);
+            Collider_InitJntSph(play, &this->colliderJntSph);
+            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInitSupport,
+                               this->colliderJntSphElements);
             if (sCsState < BOSSVA_BATTLE) {
                 BossVa_SetupSupportIntro(this, play);
             } else {
@@ -726,8 +754,9 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
             BossVa_SetupDoor(this, play);
             break;
         default:
-            Collider_InitJntSph(play, &this->colliderSph);
-            Collider_SetJntSph(play, &this->colliderSph, &this->actor, &sJntSphInitBari, this->elements);
+            Collider_InitJntSph(play, &this->colliderJntSph);
+            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInitBari,
+                               this->colliderJntSphElements);
             Collider_InitQuad(play, &this->colliderLightning);
             Collider_SetQuad(play, &this->colliderLightning, &this->actor, &sQuadInit);
             this->unk_1D8.x = 1.0f;
@@ -747,8 +776,8 @@ void BossVa_Destroy(Actor* thisx, PlayState* play) {
     BossVa* this = (BossVa*)thisx;
 
     SkelAnime_Free(&this->skelAnime, play);
-    Collider_DestroyJntSph(play, &this->colliderSph);
-    Collider_DestroyCylinder(play, &this->colliderBody);
+    Collider_DestroyJntSph(play, &this->colliderJntSph);
+    Collider_DestroyCylinder(play, &this->bodyCollider);
 }
 
 void BossVa_SetupIntro(BossVa* this) {
@@ -756,7 +785,7 @@ void BossVa_SetupIntro(BossVa* this) {
 
     Animation_Change(&this->skelAnime, &gBarinadeBodyAnim, 1.0f, lastFrame, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->actor.shape.yOffset = -450.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     BossVa_SetupAction(this, BossVa_BodyIntro);
 }
 
@@ -781,12 +810,12 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             play->envCtx.screenFillColor[1] = 0xDC;
             play->envCtx.screenFillColor[2] = 0xBE;
             play->envCtx.screenFillColor[3] = 0xD2;
-            func_8002DF54(play, &this->actor, 8);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
             player->actor.world.rot.y = player->actor.shape.rot.y = 0x7FFF;
             sCsState++;
             break;
         case INTRO_LOOK_DOOR:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             if (sSubCamId == SUB_CAM_ID_DONE) {
                 sSubCamId = Play_CreateSubCamera(play);
             }
@@ -809,7 +838,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
         case INTRO_CLOSE_DOOR:
             this->timer--;
             if (this->timer == 0) {
-                func_8002DF54(play, &this->actor, 2);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_2);
                 sCsState++;
                 this->timer = 30;
             }
@@ -820,15 +849,15 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
                 sCsState++;
             }
             if (Rand_ZeroOne() < 0.1f) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
             }
             break;
         case INTRO_CRACKLE:
-            func_8002DF54(play, &this->actor, 1);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
             sCsState++;
             break;
         case INTRO_SPAWN_BARI:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             if (sSubCamId == SUB_CAM_ID_DONE) {
                 sSubCamId = Play_CreateSubCamera(play);
             }
@@ -922,7 +951,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             sSubCamEyeMaxVelFrac.z = sSubCamEyeMaxVelFrac.x;
 
             sSubCamAtMaxVelFrac = sSubCamEyeMaxVelFrac;
-            sSubCamAtMaxVelFrac.z = sSubCamAtMaxVelFrac.z * 1.75f;
+            sSubCamAtMaxVelFrac.z *= 1.75f;
 
             this->timer--;
             if (this->timer == 0) {
@@ -935,7 +964,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             for (i = 10; i >= 1; i--) {
                 if (sBodyBari[i - 1]) {
                     if (sBodyBari[i - 1] == 1) {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_STICK);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_STICK);
                         BossVa_SetSparkEnv(play);
                         if (this->onCeiling == 0) {
                             this->onCeiling = 2; // Not used by body
@@ -955,9 +984,9 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             sSubCamAtMaxVelFrac = sSubCamEyeMaxVelFrac;
             if (this->timer >= 45000) {
                 play->envCtx.lightSettingOverride = 1;
-                func_8002DF54(play, &this->actor, 8);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
             } else if (this->timer >= 35000) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             }
 
             this->timer += this->unk_1F2;
@@ -972,13 +1001,13 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
                 sSubCamAtNext.y = 140.0f;
                 sSubCamAtNext.z = -200.0f;
 
-                if (!GET_EVENTCHKINF(EVENTCHKINF_76)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_BEGAN_BARINADE_BATTLE)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gBarinadeTitleCardTex),
-                                           0xA0, 0xB4, 0x80, 0x28);
+                                           160, 180, 128, 40);
                 }
 
                 if (Rand_ZeroOne() < 0.1f) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
                 }
 
                 this->timer = 40;
@@ -1010,11 +1039,11 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             if (this->timer == 0) {
                 Play_ClearCamera(play, sSubCamId);
                 sSubCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
-                func_8002DF54(play, &this->actor, 7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 sCsState++;
-                SET_EVENTCHKINF(EVENTCHKINF_76);
+                SET_EVENTCHKINF(EVENTCHKINF_BEGAN_BARINADE_BATTLE);
                 player->actor.shape.rot.y = player->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
             }
             break;
@@ -1039,7 +1068,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
         Math_SmoothStepToF(&sSubCamAt.x, sSubCamAtNext.x, 0.3f, sSubCamAtMaxVelFrac.x, 0.075f);
         Math_SmoothStepToF(&sSubCamAt.y, sSubCamAtNext.y, 0.3f, sSubCamAtMaxVelFrac.y, 0.075f);
         Math_SmoothStepToF(&sSubCamAt.z, sSubCamAtNext.z, 0.3f, sSubCamAtMaxVelFrac.z, 0.075f);
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
     }
 }
 
@@ -1048,7 +1077,7 @@ void BossVa_SetupBodyPhase1(BossVa* this) {
 
     Animation_Change(&this->skelAnime, &gBarinadeBodyAnim, 1.0f, lastFrame, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->actor.shape.yOffset = -450.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->timer = 25;
     sBodyState = 0x80;
     BossVa_SetupAction(this, BossVa_BodyPhase1);
@@ -1066,17 +1095,17 @@ void BossVa_BodyPhase1(BossVa* this, PlayState* play) {
         }
     }
 
-    if (this->colliderBody.base.atFlags & AT_HIT) {
-        this->colliderBody.base.atFlags &= ~AT_HIT;
-        if (this->colliderBody.base.at == &player->actor) {
-            func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+    if (this->bodyCollider.base.atFlags & AT_HIT) {
+        this->bodyCollider.base.atFlags &= ~AT_HIT;
+        if (this->bodyCollider.base.at == &player->actor) {
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
         }
     }
 
     if (sBodyState & 0x7F) {
         this->skelAnime.curFrame = 0.0f;
-        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
     }
 
     if (SkelAnime_Update(&this->skelAnime) && (sFightPhase >= PHASE_2)) {
@@ -1093,12 +1122,12 @@ void BossVa_BodyPhase1(BossVa* this, PlayState* play) {
     }
 
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
-    Collider_UpdateCylinder(&this->actor, &this->colliderBody);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderBody.base);
-    CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderBody.base);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
+    CollisionCheck_SetAT(play, &play->colChkCtx, &this->bodyCollider.base);
     func_800F436C(&this->actor.projectedPos, NA_SE_EN_BALINADE_LEVEL - SFX_FLAG, 1.0f);
 }
 
@@ -1115,58 +1144,60 @@ void BossVa_SetupBodyPhase2(BossVa* this, PlayState* play) {
     }
 
     this->invincibilityTimer = 0;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     BossVa_SetupAction(this, BossVa_BodyPhase2);
 }
 
 void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Vec3f sp48;
 
     if (this->actor.colorFilterTimer == 0) {
         sPhase2Timer++;
         if ((this->invincibilityTimer != 0) && (this->actor.colorFilterParams & 0x4000)) {
-            Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 160);
             this->actor.colorFilterTimer = this->invincibilityTimer;
         } else {
-            this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
+            this->bodyCollider.elem.acDmgInfo.dmgFlags = DMG_BOOMERANG;
         }
     }
 
-    if (this->colliderBody.base.acFlags & AC_HIT) {
-        this->colliderBody.base.acFlags &= ~AC_HIT;
+    if (this->bodyCollider.base.acFlags & AC_HIT) {
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-        if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
+        if (this->bodyCollider.base.ac->id == ACTOR_EN_BOOM) {
             sPhase2Timer &= 0xFE00;
-            Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
-            this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 160);
+            this->bodyCollider.elem.acDmgInfo.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
         } else {
             sKillBari++;
             if ((this->actor.colorFilterTimer != 0) && !(this->actor.colorFilterParams & 0x4000)) {
                 this->invincibilityTimer = this->actor.colorFilterTimer - 5;
+                //! @bug This condition is always false as this->invincibilityTimer is an s8 so can never
+                //! be larger than 160.
                 if (this->invincibilityTimer > 160) {
                     this->invincibilityTimer = 0;
                 }
             }
 
-            Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
         }
 
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_FAINT);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_FAINT);
     }
 
-    if (this->colliderBody.base.atFlags & AT_HIT) {
-        this->colliderBody.base.atFlags &= ~AT_HIT;
+    if (this->bodyCollider.base.atFlags & AT_HIT) {
+        this->bodyCollider.base.atFlags &= ~AT_HIT;
 
         sPhase2Timer = (sPhase2Timer + 0x18) & 0xFFF0;
-        if (this->colliderBody.base.at == &player->actor) {
-            func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
-            Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
+        if (this->bodyCollider.base.at == &player->actor) {
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
 
-    if ((sPhase2Timer > 10) && !(sPhase2Timer & 7) && (this->actor.speedXZ == 1.0f)) {
-        sp48 = this->actor.world.pos;
+    if ((sPhase2Timer > 10) && !(sPhase2Timer & 7) && (this->actor.speed == 1.0f)) {
+        Vec3f sp48 = this->actor.world.pos;
+
         sp48.y += 310.0f + (this->actor.shape.yOffset * this->actor.scale.y);
         sp48.x += -10.0f;
         sp48.z += 220.0f;
@@ -1174,18 +1205,18 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
     }
 
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
     Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x, 1, 0xC8, 0);
     Math_SmoothStepToS(&this->actor.shape.rot.z, this->actor.world.rot.z, 1, 0xC8, 0);
     Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 20.0f, 0.0f);
     if (!(sPhase2Timer & 0x100)) {
-        this->actor.flags |= ACTOR_FLAG_0;
-        this->actor.speedXZ = 1.0f;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+        this->actor.speed = 1.0f;
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_0;
-        this->actor.speedXZ = 0.0f;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+        this->actor.speed = 0.0f;
     }
 
     if (SkelAnime_Update(&this->skelAnime) && (sFightPhase >= PHASE_3)) {
@@ -1202,14 +1233,14 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 45.0f;
 
-    Collider_UpdateCylinder(&this->actor, &this->colliderBody);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderBody.base);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
     if (this->actor.colorFilterTimer == 0) {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->bodyCollider.base);
     }
 
     if ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000)) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
     }
 
     func_800F436C(&this->actor.projectedPos, NA_SE_EN_BALINADE_LEVEL - SFX_FLAG,
@@ -1217,8 +1248,8 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
 }
 
 void BossVa_SetupBodyPhase3(BossVa* this) {
-    this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
-    this->actor.speedXZ = 0.0f;
+    this->bodyCollider.elem.acDmgInfo.dmgFlags = DMG_BOOMERANG;
+    this->actor.speed = 0.0f;
     sPhase3StopMoving = false;
     BossVa_SetupAction(this, BossVa_BodyPhase3);
 }
@@ -1232,39 +1263,39 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
     sp62 = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
     this->unk_1B0 += 0xCE4;
     this->bodyGlow = (s16)(Math_SinS(this->unk_1B0) * 50.0f) + 150;
-    if (this->colliderBody.base.atFlags & AT_HIT) {
-        this->colliderBody.base.atFlags &= ~AT_HIT;
-        if (this->colliderBody.base.at == &player->actor) {
-            func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+    if (this->bodyCollider.base.atFlags & AT_HIT) {
+        this->bodyCollider.base.atFlags &= ~AT_HIT;
+        if (this->bodyCollider.base.at == &player->actor) {
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             this->actor.world.rot.y += (s16)Rand_CenteredFloat(0x2EE0) + 0x8000;
-            Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
 
-    if (this->colliderBody.base.acFlags & AC_HIT) {
+    if (this->bodyCollider.base.acFlags & AC_HIT) {
         this->skelAnime.curFrame = 0.0f;
-        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_FAINT);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_FAINT);
         sBodyState = 1;
         this->timer = 131;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     } else {
         sBodyState = 0;
         if (this->timer == 0) {
             if (Math_SmoothStepToS(&this->vaBodySpinRate, 0xFA0, 1, 0x12C, 0) == 0) {
-                if (this->actor.speedXZ == 0.0f) {
+                if (this->actor.speed == 0.0f) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 }
-                Math_SmoothStepToF(&this->actor.speedXZ, 3.0f, 1.0f, 0.15f, 0.0f);
+                Math_SmoothStepToF(&this->actor.speed, 3.0f, 1.0f, 0.15f, 0.0f);
             }
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         } else {
             this->timer--;
             if (this->timer < 35) {
                 sBodyState = 0x80;
             }
             Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0x12C, 0);
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.2f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.2f, 0.0f);
             Math_SmoothStepToF(&this->actor.shape.yOffset, -1420.0f, 1.0f, 30.0f, 0.0f);
         }
     }
@@ -1280,10 +1311,10 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
     }
 
     if (sPhase3StopMoving) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     if (SkelAnime_Update(&this->skelAnime) && (sFightPhase >= PHASE_4)) {
         BossVa_SetupBodyPhase4(this, play);
     }
@@ -1316,14 +1347,14 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 20.0f;
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
-    Collider_UpdateCylinder(&this->actor, &this->colliderBody);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderBody.base);
-    CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderBody.base);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
+    CollisionCheck_SetAT(play, &play->colChkCtx, &this->bodyCollider.base);
     if (this->timer == 0) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
     }
 
     func_800F436C(&this->actor.projectedPos, NA_SE_EN_BALINADE_LEVEL - SFX_FLAG,
@@ -1332,7 +1363,7 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
 
 void BossVa_SetupBodyPhase4(BossVa* this, PlayState* play) {
     this->unk_1AC = 0;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->vaBodySpinRate = this->unk_1AC;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->timer2 = (s16)(Rand_ZeroOne() * 150.0f) + 300;
@@ -1342,7 +1373,7 @@ void BossVa_SetupBodyPhase4(BossVa* this, PlayState* play) {
         this->timer = -30;
     }
 
-    this->colliderBody.dim.radius = 55;
+    this->bodyCollider.dim.radius = 55;
     BossVa_SetupAction(this, BossVa_BodyPhase4);
 }
 
@@ -1353,28 +1384,28 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
 
     this->unk_1B0 = (this->unk_1B0 + (s16)((sFightPhase - PHASE_4 + 1) * 1000.0f)) + 0xCE4;
     this->bodyGlow = (s16)(Math_SinS(this->unk_1B0) * 50.0f) + 150;
-    if (this->colliderBody.base.atFlags & AT_HIT) {
-        this->colliderBody.base.atFlags &= ~AT_HIT;
-        if (this->colliderBody.base.at == &player->actor) {
-            func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+    if (this->bodyCollider.base.atFlags & AT_HIT) {
+        this->bodyCollider.base.atFlags &= ~AT_HIT;
+        if (this->bodyCollider.base.at == &player->actor) {
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             this->actor.world.rot.y += (s16)Rand_CenteredFloat(0x2EE0) + 0x8000;
-            Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
-    if (this->colliderBody.base.acFlags & AC_HIT) {
-        this->colliderBody.base.acFlags &= ~AC_HIT;
+    if (this->bodyCollider.base.acFlags & AC_HIT) {
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
         this->skelAnime.curFrame = 0.0f;
         if (this->timer >= 0) {
             if (this->invincibilityTimer == 0) {
                 this->invincibilityTimer = 8;
-                if (this->actor.colChkInfo.damageEffect != 1) {
+                if (this->actor.colChkInfo.damageReaction != 1) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
-                    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
                     sPhase4HP -= this->actor.colChkInfo.damage;
                     if (sPhase4HP <= 0) {
                         this->timer = 0;
@@ -1385,23 +1416,23 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                             Enemy_StartFinishingBlow(play, &this->actor);
                             return;
                         }
-                        this->actor.speedXZ = -10.0f;
+                        this->actor.speed = -10.0f;
                         this->timer = -170 - (s16)(Rand_ZeroOne() * 150.0f);
                     }
                 } else {
                     this->timer = (s16)Rand_CenteredFloat(40.0f) + 160;
                     this->vaBodySpinRate = 0;
-                    this->actor.speedXZ = 0.0f;
-                    Actor_SetColorFilter(&this->actor, 0, 125, 0, 255);
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_FAINT);
+                    this->actor.speed = 0.0f;
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 125, COLORFILTER_BUFFLAG_OPA, 255);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_FAINT);
                 }
             }
-        } else if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
-            boomerang = (EnBoom*)this->colliderBody.base.ac;
+        } else if (this->bodyCollider.base.ac->id == ACTOR_EN_BOOM) {
+            boomerang = (EnBoom*)this->bodyCollider.base.ac;
             boomerang->returnTimer = 0;
             boomerang->moveTo = &player->actor;
             boomerang->actor.world.rot.y = boomerang->actor.yawTowardsPlayer;
-            Audio_PlayActorSound2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
         }
     } else if ((this->timer2 == 0) && (this->actor.shape.yOffset == 0.0f)) {
         this->timer = -220 - (s16)(Rand_ZeroOne() * 200.0f);
@@ -1414,14 +1445,14 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
         Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, ((sFightPhase - PHASE_4 + 1) * 5.0f) + 10.0f, 0.0f);
         if (Math_SmoothStepToS(&this->vaBodySpinRate, (s16)((sFightPhase - PHASE_4 + 1) * 500.0f) + 0xFA0, 1, 0x12C,
                                0) == 0) {
-            if (this->actor.speedXZ == 0.0f) {
+            if (this->actor.speed == 0.0f) {
                 this->actor.colorFilterTimer = 0;
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 this->timer2 = (s16)(Rand_ZeroOne() * 150.0f) + 300;
             }
-            Math_SmoothStepToF(&this->actor.speedXZ, ((sFightPhase - PHASE_4 + 1) * 1.5f) + 4.0f, 1.0f, 0.25f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, ((sFightPhase - PHASE_4 + 1) * 1.5f) + 4.0f, 1.0f, 0.25f, 0.0f);
         }
-        this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
+        this->bodyCollider.elem.acDmgInfo.dmgFlags = DMG_BOOMERANG;
     } else {
         Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0x96, 0);
         if (this->timer > 0) {
@@ -1429,7 +1460,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                 this->timer = 35;
             }
             Math_SmoothStepToF(&this->actor.shape.yOffset, -480.0f, 1.0f, 30.0f, 0.0f);
-            this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
+            this->bodyCollider.elem.acDmgInfo.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
             this->timer--;
         } else {
             if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer < -60)) {
@@ -1439,18 +1470,18 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                 BossVa_Spark(play, this, 2, 0x64, 220.0f, 5.0f, SPARK_BODY, 12.0f, true);
             }
             if (this->timer < -30) {
-                if (this->actor.speedXZ > 0.0f) {
-                    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+                if (this->actor.speed > 0.0f) {
+                    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
                 }
                 Math_SmoothStepToF(&this->actor.shape.yOffset, -1400.0f, 1.0f, 60.0f, 0.0f);
             } else {
-                if (this->actor.speedXZ == 0.0f) {
+                if (this->actor.speed == 0.0f) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
                     this->timer2 = (s16)(Rand_ZeroOne() * 150.0f) + 330;
                 }
                 Math_SmoothStepToS(&this->vaBodySpinRate, 0xFA0, 1, 0x1F4, 0);
                 tmpf1 = sFightPhase - PHASE_4 + 1;
-                Math_SmoothStepToF(&this->actor.speedXZ, (tmpf1 + tmpf1) + 4.0f, 1.0f, 0.25f, 0.0f);
+                Math_SmoothStepToF(&this->actor.speed, (tmpf1 + tmpf1) + 4.0f, 1.0f, 0.25f, 0.0f);
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 20.0f, 0.0f);
             }
             this->timer++;
@@ -1458,8 +1489,8 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y += this->vaBodySpinRate;
-    if (this->actor.speedXZ < 0.0f) {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    if (this->actor.speed < 0.0f) {
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     }
 
     this->unk_1AC += 0xC31;
@@ -1482,7 +1513,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
         }
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 60.0f;
     if (((play->gameplayFrames % 2) == 0) && (this->timer == 0)) {
@@ -1491,13 +1522,13 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
     }
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 30.0f, 70.0f, 0.0f, UPDBGCHECKINFO_FLAG_0);
-    Collider_UpdateCylinder(&this->actor, &this->colliderBody);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderBody.base);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
     if (this->invincibilityTimer == 0) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
     }
     if ((this->vaBodySpinRate > 0x3E8) || (this->actor.shape.yOffset < -1200.0f)) {
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->bodyCollider.base);
     }
     func_800F436C(&this->actor.projectedPos, NA_SE_EN_BALINADE_LEVEL - SFX_FLAG,
                   (this->vaBodySpinRate * 0.00025f) + 1.0f);
@@ -1511,11 +1542,11 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
 
 void BossVa_SetupBodyDeath(BossVa* this, PlayState* play) {
     func_800F436C(&this->actor.projectedPos, NA_SE_EN_BALINADE_LEVEL - SFX_FLAG, 1.0f);
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
-    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
     this->vaCamRotMod = 0xC31;
     sCsState = DEATH_START;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->unk_1A8 = 0.0f;
     Flags_SetClear(play, play->roomCtx.curRoom.num);
     BossVa_SetupAction(this, BossVa_BodyDeath);
@@ -1530,8 +1561,8 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
 
     switch (sCsState) {
         case DEATH_START:
-            func_8002DF54(play, &this->actor, 1);
-            func_80064520(play, &play->csCtx);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
+            Cutscene_StartManual(play, &play->csCtx);
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
@@ -1592,12 +1623,12 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
                 EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_BALINADE_DEAD, 1, 1, 0x28);
                 this->onCeiling = 2; // Not used by body
                 BossVa_SetDeathEnv(play);
-                func_8002DF54(play, &this->actor, 8);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
             }
             break;
         case DEATH_CORE_BURST:
             if (this->timer == 13) {
-                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
             }
 
             this->timer--;
@@ -1626,14 +1657,14 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
             if (this->timer == 0) {
                 Play_ClearCamera(play, sSubCamId);
                 sSubCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
 
                 mainCam->eyeNext = mainCam->eye = sSubCamEye;
 
                 mainCam->at = sSubCamAt;
 
-                func_8002DF54(play, &this->actor, 7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 sCsState++;
 
                 Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, this->actor.world.pos.x, this->actor.world.pos.y,
@@ -1663,7 +1694,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
         Math_SmoothStepToF(&sSubCamAt.x, sSubCamAtNext.x, 0.3f, sSubCamAtMaxVelFrac.x, 0.15f);
         Math_SmoothStepToF(&sSubCamAt.y, sSubCamAtNext.y, 0.3f, sSubCamAtMaxVelFrac.y, 0.15f);
         Math_SmoothStepToF(&sSubCamAt.z, sSubCamAtNext.z, 0.3f, sSubCamAtMaxVelFrac.z, 0.15f);
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -1675,7 +1706,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
         play->envCtx.screenFillColor[3] -= 50;
     }
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     this->actor.shape.rot.y += this->vaBodySpinRate;
     this->unk_1AC += this->vaCamRotMod;
 
@@ -1703,7 +1734,7 @@ void BossVa_SupportIntro(BossVa* this, PlayState* play) {
         SkelAnime_Update(&this->skelAnime);
         Math_SmoothStepToF(&this->skelAnime.playSpeed, 1.0f, 1.0f, 0.05f, 0.0f);
         if (Rand_ZeroOne() < 0.1f) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
         }
     }
 }
@@ -1718,7 +1749,7 @@ void BossVa_SetupSupportAttached(BossVa* this, PlayState* play) {
 void BossVa_SupportAttached(BossVa* this, PlayState* play) {
     this->timer++;
     if (sBodyState & 0x7F) {
-        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
         if (Rand_ZeroOne() > 0.5f) {
             Animation_Change(&this->skelAnime, &gBarinadeSupportDamage1Anim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gBarinadeSupportDamage1Anim), ANIMMODE_ONCE, 0.0f);
@@ -1735,14 +1766,14 @@ void BossVa_SupportAttached(BossVa* this, PlayState* play) {
 
     BossVa_AttachToBody(this);
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
-    if (this->colliderSph.base.acFlags & AC_HIT) {
+    if (this->colliderJntSph.base.acFlags & AC_HIT) {
         BossVa_SetupSupportCut(this, play);
     } else {
         if (this->actor.colorFilterTimer == 0) {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSph.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
         }
 
         if ((this->timer % 2) == 0) {
@@ -1758,7 +1789,7 @@ void BossVa_SetupSupportCut(BossVa* this, PlayState* play) {
     sFightPhase++;
     Actor_Spawn(&play->actorCtx, play, ACTOR_BOSS_VA, this->armTip.x, this->armTip.y + 20.0f, this->armTip.z, 0,
                 this->actor.shape.rot.y, 0, stumpParams);
-    Camera_AddQuake(&play->mainCamera, 2, 11, 8);
+    Camera_RequestQuake(&play->mainCamera, 2, 11, 8);
     this->burst = false;
     this->timer2 = 0;
     BossVa_SetupAction(this, BossVa_SupportCut);
@@ -1800,7 +1831,7 @@ void BossVa_SupportCut(BossVa* this, PlayState* play) {
         lastFrame = Animation_GetLastFrame(&gBarinadeSupportDetachedAnim);
         Animation_Change(&this->skelAnime, &gBarinadeSupportDetachedAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP,
                          0.0f);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     }
 
     if ((this->timer == 0) && (sCsState < DEATH_START)) {
@@ -1834,7 +1865,7 @@ void BossVa_SupportCut(BossVa* this, PlayState* play) {
                 if (this->timer2 >= 32) {
                     this->burst++;
                     this->isDead = true;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BREAK2);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BREAK2);
                     if (this->actor.params == BOSSVA_SUPPORT_3) {
                         sCsState++;
                     }
@@ -1854,7 +1885,7 @@ void BossVa_SupportCut(BossVa* this, PlayState* play) {
 void BossVa_SetupStump(BossVa* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gBarinadeStumpAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gBarinadeStumpAnim),
                      ANIMMODE_ONCE, 0.0f);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     BossVa_SetupAction(this, BossVa_Stump);
 }
 
@@ -1873,7 +1904,7 @@ void BossVa_SetupZapperIntro(BossVa* this, PlayState* play) {
 
     Animation_Change(&this->skelAnime, &gBarinadeZapperIdleAnim, 1.0f, lastFrame - 1.0f, lastFrame,
                      ANIMMODE_LOOP_INTERP, -6.0f);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     BossVa_SetupAction(this, BossVa_ZapperIntro);
 }
 
@@ -1900,7 +1931,7 @@ void BossVa_SetupZapperAttack(BossVa* this, PlayState* play) {
 
     Animation_Change(&this->skelAnime, &gBarinadeZapperIdleAnim, 1.0f, lastFrame - 1.0f, lastFrame,
                      ANIMMODE_LOOP_INTERP, -6.0f);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     BossVa_SetupAction(this, BossVa_ZapperAttack);
 }
 
@@ -1918,19 +1949,6 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
     u32 sp88;
     Vec3f sp7C;
     s32 pad3;
-    f32 sp74;
-    s32 i;
-    s16 sp6E;
-    s16 sp6C;
-    f32 sp68;
-    f32 sp64;
-    f32 sp60;
-    f32 sp5C;
-    s16 sp5A;
-    s16 sp58;
-    s16 sp56;
-    s16 sp54;
-    f32 sp50;
 
     boomerang = BossVa_FindBoomerang(play);
 
@@ -1939,6 +1957,20 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
         sp7C.y += 10.0f;
         sp8E = 0x3E80;
     } else {
+        f32 sp74;
+        s32 i;
+        s16 sp6E;
+        s16 sp6C;
+        f32 sp68;
+        f32 sp64;
+        f32 sp60;
+        f32 sp5C;
+        s16 sp5A;
+        s16 sp58;
+        s16 sp56;
+        s16 sp54;
+        f32 sp50;
+
         sp74 = R_UPDATE_RATE * 0.5f;
         sp8E = 0x4650;
 
@@ -1992,7 +2024,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
         return;
     }
 
-    if ((sFightPhase < PHASE_4) && (GET_BODY(this)->actor.speedXZ != 0.0f)) {
+    if ((sFightPhase < PHASE_4) && (GET_BODY(this)->actor.speed != 0.0f)) {
         BossVa_SetupZapperHold(this, play);
         return;
     }
@@ -2038,14 +2070,14 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
 
             this->skelAnime.playSpeed = 0.0f;
             if (Math_SmoothStepToF(&this->skelAnime.curFrame, 0.0f, 1.0f, 2.0f, 0.0f) == 0.0f) {
-                if (sp88 < sp90) {
+                if (sp88 < (u32)sp90) {
                     this->timer2 = 0;
                     this->burst++;
                     this->unk_1D8 = sp7C;
                 }
 
                 if (Rand_ZeroOne() < 0.1f) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
                 }
             }
         }
@@ -2053,7 +2085,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
         if (this->burst || (this->timer2 < 0)) {
             if (this->colliderLightning.base.atFlags & AT_HIT) {
                 if (this->timer2 > 0) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HIT_RINK);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HIT_RINK);
                     BossVa_SetSparkEnv(play);
                     this->timer2 = -1;
                     GET_BODY(this)->onCeiling = 6; // not used by body
@@ -2079,7 +2111,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
     if (this->burst && (this->burst != 2)) { // burst can never be 2
         if (this->timer2 >= 32) {
             if (this->timer2 == 32) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_THUNDER);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_THUNDER);
             }
             BossVa_Spark(play, this, 2, 110, 15.0f, 15.0f, SPARK_BLAST, 5.0f, true);
             BossVa_Spark(play, this, 2, 110, 15.0f, 15.0f, SPARK_BLAST, 6.0f, true);
@@ -2114,7 +2146,7 @@ void BossVa_SetupZapperDamaged(BossVa* this, PlayState* play) {
                          Animation_GetLastFrame(&gBarinadeZapperDamage2Anim), ANIMMODE_ONCE_INTERP, 4.0f);
     }
 
-    Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
     this->burst = false;
     BossVa_SetupAction(this, BossVa_ZapperDamaged);
 }
@@ -2196,7 +2228,7 @@ void BossVa_ZapperDeath(BossVa* this, PlayState* play) {
                         this->burst++;
                         this->isDead = true;
                         BossVa_SetDeathEnv(play);
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BREAK2);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BREAK2);
                     }
                 } else {
                     this->burst++;
@@ -2304,7 +2336,7 @@ void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
                 this->burst++;
                 this->unk_1D8 = sp54;
                 if (Rand_ZeroOne() < 0.1f) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
                 }
             }
         }
@@ -2312,7 +2344,7 @@ void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
         if (this->burst || (this->timer2 < 0)) {
             if (this->colliderLightning.base.atFlags & AT_HIT) {
                 if (this->timer2 > 0) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HIT_RINK);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HIT_RINK);
                     BossVa_SetSparkEnv(play);
                     this->timer2 = -1;
                     GET_BODY(this)->onCeiling = 6; // not used by body
@@ -2338,7 +2370,7 @@ void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
     if (this->burst && (this->burst != 2)) { // burst can never be 2
         if (this->timer2 >= 16) {
             if (this->timer2 == 18) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_THUNDER);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_THUNDER);
             }
 
             BossVa_Spark(play, this, 2, 110, 15.0f, 15.0f, SPARK_BLAST, 5.0f, true);
@@ -2381,7 +2413,7 @@ void BossVa_ZapperHold(BossVa* this, PlayState* play) {
     Math_SmoothStepToS(&this->unk_1EA, 0, 1, 0x1770, 0);
     Math_SmoothStepToS(&this->unk_1F2, this->actor.shape.rot.y - 0x4000, 1, 0x2710, 0);
     Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.jointTable[7].z - 0x1388, 1, 0x1770, 0);
-    if (GET_BODY(this)->actor.speedXZ == 0.0f) {
+    if (GET_BODY(this)->actor.speed == 0.0f) {
         BossVa_SetupZapperAttack(this, play);
     }
 }
@@ -2398,7 +2430,7 @@ void BossVa_SetupBariIntro(BossVa* this, PlayState* play) {
     this->actor.world.pos.y = sInitPosOffsets[this->actor.params + 10].y + this->actor.home.pos.y;
     this->actor.world.pos.z = sInitPosOffsets[this->actor.params + 10].z + this->actor.home.pos.z;
     this->timer = 45;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     BossVa_SetupAction(this, BossVa_BariIntro);
 }
 
@@ -2417,7 +2449,7 @@ void BossVa_BariIntro(BossVa* this, PlayState* play) {
     switch (sCsState) {
         case INTRO_LOOK_BARI:
             if (this->actor.params == BOSSVA_BARI_UPPER_1) {
-                func_8002DF54(play, &this->actor, 1);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
                 if (Math_SmoothStepToF(&this->actor.world.pos.y, 60.0f, 0.3f, 1.0f, 0.15f) == 0.0f) {
                     this->timer--;
                     if (this->timer == 0) {
@@ -2509,7 +2541,7 @@ void BossVa_BariIntro(BossVa* this, PlayState* play) {
     }
 
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 }
 
@@ -2520,7 +2552,7 @@ void BossVa_SetupBariPhase3Attack(BossVa* this, PlayState* play) {
     this->unk_1F0 = 0x78;
     this->unk_1A0 = 60.0f;
     this->unk_1A8 = 0.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     BossVa_SetupAction(this, BossVa_BariPhase3Attack);
 }
 
@@ -2540,26 +2572,27 @@ void BossVa_BariPhase3Attack(BossVa* this, PlayState* play) {
 
     Math_SmoothStepToS(&this->vaBariUnused.z, this->vaBariUnused.x, 1, 0x1E, 0);
     this->vaBariUnused.y += this->vaBariUnused.z;
-    if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderSph.base.atFlags & AT_HIT)) {
-        if ((this->colliderLightning.base.at == &player->actor) || (this->colliderSph.base.at == &player->actor)) {
-            func_8002F71C(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer, 8.0f);
-            Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
-            this->colliderSph.base.at = NULL;
+    if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderJntSph.base.atFlags & AT_HIT)) {
+        if ((this->colliderLightning.base.at == &player->actor) || (this->colliderJntSph.base.at == &player->actor)) {
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer,
+                                                  8.0f);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
+            this->colliderJntSph.base.at = NULL;
             this->colliderLightning.base.at = NULL;
         }
 
         this->colliderLightning.base.atFlags &= ~AT_HIT;
-        this->colliderSph.base.atFlags &= ~AT_HIT;
+        this->colliderJntSph.base.atFlags &= ~AT_HIT;
     }
 
-    if (this->colliderSph.base.acFlags & AC_HIT) {
-        this->colliderSph.base.acFlags &= ~AC_HIT;
-        if ((this->colliderSph.base.ac->id == ACTOR_EN_BOOM) && (sp52 >= 128)) {
-            boomerang = (EnBoom*)this->colliderSph.base.ac;
+    if (this->colliderJntSph.base.acFlags & AC_HIT) {
+        this->colliderJntSph.base.acFlags &= ~AC_HIT;
+        if ((this->colliderJntSph.base.ac->id == ACTOR_EN_BOOM) && (sp52 >= 128)) {
+            boomerang = (EnBoom*)this->colliderJntSph.base.ac;
             boomerang->returnTimer = 0;
             boomerang->moveTo = &player->actor;
             boomerang->actor.world.rot.y = boomerang->actor.yawTowardsPlayer;
-            Audio_PlayActorSound2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
         }
     }
 
@@ -2578,20 +2611,20 @@ void BossVa_BariPhase3Attack(BossVa* this, PlayState* play) {
 
     if (sp52 >= 128) {
         BossVa_Spark(play, this, 1, 75, 15.0f, 7.0f, SPARK_TETHER, 1.0f, true);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSph.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
         sPhase3StopMoving = false;
     } else {
         sPhase3StopMoving = true;
     }
 
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderLightning.base);
-    CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderSph.base);
+    CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
     if ((play->gameplayFrames % 4) == 0) {
         Math_SmoothStepToS(&this->unk_1F0, 0x78, 1, 0xA, 0);
     }
 
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
     this->actor.world.rot.y += this->unk_1AC;
@@ -2607,7 +2640,7 @@ void BossVa_SetupBariPhase2Attack(BossVa* this, PlayState* play) {
     this->unk_1F0 = 0x78;
     this->unk_1A0 = 60.0f;
     this->unk_1A8 = 0.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     BossVa_SetupAction(this, BossVa_BariPhase2Attack);
 }
 
@@ -2635,16 +2668,17 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
         return;
     }
 
-    if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderSph.base.atFlags & AT_HIT)) {
-        if ((this->colliderLightning.base.at == &player->actor) || (this->colliderSph.base.at == &player->actor)) {
-            func_8002F71C(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer, 8.0f);
-            Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
-            this->colliderSph.base.at = NULL;
+    if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderJntSph.base.atFlags & AT_HIT)) {
+        if ((this->colliderLightning.base.at == &player->actor) || (this->colliderJntSph.base.at == &player->actor)) {
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer,
+                                                  8.0f);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
+            this->colliderJntSph.base.at = NULL;
             this->colliderLightning.base.at = NULL;
         }
 
         this->colliderLightning.base.atFlags &= ~AT_HIT;
-        this->colliderSph.base.atFlags &= ~AT_HIT;
+        this->colliderJntSph.base.atFlags &= ~AT_HIT;
     }
 
     Math_SmoothStepToF(&this->actor.world.pos.y, 4.0f, 1.0f, 2.0f, 0.0f);
@@ -2657,54 +2691,55 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
     if (!(sPhase2Timer & 0x100) && (GET_BODY(this)->actor.colorFilterTimer == 0)) {
         sp4C = 200.0f;
         BossVa_Spark(play, this, 1, 125, 15.0f, 7.0f, SPARK_TETHER, 1.0f, true);
-        this->actor.flags &= ~ACTOR_FLAG_0;
-        if (this->actor.params & 1) {
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+        if (PARAMS_GET_U(this->actor.params, 0, 1)) {
             sp4C = -200.0f;
         }
 
         Math_SmoothStepToF(&this->unk_1A0, (Math_SinS(sPhase2Timer * 0x190) * sp4C) + 320.0f, 1.0f, 10.0f, 0.0f);
         Math_SmoothStepToS(&this->unk_1AC, sp50 + 0x1F4, 1, 0x3C, 0);
         this->actor.world.pos.y += 2.0f * Math_SinF(this->unk_1A4);
-        if (this->colliderSph.base.acFlags & AC_HIT) {
-            this->colliderSph.base.acFlags &= ~AC_HIT;
+        if (this->colliderJntSph.base.acFlags & AC_HIT) {
+            this->colliderJntSph.base.acFlags &= ~AC_HIT;
 
-            if ((this->colliderSph.base.ac->id == ACTOR_EN_BOOM) && (sp52 >= 64)) {
-                boomerang = (EnBoom*)this->colliderSph.base.ac;
+            if ((this->colliderJntSph.base.ac->id == ACTOR_EN_BOOM) && (sp52 >= 64)) {
+                boomerang = (EnBoom*)this->colliderJntSph.base.ac;
                 boomerang->returnTimer = 0;
                 boomerang->moveTo = &player->actor;
                 boomerang->actor.world.rot.y = boomerang->actor.yawTowardsPlayer;
-                Audio_PlayActorSound2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
+                Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
             }
         }
 
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderLightning.base);
-        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderSph.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
     } else {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         Math_SmoothStepToS(&this->unk_1AC, sp50 + 150, 1, 0x3C, 0);
         if (GET_BODY(this)->actor.colorFilterTimer == 0) {
             Math_SmoothStepToF(&this->unk_1A0, 180.0f, 1.0f, 1.5f, 0.0f);
         } else {
             this->unk_1AC = 0;
             if (this->actor.colorFilterTimer == 0) {
-                Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, GET_BODY(this)->actor.colorFilterTimer);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                     GET_BODY(this)->actor.colorFilterTimer);
             }
         }
 
         this->actor.world.pos.y += Math_SinF(this->unk_1A4) * 4.0f;
-        if (this->colliderSph.base.acFlags & AC_HIT) {
+        if (this->colliderJntSph.base.acFlags & AC_HIT) {
             BossVa_KillBari(this, play);
         }
     }
 
     Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 0x5DC, 0);
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSph.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     if ((play->gameplayFrames % 4) == 0) {
         Math_SmoothStepToS(&this->unk_1F0, 0x78, 1, 0xA, 0);
     }
 
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
     if (GET_BODY(this)->actor.colorFilterTimer == 0) {
@@ -2720,9 +2755,9 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
 }
 
 void BossVa_SetupBariPhase3Stunned(BossVa* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->timer = GET_BODY(this)->timer;
-    Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, this->timer);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, this->timer);
     BossVa_SetupAction(this, BossVa_BariPhase3Stunned);
 }
 
@@ -2731,7 +2766,7 @@ void BossVa_BariPhase3Stunned(BossVa* this, PlayState* play) {
     Vec3f sp40 = GET_BODY(this)->unk_1D8;
 
     this->actor.world.rot.x = Math_Vec3f_Pitch(&GET_BODY(this)->actor.world.pos, &this->actor.world.pos);
-    if (this->colliderSph.base.acFlags & AC_HIT) {
+    if (this->colliderJntSph.base.acFlags & AC_HIT) {
         BossVa_KillBari(this, play);
         return;
     }
@@ -2739,7 +2774,7 @@ void BossVa_BariPhase3Stunned(BossVa* this, PlayState* play) {
     this->unk_1A4 += Rand_ZeroOne() * 0.5f;
     Math_SmoothStepToF(&this->actor.world.pos.y, 4.0f, 1.0f, 2.0f, 0.0f);
     this->actor.world.pos.y += Math_SinF(this->unk_1A4) * 3.0f;
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSph.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     if ((play->gameplayFrames % 4) == 0) {
         Math_SmoothStepToS(&this->unk_1F0, 0x28, 1, 0xA, 0);
         BossVa_Spark(play, this, 1, this->unk_1F0, 25.0f, 20.0f, SPARK_BARI, 2.0f, true);
@@ -2753,7 +2788,7 @@ void BossVa_BariPhase3Stunned(BossVa* this, PlayState* play) {
         } else {
             BossVa_Spark(play, this, 1, 85, 15.0f, 0.0f, SPARK_TETHER, 1.0f, true);
             if (this->timer2 >= 0x10) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 this->timer2 = 0x80;
                 BossVa_SetupAction(this, BossVa_BariPhase3Attack);
             }
@@ -2762,9 +2797,9 @@ void BossVa_BariPhase3Stunned(BossVa* this, PlayState* play) {
 }
 
 void BossVa_SetupBariDeath(BossVa* this) {
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->timer = 30;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_DEAD);
     this->isDead++;
     BossVa_SetupAction(this, BossVa_BariDeath);
 }
@@ -2780,13 +2815,13 @@ void BossVa_SetupDoor(BossVa* this, PlayState* play) {
     if (sCsState >= INTRO_SPAWN_BARI) {
         sDoorState = 100;
     }
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     BossVa_SetupAction(this, BossVa_Door);
 }
 
 void BossVa_Door(BossVa* this, PlayState* play) {
     if (sDoorState == 29) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUYODOOR_CLOSE);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_BUYODOOR_CLOSE);
     }
 
     if (sCsState <= INTRO_DOOR_SHUT) {
@@ -2808,10 +2843,10 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
-            if (this->colliderBody.base.acFlags & AC_HIT) {
-                this->colliderBody.base.acFlags &= ~AC_HIT;
-                if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
-                    boomerang = (EnBoom*)this->colliderBody.base.ac;
+            if (this->bodyCollider.base.acFlags & AC_HIT) {
+                this->bodyCollider.base.acFlags &= ~AC_HIT;
+                if (this->bodyCollider.base.ac->id == ACTOR_EN_BOOM) {
+                    boomerang = (EnBoom*)this->bodyCollider.base.ac;
                     boomerang->returnTimer = 0;
                 }
             }
@@ -2819,23 +2854,9 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
             BossVa_UpdateEffects(play);
 
             for (i = 2; i >= 0; i--) {
-                if ((play->envCtx.adjAmbientColor[i] - 1) > 0) {
-                    play->envCtx.adjAmbientColor[i] -= 1;
-                } else {
-                    play->envCtx.adjAmbientColor[i] = 0;
-                }
-
-                if ((play->envCtx.adjLight1Color[i] - 10) > 0) {
-                    play->envCtx.adjLight1Color[i] -= 10;
-                } else {
-                    play->envCtx.adjLight1Color[i] = 0;
-                }
-
-                if ((play->envCtx.adjFogColor[i] - 10) > 0) {
-                    play->envCtx.adjFogColor[i] -= 10;
-                } else {
-                    play->envCtx.adjFogColor[i] = 0;
-                }
+                play->envCtx.adjAmbientColor[i] = MAX(play->envCtx.adjAmbientColor[i] - 1, 0);
+                play->envCtx.adjLight1Color[i] = MAX(play->envCtx.adjLight1Color[i] - 10, 0);
+                play->envCtx.adjFogColor[i] = MAX(play->envCtx.adjFogColor[i] - 10, 0);
             }
 
             if (this->onCeiling > 0) {
@@ -2870,9 +2891,9 @@ s32 BossVa_BodyOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 
     if (limbIndex == 20) {
         gDPPipeSync(POLY_OPA_DISP++);
-        gSPSegment(
-            POLY_OPA_DISP++, 0x08,
-            Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 8, 16, 1, 0, (play->gameplayFrames * -2) % 64, 16, 16));
+        gSPSegment(POLY_OPA_DISP++, 0x08,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 8, 16, 1, 0,
+                                    (play->gameplayFrames * -2) % 64, 16, 16));
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->bodyGlow);
         Matrix_RotateX(-M_PI / 2, MTXMODE_APPLY);
     } else if ((limbIndex >= 10) && (limbIndex < 20)) {
@@ -2906,12 +2927,10 @@ void BossVa_BodyPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         Matrix_MultVec3f(&sp78, &this->unk_1D8);
     } else if ((limbIndex >= 10) && (limbIndex < 20) && (sBodyBari[limbIndex - 10] != 0)) {
         if (((limbIndex >= 16) || (limbIndex == 10)) && (sFightPhase <= PHASE_3)) {
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_va.c", 4208),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_va.c", 4208);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008BB8);
         } else if ((limbIndex >= 11) && (sFightPhase <= PHASE_2)) {
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_va.c", 4212),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_va.c", 4212);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008BB8);
         }
 
@@ -2923,14 +2942,12 @@ void BossVa_BodyPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         Matrix_MultVec3f(&sp78, &this->effectPos[limbIndex - 10]);
     } else if (limbIndex == 25) {
         gSPSegment(POLY_XLU_DISP++, 0x09,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (play->gameplayFrames * 10) % 128, 16, 32, 1, 0,
-                                    (play->gameplayFrames * 5) % 128, 16, 32));
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_va.c", 4232),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (play->gameplayFrames * 10) % 128, 16, 32,
+                                    1, 0, (play->gameplayFrames * 5) % 128, 16, 32));
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_va.c", 4232);
         gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008D70);
     } else if ((*dList != NULL) && (limbIndex >= 29) && (limbIndex < 56)) {
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_va.c", 4236),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_va.c", 4236);
         gSPDisplayList(POLY_XLU_DISP++, *dList);
     } else if ((limbIndex == 24) && (sCsState < DEATH_START)) {
         sp78.x = (this->actor.shape.yOffset + 450.0f) + -140.0f;
@@ -2979,7 +2996,7 @@ void BossVa_SupportPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
         switch (limbIndex) {
             case 4:
                 Matrix_MultVec3f(&sZeroVec, &this->actor.focus.pos);
-                Collider_UpdateSpheres(0, &this->colliderSph);
+                Collider_UpdateSpheres(0, &this->colliderJntSph);
                 break;
             case 7:
                 Matrix_MultVec3f(&sZeroVec, &this->armTip);
@@ -3150,14 +3167,12 @@ void BossVa_BariPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
 
     if (limbIndex == 2) {
         gSPSegment(POLY_XLU_DISP++, 0x0A,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (play->gameplayFrames * 10) % 32, 16, 32, 1, 0,
-                                    (play->gameplayFrames * -5) % 32, 16, 32));
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_va.c", 4508),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (play->gameplayFrames * 10) % 32, 16, 32, 1,
+                                    0, (play->gameplayFrames * -5) % 32, 16, 32));
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_va.c", 4508);
         gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_000FA0);
     } else if ((limbIndex == 3) || (limbIndex == 4)) {
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_va.c", 4512),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_va.c", 4512);
         gSPDisplayList(POLY_XLU_DISP++, *dList);
     }
 
@@ -3185,26 +3200,26 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
     switch (this->actor.params) {
         case BOSSVA_BODY:
             if (play->envCtx.adjFogNear != 0) {
-                play->envCtx.adjFogNear += 0x15E;
+                play->envCtx.adjFogNear += 350;
                 if (play->envCtx.adjFogNear > 0) {
                     play->envCtx.adjFogNear = 0;
                 }
             }
 
-            if (play->envCtx.adjFogFar != 0) {
-                play->envCtx.adjFogFar += 0x15E;
-                if (play->envCtx.adjFogFar > 0) {
-                    play->envCtx.adjFogFar = 0;
+            if (play->envCtx.adjZFar != 0) {
+                play->envCtx.adjZFar += 350;
+                if (play->envCtx.adjZFar > 0) {
+                    play->envCtx.adjZFar = 0;
                 }
             }
 
             if (!this->isDead) {
                 gSPSegment(POLY_OPA_DISP++, 0x08,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 8, 16, 1, 0, (play->gameplayFrames * -10) % 16,
-                                            16, 16));
+                           Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 8, 16, 1, 0,
+                                            (play->gameplayFrames * -10) % 16, 16, 16));
                 gSPSegment(POLY_OPA_DISP++, 0x09,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (play->gameplayFrames * -10) % 32, 16, 0x20, 1, 0,
-                                            (play->gameplayFrames * -5) % 32, 16, 32));
+                           Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (play->gameplayFrames * -10) % 32,
+                                            16, 0x20, 1, 0, (play->gameplayFrames * -5) % 32, 16, 32));
                 SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                   BossVa_BodyOverrideLimbDraw, BossVa_BodyPostLimbDraw, this);
             }
@@ -3237,7 +3252,7 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
             if (!this->isDead) {
                 SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                   BossVa_BariOverrideLimbDraw, BossVa_BariPostLimbDraw, this);
-                Collider_UpdateSpheres(0, &this->colliderSph);
+                Collider_UpdateSpheres(0, &this->colliderJntSph);
                 if (sCsState < BOSSVA_BATTLE) {
                     spBC = GET_BODY(this)->actor.world.pos;
                 } else {
@@ -3291,206 +3306,205 @@ void BossVa_UpdateEffects(PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 spB6;
     s16 i;
-    f32 floorY;
-    s32 padAC;
-    s16 pitch;
-    s16 yaw;
-    BossVa* refActor2;
-    BossVa* refActor;
-    Vec3f sp94;
-    CollisionPoly* sp90;
-    f32 pad8C;
-    Vec3f sp80;
-    CollisionPoly* sp7C;
-    f32 pad78;
-    f32 pad74;
+    f32 spB0;
 
     for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
-        if (effect->type != VA_NONE) {
-            effect->timer--;
+        if (effect->type == VA_NONE) {
+            continue;
+        }
 
-            effect->pos.x += effect->velocity.x;
-            effect->pos.y += effect->velocity.y;
-            effect->pos.z += effect->velocity.z;
+        effect->timer--;
 
-            effect->velocity.x += effect->accel.x;
-            effect->velocity.y += effect->accel.y;
-            effect->velocity.z += effect->accel.z;
+        effect->pos.x += effect->velocity.x;
+        effect->pos.y += effect->velocity.y;
+        effect->pos.z += effect->velocity.z;
 
-            if ((effect->type == VA_LARGE_SPARK) || (effect->type == VA_SMALL_SPARK)) {
-                refActor = effect->parent;
+        effect->velocity.x += effect->accel.x;
+        effect->velocity.y += effect->accel.y;
+        effect->velocity.z += effect->accel.z;
 
-                effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x2000;
-                effect->rot.y += (s16)(Rand_ZeroOne() * 0x2710) + 0x2000;
+        if ((effect->type == VA_LARGE_SPARK) || (effect->type == VA_SMALL_SPARK)) {
+            BossVa* refActor = effect->parent;
 
-                if ((effect->mode == SPARK_TETHER) || (effect->mode == SPARK_UNUSED)) {
-                    pitch = effect->rot.x - Math_Vec3f_Pitch(&refActor->actor.world.pos, &GET_BODY(refActor)->unk_1D8);
-                    pad8C = Math_SinS(refActor->actor.world.rot.y);
-                    effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * pad8C);
-                    pad74 = Math_CosS(refActor->actor.world.rot.y);
-                    effect->pos.z = refActor->actor.world.pos.z - (effect->offset.x * pad74);
-                    pad78 = Math_CosS(-pitch);
-                    effect->pos.y = (effect->offset.y * pad78) + refActor->actor.world.pos.y;
-                } else if ((effect->mode == SPARK_BARI) || (effect->mode == SPARK_BODY)) {
-                    effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
-                    effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
-                    effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
-                } else {
-                    spB6 = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
-                    effect->pos.x = player->bodyPartsPos[spB6].x + Rand_CenteredFloat(10.0f);
-                    effect->pos.y = player->bodyPartsPos[spB6].y + Rand_CenteredFloat(15.0f);
-                    effect->pos.z = player->bodyPartsPos[spB6].z + Rand_CenteredFloat(10.0f);
-                }
+            effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x2000;
+            effect->rot.y += (s16)(Rand_ZeroOne() * 0x2710) + 0x2000;
 
-                if (effect->timer < 100) {
-                    effect->primColor[3] -= 50;
-                    if (effect->primColor[3] < 0) {
-                        effect->primColor[3] = 0;
-                        effect->timer = 0;
-                        effect->type = VA_NONE;
-                    }
-                }
+            if ((effect->mode == SPARK_TETHER) || (effect->mode == SPARK_UNUSED)) {
+                s16 pitch = effect->rot.x - Math_Vec3f_Pitch(&refActor->actor.world.pos, &GET_BODY(refActor)->unk_1D8);
+
+                spB0 = Math_SinS(refActor->actor.world.rot.y);
+                effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * spB0);
+                spB0 = Math_CosS(refActor->actor.world.rot.y);
+                effect->pos.z = refActor->actor.world.pos.z - (effect->offset.x * spB0);
+                spB0 = Math_CosS(-pitch);
+                effect->pos.y = (effect->offset.y * spB0) + refActor->actor.world.pos.y;
+            } else if ((effect->mode == SPARK_BARI) || (effect->mode == SPARK_BODY)) {
+                effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
+                effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
+                effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
+            } else {
+                spB6 = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
+                effect->pos.x = player->bodyPartsPos[spB6].x + Rand_CenteredFloat(10.0f);
+                effect->pos.y = player->bodyPartsPos[spB6].y + Rand_CenteredFloat(15.0f);
+                effect->pos.z = player->bodyPartsPos[spB6].z + Rand_CenteredFloat(10.0f);
             }
 
-            if (effect->type == VA_BLAST_SPARK) {
-                effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x4000;
-                if (effect->timer < 100) {
-                    effect->primColor[3] -= 50;
-                    if (effect->primColor[3] < 0) {
-                        effect->primColor[3] = 0;
-                        effect->timer = 0;
-                        effect->type = VA_NONE;
-                    }
-                }
-            }
-
-            if (effect->type == VA_SPARK_BALL) {
-                refActor2 = effect->parent;
-
-                effect->rot.z += (s16)(Rand_ZeroOne() * 0x2710) + 0x24A8;
-                effect->pos.x = effect->offset.x + refActor2->actor.world.pos.x;
-                effect->pos.y =
-                    refActor2->actor.world.pos.y + 310.0f + (refActor2->actor.shape.yOffset * refActor2->actor.scale.y);
-                effect->pos.z = effect->offset.z + refActor2->actor.world.pos.z;
-                effect->mode = (effect->mode + 1) & 7;
-
-                if (effect->timer < 100) {
-                    effect->primColor[3] -= 50;
-                    if (effect->primColor[3] < 0) {
-                        effect->primColor[3] = 0;
-                        effect->timer = 0;
-                        effect->type = VA_NONE;
-                    }
-                }
-            }
-
-            if (effect->type == VA_ZAP_CHARGE) {
-                effect->mode = (effect->mode + 1) & 7;
-                effect->primColor[3] -= 20;
-                if (effect->primColor[3] <= 0) {
+            if (effect->timer < 100) {
+                effect->primColor[3] -= 50;
+                if (effect->primColor[3] < 0) {
                     effect->primColor[3] = 0;
                     effect->timer = 0;
                     effect->type = VA_NONE;
                 }
             }
+        }
 
-            if (effect->type == VA_BLOOD) {
-                if (effect->mode < BLOOD_SPOT) {
-                    sp94 = effect->pos;
-                    sp94.y -= effect->velocity.y + 4.0f;
-                    floorY = BgCheck_EntityRaycastFloor1(&play->colCtx, &sp90, &sp94);
-                    if ((sp90 != NULL) && (effect->pos.y <= floorY)) {
-                        effect->mode = BLOOD_SPOT;
-                        effect->pos.y = floorY + 1.0f;
-                        if (sCsState <= DEATH_SHELL_BURST) {
-                            effect->timer = 80;
-                        } else {
-                            effect->timer = 60000;
-                        }
+        if (effect->type == VA_BLAST_SPARK) {
+            effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x4000;
+            if (effect->timer < 100) {
+                effect->primColor[3] -= 50;
+                if (effect->primColor[3] < 0) {
+                    effect->primColor[3] = 0;
+                    effect->timer = 0;
+                    effect->type = VA_NONE;
+                }
+            }
+        }
 
-                        effect->accel = effect->velocity = sZeroVec;
+        if (effect->type == VA_SPARK_BALL) {
+            BossVa* refActor = effect->parent;
+
+            effect->rot.z += (s16)(Rand_ZeroOne() * 0x2710) + 0x24A8;
+            effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
+            effect->pos.y =
+                refActor->actor.world.pos.y + 310.0f + (refActor->actor.shape.yOffset * refActor->actor.scale.y);
+            effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
+            effect->mode = (effect->mode + 1) & 7;
+
+            if (effect->timer < 100) {
+                effect->primColor[3] -= 50;
+                if (effect->primColor[3] < 0) {
+                    effect->primColor[3] = 0;
+                    effect->timer = 0;
+                    effect->type = VA_NONE;
+                }
+            }
+        }
+
+        if (effect->type == VA_ZAP_CHARGE) {
+            effect->mode = (effect->mode + 1) & 7;
+            effect->primColor[3] -= 20;
+            if (effect->primColor[3] <= 0) {
+                effect->primColor[3] = 0;
+                effect->timer = 0;
+                effect->type = VA_NONE;
+            }
+        }
+
+        if (effect->type == VA_BLOOD) {
+            if (effect->mode < BLOOD_SPOT) {
+                f32 floorY;
+                Vec3f checkPos;
+                CollisionPoly* groundPoly;
+
+                checkPos = effect->pos;
+                checkPos.y -= effect->velocity.y + 4.0f;
+                floorY = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &checkPos);
+                if ((groundPoly != NULL) && (effect->pos.y <= floorY)) {
+                    effect->mode = BLOOD_SPOT;
+                    effect->pos.y = floorY + 1.0f;
+                    if (sCsState <= DEATH_SHELL_BURST) {
+                        effect->timer = 80;
+                    } else {
+                        effect->timer = 60000;
                     }
-                    if (!effect->timer) {
-                        effect->type = VA_NONE;
-                    }
-                } else {
-                    if (effect->timer < 20) {
-                        effect->envColor[3] = effect->timer * 5;
-                        effect->primColor[3] = effect->timer * 10;
-                    } else if (effect->timer > 50000) {
-                        effect->timer++;
-                    }
+
+                    effect->accel = effect->velocity = sZeroVec;
+                }
+                if (!effect->timer) {
+                    effect->type = VA_NONE;
+                }
+            } else {
+                if (effect->timer < 20) {
+                    effect->envColor[3] = effect->timer * 5;
+                    effect->primColor[3] = effect->timer * 10;
+                } else if (effect->timer > 50000) {
+                    effect->timer++;
+                }
+            }
+
+            if (!effect->timer) {
+                effect->type = VA_NONE;
+            }
+        }
+
+        if (effect->type == VA_GORE) {
+            if (effect->mode == GORE_PERMANENT) {
+                f32 floorY;
+                Vec3f checkPos;
+                CollisionPoly* groundPoly;
+
+                checkPos = effect->pos;
+                checkPos.y -= effect->velocity.y + 4.0f;
+                effect->rot.x += 0x1770;
+                floorY = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &checkPos);
+                if ((groundPoly != NULL) && (effect->pos.y <= floorY)) {
+                    effect->mode = GORE_FLOOR;
+                    effect->timer = 30;
+                    effect->pos.y = floorY + 1.0f;
+                    effect->accel = effect->velocity = sZeroVec;
+                    effect->rot.x = -0x4000;
                 }
 
                 if (!effect->timer) {
                     effect->type = VA_NONE;
                 }
+
+            } else if (effect->mode == GORE_FADING) {
+                if (effect->timer == 0) {
+                    effect->type = VA_NONE;
+                    if (1) {}
+                }
+
+            } else {
+                Math_SmoothStepToF(&effect->scaleMod, 0.075f, 1.0f, 0.005f, 0.0f);
+                Math_SmoothStepToF(&effect->vaGorePulseRate, 0.0f, 0.6f, 0.005f, 0.0013f);
+                if ((play->gameplayFrames % 4) == 0) {
+                    Math_SmoothStepToS(&effect->primColor[0], 95, 1, 1, 0);
+                }
             }
+            effect->vaGorePulse += effect->vaGorePulseRate;
+        }
 
-            if (effect->type == VA_GORE) {
-                if (effect->mode == GORE_PERMANENT) {
-                    sp80 = effect->pos;
-                    sp80.y -= effect->velocity.y + 4.0f;
-                    effect->rot.x += 0x1770;
-                    floorY = BgCheck_EntityRaycastFloor1(&play->colCtx, &sp7C, &sp80);
-                    if ((sp7C != NULL) && (effect->pos.y <= floorY)) {
-                        effect->mode = GORE_FLOOR;
-                        effect->timer = 30;
-                        effect->pos.y = floorY + 1.0f;
-                        effect->accel = effect->velocity = sZeroVec;
-                        effect->rot.x = -0x4000;
-                    }
+        if (effect->type == VA_TUMOR) {
+            BossVa* refActor = effect->parent;
+            s16 yaw;
 
-                    if (!effect->timer) {
-                        effect->type = VA_NONE;
-                    }
+            effect->rot.z += 0x157C;
+            effect->envColor[3] = (s16)(Math_SinS(effect->rot.z) * 50.0f) + 80;
+            Math_SmoothStepToF(&effect->scale, effect->scaleMod, 1.0f, 0.01f, 0.005f);
+            effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
+            effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
+            effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
 
-                } else if (effect->mode == GORE_FADING) {
+            switch (effect->mode) {
+                case TUMOR_UNUSED:
                     if (effect->timer == 0) {
+                        yaw = Math_Vec3f_Yaw(&refActor->actor.world.pos, &effect->pos);
                         effect->type = VA_NONE;
-                        if (1) {}
+                        BossVa_BloodSplatter(play, effect, yaw, effect->scale * 4500.0f, 1);
+                        BossVa_Gore(play, effect, yaw, effect->scale * 1.2f);
                     }
-
-                } else {
-                    Math_SmoothStepToF(&effect->scaleMod, 0.075f, 1.0f, 0.005f, 0.0f);
-                    Math_SmoothStepToF(&effect->vaGorePulseRate, 0.0f, 0.6f, 0.005f, 0.0013f);
-                    if ((play->gameplayFrames % 4) == 0) {
-                        Math_SmoothStepToS(&effect->primColor[0], 95, 1, 1, 0);
+                    break;
+                case TUMOR_BODY:
+                case TUMOR_ARM:
+                    if (refActor->burst) {
+                        effect->type = VA_NONE;
+                        yaw = Math_Vec3f_Yaw(&refActor->actor.world.pos, &effect->pos);
+                        BossVa_BloodSplatter(play, effect, yaw, effect->scale * 4500.0f, 1);
+                        BossVa_Gore(play, effect, yaw, effect->scale * 1.2f);
                     }
-                }
-                effect->vaGorePulse += effect->vaGorePulseRate;
-            }
-
-            if (effect->type == VA_TUMOR) {
-                refActor = effect->parent;
-
-                effect->rot.z += 0x157C;
-                effect->envColor[3] = (s16)(Math_SinS(effect->rot.z) * 50.0f) + 80;
-                Math_SmoothStepToF(&effect->scale, effect->scaleMod, 1.0f, 0.01f, 0.005f);
-                effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
-                effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
-                effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
-
-                switch (effect->mode) {
-                    case TUMOR_UNUSED:
-                        if (effect->timer == 0) {
-                            yaw = Math_Vec3f_Yaw(&refActor->actor.world.pos, &effect->pos);
-                            effect->type = VA_NONE;
-                            BossVa_BloodSplatter(play, effect, yaw, effect->scale * 4500.0f, 1);
-                            BossVa_Gore(play, effect, yaw, effect->scale * 1.2f);
-                        }
-                        break;
-                    case TUMOR_BODY:
-                    case TUMOR_ARM:
-                        if (refActor->burst) {
-                            effect->type = VA_NONE;
-                            yaw = Math_Vec3f_Yaw(&refActor->actor.world.pos, &effect->pos);
-                            BossVa_BloodSplatter(play, effect, yaw, effect->scale * 4500.0f, 1);
-                            BossVa_Gore(play, effect, yaw, effect->scale * 1.2f);
-                        }
-                        break;
-                }
-                if (1) {}
+                    break;
             }
         }
     }
@@ -3523,8 +3537,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_RotateZ((effect->rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
             Matrix_Scale(effect->scale * 0.0185f, effect->scale * 0.0185f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 4976),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_va.c", 4976);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_015710);
         }
     }
@@ -3542,8 +3555,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
             Matrix_RotateZ((effect->rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5002),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_va.c", 5002);
             gDPPipeSync(POLY_XLU_DISP++);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sSparkBallTex[effect->mode]));
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->primColor[0], effect->primColor[1], effect->primColor[2],
@@ -3579,8 +3591,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5052),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_va.c", 5052);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_009468);
         }
     }
@@ -3602,8 +3613,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
                 Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
                 Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5080),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_boss_va.c", 5080);
                 gSPDisplayList(POLY_OPA_DISP++, gBarinadeDL_012948);
             }
         }
@@ -3634,8 +3644,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
             Matrix_RotateY(-(effect->offset.x * 0.13f), MTXMODE_APPLY);
             Matrix_RotateX(-(effect->offset.x * 0.115f), MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5124),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_boss_va.c", 5124);
             gSPDisplayList(POLY_OPA_DISP++, gBarinadeDL_012C50);
         }
     }
@@ -3657,8 +3666,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
             Matrix_RotateZYX(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5152),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_va.c", 5152);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_013638);
         }
     }
@@ -3679,8 +3687,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
             Matrix_RotateZ((effect->rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
             Matrix_Scale(effect->scale * 0.02f, effect->scale * 0.02f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5180),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_va.c", 5180);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_015710);
         }
     }
@@ -3701,8 +3708,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
             Matrix_RotateY((effect->rot.y / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5208),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_boss_va.c", 5208);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008F70);
         }
     }
@@ -3891,8 +3897,8 @@ void BossVa_SpawnTumor(PlayState* play, BossVaEffect* effect, BossVa* this, Vec3
             effect->scale = 0.0f;
 
             if (((i % 4) == 0) || (mode == 2)) {
-                Audio_PlaySoundGeneral(NA_SE_EN_BALINADE_BREAK, &effect->pos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_EN_BALINADE_BREAK, &effect->pos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
         }
@@ -3992,14 +3998,14 @@ void BossVa_DrawDoor(PlayState* play, s16 scale) {
 
     Matrix_Get(&doorMtx);
 
-    for (i = 0; i < 8; i++, segAngle -= M_PI / 4) {
+    for (i = 0; i < 8; i++) {
         Matrix_Put(&doorMtx);
         Matrix_RotateZ(segAngle, MTXMODE_APPLY);
         Matrix_Translate(0.0f, doorPieceLength[i] * yScale, 0.0f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_va.c", 5621),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_boss_va.c", 5621);
         gSPDisplayList(POLY_OPA_DISP++, doorPieceDispList[i]);
+        segAngle -= M_PI / 4;
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_va.c", 5629);

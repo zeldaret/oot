@@ -2,9 +2,10 @@
 #define Z_EFF_SS_G_SPLASH_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "color.h"
+#include "z_math.h"
 
-typedef struct {
+typedef struct EffectSsGSplashInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ u8 type;
     /* 0x0D */ u8 customColor;

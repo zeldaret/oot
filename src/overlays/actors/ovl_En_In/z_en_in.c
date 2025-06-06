@@ -1,15 +1,35 @@
 #include "z_en_in.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "letterbox.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_in/object_in.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnIn_Init(Actor* thisx, PlayState* play);
 void EnIn_Destroy(Actor* thisx, PlayState* play);
 void EnIn_Update(Actor* thisx, PlayState* play);
 void EnIn_Draw(Actor* thisx, PlayState* play);
 
-void func_80A79FB0(EnIn* this, PlayState* play);
+void EnIn_WaitForObject(EnIn* this, PlayState* play);
 void func_80A7A304(EnIn* this, PlayState* play);
 void func_80A7A4C8(EnIn* this, PlayState* play);
 void func_80A7A568(EnIn* this, PlayState* play);
@@ -24,21 +44,21 @@ void func_80A7A940(EnIn* this, PlayState* play);
 void func_80A7AA40(EnIn* this, PlayState* play);
 void func_80A7A4BC(EnIn* this, PlayState* play);
 
-const ActorInit En_In_InitVars = {
-    ACTOR_EN_IN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_IN,
-    sizeof(EnIn),
-    (ActorFunc)EnIn_Init,
-    (ActorFunc)EnIn_Destroy,
-    (ActorFunc)EnIn_Update,
-    (ActorFunc)EnIn_Draw,
+ActorProfile En_In_Profile = {
+    /**/ ACTOR_EN_IN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_IN,
+    /**/ sizeof(EnIn),
+    /**/ EnIn_Init,
+    /**/ EnIn_Destroy,
+    /**/ EnIn_Update,
+    /**/ EnIn_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -46,21 +66,19 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0, 0, 0, 0, MASS_IMMOVABLE,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnInAnimation {
     /* 0 */ ENIN_ANIM_0,
     /* 1 */ ENIN_ANIM_1,
     /* 2 */ ENIN_ANIM_2,
@@ -72,6 +90,14 @@ typedef enum {
     /* 8 */ ENIN_ANIM_8,
     /* 9 */ ENIN_ANIM_9
 } EnInAnimation;
+
+typedef enum EnInStartMode {
+    /* 0 */ ENIN_START_MODE_0,
+    /* 1 */ ENIN_START_MODE_1,
+    /* 2 */ ENIN_START_MODE_2,
+    /* 3 */ ENIN_START_MODE_3,
+    /* 4 */ ENIN_START_MODE_4
+} EnInStartMode;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {
     { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -109,8 +135,8 @@ static Gfx* sAdultEraDLs[] = {
     gIngoAdultEraMustacheDL,
 };
 
-u16 func_80A78FB0(PlayState* play) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+u16 EnIn_GetTextIdChild(PlayState* play) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         if (GET_INFTABLE(INFTABLE_97)) {
             return 0x2046;
         } else {
@@ -124,14 +150,14 @@ u16 func_80A78FB0(PlayState* play) {
     }
 }
 
-u16 func_80A79010(PlayState* play) {
+u16 EnIn_GetTextIdAdult(PlayState* play) {
     Player* player = GET_PLAYER(play);
-    u16 temp_v0 = Text_GetFaceReaction(play, 25);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_INGO);
 
-    if (temp_v0 != 0) {
-        return temp_v0;
+    if (textId != 0) {
+        return textId;
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         if (IS_DAY) {
             return 0x205F;
         } else {
@@ -141,8 +167,8 @@ u16 func_80A79010(PlayState* play) {
     if (IS_NIGHT) {
         return 0x204E;
     }
-    switch (GET_EVENTINF_HORSES_STATE()) {
-        case EVENTINF_HORSES_STATE_1:
+    switch (GET_EVENTINF_INGO_RACE_STATE()) {
+        case INGO_RACE_STATE_HORSE_RENTAL_PERIOD:
             if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_1B)) {
@@ -154,70 +180,73 @@ u16 func_80A79010(PlayState* play) {
             } else {
                 return 0x2037;
             }
-        case EVENTINF_HORSES_STATE_3:
-            if (GET_EVENTINF(EVENTINF_HORSES_06) || GET_EVENTINF(EVENTINF_HORSES_05)) {
+        case INGO_RACE_STATE_PLAYER_LOSE:
+            if (GET_EVENTINF(EVENTINF_INGO_RACE_SECOND_RACE) || GET_EVENTINF(EVENTINF_INGO_RACE_LOST_ONCE)) {
                 return 0x203E;
             } else {
                 return 0x203D;
             }
-        case EVENTINF_HORSES_STATE_4:
+        case INGO_RACE_STATE_FIRST_WIN:
             return 0x203A;
-        case EVENTINF_HORSES_STATE_5:
-        case EVENTINF_HORSES_STATE_6:
+        case INGO_RACE_STATE_TRAPPED_WIN_UNUSED:
+        case INGO_RACE_STATE_TRAPPED_WIN_EPONA:
             return 0x203C;
-        case EVENTINF_HORSES_STATE_7:
+        case INGO_RACE_STATE_REMATCH:
+            // Ask to race again after losing race
             return 0x205B;
-        case EVENTINF_HORSES_STATE_2:
+        case INGO_RACE_STATE_RACING:
         default:
             if (GET_INFTABLE(INFTABLE_9A)) {
+                // Pay to Ride
                 return 0x2031;
             } else {
+                // Adult Ingo first dialog, branches to pay to ride
                 return 0x2030;
             }
     }
 }
 
-u16 func_80A79168(PlayState* play, Actor* thisx) {
-    u16 temp_v0 = Text_GetFaceReaction(play, 25);
+u16 EnIn_GetTextId(PlayState* play, Actor* thisx) {
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_INGO);
 
-    if (temp_v0 != 0) {
-        return temp_v0;
+    if (textId != 0) {
+        return textId;
     }
     if (!LINK_IS_ADULT) {
-        return func_80A78FB0(play);
+        return EnIn_GetTextIdChild(play);
     } else {
-        return func_80A79010(play);
+        return EnIn_GetTextIdAdult(play);
     }
 }
 
-s16 func_80A791CC(PlayState* play, Actor* thisx) {
-    s32 ret = 0;
+s16 EnIn_UpdateTalkStateOnClosing(PlayState* play, Actor* thisx) {
+    s32 talkState = NPC_TALK_STATE_IDLE;
 
     switch (thisx->textId) {
         case 0x2045:
             SET_INFTABLE(INFTABLE_97);
             break;
         case 0x203E:
-            ret = 2;
+            talkState = NPC_TALK_STATE_ACTION;
             break;
         case 0x203F:
             SET_EVENTCHKINF(EVENTCHKINF_11);
             SET_INFTABLE(INFTABLE_94);
             break;
     }
-    return ret;
+    return talkState;
 }
 
-s16 func_80A7924C(PlayState* play, Actor* thisx) {
+s16 EnIn_UpdateTalkStateOnChoice(PlayState* play, Actor* thisx) {
     EnIn* this = (EnIn*)thisx;
-    s32 sp18 = 1;
+    s32 talkState = NPC_TALK_STATE_TALKING;
 
     switch (this->actor.textId) {
         case 0x2030:
         case 0x2031:
             if (play->msgCtx.choiceIndex == 1) {
                 this->actor.textId = 0x2032;
-            } else if (gSaveContext.rupees < 10) {
+            } else if (gSaveContext.save.info.playerData.rupees < 10) {
                 this->actor.textId = 0x2033;
             } else {
                 this->actor.textId = 0x2034;
@@ -237,15 +266,15 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
         case 0x2036:
         case 0x2037:
             if (play->msgCtx.choiceIndex == 1) {
-                sp18 = 2;
+                talkState = NPC_TALK_STATE_ACTION;
             } else {
                 this->actor.textId = 0x201F;
                 Message_ContinueTextbox(play, this->actor.textId);
             }
             break;
         case 0x2038:
-            if (play->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
-                sp18 = 2;
+            if (play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees >= 50) {
+                talkState = NPC_TALK_STATE_ACTION;
             } else {
                 this->actor.textId = 0x2039;
                 Message_ContinueTextbox(play, this->actor.textId);
@@ -253,56 +282,56 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
             }
             break;
         case 0x205B:
-            if (play->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
-                sp18 = 2;
+            if (play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees >= 50) {
+                talkState = NPC_TALK_STATE_ACTION;
             } else {
                 Message_ContinueTextbox(play, this->actor.textId = 0x2039);
-                SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
-                CLEAR_EVENTINF(EVENTINF_HORSES_05);
-                CLEAR_EVENTINF(EVENTINF_HORSES_06);
+                SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_OFFER_RENTAL);
+                CLEAR_EVENTINF(EVENTINF_INGO_RACE_LOST_ONCE);
+                CLEAR_EVENTINF(EVENTINF_INGO_RACE_SECOND_RACE);
                 this->actionFunc = func_80A7A4C8;
             }
             break;
     }
-    if (!gSaveContext.rupees) {}
+    if (!gSaveContext.save.info.playerData.rupees) {}
 
-    return sp18;
+    return talkState;
 }
 
-s16 func_80A7949C(PlayState* play, Actor* thisx) {
-    s32 phi_v1 = 1;
+s16 EnIn_UpdateTalkStateOnEvent(PlayState* play, Actor* thisx) {
+    s32 talkState = NPC_TALK_STATE_TALKING;
 
     if (thisx->textId == 0x2035) {
         Rupees_ChangeBy(-10);
         thisx->textId = 0x205C;
         Message_ContinueTextbox(play, thisx->textId);
     } else {
-        phi_v1 = 2;
+        talkState = NPC_TALK_STATE_ACTION;
     }
-    return phi_v1;
+    return talkState;
 }
 
-s16 func_80A79500(PlayState* play, Actor* thisx) {
-    s16 sp1E = 1;
+s16 EnIn_UpdateTalkState(PlayState* play, Actor* thisx) {
+    s16 talkState = NPC_TALK_STATE_TALKING;
 
-    osSyncPrintf("message_check->(%d[%x])\n", Message_GetState(&play->msgCtx), thisx->textId);
+    PRINTF("message_check->(%d[%x])\n", Message_GetState(&play->msgCtx), thisx->textId);
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_NONE:
         case TEXT_STATE_DONE_HAS_NEXT:
             break;
         case TEXT_STATE_CLOSING:
-            sp1E = func_80A791CC(play, thisx);
+            talkState = EnIn_UpdateTalkStateOnClosing(play, thisx);
             break;
         case TEXT_STATE_DONE_FADING:
             break;
         case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(play)) {
-                sp1E = func_80A7924C(play, thisx);
+                talkState = EnIn_UpdateTalkStateOnChoice(play, thisx);
             }
             break;
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play)) {
-                sp1E = func_80A7949C(play, thisx);
+                talkState = EnIn_UpdateTalkStateOnEvent(play, thisx);
             }
             break;
         case TEXT_STATE_DONE:
@@ -311,36 +340,36 @@ s16 func_80A79500(PlayState* play, Actor* thisx) {
         case TEXT_STATE_9:
             break;
     }
-    return sp1E;
+    return talkState;
 }
 
 void func_80A795C8(EnIn* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 arg3;
+    s16 trackingMode;
 
     if (this->skelAnime.animation == &object_in_Anim_0003B4 || this->skelAnime.animation == &object_in_Anim_001BE0 ||
         this->skelAnime.animation == &object_in_Anim_013D60) {
-        arg3 = 1;
+        trackingMode = NPC_TRACKING_NONE;
     } else {
-        arg3 = 0;
+        trackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
     }
     if (this->actionFunc == func_80A7A568) {
-        arg3 = 4;
+        trackingMode = NPC_TRACKING_FULL_BODY;
     }
     if (this->actionFunc == func_80A7B024) {
-        this->unk_308.unk_18 = play->view.eye;
-        this->unk_308.unk_14 = 60.0f;
+        this->interactInfo.trackPos = play->view.eye;
+        this->interactInfo.yOffset = 60.0f;
     } else {
-        this->unk_308.unk_18 = player->actor.world.pos;
-        this->unk_308.unk_14 = 16.0f;
+        this->interactInfo.trackPos = player->actor.world.pos;
+        this->interactInfo.yOffset = 16.0f;
     }
-    func_80034A14(&this->actor, &this->unk_308, 1, arg3);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 1, trackingMode);
 }
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, PlayState* play) {
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->moveFlags |= 3;
-        AnimationContext_SetMoveActor(play, &this->actor, skelAnime, 1.0f);
+        skelAnime->movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
+        AnimTaskQueue_AddActorMovement(play, &this->actor, skelAnime, 1.0f);
     }
 }
 
@@ -362,40 +391,40 @@ s32 func_80A7975C(EnIn* this, PlayState* play) {
     return 1;
 }
 
-s32 func_80A79830(EnIn* this, PlayState* play) {
-    if (play->sceneNum == SCENE_SPOT20 && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
-        !GET_EVENTCHKINF(EVENTCHKINF_14)) {
-        return 1;
+s32 EnIn_GetStartMode(EnIn* this, PlayState* play) {
+    if (play->sceneId == SCENE_LON_LON_RANCH && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
+        !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+        return ENIN_START_MODE_1;
     }
-    if (play->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
-        GET_EVENTCHKINF(EVENTCHKINF_14)) {
-        return 1;
+    if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
+        GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+        return ENIN_START_MODE_1;
     }
-    if (play->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_NIGHT) {
-        if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
-            return 1;
+    if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_NIGHT) {
+        if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+            return ENIN_START_MODE_1;
         }
-        if ((this->actor.shape.rot.z == 4) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
-            return 1;
-        }
-    }
-    if (play->sceneNum == SCENE_SPOT20 && LINK_IS_ADULT && IS_DAY) {
-        if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_18)) {
-            return 2;
-        }
-        if ((this->actor.shape.rot.z == 7) && GET_EVENTCHKINF(EVENTCHKINF_18)) {
-            return 4;
+        if ((this->actor.shape.rot.z == 4) && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+            return ENIN_START_MODE_1;
         }
     }
-    if (play->sceneNum == SCENE_SOUKO && LINK_IS_ADULT && IS_NIGHT) {
-        if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_18)) {
-            return 3;
+    if (play->sceneId == SCENE_LON_LON_RANCH && LINK_IS_ADULT && IS_DAY) {
+        if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
+            return ENIN_START_MODE_2;
         }
-        if (this->actor.shape.rot.z == 8 && GET_EVENTCHKINF(EVENTCHKINF_18)) {
-            return 3;
+        if ((this->actor.shape.rot.z == 7) && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
+            return ENIN_START_MODE_4;
         }
     }
-    return 0;
+    if (play->sceneId == SCENE_LON_LON_BUILDINGS && LINK_IS_ADULT && IS_NIGHT) {
+        if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
+            return ENIN_START_MODE_3;
+        }
+        if (this->actor.shape.rot.z == 8 && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
+            return ENIN_START_MODE_3;
+        }
+    }
+    return ENIN_START_MODE_0;
 }
 
 void EnIn_UpdateEyes(EnIn* this) {
@@ -424,7 +453,7 @@ void func_80A79AB4(EnIn* this, PlayState* play) {
 }
 
 void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
-    s16 entrances[] = { ENTR_SPOT20_8, ENTR_SPOT20_6, ENTR_SPOT20_0 };
+    s16 entrances[] = { ENTR_LON_LON_RANCH_8, ENTR_LON_LON_RANCH_6, ENTR_LON_LON_RANCH_0 };
 
     play->nextEntranceIndex = entrances[index];
     if (index == 2) {
@@ -432,12 +461,12 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     }
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;
-    func_8002DF54(play, &this->actor, 8);
-    Interface_ChangeAlpha(1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     if (index == 0) {
-        AREG(6) = 0;
+        R_EXITED_SCENE_RIDING_HORSE = false;
     }
-    gSaveContext.timer1State = 0;
+    gSaveContext.timerState = TIMER_STATE_OFF;
 }
 
 void func_80A79C78(EnIn* this, PlayState* play) {
@@ -455,12 +484,12 @@ void func_80A79C78(EnIn* this, PlayState* play) {
     subCamEye.x = subCamAt.x;
     subCamEye.y = subCamAt.y - 22.0f;
     subCamEye.z = subCamAt.z + 40.0f;
-    Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &subCamEye);
-    this->unk_308.unk_08 = zeroVec;
-    this->unk_308.unk_0E = zeroVec;
+    this->interactInfo.headRot = zeroVec;
+    this->interactInfo.torsoRot = zeroVec;
     Message_StartTextbox(play, 0x2025, NULL);
-    this->unk_308.unk_00 = 1;
+    this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
     player->actor.world.pos = this->actor.world.pos;
     player->actor.world.pos.x += 100.0f * Math_SinS(this->actor.shape.rot.y);
     player->actor.world.pos.z += 100.0f * Math_CosS(this->actor.shape.rot.y);
@@ -469,9 +498,9 @@ void func_80A79C78(EnIn* this, PlayState* play) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
-    this->actor.flags &= ~ACTOR_FLAG_0;
-    ShrinkWindow_SetVal(0x20);
-    Interface_ChangeAlpha(2);
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+    Letterbox_SetSizeTarget(32);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
 }
 
 static s32 D_80A7B998 = 0;
@@ -481,8 +510,8 @@ void EnIn_Init(Actor* thisx, PlayState* play) {
     RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
     Vec3f respawnPos;
 
-    this->ingoObjBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_IN);
-    if (this->ingoObjBankIndex < 0 && this->actor.params > 0) {
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_IN);
+    if (this->requiredObjectSlot < 0 && this->actor.params > 0) {
         this->actionFunc = NULL;
         Actor_Kill(&this->actor);
         return;
@@ -490,115 +519,117 @@ void EnIn_Init(Actor* thisx, PlayState* play) {
     respawnPos = respawn->pos;
     // hardcoded coords for lon lon entrance
     if (D_80A7B998 == 0 && respawnPos.x == 1107.0f && respawnPos.y == 0.0f && respawnPos.z == -3740.0f) {
-        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
+        gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = 0;
         D_80A7B998 = 1;
     }
-    this->actionFunc = func_80A79FB0;
+    this->actionFunc = EnIn_WaitForObject;
 }
 
 void EnIn_Destroy(Actor* thisx, PlayState* play) {
     EnIn* this = (EnIn*)thisx;
 
-    if (this->actionFunc != NULL && this->actionFunc != func_80A79FB0) {
+    if (this->actionFunc != NULL && this->actionFunc != EnIn_WaitForObject) {
         Collider_DestroyCylinder(play, &this->collider);
     }
 }
 
-void func_80A79FB0(EnIn* this, PlayState* play) {
-    s32 sp3C = 0;
+// This function does not actually wait since it waits for OBJECT_IN,
+// but the object is already loaded at this point from being set in the ActorProfile data
+void EnIn_WaitForObject(EnIn* this, PlayState* play) {
+    s32 staySpawned = false;
 
-    if (Object_IsLoaded(&play->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
         SkelAnime_InitFlex(play, &this->skelAnime, &gIngoSkel, NULL, this->jointTable, this->morphTable, 20);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         if (func_80A7975C(this, play)) {
-            SET_EVENTINF_HORSES_0F(0);
+            WRITE_EVENTINF_INGO_RACE_0F(0);
             return;
         }
         Actor_SetScale(&this->actor, 0.01f);
-        this->actor.targetMode = 6;
-        this->unk_308.unk_00 = 0;
+        this->actor.attentionRangeType = ATTENTION_RANGE_6;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = func_80A7A4BC;
 
-        switch (func_80A79830(this, play)) {
-            case 1:
+        switch (EnIn_GetStartMode(this, play)) {
+            case ENIN_START_MODE_1:
                 EnIn_ChangeAnim(this, ENIN_ANIM_9);
                 this->actionFunc = func_80A7A4BC;
                 break;
-            case 3:
+            case ENIN_START_MODE_3:
                 EnIn_ChangeAnim(this, ENIN_ANIM_7);
                 this->actionFunc = func_80A7A4BC;
-                if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
                     this->actor.params = 5;
                 }
                 break;
-            case 4:
+            case ENIN_START_MODE_4:
                 EnIn_ChangeAnim(this, ENIN_ANIM_8);
                 this->eyeIndex = 3;
                 this->actionFunc = func_80A7A4BC;
                 break;
-            case 0:
+            case ENIN_START_MODE_0:
                 Actor_Kill(&this->actor);
                 break;
-            default:
-                switch (GET_EVENTINF_HORSES_STATE()) {
-                    case EVENTINF_HORSES_STATE_0:
-                    case EVENTINF_HORSES_STATE_2:
-                    case EVENTINF_HORSES_STATE_3:
-                    case EVENTINF_HORSES_STATE_4:
-                    case EVENTINF_HORSES_STATE_7:
+            default: // ENIN_START_MODE_2
+                switch (GET_EVENTINF_INGO_RACE_STATE()) {
+                    case INGO_RACE_STATE_OFFER_RENTAL:
+                    case INGO_RACE_STATE_RACING:
+                    case INGO_RACE_STATE_PLAYER_LOSE:
+                    case INGO_RACE_STATE_FIRST_WIN:
+                    case INGO_RACE_STATE_REMATCH:
                         if (this->actor.params == 2) {
-                            sp3C = 1;
+                            staySpawned = true;
                         }
                         break;
-                    case EVENTINF_HORSES_STATE_1:
+                    case INGO_RACE_STATE_HORSE_RENTAL_PERIOD:
                         if (this->actor.params == 3) {
-                            sp3C = 1;
+                            staySpawned = true;
                         }
                         break;
-                    case EVENTINF_HORSES_STATE_5:
-                    case EVENTINF_HORSES_STATE_6:
+                    case INGO_RACE_STATE_TRAPPED_WIN_UNUSED:
+                    case INGO_RACE_STATE_TRAPPED_WIN_EPONA:
                         if (this->actor.params == 4) {
-                            sp3C = 1;
+                            staySpawned = true;
                         }
                         break;
                 }
-                if (sp3C != 1) {
+                if (staySpawned != true) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-                switch (GET_EVENTINF_HORSES_STATE()) {
-                    case EVENTINF_HORSES_STATE_0:
-                    case EVENTINF_HORSES_STATE_2:
+                switch (GET_EVENTINF_INGO_RACE_STATE()) {
+                    case INGO_RACE_STATE_OFFER_RENTAL:
+                    case INGO_RACE_STATE_RACING:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A4C8;
-                        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
+                        gSaveContext.eventInf[EVENTINF_INDEX_HORSES] = 0;
                         break;
-                    case EVENTINF_HORSES_STATE_1:
-                        this->actor.targetMode = 3;
+                    case INGO_RACE_STATE_HORSE_RENTAL_PERIOD:
+                        this->actor.attentionRangeType = ATTENTION_RANGE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
-                        func_80088B34(0x3C);
+                        Interface_SetTimer(60);
                         break;
-                    case EVENTINF_HORSES_STATE_3:
+                    case INGO_RACE_STATE_PLAYER_LOSE:
                         EnIn_ChangeAnim(this, ENIN_ANIM_4);
                         this->actionFunc = func_80A7A770;
                         break;
-                    case EVENTINF_HORSES_STATE_4:
+                    case INGO_RACE_STATE_FIRST_WIN:
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7A940;
                         break;
-                    case EVENTINF_HORSES_STATE_5:
-                    case EVENTINF_HORSES_STATE_6:
-                        this->actor.targetMode = 3;
+                    case INGO_RACE_STATE_TRAPPED_WIN_UNUSED:
+                    case INGO_RACE_STATE_TRAPPED_WIN_EPONA:
+                        this->actor.attentionRangeType = ATTENTION_RANGE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7AA40;
                         break;
-                    case EVENTINF_HORSES_STATE_7:
+                    case INGO_RACE_STATE_REMATCH:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A848;
                         break;
@@ -610,22 +641,22 @@ void func_80A79FB0(EnIn* this, PlayState* play) {
 void func_80A7A304(EnIn* this, PlayState* play) {
     if (this->skelAnime.animation == &object_in_Anim_015814 || this->skelAnime.animation == &object_in_Anim_01646C) {
         if (this->skelAnime.curFrame == 8.0f) {
-            Audio_PlaySoundRandom(&this->actor.projectedPos, NA_SE_VO_IN_LASH_0,
-                                  NA_SE_VO_IN_LASH_1 - NA_SE_VO_IN_LASH_0 + 1);
+            Audio_PlaySfxRandom(&this->actor.projectedPos, NA_SE_VO_IN_LASH_0,
+                                NA_SE_VO_IN_LASH_1 - NA_SE_VO_IN_LASH_0 + 1);
         }
     }
     if (this->skelAnime.animation == &object_in_Anim_018C38 && this->skelAnime.curFrame == 20.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_IN_CRY_0);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_IN_CRY_0);
     }
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->animationIdx %= 8;
         this->unk_1E8 = this->animationIdx;
         if (this->animationIdx == 3 || this->animationIdx == 4) {
-            Audio_PlaySoundGeneral(NA_SE_IT_LASH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_IT_LASH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             if (Rand_ZeroOne() < 0.3f) {
-                Audio_PlaySoundGeneral(NA_SE_IT_INGO_HORSE_NEIGH, &this->actor.projectedPos, 4,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_IT_INGO_HORSE_NEIGH, &this->actor.projectedPos, 4,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         }
         Animation_Change(&this->skelAnime, D_80A7B918[this->animationIdx], 1.0f, 0.0f,
@@ -637,15 +668,15 @@ void func_80A7A4BC(EnIn* this, PlayState* play) {
 }
 
 void func_80A7A4C8(EnIn* this, PlayState* play) {
-    if (this->unk_308.unk_00 == 2) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         func_80A79BAC(this, play, 1, TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST));
-        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_1);
-        SET_EVENTINF_HORSES_0F(1);
+        SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_HORSE_RENTAL_PERIOD);
+        WRITE_EVENTINF_INGO_RACE_0F(1);
         CLEAR_INFTABLE(INFTABLE_A2);
         Environment_ForcePlaySequence(NA_BGM_HORSE);
         play->msgCtx.stateTimer = 0;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->unk_308.unk_00 = 0;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
 
@@ -657,58 +688,57 @@ void func_80A7A568(EnIn* this, PlayState* play) {
     if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && (player->stateFlags1 & PLAYER_STATE1_23)) {
         SET_INFTABLE(INFTABLE_AB);
     }
-    if (gSaveContext.timer1State == 10) {
-        Audio_PlaySoundGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    if (gSaveContext.timerState == TIMER_STATE_STOP) {
+        Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A79C78(this, play);
         this->actionFunc = func_80A7B024;
-        gSaveContext.timer1State = 0;
-    } else if (this->unk_308.unk_00 == 2) {
+        gSaveContext.timerState = TIMER_STATE_OFF;
+    } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         if (play->msgCtx.choiceIndex == 0) {
-            if (gSaveContext.rupees < 50) {
+            if (gSaveContext.save.info.playerData.rupees < 50) {
                 play->msgCtx.stateTimer = 4;
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-                this->unk_308.unk_00 = 0;
+                this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
                 return;
             }
-            SET_EVENTINF_HORSES_HORSETYPE(((EnHorse*)GET_PLAYER(play)->rideActor)->type);
-            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
+            WRITE_EVENTINF_INGO_RACE_HORSETYPE(((EnHorse*)GET_PLAYER(play)->rideActor)->type);
+            SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_RACING);
             phi_a2 = 2;
             transitionType = TRANS_TYPE_FADE_BLACK;
         } else {
-            Audio_PlaySoundGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             if (!GET_EVENTCHKINF(EVENTCHKINF_1B)) {
                 if (GET_INFTABLE(INFTABLE_AB)) {
                     SET_EVENTCHKINF(EVENTCHKINF_1B);
                     SET_INFTABLE(INFTABLE_AB);
                 }
             }
-            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
+            SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_OFFER_RENTAL);
             phi_a2 = 0;
             transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
         }
         func_80A79BAC(this, play, phi_a2, transitionType);
         play->msgCtx.stateTimer = 0;
-        SET_EVENTINF_HORSES_0F(1);
+        WRITE_EVENTINF_INGO_RACE_0F(1);
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->unk_308.unk_00 = 0;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
 
 void func_80A7A770(EnIn* this, PlayState* play) {
-    if (this->unk_308.unk_00 == 0) {
-        this->actor.flags |= ACTOR_FLAG_16;
-    } else if (this->unk_308.unk_00 == 2) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
+    } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         Rupees_ChangeBy(-50);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         EnIn_ChangeAnim(this, ENIN_ANIM_3);
         this->actionFunc = func_80A7A848;
-        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_7);
-        this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_05_MASK;
-        if (!GET_EVENTINF(EVENTINF_HORSES_06)) {
+        SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_REMATCH);
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
+        SET_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_LOST_ONCE);
+        if (!GET_EVENTINF(EVENTINF_INGO_RACE_SECOND_RACE)) {
             play->msgCtx.stateTimer = 4;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
@@ -716,44 +746,44 @@ void func_80A7A770(EnIn* this, PlayState* play) {
 }
 
 void func_80A7A848(EnIn* this, PlayState* play) {
-    if (this->unk_308.unk_00 == 2) {
-        if ((play->msgCtx.choiceIndex == 0 && gSaveContext.rupees < 50) || play->msgCtx.choiceIndex == 1) {
-            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
+        if ((play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees < 50) ||
+            play->msgCtx.choiceIndex == 1) {
+            SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_OFFER_RENTAL);
             this->actionFunc = func_80A7A4C8;
         } else {
             func_80A79BAC(this, play, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
-            SET_EVENTINF_HORSES_0F(1);
+            SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_RACING);
+            WRITE_EVENTINF_INGO_RACE_0F(1);
             play->msgCtx.stateTimer = 0;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
-        this->unk_308.unk_00 = 0;
-        CLEAR_EVENTINF(EVENTINF_HORSES_05);
-        CLEAR_EVENTINF(EVENTINF_HORSES_06);
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
+        CLEAR_EVENTINF(EVENTINF_INGO_RACE_LOST_ONCE);
+        CLEAR_EVENTINF(EVENTINF_INGO_RACE_SECOND_RACE);
     }
 }
 
 void func_80A7A940(EnIn* this, PlayState* play) {
-    if (this->unk_308.unk_00 == 0) {
-        this->actor.flags |= ACTOR_FLAG_16;
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         return;
     }
     if (this->unk_1EC != 0) {
         this->unk_1EC--;
         if (this->unk_1EC == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_VO_IN_LOST);
+            Actor_PlaySfx(&this->actor, NA_SE_VO_IN_LOST);
         }
     }
-    if (this->unk_308.unk_00 == 2) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         func_80A79BAC(this, play, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
-        SET_EVENTINF_HORSES_0F(1);
+        SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_RACING);
+        WRITE_EVENTINF_INGO_RACE_0F(1);
         play->msgCtx.stateTimer = 0;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_06_MASK;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
+        SET_EVENTINF_INGO_RACE_FLAG(EVENTINF_INGO_RACE_SECOND_RACE);
     }
 }
 
@@ -785,14 +815,14 @@ void func_80A7AA40(EnIn* this, PlayState* play) {
     subCamEye.y += this->subCamEyeOffset.y;
     subCamEye.z += this->subCamEyeOffset.z;
 
-    Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     this->actor.textId = 0x203B;
     Message_StartTextbox(play, this->actor.textId, NULL);
-    this->unk_308.unk_00 = 1;
+    this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
     this->unk_1FC = 0;
-    play->csCtx.frames = 0;
-    ShrinkWindow_SetVal(0x20);
-    Interface_ChangeAlpha(2);
+    play->csCtx.curFrame = 0;
+    Letterbox_SetSizeTarget(32);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
     this->actionFunc = func_80A7ABD4;
 }
 
@@ -809,29 +839,29 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
         if (this->unk_1EC != 0) {
             this->unk_1EC--;
             if (this->unk_1EC == 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_VO_IN_LOST);
+                Actor_PlaySfx(&this->actor, NA_SE_VO_IN_LOST);
             }
         }
     }
-    if (this->unk_308.unk_00 != 0) {
-        if (this->unk_308.unk_00 == 2) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+        if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
             if (this->actor.textId == 0x203B) {
                 this->actor.textId = 0x203C;
                 Message_StartTextbox(play, this->actor.textId, NULL);
-                this->unk_308.unk_00 = 1;
+                this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
                 EnIn_ChangeAnim(this, ENIN_ANIM_3);
             } else {
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-                this->unk_308.unk_00 = 0;
+                this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
             }
         }
     } else {
-        if (play->csCtx.frames++ >= 50) {
+        if (play->csCtx.curFrame++ >= 50) {
             this->actionFunc = func_80A7AE84;
             return;
         }
-        if (play->csCtx.frames == 44) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_RONRON_DOOR_CLOSE);
+        if (play->csCtx.curFrame == 44) {
+            Actor_PlaySfx(&this->actor, NA_SE_EV_RONRON_DOOR_CLOSE);
         }
         Math_SmoothStepToF(&this->subCamAtOffset.x, 0.0f, 0.06f, 10000.0f, 0.0f);
         Math_SmoothStepToF(&this->subCamAtOffset.y, 50.0f, 0.06f, 10000.0f, 0.0f);
@@ -849,15 +879,15 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
         subCamEye.x += this->subCamEyeOffset.x;
         subCamEye.y += this->subCamEyeOffset.y;
         subCamEye.z += this->subCamEyeOffset.z;
-        Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     }
 }
 
 void func_80A7AE84(EnIn* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
-    func_8002DF54(play, &this->actor, 7);
-    Interface_ChangeAlpha(0x32);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->actionFunc = func_80A7AEF0;
 }
 
@@ -870,14 +900,14 @@ void func_80A7AEF0(EnIn* this, PlayState* play) {
     pos.z += 90.0f * Math_CosS(this->actor.shape.rot.y);
     yaw = Math_Vec3f_Yaw(&pos, &player->actor.world.pos);
     if (ABS(yaw) > 0x4000) {
-        play->nextEntranceIndex = ENTR_SPOT00_15;
+        play->nextEntranceIndex = ENTR_HYRULE_FIELD_15;
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
         this->actionFunc = func_80A7B018;
-    } else if (this->unk_308.unk_00 == 2) {
+    } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->unk_308.unk_00 = 0;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
 
@@ -891,26 +921,29 @@ void func_80A7B024(EnIn* this, PlayState* play) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
-    if (this->unk_308.unk_00 == 2) {
-        if (1) {}
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_AB)) {
-            SET_EVENTCHKINF(EVENTCHKINF_1B);
-            SET_INFTABLE(INFTABLE_AB);
-        }
-        func_80A79BAC(this, play, 0, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
-        SET_EVENTINF_HORSES_0F(1);
-        play->msgCtx.stateTimer = 4;
-        play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->unk_308.unk_00 = 0;
+
+    if (this->interactInfo.talkState != NPC_TALK_STATE_ACTION) {
+        return;
     }
+
+    if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_AB)) {
+        SET_EVENTCHKINF(EVENTCHKINF_1B);
+        SET_INFTABLE(INFTABLE_AB);
+    }
+
+    func_80A79BAC(this, play, 0, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
+    SET_EVENTINF_INGO_RACE_STATE(INGO_RACE_STATE_OFFER_RENTAL);
+    WRITE_EVENTINF_INGO_RACE_0F(1);
+    play->msgCtx.stateTimer = 4;
+    play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 }
 
 void EnIn_Update(Actor* thisx, PlayState* play) {
     ColliderCylinder* collider;
     EnIn* this = (EnIn*)thisx;
 
-    if (this->actionFunc == func_80A79FB0) {
+    if (this->actionFunc == EnIn_WaitForObject) {
         this->actionFunc(this, play);
         return;
     }
@@ -920,7 +953,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     if (this->actionFunc != func_80A7A304) {
         SkelAnime_Update(&this->skelAnime);
         if (this->skelAnime.animation == &object_in_Anim_001BE0 &&
-            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6) {
+            GET_EVENTINF_INGO_RACE_STATE() != INGO_RACE_STATE_TRAPPED_WIN_EPONA) {
             func_80A79690(&this->skelAnime, this, play);
         }
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
@@ -929,24 +962,35 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, play);
-        if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->unk_308.unk_00 == 0) {
-            if (Actor_ProcessTalkRequest(&this->actor, play)) {}
+#if OOT_VERSION < PAL_1_0
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
+                          ((this->actor.attentionRangeType == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
+                          EnIn_GetTextId, EnIn_UpdateTalkState);
+        if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+            this->unk_1FA = this->unk_1F8;
+            this->unk_1F8 = Message_GetState(&play->msgCtx);
+        }
+#else
+        if ((gSaveContext.subTimerSeconds < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) &&
+            this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
+            if (Actor_TalkOfferAccepted(&this->actor, play)) {}
         } else {
-            func_800343CC(play, &this->actor, &this->unk_308.unk_00,
-                          ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,
-                          func_80A79500);
-            if (this->unk_308.unk_00 != 0) {
+            Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
+                              ((this->actor.attentionRangeType == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
+                              EnIn_GetTextId, EnIn_UpdateTalkState);
+            if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
                 this->unk_1FA = this->unk_1F8;
                 this->unk_1F8 = Message_GetState(&play->msgCtx);
             }
         }
+#endif
         func_80A795C8(this, play);
     }
 }
 
 s32 EnIn_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnIn* this = (EnIn*)thisx;
-    Vec3s sp2C;
+    Vec3s limbRot;
 
     if (this->actor.params > 0 && limbIndex != INGO_HEAD_LIMB) {
         if (sAdultEraDLs[limbIndex] != NULL) {
@@ -955,15 +999,15 @@ s32 EnIn_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
     if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp2C = this->unk_308.unk_08;
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB) {
-        sp2C = this->unk_308.unk_0E;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
-        Matrix_RotateY(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB || limbIndex == INGO_LEFT_SHOULDER_LIMB || limbIndex == INGO_RIGHT_SHOULDER_LIMB) {
         rot->y += Math_SinS(this->unk_330[limbIndex].y) * 200.0f;
@@ -998,7 +1042,7 @@ void EnIn_Draw(Actor* thisx, PlayState* play) {
     EnIn* this = (EnIn*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_in.c", 2384);
-    if (this->actionFunc != func_80A79FB0) {
+    if (this->actionFunc != EnIn_WaitForObject) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gIngoHeadGradient2Tex));

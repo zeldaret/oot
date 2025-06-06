@@ -6,9 +6,16 @@
  */
 
 #include "z_bg_jya_goroiwa.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_goroiwa/object_goroiwa.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgJyaGoroiwa_Init(Actor* thisx, PlayState* play);
 void BgJyaGoroiwa_Destroy(Actor* thisx, PlayState* play);
@@ -23,26 +30,26 @@ void BgJyaGoroiwa_SetupMove(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateRotation(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateCollider(BgJyaGoroiwa* this);
 
-const ActorInit Bg_Jya_Goroiwa_InitVars = {
-    ACTOR_BG_JYA_GOROIWA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GOROIWA,
-    sizeof(BgJyaGoroiwa),
-    (ActorFunc)BgJyaGoroiwa_Init,
-    (ActorFunc)BgJyaGoroiwa_Destroy,
-    (ActorFunc)BgJyaGoroiwa_Update,
-    (ActorFunc)BgJyaGoroiwa_Draw,
+ActorProfile Bg_Jya_Goroiwa_Profile = {
+    /**/ ACTOR_BG_JYA_GOROIWA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GOROIWA,
+    /**/ sizeof(BgJyaGoroiwa),
+    /**/ BgJyaGoroiwa_Init,
+    /**/ BgJyaGoroiwa_Destroy,
+    /**/ BgJyaGoroiwa_Update,
+    /**/ BgJyaGoroiwa_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x20000000, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
@@ -51,7 +58,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -66,9 +73,9 @@ static CollisionCheckInfoInit sColChkInfoInit = { 1, 15, 0, MASS_HEAVY };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void BgJyaGoroiwa_UpdateCollider(BgJyaGoroiwa* this) {
@@ -83,7 +90,7 @@ void BgJyaGoroiwa_InitCollider(BgJyaGoroiwa* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     BgJyaGoroiwa_UpdateCollider(this);
     this->collider.elements[0].dim.worldSphere.radius = 58;
 }
@@ -122,19 +129,19 @@ void BgJyaGoroiwa_SetupMove(BgJyaGoroiwa* this) {
 void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
     Actor* thisx = &this->actor;
     s16 relYawTowardsPlayer;
-    f32 speedXZsqBase = (-100.0f - thisx->world.pos.y) * 2.5f;
+    f32 speedXZBaseSq = (-100.0f - thisx->world.pos.y) * 2.5f;
     f32 posYfac;
 
-    if (speedXZsqBase < 0.01f) {
-        speedXZsqBase = 0.01f;
+    if (speedXZBaseSq < 0.01f) {
+        speedXZBaseSq = 0.01f;
     }
 
-    thisx->speedXZ = sqrtf(speedXZsqBase) * this->speedFactor;
-    thisx->velocity.x = Math_SinS(thisx->world.rot.y) * thisx->speedXZ;
-    thisx->velocity.z = Math_CosS(thisx->world.rot.y) * thisx->speedXZ;
+    thisx->speed = sqrtf(speedXZBaseSq) * this->speedFactor;
+    thisx->velocity.x = Math_SinS(thisx->world.rot.y) * thisx->speed;
+    thisx->velocity.z = Math_CosS(thisx->world.rot.y) * thisx->speed;
 
-    thisx->world.pos.x = thisx->world.pos.x + thisx->velocity.x;
-    thisx->world.pos.z = thisx->world.pos.z + thisx->velocity.z;
+    thisx->world.pos.x += thisx->velocity.x;
+    thisx->world.pos.z += thisx->velocity.z;
 
     if ((thisx->world.pos.x > 1466.0f) && (thisx->world.pos.x < 1673.0f)) {
         thisx->world.pos.y = -129.5f;
@@ -152,8 +159,8 @@ void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
             thisx->world.rot.y += 0x8000;
         }
 
-        func_8002F6D4(play, thisx, 2.0f, thisx->yawTowardsPlayer, 0.0f, 0);
-        func_8002F7DC(&GET_PLAYER(play)->actor, NA_SE_PL_BODY_HIT);
+        Actor_SetPlayerKnockbackLarge(play, thisx, 2.0f, thisx->yawTowardsPlayer, 0.0f, 0);
+        Player_PlaySfx(GET_PLAYER(play), NA_SE_PL_BODY_HIT);
 
         this->yOffsetSpeed = 10.0f;
         this->speedFactor = 0.5f;
@@ -177,7 +184,7 @@ void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
         thisx->world.rot.y = 0x4000;
     }
 
-    Audio_PlayActorSound2(thisx, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
+    Actor_PlaySfx(thisx, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
 }
 
 void BgJyaGoroiwa_SetupWait(BgJyaGoroiwa* this) {
@@ -198,16 +205,16 @@ void BgJyaGoroiwa_Update(Actor* thisx, PlayState* play) {
     BgJyaGoroiwa* this = (BgJyaGoroiwa*)thisx;
     Player* player = GET_PLAYER(play);
     s32 bgId;
-    Vec3f pos;
+    Vec3f checkPos;
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_TALKING | PLAYER_STATE1_DEAD | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         this->actionFunc(this, play);
         BgJyaGoroiwa_UpdateRotation(this);
-        pos.x = this->actor.world.pos.x;
-        pos.y = this->actor.world.pos.y + 59.5f;
-        pos.z = this->actor.world.pos.z;
+        checkPos.x = this->actor.world.pos.x;
+        checkPos.y = this->actor.world.pos.y + 59.5f;
+        checkPos.z = this->actor.world.pos.z;
         this->actor.floorHeight =
-            BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &pos);
+            BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &checkPos);
         BgJyaGoroiwa_UpdateCollider(this);
         if (this->collider.base.atFlags & AT_ON) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

@@ -5,6 +5,15 @@
  */
 
 #include "z_eff_ss_ice_piece.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rLifespan regs[0]
@@ -17,7 +26,7 @@ u32 EffectSsIcePiece_Init(PlayState* play, u32 index, EffectSs* this, void* init
 void EffectSsIcePiece_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsIcePiece_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Ice_Piece_InitVars = {
+EffectSsProfile Effect_Ss_Ice_Piece_Profile = {
     EFFECT_SS_ICE_PIECE,
     EffectSsIcePiece_Init,
 };
@@ -65,14 +74,13 @@ void EffectSsIcePiece_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_RotateY(BINANG_TO_RAD(this->rYaw), MTXMODE_APPLY);
     Matrix_RotateX(BINANG_TO_RAD(this->rPitch), MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ice_piece.c", 185),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_ice_piece.c", 185);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, (s32)alpha & 0xFF);
     func_8003435C(&this->pos, play);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (1 * frames) % 256, 0x20, 0x10, 1, 0, (2 * frames) % 256,
-                                0x40, 0x20));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (1 * frames) % 256, 0x20, 0x10, 1, 0,
+                                (2 * frames) % 256, 0x40, 0x20));
     gSPDisplayList(POLY_XLU_DISP++, gEffIceFragment1DL);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ice_piece.c", 209);
@@ -80,7 +88,7 @@ void EffectSsIcePiece_Draw(PlayState* play, u32 index, EffectSs* this) {
 
 void EffectSsIcePiece_Update(PlayState* play, u32 index, EffectSs* this) {
     this->rPitch += this->rRotSpeed;
-    this->velocity.x = this->velocity.x * 0.85f;
-    this->velocity.y = this->velocity.y * 0.85f;
-    this->velocity.z = this->velocity.z * 0.85f;
+    this->velocity.x *= 0.85f;
+    this->velocity.y *= 0.85f;
+    this->velocity.z *= 0.85f;
 }

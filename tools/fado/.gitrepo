@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:EllipticEllipsis/fado.git
 	branch = master
-	commit = a0fa828089353ba48e378b281c23100c247b1c92
-	parent = eadc477187888e1ae078d021b4a00b1366f0c9a4
+	commit = a45f99b46d2f70fb14f4648907f493b28a96a78a
+	parent = 06904e1ee76828591b42f419a5e4f80106de4615
 	method = merge
-	cmdver = 0.4.3
+	cmdver = 0.4.6

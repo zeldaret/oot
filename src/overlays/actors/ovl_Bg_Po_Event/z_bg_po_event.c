@@ -5,6 +5,21 @@
  */
 
 #include "z_bg_po_event.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_po_sisters/object_po_sisters.h"
 
 #define FLAGS 0
@@ -28,37 +43,37 @@ void BgPoEvent_PaintingAppear(BgPoEvent* this, PlayState* play);
 void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play);
 void BgPoEvent_PaintingBurn(BgPoEvent* this, PlayState* play);
 
-const ActorInit Bg_Po_Event_InitVars = {
-    ACTOR_BG_PO_EVENT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_PO_SISTERS,
-    sizeof(BgPoEvent),
-    (ActorFunc)BgPoEvent_Init,
-    (ActorFunc)BgPoEvent_Destroy,
-    (ActorFunc)BgPoEvent_Update,
-    (ActorFunc)BgPoEvent_Draw,
+ActorProfile Bg_Po_Event_Profile = {
+    /**/ ACTOR_BG_PO_EVENT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_SISTERS,
+    /**/ sizeof(BgPoEvent),
+    /**/ BgPoEvent_Init,
+    /**/ BgPoEvent_Destroy,
+    /**/ BgPoEvent_Update,
+    /**/ BgPoEvent_Draw,
 };
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK4,
+            ELEM_MATERIAL_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F820, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 25.0f, 33.0f, 0.0f }, { -25.0f, 33.0f, 0.0f }, { -25.0f, -33.0f, 0.0f } } },
     },
     {
         {
-            ELEMTYPE_UNK4,
+            ELEM_MATERIAL_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F820, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON,
+            ATELEM_NONE,
+            ACELEM_ON,
             OCELEM_NONE,
         },
         { { { 25.0f, 33.0f, 0.0f }, { -25.0f, -33.0f, 0.0f }, { 25.0f, -33.0f, 0.0f } } },
@@ -67,7 +82,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
 
 static ColliderTrisInit sTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -88,7 +103,7 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, PlayState* play) {
     static s16 paintingPosX[] = { -1302, -866, 1421, 985 };
     static s16 paintingPosY[] = { 1107, 1091 };
     static s16 paintingPosZ[] = { -3384, -3252 };
-    ColliderTrisElementInit* item;
+    ColliderTrisElementInit* elementInit;
     Vec3f* vtxVec;
     s32 i1;
     s32 i2;
@@ -109,10 +124,10 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, PlayState* play) {
         scaleY = 1.0f;
     }
     for (i1 = 0; i1 < sTrisInit.count; i1++) {
-        item = &sTrisInit.elements[i1];
+        elementInit = &sTrisInit.elements[i1];
         if (1) {} // This section looks like a macro of some sort.
         for (i2 = 0; i2 < 3; i2++) {
-            vtxVec = &item->dim.vtx[i2];
+            vtxVec = &elementInit->dim.vtx[i2];
             sp9C[i2].x = (vtxVec->x * coss) + (this->dyna.actor.home.pos.x + (sins * vtxVec->z));
             sp9C[i2].y = (vtxVec->y * scaleY) + this->dyna.actor.home.pos.y;
             sp9C[i2].z = this->dyna.actor.home.pos.z + (coss * vtxVec->z) - (vtxVec->x * sins);
@@ -155,7 +170,7 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     s32 bgId;
 
-    this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+    this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
     CollisionHeader_GetVirtual(&gPoSistersAmyBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((this->type == 0) && (this->index != 3)) {
@@ -182,8 +197,8 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, PlayState* play) {
         }
     }
     this->dyna.actor.world.pos.y = 833.0f;
-    this->dyna.actor.floorHeight = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId,
-                                                               &this->dyna.actor, &this->dyna.actor.world.pos);
+    this->dyna.actor.floorHeight = BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId,
+                                                              &this->dyna.actor, &this->dyna.actor.world.pos);
     this->actionFunc = BgPoEvent_BlockWait;
 }
 
@@ -196,20 +211,20 @@ void BgPoEvent_Init(Actor* thisx, PlayState* play) {
     BgPoEvent* this = (BgPoEvent*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->type = (thisx->params >> 8) & 0xF;
-    this->index = (thisx->params >> 0xC) & 0xF;
+    this->type = PARAMS_GET_U(thisx->params, 8, 4);
+    this->index = PARAMS_GET_U(thisx->params, 12, 4);
     thisx->params &= 0x3F;
 
     if (this->type >= 2) {
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderElements);
         if (Flags_GetSwitch(play, thisx->params)) {
             Actor_Kill(thisx);
         } else {
             BgPoEvent_InitPaintings(this, play);
         }
     } else {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         if (Flags_GetSwitch(play, thisx->params)) {
             Actor_Kill(thisx);
         } else {
@@ -226,8 +241,8 @@ void BgPoEvent_Destroy(Actor* thisx, PlayState* play) {
         Collider_DestroyTris(play, &this->collider);
     } else {
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-        if ((this->type == 1) && (gSaveContext.timer1Value > 0)) {
-            gSaveContext.timer1State = 0xA;
+        if ((this->type == 1) && (gSaveContext.timerSeconds > 0)) {
+            gSaveContext.timerState = TIMER_STATE_STOP;
         }
     }
 }
@@ -258,7 +273,7 @@ void BgPoEvent_BlockShake(BgPoEvent* this, PlayState* play) {
     if (this->timer < 15) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + 2.0f * ((this->timer % 3) - 1);
         if (!(this->timer % 4)) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
         }
     }
     if (this->timer == 0) {
@@ -308,19 +323,19 @@ void BgPoEvent_BlockFall(BgPoEvent* this, PlayState* play) {
 
     this->dyna.actor.velocity.y++;
     if (Math_StepToF(&this->dyna.actor.world.pos.y, 433.0f, this->dyna.actor.velocity.y)) {
-        this->dyna.actor.flags &= ~ACTOR_FLAG_5;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_DRAW_CULLING_DISABLED;
         this->dyna.actor.velocity.y = 0.0f;
         sBlocksAtRest++;
         if (this->type != 1) {
             BgPoEvent_CheckBlock(this);
         } else {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
-            func_80033E88(&this->dyna.actor, play, 5, 5);
-            func_80088B34(this->timer);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+            Actor_RequestQuakeAndRumble(&this->dyna.actor, play, 5, 5);
+            Interface_SetTimer(this->timer);
             if (firstFall == 0) {
                 firstFall = 1;
             } else {
-                func_8002DF54(play, &GET_PLAYER(play)->actor, 7);
+                Player_SetCsActionWithHaltedActors(play, &GET_PLAYER(play)->actor, PLAYER_CSACTION_7);
             }
         }
         this->direction = 0;
@@ -341,11 +356,11 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
             if (amy != NULL) {
                 OnePointCutscene_Init(play, 3170, 30, amy, CAM_ID_MAIN);
             }
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
-            gSaveContext.timer1State = 0xA;
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
+            gSaveContext.timerState = TIMER_STATE_STOP;
         }
     } else {
-        if ((gSaveContext.timer1Value == 0) && (sBlocksAtRest == 5)) {
+        if ((gSaveContext.timerSeconds == 0) && (sBlocksAtRest == 5)) {
             player->stateFlags2 &= ~PLAYER_STATE2_4;
             sPuzzleState = 0x10;
             sBlocksAtRest = 0;
@@ -355,8 +370,8 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
             this->actionFunc = BgPoEvent_BlockReset;
             if (sPuzzleState == 0x10) {
                 sPuzzleState = 0x40;
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_RISING);
-                func_8002DF54(play, &player->actor, 8);
+                Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_RISING);
+                Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_8);
             }
         } else if (this->dyna.unk_150 != 0.0f) {
             if (this->direction == 0) {
@@ -385,22 +400,22 @@ void BgPoEvent_BlockPush(BgPoEvent* this, PlayState* play) {
     s32 blockStop;
     Player* player = GET_PLAYER(play);
 
-    this->dyna.actor.speedXZ += 0.1f;
-    this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 2.0f);
-    blockStop = Math_StepToF(&blockPushDist, 20.0f, this->dyna.actor.speedXZ);
+    this->dyna.actor.speed += 0.1f;
+    this->dyna.actor.speed = CLAMP_MAX(this->dyna.actor.speed, 2.0f);
+    blockStop = Math_StepToF(&blockPushDist, 20.0f, this->dyna.actor.speed);
     displacement = this->direction * blockPushDist;
     this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.unk_158) * displacement) + this->dyna.actor.home.pos.x;
     this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.unk_158) * displacement) + this->dyna.actor.home.pos.z;
     if (blockStop) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         if ((this->dyna.unk_150 > 0.0f) && (func_800435D8(play, &this->dyna, 0x1E, 0x32, -0x14) == 0)) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         }
         this->dyna.unk_150 = 0.0f;
         this->dyna.actor.home.pos.x = this->dyna.actor.world.pos.x;
         this->dyna.actor.home.pos.z = this->dyna.actor.world.pos.z;
         blockPushDist = 0.0f;
-        this->dyna.actor.speedXZ = 0.0f;
+        this->dyna.actor.speed = 0.0f;
         this->direction = 5;
         sBlocksAtRest++;
         this->actionFunc = BgPoEvent_BlockIdle;
@@ -410,7 +425,7 @@ void BgPoEvent_BlockPush(BgPoEvent* this, PlayState* play) {
         BgPoEvent_CheckBlock(this);
         BgPoEvent_CheckBlock((BgPoEvent*)this->dyna.actor.parent);
     }
-    func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
 void BgPoEvent_BlockReset(BgPoEvent* this, PlayState* play) {
@@ -449,8 +464,8 @@ void BgPoEvent_AmyWait(BgPoEvent* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         sPuzzleState |= 0x20;
         this->timer = 5;
-        Actor_SetColorFilter(&this->dyna.actor, 0x4000, 0xFF, 0, 5);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_PO_LAUGH2);
+        Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 5);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_PO_LAUGH2);
         this->actionFunc = BgPoEvent_AmyPuzzle;
     }
 }
@@ -528,17 +543,17 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play) {
                under the balcony allows him to be closer.
             4) Link is within 45 degrees of facing the painting. */
         this->timer = 0;
-        Audio_PlayActorSound2(thisx, NA_SE_EN_PO_LAUGH);
+        Actor_PlaySfx(thisx, NA_SE_EN_PO_LAUGH);
         this->actionFunc = BgPoEvent_PaintingVanish;
     } else if (this->collider.base.acFlags & AC_HIT) {
         if (!BgPoEvent_NextPainting(this)) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, thisx->world.pos.x, thisx->world.pos.y - 40.0f,
                         thisx->world.pos.z, 0, thisx->shape.rot.y, 0, thisx->params + ((this->type - 1) << 8));
             OnePointCutscene_Init(play, 3160, 80, thisx, CAM_ID_MAIN);
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
 
         } else {
-            Audio_PlayActorSound2(thisx, NA_SE_EN_PO_LAUGH2);
+            Actor_PlaySfx(thisx, NA_SE_EN_PO_LAUGH2);
             OnePointCutscene_Init(play, 3160, 35, thisx, CAM_ID_MAIN);
         }
         if (thisx->parent != NULL) {
@@ -612,8 +627,7 @@ void BgPoEvent_Draw(Actor* thisx, PlayState* play) {
         }
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, alpha);
     }
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_po_event.c", 1501),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_po_event.c", 1501);
     gSPDisplayList(POLY_OPA_DISP++, displayLists[this->type]);
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_po_event.c", 1508);
 

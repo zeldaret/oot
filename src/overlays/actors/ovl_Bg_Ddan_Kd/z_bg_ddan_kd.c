@@ -5,9 +5,20 @@
  */
 
 #include "z_bg_ddan_kd.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "rand.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgDdanKd_Init(Actor* thisx, PlayState* play);
 void BgDdanKd_Destroy(Actor* thisx, PlayState* play);
@@ -18,21 +29,21 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play);
 void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play);
 void BgDdanKd_DoNothing(BgDdanKd* this, PlayState* play);
 
-const ActorInit Bg_Ddan_Kd_InitVars = {
-    ACTOR_BG_DDAN_KD,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_DDAN_OBJECTS,
-    sizeof(BgDdanKd),
-    (ActorFunc)BgDdanKd_Init,
-    (ActorFunc)BgDdanKd_Destroy,
-    (ActorFunc)BgDdanKd_Update,
-    (ActorFunc)BgDdanKd_Draw,
+ActorProfile Bg_Ddan_Kd_Profile = {
+    /**/ ACTOR_BG_DDAN_KD,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_DDAN_OBJECTS,
+    /**/ sizeof(BgDdanKd),
+    /**/ BgDdanKd_Init,
+    /**/ BgDdanKd_Destroy,
+    /**/ BgDdanKd_Update,
+    /**/ BgDdanKd_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ALL,
         OC1_NONE,
@@ -40,11 +51,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 245, 180, -400, { 0, 0, 0 } },
@@ -52,9 +63,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 32767, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 32767, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 32767, ICHAIN_STOP),
 };
 
 void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
@@ -69,7 +80,7 @@ void BgDdanKd_Init(Actor* thisx, PlayState* play) {
     this->prevExplosive = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
     CollisionHeader_GetVirtual(&gDodongoFallingStairsCol, &colHeader);
@@ -96,7 +107,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play) {
 
     explosive = Actor_GetCollidedExplosive(play, &this->collider.base);
     if (explosive != NULL) {
-        osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
+        PRINTF("dam    %d\n", this->dyna.actor.colChkInfo.damage);
         explosive->params = 2;
     }
 
@@ -126,16 +137,15 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play) {
     Vec3f pos2;
     f32 effectStrength;
 
-    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 4.0f, 0.5f, 0.025f, 0.0f);
-    func_800AA000(500.0f, 0x78, 0x14, 0xA);
+    Math_SmoothStepToF(&this->dyna.actor.speed, 4.0f, 0.5f, 0.025f, 0.0f);
+    Rumble_Request(500.0f, 120, 20, 10);
 
     if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 200.0f - 20.0f, 0.075f,
-                           this->dyna.actor.speedXZ, 0.0075f) == 0.0f) {
+                           this->dyna.actor.speed, 0.0075f) == 0.0f) {
         Flags_SetSwitch(play, this->dyna.actor.params);
         BgDdanKd_SetupAction(this, BgDdanKd_DoNothing);
     } else {
-        effectStrength =
-            (this->dyna.actor.prevPos.y - this->dyna.actor.world.pos.y) + (this->dyna.actor.speedXZ * 0.25f);
+        effectStrength = (this->dyna.actor.prevPos.y - this->dyna.actor.world.pos.y) + (this->dyna.actor.speed * 0.25f);
 
         if (play->state.frames & 1) {
             pos1 = pos2 = this->dyna.actor.world.pos;
@@ -169,9 +179,9 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play) {
             func_80033480(play, &pos1, 20.0f, 1, effectStrength * 135.0f, 60, 1);
             func_8003555C(play, &pos1, &velocity, &accel);
         }
-        Camera_AddQuake(&play->mainCamera, 0, effectStrength * 0.6f, 3);
-        Audio_PlaySoundGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Camera_RequestQuake(&play->mainCamera, 0, effectStrength * 0.6f, 3);
+        Audio_PlaySfxGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 

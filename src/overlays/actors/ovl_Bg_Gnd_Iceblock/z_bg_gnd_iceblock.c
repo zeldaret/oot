@@ -5,11 +5,22 @@
  */
 
 #include "z_bg_gnd_iceblock.h"
+
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
-typedef enum {
+typedef enum BgGndIceblockAction {
     /* 0 */ GNDICE_IDLE,
     /* 1 */ GNDICE_FALL,
     /* 2 */ GNDICE_HOLE
@@ -23,16 +34,16 @@ void BgGndIceblock_Draw(Actor* thisx, PlayState* play);
 void BgGndIceblock_Idle(BgGndIceblock* this, PlayState* play);
 void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play);
 
-const ActorInit Bg_Gnd_Iceblock_InitVars = {
-    ACTOR_BG_GND_ICEBLOCK,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndIceblock),
-    (ActorFunc)BgGndIceblock_Init,
-    (ActorFunc)BgGndIceblock_Destroy,
-    (ActorFunc)BgGndIceblock_Update,
-    (ActorFunc)BgGndIceblock_Draw,
+ActorProfile Bg_Gnd_Iceblock_Profile = {
+    /**/ ACTOR_BG_GND_ICEBLOCK,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndIceblock),
+    /**/ BgGndIceblock_Init,
+    /**/ BgGndIceblock_Destroy,
+    /**/ BgGndIceblock_Update,
+    /**/ BgGndIceblock_Draw,
 };
 
 static Color_RGBA8 sWhite = { 250, 250, 250, 255 };
@@ -50,7 +61,7 @@ void BgGndIceblock_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gWaterTrialIceBlockCol, &colHeader);
     this->targetPos = this->dyna.actor.home.pos;
     this->actionFunc = BgGndIceblock_Idle;
@@ -84,7 +95,7 @@ void BgGndIceblock_Destroy(Actor* thisx, PlayState* play) {
  * | 3     h8    15    19 |
  * | 4      9 11 XX   *20*|
  * |*5*    XX 12      *21*|
- *  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+ *  ----------------------
  * XX are rocks
  * ** are pits
  * h is the hole.
@@ -239,7 +250,7 @@ void BgGndIceblock_Idle(BgGndIceblock* this, PlayState* play) {
         if (this->dyna.unk_150 > 0.0f) {
             BgGndIceblock_SetNextPosition(this);
             if (Actor_WorldDistXZToPoint(&this->dyna.actor, &this->targetPos) > 1.0f) {
-                func_8002DF54(play, &this->dyna.actor, 8);
+                Player_SetCsActionWithHaltedActors(play, &this->dyna.actor, PLAYER_CSACTION_8);
                 this->actionFunc = BgGndIceblock_Slide;
             }
         }
@@ -257,7 +268,7 @@ void BgGndIceblock_Reset(BgGndIceblock* this, PlayState* play) {
     }
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 1.0f)) {
         this->targetPos = thisx->home.pos;
-        thisx->speedXZ = 0.0f;
+        thisx->speed = 0.0f;
         this->actionFunc = BgGndIceblock_Idle;
         switch (thisx->params) {
             case 0:
@@ -280,7 +291,7 @@ void BgGndIceblock_Fall(BgGndIceblock* this, PlayState* play) {
         thisx->world.pos.y = thisx->home.pos.y - 100.0f;
         thisx->world.pos.z = thisx->home.pos.z;
         if (Player_InCsMode(play)) {
-            func_8002DF54(play, thisx, 7);
+            Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_7);
         }
         this->actionFunc = BgGndIceblock_Reset;
     }
@@ -293,7 +304,7 @@ void BgGndIceblock_Hole(BgGndIceblock* this, PlayState* play) {
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y - 100.0f, thisx->velocity.y)) {
         thisx->velocity.y = 0.0f;
         if (Player_InCsMode(play)) {
-            func_8002DF54(play, thisx, 7);
+            Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_7);
         }
         this->actionFunc = BgGndIceblock_Idle;
     }
@@ -306,18 +317,18 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
     f32 spread;
     Actor* thisx = &this->dyna.actor;
 
-    Math_StepToF(&thisx->speedXZ, 10.0f, 0.5f);
-    atTarget = Math_StepToF(&thisx->world.pos.x, this->targetPos.x, thisx->speedXZ);
-    atTarget &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, thisx->speedXZ);
+    Math_StepToF(&thisx->speed, 10.0f, 0.5f);
+    atTarget = Math_StepToF(&thisx->world.pos.x, this->targetPos.x, thisx->speed);
+    atTarget &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, thisx->speed);
     if (atTarget) {
-        thisx->speedXZ = 0.0f;
+        thisx->speed = 0.0f;
         this->targetPos.x = thisx->world.pos.x;
         this->targetPos.z = thisx->world.pos.z;
-        Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
+        Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
         switch (BgGndIceblock_NextAction(this)) {
             case GNDICE_IDLE:
                 this->actionFunc = BgGndIceblock_Idle;
-                func_8002DF54(play, thisx, 7);
+                Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_7);
                 break;
             case GNDICE_FALL:
                 this->actionFunc = BgGndIceblock_Fall;
@@ -326,7 +337,7 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
                 this->actionFunc = BgGndIceblock_Hole;
                 break;
         }
-    } else if (thisx->speedXZ > 6.0f) {
+    } else if (thisx->speed > 6.0f) {
         spread = Rand_CenteredFloat(120.0f);
         velocity.x = -(1.5f + Rand_ZeroOne()) * Math_SinS(this->dyna.unk_158);
         velocity.y = Rand_ZeroOne() + 1.0f;
@@ -339,7 +350,7 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
         pos.x = thisx->world.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) + (Math_CosS(this->dyna.unk_158) * spread);
         pos.z = thisx->world.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) - (Math_SinS(this->dyna.unk_158) * spread);
         func_8002829C(play, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
-        func_8002F974(thisx, NA_SE_PL_SLIP_ICE_LEVEL - SFX_FLAG);
+        Actor_PlaySfx_Flagged(thisx, NA_SE_PL_SLIP_ICE_LEVEL - SFX_FLAG);
     }
 }
 

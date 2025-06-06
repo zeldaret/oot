@@ -1,7 +1,7 @@
 #ifndef ULTRA64_SPTASK_H
 #define ULTRA64_SPTASK_H
 
-#include "types.h"
+#include "ultratypes.h"
 
 /* Task Types */
 #define M_NULTASK   0
@@ -28,7 +28,7 @@
 
 #define OS_YIELD_DATA_SIZE 0xC00
 
-typedef struct {
+typedef struct OSTask_t {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 flags;
 
@@ -54,7 +54,7 @@ typedef struct {
     /* 0x3C */ u32 yield_data_size;
 } OSTask_t; // size = 0x40
 
-typedef union {
+typedef union OSTask {
     OSTask_t t;
     long long int force_structure_alignment;
 } OSTask;

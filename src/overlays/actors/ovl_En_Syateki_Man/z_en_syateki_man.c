@@ -1,11 +1,27 @@
 #include "z_en_syateki_man.h"
-#include "vt.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "regs.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ossan/object_ossan.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_LOCK_ON_DISABLED)
 
-typedef enum {
+typedef enum EnSyatekiManGameResult {
     /* 0 */ SYATEKI_RESULT_NONE,
     /* 1 */ SYATEKI_RESULT_WINNER,
     /* 2 */ SYATEKI_RESULT_ALMOST,
@@ -13,7 +29,7 @@ typedef enum {
     /* 4 */ SYATEKI_RESULT_REFUSE
 } EnSyatekiManGameResult;
 
-typedef enum {
+typedef enum EnSyatekiManTextIdx {
     /* 0 */ SYATEKI_TEXT_CHOICE,
     /* 1 */ SYATEKI_TEXT_START_GAME,
     /* 2 */ SYATEKI_TEXT_NO_RUPEES,
@@ -40,20 +56,23 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, PlayState* play);
 void EnSyatekiMan_BlinkWait(EnSyatekiMan* this);
 void EnSyatekiMan_Blink(EnSyatekiMan* this);
 
+#if DEBUG_FEATURES
 void EnSyatekiMan_SetBgm(void);
+#endif
 
-const ActorInit En_Syateki_Man_InitVars = {
-    ACTOR_EN_SYATEKI_MAN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OSSAN,
-    sizeof(EnSyatekiMan),
-    (ActorFunc)EnSyatekiMan_Init,
-    (ActorFunc)EnSyatekiMan_Destroy,
-    (ActorFunc)EnSyatekiMan_Update,
-    (ActorFunc)EnSyatekiMan_Draw,
+ActorProfile En_Syateki_Man_Profile = {
+    /**/ ACTOR_EN_SYATEKI_MAN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OSSAN,
+    /**/ sizeof(EnSyatekiMan),
+    /**/ EnSyatekiMan_Init,
+    /**/ EnSyatekiMan_Destroy,
+    /**/ EnSyatekiMan_Update,
+    /**/ EnSyatekiMan_Draw,
 };
 
+#if DEBUG_FEATURES
 static u16 sBgmList[] = {
     NA_BGM_GENERAL_SFX,
     NA_BGM_NATURE_AMBIENCE,
@@ -144,6 +163,7 @@ static u16 sBgmList[] = {
     NA_BGM_GANON_BOSS,
     NA_BGM_END_DEMO,
 };
+#endif
 
 static s16 sTextIds[] = { 0x2B, 0x2E, 0xC8, 0x2D };
 
@@ -153,10 +173,10 @@ void EnSyatekiMan_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
-    osSyncPrintf("\n\n");
-    // "Old man appeared!! Muhohohohohohohon"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
-    this->actor.targetMode = 1;
+    PRINTF("\n\n");
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n",
+                             "☆☆☆☆☆ Old man appears!! Muhohohohohohoon ☆☆☆☆☆ \n") VT_RST);
+    this->actor.attentionRangeType = ATTENTION_RANGE_1;
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gObjectOssanSkel, &gObjectOssanAnim_000338, this->jointTable,
                        this->morphTable, 9);
@@ -192,10 +212,10 @@ void EnSyatekiMan_SetupIdle(EnSyatekiMan* this, PlayState* play) {
 
 void EnSyatekiMan_Idle(EnSyatekiMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnSyatekiMan_Talk;
     } else {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 }
 
@@ -210,7 +230,7 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, PlayState* play) {
         if (this->textIdx == SYATEKI_TEXT_CHOICE) {
             switch (play->msgCtx.choiceIndex) {
                 case 0:
-                    if (gSaveContext.rupees >= 20) {
+                    if (gSaveContext.save.info.playerData.rupees >= 20) {
                         Rupees_ChangeBy(-20);
                         this->textIdx = SYATEKI_TEXT_START_GAME;
                         nextState = 1;
@@ -287,33 +307,35 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, PlayState* play) {
     EnSyatekiItm* gallery;
 
     SkelAnime_Update(&this->skelAnime);
-    if (1) {}
+
     gallery = ((EnSyatekiItm*)this->actor.parent);
-    if ((gallery->actor.update != NULL) && (gallery->signal == ENSYATEKI_END)) {
-        this->subCamId = OnePointCutscene_Init(play, 8002, -99, &this->actor, CAM_ID_MAIN);
-        switch (gallery->hitCount) {
-            case 10:
-                this->gameResult = SYATEKI_RESULT_WINNER;
-                this->actor.textId = 0x71AF;
-                break;
-            case 8:
-            case 9:
-                this->gameResult = SYATEKI_RESULT_ALMOST;
-                this->actor.textId = 0x71AE;
-                break;
-            default:
-                this->gameResult = SYATEKI_RESULT_FAILURE;
-                this->actor.textId = 0x71AD;
-                if (play->shootingGalleryStatus == 15 + 1) {
-                    this->gameResult = SYATEKI_RESULT_REFUSE;
-                    this->actor.textId = 0x2D;
-                }
-                break;
-        }
-        play->shootingGalleryStatus = -2;
-        Message_StartTextbox(play, this->actor.textId, NULL);
-        this->actionFunc = EnSyatekiMan_EndGame;
+    if ((gallery->actor.update == NULL) || (gallery->signal != ENSYATEKI_END)) {
+        return;
     }
+
+    this->subCamId = OnePointCutscene_Init(play, 8002, -99, &this->actor, CAM_ID_MAIN);
+    switch (gallery->hitCount) {
+        case 10:
+            this->gameResult = SYATEKI_RESULT_WINNER;
+            this->actor.textId = 0x71AF;
+            break;
+        case 8:
+        case 9:
+            this->gameResult = SYATEKI_RESULT_ALMOST;
+            this->actor.textId = 0x71AE;
+            break;
+        default:
+            this->gameResult = SYATEKI_RESULT_FAILURE;
+            this->actor.textId = 0x71AD;
+            if (play->shootingGalleryStatus == 15 + 1) {
+                this->gameResult = SYATEKI_RESULT_REFUSE;
+                this->actor.textId = 0x2D;
+            }
+            break;
+    }
+    play->shootingGalleryStatus = -2;
+    Message_StartTextbox(play, this->actor.textId, NULL);
+    this->actionFunc = EnSyatekiMan_EndGame;
 }
 
 void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
@@ -336,8 +358,8 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                     this->actor.parent = NULL;
                     if (!LINK_IS_ADULT) {
                         if (!GET_ITEMGETINF(ITEMGETINF_0D)) {
-                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST,
-                                         CUR_UPG_VALUE(UPG_BULLET_BAG));
+                            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST,
+                                   CUR_UPG_VALUE(UPG_BULLET_BAG));
                             if (CUR_UPG_VALUE(UPG_BULLET_BAG) == 1) {
                                 this->getItemId = GI_BULLET_BAG_40;
                             } else {
@@ -348,8 +370,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                         }
                     } else {
                         if (!GET_ITEMGETINF(ITEMGETINF_0E)) {
-                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" VT_RST,
-                                         CUR_UPG_VALUE(UPG_QUIVER));
+                            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" VT_RST, CUR_UPG_VALUE(UPG_QUIVER));
                             switch (CUR_UPG_VALUE(UPG_QUIVER)) {
                                 case 0:
                                     this->getItemId = GI_RUPEE_PURPLE;
@@ -365,7 +386,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                             this->getItemId = GI_RUPEE_PURPLE;
                         }
                     }
-                    func_8002F434(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
+                    Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
                     this->actionFunc = EnSyatekiMan_GivePrize;
                     break;
                 case SYATEKI_RESULT_ALMOST:
@@ -394,15 +415,14 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = EnSyatekiMan_FinishPrize;
     } else {
-        func_8002F434(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
     }
 }
 
 void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        // "Successful completion"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal termination ☆☆☆☆☆ \n") VT_RST);
         if (!LINK_IS_ADULT) {
             SET_ITEMGETINF(ITEMGETINF_0D);
         } else if ((this->getItemId == GI_QUIVER_40) || (this->getItemId == GI_QUIVER_50)) {
@@ -410,7 +430,7 @@ void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, PlayState* play) {
         }
         this->gameResult = SYATEKI_RESULT_NONE;
         this->actor.parent = this->tempGallery;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actionFunc = EnSyatekiMan_SetupIdle;
     }
 }
@@ -424,8 +444,7 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, PlayState* play) {
             gallery->signal = ENSYATEKI_START;
             this->gameResult = SYATEKI_RESULT_NONE;
             this->actionFunc = EnSyatekiMan_WaitForGame;
-            // "Let's try again! Baby!"
-            osSyncPrintf(VT_FGCOL(BLUE) "再挑戦だぜ！ベイビー！" VT_RST "\n", this);
+            PRINTF(VT_FGCOL(BLUE) T("再挑戦だぜ！ベイビー！", "Let's try again! Baby!") VT_RST "\n");
         }
     }
 }
@@ -467,7 +486,11 @@ void EnSyatekiMan_Update(Actor* thisx, PlayState* play) {
         this->timer--;
     }
     this->actionFunc(this, play);
+
+#if DEBUG_FEATURES
     EnSyatekiMan_SetBgm();
+#endif
+
     this->blinkFunc(this);
     this->actor.focus.pos.y = 70.0f;
     Actor_SetFocus(&this->actor, 70.0f);
@@ -502,9 +525,11 @@ void EnSyatekiMan_Draw(Actor* thisx, PlayState* play) {
                           EnSyatekiMan_OverrideLimbDraw, NULL, this);
 }
 
+#if DEBUG_FEATURES
 void EnSyatekiMan_SetBgm(void) {
     if (BREG(80)) {
         BREG(80) = false;
-        Audio_QueueSeqCmd(sBgmList[BREG(81)]);
+        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, sBgmList[BREG(81)]);
     }
 }
+#endif

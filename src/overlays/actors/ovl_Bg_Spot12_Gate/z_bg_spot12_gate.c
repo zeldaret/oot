@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_spot12_gate.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "quake.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_spot12_obj/object_spot12_obj.h"
 
 #define FLAGS 0
@@ -23,46 +33,51 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play);
 void func_808B3274(BgSpot12Gate* this);
 void func_808B3298(BgSpot12Gate* this, PlayState* play);
 
-const ActorInit Bg_Spot12_Gate_InitVars = {
-    ACTOR_BG_SPOT12_GATE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT12_OBJ,
-    sizeof(BgSpot12Gate),
-    (ActorFunc)BgSpot12Gate_Init,
-    (ActorFunc)BgSpot12Gate_Destroy,
-    (ActorFunc)BgSpot12Gate_Update,
-    (ActorFunc)BgSpot12Gate_Draw,
+ActorProfile Bg_Spot12_Gate_Profile = {
+    /**/ ACTOR_BG_SPOT12_GATE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT12_OBJ,
+    /**/ sizeof(BgSpot12Gate),
+    /**/ BgSpot12Gate_Init,
+    /**/ BgSpot12Gate_Destroy,
+    /**/ BgSpot12Gate_Update,
+    /**/ BgSpot12Gate_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1200, ICHAIN_STOP),
 };
 
 void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, PlayState* play, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        s32 pad2;
+
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_bg_spot12_gate.c", 145, this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
-    BgSpot12Gate_InitDynaPoly(this, play, &gGerudoFortressWastelandGateCol, DPM_UNK);
+    BgSpot12Gate_InitDynaPoly(this, play, &gGerudoFortressWastelandGateCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         func_808B3274(this);
     } else {
         func_808B30C0(this);
@@ -81,7 +96,7 @@ void func_808B30C0(BgSpot12Gate* this) {
 }
 
 void func_808B30D8(BgSpot12Gate* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         func_808B3134(this);
         OnePointCutscene_Init(play, 4160, -99, &this->dyna.actor, CAM_ID_MAIN);
     }
@@ -104,19 +119,23 @@ void func_808B317C(BgSpot12Gate* this) {
 
 void func_808B318C(BgSpot12Gate* this, PlayState* play) {
     s32 pad;
-    s32 var;
 
     Math_StepToF(&this->dyna.actor.velocity.y, 1.6f, 0.03f);
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f,
                      this->dyna.actor.velocity.y)) {
         func_808B3274(this);
-        var = Quake_Add(GET_ACTIVE_CAM(play), 3);
-        Quake_SetSpeed(var, -0x3CB0);
-        Quake_SetQuakeValues(var, 3, 0, 0, 0);
-        Quake_SetCountdown(var, 0xC);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
+
+        {
+            s32 quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+
+            Quake_SetSpeed(quakeIndex, -0x3CB0);
+            Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
+            Quake_SetDuration(quakeIndex, 12);
+        }
+
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }
 }
 

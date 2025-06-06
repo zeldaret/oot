@@ -5,12 +5,22 @@
  */
 
 #include "z_bg_haka_zou.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
-typedef enum {
+typedef enum ShadowTempleAssetsType {
     /* 0x0 */ STA_GIANT_BIRD_STATUE,
     /* 0x1 */ STA_BOMBABLE_SKULL_WALL,
     /* 0x2 */ STA_BOMBABLE_RUBBLE,
@@ -34,7 +44,7 @@ void BgHakaZou_DoNothing(BgHakaZou* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -42,11 +52,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 5, 60, 0, { 0, 0, 0 } },
@@ -54,16 +64,16 @@ static ColliderCylinderInit sCylinderInit = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit Bg_Haka_Zou_InitVars = {
-    ACTOR_BG_HAKA_ZOU,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgHakaZou),
-    (ActorFunc)BgHakaZou_Init,
-    (ActorFunc)BgHakaZou_Destroy,
-    (ActorFunc)BgHakaZou_Update,
-    NULL,
+ActorProfile Bg_Haka_Zou_Profile = {
+    /**/ ACTOR_BG_HAKA_ZOU,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgHakaZou),
+    /**/ BgHakaZou_Init,
+    /**/ BgHakaZou_Destroy,
+    /**/ BgHakaZou_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -77,13 +87,13 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     if (thisx->params == STA_UNKNOWN) {
         Actor_SetScale(thisx, (Rand_ZeroOne() * 0.005f) + 0.025f);
 
-        thisx->speedXZ = Rand_ZeroOne();
+        thisx->speed = Rand_ZeroOne();
         thisx->world.rot.y = thisx->shape.rot.y * ((Rand_ZeroOne() < 0.5f) ? -1 : 1) + Rand_CenteredFloat(0x1000);
         this->timer = 20;
         thisx->world.rot.x = Rand_S16Offset(0x100, 0x300) * ((Rand_ZeroOne() < 0.5f) ? -1 : 1);
@@ -96,17 +106,17 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
         DynaPolyActor_Init(&this->dyna, 0);
 
         if (thisx->params == STA_GIANT_BIRD_STATUE) {
-            thisx->uncullZoneForward = 2000.0f;
-            thisx->uncullZoneScale = 3000.0f;
-            thisx->uncullZoneDownward = 3000.0f;
+            thisx->cullingVolumeDistance = 2000.0f;
+            thisx->cullingVolumeScale = 3000.0f;
+            thisx->cullingVolumeDownward = 3000.0f;
         }
     }
 
-    this->requiredObjBankIndex = (thisx->params == STA_BOMBABLE_RUBBLE)
-                                     ? Object_GetIndex(&play->objectCtx, OBJECT_HAKACH_OBJECTS)
-                                     : Object_GetIndex(&play->objectCtx, OBJECT_HAKA_OBJECTS);
+    this->requiredObjectSlot = (thisx->params == STA_BOMBABLE_RUBBLE)
+                                   ? Object_GetSlot(&play->objectCtx, OBJECT_HAKACH_OBJECTS)
+                                   : Object_GetSlot(&play->objectCtx, OBJECT_HAKA_OBJECTS);
 
-    if (this->requiredObjBankIndex < 0) {
+    if (this->requiredObjectSlot < 0) {
         Actor_Kill(thisx);
     } else if ((thisx->params != STA_UNKNOWN) && Flags_GetSwitch(play, this->switchFlag)) {
         if (thisx->params != STA_GIANT_BIRD_STATUE) {
@@ -158,8 +168,8 @@ void func_808828F4(BgHakaZou* this, PlayState* play) {
 void BgHakaZou_Wait(BgHakaZou* this, PlayState* play) {
     CollisionHeader* colHeader;
 
-    if (Object_IsLoaded(&play->objectCtx, this->requiredObjBankIndex)) {
-        this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->dyna.actor.objectSlot = this->requiredObjectSlot;
         this->dyna.actor.draw = BgHakaZou_Draw;
 
         if (this->dyna.actor.params == STA_UNKNOWN) {
@@ -176,7 +186,7 @@ void BgHakaZou_Wait(BgHakaZou* this, PlayState* play) {
                 this->collider.dim.yShift = -30;
                 this->collider.dim.pos.x -= 56;
                 this->collider.dim.pos.z += 56;
-                this->dyna.actor.uncullZoneScale = 1500.0f;
+                this->dyna.actor.cullingVolumeScale = 1500.0f;
             } else if (this->dyna.actor.params == STA_BOMBABLE_SKULL_WALL) {
                 CollisionHeader_GetVirtual(&object_haka_objects_Col_005E30, &colHeader);
                 this->collider.dim.yShift = -50;
@@ -209,7 +219,7 @@ void func_80882BDC(BgHakaZou* this, PlayState* play) {
             this->dyna.actor.velocity.y *= -0.6f;
             this->dyna.actor.velocity.y = CLAMP_MAX(this->dyna.actor.velocity.y, 10.0f);
             this->dyna.actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
-            this->dyna.actor.speedXZ = 2.0f;
+            this->dyna.actor.speed = 2.0f;
         } else {
             Actor_Kill(&this->dyna.actor);
         }
@@ -278,12 +288,12 @@ void func_80883000(BgHakaZou* this, PlayState* play) {
             func_80882E54(this, play);
             this->dyna.actor.draw = NULL;
             this->timer = 1;
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_EXPLOSION);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_EXPLOSION);
             this->actionFunc = func_80883104;
         } else {
             func_80882CC4(this, play);
             this->timer = 1;
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
             this->actionFunc = func_80883104;
         }
     } else {
@@ -314,7 +324,7 @@ void func_80883144(BgHakaZou* this, PlayState* play) {
         explosionPos.z = Rand_CenteredFloat(200.0f) + (this->dyna.actor.world.pos.z + 56.0f);
 
         EffectSsBomb2_SpawnLayered(play, &explosionPos, &sZeroVec, &sZeroVec, 150, 70);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
     }
 
     if (this->timer == 0) {
@@ -365,7 +375,7 @@ void func_80883328(BgHakaZou* this, PlayState* play) {
             effectPos.x -= 112.0f;
         }
 
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         this->timer = 25;
         this->actionFunc = func_808834D8;
     }
@@ -395,7 +405,7 @@ void BgHakaZou_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->dyna.actor.params == 3) {
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
     }
 }
 

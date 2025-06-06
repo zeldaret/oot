@@ -5,9 +5,17 @@
  */
 
 #include "z_en_nwc.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_nwc/object_nwc.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnNwc_Init(Actor* thisx, PlayState* play);
 void EnNwc_Destroy(Actor* thisx, PlayState* play);
@@ -25,30 +33,30 @@ void EnNwc_Idle(EnNwc* this, PlayState* play);
 #define CHICK_BG_FLOOR (1 << 0)
 #define CHICK_BG_WALL (1 << 1)
 
-typedef enum {
+typedef enum ChickTypes {
     /* 0 */ CHICK_NONE,
     /* 1 */ CHICK_NORMAL
 } ChickTypes;
 
-const ActorInit En_Nwc_InitVars = {
-    ACTOR_EN_NWC,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_NWC,
-    sizeof(EnNwc),
-    (ActorFunc)EnNwc_Init,
-    (ActorFunc)EnNwc_Destroy,
-    (ActorFunc)EnNwc_Update,
-    (ActorFunc)EnNwc_Draw,
+ActorProfile En_Nwc_Profile = {
+    /**/ ACTOR_EN_NWC,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_NWC,
+    /**/ sizeof(EnNwc),
+    /**/ EnNwc_Init,
+    /**/ EnNwc_Destroy,
+    /**/ EnNwc_Update,
+    /**/ EnNwc_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementInit = {
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 0, { { 0, 0, 0 }, 10 }, 100 },
@@ -56,7 +64,7 @@ static ColliderJntSphElementInit sJntSphElementInit = {
 
 static ColliderJntSphInitType1 sJntSphInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -74,7 +82,7 @@ void EnNwc_ChickNoop(EnNwcChick* chick, EnNwc* this, PlayState* play) {
 }
 
 void EnNwc_ChickBgCheck(EnNwcChick* chick, PlayState* play) {
-    CollisionPoly* outPoly;
+    CollisionPoly* groundPoly;
     s32 bgId;
     Vec3f outPos;
     f32 dy;
@@ -90,7 +98,7 @@ void EnNwc_ChickBgCheck(EnNwcChick* chick, PlayState* play) {
     //! @bug The use of outPos here is totally wrong. Even if it didn't get overwritten
     //       by the wall check, it should add an offset to the y-value so the raycast
     //       doesn't go through the floor and cause the chicks to ignore all floors.
-    chick->floorY = BgCheck_EntityRaycastFloor3(&play->colCtx, &outPoly, &bgId, &outPos);
+    chick->floorY = BgCheck_EntityRaycastDown3(&play->colCtx, &groundPoly, &bgId, &outPos);
     dy = chick->floorY - chick->pos.y;
     if ((0.0f <= dy) && (dy < 40.0f)) {
         chick->pos.y = chick->floorY;
@@ -111,7 +119,7 @@ void EnNwc_ChickFall(EnNwcChick* chick, EnNwc* this, PlayState* play) {
 void EnNwc_UpdateChicks(EnNwc* this, PlayState* play) {
     static EnNwcChickFunc chickActionFuncs[] = { EnNwc_ChickNoop, EnNwc_ChickFall };
     EnNwcChick* chick = this->chicks;
-    ColliderJntSphElement* element = this->collider.elements;
+    ColliderJntSphElement* element = &this->collider.elements[0];
     Vec3f prevChickPos;
     s32 i;
     f32 test;
@@ -171,7 +179,7 @@ void EnNwc_DrawChicks(EnNwc* this, PlayState* play) {
 
             Matrix_SetTranslateRotateYXZ(chick->pos.x, chick->pos.y + chick->height, chick->pos.z, &chick->rot);
             Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-            mtx = Matrix_NewMtx(play->state.gfxCtx, "../z_en_nwc.c", 346);
+            mtx = MATRIX_FINALIZE(play->state.gfxCtx, "../z_en_nwc.c", 346);
             gDPSetEnvColor(dList1++, 0, 100, 255, 255);
             gSPMatrix(dList1++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(dList1++, gCuccoChickBodyDL);
@@ -193,8 +201,7 @@ void EnNwc_DrawChicks(EnNwc* this, PlayState* play) {
             Matrix_Put(&floorMat);
             Matrix_RotateY(BINANG_TO_RAD(chick->rot.y), MTXMODE_APPLY);
             Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_nwc.c", 388),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_nwc.c", 388);
             gSPDisplayList(POLY_XLU_DISP++, gCuccoChickShadowDL);
         }
     }

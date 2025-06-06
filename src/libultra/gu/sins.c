@@ -1,18 +1,23 @@
 #include "ultra64.h"
-#include "sintable.c"
 
-s16 sins(u16 x) {
+#include "sintable.inc.c"
+
+/**
+ * @param angle binang
+ * @return sin(angle)*0x7FFF
+ */
+s16 sins(u16 angle) {
     s16 value;
 
-    x >>= 4;
+    angle >>= 4;
 
-    if (x & 0x400) {
-        value = sintable[0x3FF - (x & 0x3FF)];
+    if (angle & 0x400) {
+        value = sintable[0x3FF - (angle & 0x3FF)];
     } else {
-        value = sintable[x & 0x3FF];
+        value = sintable[angle & 0x3FF];
     }
 
-    if (x & 0x800) {
+    if (angle & 0x800) {
         return -value;
     } else {
         return value;

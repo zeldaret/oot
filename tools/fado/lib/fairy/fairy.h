@@ -24,6 +24,7 @@ typedef Elf32_Ehdr FairyFileHeader;
 typedef Elf32_Shdr FairySecHeader;
 typedef Elf32_Sym FairySym;
 typedef Elf32_Rel FairyRel;
+typedef Elf32_Rela FairyRela;
 
 typedef struct {
     int define;
@@ -32,7 +33,9 @@ typedef struct {
 
 typedef struct {
     void* sectionData;
-    size_t sectionSize;
+    int sectionType;
+    size_t sectionEntryCount;
+    size_t sectionEntrySize;
 } FairySectionInfo;
 
 typedef struct {
@@ -60,9 +63,9 @@ bool Fairy_StartsWith(const char* string, const char* initial);
 
 FairyFileHeader* Fairy_ReadFileHeader(FairyFileHeader* header, FILE* file);
 FairySecHeader* Fairy_ReadSectionTable(FairySecHeader* sectionTable, FILE* file, size_t tableOffset, size_t number);
-FairySym* Fairy_ReadSymbolTable(FairySym* symbolTable, FILE* file, size_t tableOffset, size_t tableSize);
 char* Fairy_ReadStringTable(char* stringTable, FILE* file, size_t tableOffset, size_t tableSize);
-FairyRel* Fairy_ReadRelocs(FairyRel* relocTable, FILE* file, size_t offset, size_t number);
+size_t Fairy_ReadSymbolTable(FairySym** symbolTableOut, FILE* file, size_t tableOffset, size_t tableSize);
+size_t Fairy_ReadRelocs(FairyRela** relocsOut, FILE* file, int type, size_t offset, size_t size);
 
 char* Fairy_GetSectionName(FairySecHeader* sectionTable, char* shstrtab, size_t index);
 char* Fairy_GetSymbolName(FairySym* symtab, char* strtab, size_t index);

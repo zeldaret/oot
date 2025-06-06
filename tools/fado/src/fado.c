@@ -17,16 +17,6 @@
 
 /* String-finding-related functions */
 
-bool Fado_CheckInProgBitsSections(Elf32_Section section, vc_vector* progBitsSections) {
-    Elf32_Section* i;
-    VC_FOREACH(i, progBitsSections) {
-        if (*i == section) {
-            return true;
-        }
-    }
-    return false;
-}
-
 /**
  * For each input file, construct a vector of pointers to the starts of the strings defined in that file.
  */
@@ -40,10 +30,8 @@ void Fado_ConstructStringVectors(vc_vector** stringVectors, FairyFileInfo* fileI
         stringVectors[currentFile] = vc_vector_create(0x40, sizeof(char**), NULL);
 
         /* Build a vector of pointers to defined symbols' names */
-        for (currentSym = 0; currentSym < fileInfo[currentFile].symtabInfo.sectionSize / sizeof(FairySym);
-             currentSym++) {
-            if ((symtab[currentSym].st_shndx != STN_UNDEF) &&
-                Fado_CheckInProgBitsSections(symtab[currentSym].st_shndx, fileInfo[currentFile].progBitsSections)) {
+        for (currentSym = 0; currentSym < fileInfo[currentFile].symtabInfo.sectionEntryCount; currentSym++) {
+            if (symtab[currentSym].st_shndx != STN_UNDEF) {
                 /* Have to pass a double pointer so it copies the pointer instead of the start of the string */
                 char* stringPtr = &fileInfo[currentFile].strtab[symtab[currentSym].st_name];
                 assert(vc_vector_push_back(stringVectors[currentFile], &stringPtr));
@@ -86,7 +74,7 @@ typedef struct {
 } FadoRelocInfo;
 
 /* Construct the Zelda64ovl-compatible reloc word from an ELF reloc */
-FadoRelocInfo Fado_MakeReloc(int file, FairySection section, FairyRel* data) {
+FadoRelocInfo Fado_MakeReloc(int file, FairySection section, FairyRela* data) {
     FadoRelocInfo relocInfo = { 0 };
     uint32_t sectionPrefix = 0;
 
@@ -223,11 +211,10 @@ void Fado_Relocs(FILE* outputFile, int inputFilesCount, FILE** inputFiles, const
         relocList[section] = vc_vector_create(0x100, sizeof(FadoRelocInfo), NULL);
 
         for (currentFile = 0; currentFile < inputFilesCount; currentFile++) {
-            FairyRel* relSection = fileInfos[currentFile].relocTablesInfo[section].sectionData;
-            if (relSection != NULL) {
+            FairyRela* relSection = fileInfos[currentFile].relocTablesInfo[section].sectionData;
 
-                for (relocIndex = 0;
-                     relocIndex < fileInfos[currentFile].relocTablesInfo[section].sectionSize / sizeof(FairyRel);
+            if (relSection != NULL) {
+                for (relocIndex = 0; relocIndex < fileInfos[currentFile].relocTablesInfo[section].sectionEntryCount;
                      relocIndex++) {
                     FadoRelocInfo currentReloc = Fado_MakeReloc(currentFile, section, &relSection[relocIndex]);
 
@@ -253,7 +240,7 @@ void Fado_Relocs(FILE* outputFile, int inputFilesCount, FILE** inputFiles, const
 
     {
         /* Write header */
-        fprintf(outputFile, ".section .ovl\n");
+        fprintf(outputFile, ".section .ovl, \"a\"\n");
         fprintf(outputFile, "# %sOverlayInfo\n", ovlName);
         fprintf(outputFile, ".word _%sSegmentTextSize\n", ovlName);
         fprintf(outputFile, ".word _%sSegmentDataSize\n", ovlName);

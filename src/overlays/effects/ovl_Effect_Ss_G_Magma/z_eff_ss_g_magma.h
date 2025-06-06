@@ -2,9 +2,9 @@
 #define Z_EFF_SS_G_MAGMA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z_math.h"
 
-typedef struct {
+typedef struct EffectSsGMagmaInitParams {
     /* 0x00 */ Vec3f pos;
 } EffectSsGMagmaInitParams; // size = 0xC
 

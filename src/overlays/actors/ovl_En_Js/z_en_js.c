@@ -5,9 +5,18 @@
  */
 
 #include "z_en_js.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "regs.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_js/object_js.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnJs_Init(Actor* thisx, PlayState* play);
 void EnJs_Destroy(Actor* thisx, PlayState* play);
@@ -16,21 +25,21 @@ void EnJs_Draw(Actor* thisx, PlayState* play);
 
 void func_80A89304(EnJs* this, PlayState* play);
 
-const ActorInit En_Js_InitVars = {
-    ACTOR_EN_JS,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_JS,
-    sizeof(EnJs),
-    (ActorFunc)EnJs_Init,
-    (ActorFunc)EnJs_Destroy,
-    (ActorFunc)EnJs_Update,
-    (ActorFunc)EnJs_Draw,
+ActorProfile En_Js_Profile = {
+    /**/ ACTOR_EN_JS,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_JS,
+    /**/ sizeof(EnJs),
+    /**/ EnJs_Init,
+    /**/ EnJs_Destroy,
+    /**/ EnJs_Update,
+    /**/ EnJs_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -38,11 +47,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0, 0, 0 } },
@@ -80,7 +89,7 @@ void EnJs_Destroy(Actor* thisx, PlayState* play) {
 u8 func_80A88F64(EnJs* this, PlayState* play, u16 textId) {
     s16 yawDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         return 1;
     } else {
         this->actor.textId = textId;
@@ -88,7 +97,7 @@ u8 func_80A88F64(EnJs* this, PlayState* play, u16 textId) {
 
         if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistToPlayer < 100.0f) {
             this->unk_284 |= 1;
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
         return 0;
     }
@@ -103,15 +112,15 @@ void func_80A89008(EnJs* this) {
 void func_80A89078(EnJs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         func_80A89008(this);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
 }
 
 void func_80A890C0(EnJs* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         En_Js_SetupAction(this, func_80A89078);
     } else {
-        func_8002F2CC(&this->actor, play, 1000.0f);
+        Actor_OfferTalk(&this->actor, play, 1000.0f);
     }
 }
 
@@ -119,7 +128,7 @@ void func_80A8910C(EnJs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actor.textId = 0x6078;
         En_Js_SetupAction(this, func_80A890C0);
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
 }
 
@@ -128,7 +137,7 @@ void func_80A89160(EnJs* this, PlayState* play) {
         this->actor.parent = NULL;
         En_Js_SetupAction(this, func_80A8910C);
     } else {
-        func_8002F434(&this->actor, play, GI_BOMBCHUS_10, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_BOMBCHUS_10, 10000.0f, 50.0f);
     }
 }
 
@@ -136,7 +145,7 @@ void func_80A891C4(EnJs* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0: // yes
-                if (gSaveContext.rupees < 200) {
+                if (gSaveContext.save.info.playerData.rupees < 200) {
                     Message_ContinueTextbox(play, 0x6075);
                     func_80A89008(this);
                 } else {
@@ -170,11 +179,12 @@ void EnJs_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) == 1) {
+        if (SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ==
+            SURFACE_SFX_OFFSET_SAND) {
             Math_ApproachF(&this->actor.shape.yOffset, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
         }
     } else {

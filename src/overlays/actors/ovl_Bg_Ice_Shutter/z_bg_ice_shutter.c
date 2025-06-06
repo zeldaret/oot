@@ -5,29 +5,36 @@
  */
 
 #include "z_bg_ice_shutter.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgIceShutter_Init(Actor* thisx, PlayState* play);
 void BgIceShutter_Destroy(Actor* thisx, PlayState* play);
 void BgIceShutter_Update(Actor* thisx, PlayState* play);
 void BgIceShutter_Draw(Actor* thisx, PlayState* play);
 
-void func_80891CF4(BgIceShutter* thisx, PlayState* play);
-void func_80891D6C(BgIceShutter* thisx, PlayState* play);
-void func_80891DD4(BgIceShutter* thisx, PlayState* play);
+void func_80891CF4(BgIceShutter* this, PlayState* play);
+void func_80891D6C(BgIceShutter* this, PlayState* play);
+void func_80891DD4(BgIceShutter* this, PlayState* play);
 
-const ActorInit Bg_Ice_Shutter_InitVars = {
-    ACTOR_BG_ICE_SHUTTER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_ICE_OBJECTS,
-    sizeof(BgIceShutter),
-    (ActorFunc)BgIceShutter_Init,
-    (ActorFunc)BgIceShutter_Destroy,
-    (ActorFunc)BgIceShutter_Update,
-    (ActorFunc)BgIceShutter_Draw,
+ActorProfile Bg_Ice_Shutter_Profile = {
+    /**/ ACTOR_BG_ICE_SHUTTER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_ICE_OBJECTS,
+    /**/ sizeof(BgIceShutter),
+    /**/ BgIceShutter_Init,
+    /**/ BgIceShutter_Destroy,
+    /**/ BgIceShutter_Update,
+    /**/ BgIceShutter_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -49,13 +56,12 @@ void BgIceShutter_Init(Actor* thisx, PlayState* play) {
     f32 sp24;
     CollisionHeader* colHeader;
     s32 sp28;
-    f32 temp_f6;
 
     colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    sp28 = this->dyna.actor.params & 0xFF;
-    this->dyna.actor.params = (this->dyna.actor.params >> 8) & 0xFF;
+    DynaPolyActor_Init(&this->dyna, 0);
+    sp28 = PARAMS_GET_U(this->dyna.actor.params, 0, 8);
+    this->dyna.actor.params = PARAMS_GET_U(this->dyna.actor.params, 8, 8);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002854, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (sp28 == 2) {
@@ -78,7 +84,8 @@ void BgIceShutter_Init(Actor* thisx, PlayState* play) {
     }
 
     if (sp28 == 2) {
-        temp_f6 = Math_SinS(this->dyna.actor.shape.rot.x) * 50.0f;
+        f32 temp_f6 = Math_SinS(this->dyna.actor.shape.rot.x) * 50.0f;
+
         this->dyna.actor.focus.pos.x =
             (Math_SinS(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.home.pos.x;
         this->dyna.actor.focus.pos.y = this->dyna.actor.home.pos.y;
@@ -97,7 +104,7 @@ void BgIceShutter_Destroy(Actor* thisx, PlayState* play) {
 void func_80891CF4(BgIceShutter* this, PlayState* play) {
     if (Flags_GetTempClear(play, this->dyna.actor.room)) {
         Flags_SetClear(play, this->dyna.actor.room);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_80891DD4;
         if (this->dyna.actor.shape.rot.x == 0) {
             OnePointCutscene_Attention(play, &this->dyna.actor);
@@ -107,15 +114,15 @@ void func_80891CF4(BgIceShutter* this, PlayState* play) {
 
 void func_80891D6C(BgIceShutter* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->dyna.actor.params)) {
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_80891DD4;
         OnePointCutscene_Attention(play, &this->dyna.actor);
     }
 }
 
 void func_80891DD4(BgIceShutter* this, PlayState* play) {
-    Math_StepToF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
-    if (Math_StepToF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speedXZ)) {
+    Math_StepToF(&this->dyna.actor.speed, 30.0f, 2.0f);
+    if (Math_StepToF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speed)) {
         Actor_Kill(&this->dyna.actor);
         return;
     }

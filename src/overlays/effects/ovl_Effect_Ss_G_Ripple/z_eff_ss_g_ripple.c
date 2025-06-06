@@ -5,6 +5,15 @@
  */
 
 #include "z_eff_ss_g_ripple.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rWaterBoxNum regs[0]
@@ -24,7 +33,7 @@ u32 EffectSsGRipple_Init(PlayState* play, u32 index, EffectSs* this, void* initP
 void EffectSsGRipple_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsGRipple_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_G_Ripple_InitVars = {
+EffectSsProfile Effect_Ss_G_Ripple_Profile = {
     EFFECT_SS_G_RIPPLE,
     EffectSsGRipple_Init,
 };
@@ -59,10 +68,10 @@ u32 EffectSsGRipple_Init(PlayState* play, u32 index, EffectSs* this, void* initP
     return 1;
 }
 
-void EffectSsGRipple_DrawRipple(PlayState* play, EffectSs* this, void* segment) {
-    GraphicsContext* gfxCtx = play->state.gfxCtx;
+void EffectSsGRipple_DrawRipple(PlayState* play2, EffectSs* this, void* segment) {
+    PlayState* play = play2;
     f32 radius;
-    s32 pad;
+    GraphicsContext* gfxCtx = play->state.gfxCtx;
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfResult;
@@ -70,8 +79,6 @@ void EffectSsGRipple_DrawRipple(PlayState* play, EffectSs* this, void* segment) 
     f32 yPos;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_g_ripple.c", 199);
-
-    if (play) {}
 
     radius = this->rRadius * 0.0025f;
 

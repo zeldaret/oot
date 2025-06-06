@@ -5,25 +5,32 @@
  */
 
 #include "z_oceff_wipe4.h"
-#include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void OceffWipe4_Init(Actor* thisx, PlayState* play);
 void OceffWipe4_Destroy(Actor* thisx, PlayState* play);
 void OceffWipe4_Update(Actor* thisx, PlayState* play);
 void OceffWipe4_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Oceff_Wipe4_InitVars = {
-    ACTOR_OCEFF_WIPE4,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(OceffWipe4),
-    (ActorFunc)OceffWipe4_Init,
-    (ActorFunc)OceffWipe4_Destroy,
-    (ActorFunc)OceffWipe4_Update,
-    (ActorFunc)OceffWipe4_Draw,
+ActorProfile Oceff_Wipe4_Profile = {
+    /**/ ACTOR_OCEFF_WIPE4,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(OceffWipe4),
+    /**/ OceffWipe4_Init,
+    /**/ OceffWipe4_Destroy,
+    /**/ OceffWipe4_Update,
+    /**/ OceffWipe4_Draw,
 };
 
 void OceffWipe4_Init(Actor* thisx, PlayState* play) {
@@ -32,13 +39,16 @@ void OceffWipe4_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.1f);
     this->timer = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(play)->eye;
-    osSyncPrintf(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
 void OceffWipe4_Destroy(Actor* thisx, PlayState* play) {
     OceffWipe4* this = (OceffWipe4*)thisx;
 
     Magic_Reset(play);
+
+    //! @bug `PLAYER_STATE3_RESTORE_NAYRUS_LOVE` is not set, unlike other Oceff actors.
+    //! This means playing Scarecrow's Song interrupts Nayru's Love without restoring it later.
 }
 
 void OceffWipe4_Update(Actor* thisx, PlayState* play) {
@@ -62,10 +72,10 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     s32 pad[2];
     Vec3f eye;
     Vtx* vtxPtr;
-    Vec3f vec;
+    Vec3f quakeOffset;
 
     eye = GET_ACTIVE_CAM(play)->eye;
-    Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(play));
+    quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(play));
     if (this->timer < 16) {
         z = Math_SinS(this->timer * 1024) * 1330.0f;
     } else {
@@ -87,13 +97,12 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
+    Matrix_Translate(eye.x + quakeOffset.x, eye.y + quakeOffset.y, eye.z + quakeOffset.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
     Matrix_ReplaceRotation(&play->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_wipe4.c", 324),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_oceff_wipe4.c", 324);
 
     if (this->actor.params == OCEFF_WIPE4_UNUSED) {
         gSPDisplayList(POLY_XLU_DISP++, sUnusedMaterialDL);
@@ -102,8 +111,8 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     }
 
     gSPDisplayList(POLY_XLU_DISP++, sMaterial2DL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64, 1,
-                                                     scroll * (-1), scroll, 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 2, scroll * (-2), 32,
+                                                     64, 1, scroll * (-1), scroll, 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, &sMaterial2DL[11]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_wipe4.c", 344);

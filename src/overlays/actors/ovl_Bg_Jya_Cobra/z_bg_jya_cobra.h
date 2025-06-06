@@ -2,16 +2,16 @@
 #define Z_BG_JYA_COBRA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct BgJyaCobra;
 
-typedef void (*BgJyaCobraActionFunc)(struct BgJyaCobra*, PlayState*);
+typedef void (*BgJyaCobraActionFunc)(struct BgJyaCobra*, struct PlayState*);
 
 #define COBRA_SHADOW_TEX_WIDTH 64
 #define COBRA_SHADOW_TEX_HEIGHT 64
 #define COBRA_SHADOW_TEX_SIZE (COBRA_SHADOW_TEX_WIDTH * COBRA_SHADOW_TEX_HEIGHT * G_IM_SIZ_8b_BYTES)
-#define COBRA_SHADOW_TEX_PTR(this) (u8*)ALIGN16((u32)(&this->shadowTextureBuffer))
+#define COBRA_SHADOW_TEX_PTR(this) (u8*)ALIGN16((uintptr_t)&(this)->shadowTextureBuffer)
 
 typedef struct BgJyaCobra {
     /* 0x0000 */ DynaPolyActor dyna;

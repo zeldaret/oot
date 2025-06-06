@@ -2,7 +2,7 @@
 
 import os
 import argparse
-from filemap import FileResult, GetFromVRam, GetFromRom
+from filemap import GetFromVRam, GetFromRom
 
 damage_types = [
     'Deku nut',
@@ -132,7 +132,7 @@ def get_damage_bytes(address, repo):
 
     print(file_result)
 
-    with open(repo + os.sep + "baserom" + os.sep + file_result.name, "rb") as ovl_file:
+    with open(repo + os.sep + "extracted/gc-eu-mq-dbg/baserom" + os.sep + file_result.name, "rb") as ovl_file:
         ovl_data = bytearray(ovl_file.read())
 
     damage_data = ovl_data[file_result.offset:file_result.offset+0x20]

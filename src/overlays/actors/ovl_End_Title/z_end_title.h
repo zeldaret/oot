@@ -2,7 +2,7 @@
 #define Z_END_TITLE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EndTitle;
 

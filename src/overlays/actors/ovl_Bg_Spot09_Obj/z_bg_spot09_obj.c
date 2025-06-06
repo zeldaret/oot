@@ -5,6 +5,17 @@
  */
 
 #include "z_bg_spot09_obj.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_spot09_obj/object_spot09_obj.h"
 
 #define FLAGS 0
@@ -18,16 +29,16 @@ s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play);
 s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play);
 s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play);
 
-const ActorInit Bg_Spot09_Obj_InitVars = {
-    ACTOR_BG_SPOT09_OBJ,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT09_OBJ,
-    sizeof(BgSpot09Obj),
-    (ActorFunc)BgSpot09Obj_Init,
-    (ActorFunc)BgSpot09Obj_Destroy,
-    (ActorFunc)BgSpot09Obj_Update,
-    (ActorFunc)BgSpot09Obj_Draw,
+ActorProfile Bg_Spot09_Obj_Profile = {
+    /**/ ACTOR_BG_SPOT09_OBJ,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT09_OBJ,
+    /**/ sizeof(BgSpot09Obj),
+    /**/ BgSpot09Obj_Init,
+    /**/ BgSpot09Obj_Destroy,
+    /**/ BgSpot09Obj_Update,
+    /**/ BgSpot09Obj_Draw,
 };
 
 static CollisionHeader* D_808B1F90[] = {
@@ -41,15 +52,15 @@ static s32 (*D_808B1FA4[])(BgSpot09Obj* this, PlayState* play) = {
 };
 
 static InitChainEntry sInitChain1[] = {
-    ICHAIN_F32(uncullZoneForward, 7200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 7200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 7200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 7200, ICHAIN_STOP),
 };
 
 static InitChainEntry sInitChain2[] = {
-    ICHAIN_F32(uncullZoneForward, 7200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 7200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1500, ICHAIN_STOP),
 };
 
 static Gfx* sDLists[] = {
@@ -59,11 +70,11 @@ static Gfx* sDLists[] = {
 s32 func_808B1AE0(BgSpot09Obj* this, PlayState* play) {
     s32 carpentersRescued;
 
-    if (gSaveContext.sceneSetupIndex >= 4) {
+    if (IS_CUTSCENE_LAYER) {
         return this->dyna.actor.params == 0;
     }
 
-    carpentersRescued = GET_EVENTCHKINF_CARPENTERS_FREE_ALL();
+    carpentersRescued = GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED();
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
         switch (this->dyna.actor.params) {
@@ -98,7 +109,7 @@ s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play) {
     s32 pad2[2];
 
     if (D_808B1F90[this->dyna.actor.params] != NULL) {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(D_808B1F90[this->dyna.actor.params], &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     }
@@ -137,12 +148,14 @@ s32 func_808B1D44(BgSpot09Obj* this, PlayState* play) {
 void BgSpot09Obj_Init(Actor* thisx, PlayState* play) {
     BgSpot09Obj* this = (BgSpot09Obj*)thisx;
 
-    osSyncPrintf("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", this->dyna.actor.params,
-                 gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] & EVENTCHKINF_CARPENTERS_FREE_MASK_ALL);
+    PRINTF(T("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n",
+             "Spot09 Object [arg_data : 0x%04x](Carpenter Rescue Flag 0x%x)\n"),
+           this->dyna.actor.params, GET_EVENTCHKINF_CARPENTERS_RESCUED_FLAGS());
     this->dyna.actor.params &= 0xFF;
     if ((this->dyna.actor.params < 0) || (this->dyna.actor.params >= 5)) {
-        osSyncPrintf("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
-                     "../z_bg_spot09_obj.c", 322, this->dyna.actor.params);
+        PRINTF(T("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
+                 "Error : Spot 09 object arg_data cannot be determined (%s %d)(arg_data 0x%04x)\n"),
+               "../z_bg_spot09_obj.c", 322, this->dyna.actor.params);
     }
 
     if (!func_808B1C70(this, play)) {
@@ -172,8 +185,7 @@ void BgSpot09Obj_Draw(Actor* thisx, PlayState* play) {
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot09_obj.c", 391);
         gSPDisplayList(POLY_XLU_DISP++, gCarpentersTentEntranceDL);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot09_obj.c", 396);

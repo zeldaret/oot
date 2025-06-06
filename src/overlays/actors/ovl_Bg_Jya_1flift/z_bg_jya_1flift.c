@@ -5,13 +5,22 @@
  */
 
 #include "z_bg_jya_1flift.h"
+
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgJya1flift_Init(Actor* thisx, PlayState* play);
 void BgJya1flift_Destroy(Actor* thisx, PlayState* play);
-void BgJya1flift_Update(Actor* thisx, PlayState* play);
+void BgJya1flift_Update(Actor* thisx, PlayState* play2);
 void BgJya1flift_Draw(Actor* thisx, PlayState* play);
 
 void BgJya1flift_SetupWaitForSwitch(BgJya1flift* this);
@@ -25,21 +34,21 @@ void BgJya1flift_DelayMove(BgJya1flift* this, PlayState* play);
 
 static u8 sIsSpawned = false;
 
-const ActorInit Bg_Jya_1flift_InitVars = {
-    ACTOR_BG_JYA_1FLIFT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJya1flift),
-    (ActorFunc)BgJya1flift_Init,
-    (ActorFunc)BgJya1flift_Destroy,
-    (ActorFunc)BgJya1flift_Update,
-    (ActorFunc)BgJya1flift_Draw,
+ActorProfile Bg_Jya_1flift_Profile = {
+    /**/ ACTOR_BG_JYA_1FLIFT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJya1flift),
+    /**/ BgJya1flift_Init,
+    /**/ BgJya1flift_Destroy,
+    /**/ BgJya1flift_Update,
+    /**/ BgJya1flift_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -47,11 +56,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 70, 80, -82, { 0, 0, 0 } },
@@ -61,25 +70,28 @@ static f32 sFinalPositions[] = { 443.0f, -50.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1200, ICHAIN_STOP),
 };
 
 void BgJya1flift_InitDynapoly(BgJya1flift* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG login failed"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_1flift.c", 179,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        s32 pad2;
+
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_bg_jya_1flift.c", 179, this->dyna.actor.id, this->dyna.actor.params);
     }
+#endif
 }
 
 void BgJya1flift_InitCollision(Actor* thisx, PlayState* play) {
@@ -92,8 +104,8 @@ void BgJya1flift_InitCollision(Actor* thisx, PlayState* play) {
 
 void BgJya1flift_Init(Actor* thisx, PlayState* play) {
     BgJya1flift* this = (BgJya1flift*)thisx;
-    // "1 F lift"
-    osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", sIsSpawned, play->roomCtx.curRoom.num);
+    PRINTF(T("(１Ｆリフト)(flag %d)(room %d)\n", "(1F lift)(flag %d)(room %d)\n"), sIsSpawned,
+           play->roomCtx.curRoom.num);
     this->hasInitialized = false;
     if (sIsSpawned) {
         Actor_Kill(thisx);
@@ -102,7 +114,7 @@ void BgJya1flift_Init(Actor* thisx, PlayState* play) {
     BgJya1flift_InitDynapoly(this, play, &g1fliftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     BgJya1flift_InitCollision(thisx, play);
-    if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         LINK_AGE_IN_YEARS == YEARS_ADULT ? BgJya1flift_ChangeDirection(this) : BgJya1flift_SetupDoNothing(this);
     } else {
         BgJya1flift_SetupWaitForSwitch(this);
@@ -128,7 +140,7 @@ void BgJya1flift_SetupWaitForSwitch(BgJya1flift* this) {
 }
 
 void BgJya1flift_WaitForSwitch(BgJya1flift* this, PlayState* play) {
-    if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6))) {
         BgJya1flift_ChangeDirection(this);
     }
 }
@@ -160,9 +172,9 @@ void BgJya1flift_Move(BgJya1flift* this, PlayState* play) {
                                  tempVelocity, 1.0f)) < 0.001f) {
         this->dyna.actor.world.pos.y = sFinalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
 }
 
@@ -186,12 +198,12 @@ void BgJya1flift_Update(Actor* thisx, PlayState* play2) {
     // Room 0 is the first room and 6 is the room that the lift starts on
     if (play->roomCtx.curRoom.num == 6 || play->roomCtx.curRoom.num == 0) {
         this->actionFunc(this, play);
-        tempIsRiding = func_8004356C(&this->dyna) ? true : false;
+        tempIsRiding = DynaPolyActor_IsPlayerOnTop(&this->dyna) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
+                Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
             } else if (!tempIsRiding && this->isLinkRiding) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+                Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }
         }
         this->isLinkRiding = tempIsRiding;

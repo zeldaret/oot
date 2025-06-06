@@ -112,15 +112,15 @@ bool vc_vector_is_equals(vc_vector* vector1, vc_vector* vector2) {
   return memcmp(vector1->data, vector2->data, size_vector1) == 0;
 }
 
-float vc_vector_get_growth_factor() {
+float vc_vector_get_growth_factor(void) {
   return GROWTH_FACTOR;
 }
 
-size_t vc_vector_get_default_count_of_elements() {
+size_t vc_vector_get_default_count_of_elements(void) {
   return DEFAULT_COUNT_OF_ELEMENTS;
 }
 
-size_t vc_vector_struct_size() {
+size_t vc_vector_struct_size(void) {
   return sizeof(vc_vector);
 }
 

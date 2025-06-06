@@ -2,13 +2,43 @@
 #define Z_BOSS_GANON_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct BossGanon;
 
-typedef void (*BossGanonActionFunc)(struct BossGanon*, PlayState*);
+typedef void (*BossGanonActionFunc)(struct BossGanon*, struct PlayState*);
 
-typedef enum {
+typedef enum GanondorfLimb {
+    /*  0 */ GANONDORF_LIMB_NONE,
+    /*  1 */ GANONDORF_LIMB_ROOT,
+    /*  2 */ GANONDORF_LIMB_TORSO,
+    /*  3 */ GANONDORF_LIMB_LEFT_SHOULDER,
+    /*  4 */ GANONDORF_LIMB_LEFT_UPPER_ARM,
+    /*  5 */ GANONDORF_LIMB_LEFT_FOREARM,
+    /*  6 */ GANONDORF_LIMB_LEFT_HAND,
+    /*  7 */ GANONDORF_LIMB_RIGHT_SHOULDER,
+    /*  8 */ GANONDORF_LIMB_RIGHT_UPPER_ARM,
+    /*  9 */ GANONDORF_LIMB_RIGHT_FOREARM,
+    /* 10 */ GANONDORF_LIMB_RIGHT_HAND,
+    /* 11 */ GANONDORF_LIMB_JEWEL,
+    /* 12 */ GANONDORF_LIMB_LEFT_UPPER_LIP,
+    /* 13 */ GANONDORF_LIMB_MOUTH,
+    /* 14 */ GANONDORF_LIMB_JAW,
+    /* 15 */ GANONDORF_LIMB_UPPER_HAIR_END,
+    /* 16 */ GANONDORF_LIMB_LOWER_HAIR_END,
+    /* 17 */ GANONDORF_LIMB_RIGHT_UPPER_LIP,
+    /* 18 */ GANONDORF_LIMB_HEAD,
+    /* 19 */ GANONDORF_LIMB_PELVIS,
+    /* 20 */ GANONDORF_LIMB_LEFT_THIGH,
+    /* 21 */ GANONDORF_LIMB_LEFT_SHIN,
+    /* 22 */ GANONDORF_LIMB_LEFT_FOOT,
+    /* 23 */ GANONDORF_LIMB_RIGHT_THIGH,
+    /* 24 */ GANONDORF_LIMB_RIGHT_SHIN,
+    /* 25 */ GANONDORF_LIMB_RIGHT_FOOT,
+    /* 26 */ GANONDORF_LIMB_MAX
+} GanondorfLimb;
+
+typedef enum GanondorfFwork {
     /*  0 */ GDF_FWORK_0,
     /*  1 */ GDF_FWORK_1,
     /*  2 */ GDF_CENTER_POS,
@@ -22,19 +52,19 @@ typedef enum {
     /* 10 */ GDF_FWORK_MAX
 } GanondorfFwork;
 
-typedef enum {
+typedef enum WindowShatterState {
     /* 0 */ GDF_WINDOW_SHATTER_OFF,
     /* 1 */ GDF_WINDOW_SHATTER_PARTIAL,
     /* 2 */ GDF_WINDOW_SHATTER_FULL
 } WindowShatterState;
 
-typedef enum {
+typedef enum GanondorfShockType {
     /* 0 */ GDF_SHOCK_DORF_YELLOW,
     /* 1 */ GDF_SHOCK_PLAYER_YELLOW,
     /* 2 */ GDF_SHOCK_PLAYER_PURPLE
 } GanondorfShockType;
 
-typedef enum {
+typedef enum GanondorfEffectType {
     /* 0 */ GDF_EFF_NONE,
     /* 1 */ GDF_EFF_SPARKLE,
     /* 2 */ GDF_EFF_LIGHT_RAY,
@@ -47,7 +77,7 @@ typedef enum {
     /* 9 */ GDF_EFF_WINDOW_SHARD
 } GanondorfEffectType;
 
-typedef enum {
+typedef enum GanondorfTriforceType {
     /* 0 */ GDF_TRIFORCE_PLAYER,
     /* 1 */ GDF_TRIFORCE_ZELDA,
     /* 2 */ GDF_TRIFORCE_DORF
@@ -55,7 +85,7 @@ typedef enum {
 
 typedef struct BossGanon {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ s32 animBankIndex;
+    /* 0x014C */ s32 animObjectSlot;
     /* 0x0150 */ SkelAnime skelAnime;
     /* 0x0194 */ BossGanonActionFunc actionFunc;
     /* 0x0198 */ u8 unk_198;

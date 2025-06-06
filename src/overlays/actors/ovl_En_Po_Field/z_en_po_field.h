@@ -2,18 +2,19 @@
 #define Z_EN_PO_FIELD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "light.h"
 
 struct EnPoField;
 
-typedef void (*EnPoFieldActionFunc)(struct EnPoField*, PlayState*);
+typedef void (*EnPoFieldActionFunc)(struct EnPoField*, struct PlayState*);
 
-typedef enum {
+typedef enum EnPoFieldSize {
     EN_PO_FIELD_SMALL,
     EN_PO_FIELD_BIG
 } EnPoFieldSize;
 
-typedef struct {
+typedef struct EnPoFieldInfo {
     /* 0x0000 */ Color_RGB8 primColor;
     /* 0x0003 */ Color_RGB8 lightColor;
     /* 0x0006 */ Color_RGB8 envColor;

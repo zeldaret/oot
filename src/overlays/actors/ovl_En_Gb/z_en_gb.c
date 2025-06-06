@@ -5,13 +5,29 @@
  */
 
 #include "z_en_gb.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ps/object_ps.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnGb_Init(Actor* thisx, PlayState* play);
 void EnGb_Destroy(Actor* thisx, PlayState* play);
-void EnGb_Update(Actor* thisx, PlayState* play);
+void EnGb_Update(Actor* thisx, PlayState* play2);
 void EnGb_Draw(Actor* thisx, PlayState* play);
 
 void func_80A2F83C(EnGb* this, PlayState* play);
@@ -26,16 +42,16 @@ void func_80A2FC0C(EnGb* this, PlayState* play);
 void EnGb_DrawCagedSouls(EnGb* this, PlayState* play);
 void EnGb_UpdateCagedSouls(EnGb* this, PlayState* play);
 
-const ActorInit En_Gb_InitVars = {
-    ACTOR_EN_GB,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_PS,
-    sizeof(EnGb),
-    (ActorFunc)EnGb_Init,
-    (ActorFunc)EnGb_Destroy,
-    (ActorFunc)EnGb_Update,
-    (ActorFunc)EnGb_Draw,
+ActorProfile En_Gb_Profile = {
+    /**/ ACTOR_EN_GB,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_PS,
+    /**/ sizeof(EnGb),
+    /**/ EnGb_Init,
+    /**/ EnGb_Destroy,
+    /**/ EnGb_Update,
+    /**/ EnGb_Draw,
 };
 
 static EnGbCagedSoulInfo sCagedSoulInfo[] = {
@@ -46,18 +62,18 @@ static EnGbCagedSoulInfo sCagedSoulInfo[] = {
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 40, 75, 0, { 0, 0, 0 } },
@@ -66,54 +82,54 @@ static ColliderCylinderInitType1 sCylinderInit = {
 static ColliderCylinderInitType1 sBottlesCylindersInit[] = {
     {
         {
-            COLTYPE_NONE,
+            COL_MATERIAL_NONE,
             AT_NONE,
             AC_NONE,
             OC1_ON | OC1_TYPE_ALL,
             COLSHAPE_CYLINDER,
         },
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 4, 20, 0, { 0, 0, 0 } },
     },
     {
         {
-            COLTYPE_NONE,
+            COL_MATERIAL_NONE,
             AT_NONE,
             AC_NONE,
             OC1_ON | OC1_TYPE_ALL,
             COLSHAPE_CYLINDER,
         },
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 4, 20, 0, { 0, 0, 0 } },
     },
     {
         {
-            COLTYPE_NONE,
+            COL_MATERIAL_NONE,
             AT_NONE,
             AC_NONE,
             OC1_ON | OC1_TYPE_ALL,
             COLSHAPE_CYLINDER,
         },
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_NONE,
+            ATELEM_NONE,
+            ACELEM_NONE,
             OCELEM_ON,
         },
         { 10, 20, 0, { 0, 0, 0 } },
@@ -121,8 +137,8 @@ static ColliderCylinderInitType1 sBottlesCylindersInit[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 6, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2200, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_6, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2200, ICHAIN_STOP),
 };
 
 // relative positions of poe souls
@@ -157,7 +173,7 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
     Vec3f focusOffset;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gPoeSellerCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     SkelAnime_InitFlex(play, &this->skelAnime, &gPoeSellerSkel, &gPoeSellerIdleAnim, this->jointTable, this->morphTable,
@@ -176,13 +192,15 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     Actor_SetScale(&this->dyna.actor, 0.01f);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.velocity.y = 0.0f;
     this->dyna.actor.gravity = -1.0f;
     this->actionTimer = (s16)Rand_ZeroFloat(100.0f) + 100;
 
     for (i = 0; i < ARRAY_COUNT(sCagedSoulPositions); i++) {
+        s32 pad;
+
         this->cagedSouls[i].infoIdx = (s32)Rand_ZeroFloat(30.0f) % 3;
         this->cagedSouls[i].unk_14.x = this->cagedSouls[i].translation.x =
             sCagedSoulPositions[i].x + this->dyna.actor.world.pos.x;
@@ -264,7 +282,7 @@ s32 func_80A2F760(EnGb* this) {
 void func_80A2F7C0(EnGb* this) {
     Animation_Change(&this->skelAnime, &gPoeSellerSwingStickAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gPoeSellerSwingStickAnim), ANIMMODE_ONCE, 0.0f);
-    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
+    Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
     this->actionFunc = func_80A2FC70;
 }
 
@@ -279,25 +297,25 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
             return;
         }
     }
-    if (Actor_ProcessTalkRequest(&this->dyna.actor, play)) {
-        switch (func_8002F368(play)) {
+    if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
+        s32 pad;
+
+        switch (Actor_GetPlayerExchangeItemId(play)) {
             case EXCH_ITEM_NONE:
                 func_80A2F180(this);
                 this->actionFunc = func_80A2F94C;
                 break;
-            case EXCH_ITEM_POE:
+            case EXCH_ITEM_BOTTLE_POE:
                 player->actor.textId = 0x70F6;
                 this->actionFunc = func_80A2F9C0;
                 break;
-            case EXCH_ITEM_BIG_POE:
+            case EXCH_ITEM_BOTTLE_BIG_POE:
                 player->actor.textId = 0x70F7;
                 this->actionFunc = func_80A2FA50;
                 break;
         }
-        return;
-    }
-    if (this->dyna.actor.xzDistToPlayer < 100.0f) {
-        func_8002F298(&this->dyna.actor, play, 100.0f, EXCH_ITEM_POE);
+    } else if (this->dyna.actor.xzDistToPlayer < 100.0f) {
+        Actor_OfferTalkExchangeEquiCylinder(&this->dyna.actor, play, 100.0f, EXCH_ITEM_BOTTLE_POE);
     }
 }
 
@@ -317,7 +335,7 @@ void func_80A2F9C0(EnGb* this, PlayState* play) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
-        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         Rupees_ChangeBy(10);
         this->actionFunc = func_80A2F83C;
     }
@@ -329,7 +347,7 @@ void func_80A2FA50(EnGb* this, PlayState* play) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
-        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         Rupees_ChangeBy(50);
         HIGH_SCORE(HS_POE_POINTS) += 100;
         if (HIGH_SCORE(HS_POE_POINTS) != 1000) {
@@ -350,7 +368,7 @@ void func_80A2FA50(EnGb* this, PlayState* play) {
 
 void func_80A2FB40(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        func_8002F434(&this->dyna.actor, play, GI_BOTTLE, 100.0f, 10.0f);
+        Actor_OfferGetItem(&this->dyna.actor, play, GI_BOTTLE_EMPTY, 100.0f, 10.0f);
         this->actionFunc = func_80A2FBB0;
     }
 }
@@ -360,13 +378,13 @@ void func_80A2FBB0(EnGb* this, PlayState* play) {
         this->dyna.actor.parent = NULL;
         this->actionFunc = func_80A2FC0C;
     } else {
-        func_8002F434(&this->dyna.actor, play, GI_BOTTLE, 100.0f, 10.0f);
+        Actor_OfferGetItem(&this->dyna.actor, play, GI_BOTTLE_EMPTY, 100.0f, 10.0f);
     }
 }
 
 void func_80A2FC0C(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        Actor_ProcessTalkRequest(&this->dyna.actor, play);
+        Actor_TalkOfferAccepted(&this->dyna.actor, play);
         func_80A2F180(this);
         this->actionFunc = func_80A2F83C;
     }
@@ -389,7 +407,7 @@ void func_80A2FC70(EnGb* this, PlayState* play) {
         this->cagedSouls[0].unk_3 = 1;
         if (this->actionFunc) {}
         this->actionTimer = (s16)Rand_ZeroFloat(600.0f) + 600;
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
     }
 }
 
@@ -440,7 +458,6 @@ void EnGb_Draw(Actor* thisx, PlayState* play) {
 
 void EnGb_UpdateCagedSouls(EnGb* this, PlayState* play) {
     f32 temp_f20;
-    s16 rot;
     s32 i;
 
     for (i = 0; i < 4; i++) {
@@ -499,12 +516,14 @@ void EnGb_UpdateCagedSouls(EnGb* this, PlayState* play) {
             this->cagedSouls[i].translation.y = this->cagedSouls[i].unk_14.y + temp_f20;
             this->cagedSouls[i].translation.z = this->cagedSouls[i].unk_14.z;
         } else if (i == 1) {
-            rot = this->dyna.actor.world.rot.y - 0x4000;
+            s16 rot = this->dyna.actor.world.rot.y - 0x4000;
+
             this->cagedSouls[i].translation.x = this->cagedSouls[i].unk_14.x + Math_SinS(rot) * temp_f20;
             this->cagedSouls[i].translation.z = this->cagedSouls[i].unk_14.z + Math_CosS(rot) * temp_f20;
             this->cagedSouls[i].translation.y = this->cagedSouls[i].unk_14.y;
         } else {
-            rot = this->dyna.actor.world.rot.y + 0x4000;
+            s16 rot = this->dyna.actor.world.rot.y + 0x4000;
+
             this->cagedSouls[i].translation.x = this->cagedSouls[i].unk_14.x + Math_SinS(rot) * temp_f20;
             this->cagedSouls[i].translation.z = this->cagedSouls[i].unk_14.z + Math_CosS(rot) * temp_f20;
             this->cagedSouls[i].translation.y = this->cagedSouls[i].unk_14.y;
@@ -524,7 +543,7 @@ void EnGb_DrawCagedSouls(EnGb* this, PlayState* play) {
         s32 idx = this->cagedSouls[i].infoIdx;
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 64, 1, 0,
                                     (u32)(sCagedSoulInfo[idx].timerMultiplier * this->frameTimer) % 512, 32, 128));
         gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sCagedSoulInfo[idx].texture));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, sCagedSoulInfo[idx].prim.r, sCagedSoulInfo[idx].prim.g,
@@ -542,8 +561,7 @@ void EnGb_DrawCagedSouls(EnGb* this, PlayState* play) {
         }
         Matrix_Scale(0.007f, 0.007f, 1.0f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_gb.c", 955),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_gb.c", 955);
         gSPDisplayList(POLY_XLU_DISP++, gPoeSellerCagedSoulDL);
 
         Matrix_Pop();

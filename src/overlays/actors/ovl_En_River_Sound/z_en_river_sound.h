@@ -2,18 +2,18 @@
 #define Z_EN_RIVER_SOUND_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnRiverSound;
 
 typedef struct EnRiverSound {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u8 playSound;
-    /* 0x014D */ u8 soundFreqIndex;
+    /* 0x014C */ u8 playSfx;
+    /* 0x014D */ u8 sfxFreqIndex;
     /* 0x014E */ s16 pathIndex;
 } EnRiverSound; // size = 0x0150
 
-typedef enum {
+typedef enum RiverSoundType {
     /* 0x00 */ RS_RIVER_DEFAULT_LOW_FREQ,
     /* 0x01 */ RS_SMALL_WATERFALL,
     /* 0x02 */ RS_LAVA_BUBBLES_1,

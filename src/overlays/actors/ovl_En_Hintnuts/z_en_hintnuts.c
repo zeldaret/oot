@@ -5,9 +5,16 @@
  */
 
 #include "z_en_hintnuts.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_hintnuts/object_hintnuts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnHintnuts_Init(Actor* thisx, PlayState* play);
 void EnHintnuts_Destroy(Actor* thisx, PlayState* play);
@@ -27,21 +34,21 @@ void EnHintnuts_Talk(EnHintnuts* this, PlayState* play);
 void EnHintnuts_Leave(EnHintnuts* this, PlayState* play);
 void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play);
 
-const ActorInit En_Hintnuts_InitVars = {
-    ACTOR_EN_HINTNUTS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_HINTNUTS,
-    sizeof(EnHintnuts),
-    (ActorFunc)EnHintnuts_Init,
-    (ActorFunc)EnHintnuts_Destroy,
-    (ActorFunc)EnHintnuts_Update,
-    (ActorFunc)EnHintnuts_Draw,
+ActorProfile En_Hintnuts_Profile = {
+    /**/ ACTOR_EN_HINTNUTS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_HINTNUTS,
+    /**/ sizeof(EnHintnuts),
+    /**/ EnHintnuts_Init,
+    /**/ EnHintnuts_Destroy,
+    /**/ EnHintnuts_Update,
+    /**/ EnHintnuts_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -49,11 +56,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 18, 32, 0, { 0, 0, 0 } },
@@ -66,7 +73,7 @@ static s16 sPuzzleCounter = 0;
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DEKU_SCRUB, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2600, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 2600, ICHAIN_STOP),
 };
 
 void EnHintnuts_Init(Actor* thisx, PlayState* play) {
@@ -75,15 +82,16 @@ void EnHintnuts_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (this->actor.params == 0xA) {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
     } else {
         ActorShape_Init(&this->actor.shape, 0x0, ActorShadow_DrawCircle, 35.0f);
-        SkelAnime_Init(play, &this->skelAnime, &gHintNutsSkel, &gHintNutsStandAnim, this->jointTable, this->morphTable,
-                       10);
+        //! @bug Flex skeleton is used as normal skeleton
+        SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)&gHintNutsSkel, &gHintNutsStandAnim, this->jointTable,
+                       this->morphTable, 10);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        Actor_SetTextWithPrefix(play, &this->actor, (this->actor.params >> 8) & 0xFF);
+        Actor_SetTextWithPrefix(play, &this->actor, PARAMS_GET_U(this->actor.params, 8, 8));
         this->textIdCopy = this->actor.textId;
         this->actor.params &= 0xFF;
         sPuzzleCounter = 0;
@@ -110,8 +118,8 @@ void EnHintnuts_Destroy(Actor* thisx, PlayState* play) {
 void EnHintnuts_HitByScrubProjectile1(EnHintnuts* this, PlayState* play) {
     if (this->actor.textId != 0 && this->actor.category == ACTORCAT_ENEMY &&
         ((this->actor.params == 0) || (sPuzzleCounter == 2))) {
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+        this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BG);
     }
 }
@@ -148,14 +156,14 @@ void EnHintnuts_SetupStand(EnHintnuts* this) {
 
 void EnHintnuts_SetupBurrow(EnHintnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gHintNutsBurrowAnim, -5.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnHintnuts_Burrow;
 }
 
 void EnHintnuts_HitByScrubProjectile2(EnHintnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gHintNutsUnburrowAnim, -3.0f);
     this->collider.dim.height = 37;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;
 
     if (this->actor.params > 0 && this->actor.params < 4 && this->actor.category == ACTORCAT_ENEMY) {
@@ -170,7 +178,7 @@ void EnHintnuts_HitByScrubProjectile2(EnHintnuts* this) {
             }
             sPuzzleCounter--;
         }
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actionFunc = EnHintnuts_BeginFreeze;
     } else {
         this->actionFunc = EnHintnuts_BeginRun;
@@ -186,17 +194,17 @@ void EnHintnuts_SetupRun(EnHintnuts* this) {
 void EnHintnuts_SetupTalk(EnHintnuts* this) {
     Animation_MorphToLoop(&this->skelAnime, &gHintNutsTalkAnim, -5.0f);
     this->actionFunc = EnHintnuts_Talk;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void EnHintnuts_SetupLeave(EnHintnuts* this, PlayState* play) {
     Animation_MorphToLoop(&this->skelAnime, &gHintNutsRunAnim, -5.0f);
-    this->actor.speedXZ = 3.0f;
+    this->actor.speed = 3.0f;
     this->animFlagAndTimer = 100;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->collider.base.ocFlags1 &= ~OC1_ON;
-    this->actor.flags |= ACTOR_FLAG_4;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, this->actor.world.pos.x, this->actor.world.pos.y,
                 this->actor.world.pos.z, 0x0, 0x0, 0x0, 0x3); // recovery heart
     this->actionFunc = EnHintnuts_Leave;
@@ -204,13 +212,13 @@ void EnHintnuts_SetupLeave(EnHintnuts* this, PlayState* play) {
 
 void EnHintnuts_SetupFreeze(EnHintnuts* this) {
     Animation_PlayLoop(&this->skelAnime, &gHintNutsFreezeAnim);
-    this->actor.flags &= ~ACTOR_FLAG_0;
-    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 100);
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 100);
     this->actor.colorFilterTimer = 1;
     this->animFlagAndTimer = 0;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_FAINT);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_FAINT);
     if (sPuzzleCounter == -3) {
-        func_80078884(NA_SE_SY_ERROR);
+        Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
         sPuzzleCounter = -4;
     }
     this->actionFunc = EnHintnuts_Freeze;
@@ -228,7 +236,7 @@ void EnHintnuts_Wait(EnHintnuts* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
         this->collider.base.acFlags |= AC_ON;
     } else if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_UP);
     }
 
     this->collider.dim.height = 5.0f + ((CLAMP(this->skelAnime.curFrame, 9.0f, 12.0f) - 9.0f) * 9.0f);
@@ -288,7 +296,7 @@ void EnHintnuts_ThrowNut(EnHintnuts* this, PlayState* play) {
         nutPos.z = this->actor.world.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, nutPos.x, nutPos.y, nutPos.z, this->actor.shape.rot.x,
                         this->actor.shape.rot.y, this->actor.shape.rot.z, 1) != NULL) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_THROW);
         }
     }
 }
@@ -323,14 +331,14 @@ void EnHintnuts_BeginFreeze(EnHintnuts* this, PlayState* play) {
 
 void EnHintnuts_CheckProximity(EnHintnuts* this, PlayState* play) {
     if (this->actor.category != ACTORCAT_ENEMY) {
-        if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
-            this->actor.flags |= ACTOR_FLAG_16;
+        if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isLockedOn) {
+            this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_16;
+            this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
             this->actor.textId = this->textIdCopy;
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
     }
 }
@@ -347,10 +355,10 @@ void EnHintnuts_Run(EnHintnuts* this, PlayState* play) {
         this->animFlagAndTimer--;
     }
     if ((temp_ret != 0) || (Animation_OnFrame(&this->skelAnime, 6.0f))) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_WALK);
     }
 
-    Math_StepToF(&this->actor.speedXZ, 7.5f, 1.0f);
+    Math_StepToF(&this->actor.speed, 7.5f, 1.0f);
     if (Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_196, 1, 0xE38, 0xB6) == 0) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             this->unk_196 = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
@@ -371,14 +379,15 @@ void EnHintnuts_Run(EnHintnuts* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnHintnuts_SetupTalk(this);
     } else if (this->animFlagAndTimer == 0 && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f &&
                fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         if (this->actor.category == ACTORCAT_BG) {
-            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_16);
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
+            this->actor.flags &=
+                ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED);
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE;
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
         }
         EnHintnuts_SetupBurrow(this);
@@ -403,7 +412,7 @@ void EnHintnuts_Leave(EnHintnuts* this, PlayState* play) {
         this->animFlagAndTimer--;
     }
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 6.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         temp_a1 = this->actor.wallYaw;
@@ -434,7 +443,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play) {
     this->actor.colorFilterTimer = 1;
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_FAINT);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_FAINT);
     }
     if (this->animFlagAndTimer == 0) {
         if (sPuzzleCounter == 3) {
@@ -449,8 +458,8 @@ void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play) {
         if (this->animFlagAndTimer == 1) {
             Actor_Kill(&this->actor);
         } else {
-            this->actor.flags |= ACTOR_FLAG_0;
-            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+            this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             this->actor.colChkInfo.health = sColChkInfoInit.health;
             this->actor.colorFilterTimer = 0;
             EnHintnuts_SetupWait(this);
@@ -461,7 +470,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play) {
 void EnHintnuts_ColliderCheck(EnHintnuts* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         if (this->collider.base.ac->id != ACTOR_EN_NUTSBALL) {
             EnHintnuts_SetupBurrow(this);
         } else {
@@ -482,7 +491,7 @@ void EnHintnuts_Update(Actor* thisx, PlayState* play) {
         EnHintnuts_ColliderCheck(this, play);
         this->actionFunc(this, play);
         if (this->actionFunc != EnHintnuts_Freeze && this->actionFunc != EnHintnuts_BeginFreeze) {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
             Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                         UPDBGCHECKINFO_FLAG_4);

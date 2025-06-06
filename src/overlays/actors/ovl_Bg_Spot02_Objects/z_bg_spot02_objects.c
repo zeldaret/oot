@@ -5,16 +5,30 @@
  */
 
 #include "z_bg_spot02_objects.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_spot02_objects/object_spot02_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgSpot02Objects_Init(Actor* thisx, PlayState* play);
 void BgSpot02Objects_Destroy(Actor* thisx, PlayState* play);
 void BgSpot02Objects_Update(Actor* thisx, PlayState* play);
 void BgSpot02Objects_Draw(Actor* thisx, PlayState* play);
-void func_808ACCB8(Actor* thisx, PlayState* play);
-void func_808AD450(Actor* thisx, PlayState* play);
+void func_808ACCB8(Actor* thisx, PlayState* play2);
+void func_808AD450(Actor* thisx, PlayState* play2);
 
 void func_808AC8FC(BgSpot02Objects* this, PlayState* play);
 void func_808AC908(BgSpot02Objects* this, PlayState* play);
@@ -31,16 +45,16 @@ static void* D_808AD850[] = {
     object_spot02_objects_Tex_0102B0, object_spot02_objects_Tex_010EB0, object_spot02_objects_Tex_011AB0,
 };
 
-const ActorInit Bg_Spot02_Objects_InitVars = {
-    ACTOR_BG_SPOT02_OBJECTS,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT02_OBJECTS,
-    sizeof(BgSpot02Objects),
-    (ActorFunc)BgSpot02Objects_Init,
-    (ActorFunc)BgSpot02Objects_Destroy,
-    (ActorFunc)BgSpot02Objects_Update,
-    (ActorFunc)BgSpot02Objects_Draw,
+ActorProfile Bg_Spot02_Objects_Profile = {
+    /**/ ACTOR_BG_SPOT02_OBJECTS,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT02_OBJECTS,
+    /**/ sizeof(BgSpot02Objects),
+    /**/ BgSpot02Objects_Init,
+    /**/ BgSpot02Objects_Destroy,
+    /**/ BgSpot02Objects_Update,
+    /**/ BgSpot02Objects_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -53,8 +67,8 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
-    this->unk_16B = (u16)(thisx->params >> 8);
-    thisx->params = (u16)(thisx->params & 0xFF);
+    this->unk_16B = (u16)PARAMS_GET_NOMASK(thisx->params, 8);
+    thisx->params = (u16)PARAMS_GET_U(thisx->params, 0, 8);
 
     switch (thisx->params) {
         case 0:
@@ -74,9 +88,9 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
             } else if (thisx->params == 1) {
                 this->actionFunc = func_808AC8FC;
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_0128D8, &colHeader);
-                thisx->flags |= ACTOR_FLAG_22;
+                thisx->flags |= ACTOR_FLAG_IGNORE_POINT_LIGHTS;
             } else {
-                if (play->sceneNum == SCENE_SPOT02) {
+                if (play->sceneId == SCENE_GRAVEYARD) {
                     this->actionFunc = func_808AC908;
                 } else {
                     this->actionFunc = func_808AC8FC;
@@ -87,7 +101,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
 
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
-            if ((GET_EVENTCHKINF(EVENTCHKINF_1D) && (play->sceneNum == SCENE_SPOT02) && (thisx->params == 2)) ||
+            if ((GET_EVENTCHKINF(EVENTCHKINF_1D) && (play->sceneId == SCENE_GRAVEYARD) && (thisx->params == 2)) ||
                 (LINK_IS_ADULT && (thisx->params == 1))) {
                 Actor_Kill(thisx);
             }
@@ -127,9 +141,9 @@ void func_808AC908(BgSpot02Objects* this, PlayState* play) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
 
-    if (play->csCtx.state != 0) {
-        if (play->csCtx.npcActions[3] != NULL && play->csCtx.npcActions[3]->action == 2) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GRAVE_EXPLOSION);
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        if (play->csCtx.actorCues[3] != NULL && play->csCtx.actorCues[3]->id == 2) {
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GRAVE_EXPLOSION);
             SET_EVENTCHKINF(EVENTCHKINF_1D);
             this->timer = 25;
             pos.x = (Math_SinS(this->dyna.actor.shape.rot.y) * 50.0f) + this->dyna.actor.world.pos.x;
@@ -156,11 +170,11 @@ void func_808ACA08(BgSpot02Objects* this, PlayState* play) {
         Actor_Kill(&this->dyna.actor);
     }
 
-    if (play->csCtx.frames == 402) {
+    if (play->csCtx.curFrame == 402) {
         if (!LINK_IS_ADULT) {
-            func_8002F7DC(&player->actor, NA_SE_VO_LI_DEMO_DAMAGE_KID);
+            Player_PlaySfx(player, NA_SE_VO_LI_DEMO_DAMAGE_KID);
         } else {
-            func_8002F7DC(&player->actor, NA_SE_VO_LI_DEMO_DAMAGE);
+            Player_PlaySfx(player, NA_SE_VO_LI_DEMO_DAMAGE);
         }
     }
 }
@@ -175,10 +189,10 @@ void func_808ACAFC(BgSpot02Objects* this, PlayState* play) {
 
 void func_808ACB58(BgSpot02Objects* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 255.0f, 1.0f)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808AC8FC;
     } else {
-        func_8002F974(&this->dyna.actor, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG);
+        Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG);
     }
 }
 
@@ -199,7 +213,7 @@ void BgSpot02Objects_Draw(Actor* thisx, PlayState* play) {
 }
 
 void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[0] != NULL && play->csCtx.npcActions[0]->action == 2) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL && play->csCtx.actorCues[0]->id == 2) {
         this->unk_16A++;
 
         if (this->unk_16A >= 12) {
@@ -207,15 +221,15 @@ void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
         }
     }
 
-    if (play->csCtx.frames == 245 || play->csCtx.frames == 351) {
-        func_800788CC(NA_SE_EV_LIGHTNING);
+    if (play->csCtx.curFrame == 245 || play->csCtx.curFrame == 351) {
+        Sfx_PlaySfxCentered2(NA_SE_EV_LIGHTNING);
     }
 }
 
-void func_808ACCB8(Actor* thisx, PlayState* play) {
+void func_808ACCB8(Actor* thisx, PlayState* play2) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
+    PlayState* play = (PlayState*)play2;
     f32 rate;
-    s32 pad;
     u8 redPrim;
     u8 greenPrim;
     u8 bluePrim;
@@ -225,7 +239,9 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 600);
 
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[0] != NULL && play->csCtx.npcActions[0]->action == 2) {
+    if (1) {}
+
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL && play->csCtx.actorCues[0]->id == 2) {
         if (this->unk_16A < 5) {
             rate = (this->unk_16A / 5.0f);
             redPrim = greenPrim = bluePrim = 255;
@@ -242,19 +258,18 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
             blueEnv = 100.0f + (100.0f * rate);
         }
 
-        Matrix_Translate(play->csCtx.npcActions[0]->startPos.x, play->csCtx.npcActions[0]->startPos.y,
-                         play->csCtx.npcActions[0]->startPos.z, MTXMODE_NEW);
-        Matrix_RotateX(BINANG_TO_RAD(play->csCtx.npcActions[0]->urot.x), MTXMODE_APPLY);
-        Matrix_RotateY(BINANG_TO_RAD(play->csCtx.npcActions[0]->urot.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(play->csCtx.npcActions[0]->urot.z), MTXMODE_APPLY);
+        Matrix_Translate(play->csCtx.actorCues[0]->startPos.x, play->csCtx.actorCues[0]->startPos.y,
+                         play->csCtx.actorCues[0]->startPos.z, MTXMODE_NEW);
+        Matrix_RotateX(BINANG_TO_RAD(play->csCtx.actorCues[0]->rot.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(play->csCtx.actorCues[0]->rot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD(play->csCtx.actorCues[0]->rot.z), MTXMODE_APPLY);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, redPrim, greenPrim, bluePrim, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, redEnv, greenEnv, blueEnv, 255);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot02_objects.c", 679),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot02_objects.c", 679);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_808AD850[this->unk_16A]));
         gDPPipeSync(POLY_XLU_DISP++);
         gSPDisplayList(POLY_XLU_DISP++, object_spot02_objects_DL_0126F0);
@@ -265,9 +280,9 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 }
 
 void func_808AD3D4(BgSpot02Objects* this, PlayState* play) {
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[2] != NULL && play->csCtx.npcActions[2]->action == 2) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[2] != NULL && play->csCtx.actorCues[2]->id == 2) {
         if (this->timer == 2) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_EXPLOSION_ICE);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_IT_EXPLOSION_ICE);
         }
 
         if (this->timer < 32) {
@@ -278,15 +293,15 @@ void func_808AD3D4(BgSpot02Objects* this, PlayState* play) {
     }
 }
 
-void func_808AD450(Actor* thisx, PlayState* play) {
+void func_808AD450(Actor* thisx, PlayState* play2) {
     BgSpot02Objects* this = (BgSpot02Objects*)thisx;
-    s32 pad;
+    PlayState* play = (PlayState*)play2;
     f32 lerp;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 736);
 
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[2] != NULL) {
-        u16 temp_v1 = CAM_BINANG_TO_DEG(play->csCtx.npcActions[2]->urot.z);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[2] != NULL) {
+        u16 temp_v1 = CAM_BINANG_TO_DEG(play->csCtx.actorCues[2]->rot.z);
 
         if (this->unk_170 != temp_v1) {
             if (this->unk_170 == 0xFFFF) {
@@ -298,26 +313,25 @@ void func_808AD450(Actor* thisx, PlayState* play) {
             }
         }
 
-        lerp = Environment_LerpWeight(play->csCtx.npcActions[2]->endFrame, play->csCtx.npcActions[2]->startFrame,
-                                      play->csCtx.frames);
+        lerp = Environment_LerpWeight(play->csCtx.actorCues[2]->endFrame, play->csCtx.actorCues[2]->startFrame,
+                                      play->csCtx.curFrame);
 
         // should be able to remove & 0xFFFF with some other change
-        if ((play->csCtx.npcActions[2]->action & 0xFFFF) == 2) {
-            Matrix_Translate(play->csCtx.npcActions[2]->startPos.x, play->csCtx.npcActions[2]->startPos.y,
-                             play->csCtx.npcActions[2]->startPos.z, MTXMODE_NEW);
-            Matrix_RotateX(BINANG_TO_RAD(play->csCtx.npcActions[2]->urot.x), MTXMODE_APPLY);
-            Matrix_RotateY(BINANG_TO_RAD(play->csCtx.npcActions[2]->urot.y), MTXMODE_APPLY);
+        if ((play->csCtx.actorCues[2]->id & 0xFFFF) == 2) {
+            Matrix_Translate(play->csCtx.actorCues[2]->startPos.x, play->csCtx.actorCues[2]->startPos.y,
+                             play->csCtx.actorCues[2]->startPos.z, MTXMODE_NEW);
+            Matrix_RotateX(BINANG_TO_RAD(play->csCtx.actorCues[2]->rot.x), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(play->csCtx.actorCues[2]->rot.y), MTXMODE_APPLY);
             Matrix_Scale(0.9f, 0.9f, (((this->unk_170 - this->unk_172) * lerp) + this->unk_172) * 0.1f, MTXMODE_APPLY);
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 120, 0, 128);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot02_objects.c", 795),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot02_objects.c", 795);
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 2 * this->timer, -3 * this->timer, 32, 64, 1,
-                                        4 * this->timer, -6 * this->timer, 32, 64));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 2 * this->timer, -3 * this->timer, 32, 64,
+                                        1, 4 * this->timer, -6 * this->timer, 32, 64));
             gDPPipeSync(POLY_XLU_DISP++);
             gSPDisplayList(POLY_XLU_DISP++, object_spot02_objects_DL_0013F0);
             gDPPipeSync(POLY_XLU_DISP++);

@@ -2,7 +2,7 @@
 #define Z_OBJ_HAMISHI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct ObjHamishi;
 

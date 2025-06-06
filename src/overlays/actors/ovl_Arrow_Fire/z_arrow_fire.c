@@ -7,33 +7,65 @@
 #include "z_arrow_fire.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "tex_len.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void ArrowFire_Init(Actor* thisx, PlayState* play);
 void ArrowFire_Destroy(Actor* thisx, PlayState* play);
 void ArrowFire_Update(Actor* thisx, PlayState* play);
-void ArrowFire_Draw(Actor* thisx, PlayState* play);
+void ArrowFire_Draw(Actor* thisx, PlayState* play2);
 
 void ArrowFire_Charge(ArrowFire* this, PlayState* play);
 void ArrowFire_Fly(ArrowFire* this, PlayState* play);
 void ArrowFire_Hit(ArrowFire* this, PlayState* play);
 
-#include "assets/overlays/ovl_Arrow_Fire/ovl_Arrow_Fire.c"
+#define s1Tex_WIDTH 32
+#define s1Tex_HEIGHT 64
+static u64 s1Tex[TEX_LEN(u64, s1Tex_WIDTH, s1Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Fire/s1Tex.i8.inc.c"
+};
 
-const ActorInit Arrow_Fire_InitVars = {
-    ACTOR_ARROW_FIRE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ArrowFire),
-    (ActorFunc)ArrowFire_Init,
-    (ActorFunc)ArrowFire_Destroy,
-    (ActorFunc)ArrowFire_Update,
-    (ActorFunc)ArrowFire_Draw,
+#define s2Tex_WIDTH 32
+#define s2Tex_HEIGHT 64
+static u64 s2Tex[TEX_LEN(u64, s2Tex_WIDTH, s2Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Fire/s2Tex.i8.inc.c"
+};
+
+static Vtx sVtx[] = {
+#include "assets/overlays/ovl_Arrow_Fire/sVtx.inc.c"
+};
+
+static Gfx sMaterialDL[22] = {
+#include "assets/overlays/ovl_Arrow_Fire/sMaterialDL.inc.c"
+};
+
+static Gfx sModelDL[24] = {
+#include "assets/overlays/ovl_Arrow_Fire/sModelDL.inc.c"
+};
+
+ActorProfile Arrow_Fire_Profile = {
+    /**/ ACTOR_ARROW_FIRE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ArrowFire),
+    /**/ ArrowFire_Init,
+    /**/ ArrowFire_Destroy,
+    /**/ ArrowFire_Update,
+    /**/ ArrowFire_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_STOP),
 };
 
 void ArrowFire_SetupAction(ArrowFire* this, ArrowFireActionFunc actionFunc) {
@@ -55,7 +87,7 @@ void ArrowFire_Init(Actor* thisx, PlayState* play) {
 
 void ArrowFire_Destroy(Actor* thisx, PlayState* play) {
     Magic_Reset(play);
-    LOG_STRING("消滅", "../z_arrow_fire.c", 421); // "Disappearance"
+    LOG_STRING_T("消滅", "Disappearance", "../z_arrow_fire.c", 421);
 }
 
 void ArrowFire_Charge(ArrowFire* this, PlayState* play) {
@@ -74,7 +106,7 @@ void ArrowFire_Charge(ArrowFire* this, PlayState* play) {
     this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
-    func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_FIRE - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_PL_ARROW_CHARGE_FIRE - SFX_FLAG);
 
     // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
@@ -109,7 +141,7 @@ void ArrowFire_Hit(ArrowFire* this, PlayState* play) {
 
     timer = this->timer;
     if (timer != 0) {
-        this->timer -= 1;
+        this->timer--;
 
         if (this->timer >= 8) {
             offset = ((this->timer - 8) * (1.0f / 24.0f));
@@ -164,7 +196,7 @@ void ArrowFire_Fly(ArrowFire* this, PlayState* play) {
     func_80865ECC(&this->unkPos, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
         ArrowFire_SetupAction(this, ArrowFire_Hit);
         this->timer = 32;
         this->alpha = 255;
@@ -180,11 +212,15 @@ void ArrowFire_Fly(ArrowFire* this, PlayState* play) {
 void ArrowFire_Update(Actor* thisx, PlayState* play) {
     ArrowFire* this = (ArrowFire*)thisx;
 
-    if (play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK || play->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
+    // See `ACTOROVL_ALLOC_ABSOLUTE`
+    //! @bug This condition is too broad, the actor will also be killed by warp songs. But warp songs do not use an
+    //! actor which uses `ACTOROVL_ALLOC_ABSOLUTE`. There is no reason to kill the actor in this case.
+    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
-    } else {
-        this->actionFunc(this, play);
+        return;
     }
+
+    this->actionFunc(this, play);
 }
 
 void ArrowFire_Draw(Actor* thisx, PlayState* play2) {
@@ -196,50 +232,53 @@ void ArrowFire_Draw(Actor* thisx, PlayState* play2) {
 
     stateFrames = play->state.frames;
     arrow = (EnArrow*)this->actor.parent;
-    if (1) {}
 
-    if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
-        if (1) {}
-        transform = (arrow->hitFlags & 2) ? &this->actor : &arrow->actor;
-
-        OPEN_DISPS(play->state.gfxCtx, "../z_arrow_fire.c", 618);
-
-        Matrix_Translate(transform->world.pos.x, transform->world.pos.y, transform->world.pos.z, MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD(transform->shape.rot.y), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD(transform->shape.rot.x), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(transform->shape.rot.z), MTXMODE_APPLY);
-        Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-
-        // Draw red effect over the screen when arrow hits
-        if (this->unk_15C > 0) {
-            POLY_XLU_DISP = Gfx_SetupDL_57(POLY_XLU_DISP);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s32)(40.0f * this->unk_15C) & 0xFF, 0, 0,
-                            (s32)(150.0f * this->unk_15C) & 0xFF);
-            gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
-            gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
-            gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
-        }
-
-        // Draw fire on the arrow
-        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 200, 0, this->alpha);
-        gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 128);
-        Matrix_RotateZYX(0x4000, 0x0, 0x0, MTXMODE_APPLY);
-        if (this->timer != 0) {
-            Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        } else {
-            Matrix_Translate(0.0f, 1500.0f, 0.0f, MTXMODE_APPLY);
-        }
-        Matrix_Scale(this->radius * 0.2f, this->unk_158 * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
-        Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_arrow_fire.c", 666),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
-        gSPDisplayList(POLY_XLU_DISP++,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
-                                        255 - stateFrames % 256, 511 - (stateFrames * 10) % 512, 64, 64));
-        gSPDisplayList(POLY_XLU_DISP++, sModelDL);
-
-        CLOSE_DISPS(play->state.gfxCtx, "../z_arrow_fire.c", 682);
+    if ((arrow == NULL) || (arrow->actor.update == NULL)) {
+        return;
     }
+
+    if (this->timer >= 255) {
+        return;
+    }
+
+    transform = (arrow->hitFlags & 2) ? &this->actor : &arrow->actor;
+
+    OPEN_DISPS(play->state.gfxCtx, "../z_arrow_fire.c", 618);
+
+    Matrix_Translate(transform->world.pos.x, transform->world.pos.y, transform->world.pos.z, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD(transform->shape.rot.y), MTXMODE_APPLY);
+    Matrix_RotateX(BINANG_TO_RAD(transform->shape.rot.x), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD(transform->shape.rot.z), MTXMODE_APPLY);
+    Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
+
+    // Draw red effect over the screen when arrow hits
+    if (this->unk_15C > 0) {
+        POLY_XLU_DISP = Gfx_SetupDL_57(POLY_XLU_DISP);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s32)(40.0f * this->unk_15C) & 0xFF, 0, 0,
+                        (s32)(150.0f * this->unk_15C) & 0xFF);
+        gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
+        gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
+        gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+    }
+
+    // Draw fire on the arrow
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 200, 0, this->alpha);
+    gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 128);
+    Matrix_RotateZYX(0x4000, 0x0, 0x0, MTXMODE_APPLY);
+    if (this->timer != 0) {
+        Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);
+    } else {
+        Matrix_Translate(0.0f, 1500.0f, 0.0f, MTXMODE_APPLY);
+    }
+    Matrix_Scale(this->radius * 0.2f, this->unk_158 * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
+    Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_arrow_fire.c", 666);
+    gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
+    gSPDisplayList(POLY_XLU_DISP++,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
+                                    255 - stateFrames % 256, 511 - (stateFrames * 10) % 512, 64, 64));
+    gSPDisplayList(POLY_XLU_DISP++, sModelDL);
+
+    CLOSE_DISPS(play->state.gfxCtx, "../z_arrow_fire.c", 682);
 }

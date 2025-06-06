@@ -5,12 +5,21 @@
  */
 
 #include "z_bg_gnd_firemeiro.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgGndFiremeiro_Init(Actor* thisx, PlayState* play);
-void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play);
+void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play2);
 void BgGndFiremeiro_Update(Actor* thisx, PlayState* play);
 void BgGndFiremeiro_Draw(Actor* thisx, PlayState* play);
 
@@ -18,16 +27,16 @@ void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play);
 void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play);
 void BgGndFiremeiro_Rise(BgGndFiremeiro* this, PlayState* play);
 
-const ActorInit Bg_Gnd_Firemeiro_InitVars = {
-    ACTOR_BG_GND_FIREMEIRO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndFiremeiro),
-    (ActorFunc)BgGndFiremeiro_Init,
-    (ActorFunc)BgGndFiremeiro_Destroy,
-    (ActorFunc)BgGndFiremeiro_Update,
-    (ActorFunc)BgGndFiremeiro_Draw,
+ActorProfile Bg_Gnd_Firemeiro_Profile = {
+    /**/ ACTOR_BG_GND_FIREMEIRO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndFiremeiro),
+    /**/ BgGndFiremeiro_Init,
+    /**/ BgGndFiremeiro_Destroy,
+    /**/ BgGndFiremeiro_Update,
+    /**/ BgGndFiremeiro_Draw,
 };
 
 void BgGndFiremeiro_Init(Actor* thisx, PlayState* play) {
@@ -40,7 +49,7 @@ void BgGndFiremeiro_Init(Actor* thisx, PlayState* play) {
     this->initPos = this->dyna.actor.world.pos;
 
     if (this->dyna.actor.params == 0) {
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         CollisionHeader_GetVirtual(&gFireTrialPlatformCol, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
         this->actionFunc = BgGndFiremeiro_Rise;
@@ -51,16 +60,17 @@ void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
 
-    if (this->dyna.actor.params == 0) {
-        if (1) {}
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    if (this->dyna.actor.params != 0) {
+        return;
     }
+
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play) {
     f32 sunkHeight = this->initPos.y - 150.0f;
 
-    if (func_8004356C(&this->dyna)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         this->timer = 10;
     }
 
@@ -71,7 +81,7 @@ void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play) {
             this->dyna.actor.world.pos.y = sunkHeight;
         }
 
-        func_8002F948(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
+        Actor_PlaySfx_FlaggedCentered2(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
     }
 
     if (this->timer > 0) {
@@ -85,7 +95,7 @@ void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play) {
     s32 pad;
     f32 randSign;
 
-    if (func_8004356C(&this->dyna)) { // Player standing on it
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->timer > 0) {
             this->timer--;
 
@@ -97,7 +107,7 @@ void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play) {
             this->dyna.actor.world.pos.y += Math_CosS(this->timer * 0x7FFF);
 
             if (!(this->timer % 4)) {
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+                Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
             }
         } else {
             this->timer = 10;
@@ -114,7 +124,7 @@ void BgGndFiremeiro_Rise(BgGndFiremeiro* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     Actor* thisx = &this->dyna.actor;
 
-    if ((player->currentBoots != PLAYER_BOOTS_HOVER) && func_8004356C(&this->dyna)) { // Player standing on it
+    if ((player->currentBoots != PLAYER_BOOTS_HOVER) && DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (thisx->world.pos.y < this->initPos.y) {
             this->actionFunc = BgGndFiremeiro_Sink;
             this->timer = 20;
@@ -142,8 +152,7 @@ void BgGndFiremeiro_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 280);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 282),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 282);
     gSPDisplayList(POLY_OPA_DISP++, gFireTrialPlatformDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_gnd_firemeiro.c", 285);

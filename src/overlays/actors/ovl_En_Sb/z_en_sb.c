@@ -5,10 +5,22 @@
  */
 
 #include "z_en_sb.h"
-#include "vt.h"
+
+#include "attributes.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_sb/object_sb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnSb_Init(Actor* thisx, PlayState* play);
 void EnSb_Destroy(Actor* thisx, PlayState* play);
@@ -25,21 +37,21 @@ void EnSb_Lunge(EnSb* this, PlayState* play);
 void EnSb_Bounce(EnSb* this, PlayState* play);
 void EnSb_Cooldown(EnSb* this, PlayState* play);
 
-const ActorInit En_Sb_InitVars = {
-    ACTOR_EN_SB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SB,
-    sizeof(EnSb),
-    (ActorFunc)EnSb_Init,
-    (ActorFunc)EnSb_Destroy,
-    (ActorFunc)EnSb_Update,
-    (ActorFunc)EnSb_Draw,
+ActorProfile En_Sb_Profile = {
+    /**/ ACTOR_EN_SB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SB,
+    /**/ sizeof(EnSb),
+    /**/ EnSb_Init,
+    /**/ EnSb_Destroy,
+    /**/ EnSb_Update,
+    /**/ EnSb_Draw,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -86,8 +98,8 @@ static DamageTable sDamageTable[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_SHELL_BLADE, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
 };
 
 static Vec3f sFlamePosOffsets[] = {
@@ -97,7 +109,7 @@ static Vec3f sFlamePosOffsets[] = {
     { 0.0f, 0.0f, -5.0f },
 };
 
-typedef enum {
+typedef enum ShellbladeBehavior {
     /* 0x00 */ SHELLBLADE_OPEN,
     /* 0x01 */ SHELLBLADE_WAIT_CLOSED,
     /* 0x02 */ SHELLBLADE_WAIT_OPEN,
@@ -118,7 +130,7 @@ void EnSb_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = 0;
     Actor_SetScale(&this->actor, 0.006f);
     this->actor.shape.rot.y = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = -0.35f;
     this->fire = 0;
     this->hitByWindArrow = false;
@@ -135,7 +147,7 @@ void EnSb_Destroy(Actor* thisx, PlayState* play) {
 void EnSb_SpawnBubbles(PlayState* play, EnSb* this) {
     s32 i;
 
-    if (this->actor.yDistToWater > 0) {
+    if (this->actor.depthInWater > 0) {
         for (i = 0; i < 10; i++) {
             EffectSsBubble_Spawn(play, &this->actor.world.pos, 10.0f, 10.0f, 30.0f, 0.25f);
         }
@@ -154,7 +166,7 @@ void EnSb_SetupOpen(EnSb* this) {
                      ANIMMODE_ONCE, 0.0f);
     this->behavior = SHELLBLADE_OPEN;
     this->actionFunc = EnSb_Open;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHELL_MOUTH);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_SHELL_MOUTH);
 }
 
 void EnSb_SetupWaitOpen(EnSb* this) {
@@ -166,12 +178,12 @@ void EnSb_SetupWaitOpen(EnSb* this) {
 
 void EnSb_SetupLunge(EnSb* this) {
     f32 frameCount = Animation_GetLastFrame(&object_sb_Anim_000124);
-    f32 playbackSpeed = this->actor.yDistToWater > 0.0f ? 1.0f : 0.0f;
+    f32 playbackSpeed = this->actor.depthInWater > 0.0f ? 1.0f : 0.0f;
 
     Animation_Change(&this->skelAnime, &object_sb_Anim_000124, playbackSpeed, 0.0f, frameCount, ANIMMODE_ONCE, 0);
     this->behavior = SHELLBLADE_LUNGE;
     this->actionFunc = EnSb_Lunge;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHELL_MOUTH);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_SHELL_MOUTH);
 }
 
 void EnSb_SetupBounce(EnSb* this) {
@@ -189,13 +201,13 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
     }
     this->behavior = SHELLBLADE_WAIT_CLOSED;
     if (changeSpeed) {
-        if (this->actor.yDistToWater > 0.0f) {
-            this->actor.speedXZ = -5.0f;
+        if (this->actor.depthInWater > 0.0f) {
+            this->actor.speed = -5.0f;
             if (this->actor.velocity.y < 0.0f) {
                 this->actor.velocity.y = 2.1f;
             }
         } else {
-            this->actor.speedXZ = -6.0f;
+            this->actor.speed = -6.0f;
             if (this->actor.velocity.y < 0.0f) {
                 this->actor.velocity.y = 1.4f;
             }
@@ -254,28 +266,27 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
 
     if (this->actor.shape.rot.y == invertedYaw) {
         this->actor.world.rot.y = this->attackYaw;
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             this->actor.velocity.y = 3.0f;
-            this->actor.speedXZ = 5.0f;
+            this->actor.speed = 5.0f;
             this->actor.gravity = -0.35f;
         } else {
             this->actor.velocity.y = 2.0f;
-            this->actor.speedXZ = 6.0f;
+            this->actor.speed = 6.0f;
             this->actor.gravity = -2.0f;
         }
         EnSb_SpawnBubbles(play, this);
         this->bouncesLeft = 3;
         EnSb_SetupLunge(this);
-        // "Attack!!"
-        osSyncPrintf("アタァ〜ック！！\n");
+        PRINTF(T("アタァ〜ック！！\n", "Attack!!\n"));
     }
 }
 
 void EnSb_Lunge(EnSb* this, PlayState* play) {
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.2f);
     if ((this->actor.velocity.y <= -0.1f) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH)) {
-        if (!(this->actor.yDistToWater > 0.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+        if (!(this->actor.depthInWater > 0.0f)) {
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         EnSb_SetupBounce(this);
@@ -289,29 +300,29 @@ void EnSb_Bounce(EnSb* this, PlayState* play) {
 
     currentFrame = this->skelAnime.curFrame;
     frameCount = Animation_GetLastFrame(&object_sb_Anim_0000B4);
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.2f);
 
     if (currentFrame == frameCount) {
         if (this->bouncesLeft != 0) {
             this->bouncesLeft--;
             this->timer = 1;
-            if (this->actor.yDistToWater > 0.0f) {
+            if (this->actor.depthInWater > 0.0f) {
                 this->actor.velocity.y = 3.0f;
-                this->actor.speedXZ = 5.0f;
+                this->actor.speed = 5.0f;
                 this->actor.gravity = -0.35f;
             } else {
                 this->actor.velocity.y = 2.0f;
-                this->actor.speedXZ = 6.0f;
+                this->actor.speed = 6.0f;
                 this->actor.gravity = -2.0f;
             }
             EnSb_SpawnBubbles(play, this);
             EnSb_SetupLunge(this);
         } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->timer = 1;
             EnSb_SetupWaitClosed(this);
-            osSyncPrintf(VT_FGCOL(RED) "攻撃終了！！" VT_RST "\n"); // "Attack Complete!"
+            PRINTF(VT_FGCOL(RED) T("攻撃終了！！", "Attack complete!!") VT_RST "\n");
         }
     }
 }
@@ -321,13 +332,13 @@ void EnSb_Cooldown(EnSb* this, PlayState* play) {
         this->timer--;
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     } else {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
             this->actionFunc = EnSb_WaitClosed;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     }
 }
@@ -382,17 +393,17 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
         tookDamage = false;
         this->collider.base.acFlags &= ~AC_HIT;
 
-        switch (this->actor.colChkInfo.damageEffect) {
+        switch (this->actor.colChkInfo.damageReaction) {
             case 14: // wind arrow
                 hitByWindArrow = true;
                 FALLTHROUGH;
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.info.bumper.hitPos.y - this->actor.world.pos.y;
+                    hitY = this->collider.elem.acDmgInfo.hitPos.y - this->actor.world.pos.y;
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
-                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                         tookDamage = true;
                     }
                 }
@@ -400,17 +411,17 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
             case 2: // fire arrow, dins fire
                 this->fire = 4;
                 Actor_ApplyDamage(&this->actor);
-                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                 tookDamage = true;
                 break;
             case 1:  // hookshot/longshot
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.info.bumper.hitPos.y - this->actor.world.pos.y;
+                    hitY = this->collider.elem.acDmgInfo.hitPos.y - this->actor.world.pos.y;
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
-                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                         tookDamage = true;
                         EnSb_SetupCooldown(this, 0);
                     }
@@ -424,15 +435,15 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
             BodyBreak_Alloc(&this->bodyBreak, 8, play);
             this->isDead = true;
             Enemy_StartFinishingBlow(play, &this->actor);
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
             return 1;
         }
 
-        // if player attack didn't do damage, play recoil sound and spawn sparks
+        // if player attack didn't do damage, play recoil sound effect and spawn sparks
         if (!tookDamage) {
-            hitPoint.x = this->collider.info.bumper.hitPos.x;
-            hitPoint.y = this->collider.info.bumper.hitPos.y;
-            hitPoint.z = this->collider.info.bumper.hitPos.z;
+            hitPoint.x = this->collider.elem.acDmgInfo.hitPos.x;
+            hitPoint.y = this->collider.elem.acDmgInfo.hitPos.y;
+            hitPoint.z = this->collider.elem.acDmgInfo.hitPos.z;
             CollisionCheck_SpawnShieldParticlesMetal2(play, &hitPoint);
         }
     }
@@ -445,7 +456,7 @@ void EnSb_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if (this->isDead) {
-        if (this->actor.yDistToWater > 0.0f) {
+        if (this->actor.depthInWater > 0.0f) {
             this->actor.params = 4;
         } else {
             this->actor.params = 1;
@@ -461,7 +472,7 @@ void EnSb_Update(Actor* thisx, PlayState* play) {
     } else {
         Actor_SetFocus(&this->actor, 20.0f);
         Actor_SetScale(&this->actor, 0.006f);
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         this->actionFunc(this, play);
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         EnSb_UpdateDamage(this, play);
@@ -476,7 +487,7 @@ void EnSb_Update(Actor* thisx, PlayState* play) {
 void EnSb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSb* this = (EnSb*)thisx;
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 6, 8, dList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 6, 8, dList, BODYBREAK_OBJECT_SLOT_DEFAULT);
 }
 
 void EnSb_Draw(Actor* thisx, PlayState* play) {

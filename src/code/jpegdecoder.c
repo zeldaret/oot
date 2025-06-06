@@ -1,4 +1,8 @@
-#include "global.h"
+#include "jpeg.h"
+
+s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1, u16* mcu, s16* unk);
+s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* outZeroCount);
+u16 JpegDecoder_ReadBits(u8 len);
 
 u8* sJpegBitStreamPtr;
 u32 sJpegBitStreamByteIdx;
@@ -154,7 +158,7 @@ s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* out
     if (sym) {
         *outCoeff = JpegDecoder_ReadBits(sym);
         if (*outCoeff < (1 << (sym - 1))) {
-            *outCoeff += (-1 << sym) + 1;
+            *outCoeff += (-1U << sym) + 1;
         }
     }
 
@@ -164,10 +168,8 @@ s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* out
 u16 JpegDecoder_ReadBits(u8 len) {
     u8 byteCount;
     u8 data;
-    s32 ret;
+    s32 ret = 0;
     u32 temp;
-
-    ret = 0; // this is required for some reason
 
     for (byteCount = sJpegBitStreamBitIdx >> 3; byteCount > 0; byteCount--) {
         data = sJpegBitStreamPtr[sJpegBitStreamByteIdx++];
@@ -184,7 +186,7 @@ u16 JpegDecoder_ReadBits(u8 len) {
         sJpegBitStreamBitIdx -= 8;
     }
 
-    ret = (sJpegBitStreamCurWord << (sJpegBitStreamBitIdx));
+    ret = sJpegBitStreamCurWord << sJpegBitStreamBitIdx;
     temp = ret;
     ret = temp >> -len;
     sJpegBitStreamBitIdx += len;

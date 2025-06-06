@@ -1,139 +1,140 @@
 #!/usr/bin/env python3
 
-from overlayhelpers import filemap
+# Disassemble a cutscene script
 
 import argparse, os, struct
+import math
 
 """
 Enumerations
 """
 
-command_continue_stop = {
-    0x00: "CS_CMD_CONTINUE",
-    0xFF: "CS_CMD_STOP",
+cscam_continue_stop = {
+    0x00: "CS_CAM_CONTINUE",
+    0xFF: "CS_CAM_STOP",
 }
 
-cutscene_terminator_destinations = {
-    0x00: "INVALID_DESTINATION_0",
-    0x01: "CUTSCENE_MAP_GANON_HORSE",
-    0x02: "CUTSCENE_MAP_THREE_GODESSES_POST_DEKU_TREE",
-    0x03: "GERUDO_VALLEY_DIN",
-    0x04: "DEATH_MOUNTAIN_TRAIL_NAYRU",
-    0x05: "KOKIRI_FOREST_FARORE",
-    0x06: "CUTSCENE_MAP_TRIFORCE_CREATION",
-    0x07: "KOKIRI_FOREST_RECEIVE_KOKIRI_EMERALD",
-    0x08: "TEMPLE_OF_TIME_AFTER_USE_MS",
-    0x09: "GERUDO_VALLEY_DIN_2",
-    0x0A: "LINKS_HOUSE_INTRO",
-    0x0B: "KOKIRI_FOREST_INTRO",
-    0x0C: "DEATH_MOUNTAIN_TRAIL_AFTER_GORON_RUBY",
-    0x0D: "ZORAS_FOUNTAIN_AFTER_ZORAS_SAPPHIRE",
-    0x0E: "KOKIRI_FOREST_AFTER_KOKIRI_EMERALD",
-    0x0F: "TEMPLE_OF_TIME_KOKIRI_EMERALD", #unused
-    0x10: "TEMPLE_OF_TIME_GORON_RUBY", #unused
-    0x11: "TEMPLE_OF_TIME_ZORAS_SAPPHIRE", #unused
-    0x12: "TEMPLE_OF_TIME_AFTER_USE_MS_FIRST",
-    0x13: "DEATH_MOUNTAIN_TRAIL_AFTER_INTRO",
-    0x14: "INVALID_DESTINATION_14",
-    0x15: "LAKE_HYLIA_WATER_RISES",
-    0x16: "DESERT_COLOSSUS_REQUIEM",
-    0x17: "CUTSCENE_MAP_CURSE_YOU",
-    0x18: "JABU_JABU_INTRO",
-    0x19: "CHAMBER_OF_SAGES_LIGHT_MEDALLION",
-    0x1A: "TEMPLE_OF_TIME_KOKIRI_EMERALD_2", #duplicate of 0x000F
-    0x1B: "TEMPLE_OF_TIME_GORON_RUBY_2", #duplicate of 0x0010
-    0x1C: "TEMPLE_OF_TIME_ZORAS_SAPPHIRE_2", #duplicate of 0x0011
-    0x1D: "CHAMBER_OF_SAGES_FOREST_MEDALLION",
-    0x1E: "CHAMBER_OF_SAGES_FIRE_MEDALLION",
-    0x1F: "CHAMBER_OF_SAGES_WATER_MEDALLION",
-    0x20: "HYRULE_FIELD_FLASHBACK", #lacs part 4
-    0x21: "HYRULE_FIELD_AFTER_LAKE_HYLIA_OWL",
-    0x22: "CUTSCENE_MAP_GANON_AFTER_USE_MS",
-    0x23: "HYRULE_FIELD_INTRO_ZELDA_ESCAPE",
-    0x24: "INVALID_DESTINATION_24",
-    0x25: "INVALID_DESTINATION_25",
-    0x26: "CUTSCENE_MAP_SHEIKAH_LEGEND", #lacs part 2
-    0x27: "TEMPLE_OF_TIME_ZELDA_REVEAL", #lacs part 3
-    0x28: "TEMPLE_OF_TIME_GET_LIGHT_ARROWS", #lacs part 5
-    0x29: "LAKE_HYLIA_AFTER_BLUE_WARP",
-    0x2A: "KAKARIKO_VILLAGE_DRAIN_WELL",
-    0x2B: "WINDMILL_AFTER_DRAIN_WELL",
-    0x2C: "TEMPLE_OF_TIME_AFTER_DOOR_OF_TIME_OPENS",
-    0x2D: "INVALID_DESTINATION_2D",
-    0x2E: "TEMPLE_OF_TIME_AFTER_USE_MS_FIRST_2", #duplicate of 0x0012
-    0x2F: "KAKARIKO_VILLAGE_NOCTURNE_PART_2",
-    0x30: "DESERT_COLOSSUS_AFTER_REQUIEM",
-    0x31: "TEMPLE_OF_TIME_AFTER_LIGHT_ARROWS",
-    0x32: "KAKARIKO_VILLAGE_AFTER_NOCTURNE",
-    0x33: "HYRULE_FIELD_IMPA_ESCORT_CS",
-    0x34: "TEMPLE_OF_TIME_SONG_OF_TIME",
-    0x35: "HYRULE_FIELD_AFTER_SONG_OF_TIME",
-    0x36: "GERUDO_VALLEY_CREDITS",
-    0x37: "GERUDO_FORTRESS_CREDITS",
-    0x38: "KAKARIKO_VILLAGE_CREDITS",
-    0x39: "DEATH_MOUNTAIN_TRAIL_CREDITS_1",
-    0x3A: "GORON_CITY_CREDITS", #unused?
-    0x3B: "LAKE_HYLIA_CREDITS",
-    0x3C: "ZORAS_FOUNTAIN_CREDITS", #unused
-    0x3D: "ZORAS_DOMAIN_CREDITS",
-    0x3E: "KOKIRI_FOREST_CREDITS_1",
-    0x3F: "KOKIRI_FOREST_CREDITS_2",
-    0x40: "HYRULE_FIELD_CREDITS",
-    0x41: "LON_LON_RANCH_CREDITS_1",
-    0x42: "KAKARIKO_VILLAGE_AFTER_TRAIL_OWL",
-    0x43: "HTRULE_FIELD_UNUSED_ENTRANCE",
-    0x44: "CUTSCENE_MAP_FIRE",
-    0x45: "KOKIRI_FOREST_POST_FOREST_MEDALLION",
-    0x46: "DEATH_MOUNTAIN_TRAIL_CREDITS_2",
-    0x47: "TEMPLE_OF_TIME_CREDITS",
-    0x48: "ZELDAS_COURTYARD_CREDITS",
-    0x49: "LON_LON_RANCH_CREDITS_1_2", #duplicate of 0x0041
-    0x4A: "LON_LON_RANCH_CREDITS_2",
-    0x4B: "LON_LON_RANCH_CREDITS_3",
-    0x4C: "LON_LON_RANCH_CREDITS_4",
-    0x4D: "LON_LON_RANCH_CREDITS_5",
-    0x4E: "LON_LON_RANCH_CREDITS_6",
-    0x4F: "LON_LON_RANCH_NO_CS_1",
-    0x50: "LON_LON_RANCH_NO_CS_2",
-    0x51: "LON_LON_RANCH_NO_CS_3",
-    0x52: "LON_LON_RANCH_NO_CS_4",
-    0x53: "LON_LON_RANCH_NO_CS_5",
-    0x54: "LON_LON_RANCH_NO_CS_6",
-    0x55: "LON_LON_RANCH_NO_CS_7",
-    0x56: "LON_LON_RANCH_NO_CS_8",
-    0x57: "LON_LON_RANCH_NO_CS_9",
-    0x58: "LON_LON_RANCH_NO_CS_10",
-    0x59: "LON_LON_RANCH_NO_CS_11",
-    0x5A: "LON_LON_RANCH_NO_CS_12",
-    0x5B: "LON_LON_RANCH_NO_CS_13",
-    0x5C: "LON_LON_RANCH_NO_CS_14",
-    0x5D: "LON_LON_RANCH_NO_CS_15",
-    0x5E: "LON_LON_RANCH_NO_CS_EPONAS_SONG",
-    0x5F: "CONDITIONAL_DESTINATION", # more descriptive name?
-    0x60: "DESERT_COLOSSUS_SPIRIT_BLUE_WARP",
-    0x61: "GRAVEYARD_AFTER_SHADOW_BLUE_WARP",
-    0x62: "DEATH_MOUNTAIN_CRATER_AFTER_FIRE_BLUE_WARP",
-    0x63: "SACRED_FOREST_MEADOW_AFTER_FOREST_BLUE_WARP",
-    0x64: "KOKIRI_FOREST_AFTER_FOREST_BLUE_WARP",
-    0x65: "DESERT_COLOSSUS_AFTER_SILVER_GAUNTLETS",
-    0x66: "TEMPLE_OF_TIME_FRONT_OF_PEDESTAL",
-    0x67: "HYRULE_FIELD_TITLE_SCREEN",
-    0x68: "SPIRIT_TEMPLE_BOSS_TITLE_SCREEN",
-    0x69: "GRAVEYARD_SUNS_SONG",
-    0x6A: "ROYAL_FAMILYS_TOMB_SUNS_SONG",
-    0x6B: "GANONS_CASTLE_AFTER_FOREST_TRIAL",
-    0x6C: "GANONS_CASTLE_AFTER_WATER_TRIAL",
-    0x6D: "GANONS_CASTLE_AFTER_SHADOW_TRIAL",
-    0x6E: "GANONS_CASTLE_AFTER_FIRE_TRIAL",
-    0x6F: "GANONS_CASTLE_AFTER_LIGHT_TRIAL",
-    0x70: "GANONS_CASTLE_AFTER_SPIRIT_TRIAL",
-    0x71: "GANONS_CASTLE_DISPEL_BARRIER_IF_CONDITIONS",
-    0x72: "HYRULE_FIELD_INTRO",
-    0x73: "HYRULE_FIELD_AFTER_IMPA_ESCORT",
-    0x74: "DESERT_COLOSSUS_SPIRIT_BLUE_WARP_2",
-    0x75: "HYRULE_FIELD_SKY",
-    0x76: "GANON_BATTLE_TOWER_COLLAPSE",
-    0x77: "ZELDAS_COURTYARD_RECEIVE_LETTER",
+cutscene_destinations = {
+    0x00: "CS_DEST_UNIMPLEMENTED_0",
+    0x01: "CS_DEST_CUTSCENE_MAP_GANON_HORSE",
+    0x02: "CS_DEST_CUTSCENE_MAP_THREE_GODDESSES",
+    0x03: "CS_DEST_GERUDO_VALLEY_DIN_PART_1",
+    0x04: "CS_DEST_DEATH_MOUNTAIN_TRAIL_NAYRU",
+    0x05: "CS_DEST_KOKIRI_FOREST_FARORE",
+    0x06: "CS_DEST_CUTSCENE_MAP_TRIFORCE_CREATION",
+    0x07: "CS_DEST_KOKIRI_FOREST_RECEIVE_KOKIRI_EMERALD",
+    0x08: "CS_DEST_TEMPLE_OF_TIME_FROM_MASTER_SWORD",
+    0x09: "CS_DEST_GERUDO_VALLEY_DIN_PART_2",
+    0x0A: "CS_DEST_LINKS_HOUSE_INTRO",
+    0x0B: "CS_DEST_KOKIRI_FOREST_INTRO",
+    0x0C: "CS_DEST_DEATH_MOUNTAIN_TRAIL_FROM_GORON_RUBY",
+    0x0D: "CS_DEST_ZORAS_FOUNTAIN_FROM_ZORAS_SAPPHIRE",
+    0x0E: "CS_DEST_KOKIRI_FOREST_FROM_KOKIRI_EMERALD",
+    0x0F: "CS_DEST_TEMPLE_OF_TIME_KOKIRI_EMERALD_RESTORED",
+    0x10: "CS_DEST_TEMPLE_OF_TIME_GORON_RUBY_RESTORED",
+    0x11: "CS_DEST_TEMPLE_OF_TIME_ZORAS_SAPPHIRE_RESTORED",
+    0x12: "CS_DEST_TEMPLE_OF_TIME_AFTER_LIGHT_MEDALLION",
+    0x13: "CS_DEST_DEATH_MOUNTAIN_TRAIL",
+    0x14: "CS_DEST_UNIMPLEMENTED_14",
+    0x15: "CS_DEST_LAKE_HYLIA_WATER_RESTORED",
+    0x16: "CS_DEST_DESERT_COLOSSUS_REQUIEM",
+    0x17: "CS_DEST_CUTSCENE_MAP_GANONDORF_DEFEATED_CREDITS",
+    0x18: "CS_DEST_JABU_JABU",
+    0x19: "CS_DEST_CHAMBER_OF_SAGES_LIGHT_MEDALLION",
+    0x1A: "CS_DEST_TEMPLE_OF_TIME_KOKIRI_EMERALD_RESTORED_2",
+    0x1B: "CS_DEST_TEMPLE_OF_TIME_GORON_RUBY_RESTORED_2",
+    0x1C: "CS_DEST_TEMPLE_OF_TIME_ZORAS_SAPPHIRE_RESTORED_2",
+    0x1D: "CS_DEST_CHAMBER_OF_SAGES_FOREST_MEDALLION",
+    0x1E: "CS_DEST_CHAMBER_OF_SAGES_FIRE_MEDALLION",
+    0x1F: "CS_DEST_CHAMBER_OF_SAGES_WATER_MEDALLION",
+    0x20: "CS_DEST_HYRULE_FIELD_FLASHBACK",
+    0x21: "CS_DEST_HYRULE_FIELD_FROM_ZELDA_ESCAPE",
+    0x22: "CS_DEST_CUTSCENE_MAP_GANONDORF_FROM_MASTER_SWORD",
+    0x23: "CS_DEST_HYRULE_FIELD_INTRO_DREAM",
+    0x24: "CS_DEST_UNIMPLEMENTED_24",
+    0x25: "CS_DEST_UNIMPLEMENTED_25",
+    0x26: "CS_DEST_CUTSCENE_MAP_SHEIKAH_LEGEND",
+    0x27: "CS_DEST_TEMPLE_OF_TIME_ZELDA_REVEAL",
+    0x28: "CS_DEST_TEMPLE_OF_TIME_GET_LIGHT_ARROWS",
+    0x29: "CS_DEST_LAKE_HYLIA_FROM_LAKE_RESTORED",
+    0x2A: "CS_DEST_KAKARIKO_VILLAGE_DRAIN_WELL",
+    0x2B: "CS_DEST_WINDMILL_FROM_WELL_DRAINED",
+    0x2C: "CS_DEST_TEMPLE_OF_TIME_FROM_ALL_STONES_RESTORED",
+    0x2D: "CS_DEST_UNIMPLEMENTED_2D",
+    0x2E: "CS_DEST_TEMPLE_OF_TIME_AFTER_LIGHT_MEDALLION_ALT",
+    0x2F: "CS_DEST_KAKARIKO_VILLAGE_NOCTURNE_PART_2",
+    0x30: "CS_DEST_DESERT_COLOSSUS_FROM_REQUIEM",
+    0x31: "CS_DEST_TEMPLE_OF_TIME_FROM_LIGHT_ARROWS",
+    0x32: "CS_DEST_KAKARIKO_VILLAGE_FROM_NOCTURNE",
+    0x33: "CS_DEST_HYRULE_FIELD_FROM_ZELDAS_COURTYARD",
+    0x34: "CS_DEST_TEMPLE_OF_TIME_SONG_OF_TIME",
+    0x35: "CS_DEST_HYRULE_FIELD_FROM_SONG_OF_TIME",
+    0x36: "CS_DEST_GERUDO_VALLEY_CREDITS",
+    0x37: "CS_DEST_GERUDO_FORTRESS_CREDITS",
+    0x38: "CS_DEST_KAKARIKO_VILLAGE_CREDITS",
+    0x39: "CS_DEST_DEATH_MOUNTAIN_TRAIL_CREDITS_PART_1",
+    0x3A: "CS_DEST_GORON_CITY_CREDITS",
+    0x3B: "CS_DEST_LAKE_HYLIA_CREDITS",
+    0x3C: "CS_DEST_ZORAS_FOUNTAIN_CREDITS",
+    0x3D: "CS_DEST_ZORAS_DOMAIN_CREDITS",
+    0x3E: "CS_DEST_KOKIRI_FOREST_CREDITS_PART_1",
+    0x3F: "CS_DEST_KOKIRI_FOREST_CREDITS_PART_2",
+    0x40: "CS_DEST_HYRULE_FIELD_CREDITS",
+    0x41: "CS_DEST_LON_LON_RANCH_CREDITS_PART_1_ALT",
+    0x42: "CS_DEST_KAKARIKO_VILLAGE_FROM_TRAIL_OWL",
+    0x43: "CS_DEST_HYRULE_FIELD_FROM_LAKE_HYLIA_OWL",
+    0x44: "CS_DEST_CUTSCENE_MAP_DEKU_SPROUT_PART_2",
+    0x45: "CS_DEST_KOKIRI_FOREST_DEKU_SPROUT_PART_3",
+    0x46: "CS_DEST_DEATH_MOUNTAIN_TRAIL_CREDITS_PART_2",
+    0x47: "CS_DEST_TEMPLE_OF_TIME_CREDITS",
+    0x48: "CS_DEST_ZELDAS_COURTYARD_CREDITS",
+    0x49: "CS_DEST_LON_LON_RANCH_CREDITS_PART_1",
+    0x4A: "CS_DEST_LON_LON_RANCH_CREDITS_PART_2",
+    0x4B: "CS_DEST_LON_LON_RANCH_CREDITS_PART_3",
+    0x4C: "CS_DEST_LON_LON_RANCH_CREDITS_PART_4",
+    0x4D: "CS_DEST_LON_LON_RANCH_CREDITS_PART_6",
+    0x4E: "CS_DEST_LON_LON_RANCH_CREDITS_PART_5",
+    0x4F: "CS_DEST_LON_LON_RANCH_1",
+    0x50: "CS_DEST_LON_LON_RANCH_2",
+    0x51: "CS_DEST_LON_LON_RANCH_3",
+    0x52: "CS_DEST_LON_LON_RANCH_4",
+    0x53: "CS_DEST_LON_LON_RANCH_5",
+    0x54: "CS_DEST_LON_LON_RANCH_6",
+    0x55: "CS_DEST_LON_LON_RANCH_7",
+    0x56: "CS_DEST_LON_LON_RANCH_8",
+    0x57: "CS_DEST_LON_LON_RANCH_9",
+    0x58: "CS_DEST_LON_LON_RANCH_10",
+    0x59: "CS_DEST_LON_LON_RANCH_11",
+    0x5A: "CS_DEST_LON_LON_RANCH_12",
+    0x5B: "CS_DEST_LON_LON_RANCH_13",
+    0x5C: "CS_DEST_LON_LON_RANCH_14",
+    0x5D: "CS_DEST_LON_LON_RANCH_15",
+    0x5E: "CS_DEST_LON_LON_RANCH_FROM_EPONAS_SONG",
+    0x5F: "CS_DEST_STONES_RESTORED_CONDITIONAL",
+    0x60: "CS_DEST_DESERT_COLOSSUS_FROM_CHAMBER_OF_SAGES",
+    0x61: "CS_DEST_GRAVEYARD_FROM_CHAMBER_OF_SAGES",
+    0x62: "CS_DEST_DEATH_MOUNTAIN_CRATER_FROM_CHAMBER_OF_SAGES",
+    0x63: "CS_DEST_SACRED_FOREST_MEADOW_WARP_PAD",
+    0x64: "CS_DEST_KOKIRI_FOREST_FROM_CHAMBER_OF_SAGES",
+    0x65: "CS_DEST_DESERT_COLOSSUS_FROM_NABOORU_CAPTURE",
+    0x66: "CS_DEST_TEMPLE_OF_TIME_FRONT_OF_PEDESTAL",
+    0x67: "CS_DEST_HYRULE_FIELD_TITLE_SCREEN",
+    0x68: "CS_DEST_TITLE_SCREEN_DEMO",
+    0x69: "CS_DEST_GRAVEYARD_SUNS_SONG_PART_2",
+    0x6A: "CS_DEST_ROYAL_FAMILYS_TOMB_SUNS_SONG_PART_3",
+    0x6B: "CS_DEST_GANONS_CASTLE_DISPEL_FOREST_BEAM",
+    0x6C: "CS_DEST_GANONS_CASTLE_DISPEL_WATER_BEAM",
+    0x6D: "CS_DEST_GANONS_CASTLE_DISPEL_SHADOW_BEAM",
+    0x6E: "CS_DEST_GANONS_CASTLE_DISPEL_FIRE_BEAM",
+    0x6F: "CS_DEST_GANONS_CASTLE_DISPEL_LIGHT_BEAM",
+    0x70: "CS_DEST_GANONS_CASTLE_DISPEL_SPIRIT_BEAM",
+    0x71: "CS_DEST_GANONS_CASTLE_DISPEL_BARRIER_CONDITONAL",
+    0x72: "CS_DEST_HYRULE_FIELD_FROM_FAIRY_OCARINA",
+    0x73: "CS_DEST_HYRULE_FIELD_FROM_IMPA_ESCORT",
+    0x74: "CS_DEST_FROM_RAURU_FINAL_MESSAGE_CONDITIONAL",
+    0x75: "CS_DEST_HYRULE_FIELD_CREDITS_SKY",
+    0x76: "CS_DEST_GANON_BATTLE_TOWER_COLLAPSE",
+    0x77: "CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER",
 }
 
 ocarina_action_ids = {
@@ -189,6 +190,396 @@ ocarina_action_ids = {
     0x31: "OCARINA_ACTION_CHECK_NOWARP_DONE",
 }
 
+sequence_ids = {
+    0x00: "NA_BGM_GENERAL_SFX",
+    0x01: "NA_BGM_NATURE_AMBIENCE",
+    0x02: "NA_BGM_FIELD_LOGIC",
+    0x03: "NA_BGM_FIELD_INIT",
+    0x04: "NA_BGM_FIELD_DEFAULT_1",
+    0x05: "NA_BGM_FIELD_DEFAULT_2",
+    0x06: "NA_BGM_FIELD_DEFAULT_3",
+    0x07: "NA_BGM_FIELD_DEFAULT_4",
+    0x08: "NA_BGM_FIELD_DEFAULT_5",
+    0x09: "NA_BGM_FIELD_DEFAULT_6",
+    0x0A: "NA_BGM_FIELD_DEFAULT_7",
+    0x0B: "NA_BGM_FIELD_DEFAULT_8",
+    0x0C: "NA_BGM_FIELD_DEFAULT_9",
+    0x0D: "NA_BGM_FIELD_DEFAULT_A",
+    0x0E: "NA_BGM_FIELD_DEFAULT_B",
+    0x0F: "NA_BGM_FIELD_ENEMY_INIT",
+    0x10: "NA_BGM_FIELD_ENEMY_1",
+    0x11: "NA_BGM_FIELD_ENEMY_2",
+    0x12: "NA_BGM_FIELD_ENEMY_3",
+    0x13: "NA_BGM_FIELD_ENEMY_4",
+    0x14: "NA_BGM_FIELD_STILL_1",
+    0x15: "NA_BGM_FIELD_STILL_2",
+    0x16: "NA_BGM_FIELD_STILL_3",
+    0x17: "NA_BGM_FIELD_STILL_4",
+    0x18: "NA_BGM_DUNGEON",
+    0x19: "NA_BGM_KAKARIKO_ADULT",
+    0x1A: "NA_BGM_ENEMY",
+    0x1B: "NA_BGM_BOSS",
+    0x1C: "NA_BGM_INSIDE_DEKU_TREE",
+    0x1D: "NA_BGM_MARKET",
+    0x1E: "NA_BGM_TITLE",
+    0x1F: "NA_BGM_LINK_HOUSE",
+    0x20: "NA_BGM_GAME_OVER",
+    0x21: "NA_BGM_BOSS_CLEAR",
+    0x22: "NA_BGM_ITEM_GET",
+    0x23: "NA_BGM_OPENING_GANON",
+    0x24: "NA_BGM_HEART_GET",
+    0x25: "NA_BGM_OCA_LIGHT",
+    0x26: "NA_BGM_JABU_JABU",
+    0x27: "NA_BGM_KAKARIKO_KID",
+    0x28: "NA_BGM_GREAT_FAIRY",
+    0x29: "NA_BGM_ZELDA_THEME",
+    0x2A: "NA_BGM_FIRE_TEMPLE",
+    0x2B: "NA_BGM_OPEN_TRE_BOX",
+    0x2C: "NA_BGM_FOREST_TEMPLE",
+    0x2D: "NA_BGM_COURTYARD",
+    0x2E: "NA_BGM_GANON_TOWER",
+    0x2F: "NA_BGM_LONLON",
+    0x30: "NA_BGM_GORON_CITY",
+    0x31: "NA_BGM_FIELD_MORNING",
+    0x32: "NA_BGM_SPIRITUAL_STONE",
+    0x33: "NA_BGM_OCA_BOLERO",
+    0x34: "NA_BGM_OCA_MINUET",
+    0x35: "NA_BGM_OCA_SERENADE",
+    0x36: "NA_BGM_OCA_REQUIEM",
+    0x37: "NA_BGM_OCA_NOCTURNE",
+    0x38: "NA_BGM_MINI_BOSS",
+    0x39: "NA_BGM_SMALL_ITEM_GET",
+    0x3A: "NA_BGM_TEMPLE_OF_TIME",
+    0x3B: "NA_BGM_EVENT_CLEAR",
+    0x3C: "NA_BGM_KOKIRI",
+    0x3D: "NA_BGM_OCA_FAIRY_GET",
+    0x3E: "NA_BGM_SARIA_THEME",
+    0x3F: "NA_BGM_SPIRIT_TEMPLE",
+    0x40: "NA_BGM_HORSE",
+    0x41: "NA_BGM_HORSE_GOAL",
+    0x42: "NA_BGM_INGO",
+    0x43: "NA_BGM_MEDALLION_GET",
+    0x44: "NA_BGM_OCA_SARIA",
+    0x45: "NA_BGM_OCA_EPONA",
+    0x46: "NA_BGM_OCA_ZELDA",
+    0x47: "NA_BGM_OCA_SUNS",
+    0x48: "NA_BGM_OCA_TIME",
+    0x49: "NA_BGM_OCA_STORM",
+    0x4A: "NA_BGM_NAVI_OPENING",
+    0x4B: "NA_BGM_DEKU_TREE_CS",
+    0x4C: "NA_BGM_WINDMILL",
+    0x4D: "NA_BGM_HYRULE_CS",
+    0x4E: "NA_BGM_MINI_GAME",
+    0x4F: "NA_BGM_SHEIK",
+    0x50: "NA_BGM_ZORA_DOMAIN",
+    0x51: "NA_BGM_APPEAR",
+    0x52: "NA_BGM_ADULT_LINK",
+    0x53: "NA_BGM_MASTER_SWORD",
+    0x54: "NA_BGM_INTRO_GANON",
+    0x55: "NA_BGM_SHOP",
+    0x56: "NA_BGM_CHAMBER_OF_SAGES",
+    0x57: "NA_BGM_FILE_SELECT",
+    0x58: "NA_BGM_ICE_CAVERN",
+    0x59: "NA_BGM_DOOR_OF_TIME",
+    0x5A: "NA_BGM_OWL",
+    0x5B: "NA_BGM_SHADOW_TEMPLE",
+    0x5C: "NA_BGM_WATER_TEMPLE",
+    0x5D: "NA_BGM_BRIDGE_TO_GANONS",
+    0x5E: "NA_BGM_OCARINA_OF_TIME",
+    0x5F: "NA_BGM_GERUDO_VALLEY",
+    0x60: "NA_BGM_POTION_SHOP",
+    0x61: "NA_BGM_KOTAKE_KOUME",
+    0x62: "NA_BGM_ESCAPE",
+    0x63: "NA_BGM_UNDERGROUND",
+    0x64: "NA_BGM_GANONDORF_BOSS",
+    0x65: "NA_BGM_GANON_BOSS",
+    0x66: "NA_BGM_END_DEMO",
+    0x67: "NA_BGM_STAFF_1",
+    0x68: "NA_BGM_STAFF_2",
+    0x69: "NA_BGM_STAFF_3",
+    0x6A: "NA_BGM_STAFF_4",
+    0x6B: "NA_BGM_FIRE_BOSS",
+    0x6C: "NA_BGM_TIMED_MINI_GAME",
+    0x6D: "NA_BGM_CUTSCENE_EFFECTS",
+    0x7F: "NA_BGM_NO_MUSIC",
+    0x80: "NA_BGM_NATURE_SFX_RAIN",
+    0xFFFF: "NA_BGM_DISABLED",
+}
+
+cutscene_cmd_ids = {
+    0xFFFF: "CS_CMD_END_OF_SCRIPT",
+    0x0001: "CS_CMD_CAM_EYE_SPLINE",
+    0x0002: "CS_CMD_CAM_AT_SPLINE",
+    0x0003: "CS_CMD_MISC",
+    0x0004: "CS_CMD_LIGHT_SETTING",
+    0x0005: "CS_CMD_CAM_EYE_SPLINE_REL_TO_PLAYER",
+    0x0006: "CS_CMD_CAM_AT_SPLINE_REL_TO_PLAYER",
+    0x0007: "CS_CMD_CAM_EYE",
+    0x0008: "CS_CMD_CAM_AT",
+    0x0009: "CS_CMD_RUMBLE_CONTROLLER",
+    0x000A: "CS_CMD_PLAYER_CUE",
+    0x000B: "CS_CMD_UNIMPLEMENTED_B",
+    0x000D: "CS_CMD_UNIMPLEMENTED_D",
+    0x000E: "CS_CMD_ACTOR_CUE_1_0",
+    0x000F: "CS_CMD_ACTOR_CUE_0_0",
+    0x0010: "CS_CMD_ACTOR_CUE_1_1",
+    0x0011: "CS_CMD_ACTOR_CUE_0_1",
+    0x0012: "CS_CMD_ACTOR_CUE_0_2",
+    0x0013: "CS_CMD_TEXT",
+    0x0015: "CS_CMD_UNIMPLEMENTED_15",
+    0x0016: "CS_CMD_UNIMPLEMENTED_16",
+    0x0017: "CS_CMD_ACTOR_CUE_0_3",
+    0x0018: "CS_CMD_ACTOR_CUE_1_2",
+    0x0019: "CS_CMD_ACTOR_CUE_2_0",
+    0x001B: "CS_CMD_UNIMPLEMENTED_1B",
+    0x001C: "CS_CMD_UNIMPLEMENTED_1C",
+    0x001D: "CS_CMD_ACTOR_CUE_3_0",
+    0x001E: "CS_CMD_ACTOR_CUE_4_0",
+    0x001F: "CS_CMD_ACTOR_CUE_6_0",
+    0x0020: "CS_CMD_UNIMPLEMENTED_20",
+    0x0021: "CS_CMD_UNIMPLEMENTED_21",
+    0x0022: "CS_CMD_ACTOR_CUE_0_4",
+    0x0023: "CS_CMD_ACTOR_CUE_1_3",
+    0x0024: "CS_CMD_ACTOR_CUE_2_1",
+    0x0025: "CS_CMD_ACTOR_CUE_3_1",
+    0x0026: "CS_CMD_ACTOR_CUE_4_1",
+    0x0027: "CS_CMD_ACTOR_CUE_0_5",
+    0x0028: "CS_CMD_ACTOR_CUE_1_4",
+    0x0029: "CS_CMD_ACTOR_CUE_2_2",
+    0x002A: "CS_CMD_ACTOR_CUE_3_2",
+    0x002B: "CS_CMD_ACTOR_CUE_4_2",
+    0x002C: "CS_CMD_ACTOR_CUE_5_0",
+    0x002D: "CS_CMD_TRANSITION",
+    0x002E: "CS_CMD_ACTOR_CUE_0_6",
+    0x002F: "CS_CMD_ACTOR_CUE_4_3",
+    0x0030: "CS_CMD_ACTOR_CUE_1_5",
+    0x0031: "CS_CMD_ACTOR_CUE_7_0",
+    0x0032: "CS_CMD_ACTOR_CUE_2_3",
+    0x0033: "CS_CMD_ACTOR_CUE_3_3",
+    0x0034: "CS_CMD_ACTOR_CUE_6_1",
+    0x0035: "CS_CMD_ACTOR_CUE_3_4",
+    0x0036: "CS_CMD_ACTOR_CUE_4_4",
+    0x0037: "CS_CMD_ACTOR_CUE_5_1",
+    0x0039: "CS_CMD_ACTOR_CUE_6_2",
+    0x003A: "CS_CMD_ACTOR_CUE_6_3",
+    0x003B: "CS_CMD_UNIMPLEMENTED_3B",
+    0x003C: "CS_CMD_ACTOR_CUE_7_1",
+    0x003D: "CS_CMD_UNIMPLEMENTED_3D",
+    0x003E: "CS_CMD_ACTOR_CUE_8_0",
+    0x003F: "CS_CMD_ACTOR_CUE_3_5",
+    0x0040: "CS_CMD_ACTOR_CUE_1_6",
+    0x0041: "CS_CMD_ACTOR_CUE_3_6",
+    0x0042: "CS_CMD_ACTOR_CUE_3_7",
+    0x0043: "CS_CMD_ACTOR_CUE_2_4",
+    0x0044: "CS_CMD_ACTOR_CUE_1_7",
+    0x0045: "CS_CMD_ACTOR_CUE_2_5",
+    0x0046: "CS_CMD_ACTOR_CUE_1_8",
+    0x0047: "CS_CMD_UNIMPLEMENTED_47",
+    0x0048: "CS_CMD_ACTOR_CUE_2_6",
+    0x0049: "CS_CMD_UNIMPLEMENTED_49",
+    0x004A: "CS_CMD_ACTOR_CUE_2_7",
+    0x004B: "CS_CMD_ACTOR_CUE_3_8",
+    0x004C: "CS_CMD_ACTOR_CUE_0_7",
+    0x004D: "CS_CMD_ACTOR_CUE_5_2",
+    0x004E: "CS_CMD_ACTOR_CUE_1_9",
+    0x004F: "CS_CMD_ACTOR_CUE_4_5",
+    0x0050: "CS_CMD_ACTOR_CUE_1_10",
+    0x0051: "CS_CMD_ACTOR_CUE_2_8",
+    0x0052: "CS_CMD_ACTOR_CUE_3_9",
+    0x0053: "CS_CMD_ACTOR_CUE_4_6",
+    0x0054: "CS_CMD_ACTOR_CUE_5_3",
+    0x0055: "CS_CMD_ACTOR_CUE_0_8",
+    0x0056: "CS_CMD_START_SEQ",
+    0x0057: "CS_CMD_STOP_SEQ",
+    0x0058: "CS_CMD_ACTOR_CUE_6_4",
+    0x0059: "CS_CMD_ACTOR_CUE_7_2",
+    0x005A: "CS_CMD_ACTOR_CUE_5_4",
+    0x005D: "CS_CMD_ACTOR_CUE_0_9",
+    0x005E: "CS_CMD_ACTOR_CUE_1_11",
+    0x0069: "CS_CMD_ACTOR_CUE_0_10",
+    0x006A: "CS_CMD_ACTOR_CUE_2_9",
+    0x006B: "CS_CMD_ACTOR_CUE_0_11",
+    0x006C: "CS_CMD_ACTOR_CUE_3_10",
+    0x006D: "CS_CMD_UNIMPLEMENTED_6D",
+    0x006E: "CS_CMD_ACTOR_CUE_0_12",
+    0x006F: "CS_CMD_ACTOR_CUE_7_3",
+    0x0070: "CS_CMD_UNIMPLEMENTED_70",
+    0x0071: "CS_CMD_UNIMPLEMENTED_71",
+    0x0072: "CS_CMD_ACTOR_CUE_7_4",
+    0x0073: "CS_CMD_ACTOR_CUE_6_5",
+    0x0074: "CS_CMD_ACTOR_CUE_1_12",
+    0x0075: "CS_CMD_ACTOR_CUE_2_10",
+    0x0076: "CS_CMD_ACTOR_CUE_1_13",
+    0x0077: "CS_CMD_ACTOR_CUE_0_13",
+    0x0078: "CS_CMD_ACTOR_CUE_1_14",
+    0x0079: "CS_CMD_ACTOR_CUE_2_11",
+    0x007B: "CS_CMD_ACTOR_CUE_0_14",
+    0x007C: "CS_CMD_FADE_OUT_SEQ",
+    0x007D: "CS_CMD_ACTOR_CUE_1_15",
+    0x007E: "CS_CMD_ACTOR_CUE_2_12",
+    0x007F: "CS_CMD_ACTOR_CUE_3_11",
+    0x0080: "CS_CMD_ACTOR_CUE_4_7",
+    0x0081: "CS_CMD_ACTOR_CUE_5_5",
+    0x0082: "CS_CMD_ACTOR_CUE_6_6",
+    0x0083: "CS_CMD_ACTOR_CUE_1_16",
+    0x0084: "CS_CMD_ACTOR_CUE_2_13",
+    0x0085: "CS_CMD_ACTOR_CUE_3_12",
+    0x0086: "CS_CMD_ACTOR_CUE_7_5",
+    0x0087: "CS_CMD_ACTOR_CUE_4_8",
+    0x0088: "CS_CMD_ACTOR_CUE_5_6",
+    0x0089: "CS_CMD_ACTOR_CUE_6_7",
+    0x008A: "CS_CMD_ACTOR_CUE_0_15",
+    0x008B: "CS_CMD_ACTOR_CUE_0_16",
+    0x008C: "CS_CMD_TIME",
+    0x008D: "CS_CMD_ACTOR_CUE_1_17",
+    0x008E: "CS_CMD_ACTOR_CUE_7_6",
+    0x008F: "CS_CMD_ACTOR_CUE_9_0",
+    0x0090: "CS_CMD_ACTOR_CUE_0_17",
+    0x03E8: "CS_CMD_DESTINATION",
+}
+
+cutscene_misc_types = {
+    0x00: "CS_MISC_UNIMPLEMENTED_0",
+    0x01: "CS_MISC_RAIN",
+    0x02: "CS_MISC_LIGHTNING",
+    0x03: "CS_MISC_SET_CSFLAG_0",
+    0x04: "CS_MISC_UNIMPLEMENTED_4",
+    0x05: "CS_MISC_UNIMPLEMENTED_5",
+    0x06: "CS_MISC_LIFT_FOG",
+    0x07: "CS_MISC_CLOUDY_SKY",
+    0x08: "CS_MISC_FADE_KOKIRI_GRASS_ENV_ALPHA",
+    0x09: "CS_MISC_SNOW",
+    0x0A: "CS_MISC_SET_CSFLAG_1",
+    0x0B: "CS_MISC_DEKU_TREE_DEATH",
+    0x0C: "CS_MISC_STOP_CUTSCENE",
+    0x0D: "CS_MISC_TRIFORCE_FLASH",
+    0x0E: "CS_MISC_SET_LOCKED_VIEWPOINT",
+    0x0F: "CS_MISC_SHOW_TITLE_CARD",
+    0x10: "CS_MISC_QUAKE_START",
+    0x11: "CS_MISC_QUAKE_STOP",
+    0x12: "CS_MISC_STOP_STORM_AND_ADVANCE_TO_DAY",
+    0x13: "CS_MISC_SET_FLAG_FAST_WINDMILL",
+    0x14: "CS_MISC_SET_FLAG_DRAINED_WELL",
+    0x15: "CS_MISC_SET_FLAG_RESTORED_LAKE_HYLIA",
+    0x16: "CS_MISC_VISMONO_BLACK_AND_WHITE",
+    0x17: "CS_MISC_VISMONO_SEPIA",
+    0x18: "CS_MISC_HIDE_ROOM",
+    0x19: "CS_MISC_TIME_ADVANCE_TO_NIGHT",
+    0x1A: "CS_MISC_SET_TIME_BASED_LIGHT_SETTING",
+    0x1B: "CS_MISC_RED_PULSATING_LIGHTS",
+    0x1C: "CS_MISC_HALT_ALL_ACTORS",
+    0x1D: "CS_MISC_RESUME_ALL_ACTORS",
+    0x1E: "CS_MISC_SET_CSFLAG_3",
+    0x1F: "CS_MISC_SET_CSFLAG_4",
+    0x20: "CS_MISC_SANDSTORM_FILL",
+    0x21: "CS_MISC_SUNSSONG_START",
+    0x22: "CS_MISC_FREEZE_TIME",
+    0x23: "CS_MISC_LONG_SCARECROW_SONG",
+}
+
+cutscene_transition_types = {
+    0x01: "CS_TRANS_GRAY_FILL_IN",
+    0x02: "CS_TRANS_BLUE_FILL_IN",
+    0x03: "CS_TRANS_RED_FILL_OUT",
+    0x04: "CS_TRANS_GREEN_FILL_OUT",
+    0x05: "CS_TRANS_GRAY_FILL_OUT",
+    0x06: "CS_TRANS_BLUE_FILL_OUT",
+    0x07: "CS_TRANS_RED_FILL_IN",
+    0x08: "CS_TRANS_GREEN_FILL_IN",
+    0x09: "CS_TRANS_TRIGGER_INSTANCE",
+    0x0A: "CS_TRANS_BLACK_FILL_OUT",
+    0x0B: "CS_TRANS_BLACK_FILL_IN",
+    0x0C: "CS_TRANS_BLACK_FILL_OUT_TO_HALF",
+    0x0D: "CS_TRANS_BLACK_FILL_IN_FROM_HALF",
+}
+
+player_cue_ids = {
+    0x00: "PLAYER_CUEID_NONE",
+    0x01: "PLAYER_CUEID_1",
+    0x02: "PLAYER_CUEID_2",
+    0x03: "PLAYER_CUEID_3",
+    0x04: "PLAYER_CUEID_4",
+    0x05: "PLAYER_CUEID_5",
+    0x06: "PLAYER_CUEID_6",
+    0x07: "PLAYER_CUEID_7",
+    0x08: "PLAYER_CUEID_8",
+    0x09: "PLAYER_CUEID_9",
+    0x0A: "PLAYER_CUEID_10",
+    0x0B: "PLAYER_CUEID_11",
+    0x0C: "PLAYER_CUEID_12",
+    0x0D: "PLAYER_CUEID_13",
+    0x0E: "PLAYER_CUEID_14",
+    0x0F: "PLAYER_CUEID_15",
+    0x10: "PLAYER_CUEID_16",
+    0x11: "PLAYER_CUEID_17",
+    0x12: "PLAYER_CUEID_18",
+    0x13: "PLAYER_CUEID_19",
+    0x14: "PLAYER_CUEID_20",
+    0x15: "PLAYER_CUEID_21",
+    0x16: "PLAYER_CUEID_22",
+    0x17: "PLAYER_CUEID_23",
+    0x18: "PLAYER_CUEID_24",
+    0x19: "PLAYER_CUEID_25",
+    0x1A: "PLAYER_CUEID_26",
+    0x1B: "PLAYER_CUEID_27",
+    0x1C: "PLAYER_CUEID_28",
+    0x1D: "PLAYER_CUEID_29",
+    0x1E: "PLAYER_CUEID_30",
+    0x1F: "PLAYER_CUEID_31",
+    0x20: "PLAYER_CUEID_32",
+    0x21: "PLAYER_CUEID_33",
+    0x22: "PLAYER_CUEID_34",
+    0x23: "PLAYER_CUEID_35",
+    0x24: "PLAYER_CUEID_36",
+    0x25: "PLAYER_CUEID_37",
+    0x26: "PLAYER_CUEID_38",
+    0x27: "PLAYER_CUEID_39",
+    0x28: "PLAYER_CUEID_40",
+    0x29: "PLAYER_CUEID_41",
+    0x2A: "PLAYER_CUEID_42",
+    0x2B: "PLAYER_CUEID_43",
+    0x2C: "PLAYER_CUEID_44",
+    0x2D: "PLAYER_CUEID_45",
+    0x2E: "PLAYER_CUEID_46",
+    0x2F: "PLAYER_CUEID_47",
+    0x30: "PLAYER_CUEID_48",
+    0x31: "PLAYER_CUEID_49",
+    0x32: "PLAYER_CUEID_50",
+    0x33: "PLAYER_CUEID_51",
+    0x34: "PLAYER_CUEID_52",
+    0x35: "PLAYER_CUEID_53",
+    0x36: "PLAYER_CUEID_54",
+    0x37: "PLAYER_CUEID_55",
+    0x38: "PLAYER_CUEID_56",
+    0x39: "PLAYER_CUEID_57",
+    0x3A: "PLAYER_CUEID_58",
+    0x3B: "PLAYER_CUEID_59",
+    0x3C: "PLAYER_CUEID_60",
+    0x3D: "PLAYER_CUEID_61",
+    0x3E: "PLAYER_CUEID_62",
+    0x3F: "PLAYER_CUEID_63",
+    0x40: "PLAYER_CUEID_64",
+    0x41: "PLAYER_CUEID_65",
+    0x42: "PLAYER_CUEID_66",
+    0x43: "PLAYER_CUEID_67",
+    0x44: "PLAYER_CUEID_68",
+    0x45: "PLAYER_CUEID_69",
+    0x46: "PLAYER_CUEID_70",
+    0x47: "PLAYER_CUEID_71",
+    0x48: "PLAYER_CUEID_72",
+    0x49: "PLAYER_CUEID_73",
+    0x4A: "PLAYER_CUEID_74",
+    0x4B: "PLAYER_CUEID_75",
+    0x4C: "PLAYER_CUEID_76",
+    0x4D: "PLAYER_CUEID_77",
+    0x4E: "PLAYER_CUEID_MAX",
+}
+
+fade_out_seq_player = {
+    0x03: "CS_FADE_OUT_FANFARE",
+    0x04: "CS_FADE_OUT_BGM_MAIN",
+}
+
 """
 Entry format:
 
@@ -216,80 +607,81 @@ Argument format:
     s : decimal
     u : decimal unsigned
     x : hex
+    x-1 : hex but write the value read minus 1
     f : float
     e : enumeration
     n : unique identifier of which enum to use
 """
 cutscene_command_macros = {
     -1:
-        ("CS_END()", 1, None, None,
+        ("CS_END_OF_SCRIPT()", 1, None, None,
               None, None),
     3:
         ("CS_MISC_LIST(%w1:1:s)", 2, None, 0,
-              "CS_MISC(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
+              "CS_MISC(%h2:1:e4, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
     4:
-        ("CS_LIGHTING_LIST(%w1:1:s)", 2, None, 0,
-              "CS_LIGHTING(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+        ("CS_LIGHT_SETTING_LIST(%w1:1:s)", 2, None, 0,
+              "CS_LIGHT_SETTING(%h2:1:x-1, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x, %w1:10:x, %w1:11:x, %w1:12:x)", 12),
     86:
-        ("CS_PLAY_BGM_LIST(%w1:1:s)", 2, None, 0,
-              "CS_PLAY_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+        ("CS_START_SEQ_LIST(%w1:1:s)", 2, None, 0,
+              "CS_START_SEQ(%h2:1:e3, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     87:
-        ("CS_STOP_BGM_LIST(%w1:1:s)", 2, None, 0,
-              "CS_STOP_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+        ("CS_STOP_SEQ_LIST(%w1:1:s)", 2, None, 0,
+              "CS_STOP_SEQ(%h2:1:e3, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     124:
-        ("CS_FADE_BGM_LIST(%w1:1:s)", 2, None, 0,
-              "CS_FADE_BGM(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+        ("CS_FADE_OUT_SEQ_LIST(%w1:1:s)", 2, None, 0,
+              "CS_FADE_OUT_SEQ(%h2:1:e7, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     9:
-        ("CS_CMD_09_LIST(%w1:1:s)", 2, None, 0,
-              "CS_CMD_09(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %b4:3:x, %b3:3:x, %h1:3:x)", 3),
+        ("CS_RUMBLE_CONTROLLER_LIST(%w1:1:s)", 2, None, 0,
+              "CS_RUMBLE_CONTROLLER(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %b4:3:x, %b3:3:x, %h1:3:x)", 3),
     140:
         ("CS_TIME_LIST(%w1:1:s)", 2, None, 0,
-              "CS_TIME(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %w1:3:x)", 3),
+              "CS_TIME(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x)", 3),
     10:
-        ("CS_PLAYER_ACTION_LIST(%w1:1:s)", 2, None, 0,
-              "CS_PLAYER_ACTION(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
-    (15,17,18,23,34,39,46,76,85,93,105,107,110,119,123,138,139,144, # npc action 1
-     14,16,24,35,40,48,64,68,70,78,80,94,116,118,120,125,131,141,   # npc action 2
-     25,36,41,50,67,69,72,74,81,106,117,121,126,132,                # npc action 3
-     29,37,42,51,53,63,65,66,75,82,108,127,133,                     # npc action 4
-     30,38,43,47,54,79,83,128,135,                                  # npc action 5
-     44,55,77,84,90,129,136,                                        # npc action 6
-     31,52,57,58,88,115,130,137,                                    # npc action 7
-     49,60,89,111,114,134,142,                                      # npc action 8
-     62,                                                            # npc action 9
-     143):                                                          # npc action 10
-        ("CS_NPC_ACTION_LIST(%w1:0:s, %w1:1:s)", 2, None, 0,
-              "CS_NPC_ACTION(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
+        ("CS_PLAYER_CUE_LIST(%w1:1:s)", 2, None, 0,
+              "CS_PLAYER_CUE(%h2:1:e6, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
+    (15,17,18,23,34,39,46,76,85,93,105,107,110,119,123,138,139,144, # actor cue 1
+     14,16,24,35,40,48,64,68,70,78,80,94,116,118,120,125,131,141,   # actor cue 2
+     25,36,41,50,67,69,72,74,81,106,117,121,126,132,                # actor cue 3
+     29,37,42,51,53,63,65,66,75,82,108,127,133,                     # actor cue 4
+     30,38,43,47,54,79,83,128,135,                                  # actor cue 5
+     44,55,77,84,90,129,136,                                        # actor cue 6
+     31,52,57,58,88,115,130,137,                                    # actor cue 7
+     49,60,89,111,114,134,142,                                      # actor cue 8
+     62,                                                            # actor cue 9
+     143):                                                          # actor cue 10
+        ("CS_ACTOR_CUE_LIST(%w1:0:e8, %w1:1:s)", 2, None, 0,
+              "CS_ACTOR_CUE(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
     1:
-        ("CS_CAM_EYE_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
-              "CS_CAM_EYE(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+        ("CS_CAM_EYE_SPLINE(%h1:1:s, %h2:2:s)", 3, 0, None,
+              "CS_CAM_POINT(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     5:
-        ("CS_CAM_EYE_REL_TO_PLAYER_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
-              "CS_CAM_EYE_REL_TO_PLAYER(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+        ("CS_CAM_EYE_SPLINE_REL_TO_PLAYER(%h1:1:s, %h2:2:s)", 3, 0, None,
+              "CS_CAM_POINT(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     2:
-        ("CS_CAM_AT_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
-              "CS_CAM_AT(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+        ("CS_CAM_AT_SPLINE(%h1:1:s, %h2:2:s)", 3, 0, None,
+              "CS_CAM_POINT(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     6:
-        ("CS_CAM_AT_REL_TO_PLAYER_LIST(%h1:1:s, %h2:2:s)", 3, 0, None,
-              "CS_CAM_AT_REL_TO_PLAYER(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+        ("CS_CAM_AT_SPLINE_REL_TO_PLAYER(%h1:1:s, %h2:2:s)", 3, 0, None,
+              "CS_CAM_POINT(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     7:
-        ("CS_CMD_07_LIST(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x)", 3, None, -1,
-              "CS_CMD_07(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+        ("CS_CAM_EYE_LIST(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x)", 3, None, -1,
+              "CS_CAM_POINT(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     8:
-        ("CS_CMD_08_LIST(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x)", 3, None, -1,
-              "CS_CMD_08(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
+        ("CS_CAM_AT_LIST(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x)", 3, None, -1,
+              "CS_CAM_POINT(%b4:1:e0, %b3:1:x, %h1:1:s, %w1:2:f, %h2:3:s, %h1:3:s, %h2:4:s, %h1:4:x)", 4),
     1000:
-        ("CS_TERMINATOR(%h2:2:e1, %h1:2:s, %h2:3:s)", 4, None, None,
+        ("CS_DESTINATION(%h2:2:e1, %h1:2:s, %h2:3:s)", 4, None, None,
               None, None),
     19:
         ("CS_TEXT_LIST(%w1:1:s)", 2, None, 0,
               "__SPECIAL(CS_TEXT_LIST)", 3),
     45:
-        ("CS_SCENE_TRANS_FX(%h2:2:x, %h1:2:s, %h2:3:s)", 4, None, None,
+        ("CS_TRANSITION(%h2:2:e5, %h1:2:s, %h2:3:s)", 4, None, None,
               None, None),
 }
 
-begin_cutscene_entry = ("CS_BEGIN_CUTSCENE(%w1:0:s, %w1:1:s)", 2, None, None,
+begin_cutscene_entry = ("CS_HEADER(%w1:0:s, %w1:1:s)", 2, None, None,
                             None, None)
 
 unk_data_entry = ("CS_UNK_DATA_LIST(%w1:0:x, %w1:1:s)", 2, None, 0,
@@ -347,7 +739,17 @@ def get_word_unsigned(word):
     return struct.unpack(">I", struct.pack(">I", word))[0]
 
 def get_float(word):
-    return struct.unpack(">f", struct.pack(">i", word))[0]
+    word_bytes = struct.pack(">i", word)
+    v = struct.unpack(">f", word_bytes)[0]
+    if v == 0:
+        return v
+    ndigits = -math.ceil(math.log10(abs(v)))
+    while ndigits < 100:
+        v_rounded = round(v, ndigits)
+        if struct.pack(">f", v_rounded) == word_bytes:
+            return v_rounded
+        ndigits += 1
+    return v
 
 """
 Formatting
@@ -387,19 +789,34 @@ def format_arg(arg, words):
     if "e" in format_type:
         enum_no = int(format_type[1])
         if enum_no == 0:
-            result = command_continue_stop[unsigned_value]
+            result = cscam_continue_stop[unsigned_value]
         elif enum_no == 1:
-            result = cutscene_terminator_destinations[unsigned_value]
+            result = cutscene_destinations[unsigned_value]
         elif enum_no == 2:
             result = ocarina_action_ids[unsigned_value]
+        elif enum_no == 3:
+            result = sequence_ids[unsigned_value - 1]
+        elif enum_no == 4:
+            result = cutscene_misc_types[unsigned_value]
+        elif enum_no == 5:
+            result = cutscene_transition_types[unsigned_value]
+        elif enum_no == 6:
+            result = player_cue_ids[unsigned_value]
+        elif enum_no == 7:
+            result = fade_out_seq_player[unsigned_value]
+        elif enum_no == 8:
+            result = cutscene_cmd_ids[unsigned_value]
     elif format_type == "u":
         result = str(value)
     elif format_type == "s":
         result = str(value)
     elif format_type == "x":
         result = "0x" + pad(hex(unsigned_value), pad_len).upper()
+    elif format_type == "x-1":
+        assert unsigned_value > 0
+        result = "0x" + pad(hex(unsigned_value - 1), pad_len).upper()
     elif format_type == "f":
-        result = str(get_float(value))+"f"
+        result = f"CS_FLOAT(0x{unsigned_value:X}, {get_float(value)}f)"
     else:
         print("Something went wrong!") # TODO more debug info
         os._exit(1)
@@ -412,9 +829,9 @@ def format_cmd(cmd, words):
             if get_short_unsigned(words[1], 0) == 0xFFFF:
                 cmd = "CS_TEXT_NONE(%h1:1:s, %h2:2:s)"
             elif get_short(words[2], 1) == 2:
-                cmd = "CS_TEXT_LEARN_SONG(%h2:1:e2, %h1:1:s, %h2:2:s, %h2:3:x)"
+                cmd = "CS_TEXT_OCARINA_ACTION(%h2:1:e2, %h1:1:s, %h2:2:s, %h2:3:x)"
             else:
-                cmd = "CS_TEXT_DISPLAY_TEXTBOX(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x)"
+                cmd = "CS_TEXT(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x)"
     for arg in args_list(cmd):
         cmd = cmd.replace(arg, format_arg(arg, words))
     return cmd
@@ -426,7 +843,12 @@ Note that this isn't protected against indexing errors since a cutscene should a
 end before the end of the file it's in.
 """
 
-def disassemble_cutscene(cs_in):
+def disassemble_cutscene(cs_in) -> tuple[int, str]:
+    """
+    Takes a sequence of words cs_in
+
+    Returns a tuple (cutscene_size_in_words, cutscene_macros_source)
+    """
     i = 0
     total_entries = cs_in[i]
     i+=1
@@ -435,12 +857,14 @@ def disassemble_cutscene(cs_in):
     if (total_entries < 0 or cutscene_end_frame < 0):
         print("This cutscene would abort if played in-engine")
         if total_entries < 0:
-            return "Could not disassemble cutscene: Number of commands is negative"
+            raise Exception("Could not disassemble cutscene: Number of commands is negative")
     macros = format_cmd(begin_cutscene_entry[0], [total_entries, cutscene_end_frame])+line_end
+    # iterate total_entries+1 times to also parse the CS_END_OF_SCRIPT command,
+    # which is not included in the count
     for k in range(0,total_entries+1):
         cmd_type = cs_in[i]
         if (cmd_type == 0xFFFFFFFF):
-            return macros + multi_key(-1)[0]+line_end
+            return (i+2), (macros + multi_key(-1)[0]+line_end)
         entry = multi_key(cmd_type)
         if entry is None:
             entry = unk_data_entry
@@ -472,13 +896,15 @@ def disassemble_cutscene(cs_in):
                     i += n_words_list_item
         else:
             i += n_words
-    print("Warning: cutscene reached maximum entries without encountering a CS_END command")
-    return macros
+    print("Warning: cutscene reached maximum entries without encountering a CS_END_SCRIPT command")
+    return i, macros
 
 def hex_parse(s):
     return int(s, 16)
 
 def main():
+    from overlayhelpers import filemap
+
     parser = argparse.ArgumentParser(description="Disassembles cutscenes for OoT")
     parser.add_argument('address', help="VRAM or ROM address to disassemble at", type=hex_parse)
     args = parser.parse_args()
@@ -496,11 +922,11 @@ def main():
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     cs_data = None
-    with open(script_dir + "/../baserom/" + file_result.name, "rb") as ovl_file:
+    with open(script_dir + "/../extracted/gc-eu-mq-dbg/baserom/" + file_result.name, "rb") as ovl_file:
         ovl_file.seek(file_result.offset)
         cs_data = [i[0] for i in struct.iter_unpack(">I",  bytearray(ovl_file.read()))]
     if cs_data is not None:
-        print("static CutsceneData D_" + hex(args.address).replace("0x","").upper() + "[] = {\n" + indent+disassemble_cutscene(cs_data).replace(linesep,linesep+indent).rstrip()+"\n};")
+        print("static CutsceneData D_" + hex(args.address).replace("0x","").upper() + "[] = {\n" + indent+disassemble_cutscene(cs_data)[1].replace(linesep,linesep+indent).rstrip()+"\n};")
 
 if __name__ == "__main__":
     main()

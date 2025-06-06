@@ -5,9 +5,24 @@
  */
 
 #include "z_en_arrow.h"
+
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnArrow_Init(Actor* thisx, PlayState* play);
 void EnArrow_Destroy(Actor* thisx, PlayState* play);
@@ -19,21 +34,21 @@ void EnArrow_Fly(EnArrow* this, PlayState* play);
 void func_809B45E0(EnArrow* this, PlayState* play);
 void func_809B4640(EnArrow* this, PlayState* play);
 
-const ActorInit En_Arrow_InitVars = {
-    ACTOR_EN_ARROW,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnArrow),
-    (ActorFunc)EnArrow_Init,
-    (ActorFunc)EnArrow_Destroy,
-    (ActorFunc)EnArrow_Update,
-    (ActorFunc)EnArrow_Draw,
+ActorProfile En_Arrow_Profile = {
+    /**/ ACTOR_EN_ARROW,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnArrow),
+    /**/ EnArrow_Init,
+    /**/ EnArrow_Destroy,
+    /**/ EnArrow_Update,
+    /**/ EnArrow_Draw,
 };
 
-static ColliderQuadInit sColliderInit = {
+static ColliderQuadInit sColliderQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -41,11 +56,11 @@ static ColliderQuadInit sColliderInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000020, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -118,18 +133,18 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         }
 
         Collider_InitQuad(play, &this->collider);
-        Collider_SetQuad(play, &this->collider, &this->actor, &sColliderInit);
+        Collider_SetQuad(play, &this->collider, &this->actor, &sColliderQuadInit);
 
         if (this->actor.params <= ARROW_NORMAL) {
-            this->collider.info.toucherFlags &= ~TOUCH_SFX_MASK;
-            this->collider.info.toucherFlags |= TOUCH_SFX_NORMAL;
+            this->collider.elem.atElemFlags &= ~ATELEM_SFX_MASK;
+            this->collider.elem.atElemFlags |= ATELEM_SFX_NORMAL;
         }
 
         if (this->actor.params < 0) {
             this->collider.base.atFlags = (AT_ON | AT_TYPE_ENEMY);
         } else if (this->actor.params <= ARROW_SEED) {
-            this->collider.info.toucher.dmgFlags = dmgFlags[this->actor.params];
-            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.info.toucher.dmgFlags,
+            this->collider.elem.atDmgInfo.dmgFlags = dmgFlags[this->actor.params];
+            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.elem.atDmgInfo.dmgFlags,
                     "../z_en_arrow.c", 707);
         }
     }
@@ -148,7 +163,7 @@ void EnArrow_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyQuad(play, &this->collider);
 
     if ((this->hitActor != NULL) && (this->hitActor->update != NULL)) {
-        this->hitActor->flags &= ~ACTOR_FLAG_15;
+        this->hitActor->flags &= ~ACTOR_FLAG_ATTACHED_TO_ARROW;
     }
 }
 
@@ -163,19 +178,19 @@ void EnArrow_Shoot(EnArrow* this, PlayState* play) {
 
         switch (this->actor.params) {
             case ARROW_SEED:
-                func_8002F7DC(&player->actor, NA_SE_IT_SLING_SHOT);
+                Player_PlaySfx(player, NA_SE_IT_SLING_SHOT);
                 break;
 
             case ARROW_NORMAL_LIT:
             case ARROW_NORMAL_HORSE:
             case ARROW_NORMAL:
-                func_8002F7DC(&player->actor, NA_SE_IT_ARROW_SHOT);
+                Player_PlaySfx(player, NA_SE_IT_ARROW_SHOT);
                 break;
 
             case ARROW_FIRE:
             case ARROW_ICE:
             case ARROW_LIGHT:
-                func_8002F7DC(&player->actor, NA_SE_IT_MAGIC_ARROW_SHOT);
+                Player_PlaySfx(player, NA_SE_IT_MAGIC_ARROW_SHOT);
                 break;
         }
 
@@ -183,11 +198,11 @@ void EnArrow_Shoot(EnArrow* this, PlayState* play) {
         Math_Vec3f_Copy(&this->unk_210, &this->actor.world.pos);
 
         if (this->actor.params >= ARROW_SEED) {
-            func_8002D9A4(&this->actor, 80.0f);
+            Actor_SetProjectileSpeed(&this->actor, 80.0f);
             this->timer = 15;
             this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
         } else {
-            func_8002D9A4(&this->actor, 150.0f);
+            Actor_SetProjectileSpeed(&this->actor, 150.0f);
             this->timer = 12;
         }
     }
@@ -197,8 +212,8 @@ void func_809B3CEC(PlayState* play, EnArrow* this) {
     EnArrow_SetupAction(this, func_809B4640);
     Animation_PlayOnce(&this->skelAnime, &gArrow1Anim);
     this->actor.world.rot.y += (s32)(24576.0f * (Rand_ZeroOne() - 0.5f)) + 0x8000;
-    this->actor.velocity.y += (this->actor.speedXZ * (0.4f + (0.4f * Rand_ZeroOne())));
-    this->actor.speedXZ *= (0.04f + 0.3f * Rand_ZeroOne());
+    this->actor.velocity.y += (this->actor.speed * (0.4f + (0.4f * Rand_ZeroOne())));
+    this->actor.speed *= (0.04f + 0.3f * Rand_ZeroOne());
     this->timer = 50;
     this->actor.gravity = -1.5f;
 }
@@ -246,8 +261,6 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
     s32 atTouched;
     u16 sfxId;
     Actor* hitActor;
-    Vec3f sp60;
-    Vec3f sp54;
 
     if (DECR(this->timer) == 0) {
         Actor_Kill(&this->actor);
@@ -270,7 +283,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
             }
 
             if (this->actor.params == ARROW_NUT) {
-                iREG(50) = -1;
+                R_TRANS_FADE_FLASH_ALPHA_STEP = -1;
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_M_FIRE1, this->actor.world.pos.x, this->actor.world.pos.y,
                             this->actor.world.pos.z, 0, 0, 0, 0);
                 sfxId = NA_SE_IT_DEKU;
@@ -279,35 +292,35 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
             }
 
             EffectSsStone1_Spawn(play, &this->actor.world.pos, 0);
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, sfxId);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, sfxId);
             Actor_Kill(&this->actor);
         } else {
             EffectSsHitMark_SpawnCustomScale(play, 0, 150, &this->actor.world.pos);
 
-            if (atTouched && (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
+            if (atTouched && (this->collider.elem.atHitElem->elemMaterial != ELEM_MATERIAL_UNK4)) {
                 hitActor = this->collider.base.at;
 
                 if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED) &&
-                    (hitActor->flags & ACTOR_FLAG_14)) {
+                    (hitActor->flags & ACTOR_FLAG_CAN_ATTACH_TO_ARROW)) {
                     this->hitActor = hitActor;
                     EnArrow_CarryActor(this, play);
                     Math_Vec3f_Diff(&hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
-                    hitActor->flags |= ACTOR_FLAG_15;
+                    hitActor->flags |= ACTOR_FLAG_ATTACHED_TO_ARROW;
                     this->collider.base.atFlags &= ~AT_HIT;
-                    this->actor.speedXZ /= 2.0f;
+                    this->actor.speed /= 2.0f;
                     this->actor.velocity.y /= 2.0f;
                 } else {
                     this->hitFlags |= 1;
                     this->hitFlags |= 2;
 
-                    if (this->collider.info.atHitInfo->bumperFlags & BUMP_HIT) {
-                        this->actor.world.pos.x = this->collider.info.atHitInfo->bumper.hitPos.x;
-                        this->actor.world.pos.y = this->collider.info.atHitInfo->bumper.hitPos.y;
-                        this->actor.world.pos.z = this->collider.info.atHitInfo->bumper.hitPos.z;
+                    if (this->collider.elem.atHitElem->acElemFlags & ACELEM_HIT) {
+                        this->actor.world.pos.x = this->collider.elem.atHitElem->acDmgInfo.hitPos.x;
+                        this->actor.world.pos.y = this->collider.elem.atHitElem->acDmgInfo.hitPos.y;
+                        this->actor.world.pos.z = this->collider.elem.atHitElem->acDmgInfo.hitPos.z;
                     }
 
                     func_809B3CEC(play, this);
-                    Audio_PlayActorSound2(&this->actor, NA_SE_IT_ARROW_STICK_CRE);
+                    Actor_PlaySfx(&this->actor, NA_SE_IT_ARROW_STICK_CRE);
                 }
             } else if (this->touchedPoly) {
                 EnArrow_SetupAction(this, func_809B45E0);
@@ -319,13 +332,13 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->timer = 20;
                 }
 
-                Audio_PlayActorSound2(&this->actor, NA_SE_IT_ARROW_STICK_OBJ);
+                Actor_PlaySfx(&this->actor, NA_SE_IT_ARROW_STICK_OBJ);
                 this->hitFlags |= 1;
             }
         }
     } else {
         Math_Vec3f_Copy(&this->unk_210, &this->actor.world.pos);
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
 
         if ((this->touchedPoly =
                  BgCheck_ProjectileLineTest(&play->colCtx, &this->actor.prevPos, &this->actor.world.pos, &hitPoint,
@@ -336,12 +349,15 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
         }
 
         if (this->actor.params <= ARROW_0E) {
-            this->actor.shape.rot.x = Math_Atan2S(this->actor.speedXZ, -this->actor.velocity.y);
+            this->actor.shape.rot.x = Math_Atan2S(this->actor.speed, -this->actor.velocity.y);
         }
     }
 
     if (this->hitActor != NULL) {
         if (this->hitActor->update != NULL) {
+            Vec3f sp60;
+            Vec3f sp54;
+
             Math_Vec3f_Sum(&this->unk_210, &this->unk_250, &sp60);
             Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &sp54);
 
@@ -351,14 +367,14 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                 this->hitActor->world.pos.y = hitPoint.y + ((sp54.y <= hitPoint.y) ? 1.0f : -1.0f);
                 this->hitActor->world.pos.z = hitPoint.z + ((sp54.z <= hitPoint.z) ? 1.0f : -1.0f);
                 Math_Vec3f_Diff(&this->hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
-                this->hitActor->flags &= ~ACTOR_FLAG_15;
+                this->hitActor->flags &= ~ACTOR_FLAG_ATTACHED_TO_ARROW;
                 this->hitActor = NULL;
             } else {
                 Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &this->hitActor->world.pos);
             }
 
             if (this->touchedPoly && (this->hitActor != NULL)) {
-                this->hitActor->flags &= ~ACTOR_FLAG_15;
+                this->hitActor->flags &= ~ACTOR_FLAG_ATTACHED_TO_ARROW;
                 this->hitActor = NULL;
             }
         } else {
@@ -377,7 +393,7 @@ void func_809B45E0(EnArrow* this, PlayState* play) {
 
 void func_809B4640(EnArrow* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (DECR(this->timer) == 0) {
         Actor_Kill(&this->actor);
@@ -458,7 +474,7 @@ void EnArrow_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         SkelAnime_DrawLod(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, this,
                           (this->actor.projectedPos.z < MREG(95)) ? 0 : 1);
-    } else if (this->actor.speedXZ != 0.0f) {
+    } else if (this->actor.speed != 0.0f) {
         alpha = (Math_CosS(this->timer * 5000) * 127.5f) + 127.5f;
 
         OPEN_DISPS(play->state.gfxCtx, "../z_en_arrow.c", 1346);
@@ -478,11 +494,10 @@ void EnArrow_Draw(Actor* thisx, PlayState* play) {
         Matrix_Push();
         Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
         // redundant check because this is contained in an if block for non-zero speed
-        Matrix_RotateZ((this->actor.speedXZ == 0.0f) ? 0.0f : BINANG_TO_RAD((play->gameplayFrames & 0xFF) * 4000),
+        Matrix_RotateZ((this->actor.speed == 0.0f) ? 0.0f : BINANG_TO_RAD((play->gameplayFrames & 0xFF) * 4000),
                        MTXMODE_APPLY);
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_arrow.c", 1374),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_arrow.c", 1374);
         gSPDisplayList(POLY_XLU_DISP++, gEffSparklesDL);
         Matrix_Pop();
         Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_APPLY);

@@ -5,9 +5,20 @@
  */
 
 #include "z_bg_mori_idomizu.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgMoriIdomizu_Init(Actor* thisx, PlayState* play);
 void BgMoriIdomizu_Destroy(Actor* thisx, PlayState* play);
@@ -21,16 +32,16 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-const ActorInit Bg_Mori_Idomizu_InitVars = {
-    ACTOR_BG_MORI_IDOMIZU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriIdomizu),
-    (ActorFunc)BgMoriIdomizu_Init,
-    (ActorFunc)BgMoriIdomizu_Destroy,
-    (ActorFunc)BgMoriIdomizu_Update,
-    NULL,
+ActorProfile Bg_Mori_Idomizu_Profile = {
+    /**/ ACTOR_BG_MORI_IDOMIZU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriIdomizu),
+    /**/ BgMoriIdomizu_Init,
+    /**/ BgMoriIdomizu_Destroy,
+    /**/ BgMoriIdomizu_Update,
+    /**/ NULL,
 };
 
 void BgMoriIdomizu_SetupAction(BgMoriIdomizu* this, BgMoriIdomizuActionFunc actionFunc) {
@@ -58,7 +69,7 @@ void BgMoriIdomizu_Init(Actor* thisx, PlayState* play) {
     this->actor.scale.z = 1.0f;
     this->actor.world.pos.x = 119.0f;
     this->actor.world.pos.z = -1820.0f;
-    this->prevSwitchFlagSet = Flags_GetSwitch(play, this->actor.params & 0x3F);
+    this->prevSwitchFlagSet = Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6));
     if (this->prevSwitchFlagSet != 0) {
         this->actor.world.pos.y = -282.0f;
         BgMoriIdomizu_SetWaterLevel(play, -282);
@@ -66,20 +77,19 @@ void BgMoriIdomizu_Init(Actor* thisx, PlayState* play) {
         this->actor.world.pos.y = 184.0f;
         BgMoriIdomizu_SetWaterLevel(play, 184);
     }
-    this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
+    this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjectSlot < 0) {
         Actor_Kill(&this->actor);
-        // "Bank danger!"
-        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_bg_mori_idomizu.c",
-                     202);
+        PRINTF(T("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               this->actor.params, "../z_bg_mori_idomizu.c", 202);
         return;
     }
     BgMoriIdomizu_SetupWaitForMoriTex(this);
     sIsSpawned = true;
     this->isLoaded = true;
     this->actor.room = -1;
-    // "Forest Temple well water"
-    osSyncPrintf("(森の神殿 井戸水)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF(T("(森の神殿 井戸水)(arg_data 0x%04x)\n", "(Forest Temple well water)(arg_data 0x%04x)\n"),
+           this->actor.params);
 }
 
 void BgMoriIdomizu_Destroy(Actor* thisx, PlayState* play) {
@@ -96,7 +106,7 @@ void BgMoriIdomizu_SetupWaitForMoriTex(BgMoriIdomizu* this) {
 }
 
 void BgMoriIdomizu_WaitForMoriTex(BgMoriIdomizu* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjectSlot)) {
         BgMoriIdomizu_SetupMain(this);
         this->actor.draw = BgMoriIdomizu_Draw;
     }
@@ -112,7 +122,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play) {
     s32 switchFlagSet;
 
     roomNum = play->roomCtx.curRoom.num;
-    switchFlagSet = Flags_GetSwitch(play, thisx->params & 0x3F);
+    switchFlagSet = Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6));
     if (switchFlagSet) {
         this->targetWaterLevel = -282.0f;
     } else {
@@ -133,9 +143,9 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play) {
             BgMoriIdomizu_SetWaterLevel(play, thisx->world.pos.y);
             if (this->drainTimer > 0) {
                 if (switchFlagSet) {
-                    func_800788CC(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+                    Sfx_PlaySfxCentered2(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
                 } else {
-                    func_800788CC(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+                    Sfx_PlaySfxCentered2(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
                 }
             }
         }
@@ -166,16 +176,16 @@ void BgMoriIdomizu_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_idomizu.c", 360),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_mori_idomizu.c", 360);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, play->objectCtx.status[this->moriTexObjIndex].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 128);
 
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0x7F - (gameplayFrames & 0x7F), gameplayFrames % 0x80, 0x20,
-                                0x20, 1, gameplayFrames & 0x7F, gameplayFrames % 0x80, 0x20, 0x20));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0x7F - (gameplayFrames & 0x7F),
+                                gameplayFrames % 0x80, 0x20, 0x20, 1, gameplayFrames & 0x7F, gameplayFrames % 0x80,
+                                0x20, 0x20));
 
     gSPDisplayList(POLY_XLU_DISP++, gMoriIdomizuWaterDL);
 

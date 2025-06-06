@@ -5,10 +5,21 @@
  */
 
 #include "z_en_dy_extra.h"
-#include "assets/objects/object_dy_obj/object_dy_obj.h"
-#include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#include "assets/objects/object_dy_obj/object_dy_obj.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnDyExtra_Init(Actor* thisx, PlayState* play);
 void EnDyExtra_Destroy(Actor* thisx, PlayState* play);
@@ -18,16 +29,16 @@ void EnDyExtra_Draw(Actor* thisx, PlayState* play);
 void EnDyExtra_WaitForTrigger(EnDyExtra* this, PlayState* play);
 void EnDyExtra_FallAndKill(EnDyExtra* this, PlayState* play);
 
-const ActorInit En_Dy_Extra_InitVars = {
-    ACTOR_EN_DY_EXTRA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DY_OBJ,
-    sizeof(EnDyExtra),
-    (ActorFunc)EnDyExtra_Init,
-    (ActorFunc)EnDyExtra_Destroy,
-    (ActorFunc)EnDyExtra_Update,
-    (ActorFunc)EnDyExtra_Draw,
+ActorProfile En_Dy_Extra_Profile = {
+    /**/ ACTOR_EN_DY_EXTRA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DY_OBJ,
+    /**/ sizeof(EnDyExtra),
+    /**/ EnDyExtra_Init,
+    /**/ EnDyExtra_Destroy,
+    /**/ EnDyExtra_Update,
+    /**/ EnDyExtra_Draw,
 };
 
 void EnDyExtra_Destroy(Actor* thisx, PlayState* play) {
@@ -36,9 +47,9 @@ void EnDyExtra_Destroy(Actor* thisx, PlayState* play) {
 void EnDyExtra_Init(Actor* thisx, PlayState* play) {
     EnDyExtra* this = (EnDyExtra*)thisx;
 
-    osSyncPrintf("\n\n");
-    // "Big fairy effect"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+    PRINTF("\n\n");
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Big fairy effect ☆☆☆☆☆ %d\n") VT_RST,
+           this->actor.params);
     this->type = this->actor.params;
     this->scale.x = 0.025f;
     this->scale.y = 0.039f;
@@ -82,9 +93,9 @@ void EnDyExtra_Update(Actor* thisx, PlayState* play) {
     this->actor.scale.x = this->scale.x;
     this->actor.scale.y = this->scale.y;
     this->actor.scale.z = this->scale.z;
-    Audio_PlayActorSound2(&this->actor, NA_SE_PL_SPIRAL_HEAL_BEAM - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_PL_SPIRAL_HEAL_BEAM - SFX_FLAG);
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 }
 
 void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
@@ -93,8 +104,8 @@ void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
     static u8 D_809FFC50[] = { 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01,
                                0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x01, 0x02, 0x00 };
     EnDyExtra* this = (EnDyExtra*)thisx;
-    s32 pad;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
+    s32 pad;
     Vtx* vertices = SEGMENTED_TO_VIRTUAL(gGreatFairySpiralBeamVtx);
     s32 i;
     u8 unk[3];
@@ -113,11 +124,10 @@ void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, play->state.frames * 2, 0, 0x20, 0x40, 1, play->state.frames,
-                                play->state.frames * -8, 0x10, 0x10));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->state.frames * 2, 0, 0x20, 0x40, 1,
+                                play->state.frames, play->state.frames * -8, 0x10, 0x10));
     gDPPipeSync(POLY_XLU_DISP++);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dy_extra.c", 307),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_dy_extra.c", 307);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
                     primColors[this->type].b, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b, 128);

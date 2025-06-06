@@ -2,7 +2,6 @@
 
 import os
 import re
-import sys
 import struct
 
 script_dir = os.path.dirname(os.path.realpath(__file__))

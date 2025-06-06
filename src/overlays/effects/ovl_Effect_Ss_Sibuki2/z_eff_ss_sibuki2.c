@@ -5,6 +5,14 @@
  */
 
 #include "z_eff_ss_sibuki2.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
@@ -15,14 +23,14 @@
 #define rEnvColorG regs[5]
 #define rEnvColorB regs[6]
 #define rEnvColorA regs[7]
-#define rTexIdx regs[8]
+#define rTexIndex regs[8]
 #define rScale regs[9]
 
 u32 EffectSsSibuki2_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsSibuki2_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsSibuki2_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_Sibuki2_InitVars = {
+EffectSsProfile Effect_Ss_Sibuki2_Profile = {
     EFFECT_SS_SIBUKI2,
     EffectSsSibuki2_Init,
 };
@@ -45,7 +53,7 @@ u32 EffectSsSibuki2_Init(PlayState* play, u32 index, EffectSs* this, void* initP
     this->rEnvColorG = 100;
     this->rEnvColorB = 100;
     this->rEnvColorA = 255;
-    this->rTexIdx = 0;
+    this->rTexIndex = 0;
 
     return 1;
 }
@@ -63,19 +71,18 @@ void EffectSsSibuki2_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_sibuki2.c", 171),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_ss_sibuki2.c", 171);
     Gfx_SetupDL_25Opa(gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
     gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(bubbleTextures[this->rTexIdx]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(bubbleTextures[this->rTexIndex]));
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffUnusedBubblesDL));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_sibuki2.c", 198);
 }
 
 void EffectSsSibuki2_Update(PlayState* play, u32 index, EffectSs* this) {
-    if (this->rTexIdx < 8) {
-        this->rTexIdx++;
+    if (this->rTexIndex < 8) {
+        this->rTexIndex++;
     }
 }

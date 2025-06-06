@@ -2,12 +2,12 @@
 #define Z_EN_GM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnGm;
 
-typedef void (*EnGmUpdateFunc)(struct EnGm*, PlayState*);
-typedef void (*EnGmActionFunc)(struct EnGm*, PlayState*);
+typedef void (*EnGmUpdateFunc)(struct EnGm*, struct PlayState*);
+typedef void (*EnGmActionFunc)(struct EnGm*, struct PlayState*);
 
 typedef struct EnGm {
     /* 0x0000 */ Actor actor;
@@ -17,7 +17,7 @@ typedef struct EnGm {
     /* 0x0268 */ EnGmUpdateFunc updateFunc;
     /* 0x026C */ EnGmActionFunc actionFunc;
     /* 0x0270 */ ColliderCylinder collider;
-    /* 0x02BC */ s8 objGmBankIndex;
+    /* 0x02BC */ s8 gmObjectSlot;
     /* 0x02BE */ s16 timer;
     /* 0x02C0 */ s16 blinkTimer;
     /* 0x02C2 */ u8 eyeTexIndex;

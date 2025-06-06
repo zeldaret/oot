@@ -5,9 +5,18 @@
  */
 
 #include "z_bg_jya_bigmirror.h"
+#include "overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "play_state.h"
+
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgJyaBigmirror_Init(Actor* thisx, PlayState* play);
 void BgJyaBigmirror_Destroy(Actor* thisx, PlayState* play);
@@ -16,19 +25,19 @@ void BgJyaBigmirror_Draw(Actor* thisx, PlayState* play);
 
 static u8 sIsSpawned = false;
 
-const ActorInit Bg_Jya_Bigmirror_InitVars = {
-    ACTOR_BG_JYA_BIGMIRROR,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaBigmirror),
-    (ActorFunc)BgJyaBigmirror_Init,
-    (ActorFunc)BgJyaBigmirror_Destroy,
-    (ActorFunc)BgJyaBigmirror_Update,
-    (ActorFunc)BgJyaBigmirror_Draw,
+ActorProfile Bg_Jya_Bigmirror_Profile = {
+    /**/ ACTOR_BG_JYA_BIGMIRROR,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaBigmirror),
+    /**/ BgJyaBigmirror_Init,
+    /**/ BgJyaBigmirror_Destroy,
+    /**/ BgJyaBigmirror_Update,
+    /**/ BgJyaBigmirror_Draw,
 };
 
-typedef struct {
+typedef struct BigMirrorDataEntry {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 params;
     /* 0x0E */ s16 solvedRotY;
@@ -74,19 +83,21 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
                     this->puzzleFlags &= ~cobraPuzzleFlags[i];
                 }
 
+#if DEBUG_FEATURES
                 if (curCobraInfo->cobra->dyna.actor.update == NULL) {
-                    // "Cobra deleted"
-                    osSyncPrintf("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
+                    PRINTF(T("Error : コブラ削除された (%s %d)\n", "Error : Cobra deleted (%s %d)\n"),
+                           "../z_bg_jya_bigmirror.c", 203);
                 }
+#endif
             } else {
                 curCobraInfo->cobra = (BgJyaCobra*)Actor_SpawnAsChild(
                     &play->actorCtx, &this->actor, play, ACTOR_BG_JYA_COBRA, curSpawnData->pos.x, curSpawnData->pos.y,
                     curSpawnData->pos.z, 0, curCobraInfo->rotY, 0, curSpawnData->params);
                 this->actor.child = NULL;
 
-                if (&curCobraInfo->cobra->dyna.actor == NULL) {
-                    // "Cobra generation failed"
-                    osSyncPrintf("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
+                if (curCobraInfo->cobra == NULL) {
+                    PRINTF(T("Error : コブラ発生失敗 (%s %d)\n", "Error : Cobra failed to spawn (%s %d)\n"),
+                           "../z_bg_jya_bigmirror.c", 221);
                 }
             }
         }
@@ -117,8 +128,8 @@ void BgJyaBigmirror_SetBombiwaFlag(Actor* thisx, PlayState* play) {
 }
 
 void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
-    static s16 sMirRayParamss[] = { 0x0005, 0x0007, 0x0008 };
-    static Vec3f sMirRayPoss[] = {
+    static s16 sMirRayParamsVals[] = { 0x0005, 0x0007, 0x0008 };
+    static Vec3f sMirRayPositions[] = {
         { 60.0f, 1802.0f, -1102.0f },
         { -560.0f, 1800.0f, -310.0f },
         { 60.0f, 1800.0f, -310.0f },
@@ -127,39 +138,36 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
     s32 puzzleSolved;
     s32 lightBeamToggles[3];
     s32 i;
-    s32 objBankIndex;
+    s32 mirRayObjectSlot;
 
-    objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_MIR_RAY);
+    mirRayObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MIR_RAY);
 
-    if ((objBankIndex < 0) || (objBankIndex != this->mirRayObjIndex)) {
+    if ((mirRayObjectSlot < 0) || (mirRayObjectSlot != this->mirRayObjectSlot)) {
         this->lightBeams[2] = NULL;
         this->lightBeams[1] = NULL;
         this->lightBeams[0] = NULL;
     } else {
-        puzzleSolved = !!(this->puzzleFlags & (BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM));
-
-        if (puzzleSolved) {
-            puzzleSolved = !!(this->puzzleFlags & BIGMIR_PUZZLE_COBRA2_SOLVED);
-
-            if (puzzleSolved) {
-                puzzleSolved = !!(this->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED);
-            }
-        }
-        lightBeamToggles[0] = puzzleSolved; // Only spawn if puzzle solved
-        if (1) {}
+        // Only spawn if puzzle solved
+        lightBeamToggles[0] = (this->puzzleFlags & (BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM)) &&
+                              (this->puzzleFlags & BIGMIR_PUZZLE_COBRA2_SOLVED) &&
+                              (this->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED);
         lightBeamToggles[1] = lightBeamToggles[2] =
             this->puzzleFlags & (BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM);
 
         for (i = 0; i < 3; i++) {
             if (lightBeamToggles[i]) {
-                if ((this->lightBeams[i] == NULL) && Object_IsLoaded(&play->objectCtx, objBankIndex)) {
-                    this->lightBeams[i] = Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, sMirRayPoss[i].x,
-                                                      sMirRayPoss[i].y, sMirRayPoss[i].z, 0, 0, 0, sMirRayParamss[i]);
+                if ((this->lightBeams[i] == NULL) && Object_IsLoaded(&play->objectCtx, mirRayObjectSlot)) {
 
+                    this->lightBeams[i] =
+                        Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, sMirRayPositions[i].x, sMirRayPositions[i].y,
+                                    sMirRayPositions[i].z, 0, 0, 0, sMirRayParamsVals[i]);
+
+#if DEBUG_FEATURES
                     if (this->lightBeams[i] == NULL) {
-                        // "Mir Ray generation failed"
-                        osSyncPrintf("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);
+                        PRINTF(T("Error : Mir Ray 発生失敗 (%s %d)\n", "Error : Mir Ray failed to spawn (%s %d)\n"),
+                               "../z_bg_jya_bigmirror.c", 310);
                     }
+#endif
                 }
             } else {
                 if (this->lightBeams[i] != NULL) {
@@ -169,7 +177,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
             }
         }
     }
-    this->mirRayObjIndex = objBankIndex;
+    this->mirRayObjectSlot = mirRayObjectSlot;
 }
 
 void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
@@ -186,10 +194,9 @@ void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
     this->actor.room = -1;
     sIsSpawned = true;
     this->spawned = true;
-    this->mirRayObjIndex = -1;
+    this->mirRayObjectSlot = -1;
 
-    // "jya Bigmirror"
-    osSyncPrintf("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF(T("(jya 大鏡)(arg_data 0x%04x)\n", "(jya Big mirror)(arg_data 0x%04x)\n"), this->actor.params);
 }
 
 void BgJyaBigmirror_Destroy(Actor* thisx, PlayState* play) {
@@ -221,16 +228,13 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, PlayState* play) {
     Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x, this->actor.world.pos.y + 40.0f, this->actor.world.pos.z,
                                  &this->actor.shape.rot);
     Matrix_Scale(0.1f, (this->liftHeight * -(1.0f / 1280.0f)) + (1779.4f / 1280.0f), 0.1f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457);
     gSPDisplayList(POLY_XLU_DISP++, gBigMirror1DL);
 
     if (lift != NULL) {
-        if (1) {}
         Matrix_SetTranslateRotateYXZ(lift->world.pos.x, lift->world.pos.y, lift->world.pos.z, &D_80893F4C);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467);
         gSPDisplayList(POLY_XLU_DISP++, gBigMirror2DL);
     }
 

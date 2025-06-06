@@ -5,9 +5,19 @@
  */
 
 #include "z_en_ds.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ds/object_ds.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnDs_Init(Actor* thisx, PlayState* play);
 void EnDs_Destroy(Actor* thisx, PlayState* play);
@@ -16,16 +26,16 @@ void EnDs_Draw(Actor* thisx, PlayState* play);
 
 void EnDs_Wait(EnDs* this, PlayState* play);
 
-const ActorInit En_Ds_InitVars = {
-    ACTOR_EN_DS,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DS,
-    sizeof(EnDs),
-    (ActorFunc)EnDs_Init,
-    (ActorFunc)EnDs_Destroy,
-    (ActorFunc)EnDs_Update,
-    (ActorFunc)EnDs_Draw,
+ActorProfile En_Ds_Profile = {
+    /**/ ACTOR_EN_DS,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DS,
+    /**/ sizeof(EnDs),
+    /**/ EnDs_Init,
+    /**/ EnDs_Destroy,
+    /**/ EnDs_Update,
+    /**/ EnDs_Draw,
 };
 
 void EnDs_Init(Actor* thisx, PlayState* play) {
@@ -41,9 +51,9 @@ void EnDs_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.013f);
 
     this->actionFunc = EnDs_Wait;
-    this->actor.targetMode = 1;
+    this->actor.attentionRangeType = ATTENTION_RANGE_1;
     this->unk_1E8 = 0;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->unk_1E4 = 0.0f;
 }
 
@@ -53,7 +63,7 @@ void EnDs_Destroy(Actor* thisx, PlayState* play) {
 void EnDs_Talk(EnDs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = EnDs_Wait;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
     this->unk_1E8 |= 1;
 }
@@ -67,11 +77,11 @@ void EnDs_TalkNoEmptyBottle(EnDs* this, PlayState* play) {
 }
 
 void EnDs_TalkAfterGiveOddPotion(EnDs* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnDs_Talk;
     } else {
-        this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F2CC(&this->actor, play, 1000.0f);
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
+        Actor_OfferTalk(&this->actor, play, 1000.0f);
     }
 }
 
@@ -79,7 +89,7 @@ void EnDs_DisplayOddPotionText(EnDs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
-        this->actor.flags &= ~ACTOR_FLAG_8;
+        this->actor.flags &= ~ACTOR_FLAG_TALK;
         SET_ITEMGETINF(ITEMGETINF_30);
     }
 }
@@ -88,9 +98,9 @@ void EnDs_GiveOddPotion(EnDs* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_DisplayOddPotionText;
-        gSaveContext.timer2State = 0;
+        gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
     } else {
-        func_8002F434(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
     }
 }
 
@@ -98,13 +108,13 @@ void EnDs_TalkAfterBrewOddPotion(EnDs* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         this->actionFunc = EnDs_GiveOddPotion;
-        func_8002F434(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
     }
 }
 
 void EnDs_BrewOddPotion3(EnDs* this, PlayState* play) {
     if (this->brewTimer > 0) {
-        this->brewTimer -= 1;
+        this->brewTimer--;
     } else {
         this->actionFunc = EnDs_TalkAfterBrewOddPotion;
         Message_ContinueTextbox(play, 0x504D);
@@ -116,7 +126,7 @@ void EnDs_BrewOddPotion3(EnDs* this, PlayState* play) {
 
 void EnDs_BrewOddPotion2(EnDs* this, PlayState* play) {
     if (this->brewTimer > 0) {
-        this->brewTimer -= 1;
+        this->brewTimer--;
     } else {
         this->actionFunc = EnDs_BrewOddPotion3;
         this->brewTimer = 60;
@@ -126,7 +136,7 @@ void EnDs_BrewOddPotion2(EnDs* this, PlayState* play) {
 
 void EnDs_BrewOddPotion1(EnDs* this, PlayState* play) {
     if (this->brewTimer > 0) {
-        this->brewTimer -= 1;
+        this->brewTimer--;
     } else {
         this->actionFunc = EnDs_BrewOddPotion2;
         this->brewTimer = 20;
@@ -155,8 +165,8 @@ void EnDs_OfferOddPotion(EnDs* this, PlayState* play) {
     }
 }
 
-s32 EnDs_CheckRupeesAndBottle() {
-    if (gSaveContext.rupees < 100) {
+s32 EnDs_CheckRupeesAndBottle(void) {
+    if (gSaveContext.save.info.playerData.rupees < 100) {
         return 0;
     } else if (Inventory_HasEmptyBottle() == 0) {
         return 1;
@@ -170,7 +180,7 @@ void EnDs_GiveBluePotion(EnDs* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_Talk;
     } else {
-        func_8002F434(&this->actor, play, GI_POTION_BLUE, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
     }
 }
 
@@ -188,8 +198,8 @@ void EnDs_OfferBluePotion(EnDs* this, PlayState* play) {
                         return;
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
-                        this->actor.flags &= ~ACTOR_FLAG_16;
-                        func_8002F434(&this->actor, play, GI_POTION_BLUE, 10000.0f, 50.0f);
+                        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
+                        Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
                 }
@@ -205,16 +215,18 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 yawDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        if (func_8002F368(play) == EXCH_ITEM_ODD_MUSHROOM) {
-            Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
+        if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_ODD_MUSHROOM) {
+            Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             player->actor.textId = 0x504A;
             this->actionFunc = EnDs_OfferOddPotion;
         } else if (GET_ITEMGETINF(ITEMGETINF_30)) {
             player->actor.textId = 0x500C;
             this->actionFunc = EnDs_OfferBluePotion;
         } else {
+            s16 pad;
+
             if (INV_CONTENT(ITEM_ODD_MUSHROOM) == ITEM_ODD_MUSHROOM) {
                 player->actor.textId = 0x5049;
             } else {
@@ -227,7 +239,7 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
         this->actor.textId = 0x5048;
 
         if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistToPlayer < 200.0f)) {
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_ODD_MUSHROOM);
+            Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_ODD_MUSHROOM);
             this->unk_1E8 |= 1;
         }
     }
@@ -236,7 +248,7 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
 void EnDs_Update(Actor* thisx, PlayState* play) {
     EnDs* this = (EnDs*)thisx;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }
 

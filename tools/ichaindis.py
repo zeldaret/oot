@@ -5,7 +5,7 @@ import sys
 import struct
 import argparse
 import re
-from overlayhelpers.filemap import FileResult, GetFromVRam, GetFromRom
+from overlayhelpers.filemap import GetFromVRam
 
 ICHAIN_MACROS = [
     'ICHAIN_U8',

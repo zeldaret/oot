@@ -5,9 +5,21 @@
  */
 
 #include "z_en_ani.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_ani/object_ani.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnAni_Init(Actor* thisx, PlayState* play);
 void EnAni_Destroy(Actor* thisx, PlayState* play);
@@ -26,21 +38,21 @@ void func_809B0994(EnAni* this, PlayState* play);
 void func_809B0A28(EnAni* this, PlayState* play);
 void func_809B0A6C(EnAni* this, PlayState* play);
 
-const ActorInit En_Ani_InitVars = {
-    ACTOR_EN_ANI,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ANI,
-    sizeof(EnAni),
-    (ActorFunc)EnAni_Init,
-    (ActorFunc)EnAni_Destroy,
-    (ActorFunc)EnAni_Update,
-    (ActorFunc)EnAni_Draw,
+ActorProfile En_Ani_Profile = {
+    /**/ ACTOR_EN_ANI,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ANI,
+    /**/ sizeof(EnAni),
+    /**/ EnAni_Init,
+    /**/ EnAni_Destroy,
+    /**/ EnAni_Update,
+    /**/ EnAni_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -48,11 +60,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 30, 40, 0, { 0 } },
@@ -64,7 +76,7 @@ void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 850, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 850, ICHAIN_STOP),
 };
 
 void EnAni_Init(Actor* thisx, PlayState* play) {
@@ -99,7 +111,7 @@ void EnAni_Destroy(Actor* thisx, PlayState* play) {
 s32 EnAni_SetText(EnAni* this, PlayState* play, u16 textId) {
     this->actor.textId = textId;
     this->unk_2A8 |= 1;
-    func_8002F2CC(&this->actor, play, 100.0f);
+    Actor_OfferTalk(&this->actor, play, 100.0f);
     return 0;
 }
 
@@ -125,7 +137,7 @@ void func_809B0558(EnAni* this, PlayState* play) {
         }
         SET_ITEMGETINF(ITEMGETINF_15);
     } else {
-        func_8002F434(&this->actor, play, GI_HEART_PIECE, 10000.0f, 200.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, 10000.0f, 200.0f);
     }
 }
 
@@ -133,25 +145,19 @@ void func_809B05F0(EnAni* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         EnAni_SetupAction(this, func_809B0558);
     }
-    func_8002F434(&this->actor, play, GI_HEART_PIECE, 10000.0f, 200.0f);
+    Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, 10000.0f, 200.0f);
 }
 
 void func_809B064C(EnAni* this, PlayState* play) {
-    u16 textId;
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KAKARIKO_ROOF_MAN);
     s16 yawDiff;
-    u16 textId2;
 
-    textId2 = Text_GetFaceReaction(play, 0xA);
-    textId = textId2 & 0xFFFF;
-
-    if (!textId) {}
-
-    if (textId2 == 0) {
+    if (textId == 0) {
         textId = !IS_DAY ? 0x5051 : 0x5050;
     }
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.textId == 0x5056) {
             EnAni_SetupAction(this, func_809B04F0);
         } else if (this->actor.textId == 0x5055) {
@@ -177,7 +183,7 @@ void func_809B07F8(EnAni* this, PlayState* play) {
     u16 textId;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.textId == 0x5056) {
             EnAni_SetupAction(this, func_809B0524);
         } else if (this->actor.textId == 0x5055) {
@@ -206,7 +212,7 @@ void func_809B0988(EnAni* this, PlayState* play) {
 }
 
 void func_809B0994(EnAni* this, PlayState* play) {
-    if (play->csCtx.npcActions[0]->action == 4) {
+    if (play->csCtx.actorCues[0]->id == 4) {
         Animation_Change(&this->skelAnime, &gRoofManGettingUpAfterKnockbackAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gRoofManGettingUpAfterKnockbackAnim), ANIMMODE_ONCE, -4.0f);
         this->unk_2AA++;
@@ -224,7 +230,7 @@ void func_809B0A6C(EnAni* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }
-    if (play->csCtx.npcActions[0]->action == 2) {
+    if (play->csCtx.actorCues[0]->id == 2) {
         Animation_Change(&this->skelAnime, &gRoofManKnockbackAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gRoofManKnockbackAnim), ANIMMODE_ONCE, 0.0f);
         this->actor.shape.shadowDraw = NULL;
@@ -238,9 +244,9 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL)) {
         switch (this->unk_2AA) {
             case 0:
                 func_809B0A6C(this, play);
@@ -259,11 +265,11 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
                 break;
         }
 
-        if (play->csCtx.frames == 100) {
-            func_800788CC(NA_SE_IT_EARTHQUAKE);
+        if (play->csCtx.curFrame == 100) {
+            Sfx_PlaySfxCentered2(NA_SE_IT_EARTHQUAKE);
         }
     } else {
-        if (SkelAnime_Update(&this->skelAnime) != 0) {
+        if (SkelAnime_Update(&this->skelAnime)) {
             this->skelAnime.curFrame = 0.0f;
         }
         this->actionFunc(this, play);

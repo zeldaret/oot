@@ -1,15 +1,15 @@
-#include "global.h"
+#include "ultra64.h"
+#include "stack.h"
 #include "ultra64/internal.h"
 
-OSMgrArgs __osPiDevMgr = { 0 };
+OSDevMgr __osPiDevMgr = { 0 };
 
 OSPiHandle __Dom1SpeedParam;
 OSPiHandle __Dom2SpeedParam;
-OSThread piThread;
-STACK(piStackThread, 0x1000);
-OSMesgQueue piEventQueue;
-OSMesg piEventBuf[2];
-OSThread __osThreadSave;
+static OSThread piThread;
+static STACK(piThreadStack, 0x1000);
+static OSMesgQueue piEventQueue;
+static OSMesg piEventBuf[2];
 
 OSPiHandle* __osPiTable = NULL;
 OSPiHandle* __osCurrentHandle[] = {
@@ -22,7 +22,7 @@ void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQueue, OSMesg* cmdBuf, s32 cmd
     OSPri newPri;
     OSPri currentPri;
 
-    if (!__osPiDevMgr.initialized) {
+    if (!__osPiDevMgr.active) {
         osCreateMesgQueue(cmdQueue, cmdBuf, cmdMsgCnt);
         osCreateMesgQueue(&piEventQueue, piEventBuf, 1);
         if (!__osPiAccessQueueEnabled) {
@@ -38,15 +38,15 @@ void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQueue, OSMesg* cmdBuf, s32 cmd
         }
         prevInt = __osDisableInt();
 
-        __osPiDevMgr.initialized = true;
+        __osPiDevMgr.active = true;
+        __osPiDevMgr.thread = &piThread;
         __osPiDevMgr.cmdQueue = cmdQueue;
-        __osPiDevMgr.mgrThread = &piThread;
-        __osPiDevMgr.eventQueue = &piEventQueue;
-        __osPiDevMgr.acccessQueue = &__osPiAccessQueue;
-        __osPiDevMgr.piDmaCallback = __osPiRawStartDma;
-        __osPiDevMgr.epiDmaCallback = __osEPiRawStartDma;
+        __osPiDevMgr.evtQueue = &piEventQueue;
+        __osPiDevMgr.acsQueue = &__osPiAccessQueue;
+        __osPiDevMgr.dma = __osPiRawStartDma;
+        __osPiDevMgr.edma = __osEPiRawStartDma;
 
-        osCreateThread(&piThread, 0, __osDevMgrMain, (void*)&__osPiDevMgr, STACK_TOP(piStackThread), pri);
+        osCreateThread(&piThread, 0, __osDevMgrMain, (void*)&__osPiDevMgr, STACK_TOP(piThreadStack), pri);
         osStartThread(&piThread);
 
         __osRestoreInt(prevInt);

@@ -2,19 +2,20 @@
 #define Z_EN_HORSE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "skin.h"
 
-typedef enum {
-    /* 0  */ ENHORSE_ACT_FROZEN,
-    /* 1  */ ENHORSE_ACT_INACTIVE,
-    /* 2  */ ENHORSE_ACT_IDLE,
-    /* 3  */ ENHORSE_ACT_FOLLOW_PLAYER,
-    /* 4  */ ENHORSE_ACT_INGO_RACE,
-    /* 5  */ ENHORSE_ACT_MOUNTED_IDLE,
-    /* 6  */ ENHORSE_ACT_MOUNTED_IDLE_WHINNEYING,
-    /* 7  */ ENHORSE_ACT_MOUNTED_TURN,
-    /* 8  */ ENHORSE_ACT_MOUNTED_WALK,
-    /* 9  */ ENHORSE_ACT_MOUNTED_TROT,
+typedef enum EnHorseAction {
+    /*  0 */ ENHORSE_ACT_FROZEN,
+    /*  1 */ ENHORSE_ACT_INACTIVE,
+    /*  2 */ ENHORSE_ACT_IDLE,
+    /*  3 */ ENHORSE_ACT_FOLLOW_PLAYER,
+    /*  4 */ ENHORSE_ACT_INGO_RACE,
+    /*  5 */ ENHORSE_ACT_MOUNTED_IDLE,
+    /*  6 */ ENHORSE_ACT_MOUNTED_IDLE_WHINNEYING,
+    /*  7 */ ENHORSE_ACT_MOUNTED_TURN,
+    /*  8 */ ENHORSE_ACT_MOUNTED_WALK,
+    /*  9 */ ENHORSE_ACT_MOUNTED_TROT,
     /* 10 */ ENHORSE_ACT_MOUNTED_GALLOP,
     /* 11 */ ENHORSE_ACT_MOUNTED_REARING,
     /* 12 */ ENHORSE_ACT_STOPPING,
@@ -27,7 +28,7 @@ typedef enum {
     /* 19 */ ENHORSE_ACT_FLEE_PLAYER
 } EnHorseAction;
 
-
+// stateFlags
 #define ENHORSE_BOOST                      (1 << 0)   /*         0x1 */
 #define ENHORSE_BOOST_DECEL                (1 << 1)   /*         0x2 */
 #define ENHORSE_JUMPING                    (1 << 2)   /*         0x4 */
@@ -63,7 +64,7 @@ typedef enum {
 
 struct EnHorse;
 
-typedef enum {
+typedef enum EnHorsePlayerDir {
     /* 0 */ PLAYER_DIR_FRONT_R,
     /* 1 */ PLAYER_DIR_FRONT_L,
     /* 2 */ PLAYER_DIR_BACK_R,
@@ -72,7 +73,7 @@ typedef enum {
     /* 5 */ PLAYER_DIR_SIDE_L
 } EnHorsePlayerDir;
 
-typedef enum {
+typedef enum EnHorseAnimationIndex {
     /* 0 */ ENHORSE_ANIM_IDLE,
     /* 1 */ ENHORSE_ANIM_WHINNEY,
     /* 2 */ ENHORSE_ANIM_STOPPING,
@@ -84,12 +85,27 @@ typedef enum {
     /* 8 */ ENHORSE_ANIM_HIGH_JUMP
 } EnHorseAnimationIndex;
 
-typedef enum {
+typedef enum HorseType {
     /* 0 */ HORSE_EPONA,
     /* 1 */ HORSE_HNI
 } HorseType;
 
-typedef void (*EnHorsePostdrawFunc)(struct EnHorse*, PlayState*);
+typedef enum HorseParamType {
+    /* 00 */ HORSE_PTYPE_0,
+    /* 01 */ HORSE_PTYPE_1,
+    /* 02 */ HORSE_PTYPE_INACTIVE, // Waits for Epona's Song to appear
+    /* 03 */ HORSE_PTYPE_INGO_SPAWNED_RIDING,
+    /* 04 */ HORSE_PTYPE_4,
+    /* 05 */ HORSE_PTYPE_5,
+    /* 06 */ HORSE_PTYPE_6,
+    /* 07 */ HORSE_PTYPE_7,
+    /* 08 */ HORSE_PTYPE_HORSEBACK_ARCHERY,
+    /* 09 */ HORSE_PTYPE_PLAYER_SPAWNED_RIDING,
+    /* 10 */ HORSE_PTYPE_10,
+    /* 11 */ HORSE_PTYPE_11
+} HorseParamType;
+
+typedef void (*EnHorsePostdrawFunc)(struct EnHorse*, struct PlayState*);
 
 typedef struct EnHorse {
     /* 0x0000 */ Actor actor;
@@ -97,7 +113,7 @@ typedef struct EnHorse {
     /* 0x0150 */ s32 noInputTimer;
     /* 0x0154 */ s32 noInputTimerMax;
     /* 0x0158 */ s32 type;
-    /* 0x015C */ s8 bankIndex;
+    /* 0x015C */ s8 hniObjectSlot;
     /* 0x0160 */ Skin skin;
     /* 0x01F0 */ u32 stateFlags;
     /* 0x01F4 */ Vec3f lastPos;
@@ -124,10 +140,10 @@ typedef struct EnHorse {
     /* 0x0264 */ Vec2f curStick;
     /* 0x026C */ Vec2f lastStick;
     /* 0x0274 */ f32 jumpStartY;
-    /* 0x0278 */ ColliderCylinder cyl1;
-    /* 0x02C4 */ ColliderCylinder cyl2;
-    /* 0x0310 */ ColliderJntSph jntSph;
-    /* 0x0330 */ ColliderJntSphElement jntSphList;
+    /* 0x0278 */ ColliderCylinder colliderCylinder1;
+    /* 0x02C4 */ ColliderCylinder colliderCylinder2;
+    /* 0x0310 */ ColliderJntSph colliderJntSph;
+    /* 0x0330 */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x0370 */ u32 playerDir;
     /* 0x0374 */ s16 unk_374;
     /* 0x0376 */ s16 angleToPlayer;

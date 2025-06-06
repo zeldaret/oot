@@ -2,18 +2,18 @@
 #define Z_EN_TP_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnTp;
 
-typedef void (*EnTpActionFunc)(struct EnTp*, PlayState*);
+typedef void (*EnTpActionFunc)(struct EnTp*, struct PlayState*);
 
 typedef struct EnTp {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 actionIndex;
     /* 0x0150 */ s32 unk_150; // Some kind of state indicator
     /* 0x0154 */ EnTpActionFunc actionFunc;
-    /* 0x0158 */ u8 damageEffect; // Used to propagate the effect to the other segments' actors
+    /* 0x0158 */ u8 damageReaction; // Used to propagate the reaction to the other segments' actors
     /* 0x015A */ s16 timer;
     /* 0x015C */ s16 unk_15C; // Multipurpose, used to change the horizontal position of tail segments
     /* 0x015E */ s16 alpha; // The dying types fade away
@@ -24,11 +24,11 @@ typedef struct EnTp {
     /* 0x016C */ f32 horizontalVariation;
     /* 0x0170 */ f32 extraHeightVariation;
     /* 0x0174 */ ColliderJntSph collider;
-    /* 0x0194 */ ColliderJntSphElement colliderItems[1];
+    /* 0x0194 */ ColliderJntSphElement colliderElements[1];
     /* 0x01D4 */ struct EnTp* head;
 } EnTp; // size = 0x01D8
 
-typedef enum {
+typedef enum EnTpType {
     /* -1 */ TAILPASARAN_HEAD = -1, // Used when scenes spawn them: code only cares about < 0
     /*  0 */ TAILPASARAN_TAIL,
     /* 10 */ TAILPASARAN_FRAGMENT = 10,

@@ -5,11 +5,25 @@
  */
 
 #include "z_en_guest.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "assets/objects/object_boj/object_boj.h"
-#include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnGuest_Init(Actor* thisx, PlayState* play);
 void EnGuest_Destroy(Actor* thisx, PlayState* play);
@@ -20,21 +34,21 @@ void func_80A50518(EnGuest* this, PlayState* play);
 void func_80A5057C(EnGuest* this, PlayState* play);
 void func_80A505CC(Actor* thisx, PlayState* play);
 
-const ActorInit En_Guest_InitVars = {
-    ACTOR_EN_GUEST,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_BOJ,
-    sizeof(EnGuest),
-    (ActorFunc)EnGuest_Init,
-    (ActorFunc)EnGuest_Destroy,
-    (ActorFunc)EnGuest_Update,
-    NULL,
+ActorProfile En_Guest_Profile = {
+    /**/ ACTOR_EN_GUEST,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_BOJ,
+    /**/ sizeof(EnGuest),
+    /**/ EnGuest_Init,
+    /**/ EnGuest_Destroy,
+    /**/ EnGuest_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -45,8 +59,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 6, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_6, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 500, ICHAIN_STOP),
 };
 
 void EnGuest_Init(Actor* thisx, PlayState* play) {
@@ -55,12 +69,11 @@ void EnGuest_Init(Actor* thisx, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_76)) {
         Actor_Kill(&this->actor);
     } else {
-        this->osAnimeBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_OS_ANIME);
-        if (this->osAnimeBankIndex < 0) {
-            osSyncPrintf(VT_COL(RED, WHITE));
-            // "No such bank!!"
-            osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
-            osSyncPrintf(VT_RST);
+        this->osAnimeObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_OS_ANIME);
+        if (this->osAnimeObjectSlot < 0) {
+            PRINTF_COLOR_ERROR();
+            PRINTF(T("%s[%d] : バンクが無いよ！！\n", "%s[%d] : There is no bank!!\n"), "../z_en_guest.c", 129);
+            PRINTF_RST();
             ASSERT(0, "0", "../z_en_guest.c", 132);
         }
     }
@@ -76,13 +89,12 @@ void EnGuest_Update(Actor* thisx, PlayState* play) {
     EnGuest* this = (EnGuest*)thisx;
     s32 pad;
 
-    if (Object_IsLoaded(&play->objectCtx, this->osAnimeBankIndex)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+    if (Object_IsLoaded(&play->objectCtx, this->osAnimeObjectSlot)) {
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
-        SkelAnime_InitFlex(play, &this->skelAnime, &object_boj_Skel_0000F0, NULL, this->jointTable, this->morphTable,
-                           16);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->osAnimeBankIndex].segment);
+        SkelAnime_InitFlex(play, &this->skelAnime, &gHylianMan2Skel, NULL, this->jointTable, this->morphTable, 16);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         Animation_Change(&this->skelAnime, &gObjOsAnim_42AC, 1.0f, 0.0f, Animation_GetLastFrame(&gObjOsAnim_42AC),
                          ANIMMODE_LOOP, 0.0f);
 
@@ -113,7 +125,7 @@ void func_80A5046C(EnGuest* this) {
         if (this->unk_2CA != 0) {
             this->unk_2CA--;
         } else {
-            this->unk_30E += 1;
+            this->unk_30E++;
             if (this->unk_30E >= 3) {
                 this->unk_30E = 0;
                 this->unk_30D = 0;
@@ -126,10 +138,10 @@ void func_80A5046C(EnGuest* this) {
 }
 
 void func_80A50518(EnGuest* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80A5057C;
     } else if (this->actor.xzDistToPlayer < 100.0f) {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 }
 
@@ -150,17 +162,17 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
     func_80A5046C(this);
     this->actionFunc(this, play);
 
-    this->unk_2A0.unk_18 = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     if (LINK_IS_ADULT) {
-        this->unk_2A0.unk_14 = 10.0f;
+        this->interactInfo.yOffset = 10.0f;
     } else {
-        this->unk_2A0.unk_14 = 20.0f;
+        this->interactInfo.yOffset = 20.0f;
     }
-    func_80034A14(&this->actor, &this->unk_2A0, 6, 2);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 6, NPC_TRACKING_HEAD_AND_TORSO);
 
-    func_80034F54(play, this->unk_2CC, this->unk_2EC, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->osAnimeBankIndex].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
 
     SkelAnime_Update(&this->skelAnime);
     Actor_SetFocus(&this->actor, 60.0f);
@@ -172,7 +184,7 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
 Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* dlist;
 
-    dlist = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    dlist = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
     gDPSetEnvColor(dlist, r, g, b, a);
     gSPEndDisplayList(dlist + 1);
 
@@ -181,28 +193,28 @@ Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 
 s32 EnGuest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnGuest* this = (EnGuest*)thisx;
-    Vec3s sp3C;
+    Vec3s limbRot;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_guest.c", 352);
 
     if (limbIndex == 15) {
-        *dList = object_boj_DL_0059B0;
+        *dList = gHylianMan2BeardedHeadDL;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp3C = this->unk_2A0.unk_08;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp3C.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp3C.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        sp3C = this->unk_2A0.unk_0E;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(-sp3C.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp3C.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
-        rot->y += Math_SinS(this->unk_2CC[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->unk_2EC[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_guest.c", 388);
@@ -212,9 +224,9 @@ s32 EnGuest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
 
 void EnGuest_Draw(Actor* thisx, PlayState* play) {
     static void* D_80A50BA4[] = {
-        object_boj_Tex_0005FC,
-        object_boj_Tex_0006FC,
-        object_boj_Tex_0007FC,
+        gHylianMan2MustachedEyeOpenTex,
+        gHylianMan2MustachedEyeHalfTex,
+        gHylianMan2MustachedEyeClosedTex,
     };
     EnGuest* this = (EnGuest*)thisx;
     s32 pad;

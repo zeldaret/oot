@@ -7,9 +7,9 @@ Contains
 - **Fado** a program for generating the `.ovl`/relocation section for Zelda64 overlay files
 - **Mido** an automatic dependency file generator
 
-Compatible with both IDO and GCC (although [see below](N_B)).
+Compatible with both IDO and GCC (although [see below](N_B)). Both ordinary MIPS REL sections and RELA sections are now supported.
 
-Format is the standard "Zelda64" .ovl section, with the relocs divided by section, as used by
+Output format is the standard "Zelda64" .ovl section, with the relocs divided by section, as used by
 - *The Legend of Zelda: Ocarina of Time* (all Nintendo 64/Gamecube/iQue releases)
 - *The Legend of Zelda: Majora's Mask* (all Nintendo 64/Gamecube releases)
 

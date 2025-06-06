@@ -5,11 +5,29 @@
  */
 
 #include "z_en_daiku_kakariko.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_daiku/object_daiku.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
-typedef enum {
+#define ENDAIKUKAKARIKO_GET_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 2)
+#define ENDAIKUKAKARIKO_GET_PATH_INDEX(thisx) PARAMS_GET_U((thisx)->params, 8, 8)
+
+typedef enum KakarikoCarpenterType {
     /* 0x0 */ CARPENTER_ICHIRO,  // Red and purple pants, normal hair
     /* 0x1 */ CARPENTER_SABOORO, // Light blue pants
     /* 0x2 */ CARPENTER_JIRO,    // Green pants
@@ -24,21 +42,21 @@ void EnDaikuKakariko_Draw(Actor* thisx, PlayState* play);
 void EnDaikuKakariko_Wait(EnDaikuKakariko* this, PlayState* play);
 void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play);
 
-const ActorInit En_Daiku_Kakariko_InitVars = {
-    ACTOR_EN_DAIKU_KAKARIKO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DAIKU,
-    sizeof(EnDaikuKakariko),
-    (ActorFunc)EnDaikuKakariko_Init,
-    (ActorFunc)EnDaikuKakariko_Destroy,
-    (ActorFunc)EnDaikuKakariko_Update,
-    (ActorFunc)EnDaikuKakariko_Draw,
+ActorProfile En_Daiku_Kakariko_Profile = {
+    /**/ ACTOR_EN_DAIKU_KAKARIKO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DAIKU,
+    /**/ sizeof(EnDaikuKakariko),
+    /**/ EnDaikuKakariko_Init,
+    /**/ EnDaikuKakariko_Destroy,
+    /**/ EnDaikuKakariko_Update,
+    /**/ EnDaikuKakariko_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -46,11 +64,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_NONE,
+        ATELEM_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 18, 66, 0, { 0, 0, 0 } },
@@ -93,7 +111,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-typedef enum {
+typedef enum EnDaikuKakarikoAnimation {
     /* 0 */ ENDAIKUKAKARIKO_ANIM_0,
     /* 1 */ ENDAIKUKAKARIKO_ANIM_1,
     /* 2 */ ENDAIKUKAKARIKO_ANIM_2,
@@ -103,9 +121,12 @@ typedef enum {
 } EnDaikuKakarikoAnimation;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {
-    { &object_daiku_Anim_001AB0, 1.0f, 2, -7.0f }, { &object_daiku_Anim_007DE0, 1.0f, 0, -7.0f },
-    { &object_daiku_Anim_00885C, 1.0f, 0, -7.0f }, { &object_daiku_Anim_000C44, 1.0f, 0, -7.0f },
-    { &object_daiku_Anim_000600, 1.0f, 0, -7.0f }, { &object_daiku_Anim_008164, 1.0f, 0, -7.0f },
+    { &object_daiku_Anim_001AB0, 1.0f, ANIMMODE_ONCE, -7.0f },
+    { &object_daiku_Anim_007DE0, 1.0f, ANIMMODE_LOOP, -7.0f },
+    { &object_daiku_Anim_00885C, 1.0f, ANIMMODE_LOOP, -7.0f },
+    { &object_daiku_Anim_000C44, 1.0f, ANIMMODE_LOOP, -7.0f },
+    { &object_daiku_Anim_000600, 1.0f, ANIMMODE_LOOP, -7.0f },
+    { &object_daiku_Anim_008164, 1.0f, ANIMMODE_LOOP, -7.0f },
 };
 
 void EnDaikuKakariko_ChangeAnim(EnDaikuKakariko* this, s32 index, s32* currentIndex) {
@@ -124,24 +145,24 @@ void EnDaikuKakariko_ChangeAnim(EnDaikuKakariko* this, s32 index, s32* currentIn
 }
 
 void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
-    static u16 initFlags[] = { 0x0080, 0x00B0, 0x0070, 0x0470 }; // List of inital values for this->flags
+    static u16 initFlags[] = { 0x0080, 0x00B0, 0x0070, 0x0470 }; // List of initial values for this->flags
     EnDaikuKakariko* this = (EnDaikuKakariko*)thisx;
     s32 pad;
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-        switch (play->sceneNum) {
-            case SCENE_SPOT01:
+        switch (play->sceneId) {
+            case SCENE_KAKARIKO_VILLAGE:
                 if (IS_DAY) {
                     this->flags |= 1;
-                    this->flags |= initFlags[this->actor.params & 3];
+                    this->flags |= initFlags[ENDAIKUKAKARIKO_GET_TYPE(&this->actor)];
                 }
                 break;
-            case SCENE_KAKARIKO:
+            case SCENE_KAKARIKO_CENTER_GUEST_HOUSE:
                 if (IS_NIGHT) {
                     this->flags |= 2;
                 }
                 break;
-            case SCENE_DRAG:
+            case SCENE_POTION_SHOP_KAKARIKO:
                 this->flags |= 4;
                 break;
         }
@@ -171,8 +192,8 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
 
     this->actor.gravity = 0.0f;
     this->runSpeed = 3.0f;
-    this->actor.uncullZoneForward = 1200.0f;
-    this->actor.targetMode = 6;
+    this->actor.cullingVolumeDistance = 1200.0f;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
     this->currentAnimIndex = -1;
 
     if (this->flags & 0x40) {
@@ -184,7 +205,8 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = EnDaikuKakariko_Run;
     } else {
         if (this->flags & 8) {
-            if (((this->actor.params & 3) == CARPENTER_SABOORO) || ((this->actor.params & 3) == CARPENTER_SHIRO)) {
+            if ((ENDAIKUKAKARIKO_GET_TYPE(&this->actor) == CARPENTER_SABOORO) ||
+                (ENDAIKUKAKARIKO_GET_TYPE(&this->actor) == CARPENTER_SHIRO)) {
                 EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_5, &this->currentAnimIndex);
                 this->flags |= 0x800;
             } else {
@@ -226,23 +248,29 @@ s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, PlayState* play) {
 }
 
 void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, PlayState* play) {
-    static s32 maskReactionSets[] = { 1, 2, 3, 4 };
-    s16 sp26;
-    s16 sp24;
+    static s32 sMaskReactionSets[] = {
+        MASK_REACTION_SET_CARPENTER_1,
+        MASK_REACTION_SET_CARPENTER_2,
+        MASK_REACTION_SET_CARPENTER_3,
+        MASK_REACTION_SET_CARPENTER_4,
+    };
+    s16 screenX;
+    s16 screenY;
 
     if (this->talkState == 2) {
         this->talkState = EnDaikuKakariko_GetTalkState(this, play);
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->talkState = 2;
     } else {
-        Actor_GetScreenPos(play, &this->actor, &sp26, &sp24);
+        Actor_GetScreenPos(play, &this->actor, &screenX, &screenY);
 
-        if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
-            (func_8002F2CC(&this->actor, play, 100.0f) == 1)) {
-            this->actor.textId = Text_GetFaceReaction(play, maskReactionSets[this->actor.params & 3]);
+        if ((screenX >= 0) && (screenX <= SCREEN_WIDTH) && (screenY >= 0) && (screenY <= SCREEN_HEIGHT) &&
+            (this->talkState == 0) && (Actor_OfferTalk(&this->actor, play, 100.0f) == true)) {
+            this->actor.textId =
+                MaskReaction_GetTextId(play, sMaskReactionSets[ENDAIKUKAKARIKO_GET_TYPE(&this->actor)]);
 
             if (this->actor.textId == 0) {
-                switch (this->actor.params & 3) {
+                switch (ENDAIKUKAKARIKO_GET_TYPE(&this->actor)) {
                     case 0:
                         if (this->flags & 8) {
                             this->actor.textId = 0x5076;
@@ -359,7 +387,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
     s32 run;
 
     do {
-        path = &play->setupPathList[(this->actor.params >> 8) & 0xFF];
+        path = &play->pathList[ENDAIKUKAKARIKO_GET_PATH_INDEX(&this->actor)];
         pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint];
         xDist = pathPos->x - this->actor.world.pos.x;
         zDist = pathPos->z - this->actor.world.pos.z;
@@ -369,7 +397,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
         run = false;
 
         if (runDist <= 10.0f) {
-            if (this->pathContinue == false) {
+            if (!this->pathContinue) {
                 this->waypoint++;
 
                 if (this->waypoint >= path->count) {
@@ -416,19 +444,19 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-    if (this->run == false) {
+    if (!this->run) {
         if (angleStepDiff == 0) {
             this->run = true;
         } else {
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     }
 
     if (this->run == true) {
-        Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.8f, runDist, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, this->runSpeed, 0.8f, runDist, 0.0f);
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (this->flags & 0x40) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
@@ -458,7 +486,7 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
 
     if (this->currentAnimIndex == 3) {
         if (((s32)this->skelAnime.curFrame == 6) || ((s32)this->skelAnime.curFrame == 15)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 
@@ -474,18 +502,18 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    this->npcInfo.unk_18.x = player->actor.focus.pos.x;
-    this->npcInfo.unk_18.y = player->actor.focus.pos.y;
-    this->npcInfo.unk_18.z = player->actor.focus.pos.z;
+    this->interactInfo.trackPos.x = player->actor.focus.pos.x;
+    this->interactInfo.trackPos.y = player->actor.focus.pos.y;
+    this->interactInfo.trackPos.z = player->actor.focus.pos.z;
 
     if (this->flags & 0x100) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        func_80034A14(&this->actor, &this->npcInfo, 0, 2);
+        Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_HEAD_AND_TORSO);
     } else if (this->flags & 0x200) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        func_80034A14(&this->actor, &this->npcInfo, 0, 4);
+        Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_FULL_BODY);
     }
 
     Math_SmoothStepToS(&this->neckAngle.x, this->neckAngleTarget.x, 1, 1820, 0);
@@ -497,16 +525,16 @@ s32 EnDaikuKakariko_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList
 
     switch (limbIndex) {
         case 8:
-            angle = this->npcInfo.unk_0E;
+            angle = this->interactInfo.torsoRot;
             Matrix_RotateX(-BINANG_TO_RAD(angle.y), MTXMODE_APPLY);
             Matrix_RotateZ(-BINANG_TO_RAD(angle.x), MTXMODE_APPLY);
             break;
         case 15:
             Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            angle = this->npcInfo.unk_08;
+            angle = this->interactInfo.headRot;
 
             if (this->flags & 0x1000) {
-                osSyncPrintf("<%d>\n", this->neckAngle.x);
+                PRINTF("<%d>\n", this->neckAngle.x);
                 Matrix_RotateX(BINANG_TO_RAD(angle.y + this->neckAngle.y), MTXMODE_APPLY);
                 Matrix_RotateZ(BINANG_TO_RAD(angle.x + this->neckAngle.x), MTXMODE_APPLY);
             } else {
@@ -531,7 +559,7 @@ void EnDaikuKakariko_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&unkVec, &this->actor.focus.pos);
-        gSPDisplayList(POLY_OPA_DISP++, carpenterHeadDLists[this->actor.params & 3]);
+        gSPDisplayList(POLY_OPA_DISP++, carpenterHeadDLists[ENDAIKUKAKARIKO_GET_TYPE(&this->actor)]);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_daiku_kakariko.c", 1113);
@@ -544,13 +572,13 @@ void EnDaikuKakariko_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    if ((thisx->params & 3) == CARPENTER_ICHIRO) {
+    if (ENDAIKUKAKARIKO_GET_TYPE(thisx) == CARPENTER_ICHIRO) {
         gDPSetEnvColor(POLY_OPA_DISP++, 170, 10, 70, 255);
-    } else if ((thisx->params & 3) == CARPENTER_SABOORO) {
+    } else if (ENDAIKUKAKARIKO_GET_TYPE(thisx) == CARPENTER_SABOORO) {
         gDPSetEnvColor(POLY_OPA_DISP++, 170, 200, 255, 255);
-    } else if ((thisx->params & 3) == CARPENTER_JIRO) {
+    } else if (ENDAIKUKAKARIKO_GET_TYPE(thisx) == CARPENTER_JIRO) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 230, 70, 255);
-    } else if ((thisx->params & 3) == CARPENTER_SHIRO) {
+    } else if (ENDAIKUKAKARIKO_GET_TYPE(thisx) == CARPENTER_SHIRO) {
         gDPSetEnvColor(POLY_OPA_DISP++, 200, 0, 150, 255);
     }
 

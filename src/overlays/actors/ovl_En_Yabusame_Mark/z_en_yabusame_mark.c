@@ -5,7 +5,19 @@
  */
 
 #include "z_en_yabusame_mark.h"
-#include "vt.h"
+
+#include "printf.h"
+#include "regs.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
 
 #define FLAGS 0
 
@@ -16,7 +28,7 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play);
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -24,26 +36,26 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x0001F824, 0x00, 0x00 },
-        TOUCH_NONE | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_NONE | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-const ActorInit En_Yabusame_Mark_InitVars = {
-    ACTOR_EN_YABUSAME_MARK,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnYabusameMark),
-    (ActorFunc)EnYabusameMark_Init,
-    (ActorFunc)EnYabusameMark_Destroy,
-    (ActorFunc)EnYabusameMark_Update,
-    NULL,
+ActorProfile En_Yabusame_Mark_Profile = {
+    /**/ ACTOR_EN_YABUSAME_MARK,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnYabusameMark),
+    /**/ EnYabusameMark_Init,
+    /**/ EnYabusameMark_Destroy,
+    /**/ EnYabusameMark_Update,
+    /**/ NULL,
 };
 
 static Vec3f sCollisionVertices[] = {
@@ -78,12 +90,15 @@ void EnYabusameMark_Destroy(Actor* thisx, PlayState* play) {
 void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     EnYabusameMark* this = (EnYabusameMark*)thisx;
 
-    osSyncPrintf("\n\n");
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    PRINTF("\n\n");
+    // "まと" could be a typo for "まこ", in which case this could be "Yabusame mark"
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Yabusame mato ☆☆☆☆☆ %x\n") VT_RST,
+           this->actor.params);
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->typeIndex = this->actor.params;
-    this->actor.targetMode = 5;
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 種類インデックス \t   ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
+    this->actor.attentionRangeType = ATTENTION_RANGE_5;
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 種類インデックス \t   ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Type index \t   ☆☆☆☆☆ %d\n") VT_RST,
+           this->typeIndex);
     switch (this->typeIndex) {
         case 0:
             this->subTypeIndex = 0;
@@ -104,13 +119,14 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     Collider_InitQuad(play, &this->collider);
     Collider_SetQuad(play, &this->collider, &this->actor, &sQuadInit);
     this->worldPos = this->actor.world.pos;
-    this->actor.flags |= ACTOR_FLAG_4;
-    if (gSaveContext.sceneSetupIndex != 4) {
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+    if (gSaveContext.sceneLayer != 4) {
         Actor_Kill(&this->actor);
         return;
     }
-    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 種類       ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
-    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ さらに分類 ☆☆☆☆☆ %d\n" VT_RST, this->subTypeIndex);
+    PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 種類       ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Type       ☆☆☆☆☆ %d\n") VT_RST, this->typeIndex);
+    PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ さらに分類 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Further classification ☆☆☆☆☆ %d\n") VT_RST,
+           this->subTypeIndex);
     this->actionFunc = func_80B42F74;
 }
 
@@ -128,9 +144,9 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
 
-        arrowHitPos.x = this->collider.info.bumper.hitPos.x;
-        arrowHitPos.y = this->collider.info.bumper.hitPos.y;
-        arrowHitPos.z = this->collider.info.bumper.hitPos.z;
+        arrowHitPos.x = this->collider.elem.acDmgInfo.hitPos.x;
+        arrowHitPos.y = this->collider.elem.acDmgInfo.hitPos.y;
+        arrowHitPos.z = this->collider.elem.acDmgInfo.hitPos.z;
 
         effectVelocity.y = 15.0f;
 
@@ -159,27 +175,27 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play) {
             }
         }
 
-        osSyncPrintf("\n\n");
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ posＸ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.x);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ posＹ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.y);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ posＺ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.z);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＸ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].x);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＹ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].y);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＺ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].z);
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 小    ☆☆☆☆☆ %f\n" VT_RST, scoreDistance100);
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 大    ☆☆☆☆☆ %f\n" VT_RST, scoreDistance60);
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ point ☆☆☆☆☆ %d\n" VT_RST, scoreIndex);
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ posＸ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.x);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ posＹ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.y);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ posＺ ☆☆☆☆☆ %f\n" VT_RST, arrowHitPos.z);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＸ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].x);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＹ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].y);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ hitＺ ☆☆☆☆☆ %f\n" VT_RST, sTargetPos[this->subTypeIndex].z);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 小    ☆☆☆☆☆ %f\n", "☆☆☆☆☆ small ☆☆☆☆☆ %f\n") VT_RST, scoreDistance100);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 大    ☆☆☆☆☆ %f\n", "☆☆☆☆☆ large ☆☆☆☆☆ %f\n") VT_RST, scoreDistance60);
+        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ point ☆☆☆☆☆ %d\n" VT_RST, scoreIndex);
+        PRINTF("\n\n");
 
         if (scoreIndex == 2) {
             Audio_PlayFanfare(NA_BGM_ITEM_GET | 0x900);
         }
         if (scoreIndex == 1) {
             Audio_StopSfxById(NA_SE_SY_TRE_BOX_APPEAR);
-            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
         }
         if (scoreIndex == 0) {
-            func_80078884(NA_SE_SY_DECIDE);
+            Sfx_PlaySfxCentered(NA_SE_SY_DECIDE);
         }
         EffectSsExtra_Spawn(play, &arrowHitPos, &effectVelocity, &effectAccel, 5, scoreIndex);
     }
@@ -193,6 +209,8 @@ void EnYabusameMark_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     arrayIndex = this->typeIndex * 4;
     vertexArray = &sCollisionVertices[arrayIndex];
+
+    if (1) {}
 
     this->vertexA.x = vertexArray[0].x + this->actor.world.pos.x;
     this->vertexA.y = vertexArray[0].y + this->actor.world.pos.y;
@@ -212,7 +230,8 @@ void EnYabusameMark_Update(Actor* thisx, PlayState* play) {
 
     Collider_SetQuadVertices(&this->collider, &this->vertexA, &this->vertexB, &this->vertexC, &this->vertexD);
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
-    if (BREG(0)) {
+
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0, 0xFF, 0, 0xFF, 4, play->state.gfxCtx);

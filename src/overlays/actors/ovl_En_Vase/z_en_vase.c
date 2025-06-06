@@ -5,24 +5,27 @@
  */
 
 #include "z_en_vase.h"
+
+#include "play_state.h"
+
 #include "assets/objects/object_vase/object_vase.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnVase_Init(Actor* thisx, PlayState* play);
 void EnVase_Destroy(Actor* thisx, PlayState* play);
 void EnVase_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Vase_InitVars = {
-    ACTOR_EN_VASE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_VASE,
-    sizeof(EnVase),
-    (ActorFunc)EnVase_Init,
-    (ActorFunc)EnVase_Destroy,
-    (ActorFunc)Actor_Noop,
-    (ActorFunc)EnVase_Draw,
+ActorProfile En_Vase_Profile = {
+    /**/ ACTOR_EN_VASE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_VASE,
+    /**/ sizeof(EnVase),
+    /**/ EnVase_Init,
+    /**/ EnVase_Destroy,
+    /**/ Actor_Noop,
+    /**/ EnVase_Draw,
 };
 
 void EnVase_Init(Actor* thisx, PlayState* play) {

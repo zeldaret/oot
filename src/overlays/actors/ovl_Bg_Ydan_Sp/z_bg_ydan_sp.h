@@ -2,11 +2,11 @@
 #define Z_BG_YDAN_SP_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct BgYdanSp;
 
-typedef void (*BgYdanSpActionFunc)(struct BgYdanSp*, PlayState*);
+typedef void (*BgYdanSpActionFunc)(struct BgYdanSp*, struct PlayState*);
 
 typedef struct BgYdanSp {
     /* 0x0000 */ DynaPolyActor dyna;
@@ -15,8 +15,8 @@ typedef struct BgYdanSp {
     /* 0x0169 */ u8 burnSwitchFlag;
     /* 0x016A */ s16 timer;
     /* 0x016C */ f32 unk_16C;
-    /* 0x0170 */ ColliderTris trisCollider;
-    /* 0x0190 */ ColliderTrisElement trisColliderItems[2];
+    /* 0x0170 */ ColliderTris colliderTris;
+    /* 0x0190 */ ColliderTrisElement colliderTrisElements[2];
 } BgYdanSp; // size = 0x0248
 
 #endif

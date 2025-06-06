@@ -5,10 +5,22 @@
  */
 
 #include "z_en_hs.h"
-#include "vt.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_hs/object_hs.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnHs_Init(Actor* thisx, PlayState* play);
 void EnHs_Destroy(Actor* thisx, PlayState* play);
@@ -18,21 +30,21 @@ void EnHs_Draw(Actor* thisx, PlayState* play);
 void func_80A6E9AC(EnHs* this, PlayState* play);
 void func_80A6E6B0(EnHs* this, PlayState* play);
 
-const ActorInit En_Hs_InitVars = {
-    ACTOR_EN_HS,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_HS,
-    sizeof(EnHs),
-    (ActorFunc)EnHs_Init,
-    (ActorFunc)EnHs_Destroy,
-    (ActorFunc)EnHs_Update,
-    (ActorFunc)EnHs_Draw,
+ActorProfile En_Hs_Profile = {
+    /**/ ACTOR_EN_HS,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_HS,
+    /**/ sizeof(EnHs),
+    /**/ EnHs_Init,
+    /**/ EnHs_Destroy,
+    /**/ EnHs_Update,
+    /**/ EnHs_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
@@ -40,11 +52,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 40, 40, 0, { 0, 0, 0 } },
@@ -74,22 +86,19 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
     }
 
     if (this->actor.params == 1) {
-        // "chicken shop (adult era)"
-        osSyncPrintf(VT_FGCOL(CYAN) " ヒヨコの店(大人の時) \n" VT_RST);
+        PRINTF(VT_FGCOL(CYAN) T(" ヒヨコの店(大人の時) \n", " chicken shop (adult era) \n") VT_RST);
         func_80A6E3A0(this, func_80A6E9AC);
         if (GET_ITEMGETINF(ITEMGETINF_30)) {
-            // "chicken shop closed"
-            osSyncPrintf(VT_FGCOL(CYAN) " ヒヨコ屋閉店 \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T(" ヒヨコ屋閉店 \n", " chicken shop closed \n") VT_RST);
             Actor_Kill(&this->actor);
         }
     } else {
-        // "chicken shop (child era)"
-        osSyncPrintf(VT_FGCOL(CYAN) " ヒヨコの店(子人の時) \n" VT_RST);
+        PRINTF(VT_FGCOL(CYAN) T(" ヒヨコの店(子人の時) \n", " chicken shop (child era) \n") VT_RST);
         func_80A6E3A0(this, func_80A6E9AC);
     }
 
     this->unk_2A8 = 0;
-    this->actor.targetMode = 6;
+    this->actor.attentionRangeType = ATTENTION_RANGE_6;
 }
 
 void EnHs_Destroy(Actor* thisx, PlayState* play) {
@@ -101,7 +110,7 @@ void EnHs_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80A6E53C(EnHs* this, PlayState* play, u16 textId, EnHsActionFunc actionFunc) {
     s16 yawDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         func_80A6E3A0(this, actionFunc);
         return 1;
     }
@@ -110,7 +119,7 @@ s32 func_80A6E53C(EnHs* this, PlayState* play, u16 textId, EnHsActionFunc action
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToPlayer < 100.0f)) {
         this->unk_2A8 |= 1;
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 
     return 0;
@@ -126,9 +135,9 @@ void func_80A6E5EC(EnHs* this, PlayState* play) {
 
 void func_80A6E630(EnHs* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        func_80088AA0(180);
+        Interface_SetSubTimer(180);
         func_80A6E3A0(this, func_80A6E6B0);
-        CLEAR_EVENTINF(EVENTINF_10);
+        CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
     }
 
     this->unk_2A8 |= 1;
@@ -155,7 +164,7 @@ void func_80A6E740(EnHs* this, PlayState* play) {
         this->actor.parent = NULL;
         func_80A6E3A0(this, func_80A6E630);
     } else {
-        func_8002F434(&this->actor, play, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
     }
 
     this->unk_2A8 |= 1;
@@ -166,7 +175,7 @@ void func_80A6E7BC(EnHs* this, PlayState* play) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
                 func_80A6E3A0(this, func_80A6E740);
-                func_8002F434(&this->actor, play, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
                 break;
             case 1:
                 Message_ContinueTextbox(play, 0x10B4);
@@ -194,7 +203,7 @@ void func_80A6E8CC(EnHs* this, PlayState* play) {
     if (this->unk_2AA > 0) {
         this->unk_2AA--;
         if (this->unk_2AA == 0) {
-            func_8002F7DC(&player->actor, NA_SE_EV_CHICKEN_CRY_M);
+            Player_PlaySfx(player, NA_SE_EV_CHICKEN_CRY_M);
         }
     }
 
@@ -205,14 +214,14 @@ void func_80A6E9AC(EnHs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 yawDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        if (func_8002F368(play) == 7) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
+        if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_COJIRO) {
             player->actor.textId = 0x10B2;
             func_80A6E3A0(this, func_80A6E8CC);
             Animation_Change(&this->skelAnime, &object_hs_Anim_000304, 1.0f, 0.0f,
                              Animation_GetLastFrame(&object_hs_Anim_000304), ANIMMODE_LOOP, 8.0f);
             this->unk_2AA = 40;
-            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             player->actor.textId = 0x10B1;
             func_80A6E3A0(this, func_80A6E6D8);
@@ -221,7 +230,7 @@ void func_80A6E9AC(EnHs* this, PlayState* play) {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         this->actor.textId = 0x10B1;
         if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToPlayer < 100.0f)) {
-            func_8002F298(&this->actor, play, 100.0f, 7);
+            Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_COJIRO);
         }
     }
 }
@@ -232,7 +241,7 @@ void EnHs_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;

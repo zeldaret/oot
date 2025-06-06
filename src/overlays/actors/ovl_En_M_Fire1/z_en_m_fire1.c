@@ -6,27 +6,30 @@
 
 #include "z_en_m_fire1.h"
 
+#include "z_lib.h"
+#include "play_state.h"
+
 #define FLAGS 0
 
 void EnMFire1_Init(Actor* thisx, PlayState* play);
 void EnMFire1_Destroy(Actor* thisx, PlayState* play);
 void EnMFire1_Update(Actor* thisx, PlayState* play);
 
-const ActorInit En_M_Fire1_InitVars = {
-    ACTOR_EN_M_FIRE1,
-    ACTORCAT_MISC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnMFire1),
-    (ActorFunc)EnMFire1_Init,
-    (ActorFunc)EnMFire1_Destroy,
-    (ActorFunc)EnMFire1_Update,
-    NULL,
+ActorProfile En_M_Fire1_Profile = {
+    /**/ ACTOR_EN_M_FIRE1,
+    /**/ ACTORCAT_MISC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnMFire1),
+    /**/ EnMFire1_Init,
+    /**/ EnMFire1_Destroy,
+    /**/ EnMFire1_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
@@ -34,11 +37,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK2,
+        ELEM_MATERIAL_UNK2,
         { 0x00000001, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NONE,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { 200, 200, 0, { 0 } },

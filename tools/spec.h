@@ -9,11 +9,11 @@ typedef enum {
     STMT_after,
     STMT_align,
     STMT_beginseg,
+    STMT_compress,
     STMT_endseg,
     STMT_entry,
     STMT_flags,
     STMT_include,
-    STMT_include_data_with_rodata,
     STMT_name,
     STMT_number,
     STMT_romalign,
@@ -26,12 +26,13 @@ enum {
     FLAG_BOOT = (1 << 0),
     FLAG_OBJECT = (1 << 1),
     FLAG_RAW = (1 << 2),
+    FLAG_NOLOAD = (1 << 3),
+    FLAG_SYMS = (1 << 4)
 };
 
 struct Include {
     char* fpath;
     int linkerPadding;
-    uint8_t dataWithRodata;
 };
 
 typedef struct Segment {
@@ -48,6 +49,7 @@ typedef struct Segment {
     uint32_t number;
     struct Include* includes;
     int includesCount;
+    bool compress;
 } Segment;
 
 void parse_rom_spec(char* spec, struct Segment** segments, int* segment_count);

@@ -5,7 +5,12 @@
 
 #ifndef __cplusplus
 
-#define bool    u32
+#if (__STDC_VERSION__ >= 199901L)
+#define bool    _Bool
+#else
+#define bool    unsigned int
+#endif
+
 #define false   0
 #define true    1
 

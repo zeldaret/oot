@@ -2,11 +2,12 @@
 #define Z_BOSS_GANONDROF_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "light.h"
 
 struct BossGanondrof;
 
-typedef void (*BossGanondrofActionFunc)(struct BossGanondrof*, PlayState*);
+typedef void (*BossGanondrofActionFunc)(struct BossGanondrof*, struct PlayState*);
 
 #define GND_REAL_BOSS 1
 #define GND_FAKE_BOSS 10
@@ -15,7 +16,7 @@ typedef void (*BossGanondrofActionFunc)(struct BossGanondrof*, PlayState*);
 #define GND_BOSSROOM_CENTER_Y -33.0f
 #define GND_BOSSROOM_CENTER_Z -3315.0f
 
-typedef enum {
+typedef enum BossGanondrofFlyMode {
     /* 0 */ GND_FLY_PAINTING,
     /* 1 */ GND_FLY_NEUTRAL,
     /* 2 */ GND_FLY_VOLLEY,
@@ -23,13 +24,13 @@ typedef enum {
     /* 4 */ GND_FLY_CHARGE
 } BossGanondrofFlyMode;
 
-typedef enum {
+typedef enum BossGanondrofEyeState {
     /* 0 */ GND_EYESTATE_NONE,
     /* 1 */ GND_EYESTATE_FADE,
     /* 2 */ GND_EYESTATE_BRIGHTEN
 } BossGanondrofEyeState;
 
-typedef enum {
+typedef enum BossGanondrofS16Var {
     /*  0 */ GND_VARIANCE_TIMER,
     /*  1 */ GND_US_1,
     /*  2 */ GND_US_2,
@@ -51,7 +52,7 @@ typedef enum {
     /* 20 */ GND_SHORT_COUNT = 20
 } BossGanondrofS16Var;
 
-typedef enum {
+typedef enum BossGanondrofF32Var {
     /*  0 */ GND_FLOAT_SPEED,
     /*  1 */ GND_END_FRAME,
     /*  2 */ GND_EYE_BRIGHTNESS,
@@ -97,8 +98,8 @@ typedef struct BossGanondrof {
     /* 0x0454 */ f32 rideRotY[30]; // possibly only 25 used
     /* 0x04CC */ LightNode* lightNode;
     /* 0x04D0 */ LightInfo lightInfo;
-    /* 0x04E0 */ ColliderCylinder colliderBody;
-    /* 0x052C */ ColliderCylinder colliderSpear;
+    /* 0x04E0 */ ColliderCylinder bodyCollider;
+    /* 0x052C */ ColliderCylinder spearCollider;
 } BossGanondrof; // size = 0x0578
 
 #endif

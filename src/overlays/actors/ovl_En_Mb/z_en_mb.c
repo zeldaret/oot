@@ -5,6 +5,23 @@
  */
 
 #include "z_en_mb.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_mb/object_mb.h"
 
 /*
@@ -14,9 +31,9 @@
  * - "Spear Patrol" (variable 0xPP00 PP=pathId): uses a spear, patrols following a path, charges
  */
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
-typedef enum {
+typedef enum EnMbType {
     /* -1 */ ENMB_TYPE_SPEAR_GUARD = -1,
     /*  0 */ ENMB_TYPE_CLUB,
     /*  1 */ ENMB_TYPE_SPEAR_PATROL
@@ -29,7 +46,7 @@ typedef enum {
 #define ENMB_ATTACK_CLUB_LEFT 3
 
 /* Spear and Club moblins use a different skeleton but the limbs are organized the same */
-typedef enum {
+typedef enum EnMbLimb {
     /*  1 */ ENMB_LIMB_ROOT = 1,
     /*  3 */ ENMB_LIMB_WAIST = 3,
     /*  6 */ ENMB_LIMB_CHEST = 6,
@@ -53,16 +70,16 @@ void EnMb_Destroy(Actor* thisx, PlayState* play);
 void EnMb_Update(Actor* thisx, PlayState* play);
 void EnMb_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Mb_InitVars = {
-    ACTOR_EN_MB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_MB,
-    sizeof(EnMb),
-    (ActorFunc)EnMb_Init,
-    (ActorFunc)EnMb_Destroy,
-    (ActorFunc)EnMb_Update,
-    (ActorFunc)EnMb_Draw,
+ActorProfile En_Mb_Profile = {
+    /**/ ACTOR_EN_MB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_MB,
+    /**/ sizeof(EnMb),
+    /**/ EnMb_Init,
+    /**/ EnMb_Destroy,
+    /**/ EnMb_Update,
+    /**/ EnMb_Draw,
 };
 
 void EnMb_SetupSpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play);
@@ -89,9 +106,9 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play);
 void EnMb_ClubWaitAfterAttack(EnMb* this, PlayState* play);
 void EnMb_ClubDamaged(EnMb* this, PlayState* play);
 
-static ColliderCylinderInit sHitboxInit = {
+static ColliderCylinderInit sBodyColliderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -99,44 +116,44 @@ static ColliderCylinderInit sHitboxInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sFrontShieldingTrisInit[2] = {
+static ColliderTrisElementInit sFrontShieldingTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO,
             OCELEM_NONE,
         },
         { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO,
             OCELEM_NONE,
         },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
 };
 
-static ColliderTrisInit sFrontShieldingInit = {
+static ColliderTrisInit sFrontShieldingTrisInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -144,12 +161,12 @@ static ColliderTrisInit sFrontShieldingInit = {
         COLSHAPE_TRIS,
     },
     2,
-    sFrontShieldingTrisInit,
+    sFrontShieldingTrisElementsInit,
 };
 
-static ColliderQuadInit sAttackColliderInit = {
+static ColliderQuadInit sAttackColliderQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -157,98 +174,98 @@ static ColliderQuadInit sAttackColliderInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
-    /* 0x0 */ ENMB_DMGEFF_IGNORE,
-    /* 0x1 */ ENMB_DMGEFF_STUN,
-    /* 0x5 */ ENMB_DMGEFF_FREEZE = 0x5,
-    /* 0x6 */ ENMB_DMGEFF_STUN_ICE,
-    /* 0xF */ ENMB_DMGEFF_DEFAULT = 0xF
-} EnMbDamageEffect;
+typedef enum EnMbDamageReaction {
+    /* 0x0 */ ENMB_DMG_REACT_IGNORE,
+    /* 0x1 */ ENMB_DMG_REACT_STUN,
+    /* 0x5 */ ENMB_DMG_REACT_FREEZE = 0x5,
+    /* 0x6 */ ENMB_DMG_REACT_STUN_ICE,
+    /* 0xF */ ENMB_DMG_REACT_DEFAULT = 0xF
+} EnMbDamageReaction;
 
 static DamageTable sSpearMoblinDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, ENMB_DMGEFF_FREEZE),
-    /* Deku stick    */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Slingshot     */ DMG_ENTRY(1, ENMB_DMGEFF_DEFAULT),
-    /* Explosive     */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Boomerang     */ DMG_ENTRY(0, ENMB_DMGEFF_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Hammer swing  */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Hookshot      */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Kokiri sword  */ DMG_ENTRY(1, ENMB_DMGEFF_DEFAULT),
-    /* Master sword  */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Giant's Knife */ DMG_ENTRY(4, ENMB_DMGEFF_DEFAULT),
-    /* Fire arrow    */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Ice arrow     */ DMG_ENTRY(4, ENMB_DMGEFF_STUN_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Unk arrow 1   */ DMG_ENTRY(4, ENMB_DMGEFF_DEFAULT),
-    /* Unk arrow 2   */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Unk arrow 3   */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Fire magic    */ DMG_ENTRY(0, ENMB_DMGEFF_FREEZE),
-    /* Ice magic     */ DMG_ENTRY(3, ENMB_DMGEFF_STUN_ICE),
-    /* Light magic   */ DMG_ENTRY(0, ENMB_DMGEFF_FREEZE),
-    /* Shield        */ DMG_ENTRY(0, ENMB_DMGEFF_IGNORE),
-    /* Mirror Ray    */ DMG_ENTRY(0, ENMB_DMGEFF_IGNORE),
-    /* Kokiri spin   */ DMG_ENTRY(1, ENMB_DMGEFF_DEFAULT),
-    /* Giant spin    */ DMG_ENTRY(4, ENMB_DMGEFF_DEFAULT),
-    /* Master spin   */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Kokiri jump   */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Giant jump    */ DMG_ENTRY(8, ENMB_DMGEFF_DEFAULT),
-    /* Master jump   */ DMG_ENTRY(4, ENMB_DMGEFF_DEFAULT),
-    /* Unknown 1     */ DMG_ENTRY(0, ENMB_DMGEFF_FREEZE),
-    /* Unblockable   */ DMG_ENTRY(0, ENMB_DMGEFF_IGNORE),
-    /* Hammer jump   */ DMG_ENTRY(4, ENMB_DMGEFF_DEFAULT),
-    /* Unknown 2     */ DMG_ENTRY(0, ENMB_DMGEFF_IGNORE),
+    /* Deku nut      */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Deku stick    */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Slingshot     */ DMG_ENTRY(1, ENMB_DMG_REACT_DEFAULT),
+    /* Explosive     */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Boomerang     */ DMG_ENTRY(0, ENMB_DMG_REACT_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Hammer swing  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Hookshot      */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Kokiri sword  */ DMG_ENTRY(1, ENMB_DMG_REACT_DEFAULT),
+    /* Master sword  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Giant's Knife */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Fire arrow    */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Ice arrow     */ DMG_ENTRY(4, ENMB_DMG_REACT_STUN_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 1   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 2   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 3   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Fire magic    */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Ice magic     */ DMG_ENTRY(3, ENMB_DMG_REACT_STUN_ICE),
+    /* Light magic   */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Shield        */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Kokiri spin   */ DMG_ENTRY(1, ENMB_DMG_REACT_DEFAULT),
+    /* Giant spin    */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Master spin   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Kokiri jump   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Giant jump    */ DMG_ENTRY(8, ENMB_DMG_REACT_DEFAULT),
+    /* Master jump   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unknown 1     */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Unblockable   */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Hammer jump   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unknown 2     */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
 };
 
 static DamageTable sClubMoblinDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, ENMB_DMGEFF_FREEZE),
-    /* Deku stick    */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Slingshot     */ DMG_ENTRY(0, ENMB_DMGEFF_IGNORE),
-    /* Explosive     */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Boomerang     */ DMG_ENTRY(0, ENMB_DMGEFF_IGNORE),
-    /* Normal arrow  */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Hammer swing  */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Hookshot      */ DMG_ENTRY(0, ENMB_DMGEFF_STUN),
-    /* Kokiri sword  */ DMG_ENTRY(1, ENMB_DMGEFF_DEFAULT),
-    /* Master sword  */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Giant's Knife */ DMG_ENTRY(4, ENMB_DMGEFF_DEFAULT),
-    /* Fire arrow    */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Ice arrow     */ DMG_ENTRY(4, ENMB_DMGEFF_STUN_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Unk arrow 1   */ DMG_ENTRY(4, ENMB_DMGEFF_DEFAULT),
-    /* Unk arrow 2   */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Unk arrow 3   */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Fire magic    */ DMG_ENTRY(0, ENMB_DMGEFF_FREEZE),
-    /* Ice magic     */ DMG_ENTRY(3, ENMB_DMGEFF_STUN_ICE),
-    /* Light magic   */ DMG_ENTRY(0, ENMB_DMGEFF_FREEZE),
-    /* Shield        */ DMG_ENTRY(0, ENMB_DMGEFF_IGNORE),
-    /* Mirror Ray    */ DMG_ENTRY(0, ENMB_DMGEFF_IGNORE),
-    /* Kokiri spin   */ DMG_ENTRY(1, ENMB_DMGEFF_DEFAULT),
-    /* Giant spin    */ DMG_ENTRY(4, ENMB_DMGEFF_DEFAULT),
-    /* Master spin   */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Kokiri jump   */ DMG_ENTRY(2, ENMB_DMGEFF_DEFAULT),
-    /* Giant jump    */ DMG_ENTRY(8, ENMB_DMGEFF_DEFAULT),
-    /* Master jump   */ DMG_ENTRY(4, ENMB_DMGEFF_DEFAULT),
-    /* Unknown 1     */ DMG_ENTRY(0, ENMB_DMGEFF_FREEZE),
-    /* Unblockable   */ DMG_ENTRY(0, ENMB_DMGEFF_IGNORE),
-    /* Hammer jump   */ DMG_ENTRY(4, ENMB_DMGEFF_DEFAULT),
-    /* Unknown 2     */ DMG_ENTRY(0, ENMB_DMGEFF_IGNORE),
+    /* Deku nut      */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Deku stick    */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Slingshot     */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Explosive     */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Boomerang     */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Normal arrow  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Hammer swing  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Hookshot      */ DMG_ENTRY(0, ENMB_DMG_REACT_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, ENMB_DMG_REACT_DEFAULT),
+    /* Master sword  */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Giant's Knife */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Fire arrow    */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Ice arrow     */ DMG_ENTRY(4, ENMB_DMG_REACT_STUN_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 1   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 2   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Unk arrow 3   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Fire magic    */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Ice magic     */ DMG_ENTRY(3, ENMB_DMG_REACT_STUN_ICE),
+    /* Light magic   */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Shield        */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Kokiri spin   */ DMG_ENTRY(1, ENMB_DMG_REACT_DEFAULT),
+    /* Giant spin    */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Master spin   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Kokiri jump   */ DMG_ENTRY(2, ENMB_DMG_REACT_DEFAULT),
+    /* Giant jump    */ DMG_ENTRY(8, ENMB_DMG_REACT_DEFAULT),
+    /* Master jump   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unknown 1     */ DMG_ENTRY(0, ENMB_DMG_REACT_FREEZE),
+    /* Unblockable   */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
+    /* Hammer jump   */ DMG_ENTRY(4, ENMB_DMG_REACT_DEFAULT),
+    /* Unknown 2     */ DMG_ENTRY(0, ENMB_DMG_REACT_IGNORE),
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_MOBLIN, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 5300, ICHAIN_STOP),
 };
 
 void EnMb_SetupAction(EnMb* this, EnMbActionFunc actionFunc) {
@@ -265,12 +282,13 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 46.0f);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.colChkInfo.damageTable = &sSpearMoblinDamageTable;
-    Collider_InitCylinder(play, &this->hitbox);
-    Collider_SetCylinder(play, &this->hitbox, &this->actor, &sHitboxInit);
-    Collider_InitTris(play, &this->frontShielding);
-    Collider_SetTris(play, &this->frontShielding, &this->actor, &sFrontShieldingInit, this->frontShieldingTris);
+    Collider_InitCylinder(play, &this->bodyCollider);
+    Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sBodyColliderInit);
+    Collider_InitTris(play, &this->frontShieldingCollider);
+    Collider_SetTris(play, &this->frontShieldingCollider, &this->actor, &sFrontShieldingTrisInit,
+                     this->frontShieldingColliderElements);
     Collider_InitQuad(play, &this->attackCollider);
-    Collider_SetQuad(play, &this->attackCollider, &this->actor, &sAttackColliderInit);
+    Collider_SetQuad(play, &this->attackCollider, &this->actor, &sAttackColliderQuadInit);
 
     switch (this->actor.params) {
         case ENMB_TYPE_SPEAR_GUARD:
@@ -290,13 +308,13 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
             this->actor.colChkInfo.mass = MASS_IMMOVABLE;
             this->actor.colChkInfo.damageTable = &sClubMoblinDamageTable;
             Actor_SetScale(&this->actor, 0.02f);
-            this->hitbox.dim.height = 170;
-            this->hitbox.dim.radius = 45;
-            this->actor.uncullZoneForward = 4000.0f;
-            this->actor.uncullZoneScale = 800.0f;
-            this->actor.uncullZoneDownward = 1800.0f;
+            this->bodyCollider.dim.height = 170;
+            this->bodyCollider.dim.radius = 45;
+            this->actor.cullingVolumeDistance = 4000.0f;
+            this->actor.cullingVolumeScale = 800.0f;
+            this->actor.cullingVolumeDownward = 1800.0f;
             this->playerDetectionRange = 710.0f;
-            this->attackCollider.info.toucher.dmgFlags = DMG_UNBLOCKABLE;
+            this->attackCollider.elem.atDmgInfo.dmgFlags = DMG_UNBLOCKABLE;
 
             relYawFromPlayer =
                 this->actor.world.rot.y - Math_Vec3f_Yaw(&this->actor.world.pos, &player->actor.world.pos);
@@ -307,8 +325,8 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
             }
 
             ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
-            this->actor.flags &= ~ACTOR_FLAG_0;
-            this->actor.naviEnemyId += 1; // NAVI_ENEMY_MOBLIN_CLUB
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+            this->actor.naviEnemyId += NAVI_ENEMY_MOBLIN_CLUB - NAVI_ENEMY_MOBLIN;
             EnMb_SetupClubWaitPlayerNear(this);
             break;
         default: /* Spear Patrol */
@@ -316,14 +334,14 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
                                this->morphTable, 28);
 
             Actor_SetScale(&this->actor, 0.014f);
-            this->path = (thisx->params & 0xFF00) >> 8;
+            this->path = PARAMS_GET_S(thisx->params, 8, 8);
             this->actor.params = ENMB_TYPE_SPEAR_PATROL;
             this->waypoint = 0;
             this->actor.colChkInfo.health = 1;
             this->actor.colChkInfo.mass = MASS_HEAVY;
             this->maxHomeDist = 350.0f;
             this->playerDetectionRange = 1750.0f;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             EnMb_SetupSpearPatrolTurnTowardsWaypoint(this, play);
             break;
     }
@@ -332,8 +350,8 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
 void EnMb_Destroy(Actor* thisx, PlayState* play) {
     EnMb* this = (EnMb*)thisx;
 
-    Collider_DestroyTris(play, &this->frontShielding);
-    Collider_DestroyCylinder(play, &this->hitbox);
+    Collider_DestroyTris(play, &this->frontShieldingCollider);
+    Collider_DestroyCylinder(play, &this->bodyCollider);
     Collider_DestroyQuad(play, &this->attackCollider);
 }
 
@@ -348,7 +366,7 @@ void EnMb_NextWaypoint(EnMb* this, PlayState* play) {
     Path* path;
     Vec3s* waypointPos;
 
-    path = &play->setupPathList[this->path];
+    path = &play->pathList[this->path];
 
     if (this->waypoint == 0) {
         this->direction = 1;
@@ -404,7 +422,7 @@ s32 EnMb_IsPlayerInCorridor(EnMb* this, PlayState* play) {
 }
 
 void EnMb_FindWaypointTowardsPlayer(EnMb* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->path];
+    Path* path = &play->pathList[this->path];
     s16 yawToWaypoint;
     Vec3f waypointPosF;
     Vec3s* waypointPosS;
@@ -433,7 +451,7 @@ void EnMb_FindWaypointTowardsPlayer(EnMb* this, PlayState* play) {
 
 void EnMb_SetupSpearGuardLookAround(EnMb* this) {
     Animation_MorphToLoop(&this->skelAnime, &gEnMbSpearLookLeftAndRightAnim, -4.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->timer1 = Rand_S16Offset(30, 50);
     this->state = ENMB_STATE_IDLE;
     EnMb_SetupAction(this, EnMb_SpearGuardLookAround);
@@ -441,7 +459,7 @@ void EnMb_SetupSpearGuardLookAround(EnMb* this) {
 
 void EnMb_SetupClubWaitPlayerNear(EnMb* this) {
     Animation_PlayLoop(&this->skelAnime, &gEnMbClubStandStillClubDownAnim);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->timer1 = Rand_S16Offset(30, 50);
     this->state = ENMB_STATE_IDLE;
     EnMb_SetupAction(this, EnMb_ClubWaitPlayerNear);
@@ -449,7 +467,7 @@ void EnMb_SetupClubWaitPlayerNear(EnMb* this) {
 
 void EnMb_SetupSpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play) {
     Animation_MorphToLoop(&this->skelAnime, &gEnMbSpearLookLeftAndRightAnim, -4.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->timer1 = Rand_S16Offset(40, 80);
     this->state = ENMB_STATE_IDLE;
     EnMb_NextWaypoint(this, play);
@@ -459,7 +477,7 @@ void EnMb_SetupSpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play) {
 void EnMb_SetupSpearGuardWalk(EnMb* this) {
     Animation_Change(&this->skelAnime, &gEnMbSpearWalkAnim, 0.0f, 0.0f, Animation_GetLastFrame(&gEnMbSpearWalkAnim),
                      ANIMMODE_LOOP, -4.0f);
-    this->actor.speedXZ = 0.59999996f;
+    this->actor.speed = 0.59999996f;
     this->timer1 = Rand_S16Offset(50, 70);
     this->unk_332 = 1;
     this->state = ENMB_STATE_WALK;
@@ -469,7 +487,7 @@ void EnMb_SetupSpearGuardWalk(EnMb* this) {
 void EnMb_SetupSpearPatrolWalkTowardsWaypoint(EnMb* this) {
     f32 frameCount = Animation_GetLastFrame(&gEnMbSpearWalkAnim);
 
-    this->actor.speedXZ = 0.59999996f;
+    this->actor.speed = 0.59999996f;
     this->timer1 = Rand_S16Offset(50, 70);
     this->unk_332 = 1;
     this->state = ENMB_STATE_WALK;
@@ -482,9 +500,9 @@ void EnMb_SetupSpearPrepareAndCharge(EnMb* this) {
 
     Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbSpearPrepareChargeAnim, -4.0f);
     this->state = ENMB_STATE_ATTACK;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->timer3 = (s16)frameCount + 6;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_AT);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_AT);
     if (this->actor.params == ENMB_TYPE_SPEAR_GUARD) {
         EnMb_SetupAction(this, EnMb_SpearGuardPrepareAndCharge);
     } else {
@@ -494,11 +512,11 @@ void EnMb_SetupSpearPrepareAndCharge(EnMb* this) {
 
 void EnMb_SetupSpearPatrolImmediateCharge(EnMb* this) {
     Animation_PlayLoop(&this->skelAnime, &gEnMbSpearChargeAnim);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_ATTACK);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_ATTACK);
     this->attack = ENMB_ATTACK_SPEAR;
     this->state = ENMB_STATE_ATTACK;
     this->timer3 = 3;
-    this->actor.speedXZ = 10.0f;
+    this->actor.speed = 10.0f;
     EnMb_SetupAction(this, EnMb_SpearPatrolImmediateCharge);
 }
 
@@ -527,7 +545,7 @@ void EnMb_SetupSpearEndChargeQuick(EnMb* this) {
     this->state = ENMB_STATE_ATTACK_END;
     this->timer1 = 0;
     this->timer3 = 5;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SLIDE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_SLIDE);
     EnMb_SetupAction(this, EnMb_SpearEndChargeQuick);
 }
 
@@ -537,9 +555,9 @@ void EnMb_SetupSpearPatrolEndCharge(EnMb* this) {
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     this->timer1 = 0;
     this->timer3 = 50;
-    this->actor.speedXZ = -8.0f;
+    this->actor.speed = -8.0f;
     this->actor.velocity.y = 6.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SLIDE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_SLIDE);
     EnMb_SetupAction(this, EnMb_SpearPatrolEndCharge);
 }
 
@@ -557,7 +575,7 @@ void EnMb_SetupClubDamaged(EnMb* this) {
     this->state = ENMB_STATE_CLUB_KNEELING;
     this->timer1 = 0;
     this->timer3 = 20;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
     EnMb_SetupAction(this, EnMb_ClubDamaged);
 }
 
@@ -574,26 +592,26 @@ void EnMb_SetupClubDamagedWhileKneeling(EnMb* this) {
 void EnMb_SetupClubDead(EnMb* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbClubFallOnItsBackAnim, -4.0f);
     this->state = ENMB_STATE_CLUB_DEAD;
-    this->actor.flags &= ~ACTOR_FLAG_0;
-    this->hitbox.dim.height = 80;
-    this->hitbox.dim.radius = 95;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+    this->bodyCollider.dim.height = 80;
+    this->bodyCollider.dim.radius = 95;
     this->timer1 = 30;
-    this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
+    this->actor.speed = 0.0f;
+    Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
     EnMb_SetupAction(this, EnMb_ClubDead);
 }
 
 void EnMb_SetupStunned(EnMb* this) {
     this->state = ENMB_STATE_STUNNED;
-    this->actor.speedXZ = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
-    if (this->damageEffect == ENMB_DMGEFF_STUN_ICE) {
+    this->actor.speed = 0.0f;
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
+    if (this->damageReaction == ENMB_DMG_REACT_STUN_ICE) {
         this->iceEffectTimer = 40;
     } else {
         if (this->actor.params != ENMB_TYPE_CLUB) {
             Animation_PlayOnceSetSpeed(&this->skelAnime, &gEnMbSpearDamagedFromFrontAnim, 0.0f);
         }
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     }
     EnMb_SetupAction(this, EnMb_Stunned);
 }
@@ -604,8 +622,10 @@ void EnMb_Stunned(EnMb* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->unk_850 = 200;
-        func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+#if OOT_VERSION >= PAL_1_0
+        player->av2.actionVar2 = 200;
+#endif
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
         this->attack = ENMB_ATTACK_NONE;
     }
 
@@ -664,7 +684,7 @@ void EnMb_SpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play) {
         relYawFromPlayer = this->actor.shape.rot.y - this->actor.yawTowardsPlayer;
         if (ABS(relYawFromPlayer) <= 0x4000 || (func_8002DDE4(play) && this->actor.xzDistToPlayer < 160.0f)) {
             EnMb_FindWaypointTowardsPlayer(this, play);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
             EnMb_SetupSpearPrepareAndCharge(this);
         }
     }
@@ -676,8 +696,8 @@ void EnMb_SpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play) {
 void EnMb_SpearEndChargeQuick(EnMb* this, PlayState* play) {
     s32 pad;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.5f, 1.0f, 0.0f);
-    if (this->actor.speedXZ > 1.0f) {
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.5f, 1.0f, 0.0f);
+    if (this->actor.speed > 1.0f) {
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -688,8 +708,8 @@ void EnMb_SpearEndChargeQuick(EnMb* this, PlayState* play) {
                 Animation_Change(&this->skelAnime, &gEnMbSpearPrepareChargeAnim, -1.0f,
                                  Animation_GetLastFrame(&gEnMbSpearPrepareChargeAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
                 this->timer1 = 1;
-                this->actor.speedXZ = 0.0f;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
+                this->actor.speed = 0.0f;
+                Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
             }
         } else {
             if (this->actor.params <= ENMB_TYPE_SPEAR_GUARD) {
@@ -713,22 +733,26 @@ void EnMb_ClubWaitAfterAttack(EnMb* this, PlayState* play) {
  * Slow down, charge again if the player is near, or resume walking.
  */
 void EnMb_SpearPatrolEndCharge(EnMb* this, PlayState* play) {
+#if OOT_VERSION >= PAL_1_0
     Player* player = GET_PLAYER(play);
+#endif
     f32 lastFrame;
     s16 relYawFromPlayer;
     s16 yawPlayerToWaypoint;
 
+#if OOT_VERSION >= PAL_1_0
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->unk_850 = 200;
-        func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+        player->av2.actionVar2 = 200;
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
     }
+#endif
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.5f, 0.0f);
 
-        if (this->actor.speedXZ > 1.0f) {
+        if (this->actor.speed > 1.0f) {
             Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
         }
 
@@ -745,14 +769,14 @@ void EnMb_SpearPatrolEndCharge(EnMb* this, PlayState* play) {
                     /* Play the charge animation in reverse: let go of the spear and stand normally */
                     Animation_Change(&this->skelAnime, &gEnMbSpearPrepareChargeAnim, -1.0f, lastFrame, 0.0f,
                                      ANIMMODE_ONCE, 0.0f);
-                    this->actor.speedXZ = 0.0f;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
+                    this->actor.speed = 0.0f;
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
                 }
             } else {
                 if (this->actor.xzDistToPlayer <= 160.0f) {
-                    this->actor.speedXZ = -5.0f;
+                    this->actor.speed = -5.0f;
                 } else {
-                    this->actor.speedXZ = 0.0f;
+                    this->actor.speed = 0.0f;
                 }
             }
         }
@@ -792,19 +816,19 @@ void EnMb_SpearGuardPrepareAndCharge(EnMb* this, PlayState* play) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         Animation_PlayLoop(&this->skelAnime, &gEnMbSpearChargeAnim);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_ATTACK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_ATTACK);
     }
 
     if (this->timer3 != 0) {
         this->timer3--;
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 0);
     } else {
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
         this->attack = ENMB_ATTACK_SPEAR;
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
         if (prevFrame != (s32)this->skelAnime.curFrame &&
             ((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 6)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DASH);
         }
     }
 
@@ -839,8 +863,9 @@ void EnMb_ClubAttack(EnMb* this, PlayState* play) {
                 }
             }
 
-            func_8002F71C(play, &this->actor, (650.0f - this->actor.xzDistToPlayer) * 0.04f + 4.0f,
-                          this->actor.world.rot.y, 8.0f);
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor,
+                                                  (650.0f - this->actor.xzDistToPlayer) * 0.04f + 4.0f,
+                                                  this->actor.world.rot.y, 8.0f);
 
             player->invincibilityTimer = prevPlayerInvincibilityTimer;
         }
@@ -857,22 +882,22 @@ void EnMb_ClubAttack(EnMb* this, PlayState* play) {
         } else {
             effSpawnPos = this->effSpawnPos;
             effSpawnPos.y = this->actor.floorHeight;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_LAND);
-            func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MONBLIN_HAM_LAND);
+            Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
             EffectSsBlast_SpawnWhiteShockwave(play, &effSpawnPos, &effWhiteShockwaveDynamics,
                                               &effWhiteShockwaveDynamics);
             func_80033480(play, &effSpawnPos, 2.0f, 3, 0x12C, 0xB4, 1);
-            Camera_AddQuake(&play->mainCamera, 2, 0x19, 5);
+            Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
             func_800358DC(&this->actor, &effSpawnPos, &this->actor.world.rot, flamesParams, 20, flamesUnused, play, -1,
-                          0);
+                          NULL);
             EnMb_SetupClubWaitAfterAttack(this);
         }
     } else {
         if (this->timer3 != 0 && this->skelAnime.curFrame == 6.0f) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_UP);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MONBLIN_HAM_UP);
 
         } else if (this->timer3 == 0 && this->skelAnime.curFrame == 3.0f) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_DOWN);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MONBLIN_HAM_DOWN);
         }
     }
 }
@@ -889,7 +914,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
     prevFrame = (s32)this->skelAnime.curFrame;
     if (SkelAnime_Update(&this->skelAnime)) {
         Animation_PlayLoop(&this->skelAnime, &gEnMbSpearChargeAnim);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_ATTACK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_ATTACK);
     }
 
     if (this->timer3 != 0) {
@@ -897,12 +922,12 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 1, 0x1F40, 0);
         endCharge = false;
     } else {
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
         this->attack = ENMB_ATTACK_SPEAR;
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
         if (prevFrame != (s32)this->skelAnime.curFrame &&
             ((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 6)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DASH);
         }
     }
 
@@ -910,7 +935,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
         if (this->attackCollider.base.at == &player->actor) {
             if (!endCharge && !(player->stateFlags2 & PLAYER_STATE2_7)) {
                 if (player->invincibilityTimer < 0) {
-                    if (player->invincibilityTimer < -39) {
+                    if (player->invincibilityTimer <= -40) {
                         player->invincibilityTimer = 0;
                     } else {
                         player->invincibilityTimer = 0;
@@ -918,7 +943,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
                     }
                 }
                 if (!(this->attackCollider.base.atFlags & AT_BOUNCED)) {
-                    Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
+                    Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
                 }
                 if (play->grabPlayer(play, player)) {
                     player->actor.parent = &this->actor;
@@ -936,23 +961,36 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
         hasHitPlayer = true;
         player->actor.world.pos.z = this->actor.world.pos.z + Math_SinS(this->actor.shape.rot.y) * 10.0f +
                                     Math_CosS(this->actor.shape.rot.y) * 89.0f;
-        player->unk_850 = 0;
-        player->actor.speedXZ = 0.0f;
+        player->av2.actionVar2 = 0;
+        player->actor.speed = 0.0f;
         player->actor.velocity.y = 0.0f;
     }
 
     if (endCharge) {
         if (hasHitPlayer || (player->stateFlags2 & PLAYER_STATE2_7)) {
+#if OOT_VERSION < PAL_1_0
+            player->stateFlags2 &= ~PLAYER_STATE2_7;
+            this->attackCollider.base.atFlags &= ~AT_HIT;
+            player->actor.parent = NULL;
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+#elif OOT_VERSION < NTSC_1_2
+            player->stateFlags2 &= ~PLAYER_STATE2_7;
+            this->attackCollider.base.atFlags &= ~AT_HIT;
+            player->actor.parent = NULL;
+            player->av2.actionVar2 = 200;
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+#else
             this->attackCollider.base.atFlags &= ~AT_HIT;
             if (player->stateFlags2 & PLAYER_STATE2_7) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
-                player->unk_850 = 200;
-                func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+                player->av2.actionVar2 = 200;
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
             }
+#endif
         }
         this->attack = ENMB_ATTACK_NONE;
-        this->actor.speedXZ = -10.0f;
+        this->actor.speed = -10.0f;
         EnMb_SetupSpearPatrolEndCharge(this);
     }
 }
@@ -972,7 +1010,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
     Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
     if (prevFrame != (s32)this->skelAnime.curFrame &&
         ((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 6)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DASH);
     }
 
     if (this->attackCollider.base.atFlags & AT_HIT) {
@@ -987,7 +1025,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
                     }
                 }
                 if (!(this->attackCollider.base.atFlags & AT_BOUNCED)) {
-                    Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
+                    Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
                 }
                 if (play->grabPlayer(play, player)) {
                     player->actor.parent = &this->actor;
@@ -1005,22 +1043,35 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
         hasHitPlayer = true;
         player->actor.world.pos.z = this->actor.world.pos.z + Math_SinS(this->actor.shape.rot.y) * 10.0f +
                                     Math_CosS(this->actor.shape.rot.y) * 89.0f;
-        player->unk_850 = 0;
-        player->actor.speedXZ = 0.0f;
+        player->av2.actionVar2 = 0;
+        player->actor.speed = 0.0f;
         player->actor.velocity.y = 0.0f;
     }
 
     if (endCharge) {
         if (hasHitPlayer || (player->stateFlags2 & PLAYER_STATE2_7)) {
+#if OOT_VERSION < PAL_1_0
+            this->attackCollider.base.atFlags &= ~AT_HIT;
+            player->stateFlags2 &= ~PLAYER_STATE2_7;
+            player->actor.parent = NULL;
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+#elif OOT_VERSION < NTSC_1_2
+            this->attackCollider.base.atFlags &= ~AT_HIT;
+            player->stateFlags2 &= ~PLAYER_STATE2_7;
+            player->actor.parent = NULL;
+            player->av2.actionVar2 = 200;
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+#else
             this->attackCollider.base.atFlags &= ~AT_HIT;
             if (player->stateFlags2 & PLAYER_STATE2_7) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
-                player->unk_850 = 200;
-                func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+                player->av2.actionVar2 = 200;
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
             }
+#endif
             this->attack = ENMB_ATTACK_NONE;
-            this->actor.speedXZ = -10.0f;
+            this->actor.speed = -10.0f;
             EnMb_SetupSpearPatrolEndCharge(this);
             this->timer3 = 1;
         } else {
@@ -1043,8 +1094,8 @@ void EnMb_ClubDamaged(EnMb* this, PlayState* play) {
         if (this->timer3 != 0) {
             Animation_PlayOnce(&this->skelAnime, &gEnMbClubStandUpAnim);
             this->timer3 = 0;
-            func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
-            Camera_AddQuake(&play->mainCamera, 2, 25, 5);
+            Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
+            Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
         } else {
             EnMb_SetupClubWaitPlayerNear(this);
         }
@@ -1052,13 +1103,13 @@ void EnMb_ClubDamaged(EnMb* this, PlayState* play) {
 }
 
 void EnMb_ClubDamagedWhileKneeling(EnMb* this, PlayState* play) {
-    s32 pad;
-
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer3 != 0) {
             this->timer3--;
             if (this->timer3 == 0) {
                 if (this->timer1 == 0) {
+                    s32 pad;
+
                     Animation_Change(&this->skelAnime, &gEnMbClubStandUpAnim, 3.0f, 0.0f,
                                      Animation_GetLastFrame(&gEnMbClubStandUpAnim), ANIMMODE_ONCE_INTERP, 0.0f);
                     this->timer1 = 1;
@@ -1081,7 +1132,7 @@ void EnMb_ClubDead(EnMb* this, PlayState* play) {
     effPos = this->actor.world.pos;
     effPos.x += Math_SinS(this->actor.shape.rot.y) * -70.0f;
     effPos.z += Math_CosS(this->actor.shape.rot.y) * -70.0f;
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     effPosBase = effPos;
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1102,10 +1153,10 @@ void EnMb_ClubDead(EnMb* this, PlayState* play) {
             Actor_Kill(&this->actor);
         }
     } else if ((s32)this->skelAnime.curFrame == 15 || (s32)this->skelAnime.curFrame == 22) {
-        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+        Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
         Actor_SpawnFloorDustRing(play, &this->actor, &effPos, 50.0f, 10, 3.0f, 400, 60, false);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
-        Camera_AddQuake(&play->mainCamera, 2, 25, 5);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_DOWN);
+        Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
     }
 }
 
@@ -1123,8 +1174,8 @@ void EnMb_SpearGuardWalk(EnMb* this, PlayState* play) {
     f32 playSpeedAbs;
 
     relYawTowardsPlayer = ABS(relYawTowardsPlayer);
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
-    this->skelAnime.playSpeed = this->actor.speedXZ;
+    Math_SmoothStepToF(&this->actor.speed, 0.59999996f, 0.1f, 1.0f, 0.0f);
+    this->skelAnime.playSpeed = this->actor.speed;
     prevFrame = this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
 
@@ -1134,12 +1185,12 @@ void EnMb_SpearGuardWalk(EnMb* this, PlayState* play) {
     if (this->timer3 == 0 &&
         Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->playerDetectionRange) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         if (this->actor.xzDistToPlayer < 500.0f && relYawTowardsPlayer < 0x1388) {
             EnMb_SetupSpearPrepareAndCharge(this);
         }
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         if (Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) > this->maxHomeDist || this->timer2 != 0) {
             yawTowardsHome = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
             Math_SmoothStepToS(&this->actor.world.rot.y, yawTowardsHome, 1, 0x2EE, 0);
@@ -1151,7 +1202,7 @@ void EnMb_SpearGuardWalk(EnMb* this, PlayState* play) {
             this->timer3--;
         }
         if (this->timer2 == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
         }
         this->timer1--;
         if (this->timer1 == 0) {
@@ -1167,7 +1218,7 @@ void EnMb_SpearGuardWalk(EnMb* this, PlayState* play) {
     if (prevFrame != (s32)this->skelAnime.curFrame) {
         if ((beforeCurFrame <= 1 && prevFrame + (s32)playSpeedAbs >= 1) ||
             (beforeCurFrame <= 20 && prevFrame + (s32)playSpeedAbs >= 20)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 
@@ -1185,8 +1236,8 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, PlayState* play) {
         (Rand_ZeroOne() < 0.1f && Math_Vec3f_DistXZ(&this->actor.home.pos, &this->actor.world.pos) <= 4.0f)) {
         EnMb_SetupSpearPatrolTurnTowardsWaypoint(this, play);
     } else {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
-        this->skelAnime.playSpeed = 2.0f * this->actor.speedXZ;
+        Math_SmoothStepToF(&this->actor.speed, 0.59999996f, 0.1f, 1.0f, 0.0f);
+        this->skelAnime.playSpeed = 2.0f * this->actor.speed;
     }
 
     this->yawToWaypoint = Math_Vec3f_Yaw(&this->actor.world.pos, &this->waypointPos);
@@ -1197,7 +1248,7 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, PlayState* play) {
         relYawTowardsPlayer = (this->actor.shape.rot.y - this->actor.yawTowardsPlayer);
         if (ABS(relYawTowardsPlayer) <= 0x4000 || (func_8002DDE4(play) && this->actor.xzDistToPlayer < 160.0f)) {
             EnMb_FindWaypointTowardsPlayer(this, play);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
             EnMb_SetupSpearPrepareAndCharge(this);
             return;
         }
@@ -1210,7 +1261,7 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, PlayState* play) {
         this->timer3--;
     }
     if (this->timer2 == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
         this->timer2 = Rand_S16Offset(30, 70);
     }
 
@@ -1222,7 +1273,7 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, PlayState* play) {
     if (prevFrame != (s32)this->skelAnime.curFrame) {
         if ((beforeCurFrame <= 1 && (s32)playSpeedABS + prevFrame >= 1) ||
             (beforeCurFrame <= 20 && (s32)playSpeedABS + prevFrame >= 20)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 
@@ -1246,21 +1297,21 @@ void EnMb_SetupSpearDamaged(EnMb* this) {
 
     if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbSpearDamagedFromFrontAnim, -4.0f);
-        this->actor.speedXZ = -8.0f;
+        this->actor.speed = -8.0f;
     } else {
         Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbSpearDamagedFromBehindAnim, -4.0f);
-        this->actor.speedXZ = 8.0f;
+        this->actor.speed = 8.0f;
     }
 
     this->timer1 = 30;
     this->state = ENMB_STATE_SPEAR_SPEARPATH_DAMAGED;
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
     EnMb_SetupAction(this, EnMb_SpearDamaged);
 }
 
 void EnMb_SpearDamaged(EnMb* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.params <= ENMB_TYPE_SPEAR_GUARD) {
             EnMb_SetupSpearGuardLookAround(this);
@@ -1275,33 +1326,46 @@ void EnMb_SetupSpearDead(EnMb* this) {
 
     if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbSpearFallOnItsBackAnim, -4.0f);
-        this->actor.speedXZ = -8.0f;
+        this->actor.speed = -8.0f;
     } else {
         /* The gEnMbSpearFallFaceDownAnim animation was probably meant to be used here */
         Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbSpearFallOnItsBackAnim, -4.0f);
-        this->actor.speedXZ = 8.0f;
+        this->actor.speed = 8.0f;
     }
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->timer1 = 30;
     this->state = ENMB_STATE_SPEAR_SPEARPATH_DAMAGED;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     EnMb_SetupAction(this, EnMb_SpearDead);
 }
 
 void EnMb_SpearDead(EnMb* this, PlayState* play) {
+#if OOT_VERSION >= NTSC_1_1
     Player* player = GET_PLAYER(play);
+#endif
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
 
+#if OOT_VERSION < NTSC_1_1
+    // Empty
+#elif OOT_VERSION < PAL_1_0
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->unk_850 = 200;
-        func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
         this->attack = ENMB_ATTACK_NONE;
     }
+#else
+    if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
+        player->stateFlags2 &= ~PLAYER_STATE2_7;
+        player->actor.parent = NULL;
+        player->av2.actionVar2 = 200;
+        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+        this->attack = ENMB_ATTACK_NONE;
+    }
+#endif
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer1 > 0) {
@@ -1371,31 +1435,33 @@ void EnMb_ClubUpdateAttackCollider(Actor* thisx, PlayState* play) {
 void EnMb_CheckColliding(EnMb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (this->frontShielding.base.acFlags & AC_HIT) {
-        this->frontShielding.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
-        this->hitbox.base.acFlags &= ~AC_HIT;
-    } else if ((this->hitbox.base.acFlags & AC_HIT) && this->state >= ENMB_STATE_STUNNED) {
-        this->hitbox.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_IGNORE &&
-            this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {
+    if (this->frontShieldingCollider.base.acFlags & AC_HIT) {
+        this->frontShieldingCollider.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
+    } else if ((this->bodyCollider.base.acFlags & AC_HIT) && this->state >= ENMB_STATE_STUNNED) {
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
+        if (this->actor.colChkInfo.damageReaction != ENMB_DMG_REACT_IGNORE &&
+            this->actor.colChkInfo.damageReaction != ENMB_DMG_REACT_FREEZE) {
             if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
-                player->unk_850 = 200;
-                func_8002F71C(play, &this->actor, 6.0f, this->actor.world.rot.y, 6.0f);
+#if OOT_VERSION >= PAL_1_0
+                player->av2.actionVar2 = 200;
+#endif
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 6.0f, this->actor.world.rot.y, 6.0f);
             }
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
             this->attack = ENMB_ATTACK_NONE;
-            Actor_SetDropFlag(&this->actor, &this->hitbox.info, false);
-            if (this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN ||
-                this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN_ICE) {
+            Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
+            if (this->actor.colChkInfo.damageReaction == ENMB_DMG_REACT_STUN ||
+                this->actor.colChkInfo.damageReaction == ENMB_DMG_REACT_STUN_ICE) {
                 if (this->state != ENMB_STATE_STUNNED) {
                     Actor_ApplyDamage(&this->actor);
                     EnMb_SetupStunned(this);
                 }
             } else {
                 Actor_ApplyDamage(&this->actor);
-                Actor_SetColorFilter(&this->actor, 0x4000, 0xFA, 0, 0xC);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 250, COLORFILTER_BUFFLAG_OPA, 12);
                 if (this->actor.params == ENMB_TYPE_CLUB) {
                     if (this->actor.colChkInfo.health == 0) {
                         EnMb_SetupClubDead(this);
@@ -1419,25 +1485,25 @@ void EnMb_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     EnMb_CheckColliding(this, play);
-    if (thisx->colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {
+    if (thisx->colChkInfo.damageReaction != ENMB_DMG_REACT_FREEZE) {
         this->actionFunc(this, play);
-        Actor_MoveForward(thisx);
+        Actor_MoveXZGravity(thisx);
         Actor_UpdateBgCheckInfo(play, thisx, 40.0f, 40.0f, 70.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                     UPDBGCHECKINFO_FLAG_4);
         Actor_SetFocus(thisx, thisx->scale.x * 4500.0f);
-        Collider_UpdateCylinder(thisx, &this->hitbox);
+        Collider_UpdateCylinder(thisx, &this->bodyCollider);
         if (thisx->colChkInfo.health <= 0) {
-            this->hitbox.dim.pos.x += Math_SinS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
-            this->hitbox.dim.pos.z += Math_CosS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
+            this->bodyCollider.dim.pos.x += Math_SinS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
+            this->bodyCollider.dim.pos.z += Math_CosS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
         }
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->hitbox.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
         if (this->state >= ENMB_STATE_STUNNED &&
             (thisx->params == ENMB_TYPE_CLUB || this->state != ENMB_STATE_ATTACK)) {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->hitbox.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
         }
         if (this->state >= ENMB_STATE_IDLE) {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->frontShielding.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->frontShieldingCollider.base);
         }
         if (this->attack > ENMB_ATTACK_NONE) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->attackCollider.base);
@@ -1536,9 +1602,9 @@ void EnMb_Draw(Actor* thisx, PlayState* play) {
             Matrix_MultVec3f(&frontShieldingTriModel0[i], &frontShieldingTri0[i]);
             Matrix_MultVec3f(&frontShieldingTriModel1[i], &frontShieldingTri1[i]);
         }
-        Collider_SetTrisVertices(&this->frontShielding, 0, &frontShieldingTri0[0], &frontShieldingTri0[1],
+        Collider_SetTrisVertices(&this->frontShieldingCollider, 0, &frontShieldingTri0[0], &frontShieldingTri0[1],
                                  &frontShieldingTri0[2]);
-        Collider_SetTrisVertices(&this->frontShielding, 1, &frontShieldingTri1[0], &frontShieldingTri1[1],
+        Collider_SetTrisVertices(&this->frontShieldingCollider, 1, &frontShieldingTri1[0], &frontShieldingTri1[1],
                                  &frontShieldingTri1[2]);
     }
 

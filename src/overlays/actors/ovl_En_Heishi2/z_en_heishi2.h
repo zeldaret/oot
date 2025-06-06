@@ -2,12 +2,12 @@
 #define Z_EN_HEISHI2_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 
 struct EnHeishi2;
 
-typedef void (*EnHeishi2ActionFunc)(struct EnHeishi2*, PlayState*);
+typedef void (*EnHeishi2ActionFunc)(struct EnHeishi2*, struct PlayState*);
 
 typedef struct EnHeishi2 {
     /* 0x0000 */ Actor actor;
@@ -18,7 +18,7 @@ typedef struct EnHeishi2 {
     /* 0x0260 */ Vec3s unk_260;
     /* 0x0266 */ char unk_266[0x06];
     /* 0x026C */ Vec3s unk_26C; // padding inbetween these
-    /* 0x0274 */ Vec3f unk_274; 
+    /* 0x0274 */ Vec3f unk_274;
     /* 0x0280 */ Vec3f subCamEye;
     /* 0x028C */ Vec3f subCamAt;
     /* 0x0298 */ Vec3f subCamAtInit;

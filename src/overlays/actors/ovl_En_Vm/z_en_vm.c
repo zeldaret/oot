@@ -5,16 +5,31 @@
  */
 
 #include "z_en_vm.h"
-#include "assets/objects/object_vm/object_vm.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/object_vm/object_vm.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnVm_Init(Actor* thisx, PlayState* play);
 void EnVm_Destroy(Actor* thisx, PlayState* play);
 void EnVm_Update(Actor* thisx, PlayState* play);
-void EnVm_Draw(Actor* thisx, PlayState* play);
+void EnVm_Draw(Actor* thisx, PlayState* play2);
 
 void EnVm_SetupWait(EnVm* this);
 void EnVm_Wait(EnVm* this, PlayState* play);
@@ -23,21 +38,21 @@ void EnVm_Attack(EnVm* this, PlayState* play);
 void EnVm_Stun(EnVm* this, PlayState* play);
 void EnVm_Die(EnVm* this, PlayState* play);
 
-const ActorInit En_Vm_InitVars = {
-    ACTOR_EN_VM,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_VM,
-    sizeof(EnVm),
-    (ActorFunc)EnVm_Init,
-    (ActorFunc)EnVm_Destroy,
-    (ActorFunc)EnVm_Update,
-    (ActorFunc)EnVm_Draw,
+ActorProfile En_Vm_Profile = {
+    /**/ ACTOR_EN_VM,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_VM,
+    /**/ sizeof(EnVm),
+    /**/ EnVm_Init,
+    /**/ EnVm_Destroy,
+    /**/ EnVm_Update,
+    /**/ EnVm_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -45,11 +60,11 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 25, 70, 0, { 0, 0, 0 } },
@@ -57,7 +72,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static ColliderQuadInit sQuadInit1 = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -65,11 +80,11 @@ static ColliderQuadInit sQuadInit1 = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
-        BUMP_NONE,
+        ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -77,7 +92,7 @@ static ColliderQuadInit sQuadInit1 = {
 
 static ColliderQuadInit sQuadInit2 = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -85,11 +100,11 @@ static ColliderQuadInit sQuadInit2 = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
+        ATELEM_NONE,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -142,7 +157,7 @@ void EnVm_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->colliderQuad1, thisx, &sQuadInit1);
     Collider_InitQuad(play, &this->colliderQuad2);
     Collider_SetQuad(play, &this->colliderQuad2, thisx, &sQuadInit2);
-    this->beamSightRange = (thisx->params >> 8) * 40.0f;
+    this->beamSightRange = PARAMS_GET_NOMASK(thisx->params, 8) * 40.0f;
     thisx->params &= 0xFF;
     thisx->naviEnemyId = NAVI_ENEMY_BEAMOS;
 
@@ -203,7 +218,7 @@ void EnVm_Wait(EnVm* this, PlayState* play) {
                         this->skelAnime.curFrame = 0.0f;
                         this->skelAnime.startFrame = 0.0f;
                         this->skelAnime.playSpeed = 2.0f;
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_AIM);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_BIMOS_AIM);
                     }
                 }
             } else {
@@ -301,7 +316,7 @@ void EnVm_Attack(EnVm* this, PlayState* play) {
         dist = Math_Vec3f_DistXYZ(&this->beamPos1, &playerPos);
         Math_SmoothStepToF(&this->beamScale.z, dist, 1.0f, this->beamSpeed, 0.0f);
         Math_SmoothStepToF(&this->beamScale.x, 0.1f, 1.0f, 0.12f, 0.0f);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_LAZER - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BIMOS_LAZER - SFX_FLAG);
 
         if (this->unk_260 > 2) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderQuad1.base);
@@ -324,7 +339,7 @@ void EnVm_SetupStun(EnVm* this) {
     this->unk_21C = 2;
     this->beamScale.z = 0.0f;
     this->beamScale.y = 0.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnVm_SetupAction(this, EnVm_Stun);
 }
 
@@ -362,21 +377,19 @@ void EnVm_SetupDie(EnVm* this) {
     this->actor.world.pos.y += 5000.0f * this->actor.scale.y;
     this->actor.velocity.y = 8.0f;
     this->actor.gravity = -0.5f;
-    this->actor.speedXZ = Rand_ZeroOne() + 1.0f;
+    this->actor.speed = Rand_ZeroOne() + 1.0f;
     this->actor.world.rot.y = Rand_CenteredFloat(65535.0f);
     EnVm_SetupAction(this, EnVm_Die);
 }
 
 void EnVm_Die(EnVm* this, PlayState* play) {
-    EnBom* bomb;
-
     this->beamRot.x += 0x5DC;
     this->headRotY += 0x9C4;
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (--this->timer == 0) {
-        bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
-                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0x6FF, BOMB_BODY);
+        EnBom* bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
+                                          this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0x6FF, BOMB_BODY);
 
         if (bomb != NULL) {
             bomb->timer = 0;
@@ -392,7 +405,7 @@ void EnVm_CheckHealth(EnVm* this, PlayState* play) {
 
     if (Actor_GetCollidedExplosive(play, &this->colliderCylinder.base) != NULL) {
         this->actor.colChkInfo.health--;
-        osSyncPrintf("hp down %d\n", this->actor.colChkInfo.health);
+        PRINTF("hp down %d\n", this->actor.colChkInfo.health);
     } else {
         if (!(this->colliderQuad2.base.acFlags & AC_HIT) || this->unk_21C == 2) {
             return;
@@ -401,7 +414,7 @@ void EnVm_CheckHealth(EnVm* this, PlayState* play) {
     }
 
     if (this->actor.colChkInfo.health != 0) {
-        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
         EnVm_SetupStun(this);
     } else {
         bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
@@ -426,14 +439,14 @@ void EnVm_Update(Actor* thisx, PlayState* play) {
     if (this->unk_260 == 4) {
         EffectSsDeadDs_SpawnStationary(play, &this->beamPos3, 20, -1, 255, 20);
         func_80033480(play, &this->beamPos3, 6.0f, 1, 120, 20, 1);
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_LAZER_GND - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BIMOS_LAZER_GND - SFX_FLAG);
     }
 
     this->actionFunc(this, play);
-    this->beamTexScroll += 0xC;
+    this->beamTexScroll += 3 << 2;
 
     if (this->actor.colChkInfo.health != 0 && this->unk_21C != 2) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_ROLL_HEAD - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BIMOS_ROLL_HEAD - SFX_FLAG);
     }
 
     Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
@@ -531,16 +544,14 @@ void EnVm_Draw(Actor* thisx, PlayState* play2) {
     if (this->unk_260 >= 3) {
         Matrix_Translate(this->beamPos3.x, this->beamPos3.y + 10.0f, this->beamPos3.z, MTXMODE_NEW);
         Matrix_Scale(0.8f, 0.8f, 0.8f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vm.c", 1033),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vm.c", 1033);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 168);
         Gfx_SetupDL_60NoCDXlu(play->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 0);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[play->gameplayFrames % 8]));
         gSPDisplayList(POLY_XLU_DISP++, gEffEnemyDeathFlameDL);
         Matrix_RotateY(32767.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vm.c", 1044),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vm.c", 1044);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[(play->gameplayFrames + 4) % 8]));
         gSPDisplayList(POLY_XLU_DISP++, gEffEnemyDeathFlameDL);
     }
@@ -548,8 +559,7 @@ void EnVm_Draw(Actor* thisx, PlayState* play2) {
     Matrix_Translate(this->beamPos1.x, this->beamPos1.y, this->beamPos1.z, MTXMODE_NEW);
     Matrix_RotateZYX(this->beamRot.x, this->beamRot.y, this->beamRot.z, MTXMODE_APPLY);
     Matrix_Scale(this->beamScale.x * 0.1f, this->beamScale.x * 0.1f, this->beamScale.z * 0.0015f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vm.c", 1063),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_vm.c", 1063);
     gSPDisplayList(POLY_OPA_DISP++, gBeamosLaserDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_vm.c", 1068);

@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_mjin.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "play_state.h"
+
 #include "assets/objects/object_mjin/object_mjin.h"
 #include "assets/objects/object_mjin_wind/object_mjin_wind.h"
 #include "assets/objects/object_mjin_soul/object_mjin_soul.h"
@@ -14,7 +22,7 @@
 #include "assets/objects/object_mjin_flash/object_mjin_flash.h"
 #include "assets/objects/object_mjin_oka/object_mjin_oka.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgMjin_Init(Actor* thisx, PlayState* play);
 void BgMjin_Destroy(Actor* thisx, PlayState* play);
@@ -24,28 +32,28 @@ void BgMjin_Draw(Actor* thisx, PlayState* play);
 void func_808A0850(BgMjin* this, PlayState* play);
 void BgMjin_DoNothing(BgMjin* this, PlayState* play);
 
-const ActorInit Bg_Mjin_InitVars = {
-    ACTOR_BG_MJIN,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgMjin),
-    (ActorFunc)BgMjin_Init,
-    (ActorFunc)BgMjin_Destroy,
-    (ActorFunc)BgMjin_Update,
-    NULL,
+ActorProfile Bg_Mjin_Profile = {
+    /**/ ACTOR_BG_MJIN,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgMjin),
+    /**/ BgMjin_Init,
+    /**/ BgMjin_Destroy,
+    /**/ BgMjin_Update,
+    /**/ NULL,
 };
 
 extern UNK_TYPE D_06000000;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 400, ICHAIN_STOP),
 };
 
-static s16 sObjectIDs[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
+static s16 sObjectIds[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
                             OBJECT_MJIN_ICE,   OBJECT_MJIN_SOUL, OBJECT_MJIN_WIND };
 
 void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
@@ -54,12 +62,12 @@ void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
 
 void BgMjin_Init(Actor* thisx, PlayState* play) {
     BgMjin* this = (BgMjin*)thisx;
-    s8 objBankIndex;
+    s8 objectSlot;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    objBankIndex = Object_GetIndex(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
-    this->objBankIndex = objBankIndex;
-    if (objBankIndex < 0) {
+    objectSlot = Object_GetSlot(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
+    this->requiredObjectSlot = objectSlot;
+    if (objectSlot < 0) {
         Actor_Kill(thisx);
     } else {
         BgMjin_SetupAction(this, func_808A0850);
@@ -76,10 +84,10 @@ void func_808A0850(BgMjin* this, PlayState* play) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         colHeader = NULL;
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
-        this->dyna.actor.objBankIndex = this->objBankIndex;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+        this->dyna.actor.objectSlot = this->requiredObjectSlot;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);
         collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
@@ -106,10 +114,10 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mjin.c", 250);
 
     if (thisx->params != 0) {
-        s32 objBankIndex = Object_GetIndex(&play->objectCtx, sObjectIDs[thisx->params - 1]);
+        s32 objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[thisx->params - 1]);
 
-        if (objBankIndex >= 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[objBankIndex].segment);
+        if (objectSlot >= 0) {
+            gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         }
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
@@ -119,8 +127,7 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
     }
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mjin.c", 285),
-              G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mjin.c", 285);
     gSPDisplayList(POLY_OPA_DISP++, dlist);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_mjin.c", 288);

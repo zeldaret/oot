@@ -5,6 +5,15 @@
  */
 
 #include "z_bg_ice_turara.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
 #define FLAGS 0
@@ -22,7 +31,7 @@ void BgIceTurara_Regrow(BgIceTurara* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -30,30 +39,30 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0x4FC007CA, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
         OCELEM_NONE,
     },
     { 13, 120, 0, { 0, 0, 0 } },
 };
 
-const ActorInit Bg_Ice_Turara_InitVars = {
-    ACTOR_BG_ICE_TURARA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_ICE_OBJECTS,
-    sizeof(BgIceTurara),
-    (ActorFunc)BgIceTurara_Init,
-    (ActorFunc)BgIceTurara_Destroy,
-    (ActorFunc)BgIceTurara_Update,
-    (ActorFunc)BgIceTurara_Draw,
+ActorProfile Bg_Ice_Turara_Profile = {
+    /**/ ACTOR_BG_ICE_TURARA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_ICE_OBJECTS,
+    /**/ sizeof(BgIceTurara),
+    /**/ BgIceTurara_Init,
+    /**/ BgIceTurara_Destroy,
+    /**/ BgIceTurara_Update,
+    /**/ BgIceTurara_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 600, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -3, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -30, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
@@ -65,7 +74,7 @@ void BgIceTurara_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002594, &colHeader);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
@@ -96,7 +105,7 @@ void BgIceTurara_Break(BgIceTurara* this, PlayState* play, f32 arg2) {
     s32 j;
     s32 i;
 
-    SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 10; j++) {
             pos.x = this->dyna.actor.world.pos.x + Rand_CenteredFloat(8.0f);
@@ -137,14 +146,14 @@ void BgIceTurara_Shiver(BgIceTurara* this, PlayState* play) {
         this->shiverTimer--;
     }
     if (!(this->shiverTimer % 4)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ICE_SWING);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ICE_SWING);
     }
     if (this->shiverTimer == 0) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
         Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->actionFunc = BgIceTurara_Fall;
     } else {
         sp28 = Rand_ZeroOne();
@@ -166,14 +175,14 @@ void BgIceTurara_Fall(BgIceTurara* this, PlayState* play) {
         BgIceTurara_Break(this, play, 40.0f);
         if (this->dyna.actor.params == TURARA_STALACTITE_REGROW) {
             this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 120.0f;
-            func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
             this->actionFunc = BgIceTurara_Regrow;
         } else {
             Actor_Kill(&this->dyna.actor);
             return;
         }
     } else {
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
         this->dyna.actor.world.pos.y += 40.0f;
         Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->dyna.actor.world.pos.y -= 40.0f;

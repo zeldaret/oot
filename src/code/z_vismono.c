@@ -1,13 +1,24 @@
 /**
- * Color frame buffer effect to desaturate the colors.
+ * @file z_vismono.c
+ *
+ * This file implements a full-screen framebuffer effect for desaturating the contents of the framebuffer image.
+ *
+ * Broadly, this effect is achieved by reinterpreting the contents of the RGBA16 color image as indices into an IA16
+ * color palette that converts each color into the desaturated equivalent. More precise details can be found in inline
+ * comments.
  */
 
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libu64/debug.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfxalloc.h"
+#include "vis.h"
 
 // Height of the fragments the color frame buffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into
-// the half of tmem (0x800 bytes) dedicated to color-indexed data.
-#define VISMONO_CFBFRAG_HEIGHT (0x800 / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
+// the half of TMEM dedicated to color-indexed data.
+#define VISMONO_CFBFRAG_HEIGHT ((TMEM_SIZE / 2) / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
 
 // Maximum size of the dlist written by `VisMono_DesaturateDList`.
 // `VisMono_DesaturateDList` consistently uses `VISMONO_DLSIZE - 2` double words, so this can be 2 less.
@@ -26,20 +37,20 @@ extern u16 D_0F000000[];
 
 void VisMono_Init(VisMono* this) {
     bzero(this, sizeof(VisMono));
-    this->unk_00 = 0;
-    this->setScissor = false;
-    this->primColor.r = 255;
-    this->primColor.g = 255;
-    this->primColor.b = 255;
-    this->primColor.a = 255;
-    this->envColor.r = 0;
-    this->envColor.g = 0;
-    this->envColor.b = 0;
-    this->envColor.a = 0;
+    this->vis.type = 0;
+    this->vis.scissorType = VIS_NO_SETSCISSOR;
+    this->vis.primColor.r = 255;
+    this->vis.primColor.g = 255;
+    this->vis.primColor.b = 255;
+    this->vis.primColor.a = 255;
+    this->vis.envColor.r = 0;
+    this->vis.envColor.g = 0;
+    this->vis.envColor.b = 0;
+    this->vis.envColor.a = 0;
 }
 
 void VisMono_Destroy(VisMono* this) {
-    SystemArena_FreeDebug(this->dList, "../z_vismono.c", 137);
+    SYSTEM_ARENA_FREE(this->dList, "../z_vismono.c", 137);
 }
 
 void VisMono_DesaturateTLUT(VisMono* this, u16* tlut) {
@@ -73,7 +84,7 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_IA16 | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_1PRIMITIVE,
-                    G_AC_NONE | G_ZS_PRIM | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) | G_RM_CLD_SURF2);
+                    G_AC_NONE | G_ZS_PRIM | G_RM_PASS | G_RM_CLD_SURF2);
     // First color cycle sums texel 1 alpha and texel 0 color
     // By using IA16 palettes, this means summing A (from the IA16 color texel 1 maps to)
     // with I (from the IA16 color texel 0 maps to)
@@ -90,14 +101,15 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
         // Its position in texture image space is shifted along +S by 2
         gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2 * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, G_TX_RENDERTILE,
                    0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
-        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 2 << 2, 0, (SCREEN_WIDTH * 2 + 1) << 2,
-                       (VISMONO_CFBFRAG_HEIGHT - 1) << 2);
+        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 2 << 2, 0, ((SCREEN_WIDTH * 2) + 1) << 2, (height - 1) << 2);
 
         // Set texel 1 to be a CI8 image with width `SCREEN_WIDTH * 2` and height `VISMONO_CFBFRAG_HEIGHT`
         // Its position in texture image space is shifted along +S by 1
+        // Note the palette index for this tile has also been incremented from 0 to 1, however the palette index is
+        // ignored for CI8 texture sampling.
         gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2 * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, 1, 1,
                    G_TX_NOMIRROR | G_TX_CLAMP, 0, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
-        gDPSetTileSize(gfx++, 1, 1 << 2, 0, (SCREEN_WIDTH * 2) << 2, (VISMONO_CFBFRAG_HEIGHT - 1) << 2);
+        gDPSetTileSize(gfx++, 1, 1 << 2, 0, (SCREEN_WIDTH * 2) << 2, (height - 1) << 2);
 
         // Draw a `SCREEN_WIDTH` wide, `height` high rectangle.
         // Texture coordinate T (vertical) starts at 0 and changes by one each line (dtdy = 1)
@@ -129,8 +141,8 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
     return gfx;
 }
 
-void VisMono_Draw(VisMono* this, Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+void VisMono_Draw(VisMono* this, Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
     u16* tlut;
     Gfx* dList;
     Gfx* dListEnd;
@@ -138,14 +150,14 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
     if (this->tlut) {
         tlut = this->tlut;
     } else {
-        tlut = Graph_DlistAlloc(&gfx, 256 * G_IM_SIZ_16b_BYTES);
+        tlut = Gfx_Alloc(&gfx, 256 * G_IM_SIZ_16b_BYTES);
         VisMono_DesaturateTLUT(this, tlut);
     }
 
     if (this->dList) {
         dList = this->dList;
     } else {
-        dList = Graph_DlistAlloc(&gfx, VISMONO_DLSIZE * sizeof(Gfx));
+        dList = Gfx_Alloc(&gfx, VISMONO_DLSIZE * sizeof(Gfx));
         dListEnd = VisMono_DesaturateDList(this, dList);
 
         if (!(dListEnd <= dList + VISMONO_DLSIZE)) {
@@ -159,12 +171,12 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
 
-    if (this->setScissor == true) {
+    if (this->vis.scissorType == VIS_SETSCISSOR) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->primColor.rgba);
-    gDPSetColor(gfx++, G_SETENVCOLOR, this->envColor.rgba);
+    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->vis.primColor.rgba);
+    gDPSetColor(gfx++, G_SETENVCOLOR, this->vis.envColor.rgba);
 
     gDPLoadTLUT_pal256(gfx++, tlut);
 
@@ -172,19 +184,19 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
 
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
 
 void VisMono_DrawOld(VisMono* this) {
-    Gfx* dListEnd;
+    UNUSED_NDEBUG Gfx* dListEnd;
 
     if (this->tlut == NULL) {
-        this->tlut = SystemArena_MallocDebug(256 * G_IM_SIZ_16b_BYTES, "../z_vismono.c", 283);
+        this->tlut = SYSTEM_ARENA_MALLOC(256 * G_IM_SIZ_16b_BYTES, "../z_vismono.c", 283);
         VisMono_DesaturateTLUT(this, this->tlut);
     }
 
     if (this->dList == NULL) {
-        this->dList = SystemArena_MallocDebug(VISMONO_DLSIZE * sizeof(Gfx), "../z_vismono.c", 289);
+        this->dList = SYSTEM_ARENA_MALLOC(VISMONO_DLSIZE * sizeof(Gfx), "../z_vismono.c", 289);
         dListEnd = VisMono_DesaturateDList(this, this->dList);
         ASSERT(dListEnd <= this->dList + VISMONO_DLSIZE, "glistp_end <= this->mono_dl + DLSIZE", "../z_vismono.c", 292);
     }

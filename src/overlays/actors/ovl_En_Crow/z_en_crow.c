@@ -1,7 +1,20 @@
 #include "z_en_crow.h"
+
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_crow/object_crow.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_CAN_ATTACH_TO_ARROW)
 
 void EnCrow_Init(Actor* thisx, PlayState* play);
 void EnCrow_Destroy(Actor* thisx, PlayState* play);
@@ -18,26 +31,26 @@ void EnCrow_Damaged(EnCrow* this, PlayState* play);
 
 static Vec3f sZeroVecAccel = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit En_Crow_InitVars = {
-    ACTOR_EN_CROW,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_CROW,
-    sizeof(EnCrow),
-    (ActorFunc)EnCrow_Init,
-    (ActorFunc)EnCrow_Destroy,
-    (ActorFunc)EnCrow_Update,
-    (ActorFunc)EnCrow_Draw,
+ActorProfile En_Crow_Profile = {
+    /**/ ACTOR_EN_CROW,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_CROW,
+    /**/ sizeof(EnCrow),
+    /**/ EnCrow_Init,
+    /**/ EnCrow_Destroy,
+    /**/ EnCrow_Update,
+    /**/ EnCrow_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_HARD,
-            BUMP_ON,
+            ATELEM_ON | ATELEM_SFX_HARD,
+            ACELEM_ON,
             OCELEM_ON,
         },
         { 1, { { 0, 0, 0 }, 20 }, 100 },
@@ -46,7 +59,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT3,
+        COL_MATERIAL_HIT3,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -97,10 +110,10 @@ static DamageTable sDamageTable = {
 static u32 sDeathCount = 0;
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 3000, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_GUAY, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -200, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_STOP),
 };
 
 static Vec3f sHeadVec = { 2500.0f, 0.0f, 0.0f };
@@ -111,7 +124,7 @@ void EnCrow_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGuaySkel, &gGuayFlyAnim, this->jointTable, this->morphTable, 9);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawCircle, 20.0f);
@@ -136,7 +149,7 @@ void EnCrow_SetupFlyIdle(EnCrow* this) {
 
 void EnCrow_SetupDiveAttack(EnCrow* this) {
     this->timer = 300;
-    this->actor.speedXZ = 4.0f;
+    this->actor.speed = 4.0f;
     this->skelAnime.playSpeed = 2.0f;
     this->actionFunc = EnCrow_DiveAttack;
 }
@@ -146,18 +159,18 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
     f32 scale;
     Vec3f iceParticlePos;
 
-    this->actor.speedXZ *= Math_CosS(this->actor.world.rot.x);
+    this->actor.speed *= Math_CosS(this->actor.world.rot.x);
     this->actor.velocity.y = 0.0f;
     Animation_Change(&this->skelAnime, &gGuayFlyAnim, 0.4f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     scale = this->actor.scale.x * 100.0f;
     this->actor.world.pos.y += 20.0f * scale;
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     this->actor.shape.yOffset = 0.0f;
-    this->actor.targetArrowOffset = 0.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_DEAD);
+    this->actor.lockOnArrowOffset = 0.0f;
+    Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_DEAD);
 
-    if (this->actor.colChkInfo.damageEffect == 3) { // Ice arrows
-        Actor_SetColorFilter(&this->actor, 0, 255, 0, 40);
+    if (this->actor.colChkInfo.damageReaction == 3) { // Ice arrows
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 40);
         for (i = 0; i < 8; i++) {
             iceParticlePos.x = ((i & 1 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.x;
             iceParticlePos.y = ((i & 2 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.y;
@@ -165,22 +178,22 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
             EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &iceParticlePos, 150, 150, 150, 250, 235, 245, 255,
                                            ((Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
         }
-    } else if (this->actor.colChkInfo.damageEffect == 2) { // Fire arrows and Din's Fire
-        Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 40);
+    } else if (this->actor.colChkInfo.damageReaction == 2) { // Fire arrows and Din's Fire
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 40);
 
         for (i = 0; i < 4; i++) {
             EffectSsEnFire_SpawnVec3f(play, &this->actor, &this->actor.world.pos, 50.0f * scale, 0, 0, i);
         }
     } else {
-        Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 40);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 40);
     }
 
-    if (this->actor.flags & ACTOR_FLAG_15) {
-        this->actor.speedXZ = 0.0f;
+    if (this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW) {
+        this->actor.speed = 0.0f;
     }
 
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 
     this->actionFunc = EnCrow_Damaged;
 }
@@ -192,12 +205,12 @@ void EnCrow_SetupDie(EnCrow* this) {
 
 void EnCrow_SetupTurnAway(EnCrow* this) {
     this->timer = 100;
-    this->actor.speedXZ = 3.5f;
+    this->actor.speed = 3.5f;
     this->aimRotX = -0x1000;
     this->aimRotY = this->actor.yawTowardsPlayer + 0x8000;
     this->skelAnime.playSpeed = 2.0f;
-    Actor_SetColorFilter(&this->actor, 0, 255, 0, 5);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 5);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = EnCrow_TurnAway;
 }
 
@@ -218,7 +231,7 @@ void EnCrow_SetupRespawn(EnCrow* this) {
     this->actor.shape.rot.z = 0;
     this->timer = 300;
     this->actor.shape.yOffset = 2000;
-    this->actor.targetArrowOffset = 2000.0f;
+    this->actor.lockOnArrowOffset = 2000.0f;
     this->actor.draw = NULL;
     this->actionFunc = EnCrow_Respawn;
 }
@@ -232,7 +245,7 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     skelanimeUpdated = Animation_OnFrame(&this->skelAnime, 0.0f);
-    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 3.0f;
+    this->actor.speed = (Rand_ZeroOne() * 1.5f) + 3.0f;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->aimRotY = this->actor.wallYaw;
@@ -248,10 +261,10 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
         } else {
             this->aimRotY -= 0x1000 + (0x1000 * Rand_ZeroOne());
         }
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_CRY);
     }
 
-    if (this->actor.yDistToWater > -40.0f) {
+    if (this->actor.depthInWater > -40.0f) {
         this->aimRotX = -0x1000;
     } else if (this->actor.world.pos.y < (this->actor.home.pos.y - 50.0f)) {
         this->aimRotX = -0x800 - (Rand_ZeroOne() * 0x800);
@@ -277,7 +290,7 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
         this->timer--;
     }
     if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & PLAYER_STATE1_23) &&
-        (this->actor.yDistToWater < -40.0f) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
+        (this->actor.depthInWater < -40.0f) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
         EnCrow_SetupDiveAttack(this);
     }
 }
@@ -285,8 +298,6 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
 void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 facingPlayer;
-    Vec3f pos;
-    s16 target;
 
     SkelAnime_Update(&this->skelAnime);
     if (this->timer != 0) {
@@ -296,6 +307,9 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
     facingPlayer = Actor_IsFacingPlayer(&this->actor, 0x2800);
 
     if (facingPlayer) {
+        Vec3f pos;
+        s16 target;
+
         pos.x = player->actor.world.pos.x;
         pos.y = player->actor.world.pos.y + 20.0f;
         pos.z = player->actor.world.pos.z;
@@ -314,10 +328,10 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
 
     if ((this->timer == 0) || (Player_GetMask(play) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & AT_HIT) ||
         (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
-        (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.yDistToWater > -40.0f)) {
+        (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.depthInWater > -40.0f)) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_ATTACK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_ATTACK);
         }
 
         EnCrow_SetupFlyIdle(this);
@@ -325,10 +339,10 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
 }
 
 void EnCrow_Damaged(EnCrow* this, PlayState* play) {
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     this->actor.colorFilterTimer = 40;
 
-    if (!(this->actor.flags & ACTOR_FLAG_15)) {
+    if (!(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         if (this->actor.colorFilterParams & 0x4000) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
@@ -399,8 +413,8 @@ void EnCrow_Respawn(EnCrow* this, PlayState* play) {
             target = 0.01f;
         }
         if (Math_StepToF(&this->actor.scale.x, target, target * 0.1f)) {
-            this->actor.flags |= ACTOR_FLAG_0;
-            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+            this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             this->actor.colChkInfo.health = 1;
             EnCrow_SetupFlyIdle(this);
         }
@@ -411,13 +425,13 @@ void EnCrow_Respawn(EnCrow* this, PlayState* play) {
 void EnCrow_UpdateDamage(EnCrow* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, true);
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
-            if (this->actor.colChkInfo.damageEffect == 1) { // Deku Nuts
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, true);
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
+            if (this->actor.colChkInfo.damageReaction == 1) { // Deku Nuts
                 EnCrow_SetupTurnAway(this);
             } else {
                 Actor_ApplyDamage(&this->actor);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 Enemy_StartFinishingBlow(play, &this->actor);
                 EnCrow_SetupDamaged(this, play);
             }
@@ -440,10 +454,10 @@ void EnCrow_Update(Actor* thisx, PlayState* play) {
     if (this->actionFunc != EnCrow_Respawn) {
         if (this->actor.colChkInfo.health != 0) {
             height = 20.0f * scale;
-            func_8002D97C(&this->actor);
+            Actor_MoveXYZ(&this->actor);
         } else {
             height = 0.0f;
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
         }
         Actor_UpdateBgCheckInfo(play, &this->actor, 12.0f * scale, 25.0f * scale, 50.0f * scale,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
@@ -470,7 +484,7 @@ void EnCrow_Update(Actor* thisx, PlayState* play) {
     Actor_SetFocus(&this->actor, height);
 
     if (this->actor.colChkInfo.health != 0 && Animation_OnFrame(&this->skelAnime, 3.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_FLUTTER);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_FLUTTER);
     }
 }
 

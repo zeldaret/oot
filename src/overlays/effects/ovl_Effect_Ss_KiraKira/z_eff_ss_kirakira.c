@@ -5,6 +5,18 @@
  */
 
 #include "z_eff_ss_kirakira.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rRotSpeed regs[0]
@@ -27,7 +39,7 @@ void func_809AABF0(PlayState* play, u32 index, EffectSs* this);
 void func_809AACAC(PlayState* play, u32 index, EffectSs* this);
 void func_809AAD6C(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_KiraKira_InitVars = {
+EffectSsProfile Effect_Ss_KiraKira_Profile = {
     EFFECT_SS_KIRAKIRA,
     EffectSsKiraKira_Init,
 };
@@ -81,8 +93,8 @@ void EffectSsKiraKira_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTrans;
     MtxF mfRotY;
     MtxF mfScale;
-    MtxF mfTrans11DA0;
-    MtxF mfTrans11DA0RotY;
+    MtxF mfTransBillboard;
+    MtxF mfTransBillboardRotY;
     MtxF mfResult;
     Mtx* mtx;
 
@@ -94,10 +106,10 @@ void EffectSsKiraKira_Draw(PlayState* play, u32 index, EffectSs* this) {
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetRotateZYX(&mfRotY, 0, 0, this->rYaw);
     SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTrans11DA0);
-    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfRotY, &mfTrans11DA0RotY);
-    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0RotY, &mfScale, &mfResult);
-    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
+    SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfRotY, &mfTransBillboardRotY);
+    SkinMatrix_MtxFMtxFMult(&mfTransBillboardRotY, &mfScale, &mfResult);
+    gSPMatrix(POLY_XLU_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 

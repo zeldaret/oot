@@ -6,22 +6,25 @@
 
 #include "z_en_arow_trap.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
-#define FLAGS ACTOR_FLAG_4
+
+#include "play_state.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnArowTrap_Init(Actor* thisx, PlayState* play);
 void EnArowTrap_Destroy(Actor* thisx, PlayState* play);
 void EnArowTrap_Update(Actor* thisx, PlayState* play);
 
-const ActorInit En_Arow_Trap_InitVars = {
-    ACTOR_EN_AROW_TRAP,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnArowTrap),
-    (ActorFunc)EnArowTrap_Init,
-    (ActorFunc)EnArowTrap_Destroy,
-    (ActorFunc)EnArowTrap_Update,
-    NULL,
+ActorProfile En_Arow_Trap_Profile = {
+    /**/ ACTOR_EN_AROW_TRAP,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnArowTrap),
+    /**/ EnArowTrap_Init,
+    /**/ EnArowTrap_Destroy,
+    /**/ EnArowTrap_Update,
+    /**/ NULL,
 };
 
 void EnArowTrap_Init(Actor* thisx, PlayState* play) {

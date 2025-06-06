@@ -5,11 +5,26 @@
  */
 
 #include "z_en_fw.h"
-#include "assets/objects/object_fw/object_fw.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_fw/object_fw.h"
+
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR)
 
 void EnFw_Init(Actor* thisx, PlayState* play);
 void EnFw_Destroy(Actor* thisx, PlayState* play);
@@ -24,26 +39,26 @@ void EnFw_Run(EnFw* this, PlayState* play);
 void EnFw_JumpToParentInitPos(EnFw* this, PlayState* play);
 void EnFw_TurnToParentInitPos(EnFw* this, PlayState* play);
 
-const ActorInit En_Fw_InitVars = {
-    ACTOR_EN_FW,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_FW,
-    sizeof(EnFw),
-    (ActorFunc)EnFw_Init,
-    (ActorFunc)EnFw_Destroy,
-    (ActorFunc)EnFw_Update,
-    (ActorFunc)EnFw_Draw,
+ActorProfile En_Fw_Profile = {
+    /**/ ACTOR_EN_FW,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_FW,
+    /**/ sizeof(EnFw),
+    /**/ EnFw_Init,
+    /**/ EnFw_Destroy,
+    /**/ EnFw_Update,
+    /**/ EnFw_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x04 },
             { 0xFFCFFFFE, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
+            ATELEM_NONE,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 2, { { 1200, 0, 0 }, 16 }, 100 },
@@ -52,7 +67,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -65,7 +80,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnFwAnimation {
     /* 0 */ ENFW_ANIM_0,
     /* 1 */ ENFW_ANIM_1,
     /* 2 */ ENFW_ANIM_2
@@ -83,7 +98,7 @@ s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
         return false;
     }
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
     this->bounceCnt--;
     if (this->bounceCnt <= 0) {
         if (this->bounceCnt == 0) {
@@ -135,11 +150,11 @@ Vec3f* EnFw_GetPosAdjAroundCircle(Vec3f* dst, EnFw* this, f32 radius, s16 dir) {
 }
 
 s32 EnFw_CheckCollider(EnFw* this, PlayState* play) {
-    ColliderInfo* info;
+    ColliderElement* elem;
 
     if (this->collider.base.acFlags & AC_HIT) {
-        info = &this->collider.elements[0].info;
-        if (info->acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT) {
+        elem = &this->collider.elements[0].base;
+        if (elem->acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT) {
             this->lastDmgHook = true;
         } else {
             this->lastDmgHook = false;
@@ -191,7 +206,7 @@ void EnFw_Init(Actor* thisx, PlayState* play) {
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->sphs);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x10), &D_80A1FB94);
     Actor_SetScale(&this->actor, 0.01f);
     this->runDirection = -this->actor.params;
@@ -233,13 +248,13 @@ void EnFw_Run(EnFw* this, PlayState* play) {
             if (!this->lastDmgHook) {
                 this->actor.velocity.y = 6.0f;
             }
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_DAMAGE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_MAN_DAMAGE);
             this->damageTimer = 20;
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_DAMAGE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_MAN_DAMAGE);
             this->explosionTimer = 6;
         }
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     if (this->explosionTimer != 0) {
@@ -247,7 +262,8 @@ void EnFw_Run(EnFw* this, PlayState* play) {
         Math_SmoothStepToF(&this->actor.scale.x, 0.024999999f, 0.08f, 0.6f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
         if (this->actor.colorFilterTimer == 0) {
-            Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->explosionTimer);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA,
+                                 this->explosionTimer);
             this->explosionTimer--;
         }
 
@@ -265,13 +281,14 @@ void EnFw_Run(EnFw* this, PlayState* play) {
         }
     } else {
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
-            Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->damageTimer);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA,
+                                 this->damageTimer);
             return;
         }
         DECR(this->damageTimer);
         if ((200.0f - this->runRadius) < 0.9f) {
             if (DECR(this->returnToParentTimer) == 0) {
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 this->actionFunc = EnFw_TurnToParentInitPos;
                 return;
             }
@@ -281,7 +298,7 @@ void EnFw_Run(EnFw* this, PlayState* play) {
         Math_SmoothStepToF(&this->runRadius, 200.0f, 0.3f, 100.0f, 0.0f);
 
         if (this->turnAround) {
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 1.0f, 0.0f);
             tmpAngle = (s16)(this->actor.world.rot.y ^ 0x8000);
             facingDir = this->actor.shape.rot.y;
             tmpAngle = Math_SmoothStepToF(&facingDir, tmpAngle, 0.1f, 10000.0f, 0.0f);
@@ -300,17 +317,17 @@ void EnFw_Run(EnFw* this, PlayState* play) {
         this->actor.world.rot = this->actor.shape.rot;
 
         if (this->slideTimer == 0 && EnFw_PlayerInRange(this, play)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_SURP);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_MAN_SURP);
             this->slideSfxTimer = 8;
             this->slideTimer = 8;
         }
 
         if (this->slideTimer != 0) {
             if (DECR(this->slideSfxTimer) == 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_SLIDE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_MAN_SLIDE);
                 this->slideSfxTimer = 4;
             }
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 1.0f, 0.0f);
             this->skelAnime.playSpeed = 0.0f;
             EnFw_SpawnDust(this, 8, 0.16f, 0.2f, 3, 8.0f, 20.0f, ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f);
             this->slideTimer--;
@@ -319,10 +336,10 @@ void EnFw_Run(EnFw* this, PlayState* play) {
                 this->runDirection = -this->runDirection;
             }
         } else {
-            Math_SmoothStepToF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 6.0f, 0.1f, 1.0f, 0.0f);
             curFrame = this->skelAnime.curFrame;
             if (curFrame == 1 || curFrame == 4) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_RUN);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_MAN_RUN);
                 EnFw_SpawnDust(this, 8, 0.16f, 0.1f, 1, 0.0f, 20.0f, 0.0f);
             }
         }
@@ -339,7 +356,7 @@ void EnFw_TurnToParentInitPos(EnFw* this, PlayState* play) {
         this->actor.world.rot = this->actor.shape.rot;
         this->actor.velocity.y = 14.0f;
         this->actor.home.pos = this->actor.world.pos;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_1);
         this->actionFunc = EnFw_JumpToParentInitPos;
     }
@@ -359,9 +376,8 @@ void EnFw_Update(Actor* thisx, PlayState* play) {
     EnFw* this = (EnFw*)thisx;
 
     SkelAnime_Update(&this->skelAnime);
-    if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
-        // not attached to hookshot.
-        Actor_MoveForward(&this->actor);
+    if (!ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
+        Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         this->actionFunc(this, play);
         if (this->damageTimer == 0 && this->explosionTimer == 0 && this->actionFunc == EnFw_Run) {
@@ -459,29 +475,29 @@ void EnFw_DrawEffects(EnFw* this, PlayState* play) {
 
     materialFlag = false;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    if (1) {}
 
     for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {
-        if (eff->type != 0) {
-            if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-                gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
-                gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                materialFlag = true;
-            }
-
-            alpha = eff->timer * (255.0f / eff->initialTimer);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
-            gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fw.c", 1229),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            idx = eff->timer * (8.0f / eff->initialTimer);
-            gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
-            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
+        if (eff->type == 0) {
+            continue;
         }
+
+        if (!materialFlag) {
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
+            gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
+            materialFlag = true;
+        }
+
+        alpha = eff->timer * (255.0f / eff->initialTimer);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_fw.c", 1229);
+        idx = eff->timer * (8.0f / eff->initialTimer);
+        gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
+        gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fw.c", 1243);
