@@ -2012,7 +2012,7 @@ void func_80AEF1F0(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
 }
 
 void func_80AEF29C(EnRu1* this, PlayState* play) {
-    this->action = ENRU1_SPAWN_WAITING_TO_TALK;
+    this->action = ENRU1_ACTION_23;
 }
 
 void func_80AEF2AC(EnRu1* this, PlayState* play) {
