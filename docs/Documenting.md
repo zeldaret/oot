@@ -13,7 +13,7 @@ The documentation can then be browsed by opening `docs/doxygen/html/index.html` 
 
 Any comments inside functions, except bugs ([see below](#documenting-bugs)), should use `//`-style comments, even if spanning over multiple lines.
 
-A simple example of documenting a function withjust a description (note the leading `/**`):
+A simple example of documenting a function with just a description (note the leading `/**`):
 
 ```c
 /**
