@@ -1,5 +1,13 @@
 <Root>
     <File Name="object_kibako2" Segment="6">
+        <!-- Vertices -->
+        <Array Name="gLargeCrateVtx" Count="20" Offset="0x820">
+            <Vtx/>
+        </Array>
+        <Array Name="gLargeCrateFragmentVtx" Count="4" Offset="0xFC0">
+            <Vtx/>
+        </Array>
+
         <!-- DisplayLists -->
         <DList Name="gLargeCrateDL" Offset="0x960"/>
         <DList Name="gLargeCrateFragmentDL" Offset="0x1000"/>
