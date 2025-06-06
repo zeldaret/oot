@@ -50,6 +50,6 @@
             <Vtx/>
         </Array>
         <DList Name="object_kanban_DL_001630" Offset="0x1630"/>
-        <Texture Name="object_kanban_Tex_0016B0" OutName="tex_000016B0" Format="i8" Width="16" Height="16" Offset="0x16B0"/>
+        <Texture Name="object_kanban_Tex_0016B0" Format="i8" Width="16" Height="16" Offset="0x16B0"/>
     </File>
 </Root>

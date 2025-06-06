@@ -1,7 +1,7 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_stream" Segment="6">
-        <Texture Name="object_stream_Tex_000000" OutName="tex_00000000" Format="i4" Width="64" Height="64" Offset="0x0"/>
+        <Texture Name="object_stream_Tex_000000" Format="i4" Width="64" Height="64" Offset="0x0"/>
         <Array Name="object_stream_Vtx_000800" Count="21" Offset="0x800">
             <Vtx/>
         </Array>

@@ -22,7 +22,7 @@
         </Array>
         <DList Name="gThroneDL" Offset="0x1050"/>
         <Collision Name="gThroneCol" Offset="0x1430"/>
-        <Texture Name="gPillarSideTex" OutName="pillar_side" Format="rgba16" Width="16" Height="128" Offset="0x1460"/>
-        <Texture Name="gPillarTopTex" OutName="pillar_top" Format="rgba16" Width="16" Height="16" Offset="0x2460"/>
+        <Texture Name="gPillarSideTex" Format="rgba16" Width="16" Height="128" Offset="0x1460"/>
+        <Texture Name="gPillarTopTex" Format="rgba16" Width="16" Height="16" Offset="0x2460"/>
     </File>
 </Root>

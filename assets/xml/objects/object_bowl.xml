@@ -1,9 +1,9 @@
 <Root>
     <File Name="object_bowl" Segment="6">
         <!-- Bombchu Bowling DisplayList Textures -->
-        <Texture Name="gBowlingWoodPanelTex" OutName="bowling_wood_panel" Format="rgba16" Width="64" Height="32" Offset="0x1C70"/>
-        <Texture Name="gBowlingStoneWallTex" OutName="bowling_stone_wall" Format="rgba16" Width="32" Height="32" Offset="0x2C70"/>
-        <Texture Name="gBowlingStripesTex" OutName="bowling_stripes" Format="i4" Width="16" Height="16" Offset="0x3470"/>
+        <Texture Name="gBowlingWoodPanelTex" Format="rgba16" Width="64" Height="32" Offset="0x1C70"/>
+        <Texture Name="gBowlingStoneWallTex" Format="rgba16" Width="32" Height="32" Offset="0x2C70"/>
+        <Texture Name="gBowlingStripesTex" Format="i4" Width="16" Height="16" Offset="0x3470"/>
 
         <!-- Bombchu Bowling DisplayLists -->
         <DList Name="gBowlingRound1WallDL" Offset="0x610"/>

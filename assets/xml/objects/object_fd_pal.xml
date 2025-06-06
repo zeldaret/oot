@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_fd" Segment="6">
         <!-- Boss title card -->
-        <Texture Name="gVolvagiaTitleCardTex" OutName="volvagia_title_card" Format="ia8" Width="128" Height="120" Offset="0xD700"/>
+        <Texture Name="gVolvagiaTitleCardTex" Format="ia8" Width="128" Height="120" Offset="0xD700"/>
 
         <!-- Skeletons -->
         <Skeleton Name="gVolvagiaLeftArmSkel" Type="Normal" LimbType="Standard" Offset="0x114E0"/>
@@ -20,9 +20,9 @@
 
         <!-- Eye textures -->
         <Texture Name="gVolvagiaEyeTLUT" Format="rgba16" Width="16" Height="16" Offset="0x32A8"/>
-        <Texture Name="gVolvagiaEyeOpenTex" OutName="volvagia_eye_open" Format="ci8" Width="32" Height="32" Offset="0x38A8" TlutOffset="0x32A8"/>
-        <Texture Name="gVolvagiaEyeHalfTex" OutName="volvagia_eye_half" Format="ci8" Width="32" Height="32" Offset="0x34A8" TlutOffset="0x32A8"/>
-        <Texture Name="gVolvagiaEyeClosedTex" OutName="volvagia_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x3CA8" TlutOffset="0x32A8"/>
+        <Texture Name="gVolvagiaEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x38A8" TlutOffset="0x32A8"/>
+        <Texture Name="gVolvagiaEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x34A8" TlutOffset="0x32A8"/>
+        <Texture Name="gVolvagiaEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x3CA8" TlutOffset="0x32A8"/>
 
         <!-- Death display lists -->
         <DList Name="gVolvagiaRibsDL" Offset="0xB2F8"/>
@@ -62,7 +62,7 @@
         <!-- Unused body skeleton assets -->
         <Skeleton Name="gVolvagiaBodySkel" Type="Flex" LimbType="Standard" Offset="0x11420"/>
         <Animation Name="gVolvagiaBodyStaticAnim" Offset="0x61D8"/>
-        <Texture Name="gVolvagiaBodyTex" OutName="volvagia_body" Format="rgba16" Width="32" Height="64" Offset="0x8128"/>
+        <Texture Name="gVolvagiaBodyTex" Format="rgba16" Width="32" Height="64" Offset="0x8128"/>
 
         <!-- Unused, purpose unknown -->
         <DList Name="gVolvagiaDL_009668" Offset="0x9668"/>
