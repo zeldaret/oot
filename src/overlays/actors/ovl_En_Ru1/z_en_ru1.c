@@ -90,7 +90,7 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
-typedef enum {
+typedef enum EnRu1Action {
     /*  0 */ ENRU1_ACTION_00,
     /*  1 */ ENRU1_ACTION_01,
     /*  2 */ ENRU1_ACTION_02,
@@ -139,7 +139,7 @@ typedef enum {
     /* 45 */ ENRU1_ACTION_45,
 } EnRu1Action;
 
-typedef enum {
+typedef enum EnRu1DrawConfig {
     /* 0 */ ENRU1_DRAW_NOTHING,
     /* 1 */ ENRU1_DRAW_OPA,
     /* 2 */ ENRU1_DRAW_XLU
