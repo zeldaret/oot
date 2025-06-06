@@ -40,6 +40,7 @@
 
         <!-- Palettes -->
         <Texture Name="gKakarikoShootingGalleryTLUT" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
+        <Blob Name="object_spot01_matoya_000200_Blob" Size="0x8" Offset="0x200"/>
         <Texture Name="gKakarikoBazaarSignTLUT" Format="rgba16" Width="4" Height="4" Offset="0x2810"/>
     </File>
 </Root>

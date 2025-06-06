@@ -47,6 +47,7 @@
         <Texture Name="gRoofManThighGradientTex" Format="ci8" Width="8" Height="8" Offset="0x00D48" TlutOffset="0x00108"/>
         <Texture Name="gRoofManSandalBuckleTex" Format="ci8" Width="16" Height="16" Offset="0x00D88" TlutOffset="0x00108"/>
         <Texture Name="gRoofManTrouserPatternTex" Format="rgba16" Width="16" Height="16" Offset="0x00E88"/>
+        <Texture Name="object_ani_0011D8_Tex" Format="ci8" Width="16" Height="16" Offset="0x11D8" TlutOffset="0x1088"/>
         <Texture Name="gRoofManSkinGradientTex" Format="ci8" Width="8" Height="8" Offset="0x012D8" TlutOffset="0x1088"/>
         <Texture Name="gRoofManEarTex" Format="ci8" Width="16" Height="16" Offset="0x01318" TlutOffset="0x1088"/>
         <Texture Name="gRoofManHairTex" Format="ci8" Width="16" Height="16" Offset="0x01418" TlutOffset="0x1088"/>

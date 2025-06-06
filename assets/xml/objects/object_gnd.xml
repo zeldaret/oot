@@ -137,5 +137,48 @@
         <Array Name="gPhantomGanonBarsVtx" Count="12" Offset="0x129F0">
             <Vtx/>
         </Array>
+
+        <DList Name="object_gnd_0080F8_DL" Offset="0x80F8"/>
+        <DList Name="object_gnd_0086F0_DL" Offset="0x86F0"/>
+        <DList Name="object_gnd_008918_DL" Offset="0x8918"/>
+        <DList Name="object_gnd_0089F0_DL" Offset="0x89F0"/>
+        <DList Name="object_gnd_008BE0_DL" Offset="0x8BE0"/>
+        <DList Name="object_gnd_009038_DL" Offset="0x9038"/>
+        <DList Name="object_gnd_009298_DL" Offset="0x9298"/>
+        <DList Name="object_gnd_009460_DL" Offset="0x9460"/>
+        <DList Name="object_gnd_009520_DL" Offset="0x9520"/>
+        <DList Name="object_gnd_009650_DL" Offset="0x9650"/>
+        <DList Name="object_gnd_0097B8_DL" Offset="0x97B8"/>
+        <DList Name="object_gnd_0099A8_DL" Offset="0x99A8"/>
+        <DList Name="object_gnd_009A80_DL" Offset="0x9A80"/>
+        <DList Name="object_gnd_009CA8_DL" Offset="0x9CA8"/>
+        <DList Name="object_gnd_009D68_DL" Offset="0x9D68"/>
+        <DList Name="object_gnd_009ED0_DL" Offset="0x9ED0"/>
+        <Limb Name="object_gnd_00C580_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C580" Offset="0xC580"/>
+        <Limb Name="object_gnd_00C58C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C58C" Offset="0xC58C"/>
+        <Limb Name="object_gnd_00C598_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C598" Offset="0xC598"/>
+        <Limb Name="object_gnd_00C5A4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C5A4" Offset="0xC5A4"/>
+        <Limb Name="object_gnd_00C5B0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C5B0" Offset="0xC5B0"/>
+        <Limb Name="object_gnd_00C5BC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C5BC" Offset="0xC5BC"/>
+        <Limb Name="object_gnd_00C5C8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C5C8" Offset="0xC5C8"/>
+        <Limb Name="object_gnd_00C5D4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C5D4" Offset="0xC5D4"/>
+        <Limb Name="object_gnd_00C5E0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C5E0" Offset="0xC5E0"/>
+        <Limb Name="object_gnd_00C5EC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C5EC" Offset="0xC5EC"/>
+        <Limb Name="object_gnd_00C5F8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C5F8" Offset="0xC5F8"/>
+        <Limb Name="object_gnd_00C604_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C604" Offset="0xC604"/>
+        <Limb Name="object_gnd_00C610_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C610" Offset="0xC610"/>
+        <Limb Name="object_gnd_00C61C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C61C" Offset="0xC61C"/>
+        <Limb Name="object_gnd_00C628_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C628" Offset="0xC628"/>
+        <Limb Name="object_gnd_00C634_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C634" Offset="0xC634"/>
+        <Limb Name="object_gnd_00C640_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C640" Offset="0xC640"/>
+        <Limb Name="object_gnd_00C64C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C64C" Offset="0xC64C"/>
+        <Limb Name="object_gnd_00C658_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C658" Offset="0xC658"/>
+        <Limb Name="object_gnd_00C664_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C664" Offset="0xC664"/>
+        <Limb Name="object_gnd_00C670_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C670" Offset="0xC670"/>
+        <Limb Name="object_gnd_00C67C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C67C" Offset="0xC67C"/>
+        <Limb Name="object_gnd_00C688_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C688" Offset="0xC688"/>
+        <Limb Name="object_gnd_00C694_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C694" Offset="0xC694"/>
+        <Limb Name="object_gnd_00C6A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GND_00C6A0" Offset="0xC6A0"/>
+        <Texture Name="object_gnd_012B50_Tex" Format="rgba16" Width="16" Height="32" Offset="0x12B50"/>
     </File>
 </Root>

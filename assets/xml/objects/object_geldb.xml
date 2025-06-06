@@ -83,5 +83,65 @@
         <Array Name="object_geldb_Vtx_0080C8" Count="232" Offset="0x80C8">
             <Vtx/>
         </Array>
+
+        <Texture Name="object_geldb_002500_TLUT" Format="rgba16" Width="104" Height="1" Offset="0x2500"/>
+        <Blob Name="object_geldb_0025D0_Blob" Size="0x130" Offset="0x25D0"/>
+        <Texture Name="object_geldb_002700_Tex" Format="ci8" Width="8" Height="8" Offset="0x2700" TlutOffset="0x2500"/>
+        <Texture Name="object_geldb_002740_Tex" Format="ci8" Width="8" Height="8" Offset="0x2740" TlutOffset="0x2500"/>
+        <Texture Name="object_geldb_002780_Tex" Format="ci8" Width="16" Height="16" Offset="0x2780" TlutOffset="0x2500"/>
+        <Texture Name="object_geldb_002880_Tex" Format="i8" Width="16" Height="16" Offset="0x2880"/>
+        <Texture Name="object_geldb_002980_Tex" Format="ci8" Width="16" Height="16" Offset="0x2980" TlutOffset="0x2500"/>
+        <Texture Name="object_geldb_002A80_Tex" Format="i8" Width="16" Height="16" Offset="0x2A80"/>
+        <Texture Name="object_geldb_002B80_Tex" Format="i8" Width="8" Height="16" Offset="0x2B80"/>
+        <DList Name="object_geldb_0048E0_DL" Offset="0x48E0"/>
+        <DList Name="object_geldb_004D60_DL" Offset="0x4D60"/>
+        <DList Name="object_geldb_004E98_DL" Offset="0x4E98"/>
+        <DList Name="object_geldb_0050C0_DL" Offset="0x50C0"/>
+        <DList Name="object_geldb_0051F8_DL" Offset="0x51F8"/>
+        <DList Name="object_geldb_005420_DL" Offset="0x5420"/>
+        <DList Name="object_geldb_005640_DL" Offset="0x5640"/>
+        <DList Name="object_geldb_005740_DL" Offset="0x5740"/>
+        <DList Name="object_geldb_0059B0_DL" Offset="0x59B0"/>
+        <DList Name="object_geldb_005AB0_DL" Offset="0x5AB0"/>
+        <Texture Name="object_geldb_005F68_Tex" Format="ci8" Width="8" Height="16" Offset="0x5F68" TlutOffset="0x5D30"/>
+        <Texture Name="object_geldb_0063E8_Tex" Format="i8" Width="16" Height="16" Offset="0x63E8"/>
+        <Texture Name="object_geldb_0064E8_Tex" Format="ci8" Width="8" Height="16" Offset="0x64E8" TlutOffset="0x5D30"/>
+        <Texture Name="object_geldb_006568_Tex" Format="ci8" Width="8" Height="8" Offset="0x6568" TlutOffset="0x5D30"/>
+        <Texture Name="object_geldb_0069A8_Tex" Format="i8" Width="8" Height="16" Offset="0x69A8"/>
+        <Texture Name="object_geldb_006A28_Tex" Format="ci8" Width="16" Height="16" Offset="0x6A28" TlutOffset="0x5D30"/>
+        <Texture Name="object_geldb_006B28_Tex" Format="ci8" Width="16" Height="16" Offset="0x6B28" TlutOffset="0x5D30"/>
+        <Texture Name="object_geldb_006C28_Tex" Format="ci8" Width="16" Height="16" Offset="0x6C28" TlutOffset="0x5D30"/>
+        <DList Name="object_geldb_008F48_DL" Offset="0x8F48"/>
+        <DList Name="object_geldb_009108_DL" Offset="0x9108"/>
+        <DList Name="object_geldb_0092C8_DL" Offset="0x92C8"/>
+        <DList Name="object_geldb_009460_DL" Offset="0x9460"/>
+        <DList Name="object_geldb_009638_DL" Offset="0x9638"/>
+        <DList Name="object_geldb_0097D0_DL" Offset="0x97D0"/>
+        <DList Name="object_geldb_0099A8_DL" Offset="0x99A8"/>
+        <DList Name="object_geldb_009A60_DL" Offset="0x9A60"/>
+        <DList Name="object_geldb_009B50_DL" Offset="0x9B50"/>
+        <Limb Name="object_geldb_00A2E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A2E8" Offset="0xA2E8"/>
+        <Limb Name="object_geldb_00A2F4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A2F4" Offset="0xA2F4"/>
+        <Limb Name="object_geldb_00A300_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A300" Offset="0xA300"/>
+        <Limb Name="object_geldb_00A30C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A30C" Offset="0xA30C"/>
+        <Limb Name="object_geldb_00A318_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A318" Offset="0xA318"/>
+        <Limb Name="object_geldb_00A324_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A324" Offset="0xA324"/>
+        <Limb Name="object_geldb_00A330_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A330" Offset="0xA330"/>
+        <Limb Name="object_geldb_00A33C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A33C" Offset="0xA33C"/>
+        <Limb Name="object_geldb_00A348_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A348" Offset="0xA348"/>
+        <Limb Name="object_geldb_00A354_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A354" Offset="0xA354"/>
+        <Limb Name="object_geldb_00A360_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A360" Offset="0xA360"/>
+        <Limb Name="object_geldb_00A36C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A36C" Offset="0xA36C"/>
+        <Limb Name="object_geldb_00A378_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A378" Offset="0xA378"/>
+        <Limb Name="object_geldb_00A384_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A384" Offset="0xA384"/>
+        <Limb Name="object_geldb_00A390_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A390" Offset="0xA390"/>
+        <Limb Name="object_geldb_00A39C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A39C" Offset="0xA39C"/>
+        <Limb Name="object_geldb_00A3A8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3A8" Offset="0xA3A8"/>
+        <Limb Name="object_geldb_00A3B4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3B4" Offset="0xA3B4"/>
+        <Limb Name="object_geldb_00A3C0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3C0" Offset="0xA3C0"/>
+        <Limb Name="object_geldb_00A3CC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3CC" Offset="0xA3CC"/>
+        <Limb Name="object_geldb_00A3D8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3D8" Offset="0xA3D8"/>
+        <Limb Name="object_geldb_00A3E4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3E4" Offset="0xA3E4"/>
+        <Limb Name="object_geldb_00A3F0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_GELDB_00A3F0" Offset="0xA3F0"/>
     </File>
 </Root>

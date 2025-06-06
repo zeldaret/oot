@@ -6,6 +6,8 @@
         <DList Name="gKokiriShopkeeperHeadDL" Offset="0x2820"/>
         <Texture Name="gKokiriShopkeeperTLUT" Format="rgba16" Width="248" Height="1" Offset="0x0"/>
         <Texture Name="gKokiriShopkeeperEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x1F0"/>
+        <Texture Name="object_masterkokirihead_0009F0_Tex" Format="ci8" Width="8" Height="8" Offset="0x9F0" TlutOffset="0x0"/>
+        <Texture Name="object_masterkokirihead_000A30_Tex" Format="ci8" Width="16" Height="16" Offset="0xA30" TlutOffset="0x0"/>
         <Texture Name="gKokiriShopkeeperEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0xB30"/>
         <Texture Name="gKokiriShopkeeperHairTex" Format="ci8" Width="16" Height="16" Offset="0x1330" TlutOffset="0x0"/>
         <Texture Name="gKokiriShopkeeperNoseTex" Format="ci8" Width="8" Height="8" Offset="0x1430" TlutOffset="0x0"/>

@@ -61,28 +61,27 @@
         <DList Name="gJabuJabuFlukeDL" Offset="0x44A0"/>
 
         <!-- Jabu Jabu limbs -->
-        <!-- Only limbs with attached dLists are included for now; others are indicated by spaces -->
-
-
-
-        <Limb Name="gJabuJabuBodyLimb" LimbType="Standard" Offset="0xB87C"/><!-- Limb 4 -->
-
-        <Limb Name="gJabuJabuLeftUpperFlipperLimb" LimbType="Standard" Offset="0xB894"/><!-- Limb 6 -->
-
-        <Limb Name="gJabuJabuLeftMidFlipperLimb" LimbType="Standard" Offset="0xB8AC"/><!-- Limb 8 -->
-        <Limb Name="gJabuJabuLeftLowerFlipperLimb" LimbType="Standard" Offset="0xB8B8"/><!-- Limb 9 -->
-        <Limb Name="gJabuJabuHeadLimb" LimbType="Standard" Offset="0xB8C4"/><!-- Limb 10 -->
-
-        <Limb Name="gJabuJabuLeftFrillLimb" LimbType="Standard" Offset="0xB8DC"/><!-- Limb 12 -->
-
-        <Limb Name="gJabuJabuRightFrillLimb" LimbType="Standard" Offset="0xB8F4"/><!-- Limb 14 -->
-
-        <Limb Name="gJabuJabuRightUpperFlipperLimb" LimbType="Standard" Offset="0xB90C"/><!-- Limb 16 -->
-
-        <Limb Name="gJabuJabuRightMidFlipperLimb" LimbType="Standard" Offset="0xB924"/><!-- Limb 18 -->
-        <Limb Name="gJabuJabuRightLowerFlipperLimb" LimbType="Standard" Offset="0xB930"/><!-- Limb 19 -->
-
-        <Limb Name="gJabuJabuFlukeLimb" LimbType="Standard" Offset="0xB948"/><!-- Limb 21 -->
+        <Limb Name="object_jj_00B858_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B858" Offset="0xB858"/>
+        <Limb Name="object_jj_00B864_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B864" Offset="0xB864"/>
+        <Limb Name="object_jj_00B870_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B870" Offset="0xB870"/>
+        <Limb Name="gJabuJabuBodyLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B87C" Offset="0xB87C"/>
+        <Limb Name="object_jj_00B888_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B888" Offset="0xB888"/>
+        <Limb Name="gJabuJabuLeftUpperFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B894" Offset="0xB894"/>
+        <Limb Name="object_jj_00B8A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8A0" Offset="0xB8A0"/>
+        <Limb Name="gJabuJabuLeftMidFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8AC" Offset="0xB8AC"/>
+        <Limb Name="gJabuJabuLeftLowerFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8B8" Offset="0xB8B8"/>
+        <Limb Name="gJabuJabuHeadLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8C4" Offset="0xB8C4"/>
+        <Limb Name="object_jj_00B8D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8D0" Offset="0xB8D0"/>
+        <Limb Name="gJabuJabuLeftFrillLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8DC" Offset="0xB8DC"/>
+        <Limb Name="object_jj_00B8E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8E8" Offset="0xB8E8"/>
+        <Limb Name="gJabuJabuRightFrillLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B8F4" Offset="0xB8F4"/>
+        <Limb Name="object_jj_00B900_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B900" Offset="0xB900"/>
+        <Limb Name="gJabuJabuRightUpperFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B90C" Offset="0xB90C"/>
+        <Limb Name="object_jj_00B918_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B918" Offset="0xB918"/>
+        <Limb Name="gJabuJabuRightMidFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B924" Offset="0xB924"/>
+        <Limb Name="gJabuJabuRightLowerFlipperLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B930" Offset="0xB930"/>
+        <Limb Name="object_jj_00B93C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B93C" Offset="0xB93C"/>
+        <Limb Name="gJabuJabuFlukeLimb" LimbType="Standard" EnumName="LIMB_OBJECT_JJ_00B948" Offset="0xB948"/>
 
         <!-- Jabu Jabu Limb textures -->
         <Texture Name="gJabuJabuFrillTex" Format="rgba16" Width="32" Height="32" Offset="0x5B58"/>

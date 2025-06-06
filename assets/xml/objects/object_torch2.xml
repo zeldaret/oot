@@ -7,5 +7,46 @@
 
         <!-- Dark Link DLists -->
         <DList Name="sDarkLinkSheathDL" Offset="0x3748"/>
+
+        <DList Name="object_torch2_002BD0_DL" Offset="0x2BD0"/>
+        <DList Name="object_torch2_002CD0_DL" Offset="0x2CD0"/>
+        <DList Name="object_torch2_002E10_DL" Offset="0x2E10"/>
+        <DList Name="object_torch2_002F38_DL" Offset="0x2F38"/>
+        <DList Name="object_torch2_003030_DL" Offset="0x3030"/>
+        <DList Name="object_torch2_003178_DL" Offset="0x3178"/>
+        <DList Name="object_torch2_0032A0_DL" Offset="0x32A0"/>
+        <DList Name="object_torch2_003398_DL" Offset="0x3398"/>
+        <DList Name="object_torch2_003490_DL" Offset="0x3490"/>
+        <DList Name="object_torch2_003820_DL" Offset="0x3820"/>
+        <DList Name="object_torch2_0038D0_DL" Offset="0x38D0"/>
+        <DList Name="object_torch2_0039E8_DL" Offset="0x39E8"/>
+        <DList Name="object_torch2_003B08_DL" Offset="0x3B08"/>
+        <DList Name="object_torch2_003C10_DL" Offset="0x3C10"/>
+        <DList Name="object_torch2_003D70_DL" Offset="0x3D70"/>
+        <DList Name="object_torch2_003E90_DL" Offset="0x3E90"/>
+        <DList Name="object_torch2_003F98_DL" Offset="0x3F98"/>
+        <Texture Name="object_torch2_0041C0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x41C0"/>
+        <Texture Name="object_torch2_0043C0_Tex" Format="ia16" Width="16" Height="16" Offset="0x43C0"/>
+        <Limb Name="object_torch2_0045C0_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_0045C0" Offset="0x45C0"/>
+        <Limb Name="object_torch2_0045D0_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_0045D0" Offset="0x45D0"/>
+        <Limb Name="object_torch2_0045E0_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_0045E0" Offset="0x45E0"/>
+        <Limb Name="object_torch2_0045F0_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_0045F0" Offset="0x45F0"/>
+        <Limb Name="object_torch2_004600_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004600" Offset="0x4600"/>
+        <Limb Name="object_torch2_004610_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004610" Offset="0x4610"/>
+        <Limb Name="object_torch2_004620_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004620" Offset="0x4620"/>
+        <Limb Name="object_torch2_004630_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004630" Offset="0x4630"/>
+        <Limb Name="object_torch2_004640_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004640" Offset="0x4640"/>
+        <Limb Name="object_torch2_004650_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004650" Offset="0x4650"/>
+        <Limb Name="object_torch2_004660_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004660" Offset="0x4660"/>
+        <Limb Name="object_torch2_004670_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004670" Offset="0x4670"/>
+        <Limb Name="object_torch2_004680_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004680" Offset="0x4680"/>
+        <Limb Name="object_torch2_004690_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004690" Offset="0x4690"/>
+        <Limb Name="object_torch2_0046A0_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_0046A0" Offset="0x46A0"/>
+        <Limb Name="object_torch2_0046B0_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_0046B0" Offset="0x46B0"/>
+        <Limb Name="object_torch2_0046C0_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_0046C0" Offset="0x46C0"/>
+        <Limb Name="object_torch2_0046D0_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_0046D0" Offset="0x46D0"/>
+        <Limb Name="object_torch2_0046E0_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_0046E0" Offset="0x46E0"/>
+        <Limb Name="object_torch2_0046F0_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_0046F0" Offset="0x46F0"/>
+        <Limb Name="object_torch2_004700_Limb" LimbType="LOD" EnumName="LIMB_OBJECT_TORCH2_004700" Offset="0x4700"/>
     </File>
 </Root>

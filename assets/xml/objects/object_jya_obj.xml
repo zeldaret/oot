@@ -76,5 +76,13 @@
         <Texture Name="gMegamiLeftCrumble5Tex" Format="ci4" Width="64" Height="64" Offset="0x0500" TlutOffset="0x4E0"/>
         <DList Name="gZurerukabeDL" Offset="0x12340"/>
         <Collision Name="gZurerukabeCol" Offset="0x12508"/>
+
+        <Texture Name="object_jya_obj_00B4B8_Tex" Format="ci8" Width="32" Height="32" Offset="0xB4B8" TlutOffset="0xAC70"/>
+        <Texture Name="object_jya_obj_011A60_TLUT" Format="rgba16" Width="16" Height="1" Offset="0x11A60"/>
+        <Texture Name="object_jya_obj_011A80_Tex" Format="ci4" Width="64" Height="64" Offset="0x11A80" TlutOffset="0x11A60"/>
+        <Texture Name="object_jya_obj_016140_Tex" Format="rgba16" Width="64" Height="32" Offset="0x16140"/>
+        <Texture Name="object_jya_obj_017140_Tex" Format="rgba16" Width="32" Height="16" Offset="0x17140"/>
+        <Texture Name="object_jya_obj_01B340_Tex" Format="ia8" Width="32" Height="32" Offset="0x1B340"/>
+        <Texture Name="object_jya_obj_01B740_Tex" Format="rgba16" Width="16" Height="16" Offset="0x1B740"/>
     </File>
 </Root>

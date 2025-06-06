@@ -55,5 +55,17 @@
         <Texture Name="gGanonsCastleUnusedSpikeVariantTex" Format="ia16" Width="64" Height="32" Offset="0x8B20"/>
         <Texture Name="gGanonsCastleUnusedWallTex" Format="rgba16" Width="32" Height="32" Offset="0x9B20"/>
         <Texture Name="gGanonsCastleUnusedTex_00A320" Format="ia16" Width="16" Height="32" Offset="0xA320"/>
+
+
+        <Texture Name="object_gj_003B20_Tex" Format="ia8" Width="16" Height="16" Offset="0x3B20"/>
+        <Texture Name="object_gj_003C20_Tex" Format="i4" Width="16" Height="32" Offset="0x3C20"/>
+        <Texture Name="object_gj_003D20_Tex" Format="rgba16" Width="16" Height="16" Offset="0x3D20"/>
+        <Texture Name="object_gj_003F20_Tex" Format="i8" Width="64" Height="64" Offset="0x3F20"/>
+        <Texture Name="object_gj_004F20_Tex" Format="i8" Width="64" Height="64" Offset="0x4F20"/>
+        <Texture Name="object_gj_005F20_Tex" Format="i8" Width="64" Height="64" Offset="0x5F20"/>
+        <Texture Name="object_gj_006F20_Tex" Format="i4" Width="32" Height="64" Offset="0x6F20"/>
+        <Texture Name="object_gj_007320_Tex" Format="i8" Width="64" Height="16" Offset="0x7320"/>
+        <Texture Name="object_gj_007720_Tex" Format="ia8" Width="32" Height="32" Offset="0x7720"/>
+        <Texture Name="object_gj_007B20_Tex" Format="i8" Width="128" Height="32" Offset="0x7B20"/>
     </File>
 </Root>

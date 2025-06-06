@@ -142,6 +142,8 @@
         <Texture Name="gAdultRutoTex_5440" Format="ci8" Width="8" Height="8" Offset="0x5440" TlutOffset="0x43C0"/>
         <Texture Name="gAdultRutoTex_5480" Format="ci8" Width="16" Height="16" Offset="0x5480" TlutOffset="0x43C0"/>
         <Texture Name="gAdultRutoTex_5580" Format="ci8" Width="8" Height="8" Offset="0x5580" TlutOffset="0x43C0"/>
+        <Texture Name="object_ru2_0055C0_Tex" Format="ci8" Width="8" Height="32" Offset="0x55C0" TlutOffset="0x43C0"/>
+        <Texture Name="object_ru2_0056C0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x56C0"/>
 
         <!-- Adult Ruto Animations -->
         <Animation Name="gAdultRutoCrossingArmsAnim" Offset="0x04CC"/>

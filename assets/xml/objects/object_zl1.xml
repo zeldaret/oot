@@ -122,6 +122,7 @@
         <Texture Name="gChildZelda1Tex_A848" Format="rgba16" Width="8" Height="8" Offset="0xA848"/>
         <Texture Name="gChildZelda1HeaddressTex_A8C8" Format="ci8" Width="8" Height="16" Offset="0xA8C8" TlutOffset="0x70C8"/>
         <Texture Name="gChildZelda1HeaddressStripeTex" Format="ci8" Width="16" Height="32" Offset="0xA948" TlutOffset="0x70C8"/>
+        <Texture Name="object_zl1_00EE58_Tex" Format="rgba16" Width="32" Height="16" Offset="0xEE58"/>
 
         <!-- Other Vertices and DisplayLists -->
         <Array Name="gChildZelda1AlternateDressVtx" Count="147" Offset="0xBD68">
