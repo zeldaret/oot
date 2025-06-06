@@ -120,7 +120,7 @@ s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx) {
                     talkState = NPC_TALK_STATE_ACTION;
                     break;
                 // unreachable, 0x2053 is a text id for Gossip Stones, which EnMa2 never sets
-                case 0x2053: 
+                case 0x2053:
                     SET_INFTABLE(INFTABLE_8D);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
@@ -157,7 +157,6 @@ void EnMa2_UpdateTracking(EnMa2* this, PlayState* play) {
 
     Npc_TrackPoint(&this->actor, &this->interactInfo, 0, trackingMode);
 }
-
 
 typedef enum {
     MALON_ADULT_SPAWN_NONE = 0,
