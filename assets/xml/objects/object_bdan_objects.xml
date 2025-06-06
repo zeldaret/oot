@@ -33,7 +33,9 @@
         <Texture Name="gJabuObjects8TLUT" OutName="jabu_objects_8_tlut" Format="rgba16" Width="160" Height="1" Offset="0x2CA0"/>
         <Texture Name="gJabuObjects9TLUT" OutName="jabu_objects_9_tlut" Format="rgba16" Width="204" Height="1" Offset="0x3300"/>
         <Texture Name="gJabuObjects10TLUT" OutName="jabu_objects_10_tlut" Format="rgba16" Width="16" Height="16" Offset="0x39B0"/>
+        <Blob Name="object_bdan_objects_003BB0_Blob" Size="0x8" Offset="0x3BB0"/>
         <Texture Name="gJabuObjects11TLUT" OutName="jabu_objects_11_tlut" Format="rgba16" Width="16" Height="16" Offset="0x6540"/>
+        <Blob Name="object_bdan_objects_006740_Blob" Size="0x8" Offset="0x6740"/>
 
         <!-- DLists -->
         <DList Name="gJabuDoorSection1DL" Offset="0x0590"/>

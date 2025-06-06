@@ -51,5 +51,6 @@
         <Texture Name="gBotwTex_0050F0" Format="rgba16" Width="32" Height="32" Offset="0x50F0"/>
         <Texture Name="gBotwTex_0058F0" Format="rgba16" Width="32" Height="32" Offset="0x58F0"/>
         <Texture Name="gBotwTex_0060F0" Format="i4" Width="32" Height="32" Offset="0x60F0"/>
+        <Texture Name="object_hakach_objects_0062F0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x62F0"/>
     </File>
 </Root>
