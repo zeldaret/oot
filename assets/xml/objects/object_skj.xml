@@ -117,8 +117,8 @@
         <Animation Name="gSkullKidWaitAnim" Offset="0x8B9C"/>
         <Animation Name="gSkullKidWalkToPlayerAnim" Offset="0x8E14"/>
 
-        <Texture Name="gSkullKidSkullMaskTex" OutName="skull_mask" Format="rgba16" Width="16" Height="16" Offset="0xF08"/>
-        <Texture Name="gSkullKidSkullMaskTeethTex" OutName="skull_mask_teeth" Format="rgba16" Width="8" Height="8" Offset="0x1108"/>
-        <Texture Name="gSkullKidSkullMaskNoseTex" OutName="skull_mask_nose" Format="rgba16" Width="8" Height="8" Offset="0x1188"/>
+        <Texture Name="gSkullKidSkullMaskTex" Format="rgba16" Width="16" Height="16" Offset="0xF08"/>
+        <Texture Name="gSkullKidSkullMaskTeethTex" Format="rgba16" Width="8" Height="8" Offset="0x1108"/>
+        <Texture Name="gSkullKidSkullMaskNoseTex" Format="rgba16" Width="8" Height="8" Offset="0x1188"/>
     </File>
 </Root>

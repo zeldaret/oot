@@ -117,29 +117,29 @@
         <Animation Name="gZoraOpenArmsAnim" Offset="0xD48"/>
 
         <!-- Eyes textures -->
-        <Texture Name="gZoraEyeOpenTex" OutName="eye_open" Format="rgba16" Width="32" Height="32" Offset="0x3E40"/>
-        <Texture Name="gZoraEyeHalfTex" OutName="eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4640"/>
-        <Texture Name="gZoraEyeClosedTex" OutName="eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x4E40"/>
+        <Texture Name="gZoraEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x3E40"/>
+        <Texture Name="gZoraEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x4640"/>
+        <Texture Name="gZoraEyeClosedTex" Format="rgba16" Width="32" Height="32" Offset="0x4E40"/>
 
         <!-- Other body parts textures -->
-        <Texture Name="gZoraMouthTex" OutName="mouth" Format="rgba16" Width="32" Height="32" Offset="0x5640"/>
-        <Texture Name="gZoraHeadTailTex" OutName="head_tail" Format="ci8" Width="32" Height="64" Offset="0x3600" TlutOffset="0x3000"/>
-        <Texture Name="gZoraHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0x5E40" TlutOffset="0x3000"/>
-        <Texture Name="gZoraKneeTex" OutName="knee" Format="ci8" Width="8" Height="8" Offset="0x5F40" TlutOffset="0x3000"/>
-        <Texture Name="gZoraHeadTex" OutName="head" Format="ci8" Width="8" Height="8" Offset="0x3E00" TlutOffset="0x3000"/>
-        <Texture Name="gZoraFinTex" OutName="fin" Format="ci8" Width="32" Height="32" Offset="0x3200" TlutOffset="0x3000"/>
+        <Texture Name="gZoraMouthTex" Format="rgba16" Width="32" Height="32" Offset="0x5640"/>
+        <Texture Name="gZoraHeadTailTex" Format="ci8" Width="32" Height="64" Offset="0x3600" TlutOffset="0x3000"/>
+        <Texture Name="gZoraHandTex" Format="ci8" Width="16" Height="16" Offset="0x5E40" TlutOffset="0x3000"/>
+        <Texture Name="gZoraKneeTex" Format="ci8" Width="8" Height="8" Offset="0x5F40" TlutOffset="0x3000"/>
+        <Texture Name="gZoraHeadTex" Format="ci8" Width="8" Height="8" Offset="0x3E00" TlutOffset="0x3000"/>
+        <Texture Name="gZoraFinTex" Format="ci8" Width="32" Height="32" Offset="0x3200" TlutOffset="0x3000"/>
 
         <!-- Palette / Tlut -->
-        <Texture Name="gZoraTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x3000"/>
+        <Texture Name="gZoraTLUT" Format="rgba16" Width="16" Height="16" Offset="0x3000"/>
 
-        <Texture Name="gZoraBubblesTex" OutName="bubbles" Format="ia8" Width="16" Height="16" Offset="0x21B0"/>
+        <Texture Name="gZoraBubblesTex" Format="ia8" Width="16" Height="16" Offset="0x21B0"/>
         <DList Name="gZoraBubblesMaterialDL" Offset="0x22F0"/>
         <Array Name="gZoraBubblesModelVtx" Count="4" Offset="0x22B0">
             <Vtx/>
         </Array>
         <DList Name="gZoraBubblesModelDL" Offset="0x2350"/>
 
-        <Texture Name="gZoraSplashesTex" OutName="splashes" Format="i8" Width="16" Height="16" Offset="0x2370"/>
+        <Texture Name="gZoraSplashesTex" Format="i8" Width="16" Height="16" Offset="0x2370"/>
         <DList Name="gZoraSplashesMaterialDL" Offset="0x24A0"/>
         <Array Name="gZoraSplashesModelVtx" Count="3" Offset="0x2470">
             <Vtx/>

@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_heavy_object" Segment="6">
-        <Texture Name="gHeavyBlockTex" OutName="block" Format="i4" Width="64" Height="128" Offset="0x0"/>
+        <Texture Name="gHeavyBlockTex" Format="i4" Width="64" Height="128" Offset="0x0"/>
         <Array Name="gHeavyBlockEntirePillarVtx" Count="60" Offset="0x1000">
             <Vtx/>
         </Array>

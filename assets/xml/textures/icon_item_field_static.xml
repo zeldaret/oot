@@ -1,32 +1,32 @@
 <Root>
     <File Name="icon_item_field_static" Segment="12">
-        <Texture Name="gWorldMapImageTex" OutName="world_map_image" Format="ci8" Width="216" Height="128" Offset="0x0" TlutOffset="0x6C00"/>
-        <Texture Name="gWorldMapImageTLUT" OutName="world_map_image_tlut" Format="rgba16" Width="16" Height="16" Offset="0x6C00"/>
-        <Texture Name="gWorldMapDotTex" OutName="world_map_dot" Format="ia8" Width="8" Height="8" Offset="0x6E00"/>
-        <Texture Name="gWorldMapAreaBox1Tex" OutName="world_map_area_box_1" Format="ia4" Width="32" Height="19" Offset="0x6E40"/>
-        <Texture Name="gWorldMapAreaBox2Tex" OutName="world_map_area_box_2" Format="ia4" Width="48" Height="38" Offset="0x6F70"/>
-        <Texture Name="gWorldMapAreaBox3Tex" OutName="world_map_area_box_3" Format="ia4" Width="32" Height="17" Offset="0x7300"/>
-        <Texture Name="gWorldMapAreaBox4Tex" OutName="world_map_area_box_4" Format="ia4" Width="32" Height="13" Offset="0x7410"/>
-        <Texture Name="gWorldMapAreaBox5Tex" OutName="world_map_area_box_5" Format="ia4" Width="32" Height="26" Offset="0x74E0"/>
-        <Texture Name="gWorldMapAreaBox6Tex" OutName="world_map_area_box_6" Format="ia4" Width="48" Height="19" Offset="0x7680"/>
-        <Texture Name="gWorldMapAreaBox7Tex" OutName="world_map_area_box_7" Format="ia4" Width="96" Height="59" Offset="0x7848"/>
-        <Texture Name="gWorldMapAreaBox8Tex" OutName="world_map_area_box_8" Format="ia4" Width="16" Height="16" Offset="0x8358"/>
-        <Texture Name="gWorldMapArrowTex" OutName="world_map_arrow" Format="ia8" Width="8" Height="8" Offset="0x83D8"/>
-        <Texture Name="gWorldMapCloudLakeHyliaTex" OutName="world_map_cloud_lake_hylia" Format="i4" Width="64" Height="60" Offset="0x8418"/>
-        <Texture Name="gWorldMapCloudDesertColossusTex" OutName="world_map_cloud_desert_colossus" Format="i4" Width="48" Height="45" Offset="0x8B98"/>
-        <Texture Name="gWorldMapCloudGerudosFortressTex" OutName="world_map_cloud_gerudos_fortress" Format="i4" Width="48" Height="32" Offset="0x8FD0"/>
-        <Texture Name="gWorldMapCloudGerudoValleyTex" OutName="world_map_cloud_gerudo_valley" Format="i4" Width="48" Height="49" Offset="0x92D0"/>
-        <Texture Name="gWorldMapCloudZorasFountainTex" OutName="world_map_cloud_zoras_fountain" Format="i4" Width="48" Height="21" Offset="0x9768"/>
-        <Texture Name="gWorldMapCloudZorasDomainTex" OutName="world_map_cloud_zoras_domain" Format="i4" Width="32" Height="22" Offset="0x9960"/>
-        <Texture Name="gWorldMapCloudZorasRiverTex" OutName="world_map_cloud_zoras_river" Format="i4" Width="64" Height="26" Offset="0x9AC0"/>
-        <Texture Name="gWorldMapCloudGoronCityTex" OutName="world_map_cloud_goron_city" Format="i4" Width="32" Height="14" Offset="0x9E00"/>
-        <Texture Name="gWorldMapCloudDeathMountainTrailTex" OutName="world_map_cloud_death_mountain_trail" Format="i4" Width="48" Height="27" Offset="0x9EE0"/>
-        <Texture Name="gWorldMapCloudGraveyardTex" OutName="world_map_cloud_graveyard" Format="i4" Width="32" Height="19" Offset="0xA168"/>
-        <Texture Name="gWorldMapCloudKakarikoVillageTex" OutName="world_map_cloud_kakariko_village" Format="i4" Width="32" Height="20" Offset="0xA298"/>
-        <Texture Name="gWorldMapCloudHyruleCastleTex" OutName="world_map_cloud_hyrule_castle" Format="i4" Width="32" Height="19" Offset="0xA3D8"/>
-        <Texture Name="gWorldMapCloudMarketTex" OutName="world_map_cloud_market" Format="i4" Width="48" Height="22" Offset="0xA508"/>
-        <Texture Name="gWorldMapCloudLonLonRanchTex" OutName="world_map_cloud_lon_lon_ranch" Format="i4" Width="32" Height="13" Offset="0xA718"/>
-        <Texture Name="gWorldMapCloudHyruleFieldTex" OutName="world_map_cloud_hyrule_field" Format="i4" Width="112" Height="72" Offset="0xA7E8"/>
-        <Texture Name="gWorldMapCloudSacredForestMeadowTex" OutName="world_map_cloud_sacred_forest_meadow" Format="i4" Width="32" Height="24" Offset="0xB7A8"/>
+        <Texture Name="gWorldMapImageTex" Format="ci8" Width="216" Height="128" Offset="0x0" TlutOffset="0x6C00"/>
+        <Texture Name="gWorldMapImageTLUT" Format="rgba16" Width="16" Height="16" Offset="0x6C00"/>
+        <Texture Name="gWorldMapDotTex" Format="ia8" Width="8" Height="8" Offset="0x6E00"/>
+        <Texture Name="gWorldMapAreaBox1Tex" Format="ia4" Width="32" Height="19" Offset="0x6E40"/>
+        <Texture Name="gWorldMapAreaBox2Tex" Format="ia4" Width="48" Height="38" Offset="0x6F70"/>
+        <Texture Name="gWorldMapAreaBox3Tex" Format="ia4" Width="32" Height="17" Offset="0x7300"/>
+        <Texture Name="gWorldMapAreaBox4Tex" Format="ia4" Width="32" Height="13" Offset="0x7410"/>
+        <Texture Name="gWorldMapAreaBox5Tex" Format="ia4" Width="32" Height="26" Offset="0x74E0"/>
+        <Texture Name="gWorldMapAreaBox6Tex" Format="ia4" Width="48" Height="19" Offset="0x7680"/>
+        <Texture Name="gWorldMapAreaBox7Tex" Format="ia4" Width="96" Height="59" Offset="0x7848"/>
+        <Texture Name="gWorldMapAreaBox8Tex" Format="ia4" Width="16" Height="16" Offset="0x8358"/>
+        <Texture Name="gWorldMapArrowTex" Format="ia8" Width="8" Height="8" Offset="0x83D8"/>
+        <Texture Name="gWorldMapCloudLakeHyliaTex" Format="i4" Width="64" Height="60" Offset="0x8418"/>
+        <Texture Name="gWorldMapCloudDesertColossusTex" Format="i4" Width="48" Height="45" Offset="0x8B98"/>
+        <Texture Name="gWorldMapCloudGerudosFortressTex" Format="i4" Width="48" Height="32" Offset="0x8FD0"/>
+        <Texture Name="gWorldMapCloudGerudoValleyTex" Format="i4" Width="48" Height="49" Offset="0x92D0"/>
+        <Texture Name="gWorldMapCloudZorasFountainTex" Format="i4" Width="48" Height="21" Offset="0x9768"/>
+        <Texture Name="gWorldMapCloudZorasDomainTex" Format="i4" Width="32" Height="22" Offset="0x9960"/>
+        <Texture Name="gWorldMapCloudZorasRiverTex" Format="i4" Width="64" Height="26" Offset="0x9AC0"/>
+        <Texture Name="gWorldMapCloudGoronCityTex" Format="i4" Width="32" Height="14" Offset="0x9E00"/>
+        <Texture Name="gWorldMapCloudDeathMountainTrailTex" Format="i4" Width="48" Height="27" Offset="0x9EE0"/>
+        <Texture Name="gWorldMapCloudGraveyardTex" Format="i4" Width="32" Height="19" Offset="0xA168"/>
+        <Texture Name="gWorldMapCloudKakarikoVillageTex" Format="i4" Width="32" Height="20" Offset="0xA298"/>
+        <Texture Name="gWorldMapCloudHyruleCastleTex" Format="i4" Width="32" Height="19" Offset="0xA3D8"/>
+        <Texture Name="gWorldMapCloudMarketTex" Format="i4" Width="48" Height="22" Offset="0xA508"/>
+        <Texture Name="gWorldMapCloudLonLonRanchTex" Format="i4" Width="32" Height="13" Offset="0xA718"/>
+        <Texture Name="gWorldMapCloudHyruleFieldTex" Format="i4" Width="112" Height="72" Offset="0xA7E8"/>
+        <Texture Name="gWorldMapCloudSacredForestMeadowTex" Format="i4" Width="32" Height="24" Offset="0xB7A8"/>
     </File>
 </Root>

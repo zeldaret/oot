@@ -1,8 +1,8 @@
 <Root>
     <File Name="object_haka" Segment="6">
-        <Texture Name="gGravestoneGrassTex" OutName="grass" Format="rgba16" Width="16" Height="32" Offset="0x460"/>
-        <Texture Name="gGravestoneEarthTex" OutName="earth" Format="ia8" Width="32" Height="32" Offset="0x860"/>
-        <Texture Name="gGravestoneTombTex" OutName="tomb" Format="rgba16" Width="32" Height="32" Offset="0xC60"/>
+        <Texture Name="gGravestoneGrassTex" Format="rgba16" Width="16" Height="32" Offset="0x460"/>
+        <Texture Name="gGravestoneEarthTex" Format="ia8" Width="32" Height="32" Offset="0x860"/>
+        <Texture Name="gGravestoneTombTex" Format="rgba16" Width="32" Height="32" Offset="0xC60"/>
         <Array Name="gGravestoneStoneVtx" Count="23" Offset="0x0">
             <Vtx/>
         </Array>

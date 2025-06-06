@@ -64,11 +64,11 @@
         <DList Name="gBariLeftUpperArmDL" Offset="0x3060"/>
 
         <!-- Bari DList textures -->
-        <Texture Name="gBariNucleusTex" OutName="bari_nucleus" Format="ia16" Width="32" Height="32" Offset="0x3108"/>
-        <Texture Name="gBariMandibleClawTex" OutName="bari_mandible_claw" Format="ia16" Width="8" Height="8" Offset="0x3908"/>
-        <Texture Name="gBariOuterHoodForearmTex" OutName="bari_outer_hood_forearm" Format="ia16" Width="16" Height="32" Offset="0x3988"/>
-        <Texture Name="gBariOuterHoodBottomTex" OutName="bari_outer_hood_bottom" Format="ia16" Width="8" Height="16" Offset="0x3D88"/>
-        <Texture Name="gBariInnerHoodTex" OutName="bari_inner_hood" Format="ia16" Width="32" Height="32" Offset="0x3E88"/>
+        <Texture Name="gBariNucleusTex" Format="ia16" Width="32" Height="32" Offset="0x3108"/>
+        <Texture Name="gBariMandibleClawTex" Format="ia16" Width="8" Height="8" Offset="0x3908"/>
+        <Texture Name="gBariOuterHoodForearmTex" Format="ia16" Width="16" Height="32" Offset="0x3988"/>
+        <Texture Name="gBariOuterHoodBottomTex" Format="ia16" Width="8" Height="16" Offset="0x3D88"/>
+        <Texture Name="gBariInnerHoodTex" Format="ia16" Width="32" Height="32" Offset="0x3E88"/>
 
         <!-- Bari Limbs and Skeleton -->
         <Limb Name="gBariNucleusBaseLimb" LimbType="Standard" Offset="0x4688"/>

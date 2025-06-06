@@ -19,21 +19,21 @@
         <Animation Name="gDodongoLeftStepAnim" Offset="0x9088"/>
 
         <!-- Dodongo Textures -->
-        <Texture Name="gDodongoSpikeTex" OutName="spike" Format="rgba16" Width="16" Height="16" Offset="0x74B8"/>
-        <Texture Name="gDodongoRoughSkinTex" OutName="rough_skin" Format="rgba16" Width="8" Height="16" Offset="0x76B8"/>
-        <Texture Name="gDodongoSkinTex" OutName="skin" Format="rgba16" Width="8" Height="16" Offset="0x77B8"/>
-        <Texture Name="gDodongoFaceTex" OutName="face" Format="rgba16" Width="32" Height="16" Offset="0x78B8"/>
-        <Texture Name="gDodongoInsideMouthTex" OutName="inside_mouth" Format="rgba16" Width="16" Height="32" Offset="0x7CB8"/>
-        <Texture Name="gDodongoToothTex" OutName="tooth" Format="rgba16" Width="8" Height="8" Offset="0x80B8"/>
+        <Texture Name="gDodongoSpikeTex" Format="rgba16" Width="16" Height="16" Offset="0x74B8"/>
+        <Texture Name="gDodongoRoughSkinTex" Format="rgba16" Width="8" Height="16" Offset="0x76B8"/>
+        <Texture Name="gDodongoSkinTex" Format="rgba16" Width="8" Height="16" Offset="0x77B8"/>
+        <Texture Name="gDodongoFaceTex" Format="rgba16" Width="32" Height="16" Offset="0x78B8"/>
+        <Texture Name="gDodongoInsideMouthTex" Format="rgba16" Width="16" Height="32" Offset="0x7CB8"/>
+        <Texture Name="gDodongoToothTex" Format="rgba16" Width="8" Height="8" Offset="0x80B8"/>
 
         <!-- Dodongo Skeleton -->
         <Skeleton Name="gDodongoSkel" Type="Normal" LimbType="Standard" Offset="0x8318"/>
 
         <!-- Fire Effect Textures -->
-        <Texture Name="gDodongoFire0Tex" OutName="fire_0" Format="i4" Width="32" Height="32" Offset="0x90A0"/>
-        <Texture Name="gDodongoFire1Tex" OutName="fire_1" Format="i4" Width="32" Height="32" Offset="0x92A0"/>
-        <Texture Name="gDodongoFire2Tex" OutName="fire_2" Format="i4" Width="32" Height="32" Offset="0x94A0"/>
-        <Texture Name="gDodongoFire3Tex" OutName="fire_3" Format="i4" Width="32" Height="32" Offset="0x96A0"/>
+        <Texture Name="gDodongoFire0Tex" Format="i4" Width="32" Height="32" Offset="0x90A0"/>
+        <Texture Name="gDodongoFire1Tex" Format="i4" Width="32" Height="32" Offset="0x92A0"/>
+        <Texture Name="gDodongoFire2Tex" Format="i4" Width="32" Height="32" Offset="0x94A0"/>
+        <Texture Name="gDodongoFire3Tex" Format="i4" Width="32" Height="32" Offset="0x96A0"/>
 
         <!-- Fire Effect -->
         <DList Name="gDodongoFireDL" Offset="0x98A0"/>

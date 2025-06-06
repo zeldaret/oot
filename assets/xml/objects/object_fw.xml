@@ -85,12 +85,12 @@
         <DList Name="gFlareDancerTriangleParticleDL" Offset="0x7A78"/>
 
         <!-- Flare Dancer DisplayList Textures -->
-        <Texture Name="gFlareDancerBlueFlameTex" OutName="blue_flame" Format="rgba16" Width="4" Height="4" Offset="0x10D0"/>
-        <Texture Name="gFlareDancerFireTex" OutName="fire" Format="i8" Width="32" Height="64" Offset="0x10F0"/>
-        <Texture Name="gFlareDancerFirePatternTex" OutName="fire_pattern" Format="i8" Width="32" Height="64" Offset="0x18F0"/>
-        <Texture Name="gFlareDancerFuseTex" OutName="fuse" Format="rgba16" Width="16" Height="32" Offset="0x20F0"/>
-        <Texture Name="gFlareDancerSwordHiltTex" OutName="sword_hilt" Format="rgba16" Width="16" Height="16" Offset="0x24F0"/>
-        <Texture Name="gFlareDancerCoreBodyTex" OutName="core_body" Format="rgba16" Width="16" Height="32" Offset="0x26F0"/>
+        <Texture Name="gFlareDancerBlueFlameTex" Format="rgba16" Width="4" Height="4" Offset="0x10D0"/>
+        <Texture Name="gFlareDancerFireTex" Format="i8" Width="32" Height="64" Offset="0x10F0"/>
+        <Texture Name="gFlareDancerFirePatternTex" Format="i8" Width="32" Height="64" Offset="0x18F0"/>
+        <Texture Name="gFlareDancerFuseTex" Format="rgba16" Width="16" Height="32" Offset="0x20F0"/>
+        <Texture Name="gFlareDancerSwordHiltTex" Format="rgba16" Width="16" Height="16" Offset="0x24F0"/>
+        <Texture Name="gFlareDancerCoreBodyTex" Format="rgba16" Width="16" Height="32" Offset="0x26F0"/>
 
         <!-- Flare Dancer Animations -->
         <Animation Name="gFlareDancerCastingFireAnim" Offset="0x10B4"/>
