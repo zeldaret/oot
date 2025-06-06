@@ -1444,7 +1444,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEDEF4(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateSpeedXZ(EnRu1* this, PlayState* play) {
     f32* speedXZ = &this->actor.speed;
     DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
 
@@ -1462,13 +1462,13 @@ void func_80AEDEF4(EnRu1* this, PlayState* play) {
     }
 }
 
-void func_80AEDFF4(EnRu1* this, PlayState* play) {
+void EnRu1_UpdatePosition(EnRu1* this, PlayState* play) {
     func_80AEDB30(this, play);
-    func_80AEDEF4(this, play);
+    EnRu1_UpdateSpeedXZ(this, play);
     Actor_MoveXZGravity(&this->actor);
 }
 
-void func_80AEE02C(EnRu1* this) {
+void EnRu1_StopMoving(EnRu1* this) {
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.velocity.z = 0.0f;
@@ -1487,7 +1487,7 @@ void EnRu1_UpdateWaterState(EnRu1* this) {
         if ((this->actor.minVelocityY == 0.0f) && (this->actor.speed == 0.0f)) {
             // When Ruto's velocity has been slowed enough by the water, stop her motion
             this->waterState = ENRU1_WATER_IMMERSED;
-            func_80AEE02C(this);
+            EnRu1_StopMoving(this);
             this->bobPhase = 0;
             this->bobDepth = (this->actor.depthInWater - 10.0f) * 0.5f;
             this->sinkingStartPosY = this->actor.world.pos.y + thisx->bobDepth;
@@ -1511,7 +1511,7 @@ void EnRu1_UpdateWaterState(EnRu1* this) {
     } else {
         if (this->waterState == ENRU1_WATER_IMMERSED) {
             if (this->bobDepth <= 1.0f) {
-                func_80AEE02C(this);
+                EnRu1_StopMoving(this);
                 this->waterState = ENRU1_WATER_BOBBING;
                 this->isSinking = 0.0f;
             } else {
@@ -1580,7 +1580,7 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
         dynaPolyActor = DynaPoly_GetActor(colCtx, floorBgId);
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS &&
             dynaPolyActor->actor.params == 0 && !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
-            func_80AEE02C(this);
+            EnRu1_StopMoving(this);
             play->csCtx.script = gRutoObtainingSapphireCs;
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
@@ -1616,7 +1616,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
             (this->actor.minVelocityY == 0.0f)) {
             s32 pad;
 
-            func_80AEE02C(this);
+            EnRu1_StopMoving(this);
             Actor_OfferCarry(&this->actor, play);
             this->action = 27;
             EnRu1_DisableSittingOC(this);
@@ -1724,7 +1724,7 @@ s32 EnRu1_CheckHitBottomUnderwater(EnRu1* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         s32 pad;
 
-        func_80AEE02C(this);
+        EnRu1_StopMoving(this);
         Actor_OfferCarry(&this->actor, play);
         this->action = 27;
         EnRu1_DisableSittingOC(this);
@@ -1736,7 +1736,7 @@ s32 EnRu1_CheckHitBottomUnderwater(EnRu1* this, PlayState* play) {
 void EnRu1_CheckSinkingState(EnRu1* this, PlayState* play) {
     if ((EnRu1_CheckHitBottomUnderwater(this, play) == 0) && (this->waterState == ENRU1_WATER_SINKING)) {
         this->action = 30;
-        func_80AEE02C(this);
+        EnRu1_StopMoving(this);
         this->actor.gravity = -0.1f;
         this->actor.minVelocityY = -((kREG(18) * 0.1f) + 0.7f);
     }
@@ -1763,7 +1763,7 @@ void func_80AEEC5C(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSittingAT(this, play);
     func_80AEAECC(this, play);
     func_80AEE2F8(this, play);
-    func_80AEDFF4(this, play);
+    EnRu1_UpdatePosition(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEE568(this, play);
@@ -1815,7 +1815,7 @@ void func_80AEEE34(EnRu1* this, PlayState* play) {
 void func_80AEEE9C(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
     func_80AEAECC(this, play);
-    func_80AEDFF4(this, play);
+    EnRu1_UpdatePosition(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AED738(this, play);
