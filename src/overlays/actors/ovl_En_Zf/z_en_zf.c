@@ -18,10 +18,10 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_zf/object_zf.h"
 
@@ -169,47 +169,47 @@ static ColliderQuadInit sSwordQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum EnZfDamageEffect {
-    /* 0x0 */ ENZF_DMGEFF_NONE,
-    /* 0x1 */ ENZF_DMGEFF_STUN,
-    /* 0x6 */ ENZF_DMGEFF_IMMUNE = 6,       // Skips damage code, but also skips the top half of Update
-    /* 0xD */ ENZF_DMGEFF_PROJECTILE = 0xD, // Projectiles that don't have another damageeffect
-    /* 0xF */ ENZF_DMGEFF_ICE = 0xF
-} EnZfDamageEffect;
+typedef enum EnZfDamageReaction {
+    /* 0x0 */ ENZF_DMG_REACT_NONE,
+    /* 0x1 */ ENZF_DMG_REACT_STUN,
+    /* 0x6 */ ENZF_DMG_REACT_IMMUNE = 6,       // Skips damage code, but also skips the top half of Update
+    /* 0xD */ ENZF_DMG_REACT_PROJECTILE = 0xD, // Projectiles that don't have another damageeffect
+    /* 0xF */ ENZF_DMG_REACT_ICE = 0xF
+} EnZfDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, ENZF_DMGEFF_STUN),
-    /* Deku stick    */ DMG_ENTRY(2, ENZF_DMGEFF_NONE),
-    /* Slingshot     */ DMG_ENTRY(1, ENZF_DMGEFF_PROJECTILE),
-    /* Explosive     */ DMG_ENTRY(2, ENZF_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(0, ENZF_DMGEFF_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, ENZF_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, ENZF_DMGEFF_NONE),
-    /* Hookshot      */ DMG_ENTRY(0, ENZF_DMGEFF_STUN),
-    /* Kokiri sword  */ DMG_ENTRY(1, ENZF_DMGEFF_NONE),
-    /* Master sword  */ DMG_ENTRY(2, ENZF_DMGEFF_NONE),
-    /* Giant's Knife */ DMG_ENTRY(4, ENZF_DMGEFF_NONE),
-    /* Fire arrow    */ DMG_ENTRY(2, ENZF_DMGEFF_PROJECTILE),
-    /* Ice arrow     */ DMG_ENTRY(4, ENZF_DMGEFF_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, ENZF_DMGEFF_PROJECTILE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, ENZF_DMGEFF_PROJECTILE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, ENZF_DMGEFF_PROJECTILE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, ENZF_DMGEFF_PROJECTILE),
-    /* Fire magic    */ DMG_ENTRY(0, ENZF_DMGEFF_IMMUNE),
-    /* Ice magic     */ DMG_ENTRY(3, ENZF_DMGEFF_ICE),
-    /* Light magic   */ DMG_ENTRY(0, ENZF_DMGEFF_IMMUNE),
-    /* Shield        */ DMG_ENTRY(0, ENZF_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, ENZF_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, ENZF_DMGEFF_NONE),
-    /* Giant spin    */ DMG_ENTRY(4, ENZF_DMGEFF_NONE),
-    /* Master spin   */ DMG_ENTRY(2, ENZF_DMGEFF_NONE),
-    /* Kokiri jump   */ DMG_ENTRY(2, ENZF_DMGEFF_NONE),
-    /* Giant jump    */ DMG_ENTRY(8, ENZF_DMGEFF_NONE),
-    /* Master jump   */ DMG_ENTRY(4, ENZF_DMGEFF_NONE),
-    /* Unknown 1     */ DMG_ENTRY(0, ENZF_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, ENZF_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, ENZF_DMGEFF_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, ENZF_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, ENZF_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, ENZF_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, ENZF_DMG_REACT_PROJECTILE),
+    /* Explosive     */ DMG_ENTRY(2, ENZF_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, ENZF_DMG_REACT_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, ENZF_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, ENZF_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(0, ENZF_DMG_REACT_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, ENZF_DMG_REACT_NONE),
+    /* Master sword  */ DMG_ENTRY(2, ENZF_DMG_REACT_NONE),
+    /* Giant's Knife */ DMG_ENTRY(4, ENZF_DMG_REACT_NONE),
+    /* Fire arrow    */ DMG_ENTRY(2, ENZF_DMG_REACT_PROJECTILE),
+    /* Ice arrow     */ DMG_ENTRY(4, ENZF_DMG_REACT_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, ENZF_DMG_REACT_PROJECTILE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, ENZF_DMG_REACT_PROJECTILE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, ENZF_DMG_REACT_PROJECTILE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, ENZF_DMG_REACT_PROJECTILE),
+    /* Fire magic    */ DMG_ENTRY(0, ENZF_DMG_REACT_IMMUNE),
+    /* Ice magic     */ DMG_ENTRY(3, ENZF_DMG_REACT_ICE),
+    /* Light magic   */ DMG_ENTRY(0, ENZF_DMG_REACT_IMMUNE),
+    /* Shield        */ DMG_ENTRY(0, ENZF_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ENZF_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, ENZF_DMG_REACT_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, ENZF_DMG_REACT_NONE),
+    /* Master spin   */ DMG_ENTRY(2, ENZF_DMG_REACT_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, ENZF_DMG_REACT_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, ENZF_DMG_REACT_NONE),
+    /* Master jump   */ DMG_ENTRY(4, ENZF_DMG_REACT_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, ENZF_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, ENZF_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, ENZF_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, ENZF_DMG_REACT_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -1324,7 +1324,7 @@ void EnZf_SetupStunned(EnZf* this) {
         this->hopAnimIndex = 1;
     }
 
-    if (this->damageEffect == ENZF_DMGEFF_ICE) {
+    if (this->damageReaction == ENZF_DMG_REACT_ICE) {
         this->iceTimer = 36;
     } else {
         Animation_PlayOnceSetSpeed(&this->skelAnime, &gZfKnockedBackAnim, 0.0f);
@@ -1685,7 +1685,7 @@ void EnZf_Damaged(EnZf* this, PlayState* play) {
         SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
         if (D_80B4A1B4 != -1) {
-            if (this->damageEffect == ENZF_DMGEFF_PROJECTILE) {
+            if (this->damageReaction == ENZF_DMG_REACT_PROJECTILE) {
                 D_80B4A1B0++;
             } else {
                 this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -2028,12 +2028,12 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
 
         if (((this->actor.params < ENZF_TYPE_LIZALFOS_MINIBOSS_A) /* not miniboss */ ||
              (D_80B4A1B4 != this->actor.params)) &&
-            (this->actor.colChkInfo.damageEffect != ENZF_DMGEFF_IMMUNE)) {
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
+            (this->actor.colChkInfo.damageReaction != ENZF_DMG_REACT_IMMUNE)) {
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
 
-            if ((this->actor.colChkInfo.damageEffect == ENZF_DMGEFF_STUN) ||
-                (this->actor.colChkInfo.damageEffect == ENZF_DMGEFF_ICE)) {
+            if ((this->actor.colChkInfo.damageReaction == ENZF_DMG_REACT_STUN) ||
+                (this->actor.colChkInfo.damageReaction == ENZF_DMG_REACT_ICE)) {
                 if (this->action != ENZF_ACTION_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -2056,7 +2056,7 @@ void EnZf_UpdateDamage(EnZf* this, PlayState* play) {
                 } else {
                     if ((D_80B4A1B4 != -1) && ((this->actor.colChkInfo.health + this->actor.colChkInfo.damage) >= 4) &&
                         (this->actor.colChkInfo.health < 4)) {
-                        this->damageEffect = ENZF_DMGEFF_PROJECTILE;
+                        this->damageReaction = ENZF_DMG_REACT_PROJECTILE;
                     }
 
                     EnZf_SetupDamaged(this);
@@ -2072,7 +2072,7 @@ void EnZf_Update(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     EnZf_UpdateDamage(this, play);
-    if (this->actor.colChkInfo.damageEffect != ENZF_DMGEFF_IMMUNE) {
+    if (this->actor.colChkInfo.damageReaction != ENZF_DMG_REACT_IMMUNE) {
         this->unk_3F8 = false;
         if ((this->hopAnimIndex != 1) && (this->action != ENZF_ACTION_HOP_AWAY)) {
             if (this->actor.speed != 0.0f) {

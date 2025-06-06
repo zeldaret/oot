@@ -19,10 +19,10 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ru2/object_ru2.h"
 
@@ -835,13 +835,11 @@ void EnRu2_DialogCameraHandler(EnRu2* this, PlayState* play) {
 
     if (dialogState == TEXT_STATE_DONE_FADING) {
         if (this->lastDialogState != TEXT_STATE_DONE_FADING) {
-            // "I'm Komatsu!" (cinema scene dev)
-            PRINTF("おれが小松だ！ \n");
+            PRINTF(T("おれが小松だ！ \n", "I'm Komatsu! \n")); // (cinema scene dev)
             this->textboxCount++;
             if (this->textboxCount % 6 == 3) {
                 player = GET_PLAYER(play);
-                // "uorya-!" (screeming sound)
-                PRINTF("うおりゃー！ \n");
+                PRINTF(T("うおりゃー！ \n", "uorya-! \n")); // (screaming sound)
                 Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
                 player->actor.world.pos.x = 820.0f;
                 player->actor.world.pos.y = 0.0f;

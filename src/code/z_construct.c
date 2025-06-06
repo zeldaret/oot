@@ -4,11 +4,11 @@
 #include "segment_symbols.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64lifemeter.h"
-#include "z64interface.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "lifemeter.h"
+#include "interface.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "save.h"
 
 void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);

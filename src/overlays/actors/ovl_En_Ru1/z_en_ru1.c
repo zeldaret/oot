@@ -22,11 +22,11 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ru1/object_ru1.h"
 
@@ -90,7 +90,14 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play);
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play);
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play);
 
-static ColliderCylinderInitType1 sCylinderInit1 = {
+typedef enum EnRu1WaterState {
+    /* 0 */ ENRU1_WATER_OUTSIDE,
+    /* 1 */ ENRU1_WATER_IMMERSED,
+    /* 2 */ ENRU1_WATER_BOBBING,
+    /* 3 */ ENRU1_WATER_SINKING,
+} EnRu1WaterState;
+
+static ColliderCylinderInitType1 sStandingCylinderInit = {
     {
         COL_MATERIAL_HIT0,
         AT_NONE,
@@ -102,7 +109,7 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
     { 25, 80, 0, { 0 } },
 };
 
-static ColliderCylinderInitType1 sCylinderInit2 = {
+static ColliderCylinderInitType1 sSittingCylinderInit = {
     {
         COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_PLAYER,
@@ -165,60 +172,60 @@ ActorProfile En_Ru1_Profile = {
     /**/ EnRu1_Draw,
 };
 
-void func_80AEAC10(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateStandingOC(EnRu1* this, PlayState* play) {
     s32 pad[5];
 
-    Collider_UpdateCylinder(&this->actor, &this->collider);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+    Collider_UpdateCylinder(&this->actor, &this->standingCollider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->standingCollider.base);
 }
 
-void func_80AEAC54(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateSittingOC(EnRu1* this, PlayState* play) {
     s32 pad[5];
 
-    Collider_UpdateCylinder(&this->actor, &this->collider2);
-    if (this->unk_34C != 0) {
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider2.base);
+    Collider_UpdateCylinder(&this->actor, &this->sittingCollider);
+    if (this->isSittingOCActive) {
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->sittingCollider.base);
     } else if (this->actor.xzDistToPlayer > 32.0f) {
-        this->unk_34C = 1;
+        this->isSittingOCActive = true;
     }
 }
 
-void func_80AEACDC(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateSittingAT(EnRu1* this, PlayState* play) {
     s32 pad[5];
 
-    Collider_UpdateCylinder(&this->actor, &this->collider2);
-    CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider2.base);
+    Collider_UpdateCylinder(&this->actor, &this->sittingCollider);
+    CollisionCheck_SetAT(play, &play->colChkCtx, &this->sittingCollider.base);
 }
 
-void func_80AEAD20(Actor* thisx, PlayState* play) {
+void EnRu1_InitColliders(Actor* thisx, PlayState* play) {
     EnRu1* this = (EnRu1*)thisx;
 
-    Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinderType1(play, &this->collider, &this->actor, &sCylinderInit1);
+    Collider_InitCylinder(play, &this->standingCollider);
+    Collider_SetCylinderType1(play, &this->standingCollider, &this->actor, &sStandingCylinderInit);
 
-    Collider_InitCylinder(play, &this->collider2);
-    Collider_SetCylinderType1(play, &this->collider2, &this->actor, &sCylinderInit2);
+    Collider_InitCylinder(play, &this->sittingCollider);
+    Collider_SetCylinderType1(play, &this->sittingCollider, &this->actor, &sSittingCylinderInit);
 }
 
 void EnRu1_DestroyColliders(EnRu1* this, PlayState* play) {
-    Collider_DestroyCylinder(play, &this->collider);
-    Collider_DestroyCylinder(play, &this->collider2);
+    Collider_DestroyCylinder(play, &this->standingCollider);
+    Collider_DestroyCylinder(play, &this->sittingCollider);
 }
 
-void func_80AEADD8(EnRu1* this) {
-    this->unk_34C = 0;
+void EnRu1_DisableSittingOC(EnRu1* this) {
+    this->isSittingOCActive = false;
 }
 
-u8 func_80AEADE0(EnRu1* this) {
-    u8 params = PARAMS_GET_U(this->actor.params, 8, 8);
+u8 EnRu1_GetSwitchFlag(EnRu1* this) {
+    u8 switchFlag = ENRU1_SWITCH_FLAG(&this->actor);
 
-    return params;
+    return switchFlag;
 }
 
-u8 func_80AEADF0(EnRu1* this) {
-    u8 params = PARAMS_GET_U(this->actor.params, 0, 8);
+u8 EnRu1_GetType(EnRu1* this) {
+    u8 type = ENRU1_TYPE(&this->actor);
 
-    return params;
+    return type;
 }
 
 void EnRu1_Destroy(Actor* thisx, PlayState* play) {
@@ -313,7 +320,7 @@ s32 func_80AEB020(EnRu1* this, PlayState* play) {
     return false;
 }
 
-BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
+BgBdanObjects* EnRu1_FindBigOctoPlatform(PlayState* play) {
     Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BG].head;
 
     while (actorIt != NULL) {
@@ -327,15 +334,15 @@ BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
     return NULL;
 }
 
-void func_80AEB0EC(EnRu1* this, s32 cameraSetting) {
-    if (this->unk_28C != NULL) {
-        this->unk_28C->cameraSetting = cameraSetting;
+void EnRu1_SetPlatformCamSetting(EnRu1* this, s32 cameraSetting) {
+    if (this->bigOctoPlatform != NULL) {
+        this->bigOctoPlatform->cameraSetting = cameraSetting;
     }
 }
 
-s32 func_80AEB104(EnRu1* this) {
-    if (this->unk_28C != NULL) {
-        return this->unk_28C->cameraSetting;
+s32 EnRu1_GetPlatformCamSetting(EnRu1* this) {
+    if (this->bigOctoPlatform != NULL) {
+        return this->bigOctoPlatform->cameraSetting;
     } else {
         return 0;
     }
@@ -371,7 +378,7 @@ void func_80AEB1D8(EnRu1* this) {
     this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
-    func_80AEB0EC(this, 0);
+    EnRu1_SetPlatformCamSetting(this, 0);
 }
 
 void func_80AEB220(EnRu1* this, PlayState* play) {
@@ -381,25 +388,25 @@ void func_80AEB220(EnRu1* this, PlayState* play) {
 }
 #endif
 
-void func_80AEB264(EnRu1* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
+void EnRu1_AnimationChange(EnRu1* this, AnimationHeader* animation, u8 mode, f32 morphFrames, s32 playReversed) {
     s32 pad[2];
     AnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
     f32 frameCount = Animation_GetLastFrame(animHeader);
     f32 playbackSpeed;
-    f32 unk0;
-    f32 fc;
+    f32 startFrame;
+    f32 endFrame;
 
-    if (arg4 == 0) {
-        unk0 = 0.0f;
-        fc = frameCount;
+    if (!playReversed) {
+        startFrame = 0.0f;
+        endFrame = frameCount;
         playbackSpeed = 1.0f;
     } else {
-        unk0 = frameCount;
-        fc = 0.0f;
+        startFrame = frameCount;
+        endFrame = 0.0f;
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animHeader, playbackSpeed, unk0, fc, arg2, morphFrames);
+    Animation_Change(&this->skelAnime, animHeader, playbackSpeed, startFrame, endFrame, mode, morphFrames);
 }
 
 s32 EnRu1_UpdateSkelAnime(EnRu1* this) {
@@ -425,8 +432,8 @@ void func_80AEB3CC(EnRu1* this) {
     this->skelAnime.movementFlags &= ~ANIM_FLAG_UPDATE_XZ;
 }
 
-void func_80AEB3DC(EnRu1* this, PlayState* play) {
-    func_80AEB264(this, &gRutoChildWaitHandsBehindBackAnim, 0, 0, 0);
+void EnRu1_InitOutsideJabuJabu(EnRu1* this, PlayState* play) {
+    EnRu1_AnimationChange(this, &gRutoChildWaitHandsBehindBackAnim, ANIMMODE_LOOP, 0, false);
     this->action = 0;
     this->drawConfig = 1;
     EnRu1_SetEyeIndex(this, 4);
@@ -645,10 +652,10 @@ void func_80AEBD94(EnRu1* this, PlayState* play) {
     f32 frameCount;
 
     if (func_80AEB480(play, 3)) {
-        frameCount = Animation_GetLastFrame(&gRutoChildAnim_009060);
+        frameCount = Animation_GetLastFrame(&gRutoChildResurfaceAnim);
         func_80AEB934(this, play);
         func_80AEB738(this, play);
-        Animation_Change(&this->skelAnime, &gRutoChildAnim_009060, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+        Animation_Change(&this->skelAnime, &gRutoChildResurfaceAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
         this->action = 2;
         this->drawConfig = 1;
     }
@@ -782,16 +789,16 @@ void func_80AEC2C0(EnRu1* this, PlayState* play) {
     func_80AEC070(this, play, something);
 }
 
-void func_80AEC320(EnRu1* this, PlayState* play) {
+void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
     if (!GET_INFTABLE(INFTABLE_141)) {
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = 7;
         EnRu1_SetMouthIndex(this, 1);
     } else if (GET_INFTABLE(INFTABLE_147) && !GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
 
-            func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+            EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
             actorRoom = this->actor.room;
             this->action = 22;
             this->actor.room = -1;
@@ -1027,8 +1034,8 @@ void func_80AECCB0(EnRu1* this, PlayState* play) {
                                                     spawnY, spawnZ, 0, yawTowardsPlayer, 0, WARP_BLUE_RUTO);
 }
 
-void func_80AECDA0(EnRu1* this, PlayState* play) {
-    func_80AEB264(this, &gRutoChildWaitHandsOnHipsAnim, 0, 0, 0);
+void EnRu1_InitInBossRoom(EnRu1* this, PlayState* play) {
+    EnRu1_AnimationChange(this, &gRutoChildWaitHandsOnHipsAnim, ANIMMODE_LOOP, 0, false);
     this->action = 15;
     this->actor.shape.yOffset = -10000.0f;
     EnRu1_SetEyeIndex(this, 5);
@@ -1193,13 +1200,13 @@ void func_80AED414(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
 }
 
-void func_80AED44C(EnRu1* this, PlayState* play) {
+void EnRu1_InitInJabuJabuBasement(EnRu1* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_141) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
         !GET_INFTABLE(INFTABLE_147)) {
         if (!func_80AEB020(this, play)) {
             s8 actorRoom;
 
-            func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+            EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
             actorRoom = this->actor.room;
             this->action = 22;
             this->actor.room = -1;
@@ -1307,35 +1314,35 @@ void func_80AED83C(EnRu1* this) {
     Math_SmoothStepToS(&torsoRot->y, 0, 0x14, 0x1838, 0x64);
 }
 
-void func_80AED8DC(EnRu1* this) {
-    s32 temp_hi;
-    s16* unk_2AC = &this->unk_2AC;
+void EnRu1_UpdateHeadRotation(EnRu1* this) {
+    s32 headRotOffset;
+    s16* headRotTimer = &this->headRotTimer;
     s16* headRotY = &this->interactInfo.headRot.y;
-    s16* unk_29E = &this->unk_29E;
+    s16* headTurnSpeed = &this->headTurnSpeed;
     s32 pad[2];
 
-    if (DECR(*unk_2AC) == 0) {
-        *unk_2AC = Rand_S16Offset(0xA, 0x19);
-        temp_hi = *unk_2AC % 5;
-        if (temp_hi == 0) {
-            this->unk_2B0 = 1;
-        } else if (temp_hi == 1) {
-            this->unk_2B0 = 2;
+    if (DECR(*headRotTimer) == 0) {
+        *headRotTimer = Rand_S16Offset(0xA, 0x19);
+        headRotOffset = *headRotTimer % 5;
+        if (headRotOffset == 0) {
+            this->headRotDirection = 1;
+        } else if (headRotOffset == 1) {
+            this->headRotDirection = 2;
         } else {
-            this->unk_2B0 = 0;
+            this->headRotDirection = 0;
         }
-        *unk_29E = 0;
+        *headTurnSpeed = 0;
     }
 
-    if (this->unk_2B0 == 0) {
-        Math_SmoothStepToS(unk_29E, 0 - *headRotY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotY, 0, 3, ABS(*unk_29E), 0x64);
-    } else if (this->unk_2B0 == 1) {
-        Math_SmoothStepToS(unk_29E, -0x2AAA - *headRotY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
+    if (this->headRotDirection == 0) {
+        Math_SmoothStepToS(headTurnSpeed, 0 - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0, 3, ABS(*headTurnSpeed), 0x64);
+    } else if (this->headRotDirection == 1) {
+        Math_SmoothStepToS(headTurnSpeed, -0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, -0x2AAA, 3, ABS(*headTurnSpeed), 0x64);
     } else {
-        Math_SmoothStepToS(unk_29E, 0x2AAA - *headRotY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(headTurnSpeed, 0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0x2AAA, 3, ABS(*headTurnSpeed), 0x64);
     }
 }
 
@@ -1470,20 +1477,22 @@ void func_80AEE02C(EnRu1* this) {
     this->actor.minVelocityY = 0.0f;
 }
 
-void func_80AEE050(EnRu1* this) {
+void EnRu1_UpdateWaterState(EnRu1* this) {
     s32 pad;
-    f32 sp28;
-    f32 sp24;
+    f32 bobMagnitude;
+    f32 startY;
     EnRu1* thisx = this; // necessary to match
 
-    if (this->unk_350 == 0) {
+    if (this->waterState == ENRU1_WATER_OUTSIDE) {
         if ((this->actor.minVelocityY == 0.0f) && (this->actor.speed == 0.0f)) {
-            this->unk_350 = 1;
+            // When Ruto's velocity has been slowed enough by the water, stop her motion
+            this->waterState = ENRU1_WATER_IMMERSED;
             func_80AEE02C(this);
-            this->unk_35C = 0;
-            this->unk_358 = (this->actor.depthInWater - 10.0f) * 0.5f;
-            this->unk_354 = this->actor.world.pos.y + thisx->unk_358; // thisx only used here
+            this->bobPhase = 0;
+            this->bobDepth = (this->actor.depthInWater - 10.0f) * 0.5f;
+            this->sinkingStartPosY = this->actor.world.pos.y + thisx->bobDepth;
         } else {
+            // Ruto is touching the water but still in motion, e.g. from being thrown
             this->actor.gravity = 0.0f;
             this->actor.minVelocityY *= 0.2f;
             this->actor.velocity.y *= 0.2f;
@@ -1500,25 +1509,25 @@ void func_80AEE050(EnRu1* this) {
             Actor_UpdatePos(&this->actor);
         }
     } else {
-        if (this->unk_350 == 1) {
-            if (this->unk_358 <= 1.0f) {
+        if (this->waterState == ENRU1_WATER_IMMERSED) {
+            if (this->bobDepth <= 1.0f) {
                 func_80AEE02C(this);
-                this->unk_350 = 2;
-                this->unk_360 = 0.0f;
+                this->waterState = ENRU1_WATER_BOBBING;
+                this->isSinking = 0.0f;
             } else {
-                f32 temp_f10;
+                f32 deltaY;
 
-                sp28 = this->unk_358;
-                sp24 = this->unk_354;
-                temp_f10 = Math_CosS(this->unk_35C) * -sp28;
-                this->actor.world.pos.y = temp_f10 + sp24;
-                this->unk_35C += 0x3E8;
-                this->unk_358 *= 0.95f;
+                bobMagnitude = this->bobDepth;
+                startY = this->sinkingStartPosY;
+                deltaY = Math_CosS(this->bobPhase) * -bobMagnitude;
+                this->actor.world.pos.y = deltaY + startY;
+                this->bobPhase += 0x3E8;
+                this->bobDepth *= 0.95f;
             }
         } else {
-            this->unk_360 += 1.0f;
-            if (this->unk_360 > 0.0f) {
-                this->unk_350 = 3;
+            this->isSinking += 1.0f;
+            if (this->isSinking > 0.0f) {
+                this->waterState = ENRU1_WATER_SINKING;
             }
         }
     }
@@ -1576,7 +1585,7 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
-            this->unk_28C = (BgBdanObjects*)dynaPolyActor;
+            this->bigOctoPlatform = (BgBdanObjects*)dynaPolyActor;
             this->actor.shape.shadowAlpha = 0;
             return true;
         }
@@ -1610,13 +1619,13 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
             func_80AEE02C(this);
             Actor_OfferCarry(&this->actor, play);
             this->action = 27;
-            func_80AEADD8(this);
+            EnRu1_DisableSittingOC(this);
             return;
         }
 
         if (this->actor.depthInWater > 0.0f) {
             this->action = 29;
-            this->unk_350 = 0;
+            this->waterState = ENRU1_WATER_OUTSIDE;
         }
     }
 }
@@ -1655,10 +1664,10 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
     return false;
 }
 
-void func_80AEE7C4(EnRu1* this, PlayState* play) {
+void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
     s32 pad[9];
     Player* player;
-    f32* unk_370 = &this->unk_370;
+    f32* carryIdleTimer = &this->carryIdleTimer;
 
     if (Actor_HasNoParent(&this->actor, play)) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
@@ -1671,17 +1680,17 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
         this->actor.gravity = -((kREG(23) * 0.01f) + 1.3f);
         func_80AED57C(this);
         this->action = 28;
-        *unk_370 = 0.0f;
+        *carryIdleTimer = 0.0f;
     } else if (func_80AEE6D0(this, play)) {
         s32 pad;
 
-        *unk_370 = 0.0f;
+        *carryIdleTimer = 0.0f;
     } else {
         player = GET_PLAYER(play);
         if (player->stateFlags2 & PLAYER_STATE2_IDLE_FIDGET) {
-            this->unk_370 += 1.0f;
+            this->carryIdleTimer += 1.0f;
             if (this->action != 32) {
-                if (*unk_370 > 30.0f) {
+                if (*carryIdleTimer > 30.0f) {
                     if (Rand_S16Offset(0, 3) == 0) {
                         f32 frameCount = Animation_GetLastFrame(&gRutoChildSquirmAnim);
 
@@ -1690,42 +1699,42 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
                         func_80AED5DC(this);
                         this->action = 32;
                     }
-                    *unk_370 = 0.0f;
+                    *carryIdleTimer = 0.0f;
                 }
             } else {
-                if (*unk_370 > 50.0f) {
+                if (*carryIdleTimer > 50.0f) {
                     f32 frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
 
                     Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP,
                                      -8.0f);
                     this->action = 31;
-                    *unk_370 = 0.0f;
+                    *carryIdleTimer = 0.0f;
                 }
             }
         } else {
             f32 frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
 
             Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
-            *unk_370 = 0.0f;
+            *carryIdleTimer = 0.0f;
         }
     }
 }
 
-s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
+s32 EnRu1_CheckHitBottomUnderwater(EnRu1* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         s32 pad;
 
         func_80AEE02C(this);
         Actor_OfferCarry(&this->actor, play);
         this->action = 27;
-        func_80AEADD8(this);
+        EnRu1_DisableSittingOC(this);
         return true;
     }
     return false;
 }
 
-void func_80AEEB24(EnRu1* this, PlayState* play) {
-    if ((func_80AEEAC8(this, play) == 0) && (this->unk_350 == 3)) {
+void EnRu1_CheckSinkingState(EnRu1* this, PlayState* play) {
+    if ((EnRu1_CheckHitBottomUnderwater(this, play) == 0) && (this->waterState == ENRU1_WATER_SINKING)) {
         this->action = 30;
         func_80AEE02C(this);
         this->actor.gravity = -0.1f;
@@ -1739,7 +1748,7 @@ void func_80AEEBB4(EnRu1* this, PlayState* play) {
 
 void func_80AEEBD4(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    func_80AEAC54(this, play);
+    EnRu1_UpdateSittingOC(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
@@ -1751,7 +1760,7 @@ void func_80AEEBD4(EnRu1* this, PlayState* play) {
 
 void func_80AEEC5C(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
-    func_80AEACDC(this, play);
+    EnRu1_UpdateSittingAT(this, play);
     func_80AEAECC(this, play);
     func_80AEE2F8(this, play);
     func_80AEDFF4(this, play);
@@ -1765,10 +1774,10 @@ void func_80AEEC5C(EnRu1* this, PlayState* play) {
 void func_80AEECF0(EnRu1* this, PlayState* play) {
     func_80AED83C(this);
     func_80AEAECC(this, play);
-    func_80AEE050(this);
+    EnRu1_UpdateWaterState(this);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEEB24(this, play);
+    EnRu1_CheckSinkingState(this, play);
     func_80AED624(this, play);
 }
 
@@ -1778,19 +1787,19 @@ void func_80AEED58(EnRu1* this, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEEAC8(this, play);
+    EnRu1_CheckHitBottomUnderwater(this, play);
     func_80AED624(this, play);
     func_80AEDAE0(this, play);
 }
 
 void func_80AEEDCC(EnRu1* this, PlayState* play) {
-    func_80AED8DC(this);
+    EnRu1_UpdateHeadRotation(this);
     EnRu1_UpdateSkelAnime(this);
     func_80AEAECC(this, play);
     func_80AEE2F8(this, play);
     EnRu1_UpdateEyes(this);
     func_80AED6F8(play);
-    func_80AEE7C4(this, play);
+    EnRu1_UpdateCarriedBehavior(this, play);
 }
 
 void func_80AEEE34(EnRu1* this, PlayState* play) {
@@ -1800,7 +1809,7 @@ void func_80AEEE34(EnRu1* this, PlayState* play) {
     func_80AEE2F8(this, play);
     EnRu1_UpdateEyes(this);
     func_80AED6F8(play);
-    func_80AEE7C4(this, play);
+    EnRu1_UpdateCarriedBehavior(this, play);
 }
 
 void func_80AEEE9C(EnRu1* this, PlayState* play) {
@@ -1887,7 +1896,7 @@ void func_80AEF1F0(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
         func_80AED6DC(this, play);
         Actor_OfferCarry(&this->actor, play);
         this->action = 27;
-        func_80AEADD8(this);
+        EnRu1_DisableSittingOC(this);
     }
 }
 
@@ -1907,7 +1916,7 @@ void func_80AEF2D0(EnRu1* this, PlayState* play) {
     func_80AEEF68(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAC10(this, play);
+    EnRu1_UpdateStandingOC(this, play);
     func_80AEAECC(this, play);
     cond = func_80AEE264(this, play);
     func_80AED624(this, play);
@@ -1958,11 +1967,11 @@ void func_80AEF51C(EnRu1* this) {
 }
 
 void func_80AEF540(EnRu1* this) {
-    if (func_80AEB104(this) == 2) {
+    if (EnRu1_GetPlatformCamSetting(this) == 2) {
         EnRu1_SetEyeIndex(this, 3);
         EnRu1_SetMouthIndex(this, 2);
         if (this->skelAnime.mode != 2) {
-            func_80AEB264(this, &gRutoChildShutterAnim, 2, -8.0f, 0);
+            EnRu1_AnimationChange(this, &gRutoChildShutterAnim, ANIMMODE_ONCE, -8.0f, false);
             func_80AEF51C(this);
         }
     }
@@ -2046,15 +2055,15 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
     if (!(DEBUG_FEATURES && IS_CUTSCENE_LAYER) && EnRu1_IsCsStateIdle(play)) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_145);
-        Flags_SetSwitch(play, func_80AEADE0(this));
-        func_80AEB0EC(this, 1);
+        Flags_SetSwitch(play, EnRu1_GetSwitchFlag(this));
+        EnRu1_SetPlatformCamSetting(this, 1);
         this->action = 42;
         this->actor.room = curRoomNum;
     }
 }
 
 void func_80AEF930(EnRu1* this, PlayState* play) {
-    if (func_80AEB104(this) == 3) {
+    if (EnRu1_GetPlatformCamSetting(this) == 3) {
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         this->actor.textId = 0x4048;
 #if !OOT_PAL_N64
@@ -2070,7 +2079,7 @@ void func_80AEF930(EnRu1* this, PlayState* play) {
 
 void func_80AEF99C(EnRu1* this, PlayState* play) {
     if (func_80AEB1B4(play) != 0) {
-        func_80AEB0EC(this, 4);
+        EnRu1_SetPlatformCamSetting(this, 4);
         Actor_Kill(&this->actor);
     }
 }
@@ -2149,14 +2158,14 @@ void func_80AEFC24(EnRu1* this, PlayState* play) {
     func_80AEF99C(this, play);
 }
 
-void func_80AEFC54(EnRu1* this, PlayState* play) {
+void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_146)) {
         s32 pad;
 
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = 41;
-        this->unk_28C = EnRu1_FindSwitch(play);
-        func_80AEB0EC(this, 1);
+        this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
+        EnRu1_SetPlatformCamSetting(this, 1);
         this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     } else {
         Actor_Kill(&this->actor);
@@ -2164,17 +2173,17 @@ void func_80AEFC54(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEFCE8(EnRu1* this, PlayState* play) {
-    this->unk_28C = EnRu1_FindSwitch(play);
-    if (this->unk_28C != NULL) {
+    this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
+    if (this->bigOctoPlatform != NULL) {
         this->action = 42;
         this->drawConfig = 1;
-        func_80AEB0EC(this, 1);
+        EnRu1_SetPlatformCamSetting(this, 1);
     }
 }
 
-void func_80AEFD38(EnRu1* this, PlayState* play) {
+void EnRu1_InitBesideKingZora(EnRu1* this, PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_37) && LINK_IS_CHILD) {
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->action = 44;
         this->drawConfig = 1;
@@ -2220,7 +2229,7 @@ void func_80AEFECC(EnRu1* this, PlayState* play) {
     func_80AEEF68(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
-    func_80AEAC10(this, play);
+    EnRu1_UpdateStandingOC(this, play);
     func_80AEAECC(this, play);
     func_80AEFE84(this, play, func_80AEFDC0(this, play));
 }
@@ -2233,12 +2242,15 @@ void func_80AEFF40(EnRu1* this, PlayState* play) {
     func_80AEFE9C(this, play);
 }
 
-void func_80AEFF94(EnRu1* this, PlayState* play) {
+/**
+ * Places Ruto beside the door switch outside the room with the map.
+ */
+void EnRu1_InitBesideDoorSwitch(EnRu1* this, PlayState* play) {
     s8 actorRoom;
 
     if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
         (!(func_80AEB020(this, play)))) {
-        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+        EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         actorRoom = this->actor.room;
         this->action = 22;
         this->actor.room = -1;
@@ -2255,10 +2267,10 @@ void func_80AEFF94(EnRu1* this, PlayState* play) {
 
 #if DEBUG_FEATURES
 void func_80AF0050(EnRu1* this, PlayState* play) {
-    func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
+    EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
     this->action = 36;
     this->roomNum1 = this->actor.room;
-    this->unk_28C = EnRu1_FindSwitch(play);
+    this->bigOctoPlatform = EnRu1_FindBigOctoPlatform(play);
     this->actor.room = -1;
 }
 #endif
@@ -2281,37 +2293,37 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
-    func_80AEAD20(&this->actor, play);
-    switch (func_80AEADF0(this)) {
-        case 0:
-            func_80AECDA0(this, play);
+    EnRu1_InitColliders(&this->actor, play);
+    switch (EnRu1_GetType(this)) {
+        case ENRU1_TYPE_BOSS_ROOM:
+            EnRu1_InitInBossRoom(this, play);
             break;
-        case 1:
-            func_80AEB3DC(this, play);
+        case ENRU1_TYPE_FOUNTAIN:
+            EnRu1_InitOutsideJabuJabu(this, play);
             break;
-        case 2:
-            func_80AEC320(this, play);
+        case ENRU1_TYPE_HOLES_ROOM:
+            EnRu1_InitInJabuJabuHolesRoom(this, play);
             break;
-        case 3:
-            func_80AED44C(this, play);
+        case ENRU1_TYPE_BASEMENT:
+            EnRu1_InitInJabuJabuBasement(this, play);
             break;
-        case 4:
-            func_80AEFC54(this, play);
+        case ENRU1_TYPE_SAPPHIRE_ROOM:
+            EnRu1_InitInSapphireRoom(this, play);
             break;
-        case 5:
-            func_80AEFD38(this, play);
+        case ENRU1_TYPE_BESIDE_KZ:
+            EnRu1_InitBesideKingZora(this, play);
             break;
-        case 6:
-            func_80AEFF94(this, play);
+        case ENRU1_TYPE_BESIDE_DOOR_SWITCH:
+            EnRu1_InitBesideDoorSwitch(this, play);
             break;
 #if DEBUG_FEATURES
-        case 10:
+        case ENRU1_TYPE_DEBUG:
             func_80AF0050(this, play);
             break;
 #endif
         default:
             Actor_Kill(&this->actor);
-            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), func_80AEADF0(this));
+            PRINTF(T("該当 arge_data = %d 無し\n", "Relevant arge_data = %d unacceptable\n"), EnRu1_GetType(this));
             break;
     }
 }

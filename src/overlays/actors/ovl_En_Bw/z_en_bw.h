@@ -2,7 +2,7 @@
 #define Z_EN_BW_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnBw;
 typedef void (*EnBwActionFunc)(struct EnBw*, struct PlayState*);
@@ -35,7 +35,7 @@ typedef struct EnBw {
     /* 0x0228 */ EnBwActionFunc actionFunc;
     /* 0x022C */ Color_RGBA8 color1;
     /* 0x0230 */ u8 unk_230;
-    /* 0x0231 */ u8 damageEffect;
+    /* 0x0231 */ u8 damageReaction;
     /* 0x0232 */ u8 unk_232;
     /* 0x0234 */ s16 unk_234;
     /* 0x0236 */ s16 unk_236;

@@ -9,7 +9,7 @@
 #include "regs.h"
 #include "rumble.h"
 #include "ultra64.h"
-#include "z64debug.h"
+#include "debug.h"
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 

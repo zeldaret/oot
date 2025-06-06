@@ -17,9 +17,9 @@
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_firefly/object_firefly.h"
 
@@ -637,21 +637,21 @@ void EnFirefly_Combust(EnFirefly* this, PlayState* play) {
 }
 
 void EnFirefly_UpdateDamage(EnFirefly* this, PlayState* play) {
-    u8 damageEffect;
+    u8 damageReaction;
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, true);
 
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
 
-            damageEffect = this->actor.colChkInfo.damageEffect;
+            damageReaction = this->actor.colChkInfo.damageReaction;
 
-            if (damageEffect == 2) { // Din's Fire
+            if (damageReaction == 2) { // Din's Fire
                 if (this->actor.params == KEESE_ICE_FLY) {
                     this->actor.colChkInfo.health = 0;
                     Enemy_StartFinishingBlow(play, &this->actor);
@@ -663,18 +663,18 @@ void EnFirefly_UpdateDamage(EnFirefly* this, PlayState* play) {
                         EnFirefly_SetupFlyIdle(this);
                     }
                 }
-            } else if (damageEffect == 3) { // Ice Arrows or Ice Magic
+            } else if (damageReaction == 3) { // Ice Arrows or Ice Magic
                 if (this->actor.params == KEESE_ICE_FLY) {
                     EnFirefly_SetupFall(this);
                 } else {
                     EnFirefly_SetupFrozenFall(this, play);
                 }
-            } else if (damageEffect == 1) { // Deku Nuts
+            } else if (damageReaction == 1) { // Deku Nuts
                 if (this->actionFunc != EnFirefly_Stunned) {
                     EnFirefly_SetupStunned(this);
                 }
             } else { // Fire Arrows
-                if ((damageEffect == 0xF) && (this->actor.params == KEESE_ICE_FLY)) {
+                if ((damageReaction == 0xF) && (this->actor.params == KEESE_ICE_FLY)) {
                     EnFirefly_Combust(this, play);
                 }
                 EnFirefly_SetupFall(this);

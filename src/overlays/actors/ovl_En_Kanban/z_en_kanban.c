@@ -19,11 +19,11 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_kanban/object_kanban.h"
@@ -824,7 +824,13 @@ static f32 sCutAngles[] = {
 
 static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 
-#include "assets/overlays/ovl_En_Kanban/ovl_En_Kanban.c"
+static Vtx sShadowVtx[] = {
+#include "assets/overlays/ovl_En_Kanban/sShadowVtx.inc.c"
+};
+
+static Gfx sShadowDL[16] = {
+#include "assets/overlays/ovl_En_Kanban/sShadowDL.inc.c"
+};
 
 void EnKanban_Draw(Actor* thisx, PlayState* play) {
     EnKanban* this = (EnKanban*)thisx;

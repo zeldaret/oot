@@ -14,8 +14,8 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_ts/object_ts.h"
 
@@ -57,7 +57,7 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
 
     if (sTakaraIsInitialized) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n", "☆☆☆☆☆ Already initialized ☆☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n", "☆☆☆☆☆ I'm already here -Hara ☆☆☆☆☆ \n") VT_RST);
         return;
     }
 

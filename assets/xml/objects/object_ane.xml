@@ -55,5 +55,52 @@
         <Texture Name="gCuccoLadyEyeOpenTex" OutName="cucco_lady_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x8C8"/>
         <Texture Name="gCuccoLadyEyeHalfTex" OutName="cucco_lady_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x10C8"/>
         <Texture Name="gCuccoLadyEyeClosedTex" OutName="cucco_lady_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x18C8"/>
+
+        <!-- Vertices -->
+        <Array Name="gCuccoLadyHeadVtx" Count="234" Offset="0x2788">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_003628" Count="41" Offset="0x3628">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_0038B8" Count="24" Offset="0x38B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_003A38" Count="29" Offset="0x3A38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_003C08" Count="41" Offset="0x3C08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_003E98" Count="24" Offset="0x3E98">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_004018" Count="29" Offset="0x4018">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoLadyTorsoVtx" Count="107" Offset="0x41E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoLadyShoe2Vtx" Count="53" Offset="0x4898">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_004BE8" Count="8" Offset="0x4BE8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_004C68" Count="3" Offset="0x4C68">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoLadyShoe1Vtx" Count="53" Offset="0x4C98">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_004FE8" Count="8" Offset="0x4FE8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_005068" Count="3" Offset="0x5068">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoLadyDressVtx" Count="68" Offset="0x5098">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

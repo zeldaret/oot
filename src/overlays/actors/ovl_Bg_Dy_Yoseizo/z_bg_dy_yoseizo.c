@@ -21,10 +21,10 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_dy_obj/object_dy_obj.h"
 #include "assets/scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
@@ -104,7 +104,8 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
     this->actor.focus.pos = this->actor.world.pos;
 
     if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ " T("大妖精の泉", "Great Fairy Fountain") " ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Great Fairy Fountain ☆☆☆☆☆ %d\n") VT_RST,
+               play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
                            this->jointTable, this->morphTable, 28);
 #if OOT_VERSION < NTSC_1_1
@@ -114,7 +115,8 @@ void BgDyYoseizo_Init(Actor* thisx, PlayState* play2) {
         }
 #endif
     } else {
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ " T("石妖精の泉", "Stone Fairy Fountain") " ☆☆☆☆☆ %d\n" VT_RST, play->spawn);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Stone Fairy Fountain ☆☆☆☆☆ %d\n") VT_RST,
+               play->spawn);
         SkelAnime_InitFlex(play, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
                            this->jointTable, this->morphTable, 28);
 #if OOT_VERSION < NTSC_1_1
@@ -251,7 +253,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
 #endif
 
     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ " T("もうど", "Mode") " ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Mode ☆☆☆☆☆ %d\n") VT_RST, play->msgCtx.ocarinaMode);
     givingReward = false;
 
     if (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
@@ -276,22 +278,23 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, PlayState* play) {
         switch (this->fountainType) {
             case FAIRY_UPGRADE_MAGIC:
                 if (!gSaveContext.save.info.playerData.isMagicAcquired || BREG(2)) {
-                    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ " T("回転切り速度ＵＰ", "Turning speed UP") " ☆☆☆☆☆ \n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n", " ☆☆☆☆☆ Turning speed UP ☆☆☆☆☆ \n")
+                               VT_RST);
                     this->givingSpell = true;
                     givingReward = true;
                 }
                 break;
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
                 if (!gSaveContext.save.info.playerData.isDoubleMagicAcquired) {
-                    PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ " T("魔法ゲージメーター倍増",
-                                                        "Magic Gauge Meter Doubled") " ☆☆☆☆☆ \n" VT_RST);
+                    PRINTF(VT_FGCOL(YELLOW) T(" ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n",
+                                              " ☆☆☆☆☆ Magic Gauge Meter Doubled ☆☆☆☆☆ \n") VT_RST);
                     this->givingSpell = true;
                     givingReward = true;
                 }
                 break;
             case FAIRY_UPGRADE_DOUBLE_DEFENSE:
                 if (!gSaveContext.save.info.playerData.isDoubleDefenseAcquired) {
-                    PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ " T("ダメージ半減", "Damage halved") " ☆☆☆☆☆ \n" VT_RST);
+                    PRINTF(VT_FGCOL(MAGENTA) T(" ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n", " ☆☆☆☆☆ Damage halved ☆☆☆☆☆ \n") VT_RST);
                     this->givingSpell = true;
                     givingReward = true;
                 }

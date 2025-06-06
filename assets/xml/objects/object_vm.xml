@@ -15,6 +15,20 @@
         <Limb Name="gBeamosEyeLimb" LimbType="Standard" Offset="0x3F20"/>
         <Limb Name="gBeamosBodyLimb" LimbType="Standard" Offset="0x3F2C"/>
 
+        <!-- Beamos Limb Vertices -->
+        <Array Name="gBeamosBodyVtx" Count="352" Offset="0x80">
+            <Vtx/>
+        </Array>
+        <Array Name="gBeamosTopEyelidVtx" Count="44" Offset="0x1680">
+            <Vtx/>
+        </Array>
+        <Array Name="gBeamosBottomEyelidVtx" Count="44" Offset="0x1940">
+            <Vtx/>
+        </Array>
+        <Array Name="gBeamosEyeVtx" Count="24" Offset="0x1C00">
+            <Vtx/>
+        </Array>
+
         <!-- Beamos Limb DisplayLists -->
         <DList Name="gBeamosTopEyelidDL" Offset="0x22B0"/>
         <DList Name="gBeamosBottomEyelidDL" Offset="0x2460"/>
@@ -35,7 +49,10 @@
         <!-- Beamos Animations -->
         <Animation Name="gBeamosAnim" Offset="0x68"/>
 
-        <!-- Beamos Laser DisplayList -->
+        <!-- Beamos Laser Vertices and DisplayList -->
+        <Array Name="gBeamosLaserVtx" Count="8" Offset="0x1D80">
+            <Vtx/>
+        </Array>
         <DList Name="gBeamosLaserDL" Offset="0x2728"/>
     </File>
 </Root>

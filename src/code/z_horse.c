@@ -4,10 +4,10 @@
 #include "printf.h"
 #include "regs.h"
 #include "translation.h"
-#include "z64horse.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "horse.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 /**

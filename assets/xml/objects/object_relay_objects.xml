@@ -1,7 +1,13 @@
 <Root>
     <File Name="object_relay_objects" Segment="6">
-        <!-- DisplayLists -->
+        <!-- Vertices and DisplayLists -->
+        <Array Name="gDampeRaceDoorVtx" Count="26" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gDampeRaceDoorDL" Offset="0x1A0"/>
+        <Array Name="gWindmillRotatingPlatformVtx" Count="170" Offset="0x1010">
+            <Vtx/>
+        </Array>
         <DList Name="gWindmillRotatingPlatformDL" Offset="0x1AB0"/>
 
         <!-- Palettes -->

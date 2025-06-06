@@ -19,6 +19,8 @@
         <Limb Name="object_oE4s_Limb_000144" LimbType="Standard" Offset="0x144"/>
         <Skeleton Name="object_oE4s_Skel_000190" Type="Flex" LimbType="Standard" Offset="0x190"/>
         <Texture Name="object_oE4s_TLUT_0001A8" OutName="tlut_000001A8" Format="rgba16" Width="124" Height="1" Offset="0x1A8"/><!--Blob Name="object_oE4s_Blob_0003A8" Size="0xF8" Offset="0x3A8" /-->
+        <Texture Name="object_oE4s_0002A0_Tex" Format="ci8" Width="16" Height="16" Offset="0x2A0" TlutOffset="0x1A8"/>
+        <Texture Name="object_oE4s_0003A0_Tex" Format="ci8" Width="16" Height="16" Offset="0x3A0" TlutOffset="0x1A8"/>
         <Texture Name="object_oE4s_Tex_0004A0" OutName="tex_000004A0" Format="ci8" Width="8" Height="8" Offset="0x4A0" TlutOffset="0x1A8"/>
         <Texture Name="object_oE4s_Tex_0004E0" OutName="tex_000004E0" Format="rgba16" Width="16" Height="32" Offset="0x4E0"/>
         <Texture Name="object_oE4s_Tex_0008E0" OutName="tex_000008E0" Format="rgba16" Width="8" Height="16" Offset="0x8E0"/>

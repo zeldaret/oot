@@ -1,5 +1,6 @@
 <Root>
     <File Name="object_gi_clothes" Segment="6">
+        <Texture Name="object_gi_clothes_000000_Tex" Format="i4" Width="64" Height="64" Offset="0x0"/>
         <Array Name="gGiTunicCollarVtx" Count="16" Offset="0x800">
             <Vtx/>
         </Array>

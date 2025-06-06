@@ -28,11 +28,11 @@
 #include "terminal.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+#include "skin_matrix.h"
 #if PLATFORM_N64
 #include "cic6105.h"
 #endif

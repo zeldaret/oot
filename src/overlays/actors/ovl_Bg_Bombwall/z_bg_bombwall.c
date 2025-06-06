@@ -11,7 +11,7 @@
 #include "sfx.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
@@ -156,7 +156,8 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
         func_8086ED50(this, play);
     }
 
-    PRINTF("(field keep " T("汎用爆弾壁", "general purpose bomb wall") ")(arg_data 0x%04x)(angY %d)\n",
+    PRINTF(T("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n",
+             "(field keep general purpose bomb wall)(arg_data 0x%04x)(angY %d)\n"),
            this->dyna.actor.params, this->dyna.actor.shape.rot.y);
 }
 

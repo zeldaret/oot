@@ -20,12 +20,12 @@
 #include "sfx.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64cutscene_flags.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64ss_sram.h"
+#include "audio.h"
+#include "cutscene_flags.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "save.h"
+#include "ss_sram.h"
 
 #include "assets/objects/object_mag/object_mag.h"
 

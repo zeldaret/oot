@@ -12,9 +12,9 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64draw.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "draw.h"
+#include "play_state.h"
+#include "save.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
@@ -90,56 +90,56 @@ ActorProfile En_GirlA_Profile = {
 
 #if DEBUG_FEATURES
 static char* sShopItemDescriptions[] = {
-    "デクの実×5   ",  // "Deku nut x5"
-    "矢×30        ",  // "Arrow x30"
-    "矢×50        ",  // "Arrow x50"
-    "爆弾×5       ",  // "bomb"
-    "デクの実×10  ",  // "Deku nut x10"
-    "デクの棒      ", // "Deku stick"
-    "爆弾×10      ",  // "Bomb x10"
-    "さかな        ", // "Fish"
-    "赤クスリ      ", // "Red medicine"
-    "緑クスリ      ", // "Green medicine"
-    "青クスリ      ", // "Blue medicine"
-    "巨人のナイフ  ", // "Giant knife"
-    "ハイリアの盾  ", // "Hyria Shield"
-    "デクの盾      ", // "Deku Shield"
-    "ゴロンの服    ", // "Goron's clothes"
-    "ゾ─ラの服    ",  // "Zora's clothes"
-    "回復のハート  ", // "Heart of recovery"
-    "ロンロン牛乳  ", // "Ron Ron milk"
-    "鶏の卵        ", // "Chicken egg"
-    "インゴー牛乳  ", // "Ingo milk"
-    "インゴー卵    ", // "Ingo egg"
-    "もだえ石      ", // "Modae stone"
-    "大人の財布    ", // "Adult wallet"
-    "ハートの欠片  ", // "Heart fragment"
-    "ボムチュウ    ", // "Bombchu"
-    "ボムチュウ    ", // "Bombchu"
-    "ボムチュウ    ", // "Bombchu"
-    "ボムチュウ    ", // "Bombchu"
-    "ボムチュウ    ", // "Bombchu"
-    "デクのタネ    ", // "Deku seeds"
-    "キータンのお面", // "Ketan's mask"
-    "こわそなお面  ", // "Scary face"
-    "ドクロのお面  ", // "Skull mask"
-    "ウサギずきん  ", // "Rabbit hood"
-    "まことの仮面  ", // "True mask"
-    "ゾーラのお面  ", // "Zora's mask"
-    "ゴロンのお面  ", // "Goron's mask"
-    "ゲルドのお面  ", // "Gerd's mask"
+    T("デクの実×5   ", "Deku nuts x5  "),
+    T("矢×30        ", "Arrows x30    "),
+    T("矢×50        ", "Arrows x50    "),
+    T("爆弾×5       ", "Bombs x5      "),
+    T("デクの実×10  ", "Deku nuts x10 "),
+    T("デクの棒      ", "Deku stick    "),
+    T("爆弾×10      ", "Bombs x10     "),
+    T("さかな        ", "Fish          "),
+    T("赤クスリ      ", "Red medicine  "),
+    T("緑クスリ      ", "Green medicine"),
+    T("青クスリ      ", "Blue medicine "),
+    T("巨人のナイフ  ", "Giant's knife "),
+    T("ハイリアの盾  ", "Hylian shield "),
+    T("デクの盾      ", "Deku shield   "),
+    T("ゴロンの服    ", "Goron clothing"),
+    T("ゾ─ラの服    ", "Zora's clothes"),
+    T("回復のハート  ", "Heart of recovery"),
+    T("ロンロン牛乳  ", "Lon Lon milk  "),
+    T("鶏の卵        ", "Chicken egg   "),
+    T("インゴー牛乳  ", "Ingo milk     "),
+    T("インゴー卵    ", "Ingo egg      "),
+    T("もだえ石      ", "Writhing stone"),
+    T("大人の財布    ", "Adult wallet  "),
+    T("ハートの欠片  ", "Piece of heart"),
+    T("ボムチュウ    ", "Bombchu       "),
+    T("ボムチュウ    ", "Bombchu       "),
+    T("ボムチュウ    ", "Bombchu       "),
+    T("ボムチュウ    ", "Bombchu       "),
+    T("ボムチュウ    ", "Bombchu       "),
+    T("デクのタネ    ", "Deku seeds    "),
+    T("キータンのお面", "Keaton mask   "),
+    T("こわそなお面  ", "Scary mask    "),
+    T("ドクロのお面  ", "Skull mask    "),
+    T("ウサギずきん  ", "Rabbit hood   "),
+    T("まことの仮面  ", "True mask     "),
+    T("ゾーラのお面  ", "Zora's mask   "),
+    T("ゴロンのお面  ", "Goron mask    "),
+    T("ゲルドのお面  ", "Gerudo mask   "),
     "ＳＯＬＤＯＵＴ",
-    "炎            ", // "Flame"
-    "虫            ", // "Bugs"
-    "チョウチョ    ", // "Butterfly"
-    "ポウ          ", // "Poe"
-    "妖精の魂      ", // "Fairy soul"
-    "矢×10        ",  // "Arrow"
-    "爆弾×20      ",  // "Bomb x20"
-    "爆弾×30      ",  // "Bomb x30"
-    "爆弾×5       ",  // "Bomb x5"
-    "赤クスリ      ", // "Red medicine"
-    "赤クスリ      "  // "Red medicine"
+    T("炎            ", "Flame         "),
+    T("虫            ", "Insect        "),
+    T("チョウチョ    ", "Butterfly     "),
+    T("ポウ          ", "Poe           "),
+    T("妖精の魂      ", "Fairy soul    "),
+    T("矢×10        ", "Arrows x10    "),
+    T("爆弾×20      ", "Bombs x20     "),
+    T("爆弾×30      ", "Bombs x30     "),
+    T("爆弾×5       ", "Bombs x5      "),
+    T("赤クスリ      ", "Red medicine  "),
+    T("赤クスリ      ", "Red medicine  "),
 };
 #endif
 

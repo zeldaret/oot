@@ -76,75 +76,120 @@
         <DList Name="gHumanArmLeftWrapperWrapperDL" Offset="0xB050"/>
 
         <!-- Left forearm -->
+        <Array Name="gHumanArmLeftVtx" Count="20" Offset="0xB068">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanForearmLeftDL" Offset="0xB1A8"/>
         <DList Name="gHumanForearmLeftWrapperDL" Offset="0xB288"/>
         <DList Name="gHumanForearmLeftWrapperWrapperDL" Offset="0xB298"/>
 
         <!-- Left foot -->
+        <Array Name="gHumanForearmLeftVtx" Count="16" Offset="0xB2B0">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanFootLeftDL" Offset="0xB3B0"/>
         <DList Name="gHumanFootLeftWrapperDL" Offset="0xB488"/>
         <DList Name="gHumanFootLeftWrapperWrapperDL" Offset="0xB498"/>
 
         <!-- Left hand -->
+        <Array Name="gHumanFootLeftVtx" Count="22" Offset="0xB4B0">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanHandLeftDL" Offset="0xB610"/>
         <DList Name="gHumanHandLeftWrapperDL" Offset="0xB750"/>
         <DList Name="gHumanHandLeftWrapperWrapperDL" Offset="0xB760"/>
 
         <!-- Left leg -->
+        <Array Name="gHumanHandLeftVtx" Count="26" Offset="0xB778">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanLegLeftDL" Offset="0xB918"/>
         <DList Name="gHumanLegLeftWrapperDL" Offset="0xB9E0"/>
         <DList Name="gHumanLegLeftWrapperWrapperDL" Offset="0xB9F0"/>
 
         <!-- Right arm -->
+        <Array Name="gHumanLegLeftVtx" Count="15" Offset="0xBA08">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanArmRightDL" Offset="0xBAF8"/>
         <DList Name="gHumanArmRightWrapperDL" Offset="0xBBF8"/>
         <DList Name="gHumanArmRightWrapperWrapperDL" Offset="0xBC08"/>
 
         <!-- Right forearm -->
+        <Array Name="gHumanArmRightVtx" Count="18" Offset="0xBC20">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanForearmRightDL" Offset="0xBD40"/>
         <DList Name="gHumanForearmRightWrapperDL" Offset="0xBE20"/>
         <DList Name="gHumanForearmRightWrapperWrapperDL" Offset="0xBE30"/>
 
         <!-- Right foot -->
+        <Array Name="gHumanForearmRightVtx" Count="15" Offset="0xBE48">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanFootRightDL" Offset="0xBF38"/>
         <DList Name="gHumanFootRightWrapperDL" Offset="0xC010"/>
         <DList Name="gHumanFootRightWrapperWrapperDL" Offset="0xC020"/>
 
         <!-- Right hand -->
+        <Array Name="gHumanFootRightVtx" Count="20" Offset="0xC038">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanHandRightDL" Offset="0xC178"/>
         <DList Name="gHumanHandRightWrapperDL" Offset="0xC2B8"/>
         <DList Name="gHumanHandRightWrapperWrapperDL" Offset="0xC2C8"/>
 
         <!-- Right leg -->
+        <Array Name="gHumanHandRightVtx" Count="23" Offset="0xC2E0">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanLegRightDL" Offset="0xC450"/>
         <DList Name="gHumanLegRightWrapperDL" Offset="0xC518"/>
         <DList Name="gHumanLegRightWrapperWrapperDL" Offset="0xC528"/>
 
         <!-- Torso -->
+        <Array Name="gHumanLegRightVtx" Count="14" Offset="0xC540">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanTorsoDL" Offset="0xC620"/>
         <DList Name="gHumanTorsoWrapperDL" Offset="0xC8B0"/>
         <DList Name="gHumanTorsoWrapperWrapperDL" Offset="0xC8C0"/>
 
         <!-- Hair -->
+        <Array Name="gHumanTorsoVtx" Count="66" Offset="0xC8D8">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanHairDL" Offset="0xCCF8"/>
         <DList Name="gHumanHairWrapperDL" Offset="0xCDC8"/>
         <DList Name="gHumanHairWrapperWrapperDL" Offset="0xCDD8"/>
 
         <!-- Head -->
+        <Array Name="gHumanHairVtx" Count="14" Offset="0xCDF0">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanHeadDL" Offset="0xCED0"/>
         <DList Name="gHumanHeadWrapperDL" Offset="0xD500"/>
         <DList Name="gHumanHeadWrapperWrapperDL" Offset="0xD510"/>
 
         <!-- Waist -->
+        <Array Name="gHumanHeadVtx" Count="185" Offset="0xD528">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanWaistDL" Offset="0xE0B8"/>
         <DList Name="gHumanWaistWrapperDL" Offset="0xE218"/>
         <DList Name="gHumanWaistWrapperWrapperDL" Offset="0xE228"/>
 
         <!-- Lower half of the dress -->
+        <Array Name="gHumanWaistVtx" Count="22" Offset="0xE240">
+            <Vtx/>
+        </Array>
         <DList Name="gHumanDressLowerDL" Offset="0xE3A0"/>
         <DList Name="gHumanDressLowerWrapperDL" Offset="0xE480"/>
         <DList Name="gHumanDressLowerWrapperWrapperDL" Offset="0xE490"/>
 
+        <Array Name="gHumanDressLowerVtx" Count="16" Offset="0xE4A8">
+            <Vtx/>
+        </Array>
         <Texture Name="gHumanEarTex" OutName="ear" Format="rgba16" Width="16" Height="32" Offset="0xE5A8"/>
 
         <Texture Name="gHumanDressOrnamentsTex" OutName="dress_ornaments" Format="rgba16" Width="32" Height="32" Offset="0xE9A8"/>

@@ -49,6 +49,55 @@
         <Animation Name="gSariaExtendRightArmAnim" Offset="0x14850"/>
         <Animation Name="gSariaHandsOnFaceAnim" Offset="0x15220"/>
 
+        <Array Name="gSariaHeadVtx" Count="310" Offset="0x5248">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaLeftHandVtx" Count="29" Offset="0x65A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaRightHandVtx" Count="29" Offset="0x6778">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaRightHandAndOcarinaVtx" Count="43" Offset="0x6948">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaLeftFootVtx" Count="29" Offset="0x7DB8">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaLeftShinVtx" Count="34" Offset="0x7F88">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaLeftThighVtx" Count="35" Offset="0x81A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaRightFootVtx" Count="29" Offset="0x83D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaRightShinVtx" Count="34" Offset="0x85A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaRightThighVtx" Count="35" Offset="0x87C8">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaWaistVtx" Count="40" Offset="0x89F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaLeftArmVtx" Count="36" Offset="0x8C78">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaLeftShoulderVtx" Count="34" Offset="0x8EB8">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaRightArmVtx" Count="36" Offset="0x90D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaRightShoulderVtx" Count="38" Offset="0x9318">
+            <Vtx/>
+        </Array>
+        <Array Name="gSariaChestVtx" Count="58" Offset="0x9578">
+            <Vtx/>
+        </Array>
+
         <DList Name="gSariaHeadDL" Offset="0x6BF8"/>
         <DList Name="gSariaLeftHandDL" Offset="0x7900"/>
         <DList Name="gSariaRightHandDL" Offset="0x7A40"/>

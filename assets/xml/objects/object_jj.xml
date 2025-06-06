@@ -12,6 +12,41 @@
         <!-- Jabu Jabu skeleton -->
         <Skeleton Name="gJabuJabuSkel" Type="Flex" LimbType="Standard" Offset="0xB9A8"/>
 
+        <!-- Jabu Jabu limb Vertices -->
+        <Array Name="gJabuJabuLeftFrillVtx" Count="4" Offset="0x1F60">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuJabuRightFrillVtx" Count="4" Offset="0x1FA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuJabuHeadVtx" Count="365" Offset="0x1FE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuJabuLeftLowerFlipperVtx" Count="8" Offset="0x36B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuJabuLeftMidFlipperVtx" Count="16" Offset="0x3730">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuJabuLeftUpperFlipperVtx" Count="16" Offset="0x3830">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuJabuRightLowerFlipperVtx" Count="8" Offset="0x3930">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuJabuRightMidFlipperVtx" Count="12" Offset="0x39B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuJabuRightUpperFlipperVtx" Count="16" Offset="0x3A70">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuJabuFlukeVtx" Count="14" Offset="0x3B70">
+            <Vtx/>
+        </Array>
+        <Array Name="gJabuJabuBodyVtx" Count="133" Offset="0x3C50">
+            <Vtx/>
+        </Array>
+
         <!-- Jabu Jabu limb displaylists -->
         <DList Name="gJabuJabuBodyDL" Offset="0x5690"/>
         <DList Name="gJabuJabuLeftUpperFlipperDL" Offset="0x55B0"/>

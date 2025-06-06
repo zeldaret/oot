@@ -2,7 +2,7 @@
 #define Z_EN_TEST_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnTest;
 
@@ -90,7 +90,7 @@ typedef struct EnTest {
     /* 0x7DD */ char unk_7DD[0x1];
     /* 0x7DE */ u8 unk_7DE;
     /* 0x7E0 */ s16 iceTimer;
-    /* 0x7E2 */ u8 lastDamageEffect;
+    /* 0x7E2 */ u8 lastDamageReaction;
     /* 0x7E4 */ s32 unk_7E4;
     /* 0x7E8 */ s32 timer;
     /* 0x7EC */ f32 unk_7EC;

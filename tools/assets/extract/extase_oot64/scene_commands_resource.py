@@ -635,14 +635,14 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
     def get_c_includes(self):
         return (
             "array_count.h",
-            "z64object.h",  # for OBJECT_*
+            "object.h",  # for OBJECT_*
             # TODO these are not always needed:
             "sequence.h",  # for NATURE_ID_* and NA_BGM_*
-            "z64skybox.h",  # for SKYBOX_*
+            "skybox.h",  # for SKYBOX_*
         )
 
     def get_h_includes(self):
-        return ("z64scene.h",)
+        return ("scene.h",)
 
 
 class AltHeadersResource(CDataArrayResource):
@@ -714,4 +714,4 @@ class AltHeadersResource(CDataArrayResource):
         return f"SceneCmd* {self.symbol_name}[]"
 
     def get_h_includes(self):
-        return ("z64scene.h",)
+        return ("scene.h",)

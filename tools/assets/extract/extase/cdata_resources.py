@@ -443,7 +443,7 @@ class Vec3sArrayResource(CDataResource):
             raise ValueError()
 
     def get_h_includes(self):
-        return ("z64math.h",)
+        return ("z_math.h",)
 
 
 class S16ArrayResource(CDataResource):
