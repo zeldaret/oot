@@ -2362,14 +2362,14 @@ void EnRu1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     EnRu1* this = (EnRu1*)thisx;
 
     if (limbIndex == RUTO_CHILD_HEAD) {
-        Vec3f src;
-        Vec3f dest;
+        Vec3f focusBase;
+        Vec3f focusPos;
 
-        src = sMultVec;
-        Matrix_MultVec3f(&src, &dest);
-        this->actor.focus.pos.x = dest.x;
-        this->actor.focus.pos.y = dest.y;
-        this->actor.focus.pos.z = dest.z;
+        focusBase = sMultVec;
+        Matrix_MultVec3f(&focusBase, &focusPos);
+        this->actor.focus.pos.x = focusPos.x;
+        this->actor.focus.pos.y = focusPos.y;
+        this->actor.focus.pos.z = focusPos.z;
         this->actor.focus.rot.x = this->actor.world.rot.x;
         this->actor.focus.rot.y = this->actor.world.rot.y;
         this->actor.focus.rot.z = this->actor.world.rot.z;
