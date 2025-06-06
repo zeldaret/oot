@@ -43,6 +43,7 @@ VERBOSE_ColorIndexedTexturesManager = False
 VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER = True
 
 EXPLICIT_DL_AND_TEX_SIZES = True
+TEXS_SHORTER_NAMES = True
 
 
 class MtxResource(CDataResource):
@@ -1168,7 +1169,7 @@ class ColorIndexedTexturesManager:
                     lambda file, offset: TextureResource(
                         file,
                         offset,
-                        f"{reporter.name}_{offset:08X}_CITex",
+                        f"{file.name if TEXS_SHORTER_NAMES else reporter.name}_{offset:08X}_CITex",
                         tex.fmt,
                         tex.siz,
                         tex.width,
@@ -1190,7 +1191,7 @@ class ColorIndexedTexturesManager:
                     lambda file, offset: TLUTResource(
                         file,
                         offset,
-                        f"{reporter.name}_{offset:08X}_TLUT",
+                        f"{file.name if TEXS_SHORTER_NAMES else reporter.name}_{offset:08X}_TLUT",
                         {
                             G_TT.RGBA16: G_IM_FMT.RGBA,
                             G_TT.IA16: G_IM_FMT.IA,
@@ -1258,7 +1259,7 @@ class DListResource(Resource, can_size_be_unknown=True):
                     lambda file, offset: TextureResource(
                         file,
                         offset,
-                        f"{self.name}_{offset:08X}_Tex",
+                        f"{file.name if TEXS_SHORTER_NAMES else self.name}_{offset:08X}_Tex",
                         g_fmt,
                         g_siz,
                         width,
