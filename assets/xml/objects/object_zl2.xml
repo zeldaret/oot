@@ -4,41 +4,100 @@
         <Skeleton Name="gZelda2Skel" Type="Flex" LimbType="Standard" Offset="0x10D70"/>
 
         <!-- Zelda 2 eyes textures -->
-        <Texture Name="gZelda2EyesTLUT" OutName="zelda_2_eyes_tlut" Format="rgba16" Width="16" Height="16" Offset="0x2B00"/>
-        <Texture Name="gZelda2EyeOpenTex" OutName="zelda_2_eye_open" Format="ci8" Width="32" Height="32" Offset="0x30C8" TlutOffset="0x2B00"/>
-        <Texture Name="gZelda2EyeHalfTex" OutName="zelda_2_eye_half" Format="ci8" Width="32" Height="32" Offset="0x3C48" TlutOffset="0x2B00"/>
-        <Texture Name="gZelda2EyeShutTex" OutName="zelda_2_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x4048" TlutOffset="0x2B00"/>
-        <Texture Name="gZelda2Eye03Tex" OutName="zelda_2_eye_03" Format="ci8" Width="32" Height="32" Offset="0x4548" TlutOffset="0x2B00"/>
-        <Texture Name="gZelda2Eye04Tex" OutName="zelda_2_eye_04" Format="ci8" Width="32" Height="32" Offset="0x4948" TlutOffset="0x2B00"/>
-        <Texture Name="gZelda2Eye05Tex" OutName="zelda_2_eye_05" Format="ci8" Width="32" Height="32" Offset="0x4D48" TlutOffset="0x2B00"/>
-        <Texture Name="gZelda2Eye06Tex" OutName="zelda_2_eye_06" Format="ci8" Width="32" Height="32" Offset="0x5148" TlutOffset="0x2B00"/> <!-- Scared (?) -->
-        <Texture Name="gZelda2Eye07Tex" OutName="zelda_2_eye_07" Format="ci8" Width="32" Height="32" Offset="0x5D48" TlutOffset="0x2B00"/> <!-- Sad (?) -->
-        <Texture Name="gZelda2Eye08Tex" OutName="zelda_2_eye_08" Format="ci8" Width="32" Height="32" Offset="0x6148" TlutOffset="0x2B00"/> <!-- Sad2 (?) -->
+        <Texture Name="gZelda2EyesTLUT" Format="rgba16" Width="16" Height="16" Offset="0x2B00"/>
+        <Texture Name="gZelda2EyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x30C8" TlutOffset="0x2B00"/>
+        <Texture Name="gZelda2EyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x3C48" TlutOffset="0x2B00"/>
+        <Texture Name="gZelda2EyeShutTex" Format="ci8" Width="32" Height="32" Offset="0x4048" TlutOffset="0x2B00"/>
+        <Texture Name="gZelda2Eye03Tex" Format="ci8" Width="32" Height="32" Offset="0x4548" TlutOffset="0x2B00"/>
+        <Texture Name="gZelda2Eye04Tex" Format="ci8" Width="32" Height="32" Offset="0x4948" TlutOffset="0x2B00"/>
+        <Texture Name="gZelda2Eye05Tex" Format="ci8" Width="32" Height="32" Offset="0x4D48" TlutOffset="0x2B00"/>
+        <Texture Name="gZelda2Eye06Tex" Format="ci8" Width="32" Height="32" Offset="0x5148" TlutOffset="0x2B00"/> <!-- Scared (?) -->
+        <Texture Name="gZelda2Eye07Tex" Format="ci8" Width="32" Height="32" Offset="0x5D48" TlutOffset="0x2B00"/> <!-- Sad (?) -->
+        <Texture Name="gZelda2Eye08Tex" Format="ci8" Width="32" Height="32" Offset="0x6148" TlutOffset="0x2B00"/> <!-- Sad2 (?) -->
 
-        <Texture Name="gZelda2EyeUnusedTex" OutName="zelda_2_eye_unused" Format="rgba16" Width="32" Height="32" Offset="0x600"/>
+        <Texture Name="gZelda2EyeUnusedTex" Format="rgba16" Width="32" Height="32" Offset="0x600"/>
 
         <!-- Zelda 2 mouth textures -->
-        <Texture Name="gZelda2MouthTLUT" OutName="zelda_2_mouth_tlut" Format="rgba16" Width="16" Height="14" Offset="0x2D90"/>
-        <Texture Name="gZelda2MouthSeriousTex" OutName="zelda_2_mouth_serious" Format="ci8" Width="32" Height="32"  Offset="0x3508" TlutOffset="0x2D90"/>
-        <Texture Name="gZelda2MouthHappyTex" OutName="zelda_2_mouth_happy" Format="ci8" Width="32" Height="32"  Offset="0x5548" TlutOffset="0x2D90"/>
-        <Texture Name="gZelda2MouthOpenTex" OutName="zelda_2_mouth_open" Format="ci8" Width="32" Height="32"  Offset="0x5948" TlutOffset="0x2D90"/>
+        <Texture Name="gZelda2MouthTLUT" Format="rgba16" Width="16" Height="14" Offset="0x2D90"/>
+        <Texture Name="gZelda2MouthSeriousTex" Format="ci8" Width="32" Height="32"  Offset="0x3508" TlutOffset="0x2D90"/>
+        <Texture Name="gZelda2MouthHappyTex" Format="ci8" Width="32" Height="32"  Offset="0x5548" TlutOffset="0x2D90"/>
+        <Texture Name="gZelda2MouthOpenTex" Format="ci8" Width="32" Height="32"  Offset="0x5948" TlutOffset="0x2D90"/>
 
         <!-- Ocarina of time -->
         <DList Name="gZelda2OcarinaDL" Offset="0xBAE8"/>
-        <Texture Name="gZelda2OcarinaTex" OutName="zelda_2_ocarina" Format="rgba16" Width="32" Height="16" Offset="0xB598"/>
+        <Texture Name="gZelda2OcarinaTex" Format="rgba16" Width="32" Height="16" Offset="0xB598"/>
 
         <!-- palettes -->
-        <Texture Name="gZelda2_0TLUT" OutName="zelda_2_0_tlut" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
-        <Texture Name="gZelda2_1TLUT" OutName="zelda_2_1_tlut" Format="rgba16" Width="16" Height="16" Offset="0x200"/>
-        <Texture Name="gZelda2_2TLUT" OutName="zelda_2_2_tlut" Format="rgba16" Width="16" Height="16" Offset="0x400"/>
-        <Texture Name="gZelda2_3TLUT" OutName="zelda_2_3_tlut" Format="rgba16" Width="9" Height="8" Offset="0x2D00"/>
-        <Texture Name="gZelda2_4TLUT" OutName="zelda_2_4_tlut" Format="rgba16" Width="47" Height="4" Offset="0x2F50"/>
-        <Texture Name="gZelda2_5TLUT" OutName="zelda_2_5_tlut" Format="rgba16" Width="17" Height="8" Offset="0x9490"/>
-        <Texture Name="gZelda2_6TLUT" OutName="zelda_2_6_tlut" Format="rgba16" Width="15" Height="12" Offset="0x95A0"/>
-        <Texture Name="gZelda2_7TLUT" OutName="zelda_2_7_tlut" Format="rgba16" Width="6" Height="4" Offset="0x9708"/>
+        <Texture Name="gZelda2_0TLUT" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
+        <Texture Name="gZelda2_1TLUT" Format="rgba16" Width="16" Height="16" Offset="0x200"/>
+        <Texture Name="gZelda2_2TLUT" Format="rgba16" Width="16" Height="16" Offset="0x400"/>
+        <Texture Name="gZelda2_3TLUT" Format="rgba16" Width="9" Height="8" Offset="0x2D00"/>
+        <Texture Name="gZelda2_4TLUT" Format="rgba16" Width="47" Height="4" Offset="0x2F50"/>
+        <Texture Name="gZelda2_5TLUT" Format="rgba16" Width="17" Height="8" Offset="0x9490"/>
+        <Texture Name="gZelda2_6TLUT" Format="rgba16" Width="15" Height="12" Offset="0x95A0"/>
+        <Texture Name="gZelda2_7TLUT" Format="rgba16" Width="6" Height="4" Offset="0x9708"/>
 
-        <Texture Name="gZelda2TriforceTex" OutName="zelda_2_triforce" Format="rgba16" Width="16" Height="16" Offset="0x2900"/>
+        <Texture Name="gZelda2TriforceTex" Format="rgba16" Width="16" Height="16" Offset="0x2900"/>
 
-        <Texture Name="gZelda2Tex_003A08" OutName="tex_003A08" Format="ci8" Width="8" Height="8" Offset="0x3A08" TlutOffset="0x2F50"/>
+        <Texture Name="gZelda2Tex_003A08" Format="ci8" Width="8" Height="8" Offset="0x3A08" TlutOffset="0x2F50"/>
+        <Texture Name="object_zl2_000E00_Tex" Format="ci8" Width="16" Height="16" Offset="0xE00" TlutOffset="0x0"/>
+        <Texture Name="object_zl2_000F00_Tex" Format="ci8" Width="8" Height="8" Offset="0xF00" TlutOffset="0x0"/>
+        <Texture Name="object_zl2_000F40_Tex" Format="ci8" Width="16" Height="32" Offset="0xF40" TlutOffset="0x0"/>
+        <Texture Name="object_zl2_001140_Tex" Format="ci8" Width="8" Height="8" Offset="0x1140" TlutOffset="0x0"/>
+        <Texture Name="object_zl2_001180_Tex" Format="ci8" Width="16" Height="16" Offset="0x1180" TlutOffset="0x200"/>
+        <Texture Name="object_zl2_001280_Tex" Format="ci8" Width="8" Height="8" Offset="0x1280" TlutOffset="0x200"/>
+        <Texture Name="object_zl2_0012C0_Tex" Format="ci8" Width="16" Height="64" Offset="0x12C0" TlutOffset="0x0"/>
+        <Texture Name="object_zl2_0016C0_Tex" Format="ci8" Width="32" Height="32" Offset="0x16C0" TlutOffset="0x400"/>
+        <Texture Name="object_zl2_001AC0_Tex" Format="ci8" Width="32" Height="16" Offset="0x1AC0" TlutOffset="0x400"/>
+        <Texture Name="object_zl2_001CC0_Tex" Format="ci8" Width="32" Height="64" Offset="0x1CC0" TlutOffset="0x400"/>
+        <Texture Name="object_zl2_0024C0_Tex" Format="ci8" Width="8" Height="8" Offset="0x24C0" TlutOffset="0x200"/>
+        <Texture Name="object_zl2_002500_Tex" Format="ci8" Width="16" Height="16" Offset="0x2500" TlutOffset="0x200"/>
+        <Texture Name="object_zl2_002600_Tex" Format="ci8" Width="32" Height="8" Offset="0x2600" TlutOffset="0x400"/>
+        <Texture Name="object_zl2_002700_Tex" Format="ci8" Width="8" Height="8" Offset="0x2700" TlutOffset="0x400"/>
+        <Texture Name="object_zl2_002740_Tex" Format="ci8" Width="8" Height="8" Offset="0x2740" TlutOffset="0x400"/>
+        <Texture Name="object_zl2_002780_Tex" Format="ci8" Width="16" Height="16" Offset="0x2780" TlutOffset="0x400"/>
+        <Texture Name="object_zl2_002880_Tex" Format="ci8" Width="8" Height="16" Offset="0x2880" TlutOffset="0x200"/>
+        <Texture Name="object_zl2_0034C8_Tex" Format="ci8" Width="8" Height="8" Offset="0x34C8" TlutOffset="0x2D00"/>
+        <Texture Name="object_zl2_003908_Tex" Format="ci8" Width="16" Height="16" Offset="0x3908" TlutOffset="0x2D00"/>
+        <Texture Name="object_zl2_003A48_Tex" Format="ci8" Width="8" Height="16" Offset="0x3A48" TlutOffset="0x2F50"/>
+        <Texture Name="object_zl2_003AC8_Tex" Format="ci8" Width="16" Height="8" Offset="0x3AC8" TlutOffset="0x2F50"/>
+        <Texture Name="object_zl2_003B48_Tex" Format="ci8" Width="16" Height="16" Offset="0x3B48" TlutOffset="0x2F50"/>
+        <Texture Name="object_zl2_004448_Tex" Format="ci8" Width="16" Height="16" Offset="0x4448" TlutOffset="0x2F50"/>
+        <Texture Name="object_zl2_006548_Tex" Format="ci8" Width="32" Height="16" Offset="0x6548" TlutOffset="0x2F50"/>
+        <DList Name="object_zl2_007DC8_DL" Offset="0x7DC8"/>
+        <Texture Name="object_zl2_009738_Tex" Format="ci8" Width="16" Height="32" Offset="0x9738" TlutOffset="0x95A0"/>
+        <Texture Name="object_zl2_009938_Tex" Format="ci8" Width="16" Height="16" Offset="0x9938" TlutOffset="0x9490"/>
+        <Texture Name="object_zl2_009A38_Tex" Format="ci8" Width="8" Height="8" Offset="0x9A38" TlutOffset="0x9490"/>
+        <Texture Name="object_zl2_009A78_Tex" Format="ci8" Width="32" Height="32" Offset="0x9A78" TlutOffset="0x9490"/>
+        <Texture Name="object_zl2_009E78_Tex" Format="ci8" Width="16" Height="16" Offset="0x9E78" TlutOffset="0x95A0"/>
+        <Texture Name="object_zl2_009F78_Tex" Format="ci8" Width="8" Height="16" Offset="0x9F78" TlutOffset="0x95A0"/>
+        <Texture Name="object_zl2_009FF8_Tex" Format="ci8" Width="16" Height="16" Offset="0x9FF8" TlutOffset="0x9708"/>
+        <Texture Name="object_zl2_00A0F8_Tex" Format="ci8" Width="32" Height="32" Offset="0xA0F8" TlutOffset="0x9708"/>
+        <DList Name="object_zl2_00B068_DL" Offset="0xB068"/>
+        <DList Name="object_zl2_00E590_DL" Offset="0xE590"/>
+        <DList Name="object_zl2_00E910_DL" Offset="0xE910"/>
+        <DList Name="object_zl2_00EA58_DL" Offset="0xEA58"/>
+        <DList Name="object_zl2_00ED60_DL" Offset="0xED60"/>
+        <DList Name="object_zl2_00F0E0_DL" Offset="0xF0E0"/>
+        <DList Name="object_zl2_00F228_DL" Offset="0xF228"/>
+        <DList Name="object_zl2_00F530_DL" Offset="0xF530"/>
+        <DList Name="object_zl2_0102D8_DL" Offset="0x102D8"/>
+        <DList Name="object_zl2_0108E8_DL" Offset="0x108E8"/>
+        <DList Name="object_zl2_010A20_DL" Offset="0x10A20"/>
+        <DList Name="object_zl2_010B58_DL" Offset="0x10B58"/>
+        <Limb Name="object_zl2_010C90_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010C90" Offset="0x10C90"/>
+        <Limb Name="object_zl2_010C9C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010C9C" Offset="0x10C9C"/>
+        <Limb Name="object_zl2_010CA8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010CA8" Offset="0x10CA8"/>
+        <Limb Name="object_zl2_010CB4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010CB4" Offset="0x10CB4"/>
+        <Limb Name="object_zl2_010CC0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010CC0" Offset="0x10CC0"/>
+        <Limb Name="object_zl2_010CCC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010CCC" Offset="0x10CCC"/>
+        <Limb Name="object_zl2_010CD8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010CD8" Offset="0x10CD8"/>
+        <Limb Name="object_zl2_010CE4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010CE4" Offset="0x10CE4"/>
+        <Limb Name="object_zl2_010CF0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010CF0" Offset="0x10CF0"/>
+        <Limb Name="object_zl2_010CFC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010CFC" Offset="0x10CFC"/>
+        <Limb Name="object_zl2_010D08_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010D08" Offset="0x10D08"/>
+        <Limb Name="object_zl2_010D14_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010D14" Offset="0x10D14"/>
+        <Limb Name="object_zl2_010D20_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010D20" Offset="0x10D20"/>
+        <Limb Name="object_zl2_010D2C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ZL2_010D2C" Offset="0x10D2C"/>
     </File>
 </Root>

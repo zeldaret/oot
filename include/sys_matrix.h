@@ -1,7 +1,7 @@
 #ifndef SYS_MATRIX_H
 #define SYS_MATRIX_H
 
-#include "z64math.h"
+#include "z_math.h"
 
 struct GraphicsContext;
 struct GameState;
@@ -63,6 +63,9 @@ Mtx* Matrix_Finalize(struct GraphicsContext* gfxCtx);
 #define MATRIX_CHECK_FLOATS(mtx, file, line) (mtx)
 
 #endif
+
+#define MATRIX_FINALIZE_AND_LOAD(pkt, gfxCtx, file, line) \
+    gSPMatrix(pkt, MATRIX_FINALIZE(gfxCtx, file, line), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW)
 
 /* Vector operations */
 

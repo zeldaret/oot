@@ -1,4 +1,5 @@
-#include "global.h"
+#include "array_count.h"
+#include "ultra64.h"
 
 OSPifRam __osContPifRam;
 u8 __osContLastCmd;

@@ -3,9 +3,7 @@
  */
 
 #include "gfx.h"
-
-#include "macros.h"
-#include "global.h"
+#include "printf.h"
 
 // how big to draw the characters on screen
 #define DISP_CHAR_WIDTH 8

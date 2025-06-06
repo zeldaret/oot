@@ -7,13 +7,16 @@
 
 #include "z_bg_spot18_obj.h"
 
+#include "array_count.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
 #include "sys_math3d.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_spot18_obj/object_spot18_obj.h"
 
@@ -105,8 +108,9 @@ s32 func_808B8910(BgSpot18Obj* this, PlayState* play) {
     } else if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         age = 0;
     } else {
-        PRINTF("Error : リンク年齢不詳 (%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 182,
-               this->dyna.actor.params);
+        PRINTF(T("Error : リンク年齢不詳 (%s %d)(arg_data 0x%04x)\n",
+                 "Error : Link age unknown (%s %d)(arg_data 0x%04x)\n"),
+               "../z_bg_spot18_obj.c", 182, this->dyna.actor.params);
         return 0;
     }
 
@@ -114,16 +118,18 @@ s32 func_808B8910(BgSpot18Obj* this, PlayState* play) {
         case 0:
         case 1:
             if (D_808B90F0[PARAMS_GET_U(this->dyna.actor.params, 0, 4)][age] == 0) {
-                PRINTF("出現しない Object (0x%04x)\n", this->dyna.actor.params);
+                PRINTF(T("出現しない Object (0x%04x)\n", "Non-appearing Object (0x%04x)\n"), this->dyna.actor.params);
             }
             return D_808B90F0[PARAMS_GET_U(this->dyna.actor.params, 0, 4)][age];
         case 2:
-            PRINTF("Error : Obj出現判定が設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 202,
-                   this->dyna.actor.params);
+            PRINTF(T("Error : Obj出現判定が設定されていない(%s %d)(arg_data 0x%04x)\n",
+                     "Error : Obj appearance detection is not set (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_bg_spot18_obj.c", 202, this->dyna.actor.params);
             return 0;
         default:
-            PRINTF("Error : Obj出現判定失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot18_obj.c", 210,
-                   this->dyna.actor.params);
+            PRINTF(T("Error : Obj出現判定失敗(%s %d)(arg_data 0x%04x)\n",
+                     "Error : Obj appearance check failed (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_bg_spot18_obj.c", 210, this->dyna.actor.params);
     }
     return 0;
 }

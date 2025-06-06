@@ -3,12 +3,12 @@
 #if DEBUG_FEATURES
 #include "fault.h"
 #endif
-#include "macros.h"
+#include "printf.h"
 #include "sys_matrix.h"
 #include "ultra64.h"
 #include "z_lib.h"
-#include "z64game.h"
-#include "z64skin_matrix.h"
+#include "game.h"
+#include "skin_matrix.h"
 
 // clang-format off
 Mtx gIdentityMtx = gdSPDefMtx(

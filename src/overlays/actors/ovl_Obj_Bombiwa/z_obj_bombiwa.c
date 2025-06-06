@@ -8,12 +8,13 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_bombiwa/object_bombiwa.h"
 

@@ -1,6 +1,6 @@
 <Root>
     <File Name="ovl_Bg_Ganon_Otyuka">
-        <Texture Name="sPlatformTex" OutName="platform_tex" Format="rgba16" Width="32" Height="32" Offset="0x0"/>
+        <Texture Name="sPlatformTex" Format="rgba16" Width="32" Height="32" Offset="0x0"/>
 
         <Array Name="sPlatformTopVtx" Count="4" Offset="0x808">
             <Vtx/>
@@ -18,7 +18,7 @@
         </Array>
         <DList Name="sPlatformSideDL" Offset="0x980"/>
 
-        <Texture Name="sFlashTex" OutName="flash_tex" Format="i8" Width="32" Height="64" Offset="0x998"/>
+        <Texture Name="sFlashTex" Format="i8" Width="32" Height="64" Offset="0x998"/>
         <Array Name="sFlashVtx" Count="8" Offset="0x1198">
             <Vtx/>
         </Array>

@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 s32 __osSiDeviceBusy(void) {
     register u32 status = IO_READ(SI_STATUS_REG);

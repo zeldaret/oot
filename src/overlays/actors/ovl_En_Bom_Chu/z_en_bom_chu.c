@@ -2,6 +2,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -10,9 +11,9 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

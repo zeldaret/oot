@@ -1,12 +1,12 @@
 <Root>
     <File Name="ovl_En_Sth">
-        <Texture Name="sNoseTex" OutName="nose" Format="rgba16" Width="8" Height="8" Offset="0x0"/>
-        <Texture Name="sHair1Tex" OutName="hair_1" Format="rgba16" Width="8" Height="16" Offset="0x80"/>
-        <Texture Name="sEar1Tex" OutName="ear_1" Format="rgba16" Width="8" Height="8" Offset="0x180"/>
-        <Texture Name="sEyeTex" OutName="eye" Format="rgba16" Width="32" Height="32" Offset="0x200"/>
-        <Texture Name="sMouthTex" OutName="mouth" Format="rgba16" Width="32" Height="16" Offset="0xA00"/>
-        <Texture Name="sEar2Tex" OutName="ear_2" Format="rgba16" Width="8" Height="8" Offset="0xE00"/>
-        <Texture Name="sHair2Tex" OutName="hair_2" Format="rgba16" Width="8" Height="16" Offset="0xE80"/>
+        <Texture Name="sNoseTex" Format="rgba16" Width="8" Height="8" Offset="0x0"/>
+        <Texture Name="sHair1Tex" Format="rgba16" Width="8" Height="16" Offset="0x80"/>
+        <Texture Name="sEar1Tex" Format="rgba16" Width="8" Height="8" Offset="0x180"/>
+        <Texture Name="sEyeTex" Format="rgba16" Width="32" Height="32" Offset="0x200"/>
+        <Texture Name="sMouthTex" Format="rgba16" Width="32" Height="16" Offset="0xA00"/>
+        <Texture Name="sEar2Tex" Format="rgba16" Width="8" Height="8" Offset="0xE00"/>
+        <Texture Name="sHair2Tex" Format="rgba16" Width="8" Height="16" Offset="0xE80"/>
         <DList Name="D_80B0A050" Offset="0x1C20"/>
         <DList Name="D_80B0A3C0" Offset="0x1F90"/>
         <Animation Name="sChildDanceAnim" Offset="0x2730"/>

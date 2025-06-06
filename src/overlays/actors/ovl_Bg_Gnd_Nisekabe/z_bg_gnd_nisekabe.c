@@ -6,7 +6,7 @@
 
 #include "z_bg_gnd_nisekabe.h"
 
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
@@ -58,7 +58,7 @@ void BgGndNisekabe_Draw(Actor* thisx, PlayState* play) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
     u32 index = PARAMS_GET_U(this->actor.params, 0, 8);
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, dLists[index]);
     } else {
         Gfx_DrawDListOpa(play, dLists[index]);

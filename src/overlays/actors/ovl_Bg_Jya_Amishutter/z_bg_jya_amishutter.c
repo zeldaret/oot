@@ -7,9 +7,11 @@
 #include "z_bg_jya_amishutter.h"
 
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
@@ -60,8 +62,9 @@ void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, Collis
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_bg_jya_amishutter.c", 129, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }

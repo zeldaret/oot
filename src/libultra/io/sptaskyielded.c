@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 u32 osSpTaskYielded(OSTask* task) {
     u32 status = __osSpGetStatus();

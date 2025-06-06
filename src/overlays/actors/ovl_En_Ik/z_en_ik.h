@@ -2,7 +2,7 @@
 #define Z_EN_IK_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnIk;
 
@@ -99,7 +99,7 @@ typedef struct EnIk {
     /* 0x02FA */ u8 drawArmorFlag;
     /* 0x02FB */ u8 armorStatusFlag;
     /* 0x02FC */ u8 isBreakingProp;
-    /* 0x02FD */ u8 damageEffect;
+    /* 0x02FD */ u8 damageReaction;
     /* 0x02FE */ s8 unk_2FE;
     /* 0x02FF */ s8 unk_2FF;
     /* 0x0300 */ s16 unk_300;
@@ -109,7 +109,7 @@ typedef struct EnIk {
     /* 0x0320 */ ColliderCylinder bodyCollider;
     /* 0x036C */ ColliderQuad axeCollider;
     /* 0x03EC */ ColliderTris shieldCollider;
-    /* 0x040C */ ColliderTrisElement shieldColliderItems[2];
+    /* 0x040C */ ColliderTrisElement shieldColliderElements[2];
     /* 0x04C4 */ s32 blureIdx;
     /* 0x04C8 */ s32 csAction;
     /* 0x04CC */ s32 csDrawMode;

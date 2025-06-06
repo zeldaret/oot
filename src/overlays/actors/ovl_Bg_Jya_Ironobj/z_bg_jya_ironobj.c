@@ -9,11 +9,13 @@
 
 #include "libc64/qrand.h"
 #include "ichain.h"
+#include "printf.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_jya_iron/object_jya_iron.h"
 
@@ -89,15 +91,15 @@ static InitChainEntry sInitChain[] = {
 static CollisionHeader* sCollisionHeaders[] = { &gPillarCol, &gThroneCol };
 
 void BgJyaIronobj_InitCylinder(BgJyaIronobj* this, PlayState* play) {
-    ColliderCylinder* colCylinder = &this->colliderCylinder;
+    s32 pad;
 
-    Collider_InitCylinder(play, colCylinder);
-    Collider_SetCylinder(play, colCylinder, &this->dyna.actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->colliderCylinder);
+    Collider_SetCylinder(play, &this->colliderCylinder, &this->dyna.actor, &sCylinderInit);
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 1) == 1) {
         this->colliderCylinder.dim.radius = 40;
         this->colliderCylinder.dim.height = 100;
     }
-    Collider_UpdateCylinder(&this->dyna.actor, colCylinder);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->colliderCylinder);
 }
 
 /*
@@ -117,7 +119,8 @@ void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk
 
 #if DEBUG_FEATURES
     if (enIk->unk_2FF <= 0 || enIk->unk_2FF >= 4) {
-        PRINTF("Error 攻撃方法が分からない(%s %d)\n", "../z_bg_jya_ironobj.c", 233);
+        PRINTF(T("Error 攻撃方法が分からない(%s %d)\n", "Error I don't know how to attack(%s %d)\n"),
+               "../z_bg_jya_ironobj.c", 233);
         return;
     }
 #endif
@@ -183,7 +186,8 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
 
 #if DEBUG_FEATURES
     if (enIk->unk_2FF <= 0 || enIk->unk_2FF >= 4) {
-        PRINTF("Error 攻撃方法が分からない(%s %d)\n", "../z_bg_jya_ironobj.c", 362);
+        PRINTF(T("Error 攻撃方法が分からない(%s %d)\n", "Error I don't know how to attack(%s %d)\n"),
+               "../z_bg_jya_ironobj.c", 362);
         return;
     }
 #endif

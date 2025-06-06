@@ -1,7 +1,7 @@
 #include "libc64/malloc.h"
 #include "libc64/sprintf.h"
 #include "libu64/debug.h"
-
+#include "array_count.h"
 #include "buffers.h"
 #include "console_logo_state.h"
 #include "controller.h"
@@ -12,28 +12,29 @@
 #include "map_select_state.h"
 #include "prenmi_buff.h"
 #include "prenmi_state.h"
+#include "printf.h"
 #include "regs.h"
 #include "setup_state.h"
 #include "speed_meter.h"
+#include "sys_cfb.h"
 #include "sys_debug_controller.h"
 #include "sys_ucode.h"
 #include "terminal.h"
 #include "title_setup_state.h"
+#include "translation.h"
 #include "ucode_disas.h"
 #include "versions.h"
+#include "vi_mode.h"
 #include "z_game_dlftbls.h"
-#include "z64audio.h"
-#include "z64save.h"
-#include "z64play.h"
-
-#include "macros.h"
-#include "global.h"
+#include "audio.h"
+#include "save.h"
+#include "play_state.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
 #pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:128" \
-                               "ntsc-1.0:96 ntsc-1.1:96 ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
+                               "ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:224"
 
 /**
  * The time at which the previous `Graph_Update` ended.
@@ -330,10 +331,10 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 #if DEBUG_FEATURES
     OPEN_DISPS(gfxCtx, "../graph.c", 966);
 
-    gDPNoOpString(WORK_DISP++, "WORK_DISP 開始", 0);
-    gDPNoOpString(POLY_OPA_DISP++, "POLY_OPA_DISP 開始", 0);
-    gDPNoOpString(POLY_XLU_DISP++, "POLY_XLU_DISP 開始", 0);
-    gDPNoOpString(OVERLAY_DISP++, "OVERLAY_DISP 開始", 0);
+    gDPNoOpString(WORK_DISP++, T("WORK_DISP 開始", "WORK_DISP start"), 0);
+    gDPNoOpString(POLY_OPA_DISP++, T("POLY_OPA_DISP 開始", "POLY_OPA_DISP start"), 0);
+    gDPNoOpString(POLY_XLU_DISP++, T("POLY_XLU_DISP 開始", "POLY_XLU_DISP start"), 0);
+    gDPNoOpString(OVERLAY_DISP++, T("OVERLAY_DISP 開始", "OVERLAY_DISP start"), 0);
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 975);
 #endif
@@ -344,10 +345,10 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 #if DEBUG_FEATURES
     OPEN_DISPS(gfxCtx, "../graph.c", 987);
 
-    gDPNoOpString(WORK_DISP++, "WORK_DISP 終了", 0);
-    gDPNoOpString(POLY_OPA_DISP++, "POLY_OPA_DISP 終了", 0);
-    gDPNoOpString(POLY_XLU_DISP++, "POLY_XLU_DISP 終了", 0);
-    gDPNoOpString(OVERLAY_DISP++, "OVERLAY_DISP 終了", 0);
+    gDPNoOpString(WORK_DISP++, T("WORK_DISP 終了", "WORK_DISP end"), 0);
+    gDPNoOpString(POLY_OPA_DISP++, T("POLY_OPA_DISP 終了", "POLY_OPA_DISP end"), 0);
+    gDPNoOpString(POLY_XLU_DISP++, T("POLY_XLU_DISP 終了", "POLY_XLU_DISP end"), 0);
+    gDPNoOpString(OVERLAY_DISP++, T("OVERLAY_DISP 終了", "OVERLAY_DISP end"), 0);
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 996);
 #endif

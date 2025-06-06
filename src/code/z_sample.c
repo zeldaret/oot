@@ -4,8 +4,8 @@
 #include "regs.h"
 #include "sample_state.h"
 #include "segment_symbols.h"
-#include "z64dma.h"
-#include "z64play.h"
+#include "dma.h"
+#include "play_state.h"
 
 void Sample_HandleStateChange(SampleState* this) {
     if (CHECK_BTN_ALL(this->state.input[0].press.button, BTN_START)) {

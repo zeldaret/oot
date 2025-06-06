@@ -11,13 +11,15 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
@@ -49,7 +51,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
       },
       { 0, { { 0, 0, 0 }, 5 }, 100 } },
 };
-static ColliderJntSphInit sColliderInit = {
+static ColliderJntSphInit sColliderJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -172,7 +174,7 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
 
     SkelAnime_Init(play, &this->skelAnime, &gButterflySkel, &gButterflyAnim, this->jointTable, this->morphTable, 8);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, this->colliderElements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
     this->actor.colChkInfo.mass = 0;
     this->unk_25C = Rand_ZeroOne() * 0xFFFF;
     this->unk_25E = Rand_ZeroOne() * 0xFFFF;
@@ -181,8 +183,8 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
     EnButte_SetupFlyAround(this);
     this->actor.shape.rot.x -= 0x2320;
     this->drawSkelAnime = true;
-    // "field keep butterfly"
-    PRINTF("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
+    PRINTF(T("(field keep 蝶)(%x)(arg_data 0x%04x)\n", "(field keep butterfly)(%x)(arg_data 0x%04x)\n"), this,
+           this->actor.params);
 }
 
 void EnButte_Destroy(Actor* thisx, PlayState* play2) {

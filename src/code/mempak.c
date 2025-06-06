@@ -9,8 +9,7 @@
  */
 #include "mempak.h"
 #include "padmgr.h"
-
-#include "macros.h"
+#include "printf.h"
 
 #define MEMPAK_MAX_FILES 11
 

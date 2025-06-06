@@ -5,7 +5,7 @@
 /* This file is NOT a part of the original game and only exists to help gcc work.  */
 /* --------------------------------------------------------------------------------*/
 
-#include "global.h"
+#include "ultra64.h"
 
 // Self-hosted libc memory functions, gcc assumes these exist even in a freestanding
 // environment and there is no way to tell it otherwise.

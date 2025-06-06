@@ -1,23 +1,23 @@
 #include "file_select.h"
 #include "file_select_state.h"
 
+#include "array_count.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "language_array.h"
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64save.h"
-
-#include "macros.h"
-#include "global.h"
+#include "audio.h"
+#include "save.h"
 
 #include "assets/textures/title_static/title_static.h"
-#include "assets/overlays/ovl_file_choose/ovl_file_choose.h"
 
 void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
     OPEN_DISPS(gfxCtx, "../z_file_nameset_PAL.c", 110);
@@ -1369,8 +1369,8 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
         PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.soundSetting);
         PRINTF_RST();
-        Audio_SetSoundMode(gSaveContext.soundSetting);
-        PRINTF("終了\n");
+        Audio_SetSoundOutputMode(gSaveContext.soundSetting);
+        PRINTF(T("終了\n", "end\n"));
         return;
     }
 

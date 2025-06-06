@@ -6,18 +6,19 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64curve.h"
-#include "z64effect.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "curve.h"
+#include "effect.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_box/object_box.h"
 
@@ -639,7 +640,7 @@ void EnBox_Draw(Actor* thisx, PlayState* play) {
     and cleared by Open
     */
     if ((this->alpha == 255 && !(this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6)) ||
-        (!CHECK_FLAG_ALL(this->dyna.actor.flags, ACTOR_FLAG_REACT_TO_LENS) &&
+        (!ACTOR_FLAGS_CHECK_ALL(&this->dyna.actor, ACTOR_FLAG_REACT_TO_LENS) &&
          (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6))) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);

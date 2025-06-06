@@ -82,7 +82,8 @@ class Pointer:
 
 @dataclass
 class BssSection:
-    start_address: int
+    base_start_address: int
+    build_start_address: int
     pointers: list[Pointer]
 
 
@@ -294,7 +295,26 @@ def compare_pointers(version: str) -> dict[Path, BssSection]:
                 object_file = Path("src/code/z_message.o")
 
             c_file = object_file.with_suffix(".c")
-            bss_sections[c_file] = BssSection(file.vram, pointers_in_section)
+
+            # For the baserom, assume that the lowest address is the start of the BSS section. This might
+            # not be true if the first BSS variable is not referenced so account for that specifically.
+
+            base_start_address = (
+                min(p.base_value for p in pointers_in_section)
+                if pointers_in_section
+                else 0
+            )
+            # Account for the fact that z_rumble starts with unreferenced bss
+            if str(c_file) == "src/code/z_rumble.c":
+                base_start_address -= 0x10
+            elif str(c_file) == "src/boot/z_locale.c":
+                base_start_address -= 0x18
+
+            build_start_address = file.vram
+
+            bss_sections[c_file] = BssSection(
+                base_start_address, build_start_address, pointers_in_section
+            )
 
     return bss_sections
 
@@ -436,12 +456,10 @@ def determine_base_bss_ordering(
     build_bss_symbols: list[BssSymbol],
     bss_section: BssSection,
 ) -> list[BssSymbol]:
-    base_start_address = min(p.base_value for p in bss_section.pointers)
-
     found_symbols: dict[str, BssSymbol] = {}
     for p in bss_section.pointers:
-        base_offset = p.base_value - base_start_address
-        build_offset = p.build_value - bss_section.start_address
+        base_offset = p.base_value - bss_section.base_start_address
+        build_offset = p.build_value - bss_section.build_start_address
 
         new_symbol = None
         new_offset = 0
@@ -814,18 +832,10 @@ def main():
     for file, bss_section in bss_sections.items():
         if not bss_section.pointers:
             continue
-        # The following heuristic doesn't work for z_locale, since the first pointer into BSS is not
-        # at the start of the section. Fortunately z_locale either has one BSS variable (in GC versions)
-        # or none (in N64 versions), so we can just skip it.
-        if str(file) == "src/boot/z_locale.c":
-            continue
-        # For the baserom, assume that the lowest address is the start of the BSS section. This might
-        # not be true if the first BSS variable is not referenced, but in practice this doesn't happen
-        # (except for z_locale above).
-        base_min_address = min(p.base_value for p in bss_section.pointers)
-        build_min_address = bss_section.start_address
+
         if not all(
-            p.build_value - build_min_address == p.base_value - base_min_address
+            p.build_value - bss_section.build_start_address
+            == p.base_value - bss_section.base_start_address
             for p in bss_section.pointers
         ):
             files_with_reordering.append(file)

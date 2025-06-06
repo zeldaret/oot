@@ -1,4 +1,4 @@
-#include "z64map_mark.h"
+#include "map_mark.h"
 
 static MapMarkData sMapMarkDekuTree[] = {
     // Deku Tree minimap 0

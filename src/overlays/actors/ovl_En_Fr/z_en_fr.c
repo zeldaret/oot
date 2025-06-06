@@ -1,27 +1,28 @@
 #include "z_en_fr.h"
 
+#include "array_count.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64debug_display.h"
-#include "z64effect.h"
-#include "z64light.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
-
-#include "global.h"
+#include "audio.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "light.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "assets/objects/object_fr/object_fr.h"
@@ -269,8 +270,8 @@ void EnFr_Init(Actor* thisx, PlayState* play) {
     } else {
         if ((this->actor.params >= 6) || (this->actor.params < 0)) {
             PRINTF_COLOR_ERROR();
-            // "The argument is wrong!!"
-            PRINTF("%s[%d] : 引数が間違っている！！(%d)\n", "../z_en_fr.c", 370, this->actor.params);
+            PRINTF(T("%s[%d] : 引数が間違っている！！(%d)\n", "%s[%d] : The argument is wrong!! (%d)\n"),
+                   "../z_en_fr.c", 370, this->actor.params);
             PRINTF_RST();
             ASSERT(0, "0", "../z_en_fr.c", 372);
         }
@@ -279,8 +280,7 @@ void EnFr_Init(Actor* thisx, PlayState* play) {
         if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
             PRINTF_COLOR_ERROR();
-            // "There is no bank!!"
-            PRINTF("%s[%d] : バンクが無いよ！！\n", "../z_en_fr.c", 380);
+            PRINTF(T("%s[%d] : バンクが無いよ！！\n", "%s[%d] : There is no bank!!\n"), "../z_en_fr.c", 380);
             PRINTF_RST();
             ASSERT(0, "0", "../z_en_fr.c", 382);
         }
@@ -1004,8 +1004,7 @@ void EnFr_Deactivate(EnFr* this, PlayState* play) {
 
         if (frog == NULL) {
             PRINTF_COLOR_ERROR();
-            // "There are no frogs!?"
-            PRINTF("%s[%d]カエルがいない！？\n", "../z_en_fr.c", 1604);
+            PRINTF(T("%s[%d]カエルがいない！？\n", "%s[%d] There are no frogs!?\n"), "../z_en_fr.c", 1604);
             PRINTF_RST();
             return;
         } else if (frog->isDeactivating != true) {
@@ -1018,8 +1017,7 @@ void EnFr_Deactivate(EnFr* this, PlayState* play) {
 
         if (frog == NULL) {
             PRINTF_COLOR_ERROR();
-            // "There are no frogs!?"
-            PRINTF("%s[%d]カエルがいない！？\n", "../z_en_fr.c", 1618);
+            PRINTF(T("%s[%d]カエルがいない！？\n", "%s[%d] There are no frogs!?\n"), "../z_en_fr.c", 1618);
             PRINTF_RST();
             return;
         }

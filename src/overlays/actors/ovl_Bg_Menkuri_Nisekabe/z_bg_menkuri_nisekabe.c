@@ -6,7 +6,7 @@
 
 #include "z_bg_menkuri_nisekabe.h"
 
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_menkuri_objects/object_menkuri_objects.h"
 
@@ -54,7 +54,7 @@ void BgMenkuriNisekabe_Draw(Actor* thisx, PlayState* play) {
     BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
     u32 index = PARAMS_GET_U(this->actor.params, 0, 8);
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, sDLists[index]);
     } else {
         Gfx_DrawDListOpa(play, sDLists[index]);

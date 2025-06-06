@@ -1,6 +1,8 @@
 #include "libc64/malloc.h"
+#include "libc64/os_malloc.h"
 #include "libu64/debug.h"
 #include "libu64/gfxprint.h"
+#include "array_count.h"
 #include "audiomgr.h"
 #include "buffers.h"
 #include "controller.h"
@@ -8,27 +10,27 @@
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "fault.h"
-#include "libc64/os_malloc.h"
+#include "idle.h"
 #include "line_numbers.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
 #include "padmgr.h"
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "speed_meter.h"
 #include "sys_debug_controller.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "vi_mode.h"
 #include "zelda_arena.h"
-#include "z64debug.h"
-#include "z64dma.h"
-#include "z64game.h"
-#include "z64vis.h"
-
-#include "macros.h"
-#include "global.h"
+#include "debug.h"
+#include "dma.h"
+#include "game.h"
+#include "play_state.h"
+#include "vis.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
@@ -470,7 +472,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     gameState->running = 1;
     startTime = osGetTime();
 
-    // Thse assignments must be written this way for matching and to avoid a warning due to casting a pointer to an
+    // These assignments must be written this way for matching and to avoid a warning due to casting a pointer to an
     // integer without a cast. This assigns init = NULL and size = 0.
     gameState->size = (u32)(gameState->init = NULL);
 

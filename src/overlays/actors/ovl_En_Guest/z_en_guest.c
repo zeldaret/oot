@@ -9,14 +9,16 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "rand.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "assets/objects/object_boj/object_boj.h"
@@ -70,8 +72,7 @@ void EnGuest_Init(Actor* thisx, PlayState* play) {
         this->osAnimeObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_OS_ANIME);
         if (this->osAnimeObjectSlot < 0) {
             PRINTF_COLOR_ERROR();
-            // "No such bank!!"
-            PRINTF("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
+            PRINTF(T("%s[%d] : バンクが無いよ！！\n", "%s[%d] : There is no bank!!\n"), "../z_en_guest.c", 129);
             PRINTF_RST();
             ASSERT(0, "0", "../z_en_guest.c", 132);
         }
@@ -93,7 +94,7 @@ void EnGuest_Update(Actor* thisx, PlayState* play) {
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
         SkelAnime_InitFlex(play, &this->skelAnime, &gHylianMan2Skel, NULL, this->jointTable, this->morphTable, 16);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         Animation_Change(&this->skelAnime, &gObjOsAnim_42AC, 1.0f, 0.0f, Animation_GetLastFrame(&gObjOsAnim_42AC),
                          ANIMMODE_LOOP, 0.0f);
 
@@ -171,7 +172,7 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
 
     Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
 
     SkelAnime_Update(&this->skelAnime);
     Actor_SetFocus(&this->actor, 60.0f);

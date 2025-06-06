@@ -62,17 +62,35 @@
         <DList Name="gGoronParticleDL" Offset="0xFD50"/>
 
         <!-- palettes -->
-        <Texture Name="object_oF1d_map_TLUT_00C640" OutName="tlut_0000C640" Format="rgba16" Width="16" Height="16" Offset="0xC640"/>
+        <Texture Name="object_oF1d_map_TLUT_00C640" Format="rgba16" Width="16" Height="16" Offset="0xC640"/>
 
         <!-- Eye textures -->
-        <Texture Name="gGoronCsEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0xCE80" TlutOffset="0xC640"/>
-        <Texture Name="gGoronCsEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0xD280" TlutOffset="0xC640"/>
-        <Texture Name="gGoronCsEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0xD680" TlutOffset="0xC640"/>
-        <Texture Name="gGoronCsEyeClosed2Tex" OutName="eye_closed2" Format="ci8" Width="32" Height="32" Offset="0xDA80" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0xCE80" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0xD280" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0xD680" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeClosed2Tex" Format="ci8" Width="32" Height="32" Offset="0xDA80" TlutOffset="0xC640"/>
 
         <!-- Mouth textures -->
-        <Texture Name="gGoronCsMouthNeutralTex" OutName="mouth_neutral" Format="ci8" Width="64" Height="32" Offset="0xDE80" TlutOffset="0xC640"/>
-        <Texture Name="gGoronCsMouthSmileTex" OutName="mouth_smile" Format="ci8" Width="64" Height="32" Offset="0xE680" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsMouthNeutralTex" Format="ci8" Width="64" Height="32" Offset="0xDE80" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsMouthSmileTex" Format="ci8" Width="64" Height="32" Offset="0xE680" TlutOffset="0xC640"/>
 
+        <Texture Name="object_oF1d_map_009130_TLUT" Format="rgba16" Width="160" Height="1" Offset="0x9130"/>
+        <Texture Name="object_oF1d_map_009270_Tex" Format="ci8" Width="8" Height="8" Offset="0x9270" TlutOffset="0x9130"/>
+        <Texture Name="object_oF1d_map_0092B0_Tex" Format="ci8" Width="8" Height="8" Offset="0x92B0" TlutOffset="0x9130"/>
+        <Texture Name="object_oF1d_map_0092F0_Tex" Format="ci8" Width="8" Height="16" Offset="0x92F0" TlutOffset="0x9130"/>
+        <Texture Name="object_oF1d_map_009370_Tex" Format="ci8" Width="32" Height="64" Offset="0x9370" TlutOffset="0x9130"/>
+        <Texture Name="object_oF1d_map_009B70_Tex" Format="ci8" Width="16" Height="16" Offset="0x9B70" TlutOffset="0x9130"/>
+        <Texture Name="object_oF1d_map_009C70_Tex" Format="rgba16" Width="64" Height="32" Offset="0x9C70"/>
+        <Texture Name="object_oF1d_map_00C440_TLUT" Format="rgba16" Width="240" Height="1" Offset="0xC440"/>
+        <Blob Name="object_oF1d_map_00C620_Blob" Size="0x20" Offset="0xC620"/>
+        <Texture Name="object_oF1d_map_00C840_Tex" Format="ci8" Width="8" Height="8" Offset="0xC840" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00C880_Tex" Format="ci8" Width="32" Height="16" Offset="0xC880" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00CA80_Tex" Format="ci8" Width="32" Height="32" Offset="0xCA80" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00EE80_Tex" Format="ci8" Width="32" Height="64" Offset="0xEE80" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00F680_Tex" Format="ci8" Width="8" Height="8" Offset="0xF680" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00F6C0_Tex" Format="ci8" Width="16" Height="16" Offset="0xF6C0" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00F7C0_Tex" Format="ci8" Width="16" Height="16" Offset="0xF7C0" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00F8C0_Tex" Format="ci8" Width="32" Height="32" Offset="0xF8C0" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00FCC0_Tex" Format="ci8" Width="8" Height="16" Offset="0xFCC0" TlutOffset="0xC440"/>
     </File>
 </Root>

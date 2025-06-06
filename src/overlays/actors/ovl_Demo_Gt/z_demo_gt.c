@@ -5,18 +5,20 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64frame_advance.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "effect.h"
+#include "frame_advance.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_gt/object_gt.h"
 #include "assets/objects/object_geff/object_geff.h"
@@ -1735,8 +1737,8 @@ void DemoGt_Update(Actor* thisx, PlayState* play) {
     DemoGtUpdateFunc updateFunc;
 
     if ((this->updateMode < 0) || (this->updateMode >= 19) || (updateFunc = sUpdateFuncs[this->updateMode]) == NULL) {
-        // "The main mode is strange!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 
@@ -1772,8 +1774,8 @@ void DemoGt_Init(Actor* thisx, PlayState* play) {
             func_80982054_Init24(this, play);
             break;
         default:
-            // "Demo_Gt_Actor_ct There is no such argument !"
-            PRINTF("Demo_Gt_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+            PRINTF(T("Demo_Gt_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                     "Demo_Gt_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
             Actor_Kill(&this->dyna.actor);
     }
 }
@@ -1791,8 +1793,8 @@ void DemoGt_Draw(Actor* thisx, PlayState* play) {
     DemoGtDrawFunc drawFunc;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 9) || (drawFunc = sDrawFuncs[this->drawConfig]) == NULL) {
-        // "The drawing mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 

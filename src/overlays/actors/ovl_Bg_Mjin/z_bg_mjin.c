@@ -11,7 +11,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_mjin/object_mjin.h"
 #include "assets/objects/object_mjin_wind/object_mjin_wind.h"
@@ -117,7 +117,7 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
         s32 objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[thisx->params - 1]);
 
         if (objectSlot >= 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+            gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         }
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));

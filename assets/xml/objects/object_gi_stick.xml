@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_stick" Segment="6">
+        <Array Name="gGiStickVtx" Count="77" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiStickDL" Offset="0x04D0"/>
     </File>
 </Root>

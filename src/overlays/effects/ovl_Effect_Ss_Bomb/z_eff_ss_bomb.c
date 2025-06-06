@@ -7,14 +7,15 @@
 #include "z_eff_ss_bomb.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64skin_matrix.h"
+#include "effect.h"
+#include "play_state.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

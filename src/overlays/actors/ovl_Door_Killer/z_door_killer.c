@@ -8,13 +8,14 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "rand.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
@@ -471,9 +472,9 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
 void DoorKiller_UpdateTexture(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
     this->texture = SEGMENTED_TO_VIRTUAL(this->texture);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
 }
 
 /**

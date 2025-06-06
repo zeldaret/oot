@@ -5,13 +5,15 @@
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "language_array.h"
 #include "letterbox.h"
-#include "macros.h"
 #include "main.h"
 #include "map_select_state.h"
+#include "memory_utils.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "segment_symbols.h"
@@ -20,18 +22,17 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64environment.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64skybox.h"
-#include "z64sram.h"
-#include "z64ss_sram.h"
-#include "z64view.h"
-
-#include "global.h"
+#include "audio.h"
+#include "environment.h"
+#include "play_state.h"
+#include "save.h"
+#include "skybox.h"
+#include "sram.h"
+#include "ss_sram.h"
+#include "view.h"
 
 #if OOT_PAL_N64
 #include "assets/objects/object_mag/object_mag.h"
@@ -365,7 +366,7 @@ void FileSelect_InitModeUpdate(GameState* thisx) {
         this->nextTitleLabel = FS_TITLE_OPEN_FILE;
         PRINTF("Ｓｒａｍ Ｓｔａｒｔ─Ｌｏａｄ  》》》》》  ");
         Sram_VerifyAndLoadAllSaves(this, sramCtx);
-        PRINTF("終了！！！\n");
+        PRINTF(T("終了！！！\n", "End!!!\n"));
     }
 #else
     if (this->configMode == CM_FADE_IN_START) {
@@ -1955,7 +1956,16 @@ void FileSelect_LoadGame(GameState* thisx) {
         swordEquipValue =
             (gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.save.info.equips.equipment) >> (EQUIP_TYPE_SWORD * 4);
         gSaveContext.save.info.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SWORD];
+#ifndef AVOID_UB
+        //! @bug swordEquipValue can be 0 (EQUIP_VALUE_SWORD_NONE) here (typically, when first starting the game).
+        //! This leads to reading gBitFlags[-1] (out of bounds).
+        // gBitFlags[-1] turns out to be 0 in matching versions so this is inconsequential.
         gSaveContext.save.info.inventory.equipment ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
+#else
+        if (swordEquipValue != EQUIP_VALUE_SWORD_NONE) {
+            gSaveContext.save.info.inventory.equipment ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
+        }
+#endif
     }
 
 #if PLATFORM_N64

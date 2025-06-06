@@ -1,8 +1,11 @@
-#include "ultra64.h"
+#include "sys_cfb.h"
+
 #include "libu64/debug.h"
 #include "attributes.h"
+#include "gfx.h"
 #include "line_numbers.h"
-#include "global.h"
+#include "printf.h"
+#include "translation.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
                                "pal-1.1:128"

@@ -3,13 +3,47 @@
         <!-- Illusion Room Collision -->
         <Collision Name="gIllusionRoomCol" Offset="0x7564"/>
 
+        <!-- Illusion Room Vertices -->
+        <Array Name="gIllusionRoomNormalVtx" Count="334" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gIllusionRoomIllusionVtx" Count="842" Offset="0x1F30">
+            <Vtx/>
+        </Array>
+
         <!-- Illusion Room DLists -->
         <DList Name="gIllusionRoomNormalDL" Offset="0x14E0"/>
         <DList Name="gIllusionRoomIllusionDL" Offset="0x53D0"/>
 
         <!-- Unused Content -->
 
-        <!-- Illusion room DLists -->
+        <Array Name="gIllusionRoomTreeVtx" Count="146" Offset="0x7590">
+            <Vtx/>
+        </Array>
         <DList Name="gIllusionRoomTreeDL" Offset="0x7EB0"/>
+
+
+        <Texture Name="object_blkobj_008090_Tex" Format="rgba16" Width="32" Height="32" Offset="0x8090"/>
+        <Texture Name="object_blkobj_008890_Tex" Format="rgba16" Width="32" Height="32" Offset="0x8890"/>
+        <Texture Name="object_blkobj_009090_Tex" Format="rgba16" Width="32" Height="32" Offset="0x9090"/>
+        <Texture Name="object_blkobj_009890_Tex" Format="rgba16" Width="32" Height="32" Offset="0x9890"/>
+        <Texture Name="object_blkobj_00A090_Tex" Format="ia16" Width="32" Height="32" Offset="0xA090"/>
+        <Texture Name="object_blkobj_00A890_Tex" Format="rgba16" Width="32" Height="32" Offset="0xA890"/>
+        <Texture Name="object_blkobj_00B090_Tex" Format="rgba16" Width="32" Height="32" Offset="0xB090"/>
+        <Texture Name="object_blkobj_00B890_Tex" Format="rgba16" Width="32" Height="32" Offset="0xB890"/>
+        <Texture Name="object_blkobj_00C090_Tex" Format="rgba16" Width="32" Height="32" Offset="0xC090"/>
+        <Texture Name="object_blkobj_00C890_Tex" Format="rgba16" Width="32" Height="32" Offset="0xC890"/>
+        <Texture Name="object_blkobj_00D090_Tex" Format="rgba16" Width="32" Height="32" Offset="0xD090"/>
+        <Texture Name="object_blkobj_00D890_Tex" Format="rgba16" Width="32" Height="32" Offset="0xD890"/>
+        <Texture Name="object_blkobj_00E090_Tex" Format="rgba16" Width="32" Height="32" Offset="0xE090"/>
+        <Texture Name="object_blkobj_00E890_Tex" Format="rgba16" Width="32" Height="64" Offset="0xE890"/>
+        <Texture Name="object_blkobj_00F890_Tex" Format="rgba16" Width="32" Height="32" Offset="0xF890"/>
+        <Texture Name="object_blkobj_010090_Tex" Format="rgba16" Width="32" Height="32" Offset="0x10090"/>
+        <Texture Name="object_blkobj_010890_Tex" Format="rgba16" Width="32" Height="32" Offset="0x10890"/>
+        <Texture Name="object_blkobj_011090_Tex" Format="rgba16" Width="32" Height="32" Offset="0x11090"/>
+        <Texture Name="object_blkobj_011890_Tex" Format="rgba16" Width="32" Height="32" Offset="0x11890"/>
+        <Texture Name="object_blkobj_012090_Tex" Format="rgba16" Width="32" Height="32" Offset="0x12090"/>
+        <Texture Name="object_blkobj_012890_Tex" Format="rgba16" Width="32" Height="32" Offset="0x12890"/>
+        <Texture Name="object_blkobj_013090_Tex" Format="rgba16" Width="32" Height="32" Offset="0x13090"/>
     </File>
 </Root>

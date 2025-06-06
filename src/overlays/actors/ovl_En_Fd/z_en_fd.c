@@ -16,9 +16,9 @@
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_fw/object_fw.h"
@@ -244,7 +244,7 @@ s32 EnFd_SpawnCore(EnFd* this, PlayState* play) {
         this->actor.child->colChkInfo.health = 8;
     }
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         Actor_SwapHookshotAttachment(play, &this->actor, this->actor.child);
     }
 
@@ -684,7 +684,7 @@ void EnFd_Update(Actor* thisx, PlayState* play) {
         EnFd_SpawnDot(this, play);
     }
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         if (EnFd_SpawnCore(this, play)) {
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->invincibilityTimer = 30;

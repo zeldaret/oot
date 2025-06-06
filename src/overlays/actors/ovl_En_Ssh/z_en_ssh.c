@@ -1,15 +1,16 @@
 #include "z_en_ssh.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ssh/object_ssh.h"
 
@@ -509,16 +510,16 @@ s32 EnSsh_CheckHitFront(EnSsh* this) {
 }
 
 s32 EnSsh_CheckHitBack(EnSsh* this, PlayState* play) {
-    ColliderCylinder* cyl = &this->colliderCylinders[0];
+    ColliderCylinder* collider = &this->colliderCylinders[0];
     s32 hit = false;
 
-    if (cyl->base.acFlags & AC_HIT) {
-        cyl->base.acFlags &= ~AC_HIT;
+    if (collider->base.acFlags & AC_HIT) {
+        collider->base.acFlags &= ~AC_HIT;
         hit = true;
     }
-    cyl = &this->colliderCylinders[1];
-    if (cyl->base.acFlags & AC_HIT) {
-        cyl->base.acFlags &= ~AC_HIT;
+    collider = &this->colliderCylinders[1];
+    if (collider->base.acFlags & AC_HIT) {
+        collider->base.acFlags &= ~AC_HIT;
         hit = true;
     }
     if (!hit) {

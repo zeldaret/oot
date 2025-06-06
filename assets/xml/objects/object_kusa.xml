@@ -1,6 +1,13 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_kusa" Segment="6">
+        <Array Name="object_kusa_Vtx_000000" Count="20" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="object_kusa_DL_000140" Offset="0x140"/>
+        <Array Name="object_kusa_Vtx_0001F0" Count="15" Offset="0x1F0">
+            <Vtx/>
+        </Array>
         <DList Name="object_kusa_DL_0002E0" Offset="0x2E0"/>
     </File>
 </Root>

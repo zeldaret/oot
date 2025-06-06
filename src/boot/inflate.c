@@ -95,12 +95,14 @@
       the two sets of lengths.
  */
 
+#include "inflate.h"
+
 #include "ultra64/ultratypes.h"
-#include "libc/stddef.h"
-#include "libc/stdint.h"
+#include "stddef.h"
+#include "stdint.h"
 #include "alignment.h"
 #include "attributes.h"
-#include "z64dma.h"
+#include "dma.h"
 
 typedef u8 uch;
 typedef u16 ush;

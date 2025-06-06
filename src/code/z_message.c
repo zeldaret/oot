@@ -1,30 +1,33 @@
 #include "libu64/gfxprint.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
+#include "language_array.h"
+#include "memory_utils.h"
 #include "message_data_static.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "segment_symbols.h"
 #include "sequence.h"
 #include "regs.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
-
-#include "global.h"
+#include "audio.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:80 ntsc-1.1:80 ntsc-1.2:80 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:32" \
+                               "ntsc-1.1:32 ntsc-1.2:32 pal-1.0:0 pal-1.1:0"
 
 #if !PLATFORM_IQUE
 #define MSG_BUF_DECODED (msgCtx->msgBufDecoded)

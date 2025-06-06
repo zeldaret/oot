@@ -1,21 +1,23 @@
 #include "gfx.h"
-#include "macros.h"
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
-#include "z64collision_check.h"
-#include "z64effect.h"
-#include "z64frame_advance.h"
+#include "collision_check.h"
+#include "effect.h"
+#include "frame_advance.h"
 #include "zelda_arena.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 #include "z_lib.h"
 
-#pragma increment_block_number "ique-cn:0 ntsc-1.0:248 ntsc-1.1:248 ntsc-1.2:248 pal-1.0:248 pal-1.1:248"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ique-cn:192 ntsc-1.0:168 ntsc-1.1:168 ntsc-1.2:168 pal-1.0:168 pal-1.1:168"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
@@ -3025,7 +3027,7 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
  */
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage = 0;
-    info->damageEffect = 0;
+    info->damageReaction = 0;
     info->atHitEffect = 0;
     info->acHitEffect = 0;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
@@ -3106,7 +3108,7 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
         }
 
         damage = tbl->table[i] & 0xF;
-        col->actor->colChkInfo.damageEffect = tbl->table[i] >> 4 & 0xF;
+        col->actor->colChkInfo.damageReaction = tbl->table[i] >> 4 & 0xF;
     }
     if (!(col->acFlags & AC_HARD)) {
         col->actor->colChkInfo.damage += damage;

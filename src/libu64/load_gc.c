@@ -1,8 +1,8 @@
 #include "libu64/overlay.h"
 #include "ultra64.h"
-#include "z64dma.h"
-
-#include "macros.h"
+#include "printf.h"
+#include "translation.h"
+#include "dma.h"
 
 size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
     s32 pad[3];

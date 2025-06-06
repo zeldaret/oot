@@ -6,9 +6,11 @@
 
 #include "z_obj_makekinsuta.h"
 
+#include "printf.h"
 #include "terminal.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "translation.h"
+#include "play_state.h"
+#include "player.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -35,13 +37,12 @@ void ObjMakekinsuta_Init(Actor* thisx, PlayState* play) {
 
     if (PARAMS_GET_NOSHIFT(this->actor.params, 13, 2) == 0x4000) {
         PRINTF_COLOR_BLUE();
-        // "Gold Star Enemy(arg_data %x)"
-        PRINTF("金スタ発生敵(arg_data %x)\n", this->actor.params);
+        PRINTF(T("金スタ発生敵(arg_data %x)\n", "Gold Star Enemy(arg_data %x)\n"), this->actor.params);
         PRINTF_RST();
     } else {
         PRINTF_COLOR_WARNING();
-        // "Invalid Argument (arg_data %x)(%s %d)"
-        PRINTF("引数不正 (arg_data %x)(%s %d)\n", this->actor.params, "../z_obj_makekinsuta.c", 119);
+        PRINTF(T("引数不正 (arg_data %x)(%s %d)\n", "Invalid Argument (arg_data %x)(%s %d)\n"), this->actor.params,
+               "../z_obj_makekinsuta.c", 119);
         PRINTF_RST();
     }
     this->actionFunc = func_80B98320;

@@ -14,8 +14,8 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
@@ -355,7 +355,7 @@ void BgHakaGate_Draw(Actor* thisx, PlayState* play) {
     BgHakaGate* this = (BgHakaGate*)thisx;
     MtxF currentMtxF;
 
-    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    if (ACTOR_FLAGS_CHECK_ALL(thisx, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, object_haka_objects_DL_00F1B0);
     } else {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);

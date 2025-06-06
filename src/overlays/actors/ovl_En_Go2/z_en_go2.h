@@ -2,7 +2,7 @@
 #define Z_EN_GO2_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 #include "overlays/actors/ovl_En_Go/z_en_go.h"
 
 struct EnGo2;

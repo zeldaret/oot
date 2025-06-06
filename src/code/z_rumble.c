@@ -13,8 +13,9 @@
  */
 #include "rumble.h"
 #include "padmgr.h"
-#include "z64math.h"
+#include "z_math.h"
 
+static s32 sUnused[4];
 RumbleMgr sRumbleMgr;
 
 /**

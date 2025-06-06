@@ -2,9 +2,11 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "letterbox.h"
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sequence.h"
@@ -12,11 +14,11 @@
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_in/object_in.h"
 

@@ -1,9 +1,13 @@
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
+#include "flag_set.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "language_array.h"
 #include "main.h"
 #include "map.h"
+#include "printf.h"
 #include "regs.h"
 #include "segment_symbols.h"
 #include "segmented_address.h"
@@ -11,20 +15,21 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64lifemeter.h"
-#include "z64horse.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
-
-#include "global.h"
+#include "audio.h"
+#include "lifemeter.h"
+#include "horse.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
+
+#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 typedef struct RestrictionFlags {
     /* 0x00 */ u8 sceneId;
@@ -2160,7 +2165,7 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
                           DO_ACTION_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
         osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
     } else {
-        gSegments[7] = VIRTUAL_TO_PHYSICAL(interfaceCtx->doActionSegment);
+        gSegments[7] = OS_K0_TO_PHYSICAL(interfaceCtx->doActionSegment);
         func_80086D5C(SEGMENTED_TO_VIRTUAL(sDoActionTextures[loadOffset]), DO_ACTION_TEX_SIZE / 4);
     }
 }
@@ -3218,7 +3223,7 @@ void Interface_Draw(PlayState* play) {
     gSPSegment(OVERLAY_DISP++, 0x08, interfaceCtx->iconItemSegment);
     gSPSegment(OVERLAY_DISP++, 0x0B, interfaceCtx->mapSegment);
 
-    if (pauseCtx->debugState == 0) {
+    if (pauseCtx->debugState == PAUSE_DEBUG_STATE_CLOSED) {
         Interface_InitVertices(play);
         func_8008A994(interfaceCtx);
         Health_DrawMeter(play);
@@ -3487,7 +3492,8 @@ void Interface_Draw(PlayState* play) {
                 }
 
                 gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[PAUSE_CURSOR_QUAD_4 * 4], 4, 0);
-                gDPLoadTextureBlock(OVERLAY_DISP++, gMagicArrowEquipEffectTex, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
+                gDPLoadTextureBlock(OVERLAY_DISP++, gMagicArrowEquipEffectTex, G_IM_FMT_IA, G_IM_SIZ_8b,
+                                    gMagicArrowEquipEffectTex_WIDTH, gMagicArrowEquipEffectTex_HEIGHT, 0,
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                     G_TX_NOLOD, G_TX_NOLOD);
             }
@@ -4022,7 +4028,7 @@ void Interface_Draw(PlayState* play) {
     }
 
 #if DEBUG_FEATURES
-    if (pauseCtx->debugState == 3) {
+    if (pauseCtx->debugState == PAUSE_DEBUG_STATE_FLAG_SET_OPEN) {
         FlagSet_Update(play);
     }
 #endif

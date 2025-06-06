@@ -4,17 +4,19 @@
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ane/object_ane.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
@@ -99,7 +101,8 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(thisx);
         return;
     }
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ねぇちゃんうっふん ☆☆☆☆☆ %d\n" VT_RST, this->unk_278);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ねぇちゃんうっふん ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Neechan ugh ☆☆☆☆☆ %d\n") VT_RST,
+           this->unk_278);
     PRINTF("\n\n");
     this->actionFunc = func_80AB9F24;
     thisx->cullingVolumeDistance = 600.0f;
@@ -170,9 +173,9 @@ void func_80AB9F24(EnNiwLady* this, PlayState* play) {
 
     if (Object_IsLoaded(&play->objectCtx, this->aneObjectSlot) &&
         Object_IsLoaded(&play->objectCtx, this->osAnimeObjectSlot)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->aneObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->aneObjectSlot].segment);
         SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoLadySkel, NULL, this->jointTable, this->morphTable, 16);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
         Actor_SetScale(&this->actor, 0.01f);
@@ -227,8 +230,9 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
                     gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F] |=
                         D_80ABB3B4[currentCucco->unk_2AA];
                     if (BREG(1) != 0) {
-                        // "GET inside the chicken fence!"
-                        PRINTF(VT_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" VT_RST, D_80ABB3B4[currentCucco->unk_2AA]);
+                        PRINTF(VT_FGCOL(GREEN) T("☆ 鶏柵内ＧＥＴ！☆ %x\n", "☆ GET inside the chicken fence! ☆ %x\n")
+                                   VT_RST,
+                               D_80ABB3B4[currentCucco->unk_2AA]);
                     }
                 }
                 this->cuccosInPen++;
@@ -266,12 +270,21 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
     }
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         PRINTF("\n\n");
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん選択\t ☆☆☆☆ %d\n" VT_RST, phi_s1);
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n" VT_RST, this->unk_26C);
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん保存       ☆☆☆☆ %d\n" VT_RST, this->unk_26A);
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん今\t ☆☆☆☆ %d\n" VT_RST, this->cuccosInPen);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n" VT_RST, this->actor.textId);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ this->message_end_code   ☆☆ %d\n" VT_RST, this->unk_262);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ ねぇちゃん選択\t ☆☆☆☆ %d\n", "☆☆☆☆☆ Select your sister\t ☆☆☆☆ %d\n") VT_RST,
+               phi_s1);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n", "☆☆☆☆☆ Neechan Heart     ☆☆☆☆ %d\n") VT_RST,
+               this->unk_26C);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ ねぇちゃん保存       ☆☆☆☆ %d\n", "☆☆☆☆☆ Save my sister       ☆☆☆☆ %d\n")
+                   VT_RST,
+               this->unk_26A);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ ねぇちゃん今\t ☆☆☆☆ %d\n", "☆☆☆☆☆ Neechan now\t ☆☆☆☆ %d\n") VT_RST,
+               this->cuccosInPen);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n", "☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n")
+                   VT_RST,
+               this->actor.textId);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ this->message_end_code   ☆☆ %d\n", "☆☆☆☆☆ this->message_end_code   ☆☆ %d\n")
+                   VT_RST,
+               this->unk_262);
         PRINTF("\n\n");
         if (MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY) == 0) {
 #if OOT_VERSION >= NTSC_1_1
@@ -289,13 +302,15 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
                 this->unk_26C = 1;
                 this->unk_262 = TEXT_STATE_EVENT;
                 this->unk_26A = this->cuccosInPen;
-                PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST,
+                PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n", "☆☆☆☆☆ Before changing the fence BIT ☆☆ %x\n")
+                           VT_RST,
                        gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F]);
                 gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F] &=
                     (u16) ~(INFTABLE_MASK(INFTABLE_199) | INFTABLE_MASK(INFTABLE_19A) | INFTABLE_MASK(INFTABLE_19B) |
                             INFTABLE_MASK(INFTABLE_19C) | INFTABLE_MASK(INFTABLE_19D) | INFTABLE_MASK(INFTABLE_19E) |
                             INFTABLE_MASK(INFTABLE_19F));
-                PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n" VT_RST,
+                PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n",
+                                        "☆☆☆☆☆ After changing the BIT inside the fence ☆☆ %x\n") VT_RST,
                        gSaveContext.save.info.infTable[INFTABLE_INDEX_199_19A_19B_19C_19D_19E_19F]);
                 PRINTF("\n\n");
                 this->actionFunc = func_80ABA654;
@@ -328,8 +343,8 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
 void func_80ABA654(EnNiwLady* this, PlayState* play) {
     if (this->unk_262 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ハート ☆☆☆☆☆ %d\n" VT_RST, this->unk_26C);
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 爆弾   ☆☆☆☆☆ %d\n" VT_RST, this->unk_272);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ハート ☆☆☆☆☆ %d\n", "☆☆☆☆☆ heart ☆☆☆☆☆ %d\n") VT_RST, this->unk_26C);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 爆弾   ☆☆☆☆☆ %d\n", "☆☆☆☆☆ bomb   ☆☆☆☆☆ %d\n") VT_RST, this->unk_272);
         PRINTF("\n\n");
         this->unk_26E = 0xB;
         if (!GET_ITEMGETINF(ITEMGETINF_0C)) {
@@ -352,8 +367,7 @@ static s16 sTradeItemTextIds[] = { 0x503E, 0x503F, 0x5047, 0x5040, 0x5042, 0x504
                                    0x5044, 0x00CF, 0x5045, 0x5042, 0x5027 };
 
 void func_80ABA778(EnNiwLady* this, PlayState* play) {
-    // "☆☆☆☆☆ Adult message check ☆☆☆☆☆"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n", "☆☆☆☆☆ Adult message check ☆☆☆☆☆ \n") VT_RST);
     this->unk_262 = TEXT_STATE_DONE;
     this->unk_273 = 0;
     if (!GET_ITEMGETINF(ITEMGETINF_2C)) {
@@ -479,7 +493,7 @@ void func_80ABAC84(EnNiwLady* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) != TEXT_STATE_DONE) || !Message_ShouldAdvance(play)) {
         return;
     }
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal termination ☆☆☆☆☆ \n") VT_RST);
     if (LINK_IS_ADULT) {
         if (!GET_ITEMGETINF(ITEMGETINF_2C)) {
             SET_ITEMGETINF(ITEMGETINF_2C);
@@ -495,7 +509,7 @@ void func_80ABAC84(EnNiwLady* this, PlayState* play) {
 }
 
 void func_80ABAD38(EnNiwLady* this, PlayState* play) {
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 通常メッセージチェック ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 通常メッセージチェック ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal message check ☆☆☆☆☆ \n") VT_RST);
     this->unk_262 = TEXT_STATE_DONE;
     this->actionFunc = func_80ABAD7C;
 }
@@ -533,7 +547,7 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
     if (this->unk_276 == 0) {
         Math_SmoothStepToS(&this->headRot.y, 0, 5, 3000, 0);
     }
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
     if (this->osAnimeObjectSlot >= 0) {
         if (this->unk_27E != 0) {
             if (this->unk_26E != 0) {

@@ -9,11 +9,12 @@
 #include "libc64/qrand.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "rand.h"
 #include "rumble.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 

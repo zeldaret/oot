@@ -10,14 +10,16 @@
 
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
+#include "quake.h"
 #include "rand.h"
 #include "sfx.h"
-#include "quake.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_bowl/object_bowl.h"
 
@@ -72,7 +74,9 @@ void BgBowlWall_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->initPos = this->dyna.actor.world.pos;
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n" VT_RST, this->dyna.actor.params);
+    PRINTF(VT_FGCOL(GREEN)
+               T(" ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n", " ☆☆☆☆☆ Bowling obstacle wall spawns ☆☆☆☆☆ %d\n") VT_RST,
+           this->dyna.actor.params);
     this->actionFunc = BgBowlWall_SpawnBullseyes;
     this->dyna.actor.scale.x = this->dyna.actor.scale.y = this->dyna.actor.scale.z = 1.0f;
 }

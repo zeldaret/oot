@@ -5,16 +5,130 @@
         <Animation Name="gDampeRestAnim" Offset="0x2F84"/>
         <Animation Name="gDampeFloatAnim" Offset="0x3768"/>
         <Texture Name="gDampeUnkTLUT" Format="rgba16" Width="102" Height="2" Offset="0x3780"/>
-        <Texture Name="gDampeEyeOpenTex" OutName="dampe_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x3B40"/>
-        <Texture Name="gDampeEyeHalfTex" OutName="dampe_eye_half_open" Format="rgba16" Width="32" Height="32" Offset="0x4340"/>
-        <Texture Name="gDampeEyeClosedTex" OutName="dampe_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x4B40"/>
-        <Texture Name="gDampeUnused1Tex" OutName="dampe_unused_1" Format="ci8" Width="16" Height="16" Offset="0x5540" TlutOffset="0x3780"/>
-        <Texture Name="gDampeUnused2Tex" OutName="dampe_unused_2" Format="ci8" Width="8" Height="16" Offset="0x5640" TlutOffset="0x3780"/>
+        <Blob Name="object_tk_003918_Blob" Size="0x68" Offset="0x3918"/>
+        <Texture Name="object_tk_003980_Tex" Format="ci8" Width="8" Height="8" Offset="0x3980" TlutOffset="0x3780"/>
+        <Texture Name="object_tk_0039C0_Tex" Format="ci8" Width="8" Height="8" Offset="0x39C0" TlutOffset="0x3780"/>
+        <Texture Name="object_tk_003A00_Tex" Format="ci8" Width="8" Height="8" Offset="0x3A00" TlutOffset="0x3780"/>
+        <Texture Name="object_tk_003A40_Tex" Format="ci8" Width="16" Height="16" Offset="0x3A40" TlutOffset="0x3780"/>
+        <Texture Name="gDampeEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x3B40"/>
+        <Texture Name="gDampeEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x4340"/>
+        <Texture Name="gDampeEyeClosedTex" Format="rgba16" Width="32" Height="32" Offset="0x4B40"/>
+        <Texture Name="object_tk_005340_Tex" Format="ci8" Width="16" Height="16" Offset="0x5340" TlutOffset="0x3780"/>
+        <Texture Name="object_tk_005440_Tex" Format="ci8" Width="16" Height="16" Offset="0x5440" TlutOffset="0x3780"/>
+        <Texture Name="gDampeUnused1Tex" Format="ci8" Width="16" Height="16" Offset="0x5540" TlutOffset="0x3780"/>
+        <Texture Name="gDampeUnused2Tex" Format="ci8" Width="8" Height="16" Offset="0x5640" TlutOffset="0x3780"/>
+        <Texture Name="object_tk_0056C0_Tex" Format="ci8" Width="16" Height="16" Offset="0x56C0" TlutOffset="0x3780"/>
+        <Array Name="object_tk_Vtx_0057C0" Count="38" Offset="0x57C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_005A20" Count="129" Offset="0x5A20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006230" Count="28" Offset="0x6230">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_0063F0" Count="57" Offset="0x63F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006780" Count="24" Offset="0x6780">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006900" Count="27" Offset="0x6900">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006AB0" Count="57" Offset="0x6AB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006E40" Count="24" Offset="0x6E40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_006FC0" Count="27" Offset="0x6FC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_007170" Count="87" Offset="0x7170">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_0076E0" Count="6" Offset="0x76E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_007740" Count="33" Offset="0x7740">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_007950" Count="6" Offset="0x7950">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_0079B0" Count="33" Offset="0x79B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_007BC0" Count="70" Offset="0x7BC0">
+            <Vtx/>
+        </Array>
+        <DList Name="object_tk_008020_DL" Offset="0x8020"/>
+        <DList Name="object_tk_008160_DL" Offset="0x8160"/>
+        <DList Name="object_tk_0082F0_DL" Offset="0x82F0"/>
+        <DList Name="object_tk_008410_DL" Offset="0x8410"/>
+        <DList Name="object_tk_008958_DL" Offset="0x8958"/>
+        <DList Name="object_tk_008CA0_DL" Offset="0x8CA0"/>
+        <DList Name="object_tk_008DD0_DL" Offset="0x8DD0"/>
+        <DList Name="object_tk_008F00_DL" Offset="0x8F00"/>
+        <DList Name="object_tk_009110_DL" Offset="0x9110"/>
+        <DList Name="object_tk_009240_DL" Offset="0x9240"/>
+        <DList Name="object_tk_009370_DL" Offset="0x9370"/>
+        <DList Name="object_tk_009580_DL" Offset="0x9580"/>
+        <DList Name="object_tk_009738_DL" Offset="0x9738"/>
+        <DList Name="object_tk_009818_DL" Offset="0x9818"/>
+        <DList Name="object_tk_0099D0_DL" Offset="0x99D0"/>
+        <Texture Name="object_tk_009AB0_Tex" Format="rgba16" Width="40" Height="1" Offset="0x9AB0"/>
+        <Texture Name="object_tk_009B00_Tex" Format="ci8" Width="16" Height="16" Offset="0x9B00" TlutOffset="0x9AB0"/>
+        <Texture Name="object_tk_009C00_Tex" Format="ci8" Width="8" Height="16" Offset="0x9C00" TlutOffset="0x9AB0"/>
+        <Texture Name="object_tk_009C80_Tex" Format="i8" Width="8" Height="8" Offset="0x9C80"/>
+        <Texture Name="object_tk_009CC0_Tex" Format="rgba16" Width="8" Height="8" Offset="0x9CC0"/>
+        <Texture Name="object_tk_009D40_Tex" Format="i4" Width="16" Height="32" Offset="0x9D40"/>
+        <Array Name="object_tk_Vtx_009E40" Count="43" Offset="0x9E40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_tk_Vtx_00A0F0" Count="43" Offset="0xA0F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDampeShovelVtx" Count="103" Offset="0xA3A0">
+            <Vtx/>
+        </Array>
+        <DList Name="object_tk_00AA10_DL" Offset="0xAA10"/>
+        <DList Name="object_tk_00AB78_DL" Offset="0xAB78"/>
         <DList Name="gDampeShovelDL" Offset="0xACE0"/>
+        <Texture Name="object_tk_00B088_Tex" Format="rgba16" Width="16" Height="16" Offset="0xB088"/>
+        <Texture Name="object_tk_00B288_Tex" Format="rgba16" Width="16" Height="16" Offset="0xB288"/>
+        <Texture Name="object_tk_00B488_Tex" Format="rgba16" Width="16" Height="16" Offset="0xB488"/>
+        <Array Name="gDampeLanternVtx" Count="27" Offset="0xB688">
+            <Vtx/>
+        </Array>
         <DList Name="gDampeLanternDL" Offset="0xB838"/>
+        <Array Name="gDampeHaloVtx" Count="30" Offset="0xB9C0">
+            <Vtx/>
+        </Array>
         <DList Name="gDampeHaloDL" Offset="0xBBA0"/>
         <DList Name="gDampeEff1DL" Offset="0xBC90"/>
         <DList Name="gDampeEff2DL" Offset="0xBCA0"/>
+        <Array Name="gDampeEff2Vtx" Count="4" Offset="0xBCF0">
+            <Vtx/>
+        </Array>
+        <Limb Name="object_tk_00BD30_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BD30" Offset="0xBD30"/>
+        <Limb Name="object_tk_00BD3C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BD3C" Offset="0xBD3C"/>
+        <Limb Name="object_tk_00BD48_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BD48" Offset="0xBD48"/>
+        <Limb Name="object_tk_00BD54_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BD54" Offset="0xBD54"/>
+        <Limb Name="object_tk_00BD60_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BD60" Offset="0xBD60"/>
+        <Limb Name="object_tk_00BD6C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BD6C" Offset="0xBD6C"/>
+        <Limb Name="object_tk_00BD78_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BD78" Offset="0xBD78"/>
+        <Limb Name="object_tk_00BD84_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BD84" Offset="0xBD84"/>
+        <Limb Name="object_tk_00BD90_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BD90" Offset="0xBD90"/>
+        <Limb Name="object_tk_00BD9C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BD9C" Offset="0xBD9C"/>
+        <Limb Name="object_tk_00BDA8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BDA8" Offset="0xBDA8"/>
+        <Limb Name="object_tk_00BDB4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BDB4" Offset="0xBDB4"/>
+        <Limb Name="object_tk_00BDC0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BDC0" Offset="0xBDC0"/>
+        <Limb Name="object_tk_00BDCC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BDCC" Offset="0xBDCC"/>
+        <Limb Name="object_tk_00BDD8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BDD8" Offset="0xBDD8"/>
+        <Limb Name="object_tk_00BDE4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BDE4" Offset="0xBDE4"/>
+        <Limb Name="object_tk_00BDF0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_TK_00BDF0" Offset="0xBDF0"/>
         <Skeleton Name="gDampeSkel" Type="Flex" LimbType="Standard" Offset="0xBE40"/>
     </File>
 </Root>

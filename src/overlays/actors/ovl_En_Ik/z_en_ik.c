@@ -7,23 +7,26 @@
 #include "z_en_ik.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "rand.h"
 #include "rumble.h"
 #include "sfx.h"
 #include "sequence.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/objects/object_ik/object_ik.h"
@@ -49,13 +52,13 @@ typedef enum EnIkCsDrawMode {
     /* 0x02 */ IK_CS_DRAW_DEFEAT
 } EnIkCsDrawMode;
 
-typedef enum EnIkDamageEffect {
-    /* 0x0 */ EN_IK_DMGEFF_NONE,
-    /* 0x6 */ EN_IK_DMGEFF_ELEMENTAL_MAGIC = 0x6,
-    /* 0xD */ EN_IK_DMGEFF_SPARKS_NO_DMG = 0xD,
-    /* 0xE */ EN_IK_DMGEFF_PROJECTILE,
-    /* 0xF */ EN_IK_DMGEFF_DAMAGE
-} EnIkDamageEffect;
+typedef enum EnIkDamageReaction {
+    /* 0x0 */ EN_IK_DMG_REACT_NONE,
+    /* 0x6 */ EN_IK_DMG_REACT_ELEMENTAL_MAGIC = 0x6,
+    /* 0xD */ EN_IK_DMG_REACT_SPARKS_NO_DMG = 0xD,
+    /* 0xE */ EN_IK_DMG_REACT_PROJECTILE,
+    /* 0xF */ EN_IK_DMG_REACT_DAMAGE
+} EnIkDamageReaction;
 
 void EnIk_UpdateEnemy(Actor* thisx, PlayState* play);
 void EnIk_DrawEnemy(Actor* thisx, PlayState* play);
@@ -163,38 +166,38 @@ static ColliderQuadInit sQuadInit = {
 };
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, EN_IK_DMGEFF_SPARKS_NO_DMG),
-    /* Deku stick    */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Slingshot     */ DMG_ENTRY(1, EN_IK_DMGEFF_PROJECTILE),
-    /* Explosive     */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Boomerang     */ DMG_ENTRY(0, EN_IK_DMGEFF_SPARKS_NO_DMG),
-    /* Normal arrow  */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Hammer swing  */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Hookshot      */ DMG_ENTRY(0, EN_IK_DMGEFF_SPARKS_NO_DMG),
-    /* Kokiri sword  */ DMG_ENTRY(1, EN_IK_DMGEFF_DAMAGE),
-    /* Master sword  */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Giant's Knife */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
-    /* Fire arrow    */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Ice arrow     */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Light arrow   */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
-    /* Unk arrow 3   */ DMG_ENTRY(15, EN_IK_DMGEFF_PROJECTILE),
-    /* Fire magic    */ DMG_ENTRY(0, EN_IK_DMGEFF_ELEMENTAL_MAGIC),
-    /* Ice magic     */ DMG_ENTRY(0, EN_IK_DMGEFF_ELEMENTAL_MAGIC),
-    /* Light magic   */ DMG_ENTRY(0, EN_IK_DMGEFF_ELEMENTAL_MAGIC),
-    /* Shield        */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, EN_IK_DMGEFF_DAMAGE),
-    /* Giant spin    */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
-    /* Master spin   */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Kokiri jump   */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
-    /* Giant jump    */ DMG_ENTRY(8, EN_IK_DMGEFF_DAMAGE),
-    /* Master jump   */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
-    /* Unknown 1     */ DMG_ENTRY(10, EN_IK_DMGEFF_DAMAGE),
-    /* Unblockable   */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
-    /* Unknown 2     */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, EN_IK_DMG_REACT_SPARKS_NO_DMG),
+    /* Deku stick    */ DMG_ENTRY(2, EN_IK_DMG_REACT_DAMAGE),
+    /* Slingshot     */ DMG_ENTRY(1, EN_IK_DMG_REACT_PROJECTILE),
+    /* Explosive     */ DMG_ENTRY(2, EN_IK_DMG_REACT_DAMAGE),
+    /* Boomerang     */ DMG_ENTRY(0, EN_IK_DMG_REACT_SPARKS_NO_DMG),
+    /* Normal arrow  */ DMG_ENTRY(2, EN_IK_DMG_REACT_PROJECTILE),
+    /* Hammer swing  */ DMG_ENTRY(2, EN_IK_DMG_REACT_DAMAGE),
+    /* Hookshot      */ DMG_ENTRY(0, EN_IK_DMG_REACT_SPARKS_NO_DMG),
+    /* Kokiri sword  */ DMG_ENTRY(1, EN_IK_DMG_REACT_DAMAGE),
+    /* Master sword  */ DMG_ENTRY(2, EN_IK_DMG_REACT_DAMAGE),
+    /* Giant's Knife */ DMG_ENTRY(4, EN_IK_DMG_REACT_DAMAGE),
+    /* Fire arrow    */ DMG_ENTRY(2, EN_IK_DMG_REACT_PROJECTILE),
+    /* Ice arrow     */ DMG_ENTRY(2, EN_IK_DMG_REACT_PROJECTILE),
+    /* Light arrow   */ DMG_ENTRY(2, EN_IK_DMG_REACT_PROJECTILE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, EN_IK_DMG_REACT_PROJECTILE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, EN_IK_DMG_REACT_PROJECTILE),
+    /* Unk arrow 3   */ DMG_ENTRY(15, EN_IK_DMG_REACT_PROJECTILE),
+    /* Fire magic    */ DMG_ENTRY(0, EN_IK_DMG_REACT_ELEMENTAL_MAGIC),
+    /* Ice magic     */ DMG_ENTRY(0, EN_IK_DMG_REACT_ELEMENTAL_MAGIC),
+    /* Light magic   */ DMG_ENTRY(0, EN_IK_DMG_REACT_ELEMENTAL_MAGIC),
+    /* Shield        */ DMG_ENTRY(0, EN_IK_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, EN_IK_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, EN_IK_DMG_REACT_DAMAGE),
+    /* Giant spin    */ DMG_ENTRY(4, EN_IK_DMG_REACT_DAMAGE),
+    /* Master spin   */ DMG_ENTRY(2, EN_IK_DMG_REACT_DAMAGE),
+    /* Kokiri jump   */ DMG_ENTRY(2, EN_IK_DMG_REACT_DAMAGE),
+    /* Giant jump    */ DMG_ENTRY(8, EN_IK_DMG_REACT_DAMAGE),
+    /* Master jump   */ DMG_ENTRY(4, EN_IK_DMG_REACT_DAMAGE),
+    /* Unknown 1     */ DMG_ENTRY(10, EN_IK_DMG_REACT_DAMAGE),
+    /* Unblockable   */ DMG_ENTRY(0, EN_IK_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, EN_IK_DMG_REACT_DAMAGE),
+    /* Unknown 2     */ DMG_ENTRY(0, EN_IK_DMG_REACT_NONE),
 };
 
 void EnIk_Destroy(Actor* thisx, PlayState* play) {
@@ -225,7 +228,7 @@ void EnIk_InitImpl(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, thisx, &sCylinderInit);
     Collider_InitTris(play, &this->shieldCollider);
-    Collider_SetTris(play, &this->shieldCollider, thisx, &sTrisInit, this->shieldColliderItems);
+    Collider_SetTris(play, &this->shieldCollider, thisx, &sTrisInit, this->shieldColliderElements);
     Collider_InitQuad(play, &this->axeCollider);
     Collider_SetQuad(play, &this->axeCollider, thisx, &sQuadInit);
 
@@ -744,19 +747,19 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
     } else if (this->bodyCollider.base.acFlags & AC_HIT) {
         s16 pad;
         u8 prevHealth;
-        s32 damageEffect;
+        s32 damageReaction;
         Vec3f sparksPos = this->actor.world.pos;
 
         sparksPos.y += 50.0f;
 
         Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
-        this->damageEffect = this->actor.colChkInfo.damageEffect;
+        this->damageReaction = this->actor.colChkInfo.damageReaction;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-        if ((this->damageEffect == EN_IK_DMGEFF_NONE) || (this->damageEffect == EN_IK_DMGEFF_SPARKS_NO_DMG) ||
-            ((this->armorStatusFlag == 0) && (this->damageEffect == EN_IK_DMGEFF_PROJECTILE))) {
-            if (this->damageEffect != EN_IK_DMGEFF_NONE) {
+        if ((this->damageReaction == EN_IK_DMG_REACT_NONE) || (this->damageReaction == EN_IK_DMG_REACT_SPARKS_NO_DMG) ||
+            ((this->armorStatusFlag == 0) && (this->damageReaction == EN_IK_DMG_REACT_PROJECTILE))) {
+            if (this->damageReaction != EN_IK_DMG_REACT_NONE) {
                 // spawn sparks and don't damage
                 CollisionCheck_SpawnShieldParticlesMetal(play, &sparksPos);
             }
@@ -1377,7 +1380,8 @@ void EnIk_HandleCsCues(EnIk* this, PlayState* play) {
                     break;
 
                 default:
-                    PRINTF("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Ik_inConfrontion_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
 
             this->cueId = nextCueId;
@@ -1412,7 +1416,8 @@ void EnIk_UpdateCutscene(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
 
     if (this->csAction < 0 || this->csAction >= ARRAY_COUNT(sCsActionFuncs) || sCsActionFuncs[this->csAction] == NULL) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 
@@ -1506,7 +1511,8 @@ void EnIk_DrawCutscene(Actor* thisx, PlayState* play) {
 
     if (this->csDrawMode < 0 || this->csDrawMode >= ARRAY_COUNT(sCsDrawFuncs) ||
         sCsDrawFuncs[this->csDrawMode] == NULL) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 

@@ -3,15 +3,17 @@
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_G_Switch/z_en_g_switch.h"
 
+#include "printf.h"
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64debug_display.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "debug_display.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -84,8 +86,7 @@ void EnSyatekiItm_Init(Actor* thisx, PlayState* play2) {
     this->man = (EnSyatekiMan*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_SYATEKI_MAN, 140.0f,
                                                   0.0f, 255.0f, 0, -0x4000, 0, 0);
     if (this->man == NULL) {
-        // "Spawn error"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ エラー原 ☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ エラー原 ☆☆☆☆ \n", "☆☆☆☆☆ Error -Hara ☆☆☆☆ \n") VT_RST);
         Actor_Kill(&this->actor);
         return;
     }
@@ -93,8 +94,7 @@ void EnSyatekiItm_Init(Actor* thisx, PlayState* play2) {
         this->markers[i] = (EnExRuppy*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_RUPPY,
                                                           sRupeePos[i].x, sRupeePos[i].y, sRupeePos[i].z, 0, 0, 0, 4);
         if (this->markers[i] == NULL) {
-            // "Second spawn error"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ エラー原セカンド ☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ エラー原セカンド ☆☆☆☆ \n", "☆☆☆☆☆ Second error -Hara ☆☆☆☆ \n") VT_RST);
             Actor_Kill(&this->actor);
             return;
         }
@@ -245,8 +245,7 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, PlayState* play) {
                 &play->actorCtx, &this->actor, play, ACTOR_EN_G_SWITCH, this->targetHome[i].x, this->targetHome[i].y,
                 this->targetHome[i].z, 0, 0, 0, (ENGSWITCH_TARGET_RUPEE << 0xC) | 0x3F);
             if (this->targets[i] == NULL) {
-                // "Rupee spawn error"
-                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ルピーでエラー原 ☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ルピーでエラー原 ☆☆☆☆ \n", "☆☆☆☆☆ Rupee error -Hara ☆☆☆☆ \n") VT_RST);
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -323,17 +322,16 @@ void EnSyatekiItm_EndGame(EnSyatekiItm* this, PlayState* play) {
         this->actionFunc = EnSyatekiItm_Idle;
     }
     if (this->signal == ENSYATEKI_START) {
-        // "1 frame attack and defense!"
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n", "☆☆☆☆☆ 1 frame attack and defense! ☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n", "☆☆☆☆☆ 1 frame attack and defense! ☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n", "☆☆☆☆☆ 1 frame attack and defense! ☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n", "☆☆☆☆☆ 1 frame attack and defense! ☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n", "☆☆☆☆☆ 1 frame attack and defense! ☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n", "☆☆☆☆☆ 1 frame attack and defense! ☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n", "☆☆☆☆☆ 1 frame attack and defense! ☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n", "☆☆☆☆☆ 1 frame attack and defense! ☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n", "☆☆☆☆☆ 1 frame attack and defense! ☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n", "☆☆☆☆☆ 1 frame attack and defense! ☆☆☆☆ \n") VT_RST);
         this->signal = ENSYATEKI_NONE;
         this->actionFunc = EnSyatekiItm_Idle;
     }

@@ -12,12 +12,14 @@
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"
+#include "printf.h"
 #include "quake.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64debug_display.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "play_state.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -45,8 +47,7 @@ void EnWallTubo_Init(Actor* thisx, PlayState* play) {
     EnWallTubo* this = (EnWallTubo*)thisx;
 
     PRINTF("\n\n");
-    // "Wall Target"
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n", "☆☆☆☆☆ Points on the wall ☆☆☆☆☆ \n") VT_RST);
     this->unk_164 = this->actor.world.pos;
     this->actionFunc = EnWallTubo_FindGirl;
 }
@@ -134,12 +135,12 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play) {
 
         if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
             wall->isHit = true;
-            // "You did it field!" (repeated 5 times)
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            // "Hara" may stand for the developer name Kuzuhara
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(BLUE) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
         }
 
         Actor_Kill(&this->actor);

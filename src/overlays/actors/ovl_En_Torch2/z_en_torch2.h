@@ -2,8 +2,8 @@
 #define Z_EN_TORCH2_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
-// Uses the Player struct (from z64player.h)
+// Uses the Player struct (from player.h)
 
 #endif

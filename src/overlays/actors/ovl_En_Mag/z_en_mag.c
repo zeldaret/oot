@@ -6,6 +6,8 @@
 
 #include "z_en_mag.h"
 
+#include "array_count.h"
+#include "avoid_ub.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -13,14 +15,16 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64cutscene_flags.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64ss_sram.h"
+#include "audio.h"
+#include "cutscene_flags.h"
+#include "play_state.h"
+#include "save.h"
+#include "ss_sram.h"
 
 #include "assets/objects/object_mag/object_mag.h"
 
@@ -71,7 +75,7 @@ void EnMag_ResetSram(void) {
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8007800), buffer, 0x800, 1);
 
     gSaveContext.soundSetting = gSaveContext.zTargetSetting = 0; // SOUND_SETTING_STEREO/Z_TARGET_SETTING_SWITCH
-    Audio_SetSoundMode(gSaveContext.soundSetting);
+    Audio_SetSoundOutputMode(gSaveContext.soundSetting);
 }
 #endif
 

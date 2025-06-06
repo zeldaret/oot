@@ -8,6 +8,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -16,10 +17,10 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64skin.h"
-#include "z64skin_matrix.h"
+#include "play_state.h"
+#include "save.h"
+#include "skin.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_horse_normal/object_horse_normal.h"

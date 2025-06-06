@@ -1,10 +1,11 @@
 #include "libc64/qrand.h"
-#include "macros.h"
+#include "array_count.h"
+#include "printf.h"
 #include "quake.h"
 #include "terminal.h"
 #include "z_lib.h"
-#include "z64olib.h"
-#include "z64play.h"
+#include "olib.h"
+#include "play_state.h"
 
 typedef struct QuakeRequest {
     /* 0x00 */ s16 index;

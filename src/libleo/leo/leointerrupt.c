@@ -1,11 +1,11 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/leo.h"
 #include "ultra64/leoappli.h"
 #include "ultra64/leodrive.h"
 #include "ultra64/internal.h"
 
 extern OSThread* __osRunQueue;
-extern OSHWIntr __OSGlobalIntMask;
+extern OSIntMask __OSGlobalIntMask;
 void __osLeoAbnormalResume(void);
 void __osLeoResume(void);
 

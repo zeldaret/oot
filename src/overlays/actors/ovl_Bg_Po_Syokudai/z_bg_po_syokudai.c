@@ -12,8 +12,8 @@
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_matrix.h"
-#include "z64light.h"
-#include "z64play.h"
+#include "light.h"
+#include "play_state.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_syokudai/object_syokudai.h"

@@ -182,4 +182,9 @@ typedef struct __OSContReadFormat {
     /* 0x07 */ s8 joyY;
 } __OSContReadFormat; // size = 0x8
 
+extern u8 __osContLastCmd;
+extern OSPifRam __osContPifRam;
+extern OSPifRam __osPfsPifRam;
+extern u8 __osMaxControllers;
+
 #endif

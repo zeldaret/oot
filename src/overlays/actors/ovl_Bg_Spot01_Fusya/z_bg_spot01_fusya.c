@@ -9,11 +9,12 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
+#include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_spot01_objects/object_spot01_objects.h"
 
@@ -74,7 +75,7 @@ void func_808AAA50(BgSpot01Fusya* this, PlayState* play) {
     }
     thisx->shape.rot.z += this->unk_154;
     temp = ((this->unk_154 - 100.0f) / 1700.0f) + 1.0f;
-    func_800F436C(&thisx->projectedPos, 0x2085, temp);
+    func_800F436C(&thisx->projectedPos, NA_SE_EV_WINDMILL_LEVEL - SFX_FLAG, temp);
     Math_ApproachF(&this->unk_154, this->unk_158, this->unk_15C, 100.0f);
 }
 

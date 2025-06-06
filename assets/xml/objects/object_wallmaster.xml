@@ -12,13 +12,13 @@
 
         <DList Name="gWallmasterFingerDL" Offset="0x8688"/>
 
-        <Texture Name="gWallmasterExposedBoneTex" OutName="exposed_bone" Format="rgba16" Width="8" Height="16" Offset="0x88F0"/>
-        <Texture Name="gWallmasterBloodyEdgeTex" OutName="bloody_edge" Format="rgba16" Width="8" Height="16" Offset="0x89F0"/>
-        <Texture Name="gWallmasterUpperSkinTex" OutName="upper_skin" Format="rgba16" Width="8" Height="8" Offset="0x8AF0"/>
-        <Texture Name="gWallmasterFingerTipTex" OutName="finger_tip" Format="rgba16" Width="4" Height="16" Offset="0x8B70"/>
-        <Texture Name="gWallmasterUpperToUnderBorderTex" OutName="upper_under_border" Format="rgba16" Width="4" Height="8" Offset="0x8BF0"/>
-        <Texture Name="gWallmasterUnderSkinTex" OutName="under_skin" Format="rgba16" Width="8" Height="16" Offset="0x8C30"/>
-        <Texture Name="gWallmasterKnuckleTex" OutName="knuckle" Format="rgba16" Width="8" Height="16" Offset="0x8D30"/>
+        <Texture Name="gWallmasterExposedBoneTex" Format="rgba16" Width="8" Height="16" Offset="0x88F0"/>
+        <Texture Name="gWallmasterBloodyEdgeTex" Format="rgba16" Width="8" Height="16" Offset="0x89F0"/>
+        <Texture Name="gWallmasterUpperSkinTex" Format="rgba16" Width="8" Height="8" Offset="0x8AF0"/>
+        <Texture Name="gWallmasterFingerTipTex" Format="rgba16" Width="4" Height="16" Offset="0x8B70"/>
+        <Texture Name="gWallmasterUpperToUnderBorderTex" Format="rgba16" Width="4" Height="8" Offset="0x8BF0"/>
+        <Texture Name="gWallmasterUnderSkinTex" Format="rgba16" Width="8" Height="16" Offset="0x8C30"/>
+        <Texture Name="gWallmasterKnuckleTex" Format="rgba16" Width="8" Height="16" Offset="0x8D30"/>
 
         <Skeleton Name="gWallmasterSkel" Type="Flex" LimbType="Standard" Offset="0x8FB0"/>
 
@@ -31,5 +31,45 @@
 
         <!-- Unused. Name inferred from OoT3D -->
         <Animation Name="gWallmasterMissAnim" Offset="0x3120"/>
+
+
+        <DList Name="object_wallmaster_006660_DL" Offset="0x6660"/>
+        <DList Name="object_wallmaster_006800_DL" Offset="0x6800"/>
+        <DList Name="object_wallmaster_006A20_DL" Offset="0x6A20"/>
+        <DList Name="object_wallmaster_006C58_DL" Offset="0x6C58"/>
+        <DList Name="object_wallmaster_006E98_DL" Offset="0x6E98"/>
+        <DList Name="object_wallmaster_007038_DL" Offset="0x7038"/>
+        <DList Name="object_wallmaster_007258_DL" Offset="0x7258"/>
+        <DList Name="object_wallmaster_007408_DL" Offset="0x7408"/>
+        <DList Name="object_wallmaster_0075A8_DL" Offset="0x75A8"/>
+        <DList Name="object_wallmaster_0077C8_DL" Offset="0x77C8"/>
+        <DList Name="object_wallmaster_007978_DL" Offset="0x7978"/>
+        <DList Name="object_wallmaster_007B18_DL" Offset="0x7B18"/>
+        <DList Name="object_wallmaster_007CE8_DL" Offset="0x7CE8"/>
+        <DList Name="object_wallmaster_007E98_DL" Offset="0x7E98"/>
+        <Limb Name="object_wallmaster_008E30_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008E30" Offset="0x8E30"/>
+        <Limb Name="object_wallmaster_008E3C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008E3C" Offset="0x8E3C"/>
+        <Limb Name="object_wallmaster_008E48_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008E48" Offset="0x8E48"/>
+        <Limb Name="object_wallmaster_008E54_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008E54" Offset="0x8E54"/>
+        <Limb Name="object_wallmaster_008E60_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008E60" Offset="0x8E60"/>
+        <Limb Name="object_wallmaster_008E6C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008E6C" Offset="0x8E6C"/>
+        <Limb Name="object_wallmaster_008E78_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008E78" Offset="0x8E78"/>
+        <Limb Name="object_wallmaster_008E84_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008E84" Offset="0x8E84"/>
+        <Limb Name="object_wallmaster_008E90_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008E90" Offset="0x8E90"/>
+        <Limb Name="object_wallmaster_008E9C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008E9C" Offset="0x8E9C"/>
+        <Limb Name="object_wallmaster_008EA8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008EA8" Offset="0x8EA8"/>
+        <Limb Name="object_wallmaster_008EB4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008EB4" Offset="0x8EB4"/>
+        <Limb Name="object_wallmaster_008EC0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008EC0" Offset="0x8EC0"/>
+        <Limb Name="object_wallmaster_008ECC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008ECC" Offset="0x8ECC"/>
+        <Limb Name="object_wallmaster_008ED8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008ED8" Offset="0x8ED8"/>
+        <Limb Name="object_wallmaster_008EE4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008EE4" Offset="0x8EE4"/>
+        <Limb Name="object_wallmaster_008EF0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008EF0" Offset="0x8EF0"/>
+        <Limb Name="object_wallmaster_008EFC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008EFC" Offset="0x8EFC"/>
+        <Limb Name="object_wallmaster_008F08_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008F08" Offset="0x8F08"/>
+        <Limb Name="object_wallmaster_008F14_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008F14" Offset="0x8F14"/>
+        <Limb Name="object_wallmaster_008F20_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008F20" Offset="0x8F20"/>
+        <Limb Name="object_wallmaster_008F2C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008F2C" Offset="0x8F2C"/>
+        <Limb Name="object_wallmaster_008F38_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008F38" Offset="0x8F38"/>
+        <Limb Name="object_wallmaster_008F44_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_WALLMASTER_008F44" Offset="0x8F44"/>
     </File>
 </Root>

@@ -1,7 +1,6 @@
 #include "letterbox.h"
+#include "printf.h"
 #include "regs.h"
-
-#include "macros.h"
 
 typedef enum LetterboxState {
     /* 0 */ LETTERBOX_STATE_IDLE,

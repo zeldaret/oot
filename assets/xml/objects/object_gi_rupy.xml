@@ -1,5 +1,12 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_rupy" Segment="6">
+        <Array Name="gGiRupeeInnerVtx" Count="44" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiRupeeOuterVtx" Count="30" Offset="0x2C0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiGreenRupeeInnerColorDL" Offset="0x04A0"/>
         <DList Name="gGiBlueRupeeInnerColorDL" Offset="0x04C0"/>
         <DList Name="gGiRedRupeeInnerColorDL" Offset="0x04E0"/>

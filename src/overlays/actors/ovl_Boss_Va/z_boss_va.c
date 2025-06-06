@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -20,16 +21,16 @@
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_bv/object_bv.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:0" \
+                               "ntsc-1.1:0 ntsc-1.2:0 pal-1.0:128 pal-1.1:128"
 
 #define FLAGS                                                                                 \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
@@ -1401,7 +1402,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
         if (this->timer >= 0) {
             if (this->invincibilityTimer == 0) {
                 this->invincibilityTimer = 8;
-                if (this->actor.colChkInfo.damageEffect != 1) {
+                if (this->actor.colChkInfo.damageReaction != 1) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);

@@ -10,13 +10,14 @@
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
+#include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64light.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 

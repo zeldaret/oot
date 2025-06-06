@@ -15,11 +15,11 @@
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_aob/object_aob.h"
 #include "assets/objects/object_ahg/object_ahg.h"
@@ -60,7 +60,7 @@ ActorProfile En_Hy_Profile = {
     /**/ EnHy_Draw,
 };
 
-static ColliderCylinderInit sColCylInit = {
+static ColliderCylinderInit sColliderCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -1162,14 +1162,14 @@ void EnHy_Destroy(Actor* thisx, PlayState* play) {
 void EnHy_WaitForObjects(EnHy* this, PlayState* play) {
     if (EnHy_IsOsAnimeObjectLoaded(this, play) && EnHy_AreSkelAndHeadObjectsLoaded(this, play)) {
         this->actor.objectSlot = this->objectSlotLowerSkel;
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
         SkelAnime_InitFlex(play, &this->skelAnime,
                            sSkeletonInfo[sModelInfo[ENHY_GET_TYPE(&this->actor)].lowerSkelInfoIndex].skeleton, NULL,
                            this->jointTable, this->morphTable, ENHY_LIMB_MAX);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotOsAnime].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotOsAnime].segment);
         Collider_InitCylinder(play, &this->collider);
-        Collider_SetCylinder(play, &this->collider, &this->actor, &sColCylInit);
+        Collider_SetCylinder(play, &this->collider, &this->actor, &sColliderCylinderInit);
         EnHy_InitCollider(this);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[ENHY_GET_TYPE(&this->actor)].animInfoIndex);
@@ -1350,7 +1350,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
     EnHy* this = (EnHy*)thisx;
 
     if (this->actionFunc != EnHy_WaitForObjects) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotOsAnime].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotOsAnime].segment);
         SkelAnime_Update(&this->skelAnime);
         EnHy_UpdateEyes(this);
 
@@ -1377,7 +1377,7 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == ENHY_LIMB_HEAD) {
         gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->objectSlotHead].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotHead].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotHead].segment);
         headInfoIndex = sModelInfo[ENHY_GET_TYPE(&this->actor)].headInfoIndex;
         *dList = sHeadInfo[headInfoIndex].headDList;
 
@@ -1386,7 +1386,7 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
             gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(eyeTex));
         }
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotLowerSkel].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotLowerSkel].segment);
     }
 
     if (limbIndex == ENHY_LIMB_HEAD) {
@@ -1423,7 +1423,7 @@ void EnHy_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 
     if (limbIndex == ENHY_LIMB_RIGHT_FOOT) {
         gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->objectSlotUpperSkel].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotUpperSkel].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotUpperSkel].segment);
     }
 
     if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_MAN_2_BALD && limbIndex == ENHY_LIMB_TORSO) {

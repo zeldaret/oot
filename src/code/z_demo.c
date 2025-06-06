@@ -1,14 +1,17 @@
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
-                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
-#include "global.h"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+
 #include "libu64/gfxprint.h"
+#include "array_count.h"
 #include "controller.h"
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "letterbox.h"
+#include "memory_utils.h"
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
 #include "rumble.h"
 #include "quake.h"
@@ -16,14 +19,16 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64camera.h"
-#include "z64cutscene.h"
-#include "z64cutscene_flags.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "camera.h"
+#include "cutscene.h"
+#include "cutscene_flags.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 
@@ -144,8 +149,8 @@ u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
-                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:0 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;
@@ -383,7 +388,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
 
         case CS_MISC_SHOW_TITLE_CARD:
             if (isFirstFrame) {
-                TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, player->giObjectSegment, 160, 120, 144, 24, 20);
+                TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, player->giObjectSegment, 160, 120,
+                                        PLACE_NAME_TEX_WIDTH, PLACE_NAME_TEX_HEIGHT, 20);
             }
             break;
 

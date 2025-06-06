@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 #define STEP 0x100000
 

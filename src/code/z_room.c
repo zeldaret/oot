@@ -1,5 +1,6 @@
 #include "libu64/debug.h"
 #include "ultra64/gs2dex.h"
+#include "array_count.h"
 #include "buffers.h"
 #include "fault.h"
 #include "gfx.h"
@@ -10,18 +11,20 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "sys_ucode.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64room.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+#include "room.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
@@ -713,7 +716,7 @@ s32 Room_ProcessRoomRequest(PlayState* play, RoomContext* roomCtx) {
         if (osRecvMesg(&roomCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
             roomCtx->status = 0;
             roomCtx->curRoom.segment = roomCtx->roomRequestAddr;
-            gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->curRoom.segment);
+            gSegments[3] = OS_K0_TO_PHYSICAL(roomCtx->curRoom.segment);
 
             Scene_ExecuteCommands(play, roomCtx->curRoom.segment);
             Player_SetBootData(play, GET_PLAYER(play));
@@ -728,7 +731,7 @@ s32 Room_ProcessRoomRequest(PlayState* play, RoomContext* roomCtx) {
 
 void Room_Draw(PlayState* play, Room* room, u32 flags) {
     if (room->segment != NULL) {
-        gSegments[3] = VIRTUAL_TO_PHYSICAL(room->segment);
+        gSegments[3] = OS_K0_TO_PHYSICAL(room->segment);
         ASSERT(room->roomShape->base.type < ARRAY_COUNTU(sRoomDrawHandlers),
                "this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
         sRoomDrawHandlers[room->roomShape->base.type](play, room, flags);

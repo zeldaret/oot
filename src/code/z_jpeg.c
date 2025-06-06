@@ -1,11 +1,13 @@
-#include "global.h"
-#include "ultra64.h"
-#include "attributes.h"
 #include "jpeg.h"
+
+#include "array_count.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "printf.h"
 #include "sys_ucode.h"
 #include "terminal.h"
-
-#include "macros.h"
+#include "translation.h"
+#include "ultra64.h"
 
 #define MARKER_ESCAPE 0x00
 #define MARKER_SOI 0xD8
@@ -46,12 +48,12 @@ void Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
     JpegWork* workBuf = ctx->workBuf;
     s32 pad[2];
 
-    workBuf->taskData.address = VIRTUAL_TO_PHYSICAL(&workBuf->data);
+    workBuf->taskData.address = OS_K0_TO_PHYSICAL(&workBuf->data);
     workBuf->taskData.mode = ctx->mode;
     workBuf->taskData.mbCount = 4;
-    workBuf->taskData.qTableYPtr = VIRTUAL_TO_PHYSICAL(&workBuf->qTableY);
-    workBuf->taskData.qTableUPtr = VIRTUAL_TO_PHYSICAL(&workBuf->qTableU);
-    workBuf->taskData.qTableVPtr = VIRTUAL_TO_PHYSICAL(&workBuf->qTableV);
+    workBuf->taskData.qTableYPtr = OS_K0_TO_PHYSICAL(&workBuf->qTableY);
+    workBuf->taskData.qTableUPtr = OS_K0_TO_PHYSICAL(&workBuf->qTableU);
+    workBuf->taskData.qTableVPtr = OS_K0_TO_PHYSICAL(&workBuf->qTableV);
 
     sJpegTask.t.flags = 0;
     sJpegTask.t.ucode_boot = SysUcode_GetUCodeBoot();

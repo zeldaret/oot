@@ -18,10 +18,56 @@
         <Animation Name="gRutoChildWalkAnim" Offset="0x78E4"/>
         <Animation Name="gRutoChildTransitionFromSwimOnBackAnim" Offset="0x8100"/>
         <Animation Name="gRutoChildTransitionToSwimOnBackAnim" Offset="0x8AA8"/>
-        <Animation Name="gRutoChildAnim_009060" Offset="0x9060"/>
+        <Animation Name="gRutoChildResurfaceAnim" Offset="0x9060"/>
         <Animation Name="gRutoChildWait2Anim" Offset="0x97B8"/>
         <Animation Name="gRutoChildSwimOnBackAnim" Offset="0x12E94"/>
         <Animation Name="gRutoChildTreadWaterAnim" Offset="0x13A64"/>
+
+        <Array Name="gRutoChildLeftFootVtx" Count="26" Offset="0x97D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildLeftShinVtx" Count="59" Offset="0x9970">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildLeftThighVtx" Count="52" Offset="0x9D20">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightFootVtx" Count="26" Offset="0xA060">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightShinVtx" Count="59" Offset="0xA200">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightThighVtx" Count="52" Offset="0xA5B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildChestVtx" Count="104" Offset="0xA8F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightHandVtx" Count="56" Offset="0xAF70">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightFinVtx" Count="39" Offset="0xB2F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildRightUpperArmVtx" Count="34" Offset="0xB560">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildLeftHandVtx" Count="56" Offset="0xB780">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildLeftFinVtx" Count="39" Offset="0xBB00">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildLeftUpperArmVtx" Count="34" Offset="0xBD70">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildTorsoVtx" Count="17" Offset="0xBF90">
+            <Vtx/>
+        </Array>
+        <Array Name="gRutoChildHeadVtx" Count="188" Offset="0x10E38">
+            <Vtx/>
+        </Array>
 
         <DList Name="gRutoChildTorsoDL" Offset="0xC0A0"/>
         <DList Name="gRutoChildLeftThighDL" Offset="0xC188"/>
@@ -39,27 +85,27 @@
         <DList Name="gRutoChildLeftHandDL" Offset="0xDDA8"/>
         <DList Name="gRutoChildHeadDL" Offset="0x119F8"/>
 
-        <Texture Name="gRutoChildEyeTLUT" OutName="eye_tlut" Format="rgba16" Width="16" Height="16" Offset="0xE038"/>
-        <Texture Name="gRutoChildMouthTLUT" OutName="mouth_tlut" Format="rgba16" Width="16" Height="12" Offset="0xE238"/>
+        <Texture Name="gRutoChildEyeTLUT" Format="rgba16" Width="16" Height="16" Offset="0xE038"/>
+        <Texture Name="gRutoChildMouthTLUT" Format="rgba16" Width="16" Height="12" Offset="0xE238"/>
 
-        <Texture Name="gRutoChildEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0xE3B8" TlutOffset="0xE038"/>
-        <Texture Name="gRutoChildEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0xF238" TlutOffset="0xE038"/>
-        <Texture Name="gRutoChildEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0xF638" TlutOffset="0xE038"/>
-        <Texture Name="gRutoChildEyeRollLeftTex" OutName="eye_roll_left" Format="ci8" Width="32" Height="32" Offset="0xFE38" TlutOffset="0xE038"/>
-        <Texture Name="gRutoChildEyeHalf2Tex" OutName="eye_half_2" Format="ci8" Width="32" Height="32" Offset="0x10238" TlutOffset="0xE038"/>
-        <Texture Name="gRutoChildEyeHalfWithBlushTex" OutName="eye_half_with_blush" Format="ci8" Width="32" Height="32" Offset="0x10A38" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0xE3B8" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0xF238" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0xF638" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeRollLeftTex" Format="ci8" Width="32" Height="32" Offset="0xFE38" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeHalf2Tex" Format="ci8" Width="32" Height="32" Offset="0x10238" TlutOffset="0xE038"/>
+        <Texture Name="gRutoChildEyeHalfWithBlushTex" Format="ci8" Width="32" Height="32" Offset="0x10A38" TlutOffset="0xE038"/>
 
-        <Texture Name="gRutoChildBlueSkinGradientTex" OutName="blue_skin_gradient" Format="rgba16" Width="8" Height="8" Offset="0xE7B8"/>
+        <Texture Name="gRutoChildBlueSkinGradientTex" Format="rgba16" Width="8" Height="8" Offset="0xE7B8"/>
 
-        <Texture Name="gRutoChildMouthClosedTex" OutName="mouth_closed" Format="ci8" Width="32" Height="32" Offset="0xE838" TlutOffset="0xE238"/>
-        <Texture Name="gRutoChildMouthFrownTex" OutName="mouth_frown" Format="ci8" Width="32" Height="32" Offset="0xFA38" TlutOffset="0xE238"/>
-        <Texture Name="gRutoChildMouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="32" Offset="0x10638" TlutOffset="0xE238"/>
+        <Texture Name="gRutoChildMouthClosedTex" Format="ci8" Width="32" Height="32" Offset="0xE838" TlutOffset="0xE238"/>
+        <Texture Name="gRutoChildMouthFrownTex" Format="ci8" Width="32" Height="32" Offset="0xFA38" TlutOffset="0xE238"/>
+        <Texture Name="gRutoChildMouthOpenTex" Format="ci8" Width="32" Height="32" Offset="0x10638" TlutOffset="0xE238"/>
 
-        <Texture Name="gRutoChildEarTex" OutName="ear" Format="rgba16" Width="16" Height="16" Offset="0xEC38"/>
-        <Texture Name="gRutoChildBlueSkinPatchesTex" OutName="blue_skin_patches" Format="rgba16" Width="16" Height="16" Offset="0xEE38"/>
-        <Texture Name="gRutoChildUnkHeadCircleTex" OutName="tex_0000F038" Format="rgba16" Width="16" Height="16" Offset="0xF038"/> <!-- TODO rename me-->
-        <Texture Name="gRutoChildFingersTex" OutName="fingers" Format="rgba16" Width="16" Height="16" Offset="0x12200"/>
-        <Texture Name="gRutoChildCircleGradientTex" OutName="circle_gradient" Format="rgba16" Width="16" Height="16" Offset="0x12400"/>
+        <Texture Name="gRutoChildEarTex" Format="rgba16" Width="16" Height="16" Offset="0xEC38"/>
+        <Texture Name="gRutoChildBlueSkinPatchesTex" Format="rgba16" Width="16" Height="16" Offset="0xEE38"/>
+        <Texture Name="gRutoChildUnkHeadCircleTex" Format="rgba16" Width="16" Height="16" Offset="0xF038"/> <!-- TODO rename me-->
+        <Texture Name="gRutoChildFingersTex" Format="rgba16" Width="16" Height="16" Offset="0x12200"/>
+        <Texture Name="gRutoChildCircleGradientTex" Format="rgba16" Width="16" Height="16" Offset="0x12400"/>
 
         <Skeleton Name="gRutoChildSkel" Type="Flex" LimbType="Standard" Offset="0x12700"/>
 

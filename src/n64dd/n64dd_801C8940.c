@@ -1,9 +1,8 @@
 // Lower-level command processing in a background thread
 #include "n64dd.h"
+
 #include "libc64/sleep.h"
 #include "attributes.h"
-
-#include "global.h"
 
 s32 D_801D2EA0 = 0;
 u8* D_801D2EA4 = NULL;

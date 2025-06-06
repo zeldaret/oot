@@ -4,17 +4,22 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
+#include "printf.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64light.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_warp1/object_warp1.h"
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #define FLAGS 0
 
@@ -505,7 +510,9 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
     this->warpTimer++;
 
     if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        PRINTF("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger, TRANS_TRIGGER_START);
+        PRINTF(T("\n\n\nじかんがきたからおーしまい fade_direction=[%d]",
+                 "\n\n\nThe time has come, so it's over. fade_direction=[%d]"),
+               play->transitionTrigger, TRANS_TRIGGER_START);
 
         if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS) {
             if (!Flags_GetEventChkInf(EVENTCHKINF_25)) {
@@ -532,7 +539,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
             play->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN_0;
             gSaveContext.nextCutsceneIndex = 0;
         }
-        PRINTF("\n\n\nおわりおわり");
+        PRINTF(T("\n\n\nおわりおわり", "\n\n\nThe end The end"));
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
         gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;

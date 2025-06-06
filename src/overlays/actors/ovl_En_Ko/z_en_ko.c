@@ -8,16 +8,18 @@
 
 #include "attributes.h"
 #include "gfx.h"
+#include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_fa/object_fa.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
@@ -1185,17 +1187,16 @@ void func_80A99048(EnKo* this, PlayState* play) {
     if (EnKo_IsOsAnimeLoaded(this, play) && EnKo_AreObjectsLoaded(this, play)) {
         this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actor.objectSlot = this->legsObjectSlot;
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
         SkelAnime_InitFlex(play, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader, NULL,
                            this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         if (ENKO_TYPE == ENKO_TYPE_CHILD_7) {
-            // "Angle Z"
-            PRINTF(VT_BGCOL(BLUE) "  アングルＺ->(%d)\n" VT_RST, this->actor.shape.rot.z);
+            PRINTF(VT_BGCOL(BLUE) T("  アングルＺ->(%d)\n", "  Angle Z->(%d)\n") VT_RST, this->actor.shape.rot.z);
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (this->actor.shape.rot.z != 1) {
                     Actor_Kill(&this->actor);
@@ -1304,7 +1305,7 @@ void EnKo_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != func_80A99048) {
         if ((s32)this->modelAlpha != 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+            gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
             SkelAnime_Update(&this->skelAnime);
             func_80A98DB4(this, play);
             EnKo_Blink(this);
@@ -1337,7 +1338,7 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == 15) {
         gSPSegment((*gfx)++, 0x06, play->objectCtx.slots[this->headObjectSlot].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->headObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->headObjectSlot].segment);
 
         headId = sModelInfo[ENKO_TYPE].headId;
         *dList = sHead[headId].dList;
@@ -1345,7 +1346,7 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
             eyeTexture = sHead[headId].eyeTextures[this->eyeTextureIndex];
             gSPSegment((*gfx)++, 0x0A, SEGMENTED_TO_VIRTUAL(eyeTexture));
         }
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->legsObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->legsObjectSlot].segment);
     }
     if (limbIndex == 8) {
         limbRot = this->interactInfo.torsoRot;
@@ -1373,7 +1374,7 @@ void EnKo_PostLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
     if (limbIndex == 7) {
         gSPSegment((*gfx)++, 0x06, play->objectCtx.slots[this->bodyObjectSlot].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->bodyObjectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->bodyObjectSlot].segment);
     }
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80A9A774, &this->actor.focus.pos);

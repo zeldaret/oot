@@ -7,6 +7,7 @@
 #include "z_object_kankyo.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
@@ -15,10 +16,10 @@
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
