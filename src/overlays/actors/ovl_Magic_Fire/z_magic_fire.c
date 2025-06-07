@@ -11,6 +11,7 @@
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "tex_len.h"
 #include "z_lib.h"
 #include "play_state.h"
 #include "player.h"
@@ -51,7 +52,23 @@ ActorProfile Magic_Fire_Profile = {
     /**/ MagicFire_Draw,
 };
 
-#include "assets/overlays/ovl_Magic_Fire/ovl_Magic_Fire.c"
+#define sTex_WIDTH 64
+#define sTex_HEIGHT 64
+static u64 sTex[TEX_LEN(u64, sTex_WIDTH, sTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Magic_Fire/sTex.i8.inc.c"
+};
+
+static Vtx sSphereVtx[] = {
+#include "assets/overlays/ovl_Magic_Fire/sSphereVtx.inc.c"
+};
+
+static Gfx sMaterialDL[5] = {
+#include "assets/overlays/ovl_Magic_Fire/sMaterialDL.inc.c"
+};
+
+static Gfx sModelDL[45] = {
+#include "assets/overlays/ovl_Magic_Fire/sModelDL.inc.c"
+};
 
 static ColliderCylinderInit sCylinderInit = {
     {

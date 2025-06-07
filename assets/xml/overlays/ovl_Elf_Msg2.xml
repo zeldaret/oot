@@ -1,7 +1,7 @@
 <Root>
     <File Name="ovl_Elf_Msg2">
 
-        <DList Name="D_809ADC38" Offset="0x0"/>
+        <DList Name="sMaterialDL" Offset="0x0"/>
 
         <Array Name="sCubeVtx" Count="8" Offset="0x40">
             <Vtx/>

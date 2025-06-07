@@ -11,6 +11,7 @@
 #include "printf.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "tex_len.h"
 #include "z_lib.h"
 #include "play_state.h"
 #include "player.h"
@@ -65,7 +66,23 @@ void OceffWipe_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#include "assets/overlays/ovl_Oceff_Wipe/ovl_Oceff_Wipe.c"
+#define sTex_WIDTH 32
+#define sTex_HEIGHT 32
+static u64 sTex[TEX_LEN(u64, sTex_WIDTH, sTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Oceff_Wipe/sTex.i8.inc.c"
+};
+
+static Vtx sFrustumVtx[] = {
+#include "assets/overlays/ovl_Oceff_Wipe/sFrustumVtx.inc.c"
+};
+
+static Gfx sMaterialDL[17] = {
+#include "assets/overlays/ovl_Oceff_Wipe/sMaterialDL.inc.c"
+};
+
+static Gfx sFrustumDL[23] = {
+#include "assets/overlays/ovl_Oceff_Wipe/sFrustumDL.inc.c"
+};
 
 static u8 sAlphaIndices[] = {
     0x01, 0x10, 0x22, 0x01, 0x20, 0x12, 0x01, 0x20, 0x12, 0x01,
