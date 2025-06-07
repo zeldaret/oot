@@ -10,5 +10,19 @@
         <DList Name="gBombFlowerLeavesDL" Offset="0x340"/>
         <DList Name="gBombFlowerBombAndSparkDL" Offset="0x408"/>
         <DList Name="gBombFlowerBaseLeavesDL" Offset="0x530"/>
+
+        <!-- Bomb Flower Vertices -->
+        <Array Name="gBombFlowerLeavesVtx" Count="17" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombFlowerSparkVtx" Count="18" Offset="0x110">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombFlowerBaseLeavesVtx" Count="13" Offset="0x230">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombFlowerBombVtx" Count="4" Offset="0x300">
+            <Vtx/>
+        </Array>
     </File>
 </Root>
