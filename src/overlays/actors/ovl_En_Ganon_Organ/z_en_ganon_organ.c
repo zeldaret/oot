@@ -68,15 +68,17 @@ static u64 sRoomCrestFriezeTex[TEX_LEN(u64, sRoomCrestFriezeTex_WIDTH, sRoomCres
 
 #define sRoomColumnFriezeAndCanopyTex_WIDTH 16
 #define sRoomColumnFriezeAndCanopyTex_HEIGHT 16
-static u64 sRoomColumnFriezeAndCanopyTex[TEX_LEN(u64, sRoomColumnFriezeAndCanopyTex_WIDTH, sRoomColumnFriezeAndCanopyTex_HEIGHT, 4)] = {
+static u64 sRoomColumnFriezeAndCanopyTex[TEX_LEN(u64, sRoomColumnFriezeAndCanopyTex_WIDTH,
+                                                 sRoomColumnFriezeAndCanopyTex_HEIGHT, 4)] = {
 #include "assets/overlays/ovl_En_Ganon_Organ/sRoomColumnFriezeAndCanopyTex.i4.inc.c"
 };
 
 #define sRoomColumnMetalEdgingTex_WIDTH 16
 #define sRoomColumnMetalEdgingTex_HEIGHT 16
-static u64 sRoomColumnMetalEdgingTex[TEX_LEN(u64, sRoomColumnMetalEdgingTex_WIDTH, sRoomColumnMetalEdgingTex_HEIGHT, 16)] = {
+static u64
+    sRoomColumnMetalEdgingTex[TEX_LEN(u64, sRoomColumnMetalEdgingTex_WIDTH, sRoomColumnMetalEdgingTex_HEIGHT, 16)] = {
 #include "assets/overlays/ovl_En_Ganon_Organ/sRoomColumnMetalEdgingTex.rgba16.inc.c"
-};
+    };
 
 #define sRoomStatueWingTex_WIDTH 16
 #define sRoomStatueWingTex_HEIGHT 16

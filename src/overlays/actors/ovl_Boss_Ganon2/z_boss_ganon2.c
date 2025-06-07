@@ -3582,9 +3582,10 @@ static Gfx gGanonZeldaMagicDL[33] = {
 
 #define gGanonMasterSwordShadowTex_WIDTH 32
 #define gGanonMasterSwordShadowTex_HEIGHT 32
-static u64 gGanonMasterSwordShadowTex[TEX_LEN(u64, gGanonMasterSwordShadowTex_WIDTH, gGanonMasterSwordShadowTex_HEIGHT, 8)] = {
+static u64
+    gGanonMasterSwordShadowTex[TEX_LEN(u64, gGanonMasterSwordShadowTex_WIDTH, gGanonMasterSwordShadowTex_HEIGHT, 8)] = {
 #include "assets/overlays/ovl_Boss_Ganon2/gGanonMasterSwordShadowTex.i8.inc.c"
-};
+    };
 
 static Vtx gGanonMasterSwordShadowVtx[] = {
 #include "assets/overlays/ovl_Boss_Ganon2/gGanonMasterSwordShadowVtx.inc.c"
@@ -3596,15 +3597,17 @@ static Gfx gGanonMasterSwordShadowDL[16] = {
 
 #define gGanonMasterSwordPommelTex_WIDTH 16
 #define gGanonMasterSwordPommelTex_HEIGHT 16
-static u64 gGanonMasterSwordPommelTex[TEX_LEN(u64, gGanonMasterSwordPommelTex_WIDTH, gGanonMasterSwordPommelTex_HEIGHT, 16)] = {
+static u64 gGanonMasterSwordPommelTex[TEX_LEN(u64, gGanonMasterSwordPommelTex_WIDTH, gGanonMasterSwordPommelTex_HEIGHT,
+                                              16)] = {
 #include "assets/overlays/ovl_Boss_Ganon2/gGanonMasterSwordPommelTex.rgba16.inc.c"
 };
 
 #define gGanonMasterSwordGuardTex_WIDTH 32
 #define gGanonMasterSwordGuardTex_HEIGHT 32
-static u64 gGanonMasterSwordGuardTex[TEX_LEN(u64, gGanonMasterSwordGuardTex_WIDTH, gGanonMasterSwordGuardTex_HEIGHT, 16)] = {
+static u64
+    gGanonMasterSwordGuardTex[TEX_LEN(u64, gGanonMasterSwordGuardTex_WIDTH, gGanonMasterSwordGuardTex_HEIGHT, 16)] = {
 #include "assets/overlays/ovl_Boss_Ganon2/gGanonMasterSwordGuardTex.rgba16.inc.c"
-};
+    };
 
 static Vtx gGanonMasterSwordVtx[] = {
 #include "assets/overlays/ovl_Boss_Ganon2/gGanonMasterSwordVtx.inc.c"
