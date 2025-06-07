@@ -2,44 +2,57 @@
 # Documentation Style Guide
 
 This project uses [Doxygen](https://www.doxygen.nl/index.html) to generate documentation pages from comments found in the source files. This guide focuses on writing compatible comments and ensuring consistency across the codebase.
-```diff
-- Note -
-As the codebase is constantly changing, only document what is complete, well-understood and not
-already covered by good naming. This is especially true for function parameters and return values.
-Also note that there is no obligation to completing the documentation steps for functions you
-work on if you do not want to at the time.
-```
+
+However to keep the documentation readable in text and favor consistency, the Doxygen commands that should be used are restricted to what this document mentions.
+
 To generate a doxygen manual for the project, ensure you have doxygen installed and then cd into the project root directory and run `doxygen Doxyfile`.
 
-## Documenting Functions
-For functions, a description of the function's purpose should go above the function:
-```c
-/**
- * My description of this function
- */
-void foo(void);
-```
-Further considerations:
-- Any comments inside the function should follow the usual `//` or `/**/` comment styles.
-- For documenting return values, place a `@return` at the bottom of the function comment followed by the description of the return value. This should only be done if the name of the function is not self-explanatory and is well-understood.
-- For documenting parameters, place a `@param` between the comment and the @return (if applicable) followed by the name of the parameter and a brief description. This should only be done if the name of the parameter is not self-explanatory and is well-understood.
-- All `@param`s should come before `@return` and be in the same order the parameters appear in the function declaration. Note that this does not mean you should add empty `@params` for parameters deemed self-explanatory.
+The documentation can then be browsed by opening `docs/doxygen/html/index.html` in a web browser.
 
-A full example would be as follows: (however in practice functions such as this would be considered self-explanatory)
+## Documenting Functions
+
+Any comments inside functions, except bugs ([see below](#documenting-bugs)), should use `//`-style comments, even if spanning over multiple lines.
+
+A simple example of documenting a function with just a description (note the leading `/**`):
+
 ```c
 /**
- * This is an example
- *
- * @param bar the input
- * @return bar multiplied by 2
+ * Update the crawl sound timer, and play the crawling sound when it reaches 0.
  */
-s32 foo(s32 bar) {
-    return 2*bar;
-}
+void EnInsect_UpdateCrawlSfx(EnInsect* this) {
 ```
+
+A more complete example:
+
+```c
+/**
+ * Request to either increase or consume magic.
+ *
+ * @param amount the positive-valued amount to either increase or decrease magic by
+ * @param type how the magic is increased or consumed.
+ *
+ * @return false if the request failed
+ */
+s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
+```
+
+Note:
+
+- Documentation for self-explanatory arguments (`@param`) and return values (`@return`) may be omitted.
+- `@param` commands should not have empty lines in between.
+- Different commands (main description, `@param`, `@return`, ...) should be separated by empty lines.
+
+Other directives that may be used for documenting functions:
+
+- `@see` to reference something else ([see below](#linking-related-information)).
+- `@note` to bring attention to some of the function behavior.
 
 ## Documenting Variables
-Documentation of variables should include what this variable is used for if the name is not completely clear and if applicable whether a set of defines or enumerations should be used alongside it (which should be linked with `@see`, see below)
+
+In case the name of a variable isn't completely clear, documentation can provide a description.
+
+If applicable, it may refer to a set of defines or enumerations that should be used with it (those should be linked with `@see`, [see below](#linking-related-information)).
+
 ```c
 /**
  * My description of this variable
@@ -48,53 +61,59 @@ s32 foo;
 ```
 
 ## Documenting Files
-File documentation should go near the top of the file, below includes. It should only feature information that is general to the file.
+
+File documentation should be located at the top of the file, above `#include`s.
+
+File documentation should only feature information that is general to the file or the system it implements.
+
 ```c
 /**
- * @file file_name.c
+ * @file z_fcurve_data_skelanime.c
+ * @brief Curve skeleton animation system
  *
- * My description of this file
+ * A curve skeleton has a fixed number of limbs, ...
+...
  */
 ```
 
 ## Other
 
 ### Documenting Bugs:
-Bugs should be documented on the line above where the bug begins.
-```c
-//! @bug description
-```
-### Linking related information:
-`@see` should be used to provide links to related information where appropriate, for example:
-```c
-/**
- * Save File Data
- * @see SaveContext
- */
-SaveContext gSaveContext;
-```
-In the case of functions, `@see` should come before the first `@param`.
-### HTML
-You can include html tags in your doc comments, however it is strongly advised against doing this if it greatly reduces readability of the code comments.
-```c
-/**
- * My<br>
- * Newline<br>
- * Doc Comment
- */
-```
-### LaTeX
-You can embed [LaTeX](https://wikipedia.org/wiki/LaTeX) in your doc comments if useful to do so.
 
-For inline rendering:
+Bugs should be documented on the line above where the bug begins.
+
+```c
+//! @bug Missing early return
+```
+
+Bug described on multiple lines should still use the `//!` syntax, over multiple lines. For example:
+
+```c
+//! @bug this code was clearly meaning to print `abs(camera->camDataIdx)` as a
+//! one-or-two-digit number, instead of `i`.
+```
+
+### Linking related information:
+
+`@see` should be used to provide links to related information where appropriate, for example:
+
 ```c
 /**
- * \f$ \textrm{Your LaTeX Here} \f$
+ * Sets the next framebuffer to the framebuffer associated to `task`.
+ * If there is no current buffer or it is time to swap, this buffer will be swapped to
+ * immediately, otherwise it will be swapped to later in Sched_HandleRetrace.
+ *
+ * @see Sched_HandleRetrace
  */
+void Sched_SetNextFramebufferFromTask(Scheduler* sc, OSScTask* task) {
 ```
-For centered rendering on a separate line:
-```c
-/**
- * \f[ \textrm{Your LaTeX Here} \f]
- */
-```
+
+In the case of functions, `@see` should come before the first `@param`.
+
+`@see` may also be used for documenting files or variables.
+
+### HTML and LaTeX
+
+It is possible to include HTML and LaTeX in documentation comments.
+
+However it is prefered not to do so, so that the raw text stays readable when looked at as plain text, for example when browsing the source code.
