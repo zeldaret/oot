@@ -7,6 +7,7 @@
 #include "z_en_po_desert.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -74,7 +75,8 @@ void EnPoDesert_Init(Actor* thisx, PlayState* play) {
     EnPoDesert* this = (EnPoDesert*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(play, &this->skelAnime, &gPoeFieldSkel, &gPoeFieldFloatAnim, this->jointTable, this->morphTable, 10);
+    SkelAnime_Init(play, &this->skelAnime, &gPoeFieldSkel, &gPoeFieldFloatAnim, this->jointTable, this->morphTable,
+                   ARRAY_COUNT(this->jointTable));
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sColliderCylinderInit);
     this->lightColor.r = 255;

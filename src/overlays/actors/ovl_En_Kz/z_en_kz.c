@@ -7,6 +7,7 @@
 #include "z_en_kz.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -393,7 +394,8 @@ void EnKz_Init(Actor* thisx, PlayState* play) {
     EnKz* this = (EnKz*)thisx;
     s32 pad;
 
-    SkelAnime_InitFlex(play, &this->skelanime, &gKzSkel, NULL, this->jointTable, this->morphTable, 12);
+    SkelAnime_InitFlex(play, &this->skelanime, &gKzSkel, NULL, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

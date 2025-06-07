@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -136,7 +137,7 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
     this->actor.gravity = -3.5f;
     this->actor.focus.pos = this->actor.world.pos;
     SkelAnime_Init(play, &this->skelanime, &object_reeba_Skel_001EE8, &object_reeba_Anim_0001E4, this->jointTable,
-                   this->morphTable, 18);
+                   this->morphTable, ARRAY_COUNT(this->jointTable));
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 4;
     Collider_InitCylinder(play, &this->collider);

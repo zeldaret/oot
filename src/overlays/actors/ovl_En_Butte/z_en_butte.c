@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -172,7 +173,8 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
         this->actor.cullingVolumeScale = 200.0f;
     }
 
-    SkelAnime_Init(play, &this->skelAnime, &gButterflySkel, &gButterflyAnim, this->jointTable, this->morphTable, 8);
+    SkelAnime_Init(play, &this->skelAnime, &gButterflySkel, &gButterflyAnim, this->jointTable, this->morphTable,
+                   ARRAY_COUNT(this->jointTable));
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
     this->actor.colChkInfo.mass = 0;
