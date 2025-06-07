@@ -26,8 +26,17 @@
         <Texture Name="gSheikEyeHalfClosedTex" Format="ci8" Width="32" Height="32" Offset="0x50C0" TlutOffset="0x4A40"/>
         <Texture Name="gSheikEyeShutTex" Format="ci8" Width="32" Height="32" Offset="0x54C0" TlutOffset="0x4A40"/>
         <Texture Name="gSheikEyeSquintingTex" Format="ci8" Width="32" Height="32" Offset="0x58C0" TlutOffset="0x4A40"/>
+        <Array Name="gSheikHarpVtx" Count="96" Offset="0x102D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_0108D0" Count="136" Offset="0x108D0">
+            <Vtx/>
+        </Array>
         <DList Name="gSheikHarpDL" Offset="0x11150"/>
         <DList Name="gSheikDL_011620" Offset="0x11620"/>
+        <Array Name="object_xc_Vtx_012930" Count="4" Offset="0x12930">
+            <Vtx/>
+        </Array>
         <DList Name="gSheikDL_012970" Offset="0x12970"/>
 
         <Texture Name="object_xc_004840_TLUT" Format="rgba16" Width="256" Height="1" Offset="0x4840"/>
@@ -46,6 +55,51 @@
         <Texture Name="object_xc_008380_Tex" Format="ci8" Width="32" Height="64" Offset="0x8380" TlutOffset="0x4840"/>
         <Texture Name="object_xc_008B80_Tex" Format="ci8" Width="16" Height="8" Offset="0x8B80" TlutOffset="0x4840"/>
         <Texture Name="object_xc_008C00_Tex" Format="ci8" Width="32" Height="16" Offset="0x8C00" TlutOffset="0x4840"/>
+        <Array Name="object_xc_Vtx_008E00" Count="332" Offset="0x8E00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00A2C0" Count="69" Offset="0xA2C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00A710" Count="31" Offset="0xA710">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00A900" Count="48" Offset="0xA900">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00AC00" Count="69" Offset="0xAC00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00B050" Count="31" Offset="0xB050">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00B240" Count="48" Offset="0xB240">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00B540" Count="143" Offset="0xB540">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00BE30" Count="37" Offset="0xBE30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00C080" Count="46" Offset="0xC080">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00C360" Count="53" Offset="0xC360">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00C6B0" Count="37" Offset="0xC6B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00C900" Count="46" Offset="0xC900">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00CBE0" Count="53" Offset="0xCBE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00CF30" Count="31" Offset="0xCF30">
+            <Vtx/>
+        </Array>
         <DList Name="object_xc_00D120_DL" Offset="0xD120"/>
         <DList Name="object_xc_00D710_DL" Offset="0xD710"/>
         <DList Name="object_xc_00DE28_DL" Offset="0xDE28"/>
