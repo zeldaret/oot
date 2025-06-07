@@ -429,8 +429,8 @@ void EnArrow_Update(Actor* thisx, PlayState* play) {
 }
 
 void func_809B4800(EnArrow* this, PlayState* play) {
-    static Vec3f sPosAModel = { 0.0f, 400.0f, 1500.0f };
-    static Vec3f sPosBModel = { 0.0f, -400.0f, 1500.0f };
+    static Vec3f sPosAOffset = { 0.0f, 400.0f, 1500.0f };
+    static Vec3f sPosBOffset = { 0.0f, -400.0f, 1500.0f };
     static Vec3f D_809B4EA0 = { 0.0f, 0.0f, -300.0f };
     Vec3f posA;
     Vec3f posB;
@@ -439,8 +439,8 @@ void func_809B4800(EnArrow* this, PlayState* play) {
     Matrix_MultVec3f(&D_809B4EA0, &this->unk_21C);
 
     if (EnArrow_Fly == this->actionFunc) {
-        Matrix_MultVec3f(&sPosAModel, &posA);
-        Matrix_MultVec3f(&sPosBModel, &posB);
+        Matrix_MultVec3f(&sPosAOffset, &posA);
+        Matrix_MultVec3f(&sPosBOffset, &posB);
 
         if (this->actor.params <= ARROW_SEED) {
             addBlureVertex = this->actor.params <= ARROW_LIGHT;

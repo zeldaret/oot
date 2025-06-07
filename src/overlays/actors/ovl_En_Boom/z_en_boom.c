@@ -257,8 +257,8 @@ void EnBoom_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnBoom_Draw(Actor* thisx, PlayState* play) {
-    static Vec3f sPosAModel = { -960.0f, 0.0f, 0.0f };
-    static Vec3f sPosBModel = { 960.0f, 0.0f, 0.0f };
+    static Vec3f sPosAOffset = { -960.0f, 0.0f, 0.0f };
+    static Vec3f sPosBOffset = { 960.0f, 0.0f, 0.0f };
     EnBoom* this = (EnBoom*)thisx;
     Vec3f posA;
     Vec3f posB;
@@ -268,8 +268,8 @@ void EnBoom_Draw(Actor* thisx, PlayState* play) {
     Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_APPLY);
     Matrix_RotateZ(BINANG_TO_RAD(0x1F40), MTXMODE_APPLY);
     Matrix_RotateX(BINANG_TO_RAD(this->actor.world.rot.x), MTXMODE_APPLY);
-    Matrix_MultVec3f(&sPosAModel, &posA);
-    Matrix_MultVec3f(&sPosBModel, &posB);
+    Matrix_MultVec3f(&sPosAOffset, &posA);
+    Matrix_MultVec3f(&sPosBOffset, &posB);
 
     if (Player_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB)) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &posA, &posB);

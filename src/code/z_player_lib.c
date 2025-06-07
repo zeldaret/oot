@@ -1509,21 +1509,21 @@ void Player_UpdateShieldCollider(PlayState* play, Player* this, ColliderQuad* co
 }
 
 // Positions for the tip of melee weapons, in the left hand limb's own model space.
-Vec3f sMeleeWeaponTipLeftHandLimbModelPos0 = { 5000.0f, 400.0f, 0.0f };
-Vec3f sMeleeWeaponTipLeftHandLimbModelPos1 = { 5000.0f, -400.0f, 1000.0f };
-Vec3f sMeleeWeaponTipLeftHandLimbModelPos2 = { 5000.0f, 1400.0f, -1000.0f };
+Vec3f sMeleeWeaponTipOffsetFromLeftHand0 = { 5000.0f, 400.0f, 0.0f };
+Vec3f sMeleeWeaponTipOffsetFromLeftHand1 = { 5000.0f, -400.0f, 1000.0f };
+Vec3f sMeleeWeaponTipOffsetFromLeftHand2 = { 5000.0f, 1400.0f, -1000.0f };
 
 // Positions for the base of melee weapons, in the left hand limb's own model space.
-Vec3f sMeleeWeaponBaseLeftHandLimbModelPos0 = { 0.0f, 400.0f, 0.0f };
-Vec3f sMeleeWeaponBaseLeftHandLimbModelPos1 = { 0.0f, 1400.0f, -1000.0f };
-Vec3f sMeleeWeaponBaseLeftHandLimbModelPos2 = { 0.0f, -400.0f, 1000.0f };
+Vec3f sMeleeWeaponBaseOffsetFromLeftHand0 = { 0.0f, 400.0f, 0.0f };
+Vec3f sMeleeWeaponBaseOffsetFromLeftHand1 = { 0.0f, 1400.0f, -1000.0f };
+Vec3f sMeleeWeaponBaseOffsetFromLeftHand2 = { 0.0f, -400.0f, 1000.0f };
 
 void Player_UpdateMeleeWeaponInfo(PlayState* play, Player* this, Vec3f* newTipPositions) {
     Vec3f newBasePositions[3];
 
-    Matrix_MultVec3f(&sMeleeWeaponBaseLeftHandLimbModelPos0, &newBasePositions[0]);
-    Matrix_MultVec3f(&sMeleeWeaponBaseLeftHandLimbModelPos1, &newBasePositions[1]);
-    Matrix_MultVec3f(&sMeleeWeaponBaseLeftHandLimbModelPos2, &newBasePositions[2]);
+    Matrix_MultVec3f(&sMeleeWeaponBaseOffsetFromLeftHand0, &newBasePositions[0]);
+    Matrix_MultVec3f(&sMeleeWeaponBaseOffsetFromLeftHand1, &newBasePositions[1]);
+    Matrix_MultVec3f(&sMeleeWeaponBaseOffsetFromLeftHand2, &newBasePositions[2]);
 
     if (Player_UpdateWeaponInfo(play, NULL, &this->meleeWeaponInfo[0], &newTipPositions[0], &newBasePositions[0]) &&
         !(this->stateFlags1 & PLAYER_STATE1_SHIELDING)) {
@@ -1568,19 +1568,19 @@ void Player_DrawGetItem(PlayState* play, Player* this) {
 }
 
 void Player_CalcMeleeWeaponTipPositions(Player* this, Vec3f* tipPositions) {
-    sMeleeWeaponTipLeftHandLimbModelPos1.x = sMeleeWeaponTipLeftHandLimbModelPos0.x;
+    sMeleeWeaponTipOffsetFromLeftHand1.x = sMeleeWeaponTipOffsetFromLeftHand0.x;
 
     if (this->unk_845 >= 3) {
         this->unk_845++;
-        sMeleeWeaponTipLeftHandLimbModelPos1.x *= 1.0f + ((9 - this->unk_845) * 0.1f);
+        sMeleeWeaponTipOffsetFromLeftHand1.x *= 1.0f + ((9 - this->unk_845) * 0.1f);
     }
 
-    sMeleeWeaponTipLeftHandLimbModelPos1.x += 1200.0f;
-    sMeleeWeaponTipLeftHandLimbModelPos2.x = sMeleeWeaponTipLeftHandLimbModelPos1.x;
+    sMeleeWeaponTipOffsetFromLeftHand1.x += 1200.0f;
+    sMeleeWeaponTipOffsetFromLeftHand2.x = sMeleeWeaponTipOffsetFromLeftHand1.x;
 
-    Matrix_MultVec3f(&sMeleeWeaponTipLeftHandLimbModelPos0, &tipPositions[0]);
-    Matrix_MultVec3f(&sMeleeWeaponTipLeftHandLimbModelPos1, &tipPositions[1]);
-    Matrix_MultVec3f(&sMeleeWeaponTipLeftHandLimbModelPos2, &tipPositions[2]);
+    Matrix_MultVec3f(&sMeleeWeaponTipOffsetFromLeftHand0, &tipPositions[0]);
+    Matrix_MultVec3f(&sMeleeWeaponTipOffsetFromLeftHand1, &tipPositions[1]);
+    Matrix_MultVec3f(&sMeleeWeaponTipOffsetFromLeftHand2, &tipPositions[2]);
 }
 
 void Player_DrawHookshotReticle(PlayState* play, Player* this, f32 arg2) {
@@ -1622,7 +1622,7 @@ void Player_DrawHookshotReticle(PlayState* play, Player* this, f32 arg2) {
 }
 
 // Coordinates of the player focus position, in the head limb's own model space.
-Vec3f sPlayerFocusHeadLimbModelPos = { 1100.0f, -700.0f, 0.0f };
+Vec3f sPlayerFocusOffsetFromHead = { 1100.0f, -700.0f, 0.0f };
 
 f32 sMeleeWeaponLengths[] = {
     0.0f,    // not a melee weapon
@@ -1670,7 +1670,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2633);
 
             if (this->actor.scale.y >= 0.0f) {
-                sMeleeWeaponTipLeftHandLimbModelPos0.x = this->unk_85C * 5000.0f;
+                sMeleeWeaponTipOffsetFromLeftHand0.x = this->unk_85C * 5000.0f;
                 Player_CalcMeleeWeaponTipPositions(this, tipPositions);
                 if (this->meleeWeaponState != 0) {
                     Player_UpdateMeleeWeaponInfo(play, this, tipPositions);
@@ -1691,9 +1691,9 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Vec3f tipPositions[3];
 
             if (Player_HoldsBrokenKnife(this)) {
-                sMeleeWeaponTipLeftHandLimbModelPos0.x = 1500.0f;
+                sMeleeWeaponTipOffsetFromLeftHand0.x = 1500.0f;
             } else {
-                sMeleeWeaponTipLeftHandLimbModelPos0.x = sMeleeWeaponLengths[Player_GetMeleeWeaponHeld(this)];
+                sMeleeWeaponTipOffsetFromLeftHand0.x = sMeleeWeaponLengths[Player_GetMeleeWeaponHeld(this)];
             }
 
             Player_CalcMeleeWeaponTipPositions(this, tipPositions);
@@ -1868,7 +1868,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 Matrix_Get(&this->shieldMf);
             }
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
-            Matrix_MultVec3f(&sPlayerFocusHeadLimbModelPos, &this->actor.focus.pos);
+            Matrix_MultVec3f(&sPlayerFocusOffsetFromHead, &this->actor.focus.pos);
         } else {
             // Position of Link's foot, in the foot limb's own model space.
             static Vec3f sLeftRightFootLimbModelFootPos[] = {
