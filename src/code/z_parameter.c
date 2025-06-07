@@ -2814,6 +2814,9 @@ void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
 void Interface_DrawItemButtons(PlayState* play) {
     static void* cUpLabelTextures[] = LANGUAGE_ARRAY(gNaviCUpJPNTex, gNaviCUpENGTex, gNaviCUpENGTex, gNaviCUpENGTex);
 #if OOT_VERSION >= PAL_1_0
+#if OOT_NTSC
+    UNUSED
+#endif
     static s16 startButtonLeftPos[] = { 132, 130, 130 };
 #endif
     InterfaceContext* interfaceCtx = &play->interfaceCtx;

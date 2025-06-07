@@ -1769,7 +1769,11 @@ void Message_Decode(PlayState* play) {
     s32 charTexIdx = 0;
     s16 i;
 #if !(PLATFORM_GC && OOT_PAL)
+#if OOT_NTSC
     s16 j;
+#else
+    STACK_PAD(s16);
+#endif
 #endif
     s16 decodedBufPos = 0;
     s16 numLines = 0;
@@ -1780,8 +1784,12 @@ void Message_Decode(PlayState* play) {
     u16 value;
     u8 curChar;
 #if !(PLATFORM_GC && OOT_PAL)
+#if OOT_NTSC
     u16 curCharWide;
     u8* fontBuf;
+#else
+    STACK_PADS(s32, 2);
+#endif
 #endif
 
     msgCtx->textDelayTimer = 0;
@@ -4147,9 +4155,9 @@ void Message_Update(PlayState* play) {
         0x0015, 0x0016, 0x0017, 0x0003, 0x0000, 0x270B, 0x00C8, 0x012C, 0x012D, 0xFFDA, 0x0014, 0x0016, 0x0014, 0x0016,
     };
 #if OOT_VERSION < GC_US
-    static s32 sUnknown = 0;
+    UNUSED static s32 sUnknown = 0;
 #elif PLATFORM_IQUE
-    static u16 sUnknown = 0;
+    UNUSED static u16 sUnknown = 0;
 #endif
     static char D_80153D74 = 0;
     MessageContext* msgCtx = &play->msgCtx;

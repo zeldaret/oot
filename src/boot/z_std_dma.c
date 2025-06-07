@@ -380,7 +380,9 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
     u8 found = false;
     DmaEntry* iter;
     UNUSED_NDEBUG const char* filename;
+#if !PLATFORM_GC
     s32 i = 0;
+#endif
 
 #if DEBUG_FEATURES
     // Get the filename (for debugging)

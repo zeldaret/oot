@@ -477,9 +477,9 @@ void AudioSeq_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer) {
  * original name: Nas_ReleaseGroup
  */
 void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
+#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
     s32 finished = 0;
 
-#if !(OOT_VERSION < NTSC_1_1 || !PLATFORM_N64)
     if (seqPlayer->finished == 1) {
         finished = 1;
     }

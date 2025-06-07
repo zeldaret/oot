@@ -292,9 +292,9 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
 
 void func_80A9CB18(EnKz* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
+#if OOT_VERSION < PAL_1_0
     f32 yaw;
 
-#if OOT_VERSION < PAL_1_0
     yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
     yaw -= this->actor.shape.rot.y;
     if (fabsf(yaw) > 1820.0f) {

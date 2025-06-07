@@ -4,6 +4,7 @@
 #include "stddef.h"
 #include "stdint.h"
 #include "ultra64/R4300.h"
+#include "attributes.h"
 
 #ifndef MIN
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -14,7 +15,7 @@
 
 static Acmd* _decodeChunk(Acmd* ptr, ALLoadFilter* f, s32 tsam, s32 nbytes, s16 outp, s16 inp, u32 flags);
 
-Acmd* alAdpcmPull(void* filter, s16* outp, s32 outCount, s32 sampleOffset, Acmd* p) {
+Acmd* alAdpcmPull(void* filter, s16* outp, s32 outCount, UNUSED s32 sampleOffset, Acmd* p) {
     Acmd* ptr = p;
     s16 inp;
     s32 tsam;
@@ -155,7 +156,7 @@ Acmd* alAdpcmPull(void* filter, s16* outp, s32 outCount, s32 sampleOffset, Acmd*
     return ptr;
 }
 
-Acmd* alRaw16Pull(void* filter, s16* outp, s32 outCount, s32 sampleOffset, Acmd* p) {
+Acmd* alRaw16Pull(void* filter, s16* outp, s32 outCount, UNUSED s32 sampleOffset, Acmd* p) {
     Acmd* ptr = p;
     s32 nbytes;
     s32 dramLoc;
@@ -166,7 +167,7 @@ Acmd* alRaw16Pull(void* filter, s16* outp, s32 outCount, s32 sampleOffset, Acmd*
     s32 nSam;
     s32 op;
     ALLoadFilter* f = (ALLoadFilter*)filter;
-    ALFilter* a = (ALFilter*)filter;
+    UNUSED ALFilter* a = (ALFilter*)filter;
 
     if (outCount == 0) {
         return ptr;

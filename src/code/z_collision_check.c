@@ -1902,7 +1902,6 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, UNUSED CollisionCheckContex
                 Vec3f hitPos;
                 Vec3f atPos;
                 Vec3f acPos;
-                f32 acToHit;
 
                 atPos.x = atCyl->dim.pos.x;
                 atPos.y = atCyl->dim.pos.y;

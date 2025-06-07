@@ -402,12 +402,14 @@ void FileSelect_InitModeUpdate(GameState* thisx) {
 #endif
 }
 
-void FileSelect_InitModeDraw(GameState* thisx) {
 #if OOT_PAL_N64
+void FileSelect_InitModeDraw(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
 
     Gfx_SetupDL_39Opa(this->state.gfxCtx);
     FileSelect_DrawInitialLanguageMenu(this);
+#else
+void FileSelect_InitModeDraw(UNUSED GameState* thisx) {
 #endif
 }
 
