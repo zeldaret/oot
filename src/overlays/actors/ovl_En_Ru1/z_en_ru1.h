@@ -27,7 +27,7 @@ typedef struct EnRu1 {
     /* 0x0264 */ s32 action;
     /* 0x0268 */ s32 drawConfig;
     /* 0x026C */ f32 unk_26C;
-    /* 0x0270 */ f32 unk_270;
+    /* 0x0270 */ f32 treadTimer;
     /* 0x0274 */ char unk_274[0x4];
     /* 0x0278 */ DoorWarp1* blueWarp;
     /* 0x027C */ f32 unk_27C;
@@ -55,7 +55,7 @@ typedef struct EnRu1 {
     /* 0x0358 */ f32 bobDepth;
     /* 0x035C */ s16 bobPhase;
     /* 0x0360 */ f32 isSinking;
-    /* 0x0364 */ Vec3f unk_364;
+    /* 0x0364 */ Vec3f treadPos;
     /* 0x0370 */ f32 carryIdleTimer;
     /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
