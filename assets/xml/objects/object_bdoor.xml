@@ -2,21 +2,30 @@
     <ExternalFile OutPath="assets/objects/gameplay_dangeon_keep/"/>
     <File Name="object_bdoor" Segment="6">
         <!-- One of the Boss Door Textures -->
-        <Texture Name="gBossDoorGanonsCastleTex" OutName="boss_door_ganons_castle" Format="rgba16" Width="32" Height="64" Offset="0x0"/>
+        <Texture Name="gBossDoorGanonsCastleTex" Format="rgba16" Width="32" Height="64" Offset="0x0"/>
 
-        <!-- Boss Door, Lock, and Chain DisplayLists -->
+        <!-- Boss Door, Lock, and Chain -->
+        <Array Name="gBossDoorVtx" Count="12" Offset="0x1000">
+            <Vtx/>
+        </Array>
         <DList Name="gBossDoorDL" Offset="0x10C0"/> <!-- Original name is "bossdoor_model" -->
+        <Array Name="gBossDoorLockVtx" Count="40" Offset="0x1180">
+            <Vtx/>
+        </Array>
         <DList Name="gBossDoorLockDL" Offset="0x1400"/> <!-- Original name is "doorkagiboss_model" -->
+        <Array Name="gBossDoorChainVtx" Count="4" Offset="0x14F0">
+            <Vtx/>
+        </Array>
         <DList Name="gBossDoorChainDL" Offset="0x1530"/> <!-- Original name is "doorkusariboss_model" -->
 
         <!-- The rest of the Boss Door Textures -->
-        <Texture Name="gBossDoorSpiritTex" OutName="boss_door_spirit" Format="rgba16" Width="32" Height="64" Offset="0x15C0"/>
-        <Texture Name="gBossDoorForestTex" OutName="boss_door_forest" Format="rgba16" Width="32" Height="64" Offset="0x25C0"/>
-        <Texture Name="gBossDoorFireTex" OutName="boss_door_fire" Format="rgba16" Width="32" Height="64" Offset="0x35C0"/>
-        <Texture Name="gBossDoorShadowTex" OutName="boss_door_shadow" Format="rgba16" Width="32" Height="64" Offset="0x45C0"/>
-        <Texture Name="gBossDoorWaterTex" OutName="boss_door_water" Format="rgba16" Width="32" Height="64" Offset="0x55C0"/>
+        <Texture Name="gBossDoorSpiritTex" Format="rgba16" Width="32" Height="64" Offset="0x15C0"/>
+        <Texture Name="gBossDoorForestTex" Format="rgba16" Width="32" Height="64" Offset="0x25C0"/>
+        <Texture Name="gBossDoorFireTex" Format="rgba16" Width="32" Height="64" Offset="0x35C0"/>
+        <Texture Name="gBossDoorShadowTex" Format="rgba16" Width="32" Height="64" Offset="0x45C0"/>
+        <Texture Name="gBossDoorWaterTex" Format="rgba16" Width="32" Height="64" Offset="0x55C0"/>
 
         <!-- A default texture only used if a Boss Door is present outside of the six adult dungeons, which is never the case in the final game. -->
-        <Texture Name="gBossDoorDefaultTex" OutName="boss_door_unused" Format="rgba16" Width="32" Height="64" Offset="0x65C0"/>
+        <Texture Name="gBossDoorDefaultTex" Format="rgba16" Width="32" Height="64" Offset="0x65C0"/>
     </File>
 </Root>

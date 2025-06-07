@@ -6,7 +6,6 @@
 
 #include "z_elf_msg2.h"
 
-#include "libu64/debug.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -14,7 +13,8 @@
 #include "regs.h"
 #include "sys_matrix.h"
 #include "terminal.h"
-#include "z64play.h"
+#include "translation.h"
+#include "play_state.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -61,14 +61,14 @@ void ElfMsg2_SetupAction(ElfMsg2* this, ElfMsg2ActionFunc actionFunc) {
 s32 ElfMsg2_KillCheck(ElfMsg2* this, PlayState* play) {
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
         Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
-        LOG_STRING("共倒れ", "../z_elf_msg2.c", 171); // "Mutual destruction"
+        LOG_STRING_T("共倒れ", "Mutual destruction", "../z_elf_msg2.c", 171);
         if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
             Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.world.rot.y == -1) && Flags_GetClear(play, this->actor.room)) {
-        LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182); // "Mutual destruction 2"
+        LOG_STRING_T("共倒れ２", "Mutual destruction 2", "../z_elf_msg2.c", 182);
         if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
             Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
@@ -77,7 +77,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, PlayState* play) {
     } else if (PARAMS_GET_U(this->actor.params, 8, 6) == 0x3F) {
         return 0;
     } else if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
-        LOG_STRING("共倒れ", "../z_elf_msg2.c", 192); // "Mutual destruction"
+        LOG_STRING_T("共倒れ", "Mutual destruction", "../z_elf_msg2.c", 192);
         Actor_Kill(&this->actor);
         return 1;
     }

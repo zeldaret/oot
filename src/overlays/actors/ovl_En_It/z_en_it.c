@@ -6,7 +6,7 @@
 
 #include "z_en_it.h"
 
-#include "z64play.h"
+#include "play_state.h"
 
 #define FLAGS 0
 

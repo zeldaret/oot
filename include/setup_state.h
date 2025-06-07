@@ -1,7 +1,7 @@
 #ifndef SETUP_STATE_H
 #define SETUP_STATE_H
 
-#include "z64game.h"
+#include "game.h"
 
 typedef struct SetupState {
     /* 0x00 */ GameState state;

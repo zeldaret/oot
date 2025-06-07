@@ -3,19 +3,34 @@
         <!-- Torch Slug Animation -->
         <Animation Name="gTorchSlugEyestalkWaveAnim" Offset="0x228"/> <!-- Original name is "bw_aruku" ("to walk"). Used for when the Torch Slug moves around. -->
 
-        <!-- Torch Slug Limb DisplayLists -->
+        <!-- Torch Slug Limb Vertices and DisplayLists -->
+        <Array Name="gTorchSlugLeftLowerEyestalkVtx" Count="8" Offset="0x240">
+            <Vtx/>
+        </Array>
         <DList Name="gTorchSlugLeftLowerEyestalkDL" Offset="0x2C0"/>
+        <Array Name="gTorchSlugLeftUpperEyestalkVtx" Count="9" Offset="0x358">
+            <Vtx/>
+        </Array>
         <DList Name="gTorchSlugLeftUpperEyestalkDL" Offset="0x3E8"/>
+        <Array Name="gTorchSlugRightLowerEyestalkVtx" Count="8" Offset="0x4D8">
+            <Vtx/>
+        </Array>
         <DList Name="gTorchSlugRightLowerEyestalkDL" Offset="0x558"/>
+        <Array Name="gTorchSlugRightUpperEyestalkVtx" Count="9" Offset="0x5F0">
+            <Vtx/>
+        </Array>
         <DList Name="gTorchSlugRightUpperEyestalkDL" Offset="0x680"/>
+        <Array Name="gTorchSlugBodyVtx" Count="142" Offset="0x770">
+            <Vtx/>
+        </Array>
         <DList Name="gTorchSlugBodyDL" Offset="0x1050"/>
 
         <!-- Torch Slug Textures -->
-        <Texture Name="gTorchSlugEyestalkTex" OutName="torch_slug_eyestalk" Format="rgba16" Width="16" Height="16" Offset="0x1240"/>
-        <Texture Name="gTorchSlugEyeTex" OutName="torch_slug_eye" Format="rgba16" Width="16" Height="16" Offset="0x1440"/>
-        <Texture Name="gTorchSlugBodyTLUT" OutName="torch_slug_body_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1640"/>
-        <Texture Name="gTorchSlugBody1Tex" OutName="torch_slug_body_1" Format="ci8" Width="32" Height="32" Offset="0x1840" TlutOffset="0x1640"/>
-        <Texture Name="gTorchSlugBody2Tex" OutName="torch_slug_body_2" Format="ci8" Width="32" Height="32" Offset="0x1C40" TlutOffset="0x1640"/>
+        <Texture Name="gTorchSlugEyestalkTex" Format="rgba16" Width="16" Height="16" Offset="0x1240"/>
+        <Texture Name="gTorchSlugEyeTex" Format="rgba16" Width="16" Height="16" Offset="0x1440"/>
+        <Texture Name="gTorchSlugBodyTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1640"/>
+        <Texture Name="gTorchSlugBody1Tex" Format="ci8" Width="32" Height="32" Offset="0x1840" TlutOffset="0x1640"/>
+        <Texture Name="gTorchSlugBody2Tex" Format="ci8" Width="32" Height="32" Offset="0x1C40" TlutOffset="0x1640"/>
 
         <!-- Torch Slug Limbs -->
         <Limb Name="gTorchSlugBodyLimb" LimbType="Standard" Offset="0x2040"/>

@@ -17,12 +17,78 @@
         <Animation Name="gYoungGanondorfLaughLoopAnim" Offset="0x48B0"/> <!-- Original name is "gnd_demo_ukabi_warai_wait" -->
         <Animation Name="gYoungGanondorfWalkAnim" Offset="0x50A8"/> <!-- Original name is "gnd_walk" -->
 
-        <!-- Young Ganondorf Limb DisplayLists -->
+        <!-- Young Ganondorf Limb Vertices and DisplayLists -->
+        <Array Name="gYoungGanondorfChinVtx" Count="43" Offset="0x50C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfJawVtx" Count="30" Offset="0x5370">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfHeadVtx" Count="161" Offset="0x5550">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightUpperLipVtx" Count="19" Offset="0x5F60">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftUpperLipVtx" Count="19" Offset="0x6090">
+            <Vtx/>
+        </Array>
         <DList Name="gYoungGanondorfHeadDL" Offset="0x61C0"/>
         <DList Name="gYoungGanondorfRightUpperLipDL" Offset="0x69F8"/>
         <DList Name="gYoungGanondorfChinDL" Offset="0x6B78"/>
         <DList Name="gYoungGanondorfJawDL" Offset="0x6D90"/>
         <DList Name="gYoungGanondorfLeftUpperLipDL" Offset="0x6FC8"/>
+        <Array Name="gYoungGanondorfPelvisVtx" Count="110" Offset="0x70F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfTorsoVtx" Count="180" Offset="0x77D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfJewelVtx" Count="7" Offset="0x8318">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfKnifeVtx" Count="48" Offset="0x8388">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftUpperArmVtx" Count="42" Offset="0x8688">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightUpperArmVtx" Count="42" Offset="0x8928">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftForearmVtx" Count="44" Offset="0x8BC8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightForearmVtx" Count="44" Offset="0x8E88">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftHandVtx" Count="53" Offset="0x9148">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightHandVtx" Count="53" Offset="0x9498">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftFootVtx" Count="44" Offset="0x97E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightFootVtx" Count="44" Offset="0x9AA8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftThighVtx" Count="27" Offset="0x9D68">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfLeftShinVtx" Count="41" Offset="0x9F18">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightThighVtx" Count="27" Offset="0xA1A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfRightShinVtx" Count="41" Offset="0xA358">
+            <Vtx/>
+        </Array>
+        <Array Name="gYoungGanondorfTeethVtx" Count="12" Offset="0xA5E8">
+            <Vtx/>
+        </Array>
         <DList Name="gYoungGanondorfPelvisDL" Offset="0xA6A8"/>
         <DList Name="gYoungGanondorfTorsoDL" Offset="0xAB10"/>
         <DList Name="gYoungGanondorfJewelDL" Offset="0xB410"/>
@@ -40,40 +106,43 @@
         <DList Name="gYoungGanondorfRightThighDL" Offset="0xD278"/>
         <DList Name="gYoungGanondorfRightShinDL" Offset="0xD470"/>
         <DList Name="gYoungGanondorfTeethDL" Offset="0xD668"/>
+        <Array Name="gYoungGanondorfOpenLeftHandVtx" Count="170" Offset="0xD708">
+            <Vtx/>
+        </Array>
         <DList Name="gYoungGanondorfOpenLeftHandDL" Offset="0xE1A8"/>
 
         <!-- Young Ganondorf Textures -->
-        <Texture Name="gYoungGanondorfEyeTLUT" OutName="young_ganondorf_eye_tlut" Format="rgba16" Width="16" Height="16" Offset="0xECB8"/>
-        <Texture Name="gYoungGanondorfInnerMouthTex" OutName="young_ganondorf_inner_mouth" Format="rgba16" Width="8" Height="8" Offset="0xEEB8"/>
-        <Texture Name="gYoungGanondorfSideburnTex" OutName="young_ganondorf_sideburn" Format="rgba16" Width="16" Height="16" Offset="0xEF38"/>
-        <Texture Name="gYoungGanondorfOuterMouthTex" OutName="young_ganondorf_outer_mouth" Format="rgba16" Width="4" Height="8" Offset="0xF138"/>
-        <Texture Name="gYoungGanondorfEyeOpenTex" OutName="young_ganondorf_eye_open" Format="ci8" Width="32" Height="16" Offset="0xF178" TlutOffset="0xECB8"/>
-        <Texture Name="gYoungGanondorfEyeHalfTex" OutName="young_ganondorf_eye_half" Format="ci8" Width="32" Height="16" Offset="0xF378" TlutOffset="0xECB8"/>
-        <Texture Name="gYoungGanondorfEyeClosedTex" OutName="young_ganondorf_eye_closed" Format="ci8" Width="32" Height="16" Offset="0xF578" TlutOffset="0xECB8"/>
-        <Texture Name="gYoungGanondorfEyeLookingDownTex" OutName="young_ganondorf_eye_looking_down" Format="ci8" Width="32" Height="16" Offset="0xF778" TlutOffset="0xECB8"/>
-        <Texture Name="gYoungGanondorfUpperLipTex" OutName="young_ganondorf_upper_lip" Format="rgba16" Width="16" Height="16" Offset="0xF978"/>
-        <Texture Name="gYoungGanondorfEarTex" OutName="young_ganondorf_ear" Format="rgba16" Width="8" Height="16" Offset="0xFB78"/>
-        <Texture Name="gYoungGanondorfNoseTex" OutName="young_ganondorf_nose" Format="rgba16" Width="8" Height="8" Offset="0xFC78"/>
-        <Texture Name="gYoungGanondorfNoseBridgeTex" OutName="young_ganondorf_nose_bridge" Format="rgba16" Width="4" Height="16" Offset="0xFCF8"/>
-        <Texture Name="gYoungGanondorfEyebrowTex" OutName="young_ganondorf_eyebrow" Format="rgba16" Width="16" Height="8" Offset="0xFD78"/>
-        <Texture Name="gYoungGanondorfJawTex" OutName="young_ganondorf_jaw" Format="rgba16" Width="16" Height="16" Offset="0xFE78"/>
-        <Texture Name="gYoungGanondorfBlackLeatherTex" OutName="young_ganondorf_black_leather" Format="rgba16" Width="16" Height="16" Offset="0x10078"/>
-        <Texture Name="gYoungGanondorfGerudoFabricWithSunTex" OutName="young_ganondorf_gerudo_fabric_with_sun" Format="rgba16" Width="32" Height="16" Offset="0x10278"/>
-        <Texture Name="gYoungGanondorfLeatherTex" OutName="young_ganondorf_leather" Format="rgba16" Width="16" Height="16" Offset="0x10678"/>
-        <Texture Name="gYoungGanondorfBodysuitTex" OutName="young_ganondorf_bodysuit" Format="rgba16" Width="8" Height="8" Offset="0x10878"/>
-        <Texture Name="gYoungGanondorfNeckTex" OutName="young_ganondorf_neck" Format="rgba16" Width="8" Height="8" Offset="0x108F8"/>
-        <Texture Name="gYoungGanondorfChestAndKnifeJewelTex" OutName="young_ganondorf_chest_and_knife_jewel" Format="rgba16" Width="16" Height="16" Offset="0x10978"/>
-        <Texture Name="gYoungGanondorfGerudoFabricTex" OutName="young_ganondorf_gerudo_fabric" Format="rgba16" Width="16" Height="16" Offset="0x10B78"/>
-        <Texture Name="gYoungGanondorfHairFringeTex" OutName="young_ganondorf_hair_fringe" Format="rgba16" Width="16" Height="16" Offset="0x10D78"/>
-        <Texture Name="gYoungGanondorfJewelTex" OutName="young_ganondorf_jewel" Format="rgba16" Width="16" Height="32" Offset="0x10F78"/>
-        <Texture Name="gYoungGanondorfPauldronTex" OutName="young_ganondorf_pauldron" Format="rgba16" Width="16" Height="16" Offset="0x11378"/> <!-- Also used for the sides of his gauntlets and knee guards. -->
-        <Texture Name="gYoungGanondorfThumbTex" OutName="young_ganondorf_thumb" Format="rgba16" Width="8" Height="8" Offset="0x11578"/>
-        <Texture Name="gYoungGanondorfHandSideTex" OutName="young_ganondorf_hand_side" Format="rgba16" Width="8" Height="8" Offset="0x115F8"/>
-        <Texture Name="gYoungGanondorfFingerTex" OutName="young_ganondorf_finger" Format="rgba16" Width="8" Height="8" Offset="0x11678"/>
-        <Texture Name="gYoungGanondorfTeethTex" OutName="young_ganondorf_teeth" Format="rgba16" Width="4" Height="4" Offset="0x116F8"/>
-        <Texture Name="gYoungGanondorfPalmMaskTex" OutName="young_ganondorf_palm_mask" Format="i8" Width="16" Height="16" Offset="0x11718"/>
-        <Texture Name="gYoungGanondorfFingerUndersideTex" OutName="young_ganondorf_finger_underside" Format="rgba16" Width="4" Height="8" Offset="0x11818"/>
-        <Texture Name="gYoungGanondorfFingernailTex" OutName="young_ganondorf_fingernail" Format="rgba16" Width="4" Height="4" Offset="0x11858"/>
+        <Texture Name="gYoungGanondorfEyeTLUT" Format="rgba16" Width="16" Height="16" Offset="0xECB8"/>
+        <Texture Name="gYoungGanondorfInnerMouthTex" Format="rgba16" Width="8" Height="8" Offset="0xEEB8"/>
+        <Texture Name="gYoungGanondorfSideburnTex" Format="rgba16" Width="16" Height="16" Offset="0xEF38"/>
+        <Texture Name="gYoungGanondorfOuterMouthTex" Format="rgba16" Width="4" Height="8" Offset="0xF138"/>
+        <Texture Name="gYoungGanondorfEyeOpenTex" Format="ci8" Width="32" Height="16" Offset="0xF178" TlutOffset="0xECB8"/>
+        <Texture Name="gYoungGanondorfEyeHalfTex" Format="ci8" Width="32" Height="16" Offset="0xF378" TlutOffset="0xECB8"/>
+        <Texture Name="gYoungGanondorfEyeClosedTex" Format="ci8" Width="32" Height="16" Offset="0xF578" TlutOffset="0xECB8"/>
+        <Texture Name="gYoungGanondorfEyeLookingDownTex" Format="ci8" Width="32" Height="16" Offset="0xF778" TlutOffset="0xECB8"/>
+        <Texture Name="gYoungGanondorfUpperLipTex" Format="rgba16" Width="16" Height="16" Offset="0xF978"/>
+        <Texture Name="gYoungGanondorfEarTex" Format="rgba16" Width="8" Height="16" Offset="0xFB78"/>
+        <Texture Name="gYoungGanondorfNoseTex" Format="rgba16" Width="8" Height="8" Offset="0xFC78"/>
+        <Texture Name="gYoungGanondorfNoseBridgeTex" Format="rgba16" Width="4" Height="16" Offset="0xFCF8"/>
+        <Texture Name="gYoungGanondorfEyebrowTex" Format="rgba16" Width="16" Height="8" Offset="0xFD78"/>
+        <Texture Name="gYoungGanondorfJawTex" Format="rgba16" Width="16" Height="16" Offset="0xFE78"/>
+        <Texture Name="gYoungGanondorfBlackLeatherTex" Format="rgba16" Width="16" Height="16" Offset="0x10078"/>
+        <Texture Name="gYoungGanondorfGerudoFabricWithSunTex" Format="rgba16" Width="32" Height="16" Offset="0x10278"/>
+        <Texture Name="gYoungGanondorfLeatherTex" Format="rgba16" Width="16" Height="16" Offset="0x10678"/>
+        <Texture Name="gYoungGanondorfBodysuitTex" Format="rgba16" Width="8" Height="8" Offset="0x10878"/>
+        <Texture Name="gYoungGanondorfNeckTex" Format="rgba16" Width="8" Height="8" Offset="0x108F8"/>
+        <Texture Name="gYoungGanondorfChestAndKnifeJewelTex" Format="rgba16" Width="16" Height="16" Offset="0x10978"/>
+        <Texture Name="gYoungGanondorfGerudoFabricTex" Format="rgba16" Width="16" Height="16" Offset="0x10B78"/>
+        <Texture Name="gYoungGanondorfHairFringeTex" Format="rgba16" Width="16" Height="16" Offset="0x10D78"/>
+        <Texture Name="gYoungGanondorfJewelTex" Format="rgba16" Width="16" Height="32" Offset="0x10F78"/>
+        <Texture Name="gYoungGanondorfPauldronTex" Format="rgba16" Width="16" Height="16" Offset="0x11378"/> <!-- Also used for the sides of his gauntlets and knee guards. -->
+        <Texture Name="gYoungGanondorfThumbTex" Format="rgba16" Width="8" Height="8" Offset="0x11578"/>
+        <Texture Name="gYoungGanondorfHandSideTex" Format="rgba16" Width="8" Height="8" Offset="0x115F8"/>
+        <Texture Name="gYoungGanondorfFingerTex" Format="rgba16" Width="8" Height="8" Offset="0x11678"/>
+        <Texture Name="gYoungGanondorfTeethTex" Format="rgba16" Width="4" Height="4" Offset="0x116F8"/>
+        <Texture Name="gYoungGanondorfPalmMaskTex" Format="i8" Width="16" Height="16" Offset="0x11718"/>
+        <Texture Name="gYoungGanondorfFingerUndersideTex" Format="rgba16" Width="4" Height="8" Offset="0x11818"/>
+        <Texture Name="gYoungGanondorfFingernailTex" Format="rgba16" Width="4" Height="4" Offset="0x11858"/>
 
         <!-- Young Ganondorf Limbs -->
         <Limb Name="gYoungGanondorfRootLimb" LimbType="Standard" Offset="0x11878"/>

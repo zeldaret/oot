@@ -1,9 +1,9 @@
 <Root>
     <File Name="object_bowl" Segment="6">
         <!-- Bombchu Bowling DisplayList Textures -->
-        <Texture Name="gBowlingWoodPanelTex" OutName="bowling_wood_panel" Format="rgba16" Width="64" Height="32" Offset="0x1C70"/>
-        <Texture Name="gBowlingStoneWallTex" OutName="bowling_stone_wall" Format="rgba16" Width="32" Height="32" Offset="0x2C70"/>
-        <Texture Name="gBowlingStripesTex" OutName="bowling_stripes" Format="i4" Width="16" Height="16" Offset="0x3470"/>
+        <Texture Name="gBowlingWoodPanelTex" Format="rgba16" Width="64" Height="32" Offset="0x1C70"/>
+        <Texture Name="gBowlingStoneWallTex" Format="rgba16" Width="32" Height="32" Offset="0x2C70"/>
+        <Texture Name="gBowlingStripesTex" Format="i4" Width="16" Height="16" Offset="0x3470"/>
 
         <!-- Bombchu Bowling DisplayLists -->
         <DList Name="gBowlingRound1WallDL" Offset="0x610"/>
@@ -14,5 +14,16 @@
         <Collision Name="gBowlingFirstAndFinalRoundCol" Offset="0xCB8"/>
         <Collision Name="gBowlingSecondRoundCol" Offset="0x1B00"/>
         <Collision Name="gBowlingDefaultCol" Offset="0x1C40"/>
+
+        <!-- Vertices -->
+        <Array Name="gBowlingRound1WallVtx" Count="97" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBowlingRound2WallVtx" Count="106" Offset="0xCF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_bowl_Vtx_001B30" Count="5" Offset="0x1B30">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

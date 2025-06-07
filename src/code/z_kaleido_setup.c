@@ -5,9 +5,9 @@
 #endif
 #include "printf.h"
 #include "regs.h"
-#include "z64audio.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "play_state.h"
+#include "save.h"
 
 /*
  * The following three arrays are effectively unused.
@@ -79,7 +79,7 @@ void KaleidoSetup_Update(PlayState* play) {
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
             if (DEBUG_FEATURES && BREG(0)) {
-                pauseCtx->debugState = 3;
+                pauseCtx->debugState = PAUSE_DEBUG_STATE_FLAG_SET_OPEN;
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
             // The start button was pressed, pause
@@ -134,7 +134,7 @@ void KaleidoSetup_Init(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
 
     pauseCtx->state = PAUSE_STATE_OFF;
-    pauseCtx->debugState = 0;
+    pauseCtx->debugState = PAUSE_DEBUG_STATE_CLOSED;
 
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
     pauseCtx->eye.z = 64.0f;

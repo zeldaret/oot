@@ -2,13 +2,43 @@
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_st" Segment="6">
         <Animation Name="object_st_Anim_000304" Offset="0x304"/>
-        <Texture Name="object_st_Tex_000320" OutName="tex_00000320" Format="i4" Width="16" Height="8" Offset="0x320"/>
-        <Texture Name="object_st_Tex_000360" OutName="tex_00000360" Format="rgba16" Width="16" Height="8" Offset="0x360"/>
-        <Texture Name="object_st_Tex_000460" OutName="tex_00000460" Format="rgba16" Width="8" Height="8" Offset="0x460"/>
-        <Texture Name="object_st_Tex_0004E0" OutName="tex_000004E0" Format="i4" Width="16" Height="16" Offset="0x4E0"/>
-        <Texture Name="object_st_Tex_000560" OutName="tex_00000560" Format="rgba16" Width="16" Height="16" Offset="0x560"/>
-        <Texture Name="object_st_Tex_000760" OutName="tex_00000760" Format="rgba16" Width="8" Height="8" Offset="0x760"/>
-        <Texture Name="object_st_Tex_0007E0" OutName="tex_000007E0" Format="rgba16" Width="8" Height="8" Offset="0x7E0"/>
+        <Texture Name="object_st_Tex_000320" Format="i4" Width="16" Height="8" Offset="0x320"/>
+        <Texture Name="object_st_Tex_000360" Format="rgba16" Width="16" Height="8" Offset="0x360"/>
+        <Texture Name="object_st_Tex_000460" Format="rgba16" Width="8" Height="8" Offset="0x460"/>
+        <Texture Name="object_st_Tex_0004E0" Format="i4" Width="16" Height="16" Offset="0x4E0"/>
+        <Texture Name="object_st_Tex_000560" Format="rgba16" Width="16" Height="16" Offset="0x560"/>
+        <Texture Name="object_st_Tex_000760" Format="rgba16" Width="8" Height="8" Offset="0x760"/>
+        <Texture Name="object_st_Tex_0007E0" Format="rgba16" Width="8" Height="8" Offset="0x7E0"/>
+        <Array Name="object_st_Vtx_000860" Count="48" Offset="0x860">
+            <Vtx/>
+        </Array>
+        <Array Name="object_st_Vtx_000B60" Count="146" Offset="0xB60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_st_Vtx_001480" Count="12" Offset="0x1480">
+            <Vtx/>
+        </Array>
+        <Array Name="object_st_Vtx_001540" Count="12" Offset="0x1540">
+            <Vtx/>
+        </Array>
+        <Array Name="object_st_Vtx_001600" Count="10" Offset="0x1600">
+            <Vtx/>
+        </Array>
+        <Array Name="object_st_Vtx_0016A0" Count="12" Offset="0x16A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_st_Vtx_001760" Count="12" Offset="0x1760">
+            <Vtx/>
+        </Array>
+        <Array Name="object_st_Vtx_001820" Count="12" Offset="0x1820">
+            <Vtx/>
+        </Array>
+        <Array Name="object_st_Vtx_0018E0" Count="10" Offset="0x18E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_st_Vtx_001980" Count="12" Offset="0x1980">
+            <Vtx/>
+        </Array>
         <DList Name="object_st_DL_001A40" Offset="0x1A40"/>
         <DList Name="object_st_DL_001C30" Offset="0x1C30"/>
         <DList Name="object_st_DL_001FD0" Offset="0x1FD0"/>
@@ -19,10 +49,10 @@
         <DList Name="object_st_DL_0022C8" Offset="0x22C8"/>
         <DList Name="object_st_DL_002360" Offset="0x2360"/>
         <DList Name="object_st_DL_0023F8" Offset="0x23F8"/>
-        <Texture Name="object_st_Tex_002490" OutName="tex_00002490" Format="i8" Width="8" Height="8" Offset="0x2490"/>
-        <Texture Name="object_st_Tex_0024D0" OutName="tex_000024D0" Format="rgba16" Width="16" Height="8" Offset="0x24D0"/>
-        <Texture Name="object_st_Tex_0025D0" OutName="tex_000025D0" Format="i4" Width="16" Height="16" Offset="0x25D0"/>
-        <Texture Name="object_st_Tex_002650" OutName="tex_00002650" Format="rgba16" Width="8" Height="8" Offset="0x2650"/>
+        <Texture Name="object_st_Tex_002490" Format="i8" Width="8" Height="8" Offset="0x2490"/>
+        <Texture Name="object_st_Tex_0024D0" Format="rgba16" Width="16" Height="8" Offset="0x24D0"/>
+        <Texture Name="object_st_Tex_0025D0" Format="i4" Width="16" Height="16" Offset="0x25D0"/>
+        <Texture Name="object_st_Tex_002650" Format="rgba16" Width="8" Height="8" Offset="0x2650"/>
         <Array Name="object_st_Vtx_0026D0" Count="398" Offset="0x26D0">
             <Vtx/>
         </Array>
@@ -36,6 +66,12 @@
         <DList Name="object_st_DL_0048B8" Offset="0x48B8"/>
         <DList Name="object_st_DL_004950" Offset="0x4950"/>
         <DList Name="object_st_DL_0049E8" Offset="0x49E8"/>
+        <Array Name="gSkulltulaTokenVtx" Count="25" Offset="0x4A80">
+            <Vtx/>
+        </Array>
+        <Array Name="gSkulltulaTokenFlameVtx" Count="26" Offset="0x4C10">
+            <Vtx/>
+        </Array>
         <DList Name="gSkulltulaTokenDL" Offset="0x4DB0"/>
         <DList Name="gSkulltulaTokenFlameDL" Offset="0x4EB8"/>
         <Limb Name="object_st_Limb_0050C8" LimbType="Standard" Offset="0x50C8"/>

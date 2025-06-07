@@ -22,6 +22,57 @@
         <Limb Name="gChildZelda1RightHandLimb" LimbType="Standard" Offset="0xF57C"/>
         <Limb Name="gChildZelda1HeadLimb" LimbType="Standard" Offset="0xF588"/>
 
+
+        <!-- Child Zelda 1 Limb Vertices -->
+        <Array Name="gChildZelda1Dress3Vtx" Count="33" Offset="0x23D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1Dress2Vtx" Count="38" Offset="0x25E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1Dress1Vtx" Count="36" Offset="0x2840">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1WaistVtx" Count="85" Offset="0x2A80">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1LeftHandVtx" Count="45" Offset="0x2FD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1LeftForearmVtx" Count="36" Offset="0x32A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1LeftUpperArmVtx" Count="62" Offset="0x34E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1RightHandVtx" Count="45" Offset="0x38C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1RightForearmVtx" Count="36" Offset="0x3B90">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1RightUpperArmVtx" Count="62" Offset="0x3DD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1TorsoVtx" Count="154" Offset="0x41B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1HeadVtx" Count="226" Offset="0xAF48">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1LeftFootVtx" Count="53" Offset="0xC698">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1RightFootVtx" Count="53" Offset="0xC9E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1RightLegVtx" Count="3" Offset="0xCD38">
+            <Vtx/>
+        </Array>
+        <Array Name="gChildZelda1LeftLegVtx" Count="3" Offset="0xCD68">
+            <Vtx/>
+        </Array>
+
         <!-- Child Zelda 1 Limb DisplayLists -->
         <DList Name="gChildZelda1WaistDL" Offset="0x6008"/>
         <DList Name="gChildZelda1LeftLegDL" Offset="0xEE00"/>
@@ -41,61 +92,68 @@
         <DList Name="gChildZelda1HeadDL" Offset="0xCD98"/>
 
         <!-- Textures -->
-        <Texture Name="gChildZelda1DressGradientTex" OutName="dress_gradient" Format="ci8" Width="8" Height="8" Offset="0x0650" TlutOffset="0x0450"/>
-        <Texture Name="gChildZelda1PurpleDressPatternTex" OutName="purple_dress_pattern" Format="ci8" Width="16" Height="16" Offset="0x0690" TlutOffset="0x0450"/>
-        <Texture Name="gChildZelda1TriforceSashTex" OutName="triforce_sash" Format="ci8" Width="32" Height="64" Offset="0x0790" TlutOffset="0x0450"/>
-        <Texture Name="gChildZelda1BeltTex" OutName="belt" Format="ci8" Width="32" Height="8" Offset="0x0F90" TlutOffset="0x0450"/>
-        <Texture Name="gChildZelda1BeltLoopsTex" OutName="belt_loops" Format="ci8" Width="8" Height="8" Offset="0x1090" TlutOffset="0x0450"/>
-        <Texture Name="gChildZelda1DressWrinklesTex" OutName="dress_wrinkles" Format="ci8" Width="32" Height="32" Offset="0x10D0" TlutOffset="0x0450"/>
-        <Texture Name="gChildZelda1BackOfHandTex" OutName="back_of_hand" Format="rgba16" Width="16" Height="16" Offset="0x14D0"/>
-        <Texture Name="gChildZelda1BraceletTex" OutName="bracelet" Format="ci8" Width="16" Height="16" Offset="0x16D0" TlutOffset="0x0450"/>
-        <Texture Name="gChildZelda1BlueUndershirtGradient1Tex" OutName="blue_undershirt_gradient_1" Format="rgba16" Width="8" Height="8" Offset="0x17D0"/>
-        <Texture Name="gChildZelda1BlueUndershirtGradient2Tex" OutName="blue_undershirt_gradient_2" Format="rgba16" Width="16" Height="16" Offset="0x1850"/>
-        <Texture Name="gChildZelda1Tex_1A50" OutName="tex_1A50" Format="ci8" Width="8" Height="8" Offset="0x1A50" TlutOffset="0x0450"/>
-        <Texture Name="gChildZelda1StripedShoulderPatternTex" OutName="striped_shoulder_pattern" Format="ci8" Width="8" Height="8" Offset="0x1A90" TlutOffset="0x0450"/>
-        <Texture Name="gChildZelda1UndershirtWrinklesTex" OutName="undershirt_wrinkles" Format="ci8" Width="16" Height="16" Offset="0x1AD0" TlutOffset="0x0450"/>
-        <Texture Name="gChildZelda1PendantTex" OutName="pendant" Format="rgba16" Width="32" Height="32" Offset="0x1BD0"/>
-        <Texture Name="gChildZelda1HeaddressGradientTex" OutName="headdress_gradient" Format="ci8" Width="8" Height="8" Offset="0x7A08" TlutOffset="0x70C8"/>
-        <Texture Name="gChildZelda1SkinGradientTex" OutName="skin_gradient" Format="rgba16" Width="8" Height="8" Offset="0x7A48"/>
-        <Texture Name="gChildZelda1HeaddressTriforceEmblemTex" OutName="headdress_triforce_emblem" Format="rgba16" Width="16" Height="32" Offset="0x7AC8"/>
-        <Texture Name="gChildZelda1PointedHairOnSideTex" OutName="pointed_hair_on_side" Format="rgba16" Width="16" Height="16" Offset="0x7EC8"/>
-        <Texture Name="gChildZelda1HairTex" OutName="hair" Format="rgba16" Width="16" Height="8" Offset="0x80C8"/>
-        <Texture Name="gChildZelda1Tex_81C8" OutName="tex_81C8" Format="ci8" Width="8" Height="8" Offset="0x81C8" TlutOffset="0x70C8"/>
-        <Texture Name="gChildZelda1EarTex" OutName="ear" Format="rgba16" Width="16" Height="16" Offset="0x8208"/>
-        <Texture Name="gChildZelda1AlternateDressPatternTex" OutName="alternate_dress_pattern" Format="ci8" Width="8" Height="8" Offset="0x8408" TlutOffset="0x70C8"/>
-        <Texture Name="gChildZelda1ALternateDressBeltTex" OutName="alternate_dress_belt" Format="ci8" Width="32" Height="8" Offset="0x8448" TlutOffset="0x70C8"/>
-        <Texture Name="gChildZelda1AlternateDressGradientTex" OutName="alternate_dress_gradient" Format="ci8" Width="16" Height="16" Offset="0x8548" TlutOffset="0x70C8"/>
-        <Texture Name="gChildZelda1AlternateDressLiningTex" OutName="alternate_dress_lining" Format="rgba16" Width="8" Height="16" Offset="0x8648"/>
-        <Texture Name="gChildZelda1BootTex" OutName="boot" Format="rgba16" Width="8" Height="8" Offset="0x8748"/>
-        <Texture Name="gChildZelda1BootShaftTex" OutName="boot_shaft" Format="rgba16" Width="8" Height="8" Offset="0x87C8"/>
-        <Texture Name="gChildZelda1Tex_A848" OutName="tex_A848" Format="rgba16" Width="8" Height="8" Offset="0xA848"/>
-        <Texture Name="gChildZelda1HeaddressTex_A8C8" OutName="headdress_A8C8" Format="ci8" Width="8" Height="16" Offset="0xA8C8" TlutOffset="0x70C8"/>
-        <Texture Name="gChildZelda1HeaddressStripeTex" OutName="headdress_stripe" Format="ci8" Width="16" Height="32" Offset="0xA948" TlutOffset="0x70C8"/>
+        <Texture Name="gChildZelda1DressGradientTex" Format="ci8" Width="8" Height="8" Offset="0x0650" TlutOffset="0x0450"/>
+        <Texture Name="gChildZelda1PurpleDressPatternTex" Format="ci8" Width="16" Height="16" Offset="0x0690" TlutOffset="0x0450"/>
+        <Texture Name="gChildZelda1TriforceSashTex" Format="ci8" Width="32" Height="64" Offset="0x0790" TlutOffset="0x0450"/>
+        <Texture Name="gChildZelda1BeltTex" Format="ci8" Width="32" Height="8" Offset="0x0F90" TlutOffset="0x0450"/>
+        <Texture Name="gChildZelda1BeltLoopsTex" Format="ci8" Width="8" Height="8" Offset="0x1090" TlutOffset="0x0450"/>
+        <Texture Name="gChildZelda1DressWrinklesTex" Format="ci8" Width="32" Height="32" Offset="0x10D0" TlutOffset="0x0450"/>
+        <Texture Name="gChildZelda1BackOfHandTex" Format="rgba16" Width="16" Height="16" Offset="0x14D0"/>
+        <Texture Name="gChildZelda1BraceletTex" Format="ci8" Width="16" Height="16" Offset="0x16D0" TlutOffset="0x0450"/>
+        <Texture Name="gChildZelda1BlueUndershirtGradient1Tex" Format="rgba16" Width="8" Height="8" Offset="0x17D0"/>
+        <Texture Name="gChildZelda1BlueUndershirtGradient2Tex" Format="rgba16" Width="16" Height="16" Offset="0x1850"/>
+        <Texture Name="gChildZelda1Tex_1A50" Format="ci8" Width="8" Height="8" Offset="0x1A50" TlutOffset="0x0450"/>
+        <Texture Name="gChildZelda1StripedShoulderPatternTex" Format="ci8" Width="8" Height="8" Offset="0x1A90" TlutOffset="0x0450"/>
+        <Texture Name="gChildZelda1UndershirtWrinklesTex" Format="ci8" Width="16" Height="16" Offset="0x1AD0" TlutOffset="0x0450"/>
+        <Texture Name="gChildZelda1PendantTex" Format="rgba16" Width="32" Height="32" Offset="0x1BD0"/>
+        <Texture Name="gChildZelda1HeaddressGradientTex" Format="ci8" Width="8" Height="8" Offset="0x7A08" TlutOffset="0x70C8"/>
+        <Texture Name="gChildZelda1SkinGradientTex" Format="rgba16" Width="8" Height="8" Offset="0x7A48"/>
+        <Texture Name="gChildZelda1HeaddressTriforceEmblemTex" Format="rgba16" Width="16" Height="32" Offset="0x7AC8"/>
+        <Texture Name="gChildZelda1PointedHairOnSideTex" Format="rgba16" Width="16" Height="16" Offset="0x7EC8"/>
+        <Texture Name="gChildZelda1HairTex" Format="rgba16" Width="16" Height="8" Offset="0x80C8"/>
+        <Texture Name="gChildZelda1Tex_81C8" Format="ci8" Width="8" Height="8" Offset="0x81C8" TlutOffset="0x70C8"/>
+        <Texture Name="gChildZelda1EarTex" Format="rgba16" Width="16" Height="16" Offset="0x8208"/>
+        <Texture Name="gChildZelda1AlternateDressPatternTex" Format="ci8" Width="8" Height="8" Offset="0x8408" TlutOffset="0x70C8"/>
+        <Texture Name="gChildZelda1ALternateDressBeltTex" Format="ci8" Width="32" Height="8" Offset="0x8448" TlutOffset="0x70C8"/>
+        <Texture Name="gChildZelda1AlternateDressGradientTex" Format="ci8" Width="16" Height="16" Offset="0x8548" TlutOffset="0x70C8"/>
+        <Texture Name="gChildZelda1AlternateDressLiningTex" Format="rgba16" Width="8" Height="16" Offset="0x8648"/>
+        <Texture Name="gChildZelda1BootTex" Format="rgba16" Width="8" Height="8" Offset="0x8748"/>
+        <Texture Name="gChildZelda1BootShaftTex" Format="rgba16" Width="8" Height="8" Offset="0x87C8"/>
+        <Texture Name="gChildZelda1Tex_A848" Format="rgba16" Width="8" Height="8" Offset="0xA848"/>
+        <Texture Name="gChildZelda1HeaddressTex_A8C8" Format="ci8" Width="8" Height="16" Offset="0xA8C8" TlutOffset="0x70C8"/>
+        <Texture Name="gChildZelda1HeaddressStripeTex" Format="ci8" Width="16" Height="32" Offset="0xA948" TlutOffset="0x70C8"/>
+        <Texture Name="object_zl1_00EE58_Tex" Format="rgba16" Width="32" Height="16" Offset="0xEE58"/>
 
-        <!-- Other DisplayLists -->
+        <!-- Other Vertices and DisplayLists -->
+        <Array Name="gChildZelda1AlternateDressVtx" Count="147" Offset="0xBD68">
+            <Vtx/>
+        </Array>
         <DList Name="gChildZelda1AlternateDressDL" Offset="0xDEC8"/>
+        <Array Name="gChildZelda1OcarinaVtx" Count="21" Offset="0xF258">
+            <Vtx/>
+        </Array>
         <DList Name="gChildZelda1OcarinaDL" Offset="0xF3A8"/>
 
         <!-- Palettes -->
-        <Texture Name="gChildZelda1TLUT_0450" OutName="tlut_0450" Format="rgba16" Width="16" Height="16" Offset="0x0450"/>
-        <Texture Name="gChildZelda1TLUT_6CD8" OutName="tlut_6CD8" Format="rgba16" Width="252" Height="1" Offset="0x6CD8"/>
-        <Texture Name="gChildZelda1TLUT_6ED0" OutName="tlut_6ED0" Format="rgba16" Width="252" Height="1" Offset="0x6ED0"/>
-        <Texture Name="gChildZelda1TLUT_70C8" OutName="tlut_70C8" Format="rgba16" Width="160" Height="1" Offset="0x70C8"/>
+        <Texture Name="gChildZelda1TLUT_0450" Format="rgba16" Width="16" Height="16" Offset="0x0450"/>
+        <Texture Name="gChildZelda1TLUT_6CD8" Format="rgba16" Width="252" Height="1" Offset="0x6CD8"/>
+        <Texture Name="gChildZelda1TLUT_6ED0" Format="rgba16" Width="252" Height="1" Offset="0x6ED0"/>
+        <Texture Name="gChildZelda1TLUT_70C8" Format="rgba16" Width="160" Height="1" Offset="0x70C8"/>
 
         <!-- Eye Textures -->
-        <Texture Name="gChildZelda1EyeOpenLookingUpRightTex" OutName="eye_open_looking_up_right" Format="ci8" Width="32" Height="32" Offset="0x7208" TlutOffset="0x6CD8"/>
-        <Texture Name="gChildZelda1EyeOpenLookingLeftTex" OutName="eye_open_looking_left" Format="ci8" Width="32" Height="32" Offset="0x8848" TlutOffset="0x6CD8"/>
-        <Texture Name="gChildZelda1EyeOpenLookingRightTex" OutName="eye_open_looking_right" Format="ci8" Width="32" Height="32" Offset="0x8C48" TlutOffset="0x6CD8"/>
-        <Texture Name="gChildZelda1EyeHalf1Tex" OutName="eye_half_1" Format="ci8" Width="32" Height="32" Offset="0x9448" TlutOffset="0x6CD8"/>
-        <Texture Name="gChildZelda1EyeHalf2Tex" OutName="eye_half_2" Format="ci8" Width="32" Height="32" Offset="0x9848" TlutOffset="0x6CD8"/>
-        <Texture Name="gChildZelda1EyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x9C48" TlutOffset="0x6CD8"/>
-        <Texture Name="gChildZelda1EyeWideTex" OutName="eye_wide" Format="ci8" Width="32" Height="32" Offset="0xA048" TlutOffset="0x6CD8"/>
+        <Texture Name="gChildZelda1EyeOpenLookingUpRightTex" Format="ci8" Width="32" Height="32" Offset="0x7208" TlutOffset="0x6CD8"/>
+        <Texture Name="gChildZelda1EyeOpenLookingLeftTex" Format="ci8" Width="32" Height="32" Offset="0x8848" TlutOffset="0x6CD8"/>
+        <Texture Name="gChildZelda1EyeOpenLookingRightTex" Format="ci8" Width="32" Height="32" Offset="0x8C48" TlutOffset="0x6CD8"/>
+        <Texture Name="gChildZelda1EyeHalf1Tex" Format="ci8" Width="32" Height="32" Offset="0x9448" TlutOffset="0x6CD8"/>
+        <Texture Name="gChildZelda1EyeHalf2Tex" Format="ci8" Width="32" Height="32" Offset="0x9848" TlutOffset="0x6CD8"/>
+        <Texture Name="gChildZelda1EyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x9C48" TlutOffset="0x6CD8"/>
+        <Texture Name="gChildZelda1EyeWideTex" Format="ci8" Width="32" Height="32" Offset="0xA048" TlutOffset="0x6CD8"/>
 
         <!-- Mouth Textures -->
-        <Texture Name="gChildZelda1MouthNeutralTex" OutName="mouth_neutral" Format="ci8" Width="32" Height="32" Offset="0x7608" TlutOffset="0x6ED0"/>
-        <Texture Name="gChildZelda1MouthFrowningTex" OutName="mouth_frowning" Format="ci8" Width="32" Height="32" Offset="0x9048" TlutOffset="0x6ED0"/>
-        <Texture Name="gChildZelda1MouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="32" Offset="0xA448" TlutOffset="0x6ED0"/>
-        <Texture Name="gChildZelda1MouthOpenSmilingTex" OutName="mouth_open_smiling" Format="ci8" Width="32" Height="32" Offset="0xAB48" TlutOffset="0x6ED0"/>
+        <Texture Name="gChildZelda1MouthNeutralTex" Format="ci8" Width="32" Height="32" Offset="0x7608" TlutOffset="0x6ED0"/>
+        <Texture Name="gChildZelda1MouthFrowningTex" Format="ci8" Width="32" Height="32" Offset="0x9048" TlutOffset="0x6ED0"/>
+        <Texture Name="gChildZelda1MouthOpenTex" Format="ci8" Width="32" Height="32" Offset="0xA448" TlutOffset="0x6ED0"/>
+        <Texture Name="gChildZelda1MouthOpenSmilingTex" Format="ci8" Width="32" Height="32" Offset="0xAB48" TlutOffset="0x6ED0"/>
 
         <!-- Animations -->
         <Animation Name="gChildZelda1Anim_00438" Offset="0x00438"/>

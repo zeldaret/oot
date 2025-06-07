@@ -9,10 +9,10 @@
 #include "terminal.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64olib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "olib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 #include "overlays/actors/ovl_En_Sw/z_en_sw.h"
 
 static s16 sDisableAttention = false;

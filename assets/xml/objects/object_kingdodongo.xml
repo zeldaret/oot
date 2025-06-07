@@ -10,45 +10,108 @@
         <Animation Name="object_kingdodongo_Anim_006924" Offset="0x6924"/>
         <Animation Name="object_kingdodongo_Anim_008EEC" Offset="0x8EEC"/>
         <Animation Name="object_kingdodongo_Anim_009D10" Offset="0x9D10"/>
+        <Array Name="object_kingdodongo_009D20_Vtx" Count="3" Offset="0x9D20">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_009D50" Offset="0x9D50"/>
         <DList Name="object_kingdodongo_DL_009DD0" Offset="0x9DD0"/>
-        <Texture Name="object_kingdodongo_Tex_009DE8" OutName="tex_00009DE8" Format="i8" Width="16" Height="16" Offset="0x9DE8"/>
+        <Texture Name="object_kingdodongo_Tex_009DE8" Format="i8" Width="16" Height="16" Offset="0x9DE8"/>
         <Animation Name="object_kingdodongo_Anim_00AA9C" Offset="0xAA9C"/>
         <Animation Name="object_kingdodongo_Anim_00DF38" Offset="0xDF38"/>
         <Animation Name="object_kingdodongo_Anim_00E848" Offset="0xE848"/>
         <Animation Name="object_kingdodongo_Anim_00F0D8" Offset="0xF0D8"/>
+        <Array Name="object_kingdodongo_00F0F0_Vtx" Count="34" Offset="0xF0F0">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_00F310" Offset="0xF310"/>
+        <Array Name="object_kingdodongo_00F470_Vtx" Count="37" Offset="0xF470">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_00F6C0" Offset="0xF6C0"/>
+        <Array Name="object_kingdodongo_00F840_Vtx" Count="40" Offset="0xF840">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_00FAC0" Offset="0xFAC0"/>
+        <Array Name="object_kingdodongo_00FBE8_Vtx" Count="56" Offset="0xFBE8">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_00FF68" Offset="0xFF68"/>
+        <Array Name="object_kingdodongo_010120_Vtx" Count="39" Offset="0x10120">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_010390" Offset="0x10390"/>
+        <Array Name="object_kingdodongo_010508_Vtx" Count="55" Offset="0x10508">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_010878" Offset="0x10878"/>
+        <Array Name="object_kingdodongo_0109C0_Vtx" Count="34" Offset="0x109C0">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_010BE0" Offset="0x10BE0"/>
+        <Array Name="object_kingdodongo_010D40_Vtx" Count="37" Offset="0x10D40">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_010F90" Offset="0x10F90"/>
+        <Array Name="object_kingdodongo_011110_Vtx" Count="40" Offset="0x11110">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_011390" Offset="0x11390"/>
+        <Array Name="object_kingdodongo_0114B8_Vtx" Count="56" Offset="0x114B8">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_011838" Offset="0x11838"/>
+        <Array Name="object_kingdodongo_0119F0_Vtx" Count="39" Offset="0x119F0">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_011C60" Offset="0x11C60"/>
+        <Array Name="object_kingdodongo_011DD8_Vtx" Count="55" Offset="0x11DD8">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_012148" Offset="0x12148"/>
+        <Array Name="object_kingdodongo_012290_Vtx" Count="84" Offset="0x12290">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_0127D0" Offset="0x127D0"/>
+        <Array Name="object_kingdodongo_012A28_Vtx" Count="80" Offset="0x12A28">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_012F28" Offset="0x12F28"/>
+        <Array Name="object_kingdodongo_013160_Vtx" Count="101" Offset="0x13160">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_0137B0" Offset="0x137B0"/>
+        <Array Name="object_kingdodongo_013A10_Vtx" Count="33" Offset="0x13A10">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_013C20" Offset="0x13C20"/>
+        <Array Name="object_kingdodongo_013D78_Vtx" Count="24" Offset="0x13D78">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_013EF8" Offset="0x13EF8"/>
+        <Array Name="object_kingdodongo_014040_Vtx" Count="12" Offset="0x14040">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_014100" Offset="0x14100"/>
+        <Array Name="object_kingdodongo_0141E0_Vtx" Count="133" Offset="0x141E0">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_014A30" Offset="0x14A30"/>
+        <Array Name="object_kingdodongo_014D50_Vtx" Count="142" Offset="0x14D50">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_015630" Offset="0x15630"/>
-        <Texture Name="object_kingdodongo_Tex_015890" OutName="tex_00015890" Format="rgba16" Width="8" Height="16" Offset="0x15890"/>
-        <Texture Name="object_kingdodongo_Tex_015990" OutName="tex_00015990" Format="rgba16" Width="16" Height="32" Offset="0x15990"/>
-        <Texture Name="object_kingdodongo_Tex_015D90" OutName="tex_00015D90" Format="rgba16" Width="16" Height="16" Offset="0x15D90"/>
-        <Texture Name="object_kingdodongo_Tex_015F90" OutName="tex_00015F90" Format="rgba16" Width="16" Height="32" Offset="0x15F90"/>
-        <Texture Name="object_kingdodongo_Tex_016390" OutName="tex_00016390" Format="rgba16" Width="16" Height="16" Offset="0x16390"/>
-        <Texture Name="object_kingdodongo_Tex_016590" OutName="tex_00016590" Format="rgba16" Width="16" Height="16" Offset="0x16590"/>
-        <Texture Name="object_kingdodongo_Tex_016790" OutName="tex_00016790" Format="rgba16" Width="16" Height="16" Offset="0x16790"/>
-        <Texture Name="object_kingdodongo_Tex_016990" OutName="tex_00016990" Format="rgba16" Width="32" Height="16" Offset="0x16990"/>
-        <Texture Name="object_kingdodongo_Tex_016D90" OutName="tex_00016D90" Format="rgba16" Width="8" Height="8" Offset="0x16D90"/>
-        <Texture Name="object_kingdodongo_Tex_016E10" OutName="tex_00016E10" Format="rgba16" Width="32" Height="16" Offset="0x16E10"/>
-        <Texture Name="object_kingdodongo_Tex_017210" OutName="tex_00017210" Format="rgba16" Width="8" Height="32" Offset="0x17210"/>
-        <Texture Name="gKingDodongoTitleCardTex" OutName="king_dodongo_title_card" Format="ia8" Width="128" Height="80" Offset="0x17410"/>
+        <Texture Name="object_kingdodongo_Tex_015890" Format="rgba16" Width="8" Height="16" Offset="0x15890"/>
+        <Texture Name="object_kingdodongo_Tex_015990" Format="rgba16" Width="16" Height="32" Offset="0x15990"/>
+        <Texture Name="object_kingdodongo_Tex_015D90" Format="rgba16" Width="16" Height="16" Offset="0x15D90"/>
+        <Texture Name="object_kingdodongo_Tex_015F90" Format="rgba16" Width="16" Height="32" Offset="0x15F90"/>
+        <Texture Name="object_kingdodongo_Tex_016390" Format="rgba16" Width="16" Height="16" Offset="0x16390"/>
+        <Texture Name="object_kingdodongo_Tex_016590" Format="rgba16" Width="16" Height="16" Offset="0x16590"/>
+        <Texture Name="object_kingdodongo_Tex_016790" Format="rgba16" Width="16" Height="16" Offset="0x16790"/>
+        <Texture Name="object_kingdodongo_Tex_016990" Format="rgba16" Width="32" Height="16" Offset="0x16990"/>
+        <Texture Name="object_kingdodongo_Tex_016D90" Format="rgba16" Width="8" Height="8" Offset="0x16D90"/>
+        <Texture Name="object_kingdodongo_Tex_016E10" Format="rgba16" Width="32" Height="16" Offset="0x16E10"/>
+        <Texture Name="object_kingdodongo_Tex_017210" Format="rgba16" Width="8" Height="32" Offset="0x17210"/>
+        <Texture Name="gKingDodongoTitleCardTex" Format="ia8" Width="128" Height="80" Offset="0x17410"/>
         <Limb Name="object_kingdodongo_Limb_01B010" LimbType="Standard" Offset="0x19C10"/>
         <Limb Name="object_kingdodongo_Limb_01B01C" LimbType="Standard" Offset="0x19C1C"/>
         <Limb Name="object_kingdodongo_Limb_01B028" LimbType="Standard" Offset="0x19C28"/>
@@ -102,37 +165,49 @@
         <Animation Name="object_kingdodongo_Anim_01D218" Offset="0x1BE18"/>
         <Animation Name="object_kingdodongo_Anim_01D934" Offset="0x1C534"/>
         <DList Name="object_kingdodongo_DL_01D950" Offset="0x1C550"/>
-        <Texture Name="object_kingdodongo_Tex_01D9F0" OutName="tex_0001D9F0" Format="ia8" Width="64" Height="64" Offset="0x1C5F0"/>
-        <Texture Name="object_kingdodongo_Tex_01E9F0" OutName="tex_0001E9F0" Format="ia8" Width="64" Height="64" Offset="0x1D5F0"/>
-        <Texture Name="object_kingdodongo_Tex_01F9F0" OutName="tex_0001F9F0" Format="ia8" Width="64" Height="64" Offset="0x1E5F0"/>
-        <Texture Name="object_kingdodongo_Tex_0209F0" OutName="tex_000209F0" Format="ia8" Width="64" Height="64" Offset="0x1F5F0"/>
-        <Texture Name="object_kingdodongo_Tex_0219F0" OutName="tex_000219F0" Format="ia8" Width="64" Height="64" Offset="0x205F0"/>
-        <Texture Name="object_kingdodongo_Tex_0229F0" OutName="tex_000229F0" Format="ia8" Width="64" Height="64" Offset="0x215F0"/>
-        <Texture Name="object_kingdodongo_Tex_0239F0" OutName="tex_000239F0" Format="ia8" Width="64" Height="64" Offset="0x225F0"/>
-        <Texture Name="object_kingdodongo_Tex_0249F0" OutName="tex_000249F0" Format="ia8" Width="64" Height="64" Offset="0x235F0"/>
+        <Array Name="object_kingdodongo_01C5B0_Vtx" Count="4" Offset="0x1C5B0">
+            <Vtx/>
+        </Array>
+        <Texture Name="object_kingdodongo_Tex_01D9F0" Format="ia8" Width="64" Height="64" Offset="0x1C5F0"/>
+        <Texture Name="object_kingdodongo_Tex_01E9F0" Format="ia8" Width="64" Height="64" Offset="0x1D5F0"/>
+        <Texture Name="object_kingdodongo_Tex_01F9F0" Format="ia8" Width="64" Height="64" Offset="0x1E5F0"/>
+        <Texture Name="object_kingdodongo_Tex_0209F0" Format="ia8" Width="64" Height="64" Offset="0x1F5F0"/>
+        <Texture Name="object_kingdodongo_Tex_0219F0" Format="ia8" Width="64" Height="64" Offset="0x205F0"/>
+        <Texture Name="object_kingdodongo_Tex_0229F0" Format="ia8" Width="64" Height="64" Offset="0x215F0"/>
+        <Texture Name="object_kingdodongo_Tex_0239F0" Format="ia8" Width="64" Height="64" Offset="0x225F0"/>
+        <Texture Name="object_kingdodongo_Tex_0249F0" Format="ia8" Width="64" Height="64" Offset="0x235F0"/>
         <DList Name="object_kingdodongo_DL_0259F0" Offset="0x245F0"/>
+        <Array Name="object_kingdodongo_024650_Vtx" Count="4" Offset="0x24650">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_025A90" Offset="0x24690"/>
+        <Array Name="object_kingdodongo_0246F0_Vtx" Count="4" Offset="0x246F0">
+            <Vtx/>
+        </Array>
         <Collision Name="object_kingdodongo_Col_025B64" Offset="0x24764"/>
+        <Array Name="object_kingdodongo_024790_Vtx" Count="4" Offset="0x24790">
+            <Vtx/>
+        </Array>
         <DList Name="object_kingdodongo_DL_025BD0" Offset="0x247D0"/>
-        <Texture Name="object_kingdodongo_Tex_025C58" OutName="tex_00025C58" Format="rgba16" Width="32" Height="32" Offset="0x24858"/>
+        <Texture Name="object_kingdodongo_Tex_025C58" Format="rgba16" Width="32" Height="32" Offset="0x24858"/>
         <Collision Name="object_kingdodongo_Col_0264A8" Offset="0x250A8"/>
-        <Texture Name="object_kingdodongo_Tex_0264E0" OutName="tex_000264E0" Format="ia8" Width="64" Height="64" Offset="0x250E0"/>
-        <Texture Name="object_kingdodongo_Tex_0274E0" OutName="tex_000274E0" Format="ia8" Width="64" Height="64" Offset="0x260E0"/>
-        <Texture Name="object_kingdodongo_Tex_0284E0" OutName="tex_000284E0" Format="ia8" Width="64" Height="64" Offset="0x270E0"/>
-        <Texture Name="object_kingdodongo_Tex_0294E0" OutName="tex_000294E0" Format="ia8" Width="64" Height="64" Offset="0x280E0"/>
-        <Texture Name="object_kingdodongo_Tex_02A4E0" OutName="tex_0002A4E0" Format="ia8" Width="64" Height="64" Offset="0x290E0"/>
-        <Texture Name="object_kingdodongo_Tex_02B4E0" OutName="tex_0002B4E0" Format="ia8" Width="64" Height="64" Offset="0x2A0E0"/>
-        <Texture Name="object_kingdodongo_Tex_02C4E0" OutName="tex_0002C4E0" Format="ia8" Width="64" Height="64" Offset="0x2B0E0"/>
-        <Texture Name="object_kingdodongo_Tex_02D4E0" OutName="tex_0002D4E0" Format="ia8" Width="64" Height="64" Offset="0x2C0E0"/>
-        <Texture Name="object_kingdodongo_Tex_02E4E0" OutName="tex_0002E4E0" Format="i4" Width="32" Height="64" Offset="0x2D0E0"/>
-        <Texture Name="object_kingdodongo_Tex_02E8E0" OutName="tex_0002E8E0" Format="i4" Width="32" Height="64" Offset="0x2D4E0"/>
-        <Texture Name="object_kingdodongo_Tex_02ECE0" OutName="tex_0002ECE0" Format="i4" Width="32" Height="64" Offset="0x2D8E0"/>
-        <Texture Name="object_kingdodongo_Tex_02F0E0" OutName="tex_0002F0E0" Format="i4" Width="32" Height="64" Offset="0x2DCE0"/>
-        <Texture Name="object_kingdodongo_Tex_02F4E0" OutName="tex_0002F4E0" Format="i4" Width="32" Height="64" Offset="0x2E0E0"/>
-        <Texture Name="object_kingdodongo_Tex_02F8E0" OutName="tex_0002F8E0" Format="i4" Width="32" Height="64" Offset="0x2E4E0"/>
-        <Texture Name="object_kingdodongo_Tex_02FCE0" OutName="tex_0002FCE0" Format="i4" Width="32" Height="64" Offset="0x2E8E0"/>
-        <Texture Name="object_kingdodongo_Tex_0300E0" OutName="tex_000300E0" Format="i4" Width="32" Height="64" Offset="0x2ECE0"/>
-        <Texture Name="object_kingdodongo_Tex_0304E0" OutName="tex_000304E0" Format="i4" Width="32" Height="64" Offset="0x2F0E0"/>
-        <Texture Name="object_kingdodongo_Tex_0308E0" OutName="tex_000308E0" Format="i4" Width="32" Height="64" Offset="0x2F4E0"/>
+        <Texture Name="object_kingdodongo_Tex_0264E0" Format="ia8" Width="64" Height="64" Offset="0x250E0"/>
+        <Texture Name="object_kingdodongo_Tex_0274E0" Format="ia8" Width="64" Height="64" Offset="0x260E0"/>
+        <Texture Name="object_kingdodongo_Tex_0284E0" Format="ia8" Width="64" Height="64" Offset="0x270E0"/>
+        <Texture Name="object_kingdodongo_Tex_0294E0" Format="ia8" Width="64" Height="64" Offset="0x280E0"/>
+        <Texture Name="object_kingdodongo_Tex_02A4E0" Format="ia8" Width="64" Height="64" Offset="0x290E0"/>
+        <Texture Name="object_kingdodongo_Tex_02B4E0" Format="ia8" Width="64" Height="64" Offset="0x2A0E0"/>
+        <Texture Name="object_kingdodongo_Tex_02C4E0" Format="ia8" Width="64" Height="64" Offset="0x2B0E0"/>
+        <Texture Name="object_kingdodongo_Tex_02D4E0" Format="ia8" Width="64" Height="64" Offset="0x2C0E0"/>
+        <Texture Name="object_kingdodongo_Tex_02E4E0" Format="i4" Width="32" Height="64" Offset="0x2D0E0"/>
+        <Texture Name="object_kingdodongo_Tex_02E8E0" Format="i4" Width="32" Height="64" Offset="0x2D4E0"/>
+        <Texture Name="object_kingdodongo_Tex_02ECE0" Format="i4" Width="32" Height="64" Offset="0x2D8E0"/>
+        <Texture Name="object_kingdodongo_Tex_02F0E0" Format="i4" Width="32" Height="64" Offset="0x2DCE0"/>
+        <Texture Name="object_kingdodongo_Tex_02F4E0" Format="i4" Width="32" Height="64" Offset="0x2E0E0"/>
+        <Texture Name="object_kingdodongo_Tex_02F8E0" Format="i4" Width="32" Height="64" Offset="0x2E4E0"/>
+        <Texture Name="object_kingdodongo_Tex_02FCE0" Format="i4" Width="32" Height="64" Offset="0x2E8E0"/>
+        <Texture Name="object_kingdodongo_Tex_0300E0" Format="i4" Width="32" Height="64" Offset="0x2ECE0"/>
+        <Texture Name="object_kingdodongo_Tex_0304E0" Format="i4" Width="32" Height="64" Offset="0x2F0E0"/>
+        <Texture Name="object_kingdodongo_Tex_0308E0" Format="i4" Width="32" Height="64" Offset="0x2F4E0"/>
     </File>
 </Root>

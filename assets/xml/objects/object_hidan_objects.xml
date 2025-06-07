@@ -1,89 +1,199 @@
 <Root>
     <File Name="object_hidan_objects" Segment="6">
+        <Array Name="gFireTempleHammerableTotemBodyVtx" Count="36" Offset="0x92C0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleHammerableTotemBodyDL" Offset="0xBBF0"/>
+        <Array Name="gFireTempleHammerableTotemHeadVtx" Count="36" Offset="0x9500">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleHammerableTotemHeadDL" Offset="0xBDF0"/>
         <Collision Name="gFireTempleHammerableTotemCol" Offset="0xDA10"/>
 
+        <Array Name="gFireTempleHookshotElevatorVtx" Count="50" Offset="0x8D50">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleHookshotElevatorDL" Offset="0xB630"/>
         <Collision Name="gFireTempleHookshotElevatorCol" Offset="0xE1E8"/>
 
+        <Array Name="gFireTempleBigFireWallVtx" Count="4" Offset="0xDAE0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleBigFireWallDL" Offset="0xDB20"/>
 
+        <Array Name="gFireTempleStoneStep1Vtx" Count="21" Offset="0x7C20">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleStoneStep1DL" Offset="0xA668"/>
         <Collision Name="gFireTempleStoneStep1Col" Offset="0xDE44"/>
+        <Array Name="gFireTempleStoneStep2Vtx" Count="10" Offset="0x7B80">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleStoneStep2DL" Offset="0xA548"/>
         <Collision Name="gFireTempleStoneStep2Col" Offset="0xDD1C"/>
 
+        <Array Name="gFireTempleMetalFenceWithSlantVtx" Count="9" Offset="0x9E90">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleMetalFenceWithSlantDL" Offset="0xC798"/>
         <Collision Name="gFireTempleMetalFenceWithSlantCol" Offset="0xE2CC"/>
+        <Array Name="gFireTempleMetalFenceVtx" Count="4" Offset="0x9740">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleMetalFenceDL" Offset="0xBFA8"/>
         <Collision Name="gFireTempleMetalFenceCol" Offset="0xE380"/>
+        <Array Name="gFireTempleMetalFence2Vtx" Count="5" Offset="0x9270">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleMetalFence2DL" Offset="0xBB58"/>
         <Collision Name="gFireTempleMetalFence2Col" Offset="0xE430"/>
 
+        <Array Name="gFireTempleCrackedStoneFloorVtx" Count="28" Offset="0x90B0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleCrackedStoneFloorDL" Offset="0xB9C0"/>
         <Collision Name="gFireTempleCrackedStoneFloorCol" Offset="0xD800"/>
+        <Array Name="gFireTempleBombableWallVtx" Count="6" Offset="0x9780">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleBombableWallDL" Offset="0xC038"/>
         <Collision Name="gFireTempleBombableWallCol" Offset="0xD878"/>
+        <Array Name="gFireTempleLargeBombableWallVtx" Count="4" Offset="0x9070">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleLargeBombableWallDL" Offset="0xB900"/>
         <Collision Name="gFireTempleLargeBombableWallCol" Offset="0xD8F8"/>
 
+        <Array Name="gFireTempleStoneBlock1Vtx" Count="21" Offset="0x97E0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleStoneBlock1DL" Offset="0xC100"/>
         <Collision Name="gFireTempleStoneBlock1Col" Offset="0xCB80"/>
+        <Array Name="gFireTempleStoneBlock2Vtx" Count="26" Offset="0x9930">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleStoneBlock2DL" Offset="0xC1F0"/>
         <Collision Name="gFireTempleStoneBlock2Col" Offset="0xDF78"/>
 
+        <Array Name="gFireTempleBigVerticalFlameVtx" Count="4" Offset="0xC9D0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleBigVerticalFlameDL" Offset="0xCA10"/>
 
-        <Texture Name="gFireTempleBigVerticalFlame0Tex" OutName="big_vertical_flame_0" Format="ia8" Width="8" Height="240" Offset="0x12120"/>
-        <Texture Name="gFireTempleBigVerticalFlame1Tex" OutName="big_vertical_flame_1" Format="ia8" Width="8" Height="240" Offset="0x128A0"/>
-        <Texture Name="gFireTempleBigVerticalFlame2Tex" OutName="big_vertical_flame_2" Format="ia8" Width="8" Height="240" Offset="0x13020"/>
-        <Texture Name="gFireTempleBigVerticalFlame3Tex" OutName="big_vertical_flame_3" Format="ia8" Width="8" Height="240" Offset="0x137A0"/>
-        <Texture Name="gFireTempleBigVerticalFlame4Tex" OutName="big_vertical_flame_4" Format="ia8" Width="8" Height="240" Offset="0x13F20"/>
-        <Texture Name="gFireTempleBigVerticalFlame5Tex" OutName="big_vertical_flame_5" Format="ia8" Width="8" Height="240" Offset="0x146A0"/>
-        <Texture Name="gFireTempleBigVerticalFlame6Tex" OutName="big_vertical_flame_6" Format="ia8" Width="8" Height="240" Offset="0x14E20"/>
-        <Texture Name="gFireTempleBigVerticalFlame7Tex" OutName="big_vertical_flame_7" Format="ia8" Width="8" Height="240" Offset="0x155A0"/>
+        <Texture Name="gFireTempleBigVerticalFlame0Tex" Format="ia8" Width="8" Height="240" Offset="0x12120"/>
+        <Texture Name="gFireTempleBigVerticalFlame1Tex" Format="ia8" Width="8" Height="240" Offset="0x128A0"/>
+        <Texture Name="gFireTempleBigVerticalFlame2Tex" Format="ia8" Width="8" Height="240" Offset="0x13020"/>
+        <Texture Name="gFireTempleBigVerticalFlame3Tex" Format="ia8" Width="8" Height="240" Offset="0x137A0"/>
+        <Texture Name="gFireTempleBigVerticalFlame4Tex" Format="ia8" Width="8" Height="240" Offset="0x13F20"/>
+        <Texture Name="gFireTempleBigVerticalFlame5Tex" Format="ia8" Width="8" Height="240" Offset="0x146A0"/>
+        <Texture Name="gFireTempleBigVerticalFlame6Tex" Format="ia8" Width="8" Height="240" Offset="0x14E20"/>
+        <Texture Name="gFireTempleBigVerticalFlame7Tex" Format="ia8" Width="8" Height="240" Offset="0x155A0"/>
 
+        <Array Name="gFireTempleFireballVtx" Count="4" Offset="0xDBF0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleFireballDL" Offset="0xDC30"/>
+        <Array Name="gFireTempleFireballUpperHalfVtx" Count="4" Offset="0xDA40">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleFireballUpperHalfDL" Offset="0xDA80"/>
 
-        <Texture Name="gFireTempleFireball0Tex" OutName="fireball_0" Format="ia8" Width="32" Height="32" Offset="0x15D20"/>
-        <Texture Name="gFireTempleFireball1Tex" OutName="fireball_1" Format="ia8" Width="32" Height="32" Offset="0x16120"/>
-        <Texture Name="gFireTempleFireball2Tex" OutName="fireball_2" Format="ia8" Width="32" Height="32" Offset="0x16520"/>
-        <Texture Name="gFireTempleFireball3Tex" OutName="fireball_3" Format="ia8" Width="32" Height="32" Offset="0x16920"/>
-        <Texture Name="gFireTempleFireball4Tex" OutName="fireball_4" Format="ia8" Width="32" Height="32" Offset="0x16D20"/>
-        <Texture Name="gFireTempleFireball5Tex" OutName="fireball_5" Format="ia8" Width="32" Height="32" Offset="0x17120"/>
-        <Texture Name="gFireTempleFireball6Tex" OutName="fireball_6" Format="ia8" Width="32" Height="32" Offset="0x17520"/>
-        <Texture Name="gFireTempleFireball7Tex" OutName="fireball_7" Format="ia8" Width="32" Height="32" Offset="0x17920"/>
+        <Texture Name="gFireTempleFireball0Tex" Format="ia8" Width="32" Height="32" Offset="0x15D20"/>
+        <Texture Name="gFireTempleFireball1Tex" Format="ia8" Width="32" Height="32" Offset="0x16120"/>
+        <Texture Name="gFireTempleFireball2Tex" Format="ia8" Width="32" Height="32" Offset="0x16520"/>
+        <Texture Name="gFireTempleFireball3Tex" Format="ia8" Width="32" Height="32" Offset="0x16920"/>
+        <Texture Name="gFireTempleFireball4Tex" Format="ia8" Width="32" Height="32" Offset="0x16D20"/>
+        <Texture Name="gFireTempleFireball5Tex" Format="ia8" Width="32" Height="32" Offset="0x17120"/>
+        <Texture Name="gFireTempleFireball6Tex" Format="ia8" Width="32" Height="32" Offset="0x17520"/>
+        <Texture Name="gFireTempleFireball7Tex" Format="ia8" Width="32" Height="32" Offset="0x17920"/>
 
+        <Array Name="gFireTempleSpinningFlamethrowerVtx" Count="93" Offset="0x82B0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleSpinningFlamethrowerDL" Offset="0xAD00"/>
         <Collision Name="gFireTempleSpinningFlamethrowerCol" Offset="0xD5C0"/>
 
+        <Array Name="gFireTempleStationaryFlamethrowerShortVtx" Count="77" Offset="0x8880">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleStationaryFlamethrowerShortDL" Offset="0xB0F8"/>
         <Collision Name="gFireTempleStationaryFlamethrowerShortCol" Offset="0xCC90"/>
 
+        <Array Name="gFireTempleStationaryFlamethrowerTallVtx" Count="34" Offset="0x8090">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleStationaryFlamethrowerTallDL" Offset="0xABC8"/>
         <Collision Name="gFireTempleStationaryFlamethrowerTallCol" Offset="0xCDA0"/>
 
+        <Array Name="gFireTempleStonePlatform1Vtx" Count="21" Offset="0x9AD0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleStonePlatform1DL" Offset="0xC338"/>
         <Collision Name="gFireTempleStonePlatform1Col" Offset="0x120E8"/>
+        <Array Name="gFireTempleStonePlatform2Vtx" Count="39" Offset="0x9C20">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleStonePlatform2DL" Offset="0xC470"/>
         <Collision Name="gFireTempleStonePlatform2Col" Offset="0xFAE8"/>
 
+        <Array Name="gFireTempleFlareDancerPlatformVtx" Count="50" Offset="0x7D70">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleFlareDancerPlatformDL" Offset="0xA7E0"/>
         <Collision Name="gFireTempleFlareDancerPlatformCol" Offset="0xE568"/>
 
+        <Array Name="gFireTempleTallestPillarAboveRoomBeforeBossVtx" Count="84" Offset="0x7640">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleTallestPillarAboveRoomBeforeBossDL" Offset="0xA240"/>
         <Collision Name="gFireTempleTallestPillarAboveRoomBeforeBossCol" Offset="0xD054"/>
+        <Array Name="gFireTemplePillarInsertedInGroundVtx" Count="50" Offset="0x9F20">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTemplePillarInsertedInGroundDL" Offset="0xC838"/>
         <Collision Name="gFireTemplePillarInsertedInGroundCol" Offset="0xD188"/>
 
+        <Array Name="gFireTempleBombableDoorFrameVtx" Count="15" Offset="0xF7A0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleBombableDoorFrameDL" Offset="0xF890"/>
+        <Array Name="gFireTempleDoorWithHandleRightVtx" Count="16" Offset="0xF5A0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleDoorWithHandleRightDL" Offset="0xF938"/>
+        <Array Name="gFireTempleDoorWithHandleLeftVtx" Count="16" Offset="0xF6A0">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleDoorWithHandleLeftDL" Offset="0xF998"/>
+        <Array Name="gFireTempleDoorFrontVtx" Count="25" Offset="0x10B20">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleDoorFrontDL" Offset="0x10CB0"/>
+        <Array Name="gFireTempleDoorBackVtx" Count="25" Offset="0x11D90">
+            <Vtx/>
+        </Array>
         <DList Name="gFireTempleDoorBackDL" Offset="0x11F20"/>
 
-        <Texture Name="gFireTempleDoorKillerTex" OutName="fire_temple_door_killer" Format="rgba16" Width="32" Height="64" Offset="0xE5A0"/>
+        <Texture Name="gFireTempleDoorKillerTex" Format="rgba16" Width="32" Height="64" Offset="0xE5A0"/>
+        <Texture Name="object_hidan_objects_000000_TLUT" Format="rgba16" Width="16" Height="1" Offset="0x0"/>
+        <Texture Name="object_hidan_objects_000020_TLUT" Format="rgba16" Width="16" Height="1" Offset="0x20"/>
+        <Texture Name="object_hidan_objects_000040_Tex" Format="ci4" Width="32" Height="32" Offset="0x40" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_000240_Tex" Format="rgba16" Width="32" Height="32" Offset="0x240"/>
+        <Texture Name="object_hidan_objects_000A40_Tex" Format="rgba16" Width="32" Height="64" Offset="0xA40"/>
+        <Texture Name="object_hidan_objects_001A40_Tex" Format="rgba16" Width="32" Height="64" Offset="0x1A40"/>
+        <Texture Name="object_hidan_objects_002A40_Tex" Format="rgba16" Width="32" Height="64" Offset="0x2A40"/>
+        <Texture Name="object_hidan_objects_003A40_Tex" Format="rgba16" Width="32" Height="32" Offset="0x3A40"/>
+        <Texture Name="object_hidan_objects_004240_Tex" Format="rgba16" Width="16" Height="64" Offset="0x4240"/>
+        <Texture Name="object_hidan_objects_004A40_Tex" Format="rgba16" Width="32" Height="32" Offset="0x4A40"/>
+        <Texture Name="object_hidan_objects_005240_Tex" Format="ci4" Width="32" Height="64" Offset="0x5240" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_005640_Tex" Format="ci4" Width="32" Height="64" Offset="0x5640" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_005A40_Tex" Format="ci4" Width="64" Height="32" Offset="0x5A40" TlutOffset="0x20"/>
+        <Texture Name="object_hidan_objects_005E40_Tex" Format="rgba16" Width="32" Height="32" Offset="0x5E40"/>
+        <Texture Name="object_hidan_objects_006640_Tex" Format="ci4" Width="32" Height="64" Offset="0x6640" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_006A40_Tex" Format="ci4" Width="32" Height="32" Offset="0x6A40" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_006C40_Tex" Format="ci4" Width="32" Height="32" Offset="0x6C40" TlutOffset="0x0"/>
+        <Texture Name="object_hidan_objects_006E40_Tex" Format="rgba16" Width="32" Height="32" Offset="0x6E40"/>
+        <Texture Name="object_hidan_objects_00FB20_Tex" Format="rgba16" Width="32" Height="64" Offset="0xFB20"/>
+        <Texture Name="object_hidan_objects_010D90_Tex" Format="rgba16" Width="32" Height="64" Offset="0x10D90"/>
     </File>
 </Root>

@@ -42,14 +42,14 @@
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
-#include "z64audio.h"
-#include "z64debug.h"
-#include "z64effect.h"
-#include "z64lifemeter.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "audio.h"
+#include "debug.h"
+#include "effect.h"
+#include "lifemeter.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_link_child/object_link_child.h"
@@ -10777,7 +10777,8 @@ void Player_Init(Actor* thisx, PlayState* play2) {
                 ((play->sceneId != SCENE_BOMBCHU_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25))
 #endif
             ) {
-                TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, this->giObjectSegment, 160, 120, 144, 24, 20);
+                TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, this->giObjectSegment, 160, 120,
+                                        PLACE_NAME_TEX_WIDTH, PLACE_NAME_TEX_HEIGHT, 20);
             }
         }
 

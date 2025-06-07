@@ -2,7 +2,7 @@
 #define Z_EN_M_FIRE1_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnMFire1;
 

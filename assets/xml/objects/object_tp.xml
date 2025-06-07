@@ -1,17 +1,26 @@
 <Root>
     <File Name="object_tp" Segment="6">
 
-        <!-- Tailpasaran displaylists -->
+        <!-- Tailpasaran vertices and displaylists -->
         <DList Name="gTailpasaranTailSegmentDL" Offset="0x0000"/>
+        <Array Name="gTailpasaranTailSegmentVtx" Count="4" Offset="0x70">
+            <Vtx/>
+        </Array>
+        <Array Name="gTailpasaranHeadClawVtx" Count="70" Offset="0xB0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTailpasaranHeadMouthpartsVtx" Count="24" Offset="0x510">
+            <Vtx/>
+        </Array>
         <DList Name="gTailpasaranHeadClawDL" Offset="0x0690"/>
         <DList Name="gTailpasaranHeadMouthpartsDL" Offset="0x0840"/>
         <DList Name="gTailpasaranHeadDL" Offset="0x08D0"/>
 
         <!-- Tailpasaran textures -->
-        <Texture Name="gTailpasaranHeadRearTex" OutName="tailpasaran_head_rear" Format="rgba16" Width="8" Height="16" Offset="0x08E8"/>
-        <Texture Name="gTailpasaranHeadClawBaseTex" OutName="tailpasaran_head_claw_base" Format="rgba16" Width="8" Height="8" Offset="0x09E8"/>
-        <Texture Name="gTailpasaranHeadClawTex" OutName="tailpasaran_head_claw" Format="rgba16" Width="16" Height="16" Offset="0x0A68"/>
-        <Texture Name="gTailpasaranTailSegmentTex" OutName="tailpasaran_tail_segment" Format="ia8" Width="64" Height="64" Offset="0x0C68"/>
-        <Texture Name="gTailpasaranHeadMouthpartsTex" OutName="tailpasaran_head_mouthparts" Format="rgba16" Width="8" Height="8" Offset="0x1C68"/>
+        <Texture Name="gTailpasaranHeadRearTex" Format="rgba16" Width="8" Height="16" Offset="0x08E8"/>
+        <Texture Name="gTailpasaranHeadClawBaseTex" Format="rgba16" Width="8" Height="8" Offset="0x09E8"/>
+        <Texture Name="gTailpasaranHeadClawTex" Format="rgba16" Width="16" Height="16" Offset="0x0A68"/>
+        <Texture Name="gTailpasaranTailSegmentTex" Format="ia8" Width="64" Height="64" Offset="0x0C68"/>
+        <Texture Name="gTailpasaranHeadMouthpartsTex" Format="rgba16" Width="8" Height="8" Offset="0x1C68"/>
     </File>
 </Root>

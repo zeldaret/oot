@@ -2,7 +2,7 @@
 #define Z_EN_AM_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnAm;
 
@@ -23,7 +23,7 @@ typedef struct EnAm {
     /* 0x0262 */ s16 panicSpinRot; // used when panicking before death
     /* 0x0264 */ s16 unk_264;
     /* 0x0266 */ u8 textureBlend; // 0 = statue textures; 255 = enemy textures
-    /* 0x0267 */ u8 damageEffect;
+    /* 0x0267 */ u8 damageReaction;
     /* 0x0267 */ Vec3f shakeOrigin; // center point to shake around when waking up
     /* 0x0274 */ ColliderCylinder hurtCollider;
     /* 0x02C0 */ ColliderCylinder blockCollider;

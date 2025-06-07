@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_scale" Segment="6">
+        <Array Name="gGiScaleWaterVtx" Count="128" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiScaleVtx" Count="34" Offset="0x800">
+            <Vtx/>
+        </Array>
         <DList Name="gGiSilverScaleWaterColorDL" Offset="0x0A20"/>
         <DList Name="gGiGoldenScaleWaterColorDL" Offset="0x0A40"/>
         <DList Name="gGiSilverScaleColorDL" Offset="0x0A60"/>

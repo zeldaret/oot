@@ -5,7 +5,7 @@
 #include "sys_matrix.h"
 #include "z_kaleido_scope.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 

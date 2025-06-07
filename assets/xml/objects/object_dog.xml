@@ -6,14 +6,44 @@
         <Animation Name="gDogRunAnim" Offset="0xD78"/>
         <Animation Name="gDogSitAnim" Offset="0x1150"/>
         <Animation Name="gDogWalkAnim" Offset="0x1368"/>
-        <Texture Name="gDogFur1Tex" OutName="fur_1" Format="rgba16" Width="32" Height="32" Offset="0x1380"/> <!-- Lower body-->
-        <Texture Name="gDogFur2Tex" OutName="fur_2" Format="rgba16" Width="32" Height="32" Offset="0x1B80"/> <!-- Front of ears, upper part of the tail, and around the feet-->
-        <Texture Name="gDogFur3Tex" OutName="fur_3" Format="rgba16" Width="32" Height="32" Offset="0x2380"/> <!-- Upper body, top of head-->
-        <Texture Name="gDogFaceEyeTex" OutName="face_and_eye" Format="rgba16" Width="32" Height="32" Offset="0x2B80"/>
-        <Texture Name="gDogFaceNoseTex" OutName="face_and_nose" Format="rgba16" Width="32" Height="32" Offset="0x3380"/>
-        <Texture Name="gDogFur4Tex" OutName="fur_4" Format="rgba16" Width="32" Height="32" Offset="0x3B80"/> <!-- Back of ears, side of head, and part of front body-->
-        <Texture Name="gDogPawTex" OutName="paw" Format="rgba16" Width="16" Height="16" Offset="0x4380"/>
-        <Texture Name="gDogFaceHairTex" OutName="face_hair" Format="rgba16" Width="32" Height="32" Offset="0x4580"/>
+        <Texture Name="gDogFur1Tex" Format="rgba16" Width="32" Height="32" Offset="0x1380"/> <!-- Lower body-->
+        <Texture Name="gDogFur2Tex" Format="rgba16" Width="32" Height="32" Offset="0x1B80"/> <!-- Front of ears, upper part of the tail, and around the feet-->
+        <Texture Name="gDogFur3Tex" Format="rgba16" Width="32" Height="32" Offset="0x2380"/> <!-- Upper body, top of head-->
+        <Texture Name="gDogFaceEyeTex" Format="rgba16" Width="32" Height="32" Offset="0x2B80"/>
+        <Texture Name="gDogFaceNoseTex" Format="rgba16" Width="32" Height="32" Offset="0x3380"/>
+        <Texture Name="gDogFur4Tex" Format="rgba16" Width="32" Height="32" Offset="0x3B80"/> <!-- Back of ears, side of head, and part of front body-->
+        <Texture Name="gDogPawTex" Format="rgba16" Width="16" Height="16" Offset="0x4380"/>
+        <Texture Name="gDogFaceHairTex" Format="rgba16" Width="32" Height="32" Offset="0x4580"/>
+        <Array Name="gDogHeadVtx" Count="80" Offset="0x4D80">
+            <Vtx/>
+        </Array>
+        <Array Name="gDogRightFaceHairVtx" Count="4" Offset="0x5280">
+            <Vtx/>
+        </Array>
+        <Array Name="gDogLeftFaceHairVtx" Count="4" Offset="0x52C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDogFrontRightLegVtx" Count="30" Offset="0x5300">
+            <Vtx/>
+        </Array>
+        <Array Name="gDogFrontLeftLegVtx" Count="30" Offset="0x54E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDogFrontBodyVtx" Count="47" Offset="0x56C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDogBackRightLegVtx" Count="31" Offset="0x59B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDogBackLeftLegVtx" Count="31" Offset="0x5BA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDogBackBodyVtx" Count="32" Offset="0x5D90">
+            <Vtx/>
+        </Array>
+        <Array Name="gDogTailVtx" Count="21" Offset="0x5F90">
+            <Vtx/>
+        </Array>
         <DList Name="gDogHeadDL" Offset="0x60E0"/>
         <DList Name="gDogRightFaceHairDL" Offset="0x6448"/>
         <DList Name="gDogLeftFaceHairDL" Offset="0x64E8"/>

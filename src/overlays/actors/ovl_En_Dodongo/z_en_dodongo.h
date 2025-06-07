@@ -2,7 +2,7 @@
 #define Z_EN_DODONGO_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnDodongo;
 
@@ -30,7 +30,7 @@ typedef struct EnDodongo {
     /* 0x0358 */ Vec3f icePos[9];
     /* 0x03C4 */ Color_RGBA8 bombSmokePrimColor;
     /* 0x03C8 */ Color_RGBA8 bombSmokeEnvColor;
-    /* 0x03CC */ u8 damageEffect;
+    /* 0x03CC */ u8 damageReaction;
     /* 0x03D0 */ s32 blureIdx;
     /* 0x03D4 */ ColliderQuad colliderAT;
     /* 0x0454 */ ColliderTris colliderHard;

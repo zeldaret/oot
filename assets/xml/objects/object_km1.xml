@@ -21,19 +21,22 @@
         <Skeleton Name="gKm1Skel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
 
         <!-- 32-bit aligned textures. -->
-        <Texture Name="gKm1TLUT_0000FC" OutName="tlut_0000FC" Format="rgba16" Width="256" Height="1" Offset="0xFC"/>
-        <Texture Name="gKm1TunicTex" OutName="tunic" Format="i8" Width="8" Height="8" Offset="0x2FC"/>
-        <Texture Name="gKm1BootWrinkleTex" OutName="boot_wrinkle" Format="i8" Width="8" Height="8" Offset="0x33C"/>
-        <Texture Name="gKm1Skin1Tex" OutName="skin1" Format="ci8" Width="8" Height="8" Offset="0x37C" TlutOffset="0xFC"/>
-        <Texture Name="gKm1TunicFringeTex" OutName="tunic_fringe" Format="rgba16" Width="16" Height="16" Offset="0x3BC"/>
-        <Texture Name="gKm1UnusedHairTex" OutName="unused_hair" Format="ci8" Width="16" Height="32" Offset="0x5BC" TlutOffset="0xFC"/>
-        <Texture Name="gKm1Ear1Tex" OutName="ear1" Format="ci8" Width="8" Height="8" Offset="0x7BC" TlutOffset="0xFC"/>
-        <Texture Name="gKm1HandTex" OutName="hand" Format="ci8" Width="8" Height="8" Offset="0x7FC" TlutOffset="0xFC"/>
+        <Texture Name="gKm1TLUT_0000FC" Format="rgba16" Width="256" Height="1" Offset="0xFC"/>
+        <Texture Name="gKm1TunicTex" Format="i8" Width="8" Height="8" Offset="0x2FC"/>
+        <Texture Name="gKm1BootWrinkleTex" Format="i8" Width="8" Height="8" Offset="0x33C"/>
+        <Texture Name="gKm1Skin1Tex" Format="ci8" Width="8" Height="8" Offset="0x37C" TlutOffset="0xFC"/>
+        <Texture Name="gKm1TunicFringeTex" Format="rgba16" Width="16" Height="16" Offset="0x3BC"/>
+        <Texture Name="gKm1UnusedHairTex" Format="ci8" Width="16" Height="32" Offset="0x5BC" TlutOffset="0xFC"/>
+        <Texture Name="gKm1Ear1Tex" Format="ci8" Width="8" Height="8" Offset="0x7BC" TlutOffset="0xFC"/>
+        <Texture Name="gKm1HandTex" Format="ci8" Width="8" Height="8" Offset="0x7FC" TlutOffset="0xFC"/>
 
-        <Texture Name="gKm1TLUT_00083C" OutName="tlut_00083C" Format="rgba16" Width="96" Height="1" Offset="0x83C"/>
-        <Texture Name="gKm1Ear2Tex" OutName="ear2" Format="ci8" Width="8" Height="8" Offset="0x8FC" TlutOffset="0x83C"/>
-        <Texture Name="gKm1Skin2Tex" OutName="skin2" Format="ci8" Width="8" Height="8" Offset="0x93C" TlutOffset="0x83C"/>
-        <Texture Name="gKm1HairTex" OutName="hair" Format="ci8" Width="16" Height="32" Offset="0x97C" TlutOffset="0x83C"/>
+        <Texture Name="gKm1TLUT_00083C" Format="rgba16" Width="96" Height="1" Offset="0x83C"/>
+        <Texture Name="gKm1Ear2Tex" Format="ci8" Width="8" Height="8" Offset="0x8FC" TlutOffset="0x83C"/>
+        <Texture Name="gKm1Skin2Tex" Format="ci8" Width="8" Height="8" Offset="0x93C" TlutOffset="0x83C"/>
+        <Texture Name="gKm1HairTex" Format="ci8" Width="16" Height="32" Offset="0x97C" TlutOffset="0x83C"/>
+        <Array Name="gKm1Vtx" Count="209" Offset="0xB80">
+            <Vtx/>
+        </Array>
         <DList Name="gKm1DL" Offset="0x1890"/>
     </File>
 </Root>

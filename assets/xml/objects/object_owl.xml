@@ -59,13 +59,51 @@
 
         <!-- The two following TLUTs are identical and both are used as TLUTs for the eye textures -->
         <!-- TLUT used in gOwlPerchingSkel -->
-        <Texture Name="object_owl_TLUT_006DA8" OutName="tlut_00006DA8" Format="rgba16" Width="16" Height="16" Offset="0x6DA8"/>
+        <Texture Name="object_owl_TLUT_006DA8" Format="rgba16" Width="16" Height="16" Offset="0x6DA8"/>
         <!-- TLUT used in gOwlFlyingSkel -->
-        <Texture Name="object_owl_TLUT_006FA8" OutName="tlut_00006FA8" Format="rgba16" Width="16" Height="16" Offset="0x6FA8" HackMode="ignore_orphaned_tlut"/>
+        <Texture Name="object_owl_TLUT_006FA8" Format="rgba16" Width="16" Height="16" Offset="0x6FA8" HackMode="ignore_orphaned_tlut"/>
 
         <!-- Eye Textures -->
-        <Texture Name="gObjOwlEyeOpenTex" OutName="owl_eye_open" Format="ci8" Width="32" Height="32" Offset="0x89A8" TlutOffset="0x6DA8"/>
-        <Texture Name="gObjOwlEyeHalfTex" OutName="owl_eye_half" Format="ci8" Width="32" Height="32" Offset="0x8DA8" TlutOffset="0x6DA8"/>
-        <Texture Name="gObjOwlEyeClosedTex" OutName="owl_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x91A8" TlutOffset="0x6DA8"/>
+        <Texture Name="gObjOwlEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x89A8" TlutOffset="0x6DA8"/>
+        <Texture Name="gObjOwlEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x8DA8" TlutOffset="0x6DA8"/>
+        <Texture Name="gObjOwlEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x91A8" TlutOffset="0x6DA8"/>
+
+        <Texture Name="object_owl_0071A8_Tex" Format="rgba16" Width="32" Height="32" Offset="0x71A8"/>
+        <Texture Name="object_owl_0079A8_Tex" Format="rgba16" Width="32" Height="32" Offset="0x79A8"/>
+        <Texture Name="object_owl_0081A8_Tex" Format="rgba16" Width="32" Height="32" Offset="0x81A8"/>
+        <Texture Name="object_owl_0095A8_Tex" Format="rgba16" Width="32" Height="32" Offset="0x95A8"/>
+        <Texture Name="object_owl_009DA8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x9DA8"/>
+        <Texture Name="object_owl_009FA8_Tex" Format="rgba16" Width="64" Height="32" Offset="0x9FA8"/>
+        <Texture Name="object_owl_00AFA8_Tex" Format="rgba16" Width="32" Height="32" Offset="0xAFA8"/>
+        <Texture Name="object_owl_00B7A8_Tex" Format="rgba16" Width="32" Height="32" Offset="0xB7A8"/>
+        <DList Name="object_owl_00ED10_DL" Offset="0xED10"/>
+        <DList Name="object_owl_00EEA0_DL" Offset="0xEEA0"/>
+        <DList Name="object_owl_00F030_DL" Offset="0xF030"/>
+        <DList Name="object_owl_00F0D8_DL" Offset="0xF0D8"/>
+        <DList Name="object_owl_00F1C0_DL" Offset="0xF1C0"/>
+        <DList Name="object_owl_00F330_DL" Offset="0xF330"/>
+        <DList Name="object_owl_00F7B0_DL" Offset="0xF7B0"/>
+        <DList Name="object_owl_00F868_DL" Offset="0xF868"/>
+        <DList Name="object_owl_00F920_DL" Offset="0xF920"/>
+        <DList Name="object_owl_00F9E8_DL" Offset="0xF9E8"/>
+        <DList Name="object_owl_00FAD8_DL" Offset="0xFAD8"/>
+        <DList Name="object_owl_00FC70_DL" Offset="0xFC70"/>
+        <DList Name="object_owl_00FD38_DL" Offset="0xFD38"/>
+        <DList Name="object_owl_00FE28_DL" Offset="0xFE28"/>
+        <Limb Name="object_owl_00FFC0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_00FFC0" Offset="0xFFC0"/>
+        <Limb Name="object_owl_00FFCC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_00FFCC" Offset="0xFFCC"/>
+        <Limb Name="object_owl_00FFD8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_00FFD8" Offset="0xFFD8"/>
+        <Limb Name="object_owl_00FFE4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_00FFE4" Offset="0xFFE4"/>
+        <Limb Name="object_owl_00FFF0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_00FFF0" Offset="0xFFF0"/>
+        <Limb Name="object_owl_00FFFC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_00FFFC" Offset="0xFFFC"/>
+        <Limb Name="object_owl_010008_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_010008" Offset="0x10008"/>
+        <Limb Name="object_owl_010014_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_010014" Offset="0x10014"/>
+        <Limb Name="object_owl_010020_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_010020" Offset="0x10020"/>
+        <Limb Name="object_owl_01002C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_01002C" Offset="0x1002C"/>
+        <Limb Name="object_owl_010038_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_010038" Offset="0x10038"/>
+        <Limb Name="object_owl_010044_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_010044" Offset="0x10044"/>
+        <Limb Name="object_owl_010050_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_010050" Offset="0x10050"/>
+        <Limb Name="object_owl_01005C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_01005C" Offset="0x1005C"/>
+        <Limb Name="object_owl_010068_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OWL_010068" Offset="0x10068"/>
     </File>
 </Root>

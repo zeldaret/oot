@@ -8,6 +8,25 @@
         <DList Name="gFreezardSteamDL" Offset="0x3158"/>
         <DList Name="gFreezardIceTriangleDL" Offset="0x3260"/>
         <DList Name="gFreezardIceRockDL" Offset="0x33F0"/>
-        <Texture Name="gFreezardSteamTex" OutName="steam" Format="i4" Width="32" Height="32" Offset="0x2E70"/>
+        <Texture Name="gFreezardSteamTex" Format="i4" Width="32" Height="32" Offset="0x2E70"/>
+
+        <Array Name="gFreezardIntactVtx" Count="275" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFreezardTopRightHornChippedVtx" Count="219" Offset="0x13F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFreezardHeadChippedVtx" Count="139" Offset="0x23F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFreezardSteamVtx" Count="3" Offset="0x3070">
+            <Vtx/>
+        </Array>
+        <Array Name="gFreezardIceTriangleVtx" Count="14" Offset="0x3180">
+            <Vtx/>
+        </Array>
+        <Array Name="gFreezardIceRockVtx" Count="14" Offset="0x3310">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

@@ -2,17 +2,95 @@
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_ps" Segment="6">
         <Animation Name="gPoeSellerIdleAnim" Offset="0x049C"/>
-        <Texture Name="gPoeSellerMetalFrameTex" OutName="poe_seller_metal_frame" Format="rgba16" Width="8" Height="8" Offset="0x5A80"/>
-        <Texture Name="gPoeSellerMattressTex" OutName="poe_seller_mattress" Format="rgba16" Width="8" Height="8" Offset="0x5B00"/>
-        <Texture Name="gPoeSellerClothTex" OutName="poe_seller_cloth" Format="rgba16" Width="32" Height="32" Offset="0x5B80"/>
-        <Texture Name="gPoeSellerCarpetTex" OutName="poe_seller_carpet" Format="rgba16" Width="16" Height="16" Offset="0x6380"/>
-        <Texture Name="gPoeSellerBottleLabelTex" OutName="poe_seller_bottle_label" Format="rgba16" Width="16" Height="16" Offset="0x6580"/>
-        <Texture Name="gPoeSellerWoodenPanelTex" OutName="poe_seller_wooden_panel" Format="rgba16" Width="32" Height="32" Offset="0x6780"/>
-        <Texture Name="gPoeSellerLanternTex" OutName="poe_seller_lantern" Format="rgba16" Width="16" Height="16" Offset="0x6F80"/>
-        <Texture Name="gPoeSellerAngrySoulTex" OutName="poe_seller_angry_soul" Format="i8" Width="32" Height="64" Offset="0xA870"/>
-        <Texture Name="gPoeSellerHappySoulTex" OutName="poe_seller_happy_soul" Format="i8" Width="32" Height="64" Offset="0xB070"/>
-        <Texture Name="gPoeSellerSadSoulTex" OutName="poe_seller_sad_soul" Format="i8" Width="32" Height="64" Offset="0xB870"/>
+        <Texture Name="object_ps_0004B0_Tex" Format="rgba16" Width="132" Height="1" Offset="0x4B0"/>
+        <Texture Name="object_ps_0005B8_Tex" Format="rgba16" Width="32" Height="64" Offset="0x5B8"/>
+        <Texture Name="object_ps_0015B8_Tex" Format="ci8" Width="8" Height="8" Offset="0x15B8" TlutOffset="0x4B0"/>
+        <Texture Name="object_ps_0015F8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x15F8"/>
+        <Texture Name="object_ps_0017F8_Tex" Format="ci8" Width="8" Height="8" Offset="0x17F8" TlutOffset="0x4B0"/>
+        <Texture Name="object_ps_001838_Tex" Format="ci8" Width="32" Height="32" Offset="0x1838" TlutOffset="0x4B0"/>
+        <Texture Name="object_ps_001C38_Tex" Format="ci8" Width="16" Height="16" Offset="0x1C38" TlutOffset="0x4B0"/>
+        <Texture Name="object_ps_001D38_Tex" Format="i8" Width="8" Height="8" Offset="0x1D38"/>
+        <Texture Name="object_ps_001D78_Tex" Format="ci8" Width="16" Height="16" Offset="0x1D78" TlutOffset="0x4B0"/>
+        <Texture Name="object_ps_001E78_Tex" Format="ci8" Width="16" Height="16" Offset="0x1E78" TlutOffset="0x4B0"/>
+        <Texture Name="object_ps_001F78_Tex" Format="rgba16" Width="16" Height="16" Offset="0x1F78"/>
+        <Texture Name="object_ps_002178_Tex" Format="rgba16" Width="16" Height="16" Offset="0x2178"/>
+        <Texture Name="object_ps_002378_Tex" Format="i4" Width="32" Height="32" Offset="0x2378"/>
+        <Texture Name="object_ps_002578_Tex" Format="ci8" Width="32" Height="32" Offset="0x2578" TlutOffset="0x4B0"/>
+        <Texture Name="object_ps_002978_Tex" Format="rgba16" Width="8" Height="16" Offset="0x2978"/>
+        <Array Name="object_ps_Vtx_002A78" Count="476" Offset="0x2A78">
+            <Vtx/>
+        </Array>
+        <DList Name="object_ps_004838_DL" Offset="0x4838"/>
+        <Texture Name="object_ps_005880_Tex" Format="rgba16" Width="184" Height="1" Offset="0x5880"/>
+        <Blob Name="object_ps_0059F0_Blob" Size="0x90" Offset="0x59F0"/>
+        <Texture Name="gPoeSellerMetalFrameTex" Format="rgba16" Width="8" Height="8" Offset="0x5A80"/>
+        <Texture Name="gPoeSellerMattressTex" Format="rgba16" Width="8" Height="8" Offset="0x5B00"/>
+        <Texture Name="gPoeSellerClothTex" Format="rgba16" Width="32" Height="32" Offset="0x5B80"/>
+        <Texture Name="gPoeSellerCarpetTex" Format="rgba16" Width="16" Height="16" Offset="0x6380"/>
+        <Texture Name="gPoeSellerBottleLabelTex" Format="rgba16" Width="16" Height="16" Offset="0x6580"/>
+        <Texture Name="gPoeSellerWoodenPanelTex" Format="rgba16" Width="32" Height="32" Offset="0x6780"/>
+        <Texture Name="gPoeSellerLanternTex" Format="rgba16" Width="16" Height="16" Offset="0x6F80"/>
+        <Texture Name="object_ps_007180_Tex" Format="ci8" Width="8" Height="8" Offset="0x7180" TlutOffset="0x5880"/>
+        <Texture Name="object_ps_0071C0_Tex" Format="ci8" Width="32" Height="32" Offset="0x71C0" TlutOffset="0x5880"/>
+        <Texture Name="object_ps_0075C0_Tex" Format="ci8" Width="8" Height="8" Offset="0x75C0" TlutOffset="0x5880"/>
+        <Texture Name="object_ps_007600_Tex" Format="ci8" Width="8" Height="8" Offset="0x7600" TlutOffset="0x5880"/>
+        <Texture Name="object_ps_007640_Tex" Format="ci8" Width="32" Height="32" Offset="0x7640" TlutOffset="0x5880"/>
+        <Texture Name="object_ps_007A40_Tex" Format="rgba16" Width="16" Height="16" Offset="0x7A40"/>
+        <Texture Name="object_ps_007C40_Tex" Format="ci8" Width="32" Height="32" Offset="0x7C40" TlutOffset="0x5880"/>
+        <Array Name="object_ps_Vtx_008040" Count="55" Offset="0x8040">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_0083B0" Count="8" Offset="0x83B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_008430" Count="24" Offset="0x8430">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_0085B0" Count="103" Offset="0x85B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_008C20" Count="30" Offset="0x8C20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_008E00" Count="14" Offset="0x8E00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_008EE0" Count="30" Offset="0x8EE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_0090C0" Count="14" Offset="0x90C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ps_Vtx_0091A0" Count="82" Offset="0x91A0">
+            <Vtx/>
+        </Array>
+        <DList Name="object_ps_0096C0_DL" Offset="0x96C0"/>
+        <DList Name="object_ps_009AE8_DL" Offset="0x9AE8"/>
+        <DList Name="object_ps_009FC8_DL" Offset="0x9FC8"/>
+        <DList Name="object_ps_00A0F8_DL" Offset="0xA0F8"/>
+        <DList Name="object_ps_00A1D8_DL" Offset="0xA1D8"/>
+        <DList Name="object_ps_00A400_DL" Offset="0xA400"/>
+        <DList Name="object_ps_00A510_DL" Offset="0xA510"/>
+        <DList Name="object_ps_00A638_DL" Offset="0xA638"/>
+        <DList Name="object_ps_00A748_DL" Offset="0xA748"/>
+        <Texture Name="gPoeSellerAngrySoulTex" Format="i8" Width="32" Height="64" Offset="0xA870"/>
+        <Texture Name="gPoeSellerHappySoulTex" Format="i8" Width="32" Height="64" Offset="0xB070"/>
+        <Texture Name="gPoeSellerSadSoulTex" Format="i8" Width="32" Height="64" Offset="0xB870"/>
+        <Array Name="gPoeSellerCagedSoulVtx" Count="4" Offset="0xC070">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeSellerCagedSoulDL" Offset="0xC0B0"/>
+        <Limb Name="object_ps_00C170_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C170" Offset="0xC170"/>
+        <Limb Name="object_ps_00C17C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C17C" Offset="0xC17C"/>
+        <Limb Name="object_ps_00C188_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C188" Offset="0xC188"/>
+        <Limb Name="object_ps_00C194_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C194" Offset="0xC194"/>
+        <Limb Name="object_ps_00C1A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C1A0" Offset="0xC1A0"/>
+        <Limb Name="object_ps_00C1AC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C1AC" Offset="0xC1AC"/>
+        <Limb Name="object_ps_00C1B8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C1B8" Offset="0xC1B8"/>
+        <Limb Name="object_ps_00C1C4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C1C4" Offset="0xC1C4"/>
+        <Limb Name="object_ps_00C1D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C1D0" Offset="0xC1D0"/>
+        <Limb Name="object_ps_00C1DC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C1DC" Offset="0xC1DC"/>
+        <Limb Name="object_ps_00C1E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PS_00C1E8" Offset="0xC1E8"/>
         <Skeleton Name="gPoeSellerSkel" Type="Flex" LimbType="Standard" Offset="0xC220"/>
         <Collision Name="gPoeSellerCol" Offset="0xC2D0"/>
         <Animation Name="gPoeSellerSwingStickAnim" Offset="0xC8EC"/>

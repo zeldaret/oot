@@ -1,6 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_mushroom" Segment="6">
+        <Array Name="gGiOddMushroomVtx" Count="157" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiOddMushroomDL" Offset="0x09D0"/>
     </File>
 </Root>

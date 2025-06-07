@@ -7,8 +7,9 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "translation.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 
@@ -384,7 +385,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 index = cursorSlot * 4; // required to match?
                 KaleidoScope_SetCursorPos(pauseCtx, index, pauseCtx->itemVtx);
 
-                if ((pauseCtx->debugState == 0) && (pauseCtx->state == PAUSE_STATE_MAIN) &&
+                if ((pauseCtx->debugState == PAUSE_DEBUG_STATE_CLOSED) && (pauseCtx->state == PAUSE_STATE_MAIN) &&
                     (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
                     if (CHECK_BTN_ANY(input->press.button, BTN_CLEFT | BTN_CDOWN | BTN_CRIGHT)) {
                         if (CHECK_AGE_REQ_SLOT(cursorSlot) && (cursorItem != ITEM_SOLD_OUT)) {
@@ -697,19 +698,19 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                 gSaveContext.save.info.equips.cButtonSlots[0] = pauseCtx->equipTargetSlot;
                 Interface_LoadItemIcon1(play, 1);
 
-                PRINTF("Ｃ左sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                       gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
-                       gSaveContext.save.info.equips.buttonItems[3]);
-                PRINTF("Ｃ左sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                       gSaveContext.save.info.equips.cButtonSlots[0], gSaveContext.save.info.equips.cButtonSlots[1],
-                       gSaveContext.save.info.equips.cButtonSlots[2]);
+                PRINTF(T("Ｃ左sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", "C left sl_item_no=%d (1)=%d (2)=%d (3)=%d\n"),
+                       pauseCtx->equipTargetItem, gSaveContext.save.info.equips.buttonItems[1],
+                       gSaveContext.save.info.equips.buttonItems[2], gSaveContext.save.info.equips.buttonItems[3]);
+                PRINTF(T("Ｃ左sl_number=%d (1)=%d (2)=%d (3)=%d\n", "C left sl_number=%d (1)=%d (2)=%d (3)=%d\n"),
+                       pauseCtx->equipTargetSlot, gSaveContext.save.info.equips.cButtonSlots[0],
+                       gSaveContext.save.info.equips.cButtonSlots[1], gSaveContext.save.info.equips.cButtonSlots[2]);
             } else if (pauseCtx->equipTargetCBtn == 1) {
-                PRINTF("Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                       gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
-                       gSaveContext.save.info.equips.buttonItems[3]);
-                PRINTF("Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                       gSaveContext.save.info.equips.cButtonSlots[0], gSaveContext.save.info.equips.cButtonSlots[1],
-                       gSaveContext.save.info.equips.cButtonSlots[2]);
+                PRINTF(T("Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", "C down sl_item_no=%d (1)=%d (2)=%d (3)=%d\n"),
+                       pauseCtx->equipTargetItem, gSaveContext.save.info.equips.buttonItems[1],
+                       gSaveContext.save.info.equips.buttonItems[2], gSaveContext.save.info.equips.buttonItems[3]);
+                PRINTF(T("Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n", "C down sl_number=%d (1)=%d (2)=%d (3)=%d\n"),
+                       pauseCtx->equipTargetSlot, gSaveContext.save.info.equips.cButtonSlots[0],
+                       gSaveContext.save.info.equips.cButtonSlots[1], gSaveContext.save.info.equips.cButtonSlots[2]);
 
                 if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[0]) {
                     if (gSaveContext.save.info.equips.buttonItems[2] != ITEM_NONE) {
@@ -772,19 +773,19 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                 gSaveContext.save.info.equips.cButtonSlots[1] = pauseCtx->equipTargetSlot;
                 Interface_LoadItemIcon1(play, 2);
 
-                PRINTF("Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                       gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
-                       gSaveContext.save.info.equips.buttonItems[3]);
-                PRINTF("Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                       gSaveContext.save.info.equips.cButtonSlots[0], gSaveContext.save.info.equips.cButtonSlots[1],
-                       gSaveContext.save.info.equips.cButtonSlots[2]);
+                PRINTF(T("Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", "C down sl_item_no=%d (1)=%d (2)=%d (3)=%d\n"),
+                       pauseCtx->equipTargetItem, gSaveContext.save.info.equips.buttonItems[1],
+                       gSaveContext.save.info.equips.buttonItems[2], gSaveContext.save.info.equips.buttonItems[3]);
+                PRINTF(T("Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n", "C down sl_number=%d (1)=%d (2)=%d (3)=%d\n"),
+                       pauseCtx->equipTargetSlot, gSaveContext.save.info.equips.cButtonSlots[0],
+                       gSaveContext.save.info.equips.cButtonSlots[1], gSaveContext.save.info.equips.cButtonSlots[2]);
             } else {
-                PRINTF("Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                       gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
-                       gSaveContext.save.info.equips.buttonItems[3]);
-                PRINTF("Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                       gSaveContext.save.info.equips.cButtonSlots[0], gSaveContext.save.info.equips.cButtonSlots[1],
-                       gSaveContext.save.info.equips.cButtonSlots[2]);
+                PRINTF(T("Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", "C right sl_item_no=%d (1)=%d (2)=%d (3)=%d\n"),
+                       pauseCtx->equipTargetItem, gSaveContext.save.info.equips.buttonItems[1],
+                       gSaveContext.save.info.equips.buttonItems[2], gSaveContext.save.info.equips.buttonItems[3]);
+                PRINTF(T("Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n", "C right sl_number=%d (1)=%d (2)=%d (3)=%d\n"),
+                       pauseCtx->equipTargetSlot, gSaveContext.save.info.equips.cButtonSlots[0],
+                       gSaveContext.save.info.equips.cButtonSlots[1], gSaveContext.save.info.equips.cButtonSlots[2]);
 
                 if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[0]) {
                     if (gSaveContext.save.info.equips.buttonItems[3] != ITEM_NONE) {
@@ -847,12 +848,12 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                 gSaveContext.save.info.equips.cButtonSlots[2] = pauseCtx->equipTargetSlot;
                 Interface_LoadItemIcon1(play, 3);
 
-                PRINTF("Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                       gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
-                       gSaveContext.save.info.equips.buttonItems[3]);
-                PRINTF("Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                       gSaveContext.save.info.equips.cButtonSlots[0], gSaveContext.save.info.equips.cButtonSlots[1],
-                       gSaveContext.save.info.equips.cButtonSlots[2]);
+                PRINTF(T("Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", "C right sl_item_no=%d (1)=%d (2)=%d (3)=%d\n"),
+                       pauseCtx->equipTargetItem, gSaveContext.save.info.equips.buttonItems[1],
+                       gSaveContext.save.info.equips.buttonItems[2], gSaveContext.save.info.equips.buttonItems[3]);
+                PRINTF(T("Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n", "C right sl_number=%d (1)=%d (2)=%d (3)=%d\n"),
+                       pauseCtx->equipTargetSlot, gSaveContext.save.info.equips.cButtonSlots[0],
+                       gSaveContext.save.info.equips.cButtonSlots[1], gSaveContext.save.info.equips.cButtonSlots[2]);
             }
 
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;

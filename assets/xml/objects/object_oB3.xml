@@ -39,6 +39,51 @@
         <Limb Name="object_oB3_Limb_000001B0" LimbType="Standard" Offset="0x1B0"/>
         <Limb Name="object_oB3_Limb_000001BC" LimbType="Standard" Offset="0x1BC"/>
         <Skeleton Name="object_oB3_Skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
+        <Array Name="object_oB3_Vtx_000268" Count="68" Offset="0x268">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_0006A8" Count="26" Offset="0x6A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_000848" Count="140" Offset="0x848">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_001108" Count="57" Offset="0x1108">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_001498" Count="21" Offset="0x1498">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_0015E8" Count="25" Offset="0x15E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_001778" Count="3" Offset="0x1778">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_0017A8" Count="3" Offset="0x17A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_0017D8" Count="3" Offset="0x17D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_001808" Count="59" Offset="0x1808">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_001BB8" Count="21" Offset="0x1BB8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_001D08" Count="25" Offset="0x1D08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_001E98" Count="3" Offset="0x1E98">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_001EC8" Count="3" Offset="0x1EC8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oB3_Vtx_001EF8" Count="3" Offset="0x1EF8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oB3_DL_00001F28" Offset="0x1F28"/>
         <DList Name="object_oB3_DL_00002118" Offset="0x2118"/>
         <DList Name="object_oB3_DL_00002208" Offset="0x2208"/>
@@ -54,17 +99,17 @@
         <DList Name="object_oB3_DL_00002C00" Offset="0x2C00"/>
         <DList Name="object_oB3_DL_00002C58" Offset="0x2C58"/>
         <DList Name="object_oB3_DL_00002CB0" Offset="0x2CB0"/>
-        <Texture Name="object_oB3_Tex_00002D08" OutName="tex_00002D08" Format="rgba16" Width="32" Height="16" Offset="0x2D08"/>
-        <Texture Name="object_oB3_Tex_00003108" OutName="tex_00003108" Format="rgba16" Width="32" Height="16" Offset="0x3108"/>
-        <Texture Name="object_oB3_Tex_00003508" OutName="tex_00003508" Format="rgba16" Width="8" Height="8" Offset="0x3508"/>
-        <Texture Name="object_oB3_Tex_00003588" OutName="tex_00003588" Format="rgba16" Width="16" Height="16" Offset="0x3588"/>
-        <Texture Name="object_oB3_Tex_00003788" OutName="tex_00003788" Format="rgba16" Width="16" Height="16" Offset="0x3788"/>
-        <Texture Name="object_oB3_Tex_00003988" OutName="tex_00003988" Format="rgba16" Width="8" Height="8" Offset="0x3988"/>
-        <Texture Name="object_oB3_Tex_00003A08" OutName="tex_00003A08" Format="rgba16" Width="8" Height="8" Offset="0x3A08"/>
-        <Texture Name="object_oB3_Tex_00003A88" OutName="tex_00003A88" Format="rgba16" Width="8" Height="8" Offset="0x3A88"/>
-        <Texture Name="object_oB3_Tex_00003B08" OutName="tex_00003B08" Format="rgba16" Width="32" Height="32" Offset="0x3B08"/>
-        <Texture Name="object_oB3_Tex_00004308" OutName="tex_00004308" Format="rgba16" Width="8" Height="8" Offset="0x4308"/>
-        <Texture Name="object_oB3_Tex_00004388" OutName="tex_00004388" Format="rgba16" Width="8" Height="8" Offset="0x4388"/>
-        <Texture Name="object_oB3_Tex_00004408" OutName="tex_00004408" Format="rgba16" Width="8" Height="8" Offset="0x4408"/>
+        <Texture Name="object_oB3_Tex_00002D08" Format="rgba16" Width="32" Height="16" Offset="0x2D08"/>
+        <Texture Name="object_oB3_Tex_00003108" Format="rgba16" Width="32" Height="16" Offset="0x3108"/>
+        <Texture Name="object_oB3_Tex_00003508" Format="rgba16" Width="8" Height="8" Offset="0x3508"/>
+        <Texture Name="object_oB3_Tex_00003588" Format="rgba16" Width="16" Height="16" Offset="0x3588"/>
+        <Texture Name="object_oB3_Tex_00003788" Format="rgba16" Width="16" Height="16" Offset="0x3788"/>
+        <Texture Name="object_oB3_Tex_00003988" Format="rgba16" Width="8" Height="8" Offset="0x3988"/>
+        <Texture Name="object_oB3_Tex_00003A08" Format="rgba16" Width="8" Height="8" Offset="0x3A08"/>
+        <Texture Name="object_oB3_Tex_00003A88" Format="rgba16" Width="8" Height="8" Offset="0x3A88"/>
+        <Texture Name="object_oB3_Tex_00003B08" Format="rgba16" Width="32" Height="32" Offset="0x3B08"/>
+        <Texture Name="object_oB3_Tex_00004308" Format="rgba16" Width="8" Height="8" Offset="0x4308"/>
+        <Texture Name="object_oB3_Tex_00004388" Format="rgba16" Width="8" Height="8" Offset="0x4388"/>
+        <Texture Name="object_oB3_Tex_00004408" Format="rgba16" Width="8" Height="8" Offset="0x4408"/>
     </File>
 </Root>

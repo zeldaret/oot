@@ -6,9 +6,10 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "translation.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/parameter_static/parameter_static.h"
@@ -481,7 +482,9 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 } else {
                     cursorItem = ITEM_QUIVER_30 + sUpgradeItemOffsets[pauseCtx->cursorY[PAUSE_EQUIP]] +
                                  CUR_UPG_VALUE(pauseCtx->cursorY[PAUSE_EQUIP]) - 1;
-                    PRINTF("大人 H_arrowcase_1 + non_equip_item_table = %d\n", cursorItem);
+                    PRINTF(T("大人 H_arrowcase_1 + non_equip_item_table = %d\n",
+                             "Adult H_arrowcase_1 + non_equip_item_table = %d\n"),
+                           cursorItem);
                 }
             }
         } else {

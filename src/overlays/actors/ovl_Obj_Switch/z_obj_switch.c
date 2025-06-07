@@ -19,8 +19,8 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
@@ -218,8 +218,8 @@ void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* c
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF(T("Warning : move BG 登録失敗",
-                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
                "../z_obj_switch.c", 531, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
@@ -339,7 +339,7 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
 
     if (OBJSWITCH_FROZEN(&this->dyna.actor) && (ObjSwitch_SpawnIce(this, play) == NULL)) {
         PRINTF_COLOR_RED();
-        PRINTF(T("Error : 氷発生失敗 (%s %d)\n", "Error : Ice generation failure (%s %d)\n"), "../z_obj_switch.c", 732);
+        PRINTF(T("Error : 氷発生失敗 (%s %d)\n", "Error : Ice failed to spawn (%s %d)\n"), "../z_obj_switch.c", 732);
         PRINTF_RST();
         this->dyna.actor.params &= ~OBJSWITCH_FROZEN_FLAG;
     }

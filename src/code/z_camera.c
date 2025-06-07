@@ -17,13 +17,13 @@
 #include "ultra64.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
-#include "z64audio.h"
-#include "z64cutscene_spline.h"
-#include "z64debug.h"
-#include "z64olib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "cutscene_spline.h"
+#include "debug.h"
+#include "olib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
@@ -3661,7 +3661,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:86 ntsc-1.1:86 ntsc-1.2:86 pal-1.0:86 pal-1.1:86"
+                               "ique-cn:128 ntsc-1.0:82 ntsc-1.1:82 ntsc-1.2:82 pal-1.0:82 pal-1.1:82"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;

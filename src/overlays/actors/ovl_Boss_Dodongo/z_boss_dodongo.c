@@ -15,11 +15,12 @@
 #include "sequence.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "tex_len.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 #include "assets/scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
@@ -69,7 +70,18 @@ ActorProfile Boss_Dodongo_Profile = {
 };
 
 #include "z_boss_dodongo_data.inc.c"
-#include "assets/overlays/ovl_Boss_Dodongo/ovl_Boss_Dodongo.c"
+
+#define sLavaFloorLavaTex_WIDTH 64
+#define sLavaFloorLavaTex_HEIGHT 64
+static u64 sLavaFloorLavaTex[TEX_LEN(u64, sLavaFloorLavaTex_WIDTH, sLavaFloorLavaTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_Boss_Dodongo/sLavaFloorLavaTex.rgba16.inc.c"
+};
+
+#define sLavaFloorRockTex_WIDTH 32
+#define sLavaFloorRockTex_HEIGHT 64
+static u64 sLavaFloorRockTex[TEX_LEN(u64, sLavaFloorRockTex_WIDTH, sLavaFloorRockTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_Boss_Dodongo/sLavaFloorRockTex.rgba16.inc.c"
+};
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),

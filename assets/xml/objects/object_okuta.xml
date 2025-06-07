@@ -9,21 +9,75 @@
         <Animation Name="gOctorokAppearAnim" Offset="0x3C64"/>
 
         <!-- Octorok Textures -->
-        <Texture Name="gOctorokRoughSkinTex" OutName="rough_skin" Format="rgba16" Width="16" Height="16" Offset="0x2250"/>
-        <Texture Name="gOctorokStripesTex" OutName="stripes" Format="rgba16" Width="8" Height="16" Offset="0x2450"/>
-        <Texture Name="gOctorokScalesTex" OutName="scales" Format="rgba16" Width="16" Height="16" Offset="0x2550"/>
-        <Texture Name="gOctorokSnoutConnectionTex" OutName="snout_connection" Format="rgba16" Width="8" Height="8" Offset="0x2750"/>
-        <Texture Name="gOctorokMouthTex" OutName="mouth" Format="rgba16" Width="8" Height="16" Offset="0x27D0"/>
-        <Texture Name="gOctorokArmTex" OutName="arm" Format="rgba16" Width="16" Height="32" Offset="0x28D0"/>
-        <Texture Name="gOctorokFinTex" OutName="fin" Format="rgba16" Width="16" Height="16" Offset="0x2CD0"/>
-        <Texture Name="gOctorokEyeTex" OutName="eye" Format="rgba16" Width="16" Height="16" Offset="0x2ED0"/>
-        <Texture Name="gOctorokFadeToBlackTex" OutName="fade_to_black" Format="rgba16" Width="8" Height="8" Offset="0x30D0"/>
+        <Texture Name="gOctorokRoughSkinTex" Format="rgba16" Width="16" Height="16" Offset="0x2250"/>
+        <Texture Name="gOctorokStripesTex" Format="rgba16" Width="8" Height="16" Offset="0x2450"/>
+        <Texture Name="gOctorokScalesTex" Format="rgba16" Width="16" Height="16" Offset="0x2550"/>
+        <Texture Name="gOctorokSnoutConnectionTex" Format="rgba16" Width="8" Height="8" Offset="0x2750"/>
+        <Texture Name="gOctorokMouthTex" Format="rgba16" Width="8" Height="16" Offset="0x27D0"/>
+        <Texture Name="gOctorokArmTex" Format="rgba16" Width="16" Height="32" Offset="0x28D0"/>
+        <Texture Name="gOctorokFinTex" Format="rgba16" Width="16" Height="16" Offset="0x2CD0"/>
+        <Texture Name="gOctorokEyeTex" Format="rgba16" Width="16" Height="16" Offset="0x2ED0"/>
+        <Texture Name="gOctorokFadeToBlackTex" Format="rgba16" Width="8" Height="8" Offset="0x30D0"/>
 
         <!-- Octorok Skeleton -->
         <Skeleton Name="gOctorokSkel" Type="Normal" LimbType="Standard" Offset="0x3660"/>
 
         <!-- Projectile -->
-        <Texture Name="gOctorokProjectileTex" OutName="projectile" Format="rgba16" Width="16" Height="16" Offset="0x3150"/>
+        <Texture Name="gOctorokProjectileTex" Format="rgba16" Width="16" Height="16" Offset="0x3150"/>
         <DList Name="gOctorokProjectileDL" Offset="0x3380"/>
+
+
+        <DList Name="object_okuta_0016D0_DL" Offset="0x16D0"/>
+        <DList Name="object_okuta_0017C0_DL" Offset="0x17C0"/>
+        <DList Name="object_okuta_001A70_DL" Offset="0x1A70"/>
+        <DList Name="object_okuta_001B70_DL" Offset="0x1B70"/>
+        <DList Name="object_okuta_001C00_DL" Offset="0x1C00"/>
+        <DList Name="object_okuta_001C98_DL" Offset="0x1C98"/>
+        <DList Name="object_okuta_001D28_DL" Offset="0x1D28"/>
+        <DList Name="object_okuta_001DB8_DL" Offset="0x1DB8"/>
+        <DList Name="object_okuta_001E50_DL" Offset="0x1E50"/>
+        <DList Name="object_okuta_001EE0_DL" Offset="0x1EE0"/>
+        <DList Name="object_okuta_001F70_DL" Offset="0x1F70"/>
+        <DList Name="object_okuta_002008_DL" Offset="0x2008"/>
+        <DList Name="object_okuta_002098_DL" Offset="0x2098"/>
+        <DList Name="object_okuta_002128_DL" Offset="0x2128"/>
+        <DList Name="object_okuta_0021C0_DL" Offset="0x21C0"/>
+        <Limb Name="object_okuta_003410_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003410" Offset="0x3410"/>
+        <Limb Name="object_okuta_00341C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_00341C" Offset="0x341C"/>
+        <Limb Name="object_okuta_003428_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003428" Offset="0x3428"/>
+        <Limb Name="object_okuta_003434_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003434" Offset="0x3434"/>
+        <Limb Name="object_okuta_003440_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003440" Offset="0x3440"/>
+        <Limb Name="object_okuta_00344C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_00344C" Offset="0x344C"/>
+        <Limb Name="object_okuta_003458_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003458" Offset="0x3458"/>
+        <Limb Name="object_okuta_003464_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003464" Offset="0x3464"/>
+        <Limb Name="object_okuta_003470_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003470" Offset="0x3470"/>
+        <Limb Name="object_okuta_00347C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_00347C" Offset="0x347C"/>
+        <Limb Name="object_okuta_003488_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003488" Offset="0x3488"/>
+        <Limb Name="object_okuta_003494_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003494" Offset="0x3494"/>
+        <Limb Name="object_okuta_0034A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0034A0" Offset="0x34A0"/>
+        <Limb Name="object_okuta_0034AC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0034AC" Offset="0x34AC"/>
+        <Limb Name="object_okuta_0034B8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0034B8" Offset="0x34B8"/>
+        <Limb Name="object_okuta_0034C4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0034C4" Offset="0x34C4"/>
+        <Limb Name="object_okuta_0034D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0034D0" Offset="0x34D0"/>
+        <Limb Name="object_okuta_0034DC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0034DC" Offset="0x34DC"/>
+        <Limb Name="object_okuta_0034E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0034E8" Offset="0x34E8"/>
+        <Limb Name="object_okuta_0034F4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0034F4" Offset="0x34F4"/>
+        <Limb Name="object_okuta_003500_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003500" Offset="0x3500"/>
+        <Limb Name="object_okuta_00350C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_00350C" Offset="0x350C"/>
+        <Limb Name="object_okuta_003518_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003518" Offset="0x3518"/>
+        <Limb Name="object_okuta_003524_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003524" Offset="0x3524"/>
+        <Limb Name="object_okuta_003530_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003530" Offset="0x3530"/>
+        <Limb Name="object_okuta_00353C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_00353C" Offset="0x353C"/>
+        <Limb Name="object_okuta_003548_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003548" Offset="0x3548"/>
+        <Limb Name="object_okuta_003554_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003554" Offset="0x3554"/>
+        <Limb Name="object_okuta_003560_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003560" Offset="0x3560"/>
+        <Limb Name="object_okuta_00356C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_00356C" Offset="0x356C"/>
+        <Limb Name="object_okuta_003578_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003578" Offset="0x3578"/>
+        <Limb Name="object_okuta_003584_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003584" Offset="0x3584"/>
+        <Limb Name="object_okuta_003590_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_003590" Offset="0x3590"/>
+        <Limb Name="object_okuta_00359C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_00359C" Offset="0x359C"/>
+        <Limb Name="object_okuta_0035A8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0035A8" Offset="0x35A8"/>
+        <Limb Name="object_okuta_0035B4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0035B4" Offset="0x35B4"/>
+        <Limb Name="object_okuta_0035C0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OKUTA_0035C0" Offset="0x35C0"/>
     </File>
 </Root>

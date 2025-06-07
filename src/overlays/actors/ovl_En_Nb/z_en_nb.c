@@ -21,10 +21,10 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_nb/object_nb.h"
 
@@ -140,11 +140,12 @@ void EnNb_UpdatePath(EnNb* this, PlayState* play) {
         this->finalPos.z = pointPos[1].z;
         this->pathYaw =
             RAD_TO_BINANG(Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z));
-        // "En_Nb_Get_path_info Rail Data Get! = %d!!!!!!!!!!!!!!"
-        PRINTF("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", path);
+        PRINTF(T("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n",
+                 "En_Nb_Get_path_info Got the rail data = %d!!!!!!!!!!!!!!\n"),
+               path);
     } else {
-        // "En_Nb_Get_path_info Rail Data Doesn't Exist!!!!!!!!!!!!!!!!!!!!"
-        PRINTF("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF(T("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n",
+                 "En_Nb_Get_path_info No rail data!!!!!!!!!!!!!!!!!!!!\n"));
     }
 }
 
