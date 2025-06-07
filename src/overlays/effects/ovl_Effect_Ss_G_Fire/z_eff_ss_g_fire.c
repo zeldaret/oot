@@ -10,7 +10,7 @@
 #include "effect.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_fire_footprint.h"
 
 u32 EffectSsGFire_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGFire_Draw(PlayState* play, u32 index, EffectSs* this);

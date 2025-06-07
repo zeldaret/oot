@@ -1,5 +1,5 @@
-#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0" \
+                               "ique-cn:0 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 #include "libc64/qrand.h"
 #include "libu64/gfxprint.h"
@@ -32,7 +32,12 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_lightning.h"
+#include "assets/objects/gameplay_keep/eff_shockwave.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x48130.h"
+#include "assets/objects/gameplay_keep/lens_flare.h"
+#include "assets/objects/gameplay_keep/moon.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x4D160.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 typedef enum LightningBoltState {
@@ -238,8 +243,8 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
+                               "ique-cn:224 ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:192"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;

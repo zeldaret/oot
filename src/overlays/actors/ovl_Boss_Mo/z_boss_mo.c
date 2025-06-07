@@ -35,7 +35,10 @@
 #include "save.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/shadow_circle.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x244B0.h"
+#include "assets/objects/gameplay_keep/eff_shockwave.h"
+#include "assets/objects/gameplay_keep/dust_textures.h"
 #include "assets/objects/object_mo/object_mo.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \

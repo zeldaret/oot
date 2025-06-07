@@ -18,7 +18,9 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/dust_textures.h"
+#include "assets/objects/gameplay_keep/eff_dust.h"
+#include "assets/objects/gameplay_keep/eff_flash.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 

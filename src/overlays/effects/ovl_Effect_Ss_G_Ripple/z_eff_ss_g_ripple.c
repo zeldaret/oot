@@ -14,7 +14,7 @@
 #include "play_state.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x244B0.h"
 
 #define rWaterBoxNum regs[0]
 #define rRadius regs[1]

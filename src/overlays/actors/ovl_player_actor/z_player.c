@@ -51,7 +51,9 @@
 #include "save.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/player_anim_headers.h"
+#include "assets/objects/gameplay_keep/hover_boots_circle.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x33910.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
 // Some player animations are played at this reduced speed, for reasons yet unclear.
@@ -362,8 +364,8 @@ void Player_Action_CsAction(Player* this, PlayState* play);
 
 // .bss part 1
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
-                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:64 gc-eu-mq:64 gc-jp:64 gc-jp-ce:64 gc-jp-mq:64 gc-us:64 gc-us-mq:64 ique-cn:64" \
+                               "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
 static s32 D_80858AA0;
 

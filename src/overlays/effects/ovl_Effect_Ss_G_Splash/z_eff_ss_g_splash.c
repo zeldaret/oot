@@ -10,7 +10,7 @@
 #include "effect.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x255F0.h"
 
 //! @bug the reuse of regs[11] means that EffectSs_DrawGEffect will treat the type as an object slot (`rgObjectSlot`)
 // this ends up having no effect because the texture provided does not use segment 6

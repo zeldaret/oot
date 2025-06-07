@@ -23,7 +23,7 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0xD0C0.h"
 #include "assets/objects/object_goroiwa/object_goroiwa.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

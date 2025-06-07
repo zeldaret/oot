@@ -640,11 +640,11 @@
             <Vtx/>
         </Array>
         <DList Name="gArrowFarDL" Offset="0x5E20"/>
-        <Limb Name="gameplay_keep_005FC0_Limb" LimbType="LOD" EnumName="LIMB_GAMEPLAY_KEEP_005FC0" Offset="0x5FC0"/>
-        <Limb Name="gameplay_keep_005FD0_Limb" LimbType="LOD" EnumName="LIMB_GAMEPLAY_KEEP_005FD0" Offset="0x5FD0"/>
-        <Limb Name="gameplay_keep_005FE0_Limb" LimbType="LOD" EnumName="LIMB_GAMEPLAY_KEEP_005FE0" Offset="0x5FE0"/>
-        <Limb Name="gameplay_keep_005FF0_Limb" LimbType="LOD" EnumName="LIMB_GAMEPLAY_KEEP_005FF0" Offset="0x5FF0"/>
-        <Skeleton Name="gArrowSkel" Type="Normal" LimbType="LOD" Offset="0x6010"/> <!-- fix pointer for this! -->
+        <Limb Name="gArrowSkelLimb0" LimbType="LOD" EnumName="ARROW_LIMB_0" Offset="0x5FC0"/>
+        <Limb Name="gArrowSkelLimb1" LimbType="LOD" EnumName="ARROW_LIMB_1" Offset="0x5FD0"/>
+        <Limb Name="gArrowSkelLimb2" LimbType="LOD" EnumName="ARROW_LIMB_2" Offset="0x5FE0"/>
+        <Limb Name="gArrowSkelLimb3" LimbType="LOD" EnumName="ARROW_LIMB_3" Offset="0x5FF0"/>
+        <Skeleton Name="gArrowSkel" Type="Normal" LimbType="LOD" Offset="0x6010"/> <!-- fix pointer for this! where? -->
         <Texture Name="gUnknownEffBlureTex" Format="i8" Width="64" Height="32" Offset="0x6020"/>
         <Texture Name="gBombBodyTex" Format="ia8" Width="64" Height="64" Offset="0x6820"/>
         <Array Name="gBombBodyVtx" Count="4" Offset="0x7820">
@@ -687,6 +687,7 @@
         <DList Name="gBoomerangDL" Offset="0xC698"/>
         <DList Name="gBoomerangRefDL" Offset="0xC808"/>
         <DList Name="gCompassArrowDL" Offset="0xC820"/>
+
         <Array Name="gCompassArrowVtx" Count="3" Offset="0xC848">
             <Vtx/>
         </Array>
@@ -728,10 +729,10 @@
         <DList Name="gDoorLeftDL" Offset="0xECB8"/>
         <DList Name="gDoorRightDL" Offset="0xEE00"/>
         <Texture Name="gWoodenDoorTex" Format="rgba16" Width="32" Height="64" Offset="0xEF38"/>
-        <Limb Name="gameplay_keep_00FF38_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_00FF38" Offset="0xFF38"/>
-        <Limb Name="gameplay_keep_00FF44_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_00FF44" Offset="0xFF44"/>
-        <Limb Name="gameplay_keep_00FF50_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_00FF50" Offset="0xFF50"/>
-        <Limb Name="gameplay_keep_00FF5C_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_00FF5C" Offset="0xFF5C"/>
+        <Limb Name="gDoorSkelLimb0" LimbType="Standard" EnumName="DOOR_LIMB_0" Offset="0xFF38"/>
+        <Limb Name="gDoorSkelLimb1" LimbType="Standard" EnumName="DOOR_LIMB_1" Offset="0xFF44"/>
+        <Limb Name="gDoorSkelLimb2" LimbType="Standard" EnumName="DOOR_LIMB_2" Offset="0xFF50"/>
+        <Limb Name="gDoorSkelLimb3" LimbType="Standard" EnumName="DOOR_LIMB_3" Offset="0xFF5C"/>
         <Skeleton Name="gDoorSkel" Type="Normal" LimbType="Standard" Offset="0xFF78"/>
         <Animation Name="gDoorAdultOpeningRightAnim" Offset="0x10038"/>
         <DList Name="gEffDustDL" Offset="0x10050"/>
@@ -802,20 +803,20 @@
             <Vtx/>
         </Array>
         <Texture Name="gUnusedFairyWingTex" Format="rgba16" Width="32" Height="64" Offset="0x15968"/>
-        <Limb Name="gameplay_keep_016968_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_016968" Offset="0x16968"/>
-        <Limb Name="gameplay_keep_016974_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_016974" Offset="0x16974"/>
-        <Limb Name="gameplay_keep_016980_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_016980" Offset="0x16980"/>
-        <Limb Name="gameplay_keep_01698C_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_01698C" Offset="0x1698C"/>
-        <Limb Name="gameplay_keep_016998_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_016998" Offset="0x16998"/>
-        <Limb Name="gameplay_keep_0169A4_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0169A4" Offset="0x169A4"/>
-        <Limb Name="gameplay_keep_0169B0_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0169B0" Offset="0x169B0"/>
-        <Limb Name="gameplay_keep_0169BC_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0169BC" Offset="0x169BC"/>
-        <Limb Name="gameplay_keep_0169C8_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0169C8" Offset="0x169C8"/>
-        <Limb Name="gameplay_keep_0169D4_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0169D4" Offset="0x169D4"/>
-        <Limb Name="gameplay_keep_0169E0_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0169E0" Offset="0x169E0"/>
-        <Limb Name="gameplay_keep_0169EC_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0169EC" Offset="0x169EC"/>
-        <Limb Name="gameplay_keep_0169F8_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0169F8" Offset="0x169F8"/>
-        <Limb Name="gameplay_keep_016A04_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_016A04" Offset="0x16A04"/>
+        <Limb Name="gFairySkelLimb0" LimbType="Standard" EnumName="FAIRY_LIMB_0" Offset="0x16968"/>
+        <Limb Name="gFairySkelLimb1" LimbType="Standard" EnumName="FAIRY_LIMB_1" Offset="0x16974"/>
+        <Limb Name="gFairySkelLimb2" LimbType="Standard" EnumName="FAIRY_LIMB_2" Offset="0x16980"/>
+        <Limb Name="gFairySkelLimb3" LimbType="Standard" EnumName="FAIRY_LIMB_3" Offset="0x1698C"/>
+        <Limb Name="gFairySkelLimb4" LimbType="Standard" EnumName="FAIRY_LIMB_4" Offset="0x16998"/>
+        <Limb Name="gFairySkelLimb5" LimbType="Standard" EnumName="FAIRY_LIMB_5" Offset="0x169A4"/>
+        <Limb Name="gFairySkelLimb6" LimbType="Standard" EnumName="FAIRY_LIMB_6" Offset="0x169B0"/>
+        <Limb Name="gFairySkelLimb7" LimbType="Standard" EnumName="FAIRY_LIMB_7" Offset="0x169BC"/>
+        <Limb Name="gFairySkelLimb8" LimbType="Standard" EnumName="FAIRY_LIMB_8" Offset="0x169C8"/>
+        <Limb Name="gFairySkelLimb9" LimbType="Standard" EnumName="FAIRY_LIMB_9" Offset="0x169D4"/>
+        <Limb Name="gFairySkelLimb10" LimbType="Standard" EnumName="FAIRY_LIMB_10" Offset="0x169E0"/>
+        <Limb Name="gFairySkelLimb11" LimbType="Standard" EnumName="FAIRY_LIMB_11" Offset="0x169EC"/>
+        <Limb Name="gFairySkelLimb12" LimbType="Standard" EnumName="FAIRY_LIMB_12" Offset="0x169F8"/>
+        <Limb Name="gFairySkelLimb13" LimbType="Standard" EnumName="FAIRY_LIMB_13" Offset="0x16A04"/>
         <Skeleton Name="gFairySkel" Type="Normal" LimbType="Standard" Offset="0x16A48"/>
         <Texture Name="gUnknownCircle3Tex" Format="i4" Width="16" Height="16" Offset="0x16A50"/>
         <Texture Name="gUnknownCircle4Tex" Format="i8" Width="16" Height="16" Offset="0x16AD0"/>
@@ -841,12 +842,12 @@
         <DList Name="gameplay_keep_018A68_DL" Offset="0x18A68"/>
         <Texture Name="gFishTailTex" Format="rgba16" Width="16" Height="16" Offset="0x18B80"/>
         <Texture Name="gFishBodyTex" Format="rgba16" Width="32" Height="8" Offset="0x18D80"/>
-        <Limb Name="gameplay_keep_018F80_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_018F80" Offset="0x18F80"/>
-        <Limb Name="gameplay_keep_018F8C_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_018F8C" Offset="0x18F8C"/>
-        <Limb Name="gameplay_keep_018F98_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_018F98" Offset="0x18F98"/>
-        <Limb Name="gameplay_keep_018FA4_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_018FA4" Offset="0x18FA4"/>
-        <Limb Name="gameplay_keep_018FB0_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_018FB0" Offset="0x18FB0"/>
-        <Limb Name="gameplay_keep_018FBC_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_018FBC" Offset="0x18FBC"/>
+        <Limb Name="gFishSkelLimb0" LimbType="Standard" EnumName="FISH_LIMB_0" Offset="0x18F80"/>
+        <Limb Name="gFishSkelLimb1" LimbType="Standard" EnumName="FISH_LIMB_1" Offset="0x18F8C"/>
+        <Limb Name="gFishSkelLimb2" LimbType="Standard" EnumName="FISH_LIMB_2" Offset="0x18F98"/>
+        <Limb Name="gFishSkelLimb3" LimbType="Standard" EnumName="FISH_LIMB_3" Offset="0x18FA4"/>
+        <Limb Name="gFishSkelLimb4" LimbType="Standard" EnumName="FISH_LIMB_4" Offset="0x18FB0"/>
+        <Limb Name="gFishSkelLimb5" LimbType="Standard" EnumName="FISH_LIMB_5" Offset="0x18FBC"/>
         <Skeleton Name="gFishSkel" Type="Flex" LimbType="Standard" Offset="0x18FE0"/>
         <Animation Name="gFishInWaterAnim" Offset="0x1909C"/>
         <Texture Name="gEffShockwaveTex" Format="i8" Width="64" Height="64" Offset="0x190B0"/>
@@ -1057,29 +1058,29 @@
         </Array>
         <Texture Name="gBugBodyTex" Format="rgba16" Width="16" Height="64" Offset="0x34B20"/>
         <Texture Name="gBugLegTex" Format="rgba16" Width="8" Height="16" Offset="0x35320"/>
-        <Limb Name="gameplay_keep_035420_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035420" Offset="0x35420"/>
-        <Limb Name="gameplay_keep_03542C_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_03542C" Offset="0x3542C"/>
-        <Limb Name="gameplay_keep_035438_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035438" Offset="0x35438"/>
-        <Limb Name="gameplay_keep_035444_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035444" Offset="0x35444"/>
-        <Limb Name="gameplay_keep_035450_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035450" Offset="0x35450"/>
-        <Limb Name="gameplay_keep_03545C_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_03545C" Offset="0x3545C"/>
-        <Limb Name="gameplay_keep_035468_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035468" Offset="0x35468"/>
-        <Limb Name="gameplay_keep_035474_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035474" Offset="0x35474"/>
-        <Limb Name="gameplay_keep_035480_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035480" Offset="0x35480"/>
-        <Limb Name="gameplay_keep_03548C_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_03548C" Offset="0x3548C"/>
-        <Limb Name="gameplay_keep_035498_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035498" Offset="0x35498"/>
-        <Limb Name="gameplay_keep_0354A4_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0354A4" Offset="0x354A4"/>
-        <Limb Name="gameplay_keep_0354B0_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0354B0" Offset="0x354B0"/>
-        <Limb Name="gameplay_keep_0354BC_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0354BC" Offset="0x354BC"/>
-        <Limb Name="gameplay_keep_0354C8_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0354C8" Offset="0x354C8"/>
-        <Limb Name="gameplay_keep_0354D4_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0354D4" Offset="0x354D4"/>
-        <Limb Name="gameplay_keep_0354E0_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0354E0" Offset="0x354E0"/>
-        <Limb Name="gameplay_keep_0354EC_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0354EC" Offset="0x354EC"/>
-        <Limb Name="gameplay_keep_0354F8_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_0354F8" Offset="0x354F8"/>
-        <Limb Name="gameplay_keep_035504_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035504" Offset="0x35504"/>
-        <Limb Name="gameplay_keep_035510_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035510" Offset="0x35510"/>
-        <Limb Name="gameplay_keep_03551C_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_03551C" Offset="0x3551C"/>
-        <Limb Name="gameplay_keep_035528_Limb" LimbType="Standard" EnumName="LIMB_GAMEPLAY_KEEP_035528" Offset="0x35528"/>
+        <Limb Name="gBugSkelLimb0" LimbType="Standard" EnumName="BUG_LIMB_0" Offset="0x35420"/>
+        <Limb Name="gBugSkelLimb1" LimbType="Standard" EnumName="BUG_LIMB_1" Offset="0x3542C"/>
+        <Limb Name="gBugSkelLimb2" LimbType="Standard" EnumName="BUG_LIMB_2" Offset="0x35438"/>
+        <Limb Name="gBugSkelLimb3" LimbType="Standard" EnumName="BUG_LIMB_3" Offset="0x35444"/>
+        <Limb Name="gBugSkelLimb4" LimbType="Standard" EnumName="BUG_LIMB_4" Offset="0x35450"/>
+        <Limb Name="gBugSkelLimb5" LimbType="Standard" EnumName="BUG_LIMB_5" Offset="0x3545C"/>
+        <Limb Name="gBugSkelLimb6" LimbType="Standard" EnumName="BUG_LIMB_6" Offset="0x35468"/>
+        <Limb Name="gBugSkelLimb7" LimbType="Standard" EnumName="BUG_LIMB_7" Offset="0x35474"/>
+        <Limb Name="gBugSkelLimb8" LimbType="Standard" EnumName="BUG_LIMB_8" Offset="0x35480"/>
+        <Limb Name="gBugSkelLimb9" LimbType="Standard" EnumName="BUG_LIMB_9" Offset="0x3548C"/>
+        <Limb Name="gBugSkelLimb10" LimbType="Standard" EnumName="BUG_LIMB_10" Offset="0x35498"/>
+        <Limb Name="gBugSkelLimb11" LimbType="Standard" EnumName="BUG_LIMB_11" Offset="0x354A4"/>
+        <Limb Name="gBugSkelLimb12" LimbType="Standard" EnumName="BUG_LIMB_12" Offset="0x354B0"/>
+        <Limb Name="gBugSkelLimb13" LimbType="Standard" EnumName="BUG_LIMB_13" Offset="0x354BC"/>
+        <Limb Name="gBugSkelLimb14" LimbType="Standard" EnumName="BUG_LIMB_14" Offset="0x354C8"/>
+        <Limb Name="gBugSkelLimb15" LimbType="Standard" EnumName="BUG_LIMB_15" Offset="0x354D4"/>
+        <Limb Name="gBugSkelLimb16" LimbType="Standard" EnumName="BUG_LIMB_16" Offset="0x354E0"/>
+        <Limb Name="gBugSkelLimb17" LimbType="Standard" EnumName="BUG_LIMB_17" Offset="0x354EC"/>
+        <Limb Name="gBugSkelLimb18" LimbType="Standard" EnumName="BUG_LIMB_18" Offset="0x354F8"/>
+        <Limb Name="gBugSkelLimb19" LimbType="Standard" EnumName="BUG_LIMB_19" Offset="0x35504"/>
+        <Limb Name="gBugSkelLimb20" LimbType="Standard" EnumName="BUG_LIMB_20" Offset="0x35510"/>
+        <Limb Name="gBugSkelLimb21" LimbType="Standard" EnumName="BUG_LIMB_21" Offset="0x3551C"/>
+        <Limb Name="gBugSkelLimb22" LimbType="Standard" EnumName="BUG_LIMB_22" Offset="0x35528"/>
         <Skeleton Name="gBugSkel" Type="Normal" LimbType="Standard" Offset="0x35590"/>
         <Array Name="gCuttableShrubStalkVtx" Count="4" Offset="0x355A0">
             <Vtx/>
