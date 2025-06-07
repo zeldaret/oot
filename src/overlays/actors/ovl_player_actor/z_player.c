@@ -377,7 +377,7 @@ static Vec3f sInteractWallCheckResult;
 static Input* sControlInput;
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ique-cn:192 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ique-cn:160 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 // .data
 
@@ -9144,7 +9144,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
             if ((func_80842AC4(play, this) == 0) && (this->heldItemAction != PLAYER_IA_HAMMER)) {
                 func_80842B7C(play, this);
 
-                if (this->actor.colChkInfo.atHitEffect == 1) {
+                if (this->actor.colChkInfo.atHitBacklash == HIT_BACKLASH_1) {
                     this->actor.colChkInfo.damage = 8;
                     func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK, 0.0f, 0.0f, this->actor.shape.rot.y,
                                   20);

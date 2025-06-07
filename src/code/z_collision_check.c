@@ -17,7 +17,7 @@
 #include "z_lib.h"
 
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
-                               "ique-cn:192 ntsc-1.0:168 ntsc-1.1:168 ntsc-1.2:168 pal-1.0:168 pal-1.1:168"
+                               "ique-cn:192 ntsc-1.0:160 ntsc-1.1:160 ntsc-1.2:160 pal-1.0:160 pal-1.1:160"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
@@ -194,7 +194,7 @@ s32 Collider_DestroyElementDamageInfoAC(PlayState* play, ColliderElementDamageIn
 s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo,
                                     ColliderElementDamageInfoACInit* init) {
     acDmgInfo->dmgFlags = init->dmgFlags;
-    acDmgInfo->effect = init->effect;
+    acDmgInfo->hitBacklash = init->effect;
     acDmgInfo->defense = init->defense;
     return true;
 }
@@ -1739,7 +1739,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
         atElem->atHitElem = acElem;
         atElem->atElemFlags |= ATELEM_HIT;
         if (atCol->actor != NULL) {
-            atCol->actor->colChkInfo.atHitEffect = acElem->acDmgInfo.effect;
+            atCol->actor->colChkInfo.atHitBacklash = acElem->acDmgInfo.hitBacklash;
         }
     }
     acCol->acFlags |= AC_HIT;
@@ -3028,7 +3028,7 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage = 0;
     info->damageReaction = 0;
-    info->atHitEffect = 0;
+    info->atHitBacklash = HIT_BACKLASH_0;
     info->acHitEffect = 0;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
 }
