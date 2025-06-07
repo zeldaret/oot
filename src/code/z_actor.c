@@ -1964,7 +1964,8 @@ s32 Actor_NotMounted(UNUSED PlayState* play, Actor* horse) {
  * @param type PlayerKnockbackType
  * @param damage additional amount of damage to deal to the player
  */
-void Actor_SetPlayerKnockback(PlayState* play, UNUSED Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 type, u32 damage) {
+void Actor_SetPlayerKnockback(PlayState* play, UNUSED Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 type,
+                              u32 damage) {
     Player* player = GET_PLAYER(play);
 
     player->knockbackDamage = damage;
