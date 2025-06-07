@@ -16,5 +16,73 @@
         <!-- I think those might be for taking damage or something -->
         <Animation Name="gAnubiceAnim_000A48" Offset="0xA48"/>
         <Animation Name="gAnubiceAnim_000BAC" Offset="0xBAC"/>
+
+        <!-- Vertices -->
+        <Array Name="object_anubice_Vtx_001B10" Count="62" Offset="0x1B10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_001EF0" Count="20" Offset="0x1EF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_002030" Count="20" Offset="0x2030">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_002170" Count="20" Offset="0x2170">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_0022B0" Count="17" Offset="0x22B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_0023C0" Count="5" Offset="0x23C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_002410" Count="16" Offset="0x2410">
+            <Vtx/>
+        </Array>
+        <Array Name="object_anubice_Vtx_002510" Count="115" Offset="0x2510">
+            <Vtx/>
+        </Array>
+        <Array Name="gAnubiceEyesVtx" Count="10" Offset="0x2C40">
+            <Vtx/>
+        </Array>
+        <Array Name="gAnubiceFireAttackVtx" Count="4" Offset="0x3590">
+            <Vtx/>
+        </Array>
+        <Array Name="gAnubiceUnusedParticleModelVtx" Count="4" Offset="0x35D0">
+            <Vtx/>
+        </Array>
+
+        <Texture Name="object_anubice_000F90_Tex" Format="rgba16" Width="8" Height="16" Offset="0xF90"/>
+        <Texture Name="object_anubice_001090_Tex" Format="rgba16" Width="4" Height="16" Offset="0x1090"/>
+        <Texture Name="object_anubice_001110_Tex" Format="rgba16" Width="16" Height="32" Offset="0x1110"/>
+        <Texture Name="object_anubice_001510_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1510"/>
+        <Texture Name="object_anubice_001590_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1590"/>
+        <Texture Name="object_anubice_001610_Tex" Format="rgba16" Width="4" Height="16" Offset="0x1610"/>
+        <Texture Name="object_anubice_001690_Tex" Format="ia16" Width="32" Height="16" Offset="0x1690"/>
+        <Texture Name="object_anubice_001A90_Tex" Format="rgba16" Width="8" Height="8" Offset="0x1A90"/>
+        <DList Name="object_anubice_002CE0_DL" Offset="0x2CE0"/>
+        <DList Name="object_anubice_002E30_DL" Offset="0x2E30"/>
+        <DList Name="object_anubice_002EE0_DL" Offset="0x2EE0"/>
+        <DList Name="object_anubice_002F90_DL" Offset="0x2F90"/>
+        <DList Name="object_anubice_003040_DL" Offset="0x3040"/>
+        <DList Name="object_anubice_003108_DL" Offset="0x3108"/>
+        <DList Name="object_anubice_0031A0_DL" Offset="0x31A0"/>
+        <DList Name="object_anubice_003288_DL" Offset="0x3288"/>
+        <Texture Name="object_anubice_0036A0_Tex" Format="i4" Width="32" Height="32" Offset="0x36A0"/>
+        <Limb Name="object_anubice_0038A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038A0" Offset="0x38A0"/>
+        <Limb Name="object_anubice_0038AC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038AC" Offset="0x38AC"/>
+        <Limb Name="object_anubice_0038B8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038B8" Offset="0x38B8"/>
+        <Limb Name="object_anubice_0038C4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038C4" Offset="0x38C4"/>
+        <Limb Name="object_anubice_0038D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038D0" Offset="0x38D0"/>
+        <Limb Name="object_anubice_0038DC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038DC" Offset="0x38DC"/>
+        <Limb Name="object_anubice_0038E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038E8" Offset="0x38E8"/>
+        <Limb Name="object_anubice_0038F4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038F4" Offset="0x38F4"/>
+        <Limb Name="object_anubice_003900_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_003900" Offset="0x3900"/>
+        <Limb Name="object_anubice_00390C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_00390C" Offset="0x390C"/>
+        <Limb Name="object_anubice_003918_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_003918" Offset="0x3918"/>
+        <Limb Name="object_anubice_003924_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_003924" Offset="0x3924"/>
+        <Limb Name="object_anubice_003930_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_003930" Offset="0x3930"/>
+        <Limb Name="object_anubice_00393C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_00393C" Offset="0x393C"/>
+        <Limb Name="object_anubice_003948_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_003948" Offset="0x3948"/>
     </File>
 </Root>

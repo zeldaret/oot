@@ -2,7 +2,7 @@
 #define Z_EN_FIRE_ROCK_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 #include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 

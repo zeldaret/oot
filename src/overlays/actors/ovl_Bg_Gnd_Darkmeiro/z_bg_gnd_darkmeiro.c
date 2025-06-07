@@ -9,7 +9,7 @@
 #include "gfx.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 

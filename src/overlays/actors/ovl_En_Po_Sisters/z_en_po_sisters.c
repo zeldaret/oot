@@ -17,11 +17,11 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64light.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "audio.h"
+#include "effect.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_po_sisters/object_po_sisters.h"
@@ -1166,15 +1166,15 @@ void func_80ADC10C(EnPoSisters* this, PlayState* play) {
                 Item_DropCollectible(play, &sp24, ITEM00_ARROWS_SMALL);
             }
         } else if (this->collider.base.colMaterial == COL_MATERIAL_METAL ||
-                   (this->actor.colChkInfo.damageEffect == 0 && this->actor.colChkInfo.damage == 0)) {
+                   (this->actor.colChkInfo.damageReaction == 0 && this->actor.colChkInfo.damage == 0)) {
             if (this->unk_194 == 0) {
                 this->actor.freezeTimer = 0;
             }
-        } else if (this->actor.colChkInfo.damageEffect == 0xF) {
+        } else if (this->actor.colChkInfo.damageReaction == 0xF) {
             this->actor.world.rot.y = this->actor.shape.rot.y;
             this->unk_199 |= 2;
             func_80AD98F4(this, play);
-        } else if (this->unk_194 == 0 && this->actor.colChkInfo.damageEffect == 0xE &&
+        } else if (this->unk_194 == 0 && this->actor.colChkInfo.damageReaction == 0xE &&
                    this->actionFunc == func_80ADB770) {
             if (this->unk_19C == 0) {
                 this->unk_19C = -45;

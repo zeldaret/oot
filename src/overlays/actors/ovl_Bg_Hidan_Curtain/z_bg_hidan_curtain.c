@@ -15,8 +15,8 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
@@ -87,8 +87,8 @@ void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
     Actor_SetFocus(&this->actor, 20.0f);
     this->type = PARAMS_GET_U(thisx->params, 12, 4);
     if (this->type > 6) {
-        PRINTF(T("Error : object のタイプが設定されていない",
-                 "Error : object type is not set") "(%s %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Error : object のタイプが設定されていない(%s %d)(arg_data 0x%04x)\n",
+                 "Error : object type is not set (%s %d)(arg_data 0x%04x)\n"),
                "../z_bg_hidan_curtain.c", 352, this->actor.params);
         Actor_Kill(&this->actor);
         return;
@@ -100,8 +100,8 @@ void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {
     thisx->params &= 0x3F;
 
     if (DEBUG_FEATURES && ((this->actor.params < 0) || (this->actor.params > 0x3F))) {
-        PRINTF(T("Warning : object のセーブビットが設定されていない",
-                 "Warning : object save bit is not set") "(%s %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Warning : object のセーブビットが設定されていない(%s %d)(arg_data 0x%04x)\n",
+                 "Warning : object save bit is not set (%s %d)(arg_data 0x%04x)\n"),
                "../z_bg_hidan_curtain.c", 373, this->actor.params);
     }
 

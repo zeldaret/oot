@@ -1,9 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_ny" Segment="6">
-        <Texture Name="gEnNyRockBodyTex" OutName="rock_body" Format="rgba16" Width="16" Height="16" Offset="0x0000"/>
-        <Texture Name="gEnNySpikeTex" OutName="spike" Format="rgba16" Width="32" Height="32" Offset="0x0200"/>
-        <Texture Name="gEnNyMetalBodyTex" OutName="metal_body" Format="rgba16" Width="32" Height="32" Offset="0x0A00"/>
+        <Texture Name="gEnNyRockBodyTex" Format="rgba16" Width="16" Height="16" Offset="0x0000"/>
+        <Texture Name="gEnNySpikeTex" Format="rgba16" Width="32" Height="32" Offset="0x0200"/>
+        <Texture Name="gEnNyMetalBodyTex" Format="rgba16" Width="32" Height="32" Offset="0x0A00"/>
         <Array Name="gEnNyRockBodyVtx" Count="48" Offset="0x1200">
             <Vtx/>
         </Array>

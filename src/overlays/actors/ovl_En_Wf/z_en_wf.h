@@ -2,7 +2,7 @@
 #define Z_EN_WF_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnWf;
 
@@ -63,7 +63,7 @@ typedef struct EnWf {
     /* 0x02E0 */ s16 unk_2E0; // Used, but has no effect
     /* 0x02E2 */ s16 unk_2E2;
     /* 0x02E4 */ s16 fireTimer;
-    /* 0x02E6 */ u8 damageEffect;
+    /* 0x02E6 */ u8 damageReaction;
     /* 0x02E8 */ s32 actionTimer; // Used to make an action last for a certain amount of time
     /* 0x02EC */ f32 runSpeed;
     /* 0x02F0 */ char unk_2F0[4];

@@ -12,8 +12,8 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_ny/object_ny.h"
 
@@ -323,7 +323,7 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
             effectPos.y = this->collider.elements[0].base.acDmgInfo.hitPos.y;
             effectPos.z = this->collider.elements[0].base.acDmgInfo.hitPos.z;
             if ((this->unk_1E0 == 0.25f) && (this->unk_1D4 == 0xFF)) {
-                switch (this->actor.colChkInfo.damageEffect) {
+                switch (this->actor.colChkInfo.damageReaction) {
                     case 0xE:
                         sp3F = 1;
                         FALLTHROUGH;

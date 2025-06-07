@@ -12,10 +12,10 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_bigokuta/object_bigokuta.h"
 
@@ -767,12 +767,12 @@ void func_809BE798(EnBigokuta* this, PlayState* play) {
 void EnBigokuta_UpdateDamage(EnBigokuta* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
-            if (this->actor.colChkInfo.damageEffect == 1) {
+        if (this->actor.colChkInfo.damageReaction != 0 || this->actor.colChkInfo.damage != 0) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->actionFunc != func_809BE058) {
                     func_809BD524(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 0xF) {
+            } else if (this->actor.colChkInfo.damageReaction == 0xF) {
                 func_809BD47C(this);
             } else if (!Actor_IsFacingPlayer(&this->actor, 0x4000)) {
                 if (Actor_ApplyDamage(&this->actor) == 0) { // Dead

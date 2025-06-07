@@ -1,5 +1,79 @@
 ﻿<Root>
     <File Name="object_sk2" Segment="6">
+        <!-- Stalfos Vertices -->
+        <Array Name="gStalfosSkullVtx" Count="114" Offset="0x3180">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosUpperCoreVtx" Count="8" Offset="0x38A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosRightUpperArmVtx" Count="17" Offset="0x3920">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosLowerCoreVtx" Count="8" Offset="0x3A30">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosRightThighVtx" Count="8" Offset="0x3AB0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosRightHandVtx" Count="16" Offset="0x3B30">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosChestVtx" Count="23" Offset="0x3C30">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosJawVtx" Count="31" Offset="0x3DA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosUpperNeckVtx" Count="6" Offset="0x3F90">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosLowerNeckVtx" Count="7" Offset="0x3FF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosShieldVtx" Count="32" Offset="0x4060">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosWaistVtx" Count="23" Offset="0x4260">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosRightLowerLegVtx" Count="25" Offset="0x43D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosRightForearmVtx" Count="20" Offset="0x4560">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosRightFootVtx" Count="17" Offset="0x46A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosRightShoulderArmorVtx" Count="19" Offset="0x47B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosLeftUpperArmVtx" Count="17" Offset="0x48E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosLeftShoulderArmorVtx" Count="19" Offset="0x49F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosLeftFootVtx" Count="17" Offset="0x4B20">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosLeftForearmVtx" Count="20" Offset="0x4C30">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosLeftLowerLegVtx" Count="25" Offset="0x4D70">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosLeftThighVtx" Count="8" Offset="0x4F00">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosLeftHandVtx" Count="16" Offset="0x4F80">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalfosSwordVtx" Count="53" Offset="0x5080">
+            <Vtx/>
+        </Array>
+
         <!-- Stalfos DLists -->
         <DList Name="gStalfosSkullDL" Offset="0x53D0"/>
         <DList Name="gStalfosUpperCoreDL" Offset="0x5720"/>
@@ -27,19 +101,19 @@
         <DList Name="gStalfosSwordDL" Offset="0x6A48"/>
 
         <!-- Stalfos textures -->
-        <Texture Name="gStalfosEyeSocketTex" OutName="stalfos_eye_socket" Format="rgba16" Width="16" Height="16" Offset="0x6BA8"/>
-        <Texture Name="gStalfosEyeTex" OutName="stalfos_eye" Format="rgba16" Width="8" Height="8" Offset="0x6DA8"/>
-        <Texture Name="gStalfosBoneGradientTex" OutName="stalfos_bone_gradient" Format="rgba16" Width="4" Height="4" Offset="0x6E28"/>
-        <Texture Name="gStalfosNostrilTex" OutName="stalfos_nostril" Format="rgba16" Width="8" Height="8" Offset="0x6E48"/>
-        <Texture Name="gStalfosBoneDetailTex" OutName="stalfos_bone_detail" Format="rgba16" Width="8" Height="8" Offset="0x6EC8"/>
-        <Texture Name="gStalfosRibTex" OutName="stalfos_rib" Format="rgba16" Width="16" Height="16" Offset="0x6F48"/>
-        <Texture Name="gStalfosTrousersSideTex" OutName="stalfos_trousers_side" Format="rgba16" Width="16" Height="16" Offset="0x7148"/>
-        <Texture Name="gStalfosShieldTex" OutName="stalfos_shield_tex" Format="rgba16" Width="16" Height="16" Offset="0x7348"/>
+        <Texture Name="gStalfosEyeSocketTex" Format="rgba16" Width="16" Height="16" Offset="0x6BA8"/>
+        <Texture Name="gStalfosEyeTex" Format="rgba16" Width="8" Height="8" Offset="0x6DA8"/>
+        <Texture Name="gStalfosBoneGradientTex" Format="rgba16" Width="4" Height="4" Offset="0x6E28"/>
+        <Texture Name="gStalfosNostrilTex" Format="rgba16" Width="8" Height="8" Offset="0x6E48"/>
+        <Texture Name="gStalfosBoneDetailTex" Format="rgba16" Width="8" Height="8" Offset="0x6EC8"/>
+        <Texture Name="gStalfosRibTex" Format="rgba16" Width="16" Height="16" Offset="0x6F48"/>
+        <Texture Name="gStalfosTrousersSideTex" Format="rgba16" Width="16" Height="16" Offset="0x7148"/>
+        <Texture Name="gStalfosShieldTex" Format="rgba16" Width="16" Height="16" Offset="0x7348"/>
         <!-- Also used for shoulder armor, helm and sword hilt -->
-        <Texture Name="gStalfosLimbArmorTex" OutName="stalfos_limb_armor_tex" Format="rgba16" Width="16" Height="16" Offset="0x7548"/>
-        <Texture Name="gStalfosArmorBackTex" OutName="stalfos_armor_back" Format="rgba16" Width="8" Height="8" Offset="0x7748"/>
-        <Texture Name="gStalfosSwordBladeTex" OutName="stalfos_sword_blade" Format="rgba16" Width="4" Height="4" Offset="0x77C8"/>
-        <Texture Name="gStalfosTrousersTopTex" OutName="stalfos_trousers_top" Format="rgba16" Width="8" Height="8" Offset="0x77E8"/>
+        <Texture Name="gStalfosLimbArmorTex" Format="rgba16" Width="16" Height="16" Offset="0x7548"/>
+        <Texture Name="gStalfosArmorBackTex" Format="rgba16" Width="8" Height="8" Offset="0x7748"/>
+        <Texture Name="gStalfosSwordBladeTex" Format="rgba16" Width="4" Height="4" Offset="0x77C8"/>
+        <Texture Name="gStalfosTrousersTopTex" Format="rgba16" Width="8" Height="8" Offset="0x77E8"/>
 
         <!-- Stalfos limbs and skeleton -->
         <Limb Name="gStalfosRootLimb" LimbType="Standard" Offset="0x7868"/>

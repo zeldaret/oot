@@ -25,19 +25,45 @@
         <Array Name="object_ossan_Vtx_0024E0" Count="149" Offset="0x24E0">
             <Vtx/>
         </Array>
-        <Texture Name="gOssanEyesTLUT" OutName="ossan_eyes_tlut" Format="rgba16" Width="63" Height="4" Offset="0x4530"/>
-        <Texture Name="gOssanTLUT" OutName="ossan_tlut" Format="rgba16" Width="168" Height="1" Offset="0x4728"/>
-        <Texture Name="gOssanEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x4878" TlutOffset="0x4530"/>
-        <Texture Name="gOssanBeardTex" OutName="beard" Format="ci8" Width="32" Height="32" Offset="0x4C78" TlutOffset="0x4728"/>
-        <Texture Name="gOssanEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x52B8" TlutOffset="0x4530"/>
-        <Texture Name="gOssanEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x56B8" TlutOffset="0x4530"/>
+        <DList Name="object_ossan_002E30_DL" Offset="0x2E30"/>
+        <DList Name="object_ossan_003130_DL" Offset="0x3130"/>
+        <DList Name="object_ossan_003318_DL" Offset="0x3318"/>
+        <DList Name="object_ossan_003708_DL" Offset="0x3708"/>
+        <DList Name="object_ossan_003B30_DL" Offset="0x3B30"/>
+        <DList Name="object_ossan_003D18_DL" Offset="0x3D18"/>
+        <DList Name="object_ossan_004108_DL" Offset="0x4108"/>
+        <Texture Name="gOssanEyesTLUT" Format="rgba16" Width="63" Height="4" Offset="0x4530"/>
+        <Texture Name="gOssanTLUT" Format="rgba16" Width="168" Height="1" Offset="0x4728"/>
+        <Texture Name="gOssanEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x4878" TlutOffset="0x4530"/>
+        <Texture Name="gOssanBeardTex" Format="ci8" Width="32" Height="32" Offset="0x4C78" TlutOffset="0x4728"/>
+        <Texture Name="object_ossan_005078_Tex" Format="ci8" Width="16" Height="16" Offset="0x5078" TlutOffset="0x4728"/>
+        <Texture Name="object_ossan_005178_Tex" Format="ci8" Width="16" Height="16" Offset="0x5178" TlutOffset="0x4728"/>
+        <Texture Name="object_ossan_005278_Tex" Format="ci8" Width="8" Height="8" Offset="0x5278" TlutOffset="0x4728"/>
+        <Texture Name="gOssanEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x52B8" TlutOffset="0x4530"/>
+        <Texture Name="gOssanEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x56B8" TlutOffset="0x4530"/>
+        <Texture Name="object_ossan_005AB8_Tex" Format="ci8" Width="8" Height="8" Offset="0x5AB8" TlutOffset="0x4728"/>
         <Array Name="object_ossan_Vtx_005AF8" Count="169" Offset="0x5AF8">
             <Vtx/>
         </Array>
         <Array Name="object_ossan_Vtx_006588" Count="234" Offset="0x6588">
             <Vtx/>
         </Array>
+        <DList Name="object_ossan_007428_DL" Offset="0x7428"/>
         <DList Name="gObjectOssanEnSyatekiManDL_007E28" Offset="0x7E28"/>
+        <Texture Name="object_ossan_008A38_Tex" Format="rgba16" Width="8" Height="8" Offset="0x8A38"/>
+        <Texture Name="object_ossan_008AB8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x8AB8"/>
+        <Texture Name="object_ossan_008CB8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x8CB8"/>
+        <Texture Name="object_ossan_008EB8_Tex" Format="rgba16" Width="32" Height="32" Offset="0x8EB8"/>
+        <Texture Name="object_ossan_0096B8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x96B8"/>
+        <Texture Name="object_ossan_0098B8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x98B8"/>
+        <Limb Name="object_ossan_009AB8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OSSAN_009AB8" Offset="0x9AB8"/>
+        <Limb Name="object_ossan_009AC4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OSSAN_009AC4" Offset="0x9AC4"/>
+        <Limb Name="object_ossan_009AD0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OSSAN_009AD0" Offset="0x9AD0"/>
+        <Limb Name="object_ossan_009ADC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OSSAN_009ADC" Offset="0x9ADC"/>
+        <Limb Name="object_ossan_009AE8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OSSAN_009AE8" Offset="0x9AE8"/>
+        <Limb Name="object_ossan_009AF4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OSSAN_009AF4" Offset="0x9AF4"/>
+        <Limb Name="object_ossan_009B00_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OSSAN_009B00" Offset="0x9B00"/>
+        <Limb Name="object_ossan_009B0C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OSSAN_009B0C" Offset="0x9B0C"/>
         <Skeleton Name="gObjectOssanSkel" Type="Flex" LimbType="Standard" Offset="0x9B38"/>
     </File>
 </Root>

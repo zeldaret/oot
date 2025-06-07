@@ -15,12 +15,12 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64debug_display.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "debug_display.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
@@ -60,7 +60,7 @@ void EnOkarinaTag_Init(Actor* thisx, PlayState* play) {
     EnOkarinaTag* this = (EnOkarinaTag*)thisx;
 
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Ocarina tag occurrence ☆☆☆☆☆ %x\n") VT_RST,
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Ocarina tag spawn ☆☆☆☆☆ %x\n") VT_RST,
            this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->type = PARAMS_GET_U(this->actor.params, 10, 6);
@@ -229,7 +229,7 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
                         break;
                     default:
                         PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ オカリナ透明君デモ開始チェックエラー原 ☆☆☆☆☆ %d\n",
-                                                 "☆☆☆☆☆ Ocarina Invisible-kun demo start check error source ☆☆☆☆☆ %d\n")
+                                                 "☆☆☆☆☆ Ocarina Invisible-kun demo start check error -Hara ☆☆☆☆☆ %d\n")
                                    VT_RST,
                                this->type);
                         Actor_Kill(&this->actor);

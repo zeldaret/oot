@@ -12,9 +12,9 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 
@@ -249,11 +249,11 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
                 this->numSpawnedRocks++;
                 return;
             }
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n") VT_RST);
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n\n", "☆☆☆☆☆ Can't occur! ☆☆☆☆☆\n\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't spawn! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't spawn! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't spawn! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Can't spawn! ☆☆☆☆☆\n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n\n", "☆☆☆☆☆ Can't spawn! ☆☆☆☆☆\n\n") VT_RST);
         }
     }
 }

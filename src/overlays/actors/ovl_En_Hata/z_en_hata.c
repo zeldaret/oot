@@ -12,7 +12,7 @@
 #include "rand.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_hata/object_hata.h"
 

@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "tex_len.h"
-#include "z64animation.h"
+#include "animation.h"
 
 #define LINK_CHILD_EYES_TEX_WIDTH 64
 #define LINK_CHILD_EYES_TEX_HEIGHT 32

@@ -22,10 +22,10 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_wf/object_wf.h"
 
@@ -163,48 +163,48 @@ static ColliderCylinderInit sTailCylinderInit = {
     { 15, 20, -15, { 0, 0, 0 } },
 };
 
-typedef enum EnWfDamageEffect {
-    /*  0 */ ENWF_DMGEFF_NONE,
-    /*  1 */ ENWF_DMGEFF_STUN,
-    /*  6 */ ENWF_DMGEFF_ICE_MAGIC = 6,
-    /* 13 */ ENWF_DMGEFF_LIGHT_MAGIC = 13,
-    /* 14 */ ENWF_DMGEFF_FIRE,
-    /* 15 */ ENWF_DMGEFF_UNDEF // used like STUN in the code, but not in the table
-} EnWfDamageEffect;
+typedef enum EnWfDamageReaction {
+    /*  0 */ ENWF_DMG_REACT_NONE,
+    /*  1 */ ENWF_DMG_REACT_STUN,
+    /*  6 */ ENWF_DMG_REACT_ICE_MAGIC = 6,
+    /* 13 */ ENWF_DMG_REACT_LIGHT_MAGIC = 13,
+    /* 14 */ ENWF_DMG_REACT_FIRE,
+    /* 15 */ ENWF_DMG_REACT_UNDEF // used like STUN in the code, but not in the table
+} EnWfDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, ENWF_DMGEFF_STUN),
-    /* Deku stick    */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Slingshot     */ DMG_ENTRY(1, ENWF_DMGEFF_NONE),
-    /* Explosive     */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(0, ENWF_DMGEFF_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Hookshot      */ DMG_ENTRY(0, ENWF_DMGEFF_STUN),
-    /* Kokiri sword  */ DMG_ENTRY(1, ENWF_DMGEFF_NONE),
-    /* Master sword  */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Giant's Knife */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
-    /* Fire arrow    */ DMG_ENTRY(4, ENWF_DMGEFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Light arrow   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, ENWF_DMGEFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, ENWF_DMGEFF_ICE_MAGIC),
-    /* Light magic   */ DMG_ENTRY(3, ENWF_DMGEFF_LIGHT_MAGIC),
-    /* Shield        */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, ENWF_DMGEFF_NONE),
-    /* Giant spin    */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
-    /* Master spin   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Kokiri jump   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Giant jump    */ DMG_ENTRY(8, ENWF_DMGEFF_NONE),
-    /* Master jump   */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
-    /* Unknown 1     */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, ENWF_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, ENWF_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, ENWF_DMG_REACT_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(0, ENWF_DMG_REACT_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, ENWF_DMG_REACT_NONE),
+    /* Master sword  */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Giant's Knife */ DMG_ENTRY(4, ENWF_DMG_REACT_NONE),
+    /* Fire arrow    */ DMG_ENTRY(4, ENWF_DMG_REACT_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Light arrow   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, ENWF_DMG_REACT_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, ENWF_DMG_REACT_ICE_MAGIC),
+    /* Light magic   */ DMG_ENTRY(3, ENWF_DMG_REACT_LIGHT_MAGIC),
+    /* Shield        */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, ENWF_DMG_REACT_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, ENWF_DMG_REACT_NONE),
+    /* Master spin   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, ENWF_DMG_REACT_NONE),
+    /* Master jump   */ DMG_ENTRY(4, ENWF_DMG_REACT_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, ENWF_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
 };
 
 ActorProfile En_Wf_Profile = {
@@ -293,7 +293,7 @@ void EnWf_Destroy(Actor* thisx, PlayState* play) {
             }
 
             PRINTF("\n\n");
-            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of simultaneous occurrences ☆☆☆☆☆%d\n")
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of simultaneous spawns ☆☆☆☆☆%d\n")
                        VT_RST,
                    parent->curNumSpawn);
             PRINTF("\n\n");
@@ -1285,15 +1285,15 @@ void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
             this->bodyColliderCylinder.base.acFlags &= ~AC_HIT;
             this->tailColliderCylinder.base.acFlags &= ~AC_HIT;
 
-            if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
-                this->damageEffect = this->actor.colChkInfo.damageEffect;
+            if (this->actor.colChkInfo.damageReaction != ENWF_DMG_REACT_ICE_MAGIC) {
+                this->damageReaction = this->actor.colChkInfo.damageReaction;
                 Actor_SetDropFlag(&this->actor, &this->bodyColliderCylinder.elem, true);
 #if OOT_VERSION >= PAL_1_0
                 this->slashStatus = 0;
 #endif
 
-                if ((this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_STUN) ||
-                    (this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_UNDEF)) {
+                if ((this->actor.colChkInfo.damageReaction == ENWF_DMG_REACT_STUN) ||
+                    (this->actor.colChkInfo.damageReaction == ENWF_DMG_REACT_UNDEF)) {
                     if (this->action != WOLFOS_ACTION_STUNNED) {
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA,
                                              80);
@@ -1303,7 +1303,7 @@ void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
                 } else { // LIGHT_MAGIC, FIRE, NONE
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
 
-                    if (this->damageEffect == ENWF_DMGEFF_FIRE) {
+                    if (this->damageReaction == ENWF_DMG_REACT_FIRE) {
                         this->fireTimer = 40;
                     }
 
@@ -1325,7 +1325,7 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
 
     EnWf_UpdateDamage(this, play);
 
-    if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
+    if (this->actor.colChkInfo.damageReaction != ENWF_DMG_REACT_ICE_MAGIC) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 32.0f, 30.0f, 60.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |

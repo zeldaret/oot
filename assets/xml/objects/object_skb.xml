@@ -24,6 +24,59 @@
         <Limb Name="gStalchildLeftHandLimb" LimbType="Standard" Offset="0x4194"/>
         <Limb Name="gStalchildSpineLimb" LimbType="Standard" Offset="0x41A0"/>
 
+        <!-- Stalchild Vertices -->
+        <Array Name="gStalchildHeadVtx" Count="81" Offset="0x21A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildJawVtx" Count="16" Offset="0x26B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildRibCageVtx" Count="18" Offset="0x27B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildSpineVtx" Count="4" Offset="0x28D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildWaistVtx" Count="22" Offset="0x2910">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildLeftHumerusVtx" Count="15" Offset="0x2A70">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildLeftForearmVtx" Count="9" Offset="0x2B60">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildLeftHandVtx" Count="20" Offset="0x2BF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildRightHumerusVtx" Count="15" Offset="0x2D30">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildRightForearmVtx" Count="9" Offset="0x2E20">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildRightHandVtx" Count="20" Offset="0x2EB0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildLeftFemurVtx" Count="4" Offset="0x2FF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildLeftShinVtx" Count="9" Offset="0x3030">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildLeftFootVtx" Count="5" Offset="0x30C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildRightFemurVtx" Count="4" Offset="0x3110">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildRightShinVtx" Count="9" Offset="0x3150">
+            <Vtx/>
+        </Array>
+        <Array Name="gStalchildRightFootVtx" Count="5" Offset="0x31E0">
+            <Vtx/>
+        </Array>
+
         <!-- Stalchild DisplayLists -->
         <DList Name="gStalchildHeadDL" Offset="0x3230"/>
         <DList Name="gStalchildJawDL" Offset="0x3598"/>
@@ -44,15 +97,15 @@
         <DList Name="gStalchildRightFootDL" Offset="0x4028"/>
 
         <!-- Stalchild Textures -->
-        <Texture Name="gStalchildWaistTex" OutName="stalchild_waist" Format="rgba16" Width="16" Height="16" Offset="0x18A0"/>
-        <Texture Name="gStalchildRibCageTex" OutName="stalchild_rib_cage" Format="rgba16" Width="8" Height="16" Offset="0x1AA0"/>
-        <Texture Name="gStalchildHeadTex" OutName="stalchild_head" Format="rgba16" Width="8" Height="8" Offset="0x1BA0"/>
-        <Texture Name="gStalchildBoneTex" OutName="stalchild_bone" Format="rgba16" Width="8" Height="8" Offset="0x1CA0"/>
-        <Texture Name="gStalchildNostrilTex" OutName="stalchild_nostril" Format="rgba16" Width="8" Height="8" Offset="0x1C20"/>
-        <Texture Name="gStalchildHandAndFeetTex" OutName="stalchild_hand_and_feet" Format="rgba16" Width="8" Height="16" Offset="0x1D20"/>
-        <Texture Name="gStalchildTeethTex" OutName="stalchild_teeth" Format="rgba16" Width="16" Height="8" Offset="0x1E20"/>
-        <Texture Name="gStalchildEyeSocketTex" OutName="stalchild_eye_socket" Format="rgba16" Width="16" Height="16" Offset="0x1F20"/>
-        <Texture Name="gStalchildEyeTex" OutName="stalchild_eye" Format="rgba16" Width="8" Height="8" Offset="0x2120"/>
+        <Texture Name="gStalchildWaistTex" Format="rgba16" Width="16" Height="16" Offset="0x18A0"/>
+        <Texture Name="gStalchildRibCageTex" Format="rgba16" Width="8" Height="16" Offset="0x1AA0"/>
+        <Texture Name="gStalchildHeadTex" Format="rgba16" Width="8" Height="8" Offset="0x1BA0"/>
+        <Texture Name="gStalchildBoneTex" Format="rgba16" Width="8" Height="8" Offset="0x1CA0"/>
+        <Texture Name="gStalchildNostrilTex" Format="rgba16" Width="8" Height="8" Offset="0x1C20"/>
+        <Texture Name="gStalchildHandAndFeetTex" Format="rgba16" Width="8" Height="16" Offset="0x1D20"/>
+        <Texture Name="gStalchildTeethTex" Format="rgba16" Width="16" Height="8" Offset="0x1E20"/>
+        <Texture Name="gStalchildEyeSocketTex" Format="rgba16" Width="16" Height="16" Offset="0x1F20"/>
+        <Texture Name="gStalchildEyeTex" Format="rgba16" Width="8" Height="8" Offset="0x2120"/>
 
         <!-- Stalchild animations -->
         <Animation Name="gStalchildAttackingAnim" Offset="0x460"/>

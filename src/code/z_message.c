@@ -18,11 +18,11 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 

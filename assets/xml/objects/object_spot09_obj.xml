@@ -10,5 +10,26 @@
         <Collision Name="gValleyObjects2Col" Offset="0x283C"/>
         <Collision Name="gValleyObjects3Col" Offset="0x8458"/>
         <Collision Name="gValleyObjects4Col" Offset="0x7580"/>
+        <Texture Name="object_spot09_obj_008490_Tex" Format="rgba16" Width="32" Height="32" Offset="0x8490"/>
+        <Texture Name="object_spot09_obj_008C90_Tex" Format="rgba16" Width="32" Height="32" Offset="0x8C90"/>
+        <Texture Name="object_spot09_obj_009490_Tex" Format="rgba16" Width="64" Height="32" Offset="0x9490"/>
+        <Texture Name="object_spot09_obj_00A490_Tex" Format="rgba16" Width="32" Height="32" Offset="0xA490"/>
+        <Texture Name="object_spot09_obj_00AC90_Tex" Format="rgba16" Width="32" Height="32" Offset="0xAC90"/>
+        <Texture Name="object_spot09_obj_00B490_Tex" Format="rgba16" Width="32" Height="32" Offset="0xB490"/>
+        <Texture Name="object_spot09_obj_00BC90_Tex" Format="rgba16" Width="32" Height="64" Offset="0xBC90"/>
+        <Texture Name="object_spot09_obj_00CC90_Tex" Format="rgba16" Width="64" Height="32" Offset="0xCC90"/>
+        <Texture Name="object_spot09_obj_00DC90_Tex" Format="rgba16" Width="32" Height="64" Offset="0xDC90"/>
+        <Texture Name="object_spot09_obj_00EC90_Tex" Format="rgba16" Width="64" Height="32" Offset="0xEC90"/>
+        <Texture Name="object_spot09_obj_00FC90_Tex" Format="rgba16" Width="16" Height="32" Offset="0xFC90"/>
+        <Texture Name="object_spot09_obj_010090_Tex" Format="rgba16" Width="64" Height="32" Offset="0x10090"/>
+        <Texture Name="object_spot09_obj_011090_Tex" Format="rgba16" Width="32" Height="64" Offset="0x11090"/>
+        <Texture Name="object_spot09_obj_012090_Tex" Format="rgba16" Width="64" Height="32" Offset="0x12090"/>
+        <Texture Name="object_spot09_obj_013090_Tex" Format="rgba16" Width="64" Height="32" Offset="0x13090"/>
+        <Texture Name="object_spot09_obj_014090_Tex" Format="rgba16" Width="64" Height="32" Offset="0x14090"/>
+        <Texture Name="object_spot09_obj_015090_Tex" Format="rgba16" Width="32" Height="64" Offset="0x15090"/>
+        <Texture Name="object_spot09_obj_016090_Tex" Format="rgba16" Width="32" Height="64" Offset="0x16090"/>
+        <Texture Name="object_spot09_obj_017090_Tex" Format="i8" Width="32" Height="32" Offset="0x17090"/>
+        <Texture Name="object_spot09_obj_017490_Tex" Format="i8" Width="32" Height="32" Offset="0x17490"/>
+        <Texture Name="object_spot09_obj_017890_Tex" Format="i4" Width="128" Height="64" Offset="0x17890"/>
     </File>
 </Root>

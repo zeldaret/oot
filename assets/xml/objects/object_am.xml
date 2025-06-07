@@ -6,5 +6,54 @@
         <Animation Name="gArmosDamagedAnim" Offset="0x5B3C"/>
         <Collision Name="gArmosCol" Offset="0x118"/>
         <DList Name="gArmosUnusedDL" Offset="0x7A8"/>
+
+        <!-- Vertices -->
+        <Array Name="object_am_Vtx_000350" Count="40" Offset="0x350">
+            <Vtx/>
+        </Array>
+        <Array Name="gArmosUnusedVtx" Count="12" Offset="0x6E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_am_Vtx_000838" Count="233" Offset="0x838">
+            <Vtx/>
+        </Array>
+        <Array Name="object_am_Vtx_001EA8" Count="61" Offset="0x1EA8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_am_Vtx_002440" Count="17" Offset="0x2440">
+            <Vtx/>
+        </Array>
+
+        <Blob Name="object_am_000010_Blob" Size="0x10" Offset="0x10"/>
+        <DList Name="object_am_0005D0_DL" Offset="0x5D0"/>
+        <DList Name="object_am_0016C8_DL" Offset="0x16C8"/>
+        <DList Name="object_am_002278_DL" Offset="0x2278"/>
+        <DList Name="object_am_002550_DL" Offset="0x2550"/>
+        <Texture Name="object_am_002638_Tex" Format="i4" Width="32" Height="32" Offset="0x2638"/>
+        <Texture Name="object_am_002838_Tex" Format="i4" Width="16" Height="32" Offset="0x2838"/>
+        <Texture Name="object_am_002938_Tex" Format="rgba16" Width="16" Height="32" Offset="0x2938"/>
+        <Texture Name="object_am_002D38_Tex" Format="i4" Width="16" Height="32" Offset="0x2D38"/>
+        <Texture Name="object_am_002E38_Tex" Format="i4" Width="32" Height="32" Offset="0x2E38"/>
+        <Texture Name="object_am_003038_Tex" Format="i4" Width="32" Height="32" Offset="0x3038"/>
+        <Texture Name="object_am_003238_Tex" Format="rgba16" Width="32" Height="32" Offset="0x3238"/>
+        <Texture Name="object_am_003A38_Tex" Format="rgba16" Width="16" Height="16" Offset="0x3A38"/>
+        <Texture Name="object_am_003C38_Tex" Format="rgba16" Width="32" Height="32" Offset="0x3C38"/>
+        <Texture Name="object_am_004438_Tex" Format="rgba16" Width="32" Height="32" Offset="0x4438"/>
+        <Texture Name="object_am_004C38_Tex" Format="rgba16" Width="32" Height="32" Offset="0x4C38"/>
+        <Texture Name="object_am_005438_Tex" Format="i4" Width="16" Height="8" Offset="0x5438"/>
+        <Texture Name="object_am_005478_Tex" Format="rgba16" Width="16" Height="32" Offset="0x5478"/>
+        <Limb Name="object_am_005878_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_005878" Offset="0x5878"/>
+        <Limb Name="object_am_005884_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_005884" Offset="0x5884"/>
+        <Limb Name="object_am_005890_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_005890" Offset="0x5890"/>
+        <Limb Name="object_am_00589C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_00589C" Offset="0x589C"/>
+        <Limb Name="object_am_0058A8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_0058A8" Offset="0x58A8"/>
+        <Limb Name="object_am_0058B4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_0058B4" Offset="0x58B4"/>
+        <Limb Name="object_am_0058C0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_0058C0" Offset="0x58C0"/>
+        <Limb Name="object_am_0058CC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_0058CC" Offset="0x58CC"/>
+        <Limb Name="object_am_0058D8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_0058D8" Offset="0x58D8"/>
+        <Limb Name="object_am_0058E4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_0058E4" Offset="0x58E4"/>
+        <Limb Name="object_am_0058F0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_0058F0" Offset="0x58F0"/>
+        <Limb Name="object_am_0058FC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_0058FC" Offset="0x58FC"/>
+        <Limb Name="object_am_005908_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_AM_005908" Offset="0x5908"/>
     </File>
 </Root>

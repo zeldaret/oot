@@ -1,6 +1,8 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_dekupouch" Segment="6">
+        <Texture Name="object_gi_dekupouch_000000_Tex" Format="i4" Width="32" Height="16" Offset="0x0"/>
+        <Texture Name="object_gi_dekupouch_000100_Tex" Format="i4" Width="32" Height="32" Offset="0x100"/>
         <Array Name="gGiBulletBagVtx" Count="111" Offset="0x300">
             <Vtx/>
         </Array>

@@ -1,5 +1,7 @@
 <Root>
     <File Name="gameplay_dangeon_keep" Segment="5">
+        <Texture Name="gameplay_dangeon_keep_000000_Tex" Format="i8" Width="16" Height="32" Offset="0x0"/>
+        <Texture Name="gameplay_dangeon_keep_000200_Tex" Format="i8" Width="16" Height="32" Offset="0x200"/>
         <Array Name="gUnusedCandleVtx" Count="4" Offset="0x400">
             <Vtx/>
         </Array>
@@ -8,7 +10,8 @@
             <Vtx/>
         </Array>
         <DList Name="gBrownFragmentDL" Offset="0x530"/>
-        <Texture Name="gUnusedStoneTex" OutName="unused_stone" Format="rgba16" Width="32" Height="32" Offset="0x7C0"/>
+        <Texture Name="gameplay_dangeon_keep_0005C0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5C0"/>
+        <Texture Name="gUnusedStoneTex" Format="rgba16" Width="32" Height="32" Offset="0x7C0"/>
         <Array Name="gDoorLockVtx" Count="20" Offset="0xFC0">
             <Vtx/>
         </Array>
@@ -17,15 +20,16 @@
             <Vtx/>
         </Array>
         <DList Name="gDoorChainDL" Offset="0x11F0"/>
-        <Texture Name="gUnusedGoldLockTex" OutName="unused_gold_lock" Format="rgba16" Width="32" Height="32" Offset="0x1A80"/>
-        <Texture Name="gDoorChainTex" OutName="door_chain" Format="rgba16" Width="16" Height="128" Offset="0x2280"/>
+        <Texture Name="gameplay_dangeon_keep_001280_Tex" Format="rgba16" Width="32" Height="32" Offset="0x1280"/>
+        <Texture Name="gUnusedGoldLockTex" Format="rgba16" Width="32" Height="32" Offset="0x1A80"/>
+        <Texture Name="gDoorChainTex" Format="rgba16" Width="16" Height="128" Offset="0x2280"/>
         <Array Name="gUnusedBombBagVtx" Count="4" Offset="0x3280">
             <Vtx/>
         </Array>
         <DList Name="gUnusedBombBagDL" Offset="0x32C0"/>
-        <Texture Name="gPushBlockSilverTex" OutName="block_silver" Format="i4" Width="64" Height="64" Offset="0x3350"/>
-        <Texture Name="gPushBlockBaseTex" OutName="block_base" Format="i4" Width="64" Height="64" Offset="0x3B50"/>
-        <Texture Name="gPushBlockGrayTex" OutName="block_gray" Format="i4" Width="64" Height="64" Offset="0x4350"/>
+        <Texture Name="gPushBlockSilverTex" Format="i4" Width="64" Height="64" Offset="0x3350"/>
+        <Texture Name="gPushBlockBaseTex" Format="i4" Width="64" Height="64" Offset="0x3B50"/>
+        <Texture Name="gPushBlockGrayTex" Format="i4" Width="64" Height="64" Offset="0x4350"/>
         <Array Name="gPushBlockVtx" Count="24" Offset="0x4B50">
             <Vtx/>
         </Array>
@@ -104,20 +108,39 @@
             <Vtx/>
         </Array>
         <DList Name="gBetaCrystalSwitchDL" Offset="0x77B0"/>
-        <Texture Name="gEyeSwitchGoldClosedTex" OutName="eye_gold_closed" Format="rgba16" Width="32" Height="32" Offset="0x90A0"/>
-        <Texture Name="gEyeSwitchGoldOpeningTex" OutName="eye_gold_opening" Format="rgba16" Width="32" Height="32" Offset="0x98A0"/>
-        <Texture Name="gEyeSwitchGoldClosingTex" OutName="eye_gold_closing" Format="rgba16" Width="32" Height="32" Offset="0xA0A0"/>
-        <Texture Name="gEyeSwitchGoldOpenTex" OutName="eye_gold_open" Format="rgba16" Width="32" Height="32" Offset="0xA8A0"/>
-        <Texture Name="gEyeSwitchSilverOpenTex" OutName="eye_silver_open" Format="rgba16" Width="32" Height="32" Offset="0xB0A0"/>
-        <Texture Name="gEyeSwitchSilverHalfTex" OutName="eye_silver_half" Format="rgba16" Width="32" Height="32" Offset="0xB8A0"/>
-        <Texture Name="gEyeSwitchSilverClosedTex" OutName="eye_silver_closed" Format="rgba16" Width="32" Height="32" Offset="0xC0A0"/>
-        <Texture Name="gDungeonKeepTex_00C8A0" OutName="dungeon_keep_tex_00C8A0" Format="rgba16" Width="32" Height="32" Offset="0xC8A0"/>
-        <Texture Name="gDungeonkeepTex_00D0A0" OutName="dungeon_keep_tex_00D0A0" Format="rgba16" Width="32" Height="32" Offset="0xD0A0"/>
-        <Texture Name="gDungeonKeepTex_00E8A0" OutName="dungeon_keep_tex_00E8A0" Format="i8" Width="32" Height="32" Offset="0xE8A0"/>
-        <Texture Name="gDungeonKeepTex_00ECA0" OutName="dungeon_keep_tex_00ECA0" Format="i8" Width="32" Height="32" Offset="0xECA0"/>
-        <Texture Name="gDungeonKeepTex_00F0A0" OutName="dungeon_keep_tex_00F0A0" Format="rgba16" Width="32" Height="32" Offset="0xF0A0"/>
-        <Texture Name="gCrstalSwitchRedTex" OutName="crystal_red" Format="rgba16" Width="32" Height="32" Offset="0x144B0"/>
-        <Texture Name="gCrstalSwitchBlueTex" OutName="crystal_blue" Format="rgba16" Width="32" Height="32" Offset="0x14CB0"/>
+        <Texture Name="gameplay_dangeon_keep_0078A0_Tex" Format="i8" Width="32" Height="32" Offset="0x78A0"/>
+        <Texture Name="gameplay_dangeon_keep_007CA0_Tex" Format="i8" Width="32" Height="32" Offset="0x7CA0"/>
+        <Texture Name="gameplay_dangeon_keep_0080A0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x80A0"/>
+        <Texture Name="gameplay_dangeon_keep_0088A0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x88A0"/>
+        <Texture Name="gEyeSwitchGoldClosedTex" Format="rgba16" Width="32" Height="32" Offset="0x90A0"/>
+        <Texture Name="gEyeSwitchGoldOpeningTex" Format="rgba16" Width="32" Height="32" Offset="0x98A0"/>
+        <Texture Name="gEyeSwitchGoldClosingTex" Format="rgba16" Width="32" Height="32" Offset="0xA0A0"/>
+        <Texture Name="gEyeSwitchGoldOpenTex" Format="rgba16" Width="32" Height="32" Offset="0xA8A0"/>
+        <Texture Name="gEyeSwitchSilverOpenTex" Format="rgba16" Width="32" Height="32" Offset="0xB0A0"/>
+        <Texture Name="gEyeSwitchSilverHalfTex" Format="rgba16" Width="32" Height="32" Offset="0xB8A0"/>
+        <Texture Name="gEyeSwitchSilverClosedTex" Format="rgba16" Width="32" Height="32" Offset="0xC0A0"/>
+        <Texture Name="gDungeonKeepTex_00C8A0" Format="rgba16" Width="32" Height="32" Offset="0xC8A0"/>
+        <Texture Name="gDungeonkeepTex_00D0A0" Format="rgba16" Width="32" Height="32" Offset="0xD0A0"/>
+        <Texture Name="gameplay_dangeon_keep_00D8A0_Tex" Format="rgba16" Width="32" Height="32" Offset="0xD8A0"/>
+        <Texture Name="gameplay_dangeon_keep_00E0A0_Tex" Format="rgba16" Width="32" Height="32" Offset="0xE0A0"/>
+        <Texture Name="gDungeonKeepTex_00E8A0" Format="i8" Width="32" Height="32" Offset="0xE8A0"/>
+        <Texture Name="gDungeonKeepTex_00ECA0" Format="i8" Width="32" Height="32" Offset="0xECA0"/>
+        <Texture Name="gDungeonKeepTex_00F0A0" Format="rgba16" Width="32" Height="32" Offset="0xF0A0"/>
+        <Texture Name="gameplay_dangeon_keep_00F8A0_Tex" Format="rgba16" Width="64" Height="32" Offset="0xF8A0"/>
+        <Texture Name="gameplay_dangeon_keep_0108A0_Tex" Format="rgba16" Width="32" Height="64" Offset="0x108A0"/>
+        <Texture Name="gameplay_dangeon_keep_0118A0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x118A0"/>
+        <Texture Name="gameplay_dangeon_keep_011AA0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x11AA0"/>
+        <Texture Name="gameplay_dangeon_keep_011CA0_Tex" Format="rgba16" Width="32" Height="64" Offset="0x11CA0"/>
+        <Texture Name="gameplay_dangeon_keep_012CA0_Tex" Format="rgba16" Width="64" Height="16" Offset="0x12CA0"/>
+        <Texture Name="gameplay_dangeon_keep_0134A0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x134A0"/>
+        <Texture Name="gameplay_dangeon_keep_013CA0_Tex" Format="ia8" Width="4" Height="4" Offset="0x13CA0"/>
+        <Texture Name="gameplay_dangeon_keep_013CB0_Tex" Format="i4" Width="64" Height="64" Offset="0x13CB0"/>
+        <Texture Name="gCrstalSwitchRedTex" Format="rgba16" Width="32" Height="32" Offset="0x144B0"/>
+        <Texture Name="gCrstalSwitchBlueTex" Format="rgba16" Width="32" Height="32" Offset="0x14CB0"/>
+        <Texture Name="gameplay_dangeon_keep_0154B0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x154B0"/>
+        <Texture Name="gameplay_dangeon_keep_015CB0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x15CB0"/>
+        <Texture Name="gameplay_dangeon_keep_0164B0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x164B0"/>
+        <Texture Name="gameplay_dangeon_keep_016CB0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x16CB0"/>
         <Array Name="gPotVtx" Count="60" Offset="0x174B0">
             <Vtx/>
         </Array>

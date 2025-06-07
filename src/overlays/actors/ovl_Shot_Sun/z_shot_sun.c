@@ -17,11 +17,11 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64environment.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "environment.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/scenes/overworld/spot06/spot06_scene.h"
 
@@ -78,7 +78,7 @@ void ShotSun_Init(Actor* thisx, PlayState* play) {
     ShotSun* this = (ShotSun*)thisx;
     s32 params;
 
-    PRINTF(T("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", "%d ---- Ocarina secret occurrence!!!!!!!!!!!!!\n"),
+    PRINTF(T("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", "%d ---- Ocarina secret spawn!!!!!!!!!!!!!\n"),
            this->actor.params);
     params = PARAMS_GET_U(this->actor.params, 0, 8);
     if (params == 0x40 || params == 0x41) {

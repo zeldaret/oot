@@ -8,7 +8,7 @@
 
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_pu_box/object_pu_box.h"
 
