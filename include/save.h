@@ -401,11 +401,53 @@ typedef enum SceneLayer {
 } SceneLayer;
 
 #define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_FIRST)
+#define GET_CUTSCENE_LAYER(index) (SCENE_LAYER_CUTSCENE_FIRST + (index & 0xF))
 
 typedef enum LinkAge {
     /* 0 */ LINK_AGE_ADULT,
     /* 1 */ LINK_AGE_CHILD
 } LinkAge;
+
+
+// Values that indicate that no cutscene script should be played
+// (or that an "unscripted" cutscene is playing). The names "night"
+// and "day" are leftover from the original meaning of the cutscene
+// index (called "day_time"), and only map select uses these values
+// to indicate time of day (to set gSaveContext.save.nightFlag).
+#define CS_INDEX_NONE 0x0000
+#define CS_INDEX_NIGHT CS_INDEX_NONE
+#define CS_INDEX_DAY 0x8000
+
+// Values 0xFFF0-0xFFFF indicate that a cutscene script should be played.
+// If the value of `nextCutsceneIndex` is 0xFFF0-0xFFFF on scene load,
+// `Play_Init` will copy the value to `gSaveContext.cutsceneIndex`, load a
+// corresponding scene layer and start the scripted cutscene in the scene layer
+// (except for the value 0xFFFD, which is special-cased to do nothing in `Play_Init`).
+// It loads layer 4 for 0xFFF0, layer 5 for 0xFFF1, and so on.
+//
+// The cutsceneIndex could also be set to one of these values to start a
+// scripted cutscene immediately. In the vanilla game, this is used to play
+// the cutscene where the barrier in Ganon's Castle is dispelled (using index 0xFFFF)
+// and to preview cutscenes in debug mode (using index 0xFFFD).
+#define CS_INDEX_0 0xFFF0
+#define CS_INDEX_1 0xFFF1
+#define CS_INDEX_2 0xFFF2
+#define CS_INDEX_3 0xFFF3
+#define CS_INDEX_4 0xFFF4
+#define CS_INDEX_5 0xFFF5
+#define CS_INDEX_6 0xFFF6
+#define CS_INDEX_7 0xFFF7
+#define CS_INDEX_8 0xFFF8
+#define CS_INDEX_9 0xFFF9
+#define CS_INDEX_A 0xFFFA
+#define CS_INDEX_B 0xFFFB
+#define CS_INDEX_C 0xFFFC
+#define CS_INDEX_D 0xFFFD // does not load a cutscene scene layer (see above)
+#define CS_INDEX_E 0xFFFE
+#define CS_INDEX_F 0xFFFF
+
+// Sentinel value for `nextCutsceneIndex` to indicate that no cutscene should be played next.
+#define NEXT_CS_INDEX_NONE 0xFFEF
 
 
 #define LINK_IS_ADULT (gSaveContext.save.linkAge == LINK_AGE_ADULT)
