@@ -90,6 +90,110 @@
         <Limb Name="gGohmaBodyShellBackRoot2Limb" LimbType="Standard" Offset="0x1C78C"/>
         <Limb Name="gGohmaBodyShellBackLimb" LimbType="Standard" Offset="0x1C798"/>
 
+        <!-- Vertices -->
+        <Array Name="gGohmaLeftAntennaBodyVtx" Count="14" Offset="0x12690">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaLeftAntennaShellVtx" Count="45" Offset="0x12828">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightAntennaBodyVtx" Count="14" Offset="0x12C90">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightAntennaShellVtx" Count="48" Offset="0x12E28">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightMandibles1Vtx" Count="6" Offset="0x132C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightMandibles2Vtx" Count="11" Offset="0x133D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaLeftMandibles1Vtx" Count="6" Offset="0x13590">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaLeftMandibles2Vtx" Count="11" Offset="0x136A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaBodyVtx" Count="32" Offset="0x13860">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaBodyShellVtx" Count="117" Offset="0x13B48">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaBodyShellBackVtx" Count="9" Offset="0x14420">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaLeftThighShellVtx" Count="14" Offset="0x14560">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightThighShellVtx" Count="14" Offset="0x146F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaEyeVtx" Count="25" Offset="0x14880">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaLeftFeetVtx" Count="40" Offset="0x14B40">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightFeetVtx" Count="37" Offset="0x14F18">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaIrisVtx" Count="9" Offset="0x152A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaLeftKneeVtx" Count="47" Offset="0x153E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightKneeVtx" Count="48" Offset="0x15828">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaLeftFeetBackVtx" Count="13" Offset="0x15C78">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightFeetBackVtx" Count="13" Offset="0x15E58">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaLeftThighVtx" Count="49" Offset="0x16038">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightThighVtx" Count="49" Offset="0x16490">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaEyeLidTopVtx" Count="29" Offset="0x168E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaEyeLidBottomVtx" Count="29" Offset="0x16BD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaMandiblesBodyVtx" Count="20" Offset="0x16EA8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaLeftShinVtx" Count="22" Offset="0x17108">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightShinVtx" Count="22" Offset="0x173A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaTail1Vtx" Count="19" Offset="0x17638">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaTail2Vtx" Count="19" Offset="0x17830">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaTail3Vtx" Count="14" Offset="0x17A28">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaTail4Vtx" Count="25" Offset="0x17BF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaLeftAntennaClawVtx" Count="26" Offset="0x17E68">
+            <Vtx/>
+        </Array>
+        <Array Name="gGohmaRightAntennaClawVtx" Count="23" Offset="0x18120">
+            <Vtx/>
+        </Array>
+
         <!-- Display Lists-->
         <DList Name="gGohmaBodyDL" Offset="0x13A60"/>
         <DList Name="gGohmaBodyShellDL" Offset="0x14298"/>
@@ -162,8 +266,13 @@
         <Texture Name="gGohmaTitleCardTex" Format="ia8" Width="128" Height="80" Offset="0x19BA8"/>
 
         <!-- Door -->
+        <Array Name="gGohmaDoorVtx" Count="12" Offset="0x1D760">
+            <Vtx/>
+        </Array>
         <DList Name="gGohmaDoorDL" Offset="0x1D820"/>
         <Collision Name="gGohmaDoorCol" Offset="0x1D9D0"/>
         <Texture Name="gGohmaDoorTex" Format="rgba16" Width="32" Height="32" Offset="0x1DA00"/>
+
+        <!-- Vertices -->
     </File>
 </Root>
