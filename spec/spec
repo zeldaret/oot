@@ -997,9 +997,6 @@ beginseg
     name "gameplay_keep"
     compress
     romalign 0x1000
-#if 0
-    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep.o"
-#else
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/hilite_textures.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x400.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/link_textures.o"
@@ -1139,7 +1136,6 @@ beginseg
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/circle_glow_textures.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x55DB0.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_spark_textures.o"
-#endif
     number 4
 endseg
 
