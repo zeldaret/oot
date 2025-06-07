@@ -226,7 +226,7 @@ void func_800BC88C(PlayState* this) {
 
 /**
  * Set the environment fog, from parameters controlled by the environment system.
- * If a custom fog state is momentarily used in drawing, the environment fog is expected to be restored afterwards.
+ * If a custom fog state is used at any point in drawing, the environment fog is expected to be restored afterwards.
  */
 Gfx* Play_SetFog(PlayState* this, Gfx* gfx) {
     return Gfx_SetFog2(gfx, this->lightCtx.fogColor[0], this->lightCtx.fogColor[1], this->lightCtx.fogColor[2], 0,

@@ -858,7 +858,7 @@ Gfx gEmptyDL[] = {
  * Set fog color and range.
  *
  * At or prior to fog near, geometry is unaffected by fog. At or beyond fog far, geometry is fully fogged.
- * Between near and far the geometry color will be interpolated between the unfogged color and the supplied fog color.
+ * Between near and far, rendered geometry will be blended between the unfogged color and the supplied fog color.
  *
  * Fog far should be in the range 0 to 1000 and greater than or equal to fog near. If fog near is negative everything
  * will be fully fogged. If fog near is 1000 or greater there is no fog.
