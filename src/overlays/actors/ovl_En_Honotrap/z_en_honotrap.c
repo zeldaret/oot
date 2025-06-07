@@ -13,6 +13,7 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
@@ -143,7 +144,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnHonotrap_FlameCollisionCheck(EnHonotrap* this, PlayState* play) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
 
     Collider_UpdateCylinder(&this->actor, &this->collider.cyl);
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.cyl.base);
@@ -170,7 +171,7 @@ void EnHonotrap_GetNormal(Vec3f* normal, Vec3f* vec) {
 }
 
 void EnHonotrap_InitEye(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnHonotrap* this = (EnHonotrap*)thisx;
     s32 i;
     s32 j;
@@ -201,7 +202,7 @@ void EnHonotrap_InitEye(Actor* thisx, PlayState* play) {
 }
 
 void EnHonotrap_InitFlame(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnHonotrap* this = (EnHonotrap*)thisx;
 
     Actor_SetScale(&this->actor, 0.0001f);
@@ -235,7 +236,7 @@ void EnHonotrap_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnHonotrap_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnHonotrap* this = (EnHonotrap*)thisx;
 
     if (this->actor.params == HONOTRAP_TYPE_EYE) {
@@ -422,7 +423,7 @@ void EnHonotrap_SetupFlameChase(EnHonotrap* this) {
 }
 
 void EnHonotrap_FlameChase(EnHonotrap* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0x300);
     Math_StepToF(&this->actor.speed, 3.0f, 0.1f);
@@ -459,7 +460,7 @@ void EnHonotrap_SetupFlameVanish(EnHonotrap* this) {
 }
 
 void EnHonotrap_FlameVanish(EnHonotrap* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 targetReached = Math_StepToF(&this->actor.scale.x, 0.0001f, 0.00015f);
 
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
@@ -523,7 +524,7 @@ void EnHonotrap_DrawEye(Actor* thisx, PlayState* play) {
 }
 
 void EnHonotrap_DrawFlame(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnHonotrap* this = (EnHonotrap*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_honotrap.c", 1000);

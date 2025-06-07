@@ -9,6 +9,7 @@
 
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 #include "player.h"
@@ -87,7 +88,7 @@ void BgJyaGoroiwa_UpdateCollider(BgJyaGoroiwa* this) {
 }
 
 void BgJyaGoroiwa_InitCollider(BgJyaGoroiwa* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
@@ -201,7 +202,7 @@ void BgJyaGoroiwa_Wait(BgJyaGoroiwa* this, PlayState* play) {
 }
 
 void BgJyaGoroiwa_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgJyaGoroiwa* this = (BgJyaGoroiwa*)thisx;
     Player* player = GET_PLAYER(play);
     s32 bgId;

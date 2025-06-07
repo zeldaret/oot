@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -128,7 +129,7 @@ void MagicFire_UpdateBeforeCast(Actor* thisx, PlayState* play) {
 void MagicFire_Update(Actor* thisx, PlayState* play) {
     MagicFire* this = (MagicFire*)thisx;
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
 
     if (1) {}
     this->actor.world.pos = player->actor.world.pos;
@@ -227,9 +228,9 @@ void MagicFire_Update(Actor* thisx, PlayState* play) {
 
 void MagicFire_Draw(Actor* thisx, PlayState* play) {
     MagicFire* this = (MagicFire*)thisx;
-    s32 pad1;
+    STACK_PAD(s32);
     u32 gameplayFrames = play->gameplayFrames;
-    s32 pad2;
+    STACK_PAD(s32);
     s32 i;
     u8 alpha;
 

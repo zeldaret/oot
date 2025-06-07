@@ -33,6 +33,8 @@
  */
 
 #include "gfx.h"
+#include "attributes.h"
+#include "stack_pad.h"
 #include "vis.h"
 
 // Height of the fragments the z-buffer is split into.
@@ -62,12 +64,12 @@ void VisZBuf_Init(VisZBuf* this) {
     // clang-format on
 }
 
-void VisZBuf_Destroy(VisZBuf* this) {
+void VisZBuf_Destroy(UNUSED VisZBuf* this) {
 }
 
 void VisZBuf_Draw(VisZBuf* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
-    s32 pad;
+    STACK_PAD(s32);
     u16* zbufFrag = D_0E000000;
     s32 fmt;
     s32 y;

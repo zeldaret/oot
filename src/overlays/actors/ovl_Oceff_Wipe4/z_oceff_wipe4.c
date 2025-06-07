@@ -6,9 +6,11 @@
 
 #include "z_oceff_wipe4.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "z_lib.h"
@@ -43,7 +45,7 @@ void OceffWipe4_Init(Actor* thisx, PlayState* play) {
 }
 
 void OceffWipe4_Destroy(Actor* thisx, PlayState* play) {
-    OceffWipe4* this = (OceffWipe4*)thisx;
+    UNUSED OceffWipe4* this = (OceffWipe4*)thisx;
 
     Magic_Reset(play);
 
@@ -69,7 +71,7 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     OceffWipe4* this = (OceffWipe4*)thisx;
     f32 z;
     u8 alpha;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3f eye;
     Vtx* vtxPtr;
     Vec3f quakeOffset;

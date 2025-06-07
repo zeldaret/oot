@@ -6,6 +6,7 @@
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
 #include "printf.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "play_state.h"
 #include "save.h"
@@ -176,7 +177,7 @@ static s16 sSlotItems[] = {
 
 void KaleidoScope_DrawInventoryEditorText(Gfx** gfxP) {
     GfxPrint printer;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *gfxP);

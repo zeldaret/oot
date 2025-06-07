@@ -1,4 +1,5 @@
 #include "z_en_dodongo.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 
@@ -8,6 +9,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
@@ -254,7 +256,7 @@ void EnDodongo_SetupAction(EnDodongo* this, EnDodongoActionFunc actionFunc) {
 }
 
 void EnDodongo_SpawnBombSmoke(EnDodongo* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
     Vec3f pos = this->headPos;
@@ -361,7 +363,7 @@ void EnDodongo_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnDodongo_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnDodongo* this = (EnDodongo*)thisx;
 
     Effect_Delete(play, this->blureIdx);
@@ -437,11 +439,11 @@ void EnDodongo_EndBreatheFire(EnDodongo* this, PlayState* play) {
 }
 
 void EnDodongo_BreatheFire(EnDodongo* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
-    s16 pad2;
+    STACK_PAD(s16);
     s16 fireFrame;
 
     if ((s32)this->skelAnime.curFrame == 24) {
@@ -471,7 +473,7 @@ void EnDodongo_SwallowBomb(EnDodongo* this, PlayState* play) {
     Vec3f deathFireAccel = { 0.0f, 1.0f, 0.0f };
     s16 i;
     Vec3f pos;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actor.child != NULL) {
         this->actor.child->world.pos = this->mouthPos;
@@ -540,7 +542,7 @@ void EnDodongo_SwallowBomb(EnDodongo* this, PlayState* play) {
 }
 
 void EnDodongo_Walk(EnDodongo* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 playbackSpeed;
     Player* player = GET_PLAYER(play);
     s16 yawDiff = (s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
@@ -758,7 +760,7 @@ void EnDodongo_UpdateQuad(EnDodongo* this, PlayState* play) {
     Vec3f sp88 = { -1000.0f, -200.0f, 1500.0f };
     Vec3f sp7C = { -1000.0f, -200.0f, -1500.0f };
     Vec3f sp70 = { 0.0f, 0.0f, 0.0f };
-    s32 pad4C[9]; // Possibly 3 more Vec3fs?
+    STACK_PADS(s32, 9); // Possibly 3 more Vec3fs?
     s32 a = 0;
     s32 b = 1; // These indices are needed to match.
     s32 c = 2; // Might be a way to quickly test vertex arrangements
@@ -779,7 +781,7 @@ void EnDodongo_UpdateQuad(EnDodongo* this, PlayState* play) {
 }
 
 void EnDodongo_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnDodongo* this = (EnDodongo*)thisx;
 
     EnDodongo_CollisionCheck(this, play);

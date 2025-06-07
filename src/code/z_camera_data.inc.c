@@ -1,4 +1,5 @@
 #include "array_count.h"
+#include "attributes.h"
 #include "ultra64.h"
 
 typedef struct CameraModeValue {

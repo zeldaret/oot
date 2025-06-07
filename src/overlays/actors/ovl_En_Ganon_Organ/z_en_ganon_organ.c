@@ -6,6 +6,7 @@
 
 #include "z_en_ganon_organ.h"
 
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -33,7 +34,7 @@ ActorProfile En_Ganon_Organ_Profile = {
     /**/ EnGanonOrgan_Draw,
 };
 
-static u64 sForceAlignment = 0;
+UNUSED static u64 sForceAlignment = 0;
 
 #include "assets/overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 

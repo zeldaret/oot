@@ -5,6 +5,7 @@
  */
 
 #include "z_en_attack_niw.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
 #include "libc64/qrand.h"
@@ -13,6 +14,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "versions.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -52,7 +54,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnAttackNiw_Init(Actor* thisx, PlayState* play) {
     EnAttackNiw* this = (EnAttackNiw*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
@@ -355,7 +357,7 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actionFunc != func_809B5C18)) {
         Vec3f sp30;
-        s32 pad;
+        STACK_PAD(s32);
 
         Math_Vec3f_Copy(&sp30, &this->actor.world.pos);
         sp30.y += this->actor.depthInWater;
@@ -395,7 +397,7 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
 
 s32 func_809B5F98(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnAttackNiw* this = (EnAttackNiw*)thisx;
-    Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
         rot->y += (s16)this->unk_2BC;

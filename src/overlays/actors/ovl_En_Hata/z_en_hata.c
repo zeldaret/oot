@@ -6,10 +6,12 @@
 
 #include "z_en_hata.h"
 
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -36,7 +38,8 @@ ActorProfile En_Hata_Profile = {
 };
 
 // Unused Collider and CollisionCheck data
-static ColliderCylinderInit sCylinderInit = {
+
+UNUSED static ColliderCylinderInit sCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -56,11 +59,11 @@ static ColliderCylinderInit sCylinderInit = {
     { 16, 246, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
+UNUSED static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 void EnHata_Init(Actor* thisx, PlayState* play) {
     EnHata* this = (EnHata*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
     f32 frameCount = Animation_GetLastFrame(&gFlagpoleFlapAnim);
 

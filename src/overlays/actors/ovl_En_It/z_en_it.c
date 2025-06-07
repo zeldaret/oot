@@ -7,6 +7,7 @@
 #include "z_en_it.h"
 
 #include "play_state.h"
+#include "stack_pad.h"
 
 #define FLAGS 0
 
@@ -65,7 +66,7 @@ void EnIt_Destroy(Actor* thisx, PlayState* play) {
 
 void EnIt_Update(Actor* thisx, PlayState* play) {
     EnIt* this = (EnIt*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

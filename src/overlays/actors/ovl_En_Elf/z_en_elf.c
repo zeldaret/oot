@@ -16,6 +16,7 @@
 #include "rand.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
@@ -335,7 +336,7 @@ f32 EnElf_GetColorValue(s32 colorFlag) {
 
 void EnElf_Init(Actor* thisx, PlayState* play) {
     EnElf* this = (EnElf*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     s32 colorConfig;
     s32 i;
@@ -456,7 +457,7 @@ void func_80A029A8(EnElf* this, s16 increment) {
 }
 
 void EnElf_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnElf* this = (EnElf*)thisx;
 
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNodeGlow);
@@ -560,7 +561,7 @@ void func_80A02F2C(EnElf* this, Vec3f* targetPos) {
 }
 
 void func_80A03018(EnElf* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Player* player = GET_PLAYER(play);
     s16 targetYaw;
     Vec3f* unk_28C = &this->unk_28C;
@@ -622,7 +623,7 @@ void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
 
 void func_80A0329C(EnElf* this, PlayState* play) {
     Player* refActor = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     f32 heightDiff;
 
@@ -1207,7 +1208,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
 void EnElf_SpawnSparkles(EnElf* this, PlayState* play, s32 sparkleLife) {
     static Vec3f sparkleVelocity = { 0.0f, -0.05f, 0.0f };
     static Vec3f sparkleAccel = { 0.0f, -0.025f, 0.0f };
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f sparklePos;
     Color_RGBA8 primColor;
     Color_RGBA8 envColor;
@@ -1229,7 +1230,7 @@ void EnElf_SpawnSparkles(EnElf* this, PlayState* play, s32 sparkleLife) {
 }
 
 void func_80A04D90(EnElf* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 bgId;
 
     this->actor.floorHeight = BgCheck_EntityRaycastDown5(play, &play->colCtx, &this->actor.floorPoly, &bgId,
@@ -1394,7 +1395,7 @@ void func_80A052F4(Actor* thisx, PlayState* play) {
 
 void func_80A053F0(Actor* thisx, PlayState* play) {
     u8 unk2C7;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     EnElf* this = (EnElf*)thisx;
 
@@ -1488,7 +1489,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
 }
 
 void EnElf_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnElf* this = (EnElf*)thisx;
 
     this->actionFunc(this, play);
@@ -1503,7 +1504,7 @@ void EnElf_Update(Actor* thisx, PlayState* play) {
 s32 EnElf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                            Gfx** gfx) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    s32 pad;
+    STACK_PAD(s32);
     f32 scale;
     Vec3f mtxMult;
     EnElf* this = (EnElf*)thisx;
@@ -1532,11 +1533,11 @@ s32 EnElf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void EnElf_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 alphaScale;
     s32 envAlpha;
     EnElf* this = (EnElf*)thisx;
-    s32 pad1;
+    STACK_PAD(s32);
     Gfx* dListHead;
     Player* player = GET_PLAYER(play);
 

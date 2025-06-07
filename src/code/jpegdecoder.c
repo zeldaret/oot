@@ -1,4 +1,5 @@
 #include "jpeg.h"
+#include "stack_pad.h"
 
 s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1, u16* mcu, s16* unk);
 s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* outZeroCount);
@@ -11,7 +12,7 @@ u8 sJpegBitStreamDontSkip;
 u32 sJpegBitStreamCurWord;
 
 s32 JpegDecoder_Decode(JpegDecoder* decoder, u16* mcuBuff, s32 count, u8 isFollowing, JpegDecoderState* state) {
-    s16 pad;
+    STACK_PAD(s16);
     s16 unk0;
     s16 unk1;
     s16 unk2;

@@ -7,9 +7,11 @@
 #include "z_magic_dark.h"
 
 #include "array_count.h"
+#include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "play_state.h"
@@ -43,8 +45,7 @@ ActorProfile Magic_Dark_Profile = {
 
 #include "assets/overlays/ovl_Magic_Dark/ovl_Magic_Dark.c"
 
-// unused
-static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
+UNUSED static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
 
 void MagicDark_Init(Actor* thisx, PlayState* play) {
     MagicDark* this = (MagicDark*)thisx;
@@ -83,7 +84,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, PlayState* play) {
     MagicDark* this = (MagicDark*)thisx;
     u8 phi_a0;
     Player* player = GET_PLAYER(play);
-    s16 pad;
+    STACK_PAD(s16);
     s16 nayrusLoveTimer = gSaveContext.nayrusLoveTimer;
     s32 msgMode = play->msgCtx.msgMode;
 
@@ -186,7 +187,7 @@ void MagicDark_DimLighting(PlayState* play, f32 intensity) {
 
 void MagicDark_OrbUpdate(Actor* thisx, PlayState* play) {
     MagicDark* this = (MagicDark*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_PL_MAGIC_SOUL_BALL - SFX_FLAG);
@@ -214,7 +215,7 @@ void MagicDark_OrbUpdate(Actor* thisx, PlayState* play) {
 
 void MagicDark_DiamondDraw(Actor* thisx, PlayState* play) {
     MagicDark* this = (MagicDark*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     u16 gameplayFrames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_magic_dark.c", 525);

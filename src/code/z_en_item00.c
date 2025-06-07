@@ -10,6 +10,7 @@
 #include "rand.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "draw.h"
@@ -388,12 +389,12 @@ void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
 
 void EnItem00_Init(Actor* thisx, PlayState* play) {
     EnItem00* this = (EnItem00*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 yOffset = 980.0f;
     f32 shadowScale = 6.0f;
     s32 getItemId = GI_NONE;
     s16 spawnParam8000 = PARAMS_GET_NOSHIFT(this->actor.params, 15, 1);
-    s32 pad1;
+    STACK_PAD(s32);
 
     this->collectibleFlag = PARAMS_GET_S(this->actor.params, 8, 6);
 
@@ -614,7 +615,7 @@ void EnItem00_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_8001DFC8(EnItem00* this, PlayState* play) {
+void func_8001DFC8(EnItem00* this, UNUSED PlayState* play) {
     if ((this->actor.params <= ITEM00_RUPEE_RED) ||
         ((this->actor.params == ITEM00_RECOVERY_HEART) && (this->despawnTimer < 0)) ||
         (this->actor.params == ITEM00_HEART_PIECE)) {
@@ -690,7 +691,7 @@ void func_8001E1C8(EnItem00* this, PlayState* play) {
 }
 
 void func_8001E304(EnItem00* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f pos;
     s32 rotOffset;
 
@@ -787,7 +788,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
     s16 i;
     u32* temp;
     EnItem00* this = (EnItem00*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->despawnTimer > 0) {
         this->despawnTimer--;
@@ -1067,7 +1068,7 @@ void EnItem00_Draw(Actor* thisx, PlayState* play) {
  * Draw Function used for Rupee types of En_Item00.
  */
 void EnItem00_DrawRupee(EnItem00* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 texIndex;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_item00.c", 1546);
@@ -1120,7 +1121,7 @@ void EnItem00_DrawCollectible(EnItem00* this, PlayState* play) {
  * Draw Function used for the Heart Container type of En_Item00.
  */
 void EnItem00_DrawHeartContainer(EnItem00* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_item00.c", 1623);
 
@@ -1141,7 +1142,7 @@ void EnItem00_DrawHeartContainer(EnItem00* this, PlayState* play) {
  * Draw Function used for the Piece of Heart type of En_Item00.
  */
 void EnItem00_DrawHeartPiece(EnItem00* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_item00.c", 1658);
 
@@ -1192,7 +1193,7 @@ s16 func_8001F404(s16 dropId) {
 // External functions used by other actors to drop collectibles, which usually results in spawning an En_Item00 actor.
 
 EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     EnItem00* spawnedActor = NULL;
     s16 param4000 = params & 0x4000;
     s16 param8000 = params & 0x8000;
@@ -1236,7 +1237,7 @@ EnItem00* Item_DropCollectible(PlayState* play, Vec3f* spawnPos, s16 params) {
 
 EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params) {
     EnItem00* spawnedActor = NULL;
-    s32 pad;
+    STACK_PAD(s32);
     s16 param4000 = params & 0x4000;
     s16 param8000 = params & 0x8000;
     s16 param3F00 = params & 0x3F00;
@@ -1268,7 +1269,7 @@ EnItem00* Item_DropCollectible2(PlayState* play, Vec3f* spawnPos, s16 params) {
 }
 
 void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnPos, s16 params) {
-    s32 pad;
+    STACK_PAD(s32);
     EnItem00* spawnedActor;
     s16 dropQuantity;
     s16 param8000;

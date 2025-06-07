@@ -6,9 +6,11 @@
 
 #include "z_bg_haka_meganebg.h"
 
+#include "attributes.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -48,8 +50,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-// Unused
-static u32 D_8087E3FC[] = {
+UNUSED static u32 D_8087E3FC[] = {
     0x00000000, 0x00000000, 0x00000000, 0xC8C800FF, 0xFF0000FF,
 };
 
@@ -61,7 +62,7 @@ static Gfx* D_8087E410[] = {
 };
 
 void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgHakaMeganeBG* this = (BgHakaMeganeBG*)thisx;
     CollisionHeader* colHeader = NULL;
 

@@ -13,6 +13,7 @@
 #include "ichain.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
@@ -308,7 +309,7 @@ void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play) {
 void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
     Vec3f vec;
     f32 multiplier;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->actionTimer++;
     if (this->actionTimer < 8) {
@@ -341,7 +342,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
     if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.001f) != 0) {
         if (this->hookshotSlotFull != 0) {
             Vec3f sp60;
-            s32 pad1;
+            STACK_PAD(s32);
 
             sp60.x = this->actor.world.pos.x;
             sp60.y = this->actor.floorHeight;
@@ -367,7 +368,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
 
 void EnPoRelay_Update(Actor* thisx, PlayState* play) {
     EnPoRelay* this = (EnPoRelay*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);

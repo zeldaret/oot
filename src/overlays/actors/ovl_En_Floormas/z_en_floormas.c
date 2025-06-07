@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -136,7 +137,7 @@ void EnFloormas_Init(Actor* thisx, PlayState* play2) {
     EnFloormas* this = (EnFloormas*)thisx;
     PlayState* play = play2;
     s32 invisble;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 50.0f);
@@ -534,7 +535,7 @@ void EnFloormas_Run(EnFloormas* this, PlayState* play) {
 }
 
 void EnFloormas_Turn(EnFloormas* this, PlayState* play) {
-    char pad[4];
+    STACK_PAD(s32);
     f32 sp30;
     f32 sp2C;
 
@@ -986,7 +987,7 @@ void EnFloormas_Freeze(EnFloormas* this, PlayState* play) {
 }
 
 void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 isSmall;
 
     if (this->collider.base.acFlags & AC_HIT) {
@@ -1032,7 +1033,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
 
 void EnFloormas_Update(Actor* thisx, PlayState* play) {
     EnFloormas* this = (EnFloormas*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->actionFunc != EnFloormas_SmallWait) {
         if (this->collider.base.atFlags & AT_HIT) {
