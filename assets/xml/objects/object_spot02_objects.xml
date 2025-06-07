@@ -2,14 +2,35 @@
     <File Name="object_spot02_objects" Segment="6">
         <Texture Name="object_spot02_objects_Tex_000000" Format="i8" Width="32" Height="64" Offset="0x0"/>
         <Texture Name="object_spot02_objects_Tex_000800" Format="i8" Width="32" Height="64" Offset="0x800"/>
+        <Array Name="object_spot02_objects_Vtx_001000" Count="63" Offset="0x1000">
+            <Vtx/>
+        </Array>
         <DList Name="object_spot02_objects_DL_0013F0" Offset="0x13F0"/>
+        <Array Name="object_spot02_objects_Vtx_0095E0" Count="4" Offset="0x95E0">
+            <Vtx/>
+        </Array>
         <DList Name="object_spot02_objects_DL_009620" Offset="0x9620"/>
+        <Array Name="object_spot02_objects_Vtx_0126B0" Count="4" Offset="0x126B0">
+            <Vtx/>
+        </Array>
         <DList Name="object_spot02_objects_DL_0126F0" Offset="0x126F0"/>
+        <Array Name="object_spot02_objects_Vtx_012780" Count="4" Offset="0x12780">
+            <Vtx/>
+        </Array>
         <DList Name="object_spot02_objects_DL_0127C0" Offset="0x127C0"/>
         <Collision Name="object_spot02_objects_Col_0128D8" Offset="0x128D8"/>
+        <Array Name="object_spot02_objects_Vtx_012910" Count="20" Offset="0x12910">
+            <Vtx/>
+        </Array>
         <DList Name="object_spot02_objects_DL_012A50" Offset="0x12A50"/>
         <Collision Name="object_spot02_objects_Col_012BA4" Offset="0x12BA4"/>
+        <Array Name="object_spot02_objects_Vtx_012BD0" Count="22" Offset="0x12BD0">
+            <Vtx/>
+        </Array>
         <DList Name="object_spot02_objects_DL_012D30" Offset="0x12D30"/>
+        <Array Name="object_spot02_objects_Vtx_012E30" Count="40" Offset="0x12E30">
+            <Vtx/>
+        </Array>
         <DList Name="object_spot02_objects_DL_0130B0" Offset="0x130B0"/>
         <Collision Name="object_spot02_objects_Col_0133EC" Offset="0x133EC"/>
         <Texture Name="object_spot02_objects_Tex_013420" Format="i4" Width="32" Height="64" Offset="0x13420"/>

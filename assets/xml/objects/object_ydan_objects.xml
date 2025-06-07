@@ -18,15 +18,45 @@
         <Texture Name="gYdanMarutaUnused2Tex" Format="ci8" Width="32" Height="64" Offset="0x79D8" TlutOffset="0x77D0"/>
         <Texture Name="gYdanMaruta1TLUT" Format="rgba16" Width="16" Height="16" Offset="0x77D0"/>
         <Blob Name="object_ydan_objects_0079D0_Blob" Size="0x8" Offset="0x79D0"/>
+        <Array Name="gDTUnknownWebVtx" Count="5" Offset="0x3800">
+            <Vtx/>
+        </Array>
         <DList Name="gDTUnknownWebDL" Offset="0x3850"/>
+        <Array Name="gDTRisingPlatformsVtx" Count="82" Offset="0x4AF8">
+            <Vtx/>
+        </Array>
         <DList Name="gDTRisingPlatformsDL" Offset="0x5018"/>
+        <Array Name="gDTWaterPlaneVtx" Count="9" Offset="0x5D50">
+            <Vtx/>
+        </Array>
         <DList Name="gDTWaterPlaneDL" Offset="0x5DE0"/>
+        <Array Name="gDTWebWallVtx" Count="6" Offset="0x5EE0">
+            <Vtx/>
+        </Array>
         <DList Name="gDTWebWallDL" Offset="0x5F40"/>
+        <Array Name="gDTWebFloorVtx" Count="19" Offset="0x6080">
+            <Vtx/>
+        </Array>
         <DList Name="gDTWebFloorDL" Offset="0x61B0"/>
+        <Array Name="gDTFallingLadderVtx" Count="14" Offset="0x6490">
+            <Vtx/>
+        </Array>
         <DList Name="gDTFallingLadderDL" Offset="0x6570"/>
+        <Array Name="gDTDungeonDoor1Vtx" Count="12" Offset="0x66E0">
+            <Vtx/>
+        </Array>
         <DList Name="gDTDungeonDoor1DL" Offset="0x67A0"/>
+        <Array Name="gDTDungeonDoor2Vtx" Count="12" Offset="0x6850">
+            <Vtx/>
+        </Array>
         <DList Name="gDTDungeonDoor2DL" Offset="0x6910"/>
+        <Array Name="gDTSlidingPlatformVtx" Count="20" Offset="0x73C8">
+            <Vtx/>
+        </Array>
         <DList Name="gDTSlidingPlatformDL" Offset="0x7508"/>
+        <Array Name="gDTRollingSpikeTrapVtx" Count="187" Offset="0x81D8">
+            <Vtx/>
+        </Array>
         <DList Name="gDTRollingSpikeTrapDL" Offset="0x8D88"/>
         <Collision Name="gDTRisingPlatformsCol" Offset="0x5780"/>
         <Collision Name="gDTWebWallCol" Offset="0x6050"/>
