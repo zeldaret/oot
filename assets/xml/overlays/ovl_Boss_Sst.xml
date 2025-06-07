@@ -1,8 +1,14 @@
 <Root>
     <File Name="ovl_Boss_Sst">
-        <DList Name="sBodyStaticDList" Offset="0x0"/>
-        <DList Name="sHandTrailDList" Offset="0x18"/>
-        <DList Name="sIntroVanishDList" Offset="0x478"/>
-        <DList Name="sShadowDList" Offset="0x930"/>
+        <DList Name="sBodyStaticDL" Offset="0x0"/>
+        <DList Name="sHandTrailDL" Offset="0x18"/>
+        <Array Name="sIntroVanishVtx" Count="4" Offset="0x38">
+            <Vtx/>
+        </Array>
+        <DList Name="sIntroVanishDL" Offset="0x478"/>
+        <Array Name="sShadowVtx" Count="3" Offset="0x500">
+            <Vtx/>
+        </Array>
+        <DList Name="sShadowDL" Offset="0x930"/>
     </File>
 </Root>

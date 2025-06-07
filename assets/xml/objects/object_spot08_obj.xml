@@ -1,6 +1,9 @@
 <Root>
     <File Name="object_spot08_obj" Segment="6">
         <!-- Zora's Fountain Ice Ramp -->
+        <Array Name="gZorasFountainIceRampVtx" Count="92" Offset="0x820">
+            <Vtx/>
+        </Array>
         <DList Name="gZorasFountainIceRampDL" Offset="0xDE0"/>
         <Texture Name="gZorasFountainIceRampTLUT" Format="rgba16" Width="4" Height="4" Offset="0x0"/>
         <Texture Name="gZorasFountainIceRampLowerSideTex" Format="ci4" Width="64" Height="64" Offset="0x20" TlutOffset="0x0"/>
@@ -10,6 +13,9 @@
         <Collision Name="gZorasFountainIceRampCol" Offset="0x1904"/>
 
         <!-- Zora's Fountain Iceberg -->
+        <Array Name="gZorasFountainIcebergVtx" Count="38" Offset="0x2970">
+            <Vtx/>
+        </Array>
         <DList Name="gZorasFountainIcebergDL" Offset="0x2BD0"/>
         <Texture Name="gZorasFountainIceberg1TLUT" Format="rgba16" Width="4" Height="4" Offset="0x1930"/>
         <Texture Name="gZorasFountainIceberg2TLUT" Format="rgba16" Width="4" Height="4" Offset="0x1950"/>
@@ -19,6 +25,9 @@
         <Collision Name="gZorasFountainIcebergCol" Offset="0x2FD8"/>
 
         <!-- Zora's Fountain Bombable Wall -->
+        <Array Name="gZorasFountainBombableWallVtx" Count="6" Offset="0x3838">
+            <Vtx/>
+        </Array>
         <DList Name="gZorasFountainBombableWallDL" Offset="0x3898"/>
         <Texture Name="gZorasFountainBombableWallTLUT" Format="rgba16" Width="4" Height="4" Offset="0x3010"/>
         <Texture Name="gZorasFountainBombableWallTex" Format="ci4" Width="128" Height="32" Offset="0x3038" TlutOffset="0x3010"/>

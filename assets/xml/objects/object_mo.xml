@@ -74,5 +74,10 @@
             <Vtx/>
         </Array>
 
+        <Texture Name="object_mo_000000_Tex" Format="ia8" Width="16" Height="16" Offset="0x0"/>
+        <Texture Name="object_mo_000680_Tex" Format="rgba16" Width="32" Height="32" Offset="0x680"/>
+        <Texture Name="object_mo_003920_Tex" Format="ia16" Width="32" Height="32" Offset="0x3920"/>
+        <Texture Name="object_mo_004120_Tex" Format="ia16" Width="32" Height="32" Offset="0x4120"/>
+        <Texture Name="object_mo_004920_Tex" Format="ia16" Width="32" Height="32" Offset="0x4920"/>
     </File>
 </Root>
