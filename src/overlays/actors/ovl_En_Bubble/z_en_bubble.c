@@ -1,7 +1,20 @@
 #include "z_en_bubble.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_bubble/object_bubble.h"
 
-#define FLAGS ACTOR_FLAG_0
+#define FLAGS ACTOR_FLAG_ATTENTION_ENABLED
 
 void EnBubble_Init(Actor* thisx, PlayState* play);
 void EnBubble_Destroy(Actor* thisx, PlayState* play);
@@ -12,7 +25,7 @@ void EnBubble_Wait(EnBubble* this, PlayState* play);
 void EnBubble_Pop(EnBubble* this, PlayState* play);
 void EnBubble_Regrow(EnBubble* this, PlayState* play);
 
-ActorInit En_Bubble_InitVars = {
+ActorProfile En_Bubble_Profile = {
     /**/ ACTOR_EN_BUBBLE,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -27,7 +40,7 @@ ActorInit En_Bubble_InitVars = {
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x04 },
             { 0xFFCFD753, 0x00, 0x00 },
             ATELEM_NONE,
@@ -38,7 +51,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00002824, 0x00, 0x00 },
             ATELEM_NONE,
@@ -51,7 +64,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -76,7 +89,7 @@ void EnBubble_SetDimensions(EnBubble* this, f32 dim) {
     f32 c;
     f32 d;
 
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_SetScale(&this->actor, 1.0f);
     this->actor.shape.yOffset = 16.0f;
     this->graphicRotSpeed = 16.0f;
@@ -95,7 +108,7 @@ void EnBubble_SetDimensions(EnBubble* this, f32 dim) {
 }
 
 u32 func_809CBCBC(EnBubble* this) {
-    ColliderElement* elem = &this->colliderSphere.elements[0].base;
+    ColliderElement* elem = &this->colliderJntSph.elements[0].base;
 
     elem->atDmgInfo.dmgFlags = DMG_EXPLOSIVE;
     elem->atDmgInfo.effect = 0;
@@ -112,10 +125,10 @@ u32 func_809CBCEC(EnBubble* this) {
 }
 
 void EnBubble_DamagePlayer(EnBubble* this, PlayState* play) {
-    s32 damage = -this->colliderSphere.elements[0].base.atDmgInfo.damage;
+    s32 damage = -this->colliderJntSph.elements[0].base.atDmgInfo.damage;
 
     play->damagePlayer(play, damage);
-    func_8002F7A0(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
+    Actor_SetPlayerKnockbackSmallNoDamage(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
 }
 
 s32 EnBubble_Explosion(EnBubble* this, PlayState* play) {
@@ -145,7 +158,7 @@ s32 EnBubble_Explosion(EnBubble* this, PlayState* play) {
                                           &sEffectEnvColor, Rand_S16Offset(100, 50), 0x19, 0);
     }
     Item_DropCollectibleRandom(play, NULL, &this->actor.world.pos, 0x50);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     return Rand_S16Offset(90, 60);
 }
 
@@ -206,8 +219,8 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
     s32 bgId;
     u8 bounceCount;
 
-    if (this->colliderSphere.elements[1].base.acElemFlags & ACELEM_HIT) {
-        attackerActor = this->colliderSphere.base.ac;
+    if (this->colliderJntSph.elements[1].base.acElemFlags & ACELEM_HIT) {
+        attackerActor = this->colliderJntSph.base.ac;
         this->normalizedAttackerVelocity = attackerActor->velocity;
         EnBubble_Vec3fNormalize(&this->normalizedAttackerVelocity);
         this->velocityFromAttack.x += (this->normalizedAttackerVelocity.x * 3.0f);
@@ -280,14 +293,14 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
 }
 
 u32 func_809CC648(EnBubble* this) {
-    if (((this->colliderSphere.base.acFlags & AC_HIT) != 0) == false) {
+    if (((this->colliderJntSph.base.acFlags & AC_HIT) != 0) == false) {
         return false;
     }
-    this->colliderSphere.base.acFlags &= ~AC_HIT;
-    if (this->colliderSphere.elements[1].base.acElemFlags & ACELEM_HIT) {
-        this->unk_1F0.x = this->colliderSphere.base.ac->velocity.x / 10.0f;
-        this->unk_1F0.y = this->colliderSphere.base.ac->velocity.y / 10.0f;
-        this->unk_1F0.z = this->colliderSphere.base.ac->velocity.z / 10.0f;
+    this->colliderJntSph.base.acFlags &= ~AC_HIT;
+    if (this->colliderJntSph.elements[1].base.acElemFlags & ACELEM_HIT) {
+        this->unk_1F0.x = this->colliderJntSph.base.ac->velocity.x / 10.0f;
+        this->unk_1F0.y = this->colliderJntSph.base.ac->velocity.y / 10.0f;
+        this->unk_1F0.z = this->colliderJntSph.base.ac->velocity.z / 10.0f;
         this->graphicRotSpeed = 128.0f;
         this->graphicEccentricity = 0.48f;
         return false;
@@ -300,8 +313,8 @@ u32 EnBubble_DetectPop(EnBubble* this, PlayState* play) {
     if (DECR(this->unk_208) != 0 || this->actionFunc == EnBubble_Pop) {
         return false;
     }
-    if (this->colliderSphere.base.ocFlags2 & OC2_HIT_PLAYER) {
-        this->colliderSphere.base.ocFlags2 &= ~OC2_HIT_PLAYER;
+    if (this->colliderJntSph.base.ocFlags2 & OC2_HIT_PLAYER) {
+        this->colliderJntSph.base.ocFlags2 &= ~OC2_HIT_PLAYER;
         EnBubble_DamagePlayer(this, play);
         this->unk_208 = 8;
         return true;
@@ -314,7 +327,7 @@ void func_809CC774(EnBubble* this) {
     Vec3f src;
     Vec3f dest;
 
-    dim = &this->colliderSphere.elements[0].dim;
+    dim = &this->colliderJntSph.elements[0].dim;
     src.x = dim->modelSphere.center.x;
     src.y = dim->modelSphere.center.y;
     src.z = dim->modelSphere.center.z;
@@ -324,7 +337,7 @@ void func_809CC774(EnBubble* this) {
     dim->worldSphere.center.y = dest.y;
     dim->worldSphere.center.z = dest.z;
     dim->worldSphere.radius = dim->modelSphere.radius * (1.0f + this->expansionWidth);
-    this->colliderSphere.elements[1].dim = *dim;
+    this->colliderJntSph.elements[1].dim = *dim;
 }
 
 void EnBubble_Init(Actor* thisx, PlayState* play) {
@@ -332,8 +345,8 @@ void EnBubble_Init(Actor* thisx, PlayState* play) {
     STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 16.0f, ActorShadow_DrawCircle, 0.2f);
-    Collider_InitJntSph(play, &this->colliderSphere);
-    Collider_SetJntSph(play, &this->colliderSphere, &this->actor, &sJntSphInit, this->colliderSphereItems);
+    Collider_InitJntSph(play, &this->colliderJntSph);
+    Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(9), &sColChkInfoInit2);
     this->actor.naviEnemyId = NAVI_ENEMY_SHABOM;
     this->bounceDirection.x = Rand_ZeroOne();
@@ -350,7 +363,7 @@ void EnBubble_Init(Actor* thisx, PlayState* play) {
 void EnBubble_Destroy(Actor* thisx, PlayState* play) {
     EnBubble* this = (EnBubble*)thisx;
 
-    Collider_DestroyJntSph(play, &this->colliderSphere);
+    Collider_DestroyJntSph(play, &this->colliderJntSph);
 }
 
 void EnBubble_Wait(EnBubble* this, PlayState* play) {
@@ -360,8 +373,8 @@ void EnBubble_Wait(EnBubble* this, PlayState* play) {
     } else {
         EnBubble_Fly(this, play);
         this->actor.shape.yOffset = ((this->expansionHeight + 1.0f) * 16.0f);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSphere.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderSphere.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 }
 
@@ -389,8 +402,8 @@ void EnBubble_Regrow(EnBubble* this, PlayState* play) {
     if (func_809CC020(this)) {
         this->actionFunc = EnBubble_Wait;
     }
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSphere.base);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderSphere.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
 }
 
 void EnBubble_Update(Actor* thisx, PlayState* play) {
@@ -405,7 +418,7 @@ void EnBubble_Update(Actor* thisx, PlayState* play) {
 
 void EnBubble_Draw(Actor* thisx, PlayState* play) {
     EnBubble* this = (EnBubble*)thisx;
-    STACK_PAD(s32);
+    PlayState* play2 = (PlayState*)play;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bubble.c", 1175);
 
@@ -413,19 +426,16 @@ void EnBubble_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         Math_SmoothStepToF(&this->graphicRotSpeed, 16.0f, 0.2f, 1000.0f, 0.0f);
         Math_SmoothStepToF(&this->graphicEccentricity, 0.08f, 0.2f, 1000.0f, 0.0f);
-        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_ReplaceRotation(&play2->billboardMtxF);
 
         Matrix_Scale(this->expansionWidth + 1.0f, this->expansionHeight + 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD((f32)play->state.frames) * this->graphicRotSpeed, MTXMODE_APPLY);
         Matrix_Scale(this->graphicEccentricity + 1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD(-(f32)play->state.frames) * this->graphicRotSpeed, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bubble.c", 1220),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_bubble.c", 1220);
         gSPDisplayList(POLY_XLU_DISP++, gBubbleDL);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bubble.c", 1226);
 

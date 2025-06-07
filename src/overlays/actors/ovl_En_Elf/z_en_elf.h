@@ -2,13 +2,13 @@
 #define Z_EN_ELF_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "overlays/actors/ovl_Elf_Msg/z_elf_msg.h"
+#include "actor.h"
+#include "light.h"
 
 struct EnElf;
 
-typedef void (*EnElfActionFunc)(struct EnElf*, PlayState*);
-typedef void (*EnElfUnkFunc)(struct EnElf*, PlayState*);
+typedef void (*EnElfActionFunc)(struct EnElf*, struct PlayState*);
+typedef void (*EnElfUnkFunc)(struct EnElf*, struct PlayState*);
 
 typedef struct EnElf {
     /* 0x0000 */ Actor actor;
@@ -22,7 +22,7 @@ typedef struct EnElf {
     /* 0x0278 */ LightInfo lightInfoNoGlow;
     /* 0x0288 */ LightNode* lightNodeNoGlow;
     /* 0x028C */ Vec3f unk_28C;
-    /* 0x0298 */ ElfMsg* elfMsg;
+    /* 0x0298 */ struct ElfMsg* elfMsg;
     /* 0x029C */ f32 unk_29C;
     /* 0x02A0 */ f32 unk_2A0;
     /* 0x02A4 */ f32 unk_2A4;
@@ -44,7 +44,7 @@ typedef struct EnElf {
     /* 0x02CC */ EnElfActionFunc actionFunc;
 } EnElf; // size = 0x02D0
 
-typedef enum {
+typedef enum FairyType {
     /* 0x00 */ FAIRY_NAVI,
     /* 0x01 */ FAIRY_REVIVE_BOTTLE,
     /* 0x02 */ FAIRY_HEAL_TIMED,

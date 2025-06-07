@@ -1,5 +1,5 @@
-#include "z_en_zl1.h"
-#include "z64cutscene_commands.h"
+#include "attributes.h"
+#include "cutscene_commands.h"
 
 UNUSED static CutsceneCameraDirection D_80B4D5C0[] = {
     { { -440.0f, 117.0f, 0.0f }, { -490.0f, 120.0f, 0.0f }, 0, 45 },

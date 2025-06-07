@@ -5,8 +5,20 @@
  */
 
 #include "z_obj_kibako2.h"
-#include "assets/objects/object_kibako2/object_kibako2.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
+#include "assets/objects/object_kibako2/object_kibako2.h"
 
 #define FLAGS 0
 
@@ -17,7 +29,7 @@ void ObjKibako2_Draw(Actor* thisx, PlayState* play);
 void ObjKibako2_Idle(ObjKibako2* this, PlayState* play);
 void ObjKibako2_Kill(ObjKibako2* this, PlayState* play);
 
-ActorInit Obj_Kibako2_InitVars = {
+ActorProfile Obj_Kibako2_Profile = {
     /**/ ACTOR_OBJ_KIBAKO2,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -31,7 +43,7 @@ ActorInit Obj_Kibako2_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -39,7 +51,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x40000040, 0x00, 0x00 },
         ATELEM_NONE,
@@ -51,9 +63,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void ObjKibako2_InitCollider(Actor* thisx, PlayState* play) {
@@ -130,9 +142,8 @@ void ObjKibako2_Init(Actor* thisx, PlayState* play) {
     this->actionFunc = ObjKibako2_Idle;
     this->dyna.actor.home.rot.z = this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z =
         this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x = 0;
-    // "Wooden box (stationary)"
-    PRINTF("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->dyna.actor.params, this->collectibleFlag,
-           this->dyna.actor.home.rot.x);
+    PRINTF(T("木箱(据置)(arg %04xH)(item %04xH %d)\n", "Wooden box (stationary)(arg %04xH)(item %04xH %d)\n"),
+           this->dyna.actor.params, this->collectibleFlag, this->dyna.actor.home.rot.x);
 }
 
 void ObjKibako2_Destroy(Actor* thisx, PlayState* play) {
@@ -147,7 +158,7 @@ void ObjKibako2_Idle(ObjKibako2* this, PlayState* play) {
         func_80033684(play, &this->dyna.actor) != NULL) {
         ObjKibako2_Break(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
-        this->dyna.actor.flags |= ACTOR_FLAG_4;
+        this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->dyna.actor.draw = NULL;
         this->actionFunc = ObjKibako2_Kill;
@@ -159,7 +170,7 @@ void ObjKibako2_Idle(ObjKibako2* this, PlayState* play) {
 void ObjKibako2_Kill(ObjKibako2* this, PlayState* play) {
     s16 params = this->dyna.actor.params;
 
-    if ((params & 0x8000) == 0) {
+    if (PARAMS_GET_NOSHIFT(params, 15, 1) == 0) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
                     this->dyna.actor.world.pos.z, 0, this->dyna.actor.shape.rot.y, 0, params | 0x8000);
     }

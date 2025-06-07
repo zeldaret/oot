@@ -1,4 +1,8 @@
-#include "global.h"
+#include "fault.h"
+#include "attributes.h"
+#include "printf.h"
+#include "segment_symbols.h"
+#include "z_actor_dlftbls.h"
 
 // Linker symbol declarations (used in the table below)
 #define DEFINE_ACTOR(name, _1, _2, _3) DECLARE_OVERLAY_SEGMENT(name)
@@ -11,9 +15,9 @@
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
 
-// Init Vars declarations (also used in the table below)
-#define DEFINE_ACTOR(name, _1, _2, _3) extern ActorInit name##_InitVars;
-#define DEFINE_ACTOR_INTERNAL(name, _1, _2, _3) extern ActorInit name##_InitVars;
+// Profile declarations (also used in the table below)
+#define DEFINE_ACTOR(name, _1, _2, _3) extern ActorProfile name##_Profile;
+#define DEFINE_ACTOR_INTERNAL(name, _1, _2, _3) extern ActorProfile name##_Profile;
 #define DEFINE_ACTOR_UNSET(_0)
 
 #include "tables/actor_table.h"
@@ -23,7 +27,7 @@
 #undef DEFINE_ACTOR_UNSET
 
 // Actor Overlay Table definition
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 #define DEFINE_ACTOR(name, _1, allocType, nameString) \
     {                                                 \
@@ -31,15 +35,15 @@
         _ovl_##name##SegmentStart,                    \
         _ovl_##name##SegmentEnd,                      \
         NULL,                                         \
-        &name##_InitVars,                             \
+        &name##_Profile,                              \
         nameString,                                   \
         allocType,                                    \
         0,                                            \
     },
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString)                        \
-    {                                                                                 \
-        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_InitVars, nameString, allocType, 0, \
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, nameString)                       \
+    {                                                                                \
+        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_Profile, nameString, allocType, 0, \
     },
 
 #else
@@ -51,15 +55,15 @@
         _ovl_##name##SegmentStart,            \
         _ovl_##name##SegmentEnd,              \
         NULL,                                 \
-        &name##_InitVars,                     \
+        &name##_Profile,                      \
         NULL,                                 \
         allocType,                            \
         0,                                    \
     },
 
-#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                          \
-    {                                                                           \
-        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_InitVars, NULL, allocType, 0, \
+#define DEFINE_ACTOR_INTERNAL(name, _1, allocType, _3)                         \
+    {                                                                          \
+        ROM_FILE_UNSET, NULL, NULL, NULL, &name##_Profile, NULL, allocType, 0, \
     },
 
 #endif
@@ -79,7 +83,7 @@ s32 gMaxActorId = 0;
 static FaultClient sFaultClient;
 
 void ActorOverlayTable_LogPrint(void) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     ActorOverlay* overlayEntry;
     u32 i;
 
@@ -88,7 +92,7 @@ void ActorOverlayTable_LogPrint(void) {
 
     for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < (u32)gMaxActorId; i++, overlayEntry++) {
         PRINTF("%08x %08x %08x %08x %08x %08x %s\n", overlayEntry->file.vromStart, overlayEntry->file.vromEnd,
-               overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr, &overlayEntry->initInfo->id,
+               overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr, &overlayEntry->profile->id,
                overlayEntry->name != NULL ? overlayEntry->name : "?");
     }
 #endif
@@ -97,19 +101,49 @@ void ActorOverlayTable_LogPrint(void) {
 void ActorOverlayTable_FaultPrint(UNUSED void* arg0, UNUSED void* arg1) {
     ActorOverlay* overlayEntry;
     u32 overlaySize;
+    uintptr_t ramStart;
+    uintptr_t ramEnd;
+#if PLATFORM_N64
+    u32 offset;
+    uintptr_t pc = gFaultFaultedThread != NULL ? gFaultFaultedThread->context.pc : 0;
+    uintptr_t ra = gFaultFaultedThread != NULL ? gFaultFaultedThread->context.ra : 0;
+    u32 i;
+#else
     s32 i;
+#endif
 
-    FaultDrawer_SetCharPad(-2, 0);
+#if PLATFORM_N64
+    func_800AE1F8();
 
-    FaultDrawer_Printf("actor_dlftbls %u\n", gMaxActorId);
-    FaultDrawer_Printf("No. RamStart- RamEnd cn  Name\n");
+    Fault_Printf("actor_dlftbls %u\n", gMaxActorId);
+    Fault_Printf("No.  RamStart-RamEnd   Offset\n");
+#else
+    Fault_SetCharPad(-2, 0);
+
+    Fault_Printf("actor_dlftbls %u\n", gMaxActorId);
+    Fault_Printf("No. RamStart- RamEnd cn  Name\n");
+#endif
 
     for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxActorId; i++, overlayEntry++) {
         overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
-        if (overlayEntry->loadedRamAddr != NULL) {
-            FaultDrawer_Printf("%3d %08x-%08x %3d %s\n", i, overlayEntry->loadedRamAddr,
-                               (uintptr_t)overlayEntry->loadedRamAddr + overlaySize, overlayEntry->numLoaded,
-                               (OOT_DEBUG && overlayEntry->name != NULL) ? overlayEntry->name : "");
+        ramStart = (uintptr_t)overlayEntry->loadedRamAddr;
+        ramEnd = ramStart + overlaySize;
+#if PLATFORM_N64
+        offset = (uintptr_t)overlayEntry->vramStart - ramStart;
+#endif
+        if (ramStart != 0) {
+#if PLATFORM_N64
+            Fault_Printf("%3d %08x-%08x %08x", i, ramStart, ramEnd, offset);
+            if (ramStart <= pc && pc < ramEnd) {
+                Fault_Printf(" PC:%08x", pc + offset);
+            } else if (ramStart <= ra && ra < ramEnd) {
+                Fault_Printf(" RA:%08x", ra + offset);
+            }
+            Fault_Printf("\n");
+#else
+            Fault_Printf("%3d %08x-%08x %3d %s\n", i, ramStart, ramEnd, overlayEntry->numLoaded,
+                         (DEBUG_FEATURES && overlayEntry->name != NULL) ? overlayEntry->name : "");
+#endif
         }
     }
 }

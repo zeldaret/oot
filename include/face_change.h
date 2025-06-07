@@ -1,7 +1,9 @@
 #ifndef FACE_CHANGE_H
 #define FACE_CHANGE_H
 
-typedef struct {
+#include "ultra64.h"
+
+typedef struct FaceChange {
     /* 0x00 */ s16 face;
     /* 0x02 */ s16 timer;
 } FaceChange; // size = 0x4

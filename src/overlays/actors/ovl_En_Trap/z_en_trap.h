@@ -2,7 +2,7 @@
 #define Z_EN_TRAP_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 // Different movement modes (set in params):
 #define SPIKETRAP_MODE_LINEAR 0x10

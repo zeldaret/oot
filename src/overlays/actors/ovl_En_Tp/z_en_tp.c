@@ -5,6 +5,24 @@
  */
 
 #include "z_en_tp.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_tp/object_tp.h"
 
 #define FLAGS 0
@@ -29,7 +47,7 @@ void EnTp_Head_Wait(EnTp* this, PlayState* play);
 void EnTp_Head_SetupBurrowReturnHome(EnTp* this);
 void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play);
 
-typedef enum {
+typedef enum TailpasaranAction {
     /* 0 */ TAILPASARAN_ACTION_FRAGMENT_FADE,
     /* 1 */ TAILPASARAN_ACTION_DIE,
     /* 2 */ TAILPASARAN_ACTION_TAIL_FOLLOWHEAD,
@@ -39,7 +57,7 @@ typedef enum {
     /* 9 */ TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME
 } TailpasaranAction;
 
-ActorInit En_Tp_InitVars = {
+ActorProfile En_Tp_Profile = {
     /**/ ACTOR_EN_TP,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -54,7 +72,7 @@ ActorInit En_Tp_InitVars = {
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x03, 0x08 },
             { 0xFFCFFFFF, 0x01, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -67,7 +85,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HIT1,
+        COL_MATERIAL_HIT1,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -78,50 +96,50 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-typedef enum {
-    /* 00 */ TAILPASARAN_DMGEFF_NONE,
-    /* 01 */ TAILPASARAN_DMGEFF_DEKUNUT,
-    /* 14 */ TAILPASARAN_DMGEFF_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
-    /* 15 */ TAILPASARAN_DMGEFF_INSULATING     // Kills the Tailpasaran and does not shock Player
-} TailpasaranDamageEffect;
+typedef enum TailpasaranDamageReaction {
+    /* 00 */ TAILPASARAN_DMG_REACT_NONE,
+    /* 01 */ TAILPASARAN_DMG_REACT_DEKUNUT,
+    /* 14 */ TAILPASARAN_DMG_REACT_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
+    /* 15 */ TAILPASARAN_DMG_REACT_INSULATING     // Kills the Tailpasaran and does not shock Player
+} TailpasaranDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_DEKUNUT),
-    /* Deku stick    */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_INSULATING),
-    /* Slingshot     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Explosive     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_INSULATING),
-    /* Normal arrow  */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Hookshot      */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Kokiri sword  */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Master sword  */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Giant's Knife */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Fire arrow    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Ice arrow     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Light arrow   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Ice magic     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Light magic   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Shield        */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Giant spin    */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Master spin   */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Kokiri jump   */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Giant jump    */ DMG_ENTRY(8, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Master jump   */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Unknown 1     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
-    /* Unknown 2     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_DEKUNUT),
+    /* Deku stick    */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_INSULATING),
+    /* Slingshot     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(1, TAILPASARAN_DMG_REACT_INSULATING),
+    /* Normal arrow  */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Hookshot      */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Master sword  */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Giant's Knife */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Fire arrow    */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Ice arrow     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Light arrow   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Ice magic     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Light magic   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Shield        */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Giant spin    */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Master spin   */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Kokiri jump   */ DMG_ENTRY(2, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Giant jump    */ DMG_ENTRY(8, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Master jump   */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Unknown 1     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, TAILPASARAN_DMG_REACT_SHOCKING),
+    /* Unknown 2     */ DMG_ENTRY(0, TAILPASARAN_DMG_REACT_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 10, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 10, ICHAIN_STOP),
 };
 
 void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
@@ -136,7 +154,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     s32 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.targetMode = 3;
+    this->actor.attentionRangeType = ATTENTION_RANGE_3;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);
     this->unk_150 = 0;
@@ -144,7 +162,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
     now = this;
     this->alpha = 255;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
         this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
@@ -153,7 +171,7 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
         this->collider.elements[0].dim.modelSphere.radius = this->collider.elements[0].dim.worldSphere.radius = 8;
         EnTp_Head_SetupWait(this);
         this->actor.focus.pos = this->actor.world.pos;
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         Actor_SetScale(&this->actor, 1.5f);
 
         for (i = 0; i <= 6; i++) {
@@ -170,7 +188,8 @@ void EnTp_Init(Actor* thisx, PlayState* play2) {
                 Actor_SetScale(&next->actor, 0.3f);
 
                 if (i == 2) {
-                    next->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
+                    next->actor.flags |=
+                        ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                     next->unk_150 = 1; // Why?
                 }
 
@@ -211,13 +230,13 @@ void EnTp_Tail_FollowHead(EnTp* this, PlayState* play) {
         }
     } else {
         if (this->unk_150 != 0) {
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         }
 
         if (this->head->unk_150 != 0) {
             this->actor.speed = this->red = this->actor.velocity.y = this->heightPhase = 0.0f;
             if (this->actor.world.pos.y < this->head->actor.home.pos.y) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
 
             this->actor.world.pos = this->actor.parent->prevPos;
@@ -319,7 +338,12 @@ void EnTp_Die(EnTp* this, PlayState* play) {
                                  255, 1, 9, 1);
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x50);
         } else {
-            for (i = 0; i < 1; i++) {
+#if OOT_VERSION < NTSC_1_1
+            for (i = 0; i < 2; i++)
+#else
+            for (i = 0; i < 1; i++)
+#endif
+            {
                 now =
                     (EnTp*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_TP, this->actor.world.pos.x,
                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, TAILPASARAN_FRAGMENT);
@@ -350,7 +374,7 @@ void EnTp_Fragment_SetupFade(EnTp* this) {
     this->actor.velocity.x = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     EnTp_SetupAction(this, EnTp_Fragment_Fade);
 }
 
@@ -581,10 +605,10 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
 
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
-        this->damageEffect = this->actor.colChkInfo.damageEffect;
+        this->damageReaction = this->actor.colChkInfo.damageReaction;
 
-        if (this->actor.colChkInfo.damageEffect != TAILPASARAN_DMGEFF_NONE) {
-            if (this->actor.colChkInfo.damageEffect == TAILPASARAN_DMGEFF_DEKUNUT) {
+        if (this->actor.colChkInfo.damageReaction != TAILPASARAN_DMG_REACT_NONE) {
+            if (this->actor.colChkInfo.damageReaction == TAILPASARAN_DMG_REACT_DEKUNUT) {
                 phi_s4 = 1;
             }
 
@@ -594,12 +618,12 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
             }
 
             if (this->actor.colChkInfo.health == 0) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 head = this->head;
 
                 if (head->actor.params <= TAILPASARAN_HEAD) {
                     EnTp_SetupDie(head);
-                    head->damageEffect = this->actor.colChkInfo.damageEffect;
+                    head->damageReaction = this->actor.colChkInfo.damageReaction;
                     head->actor.params = TAILPASARAN_HEAD_DYING;
                 }
             } else {
@@ -663,7 +687,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
     s16 yawToWall;
 
     if (player->stateFlags1 & PLAYER_STATE1_26) { // Shielding
-        this->damageEffect = TAILPASARAN_DMGEFF_NONE;
+        this->damageReaction = TAILPASARAN_DMG_REACT_NONE;
     }
 
     if (this->actor.colChkInfo.health != 0) {
@@ -714,7 +738,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
 
     this->actor.focus.pos = this->actor.world.pos;
 
-    if (this->damageEffect == TAILPASARAN_DMGEFF_SHOCKING) {
+    if (this->damageReaction == TAILPASARAN_DMG_REACT_SHOCKING) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 
@@ -744,8 +768,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
         if ((thisx->params <= TAILPASARAN_HEAD) || (thisx->params == TAILPASARAN_HEAD_DYING)) {
             Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_tp.c", 1459),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1459);
             gSPDisplayList(POLY_OPA_DISP++, gTailpasaranHeadDL);
 
             Matrix_Translate(0.0f, 0.0f, 8.0f, MTXMODE_APPLY);
@@ -761,8 +784,7 @@ void EnTp_Draw(Actor* thisx, PlayState* play) {
             gDPPipeSync(POLY_XLU_DISP++);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gTailpasaranTailSegmentTex));
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_tp.c", 1480),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_tp.c", 1480);
             gSPDisplayList(POLY_XLU_DISP++, gTailpasaranTailSegmentDL);
         }
     }

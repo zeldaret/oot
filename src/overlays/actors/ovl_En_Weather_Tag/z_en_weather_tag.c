@@ -5,9 +5,20 @@
  */
 
 #include "z_en_weather_tag.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "printf.h"
+#include "regs.h"
+#include "stack_pad.h"
+#include "terminal.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "debug_display.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnWeatherTag_Init(Actor* thisx, PlayState* play);
 void EnWeatherTag_Destroy(Actor* thisx, PlayState* play);
@@ -31,7 +42,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, PlayState* play);
 
 #define WEATHER_TAG_RANGE100(x) ((x >> 8) * 100.0f)
 
-ActorInit En_Weather_Tag_InitVars = {
+ActorProfile En_Weather_Tag_Profile = {
     /**/ ACTOR_EN_WEATHER_TAG,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -53,19 +64,19 @@ void EnWeatherTag_Destroy(Actor* thisx, PlayState* play) {
 void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
     EnWeatherTag* this = (EnWeatherTag*)thisx;
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
-    switch (this->actor.params & 0xF) {
+    switch (PARAMS_GET_U(this->actor.params, 0, 4)) {
         case EN_WEATHER_TAG_TYPE_CLOUDY_MARKET:
             PRINTF("\n\n");
-            // "☆☆☆☆☆ (;o;) About ☆☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ （;o;) くらいよー ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ （;o;) くらいよー ☆☆☆☆☆ \n", "☆☆☆☆☆ (;o;) About that much ☆☆☆☆☆ \n")
+                       VT_RST);
             EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyHyruleMarket);
             break;
         case EN_WEATHER_TAG_TYPE_CLOUDY_LON_LON_RANCH:
             PRINTF("\n\n");
-            // "☆☆☆☆☆ Cloudy (._.) Ah Melancholy ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n",
+                                      "☆☆☆☆☆ Cloudy (._.) Ah Melancholy ☆☆☆☆☆ \n") VT_RST);
             if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
                 Actor_Kill(&this->actor);
             }
@@ -73,8 +84,8 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
             break;
         case EN_WEATHER_TAG_TYPE_SNOW_ZORAS_DOMAIN:
             PRINTF("\n\n");
-            // "☆☆☆☆☆ Yukigafuru You won't come (._.) ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ゆきがふるー あなたはこないー (._.) ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ ゆきがふるー あなたはこないー (._.) ☆☆☆☆☆ \n",
+                                      "☆☆☆☆☆ The snow is falling... You're not coming... (._.) ☆☆☆☆☆ \n") VT_RST);
 
             if (GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                 Actor_Kill(&this->actor);
@@ -83,8 +94,8 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
             break;
         case EN_WEATHER_TAG_TYPE_RAIN_LAKE_HYLIA:
             PRINTF("\n\n");
-            // "☆☆☆☆☆ Wow wa wa na wa saa ki ha (^o^) ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n",
+                                      "☆☆☆☆☆ Waaaa- Na-ga-sa-ki wa- (^o^) ☆☆☆☆☆ \n") VT_RST);
 
             if (GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                 Actor_Kill(&this->actor);
@@ -93,8 +104,8 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
             break;
         case EN_WEATHER_TAG_TYPE_CLOUDY_DEATH_MOUNTAIN:
             PRINTF("\n\n");
-            // "☆☆☆☆☆ Cloudy (._.) Ah Melancholy ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW)
+                       T("☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n", "☆☆☆☆☆ Cloudy (._.) Ah Melancholy ☆☆☆☆☆") VT_RST);
             if (GET_EVENTCHKINF(EVENTCHKINF_49)) {
                 Actor_Kill(&this->actor);
             }
@@ -102,8 +113,8 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
             break;
         case EN_WEATHER_TAG_TYPE_THUNDERSTORM_KAKARIKO:
             PRINTF("\n\n");
-            // "☆☆☆☆☆ Cloudy Rain Thunder (;O;) Uo Melancholy ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり雨雷 (;O;) うおお 憂鬱 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ くもり雨雷 (;O;) うおお 憂鬱 ☆☆☆☆☆ \n",
+                                      "☆☆☆☆☆ Cloudy with rain and thunder (;O;) Wow, I'm depressed ☆☆☆☆☆ \n") VT_RST);
 
             if (!GET_EVENTCHKINF(EVENTCHKINF_48) || !GET_EVENTCHKINF(EVENTCHKINF_49) ||
                 !GET_EVENTCHKINF(EVENTCHKINF_4A) || CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
@@ -113,14 +124,14 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
             break;
         case EN_WEATHER_TAG_TYPE_SANDSTORM_INTENSITY:
             PRINTF("\n\n");
-            // "☆☆☆☆☆ The desert becomes thicker ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 砂漠が濃くなります ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 砂漠が濃くなります ☆☆☆☆☆ \n", "☆☆☆☆☆ The desert becomes thicker ☆☆☆☆☆ \n")
+                       VT_RST);
             EnWeatherTag_SetupAction(this, EnWeatherTag_SetSandstormIntensity);
             break;
         case EN_WEATHER_TAG_TYPE_THUNDERSTORM_GRAVEYARD:
             PRINTF("\n\n");
-            // "☆☆☆☆☆ Wow wa wa na wa saa ki ha (^o^) ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n",
+                                      "☆☆☆☆☆ Waaaa- Na-ga-sa-ki wa- (^o^) ☆☆☆☆☆ \n") VT_RST);
 
             EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledRainThunder);
             break;
@@ -140,8 +151,13 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, PlayState* play, u8 s
             if (play->envCtx.stormRequest == STORM_REQUEST_NONE &&
                 ((play->envCtx.lightMode != LIGHT_MODE_TIME) ||
                  (play->envCtx.lightConfig != 1 && !play->envCtx.changeLightEnabled))) {
+#if OOT_VERSION >= PAL_1_0
                 gInterruptSongOfStorms = false;
+#endif
                 if (gWeatherMode != weatherMode) {
+#if OOT_VERSION < PAL_1_0
+                    gInterruptSongOfStorms = false;
+#endif
                     gWeatherMode = weatherMode;
                     if (play->envCtx.stormRequest == STORM_REQUEST_NONE) {
                         play->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
@@ -327,7 +343,7 @@ void EnWeatherTag_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 255, 255, 4, play->state.gfxCtx);

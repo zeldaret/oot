@@ -2,9 +2,9 @@
 #define Z_EFF_SS_STICK_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "z_math.h"
 
-typedef struct {
+typedef struct EffectSsStickInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yaw;
 } EffectSsStickInitParams; // size = 0x10

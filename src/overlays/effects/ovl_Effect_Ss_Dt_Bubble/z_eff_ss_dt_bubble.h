@@ -2,9 +2,10 @@
 #define Z_EFF_SS_DT_BUBBLE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "color.h"
+#include "z_math.h"
 
-typedef struct {
+typedef struct EffectSsDtBubbleInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;

@@ -1,25 +1,50 @@
-#include "global.h"
-#include "ultra64.h"
-#include "terminal.h"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
-#include "z64frame_advance.h"
+#include "libc64/qrand.h"
+#include "libu64/gfxprint.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "buffers.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "gfxalloc.h"
+#include "ultra64.h"
+#include "printf.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_math.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "cutscene.h"
+#include "frame_advance.h"
+#include "environment.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-// For retail BSS ordering, the block number of sLensFlareUnused must be lower
-// than the extern variables declared in the header (e.g. gLightningStrike)
-// while the block number of sNGameOverLightNode must be higher.
-#pragma increment_block_number 80
-
-typedef enum {
+typedef enum LightningBoltState {
     /* 0x00 */ LIGHTNING_BOLT_START,
     /* 0x01 */ LIGHTNING_BOLT_WAIT,
     /* 0x02 */ LIGHTNING_BOLT_DRAW,
     /* 0xFF */ LIGHTNING_BOLT_INACTIVE = 0xFF
 } LightningBoltState;
 
-typedef struct {
+typedef struct ZBufValConversionEntry {
     /* 0x00 */ s32 mantissaShift; // shift applied to the mantissa of the z buffer value
     /* 0x04 */ s32 base;          // 15.3 fixed-point base value for the exponent
 } ZBufValConversionEntry;         // size = 0x8
@@ -44,7 +69,7 @@ u16 gTimeSpeed = 0;
 
 u16 sSunScreenDepth = GPACK_ZDZ(G_MAXFBZ, 0);
 
-typedef struct {
+typedef struct TimeBasedLightEntry {
     /* 0x00 */ u16 startTime;
     /* 0x02 */ u16 endTime;
     /* 0x04 */ u8 lightSetting;
@@ -196,7 +221,7 @@ s16 gLensFlareScale;
 f32 gLensFlareColorIntensity;
 s16 gLensFlareGlareStrength;
 
-typedef struct {
+typedef struct LightningBolt {
     /* 0x00 */ u8 state;
     /* 0x04 */ Vec3f offset;
     /* 0x10 */ Vec3f pos;
@@ -215,10 +240,8 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-// These variables could be moved farther down in the file to reduce the amount
-// of block number padding here, but currently this causes BSS ordering issues
-// for debug.
-#pragma increment_block_number 217
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:192 pal-1.1:192"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
@@ -352,7 +375,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, UNUSED s32 a
     envCtx->sceneTimeSpeed = 0;
     gTimeSpeed = envCtx->sceneTimeSpeed;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     R_ENV_TIME_SPEED_OLD = gTimeSpeed;
     R_ENV_DISABLE_DBG = true;
 
@@ -424,7 +447,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, UNUSED s32 a
     gSkyboxIsChanging = false;
     gSaveContext.retainWeatherMode = false;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     R_ENV_LIGHT1_DIR(0) = 80;
     R_ENV_LIGHT1_DIR(1) = 80;
     R_ENV_LIGHT1_DIR(2) = 80;
@@ -447,8 +470,8 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, UNUSED s32 a
         sLightningBolts[i].state = LIGHTNING_BOLT_INACTIVE;
     }
 
-    play->roomCtx.unk_74[0] = 0;
-    play->roomCtx.unk_74[1] = 0;
+    play->roomCtx.drawParams[0] = 0;
+    play->roomCtx.drawParams[1] = 0;
 
     for (i = 0; i < ARRAY_COUNT(play->csCtx.actorCues); i++) {
         play->csCtx.actorCues[i] = NULL;
@@ -456,8 +479,8 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, UNUSED s32 a
 
     if (Object_GetSlot(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
         play->envCtx.sunMoonDisabled = true;
-        // "Sun setting other than field keep! So forced release!"
-        PRINTF(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) T("\n\nフィールド常駐以外、太陽設定！よって強制解除！\n",
+                                       "\n\nSun setting other than field keep! So forced release!\n") VT_RST);
     }
 
     gCustomLensFlareOn = false;
@@ -574,8 +597,8 @@ f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame,
     decelDurationF = (s32)decelDuration;
 
     if ((startFrameF >= endFrameF) || (accelDurationF + decelDurationF > totalFrames)) {
-        // "The frame relation between end_frame and start_frame is wrong!!!"
-        PRINTF(VT_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) T("\nend_frameとstart_frameのフレーム関係がおかしい!!!",
+                                    "\nThe frame relation between end_frame and start_frame is wrong!!!") VT_RST);
         PRINTF(VT_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" VT_RST);
 
         return 0.0f;
@@ -721,10 +744,10 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             }
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (newSkybox1Index == 0xFF) {
-            // "Environment VR data acquisition failed! Report to Sasaki!"
-            PRINTF(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
+            PRINTF(VT_COL(RED, WHITE) T("\n環境ＶＲデータ取得失敗！ ささきまでご報告を！",
+                                        "\nEnvironment VR data acquisition failed! Report to Sasaki!") VT_RST);
         }
 #endif
 
@@ -810,8 +833,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex) {
     if (waterLightsIndex == WATERBOX_LIGHT_INDEX_NONE) {
         waterLightsIndex = 0;
-        // "Underwater color is not set in the water poly data!"
-        PRINTF(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) T("\n水ポリゴンデータに水中カラーが設定されておりません!",
+                                       "\nUnderwater color is not set in the water poly data!") VT_RST);
     }
 
     if (play->envCtx.lightMode == LIGHT_MODE_TIME) {
@@ -838,7 +861,7 @@ void Environment_DisableUnderwaterLights(PlayState* play) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Environment_PrintDebugInfo(UNUSED PlayState* play, Gfx** gfx) {
     GfxPrint printer;
     STACK_PADS(s32, 2);
@@ -885,9 +908,9 @@ void Environment_PrintDebugInfo(UNUSED PlayState* play, Gfx** gfx) {
     GfxPrint_SetPos(&printer, 22, 6);
 
     if (!IS_DAY) {
-        GfxPrint_Printf(&printer, "%s", "YORU"); // "night"
+        GfxPrint_Printf(&printer, "%s", T("YORU", "NIGHT"));
     } else {
-        GfxPrint_Printf(&printer, "%s", "HIRU"); // "day"
+        GfxPrint_Printf(&printer, "%s", T("HIRU", "DAY"));
     }
 
     *gfx = GfxPrint_Close(&printer);
@@ -961,9 +984,15 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         }
 
         //! @bug `gTimeSpeed` is unsigned, it can't be negative
+#if OOT_VERSION < PAL_1_0
+        if ((((void)0, gSaveContext.save.dayTime) > ((void)0, gSaveContext.skyboxTime)) ||
+            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0))
+#else
         if (((((void)0, gSaveContext.sceneLayer) >= 5 || gTimeSpeed != 0) &&
-             ((void)0, gSaveContext.save.dayTime) > gSaveContext.skyboxTime) ||
-            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
+             ((void)0, gSaveContext.save.dayTime) > ((void)0, gSaveContext.skyboxTime)) ||
+            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0))
+#endif
+        {
 
             gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
         }
@@ -976,7 +1005,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             gSaveContext.save.nightFlag = 0;
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
             Gfx* displayList;
             Gfx* prevDisplayList;
@@ -990,7 +1019,6 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             gSPEndDisplayList(displayList++);
             Gfx_Close(prevDisplayList, displayList);
             POLY_OPA_DISP = displayList;
-            if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1690);
         }
 #endif
@@ -1144,14 +1172,14 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                     envCtx->lightSettings.zFar = LERP16(blend16[0], blend16[1], configChangeBlend);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                     if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                         envCtx->numLightSettings) {
-                        // "The color palette setting seems to be wrong!"
-                        PRINTF(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
+                        PRINTF(VT_COL(RED, WHITE) T("\nカラーパレットの設定がおかしいようです！",
+                                                    "\nThe color palette setting seems to be wrong!") VT_RST);
 
-                        // "Palette setting = [] Last palette number = []"
-                        PRINTF(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
+                        PRINTF(VT_COL(RED, WHITE) T("\n設定パレット＝[%d] 最後パレット番号＝[%d]\n",
+                                                    "\nPalette setting = [%d] Last palette number = [%d]\n") VT_RST,
                                sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting,
                                envCtx->numLightSettings - 1);
                     }
@@ -1224,14 +1252,14 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                                     lightSettingsList[envCtx->lightSetting].zFar, envCtx->lightBlend);
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (envCtx->lightSetting >= envCtx->numLightSettings) {
-                // "The color palette seems to be wrong!"
-                PRINTF("\n" VT_FGCOL(RED) "カラーパレットがおかしいようです！");
+                PRINTF("\n" VT_FGCOL(RED)
+                           T("カラーパレットがおかしいようです！", "The color palette seems to be wrong!"));
 
-                // "Palette setting = [] Last palette number = []"
-                PRINTF("\n" VT_FGCOL(YELLOW) "設定パレット＝[%d] パレット数＝[%d]\n" VT_RST, envCtx->lightSetting,
-                       envCtx->numLightSettings);
+                PRINTF("\n" VT_FGCOL(YELLOW) T("設定パレット＝[%d] パレット数＝[%d]\n",
+                                               "Palette setting = [%d] Last palette number = [%d]\n") VT_RST,
+                       envCtx->lightSetting, envCtx->numLightSettings);
             }
 #endif
         }
@@ -1298,7 +1326,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             lightCtx->zFar = ENV_ZFAR_MAX;
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         // When environment debug is enabled, various environment related variables can be configured via the reg editor
         if (R_ENV_DISABLE_DBG) {
             R_ENV_AMBIENT_COLOR(0) = lightCtx->ambientColor[0];
@@ -1450,7 +1478,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
         scale = (color * 2.0f) + 10.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kankyo.c", 2364), G_MTX_LOAD);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_kankyo.c", 2364);
         Gfx_SetupDL_54Opa(play->state.gfxCtx);
         gSPDisplayList(POLY_OPA_DISP++, gSunDL);
 
@@ -1469,7 +1497,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         alpha = temp * 255.0f;
 
         if (alpha > 0.0f) {
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kankyo.c", 2406), G_MTX_LOAD);
+            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_kankyo.c", 2406);
             Gfx_SetupDL_51Opa(play->state.gfxCtx);
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 240, 255, 180, alpha);
@@ -1492,7 +1520,7 @@ void Environment_DrawSunLensFlare(PlayState* play, UNUSED EnvironmentContext* en
 
 f32 sLensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
 
-typedef enum {
+typedef enum LensFlareType {
     /* 0 */ LENS_FLARE_CIRCLE0,
     /* 1 */ LENS_FLARE_CIRCLE1,
     /* 2 */ LENS_FLARE_RING
@@ -1584,7 +1612,9 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
                sqrtf((SQ(lookDirX) + SQ(lookDirY) + SQ(lookDirZ)) * (SQ(posDirX) + SQ(posDirY) + SQ(posDirZ)));
 
     lensFlareAlphaScaleTarget = cosAngle * 3.5f;
-    lensFlareAlphaScaleTarget = CLAMP_MAX(lensFlareAlphaScaleTarget, 1.0f);
+    if (lensFlareAlphaScaleTarget > 1.0f) {
+        lensFlareAlphaScaleTarget = 1.0f;
+    }
 
     if (!isSun) {
         lensFlareAlphaScaleTarget = cosAngle;
@@ -1632,7 +1662,9 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
 
             alpha *= 1.0f - fogInfluence;
 
+#if !PLATFORM_N64
             if (1) {}
+#endif
 
             if (!(isOffScreen ^ 0)) {
                 Math_SmoothStepToF(&envCtx->lensFlareAlphaScale, lensFlareAlphaScaleTarget, 0.5f, 0.05f, 0.001f);
@@ -1643,8 +1675,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
             POLY_XLU_DISP = func_800947AC(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, lensFlareColors[i].r, lensFlareColors[i].g, lensFlareColors[i].b,
                             alpha * envCtx->lensFlareAlphaScale);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_kankyo.c", 2662),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_kankyo.c", 2662);
             gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0,
                               0, PRIMITIVE, 0);
             gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
@@ -1726,8 +1757,13 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
     Player* player = GET_PLAYER(play);
 
+#if OOT_VERSION < PAL_1_0
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_CAMERA_IN_WATER))
+#else
     if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_CAMERA_IN_WATER) &&
-        (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0)) {
+        (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0))
+#endif
+    {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
 
         vec.x = view->at.x - view->eye.x;
@@ -1777,8 +1813,7 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
             Matrix_RotateY(-rotY, MTXMODE_APPLY);
             Matrix_RotateX(M_PI / 2 - rotX, MTXMODE_APPLY);
             Matrix_Scale(0.4f, 1.2f, 0.4f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_kankyo.c", 2887),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_kankyo.c", 2887);
             gSPDisplayList(POLY_XLU_DISP++, gRaindropDL);
         }
 
@@ -1804,8 +1839,7 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
                     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
                 }
 
-                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_kankyo.c", 2940),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_kankyo.c", 2940);
                 gSPDisplayList(POLY_XLU_DISP++, gEffShockwaveDL);
             }
         }
@@ -2048,8 +2082,7 @@ void Environment_DrawLightning(PlayState* play, UNUSED s32 arg1) {
             Matrix_Scale(22.0f, 100.0f, 22.0f, MTXMODE_APPLY);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 128);
-            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kankyo.c", 3333),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_kankyo.c", 3333);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(lightningTextures[sLightningBolts[i].textureIndex]));
             Gfx_SetupDL_61Xlu(play->state.gfxCtx);
             gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
@@ -2080,9 +2113,9 @@ void Environment_PlaySceneSequence(PlayState* play) {
             Audio_PlayNatureAmbienceSequence(play->sceneSequences.natureAmbienceId);
         }
     } else if (play->sceneSequences.natureAmbienceId == NATURE_ID_NONE) {
-        // "BGM Configuration"
-        PRINTF("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", play->sceneSequences.seqId,
-               ((void)0, gSaveContext.seqId));
+        PRINTF(T("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n",
+                 "\n\n\nBGM Configuration game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n"),
+               play->sceneSequences.seqId, ((void)0, gSaveContext.seqId));
         if (((void)0, gSaveContext.seqId) != play->sceneSequences.seqId) {
             Audio_PlaySceneSequence(play->sceneSequences.seqId);
         }
@@ -2110,9 +2143,9 @@ void Environment_PlaySceneSequence(PlayState* play) {
     }
 
     PRINTF("\n-----------------\n", ((void)0, gSaveContext.forcedSeqId));
-    PRINTF("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.forcedSeqId)); // "Forced BGM"
+    PRINTF(T("\n 強制ＢＧＭ=[%d]", "\n Forced BGM=[%d]"), ((void)0, gSaveContext.forcedSeqId));
     PRINTF("\n     ＢＧＭ=[%d]", play->sceneSequences.seqId);
-    PRINTF("\n     エンブ=[%d]", play->sceneSequences.natureAmbienceId);
+    PRINTF(T("\n     エンブ=[%d]", "\n      Embed=[%d]"), play->sceneSequences.natureAmbienceId);
     PRINTF("\n     status=[%d]", play->envCtx.timeSeqState);
 
     Audio_SetEnvReverb(play->roomCtx.curRoom.echo);
@@ -2524,7 +2557,7 @@ void Environment_AdjustLights(PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32
     f32 temp;
     s32 i;
 
-    if (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_5 && Play_CamIsNotFixed(play)) {
+    if (play->roomCtx.curRoom.type != ROOM_TYPE_BOSS && Play_CamIsNotFixed(play)) {
         arg1 = CLAMP_MIN(arg1, 0.0f);
         arg1 = CLAMP_MAX(arg1, 1.0f);
 

@@ -6,14 +6,22 @@
 
 #include "z_obj_makeoshihiki.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_5
+#include "printf.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#define FLAGS ACTOR_FLAG_DRAW_CULLING_DISABLED
 
 void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play);
 void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Obj_Makeoshihiki_InitVars = {
+ActorProfile Obj_Makeoshihiki_Profile = {
     /**/ ACTOR_OBJ_MAKEOSHIHIKI,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -25,7 +33,7 @@ ActorInit Obj_Makeoshihiki_InitVars = {
     /**/ ObjMakeoshihiki_Draw,
 };
 
-typedef struct {
+typedef struct BlockConfig {
     /* 0x00 */ Vec3f posVecs[3];
     /* 0x24 */ u8 unk_24[3];
     /* 0x27 */ u8 color;
@@ -59,9 +67,9 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play) {
     s32 typeIdx;
     Vec3f* spawnPos;
 
-    if (!((thisx->params >> 6) & 1) && Flags_GetSwitch(play, thisx->params & 0x3F)) {
+    if (!PARAMS_GET_U(thisx->params, 6, 1) && Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         typeIdx = 1;
-    } else if (!((thisx->params >> 0xE) & 1) && Flags_GetSwitch(play, (thisx->params >> 8) & 0x3F)) {
+    } else if (!PARAMS_GET_U(thisx->params, 14, 1) && Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 8, 6))) {
         typeIdx = 2;
     } else {
         typeIdx = 0;
@@ -71,10 +79,10 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play) {
 
     if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_OSHIHIKI, spawnPos->x, spawnPos->y, spawnPos->z, 0,
                            block->rotY, 0, ((block->color << 6) & 0xC0) | (block->type & 0xF) | 0xFF00) == NULL) {
-        // "Push-pull block failure"
-        PRINTF(VT_COL(RED, WHITE));
-        PRINTF("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "../z_obj_makeoshihiki.c", 194);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_ERROR();
+        PRINTF(T("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "Error : Push/pull block failed to spawn (%s %d)\n"),
+               "../z_obj_makeoshihiki.c", 194);
+        PRINTF_RST();
         Actor_Kill(thisx);
         return;
     }
@@ -96,10 +104,10 @@ void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play) {
     for (i = 0; i < 3; i++) {
         if (Math3D_Vec3fDistSq(&thisx->child->world.pos, &block->posVecs[i]) < 0.001f) {
             if (block->unk_24[i] & 1) {
-                if ((thisx->params >> 6) & 1) {
+                if (PARAMS_GET_U(thisx->params, 6, 1)) {
                     sfxCond1 = false;
                 } else {
-                    if (Flags_GetSwitch(play, thisx->params & 0x3F)) {
+                    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
                         cond = true;
                     } else {
                         cond = false;
@@ -107,10 +115,10 @@ void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play) {
                     sfxCond1 = sFlags[i][0] ^ cond;
                 }
 
-                if ((thisx->params >> 0xE) & 1) {
+                if (PARAMS_GET_U(thisx->params, 14, 1)) {
                     sfxCond2 = false;
                 } else {
-                    if (Flags_GetSwitch(play, (thisx->params >> 8) & 0x3F)) {
+                    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 8, 6))) {
                         cond2 = true;
                     } else {
                         cond2 = false;
@@ -123,8 +131,8 @@ void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play) {
                 }
             }
 
-            sFlagSwitchFuncs[sFlags[i][0]](play, thisx->params & 0x3F);
-            sFlagSwitchFuncs[sFlags[i][1]](play, (thisx->params >> 8) & 0x3F);
+            sFlagSwitchFuncs[sFlags[i][0]](play, PARAMS_GET_U(thisx->params, 0, 6));
+            sFlagSwitchFuncs[sFlags[i][1]](play, PARAMS_GET_U(thisx->params, 8, 6));
 
             if (block->unk_24[i] & 2) {
                 ((ObjOshihiki*)thisx->child)->cantMove = true;

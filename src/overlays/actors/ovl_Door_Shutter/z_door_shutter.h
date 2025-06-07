@@ -2,7 +2,7 @@
 #define Z_DOOR_SHUTTER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 /**
  * Actor Parameters
@@ -20,12 +20,12 @@
  *
  */
 
-#define DOORSHUTTER_GET_TYPE(actor) (((actor)->params >> 6) & 0xF)
-#define DOORSHUTTER_GET_SWITCH_FLAG(actor) ((actor)->params & 0x3F)
+#define DOORSHUTTER_GET_TYPE(actor)        PARAMS_GET_U((actor)->params, 6, 4)
+#define DOORSHUTTER_GET_SWITCH_FLAG(actor) PARAMS_GET_U((actor)->params, 0, 6)
 
 #define DOORSHUTTER_PARAMS(type, switchFlag) ((((type) & 0xF) << 6) | ((switchFlag) & 0x3F))
 
-typedef enum {
+typedef enum DoorShutterType {
     /* 0x00 */ SHUTTER,
     /* 0x01 */ SHUTTER_FRONT_CLEAR,
     /* 0x02 */ SHUTTER_FRONT_SWITCH,
@@ -39,7 +39,7 @@ typedef enum {
 
 struct DoorShutter;
 
-typedef void (*DoorShutterActionFunc)(struct DoorShutter*, PlayState*);
+typedef void (*DoorShutterActionFunc)(struct DoorShutter*, struct PlayState*);
 
 typedef struct DoorShutter {
     /* 0x0000 */ SLIDING_DOOR_ACTOR_BASE;

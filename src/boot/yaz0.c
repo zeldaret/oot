@@ -1,4 +1,12 @@
-#include "global.h"
+#include "yaz0.h"
+
+#include "alignment.h"
+#include "stack_pad.h"
+#include "ultra64.h"
+#include "dma.h"
+
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:128" \
+                               "pal-1.1:128"
 
 ALIGNED(16) u8 sYaz0DataBuffer[0x400];
 u8* sYaz0DataBufferEnd;
@@ -47,6 +55,13 @@ void* Yaz0_NextDMA(u8* curSrcPos) {
 
     return dst;
 }
+
+typedef struct Yaz0Header {
+    /* 0x00 */ char magic[4]; // Yaz0
+    /* 0x04 */ u32 decSize;
+    /* 0x08 */ u32 compInfoOffset;   // only used in mio0
+    /* 0x0C */ u32 uncompDataOffset; // only used in mio0
+} Yaz0Header;                        // size = 0x10
 
 void Yaz0_DecompressImpl(u8* src, u8* dst) {
     Yaz0Header* header = (Yaz0Header*)src;

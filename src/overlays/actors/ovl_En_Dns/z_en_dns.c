@@ -5,9 +5,25 @@
  */
 
 #include "z_en_dns.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_shopnuts/object_shopnuts.h"
+
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnDns_Init(Actor* thisx, PlayState* play);
 void EnDns_Destroy(Actor* thisx, PlayState* play);
@@ -42,7 +58,7 @@ void EnDns_SetupNoSaleBurrow(EnDns* this, PlayState* play);
 void EnDns_Burrow(EnDns* this, PlayState* play);
 void EnDns_PostBurrow(EnDns* this, PlayState* play);
 
-ActorInit En_Dns_InitVars = {
+ActorProfile En_Dns_Profile = {
     /**/ ACTOR_EN_DNS,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -56,14 +72,14 @@ ActorInit En_Dns_InitVars = {
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -77,19 +93,19 @@ static u16 sStartingTextIds[] = {
     0x10A0, 0x10A1, 0x10A2, 0x10CA, 0x10CB, 0x10CC, 0x10CD, 0x10CE, 0x10CF, 0x10DC, 0x10DD,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static char* sItemDebugTxt[] = {
-    "デクの実売り            ", // "Deku Nuts"
-    "デクの棒売り            ", // "Deku Sticks"
-    "ハートの欠片売り        ", // "Piece of Heart"
-    "デクの種売り            ", // "Deku Seeds"
-    "デクの盾売り            ", // "Deku Shield"
-    "バクダン売り            ", // "Bombs"
-    "矢売り                  ", // "Arrows"
-    "赤のくすり売り          ", // "Red Potion"
-    "緑のくすり売り          ", // "Green Potion"
-    "デクの棒持てる数を増やす", // "Deku Stick Upgrade"
-    "デクの実持てる数を増やす", // "Deku Nut Upgrade"
+    T("デクの実売り            ", "Deku Nuts               "),
+    T("デクの棒売り            ", "Deku Sticks             "),
+    T("ハートの欠片売り        ", "Piece of Heart          "),
+    T("デクの種売り            ", "Deku Seeds              "),
+    T("デクの盾売り            ", "Deku Shield             "),
+    T("バクダン売り            ", "Bombs                   "),
+    T("矢売り                  ", "Arrows                  "),
+    T("赤のくすり売り          ", "Red Potion              "),
+    T("緑のくすり売り          ", "Green Potion            "),
+    T("デクの棒持てる数を増やす", "Deku Stick Upgrade      "),
+    T("デクの実持てる数を増やす", "Deku Nut Upgrade        "),
 };
 #endif
 
@@ -115,8 +131,8 @@ static DnsItemEntry* sItemEntries[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BUSINESS_SCRUB, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
 };
 
 static AnimationMinimalInfo sAnimationInfo[] = {
@@ -129,8 +145,9 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
     if (DNS_GET_TYPE(&this->actor) < 0) {
-        // "Function Error (Deku Salesman)"
-        PRINTF(VT_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" VT_RST "\n", this->actor.params);
+        PRINTF(VT_FGCOL(RED) T("引数エラー（売りナッツ）[ arg_data = %d ]",
+                               "Argument error (selling nuts) [ arg_data = %d ]") VT_RST "\n",
+               this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
@@ -140,8 +157,8 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
         DNS_GET_TYPE(&this->actor) = DNS_TYPE_DEKU_SEEDS_30;
     }
 
-    // "Deku Salesman"
-    PRINTF(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
+    PRINTF(VT_FGCOL(GREEN) T("◆◆◆ 売りナッツ『%s』 ◆◆◆", "◆◆◆ Selling nuts『%s』 ◆◆◆") VT_RST "\n",
+           sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -346,10 +363,10 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnDns_Talk;
     } else {
-        if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
-            this->actor.flags |= ACTOR_FLAG_16;
+        if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isLockedOn) {
+            this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_16;
+            this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
             Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
@@ -435,7 +452,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
             this->dnsItemEntry->payment(this);
             this->dropCollectible = true;
             this->isColliderEnabled = false;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
             this->actionFunc = EnDns_Burrow;
         }
@@ -443,7 +460,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
         this->dnsItemEntry->payment(this);
         this->dropCollectible = true;
         this->isColliderEnabled = false;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
         this->actionFunc = EnDns_Burrow;
     }
@@ -452,7 +469,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
 void EnDns_SetupNoSaleBurrow(EnDns* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         this->isColliderEnabled = false;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
         this->actionFunc = EnDns_Burrow;
     }

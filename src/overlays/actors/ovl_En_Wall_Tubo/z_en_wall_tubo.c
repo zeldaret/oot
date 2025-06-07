@@ -5,13 +5,24 @@
  */
 
 #include "z_en_wall_tubo.h"
-#include "quake.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 #include "overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "rand.h"
+#include "regs.h"
+#include "sfx.h"
+#include "printf.h"
+#include "quake.h"
+#include "stack_pad.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "play_state.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnWallTubo_Init(Actor* thisx, PlayState* play);
 void EnWallTubo_Destroy(Actor* thisx, PlayState* play);
@@ -21,7 +32,7 @@ void EnWallTubo_FindGirl(EnWallTubo* this, PlayState* play);
 void EnWallTubo_DetectChu(EnWallTubo* this, PlayState* play);
 void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play);
 
-ActorInit En_Wall_Tubo_InitVars = {
+ActorProfile En_Wall_Tubo_Profile = {
     /**/ ACTOR_EN_WALL_TUBO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -37,8 +48,7 @@ void EnWallTubo_Init(Actor* thisx, PlayState* play) {
     EnWallTubo* this = (EnWallTubo*)thisx;
 
     PRINTF("\n\n");
-    // "Wall Target"
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n", "☆☆☆☆☆ Points on the wall ☆☆☆☆☆ \n") VT_RST);
     this->unk_164 = this->actor.world.pos;
     this->actionFunc = EnWallTubo_FindGirl;
 }
@@ -126,12 +136,12 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play) {
 
         if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
             wall->isHit = true;
-            // "You did it field!" (repeated 5 times)
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            // "Hara" may stand for the developer name Kuzuhara
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(BLUE) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆ やった原！ ☆☆☆☆☆ \n", "☆☆☆☆ I did it! -Hara ☆☆☆☆☆ \n") VT_RST);
         }
 
         Actor_Kill(&this->actor);
@@ -147,7 +157,7 @@ void EnWallTubo_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0, 0, 255, 255, 4, play->state.gfxCtx);

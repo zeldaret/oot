@@ -1,5 +1,12 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_sutaru" Segment="6">
+        <Array Name="gGiSkulltulaTokenVtx" Count="25" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiSkulltulaTokenFlameVtx" Count="26" Offset="0x190">
+            <Vtx/>
+        </Array>
         <DList Name="gGiSkulltulaTokenDL" Offset="0x0330"/>
         <DList Name="gGiSkulltulaTokenFlameDL" Offset="0x0438"/>
     </File>

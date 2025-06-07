@@ -1,5 +1,4 @@
 #include "ultra64.h"
-#include "global.h"
 
 /*
  * s32 osContSetCh(u8 ch)
@@ -7,6 +6,8 @@
  * direct SI devices.
  */
 s32 osContSetCh(u8 ch) {
+    s32 ret = 0;
+
     __osSiGetAccess();
 
     if (ch > MAXCONTROLLERS) {
@@ -17,5 +18,5 @@ s32 osContSetCh(u8 ch) {
 
     __osContLastCmd = CONT_CMD_END;
     __osSiRelAccess();
-    return 0;
+    return ret;
 }

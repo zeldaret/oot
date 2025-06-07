@@ -5,18 +5,29 @@
  */
 
 #include "z_demo_ext.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+#include "skin.h"
+
 #include "assets/objects/object_fhg/object_fhg.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
-typedef enum {
+typedef enum DemoExtAction {
     /* 0x00 */ EXT_WAIT,
     /* 0x01 */ EXT_MAINTAIN,
     /* 0x02 */ EXT_DISPELL
 } DemoExtAction;
 
-typedef enum {
+typedef enum DemoExtDrawMode {
     /* 0x00 */ EXT_DRAW_NOTHING,
     /* 0x01 */ EXT_DRAW_VORTEX
 } DemoExtDrawMode;
@@ -111,8 +122,8 @@ void DemoExt_HandleCues(DemoExt* this, PlayState* play) {
                     DemoExt_SetupDispellVortex(this);
                     break;
                 default:
-                    // "Demo_Ext_Check_DemoMode: there is no such action!"
-                    PRINTF("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ext_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -174,8 +185,8 @@ void DemoExt_Update(Actor* thisx, PlayState* play) {
     DemoExt* this = (DemoExt*)thisx;
 
     if ((this->action < EXT_WAIT) || (this->action > EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
-        // "Main mode is abnormal!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sActionFuncs[this->action](this, play);
     }
@@ -191,6 +202,7 @@ void DemoExt_DrawVortex(Actor* thisx, PlayState* play) {
     s16* curScroll;
     Vec3f* scale;
 
+    curScroll = this->curScroll;
     scale = &this->scale;
     gfxCtx = play->state.gfxCtx;
     mtx = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
@@ -206,8 +218,6 @@ void DemoExt_DrawVortex(Actor* thisx, PlayState* play) {
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, kREG(33) + 128, kREG(25) + 140, kREG(26) + 80, kREG(27) + 140, this->primAlpha);
     gDPSetEnvColor(POLY_XLU_DISP++, kREG(29) + 90, kREG(30) + 50, kREG(31) + 95, this->envAlpha);
-
-    curScroll = this->curScroll;
     gSPSegment(
         POLY_XLU_DISP++, 0x08,
         Gfx_TwoTexScroll(gfxCtx, 0, curScroll[0], curScroll[1], 0x40, 0x40, 1, curScroll[2], curScroll[3], 0x40, 0x40));
@@ -229,14 +239,14 @@ void DemoExt_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX) ||
         sDrawFuncs[this->drawMode] == NULL) {
-        // "Draw mode is abnormal!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sDrawFuncs[this->drawMode](thisx, play);
     }
 }
 
-ActorInit Demo_Ext_InitVars = {
+ActorProfile Demo_Ext_Profile = {
     /**/ ACTOR_DEMO_EXT,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

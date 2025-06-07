@@ -29,7 +29,7 @@ __attribute__((noreturn)) void __assert(const char* assertion, const char* file,
 
 // Static/compile-time assertions
 
-#if defined(__GNUC__) || (__STDC_VERSION__ >= 201112L)
+#if !defined(__sgi) && (__GNUC__ >= 5 || __STDC_VERSION__ >= 201112L)
 # define static_assert(cond, msg) _Static_assert(cond, msg)
 #else
 # ifndef GLUE

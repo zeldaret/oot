@@ -5,23 +5,40 @@
  */
 
 #include "z_en_ge2.h"
+
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "horse.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_gla/object_gla.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 #define GE2_STATE_ANIMCOMPLETE (1 << 1)
 #define GE2_STATE_KO (1 << 2)
 #define GE2_STATE_CAPTURING (1 << 3)
 #define GE2_STATE_TALKED (1 << 4)
 
-typedef enum {
+typedef enum EnGe2Type {
     /* 0 */ GE2_TYPE_PATROLLING,
     /* 1 */ GE2_TYPE_STATIONARY,
     /* 2 */ GE2_TYPE_GERUDO_CARD_GIVER
 } EnGe2Type;
 
-typedef enum {
+typedef enum EnGe2Action {
     /* 0 */ GE2_ACTION_WALK,
     /* 1 */ GE2_ACTION_ABOUTTURN,
     /* 2 */ GE2_ACTION_TURNPLAYERSPOTTED,
@@ -38,7 +55,7 @@ void EnGe2_Destroy(Actor* thisx, PlayState* play);
 void EnGe2_Update(Actor* thisx, PlayState* play);
 void EnGe2_Draw(Actor* thisx, PlayState* play);
 
-s32 EnGe2_CheckCarpentersFreed(void);
+s32 EnGe2_CheckAllCarpentersRescued(void);
 void EnGe2_CaptureClose(EnGe2* this, PlayState* play);
 void EnGe2_CaptureCharge(EnGe2* this, PlayState* play);
 void EnGe2_CaptureTurn(EnGe2* this, PlayState* play);
@@ -55,7 +72,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play);
 void EnGe2_UpdateAfterTalk(Actor* thisx, PlayState* play);
 void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2);
 
-ActorInit En_Ge2_InitVars = {
+ActorProfile En_Ge2_Profile = {
     /**/ ACTOR_EN_GE2,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -69,7 +86,7 @@ ActorInit En_Ge2_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -77,7 +94,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x000007A2, 0x00, 0x00 },
         ATELEM_NONE,
@@ -124,35 +141,35 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
 
     if (play->sceneId == SCENE_GERUDO_VALLEY) {
-        this->actor.uncullZoneForward = 1000.0f;
+        this->actor.cullingVolumeDistance = 1000.0f;
     } else {
-        this->actor.uncullZoneForward = 1200.0f;
+        this->actor.cullingVolumeDistance = 1200.0f;
     }
 
     this->yDetectRange = (this->actor.world.rot.z + 1) * 40.0f;
     this->actor.world.rot.z = 0;
     this->actor.shape.rot.z = 0;
 
-    switch (thisx->params & 0xFF) {
+    switch (PARAMS_GET_S(thisx->params, 0, 8)) {
         case GE2_TYPE_PATROLLING:
             EnGe2_ChangeAction(this, GE2_ACTION_WALK);
-            if (EnGe2_CheckCarpentersFreed()) {
+            if (EnGe2_CheckAllCarpentersRescued()) {
                 this->actor.update = EnGe2_UpdateFriendly;
-                this->actor.targetMode = 6;
+                this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
             break;
         case GE2_TYPE_STATIONARY:
             EnGe2_ChangeAction(this, GE2_ACTION_STAND);
-            if (EnGe2_CheckCarpentersFreed()) {
+            if (EnGe2_CheckAllCarpentersRescued()) {
                 this->actor.update = EnGe2_UpdateFriendly;
-                this->actor.targetMode = 6;
+                this->actor.attentionRangeType = ATTENTION_RANGE_6;
             }
             break;
         case GE2_TYPE_GERUDO_CARD_GIVER:
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);
             this->actor.update = EnGe2_UpdateAfterTalk;
             this->actionFunc = EnGe2_ForceTalk;
-            this->actor.targetMode = 6;
+            this->actor.attentionRangeType = ATTENTION_RANGE_6;
             break;
         default:
             ASSERT(0, "0", "../z_en_ge2.c", 418);
@@ -166,7 +183,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
     this->walkDirection = this->actor.world.rot.y;
-    this->walkDuration = ((thisx->params & 0xFF00) >> 8) * 10;
+    this->walkDuration = PARAMS_GET_S(thisx->params, 8, 8) * 10;
 }
 
 void EnGe2_Destroy(Actor* thisx, PlayState* play) {
@@ -223,13 +240,11 @@ s32 Ge2_DetectPlayerInUpdate(PlayState* play, EnGe2* this, Vec3f* pos, s16 yRot,
     return 1;
 }
 
-s32 EnGe2_CheckCarpentersFreed(void) {
-    if (CHECK_FLAG_ALL(gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
-                           (EVENTCHKINF_CARPENTERS_FREE_MASK_ALL | 0xF0),
-                       EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)) {
-        return 1;
+s32 EnGe2_CheckAllCarpentersRescued(void) {
+    if (GET_EVENTCHKINF_CARPENTERS_ALL_RESCUED2()) {
+        return true;
     }
-    return 0;
+    return false;
 }
 
 // Actions
@@ -238,7 +253,7 @@ void EnGe2_CaptureClose(EnGe2* this, PlayState* play) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
@@ -264,7 +279,7 @@ void EnGe2_CaptureCharge(EnGe2* this, PlayState* play) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
@@ -298,7 +313,7 @@ void EnGe2_KnockedOut(EnGe2* this, PlayState* play) {
     s32 effectAngle;
     Vec3f effectPos;
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     if (this->stateFlags & GE2_STATE_ANIMCOMPLETE) {
         effectAngle = (play->state.frames) * 0x2800;
         effectPos.x = this->actor.focus.pos.x + (Math_CosS(effectAngle) * 5.0f);
@@ -426,7 +441,7 @@ void EnGe2_LookAtPlayer(EnGe2* this, PlayState* play) {
 void EnGe2_SetActionAfterTalk(EnGe2* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
 
-        switch (this->actor.params & 0xFF) {
+        switch (PARAMS_GET_S(this->actor.params, 0, 8)) {
             case GE2_TYPE_PATROLLING:
                 EnGe2_ChangeAction(this, GE2_ACTION_ABOUTTURN);
                 break;
@@ -438,7 +453,7 @@ void EnGe2_SetActionAfterTalk(EnGe2* this, PlayState* play) {
                 break;
         }
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
     }
     EnGe2_TurnToFacePlayer(this, play);
 }
@@ -459,7 +474,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, PlayState* play) {
 void EnGe2_GiveCard(EnGe2* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->actionFunc = EnGe2_WaitTillCardGiven;
         Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
@@ -471,7 +486,7 @@ void EnGe2_ForceTalk(EnGe2* this, PlayState* play) {
         this->actionFunc = EnGe2_GiveCard;
     } else {
         this->actor.textId = 0x6004;
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         Actor_OfferTalkExchange(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
     EnGe2_LookAtPlayer(this, play);
@@ -520,7 +535,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        if ((this->actor.params & 0xFF) == GE2_TYPE_PATROLLING) {
+        if (PARAMS_GET_S(this->actor.params, 0, 8) == GE2_TYPE_PATROLLING) {
             this->actor.speed = 0.0f;
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);
         }
@@ -572,29 +587,27 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
 
         if (Ge2_DetectPlayerInUpdate(play, this, &this->actor.focus.pos, this->actor.shape.rot.y, this->yDetectRange)) {
-            // "Discovered!"
-            PRINTF(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("発見!!!!!!!!!!!!\n", "Discovered!!!!!!!!!!!!\n") VT_RST);
             EnGe2_SetupCapturePlayer(this, play);
         }
 
-        if (((this->actor.params & 0xFF) == GE2_TYPE_STATIONARY) && (this->actor.xzDistToPlayer < 100.0f)) {
-            // "Discovered!"
-            PRINTF(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
+        if ((PARAMS_GET_S(this->actor.params, 0, 8) == GE2_TYPE_STATIONARY) && (this->actor.xzDistToPlayer < 100.0f)) {
+            PRINTF(VT_FGCOL(GREEN) T("発見!!!!!!!!!!!!\n", "Discovered!!!!!!!!!!!!\n") VT_RST);
             EnGe2_SetupCapturePlayer(this, play);
         }
     }
 
     if (!(this->stateFlags & GE2_STATE_KO)) {
-        paramsType = this->actor.params & 0xFF; // Not necessary, but looks a bit nicer
+        paramsType = PARAMS_GET_S(this->actor.params, 0, 8); // Not necessary, but looks a bit nicer
         if ((paramsType == GE2_TYPE_PATROLLING) || (paramsType == GE2_TYPE_STATIONARY)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
     }
     EnGe2_MoveAndBlink(this, play);
 
-    if (EnGe2_CheckCarpentersFreed() && !(this->stateFlags & GE2_STATE_KO)) {
+    if (EnGe2_CheckAllCarpentersRescued() && !(this->stateFlags & GE2_STATE_KO)) {
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.targetMode = 6;
+        this->actor.attentionRangeType = ATTENTION_RANGE_6;
     }
 }
 
@@ -618,9 +631,9 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 
-    if (EnGe2_CheckCarpentersFreed()) {
+    if (EnGe2_CheckAllCarpentersRescued()) {
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.targetMode = 6;
+        this->actor.attentionRangeType = ATTENTION_RANGE_6;
         this->actor.colorFilterTimer = 0;
     } else if (this->actor.colorFilterTimer == 0) {
         this->actor.update = EnGe2_Update;

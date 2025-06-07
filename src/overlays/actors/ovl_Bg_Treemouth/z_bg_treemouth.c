@@ -5,10 +5,25 @@
  */
 
 #include "z_bg_treemouth.h"
-#include "assets/objects/object_spot04_objects/object_spot04_objects.h"
+#include "attributes.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_spot04_objects/object_spot04_objects.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgTreemouth_Init(Actor* thisx, PlayState* play);
 void BgTreemouth_Destroy(Actor* thisx, PlayState* play);
@@ -24,12 +39,12 @@ void func_808BC8B8(BgTreemouth* this, PlayState* play);
 void func_808BC9EC(BgTreemouth* this, PlayState* play);
 void func_808BCAF0(BgTreemouth* this, PlayState* play);
 
-extern CutsceneData D_808BCE20[];
-extern CutsceneData D_808BD2A0[];
-extern CutsceneData D_808BD520[];
-extern CutsceneData D_808BD790[];
+extern CutsceneData gDekuTreeMeetingCs[];
+extern CutsceneData gDekuTreeChoiceCs[];
+extern CutsceneData gDekuTreeMouthOpeningCs[];
+extern CutsceneData gDekuTreeAskAgainCs[];
 
-ActorInit Bg_Treemouth_InitVars = {
+ActorProfile Bg_Treemouth_Profile = {
     /**/ ACTOR_BG_TREEMOUTH,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -42,11 +57,11 @@ ActorInit Bg_Treemouth_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 8000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 8000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 300, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 300, ICHAIN_STOP),
 };
 
 UNUSED static f32 D_808BD9C4[] = {
@@ -141,17 +156,17 @@ void func_808BC8B8(BgTreemouth* this, PlayState* play) {
         if (!LINK_IS_ADULT) {
             if (Flags_GetEventChkInf(EVENTCHKINF_0C)) {
                 if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
-                    this->dyna.actor.flags |= ACTOR_FLAG_0;
-                    if (this->dyna.actor.isTargeted) {
-                        this->dyna.actor.flags &= ~ACTOR_FLAG_0;
-                        play->csCtx.script = D_808BD2A0;
+                    this->dyna.actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+                    if (this->dyna.actor.isLockedOn) {
+                        this->dyna.actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+                        play->csCtx.script = gDekuTreeChoiceCs;
                         gSaveContext.cutsceneTrigger = 1;
                         BgTreemouth_SetupAction(this, func_808BC9EC);
                     }
                 }
             } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x4E20)) {
                 Flags_SetEventChkInf(EVENTCHKINF_0C);
-                play->csCtx.script = D_808BCE20;
+                play->csCtx.script = gDekuTreeMeetingCs;
                 gSaveContext.cutsceneTrigger = 1;
                 BgTreemouth_SetupAction(this, func_808BC9EC);
             }
@@ -184,11 +199,11 @@ void func_808BC9EC(BgTreemouth* this, PlayState* play) {
         play->csCtx.state = CS_STATE_RUN;
 
         if (play->msgCtx.choiceIndex == 0) {
-            play->csCtx.script = D_808BD520;
+            play->csCtx.script = gDekuTreeMouthOpeningCs;
             Flags_SetEventChkInf(EVENTCHKINF_05);
             BgTreemouth_SetupAction(this, func_808BCAF0);
         } else {
-            play->csCtx.script = D_808BD790;
+            play->csCtx.script = gDekuTreeAskAgainCs;
             play->csCtx.curFrame = 0;
             BgTreemouth_SetupAction(this, func_808BC8B8);
         }
@@ -234,7 +249,12 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    if (!IS_CUTSCENE_LAYER || LINK_IS_ADULT) {
+#if OOT_VERSION < PAL_1_0
+    if (!IS_CUTSCENE_LAYER)
+#else
+    if (!IS_CUTSCENE_LAYER || LINK_IS_ADULT)
+#endif
+    {
         if (GET_EVENTCHKINF(EVENTCHKINF_07)) {
             alpha = 2150;
         }
@@ -242,12 +262,11 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
     }
 
     if (gSaveContext.sceneLayer == 6) {
-        alpha = (play->roomCtx.unk_74[0] + 0x1F4);
+        alpha = (play->roomCtx.drawParams[0] + 0x1F4);
     }
 
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, alpha * 0.1f);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_treemouth.c", 932),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_treemouth.c", 932);
     gSPDisplayList(POLY_OPA_DISP++, gDekuTreeMouthDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_treemouth.c", 937);

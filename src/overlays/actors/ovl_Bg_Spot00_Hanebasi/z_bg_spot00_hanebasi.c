@@ -5,12 +5,27 @@
  */
 
 #include "z_bg_spot00_hanebasi.h"
-#include "assets/objects/object_spot00_objects/object_spot00_objects.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "cutscene_flags.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_spot00_objects/object_spot00_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
-typedef enum {
+typedef enum DrawbridgeType {
     /* -1 */ DT_DRAWBRIDGE = -1,
     /*  0 */ DT_CHAIN_1,
     /*  1 */ DT_CHAIN_2
@@ -25,7 +40,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play);
 void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* play);
 void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, PlayState* play);
 
-ActorInit Bg_Spot00_Hanebasi_InitVars = {
+ActorProfile Bg_Spot00_Hanebasi_Profile = {
     /**/ ACTOR_BG_SPOT00_HANEBASI,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -40,9 +55,9 @@ ActorInit Bg_Spot00_Hanebasi_InitVars = {
 static f32 sTorchFlameScale = 0.0f;
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 550, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 5000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 550, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 5000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -177,13 +192,13 @@ void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* p
         if (this->actionFunc == BgSpot00Hanebasi_DrawbridgeWait) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE_STOP);
         } else {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
         }
     } else {
         if (this->actionFunc == BgSpot00Hanebasi_DrawbridgeWait) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
         } else {
-            func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
+            Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
         }
     }
 }
@@ -277,8 +292,7 @@ void BgSpot00Hanebasi_DrawTorches(Actor* thisx, PlayState* play2) {
         Matrix_RotateY(angle, MTXMODE_APPLY);
         Matrix_Scale(sTorchFlameScale, sTorchFlameScale, sTorchFlameScale, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 674),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 674);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
 
@@ -293,8 +307,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 702),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 702);
 
     if (thisx->params == DT_DRAWBRIDGE) {
         gSPDisplayList(POLY_OPA_DISP++, gHyruleFieldCastleDrawbridgeDL);

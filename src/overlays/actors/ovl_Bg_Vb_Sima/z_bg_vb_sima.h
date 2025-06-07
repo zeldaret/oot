@@ -2,11 +2,11 @@
 #define Z_BG_VB_SIMA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct BgVbSima;
 
-typedef enum {
+typedef enum BgVbSimaSignal {
     /* 0 */ VBSIMA_STAND,
     /* 1 */ VBSIMA_COLLAPSE,
     /* 2 */ VBSIMA_KILL

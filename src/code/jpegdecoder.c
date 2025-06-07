@@ -1,4 +1,9 @@
-#include "global.h"
+#include "jpeg.h"
+#include "stack_pad.h"
+
+s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1, u16* mcu, s16* unk);
+s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* outZeroCount);
+u16 JpegDecoder_ReadBits(u8 len);
 
 u8* sJpegBitStreamPtr;
 u32 sJpegBitStreamByteIdx;

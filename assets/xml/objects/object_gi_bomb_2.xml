@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_bomb_2" Segment="6">
+        <Array Name="gGiBombchuVtx" Count="75" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiBombchuDL" Offset="0x04B0"/>
     </File>
 </Root>

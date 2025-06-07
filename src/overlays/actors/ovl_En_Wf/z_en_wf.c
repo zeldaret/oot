@@ -5,11 +5,32 @@
  */
 
 #include "z_en_wf.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_wf/object_wf.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnWf_Init(Actor* thisx, PlayState* play);
 void EnWf_Destroy(Actor* thisx, PlayState* play);
@@ -43,10 +64,10 @@ void EnWf_SetupDie(EnWf* this);
 void EnWf_Die(EnWf* this, PlayState* play);
 s32 EnWf_DodgeRanged(PlayState* play, EnWf* this);
 
-static ColliderJntSphElementInit sJntSphItemsInit[4] = {
+static ColliderJntSphElementInit sJntSphElementsInit[4] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -57,7 +78,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -68,7 +89,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK1,
+            ELEM_MATERIAL_UNK1,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -79,7 +100,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     },
     {
         {
-            ELEMTYPE_UNK1,
+            ELEM_MATERIAL_UNK1,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -92,20 +113,20 @@ static ColliderJntSphElementInit sJntSphItemsInit[4] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sJntSphItemsInit),
-    sJntSphItemsInit,
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
 
 static ColliderCylinderInit sBodyCylinderInit = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -113,7 +134,7 @@ static ColliderCylinderInit sBodyCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -125,7 +146,7 @@ static ColliderCylinderInit sBodyCylinderInit = {
 
 static ColliderCylinderInit sTailCylinderInit = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -133,7 +154,7 @@ static ColliderCylinderInit sTailCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -143,51 +164,51 @@ static ColliderCylinderInit sTailCylinderInit = {
     { 15, 20, -15, { 0, 0, 0 } },
 };
 
-typedef enum {
-    /*  0 */ ENWF_DMGEFF_NONE,
-    /*  1 */ ENWF_DMGEFF_STUN,
-    /*  6 */ ENWF_DMGEFF_ICE_MAGIC = 6,
-    /* 13 */ ENWF_DMGEFF_LIGHT_MAGIC = 13,
-    /* 14 */ ENWF_DMGEFF_FIRE,
-    /* 15 */ ENWF_DMGEFF_UNDEF // used like STUN in the code, but not in the table
-} EnWfDamageEffect;
+typedef enum EnWfDamageReaction {
+    /*  0 */ ENWF_DMG_REACT_NONE,
+    /*  1 */ ENWF_DMG_REACT_STUN,
+    /*  6 */ ENWF_DMG_REACT_ICE_MAGIC = 6,
+    /* 13 */ ENWF_DMG_REACT_LIGHT_MAGIC = 13,
+    /* 14 */ ENWF_DMG_REACT_FIRE,
+    /* 15 */ ENWF_DMG_REACT_UNDEF // used like STUN in the code, but not in the table
+} EnWfDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, ENWF_DMGEFF_STUN),
-    /* Deku stick    */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Slingshot     */ DMG_ENTRY(1, ENWF_DMGEFF_NONE),
-    /* Explosive     */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(0, ENWF_DMGEFF_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Hookshot      */ DMG_ENTRY(0, ENWF_DMGEFF_STUN),
-    /* Kokiri sword  */ DMG_ENTRY(1, ENWF_DMGEFF_NONE),
-    /* Master sword  */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Giant's Knife */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
-    /* Fire arrow    */ DMG_ENTRY(4, ENWF_DMGEFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Light arrow   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, ENWF_DMGEFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, ENWF_DMGEFF_ICE_MAGIC),
-    /* Light magic   */ DMG_ENTRY(3, ENWF_DMGEFF_LIGHT_MAGIC),
-    /* Shield        */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, ENWF_DMGEFF_NONE),
-    /* Giant spin    */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
-    /* Master spin   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Kokiri jump   */ DMG_ENTRY(2, ENWF_DMGEFF_NONE),
-    /* Giant jump    */ DMG_ENTRY(8, ENWF_DMGEFF_NONE),
-    /* Master jump   */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
-    /* Unknown 1     */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, ENWF_DMGEFF_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, ENWF_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, ENWF_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, ENWF_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, ENWF_DMG_REACT_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(0, ENWF_DMG_REACT_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, ENWF_DMG_REACT_NONE),
+    /* Master sword  */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Giant's Knife */ DMG_ENTRY(4, ENWF_DMG_REACT_NONE),
+    /* Fire arrow    */ DMG_ENTRY(4, ENWF_DMG_REACT_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Light arrow   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, ENWF_DMG_REACT_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, ENWF_DMG_REACT_ICE_MAGIC),
+    /* Light magic   */ DMG_ENTRY(3, ENWF_DMG_REACT_LIGHT_MAGIC),
+    /* Shield        */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, ENWF_DMG_REACT_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, ENWF_DMG_REACT_NONE),
+    /* Master spin   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, ENWF_DMG_REACT_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, ENWF_DMG_REACT_NONE),
+    /* Master jump   */ DMG_ENTRY(4, ENWF_DMG_REACT_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, ENWF_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, ENWF_DMG_REACT_NONE),
 };
 
-ActorInit En_Wf_InitVars = {
+ActorProfile En_Wf_Profile = {
     /**/ ACTOR_EN_WF,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -200,7 +221,7 @@ ActorInit En_Wf_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000, ICHAIN_STOP),
 };
 
@@ -220,17 +241,17 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.health = 8;
     thisx->colChkInfo.cylRadius = 50;
     thisx->colChkInfo.cylHeight = 100;
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     this->eyeIndex = 0;
     this->unk_2F4 = 10.0f; // Set and not used
 
-    Collider_InitJntSph(play, &this->colliderSpheres);
-    Collider_SetJntSph(play, &this->colliderSpheres, thisx, &sJntSphInit, this->colliderSpheresElements);
-    Collider_InitCylinder(play, &this->colliderCylinderBody);
-    Collider_SetCylinder(play, &this->colliderCylinderBody, thisx, &sBodyCylinderInit);
-    Collider_InitCylinder(play, &this->colliderCylinderTail);
-    Collider_SetCylinder(play, &this->colliderCylinderTail, thisx, &sTailCylinderInit);
+    Collider_InitJntSph(play, &this->colliderJntSph);
+    Collider_SetJntSph(play, &this->colliderJntSph, thisx, &sJntSphInit, this->colliderJntSphElements);
+    Collider_InitCylinder(play, &this->bodyColliderCylinder);
+    Collider_SetCylinder(play, &this->bodyColliderCylinder, thisx, &sBodyCylinderInit);
+    Collider_InitCylinder(play, &this->tailColliderCylinder);
+    Collider_SetCylinder(play, &this->tailColliderCylinder, thisx, &sTailCylinderInit);
 
     if (thisx->params == WOLFOS_NORMAL) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gWolfosNormalSkel, &gWolfosWaitingAnim, this->jointTable,
@@ -241,8 +262,8 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gWolfosWhiteSkel, &gWolfosWaitingAnim, this->jointTable,
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.01f);
-        this->colliderSpheres.elements[0].base.atDmgInfo.damage =
-            this->colliderSpheres.elements[1].base.atDmgInfo.damage = 8;
+        this->colliderJntSph.elements[0].base.atDmgInfo.damage =
+            this->colliderJntSph.elements[1].base.atDmgInfo.damage = 8;
         thisx->naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
     }
 
@@ -256,9 +277,9 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
 void EnWf_Destroy(Actor* thisx, PlayState* play) {
     EnWf* this = (EnWf*)thisx;
 
-    Collider_DestroyJntSph(play, &this->colliderSpheres);
-    Collider_DestroyCylinder(play, &this->colliderCylinderBody);
-    Collider_DestroyCylinder(play, &this->colliderCylinderTail);
+    Collider_DestroyJntSph(play, &this->colliderJntSph);
+    Collider_DestroyCylinder(play, &this->bodyColliderCylinder);
+    Collider_DestroyCylinder(play, &this->tailColliderCylinder);
 
     if ((this->actor.params != WOLFOS_NORMAL) && (this->switchFlag != 0xFF)) {
         func_800F5B58();
@@ -273,8 +294,9 @@ void EnWf_Destroy(Actor* thisx, PlayState* play) {
             }
 
             PRINTF("\n\n");
-            // "☆☆☆☆☆ Number of concurrent events ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, parent->curNumSpawn);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of simultaneous spawns ☆☆☆☆☆%d\n")
+                       VT_RST,
+                   parent->curNumSpawn);
             PRINTF("\n\n");
         }
     }
@@ -354,7 +376,7 @@ s32 EnWf_ChangeAction(PlayState* play, EnWf* this, s16 mustChoose) {
 
         playerFacingAngleDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
-        if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsTargeted(play, &this->actor) &&
+        if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsLockedOn(play, &this->actor) &&
             (((play->gameplayFrames % 8) != 0) || (ABS(playerFacingAngleDiff) < 0x38E0))) {
             EnWf_SetupSlash(this);
             return true;
@@ -372,7 +394,7 @@ void EnWf_SetupWaitToAppear(EnWf* this) {
     this->actionTimer = 20;
     this->unk_300 = false;
     this->action = WOLFOS_ACTION_WAIT_TO_APPEAR;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.scale.y = 0.0f;
     this->actor.gravity = 0.0f;
     EnWf_SetupAction(this, EnWf_WaitToAppear);
@@ -384,7 +406,7 @@ void EnWf_WaitToAppear(EnWf* this, PlayState* play) {
 
         if (this->actor.xzDistToPlayer < 240.0f) {
             this->actionTimer = 5;
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
 
             if ((this->actor.params != WOLFOS_NORMAL) && (this->switchFlag != 0xFF)) {
                 func_800F5ACC(NA_BGM_MINI_BOSS);
@@ -502,7 +524,7 @@ void EnWf_RunAtPlayer(EnWf* this, PlayState* play) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
 
-        if (Actor_OtherIsTargeted(play, &this->actor)) {
+        if (Actor_OtherIsLockedOn(play, &this->actor)) {
             baseRange = 150.0f;
         }
 
@@ -542,10 +564,10 @@ void EnWf_RunAtPlayer(EnWf* this, PlayState* play) {
         } else if (this->actor.xzDistToPlayer < (90.0f + baseRange)) {
             s16 temp_v1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
-            if (!Actor_OtherIsTargeted(play, &this->actor) &&
+            if (!Actor_OtherIsLockedOn(play, &this->actor) &&
                 ((Rand_ZeroOne() > 0.03f) || ((this->actor.xzDistToPlayer <= 80.0f) && (ABS(temp_v1) < 0x38E0)))) {
                 EnWf_SetupSlash(this);
-            } else if (Actor_OtherIsTargeted(play, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
+            } else if (Actor_OtherIsLockedOn(play, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
                 EnWf_SetupBackflipAway(this);
             } else {
                 EnWf_SetupRunAroundPlayer(this);
@@ -658,7 +680,7 @@ void EnWf_RunAroundPlayer(EnWf* this, PlayState* play) {
             }
         }
 
-        if (Actor_OtherIsTargeted(play, &this->actor)) {
+        if (Actor_OtherIsLockedOn(play, &this->actor)) {
             baseRange = 150.0f;
         }
 
@@ -696,14 +718,14 @@ void EnWf_RunAroundPlayer(EnWf* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_WOLFOS_CRY);
         }
 
-        if ((Math_CosS(angle1 - this->actor.shape.rot.y) < -0.85f) && !Actor_OtherIsTargeted(play, &this->actor) &&
+        if ((Math_CosS(angle1 - this->actor.shape.rot.y) < -0.85f) && !Actor_OtherIsLockedOn(play, &this->actor) &&
             (this->actor.xzDistToPlayer <= 80.0f)) {
             EnWf_SetupSlash(this);
         } else {
             this->actionTimer--;
 
             if (this->actionTimer == 0) {
-                if (Actor_OtherIsTargeted(play, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
+                if (Actor_OtherIsLockedOn(play, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
                     EnWf_SetupBackflipAway(this);
                 } else {
                     EnWf_SetupWait(this);
@@ -716,7 +738,7 @@ void EnWf_RunAroundPlayer(EnWf* this, PlayState* play) {
 
 void EnWf_SetupSlash(EnWf* this) {
     Animation_PlayOnce(&this->skelAnime, &gWolfosSlashingAnim);
-    this->colliderSpheres.base.atFlags &= ~AT_BOUNCED;
+    this->colliderJntSph.base.atFlags &= ~AT_BOUNCED;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->action = WOLFOS_ACTION_SLASH;
     this->unk_2FA = 0; // Set and not used
@@ -747,7 +769,7 @@ void EnWf_Slash(EnWf* this, PlayState* play) {
         this->slashStatus = 0;
     }
 
-    if (((curFrame == 15) && !Actor_IsTargeted(play, &this->actor) &&
+    if (((curFrame == 15) && !Actor_IsLockedOn(play, &this->actor) &&
          (!Actor_IsFacingPlayer(&this->actor, 0x2000) || (this->actor.xzDistToPlayer >= 100.0f))) ||
         SkelAnime_Update(&this->skelAnime)) {
         if ((curFrame != 15) && (this->actionTimer != 0)) {
@@ -850,7 +872,7 @@ void EnWf_SetupBackflipAway(EnWf* this) {
 
 void EnWf_BackflipAway(EnWf* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (!Actor_OtherIsTargeted(play, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
+        if (!Actor_OtherIsLockedOn(play, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
             (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
             EnWf_SetupRunAtPlayer(this, play);
         } else if ((play->gameplayFrames % 2) != 0) {
@@ -940,7 +962,7 @@ void EnWf_Damaged(EnWf* this, PlayState* play) {
                 (this->actor.xzDistToPlayer < 120.0f)) {
                 EnWf_SetupSomersaultAndAttack(this);
             } else if (!EnWf_DodgeRanged(play, this)) {
-                if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsTargeted(play, &this->actor) &&
+                if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsLockedOn(play, &this->actor) &&
                     ((play->gameplayFrames % 8) != 0)) {
                     EnWf_SetupSlash(this);
                 } else if (Rand_ZeroOne() > 0.5f) {
@@ -985,7 +1007,7 @@ void EnWf_SomersaultAndAttack(EnWf* this, PlayState* play) {
         this->actor.speed = this->actor.velocity.y = 0.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
 
-        if (!Actor_OtherIsTargeted(play, &this->actor)) {
+        if (!Actor_OtherIsLockedOn(play, &this->actor)) {
             EnWf_SetupSlash(this);
         } else {
             EnWf_SetupWait(this);
@@ -1035,7 +1057,7 @@ void EnWf_Blocking(EnWf* this, PlayState* play) {
             } else {
                 s16 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
-                if (!Actor_OtherIsTargeted(play, &this->actor) &&
+                if (!Actor_OtherIsLockedOn(play, &this->actor) &&
                     (((play->gameplayFrames % 2) != 0) || (ABS(angleFacingLink) < 0x38E0))) {
                     EnWf_SetupSlash(this);
                 } else {
@@ -1114,7 +1136,7 @@ void EnWf_Sidestep(EnWf* this, PlayState* play) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-    if (Actor_OtherIsTargeted(play, &this->actor)) {
+    if (Actor_OtherIsLockedOn(play, &this->actor)) {
         baseRange = 150.0f;
     }
 
@@ -1159,7 +1181,7 @@ void EnWf_Sidestep(EnWf* this, PlayState* play) {
 
                 this->actor.world.rot.y = this->actor.shape.rot.y;
 
-                if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsTargeted(play, &this->actor) &&
+                if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsLockedOn(play, &this->actor) &&
                     (((play->gameplayFrames % 4) == 0) || (ABS(angleDiff2) < 0x38E0))) {
                     EnWf_SetupSlash(this);
                 } else {
@@ -1191,7 +1213,7 @@ void EnWf_SetupDie(EnWf* this) {
     }
 
     this->action = WOLFOS_ACTION_DIE;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionTimer = this->skelAnime.animLength;
     Actor_PlaySfx(&this->actor, NA_SE_EN_WOLFOS_DEAD);
     EnWf_SetupAction(this, EnWf_Die);
@@ -1246,31 +1268,33 @@ void func_80B36F40(EnWf* this, PlayState* play) {
 }
 
 void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
-    if (this->colliderSpheres.base.acFlags & AC_BOUNCED) {
-        this->colliderSpheres.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
-        this->colliderCylinderBody.base.acFlags &= ~AC_HIT;
-        this->colliderCylinderTail.base.acFlags &= ~AC_HIT;
-    } else if ((this->colliderCylinderBody.base.acFlags & AC_HIT) ||
-               (this->colliderCylinderTail.base.acFlags & AC_HIT)) {
+    if (this->colliderJntSph.base.acFlags & AC_BOUNCED) {
+        this->colliderJntSph.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
+        this->bodyColliderCylinder.base.acFlags &= ~AC_HIT;
+        this->tailColliderCylinder.base.acFlags &= ~AC_HIT;
+    } else if ((this->bodyColliderCylinder.base.acFlags & AC_HIT) ||
+               (this->tailColliderCylinder.base.acFlags & AC_HIT)) {
         if (this->action >= WOLFOS_ACTION_WAIT) {
             s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-            if ((!(this->colliderCylinderBody.base.acFlags & AC_HIT) &&
-                 (this->colliderCylinderTail.base.acFlags & AC_HIT)) ||
+            if ((!(this->bodyColliderCylinder.base.acFlags & AC_HIT) &&
+                 (this->tailColliderCylinder.base.acFlags & AC_HIT)) ||
                 (ABS(yawDiff) > 19000)) {
                 this->actor.colChkInfo.damage *= 4;
             }
 
-            this->colliderCylinderBody.base.acFlags &= ~AC_HIT;
-            this->colliderCylinderTail.base.acFlags &= ~AC_HIT;
+            this->bodyColliderCylinder.base.acFlags &= ~AC_HIT;
+            this->tailColliderCylinder.base.acFlags &= ~AC_HIT;
 
-            if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
-                this->damageEffect = this->actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->actor, &this->colliderCylinderBody.elem, true);
+            if (this->actor.colChkInfo.damageReaction != ENWF_DMG_REACT_ICE_MAGIC) {
+                this->damageReaction = this->actor.colChkInfo.damageReaction;
+                Actor_SetDropFlag(&this->actor, &this->bodyColliderCylinder.elem, true);
+#if OOT_VERSION >= PAL_1_0
                 this->slashStatus = 0;
+#endif
 
-                if ((this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_STUN) ||
-                    (this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_UNDEF)) {
+                if ((this->actor.colChkInfo.damageReaction == ENWF_DMG_REACT_STUN) ||
+                    (this->actor.colChkInfo.damageReaction == ENWF_DMG_REACT_UNDEF)) {
                     if (this->action != WOLFOS_ACTION_STUNNED) {
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA,
                                              80);
@@ -1280,7 +1304,7 @@ void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
                 } else { // LIGHT_MAGIC, FIRE, NONE
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
 
-                    if (this->damageEffect == ENWF_DMGEFF_FIRE) {
+                    if (this->damageReaction == ENWF_DMG_REACT_FIRE) {
                         this->fireTimer = 40;
                     }
 
@@ -1302,7 +1326,7 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
 
     EnWf_UpdateDamage(this, play);
 
-    if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
+    if (this->actor.colChkInfo.damageReaction != ENWF_DMG_REACT_ICE_MAGIC) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 32.0f, 30.0f, 60.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
@@ -1318,23 +1342,23 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
         Math_SmoothStepToS(&this->actor.shape.rot.z, 0, 1, 1000, 0);
     }
 
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderSpheres.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
 
     if (this->action >= WOLFOS_ACTION_WAIT) {
         if ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000)) {
-            Collider_UpdateCylinder(&this->actor, &this->colliderCylinderBody);
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinderTail.base);
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinderBody.base);
+            Collider_UpdateCylinder(&this->actor, &this->bodyColliderCylinder);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tailColliderCylinder.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyColliderCylinder.base);
         }
     }
 
     if (this->action == WOLFOS_ACTION_BLOCKING) {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSpheres.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
     if (this->slashStatus > 0) {
-        if (!(this->colliderSpheres.base.atFlags & AT_BOUNCED)) {
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderSpheres.base);
+        if (!(this->colliderJntSph.base.atFlags & AT_BOUNCED)) {
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderJntSph.base);
         } else {
             EnWf_SetupRecoilFromBlockedSlash(this);
         }
@@ -1368,16 +1392,16 @@ void EnWf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     EnWf* this = (EnWf*)thisx;
     s32 bodyPartIndex = -1;
 
-    Collider_UpdateSpheres(limbIndex, &this->colliderSpheres);
+    Collider_UpdateSpheres(limbIndex, &this->colliderJntSph);
 
     if (limbIndex == WOLFOS_LIMB_TAIL) {
         Vec3f colliderPos;
 
         bodyPartIndex = -1;
         Matrix_MultVec3f(&colliderVec, &colliderPos);
-        this->colliderCylinderTail.dim.pos.x = colliderPos.x;
-        this->colliderCylinderTail.dim.pos.y = colliderPos.y;
-        this->colliderCylinderTail.dim.pos.z = colliderPos.z;
+        this->tailColliderCylinder.dim.pos.x = colliderPos.x;
+        this->tailColliderCylinder.dim.pos.y = colliderPos.y;
+        this->tailColliderCylinder.dim.pos.z = colliderPos.z;
     }
 
     if ((this->fireTimer != 0) || ((this->actor.colorFilterTimer != 0) && (this->actor.colorFilterParams & 0x4000))) {

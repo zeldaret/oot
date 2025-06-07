@@ -1,6 +1,12 @@
-#include "z64game_over.h"
-
-#include "global.h"
+#include "array_count.h"
+#include "letterbox.h"
+#include "regs.h"
+#include "rumble.h"
+#include "sequence.h"
+#include "versions.h"
+#include "game_over.h"
+#include "play_state.h"
+#include "save.h"
 
 void GameOver_Init(PlayState* play) {
     play->gameOverCtx.state = GAMEOVER_INACTIVE;
@@ -61,7 +67,12 @@ void GameOver_Update(PlayState* play) {
                 }
             }
 
+#if OOT_VERSION < PAL_1_1
+            gSaveContext.nayrusLoveTimer = 0;
+#else
             gSaveContext.nayrusLoveTimer = 2000;
+#endif
+
             gSaveContext.save.info.playerData.naviTimer = 0;
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
             gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
@@ -96,7 +107,7 @@ void GameOver_Update(PlayState* play) {
             sGameOverTimer--;
 
             if (sGameOverTimer == 0) {
-                play->pauseCtx.state = PAUSE_STATE_8;
+                play->pauseCtx.state = PAUSE_STATE_GAME_OVER_START;
                 gameOverCtx->state++;
                 Rumble_Reset();
             }

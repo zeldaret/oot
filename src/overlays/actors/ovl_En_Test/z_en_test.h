@@ -2,13 +2,13 @@
 #define Z_EN_TEST_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnTest;
 
-typedef void (*EnTestActionFunc)(struct EnTest*, PlayState*);
+typedef void (*EnTestActionFunc)(struct EnTest*, struct PlayState*);
 
-typedef enum {
+typedef enum StalfosLimb {
     /* 0x00 */ STALFOS_LIMB_NONE,
     /* 0x01 */ STALFOS_LIMB_ROOT,
     /* 0x02 */ STALFOS_LIMB_UPPERBODY_ROOT,
@@ -90,7 +90,7 @@ typedef struct EnTest {
     /* 0x7DD */ char unk_7DD[0x1];
     /* 0x7DE */ u8 unk_7DE;
     /* 0x7E0 */ s16 iceTimer;
-    /* 0x7E2 */ u8 lastDamageEffect;
+    /* 0x7E2 */ u8 lastDamageReaction;
     /* 0x7E4 */ s32 unk_7E4;
     /* 0x7E8 */ s32 timer;
     /* 0x7EC */ f32 unk_7EC;
@@ -102,7 +102,7 @@ typedef struct EnTest {
     /* 0x8DC */ ColliderCylinder shieldCollider;
 } EnTest; // size = 0x928
 
-typedef enum {
+typedef enum StalfosType {
     /* 0 */ STALFOS_TYPE_INVISIBLE,
     /* 1 */ STALFOS_TYPE_1,
     /* 2 */ STALFOS_TYPE_2,

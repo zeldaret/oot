@@ -1,7 +1,32 @@
+/*
+ * File: z_en_rd.c
+ * Overlay: ovl_En_Rd
+ * Description: Redead and Gibdo
+ */
+
 #include "z_en_rd.h"
+
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_rd/object_rd.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 void EnRd_Init(Actor* thisx, PlayState* play);
 void EnRd_Destroy(Actor* thisx, PlayState* play);
@@ -29,7 +54,7 @@ void EnRd_Damaged(EnRd* this, PlayState* play);
 void EnRd_Dead(EnRd* this, PlayState* play);
 void EnRd_Stunned(EnRd* this, PlayState* play);
 
-typedef enum {
+typedef enum EnRdAction {
     /*  0 */ REDEAD_ACTION_IDLE,
     /*  1 */ REDEAD_ACTION_STUNNED,
     /*  2 */ REDEAD_ACTION_WALK_TO_HOME,
@@ -44,7 +69,7 @@ typedef enum {
     /* 11 */ REDEAD_ACTION_RISE_FROM_COFFIN
 } EnRdAction;
 
-typedef enum {
+typedef enum EnRdGrabState {
     /* 0 */ REDEAD_GRAB_START,
     /* 1 */ REDEAD_GRAB_INITIAL_DAMAGE,
     /* 2 */ REDEAD_GRAB_ATTACK,
@@ -52,7 +77,7 @@ typedef enum {
     /* 4 */ REDEAD_GRAB_END
 } EnRdGrabState;
 
-ActorInit En_Rd_InitVars = {
+ActorProfile En_Rd_Profile = {
     /**/ ACTOR_EN_RD,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -66,7 +91,7 @@ ActorInit En_Rd_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
@@ -74,7 +99,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -84,52 +109,52 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-typedef enum {
-    /* 0x0 */ REDEAD_DMGEFF_NONE,              // Does not interact with the Gibdo/Redead at all
-    /* 0x1 */ REDEAD_DMGEFF_HOOKSHOT,          // Stuns the Gibdo/Redead
-    /* 0x6 */ REDEAD_DMGEFF_ICE_MAGIC = 0x6,   // Does not interact with the Gibdo/Redead at all
-    /* 0xD */ REDEAD_DMGEFF_LIGHT_MAGIC = 0xD, // Stuns the Gibdo/Redead
-    /* 0xE */ REDEAD_DMGEFF_FIRE_MAGIC,        // Applies a fire effect
-    /* 0xF */ REDEAD_DMGEFF_DAMAGE             // Deals damage without stunning or applying an effect
-} EnRdDamageEffect;
+typedef enum EnRdDamageReaction {
+    /* 0x0 */ REDEAD_DMG_REACT_NONE,              // Does not interact with the Gibdo/Redead at all
+    /* 0x1 */ REDEAD_DMG_REACT_HOOKSHOT,          // Stuns the Gibdo/Redead
+    /* 0x6 */ REDEAD_DMG_REACT_ICE_MAGIC = 0x6,   // Does not interact with the Gibdo/Redead at all
+    /* 0xD */ REDEAD_DMG_REACT_LIGHT_MAGIC = 0xD, // Stuns the Gibdo/Redead
+    /* 0xE */ REDEAD_DMG_REACT_FIRE_MAGIC,        // Applies a fire effect
+    /* 0xF */ REDEAD_DMG_REACT_DAMAGE             // Deals damage without stunning or applying an effect
+} EnRdDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Deku stick    */ DMG_ENTRY(2, REDEAD_DMGEFF_DAMAGE),
-    /* Slingshot     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Explosive     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Normal arrow  */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, REDEAD_DMGEFF_DAMAGE),
-    /* Hookshot      */ DMG_ENTRY(0, REDEAD_DMGEFF_HOOKSHOT),
-    /* Kokiri sword  */ DMG_ENTRY(1, REDEAD_DMGEFF_DAMAGE),
-    /* Master sword  */ DMG_ENTRY(2, REDEAD_DMGEFF_DAMAGE),
-    /* Giant's Knife */ DMG_ENTRY(4, REDEAD_DMGEFF_DAMAGE),
-    /* Fire arrow    */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Ice arrow     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Light arrow   */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, REDEAD_DMGEFF_FIRE_MAGIC),
-    /* Ice magic     */ DMG_ENTRY(0, REDEAD_DMGEFF_ICE_MAGIC),
-    /* Light magic   */ DMG_ENTRY(3, REDEAD_DMGEFF_LIGHT_MAGIC),
-    /* Shield        */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, REDEAD_DMGEFF_DAMAGE),
-    /* Giant spin    */ DMG_ENTRY(4, REDEAD_DMGEFF_DAMAGE),
-    /* Master spin   */ DMG_ENTRY(2, REDEAD_DMGEFF_DAMAGE),
-    /* Kokiri jump   */ DMG_ENTRY(2, REDEAD_DMGEFF_DAMAGE),
-    /* Giant jump    */ DMG_ENTRY(8, REDEAD_DMGEFF_DAMAGE),
-    /* Master jump   */ DMG_ENTRY(4, REDEAD_DMGEFF_DAMAGE),
-    /* Unknown 1     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, REDEAD_DMGEFF_DAMAGE),
-    /* Unknown 2     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Deku stick    */ DMG_ENTRY(2, REDEAD_DMG_REACT_DAMAGE),
+    /* Slingshot     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Normal arrow  */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, REDEAD_DMG_REACT_DAMAGE),
+    /* Hookshot      */ DMG_ENTRY(0, REDEAD_DMG_REACT_HOOKSHOT),
+    /* Kokiri sword  */ DMG_ENTRY(1, REDEAD_DMG_REACT_DAMAGE),
+    /* Master sword  */ DMG_ENTRY(2, REDEAD_DMG_REACT_DAMAGE),
+    /* Giant's Knife */ DMG_ENTRY(4, REDEAD_DMG_REACT_DAMAGE),
+    /* Fire arrow    */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Ice arrow     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Light arrow   */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, REDEAD_DMG_REACT_FIRE_MAGIC),
+    /* Ice magic     */ DMG_ENTRY(0, REDEAD_DMG_REACT_ICE_MAGIC),
+    /* Light magic   */ DMG_ENTRY(3, REDEAD_DMG_REACT_LIGHT_MAGIC),
+    /* Shield        */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, REDEAD_DMG_REACT_DAMAGE),
+    /* Giant spin    */ DMG_ENTRY(4, REDEAD_DMG_REACT_DAMAGE),
+    /* Master spin   */ DMG_ENTRY(2, REDEAD_DMG_REACT_DAMAGE),
+    /* Kokiri jump   */ DMG_ENTRY(2, REDEAD_DMG_REACT_DAMAGE),
+    /* Giant jump    */ DMG_ENTRY(8, REDEAD_DMG_REACT_DAMAGE),
+    /* Master jump   */ DMG_ENTRY(4, REDEAD_DMG_REACT_DAMAGE),
+    /* Unknown 1     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, REDEAD_DMG_REACT_DAMAGE),
+    /* Unknown 2     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
 };
@@ -142,7 +167,7 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
     EnRd* this = (EnRd*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->actor.targetMode = 0;
+    this->actor.attentionRangeType = ATTENTION_RANGE_0;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     this->upperBodyYRotation = this->headYRotation = 0;
@@ -151,9 +176,9 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 8;
     this->alpha = this->unk_31D = 255;
-    this->rdFlags = REDEAD_GET_FLAGS(thisx);
+    this->rdFlags = REDEAD_GET_RDFLAGS(thisx);
 
-    if (this->actor.params & 0x80) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 7, 1)) {
         this->actor.params |= 0xFF00;
     } else {
         this->actor.params &= 0xFF;
@@ -355,14 +380,23 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
     }
 
     if ((ABS(yaw) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
-        if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
+        if (!(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
                                      PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
             !(player->stateFlags2 & PLAYER_STATE2_7)) {
             if (this->playerStunWaitTimer == 0) {
                 if (!(this->rdFlags & 0x80)) {
                     player->actor.freezeTimer = 40;
-                    func_8008EEAC(play, &this->actor);
-                    GET_PLAYER(play)->unk_684 = &this->actor;
+
+                    // `player->actor.freezeTimer` gets set above which will prevent Player from updating.
+                    // Because of this, he cannot update things related to Z-Targeting.
+                    // If Player can't update, `player->zTargetActiveTimer` won't update, which means
+                    // the Attention system will not be notified of a new actor lock-on occurring.
+                    // So, no reticle will appear. But the camera will still focus on the actor.
+                    Player_SetAutoLockOnActor(play, &this->actor);
+
+                    // This is redundant, `autoLockOnActor` gets set by `Player_SetAutoLockOnActor` above
+                    GET_PLAYER(play)->autoLockOnActor = &this->actor;
+
                     Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
                 }
 
@@ -382,7 +416,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
         Actor_IsFacingPlayer(&this->actor, 0x38E3)) {
         player->actor.freezeTimer = 0;
         if (play->grabPlayer(play, player)) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             EnRd_SetupGrab(this);
         }
     } else if (this->actor.params > REDEAD_TYPE_DOES_NOT_MOURN_IF_WALKING) {
@@ -430,11 +464,11 @@ void EnRd_WalkToHome(EnRd* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
+    if (!(player->stateFlags1 & (PLAYER_STATE1_DEAD | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
                                  PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
         !(player->stateFlags2 & PLAYER_STATE2_7) &&
         (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
-        this->actor.targetMode = 0;
+        this->actor.attentionRangeType = ATTENTION_RANGE_0;
         EnRd_SetupWalkToPlayer(this, play);
     } else if (this->actor.params > REDEAD_TYPE_DOES_NOT_MOURN_IF_WALKING) {
         if (this->actor.parent != NULL) {
@@ -579,8 +613,8 @@ void EnRd_Grab(EnRd* this, PlayState* play) {
             if (!LINK_IS_ADULT) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0, 1.0f, 400.0f, 0.0f);
             }
-            this->actor.targetMode = 0;
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.attentionRangeType = ATTENTION_RANGE_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->playerStunWaitTimer = 0xA;
             this->grabWaitTimer = 0xF;
             EnRd_SetupWalkToPlayer(this, play);
@@ -606,7 +640,9 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
         if (!(this->rdFlags & 0x80)) {
             player->actor.freezeTimer = 60;
             Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
-            func_8008EEAC(play, &this->actor);
+
+            // The same note mentioned with this function call in `EnRd_WalkToPlayer` applies here too
+            Player_SetAutoLockOnActor(play, &this->actor);
         }
 
         Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_AIM);
@@ -650,7 +686,7 @@ void EnRd_SetupDamaged(EnRd* this) {
         this->actor.speed = -2.0f;
     }
 
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_DAMAGE);
     this->action = REDEAD_ACTION_DAMAGED;
     EnRd_SetupAction(this, EnRd_Damaged);
@@ -685,7 +721,7 @@ void EnRd_SetupDead(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gGibdoRedeadDeathAnim, -1.0f);
     this->action = REDEAD_ACTION_DEAD;
     this->timer = 300;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_DEAD);
     EnRd_SetupAction(this, EnRd_Dead);
@@ -733,7 +769,7 @@ void EnRd_SetupStunned(EnRd* this) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, COLORFILTER_INTENSITY_FLAG | 200,
                              COLORFILTER_BUFFLAG_OPA, 255);
-    } else if (this->damageEffect == REDEAD_DMGEFF_HOOKSHOT) {
+    } else if (this->damageReaction == REDEAD_DMG_REACT_HOOKSHOT) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_PlaySfx(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
@@ -800,7 +836,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        this->damageEffect = this->actor.colChkInfo.damageEffect;
+        this->damageReaction = this->actor.colChkInfo.damageReaction;
 
         if (this->action != REDEAD_ACTION_RISE_FROM_COFFIN) {
             Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
@@ -808,9 +844,10 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
                 this->unk_31D = player->unk_845;
             }
 
-            if ((this->damageEffect != REDEAD_DMGEFF_NONE) && (this->damageEffect != REDEAD_DMGEFF_ICE_MAGIC)) {
-                if (((this->damageEffect == REDEAD_DMGEFF_HOOKSHOT) ||
-                     (this->damageEffect == REDEAD_DMGEFF_LIGHT_MAGIC)) &&
+            if ((this->damageReaction != REDEAD_DMG_REACT_NONE) &&
+                (this->damageReaction != REDEAD_DMG_REACT_ICE_MAGIC)) {
+                if (((this->damageReaction == REDEAD_DMG_REACT_HOOKSHOT) ||
+                     (this->damageReaction == REDEAD_DMG_REACT_LIGHT_MAGIC)) &&
                     (this->action != REDEAD_ACTION_STUNNED)) {
                     Actor_ApplyDamage(&this->actor);
                     EnRd_SetupStunned(this);
@@ -820,7 +857,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
                 this->stunnedBySunsSong = false;
                 this->sunsSongStunTimer = 0;
 
-                if (this->damageEffect == REDEAD_DMGEFF_FIRE_MAGIC) {
+                if (this->damageReaction == REDEAD_DMG_REACT_FIRE_MAGIC) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 80);
                     this->fireTimer = 40;
                 } else {
@@ -852,8 +889,8 @@ void EnRd_Update(Actor* thisx, PlayState* play) {
         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
 
-    if (this->damageEffect != REDEAD_DMGEFF_ICE_MAGIC &&
-        ((this->action != REDEAD_ACTION_RISE_FROM_COFFIN) || (this->damageEffect != REDEAD_DMGEFF_FIRE_MAGIC))) {
+    if (this->damageReaction != REDEAD_DMG_REACT_ICE_MAGIC &&
+        ((this->action != REDEAD_ACTION_RISE_FROM_COFFIN) || (this->damageReaction != REDEAD_DMG_REACT_FIRE_MAGIC))) {
         if (this->playerStunWaitTimer != 0) {
             this->playerStunWaitTimer--;
         }
@@ -993,8 +1030,6 @@ void EnRd_Draw(Actor* thisx, PlayState* play) {
 
         func_80033C30(&thisPos, &sShadowScale, this->alpha, play);
     }
-
-    if (1) {}
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_rd.c", 1735);
 }

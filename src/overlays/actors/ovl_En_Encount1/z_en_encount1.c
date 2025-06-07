@@ -1,8 +1,20 @@
 #include "z_en_encount1.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
+#include "overlays/actors/ovl_En_Reeba/z_en_reeba.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_27)
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "stack_pad.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "debug_display.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 void EnEncount1_Init(Actor* thisx, PlayState* play);
 void EnEncount1_Update(Actor* thisx, PlayState* play);
@@ -14,7 +26,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play);
 static s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
 static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
-ActorInit En_Encount1_InitVars = {
+ActorProfile En_Encount1_Profile = {
     /**/ ACTOR_EN_ENCOUNT1,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -33,20 +45,19 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
 
     if (this->actor.params <= 0) {
         PRINTF("\n\n");
-        // "Input error death!"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Input error death! ☆☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Input error death! ☆☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Input error death! ☆☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Input error death! ☆☆☆☆☆ \n") VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Input error death! ☆☆☆☆☆ \n") VT_RST);
         PRINTF("\n\n");
         Actor_Kill(&this->actor);
         return;
     }
 
-    this->spawnType = (this->actor.params >> 0xB) & 0x1F;
-    this->maxCurSpawns = (this->actor.params >> 6) & 0x1F;
-    this->maxTotalSpawns = this->actor.params & 0x3F;
+    this->spawnType = PARAMS_GET_U(this->actor.params, 11, 5);
+    this->maxCurSpawns = PARAMS_GET_U(this->actor.params, 6, 5);
+    this->maxTotalSpawns = PARAMS_GET_U(this->actor.params, 0, 6);
     this->curNumSpawn = this->totalNumSpawn = 0;
     spawnRange = 120.0f + (40.0f * this->actor.world.rot.z);
     this->spawnRange = spawnRange;
@@ -54,19 +65,20 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
     if (1) {}
 
     PRINTF("\n\n");
-    // "It's an enemy spawner!"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 敵発生ゾーンでた！ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    // "Type"
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 種類\t\t   ☆☆☆☆☆ %d\n" VT_RST, this->spawnType);
-    // "Maximum number of simultaneous spawns"
-    PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 最大同時発生数     ☆☆☆☆☆ %d\n" VT_RST, this->maxCurSpawns);
-    // "Maximum number of spawns"
-    PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 最大発生数  \t   ☆☆☆☆☆ %d\n" VT_RST, this->maxTotalSpawns);
-    // "Spawn check range"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生チェック範囲   ☆☆☆☆☆ %f\n" VT_RST, this->spawnRange);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 敵発生ゾーンでた！ ☆☆☆☆☆ %x\n", "☆☆☆☆☆ It's an enemy spawner! ☆☆☆☆☆ %x\n") VT_RST,
+           this->actor.params);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 種類\t\t   ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Type\t\t   ☆☆☆☆☆ %d\n") VT_RST, this->spawnType);
+    PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 最大同時発生数     ☆☆☆☆☆ %d\n",
+                               "☆☆☆☆☆ Maximum number of simultaneous spawns ☆☆☆☆☆ %d\n") VT_RST,
+           this->maxCurSpawns);
+    PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 最大発生数  \t   ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Maximum number of spawns  \t   ☆☆☆☆☆ %d\n")
+               VT_RST,
+           this->maxTotalSpawns);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生チェック範囲   ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Spawn check range  ☆☆☆☆☆ %f\n") VT_RST,
+           this->spawnRange);
     PRINTF("\n\n");
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     switch (this->spawnType) {
         case SPAWNER_LEEVER:
             this->timer = 30;
@@ -165,10 +177,9 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
                         this->maxCurSpawns = (s16)Rand_ZeroFloat(2.99f) + 1;
                     }
                 } else {
-                    // "Cannot spawn!"
-                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Cannot spawn! ☆☆☆☆☆\n") VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Cannot spawn! ☆☆☆☆☆\n") VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Cannot spawn! ☆☆☆☆☆\n") VT_RST);
                     break;
                 }
             }
@@ -204,10 +215,9 @@ void EnEncount1_SpawnTektites(EnEncount1* this, PlayState* play) {
                     this->curNumSpawn++;
                     this->totalNumSpawn++;
                 } else {
-                    // "Cannot spawn!"
-                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Cannot spawn! ☆☆☆☆☆\n") VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Cannot spawn! ☆☆☆☆☆\n") VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Cannot spawn! ☆☆☆☆☆\n") VT_RST);
                 }
             }
         }
@@ -304,10 +314,9 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                     this->totalNumSpawn++;
                 }
             } else {
-                // "Cannot spawn!"
-                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Cannot spawn! ☆☆☆☆☆\n") VT_RST);
+                PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Cannot spawn! ☆☆☆☆☆\n") VT_RST);
+                PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n", "☆☆☆☆☆ Cannot spawn! ☆☆☆☆☆\n") VT_RST);
                 break;
             }
         }
@@ -324,7 +333,7 @@ void EnEncount1_Update(Actor* thisx, PlayState* play) {
 
     this->updateFunc(this, play);
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         if (this->outOfRangeTimer != 0) {
             if ((this->outOfRangeTimer & 1) == 0) {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,

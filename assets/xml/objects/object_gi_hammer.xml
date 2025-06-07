@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_hammer" Segment="6">
+        <Array Name="gGiHammerVtx" Count="157" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiHammerDL" Offset="0x09D0"/>
     </File>
 </Root>

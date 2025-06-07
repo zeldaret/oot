@@ -2,13 +2,13 @@
 #define Z_EN_WF_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnWf;
 
-typedef void (*EnWfActionFunc)(struct EnWf*, PlayState*);
+typedef void (*EnWfActionFunc)(struct EnWf*, struct PlayState*);
 
-typedef enum {
+typedef enum EnWfLimb {
     /*  0 */ WOLFOS_LIMB_NONE,
     /*  1 */ WOLFOS_LIMB_ROOT,
     /*  2 */ WOLFOS_LIMB_BACK_LEFT_THIGH,
@@ -34,7 +34,7 @@ typedef enum {
     /* 22 */ WOLFOS_LIMB_MAX
 } EnWfLimb;
 
-typedef enum {
+typedef enum EnWfAction {
     /*  0 */ WOLFOS_ACTION_WAIT_TO_APPEAR,
     /*  2 */ WOLFOS_ACTION_DIE = 2,
     /*  3 */ WOLFOS_ACTION_DAMAGED,
@@ -63,7 +63,7 @@ typedef struct EnWf {
     /* 0x02E0 */ s16 unk_2E0; // Used, but has no effect
     /* 0x02E2 */ s16 unk_2E2;
     /* 0x02E4 */ s16 fireTimer;
-    /* 0x02E6 */ u8 damageEffect;
+    /* 0x02E6 */ u8 damageReaction;
     /* 0x02E8 */ s32 actionTimer; // Used to make an action last for a certain amount of time
     /* 0x02EC */ f32 runSpeed;
     /* 0x02F0 */ char unk_2F0[4];
@@ -74,16 +74,16 @@ typedef struct EnWf {
     /* 0x02FE */ s16 runAngle;
     /* 0x0300 */ s16 unk_300; // Set, but ineffectual (see comment in Draw)
     /* 0x0302 */ u8 eyeIndex;
-    /* 0x0304 */ ColliderJntSph colliderSpheres;
-    /* 0x0324 */ ColliderJntSphElement colliderSpheresElements[4];
-    /* 0x0424 */ ColliderCylinder colliderCylinderBody;
-    /* 0x0470 */ ColliderCylinder colliderCylinderTail;
+    /* 0x0304 */ ColliderJntSph colliderJntSph;
+    /* 0x0324 */ ColliderJntSphElement colliderJntSphElements[4];
+    /* 0x0424 */ ColliderCylinder bodyColliderCylinder;
+    /* 0x0470 */ ColliderCylinder tailColliderCylinder;
     /* 0x04BC */ Vec3f unk_4BC;
     /* 0x04C8 */ Vec3f unk_4C8;
     /* 0x04D4 */ Vec3s unk_4D4;
 } EnWf; // size = 0x04DC
 
-typedef enum {
+typedef enum EnWfType {
     /* 0 */ WOLFOS_NORMAL,
     /* 1 */ WOLFOS_WHITE
 } EnWfType;

@@ -2,13 +2,13 @@
 #define Z_EN_TR_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnTr;
 
-typedef void (*EnTrActionFunc)(struct EnTr*, PlayState*);
+typedef void (*EnTrActionFunc)(struct EnTr*, struct PlayState*);
 
-typedef enum {
+typedef enum KotakeKoumeLimb {
     /*  0 */ KOTAKE_KOUME_LIMB_NONE,
     /*  1 */ KOTAKE_KOUME_LIMB_PELVIS,
     /*  2 */ KOTAKE_KOUME_LIMB_LEFT_THIGH,
@@ -53,7 +53,7 @@ typedef struct EnTr {
     /* 0x02E4 */ AnimationHeader* animation;
 } EnTr; // size = 0x02E8
 
-typedef enum {
+typedef enum TwinrovaType {
     /* 0 */ TR_KOUME,
     /* 1 */ TR_KOTAKE
 } TwinrovaType;

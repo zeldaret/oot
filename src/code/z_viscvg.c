@@ -20,7 +20,9 @@
  * before the filter is applied.
  */
 
-#include "global.h"
+#include "gfx.h"
+#include "attributes.h"
+#include "vis.h"
 
 /**
  * Draws only coverage: does not retain any of the original pixel RGB, primColor is used as background color.

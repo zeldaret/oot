@@ -1,13 +1,13 @@
 <Root>
     <File Name="object_bv" Segment="6">
         <!-- Boss title card -->
-        <Texture Name="gBarinadeTitleCardTex" OutName="barinade_title_card" Format="ia8" Width="128" Height="80" Offset="0x1230"/>
+        <Texture Name="gBarinadeTitleCardTex" Format="ia8" Width="128" Height="80" Offset="0x1230"/>
 
         <Skeleton Name="gBarinadeBodySkel" Type="Normal" LimbType="Standard" Offset="0x14718"/>
         <Skeleton Name="gBarinadeSupportSkel" Type="Flex" LimbType="Standard" Offset="0x16098"/>
         <Skeleton Name="gBarinadeZapperSkel" Type="Flex" LimbType="Standard" Offset="0x185A0"/>
         <Skeleton Name="gBarinadeStumpSkel" Type="Flex" LimbType="Standard" Offset="0x17470"/>
-        <Skeleton Name="gBarinadeBariSkel" Type="Normal" LimbType="Standard" Offset="0x3A70"/>
+        <Skeleton Name="gBarinadeBariSkel" Type="Flex" LimbType="Standard" Offset="0x3A70"/>
         <Skeleton Name="gBarinadeCutSupportSkel" Type="Flex" LimbType="Standard" Offset="0x16BC8"/>
 
         <Animation Name="gBarinadeBodyAnim" Offset="0x3D84"/> <!-- Body anim 1-->

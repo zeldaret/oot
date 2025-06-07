@@ -1,12 +1,27 @@
 <Root>
     <File Name="object_haka_door" Segment="6">
-        <Texture Name="object_haka_door_Tex_000000" OutName="tex_00000000" Format="rgba16" Width="32" Height="64" Offset="0x0"/>
+        <Texture Name="object_haka_door_Tex_000000" Format="rgba16" Width="32" Height="64" Offset="0x0"/>
+        <Array Name="gShadowDoorLeftVtx" Count="17" Offset="0x1000">
+            <Vtx/>
+        </Array>
+        <Array Name="gShadowDoorRightVtx" Count="17" Offset="0x1110">
+            <Vtx/>
+        </Array>
+        <Array Name="object_haka_door_Vtx_001220" Count="15" Offset="0x1220">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_door_DL_001310" Offset="0x1310"/>
         <DList Name="gShadowDoorLeftDL" Offset="0x13B8"/>
         <DList Name="gShadowDoorRightDL" Offset="0x1420"/>
-        <Texture Name="object_haka_door_Tex_001490" OutName="tex_00001490" Format="rgba16" Width="32" Height="64" Offset="0x1490"/>
+        <Texture Name="object_haka_door_Tex_001490" Format="rgba16" Width="32" Height="64" Offset="0x1490"/>
+        <Array Name="object_haka_door_Vtx_002490" Count="25" Offset="0x2490">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_door_DL_002620" Offset="0x2620"/>
-        <Texture Name="object_haka_door_Tex_002700" OutName="tex_00002700" Format="rgba16" Width="32" Height="64" Offset="0x2700"/>
+        <Texture Name="object_haka_door_Tex_002700" Format="rgba16" Width="32" Height="64" Offset="0x2700"/>
+        <Array Name="object_haka_door_Vtx_003700" Count="25" Offset="0x3700">
+            <Vtx/>
+        </Array>
         <DList Name="object_haka_door_DL_003890" Offset="0x3890"/>
     </File>
 </Root>

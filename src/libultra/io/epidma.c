@@ -1,8 +1,8 @@
-#include "global.h"
+#include "ultra64.h"
 #include "ultra64/internal.h"
 
 s32 osEPiStartDma(OSPiHandle* handle, OSIoMesg* mb, s32 direction) {
-    s32 ret;
+    register s32 ret;
 
     if (!__osPiDevMgr.active) {
         return -1;

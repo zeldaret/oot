@@ -32,7 +32,10 @@
  * again ignored by the RenderMode.
  */
 
-#include "global.h"
+#include "gfx.h"
+#include "attributes.h"
+#include "stack_pad.h"
+#include "vis.h"
 
 // Height of the fragments the z-buffer is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into TMEM.
@@ -66,6 +69,7 @@ void VisZBuf_Destroy(UNUSED VisZBuf* this) {
 
 void VisZBuf_Draw(VisZBuf* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
+    STACK_PAD(s32);
     u16* zbufFrag = D_0E000000;
     s32 fmt;
     s32 y;

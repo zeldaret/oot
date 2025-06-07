@@ -5,16 +5,19 @@
  */
 
 #include "z_bg_gnd_nisekabe.h"
+
+#include "play_state.h"
+
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgGndNisekabe_Init(Actor* thisx, PlayState* play);
 void BgGndNisekabe_Destroy(Actor* thisx, PlayState* play);
 void BgGndNisekabe_Update(Actor* thisx, PlayState* play);
 void BgGndNisekabe_Draw(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Gnd_Nisekabe_InitVars = {
+ActorProfile Bg_Gnd_Nisekabe_Profile = {
     /**/ ACTOR_BG_GND_NISEKABE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -30,7 +33,7 @@ void BgGndNisekabe_Init(Actor* thisx, PlayState* play) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
 
     Actor_SetScale(&this->actor, 0.1);
-    this->actor.uncullZoneForward = 3000.0;
+    this->actor.cullingVolumeDistance = 3000.0;
 }
 
 void BgGndNisekabe_Destroy(Actor* thisx, PlayState* play) {
@@ -53,9 +56,9 @@ void BgGndNisekabe_Draw(Actor* thisx, PlayState* play) {
         gGanonsCastleScrubsFakeWallDL,
     };
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
-    u32 index = this->actor.params & 0xFF;
+    u32 index = PARAMS_GET_U(this->actor.params, 0, 8);
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, dLists[index]);
     } else {
         Gfx_DrawDListOpa(play, dLists[index]);

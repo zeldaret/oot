@@ -2,7 +2,8 @@
 #define Z_EN_LIGHT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "light.h"
 
 struct EnLight;
 

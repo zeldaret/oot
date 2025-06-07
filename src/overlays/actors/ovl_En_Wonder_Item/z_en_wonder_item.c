@@ -5,7 +5,19 @@
  */
 
 #include "z_en_wonder_item.h"
+
+#include "attributes.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "debug_display.h"
+#include "play_state.h"
+#include "player.h"
 
 #define FLAGS 0
 
@@ -23,7 +35,7 @@ void EnWonderItem_RollDrop(EnWonderItem* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -31,7 +43,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -41,7 +53,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 30, 0, { 0, 0, 0 } },
 };
 
-ActorInit En_Wonder_Item_InitVars = {
+ActorProfile En_Wonder_Item_Profile = {
     /**/ ACTOR_EN_WONDER_ITEM,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -53,7 +65,7 @@ ActorInit En_Wonder_Item_InitVars = {
     /**/ NULL,
 };
 
-#pragma increment_block_number 1
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0"
 
 static Vec3f sTagPointsFree[9];
 static Vec3f sTagPointsOrdered[9];
@@ -120,17 +132,18 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
     s16 tagIndex;
 
     PRINTF("\n\n");
-    // "Mysterious mystery, very mysterious"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n",
+                             "☆☆☆☆☆ Mysterious mystery, very mysterious \t   ☆☆☆☆☆ %x\n") VT_RST,
+           this->actor.params);
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
-    this->wonderMode = (this->actor.params >> 0xB) & 0x1F;
-    this->itemDrop = (this->actor.params >> 6) & 0x1F;
-    this->switchFlag = this->actor.params & 0x3F;
+    this->wonderMode = PARAMS_GET_U(this->actor.params, 11, 5);
+    this->itemDrop = PARAMS_GET_U(this->actor.params, 6, 5);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
-    this->actor.targetMode = 1;
+    this->actor.attentionRangeType = ATTENTION_RANGE_1;
     if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         Actor_Kill(&this->actor);
@@ -228,7 +241,7 @@ void EnWonderItem_MultitagFree(EnWonderItem* this, PlayState* play) {
                 return;
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (BREG(0) != 0) {
                 DebugDisplay_AddObject(sTagPointsFree[i].x, sTagPointsFree[i].y, sTagPointsFree[i].z,
                                        this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
@@ -305,7 +318,7 @@ void EnWonderItem_MultitagOrdered(EnWonderItem* this, PlayState* play) {
                 }
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (BREG(0) != 0) {
                 DebugDisplay_AddObject(sTagPointsOrdered[i].x, sTagPointsOrdered[i].y, sTagPointsOrdered[i].z,
                                        this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
@@ -328,8 +341,8 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HEISHI2, this->actor.world.pos.x, this->actor.world.pos.y,
                         this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0, 9) != NULL) {
-            // "Careless soldier spawned"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Careless soldier spawned ☆☆☆☆☆ \n")
+                       VT_RST);
         }
         if (this->switchFlag >= 0) {
             Flags_SetSwitch(play, this->switchFlag);
@@ -374,7 +387,7 @@ void EnWonderItem_Update(Actor* thisx, PlayState* play) {
         colorIndex = 0;
     }
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, debugArrowColors[colorIndex], debugArrowColors[colorIndex + 1],

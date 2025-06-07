@@ -5,15 +5,33 @@
  */
 
 #include "z_obj_switch.h"
-#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define OBJSWITCH_TYPE(thisx) ((thisx)->params & 7)
-#define OBJSWITCH_SUBTYPE(thisx) (((thisx)->params >> 4) & 7)
-#define OBJSWITCH_SWITCH_FLAG(thisx) (((thisx)->params >> 8) & 0x3F)
-#define OBJSWITCH_FROZEN(thisx) (((thisx)->params >> 7) & 1)
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
+
+#define OBJSWITCH_TYPE(thisx) PARAMS_GET_U((thisx)->params, 0, 3)
+#define OBJSWITCH_SUBTYPE(thisx) PARAMS_GET_U((thisx)->params, 4, 3)
+#define OBJSWITCH_SWITCH_FLAG(thisx) PARAMS_GET_U((thisx)->params, 8, 6)
+#define OBJSWITCH_FROZEN(thisx) PARAMS_GET_U((thisx)->params, 7, 1)
+
 #define OBJSWITCH_FROZEN_FLAG (1 << 7)
 
 void ObjSwitch_Init(Actor* thisx, PlayState* play);
@@ -50,7 +68,7 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play);
 void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, PlayState* play);
 
-ActorInit Obj_Switch_InitVars = {
+ActorProfile Obj_Switch_Profile = {
     /**/ ACTOR_OBJ_SWITCH,
     /**/ ACTORCAT_SWITCH,
     /**/ FLAGS,
@@ -73,7 +91,7 @@ static f32 sFocusHeights[] = {
 static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
             ATELEM_NONE,
@@ -84,7 +102,7 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
             ATELEM_NONE,
@@ -97,7 +115,7 @@ static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
 
 static ColliderTrisInit sRustyFloorTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -111,7 +129,7 @@ static ColliderTrisInit sRustyFloorTrisInit = {
 static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK4,
+            ELEM_MATERIAL_UNK4,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
             ATELEM_NONE,
@@ -122,7 +140,7 @@ static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x0001F824, 0x00, 0x00 },
             ATELEM_NONE,
@@ -135,7 +153,7 @@ static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
 
 static ColliderTrisInit sEyeTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -146,10 +164,10 @@ static ColliderTrisInit sEyeTrisInit = {
     sEyeTrisElementsInit,
 };
 
-static ColliderJntSphElementInit sCrystalJntSphElementInit[1] = {
+static ColliderJntSphElementInit sCrystalJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xEFC1FFFE, 0x00, 0x00 },
             ATELEM_NONE,
@@ -162,22 +180,22 @@ static ColliderJntSphElementInit sCrystalJntSphElementInit[1] = {
 
 static ColliderJntSphInit sCrystalJntSphInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(sCrystalJntSphElementInit),
-    sCrystalJntSphElementInit,
+    ARRAY_COUNT(sCrystalJntSphElementsInit),
+    sCrystalJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_STOP),
 };
 
 void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 rotY) {
@@ -197,22 +215,22 @@ void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* c
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         STACK_PAD(s32);
 
-        // "Warning : move BG registration failure"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_switch.c", 531,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_obj_switch.c", 531, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
 
 void ObjSwitch_InitJntSphCollider(ObjSwitch* this, PlayState* play, ColliderJntSphInit* colliderJntSphInit) {
-    ColliderJntSph* colliderJntSph = &this->jntSph.col;
+    ColliderJntSph* colliderJntSph = &this->jntSph.collider;
 
     Collider_InitJntSph(play, colliderJntSph);
-    Collider_SetJntSph(play, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.items);
+    Collider_SetJntSph(play, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.colliderElements);
     Matrix_SetTranslateRotateYXZ(this->dyna.actor.world.pos.x,
                                  this->dyna.actor.world.pos.y +
                                      this->dyna.actor.shape.yOffset * this->dyna.actor.scale.y,
@@ -222,13 +240,13 @@ void ObjSwitch_InitJntSphCollider(ObjSwitch* this, PlayState* play, ColliderJntS
 }
 
 void ObjSwitch_InitTrisCollider(ObjSwitch* this, PlayState* play, ColliderTrisInit* colliderTrisInit) {
-    ColliderTris* colliderTris = &this->tris.col;
+    ColliderTris* colliderTris = &this->tris.collider;
     s32 i;
     s32 j;
     Vec3f pos[3];
 
     Collider_InitTris(play, colliderTris);
-    Collider_SetTris(play, colliderTris, &this->dyna.actor, colliderTrisInit, this->tris.items);
+    Collider_SetTris(play, colliderTris, &this->dyna.actor, colliderTrisInit, this->tris.colliderElements);
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
@@ -290,11 +308,8 @@ void ObjSwitch_UpdateTwoTexScrollXY(ObjSwitch* this) {
 
 void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     ObjSwitch* this = (ObjSwitch*)thisx;
-    s32 isSwitchFlagSet;
-    s32 type;
-
-    isSwitchFlagSet = Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor));
-    type = OBJSWITCH_TYPE(&this->dyna.actor);
+    s32 isSwitchFlagSet = Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor));
+    s32 type = OBJSWITCH_TYPE(&this->dyna.actor);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         ObjSwitch_InitDynaPoly(this, play, &gFloorSwitchCol, DYNA_TRANSFORM_POS);
@@ -317,16 +332,16 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     }
 
     if (type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
-        this->dyna.actor.flags |= ACTOR_FLAG_0;
-        this->dyna.actor.targetMode = 4;
+        this->dyna.actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
+        this->dyna.actor.attentionRangeType = ATTENTION_RANGE_4;
     }
 
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     if (OBJSWITCH_FROZEN(&this->dyna.actor) && (ObjSwitch_SpawnIce(this, play) == NULL)) {
-        PRINTF(VT_FGCOL(RED));
-        PRINTF("Error : 氷発生失敗 (%s %d)\n", "../z_obj_switch.c", 732);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_RED();
+        PRINTF(T("Error : 氷発生失敗 (%s %d)\n", "Error : Ice failed to spawn (%s %d)\n"), "../z_obj_switch.c", 732);
+        PRINTF_RST();
         this->dyna.actor.params &= ~OBJSWITCH_FROZEN_FLAG;
     }
 
@@ -370,12 +385,12 @@ void ObjSwitch_Destroy(Actor* thisx, PlayState* play) {
     switch (OBJSWITCH_TYPE(&this->dyna.actor)) {
         case OBJSWITCH_TYPE_FLOOR_RUSTY:
         case OBJSWITCH_TYPE_EYE:
-            Collider_DestroyTris(play, &this->tris.col);
+            Collider_DestroyTris(play, &this->tris.collider);
             break;
 
         case OBJSWITCH_TYPE_CRYSTAL:
         case OBJSWITCH_TYPE_CRYSTAL_TARGETABLE:
-            Collider_DestroyJntSph(play, &this->jntSph.col);
+            Collider_DestroyJntSph(play, &this->jntSph.collider);
             break;
     }
 }
@@ -387,12 +402,12 @@ void ObjSwitch_FloorUpInit(ObjSwitch* this) {
 
 void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
     if (OBJSWITCH_TYPE(&this->dyna.actor) == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        if (this->tris.col.base.acFlags & AC_HIT) {
+        if (this->tris.collider.base.acFlags & AC_HIT) {
             ObjSwitch_FloorPressInit(this);
             ObjSwitch_SetOn(this, play);
-            this->tris.col.base.acFlags &= ~AC_HIT;
+            this->tris.collider.base.acFlags &= ~AC_HIT;
         } else {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.col.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.collider.base);
         }
     } else {
         switch (OBJSWITCH_SUBTYPE(&this->dyna.actor)) {
@@ -412,14 +427,14 @@ void ObjSwitch_FloorUp(ObjSwitch* this, PlayState* play) {
                 break;
 
             case OBJSWITCH_SUBTYPE_HOLD:
-                if (func_800435B4(&this->dyna)) {
+                if (DynaPolyActor_IsSwitchPressed(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOn(this, play);
                 }
                 break;
 
             case OBJSWITCH_SUBTYPE_HOLD_INVERTED:
-                if (func_800435B4(&this->dyna)) {
+                if (DynaPolyActor_IsSwitchPressed(&this->dyna)) {
                     ObjSwitch_FloorPressInit(this);
                     ObjSwitch_SetOff(this, play);
                 }
@@ -469,7 +484,7 @@ void ObjSwitch_FloorDown(ObjSwitch* this, PlayState* play) {
 
         case OBJSWITCH_SUBTYPE_HOLD:
         case OBJSWITCH_SUBTYPE_HOLD_INVERTED:
-            if (!func_800435B4(&this->dyna) && !Player_InCsMode(play)) {
+            if (!DynaPolyActor_IsSwitchPressed(&this->dyna) && !Player_InCsMode(play)) {
                 if (this->releaseTimer <= 0) {
                     ObjSwitch_FloorReleaseInit(this);
                     if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_HOLD) {
@@ -511,8 +526,8 @@ s32 ObjSwitch_EyeIsHit(ObjSwitch* this) {
     Actor* collidingActor;
     s16 yawDiff;
 
-    if ((this->tris.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT)) {
-        collidingActor = this->tris.col.base.ac;
+    if ((this->tris.collider.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT)) {
+        collidingActor = this->tris.collider.base.ac;
         if (collidingActor != NULL) {
             yawDiff = collidingActor->world.rot.y - this->dyna.actor.shape.rot.y;
             if (ABS(yawDiff) > 0x5000) {
@@ -615,7 +630,7 @@ void ObjSwitch_CrystalOffInit(ObjSwitch* this) {
 void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
     switch (OBJSWITCH_SUBTYPE(&this->dyna.actor)) {
         case OBJSWITCH_SUBTYPE_ONCE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) {
+            if ((this->jntSph.collider.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
                 ObjSwitch_CrystalTurnOnInit(this);
@@ -623,7 +638,7 @@ void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_SYNC:
-            if (((this->jntSph.col.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) ||
+            if (((this->jntSph.collider.base.acFlags & AC_HIT) && this->disableAcTimer <= 0) ||
                 Flags_GetSwitch(play, OBJSWITCH_SWITCH_FLAG(&this->dyna.actor))) {
 
                 this->disableAcTimer = 10;
@@ -633,7 +648,7 @@ void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
+            if ((this->jntSph.collider.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
                 this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
@@ -677,7 +692,7 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play) {
             break;
 
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
+            if ((this->jntSph.collider.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
                 this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_CrystalTurnOffInit(this);
@@ -721,9 +736,9 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
             break;
 
         case OBJSWITCH_TYPE_EYE:
-            this->prevColFlags = this->tris.col.base.acFlags;
-            this->tris.col.base.acFlags &= ~AC_HIT;
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.col.base);
+            this->prevColFlags = this->tris.collider.base.acFlags;
+            this->tris.collider.base.acFlags &= ~AC_HIT;
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->tris.collider.base);
             break;
 
         case OBJSWITCH_TYPE_CRYSTAL:
@@ -731,17 +746,17 @@ void ObjSwitch_Update(Actor* thisx, PlayState* play) {
             if (!Player_InCsMode(play) && this->disableAcTimer > 0) {
                 this->disableAcTimer--;
             }
-            this->prevColFlags = this->jntSph.col.base.acFlags;
-            this->jntSph.col.base.acFlags &= ~AC_HIT;
+            this->prevColFlags = this->jntSph.collider.base.acFlags;
+            this->jntSph.collider.base.acFlags &= ~AC_HIT;
             if (this->disableAcTimer <= 0) {
-                CollisionCheck_SetAC(play, &play->colChkCtx, &this->jntSph.col.base);
+                CollisionCheck_SetAC(play, &play->colChkCtx, &this->jntSph.collider.base);
             }
-            CollisionCheck_SetOC(play, &play->colChkCtx, &this->jntSph.col.base);
+            CollisionCheck_SetOC(play, &play->colChkCtx, &this->jntSph.collider.base);
             break;
     }
 }
 
-void ObjSwitch_DrawFloor(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawFloor(Actor* thisx, PlayState* play) {
     static Gfx* floorSwitchDLists[] = {
         gFloorSwitch1DL, // OBJSWITCH_SUBTYPE_ONCE
         gFloorSwitch3DL, // OBJSWITCH_SUBTYPE_TOGGLE
@@ -749,14 +764,14 @@ void ObjSwitch_DrawFloor(ObjSwitch* this, PlayState* play) {
         gFloorSwitch2DL, // OBJSWITCH_SUBTYPE_HOLD_INVERTED
     };
 
-    Gfx_DrawDListOpa(play, floorSwitchDLists[OBJSWITCH_SUBTYPE(&this->dyna.actor)]);
+    Gfx_DrawDListOpa(play, floorSwitchDLists[OBJSWITCH_SUBTYPE(thisx)]);
 }
 
-void ObjSwitch_DrawFloorRusty(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawFloorRusty(Actor* thisx, PlayState* play) {
     Gfx_DrawDListOpa(play, gRustyFloorSwitchDL);
 }
 
-void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawEye(Actor* thisx, PlayState* play) {
     static void* eyeTextures[][4] = {
         // OBJSWITCH_SUBTYPE_ONCE
         { gEyeSwitchGoldOpenTex, gEyeSwitchGoldOpeningTex, gEyeSwitchGoldClosingTex, gEyeSwitchGoldClosedTex },
@@ -767,21 +782,20 @@ void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
         gEyeSwitch1DL, // OBJSWITCH_SUBTYPE_ONCE
         gEyeSwitch2DL, // OBJSWITCH_SUBTYPE_TOGGLE
     };
-    STACK_PAD(s32);
+    ObjSwitch* this = (ObjSwitch*)thisx;
     s32 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1459);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1462),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_switch.c", 1462);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[subType][this->eyeTexIndex]));
     gSPDisplayList(POLY_OPA_DISP++, eyeSwitchDLs[subType]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1471);
 }
 
-void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
+void ObjSwitch_DrawCrystal(Actor* thisx, PlayState* play) {
     static Gfx* xluDLists[] = {
         gCrystalSwitchCoreXluDL,    // OBJSWITCH_SUBTYPE_ONCE
         gCrystalSwitchDiamondXluDL, // OBJSWITCH_SUBTYPE_TOGGLE
@@ -796,18 +810,16 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
         NULL,                       // OBJSWITCH_SUBTYPE_HOLD_INVERTED
         gCrystalSwitchCoreOpaDL     // OBJSWITCH_SUBTYPE_SYNC
     };
-    STACK_PADS(s32, 2);
+    ObjSwitch* this = (ObjSwitch*)thisx;
+    STACK_PAD(s32);
     s32 subType = OBJSWITCH_SUBTYPE(&this->dyna.actor);
 
     func_8002ED80(&this->dyna.actor, play, 0);
 
-    if (1) {}
-
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1494);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1497),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_obj_switch.c", 1497);
     gSPDisplayList(POLY_XLU_DISP++, xluDLists[subType]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1502);
@@ -815,8 +827,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1507);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1511),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_obj_switch.c", 1511);
 
     if (subType == OBJSWITCH_SUBTYPE_TOGGLE) {
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(this->crystalSubtype1texture));
@@ -831,7 +842,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1533);
 }
 
-static ObjSwitchActionFunc sDrawFuncs[] = {
+static ObjSwitchDrawFunc sDrawFuncs[] = {
     ObjSwitch_DrawFloor,      // OBJSWITCH_TYPE_FLOOR
     ObjSwitch_DrawFloorRusty, // OBJSWITCH_TYPE_FLOOR_RUSTY
     ObjSwitch_DrawEye,        // OBJSWITCH_TYPE_EYE
@@ -840,7 +851,5 @@ static ObjSwitchActionFunc sDrawFuncs[] = {
 };
 
 void ObjSwitch_Draw(Actor* thisx, PlayState* play) {
-    ObjSwitch* this = (ObjSwitch*)thisx;
-
-    sDrawFuncs[OBJSWITCH_TYPE(&this->dyna.actor)](this, play);
+    sDrawFuncs[OBJSWITCH_TYPE(thisx)](thisx, play);
 }

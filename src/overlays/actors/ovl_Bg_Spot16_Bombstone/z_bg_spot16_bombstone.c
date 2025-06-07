@@ -1,10 +1,30 @@
 #include "z_bg_spot16_bombstone.h"
-#include "assets/objects/object_spot16_obj/object_spot16_obj.h"
-#include "assets/objects/object_bombiwa/object_bombiwa.h"
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_spot16_obj/object_spot16_obj.h"
+#include "assets/objects/object_bombiwa/object_bombiwa.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play);
 void BgSpot16Bombstone_Destroy(Actor* thisx, PlayState* play);
@@ -36,7 +56,7 @@ static s16 D_808B5DD8[][10] = {
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x4FC1FFF6, 0x00, 0x00 },
             ATELEM_NONE,
@@ -49,7 +69,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -62,7 +82,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -70,7 +90,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
         ATELEM_NONE,
@@ -109,7 +129,7 @@ static s16 D_808B5EB0[][7] = {
     { 0x0014, 0x0050, 0x0032, 0x0000, 0x0096, 0x00C8, 0x0008 },
 };
 
-ActorInit Bg_Spot16_Bombstone_InitVars = {
+ActorProfile Bg_Spot16_Bombstone_Profile = {
     /**/ ACTOR_BG_SPOT16_BOMBSTONE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -122,17 +142,17 @@ ActorInit Bg_Spot16_Bombstone_InitVars = {
 };
 
 static InitChainEntry sInitChainBoulder[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 static InitChainEntry sInitChainDebris[] = {
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 static Vec3f sVelocity = { 0.0f, 0.0f, 0.0f };
@@ -144,15 +164,15 @@ static f32 D_808B6074[] = { 66.0f, 51.0f, 48.0f, 36.0f, 21.0f };
 static s16 D_808B6088[] = { 0, 1, 2, 3, 4 };
 
 void func_808B4C30(BgSpot16Bombstone* this) {
-    this->switchFlag = (this->actor.params >> 8) & 0x3F;
-    this->actor.params &= 0xFF;
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 8, 6);
+    this->actor.params = PARAMS_GET_U(this->actor.params, 0, 8);
 }
 
 void func_808B4C4C(BgSpot16Bombstone* this, PlayState* play) {
     STACK_PAD(s32);
 
     Collider_InitJntSph(play, &this->colliderJntSph);
-    Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderElements);
+    Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
     this->colliderJntSph.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
     this->colliderJntSph.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y + 50.0f;
     this->colliderJntSph.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
@@ -171,7 +191,7 @@ void func_808B4D04(BgSpot16Bombstone* this, PlayState* play) {
 
 s32 func_808B4D9C(BgSpot16Bombstone* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
-        PRINTF("Spot16 obj 爆弾石 破壊済み\n");
+        PRINTF(T("Spot16 obj 爆弾石 破壊済み\n", "Spot16 obj Bomb Stone destroyed\n"));
         return false;
     }
     Actor_ProcessInitChain(&this->actor, sInitChainBoulder);
@@ -221,7 +241,8 @@ s32 func_808B4E58(BgSpot16Bombstone* this, PlayState* play) {
     this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_BOMBIWA);
 
     if (this->requiredObjectSlot < 0) {
-        PRINTF("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params, "../z_bg_spot16_bombstone.c", 589);
+        PRINTF(T("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               actor->params, "../z_bg_spot16_bombstone.c", 589);
         return false;
     }
 
@@ -251,10 +272,11 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
             shouldLive = func_808B4E58(this, play);
             break;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         default:
-            PRINTF("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot16_bombstone.c", 668,
-                   this->actor.params);
+            PRINTF(T("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n",
+                     "Error : arg_data is strange (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_bg_spot16_bombstone.c", 668, this->actor.params);
             shouldLive = false;
             break;
 #endif
@@ -264,7 +286,9 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    PRINTF("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x, this->actor.params);
+    PRINTF(
+        T("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", "Spot16 obj Bomb Stone (scaleX %f)(arg_data 0x%04x)\n"),
+        this->actor.scale.x, this->actor.params);
 }
 
 void BgSpot16Bombstone_Destroy(Actor* thisx, PlayState* play) {
@@ -387,8 +411,9 @@ void func_808B56BC(BgSpot16Bombstone* this, PlayState* play) {
                 player->actor.world.pos.x += sinValue * this->sinRotation;
                 player->actor.world.pos.z += sinValue * this->cosRotation;
             } else {
-                PRINTF("Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n", "../z_bg_spot16_bombstone.c", 935,
-                       this->actor.params, adjustedYawDiff);
+                PRINTF(T("Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n",
+                         "Error Can't correct (%s %d)(arg_data 0x%04x)(hosei_angY %x)\n"),
+                       "../z_bg_spot16_bombstone.c", 935, this->actor.params, adjustedYawDiff);
             }
         }
     }
@@ -416,7 +441,7 @@ void func_808B57E0(BgSpot16Bombstone* this, PlayState* play) {
                 OnePointCutscene_Init(play, 4180, sTimer, NULL, CAM_ID_MAIN);
             }
         }
-    } else if (player->stateFlags1 & PLAYER_STATE1_11) {
+    } else if (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
         playerHeldActor = player->heldActor;
         if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVE &&
             playerHeldActor->id == ACTOR_EN_BOMBF) {
@@ -455,7 +480,7 @@ void func_808B5950(BgSpot16Bombstone* this, PlayState* play) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderJntSph.base);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (mREG(64) == 1) {
         func_808B561C(this, play);
         mREG(64) = -10;
@@ -543,8 +568,7 @@ void BgSpot16Bombstone_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257);
 
     if (this->actor.params == 0xFF) {
         // The boulder is intact

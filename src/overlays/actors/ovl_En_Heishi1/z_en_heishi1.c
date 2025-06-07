@@ -5,10 +5,30 @@
  */
 
 #include "z_en_heishi1.h"
-#include "assets/objects/object_sd/object_sd.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/math64.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_sd/object_sd.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnHeishi1_Init(Actor* thisx, PlayState* play2);
 void EnHeishi1_Destroy(Actor* thisx, PlayState* play);
@@ -31,7 +51,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play);
 
 static s32 sPlayerIsCaught = false;
 
-ActorInit En_Heishi1_InitVars = {
+ActorProfile En_Heishi1_Profile = {
     /**/ 0,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -72,34 +92,40 @@ void EnHeishi1_Init(Actor* thisx, PlayState* play2) {
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable, 17);
 
-    this->type = (this->actor.params >> 8) & 0xFF;
-    this->path = this->actor.params & 0xFF;
+    this->type = PARAMS_GET_U(this->actor.params, 8, 8);
+    this->path = PARAMS_GET_U(this->actor.params, 0, 8);
 
     for (i = 0; i < ARRAY_COUNT(sAnimParamsInit[0]); i++) {
         this->animParams[i] = sAnimParamsInit[this->type][i];
     }
 
-    // "type"
-    PRINTF(VT_FGCOL(GREEN) " 種類☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n" VT_RST, this->type);
-    // "path data"
-    PRINTF(VT_FGCOL(YELLOW) " れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n" VT_RST, this->path);
+    PRINTF(VT_FGCOL(GREEN) T(" 種類☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n", " type                   ☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n") VT_RST,
+           this->type);
+    PRINTF(VT_FGCOL(YELLOW) T(" れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n", " rail data                      ☆☆☆☆☆☆☆☆ %d\n") VT_RST,
+           this->path);
     PRINTF(VT_FGCOL(MAGENTA) " anime_frame_speed ☆☆☆☆☆☆ %f\n" VT_RST, this->animSpeed);
-    // "interpolation frame"
-    PRINTF(VT_FGCOL(MAGENTA) " 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n" VT_RST, this->animMorphFrames);
-    // "targeted movement speed value between points"
-    PRINTF(VT_FGCOL(MAGENTA) " point間の移動スピード目標値 ☆ %f\n" VT_RST, this->moveSpeedTarget);
-    // "maximum movement speed value between points"
-    PRINTF(VT_FGCOL(MAGENTA) " point間の移動スピード最大 ☆☆ %f\n" VT_RST, this->moveSpeedMax);
-    // "(body) targeted turning angle speed value"
-    PRINTF(VT_FGCOL(MAGENTA) " (体)反転アングルスピード目標値 %f\n" VT_RST, this->bodyTurnSpeedTarget);
-    // "(body) maximum turning angle speed"
-    PRINTF(VT_FGCOL(MAGENTA) " (体)反転アングルスピード最大☆ %f\n" VT_RST, this->bodyTurnSpeedMax);
-    // "(head) targeted turning angle speed value"
-    PRINTF(VT_FGCOL(MAGENTA) " (頭)反転アングルスピード加算値 %f\n" VT_RST, this->headTurnSpeedScale);
-    // "(head) maximum turning angle speed"
-    PRINTF(VT_FGCOL(MAGENTA) " (頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
-    PRINTF(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, ((void)0, gSaveContext.save.dayTime)); // "current time"
-    PRINTF(VT_FGCOL(YELLOW) " チェック時間 %d\n" VT_RST, CLOCK_TIME(17, 30) - 1);        // "check time"
+    PRINTF(VT_FGCOL(MAGENTA) T(" 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n", " interpolation frame          ☆☆☆☆☆☆☆☆☆ %f\n") VT_RST,
+           this->animMorphFrames);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" point間の移動スピード目標値 ☆ %f\n", " target speed of movement between points    ☆ %f\n") VT_RST,
+           this->moveSpeedTarget);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" point間の移動スピード最大 ☆☆ %f\n", " maximum speed of movement between points ☆☆ %f\n") VT_RST,
+           this->moveSpeedMax);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" (体)反転アングルスピード目標値 %f\n", " (body) reversing angle speed target value    %f\n") VT_RST,
+           this->bodyTurnSpeedTarget);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" (体)反転アングルスピード最大☆ %f\n", " (body) maximum turning angle speed        ☆ %f\n") VT_RST,
+           this->bodyTurnSpeedMax);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" (頭)反転アングルスピード加算値 %f\n", " (head) reverse angle speed additional value  %f\n") VT_RST,
+           this->headTurnSpeedScale);
+    PRINTF(VT_FGCOL(MAGENTA)
+               T(" (頭)反転アングルスピード最大☆ %f\n", " (head) maximum turning angle speed        ☆ %f\n") VT_RST,
+           this->headTurnSpeedMax);
+    PRINTF(VT_FGCOL(GREEN) T(" 今時間 %d\n", " Current time %d\n") VT_RST, ((void)0, gSaveContext.save.dayTime));
+    PRINTF(VT_FGCOL(YELLOW) T(" チェック時間 %d\n", " Check time %d\n") VT_RST, CLOCK_TIME(17, 30) - 1);
     PRINTF("\n\n");
 
     if (this->path == 3) {
@@ -182,12 +208,12 @@ void EnHeishi1_Walk(EnHeishi1* this, PlayState* play) {
 
         Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale, this->headTurnSpeedMax);
 
-        if (OOT_DEBUG && (this->path == BREG(1)) && (BREG(0) != 0)) {
-            PRINTF(VT_FGCOL(RED) " 種類  %d\n" VT_RST, this->path);
-            PRINTF(VT_FGCOL(RED) " ぱす  %d\n" VT_RST, this->waypoint);
-            PRINTF(VT_FGCOL(RED) " 反転  %d\n" VT_RST, this->bodyTurnSpeed);
-            PRINTF(VT_FGCOL(RED) " 時間  %d\n" VT_RST, this->waypointTimer);
-            PRINTF(VT_FGCOL(RED) " 点座  %d\n" VT_RST, path->count);
+        if (DEBUG_FEATURES && (this->path == BREG(1)) && (BREG(0) != 0)) {
+            PRINTF(VT_FGCOL(RED) T(" 種類  %d\n", " Type  %d\n") VT_RST, this->path);
+            PRINTF(VT_FGCOL(RED) T(" ぱす  %d\n", " Path  %d\n") VT_RST, this->waypoint);
+            PRINTF(VT_FGCOL(RED) T(" 反転  %d\n", " Turning around  %d\n") VT_RST, this->bodyTurnSpeed);
+            PRINTF(VT_FGCOL(RED) T(" 時間  %d\n", " Time  %d\n") VT_RST, this->waypointTimer);
+            PRINTF(VT_FGCOL(RED) T(" 点座  %d\n", " Tenza  %d\n") VT_RST, path->count);
             PRINTF("\n\n");
         }
 
@@ -300,11 +326,11 @@ void EnHeishi1_Wait(EnHeishi1* this, PlayState* play) {
         Math_ApproachF(&this->headAngle, this->headAngleTarget, this->headTurnSpeedScale,
                        this->headTurnSpeedMax + this->headTurnSpeedMax);
 
-        if (OOT_DEBUG && (this->path == BREG(1)) && (BREG(0) != 0)) {
-            PRINTF(VT_FGCOL(GREEN) " 種類  %d\n" VT_RST, this->path);
-            PRINTF(VT_FGCOL(GREEN) " ぱす  %d\n" VT_RST, this->waypoint);
-            PRINTF(VT_FGCOL(GREEN) " 反転  %d\n" VT_RST, this->bodyTurnSpeed);
-            PRINTF(VT_FGCOL(GREEN) " 時間  %d\n" VT_RST, this->waypointTimer);
+        if (DEBUG_FEATURES && (this->path == BREG(1)) && (BREG(0) != 0)) {
+            PRINTF(VT_FGCOL(GREEN) T(" 種類  %d\n", " Type  %d\n") VT_RST, this->path);
+            PRINTF(VT_FGCOL(GREEN) T(" ぱす  %d\n", " Path  %d\n") VT_RST, this->waypoint);
+            PRINTF(VT_FGCOL(GREEN) T(" 反転  %d\n", " Turning around  %d\n") VT_RST, this->bodyTurnSpeed);
+            PRINTF(VT_FGCOL(GREEN) T(" 時間  %d\n", " Time  %d\n") VT_RST, this->waypointTimer);
             PRINTF("\n\n");
         }
     }
@@ -346,7 +372,7 @@ void EnHeishi1_Kick(EnHeishi1* this, PlayState* play) {
         if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
             Message_CloseTextbox(play);
             if (!this->loadStarted) {
-                SET_EVENTCHKINF(EVENTCHKINF_4E);
+                SET_EVENTCHKINF(EVENTCHKINF_CAUGHT_BY_CASTLE_GUARDS);
                 play->nextEntranceIndex = ENTR_HYRULE_CASTLE_3;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 this->loadStarted = true;
@@ -371,7 +397,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 100.0f) {
         Message_StartTextbox(play, 0x702D, &this->actor);
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Discovered! ☆☆☆☆☆ \n") VT_RST);
         Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
         this->actionFunc = EnHeishi1_SetupKick;
     }
@@ -404,9 +430,9 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
 
         this->actionFunc(this, play);
 
-        this->actor.uncullZoneForward = 550.0f;
-        this->actor.uncullZoneScale = 350.0f;
-        this->actor.uncullZoneDownward = 700.0f;
+        this->actor.cullingVolumeDistance = 550.0f;
+        this->actor.cullingVolumeScale = 350.0f;
+        this->actor.cullingVolumeDownward = 700.0f;
 
         if (this->type != 5) {
             path = this->path * 2;
@@ -454,8 +480,8 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
                                 // this 60 unit height check is so the player doesn't get caught when on the upper path
                                 if (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 60.0f) {
                                     Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
-                                    // "Discovered!"
-                                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST);
+                                    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Discovered! ☆☆☆☆☆ \n")
+                                               VT_RST);
                                     Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
                                     sPlayerIsCaught = true;
                                     this->actionFunc = EnHeishi1_SetupMoveToLink;
@@ -490,7 +516,7 @@ void EnHeishi1_Draw(Actor* thisx, PlayState* play) {
                       this);
     func_80033C30(&this->actor.world.pos, &matrixScale, 0xFF, play);
 
-    if (OOT_DEBUG && (this->path == BREG(1)) && (BREG(0) != 0)) {
+    if (DEBUG_FEATURES && (this->path == BREG(1)) && (BREG(0) != 0)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y + 100.0f, this->actor.world.pos.z,
                                17000, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0,
                                255, 4, play->state.gfxCtx);

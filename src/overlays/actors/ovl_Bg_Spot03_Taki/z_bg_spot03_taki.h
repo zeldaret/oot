@@ -2,9 +2,9 @@
 #define Z_BG_SPOT03_TAKI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
-typedef enum {
+typedef enum BgSpot03TakiState {
     WATERFALL_CLOSED,
     WATERFALL_OPENING_IDLE,
     WATERFALL_OPENING_ANIMATED,
@@ -14,7 +14,7 @@ typedef enum {
 
 struct BgSpot03Taki;
 
-typedef void (*BgSpot03TakiActionFunc)(struct BgSpot03Taki*, PlayState*);
+typedef void (*BgSpot03TakiActionFunc)(struct BgSpot03Taki*, struct PlayState*);
 
 typedef struct BgSpot03Taki {
     /* 0x0000 */ DynaPolyActor dyna;

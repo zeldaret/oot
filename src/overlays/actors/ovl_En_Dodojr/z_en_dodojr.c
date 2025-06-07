@@ -6,9 +6,22 @@
 
 #include "z_en_dodojr.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_dodojr/object_dodojr.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnDodojr_Init(Actor* thisx, PlayState* play);
 void EnDodojr_Destroy(Actor* thisx, PlayState* play);
@@ -31,7 +44,7 @@ void EnDodojr_DeathSequence(EnDodojr* this, PlayState* play);
 void EnDodojr_WaitFreezeFrames(EnDodojr* this, PlayState* play);
 void EnDodojr_EatBomb(EnDodojr* this, PlayState* play);
 
-ActorInit En_Dodojr_InitVars = {
+ActorProfile En_Dodojr_Profile = {
     /**/ ACTOR_EN_DODOJR,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -45,7 +58,7 @@ ActorInit En_Dodojr_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT6,
+        COL_MATERIAL_HIT6,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -53,7 +66,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFC5FFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -63,7 +76,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 20, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
 void EnDodojr_Init(Actor* thisx, PlayState* play) {
     EnDodojr* this = (EnDodojr*)thisx;
@@ -76,7 +89,7 @@ void EnDodojr_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(4), &sColChkInit);
 
     this->actor.naviEnemyId = NAVI_ENEMY_BABY_DODONGO;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
 
     Actor_SetScale(&this->actor, 0.02f);
 
@@ -203,7 +216,7 @@ void EnDodojr_SetupJumpAttackBounce(EnDodojr* this) {
 
 void EnDodojr_SetupDespawn(EnDodojr* this) {
     this->actor.shape.shadowDraw = NULL;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.home.pos = this->actor.world.pos;
     this->actor.speed = 0.0f;
     this->actor.gravity = -0.8f;
@@ -315,7 +328,7 @@ s32 EnDodojr_IsPlayerWithinAttackRange(EnDodojr* this) {
 
 void EnDodojr_SetupStandardDeathBounce(EnDodojr* this) {
     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_DEAD);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     EnDodojr_SetupFlipBounce(this);
     this->actionFunc = EnDodojr_StandardDeathBounce;
 }
@@ -348,14 +361,14 @@ s32 EnDodojr_CheckDamaged(EnDodojr* this, PlayState* play) {
             this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         }
 
-        if ((this->actor.colChkInfo.damageEffect == 0) && (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction == 0) && (this->actor.colChkInfo.damage != 0)) {
             Enemy_StartFinishingBlow(play, &this->actor);
             this->freezeFrameTimer = 2;
             this->actionFunc = EnDodojr_WaitFreezeFrames;
             return true;
         }
 
-        if ((this->actor.colChkInfo.damageEffect == 1) && (this->actionFunc != EnDodojr_Stunned) &&
+        if ((this->actor.colChkInfo.damageReaction == 1) && (this->actionFunc != EnDodojr_Stunned) &&
             (this->actionFunc != EnDodojr_StunnedBounce)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;
@@ -400,7 +413,7 @@ void EnDodojr_WaitUnderground(EnDodojr* this, PlayState* play) {
                              -10.0f);
             Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_UP);
             this->actor.world.pos.y -= 60.0f;
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.world.rot.x -= 0x4000;
             this->actor.shape.rot.x = this->actor.world.rot.x;
             this->dustPos = this->actor.world.pos;
@@ -477,7 +490,7 @@ void EnDodojr_EatBomb(EnDodojr* this, PlayState* play) {
 void EnDodojr_SwallowBomb(EnDodojr* this, PlayState* play) {
     if (DECR(this->timer) == 0) {
         EnDodojr_DoSwallowedBombEffects(this);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         EnDodojr_SetupFlipBounce(this);
         this->actionFunc = EnDodojr_SwallowedBombDeathBounce;
     }
@@ -535,7 +548,7 @@ void EnDodojr_Stunned(EnDodojr* this, PlayState* play) {
 }
 
 void EnDodojr_JumpAttackBounce(EnDodojr* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     Actor_UpdateVelocityXZGravity(&this->actor);
 
     if (EnDodojr_UpdateBounces(this, play)) {

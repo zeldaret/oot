@@ -2,11 +2,11 @@
 #define Z_EN_VM_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnVm;
 
-typedef void (*EnVmActionFunc)(struct EnVm*, PlayState*);
+typedef void (*EnVmActionFunc)(struct EnVm*, struct PlayState*);
 
 typedef struct EnVm {
     /* 0x0000 */ Actor actor;
@@ -32,7 +32,7 @@ typedef struct EnVm {
     /* 0x0334 */ ColliderQuad colliderQuad2;
 } EnVm; // size = 0x03B4
 
-typedef enum {
+typedef enum BeamosType {
     /* 0x00 */ BEAMOS_LARGE,
     /* 0x01 */ BEAMOS_SMALL
 } BeamosType;

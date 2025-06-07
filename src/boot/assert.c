@@ -1,4 +1,6 @@
-#include "global.h"
+#include "libc64/sprintf.h"
+#include "assert.h"
+#include "fault.h"
 
 NORETURN void __assert(const char* assertion, const char* file, int line) {
     char msg[256];

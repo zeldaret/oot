@@ -2,11 +2,11 @@
 #define Z_EN_JJ_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnJj;
 
-typedef void (*EnJjActionFunc)(struct EnJj*, PlayState*);
+typedef void (*EnJjActionFunc)(struct EnJj*, struct PlayState*);
 
 typedef struct EnJj {
     /* 0x0000 */ DynaPolyActor dyna;
@@ -26,7 +26,7 @@ typedef struct EnJj {
     /* 0x0311 */ u8 extraBlinkTotal;
 } EnJj; // size = 0x0314
 
-typedef enum {
+typedef enum EnJjType {
     /* -1 */ JABUJABU_MAIN = -1, // Head, drawn body, handles updating
     /*  0 */ JABUJABU_COLLISION, // Static collision for body
     /*  1 */ JABUJABU_UNUSED_COLLISION // Shaped like a screen

@@ -2,9 +2,10 @@
 #define Z_EFF_SS_DEAD_DB_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "color.h"
+#include "z_math.h"
 
-typedef struct {
+typedef struct EffectSsDeadDbInitParams {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;

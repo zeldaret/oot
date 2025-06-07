@@ -1,4 +1,12 @@
-#include "global.h"
+#include "gfx.h"
+#include "attributes.h"
+#include "gfx_setupdl.h"
+#include "controller.h"
+#include "regs.h"
+#include "sample_state.h"
+#include "segment_symbols.h"
+#include "dma.h"
+#include "play_state.h"
 
 void Sample_HandleStateChange(SampleState* this) {
     if (CHECK_BTN_ALL(this->state.input[0].press.button, BTN_START)) {
@@ -25,7 +33,7 @@ void Sample_Draw(SampleState* this) {
         Mtx* mtx = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
 
         guPosition(mtx, SREG(37), SREG(38), SREG(39), 1.0f, SREG(40), SREG(41), SREG(42));
-        gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     }
 
     POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, 255, 255, 255, 0, 0, 0);

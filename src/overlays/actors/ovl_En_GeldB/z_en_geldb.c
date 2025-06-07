@@ -5,11 +5,31 @@
  */
 
 #include "z_en_geldb.h"
+
+#include "attributes.h"
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_geldb/object_geldb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
-typedef enum {
+typedef enum EnGeldBAction {
     /*  0 */ GELDB_WAIT,
     /*  1 */ GELDB_DEFEAT,
     /*  2 */ GELDB_DAMAGED,
@@ -69,7 +89,7 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play);
 void EnGeldB_Sidestep(EnGeldB* this, PlayState* play);
 void EnGeldB_Defeated(EnGeldB* this, PlayState* play);
 
-ActorInit En_GeldB_InitVars = {
+ActorProfile En_GeldB_Profile = {
     /**/ ACTOR_EN_GELDB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -81,9 +101,9 @@ ActorInit En_GeldB_InitVars = {
     /**/ EnGeldB_Draw,
 };
 
-static ColliderCylinderInit sBodyCylInit = {
+static ColliderCylinderInit sBodyCylinderInit = {
     {
-        COLTYPE_HIT5,
+        COL_MATERIAL_HIT5,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -91,7 +111,7 @@ static ColliderCylinderInit sBodyCylInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK1,
+        ELEM_MATERIAL_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -104,7 +124,7 @@ static ColliderCylinderInit sBodyCylInit = {
 static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -115,7 +135,7 @@ static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK2,
+            ELEM_MATERIAL_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFC1FFFF, 0x00, 0x00 },
             ATELEM_NONE,
@@ -128,7 +148,7 @@ static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
 
 static ColliderTrisInit sBlockTrisInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_NONE,
         AC_ON | AC_HARD | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -141,7 +161,7 @@ static ColliderTrisInit sBlockTrisInit = {
 
 static ColliderQuadInit sSwordQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -149,7 +169,7 @@ static ColliderQuadInit sSwordQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
@@ -159,52 +179,52 @@ static ColliderQuadInit sSwordQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum {
-    /* 0x0 */ GELDB_DMG_NORMAL,
-    /* 0x1 */ GELDB_DMG_STUN,
-    /* 0x6 */ GELDB_DMG_UNK_6 = 0x6,
-    /* 0xD */ GELDB_DMG_UNK_D = 0xD,
-    /* 0xE */ GELDB_DMG_UNK_E,
-    /* 0xF */ GELDB_DMG_FREEZE
-} EnGeldBDamageEffects;
+typedef enum EnGeldBDamageReaction {
+    /* 0x0 */ GELDB_DMG_REACT_NORMAL,
+    /* 0x1 */ GELDB_DMG_REACT_STUN,
+    /* 0x6 */ GELDB_DMG_REACT_UNK_6 = 0x6,
+    /* 0xD */ GELDB_DMG_REACT_UNK_D = 0xD,
+    /* 0xE */ GELDB_DMG_REACT_UNK_E,
+    /* 0xF */ GELDB_DMG_REACT_FREEZE
+} EnGeldBDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, GELDB_DMG_STUN),
-    /* Deku stick    */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Slingshot     */ DMG_ENTRY(1, GELDB_DMG_NORMAL),
-    /* Explosive     */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Boomerang     */ DMG_ENTRY(0, GELDB_DMG_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Hammer swing  */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Hookshot      */ DMG_ENTRY(0, GELDB_DMG_STUN),
-    /* Kokiri sword  */ DMG_ENTRY(1, GELDB_DMG_NORMAL),
-    /* Master sword  */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Giant's Knife */ DMG_ENTRY(4, GELDB_DMG_NORMAL),
-    /* Fire arrow    */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Ice arrow     */ DMG_ENTRY(2, GELDB_DMG_FREEZE),
-    /* Light arrow   */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Unk arrow 1   */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Unk arrow 2   */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Unk arrow 3   */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Fire magic    */ DMG_ENTRY(4, GELDB_DMG_UNK_E),
-    /* Ice magic     */ DMG_ENTRY(0, GELDB_DMG_UNK_6),
-    /* Light magic   */ DMG_ENTRY(3, GELDB_DMG_UNK_D),
-    /* Shield        */ DMG_ENTRY(0, GELDB_DMG_NORMAL),
-    /* Mirror Ray    */ DMG_ENTRY(0, GELDB_DMG_NORMAL),
-    /* Kokiri spin   */ DMG_ENTRY(1, GELDB_DMG_NORMAL),
-    /* Giant spin    */ DMG_ENTRY(4, GELDB_DMG_NORMAL),
-    /* Master spin   */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Kokiri jump   */ DMG_ENTRY(2, GELDB_DMG_NORMAL),
-    /* Giant jump    */ DMG_ENTRY(8, GELDB_DMG_NORMAL),
-    /* Master jump   */ DMG_ENTRY(4, GELDB_DMG_NORMAL),
-    /* Unknown 1     */ DMG_ENTRY(4, GELDB_DMG_NORMAL),
-    /* Unblockable   */ DMG_ENTRY(0, GELDB_DMG_NORMAL),
-    /* Hammer jump   */ DMG_ENTRY(4, GELDB_DMG_NORMAL),
-    /* Unknown 2     */ DMG_ENTRY(0, GELDB_DMG_NORMAL),
+    /* Deku nut      */ DMG_ENTRY(0, GELDB_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Slingshot     */ DMG_ENTRY(1, GELDB_DMG_REACT_NORMAL),
+    /* Explosive     */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Boomerang     */ DMG_ENTRY(0, GELDB_DMG_REACT_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Hammer swing  */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Hookshot      */ DMG_ENTRY(0, GELDB_DMG_REACT_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, GELDB_DMG_REACT_NORMAL),
+    /* Master sword  */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Giant's Knife */ DMG_ENTRY(4, GELDB_DMG_REACT_NORMAL),
+    /* Fire arrow    */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Ice arrow     */ DMG_ENTRY(2, GELDB_DMG_REACT_FREEZE),
+    /* Light arrow   */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Unk arrow 1   */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Unk arrow 2   */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Unk arrow 3   */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Fire magic    */ DMG_ENTRY(4, GELDB_DMG_REACT_UNK_E),
+    /* Ice magic     */ DMG_ENTRY(0, GELDB_DMG_REACT_UNK_6),
+    /* Light magic   */ DMG_ENTRY(3, GELDB_DMG_REACT_UNK_D),
+    /* Shield        */ DMG_ENTRY(0, GELDB_DMG_REACT_NORMAL),
+    /* Mirror Ray    */ DMG_ENTRY(0, GELDB_DMG_REACT_NORMAL),
+    /* Kokiri spin   */ DMG_ENTRY(1, GELDB_DMG_REACT_NORMAL),
+    /* Giant spin    */ DMG_ENTRY(4, GELDB_DMG_REACT_NORMAL),
+    /* Master spin   */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Kokiri jump   */ DMG_ENTRY(2, GELDB_DMG_REACT_NORMAL),
+    /* Giant jump    */ DMG_ENTRY(8, GELDB_DMG_REACT_NORMAL),
+    /* Master jump   */ DMG_ENTRY(4, GELDB_DMG_REACT_NORMAL),
+    /* Unknown 1     */ DMG_ENTRY(4, GELDB_DMG_REACT_NORMAL),
+    /* Unblockable   */ DMG_ENTRY(0, GELDB_DMG_REACT_NORMAL),
+    /* Hammer jump   */ DMG_ENTRY(4, GELDB_DMG_REACT_NORMAL),
+    /* Unknown 2     */ DMG_ENTRY(0, GELDB_DMG_REACT_NORMAL),
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000, ICHAIN_STOP),
 };
@@ -228,14 +248,14 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.cylRadius = 50;
     thisx->colChkInfo.cylHeight = 100;
     thisx->naviEnemyId = NAVI_ENEMY_GERUDO_THIEF;
-    this->keyFlag = thisx->params & 0xFF00;
+    this->keyFlag = PARAMS_GET_NOSHIFT(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     this->blinkState = 0;
     this->unkFloat = 10.0f;
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, &gGerudoRedNeutralAnim, this->jointTable,
                        this->morphTable, GELDB_LIMB_MAX);
     Collider_InitCylinder(play, &this->bodyCollider);
-    Collider_SetCylinder(play, &this->bodyCollider, thisx, &sBodyCylInit);
+    Collider_SetCylinder(play, &this->bodyCollider, thisx, &sBodyCylinderInit);
     Collider_InitTris(play, &this->blockCollider);
     Collider_SetTris(play, &this->blockCollider, thisx, &sBlockTrisInit, this->blockElements);
     Collider_InitQuad(play, &this->swordCollider);
@@ -334,7 +354,7 @@ s32 EnGeldB_ReactToPlayer(PlayState* play, EnGeldB* this, s16 arg2) {
         } else {
             s16 angleToFacingLink = player->actor.shape.rot.y - thisx->shape.rot.y;
 
-            if ((thisx->xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(play, thisx) &&
+            if ((thisx->xzDistToPlayer <= 45.0f) && !Actor_OtherIsLockedOn(play, thisx) &&
                 ((play->gameplayFrames & 7) || (ABS(angleToFacingLink) < 0x38E0))) {
                 EnGeldB_SetupSlash(this);
                 return true;
@@ -355,7 +375,7 @@ void EnGeldB_SetupWait(EnGeldB* this) {
     this->action = GELDB_WAIT;
     this->actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
     this->actor.gravity = -2.0f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     EnGeldB_SetupAction(this, EnGeldB_Wait);
 }
 
@@ -372,7 +392,7 @@ void EnGeldB_Wait(EnGeldB* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_DOWN);
         this->skelAnime.playSpeed = 1.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         this->actor.velocity.y = 0.0f;
@@ -456,7 +476,7 @@ void EnGeldB_Ready(EnGeldB* this, PlayState* play) {
             if (Actor_IsFacingPlayer(&this->actor, 30 * 0x10000 / 360)) {
                 if ((210.0f > this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 150.0f) &&
                     (Rand_ZeroOne() < 0.3f)) {
-                    if (Actor_OtherIsTargeted(play, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
+                    if (Actor_OtherIsLockedOn(play, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
                         (ABS(angleToLink) < 0x38E0)) {
                         EnGeldB_SetupRollForward(this);
                     } else {
@@ -525,10 +545,10 @@ void EnGeldB_Advance(EnGeldB* this, PlayState* play) {
                 EnGeldB_SetupReady(this);
             }
         } else if (this->actor.xzDistToPlayer < 90.0f) {
-            if (!Actor_OtherIsTargeted(play, &this->actor) &&
+            if (!Actor_OtherIsLockedOn(play, &this->actor) &&
                 (Rand_ZeroOne() > 0.03f || (this->actor.xzDistToPlayer <= 45.0f && facingAngletoLink < 0x38E0))) {
                 EnGeldB_SetupSlash(this);
-            } else if (Actor_OtherIsTargeted(play, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
+            } else if (Actor_OtherIsLockedOn(play, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
                 EnGeldB_SetupRollBack(this);
             } else {
                 EnGeldB_SetupCircle(this);
@@ -537,7 +557,7 @@ void EnGeldB_Advance(EnGeldB* this, PlayState* play) {
         if (!EnGeldB_ReactToPlayer(play, this, 0)) {
             if ((this->actor.xzDistToPlayer < 210.0f) && (this->actor.xzDistToPlayer > 150.0f) &&
                 Actor_IsFacingPlayer(&this->actor, 0x71C)) {
-                if (Actor_IsTargeted(play, &this->actor)) {
+                if (Actor_IsLockedOn(play, &this->actor)) {
                     if (Rand_ZeroOne() > 0.5f) {
                         EnGeldB_SetupRollForward(this);
                     } else {
@@ -588,7 +608,7 @@ void EnGeldB_RollForward(EnGeldB* this, PlayState* play) {
             if (ABS(facingAngleToLink) < 0x38E0) {
                 this->lookTimer = 20;
             }
-        } else if (!Actor_OtherIsTargeted(play, &this->actor) &&
+        } else if (!Actor_OtherIsLockedOn(play, &this->actor) &&
                    (Rand_ZeroOne() > 0.5f || (ABS(facingAngleToLink) < 0x3FFC))) {
             EnGeldB_SetupSlash(this);
         } else {
@@ -728,10 +748,10 @@ void EnGeldB_Circle(EnGeldB* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
         }
         if ((Math_CosS(angleBehindLink - this->actor.shape.rot.y) < -0.85f) &&
-            !Actor_OtherIsTargeted(play, &this->actor) && (this->actor.xzDistToPlayer <= 45.0f)) {
+            !Actor_OtherIsLockedOn(play, &this->actor) && (this->actor.xzDistToPlayer <= 45.0f)) {
             EnGeldB_SetupSlash(this);
         } else if (--this->timer == 0) {
-            if (Actor_OtherIsTargeted(play, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
+            if (Actor_OtherIsLockedOn(play, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
                 EnGeldB_SetupRollBack(this);
             } else {
                 EnGeldB_SetupReady(this);
@@ -827,7 +847,7 @@ void EnGeldB_SpinDodge(EnGeldB* this, PlayState* play) {
     if (this->timer == 0) {
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         if (!EnGeldB_DodgeRanged(play, this)) {
-            if (!Actor_OtherIsTargeted(play, &this->actor) && (this->actor.xzDistToPlayer <= 70.0f)) {
+            if (!Actor_OtherIsLockedOn(play, &this->actor) && (this->actor.xzDistToPlayer <= 70.0f)) {
                 EnGeldB_SetupSlash(this);
             } else {
                 EnGeldB_SetupRollBack(this);
@@ -923,7 +943,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, PlayState* play) {
         } else if (this->swordCollider.base.atFlags & AT_HIT) {
             this->swordCollider.base.atFlags &= ~AT_HIT;
             if (&player->actor == this->swordCollider.base.at) {
-                func_8002F71C(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
+                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
                 this->spinAttackState = 2;
                 Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_24);
                 Message_StartTextbox(play, 0x6003, &this->actor);
@@ -994,7 +1014,7 @@ void EnGeldB_SetupRollBack(EnGeldB* this) {
 
 void EnGeldB_RollBack(EnGeldB* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (!Actor_OtherIsTargeted(play, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
+        if (!Actor_OtherIsLockedOn(play, &this->actor) && (this->actor.xzDistToPlayer < 170.0f) &&
             (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
             EnGeldB_SetupSpinAttack(this);
         } else if (play->gameplayFrames & 1) {
@@ -1012,10 +1032,10 @@ void EnGeldB_SetupStunned(EnGeldB* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speed = 0.0f;
     }
-    if ((this->damageEffect != GELDB_DMG_FREEZE) || (this->action == GELDB_SPIN_ATTACK)) {
+    if ((this->damageReaction != GELDB_DMG_REACT_FREEZE) || (this->action == GELDB_SPIN_ATTACK)) {
         Animation_PlayOnceSetSpeed(&this->skelAnime, &gGerudoRedDamageAnim, 0.0f);
     }
-    if (this->damageEffect == GELDB_DMG_FREEZE) {
+    if (this->damageReaction == GELDB_DMG_REACT_FREEZE) {
         this->iceTimer = 36;
     }
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -1077,7 +1097,7 @@ void EnGeldB_Damaged(EnGeldB* this, PlayState* play) {
             (this->actor.xzDistToPlayer < 90.0f)) {
             EnGeldB_SetupJump(this);
         } else if (!EnGeldB_DodgeRanged(play, this)) {
-            if ((this->actor.xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(play, &this->actor) &&
+            if ((this->actor.xzDistToPlayer <= 45.0f) && !Actor_OtherIsLockedOn(play, &this->actor) &&
                 (play->gameplayFrames & 7)) {
                 EnGeldB_SetupSlash(this);
             } else {
@@ -1114,7 +1134,7 @@ void EnGeldB_Jump(EnGeldB* this, PlayState* play) {
         this->actor.speed = 0.0f;
         this->actor.velocity.y = 0.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
-        if (!Actor_OtherIsTargeted(play, &this->actor)) {
+        if (!Actor_OtherIsLockedOn(play, &this->actor)) {
             EnGeldB_SetupSlash(this);
         } else {
             EnGeldB_SetupReady(this);
@@ -1160,7 +1180,7 @@ void EnGeldB_Block(EnGeldB* this, PlayState* play) {
                 }
             } else {
                 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
-                if (!Actor_OtherIsTargeted(play, &this->actor) &&
+                if (!Actor_OtherIsLockedOn(play, &this->actor) &&
                     ((play->gameplayFrames & 1) || (ABS(angleFacingLink) < 0x38E0))) {
                     EnGeldB_SetupSlash(this);
                 } else {
@@ -1291,12 +1311,12 @@ void EnGeldB_Sidestep(EnGeldB* this, PlayState* play) {
                 s16 angleFacingPlayer2 = player2->actor.shape.rot.y - this->actor.shape.rot.y;
 
                 this->actor.world.rot.y = this->actor.shape.rot.y;
-                if ((this->actor.xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(play, &this->actor) &&
+                if ((this->actor.xzDistToPlayer <= 45.0f) && !Actor_OtherIsLockedOn(play, &this->actor) &&
                     (!(play->gameplayFrames & 3) || (ABS(angleFacingPlayer2) < 0x38E0))) {
                     EnGeldB_SetupSlash(this);
                 } else if ((210.0f > this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 150.0f) &&
                            !(play->gameplayFrames & 1)) {
-                    if (Actor_OtherIsTargeted(play, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
+                    if (Actor_OtherIsLockedOn(play, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
                         (ABS(angleFacingPlayer2) < 0x38E0)) {
                         EnGeldB_SetupRollForward(this);
                     } else {
@@ -1328,7 +1348,7 @@ void EnGeldB_SetupDefeated(EnGeldB* this) {
         this->invisible = true;
     }
     this->action = GELDB_DEFEAT;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     Actor_PlaySfx(&this->actor, NA_SE_EN_GERUDOFT_DEAD);
     EnGeldB_SetupAction(this, EnGeldB_Defeated);
 }
@@ -1372,12 +1392,12 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
     } else if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->action >= GELDB_READY) &&
                (this->spinAttackState < 2)) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
+        if (this->actor.colChkInfo.damageReaction != GELDB_DMG_REACT_UNK_6) {
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
-            if ((this->actor.colChkInfo.damageEffect == GELDB_DMG_STUN) ||
-                (this->actor.colChkInfo.damageEffect == GELDB_DMG_FREEZE)) {
+            if ((this->actor.colChkInfo.damageReaction == GELDB_DMG_REACT_STUN) ||
+                (this->actor.colChkInfo.damageReaction == GELDB_DMG_REACT_FREEZE)) {
                 if (this->action != GELDB_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -1411,7 +1431,7 @@ void EnGeldB_Update(Actor* thisx, PlayState* play) {
     EnGeldB* this = (EnGeldB*)thisx;
 
     EnGeldB_CollisionCheck(this, play);
-    if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
+    if (this->actor.colChkInfo.damageReaction != GELDB_DMG_REACT_UNK_6) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 15.0f, 30.0f, 60.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
@@ -1567,7 +1587,6 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2672);
-    if (1) {}
 
     if ((this->spinAttackState >= 2) && SkelAnime_Update(&this->skelAnime)) {
         if (this->spinAttackState == 2) {

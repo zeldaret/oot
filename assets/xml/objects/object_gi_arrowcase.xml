@@ -1,5 +1,12 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_arrowcase" Segment="6">
+        <Array Name="gGiQuiverInnerVtx" Count="37" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiQuiverOuterVtx" Count="104" Offset="0x250">
+            <Vtx/>
+        </Array>
         <DList Name="gGiQuiver30InnerColorDL" Offset="0x08D0"/>
         <DList Name="gGiQuiver40InnerColorDL" Offset="0x08F0"/>
         <DList Name="gGiQuiver50InnerColorDL" Offset="0x0910"/>

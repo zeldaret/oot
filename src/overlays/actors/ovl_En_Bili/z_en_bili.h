@@ -2,13 +2,13 @@
 #define Z_EN_BILI_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnBili;
 
-typedef void (*EnBiliActionFunc)(struct EnBili*, PlayState*);
+typedef void (*EnBiliActionFunc)(struct EnBili*, struct PlayState*);
 
-typedef enum {
+typedef enum EnBiliLimb {
     /* 0 */ EN_BILI_LIMB_NONE,
     /* 1 */ EN_BILI_LIMB_ROOT,
     /* 2 */ EN_BILI_LIMB_INNER_HOOD,
@@ -29,7 +29,7 @@ typedef struct EnBili {
     /* 0x01D4 */ ColliderCylinder collider;
 } EnBili; // size = 0x0220
 
-typedef enum {
+typedef enum EnBiliType {
     /* -1 */ EN_BILI_TYPE_NORMAL = -1,
     /*  0 */ EN_BILI_TYPE_VALI_SPAWNED,
     /*  1 */ EN_BILI_TYPE_DYING

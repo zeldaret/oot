@@ -5,8 +5,25 @@
  */
 
 #include "z_bg_hidan_hamstep.h"
-#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
 #include "quake.h"
+#include "regs.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0
 
@@ -28,7 +45,7 @@ static f32 sYPosOffsets[] = {
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
             ATELEM_NONE,
@@ -39,7 +56,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
     },
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
             ATELEM_NONE,
@@ -52,7 +69,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
 
 static ColliderTrisInit sTrisInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -63,7 +80,7 @@ static ColliderTrisInit sTrisInit = {
     sTrisElementsInit,
 };
 
-ActorInit Bg_Hidan_Hamstep_InitVars = {
+ActorProfile Bg_Hidan_Hamstep_Profile = {
     /**/ ACTOR_BG_HIDAN_HAMSTEP,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -113,7 +130,7 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, PlayState* play2) {
         pos.z = (((i * 160.0f) + 60.0f) * cos) + this->dyna.actor.home.pos.z;
 
         params = (i + 1) & 0xFF;
-        params |= (this->dyna.actor.params & 0xFF00);
+        params |= PARAMS_GET_NOSHIFT(this->dyna.actor.params, 8, 8);
 
         step = (BgHidanHamstep*)Actor_SpawnAsChild(&play->actorCtx, &step->dyna.actor, play, ACTOR_BG_HIDAN_HAMSTEP,
                                                    pos.x, pos.y, pos.z, this->dyna.actor.world.rot.x,
@@ -138,9 +155,9 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    if ((this->dyna.actor.params & 0xFF) == 0) {
+    if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderElements);
 
         for (i = 0; i < 2; i++) {
             for (i2 = 0; i2 < 3; i2++) {
@@ -152,7 +169,7 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
         }
     }
 
-    if ((this->dyna.actor.params & 0xFF) == 0) {
+    if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
         CollisionHeader_GetVirtual(&gFireTempleStoneStep1Col, &colHeader);
     } else {
         CollisionHeader_GetVirtual(&gFireTempleStoneStep2Col, &colHeader);
@@ -160,16 +177,16 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
 
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0xFF)) {
-        if ((this->dyna.actor.params & 0xFF) == 0) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 8))) {
+        if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
             this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + (-20.0f);
             BgHidanHamstep_SetupAction(this, 4);
         } else {
             this->dyna.actor.world.pos.y =
-                sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1] + this->dyna.actor.home.pos.y;
+                sYPosOffsets[PARAMS_GET_U(this->dyna.actor.params, 0, 8) - 1] + this->dyna.actor.home.pos.y;
             BgHidanHamstep_SetupAction(this, 4);
         }
-    } else if ((this->dyna.actor.params & 0xFF) == 0) {
+    } else if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
         BgHidanHamstep_SetupAction(this, 0);
     } else {
         BgHidanHamstep_SetupAction(this, 2);
@@ -178,14 +195,12 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.gravity = -1.2f;
     this->dyna.actor.minVelocityY = -12.0f;
 
-    if ((this->dyna.actor.params & 0xFF) == 0) {
-        // "Fire Temple Object [Hammer Step] appears"
-        PRINTF("◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n");
+    if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
+        PRINTF(T("◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n", "◯◯◯Fire Temple object [Hammer Step] appears\n"));
         if (BgHidanHamstep_SpawnChildren(this, play) == 0) {
             step = this;
 
-            // "[Hammer Step] I can't create a step!"
-            PRINTF("【ハンマーステップ】 足場産れない！！\n");
+            PRINTF(T("【ハンマーステップ】 足場産れない！！\n", "[Hammer Step] I can't create a step!!\n"));
             PRINTF("%s %d\n", "../z_bg_hidan_hamstep.c", 425);
 
             while (step != NULL) {
@@ -201,7 +216,7 @@ void BgHidanHamstep_Destroy(Actor* thisx, PlayState* play) {
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 
-    if ((this->dyna.actor.params & 0xFF) == 0) {
+    if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 0) {
         Collider_DestroyTris(play, &this->collider);
     }
 }
@@ -232,7 +247,7 @@ void func_80888638(BgHidanHamstep* this, PlayState* play) {
     BgHidanHamstep* child = (BgHidanHamstep*)this->dyna.actor.child;
 
     while (child != NULL) {
-        if ((child->dyna.actor.params & 0xFF) != 0) {
+        if (PARAMS_GET_U(child->dyna.actor.params, 0, 8) != 0) {
             func_808884C8(child, play);
         }
         child = (BgHidanHamstep*)child->dyna.actor.child;
@@ -242,7 +257,7 @@ void func_80888638(BgHidanHamstep* this, PlayState* play) {
 void func_80888694(BgHidanHamstep* this, BgHidanHamstep* parent) {
     BgHidanHamstep* child;
 
-    if ((this->dyna.actor.params & 0xFF) >= 2) {
+    if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) >= 2) {
         if (parent->dyna.actor.world.pos.y < this->dyna.actor.world.pos.y) {
             this->dyna.actor.world.pos.y = parent->dyna.actor.world.pos.y;
         } else if ((this->dyna.actor.world.pos.y - parent->dyna.actor.world.pos.y) < -100.0f) {
@@ -267,7 +282,7 @@ void func_80888734(BgHidanHamstep* this) {
     if (parent != NULL) {
         this->dyna.actor.velocity.y = parent->dyna.actor.velocity.y;
 
-        if ((this->dyna.actor.params & 0xFF) == 1) {
+        if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 1) {
             this->dyna.actor.world.pos.y = parent->dyna.actor.world.pos.y - 100.0f;
         } else {
             this->dyna.actor.world.pos.y += (this->dyna.actor.velocity.y * frameDivisor);
@@ -283,7 +298,7 @@ void func_808887C4(BgHidanHamstep* this, PlayState* play) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_HAMMER_SWITCH);
         this->collider.base.acFlags = AC_NONE;
         BgHidanHamstep_SetupAction(this, 1);
-        Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0xFF);
+        Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 8));
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
@@ -328,9 +343,9 @@ void func_808889B8(BgHidanHamstep* this, PlayState* play) {
     func_80888734(this);
 
     if ((parent->action == 4) || ((parent->action == 3) && (parent->unk_244 >= 5))) {
-        if ((this->dyna.actor.params & 0xFF) == 1) {
+        if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 1) {
             this->dyna.actor.world.pos.y =
-                sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1] + this->dyna.actor.home.pos.y;
+                sYPosOffsets[PARAMS_GET_U(this->dyna.actor.params, 0, 8) - 1] + this->dyna.actor.home.pos.y;
             BgHidanHamstep_SetupAction(this, 4);
         } else {
             BgHidanHamstep_SetupAction(this, 3);
@@ -345,22 +360,23 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
     Actor_MoveXZGravity(&this->dyna.actor);
     func_80888694(this, (BgHidanHamstep*)this->dyna.actor.parent);
 
-#if OOT_DEBUG
-    if (((this->dyna.actor.params & 0xFF) <= 0) || ((this->dyna.actor.params & 0xFF) >= 6)) {
-        // "[Hammer Step] arg_data strange (arg_data = %d)"
-        PRINTF("【ハンマーステップ】 arg_data おかしい (arg_data = %d)", this->dyna.actor.params);
+#if DEBUG_FEATURES
+    if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) <= 0 || PARAMS_GET_U(this->dyna.actor.params, 0, 8) >= 6) {
+        PRINTF(T("【ハンマーステップ】 arg_data おかしい (arg_data = %d)",
+                 "[Hammer Step] arg_data strange (arg_data = %d)"),
+               this->dyna.actor.params);
         PRINTF("%s %d\n", "../z_bg_hidan_hamstep.c", 696);
     }
 #endif
 
     if (((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) <=
-         sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1]) &&
+         sYPosOffsets[PARAMS_GET_U(this->dyna.actor.params, 0, 8) - 1]) &&
         (this->dyna.actor.velocity.y <= 0.0f)) {
         this->unk_244++;
 
         if (this->unk_244 >= 7) {
             this->dyna.actor.world.pos.y =
-                sYPosOffsets[(this->dyna.actor.params & 0xFF) - 1] + this->dyna.actor.home.pos.y;
+                sYPosOffsets[PARAMS_GET_U(this->dyna.actor.params, 0, 8) - 1] + this->dyna.actor.home.pos.y;
             BgHidanHamstep_SetupAction(this, 3);
         } else {
             this->dyna.actor.velocity.y *= -0.24f;
@@ -377,9 +393,11 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
                 Rumble_Request(SQ(100.0f), 255, 20, 150);
                 func_808884C8(this, play);
 
-                if ((this->dyna.actor.params & 0xFF) == 5) {
+#if OOT_VERSION >= PAL_1_0
+                if (PARAMS_GET_U(this->dyna.actor.params, 0, 8) == 5) {
                     Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                 }
+#endif
 
                 PRINTF("B(%d)\n", this->dyna.actor.params);
             }
@@ -401,10 +419,9 @@ void BgHidanHamstep_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_hamstep.c", 787),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_hidan_hamstep.c", 787);
 
-    if ((thisx->params & 0xFF) == 0) {
+    if (PARAMS_GET_U(thisx->params, 0, 8) == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStoneStep1DL);
     } else {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStoneStep2DL);

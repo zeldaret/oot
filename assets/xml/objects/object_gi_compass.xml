@@ -1,5 +1,12 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_compass" Segment="6">
+        <Array Name="gGiCompassVtx" Count="138" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiCompassGlassVtx" Count="12" Offset="0x8A0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiCompassDL" Offset="0x0960"/>
         <DList Name="gGiCompassGlassDL" Offset="0x0C50"/>
     </File>

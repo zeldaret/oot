@@ -5,9 +5,26 @@
  */
 
 #include "z_en_ma3.h"
+
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "versions.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ma2/object_ma2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnMa3_Init(Actor* thisx, PlayState* play);
 void EnMa3_Destroy(Actor* thisx, PlayState* play);
@@ -20,7 +37,7 @@ s32 func_80AA2F28(EnMa3* this);
 void EnMa3_UpdateEyes(EnMa3* this);
 void func_80AA3200(EnMa3* this, PlayState* play);
 
-ActorInit En_Ma3_InitVars = {
+ActorProfile En_Ma3_Profile = {
     /**/ ACTOR_EN_MA3,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,
@@ -34,7 +51,7 @@ ActorInit En_Ma3_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -42,7 +59,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
@@ -54,7 +71,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-typedef enum {
+typedef enum EnMa3Animation {
     /* 0 */ ENMA3_ANIM_0,
     /* 1 */ ENMA3_ANIM_1,
     /* 2 */ ENMA3_ANIM_2,
@@ -77,7 +94,7 @@ u16 EnMa3_GetTextId(PlayState* play, Actor* thisx) {
 
     if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
         gSaveContext.timerSeconds = gSaveContext.timerSeconds;
-        thisx->flags |= ACTOR_FLAG_16;
+        thisx->flags |= ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
 
         if (((void)0, gSaveContext.timerSeconds) > 210) {
             return 0x208E;
@@ -155,7 +172,7 @@ s16 EnMa3_UpdateTalkState(PlayState* play, Actor* thisx) {
                     FALLTHROUGH;
                 case 0x208E:
                     CLEAR_EVENTINF(EVENTINF_HORSES_0A);
-                    thisx->flags &= ~ACTOR_FLAG_16;
+                    thisx->flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
                     talkState = NPC_TALK_STATE_IDLE;
                     gSaveContext.timerState = TIMER_STATE_STOP;
                     break;
@@ -282,10 +299,47 @@ void EnMa3_Destroy(Actor* thisx, PlayState* play) {
 
 void func_80AA3200(EnMa3* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
+
+#if OOT_PAL_N64
+// Same as Npc_UpdateTalking, but with an additional check for the subtimer state
+s32 EnMa3_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange, NpcGetTextIdFunc getTextId,
+                        NpcUpdateTalkStateFunc updateTalkState) {
+    s16 x;
+    s16 y;
+
+    if (Actor_TalkOfferAccepted(actor, play)) {
+        *talkState = NPC_TALK_STATE_TALKING;
+        return true;
+    }
+
+    if (*talkState != NPC_TALK_STATE_IDLE) {
+        *talkState = updateTalkState(play, actor);
+        return false;
+    }
+
+    Actor_GetScreenPos(play, actor, &x, &y);
+    if ((x < 0) || (x > SCREEN_WIDTH) || (y < 0) || (y > SCREEN_HEIGHT)) {
+        // Actor is offscreen
+        return false;
+    }
+
+    if ((gSaveContext.subTimerState != 0) && (gSaveContext.subTimerSeconds < 6)) {
+        return false;
+    }
+
+    if (!Actor_OfferTalk(actor, play, interactRange)) {
+        return false;
+    }
+
+    actor->textId = getTextId(play, actor);
+
+    return false;
+}
+#endif
 
 void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3* this = (EnMa3*)thisx;
@@ -297,8 +351,16 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3_UpdateEyes(this);
     this->actionFunc(this, play);
     func_80AA2E54(this, play);
+
+#if !OOT_PAL_N64
     Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 150.0f,
                       EnMa3_GetTextId, EnMa3_UpdateTalkState);
+#else
+    EnMa3_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 150.0f,
+                        EnMa3_GetTextId, EnMa3_UpdateTalkState);
+#endif
+
+#if OOT_VERSION >= PAL_1_0
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         if (this->isNotSinging) {
             // Turn on singing
@@ -310,6 +372,7 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
         Audio_ToggleMalonSinging(true);
         this->isNotSinging = true;
     }
+#endif
 }
 
 s32 EnMa3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

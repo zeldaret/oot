@@ -2,21 +2,21 @@
 #define Z_DOOR_KILLER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 /*
  * Associated switch flag: (params >> 8) & 0x3F
  * ((params >> 8) & 0x3F) == 0x3F means no switch flag is checked / set
  */
 
-typedef struct {
+typedef struct DoorKillerTextureEntry {
     /* 0x00 */ s16 objectId;
     /* 0x04 */ void* texture;
 } DoorKillerTextureEntry; // size 0x8
 
 struct DoorKiller;
 
-typedef void (*DoorKillerActionFunc)(struct DoorKiller*, PlayState*);
+typedef void (*DoorKillerActionFunc)(struct DoorKiller*, struct PlayState*);
 
 typedef struct DoorKiller {
     /* 0x0000 */ DOOR_ACTOR_BASE;
@@ -28,7 +28,7 @@ typedef struct DoorKiller {
     /* 0x021C */ u8 requiredObjectSlot;
     /* 0x021D */ u8 textureEntryIndex;
     /* 0x0220 */ ColliderJntSph colliderJntSph;
-    /* 0x0240 */ ColliderJntSphElement colliderJntSphItems[1];
+    /* 0x0240 */ ColliderJntSphElement colliderJntSphElements[1];
     /* 0x0280 */ DoorKillerActionFunc actionFunc;
 } DoorKiller; // size = 0x0284
 

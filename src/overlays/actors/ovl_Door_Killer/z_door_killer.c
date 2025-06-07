@@ -5,15 +5,27 @@
  */
 
 #include "z_door_killer.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 #include "assets/objects/object_haka_door/object_haka_door.h"
 #include "assets/objects/object_door_killer/object_door_killer.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
-typedef enum {
+typedef enum DoorKillerBehaviour {
     /* 0 */ DOOR_KILLER_DOOR,
     /* 1 */ DOOR_KILLER_RUBBLE_PIECE_1,
     /* 2 */ DOOR_KILLER_RUBBLE_PIECE_2,
@@ -29,7 +41,7 @@ void DoorKiller_WaitForObject(DoorKiller* this, PlayState* play);
 void DoorKiller_DrawDoor(Actor* thisx, PlayState* play);
 void DoorKiller_DrawRubble(Actor* thisx, PlayState* play);
 
-ActorInit Door_Killer_InitVars = {
+ActorProfile Door_Killer_Profile = {
     /**/ ACTOR_DOOR_KILLER,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -43,7 +55,7 @@ ActorInit Door_Killer_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_METAL,
+        COL_MATERIAL_METAL,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -51,7 +63,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x10 },
         { 0x0001FFEE, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -61,10 +73,10 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
-            ELEMTYPE_UNK0,
+            ELEM_MATERIAL_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
             ATELEM_NONE,
@@ -77,7 +89,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_NONE,
@@ -85,7 +97,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static DoorKillerTextureEntry sDoorTextures[4] = {
@@ -121,7 +133,7 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
     this->openAnim = 0;
     this->playerIsOpening = false;
 
-    switch ((u8)(this->actor.params & 0xFF)) {
+    switch ((u8)PARAMS_GET_U(this->actor.params, 0, 8)) {
         case DOOR_KILLER_DOOR:
             // `jointTable` is used for both the `jointTable` and `morphTable` args here. Because this actor doesn't
             // play any animations it does not cause problems, but it would need to be changed otherwise.
@@ -137,15 +149,15 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
             Collider_InitCylinder(play, &this->colliderCylinder);
             Collider_SetCylinder(play, &this->colliderCylinder, &this->actor, &sCylinderInit);
             Collider_InitJntSph(play, &this->colliderJntSph);
-            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphItems);
+            Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphElements);
             this->colliderJntSph.elements[0].dim.worldSphere.radius = 80;
             this->colliderJntSph.elements[0].dim.worldSphere.center.x = (s16)this->actor.world.pos.x;
             this->colliderJntSph.elements[0].dim.worldSphere.center.y = (s16)this->actor.world.pos.y + 50;
             this->colliderJntSph.elements[0].dim.worldSphere.center.z = (s16)this->actor.world.pos.z;
 
             // If tied to a switch flag and that switch flag is already set, kill the actor.
-            if ((((this->actor.params >> 8) & 0x3F) != 0x3F) &&
-                Flags_GetSwitch(play, ((this->actor.params >> 8) & 0x3F))) {
+            if ((PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) &&
+                Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -180,7 +192,7 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
 void DoorKiller_Destroy(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    if ((thisx->params & 0xFF) == DOOR_KILLER_DOOR) {
+    if (PARAMS_GET_U(thisx->params, 0, 8) == DOOR_KILLER_DOOR) {
         Collider_DestroyCylinder(play, &this->colliderCylinder);
         Collider_DestroyJntSph(play, &this->colliderJntSph);
     }
@@ -241,7 +253,7 @@ void DoorKiller_SetAC(DoorKiller* this, PlayState* play) {
 }
 
 void DoorKiller_Die(DoorKiller* this, PlayState* play) {
-    s32 switchFlag = (this->actor.params >> 8) & 0x3F;
+    s32 switchFlag = PARAMS_GET_U(this->actor.params, 8, 6);
 
     // Can set a switch flag on death based on params
     if (switchFlag != 0x3F) {
@@ -349,11 +361,11 @@ void DoorKiller_FallOver(DoorKiller* this, PlayState* play) {
     if (!(this->hasHitPlayerOrGround & 1)) {
         Vec3f playerPosRelToDoor;
         Player* player = GET_PLAYER(play);
-        func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
+        Actor_WorldToActorCoords(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
         if ((fabsf(playerPosRelToDoor.y) < 20.0f) && (fabsf(playerPosRelToDoor.x) < 20.0f) &&
             (playerPosRelToDoor.z < 100.0f) && (playerPosRelToDoor.z > 0.0f)) {
             this->hasHitPlayerOrGround |= 1;
-            func_8002F6D4(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f, 16);
+            Actor_SetPlayerKnockbackLarge(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f, 0x10);
             Actor_PlaySfx(&this->actor, NA_SE_EN_KDOOR_HIT);
             Player_PlaySfx(player, NA_SE_PL_BODY_HIT);
         }
@@ -411,7 +423,7 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
     Vec3f playerPosRelToDoor;
     s16 angleToFacingPlayer;
 
-    func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
+    Actor_WorldToActorCoords(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
 
     // playerIsOpening is set by player
     if (this->playerIsOpening) {
@@ -460,9 +472,9 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
 void DoorKiller_UpdateTexture(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
     this->texture = SEGMENTED_TO_VIRTUAL(this->texture);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
 }
 
 /**
@@ -472,7 +484,7 @@ void DoorKiller_UpdateTexture(Actor* thisx, PlayState* play) {
 void DoorKiller_WaitForObject(DoorKiller* this, PlayState* play) {
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         DoorKiller_UpdateTexture(&this->actor, play);
-        switch (this->actor.params & 0xFF) {
+        switch (PARAMS_GET_U(this->actor.params, 0, 8)) {
             case DOOR_KILLER_DOOR:
                 this->actionFunc = DoorKiller_Wait;
                 this->actor.draw = DoorKiller_DrawDoor;
@@ -515,7 +527,7 @@ void DoorKiller_DrawDoor(Actor* thisx, PlayState* play) {
 void DoorKiller_DrawRubble(Actor* thisx, PlayState* play) {
     static Gfx* dLists[] = { object_door_killer_DL_001250, object_door_killer_DL_001550, object_door_killer_DL_0017B8,
                              object_door_killer_DL_001A58 };
-    s32 rubblePieceIndex = (thisx->params & 0xFF) - 1;
+    s32 rubblePieceIndex = PARAMS_GET_U(thisx->params, 0, 8) - 1;
     DoorKiller* this = (DoorKiller*)thisx;
 
     if ((this->timer >= 20) || ((this->timer & 1) == 0)) {

@@ -1,4 +1,4 @@
-#include "global.h"
+#include "map_mark.h"
 
 static MapMarkData sMapMarkDekuTree[] = {
     // Deku Tree minimap 0

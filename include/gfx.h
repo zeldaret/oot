@@ -3,13 +3,19 @@
 
 #include "ultra64.h"
 #include "ultra64/gbi.h"
+#include "alignment.h"
+#include "attributes.h"
 #include "sched.h"
 #include "thga.h"
+#include "versions.h"
+
+#define SCREEN_WIDTH  320
+#define SCREEN_HEIGHT 240
 
 // Texture memory size, 4 KiB
 #define TMEM_SIZE 0x1000
 
-typedef struct {
+typedef struct GfxPool {
     /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC
     /* 0x00008 */ Gfx polyOpaBuffer[0x17E0];
     /* 0x0BF08 */ Gfx polyXluBuffer[0x800];
@@ -46,119 +52,116 @@ typedef struct GraphicsContext {
     /* 0x02E8 */ s32 fbIdx;
     /* 0x02EC */ void (*callback)(struct GraphicsContext*, void*);
     /* 0x02F0 */ void* callbackParam;
+#if OOT_VERSION >= PAL_1_0
     /* 0x02F4 */ f32 xScale;
     /* 0x02F8 */ f32 yScale;
+#endif
     /* 0x02FC */ char unk_2FC[0x04];
 } GraphicsContext; // size = 0x300
 
-typedef enum {
-    /*  0 */ SETUPDL_0,
-    /*  1 */ SETUPDL_1,
-    /*  2 */ SETUPDL_2,
-    /*  3 */ SETUPDL_3,
-    /*  4 */ SETUPDL_4,
-    /*  5 */ SETUPDL_5,
-    /*  6 */ SETUPDL_6,
-    /*  7 */ SETUPDL_7,
-    /*  8 */ SETUPDL_8,
-    /*  9 */ SETUPDL_9,
-    /* 10 */ SETUPDL_10,
-    /* 11 */ SETUPDL_11,
-    /* 12 */ SETUPDL_12,
-    /* 13 */ SETUPDL_13,
-    /* 14 */ SETUPDL_14,
-    /* 15 */ SETUPDL_15,
-    /* 16 */ SETUPDL_16,
-    /* 17 */ SETUPDL_17,
-    /* 18 */ SETUPDL_18,
-    /* 19 */ SETUPDL_19,
-    /* 20 */ SETUPDL_20,
-    /* 21 */ SETUPDL_21,
-    /* 22 */ SETUPDL_22,
-    /* 23 */ SETUPDL_23,
-    /* 24 */ SETUPDL_24,
-    /* 25 */ SETUPDL_25,
-    /* 26 */ SETUPDL_26,
-    /* 27 */ SETUPDL_27,
-    /* 28 */ SETUPDL_28,
-    /* 29 */ SETUPDL_29,
-    /* 30 */ SETUPDL_30,
-    /* 31 */ SETUPDL_31,
-    /* 32 */ SETUPDL_32,
-    /* 33 */ SETUPDL_33,
-    /* 34 */ SETUPDL_34,
-    /* 35 */ SETUPDL_35,
-    /* 36 */ SETUPDL_36,
-    /* 37 */ SETUPDL_37,
-    /* 38 */ SETUPDL_38,
-    /* 39 */ SETUPDL_39,
-    /* 40 */ SETUPDL_40,
-    /* 41 */ SETUPDL_41,
-    /* 42 */ SETUPDL_42,
-    /* 43 */ SETUPDL_43,
-    /* 44 */ SETUPDL_44,
-    /* 45 */ SETUPDL_45,
-    /* 46 */ SETUPDL_46,
-    /* 47 */ SETUPDL_47,
-    /* 48 */ SETUPDL_48,
-    /* 49 */ SETUPDL_49,
-    /* 50 */ SETUPDL_50,
-    /* 51 */ SETUPDL_51,
-    /* 52 */ SETUPDL_52,
-    /* 53 */ SETUPDL_53,
-    /* 54 */ SETUPDL_54,
-    /* 55 */ SETUPDL_55,
-    /* 56 */ SETUPDL_56,
-    /* 57 */ SETUPDL_57,
-    /* 58 */ SETUPDL_58,
-    /* 59 */ SETUPDL_59,
-    /* 60 */ SETUPDL_60,
-    /* 61 */ SETUPDL_61,
-    /* 62 */ SETUPDL_62,
-    /* 63 */ SETUPDL_63,
-    /* 64 */ SETUPDL_64,
-    /* 65 */ SETUPDL_65,
-    /* 66 */ SETUPDL_66,
-    /* 67 */ SETUPDL_67,
-    /* 68 */ SETUPDL_68,
-    /* 69 */ SETUPDL_69,
-    /* 70 */ SETUPDL_70,
-    /* 71 */ SETUPDL_MAX
-} SetupDL;
+extern Gfx gEmptyDL[];
 
-#define UCODE_NULL      0
-#define UCODE_F3DZEX    1
-#define UCODE_UNK       2
-#define UCODE_S2DEX     3
+Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
+Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
+Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
 
-typedef struct {
-    /* 0x00 */ u32 type;
-    /* 0x04 */ void* ptr;
-} UCodeInfo; // size = 0x8
+Gfx* Gfx_BranchTexScroll(Gfx** gfxP, u32 x, u32 y, s32 width, s32 height);
+Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
+Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
+Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
+                      u32 y2, s32 width2, s32 height2);
+Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
+                              u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
+Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
+void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
+void func_80095974(GraphicsContext* gfxCtx);
 
-typedef struct {
-    /* 0x00 */ uintptr_t segments[NUM_SEGMENTS];
-    /* 0x40 */ Gfx* dlStack[18];
-    /* 0x88 */ s32 dlDepth;
-    /* 0x8C */ u32 dlCnt;
-    /* 0x90 */ u32 vtxCnt;
-    /* 0x94 */ u32 spvtxCnt;
-    /* 0x98 */ u32 tri1Cnt;
-    /* 0x9C */ u32 tri2Cnt;
-    /* 0xA0 */ u32 quadCnt;
-    /* 0xA4 */ u32 lineCnt;
-    /* 0xA8 */ u32 loaducodeCnt;
-    /* 0xAC */ u32 pipeSyncRequired;
-    /* 0xB0 */ u32 tileSyncRequired;
-    /* 0xB4 */ u32 loadSyncRequired;
-    /* 0xB8 */ u32 syncErr;
-    /* 0xBC */ s32 enableLog;
-    /* 0xC0 */ s32 ucodeType;
-    /* 0xC4 */ s32 ucodeInfoCount;
-    /* 0xC8 */ UCodeInfo* ucodeInfo;
-    /* 0xCC */ u32 modeH;
-    /* 0xD0 */ u32 modeL;
-    /* 0xD4 */ u32 geometryMode;
-} UCodeDisas; // size = 0xD8
+void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
+void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
+
+#define WORK_DISP       __gfxCtx->work.p
+#define POLY_OPA_DISP   __gfxCtx->polyOpa.p
+#define POLY_XLU_DISP   __gfxCtx->polyXlu.p
+#define OVERLAY_DISP    __gfxCtx->overlay.p
+
+#if DEBUG_FEATURES
+
+void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
+void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, int line);
+
+// __gfxCtx shouldn't be used directly.
+// Use the DISP macros defined above when writing to display buffers.
+#define OPEN_DISPS(gfxCtx, file, line) \
+    {                                  \
+        GraphicsContext* __gfxCtx;     \
+        Gfx* dispRefs[4];              \
+        __gfxCtx = gfxCtx;             \
+        (void)__gfxCtx;                \
+        Graph_OpenDisps(dispRefs, gfxCtx, file, line)
+
+#define CLOSE_DISPS(gfxCtx, file, line)                     \
+        do {                                                \
+            Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
+        } while (0);                                        \
+    }                                                       \
+    (void)0
+
+#define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
+
+#else
+
+#define OPEN_DISPS(gfxCtx, file, line)             \
+    {                                              \
+        UNUSED GraphicsContext* __gfxCtx = gfxCtx; \
+        UNUSED s32 __dispPad
+
+#define CLOSE_DISPS(gfxCtx, file, line) \
+        do {} while (0);                \
+    }                                   \
+    (void)0
+
+#define GRAPH_ALLOC(gfxCtx, size) ((void*)((gfxCtx)->polyOpa.d = (Gfx*)((u8*)(gfxCtx)->polyOpa.d - ALIGN16(size))))
+
+#endif
+
+void Graph_ThreadEntry(void* arg);
+
+extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
+extern u64 gMojiFontTex[]; // original name: "font_ff"
+
+/**
+ * `x` vertex x
+ * `y` vertex y
+ * `z` vertex z
+ * `s` texture s coordinate
+ * `t` texture t coordinate
+ * `crnx` red component of color vertex, or x component of normal vertex
+ * `cgny` green component of color vertex, or y component of normal vertex
+ * `cbnz` blue component of color vertex, or z component of normal vertex
+ * `a` alpha
+ */
+#define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a } } }
+
+#define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
+
+#define gDPSetTileCustom(pkt, fmt, siz, uls, ult, lrs, lrt, pal,        \
+                         cms, cmt, masks, maskt, shifts, shiftt)        \
+_DW({                                                                   \
+    gDPPipeSync(pkt);                                                   \
+    gDPTileSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((((lrs) - (uls) + 1) * siz##_TILE_BYTES) + 7) >> 3), 0,       \
+        G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, masks,               \
+        shifts);                                                        \
+    gDPTileSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((((lrs) - (uls) + 1) * siz##_LINE_BYTES) + 7) >> 3), 0,       \
+        G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks, shifts);  \
+    gDPSetTileSize(pkt, G_TX_RENDERTILE,                                \
+        (uls) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (ult) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (lrs) << G_TEXTURE_IMAGE_FRAC,                                  \
+        (lrt) << G_TEXTURE_IMAGE_FRAC);                                 \
+})
 
 #endif

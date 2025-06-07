@@ -1,4 +1,5 @@
-#include "global.h"
+#include "ultra64.h"
+#include "attributes.h"
 
 #define _osVirtualToPhysical(ptr)              \
     if (ptr != NULL) {                         \

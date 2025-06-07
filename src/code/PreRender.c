@@ -5,8 +5,14 @@
  * buffer copies and coverage drawing. Also contains software implementations of the Video Interface anti-aliasing and
  * divot filters.
  */
-#include "global.h"
+#include "libu64/debug.h"
 #include "alloca.h"
+#include "color.h"
+#include "gfx.h"
+#include "prerender.h"
+#include "printf.h"
+#include "regs.h"
+#include "stack_pad.h"
 
 void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg) {
     this->widthSave = width;
@@ -80,7 +86,9 @@ void PreRender_CopyImage(PreRender* this, Gfx** gfxP, void* img, void* imgDst) {
         s32 lrt;
 
         // Make sure that we don't load past the end of the source image
-        nRows = MIN(rowsRemaining, nRows);
+        if (nRows > rowsRemaining) {
+            nRows = rowsRemaining;
+        }
 
         // Determine the upper and lower bounds of the rect to draw
         ult = curRow;
@@ -138,6 +146,7 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
         s32 ult;
         s32 lrt;
         s32 uly;
+        s32 lry;
 
         // Make sure that we don't load past the end of the source image
         if (nRows > rowsRemaining) {
@@ -148,6 +157,7 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
         ult = this->ulySave + curRow;
         lrt = ult + nRows - 1;
         uly = this->uly + curRow;
+        lry = uly + nRows - 1;
 
         // Load a horizontal strip of the source image in RGBA16 format
         gDPLoadTextureTile(gfx++, this->fbufSave, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->widthSave, this->height - 1,
@@ -155,7 +165,7 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
         // Draw that horizontal strip to the destination image, dsdx is 4 << 10 for COPY mode
-        gSPTextureRectangle(gfx++, this->ulx << 2, uly << 2, this->lrx << 2, (uly + nRows - 1) << 2, G_TX_RENDERTILE,
+        gSPTextureRectangle(gfx++, this->ulx << 2, uly << 2, this->lrx << 2, lry << 2, G_TX_RENDERTILE,
                             this->ulxSave << 5, ult << 5, 4 << 10, 1 << 10);
 
         curRow += nRows;
@@ -213,7 +223,9 @@ void func_800C170C(PreRender* this, Gfx** gfxP, void* buf, void* bufSave, u32 r,
         s32 lrt;
 
         // Make sure that we don't load past the end of the source image
-        nRows = MIN(rowsRemaining, nRows);
+        if (nRows > rowsRemaining) {
+            nRows = rowsRemaining;
+        }
 
         // Determine the upper and lower bounds of the rect to draw
         ult = curRow;
@@ -455,15 +467,16 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
         curRow = 0;
         while (rowsRemaining > 0) {
             s32 uls = 0;
+            s32 ult = curRow;
             s32 lrs = this->width - 1;
-            s32 ult;
             s32 lrt;
 
             // Make sure that we don't load past the end of the source image
-            nRows = MIN(rowsRemaining, nRows);
+            if (nRows > rowsRemaining) {
+                nRows = rowsRemaining;
+            }
 
-            // Determine the upper and lower bounds of the rect to draw
-            ult = curRow;
+            // Determine the lower bound of the rect to draw
             lrt = curRow + nRows - 1;
 
             // Load the frame buffer line
@@ -471,10 +484,14 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
                              this->height, uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                              G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
+            rtile = rtile; // Fake match?
+
             // Load the coverage line
             gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, rtile, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height,
                              uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                              G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+            rtile = rtile; // Fake match?
 
             // Draw a texture for which the rgb channels come from the framebuffer and the alpha channel comes from
             // coverage, modulated by env color
@@ -511,11 +528,11 @@ void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP) {
  * This filter performs a linear interpolation on partially covered pixels between the current pixel color (called
  * foreground color) and a "background" pixel color obtained by sampling fully covered pixels at the six highlighted
  * points in the following 5x3 neighborhood:
- *    _ _ _ _ _
+ *    - - - - -
  *  |   o   o   |
  *  | o   X   o |
  *  |   o   o   |
- *    ‾ ‾ ‾ ‾ ‾
+ *    - - - - -
  * Whether a pixel is partially covered is determined by reading the coverage values associated with the image.
  * Coverage is a measure of how many subpixels the last drawn primitive covered. A fully covered pixel is one with a
  * full coverage value, the entire pixel was covered by the primitive.
@@ -587,7 +604,7 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
         buffCvg[i] = this->cvgSave[xi + yi * this->width] >> 5;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (buffCvg[7] == 7) {
         PRINTF("Error, should not be in here \n");
         return;
@@ -682,7 +699,7 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
     (((a2) >= (a1)) ? (((a3) >= (a2)) ? (a2) : (((a1) >= (a3)) ? (a1) : (a3))) \
                     : (((a2) >= (a3)) ? (a2) : (((a3) >= (a1)) ? (a1) : (a3))))
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define R_HREG_MODE_DEBUG R_HREG_MODE
 #else
 #define R_HREG_MODE_DEBUG ((void)0, 0)

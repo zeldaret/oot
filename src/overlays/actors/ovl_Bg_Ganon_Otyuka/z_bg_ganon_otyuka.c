@@ -5,12 +5,27 @@
  */
 
 #include "z_bg_ganon_otyuka.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "tex_len.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
-typedef enum {
+typedef enum FlashState {
     /* 0x00 */ FLASH_NONE,
     /* 0x01 */ FLASH_GROW,
     /* 0x02 */ FLASH_SHRINK
@@ -25,7 +40,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_DoNothing(Actor* thisx, PlayState* play);
 
-ActorInit Bg_Ganon_Otyuka_InitVars = {
+ActorProfile Bg_Ganon_Otyuka_Profile = {
     /**/ ACTOR_BG_GANON_OTYUKA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -63,7 +78,75 @@ static Vec3f sSideCenters[] = {
 
 static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
-#include "assets/overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c"
+#define sPlatformTex_WIDTH 32
+#define sPlatformTex_HEIGHT 32
+static u64 sPlatformTex[TEX_LEN(u64, sPlatformTex_WIDTH, sPlatformTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformTex.rgba16.inc.c"
+};
+
+static u8 sZeros[8] = { 0 };
+
+static Vtx sPlatformTopVtx[4] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformTopVtx.inc.c"
+};
+
+static Gfx sPlatformMaterialDL[17] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformMaterialDL.inc.c"
+};
+
+static Gfx sPlatformTopDL[3] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformTopDL.inc.c"
+};
+
+static Vtx sPlatformBottomVtx[4] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformBottomVtx.inc.c"
+};
+
+static Gfx sPlatformBottomDL[3] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformBottomDL.inc.c"
+};
+
+static Vtx sPlatformSideVtx[4] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformSideVtx.inc.c"
+};
+
+static Gfx sPlatformSideDL[3] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPlatformSideDL.inc.c"
+};
+
+#define sFlashTex_WIDTH 32
+#define sFlashTex_HEIGHT 64
+static u64 sFlashTex[TEX_LEN(u64, sFlashTex_WIDTH, sFlashTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sFlashTex.i8.inc.c"
+};
+
+static Vtx sFlashVtx[8] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sFlashVtx.inc.c"
+};
+
+static Gfx sFlashDL[22] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sFlashDL.inc.c"
+};
+
+static BgCamInfo sBgCamList[1] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sBgCamList.inc.c"
+};
+
+static SurfaceType sSurfaceTypes[2] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sSurfaceTypes.inc.c"
+};
+
+static CollisionPoly sPolyList[10] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sPolyList.inc.c"
+};
+
+static Vec3s sVtxList[8] = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sVtxList.inc.c"
+};
+
+static CollisionHeader sCol = {
+#include "assets/overlays/ovl_Bg_Ganon_Otyuka/sCol.inc.c"
+};
 
 void BgGanonOtyuka_Init(Actor* thisx, PlayState* play2) {
     BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
@@ -89,9 +172,9 @@ void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play2) {
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF("WHY !!!!!!!!!!!!!!!!\n");
-    PRINTF(VT_RST);
+    PRINTF_RST();
 }
 
 void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
@@ -297,8 +380,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
                         phi_s1 = sPlatformTopDL;
                     }
                 }
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766);
                 gSPDisplayList(POLY_OPA_DISP++, phi_s2);
 
                 if (phi_s1 != NULL) {
@@ -310,8 +392,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
                         Matrix_Push();
                         Matrix_Translate(sSideCenters[i].x, 0.0f, sSideCenters[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(sSideAngles[i], MTXMODE_APPLY);
-                        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785),
-                                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785);
                         gSPDisplayList(POLY_OPA_DISP++, sPlatformSideDL);
                         Matrix_Pop();
                     }
@@ -345,8 +426,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
                         Matrix_Translate(sSideCenters[i].x, 0.0f, sSideCenters[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(sSideAngles[i], MTXMODE_APPLY);
                         Matrix_Scale(0.3f, platform->flashYScale * 0.3f, 0.3f, MTXMODE_APPLY);
-                        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
-                                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847);
                         gSPDisplayList(POLY_XLU_DISP++, sFlashDL);
                         Matrix_Pop();
                     }

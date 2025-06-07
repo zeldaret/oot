@@ -5,22 +5,33 @@
  */
 
 #include "z_elf_msg.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "regs.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ElfMsg_Init(Actor* thisx, PlayState* play);
 void ElfMsg_Destroy(Actor* thisx, PlayState* play);
 void ElfMsg_Update(Actor* thisx, PlayState* play);
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 void ElfMsg_Draw(Actor* thisx, PlayState* play);
 #endif
 
 void ElfMsg_CallNaviCuboid(ElfMsg* this, PlayState* play);
 void ElfMsg_CallNaviCylinder(ElfMsg* this, PlayState* play);
 
-ActorInit Elf_Msg_InitVars = {
+ActorProfile Elf_Msg_Profile = {
     /**/ ACTOR_ELF_MSG,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -29,7 +40,7 @@ ActorInit Elf_Msg_InitVars = {
     /**/ ElfMsg_Init,
     /**/ ElfMsg_Destroy,
     /**/ ElfMsg_Update,
-#if OOT_DEBUG
+#if DEBUG_ASSETS
     /**/ ElfMsg_Draw,
 #else
     /**/ NULL,
@@ -38,7 +49,7 @@ ActorInit Elf_Msg_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_STOP),
 };
 
 void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
@@ -52,22 +63,22 @@ void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
 s32 ElfMsg_KillCheck(ElfMsg* this, PlayState* play) {
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
         Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
-        LOG_STRING("共倒れ", "../z_elf_msg.c", 161); // "Mutual destruction"
-        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-            Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+        LOG_STRING_T("共倒れ", "Mutual destruction", "../z_elf_msg.c", 161);
+        if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
+            Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.world.rot.y == -1) && Flags_GetClear(play, this->actor.room)) {
-        LOG_STRING("共倒れ", "../z_elf_msg.c", 172); // "Mutual destruction"
-        if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-            Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+        LOG_STRING_T("共倒れ", "Mutual destruction", "../z_elf_msg.c", 172);
+        if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
+            Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
         Actor_Kill(&this->actor);
         return 1;
-    } else if (((this->actor.params >> 8) & 0x3F) == 0x3F) {
+    } else if (PARAMS_GET_U(this->actor.params, 8, 6) == 0x3F) {
         return 0;
-    } else if (Flags_GetSwitch(play, (this->actor.params >> 8) & 0x3F)) {
+    } else if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         Actor_Kill(&this->actor);
         return 1;
     }
@@ -77,12 +88,12 @@ s32 ElfMsg_KillCheck(ElfMsg* this, PlayState* play) {
 void ElfMsg_Init(Actor* thisx, PlayState* play) {
     ElfMsg* this = (ElfMsg*)thisx;
 
-    // "Conditions for Elf Tag disappearing"
-    PRINTF(VT_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" VT_RST "\n", (thisx->params >> 8) & 0x3F);
+    PRINTF(VT_FGCOL(CYAN) T("\nエルフ タグ 消える条件 %d", "\nConditions for Elf Tag disappearing %d") VT_RST "\n",
+           PARAMS_GET_U(thisx->params, 8, 6));
     PRINTF(VT_FGCOL(CYAN) "\nthisx->shape.angle.sy = %d\n" VT_RST, thisx->shape.rot.y);
     if (thisx->shape.rot.y >= 0x41) {
-        // "Conditions for Elf Tag appearing"
-        PRINTF(VT_FGCOL(CYAN) "\nエルフ タグ 出現条件 %d" VT_RST "\n", thisx->shape.rot.y - 0x41);
+        PRINTF(VT_FGCOL(CYAN) T("\nエルフ タグ 出現条件 %d", "\nConditions for Elf Tag appearing %d") VT_RST "\n",
+               thisx->shape.rot.y - 0x41);
     }
 
     if (!ElfMsg_KillCheck(this, play)) {
@@ -100,7 +111,7 @@ void ElfMsg_Init(Actor* thisx, PlayState* play) {
             thisx->scale.y = thisx->world.rot.z * 0.04f;
         }
 
-        if (thisx->params & 0x4000) {
+        if (PARAMS_GET_NOSHIFT(thisx->params, 14, 1)) {
             ElfMsg_SetupAction(this, ElfMsg_CallNaviCuboid);
         } else {
             ElfMsg_SetupAction(this, ElfMsg_CallNaviCylinder);
@@ -115,10 +126,10 @@ void ElfMsg_Destroy(Actor* thisx, PlayState* play) {
 
 s32 ElfMsg_GetMessageId(ElfMsg* this) {
     // Negative message ID forces link to talk to Navi
-    if (this->actor.params & 0x8000) {
-        return (this->actor.params & 0xFF) + 0x100;
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
+        return PARAMS_GET_U(this->actor.params, 0, 8) + 0x100;
     } else {
-        return -((this->actor.params & 0xFF) + 0x100);
+        return -(PARAMS_GET_U(this->actor.params, 0, 8) + 0x100);
     }
 }
 
@@ -156,8 +167,8 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
 
     if (!ElfMsg_KillCheck(this, play)) {
         if (Actor_TalkOfferAccepted(&this->actor, play)) {
-            if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
-                Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
+            if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
+                Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
             }
             Actor_Kill(&this->actor);
             return;
@@ -169,7 +180,7 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 #include "assets/overlays/ovl_Elf_Msg/ovl_Elf_Msg.c"
 
 void ElfMsg_Draw(Actor* thisx, PlayState* play) {
@@ -180,17 +191,16 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play) {
     }
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    if (thisx->params & 0x8000) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 15, 1)) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
     } else {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
     }
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_elf_msg.c", 448),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_elf_msg.c", 448);
     gSPDisplayList(POLY_XLU_DISP++, D_809AD278);
 
-    if (thisx->params & 0x4000) {
+    if (PARAMS_GET_NOSHIFT(thisx->params, 14, 1)) {
         gSPDisplayList(POLY_XLU_DISP++, sCubeDL);
     } else {
         gSPDisplayList(POLY_XLU_DISP++, sCylinderDL);

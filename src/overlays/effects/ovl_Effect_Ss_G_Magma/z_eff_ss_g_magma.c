@@ -5,13 +5,19 @@
  */
 
 #include "z_eff_ss_g_magma.h"
+
+#include "libc64/qrand.h"
+#include "segmented_address.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 u32 EffectSsGMagma_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGMagma_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsGMagma_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_G_Magma_InitVars = {
+EffectSsProfile Effect_Ss_G_Magma_Profile = {
     EFFECT_SS_G_MAGMA,
     EffectSsGMagma_Init,
 };

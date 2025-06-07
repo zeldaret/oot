@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_seed" Segment="6">
+        <Array Name="gGiSeedVtx" Count="129" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiSeedDL" Offset="0x0810"/>
     </File>
 </Root>

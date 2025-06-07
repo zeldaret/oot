@@ -1,7 +1,20 @@
 #include "z_en_eiyer.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_ei/object_ei.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnEiyer_Init(Actor* thisx, PlayState* play);
 void EnEiyer_Destroy(Actor* thisx, PlayState* play);
@@ -35,7 +48,7 @@ void EnEiyer_Die(EnEiyer* this, PlayState* play);
 void EnEiyer_Dead(EnEiyer* this, PlayState* play);
 void EnEiyer_Stunned(EnEiyer* this, PlayState* play);
 
-ActorInit En_Eiyer_InitVars = {
+ActorProfile En_Eiyer_Profile = {
     /**/ ACTOR_EN_EIYER,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -47,9 +60,9 @@ ActorInit En_Eiyer_InitVars = {
     /**/ EnEiyer_Draw,
 };
 
-static ColliderCylinderInit sColCylInit = {
+static ColliderCylinderInit sColliderCylinderInit = {
     {
-        COLTYPE_HIT0,
+        COL_MATERIAL_HIT0,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -57,7 +70,7 @@ static ColliderCylinderInit sColCylInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x04, 0x08 },
         { 0x00000019, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_HARD,
@@ -107,7 +120,7 @@ static DamageTable sDamageTable = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_STINGER, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 2500, ICHAIN_STOP),
 };
 
 /**
@@ -123,7 +136,7 @@ void EnEiyer_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 600.0f, ActorShadow_DrawCircle, 65.0f);
     SkelAnime_Init(play, &this->skelanime, &gStingerSkel, &gStingerIdleAnim, this->jointTable, this->morphTable, 19);
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinder(play, &this->collider, &this->actor, &sColCylInit);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sColliderCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
     if (this->actor.params < 3) {
@@ -200,7 +213,7 @@ void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
 
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_IGNORE_QUAKE);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_IGNORE_QUAKE);
     this->actor.shape.shadowScale = 0.0f;
     this->actor.shape.yOffset = 0.0f;
     this->actionFunc = EnEiyer_AppearFromGround;
@@ -215,12 +228,12 @@ void EnEiyer_SetupUnderground(EnEiyer* this) {
     }
 
     this->collider.base.acFlags |= AC_ON;
-    this->actor.flags &= ~ACTOR_FLAG_4;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
 }
 
 void EnEiyer_SetupInactive(EnEiyer* this) {
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actionFunc = EnEiyer_Inactive;
 }
@@ -265,12 +278,12 @@ void EnEiyer_SetupDiveAttack(EnEiyer* this, PlayState* play) {
 void EnEiyer_SetupLand(EnEiyer* this) {
     Animation_MorphToPlayOnce(&this->skelanime, &gStingerDiveAnim, -3.0f);
     this->collider.base.atFlags &= ~AT_ON;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 
     // Update BgCheck info, play sound, and spawn effect on the first frame of the land action
     this->timer = -1;
     this->actor.gravity = 0.0f;
-    this->collider.dim.height = sColCylInit.dim.height;
+    this->collider.dim.height = sColliderCylinderInit.dim.height;
     this->actionFunc = EnEiyer_Land;
 }
 
@@ -316,7 +329,7 @@ void EnEiyer_SetupStunned(EnEiyer* this) {
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
-    this->collider.dim.height = sColCylInit.dim.height + 8;
+    this->collider.dim.height = sColliderCylinderInit.dim.height + 8;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     this->collider.base.atFlags &= ~AT_ON;
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -445,7 +458,7 @@ void EnEiyer_Glide(EnEiyer* this, PlayState* play) {
         EnEiyer_SetupStartAttack(this);
     }
 
-    func_8002F974(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
 }
 
 void EnEiyer_StartAttack(EnEiyer* this, PlayState* play) {
@@ -469,7 +482,7 @@ void EnEiyer_StartAttack(EnEiyer* this, PlayState* play) {
     this->actor.world.rot.x = -this->actor.shape.rot.x;
     Math_StepToF(&this->actor.speed, 5.0f, 0.3f);
     Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 2, 0x71C);
-    func_8002F974(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
 }
 
 void EnEiyer_DiveAttack(EnEiyer* this, PlayState* play) {
@@ -484,7 +497,7 @@ void EnEiyer_DiveAttack(EnEiyer* this, PlayState* play) {
         this->collider.base.atFlags &= ~(AT_ON | AT_HIT);
     }
 
-    func_8002F974(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
 }
 
 void EnEiyer_Land(EnEiyer* this, PlayState* play) {
@@ -594,7 +607,7 @@ void EnEiyer_Stunned(EnEiyer* this, PlayState* play) {
     if (this->timer == 0) {
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
-        this->collider.dim.height = sColCylInit.dim.height;
+        this->collider.dim.height = sColliderCylinderInit.dim.height;
         EnEiyer_SetupGlide(this);
     }
 }
@@ -604,11 +617,11 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
 
-        if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
+        if (this->actor.colChkInfo.damageReaction != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_DEAD);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
 
             // If underground, one hit kill
@@ -618,7 +631,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
                 } else {
                     EnEiyer_SetupDie(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 1) {
+            } else if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->actionFunc != EnEiyer_Stunned) {
                     EnEiyer_SetupStunned(this);
                 }
@@ -626,7 +639,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_DAMAGE);
                 EnEiyer_SetupHurt(this);
             } else {
-                this->collider.dim.height = sColCylInit.dim.height;
+                this->collider.dim.height = sColliderCylinderInit.dim.height;
                 EnEiyer_SetupDie(this);
             }
         }
@@ -672,7 +685,7 @@ void EnEiyer_Update(Actor* thisx, PlayState* play) {
         }
     }
 
-    if (this->actor.flags & ACTOR_FLAG_0) {
+    if (this->actor.flags & ACTOR_FLAG_ATTENTION_ENABLED) {
         this->actor.focus.pos.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.y = this->actor.world.pos.y;

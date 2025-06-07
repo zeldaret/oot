@@ -5,9 +5,24 @@
  */
 
 #include "z_en_vali.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_vali/object_vali.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnVali_Init(Actor* thisx, PlayState* play);
 void EnVali_Destroy(Actor* thisx, PlayState* play);
@@ -29,7 +44,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play);
 void EnVali_Frozen(EnVali* this, PlayState* play);
 void EnVali_ReturnToLurk(EnVali* this, PlayState* play);
 
-ActorInit En_Vali_InitVars = {
+ActorProfile En_Vali_Profile = {
     /**/ ACTOR_EN_VALI,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -43,7 +58,7 @@ ActorInit En_Vali_InitVars = {
 
 static ColliderQuadInit sQuadInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
@@ -51,7 +66,7 @@ static ColliderQuadInit sQuadInit = {
         COLSHAPE_QUAD,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x07, 0x08 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
@@ -63,7 +78,7 @@ static ColliderQuadInit sQuadInit = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HIT8,
+        COL_MATERIAL_HIT8,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -71,7 +86,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x07, 0x08 },
         { 0xFFCFFFFF, 0x01, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -83,54 +98,54 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 18, 32, MASS_HEAVY };
 
-typedef enum {
-    /* 0x0 */ BARI_DMGEFF_NONE,
-    /* 0x1 */ BARI_DMGEFF_STUN,
-    /* 0x2 */ BARI_DMGEFF_FIRE,
-    /* 0x3 */ BARI_DMGEFF_ICE,
-    /* 0xE */ BARI_DMGEFF_SLINGSHOT = 0xE,
-    /* 0xF */ BARI_DMGEFF_SWORD
-} BariDamageEffect;
+typedef enum BariDamageReaction {
+    /* 0x0 */ BARI_DMG_REACT_NONE,
+    /* 0x1 */ BARI_DMG_REACT_STUN,
+    /* 0x2 */ BARI_DMG_REACT_FIRE,
+    /* 0x3 */ BARI_DMG_REACT_ICE,
+    /* 0xE */ BARI_DMG_REACT_SLINGSHOT = 0xE,
+    /* 0xF */ BARI_DMG_REACT_SWORD
+} BariDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, BARI_DMGEFF_STUN),
-    /* Deku stick    */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Slingshot     */ DMG_ENTRY(0, BARI_DMGEFF_SLINGSHOT),
-    /* Explosive     */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(0, BARI_DMGEFF_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Hookshot      */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Kokiri sword  */ DMG_ENTRY(1, BARI_DMGEFF_SWORD),
-    /* Master sword  */ DMG_ENTRY(2, BARI_DMGEFF_SWORD),
-    /* Giant's Knife */ DMG_ENTRY(4, BARI_DMGEFF_SWORD),
-    /* Fire arrow    */ DMG_ENTRY(4, BARI_DMGEFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(4, BARI_DMGEFF_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, BARI_DMGEFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(4, BARI_DMGEFF_ICE),
-    /* Light magic   */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
-    /* Shield        */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, BARI_DMGEFF_NONE),
-    /* Giant spin    */ DMG_ENTRY(4, BARI_DMGEFF_NONE),
-    /* Master spin   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Kokiri jump   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Giant jump    */ DMG_ENTRY(8, BARI_DMGEFF_NONE),
-    /* Master jump   */ DMG_ENTRY(4, BARI_DMGEFF_NONE),
-    /* Unknown 1     */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, BARI_DMGEFF_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, BARI_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(0, BARI_DMG_REACT_SLINGSHOT),
+    /* Explosive     */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, BARI_DMG_REACT_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, BARI_DMG_REACT_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, BARI_DMG_REACT_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, BARI_DMG_REACT_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(4, BARI_DMG_REACT_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(4, BARI_DMG_REACT_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, BARI_DMG_REACT_FIRE),
+    /* Ice magic     */ DMG_ENTRY(4, BARI_DMG_REACT_ICE),
+    /* Light magic   */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
+    /* Shield        */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, BARI_DMG_REACT_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, BARI_DMG_REACT_NONE),
+    /* Master spin   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, BARI_DMG_REACT_NONE),
+    /* Master jump   */ DMG_ENTRY(4, BARI_DMG_REACT_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, BARI_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BARI, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 5000, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 5000, ICHAIN_STOP),
 };
 
 void EnVali_Init(Actor* thisx, PlayState* play) {
@@ -154,7 +169,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
 
     EnVali_SetupLurk(this);
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.floorHeight =
         BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
     this->actor.params = BARI_TYPE_NORMAL;
@@ -181,7 +196,7 @@ void EnVali_SetupLurk(EnVali* this) {
 
 void EnVali_SetupDropAppear(EnVali* this) {
     this->actor.draw = EnVali_Draw;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.velocity.y = 1.0f;
     this->actionFunc = EnVali_DropAppear;
 }
@@ -197,7 +212,7 @@ void EnVali_SetupFloatIdle(EnVali* this) {
             this->leftArmCollider.dim.quad[1].y = this->rightArmCollider.dim.quad[0].y =
                 this->rightArmCollider.dim.quad[1].y = this->actor.world.pos.y - 10.0f;
 
-    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->bodyCollider.base.acFlags |= AC_ON;
     this->slingshotReactionTimer = 0;
     this->floatHomeHeight = this->actor.world.pos.y;
@@ -209,7 +224,7 @@ void EnVali_SetupFloatIdle(EnVali* this) {
  */
 void EnVali_SetupAttacked(EnVali* this) {
     this->lightningTimer = 20;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->bodyCollider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnVali_Attacked;
 }
@@ -248,7 +263,7 @@ void EnVali_SetupDivideAndDie(EnVali* this, PlayState* play) {
     this->timer = Rand_S16Offset(10, 10);
     this->bodyCollider.base.acFlags &= ~AC_ON;
     SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_BARI_SPLIT);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actor.draw = NULL;
     this->actionFunc = EnVali_DivideAndDie;
 }
@@ -274,8 +289,8 @@ void EnVali_SetupFrozen(EnVali* this) {
 
 void EnVali_SetupReturnToLurk(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBariLurkingAnim, 10.0f);
-    this->actor.flags |= ACTOR_FLAG_4;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+    this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnVali_ReturnToLurk;
 }
 
@@ -301,7 +316,7 @@ void EnVali_DischargeLightning(EnVali* this, PlayState* play) {
         }
     }
 
-    func_8002F974(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
+    Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
 }
 
 void EnVali_Lurk(EnVali* this, PlayState* play) {
@@ -347,7 +362,7 @@ void EnVali_FloatIdle(EnVali* this, PlayState* play) {
 
     curFrame = ((curFrame > 40) ? (80 - curFrame) : curFrame);
 
-    this->actor.shape.rot.y += (s16)((curFrame + 4) * 0.4f * (0x10000 / 360.0f));
+    this->actor.shape.rot.y += DEG_TO_BINANG((curFrame + 4) * 0.4f);
     if (this->actor.xzDistToPlayer > 250.0f) {
         EnVali_SetupReturnToLurk(this);
     }
@@ -361,7 +376,7 @@ void EnVali_Attacked(EnVali* this, PlayState* play) {
     EnVali_DischargeLightning(this, play);
 
     if (this->lightningTimer == 0) {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
         this->bodyCollider.base.acFlags |= AC_ON;
         if (this->actor.params == BARI_TYPE_SWORD_DAMAGE) {
             EnVali_SetupRetaliate(this);
@@ -498,21 +513,21 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
-        if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != BARI_DMG_REACT_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
-                this->actor.flags &= ~ACTOR_FLAG_0;
-            } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
-                       (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
+                this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
+            } else if ((this->actor.colChkInfo.damageReaction != BARI_DMG_REACT_STUN) &&
+                       (this->actor.colChkInfo.damageReaction != BARI_DMG_REACT_SLINGSHOT)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DAMAGE);
             }
 
-            if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_STUN) {
+            if (this->actor.colChkInfo.damageReaction == BARI_DMG_REACT_STUN) {
                 if (this->actionFunc != EnVali_Stunned) {
                     EnVali_SetupStunned(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SWORD) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REACT_SWORD) {
                 if (this->actionFunc != EnVali_Stunned) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
                     this->actor.params = BARI_TYPE_SWORD_DAMAGE;
@@ -520,11 +535,11 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
                 } else {
                     EnVali_SetupRetaliate(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_FIRE) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REACT_FIRE) {
                 EnVali_SetupBurnt(this);
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_ICE) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REACT_ICE) {
                 EnVali_SetupFrozen(this);
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SLINGSHOT) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REACT_SLINGSHOT) {
                 if (this->slingshotReactionTimer == 0) {
                     this->slingshotReactionTimer = 20;
                 }
@@ -729,8 +744,7 @@ void EnVali_DrawBody(EnVali* this, PlayState* play) {
     EnVali_PulseInsides(this, curFrame, &scale);
     Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1436),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1436);
     gSPDisplayList(POLY_XLU_DISP++, gBariInnerHoodDL);
 
     Matrix_Put(&mtx);
@@ -739,20 +753,17 @@ void EnVali_DrawBody(EnVali* this, PlayState* play) {
     cos = Math_CosS(this->actor.shape.rot.y);
     sin = Math_SinS(this->actor.shape.rot.y);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1446),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1446);
     gSPDisplayList(POLY_XLU_DISP++, gBariNucleusDL);
 
     Matrix_Translate((506.0f * cos) + (372.0f * sin), 1114.0f, (372.0f * cos) - (506.0f * sin), MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1455),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1455);
     gSPDisplayList(POLY_XLU_DISP++, gBariNucleusDL);
 
     Matrix_Translate((-964.0f * cos) - (804.0f * sin), -108.0f, (-804.0f * cos) + (964.0f * sin), MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1463),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1463);
     gSPDisplayList(POLY_XLU_DISP++, gBariNucleusDL);
 
     Matrix_Put(&mtx);
@@ -762,8 +773,7 @@ void EnVali_DrawBody(EnVali* this, PlayState* play) {
     EnVali_PulseOutside(this, curFrame, &scale);
     Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vali.c", 1471),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_en_vali.c", 1471);
     gSPDisplayList(POLY_XLU_DISP++, gBariOuterHoodDL);
 
     Matrix_Put(&mtx);

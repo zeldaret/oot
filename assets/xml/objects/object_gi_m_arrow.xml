@@ -1,5 +1,12 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_m_arrow" Segment="6">
+        <Array Name="gGiMagicArrowVtx" Count="51" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiArrowMagicVtx" Count="123" Offset="0x330">
+            <Vtx/>
+        </Array>
         <DList Name="gGiMagicArrowDL" Offset="0x0AE0"/>
         <DList Name="gGiFireArrowColorDL" Offset="0x0CA0"/>
         <DList Name="gGiIceArrowColorDL" Offset="0x0CC0"/>

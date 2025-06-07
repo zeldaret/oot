@@ -1,30 +1,39 @@
-#include "global.h"
+#include "libu64/mtxuty-cvt.h"
+#include "ultra64/gs2dex.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "stack_pad.h"
+#include "translation.h"
+#include "ucode_disas.h"
+#include "ultra64.h"
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
-typedef struct {
+typedef struct F3dzexConst {
     /* 0x00 */ u32 value;
     /* 0x04 */ const char* name;
 } F3dzexConst; // size = 0x8
 
-typedef struct {
+typedef struct F3dzexFlag {
     /* 0x00 */ u32 value;
     /* 0x04 */ const char* setName;
     /* 0x08 */ const char* unsetName;
 } F3dzexFlag; // size = 0x0C
 
-typedef struct {
+typedef struct F3dzexRenderMode {
     /* 0x00 */ const char* name;
     /* 0x04 */ u32 value;
     /* 0x08 */ u32 mask;
 } F3dzexRenderMode; // size = 0x0C
 
-typedef struct {
+typedef struct F3dzexSetModeMacroValue {
     /* 0x00 */ const char* name;
     /* 0x04 */ u32 value;
 } F3dzexSetModeMacroValue; // size = 0x8
 
-typedef struct {
+typedef struct F3dzexSetModeMacro {
     /* 0x00 */ const char* name;
     /* 0x04 */ u32 shift;
     /* 0x08 */ u32 len;
@@ -53,7 +62,7 @@ typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
 void* UCodeDisas_TranslateAddr(UCodeDisas* this, uintptr_t addr) {
     uintptr_t physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
 
-    return PHYSICAL_TO_VIRTUAL(physical);
+    return OS_PHYSICAL_TO_K0(physical);
 }
 
 F3dzexConst sUCodeDisasGeometryModes[] = {
@@ -71,7 +80,7 @@ F3dzexFlag sUCodeDisasMtxFlags[] = {
     F3DZEX_FLAG(G_MTX_PUSH, G_MTX_NOPUSH),
 };
 
-typedef enum {
+typedef enum CombinerArg {
     COMBINER_A = 1,
     COMBINER_B,
     COMBINER_C,
@@ -224,8 +233,8 @@ void UCodeDisas_SetCurUCodeImpl(UCodeDisas* this, void* ptr) {
         }
     }
     if (i >= this->ucodeInfoCount) {
-        DISAS_LOG("マイクロコードが一致しなかった\n"); // "Microcode did not match"
-        this->ucodeType = UCODE_NULL;
+        DISAS_LOG(T("マイクロコードが一致しなかった\n", "Microcode did not match\n"));
+        this->ucodeType = UCODE_TYPE_NULL;
     }
 }
 
@@ -415,7 +424,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                           settile.shiftt, (settile.cs << 1) + settile.ms, settile.masks, settile.shifts);
 
                 if (this->tileSyncRequired) {
-                    DISAS_LOG("### TileSyncが必要です。\n");
+                    DISAS_LOG(T("### TileSyncが必要です。\n", "### TileSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -434,7 +443,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                           loadtile.th);
 
                 if (this->loadSyncRequired) {
-                    DISAS_LOG("### LoadSyncが必要です。\n");
+                    DISAS_LOG(T("### LoadSyncが必要です。\n", "### LoadSync is required.\n"));
                     this->syncErr++;
                 }
                 this->pipeSyncRequired = true;
@@ -478,7 +487,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                           UCodeDisas_GetCombineAlphaName(setcombine.Ad1, COMBINER_D));
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -531,7 +540,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                 this->modeH |= s2;
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -573,7 +582,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                 this->modeL |= s2;
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -584,7 +593,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                 this->modeL = curGfx->words.w1;
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -634,7 +643,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                           (curGfx->dma.len & 0xFFF) + 1, curGfx->setimg.dram, addr);
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -643,7 +652,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                 DISAS_LOG("gsDPSetDepthImage(0x%08x(0x%08x)),", curGfx->setimg.dram, addr);
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -670,7 +679,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                           curGfx->setcolor.b, curGfx->setcolor.a);
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -680,7 +689,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                           curGfx->setcolor.b, curGfx->setcolor.a);
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -690,7 +699,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                           curGfx->setcolor.b, curGfx->setcolor.a);
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -699,7 +708,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                 DISAS_LOG("gsDPSetFillColor(0x%08x),", curGfx->setcolor.color);
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -708,7 +717,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                 DISAS_LOG("gsDPSetPrimDepth(%d, %d),", curGfx->setprimdepth.z, curGfx->setprimdepth.dz);
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -723,7 +732,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                 DISAS_LOG("gsDPFullSync(),");
 
                 if (this->pipeSyncRequired) {
-                    DISAS_LOG("### PipeSyncが必要です。\n");
+                    DISAS_LOG(T("### PipeSyncが必要です。\n", "### PipeSync is required.\n"));
                     this->syncErr++;
                 }
             } break;
@@ -802,8 +811,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
 
             default: {
                 switch (this->ucodeType) {
-                    case UCODE_F3DZEX:
-                    case UCODE_UNK: {
+                    case UCODE_TYPE_F3DZEX:
+                    case UCODE_TYPE_UNK: {
                         switch (cmd) {
                             case G_MTX: {
                                 Gdma2 gmtx = ptr->dma2;
@@ -1100,7 +1109,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
                         }
                     } break;
 
-                    case UCODE_S2DEX: {
+                    case UCODE_TYPE_S2DEX: {
                         switch (cmd) {
                             case G_BG_COPY: {
                                 Gwords words = ptr->words;

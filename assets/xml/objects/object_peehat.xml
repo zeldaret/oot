@@ -28,6 +28,32 @@
         <Limb Name="gPeehatWing6Limb" LimbType="Standard" Offset="0x1C0C"/>
         <Limb Name="gPeehatTopLimb" LimbType="Standard" Offset="0x1C18"/>
 
+        <!-- Peehat Limb Vertices -->
+        <Array Name="gPeehatWing1Vtx" Count="3" Offset="0x9E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gPeehatWing2Vtx" Count="3" Offset="0xA10">
+            <Vtx/>
+        </Array>
+        <Array Name="gPeehatWing3Vtx" Count="3" Offset="0xA40">
+            <Vtx/>
+        </Array>
+        <Array Name="gPeehatWing4Vtx" Count="3" Offset="0xA70">
+            <Vtx/>
+        </Array>
+        <Array Name="gPeehatWing5Vtx" Count="3" Offset="0xAA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gPeehatWing6Vtx" Count="3" Offset="0xAD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gPeehatTopVtx" Count="27" Offset="0xB00">
+            <Vtx/>
+        </Array>
+        <Array Name="gPeehatBodyVtx" Count="34" Offset="0xCB0">
+            <Vtx/>
+        </Array>
+
         <!-- Peehat Limb DisplayLists -->
         <DList Name="gPeehatBodyDL" Offset="0x12F0"/>
         <DList Name="gPeehatWing1DL" Offset="0x0ED0"/>
@@ -39,10 +65,10 @@
         <DList Name="gPeehatTopDL" Offset="0x1230"/>
 
         <!-- Peehat DisplayList Textures -->
-        <Texture Name="gPeehatLowerBodyTex" OutName="lower_body" Format="rgba16" Width="8" Height="8" Offset="0x1410"/>
-        <Texture Name="gPeehatLeafTopTex" OutName="leaf_top" Format="rgba16" Width="16" Height="32" Offset="0x1490"/>
-        <Texture Name="gPeehatWingTex" OutName="wing" Format="rgba16" Width="8" Height="32" Offset="0x1890"/>
-        <Texture Name="gPeehatUpperBodyTex" OutName="upper_body" Format="rgba16" Width="8" Height="8" Offset="0x1A90"/>
+        <Texture Name="gPeehatLowerBodyTex" Format="rgba16" Width="8" Height="8" Offset="0x1410"/>
+        <Texture Name="gPeehatLeafTopTex" Format="rgba16" Width="16" Height="32" Offset="0x1490"/>
+        <Texture Name="gPeehatWingTex" Format="rgba16" Width="8" Height="32" Offset="0x1890"/>
+        <Texture Name="gPeehatUpperBodyTex" Format="rgba16" Width="8" Height="8" Offset="0x1A90"/>
 
         <!-- Peehat Animations -->
         <Animation Name="gPeehatLandingAnim" Offset="0x350"/>

@@ -5,9 +5,19 @@
  */
 
 #include "z_en_girla.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#include "attributes.h"
+#include "printf.h"
+#include "rand.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "draw.h"
+#include "play_state.h"
+#include "save.h"
+
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnGirlA_Init(Actor* thisx, PlayState* play);
 void EnGirlA_Destroy(Actor* thisx, PlayState* play);
@@ -67,7 +77,7 @@ void EnGirlA_BuyEvent_ObtainBombchuPack(PlayState* play, EnGirlA* this);
 void EnGirlA_BuyEvent_GoronTunic(PlayState* play, EnGirlA* this);
 void EnGirlA_BuyEvent_ZoraTunic(PlayState* play, EnGirlA* this);
 
-ActorInit En_GirlA_InitVars = {
+ActorProfile En_GirlA_Profile = {
     /**/ ACTOR_EN_GIRLA,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -79,58 +89,58 @@ ActorInit En_GirlA_InitVars = {
     /**/ NULL,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static char* sShopItemDescriptions[] = {
-    "デクの実×5   ",  // "Deku nut x5"
-    "矢×30        ",  // "Arrow x30"
-    "矢×50        ",  // "Arrow x50"
-    "爆弾×5       ",  // "bomb"
-    "デクの実×10  ",  // "Deku nut x10"
-    "デクの棒      ", // "Deku stick"
-    "爆弾×10      ",  // "Bomb x10"
-    "さかな        ", // "Fish"
-    "赤クスリ      ", // "Red medicine"
-    "緑クスリ      ", // "Green medicine"
-    "青クスリ      ", // "Blue medicine"
-    "巨人のナイフ  ", // "Giant knife"
-    "ハイリアの盾  ", // "Hyria Shield"
-    "デクの盾      ", // "Deku Shield"
-    "ゴロンの服    ", // "Goron's clothes"
-    "ゾ─ラの服    ",  // "Zora's clothes"
-    "回復のハート  ", // "Heart of recovery"
-    "ロンロン牛乳  ", // "Ron Ron milk"
-    "鶏の卵        ", // "Chicken egg"
-    "インゴー牛乳  ", // "Ingo milk"
-    "インゴー卵    ", // "Ingo egg"
-    "もだえ石      ", // "Modae stone"
-    "大人の財布    ", // "Adult wallet"
-    "ハートの欠片  ", // "Heart fragment"
-    "ボムチュウ    ", // "Bombchu"
-    "ボムチュウ    ", // "Bombchu"
-    "ボムチュウ    ", // "Bombchu"
-    "ボムチュウ    ", // "Bombchu"
-    "ボムチュウ    ", // "Bombchu"
-    "デクのタネ    ", // "Deku seeds"
-    "キータンのお面", // "Ketan's mask"
-    "こわそなお面  ", // "Scary face"
-    "ドクロのお面  ", // "Skull mask"
-    "ウサギずきん  ", // "Rabbit hood"
-    "まことの仮面  ", // "True mask"
-    "ゾーラのお面  ", // "Zora's mask"
-    "ゴロンのお面  ", // "Goron's mask"
-    "ゲルドのお面  ", // "Gerd's mask"
+    T("デクの実×5   ", "Deku nuts x5  "),
+    T("矢×30        ", "Arrows x30    "),
+    T("矢×50        ", "Arrows x50    "),
+    T("爆弾×5       ", "Bombs x5      "),
+    T("デクの実×10  ", "Deku nuts x10 "),
+    T("デクの棒      ", "Deku stick    "),
+    T("爆弾×10      ", "Bombs x10     "),
+    T("さかな        ", "Fish          "),
+    T("赤クスリ      ", "Red medicine  "),
+    T("緑クスリ      ", "Green medicine"),
+    T("青クスリ      ", "Blue medicine "),
+    T("巨人のナイフ  ", "Giant's knife "),
+    T("ハイリアの盾  ", "Hylian shield "),
+    T("デクの盾      ", "Deku shield   "),
+    T("ゴロンの服    ", "Goron clothing"),
+    T("ゾ─ラの服    ", "Zora's clothes"),
+    T("回復のハート  ", "Heart of recovery"),
+    T("ロンロン牛乳  ", "Lon Lon milk  "),
+    T("鶏の卵        ", "Chicken egg   "),
+    T("インゴー牛乳  ", "Ingo milk     "),
+    T("インゴー卵    ", "Ingo egg      "),
+    T("もだえ石      ", "Writhing stone"),
+    T("大人の財布    ", "Adult wallet  "),
+    T("ハートの欠片  ", "Piece of heart"),
+    T("ボムチュウ    ", "Bombchu       "),
+    T("ボムチュウ    ", "Bombchu       "),
+    T("ボムチュウ    ", "Bombchu       "),
+    T("ボムチュウ    ", "Bombchu       "),
+    T("ボムチュウ    ", "Bombchu       "),
+    T("デクのタネ    ", "Deku seeds    "),
+    T("キータンのお面", "Keaton mask   "),
+    T("こわそなお面  ", "Scary mask    "),
+    T("ドクロのお面  ", "Skull mask    "),
+    T("ウサギずきん  ", "Rabbit hood   "),
+    T("まことの仮面  ", "True mask     "),
+    T("ゾーラのお面  ", "Zora's mask   "),
+    T("ゴロンのお面  ", "Goron mask    "),
+    T("ゲルドのお面  ", "Gerudo mask   "),
     "ＳＯＬＤＯＵＴ",
-    "炎            ", // "Flame"
-    "虫            ", // "Bugs"
-    "チョウチョ    ", // "Butterfly"
-    "ポウ          ", // "Poe"
-    "妖精の魂      ", // "Fairy soul"
-    "矢×10        ",  // "Arrow"
-    "爆弾×20      ",  // "Bomb x20"
-    "爆弾×30      ",  // "Bomb x30"
-    "爆弾×5       ",  // "Bomb x5"
-    "赤クスリ      ", // "Red medicine"
-    "赤クスリ      "  // "Red medicine"
+    T("炎            ", "Flame         "),
+    T("虫            ", "Insect        "),
+    T("チョウチョ    ", "Butterfly     "),
+    T("ポウ          ", "Poe           "),
+    T("妖精の魂      ", "Fairy soul    "),
+    T("矢×10        ", "Arrows x10    "),
+    T("爆弾×20      ", "Bombs x20     "),
+    T("爆弾×30      ", "Bombs x30     "),
+    T("爆弾×5       ", "Bombs x5      "),
+    T("赤クスリ      ", "Red medicine  "),
+    T("赤クスリ      ", "Red medicine  "),
 };
 #endif
 
@@ -141,7 +151,7 @@ static s16 sMaskShopItems[8] = {
 
 static u16 sMaskShopFreeToBorrowTextIds[5] = { 0x70B6, 0x70B5, 0x70B4, 0x70B7, 0x70BB };
 
-typedef struct {
+typedef struct ShopItemEntry {
     /* 0x00 */ s16 objID;
     /* 0x02 */ s16 giDrawId;
     /* 0x04 */ void (*hiliteFunc)(Actor*, PlayState*, s32);
@@ -378,13 +388,14 @@ s32 EnGirlA_TryChangeShopItem(EnGirlA* this) {
 void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
     s16 params = this->actor.params;
 
-    PRINTF("%s(%2d)初期設定\n", sShopItemDescriptions[params], params);
+    PRINTF(T("%s(%2d)初期設定\n", "%s(%2d) Initial setup\n"), sShopItemDescriptions[params], params);
 
     if ((params >= SI_MAX) && (params < 0)) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_COL(RED, WHITE));
-        PRINTF("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_ERROR();
+        PRINTF(T("引数がおかしいよ(arg_data=%d)！！\n", "The arguments are strange (arg_data=%d)!!\n"),
+               this->actor.params);
+        PRINTF_RST();
         ASSERT(0, "0", "../z_en_girlA.c", 1421);
         return;
     }
@@ -393,9 +404,9 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
 
     if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
-        PRINTF(VT_COL(RED, WHITE));
-        PRINTF("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_ERROR();
+        PRINTF(T("バンクが無いよ！！(%s)\n", "There is no bank!! (%s)\n"), sShopItemDescriptions[params]);
+        PRINTF_RST();
         ASSERT(0, "0", "../z_en_girlA.c", 1434);
         return;
     }
@@ -409,7 +420,8 @@ void EnGirlA_Init(Actor* thisx, PlayState* play) {
 
     EnGirlA_TryChangeShopItem(this);
     EnGirlA_InitItem(this, play);
-    PRINTF("%s(%2d)初期設定\n", sShopItemDescriptions[this->actor.params], this->actor.params);
+    PRINTF(T("%s(%2d)初期設定\n", "%s(%2d) Initial setup\n"), sShopItemDescriptions[this->actor.params],
+           this->actor.params);
 }
 
 void EnGirlA_Destroy(Actor* thisx, PlayState* play) {
@@ -982,7 +994,7 @@ void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play) {
     ShopItemEntry* itemEntry = &sShopItemEntries[params];
 
     if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->actor.objectSlot = this->requiredObjectSlot;
         switch (this->actor.params) {
             case SI_KEATON_MASK:
@@ -1058,7 +1070,7 @@ void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play) {
         this->hiliteFunc = itemEntry->hiliteFunc;
         this->giDrawId = itemEntry->giDrawId;
         PRINTF("%s(%2d)\n", sShopItemDescriptions[params], params);
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
         Actor_SetScale(&this->actor, 0.25f);
         this->actor.shape.yOffset = 24.0f;
         this->actor.shape.shadowScale = 4.0f;

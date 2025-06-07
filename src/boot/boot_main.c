@@ -1,5 +1,18 @@
-#include "global.h"
 #include "boot.h"
+
+#include "carthandle.h"
+#include "idle.h"
+#include "is_debug.h"
+#include "segment_symbols.h"
+#include "stack.h"
+#include "stackcheck.h"
+#if PLATFORM_N64
+#include "cic6105.h"
+#endif
+#include "z_locale.h"
+#include "thread.h"
+
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:128"
 
 StackEntry sBootThreadInfo;
 OSThread sIdleThread;
@@ -15,13 +28,15 @@ void bootproc(void) {
     StackCheck_Init(&sBootThreadInfo, sBootThreadStack, STACK_TOP(sBootThreadStack), 0, -1, "boot");
 
     osMemSize = osGetMemSize();
+#if PLATFORM_N64
+    func_80001720();
+#endif
     bootclear();
-    __osInitialize_common();
-    __osInitialize_autodetect();
+    osInitialize();
 
     gCartHandle = osCartRomInit();
     osDriveRomInit();
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     isPrintfInit();
 #endif
     Locale_Init();

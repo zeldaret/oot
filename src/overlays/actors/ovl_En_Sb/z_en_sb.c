@@ -5,10 +5,23 @@
  */
 
 #include "z_en_sb.h"
+
+#include "attributes.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_sb/object_sb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void EnSb_Init(Actor* thisx, PlayState* play);
 void EnSb_Destroy(Actor* thisx, PlayState* play);
@@ -25,7 +38,7 @@ void EnSb_Lunge(EnSb* this, PlayState* play);
 void EnSb_Bounce(EnSb* this, PlayState* play);
 void EnSb_Cooldown(EnSb* this, PlayState* play);
 
-ActorInit En_Sb_InitVars = {
+ActorProfile En_Sb_Profile = {
     /**/ ACTOR_EN_SB,
     /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
@@ -39,7 +52,7 @@ ActorInit En_Sb_InitVars = {
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -86,8 +99,8 @@ static DamageTable sDamageTable[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_SHELL_BLADE, ICHAIN_CONTINUE),
-    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
+    ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_2, ICHAIN_CONTINUE),
+    ICHAIN_F32(lockOnArrowOffset, 30, ICHAIN_STOP),
 };
 
 static Vec3f sFlamePosOffsets[] = {
@@ -97,7 +110,7 @@ static Vec3f sFlamePosOffsets[] = {
     { 0.0f, 0.0f, -5.0f },
 };
 
-typedef enum {
+typedef enum ShellbladeBehavior {
     /* 0x00 */ SHELLBLADE_OPEN,
     /* 0x01 */ SHELLBLADE_WAIT_CLOSED,
     /* 0x02 */ SHELLBLADE_WAIT_OPEN,
@@ -266,8 +279,7 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
         EnSb_SpawnBubbles(play, this);
         this->bouncesLeft = 3;
         EnSb_SetupLunge(this);
-        // "Attack!!"
-        PRINTF("アタァ〜ック！！\n");
+        PRINTF(T("アタァ〜ック！！\n", "Attack!!\n"));
     }
 }
 
@@ -311,7 +323,7 @@ void EnSb_Bounce(EnSb* this, PlayState* play) {
             this->actor.speed = 0.0f;
             this->timer = 1;
             EnSb_SetupWaitClosed(this);
-            PRINTF(VT_FGCOL(RED) "攻撃終了！！" VT_RST "\n"); // "Attack Complete!"
+            PRINTF(VT_FGCOL(RED) T("攻撃終了！！", "Attack complete!!") VT_RST "\n");
         }
     }
 }
@@ -382,7 +394,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
         tookDamage = false;
         this->collider.base.acFlags &= ~AC_HIT;
 
-        switch (this->actor.colChkInfo.damageEffect) {
+        switch (this->actor.colChkInfo.damageReaction) {
             case 14: // wind arrow
                 hitByWindArrow = true;
                 FALLTHROUGH;

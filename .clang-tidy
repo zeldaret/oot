@@ -1,6 +1,6 @@
 Checks: '-*,readability-braces-around-statements,readability-inconsistent-declaration-parameter-name'
 WarningsAsErrors: ''
-HeaderFilterRegex: '(src|include)\/.*\.h$'
+HeaderFilterRegex: '(src|include)\/.*(\.h|\.inc\.c)$'
 FormatStyle: 'file'
 CheckOptions:
   # Require argument names to match exactly (instead of allowing a name to be a prefix/suffix of another)

@@ -5,6 +5,15 @@
  */
 
 #include "z_obj_elevator.h"
+
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_d_elevator/object_d_elevator.h"
 
 #define FLAGS 0
@@ -19,7 +28,7 @@ void func_80B92C80(ObjElevator* this, PlayState* play);
 void func_80B92D20(ObjElevator* this);
 void func_80B92D44(ObjElevator* this, PlayState* play);
 
-ActorInit Obj_Elevator_InitVars = {
+ActorProfile Obj_Elevator_Profile = {
     /**/ ACTOR_OBJ_ELEVATOR,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -32,9 +41,9 @@ ActorInit Obj_Elevator_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 600, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_STOP),
 };
 
 static f32 sScales[] = { 0.1f, 0.05f };
@@ -51,12 +60,13 @@ void func_80B92B08(ObjElevator* this, PlayState* play, CollisionHeader* collisio
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         STACK_PAD(s32);
 
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_elevator.c", 136,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_obj_elevator.c", 136, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -66,9 +76,9 @@ void ObjElevator_Init(Actor* thisx, PlayState* play) {
     f32 temp_f0;
 
     func_80B92B08(this, play, &object_d_elevator_Col_000360, DYNA_TRANSFORM_POS);
-    Actor_SetScale(thisx, sScales[thisx->params & 1]);
+    Actor_SetScale(thisx, sScales[PARAMS_GET_U(thisx->params, 0, 1)]);
     Actor_ProcessInitChain(thisx, sInitChain);
-    temp_f0 = (thisx->params >> 8) & 0xF;
+    temp_f0 = PARAMS_GET_U(thisx->params, 8, 4);
     this->unk_16C = temp_f0 + temp_f0;
     func_80B92C5C(this);
     PRINTF("(Dungeon Elevator)(arg_data 0x%04x)\n", thisx->params);
@@ -91,7 +101,7 @@ void func_80B92C80(ObjElevator* this, PlayState* play) {
     if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) && !(this->unk_170 & DYNA_INTERACT_PLAYER_ON_TOP)) {
         sub = thisx->world.pos.y - thisx->home.pos.y;
         if (fabsf(sub) < 0.1f) {
-            this->unk_168 = thisx->home.pos.y + ((thisx->params >> 0xC) & 0xF) * 80.0f;
+            this->unk_168 = thisx->home.pos.y + (PARAMS_GET_U(thisx->params, 12, 4)) * 80.0f;
         } else {
             this->unk_168 = thisx->home.pos.y;
         }

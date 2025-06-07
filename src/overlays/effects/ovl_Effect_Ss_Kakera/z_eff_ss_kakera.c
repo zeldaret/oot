@@ -6,6 +6,20 @@
 
 #include "z_eff_ss_kakera.h"
 
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "line_numbers.h"
+#include "printf.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "versions.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #define rReg0 regs[0]
 #define rGravity regs[1]
 #define rPitch regs[2]
@@ -26,7 +40,7 @@ void EffectSsKakera_Update(PlayState* play, u32 index, EffectSs* this);
 
 void func_809A9BA8(EffectSs* this, PlayState* play);
 
-EffectSsInit Effect_Ss_Kakera_InitVars = {
+EffectSsProfile Effect_Ss_Kakera_Profile = {
     EFFECT_SS_KAKERA,
     EffectSsKakera_Init,
 };
@@ -53,8 +67,8 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
         }
 
     } else {
-        PRINTF("shape_modelがNULL\n");
-        LogUtils_HungupThread("../z_eff_kakera.c", 178);
+        PRINTF(T("shape_modelがNULL\n", "shape_model is NULL\n"));
+        LogUtils_HungupThread("../z_eff_kakera.c", LN1(175, 178));
     }
 
     this->draw = EffectSsKakera_Draw;
@@ -78,9 +92,10 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 f32 func_809A9818(f32 arg0, f32 arg1) {
     f32 temp_f2;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (arg1 < 0.0f) {
-        PRINTF("範囲がマイナス！！(randomD_sectionUniformity)\n");
+        PRINTF(T("範囲がマイナス！！(randomD_sectionUniformity)\n",
+                 "The range is negative!! (randomD_sectionUniformity)\n"));
     }
 #endif
 
@@ -114,8 +129,7 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
     if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_kakera.c", 268),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, gfxCtx, "../z_eff_kakera.c", 268);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         if (colorIdx >= 0) {
@@ -124,8 +138,7 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
 
         gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     } else {
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_kakera.c", 286),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, gfxCtx, "../z_eff_kakera.c", 286);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
         if (colorIdx >= 0) {

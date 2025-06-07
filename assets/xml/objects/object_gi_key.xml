@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_key" Segment="6">
+        <Array Name="gGiSmallKeyVtx" Count="128" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiSmallKeyDL" Offset="0x0800"/>
     </File>
 </Root>

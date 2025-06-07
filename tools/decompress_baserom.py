@@ -10,6 +10,7 @@ import hashlib
 import io
 from pathlib import Path
 import struct
+from typing import Iterable
 
 import crunch64
 import ipl3checksum
@@ -29,10 +30,11 @@ def decompress_zlib(data: bytes) -> bytes:
     return bytes(output)
 
 
-def decompress(data: bytes, is_zlib_compressed: bool) -> bytes:
-    if is_zlib_compressed:
+def decompress(data: bytes, is_ique: bool) -> bytes:
+    if is_ique:
         return decompress_zlib(data)
-    return crunch64.yaz0.decompress(data)
+    else:
+        return crunch64.yaz0.decompress(data)
 
 
 def round_up(n, shift):
@@ -40,11 +42,13 @@ def round_up(n, shift):
     return (n + mod - 1) >> shift << shift
 
 
-def update_crc(decompressed: io.BytesIO) -> io.BytesIO:
+def update_crc(decompressed: io.BytesIO, is_ique: bool) -> io.BytesIO:
     print("Recalculating crc...")
-    calculated_checksum = ipl3checksum.CICKind.CIC_X105.calculateChecksum(
-        bytes(decompressed.getbuffer())
-    )
+    if is_ique:
+        cic_kind = ipl3checksum.CICKind.CIC_6102_7101
+    else:
+        cic_kind = ipl3checksum.CICKind.CIC_X105
+    calculated_checksum = cic_kind.calculateChecksum(bytes(decompressed.getbuffer()))
     new_crc = struct.pack(f">II", calculated_checksum[0], calculated_checksum[1])
 
     decompressed.seek(0x10)
@@ -56,7 +60,7 @@ def decompress_rom(
     file_content: bytearray,
     dmadata_start: int,
     dma_entries: list[dmadata.DmaEntry],
-    is_zlib_compressed: bool,
+    is_ique: bool,
 ) -> bytearray:
     rom_segments = {}  # vrom start : data s.t. len(data) == vrom_end - vrom_start
     new_dmadata = []  # new dmadata: list[dmadata.Entry]
@@ -72,7 +76,7 @@ def decompress_rom(
             new_dmadata.append(dma_entry)
             continue
         if dma_entry.is_compressed():
-            new_contents = decompress(file_content[p_start:p_end], is_zlib_compressed)
+            new_contents = decompress(file_content[p_start:p_end], is_ique)
             rom_segments[v_start] = new_contents
         else:
             rom_segments[v_start] = file_content[p_start : p_start + v_end - v_start]
@@ -94,17 +98,17 @@ def decompress_rom(
     decompressed.seek(padding_start)
     decompressed.write(b"\x00" * (padding_end - padding_start))
     # re-calculate crc
-    return bytearray(update_crc(decompressed).getbuffer())
+    return bytearray(update_crc(decompressed, is_ique).getbuffer())
 
 
 def get_str_hash(byte_array):
     return str(hashlib.md5(byte_array).hexdigest())
 
 
-def check_existing_rom(rom_path: Path, correct_str_hash: str):
+def check_existing_rom(rom_path: Path, correct_str_hashes: Iterable[str]):
     # If the baserom exists and is correct, we don't need to change anything
     if rom_path.exists():
-        if get_str_hash(rom_path.read_bytes()) == correct_str_hash:
+        if get_str_hash(rom_path.read_bytes()) in correct_str_hashes:
             return True
     return False
 
@@ -176,12 +180,17 @@ def main():
     config = version_config.load_version_config(version)
     dmadata_start = config.dmadata_start
 
-    compressed_str_hash = (
-        (baserom_dir / "checksum-compressed.md5").read_text().split()[0]
-    )
-    decompressed_str_hash = (baserom_dir / "checksum.md5").read_text().split()[0]
+    compressed_str_hashes = []
+    decompressed_str_hashes = []
+    for checksum_stem in config.checksums:
+        compressed_str_hashes.append(
+            (baserom_dir / f"{checksum_stem}-compressed.md5").read_text().split()[0]
+        )
+        decompressed_str_hashes.append(
+            (baserom_dir / f"{checksum_stem}.md5").read_text().split()[0]
+        )
 
-    if check_existing_rom(uncompressed_path, decompressed_str_hash):
+    if check_existing_rom(uncompressed_path, decompressed_str_hashes):
         print("Found valid baserom - exiting early")
         return
 
@@ -220,12 +229,12 @@ def main():
     # Check to see if the ROM is a "vanilla" ROM
     str_hash = get_str_hash(file_content)
     if version == "gc-eu-mq-dbg":
-        correct_str_hash = decompressed_str_hash
+        correct_str_hashes = decompressed_str_hashes
     else:
-        correct_str_hash = compressed_str_hash
-    if str_hash != correct_str_hash:
+        correct_str_hashes = compressed_str_hashes
+    if str_hash not in correct_str_hashes:
         print(
-            f"Error: Expected a hash of {correct_str_hash} but got {str_hash}. The baserom has probably been tampered, find a new one"
+            f"Error: Expected a hash of {' or '.join(correct_str_hashes)} but got {str_hash}. The baserom has probably been tampered, find a new one"
         )
 
         if version == "gc-eu-mq-dbg":
@@ -240,16 +249,14 @@ def main():
     # Decompress
     if any(dma_entry.is_compressed() for dma_entry in dma_entries):
         print("Decompressing rom...")
-        is_zlib_compressed = version in {"ique-cn", "ique-zh"}
-        file_content = decompress_rom(
-            file_content, dmadata_start, dma_entries, is_zlib_compressed
-        )
+        is_ique = version.startswith("ique-")
+        file_content = decompress_rom(file_content, dmadata_start, dma_entries, is_ique)
 
     # Double check the hash
     str_hash = get_str_hash(file_content)
-    if str_hash != decompressed_str_hash:
+    if str_hash not in decompressed_str_hashes:
         print(
-            f"Error: Expected a hash of {decompressed_str_hash} after decompression but got {str_hash}!"
+            f"Error: Expected a hash of {' or '.join(decompressed_str_hashes)} after decompression but got {str_hash}!"
         )
         exit(1)
 

@@ -1,10 +1,13 @@
-#include "global.h"
+#include "array_count.h"
+#include "ultra64.h"
 
 OSPifRam __osContPifRam;
 u8 __osContLastCmd;
 u8 __osMaxControllers; // always 4
 
+#ifndef BBPLAYER
 OSTimer __osEepromTimer;
+#endif
 OSMesgQueue __osEepromTimerMsgQueue;
 OSMesg __osEepromTimerMsg;
 
@@ -41,7 +44,11 @@ s32 osContInit(OSMesgQueue* mq, u8* ctlBitfield, OSContStatus* status) {
     osRecvMesg(mq, &msg, OS_MESG_BLOCK);
 
     __osContGetInitData(ctlBitfield, status);
+#ifdef BBPLAYER
+    __osContLastCmd = CONT_CMD_CHANNEL_RESET;
+#else
     __osContLastCmd = CONT_CMD_REQUEST_STATUS;
+#endif
     __osSiCreateAccessQueue();
     osCreateMesgQueue(&__osEepromTimerMsgQueue, &__osEepromTimerMsg, 1);
 
@@ -52,7 +59,7 @@ void __osContGetInitData(u8* ctlBitfield, OSContStatus* data) {
     u8* ptr;
     __OSContRequesFormat req;
     s32 i;
-    u8 bitfieldTemp = 0;
+    u8 bits = 0;
 
     ptr = (u8*)&__osContPifRam;
 
@@ -63,10 +70,30 @@ void __osContGetInitData(u8* ctlBitfield, OSContStatus* data) {
             continue;
         }
         data->type = req.typel << 8 | req.typeh;
+#ifdef BBPLAYER
+        data->status = __osBbPakAddress[i] != 0;
+#else
         data->status = req.status;
-        bitfieldTemp |= 1 << i;
+#endif
+        bits |= 1 << i;
     }
-    *ctlBitfield = bitfieldTemp;
+
+#ifdef BBPLAYER
+    if (__osBbIsBb && __osBbHackFlags != 0) {
+        OSContStatus tmp;
+
+        bits = (bits & ~((1 << __osBbHackFlags) | 1)) | ((bits & 1) << __osBbHackFlags) |
+               ((bits & (1 << __osBbHackFlags)) >> __osBbHackFlags);
+
+        data -= __osMaxControllers;
+
+        tmp = data[0];
+        data[0] = data[__osBbHackFlags];
+        data[__osBbHackFlags] = tmp;
+    }
+#endif
+
+    *ctlBitfield = bits;
 }
 
 void __osPackRequestData(u8 poll) {

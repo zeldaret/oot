@@ -2,9 +2,9 @@
 #define Z_BG_HAKA_TRAP_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
-typedef enum {
+typedef enum HakaTrapType {
     /* 0x00 */ HAKA_TRAP_GUILLOTINE_SLOW,
     /* 0x01 */ HAKA_TRAP_SPIKED_BOX,
     /* 0x02 */ HAKA_TRAP_SPIKED_WALL,
@@ -15,7 +15,7 @@ typedef enum {
 
 struct BgHakaTrap;
 
-typedef void (*BgHakaTrapActionFunc)(struct BgHakaTrap*, PlayState*);
+typedef void (*BgHakaTrapActionFunc)(struct BgHakaTrap*, struct PlayState*);
 
 typedef struct BgHakaTrap {
     /* 0x0000 */ DynaPolyActor dyna;
@@ -25,8 +25,8 @@ typedef struct BgHakaTrap {
     /* 0x016A */ s16 unk_16A; // used as boolean for HAKA_TRAP_GUILLOTINE_SLOW/FAST, s16 for HAKA_TRAP_SPIKED_BOX
     /* 0x016C */ Vec3f unk_16C;
     /* 0x0178 */ ColliderCylinder colliderCylinder;
-    /* 0x01C4 */ ColliderTris colliderSpikes;
-    /* 0x01E4 */ ColliderTrisElement colliderSpikesItem[2];
+    /* 0x01C4 */ ColliderTris spikesCollider;
+    /* 0x01E4 */ ColliderTrisElement spikesColliderElements[2];
 } BgHakaTrap; // size = 0x029C
 
 #endif

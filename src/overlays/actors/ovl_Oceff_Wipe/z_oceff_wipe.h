@@ -2,9 +2,9 @@
 #define Z_OCEFF_WIPE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
-typedef enum {
+typedef enum OceffWipeType {
     /* 0x00 */ OCEFF_WIPE_ZL,
     /* 0x01 */ OCEFF_WIPE_SOT
 } OceffWipeType;

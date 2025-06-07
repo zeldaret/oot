@@ -25,12 +25,12 @@
         <DList Name="gObjectGolEyeIrisDL" Offset="0x2C10"/>
         <DList Name="gObjectGolAntennaDL" Offset="0x2EB8"/>
 
-        <Texture Name="gObjectGolShellTex" OutName="object_gol_shell" Format="rgba16" Width="16" Height="16" Offset="0x2FD0"/>
-        <Texture Name="gObjectGolSkinTex" OutName="object_gol_skin" Format="rgba16" Width="16" Height="16" Offset="0x31D0"/>
+        <Texture Name="gObjectGolShellTex" Format="rgba16" Width="16" Height="16" Offset="0x2FD0"/>
+        <Texture Name="gObjectGolSkinTex" Format="rgba16" Width="16" Height="16" Offset="0x31D0"/>
         <!-- the white of the eye texture is also used for the antenna -->
-        <Texture Name="gObjectGolEyeWhiteTex" OutName="object_gol_eye_white" Format="rgba16" Width="16" Height="16" Offset="0x33D0"/>
-        <Texture Name="gObjectGolEyeIrisTex" OutName="object_gol_eye_iris" Format="rgba16" Width="16" Height="16" Offset="0x35D0"/>
-        <Texture Name="gObjectGolEggTex" OutName="object_gol_egg" Format="rgba16" Width="16" Height="16" Offset="0x37D0"/>
+        <Texture Name="gObjectGolEyeWhiteTex" Format="rgba16" Width="16" Height="16" Offset="0x33D0"/>
+        <Texture Name="gObjectGolEyeIrisTex" Format="rgba16" Width="16" Height="16" Offset="0x35D0"/>
+        <Texture Name="gObjectGolEggTex" Format="rgba16" Width="16" Height="16" Offset="0x37D0"/>
 
         <Limb Name="gObjectGolRoot1Limb" LimbType="Standard" Offset="0x39D0"/>
         <Limb Name="gObjectGolRoot2Limb" LimbType="Standard" Offset="0x39DC"/>
@@ -55,5 +55,37 @@
         <Limb Name="gObjectGolRightFootLimb" LimbType="Standard" Offset="0x3AC0"/>
         <Limb Name="gObjectGolRightShinLimb" LimbType="Standard" Offset="0x3ACC"/>
         <Limb Name="gObjectGolRightThighLimb" LimbType="Standard" Offset="0x3AD8"/>
+
+        <!-- Vertices -->
+        <Array Name="gObjectGolLeftFootVtx" Count="10" Offset="0x1560">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolLeftThighVtx" Count="26" Offset="0x16C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolLeftShinVtx" Count="10" Offset="0x1958">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolRightFootVtx" Count="10" Offset="0x1A88">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolRightThighVtx" Count="25" Offset="0x1BE8">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolRightShinVtx" Count="10" Offset="0x1E70">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolBodyVtx" Count="84" Offset="0x1FA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolEggVtx" Count="59" Offset="0x26C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolEyeIrisVtx" Count="3" Offset="0x2BE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gObjectGolAntennaVtx" Count="34" Offset="0x2C98">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

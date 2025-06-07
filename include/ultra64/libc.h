@@ -5,7 +5,7 @@
 
 void osSyncPrintf(const char* fmt, ...);
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && defined(NON_MATCHING)
 void bzero(void* __s, unsigned int __n);
 int bcmp(const void* __sl, const void* __s2, unsigned int __n);
 void bcopy(const void* __src, void* __dest, unsigned int __n);

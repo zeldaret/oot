@@ -6,10 +6,24 @@
 
 #include "z_obj_tsubo.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "item.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_THROW_ONLY)
 
 void ObjTsubo_Init(Actor* thisx, PlayState* play);
 void ObjTsubo_Destroy(Actor* thisx, PlayState* play2);
@@ -36,7 +50,7 @@ static s16 D_80BA1B54 = 0;
 static s16 D_80BA1B58 = 0;
 static s16 D_80BA1B5C = 0;
 
-ActorInit Obj_Tsubo_InitVars = {
+ActorProfile Obj_Tsubo_Profile = {
     /**/ ACTOR_OBJ_TSUBO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -56,7 +70,7 @@ static Gfx* D_80BA1B8C[] = { gPotFragmentDL, object_tsubo_DL_001960 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_HARD,
+        COL_MATERIAL_HARD,
         AT_ON | AT_TYPE_PLAYER,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
@@ -64,7 +78,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0x00000002, 0x00, 0x01 },
         { 0x4FC1FFFE, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
@@ -77,16 +91,16 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit[] = { 0, 12, 60, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F_DIV1000(scale, 150, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneForward, 900, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 150, ICHAIN_CONTINUE),    ICHAIN_F32(cullingVolumeDistance, 900, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 100, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeDownward, 800, ICHAIN_STOP),
 };
 
 void ObjTsubo_SpawnCollectible(ObjTsubo* this, PlayState* play) {
-    s16 dropParams = this->actor.params & 0x1F;
+    s16 dropParams = PARAMS_GET_U(this->actor.params, 0, 5);
 
     if ((dropParams >= 0) && (dropParams < ITEM00_MAX)) {
-        Item_DropCollectible(play, &this->actor.world.pos, (dropParams | (((this->actor.params >> 9) & 0x3F) << 8)));
+        Item_DropCollectible(play, &this->actor.world.pos, dropParams | (PARAMS_GET_U(this->actor.params, 9, 6) << 8));
     }
 }
 
@@ -112,7 +126,7 @@ s32 ObjTsubo_SnapToFloor(ObjTsubo* this, PlayState* play) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
-        PRINTF("地面に付着失敗\n");
+        PRINTF(T("地面に付着失敗\n", "Failed to attach to ground\n"));
         return false;
     }
 }
@@ -135,13 +149,14 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[PARAMS_GET_U(this->actor.params, 8, 1)]);
     if (this->requiredObjectSlot < 0) {
-        PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
+        PRINTF(T("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               this->actor.params, "../z_obj_tsubo.c", 410);
         Actor_Kill(&this->actor);
     } else {
         ObjTsubo_SetupWaitForObject(this);
-        PRINTF("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
+        PRINTF(T("(dungeon keep 壷)(arg_data 0x%04x)\n", "(dungeon keep pot)(arg_data 0x%04x)\n"), this->actor.params);
     }
 }
 
@@ -183,7 +198,8 @@ void ObjTsubo_AirBreak(ObjTsubo* this, PlayState* play) {
         }
         EffectSsKakera_Spawn(play, &pos, &velocity, &this->actor.world.pos, -240, arg5, 10, 10, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 60, KAKERA_COLOR_NONE,
-                             sObjectIds[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+                             sObjectIds[PARAMS_GET_U(this->actor.params, 8, 1)],
+                             D_80BA1B8C[PARAMS_GET_U(this->actor.params, 8, 1)]);
     }
     func_80033480(play, &this->actor.world.pos, 30.0f, 4, 20, 50, 1);
 }
@@ -212,7 +228,8 @@ void ObjTsubo_WaterBreak(ObjTsubo* this, PlayState* play) {
         phi_s0 = (Rand_ZeroOne() < .2f) ? 64 : 32;
         EffectSsKakera_Spawn(play, &pos, &velocity, &this->actor.world.pos, -180, phi_s0, 30, 30, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 70, KAKERA_COLOR_NONE,
-                             sObjectIds[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+                             sObjectIds[PARAMS_GET_U(this->actor.params, 8, 1)],
+                             D_80BA1B8C[PARAMS_GET_U(this->actor.params, 8, 1)]);
     }
 }
 
@@ -225,7 +242,7 @@ void ObjTsubo_WaitForObject(ObjTsubo* this, PlayState* play) {
         this->actor.draw = ObjTsubo_Draw;
         this->actor.objectSlot = this->requiredObjectSlot;
         ObjTsubo_SetupIdle(this);
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 }
 
@@ -277,7 +294,7 @@ void ObjTsubo_SetupLiftedUp(ObjTsubo* this) {
     this->actor.room = -1;
     //! @bug: This is an unsafe cast, although the sound effect will still play
     Player_PlaySfx((Player*)&this->actor, NA_SE_PL_PULL_UP_POT);
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void ObjTsubo_LiftedUp(ObjTsubo* this, PlayState* play) {
@@ -338,5 +355,5 @@ void ObjTsubo_Update(Actor* thisx, PlayState* play) {
 }
 
 void ObjTsubo_Draw(Actor* thisx, PlayState* play) {
-    Gfx_DrawDListOpa(play, D_80BA1B84[(thisx->params >> 8) & 1]);
+    Gfx_DrawDListOpa(play, D_80BA1B84[PARAMS_GET_U(thisx->params, 8, 1)]);
 }

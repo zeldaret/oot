@@ -5,13 +5,18 @@
  */
 
 #include "z_eff_ss_g_fire.h"
+
+#include "segmented_address.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 u32 EffectSsGFire_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGFire_Draw(PlayState* play, u32 index, EffectSs* this);
 void EffectSsGFire_Update(PlayState* play, u32 index, EffectSs* this);
 
-EffectSsInit Effect_Ss_G_Fire_InitVars = {
+EffectSsProfile Effect_Ss_G_Fire_Profile = {
     EFFECT_SS_G_FIRE,
     EffectSsGFire_Init,
 };

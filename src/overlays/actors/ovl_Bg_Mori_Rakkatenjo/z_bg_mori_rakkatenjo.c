@@ -5,10 +5,25 @@
  */
 
 #include "z_bg_mori_rakkatenjo.h"
-#include "assets/objects/object_mori_objects/object_mori_objects.h"
-#include "quake.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "quake.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/object_mori_objects/object_mori_objects.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play);
 void BgMoriRakkatenjo_Destroy(Actor* thisx, PlayState* play);
@@ -28,7 +43,7 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, PlayState* play);
 
 static s16 sCamSetting = CAM_SET_NONE;
 
-ActorInit Bg_Mori_Rakkatenjo_InitVars = {
+ActorProfile Bg_Mori_Rakkatenjo_Profile = {
     /**/ ACTOR_BG_MORI_RAKKATENJO,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -53,25 +68,26 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
 
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
-#if OOT_DEBUG
-    // "Forest Temple obj. Falling Ceiling"
-    PRINTF("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
+#if DEBUG_FEATURES
+    PRINTF(T("森の神殿 obj. 落下天井 (home posY %f)\n", "Forest Temple obj. Falling Ceiling (home posY %f)\n"),
+           this->dyna.actor.home.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||
         (fabsf(683.0f - this->dyna.actor.home.pos.y) > 0.001f) ||
         (fabsf(-2520.0f - this->dyna.actor.home.pos.z) > 0.001f)) {
-        // "The set position has been changed. Let's fix the program."
-        PRINTF("Warning : セット位置が変更されています。プログラムを修正しましょう。\n");
+        PRINTF(T("Warning : セット位置が変更されています。プログラムを修正しましょう。\n",
+                 "Warning : The set position has been changed. Let's fix the program.\n"));
     }
     if (this->dyna.actor.home.rot.y != 0x8000) {
-        // "The set Angle has changed. Let's fix the program."
-        PRINTF("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
+        PRINTF(T("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n",
+                 "Warning : The set Angle has changed. Let's fix the program.\n"));
     }
 #endif
 
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
-        // "Forest Temple obj Falling Ceiling Bank Danger!"
-        PRINTF("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n", "../z_bg_mori_rakkatenjo.c", 205);
+        PRINTF(T("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n",
+                 "Error : Forest Temple obj Falling Ceiling Bank danger! (%s %d)\n"),
+               "../z_bg_mori_rakkatenjo.c", 205);
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -232,8 +248,7 @@ void BgMoriRakkatenjo_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502);
 
     gSPDisplayList(POLY_OPA_DISP++, gMoriRakkatenjoDL);
 

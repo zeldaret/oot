@@ -1,15 +1,27 @@
 <Root>
     <File Name="object_mamenoki" Segment="6">
+        <Array Name="gMagicBeanSeedlingVtx" Count="9" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gMagicBeanSeedlingDL" Offset="0x90"/>
+        <Array Name="gMagicBeanStemVtx" Count="8" Offset="0x130">
+            <Vtx/>
+        </Array>
         <DList Name="gMagicBeanStemDL" Offset="0x1B0"/>
+        <Array Name="gMagicBeanPlatformVtx" Count="26" Offset="0x250">
+            <Vtx/>
+        </Array>
         <DList Name="gMagicBeanPlatformDL" Offset="0x3F0"/>
+        <Array Name="gMagicBeanSoftSoilVtx" Count="4" Offset="0x610">
+            <Vtx/>
+        </Array>
         <DList Name="gMagicBeanSoftSoilDL" Offset="0x650"/>
-        <Texture Name="gMagicBeanSoftSoilTex" OutName="soft_soil" Format="rgba16" Width="32" Height="32" Offset="0x6E0"/>
-        <Texture Name="gMagicBeanSeedlingTex" OutName="seedling" Format="rgba16" Width="16" Height="32" Offset="0xEE0"/>
-        <Texture Name="gMagicBeanPlatformTex" OutName="platform" Format="rgba16" Width="32" Height="32" Offset="0x12E0"/>
-        <Texture Name="gMagicBeanPlatformStemTex" OutName="platform_stem" Format="rgba16" Width="16" Height="32" Offset="0x1AE0"/>
-        <Texture Name="gMagicBeanPlatformRootsTex" OutName="platform_roots" Format="rgba16" Width="32" Height="16" Offset="0x1EE0"/>
-        <Texture Name="gMagicBeanStemTex" OutName="stem" Format="rgba16" Width="16" Height="32" Offset="0x22E0"/>
+        <Texture Name="gMagicBeanSoftSoilTex" Format="rgba16" Width="32" Height="32" Offset="0x6E0"/>
+        <Texture Name="gMagicBeanSeedlingTex" Format="rgba16" Width="16" Height="32" Offset="0xEE0"/>
+        <Texture Name="gMagicBeanPlatformTex" Format="rgba16" Width="32" Height="32" Offset="0x12E0"/>
+        <Texture Name="gMagicBeanPlatformStemTex" Format="rgba16" Width="16" Height="32" Offset="0x1AE0"/>
+        <Texture Name="gMagicBeanPlatformRootsTex" Format="rgba16" Width="32" Height="16" Offset="0x1EE0"/>
+        <Texture Name="gMagicBeanStemTex" Format="rgba16" Width="16" Height="32" Offset="0x22E0"/>
         <Collision Name="gMagicBeanPlatformCol" Offset="0x5DC"/>
     </File>
 </Root>

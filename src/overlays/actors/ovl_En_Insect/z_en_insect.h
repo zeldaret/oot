@@ -2,12 +2,11 @@
 #define Z_EN_INSECT_H
 
 #include "ultra64.h"
-#include "global.h"
-#include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
+#include "actor.h"
 
 struct EnInsect;
 
-typedef void (*EnInsectActionFunc)(struct EnInsect*, PlayState*);
+typedef void (*EnInsectActionFunc)(struct EnInsect*, struct PlayState*);
 
 #define INSECT_FLAG_0 (1 << 0)
 #define INSECT_FLAG_1 (1 << 1)
@@ -22,7 +21,7 @@ typedef void (*EnInsectActionFunc)(struct EnInsect*, PlayState*);
 typedef struct EnInsect {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderJntSph collider;
-    /* 0x016C */ ColliderJntSphElement colliderItem;
+    /* 0x016C */ ColliderJntSphElement colliderElements[1];
     /* 0x01AC */ SkelAnime skelAnime;
     /* 0x01F0 */ Vec3s jointTable[24];
     /* 0x0280 */ Vec3s morphTable[24];
@@ -33,13 +32,13 @@ typedef struct EnInsect {
     /* 0x031A */ s16 actionTimer;
     /* 0x031C */ s16 lifeTimer;
     /* 0x031E */ s16 crawlSoundDelay;
-    /* 0x0320 */ ObjMakekinsuta* soilActor;
+    /* 0x0320 */ struct ObjMakekinsuta* soilActor;
     /* 0x0324 */ f32 unk_324;
     /* 0x0328 */ s16 unk_328;
     /* 0x032A */ u8 unk_32A;
 } EnInsect; // size = 0x032C
 
-typedef enum {
+typedef enum EnInsectType {
     /* 0 */ INSECT_TYPE_PERMANENT,
     /* 1 */ INSECT_TYPE_SPAWNED,
     /* 2 */ INSECT_TYPE_FIRST_DROPPED,

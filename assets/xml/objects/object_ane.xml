@@ -38,22 +38,69 @@
         <DList Name="gCuccoLadyHeadDL" Offset="0x54D8"/>
 
         <!-- Palettes -->
-        <Texture Name="gCuccoLadyTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x0108"/>
+        <Texture Name="gCuccoLadyTLUT" Format="rgba16" Width="16" Height="16" Offset="0x0108"/>
 
         <!-- Textures -->
-        <Texture Name="gCuccoLadyHairTex" OutName="hair" Format="ci8" Width="8" Height="16" Offset="0x0308" TlutOffset="0x0108"/>
-        <Texture Name="gCuccoLadyTex_0388" OutName="tex_0388" Format="ci8" Width="8" Height="8" Offset="0x0388" TlutOffset="0x0108"/>
-        <Texture Name="gCuccoLadyEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x03C8" TlutOffset="0x0108"/>
-        <Texture Name="gCuccoLadyMouthTex" OutName="mouth" Format="rgba16" Width="32" Height="16" Offset="0x04C8"/>
-        <Texture Name="gCuccoLadyBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="16" Height="16" Offset="0x20C8" TlutOffset="0x0108"/>
-        <Texture Name="gCuccoLadySleeveTex" OutName="sleeve" Format="ci8" Width="8" Height="16" Offset="0x21C8" TlutOffset="0x0108"/>
-        <Texture Name="gCuccoLadyShirtButtonTex" OutName="shirt_button" Format="ci8" Width="8" Height="8" Offset="0x2248" TlutOffset="0x0108"/>
-        <Texture Name="gCuccoLadyWaistTex" OutName="waist" Format="ci8" Width="16" Height="16" Offset="0x2288" TlutOffset="0x0108"/>
-        <Texture Name="gCuccoLadySkirtTex" OutName="skirt" Format="ci8" Width="32" Height="32" Offset="0x2388" TlutOffset="0x0108"/>
+        <Texture Name="gCuccoLadyHairTex" Format="ci8" Width="8" Height="16" Offset="0x0308" TlutOffset="0x0108"/>
+        <Texture Name="gCuccoLadyTex_0388" Format="ci8" Width="8" Height="8" Offset="0x0388" TlutOffset="0x0108"/>
+        <Texture Name="gCuccoLadyEarTex" Format="ci8" Width="16" Height="16" Offset="0x03C8" TlutOffset="0x0108"/>
+        <Texture Name="gCuccoLadyMouthTex" Format="rgba16" Width="32" Height="16" Offset="0x04C8"/>
+        <Texture Name="gCuccoLadyBackOfHandTex" Format="ci8" Width="16" Height="16" Offset="0x20C8" TlutOffset="0x0108"/>
+        <Texture Name="gCuccoLadySleeveTex" Format="ci8" Width="8" Height="16" Offset="0x21C8" TlutOffset="0x0108"/>
+        <Texture Name="gCuccoLadyShirtButtonTex" Format="ci8" Width="8" Height="8" Offset="0x2248" TlutOffset="0x0108"/>
+        <Texture Name="gCuccoLadyWaistTex" Format="ci8" Width="16" Height="16" Offset="0x2288" TlutOffset="0x0108"/>
+        <Texture Name="gCuccoLadySkirtTex" Format="ci8" Width="32" Height="32" Offset="0x2388" TlutOffset="0x0108"/>
 
         <!-- Eye Textures -->
-        <Texture Name="gCuccoLadyEyeOpenTex" OutName="cucco_lady_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x8C8"/>
-        <Texture Name="gCuccoLadyEyeHalfTex" OutName="cucco_lady_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x10C8"/>
-        <Texture Name="gCuccoLadyEyeClosedTex" OutName="cucco_lady_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x18C8"/>
+        <Texture Name="gCuccoLadyEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x8C8"/>
+        <Texture Name="gCuccoLadyEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x10C8"/>
+        <Texture Name="gCuccoLadyEyeClosedTex" Format="rgba16" Width="32" Height="32" Offset="0x18C8"/>
+
+        <!-- Vertices -->
+        <Array Name="gCuccoLadyHeadVtx" Count="234" Offset="0x2788">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_003628" Count="41" Offset="0x3628">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_0038B8" Count="24" Offset="0x38B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_003A38" Count="29" Offset="0x3A38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_003C08" Count="41" Offset="0x3C08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_003E98" Count="24" Offset="0x3E98">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_004018" Count="29" Offset="0x4018">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoLadyTorsoVtx" Count="107" Offset="0x41E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoLadyShoe2Vtx" Count="53" Offset="0x4898">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_004BE8" Count="8" Offset="0x4BE8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_004C68" Count="3" Offset="0x4C68">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoLadyShoe1Vtx" Count="53" Offset="0x4C98">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_004FE8" Count="8" Offset="0x4FE8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ane_Vtx_005068" Count="3" Offset="0x5068">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoLadyDressVtx" Count="68" Offset="0x5098">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

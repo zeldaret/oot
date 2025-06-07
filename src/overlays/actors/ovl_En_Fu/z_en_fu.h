@@ -2,13 +2,13 @@
 #define Z_EN_FU_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnFu;
 
-typedef void (*EnFuActionFunc)(struct EnFu*, PlayState*);
+typedef void (*EnFuActionFunc)(struct EnFu*, struct PlayState*);
 
-typedef enum {
+typedef enum EnFuLimb {
     /* 0x00 */ FU_LIMB_ROOT,
     /* 0x01 */ FU_LIMB_TORSO,
     /* 0x02 */ FU_LIMB_LEFT_THIGH,

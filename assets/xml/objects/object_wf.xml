@@ -1,12 +1,54 @@
 <Root>
     <File Name="object_wf" Segment="6">
-        <Texture Name="gWolfosWhiteFurTex" OutName="wolfos_white_fur" Format="rgba16" Width="8" Height="16" Offset="0x0"/>
-        <Texture Name="gWolfosWhiteToothClawTex" OutName="wolfos_white_tooth_claw" Format="rgba16" Width="8" Height="8" Offset="0x100"/>
-        <Texture Name="gWolfosWhiteMouthTex" OutName="wolfos_white_mouth" Format="rgba16" Width="8" Height="8" Offset="0x180"/>
-        <Texture Name="gWolfosWhiteTongueTex" OutName="wolfos_white_tongue" Format="rgba16" Width="8" Height="8" Offset="0x200"/>
-        <Texture Name="gWolfosWhiteNostrilTex" OutName="wolfos_white_nostril" Format="rgba16" Width="8" Height="8" Offset="0x280"/>
-        <Texture Name="gWolfosWhiteEyeOpenTex" OutName="wolfos_white_eye_open" Format="rgba16" Width="16" Height="16" Offset="0x300"/>
+        <Texture Name="gWolfosWhiteFurTex" Format="rgba16" Width="8" Height="16" Offset="0x0"/>
+        <Texture Name="gWolfosWhiteToothClawTex" Format="rgba16" Width="8" Height="8" Offset="0x100"/>
+        <Texture Name="gWolfosWhiteMouthTex" Format="rgba16" Width="8" Height="8" Offset="0x180"/>
+        <Texture Name="gWolfosWhiteTongueTex" Format="rgba16" Width="8" Height="8" Offset="0x200"/>
+        <Texture Name="gWolfosWhiteNostrilTex" Format="rgba16" Width="8" Height="8" Offset="0x280"/>
+        <Texture Name="gWolfosWhiteEyeOpenTex" Format="rgba16" Width="16" Height="16" Offset="0x300"/>
 
+        <Array Name="gWolfosWhiteBackLeftPawVtx" Count="19" Offset="0x500">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteBackLeftPasternVtx" Count="12" Offset="0x630">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteBackLeftShinVtx" Count="21" Offset="0x6F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteBackLeftThighVtx" Count="23" Offset="0x840">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteBackRightPawVtx" Count="19" Offset="0x9B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteBackRightPasternVtx" Count="12" Offset="0xAE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteBackRightShinVtx" Count="21" Offset="0xBA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteBackRightThighVtx" Count="23" Offset="0xCF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteFrontRightLowerLegVtx" Count="29" Offset="0xE60">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteFrontRightUpperLegVtx" Count="35" Offset="0x1030">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteFrontLeftLowerLegVtx" Count="29" Offset="0x1260">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteFrontLeftUpperLegVtx" Count="35" Offset="0x1430">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteThoraxVtx" Count="34" Offset="0x1660">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteAbdomenVtx" Count="26" Offset="0x1880">
+            <Vtx/>
+        </Array>
         <DList Name="gWolfosWhiteAbdomenDL" Offset="0x1A20"/>
         <DList Name="gWolfosWhiteBackRightThighDL" Offset="0x1AE8"/>
         <DList Name="gWolfosWhiteBackRightShinDL" Offset="0x1BD8"/>
@@ -22,9 +64,24 @@
         <DList Name="gWolfosWhiteFrontRightUpperLegDL" Offset="0x25A0"/>
         <DList Name="gWolfosWhiteFrontRightLowerLegDL" Offset="0x26C8"/>
 
-        <Texture Name="gWolfosWhiteEyeHalfTex" OutName="wolfos_white_eye_half" Format="rgba16" Width="16" Height="16" Offset="0x27D8"/>
-        <Texture Name="gWolfosWhiteEyeNarrowTex" OutName="wolfos_white_eye_narrow" Format="rgba16" Width="16" Height="16" Offset="0x29D8"/>
+        <Texture Name="gWolfosWhiteEyeHalfTex" Format="rgba16" Width="16" Height="16" Offset="0x27D8"/>
+        <Texture Name="gWolfosWhiteEyeNarrowTex" Format="rgba16" Width="16" Height="16" Offset="0x29D8"/>
 
+        <Array Name="gWolfosWhiteTailVtx" Count="5" Offset="0x2BD8">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteFrontLeftClawVtx" Count="18" Offset="0x2C28">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteFrontRightClawVtx" Count="18" Offset="0x2D48">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteHeadVtx" Count="90" Offset="0x2E68">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosWhiteEyesVtx" Count="8" Offset="0x3408">
+            <Vtx/>
+        </Array>
         <DList Name="gWolfosWhiteTailDL" Offset="0x3488"/>
         <DList Name="gWolfosWhiteFrontLeftClawDL" Offset="0x3528"/>
         <DList Name="gWolfosWhiteFrontRightClawDL" Offset="0x35F0"/>
@@ -64,6 +121,48 @@
         <Animation Name="gWolfosRunningAnim" Offset="0x57A0"/>
         <Blob Name="object_wf_zeroes_Blob_0057B0" Size="0x20" Offset="0x57B0"/>
 
+        <Array Name="gWolfosNormalBackLeftPawVtx" Count="19" Offset="0x57D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalBackLeftPasternVtx" Count="12" Offset="0x5900">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalBackLeftShinVtx" Count="23" Offset="0x59C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalBackLeftThighVtx" Count="26" Offset="0x5B30">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalBackRightPawVtx" Count="19" Offset="0x5CD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalBackRightPasternVtx" Count="12" Offset="0x5E00">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalBackRightShinVtx" Count="23" Offset="0x5EC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalBackRightThighVtx" Count="26" Offset="0x6030">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalFrontRightLowerLegVtx" Count="40" Offset="0x61D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalFrontRightUpperLegVtx" Count="26" Offset="0x6450">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalFrontLeftLowerLegVtx" Count="40" Offset="0x65F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalFrontLeftUpperLegVtx" Count="26" Offset="0x6870">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalThoraxVtx" Count="34" Offset="0x6A10">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalAbdomenVtx" Count="26" Offset="0x6C30">
+            <Vtx/>
+        </Array>
         <DList Name="gWolfosNormalAbdomenDL" Offset="0x6DD0"/>
         <DList Name="gWolfosNormalBackRightThighDL" Offset="0x6E98"/>
         <DList Name="gWolfosNormalBackRightShinDL" Offset="0x6F88"/>
@@ -79,17 +178,32 @@
         <DList Name="gWolfosNormalFrontRightUpperLegDL" Offset="0x7940"/>
         <DList Name="gWolfosNormalFrontRightLowerLegDL" Offset="0x7A58"/>
 
-        <Texture Name="gWolfosNormalEyeOpenTex" OutName="wolfos_normal_eye_open" Format="rgba16" Width="16" Height="16" Offset="0x7B68"/>
+        <Texture Name="gWolfosNormalEyeOpenTex" Format="rgba16" Width="16" Height="16" Offset="0x7B68"/>
 
-        <Texture Name="gWolfosNormalFurTex" OutName="wolfos_normal_fur" Format="rgba16" Width="16" Height="32" Offset="0x7D68"/>
-        <Texture Name="gWolfosNormalMouthTex" OutName="wolfos_normal_mouth" Format="rgba16" Width="8" Height="8" Offset="0x8168"/>
-        <Texture Name="gWolfosNormalTongueTex" OutName="wolfos_normal_tongue" Format="rgba16" Width="8" Height="8" Offset="0x81E8"/>
-        <Texture Name="gWolfosNormalToothClawTex" OutName="wolfos_normal_tooth_claw" Format="rgba16" Width="8" Height="8" Offset="0x8268"/>
-        <Texture Name="gWolfosNormalNostrilTex" OutName="wolfos_normal_nostril" Format="rgba16" Width="8" Height="8" Offset="0x82E8"/>
+        <Texture Name="gWolfosNormalFurTex" Format="rgba16" Width="16" Height="32" Offset="0x7D68"/>
+        <Texture Name="gWolfosNormalMouthTex" Format="rgba16" Width="8" Height="8" Offset="0x8168"/>
+        <Texture Name="gWolfosNormalTongueTex" Format="rgba16" Width="8" Height="8" Offset="0x81E8"/>
+        <Texture Name="gWolfosNormalToothClawTex" Format="rgba16" Width="8" Height="8" Offset="0x8268"/>
+        <Texture Name="gWolfosNormalNostrilTex" Format="rgba16" Width="8" Height="8" Offset="0x82E8"/>
 
-        <Texture Name="gWolfosNormalEyeHalfTex" OutName="wolfos_normal_eye_half" Format="rgba16" Width="16" Height="16" Offset="0x8368"/>
-        <Texture Name="gWolfosNormalEyeNarrowTex" OutName="wolfos_normal_eye_narrow" Format="rgba16" Width="16" Height="16" Offset="0x8568"/>
+        <Texture Name="gWolfosNormalEyeHalfTex" Format="rgba16" Width="16" Height="16" Offset="0x8368"/>
+        <Texture Name="gWolfosNormalEyeNarrowTex" Format="rgba16" Width="16" Height="16" Offset="0x8568"/>
 
+        <Array Name="gWolfosNormalTailVtx" Count="5" Offset="0x8768">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalFrontLeftClawVtx" Count="12" Offset="0x87B8">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalFrontRightClawVtx" Count="12" Offset="0x8878">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalHeadVtx" Count="90" Offset="0x8938">
+            <Vtx/>
+        </Array>
+        <Array Name="gWolfosNormalEyesVtx" Count="8" Offset="0x8ED8">
+            <Vtx/>
+        </Array>
         <DList Name="gWolfosNormalTailDL" Offset="0x8F58"/>
         <DList Name="gWolfosNormalFrontLeftClawDL" Offset="0x8FF8"/>
         <DList Name="gWolfosNormalFrontRightClawDL" Offset="0x90C0"/>
@@ -122,6 +236,7 @@
         <Animation Name="gWolfosSidesteppingAnim" Offset="0x98C8"/>
         <Blob Name="object_wf_zeroes_Blob_0098D8" Size="0x18" Offset="0x98D8"/>
         <Animation Name="gWolfosDamagedAnim" Offset="0x9B20"/>
+        <Blob Name="object_wf_zeroes_Blob_009B30" Size="0x10" Offset="0x9B30"/>
         <Animation Name="gWolfosWaitingAnim" Offset="0xA4AC"/>
         <Blob Name="object_wf_zeroes_Blob_00A4BC" Size="0x44" Offset="0xA4BC"/>
     </File>

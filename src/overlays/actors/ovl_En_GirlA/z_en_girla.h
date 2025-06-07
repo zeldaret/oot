@@ -2,14 +2,14 @@
 #define Z_EN_GIRLA_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnGirlA;
 
-typedef void (*EnGirlAActionFunc)(struct EnGirlA*, PlayState*);
-typedef void (*EnGirlA2Func)(PlayState*, struct EnGirlA*);
-typedef void (*EnGirlA3Func)(Actor*, PlayState*, s32);
-typedef s32 (*EnGirlA4Func)(PlayState*, struct EnGirlA*);
+typedef void (*EnGirlAActionFunc)(struct EnGirlA*, struct PlayState*);
+typedef void (*EnGirlA2Func)(struct PlayState*, struct EnGirlA*);
+typedef void (*EnGirlA3Func)(Actor*, struct PlayState*, s32);
+typedef s32 (*EnGirlA4Func)(struct PlayState*, struct EnGirlA*);
 
 typedef struct EnGirlA {
     /* 0x0000 */ Actor actor;
@@ -35,7 +35,7 @@ typedef struct EnGirlA {
     /* 0x01D0 */ EnGirlA3Func hiliteFunc;
 } EnGirlA; // size = 0x01D4
 
-typedef enum {
+typedef enum EnGirlAShopItem {
     /* 0x00 */ SI_DEKU_NUTS_5,
     /* 0x01 */ SI_ARROWS_30,
     /* 0x02 */ SI_ARROWS_50,
@@ -89,7 +89,7 @@ typedef enum {
     /* 0x32 */ SI_MAX
 } EnGirlAShopItem;
 
-typedef enum {
+typedef enum EnGirlACanBuyResult {
     /* 0 */ CANBUY_RESULT_SUCCESS_FANFARE,
     /* 1 */ CANBUY_RESULT_SUCCESS,
     /* 2 */ CANBUY_RESULT_CANT_GET_NOW,

@@ -6,14 +6,23 @@
 
 #include "z_en_river_sound.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnRiverSound_Init(Actor* thisx, PlayState* play);
 void EnRiverSound_Destroy(Actor* thisx, PlayState* play);
 void EnRiverSound_Update(Actor* thisx, PlayState* play);
 void EnRiverSound_Draw(Actor* thisx, PlayState* play);
 
-ActorInit En_River_Sound_InitVars = {
+ActorProfile En_River_Sound_Profile = {
     /**/ ACTOR_EN_RIVER_SOUND,
     /**/ ACTORCAT_BG,
     /**/ FLAGS,
@@ -29,8 +38,8 @@ void EnRiverSound_Init(Actor* thisx, PlayState* play) {
     EnRiverSound* this = (EnRiverSound*)thisx;
 
     this->playSfx = false;
-    this->pathIndex = (this->actor.params >> 8) & 0xFF;
-    this->actor.params &= 0xFF;
+    this->pathIndex = PARAMS_GET_U(this->actor.params, 8, 8);
+    this->actor.params = PARAMS_GET_U(this->actor.params, 0, 8);
 
     if (this->actor.params >= RS_GANON_TOWER_0) {
         // Incrementally increase volume of NA_BGM_GANON_TOWER for each new room during the climb of Ganon's Tower
@@ -226,7 +235,7 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play) {
             }
         }
     } else if ((thisx->params == RS_GORON_CITY_SARIAS_SONG) || (thisx->params == RS_GREAT_FAIRY)) {
-        func_8002DBD0(&player->actor, &thisx->home.pos, &thisx->world.pos);
+        Actor_WorldToActorCoords(&player->actor, &thisx->home.pos, &thisx->world.pos);
     } else if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS && Flags_GetClear(play, thisx->room)) {
         Actor_Kill(thisx);
     }

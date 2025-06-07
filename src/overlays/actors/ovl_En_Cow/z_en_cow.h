@@ -2,7 +2,7 @@
 #define Z_EN_COW_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 #include "assets/objects/object_cow/object_cow.h"
 
 #define COW_FLAG_PLAYER_NEARBY (1 << 1)
@@ -10,12 +10,12 @@
 
 #define COW_GET_TYPE(thisx) ((thisx)->actor.params)
 
-typedef enum {
+typedef enum CowType {
     /*  0 */ COW_TYPE_BODY,
     /*  1 */ COW_TYPE_TAIL
 } CowType;
 
-typedef enum {
+typedef enum CowCollider {
     /*  0 */ COW_COLLIDER_FRONT,
     /*  1 */ COW_COLLIDER_REAR,
     /*  2 */ COW_COLLIDER_MAX
@@ -23,7 +23,7 @@ typedef enum {
 
 struct EnCow;
 
-typedef void (*EnCowActionFunc)(struct EnCow*, PlayState*);
+typedef void (*EnCowActionFunc)(struct EnCow*, struct PlayState*);
 
 typedef struct EnCow {
     /* 0x0000 */ Actor actor;

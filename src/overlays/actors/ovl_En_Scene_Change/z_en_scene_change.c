@@ -6,6 +6,11 @@
 
 #include "z_en_scene_change.h"
 
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "play_state.h"
+#include "stack_pad.h"
+
 #define FLAGS 0
 
 void EnSceneChange_Init(Actor* thisx, PlayState* play);
@@ -15,7 +20,7 @@ void EnSceneChange_Draw(Actor* thisx, PlayState* play);
 
 void EnSceneChange_DoNothing(EnSceneChange* this, PlayState* play);
 
-ActorInit En_Scene_Change_InitVars = {
+ActorProfile En_Scene_Change_Profile = {
     /**/ ACTOR_EN_SCENE_CHANGE,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,

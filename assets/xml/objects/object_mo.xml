@@ -74,9 +74,5 @@
             <Vtx/>
         </Array>
 
-        <Array Name="gMorphaVtx_007BB8" Count="4" Offset="0x67B8">
-            <Vtx/>
-        </Array>
-
     </File>
 </Root>

@@ -5,6 +5,15 @@
  */
 
 #include "z_bg_spot05_soko.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_spot05_objects/object_spot05_objects.h"
 
 #define FLAGS 0
@@ -17,7 +26,7 @@ void func_808AE5A8(BgSpot05Soko* this, PlayState* play);
 void func_808AE5B4(BgSpot05Soko* this, PlayState* play);
 void func_808AE630(BgSpot05Soko* this, PlayState* play);
 
-ActorInit Bg_Spot05_Soko_InitVars = {
+ActorProfile Bg_Spot05_Soko_Profile = {
     /**/ ACTOR_BG_SPOT05_SOKO,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -45,7 +54,7 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
     STACK_PAD(s32);
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->switchFlag = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     DynaPolyActor_Init(&this->dyna, 0);
     if (thisx->params == 0) {
@@ -61,7 +70,7 @@ void BgSpot05Soko_Init(Actor* thisx, PlayState* play) {
             Actor_Kill(thisx);
         } else {
             this->actionFunc = func_808AE5B4;
-            thisx->flags |= ACTOR_FLAG_4;
+            thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         }
     }
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);

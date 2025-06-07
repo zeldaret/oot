@@ -2,23 +2,21 @@
 #define Z_EN_TA_H
 
 #include "ultra64.h"
-#include "global.h"
-
-#include "overlays/actors/ovl_En_Niw/z_en_niw.h"
+#include "actor.h"
 
 struct EnTa;
 
-typedef void (*EnTaActionFunc)(struct EnTa*, PlayState*);
+typedef void (*EnTaActionFunc)(struct EnTa*, struct PlayState*);
 typedef void (*EnTaBlinkFunc)(struct EnTa*);
 typedef void (*EnTaAnimFunc)(struct EnTa*);
 
-typedef enum {
+typedef enum EnTaType {
     /* 0xFFFF */ ENTA_CHILD_ERA = -1,
     /* 0x0001 */ ENTA_IN_KAKARIKO = 1,
     /* 0x0002 */ ENTA_RETURNED_FROM_KAKARIKO
  } EnTaType;
 
-typedef enum {
+typedef enum EnTaLimb {
     /* 0x00 */ ENTA_LIMB_NONE,
     /* 0x01 */ ENTA_LIMB_ROOT,
     /* 0x02 */ ENTA_LIMB_LEFT_THIGH,
@@ -50,7 +48,7 @@ typedef struct EnTa {
     /* 0x02B0 */ EnTaBlinkFunc blinkFunc;
     /* 0x02B4 */ s16 eyeIndex;
     /* 0x02B6 */ s16 blinkTimer;
-    /* 0x02B8 */ EnNiw* superCuccos[3];
+    /* 0x02B8 */ struct EnNiw* superCuccos[3];
     /* 0x02C4 */ s16 superCuccoTimers[3]; // This is used to time animations and actions for super-cuccos
     /* 0x02CA */ u8 lastFoundSuperCuccoIdx;
     /* 0x02CC */ s16 timer;

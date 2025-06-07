@@ -5,9 +5,23 @@
  */
 
 #include "z_bg_toki_swd.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_matrix.h"
+#include "cutscene_flags.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgTokiSwd_Init(Actor* thisx, PlayState* play);
 void BgTokiSwd_Destroy(Actor* thisx, PlayState* play);
@@ -18,11 +32,11 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play);
 void func_808BB0AC(BgTokiSwd* this, PlayState* play);
 void func_808BB128(BgTokiSwd* this, PlayState* play);
 
-extern CutsceneData D_808BB2F0[];
-extern CutsceneData D_808BB7A0[];
-extern CutsceneData D_808BBD90[];
+extern CutsceneData gPullMasterSwordCs[];
+extern CutsceneData gPlaceMasterSwordCs[];
+extern CutsceneData gRevealMasterSwordCs[];
 
-ActorInit Bg_Toki_Swd_InitVars = {
+ActorProfile Bg_Toki_Swd_Profile = {
     /**/ ACTOR_BG_TOKI_SWD,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -36,7 +50,7 @@ ActorInit Bg_Toki_Swd_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     {
-        COLTYPE_NONE,
+        COL_MATERIAL_NONE,
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
@@ -44,7 +58,7 @@ static ColliderCylinderInit sCylinderInit = {
         COLSHAPE_CYLINDER,
     },
     {
-        ELEMTYPE_UNK0,
+        ELEM_MATERIAL_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_NONE,
@@ -77,7 +91,7 @@ void BgTokiSwd_Init(Actor* thisx, PlayState* play) {
     }
 
     if (gSaveContext.sceneLayer == 5) {
-        play->roomCtx.unk_74[0] = 0xFF;
+        play->roomCtx.drawParams[0] = 0xFF;
     }
 
     Collider_InitCylinder(play, &this->collider);
@@ -93,19 +107,19 @@ void BgTokiSwd_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808BAF40(BgTokiSwd* this, PlayState* play) {
-    if (!GET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS) && !IS_CUTSCENE_LAYER &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_REVEALED_MASTER_SWORD) && !IS_CUTSCENE_LAYER &&
         Actor_IsFacingAndNearPlayer(&this->actor, 800.0f, 0x7530) && !Play_InCsMode(play)) {
-        SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
-        play->csCtx.script = D_808BBD90;
+        SET_EVENTCHKINF(EVENTCHKINF_REVEALED_MASTER_SWORD);
+        play->csCtx.script = gRevealMasterSwordCs;
         gSaveContext.cutsceneTrigger = 1;
     }
     if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_55)) {
         if (Actor_HasParent(&this->actor, play)) {
             if (!LINK_IS_ADULT) {
                 Item_Give(play, ITEM_SWORD_MASTER);
-                play->csCtx.script = D_808BB2F0;
+                play->csCtx.script = gPullMasterSwordCs;
             } else {
-                play->csCtx.script = D_808BB7A0;
+                play->csCtx.script = gPlaceMasterSwordCs;
             }
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_MASTER_SWORD);
@@ -119,10 +133,10 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
         }
     }
     if (gSaveContext.sceneLayer == 5) {
-        if (play->roomCtx.unk_74[0] > 0) {
-            play->roomCtx.unk_74[0]--;
+        if (play->roomCtx.drawParams[0] > 0) {
+            play->roomCtx.drawParams[0]--;
         } else {
-            play->roomCtx.unk_74[0] = 0;
+            play->roomCtx.drawParams[0] = 0;
         }
     }
 }
@@ -146,8 +160,8 @@ void func_808BB0AC(BgTokiSwd* this, PlayState* play) {
 }
 
 void func_808BB128(BgTokiSwd* this, PlayState* play) {
-    if (CutsceneFlags_Get(play, 1) && (play->roomCtx.unk_74[0] < 0xFF)) {
-        play->roomCtx.unk_74[0] += 5;
+    if (CutsceneFlags_Get(play, 1) && (play->roomCtx.drawParams[0] < 0xFF)) {
+        play->roomCtx.drawParams[0] += 5;
     }
 }
 
@@ -170,8 +184,7 @@ void BgTokiSwd_Draw(Actor* thisx, PlayState* play2) {
     func_8002EBCC(&this->actor, play, 0);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, Gfx_TexScroll(play->state.gfxCtx, 0, -(play->gameplayFrames % 0x80), 32, 32));
-    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_toki_swd.c", 742),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_bg_toki_swd.c", 742);
     gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_001BD0);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_toki_swd.c", 776);

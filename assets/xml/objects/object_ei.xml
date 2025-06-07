@@ -37,14 +37,14 @@
         <DList Name="gStingerRightWingEndDL" Offset="0x29F8"/>
 
         <!-- Stinger DisplayList Textures -->
-        <Texture Name="gStingerWingTex" OutName="wing" Format="rgba16" Width="16" Height="8" Offset="0x12C0"/>
-        <Texture Name="gStingerBodyGradientTex" OutName="body_gradient" Format="rgba16" Width="8" Height="8" Offset="0x13C0"/>
-        <Texture Name="gStingerWingEndTex" OutName="wing_end" Format="rgba16" Width="8" Height="8" Offset="0x1440"/>
-        <Texture Name="gStingerEyeTex" OutName="eye" Format="rgba16" Width="8" Height="16" Offset="0x14C0"/>
-        <Texture Name="gStingerUndersideTex" OutName="underside" Format="rgba16" Width="8" Height="8" Offset="0x15C0"/>
-        <Texture Name="gStingerFinTex" OutName="fin" Format="rgba16" Width="8" Height="8" Offset="0x1640"/>
-        <Texture Name="gStingerTailGradientTex" OutName="tail_gradient" Format="rgba16" Width="4" Height="4" Offset="0x16C0"/>
-        <Texture Name="gStingerTailConnectionGradientTex" OutName="tail_connection_gradient" Format="rgba16" Width="4" Height="4" Offset="0x16E0"/>
+        <Texture Name="gStingerWingTex" Format="rgba16" Width="16" Height="8" Offset="0x12C0"/>
+        <Texture Name="gStingerBodyGradientTex" Format="rgba16" Width="8" Height="8" Offset="0x13C0"/>
+        <Texture Name="gStingerWingEndTex" Format="rgba16" Width="8" Height="8" Offset="0x1440"/>
+        <Texture Name="gStingerEyeTex" Format="rgba16" Width="8" Height="16" Offset="0x14C0"/>
+        <Texture Name="gStingerUndersideTex" Format="rgba16" Width="8" Height="8" Offset="0x15C0"/>
+        <Texture Name="gStingerFinTex" Format="rgba16" Width="8" Height="8" Offset="0x1640"/>
+        <Texture Name="gStingerTailGradientTex" Format="rgba16" Width="4" Height="4" Offset="0x16C0"/>
+        <Texture Name="gStingerTailConnectionGradientTex" Format="rgba16" Width="4" Height="4" Offset="0x16E0"/>
 
         <!-- Stinger Animations -->
         <Animation Name="gStingerPopOutAnim" Offset="0x288"/>
@@ -52,5 +52,40 @@
         <Animation Name="gStingerBackflipAnim" Offset="0x704"/>
         <Animation Name="gStingerHitAnim" Offset="0xFC0"/>
         <Animation Name="gStingerIdleAnim" Offset="0x12AC"/>
+
+        <!-- Vertices -->
+        <Array Name="gStingerLeftWingBaseVtx" Count="24" Offset="0x1700">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerLeftWingEndVtx" Count="30" Offset="0x1880">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerRightWingBaseVtx" Count="24" Offset="0x1A60">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerRightWingEndVtx" Count="30" Offset="0x1BE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerBodyVtx" Count="25" Offset="0x1DC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerTailRootVtx" Count="28" Offset="0x1F50">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerTailUpperVtx" Count="10" Offset="0x2110">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerTailLowerVtx" Count="5" Offset="0x21B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerHeadVtx" Count="23" Offset="0x2200">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerFinUpperVtx" Count="9" Offset="0x2370">
+            <Vtx/>
+        </Array>
+        <Array Name="gStingerFinLowerVtx" Count="7" Offset="0x2400">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

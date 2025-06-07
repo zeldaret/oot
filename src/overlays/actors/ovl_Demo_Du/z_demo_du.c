@@ -1,10 +1,27 @@
 #include "z_demo_du.h"
-#include "assets/objects/object_du/object_du.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_du/object_du.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef void (*DemoDuActionFunc)(DemoDu*, PlayState*);
 typedef void (*DemoDuDrawFunc)(Actor*, PlayState*);
@@ -67,7 +84,7 @@ void DemoDu_SetMouthTexIndex(DemoDu* this, s16 mouthTexIndex) {
     this->mouthTexIndex = mouthTexIndex;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 // Resets all the values used in this cutscene.
 void DemoDu_CsAfterGanon_Reset(DemoDu* this) {
     this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
@@ -201,7 +218,7 @@ void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
 
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(1);
-        play->csCtx.script = D_8096C1A4;
+        play->csCtx.script = gFireMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_FIRE);
 
@@ -777,7 +794,7 @@ void DemoDu_CsAfterGanon_BackTo01(DemoDu* this, PlayState* play) {
 
 void DemoDu_UpdateCs_AG_00(DemoDu* this, PlayState* play) {
     DemoDu_CsAfterGanon_AdvanceTo01(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
 #endif
 }
@@ -787,7 +804,7 @@ void DemoDu_UpdateCs_AG_01(DemoDu* this, PlayState* play) {
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     DemoDu_CsAfterGanon_AdvanceTo02(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
 #endif
 }
@@ -797,7 +814,7 @@ void DemoDu_UpdateCs_AG_02(DemoDu* this, PlayState* play) {
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     DemoDu_CsAfterGanon_BackTo01(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
 #endif
 }
@@ -907,8 +924,8 @@ void DemoDu_CsCredits_HandleCues(DemoDu* this, PlayState* play) {
                     DemoDu_CsCredits_AdvanceTo04(this);
                     break;
                 default:
-                    // "Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!"
-                    PRINTF("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Du_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -964,8 +981,8 @@ void DemoDu_Update(Actor* thisx, PlayState* play) {
     DemoDu* this = (DemoDu*)thisx;
 
     if (this->updateIndex < 0 || this->updateIndex >= 29 || sUpdateFuncs[this->updateIndex] == NULL) {
-        // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sUpdateFuncs[this->updateIndex](this, play);
@@ -1035,14 +1052,14 @@ void DemoDu_Draw(Actor* thisx, PlayState* play) {
     DemoDu* this = (DemoDu*)thisx;
 
     if (this->drawIndex < 0 || this->drawIndex >= 3 || sDrawFuncs[this->drawIndex] == NULL) {
-        // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawIndex](thisx, play);
 }
 
-ActorInit Demo_Du_InitVars = {
+ActorProfile Demo_Du_Profile = {
     /**/ ACTOR_DEMO_DU,
     /**/ ACTORCAT_NPC,
     /**/ FLAGS,

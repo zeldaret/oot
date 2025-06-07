@@ -5,9 +5,14 @@
  */
 
 #include "z_obj_makekinsuta.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "printf.h"
+#include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+#include "player.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ObjMakekinsuta_Init(Actor* thisx, PlayState* play);
 void ObjMakekinsuta_Update(Actor* thisx, PlayState* play);
@@ -15,7 +20,7 @@ void ObjMakekinsuta_Update(Actor* thisx, PlayState* play);
 void func_80B98320(ObjMakekinsuta* this, PlayState* play);
 void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, PlayState* play);
 
-ActorInit Obj_Makekinsuta_InitVars = {
+ActorProfile Obj_Makekinsuta_Profile = {
     /**/ ACTOR_OBJ_MAKEKINSUTA,
     /**/ ACTORCAT_ITEMACTION,
     /**/ FLAGS,
@@ -30,16 +35,15 @@ ActorInit Obj_Makekinsuta_InitVars = {
 void ObjMakekinsuta_Init(Actor* thisx, PlayState* play) {
     ObjMakekinsuta* this = (ObjMakekinsuta*)thisx;
 
-    if ((this->actor.params & 0x6000) == 0x4000) {
-        PRINTF(VT_FGCOL(BLUE));
-        // "Gold Star Enemy(arg_data %x)"
-        PRINTF("金スタ発生敵(arg_data %x)\n", this->actor.params);
-        PRINTF(VT_RST);
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 13, 2) == 0x4000) {
+        PRINTF_COLOR_BLUE();
+        PRINTF(T("金スタ発生敵(arg_data %x)\n", "Gold Star Enemy(arg_data %x)\n"), this->actor.params);
+        PRINTF_RST();
     } else {
-        PRINTF(VT_COL(YELLOW, BLACK));
-        // "Invalid Argument (arg_data %x)(%s %d)"
-        PRINTF("引数不正 (arg_data %x)(%s %d)\n", this->actor.params, "../z_obj_makekinsuta.c", 119);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_WARNING();
+        PRINTF(T("引数不正 (arg_data %x)(%s %d)\n", "Invalid Argument (arg_data %x)(%s %d)\n"), this->actor.params,
+               "../z_obj_makekinsuta.c", 119);
+        PRINTF_RST();
     }
     this->actionFunc = func_80B98320;
 }

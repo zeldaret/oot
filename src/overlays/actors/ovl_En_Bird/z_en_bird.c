@@ -5,6 +5,11 @@
  */
 
 #include "z_en_bird.h"
+
+#include "ichain.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_bird/object_bird.h"
 
 #define FLAGS 0
@@ -19,7 +24,7 @@ void EnBird_Move(EnBird* this, PlayState* play);
 void EnBird_Idle(EnBird* this, PlayState* play);
 void EnBird_SetupIdle(EnBird* this, s16 params);
 
-ActorInit En_Bird_InitVars = {
+ActorProfile En_Bird_Profile = {
     /**/ ACTOR_EN_BIRD,
     /**/ ACTORCAT_PROP,
     /**/ FLAGS,
@@ -32,7 +37,7 @@ ActorInit En_Bird_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),
+    ICHAIN_F32(lockOnArrowOffset, 5600, ICHAIN_STOP),
 };
 
 void EnBird_SetupAction(EnBird* this, EnBirdActionFunc actionFunc) {

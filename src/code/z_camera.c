@@ -1,22 +1,50 @@
-#include "ultra64.h"
-#include "global.h"
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "controller.h"
+#include "db_camera.h"
+#include "gfx.h"
+#include "letterbox.h"
+#include "one_point_cutscene.h"
 #include "quake.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "stack_pad.h"
+#include "sys_math3d.h"
 #include "terminal.h"
+#include "translation.h"
+#include "ultra64.h"
+#include "z_lib.h"
+#include "zelda_arena.h"
+#include "audio.h"
+#include "cutscene_spline.h"
+#include "debug.h"
+#include "olib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-// For retail BSS ordering, the block number of D_8015BD7C
-// must be between 88 and 123 inclusive.
-#pragma increment_block_number 30
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
 s32 Camera_UpdateWater(Camera* camera);
 
-#if OOT_DEBUG
+#if PLATFORM_N64
+#define CAMERA_CHECK_BTN(input, btn) PadUtils_CheckPressed((input), (btn))
+#else
+#define CAMERA_CHECK_BTN(input, btn) CHECK_BTN_ALL((input)->press.button, (btn))
+#endif
+
+#if DEBUG_FEATURES
 s32 Camera_QRegInit(void);
 #endif
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define CAM_DEBUG_RELOAD_PREG(camera)        \
     if (R_RELOAD_CAM_PARAMS) {               \
         Camera_CopyPREGToModeValues(camera); \
@@ -30,7 +58,7 @@ s32 Camera_QRegInit(void);
 // CameraModeValue arrays. Although sometimes some read-write data is reset as well
 #define RELOAD_PARAMS(camera) (camera->animState == 0 || camera->animState == 10 || camera->animState == 20)
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define CAM_DEBUG_RELOAD_PARAMS R_RELOAD_CAM_PARAMS
 #else
 #define CAM_DEBUG_RELOAD_PARAMS true
@@ -48,7 +76,7 @@ s32 Camera_QRegInit(void);
 // Load the next value and scale down from camera read-only data stored in CameraModeValue
 #define GET_NEXT_SCALED_RO_DATA(values) CAM_DATA_SCALED(GET_NEXT_RO_DATA(values))
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 
 #define CAM_GLOBAL_0 OREG(0)
 #define CAM_GLOBAL_1 OREG(1)
@@ -394,6 +422,7 @@ s32 Camera_BGCheckInfo(Camera* camera, Vec3f* from, CamColChk* to) {
     to->pos.y = to->norm.y + toNewPos.y;
     to->pos.z = to->norm.z + toNewPos.z;
 
+    //! @bug floorBgId is uninitialized if BgCheck_CameraLineTest1 returned true above
     return floorBgId + 1;
 }
 
@@ -577,7 +606,7 @@ f32 Camera_GetFloorYLayer(Camera* camera, Vec3f* norm, Vec3f* pos, s32* bgId) {
         }
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (i == 0) {
         PRINTF(VT_COL(YELLOW, BLACK) "camera: foward check: too many layer!\n" VT_RST);
     }
@@ -862,7 +891,7 @@ void Camera_CopyDataToRegs(Camera* camera, UNUSED_NDEBUG s16 mode) {
     UNUSED_NDEBUG CameraModeValue* valueP;
     UNUSED_NDEBUG s32 i;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (PREG(82)) {
         PRINTF("camera: res: stat (%d/%d/%d)\n", camera->camId, camera->setting, mode);
     }
@@ -881,7 +910,7 @@ void Camera_CopyDataToRegs(Camera* camera, UNUSED_NDEBUG s16 mode) {
     camera->animState = 0;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 Camera_CopyPREGToModeValues(Camera* camera) {
     CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
     CameraModeValue* valueP;
@@ -941,10 +970,10 @@ void Camera_UpdateInterface(s16 interfaceField) {
 
 Vec3f Camera_BGCheckCorner(Vec3f* linePointA, Vec3f* linePointB, CamColChk* pointAColChk, CamColChk* pointBColChk) {
     Vec3f closestPoint;
-    UNUSED_NDEBUG s32 result;
+    UNUSED_NDEBUG bool result;
 
     result = func_800427B4(pointAColChk->poly, pointBColChk->poly, linePointA, linePointB, &closestPoint);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (!result) {
         PRINTF(VT_COL(YELLOW, BLACK) "camera: corner check no cross point %x %x\n" VT_RST, pointAColChk, pointBColChk);
         return pointAColChk->pos;
@@ -2295,7 +2324,7 @@ s32 Camera_Parallel1(Camera* camera) {
     camera->fov = Camera_LERPCeilF(roData->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp6A ? roData->unk_1C : roData->unk_14);
-    //! @bug doesn't return
+    //! @bug Missing return, but the return value is not used.
 }
 
 s32 Camera_Parallel2(Camera* camera) {
@@ -2314,7 +2343,7 @@ s32 Camera_Parallel3(Camera* camera) {
     if (interfaceField & PARALLEL3_FLAG_1) {
         camera->stateFlags |= CAM_STATE_CAM_FUNC_FINISH;
     }
-    //! @bug doesn't return
+    //! @bug Missing return, but the return value is not used.
 }
 
 s32 Camera_Parallel4(Camera* camera) {
@@ -2364,7 +2393,6 @@ s32 Camera_Jump1(Camera* camera) {
 
     CAM_DEBUG_RELOAD_PREG(camera);
 
-    // playerhead never gets used.
     playerhead = Actor_GetFocus(&camera->player->actor);
 
     eyeAtOffset = OLib_Vec3fDiffToVecGeo(at, eye);
@@ -2717,7 +2745,7 @@ s32 Camera_Jump3(Camera* camera) {
         roData->interfaceField = GET_NEXT_RO_DATA(values);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (R_RELOAD_CAM_PARAMS) {
         prevMode = camera->mode;
         camera->mode = rwData->mode;
@@ -2920,7 +2948,7 @@ s32 Camera_Battle1(Camera* camera) {
     sp78 = roData->swingPitchFinal;
     fov = roData->fov;
 
-    if (camera->player->stateFlags1 & PLAYER_STATE1_12) {
+    if (camera->player->stateFlags1 & PLAYER_STATE1_CHARGING_SPIN_ATTACK) {
         // charging sword.
         rwData->unk_10 =
             Camera_LERPCeilF(CAM_GLOBAL_12 * (1.0f - 0.5f), rwData->unk_10, CAM_UPDATE_RATE_STEP_SCALE_XZ, 0.1f);
@@ -2974,7 +3002,7 @@ s32 Camera_Battle1(Camera* camera) {
         rwData->target = camera->target;
         camera->animState++;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (rwData->target->id > 0) {
             PRINTF("camera: battle: target actor name " VT_FGCOL(BLUE) "%d" VT_RST "\n", rwData->target->id);
         } else {
@@ -3113,6 +3141,7 @@ s32 Camera_Battle1(Camera* camera) {
                                                                                        : 1.0f) *
                                        (fov - ((fov * 0.05f) * distRatio)),
                                    camera->fov, camera->fovUpdateRate, 1.0f);
+    //! @bug Missing return, but the return value is not used.
 }
 
 s32 Camera_Battle2(Camera* camera) {
@@ -3497,7 +3526,7 @@ s32 Camera_KeepOn3(Camera* camera) {
         roData->yOffset = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
         roData->minDist = GET_NEXT_RO_DATA(values);
         roData->maxDist = GET_NEXT_RO_DATA(values);
-        roData->swingYawInital = GET_NEXT_RO_DATA(values);
+        roData->swingYawInitial = GET_NEXT_RO_DATA(values);
         roData->swingYawFinal = GET_NEXT_RO_DATA(values);
         roData->swingPitchInitial = GET_NEXT_RO_DATA(values);
         roData->swingPitchFinal = GET_NEXT_RO_DATA(values);
@@ -3529,7 +3558,7 @@ s32 Camera_KeepOn3(Camera* camera) {
         spBC = ((1.0f - temp_f0) * targetToPlayerDir.r) / rwData->animTimer;
         swingAngle = F32_LERPIMP(roData->swingPitchInitial, roData->swingPitchFinal, temp_f0);
         atToEyeAdj.pitch = CAM_DEG_TO_BINANG(swingAngle) + ((s16)(-(targetToPlayerDir.pitch * roData->swingPitchAdj)));
-        swingAngle = F32_LERPIMP(roData->swingYawInital, roData->swingYawFinal, temp_f0);
+        swingAngle = F32_LERPIMP(roData->swingYawInitial, roData->swingYawFinal, temp_f0);
         if (roData->interfaceField & KEEPON3_FLAG_4) {
             if ((s16)(targetToPlayerDir.yaw - atToEyeNextDir.yaw) < 0) {
                 atToEyeAdj.yaw = targetToPlayerDir.yaw + CAM_DEG_TO_BINANG(swingAngle);
@@ -3615,14 +3644,14 @@ s32 Camera_KeepOn3(Camera* camera) {
         func_80043B60(camera);
         camera->atLERPStepScale = 0.0f;
 
-        if (camera->xzSpeed > 0.001f || CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
-            CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
-            CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CLEFT) ||
-            CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CDOWN) ||
-            CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CUP) ||
-            CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CRIGHT) ||
-            CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_R) ||
-            CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_Z)) {
+        if (camera->xzSpeed > 0.001f || CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_A) ||
+            CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_B) ||
+            CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CLEFT) ||
+            CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CDOWN) ||
+            CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CUP) ||
+            CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CRIGHT) ||
+            CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_R) ||
+            CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_Z)) {
             camera->stateFlags |= CAM_STATE_CHECK_BG;
             camera->stateFlags &= ~CAM_STATE_EXTERNAL_FINISHED;
         }
@@ -3630,7 +3659,8 @@ s32 Camera_KeepOn3(Camera* camera) {
     return 1;
 }
 
-#pragma increment_block_number 100
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:82 ntsc-1.1:82 ntsc-1.2:82 pal-1.0:82 pal-1.1:82"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;
@@ -3881,7 +3911,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                     spB8.pitch = D_8011D3CC[i] + spA2;
                     D_8015BD70 = Camera_AddVecGeoToVec3f(&D_8015BD50, &spB8);
                 }
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 PRINTF("camera: item: BG&collision check %d time(s)\n", i);
 #endif
             }
@@ -3943,6 +3973,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     Camera_BGCheck(camera, at, eye);
     camera->fov = Camera_LERPCeilF(roData->unk_18, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
+    //! @bug Missing return, but the return value is not used.
 }
 
 /**
@@ -4363,7 +4394,7 @@ s32 Camera_Subj3(Camera* camera) {
 
     func_80043ABC(camera);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Camera_CopyPREGToModeValues(camera);
 #endif
 
@@ -4970,14 +5001,14 @@ s32 Camera_Unique3(Camera* camera) {
                 break;
             }
             doorParams->timer3 = 5;
-            if (camera->xzSpeed > 0.001f || CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CLEFT) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CDOWN) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CUP) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CRIGHT) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_R) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_Z)) {
+            if (camera->xzSpeed > 0.001f || CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_A) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_B) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CLEFT) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CDOWN) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CUP) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CRIGHT) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_R) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_Z)) {
                 camera->animState++;
             } else {
                 break;
@@ -5065,28 +5096,28 @@ s32 Camera_Unique0(Camera* camera) {
         atPlayerOffset.pitch = -bgCamRot.x;
         rwData->eyeAndDirection.dir = OLib_VecGeoToVec3f(&atPlayerOffset);
         Math3D_LineClosestToPoint(&rwData->eyeAndDirection, &playerPosRot->pos, &camera->at);
-        rwData->initalPos = playerPosRot->pos;
+        rwData->initialPos = playerPosRot->pos;
         camera->animState++;
     }
 
     if (player->stateFlags1 & PLAYER_STATE1_29) {
-        rwData->initalPos = playerPosRot->pos;
+        rwData->initialPos = playerPosRot->pos;
     }
 
     if (roData->interfaceField & UNIQUE0_FLAG_0) {
         if (rwData->animTimer > 0) {
             rwData->animTimer--;
-            rwData->initalPos = playerPosRot->pos;
+            rwData->initialPos = playerPosRot->pos;
         } else if (!(player->stateFlags1 & PLAYER_STATE1_29) &&
-                   ((OLib_Vec3fDistXZ(&playerPosRot->pos, &rwData->initalPos) >= 10.0f) ||
-                    CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
-                    CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
-                    CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CLEFT) ||
-                    CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CDOWN) ||
-                    CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CUP) ||
-                    CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CRIGHT) ||
-                    CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_R) ||
-                    CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_Z))) {
+                   ((OLib_Vec3fDistXZ(&playerPosRot->pos, &rwData->initialPos) >= 10.0f) ||
+                    CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_A) ||
+                    CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_B) ||
+                    CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CLEFT) ||
+                    CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CDOWN) ||
+                    CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CUP) ||
+                    CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CRIGHT) ||
+                    CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_R) ||
+                    CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_Z))) {
             camera->dist = OLib_Vec3fDist(&camera->at, eye);
             camera->playerToAtOffset.x = camera->at.x - playerPosRot->pos.x;
             camera->playerToAtOffset.y = camera->at.y - playerPosRot->pos.y;
@@ -5102,18 +5133,18 @@ s32 Camera_Unique0(Camera* camera) {
                 sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
             }
         } else {
-            rwData->initalPos = playerPosRot->pos;
+            rwData->initialPos = playerPosRot->pos;
         }
 
         if (!(player->stateFlags1 & PLAYER_STATE1_29) &&
-            ((0.001f < camera->xzSpeed) || CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
-             CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
-             CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CLEFT) ||
-             CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CDOWN) ||
-             CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CUP) ||
-             CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CRIGHT) ||
-             CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_R) ||
-             CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_Z))) {
+            ((0.001f < camera->xzSpeed) || CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_A) ||
+             CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_B) ||
+             CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CLEFT) ||
+             CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CDOWN) ||
+             CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CUP) ||
+             CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CRIGHT) ||
+             CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_R) ||
+             CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_Z))) {
             camera->dist = OLib_Vec3fDist(&camera->at, &camera->eye);
             camera->playerToAtOffset.x = camera->at.x - playerPosRot->pos.x;
             camera->playerToAtOffset.y = camera->at.y - playerPosRot->pos.y;
@@ -5734,7 +5765,7 @@ s32 Camera_Unique9(Camera* camera) {
     return true;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Camera_DebugPrintSplineArray(char* name, s16 length, CutsceneCameraPoint cameraPoints[]) {
     s32 i;
 
@@ -5812,11 +5843,10 @@ s32 Camera_Demo1(Camera* camera) {
             rwData->keyframe = 0;
             rwData->curFrame = 0.0f;
             camera->animState++;
-            // "absolute" : "relative"
             PRINTF(VT_SGR("1") "%06u:" VT_RST " camera: spline demo: start %s \n", camera->play->state.frames,
-                   *relativeToPlayer == 0 ? "絶対" : "相対");
+                   *relativeToPlayer == 0 ? T("絶対", "absolute") : T("相対", "relative"));
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (PREG(93)) {
                 Camera_DebugPrintSplineArray("CENTER", 5, csAtPoints);
                 Camera_DebugPrintSplineArray("   EYE", 5, csEyePoints);
@@ -5837,7 +5867,7 @@ s32 Camera_Demo1(Camera* camera) {
                     Camera_RotateAroundPoint(&curPlayerPosRot, &csEyeUpdate, eyeNext);
                     Camera_RotateAroundPoint(&curPlayerPosRot, &csAtUpdate, at);
                 }
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 else {
                     PRINTF(VT_COL(RED, WHITE) "camera: spline demo: owner dead\n" VT_RST);
                 }
@@ -6015,30 +6045,30 @@ s32 Camera_Demo3(Camera* camera) {
             rwData->unk_0C = 0.1f;
             sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_A, 0);
 
-            if (!((rwData->animFrame < 0 || camera->xzSpeed > 0.001f ||
-                   CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
-                   CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
-                   CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CLEFT) ||
-                   CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CDOWN) ||
-                   CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CUP) ||
-                   CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CRIGHT) ||
-                   CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_R) ||
-                   CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_Z)) &&
-                  (camera->stateFlags & CAM_STATE_EXTERNAL_FINISHED))) {
-                goto skipeyeUpdate;
-            }
-            FALLTHROUGH;
+            if ((rwData->animFrame < 0 || camera->xzSpeed > 0.001f ||
+                 CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_A) ||
+                 CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_B) ||
+                 CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CLEFT) ||
+                 CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CDOWN) ||
+                 CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CUP) ||
+                 CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CRIGHT) ||
+                 CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_R) ||
+                 CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_Z)) &&
+                (camera->stateFlags & CAM_STATE_EXTERNAL_FINISHED)) {
+                    // clang-format off
+        // Note: default for switch inside if statement
         default:
-            camera->stateFlags |= (CAM_STATE_CHECK_BG | CAM_STATE_CAM_FUNC_FINISH);
-            camera->stateFlags &= ~CAM_STATE_EXTERNAL_FINISHED;
-            if (camera->prevBgCamIndex < 0) {
-                Camera_RequestSettingImpl(camera, camera->prevSetting, CAM_REQUEST_SETTING_IGNORE_PRIORITY);
-            } else {
-                Camera_RequestBgCam(camera, camera->prevBgCamIndex);
-                camera->prevBgCamIndex = -1;
+                    // clang-format on
+                    camera->stateFlags |= (CAM_STATE_CHECK_BG | CAM_STATE_CAM_FUNC_FINISH);
+                    camera->stateFlags &= ~CAM_STATE_EXTERNAL_FINISHED;
+                    if (camera->prevBgCamIndex < 0) {
+                        Camera_RequestSettingImpl(camera, camera->prevSetting, CAM_REQUEST_SETTING_IGNORE_PRIORITY);
+                    } else {
+                        Camera_RequestBgCam(camera, camera->prevBgCamIndex);
+                        camera->prevBgCamIndex = -1;
+                    }
+                    sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
             }
-            sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
-        skipeyeUpdate:
             skipUpdateEye = true;
             break;
     }
@@ -6060,8 +6090,6 @@ s32 Camera_Demo3(Camera* camera) {
     } else if (rwData->animFrame == 228) {
         camera->animState = 4;
     }
-
-    if (1) {}
 
     if (!skipUpdateEye) {
         eyeOffset.r = Camera_LERPCeilF(eyeOffset.r, eyeAtOffset.r, rwData->unk_0C, 2.0f);
@@ -6603,7 +6631,7 @@ s32 Camera_Demo5(Camera* camera) {
         sp4A = playerhead.rot.y - playerTargetGeo.yaw;
         if (camera->target->category == ACTORCAT_PLAYER) {
             framesDiff = camera->play->state.frames - sDemo5PrevAction12Frame;
-            if (player->stateFlags1 & PLAYER_STATE1_11) {
+            if (player->stateFlags1 & PLAYER_STATE1_CARRYING_ACTOR) {
                 // holding object over head.
                 Player_SetCsActionWithHaltedActors(camera->play, camera->target, PLAYER_CSACTION_8);
             } else if (ABS(framesDiff) > 3000) {
@@ -6712,7 +6740,7 @@ s32 Camera_Demo7(Camera* camera) {
         camera->stateFlags |= CAM_STATE_DEMO7;
         camera->animState++;
     }
-    //! @bug doesn't return
+    //! @bug Missing return, but the return value is not used.
 }
 
 s32 Camera_Demo8(Camera* camera) {
@@ -6929,11 +6957,11 @@ s32 Camera_Special4(Camera* camera) {
         sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_NOTHING_ALT, 0);
         camera->fov = 40.0f;
         camera->animState++;
-        rwData->initalTimer = camera->timer;
+        rwData->initialTimer = camera->timer;
     }
 
     camera->fov = Camera_LERPCeilF(80.0f, camera->fov, 1.0f / *timer, 0.1f);
-    if ((rwData->initalTimer - *timer) < 0xF) {
+    if ((rwData->initialTimer - *timer) < 0xF) {
         (*timer)--;
         return false;
     } else {
@@ -7040,7 +7068,7 @@ s32 Camera_Special5(Camera* camera) {
     return true;
 }
 
-typedef enum {
+typedef enum CamElevatorPlatform {
     /* 0 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_LOWER_FLOOR, // ACTOR_BG_HIDAN_ROCK
     /* 1 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_EAST_TOWER,  // ACTOR_BG_HIDAN_FSLIFT
     /* 2 */ CAM_ELEVATOR_PLATFORM_FIRE_TEMPLE_WEST_TOWER,  // ACTOR_BG_HIDAN_SYOKU
@@ -7213,7 +7241,7 @@ s32 Camera_Special6(Camera* camera) {
         // Overwrite hud visibility to CAM_HUD_VISIBILITY_HEARTS_FORCE
         sCameraInterfaceField = (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) |
                                 CAM_HUD_VISIBILITY(CAM_HUD_VISIBILITY_HEARTS_FORCE);
-        rwData->initalPlayerY = playerPosRot->pos.y;
+        rwData->initialPlayerY = playerPosRot->pos.y;
         rwData->animTimer = 12;
         *eyeNext = bgCamPos;
         if (camera->animState == 0) {
@@ -7226,7 +7254,7 @@ s32 Camera_Special6(Camera* camera) {
         timerF = rwData->animTimer;
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
-        eyePosCalc.y += (playerPosRot->pos.y - rwData->initalPlayerY) * 0.2f;
+        eyePosCalc.y += (playerPosRot->pos.y - rwData->initialPlayerY) * 0.2f;
         eyeAnim = eyePosCalc;
         eyeAnim.y = Camera_LERPCeilF(eyePosCalc.y, eye->y, 0.5f, 0.01f);
 
@@ -7252,7 +7280,7 @@ s32 Camera_Special6(Camera* camera) {
             (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY(CAM_HUD_VISIBILITY_ALL);
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
-        eyePosCalc.y += (playerPosRot->pos.y - rwData->initalPlayerY) * 0.2f;
+        eyePosCalc.y += (playerPosRot->pos.y - rwData->initialPlayerY) * 0.2f;
         *eye = eyePosCalc;
         eye->y = Camera_LERPCeilF(eyePosCalc.y, eye->y, 0.5f, 0.01f);
 
@@ -7397,15 +7425,14 @@ s32 Camera_Special9(Camera* camera) {
             camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_BLOCK_BG);
             sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
 
-            if (camera->xzSpeed > 0.001f || CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CLEFT) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CDOWN) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CUP) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CRIGHT) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_R) ||
-                CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_Z) ||
-                (roData->interfaceField & SPECIAL9_FLAG_3)) {
+            if (camera->xzSpeed > 0.001f || CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_A) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_B) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CLEFT) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CDOWN) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CUP) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_CRIGHT) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_R) ||
+                CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_Z) || (roData->interfaceField & SPECIAL9_FLAG_3)) {
 
                 Camera_RequestSettingImpl(camera, camera->prevSetting, CAM_REQUEST_SETTING_IGNORE_PRIORITY);
                 camera->stateFlags |= (CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG);
@@ -7448,11 +7475,11 @@ void Camera_Init(Camera* camera, UNUSED View* view, UNUSED CollisionContext* col
     s16 curUID;
     s16 j;
 
-    __osMemset(camera, 0, sizeof(Camera));
+    memset(camera, 0, sizeof(Camera));
     if (sInitRegs) {
         UNUSED_NDEBUG s32 i;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         for (i = 0; i < sOREGInitCnt; i++) {
             OREG(i) = sOREGInit[i];
         }
@@ -7467,7 +7494,7 @@ void Camera_Init(Camera* camera, UNUSED View* view, UNUSED CollisionContext* col
         PREG(88) = -1;
     }
     camera->play = D_8015BD7C = play;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     DebugCamera_Init(&D_8015BD80, camera);
 #endif
     curUID = sNextUID;
@@ -7522,10 +7549,10 @@ void Camera_Init(Camera* camera, UNUSED View* view, UNUSED CollisionContext* col
     camera->quakeOffset.z = 0;
     camera->atLERPStepScale = 1;
     sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_IGNORE, CAM_HUD_VISIBILITY_IGNORE, 0);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     sDbgModeIdx = -1;
 #endif
-    D_8011D3F0 = 3;
+    sSceneInitLetterboxTimer = 3; // show letterbox for 3 frames at the start of a new scene
     PRINTF(VT_FGCOL(BLUE) "camera: initialize --- " VT_RST " UID %d\n", camera->uid);
 }
 
@@ -7534,18 +7561,18 @@ void func_80057FC4(Camera* camera) {
         camera->prevSetting = camera->setting = CAM_SET_FREE0;
         camera->stateFlags &= ~CAM_STATE_CHECK_BG;
     } else if (camera->play->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_IMAGE) {
-        switch (camera->play->roomCtx.curRoom.behaviorType1) {
-            case ROOM_BEHAVIOR_TYPE1_1:
+        switch (camera->play->roomCtx.curRoom.type) {
+            case ROOM_TYPE_DUNGEON:
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_DUNGEON0;
                 break;
-            case ROOM_BEHAVIOR_TYPE1_0:
+            case ROOM_TYPE_NORMAL:
                 PRINTF("camera: room type: default set field\n");
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 break;
             default:
-                PRINTF("camera: room type: default set etc (%d)\n", camera->play->roomCtx.curRoom.behaviorType1);
+                PRINTF("camera: room type: default set etc (%d)\n", camera->play->roomCtx.curRoom.type);
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 camera->stateFlags |= CAM_STATE_CHECK_BG;
@@ -7624,7 +7651,7 @@ void Camera_InitDataUsingPlayer(Camera* camera, Player* player) {
     camera->nextBgCamIndex = -1;
     camera->atLERPStepScale = 1.0f;
     Camera_CopyDataToRegs(camera, camera->mode);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Camera_QRegInit();
 #endif
     PRINTF(VT_FGCOL(BLUE) "camera: personalize ---" VT_RST "\n");
@@ -7639,7 +7666,7 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     UNUSED_NDEBUG CameraModeValue* valueP;
     UNUSED_NDEBUG s32 i;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (PREG(82)) {
         PRINTF("camera: change camera status: cond %c%c\n", status == CAM_STAT_ACTIVE ? 'o' : 'x',
                camera->status != CAM_STAT_ACTIVE ? 'o' : 'x');
@@ -7665,7 +7692,7 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     return camera->status;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Camera_PrintSettings(Camera* camera) {
     char sp58[8];
     char sp50[8];
@@ -7870,19 +7897,19 @@ s32 Camera_UpdateWater(Camera* camera) {
         }
         Audio_SetExtraFilter(0);
     }
-    //! @bug: doesn't always return a value, but sometimes does.
+    //! @bug Missing return, but the return value is not used.
 }
 
 s32 Camera_UpdateHotRoom(Camera* camera) {
     camera->distortionFlags &= ~DISTORTION_HOT_ROOM;
-    if (camera->play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) {
+    if (camera->play->roomCtx.curRoom.environmentType == ROOM_ENV_HOT) {
         camera->distortionFlags |= DISTORTION_HOT_ROOM;
     }
 
     return 1;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 Camera_DbgChangeMode(Camera* camera) {
     static s16 D_8011DAFC[] = {
         CAM_SET_NORMAL0, CAM_SET_NORMAL1, CAM_SET_NORMAL2, CAM_SET_DUNGEON0, CAM_SET_DUNGEON1, CAM_SET_DUNGEON2,
@@ -7890,19 +7917,19 @@ s32 Camera_DbgChangeMode(Camera* camera) {
     s32 changeDir = 0;
 
     if (!gDebugCamEnabled && camera->play->activeCamId == CAM_ID_MAIN) {
-        if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CUP)) {
+        if (CAMERA_CHECK_BTN(&D_8015BD7C->state.input[2], BTN_CUP)) {
             PRINTF("attention sound URGENCY\n");
             Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_URGENCY);
         }
-        if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CDOWN)) {
+        if (CAMERA_CHECK_BTN(&D_8015BD7C->state.input[2], BTN_CDOWN)) {
             PRINTF("attention sound NORMAL\n");
             Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_ON);
         }
 
-        if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CRIGHT)) {
+        if (CAMERA_CHECK_BTN(&D_8015BD7C->state.input[2], BTN_CRIGHT)) {
             changeDir = 1;
         }
-        if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CLEFT)) {
+        if (CAMERA_CHECK_BTN(&D_8015BD7C->state.input[2], BTN_CLEFT)) {
             changeDir = -1;
         }
         if (changeDir != 0) {
@@ -8001,7 +8028,7 @@ void Camera_UpdateDistortion(Camera* camera) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 #define ENABLE_DEBUG_CAM_UPDATE R_DEBUG_CAM_UPDATE
 #else
 #define ENABLE_DEBUG_CAM_UPDATE false
@@ -8102,7 +8129,7 @@ Vec3s Camera_Update(Camera* camera) {
         }
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     Camera_PrintSettings(camera);
     Camera_DbgChangeMode(camera);
 #endif
@@ -8134,8 +8161,8 @@ Vec3s Camera_Update(Camera* camera) {
         if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (gSaveContext.gameMode != GAMEMODE_END_CREDITS)) {
             sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
             Camera_UpdateInterface(sCameraInterfaceField);
-        } else if ((D_8011D3F0 != 0) && (camera->camId == CAM_ID_MAIN)) {
-            D_8011D3F0--;
+        } else if ((sSceneInitLetterboxTimer != 0) && (camera->camId == CAM_ID_MAIN)) {
+            sSceneInitLetterboxTimer--;
             sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_NOTHING_ALT, 0);
             Camera_UpdateInterface(sCameraInterfaceField);
         } else if (camera->play->transitionMode != TRANS_MODE_OFF) {
@@ -8162,9 +8189,9 @@ Vec3s Camera_Update(Camera* camera) {
                sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     // enable/disable debug cam
-    if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_START)) {
+    if (CAMERA_CHECK_BTN(&D_8015BD7C->state.input[2], BTN_START)) {
         gDebugCamEnabled ^= 1;
         if (gDebugCamEnabled) {
             DebugCamera_Enable(&D_8015BD80, camera);
@@ -8251,8 +8278,8 @@ Vec3s Camera_Update(Camera* camera) {
                CAM_BINANG_TO_DEG(camera->camDir.x), camera->camDir.y, CAM_BINANG_TO_DEG(camera->camDir.y));
     }
 
-#if OOT_DEBUG
-    if (camera->timer != -1 && CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_DRIGHT)) {
+#if DEBUG_FEATURES
+    if (camera->timer != -1 && CAMERA_CHECK_BTN(&D_8015BD7C->state.input[0], BTN_DRIGHT)) {
         camera->timer = 0;
     }
 #endif
@@ -8460,7 +8487,7 @@ s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange
                 break;
 
             case CAM_REQUEST_MODE_SFX_ATTENTION:
-                if (camera->play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_1) {
+                if (camera->play->roomCtx.curRoom.type == ROOM_TYPE_DUNGEON) {
                     Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_URGENCY);
                 } else {
                     Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_ON);
@@ -8585,7 +8612,7 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
     if (!(camera->behaviorFlags & CAM_BEHAVIOR_BG_PROCESSED)) {
         requestedCamSetting = Camera_GetBgCamSetting(camera, requestedBgCamIndex);
         camera->behaviorFlags |= CAM_BEHAVIOR_BG_PROCESSED;
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         settingChangeSuccessful = Camera_RequestSettingImpl(camera, requestedCamSetting,
                                                             CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX |
                                                                 CAM_REQUEST_SETTING_FORCE_CHANGE) >= 0;
@@ -8611,12 +8638,11 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
 #endif
         return 0x80000000 | requestedBgCamIndex;
     }
-
-    //! @note: no return here, but return is unused
+    //! @bug Missing return, but the return value is not used.
 }
 
 Vec3s Camera_GetInputDir(Camera* camera) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gDebugCamEnabled) {
         return D_8015BD80.sub.unk_104A;
     }
@@ -8638,7 +8664,7 @@ s16 Camera_GetInputDirYaw(Camera* camera) {
 }
 
 Vec3s Camera_GetCamDir(Camera* camera) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gDebugCamEnabled) {
         return D_8015BD80.sub.unk_104A;
     }
@@ -8835,7 +8861,7 @@ s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera) {
 }
 
 s32 Camera_IsDebugCamEnabled(void) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     return gDebugCamEnabled;
 #else
     return false;
@@ -8869,7 +8895,7 @@ void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* d
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 Camera_QRegInit(void) {
     if (!R_RELOAD_CAM_PARAMS) {
         QREG(2) = 1;

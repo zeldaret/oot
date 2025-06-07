@@ -39,18 +39,34 @@
  *
  * @see irqmgr.c
  */
-#include "global.h"
+#include "libu64/debug.h"
+#include "attributes.h"
+#include "libu64/rcp_utils.h"
+#include "array_count.h"
+#include "fault.h"
+#include "irqmgr.h"
+#include "main.h"
+#include "printf.h"
+#include "regs.h"
+#include "sched.h"
+#include "speed_meter.h"
+#include "translation.h"
+#include "versions.h"
+#include "vi_mode.h"
+#include "thread.h"
 
 #define RSP_DONE_MSG 667
 #define RDP_DONE_MSG 668
 #define NOTIFY_MSG 670 // original name: ENTRY_MSG
+
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
 
 OSTime sRSPGfxTimeStart;
 OSTime sRSPAudioTimeStart;
 OSTime sRSPOtherTimeStart;
 OSTime sRDPTimeStart;
 
-#if OOT_DEBUG
+#if OOT_VERSION < PAL_1_0 || DEBUG_FEATURES
 vs32 sSchedDebugPrintfEnabled = false;
 
 #define SCHED_DEBUG_PRINTF        \
@@ -81,7 +97,7 @@ void Sched_SwapFrameBufferImpl(CfbInfo* cfbInfo) {
             Fault_SetFrameBuffer(cfbInfo->swapBuffer, width, 16);
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (R_HREG_MODE == HREG_MODE_SCHED && R_SCHED_INIT != HREG_MODE_SCHED) {
             R_SCHED_TOGGLE_SPECIAL_FEATURES = 0;
             R_SCHED_GAMMA_ON = 0;
@@ -112,10 +128,29 @@ void Sched_SwapFrameBufferImpl(CfbInfo* cfbInfo) {
 #endif
     }
 
+#if OOT_VERSION < PAL_1_0
+    if (cfbInfo->viMode != NULL) {
+        osViSetMode(cfbInfo->viMode);
+        osViSetSpecialFeatures(cfbInfo->viFeatures);
+    }
+    if (1) {}
+    if (1) {}
+    if (1) {}
+    if (1) {}
+    if (1) {}
+#endif
+
     cfbInfo->unk_10 = 0;
 }
 
 void Sched_SwapFrameBuffer(Scheduler* sc, CfbInfo* cfbInfo) {
+#if OOT_VERSION < PAL_1_0
+    Sched_SwapFrameBufferImpl(cfbInfo);
+    if (sc->isFirstSwap) {
+        osViBlack(false);
+        sc->isFirstSwap = false;
+    }
+#else
     if (sc->isFirstSwap) {
         sc->isFirstSwap = false;
 
@@ -124,10 +159,11 @@ void Sched_SwapFrameBuffer(Scheduler* sc, CfbInfo* cfbInfo) {
         }
     }
     Sched_SwapFrameBufferImpl(cfbInfo);
+#endif
 }
 
 void Sched_HandlePreNMI(UNUSED_NDEBUG Scheduler* sc) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     OSTime now;
 
     if (sc->curRSPTask != NULL) {
@@ -159,7 +195,12 @@ void Sched_HandlePreNMI(UNUSED_NDEBUG Scheduler* sc) {
 
 void Sched_HandleNMI(UNUSED Scheduler* sc) {
     // black the screen and reset the VI y scale just in time for NMI reset
+#if OOT_VERSION < PAL_1_0
+    osViSetYScale(1.0f);
+    osViBlack(true);
+#else
     ViConfig_UpdateVi(true);
+#endif
 }
 
 /**
@@ -173,8 +214,7 @@ void Sched_QueueTask(Scheduler* sc, OSScTask* task) {
            463);
 
     if (type == M_AUDTASK) {
-        // "You have entered an audio task"
-        SCHED_DEBUG_PRINTF("オーディオタスクをエントリしました\n");
+        SCHED_DEBUG_PRINTF(T("オーディオタスクをエントリしました\n", "You have entered an audio task\n"));
 
         // Add to audio queue
         if (sc->audioListTail != NULL) {
@@ -188,8 +228,7 @@ void Sched_QueueTask(Scheduler* sc, OSScTask* task) {
         sc->doAudio = true;
     } else {
 
-        // "Entered graph task"
-        SCHED_DEBUG_PRINTF("グラフタスクをエントリしました\n");
+        SCHED_DEBUG_PRINTF(T("グラフタスクをエントリしました\n", "Entered graph task\n"));
 
         // Add to graphics queue
         if (sc->gfxListTail != NULL) {
@@ -423,6 +462,13 @@ void Sched_RunTask(Scheduler* sc, OSScTask* spTask, OSScTask* dpTask) {
 
         // If the task also uses the RDP, set current running RDP task
         if (spTask == dpTask && sc->curRDPTask == NULL) {
+#if OOT_VERSION < PAL_1_0
+            // Unknown SCHED_DEBUG_PRINTF calls
+            if (sSchedDebugPrintfEnabled) {}
+            if (sSchedDebugPrintfEnabled) {}
+            if (sSchedDebugPrintfEnabled) {}
+#endif
+
             sc->curRDPTask = dpTask;
             sRDPTimeStart = sRSPGfxTimeStart;
         }
@@ -466,7 +512,9 @@ void Sched_HandleNotification(Scheduler* sc) {
 void Sched_HandleRetrace(Scheduler* sc) {
     SCHED_DEBUG_PRINTF("%08d:scHandleRetrace %08x\n", (u32)OS_CYCLES_TO_USEC(osGetTime()), osViGetCurrentFramebuffer());
 
+#if OOT_VERSION >= PAL_1_0
     ViConfig_UpdateBlack();
+#endif
     sc->retraceCount++;
 
     // Retrace handlers run after VI context swap. The last swap buffer may now be the current buffer.
@@ -603,8 +651,7 @@ void Sched_ThreadEntry(void* arg) {
     Scheduler* sc = (Scheduler*)arg;
 
     while (true) {
-        // "%08d: standby"
-        SCHED_DEBUG_PRINTF("%08d:待機中\n", (u32)OS_CYCLES_TO_USEC(osGetTime()));
+        SCHED_DEBUG_PRINTF(T("%08d:待機中\n", "%08d: standby\n"), (u32)OS_CYCLES_TO_USEC(osGetTime()));
 
         // Await interrupt messages, either from the OS, IrqMgr, or another thread
         osRecvMesg(&sc->interruptQueue, &msg, OS_MESG_BLOCK);
@@ -650,6 +697,12 @@ void Sched_Init(Scheduler* sc, void* stack, OSPri priority, UNUSED u8 viModeType
     // Create message queues for receiving interrupt events and tasks
     osCreateMesgQueue(&sc->interruptQueue, sc->interruptMsgBuf, ARRAY_COUNT(sc->interruptMsgBuf));
     osCreateMesgQueue(&sc->cmdQueue, sc->cmdMsgBuf, ARRAY_COUNT(sc->cmdMsgBuf));
+
+#if OOT_VERSION < PAL_1_0
+    osViBlack(true);
+    osViSetSpecialFeatures(OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_OFF);
+#endif
+
     osSetEventMesg(OS_EVENT_SP, &sc->interruptQueue, (OSMesg)RSP_DONE_MSG);
     osSetEventMesg(OS_EVENT_DP, &sc->interruptQueue, (OSMesg)RDP_DONE_MSG);
     IrqMgr_AddClient(irqMgr, &sc->irqClient, &sc->interruptQueue);

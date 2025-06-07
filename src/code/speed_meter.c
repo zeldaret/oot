@@ -1,5 +1,18 @@
-#include "global.h"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:0" \
+                               "pal-1.0:0 pal-1.1:0"
+#include "libc64/malloc.h"
+#include "attributes.h"
+#include "libu64/debug.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "printf.h"
+#include "regs.h"
+#include "speed_meter.h"
+#include "stack_pad.h"
 #include "terminal.h"
+#include "zelda_arena.h"
+#include "game.h"
+#include "view.h"
 
 /**
  * How much time the audio update on the audio thread (`AudioThread_Update`) took in total, between scheduling the last
@@ -56,7 +69,7 @@ volatile OSTime D_8016A578;
 // Accumulator for `gRDPTimeTotal`
 volatile OSTime gRDPTimeAcc;
 
-typedef struct {
+typedef struct SpeedMeterTimeEntry {
     /* 0x00 */ volatile OSTime* time;
     /* 0x04 */ u8 x;
     /* 0x05 */ u8 y;
@@ -74,7 +87,7 @@ SpeedMeterTimeEntry sSpeedMeterTimeEntryArray[] = {
     { &gGraphUpdatePeriod, 0, 10, GPACK_RGBA5551(255, 0, 255, 1) },
 };
 
-typedef struct {
+typedef struct SpeedMeterAllocEntry {
     /* 0x00 */ s32 maxval;
     /* 0x04 */ s32 val;
     /* 0x08 */ u16 backColor;
@@ -182,9 +195,9 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
     Gfx* gfx;
 
     if (this->maxval == 0) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         LOG_NUM("this->maxval", this->maxval, "../speed_meter.c", 313);
-        PRINTF(VT_RST);
+        PRINTF_RST();
     } else {
         OPEN_DISPS(gfxCtx, "../speed_meter.c", 318);
 
