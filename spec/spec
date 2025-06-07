@@ -3875,7 +3875,15 @@ beginseg
     name "object_ganon_anime3"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/object_ganon_anime3.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfShowTriforceStartAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfBurstOutAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfTransformEndAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfFloatingHeavyBreathingAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfTransformStartAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfTransformLoopAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfShowTriforceLoopAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanonUncurlAndFlailAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanonRoarAnim.o"
     number 6
 endseg
 
