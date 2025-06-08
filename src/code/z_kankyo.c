@@ -1,5 +1,5 @@
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0" \
-                               "ique-cn:0 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:240 gc-jp-ce:240 gc-jp-mq:240 gc-us:240 gc-us-mq:240" \
+                               "ique-cn:224 ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:240 pal-1.1:240"
 
 #include "libc64/qrand.h"
 #include "libu64/gfxprint.h"
@@ -244,7 +244,7 @@ s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
 #pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
-                               "ique-cn:224 ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:192"
+                               "ique-cn:224 ntsc-1.0:224 ntsc-1.1:224 ntsc-1.2:224 pal-1.0:224 pal-1.1:224"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
