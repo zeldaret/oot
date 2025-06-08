@@ -1,5 +1,5 @@
-#ifndef GAMEPLAY_KEEP_0x355A0_H
-#define GAMEPLAY_KEEP_0x355A0_H
+#ifndef GAMEPLAY_KEEP_CUTTABLE_SHRUB_H
+#define GAMEPLAY_KEEP_CUTTABLE_SHRUB_H
 
 #include "tex_len.h"
 #include "ultra64.h"

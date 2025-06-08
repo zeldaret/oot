@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x37840.h"
+#include "eff_sparkles.h"
 #include "gfx.h"
 
 Vtx gEffSparklesVtx[] = {

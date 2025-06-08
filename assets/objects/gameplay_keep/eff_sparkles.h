@@ -1,5 +1,5 @@
-#ifndef GAMEPLAY_KEEP_0x37840_H
-#define GAMEPLAY_KEEP_0x37840_H
+#ifndef GAMEPLAY_KEEP_EFF_SPARKLES_H
+#define GAMEPLAY_KEEP_EFF_SPARKLES_H
 
 #include "tex_len.h"
 #include "ultra64.h"

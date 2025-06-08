@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x39CC0.h"
+#include "gTallBlockCol.h"
 #include "bgcheck.h"
 #include "array_count.h"
 #include "camera.h"

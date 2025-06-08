@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x3C2E0.h"
+#include "directional_sign_model.h"
 #include "sign_textures.h"
 #include "gfx.h"
 

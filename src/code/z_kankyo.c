@@ -34,7 +34,7 @@
 
 #include "assets/objects/gameplay_keep/eff_lightning.h"
 #include "assets/objects/gameplay_keep/eff_shockwave.h"
-#include "assets/objects/gameplay_keep/gameplay_keep_0x48130.h"
+#include "assets/objects/gameplay_keep/raindrop_model.h"
 #include "assets/objects/gameplay_keep/lens_flare.h"
 #include "assets/objects/gameplay_keep/moon.h"
 #include "assets/objects/gameplay_keep/gameplay_keep_0x4D160.h"

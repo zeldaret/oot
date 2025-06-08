@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x3A150.h"
+#include "flat_rot_block_model.h"
 #include "gameplay_keep_0x42530.h"
 #include "gfx.h"
 

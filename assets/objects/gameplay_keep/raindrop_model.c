@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x48130.h"
+#include "raindrop_model.h"
 #include "gfx.h"
 
 Vtx gRaindropVtx[] = {

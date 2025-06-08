@@ -17,7 +17,7 @@
 #include "play_state.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep_0x37840.h"
+#include "assets/objects/gameplay_keep/eff_sparkles.h"
 
 #define rRotSpeed regs[0]
 #define rYaw regs[1]

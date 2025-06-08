@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x355A0.h"
+#include "cuttable_shrub.h"
 #include "gfx.h"
 
 Vtx gCuttableShrubStalkVtx[] = {
