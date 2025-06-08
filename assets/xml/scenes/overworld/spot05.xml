@@ -1,9 +1,18 @@
 <Root>
     <File Name="spot05_scene" Segment="2">
-        <Cutscene Name="gMeadowMinuetCs" Offset="0x3F80"/>
-        <Cutscene Name="gMeadowSariasSongCs" Offset="0x5730"/>
+        <Cutscene Name="gMeadowMinuetCs">
+            <Version Pattern="pal-1\.[01]" Offset="0x3F84"/>
+            <Version Pattern=".*" Offset="0x3F80"/>
+        </Cutscene>
+        <Cutscene Name="gMeadowSariasSongCs">
+            <Version Pattern="pal-1\.[01]" Offset="0x5740"/>
+            <Version Pattern=".*" Offset="0x5730"/>
+        </Cutscene>
 
-        <Path Name="spot05_scenePathList_0069D8" Offset="0x69D8" NumPaths="5"/>
+        <Path Name="spot05_scenePathList_0069D8" NumPaths="5">
+            <Version Pattern="pal-1\.[01]" Offset="0x69E8"/>
+            <Version Pattern=".*" Offset="0x69D8"/>
+        </Path>
 
         <Scene Name="spot05_scene" Offset="0x0"/>
     </File>
