@@ -1,4 +1,4 @@
-#include "gameplay_keep_ntsc_0x3D220.h"
+#include "unused_heart_container_icon_model_ntsc.h"
 #include "gameplay_keep_ntsc_0x46A40.h"
 #include "gfx.h"
 

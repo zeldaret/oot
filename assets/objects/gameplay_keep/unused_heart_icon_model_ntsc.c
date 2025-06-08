@@ -1,4 +1,4 @@
-#include "gameplay_keep_ntsc_0x39A40.h"
+#include "unused_heart_icon_model_ntsc.h"
 #include "item_drops_ntsc.h"
 #include "gfx.h"
 

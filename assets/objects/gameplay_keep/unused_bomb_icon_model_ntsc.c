@@ -1,4 +1,4 @@
-#include "gameplay_keep_ntsc_0x39970.h"
+#include "unused_bomb_icon_model_ntsc.h"
 #include "item_drops_ntsc.h"
 #include "gfx.h"
 

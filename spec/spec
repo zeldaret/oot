@@ -1067,9 +1067,9 @@ beginseg
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x38FB0.o"
 #if OOT_REGION != REGION_EU
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x39850.o"
-    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x39970.o"
-    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x39A40.o"
-    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x39B10.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_bomb_icon_model_ntsc.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_heart_icon_model_ntsc.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_arrow_icon_model_ntsc.o"
 #endif
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x393B0.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/liftable_rock_model.o"
@@ -1090,7 +1090,7 @@ beginseg
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x3B1E0.o"
 #if OOT_REGION != REGION_EU
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x3C610.o"
-    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x3D220.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_heart_container_icon_model_ntsc.o"
 #endif
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/rectangular_sign_model.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x3C2E0.o"
@@ -1100,7 +1100,7 @@ beginseg
 #endif
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/drop_recovery_heart_tex.o"
 #if OOT_REGION != REGION_EU
-    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_ntsc_0x41580.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/unused_heart_piece_icon_tex_ntsc.o"
 #endif
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/item_drop_dl.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x3F140.o"

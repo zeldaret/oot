@@ -1,4 +1,4 @@
-#include "gameplay_keep_ntsc_0x39B10.h"
+#include "unused_arrow_icon_model_ntsc.h"
 #include "item_drops_ntsc.h"
 #include "gfx.h"
 
