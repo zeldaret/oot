@@ -101,19 +101,19 @@
         <DList Name="gStalfosSwordDL" Offset="0x6A48"/>
 
         <!-- Stalfos textures -->
-        <Texture Name="gStalfosEyeSocketTex" OutName="stalfos_eye_socket" Format="rgba16" Width="16" Height="16" Offset="0x6BA8"/>
-        <Texture Name="gStalfosEyeTex" OutName="stalfos_eye" Format="rgba16" Width="8" Height="8" Offset="0x6DA8"/>
-        <Texture Name="gStalfosBoneGradientTex" OutName="stalfos_bone_gradient" Format="rgba16" Width="4" Height="4" Offset="0x6E28"/>
-        <Texture Name="gStalfosNostrilTex" OutName="stalfos_nostril" Format="rgba16" Width="8" Height="8" Offset="0x6E48"/>
-        <Texture Name="gStalfosBoneDetailTex" OutName="stalfos_bone_detail" Format="rgba16" Width="8" Height="8" Offset="0x6EC8"/>
-        <Texture Name="gStalfosRibTex" OutName="stalfos_rib" Format="rgba16" Width="16" Height="16" Offset="0x6F48"/>
-        <Texture Name="gStalfosTrousersSideTex" OutName="stalfos_trousers_side" Format="rgba16" Width="16" Height="16" Offset="0x7148"/>
-        <Texture Name="gStalfosShieldTex" OutName="stalfos_shield_tex" Format="rgba16" Width="16" Height="16" Offset="0x7348"/>
+        <Texture Name="gStalfosEyeSocketTex" Format="rgba16" Width="16" Height="16" Offset="0x6BA8"/>
+        <Texture Name="gStalfosEyeTex" Format="rgba16" Width="8" Height="8" Offset="0x6DA8"/>
+        <Texture Name="gStalfosBoneGradientTex" Format="rgba16" Width="4" Height="4" Offset="0x6E28"/>
+        <Texture Name="gStalfosNostrilTex" Format="rgba16" Width="8" Height="8" Offset="0x6E48"/>
+        <Texture Name="gStalfosBoneDetailTex" Format="rgba16" Width="8" Height="8" Offset="0x6EC8"/>
+        <Texture Name="gStalfosRibTex" Format="rgba16" Width="16" Height="16" Offset="0x6F48"/>
+        <Texture Name="gStalfosTrousersSideTex" Format="rgba16" Width="16" Height="16" Offset="0x7148"/>
+        <Texture Name="gStalfosShieldTex" Format="rgba16" Width="16" Height="16" Offset="0x7348"/>
         <!-- Also used for shoulder armor, helm and sword hilt -->
-        <Texture Name="gStalfosLimbArmorTex" OutName="stalfos_limb_armor_tex" Format="rgba16" Width="16" Height="16" Offset="0x7548"/>
-        <Texture Name="gStalfosArmorBackTex" OutName="stalfos_armor_back" Format="rgba16" Width="8" Height="8" Offset="0x7748"/>
-        <Texture Name="gStalfosSwordBladeTex" OutName="stalfos_sword_blade" Format="rgba16" Width="4" Height="4" Offset="0x77C8"/>
-        <Texture Name="gStalfosTrousersTopTex" OutName="stalfos_trousers_top" Format="rgba16" Width="8" Height="8" Offset="0x77E8"/>
+        <Texture Name="gStalfosLimbArmorTex" Format="rgba16" Width="16" Height="16" Offset="0x7548"/>
+        <Texture Name="gStalfosArmorBackTex" Format="rgba16" Width="8" Height="8" Offset="0x7748"/>
+        <Texture Name="gStalfosSwordBladeTex" Format="rgba16" Width="4" Height="4" Offset="0x77C8"/>
+        <Texture Name="gStalfosTrousersTopTex" Format="rgba16" Width="8" Height="8" Offset="0x77E8"/>
 
         <!-- Stalfos limbs and skeleton -->
         <Limb Name="gStalfosRootLimb" LimbType="Standard" Offset="0x7868"/>

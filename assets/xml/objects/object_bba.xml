@@ -19,16 +19,16 @@
         <Skeleton Name="gHylianOldWomanSkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
 
         <!-- Textures -->
-        <Texture Name="gHylianOldWomanTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x108"/>
-        <Texture Name="gHylianOldWomanMouthTex" OutName="mouth" Format="ci8" Width="8" Height="8" Offset="0x308" TlutOffset="0x108"/>
-        <Texture Name="gHylianOldWomanSkinTex" OutName="skin" Format="ci8" Width="8" Height="8" Offset="0x348" TlutOffset="0x108"/>
-        <Texture Name="gHylianOldWomanHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x388" TlutOffset="0x108"/>
-        <Texture Name="gHylianOldWomanEarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x488" TlutOffset="0x108"/>
-        <Texture Name="gHylianOldWomanEyeTex" OutName="eye" Format="rgba16" Width="32" Height="32" Offset="0x4C8"/>
-        <Texture Name="gHylianOldWomanFingersTex" OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0xCC8" TlutOffset="0x108"/>
-        <Texture Name="gHylianOldWomanCollarSleevesTex" OutName="collar_sleeves" Format="ci8" Width="8" Height="8" Offset="0xDC8" TlutOffset="0x108"/>
-        <Texture Name="gHylianOldWomanShirtTex" OutName="shirt" Format="ci8" Width="16" Height="16" Offset="0xE08" TlutOffset="0x108"/>
-        <Texture Name="gHylianOldWomanSkirtTex" OutName="skirt" Format="ci8" Width="16" Height="16" Offset="0xF08" TlutOffset="0x108"/>
+        <Texture Name="gHylianOldWomanTLUT" Format="rgba16" Width="16" Height="16" Offset="0x108"/>
+        <Texture Name="gHylianOldWomanMouthTex" Format="ci8" Width="8" Height="8" Offset="0x308" TlutOffset="0x108"/>
+        <Texture Name="gHylianOldWomanSkinTex" Format="ci8" Width="8" Height="8" Offset="0x348" TlutOffset="0x108"/>
+        <Texture Name="gHylianOldWomanHairTex" Format="ci8" Width="16" Height="16" Offset="0x388" TlutOffset="0x108"/>
+        <Texture Name="gHylianOldWomanEarTex" Format="ci8" Width="8" Height="8" Offset="0x488" TlutOffset="0x108"/>
+        <Texture Name="gHylianOldWomanEyeTex" Format="rgba16" Width="32" Height="32" Offset="0x4C8"/>
+        <Texture Name="gHylianOldWomanFingersTex" Format="ci8" Width="16" Height="16" Offset="0xCC8" TlutOffset="0x108"/>
+        <Texture Name="gHylianOldWomanCollarSleevesTex" Format="ci8" Width="8" Height="8" Offset="0xDC8" TlutOffset="0x108"/>
+        <Texture Name="gHylianOldWomanShirtTex" Format="ci8" Width="16" Height="16" Offset="0xE08" TlutOffset="0x108"/>
+        <Texture Name="gHylianOldWomanSkirtTex" Format="ci8" Width="16" Height="16" Offset="0xF08" TlutOffset="0x108"/>
 
         <!-- Vertices -->
         <Array Name="gHylianOldWomanHeadVtx" Count="160" Offset="0x1008">

@@ -8,7 +8,7 @@
         <Animation Name="gSheikPlayingHarp3Anim" Offset="0x3CE8"/>
         <Animation Name="gSheikPlayingHarp4Anim" Offset="0x4F90"/>
         <Animation Name="gSheikIdleAnim" Offset="0x5248"/>
-        <Texture Name="object_xc_TLUT_004A40" OutName="tlut_00004A40" Format="rgba16" Width="16" Height="16" Offset="0x5460"/>
+        <Texture Name="object_xc_TLUT_004A40" Format="rgba16" Width="16" Height="16" Offset="0x5460"/>
         <Animation Name="gSheikWalkingAnim" Offset="0x139F0"/>
         <Animation Name="gSheikArmsCrossedIdleAnim" Offset="0x144C4"/>
         <Animation Name="gSheikFallingFromContortionsAnim" Offset="0x15404"/>
@@ -22,12 +22,125 @@
         <Animation Name="gSheikAnim_01A048" Offset="0x1AA68"/>
         <Animation Name="gSheikPullingOutHarpAnim" Offset="0x1BBBC"/>
         <Animation Name="gSheikFallingFromSkyAnim" Offset="0x1CB08"/>
-        <Texture Name="gSheikEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x56E0" TlutOffset="0x5460"/>
-        <Texture Name="gSheikEyeHalfClosedTex" OutName="eye_half_closed" Format="ci8" Width="32" Height="32" Offset="0x5AE0" TlutOffset="0x5460"/>
-        <Texture Name="gSheikEyeShutTex" OutName="eye_shut" Format="ci8" Width="32" Height="32" Offset="0x5EE0" TlutOffset="0x5460"/>
-        <Texture Name="gSheikEyeSquintingTex" OutName="eye_squinting" Format="ci8" Width="32" Height="32" Offset="0x62E0" TlutOffset="0x5460"/>
+        <Texture Name="gSheikEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x56E0" TlutOffset="0x5460"/>
+        <Texture Name="gSheikEyeHalfClosedTex" Format="ci8" Width="32" Height="32" Offset="0x5AE0" TlutOffset="0x5460"/>
+        <Texture Name="gSheikEyeShutTex" Format="ci8" Width="32" Height="32" Offset="0x5EE0" TlutOffset="0x5460"/>
+        <Texture Name="gSheikEyeSquintingTex" Format="ci8" Width="32" Height="32" Offset="0x62E0" TlutOffset="0x5460"/>
+        <Array Name="gSheikHarpVtx" Count="96" Offset="0x10CF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_0112F0" Count="136" Offset="0x112F0">
+            <Vtx/>
+        </Array>
         <DList Name="gSheikHarpDL" Offset="0x11B70"/>
         <DList Name="gSheikDL_011620" Offset="0x12040"/>
+        <Array Name="object_xc_Vtx_013350" Count="4" Offset="0x13350">
+            <Vtx/>
+        </Array>
         <DList Name="gSheikDL_012970" Offset="0x13390"/>
+
+        <Texture Name="object_xc_005260_TLUT" Format="rgba16" Width="256" Height="1" Offset="0x5260"/>
+        <Texture Name="object_xc_005660_Tex" Format="ci8" Width="8" Height="8" Offset="0x5660" TlutOffset="0x5260"/>
+        <Texture Name="object_xc_0056A0_Tex" Format="ci8" Width="8" Height="8" Offset="0x56A0" TlutOffset="0x5260"/>
+        <Texture Name="object_xc_0066E0_Tex" Format="ci8" Width="32" Height="32" Offset="0x66E0" TlutOffset="0x5460"/>
+        <Texture Name="object_xc_006AE0_Tex" Format="ci8" Width="32" Height="32" Offset="0x6AE0" TlutOffset="0x5260"/>
+        <Texture Name="object_xc_006EE0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x6EE0"/>
+        <Texture Name="object_xc_0076E0_Tex" Format="ci8" Width="8" Height="16" Offset="0x76E0" TlutOffset="0x5260"/>
+        <Texture Name="object_xc_007760_Tex" Format="ci8" Width="8" Height="8" Offset="0x7760" TlutOffset="0x5260"/>
+        <Texture Name="object_xc_0077A0_Tex" Format="ci8" Width="16" Height="16" Offset="0x77A0" TlutOffset="0x5260"/>
+        <Texture Name="object_xc_0078A0_Tex" Format="ci8" Width="32" Height="32" Offset="0x78A0" TlutOffset="0x5460"/>
+        <Texture Name="object_xc_007CA0_Tex" Format="ci8" Width="16" Height="16" Offset="0x7CA0" TlutOffset="0x5260"/>
+        <Texture Name="object_xc_007DA0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x7DA0"/>
+        <Texture Name="object_xc_0085A0_Tex" Format="ci8" Width="32" Height="64" Offset="0x85A0" TlutOffset="0x5260"/>
+        <Texture Name="object_xc_008DA0_Tex" Format="ci8" Width="32" Height="64" Offset="0x8DA0" TlutOffset="0x5260"/>
+        <Texture Name="object_xc_0095A0_Tex" Format="ci8" Width="16" Height="8" Offset="0x95A0" TlutOffset="0x5260"/>
+        <Texture Name="object_xc_009620_Tex" Format="ci8" Width="32" Height="16" Offset="0x9620" TlutOffset="0x5260"/>
+        <Array Name="object_xc_Vtx_009820" Count="332" Offset="0x9820">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00ACE0" Count="69" Offset="0xACE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00B130" Count="31" Offset="0xB130">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00B320" Count="48" Offset="0xB320">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00B620" Count="69" Offset="0xB620">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00BA70" Count="31" Offset="0xBA70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00BC60" Count="48" Offset="0xBC60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00BF60" Count="143" Offset="0xBF60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00C850" Count="37" Offset="0xC850">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00CAA0" Count="46" Offset="0xCAA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00CD80" Count="53" Offset="0xCD80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00D0D0" Count="37" Offset="0xD0D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00D320" Count="46" Offset="0xD320">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00D600" Count="53" Offset="0xD600">
+            <Vtx/>
+        </Array>
+        <Array Name="object_xc_Vtx_00D950" Count="31" Offset="0xD950">
+            <Vtx/>
+        </Array>
+        <DList Name="object_xc_00DB40_DL" Offset="0xDB40"/>
+        <DList Name="object_xc_00E130_DL" Offset="0xE130"/>
+        <DList Name="object_xc_00E848_DL" Offset="0xE848"/>
+        <DList Name="object_xc_00EA18_DL" Offset="0xEA18"/>
+        <DList Name="object_xc_00EC40_DL" Offset="0xEC40"/>
+        <DList Name="object_xc_00EE80_DL" Offset="0xEE80"/>
+        <DList Name="object_xc_00F050_DL" Offset="0xF050"/>
+        <DList Name="object_xc_00F278_DL" Offset="0xF278"/>
+        <DList Name="object_xc_00F4B8_DL" Offset="0xF4B8"/>
+        <DList Name="object_xc_00F600_DL" Offset="0xF600"/>
+        <DList Name="object_xc_00F7D0_DL" Offset="0xF7D0"/>
+        <DList Name="object_xc_00F9C0_DL" Offset="0xF9C0"/>
+        <DList Name="object_xc_00FB70_DL" Offset="0xFB70"/>
+        <DList Name="object_xc_00FD40_DL" Offset="0xFD40"/>
+        <DList Name="object_xc_00FF30_DL" Offset="0xFF30"/>
+        <Texture Name="object_xc_0100E0_TLUT" Format="rgba16" Width="48" Height="1" Offset="0x100E0"/>
+        <Texture Name="object_xc_010140_TLUT" Format="rgba16" Width="56" Height="1" Offset="0x10140"/>
+        <Texture Name="object_xc_0101B0_Tex" Format="ci8" Width="8" Height="8" Offset="0x101B0" TlutOffset="0x100E0"/>
+        <Texture Name="object_xc_0101F0_Tex" Format="ci8" Width="32" Height="32" Offset="0x101F0" TlutOffset="0x10140"/>
+        <Texture Name="object_xc_0105F0_Tex" Format="ci8" Width="16" Height="16" Offset="0x105F0" TlutOffset="0x100E0"/>
+        <Texture Name="object_xc_0106F0_Tex" Format="ci8" Width="8" Height="8" Offset="0x106F0" TlutOffset="0x100E0"/>
+        <Texture Name="object_xc_010730_Tex" Format="rgba16" Width="8" Height="8" Offset="0x10730"/>
+        <Texture Name="object_xc_0107B0_Tex" Format="i8" Width="8" Height="8" Offset="0x107B0"/>
+        <Texture Name="object_xc_0107F0_Tex" Format="rgba16" Width="16" Height="32" Offset="0x107F0"/>
+        <Texture Name="object_xc_010BF0_Tex" Format="rgba16" Width="8" Height="16" Offset="0x10BF0"/>
+        <Texture Name="object_xc_012350_Tex" Format="i8" Width="64" Height="64" Offset="0x12350"/>
+        <Limb Name="object_xc_013410_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_013410" Offset="0x13410"/>
+        <Limb Name="object_xc_01341C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_01341C" Offset="0x1341C"/>
+        <Limb Name="object_xc_013428_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_013428" Offset="0x13428"/>
+        <Limb Name="object_xc_013434_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_013434" Offset="0x13434"/>
+        <Limb Name="object_xc_013440_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_013440" Offset="0x13440"/>
+        <Limb Name="object_xc_01344C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_01344C" Offset="0x1344C"/>
+        <Limb Name="object_xc_013458_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_013458" Offset="0x13458"/>
+        <Limb Name="object_xc_013464_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_013464" Offset="0x13464"/>
+        <Limb Name="object_xc_013470_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_013470" Offset="0x13470"/>
+        <Limb Name="object_xc_01347C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_01347C" Offset="0x1347C"/>
+        <Limb Name="object_xc_013488_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_013488" Offset="0x13488"/>
+        <Limb Name="object_xc_013494_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_013494" Offset="0x13494"/>
+        <Limb Name="object_xc_0134A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_0134A0" Offset="0x134A0"/>
+        <Limb Name="object_xc_0134AC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_0134AC" Offset="0x134AC"/>
+        <Limb Name="object_xc_0134B8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_0134B8" Offset="0x134B8"/>
+        <Limb Name="object_xc_0134C4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_XC_0134C4" Offset="0x134C4"/>
     </File>
 </Root>

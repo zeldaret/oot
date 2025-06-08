@@ -60,14 +60,14 @@
         <DList Name="gCuccoEffectFeatherModelDL" Offset="0x2428"/>
 
         <!-- Cucco DisplayList Textures -->
-        <Texture Name="gCuccoEyeTex" OutName="eye" Format="rgba16" Width="16" Height="16" Offset="0x1280"/>
-        <Texture Name="gCuccoHeadFeathersTex" OutName="head_feathers" Format="rgba16" Width="8" Height="16" Offset="0x1480"/>
-        <Texture Name="gCuccoBaseFeathersTex" OutName="base_feathers" Format="rgba16" Width="8" Height="8" Offset="0x1580"/>
-        <Texture Name="gCuccoBeakTex" OutName="beak" Format="rgba16" Width="8" Height="8" Offset="0x1600"/>
-        <Texture Name="gCuccoCombTex" OutName="comb" Format="rgba16" Width="16" Height="16" Offset="0x1680"/>
-        <Texture Name="gCuccoTailFeathersTex" OutName="tail_feathers" Format="rgba16" Width="32" Height="32" Offset="0x1880"/>
-        <Texture Name="gCuccoClawTex" OutName="claw" Format="rgba16" Width="8" Height="16" Offset="0x2080"/>
-        <Texture Name="gCuccoTex_2180" OutName="tex_2180" Format="rgba16" Width="16" Height="16" Offset="0x2180"/>
+        <Texture Name="gCuccoEyeTex" Format="rgba16" Width="16" Height="16" Offset="0x1280"/>
+        <Texture Name="gCuccoHeadFeathersTex" Format="rgba16" Width="8" Height="16" Offset="0x1480"/>
+        <Texture Name="gCuccoBaseFeathersTex" Format="rgba16" Width="8" Height="8" Offset="0x1580"/>
+        <Texture Name="gCuccoBeakTex" Format="rgba16" Width="8" Height="8" Offset="0x1600"/>
+        <Texture Name="gCuccoCombTex" Format="rgba16" Width="16" Height="16" Offset="0x1680"/>
+        <Texture Name="gCuccoTailFeathersTex" Format="rgba16" Width="32" Height="32" Offset="0x1880"/>
+        <Texture Name="gCuccoClawTex" Format="rgba16" Width="8" Height="16" Offset="0x2080"/>
+        <Texture Name="gCuccoTex_2180" Format="rgba16" Width="16" Height="16" Offset="0x2180"/>
 
         <!-- Cucco Animations -->
         <Animation Name="gCuccoAnim" Offset="0xE8"/>

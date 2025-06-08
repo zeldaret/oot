@@ -1,9 +1,9 @@
 <Root>
-    <File Name="code" OutName="z_fbdemo_wipe1">
+    <File Name="code">
         <Array Name="sTransWipeVtx" Count="25" Offset="0x0">
             <Vtx/>
         </Array>
-        <Texture Name="sTransWipeTex" OutName="trans_wipe" Format="i4" Width="64" Height="64" Offset="0x190"/>
+        <Texture Name="sTransWipeTex" Format="i4" Width="64" Height="64" Offset="0x190"/>
         <DList Name="sTransWipeDL" Offset="0x990"/>
     </File>
 </Root>

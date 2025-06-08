@@ -37,14 +37,14 @@
         <DList Name="gStingerRightWingEndDL" Offset="0x29F8"/>
 
         <!-- Stinger DisplayList Textures -->
-        <Texture Name="gStingerWingTex" OutName="wing" Format="rgba16" Width="16" Height="8" Offset="0x12C0"/>
-        <Texture Name="gStingerBodyGradientTex" OutName="body_gradient" Format="rgba16" Width="8" Height="8" Offset="0x13C0"/>
-        <Texture Name="gStingerWingEndTex" OutName="wing_end" Format="rgba16" Width="8" Height="8" Offset="0x1440"/>
-        <Texture Name="gStingerEyeTex" OutName="eye" Format="rgba16" Width="8" Height="16" Offset="0x14C0"/>
-        <Texture Name="gStingerUndersideTex" OutName="underside" Format="rgba16" Width="8" Height="8" Offset="0x15C0"/>
-        <Texture Name="gStingerFinTex" OutName="fin" Format="rgba16" Width="8" Height="8" Offset="0x1640"/>
-        <Texture Name="gStingerTailGradientTex" OutName="tail_gradient" Format="rgba16" Width="4" Height="4" Offset="0x16C0"/>
-        <Texture Name="gStingerTailConnectionGradientTex" OutName="tail_connection_gradient" Format="rgba16" Width="4" Height="4" Offset="0x16E0"/>
+        <Texture Name="gStingerWingTex" Format="rgba16" Width="16" Height="8" Offset="0x12C0"/>
+        <Texture Name="gStingerBodyGradientTex" Format="rgba16" Width="8" Height="8" Offset="0x13C0"/>
+        <Texture Name="gStingerWingEndTex" Format="rgba16" Width="8" Height="8" Offset="0x1440"/>
+        <Texture Name="gStingerEyeTex" Format="rgba16" Width="8" Height="16" Offset="0x14C0"/>
+        <Texture Name="gStingerUndersideTex" Format="rgba16" Width="8" Height="8" Offset="0x15C0"/>
+        <Texture Name="gStingerFinTex" Format="rgba16" Width="8" Height="8" Offset="0x1640"/>
+        <Texture Name="gStingerTailGradientTex" Format="rgba16" Width="4" Height="4" Offset="0x16C0"/>
+        <Texture Name="gStingerTailConnectionGradientTex" Format="rgba16" Width="4" Height="4" Offset="0x16E0"/>
 
         <!-- Stinger Animations -->
         <Animation Name="gStingerPopOutAnim" Offset="0x288"/>

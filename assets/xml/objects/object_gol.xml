@@ -25,12 +25,12 @@
         <DList Name="gObjectGolEyeIrisDL" Offset="0x2C10"/>
         <DList Name="gObjectGolAntennaDL" Offset="0x2EB8"/>
 
-        <Texture Name="gObjectGolShellTex" OutName="object_gol_shell" Format="rgba16" Width="16" Height="16" Offset="0x2FD0"/>
-        <Texture Name="gObjectGolSkinTex" OutName="object_gol_skin" Format="rgba16" Width="16" Height="16" Offset="0x31D0"/>
+        <Texture Name="gObjectGolShellTex" Format="rgba16" Width="16" Height="16" Offset="0x2FD0"/>
+        <Texture Name="gObjectGolSkinTex" Format="rgba16" Width="16" Height="16" Offset="0x31D0"/>
         <!-- the white of the eye texture is also used for the antenna -->
-        <Texture Name="gObjectGolEyeWhiteTex" OutName="object_gol_eye_white" Format="rgba16" Width="16" Height="16" Offset="0x33D0"/>
-        <Texture Name="gObjectGolEyeIrisTex" OutName="object_gol_eye_iris" Format="rgba16" Width="16" Height="16" Offset="0x35D0"/>
-        <Texture Name="gObjectGolEggTex" OutName="object_gol_egg" Format="rgba16" Width="16" Height="16" Offset="0x37D0"/>
+        <Texture Name="gObjectGolEyeWhiteTex" Format="rgba16" Width="16" Height="16" Offset="0x33D0"/>
+        <Texture Name="gObjectGolEyeIrisTex" Format="rgba16" Width="16" Height="16" Offset="0x35D0"/>
+        <Texture Name="gObjectGolEggTex" Format="rgba16" Width="16" Height="16" Offset="0x37D0"/>
 
         <Limb Name="gObjectGolRoot1Limb" LimbType="Standard" Offset="0x39D0"/>
         <Limb Name="gObjectGolRoot2Limb" LimbType="Standard" Offset="0x39DC"/>

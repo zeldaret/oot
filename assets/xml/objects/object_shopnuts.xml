@@ -98,13 +98,13 @@
         <DList Name="gBusinessScrubBodyDL" Offset="0x3930"/>
 
         <!-- Business Scrub Textures -->
-        <Texture Name="gBusinessScrubBodyTex" OutName="body" Format="rgba16" Width="16" Height="16" Offset="0x26F0"/>
-        <Texture Name="gBusinessScrubNoseTex" OutName="nose" Format="rgba16" Width="8" Height="8" Offset="0x28F0"/>
-        <Texture Name="gBusinessScrubNostrilTex" OutName="nostril" Format="rgba16" Width="8" Height="8" Offset="0x2970"/>
-        <Texture Name="gBusinessScrubEyeTex" OutName="eye" Format="rgba16" Width="8" Height="8" Offset="0x29F0"/>
-        <Texture Name="gBusinessScrubLeafStemTex" OutName="leaf_stem" Format="rgba16" Width="8" Height="8" Offset="0x2A70"/>
-        <Texture Name="gBusinessScrubLeafTex" OutName="leaf" Format="rgba16" Width="32" Height="32" Offset="0x2AF0"/>
-        <Texture Name="gBusinessScrubDekuNutTex" OutName="deku_nut" Format="rgba16" Width="16" Height="16" Offset="0x3DD8"/>
+        <Texture Name="gBusinessScrubBodyTex" Format="rgba16" Width="16" Height="16" Offset="0x26F0"/>
+        <Texture Name="gBusinessScrubNoseTex" Format="rgba16" Width="8" Height="8" Offset="0x28F0"/>
+        <Texture Name="gBusinessScrubNostrilTex" Format="rgba16" Width="8" Height="8" Offset="0x2970"/>
+        <Texture Name="gBusinessScrubEyeTex" Format="rgba16" Width="8" Height="8" Offset="0x29F0"/>
+        <Texture Name="gBusinessScrubLeafStemTex" Format="rgba16" Width="8" Height="8" Offset="0x2A70"/>
+        <Texture Name="gBusinessScrubLeafTex" Format="rgba16" Width="32" Height="32" Offset="0x2AF0"/>
+        <Texture Name="gBusinessScrubDekuNutTex" Format="rgba16" Width="16" Height="16" Offset="0x3DD8"/>
 
         <!-- Other Business Scrub DisplayLists -->
         <DList Name="gBusinessScrubDekuNutDL" Offset="0x4008"/>

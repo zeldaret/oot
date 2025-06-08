@@ -12,8 +12,8 @@
         <Cutscene Name="gLonLonRanchCreditsPart5Cs" Offset="0x4460"/>
         <Cutscene Name="gLonLonRanchCreditsPart6Cs" Offset="0x3980"/>
 
-        <Texture Name="gLonLonRanchDayWindowTex" OutName="day_window" Format="rgba16" Width="32" Height="64" Offset="0x8180"/>
-        <Texture Name="gLonLonRangeNightWindowsTex" OutName="night_window" Format="rgba16" Width="32" Height="64" Offset="0xFB80"/>
+        <Texture Name="gLonLonRanchDayWindowTex" Format="rgba16" Width="32" Height="64" Offset="0x8180"/>
+        <Texture Name="gLonLonRangeNightWindowsTex" Format="rgba16" Width="32" Height="64" Offset="0xFB80"/>
         <Path Name="spot20_scenePathList_005844" Offset="0x57E4" NumPaths="2"/>
         <Scene Name="spot20_scene" Offset="0x0"/>
     </File>
