@@ -19,8 +19,8 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep_0x18FF0.h"
-#include "assets/objects/gameplay_keep/gameplay_keep_0x185A0.h"
+#include "assets/objects/gameplay_keep/gFishInWaterAnim.h"
+#include "assets/objects/gameplay_keep/gFishOutOfWaterAnim.h"
 #include "assets/objects/gameplay_keep/gameplay_keep_0x18610.h"
 
 #define FLAGS 0

@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x18FF0.h"
+#include "gFishInWaterAnim.h"
 
 s16 gFishInWaterFrameData[] = {
 #include "assets/objects/gameplay_keep/gFishInWaterFrameData.inc.c"
