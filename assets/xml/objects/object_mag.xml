@@ -16,17 +16,13 @@
         <Version Pattern="ique-cn">
             <Texture Name="gTitleCopyright19982003IQueTex" Format="ia8" Width="128" Height="32"/>
         </Version>
-        <Version Pattern="gc-jp-mq">
-            <Texture Name="gTitleUraLogoTex" Format="rgba32" Width="40" Height="40"/>
-        </Version>
-        <Version Pattern="gc-jp.*|gc-eu|gc-us|ique-cn">
-            <Texture Name="gTitleDiskTex" Format="ia8" Width="48" Height="16"/>
-        </Version>
         <Version Pattern="gc-eu-mq(-dbg)?|gc-us-mq">
             <Texture Name="gTitleMasterQuestSubtitleTex" Format="rgba32" Width="128" Height="32"/>
         </Version>
-        <Version Pattern="gc-eu-mq(-dbg)?|gc-us-mq">
+        <Version Pattern="gc-.*-mq(-dbg)?">
             <Texture Name="gTitleUraLogoTex" Format="rgba32" Width="40" Height="40"/>
+        </Version>
+        <Version Pattern="gc-.*|ique-cn">
             <Texture Name="gTitleDiskTex" Format="ia8" Width="48" Height="16"/>
         </Version>
         <Texture Name="gTitleEffectMask00Tex" Format="i4" Width="64" Height="64"/>
