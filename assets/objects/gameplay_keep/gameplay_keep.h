@@ -2,7 +2,6 @@
 #define GAMEPLAY_KEEP_H
 
 #include "hilite_textures.h"
-#include "gameplay_keep_0x400.h"
 #include "link_textures.h"
 #include "player_pause_joint_tables.h"
 #include "player_anim_headers.h"

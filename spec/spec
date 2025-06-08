@@ -998,7 +998,6 @@ beginseg
     compress
     romalign 0x1000
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/hilite_textures.o"
-    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x400.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/link_textures.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/player_pause_joint_tables.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/player_anim_headers.o"
