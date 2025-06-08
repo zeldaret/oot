@@ -6,9 +6,9 @@
 #include "region.h"
 
 #if OOT_REGION != REGION_EU
-#define gGameplayKeepTex_41580_WIDTH 32
-#define gGameplayKeepTex_41580_HEIGHT 32
-extern u64 gGameplayKeepTex_41580[TEX_LEN(u64, gGameplayKeepTex_41580_WIDTH, gGameplayKeepTex_41580_HEIGHT, 16)];
+#define gUnusedHeartPieceIconTex_WIDTH 32
+#define gUnusedHeartPieceIconTex_HEIGHT 32
+extern u64 gUnusedHeartPieceIconTex[TEX_LEN(u64, gUnusedHeartPieceIconTex_WIDTH, gUnusedHeartPieceIconTex_HEIGHT, 16)];
 #endif
 
 #endif

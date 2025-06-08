@@ -2,10 +2,10 @@
 #include "item_drops_ntsc.h"
 #include "gfx.h"
 
-Vtx gameplay_keep_Vtx_039A40[] = {
-#include "assets/objects/gameplay_keep/gameplay_keep_Vtx_039A40.inc.c"
+Vtx gUnusedHeartIconVtx[] = {
+#include "assets/objects/gameplay_keep/gUnusedHeartIconVtx.inc.c"
 };
 
-Gfx gGameplayKeepDL_39A80[17] = {
-#include "assets/objects/gameplay_keep/gGameplayKeepDL_39A80.inc.c"
+Gfx gUnusedHeartIconDL[17] = {
+#include "assets/objects/gameplay_keep/gUnusedHeartIconDL.inc.c"
 };

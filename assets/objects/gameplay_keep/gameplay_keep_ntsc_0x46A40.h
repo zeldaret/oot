@@ -7,11 +7,11 @@
 #define gGameplayKeepTex_46A40_WIDTH 4
 #define gGameplayKeepTex_46A40_HEIGHT 4
 extern u64 gGameplayKeepTex_46A40[TEX_LEN(u64, gGameplayKeepTex_46A40_WIDTH, gGameplayKeepTex_46A40_HEIGHT, 16)];
-#define gGameplayKeepTex_46A60_WIDTH 32
-#define gGameplayKeepTex_46A60_HEIGHT 32
-extern u64 gGameplayKeepTex_46A60[TEX_LEN(u64, gGameplayKeepTex_46A60_WIDTH, gGameplayKeepTex_46A60_HEIGHT, 16)];
-#define gGameplayKeepTex_47260_WIDTH 32
-#define gGameplayKeepTex_47260_HEIGHT 32
-extern u64 gGameplayKeepTex_47260[TEX_LEN(u64, gGameplayKeepTex_47260_WIDTH, gGameplayKeepTex_47260_HEIGHT, 16)];
+#define gUnusedHeartContainerIconTex_WIDTH 32
+#define gUnusedHeartContainerIconTex_HEIGHT 32
+extern u64 gUnusedHeartContainerIconTex[TEX_LEN(u64, gUnusedHeartContainerIconTex_WIDTH, gUnusedHeartContainerIconTex_HEIGHT, 16)];
+#define gUnusedTreeBarkTex_WIDTH 32
+#define gUnusedTreeBarkTex_HEIGHT 32
+extern u64 gUnusedTreeBarkTex[TEX_LEN(u64, gUnusedTreeBarkTex_WIDTH, gUnusedTreeBarkTex_HEIGHT, 16)];
 
 #endif

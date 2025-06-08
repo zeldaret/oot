@@ -4,10 +4,10 @@ u64 gGameplayKeepTex_46A40[TEX_LEN(u64, gGameplayKeepTex_46A40_WIDTH, gGameplayK
 #include "assets/objects/gameplay_keep/gGameplayKeepTex_46A40.rgba16.inc.c"
 };
 
-u64 gGameplayKeepTex_46A60[TEX_LEN(u64, gGameplayKeepTex_46A60_WIDTH, gGameplayKeepTex_46A60_HEIGHT, 16)] = {
-#include "assets/objects/gameplay_keep/gGameplayKeepTex_46A60.rgba16.inc.c"
+u64 gUnusedHeartContainerIconTex[TEX_LEN(u64, gUnusedHeartContainerIconTex_WIDTH, gUnusedHeartContainerIconTex_HEIGHT, 16)] = {
+#include "assets/objects/gameplay_keep/gUnusedHeartContainerIconTex.rgba16.inc.c"
 };
 
-u64 gGameplayKeepTex_47260[TEX_LEN(u64, gGameplayKeepTex_47260_WIDTH, gGameplayKeepTex_47260_HEIGHT, 16)] = {
-#include "assets/objects/gameplay_keep/gGameplayKeepTex_47260.rgba16.inc.c"
+u64 gUnusedTreeBarkTex[TEX_LEN(u64, gUnusedTreeBarkTex_WIDTH, gUnusedTreeBarkTex_HEIGHT, 16)] = {
+#include "assets/objects/gameplay_keep/gUnusedTreeBarkTex.rgba16.inc.c"
 };

@@ -5,8 +5,8 @@
 #include "region.h"
 
 #if OOT_REGION != REGION_EU
-extern Vtx gameplay_keep_Vtx_039970[];
-extern Gfx gGameplayKeepDL_399B0[17];
+extern Vtx gUnusedBombIconVtx[];
+extern Gfx gUnusedBombIconDL[17];
 #endif
 
 #endif

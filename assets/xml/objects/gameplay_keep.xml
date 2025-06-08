@@ -1129,18 +1129,18 @@
             <Vtx/>
         </Array>
         <DList Name="gGameplayKeepDL_39890" Offset="0x39890"/>
-        <Array Name="gameplay_keep_Vtx_039970" Count="4" Offset="0x39970">
+        <Array Name="gUnusedBombIconVtx" Count="4" Offset="0x39970">
             <Vtx/>
         </Array>
-        <DList Name="gGameplayKeepDL_399B0" Offset="0x399B0"/>
-        <Array Name="gameplay_keep_Vtx_039A40" Count="4" Offset="0x39A40">
+        <DList Name="gUnusedBombIconDL" Offset="0x399B0"/>
+        <Array Name="gUnusedHeartIconVtx" Count="4" Offset="0x39A40">
             <Vtx/>
         </Array>
-        <DList Name="gGameplayKeepDL_39A80" Offset="0x39A80"/>
-        <Array Name="gameplay_keep_Vtx_039B10" Count="4" Offset="0x39B10">
+        <DList Name="gUnusedHeartIconDL" Offset="0x39A80"/>
+        <Array Name="gUnusedArrowIconVtx" Count="4" Offset="0x39B10">
             <Vtx/>
         </Array>
-        <DList Name="gGameplayKeepDL_39B50" Offset="0x39B50"/>
+        <DList Name="gUnusedArrowIconDL" Offset="0x39B50"/>
 
         <Collision Name="gLargerCubeCol" Offset="0x39CE0"/> <!-- unused in game -->
         <Array Name="gLiftableRockVtx" Count="24" Offset="0x39D10">
@@ -1205,10 +1205,10 @@
         </Array>
         <DList Name="gGameplayKeepDL_3CFD0" Offset="0x3CFD0"/>
         <DList Name="gGameplayKeepDL_3D108" Offset="0x3D108"/>
-        <Array Name="gameplay_keep_Vtx_03D220" Count="4" Offset="0x3D220">
+        <Array Name="gUnusedHeartContainerIconVtx" Count="4" Offset="0x3D220">
             <Vtx/>
         </Array>
-        <DList Name="gGameplayKeepDL_3D260" Offset="0x3D260"/>
+        <DList Name="gUnusedHeartContainerIconDL" Offset="0x3D260"/>
 
         <Array Name="gSignRectangularVtx" Count="39" Offset="0x3D2F0">
             <Vtx/>
@@ -1223,12 +1223,12 @@
         <Texture Name="gDropArrows3Tex" Format="rgba16" Width="32" Height="32" Offset="0x3ED80"/>
         <Texture Name="gDropBombTex" Format="rgba16" Width="32" Height="32" Offset="0x3F580"/>
 
-        <Texture Name="gGameplayKeepTex_3FD80" Format="rgba16" Width="32" Height="32" Offset="0x3FD80"/>
+        <Texture Name="gUnusedBombchuIconTex" Format="rgba16" Width="32" Height="32" Offset="0x3FD80"/>
         <Texture Name="gGameplayKeepTex_40580" Format="rgba16" Width="32" Height="32" Offset="0x40580"/>
 
         <Texture Name="gDropRecoveryHeartTex" Format="rgba16" Width="32" Height="32" Offset="0x40D80"/>
 
-        <Texture Name="gGameplayKeepTex_41580" Format="rgba16" Width="32" Height="32" Offset="0x41580"/>
+        <Texture Name="gUnusedHeartPieceIconTex" Format="rgba16" Width="32" Height="32" Offset="0x41580"/>
 
         <DList Name="gItemDropDL" Offset="0x41D80"/>
         <Array Name="gItemDropVtx" Count="4" Offset="0x41E08">
@@ -1251,15 +1251,15 @@
         </Array>
         <DList Name="gRupeeDL" Offset="0x45150"/>
 
-        <Texture Name="gGameplayKeepTex_45220" Format="rgba16" Width="32" Height="32" Offset="0x45220"/>
-        <Texture Name="gGameplayKeepTex_45A20" Format="rgba16" Width="32" Height="32" Offset="0x45A20"/>
-        <Texture Name="gGameplayKeepTex_46220" Format="rgba16" Width="32" Height="32" Offset="0x46220"/>
+        <Texture Name="gUnusedHeartIconTex" Format="rgba16" Width="32" Height="32" Offset="0x45220"/>
+        <Texture Name="gUnusedBombIconTex" Format="rgba16" Width="32" Height="32" Offset="0x45A20"/>
+        <Texture Name="gUnusedArrowIconTex" Format="rgba16" Width="32" Height="32" Offset="0x46220"/>
 
         <Texture Name="gRupeeLightRedTex" Format="rgba16" Width="4" Height="4" Offset="0x46A20"/>
 
         <Texture Name="gGameplayKeepTex_46A40" Format="rgba16" Width="4" Height="4" Offset="0x46A40"/>
-        <Texture Name="gGameplayKeepTex_46A60" Format="rgba16" Width="32" Height="32" Offset="0x46A60"/>
-        <Texture Name="gGameplayKeepTex_47260" Format="rgba16" Width="32" Height="32" Offset="0x47260"/>
+        <Texture Name="gUnusedHeartContainerIconTex" Format="rgba16" Width="32" Height="32" Offset="0x46A60"/>
+        <Texture Name="gUnusedTreeBarkTex" Format="rgba16" Width="32" Height="32" Offset="0x47260"/>
 
         <Texture Name="gUnknownStone1Tex" Format="rgba16" Width="32" Height="32" Offset="0x47A60"/>
         <Texture Name="gUnknownStone2Tex" Format="rgba16" Width="32" Height="32" Offset="0x48260"/>
