@@ -1,30 +1,30 @@
 <Root>
     <File Name="ovl_file_choose">
-        <Array Name="gNameEntryVtx" Count="24" Offset="0x0" Static="Off">
+        <Array Name="gNameEntryVtx" Count="24" Offset="0x0">
             <Vtx/>
         </Array>
-        <Array Name="gOptionsMenuHeadersVtx" Count="16" Offset="0x180" Static="Off">
+        <Array Name="gOptionsMenuHeadersVtx" Count="16" Offset="0x180">
             <Vtx/>
         </Array>
-        <Array Name="gOptionsMenuHeadersGERVtx" Count="16" Offset="0x280" Static="Off">
+        <Array Name="gOptionsMenuHeadersGERVtx" Count="16" Offset="0x280">
             <Vtx/>
         </Array>
-        <Array Name="gOptionsMenuSettingsVtx" Count="32" Offset="0x380" Static="Off">
+        <Array Name="gOptionsMenuSettingsVtx" Count="32" Offset="0x380">
             <Vtx/>
         </Array>
-        <Array Name="gOptionsMenuSettingsGERVtx" Count="32" Offset="0x580" Static="Off">
+        <Array Name="gOptionsMenuSettingsGERVtx" Count="32" Offset="0x580">
             <Vtx/>
         </Array>
-        <Array Name="gOptionsDividerSoundVtx" Count="4" Offset="0x780" Static="Off">
+        <Array Name="gOptionsDividerSoundVtx" Count="4" Offset="0x780">
             <Vtx/>
         </Array>
-        <Array Name="gOptionsDividerZTargetVtx" Count="4" Offset="0x7C0" Static="Off">
+        <Array Name="gOptionsDividerZTargetVtx" Count="4" Offset="0x7C0">
             <Vtx/>
         </Array>
-        <Array Name="gOptionsDividerBrightnessVtx" Count="4" Offset="0x800" Static="Off">
+        <Array Name="gOptionsDividerBrightnessVtx" Count="4" Offset="0x800">
             <Vtx/>
         </Array>
-        <Array Name="gCharPageEng" Count="65" Offset="0x840" Static="Off">
+        <Array Name="gCharPageEng" Count="65" Offset="0x840">
             <Scalar Type="s16"/>
         </Array>
     </File>
