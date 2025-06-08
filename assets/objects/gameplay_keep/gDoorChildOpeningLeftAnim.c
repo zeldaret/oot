@@ -1,4 +1,4 @@
-#include "gameplay_keep_0xE4E0.h"
+#include "gDoorChildOpeningLeftAnim.h"
 
 s16 gDoorChildOpeningLeftFrameData[] = {
 #include "assets/objects/gameplay_keep/gDoorChildOpeningLeftFrameData.inc.c"

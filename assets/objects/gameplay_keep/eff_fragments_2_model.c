@@ -1,4 +1,4 @@
-#include "gameplay_keep_0xCCC0.h"
+#include "eff_fragments_2_model.h"
 #include "gfx.h"
 
 Vtx gEffFragments2Vtx[] = {

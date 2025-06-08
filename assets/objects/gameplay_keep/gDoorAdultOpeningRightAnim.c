@@ -1,4 +1,4 @@
-#include "gameplay_keep_0xFF80.h"
+#include "gDoorAdultOpeningRightAnim.h"
 
 s16 gDoorAdultOpeningRightFrameData[] = {
 #include "assets/objects/gameplay_keep/gDoorAdultOpeningRightFrameData.inc.c"

@@ -17,7 +17,7 @@
 #include "assets/objects/gameplay_keep/tree_stump_model.h"
 #include "assets/objects/gameplay_keep/rectangular_sign_model.h"
 #include "assets/objects/gameplay_keep/gameplay_keep_0x3C2E0.h"
-#include "assets/objects/gameplay_keep/gameplay_keep_0xD0C0.h"
+#include "assets/objects/gameplay_keep/rock_fragments_model.h"
 #include "assets/objects/object_d_hsblock/object_d_hsblock.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

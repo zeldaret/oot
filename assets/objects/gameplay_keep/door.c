@@ -1,4 +1,4 @@
-#include "gameplay_keep_0xE770.h"
+#include "door.h"
 #include "array_count.h"
 #include "gfx.h"
 

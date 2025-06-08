@@ -1,5 +1,5 @@
-#ifndef GAMEPLAY_KEEP_0xC0A0_H
-#define GAMEPLAY_KEEP_0xC0A0_H
+#ifndef GAMEPLAY_KEEP_EFF_FRAGMENTS_1_H
+#define GAMEPLAY_KEEP_EFF_FRAGMENTS_1_H
 
 #include "tex_len.h"
 #include "ultra64.h"

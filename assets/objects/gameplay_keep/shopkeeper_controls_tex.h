@@ -1,5 +1,5 @@
-#ifndef GAMEPLAY_KEEP_0xCDC0_H
-#define GAMEPLAY_KEEP_0xCDC0_H
+#ifndef GAMEPLAY_KEEP_SHOPKEEPER_CONTROLS_TEX_H
+#define GAMEPLAY_KEEP_SHOPKEEPER_CONTROLS_TEX_H
 
 #include "tex_len.h"
 #include "ultra64.h"

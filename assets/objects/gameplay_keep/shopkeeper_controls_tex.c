@@ -1,4 +1,4 @@
-#include "gameplay_keep_0xCDC0.h"
+#include "shopkeeper_controls_tex.h"
 #include "region.h"
 
 u64 gSelectionCursorTex[TEX_LEN(u64, gSelectionCursorTex_WIDTH, gSelectionCursorTex_HEIGHT, 4)] = {

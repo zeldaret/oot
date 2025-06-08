@@ -1,5 +1,5 @@
-#include "gameplay_keep_0xD0C0.h"
-#include "gameplay_keep_0xD4E0.h"
+#include "rock_fragments_model.h"
+#include "rock_fragments_tex.h"
 #include "gfx.h"
 
 Vtx gUnusedRockFragmentVtx[] = {
