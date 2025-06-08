@@ -337,8 +337,8 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
     ArmsHook* this = (ArmsHook*)thisx;
     Player* player = GET_PLAYER(play);
     Vec3f sp78;
-    Vec3f hookNewTip;
-    Vec3f hookNewBase;
+    Vec3f posA;
+    Vec3f posB;
     f32 sp5C;
     f32 sp58;
 
@@ -349,16 +349,16 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
 
         if ((ArmsHook_Shoot != this->actionFunc) || (this->timer <= 0)) {
             Matrix_MultVec3f(&D_80865B70, &this->unk_1E8);
-            Matrix_MultVec3f(&D_80865B88, &hookNewTip);
-            Matrix_MultVec3f(&D_80865B94, &hookNewBase);
-            this->hookInfo.active = 0;
+            Matrix_MultVec3f(&D_80865B88, &posA);
+            Matrix_MultVec3f(&D_80865B94, &posB);
+            this->weaponInfo.active = false;
         } else {
             Matrix_MultVec3f(&D_80865B7C, &this->unk_1E8);
-            Matrix_MultVec3f(&D_80865BA0, &hookNewTip);
-            Matrix_MultVec3f(&D_80865BAC, &hookNewBase);
+            Matrix_MultVec3f(&D_80865BA0, &posA);
+            Matrix_MultVec3f(&D_80865BAC, &posB);
         }
 
-        func_80090480(play, &this->collider, &this->hookInfo, &hookNewTip, &hookNewBase);
+        Player_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_arms_hook.c", 895);
         gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotTipDL);
