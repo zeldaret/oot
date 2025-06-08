@@ -5,6 +5,7 @@ import abc
 import dataclasses
 from functools import cache
 from pathlib import Path
+import re
 from typing import Callable, Optional
 from xml.etree import ElementTree
 
@@ -27,6 +28,10 @@ class NoBackingMemory(BackingMemory):
     pass
 
 
+class ResourceHasNoSizeError(Exception):
+    pass
+
+
 # eq=False so this uses id-based equality and hashing
 # Subclasses must also be made to use id-based equality and hashing
 @dataclasses.dataclass(eq=False)
@@ -42,6 +47,9 @@ class ResourceDesc(abc.ABC):
     """opaque object with data about where this resource comes from (for debugging)"""
 
     hack_modes: set[str] = dataclasses.field(init=False, default_factory=set)
+
+    def get_size(self) -> int:
+        raise ResourceHasNoSizeError()
 
 
 class StartAddress(abc.ABC):
@@ -197,6 +205,15 @@ def get_resources_desc(vc: version_config.VersionConfig):
     return pools
 
 
+def _get_version_resources(fileelem: ElementTree.Element, version: str):
+    for reselem in fileelem:
+        if reselem.tag == "Version":
+            if re.fullmatch(reselem.attrib["Pattern"], version):
+                yield from reselem
+        else:
+            yield reselem
+
+
 def _get_resources_fileelem_to_resourcescollection_pass1(
     vc: version_config.VersionConfig,
     pool: list[AssetConfigPiece],
@@ -257,10 +274,21 @@ def _get_resources_fileelem_to_resourcescollection_pass1(
         [],
     )
     needs_pass2_exceptions: list[ResourceHandlerNeedsPass2Exception] = []
-    for reselem in fileelem:
+
+    prev_resource_end_offset = 0
+
+    for reselem in _get_version_resources(fileelem, vc.version):
         try:
             symbol_name = reselem.attrib["Name"]
-            offset = int(reselem.attrib["Offset"], 16)
+            if "Offset" in reselem.attrib:
+                offset = int(reselem.attrib["Offset"], 16)
+            else:
+                if prev_resource_end_offset is None:
+                    raise Exception(
+                        f"Resource {symbol_name} has no Offset"
+                        " and previous resource has no known end offset"
+                    )
+                offset = prev_resource_end_offset
             res_handler = _get_resource_handler(reselem.tag)
             try:
                 res = res_handler(symbol_name, offset, collection, reselem)
@@ -269,6 +297,10 @@ def _get_resources_fileelem_to_resourcescollection_pass1(
                 needs_pass2_exceptions.append(needs_pass2_exc)
             assert isinstance(res, ResourceDesc)
             resources.append(res)
+            try:
+                prev_resource_end_offset = res.offset + res.get_size()
+            except ResourceHasNoSizeError:
+                prev_resource_end_offset = None
         except Exception as e:
             raise Exception(
                 "Error with resource element:\n"

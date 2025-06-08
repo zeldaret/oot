@@ -20,7 +20,7 @@ class CollisionResourceDesc(ResourceDesc):
 
 
 def handler_Collision(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset"})
+    xml_errors.check_attrib(reselem, {"Name"}, {"Offset"})
     return CollisionResourceDesc(symbol_name, offset, collection, reselem)
 
 
@@ -30,7 +30,7 @@ class AnimationResourceDesc(ResourceDesc):
 
 
 def handler_Animation(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset"})
+    xml_errors.check_attrib(reselem, {"Name"}, {"Offset"})
     return AnimationResourceDesc(symbol_name, offset, collection, reselem)
 
 
@@ -40,7 +40,7 @@ class PlayerAnimationResourceDesc(ResourceDesc):
 
 
 def handler_PlayerAnimation(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset"})
+    xml_errors.check_attrib(reselem, {"Name"}, {"Offset"})
     return PlayerAnimationResourceDesc(symbol_name, offset, collection, reselem)
 
 
@@ -50,7 +50,7 @@ class LegacyAnimationResourceDesc(ResourceDesc):
 
 
 def handler_LegacyAnimation(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset"})
+    xml_errors.check_attrib(reselem, {"Name"}, {"Offset"})
     return LegacyAnimationResourceDesc(symbol_name, offset, collection, reselem)
 
 
@@ -60,7 +60,7 @@ class CutsceneResourceDesc(ResourceDesc):
 
 
 def handler_Cutscene(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset"})
+    xml_errors.check_attrib(reselem, {"Name"}, {"Offset"})
     return CutsceneResourceDesc(symbol_name, offset, collection, reselem)
 
 
@@ -70,7 +70,7 @@ class SceneResourceDesc(ResourceDesc):
 
 
 def handler_Scene(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset"})
+    xml_errors.check_attrib(reselem, {"Name"}, {"Offset"})
     return SceneResourceDesc(symbol_name, offset, collection, reselem)
 
 
@@ -80,7 +80,7 @@ class RoomResourceDesc(ResourceDesc):
 
 
 def handler_Room(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset"}, {"HackMode"})
+    xml_errors.check_attrib(reselem, {"Name"}, {"Offset", "HackMode"})
     res = RoomResourceDesc(symbol_name, offset, collection, reselem)
     if reselem.attrib.get("HackMode") == "syotes_room":
         res.hack_modes.add("hackmode_syotes_room")
@@ -93,7 +93,7 @@ class PlayerAnimationDataResourceDesc(ResourceDesc):
 
 
 def handler_PlayerAnimationData(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset", "FrameCount"})
+    xml_errors.check_attrib(reselem, {"Name", "FrameCount"}, {"Offset"})
     frame_count = int(reselem.attrib["FrameCount"])
     return PlayerAnimationDataResourceDesc(
         symbol_name, offset, collection, reselem, frame_count
@@ -106,7 +106,7 @@ class PathListResourceDesc(ResourceDesc):
 
 
 def handler_PathList(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset", "NumPaths"})
+    xml_errors.check_attrib(reselem, {"Name", "NumPaths"}, {"Offset"})
     num_paths = int(reselem.attrib["NumPaths"])
     return PathListResourceDesc(symbol_name, offset, collection, reselem, num_paths)
 
@@ -137,8 +137,8 @@ class SkeletonResourceDesc(ResourceDesc):
 def handler_Skeleton(symbol_name, offset, collection, reselem: Element):
     xml_errors.check_attrib(
         reselem,
-        {"Name", "Offset", "Type", "LimbType"},
-        {"EnumName", "LimbNone", "LimbMax"},
+        {"Name", "Type", "LimbType"},
+        {"Offset", "EnumName", "LimbNone", "LimbMax"},
     )
     skel_type = SkeletonType[reselem.attrib["Type"].upper()]
     limb_type = LimbType[reselem.attrib["LimbType"].upper()]
@@ -162,7 +162,7 @@ class LimbResourceDesc(ResourceDesc):
 
 
 def handler_Limb(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset", "LimbType"}, {"EnumName"})
+    xml_errors.check_attrib(reselem, {"Name", "LimbType"}, {"Offset", "EnumName"})
     limb_type = LimbType[reselem.attrib["LimbType"].upper()]
     return LimbResourceDesc(
         symbol_name,
@@ -181,7 +181,7 @@ class LimbTableResourceDesc(ResourceDesc):
 
 
 def handler_LimbTable(symbol_name, offset, collection, reselem: Element):
-    xml_errors.check_attrib(reselem, {"Name", "Offset", "LimbType", "Count"})
+    xml_errors.check_attrib(reselem, {"Name", "LimbType", "Count"}, {"Offset"})
     limb_type = LimbType[reselem.attrib["LimbType"].upper()]
     count = int(reselem.attrib["Count"])
     return LimbTableResourceDesc(
@@ -197,7 +197,7 @@ class CurveAnimationResourceDesc(ResourceDesc):
 def handler_CurveAnimation(
     symbol_name, offset, collection: ResourcesDescCollection, reselem: Element
 ):
-    xml_errors.check_attrib(reselem, {"Name", "Offset", "SkelOffset"})
+    xml_errors.check_attrib(reselem, {"Name", "SkelOffset"}, {"Offset"})
     res = CurveAnimationResourceDesc(symbol_name, offset, collection, reselem, None)
 
     skel_offset = int(reselem.attrib["SkelOffset"], 16)
