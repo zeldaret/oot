@@ -17,7 +17,8 @@ Gfx gCuttableShrubTipDL[18] = {
 #include "assets/objects/gameplay_keep/gCuttableShrubTipDL.inc.c"
 };
 
-u64 gCuttableShrubLeafTFragmentTex[TEX_LEN(u64, gCuttableShrubLeafTFragmentTex_WIDTH, gCuttableShrubLeafTFragmentTex_HEIGHT, 16)] = {
+u64 gCuttableShrubLeafTFragmentTex[TEX_LEN(u64, gCuttableShrubLeafTFragmentTex_WIDTH,
+                                           gCuttableShrubLeafTFragmentTex_HEIGHT, 16)] = {
 #include "assets/objects/gameplay_keep/gCuttableShrubLeafTFragmentTex.rgba16.inc.c"
 };
 

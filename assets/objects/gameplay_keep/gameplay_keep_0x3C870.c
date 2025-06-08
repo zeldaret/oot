@@ -15,7 +15,3 @@ u64 gDropArrows3Tex[TEX_LEN(u64, gDropArrows3Tex_WIDTH, gDropArrows3Tex_HEIGHT, 
 u64 gDropBombTex[TEX_LEN(u64, gDropBombTex_WIDTH, gDropBombTex_HEIGHT, 16)] = {
 #include "assets/objects/gameplay_keep/gDropBombTex.rgba16.inc.c"
 };
-
-
-
-
