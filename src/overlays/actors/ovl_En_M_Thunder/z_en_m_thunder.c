@@ -12,7 +12,7 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep_0x11230.h"
+#include "assets/objects/gameplay_keep/spin_attack.h"
 
 #define FLAGS 0
 

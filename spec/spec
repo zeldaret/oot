@@ -1031,7 +1031,7 @@ beginseg
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gDoorAdultOpeningRightAnim.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_dust.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/eff_flash.o"
-    include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x11230.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/spin_attack.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/gameplay_keep_0x13700.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/fairy_anim.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/fairy_skel.o"

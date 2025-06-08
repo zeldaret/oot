@@ -745,8 +745,8 @@
         <DList Name="gEffFlash1DL" Offset="0x10130"/>
         <DList Name="gEffFlash2DL" Offset="0x101A8"/>
         <Texture Name="gFlashTex" Format="i8" Width="64" Height="64" Offset="0x10228"/>
-        <Texture Name="gTorchFlameTex" Format="i8" Width="64" Height="32" Offset="0x11230"/>
-        <Texture Name="gEffUnknown1Tex" Format="i8" Width="64" Height="32" Offset="0x11A30"/>
+        <Texture Name="gSpinAttackFireTex" Format="i8" Width="64" Height="32" Offset="0x11230"/>
+        <Texture Name="gSpinAttackMagicTex" Format="i8" Width="64" Height="32" Offset="0x11A30"/>
         <Array Name="gSpinAttack1Vtx" Count="26" Offset="0x12230">
             <Vtx/>
         </Array>
@@ -763,8 +763,8 @@
         </Array>
         <DList Name="gSpinAttack3DL" Offset="0x12AF0"/>
         <DList Name="gSpinAttack4DL" Offset="0x12C10"/>
-        <Texture Name="gFlameWall1Tex" Format="i8" Width="32" Height="32" Offset="0x12D30"/>
-        <Texture Name="gFlameWall2Tex" Format="i8" Width="32" Height="32" Offset="0x13130"/>
+        <Texture Name="gSpinAttackCharging1Tex" Format="i8" Width="32" Height="32" Offset="0x12D30"/>
+        <Texture Name="gSpinAttackCharging2Tex" Format="i8" Width="32" Height="32" Offset="0x13130"/>
         <Array Name="gSpinAttackChargingVtx" Count="14" Offset="0x13530">
             <Vtx/>
         </Array>

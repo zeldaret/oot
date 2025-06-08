@@ -1,12 +1,12 @@
-#include "gameplay_keep_0x11230.h"
+#include "spin_attack.h"
 #include "gfx.h"
 
-u64 gTorchFlameTex[TEX_LEN(u64, gTorchFlameTex_WIDTH, gTorchFlameTex_HEIGHT, 8)] = {
-#include "assets/objects/gameplay_keep/gTorchFlameTex.i8.inc.c"
+u64 gSpinAttackFireTex[TEX_LEN(u64, gSpinAttackFireTex_WIDTH, gSpinAttackFireTex_HEIGHT, 8)] = {
+#include "assets/objects/gameplay_keep/gSpinAttackFireTex.i8.inc.c"
 };
 
-u64 gEffUnknown1Tex[TEX_LEN(u64, gEffUnknown1Tex_WIDTH, gEffUnknown1Tex_HEIGHT, 8)] = {
-#include "assets/objects/gameplay_keep/gEffUnknown1Tex.i8.inc.c"
+u64 gSpinAttackMagicTex[TEX_LEN(u64, gSpinAttackMagicTex_WIDTH, gSpinAttackMagicTex_HEIGHT, 8)] = {
+#include "assets/objects/gameplay_keep/gSpinAttackMagicTex.i8.inc.c"
 };
 
 Vtx gSpinAttack1Vtx[] = {
@@ -41,12 +41,12 @@ Gfx gSpinAttack4DL[36] = {
 #include "assets/objects/gameplay_keep/gSpinAttack4DL.inc.c"
 };
 
-u64 gFlameWall1Tex[TEX_LEN(u64, gFlameWall1Tex_WIDTH, gFlameWall1Tex_HEIGHT, 8)] = {
-#include "assets/objects/gameplay_keep/gFlameWall1Tex.i8.inc.c"
+u64 gSpinAttackCharging1Tex[TEX_LEN(u64, gSpinAttackCharging1Tex_WIDTH, gSpinAttackCharging1Tex_HEIGHT, 8)] = {
+#include "assets/objects/gameplay_keep/gSpinAttackCharging1Tex.i8.inc.c"
 };
 
-u64 gFlameWall2Tex[TEX_LEN(u64, gFlameWall2Tex_WIDTH, gFlameWall2Tex_HEIGHT, 8)] = {
-#include "assets/objects/gameplay_keep/gFlameWall2Tex.i8.inc.c"
+u64 gSpinAttackCharging2Tex[TEX_LEN(u64, gSpinAttackCharging2Tex_WIDTH, gSpinAttackCharging2Tex_HEIGHT, 8)] = {
+#include "assets/objects/gameplay_keep/gSpinAttackCharging2Tex.i8.inc.c"
 };
 
 Vtx gSpinAttackChargingVtx[] = {

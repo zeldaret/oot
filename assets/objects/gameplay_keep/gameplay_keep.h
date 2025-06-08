@@ -34,7 +34,7 @@
 #include "gDoorAdultOpeningRightAnim.h"
 #include "eff_dust.h"
 #include "eff_flash.h"
-#include "gameplay_keep_0x11230.h"
+#include "spin_attack.h"
 #include "gameplay_keep_0x13700.h"
 #include "fairy_anim.h"
 #include "fairy_skel.h"
