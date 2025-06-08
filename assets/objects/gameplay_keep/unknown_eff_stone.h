@@ -1,5 +1,5 @@
-#ifndef GAMEPLAY_KEEP_0x27E90_H
-#define GAMEPLAY_KEEP_0x27E90_H
+#ifndef GAMEPLAY_KEEP_UNKNOWN_EFF_STONE_H
+#define GAMEPLAY_KEEP_UNKNOWN_EFF_STONE_H
 
 #include "tex_len.h"
 #include "ultra64.h"

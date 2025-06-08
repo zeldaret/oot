@@ -16,7 +16,7 @@
 #include "play_state.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep_0x27E90.h"
+#include "assets/objects/gameplay_keep/unknown_eff_stone.h"
 
 #define rReg0 regs[0]
 

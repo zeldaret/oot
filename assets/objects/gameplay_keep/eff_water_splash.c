@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x255F0.h"
+#include "eff_water_splash.h"
 #include "gfx.h"
 
 u64 gEffWaterSplash1Tex[TEX_LEN(u64, gEffWaterSplash1Tex_WIDTH, gEffWaterSplash1Tex_HEIGHT, 8)] = {

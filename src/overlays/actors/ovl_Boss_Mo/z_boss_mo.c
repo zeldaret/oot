@@ -36,7 +36,7 @@
 #include "skin_matrix.h"
 
 #include "assets/objects/gameplay_keep/shadow_circle.h"
-#include "assets/objects/gameplay_keep/gameplay_keep_0x244B0.h"
+#include "assets/objects/gameplay_keep/eff_water_ripple.h"
 #include "assets/objects/gameplay_keep/eff_shockwave.h"
 #include "assets/objects/gameplay_keep/dust_textures.h"
 #include "assets/objects/object_mo/object_mo.h"

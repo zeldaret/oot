@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x244B0.h"
+#include "eff_water_ripple.h"
 #include "gfx.h"
 
 u64 gEffWaterRippleTex[TEX_LEN(u64, gEffWaterRippleTex_WIDTH, gEffWaterRippleTex_HEIGHT, 8)] = {

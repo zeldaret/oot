@@ -1,5 +1,5 @@
-#ifndef GAMEPLAY_KEEP_0x23810_H
-#define GAMEPLAY_KEEP_0x23810_H
+#ifndef GAMEPLAY_KEEP_EFF_MAGMA_BUBBLE_H
+#define GAMEPLAY_KEEP_EFF_MAGMA_BUBBLE_H
 
 #include "tex_len.h"
 #include "ultra64.h"

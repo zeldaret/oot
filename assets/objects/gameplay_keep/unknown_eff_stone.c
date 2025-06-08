@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x27E90.h"
+#include "unknown_eff_stone.h"
 #include "gfx.h"
 
 u64 gUnknownEffStone1Tex[TEX_LEN(u64, gUnknownEffStone1Tex_WIDTH, gUnknownEffStone1Tex_HEIGHT, 8)] = {

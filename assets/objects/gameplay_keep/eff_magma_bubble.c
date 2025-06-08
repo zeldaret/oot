@@ -1,4 +1,4 @@
-#include "gameplay_keep_0x23810.h"
+#include "eff_magma_bubble.h"
 #include "gfx.h"
 
 u64 gEffMagmaBubble1Tex[TEX_LEN(u64, gEffMagmaBubble1Tex_WIDTH, gEffMagmaBubble1Tex_HEIGHT, 8)] = {

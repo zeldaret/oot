@@ -1,5 +1,5 @@
-#ifndef GAMEPLAY_KEEP_0x255F0_H
-#define GAMEPLAY_KEEP_0x255F0_H
+#ifndef GAMEPLAY_KEEP_EFF_WATER_SPLASH_H
+#define GAMEPLAY_KEEP_EFF_WATER_SPLASH_H
 
 #include "tex_len.h"
 #include "ultra64.h"
