@@ -19,14 +19,14 @@ extern StandardLimb gDoorSkelLimb_1;
 extern StandardLimb gDoorSkelLimb_2;
 extern StandardLimb gDoorSkelLimb_3;
 extern void* gDoorLimbs[];
-typedef enum gDoorSkelLimb {
+typedef enum DoorSkelLimb {
     /*  0 */ DOOR_LIMB_NONE,
     /*  1 */ DOOR_LIMB_0,
     /*  2 */ DOOR_LIMB_1,
     /*  3 */ DOOR_LIMB_2,
     /*  4 */ DOOR_LIMB_3,
     /*  5 */ DOOR_LIMB_MAX
-} gDoorSkelLimb;
+} DoorSkelLimb;
 extern SkeletonHeader gDoorSkel;
 
 #endif

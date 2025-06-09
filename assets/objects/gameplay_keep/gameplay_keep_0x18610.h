@@ -24,7 +24,7 @@ extern StandardLimb gFishSkelLimb_3;
 extern StandardLimb gFishSkelLimb_4;
 extern StandardLimb gFishSkelLimb_5;
 extern void* gFishLimbs[];
-typedef enum gFishSkelLimb {
+typedef enum FishSkelLimb {
     /*  0 */ FISH_LIMB_NONE,
     /*  1 */ FISH_LIMB_0,
     /*  2 */ FISH_LIMB_1,
@@ -33,7 +33,7 @@ typedef enum gFishSkelLimb {
     /*  5 */ FISH_LIMB_4,
     /*  6 */ FISH_LIMB_5,
     /*  7 */ FISH_LIMB_MAX
-} gFishSkelLimb;
+} FishSkelLimb;
 extern FlexSkeletonHeader gFishSkel;
 
 #endif

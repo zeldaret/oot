@@ -74,7 +74,7 @@ extern StandardLimb gBugSkelLimb_20;
 extern StandardLimb gBugSkelLimb_21;
 extern StandardLimb gBugSkelLimb_22;
 extern void* gBugLimbs[];
-typedef enum gBugSkelLimb {
+typedef enum BugSkelLimb {
     /*  0 */ BUG_LIMB_NONE,
     /*  1 */ BUG_LIMB_0,
     /*  2 */ BUG_LIMB_1,
@@ -100,7 +100,7 @@ typedef enum gBugSkelLimb {
     /* 22 */ BUG_LIMB_21,
     /* 23 */ BUG_LIMB_22,
     /* 24 */ BUG_LIMB_MAX
-} gBugSkelLimb;
+} BugSkelLimb;
 extern SkeletonHeader gBugSkel;
 
 #endif

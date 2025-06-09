@@ -39,7 +39,7 @@ extern StandardLimb gFairySkelLimb_11;
 extern StandardLimb gFairySkelLimb_12;
 extern StandardLimb gFairySkelLimb_13;
 extern void* gFairyLimbs[];
-typedef enum gFairySkelLimb {
+typedef enum FairySkelLimb {
     /*  0 */ FAIRY_LIMB_NONE,
     /*  1 */ FAIRY_LIMB_0,
     /*  2 */ FAIRY_LIMB_1,
@@ -56,7 +56,7 @@ typedef enum gFairySkelLimb {
     /* 13 */ FAIRY_LIMB_12,
     /* 14 */ FAIRY_LIMB_13,
     /* 15 */ FAIRY_LIMB_MAX
-} gFairySkelLimb;
+} FairySkelLimb;
 extern SkeletonHeader gFairySkel;
 
 #endif
