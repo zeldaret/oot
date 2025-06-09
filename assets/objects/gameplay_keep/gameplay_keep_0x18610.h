@@ -17,12 +17,12 @@ extern u64 gFishTailTex[TEX_LEN(u64, gFishTailTex_WIDTH, gFishTailTex_HEIGHT, 16
 #define gFishBodyTex_WIDTH 32
 #define gFishBodyTex_HEIGHT 8
 extern u64 gFishBodyTex[TEX_LEN(u64, gFishBodyTex_WIDTH, gFishBodyTex_HEIGHT, 16)];
-extern StandardLimb gFishSkelLimb0;
-extern StandardLimb gFishSkelLimb1;
-extern StandardLimb gFishSkelLimb2;
-extern StandardLimb gFishSkelLimb3;
-extern StandardLimb gFishSkelLimb4;
-extern StandardLimb gFishSkelLimb5;
+extern StandardLimb gFishSkelLimb_0;
+extern StandardLimb gFishSkelLimb_1;
+extern StandardLimb gFishSkelLimb_2;
+extern StandardLimb gFishSkelLimb_3;
+extern StandardLimb gFishSkelLimb_4;
+extern StandardLimb gFishSkelLimb_5;
 extern void* gFishLimbs[];
 typedef enum gFishSkelLimb {
     /*  0 */ FISH_LIMB_NONE,

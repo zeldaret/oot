@@ -14,10 +14,10 @@ extern Vtx gArrowNearVtx[];
 extern Gfx gArrowNearDL[60];
 extern Vtx gArrowFarVtx[];
 extern Gfx gArrowFarDL[52];
-extern LodLimb gArrowSkelLimb0;
-extern LodLimb gArrowSkelLimb1;
-extern LodLimb gArrowSkelLimb2;
-extern LodLimb gArrowSkelLimb3;
+extern LodLimb gArrowSkelLimb_0;
+extern LodLimb gArrowSkelLimb_1;
+extern LodLimb gArrowSkelLimb_2;
+extern LodLimb gArrowSkelLimb_3;
 extern void* gArrowLimbs[];
 typedef enum gArrowSkelLimb {
     /*  0 */ ARROW_LIMB_NONE,

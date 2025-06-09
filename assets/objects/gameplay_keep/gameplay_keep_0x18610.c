@@ -34,28 +34,28 @@ u64 gFishBodyTex[TEX_LEN(u64, gFishBodyTex_WIDTH, gFishBodyTex_HEIGHT, 16)] = {
 #include "assets/objects/gameplay_keep/gFishBodyTex.rgba16.inc.c"
 };
 
-StandardLimb gFishSkelLimb0 = {
-#include "assets/objects/gameplay_keep/gFishSkelLimb0.inc.c"
+StandardLimb gFishSkelLimb_0 = {
+#include "assets/objects/gameplay_keep/gFishSkelLimb_0.inc.c"
 };
 
-StandardLimb gFishSkelLimb1 = {
-#include "assets/objects/gameplay_keep/gFishSkelLimb1.inc.c"
+StandardLimb gFishSkelLimb_1 = {
+#include "assets/objects/gameplay_keep/gFishSkelLimb_1.inc.c"
 };
 
-StandardLimb gFishSkelLimb2 = {
-#include "assets/objects/gameplay_keep/gFishSkelLimb2.inc.c"
+StandardLimb gFishSkelLimb_2 = {
+#include "assets/objects/gameplay_keep/gFishSkelLimb_2.inc.c"
 };
 
-StandardLimb gFishSkelLimb3 = {
-#include "assets/objects/gameplay_keep/gFishSkelLimb3.inc.c"
+StandardLimb gFishSkelLimb_3 = {
+#include "assets/objects/gameplay_keep/gFishSkelLimb_3.inc.c"
 };
 
-StandardLimb gFishSkelLimb4 = {
-#include "assets/objects/gameplay_keep/gFishSkelLimb4.inc.c"
+StandardLimb gFishSkelLimb_4 = {
+#include "assets/objects/gameplay_keep/gFishSkelLimb_4.inc.c"
 };
 
-StandardLimb gFishSkelLimb5 = {
-#include "assets/objects/gameplay_keep/gFishSkelLimb5.inc.c"
+StandardLimb gFishSkelLimb_5 = {
+#include "assets/objects/gameplay_keep/gFishSkelLimb_5.inc.c"
 };
 
 void* gFishLimbs[] = {

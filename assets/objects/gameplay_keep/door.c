@@ -30,20 +30,20 @@ u64 gWoodenDoorTex[TEX_LEN(u64, gWoodenDoorTex_WIDTH, gWoodenDoorTex_HEIGHT, 16)
 #include "assets/objects/gameplay_keep/gWoodenDoorTex.rgba16.inc.c"
 };
 
-StandardLimb gDoorSkelLimb0 = {
-#include "assets/objects/gameplay_keep/gDoorSkelLimb0.inc.c"
+StandardLimb gDoorSkelLimb_0 = {
+#include "assets/objects/gameplay_keep/gDoorSkelLimb_0.inc.c"
 };
 
-StandardLimb gDoorSkelLimb1 = {
-#include "assets/objects/gameplay_keep/gDoorSkelLimb1.inc.c"
+StandardLimb gDoorSkelLimb_1 = {
+#include "assets/objects/gameplay_keep/gDoorSkelLimb_1.inc.c"
 };
 
-StandardLimb gDoorSkelLimb2 = {
-#include "assets/objects/gameplay_keep/gDoorSkelLimb2.inc.c"
+StandardLimb gDoorSkelLimb_2 = {
+#include "assets/objects/gameplay_keep/gDoorSkelLimb_2.inc.c"
 };
 
-StandardLimb gDoorSkelLimb3 = {
-#include "assets/objects/gameplay_keep/gDoorSkelLimb3.inc.c"
+StandardLimb gDoorSkelLimb_3 = {
+#include "assets/objects/gameplay_keep/gDoorSkelLimb_3.inc.c"
 };
 
 void* gDoorLimbs[] = {

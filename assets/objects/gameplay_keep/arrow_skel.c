@@ -27,20 +27,20 @@ Gfx gArrowFarDL[52] = {
 #include "assets/objects/gameplay_keep/gArrowFarDL.inc.c"
 };
 
-LodLimb gArrowSkelLimb0 = {
-#include "assets/objects/gameplay_keep/gArrowSkelLimb0.inc.c"
+LodLimb gArrowSkelLimb_0 = {
+#include "assets/objects/gameplay_keep/gArrowSkelLimb_0.inc.c"
 };
 
-LodLimb gArrowSkelLimb1 = {
-#include "assets/objects/gameplay_keep/gArrowSkelLimb1.inc.c"
+LodLimb gArrowSkelLimb_1 = {
+#include "assets/objects/gameplay_keep/gArrowSkelLimb_1.inc.c"
 };
 
-LodLimb gArrowSkelLimb2 = {
-#include "assets/objects/gameplay_keep/gArrowSkelLimb2.inc.c"
+LodLimb gArrowSkelLimb_2 = {
+#include "assets/objects/gameplay_keep/gArrowSkelLimb_2.inc.c"
 };
 
-LodLimb gArrowSkelLimb3 = {
-#include "assets/objects/gameplay_keep/gArrowSkelLimb3.inc.c"
+LodLimb gArrowSkelLimb_3 = {
+#include "assets/objects/gameplay_keep/gArrowSkelLimb_3.inc.c"
 };
 
 void* gArrowLimbs[] = {

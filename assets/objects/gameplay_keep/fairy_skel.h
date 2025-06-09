@@ -24,20 +24,20 @@ extern Vtx gGlowCircleSmallVtx[];
 #define gUnusedFairyWingTex_WIDTH 32
 #define gUnusedFairyWingTex_HEIGHT 64
 extern u64 gUnusedFairyWingTex[TEX_LEN(u64, gUnusedFairyWingTex_WIDTH, gUnusedFairyWingTex_HEIGHT, 16)];
-extern StandardLimb gFairySkelLimb0;
-extern StandardLimb gFairySkelLimb1;
-extern StandardLimb gFairySkelLimb2;
-extern StandardLimb gFairySkelLimb3;
-extern StandardLimb gFairySkelLimb4;
-extern StandardLimb gFairySkelLimb5;
-extern StandardLimb gFairySkelLimb6;
-extern StandardLimb gFairySkelLimb7;
-extern StandardLimb gFairySkelLimb8;
-extern StandardLimb gFairySkelLimb9;
-extern StandardLimb gFairySkelLimb10;
-extern StandardLimb gFairySkelLimb11;
-extern StandardLimb gFairySkelLimb12;
-extern StandardLimb gFairySkelLimb13;
+extern StandardLimb gFairySkelLimb_0;
+extern StandardLimb gFairySkelLimb_1;
+extern StandardLimb gFairySkelLimb_2;
+extern StandardLimb gFairySkelLimb_3;
+extern StandardLimb gFairySkelLimb_4;
+extern StandardLimb gFairySkelLimb_5;
+extern StandardLimb gFairySkelLimb_6;
+extern StandardLimb gFairySkelLimb_7;
+extern StandardLimb gFairySkelLimb_8;
+extern StandardLimb gFairySkelLimb_9;
+extern StandardLimb gFairySkelLimb_10;
+extern StandardLimb gFairySkelLimb_11;
+extern StandardLimb gFairySkelLimb_12;
+extern StandardLimb gFairySkelLimb_13;
 extern void* gFairyLimbs[];
 typedef enum gFairySkelLimb {
     /*  0 */ FAIRY_LIMB_NONE,

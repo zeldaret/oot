@@ -14,10 +14,10 @@ extern Gfx gDoorRightDL[39];
 #define gWoodenDoorTex_WIDTH 32
 #define gWoodenDoorTex_HEIGHT 64
 extern u64 gWoodenDoorTex[TEX_LEN(u64, gWoodenDoorTex_WIDTH, gWoodenDoorTex_HEIGHT, 16)];
-extern StandardLimb gDoorSkelLimb0;
-extern StandardLimb gDoorSkelLimb1;
-extern StandardLimb gDoorSkelLimb2;
-extern StandardLimb gDoorSkelLimb3;
+extern StandardLimb gDoorSkelLimb_0;
+extern StandardLimb gDoorSkelLimb_1;
+extern StandardLimb gDoorSkelLimb_2;
+extern StandardLimb gDoorSkelLimb_3;
 extern void* gDoorLimbs[];
 typedef enum gDoorSkelLimb {
     /*  0 */ DOOR_LIMB_NONE,

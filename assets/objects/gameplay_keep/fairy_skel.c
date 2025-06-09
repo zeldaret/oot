@@ -64,60 +64,60 @@ u64 gUnusedFairyWingTex[TEX_LEN(u64, gUnusedFairyWingTex_WIDTH, gUnusedFairyWing
 #include "assets/objects/gameplay_keep/gUnusedFairyWingTex.rgba16.inc.c"
 };
 
-StandardLimb gFairySkelLimb0 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb0.inc.c"
+StandardLimb gFairySkelLimb_0 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_0.inc.c"
 };
 
-StandardLimb gFairySkelLimb1 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb1.inc.c"
+StandardLimb gFairySkelLimb_1 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_1.inc.c"
 };
 
-StandardLimb gFairySkelLimb2 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb2.inc.c"
+StandardLimb gFairySkelLimb_2 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_2.inc.c"
 };
 
-StandardLimb gFairySkelLimb3 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb3.inc.c"
+StandardLimb gFairySkelLimb_3 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_3.inc.c"
 };
 
-StandardLimb gFairySkelLimb4 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb4.inc.c"
+StandardLimb gFairySkelLimb_4 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_4.inc.c"
 };
 
-StandardLimb gFairySkelLimb5 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb5.inc.c"
+StandardLimb gFairySkelLimb_5 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_5.inc.c"
 };
 
-StandardLimb gFairySkelLimb6 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb6.inc.c"
+StandardLimb gFairySkelLimb_6 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_6.inc.c"
 };
 
-StandardLimb gFairySkelLimb7 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb7.inc.c"
+StandardLimb gFairySkelLimb_7 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_7.inc.c"
 };
 
-StandardLimb gFairySkelLimb8 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb8.inc.c"
+StandardLimb gFairySkelLimb_8 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_8.inc.c"
 };
 
-StandardLimb gFairySkelLimb9 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb9.inc.c"
+StandardLimb gFairySkelLimb_9 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_9.inc.c"
 };
 
-StandardLimb gFairySkelLimb10 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb10.inc.c"
+StandardLimb gFairySkelLimb_10 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_10.inc.c"
 };
 
-StandardLimb gFairySkelLimb11 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb11.inc.c"
+StandardLimb gFairySkelLimb_11 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_11.inc.c"
 };
 
-StandardLimb gFairySkelLimb12 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb12.inc.c"
+StandardLimb gFairySkelLimb_12 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_12.inc.c"
 };
 
-StandardLimb gFairySkelLimb13 = {
-#include "assets/objects/gameplay_keep/gFairySkelLimb13.inc.c"
+StandardLimb gFairySkelLimb_13 = {
+#include "assets/objects/gameplay_keep/gFairySkelLimb_13.inc.c"
 };
 
 void* gFairyLimbs[] = {

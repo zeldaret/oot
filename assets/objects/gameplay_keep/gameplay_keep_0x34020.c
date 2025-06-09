@@ -14,148 +14,148 @@ AnimationHeader gBugCrawlAnim = {
 #include "assets/objects/gameplay_keep/gBugCrawlAnim.inc.c"
 };
 
-Gfx gBugLimb1DL[20] = {
-#include "assets/objects/gameplay_keep/gBugLimb1DL.inc.c"
+Gfx gBugLimb_1DL[20] = {
+#include "assets/objects/gameplay_keep/gBugLimb_1DL.inc.c"
 };
 
-Gfx gBugLimb1WrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb1WrapperDL.inc.c"
+Gfx gBugLimb_1WrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_1WrapperDL.inc.c"
 };
 
-Gfx gBugLimb1WrapperWrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb1WrapperWrapperDL.inc.c"
+Gfx gBugLimb_1WrapperWrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_1WrapperWrapperDL.inc.c"
 };
 
-Vtx gBugLimb1Vtx[] = {
-#include "assets/objects/gameplay_keep/gBugLimb1Vtx.inc.c"
+Vtx gBugLimb_1Vtx[] = {
+#include "assets/objects/gameplay_keep/gBugLimb_1Vtx.inc.c"
 };
 
-Gfx gBugLimb2DL[20] = {
-#include "assets/objects/gameplay_keep/gBugLimb2DL.inc.c"
+Gfx gBugLimb_2DL[20] = {
+#include "assets/objects/gameplay_keep/gBugLimb_2DL.inc.c"
 };
 
-Gfx gBugLimb2WrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb2WrapperDL.inc.c"
+Gfx gBugLimb_2WrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_2WrapperDL.inc.c"
 };
 
-Gfx gBugLimb2WrapperWrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb2WrapperWrapperDL.inc.c"
+Gfx gBugLimb_2WrapperWrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_2WrapperWrapperDL.inc.c"
 };
 
-Vtx gBugLimb2Vtx[] = {
-#include "assets/objects/gameplay_keep/gBugLimb2Vtx.inc.c"
+Vtx gBugLimb_2Vtx[] = {
+#include "assets/objects/gameplay_keep/gBugLimb_2Vtx.inc.c"
 };
 
-Gfx gBugLimb3DL[20] = {
-#include "assets/objects/gameplay_keep/gBugLimb3DL.inc.c"
+Gfx gBugLimb_3DL[20] = {
+#include "assets/objects/gameplay_keep/gBugLimb_3DL.inc.c"
 };
 
-Gfx gBugLimb3WrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb3WrapperDL.inc.c"
+Gfx gBugLimb_3WrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_3WrapperDL.inc.c"
 };
 
-Gfx gBugLimb3WrapperWrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb3WrapperWrapperDL.inc.c"
+Gfx gBugLimb_3WrapperWrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_3WrapperWrapperDL.inc.c"
 };
 
-Vtx gBugLimb3Vtx[] = {
-#include "assets/objects/gameplay_keep/gBugLimb3Vtx.inc.c"
+Vtx gBugLimb_3Vtx[] = {
+#include "assets/objects/gameplay_keep/gBugLimb_3Vtx.inc.c"
 };
 
-Gfx gBugLimb4DL[20] = {
-#include "assets/objects/gameplay_keep/gBugLimb4DL.inc.c"
+Gfx gBugLimb_4DL[20] = {
+#include "assets/objects/gameplay_keep/gBugLimb_4DL.inc.c"
 };
 
-Gfx gBugLimb4WrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb4WrapperDL.inc.c"
+Gfx gBugLimb_4WrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_4WrapperDL.inc.c"
 };
 
-Gfx gBugLimb4WrapperWrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb4WrapperWrapperDL.inc.c"
+Gfx gBugLimb_4WrapperWrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_4WrapperWrapperDL.inc.c"
 };
 
-Vtx gBugLimb4Vtx[] = {
-#include "assets/objects/gameplay_keep/gBugLimb4Vtx.inc.c"
+Vtx gBugLimb_4Vtx[] = {
+#include "assets/objects/gameplay_keep/gBugLimb_4Vtx.inc.c"
 };
 
-Gfx gBugLimb5DL[20] = {
-#include "assets/objects/gameplay_keep/gBugLimb5DL.inc.c"
+Gfx gBugLimb_5DL[20] = {
+#include "assets/objects/gameplay_keep/gBugLimb_5DL.inc.c"
 };
 
-Gfx gBugLimb5WrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb5WrapperDL.inc.c"
+Gfx gBugLimb_5WrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_5WrapperDL.inc.c"
 };
 
-Gfx gBugLimb5WrapperWrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb5WrapperWrapperDL.inc.c"
+Gfx gBugLimb_5WrapperWrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_5WrapperWrapperDL.inc.c"
 };
 
-Vtx gBugLimb5Vtx[] = {
-#include "assets/objects/gameplay_keep/gBugLimb5Vtx.inc.c"
+Vtx gBugLimb_5Vtx[] = {
+#include "assets/objects/gameplay_keep/gBugLimb_5Vtx.inc.c"
 };
 
-Gfx gBugLimb6DL[20] = {
-#include "assets/objects/gameplay_keep/gBugLimb6DL.inc.c"
+Gfx gBugLimb_6DL[20] = {
+#include "assets/objects/gameplay_keep/gBugLimb_6DL.inc.c"
 };
 
-Gfx gBugLimb6WrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb6WrapperDL.inc.c"
+Gfx gBugLimb_6WrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_6WrapperDL.inc.c"
 };
 
-Gfx gBugLimb6WrapperWrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb6WrapperWrapperDL.inc.c"
+Gfx gBugLimb_6WrapperWrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_6WrapperWrapperDL.inc.c"
 };
 
-Vtx gBugLimb6Vtx[] = {
-#include "assets/objects/gameplay_keep/gBugLimb6Vtx.inc.c"
+Vtx gBugLimb_6Vtx[] = {
+#include "assets/objects/gameplay_keep/gBugLimb_6Vtx.inc.c"
 };
 
-Gfx gBugLimb7DL[20] = {
-#include "assets/objects/gameplay_keep/gBugLimb7DL.inc.c"
+Gfx gBugLimb_7DL[20] = {
+#include "assets/objects/gameplay_keep/gBugLimb_7DL.inc.c"
 };
 
-Gfx gBugLimb7WrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb7WrapperDL.inc.c"
+Gfx gBugLimb_7WrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_7WrapperDL.inc.c"
 };
 
-Gfx gBugLimb7WrapperWrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb7WrapperWrapperDL.inc.c"
+Gfx gBugLimb_7WrapperWrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_7WrapperWrapperDL.inc.c"
 };
 
-Vtx gBugLimb7Vtx[] = {
-#include "assets/objects/gameplay_keep/gBugLimb7Vtx.inc.c"
+Vtx gBugLimb_7Vtx[] = {
+#include "assets/objects/gameplay_keep/gBugLimb_7Vtx.inc.c"
 };
 
-Gfx gBugLimb8DL[20] = {
-#include "assets/objects/gameplay_keep/gBugLimb8DL.inc.c"
+Gfx gBugLimb_8DL[20] = {
+#include "assets/objects/gameplay_keep/gBugLimb_8DL.inc.c"
 };
 
-Gfx gBugLimb8WrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb8WrapperDL.inc.c"
+Gfx gBugLimb_8WrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_8WrapperDL.inc.c"
 };
 
-Gfx gBugLimb8WrapperWrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb8WrapperWrapperDL.inc.c"
+Gfx gBugLimb_8WrapperWrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_8WrapperWrapperDL.inc.c"
 };
 
-Vtx gBugLimb8Vtx[] = {
-#include "assets/objects/gameplay_keep/gBugLimb8Vtx.inc.c"
+Vtx gBugLimb_8Vtx[] = {
+#include "assets/objects/gameplay_keep/gBugLimb_8Vtx.inc.c"
 };
 
-Gfx gBugLimb9DL[22] = {
-#include "assets/objects/gameplay_keep/gBugLimb9DL.inc.c"
+Gfx gBugLimb_9DL[22] = {
+#include "assets/objects/gameplay_keep/gBugLimb_9DL.inc.c"
 };
 
-Gfx gBugLimb9WrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb9WrapperDL.inc.c"
+Gfx gBugLimb_9WrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_9WrapperDL.inc.c"
 };
 
-Gfx gBugLimb9WrapperWrapperDL[2] = {
-#include "assets/objects/gameplay_keep/gBugLimb9WrapperWrapperDL.inc.c"
+Gfx gBugLimb_9WrapperWrapperDL[2] = {
+#include "assets/objects/gameplay_keep/gBugLimb_9WrapperWrapperDL.inc.c"
 };
 
-Vtx gBugLimb9Vtx[] = {
-#include "assets/objects/gameplay_keep/gBugLimb9Vtx.inc.c"
+Vtx gBugLimb_9Vtx[] = {
+#include "assets/objects/gameplay_keep/gBugLimb_9Vtx.inc.c"
 };
 
 u64 gBugBodyTex[TEX_LEN(u64, gBugBodyTex_WIDTH, gBugBodyTex_HEIGHT, 16)] = {
@@ -166,96 +166,96 @@ u64 gBugLegTex[TEX_LEN(u64, gBugLegTex_WIDTH, gBugLegTex_HEIGHT, 16)] = {
 #include "assets/objects/gameplay_keep/gBugLegTex.rgba16.inc.c"
 };
 
-StandardLimb gBugSkelLimb0 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb0.inc.c"
+StandardLimb gBugSkelLimb_0 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_0.inc.c"
 };
 
-StandardLimb gBugSkelLimb1 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb1.inc.c"
+StandardLimb gBugSkelLimb_1 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_1.inc.c"
 };
 
-StandardLimb gBugSkelLimb2 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb2.inc.c"
+StandardLimb gBugSkelLimb_2 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_2.inc.c"
 };
 
-StandardLimb gBugSkelLimb3 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb3.inc.c"
+StandardLimb gBugSkelLimb_3 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_3.inc.c"
 };
 
-StandardLimb gBugSkelLimb4 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb4.inc.c"
+StandardLimb gBugSkelLimb_4 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_4.inc.c"
 };
 
-StandardLimb gBugSkelLimb5 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb5.inc.c"
+StandardLimb gBugSkelLimb_5 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_5.inc.c"
 };
 
-StandardLimb gBugSkelLimb6 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb6.inc.c"
+StandardLimb gBugSkelLimb_6 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_6.inc.c"
 };
 
-StandardLimb gBugSkelLimb7 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb7.inc.c"
+StandardLimb gBugSkelLimb_7 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_7.inc.c"
 };
 
-StandardLimb gBugSkelLimb8 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb8.inc.c"
+StandardLimb gBugSkelLimb_8 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_8.inc.c"
 };
 
-StandardLimb gBugSkelLimb9 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb9.inc.c"
+StandardLimb gBugSkelLimb_9 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_9.inc.c"
 };
 
-StandardLimb gBugSkelLimb10 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb10.inc.c"
+StandardLimb gBugSkelLimb_10 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_10.inc.c"
 };
 
-StandardLimb gBugSkelLimb11 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb11.inc.c"
+StandardLimb gBugSkelLimb_11 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_11.inc.c"
 };
 
-StandardLimb gBugSkelLimb12 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb12.inc.c"
+StandardLimb gBugSkelLimb_12 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_12.inc.c"
 };
 
-StandardLimb gBugSkelLimb13 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb13.inc.c"
+StandardLimb gBugSkelLimb_13 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_13.inc.c"
 };
 
-StandardLimb gBugSkelLimb14 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb14.inc.c"
+StandardLimb gBugSkelLimb_14 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_14.inc.c"
 };
 
-StandardLimb gBugSkelLimb15 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb15.inc.c"
+StandardLimb gBugSkelLimb_15 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_15.inc.c"
 };
 
-StandardLimb gBugSkelLimb16 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb16.inc.c"
+StandardLimb gBugSkelLimb_16 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_16.inc.c"
 };
 
-StandardLimb gBugSkelLimb17 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb17.inc.c"
+StandardLimb gBugSkelLimb_17 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_17.inc.c"
 };
 
-StandardLimb gBugSkelLimb18 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb18.inc.c"
+StandardLimb gBugSkelLimb_18 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_18.inc.c"
 };
 
-StandardLimb gBugSkelLimb19 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb19.inc.c"
+StandardLimb gBugSkelLimb_19 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_19.inc.c"
 };
 
-StandardLimb gBugSkelLimb20 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb20.inc.c"
+StandardLimb gBugSkelLimb_20 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_20.inc.c"
 };
 
-StandardLimb gBugSkelLimb21 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb21.inc.c"
+StandardLimb gBugSkelLimb_21 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_21.inc.c"
 };
 
-StandardLimb gBugSkelLimb22 = {
-#include "assets/objects/gameplay_keep/gBugSkelLimb22.inc.c"
+StandardLimb gBugSkelLimb_22 = {
+#include "assets/objects/gameplay_keep/gBugSkelLimb_22.inc.c"
 };
 
 void* gBugLimbs[] = {
