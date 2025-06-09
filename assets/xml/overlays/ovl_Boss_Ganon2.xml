@@ -2,8 +2,14 @@
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="ovl_Boss_Ganon2">
         <Texture Name="gGanonLightOrbTex" Format="i8" Width="64" Height="64" Offset="0x0" Static="Off"/>
+        <Array Name="gGanonLightOrbModelVtx" Count="4" Offset="0x1000">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonLightOrbMaterialDL" Offset="0x1040" Static="Off"/>
         <DList Name="gGanonLightOrbModelDL" Offset="0x10B0" Static="Off"/>
+        <Array Name="gGanonShadowModelVtx" Count="4" Offset="0x10C8">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonShadowMaterialDL" Offset="0x1108" Static="Off"/>
         <DList Name="gGanonShadowModelDL" Offset="0x1128" Static="Off"/>
         <Texture Name="gGanonSwordTrailTex" Format="i8" Width="32" Height="32" Offset="0x1158" Static="Off"/>
@@ -13,17 +19,35 @@
         </Array>
         <DList Name="gGanonSwordTrailDL" Offset="0x18B8" Static="Off"/>
         <Texture Name="gGanonTriforceTex" Format="i8" Width="64" Height="64" Offset="0x19D0" Static="Off"/>
+        <Array Name="gGanonTriforceVtx" Count="4" Offset="0x29D0">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonTriforceDL" Offset="0x2A10" Static="Off"/>
         <Texture Name="gGanonLightningTex" Format="i4" Width="32" Height="160" Offset="0x2A90" Static="Off"/>
+        <Array Name="gGanonLightningVtx" Count="4" Offset="0x3490">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonLightningDL" Offset="0x34D0" Static="Off"/> <!-- Original name might be "efc_fg2_thunder1_modelT" -->
         <Texture Name="gGanonFireRingTex" Format="i8" Width="32" Height="64" Offset="0x3558" Static="Off"/>
+        <Array Name="gGanonFireRingVtx" Count="26" Offset="0x3D58">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonFireRingDL" Offset="0x3EF8" Static="Off"/> <!-- Original name is "ganon_fire_modelT" -->
         <Texture Name="gGanonZeldaMagicTex" Format="i8" Width="32" Height="64" Offset="0x4018" Static="Off"/>
+        <Array Name="gGanonZeldaMagicVtx" Count="22" Offset="0x4818">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonZeldaMagicDL" Offset="0x4978" Static="Off"/> <!-- Original name is "efc_ganon2_hadou_modelT" ("wave motion; undulation; surge​") -->
         <Texture Name="gGanonMasterSwordShadowTex" Format="i8" Width="32" Height="32" Offset="0x4A80" Static="Off"/>
+        <Array Name="gGanonMasterSwordShadowVtx" Count="4" Offset="0x4E80">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonMasterSwordShadowDL" Offset="0x4EC0" Static="Off"/> <!-- Original name is "master_sword_shadow_model" -->
         <Texture Name="gGanonMasterSwordPommelTex" Format="rgba16" Width="16" Height="16" Offset="0x4F40" Static="Off"/>
         <Texture Name="gGanonMasterSwordGuardTex" Format="rgba16" Width="32" Height="32" Offset="0x5140" Static="Off"/>
+        <Array Name="gGanonMasterSwordVtx" Count="122" Offset="0x5940">
+            <Vtx/>
+        </Array>
         <DList Name="gGanonMasterSwordDL" Offset="0x60E0" Static="Off"/> <!-- Original name is "master_gn2_swordB_model" -->
     </File>
 </Root>

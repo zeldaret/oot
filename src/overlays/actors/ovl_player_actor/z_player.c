@@ -1766,7 +1766,7 @@ void Player_ApplyYawFromAnim(Player* this) {
 void func_80832318(Player* this) {
     this->stateFlags2 &= ~PLAYER_STATE2_17;
     this->meleeWeaponState = 0;
-    this->meleeWeaponInfo[0].active = this->meleeWeaponInfo[1].active = this->meleeWeaponInfo[2].active = 0;
+    this->meleeWeaponInfo[0].active = this->meleeWeaponInfo[1].active = this->meleeWeaponInfo[2].active = false;
 }
 
 void func_80832340(PlayState* play, Player* this) {
@@ -9071,7 +9071,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
     s32 bgId;
     Vec3f sp68;
     Vec3f sp5C;
-    Vec3f sp50;
+    Vec3f baseToTip;
     s32 temp1;
     s32 surfaceMaterial;
 
@@ -9081,18 +9081,19 @@ s32 func_80842DF4(PlayState* play, Player* this) {
                 !(this->meleeWeaponQuads[1].base.atFlags & AT_BOUNCED)) {
                 if (this->skelAnime.curFrame >= 2.0f) {
 
-                    phi_f2 = Math_Vec3f_DistXYZAndStoreDiff(&this->meleeWeaponInfo[0].tip,
-                                                            &this->meleeWeaponInfo[0].base, &sp50);
+                    phi_f2 =
+                        Math_Vec3f_DistXYZAndStoreDiff(MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]),
+                                                       MELEE_WEAPON_INFO_BASE(&this->meleeWeaponInfo[0]), &baseToTip);
                     if (phi_f2 != 0.0f) {
                         phi_f2 = (phi_f2 + 10.0f) / phi_f2;
                     }
 
-                    sp68.x = this->meleeWeaponInfo[0].tip.x + (sp50.x * phi_f2);
-                    sp68.y = this->meleeWeaponInfo[0].tip.y + (sp50.y * phi_f2);
-                    sp68.z = this->meleeWeaponInfo[0].tip.z + (sp50.z * phi_f2);
+                    sp68.x = MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0])->x + (baseToTip.x * phi_f2);
+                    sp68.y = MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0])->y + (baseToTip.y * phi_f2);
+                    sp68.z = MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0])->z + (baseToTip.z * phi_f2);
 
-                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, &this->meleeWeaponInfo[0].tip, &sp5C, &groundPoly,
-                                                true, false, false, true, &bgId) &&
+                    if (BgCheck_EntityLineTest1(&play->colCtx, &sp68, MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]),
+                                                &sp5C, &groundPoly, true, false, false, true, &bgId) &&
                         !SurfaceType_IsIgnoredByEntities(&play->colCtx, groundPoly, bgId) &&
                         (SurfaceType_GetFloorType(&play->colCtx, groundPoly, bgId) != FLOOR_TYPE_6) &&
                         (func_8002F9EC(play, &this->actor, groundPoly, bgId, &sp5C) == 0)) {
@@ -11475,8 +11476,8 @@ void Player_UpdateBurningDekuStick(PlayState* play, Player* this) {
         this->unk_85C = temp;
     }
 
-    func_8002836C(play, &this->meleeWeaponInfo[0].tip, &D_808547A4, &D_808547B0, &D_808547BC, &D_808547C0,
-                  temp * 200.0f, 0, 8);
+    func_8002836C(play, MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]), &D_808547A4, &D_808547B0, &D_808547BC,
+                  &D_808547C0, temp * 200.0f, 0, 8);
 }
 
 void Player_UpdateBodyShock(PlayState* play, Player* this) {

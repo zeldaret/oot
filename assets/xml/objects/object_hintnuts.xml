@@ -15,11 +15,44 @@
         <Animation Name="gHintNutsRunAnim" Offset="0x3128"/>
 
         <!-- Deku Scrub flower -->
+        <Array Name="gHintNutsFlowerVtx" Count="22" Offset="0x1380">
+            <Vtx/>
+        </Array>
         <DList Name="gHintNutsFlowerDL" Offset="0x14E0"/>
 
         <!-- Deku Scrub Deku Nut (used by Nutsball) -->
+        <Array Name="gHintNutsNutVtx" Count="3" Offset="0x12C0">
+            <Vtx/>
+        </Array>
         <DList Name="gHintNutsNutDL" Offset="0x12F0"/>
 
+        <Array Name="object_hintnuts_Vtx_000180" Count="22" Offset="0x180">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hintnuts_Vtx_0002E0" Count="6" Offset="0x2E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hintnuts_Vtx_000340" Count="15" Offset="0x340">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hintnuts_Vtx_000430" Count="5" Offset="0x430">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hintnuts_Vtx_000480" Count="7" Offset="0x480">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hintnuts_Vtx_0004F0" Count="7" Offset="0x4F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hintnuts_Vtx_000560" Count="5" Offset="0x560">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hintnuts_Vtx_0005B0" Count="68" Offset="0x5B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_hintnuts_Vtx_0009F0" Count="20" Offset="0x9F0">
+            <Vtx/>
+        </Array>
         <DList Name="object_hintnuts_000B30_DL" Offset="0xB30"/>
         <DList Name="object_hintnuts_000C68_DL" Offset="0xC68"/>
         <DList Name="object_hintnuts_000D10_DL" Offset="0xD10"/>

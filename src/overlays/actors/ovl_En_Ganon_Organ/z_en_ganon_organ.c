@@ -10,6 +10,7 @@
 #include "gfx_setupdl.h"
 #include "printf.h"
 #include "sys_matrix.h"
+#include "tex_len.h"
 #include "play_state.h"
 
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
@@ -35,7 +36,95 @@ ActorProfile En_Ganon_Organ_Profile = {
 
 static u64 sForceAlignment = 0;
 
-#include "assets/overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
+#define sRoomCarpetTex_WIDTH 64
+#define sRoomCarpetTex_HEIGHT 16
+static u64 sRoomCarpetTex[TEX_LEN(u64, sRoomCarpetTex_WIDTH, sRoomCarpetTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomCarpetTex.rgba16.inc.c"
+};
+
+#define sRoomOrganPipeTex_WIDTH 16
+#define sRoomOrganPipeTex_HEIGHT 64
+static u64 sRoomOrganPipeTex[TEX_LEN(u64, sRoomOrganPipeTex_WIDTH, sRoomOrganPipeTex_HEIGHT, 4)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomOrganPipeTex.i4.inc.c"
+};
+
+#define sRoomOrganCorbelsTex_WIDTH 16
+#define sRoomOrganCorbelsTex_HEIGHT 16
+static u64 sRoomOrganCorbelsTex[TEX_LEN(u64, sRoomOrganCorbelsTex_WIDTH, sRoomOrganCorbelsTex_HEIGHT, 4)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomOrganCorbelsTex.i4.inc.c"
+};
+
+#define sRoomOrganGrillTex_WIDTH 16
+#define sRoomOrganGrillTex_HEIGHT 16
+static u64 sRoomOrganGrillTex[TEX_LEN(u64, sRoomOrganGrillTex_WIDTH, sRoomOrganGrillTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomOrganGrillTex.rgba16.inc.c"
+};
+
+#define sRoomCrestFriezeTex_WIDTH 32
+#define sRoomCrestFriezeTex_HEIGHT 32
+static u64 sRoomCrestFriezeTex[TEX_LEN(u64, sRoomCrestFriezeTex_WIDTH, sRoomCrestFriezeTex_HEIGHT, 4)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomCrestFriezeTex.i4.inc.c"
+};
+
+#define sRoomColumnFriezeAndCanopyTex_WIDTH 16
+#define sRoomColumnFriezeAndCanopyTex_HEIGHT 16
+static u64 sRoomColumnFriezeAndCanopyTex[TEX_LEN(u64, sRoomColumnFriezeAndCanopyTex_WIDTH,
+                                                 sRoomColumnFriezeAndCanopyTex_HEIGHT, 4)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomColumnFriezeAndCanopyTex.i4.inc.c"
+};
+
+#define sRoomColumnMetalEdgingTex_WIDTH 16
+#define sRoomColumnMetalEdgingTex_HEIGHT 16
+static u64
+    sRoomColumnMetalEdgingTex[TEX_LEN(u64, sRoomColumnMetalEdgingTex_WIDTH, sRoomColumnMetalEdgingTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomColumnMetalEdgingTex.rgba16.inc.c"
+    };
+
+#define sRoomStatueWingTex_WIDTH 16
+#define sRoomStatueWingTex_HEIGHT 16
+static u64 sRoomStatueWingTex[TEX_LEN(u64, sRoomStatueWingTex_WIDTH, sRoomStatueWingTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomStatueWingTex.rgba16.inc.c"
+};
+
+#define sRoomPillarTex_WIDTH 8
+#define sRoomPillarTex_HEIGHT 32
+static u64 sRoomPillarTex[TEX_LEN(u64, sRoomPillarTex_WIDTH, sRoomPillarTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomPillarTex.i8.inc.c"
+};
+
+#define sRoomOrganKeyboardTex_WIDTH 32
+#define sRoomOrganKeyboardTex_HEIGHT 8
+static u64 sRoomOrganKeyboardTex[TEX_LEN(u64, sRoomOrganKeyboardTex_WIDTH, sRoomOrganKeyboardTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomOrganKeyboardTex.rgba16.inc.c"
+};
+
+#define sRoomOrganKeyEndTex_WIDTH 4
+#define sRoomOrganKeyEndTex_HEIGHT 8
+static u64 sRoomOrganKeyEndTex[TEX_LEN(u64, sRoomOrganKeyEndTex_WIDTH, sRoomOrganKeyEndTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomOrganKeyEndTex.rgba16.inc.c"
+};
+
+#define sRoomStepTex_WIDTH 16
+#define sRoomStepTex_HEIGHT 16
+static u64 sRoomStepTex[TEX_LEN(u64, sRoomStepTex_WIDTH, sRoomStepTex_HEIGHT, 4)] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomStepTex.i4.inc.c"
+};
+
+static Vtx sRoomOrganAndFloorVtx[] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomOrganAndFloorVtx.inc.c"
+};
+
+static Gfx sRoomOrganAndFloorDL[429] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomOrganAndFloorDL.inc.c"
+};
+
+static Vtx sRoomStatuesVtx[] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomStatuesVtx.inc.c"
+};
+
+static Gfx sRoomStatuesDL[152] = {
+#include "assets/overlays/ovl_En_Ganon_Organ/sRoomStatuesDL.inc.c"
+};
 
 void EnGanonOrgan_Init(Actor* thisx, PlayState* play) {
     thisx->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;

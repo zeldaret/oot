@@ -76,5 +76,8 @@
         <DList Name="object_wood02_DL_008350" Offset="0x8350"/>
         <DList Name="object_wood02_DL_0083E0" Offset="0x83E0"/>
         <DList Name="object_wood02_DL_0085C0" Offset="0x85C0"/>
+        <Array Name="object_wood02_Vtx_0085D0" Count="32" Offset="0x85D0">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

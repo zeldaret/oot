@@ -55,8 +55,14 @@
         <Texture Name="gChildZeldaEyeOutTex" Format="ci8" Width="32" Height="32" Offset="0x3EF0" TlutOffset="0x870"/>
         <Texture Name="gChildZeldaEyeInTex" Format="ci8" Width="32" Height="32" Offset="0x42F0" TlutOffset="0x870"/>
 
-        <!-- Child Zelda's cutscene DLists (used by EnViewer)-->
+        <!-- Child Zelda's cutscene Vertices and DLists (used by EnViewer)-->
+        <Array Name="gChildZeldaCutsceneDressVtx" Count="128" Offset="0x76B0">
+            <Vtx/>
+        </Array>
         <DList Name="gChildZeldaCutsceneDressDL" Offset="0xC410"/>
+        <Array Name="gChildZeldaOcarinaOfTimeVtx" Count="21" Offset="0xDCB8">
+            <Vtx/>
+        </Array>
         <DList Name="gChildZeldaOcarinaOfTimeDL" Offset="0xDE08"/>
 
         <Texture Name="object_zl4_000670_TLUT" Format="rgba16" Width="256" Height="1" Offset="0x670"/>
@@ -87,6 +93,54 @@
         <Texture Name="object_zl4_005C70_Tex" Format="ci8" Width="8" Height="8" Offset="0x5C70" TlutOffset="0x670"/>
         <Texture Name="object_zl4_005CB0_Tex" Format="ci8" Width="16" Height="16" Offset="0x5CB0" TlutOffset="0x670"/>
         <Texture Name="object_zl4_005DB0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x5DB0"/>
+        <Array Name="object_zl4_Vtx_0065B0" Count="33" Offset="0x65B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_0067C0" Count="38" Offset="0x67C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_006A20" Count="36" Offset="0x6A20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_006C60" Count="37" Offset="0x6C60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_006EB0" Count="3" Offset="0x6EB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_006EE0" Count="37" Offset="0x6EE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_007130" Count="3" Offset="0x7130">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_007160" Count="85" Offset="0x7160">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_007EB0" Count="191" Offset="0x7EB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_008AA0" Count="45" Offset="0x8AA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_008D70" Count="36" Offset="0x8D70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_008FB0" Count="62" Offset="0x8FB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_009390" Count="45" Offset="0x9390">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_009660" Count="36" Offset="0x9660">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_0098A0" Count="62" Offset="0x98A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl4_Vtx_009C80" Count="155" Offset="0x9C80">
+            <Vtx/>
+        </Array>
         <DList Name="object_zl4_00A630_DL" Offset="0xA630"/>
         <DList Name="object_zl4_00AFC8_DL" Offset="0xAFC8"/>
         <DList Name="object_zl4_00B8D8_DL" Offset="0xB8D8"/>

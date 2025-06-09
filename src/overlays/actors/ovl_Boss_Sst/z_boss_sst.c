@@ -2769,7 +2769,7 @@ void BossSst_DrawHand(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
     } else {
         gDPSetEnvColor(POLY_OPA_DISP++, sStaticColor.r, sStaticColor.g, sStaticColor.b, 0);
-        gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDList);
+        gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDL);
     }
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
@@ -2795,7 +2795,7 @@ void BossSst_DrawHand(Actor* thisx, PlayState* play) {
                                              &trail->world.rot);
                 Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
 
-                gSPSegment(POLY_XLU_DISP++, 0x08, sHandTrailDList);
+                gSPSegment(POLY_XLU_DISP++, 0x08, sHandTrailDL);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, ((3 - i) * 10) + 20, 0, ((3 - i) * 20) + 50,
                                 ((3 - i) * 30) + 70);
 
@@ -2904,7 +2904,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         } else {
             gDPSetEnvColor(POLY_OPA_DISP++, sStaticColor.r, sStaticColor.g, sStaticColor.b, 0);
-            gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDList);
+            gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDL);
         }
     } else {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
@@ -2956,7 +2956,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
 
         MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_sst.c", 6934);
-        gSPDisplayList(POLY_XLU_DISP++, sIntroVanishDList);
+        gSPDisplayList(POLY_XLU_DISP++, sIntroVanishDL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_sst.c", 6941);
@@ -3257,7 +3257,7 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
                 Matrix_Scale(effect->scale * 0.001f, 1.0f, effect->scale * 0.001f, MTXMODE_APPLY);
 
                 MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_boss_sst.c", 7423);
-                gSPDisplayList(POLY_XLU_DISP++, sShadowDList);
+                gSPDisplayList(POLY_XLU_DISP++, sShadowDL);
                 effect++;
             }
         }

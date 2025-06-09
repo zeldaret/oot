@@ -8,24 +8,72 @@
         <DList Name="gHanaLeaf3DL" Offset="0x0320"/>
         <DList Name="gHanaLeaf4DL" Offset="0x03C0"/>
         <DList Name="gHanaLeaf5DL" Offset="0x0460"/>
+        <Array Name="gHanaFlower1Vtx" Count="4" Offset="0x548">
+            <Vtx/>
+        </Array>
+        <Array Name="gHanaFlower2Vtx" Count="4" Offset="0x588">
+            <Vtx/>
+        </Array>
+        <Array Name="gHanaFlower3Vtx" Count="4" Offset="0x5C8">
+            <Vtx/>
+        </Array>
+        <Array Name="gHanaLeaf1Vtx" Count="4" Offset="0x608">
+            <Vtx/>
+        </Array>
+        <Array Name="gHanaLeaf2Vtx" Count="4" Offset="0x648">
+            <Vtx/>
+        </Array>
+        <Array Name="gHanaLeaf3Vtx" Count="4" Offset="0x688">
+            <Vtx/>
+        </Array>
+        <Array Name="gHanaLeaf4Vtx" Count="4" Offset="0x6C8">
+            <Vtx/>
+        </Array>
+        <Array Name="gHanaLeaf5Vtx" Count="4" Offset="0x708">
+            <Vtx/>
+        </Array>
         <Texture Name="gHanaFlowerTex" Format="rgba16" Width="16" Height="32" Offset="0x750"/>
         <Texture Name="gHanaLeafTex" Format="rgba16" Width="32" Height="32" Offset="0xB50"/>
         <DList Name="gHanaDL" Offset="0x500"/>
         <Collision Name="gBgBombwallCol" Offset="0x41B0"/>
+        <Array Name="gBgBombwallNormalVtx" Count="5" Offset="0x3F20">
+            <Vtx/>
+        </Array>
+        <Array Name="gBgBombwallBrokenVtx" Count="5" Offset="0x3F70">
+            <Vtx/>
+        </Array>
         <DList Name="gBgBombwallNormalDL" Offset="0x3FC0"/>
         <DList Name="gBgBombwallBrokenDL" Offset="0x4088"/>
+        <Array Name="gGrottoVtx" Count="4" Offset="0x1350">
+            <Vtx/>
+        </Array>
         <DList Name="gGrottoDL" Offset="0x1390"/>
         <Texture Name="gGrottoTex" Format="ia16" Width="32" Height="64" Offset="0x1420"/>
         <DList Name="gButterflyDL_002480" Offset="0x2480"/>
         <DList Name="gButterflyDL_002520" Offset="0x2520"/>
+        <Array Name="gameplay_field_keep_Vtx_002540" Count="4" Offset="0x2540">
+            <Vtx/>
+        </Array>
         <DList Name="gButterflyDL_002580" Offset="0x2580"/>
         <DList Name="gButterflyDL_002620" Offset="0x2620"/>
+        <Array Name="gameplay_field_keep_Vtx_002640" Count="4" Offset="0x2640">
+            <Vtx/>
+        </Array>
         <Texture Name="gButterflyWingTex" Format="rgba16" Width="32" Height="64" Offset="0x2680"/>
         <Skeleton Name="gButterflySkel" Type="Normal" LimbType="Standard" Offset="0x36F0"/>
         <Animation Name="gButterflyAnim" Offset="0x2470"/>
         <Texture Name="gBgBombwallTLUT" Format="rgba16" Width="4" Height="4" Offset="0x3700"/>
         <Texture Name="gBgBombwallNormalTex" Format="ci4" Width="32" Height="64" Offset="0x3720" TlutOffset="0x3700"/>
         <Texture Name="gBgBombWallBrokenTex" Format="ci4" Width="32" Height="64" Offset="0x3B20" TlutOffset="0x3700"/>
+        <Array Name="gFieldDoorLeftVtx" Count="34" Offset="0x41E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFieldDoorRightVtx" Count="34" Offset="0x4400">
+            <Vtx/>
+        </Array>
+        <Array Name="gameplay_field_keep_Vtx_004620" Count="16" Offset="0x4620">
+            <Vtx/>
+        </Array>
         <DList Name="gFieldDoorDL_004720" Offset="0x4720"/>
         <DList Name="gFieldDoorLeftDL" Offset="0x47A0"/>
         <DList Name="gFieldDoorRightDL" Offset="0x4978"/>
@@ -36,18 +84,42 @@
         <Animation Name="gFieldUnusedFishAnim" Offset="0x5FF0"/>
         <DList Name="gFieldUnusedFishDL" Offset="0x6000"/>
         <DList Name="gFieldSkelUnusedFishDL_0061E8" Offset="0x61E8"/>
+        <Array Name="gFieldUnusedFishVtx" Count="26" Offset="0x6208">
+            <Vtx/>
+        </Array>
         <DList Name="gFieldSkelUnusedFishDL_0063A8" Offset="0x63A8"/>
         <DList Name="gFieldSkelUnusedFishDL_006448" Offset="0x6448"/>
+        <Array Name="gameplay_field_keep_Vtx_006468" Count="4" Offset="0x6468">
+            <Vtx/>
+        </Array>
         <Texture Name="gFieldUnusedFishTex" Format="rgba16" Width="64" Height="32" Offset="0x64A8"/>
         <Texture Name="gFieldUnusedFishBottomTex" Format="rgba16" Width="64" Height="32" Offset="0x074A8"/>
         <Texture Name="gFieldUnusedFishFinTex" Format="rgba16" Width="32" Height="16" Offset="0x84A8"/>
+        <Array Name="gSilverRockVtx" Count="28" Offset="0xA1F8">
+            <Vtx/>
+        </Array>
         <DList Name="gSilverRockDL" Offset="0xA3B8"/>
+        <Array Name="gFieldKakeraVtx" Count="27" Offset="0xA6D0">
+            <Vtx/>
+        </Array>
         <DList Name="gFieldKakeraDL" Offset="0xA880"/>
         <Texture Name="gFieldKakeraTex" Format="rgba16" Width="32" Height="32" Offset="0xA940"/>
+        <Array Name="gSilverRockFragmentsVtx" Count="18" Offset="0xA4C8">
+            <Vtx/>
+        </Array>
         <DList Name="gSilverRockFragmentsDL" Offset="0xA5E8"/>
+        <Array Name="gFieldBushVtx" Count="9" Offset="0xB940">
+            <Vtx/>
+        </Array>
         <DList Name="gFieldBushDL" Offset="0xB9D0"/>
         <Texture Name="gFieldBushTex" Format="rgba16" Width="32" Height="32" Offset="0xB140"/>
+        <Array Name="gFieldBeehiveVtx" Count="75" Offset="0x9100">
+            <Vtx/>
+        </Array>
         <DList Name="gFieldBeehiveDL" Offset="0x95B0"/>
+        <Array Name="gFieldBeehiveFragmentVtx" Count="3" Offset="0x9910">
+            <Vtx/>
+        </Array>
         <DList Name="gFieldBeehiveFragmentDL" Offset="0x9940"/>
         <Texture Name="gFieldBeehiveTex" Format="rgba16" Width="32" Height="32" Offset="0x8900"/>
         <Texture Name="gFieldBeehiveFragmentTex" Format="rgba16" Width="16" Height="16" Offset="0x9710"/>

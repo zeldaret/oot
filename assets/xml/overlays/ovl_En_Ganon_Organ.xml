@@ -13,7 +13,13 @@
         <Texture Name="sRoomOrganKeyEndTex" Format="rgba16" Width="4" Height="8" Offset="0x1600"/>
         <Texture Name="sRoomStepTex" Format="i4" Width="16" Height="16" Offset="0x1640"/>
 
+        <Array Name="sRoomOrganAndFloorVtx" Count="800" Offset="0x16C0">
+            <Vtx/>
+        </Array>
         <DList Name="sRoomOrganAndFloorDL" Offset="0x48C0"/>
+        <Array Name="sRoomStatuesVtx" Count="266" Offset="0x5628">
+            <Vtx/>
+        </Array>
         <DList Name="sRoomStatuesDL" Offset="0x66C8"/>
     </File>
 </Root>

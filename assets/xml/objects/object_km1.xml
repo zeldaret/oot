@@ -38,5 +38,47 @@
             <Vtx/>
         </Array>
         <DList Name="gKm1DL" Offset="0x1890"/>
+        <Array Name="object_km1_Vtx_001DC8" Count="26" Offset="0x1DC8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_001F68" Count="34" Offset="0x1F68">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_002188" Count="42" Offset="0x2188">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_002428" Count="26" Offset="0x2428">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_0025C8" Count="34" Offset="0x25C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_0027E8" Count="42" Offset="0x27E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_002A88" Count="50" Offset="0x2A88">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_002DA8" Count="24" Offset="0x2DA8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_002F28" Count="41" Offset="0x2F28">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_0031B8" Count="50" Offset="0x31B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_0034D8" Count="24" Offset="0x34D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_003658" Count="41" Offset="0x3658">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_0038E8" Count="67" Offset="0x38E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_km1_Vtx_003D18" Count="31" Offset="0x3D18">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

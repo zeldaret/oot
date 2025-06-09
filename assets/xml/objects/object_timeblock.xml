@@ -1,5 +1,8 @@
 <Root>
     <File Name="object_timeblock" Segment="6">
+        <Array Name="gSongOfTimeBlockVtx" Count="24" Offset="0x800">
+            <Vtx/>
+        </Array>
         <DList Name="gSongOfTimeBlockDL" Offset="0x980"/>
         <Texture Name="gSongOfTimeBlockTex" Format="i4" Width="64" Height="64" Offset="0x0"/>
         <Collision Name="gSongOfTimeBlockCol" Offset="0xB30"/>
