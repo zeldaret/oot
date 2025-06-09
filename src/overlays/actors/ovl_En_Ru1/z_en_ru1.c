@@ -1069,7 +1069,7 @@ void EnRu1_SpawnBlueWarp(EnRu1* this, PlayState* play) {
 
 void EnRu1_InitInBossRoom(EnRu1* this, PlayState* play) {
     EnRu1_AnimationChange(this, &gRutoChildWaitHandsOnHipsAnim, ANIMMODE_LOOP, 0, false);
-    this->action = ENRU1_ACTION_BOSS_ROOM_PRE_SPAWN;
+    this->action = ENRU1_ACTION_PRE_SPAWN_BOSS_ROOM;
     this->actor.shape.yOffset = -10000.0f;
     EnRu1_SetEyes(this, ENRU1_EYES_BLUSH);
     EnRu1_SetMouth(this, ENRU1_MOUTH_OPEN);
@@ -1157,7 +1157,7 @@ void EnRu1_SetBlueWarpState(EnRu1* this, s32 state) {
 }
 
 void EnRu1_TriggerSpawnInBossRoom(EnRu1* this, PlayState* play) {
-    this->action = ENRU1_ACTION_BOSS_ROOM_SPAWN;
+    this->action = ENRU1_ACTION_SPAWN_BOSS_ROOM;
 }
 
 void EnRu1_SetupRiseThroughBlueWarp(EnRu1* this, PlayState* play) {
