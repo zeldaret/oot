@@ -3498,7 +3498,7 @@ void Player_SetupActionPreserveItemAction(PlayState* play, Player* this, PlayerA
     }
 }
 
-void func_80835E44(PlayState* play, s16 camSetting) {
+void Player_RequestCameraSetting(PlayState* play, s16 camSetting) {
     if (!Play_CamIsNotFixed(play)) {
         if (camSetting == CAM_SET_SCENE_TRANSITION) {
             Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
@@ -3509,7 +3509,7 @@ void func_80835E44(PlayState* play, s16 camSetting) {
 }
 
 void Player_CameraChangeSettingTurnAround(PlayState* play, s32 camItemType) {
-    func_80835E44(play, CAM_SET_TURN_AROUND);
+    Player_RequestCameraSetting(play, CAM_SET_TURN_AROUND);
     Camera_SetCameraData(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_CAMERA_DATA_2, NULL, NULL, camItemType, 0, 0);
 }
 
@@ -5270,7 +5270,7 @@ s32 Player_HandleExitsAndVoids(PlayState* play, Player* this, CollisionPoly* pol
 
             this->stateFlags1 |= PLAYER_STATE1_0 | PLAYER_STATE1_29;
 
-            func_80835E44(play, CAM_SET_SCENE_TRANSITION);
+            Player_RequestCameraSetting(play, CAM_SET_SCENE_TRANSITION);
 
             return 1;
         } else {
