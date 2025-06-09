@@ -30,7 +30,7 @@
 #include "rock_fragments_tex.h"
 #include "gDoorChildOpeningLeftAnim.h"
 #include "gDoorChildOpeningRightAnim.h"
-#include "door.h"
+#include "door_skel.h"
 #include "gDoorAdultOpeningRightAnim.h"
 #include "eff_dust.h"
 #include "eff_flash.h"

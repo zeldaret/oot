@@ -1,4 +1,4 @@
-#include "door.h"
+#include "door_skel.h"
 #include "array_count.h"
 #include "gfx.h"
 

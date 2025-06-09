@@ -1,5 +1,5 @@
-#ifndef GAMEPLAY_KEEP_DOOR_H
-#define GAMEPLAY_KEEP_DOOR_H
+#ifndef GAMEPLAY_KEEP_DOOR_SKEL_H
+#define GAMEPLAY_KEEP_DOOR_SKEL_H
 
 #include "tex_len.h"
 #include "ultra64.h"
