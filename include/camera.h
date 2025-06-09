@@ -119,11 +119,11 @@ struct View;
 #define CAM_VIEW_FOV (1 << 5) // camera->fov
 #define CAM_VIEW_ROLL (1 << 6) // camera->roll
 
-#define CAM_SET_CAMERA_DATA_0 (1 << 0)
-#define CAM_SET_CAMERA_DATA_1 (1 << 1)
-#define CAM_SET_CAMERA_DATA_2 (1 << 2)
-#define CAM_SET_CAMERA_DATA_3 (1 << 3)
-#define CAM_SET_CAMERA_DATA_4 (1 << 4)
+#define CAM_DATA_SET_0 (1 << 0)
+#define CAM_DATA_SET_1 (1 << 1)
+#define CAM_DATA_SET_2 (1 << 2)
+#define CAM_DATA_SET_3 (1 << 3)
+#define CAM_DATA_SET_4 (1 << 4)
 
 // All scenes using `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` or `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT` are expected
 // to have their first two bgCamInfo entries be the following:

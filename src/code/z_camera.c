@@ -8875,23 +8875,23 @@ Vec3f Camera_GetQuakeOffset(Camera* camera) {
 }
 
 void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3, s32 data4) {
-    if (setDataFlags & CAM_SET_CAMERA_DATA_0) {
+    if (setDataFlags & CAM_DATA_SET_0) {
         camera->data0 = data0;
     }
 
-    if (setDataFlags & CAM_SET_CAMERA_DATA_1) {
+    if (setDataFlags & CAM_DATA_SET_1) {
         camera->data1 = data1;
     }
 
-    if (setDataFlags & CAM_SET_CAMERA_DATA_2) {
+    if (setDataFlags & CAM_DATA_SET_2) {
         camera->data2 = data2;
     }
 
-    if (setDataFlags & CAM_SET_CAMERA_DATA_3) {
+    if (setDataFlags & CAM_DATA_SET_3) {
         camera->data3 = data3;
     }
 
-    if (setDataFlags & CAM_SET_CAMERA_DATA_4) {
+    if (setDataFlags & CAM_DATA_SET_4) {
         PRINTF(VT_COL(RED, WHITE) "camera: setCameraData: last argument not alive!\n" VT_RST);
     }
 }

@@ -3510,7 +3510,7 @@ void Player_RequestCameraSetting(PlayState* play, s16 camSetting) {
 
 void Player_SetTurnAroundCamera(PlayState* play, s32 camItemType) {
     Player_RequestCameraSetting(play, CAM_SET_TURN_AROUND);
-    Camera_SetCameraData(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_CAMERA_DATA_2, NULL, NULL, camItemType, 0, 0);
+    Camera_SetCameraData(Play_GetCamera(play, CAM_ID_MAIN), CAM_DATA_SET_2, NULL, NULL, camItemType, 0, 0);
 }
 
 void Player_DestroyHookshot(Player* this) {
