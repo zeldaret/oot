@@ -60,6 +60,61 @@ typedef struct EnRu1 {
     /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
 
+typedef enum EnRu1Action {
+    /*  0 */ ENRU1_ACTION_00,
+    /*  1 */ ENRU1_ACTION_01,
+    /*  2 */ ENRU1_ACTION_02,
+    /*  3 */ ENRU1_ACTION_03,
+    /*  4 */ ENRU1_ACTION_04,
+    /*  5 */ ENRU1_ACTION_05,
+    /*  6 */ ENRU1_ACTION_06,
+    /*  7 */ ENRU1_ACTION_07,
+    /*  8 */ ENRU1_ACTION_08,
+    /*  9 */ ENRU1_ACTION_09,
+    /* 10 */ ENRU1_ACTION_10,
+    /* 11 */ ENRU1_ACTION_11,
+    /* 12 */ ENRU1_ACTION_12,
+    /* 13 */ ENRU1_ACTION_13,
+    /* 14 */ ENRU1_ACTION_14,
+    /* 15 */ ENRU1_ACTION_15,
+    /* 16 */ ENRU1_ACTION_16,
+    /* 17 */ ENRU1_ACTION_17,
+    /* 18 */ ENRU1_ACTION_18,
+    /* 19 */ ENRU1_ACTION_19,
+    /* 20 */ ENRU1_ACTION_20,
+    /* 21 */ ENRU1_ACTION_21,
+    /* 22 */ ENRU1_ACTION_22,
+    /* 23 */ ENRU1_ACTION_23,
+    /* 24 */ ENRU1_ACTION_24,
+    /* 25 */ ENRU1_ACTION_25,
+    /* 26 */ ENRU1_ACTION_26,
+    /* 27 */ ENRU1_ACTION_27,
+    /* 28 */ ENRU1_ACTION_28,
+    /* 29 */ ENRU1_ACTION_29,
+    /* 30 */ ENRU1_ACTION_30,
+    /* 31 */ ENRU1_ACTION_31,
+    /* 32 */ ENRU1_ACTION_32,
+    /* 33 */ ENRU1_ACTION_33,
+    /* 34 */ ENRU1_ACTION_34,
+    /* 35 */ ENRU1_ACTION_35,
+    /* 36 */ ENRU1_ACTION_36,
+    /* 37 */ ENRU1_ACTION_37,
+    /* 38 */ ENRU1_ACTION_38,
+    /* 39 */ ENRU1_ACTION_39,
+    /* 40 */ ENRU1_ACTION_40,
+    /* 41 */ ENRU1_ACTION_41,
+    /* 42 */ ENRU1_ACTION_42,
+    /* 43 */ ENRU1_ACTION_43,
+    /* 44 */ ENRU1_ACTION_44,
+    /* 45 */ ENRU1_ACTION_45
+} EnRu1Action;
+
+typedef enum EnRu1DrawConfig {
+    /* 0 */ ENRU1_DRAW_NOTHING,
+    /* 1 */ ENRU1_DRAW_OPA,
+    /* 2 */ ENRU1_DRAW_XLU
+} EnRu1DrawConfig;
+
 typedef enum EnRu1Type {
     /*  0 */ ENRU1_TYPE_BOSS_ROOM,
     /*  1 */ ENRU1_TYPE_FOUNTAIN,
@@ -72,6 +127,28 @@ typedef enum EnRu1Type {
     /* 10 */ ENRU1_TYPE_DEBUG = 10,
 #endif
 } EnRu1Type;
+
+typedef enum EnRu1Eyes {
+    /* 0 */ ENRU1_EYES_OPEN,
+    /* 1 */ ENRU1_EYES_HALF_BLINK,
+    /* 2 */ ENRU1_EYES_CLOSED,
+    /* 3 */ ENRU1_EYES_UP,
+    /* 4 */ ENRU1_EYES_GAZING,
+    /* 5 */ ENRU1_EYES_BLUSH
+} EnRu1Eyes;
+
+typedef enum EnRu1Mouth {
+    /* 0 */ ENRU1_MOUTH_SMILING,
+    /* 1 */ ENRU1_MOUTH_FROWNING,
+    /* 2 */ ENRU1_MOUTH_OPEN
+} EnRu1Mouth;
+
+typedef enum EnRu1WaterState {
+    /* 0 */ ENRU1_WATER_OUTSIDE,
+    /* 1 */ ENRU1_WATER_IMMERSED,
+    /* 2 */ ENRU1_WATER_BOBBING,
+    /* 3 */ ENRU1_WATER_SINKING
+} EnRu1WaterState;
 
 typedef enum RutoLimb {
     /*  0 */ RUTO_CHILD_NONE,
