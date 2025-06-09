@@ -628,8 +628,8 @@
             <Vtx/>
         </Array>
         <DList Name="gDebugSpriteDL" Offset="0x4298"/>
-        <Animation Name="gArrow1Anim" Offset="0x4310"/>
-        <Animation Name="gArrow2Anim" Offset="0x436C"/>
+        <Animation Name="gArrow1_Anim" Offset="0x4310"/>
+        <Animation Name="gArrow2_Anim" Offset="0x436C"/>
         <Texture Name="gArrowShaftTex" Format="rgba16" Width="16" Height="128" Offset="0x4380"/>
         <Texture Name="gArrowFletchingTex" Format="rgba16" Width="32" Height="16" Offset="0x5380"/>
         <Array Name="gArrowNearVtx" Count="50" Offset="0x5780">
