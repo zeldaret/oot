@@ -32,15 +32,15 @@
         <DList Name="object_ossan_003B30_DL" Offset="0x3B30"/>
         <DList Name="object_ossan_003D18_DL" Offset="0x3D18"/>
         <DList Name="object_ossan_004108_DL" Offset="0x4108"/>
-        <Texture Name="gOssanEyesTLUT" OutName="ossan_eyes_tlut" Format="rgba16" Width="63" Height="4" Offset="0x4530"/>
-        <Texture Name="gOssanTLUT" OutName="ossan_tlut" Format="rgba16" Width="168" Height="1" Offset="0x4728"/>
-        <Texture Name="gOssanEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x4878" TlutOffset="0x4530"/>
-        <Texture Name="gOssanBeardTex" OutName="beard" Format="ci8" Width="32" Height="32" Offset="0x4C78" TlutOffset="0x4728"/>
+        <Texture Name="gOssanEyesTLUT" Format="rgba16" Width="63" Height="4" Offset="0x4530"/>
+        <Texture Name="gOssanTLUT" Format="rgba16" Width="168" Height="1" Offset="0x4728"/>
+        <Texture Name="gOssanEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x4878" TlutOffset="0x4530"/>
+        <Texture Name="gOssanBeardTex" Format="ci8" Width="32" Height="32" Offset="0x4C78" TlutOffset="0x4728"/>
         <Texture Name="object_ossan_005078_Tex" Format="ci8" Width="16" Height="16" Offset="0x5078" TlutOffset="0x4728"/>
         <Texture Name="object_ossan_005178_Tex" Format="ci8" Width="16" Height="16" Offset="0x5178" TlutOffset="0x4728"/>
         <Texture Name="object_ossan_005278_Tex" Format="ci8" Width="8" Height="8" Offset="0x5278" TlutOffset="0x4728"/>
-        <Texture Name="gOssanEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x52B8" TlutOffset="0x4530"/>
-        <Texture Name="gOssanEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x56B8" TlutOffset="0x4530"/>
+        <Texture Name="gOssanEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x52B8" TlutOffset="0x4530"/>
+        <Texture Name="gOssanEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x56B8" TlutOffset="0x4530"/>
         <Texture Name="object_ossan_005AB8_Tex" Format="ci8" Width="8" Height="8" Offset="0x5AB8" TlutOffset="0x4728"/>
         <Array Name="object_ossan_Vtx_005AF8" Count="169" Offset="0x5AF8">
             <Vtx/>

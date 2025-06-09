@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_fd" Segment="6">
         <!-- Boss title card -->
-        <Texture Name="gVolvagiaTitleCardTex" OutName="volvagia_title_card" Format="ia8" Width="128" Height="80" Offset="0xD700"/>
+        <Texture Name="gVolvagiaTitleCardTex" Format="ia8" Width="128" Height="80" Offset="0xD700"/>
 
         <!-- Skeletons -->
         <Skeleton Name="gVolvagiaLeftArmSkel" Type="Normal" LimbType="Standard" Offset="0x100E0"/>
@@ -20,9 +20,9 @@
 
         <!-- Eye textures -->
         <Texture Name="gVolvagiaEyeTLUT" Format="rgba16" Width="16" Height="16" Offset="0x32A8"/>
-        <Texture Name="gVolvagiaEyeOpenTex" OutName="volvagia_eye_open" Format="ci8" Width="32" Height="32" Offset="0x38A8" TlutOffset="0x32A8"/>
-        <Texture Name="gVolvagiaEyeHalfTex" OutName="volvagia_eye_half" Format="ci8" Width="32" Height="32" Offset="0x34A8" TlutOffset="0x32A8"/>
-        <Texture Name="gVolvagiaEyeClosedTex" OutName="volvagia_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x3CA8" TlutOffset="0x32A8"/>
+        <Texture Name="gVolvagiaEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x38A8" TlutOffset="0x32A8"/>
+        <Texture Name="gVolvagiaEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x34A8" TlutOffset="0x32A8"/>
+        <Texture Name="gVolvagiaEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x3CA8" TlutOffset="0x32A8"/>
 
         <!-- Death display lists -->
         <DList Name="gVolvagiaRibsDL" Offset="0xB2F8"/>
@@ -62,7 +62,7 @@
         <!-- Unused body skeleton assets -->
         <Skeleton Name="gVolvagiaBodySkel" Type="Flex" LimbType="Standard" Offset="0x10020"/>
         <Animation Name="gVolvagiaBodyStaticAnim" Offset="0x61D8"/>
-        <Texture Name="gVolvagiaBodyTex" OutName="volvagia_body" Format="rgba16" Width="32" Height="64" Offset="0x8128"/>
+        <Texture Name="gVolvagiaBodyTex" Format="rgba16" Width="32" Height="64" Offset="0x8128"/>
 
         <!-- Unused, purpose unknown -->
         <DList Name="gVolvagiaDL_009668" Offset="0x9668"/>
@@ -73,5 +73,86 @@
 
         <!-- Boulder assets -->
         <DList Name="gVolvagiaRockDL" Offset="0x9F20"/>
+
+        <Texture Name="object_fd_000438_TLUT" Format="rgba16" Width="16" Height="1" Offset="0x438"/>
+        <Texture Name="object_fd_000458_Tex" Format="ci4" Width="32" Height="32" Offset="0x458" TlutOffset="0x438"/>
+        <Texture Name="object_fd_000658_Tex" Format="ci4" Width="32" Height="64" Offset="0x658" TlutOffset="0x438"/>
+        <Texture Name="object_fd_000A58_TLUT" Format="rgba16" Width="12" Height="1" Offset="0xA58"/>
+        <Blob Name="object_fd_000A70_Blob" Size="0x8" Offset="0xA70"/>
+        <Texture Name="object_fd_000A78_Tex" Format="ci4" Width="32" Height="32" Offset="0xA78" TlutOffset="0xA58"/>
+        <DList Name="object_fd_001DB0_DL" Offset="0x1DB0"/>
+        <DList Name="object_fd_0020A8_DL" Offset="0x20A8"/>
+        <DList Name="object_fd_002180_DL" Offset="0x2180"/>
+        <DList Name="object_fd_002358_DL" Offset="0x2358"/>
+        <DList Name="object_fd_002420_DL" Offset="0x2420"/>
+        <DList Name="object_fd_0024E8_DL" Offset="0x24E8"/>
+        <DList Name="object_fd_002678_DL" Offset="0x2678"/>
+        <DList Name="object_fd_002770_DL" Offset="0x2770"/>
+        <DList Name="object_fd_002850_DL" Offset="0x2850"/>
+        <DList Name="object_fd_002990_DL" Offset="0x2990"/>
+        <DList Name="object_fd_002AD0_DL" Offset="0x2AD0"/>
+        <DList Name="object_fd_002C10_DL" Offset="0x2C10"/>
+        <DList Name="object_fd_002D10_DL" Offset="0x2D10"/>
+        <DList Name="object_fd_002E08_DL" Offset="0x2E08"/>
+        <DList Name="object_fd_002EE8_DL" Offset="0x2EE8"/>
+        <DList Name="object_fd_003028_DL" Offset="0x3028"/>
+        <DList Name="object_fd_003168_DL" Offset="0x3168"/>
+        <Texture Name="object_fd_0040A8_Tex" Format="rgba16" Width="32" Height="32" Offset="0x40A8"/>
+        <Texture Name="object_fd_0048A8_Tex" Format="rgba16" Width="32" Height="32" Offset="0x48A8"/>
+        <Texture Name="object_fd_0050A8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x50A8"/>
+        <Texture Name="object_fd_0052A8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x52A8"/>
+        <Texture Name="object_fd_0054A8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x54A8"/>
+        <Texture Name="object_fd_0056A8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x56A8"/>
+        <Texture Name="object_fd_005B60_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5B60"/>
+        <Texture Name="object_fd_005D60_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5D60"/>
+        <Texture Name="object_fd_005F60_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5F60"/>
+        <Texture Name="object_fd_009208_Tex" Format="i8" Width="16" Height="16" Offset="0x9208"/>
+        <Texture Name="object_fd_009780_Tex" Format="rgba16" Width="16" Height="16" Offset="0x9780"/>
+        <Texture Name="object_fd_009980_Tex" Format="rgba16" Width="16" Height="16" Offset="0x9980"/>
+        <Texture Name="object_fd_00A050_Tex" Format="rgba16" Width="32" Height="32" Offset="0xA050"/>
+        <Texture Name="object_fd_00A918_Tex" Format="i8" Width="16" Height="16" Offset="0xA918"/>
+        <Texture Name="object_fd_00AA18_Tex" Format="rgba16" Width="32" Height="32" Offset="0xAA18"/>
+        <Texture Name="object_fd_00B458_Tex" Format="rgba16" Width="32" Height="32" Offset="0xB458"/>
+        <Texture Name="object_fd_00BC58_Tex" Format="rgba16" Width="16" Height="16" Offset="0xBC58"/>
+        <Texture Name="object_fd_00BE58_Tex" Format="rgba16" Width="16" Height="16" Offset="0xBE58"/>
+        <Texture Name="object_fd_00C058_Tex" Format="rgba16" Width="16" Height="16" Offset="0xC058"/>
+        <Texture Name="object_fd_00D170_Tex" Format="rgba16" Width="16" Height="16" Offset="0xD170"/>
+        <Texture Name="object_fd_00D438_Tex" Format="rgba16" Width="16" Height="16" Offset="0xD438"/>
+        <Limb Name="object_fd_00FF00_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF00" Offset="0xFF00"/>
+        <Limb Name="object_fd_00FF0C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF0C" Offset="0xFF0C"/>
+        <Limb Name="object_fd_00FF18_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF18" Offset="0xFF18"/>
+        <Limb Name="object_fd_00FF24_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF24" Offset="0xFF24"/>
+        <Limb Name="object_fd_00FF30_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF30" Offset="0xFF30"/>
+        <Limb Name="object_fd_00FF3C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF3C" Offset="0xFF3C"/>
+        <Limb Name="object_fd_00FF48_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF48" Offset="0xFF48"/>
+        <Limb Name="object_fd_00FF54_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF54" Offset="0xFF54"/>
+        <Limb Name="object_fd_00FF60_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF60" Offset="0xFF60"/>
+        <Limb Name="object_fd_00FF6C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF6C" Offset="0xFF6C"/>
+        <Limb Name="object_fd_00FF78_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF78" Offset="0xFF78"/>
+        <Limb Name="object_fd_00FF84_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF84" Offset="0xFF84"/>
+        <Limb Name="object_fd_00FF90_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF90" Offset="0xFF90"/>
+        <Limb Name="object_fd_00FF9C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FF9C" Offset="0xFF9C"/>
+        <Limb Name="object_fd_00FFA8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FFA8" Offset="0xFFA8"/>
+        <Limb Name="object_fd_00FFB4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FFB4" Offset="0xFFB4"/>
+        <Limb Name="object_fd_00FFC0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FFC0" Offset="0xFFC0"/>
+        <Limb Name="object_fd_00FFCC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_00FFCC" Offset="0xFFCC"/>
+        <Limb Name="object_fd_010080_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_010080" Offset="0x10080"/>
+        <Limb Name="object_fd_01008C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_01008C" Offset="0x1008C"/>
+        <Limb Name="object_fd_010098_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_010098" Offset="0x10098"/>
+        <Limb Name="object_fd_0100A4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_0100A4" Offset="0x100A4"/>
+        <Limb Name="object_fd_0100B0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_0100B0" Offset="0x100B0"/>
+        <Limb Name="object_fd_0100BC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_0100BC" Offset="0x100BC"/>
+        <Limb Name="object_fd_010140_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_010140" Offset="0x10140"/>
+        <Limb Name="object_fd_01014C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_01014C" Offset="0x1014C"/>
+        <Limb Name="object_fd_010158_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_010158" Offset="0x10158"/>
+        <Limb Name="object_fd_010164_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_010164" Offset="0x10164"/>
+        <Limb Name="object_fd_010170_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_010170" Offset="0x10170"/>
+        <Limb Name="object_fd_01017C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_01017C" Offset="0x1017C"/>
+        <Limb Name="object_fd_010200_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_010200" Offset="0x10200"/>
+        <Limb Name="object_fd_01020C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_01020C" Offset="0x1020C"/>
+        <Limb Name="object_fd_010218_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_010218" Offset="0x10218"/>
+        <Limb Name="object_fd_010224_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_010224" Offset="0x10224"/>
+        <Limb Name="object_fd_010230_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_010230" Offset="0x10230"/>
+        <Limb Name="object_fd_01023C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_FD_01023C" Offset="0x1023C"/>
     </File>
 </Root>

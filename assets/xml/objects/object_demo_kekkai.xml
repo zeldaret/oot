@@ -83,5 +83,23 @@
             <Vtx/>
         </Array>
         <DList Name="gGanonsCastleDoorDL" Offset="0x20D0"/>
+
+
+        <Texture Name="object_demo_kekkai_000000_Tex" Format="i8" Width="32" Height="64" Offset="0x0"/>
+        <Texture Name="object_demo_kekkai_000800_Tex" Format="i8" Width="32" Height="64" Offset="0x800"/>
+        <Texture Name="object_demo_kekkai_001000_Tex" Format="rgba16" Width="32" Height="64" Offset="0x1000"/>
+        <Texture Name="object_demo_kekkai_002450_Tex" Format="rgba16" Width="32" Height="64" Offset="0x2450"/>
+        <Texture Name="object_demo_kekkai_0036A0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x36A0"/>
+        <Texture Name="object_demo_kekkai_003EA0_Tex" Format="i8" Width="32" Height="32" Offset="0x3EA0"/>
+        <Texture Name="object_demo_kekkai_004AC0_Tex" Format="i8" Width="32" Height="32" Offset="0x4AC0"/>
+        <Texture Name="object_demo_kekkai_006140_Tex" Format="ia16" Width="8" Height="128" Offset="0x6140"/>
+        <Texture Name="object_demo_kekkai_006940_Tex" Format="ia8" Width="64" Height="64" Offset="0x6940"/>
+        <Texture Name="object_demo_kekkai_007DB0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x7DB0"/>
+        <Texture Name="object_demo_kekkai_0089D0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x89D0"/>
+        <Texture Name="object_demo_kekkai_0092D0_Tex" Format="rgba16" Width="32" Height="64" Offset="0x92D0"/>
+        <Texture Name="object_demo_kekkai_00A440_Tex" Format="rgba16" Width="64" Height="32" Offset="0xA440"/>
+        <Texture Name="object_demo_kekkai_00B540_Tex" Format="ia16" Width="32" Height="32" Offset="0xB540"/>
+        <Texture Name="object_demo_kekkai_00C0B0_Tex" Format="rgba16" Width="32" Height="32" Offset="0xC0B0"/>
+        <Texture Name="object_demo_kekkai_00C8B0_Tex" Format="rgba16" Width="32" Height="64" Offset="0xC8B0"/>
     </File>
 </Root>

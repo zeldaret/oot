@@ -1,11 +1,11 @@
 <Root>
     <File Name="ovl_End_Title">
-        <Texture Name="sTheLegendOfZeldaTex" OutName="the_legend_of_zelda" Format="ia8" Width="120" Height="24" Offset="0x0"/>
-        <Texture Name="sOcarinaOfTimeTex" OutName="ocarina_of_time" Format="ia8" Width="112" Height="16" Offset="0xB40"/>
-        <Texture Name="sTheEndTex" OutName="the_end" Format="ia8" Width="80" Height="24" Offset="0x1240"/>
-        <Texture Name="sNintendoLeftTex" OutName="nintendo_left" Format="ia8" Width="64" Height="48" Offset="0x19C0"/>
-        <Texture Name="sNintendoRightTex" OutName="nintendo_right" Format="ia8" Width="64" Height="48" Offset="0x25C0"/>
-        <Texture Name="sPresentedByTex" OutName="presented_by" Format="ia8" Width="96" Height="16" Offset="0x31C0"/>
+        <Texture Name="sTheLegendOfZeldaTex" Format="ia8" Width="120" Height="24" Offset="0x0"/>
+        <Texture Name="sOcarinaOfTimeTex" Format="ia8" Width="112" Height="16" Offset="0xB40"/>
+        <Texture Name="sTheEndTex" Format="ia8" Width="80" Height="24" Offset="0x1240"/>
+        <Texture Name="sNintendoLeftTex" Format="ia8" Width="64" Height="48" Offset="0x19C0"/>
+        <Texture Name="sNintendoRightTex" Format="ia8" Width="64" Height="48" Offset="0x25C0"/>
+        <Texture Name="sPresentedByTex" Format="ia8" Width="96" Height="16" Offset="0x31C0"/>
 
         <Array Name="sTriforceVtx" Count="6" Offset="0x37C0">
             <Vtx/>
