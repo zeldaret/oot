@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_efc_doughnut" Segment="6">
-        <Texture Name="gDeathMountainCloudFireTex" OutName="cloud_fire" Format="ia8" Width="16" Height="32" Offset="0x0"/>
-        <Texture Name="gDeathMountainCloudNormalTex" OutName="cloud_normal" Format="ia16" Width="32" Height="32" Offset="0x780"/>
+        <Texture Name="gDeathMountainCloudFireTex" Format="ia8" Width="16" Height="32" Offset="0x0"/>
+        <Texture Name="gDeathMountainCloudNormalTex" Format="ia16" Width="32" Height="32" Offset="0x780"/>
         <Array Name="gDeathMountainCloudCircleFieryVtx" Count="70" Offset="0x200">
             <Vtx/>
         </Array>

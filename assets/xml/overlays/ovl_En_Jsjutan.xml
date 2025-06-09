@@ -1,7 +1,7 @@
 <Root>
     <File Name="ovl_En_Jsjutan">
         <!-- D_80A8AA98. Carpet texture. -->
-        <Texture Name="sCarpetTex" OutName="carpet" Format="rgba16" Width="32" Height="64" Offset="0x0"/>
+        <Texture Name="sCarpetTex" Format="rgba16" Width="32" Height="64" Offset="0x0"/>
 
         <!-- D_80A8BA98. Carpet's shadow vertices. Same vertex type as sShadowEvenVtx. Used when gameplayFrames is odd. -->
         <Array Name="gShadowOddVtx" Count="144" Offset="0x1000">

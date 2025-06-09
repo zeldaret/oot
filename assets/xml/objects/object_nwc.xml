@@ -1,9 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_nwc" Segment="6">
-        <Texture Name="gCuccoChickBodyTex" OutName="body" Format="rgba16" Width="32" Height="32" Offset="0x0"/>
-        <Texture Name="gCuccoChickEyeTex" OutName="eye" Format="rgba16" Width="16" Height="16" Offset="0x8E0"/>
-        <Texture Name="gCuccoChickBeakTex" OutName="beak" Format="rgba16" Width="4" Height="4" Offset="0xAE0"/>
+        <Texture Name="gCuccoChickBodyTex" Format="rgba16" Width="32" Height="32" Offset="0x0"/>
+        <Texture Name="gCuccoChickEyeTex" Format="rgba16" Width="16" Height="16" Offset="0x8E0"/>
+        <Texture Name="gCuccoChickBeakTex" Format="rgba16" Width="4" Height="4" Offset="0xAE0"/>
         <DList Name="gCuccoChickSetupBodyDL" Offset="0x840"/>
         <Array Name="gCuccoChickBodyVtx" Count="4" Offset="0x800">
             <Vtx/>
