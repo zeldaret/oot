@@ -9,8 +9,8 @@
         <Cutscene Name="gGoronCityIntroCs" Offset="0x8400"/>
         <Cutscene Name="gGoronCityCreditsCs" Offset="0x7840"/>
 
-        <Texture Name="gGoronCityNightEntranceTex" OutName="night_entrance" Format="ia8" Width="8" Height="8" Offset="0x8FC8"/>
-        <Texture Name="gGoronCityDayEntranceTex" OutName="day_entrance" Format="ia8" Width="8" Height="8" Offset="0x9808"/>
+        <Texture Name="gGoronCityNightEntranceTex" Format="ia8" Width="8" Height="8" Offset="0x8FC8"/>
+        <Texture Name="gGoronCityDayEntranceTex" Format="ia8" Width="8" Height="8" Offset="0x9808"/>
         <Scene Name="spot18_scene" Offset="0x0"/>
     </File>
     <File Name="spot18_room_0" Segment="3">

@@ -1,13 +1,25 @@
 <Root>
     <File Name="object_pu_box" Segment="6">
         <DList Name="gBlockSmallDL" Offset="0x0"/>
+        <Array Name="gBlockSmallVtx" Count="24" Offset="0xC8">
+            <Vtx/>
+        </Array>
         <Collision Name="gBlockSmallCol" Offset="0x350"/>
         <DList Name="gBlockMediumDL" Offset="0x380"/>
+        <Array Name="gBlockMediumVtx" Count="24" Offset="0x448">
+            <Vtx/>
+        </Array>
         <Collision Name="gBlockMediumCol" Offset="0x6D0"/>
         <DList Name="gBlockTallDL" Offset="0x700"/>
+        <Array Name="gBlockTallVtx" Count="24" Offset="0x7C8">
+            <Vtx/>
+        </Array>
         <Collision Name="gBlockTallCol" Offset="0xA50"/>
         <DList Name="gBlockTallestDL" Offset="0xA80"/>
+        <Array Name="gBlockTallestVtx" Count="24" Offset="0xB48">
+            <Vtx/>
+        </Array>
         <Collision Name="gBlockTallestCol" Offset="0x15D0"/>
-        <Texture Name="gBlockTex" OutName="block" Format="rgba16" Width="32" Height="32" Offset="0xCC8"/>
+        <Texture Name="gBlockTex" Format="rgba16" Width="32" Height="32" Offset="0xCC8"/>
     </File>
 </Root>

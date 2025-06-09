@@ -1,8 +1,13 @@
 <Root>
     <File Name="ovl_Demo_Shd">
-
-    <DList Name="D_809932D0" Offset="0x1C50"/>
-    <DList Name="D_80993390" Offset="0x1D10"/>
-    <DList Name="D_809934B8" Offset="0x1E38"/>
+        <Array Name="ovl_Demo_Shd_Vtx_001000" Count="93" Offset="0x1000">
+            <Vtx/>
+        </Array>
+        <Array Name="ovl_Demo_Shd_Vtx_0015D0" Count="104" Offset="0x15D0">
+            <Vtx/>
+        </Array>
+        <DList Name="D_809932D0" Offset="0x1C50"/>
+        <DList Name="D_80993390" Offset="0x1D10"/>
+        <DList Name="D_809934B8" Offset="0x1E38"/>
     </File>
 </Root>

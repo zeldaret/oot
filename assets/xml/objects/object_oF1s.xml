@@ -22,21 +22,21 @@
         <Skeleton Name="object_oF1s_Skel_000110" Type="Flex" LimbType="Standard" Offset="0x110"/>
 
         <!-- 32-bit aligned textures. -->
-        <Texture Name="object_oF1s_TLUT_00011C" OutName="tlut_0000011C" Format="rgba16" Width="216" Height="1" Offset="0x11C"/>
-        <Texture Name="object_oF1s_TLUT_0002CC" OutName="tlut_000002CC" Format="rgba16" Width="31" Height="8" Offset="0x2CC"/>
-        <Texture Name="object_oF1s_Tex_0004BC" OutName="tex_000004BC" Format="ci8" Width="32" Height="32" Offset="0x4BC" TlutOffset="0x11C"/>
-        <Texture Name="object_oF1s_Tex_0008BC" OutName="tex_000008BC" Format="rgba16" Width="64" Height="32" Offset="0x8BC"/>
-        <Texture Name="object_oF1s_Tex_0018BC" OutName="tex_000018BC" Format="ci8" Width="8" Height="8" Offset="0x18BC" TlutOffset="0x2CC"/>
-        <Texture Name="object_oF1s_Tex_0018FC" OutName="tex_000018FC" Format="ci8" Width="16" Height="16" Offset="0x18FC" TlutOffset="0x2CC"/>
-        <Texture Name="object_oF1s_Tex_0019FC" OutName="tex_000019FC" Format="ci8" Width="16" Height="16" Offset="0x19FC" TlutOffset="0x2CC"/>
-        <Texture Name="object_oF1s_Tex_001AFC" OutName="tex_00001AFC" Format="ci8" Width="8" Height="16" Offset="0x1AFC" TlutOffset="0x2CC"/>
-        <Texture Name="object_oF1s_Tex_001B7C" OutName="tex_00001B7C" Format="ci8" Width="32" Height="32" Offset="0x1B7C" TlutOffset="0x2CC"/>
-        <Texture Name="object_oF1s_Tex_001F7C" OutName="tex_00001F7C" Format="ci8" Width="32" Height="16" Offset="0x1F7C" TlutOffset="0x2CC"/>
+        <Texture Name="object_oF1s_TLUT_00011C" Format="rgba16" Width="216" Height="1" Offset="0x11C"/>
+        <Texture Name="object_oF1s_TLUT_0002CC" Format="rgba16" Width="31" Height="8" Offset="0x2CC"/>
+        <Texture Name="object_oF1s_Tex_0004BC" Format="ci8" Width="32" Height="32" Offset="0x4BC" TlutOffset="0x11C"/>
+        <Texture Name="object_oF1s_Tex_0008BC" Format="rgba16" Width="64" Height="32" Offset="0x8BC"/>
+        <Texture Name="object_oF1s_Tex_0018BC" Format="ci8" Width="8" Height="8" Offset="0x18BC" TlutOffset="0x2CC"/>
+        <Texture Name="object_oF1s_Tex_0018FC" Format="ci8" Width="16" Height="16" Offset="0x18FC" TlutOffset="0x2CC"/>
+        <Texture Name="object_oF1s_Tex_0019FC" Format="ci8" Width="16" Height="16" Offset="0x19FC" TlutOffset="0x2CC"/>
+        <Texture Name="object_oF1s_Tex_001AFC" Format="ci8" Width="8" Height="16" Offset="0x1AFC" TlutOffset="0x2CC"/>
+        <Texture Name="object_oF1s_Tex_001B7C" Format="ci8" Width="32" Height="32" Offset="0x1B7C" TlutOffset="0x2CC"/>
+        <Texture Name="object_oF1s_Tex_001F7C" Format="ci8" Width="32" Height="16" Offset="0x1F7C" TlutOffset="0x2CC"/>
         <Blob Name="object_oF1s_Blob_00217C" Size="0x400" Offset="0x217C"/>
-        <Texture Name="object_oF1s_Tex_00257C" OutName="tex_0000257C" Format="ci8" Width="8" Height="8" Offset="0x257C" TlutOffset="0x2CC"/>
-        <Texture Name="object_oF1s_Tex_0025BC" OutName="tex_000025BC" Format="ci8" Width="32" Height="32" Offset="0x25BC" TlutOffset="0x2CC"/>
+        <Texture Name="object_oF1s_Tex_00257C" Format="ci8" Width="8" Height="8" Offset="0x257C" TlutOffset="0x2CC"/>
+        <Texture Name="object_oF1s_Tex_0025BC" Format="ci8" Width="32" Height="32" Offset="0x25BC" TlutOffset="0x2CC"/>
         <Blob Name="object_oF1s_Blob_0029BC" Size="0x400" Offset="0x29BC"/>
-        <Texture Name="object_oF1s_Tex_002DBC" OutName="tex_00002DBC" Format="ci8" Width="32" Height="64" Offset="0x2DBC" TlutOffset="0x2CC"/>
+        <Texture Name="object_oF1s_Tex_002DBC" Format="ci8" Width="32" Height="64" Offset="0x2DBC" TlutOffset="0x2CC"/>
 
         <Array Name="object_oF1s_Vtx_0035C0" Count="114" Offset="0x35C0">
             <Vtx/>

@@ -65,10 +65,10 @@
         <DList Name="gPeehatTopDL" Offset="0x1230"/>
 
         <!-- Peehat DisplayList Textures -->
-        <Texture Name="gPeehatLowerBodyTex" OutName="lower_body" Format="rgba16" Width="8" Height="8" Offset="0x1410"/>
-        <Texture Name="gPeehatLeafTopTex" OutName="leaf_top" Format="rgba16" Width="16" Height="32" Offset="0x1490"/>
-        <Texture Name="gPeehatWingTex" OutName="wing" Format="rgba16" Width="8" Height="32" Offset="0x1890"/>
-        <Texture Name="gPeehatUpperBodyTex" OutName="upper_body" Format="rgba16" Width="8" Height="8" Offset="0x1A90"/>
+        <Texture Name="gPeehatLowerBodyTex" Format="rgba16" Width="8" Height="8" Offset="0x1410"/>
+        <Texture Name="gPeehatLeafTopTex" Format="rgba16" Width="16" Height="32" Offset="0x1490"/>
+        <Texture Name="gPeehatWingTex" Format="rgba16" Width="8" Height="32" Offset="0x1890"/>
+        <Texture Name="gPeehatUpperBodyTex" Format="rgba16" Width="8" Height="8" Offset="0x1A90"/>
 
         <!-- Peehat Animations -->
         <Animation Name="gPeehatLandingAnim" Offset="0x350"/>
