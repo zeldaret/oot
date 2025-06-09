@@ -16,8 +16,8 @@ typedef struct CameraMode {
 #define CAM_SF_UNK0 (1 << 31)
 #define CAM_SF_UNK1 (1 << 30)
 #define CAM_SF(unk0, unk1, priority, validModes) \
-    (((unk0) ? CAM_SF_UNK0 : 0) | ((unk1) ? CAM_SF_UNK1 : 0) | (((priority) & 0xF) << 24) | (validModes))
-#define CAM_SF_PRIORITY(settingFlags) (((settingFlags) & 0x0F000000) >> 24)
+    (((unk0) ? CAM_SF_UNK0 : 0) | ((unk1) ? CAM_SF_UNK1 : 0) | (((priority)&0xF) << 24) | (validModes))
+#define CAM_SF_PRIORITY(settingFlags) (((settingFlags)&0x0F000000) >> 24)
 
 typedef struct CameraSetting {
     union {
