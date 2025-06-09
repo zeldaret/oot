@@ -397,7 +397,7 @@ int func_80AEB174(PlayState* play) {
     return (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play);
 }
 
-s32 func_80AEB1B4(PlayState* play) {
+s32 EnRu1_IsTextboxClosing(PlayState* play) {
     return Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING;
 }
 
@@ -2114,7 +2114,7 @@ void EnRu1_RespondToAbduction(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_RemoveInAbduction(EnRu1* this, PlayState* play) {
-    if (func_80AEB1B4(play) != 0) {
+    if (EnRu1_IsTextboxClosing(play)) {
         EnRu1_SetPlatformCamSetting(this, 4);
         Actor_Kill(&this->actor);
     }
