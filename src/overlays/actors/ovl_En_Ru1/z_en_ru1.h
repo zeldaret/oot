@@ -61,13 +61,13 @@ typedef struct EnRu1 {
 } EnRu1; // size = 0x039C
 
 typedef enum EnRu1Action {
-    /*  0 */ ENRU1_ACTION_00,
-    /*  1 */ ENRU1_ACTION_01,
-    /*  2 */ ENRU1_ACTION_02,
-    /*  3 */ ENRU1_ACTION_03,
-    /*  4 */ ENRU1_ACTION_04,
-    /*  5 */ ENRU1_ACTION_05,
-    /*  6 */ ENRU1_ACTION_06,
+    /*  0 */ ENRU1_ACTION_GAZING_AT_LINK,
+    /*  1 */ ENRU1_ACTION_DIVING_INTO_FOUNTAIN,
+    /*  2 */ ENRU1_ACTION_RESURFACING,
+    /*  3 */ ENRU1_ACTION_TREADING,
+    /*  4 */ ENRU1_ACTION_STARTING_SWIM_BACK,
+    /*  5 */ ENRU1_ACTION_SWIMMING_BACK,
+    /*  6 */ ENRU1_ACTION_FINISHING_SWIM_BACK,
     /*  7 */ ENRU1_ACTION_07,
     /*  8 */ ENRU1_ACTION_08,
     /*  9 */ ENRU1_ACTION_09,

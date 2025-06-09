@@ -37,13 +37,13 @@ void EnRu1_Destroy(Actor* thisx, PlayState* play);
 void EnRu1_Update(Actor* thisx, PlayState* play);
 void EnRu1_Draw(Actor* thisx, PlayState* play);
 
-void EnRu1_GazingAtLink(EnRu1* this, PlayState* play);
-void EnRu1_DivingIntoFountain(EnRu1* this, PlayState* play);
-void EnRu1_Resurfacing(EnRu1* this, PlayState* play);
-void EnRu1_Treading(EnRu1* this, PlayState* play);
-void EnRu1_StartingSwimBack(EnRu1* this, PlayState* play);
-void EnRu1_SwimmingBack(EnRu1* this, PlayState* play);
-void EnRu1_FinishingSwimBack(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_GazingAtLink(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_DivingIntoFountain(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_Resurfacing(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_Treading(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_StartingSwimBack(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_SwimmingBack(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play);
 void func_80AECA94(EnRu1* this, PlayState* play);
 void func_80AECAB4(EnRu1* this, PlayState* play);
 void func_80AECAD4(EnRu1* this, PlayState* play);
@@ -132,52 +132,52 @@ static s32 sUnused = 0;
 static u32 D_80AF1938 = 0;
 
 static EnRu1ActionFunc sActionFuncs[] = {
-    EnRu1_GazingAtLink,
-    EnRu1_DivingIntoFountain,
-    EnRu1_Resurfacing,
-    EnRu1_Treading,
-    EnRu1_StartingSwimBack,
-    EnRu1_SwimmingBack,
-    EnRu1_FinishingSwimBack,
-    func_80AECA94,           // ENRU1_ACTION_07
-    func_80AECAB4,           // ENRU1_ACTION_08
-    func_80AECAD4,           // ENRU1_ACTION_09
-    func_80AECB18,           // ENRU1_ACTION_10
-    func_80AECB60,           // ENRU1_ACTION_11
-    func_80AECBB8,           // ENRU1_ACTION_12
-    func_80AECC1C,           // ENRU1_ACTION_13
-    func_80AECC84,           // ENRU1_ACTION_14
-    func_80AED304,           // ENRU1_ACTION_15
-    func_80AED324,           // ENRU1_ACTION_16
-    func_80AED344,           // ENRU1_ACTION_17
-    func_80AED374,           // ENRU1_ACTION_18
-    func_80AED3A4,           // ENRU1_ACTION_19
-    func_80AED3E0,           // ENRU1_ACTION_20
-    func_80AED414,           // ENRU1_ACTION_21
-    func_80AEF29C,           // ENRU1_ACTION_22
-    func_80AEF2AC,           // ENRU1_ACTION_23
-    func_80AEF2D0,           // ENRU1_ACTION_24
-    func_80AEF354,           // ENRU1_ACTION_25
-    func_80AEF3A8,           // ENRU1_ACTION_26
-    func_80AEEBD4,           // ENRU1_ACTION_27
-    func_80AEEC5C,           // ENRU1_ACTION_28
-    func_80AEECF0,           // ENRU1_ACTION_29
-    func_80AEED58,           // ENRU1_ACTION_30
-    func_80AEEDCC,           // ENRU1_ACTION_31
-    func_80AEEE34,           // ENRU1_ACTION_32
-    func_80AEEE9C,           // ENRU1_ACTION_33
-    func_80AEEF08,           // ENRU1_ACTION_34
-    func_80AEEF5C,           // ENRU1_ACTION_35
-    func_80AEF9D8,           // ENRU1_ACTION_36
-    func_80AEFA2C,           // ENRU1_ACTION_37
-    func_80AEFAAC,           // ENRU1_ACTION_38
-    func_80AEFB04,           // ENRU1_ACTION_39
-    func_80AEFB68,           // ENRU1_ACTION_40
-    func_80AEFCE8,           // ENRU1_ACTION_41
-    func_80AEFBC8,           // ENRU1_ACTION_42
-    func_80AEFC24,           // ENRU1_ACTION_43
-    func_80AEFECC,           // ENRU1_ACTION_44
-    func_80AEFF40,           // ENRU1_ACTION_45
+    EnRu1_Fountain_GazingAtLink,
+    EnRu1_Fountain_DivingIntoFountain,
+    EnRu1_Fountain_Resurfacing,
+    EnRu1_Fountain_Treading,
+    EnRu1_Fountain_StartingSwimBack,
+    EnRu1_Fountain_SwimmingBack,
+    EnRu1_Fountain_FinishingSwimBack,
+    func_80AECA94, // ENRU1_ACTION_07
+    func_80AECAB4, // ENRU1_ACTION_08
+    func_80AECAD4, // ENRU1_ACTION_09
+    func_80AECB18, // ENRU1_ACTION_10
+    func_80AECB60, // ENRU1_ACTION_11
+    func_80AECBB8, // ENRU1_ACTION_12
+    func_80AECC1C, // ENRU1_ACTION_13
+    func_80AECC84, // ENRU1_ACTION_14
+    func_80AED304, // ENRU1_ACTION_15
+    func_80AED324, // ENRU1_ACTION_16
+    func_80AED344, // ENRU1_ACTION_17
+    func_80AED374, // ENRU1_ACTION_18
+    func_80AED3A4, // ENRU1_ACTION_19
+    func_80AED3E0, // ENRU1_ACTION_20
+    func_80AED414, // ENRU1_ACTION_21
+    func_80AEF29C, // ENRU1_ACTION_22
+    func_80AEF2AC, // ENRU1_ACTION_23
+    func_80AEF2D0, // ENRU1_ACTION_24
+    func_80AEF354, // ENRU1_ACTION_25
+    func_80AEF3A8, // ENRU1_ACTION_26
+    func_80AEEBD4, // ENRU1_ACTION_27
+    func_80AEEC5C, // ENRU1_ACTION_28
+    func_80AEECF0, // ENRU1_ACTION_29
+    func_80AEED58, // ENRU1_ACTION_30
+    func_80AEEDCC, // ENRU1_ACTION_31
+    func_80AEEE34, // ENRU1_ACTION_32
+    func_80AEEE9C, // ENRU1_ACTION_33
+    func_80AEEF08, // ENRU1_ACTION_34
+    func_80AEEF5C, // ENRU1_ACTION_35
+    func_80AEF9D8, // ENRU1_ACTION_36
+    func_80AEFA2C, // ENRU1_ACTION_37
+    func_80AEFAAC, // ENRU1_ACTION_38
+    func_80AEFB04, // ENRU1_ACTION_39
+    func_80AEFB68, // ENRU1_ACTION_40
+    func_80AEFCE8, // ENRU1_ACTION_41
+    func_80AEFBC8, // ENRU1_ACTION_42
+    func_80AEFC24, // ENRU1_ACTION_43
+    func_80AEFECC, // ENRU1_ACTION_44
+    func_80AEFF40, // ENRU1_ACTION_45
 };
 
 static EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
@@ -467,7 +467,7 @@ void func_80AEB3CC(EnRu1* this) {
 
 void EnRu1_InitOutsideJabuJabu(EnRu1* this, PlayState* play) {
     EnRu1_AnimationChange(this, &gRutoChildWaitHandsBehindBackAnim, ANIMMODE_LOOP, 0, false);
-    this->action = ENRU1_ACTION_00;
+    this->action = ENRU1_ACTION_GAZING_AT_LINK;
     this->drawConfig = ENRU1_DRAW_OPA;
     EnRu1_SetEyes(this, ENRU1_EYES_GAZING);
     EnRu1_SetMouth(this, ENRU1_MOUTH_SMILING);
@@ -682,7 +682,7 @@ void EnRu1_StartBackSwimming(EnRu1* this, s32 isSwimming) {
 
 void EnRu1_EnterFountainWater(EnRu1* this, PlayState* play) {
     if (EnRu1_CheckFountainCueNotMatchingId(play, 2)) {
-        this->action = ENRU1_ACTION_01;
+        this->action = ENRU1_ACTION_DIVING_INTO_FOUNTAIN;
         this->drawConfig = ENRU1_DRAW_NOTHING;
         EnRu1_InitPositionDivingIntoFountain(this, play);
         func_80AEAECC(this, play);
@@ -700,7 +700,7 @@ void EnRu1_Resurface(EnRu1* this, PlayState* play) {
         EnRu1_InitPositionResurfacing(this, play);
         EnRu1_MoveInWater(this, play);
         Animation_Change(&this->skelAnime, &gRutoChildResurfaceAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-        this->action = ENRU1_ACTION_02;
+        this->action = ENRU1_ACTION_RESURFACING;
         this->drawConfig = ENRU1_DRAW_OPA;
     }
 }
@@ -713,7 +713,7 @@ void EnRu1_ResurfaceProgress(EnRu1* this, PlayState* play, s32 isResurfaced) {
 
         EnRu1_StopMovingInWater(this);
         Animation_Change(&this->skelAnime, &gRutoChildTreadWaterAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
-        this->action = ENRU1_ACTION_03;
+        this->action = ENRU1_ACTION_TREADING;
     } else {
         EnRu1_StartSwimmingTowardLink(this, play);
     }
@@ -728,7 +728,7 @@ void EnRu1_StopTreading(EnRu1* this, PlayState* play) {
         EnRu1_MoveInWater(this, play);
         Animation_Change(&this->skelAnime, &gRutoChildTransitionToSwimOnBackAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE,
                          -8.0f);
-        this->action = ENRU1_ACTION_04;
+        this->action = ENRU1_ACTION_STARTING_SWIM_BACK;
     }
 }
 
@@ -737,7 +737,7 @@ void EnRu1_TransitionToBackSwimming(EnRu1* this, PlayState* play) {
         s32 pad;
 
         EnRu1_StopMovingInWater(this);
-        this->action = ENRU1_ACTION_05;
+        this->action = ENRU1_ACTION_SWIMMING_BACK;
         this->treadPos = this->actor.world.pos;
     } else {
         EnRu1_StartSwimmingAwayFromLink(this, play);
@@ -758,7 +758,7 @@ void EnRu1_EndSwimBack(EnRu1* this, PlayState* play) {
             frameCount = Animation_GetLastFrame(&gRutoChildTransitionFromSwimOnBackAnim);
             Animation_Change(&this->skelAnime, &gRutoChildTransitionFromSwimOnBackAnim, 1.0, 0, frameCount,
                              ANIMMODE_ONCE, -8.0f);
-            this->action = ENRU1_ACTION_06;
+            this->action = ENRU1_ACTION_FINISHING_SWIM_BACK;
         }
     }
 }
@@ -769,7 +769,7 @@ void EnRu1_EndGivingSapphire(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
     }
 }
 
-void EnRu1_GazingAtLink(EnRu1* this, PlayState* play) {
+void EnRu1_Fountain_GazingAtLink(EnRu1* this, PlayState* play) {
     EnRu1_InitPositionFromFountainCue(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_PlayGiggleSfx(this, play);
@@ -777,12 +777,12 @@ void EnRu1_GazingAtLink(EnRu1* this, PlayState* play) {
     EnRu1_EnterFountainWater(this, play);
 }
 
-void EnRu1_DivingIntoFountain(EnRu1* this, PlayState* play) {
+void EnRu1_Fountain_DivingIntoFountain(EnRu1* this, PlayState* play) {
     EnRu1_PlayDivingEntrySfx(this);
     EnRu1_Resurface(this, play);
 }
 
-void EnRu1_Resurfacing(EnRu1* this, PlayState* play) {
+void EnRu1_Fountain_Resurfacing(EnRu1* this, PlayState* play) {
     s32 doneAnim = EnRu1_UpdateSkelAnime(this);
 
     func_80AEAECC(this, play);
@@ -790,7 +790,7 @@ void EnRu1_Resurfacing(EnRu1* this, PlayState* play) {
     EnRu1_ResurfaceProgress(this, play, doneAnim);
 }
 
-void EnRu1_Treading(EnRu1* this, PlayState* play) {
+void EnRu1_Fountain_Treading(EnRu1* this, PlayState* play) {
     EnRu1_SwimTowardLink(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateSkelAnime(this);
@@ -798,7 +798,7 @@ void EnRu1_Treading(EnRu1* this, PlayState* play) {
     EnRu1_StopTreading(this, play);
 }
 
-void EnRu1_StartingSwimBack(EnRu1* this, PlayState* play) {
+void EnRu1_Fountain_StartingSwimBack(EnRu1* this, PlayState* play) {
     s32 doneAnim;
 
     doneAnim = EnRu1_UpdateSkelAnime(this);
@@ -810,7 +810,7 @@ void EnRu1_StartingSwimBack(EnRu1* this, PlayState* play) {
     EnRu1_TransitionToBackSwimming(this, play);
 }
 
-void EnRu1_SwimmingBack(EnRu1* this, PlayState* play) {
+void EnRu1_Fountain_SwimmingBack(EnRu1* this, PlayState* play) {
     s32 doneAnim;
 
     doneAnim = EnRu1_UpdateSkelAnime(this);
@@ -823,7 +823,7 @@ void EnRu1_SwimmingBack(EnRu1* this, PlayState* play) {
     EnRu1_EndSwimBack(this, play);
 }
 
-void EnRu1_FinishingSwimBack(EnRu1* this, PlayState* play) {
+void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play) {
     s32 doneAnim;
 
     doneAnim = EnRu1_UpdateSkelAnime(this);
