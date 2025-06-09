@@ -3508,7 +3508,7 @@ void Player_RequestCameraSetting(PlayState* play, s16 camSetting) {
     }
 }
 
-void Player_CameraChangeSettingTurnAround(PlayState* play, s32 camItemType) {
+void Player_SetTurnAroundCamera(PlayState* play, s32 camItemType) {
     Player_RequestCameraSetting(play, CAM_SET_TURN_AROUND);
     Camera_SetCameraData(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_CAMERA_DATA_2, NULL, NULL, camItemType, 0, 0);
 }
@@ -5973,7 +5973,7 @@ void func_8083AF44(PlayState* play, Player* this, s32 magicSpell) {
     if (magicSpell == 5) {
         this->subCamId = OnePointCutscene_Init(play, 1100, -101, NULL, CAM_ID_MAIN);
     } else {
-        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_10);
+        Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_10);
     }
 }
 
@@ -6041,7 +6041,7 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                         Player_SetupAction(play, this, Player_Action_8085063C, 1);
                         this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
                         Player_AnimPlayOnce(play, this, Player_GetIdleAnim(this));
-                        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_4);
+                        Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_4);
                     }
 
                     func_80832224(this);
@@ -6095,11 +6095,11 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                         } else if (sp2C == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                             this->av1.actionVar1 = 1;
                             this->actor.textId = 0x4005;
-                            Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_1);
+                            Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_1);
                         } else {
                             this->av1.actionVar1 = 2;
                             this->actor.textId = 0xCF;
-                            Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_4);
+                            Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_4);
                         }
 
                         this->actor.flags |= ACTOR_FLAG_TALK;
@@ -6122,22 +6122,21 @@ s32 Player_ActionHandler_13(Player* this, PlayState* play) {
                     if (sp2C == 0xC) {
                         Player_SetupActionPreserveItemAction(play, this, Player_Action_8084EED8, 0);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_bug_out);
-                        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_3);
+                        Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_3);
                     } else if ((sp2C > 0) && (sp2C < 4)) {
                         Player_SetupActionPreserveItemAction(play, this, Player_Action_8084EFC0, 0);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_bottle_fish_out);
-                        Player_CameraChangeSettingTurnAround(play, (sp2C == 1) ? CAM_ITEM_TYPE_1 : CAM_ITEM_TYPE_5);
+                        Player_SetTurnAroundCamera(play, (sp2C == 1) ? CAM_ITEM_TYPE_1 : CAM_ITEM_TYPE_5);
                     } else {
                         Player_SetupActionPreserveItemAction(play, this, Player_Action_8084EAC0, 0);
                         Player_AnimChangeOnceMorphAdjusted(play, this, &gPlayerAnim_link_bottle_drink_demo_start);
-                        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_2);
+                        Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_2);
                     }
                 } else {
                     Player_SetupActionPreserveItemAction(play, this, Player_Action_8084E3C4, 0);
                     Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_normal_okarina_start);
                     this->stateFlags2 |= PLAYER_STATE2_USING_OCARINA;
-                    Player_CameraChangeSettingTurnAround(play,
-                                                         (this->unk_6A8 != NULL) ? CAM_ITEM_TYPE_91 : CAM_ITEM_TYPE_90);
+                    Player_SetTurnAroundCamera(play, (this->unk_6A8 != NULL) ? CAM_ITEM_TYPE_91 : CAM_ITEM_TYPE_90);
                     if (this->unk_6A8 != NULL) {
                         this->stateFlags2 |= PLAYER_STATE2_25;
                         Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->unk_6A8);
@@ -7354,7 +7353,7 @@ s32 Player_ActionHandler_2(Player* this, PlayState* play) {
                     if (!(this->stateFlags2 & PLAYER_STATE2_10) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
                         Player_SetupWaitForPutAway(play, this, func_8083A434);
                         Player_AnimPlayOnceAdjusted(play, this, &gPlayerAnim_link_demo_get_itemB);
-                        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_9);
+                        Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_9);
                     }
 
                     this->stateFlags1 |= PLAYER_STATE1_10 | PLAYER_STATE1_CARRYING_ACTOR | PLAYER_STATE1_29;
@@ -13749,7 +13748,7 @@ void Player_Action_8084E1EC(Player* this, PlayState* play) {
         if ((this->stateFlags1 & PLAYER_STATE1_10) && LinkAnimation_OnFrame(&this->skelAnime, 10.0f)) {
             func_808332F4(this, play);
             func_80832340(play, this);
-            Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_8);
+            Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_8);
         } else if (LinkAnimation_OnFrame(&this->skelAnime, 5.0f)) {
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_BREATH_DRINK);
         }
@@ -13919,7 +13918,7 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
             }
 
             this->av2.actionVar2 = 2;
-            Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_9);
+            Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_9);
         }
     } else {
         if (this->av2.actionVar2 == 0) {
@@ -14121,7 +14120,7 @@ void Player_Action_SwingBottle(Player* this, PlayState* play) {
 
                     Player_UpdateBottleHeld(play, this, catchInfo->itemId, ABS(catchInfo->itemAction));
                     Player_AnimPlayOnceAdjusted(play, this, swingEntry->catchAnimation);
-                    Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_4);
+                    Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_4);
                 }
             }
         }
@@ -16220,6 +16219,6 @@ void Player_StartTalking(PlayState* play, Actor* actor) {
 
     if ((this->naviActor == this->talkActor) && ((this->talkActor->textId & 0xFF00) != 0x200)) {
         this->naviActor->flags |= ACTOR_FLAG_TALK;
-        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_11);
+        Player_SetTurnAroundCamera(play, CAM_ITEM_TYPE_11);
     }
 }
