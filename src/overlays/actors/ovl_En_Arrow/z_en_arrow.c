@@ -21,7 +21,8 @@
 #include "play_state.h"
 
 #include "assets/objects/gameplay_keep/arrow_skel.h"
-#include "assets/objects/gameplay_keep/arrow_anims.h"
+#include "assets/objects/gameplay_keep/gArrow1_Anim.h"
+#include "assets/objects/gameplay_keep/gArrow2_Anim.h"
 #include "assets/objects/gameplay_keep/eff_sparkles.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
