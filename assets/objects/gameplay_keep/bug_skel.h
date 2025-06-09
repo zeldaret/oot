@@ -1,13 +1,10 @@
-#ifndef GAMEPLAY_KEEP_0x34020_H
-#define GAMEPLAY_KEEP_0x34020_H
+#ifndef GAMEPLAY_KEEP_BUG_SKEL_H
+#define GAMEPLAY_KEEP_BUG_SKEL_H
 
 #include "tex_len.h"
 #include "ultra64.h"
 #include "animation.h"
 
-extern s16 gBugCrawlFrameData[];
-extern JointIndex gBugCrawlJointIndices[];
-extern AnimationHeader gBugCrawlAnim;
 extern Gfx gBugLimb_1DL[20];
 extern Gfx gBugLimb_1WrapperDL[2];
 extern Gfx gBugLimb_1WrapperWrapperDL[2];

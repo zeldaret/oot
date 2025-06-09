@@ -1,18 +1,6 @@
-#include "gameplay_keep_0x34020.h"
+#include "bug_skel.h"
 #include "array_count.h"
 #include "gfx.h"
-
-s16 gBugCrawlFrameData[] = {
-#include "assets/objects/gameplay_keep/gBugCrawlFrameData.inc.c"
-};
-
-JointIndex gBugCrawlJointIndices[] = {
-#include "assets/objects/gameplay_keep/gBugCrawlJointIndices.inc.c"
-};
-
-AnimationHeader gBugCrawlAnim = {
-#include "assets/objects/gameplay_keep/gBugCrawlAnim.inc.c"
-};
 
 Gfx gBugLimb_1DL[20] = {
 #include "assets/objects/gameplay_keep/gBugLimb_1DL.inc.c"
