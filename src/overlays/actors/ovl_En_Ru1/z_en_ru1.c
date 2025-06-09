@@ -52,13 +52,13 @@ void func_80AECB60(EnRu1* this, PlayState* play);
 void func_80AECBB8(EnRu1* this, PlayState* play);
 void func_80AECC1C(EnRu1* this, PlayState* play);
 void func_80AECC84(EnRu1* this, PlayState* play);
-void EnRu1_PreSpawnInBossRoom(EnRu1* this, PlayState* play);
-void EnRu1_SpawnInBossRoom(EnRu1* this, PlayState* play);
-void EnRu1_RiseThroughBlueWarp(EnRu1* this, PlayState* play);
-void EnRu1_WaitInsideBlueWarp(EnRu1* this, PlayState* play);
-void EnRu1_LinkWalksToPointInBlueWarp(EnRu1* this, PlayState* play);
-void EnRu1_WhatTookYouSoLong(EnRu1* this, PlayState* play);
-void EnRu1_WarpingOut(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_PreSpawn(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_Spawn(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_RiseThroughBlueWarp(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_WaitInsideBlueWarp(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_LinkWalksToPointInBlueWarp(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_WhatTookYouSoLong(EnRu1* this, PlayState* play);
+void EnRu1_BossRoom_WarpingOut(EnRu1* this, PlayState* play);
 void func_80AEF29C(EnRu1* this, PlayState* play);
 void func_80AEF2AC(EnRu1* this, PlayState* play);
 void func_80AEF2D0(EnRu1* this, PlayState* play);
@@ -147,13 +147,13 @@ static EnRu1ActionFunc sActionFuncs[] = {
     func_80AECBB8, // ENRU1_ACTION_12
     func_80AECC1C, // ENRU1_ACTION_13
     func_80AECC84, // ENRU1_ACTION_14
-    EnRu1_PreSpawnInBossRoom,
-    EnRu1_SpawnInBossRoom,
-    EnRu1_RiseThroughBlueWarp,
-    EnRu1_WaitInsideBlueWarp,
-    EnRu1_LinkWalksToPointInBlueWarp,
-    EnRu1_WhatTookYouSoLong,
-    EnRu1_WarpingOut,
+    EnRu1_BossRoom_PreSpawn,
+    EnRu1_BossRoom_Spawn,
+    EnRu1_BossRoom_RiseThroughBlueWarp,
+    EnRu1_BossRoom_WaitInsideBlueWarp,
+    EnRu1_BossRoom_LinkWalksToPointInBlueWarp,
+    EnRu1_BossRoom_WhatTookYouSoLong,
+    EnRu1_BossRoom_WarpingOut,
     func_80AEF29C, // ENRU1_ACTION_22
     func_80AEF2AC, // ENRU1_ACTION_23
     func_80AEF2D0, // ENRU1_ACTION_24
@@ -1069,7 +1069,7 @@ void EnRu1_SpawnBlueWarp(EnRu1* this, PlayState* play) {
 
 void EnRu1_InitInBossRoom(EnRu1* this, PlayState* play) {
     EnRu1_AnimationChange(this, &gRutoChildWaitHandsOnHipsAnim, ANIMMODE_LOOP, 0, false);
-    this->action = ENRU1_ACTION_15;
+    this->action = ENRU1_ACTION_BOSS_ROOM_PRE_SPAWN;
     this->actor.shape.yOffset = -10000.0f;
     EnRu1_SetEyes(this, ENRU1_EYES_BLUSH);
     EnRu1_SetMouth(this, ENRU1_MOUTH_OPEN);
@@ -1157,11 +1157,11 @@ void EnRu1_SetBlueWarpState(EnRu1* this, s32 state) {
 }
 
 void EnRu1_TriggerSpawnInBossRoom(EnRu1* this, PlayState* play) {
-    this->action = ENRU1_ACTION_16;
+    this->action = ENRU1_ACTION_BOSS_ROOM_SPAWN;
 }
 
 void EnRu1_SetupRiseThroughBlueWarp(EnRu1* this, PlayState* play) {
-    this->action = ENRU1_ACTION_17;
+    this->action = ENRU1_ACTION_RISE_THROUGH_BLUE_WARP;
     this->drawConfig = ENRU1_DRAW_OPA;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
@@ -1170,7 +1170,7 @@ void EnRu1_SetupRiseThroughBlueWarp(EnRu1* this, PlayState* play) {
 
 void EnRu1_EndRise(EnRu1* this) {
     if (this->actor.shape.yOffset >= 0.0f) {
-        this->action = ENRU1_ACTION_18;
+        this->action = ENRU1_ACTION_WAIT_INSIDE_BLUE_WARP;
         this->actor.shape.yOffset = 0.0f;
         EnRu1_SetBlueWarpState(this, WARP_BLUE_RUTO_STATE_READY);
     }
@@ -1178,7 +1178,7 @@ void EnRu1_EndRise(EnRu1* this) {
 
 void EnRu1_CheckLinkEnteredBlueWarp(EnRu1* this, PlayState* play) {
     if (EnRu1_CheckBlueWarpState(this, WARP_BLUE_RUTO_STATE_ENTERED)) {
-        this->action = ENRU1_ACTION_19;
+        this->action = ENRU1_ACTION_LINK_WALKS_TO_POINT_IN_BLUE_WARP;
         this->walkingFrame = 0.0f;
         EnRu1_SetPlayerMarkInBlueWarp(this, play);
     }
@@ -1189,7 +1189,7 @@ void EnRu1_StartCrossingArmsAndLegs(EnRu1* this, s32 shouldStart) {
         Animation_Change(&this->skelAnime, &gRutoChildTransitionHandsOnHipToCrossArmsAndLegsAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildTransitionHandsOnHipToCrossArmsAndLegsAnim), ANIMMODE_ONCE,
                          -8.0f);
-        this->action = ENRU1_ACTION_20;
+        this->action = ENRU1_ACTION_WHAT_TOOK_YOU_SO_LONG;
         EnRu1_SetBlueWarpState(this, WARP_BLUE_RUTO_STATE_3);
     }
 }
@@ -1203,41 +1203,41 @@ void EnRu1_AdvanceAngryAnimation(EnRu1* this, s32 isTalking) {
     } else if (EnRu1_CheckBlueWarpState(this, WARP_BLUE_RUTO_STATE_WARPING)) {
         Animation_Change(&this->skelAnime, &gRutoChildWaitInBlueWarpAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildWaitInBlueWarpAnim), ANIMMODE_ONCE, -8.0f);
-        this->action = ENRU1_ACTION_21;
+        this->action = ENRU1_ACTION_WARPING_OUT;
         this->xzDistToPlayerInBlueWarp = this->actor.xzDistToPlayer;
     }
 }
 
-void EnRu1_PreSpawnInBossRoom(EnRu1* this, PlayState* play) {
+void EnRu1_BossRoom_PreSpawn(EnRu1* this, PlayState* play) {
     EnRu1_TriggerSpawnInBossRoom(this, play);
 }
 
-void EnRu1_SpawnInBossRoom(EnRu1* this, PlayState* play) {
+void EnRu1_BossRoom_Spawn(EnRu1* this, PlayState* play) {
     EnRu1_SetupRiseThroughBlueWarp(this, play);
 }
 
-void EnRu1_RiseThroughBlueWarp(EnRu1* this, PlayState* play) {
+void EnRu1_BossRoom_RiseThroughBlueWarp(EnRu1* this, PlayState* play) {
     EnRu1_Rise(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_EndRise(this);
 }
 
-void EnRu1_WaitInsideBlueWarp(EnRu1* this, PlayState* play) {
+void EnRu1_BossRoom_WaitInsideBlueWarp(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_CheckLinkEnteredBlueWarp(this, play);
 }
 
-void EnRu1_LinkWalksToPointInBlueWarp(EnRu1* this, PlayState* play) {
+void EnRu1_BossRoom_LinkWalksToPointInBlueWarp(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_StartCrossingArmsAndLegs(this, EnRu1_IsLinkInBlueWarp(this, play));
 }
 
-void EnRu1_WhatTookYouSoLong(EnRu1* this, PlayState* play) {
+void EnRu1_BossRoom_WhatTookYouSoLong(EnRu1* this, PlayState* play) {
     func_80AEAECC(this, play);
     EnRu1_AdvanceAngryAnimation(this, EnRu1_UpdateSkelAnime(this));
 }
 
-void EnRu1_WarpingOut(EnRu1* this, PlayState* play) {
+void EnRu1_BossRoom_WarpingOut(EnRu1* this, PlayState* play) {
     EnRu1_RiseWithLink(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateSkelAnime(this);
