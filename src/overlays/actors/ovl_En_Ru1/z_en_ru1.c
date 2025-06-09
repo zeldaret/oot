@@ -899,7 +899,7 @@ s32 EnRu1_IsPlayerInRangeForFirstEncounter(EnRu1* this, PlayState* play) {
     return false;
 }
 
-void EnRu1_PlayStepSoundEffect(EnRu1* this) {
+void EnRu1_PlayStepSfx(EnRu1* this) {
     s32 pad[2];
 
     if (this->isFalling == 0) {
@@ -909,7 +909,7 @@ void EnRu1_PlayStepSoundEffect(EnRu1* this) {
     }
 }
 
-void EnRu1_PlayFallingSoundEffects(EnRu1* this) {
+void EnRu1_PlayFallingSfx(EnRu1* this) {
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_FALL_DOWN_DIRT);
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_FALL);
 }
@@ -922,7 +922,7 @@ void EnRu1_RespondToFalling(EnRu1* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gRutoChildBringArmsUpAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildBringArmsUpAnim), ANIMMODE_ONCE, -8.0f);
         this->isFalling = 1;
-        EnRu1_PlayFallingSoundEffects(this);
+        EnRu1_PlayFallingSfx(this);
     }
 }
 
@@ -1031,7 +1031,7 @@ void EnRu1_FirstEncounter_WalkingAwayAccel(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    EnRu1_PlayStepSoundEffect(this);
+    EnRu1_PlayStepSfx(this);
     EnRu1_AdvanceWalkingAway(this);
 }
 
@@ -1041,7 +1041,7 @@ void EnRu1_FirstEncounter_WalkingAwayConstant(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    EnRu1_PlayStepSoundEffect(this);
+    EnRu1_PlayStepSfx(this);
     EnRu1_CheckStartFalling(this);
 }
 
@@ -1051,7 +1051,7 @@ void EnRu1_FirstEncounter_FallingDownHole(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
-    EnRu1_PlayStepSoundEffect(this);
+    EnRu1_PlayStepSfx(this);
     EnRu1_FinishFirstEncounter(this, play);
 }
 
