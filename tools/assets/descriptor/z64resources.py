@@ -10,13 +10,15 @@ from .base import (
     ResourceDesc,
     ResourcesDescCollection,
     ResourceHandlerNeedsPass2Exception,
+    ResourceHasNoSizeError,
 )
 from . import xml_errors
 
 
 @dataclasses.dataclass(eq=False)
 class CollisionResourceDesc(ResourceDesc):
-    pass
+    def get_size(self):
+        return 0x2C
 
 
 def handler_Collision(symbol_name, offset, collection, reselem: Element):
@@ -26,7 +28,8 @@ def handler_Collision(symbol_name, offset, collection, reselem: Element):
 
 @dataclasses.dataclass(eq=False)
 class AnimationResourceDesc(ResourceDesc):
-    pass
+    def get_size(self):
+        return 0x10
 
 
 def handler_Animation(symbol_name, offset, collection, reselem: Element):
@@ -133,6 +136,14 @@ class SkeletonResourceDesc(ResourceDesc):
     limb_enum_none_member_name: Optional[str]
     limb_enum_max_member_name: Optional[str]
 
+    def get_size(self):
+        skel_size = {
+            SkeletonType.NORMAL: 0x8,
+        }.get(self.type)
+        if skel_size is None:
+            raise ResourceHasNoSizeError()
+        return skel_size
+
 
 def handler_Skeleton(symbol_name, offset, collection, reselem: Element):
     xml_errors.check_attrib(
@@ -160,6 +171,14 @@ class LimbResourceDesc(ResourceDesc):
     limb_type: LimbType
     limb_enum_member_name: Optional[str]
 
+    def get_size(self):
+        limb_size = {
+            LimbType.STANDARD: 0xC,
+        }.get(self.limb_type)
+        if limb_size is None:
+            raise ResourceHasNoSizeError()
+        return limb_size
+
 
 def handler_Limb(symbol_name, offset, collection, reselem: Element):
     xml_errors.check_attrib(reselem, {"Name", "LimbType"}, {"Offset", "EnumName"})
@@ -178,6 +197,9 @@ def handler_Limb(symbol_name, offset, collection, reselem: Element):
 class LimbTableResourceDesc(ResourceDesc):
     limb_type: LimbType
     count: int
+
+    def get_size(self):
+        return self.count * 4
 
 
 def handler_LimbTable(symbol_name, offset, collection, reselem: Element):

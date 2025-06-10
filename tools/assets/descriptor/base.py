@@ -281,7 +281,17 @@ def _get_resources_fileelem_to_resourcescollection_pass1(
         try:
             symbol_name = reselem.attrib["Name"]
             if "Offset" in reselem.attrib:
-                offset = int(reselem.attrib["Offset"], 16)
+                offset_str = reselem.attrib["Offset"]
+                if offset_str.startswith(".+"):
+                    if prev_resource_end_offset is None:
+                        raise Exception(
+                            f"Resource {symbol_name} has a relative Offset"
+                            " and previous resource has no known end offset"
+                        )
+                    rel_offset = int(offset_str.removeprefix(".+"), 16)
+                    offset = prev_resource_end_offset + rel_offset
+                else:
+                    offset = int(offset_str, 16)
             else:
                 if prev_resource_end_offset is None:
                     raise Exception(

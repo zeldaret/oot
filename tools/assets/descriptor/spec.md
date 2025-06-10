@@ -54,10 +54,17 @@ then `<ExternalFile OutPath="assets/objects/gameplay_keep/"/>` refers to that ga
 
 Resource elements describe resources. Resources are pieces of data corresponding to a symbol each.
 
-Two attributes are required on all resource elements: `Name` and `Offset`.
+One attribute is required on all resource elements: `Name`.
 
 - `Name` is the name of the symbol associated to the resource.
-- `Offset` is the location in bytes from the start of the file data.
+
+Another attribute, optional, is common to all resource elements: `Offset`.
+
+If `Offset` is set to a (hexadecimal) number such as `Offset="0x421"`, it specifies the location of the resource in bytes from the start of the file data.
+
+If `Offset` is not set, the resource is assumed to start where the previous resource ended, or at 0 if the resource is the first in the `<File>`.
+
+`Offset` can also be set to be a relative offset like `Offset=".+0x421"`, which makes the resource location be that many bytes after the end of the previous resource.
 
 ## `Blob`
 
@@ -74,12 +81,14 @@ Unstructured binary data.
 ## `DList`
 
 ```xml
-<DList Name="gNameDL" Offset="0x1230" Ucode="f3dex2" RawPointers="0x08000000,0x09000000"/>
+<DList Name="gNameDL" Offset="0x1230" Length="123" Ucode="f3dex2" RawPointers="0x08000000,0x09000000"/>
 ```
 
 A display list.
 
-- Optional attributes: `Ucode`, `RawPointers`
+- Optional attributes: `Length`, `Ucode`, `RawPointers`
+
+`Length` can be set to indicate the length (amount of `Gfx` double-words) of the dlist. If not set, the dlist length is automatic.
 
 `Ucode` (defaults to `f3dex2`) picks the graphics microcode for which to disassemble the dlist. It may be `f3dex` or `f3dex2`.
 

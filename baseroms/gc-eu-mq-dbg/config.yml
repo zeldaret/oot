@@ -430,7 +430,7 @@ assets:
 - name: objects/object_gol
   xml_path: assets/xml/objects/object_gol.xml
 - name: objects/object_goma
-  xml_path: assets/xml/objects/object_goma_pal.xml
+  xml_path: assets/xml/objects/object_goma.xml
 - name: objects/object_goroiwa
   xml_path: assets/xml/objects/object_goroiwa.xml
 - name: objects/object_gr

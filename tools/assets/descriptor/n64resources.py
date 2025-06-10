@@ -3,6 +3,7 @@
 
 import dataclasses
 import enum
+from typing import Optional
 from xml.etree.ElementTree import Element
 
 from ..n64 import G_IM_FMT, G_IM_SIZ
@@ -13,6 +14,7 @@ from .base import (
     ResourcesDescCollectionsPool,
     ResourceHandlerNeedsPass2Exception,
     BaseromFileBackingMemory,
+    ResourceHasNoSizeError,
 )
 from . import xml_errors
 
@@ -27,20 +29,29 @@ class GfxMicroCode(enum.Enum):
 
 @dataclasses.dataclass(eq=False)
 class DListResourceDesc(ResourceDesc):
+    length: Optional[int]
     ucode: GfxMicroCode
     raw_pointers: set[int] = dataclasses.field(default_factory=set)
     """Pointers in the dlist that are fine to keep raw ("in hex") instead of using symbols"""
 
+    def get_size(self):
+        if self.length is None:
+            raise ResourceHasNoSizeError()
+        return self.length * 8
+
 
 def handler_DList(symbol_name, offset, collection, reselem: Element):
     xml_errors.check_attrib(
-        reselem, {"Name"}, {"Offset", "Ucode", "RawPointers"} | STATIC_ATTRIB
+        reselem, {"Name"}, {"Offset", "Length", "Ucode", "RawPointers"} | STATIC_ATTRIB
     )
+    length = None
+    if "Length" in reselem.attrib:
+        length = int(reselem.attrib["Length"])
     if "Ucode" in reselem.attrib:
         ucode = GfxMicroCode[reselem.attrib["Ucode"].upper()]
     else:
         ucode = GfxMicroCode.F3DEX2
-    res = DListResourceDesc(symbol_name, offset, collection, reselem, ucode)
+    res = DListResourceDesc(symbol_name, offset, collection, reselem, length, ucode)
     raw_pointers_str = reselem.attrib.get("RawPointers")
     if raw_pointers_str:
         for rp_str in raw_pointers_str.split(","):
@@ -82,6 +93,9 @@ class Vec3sArrayResourceDesc(ResourceDesc):
 @dataclasses.dataclass(eq=False)
 class VtxArrayResourceDesc(ResourceDesc):
     count: int
+
+    def get_size(self):
+        return self.count * 0x10
 
 
 def handler_Array(symbol_name, offset, collection, reselem: Element):
