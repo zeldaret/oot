@@ -566,7 +566,7 @@ assets:
 - name: objects/object_mm
   xml_path: assets/xml/objects/object_mm.xml
 - name: objects/object_mo
-  xml_path: assets/xml/objects/object_mo_pal.xml
+  xml_path: assets/xml/objects/object_mo.xml
 - name: objects/object_mori_hineri1
   xml_path: assets/xml/objects/object_mori_hineri1.xml
 - name: objects/object_mori_hineri1a
