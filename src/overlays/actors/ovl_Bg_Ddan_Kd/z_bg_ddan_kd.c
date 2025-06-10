@@ -13,6 +13,7 @@
 #include "rand.h"
 #include "rumble.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_lib.h"
 #include "play_state.h"
 
@@ -74,7 +75,7 @@ void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
 
 void BgDdanKd_Init(Actor* thisx, PlayState* play) {
     BgDdanKd* this = (BgDdanKd*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     this->prevExplosive = NULL;

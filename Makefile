@@ -309,8 +309,13 @@ endif
 INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I. -I$(EXTRACTED_DIR)
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
+CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-missing-braces
 CHECK_WARNINGS += -Werror=implicit-int -Werror=implicit-function-declaration -Werror=int-conversion -Werror=incompatible-pointer-types
+
+# Actors and effets are mostly callback functions and often don't use all arguments,
+# ignore those warnings entirely in these directories.
+$(BUILD_DIR)/src/overlays/actors/%.o: CHECK_WARNINGS += -Wno-unused-parameter
+$(BUILD_DIR)/src/overlays/effects/%.o: CHECK_WARNINGS += -Wno-unused-parameter
 
 # The `cpp` command behaves differently on macOS (it behaves as if
 # `-traditional-cpp` was passed) so we use `gcc -E` instead.

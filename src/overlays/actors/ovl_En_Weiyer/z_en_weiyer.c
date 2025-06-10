@@ -11,6 +11,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -594,7 +595,7 @@ void func_80B3368C(EnWeiyer* this, PlayState* play) {
 
 void EnWeiyer_Update(Actor* thisx, PlayState* play) {
     EnWeiyer* this = (EnWeiyer*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     this->actor.home.pos.y = this->actor.depthInWater + this->actor.world.pos.y - 5.0f;
     func_80B3368C(this, play);

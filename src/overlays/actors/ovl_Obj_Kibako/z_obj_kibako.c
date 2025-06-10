@@ -5,12 +5,14 @@
  */
 
 #include "z_obj_kibako.h"
+#include "attributes.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -100,7 +102,7 @@ void ObjKibako_InitCollider(Actor* thisx, PlayState* play) {
 }
 
 void ObjKibako_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     ObjKibako* this = (ObjKibako*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -195,7 +197,7 @@ void ObjKibako_SetupIdle(ObjKibako* this) {
 }
 
 void ObjKibako_Idle(ObjKibako* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if (Actor_HasParent(&this->actor, play)) {
         ObjKibako_SetupHeld(this);
@@ -259,8 +261,7 @@ void ObjKibako_SetupThrown(ObjKibako* this) {
 }
 
 void ObjKibako_Thrown(ObjKibako* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
 
     if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
         (this->collider.base.atFlags & AT_HIT)) {
@@ -284,15 +285,15 @@ void ObjKibako_Thrown(ObjKibako* this, PlayState* play) {
 }
 
 void ObjKibako_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     ObjKibako* this = (ObjKibako*)thisx;
 
     this->actionFunc(this, play);
 }
 
 void ObjKibako_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
-    ObjKibako* this = (ObjKibako*)thisx;
+    STACK_PAD(s32);
+    UNUSED ObjKibako* this = (ObjKibako*)thisx;
 
     Gfx_DrawDListOpa(play, gSmallWoodenBoxDL);
 }

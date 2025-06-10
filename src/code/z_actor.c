@@ -1,4 +1,5 @@
 #include "libc64/math64.h"
+#include "attributes.h"
 #include "libu64/overlay.h"
 #include "array_count.h"
 #include "fault.h"
@@ -11,6 +12,7 @@
 #include "rumble.h"
 #include "segmented_address.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
 #include "terminal.h"
@@ -68,7 +70,7 @@ void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw,
     shape->shadowAlpha = 255;
 }
 
-void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist, Color_RGBA8* color) {
+void ActorShadow_Draw(Actor* actor, UNUSED Lights* lights, PlayState* play, Gfx* dlist, Color_RGBA8* color) {
     f32 temp1;
     f32 temp2;
     MtxF sp60;
@@ -130,10 +132,10 @@ void ActorShadow_DrawHorse(Actor* actor, Lights* lights, PlayState* play) {
 }
 
 void ActorShadow_DrawFoot(PlayState* play, Light* light, MtxF* arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6) {
-    s32 pad1;
+    STACK_PAD(s32);
     f32 sp58;
     f32 temp;
-    s32 pad2;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 1661);
 
@@ -343,7 +345,7 @@ void Attention_InitReticle(Attention* attention, s32 actorCategory, PlayState* p
     }
 }
 
-void Attention_SetNaviState(Attention* attention, Actor* actor, s32 actorCategory, PlayState* play) {
+void Attention_SetNaviState(Attention* attention, Actor* actor, s32 actorCategory, UNUSED PlayState* play) {
     attention->naviHoverPos.x = actor->focus.pos.x;
     attention->naviHoverPos.y = actor->focus.pos.y + (actor->lockOnArrowOffset * actor->scale.y);
     attention->naviHoverPos.z = actor->focus.pos.z;
@@ -500,7 +502,7 @@ void Attention_Draw(Attention* attention, PlayState* play) {
 }
 
 void Attention_Update(Attention* attention, Player* player, Actor* playerFocusActor, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Actor* actor; // used for both the Navi hover actor and reticle actor
     s32 category;
     Vec3f projectedFocusPos;
@@ -776,11 +778,11 @@ void Flags_SetCollectible(PlayState* play, s32 flag) {
     }
 }
 
-void TitleCard_Init(PlayState* play, TitleCardContext* titleCtx) {
+void TitleCard_Init(UNUSED PlayState* play, TitleCardContext* titleCtx) {
     titleCtx->durationTimer = titleCtx->delayTimer = titleCtx->intensity = titleCtx->alpha = 0;
 }
 
-void TitleCard_InitBossName(PlayState* play, TitleCardContext* titleCtx, void* texture, s16 x, s16 y, u8 width,
+void TitleCard_InitBossName(UNUSED PlayState* play, TitleCardContext* titleCtx, void* texture, s16 x, s16 y, u8 width,
                             u8 height) {
     titleCtx->texture = texture;
     titleCtx->x = x;
@@ -809,7 +811,7 @@ void TitleCard_InitPlaceName(PlayState* play, TitleCardContext* titleCtx, void* 
     titleCtx->delayTimer = delay;
 }
 
-void TitleCard_Update(PlayState* play, TitleCardContext* titleCtx) {
+void TitleCard_Update(UNUSED PlayState* play, TitleCardContext* titleCtx) {
     if (DECR(titleCtx->delayTimer) == 0) {
         if (DECR(titleCtx->durationTimer) == 0) {
             Math_StepToS(&titleCtx->alpha, 0, 30);
@@ -957,8 +959,8 @@ void Actor_Init(Actor* actor, PlayState* play) {
 }
 
 void Actor_Destroy(Actor* actor, PlayState* play) {
-    ActorOverlay* overlayEntry;
-    char* name;
+    UNUSED_NDEBUG ActorOverlay* overlayEntry;
+    UNUSED_NDEBUG char* name;
 
     if (actor->destroy != NULL) {
         actor->destroy(actor, play);
@@ -1131,7 +1133,7 @@ f32 Player_GetHeight(Player* player) {
 }
 
 f32 func_8002DCE4(Player* player) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if (player->stateFlags1 & PLAYER_STATE1_23) {
         return 8.0f;
@@ -1186,13 +1188,13 @@ void Actor_SwapHookshotAttachment(PlayState* play, Actor* srcActor, Actor* destA
     srcActor->flags &= ~ACTOR_FLAG_HOOKSHOT_ATTACHED;
 }
 
-void Actor_RequestHorseCameraSetting(PlayState* play, Player* player) {
+void Actor_RequestHorseCameraSetting(PlayState* play, UNUSED Player* player) {
     if ((play->roomCtx.curRoom.type != ROOM_TYPE_4) && Play_CamIsNotFixed(play)) {
         Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_HORSE);
     }
 }
 
-void Actor_MountHorse(PlayState* play, Player* player, Actor* horse) {
+void Actor_MountHorse(UNUSED PlayState* play, Player* player, Actor* horse) {
     player->rideActor = horse;
     player->stateFlags1 |= PLAYER_STATE1_23;
     horse->child = &player->actor;
@@ -1741,7 +1743,7 @@ s32 Attention_ShouldReleaseLockOn(Actor* actor, Player* player, s32 ignoreLeash)
  *
  * @return  true if the talk offer was accepted, false otherwise
  */
-s32 Actor_TalkOfferAccepted(Actor* actor, PlayState* play) {
+s32 Actor_TalkOfferAccepted(Actor* actor, UNUSED PlayState* play) {
     if (actor->flags & ACTOR_FLAG_TALK) {
         actor->flags &= ~ACTOR_FLAG_TALK;
         return true;
@@ -1801,7 +1803,7 @@ s32 Actor_OfferTalkNearColChkInfoCylinder(Actor* actor, PlayState* play) {
     return Actor_OfferTalk(actor, play, cylRadius);
 }
 
-u32 Actor_TextboxIsClosing(Actor* actor, PlayState* play) {
+u32 Actor_TextboxIsClosing(UNUSED Actor* actor, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         return true;
     } else {
@@ -1824,7 +1826,7 @@ void Actor_GetScreenPos(PlayState* play, Actor* actor, s16* x, s16* y) {
     *y = projectedPos.y * cappedInvW * -(SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 2);
 }
 
-u32 Actor_HasParent(Actor* actor, PlayState* play) {
+u32 Actor_HasParent(Actor* actor, UNUSED PlayState* play) {
     if (actor->parent != NULL) {
         return true;
     } else {
@@ -1890,7 +1892,7 @@ s32 Actor_OfferCarry(Actor* actor, PlayState* play) {
     return Actor_OfferGetItemNearby(actor, play, GI_NONE);
 }
 
-u32 Actor_HasNoParent(Actor* actor, PlayState* play) {
+u32 Actor_HasNoParent(Actor* actor, UNUSED PlayState* play) {
     if (actor->parent == NULL) {
         return true;
     } else {
@@ -1898,7 +1900,7 @@ u32 Actor_HasNoParent(Actor* actor, PlayState* play) {
     }
 }
 
-void func_8002F5C4(Actor* actorA, Actor* actorB, PlayState* play) {
+void func_8002F5C4(Actor* actorA, Actor* actorB, UNUSED PlayState* play) {
     Actor* parent = actorA->parent;
 
     if (parent->id == ACTOR_PLAYER) {
@@ -1921,7 +1923,7 @@ void Actor_SetClosestSecretDistance(Actor* actor, PlayState* play) {
     }
 }
 
-s32 Actor_IsMounted(PlayState* play, Actor* horse) {
+s32 Actor_IsMounted(UNUSED PlayState* play, Actor* horse) {
     if (horse->child != NULL) {
         return true;
     } else {
@@ -1943,7 +1945,7 @@ u32 Actor_SetRideActor(PlayState* play, Actor* horse, s32 mountSide) {
     return false;
 }
 
-s32 Actor_NotMounted(PlayState* play, Actor* horse) {
+s32 Actor_NotMounted(UNUSED PlayState* play, Actor* horse) {
     if (horse->child == NULL) {
         return true;
     } else {
@@ -1962,7 +1964,8 @@ s32 Actor_NotMounted(PlayState* play, Actor* horse) {
  * @param type PlayerKnockbackType
  * @param damage additional amount of damage to deal to the player
  */
-void Actor_SetPlayerKnockback(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 type, u32 damage) {
+void Actor_SetPlayerKnockback(PlayState* play, UNUSED Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 type,
+                              u32 damage) {
     Player* player = GET_PLAYER(play);
 
     player->knockbackDamage = damage;
@@ -2537,7 +2540,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 }
 
 void Actor_FaultPrint(Actor* actor, char* command) {
-    ActorOverlay* overlayEntry;
+    UNUSED_NDEBUG ActorOverlay* overlayEntry;
     char* name;
 
     if ((actor == NULL) || (actor->overlayEntry == NULL)) {
@@ -2841,7 +2844,7 @@ s32 Actor_CullingCheck(PlayState* play, Actor* actor) {
  * This interactive 3D graph visualizes the shape of the culling volume and has sliders for the 3 properties mentioned
  * above: https://www.desmos.com/3d/4ztkxqky2a.
  */
-s32 Actor_CullingVolumeTest(PlayState* play, Actor* actor, Vec3f* projPos, f32 projW) {
+s32 Actor_CullingVolumeTest(UNUSED PlayState* play, Actor* actor, Vec3f* projPos, f32 projW) {
     f32 invW;
 
     if ((projPos->z > -actor->cullingVolumeScale) &&
@@ -2890,8 +2893,8 @@ void Actor_DrawAll(PlayState* play, ActorContext* actorCtx) {
         actor = actorListEntry->head;
 
         while (actor != NULL) {
-            ActorOverlay* overlayEntry = actor->overlayEntry;
-            char* actorName;
+            UNUSED_NDEBUG ActorOverlay* overlayEntry = actor->overlayEntry;
+            UNUSED_NDEBUG char* actorName;
 
 #if DEBUG_FEATURES
             actorName = overlayEntry->name != NULL ? overlayEntry->name : "";
@@ -3007,7 +3010,7 @@ void Actor_KillAllWithMissingObject(PlayState* play, ActorContext* actorCtx) {
 
 u8 sEnemyActorCategories[] = { ACTORCAT_ENEMY, ACTORCAT_BOSS };
 
-void Actor_FreezeAllEnemies(PlayState* play, ActorContext* actorCtx, s32 duration) {
+void Actor_FreezeAllEnemies(UNUSED PlayState* play, ActorContext* actorCtx, s32 duration) {
     Actor* actor;
     s32 i;
 
@@ -3159,13 +3162,13 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
 
 Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ, s16 rotX,
                    s16 rotY, s16 rotZ, s16 params) {
-    s32 pad;
+    STACK_PAD(s32);
     Actor* actor;
     ActorProfile* profile;
     s32 objectSlot;
     ActorOverlay* overlayEntry;
     uintptr_t temp;
-    char* name;
+    UNUSED_NDEBUG char* name;
     u32 overlaySize;
 
     overlayEntry = &gActorOverlayTable[actorId];
@@ -3635,7 +3638,7 @@ s16 FaceChange_UpdateRandomSet(FaceChange* faceChange, s16 changeTimerBase, s16 
     return faceChange->face;
 }
 
-void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
+void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, UNUSED PlayState* play) {
     if ((bodyBreak->matrices = ZELDA_ARENA_MALLOC((count + 1) * sizeof(*bodyBreak->matrices), "../z_actor.c", 7540)) !=
             NULL &&
         (bodyBreak->dLists = ZELDA_ARENA_MALLOC((count + 1) * sizeof(*bodyBreak->dLists), "../z_actor.c", 7543)) !=
@@ -3792,7 +3795,7 @@ void func_80033480(PlayState* play, Vec3f* posBase, f32 randRangeDiameter, s32 a
     }
 }
 
-Actor* Actor_GetCollidedExplosive(PlayState* play, Collider* collider) {
+Actor* Actor_GetCollidedExplosive(UNUSED PlayState* play, Collider* collider) {
     if ((collider->acFlags & AC_HIT) && (collider->ac->category == ACTORCAT_EXPLOSIVE)) {
         collider->acFlags &= ~AC_HIT;
         return collider->ac;
@@ -4388,8 +4391,7 @@ s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex) {
  */
 s16 Npc_UpdateAutoTurn(Actor* actor, NpcInteractInfo* interactInfo, f32 distanceRange, s16 maxYawForPlayerTracking,
                        s16 trackingMode) {
-
-    s32 pad;
+    STACK_PAD(s32);
     s16 yaw;
     s16 yawDiff;
 
@@ -4606,7 +4608,7 @@ void Actor_UpdateFidgetTables(PlayState* play, s16* fidgetTableY, s16* fidgetTab
     }
 }
 
-void Actor_Noop(Actor* actor, PlayState* play) {
+void Actor_Noop(UNUSED Actor* actor, UNUSED PlayState* play) {
 }
 
 s32 func_80035124(Actor* actor, PlayState* play) {
@@ -4820,8 +4822,8 @@ void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3) {
 /**
  * Spawns En_Part (Dissipating Flames) actor as a child of the given actor.
  */
-Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused, PlayState* play,
-                     s16 params, Gfx* dList) {
+Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, UNUSED s16* arg5,
+                     PlayState* play, s16 params, Gfx* dList) {
     EnPart* spawnedEnPart;
 
     spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
@@ -4852,7 +4854,7 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
         f32 sp28;
         f32 sp24;
         CollisionPoly* floorPoly;
-        s32 pad;
+        STACK_PAD(s32);
 
         floorPoly = actor->floorPoly;
         floorPolyNormalX = COLPOLY_GET_NORMAL(floorPoly->normal.x);
@@ -6115,12 +6117,12 @@ u16 func_80037C30(PlayState* play, s16 arg1) {
     return func_80035BFC(play, arg1);
 }
 
-s32 func_80037C5C(PlayState* play, s16 arg1, u16 textId) {
+s32 func_80037C5C(UNUSED PlayState* play, s16 arg1, u16 textId) {
     func_80036E50(textId, arg1);
     return false;
 }
 
-s32 func_80037C94(PlayState* play, Actor* actor, s32 arg2) {
+s32 func_80037C94(PlayState* play, Actor* actor, UNUSED s32 arg2) {
     return func_800374E0(play, actor, actor->textId);
 }
 

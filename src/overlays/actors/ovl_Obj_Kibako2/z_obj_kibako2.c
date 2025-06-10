@@ -11,6 +11,7 @@
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -76,7 +77,7 @@ void ObjKibako2_InitCollider(Actor* thisx, PlayState* play) {
 }
 
 void ObjKibako2_Break(ObjKibako2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3f* thisPos;
     Vec3f pos;
     Vec3f velocity;
@@ -127,7 +128,7 @@ void ObjKibako2_SpawnCollectible(ObjKibako2* this, PlayState* play) {
 
 void ObjKibako2_Init(Actor* thisx, PlayState* play) {
     ObjKibako2* this = (ObjKibako2*)thisx;
-    s16 pad;
+    STACK_PAD(s16);
     CollisionHeader* colHeader = NULL;
     u32 bgId;
 

@@ -9,6 +9,7 @@
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
@@ -119,7 +120,7 @@ static InitChainEntry sInitChain[] = {
 void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
     static UNK_TYPE D_80881014 = 0;
     BgHakaTrap* this = (BgHakaTrap*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -531,7 +532,7 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
     };
     static Color_RGBA8 D_8088103C = { 0, 0, 0, 0 };
     BgHakaTrap* this = (BgHakaTrap*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f sp2C;
 
     if (this->actionFunc == func_808802D8) {

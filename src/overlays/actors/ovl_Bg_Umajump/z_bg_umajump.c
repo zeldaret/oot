@@ -10,6 +10,7 @@
 #include "regs.h"
 #include "play_state.h"
 #include "save.h"
+#include "stack_pad.h"
 
 #include "assets/objects/object_umajump/object_umajump.h"
 
@@ -37,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgUmaJump_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgUmaJump* this = (BgUmaJump*)thisx;
     CollisionHeader* colHeader = NULL;
 

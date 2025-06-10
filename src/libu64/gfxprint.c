@@ -376,7 +376,7 @@ void GfxPrint_Init(GfxPrint* this) {
 #endif
 }
 
-void GfxPrint_Destroy(GfxPrint* this) {
+void GfxPrint_Destroy(UNUSED GfxPrint* this) {
 }
 
 void GfxPrint_Open(GfxPrint* this, Gfx* dList) {

@@ -1,4 +1,5 @@
 #include "gfx.h"
+#include "attributes.h"
 #include "gfx_setupdl.h"
 #include "controller.h"
 #include "regs.h"
@@ -53,7 +54,7 @@ void Sample_Main(GameState* thisx) {
     Sample_HandleStateChange(this);
 }
 
-void Sample_Destroy(GameState* thisx) {
+void Sample_Destroy(UNUSED GameState* thisx) {
 }
 
 void Sample_SetupView(SampleState* this) {

@@ -11,6 +11,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
@@ -71,7 +72,7 @@ ActorProfile En_Kakasi2_Profile = {
 
 void EnKakasi2_Init(Actor* thisx, PlayState* play) {
     EnKakasi2* this = (EnKakasi2*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     f32 spawnRangeY;
     f32 spawnRangeXZ;
 

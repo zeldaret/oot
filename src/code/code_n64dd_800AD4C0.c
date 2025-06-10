@@ -82,5 +82,5 @@ n64ddStruct_800FEE70_pointers* func_800AD560(void) {
 void func_800AD590(void) {
 }
 
-void func_800AD598(s32 arg0, s32 arg1, s32 arg2) {
+void func_800AD598(UNUSED s32 arg0, UNUSED s32 arg1, UNUSED s32 arg2) {
 }

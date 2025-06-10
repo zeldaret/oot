@@ -14,6 +14,7 @@
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
 #include "audio.h"
@@ -374,7 +375,7 @@ s32 EnZl4_InMovingAnim(EnZl4* this) {
 }
 
 void EnZl4_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnZl4* this = (EnZl4*)thisx;
 
     SkelAnime_InitFlex(play, &this->skelAnime, &gChildZeldaSkel, NULL, this->jointTable, this->morphTable, 18);
@@ -410,7 +411,7 @@ void EnZl4_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnZl4_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnZl4* this = (EnZl4*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider);
@@ -1276,7 +1277,7 @@ void EnZl4_TheEnd(EnZl4* this, PlayState* play) {
 }
 
 void EnZl4_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnZl4* this = (EnZl4*)thisx;
 
     if (this->actionFunc != EnZl4_TheEnd) {

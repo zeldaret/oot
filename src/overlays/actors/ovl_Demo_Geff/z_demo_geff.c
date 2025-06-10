@@ -12,6 +12,7 @@
 #include "printf.h"
 #include "regs.h"
 #include "segmented_address.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -97,7 +98,7 @@ void func_80977EA8(PlayState* play, Gfx* dlist) {
 }
 
 void func_80977F80(DemoGeff* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 objectSlot = this->objectSlot;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
@@ -206,7 +207,7 @@ void func_809783D4(DemoGeff* this, PlayState* play) {
     s32 params = thisx->params;
     s16 objectId = sObjectIds[params];
     s32 objectSlot = Object_GetSlot(objCtx, objectId);
-    s32 pad;
+    STACK_PAD(s32);
 
     if (objectSlot < 0) {
         PRINTF(VT_FGCOL(RED) T("Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n",

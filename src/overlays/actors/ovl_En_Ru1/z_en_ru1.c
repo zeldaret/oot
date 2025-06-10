@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ru1.h"
+#include "attributes.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 
 #include "libc64/math64.h"
@@ -17,6 +18,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
@@ -125,7 +127,7 @@ static void* sMouthTextures[] = {
     gRutoChildMouthOpenTex,
 };
 
-static s32 sUnused = 0;
+UNUSED static s32 sUnused = 0;
 
 #include "z_en_ru1_cutscene_data.inc.c"
 
@@ -205,14 +207,14 @@ ActorProfile En_Ru1_Profile = {
 };
 
 void EnRu1_UpdateStandingOC(EnRu1* this, PlayState* play) {
-    s32 pad[5];
+    STACK_PADS(s32, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->standingCollider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->standingCollider.base);
 }
 
 void EnRu1_UpdateSittingOC(EnRu1* this, PlayState* play) {
-    s32 pad[5];
+    STACK_PADS(s32, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->sittingCollider);
     if (this->isSittingOCActive) {
@@ -223,7 +225,7 @@ void EnRu1_UpdateSittingOC(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_UpdateSittingAT(EnRu1* this, PlayState* play) {
-    s32 pad[5];
+    STACK_PADS(s32, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->sittingCollider);
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->sittingCollider.base);
@@ -267,7 +269,7 @@ void EnRu1_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnRu1_UpdateEyes(EnRu1* this) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* blinkTimer = &this->blinkTimer;
     s16* eyes = &this->eyes;
 
@@ -307,7 +309,7 @@ s32 EnRu1_IsCsStateIdle(PlayState* play) {
 }
 
 CsCmdActorCue* EnRu1_GetCue(PlayState* play, s32 cueChannel) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     CsCmdActorCue* cue = NULL;
 
     if (!EnRu1_IsCsStateIdle(play)) {
@@ -422,7 +424,7 @@ void func_80AEB220(EnRu1* this, PlayState* play) {
 #endif
 
 void EnRu1_AnimationChange(EnRu1* this, AnimationHeader* animation, u8 mode, f32 morphFrames, s32 playReversed) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     AnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
     f32 frameCount = Animation_GetLastFrame(animHeader);
     f32 playbackSpeed;
@@ -487,7 +489,6 @@ s32 func_80AEB480(PlayState* play, u16 cueId) {
 
 void EnRu1_SpawnRipple(EnRu1* this, PlayState* play, s16 radiusMax, s16 life) {
     Vec3f pos;
-    Actor* thisx = &this->actor;
 
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.world.pos.y + this->actor.depthInWater;
@@ -586,7 +587,7 @@ void func_80AEB974(EnRu1* this, PlayState* play) {
     Vec3f* thisPos;
     f32 sp30;
     CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
-    s32 pad;
+    STACK_PAD(s32);
 
     if (cue != NULL) {
         sp30 = func_80AEB7E0(cue, play);
@@ -602,12 +603,12 @@ void func_80AEBA0C(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEBA2C(EnRu1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f* unk_364 = &this->unk_364;
     Vec3f* thisPos;
     f32 temp_ret_2;
     CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
-    s32 pad2;
+    STACK_PAD(s32);
 
     if (cue != NULL) {
         temp_ret_2 = func_80AEB7E0(cue, play);
@@ -681,7 +682,7 @@ void func_80AEBD1C(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEBD94(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 frameCount;
 
     if (func_80AEB480(play, 3)) {
@@ -695,7 +696,7 @@ void func_80AEBD94(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEBE3C(EnRu1* this, PlayState* play, s32 arg2) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (arg2 != 0) {
         f32 frameCount = Animation_GetLastFrame(&gRutoChildTreadWaterAnim);
@@ -709,7 +710,7 @@ void func_80AEBE3C(EnRu1* this, PlayState* play, s32 arg2) {
 }
 
 void func_80AEBEC8(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 frameCount;
 
     if (func_80AEB458(play, 6)) {
@@ -723,7 +724,7 @@ void func_80AEBEC8(EnRu1* this, PlayState* play) {
 
 void func_80AEBF60(EnRu1* this, PlayState* play) {
     if (func_80AEB480(play, 6)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         func_80AEB7D0(this);
         this->action = ENRU1_ACTION_05;
@@ -891,7 +892,7 @@ s32 func_80AEC5FC(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEC650(EnRu1* this) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (this->unk_280 == 0) {
         if (Animation_OnFrame(&this->skelAnime, 2.0f) || Animation_OnFrame(&this->skelAnime, 7.0f)) {
@@ -915,7 +916,7 @@ void func_80AEC6E4(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEC780(EnRu1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
 
     if ((func_80AEC5FC(this, play)) && (!Play_InCsMode(play)) &&
@@ -975,7 +976,7 @@ void func_80AEC9C4(EnRu1* this) {
 
 void func_80AECA18(EnRu1* this) {
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         this->action = ENRU1_ACTION_13;
         this->unk_26C = 0.0f;
@@ -1050,13 +1051,13 @@ void func_80AECC84(EnRu1* this, PlayState* play) {
 }
 
 void func_80AECCB0(EnRu1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f* pos;
     s16 yawTowardsPlayer;
     f32 spawnX;
     f32 spawnY;
     f32 spawnZ;
-    s32 pad2[2];
+    STACK_PADS(s32, 2);
 
     yawTowardsPlayer = this->actor.yawTowardsPlayer;
     pos = &this->actor.world.pos;
@@ -1080,11 +1081,11 @@ void func_80AECE04(EnRu1* this, PlayState* play) {
 }
 
 void func_80AECE20(EnRu1* this, PlayState* play) {
-    s32 pad2;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Vec3f* playerPos = &player->actor.world.pos;
     s16 shapeRotY = player->actor.shape.rot.y;
-    s32 pad;
+    STACK_PAD(s32);
     f32 unk_27C = this->unk_27C;
     Vec3f* pos = &this->actor.world.pos;
 
@@ -1094,7 +1095,7 @@ void func_80AECE20(EnRu1* this, PlayState* play) {
 }
 
 void func_80AECEB4(EnRu1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     Vec3f* player_unk_450 = &player->unk_450;
     Vec3f* pos = &this->actor.world.pos;
@@ -1111,7 +1112,7 @@ s32 func_80AECF6C(EnRu1* this, PlayState* play) {
     s16 temp_f16;
     f32 temp1;
     f32 temp2;
-    s32 pad2[5];
+    STACK_PADS(s32, 5);
 
     this->unk_26C += 1.0f;
     if ((player->actor.speed == 0.0f) && (this->unk_26C >= 3.0f)) {
@@ -1320,7 +1321,7 @@ void func_80AED6F8(PlayState* play) {
 
 void func_80AED738(EnRu1* this, PlayState* play) {
     if (func_80AED624(this, play)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         this->unk_2A4 += 1.0f;
         if (this->unk_2A4 < 20.0f) {
@@ -1335,7 +1336,7 @@ void func_80AED738(EnRu1* this, PlayState* play) {
 }
 
 void func_80AED83C(EnRu1* this) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3s* headRot;
     Vec3s* torsoRot;
 
@@ -1352,7 +1353,7 @@ void EnRu1_UpdateHeadRotation(EnRu1* this) {
     s16* headRotTimer = &this->headRotTimer;
     s16* headRotY = &this->interactInfo.headRot.y;
     s16* headTurnSpeed = &this->headTurnSpeed;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (DECR(*headRotTimer) == 0) {
         *headRotTimer = Rand_S16Offset(0xA, 0x19);
@@ -1431,7 +1432,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
-        s32 pad;
+        STACK_PAD(s32);
 
         speedXZ = &this->actor.speed;
         velocityY = &this->actor.velocity.y;
@@ -1511,7 +1512,7 @@ void func_80AEE02C(EnRu1* this) {
 }
 
 void EnRu1_UpdateWaterState(EnRu1* this) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 bobMagnitude;
     f32 startY;
     EnRu1* thisx = this; // necessary to match
@@ -1602,7 +1603,7 @@ void func_80AEE2F8(EnRu1* this, PlayState* play) {
 }
 
 s32 func_80AEE394(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     CollisionContext* colCtx;
     DynaPolyActor* dynaPolyActor;
     s32 floorBgId;
@@ -1635,7 +1636,7 @@ void func_80AEE488(EnRu1* this, PlayState* play) {
         this->action = ENRU1_ACTION_31;
         func_80AED520(this, play);
     } else if (!func_80AEE394(this, play) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         this->actor.minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
         this->actor.gravity = -((kREG(23) * 0.01f) + 1.3f);
@@ -1647,7 +1648,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
     if (!func_80AEE394(this, play)) {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speed == 0.0f) &&
             (this->actor.minVelocityY == 0.0f)) {
-            s32 pad;
+            STACK_PAD(s32);
 
             func_80AEE02C(this);
             Actor_OfferCarry(&this->actor, play);
@@ -1664,7 +1665,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEE628(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
     if (EnRu1_IsCsStateIdle(play)) {
@@ -1677,7 +1678,7 @@ void func_80AEE628(EnRu1* this, PlayState* play) {
 }
 
 s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
     if (!GET_INFTABLE(INFTABLE_144) && (func_80AEB124(play) != NULL)) {
@@ -1698,7 +1699,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
-    s32 pad[9];
+    STACK_PADS(s32, 9);
     Player* player;
     f32* carryIdleTimer = &this->carryIdleTimer;
 
@@ -1715,7 +1716,7 @@ void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
         this->action = ENRU1_ACTION_28;
         *carryIdleTimer = 0.0f;
     } else if (func_80AEE6D0(this, play)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         *carryIdleTimer = 0.0f;
     } else {
@@ -1755,7 +1756,7 @@ void EnRu1_UpdateCarriedBehavior(EnRu1* this, PlayState* play) {
 
 s32 EnRu1_CheckHitBottomUnderwater(EnRu1* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        s32 pad;
+        STACK_PAD(s32);
 
         func_80AEE02C(this);
         Actor_OfferCarry(&this->actor, play);
@@ -2082,7 +2083,7 @@ void func_80AEF820(EnRu1* this, UNK_TYPE arg1) {
 }
 
 void func_80AEF890(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s8 curRoomNum;
 
     if (!(DEBUG_FEATURES && IS_CUTSCENE_LAYER) && EnRu1_IsCsStateIdle(play)) {
@@ -2193,7 +2194,7 @@ void func_80AEFC24(EnRu1* this, PlayState* play) {
 
 void EnRu1_InitInSapphireRoom(EnRu1* this, PlayState* play) {
     if (GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_146)) {
-        s32 pad;
+        STACK_PAD(s32);
 
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
         this->action = ENRU1_ACTION_41;
@@ -2321,7 +2322,7 @@ void EnRu1_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnRu1_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnRu1* this = (EnRu1*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
@@ -2413,13 +2414,13 @@ void EnRu1_DrawNothing(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_DrawOpa(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyes = this->eyes;
     void* eyeTex = sEyeTextures[eyes];
     s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
     void* mouthTex = sMouthTextures[mouth];
-    s32 pad1;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru1.c", 1282);
 
@@ -2438,13 +2439,13 @@ void EnRu1_DrawOpa(EnRu1* this, PlayState* play) {
 }
 
 void EnRu1_DrawXlu(EnRu1* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 eyes = this->eyes;
     void* eyeTex = sEyeTextures[eyes];
     s16 mouth = this->mouth;
     SkelAnime* skelAnime = &this->skelAnime;
     void* mouthTex = sMouthTextures[mouth];
-    s32 pad1;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ru1.c", 1324);
 

@@ -6,6 +6,7 @@
 
 #include "z_en_geldb.h"
 
+#include "attributes.h"
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -14,6 +15,7 @@
 #include "segmented_address.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "stack_pad.h"
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
@@ -227,14 +229,14 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -3000, ICHAIN_STOP),
 };
 
-static Vec3f sUnusedOffset = { 1100.0f, -700.0f, 0.0f };
+UNUSED static Vec3f sUnusedOffset = { 1100.0f, -700.0f, 0.0f };
 
 void EnGeldB_SetupAction(EnGeldB* this, EnGeldBActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void EnGeldB_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EffectBlureInit1 blureInit;
     EnGeldB* this = (EnGeldB*)thisx;
 
@@ -277,7 +279,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnGeldB_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGeldB* this = (EnGeldB*)thisx;
 
     func_800F5B58();
@@ -442,7 +444,7 @@ void EnGeldB_SetupReady(EnGeldB* this) {
 
 void EnGeldB_Ready(EnGeldB* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 angleToLink;
 
     SkelAnime_Update(&this->skelAnime);
@@ -673,7 +675,7 @@ void EnGeldB_Circle(EnGeldB* this, PlayState* play) {
     s16 phi_v1;
     s32 afterPrevFrame;
     s32 prevFrame;
-    s32 pad;
+    STACK_PAD(s32);
     s32 beforeCurFrame;
     Player* player = GET_PLAYER(play);
 
@@ -787,7 +789,7 @@ void EnGeldB_SetupSpinDodge(EnGeldB* this, PlayState* play) {
 void EnGeldB_SpinDodge(EnGeldB* this, PlayState* play) {
     s16 phi_v1;
     s32 prevFrame;
-    s32 pad;
+    STACK_PAD(s32);
     s32 beforeCurFrame;
     s32 afterPrevFrame;
 
@@ -1155,7 +1157,7 @@ void EnGeldB_SetupBlock(EnGeldB* this) {
 
 void EnGeldB_Block(EnGeldB* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
     s16 angleToLink;
     s16 angleFacingLink;
 
@@ -1381,7 +1383,7 @@ void EnGeldB_TurnHead(EnGeldB* this, PlayState* play) {
 }
 
 void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnItem00* key;
 
     if (this->blockCollider.base.acFlags & AC_BOUNCED) {
@@ -1425,7 +1427,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
 }
 
 void EnGeldB_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGeldB* this = (EnGeldB*)thisx;
 
     EnGeldB_CollisionCheck(this, play);
@@ -1581,7 +1583,7 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
     };
     static void* eyeTextures[] = { gGerudoRedEyeOpenTex, gGerudoRedEyeHalfTex, gGerudoRedEyeShutTex,
                                    gGerudoRedEyeHalfTex };
-    s32 pad;
+    STACK_PAD(s32);
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2672);
