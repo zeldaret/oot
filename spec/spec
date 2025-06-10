@@ -2859,7 +2859,15 @@ beginseg
     name "object_zo"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_zo/object_zo.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraHandsOnHipsTappingFootAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraOpenArmsAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraThrowRupeesAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/effect_bubbles.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/effect_splashes.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraSurfaceAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraIdleAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraSkel.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/effect_ripples.o"
     number 6
 endseg
 
