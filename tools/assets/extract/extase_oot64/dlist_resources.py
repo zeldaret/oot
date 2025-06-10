@@ -1216,8 +1216,9 @@ class DListResource(Resource, can_size_be_unknown=True):
         self.ignored_raw_pointers: set[int] = set()
 
     def set_length(self, length: int):
-        if length != ((self.range_end - self.range_start) // 8):
-            raise ValueError("length already set and different")
+        if self.range_end is not None:
+            if length != ((self.range_end - self.range_start) // 8):
+                raise ValueError("length already set and different")
         self.range_end = self.range_start + length * 8
 
     def try_parse_data(self, memory_context):
