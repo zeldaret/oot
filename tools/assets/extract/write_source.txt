@@ -380,7 +380,6 @@ assets/objects/object_zl2_anime1/object_zl2_anime1.c
 assets/objects/object_zl2_anime2/object_zl2_anime2.c
 assets/objects/object_zl2/object_zl2.c
 assets/objects/object_zl4/object_zl4.c
-assets/objects/object_zo/object_zo.c
 assets/overlays/ovl_Boss_Ganon/ovl_Boss_Ganon.c
 assets/overlays/ovl_Boss_Sst/ovl_Boss_Sst.c
 assets/overlays/ovl_Demo_Shd/ovl_Demo_Shd.c
