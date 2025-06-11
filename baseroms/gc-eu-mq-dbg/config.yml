@@ -498,7 +498,7 @@ assets:
 - name: objects/object_kibako2
   xml_path: assets/xml/objects/object_kibako2.xml
 - name: objects/object_kingdodongo
-  xml_path: assets/xml/objects/object_kingdodongo_pal.xml
+  xml_path: assets/xml/objects/object_kingdodongo.xml
 - name: objects/object_km1
   xml_path: assets/xml/objects/object_km1.xml
 - name: objects/object_kusa
