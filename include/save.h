@@ -429,6 +429,11 @@ typedef enum LinkAge {
 // scripted cutscene immediately. In the vanilla game, this is used to play
 // the cutscene where the barrier in Ganon's Castle is dispelled (using index 0xFFFF)
 // and to preview cutscenes in debug mode (using index 0xFFFD).
+//
+// 0xFFFD also is used by the cutscene system to indicate a scripted cutscene has been triggered.
+// This is why `Play_Init` ignores that value, so that if the cutscene is interrupted
+// by a new play state load (e.g. if the player falls out of bounds), it does not then
+// try to wrongly load a cutscene layer.
 #define CS_INDEX_0 0xFFF0
 #define CS_INDEX_1 0xFFF1
 #define CS_INDEX_2 0xFFF2
