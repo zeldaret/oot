@@ -160,6 +160,7 @@ def handler_Texture(
             "Offset",
             "OutName",
             "SplitTlut",
+            "Tlut",
             "TlutOffset",
             "ExternalTlut",
             "ExternalTlutOffset",
@@ -181,10 +182,34 @@ def handler_Texture(
             res.hack_modes.add("hackmode_split_tlut_false")
 
         assert (
-            "TlutOffset" in reselem.attrib or "ExternalTlutOffset" in reselem.attrib
-        ), f"CI texture {symbol_name} is missing a tlut offset"
+            "Tlut" in reselem.attrib
+            or "TlutOffset" in reselem.attrib
+            or "ExternalTlutOffset" in reselem.attrib
+        ), f"CI texture {symbol_name} is missing tlut information"
 
-        if "TlutOffset" in reselem.attrib:
+        if "Tlut" in reselem.attrib:
+            xml_errors.check_attrib(
+                reselem,
+                {"Name", "Format", "Width", "Height", "Tlut"},
+                # TODO remove OutName, SplitTlut
+                {"Offset", "OutName", "SplitTlut", "HackMode"} | STATIC_ATTRIB,
+            )
+            tlut_name = reselem.attrib["Tlut"]
+
+            def pass2_callback(pool: ResourcesDescCollectionsPool):
+                matching_tlut_resources = [
+                    res for res in collection.resources if res.symbol_name == tlut_name
+                ]
+                assert len(matching_tlut_resources) == 1, (
+                    f"Found {len(matching_tlut_resources)} resources named "
+                    f"{tlut_name} instead of exactly one"
+                )
+                assert isinstance(
+                    matching_tlut_resources[0], TextureResourceDesc
+                ), matching_tlut_resources[0]
+                res.tlut = matching_tlut_resources[0]
+
+        elif "TlutOffset" in reselem.attrib:
             xml_errors.check_attrib(
                 reselem,
                 {"Name", "Format", "Width", "Height", "TlutOffset"},

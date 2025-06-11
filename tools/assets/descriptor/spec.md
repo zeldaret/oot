@@ -106,6 +106,7 @@ A fixed-point matrix.
 
 ```xml
 <Texture Name="gNameTex" Format="rgba16" Width="16" Height="16" Offset="0x1230"/>
+<Texture Name="gNameTex" Format="ci8" Width="16" Height="16" Offset="0x1230" Tlut="gNameTLUT"/>
 <Texture Name="gNameTex" Format="ci8" Width="16" Height="16" Offset="0x1230" TlutOffset="0x2340"/>
 <Texture Name="gNameTex" Format="ci8" Width="16" Height="16" Offset="0x1230" ExternalTlut="baserom_file" ExternalTlutOffset="0x2340"/>
 ```
@@ -113,13 +114,13 @@ A fixed-point matrix.
 A texture, an image in one of the native N64 formats.
 
 - Required attributes for all formats: `Format`, `Width`, `Height`
-- Required attributes for CI formats (`ci4`, `ci8`): `TlutOffset`, or `ExternalTlut` and `ExternalTlutOffset`
+- Required attributes for CI formats (`ci4`, `ci8`): `Tlut`, or `TlutOffset`, or `ExternalTlut` and `ExternalTlutOffset`
 
 `Format` is the format of the texture, one of `rgba32`, `rgba16`, `i4`, `i8`, `ia4`, `ia8`, `ia16`, `ci4` or `ci8`.
 
 `Width` and `Height` specify the dimensions of the texture.
 
-For CI formats, the TLUT (Texture Look Up Table, or palette) must be specified with either `TlutOffset` if the TLUT is in the same file as the texture, or both of `ExternalTlut` and `ExternalTlutOffset` if the TLUT is in a different file. `ExternalTlut` is the name of the baserom file where the TLUT is. In both cases, the TLUT must also be declared as a resource.
+For CI formats, the TLUT (Texture Look Up Table, or palette) must be specified with either `Tlut` or `TlutOffset` if the TLUT is in the same file as the texture, or both of `ExternalTlut` and `ExternalTlutOffset` if the TLUT is in a different file. `ExternalTlut` is the name of the baserom file where the TLUT is. In both cases, the TLUT must also be declared as a resource.
 
 ## `Array`
 

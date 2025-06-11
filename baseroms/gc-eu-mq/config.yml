@@ -808,7 +808,7 @@ assets:
 - name: objects/object_wood02
   xml_path: assets/xml/objects/object_wood02.xml
 - name: objects/object_xc
-  xml_path: assets/xml/objects/object_xc_pal.xml
+  xml_path: assets/xml/objects/object_xc.xml
 - name: objects/object_yabusame_point
   xml_path: assets/xml/objects/object_yabusame_point.xml
 - name: objects/object_ydan_objects
