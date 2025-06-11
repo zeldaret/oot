@@ -1391,9 +1391,15 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                     play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
                     play->csCtx.curFrame = 0;
                     gSaveContext.cutsceneTrigger = 1;
+                    // Force cutsceneIndex to CS_INDEX_F so that CS_STATE_STOP is handled by the "scripted" system's
+                    // CutsceneHandler_StopScript.
+                    // Otherwise, because cutsceneIndex is set to 0 above, CS_STATE_STOP would be handled by the
+                    // "manual" cutscene system's CutsceneHandler_StopManual, which does not terminate the cutscene
+                    // camera, resulting in a softlock.
                     gSaveContext.save.cutsceneIndex = CS_INDEX_F;
                     csCtx->state = CS_STATE_STOP;
                 } else {
+                    // Same as above
                     gSaveContext.save.cutsceneIndex = CS_INDEX_F;
                     csCtx->state = CS_STATE_STOP;
                 }
