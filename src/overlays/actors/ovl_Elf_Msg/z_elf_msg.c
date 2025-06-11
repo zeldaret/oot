@@ -181,7 +181,26 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
 }
 
 #if DEBUG_ASSETS
-#include "assets/overlays/ovl_Elf_Msg/ovl_Elf_Msg.c"
+
+static Gfx sMaterialDL[8] = {
+#include "assets/overlays/ovl_Elf_Msg/sMaterialDL.inc.c"
+};
+
+static Vtx sCylinderVtx[] = {
+#include "assets/overlays/ovl_Elf_Msg/sCylinderVtx.inc.c"
+};
+
+static Gfx sCylinderDL[16] = {
+#include "assets/overlays/ovl_Elf_Msg/sCylinderDL.inc.c"
+};
+
+static Vtx sCubeVtx[] = {
+#include "assets/overlays/ovl_Elf_Msg/sCubeVtx.inc.c"
+};
+
+static Gfx sCubeDL[8] = {
+#include "assets/overlays/ovl_Elf_Msg/sCubeDL.inc.c"
+};
 
 void ElfMsg_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_elf_msg.c", 436);
@@ -198,7 +217,7 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play) {
     }
 
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_elf_msg.c", 448);
-    gSPDisplayList(POLY_XLU_DISP++, D_809AD278);
+    gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
 
     if (PARAMS_GET_NOSHIFT(thisx->params, 14, 1)) {
         gSPDisplayList(POLY_XLU_DISP++, sCubeDL);

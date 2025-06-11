@@ -36,15 +36,15 @@
         <DList Name="gBeamosBodyDL" Offset="0x1E00"/>
 
         <!-- Beamos DisplayList Textures -->
-        <Texture Name="gBeamosBodyGradientTex" OutName="body_gradient" Format="rgba16" Width="8" Height="8" Offset="0x27C0"/>
-        <Texture Name="gBeamosGrayMetalTex" OutName="gray_metal" Format="i4" Width="16" Height="32" Offset="0x2840"/>
-        <Texture Name="gBeamosBoltAndMetalTex" OutName="bolt_and_metal" Format="rgba16" Width="16" Height="32" Offset="0x2940"/>
-        <Texture Name="gBeamosTex_2D40" OutName="tex_2D40" Format="rgba16" Width="16" Height="8" Offset="0x2D40"/>
-        <Texture Name="gBeamosEyeOutlineTex" OutName="eye_outline" Format="rgba16" Width="16" Height="16" Offset="0x2E40"/>
-        <Texture Name="gBeamosEyeTex" OutName="eye" Format="rgba16" Width="32" Height="16" Offset="0x3040"/>
-        <Texture Name="gBeamosBodyTex" OutName="body" Format="rgba16" Width="16" Height="16" Offset="0x3440"/>
-        <Texture Name="gBeamosLaserTex" OutName="laser" Format="rgba16" Width="8" Height="8" Offset="0x3640"/>
-        <Texture Name="gBeamosTeethTex" OutName="teeth" Format="rgba16" Width="32" Height="32" Offset="0x36C0"/>
+        <Texture Name="gBeamosBodyGradientTex" Format="rgba16" Width="8" Height="8" Offset="0x27C0"/>
+        <Texture Name="gBeamosGrayMetalTex" Format="i4" Width="16" Height="32" Offset="0x2840"/>
+        <Texture Name="gBeamosBoltAndMetalTex" Format="rgba16" Width="16" Height="32" Offset="0x2940"/>
+        <Texture Name="gBeamosTex_2D40" Format="rgba16" Width="16" Height="8" Offset="0x2D40"/>
+        <Texture Name="gBeamosEyeOutlineTex" Format="rgba16" Width="16" Height="16" Offset="0x2E40"/>
+        <Texture Name="gBeamosEyeTex" Format="rgba16" Width="32" Height="16" Offset="0x3040"/>
+        <Texture Name="gBeamosBodyTex" Format="rgba16" Width="16" Height="16" Offset="0x3440"/>
+        <Texture Name="gBeamosLaserTex" Format="rgba16" Width="8" Height="8" Offset="0x3640"/>
+        <Texture Name="gBeamosTeethTex" Format="rgba16" Width="32" Height="32" Offset="0x36C0"/>
 
         <!-- Beamos Animations -->
         <Animation Name="gBeamosAnim" Offset="0x68"/>

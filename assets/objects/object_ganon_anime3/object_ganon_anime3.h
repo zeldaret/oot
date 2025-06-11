@@ -1,0 +1,16 @@
+#ifndef OBJECT_GANON_ANIME3_H
+#define OBJECT_GANON_ANIME3_H
+
+#include "animation.h"
+
+extern AnimationHeader gGanondorfShowTriforceStartAnim;
+extern AnimationHeader gGanondorfBurstOutAnim;
+extern AnimationHeader gGanondorfTransformEndAnim;
+extern AnimationHeader gGanondorfFloatingHeavyBreathingAnim;
+extern AnimationHeader gGanondorfTransformStartAnim;
+extern AnimationHeader gGanondorfTransformLoopAnim;
+extern AnimationHeader gGanondorfShowTriforceLoopAnim;
+extern AnimationHeader gGanonUncurlAndFlailAnim;
+extern AnimationHeader gGanonRoarAnim;
+
+#endif

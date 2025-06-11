@@ -35,16 +35,16 @@
         <DList Name="gBombchuShopkeeperLeftForearmDL" Offset="0x2BA8"/>
         <DList Name="gBombchuShopkeeperLeftHandDL" Offset="0x2CD8"/>
 
-        <Texture Name="gBombchuShopkeeperTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x2EE8"/>
-        <Texture Name="gBombchuShopkeeperSkinTex" OutName="skin" Format="ci8" Width="8" Height="8" Offset="0x30E8" TlutOffset="0x2EE8"/>
-        <Texture Name="gBombchuShopkeeperEarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x3128" TlutOffset="0x2EE8"/>
-        <Texture Name="gBombchuShopkeeperTattooTex" OutName="tattoo" Format="ci8" Width="32" Height="64" Offset="0x3168" TlutOffset="0x2EE8"/>
-        <Texture Name="gBombchuShopkeeperEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x3968" TlutOffset="0x2EE8"/>
-        <Texture Name="gBombchuShopkeeperEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x3D68" TlutOffset="0x2EE8"/>
-        <Texture Name="gBombchuShopkeeperEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x4168" TlutOffset="0x2EE8"/>
-        <Texture Name="gBombchuShopkeeperFingersTex" OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0x4568" TlutOffset="0x2EE8"/>
-        <Texture Name="gBombchuShopkeeperVestTex" OutName="vest" Format="i8" Width="8" Height="16" Offset="0x4668"/>
-        <Texture Name="gBombchuShopkeeperTorsoTex" OutName="torso" Format="ci8" Width="8" Height="32" Offset="0x46E8" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperTLUT" Format="rgba16" Width="16" Height="16" Offset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperSkinTex" Format="ci8" Width="8" Height="8" Offset="0x30E8" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperEarTex" Format="ci8" Width="8" Height="8" Offset="0x3128" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperTattooTex" Format="ci8" Width="32" Height="64" Offset="0x3168" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x3968" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x3D68" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x4168" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperFingersTex" Format="ci8" Width="16" Height="16" Offset="0x4568" TlutOffset="0x2EE8"/>
+        <Texture Name="gBombchuShopkeeperVestTex" Format="i8" Width="8" Height="16" Offset="0x4668"/>
+        <Texture Name="gBombchuShopkeeperTorsoTex" Format="ci8" Width="8" Height="32" Offset="0x46E8" TlutOffset="0x2EE8"/>
 
         <Limb Name="gBombchuShopkeeperTorsoLimb" LimbType="Standard" Offset="0x47E8"/>
         <Limb Name="gBombchuShopkeeperLeftUpperArmLimb" LimbType="Standard" Offset="0x47F4"/>

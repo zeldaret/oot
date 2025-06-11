@@ -10,13 +10,13 @@
         <Texture Name="object_tk_0039C0_Tex" Format="ci8" Width="8" Height="8" Offset="0x39C0" TlutOffset="0x3780"/>
         <Texture Name="object_tk_003A00_Tex" Format="ci8" Width="8" Height="8" Offset="0x3A00" TlutOffset="0x3780"/>
         <Texture Name="object_tk_003A40_Tex" Format="ci8" Width="16" Height="16" Offset="0x3A40" TlutOffset="0x3780"/>
-        <Texture Name="gDampeEyeOpenTex" OutName="dampe_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x3B40"/>
-        <Texture Name="gDampeEyeHalfTex" OutName="dampe_eye_half_open" Format="rgba16" Width="32" Height="32" Offset="0x4340"/>
-        <Texture Name="gDampeEyeClosedTex" OutName="dampe_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x4B40"/>
+        <Texture Name="gDampeEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x3B40"/>
+        <Texture Name="gDampeEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x4340"/>
+        <Texture Name="gDampeEyeClosedTex" Format="rgba16" Width="32" Height="32" Offset="0x4B40"/>
         <Texture Name="object_tk_005340_Tex" Format="ci8" Width="16" Height="16" Offset="0x5340" TlutOffset="0x3780"/>
         <Texture Name="object_tk_005440_Tex" Format="ci8" Width="16" Height="16" Offset="0x5440" TlutOffset="0x3780"/>
-        <Texture Name="gDampeUnused1Tex" OutName="dampe_unused_1" Format="ci8" Width="16" Height="16" Offset="0x5540" TlutOffset="0x3780"/>
-        <Texture Name="gDampeUnused2Tex" OutName="dampe_unused_2" Format="ci8" Width="8" Height="16" Offset="0x5640" TlutOffset="0x3780"/>
+        <Texture Name="gDampeUnused1Tex" Format="ci8" Width="16" Height="16" Offset="0x5540" TlutOffset="0x3780"/>
+        <Texture Name="gDampeUnused2Tex" Format="ci8" Width="8" Height="16" Offset="0x5640" TlutOffset="0x3780"/>
         <Texture Name="object_tk_0056C0_Tex" Format="ci8" Width="16" Height="16" Offset="0x56C0" TlutOffset="0x3780"/>
         <Array Name="object_tk_Vtx_0057C0" Count="38" Offset="0x57C0">
             <Vtx/>

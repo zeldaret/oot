@@ -13,10 +13,10 @@
             <Vtx/>
         </Array>
         <DList Name="gTimedTorchDL" Offset="0xB90"/>
-        <Texture Name="gGoldenTorch1Tex" OutName="golden_torch_1" Format="rgba16" Width="32" Height="32" Offset="0xC90"/>
-        <Texture Name="gGoldenTorch2Tex" OutName="golden_torch_2" Format="rgba16" Width="32" Height="64" Offset="0x1490"/>
-        <Texture Name="gTorchFlameGuardTex" OutName="torch_flame_guard" Format="rgba16" Width="32" Height="32" Offset="0x2490"/>
-        <Texture Name="gTimedTorchTex" OutName="timed_torch" Format="rgba16" Width="32" Height="32" Offset="0x2C90"/>
-        <Texture Name="gWoodenTorchTex" OutName="wooden_torch" Format="rgba16" Width="16" Height="64" Offset="0x3490"/>
+        <Texture Name="gGoldenTorch1Tex" Format="rgba16" Width="32" Height="32" Offset="0xC90"/>
+        <Texture Name="gGoldenTorch2Tex" Format="rgba16" Width="32" Height="64" Offset="0x1490"/>
+        <Texture Name="gTorchFlameGuardTex" Format="rgba16" Width="32" Height="32" Offset="0x2490"/>
+        <Texture Name="gTimedTorchTex" Format="rgba16" Width="32" Height="32" Offset="0x2C90"/>
+        <Texture Name="gWoodenTorchTex" Format="rgba16" Width="16" Height="64" Offset="0x3490"/>
     </File>
 </Root>
