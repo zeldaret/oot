@@ -1804,43 +1804,45 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
     // INFO_PANEL_QUAD_BUTTON_LEFT
     if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
-        pauseCtx->infoPanelVtx[8].v.ob[0] = pauseCtx->infoPanelVtx[10].v.ob[0] = R_PAUSE_CURSOR_LEFT_X;
+        pauseCtx->infoPanelVtx[8].v.ob[0] = pauseCtx->infoPanelVtx[10].v.ob[0] = R_PAUSE_BUTTON_LEFT_X;
 
-        pauseCtx->infoPanelVtx[9].v.ob[0] = pauseCtx->infoPanelVtx[11].v.ob[0] = pauseCtx->infoPanelVtx[8].v.ob[0] + 24;
+        pauseCtx->infoPanelVtx[9].v.ob[0] = pauseCtx->infoPanelVtx[11].v.ob[0] =
+            pauseCtx->infoPanelVtx[8].v.ob[0] + INFO_PANEL_QUAD_BUTTON_LR_WIDTH;
 
-        pauseCtx->infoPanelVtx[8].v.ob[1] = pauseCtx->infoPanelVtx[9].v.ob[1] = R_PAUSE_CURSOR_LEFT_RIGHT_Y;
+        pauseCtx->infoPanelVtx[8].v.ob[1] = pauseCtx->infoPanelVtx[9].v.ob[1] = R_PAUSE_BUTTON_LEFT_RIGHT_Y;
 
         pauseCtx->infoPanelVtx[10].v.ob[1] = pauseCtx->infoPanelVtx[11].v.ob[1] =
-            pauseCtx->infoPanelVtx[8].v.ob[1] - 32;
+            pauseCtx->infoPanelVtx[8].v.ob[1] - INFO_PANEL_QUAD_BUTTON_LR_HEIGHT;
     } else {
-        pauseCtx->infoPanelVtx[8].v.ob[0] = pauseCtx->infoPanelVtx[10].v.ob[0] = R_PAUSE_CURSOR_LEFT_X + 3;
+        pauseCtx->infoPanelVtx[8].v.ob[0] = pauseCtx->infoPanelVtx[10].v.ob[0] = R_PAUSE_BUTTON_LEFT_X + 3;
 
-        pauseCtx->infoPanelVtx[9].v.ob[0] = pauseCtx->infoPanelVtx[11].v.ob[0] = pauseCtx->infoPanelVtx[8].v.ob[0] + 18;
+        pauseCtx->infoPanelVtx[9].v.ob[0] = pauseCtx->infoPanelVtx[11].v.ob[0] =
+            pauseCtx->infoPanelVtx[8].v.ob[0] + (INFO_PANEL_QUAD_BUTTON_LR_WIDTH - 2 * 3);
 
-        pauseCtx->infoPanelVtx[8].v.ob[1] = pauseCtx->infoPanelVtx[9].v.ob[1] = R_PAUSE_CURSOR_LEFT_RIGHT_Y - 3;
+        pauseCtx->infoPanelVtx[8].v.ob[1] = pauseCtx->infoPanelVtx[9].v.ob[1] = R_PAUSE_BUTTON_LEFT_RIGHT_Y - 3;
 
         pauseCtx->infoPanelVtx[10].v.ob[1] = pauseCtx->infoPanelVtx[11].v.ob[1] =
-            pauseCtx->infoPanelVtx[8].v.ob[1] - 26;
+            pauseCtx->infoPanelVtx[8].v.ob[1] - (INFO_PANEL_QUAD_BUTTON_LR_HEIGHT - 2 * 3);
     }
 
     // INFO_PANEL_QUAD_BUTTON_RIGHT
     if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
-        pauseCtx->infoPanelVtx[12].v.ob[0] = pauseCtx->infoPanelVtx[14].v.ob[0] = R_PAUSE_CURSOR_RIGHT_X;
+        pauseCtx->infoPanelVtx[12].v.ob[0] = pauseCtx->infoPanelVtx[14].v.ob[0] = R_PAUSE_BUTTON_RIGHT_X;
 
         pauseCtx->infoPanelVtx[13].v.ob[0] = pauseCtx->infoPanelVtx[15].v.ob[0] =
             pauseCtx->infoPanelVtx[12].v.ob[0] + INFO_PANEL_QUAD_BUTTON_LR_WIDTH;
 
-        pauseCtx->infoPanelVtx[12].v.ob[1] = pauseCtx->infoPanelVtx[13].v.ob[1] = R_PAUSE_CURSOR_LEFT_RIGHT_Y;
+        pauseCtx->infoPanelVtx[12].v.ob[1] = pauseCtx->infoPanelVtx[13].v.ob[1] = R_PAUSE_BUTTON_LEFT_RIGHT_Y;
 
         pauseCtx->infoPanelVtx[14].v.ob[1] = pauseCtx->infoPanelVtx[15].v.ob[1] =
             pauseCtx->infoPanelVtx[12].v.ob[1] - INFO_PANEL_QUAD_BUTTON_LR_HEIGHT;
     } else {
-        pauseCtx->infoPanelVtx[12].v.ob[0] = pauseCtx->infoPanelVtx[14].v.ob[0] = R_PAUSE_CURSOR_RIGHT_X + 3;
+        pauseCtx->infoPanelVtx[12].v.ob[0] = pauseCtx->infoPanelVtx[14].v.ob[0] = R_PAUSE_BUTTON_RIGHT_X + 3;
 
         pauseCtx->infoPanelVtx[13].v.ob[0] = pauseCtx->infoPanelVtx[15].v.ob[0] =
             pauseCtx->infoPanelVtx[12].v.ob[0] + (INFO_PANEL_QUAD_BUTTON_LR_WIDTH - 2 * 3);
 
-        pauseCtx->infoPanelVtx[12].v.ob[1] = pauseCtx->infoPanelVtx[13].v.ob[1] = R_PAUSE_CURSOR_LEFT_RIGHT_Y - 3;
+        pauseCtx->infoPanelVtx[12].v.ob[1] = pauseCtx->infoPanelVtx[13].v.ob[1] = R_PAUSE_BUTTON_LEFT_RIGHT_Y - 3;
 
         pauseCtx->infoPanelVtx[14].v.ob[1] = pauseCtx->infoPanelVtx[15].v.ob[1] =
             pauseCtx->infoPanelVtx[12].v.ob[1] - (INFO_PANEL_QUAD_BUTTON_LR_HEIGHT - 2 * 3);
@@ -2252,11 +2254,11 @@ void KaleidoScope_UpdatePageSwitch(PlayState* play, Input* input) {
         if (pauseCtx->nextPageMode) {}
 
         if (pauseCtx->pageSwitchTimer < ((4 * PAGE_SWITCH_NSTEPS) / 2)) {
-            R_PAUSE_CURSOR_LEFT_X -= R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
-            R_PAUSE_CURSOR_RIGHT_X -= R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+            R_PAUSE_BUTTON_LEFT_X -= R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+            R_PAUSE_BUTTON_RIGHT_X -= R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
         } else {
-            R_PAUSE_CURSOR_LEFT_X += R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
-            R_PAUSE_CURSOR_RIGHT_X += R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+            R_PAUSE_BUTTON_LEFT_X += R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+            R_PAUSE_BUTTON_RIGHT_X += R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
         }
 
         pauseCtx->pageSwitchTimer += 4;
@@ -3738,8 +3740,8 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot =
                 VREG(30) + 3;
 
-            R_PAUSE_CURSOR_LEFT_X = -175;
-            R_PAUSE_CURSOR_RIGHT_X = 155;
+            R_PAUSE_BUTTON_LEFT_X = -175;
+            R_PAUSE_BUTTON_RIGHT_X = 155;
 
             pauseCtx->promptPitch = -314.0f;
 
@@ -4118,8 +4120,8 @@ void KaleidoScope_Update(PlayState* play) {
                 160.0f / R_PAUSE_UI_ANIMS_DURATION;
             pauseCtx->infoPanelOffsetY += 40 / R_PAUSE_UI_ANIMS_DURATION;
             interfaceCtx->startAlpha += 255 / R_PAUSE_UI_ANIMS_DURATION;
-            R_PAUSE_CURSOR_LEFT_X += R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
-            R_PAUSE_CURSOR_RIGHT_X += R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+            R_PAUSE_BUTTON_LEFT_X += R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+            R_PAUSE_BUTTON_RIGHT_X += R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
             XREG(5) += 150 / R_PAUSE_UI_ANIMS_DURATION;
             pauseCtx->alpha += (u16)(255 / (R_PAUSE_UI_ANIMS_DURATION + R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION));
 
@@ -4284,8 +4286,8 @@ void KaleidoScope_Update(PlayState* play) {
             switch (pauseCtx->savePromptState) {
                 case PAUSE_SAVE_PROMPT_STATE_APPEARING:
                     pauseCtx->promptPitch -= 314.0f / R_PAUSE_UI_ANIMS_DURATION;
-                    R_PAUSE_CURSOR_LEFT_X -= R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
-                    R_PAUSE_CURSOR_RIGHT_X -= R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+                    R_PAUSE_BUTTON_LEFT_X -= R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+                    R_PAUSE_BUTTON_RIGHT_X -= R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
 
                     if (pauseCtx->promptPitch <= -628.0f) {
                         pauseCtx->promptPitch = -628.0f;
@@ -4367,8 +4369,8 @@ void KaleidoScope_Update(PlayState* play) {
                 case PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU:
                 case PAUSE_SAVE_PROMPT_STATE_RETURN_TO_MENU_2:
                     pauseCtx->promptPitch += 314.0f / R_PAUSE_UI_ANIMS_DURATION;
-                    R_PAUSE_CURSOR_LEFT_X += R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
-                    R_PAUSE_CURSOR_RIGHT_X += R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+                    R_PAUSE_BUTTON_LEFT_X += R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+                    R_PAUSE_BUTTON_RIGHT_X += R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
 
                     if (pauseCtx->promptPitch >= -314.0f) {
                         pauseCtx->state = PAUSE_STATE_MAIN;
@@ -4386,8 +4388,8 @@ void KaleidoScope_Update(PlayState* play) {
                             pauseCtx->questPagePitch += 160.0f / R_PAUSE_UI_ANIMS_DURATION;
                         pauseCtx->promptPitch += 160.0f / R_PAUSE_UI_ANIMS_DURATION;
                         pauseCtx->infoPanelOffsetY -= 40 / R_PAUSE_UI_ANIMS_DURATION;
-                        R_PAUSE_CURSOR_LEFT_X -= R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
-                        R_PAUSE_CURSOR_RIGHT_X -= R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+                        R_PAUSE_BUTTON_LEFT_X -= R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+                        R_PAUSE_BUTTON_RIGHT_X -= R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
                         XREG(5) -= 150 / R_PAUSE_UI_ANIMS_DURATION;
                         pauseCtx->alpha -= (u16)(255 / R_PAUSE_UI_ANIMS_DURATION);
                         if (pauseCtx->promptPitch == (YREG(8) + 160.0f)) {
@@ -4412,8 +4414,8 @@ void KaleidoScope_Update(PlayState* play) {
         case PAUSE_STATE_GAME_OVER_INIT:
             pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot =
                 VREG(30) + 3;
-            R_PAUSE_CURSOR_LEFT_X = -175;
-            R_PAUSE_CURSOR_RIGHT_X = 155;
+            R_PAUSE_BUTTON_LEFT_X = -175;
+            R_PAUSE_BUTTON_RIGHT_X = 155;
             pauseCtx->promptPitch = -434.0f;
             Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
 
@@ -4557,8 +4559,8 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->infoPanelOffsetY += 40 / R_PAUSE_UI_ANIMS_DURATION;
             interfaceCtx->startAlpha += 255 / R_PAUSE_UI_ANIMS_DURATION;
             VREG(88) -= 3;
-            R_PAUSE_CURSOR_LEFT_X += R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
-            R_PAUSE_CURSOR_RIGHT_X += R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+            R_PAUSE_BUTTON_LEFT_X += R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+            R_PAUSE_BUTTON_RIGHT_X += R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
             XREG(5) += 150 / R_PAUSE_UI_ANIMS_DURATION;
             pauseCtx->alpha += (u16)(255 / (R_PAUSE_UI_ANIMS_DURATION + R_PAUSE_UI_ANIM_ALPHA_ADD_DURATION));
             if (pauseCtx->promptPitch < -628.0f) {
@@ -4729,8 +4731,8 @@ void KaleidoScope_Update(PlayState* play) {
                     pauseCtx->questPagePitch += 160.0f / R_PAUSE_UI_ANIMS_DURATION;
                 pauseCtx->infoPanelOffsetY -= 40 / R_PAUSE_UI_ANIMS_DURATION;
                 interfaceCtx->startAlpha -= 255 / R_PAUSE_UI_ANIMS_DURATION;
-                R_PAUSE_CURSOR_LEFT_X -= R_PAUSE_CURSOR_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
-                R_PAUSE_CURSOR_RIGHT_X -= R_PAUSE_CURSOR_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+                R_PAUSE_BUTTON_LEFT_X -= R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
+                R_PAUSE_BUTTON_RIGHT_X -= R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X / R_PAUSE_UI_ANIMS_DURATION;
                 XREG(5) -= 150 / R_PAUSE_UI_ANIMS_DURATION;
                 pauseCtx->alpha -= (u16)(255 / R_PAUSE_UI_ANIMS_DURATION);
                 if (pauseCtx->itemPagePitch == 160.0f) {
