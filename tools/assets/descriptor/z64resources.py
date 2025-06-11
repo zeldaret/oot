@@ -139,6 +139,7 @@ class SkeletonResourceDesc(ResourceDesc):
     def get_size(self):
         skel_size = {
             SkeletonType.NORMAL: 0x8,
+            SkeletonType.FLEX: 0xC,
         }.get(self.type)
         if skel_size is None:
             raise ResourceHasNoSizeError()
