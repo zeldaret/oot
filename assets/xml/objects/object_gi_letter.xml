@@ -1,5 +1,7 @@
 <Root>
     <File Name="object_gi_letter" Segment="6">
+        <Texture Name="object_gi_letter_000000_Tex" Format="i8" Width="48" Height="32" Offset="0x0"/>
+        <Texture Name="object_gi_letter_000600_Tex" Format="ia8" Width="48" Height="32" Offset="0x600"/>
         <Array Name="gGiLetterVtx" Count="8" Offset="0xC00">
             <Vtx/>
         </Array>

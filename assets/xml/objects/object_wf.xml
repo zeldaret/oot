@@ -1,11 +1,11 @@
 <Root>
     <File Name="object_wf" Segment="6">
-        <Texture Name="gWolfosWhiteFurTex" OutName="wolfos_white_fur" Format="rgba16" Width="8" Height="16" Offset="0x0"/>
-        <Texture Name="gWolfosWhiteToothClawTex" OutName="wolfos_white_tooth_claw" Format="rgba16" Width="8" Height="8" Offset="0x100"/>
-        <Texture Name="gWolfosWhiteMouthTex" OutName="wolfos_white_mouth" Format="rgba16" Width="8" Height="8" Offset="0x180"/>
-        <Texture Name="gWolfosWhiteTongueTex" OutName="wolfos_white_tongue" Format="rgba16" Width="8" Height="8" Offset="0x200"/>
-        <Texture Name="gWolfosWhiteNostrilTex" OutName="wolfos_white_nostril" Format="rgba16" Width="8" Height="8" Offset="0x280"/>
-        <Texture Name="gWolfosWhiteEyeOpenTex" OutName="wolfos_white_eye_open" Format="rgba16" Width="16" Height="16" Offset="0x300"/>
+        <Texture Name="gWolfosWhiteFurTex" Format="rgba16" Width="8" Height="16" Offset="0x0"/>
+        <Texture Name="gWolfosWhiteToothClawTex" Format="rgba16" Width="8" Height="8" Offset="0x100"/>
+        <Texture Name="gWolfosWhiteMouthTex" Format="rgba16" Width="8" Height="8" Offset="0x180"/>
+        <Texture Name="gWolfosWhiteTongueTex" Format="rgba16" Width="8" Height="8" Offset="0x200"/>
+        <Texture Name="gWolfosWhiteNostrilTex" Format="rgba16" Width="8" Height="8" Offset="0x280"/>
+        <Texture Name="gWolfosWhiteEyeOpenTex" Format="rgba16" Width="16" Height="16" Offset="0x300"/>
 
         <Array Name="gWolfosWhiteBackLeftPawVtx" Count="19" Offset="0x500">
             <Vtx/>
@@ -64,8 +64,8 @@
         <DList Name="gWolfosWhiteFrontRightUpperLegDL" Offset="0x25A0"/>
         <DList Name="gWolfosWhiteFrontRightLowerLegDL" Offset="0x26C8"/>
 
-        <Texture Name="gWolfosWhiteEyeHalfTex" OutName="wolfos_white_eye_half" Format="rgba16" Width="16" Height="16" Offset="0x27D8"/>
-        <Texture Name="gWolfosWhiteEyeNarrowTex" OutName="wolfos_white_eye_narrow" Format="rgba16" Width="16" Height="16" Offset="0x29D8"/>
+        <Texture Name="gWolfosWhiteEyeHalfTex" Format="rgba16" Width="16" Height="16" Offset="0x27D8"/>
+        <Texture Name="gWolfosWhiteEyeNarrowTex" Format="rgba16" Width="16" Height="16" Offset="0x29D8"/>
 
         <Array Name="gWolfosWhiteTailVtx" Count="5" Offset="0x2BD8">
             <Vtx/>
@@ -178,16 +178,16 @@
         <DList Name="gWolfosNormalFrontRightUpperLegDL" Offset="0x7940"/>
         <DList Name="gWolfosNormalFrontRightLowerLegDL" Offset="0x7A58"/>
 
-        <Texture Name="gWolfosNormalEyeOpenTex" OutName="wolfos_normal_eye_open" Format="rgba16" Width="16" Height="16" Offset="0x7B68"/>
+        <Texture Name="gWolfosNormalEyeOpenTex" Format="rgba16" Width="16" Height="16" Offset="0x7B68"/>
 
-        <Texture Name="gWolfosNormalFurTex" OutName="wolfos_normal_fur" Format="rgba16" Width="16" Height="32" Offset="0x7D68"/>
-        <Texture Name="gWolfosNormalMouthTex" OutName="wolfos_normal_mouth" Format="rgba16" Width="8" Height="8" Offset="0x8168"/>
-        <Texture Name="gWolfosNormalTongueTex" OutName="wolfos_normal_tongue" Format="rgba16" Width="8" Height="8" Offset="0x81E8"/>
-        <Texture Name="gWolfosNormalToothClawTex" OutName="wolfos_normal_tooth_claw" Format="rgba16" Width="8" Height="8" Offset="0x8268"/>
-        <Texture Name="gWolfosNormalNostrilTex" OutName="wolfos_normal_nostril" Format="rgba16" Width="8" Height="8" Offset="0x82E8"/>
+        <Texture Name="gWolfosNormalFurTex" Format="rgba16" Width="16" Height="32" Offset="0x7D68"/>
+        <Texture Name="gWolfosNormalMouthTex" Format="rgba16" Width="8" Height="8" Offset="0x8168"/>
+        <Texture Name="gWolfosNormalTongueTex" Format="rgba16" Width="8" Height="8" Offset="0x81E8"/>
+        <Texture Name="gWolfosNormalToothClawTex" Format="rgba16" Width="8" Height="8" Offset="0x8268"/>
+        <Texture Name="gWolfosNormalNostrilTex" Format="rgba16" Width="8" Height="8" Offset="0x82E8"/>
 
-        <Texture Name="gWolfosNormalEyeHalfTex" OutName="wolfos_normal_eye_half" Format="rgba16" Width="16" Height="16" Offset="0x8368"/>
-        <Texture Name="gWolfosNormalEyeNarrowTex" OutName="wolfos_normal_eye_narrow" Format="rgba16" Width="16" Height="16" Offset="0x8568"/>
+        <Texture Name="gWolfosNormalEyeHalfTex" Format="rgba16" Width="16" Height="16" Offset="0x8368"/>
+        <Texture Name="gWolfosNormalEyeNarrowTex" Format="rgba16" Width="16" Height="16" Offset="0x8568"/>
 
         <Array Name="gWolfosNormalTailVtx" Count="5" Offset="0x8768">
             <Vtx/>

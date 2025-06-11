@@ -8,7 +8,7 @@
         <DList Name="gFreezardSteamDL" Offset="0x3158"/>
         <DList Name="gFreezardIceTriangleDL" Offset="0x3260"/>
         <DList Name="gFreezardIceRockDL" Offset="0x33F0"/>
-        <Texture Name="gFreezardSteamTex" OutName="steam" Format="i4" Width="32" Height="32" Offset="0x2E70"/>
+        <Texture Name="gFreezardSteamTex" Format="i4" Width="32" Height="32" Offset="0x2E70"/>
 
         <Array Name="gFreezardIntactVtx" Count="275" Offset="0x0">
             <Vtx/>

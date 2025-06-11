@@ -1,5 +1,6 @@
 <Root>
     <File Name="object_gi_purse" Segment="6">
+        <Texture Name="object_gi_purse_000000_Tex" Format="i8" Width="64" Height="64" Offset="0x0"/>
         <Array Name="gGiWalletVtx" Count="32" Offset="0x1000">
             <Vtx/>
         </Array>

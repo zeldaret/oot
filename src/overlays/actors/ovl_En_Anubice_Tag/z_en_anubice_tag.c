@@ -41,7 +41,7 @@ void EnAnubiceTag_Init(Actor* thisx, PlayState* play) {
     EnAnubiceTag* this = (EnAnubiceTag*)thisx;
 
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Anubis control tag generated ☆☆☆☆☆ %d\n")
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Anubis control tag spawn ☆☆☆☆☆ %d\n")
                VT_RST,
            this->actor.params);
 

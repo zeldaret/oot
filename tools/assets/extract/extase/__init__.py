@@ -1110,6 +1110,10 @@ class BinaryBlobResource(Resource):
         # Nothing specific to do
         return RESOURCE_PARSE_SUCCESS
 
+    def get_as_xml(self):
+        return f"""\
+        <Blob Name="{self.symbol_name}" Size="0x{self.range_end - self.range_start:X}" Offset="0x{self.range_start:X}"/>"""
+
     def get_c_reference(self, resource_offset):
         return f"&{self.symbol_name}[{resource_offset}]"
 

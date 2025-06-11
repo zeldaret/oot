@@ -20,6 +20,29 @@
         <Limb Name="gCuccoNeckLimb" LimbType="Standard" Offset="0x24DC"/>
         <Limb Name="gCuccoHeadLimb" LimbType="Standard" Offset="0x24E8"/>
 
+        <!-- Cucco Limb Vertices -->
+        <Array Name="gCuccoHeadVtx" Count="62" Offset="0x100">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoNeckVtx" Count="15" Offset="0x4E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoRightWingVtx" Count="8" Offset="0x5D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoLeftWingVtx" Count="8" Offset="0x650">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoLeftFootVtx" Count="3" Offset="0x6D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoRightFootVtx" Count="3" Offset="0x700">
+            <Vtx/>
+        </Array>
+        <Array Name="gCuccoTailAndUndersideVtx" Count="41" Offset="0x730">
+            <Vtx/>
+        </Array>
+
         <!-- Cucco Limb DisplayLists -->
         <DList Name="gCuccoTailAndUndersideDL" Offset="0x0DF0"/>
         <DList Name="gCuccoLeftFootDL" Offset="0x11E0"/>
@@ -29,19 +52,22 @@
         <DList Name="gCuccoNeckDL" Offset="0x09C0"/>
         <DList Name="gCuccoHeadDL" Offset="0x0A98"/>
 
-        <!-- Other Cucco DisplayLists -->
+        <!-- Other Cucco Vertices and DisplayLists -->
         <DList Name="gCuccoEffectFeatherMaterialDL" Offset="0x23B0"/>
+        <Array Name="gCuccoEffectFeatherModelVtx" Count="3" Offset="0x2380">
+            <Vtx/>
+        </Array>
         <DList Name="gCuccoEffectFeatherModelDL" Offset="0x2428"/>
 
         <!-- Cucco DisplayList Textures -->
-        <Texture Name="gCuccoEyeTex" OutName="eye" Format="rgba16" Width="16" Height="16" Offset="0x1280"/>
-        <Texture Name="gCuccoHeadFeathersTex" OutName="head_feathers" Format="rgba16" Width="8" Height="16" Offset="0x1480"/>
-        <Texture Name="gCuccoBaseFeathersTex" OutName="base_feathers" Format="rgba16" Width="8" Height="8" Offset="0x1580"/>
-        <Texture Name="gCuccoBeakTex" OutName="beak" Format="rgba16" Width="8" Height="8" Offset="0x1600"/>
-        <Texture Name="gCuccoCombTex" OutName="comb" Format="rgba16" Width="16" Height="16" Offset="0x1680"/>
-        <Texture Name="gCuccoTailFeathersTex" OutName="tail_feathers" Format="rgba16" Width="32" Height="32" Offset="0x1880"/>
-        <Texture Name="gCuccoClawTex" OutName="claw" Format="rgba16" Width="8" Height="16" Offset="0x2080"/>
-        <Texture Name="gCuccoTex_2180" OutName="tex_2180" Format="rgba16" Width="16" Height="16" Offset="0x2180"/>
+        <Texture Name="gCuccoEyeTex" Format="rgba16" Width="16" Height="16" Offset="0x1280"/>
+        <Texture Name="gCuccoHeadFeathersTex" Format="rgba16" Width="8" Height="16" Offset="0x1480"/>
+        <Texture Name="gCuccoBaseFeathersTex" Format="rgba16" Width="8" Height="8" Offset="0x1580"/>
+        <Texture Name="gCuccoBeakTex" Format="rgba16" Width="8" Height="8" Offset="0x1600"/>
+        <Texture Name="gCuccoCombTex" Format="rgba16" Width="16" Height="16" Offset="0x1680"/>
+        <Texture Name="gCuccoTailFeathersTex" Format="rgba16" Width="32" Height="32" Offset="0x1880"/>
+        <Texture Name="gCuccoClawTex" Format="rgba16" Width="8" Height="16" Offset="0x2080"/>
+        <Texture Name="gCuccoTex_2180" Format="rgba16" Width="16" Height="16" Offset="0x2180"/>
 
         <!-- Cucco Animations -->
         <Animation Name="gCuccoAnim" Offset="0xE8"/>

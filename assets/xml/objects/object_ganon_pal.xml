@@ -90,38 +90,38 @@
         <DList Name="gGanondorfLeftShoulderDL" Offset="0x7908"/>
 
         <!-- Ganondorf Textures -->
-        <Texture Name="gGanondorfSkinTLUT" OutName="ganondorf_skin_tlut" Format="rgba16" Width="16" Height="16" Offset="0x7B10"/>
-        <Texture Name="gGanondorfHairTLUT" OutName="ganondorf_hair_tlut" Format="rgba16" Width="16" Height="16" Offset="0x7D10"/>
-        <Texture Name="gGanondorfInnerMouthTex" OutName="ganondorf_inner_mouth" Format="rgba16" Width="8" Height="8" Offset="0x7F10"/>
-        <Texture Name="gGanondorfJawTex" OutName="ganondorf_jaw" Format="ci8" Width="16" Height="16" Offset="0x7F90" TlutOffset="0x7B10"/>
-        <Texture Name="gGanondorfSideburnTex" OutName="ganondorf_sideburn" Format="ci8" Width="16" Height="16" Offset="0x8090" TlutOffset="0x7D10"/>
-        <Texture Name="gGanondorfOuterMouthTex" OutName="ganondorf_outer_mouth" Format="rgba16" Width="4" Height="8" Offset="0x8190"/>
-        <Texture Name="gGanondorfUpperLipTex" OutName="ganondorf_upper_lip" Format="ci8" Width="16" Height="16" Offset="0x81D0" TlutOffset="0x7B10"/>
-        <Texture Name="gGanondorfHairTex" OutName="ganondorf_hair" Format="ci8" Width="16" Height="16" Offset="0x82D0" TlutOffset="0x7D10"/>
-        <Texture Name="gGanondorfTeethTex" OutName="ganondorf_teeth" Format="rgba16" Width="4" Height="4" Offset="0x83D0"/>
-        <Texture Name="gGanondorfEyebrowTex" OutName="ganondorf_eyebrow" Format="ci8" Width="16" Height="8" Offset="0x83F0" TlutOffset="0x7D10"/>
-        <Texture Name="gGanondorfHairFringeTex" OutName="ganondorf_hair_fringe" Format="ci8" Width="16" Height="16" Offset="0x8470" TlutOffset="0x7D10"/>
-        <Texture Name="gGanondorfNoseBridgeTex" OutName="ganondorf_nose_bridge" Format="rgba16" Width="4" Height="16" Offset="0x8570"/>
-        <Texture Name="gGanondorfNoseTex" OutName="ganondorf_nose" Format="ci8" Width="8" Height="8" Offset="0x85F0" TlutOffset="0x7B10"/>
-        <Texture Name="gGanondorfEarTex" OutName="ganondorf_ear" Format="rgba16" Width="8" Height="16" Offset="0x8630"/>
-        <Texture Name="gGanondorfEyeOrbitTex" OutName="ganondorf_eye_orbit" Format="ci8" Width="32" Height="16" Offset="0x8730" TlutOffset="0x7B10"/>
-        <Texture Name="gGanondorfGerudoFabricTex" OutName="ganondorf_gerudo_fabric" Format="rgba16" Width="16" Height="16" Offset="0x8930"/>
-        <Texture Name="gGanondorfRedFabricTex" OutName="ganondorf_red_fabric" Format="rgba16" Width="16" Height="16" Offset="0x8B30"/>
-        <Texture Name="gGanondorfBodysuitTex" OutName="ganondorf_bodysuit" Format="rgba16" Width="8" Height="8" Offset="0x8D30"/>
-        <Texture Name="gGanondorfLeatherTex" OutName="ganondorf_leather" Format="rgba16" Width="16" Height="16" Offset="0x8DB0"/>
-        <Texture Name="gGanondorfCapeFasteningTex" OutName="ganondorf_cape_fastening" Format="rgba16" Width="16" Height="16" Offset="0x8FB0"/>
-        <Texture Name="gGanondorfGerudoFabricWithSunTex" OutName="ganondorf_gerudo_fabric_with_sun" Format="rgba16" Width="32" Height="16" Offset="0x91B0"/>
-        <Texture Name="gGanondorfHandTLUT" OutName="ganondorf_hand_tlut" Format="rgba16" Width="56" Height="1" Offset="0x95B0"/>
-        <Texture Name="gGanondorfJewelTex" OutName="ganondorf_jewel" Format="rgba16" Width="16" Height="32" Offset="0x9620"/>
-        <Texture Name="gGanondorfNormalEyeTex" OutName="ganondorf_normal_eye" Format="rgba16" Width="32" Height="16" Offset="0x9A20"/>
-        <Texture Name="gGanondorfChestJewelTex" OutName="ganondorf_chest_jewel" Format="rgba16" Width="16" Height="16" Offset="0x9E20"/>
-        <Texture Name="gGanondorfBlackLeatherTex" OutName="ganondorf_black_leather" Format="rgba16" Width="16" Height="16" Offset="0xA020"/>
-        <Texture Name="gGanondorfThumbTex" OutName="ganondorf_thumb" Format="ci8" Width="8" Height="8" Offset="0xA220" TlutOffset="0x95B0"/>
-        <Texture Name="gGanondorfGauntletAndPauldronTex" OutName="ganondorf_gauntlet_and_pauldron" Format="rgba16" Width="16" Height="16" Offset="0xA260"/>
-        <Texture Name="gGanondorfHandSideTex" OutName="ganondorf_hand_side" Format="ci8" Width="8" Height="8" Offset="0xA460" TlutOffset="0x95B0"/>
-        <Texture Name="gGanondorfFingerTex" OutName="ganondorf_finger" Format="ci8" Width="8" Height="8" Offset="0xA4A0" TlutOffset="0x95B0"/>
-        <Texture Name="gGanondorfCrazedEyeTex" OutName="ganondorf_crazed_eye" Format="rgba16" Width="32" Height="16" Offset="0xA4E0"/>
-        <Texture Name="gGanondorfEmptyEyeTex" OutName="ganondorf_empty_eye" Format="rgba16" Width="32" Height="16" Offset="0xA8E0"/>
+        <Texture Name="gGanondorfSkinTLUT" Format="rgba16" Width="16" Height="16" Offset="0x7B10"/>
+        <Texture Name="gGanondorfHairTLUT" Format="rgba16" Width="16" Height="16" Offset="0x7D10"/>
+        <Texture Name="gGanondorfInnerMouthTex" Format="rgba16" Width="8" Height="8" Offset="0x7F10"/>
+        <Texture Name="gGanondorfJawTex" Format="ci8" Width="16" Height="16" Offset="0x7F90" TlutOffset="0x7B10"/>
+        <Texture Name="gGanondorfSideburnTex" Format="ci8" Width="16" Height="16" Offset="0x8090" TlutOffset="0x7D10"/>
+        <Texture Name="gGanondorfOuterMouthTex" Format="rgba16" Width="4" Height="8" Offset="0x8190"/>
+        <Texture Name="gGanondorfUpperLipTex" Format="ci8" Width="16" Height="16" Offset="0x81D0" TlutOffset="0x7B10"/>
+        <Texture Name="gGanondorfHairTex" Format="ci8" Width="16" Height="16" Offset="0x82D0" TlutOffset="0x7D10"/>
+        <Texture Name="gGanondorfTeethTex" Format="rgba16" Width="4" Height="4" Offset="0x83D0"/>
+        <Texture Name="gGanondorfEyebrowTex" Format="ci8" Width="16" Height="8" Offset="0x83F0" TlutOffset="0x7D10"/>
+        <Texture Name="gGanondorfHairFringeTex" Format="ci8" Width="16" Height="16" Offset="0x8470" TlutOffset="0x7D10"/>
+        <Texture Name="gGanondorfNoseBridgeTex" Format="rgba16" Width="4" Height="16" Offset="0x8570"/>
+        <Texture Name="gGanondorfNoseTex" Format="ci8" Width="8" Height="8" Offset="0x85F0" TlutOffset="0x7B10"/>
+        <Texture Name="gGanondorfEarTex" Format="rgba16" Width="8" Height="16" Offset="0x8630"/>
+        <Texture Name="gGanondorfEyeOrbitTex" Format="ci8" Width="32" Height="16" Offset="0x8730" TlutOffset="0x7B10"/>
+        <Texture Name="gGanondorfGerudoFabricTex" Format="rgba16" Width="16" Height="16" Offset="0x8930"/>
+        <Texture Name="gGanondorfRedFabricTex" Format="rgba16" Width="16" Height="16" Offset="0x8B30"/>
+        <Texture Name="gGanondorfBodysuitTex" Format="rgba16" Width="8" Height="8" Offset="0x8D30"/>
+        <Texture Name="gGanondorfLeatherTex" Format="rgba16" Width="16" Height="16" Offset="0x8DB0"/>
+        <Texture Name="gGanondorfCapeFasteningTex" Format="rgba16" Width="16" Height="16" Offset="0x8FB0"/>
+        <Texture Name="gGanondorfGerudoFabricWithSunTex" Format="rgba16" Width="32" Height="16" Offset="0x91B0"/>
+        <Texture Name="gGanondorfHandTLUT" Format="rgba16" Width="56" Height="1" Offset="0x95B0"/>
+        <Texture Name="gGanondorfJewelTex" Format="rgba16" Width="16" Height="32" Offset="0x9620"/>
+        <Texture Name="gGanondorfNormalEyeTex" Format="rgba16" Width="32" Height="16" Offset="0x9A20"/>
+        <Texture Name="gGanondorfChestJewelTex" Format="rgba16" Width="16" Height="16" Offset="0x9E20"/>
+        <Texture Name="gGanondorfBlackLeatherTex" Format="rgba16" Width="16" Height="16" Offset="0xA020"/>
+        <Texture Name="gGanondorfThumbTex" Format="ci8" Width="8" Height="8" Offset="0xA220" TlutOffset="0x95B0"/>
+        <Texture Name="gGanondorfGauntletAndPauldronTex" Format="rgba16" Width="16" Height="16" Offset="0xA260"/>
+        <Texture Name="gGanondorfHandSideTex" Format="ci8" Width="8" Height="8" Offset="0xA460" TlutOffset="0x95B0"/>
+        <Texture Name="gGanondorfFingerTex" Format="ci8" Width="8" Height="8" Offset="0xA4A0" TlutOffset="0x95B0"/>
+        <Texture Name="gGanondorfCrazedEyeTex" Format="rgba16" Width="32" Height="16" Offset="0xA4E0"/>
+        <Texture Name="gGanondorfEmptyEyeTex" Format="rgba16" Width="32" Height="16" Offset="0xA8E0"/>
 
         <Array Name="gGanondorfEyesVtx" Count="10" Offset="0xACE0">
             <Vtx/>
@@ -149,7 +149,7 @@
         <DList Name="gGanondorfRightHandOpenDL" Offset="0xC9E8"/>
 
         <!-- Ganondorf Title Card Texture -->
-        <Texture Name="gGanondorfTitleCardTex" OutName="ganondorf_title_card" Format="ia8" Width="128" Height="120" Offset="0xCF00"/>
+        <Texture Name="gGanondorfTitleCardTex" Format="ia8" Width="128" Height="120" Offset="0xCF00"/>
 
         <!-- Ganondorf Animation -->
         <Animation Name="gGanondorfEndingFloatAnim" Offset="0x11348"/> <!-- Original name is "ONOLEE" (lit. "Curse you!" from his in-game dialogue) -->

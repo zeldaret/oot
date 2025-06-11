@@ -145,8 +145,8 @@ void BgJyaCobra_InitDynapoly(BgJyaCobra* this, PlayState* play, CollisionHeader*
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF(T("Warning : move BG 登録失敗",
-                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
                "../z_bg_jya_cobra.c", 247, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
@@ -159,7 +159,7 @@ void BgJyaCobra_SpawnRay(BgJyaCobra* this, PlayState* play) {
 #if DEBUG_FEATURES
     if (this->dyna.actor.child == NULL) {
         PRINTF_COLOR_RED();
-        PRINTF(T("Ｅｒｒｏｒ : Mir Ray 発生失敗", "Error : Mir Ray failed to occur") " (%s %d)\n",
+        PRINTF(T("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "Error : Mir Ray failed to occur (%s %d)\n"),
                "../z_bg_jya_cobra.c", 270);
         PRINTF_RST();
     }
@@ -445,8 +445,9 @@ void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
         BgJyaCobra_UpdateShadowFromTop(this);
     }
 
-    PRINTF("(jya " T("コブラ", "cobra") ")(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
-           &this->shadowTextureBuffer, COBRA_SHADOW_TEX_PTR(this));
+    PRINTF(T("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n",
+             "(jya cobra)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n"),
+           this->dyna.actor.params, this, &this->shadowTextureBuffer, COBRA_SHADOW_TEX_PTR(this));
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, PlayState* play) {
