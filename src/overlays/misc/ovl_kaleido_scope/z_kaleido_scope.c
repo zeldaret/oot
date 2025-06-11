@@ -1663,7 +1663,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         LANGUAGE_ARRAY(gPauseToDecideJPNTex, gPauseToDecideENGTex, gPauseToDecideGERTex, gPauseToDecideFRATex);
     static void* sToPlayMelodyTextTextures[] = LANGUAGE_ARRAY(gPauseToPlayMelodyJPNTex, gPauseToPlayMelodyENGTex,
                                                               gPauseToPlayMelodyGERTex, gPauseToPlayMelodyFRATex);
-    static void* D_8082AD78_scrollLeftLabels_[][LANGUAGE_MAX] = {
+    static void* sScrollLeftLabels[][LANGUAGE_MAX] = {
         LANGUAGE_ARRAY(gPauseToEquipmentJPNTex, gPauseToEquipmentENGTex, gPauseToEquipmentGERTex,
                        gPauseToEquipmentFRATex),
         LANGUAGE_ARRAY(gPauseToSelectItemJPNTex, gPauseToSelectItemENGTex, gPauseToSelectItemGERTex,
@@ -1672,7 +1672,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
         LANGUAGE_ARRAY(gPauseToQuestStatusJPNTex, gPauseToQuestStatusENGTex, gPauseToQuestStatusGERTex,
                        gPauseToQuestStatusFRATex),
     };
-    static void* D_8082ADA8_scrollRightLabels_[][LANGUAGE_MAX] = {
+    static void* sScrollRightLabels[][LANGUAGE_MAX] = {
         LANGUAGE_ARRAY(gPauseToMapJPNTex, gPauseToMapENGTex, gPauseToMapGERTex, gPauseToMapFRATex),
         LANGUAGE_ARRAY(gPauseToQuestStatusJPNTex, gPauseToQuestStatusENGTex, gPauseToQuestStatusGERTex,
                        gPauseToQuestStatusFRATex),
@@ -2045,12 +2045,12 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
                 if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
                     POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(
-                        POLY_OPA_DISP, D_8082AD78_scrollLeftLabels_[pauseCtx->pageIndex][gSaveContext.language], 128,
-                        16, 0);
+                        POLY_OPA_DISP, sScrollLeftLabels[pauseCtx->pageIndex][gSaveContext.language],
+                        TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 0);
                 } else {
                     POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(
-                        POLY_OPA_DISP, D_8082ADA8_scrollRightLabels_[pauseCtx->pageIndex][gSaveContext.language], 128,
-                        16, 0);
+                        POLY_OPA_DISP, sScrollRightLabels[pauseCtx->pageIndex][gSaveContext.language],
+                        TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 0);
                 }
             }
         } else {
