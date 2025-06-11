@@ -1,110 +1,110 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_zo" Segment="6">
-        <Skeleton Name="gZoraSkel" Type="Flex" LimbType="Standard" Offset="0xBFA8"/>
+        <Skeleton Name="gZoraSkel" Type="Flex" LimbType="Standard" LimbNone="ZORA_LIMB_NONE" LimbMax="ZORA_LIMB_MAX" EnumName="ZoraLimb" Offset="0xBFA8"/>
 
-        <Limb Name="gZoraPelvisLimb" LimbType="Standard" Offset="0xBE78"/>
+        <Limb Name="gZoraPelvisLimb" LimbType="Standard" EnumName="ZORA_LIMB_PELVIS" Offset="0xBE78"/>
         <Array Name="gZoraPelvisVtx" Count="31" Offset="0x8E50">
             <Vtx/>
         </Array>
         <DList Name="gZoraPelvisDL" Offset="0x9040"/>
 
         <!-- Left leg -->
-        <Limb Name="gZoraLeftThighsLimb" LimbType="Standard" Offset="0xBE84"/>
+        <Limb Name="gZoraLeftThighsLimb" LimbType="Standard" EnumName="ZORA_LIMB_LEFT_THIGHS" Offset="0xBE84"/>
         <Array Name="gZoraLeftThighsVtx" Count="44" Offset="0x83D0">
             <Vtx/>
         </Array>
         <DList Name="gZoraLeftThighsDL" Offset="0xB5F8"/>
-        <Limb Name="gZoraLeftShinLimb" LimbType="Standard" Offset="0xBE90"/>
+        <Limb Name="gZoraLeftShinLimb" LimbType="Standard" EnumName="ZORA_LIMB_LEFT_SHIN" Offset="0xBE90"/>
         <Array Name="gZoraLeftShinVtx" Count="41" Offset="0x8140">
             <Vtx/>
         </Array>
         <DList Name="gZoraLeftShinDL" Offset="0xB8D8"/>
-        <Limb Name="gZoraLeftFootLimb" LimbType="Standard" Offset="0xBE9C"/>
+        <Limb Name="gZoraLeftFootLimb" LimbType="Standard" EnumName="ZORA_LIMB_LEFT_FOOT" Offset="0xBE9C"/>
         <Array Name="gZoraLeftFootVtx" Count="39" Offset="0x7ED0">
             <Vtx/>
         </Array>
         <DList Name="gZoraLeftFootDL" Offset="0xBBB0"/>
 
         <!-- Right leg -->
-        <Limb Name="gZoraRightThighsLimb" LimbType="Standard" Offset="0xBEA8"/>
+        <Limb Name="gZoraRightThighsLimb" LimbType="Standard" EnumName="ZORA_LIMB_RIGHT_THIGHS" Offset="0xBEA8"/>
         <Array Name="gZoraRightThighsVtx" Count="44" Offset="0x8B90">
             <Vtx/>
         </Array>
         <DList Name="gZoraRightThighsDL" Offset="0xAD78"/>
-        <Limb Name="gZoraRightShinLimb" LimbType="Standard" Offset="0xBEB4"/>
+        <Limb Name="gZoraRightShinLimb" LimbType="Standard" EnumName="ZORA_LIMB_RIGHT_SHIN" Offset="0xBEB4"/>
         <Array Name="gZoraRightShinVtx" Count="41" Offset="0x8900">
             <Vtx/>
         </Array>
         <DList Name="gZoraRightShinDL" Offset="0xB058"/>
-        <Limb Name="gZoraRightFootLimb" LimbType="Standard" Offset="0xBEC0"/>
+        <Limb Name="gZoraRightFootLimb" LimbType="Standard" EnumName="ZORA_LIMB_RIGHT_FOOT" Offset="0xBEC0"/>
         <Array Name="gZoraRightFootVtx" Count="39" Offset="0x8690">
             <Vtx/>
         </Array>
         <DList Name="gZoraRightFootDL" Offset="0xB330"/>
 
-        <Limb Name="gZoraTorsoLimb" LimbType="Standard" Offset="0xBECC"/>
+        <Limb Name="gZoraTorsoLimb" LimbType="Standard" EnumName="ZORA_LIMB_TORSO" Offset="0xBECC"/>
         <Array Name="gZoraTorsoVtx" Count="106" Offset="0x7830">
             <Vtx/>
         </Array>
         <DList Name="gZoraTorsoDL" Offset="0x91E8"/>
 
         <!-- Left arm -->
-        <Limb Name="gZoraLeftArmLimb" LimbType="Standard" Offset="0xBED8"/>
+        <Limb Name="gZoraLeftArmLimb" LimbType="Standard" EnumName="ZORA_LIMB_LEFT_ARM" Offset="0xBED8"/>
         <Array Name="gZoraLeftArmVtx" Count="38" Offset="0x6ED0">
             <Vtx/>
         </Array>
         <DList Name="gZoraLeftArmDL" Offset="0xA630"/>
-        <Limb Name="gZoraLeftForearmLimb" LimbType="Standard" Offset="0xBEE4"/>
+        <Limb Name="gZoraLeftForearmLimb" LimbType="Standard" EnumName="ZORA_LIMB_LEFT_FOREARM" Offset="0xBEE4"/>
         <Array Name="gZoraLeftForearmVtx" Count="33" Offset="0x6CC0">
             <Vtx/>
         </Array>
         <DList Name="gZoraLeftForearmDL" Offset="0xA890"/>
-        <Limb Name="gZoraLeftHandLimb" LimbType="Standard" Offset="0xBEF0"/>
+        <Limb Name="gZoraLeftHandLimb" LimbType="Standard" EnumName="ZORA_LIMB_LEFT_HAND" Offset="0xBEF0"/>
         <Array Name="gZoraLeftHandVtx" Count="41" Offset="0x6A30">
             <Vtx/>
         </Array>
         <DList Name="gZoraLeftHandDL" Offset="0xAB70"/>
 
         <!-- Right arm -->
-        <Limb Name="gZoraRightArmLimb" LimbType="Standard" Offset="0xBEFC"/>
+        <Limb Name="gZoraRightArmLimb" LimbType="Standard" EnumName="ZORA_LIMB_RIGHT_ARM" Offset="0xBEFC"/>
         <Array Name="gZoraRightArmVtx" Count="38" Offset="0x75D0">
             <Vtx/>
         </Array>
         <DList Name="gZoraRightArmDL" Offset="0x9EE8"/>
-        <Limb Name="gZoraRightForearmLimb" LimbType="Standard" Offset="0xBF08"/>
+        <Limb Name="gZoraRightForearmLimb" LimbType="Standard" EnumName="ZORA_LIMB_RIGHT_FOREARM" Offset="0xBF08"/>
         <Array Name="gZoraRightForearmVtx" Count="33" Offset="0x73C0">
             <Vtx/>
         </Array>
         <DList Name="gZoraRightForearmDL" Offset="0xA148"/>
-        <Limb Name="gZoraRightHandLimb" LimbType="Standard" Offset="0xBF14"/>
+        <Limb Name="gZoraRightHandLimb" LimbType="Standard" EnumName="ZORA_LIMB_RIGHT_HAND" Offset="0xBF14"/>
         <Array Name="gZoraRightHandVtx" Count="41" Offset="0x7130">
             <Vtx/>
         </Array>
         <DList Name="gZoraRightHandDL" Offset="0xA428"/>
 
         <!-- Head and head tail -->
-        <Limb Name="gZoraHeadLimb" LimbType="Standard" Offset="0xBF20"/>
+        <Limb Name="gZoraHeadLimb" LimbType="Standard" EnumName="ZORA_LIMB_HEAD" Offset="0xBF20"/>
         <Array Name="gZoraHeadVtx" Count="75" Offset="0x6580">
             <Vtx/>
         </Array>
         <DList Name="gZoraHeadDL" Offset="0x9560"/>
-        <Limb Name="gZoraHeadTail1Limb" LimbType="Standard" Offset="0xBF2C"/>
+        <Limb Name="gZoraHeadTail1Limb" LimbType="Standard" EnumName="ZORA_LIMB_HEAD_TAIL_1" Offset="0xBF2C"/>
         <Array Name="gZoraHeadTail1Vtx" Count="24" Offset="0x6400">
             <Vtx/>
         </Array>
         <DList Name="gZoraHeadTail1DL" Offset="0x97D8"/>
-        <Limb Name="gZoraHeadTail2Limb" LimbType="Standard" Offset="0xBF38"/>
+        <Limb Name="gZoraHeadTail2Limb" LimbType="Standard" EnumName="ZORA_LIMB_HEAD_TAIL_2" Offset="0xBF38"/>
         <Array Name="gZoraHeadTail2Vtx" Count="22" Offset="0x62A0">
             <Vtx/>
         </Array>
         <DList Name="gZoraHeadTail2DL" Offset="0x9978"/>
-        <Limb Name="gZoraHeadTail3Limb" LimbType="Standard" Offset="0xBF44"/>
+        <Limb Name="gZoraHeadTail3Limb" LimbType="Standard" EnumName="ZORA_LIMB_HEAD_TAIL_3" Offset="0xBF44"/>
         <Array Name="gZoraHeadTail3Vtx" Count="22" Offset="0x6140">
             <Vtx/>
         </Array>
         <DList Name="gZoraHeadTail3DL" Offset="0x9B10"/>
-        <Limb Name="gZoraHeadTailFinLimb" LimbType="Standard" Offset="0xBF50"/>
+        <Limb Name="gZoraHeadTailFinLimb" LimbType="Standard" EnumName="ZORA_LIMB_HEAD_TAIL_FIN" Offset="0xBF50"/>
         <Array Name="gZoraHeadTailFinVtx" Count="28" Offset="0x5F80">
             <Vtx/>
         </Array>
