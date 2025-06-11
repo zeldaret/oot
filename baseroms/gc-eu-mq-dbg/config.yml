@@ -220,7 +220,7 @@ assets:
 - name: objects/object_fa
   xml_path: assets/xml/objects/object_fa.xml
 - name: objects/object_fd
-  xml_path: assets/xml/objects/object_fd_pal.xml
+  xml_path: assets/xml/objects/object_fd.xml
 - name: objects/object_fd2
   xml_path: assets/xml/objects/object_fd2.xml
 - name: objects/object_fhg
