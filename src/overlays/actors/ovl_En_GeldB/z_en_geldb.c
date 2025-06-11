@@ -7,6 +7,7 @@
 #include "z_en_geldb.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -251,7 +252,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     this->blinkState = 0;
     this->unkFloat = 10.0f;
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, &gGerudoRedNeutralAnim, this->jointTable,
-                       this->morphTable, GELDB_LIMB_MAX);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, thisx, &sBodyCylinderInit);
     Collider_InitTris(play, &this->blockCollider);
