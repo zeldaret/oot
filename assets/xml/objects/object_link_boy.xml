@@ -556,17 +556,17 @@
         <Texture Name="gLinkAdultUnusedSwordGuardTex" Format="ci8" Width="32" Height="32" Offset="0x8E80" TlutOffset="5E00"/>
         <Texture Name="gLinkAdultUnusedSwordEmblemTex" Format="ci8" Width="16" Height="16" Offset="0x9280" TlutOffset="0x5E00"/>
 
-        <Array Name="gLinkAdultVtx_02E120" Count="38" Offset="0x2E120" Static="On">
+        <Array Name="gLinkAdultVtx_02E120" Count="38" Offset="0x2E120">
             <Vtx/>
         </Array>
 
-        <Array Name="gLinkAdultVtx_033760" Count="54" Offset="0x33760" Static="On">
+        <Array Name="gLinkAdultVtx_033760" Count="54" Offset="0x33760">
             <Vtx/>
         </Array>
-        <Array Name="gLinkAdultVtx_0340A0" Count="146" Offset="0x340A0" Static="On">
+        <Array Name="gLinkAdultVtx_0340A0" Count="146" Offset="0x340A0">
             <Vtx/>
         </Array>
-        <Array Name="gLinkAdultVtx_02E7E0" Count="114" Offset="0x2E7E0" Static="On">
+        <Array Name="gLinkAdultVtx_02E7E0" Count="114" Offset="0x2E7E0">
             <Vtx/>
         </Array>
 

@@ -1,28 +1,73 @@
 <Root>
     <File Name="object_jya_obj" Segment="6">
+        <Array Name="g1fliftVtx" Count="31" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="g1fliftDL" Offset="0x1F0"/>
         <Collision Name="g1fliftCol" Offset="0x4A8"/>
         <Texture Name="g1f1fiftTopTex" Format="rgba16" Width="32" Height="32" Offset="0x1B940"/>
         <Texture Name="g1fLiftBottomTex" Format="rgba16" Width="32" Height="32" Offset="0x17540"/>
+        <Array Name="gAmishutterVtx" Count="41" Offset="0xBE10">
+            <Vtx/>
+        </Array>
         <DList Name="gAmishutterDL" Offset="0xC0A0"/>
         <Collision Name="gAmishutterCol" Offset="0xC4C8"/>
+        <Array Name="gBigMirror1Vtx" Count="18" Offset="0xBB50">
+            <Vtx/>
+        </Array>
         <DList Name="gBigMirror1DL" Offset="0xBC70"/>
+        <Array Name="gBigMirror2Vtx" Count="4" Offset="0xBD40">
+            <Vtx/>
+        </Array>
         <DList Name="gBigMirror2DL" Offset="0xBD80"/>
+        <Array Name="gBigMirror3Vtx" Count="53" Offset="0xDD20">
+            <Vtx/>
+        </Array>
+        <Array Name="gBigMirror4Vtx" Count="20" Offset="0xE070">
+            <Vtx/>
+        </Array>
         <DList Name="gBigMirror3DL" Offset="0xE1B0"/>
         <DList Name="gBigMirror4DL" Offset="0xE2D0"/>
         <Texture Name="gBigMirrorGradientTex" Format="ia16" Width="8" Height="128" Offset="0x1AB40"/>
+        <Array Name="gBombchuiwaVtx" Count="25" Offset="0xE740">
+            <Vtx/>
+        </Array>
         <DList Name="gBombchuiwaDL" Offset="0xE8D0"/>
+        <Array Name="gBombchuiwaLight2Vtx" Count="17" Offset="0xD820">
+            <Vtx/>
+        </Array>
+        <Array Name="gBombchuiwaLight1Vtx" Count="35" Offset="0xD930">
+            <Vtx/>
+        </Array>
         <DList Name="gBombchuiwaLight1DL" Offset="0xDC40"/>
         <DList Name="gBombchuiwaLight2DL" Offset="0xDB60"/>
+        <Array Name="gBombchuiwa2Vtx" Count="18" Offset="0x11890">
+            <Vtx/>
+        </Array>
         <DList Name="gBombchuiwa2DL" Offset="0x119B0"/>
+        <Array Name="gBombiwaVtx" Count="16" Offset="0xE390">
+            <Vtx/>
+        </Array>
         <DList Name="gBombiwaDL" Offset="0xE490"/>
+        <Array Name="gBombiwaEffectVtx" Count="61" Offset="0xE9F0">
+            <Vtx/>
+        </Array>
         <DList Name="gBombiwaEffectDL" Offset="0xEDC0"/>
         <Texture Name="gBombiwaRockTex" Format="rgba16" Width="32" Height="64" Offset="0x18B40"/>
         <Texture Name="gBombiwaLight1Tex" Format="ia16" Width="32" Height="64" Offset="0x19B40"/>
         <Collision Name="gBombiwaCol" Offset="0xE710"/>
+        <Array Name="gCobra1Vtx" Count="327" Offset="0xF240">
+            <Vtx/>
+        </Array>
+        <Array Name="gCobra2Vtx" Count="14" Offset="0x106B0">
+            <Vtx/>
+        </Array>
         <DList Name="gCobra1DL" Offset="0x10790"/>
         <DList Name="gCobra2DL" Offset="0x10C20"/>
         <Collision Name="gCobraCol" Offset="0x1167C"/>
+        <Array Name="gCobra3Vtx" Count="18" Offset="0x116B0">
+            <Vtx/>
+        </Array>
         <DList Name="gCobra3DL" Offset="0x117D0"/>
         <Texture Name="gCobraMirrorStoneTex" Format="rgba16" Width="32" Height="32" Offset="0x13D40"/>
         <Texture Name="gCobraMirrorBorderTex" Format="rgba16" Width="16" Height="16" Offset="0x15D40"/>
@@ -30,18 +75,69 @@
         <Texture Name="gCobraMirrorHandleTex" Format="rgba16" Width="32" Height="8" Offset="0x15F40"/>
         <Texture Name="gCobraMirrorMirrorTex" Format="ia16" Width="32" Height="32" Offset="0x14540"/>
         <Texture Name="gCobraMirrorToothTex" Format="ia8" Width="64" Height="32" Offset="0x14D40"/>
+        <Array Name="gKanaamiVtx" Count="21" Offset="0xEEB0">
+            <Vtx/>
+        </Array>
         <DList Name="gKanaamiDL" Offset="0xF000"/>
         <Collision Name="gKanaamiCol" Offset="0xF208"/>
         <Texture Name="gKanaamiTopTex" Format="rgba16" Width="32" Height="64" Offset="0x12540"/>
         <Texture Name="gKanaamiMiddleTex" Format="rgba16" Width="32" Height="32" Offset="0x13540"/>
+        <Array Name="gLiftVtx" Count="126" Offset="0xC500">
+            <Vtx/>
+        </Array>
         <DList Name="gLiftDL" Offset="0xCCE0"/>
         <Texture Name="gLiftChainTex" Format="rgba16" Width="16" Height="32" Offset="0x17D40"/>
         <Texture Name="gLiftTopTex" Format="rgba16" Width="16" Height="64" Offset="0x18140"/>
         <Texture Name="gLiftUpperChainTex" Format="rgba16" Width="8" Height="32" Offset="0x18940"/>
         <Collision Name="gLiftCol" Offset="0xD7E8"/>
+        <Array Name="gMegami1Vtx" Count="40" Offset="0x5500">
+            <Vtx/>
+        </Array>
         <DList Name="gMegami1DL" Offset="0x5780"/>
         <Collision Name="GMegamiCol" Offset="0x5C4C"/>
+        <Array Name="gMegami2Vtx" Count="20" Offset="0xB8B8">
+            <Vtx/>
+        </Array>
         <DList Name="gMegami2DL" Offset="0xB9F8"/>
+        <Array Name="gMegamiPiece1Vtx" Count="50" Offset="0x70E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece2Vtx" Count="65" Offset="0x7408">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece3Vtx" Count="60" Offset="0x7818">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece4Vtx" Count="66" Offset="0x7BD8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece5Vtx" Count="44" Offset="0x7FF8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece6Vtx" Count="73" Offset="0x82B8">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece7Vtx" Count="48" Offset="0x8748">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece8Vtx" Count="47" Offset="0x8A48">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece9Vtx" Count="30" Offset="0x8D38">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece10Vtx" Count="34" Offset="0x8F18">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece11Vtx" Count="48" Offset="0x9138">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece12Vtx" Count="44" Offset="0x9438">
+            <Vtx/>
+        </Array>
+        <Array Name="gMegamiPiece13Vtx" Count="35" Offset="0x96F8">
+            <Vtx/>
+        </Array>
         <DList Name="gMegamiPiece1DL" Offset="0x9928"/>
         <DList Name="gMegamiPiece2DL" Offset="0x9AC0"/>
         <DList Name="gMegamiPiece3DL" Offset="0x9C80"/>
@@ -74,6 +170,9 @@
         <Texture Name="gMegamiLeftCrumble3Tex" Format="ci4" Width="64" Height="64" Offset="0x3D00" TlutOffset="0x4E0"/>
         <Texture Name="gMegamiLeftCrumble4Tex" Format="ci4" Width="64" Height="64" Offset="0x4500" TlutOffset="0x4E0"/>
         <Texture Name="gMegamiLeftCrumble5Tex" Format="ci4" Width="64" Height="64" Offset="0x0500" TlutOffset="0x4E0"/>
+        <Array Name="gZurerukabeVtx" Count="12" Offset="0x12280">
+            <Vtx/>
+        </Array>
         <DList Name="gZurerukabeDL" Offset="0x12340"/>
         <Collision Name="gZurerukabeCol" Offset="0x12508"/>
 

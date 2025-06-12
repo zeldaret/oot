@@ -13,6 +13,51 @@
         <Texture Name="gNiwGirlDress4Tex" Format="rgba16" Width="32" Height="32" Offset="0x67F8"/>
         <Texture Name="gNiwGirlDress5Tex" Format="rgba16" Width="32" Height="32" Offset="0x87F8"/>
 
+        <Array Name="object_gr_Vtx_000390" Count="125" Offset="0x390">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_000B60" Count="18" Offset="0xB60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_000C80" Count="20" Offset="0xC80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_000DC0" Count="27" Offset="0xDC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_000F70" Count="40" Offset="0xF70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_0011F0" Count="27" Offset="0x11F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_0013A0" Count="40" Offset="0x13A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_001620" Count="50" Offset="0x1620">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_001940" Count="30" Offset="0x1940">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_001B20" Count="29" Offset="0x1B20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_001CF0" Count="18" Offset="0x1CF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_001E10" Count="6" Offset="0x1E10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_001E70" Count="29" Offset="0x1E70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_002040" Count="18" Offset="0x2040">
+            <Vtx/>
+        </Array>
+        <Array Name="object_gr_Vtx_002160" Count="6" Offset="0x2160">
+            <Vtx/>
+        </Array>
         <DList Name="object_gr_0021C0_DL" Offset="0x21C0"/>
         <DList Name="object_gr_0022E0_DL" Offset="0x22E0"/>
         <DList Name="object_gr_002400_DL" Offset="0x2400"/>
