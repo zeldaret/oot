@@ -2574,8 +2574,8 @@ s32 sCameraLetterboxSize = 32;
 
 s32 D_8011D3AC = -1;
 
-// Used in Camera_KeepOn3 and Camera_KeepOn4 to check around an at position for an eye position such that the at-eye
-// segment is not obstructed by collision or colliders.
+// Used in Camera_KeepOn3 and Camera_KeepOn4 to check around an `at` position for an `eye` position such that the
+// `at`-`eye` segment is not obstructed by collision or colliders.
 s16 sCamCheckAroundOffsetsYaw[] = {
     0x0AAA,  -0x0AAA, 0x1555,  -0x1555, 0x2AAA,  -0x2AAA, 0x3FFF,
     -0x3FFF, 0x5555,  -0x5555, 0x6AAA,  -0x6AAA, 0x7FFF,  0x0000,
