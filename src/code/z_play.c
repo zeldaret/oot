@@ -47,7 +47,7 @@
 #include "save.h"
 #include "vis.h"
 
-#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
+#pragma increment_block_number "gc-eu:216 gc-eu-mq:216 gc-jp:216 gc-jp-ce:216 gc-jp-mq:216 gc-us:216 gc-us-mq:216" \
                                "ique-cn:214 ntsc-1.0:240 ntsc-1.1:240 ntsc-1.2:240 pal-1.0:240 pal-1.1:240"
 
 TransitionTile gTransitionTile;

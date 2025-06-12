@@ -26,8 +26,8 @@
 
 #include "assets/textures/parameter_static/parameter_static.h"
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:0" \
-                               "ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:32" \
+                               "ntsc-1.1:32 ntsc-1.2:32 pal-1.0:0 pal-1.1:0"
 
 #if !PLATFORM_IQUE
 #define MSG_BUF_DECODED (msgCtx->msgBufDecoded)
@@ -3554,7 +3554,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     if ((msgCtx->lastPlayedSong <= OCARINA_SONG_PRELUDE) &&
                         !(msgCtx->ocarinaAction >= OCARINA_ACTION_PLAYBACK_MINUET &&
                           msgCtx->ocarinaAction <= OCARINA_ACTION_PLAYBACK_PRELUDE)) {
-                        if (msgCtx->disableWarpSongs || interfaceCtx->restrictions.warpSongs == RESTR_WARP_SONGS_OFF) {
+                        if (msgCtx->disableWarpSongs || interfaceCtx->restrictions.warpSongs == 3) {
                             Message_StartTextbox(play, 0x88C, NULL); // "You can't warp here!"
                             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
                         } else if (GET_EVENTINF_INGO_RACE_STATE() != INGO_RACE_STATE_HORSE_RENTAL_PERIOD) {

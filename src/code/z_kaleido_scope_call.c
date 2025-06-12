@@ -1,5 +1,5 @@
-#pragma increment_block_number "gc-eu:48 gc-eu-mq:48 gc-jp:48 gc-jp-ce:48 gc-jp-mq:48 gc-us:48 gc-us-mq:48 ique-cn:32" \
-                               "ntsc-1.0:48 ntsc-1.1:48 ntsc-1.2:48 pal-1.0:48 pal-1.1:48"
+#pragma increment_block_number "gc-eu:80 gc-eu-mq:80 gc-jp:80 gc-jp-ce:80 gc-jp-mq:80 gc-us:80 gc-us-mq:80 ique-cn:64" \
+                               "ntsc-1.0:96 ntsc-1.1:96 ntsc-1.2:96 pal-1.0:96 pal-1.1:96"
 
 #include "libu64/debug.h"
 #include "kaleido_manager.h"
