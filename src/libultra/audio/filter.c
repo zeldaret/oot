@@ -1,5 +1,6 @@
 #include "libaudio.h"
 #include "synthInternals.h"
+#include "stddef.h"
 
 void alFilterNew(ALFilter* f, ALCmdHandler h, ALSetParam s, s32 type) {
     f->source = NULL;

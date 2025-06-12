@@ -10,11 +10,12 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64debug_display.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 
@@ -100,16 +101,14 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
     switch (this->type) {
         case FIRE_ROCK_CEILING_SPOT_SPAWNER:
             this->actor.draw = NULL;
-            // "☆☆☆☆☆ ceiling waiting rock ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 天井待ち岩 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 天井待ち岩 ☆☆☆☆☆ \n", "☆☆☆☆☆ ceiling waiting rock ☆☆☆☆☆ \n") VT_RST);
             this->actionFunc = FireRock_WaitSpawnRocksFromCeiling;
             break;
         case FIRE_ROCK_ON_FLOOR:
             Actor_SetScale(&this->actor, 0.03f);
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &D_80A12CCC);
-            // "☆☆☆☆☆ floor rock ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 床岩 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 床岩 ☆☆☆☆☆ \n", "☆☆☆☆☆ floor rock ☆☆☆☆☆ \n") VT_RST);
             this->collider.dim.radius = 23;
             this->collider.dim.height = 37;
             this->collider.dim.yShift = -10;
@@ -154,8 +153,8 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnFireRock_Fall;
             break;
         default:
-            // "☆☆☆☆☆ No such rock! ERR !!!!!! ☆☆☆☆☆"
-            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ そんな岩はねぇ！ERR!!!!!! ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW)
+                       T("☆☆☆☆☆ そんな岩はねぇ！ERR!!!!!! ☆☆☆☆☆ \n", "☆☆☆☆☆ No such rock! ERR!!!!!! ☆☆☆☆☆ \n") VT_RST);
             Actor_Kill(&this->actor);
             break;
     }
@@ -169,8 +168,9 @@ void EnFireRock_Destroy(Actor* thisx, PlayState* play) {
         if ((spawner->actor.update != NULL) && (spawner->numSpawnedRocks > 0)) {
             spawner->numSpawnedRocks--;
             PRINTF("\n\n");
-            // "☆☆☆☆☆ Number of spawned instances recovery ☆☆☆☆☆%d"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生数回復 ☆☆☆☆☆%d\n" VT_RST, spawner->numSpawnedRocks);
+            PRINTF(VT_FGCOL(GREEN)
+                       T("☆☆☆☆☆ 発生数回復 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of spawned instances recovery ☆☆☆☆☆%d\n") VT_RST,
+                   spawner->numSpawnedRocks);
             PRINTF("\n\n");
         }
     }
@@ -270,7 +270,7 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play) {
                 }
                 spawnedFireRock->scale = this->scale - 0.01f;
             } else {
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n", "☆☆☆☆☆ It's full ☆☆☆☆☆ \n") VT_RST);
             }
         }
         Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
@@ -291,7 +291,7 @@ void FireRock_WaitSpawnRocksFromCeiling(EnFireRock* this, PlayState* play) {
             if (spawnedFireRock != NULL) {
                 spawnedFireRock->timer = 10;
             } else {
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n", "☆☆☆☆☆ It's full ☆☆☆☆☆ \n") VT_RST);
             }
         }
         this->playerNearby = 1;
@@ -369,8 +369,8 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
                     thisx->velocity.y = 0.0f;
                     thisx->speed = 0.0f;
                     this->actionFunc = EnFireRock_SpawnMoreBrokenPieces;
-                    // "☆☆☆☆☆ Shield Defense Lv1 ☆☆☆☆☆"
-                    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ シールド防御 Lv１ ☆☆☆☆☆ \n" VT_RST);
+                    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ シールド防御 Lv１ ☆☆☆☆☆ \n", "☆☆☆☆☆ Shield Defense Lv1 ☆☆☆☆☆ \n")
+                               VT_RST);
                     return;
                 }
                 setCollision = true;

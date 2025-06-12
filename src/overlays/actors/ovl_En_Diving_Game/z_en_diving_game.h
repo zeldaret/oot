@@ -2,7 +2,7 @@
 #define Z_EN_DIVING_GAME_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnDivingGame;
 

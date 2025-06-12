@@ -3,7 +3,7 @@
  */
 
 #include "ultra64.h"
-#include "z64audio.h"
+#include "audio.h"
 
 void Audio_InvalDCache(void* buf, s32 size) {
     OSIntMask prevMask = osSetIntMask(OS_IM_NONE);

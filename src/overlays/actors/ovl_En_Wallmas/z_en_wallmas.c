@@ -14,10 +14,10 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_wallmaster/object_wallmaster.h"
@@ -25,10 +25,6 @@
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 #define TIMER_SCALE ((f32)OS_CLOCK_RATE / 10000000000)
-
-#define DAMAGE_EFFECT_BURN 2
-#define DAMAGE_EFFECT_STUN_WHITE 4
-#define DAMAGE_EFFECT_STUN_BLUE 1
 
 void EnWallmas_Init(Actor* thisx, PlayState* play);
 void EnWallmas_Destroy(Actor* thisx, PlayState* play);
@@ -86,39 +82,46 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 4, 30, 40, 150 };
 
+typedef enum EnWallmasDamageReaction {
+    /* 0 */ WALLMAS_DMG_REACT_NONE,
+    /* 1 */ WALLMAS_DMG_REACT_STUN_BLUE,
+    /* 2 */ WALLMAS_DMG_REACT_BURN,
+    /* 4 */ WALLMAS_DMG_REACT_STUN_WHITE = 4
+} EnWallmasDamageReaction;
+
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x1),
-    /* Deku stick    */ DMG_ENTRY(2, 0x0),
-    /* Slingshot     */ DMG_ENTRY(1, 0x0),
-    /* Explosive     */ DMG_ENTRY(2, 0x0),
-    /* Boomerang     */ DMG_ENTRY(0, 0x1),
-    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
-    /* Hookshot      */ DMG_ENTRY(0, 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
-    /* Master sword  */ DMG_ENTRY(2, 0x0),
-    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
-    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
-    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
-    /* Light arrow   */ DMG_ENTRY(4, 0x4),
-    /* Unk arrow 1   */ DMG_ENTRY(4, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
-    /* Fire magic    */ DMG_ENTRY(4, 0x2),
-    /* Ice magic     */ DMG_ENTRY(0, 0x0),
-    /* Light magic   */ DMG_ENTRY(4, 0x4),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
-    /* Giant spin    */ DMG_ENTRY(4, 0x0),
-    /* Master spin   */ DMG_ENTRY(2, 0x0),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
-    /* Giant jump    */ DMG_ENTRY(8, 0x0),
-    /* Master jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, WALLMAS_DMG_REACT_STUN_BLUE),
+    /* Deku stick    */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, WALLMAS_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, WALLMAS_DMG_REACT_STUN_BLUE),
+    /* Normal arrow  */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(0, WALLMAS_DMG_REACT_STUN_BLUE),
+    /* Kokiri sword  */ DMG_ENTRY(1, WALLMAS_DMG_REACT_NONE),
+    /* Master sword  */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Giant's Knife */ DMG_ENTRY(4, WALLMAS_DMG_REACT_NONE),
+    /* Fire arrow    */ DMG_ENTRY(4, WALLMAS_DMG_REACT_BURN),
+    /* Ice arrow     */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Light arrow   */ DMG_ENTRY(4, WALLMAS_DMG_REACT_STUN_WHITE),
+    /* Unk arrow 1   */ DMG_ENTRY(4, WALLMAS_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, WALLMAS_DMG_REACT_BURN),
+    /* Ice magic     */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
+    /* Light magic   */ DMG_ENTRY(4, WALLMAS_DMG_REACT_STUN_WHITE),
+    /* Shield        */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, WALLMAS_DMG_REACT_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, WALLMAS_DMG_REACT_NONE),
+    /* Master spin   */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, WALLMAS_DMG_REACT_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, WALLMAS_DMG_REACT_NONE),
+    /* Master jump   */ DMG_ENTRY(4, WALLMAS_DMG_REACT_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, WALLMAS_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, WALLMAS_DMG_REACT_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -292,7 +295,7 @@ void EnWallmas_SetupStun(EnWallmas* this) {
     Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.5f, 0, 20.0f, ANIMMODE_ONCE, -3.0f);
 
     this->actor.speed = 0.0f;
-    if (this->actor.colChkInfo.damageEffect == 4) {
+    if (this->actor.colChkInfo.damageReaction == 4) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
@@ -522,7 +525,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_DEAD);
@@ -533,13 +536,13 @@ void EnWallmas_ColUpdate(EnWallmas* this, PlayState* play) {
                 }
             }
 
-            if ((this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_WHITE) ||
-                (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_BLUE)) {
+            if ((this->actor.colChkInfo.damageReaction == WALLMAS_DMG_REACT_STUN_WHITE) ||
+                (this->actor.colChkInfo.damageReaction == WALLMAS_DMG_REACT_STUN_BLUE)) {
                 if (this->actionFunc != EnWallmas_Stun) {
                     EnWallmas_SetupStun(this);
                 }
             } else {
-                if (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_BURN) {
+                if (this->actor.colChkInfo.damageReaction == WALLMAS_DMG_REACT_BURN) {
                     EffectSsFCircle_Spawn(play, &this->actor, &this->actor.world.pos, 40, 40);
                 }
 

@@ -113,7 +113,7 @@ class RoomShapeNormalEntryArrayResource(CDataArrayNamedLengthResource):
         return f"RoomShapeDListsEntry {self.symbol_name}[{self.length_name}]"
 
     def get_h_includes(self):
-        return ("z64room.h",)
+        return ("room.h",)
 
 
 class RoomShapeNormalResource(CDataResource):
@@ -191,7 +191,7 @@ class RoomShapeNormalResource(CDataResource):
         return ("array_count.h",)
 
     def get_h_includes(self):
-        return ("z64room.h",)
+        return ("room.h",)
 
 
 class RoomShapeDListsEntryResource(CDataResource):
@@ -207,7 +207,7 @@ class RoomShapeDListsEntryResource(CDataResource):
             raise ValueError
 
     def get_h_includes(self):
-        return ("z64room.h",)
+        return ("room.h",)
 
 
 def report_RoomShapeImageBase_entry(resource, memory_context: "MemoryContext", v):
@@ -343,7 +343,7 @@ class RoomShapeImageSingleResource(CDataResource):
             raise ValueError
 
     def get_h_includes(self):
-        return ("z64room.h",)
+        return ("room.h",)
 
 
 class RoomShapeImageMultiBgEntryArrayResource(CDataArrayNamedLengthResource):
@@ -395,7 +395,7 @@ class RoomShapeImageMultiBgEntryArrayResource(CDataArrayNamedLengthResource):
         return f"RoomShapeImageMultiBgEntry {self.name}[{self.length_name}]"
 
     def get_h_includes(self):
-        return ("z64room.h",)
+        return ("room.h",)
 
 
 class RoomShapeImageMultiResource(CDataResource):
@@ -462,7 +462,7 @@ class RoomShapeImageMultiResource(CDataResource):
             raise ValueError
 
     def get_h_includes(self):
-        return ("z64room.h",)
+        return ("room.h",)
 
 
 class RoomShapeCullableEntryArrayResource(CDataArrayNamedLengthResource):
@@ -479,7 +479,7 @@ class RoomShapeCullableEntryArrayResource(CDataArrayNamedLengthResource):
         return f"RoomShapeCullableEntry {self.symbol_name}[{self.length_name}]"
 
     def get_h_includes(self):
-        return ("z64room.h",)
+        return ("room.h",)
 
 
 class RoomShapeCullableResource(CDataResource):
@@ -554,4 +554,4 @@ class RoomShapeCullableResource(CDataResource):
             raise ValueError
 
     def get_h_includes(self):
-        return ("z64room.h",)
+        return ("room.h",)

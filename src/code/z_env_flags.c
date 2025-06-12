@@ -1,7 +1,7 @@
 #include "array_count.h"
 #include "ultra64.h"
-#include "z64cutscene_flags.h"
-#include "z64play.h"
+#include "cutscene_flags.h"
+#include "play_state.h"
 
 void CutsceneFlags_UnsetAll(PlayState* play) {
     u8 i;

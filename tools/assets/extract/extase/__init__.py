@@ -436,8 +436,8 @@ class File:
             resource_buffer_markers[i_start:i_end] = [
                 ResourceBufferMarker(
                     fused[0].name.removesuffix("_fused_") + "_fused_",  # TODO
-                    fused[0].file_start,
-                    fused[-1].file_end,
+                    min(map(lambda _f: _f.file_start, fused)),
+                    max(map(lambda _f: _f.file_end, fused)),
                     users,
                 )
             ]
@@ -1109,6 +1109,10 @@ class BinaryBlobResource(Resource):
     def try_parse_data(self, memory_context):
         # Nothing specific to do
         return RESOURCE_PARSE_SUCCESS
+
+    def get_as_xml(self):
+        return f"""\
+        <Blob Name="{self.symbol_name}" Size="0x{self.range_end - self.range_start:X}" Offset="0x{self.range_start:X}"/>"""
 
     def get_c_reference(self, resource_offset):
         return f"&{self.symbol_name}[{resource_offset}]"

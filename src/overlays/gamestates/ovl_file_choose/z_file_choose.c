@@ -22,16 +22,17 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64environment.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64skybox.h"
-#include "z64sram.h"
-#include "z64ss_sram.h"
-#include "z64view.h"
+#include "audio.h"
+#include "environment.h"
+#include "play_state.h"
+#include "save.h"
+#include "skybox.h"
+#include "sram.h"
+#include "ss_sram.h"
+#include "view.h"
 
 #if OOT_PAL_N64
 #include "assets/objects/object_mag/object_mag.h"
@@ -365,7 +366,7 @@ void FileSelect_InitModeUpdate(GameState* thisx) {
         this->nextTitleLabel = FS_TITLE_OPEN_FILE;
         PRINTF("Ｓｒａｍ Ｓｔａｒｔ─Ｌｏａｄ  》》》》》  ");
         Sram_VerifyAndLoadAllSaves(this, sramCtx);
-        PRINTF("終了！！！\n");
+        PRINTF(T("終了！！！\n", "End!!!\n"));
     }
 #else
     if (this->configMode == CM_FADE_IN_START) {

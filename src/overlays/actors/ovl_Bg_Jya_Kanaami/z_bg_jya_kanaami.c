@@ -13,7 +13,7 @@
 #include "sfx.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
@@ -61,8 +61,8 @@ void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, PlayState* play, CollisionHea
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF(T("Warning : move BG 登録失敗",
-                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
                "../z_bg_jya_kanaami.c", 145, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
@@ -78,7 +78,7 @@ void BgJyaKanaami_Init(Actor* thisx, PlayState* play) {
     } else {
         func_80899880(this);
     }
-    PRINTF("(jya " T("金網", "wire mesh") ")(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(jya 金網)(arg_data 0x%04x)\n", "(jya wire mesh)(arg_data 0x%04x)\n"), this->dyna.actor.params);
 }
 
 void BgJyaKanaami_Destroy(Actor* thisx, PlayState* play) {

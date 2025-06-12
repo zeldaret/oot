@@ -25,9 +25,9 @@
 #include "terminal.h"
 #include "translation.h"
 #include "ultra64.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64sram.h"
+#include "play_state.h"
+#include "save.h"
+#include "sram.h"
 
 void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;

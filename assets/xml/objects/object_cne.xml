@@ -21,14 +21,61 @@
 
         <!-- Textures -->
         <!-- 32-bit aligned textures. -->
-        <Texture Name="gHylianYoungWomanTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0xFC"/>
-        <Texture Name="gHylianYoungWomanSkinTex" OutName="skin" Format="ci8" Width="8" Height="8" Offset="0x2FC" TlutOffset="0xFC"/>
-        <Texture Name="gHylianYoungWomanBrownHairTex" OutName="brown_hair" Format="ci8" Width="8" Height="8" Offset="0x33C" TlutOffset="0xFC"/>
-        <Texture Name="gHylianYoungWomanHandTex" OutName="hand" Format="ci8" Width="8" Height="8" Offset="0x37C" TlutOffset="0xFC"/>
-        <Texture Name="gHylianYoungWomanBrownHairSkinTex" OutName="brown_hair_skin" Format="ci8" Width="8" Height="8" Offset="0x3BC" TlutOffset="0xFC"/>
-        <Texture Name="gHylianYoungWomanBrownHairFaceTex" OutName="brown_hair_face" Format="ci8" Width="8" Height="16" Offset="0x3FC" TlutOffset="0xFC"/>
-        <Texture Name="gHylianYoungWomanDressTex" OutName="dress" Format="i8" Width="8" Height="8" Offset="0x47C"/>
-        <Texture Name="gHylianYoungWomanCollarTex" OutName="collar" Format="ci8" Width="8" Height="8" Offset="0x4BC" TlutOffset="0xFC"/>
+        <Texture Name="gHylianYoungWomanTLUT" Format="rgba16" Width="16" Height="16" Offset="0xFC"/>
+        <Texture Name="gHylianYoungWomanSkinTex" Format="ci8" Width="8" Height="8" Offset="0x2FC" TlutOffset="0xFC"/>
+        <Texture Name="gHylianYoungWomanBrownHairTex" Format="ci8" Width="8" Height="8" Offset="0x33C" TlutOffset="0xFC"/>
+        <Texture Name="gHylianYoungWomanHandTex" Format="ci8" Width="8" Height="8" Offset="0x37C" TlutOffset="0xFC"/>
+        <Texture Name="gHylianYoungWomanBrownHairSkinTex" Format="ci8" Width="8" Height="8" Offset="0x3BC" TlutOffset="0xFC"/>
+        <Texture Name="gHylianYoungWomanBrownHairFaceTex" Format="ci8" Width="8" Height="16" Offset="0x3FC" TlutOffset="0xFC"/>
+        <Texture Name="gHylianYoungWomanDressTex" Format="i8" Width="8" Height="8" Offset="0x47C"/>
+        <Texture Name="gHylianYoungWomanCollarTex" Format="ci8" Width="8" Height="8" Offset="0x4BC" TlutOffset="0xFC"/>
+
+        <!-- Vertices -->
+        <Array Name="gHylianYoungWomanLeftFootVtx" Count="3" Offset="0x500">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanLeftShinVtx" Count="3" Offset="0x530">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanLeftThighVtx" Count="3" Offset="0x560">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanRightFootVtx" Count="3" Offset="0x590">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanRightShinVtx" Count="3" Offset="0x5C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanRightThighVtx" Count="3" Offset="0x5F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanBrownHairHeadVtx" Count="69" Offset="0x620">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanLeftHandVtx" Count="6" Offset="0xA70">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanLeftForearmVtx" Count="17" Offset="0xAD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanLeftUpperArmVtx" Count="11" Offset="0xBE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanRightHandVtx" Count="6" Offset="0xC90">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanRightForearmVtx" Count="17" Offset="0xCF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanRightUpperArmVtx" Count="11" Offset="0xE00">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanTorsoVtx" Count="56" Offset="0xEB0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianYoungWomanPelvisVtx" Count="13" Offset="0x1230">
+            <Vtx/>
+        </Array>
 
         <!-- DLs -->
         <DList Name="gHylianYoungWomanBrownHairHeadDL" Offset="0x1300"/>
@@ -48,10 +95,13 @@
         <DList Name="gHylianYoungWomanPelvisDL" Offset="0x2300"/>
 
         <!-- Orange Hair Textures -->
-        <Texture Name="gHylianYoungWomanOrangeHairFaceTex" OutName="orange_hair_face" Format="rgba16" Width="8" Height="16" Offset="0x23D0"/>
-        <Texture Name="gHylianYoungWomanOrangeHairSkinTex" OutName="orange_hair_skin" Format="rgba16" Width="8" Height="8" Offset="0x24D0"/>
+        <Texture Name="gHylianYoungWomanOrangeHairFaceTex" Format="rgba16" Width="8" Height="16" Offset="0x23D0"/>
+        <Texture Name="gHylianYoungWomanOrangeHairSkinTex" Format="rgba16" Width="8" Height="8" Offset="0x24D0"/>
 
         <!-- Orange Hair DL -->
+        <Array Name="gHylianYoungWomanOrangeHairHeadVtx" Count="49" Offset="0x2550">
+            <Vtx/>
+        </Array>
         <DList Name="gHylianYoungWomanOrangeHairHeadDL" Offset="0x2860"/>
     </File>
 </Root>

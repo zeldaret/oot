@@ -23,13 +23,13 @@
 #include "sys_math3d.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64horse.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "audio.h"
+#include "effect.h"
+#include "horse.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/object_horse/object_horse.h"
 #include "assets/objects/object_hni/object_hni.h"
@@ -1777,7 +1777,7 @@ void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
             // Focus the camera on Epona
             Camera_SetViewParam(play->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, &this->actor);
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_TURN_AROUND);
-            Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], 4, NULL, NULL, 0x51, 0, 0);
+            Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], CAM_DATA_SET_2, NULL, NULL, CAM_ITEM_TYPE_81, 0, 0);
         }
     }
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
@@ -1853,7 +1853,7 @@ void EnHorse_Idle(EnHorse* this, PlayState* play) {
                 EnHorse_SetFollowAnimation(this, play);
                 Camera_SetViewParam(play->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, &this->actor);
                 Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_TURN_AROUND);
-                Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], 4, NULL, NULL, 0x51, 0, 0);
+                Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], CAM_DATA_SET_2, NULL, NULL, CAM_ITEM_TYPE_81, 0, 0);
             }
         } else {
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,

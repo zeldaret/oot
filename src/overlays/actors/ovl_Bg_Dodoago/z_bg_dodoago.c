@@ -18,9 +18,9 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_ddan_objects/object_ddan_objects.h"
 
@@ -50,7 +50,7 @@ ActorProfile Bg_Dodoago_Profile = {
     /**/ BgDodoago_Draw,
 };
 
-static ColliderCylinderInit sColCylinderInitMain = {
+static ColliderCylinderInit sMainColliderCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -70,7 +70,7 @@ static ColliderCylinderInit sColCylinderInitMain = {
     { 80, 30, 80, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit sColCylinderInitLeftRight = {
+static ColliderCylinderInit sLeftRightColliderCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -146,9 +146,9 @@ void BgDodoago_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->mainCollider);
     Collider_InitCylinder(play, &this->leftCollider);
     Collider_InitCylinder(play, &this->rightCollider);
-    Collider_SetCylinder(play, &this->mainCollider, &this->dyna.actor, &sColCylinderInitMain);
-    Collider_SetCylinder(play, &this->leftCollider, &this->dyna.actor, &sColCylinderInitLeftRight);
-    Collider_SetCylinder(play, &this->rightCollider, &this->dyna.actor, &sColCylinderInitLeftRight);
+    Collider_SetCylinder(play, &this->mainCollider, &this->dyna.actor, &sMainColliderCylinderInit);
+    Collider_SetCylinder(play, &this->leftCollider, &this->dyna.actor, &sLeftRightColliderCylinderInit);
+    Collider_SetCylinder(play, &this->rightCollider, &this->dyna.actor, &sLeftRightColliderCylinderInit);
 
     BgDodoago_SetupAction(this, BgDodoago_WaitExplosives);
     sDisableBombCatcher = false;

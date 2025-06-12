@@ -7,9 +7,81 @@
         <Animation Name="gPoeFloatAnim" Offset="0x0A60"/>
         <Animation Name="gPoeAppearAnim" Offset="0x11C4"/>
         <Animation Name="gPoeDisappearAnim" Offset="0x15B0"/>
+        <Array Name="object_poh_Vtx_0015C0" Count="6" Offset="0x15C0">
+            <Vtx/>
+        </Array>
+        <DList Name="object_poh_001620_DL" Offset="0x1620"/>
+        <Array Name="object_poh_Vtx_0016B8" Count="30" Offset="0x16B8">
+            <Vtx/>
+        </Array>
+        <DList Name="object_poh_001898_DL" Offset="0x1898"/>
+        <Array Name="object_poh_Vtx_001A18" Count="6" Offset="0x1A18">
+            <Vtx/>
+        </Array>
+        <DList Name="object_poh_001A78_DL" Offset="0x1A78"/>
+        <Array Name="object_poh_Vtx_001B10" Count="6" Offset="0x1B10">
+            <Vtx/>
+        </Array>
+        <DList Name="object_poh_001B70_DL" Offset="0x1B70"/>
+        <Array Name="object_poh_Vtx_001C08" Count="6" Offset="0x1C08">
+            <Vtx/>
+        </Array>
+        <DList Name="object_poh_001C68_DL" Offset="0x1C68"/>
+        <Array Name="object_poh_Vtx_001CE0" Count="45" Offset="0x1CE0">
+            <Vtx/>
+        </Array>
+        <DList Name="object_poh_001FB0_DL" Offset="0x1FB0"/>
+        <Array Name="gPoeBurnVtx" Count="75" Offset="0x2158">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeBurnDL" Offset="0x2608"/>
+        <Array Name="object_poh_Vtx_0027C0" Count="21" Offset="0x27C0">
+            <Vtx/>
+        </Array>
+        <DList Name="object_poh_002910_DL" Offset="0x2910"/>
+        <Array Name="gPoeLanternVtx" Count="53" Offset="0x29D8">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeLanternDL" Offset="0x2D28"/>
+        <Array Name="object_poh_Vtx_002EB8" Count="10" Offset="0x2EB8">
+            <Vtx/>
+        </Array>
+        <DList Name="object_poh_002F58_DL" Offset="0x2F58"/>
+        <Texture Name="object_poh_003010_Tex" Format="i8" Width="32" Height="64" Offset="0x3010"/>
+        <Array Name="gPoeSoulVtx" Count="4" Offset="0x3810">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeSoulDL" Offset="0x3850"/>
+        <Texture Name="object_poh_003910_Tex" Format="rgba16" Width="32" Height="16" Offset="0x3910"/>
+        <Texture Name="object_poh_003D10_Tex" Format="rgba16" Width="32" Height="32" Offset="0x3D10"/>
+        <Texture Name="object_poh_004510_Tex" Format="rgba16" Width="16" Height="16" Offset="0x4510"/>
+        <Texture Name="object_poh_004710_Tex" Format="rgba16" Width="8" Height="8" Offset="0x4710"/>
+        <Texture Name="object_poh_004790_Tex" Format="rgba16" Width="16" Height="16" Offset="0x4790"/>
+        <Texture Name="object_poh_004990_Tex" Format="rgba16" Width="8" Height="8" Offset="0x4990"/>
+        <Texture Name="object_poh_004A10_Tex" Format="rgba16" Width="8" Height="16" Offset="0x4A10"/>
+        <Texture Name="object_poh_004B10_Tex" Format="rgba16" Width="16" Height="16" Offset="0x4B10"/>
+        <Texture Name="object_poh_004D10_Tex" Format="rgba16" Width="16" Height="16" Offset="0x4D10"/>
+        <Texture Name="object_poh_004F10_Tex" Format="rgba16" Width="8" Height="8" Offset="0x4F10"/>
+        <Limb Name="object_poh_004F90_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_004F90" Offset="0x4F90"/>
+        <Limb Name="object_poh_004F9C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_004F9C" Offset="0x4F9C"/>
+        <Limb Name="object_poh_004FA8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_004FA8" Offset="0x4FA8"/>
+        <Limb Name="object_poh_004FB4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_004FB4" Offset="0x4FB4"/>
+        <Limb Name="object_poh_004FC0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_004FC0" Offset="0x4FC0"/>
+        <Limb Name="object_poh_004FCC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_004FCC" Offset="0x4FCC"/>
+        <Limb Name="object_poh_004FD8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_004FD8" Offset="0x4FD8"/>
+        <Limb Name="object_poh_004FE4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_004FE4" Offset="0x4FE4"/>
+        <Limb Name="object_poh_004FF0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_004FF0" Offset="0x4FF0"/>
+        <Limb Name="object_poh_004FFC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_004FFC" Offset="0x4FFC"/>
+        <Limb Name="object_poh_005008_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_005008" Offset="0x5008"/>
+        <Limb Name="object_poh_005014_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_005014" Offset="0x5014"/>
+        <Limb Name="object_poh_005020_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_005020" Offset="0x5020"/>
+        <Limb Name="object_poh_00502C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_00502C" Offset="0x502C"/>
+        <Limb Name="object_poh_005038_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_005038" Offset="0x5038"/>
+        <Limb Name="object_poh_005044_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_005044" Offset="0x5044"/>
+        <Limb Name="object_poh_005050_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_005050" Offset="0x5050"/>
+        <Limb Name="object_poh_00505C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_00505C" Offset="0x505C"/>
+        <Limb Name="object_poh_005068_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_005068" Offset="0x5068"/>
+        <Limb Name="object_poh_005074_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_POH_005074" Offset="0x5074"/>
         <Skeleton Name="gPoeSkel" Type="Normal" LimbType="Standard" Offset="0x50D0"/>
     </File>
 </Root>

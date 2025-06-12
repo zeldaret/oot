@@ -11,9 +11,9 @@
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 

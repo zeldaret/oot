@@ -9,9 +9,10 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sys_matrix.h"
+#include "tex_len.h"
 #include "versions.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
@@ -33,7 +34,125 @@ ActorProfile End_Title_Profile = {
     /**/ EndTitle_DrawFull,
 };
 
-#include "assets/overlays/ovl_End_Title/ovl_End_Title.c"
+#if OOT_VERSION != IQUE_CN
+
+#define sTheLegendOfZeldaTex_WIDTH 120
+#define sTheLegendOfZeldaTex_HEIGHT 24
+static u64 sTheLegendOfZeldaTex[TEX_LEN(u64, sTheLegendOfZeldaTex_WIDTH, sTheLegendOfZeldaTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sTheLegendOfZeldaTex.ia8.inc.c"
+};
+
+#define sOcarinaOfTimeTex_WIDTH 112
+#define sOcarinaOfTimeTex_HEIGHT 16
+static u64 sOcarinaOfTimeTex[TEX_LEN(u64, sOcarinaOfTimeTex_WIDTH, sOcarinaOfTimeTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sOcarinaOfTimeTex.ia8.inc.c"
+};
+
+#define sTheEndTex_WIDTH 80
+#define sTheEndTex_HEIGHT 24
+static u64 sTheEndTex[TEX_LEN(u64, sTheEndTex_WIDTH, sTheEndTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sTheEndTex.ia8.inc.c"
+};
+
+#else
+
+static Gfx sEmptyDL1[1] = {
+#include "assets/overlays/ovl_End_Title/sEmptyDL1.inc.c"
+};
+
+#define sIQueTop_WIDTH 128
+#define sIQueTop_HEIGHT 24
+static u64 sIQueTop[TEX_LEN(u64, sIQueTop_WIDTH, sIQueTop_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sIQueTop.ia8.inc.c"
+};
+
+#define sIQueBottom_WIDTH 128
+#define sIQueBottom_HEIGHT 24
+static u64 sIQueBottom[TEX_LEN(u64, sIQueBottom_WIDTH, sIQueBottom_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sIQueBottom.ia8.inc.c"
+};
+
+static Gfx sEmptyDL2[1] = {
+#include "assets/overlays/ovl_End_Title/sEmptyDL2.inc.c"
+};
+
+#endif
+
+#define sNintendoLeftTex_WIDTH 64
+#define sNintendoLeftTex_HEIGHT 48
+static u64 sNintendoLeftTex[TEX_LEN(u64, sNintendoLeftTex_WIDTH, sNintendoLeftTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sNintendoLeftTex.ia8.inc.c"
+};
+
+#if OOT_VERSION == IQUE_CN
+static Gfx sEmptyDL3[1] = {
+#include "assets/overlays/ovl_End_Title/sEmptyDL3.inc.c"
+};
+#endif
+
+#define sNintendoRightTex_WIDTH 64
+#define sNintendoRightTex_HEIGHT 48
+static u64 sNintendoRightTex[TEX_LEN(u64, sNintendoRightTex_WIDTH, sNintendoRightTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sNintendoRightTex.ia8.inc.c"
+};
+
+#if OOT_VERSION == IQUE_CN
+static Gfx sEmptyDL4[1] = {
+#include "assets/overlays/ovl_End_Title/sEmptyDL4.inc.c"
+};
+#endif
+
+#define sPresentedByTex_WIDTH 96
+#define sPresentedByTex_HEIGHT 16
+static u64 sPresentedByTex[TEX_LEN(u64, sPresentedByTex_WIDTH, sPresentedByTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sPresentedByTex.ia8.inc.c"
+};
+
+#if OOT_VERSION == IQUE_CN
+
+static Gfx sEmptyDL5[1] = {
+#include "assets/overlays/ovl_End_Title/sEmptyDL5.inc.c"
+};
+
+#define sTheEndTex_WIDTH 80
+#define sTheEndTex_HEIGHT 24
+static u64 sTheEndTex[TEX_LEN(u64, sTheEndTex_WIDTH, sTheEndTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sTheEndTex.ia8.inc.c"
+};
+
+static Gfx sEmptyDL6[1] = {
+#include "assets/overlays/ovl_End_Title/sEmptyDL6.inc.c"
+};
+
+#define sTheLegendOfZeldaTex_WIDTH 120
+#define sTheLegendOfZeldaTex_HEIGHT 24
+static u64 sTheLegendOfZeldaTex[TEX_LEN(u64, sTheLegendOfZeldaTex_WIDTH, sTheLegendOfZeldaTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sTheLegendOfZeldaTex.ia8.inc.c"
+};
+
+static Gfx sEmptyDL7[1] = {
+#include "assets/overlays/ovl_End_Title/sEmptyDL7.inc.c"
+};
+
+#define sOcarinaOfTimeTex_WIDTH 112
+#define sOcarinaOfTimeTex_HEIGHT 16
+static u64 sOcarinaOfTimeTex[TEX_LEN(u64, sOcarinaOfTimeTex_WIDTH, sOcarinaOfTimeTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_End_Title/sOcarinaOfTimeTex.ia8.inc.c"
+};
+
+#endif
+
+static Vtx sTriforceVtx[] = {
+#include "assets/overlays/ovl_End_Title/sTriforceVtx.inc.c"
+};
+
+static Gfx sTriforceDL[12] = {
+#include "assets/overlays/ovl_End_Title/sTriforceDL.inc.c"
+};
+
+static Gfx sPresentedByNintendoDL[] = {
+#include "assets/overlays/ovl_End_Title/sPresentedByNintendoDL.inc.c"
+};
 
 void EndTitle_Init(Actor* thisx, PlayState* play) {
     EndTitle* this = (EndTitle*)thisx;
@@ -94,19 +213,21 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0,
                       COMBINED, 0, 0, 0, COMBINED);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->endAlpha);
-    gDPLoadTextureTile(OVERLAY_DISP++, sTheEndTex, G_IM_FMT_IA, G_IM_SIZ_8b, 80, 24, 0, 0, 80, 24, 0,
-                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
+    gDPLoadTextureTile(OVERLAY_DISP++, sTheEndTex, G_IM_FMT_IA, G_IM_SIZ_8b, sTheEndTex_WIDTH, sTheEndTex_HEIGHT, 0, 0,
+                       80, 24, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
     gSPTextureRectangle(OVERLAY_DISP++, 120 << 2, 90 << 2, 200 << 2, 113 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->tlozAlpha);
-    gDPLoadTextureTile(OVERLAY_DISP++, sTheLegendOfZeldaTex, G_IM_FMT_IA, G_IM_SIZ_8b, 120, 24, 0, 0, 120, 24, 0,
-                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
+    gDPLoadTextureTile(OVERLAY_DISP++, sTheLegendOfZeldaTex, G_IM_FMT_IA, G_IM_SIZ_8b, sTheLegendOfZeldaTex_WIDTH,
+                       sTheLegendOfZeldaTex_HEIGHT, 0, 0, 120, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                       G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
     gSPTextureRectangle(OVERLAY_DISP++, 100 << 2, 160 << 2, 220 << 2, 183 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
                         1 << 10);
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->ootAlpha);
-    gDPLoadTextureTile(OVERLAY_DISP++, sOcarinaOfTimeTex, G_IM_FMT_IA, G_IM_SIZ_8b, 112, 16, 0, 0, 112, 16, 0,
-                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
+    gDPLoadTextureTile(OVERLAY_DISP++, sOcarinaOfTimeTex, G_IM_FMT_IA, G_IM_SIZ_8b, sOcarinaOfTimeTex_WIDTH,
+                       sOcarinaOfTimeTex_HEIGHT, 0, 0, 112, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                       0, 0, 0, 0);
     gSPTextureRectangle(OVERLAY_DISP++, 104 << 2, 177 << 2, 216 << 2, 192 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
                         1 << 10);
 

@@ -25,10 +25,10 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_fd/object_fd.h"
@@ -1307,12 +1307,12 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
 }
 
 void BossFd_CollisionCheck(BossFd* this, PlayState* play) {
-    ColliderJntSphElement* headCollider = &this->collider.elements[0];
+    ColliderJntSphElement* headColliderElem = &this->collider.elements[0];
     ColliderElement* acHitElem;
 
-    if (headCollider->base.acElemFlags & ACELEM_HIT) {
-        headCollider->base.acElemFlags &= ~ACELEM_HIT;
-        acHitElem = headCollider->base.acHitElem;
+    if (headColliderElem->base.acElemFlags & ACELEM_HIT) {
+        headColliderElem->base.acElemFlags &= ~ACELEM_HIT;
+        acHitElem = headColliderElem->base.acHitElem;
         this->actor.colChkInfo.health -= 2;
         if (acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_ICE) {
             this->actor.colChkInfo.health -= 2;

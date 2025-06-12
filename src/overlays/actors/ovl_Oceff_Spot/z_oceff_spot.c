@@ -13,12 +13,14 @@
 #include "regs.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "tex_len.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64light.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "light.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
@@ -41,7 +43,23 @@ ActorProfile Oceff_Spot_Profile = {
     /**/ OceffSpot_Draw,
 };
 
-#include "assets/overlays/ovl_Oceff_Spot/ovl_Oceff_Spot.c"
+#define sTex_WIDTH 32
+#define sTex_HEIGHT 32
+static u64 sTex[TEX_LEN(u64, sTex_WIDTH, sTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Oceff_Spot/sTex.i8.inc.c"
+};
+
+static Vtx sCylinderVtx[] = {
+#include "assets/overlays/ovl_Oceff_Spot/sCylinderVtx.inc.c"
+};
+
+static Gfx sCylinderMaterialDL[19] = {
+#include "assets/overlays/ovl_Oceff_Spot/sCylinderMaterialDL.inc.c"
+};
+
+static Gfx sCylinderModelDL[18] = {
+#include "assets/overlays/ovl_Oceff_Spot/sCylinderModelDL.inc.c"
+};
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
@@ -99,15 +117,13 @@ void OceffSpot_End(OceffSpot* this, PlayState* play) {
                 play->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
                 PRINTF_COLOR_YELLOW();
-                // "Sun's Song Flag"
-                PRINTF("z_oceff_spot  太陽の歌フラグ\n");
+                PRINTF(T("z_oceff_spot  太陽の歌フラグ\n", "z_oceff_spot  Sun's Song Flag\n"));
                 PRINTF_RST();
             }
         } else {
             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             PRINTF_COLOR_YELLOW();
-            // "Ocarina End"
-            PRINTF("z_oceff_spot  オカリナ終了\n");
+            PRINTF(T("z_oceff_spot  オカリナ終了\n", "z_oceff_spot  Ocarina finished\n"));
             PRINTF_RST();
         }
     }

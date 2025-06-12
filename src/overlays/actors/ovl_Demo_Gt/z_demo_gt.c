@@ -14,11 +14,11 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64frame_advance.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "effect.h"
+#include "frame_advance.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_gt/object_gt.h"
 #include "assets/objects/object_geff/object_geff.h"
@@ -1774,8 +1774,8 @@ void DemoGt_Init(Actor* thisx, PlayState* play) {
             func_80982054_Init24(this, play);
             break;
         default:
-            // "Demo_Gt_Actor_ct There is no such argument !"
-            PRINTF("Demo_Gt_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+            PRINTF(T("Demo_Gt_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                     "Demo_Gt_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"));
             Actor_Kill(&this->dyna.actor);
     }
 }

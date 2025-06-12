@@ -1,8 +1,8 @@
 <Root>
     <File Name="ovl_En_Ganon_Mant">
-        <Texture Name="gMantTex" OutName="mant" Format="rgba16" Width="32" Height="64" Offset="0x0"/>
+        <Texture Name="gMantTex" Format="rgba16" Width="32" Height="64" Offset="0x0"/>
 
-        <Texture Name="gMantUnusedTex" OutName="mant_unused" Format="rgba16" Width="32" Height="32" Offset="0x1000"/>
+        <Texture Name="gMantUnusedTex" Format="rgba16" Width="32" Height="32" Offset="0x1000"/>
 
         <Array Name="gMant1Vtx" Count="144" Offset="0x1800">
             <Vtx/>

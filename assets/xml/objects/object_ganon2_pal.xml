@@ -13,6 +13,113 @@
         <Animation Name="gGanonGuardSidestepAnim" Offset="0xF1D0"/> <!-- Unused. Original name is "gn2_Ksidewalk" -->
         <Animation Name="gGanonGuardIdleAnim" Offset="0xFFE4"/> <!-- Original name is "gn2_Kwait" -->
 
+        <!-- Ganon Limb Vertices -->
+        <Array Name="gGanonRightHair3Vtx" Count="19" Offset="0x10000">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightHair2Vtx" Count="17" Offset="0x10130">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightHair1Vtx" Count="5" Offset="0x10240">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftHair3Vtx" Count="19" Offset="0x10290">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftHair2Vtx" Count="17" Offset="0x103C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftHair1Vtx" Count="5" Offset="0x104D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonMiddleHair3Vtx" Count="30" Offset="0x10520">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonMiddleHair2Vtx" Count="25" Offset="0x10700">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonMiddleHair1Vtx" Count="11" Offset="0x10890">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonJawVtx" Count="60" Offset="0x10940">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonMouthVtx" Count="62" Offset="0x10D00">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonSnoutVtx" Count="15" Offset="0x110E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonHeadVtx" Count="204" Offset="0x111D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonNeckVtx" Count="32" Offset="0x11E90">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightWristVtx" Count="16" Offset="0x12090">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightForearmVtx" Count="45" Offset="0x12190">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightUpperArmVtx" Count="71" Offset="0x12460">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightShoulderVtx" Count="35" Offset="0x128D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftWristVtx" Count="16" Offset="0x12B00">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftForearmVtx" Count="45" Offset="0x12C00">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftUpperArmVtx" Count="71" Offset="0x12ED0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftShoulderVtx" Count="35" Offset="0x13340">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonTorsoVtx" Count="130" Offset="0x13570">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftFootVtx" Count="55" Offset="0x13D90">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftShinVtx" Count="70" Offset="0x14100">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftThighVtx" Count="79" Offset="0x14560">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightFootVtx" Count="55" Offset="0x14A50">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightShinVtx" Count="69" Offset="0x14DC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightThighVtx" Count="79" Offset="0x15210">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonTail1Vtx" Count="18" Offset="0x15700">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonTail2Vtx" Count="18" Offset="0x15820">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonTail3Vtx" Count="24" Offset="0x15940">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonTail4Vtx" Count="36" Offset="0x15AC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonTail5Vtx" Count="32" Offset="0x15D00">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonPelvisVtx" Count="79" Offset="0x15F00">
+            <Vtx/>
+        </Array>
+
         <!-- Ganon Limb DisplayLists -->
         <DList Name="gGanonPelvisDL" Offset="0x163F0"/>
         <DList Name="gGanonTail1DL" Offset="0x16630"/>
@@ -51,46 +158,78 @@
         <DList Name="gGanonLeftUpperArmDL" Offset="0x1AAF0"/>
 
         <!-- Ganon Textures -->
-        <Texture Name="gGanonBodyTLUT" OutName="ganon_body_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1AF80"/>
-        <Texture Name="gGanonHairFringeTLUT" OutName="ganon_hair_fringe_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1B180"/>
-        <Texture Name="gGanonUnusedTLUT" OutName="ganon_unused_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1B380"/>
-        <Texture Name="gGanonGerudoFabricTLUT" OutName="ganon_gerudo_fabric_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1B580"/>
-        <Texture Name="gGanonRedFabricTLUT" OutName="ganon_red_fabric_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1B780"/>
-        <Texture Name="gGanonBlackLeatherAndPauldronTLUT" OutName="ganon_black_metal_and_pauldron_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1B980"/>
-        <Texture Name="gGanonLeatherTLUT" OutName="ganon_leather_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1BB80"/>
-        <Texture Name="gGanonHoofTLUT" OutName="ganon_hoof_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1BD80"/>
-        <Texture Name="gGanonTailTLUT" OutName="ganon_tail_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1BF80"/>
-        <Texture Name="gGanonHairTex" OutName="ganon_hair" Format="rgba16" Width="8" Height="16" Offset="0x1C180"/>
-        <Texture Name="gGanonMouthTex" OutName="ganon_mouth" Format="rgba16" Width="8" Height="16" Offset="0x1C280"/>
-        <Texture Name="gGanonFacialHairTex" OutName="ganon_facial_hair" Format="rgba16" Width="8" Height="8" Offset="0x1C380"/>
-        <Texture Name="gGanonBodyTex" OutName="ganon_body" Format="ci8" Width="32" Height="32" Offset="0x1C400" TlutOffset="0x1AF80"/>
-        <Texture Name="gGanonSnoutFrontTex" OutName="ganon_snout_front" Format="rgba16" Width="8" Height="16" Offset="0x1C800"/>
-        <Texture Name="gGanonSnoutSideTex" OutName="ganon_snout_side" Format="rgba16" Width="8" Height="16" Offset="0x1C900"/>
-        <Texture Name="gGanonHairFringeTex" OutName="ganon_hair_fringe" Format="ci8" Width="32" Height="16" Offset="0x1CA00" TlutOffset="0x1B180"/>
-        <Texture Name="gGanonGerudoFabricTex" OutName="ganon_gerudo_fabric" Format="ci8" Width="16" Height="16" Offset="0x1CC00" TlutOffset="0x1B580"/>
-        <Texture Name="gGanonFurTuftTex" OutName="ganon_fur_tuft" Format="rgba16" Width="16" Height="16" Offset="0x1CD00"/>
-        <Texture Name="gGanonRedFabricTex" OutName="ganon_red_fabric" Format="ci8" Width="16" Height="16" Offset="0x1CF00" TlutOffset="0x1B780"/>
-        <Texture Name="gGanonPauldronTex" OutName="ganon_pauldron" Format="ci8" Width="16" Height="16" Offset="0x1D000" TlutOffset="0x1B980"/>
-        <Texture Name="gGanonCapeFasteningTex" OutName="ganon_cape_fastening" Format="ci8" Width="16" Height="16" Offset="0x1D100" TlutOffset="0x1B780"/>
-        <Texture Name="gGanonBlackLeatherTex" OutName="ganon_black_leather" Format="ci8" Width="16" Height="16" Offset="0x1D200" TlutOffset="0x1B980"/>
-        <Texture Name="gGanonLeatherTex" OutName="ganon_leather" Format="ci8" Width="16" Height="16" Offset="0x1D300" TlutOffset="0x1BB80"/>
-        <Texture Name="gGanonHoofTex" OutName="ganon_hoof" Format="ci8" Width="16" Height="16" Offset="0x1D400" TlutOffset="0x1BD80"/>
-        <Texture Name="gGanonUnderSkirtTex" OutName="ganon_under_skirt" Format="rgba16" Width="4" Height="16" Offset="0x1D500"/>
-        <Texture Name="gGanonTailTex" OutName="ganon_tail" Format="ci8" Width="16" Height="32" Offset="0x1D580" TlutOffset="0x1BF80"/>
-        <Texture Name="gGanonEyesTLUT" OutName="ganon_eyes_tlut" Format="rgba16" Width="4" Height="4" Offset="0x1D780"/>
-        <Texture Name="gGanonHandTLUT" OutName="ganon_hand_tlut" Format="rgba16" Width="16" Height="11" Offset="0x1D7A8"/>
-        <Texture Name="gGanonHandTex" OutName="ganon_hand" Format="ci8" Width="32" Height="32" Offset="0x1D908" TlutOffset="0x1D7A8"/>
-        <Texture Name="gGanonJewelTex" OutName="ganon_jewel" Format="rgba16" Width="16" Height="32" Offset="0x1DD08"/>
-        <Texture Name="gGanonClawAndTeethTex" OutName="ganon_claw_and_teeth" Format="rgba16" Width="8" Height="8" Offset="0x1E108"/>
-        <Texture Name="gGanonEyeOpenTex" OutName="ganon_eye_open" Format="ci4" Width="16" Height="16" Offset="0x1E188" TlutOffset="0x1D780"/>
-        <Texture Name="gGanonLipsTex" OutName="ganon_lips" Format="rgba16" Width="8" Height="8" Offset="0x1E208"/>
-        <Texture Name="gGanonHornBaseTex" OutName="ganon_horn_base" Format="rgba16" Width="16" Height="16" Offset="0x1E288"/>
-        <Texture Name="gGanonHornTex" OutName="ganon_horn" Format="rgba16" Width="16" Height="8" Offset="0x1E488"/>
-        <Texture Name="gGanonSwordBladeTex" OutName="ganon_sword_blade" Format="i4" Width="32" Height="32" Offset="0x1E588"/>
-        <Texture Name="gGanonSwordGuardTex" OutName="ganon_sword_guard" Format="rgba16" Width="8" Height="16" Offset="0x1E788"/>
-        <Texture Name="gGanonSwordGripTex" OutName="ganon_sword_grip" Format="rgba16" Width="8" Height="16" Offset="0x1E888"/>
-        <Texture Name="gGanonEyeHalfTex" OutName="ganon_eye_half" Format="ci4" Width="16" Height="16" Offset="0x1E988" TlutOffset="0x1D780"/>
-        <Texture Name="gGanonEyeClosedTex" OutName="ganon_eye_closed" Format="ci4" Width="16" Height="16" Offset="0x1EA08" TlutOffset="0x1D780"/>
+        <Texture Name="gGanonBodyTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1AF80"/>
+        <Texture Name="gGanonHairFringeTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1B180"/>
+        <Texture Name="gGanonUnusedTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1B380"/>
+        <Texture Name="gGanonGerudoFabricTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1B580"/>
+        <Texture Name="gGanonRedFabricTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1B780"/>
+        <Texture Name="gGanonBlackLeatherAndPauldronTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1B980"/>
+        <Texture Name="gGanonLeatherTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1BB80"/>
+        <Texture Name="gGanonHoofTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1BD80"/>
+        <Texture Name="gGanonTailTLUT" Format="rgba16" Width="16" Height="16" Offset="0x1BF80"/>
+        <Texture Name="gGanonHairTex" Format="rgba16" Width="8" Height="16" Offset="0x1C180"/>
+        <Texture Name="gGanonMouthTex" Format="rgba16" Width="8" Height="16" Offset="0x1C280"/>
+        <Texture Name="gGanonFacialHairTex" Format="rgba16" Width="8" Height="8" Offset="0x1C380"/>
+        <Texture Name="gGanonBodyTex" Format="ci8" Width="32" Height="32" Offset="0x1C400" TlutOffset="0x1AF80"/>
+        <Texture Name="gGanonSnoutFrontTex" Format="rgba16" Width="8" Height="16" Offset="0x1C800"/>
+        <Texture Name="gGanonSnoutSideTex" Format="rgba16" Width="8" Height="16" Offset="0x1C900"/>
+        <Texture Name="gGanonHairFringeTex" Format="ci8" Width="32" Height="16" Offset="0x1CA00" TlutOffset="0x1B180"/>
+        <Texture Name="gGanonGerudoFabricTex" Format="ci8" Width="16" Height="16" Offset="0x1CC00" TlutOffset="0x1B580"/>
+        <Texture Name="gGanonFurTuftTex" Format="rgba16" Width="16" Height="16" Offset="0x1CD00"/>
+        <Texture Name="gGanonRedFabricTex" Format="ci8" Width="16" Height="16" Offset="0x1CF00" TlutOffset="0x1B780"/>
+        <Texture Name="gGanonPauldronTex" Format="ci8" Width="16" Height="16" Offset="0x1D000" TlutOffset="0x1B980"/>
+        <Texture Name="gGanonCapeFasteningTex" Format="ci8" Width="16" Height="16" Offset="0x1D100" TlutOffset="0x1B780"/>
+        <Texture Name="gGanonBlackLeatherTex" Format="ci8" Width="16" Height="16" Offset="0x1D200" TlutOffset="0x1B980"/>
+        <Texture Name="gGanonLeatherTex" Format="ci8" Width="16" Height="16" Offset="0x1D300" TlutOffset="0x1BB80"/>
+        <Texture Name="gGanonHoofTex" Format="ci8" Width="16" Height="16" Offset="0x1D400" TlutOffset="0x1BD80"/>
+        <Texture Name="gGanonUnderSkirtTex" Format="rgba16" Width="4" Height="16" Offset="0x1D500"/>
+        <Texture Name="gGanonTailTex" Format="ci8" Width="16" Height="32" Offset="0x1D580" TlutOffset="0x1BF80"/>
+        <Texture Name="gGanonEyesTLUT" Format="rgba16" Width="4" Height="4" Offset="0x1D780"/>
+        <Texture Name="gGanonHandTLUT" Format="rgba16" Width="16" Height="11" Offset="0x1D7A8"/>
+        <Texture Name="gGanonHandTex" Format="ci8" Width="32" Height="32" Offset="0x1D908" TlutOffset="0x1D7A8"/>
+        <Texture Name="gGanonJewelTex" Format="rgba16" Width="16" Height="32" Offset="0x1DD08"/>
+        <Texture Name="gGanonClawAndTeethTex" Format="rgba16" Width="8" Height="8" Offset="0x1E108"/>
+        <Texture Name="gGanonEyeOpenTex" Format="ci4" Width="16" Height="16" Offset="0x1E188" TlutOffset="0x1D780"/>
+        <Texture Name="gGanonLipsTex" Format="rgba16" Width="8" Height="8" Offset="0x1E208"/>
+        <Texture Name="gGanonHornBaseTex" Format="rgba16" Width="16" Height="16" Offset="0x1E288"/>
+        <Texture Name="gGanonHornTex" Format="rgba16" Width="16" Height="8" Offset="0x1E488"/>
+        <Texture Name="gGanonSwordBladeTex" Format="i4" Width="32" Height="32" Offset="0x1E588"/>
+        <Texture Name="gGanonSwordGuardTex" Format="rgba16" Width="8" Height="16" Offset="0x1E788"/>
+        <Texture Name="gGanonSwordGripTex" Format="rgba16" Width="8" Height="16" Offset="0x1E888"/>
+        <Texture Name="gGanonEyeHalfTex" Format="ci4" Width="16" Height="16" Offset="0x1E988" TlutOffset="0x1D780"/>
+        <Texture Name="gGanonEyeClosedTex" Format="ci4" Width="16" Height="16" Offset="0x1EA08" TlutOffset="0x1D780"/>
+
+        <!-- Ganon Limb Vertices -->
+        <Array Name="gGanonEyesVtx" Count="10" Offset="0x1EA88">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonJewelVtx" Count="10" Offset="0x1EB28">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightHornVtx" Count="58" Offset="0x1EBC8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftHornVtx" Count="56" Offset="0x1EF68">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightHandVtx" Count="79" Offset="0x1F2E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftHandVtx" Count="79" Offset="0x1F7D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonRightSwordVtx" Count="100" Offset="0x1FCC8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonLeftSwordVtx" Count="97" Offset="0x20308">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonOuterTeethVtx" Count="22" Offset="0x20918">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanonInnerTeethVtx" Count="10" Offset="0x20A78">
+            <Vtx/>
+        </Array>
 
         <!-- Ganon Limb DisplayLists -->
         <DList Name="gGanonEyesDL" Offset="0x20B18"/>
@@ -105,7 +244,7 @@
         <DList Name="gGanonInnerTeethDL" Offset="0x219D8"/>
 
         <!-- Ganon Title Card Texture -->
-        <Texture Name="gGanonTitleCardTex" OutName="ganon_title_card" Format="ia8" Width="128" Height="120" Offset="0x21A90"/>
+        <Texture Name="gGanonTitleCardTex" Format="ia8" Width="128" Height="120" Offset="0x21A90"/>
 
         <!-- Ganon Limbs -->
         <Limb Name="gGanonRootLimb" LimbType="Standard" Offset="0x25690"/>

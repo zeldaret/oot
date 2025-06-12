@@ -42,6 +42,9 @@ BEST_EFFORT = True
 VERBOSE_ColorIndexedTexturesManager = False
 VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER = True
 
+EXPLICIT_DL_AND_TEX_SIZES = True
+TEXS_SHORTER_NAMES = True
+
 
 class MtxResource(CDataResource):
     braces_in_source = False
@@ -273,11 +276,28 @@ class TextureResource(Resource):
         self.width_name = f"{self.symbol_name}_WIDTH"
         self.height_name = f"{self.symbol_name}_HEIGHT"
 
+    def get_as_xml(self):
+        tlut_offset_attr = (
+            f' TlutOffset="0x{self.resource_tlut.range_start:X}"'
+            if self.resource_tlut
+            else ""
+        )
+        return f"""\
+        <Texture Name="{self.symbol_name}" Format="{self.fmt.name.lower()}{self.siz.bpp}" Width="{self.width}" Height="{self.height}" Offset="0x{self.range_start:X}"{tlut_offset_attr}/>"""
+
+    def check_declare_length(self):
+        return (
+            hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_DL_AND_TEX_SIZES
+        ) and not self.is_tlut()
+
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON"):
-            if self.is_tlut():
-                raise NotImplementedError
-            return f"{self.elem_type} {self.symbol_name}[{self.height_name}*{self.width_name}*{self.siz.bpp}/8/sizeof({self.elem_type})]"
+        if hasattr(self, "HACK_IS_STATIC_ON") and self.is_tlut():
+            raise NotImplementedError
+        if self.check_declare_length():
+            return (
+                f"{self.elem_type} {self.symbol_name}"
+                f"[TEX_LEN({self.elem_type}, {self.width_name}, {self.height_name}, {self.siz.bpp})]"
+            )
         return f"{self.elem_type} {self.symbol_name}[]"
 
     def get_c_reference(self, resource_offset: int):
@@ -515,7 +535,10 @@ class TextureResource(Resource):
         super().write_c_declaration(h)
 
     def get_h_includes(self):
-        return ("ultra64.h",)
+        return (
+            "ultra64.h",
+            *(("tex_len.h",) if self.check_declare_length() else ()),
+        )
 
     @reprlib.recursive_repr()
     def __repr__(self):
@@ -1146,7 +1169,7 @@ class ColorIndexedTexturesManager:
                     lambda file, offset: TextureResource(
                         file,
                         offset,
-                        f"{reporter.name}_{offset:08X}_CITex",
+                        f"{file.name if TEXS_SHORTER_NAMES else reporter.name}_{offset:08X}_CITex",
                         tex.fmt,
                         tex.siz,
                         tex.width,
@@ -1168,7 +1191,7 @@ class ColorIndexedTexturesManager:
                     lambda file, offset: TLUTResource(
                         file,
                         offset,
-                        f"{reporter.name}_{offset:08X}_TLUT",
+                        f"{file.name if TEXS_SHORTER_NAMES else reporter.name}_{offset:08X}_TLUT",
                         {
                             G_TT.RGBA16: G_IM_FMT.RGBA,
                             G_TT.IA16: G_IM_FMT.IA,
@@ -1236,7 +1259,7 @@ class DListResource(Resource, can_size_be_unknown=True):
                     lambda file, offset: TextureResource(
                         file,
                         offset,
-                        f"{self.name}_{offset:08X}_Tex",
+                        f"{file.name if TEXS_SHORTER_NAMES else self.name}_{offset:08X}_Tex",
                         g_fmt,
                         g_siz,
                         width,
@@ -1334,8 +1357,12 @@ class DListResource(Resource, can_size_be_unknown=True):
 
         return RESOURCE_PARSE_SUCCESS
 
+    def get_as_xml(self):
+        return f"""\
+        <DList Name="{self.symbol_name}" Offset="0x{self.range_start:X}"/>"""
+
     def get_c_declaration_base(self):
-        if hasattr(self, "HACK_IS_STATIC_ON"):
+        if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_DL_AND_TEX_SIZES:
             length = (self.range_end - self.range_start) // 8
             return f"Gfx {self.symbol_name}[{length}]"
         return f"Gfx {self.symbol_name}[]"

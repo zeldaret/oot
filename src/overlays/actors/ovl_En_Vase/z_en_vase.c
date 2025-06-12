@@ -6,7 +6,7 @@
 
 #include "z_en_vase.h"
 
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_vase/object_vase.h"
 

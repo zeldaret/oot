@@ -12,9 +12,9 @@
         <Animation Name="gDntStageWalkAnim" Offset="0x2E1C"/>
 
         <!-- Forest Stage scrub eye textures -->
-        <Texture Name="gDntStageEyeOpenTex" OutName="dnt_stage_eye_open" Format="rgba16" Width="8" Height="8" Offset="0x27D0"/>
-        <Texture Name="gDntStageEyeHalfTex" OutName="dnt_stage_eye_half" Format="rgba16" Width="8" Height="8" Offset="0x25D0"/>
-        <Texture Name="gDntStageEyeShutTex" OutName="dnt_stage_eye_shut" Format="rgba16" Width="8" Height="8" Offset="0x2750"/>
+        <Texture Name="gDntStageEyeOpenTex" Format="rgba16" Width="8" Height="8" Offset="0x27D0"/>
+        <Texture Name="gDntStageEyeHalfTex" Format="rgba16" Width="8" Height="8" Offset="0x25D0"/>
+        <Texture Name="gDntStageEyeShutTex" Format="rgba16" Width="8" Height="8" Offset="0x2750"/>
 
         <!-- Forest Stage scrub flower -->
         <DList Name="gDntStageFlowerDL" Offset="0x1B00"/>
@@ -22,9 +22,73 @@
         <!-- Forest Stage scrub Deku Nut (used by Nutsball) -->
         <DList Name="gDntStageNutDL" Offset="0x1890"/>
 
+        <!-- Vertices -->
+        <Array Name="object_dnk_Vtx_000B80" Count="6" Offset="0xB80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000BE0" Count="10" Offset="0xBE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000C80" Count="15" Offset="0xC80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000D70" Count="28" Offset="0xD70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000F30" Count="6" Offset="0xF30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000F90" Count="6" Offset="0xF90">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_000FF0" Count="4" Offset="0xFF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_001030" Count="4" Offset="0x1030">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_001070" Count="7" Offset="0x1070">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dnk_Vtx_0010E0" Count="7" Offset="0x10E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDntStageNutVtx" Count="3" Offset="0x1860">
+            <Vtx/>
+        </Array>
+        <Array Name="gDntStageFlowerVtx" Count="30" Offset="0x1920">
+            <Vtx/>
+        </Array>
+
         <!-- Unused Content -->
 
         <!-- Forest Stage scrub animation -->
         <Animation Name="gDntStageWaitAnim" Offset="0x2CB8"/>
+
+        <DList Name="object_dnk_001150_DL" Offset="0x1150"/>
+        <DList Name="object_dnk_0011E0_DL" Offset="0x11E0"/>
+        <DList Name="object_dnk_001298_DL" Offset="0x1298"/>
+        <DList Name="object_dnk_0013B0_DL" Offset="0x13B0"/>
+        <DList Name="object_dnk_0014B0_DL" Offset="0x14B0"/>
+        <DList Name="object_dnk_001548_DL" Offset="0x1548"/>
+        <DList Name="object_dnk_0015E0_DL" Offset="0x15E0"/>
+        <DList Name="object_dnk_001670_DL" Offset="0x1670"/>
+        <DList Name="object_dnk_001700_DL" Offset="0x1700"/>
+        <DList Name="object_dnk_0017B0_DL" Offset="0x17B0"/>
+        <Texture Name="object_dnk_001BD0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x1BD0"/>
+        <Texture Name="object_dnk_0023D0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x23D0"/>
+        <Texture Name="object_dnk_002650_Tex" Format="rgba16" Width="8" Height="8" Offset="0x2650"/>
+        <Texture Name="object_dnk_0026D0_Tex" Format="rgba16" Width="8" Height="8" Offset="0x26D0"/>
+        <Texture Name="object_dnk_002850_Tex" Format="rgba16" Width="16" Height="16" Offset="0x2850"/>
+        <Limb Name="object_dnk_002A50_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNK_002A50" Offset="0x2A50"/>
+        <Limb Name="object_dnk_002A5C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNK_002A5C" Offset="0x2A5C"/>
+        <Limb Name="object_dnk_002A68_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNK_002A68" Offset="0x2A68"/>
+        <Limb Name="object_dnk_002A74_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNK_002A74" Offset="0x2A74"/>
+        <Limb Name="object_dnk_002A80_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNK_002A80" Offset="0x2A80"/>
+        <Limb Name="object_dnk_002A8C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNK_002A8C" Offset="0x2A8C"/>
+        <Limb Name="object_dnk_002A98_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNK_002A98" Offset="0x2A98"/>
+        <Limb Name="object_dnk_002AA4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNK_002AA4" Offset="0x2AA4"/>
+        <Limb Name="object_dnk_002AB0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNK_002AB0" Offset="0x2AB0"/>
+        <Limb Name="object_dnk_002ABC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNK_002ABC" Offset="0x2ABC"/>
     </File>
 </Root>

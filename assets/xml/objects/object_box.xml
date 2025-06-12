@@ -9,19 +9,47 @@
         <Animation Name="gTreasureChestAnim_00043C" Offset="0x43C"/>
         <Blob Name="object_box_zeroes_Blob_00044C" Size="0x64" Offset="0x044C"/>
 
+        <Array Name="gTreasureChestChestFrontVtx" Count="36" Offset="0x4B0">
+            <Vtx/>
+        </Array>
         <DList Name="gTreasureChestChestFrontDL" Offset="0x6F0"/>
-        <Texture Name="gTreasureChestFrontTex" OutName="chest_front" Format="rgba16" Width="32" Height="64" Offset="0x1798"/>
+        <Texture Name="gTreasureChestFrontTex" Format="rgba16" Width="32" Height="64" Offset="0x1798"/>
 
+        <Array Name="gTreasureChestBossKeyChestFrontVtx" Count="36" Offset="0x8A8">
+            <Vtx/>
+        </Array>
         <DList Name="gTreasureChestBossKeyChestFrontDL" Offset="0xAE8"/>
-        <Texture Name="gTreasureChestBossKeyFrontTex" OutName="boss_key_front_tex" Format="rgba16" Width="32" Height="64" Offset="0x3798"/>
+        <Texture Name="gTreasureChestBossKeyFrontTex" Format="rgba16" Width="32" Height="64" Offset="0x3798"/>
 
+        <Array Name="gTreasureChestChestSideAndLidVtx" Count="66" Offset="0xCA0">
+            <Vtx/>
+        </Array>
         <DList Name="gTreasureChestChestSideAndLidDL" Offset="0x10C0"/>
-        <Texture Name="gTreasureChestSideAndTopTex" OutName="side_and_top" Format="rgba16" Width="32" Height="32" Offset="0x2798"/>
+        <Texture Name="gTreasureChestSideAndTopTex" Format="rgba16" Width="32" Height="32" Offset="0x2798"/>
 
+        <Array Name="gTreasureChestBossKeyChestSideAndTopVtx" Count="66" Offset="0x1258">
+            <Vtx/>
+        </Array>
         <DList Name="gTreasureChestBossKeyChestSideAndTopDL" Offset="0x1678"/>
-        <Texture Name="gTreasureChestBossKeySideAndTopTex" OutName="boss_key_side_and_top" Format="rgba16" Width="32" Height="32" Offset="0x2F98"/>
+        <Texture Name="gTreasureChestBossKeySideAndTopTex" Format="rgba16" Width="32" Height="32" Offset="0x2F98"/>
 
         <Skeleton Name="gTreasureChestSkel" Type="Flex" LimbType="Standard" Offset="0x47D8"/>
         <Collision Name="gTreasureChestCol" Offset="0x5FC8"/>
+
+        <Array Name="object_box_Vtx_005780" Count="21" Offset="0x5780">
+            <Vtx/>
+        </Array>
+        <Array Name="object_box_Vtx_0058D0" Count="4" Offset="0x58D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_box_Vtx_005910" Count="4" Offset="0x5910">
+            <Vtx/>
+        </Array>
+        <Array Name="object_box_Vtx_005950" Count="4" Offset="0x5950">
+            <Vtx/>
+        </Array>
+        <Array Name="object_box_Vtx_005990" Count="4" Offset="0x5990">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

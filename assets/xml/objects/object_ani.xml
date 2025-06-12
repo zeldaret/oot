@@ -38,31 +38,78 @@
         <DList Name="gRoofManHeadDL" Offset="0x2CD8"/>
 
         <!-- Kakariko Roof Man Palettes -->
-        <Texture Name="gRoofMan1TLUT" OutName="roof_man_1_tlut" Format="rgba16" Width="16" Height="16" Offset="0x00108"/>
-        <Texture Name="gRoofMan2TLUT" OutName="roof_man_2_tlut" Format="rgba16" Width="21" Height="8" Offset="0x1088"/>
+        <Texture Name="gRoofMan1TLUT" Format="rgba16" Width="16" Height="16" Offset="0x00108"/>
+        <Texture Name="gRoofMan2TLUT" Format="rgba16" Width="21" Height="8" Offset="0x1088"/>
 
         <!-- Roof Man DisplayList Textures -->
-        <Texture Name="gRoofManHandBackTex" OutName="roof_man_hand_back" Format="ci8" Width="16" Height="16" Offset="0x00C08" TlutOffset="0x00108"/>
-        <Texture Name="gRoofManForearmGradientTex" OutName="roof_man_forearm_gradient" Format="ci8" Width="8" Height="8" Offset="0x00D08" TlutOffset="0x00108"/>
-        <Texture Name="gRoofManThighGradientTex" OutName="roof_man_thigh_gradient" Format="ci8" Width="8" Height="8" Offset="0x00D48" TlutOffset="0x00108"/>
-        <Texture Name="gRoofManSandalBuckleTex" OutName="roof_man_sandal_buckle" Format="ci8" Width="16" Height="16" Offset="0x00D88" TlutOffset="0x00108"/>
-        <Texture Name="gRoofManTrouserPatternTex" OutName="roof_man_trouser_pattern" Format="rgba16" Width="16" Height="16" Offset="0x00E88"/>
-        <Texture Name="gRoofManSkinGradientTex" OutName="roof_man_skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x012D8" TlutOffset="0x1088"/>
-        <Texture Name="gRoofManEarTex" OutName="roof_man_ear" Format="ci8" Width="16" Height="16" Offset="0x01318" TlutOffset="0x1088"/>
-        <Texture Name="gRoofManHairTex" OutName="roof_man_hair" Format="ci8" Width="16" Height="16" Offset="0x01418" TlutOffset="0x1088"/>
+        <Texture Name="gRoofManHandBackTex" Format="ci8" Width="16" Height="16" Offset="0x00C08" TlutOffset="0x00108"/>
+        <Texture Name="gRoofManForearmGradientTex" Format="ci8" Width="8" Height="8" Offset="0x00D08" TlutOffset="0x00108"/>
+        <Texture Name="gRoofManThighGradientTex" Format="ci8" Width="8" Height="8" Offset="0x00D48" TlutOffset="0x00108"/>
+        <Texture Name="gRoofManSandalBuckleTex" Format="ci8" Width="16" Height="16" Offset="0x00D88" TlutOffset="0x00108"/>
+        <Texture Name="gRoofManTrouserPatternTex" Format="rgba16" Width="16" Height="16" Offset="0x00E88"/>
+        <Texture Name="object_ani_0011D8_Tex" Format="ci8" Width="16" Height="16" Offset="0x11D8" TlutOffset="0x1088"/>
+        <Texture Name="gRoofManSkinGradientTex" Format="ci8" Width="8" Height="8" Offset="0x012D8" TlutOffset="0x1088"/>
+        <Texture Name="gRoofManEarTex" Format="ci8" Width="16" Height="16" Offset="0x01318" TlutOffset="0x1088"/>
+        <Texture Name="gRoofManHairTex" Format="ci8" Width="16" Height="16" Offset="0x01418" TlutOffset="0x1088"/>
 
         <!-- Kakariko Roof Man Unused Textures -->
-        <Texture Name="gRoofManUnusedTex" OutName="roof_man_unused" Format="ci8" Width="16" Height="16" Offset="0x308" TlutOffset="0x00108"/>
+        <Texture Name="gRoofManUnusedTex" Format="ci8" Width="16" Height="16" Offset="0x308" TlutOffset="0x00108"/>
 
         <!-- Kakariko Roof Man Eye Textures -->
-        <Texture Name="gRoofManEyeOpenTex" OutName="roof_man_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x408"/>
-        <Texture Name="gRoofManEyeHalfTex" OutName="roof_man_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x1518"/>
-        <Texture Name="gRoofManEyeClosedTex" OutName="roof_man_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x1D18"/>
+        <Texture Name="gRoofManEyeOpenTex" Format="rgba16" Width="32" Height="32" Offset="0x408"/>
+        <Texture Name="gRoofManEyeHalfTex" Format="rgba16" Width="32" Height="32" Offset="0x1518"/>
+        <Texture Name="gRoofManEyeClosedTex" Format="rgba16" Width="32" Height="32" Offset="0x1D18"/>
 
         <!-- Kakariko Roof Man Animations -->
         <Animation Name="gRoofManKnockbackAnim" Offset="0x67B8"/>
         <Animation Name="gRoofManGettingUpAfterKnockbackAnim" Offset="0x70F0"/>
         <Animation Name="gRoofManIdleAnim" Offset="0x76EC"/>
 
+        <!-- Vertices -->
+        <Array Name="gRoofManHeadVtx" Count="124" Offset="0x2518">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftHandVtx" Count="32" Offset="0x2FA8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftForearmVtx" Count="26" Offset="0x31A8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftUpperArmVtx" Count="26" Offset="0x3348">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightHandVtx" Count="32" Offset="0x34E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightForearmVtx" Count="26" Offset="0x36E8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightUpperArmVtx" Count="26" Offset="0x3888">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManTorsoVtx" Count="80" Offset="0x3A28">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftFootVtx" Count="16" Offset="0x3F28">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftLegVtx" Count="41" Offset="0x4028">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManLeftThighVtx" Count="23" Offset="0x42B8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightFootVtx" Count="16" Offset="0x4428">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightLegVtx" Count="45" Offset="0x4528">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManRightThighVtx" Count="23" Offset="0x47F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gRoofManWaistVtx" Count="16" Offset="0x4968">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

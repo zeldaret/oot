@@ -14,8 +14,8 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64play.h"
-#include "z64skin.h"
+#include "play_state.h"
+#include "skin.h"
 
 #include "assets/objects/object_fhg/object_fhg.h"
 
@@ -122,8 +122,8 @@ void DemoExt_HandleCues(DemoExt* this, PlayState* play) {
                     DemoExt_SetupDispellVortex(this);
                     break;
                 default:
-                    // "Demo_Ext_Check_DemoMode: there is no such action!"
-                    PRINTF("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ext_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;

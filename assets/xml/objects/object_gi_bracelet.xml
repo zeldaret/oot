@@ -1,6 +1,9 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_bracelet" Segment="6">
+        <Array Name="gGiGoronBraceletVtx" Count="150" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiGoronBraceletDL" Offset="0x0960"/>
     </File>
 </Root>

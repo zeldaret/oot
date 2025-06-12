@@ -14,8 +14,8 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64light.h"
-#include "z64play.h"
+#include "light.h"
+#include "play_state.h"
 
 #include "assets/objects/object_po_field/object_po_field.h"
 
@@ -43,7 +43,7 @@ ActorProfile En_Po_Desert_Profile = {
     /**/ EnPoDesert_Draw,
 };
 
-static ColliderCylinderInit sColliderInit = {
+static ColliderCylinderInit sColliderCylinderInit = {
     {
         COL_MATERIAL_HIT3,
         AT_NONE,
@@ -76,7 +76,7 @@ void EnPoDesert_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_Init(play, &this->skelAnime, &gPoeFieldSkel, &gPoeFieldFloatAnim, this->jointTable, this->morphTable, 10);
     Collider_InitCylinder(play, &this->collider);
-    Collider_SetCylinder(play, &this->collider, &this->actor, &sColliderInit);
+    Collider_SetCylinder(play, &this->collider, &this->actor, &sColliderCylinderInit);
     this->lightColor.r = 255;
     this->lightColor.g = 255;
     this->lightColor.b = 210;

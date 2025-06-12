@@ -39,6 +39,51 @@
         <Limb Name="object_oE4_Limb_0001B0" LimbType="Standard" Offset="0x1B0"/>
         <Limb Name="object_oE4_Limb_0001BC" LimbType="Standard" Offset="0x1BC"/>
         <Skeleton Name="object_oE4_Skel_000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
+        <Array Name="object_oE4_Vtx_000268" Count="73" Offset="0x268">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_0006F8" Count="43" Offset="0x6F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_0009A8" Count="245" Offset="0x9A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_0018F8" Count="49" Offset="0x18F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_001C08" Count="20" Offset="0x1C08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_001D48" Count="19" Offset="0x1D48">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_001E78" Count="23" Offset="0x1E78">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_001FE8" Count="17" Offset="0x1FE8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_0020F8" Count="31" Offset="0x20F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_0022E8" Count="49" Offset="0x22E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_0025F8" Count="20" Offset="0x25F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_002738" Count="19" Offset="0x2738">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_002868" Count="23" Offset="0x2868">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_0029D8" Count="17" Offset="0x29D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_oE4_Vtx_002AE8" Count="28" Offset="0x2AE8">
+            <Vtx/>
+        </Array>
         <DList Name="object_oE4_DL_002CA8" Offset="0x2CA8"/>
         <DList Name="object_oE4_DL_002E50" Offset="0x2E50"/>
         <DList Name="object_oE4_DL_002F58" Offset="0x2F58"/>
@@ -54,16 +99,16 @@
         <DList Name="object_oE4_DL_003F28" Offset="0x3F28"/>
         <DList Name="object_oE4_DL_003FE0" Offset="0x3FE0"/>
         <DList Name="object_oE4_DL_004098" Offset="0x4098"/>
-        <Texture Name="object_oE4_TLUT_004188" OutName="tlut_00004188" Format="rgba16" Width="16" Height="16" Offset="0x4188"/>
-        <Texture Name="object_oE4_Tex_004388" OutName="tex_00004388" Format="ci8" Width="16" Height="16" Offset="0x4388" TlutOffset="0x4188"/>
-        <Texture Name="object_oE4_Tex_004488" OutName="tex_00004488" Format="ci8" Width="16" Height="16" Offset="0x4488" TlutOffset="0x4188"/>
-        <Texture Name="object_oE4_Tex_004588" OutName="tex_00004588" Format="ci8" Width="8" Height="8" Offset="0x4588" TlutOffset="0x4188"/>
-        <Texture Name="object_oE4_Tex_0045C8" OutName="tex_000045C8" Format="ci8" Width="16" Height="16" Offset="0x45C8" TlutOffset="0x4188"/>
-        <Texture Name="object_oE4_Tex_0046C8" OutName="tex_000046C8" Format="ci8" Width="16" Height="16" Offset="0x46C8" TlutOffset="0x4188"/>
-        <Texture Name="object_oE4_Tex_0047C8" OutName="tex_000047C8" Format="rgba16" Width="16" Height="32" Offset="0x47C8"/>
-        <Texture Name="object_oE4_Tex_004BC8" OutName="tex_00004BC8" Format="rgba16" Width="8" Height="16" Offset="0x4BC8"/>
-        <Texture Name="object_oE4_Tex_004CC8" OutName="tex_00004CC8" Format="i4" Width="16" Height="16" Offset="0x4CC8"/>
-        <Texture Name="object_oE4_Tex_004D48" OutName="tex_00004D48" Format="i4" Width="16" Height="16" Offset="0x4D48"/>
-        <Texture Name="object_oE4_Tex_004DC8" OutName="tex_00004DC8" Format="rgba16" Width="16" Height="16" Offset="0x4DC8"/>
+        <Texture Name="object_oE4_TLUT_004188" Format="rgba16" Width="16" Height="16" Offset="0x4188"/>
+        <Texture Name="object_oE4_Tex_004388" Format="ci8" Width="16" Height="16" Offset="0x4388" TlutOffset="0x4188"/>
+        <Texture Name="object_oE4_Tex_004488" Format="ci8" Width="16" Height="16" Offset="0x4488" TlutOffset="0x4188"/>
+        <Texture Name="object_oE4_Tex_004588" Format="ci8" Width="8" Height="8" Offset="0x4588" TlutOffset="0x4188"/>
+        <Texture Name="object_oE4_Tex_0045C8" Format="ci8" Width="16" Height="16" Offset="0x45C8" TlutOffset="0x4188"/>
+        <Texture Name="object_oE4_Tex_0046C8" Format="ci8" Width="16" Height="16" Offset="0x46C8" TlutOffset="0x4188"/>
+        <Texture Name="object_oE4_Tex_0047C8" Format="rgba16" Width="16" Height="32" Offset="0x47C8"/>
+        <Texture Name="object_oE4_Tex_004BC8" Format="rgba16" Width="8" Height="16" Offset="0x4BC8"/>
+        <Texture Name="object_oE4_Tex_004CC8" Format="i4" Width="16" Height="16" Offset="0x4CC8"/>
+        <Texture Name="object_oE4_Tex_004D48" Format="i4" Width="16" Height="16" Offset="0x4D48"/>
+        <Texture Name="object_oE4_Tex_004DC8" Format="rgba16" Width="16" Height="16" Offset="0x4DC8"/>
     </File>
 </Root>

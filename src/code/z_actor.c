@@ -19,14 +19,14 @@
 #include "z_actor_dlftbls.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
-#include "z64actor.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64light.h"
-#include "z64horse.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64skin_matrix.h"
+#include "actor.h"
+#include "audio.h"
+#include "effect.h"
+#include "light.h"
+#include "horse.h"
+#include "play_state.h"
+#include "save.h"
+#include "skin_matrix.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
@@ -2689,7 +2689,7 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
 
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6197);
 
-    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ START", 0); // "Magic lens START"
+    gDPNoOpString(POLY_OPA_DISP++, T("魔法のメガネ START", "Magic lens START"), 0);
 
     gDPPipeSync(POLY_XLU_DISP++);
 
@@ -2729,23 +2729,25 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
     // The z-buffer will be updated where the mask is not fully transparent.
     Actor_DrawLensOverlay(gfxCtx);
 
-    // "Magic lens invisible Actor display START"
-    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", numInvisibleActors);
+    gDPNoOpString(POLY_OPA_DISP++,
+                  T("魔法のメガネ 見えないＡcｔｏｒ表示 START", "Magic lens invisible Actor display START"),
+                  numInvisibleActors);
 
     invisibleActor = &invisibleActors[0];
     for (i = 0; i < numInvisibleActors; i++) {
-        // "Magic lens invisible Actor display"
-        gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示", i);
+        gDPNoOpString(POLY_OPA_DISP++, T("魔法のメガネ 見えないＡcｔｏｒ表示", "Magic lens invisible Actor display"),
+                      i);
         Actor_Draw(play, *(invisibleActor++));
     }
 
-    // "Magic lens invisible Actor display END"
-    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
+    gDPNoOpString(POLY_OPA_DISP++,
+                  T("魔法のメガネ 見えないＡcｔｏｒ表示 END", "Magic lens invisible Actor display END"),
+                  numInvisibleActors);
 
     if (play->roomCtx.curRoom.lensMode != LENS_MODE_SHOW_ACTORS) {
         // Draw the lens overlay to the color frame buffer
 
-        gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
+        gDPNoOpString(POLY_OPA_DISP++, T("青い眼鏡(外側)", "Blue glasses (outside)"), 0);
 
         gDPPipeSync(POLY_XLU_DISP++);
 
@@ -2758,10 +2760,10 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
 
         Actor_DrawLensOverlay(gfxCtx);
 
-        gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 1); // "Blue spectacles (exterior)"
+        gDPNoOpString(POLY_OPA_DISP++, T("青い眼鏡(外側)", "Blue glasses (outside)"), 1);
     }
 
-    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ END", 0); // "Magic lens END"
+    gDPNoOpString(POLY_OPA_DISP++, T("魔法のメガネ END", "Magic lens END"), 0);
 
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6284);
 }
@@ -3853,7 +3855,7 @@ Actor* Actor_GetProjectileActor(PlayState* play, Actor* refActor, f32 radius) {
             actor = actor->next;
         } else {
             //! @bug The projectile actor gets unsafely casted to a hookshot to check its timer, even though
-            //  it can also be an arrow.
+            //! it can also be an arrow.
             //  Luckily, the field at the same offset in the arrow actor is the x component of a vector
             //  which will rarely ever be 0. So it's very unlikely for this bug to cause an issue.
             if ((Math_Vec3f_DistXYZ(&refActor->world.pos, &actor->world.pos) > radius) ||

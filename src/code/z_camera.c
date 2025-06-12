@@ -17,17 +17,17 @@
 #include "ultra64.h"
 #include "z_lib.h"
 #include "zelda_arena.h"
-#include "z64audio.h"
-#include "z64cutscene_spline.h"
-#include "z64debug.h"
-#include "z64olib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "cutscene_spline.h"
+#include "debug.h"
+#include "olib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+                               "ique-cn:64 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
@@ -3661,7 +3661,7 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:86 ntsc-1.1:86 ntsc-1.2:86 pal-1.0:86 pal-1.1:86"
+                               "ique-cn:128 ntsc-1.0:79 ntsc-1.1:79 ntsc-1.2:79 pal-1.0:79 pal-1.1:79"
 
 s32 Camera_KeepOn4(Camera* camera) {
     static Vec3f D_8015BD50;
@@ -3677,7 +3677,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     VecGeo spB8;
     UNUSED VecGeo spB0;
     VecGeo spA8;
-    s16* temp_s0 = &camera->data2;
+    s16* itemType = &camera->data2;
     s16 spA2;
     s16 spA0;
     s16 sp9E;
@@ -3698,12 +3698,12 @@ s32 Camera_KeepOn4(Camera* camera) {
             camera->play->view.unk_124 = camera->camId | 0x50;
             return 1;
         }
-        rwData->unk_14 = *temp_s0;
+        rwData->unk_14 = *itemType;
         camera->stateFlags &= ~CAM_STATE_LOCK_MODE;
     }
 
-    if (rwData->unk_14 != *temp_s0) {
-        PRINTF(VT_COL(YELLOW, BLACK) "camera: item: item type changed %d -> %d\n" VT_RST, rwData->unk_14, *temp_s0);
+    if (rwData->unk_14 != *itemType) {
+        PRINTF(VT_COL(YELLOW, BLACK) "camera: item: item type changed %d -> %d\n" VT_RST, rwData->unk_14, *itemType);
         camera->animState = 20;
         camera->stateFlags |= CAM_STATE_LOCK_MODE;
         camera->stateFlags &= ~(CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG);
@@ -3726,33 +3726,33 @@ s32 Camera_KeepOn4(Camera* camera) {
         roData->interfaceField = GET_NEXT_RO_DATA(values);
         roData->unk_14 = GET_NEXT_SCALED_RO_DATA(values);
         roData->unk_1E = GET_NEXT_RO_DATA(values);
-        PRINTF("camera: item: type %d\n", *temp_s0);
-        switch (*temp_s0) {
-            case 1:
+        PRINTF("camera: item: type %d\n", *itemType);
+        switch (*itemType) {
+            case CAM_ITEM_TYPE_1:
                 roData->unk_00 = playerHeight * -0.6f * yNormal;
                 roData->unk_04 = playerHeight * 2.0f * yNormal;
                 roData->unk_08 = 10.0f;
                 break;
 
-            case 2:
-            case 3:
+            case CAM_ITEM_TYPE_2:
+            case CAM_ITEM_TYPE_3:
                 roData->unk_08 = -20.0f;
                 roData->unk_18 = 80.0f;
                 break;
 
-            case 4:
+            case CAM_ITEM_TYPE_4:
                 roData->unk_00 = playerHeight * -0.2f * yNormal;
                 roData->unk_08 = 25.0f;
                 break;
 
-            case 8:
+            case CAM_ITEM_TYPE_8:
                 roData->unk_00 = playerHeight * -0.2f * yNormal;
                 roData->unk_04 = playerHeight * 0.8f * yNormal;
                 roData->unk_08 = 50.0f;
                 roData->unk_18 = 70.0f;
                 break;
 
-            case 9:
+            case CAM_ITEM_TYPE_9:
                 roData->unk_00 = playerHeight * 0.1f * yNormal;
                 roData->unk_04 = playerHeight * 0.5f * yNormal;
                 roData->unk_08 = -20.0f;
@@ -3761,7 +3761,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                     CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE, KEEPON4_FLAG_6);
                 break;
 
-            case 5:
+            case CAM_ITEM_TYPE_5:
                 roData->unk_00 = playerHeight * -0.4f * yNormal;
                 roData->unk_08 = -10.0f;
                 roData->unk_0C = 45.0f;
@@ -3769,7 +3769,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                     CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_ALL, KEEPON4_FLAG_1);
                 break;
 
-            case 10:
+            case CAM_ITEM_TYPE_10:
                 roData->unk_00 = playerHeight * -0.5f * yNormal;
                 roData->unk_04 = playerHeight * 1.5f * yNormal;
                 roData->unk_08 = -15.0f;
@@ -3780,7 +3780,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->unk_1E = 0x3C;
                 break;
 
-            case 12:
+            case CAM_ITEM_TYPE_12:
                 roData->unk_00 = playerHeight * -0.6f * yNormal;
                 roData->unk_04 = playerHeight * 1.6f * yNormal;
                 roData->unk_08 = -2.0f;
@@ -3792,14 +3792,14 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->unk_18 = 50.0f;
                 break;
 
-            case 0x5A:
+            case CAM_ITEM_TYPE_90:
                 roData->unk_00 = playerHeight * -0.3f * yNormal;
                 roData->unk_18 = 45.0f;
                 roData->interfaceField =
                     CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_IGNORE, KEEPON4_FLAG_1);
                 break;
 
-            case 0x5B:
+            case CAM_ITEM_TYPE_91:
                 roData->unk_00 = playerHeight * -0.1f * yNormal;
                 roData->unk_04 = playerHeight * 1.5f * yNormal;
                 roData->unk_08 = -3.0f;
@@ -3809,7 +3809,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                     CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_IGNORE, KEEPON4_FLAG_3);
                 break;
 
-            case 0x51:
+            case CAM_ITEM_TYPE_81:
                 roData->unk_00 = playerHeight * -0.3f * yNormal;
                 roData->unk_04 = playerHeight * 1.5f * yNormal;
                 roData->unk_08 = 2.0f;
@@ -3821,7 +3821,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->unk_1E = 0x1E;
                 break;
 
-            case 11:
+            case CAM_ITEM_TYPE_11:
                 roData->unk_00 = playerHeight * -0.19f * yNormal;
                 roData->unk_04 = playerHeight * 0.7f * yNormal;
                 roData->unk_0C = 130.0f;
@@ -7750,7 +7750,7 @@ void Camera_PrintSettings(Camera* camera) {
             sp50[i++] = '-';
         }
 
-        //! @bug: this code was clearly meaning to print `abs(camera->bgCamIndex)` as a
+        //! @bug this code was clearly meaning to print `abs(camera->bgCamIndex)` as a
         //! one-or-two-digit number, instead of `i`.
         // "sp50[i++] = ..." matches here, but is undefined behavior due to conflicting
         // reads/writes between sequence points, triggering warnings. Work around by
@@ -8624,7 +8624,7 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
             Camera_CopyDataToRegs(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
             //! @bug: `settingChangeSuccessful` is a bool and is likely checking the wrong value. This can never pass.
-            // The actual return of Camera_RequestSettingImpl or bgCamIndex would make more sense.
+            //! The actual return of Camera_RequestSettingImpl or bgCamIndex would make more sense.
             PRINTF(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST,
                    requestedBgCamIndex, camera->camId, BGCHECK_SCENE, requestedCamSetting);
         }
@@ -8874,25 +8874,24 @@ Vec3f Camera_GetQuakeOffset(Camera* camera) {
     return camera->quakeOffset;
 }
 
-void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
-                          UNK_TYPE arg6) {
-    if (setDataFlags & 0x1) {
+void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3, s32 data4) {
+    if (setDataFlags & CAM_DATA_SET_0) {
         camera->data0 = data0;
     }
 
-    if (setDataFlags & 0x2) {
+    if (setDataFlags & CAM_DATA_SET_1) {
         camera->data1 = data1;
     }
 
-    if (setDataFlags & 0x4) {
+    if (setDataFlags & CAM_DATA_SET_2) {
         camera->data2 = data2;
     }
 
-    if (setDataFlags & 0x8) {
+    if (setDataFlags & CAM_DATA_SET_3) {
         camera->data3 = data3;
     }
 
-    if (setDataFlags & 0x10) {
+    if (setDataFlags & CAM_DATA_SET_4) {
         PRINTF(VT_COL(RED, WHITE) "camera: setCameraData: last argument not alive!\n" VT_RST);
     }
 }

@@ -2,13 +2,14 @@
  * Original Filename: system.c
  */
 
+#include "alignment.h"
 #include "array_count.h"
 #include "attributes.h"
 #include "buffers.h"
 #include "segment_symbols.h"
 #include "ultra64.h"
 #include "versions.h"
-#include "z64audio.h"
+#include "audio.h"
 
 #define MK_ASYNC_MSG(retData, tableType, id, loadStatus) \
     (((retData) << 24) | ((tableType) << 16) | ((id) << 8) | (loadStatus))

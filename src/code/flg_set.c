@@ -5,8 +5,8 @@
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "controller.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 typedef struct FlagSetEntry {
     /* 0x00 */ u16* value;
@@ -184,7 +184,7 @@ void FlagSet_Update(PlayState* play) {
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_L)) {
-        play->pauseCtx.debugState = 0;
+        play->pauseCtx.debugState = PAUSE_DEBUG_STATE_CLOSED;
     }
 
     CLOSE_DISPS(gfxCtx, "../flg_set.c", 241);

@@ -17,7 +17,7 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_mizu_objects/object_mizu_objects.h"
 
@@ -44,7 +44,7 @@ ActorProfile Bg_Mizu_Bwall_Profile = {
     /**/ BgMizuBwall_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementInitFloor[2] = {
+static ColliderTrisElementInit sTrisElementsInitFloor[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -79,10 +79,10 @@ static ColliderTrisInit sTrisInitFloor = {
         COLSHAPE_TRIS,
     },
     2,
-    sTrisElementInitFloor,
+    sTrisElementsInitFloor,
 };
 
-static ColliderTrisElementInit sTrisElementInitRutoWall[1] = {
+static ColliderTrisElementInit sTrisElementsInitRutoWall[1] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -106,10 +106,10 @@ static ColliderTrisInit sTrisInitRutoWall = {
         COLSHAPE_TRIS,
     },
     1,
-    sTrisElementInitRutoWall,
+    sTrisElementsInitRutoWall,
 };
 
-static ColliderTrisElementInit sTrisElementInitWall[2] = {
+static ColliderTrisElementInit sTrisElementsInitWall[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -144,7 +144,7 @@ static ColliderTrisInit sTrisInitUnusedWall = {
         COLSHAPE_TRIS,
     },
     2,
-    sTrisElementInitWall,
+    sTrisElementsInitWall,
 };
 
 static ColliderTrisInit sTrisInitStingerWall = {
@@ -157,7 +157,7 @@ static ColliderTrisInit sTrisInitStingerWall = {
         COLSHAPE_TRIS,
     },
     2,
-    sTrisElementInitWall,
+    sTrisElementsInitWall,
 };
 
 static Gfx* sDLists[] = {
@@ -211,15 +211,15 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitFloor,
                                       this->colliderElements)) {
-                    PRINTF(T("Error : コリジョンデータセット失敗",
-                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                    PRINTF(T("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n",
+                             "Error : Collision data set failure (%s %d)(arg_data 0x%04x)\n"),
                            "../z_bg_mizu_bwall.c", 484, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
                     cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
-                    for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
+                    for (i = 0; i < ARRAY_COUNT(sTrisElementsInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
                             offset.x = sTrisInitFloor.elements[i].dim.vtx[j].x;
                             offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
@@ -252,15 +252,15 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitRutoWall,
                                       this->colliderElements)) {
-                    PRINTF(T("Error : コリジョンデータセット失敗",
-                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                    PRINTF(T("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n",
+                             "Error : Collision data set failure (%s %d)(arg_data 0x%04x)\n"),
                            "../z_bg_mizu_bwall.c", 558, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
                     cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
-                    for (i = 0; i < ARRAY_COUNT(sTrisElementInitRutoWall); i++) {
+                    for (i = 0; i < ARRAY_COUNT(sTrisElementsInitRutoWall); i++) {
                         for (j = 0; j < 3; j++) {
                             offset.x = sTrisInitRutoWall.elements[i].dim.vtx[j].x;
                             offset.y = sTrisInitRutoWall.elements[i].dim.vtx[j].y;
@@ -293,15 +293,15 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitUnusedWall,
                                       this->colliderElements)) {
-                    PRINTF(T("Error : コリジョンデータセット失敗",
-                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                    PRINTF(T("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n",
+                             "Error : Collision data set failure (%s %d)(arg_data 0x%04x)\n"),
                            "../z_bg_mizu_bwall.c", 638, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
                     cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
-                    for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
+                    for (i = 0; i < ARRAY_COUNT(sTrisElementsInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitUnusedWall.
@@ -336,15 +336,15 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitStingerWall,
                                       this->colliderElements)) {
-                    PRINTF(T("Error : コリジョンデータセット失敗",
-                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                    PRINTF(T("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n",
+                             "Error : Collision data set failure (%s %d)(arg_data 0x%04x)\n"),
                            "../z_bg_mizu_bwall.c", 724, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
                     cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
-                    for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
+                    for (i = 0; i < ARRAY_COUNT(sTrisElementsInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitStingerWall.
@@ -379,15 +379,15 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
                 Collider_InitTris(play, &this->collider);
                 if (!Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInitStingerWall,
                                       this->colliderElements)) {
-                    PRINTF(T("Error : コリジョンデータセット失敗",
-                             "Error : Collision data set failure") "(%s %d)(arg_data 0x%04x)\n",
+                    PRINTF(T("Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n",
+                             "Error : Collision data set failure (%s %d)(arg_data 0x%04x)\n"),
                            "../z_bg_mizu_bwall.c", 798, this->dyna.actor.params);
                     Actor_Kill(&this->dyna.actor);
                 } else {
                     sin = Math_SinS(this->dyna.actor.shape.rot.y);
                     cos = Math_CosS(this->dyna.actor.shape.rot.y);
 
-                    for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
+                    for (i = 0; i < ARRAY_COUNT(sTrisElementsInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitStingerWall.

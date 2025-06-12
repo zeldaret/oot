@@ -7,22 +7,116 @@
         <Animation Name="gPoeSistersFloatAnim" Offset="0x0D40"/>
         <Animation Name="gPoeSistersAppearDisappearAnim" Offset="0x119C"/>
         <Animation Name="gPoeSistersSwayAnim" Offset="0x14CC"/>
+        <Array Name="gPoeSistersMegFaceVtx" Count="29" Offset="0x14E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoeSistersMegBodyVtx" Count="96" Offset="0x16B0">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeSistersMegFaceDL" Offset="0x1CB0"/>
         <DList Name="gPoeSistersMegBodyDL" Offset="0x1DE0"/>
+        <Array Name="object_po_sisters_Vtx_0020A8" Count="19" Offset="0x20A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_sisters_Vtx_0021D8" Count="6" Offset="0x21D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_sisters_Vtx_002238" Count="6" Offset="0x2238">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_sisters_Vtx_002298" Count="6" Offset="0x2298">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_sisters_Vtx_0022F8" Count="6" Offset="0x22F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoSistersTorchVtx" Count="11" Offset="0x2358">
+            <Vtx/>
+        </Array>
+        <Array Name="object_po_sisters_Vtx_002408" Count="10" Offset="0x2408">
+            <Vtx/>
+        </Array>
+        <DList Name="object_po_sisters_0024A8_DL" Offset="0x24A8"/>
+        <DList Name="object_po_sisters_002570_DL" Offset="0x2570"/>
+        <DList Name="object_po_sisters_0025E8_DL" Offset="0x25E8"/>
+        <DList Name="object_po_sisters_002680_DL" Offset="0x2680"/>
+        <DList Name="object_po_sisters_002718_DL" Offset="0x2718"/>
         <DList Name="gPoSistersTorchDL" Offset="0x27B0"/>
+        <DList Name="object_po_sisters_002870_DL" Offset="0x2870"/>
+        <Array Name="gPoeSistersJoelleFaceVtx" Count="19" Offset="0x2908">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoeSistersJoelleBodyVtx" Count="72" Offset="0x2A38">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeSistersJoelleFaceDL" Offset="0x2EB8"/>
         <DList Name="gPoeSistersJoelleBodyDL" Offset="0x2F88"/>
+        <Array Name="gPoeSistersBethBodyVtx" Count="52" Offset="0x3208">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoeSistersBethFaceVtx" Count="14" Offset="0x3548">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeSistersBethBodyDL" Offset="0x3628"/>
         <DList Name="gPoeSistersBethFaceDL" Offset="0x3880"/>
+        <Array Name="gPoeSistersAmyBodyVtx" Count="49" Offset="0x3948">
+            <Vtx/>
+        </Array>
+        <Array Name="gPoSistersAmyFaceVtx" Count="23" Offset="0x3C58">
+            <Vtx/>
+        </Array>
         <DList Name="gPoeSistersAmyBodyDL" Offset="0x3DC8"/>
         <DList Name="gPoSistersAmyFaceDL" Offset="0x4020"/>
+        <Array Name="gPoSistersBurnVtx" Count="95" Offset="0x40F0">
+            <Vtx/>
+        </Array>
         <DList Name="gPoSistersBurnDL" Offset="0x46E0"/>
+        <Texture Name="object_po_sisters_0048D8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x48D8"/>
+        <Texture Name="object_po_sisters_004AD8_Tex" Format="rgba16" Width="32" Height="32" Offset="0x4AD8"/>
+        <Texture Name="object_po_sisters_0052D8_Tex" Format="rgba16" Width="32" Height="16" Offset="0x52D8"/>
+        <Texture Name="object_po_sisters_0056D8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x56D8"/>
+        <Texture Name="object_po_sisters_0058D8_Tex" Format="rgba16" Width="4" Height="4" Offset="0x58D8"/>
+        <Texture Name="object_po_sisters_0058F8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x58F8"/>
+        <Texture Name="object_po_sisters_005AF8_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5AF8"/>
+        <Texture Name="object_po_sisters_005CF8_Tex" Format="rgba16" Width="8" Height="8" Offset="0x5CF8"/>
+        <Texture Name="object_po_sisters_005D78_Tex" Format="rgba16" Width="16" Height="16" Offset="0x5D78"/>
+        <Texture Name="object_po_sisters_005F78_Tex" Format="rgba16" Width="16" Height="8" Offset="0x5F78"/>
+        <Texture Name="object_po_sisters_006078_Tex" Format="rgba16" Width="16" Height="16" Offset="0x6078"/>
+        <Texture Name="object_po_sisters_006278_Tex" Format="rgba16" Width="8" Height="8" Offset="0x6278"/>
+        <Texture Name="object_po_sisters_0062F8_Tex" Format="rgba16" Width="4" Height="4" Offset="0x62F8"/>
+        <Texture Name="object_po_sisters_006318_Tex" Format="rgba16" Width="16" Height="16" Offset="0x6318"/>
+        <Limb Name="object_po_sisters_006518_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_006518" Offset="0x6518"/>
+        <Limb Name="object_po_sisters_006524_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_006524" Offset="0x6524"/>
+        <Limb Name="object_po_sisters_006530_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_006530" Offset="0x6530"/>
+        <Limb Name="object_po_sisters_00653C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_00653C" Offset="0x653C"/>
+        <Limb Name="object_po_sisters_006548_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_006548" Offset="0x6548"/>
+        <Limb Name="object_po_sisters_006554_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_006554" Offset="0x6554"/>
+        <Limb Name="object_po_sisters_006560_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_006560" Offset="0x6560"/>
+        <Limb Name="object_po_sisters_00656C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_00656C" Offset="0x656C"/>
+        <Limb Name="object_po_sisters_006578_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_006578" Offset="0x6578"/>
+        <Limb Name="object_po_sisters_006584_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_006584" Offset="0x6584"/>
+        <Limb Name="object_po_sisters_006590_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_PO_SISTERS_006590" Offset="0x6590"/>
         <Skeleton Name="gPoeSistersSkel" Type="Normal" LimbType="Standard" Offset="0x65C8"/>
+        <Array Name="gPoSistersJoellePaintingVtx" Count="38" Offset="0x65D0">
+            <Vtx/>
+        </Array>
         <DList Name="gPoSistersJoellePaintingDL" Offset="0x6830"/>
+        <Array Name="gPoSistersBethPaintingVtx" Count="38" Offset="0x6B00">
+            <Vtx/>
+        </Array>
         <DList Name="gPoSistersBethPaintingDL" Offset="0x6D60"/>
+        <Array Name="gPoSistersAmyPaintingVtx" Count="32" Offset="0x7030">
+            <Vtx/>
+        </Array>
         <DList Name="gPoSistersAmyPaintingDL" Offset="0x7230"/>
+        <Array Name="gPoSistersAmyBlockVtx" Count="24" Offset="0x7420">
+            <Vtx/>
+        </Array>
         <DList Name="gPoSistersAmyBlockDL" Offset="0x75A0"/>
         <Collision Name="gPoSistersAmyBlockCol" Offset="0x7860"/>
+        <Array Name="gPoSistersAmyBethBlockVtx" Count="21" Offset="0x7890">
+            <Vtx/>
+        </Array>
         <DList Name="gPoSistersAmyBethBlockDL" Offset="0x79E0"/>
     </File>
 </Root>

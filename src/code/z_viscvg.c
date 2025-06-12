@@ -21,7 +21,7 @@
  */
 
 #include "gfx.h"
-#include "z64vis.h"
+#include "vis.h"
 
 /**
  * Draws only coverage: does not retain any of the original pixel RGB, primColor is used as background color.

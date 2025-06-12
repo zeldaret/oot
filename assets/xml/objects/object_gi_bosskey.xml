@@ -1,6 +1,12 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_bosskey" Segment="6">
+        <Array Name="gGiBossKeyVtx" Count="179" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiBossKeyGemVtx" Count="23" Offset="0xB30">
+            <Vtx/>
+        </Array>
         <DList Name="gGiBossKeyDL" Offset="0x0CA0"/>
         <DList Name="gGiBossKeyGemDL" Offset="0x0F08"/>
     </File>

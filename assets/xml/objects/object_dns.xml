@@ -23,6 +23,50 @@
         <!-- Forest Stage leader deku nut (used by NutsBall) -->
         <DList Name="gDntJijiNutDL" Offset="0x2410"/>
 
+        <!-- Vertices -->
+        <Array Name="object_dns_Vtx_0012C0" Count="6" Offset="0x12C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001320" Count="7" Offset="0x1320">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001390" Count="7" Offset="0x1390">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001400" Count="10" Offset="0x1400">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_0014A0" Count="15" Offset="0x14A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001590" Count="29" Offset="0x1590">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001760" Count="4" Offset="0x1760">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_0017A0" Count="4" Offset="0x17A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_0017E0" Count="4" Offset="0x17E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001820" Count="4" Offset="0x1820">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_001860" Count="6" Offset="0x1860">
+            <Vtx/>
+        </Array>
+        <Array Name="object_dns_Vtx_0018C0" Count="4" Offset="0x18C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gDntJijiFlowerVtx" Count="30" Offset="0x2130">
+            <Vtx/>
+        </Array>
+        <Array Name="gDntJijiNutVtx" Count="3" Offset="0x23E0">
+            <Vtx/>
+        </Array>
+
         <!-- Unused Content -->
 
         <!-- Forest Stage leader unused animations -->
@@ -31,5 +75,34 @@
         <Animation Name="gDntJijiUnkAnim" Offset="0xF98"/> <!-- This animation seems corrupted-->
         <Animation Name="gDntJijiWaitAnim" Offset="0x364C"/>
 
+        <DList Name="object_dns_001900_DL" Offset="0x1900"/>
+        <DList Name="object_dns_001990_DL" Offset="0x1990"/>
+        <DList Name="object_dns_001A40_DL" Offset="0x1A40"/>
+        <DList Name="object_dns_001AF0_DL" Offset="0x1AF0"/>
+        <DList Name="object_dns_001BA8_DL" Offset="0x1BA8"/>
+        <DList Name="object_dns_001CC0_DL" Offset="0x1CC0"/>
+        <DList Name="object_dns_001DC0_DL" Offset="0x1DC0"/>
+        <DList Name="object_dns_001E58_DL" Offset="0x1E58"/>
+        <DList Name="object_dns_001EE8_DL" Offset="0x1EE8"/>
+        <DList Name="object_dns_001F78_DL" Offset="0x1F78"/>
+        <DList Name="object_dns_002008_DL" Offset="0x2008"/>
+        <DList Name="object_dns_0020A0_DL" Offset="0x20A0"/>
+        <Texture Name="object_dns_0024A0_Tex" Format="rgba16" Width="32" Height="32" Offset="0x24A0"/>
+        <Texture Name="object_dns_002CA0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x2CA0"/>
+        <Texture Name="object_dns_002F20_Tex" Format="rgba16" Width="8" Height="8" Offset="0x2F20"/>
+        <Texture Name="object_dns_002FA0_Tex" Format="rgba16" Width="8" Height="8" Offset="0x2FA0"/>
+        <Texture Name="object_dns_003120_Tex" Format="rgba16" Width="16" Height="16" Offset="0x3120"/>
+        <Limb Name="object_dns_003320_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_003320" Offset="0x3320"/>
+        <Limb Name="object_dns_00332C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_00332C" Offset="0x332C"/>
+        <Limb Name="object_dns_003338_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_003338" Offset="0x3338"/>
+        <Limb Name="object_dns_003344_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_003344" Offset="0x3344"/>
+        <Limb Name="object_dns_003350_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_003350" Offset="0x3350"/>
+        <Limb Name="object_dns_00335C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_00335C" Offset="0x335C"/>
+        <Limb Name="object_dns_003368_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_003368" Offset="0x3368"/>
+        <Limb Name="object_dns_003374_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_003374" Offset="0x3374"/>
+        <Limb Name="object_dns_003380_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_003380" Offset="0x3380"/>
+        <Limb Name="object_dns_00338C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_00338C" Offset="0x338C"/>
+        <Limb Name="object_dns_003398_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_003398" Offset="0x3398"/>
+        <Limb Name="object_dns_0033A4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DNS_0033A4" Offset="0x33A4"/>
     </File>
 </Root>
