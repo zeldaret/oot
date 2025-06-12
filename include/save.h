@@ -409,14 +409,20 @@ typedef enum LinkAge {
 } LinkAge;
 
 
-// Values that indicate that no cutscene script should be played
-// (or that an "unscripted" cutscene is playing). The names "night"
-// and "day" are leftover from the original meaning of the cutscene
-// index (called "day_time"), and only map select uses these values
-// to indicate time of day (to set gSaveContext.save.nightFlag).
-#define CS_INDEX_NONE 0x0000
-#define CS_INDEX_NIGHT CS_INDEX_NONE
+// Usage in Map Select suggests that `gSaveContext.save.cutsceneIndex` was,
+// at one point in development, a variable related to the time.
+// This is further supported by debug strings showing that its original name was "day_time".
+// These macros exist for the rare cases in the codebase where `cutsceneIndex` is treated as a time value.
+// In practice, both values do not lead to a cutscene being played.
+// See `CS_INDEX_NONE` below for the more common usage of value 0x0000.
+#define CS_INDEX_NIGHT 0x0000
 #define CS_INDEX_DAY 0x8000
+
+// Indicates that no scripted cutscene is playing (or should be played).
+// While this value overlaps with `CS_INDEX_NIGHT` defined above, it is not related to the time.
+// This is the more common interpretation of this value, as much of the codebase uses 0x0000 to mean "no cutscene"
+// except for Map Select.
+#define CS_INDEX_NONE 0x0000
 
 // Values 0xFFF0-0xFFFF indicate that a cutscene script should be played.
 // If the value of `nextCutsceneIndex` is 0xFFF0-0xFFFF on scene load,
