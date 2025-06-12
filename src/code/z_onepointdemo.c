@@ -4293,7 +4293,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             subCam->timer = -99;
             if (Play_CamIsNotFixed(play)) {
                 Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_TURN_AROUND);
-                subCam->data2 = 0xC;
+                subCam->data2 = CAM_ITEM_TYPE_12;
             } else {
                 Play_CopyCamera(play, subCamId, CAM_ID_MAIN);
                 Play_RequestCameraSetting(play, subCamId, CAM_SET_FREE2);

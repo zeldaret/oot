@@ -87,7 +87,6 @@ assets/objects/object_fz/object_fz.c
 assets/objects/object_ganon2/object_ganon2.c
 assets/objects/object_ganon_anime1/object_ganon_anime1.c
 assets/objects/object_ganon_anime2/object_ganon_anime2.c
-assets/objects/object_ganon_anime3/object_ganon_anime3.c
 assets/objects/object_ganon/object_ganon.c
 assets/objects/object_ganon_objects/object_ganon_objects.c
 assets/objects/object_ge1/object_ge1.c
@@ -381,7 +380,6 @@ assets/objects/object_zl2_anime1/object_zl2_anime1.c
 assets/objects/object_zl2_anime2/object_zl2_anime2.c
 assets/objects/object_zl2/object_zl2.c
 assets/objects/object_zl4/object_zl4.c
-assets/objects/object_zo/object_zo.c
 assets/overlays/ovl_Boss_Ganon/ovl_Boss_Ganon.c
 assets/overlays/ovl_Boss_Sst/ovl_Boss_Sst.c
 assets/overlays/ovl_Demo_Shd/ovl_Demo_Shd.c
