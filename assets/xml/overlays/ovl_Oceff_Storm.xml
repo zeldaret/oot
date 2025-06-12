@@ -1,7 +1,7 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="ovl_Oceff_Storm">
-        <Texture Name="sTex" OutName="song_of_storms_effect" Format="i8" Width="64" Height="64" Offset="0x0"/>
+        <Texture Name="sTex" Format="i8" Width="64" Height="64" Offset="0x0"/>
         <DList Name="sMaterialDL" Offset="0x1000"/>
         <Array Name="sCylinderVtx" Count="27" Offset="0x10A8">
             <Vtx/>
