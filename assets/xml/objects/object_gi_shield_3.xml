@@ -1,8 +1,8 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_shield_3" Segment="6">
-        <Texture Name="object_gi_shield_3_000000_Tex" Format="i4" Width="64" Height="32" Offset="0x0"/>
-        <Texture Name="object_gi_shield_3_000400_Tex" Format="i4" Width="64" Height="64" Offset="0x400"/>
+        <Texture Name="gGiMirrorShieldSymbol1Tex" Format="i4" Width="64" Height="32" Offset="0x0"/>
+        <Texture Name="gGiMirrorShieldSymbol2Tex" Format="i4" Width="64" Height="64" Offset="0x400"/>
         <Array Name="gGiMirrorShieldVtx" Count="49" Offset="0xC00">
             <Vtx/>
         </Array>

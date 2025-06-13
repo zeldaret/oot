@@ -1,11 +1,11 @@
 <Root>
     <File Name="object_gi_golonmask" Segment="6">
-        <Texture Name="object_gi_golonmask_000000_Tex" Format="rgba16" Width="256" Height="1" Offset="0x0"/>
+        <Texture Name="gGiGoronMaskTLUT" Format="rgba16" Width="256" Height="1" Offset="0x0"/>
         <Blob Name="object_gi_golonmask_000200_Blob" Size="0x8" Offset="0x200"/>
-        <Texture Name="object_gi_golonmask_000208_Tex" Format="ci8" Width="8" Height="8" Offset="0x208" TlutOffset="0x0"/>
-        <Texture Name="object_gi_golonmask_000248_Tex" Format="ci8" Width="16" Height="16" Offset="0x248" TlutOffset="0x0"/>
-        <Texture Name="object_gi_golonmask_000348_Tex" Format="ci8" Width="32" Height="32" Offset="0x348" TlutOffset="0x0"/>
-        <Texture Name="object_gi_golonmask_000748_Tex" Format="ci8" Width="64" Height="32" Offset="0x748" TlutOffset="0x0"/>
+        <Texture Name="gGiGoronMaskSkinTex" Format="ci8" Width="8" Height="8" Offset="0x208" TlutOffset="0x0"/>
+        <Texture Name="gGiGoronMaskHairTex" Format="ci8" Width="16" Height="16" Offset="0x248" TlutOffset="0x0"/>
+        <Texture Name="gGiGoronMaskEyeTex" Format="ci8" Width="32" Height="32" Offset="0x348" TlutOffset="0x0"/>
+        <Texture Name="gGiGoronMaskMouthTex" Format="ci8" Width="64" Height="32" Offset="0x748" TlutOffset="0x0"/>
         <Array Name="gGiGoronMaskVtx" Count="91" Offset="0xF48">
             <Vtx/>
         </Array>

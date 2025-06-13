@@ -1,7 +1,7 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_hoverboots" Segment="6">
-        <Texture Name="object_gi_hoverboots_000000_Tex" Format="ia4" Width="48" Height="32" Offset="0x0"/>
+        <Texture Name="gGiHoverBootsWingTex" Format="ia4" Width="48" Height="32" Offset="0x0"/>
         <Texture Name="object_gi_hoverboots_000300_Tex" Format="i4" Width="16" Height="32" Offset="0x300"/>
         <Array Name="gGiHoverBootsVtx" Count="325" Offset="0x400">
             <Vtx/>

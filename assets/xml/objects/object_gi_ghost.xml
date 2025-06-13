@@ -1,8 +1,8 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_ghost" Segment="6">
-        <Texture Name="object_gi_ghost_000000_Tex" Format="i8" Width="16" Height="32" Offset="0x0"/>
-        <Texture Name="object_gi_ghost_000200_Tex" Format="i8" Width="16" Height="32" Offset="0x200"/>
+        <Texture Name="gGiGhostFlameTex" Format="i8" Width="16" Height="32" Offset="0x0"/>
+        <Texture Name="gGiGhostFireEffectTex" Format="i8" Width="16" Height="32" Offset="0x200"/>
         <Array Name="gGiGhostContainerLidVtx" Count="56" Offset="0x400">
             <Vtx/>
         </Array>
