@@ -105,7 +105,7 @@ s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
         case JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0:
             return this->cameraSetting == CAM_SET_NORMAL0;
         case JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
-            return GET_INFTABLE(INFTABLE_146);
+            return GET_INFTABLE(INFTABLE_RUTO_ABDUCTED);
         case JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1:
             return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
@@ -125,7 +125,7 @@ void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
             this->cameraSetting = CAM_SET_DUNGEON0;
             break;
         case JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
-            SET_INFTABLE(INFTABLE_146);
+            SET_INFTABLE(INFTABLE_RUTO_ABDUCTED);
             break;
         default:
             PRINTF(T("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n",
