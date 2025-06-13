@@ -3,33 +3,11 @@
 
 #include "ultra64.h"
 #include "actor.h"
+#include "assets/objects/object_ma2/object_ma2.h"
 
 struct EnMa2;
 
 typedef void (*EnMa2ActionFunc)(struct EnMa2*, struct PlayState*);
-
-typedef enum AdultMalonLimb {
-    /* 0x00 */ MALON_ADULT_LIMB_NONE,
-    /* 0x01 */ MALON_ADULT_ROOT_LIMB,
-    /* 0x02 */ MALON_ADULT_LOWER_CONTROL_LIMB,
-    /* 0x03 */ MALON_ADULT_LEFT_THIGH_LIMB,
-    /* 0x04 */ MALON_ADULT_LEFT_LEG_LIMB,
-    /* 0x05 */ MALON_ADULT_LEFT_FOOT_LIMB,
-    /* 0x06 */ MALON_ADULT_RIGHT_THIGH_LIMB,
-    /* 0x07 */ MALON_ADULT_RIGHT_LEG_LIMB,
-    /* 0x08 */ MALON_ADULT_RIGHT_FOOT_LIMB,
-    /* 0x09 */ MALON_ADULT_TORSO_LIMB,
-    /* 0x0A */ MALON_ADULT_DRESS_LIMB,
-    /* 0x0B */ MALON_ADULT_CHEST_AND_NECK_LIMB,
-    /* 0x0C */ MALON_ADULT_LEFT_SHOULDER_LIMB,
-    /* 0x0D */ MALON_ADULT_LEFT_ARM_LIMB,
-    /* 0x0E */ MALON_ADULT_LEFT_HAND_LIMB,
-    /* 0x0F */ MALON_ADULT_RIGHT_SHOULDER_LIMB,
-    /* 0x10 */ MALON_ADULT_RIGHT_ARM_LIMB,
-    /* 0x11 */ MALON_ADULT_RIGHT_HAND_LIMB,
-    /* 0x12 */ MALON_ADULT_HEAD_LIMB,
-    /* 0x13 */ MALON_ADULT_LIMB_MAX
-} AdultMalonLimb;
 
 typedef struct EnMa2 {
     /* 0x0000 */ Actor actor;

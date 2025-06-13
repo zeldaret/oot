@@ -99,25 +99,25 @@
         <DList Name="gMalonAdultLeftLegDL" Offset="0x8A60"/>
         <DList Name="gMalonAdultLeftFootDL" Offset="0x8B50"/>
 
-        <Skeleton Name="gMalonAdultSkel" Type="Flex" LimbType="Standard" Offset="0x8D90"/>
-        <Limb Name="gMalonAdultRootLimb" LimbType="Standard" Offset="0x8C70"/>
-        <Limb Name="gMalonAdultLowerControlLimb" LimbType="Standard" Offset="0x8C7C"/>
-        <Limb Name="gMalonAdultLeftThighLimb" LimbType="Standard" Offset="0x8C88"/>
-        <Limb Name="gMalonAdultLeftLegLimb" LimbType="Standard" Offset="0x8C94"/>
-        <Limb Name="gMalonAdultLeftFootLimb" LimbType="Standard" Offset="0x8CA0"/>
-        <Limb Name="gMalonAdultRightThighLimb" LimbType="Standard" Offset="0x8CAC"/>
-        <Limb Name="gMalonAdultRightLegLimb" LimbType="Standard" Offset="0x8CB8"/>
-        <Limb Name="gMalonAdultRightFootLimb" LimbType="Standard" Offset="0x8CC4"/>
-        <Limb Name="gMalonAdultTorsoLimb" LimbType="Standard" Offset="0x8CD0"/>
-        <Limb Name="gMalonAdultDressLimb" LimbType="Standard" Offset="0x8CDC"/>
-        <Limb Name="gMalonAdultChestAndNeckLimb" LimbType="Standard" Offset="0x8CE8"/>
-        <Limb Name="gMalonAdultLeftShoulderLimb" LimbType="Standard" Offset="0x8CF4"/>
-        <Limb Name="gMalonAdultLeftArmLimb" LimbType="Standard" Offset="0x8D00"/>
-        <Limb Name="gMalonAdultLeftHandLimb" LimbType="Standard" Offset="0x8D0C"/>
-        <Limb Name="gMalonAdultRightShoulderLimb" LimbType="Standard" Offset="0x8D18"/>
-        <Limb Name="gMalonAdultRightArmLimb" LimbType="Standard" Offset="0x8D24"/>
-        <Limb Name="gMalonAdultRightHandLimb" LimbType="Standard" Offset="0x8D30"/>
-        <Limb Name="gMalonAdultHeadLimb" LimbType="Standard" Offset="0x8D3C"/>
+        <Skeleton Name="gMalonAdultSkel" Type="Flex" LimbType="Standard" LimbNone="MALON_ADULT_LIMB_NONE" LimbMax="MALON_ADULT_LIMB_MAX" EnumName="MalonAdultLimb" Offset="0x8D90"/>
+        <Limb Name="gMalonAdultRootLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_ROOT" Offset="0x8C70"/>
+        <Limb Name="gMalonAdultLowerControlLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_LOWER_CONTROL" Offset="0x8C7C"/>
+        <Limb Name="gMalonAdultLeftThighLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_LEFT_THIGH" Offset="0x8C88"/>
+        <Limb Name="gMalonAdultLeftLegLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_LEFT_LEG" Offset="0x8C94"/>
+        <Limb Name="gMalonAdultLeftFootLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_LEFT_FOOT" Offset="0x8CA0"/>
+        <Limb Name="gMalonAdultRightThighLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_RIGHT_THIGH" Offset="0x8CAC"/>
+        <Limb Name="gMalonAdultRightLegLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_RIGHT_LEG" Offset="0x8CB8"/>
+        <Limb Name="gMalonAdultRightFootLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_RIGHT_FOOT" Offset="0x8CC4"/>
+        <Limb Name="gMalonAdultTorsoLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_TORSO" Offset="0x8CD0"/>
+        <Limb Name="gMalonAdultDressLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_DRESS" Offset="0x8CDC"/>
+        <Limb Name="gMalonAdultChestAndNeckLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_CHEST_AND_NECK" Offset="0x8CE8"/>
+        <Limb Name="gMalonAdultLeftShoulderLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_LEFT_SHOULDER" Offset="0x8CF4"/>
+        <Limb Name="gMalonAdultLeftArmLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_LEFT_ARM" Offset="0x8D00"/>
+        <Limb Name="gMalonAdultLeftHandLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_LEFT_HAND" Offset="0x8D0C"/>
+        <Limb Name="gMalonAdultRightShoulderLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_RIGHT_SHOULDER" Offset="0x8D18"/>
+        <Limb Name="gMalonAdultRightArmLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_RIGHT_ARM" Offset="0x8D24"/>
+        <Limb Name="gMalonAdultRightHandLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_RIGHT_HAND" Offset="0x8D30"/>
+        <Limb Name="gMalonAdultHeadLimb" LimbType="Standard" EnumName="MALON_ADULT_LIMB_HEAD" Offset="0x8D3C"/>
         <Animation Name="gMalonAdultIdleAnim" Offset="0x7D4"/>
         <Animation Name="gMalonAdultSingToIdleAnim" Offset="0x92F0"/> <!-- Unused -->
         <Animation Name="gMalonAdultStandStillAnim" Offset="0x93BC"/>
