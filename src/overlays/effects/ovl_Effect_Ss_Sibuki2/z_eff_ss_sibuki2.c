@@ -13,7 +13,7 @@
 #include "effect.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/unused_bubbles.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]

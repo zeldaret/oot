@@ -6,7 +6,18 @@
 #include "z_lib.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gLargerCubeCol.h"
+#include "assets/objects/gameplay_keep/small_flat_block_col.h"
+#include "assets/objects/gameplay_keep/gLargerFlatBlockCol.h"
+#include "assets/objects/gameplay_keep/small_cube_col.h"
+#include "assets/objects/gameplay_keep/flat_block_model.h"
+#include "assets/objects/gameplay_keep/flat_rot_block_model.h"
+#include "assets/objects/gameplay_keep/small_cube_model.h"
+#include "assets/objects/gameplay_keep/grass_blades_model.h"
+#include "assets/objects/gameplay_keep/tree_stump_model.h"
+#include "assets/objects/gameplay_keep/rectangular_sign_model.h"
+#include "assets/objects/gameplay_keep/directional_sign_model.h"
+#include "assets/objects/gameplay_keep/rock_fragments_model.h"
 #include "assets/objects/object_d_hsblock/object_d_hsblock.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED

@@ -5,7 +5,6 @@ assets/misc/link_animetion/link_animetion.c
 assets/misc/z_select_static/z_select_static.c
 assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.c
 assets/objects/gameplay_field_keep/gameplay_field_keep.c
-assets/objects/gameplay_keep/gameplay_keep.c
 assets/objects/object_ahg/object_ahg.c
 assets/objects/object_am/object_am.c
 assets/objects/object_ane/object_ane.c
