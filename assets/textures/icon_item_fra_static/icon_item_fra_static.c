@@ -52,19 +52,19 @@ u64 gPauseToPlayMelodyFRATex[TEX_LEN(u64, gPauseToPlayMelodyFRATex_WIDTH, gPause
 #include "assets/textures/icon_item_fra_static/gPauseToPlayMelodyFRATex.ia8.inc.c"
 };
 
-u64 gPauseToSelectItemFRATex[TEX_LEN(u64, gPauseToSelectItemFRATex_WIDTH, gPauseToSelectItemFRATex_HEIGHT, 8)] = {
+u64 gPauseToSelectItemFRATex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_fra_static/gPauseToSelectItemFRATex.ia8.inc.c"
 };
 
-u64 gPauseToMapFRATex[TEX_LEN(u64, gPauseToMapFRATex_WIDTH, gPauseToMapFRATex_HEIGHT, 8)] = {
+u64 gPauseToMapFRATex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_fra_static/gPauseToMapFRATex.ia8.inc.c"
 };
 
-u64 gPauseToQuestStatusFRATex[TEX_LEN(u64, gPauseToQuestStatusFRATex_WIDTH, gPauseToQuestStatusFRATex_HEIGHT, 8)] = {
+u64 gPauseToQuestStatusFRATex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_fra_static/gPauseToQuestStatusFRATex.ia8.inc.c"
 };
 
-u64 gPauseToEquipmentFRATex[TEX_LEN(u64, gPauseToEquipmentFRATex_WIDTH, gPauseToEquipmentFRATex_HEIGHT, 8)] = {
+u64 gPauseToEquipmentFRATex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)] = {
 #include "assets/textures/icon_item_fra_static/gPauseToEquipmentFRATex.ia8.inc.c"
 };
 

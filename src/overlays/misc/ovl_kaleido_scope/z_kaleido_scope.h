@@ -218,6 +218,9 @@ typedef enum ItemQuad {
     /* 41 */ ITEM_QUAD_MAX
 } ItemQuad;
 
+#define TO_PAGE_LABEL_TEX_WIDTH 128
+#define TO_PAGE_LABEL_TEX_HEIGHT 16
+
 void KaleidoScope_DrawQuestStatus(struct PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
 void KaleidoScope_DrawInventoryEditor(struct PlayState* play);

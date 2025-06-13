@@ -44,18 +44,12 @@ extern u64 gPauseToDecideJPNTex[TEX_LEN(u64, gPauseToDecideJPNTex_WIDTH, gPauseT
 #define gPauseToPlayMelodyJPNTex_WIDTH 96
 #define gPauseToPlayMelodyJPNTex_HEIGHT 16
 extern u64 gPauseToPlayMelodyJPNTex[TEX_LEN(u64, gPauseToPlayMelodyJPNTex_WIDTH, gPauseToPlayMelodyJPNTex_HEIGHT, 8)];
-#define gPauseToSelectItemJPNTex_WIDTH 128
-#define gPauseToSelectItemJPNTex_HEIGHT 16
-extern u64 gPauseToSelectItemJPNTex[TEX_LEN(u64, gPauseToSelectItemJPNTex_WIDTH, gPauseToSelectItemJPNTex_HEIGHT, 8)];
-#define gPauseToMapJPNTex_WIDTH 128
-#define gPauseToMapJPNTex_HEIGHT 16
-extern u64 gPauseToMapJPNTex[TEX_LEN(u64, gPauseToMapJPNTex_WIDTH, gPauseToMapJPNTex_HEIGHT, 8)];
-#define gPauseToQuestStatusJPNTex_WIDTH 128
-#define gPauseToQuestStatusJPNTex_HEIGHT 16
-extern u64 gPauseToQuestStatusJPNTex[TEX_LEN(u64, gPauseToQuestStatusJPNTex_WIDTH, gPauseToQuestStatusJPNTex_HEIGHT, 8)];
-#define gPauseToEquipmentJPNTex_WIDTH 128
-#define gPauseToEquipmentJPNTex_HEIGHT 16
-extern u64 gPauseToEquipmentJPNTex[TEX_LEN(u64, gPauseToEquipmentJPNTex_WIDTH, gPauseToEquipmentJPNTex_HEIGHT, 8)];
+
+extern u64 gPauseToSelectItemJPNTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)];
+extern u64 gPauseToMapJPNTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)];
+extern u64 gPauseToQuestStatusJPNTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)];
+extern u64 gPauseToEquipmentJPNTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)];
+
 #define gPauseSavePromptJPNTex_WIDTH 152
 #define gPauseSavePromptJPNTex_HEIGHT 16
 extern u64 gPauseSavePromptJPNTex[TEX_LEN(u64, gPauseSavePromptJPNTex_WIDTH, gPauseSavePromptJPNTex_HEIGHT, 8)];
