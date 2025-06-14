@@ -334,7 +334,7 @@ typedef enum CameraDataType {
     /* 0x13 */ CAM_DATA_AT_OFFSET_X,
     /* 0x14 */ CAM_DATA_AT_OFFSET_Y,
     /* 0x15 */ CAM_DATA_AT_OFFSET_Z,
-    /* 0x16 */ CAM_DATA_UNK_22,
+    /* 0x16 */ CAM_DATA_INIT_TIMER,
     /* 0x17 */ CAM_DATA_UNK_23,
     /* 0x18 */ CAM_DATA_FOV_SCALE,
     /* 0x19 */ CAM_DATA_YAW_SCALE,
@@ -907,7 +907,7 @@ typedef struct KeepOn4 {
     { fov, CAM_DATA_FOV }, \
     { interfaceField, CAM_DATA_INTERFACE_FIELD }, \
     { unk_14, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
-    { initTimer, CAM_DATA_UNK_22 }
+    { initTimer, CAM_DATA_INIT_TIMER }
 
 typedef struct KeepOn0ReadOnlyData {
     /* 0x00 */ f32 fovScale;
@@ -1463,7 +1463,7 @@ typedef struct Special5 {
     { yOffset, CAM_DATA_Y_OFFSET }, \
     { eyeDist, CAM_DATA_EYE_DIST }, \
     { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
-    { unk_22, CAM_DATA_UNK_22 }, \
+    { unk_22, CAM_DATA_INIT_TIMER }, \
     { pitchTarget, CAM_DATA_PITCH_TARGET }, \
     { fov, CAM_DATA_FOV }, \
     { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
@@ -1477,7 +1477,7 @@ typedef struct Special5 {
     { pitchTarget, CAM_DATA_PITCH_TARGET }, \
     { fov, CAM_DATA_FOV }, \
     { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
-    { unk_22, CAM_DATA_UNK_22 }, \
+    { unk_22, CAM_DATA_INIT_TIMER }, \
     { interfaceField, CAM_DATA_INTERFACE_FIELD }
 
 typedef struct Special7ReadWriteData {
