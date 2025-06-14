@@ -3555,7 +3555,8 @@ beginseg
     name "object_zg"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_zg/object_zg.o"
+    include "$(BUILD_DIR)/assets/objects/object_zg/gTowerCollapseBarsDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_zg/gTowerCollapseBarsCol.o"
     number 6
 endseg
 
