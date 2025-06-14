@@ -372,7 +372,6 @@ assets/objects/object_wood02/object_wood02.c
 assets/objects/object_xc/object_xc.c
 assets/objects/object_yabusame_point/object_yabusame_point.c
 assets/objects/object_ydan_objects/object_ydan_objects.c
-assets/objects/object_yukabyun/object_yukabyun.c
 assets/objects/object_zf/object_zf.c
 assets/objects/object_zl1/object_zl1.c
 assets/objects/object_zl2_anime1/object_zl2_anime1.c
