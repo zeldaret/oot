@@ -353,16 +353,12 @@ assets/objects/object_tk/object_tk.c
 assets/objects/object_toki_objects/object_toki_objects.c
 assets/objects/object_torch2/object_torch2.c
 assets/objects/object_toryo/object_toryo.c
-assets/objects/object_tp/object_tp.c
 assets/objects/object_trap/object_trap.c
-assets/objects/object_triforce_spot/object_triforce_spot.c
 assets/objects/object_tr/object_tr.c
 assets/objects/object_ts/object_ts.c
 assets/objects/object_tsubo/object_tsubo.c
 assets/objects/object_tw/object_tw.c
-assets/objects/object_umajump/object_umajump.c
 assets/objects/object_vali/object_vali.c
-assets/objects/object_vase/object_vase.c
 assets/objects/object_vm/object_vm.c
 assets/objects/object_wallmaster/object_wallmaster.c
 assets/objects/object_warp1/object_warp1.c
@@ -372,9 +368,7 @@ assets/objects/object_wood02/object_wood02.c
 assets/objects/object_xc/object_xc.c
 assets/objects/object_yabusame_point/object_yabusame_point.c
 assets/objects/object_ydan_objects/object_ydan_objects.c
-assets/objects/object_yukabyun/object_yukabyun.c
 assets/objects/object_zf/object_zf.c
-assets/objects/object_zg/object_zg.c
 assets/objects/object_zl1/object_zl1.c
 assets/objects/object_zl2_anime1/object_zl2_anime1.c
 assets/objects/object_zl2_anime2/object_zl2_anime2.c
