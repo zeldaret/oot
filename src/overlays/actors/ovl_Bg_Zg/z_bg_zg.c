@@ -65,8 +65,7 @@ void BgZg_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808C0C50(BgZg* this) {
-    Audio_PlaySfxGeneral(NA_SE_EV_METALDOOR_OPEN, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    SFX_PLAY_AT_POS(&this->dyna.actor.projectedPos, NA_SE_EV_METALDOOR_OPEN);
 }
 
 s32 func_808C0C98(BgZg* this, PlayState* play) {

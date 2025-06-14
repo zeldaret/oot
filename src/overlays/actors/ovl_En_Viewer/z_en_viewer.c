@@ -246,8 +246,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
                 case 380:
                 case 409:
                 case 438:
-                    Audio_PlaySfxGeneral(NA_SE_SY_DEMO_CUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_SY_DEMO_CUT);
                     break;
             }
         }
@@ -264,8 +263,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_FANFARE, 0, 0, NA_BGM_OPENING_GANON);
         }
         if (play->csCtx.curFrame == 960) {
-            Audio_PlaySfxGeneral(NA_SE_EV_HORSE_GROAN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_HORSE_GROAN);
         }
     } else if (type == ENVIEWER_TYPE_6_HORSE_GANONDORF) {
         if (gSaveContext.sceneLayer == 5 || gSaveContext.sceneLayer == 10) {
@@ -456,8 +454,7 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play) {
             case 0:
                 if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[1] != NULL) &&
                     (play->csCtx.actorCues[1]->id == 7)) {
-                    Audio_PlaySfxGeneral(NA_SE_EN_GANON_LAUGH, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_EN_GANON_LAUGH);
                     Animation_MorphToPlayOnce(&this->skin.skelAnime, &gYoungGanondorfLaughStartAnim, -5.0f);
                     this->state++;
                 }
@@ -750,8 +747,7 @@ void EnViewer_UpdatePosition(EnViewer* this, PlayState* play) {
             if (type == ENVIEWER_TYPE_0_HORSE_ZELDA) {
                 if (!sHorseSfxPlayed) {
                     sHorseSfxPlayed = true;
-                    Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_HORSE_NEIGH);
                 }
                 Actor_PlaySfx(&this->actor, NA_SE_EV_HORSE_RUN_LEVEL - SFX_FLAG);
             }
@@ -800,8 +796,7 @@ void EnViewer_UpdatePosition(EnViewer* this, PlayState* play) {
             }
         }
         if (type == ENVIEWER_TYPE_5_GANONDORF) {
-            Audio_PlaySfxGeneral(NA_SE_EV_BURNING - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_EV_BURNING - SFX_FLAG);
             EnViewer_DrawFireEffects(this, play);
         }
     }

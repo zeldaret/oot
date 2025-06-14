@@ -842,9 +842,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                 break;
             case 2:
             case 3:
-                Audio_PlaySfxGeneral(((sAudioSndContWork[2] << 12) & 0xFFFF) + sAudioSndContWork[3] + SFX_FLAG,
-                                     &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(((sAudioSndContWork[2] << 12) & 0xFFFF) + sAudioSndContWork[3] + SFX_FLAG);
                 break;
             case 4:
                 Audio_SetSoundOutputMode(sAudioSndContWork[sAudioSndContSel]);
@@ -1245,8 +1243,7 @@ void AudioDebug_ProcessInput_SfxParamChg(void) {
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
         sfx = (u16)(sAudioSfxParamChgWork[0] << 12) + sAudioSfxParamChgWork[1] + SFX_FLAG;
-        Audio_PlaySfxGeneral(sfx, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(sfx);
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_B)) {

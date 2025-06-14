@@ -746,8 +746,7 @@ void func_80986570(DemoIm* this, PlayState* play) {
         u32 sfxId = NA_SE_PL_WALK_GROUND;
 
         sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        Audio_PlaySfxGeneral(sfxId, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, sfxId);
     }
 }
 

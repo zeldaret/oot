@@ -965,8 +965,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
     }
 
     if ((*params <= ITEM00_RUPEE_RED) || (*params == ITEM00_RUPEE_ORANGE)) {
-        Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_GET_RUPY);
     } else if (getItemId != GI_NONE) {
         if (Actor_HasParent(&this->actor, play)) {
             Flags_SetCollectible(play, this->collectibleFlag);
@@ -974,8 +973,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
         }
         return;
     } else {
-        Audio_PlaySfxGeneral(NA_SE_SY_GET_ITEM, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_GET_ITEM);
     }
 
     Flags_SetCollectible(play, this->collectibleFlag);

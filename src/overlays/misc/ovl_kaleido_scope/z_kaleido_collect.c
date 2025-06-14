@@ -252,8 +252,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 // if the cursor point changed
                 if (pauseCtx->cursorPoint[PAUSE_QUEST] != prevCursorPoint) {
                     pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
-                    Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
                 }
 
                 // Update cursor item and slot
@@ -351,8 +350,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
                 cursor = pauseCtx->cursorPoint[PAUSE_QUEST];
                 KaleidoScope_SetCursorPos(pauseCtx, cursor * 4, pauseCtx->questVtx);
-                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
 
                 if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
                     cursorItem = ITEM_STONE_OF_AGONY - QUEST_STONE_OF_AGONY + pauseCtx->cursorPoint[PAUSE_QUEST];
@@ -373,8 +371,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
                 cursor = pauseCtx->cursorPoint[PAUSE_QUEST];
                 KaleidoScope_SetCursorPos(pauseCtx, cursor * 4, pauseCtx->questVtx);
-                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
 
                 if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
                     // Only the first if may be reached, as QUEST_MEDALLION_FOREST is set above

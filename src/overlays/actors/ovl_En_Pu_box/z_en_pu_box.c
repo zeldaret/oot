@@ -78,8 +78,7 @@ void EnPubox_Update(Actor* thisx, PlayState* play) {
     thisx->speed = CLAMP(thisx->speed, -2.5f, 2.5f);
     Math_SmoothStepToF(&thisx->speed, 0.0f, 1.0f, 1.0f, 0.0f);
     if (thisx->speed != 0.0f) {
-        Audio_PlaySfxGeneral(NA_SE_EV_ROCK_SLIDE - SFX_FLAG, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&thisx->projectedPos, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
     this->dyna.unk_154 = 0.0f;
     this->dyna.unk_150 = 0.0f;
