@@ -592,7 +592,13 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                 PAGE_BG_QUADS + WORLD_MAP_QUAD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
             KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
         } else {
+
+            //! @bug This causes a weird DMA request in `KaleidoScope_UpdateNamePanel`,
+            //! either for unintended data or outside the intended segment.
+            // This isn't a visual issue in practice because drawing the texture loaded in
+            // `KaleidoScope_UpdateNamePanel` is only done under `cursorSpecialPos == 0`.
             pauseCtx->cursorItem[PAUSE_MAP] = gSaveContext.worldMapArea + 0x18;
+
             if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
                 if (pauseCtx->stickAdjX > 30) {
                     pauseCtx->cursorSpecialPos = 0;
