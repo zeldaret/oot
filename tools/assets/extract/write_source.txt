@@ -355,7 +355,6 @@ assets/objects/object_torch2/object_torch2.c
 assets/objects/object_toryo/object_toryo.c
 assets/objects/object_tp/object_tp.c
 assets/objects/object_trap/object_trap.c
-assets/objects/object_triforce_spot/object_triforce_spot.c
 assets/objects/object_tr/object_tr.c
 assets/objects/object_ts/object_ts.c
 assets/objects/object_tsubo/object_tsubo.c
