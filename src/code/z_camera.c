@@ -3703,7 +3703,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     }
 
     if (rwData->itemType != *itemType) {
-        PRINTF(VT_COL(YELLOW, BLACK) "camera: item: item type changed %d -> %d\n" VT_RST, rwData->unk_14, *itemType);
+        PRINTF(VT_COL(YELLOW, BLACK) "camera: item: item type changed %d -> %d\n" VT_RST, rwData->itemType, *itemType);
         camera->animState = 20;
         camera->stateFlags |= CAM_STATE_LOCK_MODE;
         camera->stateFlags &= ~(CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG);
