@@ -2884,7 +2884,8 @@ beginseg
     name "object_umajump"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_umajump/object_umajump.o"
+    include "$(BUILD_DIR)/assets/objects/object_umajump/gJumpableHorseFenceDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_umajump/gJumpableHorseFenceCol.o"
     number 6
 endseg
 
