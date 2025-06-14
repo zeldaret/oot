@@ -81,7 +81,7 @@ void EnGe3_Init(Actor* thisx, PlayState* play2) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, NULL, this->jointTable, this->morphTable,
-                       GELDB_LIMB_MAX);
+                       GERUDO_RED_LIMB_MAX);
     Animation_PlayLoop(&this->skelAnime, &gGerudoRedStandAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -241,13 +241,13 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
     switch (limbIndex) {
         // Hide swords and veil from object_geldb
-        case GELDB_LIMB_VEIL:
-        case GELDB_LIMB_R_SWORD:
-        case GELDB_LIMB_L_SWORD:
+        case GERUDO_RED_LIMB_VEIL:
+        case GERUDO_RED_LIMB_R_SWORD:
+        case GERUDO_RED_LIMB_L_SWORD:
             *dList = NULL;
             return false;
         // Turn head
-        case GELDB_LIMB_HEAD:
+        case GERUDO_RED_LIMB_HEAD:
             rot->x += this->headRot.y;
 #if OOT_VERSION >= PAL_1_1
             FALLTHROUGH;
@@ -256,14 +256,14 @@ s32 EnGe3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
             // depending on what was drawn earlier in the frame.
             OPEN_DISPS(play->state.gfxCtx, "../z_en_ge3.c", 547);
             switch (limbIndex) {
-                case GELDB_LIMB_NECK:
+                case GERUDO_RED_LIMB_NECK:
                     break;
-                case GELDB_LIMB_HEAD:
+                case GERUDO_RED_LIMB_HEAD:
                     gDPPipeSync(POLY_OPA_DISP++);
                     gDPSetEnvColor(POLY_OPA_DISP++, 80, 60, 10, 255);
                     break;
-                case GELDB_LIMB_R_SWORD:
-                case GELDB_LIMB_L_SWORD:
+                case GERUDO_RED_LIMB_R_SWORD:
+                case GERUDO_RED_LIMB_L_SWORD:
                     gDPPipeSync(POLY_OPA_DISP++);
                     gDPSetEnvColor(POLY_OPA_DISP++, 140, 170, 230, 255);
                     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
@@ -284,7 +284,7 @@ void EnGe3_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     EnGe3* this = (EnGe3*)thisx;
     Vec3f D_80A351C8 = { 600.0f, 700.0f, 0.0f };
 
-    if (limbIndex == GELDB_LIMB_HEAD) {
+    if (limbIndex == GERUDO_RED_LIMB_HEAD) {
         Matrix_MultVec3f(&D_80A351C8, &this->actor.focus.pos);
     }
 }

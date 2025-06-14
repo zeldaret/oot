@@ -4,31 +4,12 @@
 #include "ultra64.h"
 #include "actor.h"
 
+#include "assets/objects/object_im/object_im.h"
+
 struct DemoIm;
 
 typedef void (*DemoImActionFunc)(struct DemoIm*, struct PlayState*);
 typedef void (*DemoImDrawFunc)(struct DemoIm*, struct PlayState*);
-
-typedef enum ImpaLimb {
-    /* 0x00 */ IMPA_LIMB_NONE,
-    /* 0x01 */ IMPA_LIMB_ROOT,
-    /* 0x02 */ IMPA_LIMB_TORSO,
-    /* 0x03 */ IMPA_LIMB_LEFT_THIGH,
-    /* 0x04 */ IMPA_LIMB_LEFT_LEG,
-    /* 0x05 */ IMPA_LIMB_LEFT_FOOT,
-    /* 0x06 */ IMPA_LIMB_RIGHT_THIGH,
-    /* 0x07 */ IMPA_LIMB_RIGHT_LEG,
-    /* 0x08 */ IMPA_LIMB_RIGHT_FOOT,
-    /* 0x09 */ IMPA_LIMB_CHEST,
-    /* 0x0A */ IMPA_LIMB_LEFT_SHOULDER,
-    /* 0x0B */ IMPA_LIMB_LEFT_ARM,
-    /* 0x0C */ IMPA_LIMB_LEFT_HAND,
-    /* 0x0D */ IMPA_LIMB_RIGHT_SHOULDER,
-    /* 0x0E */ IMPA_LIMB_RIGHT_ARM,
-    /* 0x0F */ IMPA_LIMB_RIGHT_HAND,
-    /* 0x10 */ IMPA_LIMB_HEAD,
-    /* 0x11 */ IMPA_LIMB_MAX
-} ImpaLimb;
 
 typedef struct DemoIm {
     /* 0x0000 */ Actor actor;
