@@ -362,7 +362,6 @@ assets/objects/object_tsubo/object_tsubo.c
 assets/objects/object_tw/object_tw.c
 assets/objects/object_umajump/object_umajump.c
 assets/objects/object_vali/object_vali.c
-assets/objects/object_vase/object_vase.c
 assets/objects/object_vm/object_vm.c
 assets/objects/object_wallmaster/object_wallmaster.c
 assets/objects/object_warp1/object_warp1.c
