@@ -689,8 +689,7 @@ void func_80A7A568(EnIn* this, PlayState* play) {
         SET_INFTABLE(INFTABLE_AB);
     }
     if (gSaveContext.timerState == TIMER_STATE_STOP) {
-        Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_FOUND);
         func_80A79C78(this, play);
         this->actionFunc = func_80A7B024;
         gSaveContext.timerState = TIMER_STATE_OFF;
@@ -707,8 +706,7 @@ void func_80A7A568(EnIn* this, PlayState* play) {
             phi_a2 = 2;
             transitionType = TRANS_TYPE_FADE_BLACK;
         } else {
-            Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_FOUND);
             if (!GET_EVENTCHKINF(EVENTCHKINF_1B)) {
                 if (GET_INFTABLE(INFTABLE_AB)) {
                     SET_EVENTCHKINF(EVENTCHKINF_1B);

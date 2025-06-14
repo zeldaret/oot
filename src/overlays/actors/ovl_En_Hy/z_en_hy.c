@@ -789,9 +789,7 @@ s16 EnHy_UpdateTalkState(PlayState* play, Actor* thisx) {
                 case 0x709E:
                 case 0x709F:
                     if (!this->playedSfx) {
-                        Audio_PlaySfxGeneral(this->actor.textId == 0x709F ? NA_SE_SY_CORRECT_CHIME : NA_SE_SY_ERROR,
-                                             &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(this->actor.textId == 0x709F ? NA_SE_SY_CORRECT_CHIME : NA_SE_SY_ERROR);
                         this->playedSfx = true;
                     }
                     break;
