@@ -2816,8 +2816,7 @@ void func_800F4190(Vec3f* pos, u16 sfxId) {
 void Audio_PlaySfxRandom(Vec3f* pos, u16 baseSfxId, u8 randLim) {
     u8 offset = AudioThread_NextRandom() % randLim;
 
-    Audio_PlaySfxGeneral(baseSfxId + offset, pos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultReverb);
+    SFX_PLAY_AT_POS(pos, baseSfxId + offset);
 }
 
 void func_800F4254(Vec3f* pos, u8 level) {
@@ -3081,7 +3080,7 @@ void func_800F4C58(Vec3f* pos, u16 sfxId, u8 ioData) {
         }
         channelIndex++;
     }
-    Audio_PlaySfxGeneral(sfxId, pos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    SFX_PLAY_AT_POS(pos, sfxId);
 }
 
 void func_800F4E30(Vec3f* pos, f32 arg1) {

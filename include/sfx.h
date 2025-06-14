@@ -161,6 +161,10 @@ typedef struct SfxParams {
     Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, \
                          &gSfxDefaultReverb);
 
+#define SFX_PLAY_AT_POS(projectedPos, sfxId)                                                               \
+    Audio_PlaySfxGeneral(sfxId, projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, \
+                         &gSfxDefaultReverb);
+
 void Audio_SetSfxBanksMute(u16 muteMask);
 void Audio_QueueSeqCmdMute(u8 channelIndex);
 void Audio_ClearBGMMute(u8 channelIndex);
