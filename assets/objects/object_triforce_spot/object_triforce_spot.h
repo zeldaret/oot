@@ -4,7 +4,9 @@
 #include "ultra64.h"
 #include "tex_len.h"
 
+extern Vtx gTriforceVtx[];
 extern Gfx gTriforceDL[72];
+
 extern Gfx gTriforceLightColumnDL[26];
 
 #define gTriforceTex_WIDTH 64
