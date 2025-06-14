@@ -33,7 +33,8 @@ u64 gTailpasaranHeadRearTex[TEX_LEN(u64, gTailpasaranHeadRearTex_WIDTH, gTailpas
 #include "assets/objects/object_tp/gTailpasaranHeadRearTex.rgba16.inc.c"
 };
 
-u64 gTailpasaranHeadClawBaseTex[TEX_LEN(u64, gTailpasaranHeadClawBaseTex_WIDTH, gTailpasaranHeadClawBaseTex_HEIGHT, 16)] = {
+u64 gTailpasaranHeadClawBaseTex[TEX_LEN(u64, gTailpasaranHeadClawBaseTex_WIDTH, gTailpasaranHeadClawBaseTex_HEIGHT,
+                                        16)] = {
 #include "assets/objects/object_tp/gTailpasaranHeadClawBaseTex.rgba16.inc.c"
 };
 
@@ -45,6 +46,7 @@ u64 gTailpasaranTailSegmentTex[TEX_LEN(u64, gTailpasaranTailSegmentTex_WIDTH, gT
 #include "assets/objects/object_tp/gTailpasaranTailSegmentTex.ia8.inc.c"
 };
 
-u64 gTailpasaranHeadMouthpartsTex[TEX_LEN(u64, gTailpasaranHeadMouthpartsTex_WIDTH, gTailpasaranHeadMouthpartsTex_HEIGHT, 16)] = {
+u64 gTailpasaranHeadMouthpartsTex[TEX_LEN(u64, gTailpasaranHeadMouthpartsTex_WIDTH,
+                                          gTailpasaranHeadMouthpartsTex_HEIGHT, 16)] = {
 #include "assets/objects/object_tp/gTailpasaranHeadMouthpartsTex.rgba16.inc.c"
 };

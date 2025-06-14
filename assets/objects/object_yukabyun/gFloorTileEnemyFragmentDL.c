@@ -13,6 +13,7 @@ u64 gFloorTileEnemyTopTex[TEX_LEN(u64, gFloorTileEnemyTopTex_WIDTH, gFloorTileEn
 #include "assets/objects/object_yukabyun/gFloorTileEnemyTopTex.rgba16.inc.c"
 };
 
-u64 gFloorTileEnemyFragmentTex[TEX_LEN(u64, gFloorTileEnemyFragmentTex_WIDTH, gFloorTileEnemyFragmentTex_HEIGHT, 16)] = {
+u64 gFloorTileEnemyFragmentTex[TEX_LEN(u64, gFloorTileEnemyFragmentTex_WIDTH, gFloorTileEnemyFragmentTex_HEIGHT,
+                                       16)] = {
 #include "assets/objects/object_yukabyun/gFloorTileEnemyFragmentTex.rgba16.inc.c"
 };
