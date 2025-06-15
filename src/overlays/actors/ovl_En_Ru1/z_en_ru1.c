@@ -651,8 +651,7 @@ void func_80AEBC30(PlayState* play) {
 
     if (play->csCtx.curFrame == 205) {
         player = GET_PLAYER(play);
-        Audio_PlaySfxGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_EV_DIVE_INTO_WATER);
     }
 }
 
@@ -1261,8 +1260,7 @@ void func_80AED4FC(EnRu1* this) {
 void func_80AED520(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    Audio_PlaySfxGeneral(NA_SE_PL_PULL_UP_RUTO, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_PL_PULL_UP_RUTO);
     Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_LIFT);
 }
 
