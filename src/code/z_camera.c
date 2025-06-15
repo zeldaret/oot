@@ -1012,7 +1012,7 @@ s32 func_80045508(Camera* camera, VecGeo* diffGeo, CamColChk* eyeChk, CamColChk*
 
         eyeChk->geoNorm = OLib_Vec3fToVecGeo(&eyeChk->norm);
 
-        if (eyeChk->geoNorm.pitch >= 0x2EE1) {
+        if (eyeChk->geoNorm.pitch > 0x2EE0) {
             eyeChk->geoNorm.yaw = diffGeo->yaw;
         }
 
@@ -1042,7 +1042,7 @@ s32 func_80045508(Camera* camera, VecGeo* diffGeo, CamColChk* eyeChk, CamColChk*
 
         atChk->geoNorm = OLib_Vec3fToVecGeo(&atChk->norm);
 
-        if (atChk->geoNorm.pitch >= 0x2EE1) {
+        if (atChk->geoNorm.pitch > 0x2EE0) {
             atChk->geoNorm.yaw = diffGeo->yaw - 0x7FFF;
         }
 
@@ -1961,7 +1961,7 @@ s32 Camera_Normal2(Camera* camera) {
     camera->dist = adjGeo.r = Camera_ClampDist(camera, sp90.r, roData->unk_04, roData->unk_08, 0);
 
     if (!(rwData->unk_28 & 1)) {
-        if (adjGeo.pitch >= 0xE39) {
+        if (adjGeo.pitch > 0xE38) {
             adjGeo.pitch += ((s16)(0xE38 - adjGeo.pitch) >> 2);
         }
 
@@ -5684,7 +5684,7 @@ s32 Camera_Unique9(Camera* camera) {
             scratchGeo.yaw += CAM_DEG_TO_BINANG(rwData->curKeyFrame->eyeTargetInit.y);
 
             // 3A98 ~ 82.40 degrees
-            if (scratchGeo.pitch >= 0x3A99) {
+            if (scratchGeo.pitch > 0x3A98) {
                 scratchGeo.pitch = 0x3A98;
             }
 
