@@ -128,8 +128,7 @@ void func_80993848(DemoTreLgt* this, PlayState* play) {
     }
     if ((currentFrame > 30.0f) && !(this->status & 1)) {
         this->status |= 1;
-        Audio_PlaySfxGeneral(NA_SE_EV_TRE_BOX_FLASH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_TRE_BOX_FLASH);
     }
     if (SkelCurve_Update(play, &this->skelCurve)) {
         Actor_Kill(&this->actor);

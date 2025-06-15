@@ -283,8 +283,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     }
 
     if (PARAMS_GET_S(thisx->params, 13, 3) >= 3) {
-        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
     }
 
     switch (PARAMS_GET_S(thisx->params, 13, 3)) {
@@ -629,8 +628,7 @@ void func_80B0D878(EnSw* this, PlayState* play) {
     this->actor.shape.rot = this->actor.world.rot;
 
     if ((this->unk_394 == 0) && (this->unk_392 == 0)) {
-        Audio_PlaySfxGeneral(NA_SE_SY_KINSTA_MARK_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_KINSTA_MARK_APPEAR);
         x = (this->unk_364.x * 10.0f);
         y = (this->unk_364.y * 10.0f);
         z = (this->unk_364.z * 10.0f);

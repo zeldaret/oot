@@ -95,9 +95,7 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
 
     if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
         // Play a sfx when the player toggles the camera
-        Audio_PlaySfxGeneral((viewpoint == VIEWPOINT_LOCKED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
-                             &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED((viewpoint == VIEWPOINT_LOCKED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP);
     }
 
     Play_RequestViewpointBgCam(this);
@@ -873,8 +871,7 @@ void Play_Update(PlayState* this) {
                     break;
 
                 case TRANS_MODE_SANDSTORM:
-                    Audio_PlaySfxGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxDefaultPos, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_EV_SAND_STORM - SFX_FLAG);
 
                     if (this->transitionTrigger == TRANS_TRIGGER_END) {
                         if (this->envCtx.sandstormPrimA < 110) {
@@ -908,8 +905,7 @@ void Play_Update(PlayState* this) {
                     break;
 
                 case TRANS_MODE_SANDSTORM_END:
-                    Audio_PlaySfxGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxDefaultPos, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_EV_SAND_STORM - SFX_FLAG);
 
                     if (this->transitionTrigger == TRANS_TRIGGER_END) {
                         if (this->envCtx.sandstormPrimA <= 0) {
@@ -1043,8 +1039,7 @@ void Play_Update(PlayState* this) {
                         PRINTF(VT_FGCOL(CYAN) T("デモ中につき視点変更を禁止しております\n",
                                                 "Changing viewpoint is prohibited during the cutscene\n") VT_RST);
                     } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
-                        Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_SY_ERROR);
                     } else {
                         // C-Up toggle for houses, move between pivot camera and fixed camera
                         // Toggle viewpoint between VIEWPOINT_LOCKED and VIEWPOINT_PIVOT

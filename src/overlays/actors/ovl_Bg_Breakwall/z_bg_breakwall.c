@@ -266,14 +266,12 @@ void BgBreakwall_Wait(BgBreakwall* this, PlayState* play) {
             Flags_SetEventChkInf(EVENTCHKINF_B0);
             Cutscene_SetScript(play, gDcOpeningCs);
             gSaveContext.cutsceneTrigger = 1;
-            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_49);
         }
 
         if (this->dyna.actor.params < 0) {
-            Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
         }
 
         Actor_Kill(&this->dyna.actor);

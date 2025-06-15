@@ -377,8 +377,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
 
-                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
 
                 cursorPoint = cursorX = cursorY = 0;
                 while (true) {
@@ -424,8 +423,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             if (pauseCtx->stickAdjX < -30) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
-                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
 
                 cursorPoint = cursorX = 3;
                 cursorY = 0;
@@ -574,21 +572,18 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     Interface_LoadItemIcon1(play, 0);
                 }
 
-                Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_DECIDE);
 
                 // Wait 10 frames before accepting input again
                 pauseCtx->mainState = PAUSE_MAIN_STATE_EQUIP_CHANGED;
                 sEquipTimer = 10;
             } else {
-                Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_ERROR);
             }
         }
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_EQUIP]) {
-            Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
         }
     } else if ((pauseCtx->mainState == PAUSE_MAIN_STATE_EQUIP_CHANGED) && (pauseCtx->pageIndex == PAUSE_EQUIP)) {
         KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_EQUIP] * 4, pauseCtx->equipVtx);

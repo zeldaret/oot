@@ -298,11 +298,9 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play) {
         }
     } else {
         if (this->dropTimer == 1) {
-            Audio_PlaySfxGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&this->dyna.actor.projectedPos, NA_SE_EV_STONEDOOR_STOP);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&this->dyna.actor.projectedPos, NA_SE_EV_BLOCKSINK - SFX_FLAG);
         }
         Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speed);
         Math_ApproachF(&this->dyna.actor.speed, 100.0f, 1.0f, 0.1f);
