@@ -110,7 +110,7 @@ s16 sCamDataRegsInit[CAM_DATA_MAX] = {
     0,   // CAM_DATA_AT_OFFSET_X
     0,   // CAM_DATA_AT_OFFSET_Y
     0,   // CAM_DATA_AT_OFFSET_Z
-    6,   // CAM_DATA_UNK_22
+    6,   // CAM_DATA_INIT_TIMER
     60,  // CAM_DATA_UNK_23
     30,  // CAM_DATA_FOV_SCALE
     0,   // CAM_DATA_YAW_SCALE
