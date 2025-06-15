@@ -93,7 +93,7 @@ typedef enum HitBacklash {
 
 typedef struct ColliderElementDamageInfoAC {
     /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
-    /* 0x04 */ u8 hitBacklash;  // The backlash type applied to other ATs touching this AC.
+    /* 0x04 */ u8 hitBacklash;  // The hit backlash type applied to any attacker hurting this AC collider.
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderElementDamageInfoAC; // size = 0x0C
@@ -470,7 +470,7 @@ typedef struct CollisionCheckInfo {
     /* 0x17 */ u8 health; // Note: some actors may use their own health variable instead of this one
     /* 0x18 */ u8 damage; // Amount to decrement health by
     /* 0x19 */ u8 damageReaction; // Stores what reaction should occur after being hit
-    /* 0x1A */ u8 atHitBacklash; // Stores the backlash type from touching an AC as an AT
+    /* 0x1A */ u8 atHitBacklash; // Stores the hit backlash type received from attacking an AC collider
     /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
 } CollisionCheckInfo; // size = 0x1C
 
