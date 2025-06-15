@@ -15,7 +15,8 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_fragments_1.h"
+#include "assets/objects/gameplay_keep/eff_fragments_2_model.h"
 
 #define rPitch regs[0]
 #define rYaw regs[1]
