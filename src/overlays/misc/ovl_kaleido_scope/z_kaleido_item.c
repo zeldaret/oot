@@ -110,7 +110,14 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
     CLOSE_DISPS(gfxCtx, "../z_kaleido_item.c", 116);
 }
 
+/**
+ * Set the cursor to the position of `vtx[index]`.
+ * The position indicates the cursor's top-left.
+ *
+ * @see KaleidoScope_UpdateCursorVtx where this position is used to update all cursor quads.
+ */
 void KaleidoScope_SetCursorPos(PauseContext* pauseCtx, u16 index, Vtx* vtx) {
+    // PAUSE_QUAD_CURSOR_TL
     pauseCtx->cursorVtx[0].v.ob[0] = vtx[index].v.ob[0];
     pauseCtx->cursorVtx[0].v.ob[1] = vtx[index].v.ob[1];
 }
