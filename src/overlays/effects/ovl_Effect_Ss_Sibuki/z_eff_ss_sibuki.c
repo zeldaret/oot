@@ -17,7 +17,8 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x55DB0.h"
+#include "assets/objects/gameplay_keep/eff_bubble.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]

@@ -22,7 +22,7 @@
 #include "player.h"
 
 #include "assets/objects/object_vm/object_vm.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_enemy_death_flame.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 

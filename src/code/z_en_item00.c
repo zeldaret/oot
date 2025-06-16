@@ -19,7 +19,13 @@
 #include "player.h"
 #include "save.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/rupee.h"
+#include "assets/objects/gameplay_keep/drop_recovery_heart_tex.h"
+#include "assets/objects/gameplay_keep/item_drop_dl.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x3C870.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x3F140.h"
+#include "assets/objects/gameplay_keep/gameplay_keep_0x3B1E0.h"
+#include "assets/objects/gameplay_keep/heart_piece_interior_model.h"
 
 #pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-eu-mq-dbg:0 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128" \
                                "gc-us-mq:128 ique-cn:128 ntsc-1.0:128 ntsc-1.2:128"
