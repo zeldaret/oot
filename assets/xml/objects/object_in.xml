@@ -216,27 +216,27 @@
         <DList Name="gIngoAdultEraLeftLegDL" Offset="0x137C0"/>
         <DList Name="gIngoAdultEraLeftFootDL" Offset="0x13910"/>
 
-        <Limb Name="gIngoRootLimb" LimbType="Standard" Offset="0x13A58"/>
-        <Limb Name="gIngoLeftThighLimb" LimbType="Standard" Offset="0x13A64"/>
-        <Limb Name="gIngoLeftLegLimb" LimbType="Standard" Offset="0x13A70"/>
-        <Limb Name="gIngoLeftFootLimb" LimbType="Standard" Offset="0x13A7C"/>
-        <Limb Name="gIngoRightThighLimb" LimbType="Standard" Offset="0x13A88"/>
-        <Limb Name="gIngoRightLegLimb" LimbType="Standard" Offset="0x13A94"/>
-        <Limb Name="gIngoRightFootLimb" LimbType="Standard" Offset="0x13AA0"/>
-        <Limb Name="gIngoTorsoLimb" LimbType="Standard" Offset="0x13AAC"/>
-        <Limb Name="gIngoChestLimb" LimbType="Standard" Offset="0x13AB8"/>
-        <Limb Name="gIngoLeftShoulderLimb" LimbType="Standard" Offset="0x13AC4"/>
-        <Limb Name="gIngoLeftArmLimb" LimbType="Standard" Offset="0x13AD0"/>
-        <Limb Name="gIngoLeftHandLimb" LimbType="Standard" Offset="0x13ADC"/>
-        <Limb Name="gIngoRightShoulderLimb" LimbType="Standard" Offset="0x13AE8"/>
-        <Limb Name="gIngoRightArmLimb" LimbType="Standard" Offset="0x13AF4"/>
-        <Limb Name="gIngoRightHandLimb" LimbType="Standard" Offset="0x13B00"/>
-        <Limb Name="gIngoHeadLimb" LimbType="Standard" Offset="0x13B0C"/>
-        <Limb Name="gIngoLeftEyebrowLimb" LimbType="Standard" Offset="0x13B18"/>
-        <Limb Name="gIngoRightEyebrowLimb" LimbType="Standard" Offset="0x13B24"/>
-        <Limb Name="gIngoMustacheLimb" LimbType="Standard" Offset="0x13B30"/>
+        <Limb Name="gIngoRootLimb" LimbType="Standard" EnumName="INGO_LIMB_ROOT" Offset="0x13A58"/>
+        <Limb Name="gIngoLeftThighLimb" LimbType="Standard" EnumName="INGO_LIMB_LEFT_THIGH" Offset="0x13A64"/>
+        <Limb Name="gIngoLeftLegLimb" LimbType="Standard" EnumName="INGO_LIMB_LEFT_LEG" Offset="0x13A70"/>
+        <Limb Name="gIngoLeftFootLimb" LimbType="Standard" EnumName="INGO_LIMB_LEFT_FOOT" Offset="0x13A7C"/>
+        <Limb Name="gIngoRightThighLimb" LimbType="Standard" EnumName="INGO_LIMB_RIGHT_THIGH" Offset="0x13A88"/>
+        <Limb Name="gIngoRightLegLimb" LimbType="Standard" EnumName="INGO_LIMB_RIGHT_LEG" Offset="0x13A94"/>
+        <Limb Name="gIngoRightFootLimb" LimbType="Standard" EnumName="INGO_LIMB_RIGHT_FOOT" Offset="0x13AA0"/>
+        <Limb Name="gIngoTorsoLimb" LimbType="Standard" EnumName="INGO_LIMB_TORSO" Offset="0x13AAC"/>
+        <Limb Name="gIngoChestLimb" LimbType="Standard" EnumName="INGO_LIMB_CHEST" Offset="0x13AB8"/>
+        <Limb Name="gIngoLeftShoulderLimb" LimbType="Standard" EnumName="INGO_LIMB_LEFT_SHOULDER" Offset="0x13AC4"/>
+        <Limb Name="gIngoLeftArmLimb" LimbType="Standard" EnumName="INGO_LIMB_LEFT_ARM" Offset="0x13AD0"/>
+        <Limb Name="gIngoLeftHandLimb" LimbType="Standard" EnumName="INGO_LIMB_LEFT_HAND" Offset="0x13ADC"/>
+        <Limb Name="gIngoRightShoulderLimb" LimbType="Standard" EnumName="INGO_LIMB_RIGHT_SHOULDER" Offset="0x13AE8"/>
+        <Limb Name="gIngoRightArmLimb" LimbType="Standard" EnumName="INGO_LIMB_RIGHT_ARM" Offset="0x13AF4"/>
+        <Limb Name="gIngoRightHandLimb" LimbType="Standard" EnumName="INGO_LIMB_RIGHT_HAND" Offset="0x13B00"/>
+        <Limb Name="gIngoHeadLimb" LimbType="Standard" EnumName="INGO_LIMB_HEAD" Offset="0x13B0C"/>
+        <Limb Name="gIngoLeftEyebrowLimb" LimbType="Standard" EnumName="INGO_LIMB_LEFT_EYEBROW" Offset="0x13B18"/>
+        <Limb Name="gIngoRightEyebrowLimb" LimbType="Standard" EnumName="INGO_LIMB_RIGHT_EYEBROW" Offset="0x13B24"/>
+        <Limb Name="gIngoMustacheLimb" LimbType="Standard" EnumName="INGO_LIMB_MUSTACHE" Offset="0x13B30"/>
 
-        <Skeleton Name="gIngoSkel" Type="Flex" LimbType="Standard" Offset="0x13B88"/>
+        <Skeleton Name="gIngoSkel" Type="Flex" LimbType="Standard" LimbNone="INGO_LIMB_NONE" LimbMax="INGO_LIMB_MAX" EnumName="IngoLimb" Offset="0x13B88"/>
 
         <Animation Name="object_in_Anim_013C6C" Offset="0x13C6C"/>
         <Animation Name="object_in_Anim_013D60" Offset="0x13D60"/>

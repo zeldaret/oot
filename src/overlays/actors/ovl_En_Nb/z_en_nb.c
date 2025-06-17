@@ -1011,7 +1011,7 @@ void func_80AB2E70(EnNb* this, PlayState* play) {
 s32 func_80AB2FC0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNb* this = (EnNb*)thisx;
 
-    if (limbIndex == NB_LIMB_HEAD) {
+    if (limbIndex == NABOORU_LIMB_HEAD) {
         *dList = gNabooruHeadMouthOpenDL;
     }
 
@@ -1507,13 +1507,13 @@ s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     s32 ret = false;
 
     if (this->headTurnFlag != 0) {
-        if (limbIndex == NB_LIMB_TORSO) {
+        if (limbIndex == NABOORU_LIMB_TORSO) {
             s32 pad;
 
             rot->x += interactInfo->torsoRot.y;
             rot->y -= interactInfo->torsoRot.x;
             ret = false;
-        } else if (limbIndex == NB_LIMB_HEAD) {
+        } else if (limbIndex == NABOORU_LIMB_HEAD) {
             rot->x += interactInfo->headRot.y;
             rot->z += interactInfo->headRot.x;
             ret = false;
@@ -1526,7 +1526,7 @@ s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnNb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnNb* this = (EnNb*)thisx;
 
-    if (limbIndex == NB_LIMB_HEAD) {
+    if (limbIndex == NABOORU_LIMB_HEAD) {
         Vec3f vec1 = { 0.0f, 10.0f, 0.0f };
         Vec3f vec2;
 

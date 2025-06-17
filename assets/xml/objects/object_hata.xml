@@ -7,29 +7,29 @@
         <Animation Name="gFlagpoleFlapAnim" Offset="0x444"/>
 
         <!-- Flagpole Skeleton -->
-        <Skeleton Name="gFlagpoleSkel" Type="Normal" LimbType="Standard" Offset="0x2FD0"/>
+        <Skeleton Name="gFlagpoleSkel" Type="Normal" LimbType="Standard" LimbNone="FLAGPOLE_LIMB_NONE" LimbMax="FLAGPOLE_LIMB_MAX" EnumName="FlagpoleLimb" Offset="0x2FD0"/>
 
         <!-- Flagpole Limbs -->
-        <Limb Name="gFlagpolePoleBaseLimb" LimbType="Standard" Offset="0x2E90"/>
-        <Limb Name="gFlagpolePoleLimb" LimbType="Standard" Offset="0x2E9C"/>
-        <Limb Name="gFlagpoleFlag1BaseLimb" LimbType="Standard" Offset="0x2EA8"/>
-        <Limb Name="gFlagpoleFlag1HoistEndBaseLimb" LimbType="Standard" Offset="0x2EB4"/>
-        <Limb Name="gFlagpoleFlag1HoistMidBaseLimb" LimbType="Standard" Offset="0x2EC0"/>
-        <Limb Name="gFlagpoleFlag1FlyMidBaseLimb" LimbType="Standard" Offset="0x2ECC"/>
-        <Limb Name="gFlagpoleFlag1FlyEndBaseLimb" LimbType="Standard" Offset="0x2ED8"/>
-        <Limb Name="gFlagpoleFlag1FlyEndLimb" LimbType="Standard" Offset="0x2EE4"/>
-        <Limb Name="gFlagpoleFlag1FlyMidLimb" LimbType="Standard" Offset="0x2EF0"/>
-        <Limb Name="gFlagpoleFlag1HoistMidLimb" LimbType="Standard" Offset="0x2EFC"/>
-        <Limb Name="gFlagpoleFlag1HoistEndLimb" LimbType="Standard" Offset="0x2F08"/>
-        <Limb Name="gFlagpoleFlag2BaseLimb" LimbType="Standard" Offset="0x2F14"/>
-        <Limb Name="gFlagpoleFlag2HoistEndBaseLimb" LimbType="Standard" Offset="0x2F20"/>
-        <Limb Name="gFlagpoleFlag2HoistMidBaseLimb" LimbType="Standard" Offset="0x2F2C"/>
-        <Limb Name="gFlagpoleFlag2FlyMidBaseLimb" LimbType="Standard" Offset="0x2F38"/>
-        <Limb Name="gFlagpoleFlag2FlyEndBaseLimb" LimbType="Standard" Offset="0x2F44"/>
-        <Limb Name="gFlagpoleFlag2FlyEndLimb" LimbType="Standard" Offset="0x2F50"/>
-        <Limb Name="gFlagpoleFlag2FlyMidLimb" LimbType="Standard" Offset="0x2F5C"/>
-        <Limb Name="gFlagpoleFlag2HoistMidLimb" LimbType="Standard" Offset="0x2F68"/>
-        <Limb Name="gFlagpoleFlag2HoistEndLimb" LimbType="Standard" Offset="0x2F74"/>
+        <Limb Name="gFlagpolePoleBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_POLE_BASE" Offset="0x2E90"/>
+        <Limb Name="gFlagpolePoleLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_POLE" Offset="0x2E9C"/>
+        <Limb Name="gFlagpoleFlag1BaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_BASE" Offset="0x2EA8"/>
+        <Limb Name="gFlagpoleFlag1HoistEndBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE" Offset="0x2EB4"/>
+        <Limb Name="gFlagpoleFlag1HoistMidBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_HOIST_MID_BASE" Offset="0x2EC0"/>
+        <Limb Name="gFlagpoleFlag1FlyMidBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_FLY_MID_BASE" Offset="0x2ECC"/>
+        <Limb Name="gFlagpoleFlag1FlyEndBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_FLY_END_BASE" Offset="0x2ED8"/>
+        <Limb Name="gFlagpoleFlag1FlyEndLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_FLY_END" Offset="0x2EE4"/>
+        <Limb Name="gFlagpoleFlag1FlyMidLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_FLY_MID" Offset="0x2EF0"/>
+        <Limb Name="gFlagpoleFlag1HoistMidLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_HOIST_MID" Offset="0x2EFC"/>
+        <Limb Name="gFlagpoleFlag1HoistEndLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_1_HOIST_END" Offset="0x2F08"/>
+        <Limb Name="gFlagpoleFlag2BaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_BASE" Offset="0x2F14"/>
+        <Limb Name="gFlagpoleFlag2HoistEndBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_HOIST_END_BASE" Offset="0x2F20"/>
+        <Limb Name="gFlagpoleFlag2HoistMidBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_HOIST_MID_BASE" Offset="0x2F2C"/>
+        <Limb Name="gFlagpoleFlag2FlyMidBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_FLY_MID_BASE" Offset="0x2F38"/>
+        <Limb Name="gFlagpoleFlag2FlyEndBaseLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_FLY_END_BASE" Offset="0x2F44"/>
+        <Limb Name="gFlagpoleFlag2FlyEndLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_FLY_END" Offset="0x2F50"/>
+        <Limb Name="gFlagpoleFlag2FlyMidLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_FLY_MID" Offset="0x2F5C"/>
+        <Limb Name="gFlagpoleFlag2HoistMidLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_HOIST_MID" Offset="0x2F68"/>
+        <Limb Name="gFlagpoleFlag2HoistEndLimb" LimbType="Standard" EnumName="FLAGPOLE_LIMB_FLAG_2_HOIST_END" Offset="0x2F74"/>
 
         <!-- Flagpole Vertices -->
         <Array Name="gFlagpolePoleVtx" Count="39" Offset="0x2460">
