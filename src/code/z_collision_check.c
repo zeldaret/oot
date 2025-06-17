@@ -194,7 +194,7 @@ s32 Collider_DestroyElementDamageInfoAC(PlayState* play, ColliderElementDamageIn
 s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo,
                                     ColliderElementDamageInfoACInit* init) {
     acDmgInfo->dmgFlags = init->dmgFlags;
-    acDmgInfo->hitBacklash = init->effect;
+    acDmgInfo->hitBacklash = init->hitBacklash;
     acDmgInfo->defense = init->defense;
     return true;
 }

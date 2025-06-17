@@ -100,7 +100,7 @@ typedef struct ColliderElementDamageInfoAC {
 
 typedef struct ColliderElementDamageInfoACInit {
     /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
-    /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 hitBacklash; // The hit backlash type applied to any attacker hurting this AC collider.
     /* 0x05 */ u8 defense; // Damage Resistance
 } ColliderElementDamageInfoACInit; // size = 0x08
 
