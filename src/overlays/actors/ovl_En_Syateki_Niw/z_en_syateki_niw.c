@@ -466,8 +466,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
             }
 
             if ((this->archeryTimer == 0) && ((player->actor.world.pos.z - 30.0f) < this->actor.world.pos.z)) {
-                Audio_PlaySfxGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_VO_LI_DOWN);
                 this->movementTimer = 20;
                 this->archeryState = 6;
                 this->actor.speed = 0.0f;
