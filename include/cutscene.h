@@ -353,7 +353,6 @@ typedef union CsCmdCam {
     s32 _words[2];
 } CsCmdCam; // size = 0x8
 
-
 typedef union CsCmdMisc {
     struct {
         /* 0x00 */ u16 type;
