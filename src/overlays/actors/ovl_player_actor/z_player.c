@@ -4798,7 +4798,7 @@ void func_8083821C(Player* this) {
 }
 
 void func_80838280(Player* this) {
-    if (this->actor.colChkInfo.acHitEffect == 1) {
+    if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_1) {
         func_8083821C(this);
     }
     Player_PlayVoiceSfx(this, NA_SE_VO_LI_FALL_L);
@@ -4915,7 +4915,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.effect == 1)) {
+                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.hitSpecialEffect == HIT_SPECIAL_EFFECT_1)) {
                     func_8083819C(this, play);
                 }
 
@@ -4938,11 +4938,11 @@ s32 func_808382DC(Player* this, PlayState* play) {
 
                 if (this->stateFlags1 & PLAYER_STATE1_27) {
                     sp4C = PLAYER_HIT_RESPONSE_NONE;
-                } else if (this->actor.colChkInfo.acHitEffect == 2) {
+                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_2) {
                     sp4C = PLAYER_HIT_RESPONSE_ICE_TRAP;
-                } else if (this->actor.colChkInfo.acHitEffect == 3) {
+                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_3) {
                     sp4C = PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK;
-                } else if (this->actor.colChkInfo.acHitEffect == 4) {
+                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_4) {
                     sp4C = PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE;
                 } else {
                     func_80838280(this);
@@ -10799,7 +10799,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     startMode = PLAYER_GET_START_MODE(thisx);
 
     if ((startMode == PLAYER_START_MODE_WARP_SONG) || (startMode == PLAYER_START_MODE_FARORES_WIND)) {
-        if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
+        if (gSaveContext.save.cutsceneIndex >= CS_INDEX_0) {
             startMode = PLAYER_START_MODE_IDLE;
         }
     }
@@ -13722,7 +13722,7 @@ s32 func_8084DFF4(PlayState* play, Player* this) {
             if (this->getItemId == GI_SILVER_GAUNTLETS) {
                 play->nextEntranceIndex = ENTR_DESERT_COLOSSUS_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
-                gSaveContext.nextCutsceneIndex = 0xFFF1;
+                gSaveContext.nextCutsceneIndex = CS_INDEX_1;
                 play->transitionType = TRANS_TYPE_SANDSTORM_END;
                 this->stateFlags1 &= ~PLAYER_STATE1_29;
                 Player_TryCsAction(play, NULL, PLAYER_CSACTION_8);

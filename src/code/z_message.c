@@ -26,7 +26,7 @@
 
 #include "assets/textures/parameter_static/parameter_static.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:16" \
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:16" \
                                "ntsc-1.1:16 ntsc-1.2:16 pal-1.0:0 pal-1.1:0"
 
 #if !PLATFORM_IQUE
@@ -4379,7 +4379,7 @@ void Message_Update(PlayState* play) {
 
                     if (msgCtx->textId != 0x2061 && msgCtx->textId != 0x2025 && msgCtx->textId != 0x208C &&
                         ((msgCtx->textId < 0x88D || msgCtx->textId >= 0x893) || msgCtx->choiceIndex != 0) &&
-                        (msgCtx->textId != 0x3055 && gSaveContext.save.cutsceneIndex < 0xFFF0)) {
+                        (msgCtx->textId != 0x3055 && gSaveContext.save.cutsceneIndex < CS_INDEX_0)) {
                         PRINTF("=== day_time=%x ", ((void)0, gSaveContext.save.cutsceneIndex));
                         if (play->activeCamId == CAM_ID_MAIN) {
                             if (gSaveContext.prevHudVisibilityMode == HUD_VISIBILITY_NO_CHANGE ||
