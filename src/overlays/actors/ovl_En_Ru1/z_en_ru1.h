@@ -83,11 +83,11 @@ typedef enum EnRu1Action {
     /* 19 */ ENRU1_ACTION_19,
     /* 20 */ ENRU1_ACTION_20,
     /* 21 */ ENRU1_ACTION_21,
-    /* 22 */ ENRU1_ACTION_22,
-    /* 23 */ ENRU1_ACTION_23,
-    /* 24 */ ENRU1_ACTION_24,
-    /* 25 */ ENRU1_ACTION_25,
-    /* 26 */ ENRU1_ACTION_26,
+    /* 22 */ ENRU1_ACTION_PRE_SPAWN_SPEAKABLE,
+    /* 23 */ ENRU1_ACTION_SPAWN_SPEAKABLE,
+    /* 24 */ ENRU1_ACTION_IDLE_SPEAKABLE,
+    /* 25 */ ENRU1_ACTION_TALK_IN_JABU,
+    /* 26 */ ENRU1_ACTION_TAKING_SEAT,
     /* 27 */ ENRU1_ACTION_27,
     /* 28 */ ENRU1_ACTION_28,
     /* 29 */ ENRU1_ACTION_29,
@@ -105,8 +105,8 @@ typedef enum EnRu1Action {
     /* 41 */ ENRU1_ACTION_41,
     /* 42 */ ENRU1_ACTION_42,
     /* 43 */ ENRU1_ACTION_43,
-    /* 44 */ ENRU1_ACTION_44,
-    /* 45 */ ENRU1_ACTION_45
+    /* 44 */ ENRU1_ACTION_THRONE_IDLE,
+    /* 45 */ ENRU1_ACTION_THRONE_TALK
 } EnRu1Action;
 
 typedef enum EnRu1DrawConfig {
