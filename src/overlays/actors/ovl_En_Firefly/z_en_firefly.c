@@ -134,7 +134,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnFirefly_Extinguish(EnFirefly* this) {
     this->actor.params += 2;
-    this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_0;
+    this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
     this->auraType = KEESE_AURA_NONE;
     this->onFire = false;
     this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
@@ -146,7 +146,7 @@ void EnFirefly_Ignite(EnFirefly* this) {
     } else {
         this->actor.params -= 2;
     }
-    this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_1;
+    this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_FIRE;
     this->auraType = KEESE_AURA_FIRE;
     this->onFire = true;
     this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
@@ -190,10 +190,10 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
         }
 
         if (this->actor.params == KEESE_ICE_FLY) {
-            this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_2;
+            this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_ICE;
             this->actor.naviEnemyId = NAVI_ENEMY_ICE_KEESE;
         } else {
-            this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_0;
+            this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
             this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
         }
 
