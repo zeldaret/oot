@@ -4940,7 +4940,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     sp4C = PLAYER_HIT_RESPONSE_NONE;
                 } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ICE) {
                     sp4C = PLAYER_HIT_RESPONSE_ICE_TRAP;
-                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_SHOCK) {
+                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ELECTRIC) {
                     sp4C = PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK;
                 } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_KNOCKBACK) {
                     sp4C = PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE;
@@ -9145,7 +9145,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
             if ((func_80842AC4(play, this) == 0) && (this->heldItemAction != PLAYER_IA_HAMMER)) {
                 func_80842B7C(play, this);
 
-                if (this->actor.colChkInfo.atHitBacklash == HIT_BACKLASH_SHOCK) {
+                if (this->actor.colChkInfo.atHitBacklash == HIT_BACKLASH_ELECTRIC) {
                     this->actor.colChkInfo.damage = 8;
                     func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK, 0.0f, 0.0f, this->actor.shape.rot.y,
                                   20);

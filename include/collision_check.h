@@ -84,7 +84,7 @@ typedef enum HitSpecialEffect {
     HIT_SPECIAL_EFFECT_NONE,
     HIT_SPECIAL_EFFECT_FIRE,
     HIT_SPECIAL_EFFECT_ICE,
-    HIT_SPECIAL_EFFECT_SHOCK, // electric shock
+    HIT_SPECIAL_EFFECT_ELECTRIC,
     HIT_SPECIAL_EFFECT_KNOCKBACK
 } HitSpecialEffect;
 
@@ -96,7 +96,7 @@ typedef struct ColliderElementDamageInfoAT {
 
 typedef enum HitBacklash {
     HIT_BACKLASH_NONE,
-    HIT_BACKLASH_SHOCK // electric shock
+    HIT_BACKLASH_ELECTRIC
 } HitBacklash;
 
 typedef struct ColliderElementDamageInfoAC {

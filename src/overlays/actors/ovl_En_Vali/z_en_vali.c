@@ -462,7 +462,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        this->bodyCollider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_SHOCK;
+        this->bodyCollider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_ELECTRIC;
         EnVali_SetupFloatIdle(this);
     }
 }

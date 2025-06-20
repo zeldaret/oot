@@ -157,7 +157,7 @@ void EnBili_Destroy(Actor* thisx, PlayState* play) {
 
 void EnBili_SetupFloatIdle(EnBili* this) {
     this->actor.speed = 0.7f;
-    this->collider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_SHOCK;
+    this->collider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_ELECTRIC;
     this->timer = 32;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->actor.gravity = 0.0f;
