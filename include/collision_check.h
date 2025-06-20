@@ -81,11 +81,11 @@ typedef struct ColliderInitToActor {
 } ColliderInitToActor; // size = 0x08
 
 typedef enum HitSpecialEffect {
-    HIT_SPECIAL_EFFECT_0, // None
-    HIT_SPECIAL_EFFECT_1, // Fire
-    HIT_SPECIAL_EFFECT_2, // Ice
-    HIT_SPECIAL_EFFECT_3,
-    HIT_SPECIAL_EFFECT_4
+    HIT_SPECIAL_EFFECT_NONE,
+    HIT_SPECIAL_EFFECT_FIRE,
+    HIT_SPECIAL_EFFECT_ICE,
+    HIT_SPECIAL_EFFECT_SHOCK, // electric shock
+    HIT_SPECIAL_EFFECT_KNOCKBACK
 } HitSpecialEffect;
 
 typedef struct ColliderElementDamageInfoAT {
@@ -95,8 +95,8 @@ typedef struct ColliderElementDamageInfoAT {
 } ColliderElementDamageInfoAT; // size = 0x08
 
 typedef enum HitBacklash {
-    HIT_BACKLASH_0,
-    HIT_BACKLASH_1 // Shock?
+    HIT_BACKLASH_NONE,
+    HIT_BACKLASH_SHOCK // electric shock
 } HitBacklash;
 
 typedef struct ColliderElementDamageInfoAC {
