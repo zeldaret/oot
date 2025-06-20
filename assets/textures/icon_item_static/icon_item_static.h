@@ -193,7 +193,7 @@ extern u64 gSongNoteTex[TEX_LEN(u64, gSongNoteTex_WIDTH, gSongNoteTex_HEIGHT, 8)
 #define gMagicArrowEquipEffectTex_HEIGHT gMagicArrowEquipEffectTex_SIZE
 extern u64 gMagicArrowEquipEffectTex[TEX_LEN(u64, gMagicArrowEquipEffectTex_WIDTH, gMagicArrowEquipEffectTex_HEIGHT, 8)];
 
-extern Gfx gItemNamePanelDL[18];
+extern Gfx gInfoPanelBgDL[18];
 extern Gfx gLButtonIconDL[10];
 extern Gfx gRButtonIconDL[10];
 extern Gfx gCButtonIconsDL[11];
