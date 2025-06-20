@@ -334,7 +334,7 @@ typedef enum CameraDataType {
     /* 0x13 */ CAM_DATA_AT_OFFSET_X,
     /* 0x14 */ CAM_DATA_AT_OFFSET_Y,
     /* 0x15 */ CAM_DATA_AT_OFFSET_Z,
-    /* 0x16 */ CAM_DATA_UNK_22,
+    /* 0x16 */ CAM_DATA_INIT_TIMER,
     /* 0x17 */ CAM_DATA_UNK_23,
     /* 0x18 */ CAM_DATA_FOV_SCALE,
     /* 0x19 */ CAM_DATA_YAW_SCALE,
@@ -846,15 +846,15 @@ typedef struct KeepOn3 {
     { interfaceField, CAM_DATA_INTERFACE_FIELD }
 
 typedef struct KeepOn4ReadOnlyData {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ f32 unk_18;
+    /* 0x00 */ f32 yOffset;
+    /* 0x04 */ f32 eyeDist;
+    /* 0x08 */ f32 pitchTarget; // degrees
+    /* 0x0C */ f32 yawTarget; // degrees
+    /* 0x10 */ f32 atOffsetPlayerForwards; // distance to offset `at` by, in the player's forwards direction
+    /* 0x14 */ f32 unk_14; // scale for stepping yaw and pitch of "at to eye" to target
+    /* 0x18 */ f32 fovTarget;
     /* 0x1C */ s16 interfaceField;
-    /* 0x1E */ s16 unk_1E;
+    /* 0x1E */ s16 initTimer;
 } KeepOn4ReadOnlyData; // size = 0x20
 
 typedef enum CameraItemType {
@@ -874,14 +874,14 @@ typedef enum CameraItemType {
 } CameraItemType;
 
 typedef struct KeepOn4ReadWriteData {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
-    /* 0x0C */ s16 unk_0C;
-    /* 0x0E */ s16 unk_0E;
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 unk_12;
-    /* 0x14 */ s16 unk_14;
+    /* 0x00 */ f32 atToEyeTargetStepYaw; // binang
+    /* 0x04 */ f32 atToEyeTargetStepPitch; // binang
+    /* 0x08 */ f32 unk_08; // set but unused
+    /* 0x0C */ s16 atToEyeTargetYaw;
+    /* 0x0E */ s16 atToEyeTargetPitch;
+    /* 0x10 */ s16 animTimer;
+    /* 0x12 */ s16 unk_12; // set but unused
+    /* 0x14 */ s16 itemType;
 } KeepOn4ReadWriteData; // size = 0x18
 
 typedef struct KeepOn4 {
@@ -898,16 +898,16 @@ typedef struct KeepOn4 {
 #define KEEPON4_FLAG_6 (1 << 6)
 #define KEEPON4_FLAG_7 (1 << 7)
 
-#define CAM_FUNCDATA_KEEP4(yOffset, eyeDist, pitchTarget, yawTarget, atOffsetZ, fov, interfaceField, yawUpdateRateTarget, unk_22) \
+#define CAM_FUNCDATA_KEEP4(yOffset, eyeDist, pitchTarget, yawTarget, atOffsetPlayerForwards, fov, interfaceField, unk_14, initTimer) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
     { eyeDist, CAM_DATA_EYE_DIST }, \
     { pitchTarget, CAM_DATA_PITCH_TARGET }, \
     { yawTarget, CAM_DATA_YAW_TARGET }, \
-    { atOffsetZ, CAM_DATA_AT_OFFSET_Z }, \
+    { atOffsetPlayerForwards, CAM_DATA_AT_OFFSET_Z }, \
     { fov, CAM_DATA_FOV }, \
     { interfaceField, CAM_DATA_INTERFACE_FIELD }, \
-    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
-    { unk_22, CAM_DATA_UNK_22 }
+    { unk_14, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { initTimer, CAM_DATA_INIT_TIMER }
 
 typedef struct KeepOn0ReadOnlyData {
     /* 0x00 */ f32 fovScale;
@@ -1463,7 +1463,7 @@ typedef struct Special5 {
     { yOffset, CAM_DATA_Y_OFFSET }, \
     { eyeDist, CAM_DATA_EYE_DIST }, \
     { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
-    { unk_22, CAM_DATA_UNK_22 }, \
+    { unk_22, CAM_DATA_INIT_TIMER }, \
     { pitchTarget, CAM_DATA_PITCH_TARGET }, \
     { fov, CAM_DATA_FOV }, \
     { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
@@ -1477,7 +1477,7 @@ typedef struct Special5 {
     { pitchTarget, CAM_DATA_PITCH_TARGET }, \
     { fov, CAM_DATA_FOV }, \
     { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
-    { unk_22, CAM_DATA_UNK_22 }, \
+    { unk_22, CAM_DATA_INIT_TIMER }, \
     { interfaceField, CAM_DATA_INTERFACE_FIELD }
 
 typedef struct Special7ReadWriteData {
