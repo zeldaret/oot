@@ -80,9 +80,17 @@ typedef struct ColliderInitToActor {
     /* 0x07 */ u8 shape;
 } ColliderInitToActor; // size = 0x08
 
+typedef enum HitSpecialEffect {
+    HIT_SPECIAL_EFFECT_0, // None
+    HIT_SPECIAL_EFFECT_1, // Fire
+    HIT_SPECIAL_EFFECT_2, // Ice
+    HIT_SPECIAL_EFFECT_3,
+    HIT_SPECIAL_EFFECT_4
+} HitSpecialEffect;
+
 typedef struct ColliderElementDamageInfoAT {
     /* 0x00 */ u32 dmgFlags; // Damage types dealt by this collider element as AT.
-    /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 hitSpecialEffect; // The hit special effect applied to any actor attacked by this AT collider.
     /* 0x05 */ u8 damage; // Damage
 } ColliderElementDamageInfoAT; // size = 0x08
 
@@ -471,7 +479,7 @@ typedef struct CollisionCheckInfo {
     /* 0x18 */ u8 damage; // Amount to decrement health by
     /* 0x19 */ u8 damageReaction; // Stores what reaction should occur after being hit
     /* 0x1A */ u8 atHitBacklash; // Stores the hit backlash type received from attacking an AC collider
-    /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
+    /* 0x1B */ u8 acHitSpecialEffect; // Stores the hit special effect received from being attacked by an AT collider
 } CollisionCheckInfo; // size = 0x1C
 
 DamageTable* DamageTable_Get(s32 index);
