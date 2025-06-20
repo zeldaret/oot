@@ -6,6 +6,7 @@
 
 #include "z_en_dns.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -162,7 +163,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     SkelAnime_InitFlex(play, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim,
-                       this->jointTable, this->morphTable, BUSINESS_SCRUB_LIMB_MAX);
+                       this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinderType1(play, &this->collider, &this->actor, &sCylinderInit);

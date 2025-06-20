@@ -6,6 +6,7 @@
 
 #include "z_en_ge3.h"
 
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -81,7 +82,7 @@ void EnGe3_Init(Actor* thisx, PlayState* play2) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, NULL, this->jointTable, this->morphTable,
-                       GERUDO_RED_LIMB_MAX);
+                       ARRAY_COUNT(this->jointTable));
     Animation_PlayLoop(&this->skelAnime, &gGerudoRedStandAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
