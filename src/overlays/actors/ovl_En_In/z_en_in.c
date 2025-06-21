@@ -457,7 +457,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
 
     play->nextEntranceIndex = entrances[index];
     if (index == 2) {
-        gSaveContext.nextCutsceneIndex = 0xFFF0;
+        gSaveContext.nextCutsceneIndex = CS_INDEX_0;
     }
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;
@@ -652,11 +652,9 @@ void func_80A7A304(EnIn* this, PlayState* play) {
         this->animationIdx %= 8;
         this->unk_1E8 = this->animationIdx;
         if (this->animationIdx == 3 || this->animationIdx == 4) {
-            Audio_PlaySfxGeneral(NA_SE_IT_LASH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_IT_LASH);
             if (Rand_ZeroOne() < 0.3f) {
-                Audio_PlaySfxGeneral(NA_SE_IT_INGO_HORSE_NEIGH, &this->actor.projectedPos, 4,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_IT_INGO_HORSE_NEIGH);
             }
         }
         Animation_Change(&this->skelAnime, D_80A7B918[this->animationIdx], 1.0f, 0.0f,
@@ -689,8 +687,7 @@ void func_80A7A568(EnIn* this, PlayState* play) {
         SET_INFTABLE(INFTABLE_AB);
     }
     if (gSaveContext.timerState == TIMER_STATE_STOP) {
-        Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_FOUND);
         func_80A79C78(this, play);
         this->actionFunc = func_80A7B024;
         gSaveContext.timerState = TIMER_STATE_OFF;
@@ -707,8 +704,7 @@ void func_80A7A568(EnIn* this, PlayState* play) {
             phi_a2 = 2;
             transitionType = TRANS_TYPE_FADE_BLACK;
         } else {
-            Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_FOUND);
             if (!GET_EVENTCHKINF(EVENTCHKINF_1B)) {
                 if (GET_INFTABLE(INFTABLE_AB)) {
                     SET_EVENTCHKINF(EVENTCHKINF_1B);
@@ -992,24 +988,24 @@ s32 EnIn_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     EnIn* this = (EnIn*)thisx;
     Vec3s limbRot;
 
-    if (this->actor.params > 0 && limbIndex != INGO_HEAD_LIMB) {
+    if (this->actor.params > 0 && limbIndex != INGO_LIMB_HEAD) {
         if (sAdultEraDLs[limbIndex] != NULL) {
             *dList = sAdultEraDLs[limbIndex];
         }
     }
-    if (limbIndex == INGO_HEAD_LIMB) {
+    if (limbIndex == INGO_LIMB_HEAD) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         limbRot = this->interactInfo.headRot;
         Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limbIndex == INGO_CHEST_LIMB) {
+    if (limbIndex == INGO_LIMB_CHEST) {
         limbRot = this->interactInfo.torsoRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
     }
-    if (limbIndex == INGO_CHEST_LIMB || limbIndex == INGO_LEFT_SHOULDER_LIMB || limbIndex == INGO_RIGHT_SHOULDER_LIMB) {
+    if (limbIndex == INGO_LIMB_CHEST || limbIndex == INGO_LIMB_LEFT_SHOULDER || limbIndex == INGO_LIMB_RIGHT_SHOULDER) {
         rot->y += Math_SinS(this->unk_330[limbIndex].y) * 200.0f;
         rot->z += Math_CosS(this->unk_330[limbIndex].z) * 200.0f;
     }
@@ -1022,14 +1018,14 @@ void EnIn_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_in.c", 2335);
 
-    if (limbIndex == INGO_HEAD_LIMB) {
+    if (limbIndex == INGO_LIMB_HEAD) {
         Matrix_MultVec3f(&D_80A7B9A8, &this->actor.focus.pos);
         this->actor.focus.rot = this->actor.world.rot;
     }
-    if (limbIndex == INGO_LEFT_HAND_LIMB && this->skelAnime.animation == &object_in_Anim_014CA8) {
+    if (limbIndex == INGO_LIMB_LEFT_HAND && this->skelAnime.animation == &object_in_Anim_014CA8) {
         gSPDisplayList(POLY_OPA_DISP++, gIngoChildEraBasketDL);
     }
-    if (limbIndex == INGO_RIGHT_HAND_LIMB && this->skelAnime.animation == &object_in_Anim_014CA8) {
+    if (limbIndex == INGO_LIMB_RIGHT_HAND && this->skelAnime.animation == &object_in_Anim_014CA8) {
         gSPDisplayList(POLY_OPA_DISP++, gIngoChildEraPitchForkDL);
     }
 

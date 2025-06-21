@@ -164,8 +164,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 pauseCtx->cursorX[PAUSE_MAP] = 0;
                 j = (pauseCtx->cursorSlot[PAUSE_MAP] + (PAGE_BG_QUADS + 3)) * 4;
                 KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
-                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
             }
         } else {
             if (pauseCtx->stickAdjX < -30) {
@@ -195,14 +194,12 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 PRINTF("kscope->cursor_point====%d\n", pauseCtx->cursorPoint[PAUSE_MAP]);
                 j = (pauseCtx->cursorSlot[PAUSE_MAP] + (PAGE_BG_QUADS + 3)) * 4;
                 KaleidoScope_SetCursorPos(pauseCtx, j, pauseCtx->mapPageVtx);
-                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
             }
         }
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_MAP]) {
-            Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
         }
     }
 
@@ -603,8 +600,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
             KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
         } else {
 
-            //! @bug This causes a weird DMA request in `KaleidoScope_UpdateNamePanel`, either for unintended data or
-            //! outside the intended segment.
+            //! @bug This causes a weird DMA request in `KaleidoScope_UpdateNamePanel`,
+            //! either for unintended data or outside the intended segment.
             // This isn't a visual issue in practice because drawing the texture loaded in
             // `KaleidoScope_UpdateNamePanel` is only done under `cursorSpecialPos == 0`.
             pauseCtx->cursorItem[PAUSE_MAP] = gSaveContext.worldMapArea + 0x18;
@@ -623,8 +620,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                     pauseCtx->cursorSlot[PAUSE_MAP] =
                         PAGE_BG_QUADS + WORLD_MAP_QUAD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                     KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
-                    Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
                     D_8082A6D4 = 0;
                 }
             } else {
@@ -641,8 +637,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                     pauseCtx->cursorSlot[PAUSE_MAP] =
                         PAGE_BG_QUADS + WORLD_MAP_QUAD_POINT_FIRST + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                     KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
-                    Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
                     D_8082A6D4 = 0;
                 }
             }
@@ -653,8 +648,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         }
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_WORLD_MAP]) {
-            Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
         }
     }
 

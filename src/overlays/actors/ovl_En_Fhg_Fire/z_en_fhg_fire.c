@@ -511,9 +511,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                     canBottleReflect2 = canBottleReflect1;
                     if (!canBottleReflect2 && (acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD)) {
                         killMode = BALL_IMPACT;
-                        Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultReverb);
+                        SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_SHIELD_REFLECT_MG);
                         Rumble_Request(this->actor.xyzDistToPlayerSq, 255, 20, 150);
                     } else {
                         if (bossGnd->flyMode == GND_FLY_NEUTRAL) {
@@ -540,9 +538,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                             RAD_TO_BINANG(Math_FAtan2F(dyPG, sqrtf((dxPG * dxPG) + (dzPG * dzPG)))) + angleModX;
                         this->work[FHGFIRE_FIRE_MODE] = FHGFIRE_LIGHT_BLUE;
                         this->work[FHGFIRE_FX_TIMER] = 2;
-                        Audio_PlaySfxGeneral(NA_SE_IT_SWORD_REFLECT_MG, &player->actor.projectedPos, 4,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultReverb);
+                        SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_SWORD_REFLECT_MG);
                         Rumble_Request(this->actor.xyzDistToPlayerSq, 180, 20, 100);
                     }
                     break;
@@ -576,12 +572,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                     if ((fabsf(dxPG) < 30.0f) && (fabsf(dzPG) < 30.0f) && (fabsf(dyPG) < 45.0f)) {
                         killMode = BALL_IMPACT;
                         bossGnd->returnCount = this->work[FHGFIRE_RETURN_COUNT] + 1;
-                        Audio_PlaySfxGeneral(NA_SE_EN_FANTOM_HIT_THUNDER, &bossGnd->actor.projectedPos, 4,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultReverb);
-                        Audio_PlaySfxGeneral(NA_SE_EN_FANTOM_DAMAGE, &bossGnd->actor.projectedPos, 4,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultReverb);
+                        SFX_PLAY_AT_POS(&bossGnd->actor.projectedPos, NA_SE_EN_FANTOM_HIT_THUNDER);
+                        SFX_PLAY_AT_POS(&bossGnd->actor.projectedPos, NA_SE_EN_FANTOM_DAMAGE);
                     }
                 }
                 break;

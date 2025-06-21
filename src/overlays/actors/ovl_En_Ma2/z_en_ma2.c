@@ -315,8 +315,7 @@ void EnMa2_WaitForEponasSong(EnMa2* this, PlayState* play) {
         this->actionFunc = EnMa2_WaitForOcarina;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
         this->timer = 0x1E;
         SET_INFTABLE(INFTABLE_PLAYED_SONG_FOR_ADULT_MALON);
         this->actionFunc = EnMa2_ForceTalkAfterSong;
@@ -363,23 +362,23 @@ s32 EnMa2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     EnMa2* this = (EnMa2*)thisx;
     Vec3s limbRot;
 
-    if ((limbIndex == MALON_ADULT_LEFT_THIGH_LIMB) || (limbIndex == MALON_ADULT_RIGHT_THIGH_LIMB)) {
+    if ((limbIndex == MALON_ADULT_LIMB_LEFT_THIGH) || (limbIndex == MALON_ADULT_LIMB_RIGHT_THIGH)) {
         *dList = NULL;
     }
-    if (limbIndex == MALON_ADULT_HEAD_LIMB) {
+    if (limbIndex == MALON_ADULT_LIMB_HEAD) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         limbRot = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limbIndex == MALON_ADULT_CHEST_AND_NECK_LIMB) {
+    if (limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) {
         limbRot = this->interactInfo.torsoRot;
         Matrix_RotateY(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.x), MTXMODE_APPLY);
     }
-    if ((limbIndex == MALON_ADULT_CHEST_AND_NECK_LIMB) || (limbIndex == MALON_ADULT_LEFT_SHOULDER_LIMB) ||
-        (limbIndex == MALON_ADULT_RIGHT_SHOULDER_LIMB)) {
+    if ((limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) || (limbIndex == MALON_ADULT_LIMB_LEFT_SHOULDER) ||
+        (limbIndex == MALON_ADULT_LIMB_RIGHT_SHOULDER)) {
         rot->y += Math_SinS(this->upperBodyRot[limbIndex].y) * 200.0f;
         rot->z += Math_CosS(this->upperBodyRot[limbIndex].z) * 200.0f;
     }
@@ -392,10 +391,10 @@ void EnMa2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ma2.c", 904);
 
-    if (limbIndex == MALON_ADULT_HEAD_LIMB) {
+    if (limbIndex == MALON_ADULT_LIMB_HEAD) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
-    if ((limbIndex == MALON_ADULT_LEFT_HAND_LIMB) && (this->skelAnime.animation == &gMalonAdultStandStillAnim)) {
+    if ((limbIndex == MALON_ADULT_LIMB_LEFT_HAND) && (this->skelAnime.animation == &gMalonAdultStandStillAnim)) {
         gSPDisplayList(POLY_OPA_DISP++, gMalonAdultBasketDL);
     }
 
