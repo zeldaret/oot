@@ -219,7 +219,29 @@ typedef enum ItemQuad {
 } ItemQuad;
 
 #define TO_PAGE_LABEL_TEX_WIDTH 128
-#define TO_PAGE_LABEL_TEX_HEIGHT 16
+#define TO_PAGE_LABEL_TEX_HEIGHT INFO_PANEL_QUAD_INFO_TEXT_TEX_HEIGHT
+
+#define INFO_PANEL_QUAD_BUTTON_LR_WIDTH 24
+#define INFO_PANEL_QUAD_BUTTON_LR_HEIGHT 32
+#define INFO_PANEL_QUAD_BUTTON_LR_TEX_WIDTH 24
+#define INFO_PANEL_QUAD_BUTTON_LR_TEX_HEIGHT 32
+
+#define INFO_PANEL_QUAD_INFO_ICON_HEIGHT 16
+#define INFO_PANEL_QUAD_INFO_ICON_TEX_HEIGHT 16
+
+#define INFO_PANEL_QUAD_INFO_TEXT_HEIGHT 16
+#define INFO_PANEL_QUAD_INFO_TEXT_TEX_HEIGHT 16
+
+typedef enum InfoPanelQuad {
+    /* 0 */ INFO_PANEL_QUAD_BG_LEFT,
+    /* 1 */ INFO_PANEL_QUAD_BG_RIGHT,
+    /* 2 */ INFO_PANEL_QUAD_BUTTON_LEFT,
+    /* 3 */ INFO_PANEL_QUAD_BUTTON_RIGHT,
+    /* 4 */ INFO_PANEL_QUAD_INFO_ICON,
+    /* 5 */ INFO_PANEL_QUAD_INFO_TEXT,
+    /* 6 */ INFO_PANEL_QUAD_HAVE_ALL_GS,
+    /* 7 */ INFO_PANEL_QUAD_MAX
+} InfoPanelQuad;
 
 void KaleidoScope_DrawQuestStatus(struct PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
