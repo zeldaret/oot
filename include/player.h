@@ -650,13 +650,13 @@ typedef enum PlayerKnockbackType {
     /* 3 */ PLAYER_KNOCKBACK_LARGE_SHOCK // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
 } PlayerKnockbackType;
 
-typedef enum PlayerDamageResponseType {
+typedef enum PlayerHitResponseType {
     /* 0 */ PLAYER_HIT_RESPONSE_NONE,
     /* 1 */ PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
     /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
     /* 3 */ PLAYER_HIT_RESPONSE_ICE_TRAP,
     /* 4 */ PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK
-} PlayerDamageResponseType;
+} PlayerHitResponseType;
 
 typedef struct PlayerAgeProperties {
     /* 0x00 */ f32 ceilingCheckHeight;
