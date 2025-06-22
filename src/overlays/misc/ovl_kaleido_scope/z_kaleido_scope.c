@@ -1652,7 +1652,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 /**
  * Draws the buttons for scrolling left/right, and the info plate.
  */
-void KaleidoScope_DrawDecor(PlayState* play) {
+void KaleidoScope_DrawUIOverlay(PlayState* play) {
     static void* sToEquipTextTextures[] =
         LANGUAGE_ARRAY(gPauseToEquipJPNTex, gPauseToEquipENGTex, gPauseToEquipGERTex, gPauseToEquipFRATex);
     static void* sToDecideTextTextures[] =
@@ -3443,7 +3443,7 @@ void KaleidoScope_Draw(PlayState* play) {
         KaleidoScope_SetView(pauseCtx, 0.0f, 0.0f, 64.0f);
 
         if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
-            KaleidoScope_DrawDecor(play);
+            KaleidoScope_DrawUIOverlay(play);
         }
     }
 
