@@ -1653,7 +1653,10 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_kaleido_scope_PAL.c", 1577);
 }
 
-void KaleidoScope_DrawInfoPanel(PlayState* play) {
+/**
+ * Draws the buttons for scrolling left/right, and the info plate.
+ */
+void KaleidoScope_DrawUIOverlay(PlayState* play) {
     static void* sToEquipTextTextures[] =
         LANGUAGE_ARRAY(gPauseToEquipJPNTex, gPauseToEquipENGTex, gPauseToEquipGERTex, gPauseToEquipFRATex);
     static void* sToDecideTextTextures[] =
@@ -1794,7 +1797,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             pauseCtx->uiOverlayVtx[j + 1].v.cn[3] = pauseCtx->uiOverlayVtx[j + 3].v.cn[3] = pauseCtx->alpha;
     }
 
-    // UI_OVERLAY_QUAD_BG_RIGHT
+    // UI_OVERLAY_QUAD_INFO_BG_RIGHT
     pauseCtx->uiOverlayVtx[4].v.ob[0] = pauseCtx->uiOverlayVtx[6].v.ob[0] = pauseCtx->uiOverlayVtx[0].v.ob[0] + 72;
 
     pauseCtx->uiOverlayVtx[5].v.ob[0] = pauseCtx->uiOverlayVtx[7].v.ob[0] = pauseCtx->uiOverlayVtx[4].v.ob[0] + 72;
@@ -1862,7 +1865,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 90, 100, 130, 255);
     gSPVertex(POLY_OPA_DISP++, &pauseCtx->uiOverlayVtx[0], 16, 0);
 
-    // Draw UI_OVERLAY_QUAD_BG_LEFT, UI_OVERLAY_QUAD_BG_RIGHT
+    // Draw UI_OVERLAY_QUAD_INFO_BG_LEFT, UI_OVERLAY_QUAD_INFO_BG_RIGHT
     gSPDisplayList(POLY_OPA_DISP++, gInfoPanelBgDL);
 
     if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) && (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE)) {
@@ -3472,7 +3475,7 @@ void KaleidoScope_Draw(PlayState* play) {
         KaleidoScope_SetView(pauseCtx, 0.0f, 0.0f, 64.0f);
 
         if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
-            KaleidoScope_DrawInfoPanel(play);
+            KaleidoScope_DrawUIOverlay(play);
         }
     }
 

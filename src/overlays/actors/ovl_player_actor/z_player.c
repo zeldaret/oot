@@ -4798,7 +4798,7 @@ void func_8083821C(Player* this) {
 }
 
 void func_80838280(Player* this) {
-    if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_1) {
+    if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_FIRE) {
         func_8083821C(this);
     }
     Player_PlayVoiceSfx(this, NA_SE_VO_LI_FALL_L);
@@ -4915,7 +4915,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.hitSpecialEffect == HIT_SPECIAL_EFFECT_1)) {
+                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.hitSpecialEffect == HIT_SPECIAL_EFFECT_FIRE)) {
                     func_8083819C(this, play);
                 }
 
@@ -4938,11 +4938,11 @@ s32 func_808382DC(Player* this, PlayState* play) {
 
                 if (this->stateFlags1 & PLAYER_STATE1_27) {
                     sp4C = PLAYER_HIT_RESPONSE_NONE;
-                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_2) {
+                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ICE) {
                     sp4C = PLAYER_HIT_RESPONSE_ICE_TRAP;
-                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_3) {
+                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ELECTRIC) {
                     sp4C = PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK;
-                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_4) {
+                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_KNOCKBACK) {
                     sp4C = PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE;
                 } else {
                     func_80838280(this);
@@ -9145,7 +9145,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
             if ((func_80842AC4(play, this) == 0) && (this->heldItemAction != PLAYER_IA_HAMMER)) {
                 func_80842B7C(play, this);
 
-                if (this->actor.colChkInfo.atHitBacklash == HIT_BACKLASH_1) {
+                if (this->actor.colChkInfo.atHitBacklash == HIT_BACKLASH_ELECTRIC) {
                     this->actor.colChkInfo.damage = 8;
                     func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK, 0.0f, 0.0f, this->actor.shape.rot.y,
                                   20);

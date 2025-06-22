@@ -151,7 +151,7 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
         PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Reeba boss appears ☆☆☆☆☆ %f\n") VT_RST,
                this->scale);
         this->actor.colChkInfo.health = 20;
-        this->collider.elem.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_4;
+        this->collider.elem.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_KNOCKBACK;
         this->collider.elem.atDmgInfo.damage = 16;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
     }
