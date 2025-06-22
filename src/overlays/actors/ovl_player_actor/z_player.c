@@ -4642,7 +4642,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
     Player_SetIntangibility(this, invincibilityTimer);
 
-    if (damageResponseType == PLAYER_HIT_RESPONSE_ICE_TRAP) {
+    if (damageResponseType == PLAYER_HIT_RESPONSE_FROZEN) {
         Player_SetupAction(play, this, Player_Action_8084FB10, 0);
 
         anim = &gPlayerAnim_link_normal_ice_down;
@@ -4939,7 +4939,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                 if (this->stateFlags1 & PLAYER_STATE1_27) {
                     sp4C = PLAYER_HIT_RESPONSE_NONE;
                 } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ICE) {
-                    sp4C = PLAYER_HIT_RESPONSE_ICE_TRAP;
+                    sp4C = PLAYER_HIT_RESPONSE_FROZEN;
                 } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ELECTRIC) {
                     sp4C = PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK;
                 } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_KNOCKBACK) {
@@ -13905,7 +13905,7 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
                     func_8083C0E8(this, play);
                 } else {
                     this->actor.colChkInfo.damage = 0;
-                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ICE_TRAP, 0.0f, 0.0f, 0, 20);
+                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_FROZEN, 0.0f, 0.0f, 0, 20);
                 }
                 return;
             }
