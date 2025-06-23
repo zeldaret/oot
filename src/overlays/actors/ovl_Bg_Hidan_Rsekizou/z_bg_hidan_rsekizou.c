@@ -37,7 +37,7 @@ ActorProfile Bg_Hidan_Rsekizou_Profile = {
     /**/ BgHidanRsekizou_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[6] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

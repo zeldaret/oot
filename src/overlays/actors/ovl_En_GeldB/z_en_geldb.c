@@ -119,7 +119,7 @@ static ColliderCylinderInit sBodyCylinderInit = {
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
+static ColliderTrisElementInit sBlockTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK2,

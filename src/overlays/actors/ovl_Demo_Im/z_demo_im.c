@@ -84,7 +84,14 @@ static ColliderCylinderInitType1 sCylinderInit = {
         OC1_ON | OC1_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
     { 25, 80, 0, { 0, 0, 0 } },
 };
 

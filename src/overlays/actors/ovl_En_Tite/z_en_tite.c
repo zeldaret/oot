@@ -102,7 +102,7 @@ ActorProfile En_Tite_Profile = {
     /**/ EnTite_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

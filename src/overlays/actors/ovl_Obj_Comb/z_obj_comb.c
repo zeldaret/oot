@@ -43,7 +43,7 @@ ActorProfile Obj_Comb_Profile = {
     /**/ ObjComb_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

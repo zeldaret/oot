@@ -39,7 +39,7 @@ ActorProfile Bg_Hidan_Dalm_Profile = {
     /**/ BgHidanDalm_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementInit[4] = {
+static ColliderTrisElementInit sTrisElementInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

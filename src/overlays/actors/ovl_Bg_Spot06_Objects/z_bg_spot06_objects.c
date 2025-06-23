@@ -70,7 +70,7 @@ ActorProfile Bg_Spot06_Objects_Profile = {
     /**/ BgSpot06Objects_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

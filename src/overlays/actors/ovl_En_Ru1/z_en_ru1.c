@@ -98,8 +98,15 @@ static ColliderCylinderInitType1 sStandingCylinderInit = {
         OC1_ON | OC1_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 25, 80, 0, { 0 } },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
+    { 25, 80, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInitType1 sSittingCylinderInit = {
@@ -110,8 +117,15 @@ static ColliderCylinderInitType1 sSittingCylinderInit = {
         OC1_ON | OC1_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
-    { 0x00, { 0x00000101, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
-    { 20, 30, 0, { 0 } },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0x00000101, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
+    { 20, 30, 0, { 0, 0, 0 } },
 };
 
 static void* sEyeTextures[] = {

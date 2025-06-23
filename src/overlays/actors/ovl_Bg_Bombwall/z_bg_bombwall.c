@@ -28,7 +28,7 @@ void func_8086EDFC(BgBombwall* this, PlayState* play);
 void func_8086EE40(BgBombwall* this, PlayState* play);
 void func_8086EE94(BgBombwall* this, PlayState* play);
 
-static ColliderTrisElementInit sTrisElementsInit[3] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
