@@ -224,7 +224,7 @@ static u8 sFishingPlayerCinematicState = 0;
 static u8 sFishingCinematicTimer = 0;
 static u8 sSinkingLureFound = false;
 
-static ColliderJntSphElementInit sJntSphElementsInit[12] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -363,7 +363,7 @@ static ColliderJntSphInit sJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_TYPE_ENEMY,
-        AC_TYPE_PLAYER,
+        AC_NONE | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,

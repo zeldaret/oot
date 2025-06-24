@@ -76,7 +76,7 @@ ActorProfile En_Honotrap_Profile = {
     /**/ EnHonotrap_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK4,

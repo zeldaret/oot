@@ -55,7 +55,7 @@ ActorProfile En_Dekubaba_Profile = {
     /**/ EnDekubaba_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[7] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

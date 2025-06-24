@@ -43,7 +43,7 @@ ActorProfile Bg_Jya_Haheniron_Profile = {
     /**/ BgJyaHaheniron_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

@@ -37,7 +37,7 @@ ActorProfile Bg_Menkuri_Eye_Profile = {
 
 static s32 sNumEyesShot;
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK4,

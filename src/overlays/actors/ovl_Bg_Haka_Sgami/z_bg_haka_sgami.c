@@ -46,7 +46,7 @@ ActorProfile Bg_Haka_Sgami_Profile = {
     /**/ NULL,
 };
 
-static ColliderTrisElementInit sTrisElementsInit[4] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK2,

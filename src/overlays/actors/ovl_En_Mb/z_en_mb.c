@@ -126,7 +126,7 @@ static ColliderCylinderInit sBodyColliderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sFrontShieldingTrisElementsInit[2] = {
+static ColliderTrisElementInit sFrontShieldingTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK2,

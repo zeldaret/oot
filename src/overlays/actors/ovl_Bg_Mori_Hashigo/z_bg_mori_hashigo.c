@@ -47,7 +47,7 @@ ActorProfile Bg_Mori_Hashigo_Profile = {
     /**/ NULL,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK4,
