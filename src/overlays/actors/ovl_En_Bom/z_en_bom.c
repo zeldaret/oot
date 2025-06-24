@@ -62,7 +62,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 6, 11, 14, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

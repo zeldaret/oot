@@ -49,7 +49,7 @@ ActorProfile Bg_Spot18_Basket_Profile = {
     /**/ BgSpot18Basket_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

@@ -51,7 +51,7 @@ ActorProfile Bg_Ydan_Sp_Profile = {
     /**/ BgYdanSp_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

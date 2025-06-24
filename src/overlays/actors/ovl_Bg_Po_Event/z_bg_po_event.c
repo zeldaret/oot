@@ -55,7 +55,7 @@ ActorProfile Bg_Po_Event_Profile = {
     /**/ BgPoEvent_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK4,

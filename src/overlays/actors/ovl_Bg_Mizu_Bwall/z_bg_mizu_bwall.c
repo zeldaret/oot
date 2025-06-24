@@ -44,7 +44,7 @@ ActorProfile Bg_Mizu_Bwall_Profile = {
     /**/ BgMizuBwall_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementsInitFloor[2] = {
+static ColliderTrisElementInit sTrisElementsInitFloor[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -82,7 +82,7 @@ static ColliderTrisInit sTrisInitFloor = {
     sTrisElementsInitFloor,
 };
 
-static ColliderTrisElementInit sTrisElementsInitRutoWall[1] = {
+static ColliderTrisElementInit sTrisElementsInitRutoWall[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -109,7 +109,7 @@ static ColliderTrisInit sTrisInitRutoWall = {
     sTrisElementsInitRutoWall,
 };
 
-static ColliderTrisElementInit sTrisElementsInitWall[2] = {
+static ColliderTrisElementInit sTrisElementsInitWall[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

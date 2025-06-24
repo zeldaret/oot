@@ -51,7 +51,7 @@ ActorProfile En_Ba_Profile = {
 
 static Vec3f D_809B8080 = { 0.0f, 0.0f, 32.0f };
 
-static ColliderJntSphElementInit sJntSphElementsInit[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

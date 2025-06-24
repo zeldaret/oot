@@ -1,6 +1,6 @@
 #include "collision_check.h"
 
-static ColliderJntSphElementInit sJntSphElementsInitHand[11] = {
+static ColliderJntSphElementInit sJntSphElementsInitHand[] = {
     {
         {
             ELEM_MATERIAL_UNK1,
@@ -137,7 +137,7 @@ static ColliderJntSphInit sJntSphInitHand = {
     sJntSphElementsInitHand,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInitHead[11] = {
+static ColliderJntSphElementInit sJntSphElementsInitHead[] = {
     {
         {
             ELEM_MATERIAL_UNK1,

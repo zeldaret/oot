@@ -62,7 +62,7 @@ ActorProfile En_Fd_Profile = {
 #define FLARE_DANCER_BODY_DMG 0x04
 #endif
 
-static ColliderJntSphElementInit sJntSphElementsInit[12] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

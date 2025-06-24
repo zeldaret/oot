@@ -58,7 +58,7 @@ static ColliderCylinderInit sCylinderInit = {
         ACELEM_ON,
         OCELEM_NONE,
     },
-    { 50, 10, 0, { 0 } },
+    { 50, 10, 0, { 0, 0, 0 } },
 };
 
 static s16 sGrottoEntrances[] = {
