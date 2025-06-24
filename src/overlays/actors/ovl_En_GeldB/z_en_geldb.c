@@ -251,7 +251,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     this->blinkState = 0;
     this->unkFloat = 10.0f;
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, &gGerudoRedNeutralAnim, this->jointTable,
-                       this->morphTable, GELDB_LIMB_MAX);
+                       this->morphTable, GERUDO_RED_LIMB_MAX);
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, thisx, &sBodyCylinderInit);
     Collider_InitTris(play, &this->blockCollider);
@@ -1409,9 +1409,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
                         if (key != NULL) {
                             key->actor.world.rot.y = Math_Vec3f_Yaw(&key->actor.world.pos, &this->actor.home.pos);
                             key->actor.speed = 6.0f;
-                            Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
-                                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                 &gSfxDefaultReverb);
+                            SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                         }
                     }
                     EnGeldB_SetupDefeated(this);
@@ -1464,14 +1462,14 @@ s32 EnGeldB_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2507);
-    if (limbIndex == GELDB_LIMB_NECK) {
+    if (limbIndex == GERUDO_RED_LIMB_NECK) {
         rot->z += this->headRot.x;
         rot->x += this->headRot.y;
         rot->y += this->headRot.z;
-    } else if (limbIndex == GELDB_LIMB_HEAD) {
+    } else if (limbIndex == GERUDO_RED_LIMB_HEAD) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 80, 60, 10, 255);
-    } else if ((limbIndex == GELDB_LIMB_R_SWORD) || (limbIndex == GELDB_LIMB_L_SWORD)) {
+    } else if ((limbIndex == GERUDO_RED_LIMB_R_SWORD) || (limbIndex == GERUDO_RED_LIMB_L_SWORD)) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 140, 170, 230, 255);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
@@ -1497,7 +1495,7 @@ void EnGeldB_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
     EnGeldB* this = (EnGeldB*)thisx;
     s32 bodyPart = -1;
 
-    if (limbIndex == GELDB_LIMB_R_SWORD) {
+    if (limbIndex == GERUDO_RED_LIMB_R_SWORD) {
         Matrix_MultVec3f(&swordQuadOffset1, &this->swordCollider.dim.quad[1]);
         Matrix_MultVec3f(&swordQuadOffset0, &this->swordCollider.dim.quad[0]);
         Matrix_MultVec3f(&swordQuadOffset3, &this->swordCollider.dim.quad[3]);
@@ -1515,42 +1513,43 @@ void EnGeldB_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
             EffectBlure_AddVertex(Effect_GetByIndex(this->blureIndex), &swordTip, &swordHilt);
         }
     } else {
-        Actor_SetFeetPos(&this->actor, limbIndex, GELDB_LIMB_L_FOOT, &footOffset, GELDB_LIMB_R_FOOT, &footOffset);
+        Actor_SetFeetPos(&this->actor, limbIndex, GERUDO_RED_LIMB_L_FOOT, &footOffset, GERUDO_RED_LIMB_R_FOOT,
+                         &footOffset);
     }
 
-    if (limbIndex == GELDB_LIMB_L_FOOT) {
+    if (limbIndex == GERUDO_RED_LIMB_L_FOOT) {
         Matrix_MultVec3f(&footOffset, &this->leftFootPos);
-    } else if (limbIndex == GELDB_LIMB_R_FOOT) {
+    } else if (limbIndex == GERUDO_RED_LIMB_R_FOOT) {
         Matrix_MultVec3f(&footOffset, &this->rightFootPos);
     }
 
     if (this->iceTimer != 0) {
         switch (limbIndex) {
-            case GELDB_LIMB_NECK:
+            case GERUDO_RED_LIMB_NECK:
                 bodyPart = 0;
                 break;
-            case GELDB_LIMB_L_SWORD:
+            case GERUDO_RED_LIMB_L_SWORD:
                 bodyPart = 1;
                 break;
-            case GELDB_LIMB_R_SWORD:
+            case GERUDO_RED_LIMB_R_SWORD:
                 bodyPart = 2;
                 break;
-            case GELDB_LIMB_L_UPPER_ARM:
+            case GERUDO_RED_LIMB_L_UPPER_ARM:
                 bodyPart = 3;
                 break;
-            case GELDB_LIMB_R_UPPER_ARM:
+            case GERUDO_RED_LIMB_R_UPPER_ARM:
                 bodyPart = 4;
                 break;
-            case GELDB_LIMB_TORSO:
+            case GERUDO_RED_LIMB_TORSO:
                 bodyPart = 5;
                 break;
-            case GELDB_LIMB_WAIST:
+            case GERUDO_RED_LIMB_WAIST:
                 bodyPart = 6;
                 break;
-            case GELDB_LIMB_L_FOOT:
+            case GERUDO_RED_LIMB_L_FOOT:
                 bodyPart = 7;
                 break;
-            case GELDB_LIMB_R_FOOT:
+            case GERUDO_RED_LIMB_R_FOOT:
                 bodyPart = 8;
                 break;
             default:

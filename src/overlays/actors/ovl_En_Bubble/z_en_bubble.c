@@ -110,7 +110,7 @@ u32 func_809CBCBC(EnBubble* this) {
     ColliderElement* elem = &this->colliderJntSph.elements[0].base;
 
     elem->atDmgInfo.dmgFlags = DMG_EXPLOSIVE;
-    elem->atDmgInfo.effect = 0;
+    elem->atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
     elem->atDmgInfo.damage = 4;
     elem->atElemFlags = ATELEM_ON;
     this->actor.velocity.y = 0.0f;
