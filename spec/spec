@@ -2279,7 +2279,10 @@ beginseg
     name "object_spot17_obj"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_spot17_obj/object_spot17_obj.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot17_obj/bombable_wall_dls.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot17_obj/gCraterBombableWallCol.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot17_obj/gCraterSmokeConeDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot17_obj/gCraterBombableWallCracksTex.o"
     number 6
 endseg
 
