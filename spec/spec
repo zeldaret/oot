@@ -2418,7 +2418,8 @@ beginseg
     name "object_spot16_obj"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_spot16_obj/object_spot16_obj.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot16_obj/gDodongosCavernRockDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot16_obj/gDeathMountainRingDL.o"
     number 6
 endseg
 
