@@ -10477,8 +10477,8 @@ static ColliderCylinderInit D_80854624 = {
     },
     {
         ELEM_MATERIAL_UNK1,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -10497,8 +10497,8 @@ static ColliderQuadInit D_80854650 = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000100, 0x00, 0x01 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000100, HIT_SPECIAL_EFFECT_NONE, 0x01 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -10517,8 +10517,8 @@ static ColliderQuadInit D_808546A0 = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00100000, 0x00, 0x00 },
-        { 0xDFCFFFFF, 0x00, 0x00 },
+        { 0x00100000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xDFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_NONE,
