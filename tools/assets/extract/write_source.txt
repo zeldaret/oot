@@ -346,7 +346,6 @@ assets/objects/object_sst/object_sst.c
 assets/objects/object_st/object_st.c
 assets/objects/object_stream/object_stream.c
 assets/objects/object_syokudai/object_syokudai.c
-assets/objects/object_ta/object_ta.c
 assets/objects/object_tite/object_tite.c
 assets/objects/object_tk/object_tk.c
 assets/objects/object_toki_objects/object_toki_objects.c
