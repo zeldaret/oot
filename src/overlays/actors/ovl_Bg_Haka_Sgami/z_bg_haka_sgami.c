@@ -6,6 +6,7 @@
 
 #include "z_bg_haka_sgami.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
 #include "z_lib.h"
@@ -102,7 +103,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
-    4,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 

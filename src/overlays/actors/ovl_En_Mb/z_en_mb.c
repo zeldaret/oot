@@ -7,6 +7,7 @@
 #include "z_en_mb.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -160,7 +161,7 @@ static ColliderTrisInit sFrontShieldingTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sFrontShieldingTrisElementsInit),
     sFrontShieldingTrisElementsInit,
 };
 

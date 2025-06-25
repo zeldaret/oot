@@ -6,6 +6,7 @@
 
 #include "z_bg_ydan_maruta.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
@@ -73,7 +74,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 

@@ -1,3 +1,4 @@
+#include "array_count.h"
 #include "collision_check.h"
 
 static u8 D_808C7000[] = {
@@ -231,7 +232,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    19,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
