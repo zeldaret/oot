@@ -4054,7 +4054,8 @@ beginseg
     name "object_timeblock"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_timeblock/object_timeblock.o"
+    include "$(BUILD_DIR)/assets/objects/object_timeblock/gSongOfTimeBlockDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_timeblock/gSongOfTimeBlockCol.o"
     number 6
 endseg
 
