@@ -4619,7 +4619,7 @@ static LinkAnimationHeader* D_808544B0[] = {
     &gPlayerAnim_link_normal_back_hit,   &gPlayerAnim_link_anchor_back_hitR,
 };
 
-void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 speed, f32 yVelocity, s16 yRot,
+void func_80837C0C(PlayState* play, Player* this, s32 hitResponseType, f32 speed, f32 yVelocity, s16 yRot,
                    s32 invincibilityTimer) {
     LinkAnimationHeader* anim = NULL;
     LinkAnimationHeader** sp28;
@@ -4642,7 +4642,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
     Player_SetIntangibility(this, invincibilityTimer);
 
-    if (damageResponseType == PLAYER_HIT_RESPONSE_FROZEN) {
+    if (hitResponseType == PLAYER_HIT_RESPONSE_FROZEN) {
         Player_SetupAction(play, this, Player_Action_8084FB10, 0);
 
         anim = &gPlayerAnim_link_normal_ice_down;
@@ -4652,7 +4652,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
         Player_PlaySfx(this, NA_SE_PL_FREEZE_S);
         Player_PlayVoiceSfx(this, NA_SE_VO_LI_FREEZE);
-    } else if (damageResponseType == PLAYER_HIT_RESPONSE_ELECTRIFIED) {
+    } else if (hitResponseType == PLAYER_HIT_RESPONSE_ELECTRIFIED) {
         Player_SetupAction(play, this, Player_Action_8084FBF4, 0);
 
         Player_RequestRumble(this, 255, 80, 150, 0);
@@ -4673,8 +4673,8 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
             anim = &gPlayerAnim_link_swimer_swim_hit;
 
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_DAMAGE_S);
-        } else if ((damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE) ||
-                   (damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) ||
+        } else if ((hitResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE) ||
+                   (hitResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) ||
                    !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
                    (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) {
             Player_SetupAction(play, this, Player_Action_8084377C, 0);
@@ -4684,7 +4684,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
             Player_RequestRumble(this, 255, 20, 150, 0);
             func_80832224(this);
 
-            if (damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) {
+            if (hitResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) {
                 this->av2.actionVar2 = 4;
 
                 this->actor.speed = 3.0f;
