@@ -2172,7 +2172,10 @@ beginseg
     name "object_syokudai"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_syokudai/object_syokudai.o"
+    include "$(BUILD_DIR)/assets/objects/object_syokudai/gGoldenTorchDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_syokudai/gWoodenTorchDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_syokudai/gTimedTorchDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_syokudai/textures.o"
     number 6
 endseg
 
