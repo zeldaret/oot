@@ -34,7 +34,8 @@ u64 gTalonBrownBlueOutlineTex[TEX_LEN(u64, gTalonBrownBlueOutlineTex_WIDTH, gTal
 
 #define gTalonNecklaceStringUpperTex_WIDTH 16
 #define gTalonNecklaceStringUpperTex_HEIGHT 32
-u64 gTalonNecklaceStringUpperTex[TEX_LEN(u64, gTalonNecklaceStringUpperTex_WIDTH, gTalonNecklaceStringUpperTex_HEIGHT, 8)];
+u64 gTalonNecklaceStringUpperTex[TEX_LEN(u64, gTalonNecklaceStringUpperTex_WIDTH, gTalonNecklaceStringUpperTex_HEIGHT,
+                                         8)];
 
 #define gTalonBowserTex_WIDTH 16
 #define gTalonBowserTex_HEIGHT 32
@@ -42,7 +43,8 @@ u64 gTalonBowserTex[TEX_LEN(u64, gTalonBowserTex_WIDTH, gTalonBowserTex_HEIGHT, 
 
 #define gTalonNecklaceLowerStringsTex_WIDTH 8
 #define gTalonNecklaceLowerStringsTex_HEIGHT 16
-u64 gTalonNecklaceLowerStringsTex[TEX_LEN(u64, gTalonNecklaceLowerStringsTex_WIDTH, gTalonNecklaceLowerStringsTex_HEIGHT, 16)];
+u64 gTalonNecklaceLowerStringsTex[TEX_LEN(u64, gTalonNecklaceLowerStringsTex_WIDTH,
+                                          gTalonNecklaceLowerStringsTex_HEIGHT, 16)];
 
 Vtx gTalonLeftHandVtx[] = {
 #include "assets/objects/object_ta/gTalonLeftHandVtx.inc.c"
@@ -270,7 +272,8 @@ u64 gTalonBrownBlueOutlineTex[TEX_LEN(u64, gTalonBrownBlueOutlineTex_WIDTH, gTal
 #include "assets/objects/object_ta/gTalonBrownBlueOutlineTex.ci8.tlut_gTalonSkinAndClothesTLUT.inc.c"
 };
 
-u64 gTalonNecklaceStringUpperTex[TEX_LEN(u64, gTalonNecklaceStringUpperTex_WIDTH, gTalonNecklaceStringUpperTex_HEIGHT, 8)] = {
+u64 gTalonNecklaceStringUpperTex[TEX_LEN(u64, gTalonNecklaceStringUpperTex_WIDTH, gTalonNecklaceStringUpperTex_HEIGHT,
+                                         8)] = {
 #include "assets/objects/object_ta/gTalonNecklaceStringUpperTex.ci8.tlut_gTalonSkinAndClothesTLUT.inc.c"
 };
 
@@ -278,7 +281,8 @@ u64 gTalonBowserTex[TEX_LEN(u64, gTalonBowserTex_WIDTH, gTalonBowserTex_HEIGHT, 
 #include "assets/objects/object_ta/gTalonBowserTex.rgba16.inc.c"
 };
 
-u64 gTalonNecklaceLowerStringsTex[TEX_LEN(u64, gTalonNecklaceLowerStringsTex_WIDTH, gTalonNecklaceLowerStringsTex_HEIGHT, 16)] = {
+u64 gTalonNecklaceLowerStringsTex[TEX_LEN(u64, gTalonNecklaceLowerStringsTex_WIDTH,
+                                          gTalonNecklaceLowerStringsTex_HEIGHT, 16)] = {
 #include "assets/objects/object_ta/gTalonNecklaceLowerStringsTex.rgba16.inc.c"
 };
 
