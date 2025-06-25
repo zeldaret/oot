@@ -1,6 +1,6 @@
 #include "collision_check.h"
 
-static ColliderJntSphElementInit sJntSphElementsInit[9] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK3,

@@ -225,7 +225,7 @@ ActorProfile En_Bb_Profile = {
     /**/ EnBb_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

@@ -92,7 +92,7 @@ ActorProfile Boss_Goma_Profile = {
     /**/ BossGoma_Draw,
 };
 
-static ColliderJntSphElementInit sColliderJntSphElementsInit[13] = {
+static ColliderJntSphElementInit sColliderJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK3,

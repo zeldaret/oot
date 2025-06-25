@@ -55,7 +55,7 @@ void EnSkb_TakeDamage(EnSkb* this, PlayState* play);
 void EnSkb_SetupDeath(EnSkb* this, PlayState* play);
 void EnSkb_Death(EnSkb* this, PlayState* play);
 
-static ColliderJntSphElementInit sJntSphElementsInit[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
