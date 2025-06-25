@@ -2771,7 +2771,11 @@ beginseg
     name "object_spot15_obj"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_spot15_obj/object_spot15_obj.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot15_obj/gLonLonMilkCrateDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot15_obj/gLonLonMilkCrateCol.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot15_obj/gLonLonCorralFenceDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot15_obj/gLonLonCorralFenceCol.o"
+    include "$(BUILD_DIR)/assets/objects/object_spot15_obj/textures.o"
     number 6
 endseg
 

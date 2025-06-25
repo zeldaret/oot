@@ -337,7 +337,6 @@ assets/objects/object_spot08_obj/object_spot08_obj.c
 assets/objects/object_spot09_obj/object_spot09_obj.c
 assets/objects/object_spot11_obj/object_spot11_obj.c
 assets/objects/object_spot12_obj/object_spot12_obj.c
-assets/objects/object_spot15_obj/object_spot15_obj.c
 assets/objects/object_spot18_obj/object_spot18_obj.c
 assets/objects/object_ssh/object_ssh.c
 assets/objects/object_sst/object_sst.c
