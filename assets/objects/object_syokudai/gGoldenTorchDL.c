@@ -1,4 +1,5 @@
 #include "object_syokudai.h"
+#include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "gfx.h"
 
 Vtx gGoldenTorchVtx[] = {
