@@ -4652,7 +4652,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
         Player_PlaySfx(this, NA_SE_PL_FREEZE_S);
         Player_PlayVoiceSfx(this, NA_SE_VO_LI_FREEZE);
-    } else if (damageResponseType == PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK) {
+    } else if (damageResponseType == PLAYER_HIT_RESPONSE_ELECTRIFIED) {
         Player_SetupAction(play, this, Player_Action_8084FBF4, 0);
 
         Player_RequestRumble(this, 255, 80, 150, 0);
@@ -4867,7 +4867,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
 
             func_80838280(this);
 
-            if (this->knockbackType == PLAYER_KNOCKBACK_LARGE_SHOCK) {
+            if (this->knockbackType == PLAYER_KNOCKBACK_LARGE_ELECTRIFIED) {
                 this->bodyShockTimer = 40;
             }
 
@@ -4941,7 +4941,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                 } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ICE) {
                     sp4C = PLAYER_HIT_RESPONSE_FROZEN;
                 } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ELECTRIC) {
-                    sp4C = PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK;
+                    sp4C = PLAYER_HIT_RESPONSE_ELECTRIFIED;
                 } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_KNOCKBACK) {
                     sp4C = PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE;
                 } else {
@@ -9147,8 +9147,7 @@ s32 func_80842DF4(PlayState* play, Player* this) {
 
                 if (this->actor.colChkInfo.atHitBacklash == HIT_BACKLASH_ELECTRIC) {
                     this->actor.colChkInfo.damage = 8;
-                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK, 0.0f, 0.0f, this->actor.shape.rot.y,
-                                  20);
+                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ELECTRIFIED, 0.0f, 0.0f, this->actor.shape.rot.y, 20);
                     return 1;
                 }
             }

@@ -647,7 +647,7 @@ typedef enum PlayerKnockbackType {
     /* 0 */ PLAYER_KNOCKBACK_NONE, // No knockback
     /* 1 */ PLAYER_KNOCKBACK_SMALL, // A small hop, remains standing up
     /* 2 */ PLAYER_KNOCKBACK_LARGE, // Sent flying in the air and lands laying down on the floor
-    /* 3 */ PLAYER_KNOCKBACK_LARGE_SHOCK // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
+    /* 3 */ PLAYER_KNOCKBACK_LARGE_ELECTRIFIED // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
 } PlayerKnockbackType;
 
 typedef enum PlayerHitResponseType {
@@ -655,7 +655,7 @@ typedef enum PlayerHitResponseType {
     /* 1 */ PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
     /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
     /* 3 */ PLAYER_HIT_RESPONSE_FROZEN,
-    /* 4 */ PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK
+    /* 4 */ PLAYER_HIT_RESPONSE_ELECTRIFIED
 } PlayerHitResponseType;
 
 typedef struct PlayerAgeProperties {
