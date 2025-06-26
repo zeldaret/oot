@@ -6,6 +6,7 @@
 
 #include "z_bg_bdan_switch.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "printf.h"
@@ -89,7 +90,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

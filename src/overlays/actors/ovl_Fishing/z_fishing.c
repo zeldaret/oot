@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "gfx.h"
@@ -224,7 +225,7 @@ static u8 sFishingPlayerCinematicState = 0;
 static u8 sFishingCinematicTimer = 0;
 static u8 sSinkingLureFound = false;
 
-static ColliderJntSphElementInit sJntSphElementsInit[12] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -363,12 +364,12 @@ static ColliderJntSphInit sJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_TYPE_ENEMY,
-        AC_TYPE_PLAYER,
+        AC_NONE | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    12,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

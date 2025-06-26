@@ -39,12 +39,19 @@ ActorProfile Obj_Dekujr_Profile = {
 static ColliderCylinderInitToActor sCylinderInit = {
     {
         NULL,
-        0x00,
-        0x00,
-        0x39,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        ELEM_MATERIAL_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
     { 60, 80, 0, { 0, 0, 0 } },
 };
 
