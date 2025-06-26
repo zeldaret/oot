@@ -34,10 +34,10 @@
         <Texture Name="gBiriInnerHoodTex" Format="ia16" Width="16" Height="16" Offset="0x5608"/>
 
         <!-- Biri Limbs and Skeleton -->
-        <Limb Name="gBiriRootLimb" LimbType="Standard" Offset="0x5808"/>
-        <Limb Name="gBiriInnerHoodLimb" LimbType="Standard" Offset="0x5814"/>
-        <Limb Name="gBiriOuterHoodLimb" LimbType="Standard" Offset="0x5820"/>
-        <Limb Name="gBiriTentaclesLimb" LimbType="Standard" Offset="0x582C"/>
-        <Skeleton Name="gBiriSkel" Type="Normal" LimbType="Standard" Offset="0x5848"/>
+        <Limb Name="gBiriRootLimb" LimbType="Standard" EnumName="BIRI_LIMB_ROOT" Offset="0x5808"/>
+        <Limb Name="gBiriInnerHoodLimb" LimbType="Standard" EnumName="BIRI_LIMB_INNER_HOOD" Offset="0x5814"/>
+        <Limb Name="gBiriOuterHoodLimb" LimbType="Standard" EnumName="BIRI_LIMB_OUTER_HOOD" Offset="0x5820"/>
+        <Limb Name="gBiriTentaclesLimb" LimbType="Standard" EnumName="BIRI_LIMB_TENTACLES" Offset="0x582C"/>
+        <Skeleton Name="gBiriSkel" Type="Normal" LimbType="Standard" LimbNone="BIRI_LIMB_NONE" LimbMax="BIRI_LIMB_MAX" EnumName="BiriLimb" Offset="0x5848"/>
     </File>
 </Root>

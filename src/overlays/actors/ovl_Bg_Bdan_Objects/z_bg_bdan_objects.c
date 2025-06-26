@@ -86,7 +86,7 @@ static ColliderCylinderInit sCylinderInit = {
         ACELEM_NONE,
         OCELEM_NONE,
     },
-    { 0x00BB, 0x0050, 0x0000, { 0 } },
+    { 187, 80, 0, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {

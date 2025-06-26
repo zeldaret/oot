@@ -393,7 +393,7 @@ void EnSa_ChangeAnim(EnSa* this, s32 index) {
 }
 
 s32 func_80AF5DFC(EnSa* this, PlayState* play) {
-    if (gSaveContext.save.cutsceneIndex >= 0xFFF0 && gSaveContext.save.cutsceneIndex != 0xFFFD) {
+    if (gSaveContext.save.cutsceneIndex >= CS_INDEX_0 && gSaveContext.save.cutsceneIndex != CS_INDEX_D) {
         if (play->sceneId == SCENE_KOKIRI_FOREST) {
             return 4;
         }
@@ -694,8 +694,7 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
                 phi_v0 = this->unk_20C;
             }
             if (phi_v0 == 0) {
-                Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT, &this->actor.projectedPos, 4,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT);
                 this->unk_20C = 8;
             }
         }

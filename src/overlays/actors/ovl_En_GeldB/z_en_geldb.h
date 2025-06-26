@@ -4,35 +4,9 @@
 #include "ultra64.h"
 #include "actor.h"
 
-struct EnGeldB;
+#include "assets/objects/object_geldb/object_geldb.h"
 
-typedef enum EnGeldBLimb {
-    /* 0x00 */ GELDB_LIMB_NONE,
-    /* 0x01 */ GELDB_LIMB_ROOT,
-    /* 0x02 */ GELDB_LIMB_TORSO,
-    /* 0x03 */ GELDB_LIMB_NECK,
-    /* 0x04 */ GELDB_LIMB_PONYTAIL,
-    /* 0x05 */ GELDB_LIMB_VEIL,
-    /* 0x06 */ GELDB_LIMB_HEAD,
-    /* 0x07 */ GELDB_LIMB_R_UPPER_ARM,
-    /* 0x08 */ GELDB_LIMB_R_FOREARM,
-    /* 0x09 */ GELDB_LIMB_R_WRIST,
-    /* 0x0A */ GELDB_LIMB_R_HAND,
-    /* 0x0B */ GELDB_LIMB_R_SWORD,
-    /* 0x0C */ GELDB_LIMB_L_UPPER_ARM,
-    /* 0x0D */ GELDB_LIMB_L_FOREARM,
-    /* 0x0E */ GELDB_LIMB_L_WRIST,
-    /* 0x0F */ GELDB_LIMB_L_HAND,
-    /* 0x10 */ GELDB_LIMB_L_SWORD,
-    /* 0x11 */ GELDB_LIMB_L_THIGH,
-    /* 0x12 */ GELDB_LIMB_L_SHIN,
-    /* 0x13 */ GELDB_LIMB_L_FOOT,
-    /* 0x14 */ GELDB_LIMB_R_THIGH,
-    /* 0x15 */ GELDB_LIMB_R_SHIN,
-    /* 0x16 */ GELDB_LIMB_R_FOOT,
-    /* 0x17 */ GELDB_LIMB_WAIST,
-    /* 0x18 */ GELDB_LIMB_MAX
-} EnGeldBLimb;
+struct EnGeldB;
 
 typedef void (*EnGeldBActionFunc)(struct EnGeldB*, struct PlayState*);
 
@@ -40,8 +14,8 @@ typedef struct EnGeldB {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Vec3s bodyPartsPos[10];
     /* 0x0188 */ SkelAnime skelAnime;
-    /* 0x01CC */ Vec3s jointTable[GELDB_LIMB_MAX];
-    /* 0x025C */ Vec3s morphTable[GELDB_LIMB_MAX];
+    /* 0x01CC */ Vec3s jointTable[GERUDO_RED_LIMB_MAX];
+    /* 0x025C */ Vec3s morphTable[GERUDO_RED_LIMB_MAX];
     /* 0x02EC */ s32 action;
     /* 0x02F0 */ char unk_2F0[4];
     /* 0x02F4 */ EnGeldBActionFunc actionFunc;

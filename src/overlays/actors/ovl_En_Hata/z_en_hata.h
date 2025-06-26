@@ -4,31 +4,7 @@
 #include "ultra64.h"
 #include "actor.h"
 
-
-typedef enum EnHataLimb {
-    /* 0x00 */ FLAGPOLE_LIMB_NONE,
-    /* 0x01 */ FLAGPOLE_LIMB_POLE_BASE,
-    /* 0x02 */ FLAGPOLE_LIMB_POLE,
-    /* 0x03 */ FLAGPOLE_LIMB_FLAG_1_BASE,
-    /* 0x04 */ FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE,
-    /* 0x05 */ FLAGPOLE_LIMB_FLAG_1_HOIST_MID_BASE,
-    /* 0x06 */ FLAGPOLE_LIMB_FLAG_1_FLY_MID_BASE,
-    /* 0x07 */ FLAGPOLE_LIMB_FLAG_1_FLY_END_BASE,
-    /* 0x08 */ FLAGPOLE_LIMB_FLAG_1_FLY_END,
-    /* 0x09 */ FLAGPOLE_LIMB_FLAG_1_FLY_MID,
-    /* 0x0A */ FLAGPOLE_LIMB_FLAG_1_HOIST_MID,
-    /* 0x0B */ FLAGPOLE_LIMB_FLAG_1_HOIST_END,
-    /* 0x0C */ FLAGPOLE_LIMB_FLAG_2_BASE,
-    /* 0x0D */ FLAGPOLE_LIMB_FLAG_2_HOIST_END_BASE,
-    /* 0x0E */ FLAGPOLE_LIMB_FLAG_2_HOIST_MID_BASE,
-    /* 0x0F */ FLAGPOLE_LIMB_FLAG_2_FLY_MID_BASE,
-    /* 0x10 */ FLAGPOLE_LIMB_FLAG_2_FLY_END_BASE,
-    /* 0x11 */ FLAGPOLE_LIMB_FLAG_2_FLY_END,
-    /* 0x12 */ FLAGPOLE_LIMB_FLAG_2_FLY_MID,
-    /* 0x13 */ FLAGPOLE_LIMB_FLAG_2_HOIST_MID,
-    /* 0x14 */ FLAGPOLE_LIMB_FLAG_2_HOIST_END,
-    /* 0x15 */ FLAGPOLE_LIMB_MAX
-} EnHataLimb;
+#include "assets/objects/object_hata/object_hata.h"
 
 typedef struct EnHata {
     /* 0x0000 */ DynaPolyActor dyna;

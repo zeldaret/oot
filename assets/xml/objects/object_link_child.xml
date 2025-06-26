@@ -450,27 +450,27 @@
         <Texture Name="gLinkChildMouthSmileTex" Format="ci8" Width="32" Height="32" Offset="0x4C00" TlutOffset="0x5500"/>
 
         <!--Unused Vtx-->
-        <Array Name="gLinkChildVtx_019E08" Count="35" Offset="0x19E08" Static="On">
+        <Array Name="gLinkChildVtx_019E08" Count="35" Offset="0x19E08">
             <Vtx/>
         </Array>
 
-        <Array Name="gLinkChildVtx_01A428" Count="39" Offset="0x1A428" Static="On">
+        <Array Name="gLinkChildVtx_01A428" Count="39" Offset="0x1A428">
             <Vtx/>
         </Array>
 
-        <Array Name="gLinkChildVtx_01AA98" Count="40" Offset="0x1AA98" Static="On">
+        <Array Name="gLinkChildVtx_01AA98" Count="40" Offset="0x1AA98">
             <Vtx/>
         </Array>
 
-        <Array Name="gLinkChildVtx_01EB38" Count="39" Offset="0x1EB38" Static="On">
+        <Array Name="gLinkChildVtx_01EB38" Count="39" Offset="0x1EB38">
             <Vtx/>
         </Array>
 
-        <Array Name="gLinkChildVtx_01F2B8" Count="39" Offset="0x1F2B8" Static="On">
+        <Array Name="gLinkChildVtx_01F2B8" Count="39" Offset="0x1F2B8">
             <Vtx/>
         </Array>
 
-        <Array Name="gLinkChildVtx_01FA28" Count="62" Offset="0x1FA28" Static="On">
+        <Array Name="gLinkChildVtx_01FA28" Count="62" Offset="0x1FA28">
             <Vtx/>
         </Array>
     </File>
