@@ -369,7 +369,7 @@ static s32 D_80858AA0;
 
 // TODO: There's probably a way to match BSS ordering with less padding by spreading the variables out and moving
 // data around. It would be easier if we had more options for controlling BSS ordering in debug.
-#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
                                "ique-cn:192 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
 static s32 sSavedCurrentMask;
@@ -4619,7 +4619,7 @@ static LinkAnimationHeader* D_808544B0[] = {
     &gPlayerAnim_link_normal_back_hit,   &gPlayerAnim_link_anchor_back_hitR,
 };
 
-void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 speed, f32 yVelocity, s16 yRot,
+void func_80837C0C(PlayState* play, Player* this, s32 hitResponseType, f32 speed, f32 yVelocity, s16 yRot,
                    s32 invincibilityTimer) {
     LinkAnimationHeader* anim = NULL;
     LinkAnimationHeader** sp28;
@@ -4642,7 +4642,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
     Player_SetIntangibility(this, invincibilityTimer);
 
-    if (damageResponseType == PLAYER_HIT_RESPONSE_ICE_TRAP) {
+    if (hitResponseType == PLAYER_HIT_RESPONSE_FROZEN) {
         Player_SetupAction(play, this, Player_Action_8084FB10, 0);
 
         anim = &gPlayerAnim_link_normal_ice_down;
@@ -4652,7 +4652,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
         Player_PlaySfx(this, NA_SE_PL_FREEZE_S);
         Player_PlayVoiceSfx(this, NA_SE_VO_LI_FREEZE);
-    } else if (damageResponseType == PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK) {
+    } else if (hitResponseType == PLAYER_HIT_RESPONSE_ELECTRIFIED) {
         Player_SetupAction(play, this, Player_Action_8084FBF4, 0);
 
         Player_RequestRumble(this, 255, 80, 150, 0);
@@ -4673,8 +4673,8 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
             anim = &gPlayerAnim_link_swimer_swim_hit;
 
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_DAMAGE_S);
-        } else if ((damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE) ||
-                   (damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) ||
+        } else if ((hitResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE) ||
+                   (hitResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) ||
                    !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
                    (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) {
             Player_SetupAction(play, this, Player_Action_8084377C, 0);
@@ -4684,7 +4684,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
             Player_RequestRumble(this, 255, 20, 150, 0);
             func_80832224(this);
 
-            if (damageResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) {
+            if (hitResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) {
                 this->av2.actionVar2 = 4;
 
                 this->actor.speed = 3.0f;
@@ -4798,7 +4798,7 @@ void func_8083821C(Player* this) {
 }
 
 void func_80838280(Player* this) {
-    if (this->actor.colChkInfo.acHitEffect == 1) {
+    if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_FIRE) {
         func_8083821C(this);
     }
     Player_PlayVoiceSfx(this, NA_SE_VO_LI_FALL_L);
@@ -4867,7 +4867,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
 
             func_80838280(this);
 
-            if (this->knockbackType == PLAYER_KNOCKBACK_LARGE_SHOCK) {
+            if (this->knockbackType == PLAYER_KNOCKBACK_LARGE_ELECTRIFIED) {
                 this->bodyShockTimer = 40;
             }
 
@@ -4915,7 +4915,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.effect == 1)) {
+                if (sp64 && (this->shieldQuad.elem.acHitElem->atDmgInfo.hitSpecialEffect == HIT_SPECIAL_EFFECT_FIRE)) {
                     func_8083819C(this, play);
                 }
 
@@ -4938,11 +4938,11 @@ s32 func_808382DC(Player* this, PlayState* play) {
 
                 if (this->stateFlags1 & PLAYER_STATE1_27) {
                     sp4C = PLAYER_HIT_RESPONSE_NONE;
-                } else if (this->actor.colChkInfo.acHitEffect == 2) {
-                    sp4C = PLAYER_HIT_RESPONSE_ICE_TRAP;
-                } else if (this->actor.colChkInfo.acHitEffect == 3) {
-                    sp4C = PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK;
-                } else if (this->actor.colChkInfo.acHitEffect == 4) {
+                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ICE) {
+                    sp4C = PLAYER_HIT_RESPONSE_FROZEN;
+                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ELECTRIC) {
+                    sp4C = PLAYER_HIT_RESPONSE_ELECTRIFIED;
+                } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_KNOCKBACK) {
                     sp4C = PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE;
                 } else {
                     func_80838280(this);
@@ -9145,10 +9145,9 @@ s32 func_80842DF4(PlayState* play, Player* this) {
             if ((func_80842AC4(play, this) == 0) && (this->heldItemAction != PLAYER_IA_HAMMER)) {
                 func_80842B7C(play, this);
 
-                if (this->actor.colChkInfo.atHitEffect == 1) {
+                if (this->actor.colChkInfo.atHitBacklash == HIT_BACKLASH_ELECTRIC) {
                     this->actor.colChkInfo.damage = 8;
-                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ELECTRIC_SHOCK, 0.0f, 0.0f, this->actor.shape.rot.y,
-                                  20);
+                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ELECTRIFIED, 0.0f, 0.0f, this->actor.shape.rot.y, 20);
                     return 1;
                 }
             }
@@ -10799,7 +10798,7 @@ void Player_Init(Actor* thisx, PlayState* play2) {
     startMode = PLAYER_GET_START_MODE(thisx);
 
     if ((startMode == PLAYER_START_MODE_WARP_SONG) || (startMode == PLAYER_START_MODE_FARORES_WIND)) {
-        if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
+        if (gSaveContext.save.cutsceneIndex >= CS_INDEX_0) {
             startMode = PLAYER_START_MODE_IDLE;
         }
     }
@@ -13722,7 +13721,7 @@ s32 func_8084DFF4(PlayState* play, Player* this) {
             if (this->getItemId == GI_SILVER_GAUNTLETS) {
                 play->nextEntranceIndex = ENTR_DESERT_COLOSSUS_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
-                gSaveContext.nextCutsceneIndex = 0xFFF1;
+                gSaveContext.nextCutsceneIndex = CS_INDEX_1;
                 play->transitionType = TRANS_TYPE_SANDSTORM_END;
                 this->stateFlags1 &= ~PLAYER_STATE1_29;
                 Player_TryCsAction(play, NULL, PLAYER_CSACTION_8);
@@ -13905,7 +13904,7 @@ void Player_Action_8084E6D4(Player* this, PlayState* play) {
                     func_8083C0E8(this, play);
                 } else {
                     this->actor.colChkInfo.damage = 0;
-                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_ICE_TRAP, 0.0f, 0.0f, 0, 20);
+                    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_FROZEN, 0.0f, 0.0f, 0, 20);
                 }
                 return;
             }

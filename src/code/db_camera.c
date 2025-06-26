@@ -2167,7 +2167,7 @@ s32 DebugCamera_UpdateDemoControl(DebugCam* debugCam, Camera* cam) {
 
             if (CHECK_BTN_ALL(sPlay->state.input[1].press.button, BTN_CRIGHT)) {
                 gUseCutsceneCam = false;
-                gSaveContext.save.cutsceneIndex = 0xFFFD;
+                gSaveContext.save.cutsceneIndex = CS_INDEX_D;
                 gSaveContext.cutsceneTrigger = 1;
                 sDebugCamAnim.curFrame = 0.0f;
                 sDebugCamAnim.keyframe = 0;

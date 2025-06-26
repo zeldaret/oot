@@ -172,7 +172,7 @@ s32 Collider_DestroyElementDamageInfoAT(PlayState* play, ColliderElementDamageIn
 s32 Collider_SetElementDamageInfoAT(PlayState* play, ColliderElementDamageInfoAT* dest,
                                     ColliderElementDamageInfoAT* src) {
     dest->dmgFlags = src->dmgFlags;
-    dest->effect = src->effect;
+    dest->hitSpecialEffect = src->hitSpecialEffect;
     dest->damage = src->damage;
     return true;
 }
@@ -194,7 +194,7 @@ s32 Collider_DestroyElementDamageInfoAC(PlayState* play, ColliderElementDamageIn
 s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo,
                                     ColliderElementDamageInfoACInit* init) {
     acDmgInfo->dmgFlags = init->dmgFlags;
-    acDmgInfo->effect = init->effect;
+    acDmgInfo->hitBacklash = init->hitBacklash;
     acDmgInfo->defense = init->defense;
     return true;
 }
@@ -1726,7 +1726,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
         atElem->atHitElem = acElem;
         atElem->atElemFlags |= ATELEM_HIT;
         if (atCol->actor != NULL) {
-            atCol->actor->colChkInfo.atHitEffect = acElem->acDmgInfo.effect;
+            atCol->actor->colChkInfo.atHitBacklash = acElem->acDmgInfo.hitBacklash;
         }
     }
     acCol->acFlags |= AC_HIT;
@@ -1735,7 +1735,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
     acElem->acHitElem = atElem;
     acElem->acElemFlags |= ACELEM_HIT;
     if (acCol->actor != NULL) {
-        acCol->actor->colChkInfo.acHitEffect = atElem->atDmgInfo.effect;
+        acCol->actor->colChkInfo.acHitSpecialEffect = atElem->atDmgInfo.hitSpecialEffect;
     }
     acElem->acDmgInfo.hitPos.x = hitPos->x;
     acElem->acDmgInfo.hitPos.y = hitPos->y;
@@ -3015,8 +3015,8 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage = 0;
     info->damageReaction = 0;
-    info->atHitEffect = 0;
-    info->acHitEffect = 0;
+    info->atHitBacklash = HIT_BACKLASH_NONE;
+    info->acHitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
 }
 

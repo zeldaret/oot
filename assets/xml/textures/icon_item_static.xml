@@ -169,14 +169,14 @@
         <Texture Name="gABtnSymbolTex" Format="ia8" Width="24" Height="16" Offset="0x861C0"/>
         <Texture Name="gBBtnSymbolTex" Format="ia8" Width="24" Height="16" Offset="0x86340"/>
         <Texture Name="gCBtnSymbolsTex" Format="ia8" Width="48" Height="16" Offset="0x864C0"/>
-        <Texture Name="gNamePanelLeftTex" Format="ia8" Width="72" Height="24" Offset="0x867C0"/>
-        <Texture Name="gNamePanelRightTex" Format="ia8" Width="72" Height="24" Offset="0x86E80"/>
+        <Texture Name="gInfoPanelBgLeftTex" Format="ia8" Width="72" Height="24" Offset="0x867C0"/>
+        <Texture Name="gInfoPanelBgRightTex" Format="ia8" Width="72" Height="24" Offset="0x86E80"/>
         <Texture Name="gLButtonTex" Format="ia8" Width="24" Height="32" Offset="0x87540"/>
         <Texture Name="gRButtonTex" Format="ia8" Width="24" Height="32" Offset="0x87840"/>
         <Texture Name="gUnknownJPNTex" Format="ia8" Width="80" Height="16" Offset="0x87B40"/>
         <Texture Name="gSongNoteTex" Format="ia8" Width="16" Height="24" Offset="0x88040"/>
         <Texture Name="gMagicArrowEquipEffectTex" Format="ia8" Width="32" Height="32" Offset="0x881C0"/>
-        <DList Name="gItemNamePanelDL" Offset="0x885C0"/>
+        <DList Name="gInfoPanelBgDL" Offset="0x885C0"/>
         <DList Name="gLButtonIconDL" Offset="0x88650"/>
         <DList Name="gRButtonIconDL" Offset="0x886A0"/>
         <DList Name="gCButtonIconsDL" Offset="0x886F0"/>

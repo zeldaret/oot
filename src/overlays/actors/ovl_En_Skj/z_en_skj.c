@@ -205,8 +205,8 @@ static ColliderCylinderInitType1 D_80B01678 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x0, 0x08 },
-        { 0xFFCFFFFF, 0x0, 0x0 },
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
