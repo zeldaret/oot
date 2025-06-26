@@ -1983,7 +1983,7 @@ void Actor_SetPlayerKnockback(PlayState* play, Actor* actor, f32 speed, s16 rot,
  * @param damage additional amount of damage to deal to the player
  */
 void Actor_SetPlayerKnockbackLarge(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 damage) {
-    Actor_SetPlayerKnockback(play, actor, speed, rot, yVelocity, PLAYER_KNOCKBACK_LARGE, damage);
+    Actor_SetPlayerKnockback(play, actor, speed, rot, yVelocity, PLAYER_KNOCK_DOWN, damage);
 }
 
 /**
@@ -2010,7 +2010,7 @@ void Actor_SetPlayerKnockbackLargeNoDamage(PlayState* play, Actor* actor, f32 sp
  * @param damage additional amount of damage to deal to the player
  */
 void Actor_SetPlayerKnockbackSmall(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 damage) {
-    Actor_SetPlayerKnockback(play, actor, speed, rot, yVelocity, PLAYER_KNOCKBACK_SMALL, damage);
+    Actor_SetPlayerKnockback(play, actor, speed, rot, yVelocity, PLAYER_KNOCK_BACK, damage);
 }
 
 /**

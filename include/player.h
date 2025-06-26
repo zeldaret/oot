@@ -643,17 +643,17 @@ typedef enum PlayerStickDirection {
     /*  3 */ PLAYER_STICK_DIR_RIGHT
 } PlayerStickDirection;
 
-typedef enum PlayerKnockbackType {
-    /* 0 */ PLAYER_KNOCKBACK_NONE, // No knockback
-    /* 1 */ PLAYER_KNOCKBACK_SMALL, // A small hop, remains standing up
-    /* 2 */ PLAYER_KNOCKBACK_LARGE, // Sent flying in the air and lands laying down on the floor
-    /* 3 */ PLAYER_KNOCKBACK_LARGE_ELECTRIFIED // Same as`PLAYER_KNOCKBACK_LARGE` with a shock effect
-} PlayerKnockbackType;
+typedef enum PlayerKnockType {
+    /* 0 */ PLAYER_KNOCK_NONE, // No knockback
+    /* 1 */ PLAYER_KNOCK_BACK, // A small hop, remains standing up
+    /* 2 */ PLAYER_KNOCK_DOWN, // Sent flying in the air and lands laying down on the floor
+    /* 3 */ PLAYER_KNOCK_DOWN_ELECTRIFIED // Same as`PLAYER_KNOCK_DOWN` with a shock effect
+} PlayerKnockType;
 
 typedef enum PlayerHitResponseType {
     /* 0 */ PLAYER_HIT_RESPONSE_NONE,
-    /* 1 */ PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
-    /* 2 */ PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
+    /* 1 */ PLAYER_HIT_RESPONSE_KNOCK_DOWN,
+    /* 2 */ PLAYER_HIT_RESPONSE_KNOCK_BACK,
     /* 3 */ PLAYER_HIT_RESPONSE_FROZEN,
     /* 4 */ PLAYER_HIT_RESPONSE_ELECTRIFIED
 } PlayerHitResponseType;

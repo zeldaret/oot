@@ -4673,8 +4673,8 @@ void func_80837C0C(PlayState* play, Player* this, s32 hitResponseType, f32 speed
             anim = &gPlayerAnim_link_swimer_swim_hit;
 
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_DAMAGE_S);
-        } else if ((hitResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE) ||
-                   (hitResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) ||
+        } else if ((hitResponseType == PLAYER_HIT_RESPONSE_KNOCK_DOWN) ||
+                   (hitResponseType == PLAYER_HIT_RESPONSE_KNOCK_BACK) ||
                    !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
                    (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) {
             Player_SetupAction(play, this, Player_Action_8084377C, 0);
@@ -4684,7 +4684,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 hitResponseType, f32 speed
             Player_RequestRumble(this, 255, 20, 150, 0);
             func_80832224(this);
 
-            if (hitResponseType == PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL) {
+            if (hitResponseType == PLAYER_HIT_RESPONSE_KNOCK_BACK) {
                 this->av2.actionVar2 = 4;
 
                 this->actor.speed = 3.0f;
@@ -4857,17 +4857,17 @@ s32 func_808382DC(Player* this, PlayState* play) {
             Player_PlayVoiceSfx(this, NA_SE_VO_LI_TAKEN_AWAY);
             play->haltAllActors = true;
             Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
-        } else if ((this->knockbackType != PLAYER_KNOCKBACK_NONE) &&
-                   ((this->knockbackType >= PLAYER_KNOCKBACK_LARGE) || (this->invincibilityTimer == 0))) {
+        } else if ((this->knockbackType != PLAYER_KNOCK_NONE) &&
+                   ((this->knockbackType >= PLAYER_KNOCK_DOWN) || (this->invincibilityTimer == 0))) {
             u8 knockbackResponse[] = {
-                PLAYER_HIT_RESPONSE_KNOCKBACK_SMALL,
-                PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
-                PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE,
+                PLAYER_HIT_RESPONSE_KNOCK_BACK,
+                PLAYER_HIT_RESPONSE_KNOCK_DOWN,
+                PLAYER_HIT_RESPONSE_KNOCK_DOWN,
             };
 
             func_80838280(this);
 
-            if (this->knockbackType == PLAYER_KNOCKBACK_LARGE_ELECTRIFIED) {
+            if (this->knockbackType == PLAYER_KNOCK_DOWN_ELECTRIFIED) {
                 this->bodyShockTimer = 40;
             }
 
@@ -4943,7 +4943,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                 } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_ELECTRIC) {
                     sp4C = PLAYER_HIT_RESPONSE_ELECTRIFIED;
                 } else if (this->actor.colChkInfo.acHitSpecialEffect == HIT_SPECIAL_EFFECT_KNOCKBACK) {
-                    sp4C = PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE;
+                    sp4C = PLAYER_HIT_RESPONSE_KNOCK_DOWN;
                 } else {
                     func_80838280(this);
                     sp4C = PLAYER_HIT_RESPONSE_NONE;
@@ -9302,7 +9302,7 @@ void Player_Action_8084377C(Player* this, PlayState* play) {
     func_808382BC(this);
 
     if (!(this->stateFlags1 & PLAYER_STATE1_29) && (this->av2.actionVar2 == 0) &&
-        (this->knockbackType != PLAYER_KNOCKBACK_NONE)) {
+        (this->knockbackType != PLAYER_KNOCK_NONE)) {
         s16 temp = this->actor.shape.rot.y - this->knockbackRot;
 
         this->yaw = this->actor.shape.rot.y = this->knockbackRot;
@@ -9325,7 +9325,7 @@ void Player_Action_8084377C(Player* this, PlayState* play) {
                 func_80853080(this, play);
             }
         } else if ((this->stateFlags1 & PLAYER_STATE1_29) ||
-                   (!(this->cylinder.base.acFlags & AC_HIT) && (this->knockbackType == PLAYER_KNOCKBACK_NONE))) {
+                   (!(this->cylinder.base.acFlags & AC_HIT) && (this->knockbackType == PLAYER_KNOCK_NONE))) {
             if (this->stateFlags1 & PLAYER_STATE1_29) {
                 this->av2.actionVar2++;
             } else {
@@ -9790,7 +9790,7 @@ void Player_Action_80844A44(Player* this, PlayState* play) {
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.colChkInfo.damage = 0x10;
-        func_80837C0C(play, this, PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE, 4.0f, 5.0f, this->actor.shape.rot.y, 20);
+        func_80837C0C(play, this, PLAYER_HIT_RESPONSE_KNOCK_DOWN, 4.0f, 5.0f, this->actor.shape.rot.y, 20);
     }
 }
 
@@ -10616,7 +10616,7 @@ void Player_StartMode_Grotto(PlayState* play, Player* this) {
 }
 
 void Player_StartMode_KnockedOver(PlayState* play, Player* this) {
-    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_KNOCKBACK_LARGE, 2.0f, 2.0f, this->actor.shape.rot.y + 0x8000, 0);
+    func_80837C0C(play, this, PLAYER_HIT_RESPONSE_KNOCK_DOWN, 2.0f, 2.0f, this->actor.shape.rot.y + 0x8000, 0);
 }
 
 void Player_StartMode_WarpSong(PlayState* play, Player* this) {
@@ -12030,7 +12030,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         temp_f0 = this->actor.world.pos.y - this->actor.prevPos.y;
 
         this->doorType = PLAYER_DOORTYPE_NONE;
-        this->knockbackType = PLAYER_KNOCKBACK_NONE;
+        this->knockbackType = PLAYER_KNOCK_NONE;
         this->autoLockOnActor = NULL;
 
         phi_f12 =
