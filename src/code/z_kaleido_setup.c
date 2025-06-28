@@ -85,8 +85,8 @@ void KaleidoSetup_Update(PlayState* play) {
             // The start button was pressed, pause
             gSaveContext.prevHudVisibilityMode = gSaveContext.hudVisibilityMode;
 
-            WREG(16) = -175;
-            WREG(17) = 155;
+            R_PAUSE_BUTTON_LEFT_X = -175;
+            R_PAUSE_BUTTON_RIGHT_X = 155;
 
             pauseCtx->pageSwitchTimer = 0;
 
