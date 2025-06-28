@@ -6,6 +6,7 @@
 
 #include "z_bg_bombwall.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
@@ -73,7 +74,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    3,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 

@@ -3,6 +3,7 @@
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -141,7 +142,7 @@ static ColliderJntSphInit sBodyJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    6,
+    ARRAY_COUNT(sBodyElementsInit),
     sBodyElementsInit,
 };
 
@@ -190,7 +191,7 @@ static ColliderTrisInit sHardTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    3,
+    ARRAY_COUNT(sHardElementsInit),
     sHardElementsInit,
 };
 

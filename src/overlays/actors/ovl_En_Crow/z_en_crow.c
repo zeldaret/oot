@@ -1,5 +1,6 @@
 #include "z_en_crow.h"
 
+#include "array_count.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "rand.h"
@@ -66,7 +67,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

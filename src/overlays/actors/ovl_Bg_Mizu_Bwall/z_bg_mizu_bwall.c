@@ -78,7 +78,7 @@ static ColliderTrisInit sTrisInitFloor = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInitFloor),
     sTrisElementsInitFloor,
 };
 
@@ -105,7 +105,7 @@ static ColliderTrisInit sTrisInitRutoWall = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    1,
+    ARRAY_COUNT(sTrisElementsInitRutoWall),
     sTrisElementsInitRutoWall,
 };
 
@@ -143,7 +143,7 @@ static ColliderTrisInit sTrisInitUnusedWall = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInitWall),
     sTrisElementsInitWall,
 };
 
@@ -156,7 +156,7 @@ static ColliderTrisInit sTrisInitStingerWall = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInitWall),
     sTrisElementsInitWall,
 };
 

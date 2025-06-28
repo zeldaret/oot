@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "gfx.h"
@@ -368,7 +369,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    12,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

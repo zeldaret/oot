@@ -1,6 +1,7 @@
 #include "z_en_ny.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -74,7 +75,7 @@ static ColliderJntSphInit sColliderJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

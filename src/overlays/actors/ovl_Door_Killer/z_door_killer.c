@@ -6,6 +6,7 @@
 
 #include "z_door_killer.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "printf.h"
@@ -96,7 +97,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_NONE,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
