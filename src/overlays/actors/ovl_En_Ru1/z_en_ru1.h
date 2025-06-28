@@ -26,11 +26,11 @@ typedef struct EnRu1 {
     /* 0x0260 */ s16 mouth;
     /* 0x0264 */ s32 action;
     /* 0x0268 */ s32 drawConfig;
-    /* 0x026C */ f32 unk_26C;
+    /* 0x026C */ f32 walkingFrame;
     /* 0x0270 */ f32 unk_270;
     /* 0x0274 */ char unk_274[0x4];
     /* 0x0278 */ DoorWarp1* blueWarp;
-    /* 0x027C */ f32 unk_27C;
+    /* 0x027C */ f32 xzDistToPlayerInBlueWarp;
     /* 0x0280 */ s32 unk_280;
     /* 0x0284 */ s8 roomNum1;
     /* 0x0285 */ s8 roomNum2;
@@ -76,13 +76,13 @@ typedef enum EnRu1Action {
     /* 12 */ ENRU1_ACTION_12,
     /* 13 */ ENRU1_ACTION_13,
     /* 14 */ ENRU1_ACTION_14,
-    /* 15 */ ENRU1_ACTION_15,
-    /* 16 */ ENRU1_ACTION_16,
-    /* 17 */ ENRU1_ACTION_17,
-    /* 18 */ ENRU1_ACTION_18,
-    /* 19 */ ENRU1_ACTION_19,
-    /* 20 */ ENRU1_ACTION_20,
-    /* 21 */ ENRU1_ACTION_21,
+    /* 15 */ ENRU1_ACTION_PRE_SPAWN_BOSS_ROOM,
+    /* 16 */ ENRU1_ACTION_SPAWN_BOSS_ROOM,
+    /* 17 */ ENRU1_ACTION_RISE_THROUGH_BLUE_WARP,
+    /* 18 */ ENRU1_ACTION_WAIT_INSIDE_BLUE_WARP,
+    /* 19 */ ENRU1_ACTION_LINK_WALKS_TO_POINT_IN_BLUE_WARP,
+    /* 20 */ ENRU1_ACTION_WHAT_TOOK_YOU_SO_LONG,
+    /* 21 */ ENRU1_ACTION_WARPING_OUT,
     /* 22 */ ENRU1_ACTION_22,
     /* 23 */ ENRU1_ACTION_23,
     /* 24 */ ENRU1_ACTION_24,
