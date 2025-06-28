@@ -1209,7 +1209,7 @@ void EnIk_SetupCsAction3(EnIk* this, PlayState* play) {
     f32 endFrame = Animation_GetLastFrame(&gIronKnuckleNabooruDeathAnim);
 
     SkelAnime_InitFlex(play, &this->skelAnime, &gIronKnuckleDefeatSkel, NULL, this->jointTable, this->morphTable,
-                       IRON_KNUCKLE_LIMB_MAX);
+                       ARRAY_COUNT(this->jointTable));
     Animation_Change(&this->skelAnime, &gIronKnuckleNabooruDeathAnim, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE, 0.0f);
     this->csAction = IK_CS_ACTION_3;
     this->csDrawMode = IK_CS_DRAW_DEFEAT;
@@ -1559,7 +1559,7 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
         SkelAnime_InitFlex(play, &this->skelAnime, &gIronKnuckleSkel, &gIronKnuckleNabooruSummonAxeAnim,
-                           this->jointTable, this->morphTable, IRON_KNUCKLE_LIMB_MAX);
+                           this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
         EnIk_InitImpl(&this->actor, play);
         EnIk_CsInit(this, play);
     }

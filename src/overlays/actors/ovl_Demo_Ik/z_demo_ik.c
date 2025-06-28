@@ -190,7 +190,8 @@ void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, phi_f0);
     //! @bug Flex skeleton is used as normal skeleton
-    SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)skeleton, NULL, this->jointTable, this->morphTable, 2);
+    SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)skeleton, NULL, this->jointTable, this->morphTable,
+                   ARRAY_COUNT(this->jointTable));
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
 }
 
@@ -326,7 +327,8 @@ void DemoIk_Type2Init(DemoIk* this, PlayState* play) {
             animation = &object_ik_Anim_0008DC;
     }
 
-    SkelAnime_InitFlex(play, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
+    SkelAnime_InitFlex(play, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable,
+                       ARRAY_COUNT(this->jointTable));
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
     this->actionMode = 3;
     this->drawMode = 0;
