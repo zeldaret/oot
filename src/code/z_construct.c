@@ -352,7 +352,7 @@ void Regs_InitDataImpl(void) {
     ZREG(25) = 4;
     ZREG(26) = 20;
     ZREG(27) = 10;
-    R_PAUSE_CURSOR_L_R_SELECTED_PRIM_TIMER = 20;
+    R_PAUSE_BUTTON_L_R_SELECTED_PRIM_TIMER = 20;
     ZREG(29) = 4;
     ZREG(30) = 20;
     ZREG(31) = 10;

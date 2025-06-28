@@ -1758,7 +1758,7 @@ void KaleidoScope_DrawUIOverlay(PlayState* play) {
         sLRSelectedPrimG = sLRSelectedPrimColors[sLRSelectedPrimState][1];
         sLRSelectedPrimB = sLRSelectedPrimColors[sLRSelectedPrimState][2];
         sLRSelectedPrimA = sLRSelectedPrimColors[sLRSelectedPrimState][3];
-        sLRSelectedPrimTimer = R_PAUSE_CURSOR_L_R_SELECTED_PRIM_TIMER;
+        sLRSelectedPrimTimer = R_PAUSE_BUTTON_L_R_SELECTED_PRIM_TIMER;
         sLRSelectedPrimState ^= 1;
     }
 
