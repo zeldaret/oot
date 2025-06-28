@@ -7,6 +7,7 @@
 #include "z_bg_hidan_dalm.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_matrix.h"
@@ -39,7 +40,7 @@ ActorProfile Bg_Hidan_Dalm_Profile = {
     /**/ BgHidanDalm_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementInit[4] = {
+static ColliderTrisElementInit sTrisElementInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -95,7 +96,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
-    4,
+    ARRAY_COUNT(sTrisElementInit),
     sTrisElementInit,
 };
 

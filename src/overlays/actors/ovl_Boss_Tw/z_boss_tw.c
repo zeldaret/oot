@@ -492,7 +492,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
 
         if (this->actor.params == TW_FIRE_BLAST || this->actor.params == TW_FIRE_BLAST_GROUND) {
             this->actionFunc = BossTw_BlastFire;
-            this->collider.elem.atDmgInfo.effect = 1;
+            this->collider.elem.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_FIRE;
         } else if (this->actor.params == TW_ICE_BLAST || this->actor.params == TW_ICE_BLAST_GROUND) {
             this->actionFunc = BossTw_BlastIce;
         } else if (this->actor.params >= TW_DEATHBALL_KOTAKE) {
@@ -1162,11 +1162,9 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
                                              &this->actor.projectedW);
 
                 if (this->actor.params == TW_KOUME) {
-                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_54C, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_AT_POS(&this->unk_54C, NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG);
                 } else {
-                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_54C, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_AT_POS(&this->unk_54C, NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG);
                 }
                 break;
 
@@ -1192,15 +1190,11 @@ void BossTw_ShootBeam(BossTw* this, PlayState* play) {
                                              &this->actor.projectedW);
 
                 if (this->actor.params == TW_KOUME) {
-                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_558, 4U,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_REFL_FIRE - SFX_FLAG, &this->unk_558, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_AT_POS(&this->unk_558, NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG);
+                    SFX_PLAY_AT_POS(&this->unk_558, NA_SE_EN_TWINROBA_REFL_FIRE - SFX_FLAG);
                 } else {
-                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_558, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_REFL_FREEZE - SFX_FLAG, &this->unk_558, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_AT_POS(&this->unk_558, NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG);
+                    SFX_PLAY_AT_POS(&this->unk_558, NA_SE_EN_TWINROBA_REFL_FREEZE - SFX_FLAG);
                 }
                 break;
         }

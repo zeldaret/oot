@@ -7,6 +7,7 @@
 
 #include "z_bg_jya_goroiwa.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "sfx.h"
 #include "z_lib.h"
@@ -65,7 +66,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

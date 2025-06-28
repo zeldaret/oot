@@ -44,7 +44,7 @@ ActorProfile Bg_Mizu_Bwall_Profile = {
     /**/ BgMizuBwall_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementsInitFloor[2] = {
+static ColliderTrisElementInit sTrisElementsInitFloor[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -78,11 +78,11 @@ static ColliderTrisInit sTrisInitFloor = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInitFloor),
     sTrisElementsInitFloor,
 };
 
-static ColliderTrisElementInit sTrisElementsInitRutoWall[1] = {
+static ColliderTrisElementInit sTrisElementsInitRutoWall[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -105,11 +105,11 @@ static ColliderTrisInit sTrisInitRutoWall = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    1,
+    ARRAY_COUNT(sTrisElementsInitRutoWall),
     sTrisElementsInitRutoWall,
 };
 
-static ColliderTrisElementInit sTrisElementsInitWall[2] = {
+static ColliderTrisElementInit sTrisElementsInitWall[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -143,7 +143,7 @@ static ColliderTrisInit sTrisInitUnusedWall = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInitWall),
     sTrisElementsInitWall,
 };
 
@@ -156,7 +156,7 @@ static ColliderTrisInit sTrisInitStingerWall = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInitWall),
     sTrisElementsInitWall,
 };
 
@@ -511,8 +511,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, PlayState* play) {
         this->dList = NULL;
         BgMizuBwall_SpawnDebris(this, play);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
-        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = BgMizuBwall_Break;
     } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

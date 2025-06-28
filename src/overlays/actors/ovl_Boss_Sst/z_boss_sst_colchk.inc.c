@@ -1,6 +1,7 @@
+#include "array_count.h"
 #include "collision_check.h"
 
-static ColliderJntSphElementInit sJntSphElementsInitHand[11] = {
+static ColliderJntSphElementInit sJntSphElementsInitHand[] = {
     {
         {
             ELEM_MATERIAL_UNK1,
@@ -133,11 +134,11 @@ static ColliderJntSphInit sJntSphInitHand = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    11,
+    ARRAY_COUNT(sJntSphElementsInitHand),
     sJntSphElementsInitHand,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInitHead[11] = {
+static ColliderJntSphElementInit sJntSphElementsInitHead[] = {
     {
         {
             ELEM_MATERIAL_UNK1,
@@ -270,7 +271,7 @@ static ColliderJntSphInit sJntSphInitHead = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    11,
+    ARRAY_COUNT(sJntSphElementsInitHead),
     sJntSphElementsInitHead,
 };
 

@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "controller.h"
 #include "gfx.h"
@@ -37,8 +38,8 @@
 #include "cic6105.h"
 #endif
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.0:128" \
-                               "ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:224 gc-eu-mq:224 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
+                               "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
@@ -224,7 +225,7 @@ static u8 sFishingPlayerCinematicState = 0;
 static u8 sFishingCinematicTimer = 0;
 static u8 sSinkingLureFound = false;
 
-static ColliderJntSphElementInit sJntSphElementsInit[12] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -363,12 +364,12 @@ static ColliderJntSphInit sJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_TYPE_ENEMY,
-        AC_TYPE_PLAYER,
+        AC_NONE | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    12,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
