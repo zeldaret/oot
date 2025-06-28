@@ -352,7 +352,7 @@ void Regs_InitDataImpl(void) {
     ZREG(25) = 4;
     ZREG(26) = 20;
     ZREG(27) = 10;
-    ZREG(28) = 20;
+    R_PAUSE_BUTTON_L_R_SELECTED_PRIM_TIMER = 20;
     ZREG(29) = 4;
     ZREG(30) = 20;
     ZREG(31) = 10;
@@ -557,8 +557,8 @@ void Regs_InitDataImpl(void) {
     WREG(22) = -32;
     WREG(23) = -38;
     WREG(24) = -36;
-    WREG(25) = 40;
-    WREG(26) = -40;
+    R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X = 40;
+    R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X = -40;
     WREG(27) = 0;
     WREG(28) = 0;
     R_OW_MINIMAP_X = 238;

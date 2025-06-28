@@ -126,6 +126,7 @@ struct PlayState;
 #define R_EPONAS_SONG_PLAYED                     DREG(53)
 #define R_MAGIC_FILL_COLOR(i)                    ZREG(0 + (i))
 #define R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON     ZREG(13)
+#define R_PAUSE_BUTTON_L_R_SELECTED_PRIM_TIMER   ZREG(28)
 #define R_C_BTN_COLOR(i)                         ZREG(39 + (i))
 #define R_B_BTN_COLOR(i)                         ZREG(43 + (i))
 #if OOT_NTSC
@@ -192,6 +193,7 @@ struct PlayState;
 #define R_B_LABEL_DD                             WREG(0)
 #define R_PAUSE_PAGES_Y_ORIGIN_2                 WREG(2) // Complements PauseContext.pagesYOrigin1
 #define R_PAUSE_DEPTH_OFFSET                     WREG(3) // Offset position of all pages away from the camera
+#define R_PAUSE_UI_ANIMS_DURATION                WREG(6)
 #if OOT_NTSC
 #define R_B_LABEL_SCALE(i)                       WREG(8 + (i))
 #define R_B_LABEL_X(i)                           WREG(10 + (i))
@@ -201,6 +203,8 @@ struct PlayState;
 #define R_PAUSE_BUTTON_LEFT_X                    WREG(16)
 #define R_PAUSE_BUTTON_RIGHT_X                   WREG(17)
 #define R_PAUSE_BUTTON_LEFT_RIGHT_Y              WREG(18)
+#define R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X        WREG(25)
+#define R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X       WREG(26)
 #define R_OW_MINIMAP_X                           WREG(29)
 #define R_OW_MINIMAP_Y                           WREG(30)
 #define R_MINIMAP_DISABLED                       WREG(31)
