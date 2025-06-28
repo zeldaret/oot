@@ -38,9 +38,9 @@ void EnRu1_Update(Actor* thisx, PlayState* play);
 void EnRu1_Draw(Actor* thisx, PlayState* play);
 
 void EnRu1_Fountain_GazingAtLink(EnRu1* this, PlayState* play);
-void EnRu1_Fountain_DivingIntoFountain(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_Diving(EnRu1* this, PlayState* play);
 void EnRu1_Fountain_Resurfacing(EnRu1* this, PlayState* play);
-void EnRu1_Fountain_Treading(EnRu1* this, PlayState* play);
+void EnRu1_Fountain_TreadingWater(EnRu1* this, PlayState* play);
 void EnRu1_Fountain_StartingSwimBack(EnRu1* this, PlayState* play);
 void EnRu1_Fountain_SwimmingBack(EnRu1* this, PlayState* play);
 void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play);
@@ -132,52 +132,52 @@ static s32 sUnused = 0;
 static u32 D_80AF1938 = 0;
 
 static EnRu1ActionFunc sActionFuncs[] = {
-    EnRu1_Fountain_GazingAtLink,
-    EnRu1_Fountain_DivingIntoFountain,
-    EnRu1_Fountain_Resurfacing,
-    EnRu1_Fountain_Treading,
-    EnRu1_Fountain_StartingSwimBack,
-    EnRu1_Fountain_SwimmingBack,
-    EnRu1_Fountain_FinishingSwimBack,
-    func_80AECA94, // ENRU1_ACTION_07
-    func_80AECAB4, // ENRU1_ACTION_08
-    func_80AECAD4, // ENRU1_ACTION_09
-    func_80AECB18, // ENRU1_ACTION_10
-    func_80AECB60, // ENRU1_ACTION_11
-    func_80AECBB8, // ENRU1_ACTION_12
-    func_80AECC1C, // ENRU1_ACTION_13
-    func_80AECC84, // ENRU1_ACTION_14
-    func_80AED304, // ENRU1_ACTION_15
-    func_80AED324, // ENRU1_ACTION_16
-    func_80AED344, // ENRU1_ACTION_17
-    func_80AED374, // ENRU1_ACTION_18
-    func_80AED3A4, // ENRU1_ACTION_19
-    func_80AED3E0, // ENRU1_ACTION_20
-    func_80AED414, // ENRU1_ACTION_21
-    func_80AEF29C, // ENRU1_ACTION_22
-    func_80AEF2AC, // ENRU1_ACTION_23
-    func_80AEF2D0, // ENRU1_ACTION_24
-    func_80AEF354, // ENRU1_ACTION_25
-    func_80AEF3A8, // ENRU1_ACTION_26
-    func_80AEEBD4, // ENRU1_ACTION_27
-    func_80AEEC5C, // ENRU1_ACTION_28
-    func_80AEECF0, // ENRU1_ACTION_29
-    func_80AEED58, // ENRU1_ACTION_30
-    func_80AEEDCC, // ENRU1_ACTION_31
-    func_80AEEE34, // ENRU1_ACTION_32
-    func_80AEEE9C, // ENRU1_ACTION_33
-    func_80AEEF08, // ENRU1_ACTION_34
-    func_80AEEF5C, // ENRU1_ACTION_35
-    func_80AEF9D8, // ENRU1_ACTION_36
-    func_80AEFA2C, // ENRU1_ACTION_37
-    func_80AEFAAC, // ENRU1_ACTION_38
-    func_80AEFB04, // ENRU1_ACTION_39
-    func_80AEFB68, // ENRU1_ACTION_40
-    func_80AEFCE8, // ENRU1_ACTION_41
-    func_80AEFBC8, // ENRU1_ACTION_42
-    func_80AEFC24, // ENRU1_ACTION_43
-    func_80AEFECC, // ENRU1_ACTION_44
-    func_80AEFF40, // ENRU1_ACTION_45
+    EnRu1_Fountain_GazingAtLink,      // ENRU1_ACTION_FOUNTAIN_GAZING_AT_LINK
+    EnRu1_Fountain_Diving,            // ENRU1_ACTION_FOUNTAIN_DIVING
+    EnRu1_Fountain_Resurfacing,       // ENRU1_ACTION_FOUNTAIN_RESURFACING
+    EnRu1_Fountain_TreadingWater,     // ENRU1_ACTION_FOUNTAIN_TREADING_WATER
+    EnRu1_Fountain_StartingSwimBack,  // ENRU1_ACTION_FOUNTAIN_STARTING_SWIM_BACK
+    EnRu1_Fountain_SwimmingBack,      // ENRU1_ACTION_FOUNTAIN_SWIMMING_BACK
+    EnRu1_Fountain_FinishingSwimBack, // ENRU1_ACTION_FOUNTAIN_FINISHING_SWIM_BACK
+    func_80AECA94,                    // ENRU1_ACTION_07
+    func_80AECAB4,                    // ENRU1_ACTION_08
+    func_80AECAD4,                    // ENRU1_ACTION_09
+    func_80AECB18,                    // ENRU1_ACTION_10
+    func_80AECB60,                    // ENRU1_ACTION_11
+    func_80AECBB8,                    // ENRU1_ACTION_12
+    func_80AECC1C,                    // ENRU1_ACTION_13
+    func_80AECC84,                    // ENRU1_ACTION_14
+    func_80AED304,                    // ENRU1_ACTION_15
+    func_80AED324,                    // ENRU1_ACTION_16
+    func_80AED344,                    // ENRU1_ACTION_17
+    func_80AED374,                    // ENRU1_ACTION_18
+    func_80AED3A4,                    // ENRU1_ACTION_19
+    func_80AED3E0,                    // ENRU1_ACTION_20
+    func_80AED414,                    // ENRU1_ACTION_21
+    func_80AEF29C,                    // ENRU1_ACTION_22
+    func_80AEF2AC,                    // ENRU1_ACTION_23
+    func_80AEF2D0,                    // ENRU1_ACTION_24
+    func_80AEF354,                    // ENRU1_ACTION_25
+    func_80AEF3A8,                    // ENRU1_ACTION_26
+    func_80AEEBD4,                    // ENRU1_ACTION_27
+    func_80AEEC5C,                    // ENRU1_ACTION_28
+    func_80AEECF0,                    // ENRU1_ACTION_29
+    func_80AEED58,                    // ENRU1_ACTION_30
+    func_80AEEDCC,                    // ENRU1_ACTION_31
+    func_80AEEE34,                    // ENRU1_ACTION_32
+    func_80AEEE9C,                    // ENRU1_ACTION_33
+    func_80AEEF08,                    // ENRU1_ACTION_34
+    func_80AEEF5C,                    // ENRU1_ACTION_35
+    func_80AEF9D8,                    // ENRU1_ACTION_36
+    func_80AEFA2C,                    // ENRU1_ACTION_37
+    func_80AEFAAC,                    // ENRU1_ACTION_38
+    func_80AEFB04,                    // ENRU1_ACTION_39
+    func_80AEFB68,                    // ENRU1_ACTION_40
+    func_80AEFCE8,                    // ENRU1_ACTION_41
+    func_80AEFBC8,                    // ENRU1_ACTION_42
+    func_80AEFC24,                    // ENRU1_ACTION_43
+    func_80AEFECC,                    // ENRU1_ACTION_44
+    func_80AEFF40,                    // ENRU1_ACTION_45
 };
 
 static EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
@@ -467,7 +467,7 @@ void func_80AEB3CC(EnRu1* this) {
 
 void EnRu1_InitOutsideJabuJabu(EnRu1* this, PlayState* play) {
     EnRu1_AnimationChange(this, &gRutoChildWaitHandsBehindBackAnim, ANIMMODE_LOOP, 0, false);
-    this->action = ENRU1_ACTION_GAZING_AT_LINK;
+    this->action = ENRU1_ACTION_FOUNTAIN_GAZING_AT_LINK;
     this->drawConfig = ENRU1_DRAW_OPA;
     EnRu1_SetEyes(this, ENRU1_EYES_GAZING);
     EnRu1_SetMouth(this, ENRU1_MOUTH_SMILING);
@@ -546,7 +546,7 @@ void EnRu1_StopMovingInWater(EnRu1* this) {
     this->skelAnime.movementFlags &= ~(ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y);
 }
 
-f32 EnRu1_GetSwimProximityToLink(CsCmdActorCue* cue, PlayState* play) {
+f32 EnRu1_GetSwimLerpFactor(CsCmdActorCue* cue, PlayState* play) {
     s32 csCurFrame = play->csCtx.curFrame;
 
     if ((csCurFrame < cue->endFrame) && (cue->endFrame - cue->startFrame > 0)) {
@@ -557,7 +557,7 @@ f32 EnRu1_GetSwimProximityToLink(CsCmdActorCue* cue, PlayState* play) {
     return 1.0f;
 }
 
-f32 EnRu1_GetLinearPosition(f32 scale, s32 startPos, s32 endPos) {
+f32 EnRu1_Lerp(f32 scale, s32 startPos, s32 endPos) {
     return (((f32)endPos - startPos) * scale) + startPos;
 }
 
@@ -573,7 +573,6 @@ void EnRu1_InitPositionFromFountainCue(EnRu1* this, PlayState* play) {
     }
 }
 
-// Why are there two of these?
 void EnRu1_InitPositionDivingIntoFountain(EnRu1* this, PlayState* play) {
     EnRu1_InitPositionFromFountainCue(this, play);
 }
@@ -593,33 +592,32 @@ void EnRu1_SwimTowardLink(EnRu1* this, PlayState* play) {
     s32 pad;
 
     if (cue != NULL) {
-        swimProximity = EnRu1_GetSwimProximityToLink(cue, play);
+        swimProximity = EnRu1_GetSwimLerpFactor(cue, play);
         thisPos = &this->actor.world.pos;
-        thisPos->x = EnRu1_GetLinearPosition(swimProximity, cue->startPos.x, cue->endPos.x);
-        thisPos->y = EnRu1_GetLinearPosition(swimProximity, cue->startPos.y, cue->endPos.y);
-        thisPos->z = EnRu1_GetLinearPosition(swimProximity, cue->startPos.z, cue->endPos.z);
+        thisPos->x = EnRu1_Lerp(swimProximity, cue->startPos.x, cue->endPos.x);
+        thisPos->y = EnRu1_Lerp(swimProximity, cue->startPos.y, cue->endPos.y);
+        thisPos->z = EnRu1_Lerp(swimProximity, cue->startPos.z, cue->endPos.z);
     }
 }
 
-// And why are there two of these?
 void EnRu1_StartSwimmingAwayFromLink(EnRu1* this, PlayState* play) {
     EnRu1_StartMovingInWater(this, play);
 }
 
 void EnRu1_SwimAwayFromLink(EnRu1* this, PlayState* play) {
     s32 pad;
-    Vec3f* treadPos = &this->treadPos;
+    Vec3f* treadStartPos = &this->treadStartPos;
     Vec3f* thisPos;
     f32 proximity;
     CsCmdActorCue* cue = EnRu1_GetFountainCue(play);
     s32 pad2;
 
     if (cue != NULL) {
-        proximity = EnRu1_GetSwimProximityToLink(cue, play);
+        proximity = EnRu1_GetSwimLerpFactor(cue, play);
         thisPos = &this->actor.world.pos;
-        thisPos->x = EnRu1_GetLinearPosition(proximity, treadPos->x, cue->endPos.x);
-        thisPos->y = EnRu1_GetLinearPosition(proximity, treadPos->y, cue->endPos.y);
-        thisPos->z = EnRu1_GetLinearPosition(proximity, treadPos->z, cue->endPos.z);
+        thisPos->x = EnRu1_Lerp(proximity, treadStartPos->x, cue->endPos.x);
+        thisPos->y = EnRu1_Lerp(proximity, treadStartPos->y, cue->endPos.y);
+        thisPos->z = EnRu1_Lerp(proximity, treadStartPos->z, cue->endPos.z);
     }
 }
 
@@ -654,7 +652,7 @@ void EnRu1_PlaySubmergeSfx(EnRu1* this) {
 /**
  * Plays the splashing sound effect when Link falls backwards into the Zora's Fountain waters.
  */
-void EnRu1_LinkFallsIntoFountain(PlayState* play) {
+void EnRu1_PlayLinkFallingSfx(PlayState* play) {
     Player* player;
 
     if (play->csCtx.curFrame == 205) {
@@ -682,7 +680,7 @@ void EnRu1_StartBackSwimming(EnRu1* this, s32 isSwimming) {
 
 void EnRu1_EnterFountainWater(EnRu1* this, PlayState* play) {
     if (EnRu1_CheckFountainCueNotMatchingId(play, 2)) {
-        this->action = ENRU1_ACTION_DIVING_INTO_FOUNTAIN;
+        this->action = ENRU1_ACTION_FOUNTAIN_DIVING;
         this->drawConfig = ENRU1_DRAW_NOTHING;
         EnRu1_InitPositionDivingIntoFountain(this, play);
         func_80AEAECC(this, play);
@@ -700,7 +698,7 @@ void EnRu1_Resurface(EnRu1* this, PlayState* play) {
         EnRu1_InitPositionResurfacing(this, play);
         EnRu1_MoveInWater(this, play);
         Animation_Change(&this->skelAnime, &gRutoChildResurfaceAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-        this->action = ENRU1_ACTION_RESURFACING;
+        this->action = ENRU1_ACTION_FOUNTAIN_RESURFACING;
         this->drawConfig = ENRU1_DRAW_OPA;
     }
 }
@@ -713,7 +711,7 @@ void EnRu1_ResurfaceProgress(EnRu1* this, PlayState* play, s32 isResurfaced) {
 
         EnRu1_StopMovingInWater(this);
         Animation_Change(&this->skelAnime, &gRutoChildTreadWaterAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
-        this->action = ENRU1_ACTION_TREADING;
+        this->action = ENRU1_ACTION_FOUNTAIN_TREADING_WATER;
     } else {
         EnRu1_StartSwimmingTowardLink(this, play);
     }
@@ -728,7 +726,7 @@ void EnRu1_StopTreading(EnRu1* this, PlayState* play) {
         EnRu1_MoveInWater(this, play);
         Animation_Change(&this->skelAnime, &gRutoChildTransitionToSwimOnBackAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE,
                          -8.0f);
-        this->action = ENRU1_ACTION_STARTING_SWIM_BACK;
+        this->action = ENRU1_ACTION_FOUNTAIN_STARTING_SWIM_BACK;
     }
 }
 
@@ -737,8 +735,8 @@ void EnRu1_TransitionToBackSwimming(EnRu1* this, PlayState* play) {
         s32 pad;
 
         EnRu1_StopMovingInWater(this);
-        this->action = ENRU1_ACTION_SWIMMING_BACK;
-        this->treadPos = this->actor.world.pos;
+        this->action = ENRU1_ACTION_FOUNTAIN_SWIMMING_BACK;
+        this->treadStartPos = this->actor.world.pos;
     } else {
         EnRu1_StartSwimmingAwayFromLink(this, play);
     }
@@ -758,7 +756,7 @@ void EnRu1_EndSwimBack(EnRu1* this, PlayState* play) {
             frameCount = Animation_GetLastFrame(&gRutoChildTransitionFromSwimOnBackAnim);
             Animation_Change(&this->skelAnime, &gRutoChildTransitionFromSwimOnBackAnim, 1.0, 0, frameCount,
                              ANIMMODE_ONCE, -8.0f);
-            this->action = ENRU1_ACTION_FINISHING_SWIM_BACK;
+            this->action = ENRU1_ACTION_FOUNTAIN_FINISHING_SWIM_BACK;
         }
     }
 }
@@ -773,11 +771,11 @@ void EnRu1_Fountain_GazingAtLink(EnRu1* this, PlayState* play) {
     EnRu1_InitPositionFromFountainCue(this, play);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_PlayGiggleSfx(this, play);
-    EnRu1_LinkFallsIntoFountain(play);
+    EnRu1_PlayLinkFallingSfx(play);
     EnRu1_EnterFountainWater(this, play);
 }
 
-void EnRu1_Fountain_DivingIntoFountain(EnRu1* this, PlayState* play) {
+void EnRu1_Fountain_Diving(EnRu1* this, PlayState* play) {
     EnRu1_PlayDivingEntrySfx(this);
     EnRu1_Resurface(this, play);
 }
@@ -790,7 +788,7 @@ void EnRu1_Fountain_Resurfacing(EnRu1* this, PlayState* play) {
     EnRu1_ResurfaceProgress(this, play, doneAnim);
 }
 
-void EnRu1_Fountain_Treading(EnRu1* this, PlayState* play) {
+void EnRu1_Fountain_TreadingWater(EnRu1* this, PlayState* play) {
     EnRu1_SwimTowardLink(this, play);
     func_80AEAECC(this, play);
     EnRu1_UpdateSkelAnime(this);

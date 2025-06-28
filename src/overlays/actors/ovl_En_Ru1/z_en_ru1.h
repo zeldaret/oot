@@ -55,19 +55,19 @@ typedef struct EnRu1 {
     /* 0x0358 */ f32 bobDepth;
     /* 0x035C */ s16 bobPhase;
     /* 0x0360 */ f32 isSinking;
-    /* 0x0364 */ Vec3f treadPos;
+    /* 0x0364 */ Vec3f treadStartPos;
     /* 0x0370 */ f32 carryIdleTimer;
     /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
 
 typedef enum EnRu1Action {
-    /*  0 */ ENRU1_ACTION_GAZING_AT_LINK,
-    /*  1 */ ENRU1_ACTION_DIVING_INTO_FOUNTAIN,
-    /*  2 */ ENRU1_ACTION_RESURFACING,
-    /*  3 */ ENRU1_ACTION_TREADING,
-    /*  4 */ ENRU1_ACTION_STARTING_SWIM_BACK,
-    /*  5 */ ENRU1_ACTION_SWIMMING_BACK,
-    /*  6 */ ENRU1_ACTION_FINISHING_SWIM_BACK,
+    /*  0 */ ENRU1_ACTION_FOUNTAIN_GAZING_AT_LINK,
+    /*  1 */ ENRU1_ACTION_FOUNTAIN_DIVING,
+    /*  2 */ ENRU1_ACTION_FOUNTAIN_RESURFACING,
+    /*  3 */ ENRU1_ACTION_FOUNTAIN_TREADING_WATER,
+    /*  4 */ ENRU1_ACTION_FOUNTAIN_STARTING_SWIM_BACK,
+    /*  5 */ ENRU1_ACTION_FOUNTAIN_SWIMMING_BACK,
+    /*  6 */ ENRU1_ACTION_FOUNTAIN_FINISHING_SWIM_BACK,
     /*  7 */ ENRU1_ACTION_07,
     /*  8 */ ENRU1_ACTION_08,
     /*  9 */ ENRU1_ACTION_09,
