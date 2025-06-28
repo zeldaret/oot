@@ -602,7 +602,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
         if (!Actor_ApplyDamage(&this->actor)) {
             func_800F5B58();
             this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
-            this->knockbackType = PLAYER_KNOCKBACK_LARGE;
+            this->knockbackType = PLAYER_KNOCK_DOWN;
             this->knockbackSpeed = 6.0f;
             this->knockbackYVelocity = 6.0f;
             this->knockbackDamage = this->actor.colChkInfo.damage;
@@ -623,7 +623,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             } else {
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 this->knockbackDamage = this->actor.colChkInfo.damage;
-                this->knockbackType = PLAYER_KNOCKBACK_SMALL;
+                this->knockbackType = PLAYER_KNOCK_BACK;
                 this->knockbackYVelocity = 6.0f;
                 this->knockbackSpeed = 8.0f;
                 this->knockbackRot = this->actor.yawTowardsPlayer + 0x8000;

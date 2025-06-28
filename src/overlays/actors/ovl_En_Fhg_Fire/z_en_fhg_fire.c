@@ -550,7 +550,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_LAUGH);
                     }
                     Actor_SetPlayerKnockback(play, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f,
-                                             PLAYER_KNOCKBACK_LARGE_ELECTRIFIED, 0x10);
+                                             PLAYER_KNOCK_DOWN_ELECTRIFIED, 0x10);
                 }
                 break;
             case FHGFIRE_LIGHT_BLUE:
