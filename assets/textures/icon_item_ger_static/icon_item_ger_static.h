@@ -44,18 +44,12 @@ extern u64 gPauseToDecideGERTex[TEX_LEN(u64, gPauseToDecideGERTex_WIDTH, gPauseT
 #define gPauseToPlayMelodyGERTex_WIDTH 104
 #define gPauseToPlayMelodyGERTex_HEIGHT 16
 extern u64 gPauseToPlayMelodyGERTex[TEX_LEN(u64, gPauseToPlayMelodyGERTex_WIDTH, gPauseToPlayMelodyGERTex_HEIGHT, 8)];
-#define gPauseToSelectItemGERTex_WIDTH 128
-#define gPauseToSelectItemGERTex_HEIGHT 16
-extern u64 gPauseToSelectItemGERTex[TEX_LEN(u64, gPauseToSelectItemGERTex_WIDTH, gPauseToSelectItemGERTex_HEIGHT, 8)];
-#define gPauseToMapGERTex_WIDTH 128
-#define gPauseToMapGERTex_HEIGHT 16
-extern u64 gPauseToMapGERTex[TEX_LEN(u64, gPauseToMapGERTex_WIDTH, gPauseToMapGERTex_HEIGHT, 8)];
-#define gPauseToQuestStatusGERTex_WIDTH 128
-#define gPauseToQuestStatusGERTex_HEIGHT 16
-extern u64 gPauseToQuestStatusGERTex[TEX_LEN(u64, gPauseToQuestStatusGERTex_WIDTH, gPauseToQuestStatusGERTex_HEIGHT, 8)];
-#define gPauseToEquipmentGERTex_WIDTH 128
-#define gPauseToEquipmentGERTex_HEIGHT 16
-extern u64 gPauseToEquipmentGERTex[TEX_LEN(u64, gPauseToEquipmentGERTex_WIDTH, gPauseToEquipmentGERTex_HEIGHT, 8)];
+
+extern u64 gPauseToSelectItemGERTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)];
+extern u64 gPauseToMapGERTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)];
+extern u64 gPauseToQuestStatusGERTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)];
+extern u64 gPauseToEquipmentGERTex[TEX_LEN(u64, TO_PAGE_LABEL_TEX_WIDTH, TO_PAGE_LABEL_TEX_HEIGHT, 8)];
+
 #define gPauseSavePromptGERTex_WIDTH 152
 #define gPauseSavePromptGERTex_HEIGHT 16
 extern u64 gPauseSavePromptGERTex[TEX_LEN(u64, gPauseSavePromptGERTex_WIDTH, gPauseSavePromptGERTex_HEIGHT, 8)];

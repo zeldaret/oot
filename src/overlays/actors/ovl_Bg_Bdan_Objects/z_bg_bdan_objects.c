@@ -80,13 +80,13 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x04 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_HARD,
         ACELEM_NONE,
         OCELEM_NONE,
     },
-    { 0x00BB, 0x0050, 0x0000, { 0 } },
+    { 187, 80, 0, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {

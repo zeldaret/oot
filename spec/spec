@@ -1707,7 +1707,8 @@ beginseg
     name "object_yukabyun"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_yukabyun/object_yukabyun.o"
+    include "$(BUILD_DIR)/assets/objects/object_yukabyun/gFloorTileEnemyDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_yukabyun/gFloorTileEnemyFragmentDL.o"
     number 6
 endseg
 
@@ -1923,7 +1924,7 @@ beginseg
     name "object_vase"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_vase/object_vase.o"
+    include "$(BUILD_DIR)/assets/objects/object_vase/gUnusedVaseDL.o"
     number 6
 endseg
 
@@ -2859,7 +2860,15 @@ beginseg
     name "object_zo"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_zo/object_zo.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraHandsOnHipsTappingFootAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraOpenArmsAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraThrowRupeesAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/effect_bubbles.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/effect_splashes.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraSurfaceAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraIdleAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/gZoraSkel.o"
+    include "$(BUILD_DIR)/assets/objects/object_zo/effect_ripples.o"
     number 6
 endseg
 
@@ -2875,7 +2884,8 @@ beginseg
     name "object_umajump"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_umajump/object_umajump.o"
+    include "$(BUILD_DIR)/assets/objects/object_umajump/gJumpableHorseFenceDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_umajump/gJumpableHorseFenceCol.o"
     number 6
 endseg
 
@@ -3547,7 +3557,8 @@ beginseg
     name "object_zg"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_zg/object_zg.o"
+    include "$(BUILD_DIR)/assets/objects/object_zg/gTowerCollapseBarsDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_zg/gTowerCollapseBarsCol.o"
     number 6
 endseg
 
@@ -3875,7 +3886,15 @@ beginseg
     name "object_ganon_anime3"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/object_ganon_anime3.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfShowTriforceStartAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfBurstOutAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfTransformEndAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfFloatingHeavyBreathingAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfTransformStartAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfTransformLoopAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanondorfShowTriforceLoopAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanonUncurlAndFlailAnim.o"
+    include "$(BUILD_DIR)/assets/objects/object_ganon_anime3/gGanonRoarAnim.o"
     number 6
 endseg
 
