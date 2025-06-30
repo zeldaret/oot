@@ -173,15 +173,15 @@ static EnRu1ActionFunc sActionFuncs[] = {
     func_80AEF2D0,                     // ENRU1_ACTION_24
     func_80AEF354,                     // ENRU1_ACTION_25
     func_80AEF3A8,                     // ENRU1_ACTION_26
-    EnRu1_Sitting_Idle,                // ENRU1_ACTION_27
-    EnRu1_Sitting_Released,            // ENRU1_ACTION_28
-    EnRu1_Sitting_EnteringWater,       // ENRU1_ACTION_29
-    EnRu1_Sitting_SinkingInWater,      // ENRU1_ACTION_30
-    EnRu1_Sitting_Carried,             // ENRU1_ACTION_31
-    EnRu1_Sitting_LosingBalance,       // ENRU1_ACTION_32
-    EnRu1_Sitting_DisappearingInWater, // ENRU1_ACTION_33
-    EnRu1_Sitting_SeesSapphire,        // ENRU1_ACTION_34
-    EnRu1_Action_Unused,               // ENRU1_ACTION_35
+    EnRu1_Sitting_Idle,                // ENRU1_ACTION_SITTING_IDLE
+    EnRu1_Sitting_Released,            // ENRU1_ACTION_SITTING_RELEASED
+    EnRu1_Sitting_EnteringWater,       // ENRU1_ACTION_SITTING_ENTERING_WATER
+    EnRu1_Sitting_SinkingInWater,      // ENRU1_ACTION_SITTING_SINKING
+    EnRu1_Sitting_Carried,             // ENRU1_ACTION_SITTING_CARRIED
+    EnRu1_Sitting_LosingBalance,       // ENRU1_ACTION_SITTING_LOSING_BALANCE
+    EnRu1_Sitting_DisappearingInWater, // ENRU1_ACTION_SITTING_DISAPPEARING
+    EnRu1_Sitting_SeesSapphire,        // ENRU1_ACTION_SITTING_SEES_SAPPHIRE
+    EnRu1_Action_Unused,               // ENRU1_ACTION_UNUSED
     func_80AEF9D8,                     // ENRU1_ACTION_36
     func_80AEFA2C,                     // ENRU1_ACTION_37
     func_80AEFAAC,                     // ENRU1_ACTION_38
