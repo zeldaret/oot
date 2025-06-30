@@ -37,12 +37,12 @@ ActorProfile Bg_Hidan_Rsekizou_Profile = {
     /**/ BgHidanRsekizou_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[6] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x01, 0x04 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_FIRE, 0x04 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NONE,
             ACELEM_NONE,
             OCELEM_NONE,
@@ -52,8 +52,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x01, 0x04 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_FIRE, 0x04 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NONE,
             ACELEM_NONE,
             OCELEM_NONE,
@@ -63,8 +63,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x01, 0x04 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_FIRE, 0x04 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NONE,
             ACELEM_NONE,
             OCELEM_NONE,
@@ -74,8 +74,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x01, 0x04 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_FIRE, 0x04 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NONE,
             ACELEM_NONE,
             OCELEM_NONE,
@@ -85,8 +85,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x01, 0x04 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_FIRE, 0x04 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NONE,
             ACELEM_NONE,
             OCELEM_NONE,
@@ -96,8 +96,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x01, 0x04 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_FIRE, 0x04 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NONE,
             ACELEM_NONE,
             OCELEM_NONE,
@@ -115,7 +115,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    6,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

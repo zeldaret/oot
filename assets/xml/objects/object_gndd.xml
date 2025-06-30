@@ -145,31 +145,31 @@
         <Texture Name="gYoungGanondorfFingernailTex" Format="rgba16" Width="4" Height="4" Offset="0x11858"/>
 
         <!-- Young Ganondorf Limbs -->
-        <Limb Name="gYoungGanondorfRootLimb" LimbType="Standard" Offset="0x11878"/>
-        <Limb Name="gYoungGanondorfTorsoLimb" LimbType="Standard" Offset="0x11884"/>
-        <Limb Name="gYoungGanondorfLeftUpperArmLimb" LimbType="Standard" Offset="0x11890"/>
-        <Limb Name="gYoungGanondorfLeftForearmLimb" LimbType="Standard" Offset="0x1189C"/>
-        <Limb Name="gYoungGanondorfLeftHandLimb" LimbType="Standard" Offset="0x118A8"/>
-        <Limb Name="gYoungGanondorfRightUpperArmLimb" LimbType="Standard" Offset="0x118B4"/>
-        <Limb Name="gYoungGanondorfRightForearmLimb" LimbType="Standard" Offset="0x118C0"/>
-        <Limb Name="gYoungGanondorfRightHandLimb" LimbType="Standard" Offset="0x118CC"/>
-        <Limb Name="gYoungGanondorfJewelLimb" LimbType="Standard" Offset="0x118D8"/>
-        <Limb Name="gYoungGanondorfLeftUpperLipLimb" LimbType="Standard" Offset="0x118E4"/>
-        <Limb Name="gYoungGanondorfJawLimb" LimbType="Standard" Offset="0x118F0"/>
-        <Limb Name="gYoungGanondorfChinLimb" LimbType="Standard" Offset="0x118FC"/>
-        <Limb Name="gYoungGanondorfRightUpperLipLimb" LimbType="Standard" Offset="0x11908"/>
-        <Limb Name="gYoungGanondorfTeethLimb" LimbType="Standard" Offset="0x11914"/>
-        <Limb Name="gYoungGanondorfHeadLimb" LimbType="Standard" Offset="0x11920"/>
-        <Limb Name="gYoungGanondorfPelvisLimb" LimbType="Standard" Offset="0x1192C"/>
-        <Limb Name="gYoungGanondorfLeftThighLimb" LimbType="Standard" Offset="0x11938"/>
-        <Limb Name="gYoungGanondorfLeftShinLimb" LimbType="Standard" Offset="0x11944"/>
-        <Limb Name="gYoungGanondorfLeftFootLimb" LimbType="Standard" Offset="0x11950"/>
-        <Limb Name="gYoungGanondorfKnifeLimb" LimbType="Standard" Offset="0x1195C"/>
-        <Limb Name="gYoungGanondorfRightThighLimb" LimbType="Standard" Offset="0x11968"/>
-        <Limb Name="gYoungGanondorfRightShinLimb" LimbType="Standard" Offset="0x11974"/>
-        <Limb Name="gYoungGanondorfRightFootLimb" LimbType="Standard" Offset="0x11980"/>
+        <Limb Name="gYoungGanondorfRootLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_ROOT" Offset="0x11878"/>
+        <Limb Name="gYoungGanondorfTorsoLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_TORSO" Offset="0x11884"/>
+        <Limb Name="gYoungGanondorfLeftUpperArmLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_LEFT_UPPER_ARM" Offset="0x11890"/>
+        <Limb Name="gYoungGanondorfLeftForearmLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_LEFT_FOREARM" Offset="0x1189C"/>
+        <Limb Name="gYoungGanondorfLeftHandLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_LEFT_HAND" Offset="0x118A8"/>
+        <Limb Name="gYoungGanondorfRightUpperArmLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_RIGHT_UPPER_ARM" Offset="0x118B4"/>
+        <Limb Name="gYoungGanondorfRightForearmLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_RIGHT_FOREARM" Offset="0x118C0"/>
+        <Limb Name="gYoungGanondorfRightHandLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_RIGHT_HAND" Offset="0x118CC"/>
+        <Limb Name="gYoungGanondorfJewelLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_JEWEL" Offset="0x118D8"/>
+        <Limb Name="gYoungGanondorfLeftUpperLipLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_LEFT_UPPER_LIP" Offset="0x118E4"/>
+        <Limb Name="gYoungGanondorfJawLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_JAW" Offset="0x118F0"/>
+        <Limb Name="gYoungGanondorfChinLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_CHIN" Offset="0x118FC"/>
+        <Limb Name="gYoungGanondorfRightUpperLipLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_RIGHT_UPPER_LIP" Offset="0x11908"/>
+        <Limb Name="gYoungGanondorfTeethLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_TEETH" Offset="0x11914"/>
+        <Limb Name="gYoungGanondorfHeadLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_HEAD" Offset="0x11920"/>
+        <Limb Name="gYoungGanondorfPelvisLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_PELVIS" Offset="0x1192C"/>
+        <Limb Name="gYoungGanondorfLeftThighLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_LEFT_THIGH" Offset="0x11938"/>
+        <Limb Name="gYoungGanondorfLeftShinLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_LEFT_SHIN" Offset="0x11944"/>
+        <Limb Name="gYoungGanondorfLeftFootLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_LEFT_FOOT" Offset="0x11950"/>
+        <Limb Name="gYoungGanondorfKnifeLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_KNIFE" Offset="0x1195C"/>
+        <Limb Name="gYoungGanondorfRightThighLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_RIGHT_THIGH" Offset="0x11968"/>
+        <Limb Name="gYoungGanondorfRightShinLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_RIGHT_SHIN" Offset="0x11974"/>
+        <Limb Name="gYoungGanondorfRightFootLimb" LimbType="Standard" EnumName="YOUNG_GANONDORF_LIMB_RIGHT_FOOT" Offset="0x11980"/>
 
         <!-- Young Ganondorf Skeleton -->
-        <Skeleton Name="gYoungGanondorfSkel" Type="Flex" LimbType="Standard" Offset="0x119E8"/>
+        <Skeleton Name="gYoungGanondorfSkel" Type="Flex" LimbType="Standard" LimbNone="YOUNG_GANONDORF_LIMB_NONE" LimbMax="YOUNG_GANONDORF_LIMB_MAX" EnumName="YoungGanondorfLimb" Offset="0x119E8"/>
     </File>
 </Root>

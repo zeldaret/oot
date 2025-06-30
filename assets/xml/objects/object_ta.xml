@@ -1,22 +1,22 @@
 <Root>
     <File Name="object_ta" Segment="6">
-        <Skeleton Name="gTalonSkel" Type="Flex" LimbType="Standard" Offset="0xB7B8"/>
-        <Limb Name="gTalonRootLimb" LimbType="Standard" Offset="0xB6B8"/>
-        <Limb Name="gTalonLeftThighLimb" LimbType="Standard" Offset="0xB6C4"/>
-        <Limb Name="gTalonLeftLegLimb" LimbType="Standard" Offset="0xB6D0"/>
-        <Limb Name="gTalonLeftFootLimb" LimbType="Standard" Offset="0xB6DC"/>
-        <Limb Name="gTalonRightThighLimb" LimbType="Standard" Offset="0xB6E8"/>
-        <Limb Name="gTalonRightLegLimb" LimbType="Standard" Offset="0xB6F4"/>
-        <Limb Name="gTalonRightFootLimb" LimbType="Standard" Offset="0xB700"/>
-        <Limb Name="gTalonChestLimb" LimbType="Standard" Offset="0xB70C"/>
-        <Limb Name="gTalonLeftShoulderLimb" LimbType="Standard" Offset="0xB718"/>
-        <Limb Name="gTalonLeftArmLimb" LimbType="Standard" Offset="0xB724"/>
-        <Limb Name="gTalonLeftHandLimb" LimbType="Standard" Offset="0xB730"/>
-        <Limb Name="gTalonRightShoulderLimb" LimbType="Standard" Offset="0xB73C"/>
-        <Limb Name="gTalonRightArmLimb" LimbType="Standard" Offset="0xB748"/>
-        <Limb Name="gTalonRightHandLimb" LimbType="Standard" Offset="0xB754"/>
-        <Limb Name="gTalonHeadLimb" LimbType="Standard" Offset="0xB760"/>
-        <Limb Name="gTalonTorsoLimb" LimbType="Standard" Offset="0xB76C"/>
+        <Skeleton Name="gTalonSkel" Type="Flex" LimbType="Standard" LimbNone="TALON_LIMB_NONE" LimbMax="TALON_LIMB_MAX" EnumName="TalonLimb" Offset="0xB7B8"/>
+        <Limb Name="gTalonRootLimb" LimbType="Standard" EnumName="TALON_LIMB_ROOT" Offset="0xB6B8"/>
+        <Limb Name="gTalonLeftThighLimb" LimbType="Standard" EnumName="TALON_LIMB_LEFT_THIGH" Offset="0xB6C4"/>
+        <Limb Name="gTalonLeftLegLimb" LimbType="Standard" EnumName="TALON_LIMB_LEFT_LEG" Offset="0xB6D0"/>
+        <Limb Name="gTalonLeftFootLimb" LimbType="Standard" EnumName="TALON_LIMB_LEFT_FOOT" Offset="0xB6DC"/>
+        <Limb Name="gTalonRightThighLimb" LimbType="Standard" EnumName="TALON_LIMB_RIGHT_THIGH" Offset="0xB6E8"/>
+        <Limb Name="gTalonRightLegLimb" LimbType="Standard" EnumName="TALON_LIMB_RIGHT_LEG" Offset="0xB6F4"/>
+        <Limb Name="gTalonRightFootLimb" LimbType="Standard" EnumName="TALON_LIMB_RIGHT_FOOT" Offset="0xB700"/>
+        <Limb Name="gTalonChestLimb" LimbType="Standard" EnumName="TALON_LIMB_CHEST" Offset="0xB70C"/>
+        <Limb Name="gTalonLeftShoulderLimb" LimbType="Standard" EnumName="TALON_LIMB_LEFT_SHOULDER" Offset="0xB718"/>
+        <Limb Name="gTalonLeftArmLimb" LimbType="Standard" EnumName="TALON_LIMB_LEFT_ARM" Offset="0xB724"/>
+        <Limb Name="gTalonLeftHandLimb" LimbType="Standard" EnumName="TALON_LIMB_LEFT_HAND" Offset="0xB730"/>
+        <Limb Name="gTalonRightShoulderLimb" LimbType="Standard" EnumName="TALON_LIMB_RIGHT_SHOULDER" Offset="0xB73C"/>
+        <Limb Name="gTalonRightArmLimb" LimbType="Standard" EnumName="TALON_LIMB_RIGHT_ARM" Offset="0xB748"/>
+        <Limb Name="gTalonRightHandLimb" LimbType="Standard" EnumName="TALON_LIMB_RIGHT_HAND" Offset="0xB754"/>
+        <Limb Name="gTalonHeadLimb" LimbType="Standard" EnumName="TALON_LIMB_HEAD" Offset="0xB760"/>
+        <Limb Name="gTalonTorsoLimb" LimbType="Standard" EnumName="TALON_LIMB_TORSO" Offset="0xB76C"/>
         <Animation Name="gTalonSitSleepingAnim" Offset="0x17E8"/>
         <Animation Name="gTalonStandAnim" Offset="0x1C94"/>
         <Animation Name="gTalonSitHandsUpAnim" Offset="0xBF38"/>

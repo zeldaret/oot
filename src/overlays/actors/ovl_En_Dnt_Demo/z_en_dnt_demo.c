@@ -184,8 +184,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                 case PLAYER_MASK_TRUTH:
                     if (!GET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_NUT_UPGRADE) &&
                         (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
-                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                         this->prize = DNT_PRIZE_NUTS;
                         this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
                         reaction = DNT_SIGNAL_LOOK;
