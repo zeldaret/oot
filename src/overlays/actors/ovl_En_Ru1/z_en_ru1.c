@@ -44,14 +44,14 @@ void EnRu1_Fountain_TreadingWater(EnRu1* this, PlayState* play);
 void EnRu1_Fountain_StartingSwimBack(EnRu1* this, PlayState* play);
 void EnRu1_Fountain_SwimmingBack(EnRu1* this, PlayState* play);
 void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play);
-void EnRu1_FirstEncounter_RangeCheck(EnRu1* this, PlayState* play);
-void EnRu1_FirstEncounter_InitPosition(EnRu1* this, PlayState* play);
-void EnRu1_FirstEncounter_FacingLink(EnRu1* this, PlayState* play);
-void EnRu1_FirstEncounter_TurningAround(EnRu1* this, PlayState* play);
-void EnRu1_FirstEncounter_WalkingAwayAccel(EnRu1* this, PlayState* play);
-void EnRu1_FirstEncounter_WalkingAwayConstant(EnRu1* this, PlayState* play);
-void EnRu1_FirstEncounter_FallingDownHole(EnRu1* this, PlayState* play);
-void EnRu1_FirstEncounter_End(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_RangeCheck(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_InitPosition(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_FacingLink(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_TurningAround(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_WalkingAwayAccel(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_WalkingAwayConstant(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_FallingDownHole(EnRu1* this, PlayState* play);
+void EnRu1_Meeting_End(EnRu1* this, PlayState* play);
 void func_80AED304(EnRu1* this, PlayState* play);
 void func_80AED324(EnRu1* this, PlayState* play);
 void func_80AED344(EnRu1* this, PlayState* play);
@@ -146,52 +146,52 @@ static s32 sUnused = 0;
 static u32 D_80AF1938 = 0;
 
 static EnRu1ActionFunc sActionFuncs[] = {
-    EnRu1_Fountain_GazingAtLink,              // ENRU1_ACTION_FOUNTAIN_GAZING_AT_LINK
-    EnRu1_Fountain_Diving,                    // ENRU1_ACTION_FOUNTAIN_DIVING
-    EnRu1_Fountain_Resurfacing,               // ENRU1_ACTION_FOUNTAIN_RESURFACING
-    EnRu1_Fountain_TreadingWater,             // ENRU1_ACTION_FOUNTAIN_TREADING_WATER
-    EnRu1_Fountain_StartingSwimBack,          // ENRU1_ACTION_FOUNTAIN_STARTING_SWIM_BACK
-    EnRu1_Fountain_SwimmingBack,              // ENRU1_ACTION_FOUNTAIN_SWIMMING_BACK
-    EnRu1_Fountain_FinishingSwimBack,         // ENRU1_ACTION_FOUNTAIN_FINISHING_SWIM_BACK
-    EnRu1_FirstEncounter_RangeCheck,          // ENRU1_ACTION_FIRST_ENCOUNTER_RANGE_CHECK
-    EnRu1_FirstEncounter_InitPosition,        // ENRU1_ACTION_FIRST_ENCOUNTER_INIT_POSITION
-    EnRu1_FirstEncounter_FacingLink,          // ENRU1_ACTION_FIRST_ENCOUNTER_FACING_LINK
-    EnRu1_FirstEncounter_TurningAround,       // ENRU1_ACTION_FIRST_ENCOUNTER_TURNING_AROUND
-    EnRu1_FirstEncounter_WalkingAwayAccel,    // ENRU1_ACTION_FIRST_ENCOUNTER_WALKING_AWAY_ACCEL
-    EnRu1_FirstEncounter_WalkingAwayConstant, // ENRU1_ACTION_FIRST_ENCOUNTER_WALKING_AWAY_CONSTANT
-    EnRu1_FirstEncounter_FallingDownHole,     // ENRU1_ACTION_FIRST_ENCOUNTER_FALLING_DOWN_HOLE
-    EnRu1_FirstEncounter_End,                 // ENRU1_ACTION_FIRST_ENCOUNTER_END
-    func_80AED304,                            // ENRU1_ACTION_15
-    func_80AED324,                            // ENRU1_ACTION_16
-    func_80AED344,                            // ENRU1_ACTION_17
-    func_80AED374,                            // ENRU1_ACTION_18
-    func_80AED3A4,                            // ENRU1_ACTION_19
-    func_80AED3E0,                            // ENRU1_ACTION_20
-    func_80AED414,                            // ENRU1_ACTION_21
-    func_80AEF29C,                            // ENRU1_ACTION_22
-    func_80AEF2AC,                            // ENRU1_ACTION_23
-    func_80AEF2D0,                            // ENRU1_ACTION_24
-    func_80AEF354,                            // ENRU1_ACTION_25
-    func_80AEF3A8,                            // ENRU1_ACTION_26
-    func_80AEEBD4,                            // ENRU1_ACTION_27
-    func_80AEEC5C,                            // ENRU1_ACTION_28
-    func_80AEECF0,                            // ENRU1_ACTION_29
-    func_80AEED58,                            // ENRU1_ACTION_30
-    func_80AEEDCC,                            // ENRU1_ACTION_31
-    func_80AEEE34,                            // ENRU1_ACTION_32
-    func_80AEEE9C,                            // ENRU1_ACTION_33
-    func_80AEEF08,                            // ENRU1_ACTION_34
-    func_80AEEF5C,                            // ENRU1_ACTION_35
-    func_80AEF9D8,                            // ENRU1_ACTION_36
-    func_80AEFA2C,                            // ENRU1_ACTION_37
-    func_80AEFAAC,                            // ENRU1_ACTION_38
-    func_80AEFB04,                            // ENRU1_ACTION_39
-    func_80AEFB68,                            // ENRU1_ACTION_40
-    func_80AEFCE8,                            // ENRU1_ACTION_41
-    func_80AEFBC8,                            // ENRU1_ACTION_42
-    func_80AEFC24,                            // ENRU1_ACTION_43
-    func_80AEFECC,                            // ENRU1_ACTION_44
-    func_80AEFF40,                            // ENRU1_ACTION_45
+    EnRu1_Fountain_GazingAtLink,       // ENRU1_ACTION_FOUNTAIN_GAZING_AT_LINK
+    EnRu1_Fountain_Diving,             // ENRU1_ACTION_FOUNTAIN_DIVING
+    EnRu1_Fountain_Resurfacing,        // ENRU1_ACTION_FOUNTAIN_RESURFACING
+    EnRu1_Fountain_TreadingWater,      // ENRU1_ACTION_FOUNTAIN_TREADING_WATER
+    EnRu1_Fountain_StartingSwimBack,   // ENRU1_ACTION_FOUNTAIN_STARTING_SWIM_BACK
+    EnRu1_Fountain_SwimmingBack,       // ENRU1_ACTION_FOUNTAIN_SWIMMING_BACK
+    EnRu1_Fountain_FinishingSwimBack,  // ENRU1_ACTION_FOUNTAIN_FINISHING_SWIM_BACK
+    EnRu1_Meeting_RangeCheck,          // ENRU1_ACTION_MEETING_RANGE_CHECK
+    EnRu1_Meeting_InitPosition,        // ENRU1_ACTION_MEETING_INIT_POSITION
+    EnRu1_Meeting_FacingLink,          // ENRU1_ACTION_MEETING_FACING_LINK
+    EnRu1_Meeting_TurningAround,       // ENRU1_ACTION_MEETING_TURNING_AROUND
+    EnRu1_Meeting_WalkingAwayAccel,    // ENRU1_ACTION_MEETING_WALKING_AWAY_ACCEL
+    EnRu1_Meeting_WalkingAwayConstant, // ENRU1_ACTION_MEETING_WALKING_AWAY_CONSTANT
+    EnRu1_Meeting_FallingDownHole,     // ENRU1_ACTION_MEETING_FALLING_DOWN_HOLE
+    EnRu1_Meeting_End,                 // ENRU1_ACTION_MEETING_END
+    func_80AED304,                     // ENRU1_ACTION_15
+    func_80AED324,                     // ENRU1_ACTION_16
+    func_80AED344,                     // ENRU1_ACTION_17
+    func_80AED374,                     // ENRU1_ACTION_18
+    func_80AED3A4,                     // ENRU1_ACTION_19
+    func_80AED3E0,                     // ENRU1_ACTION_20
+    func_80AED414,                     // ENRU1_ACTION_21
+    func_80AEF29C,                     // ENRU1_ACTION_22
+    func_80AEF2AC,                     // ENRU1_ACTION_23
+    func_80AEF2D0,                     // ENRU1_ACTION_24
+    func_80AEF354,                     // ENRU1_ACTION_25
+    func_80AEF3A8,                     // ENRU1_ACTION_26
+    func_80AEEBD4,                     // ENRU1_ACTION_27
+    func_80AEEC5C,                     // ENRU1_ACTION_28
+    func_80AEECF0,                     // ENRU1_ACTION_29
+    func_80AEED58,                     // ENRU1_ACTION_30
+    func_80AEEDCC,                     // ENRU1_ACTION_31
+    func_80AEEE34,                     // ENRU1_ACTION_32
+    func_80AEEE9C,                     // ENRU1_ACTION_33
+    func_80AEEF08,                     // ENRU1_ACTION_34
+    func_80AEEF5C,                     // ENRU1_ACTION_35
+    func_80AEF9D8,                     // ENRU1_ACTION_36
+    func_80AEFA2C,                     // ENRU1_ACTION_37
+    func_80AEFAAC,                     // ENRU1_ACTION_38
+    func_80AEFB04,                     // ENRU1_ACTION_39
+    func_80AEFB68,                     // ENRU1_ACTION_40
+    func_80AEFCE8,                     // ENRU1_ACTION_41
+    func_80AEFBC8,                     // ENRU1_ACTION_42
+    func_80AEFC24,                     // ENRU1_ACTION_43
+    func_80AEFECC,                     // ENRU1_ACTION_44
+    func_80AEFF40,                     // ENRU1_ACTION_45
 };
 
 static EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
@@ -847,7 +847,7 @@ void EnRu1_Fountain_FinishingSwimBack(EnRu1* this, PlayState* play) {
 void EnRu1_InitInJabuJabuHolesRoom(EnRu1* this, PlayState* play) {
     if (!GET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME)) {
         EnRu1_AnimationChange(this, &gRutoChildWait2Anim, ANIMMODE_LOOP, 0, false);
-        this->action = ENRU1_ACTION_FIRST_ENCOUNTER_RANGE_CHECK;
+        this->action = ENRU1_ACTION_MEETING_RANGE_CHECK;
         EnRu1_SetMouth(this, ENRU1_MOUTH_FROWNING);
     } else if (GET_INFTABLE(INFTABLE_147) && !GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)) {
         if (!func_80AEB020(this, play)) {
@@ -959,7 +959,7 @@ void EnRu1_CheckStartFirstEncounter(EnRu1* this, PlayState* play) {
         play->csCtx.script = gRutoFirstMeetingCs;
         gSaveContext.cutsceneTrigger = 1;
         player->speedXZ = 0.0f;
-        this->action = ENRU1_ACTION_FIRST_ENCOUNTER_INIT_POSITION;
+        this->action = ENRU1_ACTION_MEETING_INIT_POSITION;
     }
 }
 
@@ -975,7 +975,7 @@ void EnRu1_SetupPositionForFirstEncounter(EnRu1* this, PlayState* play) {
         newRotY = cue->rot.y;
         this->actor.shape.rot.y = newRotY;
         this->actor.world.rot.y = newRotY;
-        this->action = ENRU1_ACTION_FIRST_ENCOUNTER_FACING_LINK;
+        this->action = ENRU1_ACTION_MEETING_FACING_LINK;
         this->drawConfig = ENRU1_DRAW_OPA;
     }
 }
@@ -984,7 +984,7 @@ void EnRu1_CheckTurnAround(EnRu1* this, PlayState* play) {
     if (EnRu1_CheckCueMatchingId(play, 3, 3)) {
         Animation_Change(&this->skelAnime, &gRutoChildTurnAroundAnim, 1.0f, 0,
                          Animation_GetLastFrame(&gRutoChildTurnAroundAnim), ANIMMODE_ONCE, -8.0f);
-        this->action = ENRU1_ACTION_FIRST_ENCOUNTER_TURNING_AROUND;
+        this->action = ENRU1_ACTION_MEETING_TURNING_AROUND;
     }
 }
 
@@ -993,7 +993,7 @@ void EnRu1_StartWalkingAway(EnRu1* this, s32 doneTurning) {
         Animation_Change(&this->skelAnime, &gRutoChildWalkAnim, 1.0f, 0, Animation_GetLastFrame(&gRutoChildWalkAnim),
                          ANIMMODE_LOOP, -8.0f);
         this->actor.world.rot.y += 0x8000;
-        this->action = ENRU1_ACTION_FIRST_ENCOUNTER_WALKING_AWAY_ACCEL;
+        this->action = ENRU1_ACTION_MEETING_WALKING_AWAY_ACCEL;
         this->walkingFrame = 0.0f;
     }
 }
@@ -1001,7 +1001,7 @@ void EnRu1_StartWalkingAway(EnRu1* this, s32 doneTurning) {
 void EnRu1_AdvanceWalkingAway(EnRu1* this) {
     this->walkingFrame += 1.0f;
     if (this->walkingFrame >= 8.0f) {
-        this->action = ENRU1_ACTION_FIRST_ENCOUNTER_WALKING_AWAY_CONSTANT;
+        this->action = ENRU1_ACTION_MEETING_WALKING_AWAY_CONSTANT;
         this->walkingFrame = 0.0f;
         this->actor.velocity.y = -1.0f;
     }
@@ -1011,7 +1011,7 @@ void EnRu1_CheckStartFalling(EnRu1* this) {
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         s32 pad;
 
-        this->action = ENRU1_ACTION_FIRST_ENCOUNTER_FALLING_DOWN_HOLE;
+        this->action = ENRU1_ACTION_MEETING_FALLING_DOWN_HOLE;
         this->walkingFrame = 0.0f;
         this->actor.velocity.y = 0.0f;
     }
@@ -1020,26 +1020,26 @@ void EnRu1_CheckStartFalling(EnRu1* this) {
 void EnRu1_FinishFirstEncounter(EnRu1* this, PlayState* play) {
     if (EnRu1_CheckCueMatchingId(play, 5, 3)) {
         SET_INFTABLE(INFTABLE_MET_RUTO_FIRST_TIME);
-        this->action = ENRU1_ACTION_FIRST_ENCOUNTER_END;
+        this->action = ENRU1_ACTION_MEETING_END;
     }
 }
 
-void EnRu1_FirstEncounter_RangeCheck(EnRu1* this, PlayState* play) {
+void EnRu1_Meeting_RangeCheck(EnRu1* this, PlayState* play) {
     EnRu1_CheckStartFirstEncounter(this, play);
 }
 
-void EnRu1_FirstEncounter_InitPosition(EnRu1* this, PlayState* play) {
+void EnRu1_Meeting_InitPosition(EnRu1* this, PlayState* play) {
     EnRu1_SetupPositionForFirstEncounter(this, play);
 }
 
-void EnRu1_FirstEncounter_FacingLink(EnRu1* this, PlayState* play) {
+void EnRu1_Meeting_FacingLink(EnRu1* this, PlayState* play) {
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
     func_80AEAECC(this, play);
     EnRu1_CheckTurnAround(this, play);
 }
 
-void EnRu1_FirstEncounter_TurningAround(EnRu1* this, PlayState* play) {
+void EnRu1_Meeting_TurningAround(EnRu1* this, PlayState* play) {
     s32 doneAnim;
 
     doneAnim = EnRu1_UpdateSkelAnime(this);
@@ -1048,7 +1048,7 @@ void EnRu1_FirstEncounter_TurningAround(EnRu1* this, PlayState* play) {
     EnRu1_StartWalkingAway(this, doneAnim);
 }
 
-void EnRu1_FirstEncounter_WalkingAwayAccel(EnRu1* this, PlayState* play) {
+void EnRu1_Meeting_WalkingAwayAccel(EnRu1* this, PlayState* play) {
     EnRu1_AccelerateAway(this);
     EnRu1_UpdateSkelAnime(this);
     EnRu1_UpdateEyes(this);
@@ -1057,7 +1057,7 @@ void EnRu1_FirstEncounter_WalkingAwayAccel(EnRu1* this, PlayState* play) {
     EnRu1_AdvanceWalkingAway(this);
 }
 
-void EnRu1_FirstEncounter_WalkingAwayConstant(EnRu1* this, PlayState* play) {
+void EnRu1_Meeting_WalkingAwayConstant(EnRu1* this, PlayState* play) {
     EnRu1_MoveForwardConstant(this);
     EnRu1_RespondToFalling(this, play);
     EnRu1_UpdateSkelAnime(this);
@@ -1067,7 +1067,7 @@ void EnRu1_FirstEncounter_WalkingAwayConstant(EnRu1* this, PlayState* play) {
     EnRu1_CheckStartFalling(this);
 }
 
-void EnRu1_FirstEncounter_FallingDownHole(EnRu1* this, PlayState* play) {
+void EnRu1_Meeting_FallingDownHole(EnRu1* this, PlayState* play) {
     EnRu1_AccelerateDownHole(this);
     EnRu1_RespondToFalling(this, play);
     EnRu1_UpdateSkelAnime(this);
@@ -1077,7 +1077,7 @@ void EnRu1_FirstEncounter_FallingDownHole(EnRu1* this, PlayState* play) {
     EnRu1_FinishFirstEncounter(this, play);
 }
 
-void EnRu1_FirstEncounter_End(EnRu1* this, PlayState* play) {
+void EnRu1_Meeting_End(EnRu1* this, PlayState* play) {
     if (play->csCtx.state == CS_STATE_IDLE) {
         Actor_Kill(&this->actor);
     }
