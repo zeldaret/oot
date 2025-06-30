@@ -98,8 +98,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -796,7 +796,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
             if (this->talkTimer2 == 130) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 play->nextEntranceIndex = ENTR_CUTSCENE_MAP_0;
-                gSaveContext.nextCutsceneIndex = 0xFFF7;
+                gSaveContext.nextCutsceneIndex = CS_INDEX_7;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_WHITE;
             }
