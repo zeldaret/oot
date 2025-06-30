@@ -271,7 +271,7 @@ void func_8088D750(BgHidanSekizou* this, PlayState* play) {
             phi_a3 = -0x4000;
         }
     }
-    Actor_SetPlayerKnockbackLargeNoDamage(play, &this->dyna.actor, 5.0f, phi_a3, 1.0f);
+    Actor_SetPlayerBumpKnockdownNoDamage(play, &this->dyna.actor, 5.0f, phi_a3, 1.0f);
 }
 
 void BgHidanSekizou_Update(Actor* thisx, PlayState* play2) {

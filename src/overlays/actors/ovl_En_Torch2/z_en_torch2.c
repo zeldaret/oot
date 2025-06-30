@@ -602,11 +602,11 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
         if (!Actor_ApplyDamage(&this->actor)) {
             func_800F5B58();
             this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE);
-            this->knockbackType = PLAYER_KNOCK_DOWN;
-            this->knockbackSpeed = 6.0f;
-            this->knockbackYVelocity = 6.0f;
-            this->knockbackDamage = this->actor.colChkInfo.damage;
-            this->knockbackRot = this->actor.yawTowardsPlayer + 0x8000;
+            this->bumpType = PLAYER_BUMP_KNOCKDOWN;
+            this->bumpSpeed = 6.0f;
+            this->bumpYVelocity = 6.0f;
+            this->bumpDamage = this->actor.colChkInfo.damage;
+            this->bumpRot = this->actor.yawTowardsPlayer + 0x8000;
             sDeathFlag++;
             sActionState = ENTORCH2_DEATH;
             Enemy_StartFinishingBlow(play, &this->actor);
@@ -622,11 +622,11 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 }
             } else {
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-                this->knockbackDamage = this->actor.colChkInfo.damage;
-                this->knockbackType = PLAYER_KNOCK_BACK;
-                this->knockbackYVelocity = 6.0f;
-                this->knockbackSpeed = 8.0f;
-                this->knockbackRot = this->actor.yawTowardsPlayer + 0x8000;
+                this->bumpDamage = this->actor.colChkInfo.damage;
+                this->bumpType = PLAYER_BUMP_KNOCKBACK;
+                this->bumpYVelocity = 6.0f;
+                this->bumpSpeed = 8.0f;
+                this->bumpRot = this->actor.yawTowardsPlayer + 0x8000;
                 Actor_SetDropFlag(&this->actor, &this->cylinder.elem, true);
                 this->stateFlags3 &= ~PLAYER_STATE3_2;
                 this->stateFlags3 |= PLAYER_STATE3_0;
@@ -639,7 +639,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             }
         }
         this->actor.colChkInfo.damage = 0;
-        this->knockbackDamage = 0;
+        this->bumpDamage = 0;
     }
 
     // Handles being frozen by a deku nut

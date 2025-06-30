@@ -142,7 +142,7 @@ void BgHidanFirewall_Collide(BgHidanFirewall* this, PlayState* play) {
         phi_a3 = this->actor.shape.rot.y + 0x8000;
     }
 
-    Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 5.0f, phi_a3, 1.0f);
+    Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 5.0f, phi_a3, 1.0f);
 }
 
 void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, PlayState* play) {

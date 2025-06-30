@@ -486,7 +486,7 @@ s32 EnSsh_CheckHitPlayer(EnSsh* this, PlayState* play) {
     Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_ROLL);
     Actor_PlaySfx(&this->actor, NA_SE_VO_ST_ATTACK);
     play->damagePlayer(play, -8);
-    Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
+    Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
     this->hitCount--;
     return true;
 }

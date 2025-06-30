@@ -1952,78 +1952,63 @@ s32 Actor_NotMounted(PlayState* play, Actor* horse) {
 }
 
 /**
- * Sets the player's knockback properties
+ * Sets the player's bump (knockback/knockdown) properties.
  *
- * @param play
- * @param actor source actor applying knockback damage
- * @param speed
- * @param rot the direction the player will be pushed
- * @param yVelocity
- * @param type PlayerKnockbackType
+ * @param actor source actor applying bump
+ * @param rot the direction the player will be pushed in
+ * @param type see `PlayerBumpType`
  * @param damage additional amount of damage to deal to the player
  */
-void Actor_SetPlayerKnockback(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 type, u32 damage) {
+void Actor_SetPlayerBump(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 type, u32 damage) {
     Player* player = GET_PLAYER(play);
 
-    player->knockbackDamage = damage;
-    player->knockbackType = type;
-    player->knockbackSpeed = speed;
-    player->knockbackRot = rot;
-    player->knockbackYVelocity = yVelocity;
+    player->bumpDamage = damage;
+    player->bumpType = type;
+    player->bumpSpeed = speed;
+    player->bumpRot = rot;
+    player->bumpYVelocity = yVelocity;
 }
 
 /**
- * Knocks the player to the ground
+ * Knocks the player down to the ground.
  *
- * @param play
- * @param actor source actor applying knockback damage
- * @param speed
- * @param rot the direction the player will be pushed
- * @param yVelocity
+ * @param actor source actor applying bump
+ * @param rot the direction the player will be pushed in
  * @param damage additional amount of damage to deal to the player
  */
-void Actor_SetPlayerKnockbackLarge(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 damage) {
-    Actor_SetPlayerKnockback(play, actor, speed, rot, yVelocity, PLAYER_KNOCK_DOWN, damage);
+void Actor_SetPlayerBumpKnockdown(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 damage) {
+    Actor_SetPlayerBump(play, actor, speed, rot, yVelocity, PLAYER_BUMP_KNOCKDOWN, damage);
 }
 
 /**
- * Knocks the player to the ground, without applying additional damage
+ * Knocks the player down to the ground, without applying additional damage.
  *
- * @param play
- * @param actor source actor applying knockback damage
- * @param speed
- * @param rot the direction the player will be pushed
- * @param yVelocity
+ * @param actor source actor applying bump
+ * @param rot the direction the player will be pushed in
  */
-void Actor_SetPlayerKnockbackLargeNoDamage(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity) {
-    Actor_SetPlayerKnockbackLarge(play, actor, speed, rot, yVelocity, 0);
+void Actor_SetPlayerBumpKnockdownNoDamage(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity) {
+    Actor_SetPlayerBumpKnockdown(play, actor, speed, rot, yVelocity, 0);
 }
 
 /**
- * Knocks the player back while keeping them on their feet
+ * Knocks the player back while keeping them on their feet.
  *
- * @param play
- * @param actor
- * @param speed overridden
- * @param rot the direction the player will be pushed
- * @param yVelocity overridden
+ * @param actor source actor applying bump
+ * @param rot the direction the player will be pushed in
  * @param damage additional amount of damage to deal to the player
  */
-void Actor_SetPlayerKnockbackSmall(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 damage) {
-    Actor_SetPlayerKnockback(play, actor, speed, rot, yVelocity, PLAYER_KNOCK_BACK, damage);
+void Actor_SetPlayerBumpKnockback(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity, u32 damage) {
+    Actor_SetPlayerBump(play, actor, speed, rot, yVelocity, PLAYER_BUMP_KNOCKBACK, damage);
 }
 
 /**
- * Knocks the player back while keeping them on their feet, without applying additional damage
+ * Knocks the player back while keeping them on their feet, without applying additional damage.
  *
- * @param play
- * @param actor
- * @param speed overridden
+ * @param actor source actor applying bump
  * @param rot the direction the player will be pushed
- * @param yVelocity overridden
  */
-void Actor_SetPlayerKnockbackSmallNoDamage(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity) {
-    Actor_SetPlayerKnockbackSmall(play, actor, speed, rot, yVelocity, 0);
+void Actor_SetPlayerBumpKnockbackNoDamage(PlayState* play, Actor* actor, f32 speed, s16 rot, f32 yVelocity) {
+    Actor_SetPlayerBumpKnockback(play, actor, speed, rot, yVelocity, 0);
 }
 
 /**

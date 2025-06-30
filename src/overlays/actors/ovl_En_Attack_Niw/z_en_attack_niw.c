@@ -379,7 +379,7 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
             (player->invincibilityTimer == 0)
 #endif
         ) {
-            Actor_SetPlayerKnockbackLarge(play, &this->actor, 2.0f, this->actor.world.rot.y, 0.0f, 0x10);
+            Actor_SetPlayerBumpKnockdown(play, &this->actor, 2.0f, this->actor.world.rot.y, 0.0f, 0x10);
             cucco->timer9 = 0x46;
         }
     }
