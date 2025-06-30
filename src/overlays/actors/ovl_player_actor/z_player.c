@@ -9302,7 +9302,7 @@ void Player_Action_8084377C(Player* this, PlayState* play) {
     func_808382BC(this);
 
     if (!(this->stateFlags1 & PLAYER_STATE1_29) && (this->av2.actionVar2 == 0) &&
-        (this->knockbackType != PLAYER_BUMP_NONE)) {
+        (this->bumpType != PLAYER_BUMP_NONE)) {
         s16 temp = this->actor.shape.rot.y - this->bumpRot;
 
         this->yaw = this->actor.shape.rot.y = this->bumpRot;
@@ -9325,7 +9325,7 @@ void Player_Action_8084377C(Player* this, PlayState* play) {
                 func_80853080(this, play);
             }
         } else if ((this->stateFlags1 & PLAYER_STATE1_29) ||
-                   (!(this->cylinder.base.acFlags & AC_HIT) && (this->knockbackType == PLAYER_BUMP_NONE))) {
+                   (!(this->cylinder.base.acFlags & AC_HIT) && (this->bumpType == PLAYER_BUMP_NONE))) {
             if (this->stateFlags1 & PLAYER_STATE1_29) {
                 this->av2.actionVar2++;
             } else {
