@@ -1,6 +1,7 @@
 #include "z_en_ny.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -51,12 +52,12 @@ ActorProfile En_Ny_Profile = {
     /**/ EnNy_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x04, 0x08 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_KNOCKBACK, 0x08 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -74,7 +75,7 @@ static ColliderJntSphInit sColliderJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

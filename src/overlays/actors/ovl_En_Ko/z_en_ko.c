@@ -68,8 +68,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -576,8 +576,7 @@ s16 EnKo_UpdateTalkState(PlayState* play, Actor* thisx) {
                 case 0x10B7:
                 case 0x10B8:
                     if (this->unk_210 == 0) {
-                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                         this->unk_210 = 1;
                     }
             }

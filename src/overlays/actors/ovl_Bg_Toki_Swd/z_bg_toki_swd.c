@@ -58,13 +58,13 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
     },
-    { 10, 70, 0, { 0 } },
+    { 10, 70, 0, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_IMMOVABLE };

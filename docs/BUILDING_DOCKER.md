@@ -4,6 +4,8 @@
 
 To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and setup based on your system.
 
+On Ubuntu, Docker and required tools can be installed with: `sudo apt install docker.io docker-compose docker-buildx`
+
 You'll also need to prepare a local version of the project with a copied base ROM (see steps [2](../README.md#2-clone-the-repository) and [3](../README.md#3-prepare-a-base-rom) of the Linux instructions).
 
 ## 2. Create and start the Docker image build

@@ -50,8 +50,8 @@ static ColliderCylinderInit sCylInitStand = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00100000, 0x00, 0x00 },
-        { 0xEE01FFFF, 0x00, 0x00 },
+        { 0x00100000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xEE01FFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -70,8 +70,8 @@ static ColliderCylinderInit sCylInitFlame = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00020820, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00020820, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,
@@ -199,9 +199,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                 if (interactionType < 0) {
                     if (player->unk_860 == 0) {
                         player->unk_860 = 210;
-                        Audio_PlaySfxGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultReverb);
+                        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_FLAME_IGNITION);
                     } else if (player->unk_860 < 200) {
                         player->unk_860 = 200;
                     }
@@ -237,8 +235,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                         this->litTimer = (litTimeScale * 50) + 110;
                     }
                 }
-                Audio_PlaySfxGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_FLAME_IGNITION);
             }
         }
     }

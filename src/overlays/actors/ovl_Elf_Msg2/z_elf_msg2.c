@@ -163,7 +163,18 @@ void ElfMsg2_Update(Actor* thisx, PlayState* play) {
 }
 
 #if DEBUG_ASSETS
-#include "assets/overlays/ovl_Elf_Msg2/ovl_Elf_Msg2.c"
+
+static Gfx sMaterialDL[8] = {
+#include "assets/overlays/ovl_Elf_Msg2/sMaterialDL.inc.c"
+};
+
+static Vtx sCubeVtx[] = {
+#include "assets/overlays/ovl_Elf_Msg2/sCubeVtx.inc.c"
+};
+
+static Gfx sCubeDL[8] = {
+#include "assets/overlays/ovl_Elf_Msg2/sCubeDL.inc.c"
+};
 
 void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_elf_msg2.c", 355);
@@ -175,7 +186,7 @@ void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_elf_msg2.c", 362);
-    gSPDisplayList(POLY_XLU_DISP++, D_809ADC38);
+    gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, sCubeDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_elf_msg2.c", 367);

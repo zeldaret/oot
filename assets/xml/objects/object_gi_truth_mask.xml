@@ -1,8 +1,8 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_truth_mask" Segment="6">
-        <Texture Name="object_gi_truth_mask_000000_Tex" Format="i8" Width="32" Height="32" Offset="0x0"/>
-        <Texture Name="object_gi_truth_mask_000400_Tex" Format="i8" Width="32" Height="32" Offset="0x400"/>
+        <Texture Name="gGiMaskOfTruthAccent1Tex" Format="i8" Width="32" Height="32" Offset="0x0"/>
+        <Texture Name="gGiMaskOfTruthAccent2Tex" Format="i8" Width="32" Height="32" Offset="0x400"/>
         <Array Name="gGiMaskOfTruthVtx" Count="158" Offset="0x800">
             <Vtx/>
         </Array>
