@@ -1,6 +1,7 @@
 services:
   oot:
     build:
+      context: .
       dockerfile: Dockerfile
     volumes:
       - ./:/oot

@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_anubice" Segment="6">
-        <Skeleton Name="gAnubiceSkel" Type="Normal" LimbType="Standard" Offset="0x3990"/>
+        <Skeleton Name="gAnubiceSkel" Type="Normal" LimbType="Standard" LimbNone="ANUBICE_LIMB_NONE" LimbMax="ANUBICE_LIMB_MAX" EnumName="AnubiceLimb" Offset="0x3990"/>
 
         <Animation Name="gAnubiceFallDownAnim" Offset="0x348"/>
         <Animation Name="gAnubiceAttackingAnim" Offset="0x78C"/>
@@ -69,20 +69,20 @@
         <DList Name="object_anubice_0031A0_DL" Offset="0x31A0"/>
         <DList Name="object_anubice_003288_DL" Offset="0x3288"/>
         <Texture Name="object_anubice_0036A0_Tex" Format="i4" Width="32" Height="32" Offset="0x36A0"/>
-        <Limb Name="object_anubice_0038A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038A0" Offset="0x38A0"/>
-        <Limb Name="object_anubice_0038AC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038AC" Offset="0x38AC"/>
-        <Limb Name="object_anubice_0038B8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038B8" Offset="0x38B8"/>
-        <Limb Name="object_anubice_0038C4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038C4" Offset="0x38C4"/>
-        <Limb Name="object_anubice_0038D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038D0" Offset="0x38D0"/>
-        <Limb Name="object_anubice_0038DC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038DC" Offset="0x38DC"/>
-        <Limb Name="object_anubice_0038E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038E8" Offset="0x38E8"/>
-        <Limb Name="object_anubice_0038F4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_0038F4" Offset="0x38F4"/>
-        <Limb Name="object_anubice_003900_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_003900" Offset="0x3900"/>
-        <Limb Name="object_anubice_00390C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_00390C" Offset="0x390C"/>
-        <Limb Name="object_anubice_003918_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_003918" Offset="0x3918"/>
-        <Limb Name="object_anubice_003924_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_003924" Offset="0x3924"/>
-        <Limb Name="object_anubice_003930_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_003930" Offset="0x3930"/>
-        <Limb Name="object_anubice_00393C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_00393C" Offset="0x393C"/>
-        <Limb Name="object_anubice_003948_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_ANUBICE_003948" Offset="0x3948"/>
+        <Limb Name="object_anubice_0038A0_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_ROOT" Offset="0x38A0"/>
+        <Limb Name="object_anubice_0038AC_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_BODY_ROOT" Offset="0x38AC"/>
+        <Limb Name="object_anubice_0038B8_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_CHEST" Offset="0x38B8"/>
+        <Limb Name="object_anubice_0038C4_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_ABDOMEN_ROOT" Offset="0x38C4"/>
+        <Limb Name="object_anubice_0038D0_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_UPPER_ABDOMEN" Offset="0x38D0"/>
+        <Limb Name="object_anubice_0038DC_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_LOWER_ABDOMEN" Offset="0x38DC"/>
+        <Limb Name="object_anubice_0038E8_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_TAIL_ROOT" Offset="0x38E8"/>
+        <Limb Name="object_anubice_0038F4_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_TAIL_BASE" Offset="0x38F4"/>
+        <Limb Name="object_anubice_003900_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_TAIL_TIP" Offset="0x3900"/>
+        <Limb Name="object_anubice_00390C_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_JEWEL_ROOT" Offset="0x390C"/>
+        <Limb Name="object_anubice_003918_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_JEWEL" Offset="0x3918"/>
+        <Limb Name="object_anubice_003924_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_HEAD_ROOT" Offset="0x3924"/>
+        <Limb Name="object_anubice_003930_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_HEAD" Offset="0x3930"/>
+        <Limb Name="object_anubice_00393C_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_JAW_ROOT" Offset="0x393C"/>
+        <Limb Name="object_anubice_003948_Limb" LimbType="Standard" EnumName="ANUBICE_LIMB_JAW" Offset="0x3948"/>
     </File>
 </Root>

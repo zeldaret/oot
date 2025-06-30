@@ -80,22 +80,38 @@ typedef struct ColliderInitToActor {
     /* 0x07 */ u8 shape;
 } ColliderInitToActor; // size = 0x08
 
+typedef enum HitSpecialEffect {
+    HIT_SPECIAL_EFFECT_NONE,
+    HIT_SPECIAL_EFFECT_FIRE,
+    HIT_SPECIAL_EFFECT_ICE,
+    HIT_SPECIAL_EFFECT_ELECTRIC,
+    HIT_SPECIAL_EFFECT_KNOCKBACK,
+    HIT_SPECIAL_EFFECT_7 = 7, // Same effect as `HIT_SPECIAL_EFFECT_NONE`
+    HIT_SPECIAL_EFFECT_8, // Same effect as `HIT_SPECIAL_EFFECT_NONE`
+    HIT_SPECIAL_EFFECT_9 // Same effect as `HIT_SPECIAL_EFFECT_NONE`
+} HitSpecialEffect;
+
 typedef struct ColliderElementDamageInfoAT {
     /* 0x00 */ u32 dmgFlags; // Damage types dealt by this collider element as AT.
-    /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 hitSpecialEffect; // The hit special effect applied to any actor attacked by this AT collider.
     /* 0x05 */ u8 damage; // Damage
 } ColliderElementDamageInfoAT; // size = 0x08
 
+typedef enum HitBacklash {
+    HIT_BACKLASH_NONE,
+    HIT_BACKLASH_ELECTRIC
+} HitBacklash;
+
 typedef struct ColliderElementDamageInfoAC {
     /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
-    /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 hitBacklash;  // The hit backlash type applied to any attacker hurting this AC collider.
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderElementDamageInfoAC; // size = 0x0C
 
 typedef struct ColliderElementDamageInfoACInit {
     /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
-    /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
+    /* 0x04 */ u8 hitBacklash; // The hit backlash type applied to any attacker hurting this AC collider.
     /* 0x05 */ u8 defense; // Damage Resistance
 } ColliderElementDamageInfoACInit; // size = 0x08
 
@@ -465,8 +481,8 @@ typedef struct CollisionCheckInfo {
     /* 0x17 */ u8 health; // Note: some actors may use their own health variable instead of this one
     /* 0x18 */ u8 damage; // Amount to decrement health by
     /* 0x19 */ u8 damageReaction; // Stores what reaction should occur after being hit
-    /* 0x1A */ u8 atHitEffect; // Stores what effect should occur when AT connects with an AC
-    /* 0x1B */ u8 acHitEffect; // Stores what effect should occur when AC is touched by an AT
+    /* 0x1A */ u8 atHitBacklash; // Stores the hit backlash type received from attacking an AC collider
+    /* 0x1B */ u8 acHitSpecialEffect; // Stores the hit special effect received from being attacked by an AT collider
 } CollisionCheckInfo; // size = 0x1C
 
 DamageTable* DamageTable_Get(s32 index);

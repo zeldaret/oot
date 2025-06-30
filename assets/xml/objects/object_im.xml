@@ -107,23 +107,23 @@
         <DList Name="gImpaRightFootDL" Offset="0xE5D0"/>
         <DList Name="gImpaRightHandDL" Offset="0xE908"/>
         <DList Name="gImpaHandPointingDL" Offset="0xEDE8"/>
-        <Limb Name="gImpaRootLimb" LimbType="Standard" Offset="0xF688"/>
-        <Limb Name="gImpaTorsoLimb" LimbType="Standard" Offset="0xF694"/>
-        <Limb Name="gImpaLeftThighLimb" LimbType="Standard" Offset="0xF6A0"/>
-        <Limb Name="gImpaLeftLegLimb" LimbType="Standard" Offset="0xF6AC"/>
-        <Limb Name="gImpaLeftFootLimb" LimbType="Standard" Offset="0xF6B8"/>
-        <Limb Name="gImpaRightThighLimb" LimbType="Standard" Offset="0xF6C4"/>
-        <Limb Name="gImpaRightLegLimb" LimbType="Standard" Offset="0xF6D0"/>
-        <Limb Name="gImpaRightFootLimb" LimbType="Standard" Offset="0xF6DC"/>
-        <Limb Name="gImpaChestLimb" LimbType="Standard" Offset="0xF6E8"/>
-        <Limb Name="gImpaLeftShoulderLimb" LimbType="Standard" Offset="0xF6F4"/>
-        <Limb Name="gImpaLeftArmLimb" LimbType="Standard" Offset="0xF700"/>
-        <Limb Name="gImpaLeftHandLimb" LimbType="Standard" Offset="0xF70C"/>
-        <Limb Name="gImpaRightShoulderLimb" LimbType="Standard" Offset="0xF718"/>
-        <Limb Name="gImpaRightArmLimb" LimbType="Standard" Offset="0xF724"/>
-        <Limb Name="gImpaRightHandLimb" LimbType="Standard" Offset="0xF730"/>
-        <Limb Name="gImpaHeadLimb" LimbType="Standard" Offset="0xF73C"/>
-        <Skeleton Name="gImpaSkel" Type="Flex" LimbType="Standard" Offset="0xF788"/>
+        <Limb Name="gImpaRootLimb" LimbType="Standard" EnumName="IMPA_LIMB_ROOT" Offset="0xF688"/>
+        <Limb Name="gImpaTorsoLimb" LimbType="Standard" EnumName="IMPA_LIMB_TORSO" Offset="0xF694"/>
+        <Limb Name="gImpaLeftThighLimb" LimbType="Standard" EnumName="IMPA_LIMB_LEFT_THIGH" Offset="0xF6A0"/>
+        <Limb Name="gImpaLeftLegLimb" LimbType="Standard" EnumName="IMPA_LIMB_LEFT_LEG" Offset="0xF6AC"/>
+        <Limb Name="gImpaLeftFootLimb" LimbType="Standard" EnumName="IMPA_LIMB_LEFT_FOOT" Offset="0xF6B8"/>
+        <Limb Name="gImpaRightThighLimb" LimbType="Standard" EnumName="IMPA_LIMB_RIGHT_THIGH" Offset="0xF6C4"/>
+        <Limb Name="gImpaRightLegLimb" LimbType="Standard" EnumName="IMPA_LIMB_RIGHT_LEG" Offset="0xF6D0"/>
+        <Limb Name="gImpaRightFootLimb" LimbType="Standard" EnumName="IMPA_LIMB_RIGHT_FOOT" Offset="0xF6DC"/>
+        <Limb Name="gImpaChestLimb" LimbType="Standard" EnumName="IMPA_LIMB_CHEST" Offset="0xF6E8"/>
+        <Limb Name="gImpaLeftShoulderLimb" LimbType="Standard" EnumName="IMPA_LIMB_LEFT_SHOULDER" Offset="0xF6F4"/>
+        <Limb Name="gImpaLeftArmLimb" LimbType="Standard" EnumName="IMPA_LIMB_LEFT_ARM" Offset="0xF700"/>
+        <Limb Name="gImpaLeftHandLimb" LimbType="Standard" EnumName="IMPA_LIMB_LEFT_HAND" Offset="0xF70C"/>
+        <Limb Name="gImpaRightShoulderLimb" LimbType="Standard" EnumName="IMPA_LIMB_RIGHT_SHOULDER" Offset="0xF718"/>
+        <Limb Name="gImpaRightArmLimb" LimbType="Standard" EnumName="IMPA_LIMB_RIGHT_ARM" Offset="0xF724"/>
+        <Limb Name="gImpaRightHandLimb" LimbType="Standard" EnumName="IMPA_LIMB_RIGHT_HAND" Offset="0xF730"/>
+        <Limb Name="gImpaHeadLimb" LimbType="Standard" EnumName="IMPA_LIMB_HEAD" Offset="0xF73C"/>
+        <Skeleton Name="gImpaSkel" Type="Flex" LimbType="Standard" LimbNone="IMPA_LIMB_NONE" LimbMax="IMPA_LIMB_MAX" EnumName="ImpaLimb" Offset="0xF788"/>
         <Animation Name="object_im_Anim_00FB10" Offset="0xFB10"/>
         <Animation Name="object_im_Anim_0101C8" Offset="0x101C8"/>
         <Animation Name="gImpaStartWhistlingAnim" Offset="0x10EE0"/>
