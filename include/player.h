@@ -647,7 +647,7 @@ typedef enum PlayerBumpType {
     /* 0 */ PLAYER_BUMP_NONE, // No knockback
     /* 1 */ PLAYER_BUMP_KNOCKBACK, // A small hop, remains standing up
     /* 2 */ PLAYER_BUMP_KNOCKDOWN, // Sent flying in the air and lands laying down on the floor
-    /* 3 */ PLAYER_BUMP_KNOCKDOWN_ELECTRIFIED // Same as`PLAYER_BUMP_KNOCKDOWN` with a shock effect
+    /* 3 */ PLAYER_BUMP_KNOCKDOWN_ELECTRIFIED // Same as`PLAYER_BUMP_KNOCKDOWN` with an electric shock effect
 } PlayerBumpType;
 
 typedef enum PlayerHitResponseType {
