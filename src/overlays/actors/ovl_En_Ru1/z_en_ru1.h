@@ -26,12 +26,12 @@ typedef struct EnRu1 {
     /* 0x0260 */ s16 mouth;
     /* 0x0264 */ s32 action;
     /* 0x0268 */ s32 drawConfig;
-    /* 0x026C */ f32 unk_26C;
+    /* 0x026C */ f32 walkingFrame;
     /* 0x0270 */ f32 treadTimer;
     /* 0x0274 */ char unk_274[0x4];
     /* 0x0278 */ DoorWarp1* blueWarp;
     /* 0x027C */ f32 unk_27C;
-    /* 0x0280 */ s32 unk_280;
+    /* 0x0280 */ s32 isFalling;
     /* 0x0284 */ s8 roomNum1;
     /* 0x0285 */ s8 roomNum2;
     /* 0x0286 */ s8 roomNum3;
@@ -68,14 +68,14 @@ typedef enum EnRu1Action {
     /*  4 */ ENRU1_ACTION_FOUNTAIN_STARTING_SWIM_BACK,
     /*  5 */ ENRU1_ACTION_FOUNTAIN_SWIMMING_BACK,
     /*  6 */ ENRU1_ACTION_FOUNTAIN_FINISHING_SWIM_BACK,
-    /*  7 */ ENRU1_ACTION_07,
-    /*  8 */ ENRU1_ACTION_08,
-    /*  9 */ ENRU1_ACTION_09,
-    /* 10 */ ENRU1_ACTION_10,
-    /* 11 */ ENRU1_ACTION_11,
-    /* 12 */ ENRU1_ACTION_12,
-    /* 13 */ ENRU1_ACTION_13,
-    /* 14 */ ENRU1_ACTION_14,
+    /*  7 */ ENRU1_ACTION_MEETING_RANGE_CHECK,
+    /*  8 */ ENRU1_ACTION_MEETING_INIT_POSITION,
+    /*  9 */ ENRU1_ACTION_MEETING_FACING_LINK,
+    /* 10 */ ENRU1_ACTION_MEETING_TURNING_AROUND,
+    /* 11 */ ENRU1_ACTION_MEETING_WALKING_AWAY_ACCEL,
+    /* 12 */ ENRU1_ACTION_MEETING_WALKING_AWAY_CONSTANT,
+    /* 13 */ ENRU1_ACTION_MEETING_FALLING_DOWN_HOLE,
+    /* 14 */ ENRU1_ACTION_MEETING_END,
     /* 15 */ ENRU1_ACTION_15,
     /* 16 */ ENRU1_ACTION_16,
     /* 17 */ ENRU1_ACTION_17,
