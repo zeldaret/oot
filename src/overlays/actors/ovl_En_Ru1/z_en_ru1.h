@@ -30,7 +30,7 @@ typedef struct EnRu1 {
     /* 0x0270 */ f32 treadTimer;
     /* 0x0274 */ char unk_274[0x4];
     /* 0x0278 */ DoorWarp1* blueWarp;
-    /* 0x027C */ f32 unk_27C;
+    /* 0x027C */ f32 xzDistToPlayerInBlueWarp;
     /* 0x0280 */ s32 isFalling;
     /* 0x0284 */ s8 roomNum1;
     /* 0x0285 */ s8 roomNum2;
@@ -76,13 +76,13 @@ typedef enum EnRu1Action {
     /* 12 */ ENRU1_ACTION_MEETING_WALKING_AWAY_CONSTANT,
     /* 13 */ ENRU1_ACTION_MEETING_FALLING_DOWN_HOLE,
     /* 14 */ ENRU1_ACTION_MEETING_END,
-    /* 15 */ ENRU1_ACTION_15,
-    /* 16 */ ENRU1_ACTION_16,
-    /* 17 */ ENRU1_ACTION_17,
-    /* 18 */ ENRU1_ACTION_18,
-    /* 19 */ ENRU1_ACTION_19,
-    /* 20 */ ENRU1_ACTION_20,
-    /* 21 */ ENRU1_ACTION_21,
+    /* 15 */ ENRU1_ACTION_PRE_SPAWN_BOSS_ROOM,
+    /* 16 */ ENRU1_ACTION_SPAWN_BOSS_ROOM,
+    /* 17 */ ENRU1_ACTION_RISE_THROUGH_BLUE_WARP,
+    /* 18 */ ENRU1_ACTION_WAIT_INSIDE_BLUE_WARP,
+    /* 19 */ ENRU1_ACTION_LINK_WALKS_TO_POINT_IN_BLUE_WARP,
+    /* 20 */ ENRU1_ACTION_WHAT_TOOK_YOU_SO_LONG,
+    /* 21 */ ENRU1_ACTION_WARPING_OUT,
     /* 22 */ ENRU1_ACTION_PRE_SPAWN_SPEAKABLE,
     /* 23 */ ENRU1_ACTION_SPAWN_SPEAKABLE,
     /* 24 */ ENRU1_ACTION_IDLE_SPEAKABLE,
