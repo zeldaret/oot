@@ -5,6 +5,7 @@ import abc
 import dataclasses
 from functools import cache
 from pathlib import Path
+import re
 from typing import Callable, Optional
 from xml.etree import ElementTree
 
@@ -260,7 +261,19 @@ def _get_resources_fileelem_to_resourcescollection_pass1(
     for reselem in fileelem:
         try:
             symbol_name = reselem.attrib["Name"]
-            offset = int(reselem.attrib["Offset"], 16)
+            if "Offset" in reselem.attrib:
+                offset = int(reselem.attrib["Offset"], 16)
+            else:
+                offset = None
+                for version_elem in reselem:
+                    if version_elem.tag != "Version":
+                        continue
+                    if re.fullmatch(version_elem.attrib["Pattern"], vc.version):
+                        offset = int(version_elem.attrib["Offset"], 16)
+                        break
+                if offset is None:
+                    raise Exception(f"No Offset on resource {symbol_name}")
+
             res_handler = _get_resource_handler(reselem.tag)
             try:
                 res = res_handler(symbol_name, offset, collection, reselem)

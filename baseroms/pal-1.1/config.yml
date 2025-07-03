@@ -1134,7 +1134,7 @@ assets:
 - name: scenes/overworld/spot04
   xml_path: assets/xml/scenes/overworld/spot04_pal_n64.xml
 - name: scenes/overworld/spot05
-  xml_path: assets/xml/scenes/overworld/spot05_pal_n64.xml
+  xml_path: assets/xml/scenes/overworld/spot05.xml
 - name: scenes/overworld/spot06
   xml_path: assets/xml/scenes/overworld/spot06_pal_n64.xml
 - name: scenes/overworld/spot07
