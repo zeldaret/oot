@@ -783,7 +783,43 @@ typedef enum LinkAge {
 
 
 /*
- * SaveContext.infTable
+ * ============================================================================
+ *                             SaveInfo.infTable
+ * ============================================================================
+ * variations: eventChkInf, itemGetInf
+ *
+ *                            "Information table"
+ *
+ * Inftables ie. (`u16 infTable[30]`) are compact bitvectors stored in the save
+ * file that tracks hundreds of one-bit flags — e.g., whether you’ve talked to
+ * an NPC, triggered a cutscene, etc.
+ *
+ * In the infTable case, 30 * u16 words stores up to 480 flags, each inftable
+ * ID (see below) is an index into this bitvector.
+ *
+ * ----------------------------------------------------------------------------
+ * Encoding
+ * ----------------------------------------------------------------------------
+ *
+ * Each flag is a unique 16-bit ID where:
+ *   - Upper 12 bits (flag >> 4): word index (0–29)
+ *   - Lower  4 bits (flag & 0xF): bit index (0–15)
+ *
+ * Layout:
+ *    15         4  3         0
+ *   [ word index ][ bit index ]
+ *
+ * Example:
+ *     Flag (hex)   Word   Bit
+ *     ----------   -----  ---
+ *     0x75         7      5
+ *     0x61         6      1
+ *     0x1AC        26     12
+ *
+ * Because hex digits are 4 bits each, you can visually parse a flag as "word:bit":
+ *     0x75  → word 7,  bit 5
+ *     0x61  → word 6,  bit 1
+ *     0x1AC → word 26, bit 12
  */
 
 #define INFTABLE_INDEX(flag) ((flag) >> 4)
