@@ -549,8 +549,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                     if ((bossGnd->flyMode >= GND_FLY_VOLLEY) && (this->work[FHGFIRE_RETURN_COUNT] >= 2)) {
                         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_LAUGH);
                     }
-                    Actor_SetPlayerKnockback(play, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f,
-                                             PLAYER_KNOCKBACK_LARGE_ELECTRIFIED, 0x10);
+                    Actor_SetPlayerBump(play, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f,
+                                        PLAYER_BUMP_KNOCKDOWN_ELECTRIFIED, 0x10);
                 }
                 break;
             case FHGFIRE_LIGHT_BLUE:

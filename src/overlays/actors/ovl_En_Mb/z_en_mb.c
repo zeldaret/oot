@@ -626,7 +626,7 @@ void EnMb_Stunned(EnMb* this, PlayState* play) {
 #if OOT_VERSION >= PAL_1_0
         player->av2.actionVar2 = 200;
 #endif
-        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+        Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
         this->attack = ENMB_ATTACK_NONE;
     }
 
@@ -746,7 +746,7 @@ void EnMb_SpearPatrolEndCharge(EnMb* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
         player->av2.actionVar2 = 200;
-        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+        Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
     }
 #endif
 
@@ -864,9 +864,9 @@ void EnMb_ClubAttack(EnMb* this, PlayState* play) {
                 }
             }
 
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor,
-                                                  (650.0f - this->actor.xzDistToPlayer) * 0.04f + 4.0f,
-                                                  this->actor.world.rot.y, 8.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor,
+                                                 (650.0f - this->actor.xzDistToPlayer) * 0.04f + 4.0f,
+                                                 this->actor.world.rot.y, 8.0f);
 
             player->invincibilityTimer = prevPlayerInvincibilityTimer;
         }
@@ -973,20 +973,20 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
             player->stateFlags2 &= ~PLAYER_STATE2_7;
             this->attackCollider.base.atFlags &= ~AT_HIT;
             player->actor.parent = NULL;
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
 #elif OOT_VERSION < NTSC_1_2
             player->stateFlags2 &= ~PLAYER_STATE2_7;
             this->attackCollider.base.atFlags &= ~AT_HIT;
             player->actor.parent = NULL;
             player->av2.actionVar2 = 200;
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
 #else
             this->attackCollider.base.atFlags &= ~AT_HIT;
             if (player->stateFlags2 & PLAYER_STATE2_7) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
                 player->av2.actionVar2 = 200;
-                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+                Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
             }
 #endif
         }
@@ -1055,20 +1055,20 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
             this->attackCollider.base.atFlags &= ~AT_HIT;
             player->stateFlags2 &= ~PLAYER_STATE2_7;
             player->actor.parent = NULL;
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
 #elif OOT_VERSION < NTSC_1_2
             this->attackCollider.base.atFlags &= ~AT_HIT;
             player->stateFlags2 &= ~PLAYER_STATE2_7;
             player->actor.parent = NULL;
             player->av2.actionVar2 = 200;
-            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+            Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
 #else
             this->attackCollider.base.atFlags &= ~AT_HIT;
             if (player->stateFlags2 & PLAYER_STATE2_7) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
                 player->av2.actionVar2 = 200;
-                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+                Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
             }
 #endif
             this->attack = ENMB_ATTACK_NONE;
@@ -1355,7 +1355,7 @@ void EnMb_SpearDead(EnMb* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+        Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
         this->attack = ENMB_ATTACK_NONE;
     }
 #else
@@ -1363,7 +1363,7 @@ void EnMb_SpearDead(EnMb* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
         player->av2.actionVar2 = 200;
-        Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
+        Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
         this->attack = ENMB_ATTACK_NONE;
     }
 #endif
@@ -1449,7 +1449,7 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
 #if OOT_VERSION >= PAL_1_0
                 player->av2.actionVar2 = 200;
 #endif
-                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 6.0f, this->actor.world.rot.y, 6.0f);
+                Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 6.0f, this->actor.world.rot.y, 6.0f);
             }
             this->damageReaction = this->actor.colChkInfo.damageReaction;
             this->attack = ENMB_ATTACK_NONE;
