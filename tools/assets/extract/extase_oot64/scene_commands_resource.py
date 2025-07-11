@@ -44,13 +44,13 @@ VERBOSE_NOT_FULLY_PARSED_SCENECMD = False
 
 class SceneCmdId(enum.Enum):
     # keep the SCENE_CMD_ID_ prefix for grepability
-    SCENE_CMD_ID_SPAWN_LIST = 0
+    SCENE_CMD_ID_PLAYER_ENTRY_LIST = 0
     SCENE_CMD_ID_ACTOR_LIST = enum.auto()
     SCENE_CMD_ID_UNUSED_2 = enum.auto()
     SCENE_CMD_ID_COLLISION_HEADER = enum.auto()
     SCENE_CMD_ID_ROOM_LIST = enum.auto()
     SCENE_CMD_ID_WIND_SETTINGS = enum.auto()
-    SCENE_CMD_ID_ENTRANCE_LIST = enum.auto()
+    SCENE_CMD_ID_SPAWN_LIST = enum.auto()
     SCENE_CMD_ID_SPECIAL_FILES = enum.auto()
     SCENE_CMD_ID_ROOM_BEHAVIOR = enum.auto()
     SCENE_CMD_ID_UNDEFINED_9 = enum.auto()
@@ -73,13 +73,13 @@ class SceneCmdId(enum.Enum):
 
 
 scene_cmd_macro_name_by_cmd_id = {
-    SceneCmdId.SCENE_CMD_ID_SPAWN_LIST: "SCENE_CMD_SPAWN_LIST",
+    SceneCmdId.SCENE_CMD_ID_PLAYER_ENTRY_LIST: "SCENE_CMD_PLAYER_ENTRY_LIST",
     SceneCmdId.SCENE_CMD_ID_ACTOR_LIST: "SCENE_CMD_ACTOR_LIST",
     SceneCmdId.SCENE_CMD_ID_UNUSED_2: "SCENE_CMD_UNUSED_02",
     SceneCmdId.SCENE_CMD_ID_COLLISION_HEADER: "SCENE_CMD_COL_HEADER",
     SceneCmdId.SCENE_CMD_ID_ROOM_LIST: "SCENE_CMD_ROOM_LIST",
     SceneCmdId.SCENE_CMD_ID_WIND_SETTINGS: "SCENE_CMD_WIND_SETTINGS",
-    SceneCmdId.SCENE_CMD_ID_ENTRANCE_LIST: "SCENE_CMD_ENTRANCE_LIST",
+    SceneCmdId.SCENE_CMD_ID_SPAWN_LIST: "SCENE_CMD_SPAWN_LIST",
     SceneCmdId.SCENE_CMD_ID_SPECIAL_FILES: "SCENE_CMD_SPECIAL_FILES",
     SceneCmdId.SCENE_CMD_ID_ROOM_BEHAVIOR: "SCENE_CMD_ROOM_BEHAVIOR",
     SceneCmdId.SCENE_CMD_ID_UNDEFINED_9: "SCENE_CMD_UNK_09",
@@ -220,7 +220,7 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                         )
                     )
 
-            if cmd_id == SceneCmdId.SCENE_CMD_ID_ENTRANCE_LIST:
+            if cmd_id == SceneCmdId.SCENE_CMD_ID_SPAWN_LIST:
                 assert data1 == 0
                 resource = memory_context.report_resource_at_segmented(
                     self,
@@ -250,7 +250,7 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                         )
                     )
 
-            if cmd_id == SceneCmdId.SCENE_CMD_ID_SPAWN_LIST:
+            if cmd_id == SceneCmdId.SCENE_CMD_ID_PLAYER_ENTRY_LIST:
                 self.player_entry_list_length = data1
                 resource = memory_context.report_resource_at_segmented(
                     self,
@@ -439,7 +439,7 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                 f.write(" " * 4)
                 f.write(scene_cmd_macro_name_by_cmd_id[cmd_id])
                 f.write("(")
-                if cmd_id == SceneCmdId.SCENE_CMD_ID_SPAWN_LIST:
+                if cmd_id == SceneCmdId.SCENE_CMD_ID_PLAYER_ENTRY_LIST:
                     address = data2_I
                     f.write(
                         memory_context.get_c_expression_length_at_segmented(address)
@@ -474,7 +474,7 @@ class SceneCommandsResource(Resource, can_size_be_unknown=True):
                     zDir = data2_B2
                     strength = data2_B3
                     f.write(f"{xDir}, {yDir}, {zDir}, {strength}")
-                if cmd_id == SceneCmdId.SCENE_CMD_ID_ENTRANCE_LIST:
+                if cmd_id == SceneCmdId.SCENE_CMD_ID_SPAWN_LIST:
                     assert data1 == 0
                     address = data2_I
                     f.write(memory_context.get_c_reference_at_segmented(address))
