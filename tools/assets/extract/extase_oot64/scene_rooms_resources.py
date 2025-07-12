@@ -296,7 +296,7 @@ class EnvLightSettingsListResource(CDataArrayNamedLengthResource):
         if blendRate < 0:
             blendRate += 0x100
         fogNear = v & 0x3FF
-        return f"ENV_LIGHT_SETTINGS_BLEND_RATE_AND_FOG_NEAR_PACK({blendRate}, {fogNear})"
+        return f"BLEND_RATE_AND_FOG_NEAR({blendRate}, {fogNear})"
 
     elem_cdata_ext = CDataExt_Struct(
         (
