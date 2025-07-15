@@ -11,6 +11,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "one_point_cutscene.h"
@@ -203,7 +204,7 @@ void EnDntNomal_WaitForObject(EnDntNomal* this, PlayState* play) {
             this->actor.draw = EnDntNomal_DrawTargetScrub;
         } else {
             SkelAnime_Init(play, &this->skelAnime, &gDntStageSkel, &gDntStageHideAnim, this->jointTable,
-                           this->morphTable, 11);
+                           this->morphTable, ARRAY_COUNT(this->jointTable));
             this->actor.draw = EnDntNomal_DrawStageScrub;
         }
         this->actionFunc = EnDntNomal_SetFlower;
