@@ -850,7 +850,7 @@ void EnIk_UpdateEnemy(Actor* thisx, PlayState* play) {
                     }
                 }
 
-                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+                Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
                 player->invincibilityTimer = prevInvincibilityTimer;
             }
         }
