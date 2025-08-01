@@ -185,7 +185,16 @@ static Inventory sNewSaveInventory = {
     // equipment
     (((1 << EQUIP_INV_TUNIC_KOKIRI) << (EQUIP_TYPE_TUNIC * 4)) |
      ((1 << EQUIP_INV_BOOTS_KOKIRI) << (EQUIP_TYPE_BOOTS * 4))),
-    0,                                                              // upgrades
+    GET_PACKED_UPGRADES_VALUE(
+        UPG_QUIVER_NONE,
+        UPG_BOMB_BAG_NONE,
+        UPG_STRENGTH_NONE,
+        UPG_SCALE_NONE,
+        UPG_WALLET_CHILD,
+        UPG_BULLET_BAG_NONE,
+        UPG_DEKU_STICKS_NONE,
+        UPG_DEKU_NUTS_NONE
+    ),                                                              // upgrades
     0,                                                              // questItems
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // dungeonItems
     {
@@ -345,7 +354,16 @@ static Inventory sDebugSaveInventory = {
      (((1 << EQUIP_INV_BOOTS_KOKIRI) << (EQUIP_TYPE_BOOTS * 4)) |
       ((1 << EQUIP_INV_BOOTS_IRON) << (EQUIP_TYPE_BOOTS * 4)) |
       ((1 << EQUIP_INV_BOOTS_HOVER) << (EQUIP_TYPE_BOOTS * 4)))),
-    0x125249,                                                       // upgrades
+    GET_PACKED_UPGRADES_VALUE(
+        UPG_QUIVER_NORMAL,
+        UPG_BOMB_BAG_NORMAL,
+        UPG_STRENGTH_GORON_BRACELET,
+        UPG_SCALE_SILVER,
+        UPG_WALLET_ADULT,
+        UPG_BULLET_BAG_NORMAL,
+        UPG_DEKU_STICKS_10,
+        UPG_DEKU_NUTS_20
+    ),                                                              // upgrades
     0x1E3FFFF,                                                      // questItems
     { 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // dungeonItems
     { 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 },    // dungeonKeys

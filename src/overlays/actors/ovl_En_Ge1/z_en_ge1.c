@@ -516,10 +516,10 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, PlayState* play) {
         if (this->stateFlags & GE1_STATE_GIVE_QUIVER) {
             switch (CUR_UPG_VALUE(UPG_QUIVER)) {
                 //! @bug Asschest. See next function for details
-                case 1:
+                case UPG_QUIVER_NORMAL:
                     getItemId = GI_QUIVER_40;
                     break;
-                case 2:
+                case UPG_QUIVER_BIG:
                     getItemId = GI_QUIVER_50;
                     break;
             }
@@ -544,10 +544,10 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, PlayState* play) {
             //! over from the previous function run in EnGe1_Update, namely EnGe1_CueUpAnimation. The top stack variable
             //! in that function is &this->skelAnime = thisx + 198, and depending on where this loads in memory, the
             //! getItemId changes.
-            case 1:
+            case UPG_QUIVER_NORMAL:
                 getItemId = GI_QUIVER_40;
                 break;
-            case 2:
+            case UPG_QUIVER_BIG:
                 getItemId = GI_QUIVER_50;
                 break;
         }

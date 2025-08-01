@@ -410,13 +410,13 @@ void EnDns_Talk(EnDns* this, PlayState* play) {
 
 void EnDns_OfferSaleItem(EnDns* this, PlayState* play) {
     if (DNS_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_STICK_UPGRADE) {
-        if (CUR_UPG_VALUE(UPG_DEKU_STICKS) < 2) {
+        if (CUR_UPG_VALUE(UPG_DEKU_STICKS) < UPG_DEKU_STICKS_20) {
             Actor_OfferGetItem(&this->actor, play, GI_DEKU_STICK_UPGRADE_20, 130.0f, 100.0f);
         } else {
             Actor_OfferGetItem(&this->actor, play, GI_DEKU_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
     } else if (DNS_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_NUT_UPGRADE) {
-        if (CUR_UPG_VALUE(UPG_DEKU_NUTS) < 2) {
+        if (CUR_UPG_VALUE(UPG_DEKU_NUTS) < UPG_DEKU_NUTS_30) {
             Actor_OfferGetItem(&this->actor, play, GI_DEKU_NUT_UPGRADE_30, 130.0f, 100.0f);
         } else {
             Actor_OfferGetItem(&this->actor, play, GI_DEKU_NUT_UPGRADE_40, 130.0f, 100.0f);

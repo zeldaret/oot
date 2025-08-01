@@ -360,7 +360,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                         if (!GET_ITEMGETINF(ITEMGETINF_0D)) {
                             PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST,
                                    CUR_UPG_VALUE(UPG_BULLET_BAG));
-                            if (CUR_UPG_VALUE(UPG_BULLET_BAG) == 1) {
+                            if (CUR_UPG_VALUE(UPG_BULLET_BAG) == UPG_BULLET_BAG_NORMAL) {
                                 this->getItemId = GI_BULLET_BAG_40;
                             } else {
                                 this->getItemId = GI_BULLET_BAG_50;
@@ -372,13 +372,13 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                         if (!GET_ITEMGETINF(ITEMGETINF_0E)) {
                             PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" VT_RST, CUR_UPG_VALUE(UPG_QUIVER));
                             switch (CUR_UPG_VALUE(UPG_QUIVER)) {
-                                case 0:
+                                case UPG_QUIVER_NONE:
                                     this->getItemId = GI_RUPEE_PURPLE;
                                     break;
-                                case 1:
+                                case UPG_QUIVER_NORMAL:
                                     this->getItemId = GI_QUIVER_40;
                                     break;
-                                case 2:
+                                case UPG_QUIVER_BIG:
                                     this->getItemId = GI_QUIVER_50;
                                     break;
                             }

@@ -383,7 +383,7 @@ s16 EnGo2_UpdateTalkStateGoronDmtBombFlower(PlayState* play, EnGo2* this) {
                 // Ask question to DMT Goron by bomb flower
                 if (this->actor.textId == 0x300A) {
                     if (play->msgCtx.choiceIndex == 0) {
-                        this->actor.textId = CUR_UPG_VALUE(UPG_STRENGTH) != 0 ? 0x300B : 0x300C;
+                        this->actor.textId = CUR_UPG_VALUE(UPG_STRENGTH) != UPG_STRENGTH_NONE ? 0x300B : 0x300C;
                     } else {
                         this->actor.textId = 0x300D;
                     }
@@ -482,10 +482,10 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(PlayState* play, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return CUR_UPG_VALUE(UPG_STRENGTH) != 0 ? 0x302C
-               : !Flags_GetSwitch(play, 0x1B)   ? 0x3017
-               : GET_INFTABLE(INFTABLE_F8)      ? 0x3019
-                                                : 0x3018;
+        return CUR_UPG_VALUE(UPG_STRENGTH) != UPG_STRENGTH_NONE ? 0x302C
+               : !Flags_GetSwitch(play, 0x1B)                   ? 0x3017
+               : GET_INFTABLE(INFTABLE_F8)                      ? 0x3019
+                                                                : 0x3018;
     }
 }
 
