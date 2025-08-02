@@ -1,5 +1,5 @@
 #pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ique-cn:128 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:192 pal-1.1:192"
 
 #include "libc64/qrand.h"
 #include "libu64/gfxprint.h"
