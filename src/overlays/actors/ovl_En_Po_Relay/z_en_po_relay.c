@@ -116,7 +116,8 @@ void EnPoRelay_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 42.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gDampeSkel, &gDampeFloatAnim, this->jointTable, this->morphTable, LIMB_OBJECT_TK_00BE40_MAX);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gDampeSkel, &gDampeFloatAnim, this->jointTable, this->morphTable,
+                       LIMB_OBJECT_TK_00BE40_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
@@ -182,7 +183,11 @@ void EnPoRelay_SetupEndRace(EnPoRelay* this) {
 }
 
 void EnPoRelay_CorrectY(EnPoRelay* this) {
-    Math_StepToF(&this->actor.home.pos.y, sPathPoints[(this->pathIndex >= ARRAY_COUNT(sPathPoints)) ? ARRAY_COUNT(sPathPoints) - 1 : this->pathIndex].y + 45.0f, 2.0f);
+    Math_StepToF(
+        &this->actor.home.pos.y,
+        sPathPoints[(this->pathIndex >= ARRAY_COUNT(sPathPoints)) ? ARRAY_COUNT(sPathPoints) - 1 : this->pathIndex].y +
+            45.0f,
+        2.0f);
     this->actor.world.pos.y = Math_SinS(this->bobTimer * 0x800) * 8.0f + this->actor.home.pos.y;
 }
 
@@ -242,9 +247,9 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.world.rot.y, this->yawTowardsNode, 2, 0x1000, 0x100);
     this->actor.shape.rot.y = this->actor.world.rot.y + (this->actionTimer * 0x800) + 0x8000;
     if (this->pathIndex < 23) {
-        //! @bug Dampé's speed is directly proportional to the player's speed when more than 300 units away from the player
-        //! and not in the branching paths, so if the player is going backwards;
-        //! by HESSing, backwalking, etc., Dampé will also move backwards, away from the next node in the path rather than towards it
+        //! @bug Dampé's speed is directly proportional to the player's speed when more than 300 units away from the
+        //! player and not in the branching paths, so if the player is going backwards; by HESSing, backwalking, etc.,
+        //! Dampé will also move backwards, away from the next node in the path rather than towards it
 
         // If the player travels along a different path to Dampé that converges later
         if ((Math3D_PointInSquare2D(660.0f, 840.0f, -4480.0f, -3760.0f, player->actor.world.pos.x,
@@ -347,16 +352,16 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
             vec.x = (Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4800) * 23.0f) + this->actor.world.pos.x;
             vec.z = (Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4800) * 23.0f) + this->actor.world.pos.z;
         }
-        EffectSsDeadDb_Spawn(play, &vec, &sDissapearParticlesVelocity, &sDissapearParticlesAccel, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255,
-                             0, 0, 255, 1, 9, true);
+        EffectSsDeadDb_Spawn(play, &vec, &sDissapearParticlesVelocity, &sDissapearParticlesAccel,
+                             this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
         vec.x = (this->actor.world.pos.x + this->actor.world.pos.x) - vec.x;
         vec.z = (this->actor.world.pos.z + this->actor.world.pos.z) - vec.z;
-        EffectSsDeadDb_Spawn(play, &vec, &sDissapearParticlesVelocity, &sDissapearParticlesAccel, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255,
-                             0, 0, 255, 1, 9, true);
+        EffectSsDeadDb_Spawn(play, &vec, &sDissapearParticlesVelocity, &sDissapearParticlesAccel,
+                             this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
         vec.x = this->actor.world.pos.x;
         vec.z = this->actor.world.pos.z;
-        EffectSsDeadDb_Spawn(play, &vec, &sDissapearParticlesVelocity, &sDissapearParticlesAccel, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255,
-                             0, 0, 255, 1, 9, true);
+        EffectSsDeadDb_Spawn(play, &vec, &sDissapearParticlesVelocity, &sDissapearParticlesAccel,
+                             this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
         if (this->actionTimer == 1) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_EXTINCT);
         }
@@ -375,7 +380,8 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
             if (!Flags_GetCollectible(play, this->actor.params) && (gSaveContext.timerSeconds <= 60)) {
                 Item_DropCollectible2(play, &posAtGround, (this->actor.params << 8) + (0x4000 | ITEM00_HEART_PIECE));
             } else {
-                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, posAtGround.x, posAtGround.y, posAtGround.z, 0, 0, 0, 2);
+                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, posAtGround.x, posAtGround.y, posAtGround.z, 0, 0,
+                            0, 2);
             }
         } else {
             Flags_SetTempClear(play, 4);
