@@ -247,11 +247,11 @@ void EnSth_GivePlayerItem(EnSth* this, PlayState* play) {
         case 1:
         case 3:
             switch (CUR_UPG_VALUE(UPG_WALLET)) {
-                case 0:
+                case UPG_WALLET_CHILD:
                     getItemId = GI_WALLET_ADULT;
                     break;
 
-                case 1:
+                case UPG_WALLET_ADULT:
                     getItemId = GI_WALLET_GIANT;
                     break;
             }
