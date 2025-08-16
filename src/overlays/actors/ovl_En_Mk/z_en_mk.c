@@ -6,6 +6,7 @@
 
 #include "z_en_mk.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
@@ -67,7 +68,7 @@ void EnMk_Init(Actor* thisx, PlayState* play) {
     this->actor.gravity = -1.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &object_mk_Skel_005DF0, &object_mk_Anim_000D88, this->jointTable,
-                       this->morphTable, 13);
+                       this->morphTable, ARRAY_COUNT(this->jointTable));
     Animation_PlayLoop(&this->skelAnime, &object_mk_Anim_000D88);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

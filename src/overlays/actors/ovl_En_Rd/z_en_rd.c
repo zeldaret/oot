@@ -7,6 +7,7 @@
 #include "z_en_rd.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -185,11 +186,11 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
 
     if (this->actor.params >= REDEAD_TYPE_DOES_NOT_MOURN) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gRedeadSkel, &gGibdoRedeadIdleAnim, this->jointTable,
-                           this->morphTable, REDEAD_GIBDO_LIMB_MAX);
+                           this->morphTable, ARRAY_COUNT(this->jointTable));
         this->actor.naviEnemyId = NAVI_ENEMY_REDEAD;
     } else {
         SkelAnime_InitFlex(play, &this->skelAnime, &gGibdoSkel, &gGibdoRedeadIdleAnim, this->jointTable,
-                           this->morphTable, REDEAD_GIBDO_LIMB_MAX);
+                           this->morphTable, ARRAY_COUNT(this->jointTable));
         this->actor.naviEnemyId = NAVI_ENEMY_GIBDO;
     }
 
