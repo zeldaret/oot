@@ -239,7 +239,8 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
             }
             speedXZ = 30.0f * multiplier;
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HONOTRAP,
-                        Math_CosS(this->yawTowardsPathPoint) * speedXZ + this->actor.world.pos.x, this->actor.world.pos.y,
+                        Math_CosS(this->yawTowardsPathPoint) * speedXZ + this->actor.world.pos.x,
+                        this->actor.world.pos.y,
                         Math_SinS(this->yawTowardsPathPoint) * speedXZ + this->actor.world.pos.z, 0,
                         (this->yawTowardsPathPoint + 0x8000) - (0x2000 * multiplier), 0, HONOTRAP_TYPE_FLAME_DROP);
         }
