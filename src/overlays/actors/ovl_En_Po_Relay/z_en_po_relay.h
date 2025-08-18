@@ -17,8 +17,8 @@ typedef struct EnPoRelay {
     /* 0x0194 */ u8 hookshotSlotFull;
     /* 0x0195 */ u8 bobTimer; // used for the up & down bobbing
     /* 0x0196 */ s16 actionTimer;
-    /* 0x0198 */ s16 pathIndex; // current (upcoming) node of the path
-    /* 0x019A */ s16 yawTowardsNode; // yaw towards the current (upcoming) node of the path
+    /* 0x0198 */ s16 pathPoint; // current (upcoming) path point
+    /* 0x019A */ s16 yawTowardsPathPoint; // yaw towards the current (upcoming) path point
     /* 0x019C */ u16 textId; // mirrors actor.textId
     /* 0x019E */ u16 eyeTextureIdx;
     /* 0x01A0 */ Vec3s jointTable[LIMB_OBJECT_TK_00BE40_MAX];
