@@ -275,7 +275,7 @@ s16 EnGo_UpdateTalkState(PlayState* play, Actor* thisx) {
                 switch (thisx->textId) {
                     case 0x300A:
                         if (play->msgCtx.choiceIndex == 0) {
-                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || GET_INFTABLE(INFTABLE_EB)) {
+                            if (CUR_UPG_VALUE(UPG_STRENGTH) != UPG_STRENGTH_NONE || GET_INFTABLE(INFTABLE_EB)) {
                                 thisx->textId = 0x300B;
                             } else {
                                 thisx->textId = 0x300C;
