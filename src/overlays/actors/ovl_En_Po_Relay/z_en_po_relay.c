@@ -22,8 +22,7 @@
 #include "play_state.h"
 #include "player.h"
 #include "save.h"
-
-#include "assets/objects/object_tk/object_tk.h"
+#include "array_count.h"
 
 #define FLAGS                                                                                  \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
@@ -42,7 +41,7 @@ void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play);
 void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play);
 void EnPoRelay_SetupIdle(EnPoRelay* this);
 
-static Vec3s D_80AD8C30[] = {
+static Vec3s sPathPoints[] = {
     { 0xFFC4, 0xFDEE, 0xF47A }, { 0x0186, 0xFE0C, 0xF47A }, { 0x0186, 0xFE0C, 0xF0F6 }, { 0x00D2, 0xFDEE, 0xF0F6 },
     { 0x00D2, 0xFD9E, 0xEEDA }, { 0x023A, 0xFDC6, 0xEEDA }, { 0x023A, 0xFDC6, 0xED18 }, { 0x00D2, 0xFDC6, 0xED18 },
     { 0x00D2, 0xFDC6, 0xEBCE }, { 0x00D2, 0xFDC6, 0xEAA2 }, { 0x023A, 0xFDC6, 0xEAA2 }, { 0x023A, 0xFDC6, 0xEBB0 },
@@ -84,23 +83,31 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 52, 0, { 0, 0, 0 } },
 };
 
-static s32 D_80AD8D24 = 0;
+static s32 sAlreadySpawned = false;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DAMPES_GHOST, ICHAIN_CONTINUE),
     ICHAIN_F32(lockOnArrowOffset, 1500, ICHAIN_STOP),
 };
 
-static Vec3f D_80AD8D30 = { 0.0f, 1.5f, 0.0f };
+static Vec3f sDisappearParticlesVelocity = { 0.0f, 1.5f, 0.0f };
 
-static Vec3f D_80AD8D3C = { 0.0f, 0.0f, 0.0f };
+static Vec3f sDisappearParticlesAccel = { 0.0f, 0.0f, 0.0f };
 
-static Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
+// the offset (in model space) from the position of the lantern limb and the position of the actual light
+static Vec3f sLanternLightOffset = { 0.0f, 1200.0f, 0.0f };
+
+typedef enum DampeEyes {
+    /* 0 */ DAMPE_EYES_FULLY_OPEN,
+    /* 1 */ DAMPE_EYES_HALF_OPEN,
+    /* 2 */ DAMPE_EYES_CLOSED,
+    /* 3 */ DAMPE_EYES_MAX
+} DampeEyes;
 
 static void* sEyesTextures[] = {
-    gDampeEyeOpenTex,
-    gDampeEyeHalfTex,
-    gDampeEyeClosedTex,
+    gDampeEyeOpenTex,   // DAMPE_EYES_FULLY_OPEN
+    gDampeEyeHalfTex,   // DAMPE_EYES_HALF_OPEN
+    gDampeEyeClosedTex, // DAMPE_EYES_CLOSED
 };
 
 void EnPoRelay_Init(Actor* thisx, PlayState* play) {
@@ -109,18 +116,19 @@ void EnPoRelay_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 42.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gDampeSkel, &gDampeFloatAnim, this->jointTable, this->morphTable, 18);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gDampeSkel, &gDampeFloatAnim, this->jointTable, this->morphTable,
+                       LIMB_OBJECT_TK_00BE40_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
                               255, 255, 255, 200);
     this->lightColor.a = 255;
-    temp = 1;
-    if (D_80AD8D24 != 0) {
+    temp = true;
+    if (sAlreadySpawned) {
         Actor_Kill(&this->actor);
     } else {
-        D_80AD8D24 = temp;
+        sAlreadySpawned = temp;
         Actor_SetTextWithPrefix(play, &this->actor, 65);
         this->textId = this->actor.textId;
         EnPoRelay_SetupIdle(this);
@@ -136,9 +144,12 @@ void EnPoRelay_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnPoRelay_SetupIdle(EnPoRelay* this) {
-    this->unk_195 = 32;
-    this->pathIndex = 0;
+    this->bobTimer = 32;
+    this->pathPoint = 0;
+
+    // does not despawn upon room transitions
     this->actor.room = -1;
+
     this->actor.shape.rot.y = 0;
     this->actor.world.rot.y = -0x8000;
     this->actor.colChkInfo.mass = MASS_HEAVY;
@@ -154,11 +165,11 @@ void EnPoRelay_Vec3sToVec3f(Vec3f* dest, Vec3s* src) {
 void EnPoRelay_SetupRace(EnPoRelay* this) {
     Vec3f vec;
 
-    EnPoRelay_Vec3sToVec3f(&vec, &D_80AD8C30[this->pathIndex]);
+    EnPoRelay_Vec3sToVec3f(&vec, &sPathPoints[this->pathPoint]);
     this->actionTimer = ((s16)(this->actor.shape.rot.y - this->actor.world.rot.y - 0x8000) >> 0xB) % 32U;
     Interface_SetTimer(0);
     this->hookshotSlotFull = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
-    this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
+    this->yawTowardsPathPoint = Actor_WorldYawTowardPoint(&this->actor, &vec);
     this->actor.flags |= ACTOR_FLAG_LOCK_ON_DISABLED;
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoRelay_Race;
@@ -172,8 +183,12 @@ void EnPoRelay_SetupEndRace(EnPoRelay* this) {
 }
 
 void EnPoRelay_CorrectY(EnPoRelay* this) {
-    Math_StepToF(&this->actor.home.pos.y, D_80AD8C30[(this->pathIndex >= 28) ? 27 : this->pathIndex].y + 45.0f, 2.0f);
-    this->actor.world.pos.y = Math_SinS(this->unk_195 * 0x800) * 8.0f + this->actor.home.pos.y;
+    Math_StepToF(
+        &this->actor.home.pos.y,
+        sPathPoints[(this->pathPoint >= ARRAY_COUNT(sPathPoints)) ? ARRAY_COUNT(sPathPoints) - 1 : this->pathPoint].y +
+            45.0f,
+        2.0f);
+    this->actor.world.pos.y = Math_SinS(this->bobTimer * 0x800) * 8.0f + this->actor.home.pos.y;
 }
 
 void EnPoRelay_Idle(EnPoRelay* this, PlayState* play) {
@@ -208,9 +223,12 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
+
+    // 3% chance of throwing a flame every 32 frames (1.6 seconds), if it fails
+    // it checks again the next frame without waiting the 32 frames
     if (this->actionTimer == 0 && Rand_ZeroOne() < 0.03f) {
         this->actionTimer = 32;
-        if (this->pathIndex < 23) {
+        if (this->pathPoint < 23) {
             speedXZ = Rand_ZeroOne() * 3.0f;
             if (speedXZ < 1.0f) {
                 multiplier = 1.0f;
@@ -221,14 +239,19 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
             }
             speedXZ = 30.0f * multiplier;
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HONOTRAP,
-                        Math_CosS(this->unk_19A) * speedXZ + this->actor.world.pos.x, this->actor.world.pos.y,
-                        Math_SinS(this->unk_19A) * speedXZ + this->actor.world.pos.z, 0,
-                        (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, HONOTRAP_TYPE_FLAME_DROP);
+                        Math_CosS(this->yawTowardsPathPoint) * speedXZ + this->actor.world.pos.x,
+                        this->actor.world.pos.y,
+                        Math_SinS(this->yawTowardsPathPoint) * speedXZ + this->actor.world.pos.z, 0,
+                        (this->yawTowardsPathPoint + 0x8000) - (0x2000 * multiplier), 0, HONOTRAP_TYPE_FLAME_DROP);
         }
     }
-    Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_19A, 2, 0x1000, 0x100);
+    Math_SmoothStepToS(&this->actor.world.rot.y, this->yawTowardsPathPoint, 2, 0x1000, 0x100);
     this->actor.shape.rot.y = this->actor.world.rot.y + (this->actionTimer * 0x800) + 0x8000;
-    if (this->pathIndex < 23) {
+    if (this->pathPoint < 23) {
+        //! @bug Dampé's speed is directly proportional to the player's speed when less than 300 units away from the
+        //! player and not in the branching paths, so if the player's speed is negative (by HESSing or similar),
+        //! Dampé will also move backwards, away from the next path point rather than towards it
+
         // If the player travels along a different path to Dampé that converges later
         if ((Math3D_PointInSquare2D(660.0f, 840.0f, -4480.0f, -3760.0f, player->actor.world.pos.x,
                                     player->actor.world.pos.z) != 0) ||
@@ -253,21 +276,21 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
     } else {
         Math_ApproachF(&this->actor.speed, 3.5f, 0.5f, 1.5f);
     }
-    EnPoRelay_Vec3sToVec3f(&vec, &D_80AD8C30[this->pathIndex]);
+    EnPoRelay_Vec3sToVec3f(&vec, &sPathPoints[this->pathPoint]);
     if (Actor_WorldDistXZToPoint(&this->actor, &vec) < 40.0f) {
-        this->pathIndex++;
-        EnPoRelay_Vec3sToVec3f(&vec, &D_80AD8C30[this->pathIndex]);
-        if (this->pathIndex == 28) {
+        this->pathPoint++;
+        EnPoRelay_Vec3sToVec3f(&vec, &sPathPoints[this->pathPoint]);
+        if (this->pathPoint == ARRAY_COUNT(sPathPoints)) {
             EnPoRelay_SetupEndRace(this);
-        } else if (this->pathIndex == 9) {
+        } else if (this->pathPoint == 9) { // first door
             Flags_SetSwitch(play, 0x35);
-        } else if (this->pathIndex == 17) {
+        } else if (this->pathPoint == 17) { // second door
             Flags_SetSwitch(play, 0x36);
-        } else if (this->pathIndex == 25) {
+        } else if (this->pathPoint == 25) { // third door
             Flags_SetSwitch(play, 0x37);
         }
     }
-    this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
+    this->yawTowardsPathPoint = Actor_WorldYawTowardPoint(&this->actor, &vec);
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
 }
 
@@ -289,7 +312,7 @@ void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) {
         if (Message_ShouldAdvance(play)) {
-            if (this->hookshotSlotFull != 0) {
+            if (this->hookshotSlotFull) {
                 Actor_SetTextWithPrefix(play, &this->actor, 0x2E);
             } else {
                 Actor_SetTextWithPrefix(play, &this->actor, 0x2D);
@@ -324,35 +347,36 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
             vec.x = (Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4800) * 23.0f) + this->actor.world.pos.x;
             vec.z = (Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4800) * 23.0f) + this->actor.world.pos.z;
         }
-        EffectSsDeadDb_Spawn(play, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255,
-                             0, 0, 255, 1, 9, true);
+        EffectSsDeadDb_Spawn(play, &vec, &sDisappearParticlesVelocity, &sDisappearParticlesAccel,
+                             this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
         vec.x = (this->actor.world.pos.x + this->actor.world.pos.x) - vec.x;
         vec.z = (this->actor.world.pos.z + this->actor.world.pos.z) - vec.z;
-        EffectSsDeadDb_Spawn(play, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255,
-                             0, 0, 255, 1, 9, true);
+        EffectSsDeadDb_Spawn(play, &vec, &sDisappearParticlesVelocity, &sDisappearParticlesAccel,
+                             this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
         vec.x = this->actor.world.pos.x;
         vec.z = this->actor.world.pos.z;
-        EffectSsDeadDb_Spawn(play, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255,
-                             0, 0, 255, 1, 9, true);
+        EffectSsDeadDb_Spawn(play, &vec, &sDisappearParticlesVelocity, &sDisappearParticlesAccel,
+                             this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
         if (this->actionTimer == 1) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_EXTINCT);
         }
     }
     if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.001f) != 0) {
-        if (this->hookshotSlotFull != 0) {
-            Vec3f sp60;
+        if (this->hookshotSlotFull) {
+            Vec3f posAtGround;
             s32 pad1;
 
-            sp60.x = this->actor.world.pos.x;
-            sp60.y = this->actor.floorHeight;
-            sp60.z = this->actor.world.pos.z;
+            posAtGround.x = this->actor.world.pos.x;
+            posAtGround.y = this->actor.floorHeight;
+            posAtGround.z = this->actor.world.pos.z;
             if (gSaveContext.timerSeconds < HIGH_SCORE(HS_DAMPE_RACE)) {
                 HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timerSeconds;
             }
             if (!Flags_GetCollectible(play, this->actor.params) && (gSaveContext.timerSeconds <= 60)) {
-                Item_DropCollectible2(play, &sp60, (this->actor.params << 8) + (0x4000 | ITEM00_HEART_PIECE));
+                Item_DropCollectible2(play, &posAtGround, (this->actor.params << 8) + (0x4000 | ITEM00_HEART_PIECE));
             } else {
-                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, sp60.x, sp60.y, sp60.z, 0, 0, 0, 2);
+                Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, posAtGround.x, posAtGround.y, posAtGround.z, 0, 0,
+                            0, 2);
             }
         } else {
             Flags_SetTempClear(play, 4);
@@ -377,27 +401,30 @@ void EnPoRelay_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_SetFocus(&this->actor, 50.0f);
-    if (this->unk_195 != 0) {
-        this->unk_195 -= 1;
+    if (this->bobTimer != 0) {
+        this->bobTimer -= 1;
     }
-    if (this->unk_195 == 0) {
-        this->unk_195 = 32;
+    if (this->bobTimer == 0) {
+        this->bobTimer = 32;
     }
     this->eyeTextureIdx++;
-    if (this->eyeTextureIdx == 3) {
-        this->eyeTextureIdx = 0;
+    if (this->eyeTextureIdx == DAMPE_EYES_MAX) {
+        this->eyeTextureIdx = DAMPE_EYES_FULLY_OPEN;
     }
 }
 
 void EnPoRelay_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnPoRelay* this = (EnPoRelay*)thisx;
 
-    if (limbIndex == 14) {
+    // lantern
+    if (limbIndex == LIMB_OBJECT_TK_00BDCC) {
         f32 rand;
         Vec3f vec;
 
         OPEN_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 885);
         rand = Rand_ZeroOne();
+
+        // lantern can be from a light orange to pure white
         this->lightColor.r = (s16)(rand * 30.0f) + 225;
         this->lightColor.g = (s16)(rand * 100.0f) + 155;
         this->lightColor.b = (s16)(rand * 160.0f) + 95;
@@ -405,10 +432,12 @@ void EnPoRelay_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
         gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 128);
         gSPDisplayList(POLY_OPA_DISP++, gDampeLanternDL);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 901);
-        Matrix_MultVec3f(&D_80AD8D48, &vec);
+        Matrix_MultVec3f(&sLanternLightOffset, &vec);
         Lights_PointNoGlowSetInfo(&this->lightInfo, vec.x, vec.y, vec.z, this->lightColor.r, this->lightColor.g,
                                   this->lightColor.b, 200);
-    } else if (limbIndex == 8) {
+
+        // halo
+    } else if (limbIndex == LIMB_OBJECT_TK_00BD84) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 916);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_po_relay.c", 918);
         gSPDisplayList(POLY_OPA_DISP++, gDampeHaloDL);
