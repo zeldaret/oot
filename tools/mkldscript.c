@@ -19,31 +19,58 @@ static void write_includes(const struct Segment *seg, FILE *fout, const char *se
     fprintf(fout, "            %s/%s.plf (%s*)\n", segments_dir, seg->name, section);
 }
 
-static void write_ld_script(FILE *fout, const char *segments_dir)
+static void write_ld_script(FILE *fout, uint32_t entrypoint_addr, const char *makerom_dir, const char *segments_dir)
 {
     int i;
 
     fputs("OUTPUT_ARCH (mips)\n"
           "\n"
           "SECTIONS\n"
-          "{\n"
-          "    _RomPos = 0;\n"
-          "\n",
+          "{\n",
           fout);
+
+    fprintf(fout,
+       "    /* makerom */"                                                                                      "\n"
+       ""                                                                                                       "\n"
+       "    ..makerom.hdr 0 : AT(0)"                                                                            "\n"
+       "    {"                                                                                                  "\n"
+       "        %s/rom_header.o(.text*)"                                                                        "\n"
+       "        %s/rom_header.o(.data*)"                                                                        "\n"
+       "        %s/rom_header.o(.rodata*)"                                                                      "\n"
+       "    }"                                                                                                  "\n"
+       "    ..makerom.ipl 0 : AT(SIZEOF(..makerom.hdr))"                                                        "\n"
+       "    {"                                                                                                  "\n"
+       "        %s/ipl3.o(.text*)"                                                                              "\n"
+       "        %s/ipl3.o(.data*)"                                                                              "\n"
+       "        %s/ipl3.o(.rodata*)"                                                                            "\n"
+       "    }"                                                                                                  "\n"
+       "    ..makerom.ent 0x%08X : AT(SIZEOF(..makerom.hdr) + SIZEOF(..makerom.ipl))"                           "\n"
+       "    {"                                                                                                  "\n"
+       "        %s/entry.o(.text*)"                                                                             "\n"
+       "        %s/entry.o(.data*)"                                                                             "\n"
+       "        %s/entry.o(.rodata*)"                                                                           "\n"
+       "    }"                                                                                                  "\n"
+       "    _makeromSegmentRomStart = LOADADDR(..makerom.hdr);"                                                 "\n"
+       "    _makeromSegmentRomEnd = LOADADDR(..makerom.ent) + SIZEOF(..makerom.ent);"                           "\n"
+       "    _makeromSegmentRomSize = SIZEOF(..makerom.hdr) + SIZEOF(..makerom.ipl) + SIZEOF(..makerom.ent);"    "\n"
+       ""                                                                                                       "\n",
+        makerom_dir, makerom_dir, makerom_dir,
+        makerom_dir, makerom_dir, makerom_dir,
+        entrypoint_addr,
+        makerom_dir, makerom_dir, makerom_dir
+    );
+
+    const char *last_end = "makerom";
+    uint32_t last_romalign = 0;
 
     for (i = 0; i < g_segmentsCount; i++) {
         const struct Segment *seg = &g_segments[i];
 
         fprintf(fout, "    /* %s */\n\n", seg->name);
 
-        // align start of ROM segment
-        if (seg->fields & (1 << STMT_romalign))
-            fprintf(fout, "    _RomPos = ALIGN(_RomPos, %i);\n", seg->romalign);
-
         // Begin initialized data (.text, .data, .rodata)
-        fprintf(fout, "    _%sSegmentRomStartTemp = _RomPos;\n"
-                      "    _%sSegmentRomStart = _%sSegmentRomStartTemp;\n"
-                      "    ..%s ", seg->name, seg->name, seg->name, seg->name);
+
+        fprintf(fout, "    ..%s ", seg->name);
 
         if (seg->fields & (1 << STMT_after))
             // Continue after the requested segment, aligning to the required alignment for the new segment.
@@ -58,16 +85,20 @@ static void write_ld_script(FILE *fout, const char *segments_dir)
             // Continue after previous segment, aligning to the required alignment for the new segment.
             fprintf(fout, "ALIGN(0x%X)", seg->align);
 
-        // AT(_RomPos) isn't necessary, but adds useful "load address" lines to the map file.
+        // AT(...) isn't necessary, but adds useful "load address" lines to the map file.
         // Also force an alignment of at least 0x10 at the start of any segment. This is especially important for
         // overlays as the final link step must not introduce alignment padding between the SegmentTextStart symbol
         // and the section contents as this would cause all generated relocations done prior to be wrong.
-        fprintf(fout, " : AT(_RomPos)\n"
-                      "    {\n"
+        uint32_t next_romalign = (seg->fields & (1 << STMT_romalign)) ? seg->romalign : 0x10;
+        fprintf(fout, " : AT(ALIGN(_%sSegmentRomEnd, %u))\n", last_end,
+                (last_romalign > next_romalign) ? last_romalign : next_romalign);
+        last_romalign = next_romalign;
+
+        fprintf(fout, "    {\n"
                       "        . = ALIGN(0x10);\n"
                       "        _%sSegmentStart = .;\n"
                       "\n",
-                  seg->name);
+                seg->name);
 
         // Write .text
         fprintf(fout, "        _%sSegmentTextStart = .;\n", seg->name);
@@ -106,31 +137,25 @@ static void write_ld_script(FILE *fout, const char *segments_dir)
                           "\n", seg->name, segments_dir, seg->name, seg->name, seg->name, seg->name, seg->name);
         }
 
-        const char *last_loadable = (seg->flags & FLAG_OVL) ? "Ovl" : "RoData";
-
         // End initialized data.
         fprintf(fout, "    }\n"
-                      "    _RomPos += ( _%sSegment%sEnd - _%sSegmentTextStart );\n"
-                      "    _%sSegmentRomEndTemp = _RomPos;\n"
-                      "    _%sSegmentRomEnd = _%sSegmentRomEndTemp;\n"
-                      "    _%sSegmentRomSize = ABSOLUTE( _%sSegmentRomEnd - _%sSegmentRomStart );\n"
+                      "    _%sSegmentRomStart = LOADADDR(..%s);\n"
+                      "    _%sSegmentRomEnd = LOADADDR(..%s) + SIZEOF(..%s);\n"
+                      "    _%sSegmentRomSize = SIZEOF(..%s);\n"
                       "\n",
-                seg->name, last_loadable, seg->name, seg->name, seg->name, seg->name,
-                seg->name, seg->name, seg->name);
-
-        // Align end of ROM segment
-        if (seg->fields & (1 << STMT_romalign))
-            fprintf(fout, "    _RomPos = ALIGN(_RomPos, %i);\n", seg->romalign);
+                seg->name, seg->name,
+                seg->name, seg->name, seg->name,
+                seg->name, seg->name);
 
         // Begin uninitialized data (.bss, COMMON)
         // Note we must enforce a minimum alignment of at least 8 for
         // bss sections due to how bss is cleared in steps of 8 in
         // entry.s, and more widely it's more efficient.
-        fprintf(fout, "    ..%s.bss (NOLOAD) :\n"
+        fprintf(fout, "    ..%s.bss (NOLOAD) : AT(_%sSegmentRomEnd)\n"
                       "    {\n"
                       "        . = ALIGN(8);\n"
                       "        _%sSegmentBssStart = .;\n",
-                      seg->name, seg->name);
+                      seg->name, seg->name, seg->name);
 
         // Write .bss and COMMON
         write_includes(seg, fout, segments_dir, ".bss");
@@ -145,9 +170,11 @@ static void write_ld_script(FILE *fout, const char *segments_dir)
                       "    }\n"
                       "\n",
                       seg->name, seg->name, seg->name, seg->name, seg->name);
+
+        last_end = seg->name;
     }
 
-    fputs("    _RomSize = _RomPos;\n\n", fout);
+    fprintf(fout, "    _RomSize = ALIGN(_%sSegmentRomEnd, %u);\n\n", last_end, last_romalign);
 
     // Debugging sections
     fputs(
@@ -222,9 +249,10 @@ static void write_ld_script(FILE *fout, const char *segments_dir)
 static void usage(const char *execname)
 {
     fprintf(stderr, "Nintendo 64 linker script generation tool v0.04\n"
-                    "usage: %s SPEC_FILE LD_SCRIPT SEGMENTS_DIR\n"
+                    "usage: %s SPEC_FILE LD_SCRIPT SEGMENTS_DIR MAKEROM_DIR\n"
                     "SPEC_FILE    file describing the organization of object files into segments\n"
                     "LD_SCRIPT    filename of output linker script\n"
+                    "MAKEROM_DIR  dir name containing makerom build objects\n"
                     "SEGMENTS_DIR dir name containing partially linked overlay segments\n",
                     execname);
 }
@@ -235,7 +263,7 @@ int main(int argc, char **argv)
     void *spec;
     size_t size;
 
-    if (argc != 4) {
+    if (argc != 5) {
         usage(argv[0]);
         return EXIT_FAILURE;
     }
@@ -246,7 +274,9 @@ int main(int argc, char **argv)
     ldout = fopen(argv[2], "w");
     if (ldout == NULL)
         util_fatal_error("failed to open file '%s' for writing", argv[2]);
-    write_ld_script(ldout, argv[3]);
+
+    uint32_t entrypoint_addr = 0x80000400;
+    write_ld_script(ldout, entrypoint_addr, argv[3], argv[4]);
     fclose(ldout);
 
     free_rom_spec(g_segments, g_segmentsCount);

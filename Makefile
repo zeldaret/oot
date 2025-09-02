@@ -847,7 +847,7 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 
 COM_PLUGIN := tools/com-plugin/common-plugin.so
 
-LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(MAP)
+LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --emit-relocs -Map $(MAP)
 ifeq ($(PLATFORM),IQUE)
   ifeq ($(NON_MATCHING),0)
     LDFLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order.txt
@@ -857,6 +857,7 @@ endif
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(SEGMENT_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) \
         $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
+        $(BUILD_DIR)/src/makerom/rom_header.o $(BUILD_DIR)/src/makerom/ipl3.o $(BUILD_DIR)/src/makerom/entry.o \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
         $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
 	$(LD) $(LDFLAGS) -o $@
@@ -876,12 +877,12 @@ $(O_FILES): | asset_files
 $(BUILD_DIR)/spec: $(SPEC) $(SPEC_INCLUDES)
 	$(CPP) $(CPPFLAGS) -MD -MP -MF $@.d -MT $@ -I. $< | $(BUILD_DIR_REPLACE) > $@
 
-$(LDSCRIPT): $(BUILD_DIR)/$(SPEC)
-	$(MKLDSCRIPT) $< $@ $(SEGMENTS_DIR)
+$(LDSCRIPT): $(BUILD_DIR)/spec
+	$(MKLDSCRIPT) $< $@ $(BUILD_DIR)/src/makerom $(SEGMENTS_DIR)
 
 # Generates a makefile containing rules for building .plf files
 # from overlay .o files for every overlay defined in the spec.
-$(SEGMENTS_DIR)/Makefile: $(BUILD_DIR)/$(SPEC)
+$(SEGMENTS_DIR)/Makefile: $(BUILD_DIR)/spec
 	$(MKSPECRULES) $< $(SEGMENTS_DIR) $@
 
 # Generates relocations for each overlay after partial linking so that the final
@@ -950,7 +951,7 @@ endif
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/src/makerom/ipl3.o: $(EXTRACTED_DIR)/incbin/ipl3
-	$(OBJCOPY) -I binary -O elf32-big --rename-section .data=.text $< $@
+	$(OBJCOPY) -I binary -O $(LD_OFORMAT) --rename-section .data=.text $< $@
 
 $(BUILD_DIR)/src/%.o: src/%.s
 ifeq ($(COMPILER),ido)

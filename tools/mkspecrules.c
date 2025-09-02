@@ -19,9 +19,10 @@ static void write_overlay_rules(FILE *fout, const char *ovls_dir)
         fprintf(fout, "%s/%s.plf:", ovls_dir, seg->name);
         for (j = 0; j < seg->includesCount; j++)
             fprintf(fout, " \\\n\t\t%s", seg->includes[j].fpath);
+        fprintf(fout, " \\\n\t\t$(SEGMENTS_DIR)/Makefile");
         fprintf(fout, "\n"
                       "\t@echo Linking \"%s\"\n"
-                      "\t$(SEG_VERBOSE)$(LD) $(SEG_LDFLAGS) $^ -o $@\n"
+                      "\t$(SEG_VERBOSE)$(LD) $(SEG_LDFLAGS) $(filter %%.o, $^) -o $@\n"
                       "\n", seg->name);
     }
 
