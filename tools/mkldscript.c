@@ -29,6 +29,36 @@ static void write_ld_script(FILE *fout, uint32_t entrypoint_addr, const char *ma
           "{\n",
           fout);
 
+    // Here we write the makerom segment in multiple parts, excluding it from the spec. Before, we would set a fake
+    // base address of (0x80000400 - 0x1000) so that entry.o, the only case that matters, would end up at the correct
+    // address. However, this is incompatible with converting the .elf to the ROM image via objcopy due to a bug in how
+    // binutils computes LMAs from elf sections. Using 0x7FFFF400, the LMA is somehow computed as equal to the VMA:
+    //  Sections:
+    //  Idx Name          Size      VMA       LMA       File off  Algn
+    //    0 ..makerom     00001060  7ffff400  00000000  00009400  2**4  CONTENTS, ALLOC, LOAD, RELOC, CODE
+    //    1 ..makerom.bss 00000000  80000460  80000460  0000a460  2**4  ALLOC
+    //    2 ..boot        00011f10  80000460  80000460  0000a460  2**5  CONTENTS, ALLOC, LOAD, RELOC, CODE
+    //    3 ..boot.bss    00004a30  80012370  80012370  0001c370  2**4  ALLOC
+    //    4 ..dmadata     000060c0  80016da0  00012f70  0001cda0  2**4  CONTENTS, ALLOC, LOAD, RELOC, DATA
+    //    5 ..dmadata.bss 00000000  8001ce60  8001ce60  0359edf0  2**0  CONTENTS
+    //    6 ..Audiobank   0002bdc0  00000000  00019030  00023000  2**4  CONTENTS, ALLOC, LOAD, RELOC, CODE
+    //
+    // 0x7FFFF400 trips this bug likely due having a different 32-bit sign extension than the other addresses involved.
+    // Notably, llvm-objdump does not have the same problem with a base address of 0x7FFFF400:
+    //  Sections:
+    //  Idx Name                                  Size     VMA      LMA      Type
+    //    0                                       00000000 00000000 00000000
+    //    1 ..makerom                             00001060 7ffff400 00000000 TEXT
+    //    2 .rel..makerom                         00000040 00000000 00000000
+    //    3 ..makerom.bss                         00000000 80000460 00001060 BSS
+    //    4 ..boot                                00011f10 80000460 00001060 TEXT
+    //    5 .rel..boot                            00005f60 00000000 00000000
+    //    6 ..boot.bss                            00004a30 80012370 00012f70 BSS
+    //    7 ..dmadata                             000060c0 80016da0 00012f70 DATA
+    //
+    // To simplify things, we simply fix the contents of makerom as they should not change anyway, and assign the
+    // address only when it matters. The ROM symbols for makerom must encompass these sections only as dmadata would
+    // not match otherwise.
     fprintf(fout,
        "    /* makerom */"                                                                                      "\n"
        ""                                                                                                       "\n"
