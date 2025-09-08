@@ -493,9 +493,6 @@ ASSET_FILES_BIN_COMMITTED := $(foreach dir,$(ASSET_BIN_DIRS_COMMITTED),$(wildcar
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_BIN_EXTRACTED:.bin=.bin.inc.c),$(f:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)) \
                    $(foreach f,$(ASSET_FILES_BIN_COMMITTED:.bin=.bin.inc.c),$(BUILD_DIR)/$f)
 
-# Find all .o files included in the spec
-SPEC_O_FILES := $(shell $(CPP) $(CPPFLAGS) -I. $(SPEC) | $(BUILD_DIR_REPLACE) | sed -n -E 's/^[ \t]*include[ \t]*"([a-zA-Z0-9/_.-]+\.o)"/\1/p')
-
 TEXTURE_FILES_PNG_EXTRACTED := $(foreach dir,$(ASSET_BIN_DIRS_EXTRACTED),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_PNG_COMMITTED := $(foreach dir,$(ASSET_BIN_DIRS_COMMITTED),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_JPG_EXTRACTED := $(foreach dir,$(ASSET_BIN_DIRS_EXTRACTED),$(wildcard $(dir)/*.jpg))
@@ -559,9 +556,11 @@ OVL_SEGMENT_FILES :=
 endif
 OVL_RELOC_FILES := $(OVL_SEGMENT_FILES:.plf=.reloc.o)
 
+O_FILES := $(shell $(CPP) $(CPPFLAGS) -I. $(SPEC) | $(BUILD_DIR_REPLACE) | sed -n -E 's/^[ \t]*include[ \t]*"([a-zA-Z0-9/_.-]+\.o)"/\1/p')
+MAKEROM_O_FILES := $(BUILD_DIR)/src/makerom/rom_header.o $(BUILD_DIR)/src/makerom/ipl3.o $(BUILD_DIR)/src/makerom/entry.o
+
 # Automatic dependency files
-# (Only asm_processor dependencies and reloc dependencies are handled for now)
-DEP_FILES := $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d)
+DEP_FILES := $(O_FILES:.o=.d) $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d) $(BUILD_DIR)/spec.d $(MAKEROM_O_FILES:.o=.d)
 
 $(BUILD_DIR)/src/boot/build.o: CPP_DEFINES += -DBUILD_CREATOR="\"$(BUILD_CREATOR)\"" -DBUILD_DATE="\"$(BUILD_DATE)\"" -DBUILD_TIME="\"$(BUILD_TIME)\""
 
@@ -859,9 +858,8 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 
 LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --emit-relocs -Map $(MAP)
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(SEGMENT_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) \
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(SEGMENT_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) $(MAKEROM_O_FILES) \
         $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
-        $(BUILD_DIR)/src/makerom/rom_header.o $(BUILD_DIR)/src/makerom/ipl3.o $(BUILD_DIR)/src/makerom/entry.o \
         $(SAMPLEBANK_O_FILES) $(SOUNDFONT_O_FILES) $(SEQUENCE_O_FILES) \
         $(BUILD_DIR)/assets/audio/sequence_font_table.o $(BUILD_DIR)/assets/audio/audiobank_padding.o
 	$(LD) $(LDFLAGS) -o $@
@@ -870,13 +868,16 @@ $(BUILD_DIR)/linker_scripts/makerom.ld: linker_scripts/makerom.ld
 	$(CPP) -I include $(CPPFLAGS) $< > $@
 
 ## Order-only prerequisites
-# These ensure e.g. texture files are built before object files that include them.
+# These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
 # The intermediate phony targets avoid quadratically-many dependencies between the targets and prerequisites.
+
+o_files: $(O_FILES)
+$(OVL_RELOC_FILES): | o_files
 
 asset_files: $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT)
 $(O_FILES): | asset_files
 
-.PHONY: asset_files
+.PHONY: o_files asset_files
 
 $(BUILD_DIR)/spec: $(SPEC) $(SPEC_INCLUDES)
 	$(CPP) $(CPPFLAGS) -MD -MP -MF $@.d -MT $@ -I. $< | $(BUILD_DIR_REPLACE) > $@
@@ -1009,8 +1010,6 @@ endif
 endif
 
 # Assets from assets/
-$(BUILD_DIR)/assets/%.inc.c: assets/%.png
-	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
 
 $(BUILD_DIR)/assets/%.inc.c: assets/%.png
 	tools/assets/build_from_png/build_from_png $< $(dir $@) assets/$(dir $*) $(wildcard $(EXTRACTED_DIR)/assets/$(dir $*))
