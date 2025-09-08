@@ -19,6 +19,16 @@ static void write_progbits_section(FILE *fout, struct Segment *seg, const char *
     fprintf(fout, "    }\n");
 }
 
+static void write_noload_section(FILE *fout, struct Segment *seg, const char *section_name)
+{
+    fprintf(fout, "    .%s (NOLOAD) :\n    {\n", section_name);
+
+    for (int i = 0; i < seg->includesCount; i++)
+        fprintf(fout, "        %s(.%s*)\n", seg->includes[i].fpath, section_name);
+
+    fprintf(fout, "    }\n");
+}
+
 /**
  * Write a linker script for partial linking of a single segment.
  *
@@ -36,11 +46,7 @@ static void write_linker_script(FILE *fout, struct Segment *seg)
     write_progbits_section(fout, seg, "text");
     write_progbits_section(fout, seg, "data");
     write_progbits_section(fout, seg, "rodata");
-
-    fprintf(fout, "    .bss (NOLOAD) :\n    {\n");
-    for (int i = 0; i < seg->includesCount; i++)
-        fprintf(fout, "        %s(.bss*)\n", seg->includes[i].fpath);
-    fprintf(fout, "    }\n");
+    write_noload_section(fout, seg, "bss");
 
     /* GNU ld assumes that the linker script always combines .gptab.data and
      * .gptab.sdata into .gptab.sdata, and likewise for .gptab.bss and .gptab.sbss.
@@ -57,17 +63,13 @@ static void write_linker_script(FILE *fout, struct Segment *seg)
 
 static void write_overlay_rules(FILE *fout, const char *ovls_dir)
 {
-    int i, j;
-
-    for (i = 0; i < g_segmentsCount; i++) {
+    for (int i = 0; i < g_segmentsCount; i++) {
         Segment *seg = &g_segments[i];
 
         /* Write rule for partial linkage of this segment */
         fprintf(fout, "%s/%s.plf:", ovls_dir, seg->name);
-        for (j = 0; j < seg->includesCount; j++) {
-            /* TODO this is incompatible with a unified linker script, we'll need to write a linker script
-               for each segment. */
-            if (seg->includes[j].fpath[0] != '*')
+        for (int j = 0; j < seg->includesCount; j++) {
+            if (seg->includes[j].fpath[0] != '*') /* Skip iQue bss files */
                 fprintf(fout, " \\\n\t\t%s", seg->includes[j].fpath);
         }
         fprintf(fout, " \\\n\t\t$(SEGMENTS_DIR)/Makefile");
@@ -79,13 +81,12 @@ static void write_overlay_rules(FILE *fout, const char *ovls_dir)
 
     /* List every expected plf in a variable */
     fprintf(fout, "SEGMENT_FILES :=");
-    for (i = 0; i < g_segmentsCount; i++) {
+    for (int i = 0; i < g_segmentsCount; i++)
         fprintf(fout, " \\\n\t\t%s/%s.plf", ovls_dir, g_segments[i].name);
-    }
 
     /* List overlay plfs in a variable */
     fprintf(fout, "\n\nOVL_SEGMENT_FILES :=");
-    for (i = 0; i < g_segmentsCount; i++) {
+    for (int i = 0; i < g_segmentsCount; i++) {
         if (!(g_segments[i].flags & FLAG_OVL))
             continue;
         fprintf(fout, " \\\n\t\t%s/%s.plf", ovls_dir, g_segments[i].name);
