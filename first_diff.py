@@ -26,6 +26,13 @@ def decodeInstruction(bytesDiff: bytes, mapFile: mapfile_parser.MapFile) -> str:
 
     return instr.disassemble(immOverride=immOverride, extraLJust=-20)
 
+def plfResolver(x: Path) -> Path|None:
+    if x.suffix == ".plf":
+        plf_map_path = x.with_suffix(".map")
+        if plf_map_path.exists():
+            return plf_map_path
+    return None
+
 def firstDiffMain():
     parser = argparse.ArgumentParser(description="Find the first difference(s) between the built ROM and the base ROM.")
 
@@ -43,7 +50,11 @@ def firstDiffMain():
     EXPECTEDROM = Path(f"baseroms/{args.oot_version}/baserom-decompressed.z64")
     EXPECTEDMAP = "expected" / BUILTMAP
 
-    mapfile_parser.frontends.first_diff.doFirstDiff(BUILTMAP, EXPECTEDMAP, BUILTROM, EXPECTEDROM, args.count, mismatchSize=True, addColons=args.add_colons, bytesConverterCallback=decodeInstruction)
+    mapfile_parser.frontends.first_diff.doFirstDiff(BUILTMAP, EXPECTEDMAP, BUILTROM, EXPECTEDROM, args.count,
+                                                    mismatchSize=True, addColons=args.add_colons,
+                                                    bytesConverterCallback=decodeInstruction,
+                                                    plfResolver=plfResolver,
+                                                    plfResolverExpected=plfResolver)
 
 if __name__ == "__main__":
     firstDiffMain()
