@@ -147,7 +147,7 @@ static void write_ld_script(FILE *fout, uint32_t entrypoint_addr, const char *ma
                 seg->name, seg->name, seg->name,
                 seg->name, seg->name);
 
-        // Begin uninitialized data (.bss, COMMON)
+        // Begin uninitialized data (.bss, COMMON, .scommon)
         // Note we must enforce a minimum alignment of at least 8 for
         // bss sections due to how bss is cleared in steps of 8 in
         // entry.s, and more widely it's more efficient.
@@ -157,9 +157,10 @@ static void write_ld_script(FILE *fout, uint32_t entrypoint_addr, const char *ma
                       "        _%sSegmentBssStart = .;\n",
                       seg->name, seg->name, seg->name);
 
-        // Write .bss and COMMON
-        write_includes(seg, fout, segments_dir, ".bss");
+        // Write sections
+        write_includes(seg, fout, segments_dir, ".scommon");
         write_includes(seg, fout, segments_dir, "COMMON");
+        write_includes(seg, fout, segments_dir, ".bss");
 
         // End uninitialized data
         fprintf(fout, "        . = ALIGN(8);\n"

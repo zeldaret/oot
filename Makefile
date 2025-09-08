@@ -531,13 +531,25 @@ $(shell mkdir -p $(foreach dir, \
                     $(dir:$(EXTRACTED_DIR)/%=$(BUILD_DIR)/%)))
 endif
 
+COM_PLUGIN := tools/com-plugin/common-plugin.so
+COM_PLUGIN_FLAGS =
+ifeq ($(PLATFORM),IQUE)
+  ifeq ($(NON_MATCHING),0)
+    $(SEGMENTS_DIR)/boot.plf: $(BASEROM_DIR)/bss-order-boot.txt
+    $(SEGMENTS_DIR)/boot.plf: COM_PLUGIN_FLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order-boot.txt -plugin-opt min_align=0x10
+
+    $(SEGMENTS_DIR)/code.plf: $(BASEROM_DIR)/bss-order-code.txt
+    $(SEGMENTS_DIR)/code.plf: COM_PLUGIN_FLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order-code.txt -plugin-opt min_align=0x10
+  endif
+endif
+
 # Generate and include segment makefile rules for combining .o files into single .plf files for an entire spec segment.
 # Overlay relocations will be generated from these if the spec segment has the OVERLAY flag.
 # If this makefile doesn't exist or if the spec has been modified since make was last ran it will use the rule
 # later on in the file to regenerate this file before including it. The test against MAKECMDGOALS ensures this
 # doesn't happen if we're not running a task that needs these partially linked files; this is especially important
 # for setup since the rule to generate the segment makefile rules requires setup to have ran first.
-SEG_LDFLAGS = -r -T linker_scripts/segment.ld -Map $(@:.plf=.map)
+SEG_LDFLAGS = -r $(COM_PLUGIN_FLAGS) -T $(@:.plf=.ld) -Map $(@:.plf=.map)
 SEG_VERBOSE = @
 ifeq ($(MAKECMDGOALS),$(filter-out clean assetclean distclean setup,$(MAKECMDGOALS)))
 include $(SEGMENTS_DIR)/Makefile
@@ -839,21 +851,13 @@ endif
 
 $(ROM): $(ELF)
 	$(OBJCOPY) --pad-to 0x$$($(OBJDUMP) -t $< | grep _RomSize | cut -d ' ' -f 1) -O binary $< $@
-	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
+	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
 
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dmadata-start `./tools/dmadata_start.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS) $(COMPRESS_ARGS)
 	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
 
-COM_PLUGIN := tools/com-plugin/common-plugin.so
-
 LDFLAGS := -T $(LDSCRIPT) -T $(BUILD_DIR)/linker_scripts/makerom.ld -T $(BUILD_DIR)/undefined_syms.txt --emit-relocs -Map $(MAP)
-ifeq ($(PLATFORM),IQUE)
-  ifeq ($(NON_MATCHING),0)
-    LDFLAGS += -plugin $(COM_PLUGIN) -plugin-opt order=$(BASEROM_DIR)/bss-order.txt
-    $(ELF): $(BASEROM_DIR)/bss-order.txt
-  endif
-endif
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(SEGMENT_FILES) $(OVL_RELOC_FILES) $(LDSCRIPT) \
         $(BUILD_DIR)/linker_scripts/makerom.ld $(BUILD_DIR)/undefined_syms.txt \
@@ -890,6 +894,7 @@ $(SEGMENTS_DIR)/Makefile: $(BUILD_DIR)/spec
 # relocations have already been calculated.
 $(SEGMENTS_DIR)/%.reloc.o: $(SEGMENTS_DIR)/%.plf
 	$(FADO) $< -n $(notdir $*) -o $(@:.o=.s)
+	$(POSTPROCESS_OBJ) $(@:.o=.s)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
@@ -999,7 +1004,7 @@ $(BUILD_DIR)/src/audio/game/session_init.o: src/audio/game/session_init.c $(BUIL
 
 ifeq ($(PLATFORM),IQUE)
 ifneq ($(NON_MATCHING),1)
-$(BUILD_DIR)/src/overlays/misc/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o: POSTPROCESS_OBJ := $(PYTHON) tools/patch_ique_kaleido_reloc.py
+$(BUILD_DIR)/segments/ovl_kaleido_scope.reloc.o: POSTPROCESS_OBJ := $(PYTHON) tools/patch_ique_kaleido_reloc.py
 endif
 endif
 
@@ -1028,7 +1033,7 @@ $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
 	$(N64TEXCONV) JFIF "" $< $@
 
 # .text unaccounted linker padding
-$(BUILD_DIR)/__pad_text.o:
+$(BUILD_DIR)/__pad_text%.o:
 	echo ".text; .fill 0x10" | $(AS) $(ASFLAGS) -o $@
 
 # Audio

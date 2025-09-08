@@ -1,0 +1,59 @@
+// Specification for linker plugin COMMON symbol order for the ique-cn version boot segment
+
+build/ique-cn/boot_bss_1.o {
+    bk;
+    __osBaseCounter;
+    __osBbRCountWraps;
+    __osBbLastRCount;
+    __osViIntrCount;
+    insize;
+    outcnt;
+    bb;
+    __osCurrentTime;
+    hufts;
+    __osBbLastVCount;
+    __osTimerCounter;
+    __osBbVCountWraps;
+    __osFinalrom;
+    inptr;
+    ifd;
+}
+
+build/ique-cn/boot_bss_boot_main.o {
+    sBootThreadInfo;
+    sIdleThread;
+    sIdleThreadStack;
+    sIdleThreadInfo;
+    sBootThreadStack;
+}
+
+build/ique-cn/boot_bss_idle.o {
+    sMainThread;
+    sMainStack;
+    sMainStackInfo;
+    sPiMgrCmdBuff;
+}
+
+build/ique-cn/boot_bss_viconfig.o {
+    gViConfigMode;
+    gViConfigModeType;
+}
+
+build/ique-cn/boot_bss_z_std_dma.o {
+    sDmaMgrStackInfo;
+    sDmaMgrMsgQueue;
+    sDmaMgrMsgBuf;
+    sDmaMgrThread;
+    sDmaMgrStack;
+}
+
+build/ique-cn/boot_bss_2.o {
+    __osThreadSave;
+    __Dom2SpeedParam;
+    __CartRomHandle;
+    __osPiAccessQueue;
+    __Dom1SpeedParam;
+    gPiMgrCmdQueue;
+    __osBaseTimer;
+    __osEventStateTab;
+}
