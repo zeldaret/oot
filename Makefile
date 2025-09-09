@@ -849,6 +849,7 @@ else
 endif
 
 $(ROM): $(ELF)
+# Here we extract the value of the _RomSize symbol to know to what size the ROM should be padded to
 	$(OBJCOPY) --pad-to 0x$$($(OBJDUMP) -t $< | grep _RomSize | cut -d ' ' -f 1) -O binary $< $@
 	$(PYTHON) -m ipl3checksum sum --cic $(CIC) --update $@
 
