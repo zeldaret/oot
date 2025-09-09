@@ -664,7 +664,7 @@ beginseg
 
     // audio
 #if OOT_VERSION < NTSC_1_1 || !PLATFORM_N64
-    include "$(BUILD_DIR)/__pad_text0.o"
+    pad_text
 #endif
     include "$(BUILD_DIR)/src/audio/internal/data.o"
     include "$(BUILD_DIR)/src/audio/internal/synthesis.o"
@@ -673,16 +673,16 @@ beginseg
     include "$(BUILD_DIR)/src/audio/internal/thread.o"
     include "$(BUILD_DIR)/src/audio/internal/os.o"
 #if OOT_PAL_N64
-    include "$(BUILD_DIR)/__pad_text1.o"
-    include "$(BUILD_DIR)/__pad_text2.o"
-    include "$(BUILD_DIR)/__pad_text3.o"
+    pad_text
+    pad_text
+    pad_text
 #endif
     include "$(BUILD_DIR)/src/audio/internal/playback.o"
     include "$(BUILD_DIR)/src/audio/internal/effects.o"
     include "$(BUILD_DIR)/src/audio/internal/seqplayer.o"
     include "$(BUILD_DIR)/src/audio/game/general.o"
 #if !PLATFORM_N64 && !DEBUG_FEATURES
-    include "$(BUILD_DIR)/__pad_text4.o"
+    pad_text
 #endif
     include "$(BUILD_DIR)/src/audio/game/sfx_params.o"
     include "$(BUILD_DIR)/src/audio/game/sfx.o"

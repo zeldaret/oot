@@ -1031,10 +1031,6 @@ $(BUILD_DIR)/assets/%.bin.inc.c: $(EXTRACTED_DIR)/assets/%.bin
 $(BUILD_DIR)/assets/%.jpg.inc.c: $(EXTRACTED_DIR)/assets/%.jpg
 	$(N64TEXCONV) JFIF "" $< $@
 
-# .text unaccounted linker padding
-$(BUILD_DIR)/__pad_text%.o:
-	echo ".text; .fill 0x10" | $(AS) $(ASFLAGS) -o $@
-
 # Audio
 
 AUDIO_BUILD_DEBUG ?= 0

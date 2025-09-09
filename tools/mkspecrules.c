@@ -9,12 +9,15 @@
 struct Segment* g_segments;
 int g_segmentsCount;
 
-static void write_progbits_section(FILE *fout, struct Segment *seg, const char *section_name)
+static void write_progbits_section(FILE *fout, struct Segment *seg, const char *section_name, bool with_padding)
 {
     fprintf(fout, "    .%s :\n    {\n", section_name);
 
-    for (int i = 0; i < seg->includesCount; i++)
+    for (int i = 0; i < seg->includesCount; i++) {
         fprintf(fout, "        %s(.%s*)\n", seg->includes[i].fpath, section_name);
+        if (with_padding && seg->includes[i].linkerPadding != 0)
+            fprintf(fout, "        . += 0x%X;\n", seg->includes[i].linkerPadding);
+    }
 
     fprintf(fout, "    }\n");
 }
@@ -43,9 +46,9 @@ static void write_linker_script(FILE *fout, struct Segment *seg)
        "SECTIONS {\n"
     );
 
-    write_progbits_section(fout, seg, "text");
-    write_progbits_section(fout, seg, "data");
-    write_progbits_section(fout, seg, "rodata");
+    write_progbits_section(fout, seg, "text", true);
+    write_progbits_section(fout, seg, "data", false);
+    write_progbits_section(fout, seg, "rodata", false);
     write_noload_section(fout, seg, "bss");
 
     /* GNU ld assumes that the linker script always combines .gptab.data and

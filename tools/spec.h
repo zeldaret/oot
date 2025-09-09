@@ -19,6 +19,7 @@ typedef enum {
     STMT_romalign,
     STMT_stack,
     STMT_increment,
+    STMT_pad_text,
 } STMTId;
 
 enum {
@@ -32,6 +33,7 @@ enum {
 
 struct Include {
     char* fpath;
+    int linkerPadding;
 };
 
 typedef struct Segment {

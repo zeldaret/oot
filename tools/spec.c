@@ -143,6 +143,7 @@ static const char *const stmtNames[] =
     [STMT_romalign]  = "romalign",
     [STMT_stack]     = "stack",
     [STMT_increment] = "increment",
+    [STMT_pad_text]  = "pad_text",
 };
 
 STMTId get_stmt_id_by_stmt_name(const char *stmtName, int lineNum) {
@@ -157,8 +158,8 @@ STMTId get_stmt_id_by_stmt_name(const char *stmtName, int lineNum) {
 }
 
 bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, int lineNum) {
-    // ensure no duplicates (except for 'include')
-    if (stmt != STMT_include &&
+    // ensure no duplicates (except for 'include' or 'pad_text')
+    if (stmt != STMT_include && stmt != STMT_pad_text &&
         (currSeg->fields & (1 << stmt)))
         util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtNames[stmt]);
 
@@ -216,6 +217,8 @@ bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, i
 
         if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1].fpath))
             util_fatal_error("line %i: invalid filename", lineNum);
+
+        currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
         break;
     case STMT_increment:
         if (!parse_number(args, &currSeg->increment))
@@ -223,6 +226,9 @@ bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, i
         break;
     case STMT_compress:
         currSeg->compress = true;
+        break;
+    case STMT_pad_text:
+        currSeg->includes[currSeg->includesCount - 1].linkerPadding += 0x10;
         break;
     default:
         fprintf(stderr, "warning: '%s' is not implemented\n", stmtNames[stmt]);
