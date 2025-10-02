@@ -94,15 +94,8 @@ extern u64 gFileSelLanguageFRATex[TEX_LEN(u64, gFileSelLanguageFRATex_WIDTH, gFi
 
 #include "assets/textures/title_static/title_static_file_sel_window_tex.h"
 
-#define gFileSelKanjiButtonTex_WIDTH 28
-#define gFileSelKanjiButtonTex_HEIGHT 16
-extern u64 gFileSelKanjiButtonTex[TEX_LEN(u64, gFileSelKanjiButtonTex_WIDTH, gFileSelKanjiButtonTex_HEIGHT, 16)];
-#define gFileSelHiraganaButtonTex_WIDTH 44
-#define gFileSelHiraganaButtonTex_HEIGHT 16
-extern u64 gFileSelHiraganaButtonTex[TEX_LEN(u64, gFileSelHiraganaButtonTex_WIDTH, gFileSelHiraganaButtonTex_HEIGHT, 16)];
-#define gFileSelKatakanaButtonTex_WIDTH 44
-#define gFileSelKatakanaButtonTex_HEIGHT 16
-extern u64 gFileSelKatakanaButtonTex[TEX_LEN(u64, gFileSelKatakanaButtonTex_WIDTH, gFileSelKatakanaButtonTex_HEIGHT, 16)];
+#include "assets/textures/title_static/title_static_char_set_tex.h"
+
 #define gFileSelENDButtonENGTex_WIDTH 44
 #define gFileSelENDButtonENGTex_HEIGHT 16
 extern u64 gFileSelENDButtonENGTex[TEX_LEN(u64, gFileSelENDButtonENGTex_WIDTH, gFileSelENDButtonENGTex_HEIGHT, 16)];
@@ -366,7 +359,6 @@ extern u64 gFileSelInitialLanguageChoiceFRATex[TEX_LEN(u64, gFileSelInitialLangu
 #define gFileSelSelectYourLanguageTex_WIDTH 160
 #define gFileSelSelectYourLanguageTex_HEIGHT 60
 extern u64 gFileSelSelectYourLanguageTex[TEX_LEN(u64, gFileSelSelectYourLanguageTex_WIDTH, gFileSelSelectYourLanguageTex_HEIGHT, 8)];
-extern u8 title_static_unaccounted_04C680[];
 #define gFileSelInitialLanguageCursorTex_WIDTH 48
 #define gFileSelInitialLanguageCursorTex_HEIGHT 48
 extern u64 gFileSelInitialLanguageCursorTex[TEX_LEN(u64, gFileSelInitialLanguageCursorTex_WIDTH, gFileSelInitialLanguageCursorTex_HEIGHT, 4)];

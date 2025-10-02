@@ -117,19 +117,9 @@ u64 gFileSelLanguageFRATex[TEX_LEN(u64, gFileSelLanguageFRATex_WIDTH, gFileSelLa
 #include "assets/textures/title_static/gFileSelLanguageFRATex.ia8.inc.c"
 };
 
-#include "assets/textures/title_static/gFileSelWindowTex.inc.c"
+#include "assets/textures/title_static/title_static_file_sel_window_tex.inc.c"
 
-u64 gFileSelKanjiButtonTex[TEX_LEN(u64, gFileSelKanjiButtonTex_WIDTH, gFileSelKanjiButtonTex_HEIGHT, 16)] = {
-#include "assets/textures/title_static/gFileSelKanjiButtonTex.ia16.inc.c"
-};
-
-u64 gFileSelHiraganaButtonTex[TEX_LEN(u64, gFileSelHiraganaButtonTex_WIDTH, gFileSelHiraganaButtonTex_HEIGHT, 16)] = {
-#include "assets/textures/title_static/gFileSelHiraganaButtonTex.ia16.inc.c"
-};
-
-u64 gFileSelKatakanaButtonTex[TEX_LEN(u64, gFileSelKatakanaButtonTex_WIDTH, gFileSelKatakanaButtonTex_HEIGHT, 16)] = {
-#include "assets/textures/title_static/gFileSelKatakanaButtonTex.ia16.inc.c"
-};
+#include "assets/textures/title_static/title_static_char_set_tex.inc.c"
 
 u64 gFileSelENDButtonENGTex[TEX_LEN(u64, gFileSelENDButtonENGTex_WIDTH, gFileSelENDButtonENGTex_HEIGHT, 16)] = {
 #include "assets/textures/title_static/gFileSelENDButtonENGTex.ia16.inc.c"
@@ -151,7 +141,7 @@ u64 gFileSelNameBoxTex[TEX_LEN(u64, gFileSelNameBoxTex_WIDTH, gFileSelNameBoxTex
 #include "assets/textures/title_static/gFileSelNameBoxTex.ia16.inc.c"
 };
 
-#include "assets/textures/title_static/gFileSelFileInfoBoxTex.inc.c"
+#include "assets/textures/title_static/title_static_file_sel_file_info_box_tex.inc.c"
 
 u64 gFileSelDISKButtonTex[TEX_LEN(u64, gFileSelDISKButtonTex_WIDTH, gFileSelDISKButtonTex_HEIGHT, 16)] = {
 #include "assets/textures/title_static/gFileSelDISKButtonTex.ia16.inc.c"

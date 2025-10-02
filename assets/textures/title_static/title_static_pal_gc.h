@@ -15,15 +15,7 @@
 #include "assets/textures/title_static/title_static_file_sel_window_tex.h"
 
 // Character set select buttons
-#define gFileSelKanjiButtonTex_WIDTH 28
-#define gFileSelKanjiButtonTex_HEIGHT 16
-extern u64 gFileSelKanjiButtonTex[TEX_LEN(u64, gFileSelKanjiButtonTex_WIDTH, gFileSelKanjiButtonTex_HEIGHT, 16)];
-#define gFileSelHiraganaButtonTex_WIDTH 44
-#define gFileSelHiraganaButtonTex_HEIGHT 16
-extern u64 gFileSelHiraganaButtonTex[TEX_LEN(u64, gFileSelHiraganaButtonTex_WIDTH, gFileSelHiraganaButtonTex_HEIGHT, 16)];
-#define gFileSelKatakanaButtonTex_WIDTH 44
-#define gFileSelKatakanaButtonTex_HEIGHT 16
-extern u64 gFileSelKatakanaButtonTex[TEX_LEN(u64, gFileSelKatakanaButtonTex_WIDTH, gFileSelKatakanaButtonTex_HEIGHT, 16)];
+#include "assets/textures/title_static/title_static_char_set_tex.h"
 
 #define gFileSelConnectorTex_WIDTH 24
 #define gFileSelConnectorTex_HEIGHT 16
