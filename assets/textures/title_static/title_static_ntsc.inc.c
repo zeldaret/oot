@@ -7,7 +7,8 @@ u64 gFileSelNoFileToCopyJPNTex[TEX_LEN(u64, gFileSelNoFileToCopyJPNTex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelNoFileToCopyJPNTex.ia8.inc.c"
 };
 
-u64 gFileSelNoFileToEraseJPNTex[TEX_LEN(u64, gFileSelNoFileToEraseJPNTex_WIDTH, gFileSelNoFileToEraseJPNTex_HEIGHT, 8)] = {
+u64 gFileSelNoFileToEraseJPNTex[TEX_LEN(u64, gFileSelNoFileToEraseJPNTex_WIDTH, gFileSelNoFileToEraseJPNTex_HEIGHT,
+                                        8)] = {
 #include "assets/textures/title_static/gFileSelNoFileToEraseJPNTex.ia8.inc.c"
 };
 
@@ -29,11 +30,13 @@ u64 gFileSelConnectorTex[TEX_LEN(u64, gFileSelConnectorTex_WIDTH, gFileSelConnec
 
 #include "assets/textures/title_static/title_static_medallion_tex.inc.c"
 
-u64 gFileSelCopyWhichFileJPNTex[TEX_LEN(u64, gFileSelCopyWhichFileJPNTex_WIDTH, gFileSelCopyWhichFileJPNTex_HEIGHT, 8)] = {
+u64 gFileSelCopyWhichFileJPNTex[TEX_LEN(u64, gFileSelCopyWhichFileJPNTex_WIDTH, gFileSelCopyWhichFileJPNTex_HEIGHT,
+                                        8)] = {
 #include "assets/textures/title_static/gFileSelCopyWhichFileJPNTex.ia8.inc.c"
 };
 
-u64 gFileSelCopyToWhichFileJPNTex[TEX_LEN(u64, gFileSelCopyToWhichFileJPNTex_WIDTH, gFileSelCopyToWhichFileJPNTex_HEIGHT, 8)] = {
+u64 gFileSelCopyToWhichFileJPNTex[TEX_LEN(u64, gFileSelCopyToWhichFileJPNTex_WIDTH,
+                                          gFileSelCopyToWhichFileJPNTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCopyToWhichFileJPNTex.ia8.inc.c"
 };
 
@@ -45,7 +48,8 @@ u64 gFileSelFileCopiedJPNTex[TEX_LEN(u64, gFileSelFileCopiedJPNTex_WIDTH, gFileS
 #include "assets/textures/title_static/gFileSelFileCopiedJPNTex.ia8.inc.c"
 };
 
-u64 gFileSelPleaseSelectAFileJPNTex[TEX_LEN(u64, gFileSelPleaseSelectAFileJPNTex_WIDTH, gFileSelPleaseSelectAFileJPNTex_HEIGHT, 8)] = {
+u64 gFileSelPleaseSelectAFileJPNTex[TEX_LEN(u64, gFileSelPleaseSelectAFileJPNTex_WIDTH,
+                                            gFileSelPleaseSelectAFileJPNTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelPleaseSelectAFileJPNTex.ia8.inc.c"
 };
 
@@ -53,7 +57,8 @@ u64 gFileSelOpenThisFileJPNTex[TEX_LEN(u64, gFileSelOpenThisFileJPNTex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelOpenThisFileJPNTex.ia8.inc.c"
 };
 
-u64 gFileSelEraseWhichFileJPNTex[TEX_LEN(u64, gFileSelEraseWhichFileJPNTex_WIDTH, gFileSelEraseWhichFileJPNTex_HEIGHT, 8)] = {
+u64 gFileSelEraseWhichFileJPNTex[TEX_LEN(u64, gFileSelEraseWhichFileJPNTex_WIDTH, gFileSelEraseWhichFileJPNTex_HEIGHT,
+                                         8)] = {
 #include "assets/textures/title_static/gFileSelEraseWhichFileJPNTex.ia8.inc.c"
 };
 
@@ -109,7 +114,8 @@ u64 gFileSelControlsJPNTex[TEX_LEN(u64, gFileSelControlsJPNTex_WIDTH, gFileSelCo
 #include "assets/textures/title_static/gFileSelControlsJPNTex.ia8.inc.c"
 };
 
-u64 gFileSelCheckBrightnessJPNTex[TEX_LEN(u64, gFileSelCheckBrightnessJPNTex_WIDTH, gFileSelCheckBrightnessJPNTex_HEIGHT, 8)] = {
+u64 gFileSelCheckBrightnessJPNTex[TEX_LEN(u64, gFileSelCheckBrightnessJPNTex_WIDTH,
+                                          gFileSelCheckBrightnessJPNTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCheckBrightnessJPNTex.ia8.inc.c"
 };
 
@@ -145,7 +151,8 @@ u64 gFileSelENDButtonENGTex[TEX_LEN(u64, gFileSelENDButtonENGTex_WIDTH, gFileSel
 #include "assets/textures/title_static/gFileSelENDButtonENGTex.ia16.inc.c"
 };
 
-u64 gFileSelBackspaceButtonTex[TEX_LEN(u64, gFileSelBackspaceButtonTex_WIDTH, gFileSelBackspaceButtonTex_HEIGHT, 16)] = {
+u64 gFileSelBackspaceButtonTex[TEX_LEN(u64, gFileSelBackspaceButtonTex_WIDTH, gFileSelBackspaceButtonTex_HEIGHT,
+                                       16)] = {
 #include "assets/textures/title_static/gFileSelBackspaceButtonTex.ia16.inc.c"
 };
 
@@ -155,7 +162,8 @@ u64 gFileSelNameBoxTex[TEX_LEN(u64, gFileSelNameBoxTex_WIDTH, gFileSelNameBoxTex
 
 #include "assets/textures/title_static/title_static_file_sel_file_info_box_tex.inc.c"
 
-u64 gFileSelOptionsButtonJPNTex[TEX_LEN(u64, gFileSelOptionsButtonJPNTex_WIDTH, gFileSelOptionsButtonJPNTex_HEIGHT, 16)] = {
+u64 gFileSelOptionsButtonJPNTex[TEX_LEN(u64, gFileSelOptionsButtonJPNTex_WIDTH, gFileSelOptionsButtonJPNTex_HEIGHT,
+                                        16)] = {
 #include "assets/textures/title_static/gFileSelOptionsButtonJPNTex.ia16.inc.c"
 };
 
@@ -187,7 +195,8 @@ u64 gFileSelNoFileToCopyENGTex[TEX_LEN(u64, gFileSelNoFileToCopyENGTex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelNoFileToCopyENGTex.ia8.inc.c"
 };
 
-u64 gFileSelNoFileToEraseENGTex[TEX_LEN(u64, gFileSelNoFileToEraseENGTex_WIDTH, gFileSelNoFileToEraseENGTex_HEIGHT, 8)] = {
+u64 gFileSelNoFileToEraseENGTex[TEX_LEN(u64, gFileSelNoFileToEraseENGTex_WIDTH, gFileSelNoFileToEraseENGTex_HEIGHT,
+                                        8)] = {
 #include "assets/textures/title_static/gFileSelNoFileToEraseENGTex.ia8.inc.c"
 };
 
@@ -203,11 +212,13 @@ u64 gFileSelFileInUseENGTex[TEX_LEN(u64, gFileSelFileInUseENGTex_WIDTH, gFileSel
 #include "assets/textures/title_static/gFileSelFileInUseENGTex.ia8.inc.c"
 };
 
-u64 gFileSelCopyWhichFileENGTex[TEX_LEN(u64, gFileSelCopyWhichFileENGTex_WIDTH, gFileSelCopyWhichFileENGTex_HEIGHT, 8)] = {
+u64 gFileSelCopyWhichFileENGTex[TEX_LEN(u64, gFileSelCopyWhichFileENGTex_WIDTH, gFileSelCopyWhichFileENGTex_HEIGHT,
+                                        8)] = {
 #include "assets/textures/title_static/gFileSelCopyWhichFileENGTex.ia8.inc.c"
 };
 
-u64 gFileSelCopyToWhichFileENGTex[TEX_LEN(u64, gFileSelCopyToWhichFileENGTex_WIDTH, gFileSelCopyToWhichFileENGTex_HEIGHT, 8)] = {
+u64 gFileSelCopyToWhichFileENGTex[TEX_LEN(u64, gFileSelCopyToWhichFileENGTex_WIDTH,
+                                          gFileSelCopyToWhichFileENGTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCopyToWhichFileENGTex.ia8.inc.c"
 };
 
@@ -219,7 +230,8 @@ u64 gFileSelFileCopiedENGTex[TEX_LEN(u64, gFileSelFileCopiedENGTex_WIDTH, gFileS
 #include "assets/textures/title_static/gFileSelFileCopiedENGTex.ia8.inc.c"
 };
 
-u64 gFileSelPleaseSelectAFileENGTex[TEX_LEN(u64, gFileSelPleaseSelectAFileENGTex_WIDTH, gFileSelPleaseSelectAFileENGTex_HEIGHT, 8)] = {
+u64 gFileSelPleaseSelectAFileENGTex[TEX_LEN(u64, gFileSelPleaseSelectAFileENGTex_WIDTH,
+                                            gFileSelPleaseSelectAFileENGTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelPleaseSelectAFileENGTex.ia8.inc.c"
 };
 
@@ -227,7 +239,8 @@ u64 gFileSelOpenThisFileENGTex[TEX_LEN(u64, gFileSelOpenThisFileENGTex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelOpenThisFileENGTex.ia8.inc.c"
 };
 
-u64 gFileSelEraseWhichFileENGTex[TEX_LEN(u64, gFileSelEraseWhichFileENGTex_WIDTH, gFileSelEraseWhichFileENGTex_HEIGHT, 8)] = {
+u64 gFileSelEraseWhichFileENGTex[TEX_LEN(u64, gFileSelEraseWhichFileENGTex_WIDTH, gFileSelEraseWhichFileENGTex_HEIGHT,
+                                         8)] = {
 #include "assets/textures/title_static/gFileSelEraseWhichFileENGTex.ia8.inc.c"
 };
 
@@ -279,7 +292,8 @@ u64 gFileSelControlsENGTex[TEX_LEN(u64, gFileSelControlsENGTex_WIDTH, gFileSelCo
 #include "assets/textures/title_static/gFileSelControlsENGTex.ia8.inc.c"
 };
 
-u64 gFileSelCheckBrightnessENGTex[TEX_LEN(u64, gFileSelCheckBrightnessENGTex_WIDTH, gFileSelCheckBrightnessENGTex_HEIGHT, 8)] = {
+u64 gFileSelCheckBrightnessENGTex[TEX_LEN(u64, gFileSelCheckBrightnessENGTex_WIDTH,
+                                          gFileSelCheckBrightnessENGTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCheckBrightnessENGTex.ia8.inc.c"
 };
 
@@ -307,7 +321,8 @@ u64 gFileSelEraseButtonENGTex[TEX_LEN(u64, gFileSelEraseButtonENGTex_WIDTH, gFil
 #include "assets/textures/title_static/gFileSelEraseButtonENGTex.ia16.inc.c"
 };
 
-u64 gFileSelOptionsButtonENGTex[TEX_LEN(u64, gFileSelOptionsButtonENGTex_WIDTH, gFileSelOptionsButtonENGTex_HEIGHT, 16)] = {
+u64 gFileSelOptionsButtonENGTex[TEX_LEN(u64, gFileSelOptionsButtonENGTex_WIDTH, gFileSelOptionsButtonENGTex_HEIGHT,
+                                        16)] = {
 #include "assets/textures/title_static/gFileSelOptionsButtonENGTex.ia16.inc.c"
 };
 

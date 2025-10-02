@@ -25,7 +25,8 @@ u64 gFileSelENDButtonFRATex[TEX_LEN(u64, gFileSelENDButtonFRATex_WIDTH, gFileSel
 #include "assets/textures/title_static/gFileSelENDButtonFRATex.ia16.inc.c"
 };
 
-u64 gFileSelBackspaceButtonTex[TEX_LEN(u64, gFileSelBackspaceButtonTex_WIDTH, gFileSelBackspaceButtonTex_HEIGHT, 16)] = {
+u64 gFileSelBackspaceButtonTex[TEX_LEN(u64, gFileSelBackspaceButtonTex_WIDTH, gFileSelBackspaceButtonTex_HEIGHT,
+                                       16)] = {
 #include "assets/textures/title_static/gFileSelBackspaceButtonTex.ia16.inc.c"
 };
 
@@ -55,7 +56,8 @@ u64 gFileSelNoFileToCopyENGTex[TEX_LEN(u64, gFileSelNoFileToCopyENGTex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelNoFileToCopyENGTex.ia8.inc.c"
 };
 
-u64 gFileSelNoFileToEraseENGTex[TEX_LEN(u64, gFileSelNoFileToEraseENGTex_WIDTH, gFileSelNoFileToEraseENGTex_HEIGHT, 8)] = {
+u64 gFileSelNoFileToEraseENGTex[TEX_LEN(u64, gFileSelNoFileToEraseENGTex_WIDTH, gFileSelNoFileToEraseENGTex_HEIGHT,
+                                        8)] = {
 #include "assets/textures/title_static/gFileSelNoFileToEraseENGTex.ia8.inc.c"
 };
 
@@ -75,7 +77,8 @@ u64 gFileSelNoFileToCopyGERTex[TEX_LEN(u64, gFileSelNoFileToCopyGERTex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelNoFileToCopyGERTex.ia8.inc.c"
 };
 
-u64 gFileSelNoFileToEraseGERTex[TEX_LEN(u64, gFileSelNoFileToEraseGERTex_WIDTH, gFileSelNoFileToEraseGERTex_HEIGHT, 8)] = {
+u64 gFileSelNoFileToEraseGERTex[TEX_LEN(u64, gFileSelNoFileToEraseGERTex_WIDTH, gFileSelNoFileToEraseGERTex_HEIGHT,
+                                        8)] = {
 #include "assets/textures/title_static/gFileSelNoFileToEraseGERTex.ia8.inc.c"
 };
 
@@ -95,7 +98,8 @@ u64 gFileSelNoFileToCopyFRATex[TEX_LEN(u64, gFileSelNoFileToCopyFRATex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelNoFileToCopyFRATex.ia8.inc.c"
 };
 
-u64 gFileSelNoFileToEraseFRATex[TEX_LEN(u64, gFileSelNoFileToEraseFRATex_WIDTH, gFileSelNoFileToEraseFRATex_HEIGHT, 8)] = {
+u64 gFileSelNoFileToEraseFRATex[TEX_LEN(u64, gFileSelNoFileToEraseFRATex_WIDTH, gFileSelNoFileToEraseFRATex_HEIGHT,
+                                        8)] = {
 #include "assets/textures/title_static/gFileSelNoFileToEraseFRATex.ia8.inc.c"
 };
 
@@ -111,11 +115,13 @@ u64 gFileSelFileInUseFRATex[TEX_LEN(u64, gFileSelFileInUseFRATex_WIDTH, gFileSel
 #include "assets/textures/title_static/gFileSelFileInUseFRATex.ia8.inc.c"
 };
 
-u64 gFileSelCopyWhichFileENGTex[TEX_LEN(u64, gFileSelCopyWhichFileENGTex_WIDTH, gFileSelCopyWhichFileENGTex_HEIGHT, 8)] = {
+u64 gFileSelCopyWhichFileENGTex[TEX_LEN(u64, gFileSelCopyWhichFileENGTex_WIDTH, gFileSelCopyWhichFileENGTex_HEIGHT,
+                                        8)] = {
 #include "assets/textures/title_static/gFileSelCopyWhichFileENGTex.ia8.inc.c"
 };
 
-u64 gFileSelCopyToWhichFileENGTex[TEX_LEN(u64, gFileSelCopyToWhichFileENGTex_WIDTH, gFileSelCopyToWhichFileENGTex_HEIGHT, 8)] = {
+u64 gFileSelCopyToWhichFileENGTex[TEX_LEN(u64, gFileSelCopyToWhichFileENGTex_WIDTH,
+                                          gFileSelCopyToWhichFileENGTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCopyToWhichFileENGTex.ia8.inc.c"
 };
 
@@ -127,11 +133,13 @@ u64 gFileSelFileCopiedENGTex[TEX_LEN(u64, gFileSelFileCopiedENGTex_WIDTH, gFileS
 #include "assets/textures/title_static/gFileSelFileCopiedENGTex.ia8.inc.c"
 };
 
-u64 gFileSelCopyWhichFileGERTex[TEX_LEN(u64, gFileSelCopyWhichFileGERTex_WIDTH, gFileSelCopyWhichFileGERTex_HEIGHT, 8)] = {
+u64 gFileSelCopyWhichFileGERTex[TEX_LEN(u64, gFileSelCopyWhichFileGERTex_WIDTH, gFileSelCopyWhichFileGERTex_HEIGHT,
+                                        8)] = {
 #include "assets/textures/title_static/gFileSelCopyWhichFileGERTex.ia8.inc.c"
 };
 
-u64 gFileSelCopyToWhichFileGERTex[TEX_LEN(u64, gFileSelCopyToWhichFileGERTex_WIDTH, gFileSelCopyToWhichFileGERTex_HEIGHT, 8)] = {
+u64 gFileSelCopyToWhichFileGERTex[TEX_LEN(u64, gFileSelCopyToWhichFileGERTex_WIDTH,
+                                          gFileSelCopyToWhichFileGERTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCopyToWhichFileGERTex.ia8.inc.c"
 };
 
@@ -143,11 +151,13 @@ u64 gFileSelFileCopiedGERTex[TEX_LEN(u64, gFileSelFileCopiedGERTex_WIDTH, gFileS
 #include "assets/textures/title_static/gFileSelFileCopiedGERTex.ia8.inc.c"
 };
 
-u64 gFileSelCopyWhichFileFRATex[TEX_LEN(u64, gFileSelCopyWhichFileFRATex_WIDTH, gFileSelCopyWhichFileFRATex_HEIGHT, 8)] = {
+u64 gFileSelCopyWhichFileFRATex[TEX_LEN(u64, gFileSelCopyWhichFileFRATex_WIDTH, gFileSelCopyWhichFileFRATex_HEIGHT,
+                                        8)] = {
 #include "assets/textures/title_static/gFileSelCopyWhichFileFRATex.ia8.inc.c"
 };
 
-u64 gFileSelCopyToWhichFileFRATex[TEX_LEN(u64, gFileSelCopyToWhichFileFRATex_WIDTH, gFileSelCopyToWhichFileFRATex_HEIGHT, 8)] = {
+u64 gFileSelCopyToWhichFileFRATex[TEX_LEN(u64, gFileSelCopyToWhichFileFRATex_WIDTH,
+                                          gFileSelCopyToWhichFileFRATex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCopyToWhichFileFRATex.ia8.inc.c"
 };
 
@@ -159,7 +169,8 @@ u64 gFileSelFileCopiedFRATex[TEX_LEN(u64, gFileSelFileCopiedFRATex_WIDTH, gFileS
 #include "assets/textures/title_static/gFileSelFileCopiedFRATex.ia8.inc.c"
 };
 
-u64 gFileSelPleaseSelectAFileENGTex[TEX_LEN(u64, gFileSelPleaseSelectAFileENGTex_WIDTH, gFileSelPleaseSelectAFileENGTex_HEIGHT, 8)] = {
+u64 gFileSelPleaseSelectAFileENGTex[TEX_LEN(u64, gFileSelPleaseSelectAFileENGTex_WIDTH,
+                                            gFileSelPleaseSelectAFileENGTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelPleaseSelectAFileENGTex.ia8.inc.c"
 };
 
@@ -167,7 +178,8 @@ u64 gFileSelOpenThisFileENGTex[TEX_LEN(u64, gFileSelOpenThisFileENGTex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelOpenThisFileENGTex.ia8.inc.c"
 };
 
-u64 gFileSelPleaseSelectAFileGERTex[TEX_LEN(u64, gFileSelPleaseSelectAFileGERTex_WIDTH, gFileSelPleaseSelectAFileGERTex_HEIGHT, 8)] = {
+u64 gFileSelPleaseSelectAFileGERTex[TEX_LEN(u64, gFileSelPleaseSelectAFileGERTex_WIDTH,
+                                            gFileSelPleaseSelectAFileGERTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelPleaseSelectAFileGERTex.ia8.inc.c"
 };
 
@@ -175,7 +187,8 @@ u64 gFileSelOpenThisFileGERTex[TEX_LEN(u64, gFileSelOpenThisFileGERTex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelOpenThisFileGERTex.ia8.inc.c"
 };
 
-u64 gFileSelPleaseSelectAFileFRATex[TEX_LEN(u64, gFileSelPleaseSelectAFileFRATex_WIDTH, gFileSelPleaseSelectAFileFRATex_HEIGHT, 8)] = {
+u64 gFileSelPleaseSelectAFileFRATex[TEX_LEN(u64, gFileSelPleaseSelectAFileFRATex_WIDTH,
+                                            gFileSelPleaseSelectAFileFRATex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelPleaseSelectAFileFRATex.ia8.inc.c"
 };
 
@@ -183,7 +196,8 @@ u64 gFileSelOpenThisFileFRATex[TEX_LEN(u64, gFileSelOpenThisFileFRATex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelOpenThisFileFRATex.ia8.inc.c"
 };
 
-u64 gFileSelEraseWhichFileENGTex[TEX_LEN(u64, gFileSelEraseWhichFileENGTex_WIDTH, gFileSelEraseWhichFileENGTex_HEIGHT, 8)] = {
+u64 gFileSelEraseWhichFileENGTex[TEX_LEN(u64, gFileSelEraseWhichFileENGTex_WIDTH, gFileSelEraseWhichFileENGTex_HEIGHT,
+                                         8)] = {
 #include "assets/textures/title_static/gFileSelEraseWhichFileENGTex.ia8.inc.c"
 };
 
@@ -195,7 +209,8 @@ u64 gFileSelFileErasedENGTex[TEX_LEN(u64, gFileSelFileErasedENGTex_WIDTH, gFileS
 #include "assets/textures/title_static/gFileSelFileErasedENGTex.ia8.inc.c"
 };
 
-u64 gFileSelEraseWhichFileGERTex[TEX_LEN(u64, gFileSelEraseWhichFileGERTex_WIDTH, gFileSelEraseWhichFileGERTex_HEIGHT, 8)] = {
+u64 gFileSelEraseWhichFileGERTex[TEX_LEN(u64, gFileSelEraseWhichFileGERTex_WIDTH, gFileSelEraseWhichFileGERTex_HEIGHT,
+                                         8)] = {
 #include "assets/textures/title_static/gFileSelEraseWhichFileGERTex.ia8.inc.c"
 };
 
@@ -207,7 +222,8 @@ u64 gFileSelFileErasedGERTex[TEX_LEN(u64, gFileSelFileErasedGERTex_WIDTH, gFileS
 #include "assets/textures/title_static/gFileSelFileErasedGERTex.ia8.inc.c"
 };
 
-u64 gFileSelEraseWhichFileFRATex[TEX_LEN(u64, gFileSelEraseWhichFileFRATex_WIDTH, gFileSelEraseWhichFileFRATex_HEIGHT, 8)] = {
+u64 gFileSelEraseWhichFileFRATex[TEX_LEN(u64, gFileSelEraseWhichFileFRATex_WIDTH, gFileSelEraseWhichFileFRATex_HEIGHT,
+                                         8)] = {
 #include "assets/textures/title_static/gFileSelEraseWhichFileFRATex.ia8.inc.c"
 };
 
@@ -337,11 +353,13 @@ u64 gFileSelQuitButtonFRATex[TEX_LEN(u64, gFileSelQuitButtonFRATex_WIDTH, gFileS
 
 #include "assets/textures/title_static/title_static_options_tex.inc.c"
 
-u64 gFileSelOptionsButtonENGTex[TEX_LEN(u64, gFileSelOptionsButtonENGTex_WIDTH, gFileSelOptionsButtonENGTex_HEIGHT, 16)] = {
+u64 gFileSelOptionsButtonENGTex[TEX_LEN(u64, gFileSelOptionsButtonENGTex_WIDTH, gFileSelOptionsButtonENGTex_HEIGHT,
+                                        16)] = {
 #include "assets/textures/title_static/gFileSelOptionsButtonENGTex.ia16.inc.c"
 };
 
-u64 gFileSelOptionsButtonGERTex[TEX_LEN(u64, gFileSelOptionsButtonGERTex_WIDTH, gFileSelOptionsButtonGERTex_HEIGHT, 16)] = {
+u64 gFileSelOptionsButtonGERTex[TEX_LEN(u64, gFileSelOptionsButtonGERTex_WIDTH, gFileSelOptionsButtonGERTex_HEIGHT,
+                                        16)] = {
 #include "assets/textures/title_static/gFileSelOptionsButtonGERTex.ia16.inc.c"
 };
 

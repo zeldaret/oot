@@ -71,28 +71,34 @@ u64 gFileSelHoldFRATex[TEX_LEN(u64, gFileSelHoldFRATex_WIDTH, gFileSelHoldFRATex
 #include "assets/textures/title_static/gFileSelHoldFRATex.ia8.inc.c"
 };
 
-u64 gFileSelCheckBrightnessENGTex[TEX_LEN(u64, gFileSelCheckBrightnessENGTex_WIDTH, gFileSelCheckBrightnessENGTex_HEIGHT, 8)] = {
+u64 gFileSelCheckBrightnessENGTex[TEX_LEN(u64, gFileSelCheckBrightnessENGTex_WIDTH,
+                                          gFileSelCheckBrightnessENGTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCheckBrightnessENGTex.ia8.inc.c"
 };
 
-u64 gFileSelCheckBrightnessGERTex[TEX_LEN(u64, gFileSelCheckBrightnessGERTex_WIDTH, gFileSelCheckBrightnessGERTex_HEIGHT, 8)] = {
+u64 gFileSelCheckBrightnessGERTex[TEX_LEN(u64, gFileSelCheckBrightnessGERTex_WIDTH,
+                                          gFileSelCheckBrightnessGERTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCheckBrightnessGERTex.ia8.inc.c"
 };
 
-u64 gFileSelCheckBrightnessFRATex[TEX_LEN(u64, gFileSelCheckBrightnessFRATex_WIDTH, gFileSelCheckBrightnessFRATex_HEIGHT, 8)] = {
+u64 gFileSelCheckBrightnessFRATex[TEX_LEN(u64, gFileSelCheckBrightnessFRATex_WIDTH,
+                                          gFileSelCheckBrightnessFRATex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelCheckBrightnessFRATex.ia8.inc.c"
 };
 
 #if OOT_PAL_N64
-u64 gFileSelLanguageChoiceENGTex[TEX_LEN(u64, gFileSelLanguageChoiceENGTex_WIDTH, gFileSelLanguageChoiceENGTex_HEIGHT, 8)] = {
+u64 gFileSelLanguageChoiceENGTex[TEX_LEN(u64, gFileSelLanguageChoiceENGTex_WIDTH, gFileSelLanguageChoiceENGTex_HEIGHT,
+                                         8)] = {
 #include "assets/textures/title_static/gFileSelLanguageChoiceENGTex.ia8.inc.c"
 };
 
-u64 gFileSelLanguageChoiceGERTex[TEX_LEN(u64, gFileSelLanguageChoiceGERTex_WIDTH, gFileSelLanguageChoiceGERTex_HEIGHT, 8)] = {
+u64 gFileSelLanguageChoiceGERTex[TEX_LEN(u64, gFileSelLanguageChoiceGERTex_WIDTH, gFileSelLanguageChoiceGERTex_HEIGHT,
+                                         8)] = {
 #include "assets/textures/title_static/gFileSelLanguageChoiceGERTex.ia8.inc.c"
 };
 
-u64 gFileSelLanguageChoiceFRATex[TEX_LEN(u64, gFileSelLanguageChoiceFRATex_WIDTH, gFileSelLanguageChoiceFRATex_HEIGHT, 8)] = {
+u64 gFileSelLanguageChoiceFRATex[TEX_LEN(u64, gFileSelLanguageChoiceFRATex_WIDTH, gFileSelLanguageChoiceFRATex_HEIGHT,
+                                         8)] = {
 #include "assets/textures/title_static/gFileSelLanguageChoiceFRATex.ia8.inc.c"
 };
 
