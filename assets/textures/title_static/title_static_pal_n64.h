@@ -106,66 +106,9 @@ extern u64 gFileSelLanguageGERTex[TEX_LEN(u64, gFileSelLanguageGERTex_WIDTH, gFi
 #define gFileSelLanguageFRATex_WIDTH 64
 #define gFileSelLanguageFRATex_HEIGHT 16
 extern u64 gFileSelLanguageFRATex[TEX_LEN(u64, gFileSelLanguageFRATex_WIDTH, gFileSelLanguageFRATex_HEIGHT, 8)];
-#define gFileSelWindow1Tex_WIDTH 64
-#define gFileSelWindow1Tex_HEIGHT 32
-extern u64 gFileSelWindow1Tex[TEX_LEN(u64, gFileSelWindow1Tex_WIDTH, gFileSelWindow1Tex_HEIGHT, 16)];
-#define gFileSelWindow2Tex_WIDTH 64
-#define gFileSelWindow2Tex_HEIGHT 32
-extern u64 gFileSelWindow2Tex[TEX_LEN(u64, gFileSelWindow2Tex_WIDTH, gFileSelWindow2Tex_HEIGHT, 16)];
-#define gFileSelWindow3Tex_WIDTH 64
-#define gFileSelWindow3Tex_HEIGHT 32
-extern u64 gFileSelWindow3Tex[TEX_LEN(u64, gFileSelWindow3Tex_WIDTH, gFileSelWindow3Tex_HEIGHT, 16)];
-#define gFileSelWindow4Tex_WIDTH 48
-#define gFileSelWindow4Tex_HEIGHT 32
-extern u64 gFileSelWindow4Tex[TEX_LEN(u64, gFileSelWindow4Tex_WIDTH, gFileSelWindow4Tex_HEIGHT, 16)];
-#define gFileSelWindow5Tex_WIDTH 64
-#define gFileSelWindow5Tex_HEIGHT 32
-extern u64 gFileSelWindow5Tex[TEX_LEN(u64, gFileSelWindow5Tex_WIDTH, gFileSelWindow5Tex_HEIGHT, 16)];
-#define gFileSelWindow6Tex_WIDTH 64
-#define gFileSelWindow6Tex_HEIGHT 32
-extern u64 gFileSelWindow6Tex[TEX_LEN(u64, gFileSelWindow6Tex_WIDTH, gFileSelWindow6Tex_HEIGHT, 16)];
-#define gFileSelWindow7Tex_WIDTH 64
-#define gFileSelWindow7Tex_HEIGHT 32
-extern u64 gFileSelWindow7Tex[TEX_LEN(u64, gFileSelWindow7Tex_WIDTH, gFileSelWindow7Tex_HEIGHT, 16)];
-#define gFileSelWindow8Tex_WIDTH 48
-#define gFileSelWindow8Tex_HEIGHT 32
-extern u64 gFileSelWindow8Tex[TEX_LEN(u64, gFileSelWindow8Tex_WIDTH, gFileSelWindow8Tex_HEIGHT, 16)];
-#define gFileSelWindow9Tex_WIDTH 64
-#define gFileSelWindow9Tex_HEIGHT 32
-extern u64 gFileSelWindow9Tex[TEX_LEN(u64, gFileSelWindow9Tex_WIDTH, gFileSelWindow9Tex_HEIGHT, 16)];
-#define gFileSelWindow10Tex_WIDTH 64
-#define gFileSelWindow10Tex_HEIGHT 32
-extern u64 gFileSelWindow10Tex[TEX_LEN(u64, gFileSelWindow10Tex_WIDTH, gFileSelWindow10Tex_HEIGHT, 16)];
-#define gFileSelWindow11Tex_WIDTH 64
-#define gFileSelWindow11Tex_HEIGHT 32
-extern u64 gFileSelWindow11Tex[TEX_LEN(u64, gFileSelWindow11Tex_WIDTH, gFileSelWindow11Tex_HEIGHT, 16)];
-#define gFileSelWindow12Tex_WIDTH 48
-#define gFileSelWindow12Tex_HEIGHT 32
-extern u64 gFileSelWindow12Tex[TEX_LEN(u64, gFileSelWindow12Tex_WIDTH, gFileSelWindow12Tex_HEIGHT, 16)];
-#define gFileSelWindow13Tex_WIDTH 64
-#define gFileSelWindow13Tex_HEIGHT 32
-extern u64 gFileSelWindow13Tex[TEX_LEN(u64, gFileSelWindow13Tex_WIDTH, gFileSelWindow13Tex_HEIGHT, 16)];
-#define gFileSelWindow14Tex_WIDTH 64
-#define gFileSelWindow14Tex_HEIGHT 32
-extern u64 gFileSelWindow14Tex[TEX_LEN(u64, gFileSelWindow14Tex_WIDTH, gFileSelWindow14Tex_HEIGHT, 16)];
-#define gFileSelWindow15Tex_WIDTH 64
-#define gFileSelWindow15Tex_HEIGHT 32
-extern u64 gFileSelWindow15Tex[TEX_LEN(u64, gFileSelWindow15Tex_WIDTH, gFileSelWindow15Tex_HEIGHT, 16)];
-#define gFileSelWindow16Tex_WIDTH 48
-#define gFileSelWindow16Tex_HEIGHT 32
-extern u64 gFileSelWindow16Tex[TEX_LEN(u64, gFileSelWindow16Tex_WIDTH, gFileSelWindow16Tex_HEIGHT, 16)];
-#define gFileSelWindow17Tex_WIDTH 64
-#define gFileSelWindow17Tex_HEIGHT 32
-extern u64 gFileSelWindow17Tex[TEX_LEN(u64, gFileSelWindow17Tex_WIDTH, gFileSelWindow17Tex_HEIGHT, 16)];
-#define gFileSelWindow18Tex_WIDTH 64
-#define gFileSelWindow18Tex_HEIGHT 32
-extern u64 gFileSelWindow18Tex[TEX_LEN(u64, gFileSelWindow18Tex_WIDTH, gFileSelWindow18Tex_HEIGHT, 16)];
-#define gFileSelWindow19Tex_WIDTH 64
-#define gFileSelWindow19Tex_HEIGHT 32
-extern u64 gFileSelWindow19Tex[TEX_LEN(u64, gFileSelWindow19Tex_WIDTH, gFileSelWindow19Tex_HEIGHT, 16)];
-#define gFileSelWindow20Tex_WIDTH 48
-#define gFileSelWindow20Tex_HEIGHT 32
-extern u64 gFileSelWindow20Tex[TEX_LEN(u64, gFileSelWindow20Tex_WIDTH, gFileSelWindow20Tex_HEIGHT, 16)];
+
+#include "assets/textures/title_static/title_static_file_sel_window_tex.h"
+
 #define gFileSelKanjiButtonTex_WIDTH 28
 #define gFileSelKanjiButtonTex_HEIGHT 16
 extern u64 gFileSelKanjiButtonTex[TEX_LEN(u64, gFileSelKanjiButtonTex_WIDTH, gFileSelKanjiButtonTex_HEIGHT, 16)];
@@ -190,21 +133,9 @@ extern u64 gFileSelBackspaceButtonTex[TEX_LEN(u64, gFileSelBackspaceButtonTex_WI
 #define gFileSelNameBoxTex_WIDTH 108
 #define gFileSelNameBoxTex_HEIGHT 16
 extern u64 gFileSelNameBoxTex[TEX_LEN(u64, gFileSelNameBoxTex_WIDTH, gFileSelNameBoxTex_HEIGHT, 16)];
-#define gFileSelFileInfoBox1Tex_WIDTH 36
-#define gFileSelFileInfoBox1Tex_HEIGHT 56
-extern u64 gFileSelFileInfoBox1Tex[TEX_LEN(u64, gFileSelFileInfoBox1Tex_WIDTH, gFileSelFileInfoBox1Tex_HEIGHT, 16)];
-#define gFileSelFileInfoBox2Tex_WIDTH 36
-#define gFileSelFileInfoBox2Tex_HEIGHT 56
-extern u64 gFileSelFileInfoBox2Tex[TEX_LEN(u64, gFileSelFileInfoBox2Tex_WIDTH, gFileSelFileInfoBox2Tex_HEIGHT, 16)];
-#define gFileSelFileInfoBox3Tex_WIDTH 36
-#define gFileSelFileInfoBox3Tex_HEIGHT 56
-extern u64 gFileSelFileInfoBox3Tex[TEX_LEN(u64, gFileSelFileInfoBox3Tex_WIDTH, gFileSelFileInfoBox3Tex_HEIGHT, 16)];
-#define gFileSelFileInfoBox4Tex_WIDTH 36
-#define gFileSelFileInfoBox4Tex_HEIGHT 56
-extern u64 gFileSelFileInfoBox4Tex[TEX_LEN(u64, gFileSelFileInfoBox4Tex_WIDTH, gFileSelFileInfoBox4Tex_HEIGHT, 16)];
-#define gFileSelFileInfoBox5Tex_WIDTH 24
-#define gFileSelFileInfoBox5Tex_HEIGHT 56
-extern u64 gFileSelFileInfoBox5Tex[TEX_LEN(u64, gFileSelFileInfoBox5Tex_WIDTH, gFileSelFileInfoBox5Tex_HEIGHT, 16)];
+
+#include "assets/textures/title_static/title_static_file_sel_file_info_box_tex.h"
+
 #define gFileSelDISKButtonTex_WIDTH 44
 #define gFileSelDISKButtonTex_HEIGHT 16
 extern u64 gFileSelDISKButtonTex[TEX_LEN(u64, gFileSelDISKButtonTex_WIDTH, gFileSelDISKButtonTex_HEIGHT, 16)];
