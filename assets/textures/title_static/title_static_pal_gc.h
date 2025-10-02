@@ -3,7 +3,6 @@
 
 #include "tex_len.h"
 #include "ultra64.h"
-#include "versions.h"
 
 // Highlights
 #define gFileSelBigButtonHighlightTex_WIDTH 72
