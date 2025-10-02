@@ -10,87 +10,7 @@ extern u64 gFileSelConnectorTex[TEX_LEN(u64, gFileSelConnectorTex_WIDTH, gFileSe
 
 #include "assets/textures/title_static/title_static_medallion_tex.h"
 
-#define gFileSelSurroundENGTex_WIDTH 48
-#define gFileSelSurroundENGTex_HEIGHT 16
-extern u64 gFileSelSurroundENGTex[TEX_LEN(u64, gFileSelSurroundENGTex_WIDTH, gFileSelSurroundENGTex_HEIGHT, 8)];
-#define gFileSelHeadsetENGTex_WIDTH 48
-#define gFileSelHeadsetENGTex_HEIGHT 16
-extern u64 gFileSelHeadsetENGTex[TEX_LEN(u64, gFileSelHeadsetENGTex_WIDTH, gFileSelHeadsetENGTex_HEIGHT, 8)];
-#define gFileSelHeadsetGERTex_WIDTH 48
-#define gFileSelHeadsetGERTex_HEIGHT 16
-extern u64 gFileSelHeadsetGERTex[TEX_LEN(u64, gFileSelHeadsetGERTex_WIDTH, gFileSelHeadsetGERTex_HEIGHT, 8)];
-#define gFileSelHeadsetFRATex_WIDTH 48
-#define gFileSelHeadsetFRATex_HEIGHT 16
-extern u64 gFileSelHeadsetFRATex[TEX_LEN(u64, gFileSelHeadsetFRATex_WIDTH, gFileSelHeadsetFRATex_HEIGHT, 8)];
-#define gFileSelMonoENGTex_WIDTH 48
-#define gFileSelMonoENGTex_HEIGHT 16
-extern u64 gFileSelMonoENGTex[TEX_LEN(u64, gFileSelMonoENGTex_WIDTH, gFileSelMonoENGTex_HEIGHT, 8)];
-#define gFileSelSOUNDENGTex_WIDTH 64
-#define gFileSelSOUNDENGTex_HEIGHT 16
-extern u64 gFileSelSOUNDENGTex[TEX_LEN(u64, gFileSelSOUNDENGTex_WIDTH, gFileSelSOUNDENGTex_HEIGHT, 8)];
-#define gFileSelSOUNDFRATex_WIDTH 64
-#define gFileSelSOUNDFRATex_HEIGHT 16
-extern u64 gFileSelSOUNDFRATex[TEX_LEN(u64, gFileSelSOUNDFRATex_WIDTH, gFileSelSOUNDFRATex_HEIGHT, 8)];
-#define gFileSelStereoENGTex_WIDTH 48
-#define gFileSelStereoENGTex_HEIGHT 16
-extern u64 gFileSelStereoENGTex[TEX_LEN(u64, gFileSelStereoENGTex_WIDTH, gFileSelStereoENGTex_HEIGHT, 8)];
-#define gFileSelStereoFRATex_WIDTH 48
-#define gFileSelStereoFRATex_HEIGHT 16
-extern u64 gFileSelStereoFRATex[TEX_LEN(u64, gFileSelStereoFRATex_WIDTH, gFileSelStereoFRATex_HEIGHT, 8)];
-#define gFileSelZTargetingENGTex_WIDTH 64
-#define gFileSelZTargetingENGTex_HEIGHT 16
-extern u64 gFileSelZTargetingENGTex[TEX_LEN(u64, gFileSelZTargetingENGTex_WIDTH, gFileSelZTargetingENGTex_HEIGHT, 8)];
-#define gFileSelZTargetingGERTex_WIDTH 144
-#define gFileSelZTargetingGERTex_HEIGHT 16
-extern u64 gFileSelZTargetingGERTex[TEX_LEN(u64, gFileSelZTargetingGERTex_WIDTH, gFileSelZTargetingGERTex_HEIGHT, 8)];
-#define gFileSelZTargetingFRATex_WIDTH 64
-#define gFileSelZTargetingFRATex_HEIGHT 16
-extern u64 gFileSelZTargetingFRATex[TEX_LEN(u64, gFileSelZTargetingFRATex_WIDTH, gFileSelZTargetingFRATex_HEIGHT, 8)];
-#define gFileSelSwitchENGTex_WIDTH 48
-#define gFileSelSwitchENGTex_HEIGHT 16
-extern u64 gFileSelSwitchENGTex[TEX_LEN(u64, gFileSelSwitchENGTex_WIDTH, gFileSelSwitchENGTex_HEIGHT, 8)];
-#define gFileSelSwitchGERTex_WIDTH 80
-#define gFileSelSwitchGERTex_HEIGHT 16
-extern u64 gFileSelSwitchGERTex[TEX_LEN(u64, gFileSelSwitchGERTex_WIDTH, gFileSelSwitchGERTex_HEIGHT, 8)];
-#define gFileSelSwitchFRATex_WIDTH 48
-#define gFileSelSwitchFRATex_HEIGHT 16
-extern u64 gFileSelSwitchFRATex[TEX_LEN(u64, gFileSelSwitchFRATex_WIDTH, gFileSelSwitchFRATex_HEIGHT, 8)];
-#define gFileSelHoldENGTex_WIDTH 48
-#define gFileSelHoldENGTex_HEIGHT 16
-extern u64 gFileSelHoldENGTex[TEX_LEN(u64, gFileSelHoldENGTex_WIDTH, gFileSelHoldENGTex_HEIGHT, 8)];
-#define gFileSelHoldGERTex_WIDTH 80
-#define gFileSelHoldGERTex_HEIGHT 16
-extern u64 gFileSelHoldGERTex[TEX_LEN(u64, gFileSelHoldGERTex_WIDTH, gFileSelHoldGERTex_HEIGHT, 8)];
-#define gFileSelHoldFRATex_WIDTH 48
-#define gFileSelHoldFRATex_HEIGHT 16
-extern u64 gFileSelHoldFRATex[TEX_LEN(u64, gFileSelHoldFRATex_WIDTH, gFileSelHoldFRATex_HEIGHT, 8)];
-#define gFileSelCheckBrightnessENGTex_WIDTH 128
-#define gFileSelCheckBrightnessENGTex_HEIGHT 16
-extern u64 gFileSelCheckBrightnessENGTex[TEX_LEN(u64, gFileSelCheckBrightnessENGTex_WIDTH, gFileSelCheckBrightnessENGTex_HEIGHT, 8)];
-#define gFileSelCheckBrightnessGERTex_WIDTH 128
-#define gFileSelCheckBrightnessGERTex_HEIGHT 16
-extern u64 gFileSelCheckBrightnessGERTex[TEX_LEN(u64, gFileSelCheckBrightnessGERTex_WIDTH, gFileSelCheckBrightnessGERTex_HEIGHT, 8)];
-#define gFileSelCheckBrightnessFRATex_WIDTH 128
-#define gFileSelCheckBrightnessFRATex_HEIGHT 16
-extern u64 gFileSelCheckBrightnessFRATex[TEX_LEN(u64, gFileSelCheckBrightnessFRATex_WIDTH, gFileSelCheckBrightnessFRATex_HEIGHT, 8)];
-#define gFileSelLanguageChoiceENGTex_WIDTH 48
-#define gFileSelLanguageChoiceENGTex_HEIGHT 16
-extern u64 gFileSelLanguageChoiceENGTex[TEX_LEN(u64, gFileSelLanguageChoiceENGTex_WIDTH, gFileSelLanguageChoiceENGTex_HEIGHT, 8)];
-#define gFileSelLanguageChoiceGERTex_WIDTH 48
-#define gFileSelLanguageChoiceGERTex_HEIGHT 16
-extern u64 gFileSelLanguageChoiceGERTex[TEX_LEN(u64, gFileSelLanguageChoiceGERTex_WIDTH, gFileSelLanguageChoiceGERTex_HEIGHT, 8)];
-#define gFileSelLanguageChoiceFRATex_WIDTH 48
-#define gFileSelLanguageChoiceFRATex_HEIGHT 16
-extern u64 gFileSelLanguageChoiceFRATex[TEX_LEN(u64, gFileSelLanguageChoiceFRATex_WIDTH, gFileSelLanguageChoiceFRATex_HEIGHT, 8)];
-#define gFileSelLanguageENGTex_WIDTH 64
-#define gFileSelLanguageENGTex_HEIGHT 16
-extern u64 gFileSelLanguageENGTex[TEX_LEN(u64, gFileSelLanguageENGTex_WIDTH, gFileSelLanguageENGTex_HEIGHT, 8)];
-#define gFileSelLanguageGERTex_WIDTH 64
-#define gFileSelLanguageGERTex_HEIGHT 16
-extern u64 gFileSelLanguageGERTex[TEX_LEN(u64, gFileSelLanguageGERTex_WIDTH, gFileSelLanguageGERTex_HEIGHT, 8)];
-#define gFileSelLanguageFRATex_WIDTH 64
-#define gFileSelLanguageFRATex_HEIGHT 16
-extern u64 gFileSelLanguageFRATex[TEX_LEN(u64, gFileSelLanguageFRATex_WIDTH, gFileSelLanguageFRATex_HEIGHT, 8)];
+#include "assets/textures/title_static/title_static_options_tex.h"
 
 #include "assets/textures/title_static/title_static_file_sel_window_tex.h"
 
@@ -105,6 +25,7 @@ extern u64 gFileSelENDButtonGERTex[TEX_LEN(u64, gFileSelENDButtonGERTex_WIDTH, g
 #define gFileSelENDButtonFRATex_WIDTH 44
 #define gFileSelENDButtonFRATex_HEIGHT 16
 extern u64 gFileSelENDButtonFRATex[TEX_LEN(u64, gFileSelENDButtonFRATex_WIDTH, gFileSelENDButtonFRATex_HEIGHT, 16)];
+
 #define gFileSelBackspaceButtonTex_WIDTH 28
 #define gFileSelBackspaceButtonTex_HEIGHT 16
 extern u64 gFileSelBackspaceButtonTex[TEX_LEN(u64, gFileSelBackspaceButtonTex_WIDTH, gFileSelBackspaceButtonTex_HEIGHT, 16)];
@@ -128,6 +49,7 @@ extern u64 gFileSelBrightnessCheckTex[TEX_LEN(u64, gFileSelBrightnessCheckTex_WI
 
 #include "assets/textures/title_static/title_static_stone_tex.h"
 
+// english
 #define gFileSelNoFileToCopyENGTex_WIDTH 128
 #define gFileSelNoFileToCopyENGTex_HEIGHT 16
 extern u64 gFileSelNoFileToCopyENGTex[TEX_LEN(u64, gFileSelNoFileToCopyENGTex_WIDTH, gFileSelNoFileToCopyENGTex_HEIGHT, 8)];
@@ -200,6 +122,8 @@ extern u64 gFileSelEraseButtonENGTex[TEX_LEN(u64, gFileSelEraseButtonENGTex_WIDT
 #define gFileSelOptionsButtonENGTex_WIDTH 64
 #define gFileSelOptionsButtonENGTex_HEIGHT 16
 extern u64 gFileSelOptionsButtonENGTex[TEX_LEN(u64, gFileSelOptionsButtonENGTex_WIDTH, gFileSelOptionsButtonENGTex_HEIGHT, 16)];
+
+// german
 #define gFileSelOptionsButtonGERTex_WIDTH 64
 #define gFileSelOptionsButtonGERTex_HEIGHT 16
 extern u64 gFileSelOptionsButtonGERTex[TEX_LEN(u64, gFileSelOptionsButtonGERTex_WIDTH, gFileSelOptionsButtonGERTex_HEIGHT, 16)];
@@ -278,6 +202,8 @@ extern u64 gFileSelEraseButtonGERTex[TEX_LEN(u64, gFileSelEraseButtonGERTex_WIDT
 #define gFileSelQuitButtonGERTex_WIDTH 64
 #define gFileSelQuitButtonGERTex_HEIGHT 16
 extern u64 gFileSelQuitButtonGERTex[TEX_LEN(u64, gFileSelQuitButtonGERTex_WIDTH, gFileSelQuitButtonGERTex_HEIGHT, 16)];
+
+// french
 #define gFileSelNoFileToCopyFRATex_WIDTH 128
 #define gFileSelNoFileToCopyFRATex_HEIGHT 16
 extern u64 gFileSelNoFileToCopyFRATex[TEX_LEN(u64, gFileSelNoFileToCopyFRATex_WIDTH, gFileSelNoFileToCopyFRATex_HEIGHT, 8)];
@@ -347,6 +273,7 @@ extern u64 gFileSelEraseButtonFRATex[TEX_LEN(u64, gFileSelEraseButtonFRATex_WIDT
 #define gFileSelQuitButtonFRATex_WIDTH 64
 #define gFileSelQuitButtonFRATex_HEIGHT 16
 extern u64 gFileSelQuitButtonFRATex[TEX_LEN(u64, gFileSelQuitButtonFRATex_WIDTH, gFileSelQuitButtonFRATex_HEIGHT, 16)];
+
 #define gFileSelInitialLanguageChoiceENGTex_WIDTH 80
 #define gFileSelInitialLanguageChoiceENGTex_HEIGHT 32
 extern u64 gFileSelInitialLanguageChoiceENGTex[TEX_LEN(u64, gFileSelInitialLanguageChoiceENGTex_WIDTH, gFileSelInitialLanguageChoiceENGTex_HEIGHT, 8)];
@@ -356,6 +283,7 @@ extern u64 gFileSelInitialLanguageChoiceGERTex[TEX_LEN(u64, gFileSelInitialLangu
 #define gFileSelInitialLanguageChoiceFRATex_WIDTH 80
 #define gFileSelInitialLanguageChoiceFRATex_HEIGHT 32
 extern u64 gFileSelInitialLanguageChoiceFRATex[TEX_LEN(u64, gFileSelInitialLanguageChoiceFRATex_WIDTH, gFileSelInitialLanguageChoiceFRATex_HEIGHT, 8)];
+
 #define gFileSelSelectYourLanguageTex_WIDTH 160
 #define gFileSelSelectYourLanguageTex_HEIGHT 60
 extern u64 gFileSelSelectYourLanguageTex[TEX_LEN(u64, gFileSelSelectYourLanguageTex_WIDTH, gFileSelSelectYourLanguageTex_HEIGHT, 8)];

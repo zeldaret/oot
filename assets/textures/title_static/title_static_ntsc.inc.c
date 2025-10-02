@@ -113,7 +113,7 @@ u64 gFileSelCheckBrightnessJPNTex[TEX_LEN(u64, gFileSelCheckBrightnessJPNTex_WID
 #include "assets/textures/title_static/gFileSelCheckBrightnessJPNTex.ia8.inc.c"
 };
 
-#include "assets/textures/title_static/title_static_file_sel_window_tex.h"
+#include "assets/textures/title_static/title_static_file_sel_window_tex.inc.c"
 
 u64 gFileSelCopyButtonJPNTex[TEX_LEN(u64, gFileSelCopyButtonJPNTex_WIDTH, gFileSelCopyButtonJPNTex_HEIGHT, 16)] = {
 #include "assets/textures/title_static/gFileSelCopyButtonJPNTex.ia16.inc.c"

@@ -19,6 +19,7 @@ extern u64 gFileSelFileEmptyJPNTex[TEX_LEN(u64, gFileSelFileEmptyJPNTex_WIDTH, g
 #define gFileSelFileInUseJPNTex_WIDTH 128
 #define gFileSelFileInUseJPNTex_HEIGHT 16
 extern u64 gFileSelFileInUseJPNTex[TEX_LEN(u64, gFileSelFileInUseJPNTex_WIDTH, gFileSelFileInUseJPNTex_HEIGHT, 8)];
+
 #define gFileSelConnectorTex_WIDTH 24
 #define gFileSelConnectorTex_HEIGHT 16
 extern u64 gFileSelConnectorTex[TEX_LEN(u64, gFileSelConnectorTex_WIDTH, gFileSelConnectorTex_HEIGHT, 8)];
@@ -115,6 +116,7 @@ extern u64 gFileSelEraseButtonJPNTex[TEX_LEN(u64, gFileSelEraseButtonJPNTex_WIDT
 #define gFileSelENDButtonENGTex_WIDTH 44
 #define gFileSelENDButtonENGTex_HEIGHT 16
 extern u64 gFileSelENDButtonENGTex[TEX_LEN(u64, gFileSelENDButtonENGTex_WIDTH, gFileSelENDButtonENGTex_HEIGHT, 16)];
+
 #define gFileSelBackspaceButtonTex_WIDTH 28
 #define gFileSelBackspaceButtonTex_HEIGHT 16
 extern u64 gFileSelBackspaceButtonTex[TEX_LEN(u64, gFileSelBackspaceButtonTex_WIDTH, gFileSelBackspaceButtonTex_HEIGHT, 16)];
@@ -130,6 +132,7 @@ extern u64 gFileSelOptionsButtonJPNTex[TEX_LEN(u64, gFileSelOptionsButtonJPNTex_
 #define gFileSelQuitButtonJPNTex_WIDTH 64
 #define gFileSelQuitButtonJPNTex_HEIGHT 16
 extern u64 gFileSelQuitButtonJPNTex[TEX_LEN(u64, gFileSelQuitButtonJPNTex_WIDTH, gFileSelQuitButtonJPNTex_HEIGHT, 16)];
+
 #define gFileSelDISKButtonTex_WIDTH 44
 #define gFileSelDISKButtonTex_HEIGHT 16
 extern u64 gFileSelDISKButtonTex[TEX_LEN(u64, gFileSelDISKButtonTex_WIDTH, gFileSelDISKButtonTex_HEIGHT, 16)];
@@ -139,6 +142,7 @@ extern u64 gFileSelOptionsDividerTex[TEX_LEN(u64, gFileSelOptionsDividerTex_WIDT
 #define gFileSelBrightnessCheckTex_WIDTH 96
 #define gFileSelBrightnessCheckTex_HEIGHT 16
 extern u64 gFileSelBrightnessCheckTex[TEX_LEN(u64, gFileSelBrightnessCheckTex_WIDTH, gFileSelBrightnessCheckTex_HEIGHT, 4)];
+
 #define gFileSelSaveXJPNTex_WIDTH 32
 #define gFileSelSaveXJPNTex_HEIGHT 16
 extern u64 gFileSelSaveXJPNTex[TEX_LEN(u64, gFileSelSaveXJPNTex_WIDTH, gFileSelSaveXJPNTex_HEIGHT, 4)];
