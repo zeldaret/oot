@@ -5,47 +5,11 @@
 #include "ultra64.h"
 
 // Highlights
-#define gFileSelBigButtonHighlightTex_WIDTH 72
-#define gFileSelBigButtonHighlightTex_HEIGHT 24
-extern u64 gFileSelBigButtonHighlightTex[TEX_LEN(u64, gFileSelBigButtonHighlightTex_WIDTH, gFileSelBigButtonHighlightTex_HEIGHT, 8)];
-#define gFileSelCharHighlightTex_WIDTH 24
-#define gFileSelCharHighlightTex_HEIGHT 24
-extern u64 gFileSelCharHighlightTex[TEX_LEN(u64, gFileSelCharHighlightTex_WIDTH, gFileSelCharHighlightTex_HEIGHT, 8)];
-#define gFileSelMediumButtonHighlightTex_WIDTH 56
-#define gFileSelMediumButtonHighlightTex_HEIGHT 24
-extern u64 gFileSelMediumButtonHighlightTex[TEX_LEN(u64, gFileSelMediumButtonHighlightTex_WIDTH, gFileSelMediumButtonHighlightTex_HEIGHT, 8)];
-#define gFileSelSmallButtonHighlightTex_WIDTH 40
-#define gFileSelSmallButtonHighlightTex_HEIGHT 24
-extern u64 gFileSelSmallButtonHighlightTex[TEX_LEN(u64, gFileSelSmallButtonHighlightTex_WIDTH, gFileSelSmallButtonHighlightTex_HEIGHT, 8)];
+#include "assets/textures/title_static/title_static_highlight_tex.h"
 
 // Stones & Medallions
-#define gFileSelForestMedallionTex_WIDTH 16
-#define gFileSelForestMedallionTex_HEIGHT 16
-extern u64 gFileSelForestMedallionTex[TEX_LEN(u64, gFileSelForestMedallionTex_WIDTH, gFileSelForestMedallionTex_HEIGHT, 8)];
-#define gFileSelFireMedallionTex_WIDTH 16
-#define gFileSelFireMedallionTex_HEIGHT 16
-extern u64 gFileSelFireMedallionTex[TEX_LEN(u64, gFileSelFireMedallionTex_WIDTH, gFileSelFireMedallionTex_HEIGHT, 8)];
-#define gFileSelWaterMedallionTex_WIDTH 16
-#define gFileSelWaterMedallionTex_HEIGHT 16
-extern u64 gFileSelWaterMedallionTex[TEX_LEN(u64, gFileSelWaterMedallionTex_WIDTH, gFileSelWaterMedallionTex_HEIGHT, 8)];
-#define gFileSelSpiritMedallionTex_WIDTH 16
-#define gFileSelSpiritMedallionTex_HEIGHT 16
-extern u64 gFileSelSpiritMedallionTex[TEX_LEN(u64, gFileSelSpiritMedallionTex_WIDTH, gFileSelSpiritMedallionTex_HEIGHT, 8)];
-#define gFileSelShadowMedallionTex_WIDTH 16
-#define gFileSelShadowMedallionTex_HEIGHT 16
-extern u64 gFileSelShadowMedallionTex[TEX_LEN(u64, gFileSelShadowMedallionTex_WIDTH, gFileSelShadowMedallionTex_HEIGHT, 8)];
-#define gFileSelLightMedallionTex_WIDTH 16
-#define gFileSelLightMedallionTex_HEIGHT 16
-extern u64 gFileSelLightMedallionTex[TEX_LEN(u64, gFileSelLightMedallionTex_WIDTH, gFileSelLightMedallionTex_HEIGHT, 8)];
-#define gFileSelKokiriEmeraldTex_WIDTH 16
-#define gFileSelKokiriEmeraldTex_HEIGHT 16
-extern u64 gFileSelKokiriEmeraldTex[TEX_LEN(u64, gFileSelKokiriEmeraldTex_WIDTH, gFileSelKokiriEmeraldTex_HEIGHT, 32)];
-#define gFileSelGoronRubyTex_WIDTH 16
-#define gFileSelGoronRubyTex_HEIGHT 16
-extern u64 gFileSelGoronRubyTex[TEX_LEN(u64, gFileSelGoronRubyTex_WIDTH, gFileSelGoronRubyTex_HEIGHT, 32)];
-#define gFileSelZoraSapphireTex_WIDTH 16
-#define gFileSelZoraSapphireTex_HEIGHT 16
-extern u64 gFileSelZoraSapphireTex[TEX_LEN(u64, gFileSelZoraSapphireTex_WIDTH, gFileSelZoraSapphireTex_HEIGHT, 32)];
+#include "assets/textures/title_static/title_static_medallion_tex.h"
+#include "assets/textures/title_static/title_static_stone_tex.h"
 
 // Main window
 #include "assets/textures/title_static/title_static_file_sel_window_tex.h"
@@ -86,10 +50,6 @@ extern u64 gFileSelBrightnessCheckTex[TEX_LEN(u64, gFileSelBrightnessCheckTex_WI
 #define gFileSelSaveXTex_WIDTH 32
 #define gFileSelSaveXTex_HEIGHT 16
 extern u64 gFileSelSaveXTex[TEX_LEN(u64, gFileSelSaveXTex_WIDTH, gFileSelSaveXTex_HEIGHT, 4)];
-
-extern Gfx gFileSelWindow1DL[67];
-extern Gfx gFileSelWindow2DL[66];
-extern Gfx gFileSelWindow3DL[34];
 
 
 // Language specific textures

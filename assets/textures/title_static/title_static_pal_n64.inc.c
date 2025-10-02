@@ -7,29 +7,7 @@ u64 gFileSelConnectorTex[TEX_LEN(u64, gFileSelConnectorTex_WIDTH, gFileSelConnec
 #include "assets/textures/title_static/gFileSelConnectorTex.ia8.inc.c"
 };
 
-u64 gFileSelForestMedallionTex[TEX_LEN(u64, gFileSelForestMedallionTex_WIDTH, gFileSelForestMedallionTex_HEIGHT, 8)] = {
-#include "assets/textures/title_static/gFileSelForestMedallionTex.ia8.inc.c"
-};
-
-u64 gFileSelFireMedallionTex[TEX_LEN(u64, gFileSelFireMedallionTex_WIDTH, gFileSelFireMedallionTex_HEIGHT, 8)] = {
-#include "assets/textures/title_static/gFileSelFireMedallionTex.ia8.inc.c"
-};
-
-u64 gFileSelWaterMedallionTex[TEX_LEN(u64, gFileSelWaterMedallionTex_WIDTH, gFileSelWaterMedallionTex_HEIGHT, 8)] = {
-#include "assets/textures/title_static/gFileSelWaterMedallionTex.ia8.inc.c"
-};
-
-u64 gFileSelSpiritMedallionTex[TEX_LEN(u64, gFileSelSpiritMedallionTex_WIDTH, gFileSelSpiritMedallionTex_HEIGHT, 8)] = {
-#include "assets/textures/title_static/gFileSelSpiritMedallionTex.ia8.inc.c"
-};
-
-u64 gFileSelShadowMedallionTex[TEX_LEN(u64, gFileSelShadowMedallionTex_WIDTH, gFileSelShadowMedallionTex_HEIGHT, 8)] = {
-#include "assets/textures/title_static/gFileSelShadowMedallionTex.ia8.inc.c"
-};
-
-u64 gFileSelLightMedallionTex[TEX_LEN(u64, gFileSelLightMedallionTex_WIDTH, gFileSelLightMedallionTex_HEIGHT, 8)] = {
-#include "assets/textures/title_static/gFileSelLightMedallionTex.ia8.inc.c"
-};
+#include "assets/textures/title_static/title_static_medallion_tex.inc.c"
 
 u64 gFileSelSurroundENGTex[TEX_LEN(u64, gFileSelSurroundENGTex_WIDTH, gFileSelSurroundENGTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelSurroundENGTex.ia8.inc.c"
@@ -187,33 +165,9 @@ u64 gFileSelBrightnessCheckTex[TEX_LEN(u64, gFileSelBrightnessCheckTex_WIDTH, gF
 #include "assets/textures/title_static/gFileSelBrightnessCheckTex.ia4.inc.c"
 };
 
-u64 gFileSelBigButtonHighlightTex[TEX_LEN(u64, gFileSelBigButtonHighlightTex_WIDTH, gFileSelBigButtonHighlightTex_HEIGHT, 8)] = {
-#include "assets/textures/title_static/gFileSelBigButtonHighlightTex.i8.inc.c"
-};
+#include "assets/textures/title_static/title_static_highlight_tex.inc.c"
 
-u64 gFileSelCharHighlightTex[TEX_LEN(u64, gFileSelCharHighlightTex_WIDTH, gFileSelCharHighlightTex_HEIGHT, 8)] = {
-#include "assets/textures/title_static/gFileSelCharHighlightTex.i8.inc.c"
-};
-
-u64 gFileSelMediumButtonHighlightTex[TEX_LEN(u64, gFileSelMediumButtonHighlightTex_WIDTH, gFileSelMediumButtonHighlightTex_HEIGHT, 8)] = {
-#include "assets/textures/title_static/gFileSelMediumButtonHighlightTex.i8.inc.c"
-};
-
-u64 gFileSelSmallButtonHighlightTex[TEX_LEN(u64, gFileSelSmallButtonHighlightTex_WIDTH, gFileSelSmallButtonHighlightTex_HEIGHT, 8)] = {
-#include "assets/textures/title_static/gFileSelSmallButtonHighlightTex.i8.inc.c"
-};
-
-u64 gFileSelKokiriEmeraldTex[TEX_LEN(u64, gFileSelKokiriEmeraldTex_WIDTH, gFileSelKokiriEmeraldTex_HEIGHT, 32)] = {
-#include "assets/textures/title_static/gFileSelKokiriEmeraldTex.rgba32.inc.c"
-};
-
-u64 gFileSelGoronRubyTex[TEX_LEN(u64, gFileSelGoronRubyTex_WIDTH, gFileSelGoronRubyTex_HEIGHT, 32)] = {
-#include "assets/textures/title_static/gFileSelGoronRubyTex.rgba32.inc.c"
-};
-
-u64 gFileSelZoraSapphireTex[TEX_LEN(u64, gFileSelZoraSapphireTex_WIDTH, gFileSelZoraSapphireTex_HEIGHT, 32)] = {
-#include "assets/textures/title_static/gFileSelZoraSapphireTex.rgba32.inc.c"
-};
+#include "assets/textures/title_static/title_static_stone_tex.inc.c"
 
 u64 gFileSelNoFileToCopyENGTex[TEX_LEN(u64, gFileSelNoFileToCopyENGTex_WIDTH, gFileSelNoFileToCopyENGTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelNoFileToCopyENGTex.ia8.inc.c"
