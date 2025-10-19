@@ -14,9 +14,9 @@ int g_segmentsCount;
 
 static void write_dmadata_table(FILE *fout)
 {
-    int i;
+    fprintf(fout, "DEFINE_DMA_ENTRY(makerom, \"makerom\")\n");
 
-    for (i = 0; i < g_segmentsCount; i++) {
+    for (int i = 0; i < g_segmentsCount; i++) {
         // Don't emit dma entry for segments set with NOLOAD
         if (g_segments[i].flags & FLAG_NOLOAD) {
             continue;

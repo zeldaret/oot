@@ -215,7 +215,6 @@ def merge_local_symbols(
 
             file.setSymbolList(symbols)
 
-
 def find_symbols_by_name(
     map_file: mapfile_parser.mapfile.MapFile, sym_name: str
 ) -> list[mapfile_parser.mapfile.FoundSymbolInfo]:
@@ -354,6 +353,13 @@ def sym_info_main():
 
     map_file = mapfile_parser.mapfile.MapFile()
     map_file.readMapFile(map_path)
+    def resolver(x: Path) -> Path|None:
+        if x.suffix == ".plf":
+            plf_map_path = x.with_suffix(".map")
+            if plf_map_path.exists():
+                return plf_map_path
+        return None
+    map_file = map_file.resolvePartiallyLinkedFiles(resolver)
 
     if elf_path and elf_path.exists():
         local_symbols = read_local_symbols_from_mdebug(elf_path)
