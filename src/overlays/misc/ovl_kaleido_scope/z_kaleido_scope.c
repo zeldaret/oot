@@ -3916,7 +3916,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_GERUDO_VALLEY] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
-            if (CUR_UPG_VALUE(UPG_SCALE)) {
+            if (CUR_UPG_VALUE(UPG_SCALE) != UPG_SCALE_NONE) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LAKE_HYLIA] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON)) {

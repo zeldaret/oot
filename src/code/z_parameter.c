@@ -1503,10 +1503,10 @@ u8 Item_Give(PlayState* play, u8 item) {
             return ITEM_NONE;
         }
     } else if ((item == ITEM_QUIVER_30) || (item == ITEM_BOW)) {
-        if (CUR_UPG_VALUE(UPG_QUIVER) == 0) {
-            Inventory_ChangeUpgrade(UPG_QUIVER, 1);
+        if (CUR_UPG_VALUE(UPG_QUIVER) == UPG_QUIVER_NONE) {
+            Inventory_ChangeUpgrade(UPG_QUIVER, UPG_QUIVER_NORMAL);
             INV_CONTENT(ITEM_BOW) = ITEM_BOW;
-            AMMO(ITEM_BOW) = CAPACITY(UPG_QUIVER, 1);
+            AMMO(ITEM_BOW) = CAPACITY(UPG_QUIVER, UPG_QUIVER_NORMAL);
             return ITEM_NONE;
         } else {
             AMMO(ITEM_BOW)++;
@@ -1515,26 +1515,26 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
         }
     } else if (item == ITEM_QUIVER_40) {
-        Inventory_ChangeUpgrade(UPG_QUIVER, 2);
-        AMMO(ITEM_BOW) = CAPACITY(UPG_QUIVER, 2);
+        Inventory_ChangeUpgrade(UPG_QUIVER, UPG_QUIVER_BIG);
+        AMMO(ITEM_BOW) = CAPACITY(UPG_QUIVER, UPG_QUIVER_BIG);
         return ITEM_NONE;
     } else if (item == ITEM_QUIVER_50) {
-        Inventory_ChangeUpgrade(UPG_QUIVER, 3);
-        AMMO(ITEM_BOW) = CAPACITY(UPG_QUIVER, 3);
+        Inventory_ChangeUpgrade(UPG_QUIVER, UPG_QUIVER_BIGGEST);
+        AMMO(ITEM_BOW) = CAPACITY(UPG_QUIVER, UPG_QUIVER_BIGGEST);
         return ITEM_NONE;
     } else if (item == ITEM_BULLET_BAG_40) {
-        Inventory_ChangeUpgrade(UPG_BULLET_BAG, 2);
-        AMMO(ITEM_SLINGSHOT) = CAPACITY(UPG_BULLET_BAG, 2);
+        Inventory_ChangeUpgrade(UPG_BULLET_BAG, UPG_BULLET_BAG_BIG);
+        AMMO(ITEM_SLINGSHOT) = CAPACITY(UPG_BULLET_BAG, UPG_BULLET_BAG_BIG);
         return ITEM_NONE;
     } else if (item == ITEM_BULLET_BAG_50) {
-        Inventory_ChangeUpgrade(UPG_BULLET_BAG, 3);
-        AMMO(ITEM_SLINGSHOT) = CAPACITY(UPG_BULLET_BAG, 3);
+        Inventory_ChangeUpgrade(UPG_BULLET_BAG, UPG_BULLET_BAG_BIGGEST);
+        AMMO(ITEM_SLINGSHOT) = CAPACITY(UPG_BULLET_BAG, UPG_BULLET_BAG_BIGGEST);
         return ITEM_NONE;
     } else if (item == ITEM_BOMB_BAG_20) {
-        if (CUR_UPG_VALUE(UPG_BOMB_BAG) == 0) {
-            Inventory_ChangeUpgrade(UPG_BOMB_BAG, 1);
+        if (CUR_UPG_VALUE(UPG_BOMB_BAG) == UPG_BOMB_BAG_NONE) {
+            Inventory_ChangeUpgrade(UPG_BOMB_BAG, UPG_BOMB_BAG_NORMAL);
             INV_CONTENT(ITEM_BOMB) = ITEM_BOMB;
-            AMMO(ITEM_BOMB) = CAPACITY(UPG_BOMB_BAG, 1);
+            AMMO(ITEM_BOMB) = CAPACITY(UPG_BOMB_BAG, UPG_BOMB_BAG_NORMAL);
             return ITEM_NONE;
         } else {
             AMMO(ITEM_BOMB)++;
@@ -1543,61 +1543,61 @@ u8 Item_Give(PlayState* play, u8 item) {
             }
         }
     } else if (item == ITEM_BOMB_BAG_30) {
-        Inventory_ChangeUpgrade(UPG_BOMB_BAG, 2);
-        AMMO(ITEM_BOMB) = CAPACITY(UPG_BOMB_BAG, 2);
+        Inventory_ChangeUpgrade(UPG_BOMB_BAG, UPG_BOMB_BAG_BIG);
+        AMMO(ITEM_BOMB) = CAPACITY(UPG_BOMB_BAG, UPG_BOMB_BAG_BIG);
         return ITEM_NONE;
     } else if (item == ITEM_BOMB_BAG_40) {
-        Inventory_ChangeUpgrade(UPG_BOMB_BAG, 3);
-        AMMO(ITEM_BOMB) = CAPACITY(UPG_BOMB_BAG, 3);
+        Inventory_ChangeUpgrade(UPG_BOMB_BAG, UPG_BOMB_BAG_BIGGEST);
+        AMMO(ITEM_BOMB) = CAPACITY(UPG_BOMB_BAG, UPG_BOMB_BAG_BIGGEST);
         return ITEM_NONE;
     } else if (item == ITEM_STRENGTH_GORONS_BRACELET) {
-        Inventory_ChangeUpgrade(UPG_STRENGTH, 1);
+        Inventory_ChangeUpgrade(UPG_STRENGTH, UPG_STRENGTH_GORON_BRACELET);
         return ITEM_NONE;
     } else if (item == ITEM_STRENGTH_SILVER_GAUNTLETS) {
-        Inventory_ChangeUpgrade(UPG_STRENGTH, 2);
+        Inventory_ChangeUpgrade(UPG_STRENGTH, UPG_STRENGTH_SILVER_GAUNTLETS);
         return ITEM_NONE;
     } else if (item == ITEM_STRENGTH_GOLD_GAUNTLETS) {
-        Inventory_ChangeUpgrade(UPG_STRENGTH, 3);
+        Inventory_ChangeUpgrade(UPG_STRENGTH, UPG_STRENGTH_GOLD_GAUNTLETS);
         return ITEM_NONE;
     } else if (item == ITEM_SCALE_SILVER) {
-        Inventory_ChangeUpgrade(UPG_SCALE, 1);
+        Inventory_ChangeUpgrade(UPG_SCALE, UPG_SCALE_SILVER);
         return ITEM_NONE;
     } else if (item == ITEM_SCALE_GOLDEN) {
-        Inventory_ChangeUpgrade(UPG_SCALE, 2);
+        Inventory_ChangeUpgrade(UPG_SCALE, UPG_SCALE_GOLD);
         return ITEM_NONE;
     } else if (item == ITEM_ADULTS_WALLET) {
-        Inventory_ChangeUpgrade(UPG_WALLET, 1);
+        Inventory_ChangeUpgrade(UPG_WALLET, UPG_WALLET_ADULT);
         return ITEM_NONE;
     } else if (item == ITEM_GIANTS_WALLET) {
-        Inventory_ChangeUpgrade(UPG_WALLET, 2);
+        Inventory_ChangeUpgrade(UPG_WALLET, UPG_WALLET_GIANT);
         return ITEM_NONE;
     } else if (item == ITEM_DEKU_STICK_UPGRADE_20) {
         if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_DEKU_STICK) = ITEM_DEKU_STICK;
         }
-        Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 2);
-        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_DEKU_STICKS, 2);
+        Inventory_ChangeUpgrade(UPG_DEKU_STICKS, UPG_DEKU_STICKS_20);
+        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_DEKU_STICKS, UPG_DEKU_STICKS_20);
         return ITEM_NONE;
     } else if (item == ITEM_DEKU_STICK_UPGRADE_30) {
         if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_DEKU_STICK) = ITEM_DEKU_STICK;
         }
-        Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 3);
-        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_DEKU_STICKS, 3);
+        Inventory_ChangeUpgrade(UPG_DEKU_STICKS, UPG_DEKU_STICKS_30);
+        AMMO(ITEM_DEKU_STICK) = CAPACITY(UPG_DEKU_STICKS, UPG_DEKU_STICKS_30);
         return ITEM_NONE;
     } else if (item == ITEM_DEKU_NUT_UPGRADE_30) {
         if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         }
-        Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 2);
-        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_DEKU_NUTS, 2);
+        Inventory_ChangeUpgrade(UPG_DEKU_NUTS, UPG_DEKU_NUTS_30);
+        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_DEKU_NUTS, UPG_DEKU_NUTS_30);
         return ITEM_NONE;
     } else if (item == ITEM_DEKU_NUT_UPGRADE_40) {
         if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         }
-        Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 3);
-        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_DEKU_NUTS, 3);
+        Inventory_ChangeUpgrade(UPG_DEKU_NUTS, UPG_DEKU_NUTS_40);
+        AMMO(ITEM_DEKU_NUT) = CAPACITY(UPG_DEKU_NUTS, UPG_DEKU_NUTS_40);
         return ITEM_NONE;
     } else if (item == ITEM_LONGSHOT) {
         INV_CONTENT(item) = item;
@@ -1610,7 +1610,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         return ITEM_NONE;
     } else if (item == ITEM_DEKU_STICK) {
         if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 1);
+            Inventory_ChangeUpgrade(UPG_DEKU_STICKS, UPG_DEKU_STICKS_10);
             AMMO(ITEM_DEKU_STICK) = 1;
         } else {
             AMMO(ITEM_DEKU_STICK)++;
@@ -1620,7 +1620,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         }
     } else if ((item == ITEM_DEKU_STICKS_5) || (item == ITEM_DEKU_STICKS_10)) {
         if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_DEKU_STICKS, 1);
+            Inventory_ChangeUpgrade(UPG_DEKU_STICKS, UPG_DEKU_STICKS_10);
             AMMO(ITEM_DEKU_STICK) = sAmmoRefillCounts[item - ITEM_DEKU_STICKS_5];
         } else {
             AMMO(ITEM_DEKU_STICK) += sAmmoRefillCounts[item - ITEM_DEKU_STICKS_5];
@@ -1631,7 +1631,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         item = ITEM_DEKU_STICK;
     } else if (item == ITEM_DEKU_NUT) {
         if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 1);
+            Inventory_ChangeUpgrade(UPG_DEKU_NUTS, UPG_DEKU_NUTS_20);
             AMMO(ITEM_DEKU_NUT) = ITEM_DEKU_NUT;
         } else {
             AMMO(ITEM_DEKU_NUT)++;
@@ -1641,7 +1641,7 @@ u8 Item_Give(PlayState* play, u8 item) {
         }
     } else if ((item == ITEM_DEKU_NUTS_5) || (item == ITEM_DEKU_NUTS_10)) {
         if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
-            Inventory_ChangeUpgrade(UPG_DEKU_NUTS, 1);
+            Inventory_ChangeUpgrade(UPG_DEKU_NUTS, UPG_DEKU_NUTS_20);
             AMMO(ITEM_DEKU_NUT) += sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5];
             PRINTF(T("デクの実 %d(%d)=%d  BS_count=%d\n", "Deku Nuts %d(%d)=%d  BS_count=%d\n"), item, ITEM_DEKU_NUTS_5,
                    item - ITEM_DEKU_NUTS_5, sAmmoRefillCounts[item - ITEM_DEKU_NUTS_5]);
@@ -1696,7 +1696,7 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         return ITEM_BOW;
     } else if (item == ITEM_SLINGSHOT) {
-        Inventory_ChangeUpgrade(UPG_BULLET_BAG, 1);
+        Inventory_ChangeUpgrade(UPG_BULLET_BAG, UPG_BULLET_BAG_NORMAL);
         INV_CONTENT(ITEM_SLINGSHOT) = ITEM_SLINGSHOT;
         AMMO(ITEM_SLINGSHOT) = 30;
         return ITEM_NONE;
@@ -1938,7 +1938,7 @@ u8 Item_CheckObtainability(u8 item) {
     } else if ((item == ITEM_BOMBCHUS_5) || (item == ITEM_BOMBCHUS_20)) {
         return ITEM_NONE;
     } else if ((item == ITEM_QUIVER_30) || (item == ITEM_BOW)) {
-        if (CUR_UPG_VALUE(UPG_QUIVER) == 0) {
+        if (CUR_UPG_VALUE(UPG_QUIVER) == UPG_QUIVER_NONE) {
             return ITEM_NONE;
         } else {
             return 0;
@@ -1948,7 +1948,7 @@ u8 Item_CheckObtainability(u8 item) {
     } else if ((item == ITEM_BULLET_BAG_40) || (item == ITEM_BULLET_BAG_50)) {
         return ITEM_NONE;
     } else if ((item == ITEM_BOMB_BAG_20) || (item == ITEM_BOMB)) {
-        if (CUR_UPG_VALUE(UPG_BOMB_BAG) == 0) {
+        if (CUR_UPG_VALUE(UPG_BOMB_BAG) == UPG_BOMB_BAG_NONE) {
             return ITEM_NONE;
         } else {
             return 0;
@@ -3186,8 +3186,16 @@ void Interface_Draw(PlayState* play) {
     static s16 D_80125B1C[][3] = {
         { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
     };
-    static s16 rupeeDigitsFirst[] = { 1, 0, 0 };
-    static s16 rupeeDigitsCount[] = { 2, 3, 3 };
+    static s16 rupeeDigitsFirst[] = {
+        1, // UPG_WALLET_CHILD
+        0, // UPG_WALLET_ADULT
+        0  // UPG_WALLET_GIANT
+    };
+    static s16 rupeeDigitsCount[] = {
+        2, // UPG_WALLET_CHILD
+        3, // UPG_WALLET_ADULT
+        3  // UPG_WALLET_GIANT
+    };
     static s16 spoilingItemEntrances[] = { ENTR_LOST_WOODS_2, ENTR_ZORAS_DOMAIN_3, ENTR_ZORAS_DOMAIN_3 };
     static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
     static s16 D_80125B5C[] = { 91, 91 };         // unused

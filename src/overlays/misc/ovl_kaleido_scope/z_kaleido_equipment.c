@@ -239,7 +239,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                         if (pauseCtx->cursorX[PAUSE_EQUIP] == EQUIP_CURSOR_X_UPG) {
                             if (pauseCtx->cursorY[PAUSE_EQUIP] == EQUIP_CURSOR_Y_BULLETBAG_QUIVER) {
                                 //! @bug Assumes adult always has bullet bag (as adult this should rely on `UPG_QUIVER`)
-                                if (CUR_UPG_VALUE(UPG_BULLET_BAG) != 0) {
+                                if (CUR_UPG_VALUE(UPG_BULLET_BAG) != UPG_BULLET_BAG_NONE) {
                                     cursorMoveResult = 1;
                                 }
                             } else {
@@ -329,7 +329,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
                         if (pauseCtx->cursorX[PAUSE_EQUIP] == EQUIP_CURSOR_X_UPG) {
                             if (pauseCtx->cursorY[PAUSE_EQUIP] == EQUIP_CURSOR_Y_BULLETBAG_QUIVER) {
-                                if (CUR_UPG_VALUE(UPG_BULLET_BAG) != 0) {
+                                if (CUR_UPG_VALUE(UPG_BULLET_BAG) != UPG_BULLET_BAG_NONE) {
                                     cursorMoveResult = 1;
                                 }
                             } else {
@@ -383,7 +383,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 while (true) {
                     if (cursorX == EQUIP_CURSOR_X_UPG) {
                         if (cursorY == EQUIP_CURSOR_Y_BULLETBAG_QUIVER) {
-                            if (CUR_UPG_VALUE(UPG_BULLET_BAG) != 0) {
+                            if (CUR_UPG_VALUE(UPG_BULLET_BAG) != UPG_BULLET_BAG_NONE) {
                                 pauseCtx->cursorPoint[PAUSE_EQUIP] = cursorPoint;
                                 pauseCtx->cursorX[PAUSE_EQUIP] = cursorX;
                                 pauseCtx->cursorY[PAUSE_EQUIP] = cursorY;
@@ -466,7 +466,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
             if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                 if ((pauseCtx->cursorY[PAUSE_EQUIP] == EQUIP_CURSOR_Y_BULLETBAG_QUIVER) &&
-                    (CUR_UPG_VALUE(UPG_BULLET_BAG) != 0)) {
+                    (CUR_UPG_VALUE(UPG_BULLET_BAG) != UPG_BULLET_BAG_NONE)) {
                     cursorItem = ITEM_BULLET_BAG_30 + CUR_UPG_VALUE(UPG_BULLET_BAG) - 1;
                 } else {
                     cursorItem = ITEM_QUIVER_30 + sUpgradeItemOffsets[pauseCtx->cursorY[PAUSE_EQUIP]] +
@@ -475,7 +475,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 }
             } else {
                 if ((pauseCtx->cursorY[PAUSE_EQUIP] == EQUIP_CURSOR_Y_BULLETBAG_QUIVER) &&
-                    (CUR_UPG_VALUE(UPG_QUIVER) == 0)) {
+                    (CUR_UPG_VALUE(UPG_QUIVER) == UPG_QUIVER_NONE)) {
                     cursorItem = ITEM_BULLET_BAG_30 + CUR_UPG_VALUE(UPG_BULLET_BAG) - 1;
                 } else {
                     cursorItem = ITEM_QUIVER_30 + sUpgradeItemOffsets[pauseCtx->cursorY[PAUSE_EQUIP]] +
