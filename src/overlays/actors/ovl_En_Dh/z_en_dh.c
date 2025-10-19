@@ -360,7 +360,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
                 this->actionState++;
             } else if (this->colliderJntSph.base.atFlags & AT_HIT) {
                 this->colliderJntSph.base.atFlags &= ~AT_HIT;
-                Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 8.0f, this->actor.shape.rot.y, 8.0f);
+                Actor_SetPlayerBumpKnockdownNoDamage(play, &this->actor, 8.0f, this->actor.shape.rot.y, 8.0f);
             }
             break;
         case 3:
