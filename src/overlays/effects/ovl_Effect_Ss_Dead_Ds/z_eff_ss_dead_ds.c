@@ -79,14 +79,14 @@ void EffectSsDeadDs_Draw(PlayState* play, u32 index, EffectSs* this) {
         prevPos.z = pos.z - this->velocity.z;
 
         if (BgCheck_EntitySphVsWall1(&play->colCtx, &this->pos, &pos, &prevPos, 1.5f, &groundPoly, 1.0f)) {
-            func_80038A28(groundPoly, this->pos.x, this->pos.y, this->pos.z, &mf);
+            CollisionPoly_GetGroundMtxF(groundPoly, this->pos.x, this->pos.y, this->pos.z, &mf);
             Matrix_Put(&mf);
         } else {
             pos.y++;
             yIntersect = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &pos);
 
             if (groundPoly != NULL) {
-                func_80038A28(groundPoly, this->pos.x, yIntersect + 1.5f, this->pos.z, &mf);
+                CollisionPoly_GetGroundMtxF(groundPoly, this->pos.x, yIntersect + 1.5f, this->pos.z, &mf);
                 Matrix_Put(&mf);
             } else {
                 Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
