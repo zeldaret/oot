@@ -4,12 +4,8 @@
 #include "tex_len.h"
 #include "ultra64.h"
 
-// Highlights
-#include "assets/textures/title_static/title_static_highlight_tex.h"
-
-// Stones & Medallions
+// Medallions
 #include "assets/textures/title_static/title_static_medallion_tex.h"
-#include "assets/textures/title_static/title_static_stone_tex.h"
 
 // Main window
 #include "assets/textures/title_static/title_static_file_sel_window_tex.h"
@@ -43,6 +39,11 @@ extern u64 gFileSelBrightnessCheckTex[TEX_LEN(u64, gFileSelBrightnessCheckTex_WI
 #define gFileSelSaveXTex_HEIGHT 16
 extern u64 gFileSelSaveXTex[TEX_LEN(u64, gFileSelSaveXTex_WIDTH, gFileSelSaveXTex_HEIGHT, 4)];
 
+// Highlights
+#include "assets/textures/title_static/title_static_highlight_tex.h"
+
+// Stones
+#include "assets/textures/title_static/title_static_stone_tex.h"
 
 // Language specific textures
 

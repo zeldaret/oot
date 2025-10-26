@@ -1,3 +1,51 @@
+#include "ultra64/ultratypes.h"
+#include "tex_len.h"
+#include "title_static.h"
+
+#if OOT_NTSC
+u64 gFileSelSurroundJPNTex[TEX_LEN(u64, gFileSelSurroundJPNTex_WIDTH, gFileSelSurroundJPNTex_HEIGHT, 8)] = {
+#include "assets/textures/title_static/gFileSelSurroundJPNTex.ia8.inc.c"
+};
+
+u64 gFileSelHeadsetJPNTex[TEX_LEN(u64, gFileSelHeadsetJPNTex_WIDTH, gFileSelHeadsetJPNTex_HEIGHT, 8)] = {
+#include "assets/textures/title_static/gFileSelHeadsetJPNTex.ia8.inc.c"
+};
+
+u64 gFileSelMonoJPNTex[TEX_LEN(u64, gFileSelMonoJPNTex_WIDTH, gFileSelMonoJPNTex_HEIGHT, 8)] = {
+#include "assets/textures/title_static/gFileSelMonoJPNTex.ia8.inc.c"
+};
+
+u64 gFileSelSOUNDENGTex[TEX_LEN(u64, gFileSelSOUNDENGTex_WIDTH, gFileSelSOUNDENGTex_HEIGHT, 8)] = {
+#include "assets/textures/title_static/gFileSelSOUNDENGTex.ia8.inc.c"
+};
+
+u64 gFileSelStereoJPNTex[TEX_LEN(u64, gFileSelStereoJPNTex_WIDTH, gFileSelStereoJPNTex_HEIGHT, 8)] = {
+#include "assets/textures/title_static/gFileSelStereoJPNTex.ia8.inc.c"
+};
+
+u64 gFileSelZTargetingJPNTex[TEX_LEN(u64, gFileSelZTargetingJPNTex_WIDTH, gFileSelZTargetingJPNTex_HEIGHT, 8)] = {
+#include "assets/textures/title_static/gFileSelZTargetingJPNTex.ia8.inc.c"
+};
+
+u64 gFileSelSwitchJPNTex[TEX_LEN(u64, gFileSelSwitchJPNTex_WIDTH, gFileSelSwitchJPNTex_HEIGHT, 8)] = {
+#include "assets/textures/title_static/gFileSelSwitchJPNTex.ia8.inc.c"
+};
+
+u64 gFileSelHoldJPNTex[TEX_LEN(u64, gFileSelHoldJPNTex_WIDTH, gFileSelHoldJPNTex_HEIGHT, 8)] = {
+#include "assets/textures/title_static/gFileSelHoldJPNTex.ia8.inc.c"
+};
+
+u64 gFileSelControlsJPNTex[TEX_LEN(u64, gFileSelControlsJPNTex_WIDTH, gFileSelControlsJPNTex_HEIGHT, 8)] = {
+#include "assets/textures/title_static/gFileSelControlsJPNTex.ia8.inc.c"
+};
+
+u64 gFileSelCheckBrightnessJPNTex[TEX_LEN(u64, gFileSelCheckBrightnessJPNTex_WIDTH,
+                                          gFileSelCheckBrightnessJPNTex_HEIGHT, 8)] = {
+#include "assets/textures/title_static/gFileSelCheckBrightnessJPNTex.ia8.inc.c"
+};
+#endif /* OOT_NTSC */
+
+#if OOT_PAL
 
 u64 gFileSelSurroundENGTex[TEX_LEN(u64, gFileSelSurroundENGTex_WIDTH, gFileSelSurroundENGTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelSurroundENGTex.ia8.inc.c"
@@ -113,4 +161,5 @@ u64 gFileSelLanguageGERTex[TEX_LEN(u64, gFileSelLanguageGERTex_WIDTH, gFileSelLa
 u64 gFileSelLanguageFRATex[TEX_LEN(u64, gFileSelLanguageFRATex_WIDTH, gFileSelLanguageFRATex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelLanguageFRATex.ia8.inc.c"
 };
-#endif
+#endif /* OOT_PAL_N64 */
+#endif /* OOT_PAL */

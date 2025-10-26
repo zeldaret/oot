@@ -1,3 +1,7 @@
+#include "ultra64/ultratypes.h"
+#include "tex_len.h"
+#include "title_static.h"
+
 u64 gFileSelKanjiButtonTex[TEX_LEN(u64, gFileSelKanjiButtonTex_WIDTH, gFileSelKanjiButtonTex_HEIGHT, 16)] = {
 #include "assets/textures/title_static/gFileSelKanjiButtonTex.ia16.inc.c"
 };

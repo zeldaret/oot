@@ -1,3 +1,7 @@
+#include "ultra64/ultratypes.h"
+#include "tex_len.h"
+#include "title_static.h"
+
 u64 gFileSelFileInfoBox1Tex[TEX_LEN(u64, gFileSelFileInfoBox1Tex_WIDTH, gFileSelFileInfoBox1Tex_HEIGHT, 16)] = {
 #include "assets/textures/title_static/gFileSelFileInfoBox1Tex.ia16.inc.c"
 };

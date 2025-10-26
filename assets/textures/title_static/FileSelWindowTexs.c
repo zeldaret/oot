@@ -1,3 +1,7 @@
+#include "ultra64/ultratypes.h"
+#include "tex_len.h"
+#include "title_static.h"
+
 // 20 textures in a 4x5 rectangle:
 //  1  2  3  4
 //  5  6  7  8

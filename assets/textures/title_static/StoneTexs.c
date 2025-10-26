@@ -1,3 +1,7 @@
+#include "ultra64/ultratypes.h"
+#include "tex_len.h"
+#include "title_static.h"
+
 u64 gFileSelKokiriEmeraldTex[TEX_LEN(u64, gFileSelKokiriEmeraldTex_WIDTH, gFileSelKokiriEmeraldTex_HEIGHT, 32)] = {
 #include "assets/textures/title_static/gFileSelKokiriEmeraldTex.rgba32.inc.c"
 };

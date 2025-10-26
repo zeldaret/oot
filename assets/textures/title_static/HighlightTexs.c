@@ -1,3 +1,7 @@
+#include "ultra64/ultratypes.h"
+#include "tex_len.h"
+#include "title_static.h"
+
 u64 gFileSelBigButtonHighlightTex[TEX_LEN(u64, gFileSelBigButtonHighlightTex_WIDTH,
                                           gFileSelBigButtonHighlightTex_HEIGHT, 8)] = {
 #include "assets/textures/title_static/gFileSelBigButtonHighlightTex.i8.inc.c"
