@@ -36,7 +36,7 @@ typedef struct struct_801D9B90 {
 
 s32 func_801C7A1C(struct_801E0D18* arg0);
 
-void* D_801D2E50 = &B_801DC000;
+void* D_801D2E50 = &gN64DDDiskReadTemporaryBuffer;
 s32 (*D_801D2E54)(struct_801E0D18*) = func_801C7A1C;
 
 struct_801D9B90 B_801D9B90;

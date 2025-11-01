@@ -1,4 +1,6 @@
 #include "n64dd.h"
 
-// Buffer used for reading from the disk?
-u8 B_801DC000[0x4D10];
+// Buffer used during the process of reading from the disk
+// Used to directly read individual LBAs/blocks from the disk before copying to the final destination
+// As blocks/LBAs are read directly into this buffer from the disk, it has to be 16-byte aligned
+ALIGNED(16) u8 gN64DDDiskReadTemporaryBuffer[MAX_BLK_SIZE];
