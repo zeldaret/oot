@@ -1,5 +1,6 @@
 #include "z_en_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "overlays/actors/ovl_En_Sa/z_en_sa.h"
 
 #include "attributes.h"
 #include "gfx.h"
