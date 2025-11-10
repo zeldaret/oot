@@ -5,6 +5,7 @@
  */
 
 #include "z_demo_sa.h"
+#include "overlays/actors/ovl_Demo_Sa/z_demo_sa.h"
 #include "overlays/actors/ovl_En_Sa/z_en_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
