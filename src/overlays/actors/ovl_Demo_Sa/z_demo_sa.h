@@ -24,7 +24,7 @@ typedef struct DemoSa {
     /* 0x01B0 */ s32 isHoldingOcarina;
 } DemoSa; // size = 0x01B4
 
-typedef struct DemoSaAction {
+typedef enum DemoSaAction {
     /* 00 */ DEMOSA_ACTION_SETUP_FOREST_MEDALLION_CS,
     /* 01 */ DEMOSA_ACTION_AWAIT_BLUE_WARP,
     /* 02 */ DEMOSA_ACTION_RISE_THROUGH_BLUE_WARP,
