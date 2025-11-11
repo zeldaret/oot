@@ -391,7 +391,7 @@ void EffectSsSibuki_SpawnBurst(struct PlayState* play, Vec3f* pos);
 void EffectSsSibuki2_Spawn(struct PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale);
 void EffectSsGMagma2_Spawn(struct PlayState* play, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor,
                            s16 updateRate, s16 drawMode, s16 scale);
-void EffectSsStone1_Spawn(struct PlayState* play, Vec3f* pos, s32 arg2);
+void EffectSsStone1_Spawn(struct PlayState* play, Vec3f* pos, s32 suppressRTransFadeFlashAlphaStepAfterTwoFrames);
 void EffectSsHitMark_Spawn(struct PlayState* play, s32 type, s16 scale, Vec3f* pos);
 void EffectSsHitMark_SpawnFixedScale(struct PlayState* play, s32 type, Vec3f* pos);
 void EffectSsHitMark_SpawnCustomScale(struct PlayState* play, s32 type, s16 scale, Vec3f* pos);
