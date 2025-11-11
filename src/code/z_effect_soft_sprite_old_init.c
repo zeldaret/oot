@@ -733,11 +733,11 @@ void EffectSsGMagma2_Spawn(PlayState* play, Vec3f* pos, Color_RGBA8* primColor, 
 
 // EffectSsStone1 Spawn Functions
 
-void EffectSsStone1_Spawn(PlayState* play, Vec3f* pos, s32 arg2) {
+void EffectSsStone1_Spawn(PlayState* play, Vec3f* pos, s32 suppressRTransFadeFlashAlphaStepAfterTwoFrames) {
     EffectSsStone1InitParams initParams;
 
     initParams.pos = *pos;
-    initParams.unk_C = arg2;
+    initParams.suppressRTransFadeFlashAlphaStepAfterTwoFrames = suppressRTransFadeFlashAlphaStepAfterTwoFrames;
 
     EffectSs_Spawn(play, EFFECT_SS_STONE1, 128, &initParams);
 }
