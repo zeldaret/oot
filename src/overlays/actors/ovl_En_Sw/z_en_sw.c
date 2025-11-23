@@ -985,34 +985,34 @@ s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
         switch (limbIndex) { // replace with Gold Skulltula body parts.
             case 23:
-                *dList = object_st_DL_004788;
+                *dList = gGoldSkulltulaLimb23Dlist;
                 break;
             case 8:
-                *dList = object_st_DL_0046F0;
+                *dList = gGoldSkulltulaLimb8Dlist;
                 break;
             case 14:
-                *dList = object_st_DL_004658;
+                *dList = gGoldSkulltulaLimb14Dlist;
                 break;
             case 11:
-                *dList = object_st_DL_0045C0;
+                *dList = gGoldSkulltulaLimb11Dlist;
                 break;
             case 26:
-                *dList = object_st_DL_004820;
+                *dList = gGoldSkulltulaLimb26Dlist;
                 break;
             case 20:
-                *dList = object_st_DL_0048B8;
+                *dList = gGoldSkulltulaLimb20Dlist;
                 break;
             case 17:
-                *dList = object_st_DL_004950;
+                *dList = gGoldSkulltulaLimb17Dlist;
                 break;
             case 29:
-                *dList = object_st_DL_0049E8;
+                *dList = gGoldSkulltulaLimb29Dlist;
                 break;
             case 5:
-                *dList = object_st_DL_003FB0;
+                *dList = gGoldSkulltulaLimb5Dlist;
                 break;
             case 4:
-                *dList = object_st_DL_0043D8;
+                *dList = gGoldSkulltulaLimb4Dlist;
                 break;
         }
     }
