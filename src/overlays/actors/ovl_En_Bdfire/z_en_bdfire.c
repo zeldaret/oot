@@ -15,9 +15,9 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64light.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 
@@ -141,8 +141,7 @@ void func_809BC598(EnBdfire* this, PlayState* play) {
     this->unk_158 = bossDodongo->unk_1A2;
     quarterTurn = false;
     if (this->actor.params == 0) {
-        Audio_PlaySfxGeneral(NA_SE_EN_DODO_K_FIRE - SFX_FLAG, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_DODO_K_FIRE - SFX_FLAG);
     }
     Math_SmoothStepToF(&this->actor.scale.x, this->unk_188, 0.3f, 0.5f, 0.0f);
     Actor_SetScale(&this->actor, this->actor.scale.x);

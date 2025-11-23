@@ -17,8 +17,8 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 
@@ -50,8 +50,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00200000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00200000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -69,7 +69,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_NONE,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

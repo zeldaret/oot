@@ -14,10 +14,11 @@
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "assets/objects/object_boj/object_boj.h"
@@ -53,7 +54,14 @@ static ColliderCylinderInitType1 sCylinderInit = {
         OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
     { 10, 60, 0, { 0, 0, 0 } },
 };
 
@@ -71,8 +79,7 @@ void EnGuest_Init(Actor* thisx, PlayState* play) {
         this->osAnimeObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_OS_ANIME);
         if (this->osAnimeObjectSlot < 0) {
             PRINTF_COLOR_ERROR();
-            // "No such bank!!"
-            PRINTF("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
+            PRINTF(T("%s[%d] : バンクが無いよ！！\n", "%s[%d] : There is no bank!!\n"), "../z_en_guest.c", 129);
             PRINTF_RST();
             ASSERT(0, "0", "../z_en_guest.c", 132);
         }

@@ -13,8 +13,8 @@
 #include "stackcheck.h"
 #include "sys_freeze.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64thread.h"
+#include "audio.h"
+#include "thread.h"
 
 #pragma increment_block_number "ntsc-1.0:64 ntsc-1.1:64 ntsc-1.2:64 pal-1.0:64 pal-1.1:64"
 
@@ -36,7 +36,7 @@ typedef struct struct_801D9B90 {
 
 s32 func_801C7A1C(struct_801E0D18* arg0);
 
-void* D_801D2E50 = &B_801DC000;
+void* D_801D2E50 = &gN64DDDiskReadTemporaryBuffer;
 s32 (*D_801D2E54)(struct_801E0D18*) = func_801C7A1C;
 
 struct_801D9B90 B_801D9B90;

@@ -1,21 +1,69 @@
 <Root>
     <File Name="object_toryo" Segment="6">
         <Animation Name="object_toryo_Anim_000E50" Offset="0xE50"/>
-        <Texture Name="object_toryo_TLUT_000E60" OutName="tlut_00000E60" Format="rgba16" Width="16" Height="16" Offset="0xE60"/>
-        <Texture Name="object_toryo_Tex_001060" OutName="tex_00001060" Format="ci8" Width="16" Height="16" Offset="0x1060" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_001160" OutName="tex_00001160" Format="ci8" Width="8" Height="4" Offset="0x1160" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_001180" OutName="tex_00001180" Format="ci8" Width="8" Height="8" Offset="0x1180" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_0011C0" OutName="tex_000011C0" Format="ci8" Width="8" Height="8" Offset="0x11C0" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_001200" OutName="tex_00001200" Format="ci8" Width="8" Height="8" Offset="0x1200" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_001240" OutName="tex_00001240" Format="ci8" Width="8" Height="16" Offset="0x1240" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_0012C0" OutName="tex_000012C0" Format="rgba16" Width="32" Height="16" Offset="0x12C0"/>
-        <Texture Name="object_toryo_Tex_0016C0" OutName="tex_000016C0" Format="ci8" Width="16" Height="16" Offset="0x16C0" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_0017C0" OutName="tex_000017C0" Format="ci8" Width="16" Height="16" Offset="0x17C0" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_0018C0" OutName="tex_000018C0" Format="ci8" Width="16" Height="16" Offset="0x18C0" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_0019C0" OutName="tex_000019C0" Format="ci8" Width="8" Height="8" Offset="0x19C0" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_001A00" OutName="tex_00001A00" Format="ci8" Width="8" Height="16" Offset="0x1A00" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_001A80" OutName="tex_00001A80" Format="ci8" Width="16" Height="16" Offset="0x1A80" TlutOffset="0xE60"/>
-        <Texture Name="object_toryo_Tex_001B80" OutName="tex_00001B80" Format="ci8" Width="16" Height="16" Offset="0x1B80" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_TLUT_000E60" Format="rgba16" Width="16" Height="16" Offset="0xE60"/>
+        <Texture Name="object_toryo_Tex_001060" Format="ci8" Width="16" Height="16" Offset="0x1060" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_001160" Format="ci8" Width="8" Height="4" Offset="0x1160" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_001180" Format="ci8" Width="8" Height="8" Offset="0x1180" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_0011C0" Format="ci8" Width="8" Height="8" Offset="0x11C0" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_001200" Format="ci8" Width="8" Height="8" Offset="0x1200" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_001240" Format="ci8" Width="8" Height="16" Offset="0x1240" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_0012C0" Format="rgba16" Width="32" Height="16" Offset="0x12C0"/>
+        <Texture Name="object_toryo_Tex_0016C0" Format="ci8" Width="16" Height="16" Offset="0x16C0" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_0017C0" Format="ci8" Width="16" Height="16" Offset="0x17C0" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_0018C0" Format="ci8" Width="16" Height="16" Offset="0x18C0" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_0019C0" Format="ci8" Width="8" Height="8" Offset="0x19C0" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_001A00" Format="ci8" Width="8" Height="16" Offset="0x1A00" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_001A80" Format="ci8" Width="16" Height="16" Offset="0x1A80" TlutOffset="0xE60"/>
+        <Texture Name="object_toryo_Tex_001B80" Format="ci8" Width="16" Height="16" Offset="0x1B80" TlutOffset="0xE60"/>
+        <Array Name="object_toryo_Vtx_001C80" Count="53" Offset="0x1C80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_001FD0" Count="124" Offset="0x1FD0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_002790" Count="46" Offset="0x2790">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_002A70" Count="25" Offset="0x2A70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_002C00" Count="33" Offset="0x2C00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_002E10" Count="46" Offset="0x2E10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_0030F0" Count="25" Offset="0x30F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_003280" Count="33" Offset="0x3280">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_003490" Count="88" Offset="0x3490">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_003A10" Count="36" Offset="0x3A10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_003C50" Count="19" Offset="0x3C50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_003D80" Count="59" Offset="0x3D80">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_004130" Count="36" Offset="0x4130">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_004370" Count="19" Offset="0x4370">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_0044A0" Count="59" Offset="0x44A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_toryo_Vtx_004850" Count="45" Offset="0x4850">
+            <Vtx/>
+        </Array>
         <DList Name="object_toryo_DL_004B20" Offset="0x4B20"/>
         <DList Name="object_toryo_DL_004F20" Offset="0x4F20"/>
         <DList Name="object_toryo_DL_005438" Offset="0x5438"/>

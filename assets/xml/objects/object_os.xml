@@ -3,6 +3,32 @@
         <!-- Happy Mask Salesman Animation -->
         <Animation Name="gHappyMaskSalesmanIdleAnim" Offset="0x2E4"/>
 
+        <!-- Happy Mask Salesman Vertices -->
+        <Array Name="gHappyMaskSalesmanHeadVtx" Count="154" Offset="0x300">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanLeftHandVtx" Count="53" Offset="0xCA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanLeftForearmVtx" Count="24" Offset="0xFF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanLeftUpperArmVtx" Count="24" Offset="0x1170">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanRightHandVtx" Count="54" Offset="0x12F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanRightForearmVtx" Count="24" Offset="0x1650">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanRightUpperArmVtx" Count="24" Offset="0x17D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHappyMaskSalesmanTorsoVtx" Count="67" Offset="0x1950">
+            <Vtx/>
+        </Array>
+
         <!-- Happy Mask Salesman DLists -->
         <DList Name="gHappyMaskSalesmanTorsoDL" Offset="0x1D80"/>
         <DList Name="gHappyMaskSalesmanHeadDL" Offset="0x20A8"/>
@@ -14,20 +40,20 @@
         <DList Name="gHappyMaskSalesmanLeftHandDL" Offset="0x2C60"/>
 
         <!-- Happy Mask Salesman Textures -->
-        <Texture Name="gHappyMaskSalesmanTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x2E18"/>
-        <Texture Name="gHappyMaskSalesmanEyeMouthTLUT" OutName="eye_mouth_tlut" Format="rgba16" Width="16" Height="16" Offset="0x3018"/>
-        <Texture Name="gHappyMaskSalesmanSkinTex" OutName="skin" Format="ci8" Width="8" Height="8" Offset="0x3218" TlutOffset="0x2E18"/>
-        <Texture Name="gHappyMaskSalesmanHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x3258" TlutOffset="0x2E18"/>
-        <Texture Name="gHappyMaskSalesmanEarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x3358" TlutOffset="0x2E18"/>
-        <Texture Name="gHappyMaskSalesmanNostrilTex" OutName="nostril" Format="ci8" Width="8" Height="8" Offset="0x3398" TlutOffset="0x2E18"/>
-        <Texture Name="gHappyMaskSalesmanMouthTex" OutName="mouth" Format="ci8" Width="32" Height="16" Offset="0x33D8" TlutOffset="0x3018"/>
-        <Texture Name="gHappyMaskSalesmanEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x35D8" TlutOffset="0x3018"/>
-        <Texture Name="gHappyMaskSalesmanEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x39D8" TlutOffset="0x3018"/>
-        <Texture Name="gHappyMaskSalesmanFingersTex" OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0x3DD8" TlutOffset="0x2E18"/>
-        <Texture Name="gHappyMaskSalesmanSleeveTex" OutName="sleeve" Format="ci8" Width="16" Height="32" Offset="0x3ED8" TlutOffset="0x2E18"/>
-        <Texture Name="gHappyMaskSalesmanShirtTex" OutName="shirt" Format="ci8" Width="32" Height="32" Offset="0x40D8" TlutOffset="0x2E18"/>
-        <Texture Name="gHappyMaskSalesmanGoldFabricTex" OutName="gold_fabric" Format="ci8" Width="8" Height="16" Offset="0x44D8" TlutOffset="0x2E18"/>
-        <Texture Name="gHappyMaskSalesmanGoldFabricCenterTex" OutName="gold_fabric_center" Format="ci8" Width="8" Height="16" Offset="0x4558" TlutOffset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanTLUT" Format="rgba16" Width="16" Height="16" Offset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanEyeMouthTLUT" Format="rgba16" Width="16" Height="16" Offset="0x3018"/>
+        <Texture Name="gHappyMaskSalesmanSkinTex" Format="ci8" Width="8" Height="8" Offset="0x3218" TlutOffset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanHairTex" Format="ci8" Width="16" Height="16" Offset="0x3258" TlutOffset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanEarTex" Format="ci8" Width="8" Height="8" Offset="0x3358" TlutOffset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanNostrilTex" Format="ci8" Width="8" Height="8" Offset="0x3398" TlutOffset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanMouthTex" Format="ci8" Width="32" Height="16" Offset="0x33D8" TlutOffset="0x3018"/>
+        <Texture Name="gHappyMaskSalesmanEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x35D8" TlutOffset="0x3018"/>
+        <Texture Name="gHappyMaskSalesmanEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x39D8" TlutOffset="0x3018"/>
+        <Texture Name="gHappyMaskSalesmanFingersTex" Format="ci8" Width="16" Height="16" Offset="0x3DD8" TlutOffset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanSleeveTex" Format="ci8" Width="16" Height="32" Offset="0x3ED8" TlutOffset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanShirtTex" Format="ci8" Width="32" Height="32" Offset="0x40D8" TlutOffset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanGoldFabricTex" Format="ci8" Width="8" Height="16" Offset="0x44D8" TlutOffset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanGoldFabricCenterTex" Format="ci8" Width="8" Height="16" Offset="0x4558" TlutOffset="0x2E18"/>
 
         <!-- Happy Mask Salesman Skeleton -->
         <Limb Name="gHappyMaskSalesmanTorsoLimb" LimbType="Standard" Offset="0x45D8"/>

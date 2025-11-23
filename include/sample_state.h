@@ -2,8 +2,8 @@
 #define SAMPLE_STATE_H
 
 #include "ultra64.h"
-#include "z64game.h"
-#include "z64view.h"
+#include "game.h"
+#include "view.h"
 
 typedef struct SampleState {
     /* 0x0000 */ GameState state;

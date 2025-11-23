@@ -13,11 +13,12 @@
 #include "printf.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64item.h"
-#include "z64light.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "item.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
@@ -61,8 +62,8 @@ static ColliderCylinderInit sCylinderInitCapturableFlame = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -81,8 +82,8 @@ static ColliderCylinderInit sCylinderInitDroppedFlame = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_NONE,
         OCELEM_ON,
@@ -186,7 +187,7 @@ void EnIceHono_Init(Actor* thisx, PlayState* play) {
         this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
         this->unk_154 = Rand_ZeroOne() * (0x1FFFF / 2.0f);
         this->unk_156 = Rand_ZeroOne() * (0x1FFFF / 2.0f);
-        PRINTF("(ice 炎)(arg_data 0x%04x)\n", this->actor.params); // "(ice flame)"
+        PRINTF(T("(ice 炎)(arg_data 0x%04x)\n", "(ice flame)(arg_data 0x%04x)\n"), this->actor.params);
     }
 }
 
@@ -373,7 +374,7 @@ void EnIceHono_Update(Actor* thisx, PlayState* play) {
 
 #if DEBUG_FEATURES
         if ((intensity > 0.7f) || (intensity < 0.2f)) {
-            PRINTF("ありえない値(ratio = %f)\n", intensity); // "impossible value(ratio = %f)"
+            PRINTF(T("ありえない値(ratio = %f)\n", "Impossible value (ratio = %f)\n"), intensity);
         }
 #endif
 

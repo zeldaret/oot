@@ -2,6 +2,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -11,8 +12,8 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
 #define FLAGS ACTOR_FLAG_ATTENTION_ENABLED
@@ -40,12 +41,12 @@ ActorProfile Bg_Jya_Bombchuiwa_Profile = {
     /**/ BgJyaBombchuiwa_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00000008, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00000008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -63,7 +64,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -195,7 +196,8 @@ void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, PlayState* play) {
     BgJyaBombchuiwa_SetDrawFlags(this, 4);
     if (Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, 0) == NULL) {
-        PRINTF(T("Ｅｒｒｏｒ : Mir_Ray 発生失敗", "Error : Mir_Ray failed to occur") "(%s %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Ｅｒｒｏｒ : Mir_Ray 発生失敗(%s %d)(arg_data 0x%04x)\n",
+                 "Error : Mir_Ray failed to spawn (%s %d)(arg_data 0x%04x)\n"),
                "../z_bg_jya_bombchuiwa.c", 410, this->actor.params);
     }
 }

@@ -17,13 +17,15 @@
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_torch2/object_torch2.h"
+
+#pragma increment_block_number "ique-cn:128"
 
 #define FLAGS                                                                                 \
     (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
@@ -612,7 +614,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             this->stateFlags3 &= ~PLAYER_STATE3_2;
         } else {
             func_800F5ACC(NA_BGM_MINI_BOSS);
-            if (this->actor.colChkInfo.damageEffect == 1) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 if (sAlpha == 255) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
                 } else {

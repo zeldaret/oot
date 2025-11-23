@@ -13,12 +13,13 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_fa/object_fa.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
@@ -67,8 +68,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -575,8 +576,7 @@ s16 EnKo_UpdateTalkState(PlayState* play, Actor* thisx) {
                 case 0x10B7:
                 case 0x10B8:
                     if (this->unk_210 == 0) {
-                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                         this->unk_210 = 1;
                     }
             }
@@ -1195,8 +1195,7 @@ void func_80A99048(EnKo* this, PlayState* play) {
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         if (ENKO_TYPE == ENKO_TYPE_CHILD_7) {
-            // "Angle Z"
-            PRINTF(VT_BGCOL(BLUE) "  アングルＺ->(%d)\n" VT_RST, this->actor.shape.rot.z);
+            PRINTF(VT_BGCOL(BLUE) T("  アングルＺ->(%d)\n", "  Angle Z->(%d)\n") VT_RST, this->actor.shape.rot.z);
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (this->actor.shape.rot.z != 1) {
                     Actor_Kill(&this->actor);

@@ -9,6 +9,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
@@ -16,8 +17,8 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_fw/object_fw.h"
@@ -51,12 +52,12 @@ ActorProfile En_Fw_Profile = {
     /**/ EnFw_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x04 },
-            { 0xFFCFFFFE, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0xFFCFFFFE, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
@@ -74,7 +75,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

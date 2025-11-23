@@ -20,9 +20,9 @@
 #include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_anubice/object_anubice.h"
 
@@ -64,8 +64,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -73,45 +73,45 @@ static ColliderCylinderInit sCylinderInit = {
     { 29, 103, 0, { 0, 0, 0 } },
 };
 
-typedef enum AnubiceDamageEffect {
-    /* 0x0 */ ANUBICE_DMGEFF_NONE,
-    /* 0x2 */ ANUBICE_DMGEFF_FIRE = 2,
-    /* 0xF */ ANUBICE_DMGEFF_0xF = 0xF // Treated the same as ANUBICE_DMGEFF_NONE in code
-} AnubiceDamageEffect;
+typedef enum AnubiceDamageReaction {
+    /* 0x0 */ ANUBICE_DMG_REACT_NONE,
+    /* 0x2 */ ANUBICE_DMG_REACT_FIRE = 2,
+    /* 0xF */ ANUBICE_DMG_REACT_0xF = 0xF // Treated the same as ANUBICE_DMG_REACT_NONE in code
+} AnubiceDamageReaction;
 
 static DamageTable sDamageTable[] = {
-    /* Deku nut      */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Deku stick    */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Slingshot     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Explosive     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Boomerang     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Normal arrow  */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Hammer swing  */ DMG_ENTRY(1, ANUBICE_DMGEFF_0xF),
-    /* Hookshot      */ DMG_ENTRY(2, ANUBICE_DMGEFF_0xF),
-    /* Kokiri sword  */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Master sword  */ DMG_ENTRY(2, ANUBICE_DMGEFF_0xF),
-    /* Giant's Knife */ DMG_ENTRY(6, ANUBICE_DMGEFF_0xF),
-    /* Fire arrow    */ DMG_ENTRY(2, ANUBICE_DMGEFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Light arrow   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Unk arrow 1   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Unk arrow 2   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Unk arrow 3   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Fire magic    */ DMG_ENTRY(3, ANUBICE_DMGEFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Light magic   */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Shield        */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Giant spin    */ DMG_ENTRY(6, ANUBICE_DMGEFF_0xF),
-    /* Master spin   */ DMG_ENTRY(2, ANUBICE_DMGEFF_0xF),
-    /* Kokiri jump   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
-    /* Giant jump    */ DMG_ENTRY(12, ANUBICE_DMGEFF_0xF),
-    /* Master jump   */ DMG_ENTRY(4, ANUBICE_DMGEFF_0xF),
-    /* Unknown 1     */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, ANUBICE_DMG_REACT_NONE),
+    /* Deku stick    */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Slingshot     */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Explosive     */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Boomerang     */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Normal arrow  */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Hammer swing  */ DMG_ENTRY(1, ANUBICE_DMG_REACT_0xF),
+    /* Hookshot      */ DMG_ENTRY(2, ANUBICE_DMG_REACT_0xF),
+    /* Kokiri sword  */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Master sword  */ DMG_ENTRY(2, ANUBICE_DMG_REACT_0xF),
+    /* Giant's Knife */ DMG_ENTRY(6, ANUBICE_DMG_REACT_0xF),
+    /* Fire arrow    */ DMG_ENTRY(2, ANUBICE_DMG_REACT_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Light arrow   */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Unk arrow 2   */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Unk arrow 3   */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Fire magic    */ DMG_ENTRY(3, ANUBICE_DMG_REACT_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, ANUBICE_DMG_REACT_NONE),
+    /* Light magic   */ DMG_ENTRY(0, ANUBICE_DMG_REACT_NONE),
+    /* Shield        */ DMG_ENTRY(0, ANUBICE_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ANUBICE_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Giant spin    */ DMG_ENTRY(6, ANUBICE_DMG_REACT_0xF),
+    /* Master spin   */ DMG_ENTRY(2, ANUBICE_DMG_REACT_0xF),
+    /* Kokiri jump   */ DMG_ENTRY(0, ANUBICE_DMG_REACT_0xF),
+    /* Giant jump    */ DMG_ENTRY(12, ANUBICE_DMG_REACT_0xF),
+    /* Master jump   */ DMG_ENTRY(4, ANUBICE_DMG_REACT_0xF),
+    /* Unknown 1     */ DMG_ENTRY(0, ANUBICE_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, ANUBICE_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(0, ANUBICE_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, ANUBICE_DMG_REACT_NONE),
 };
 
 void EnAnubice_Hover(EnAnubice* this, PlayState* play) {
@@ -148,7 +148,7 @@ void EnAnubice_Init(Actor* thisx, PlayState* play) {
                    ANUBICE_LIMB_MAX);
 
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n", "☆☆☆☆☆ Anubis occurrence ☆☆☆☆☆ \n") VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n", "☆☆☆☆☆ Anubis spawn ☆☆☆☆☆ \n") VT_RST);
 
     this->actor.naviEnemyId = NAVI_ENEMY_ANUBIS;
 
@@ -399,7 +399,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
 
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            if (this->actor.colChkInfo.damageEffect == ANUBICE_DMGEFF_FIRE) {
+            if (this->actor.colChkInfo.damageReaction == ANUBICE_DMG_REACT_FIRE) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
                 Enemy_StartFinishingBlow(play, &this->actor);

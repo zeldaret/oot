@@ -6,7 +6,6 @@
 
 #include "z_demo_kekkai.h"
 
-#include "libu64/debug.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "rand.h"
@@ -14,11 +13,12 @@
 #include "sequence.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "assets/scenes/dungeons/ganontika/ganontika_scene.h"
@@ -59,8 +59,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x20000000, 0x07, 0x04 },
-        { 0x00002000, 0x00, 0x00 },
+        { 0x20000000, HIT_SPECIAL_EFFECT_7, 0x04 },
+        { 0x00002000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -267,8 +267,7 @@ void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider1.base);
     if (this->collider2.base.acFlags & AC_HIT) {
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
-        // "I got it"
-        LOG_STRING("当ったよ", "../z_demo_kekkai.c", 572);
+        LOG_STRING_T("当ったよ", "I got it", "../z_demo_kekkai.c", 572);
         this->actor.update = DemoKekkai_TrialBarrierDispel;
         this->timer = 0;
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(sSageCutscenes[this->actor.params]);

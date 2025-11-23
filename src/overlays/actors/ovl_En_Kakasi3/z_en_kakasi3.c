@@ -15,11 +15,12 @@
 #include "regs.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ka/object_ka.h"
 
@@ -52,8 +53,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -84,8 +85,7 @@ void EnKakasi3_Init(Actor* thisx, PlayState* play) {
     EnKakasi3* this = (EnKakasi3*)thisx;
 
     PRINTF("\n\n");
-    // "Obonur" -- Related to the name of the scarecrow (Bonooru)
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n", "☆☆☆☆☆ Bonooru ☆☆☆☆☆ \n") VT_RST);
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
 
     Collider_InitCylinder(play, &this->collider);
@@ -357,8 +357,8 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (BREG(3) != 0) {
-        // "No way!"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ No way! ☆☆☆☆☆ %d\n") VT_RST,
+               play->msgCtx.ocarinaMode);
     }
     if ((play->msgCtx.ocarinaMode == OCARINA_MODE_04 ||
          (play->msgCtx.ocarinaMode >= OCARINA_MODE_05 && play->msgCtx.ocarinaMode < OCARINA_MODE_0B)) &&
@@ -377,8 +377,9 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         if (BREG(3) != 0) {
             PRINTF("\n\n");
-            // "With this, other guys are OK! That's it!"
-            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ これで、他の奴もＯＫ！だ！ ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
+            PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ これで、他の奴もＯＫ！だ！ ☆☆☆☆☆ %d\n",
+                                    "☆☆☆☆☆ With this, other guys are OK! That's it! ☆☆☆☆☆ %d\n") VT_RST,
+                   play->msgCtx.ocarinaMode);
         }
         this->unk_195 = true;
         Message_StartTextbox(play, 0x40A7, NULL);
@@ -425,8 +426,8 @@ void EnKakasi3_Update(Actor* thisx, PlayState* play) {
 
     if (BREG(2) != 0) {
         PRINTF("\n\n");
-        // "flag!"
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.save.info.scarecrowSpawnSongSet);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ flag! ☆☆☆☆☆ %d\n") VT_RST,
+               gSaveContext.save.info.scarecrowSpawnSongSet);
     }
 
     this->unk_198++;

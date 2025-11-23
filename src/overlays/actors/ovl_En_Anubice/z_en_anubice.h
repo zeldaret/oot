@@ -2,31 +2,13 @@
 #define Z_EN_ANUBICE_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
+
+#include "assets/objects/object_anubice/object_anubice.h"
 
 struct EnAnubice;
 
 typedef void (*EnAnubiceActionFunc)(struct EnAnubice*, struct PlayState*);
-
-typedef enum AnubiceLimbs {
-    /*  0 */ ANUBICE_LIMB_NONE,
-    /*  1 */ ANUBICE_LIMB_ROOT,
-    /*  2 */ ANUBICE_LIMB_BODY_ROOT,
-    /*  3 */ ANUBICE_LIMB_CHEST,
-    /*  4 */ ANUBICE_LIMB_ABDOMEN_ROOT,
-    /*  5 */ ANUBICE_LIMB_UPPER_ABDOMEN,
-    /*  6 */ ANUBICE_LIMB_LOWER_ABDOMEN,
-    /*  7 */ ANUBICE_LIMB_TAIL_ROOT,
-    /*  8 */ ANUBICE_LIMB_TAIL_BASE,
-    /*  9 */ ANUBICE_LIMB_TAIL_TIP,
-    /* 10 */ ANUBICE_LIMB_JEWEL_ROOT,
-    /* 11 */ ANUBICE_LIMB_JEWEL,
-    /* 12 */ ANUBICE_LIMB_HEAD_ROOT,
-    /* 13 */ ANUBICE_LIMB_HEAD,
-    /* 14 */ ANUBICE_LIMB_JAW_ROOT,
-    /* 15 */ ANUBICE_LIMB_JAW,
-    /* 16 */ ANUBICE_LIMB_MAX
-} AnubiceLimbs;
 
 typedef struct EnAnubice {
     /* 0x0000 */ Actor actor;
@@ -41,7 +23,7 @@ typedef struct EnAnubice {
     /* 0x025C */ s16 knockbackTimer;
     /* 0x025E */ s16 isMirroringPlayer;
     /* 0x0260 */ s16 isPlayerOutOfRange;
-    /* 0x0262 */ s16 isKnockedback; // Hit by an attack without ANUBICE_DMGEFF_FIRE
+    /* 0x0262 */ s16 isKnockedback; // Hit by an attack without ANUBICE_DMG_REACT_FIRE
     /* 0x0264 */ s16 hasSearchedForFlameCircles;
     /* 0x0268 */ f32 hoverVelocityTimer;
     /* 0x026C */ f32 animLastFrame;

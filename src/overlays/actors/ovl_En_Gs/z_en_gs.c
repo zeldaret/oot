@@ -15,10 +15,10 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_gs/object_gs.h"
@@ -58,8 +58,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -329,14 +329,12 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
             if (this->unk_200 < 20) {
                 Color_RGBA8_Copy(&this->flashColor, &flashRed);
                 if ((this->unk_200 % 20) == 7) {
-                    Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_SY_WARNING_COUNT_E);
                 }
             } else {
                 Color_RGBA8_Copy(&this->flashColor, &flashBlue);
                 if ((this->unk_200 % 20) == 7) {
-                    Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_SY_WARNING_COUNT_N);
                 }
             }
         }
@@ -544,7 +542,7 @@ void EnGs_Update(Actor* thisx, PlayState* play2) {
             this->unk_19F = 0;
             this->collider.base.acFlags &= ~AC_HIT;
 
-            switch (this->actor.colChkInfo.damageEffect) {
+            switch (this->actor.colChkInfo.damageReaction) {
                 case 15:
                     this->unk_19E |= 1;
                     func_80A4F77C(this);

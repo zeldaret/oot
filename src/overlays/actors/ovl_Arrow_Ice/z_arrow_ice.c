@@ -7,14 +7,15 @@
 #include "z_arrow_ice.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#include "libu64/debug.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "tex_len.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
@@ -27,7 +28,29 @@ void ArrowIce_Charge(ArrowIce* this, PlayState* play);
 void ArrowIce_Fly(ArrowIce* this, PlayState* play);
 void ArrowIce_Hit(ArrowIce* this, PlayState* play);
 
-#include "assets/overlays/ovl_Arrow_Ice/ovl_Arrow_Ice.c"
+#define s1Tex_WIDTH 32
+#define s1Tex_HEIGHT 64
+static u64 s1Tex[TEX_LEN(u64, s1Tex_WIDTH, s1Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Ice/s1Tex.i8.inc.c"
+};
+
+#define s2Tex_WIDTH 32
+#define s2Tex_HEIGHT 64
+static u64 s2Tex[TEX_LEN(u64, s2Tex_WIDTH, s2Tex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Arrow_Ice/s2Tex.i8.inc.c"
+};
+
+static Vtx sVtx[] = {
+#include "assets/overlays/ovl_Arrow_Ice/sVtx.inc.c"
+};
+
+static Gfx sMaterialDL[22] = {
+#include "assets/overlays/ovl_Arrow_Ice/sMaterialDL.inc.c"
+};
+
+static Gfx sModelDL[24] = {
+#include "assets/overlays/ovl_Arrow_Ice/sModelDL.inc.c"
+};
 
 ActorProfile Arrow_Ice_Profile = {
     /**/ ACTOR_ARROW_ICE,
@@ -64,7 +87,7 @@ void ArrowIce_Init(Actor* thisx, PlayState* play) {
 
 void ArrowIce_Destroy(Actor* thisx, PlayState* play) {
     Magic_Reset(play);
-    LOG_STRING("消滅", "../z_arrow_ice.c", 415); // "Disappearance"
+    LOG_STRING_T("消滅", "Disappearance", "../z_arrow_ice.c", 415);
 }
 
 void ArrowIce_Charge(ArrowIce* this, PlayState* play) {

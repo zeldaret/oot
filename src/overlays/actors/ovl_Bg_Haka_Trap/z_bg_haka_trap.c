@@ -6,15 +6,16 @@
 
 #include "z_bg_haka_trap.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64skin_matrix.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "skin_matrix.h"
 
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
@@ -63,8 +64,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x04 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -72,12 +73,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 90, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sTrisElementsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00020000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00020000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -87,8 +88,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00020000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00020000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -106,7 +107,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 

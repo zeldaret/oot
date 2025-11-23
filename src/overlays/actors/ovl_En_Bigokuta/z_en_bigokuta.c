@@ -12,10 +12,10 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_bigokuta/object_bigokuta.h"
 
@@ -62,12 +62,12 @@ ActorProfile En_Bigokuta_Profile = {
     /**/ EnBigokuta_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK1,
-            { 0x20000000, 0x00, 0x08 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_HARD,
             ACELEM_ON,
             OCELEM_ON,
@@ -767,12 +767,12 @@ void func_809BE798(EnBigokuta* this, PlayState* play) {
 void EnBigokuta_UpdateDamage(EnBigokuta* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
-            if (this->actor.colChkInfo.damageEffect == 1) {
+        if (this->actor.colChkInfo.damageReaction != 0 || this->actor.colChkInfo.damage != 0) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 if (this->actionFunc != func_809BE058) {
                     func_809BD524(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == 0xF) {
+            } else if (this->actor.colChkInfo.damageReaction == 0xF) {
                 func_809BD47C(this);
             } else if (!Actor_IsFacingPlayer(&this->actor, 0x4000)) {
                 if (Actor_ApplyDamage(&this->actor) == 0) { // Dead

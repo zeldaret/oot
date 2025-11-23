@@ -15,11 +15,12 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_niw/object_niw.h"
 
@@ -64,8 +65,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -96,13 +97,11 @@ void EnSyatekiNiw_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     if (this->minigameType == SYATEKI_MINIGAME_ARCHERY) {
         PRINTF("\n\n");
-        // "Archery range chicken"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n", "☆☆☆☆☆ Archery range chicken ☆☆☆☆☆ \n") VT_RST);
         Actor_SetScale(&this->actor, 0.01f);
     } else {
         PRINTF("\n\n");
-        // "Bomb chicken"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Bomb chicken! ☆☆☆☆☆ \n") VT_RST);
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         Actor_SetScale(&this->actor, 0.01f);
     }
@@ -467,8 +466,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
             }
 
             if ((this->archeryTimer == 0) && ((player->actor.world.pos.z - 30.0f) < this->actor.world.pos.z)) {
-                Audio_PlaySfxGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_VO_LI_DOWN);
                 this->movementTimer = 20;
                 this->archeryState = 6;
                 this->actor.speed = 0.0f;

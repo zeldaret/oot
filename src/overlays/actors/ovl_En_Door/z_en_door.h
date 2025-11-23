@@ -2,7 +2,7 @@
 #define Z_EN_DOOR_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 /**
  * Actor Parameters

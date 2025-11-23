@@ -11,9 +11,9 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
@@ -74,8 +74,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -786,8 +786,7 @@ void EnGo_FireGenericActionFunc(EnGo* this, PlayState* play) {
 
 void EnGo_CurledUp(EnGo* this, PlayState* play) {
     if ((DECR(this->unk_210) == 0) && EnGo_IsCameraModified(this, play)) {
-        Audio_PlaySfxGeneral(NA_SE_EN_GOLON_WAKE_UP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_GOLON_WAKE_UP);
 
         this->skelAnime.playSpeed = 0.1f;
         this->skelAnime.playSpeed *= PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f;
@@ -822,8 +821,7 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
     }
 
     if (DECR(this->unk_212) == 0) {
-        Audio_PlaySfxGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_GOLON_SIT_DOWN);
         EnGo_SetupAction(this, func_80A405CC);
     } else if (!EnGo_IsCameraModified(this, play)) {
         EnGo_ReverseAnimation(this);
@@ -842,8 +840,7 @@ void func_80A40494(EnGo* this, PlayState* play) {
     frame += this->skelAnime.playSpeed;
 
     if (!(frame >= 0.0f)) {
-        Audio_PlaySfxGeneral(NA_SE_EN_DODO_M_GND, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_DODO_M_GND);
         EnGo_SpawnDust(this, 10, 0.4f, 0.1f, 16, 26.0f, 2.0f);
         EnGo_ReverseAnimation(this);
         this->skelAnime.playSpeed = 0.0f;
@@ -937,8 +934,7 @@ void func_80A408D8(EnGo* this, PlayState* play) {
         EnGo_SetupAction(this, func_80A40494);
     } else if (EnGo_IsCameraModified(this, play)) {
         EnGo_ReverseAnimation(this);
-        Audio_PlaySfxGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_GOLON_SIT_DOWN);
         this->skelAnime.playSpeed = 0.0f;
         EnGo_SetupAction(this, func_80A405CC);
     }

@@ -21,10 +21,10 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_nb/object_nb.h"
 
@@ -87,8 +87,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -140,11 +140,12 @@ void EnNb_UpdatePath(EnNb* this, PlayState* play) {
         this->finalPos.z = pointPos[1].z;
         this->pathYaw =
             RAD_TO_BINANG(Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z));
-        // "En_Nb_Get_path_info Rail Data Get! = %d!!!!!!!!!!!!!!"
-        PRINTF("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", path);
+        PRINTF(T("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n",
+                 "En_Nb_Get_path_info Got the rail data = %d!!!!!!!!!!!!!!\n"),
+               path);
     } else {
-        // "En_Nb_Get_path_info Rail Data Doesn't Exist!!!!!!!!!!!!!!!!!!!!"
-        PRINTF("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF(T("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n",
+                 "En_Nb_Get_path_info No rail data!!!!!!!!!!!!!!!!!!!!\n"));
     }
 }
 
@@ -1010,7 +1011,7 @@ void func_80AB2E70(EnNb* this, PlayState* play) {
 s32 func_80AB2FC0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNb* this = (EnNb*)thisx;
 
-    if (limbIndex == NB_LIMB_HEAD) {
+    if (limbIndex == NABOORU_LIMB_HEAD) {
         *dList = gNabooruHeadMouthOpenDL;
     }
 
@@ -1475,7 +1476,8 @@ void EnNb_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnNb_SetupCollider(thisx, play);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gNabooruSkel, NULL, this->jointTable, this->morphTable, NB_LIMB_MAX);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gNabooruSkel, NULL, this->jointTable, this->morphTable,
+                       NABOORU_LIMB_MAX);
 
     switch (EnNb_GetType(this)) {
         case NB_TYPE_DEMO02:
@@ -1505,13 +1507,13 @@ s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     s32 ret = false;
 
     if (this->headTurnFlag != 0) {
-        if (limbIndex == NB_LIMB_TORSO) {
+        if (limbIndex == NABOORU_LIMB_TORSO) {
             s32 pad;
 
             rot->x += interactInfo->torsoRot.y;
             rot->y -= interactInfo->torsoRot.x;
             ret = false;
-        } else if (limbIndex == NB_LIMB_HEAD) {
+        } else if (limbIndex == NABOORU_LIMB_HEAD) {
             rot->x += interactInfo->headRot.y;
             rot->z += interactInfo->headRot.x;
             ret = false;
@@ -1524,7 +1526,7 @@ s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnNb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnNb* this = (EnNb*)thisx;
 
-    if (limbIndex == NB_LIMB_HEAD) {
+    if (limbIndex == NABOORU_LIMB_HEAD) {
         Vec3f vec1 = { 0.0f, 10.0f, 0.0f };
         Vec3f vec2;
 

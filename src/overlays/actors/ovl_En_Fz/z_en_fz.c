@@ -9,8 +9,8 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_fz/object_fz.h"
 
@@ -82,8 +82,8 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x00 },
-        { 0xFFCE0FDB, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCE0FDB, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -101,8 +101,8 @@ static ColliderCylinderInitType1 sCylinderInit2 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x00 },
-        { 0x0001F024, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x0001F024, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,
@@ -120,8 +120,8 @@ static ColliderCylinderInitType1 sCylinderInit3 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x20000000, 0x02, 0x08 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x20000000, HIT_SPECIAL_EFFECT_ICE, 0x08 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -356,7 +356,7 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
             this->collider1.base.acFlags &= ~AC_HIT;
         } else if (this->collider1.base.acFlags & AC_HIT) {
             this->collider1.base.acFlags &= ~AC_HIT;
-            switch (this->actor.colChkInfo.damageEffect) {
+            switch (this->actor.colChkInfo.damageReaction) {
                 case 0xF:
                     Actor_ApplyDamage(&this->actor);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 8);

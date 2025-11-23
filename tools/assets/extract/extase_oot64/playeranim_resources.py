@@ -35,7 +35,7 @@ class PlayerAnimationDataResource(CDataArrayResource):
         return f"s16 {self.symbol_name}[{self.frame_count_name} * (PLAYER_LIMB_MAX * 3 + 1)]"
 
     def get_h_includes(self):
-        return ("ultra64.h", "z64player.h")
+        return ("ultra64.h", "player.h")
 
 
 class PlayerAnimationResource(CDataResource):
@@ -99,4 +99,4 @@ class PlayerAnimationResource(CDataResource):
         return f"LinkAnimationHeader {self.symbol_name}"
 
     def get_h_includes(self):
-        return ("z64animation.h",)
+        return ("animation.h",)

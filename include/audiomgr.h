@@ -2,7 +2,7 @@
 #define AUDIOMGR_H
 
 #include "sched.h"
-#include "z64audio.h"
+#include "audio.h"
 
 typedef enum AudioMgrDebugLevel {
     /* 0 */ AUDIOMGR_DEBUG_LEVEL_NONE,

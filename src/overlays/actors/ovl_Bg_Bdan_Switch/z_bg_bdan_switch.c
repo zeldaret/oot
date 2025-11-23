@@ -6,6 +6,7 @@
 
 #include "z_bg_bdan_switch.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "printf.h"
@@ -14,8 +15,8 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_bdan_objects/object_bdan_objects.h"
 
@@ -70,8 +71,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xEFC1FFFE, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xEFC1FFFE, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -89,7 +90,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -113,8 +114,8 @@ void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHea
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF(T("Warning : move BG 登録失敗",
-                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
                "../z_bg_bdan_switch.c", 325, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
@@ -209,12 +210,13 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
             }
             break;
         default:
-            PRINTF(T("不正な", "Invalid") " ARG_DATA(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
-                   "../z_bg_bdan_switch.c", 454);
+            PRINTF(T("不正な ARG_DATA(arg_data 0x%04x)(%s %d)\n", "Invalid ARG_DATA(arg_data 0x%04x)(%s %d)\n"),
+                   this->dyna.actor.params, "../z_bg_bdan_switch.c", 454);
             Actor_Kill(&this->dyna.actor);
             return;
     }
-    PRINTF(T("(巨大魚ダンジョン 専用スイッチ)", "(Giant Fish Dungeon Special Switch)") "(arg_data 0x%04x)\n",
+    PRINTF(T("(巨大魚ダンジョン 専用スイッチ)(arg_data 0x%04x)\n",
+             "(Giant Fish Dungeon Special Switch)(arg_data 0x%04x)\n"),
            this->dyna.actor.params);
 }
 

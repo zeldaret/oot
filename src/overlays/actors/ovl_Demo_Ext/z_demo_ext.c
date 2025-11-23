@@ -14,8 +14,8 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64play.h"
-#include "z64skin.h"
+#include "play_state.h"
+#include "skin.h"
 
 #include "assets/objects/object_fhg/object_fhg.h"
 
@@ -56,8 +56,7 @@ void DemoExt_Init(Actor* thisx, PlayState* play) {
 
 void DemoExt_PlayVortexSFX(DemoExt* this) {
     if (this->alphaTimer <= (kREG(35) + 40.0f) - 15.0f) {
-        Audio_PlaySfxGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_FANTOM_WARP_L - SFX_FLAG);
     }
 }
 

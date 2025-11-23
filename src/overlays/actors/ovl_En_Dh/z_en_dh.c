@@ -7,6 +7,7 @@
 #include "z_en_dh.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -18,11 +19,11 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_dh/object_dh.h"
 
@@ -81,8 +82,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000008, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000008, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -90,12 +91,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 35, 70, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON | OCELEM_UNK3,
@@ -113,7 +114,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -507,7 +508,7 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
 
     if ((this->colliderJntSph.base.acFlags & AC_HIT) && !this->retreat) {
         this->colliderJntSph.base.acFlags &= ~AC_HIT;
-        if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 6)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) && (this->actor.colChkInfo.damageReaction != 6)) {
             this->colliderJntSph.base.atFlags = this->colliderJntSph.elements[0].base.atElemFlags =
                 AT_NONE; // also ATELEM_NONE
             this->colliderJntSph.elements[0].base.atDmgInfo.dmgFlags =

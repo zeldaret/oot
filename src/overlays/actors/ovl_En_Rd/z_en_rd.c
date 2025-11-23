@@ -16,10 +16,10 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_rd/object_rd.h"
 
@@ -99,8 +99,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK1,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -108,48 +108,48 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-typedef enum EnRdDamageEffect {
-    /* 0x0 */ REDEAD_DMGEFF_NONE,              // Does not interact with the Gibdo/Redead at all
-    /* 0x1 */ REDEAD_DMGEFF_HOOKSHOT,          // Stuns the Gibdo/Redead
-    /* 0x6 */ REDEAD_DMGEFF_ICE_MAGIC = 0x6,   // Does not interact with the Gibdo/Redead at all
-    /* 0xD */ REDEAD_DMGEFF_LIGHT_MAGIC = 0xD, // Stuns the Gibdo/Redead
-    /* 0xE */ REDEAD_DMGEFF_FIRE_MAGIC,        // Applies a fire effect
-    /* 0xF */ REDEAD_DMGEFF_DAMAGE             // Deals damage without stunning or applying an effect
-} EnRdDamageEffect;
+typedef enum EnRdDamageReaction {
+    /* 0x0 */ REDEAD_DMG_REACT_NONE,              // Does not interact with the Gibdo/Redead at all
+    /* 0x1 */ REDEAD_DMG_REACT_HOOKSHOT,          // Stuns the Gibdo/Redead
+    /* 0x6 */ REDEAD_DMG_REACT_ICE_MAGIC = 0x6,   // Does not interact with the Gibdo/Redead at all
+    /* 0xD */ REDEAD_DMG_REACT_LIGHT_MAGIC = 0xD, // Stuns the Gibdo/Redead
+    /* 0xE */ REDEAD_DMG_REACT_FIRE_MAGIC,        // Applies a fire effect
+    /* 0xF */ REDEAD_DMG_REACT_DAMAGE             // Deals damage without stunning or applying an effect
+} EnRdDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Deku stick    */ DMG_ENTRY(2, REDEAD_DMGEFF_DAMAGE),
-    /* Slingshot     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Explosive     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Normal arrow  */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, REDEAD_DMGEFF_DAMAGE),
-    /* Hookshot      */ DMG_ENTRY(0, REDEAD_DMGEFF_HOOKSHOT),
-    /* Kokiri sword  */ DMG_ENTRY(1, REDEAD_DMGEFF_DAMAGE),
-    /* Master sword  */ DMG_ENTRY(2, REDEAD_DMGEFF_DAMAGE),
-    /* Giant's Knife */ DMG_ENTRY(4, REDEAD_DMGEFF_DAMAGE),
-    /* Fire arrow    */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Ice arrow     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Light arrow   */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, REDEAD_DMGEFF_FIRE_MAGIC),
-    /* Ice magic     */ DMG_ENTRY(0, REDEAD_DMGEFF_ICE_MAGIC),
-    /* Light magic   */ DMG_ENTRY(3, REDEAD_DMGEFF_LIGHT_MAGIC),
-    /* Shield        */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, REDEAD_DMGEFF_DAMAGE),
-    /* Giant spin    */ DMG_ENTRY(4, REDEAD_DMGEFF_DAMAGE),
-    /* Master spin   */ DMG_ENTRY(2, REDEAD_DMGEFF_DAMAGE),
-    /* Kokiri jump   */ DMG_ENTRY(2, REDEAD_DMGEFF_DAMAGE),
-    /* Giant jump    */ DMG_ENTRY(8, REDEAD_DMGEFF_DAMAGE),
-    /* Master jump   */ DMG_ENTRY(4, REDEAD_DMGEFF_DAMAGE),
-    /* Unknown 1     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, REDEAD_DMGEFF_DAMAGE),
-    /* Unknown 2     */ DMG_ENTRY(0, REDEAD_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Deku stick    */ DMG_ENTRY(2, REDEAD_DMG_REACT_DAMAGE),
+    /* Slingshot     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Explosive     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Normal arrow  */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, REDEAD_DMG_REACT_DAMAGE),
+    /* Hookshot      */ DMG_ENTRY(0, REDEAD_DMG_REACT_HOOKSHOT),
+    /* Kokiri sword  */ DMG_ENTRY(1, REDEAD_DMG_REACT_DAMAGE),
+    /* Master sword  */ DMG_ENTRY(2, REDEAD_DMG_REACT_DAMAGE),
+    /* Giant's Knife */ DMG_ENTRY(4, REDEAD_DMG_REACT_DAMAGE),
+    /* Fire arrow    */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Ice arrow     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Light arrow   */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, REDEAD_DMG_REACT_FIRE_MAGIC),
+    /* Ice magic     */ DMG_ENTRY(0, REDEAD_DMG_REACT_ICE_MAGIC),
+    /* Light magic   */ DMG_ENTRY(3, REDEAD_DMG_REACT_LIGHT_MAGIC),
+    /* Shield        */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, REDEAD_DMG_REACT_DAMAGE),
+    /* Giant spin    */ DMG_ENTRY(4, REDEAD_DMG_REACT_DAMAGE),
+    /* Master spin   */ DMG_ENTRY(2, REDEAD_DMG_REACT_DAMAGE),
+    /* Kokiri jump   */ DMG_ENTRY(2, REDEAD_DMG_REACT_DAMAGE),
+    /* Giant jump    */ DMG_ENTRY(8, REDEAD_DMG_REACT_DAMAGE),
+    /* Master jump   */ DMG_ENTRY(4, REDEAD_DMG_REACT_DAMAGE),
+    /* Unknown 1     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, REDEAD_DMG_REACT_DAMAGE),
+    /* Unknown 2     */ DMG_ENTRY(0, REDEAD_DMG_REACT_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -768,7 +768,7 @@ void EnRd_SetupStunned(EnRd* this) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, COLORFILTER_INTENSITY_FLAG | 200,
                              COLORFILTER_BUFFLAG_OPA, 255);
-    } else if (this->damageEffect == REDEAD_DMGEFF_HOOKSHOT) {
+    } else if (this->damageReaction == REDEAD_DMG_REACT_HOOKSHOT) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_PlaySfx(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
@@ -835,7 +835,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        this->damageEffect = this->actor.colChkInfo.damageEffect;
+        this->damageReaction = this->actor.colChkInfo.damageReaction;
 
         if (this->action != REDEAD_ACTION_RISE_FROM_COFFIN) {
             Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
@@ -843,9 +843,10 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
                 this->unk_31D = player->unk_845;
             }
 
-            if ((this->damageEffect != REDEAD_DMGEFF_NONE) && (this->damageEffect != REDEAD_DMGEFF_ICE_MAGIC)) {
-                if (((this->damageEffect == REDEAD_DMGEFF_HOOKSHOT) ||
-                     (this->damageEffect == REDEAD_DMGEFF_LIGHT_MAGIC)) &&
+            if ((this->damageReaction != REDEAD_DMG_REACT_NONE) &&
+                (this->damageReaction != REDEAD_DMG_REACT_ICE_MAGIC)) {
+                if (((this->damageReaction == REDEAD_DMG_REACT_HOOKSHOT) ||
+                     (this->damageReaction == REDEAD_DMG_REACT_LIGHT_MAGIC)) &&
                     (this->action != REDEAD_ACTION_STUNNED)) {
                     Actor_ApplyDamage(&this->actor);
                     EnRd_SetupStunned(this);
@@ -855,7 +856,7 @@ void EnRd_UpdateDamage(EnRd* this, PlayState* play) {
                 this->stunnedBySunsSong = false;
                 this->sunsSongStunTimer = 0;
 
-                if (this->damageEffect == REDEAD_DMGEFF_FIRE_MAGIC) {
+                if (this->damageReaction == REDEAD_DMG_REACT_FIRE_MAGIC) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 80);
                     this->fireTimer = 40;
                 } else {
@@ -887,8 +888,8 @@ void EnRd_Update(Actor* thisx, PlayState* play) {
         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
 
-    if (this->damageEffect != REDEAD_DMGEFF_ICE_MAGIC &&
-        ((this->action != REDEAD_ACTION_RISE_FROM_COFFIN) || (this->damageEffect != REDEAD_DMGEFF_FIRE_MAGIC))) {
+    if (this->damageReaction != REDEAD_DMG_REACT_ICE_MAGIC &&
+        ((this->action != REDEAD_ACTION_RISE_FROM_COFFIN) || (this->damageReaction != REDEAD_DMG_REACT_FIRE_MAGIC))) {
         if (this->playerStunWaitTimer != 0) {
             this->playerStunWaitTimer--;
         }

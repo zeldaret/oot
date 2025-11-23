@@ -1,17 +1,56 @@
 <Root>
     <File Name="object_mu" Segment="6">
         <Animation Name="object_mu_Anim_0003F4" Offset="0x3F4"/>
-        <Texture Name="object_mu_TLUT_000410" OutName="tlut_00000410" Format="rgba16" Width="16" Height="16" Offset="0x410"/>
-        <Texture Name="object_mu_Tex_000610" OutName="tex_00000610" Format="i8" Width="8" Height="8" Offset="0x610"/>
-        <Texture Name="object_mu_Tex_000650" OutName="tex_00000650" Format="i8" Width="8" Height="8" Offset="0x650"/>
-        <Texture Name="object_mu_Tex_000690" OutName="tex_00000690" Format="i8" Width="8" Height="8" Offset="0x690"/>
-        <Texture Name="object_mu_Tex_0006D0" OutName="tex_000006D0" Format="i8" Width="8" Height="8" Offset="0x6D0"/>
-        <Texture Name="object_mu_Tex_000710" OutName="tex_00000710" Format="ci8" Width="8" Height="16" Offset="0x710" TlutOffset="0x410"/>
-        <Texture Name="object_mu_Tex_000790" OutName="tex_00000790" Format="ci8" Width="8" Height="8" Offset="0x790" TlutOffset="0x410"/>
-        <Texture Name="object_mu_Tex_0007D0" OutName="tex_000007D0" Format="ci8" Width="8" Height="8" Offset="0x7D0" TlutOffset="0x410"/>
-        <Texture Name="object_mu_Tex_000810" OutName="tex_00000810" Format="ci8" Width="8" Height="8" Offset="0x810" TlutOffset="0x410"/>
-        <Texture Name="object_mu_Tex_000850" OutName="tex_00000850" Format="ci8" Width="8" Height="8" Offset="0x850" TlutOffset="0x410"/>
-        <Texture Name="object_mu_Tex_000890" OutName="tex_00000890" Format="ci8" Width="8" Height="8" Offset="0x890" TlutOffset="0x410"/>
+        <Texture Name="object_mu_TLUT_000410" Format="rgba16" Width="16" Height="16" Offset="0x410"/>
+        <Texture Name="object_mu_Tex_000610" Format="i8" Width="8" Height="8" Offset="0x610"/>
+        <Texture Name="object_mu_Tex_000650" Format="i8" Width="8" Height="8" Offset="0x650"/>
+        <Texture Name="object_mu_Tex_000690" Format="i8" Width="8" Height="8" Offset="0x690"/>
+        <Texture Name="object_mu_Tex_0006D0" Format="i8" Width="8" Height="8" Offset="0x6D0"/>
+        <Texture Name="object_mu_Tex_000710" Format="ci8" Width="8" Height="16" Offset="0x710" TlutOffset="0x410"/>
+        <Texture Name="object_mu_Tex_000790" Format="ci8" Width="8" Height="8" Offset="0x790" TlutOffset="0x410"/>
+        <Texture Name="object_mu_Tex_0007D0" Format="ci8" Width="8" Height="8" Offset="0x7D0" TlutOffset="0x410"/>
+        <Texture Name="object_mu_Tex_000810" Format="ci8" Width="8" Height="8" Offset="0x810" TlutOffset="0x410"/>
+        <Texture Name="object_mu_Tex_000850" Format="ci8" Width="8" Height="8" Offset="0x850" TlutOffset="0x410"/>
+        <Texture Name="object_mu_Tex_000890" Format="ci8" Width="8" Height="8" Offset="0x890" TlutOffset="0x410"/>
+        <Array Name="object_mu_Vtx_0008D0" Count="169" Offset="0x8D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_001360" Count="47" Offset="0x1360">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_001650" Count="22" Offset="0x1650">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_0017B0" Count="7" Offset="0x17B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_001820" Count="45" Offset="0x1820">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_001AF0" Count="77" Offset="0x1AF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_001FC0" Count="82" Offset="0x1FC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_0024E0" Count="44" Offset="0x24E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_0027A0" Count="14" Offset="0x27A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_002880" Count="17" Offset="0x2880">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_002990" Count="57" Offset="0x2990">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_002D20" Count="31" Offset="0x2D20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_002F10" Count="32" Offset="0x2F10">
+            <Vtx/>
+        </Array>
         <DList Name="object_mu_DL_003110" Offset="0x3110"/>
         <DList Name="object_mu_DL_0035E8" Offset="0x35E8"/>
         <DList Name="object_mu_DL_0037B0" Offset="0x37B0"/>
@@ -42,18 +81,69 @@
         <Limb Name="object_mu_Limb_004F28" LimbType="Standard" Offset="0x4F28"/>
         <Skeleton Name="object_mu_Skel_004F70" Type="Flex" LimbType="Standard" Offset="0x4F70"/>
         <Animation Name="gDancingCoupleAnim" Offset="0x5040"/>
-        <Texture Name="object_mu_TLUT_005050" OutName="tlut_00005050" Format="rgba16" Width="16" Height="16" Offset="0x5050"/>
-        <Texture Name="object_mu_Tex_005250" OutName="tex_00005250" Format="i8" Width="16" Height="16" Offset="0x5250"/>
-        <Texture Name="object_mu_Tex_005350" OutName="tex_00005350" Format="ci8" Width="16" Height="16" Offset="0x5350" TlutOffset="0x5050"/>
-        <Texture Name="object_mu_Tex_005450" OutName="tex_00005450" Format="i8" Width="8" Height="8" Offset="0x5450"/>
-        <Texture Name="object_mu_Tex_005490" OutName="tex_00005490" Format="ci8" Width="8" Height="8" Offset="0x5490" TlutOffset="0x5050"/>
-        <Texture Name="object_mu_Tex_0054D0" OutName="tex_000054D0" Format="ci8" Width="16" Height="16" Offset="0x54D0" TlutOffset="0x5050"/>
-        <Texture Name="object_mu_Tex_0055D0" OutName="tex_000055D0" Format="ci8" Width="8" Height="8" Offset="0x55D0" TlutOffset="0x5050"/>
-        <Texture Name="object_mu_Tex_005610" OutName="tex_00005610" Format="ci8" Width="32" Height="16" Offset="0x5610" TlutOffset="0x5050"/>
-        <Texture Name="object_mu_Tex_005810" OutName="tex_00005810" Format="ci8" Width="32" Height="32" Offset="0x5810" TlutOffset="0x5050"/>
-        <Texture Name="object_mu_Tex_005C10" OutName="tex_00005C10" Format="ci8" Width="8" Height="8" Offset="0x5C10" TlutOffset="0x5050"/>
-        <Texture Name="object_mu_Tex_005C50" OutName="tex_00005C50" Format="ci8" Width="8" Height="16" Offset="0x5C50" TlutOffset="0x5050"/>
-        <Texture Name="object_mu_Tex_005CD0" OutName="tex_00005CD0" Format="ci8" Width="32" Height="32" Offset="0x5CD0" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_TLUT_005050" Format="rgba16" Width="16" Height="16" Offset="0x5050"/>
+        <Texture Name="object_mu_Tex_005250" Format="i8" Width="16" Height="16" Offset="0x5250"/>
+        <Texture Name="object_mu_Tex_005350" Format="ci8" Width="16" Height="16" Offset="0x5350" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005450" Format="i8" Width="8" Height="8" Offset="0x5450"/>
+        <Texture Name="object_mu_Tex_005490" Format="ci8" Width="8" Height="8" Offset="0x5490" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_0054D0" Format="ci8" Width="16" Height="16" Offset="0x54D0" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_0055D0" Format="ci8" Width="8" Height="8" Offset="0x55D0" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005610" Format="ci8" Width="32" Height="16" Offset="0x5610" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005810" Format="ci8" Width="32" Height="32" Offset="0x5810" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005C10" Format="ci8" Width="8" Height="8" Offset="0x5C10" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005C50" Format="ci8" Width="8" Height="16" Offset="0x5C50" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005CD0" Format="ci8" Width="32" Height="32" Offset="0x5CD0" TlutOffset="0x5050"/>
+        <Array Name="object_mu_Vtx_0060D0" Count="144" Offset="0x60D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_0069D0" Count="118" Offset="0x69D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_007130" Count="28" Offset="0x7130">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_0072F0" Count="21" Offset="0x72F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_007440" Count="23" Offset="0x7440">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_0075B0" Count="28" Offset="0x75B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_007770" Count="21" Offset="0x7770">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_0078C0" Count="23" Offset="0x78C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_007A30" Count="40" Offset="0x7A30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_007CB0" Count="93" Offset="0x7CB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_008280" Count="40" Offset="0x8280">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_008500" Count="21" Offset="0x8500">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_008650" Count="23" Offset="0x8650">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_0087C0" Count="40" Offset="0x87C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_008A40" Count="21" Offset="0x8A40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_008B90" Count="23" Offset="0x8B90">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mu_Vtx_008D00" Count="45" Offset="0x8D00">
+            <Vtx/>
+        </Array>
         <DList Name="object_mu_DL_008FD0" Offset="0x8FD0"/>
         <DList Name="object_mu_DL_009328" Offset="0x9328"/>
         <DList Name="object_mu_DL_009828" Offset="0x9828"/>

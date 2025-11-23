@@ -19,12 +19,12 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "effect.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_zo/object_zo.h"
 
@@ -78,9 +78,9 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
-        ATELEM_NONE | ATELEM_SFX_NORMAL,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
     },
@@ -101,13 +101,13 @@ void EnDivingGame_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gZoraSkel, &gZoraIdleAnim, this->jointTable, this->morphTable, 20);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n", "☆☆☆☆☆ Diving GO ☆☆☆☆☆ \n") VT_RST);
     this->actor.room = -1;
     this->actor.scale.x = 0.01f;
     this->actor.scale.y = 0.012999999f;
     this->actor.scale.z = 0.0139999995f;
     if (D_809EF0B0) {
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n", "☆☆☆☆☆ I'm already here -Hara ☆☆☆☆☆ \n") VT_RST);
         this->unk_31F = 1;
         Actor_Kill(&this->actor);
     } else {

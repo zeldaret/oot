@@ -51,30 +51,116 @@
         <Animation Name="gTwinrovaKotakeKoumeTPoseAnim" Offset="0x947C"/>
 
         <!-- Kotake and Koume textures -->
-        <Texture Name="gTwinrovaKoumeKotakeTLUT" OutName="twinrova_koume_kotake_tlut" Format="rgba16" Width="53" Height="4" Offset="0x9490"/>
-        <Texture Name="gTwinrovaKotakeGerudoFabricTex" OutName="twinrova_kotake_gerudo_fabric" Format="rgba16" Width="32" Height="32" Offset="0x9638"/>
-        <Texture Name="gTwinrovaKotakeRobeTex" OutName="twinrova_kotake_robe" Format="rgba16" Width="16" Height="16" Offset="0x9E38"/>
-        <Texture Name="gTwinrovaRobePatternTex" OutName="twinrova_robe_pattern" Format="rgba16" Width="16" Height="16" Offset="0xA038"/>
-        <Texture Name="gTwinrovaRobeTrimTex" OutName="twinrova_robe_trim" Format="rgba16" Width="16" Height="16" Offset="0xA238"/>
-        <Texture Name="gTwinrovaKotakeKoumeEyeOpenTex" OutName="twinrova_kotake_koume_eye_open" Format="ci8" Width="32" Height="32" Offset="0xA438" TlutOffset="0x9490"/>
-        <Texture Name="gTwinrovaKotakeKoumeSkinTex" OutName="twinrova_kotake_koume_skin" Format="ci8" Width="16" Height="8" Offset="0xA838" TlutOffset="0x9490"/>
-        <Texture Name="gTwinrovaKotakeKoumeMouthTex" OutName="twinrova_kotake_koume_mouth" Format="ci8" Width="8" Height="8" Offset="0xA8B8" TlutOffset="0x9490"/>
-        <Texture Name="gTwinrovaHairTex" OutName="twinrova_hair" Format="rgba16" Width="8" Height="32" Offset="0xA8F8"/>
-        <Texture Name="gTwinrovaKotakeKoumeEarTex" OutName="twinrova_kotake_koume_ear" Format="ci8" Width="8" Height="8" Offset="0xAAF8"  TlutOffset="0x9490"/>
-        <Texture Name="gTwinrovaKotakeKoumeFingerTex" OutName="twinrova_kotake_koume_finger" Format="ci8" Width="8" Height="16" Offset="0xAB38"  TlutOffset="0x9490"/>
-        <Texture Name="gTwinrovaBroomHandleTex" OutName="twinrova_broom_handle" Format="rgba16" Width="8" Height="8" Offset="0xABB8"/>
-        <Texture Name="gTwinrovaBroomHeadTex" OutName="twinrova_broom_head" Format="rgba16" Width="16" Height="32" Offset="0xAC38"/>
-        <Texture Name="gTwinrovaKotakeKoumeJewelHolderTex" OutName="twinrova_koume_kotake_jewel_holder" Format="rgba16" Width="16" Height="8" Offset="0xB038"/>
-        <Texture Name="gTwinrovaKotakeJewelTex" OutName="twinrova_kotake_jewel" Format="rgba16" Width="8" Height="8" Offset="0xB138"/>
-        <Texture Name="gTwinrovaKotakeKoumeNeckTex" OutName="twinrova_koume_kotake_neck" Format="ci8" Width="8" Height="8" Offset="0xB1B8" TlutOffset="0x9490"/>
-        <Texture Name="gTwinrovaKotakeKoumeNostrilsTex" OutName="twinrova_koume_kotake_nostrils" Format="ci8" Width="8" Height="8" Offset="0xB1F8" TlutOffset="0x9490"/>
-        <Texture Name="gTwinrovaKotakeKoumeEyeHalfTex" OutName="twinrova_koume_kotake_eye_half" Format="ci8" Width="32" Height="32" Offset="0xB238" TlutOffset="0x9490"/>
-        <Texture Name="gTwinrovaKotakeKoumeEyeClosedTex" OutName="twinrova_koume_kotake_eye_closed" Format="ci8" Width="32" Height="32" Offset="0xB638" TlutOffset="0x9490"/>
-        <Texture Name="gTwinrovaEffectTex" OutName="twinrova_effect" Format="i8" Width="32" Height="32" Offset="0xBA38"/>
-        <Texture Name="gTwinrovaEffectMaskTex" OutName="twinrova_effect_mask" Format="i4" Width="32" Height="64" Offset="0xBE38"/>
-        <Texture Name="gTwinrovaKoumeGerudoFabricTex" OutName="twinrova_koume_gerudo_fabric" Format="rgba16" Width="32" Height="32" Offset="0xC238"/>
-        <Texture Name="gTwinrovaKoumeJewelTex" OutName="twinrova_koume_jewel" Format="rgba16" Width="8" Height="8" Offset="0xCA38"/>
-        <Texture Name="gTwinrovaKoumeRobeTex" OutName="twinrova_koume_robe" Format="rgba16" Width="16" Height="16" Offset="0xCAB8"/>
+        <Texture Name="gTwinrovaKoumeKotakeTLUT" Format="rgba16" Width="53" Height="4" Offset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeGerudoFabricTex" Format="rgba16" Width="32" Height="32" Offset="0x9638"/>
+        <Texture Name="gTwinrovaKotakeRobeTex" Format="rgba16" Width="16" Height="16" Offset="0x9E38"/>
+        <Texture Name="gTwinrovaRobePatternTex" Format="rgba16" Width="16" Height="16" Offset="0xA038"/>
+        <Texture Name="gTwinrovaRobeTrimTex" Format="rgba16" Width="16" Height="16" Offset="0xA238"/>
+        <Texture Name="gTwinrovaKotakeKoumeEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0xA438" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeSkinTex" Format="ci8" Width="16" Height="8" Offset="0xA838" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeMouthTex" Format="ci8" Width="8" Height="8" Offset="0xA8B8" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaHairTex" Format="rgba16" Width="8" Height="32" Offset="0xA8F8"/>
+        <Texture Name="gTwinrovaKotakeKoumeEarTex" Format="ci8" Width="8" Height="8" Offset="0xAAF8"  TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeFingerTex" Format="ci8" Width="8" Height="16" Offset="0xAB38"  TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaBroomHandleTex" Format="rgba16" Width="8" Height="8" Offset="0xABB8"/>
+        <Texture Name="gTwinrovaBroomHeadTex" Format="rgba16" Width="16" Height="32" Offset="0xAC38"/>
+        <Texture Name="gTwinrovaKotakeKoumeJewelHolderTex" Format="rgba16" Width="16" Height="8" Offset="0xB038"/>
+        <Texture Name="gTwinrovaKotakeJewelTex" Format="rgba16" Width="8" Height="8" Offset="0xB138"/>
+        <Texture Name="gTwinrovaKotakeKoumeNeckTex" Format="ci8" Width="8" Height="8" Offset="0xB1B8" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeNostrilsTex" Format="ci8" Width="8" Height="8" Offset="0xB1F8" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0xB238" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaKotakeKoumeEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0xB638" TlutOffset="0x9490"/>
+        <Texture Name="gTwinrovaEffectTex" Format="i8" Width="32" Height="32" Offset="0xBA38"/>
+        <Texture Name="gTwinrovaEffectMaskTex" Format="i4" Width="32" Height="64" Offset="0xBE38"/>
+        <Texture Name="gTwinrovaKoumeGerudoFabricTex" Format="rgba16" Width="32" Height="32" Offset="0xC238"/>
+        <Texture Name="gTwinrovaKoumeJewelTex" Format="rgba16" Width="8" Height="8" Offset="0xCA38"/>
+        <Texture Name="gTwinrovaKoumeRobeTex" Format="rgba16" Width="16" Height="16" Offset="0xCAB8"/>
+
+        <!-- Kotake and Koume Vertices -->
+        <Array Name="gTwinrovaKotakeHeadInvisibleHairVtx" Count="157" Offset="0xCCB8">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeHeadInvisibleHairVtx" Count="157" Offset="0xD688">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeBroomInvisibleHeadVtx" Count="42" Offset="0xE058">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeBroomInvisibleHeadVtx" Count="42" Offset="0xE2F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeTeethVtx" Count="9" Offset="0xE598">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeRightShinVtx" Count="7" Offset="0xE628">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeLeftShinVtx" Count="7" Offset="0xE698">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeRightFootVtx" Count="4" Offset="0xE708">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeLeftFootVtx" Count="4" Offset="0xE748">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeRightHandVtx" Count="28" Offset="0xE788">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeLeftHandVtx" Count="28" Offset="0xE948">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeRightHandVtx" Count="28" Offset="0xEB08">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeLeftHandVtx" Count="28" Offset="0xECC8">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeLeftFootVtx" Count="4" Offset="0xEE88">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeRightFootVtx" Count="4" Offset="0xEEC8">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeLeftShinVtx" Count="7" Offset="0xEF08">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeRightShinVtx" Count="7" Offset="0xEF78">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeTeethVtx" Count="9" Offset="0xEFE8">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeBroomVtx" Count="48" Offset="0xF078">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeHeadVtx" Count="159" Offset="0xF378">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeBroomVtx" Count="48" Offset="0xFD68">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeHeadVtx" Count="159" Offset="0x10068">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeIceHairVtx" Count="36" Offset="0x10A58">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKoumeFireHairVtx" Count="19" Offset="0x10C98">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeIceBroomHeadOuterVtx" Count="7" Offset="0x10DC8">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeIceBroomHeadVtx" Count="17" Offset="0x10E38">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeFireBroomHeadOuterVtx" Count="10" Offset="0x10F48">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaKotakeFireBroomHeadVtx" Count="12" Offset="0x10FE8">
+            <Vtx/>
+        </Array>
 
         <!-- Kotake and Koume DLs -->
         <DList Name="gTwinrovaKotakeHeadInvisibleHairDL" Offset="0x110A8"/>
@@ -129,8 +215,8 @@
         <DList Name="gTwinrovaKotakeLeftThighDL" Offset="0x164C8"/>
         <DList Name="gTwinrovaKotakePelvisDL" Offset="0x164D0"/>
 
-        <Texture Name="gTwinrovaBraidEndTex" OutName="twinrova_braid_end" Format="rgba16" Width="8" Height="8" Offset="0x16650"/>
-        <Texture Name="gTwinrovaLeftFootTex" OutName="twinrova_left_foot" Format="rgba16" Width="4" Height="8" Offset="0x166D0"/>
+        <Texture Name="gTwinrovaBraidEndTex" Format="rgba16" Width="8" Height="8" Offset="0x16650"/>
+        <Texture Name="gTwinrovaLeftFootTex" Format="rgba16" Width="4" Height="8" Offset="0x166D0"/>
 
         <!-- Koume DLs -->
         <Array Name="gTwinrovaKoumeVtx" Count="288" Offset="0x16710">
@@ -155,94 +241,163 @@
         <DList Name="gTwinrovaKoumeLeftThighDL" Offset="0x18998"/>
         <DList Name="gTwinrovaKoumePelvisDL" Offset="0x189A0"/>
 
-        <Texture Name="gTwinrovaRightFootTex" OutName="twinrova_right_foot" Format="rgba16" Width="4" Height="8" Offset="0x18B20"/>
+        <Texture Name="gTwinrovaRightFootTex" Format="rgba16" Width="4" Height="8" Offset="0x18B20"/>
 
         <!-- Assets for the smoke that comes off of the big flame -->
-        <Texture Name="gTwinrovaFireSmokeTex" OutName="twinrova_fire_smoke" Format="i4" Width="32" Height="64" Offset="0x18B60"/>
+        <Texture Name="gTwinrovaFireSmokeTex" Format="i4" Width="32" Height="64" Offset="0x18B60"/>
+        <Array Name="gTwinrovaFireSmokeVtx" Count="6" Offset="0x18F60">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaFireSmokeDL" Offset="0x18FC0"/> <!-- Original name is "bt_firesmoke_modelT" -->
 
         <!-- Assets for the big flame that appears when Koume's beam or Twinrova's fire attack hits the ground -->
-        <Texture Name="gTwinrovaBigFlameTex" OutName="twinrova_big_flame" Format="i8" Width="32" Height="32" Offset="0x19078"/>
-        <Texture Name="gTwinrovaBigFlameMaskTex" OutName="twinrova_big_flame_mask" Format="i4" Width="32" Height="64" Offset="0x19478"/>
+        <Texture Name="gTwinrovaBigFlameTex" Format="i8" Width="32" Height="32" Offset="0x19078"/>
+        <Texture Name="gTwinrovaBigFlameMaskTex" Format="i4" Width="32" Height="64" Offset="0x19478"/>
+        <Array Name="gTwinrovaBigFlameVtx" Count="12" Offset="0x19878">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaBigFlameDL" Offset="0x19938"/> <!-- Original name is "bt_firewall_modelT" -->
 
         <!-- Texture for both the pool of fire and the effect when the Mirror Shield has absorbed an attack. -->
-        <Texture Name="gTwinrovaFirePoolAndShieldChargeCenterTex" OutName="twinrova_fire_pool_and_shield_charge_center" Format="i4" Width="32" Height="32" Offset="0x19A20"/>
+        <Texture Name="gTwinrovaFirePoolAndShieldChargeCenterTex" Format="i4" Width="32" Height="32" Offset="0x19A20"/>
 
-        <!-- DisplayList for the pool of fire that forms when Koume's beam or Twinrova's fire attack hits the ground -->
+        <!-- Vertices and DisplayList for the pool of fire that forms when Koume's beam or Twinrova's fire attack hits the ground -->
+        <Array Name="gTwinrovaFirePoolVtx" Count="18" Offset="0x19C20">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaFirePoolDL" Offset="0x19D40"/> <!-- Original name is "bt_firefloor_modelT" -->
 
         <!-- Assets for the fire effect that appears in various places -->
-        <Texture Name="gTwinrovaFireTex" OutName="twinrova_fire" Format="i4" Width="32" Height="64" Offset="0x19E00"/>
-        <Texture Name="gTwinrovaFireMaskTex" OutName="twinrova_fire_mask" Format="i4" Width="32" Height="32" Offset="0x1A200"/>
+        <Texture Name="gTwinrovaFireTex" Format="i4" Width="32" Height="64" Offset="0x19E00"/>
+        <Texture Name="gTwinrovaFireMaskTex" Format="i4" Width="32" Height="32" Offset="0x1A200"/>
+        <Array Name="gTwinrovaFireVtx" Count="3" Offset="0x1A400">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaFireDL" Offset="0x1A430"/> <!-- Original name is "bt_fireball_modelT" -->
 
         <!-- Assets for the magic particles that fly off of Koume, Kotake, and Twinrova's head -->
+        <Array Name="gTwinrovaMagicParticleModelVtx" Count="3" Offset="0x1A4F8">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaMagicParticleMaterialDL" Offset="0x1A528"/>
         <DList Name="gTwinrovaMagicParticleModelDL" Offset="0x1A5A8"/> <!-- Original name is "bt_hinoko_modelT" ("sparks") -->
-        <Texture Name="gTwinrovaMagicParticleTex" OutName="twinrova_magic_particle" Format="i8" Width="16" Height="16" Offset="0x1A5C0"/>
+        <Texture Name="gTwinrovaMagicParticleTex" Format="i8" Width="16" Height="16" Offset="0x1A5C0"/>
 
-        <!-- DisplayList for the wave of cold air that comes from the ice pool and the effect that appears on the shield when the player reflects a beam -->
+        <!-- Vertices and DisplayList for the wave of cold air that comes from the ice pool and the effect that appears on the shield when the player reflects a beam -->
+        <Array Name="gTwinrovaEffectHaloVtx" Count="13" Offset="0x1A6C0">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaEffectHaloDL" Offset="0x1A790"/> <!-- Original name is "bt_coolwave_modelT" -->
 
-        <!-- DisplayLists for various ice effects -->
+        <!-- Vertices and DisplayLists for various ice effects -->
+        <Array Name="gTwinrovaUnusedIceSteamCloudVtx" Count="4" Offset="0x1A860">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaUnusedIceSteamCloudDL" Offset="0x1A8A0"/>
+        <Array Name="gTwinrovaIceModelVtx" Count="3" Offset="0x1A968">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaIceMaterialDL" Offset="0x1A998"/>
         <DList Name="gTwinrovaIceSurroundingPlayerMaterialDL" Offset="0x1AA50"/>
         <DList Name="gTwinrovaIceModelDL" Offset="0x1AB00"/> <!-- Original name is "bt_coolball_modelT" -->
 
         <!-- Texture for the ice pool -->
-        <Texture Name="gTwinrovaIcePoolTex" OutName="twinrova_ice_pool" Format="i8" Width="64" Height="64" Offset="0x1AB20"/>
+        <Texture Name="gTwinrovaIcePoolTex" Format="i8" Width="64" Height="64" Offset="0x1AB20"/>
 
         <!-- Unused vertices. Based on its placement, this may have been originally used with the ice pool. -->
         <Array Name="gTwinrovaUnusedVtx" Count="4" Offset="0x1BB20">
             <Vtx/>
         </Array>
 
-        <!-- DisplayList for the ice pool -->
+        <!-- Vertices and DisplayList for the ice pool -->
+        <Array Name="gTwinrovaIcePoolVtx" Count="10" Offset="0x1BB60">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaIcePoolDL" Offset="0x1BC00"/> <!-- Not present in OoT3D, but MM's Wizrobe has an identical DList called "wiz_icefloor03_modelT" -->
 
         <!-- Assets for the gleam on top of the ice pool-->
-        <Texture Name="gTwinrovaIcePoolShineTex" OutName="twinrova_ice_pool_shine" Format="i4" Width="32" Height="64" Offset="0x1BCA0"/>
-        <Texture Name="gTwinrovaIcePoolShineMaskTex" OutName="twinrova_ice_pool_shine_mask" Format="i4" Width="16" Height="16" Offset="0x1C0A0"/>
+        <Texture Name="gTwinrovaIcePoolShineTex" Format="i4" Width="32" Height="64" Offset="0x1BCA0"/>
+        <Texture Name="gTwinrovaIcePoolShineMaskTex" Format="i4" Width="16" Height="16" Offset="0x1C0A0"/>
+        <Array Name="gTwinrovaIcePoolShineVtx" Count="10" Offset="0x1C120">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaIcePoolShineDL" Offset="0x1C1C0"/> <!-- Original name is "bt_icefloor03_pika_modelT" ("pika" = onomatopoeic for "sparkle, glisten") -->
 
         <!-- Assets for the magical sigils that appear when Kotake/Koume spawn or charge up an attack. -->
-        <Texture Name="gTwinrovaKotakeMagicSigilMaskTex" OutName="twinrova_kotake_magic_sigil_mask" Format="i4" Width="32" Height="64" Offset="0x1C2A0"/>
-        <Texture Name="gTwinrovaKotakeMagicSigilTex" OutName="twinrova_kotake_magic_sigil" Format="i4" Width="64" Height="64" Offset="0x1C6A0"/>
+        <Texture Name="gTwinrovaKotakeMagicSigilMaskTex" Format="i4" Width="32" Height="64" Offset="0x1C2A0"/>
+        <Texture Name="gTwinrovaKotakeMagicSigilTex" Format="i4" Width="64" Height="64" Offset="0x1C6A0"/>
+        <Array Name="gTwinrovaKotakeMagicSigilVtx" Count="4" Offset="0x1CEA0">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaKotakeMagicSigilDL" Offset="0x1CEE0"/> <!-- Original name is "btT_mahoujin_modelT" ("summoning circle; magic circle") -->
-        <Texture Name="gTwinrovaKoumeMagicSigilMaskTex" OutName="twinrova_koume_magic_sigil_mask" Format="i4" Width="32" Height="64" Offset="0x1CFA8"/>
-        <Texture Name="gTwinrovaKoumeMagicSigilTex" OutName="twinrova_koume_magic_sigil" Format="i4" Width="64" Height="64" Offset="0x1D3A8"/>
+        <Texture Name="gTwinrovaKoumeMagicSigilMaskTex" Format="i4" Width="32" Height="64" Offset="0x1CFA8"/>
+        <Texture Name="gTwinrovaKoumeMagicSigilTex" Format="i4" Width="64" Height="64" Offset="0x1D3A8"/>
+        <Array Name="gTwinrovaKoumeMagicSigilVtx" Count="4" Offset="0x1DBA8">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaKoumeMagicSigilDL" Offset="0x1DBE8"/> <!-- Original name is "btU_mahoujin_modelT" -->
 
-        <!-- DisplayList for Koume and Kotake's beam -->
+        <!-- Vertices and DisplayList for Koume and Kotake's beam -->
+        <Array Name="gTwinrovaBeamVtx" Count="20" Offset="0x1DCB0">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaBeamDL" Offset="0x1DDF0"/> <!-- Original name is "bt_firebeam_modelT" -->
 
-        <!-- DisplayLists for various Mirror Shield effects -->
+        <!-- Vertices and DisplayLists for various Mirror Shield effects -->
+        <Array Name="gTwinrovaMirrorShieldFireChargeCenterVtx" Count="9" Offset="0x1DED0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaMirrorShieldFireChargeSidesVtx" Count="12" Offset="0x1DF60">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaMirrorShieldFireChargeCenterDL" Offset="0x1E020"/>
         <DList Name="gTwinrovaMirrorShieldFireChargeSidesDL" Offset="0x1E0E0"/>
+        <Array Name="gTwinrovaMirrorShieldIceChargeCenterVtx" Count="9" Offset="0x1E170">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaMirrorShieldIceChargeSidesVtx" Count="12" Offset="0x1E200">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaMirrorShieldIceChargeCenterDL" Offset="0x1E2C0"/>
         <DList Name="gTwinrovaMirrorShieldIceChargeSidesDL" Offset="0x1E3A0"/>
 
         <!-- Texture for the clouds of ice -->
-        <Texture Name="gTwinrovaCloudMaskTex" OutName="twinrova_cloud_mask" Format="i4" Width="32" Height="32" Offset="0x1E430"/>
+        <Texture Name="gTwinrovaCloudMaskTex" Format="i4" Width="32" Height="32" Offset="0x1E430"/>
 
-        <!-- DisplayList for the effect that appears when the Mirror Shield absorbs Twinrova's attack, or when it unleashes a charged attack -->
+        <!-- Vertices and DisplayList for the effect that appears when the Mirror Shield absorbs Twinrova's attack, or when it unleashes a charged attack -->
+        <Array Name="gTwinrovaShieldAbsorbAndReflectEffectVtx" Count="60" Offset="0x1E630">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaShieldAbsorbAndReflectEffectDL" Offset="0x1E9F0"/> <!-- Original name is "btW_bacuuuum_modelT" -->
 
         <!-- Texture of a circle, used for the spawn portal shadow and the circle of light -->
-        <Texture Name="gTwinrovaCircleTex" OutName="twinrova_circle" Format="i8" Width="16" Height="16" Offset="0x1EB28"/>
+        <Texture Name="gTwinrovaCircleTex" Format="i8" Width="16" Height="16" Offset="0x1EB28"/>
 
-        <!-- DisplayList for the "shadow" under Koume and Kotake's spawn portal -->
+        <!-- Vertices and DisplayList for the "shadow" under Koume and Kotake's spawn portal -->
+        <Array Name="gTwinrovaSpawnPortalShadowVtx" Count="4" Offset="0x1EC28">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaSpawnPortalShadowDL" Offset="0x1EC68"/> <!-- Original name is "bt_under_mjin_modelT" -->
 
         <!-- Texture for the light pillar and the halo that appear when Twinrova is defeated -->
-        <Texture Name="gTwinrovaLightPillarAndHaloTex" OutName="twinrova_light_pillar_and_halo" Format="i4" Width="16" Height="16" Offset="0x1ECF0"/>
+        <Texture Name="gTwinrovaLightPillarAndHaloTex" Format="i4" Width="16" Height="16" Offset="0x1ECF0"/>
 
-        <!-- DisplayLists for various effects that appear when Twinrova is defeated -->
+        <!-- Vertices and DisplayLists for various effects that appear when Twinrova is defeated -->
+        <Array Name="gTwinrovaLightPillarVtx" Count="20" Offset="0x1ED70">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaLightPillarDL" Offset="0x1EEB0"/> <!-- Original name is "bt_heavenroad_modelT" -->
+        <Array Name="gTwinrovaLightRaysVtx" Count="40" Offset="0x1EFB8">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaLightRaysDL" Offset="0x1F238"/> <!-- Original name is "bt_gokou_modelT" ("halo; aureole; aureola") -->
+        <Array Name="gTwinrovaLightCircleVtx" Count="4" Offset="0x1F350">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaLightCircleDL" Offset="0x1F390"/> <!-- Original name is "bt_heavensgate_modelT" -->
+        <Array Name="gTwinrovaHaloVtx" Count="30" Offset="0x1F428">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaHaloDL" Offset="0x1F608"/> <!-- Original name is "bt_angelring_model" -->
 
 
@@ -276,7 +431,7 @@
         <Skeleton Name="gTwinrovaKoumeSkel" Type="Flex" LimbType="Standard" Offset="0x1F888"/>
 
         <!-- Twinrova Texture -->
-        <Texture Name="gTwinrovaEyeHalfTex" OutName="twinrova_eye_half" Format="ci8" Width="32" Height="32" Offset="0x2A070" TlutOffset="0x29E50"/>
+        <Texture Name="gTwinrovaEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x2A070" TlutOffset="0x29E50"/>
 
         <!-- Twinrova Animations -->
         <Animation Name="gTwinrovaDeathAnim" Offset="0x216DC"/> <!-- Original name is "btW_EDdamage" -->
@@ -286,11 +441,97 @@
         <Animation Name="gTwinrovaTPoseAnim" Offset="0x244B4"/> <!-- Original name is "btW_default" -->
 
         <!-- Twinrova Textures -->
-        <Texture Name="gTwinrovaSkinAndBangleTex" OutName="twinrova_skin_and_bangle" Format="rgba16" Width="4" Height="8" Offset="0x244D0"/>
-        <Texture Name="gTwinrovaEmblemTex" OutName="twinrova_emblem" Format="rgba16" Width="16" Height="16" Offset="0x24510"/>
-        <Texture Name="gTwinrovaBreastTex" OutName="twinrova_breast" Format="rgba16" Width="16" Height="16" Offset="0x24710"/>
-        <Texture Name="gTwinrovaRightPantLegTex" OutName="twinrova_right_pant_leg" Format="rgba16" Width="16" Height="16" Offset="0x24910"/>
-        <Texture Name="gTwinrovaLeftPantLegTex" OutName="twinrova_left_pant_leg" Format="rgba16" Width="16" Height="16" Offset="0x24B10"/>
+        <Texture Name="gTwinrovaSkinAndBangleTex" Format="rgba16" Width="4" Height="8" Offset="0x244D0"/>
+        <Texture Name="gTwinrovaEmblemTex" Format="rgba16" Width="16" Height="16" Offset="0x24510"/>
+        <Texture Name="gTwinrovaBreastTex" Format="rgba16" Width="16" Height="16" Offset="0x24710"/>
+        <Texture Name="gTwinrovaRightPantLegTex" Format="rgba16" Width="16" Height="16" Offset="0x24910"/>
+        <Texture Name="gTwinrovaLeftPantLegTex" Format="rgba16" Width="16" Height="16" Offset="0x24B10"/>
+
+        <!-- Twinrova Limb Vertices -->
+        <Array Name="gTwinrovaLeftSleeveEndVtx" Count="8" Offset="0x24D10">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftSleeveStartVtx" Count="14" Offset="0x24D90">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftForearmVtx" Count="26" Offset="0x24E70">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftUpperArmVtx" Count="23" Offset="0x25010">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftShoulderVtx" Count="32" Offset="0x25180">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightSleeveEndVtx" Count="8" Offset="0x25380">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightSleeveStartVtx" Count="14" Offset="0x25400">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightForearmVtx" Count="26" Offset="0x254E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightUpperArmVtx" Count="23" Offset="0x25680">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightShoulderVtx" Count="32" Offset="0x257F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftBraidEndVtx" Count="20" Offset="0x259F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftBraidStartVtx" Count="10" Offset="0x25B30">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightBraidEndVtx" Count="20" Offset="0x25BD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightBraidStartVtx" Count="10" Offset="0x25D10">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftBreastVtx" Count="38" Offset="0x25DB0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightBreastVtx" Count="38" Offset="0x26010">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaTorsoVtx" Count="103" Offset="0x26270">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaSash4Vtx" Count="10" Offset="0x268E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaSash3Vtx" Count="12" Offset="0x26980">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaSash2Vtx" Count="8" Offset="0x26A40">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaSash1Vtx" Count="10" Offset="0x26AC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftFootVtx" Count="37" Offset="0x26B60">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftShinVtx" Count="26" Offset="0x26DB0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftThighVtx" Count="17" Offset="0x26F50">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightFootVtx" Count="29" Offset="0x27060">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightShinVtx" Count="26" Offset="0x27230">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightThighVtx" Count="17" Offset="0x273D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaPelvisVtx" Count="36" Offset="0x274E0">
+            <Vtx/>
+        </Array>
 
         <!-- Twinrova Limb DisplayLists -->
         <DList Name="gTwinrovaRightFootDL" Offset="0x27720"/>
@@ -323,16 +564,69 @@
         <DList Name="gTwinrovaPelvisDL" Offset="0x29B10"/>
 
         <!-- Twinrova Textures -->
-        <Texture Name="gTwinrovaEyeAndMouthTLUT" OutName="twinrova_eye_and_mouth_tlut" Format="rgba16" Width="29" Height="8" Offset="0x29E50"/>
-        <Texture Name="gTwinrovaEarAndFingerTLUT" OutName="twinrova_ear_and_finger_tlut" Format="rgba16" Width="8" Height="5" Offset="0x2A020"/>
-        <Texture Name="gTwinrovaEyeClosedTex" OutName="twinrova_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x2A470" TlutOffset="0x29E50"/>
-        <Texture Name="gTwinrovaGrimaceTex" OutName="twinrova_grimace" Format="ci8" Width="16" Height="16" Offset="0x2A870"  TlutOffset="0x29E50"/>
-        <Texture Name="gTwinrovaEyebrowTex" OutName="twinrova_eyebrow" Format="rgba16" Width="8" Height="4" Offset="0x2A970"/>
-        <Texture Name="gTwinrovaEyeOpenTex" OutName="twinrova_eye_open" Format="ci8" Width="32" Height="32" Offset="0x2A9B0" TlutOffset="0x29E50"/>
-        <Texture Name="gTwinrovaNoseTex" OutName="twinrova_nose" Format="i8" Width="8" Height="8" Offset="0x2ADB0"/>
-        <Texture Name="gTwinrovaEarTex" OutName="twinrova_ear" Format="ci8" Width="8" Height="8" Offset="0x2ADF0"  TlutOffset="0x2A020"/>
-        <Texture Name="gTwinrovaSmileTex" OutName="twinrova_smile" Format="ci8" Width="16" Height="16" Offset="0x2AE30"  TlutOffset="0x29E50"/>
-        <Texture Name="gTwinrovaFingerTex" OutName="twinrova_finger" Format="ci8" Width="8" Height="16" Offset="0x2AF30"  TlutOffset="0x2A020"/>
+        <Texture Name="gTwinrovaEyeAndMouthTLUT" Format="rgba16" Width="29" Height="8" Offset="0x29E50"/>
+        <Texture Name="gTwinrovaEarAndFingerTLUT" Format="rgba16" Width="8" Height="5" Offset="0x2A020"/>
+        <Texture Name="gTwinrovaEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x2A470" TlutOffset="0x29E50"/>
+        <Texture Name="gTwinrovaGrimaceTex" Format="ci8" Width="16" Height="16" Offset="0x2A870"  TlutOffset="0x29E50"/>
+        <Texture Name="gTwinrovaEyebrowTex" Format="rgba16" Width="8" Height="4" Offset="0x2A970"/>
+        <Texture Name="gTwinrovaEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x2A9B0" TlutOffset="0x29E50"/>
+        <Texture Name="gTwinrovaNoseTex" Format="i8" Width="8" Height="8" Offset="0x2ADB0"/>
+        <Texture Name="gTwinrovaEarTex" Format="ci8" Width="8" Height="8" Offset="0x2ADF0"  TlutOffset="0x2A020"/>
+        <Texture Name="gTwinrovaSmileTex" Format="ci8" Width="16" Height="16" Offset="0x2AE30"  TlutOffset="0x29E50"/>
+        <Texture Name="gTwinrovaFingerTex" Format="ci8" Width="8" Height="16" Offset="0x2AF30"  TlutOffset="0x2A020"/>
+
+        <!-- Twinrova Limb Vertices -->
+        <Array Name="gTwinrovaInvisibleLeftHairBunVtx" Count="5" Offset="0x2AFB0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaInvisibleRightHairBunVtx" Count="5" Offset="0x2B000">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaHeadVtx" Count="196" Offset="0x2B050">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftHandVtx" Count="32" Offset="0x2BC90">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightBroomVtx" Count="22" Offset="0x2BE90">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftBroomVtx" Count="22" Offset="0x2BFF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightHandVtx" Count="32" Offset="0x2C150">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaRightHairBunVtx" Count="9" Offset="0x2C350">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaLeftHairBunVtx" Count="9" Offset="0x2C3E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaHairIceJetVtx" Count="14" Offset="0x2C470">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaHairIceTrailVtx" Count="15" Offset="0x2C550">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaHairFireJetVtx" Count="14" Offset="0x2C640">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaHairFireTrailVtx" Count="18" Offset="0x2C720">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaBroomIceJetVtx" Count="7" Offset="0x2C840">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaBroomIceTrailVtx" Count="17" Offset="0x2C8B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaBroomFireJetVtx" Count="10" Offset="0x2C9C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gTwinrovaBroomFireTrailVtx" Count="9" Offset="0x2CA60">
+            <Vtx/>
+        </Array>
 
         <!-- Twinrova Limb DisplayLists -->
         <DList Name="gTwinrovaInvisibleLeftHairBunDL" Offset="0x2CAF0"/>
@@ -354,7 +648,7 @@
         <DList Name="gTwinrovaBroomFireTrailDL" Offset="0x2E098"/>
 
         <!-- Twinrova Title Card -->
-        <Texture Name="gTwinrovaTitleCardTex" OutName="twinrova_title_card" Format="ia8" Width="128" Height="80" Offset="0x2E170"/>
+        <Texture Name="gTwinrovaTitleCardTex" Format="ia8" Width="128" Height="80" Offset="0x2E170"/>
 
         <!-- Twinrova Limbs -->
         <Limb Name="gTwinrovaPelvisLimb" LimbType="Standard" Offset="0x30970"/>
@@ -415,7 +709,10 @@
         <Animation Name="gTwinrovaLaughAnim" Offset="0x38ED0"/> <!-- Original name is "btW_ufufu" ("tee-hee") -->
 
         <!-- Assets for an unused red boulder -->
+        <Array Name="gTwinrovaUnusedBoulderVtx" Count="58" Offset="0x38EE0">
+            <Vtx/>
+        </Array>
         <DList Name="gTwinrovaUnusedBoulderDL" Offset="0x39280"/>
-        <Texture Name="gTwinrovaUnusedBoulderTex" OutName="twinrova_unused_boulder" Format="rgba16" Width="32" Height="32" Offset="0x393B0"/>
+        <Texture Name="gTwinrovaUnusedBoulderTex" Format="rgba16" Width="32" Height="32" Offset="0x393B0"/>
     </File>
 </Root>

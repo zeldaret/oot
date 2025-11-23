@@ -2,35 +2,12 @@
 #define Z_EN_IN_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
+#include "assets/objects/object_in/object_in.h"
 
 struct EnIn;
 
 typedef void (*EnInActionFunc)(struct EnIn*, struct PlayState*);
-
-typedef enum IngoLimb {
-    /* 0x00 */ INGO_LIMB_NONE,
-    /* 0x01 */ INGO_LIMB_ROOT,
-    /* 0x02 */ INGO_LEFT_THIGH_LIMB,
-    /* 0x03 */ INGO_LEFT_LEG_LIMB,
-    /* 0x04 */ INGO_LEFT_FOOT_LIMB,
-    /* 0x05 */ INGO_RIGHT_THIGH_LIMB,
-    /* 0x06 */ INGO_RIGHT_LEG_LIMB,
-    /* 0x07 */ INGO_RIGHT_FOOT_LIMB,
-    /* 0x08 */ INGO_TORSO_LIMB,
-    /* 0x09 */ INGO_CHEST_LIMB,
-    /* 0x0A */ INGO_LEFT_SHOULDER_LIMB,
-    /* 0x0B */ INGO_LEFT_ARM_LIMB,
-    /* 0x0C */ INGO_LEFT_HAND_LIMB,
-    /* 0x0D */ INGO_RIGHT_SHOULDER_LIMB,
-    /* 0x0E */ INGO_RIGHT_ARM_LIMB,
-    /* 0x0F */ INGO_RIGHT_HAND_LIMB,
-    /* 0x10 */ INGO_HEAD_LIMB,
-    /* 0x11 */ INGO_LEFT_EYEBROW_LIMB,
-    /* 0x12 */ INGO_RIGHTEYEBROW_LIMB,
-    /* 0x13 */ INGO_MUSTACHE_LIMB,
-    /* 0x14 */ INGO_LIMB_MAX
-} IngoLimb;
 
 typedef struct EnIn {
     /* 0x0000 */ Actor actor;

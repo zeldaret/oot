@@ -10,11 +10,11 @@
 #include "rumble.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64cutscene_flags.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "cutscene_flags.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_relay_objects/object_relay_objects.h"
 
@@ -119,7 +119,7 @@ void BgRelayObjects_Destroy(Actor* thisx, PlayState* play) {
     BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
+    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.save.cutsceneIndex < CS_INDEX_0)) {
         CLEAR_EVENTCHKINF(EVENTCHKINF_65);
     }
 }

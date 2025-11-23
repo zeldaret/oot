@@ -2,8 +2,55 @@
     <!-- Assets for Gibdos and Redeads -->
     <File Name="object_rd" Segment="6">
         <!-- Gibdo Textures -->
-        <Texture Name="gGibdoWrappingTex" OutName="gibdo_wrapping" Format="rgba16" Width="64" Height="32" Offset="0x0"/>
-        <Texture Name="gGibdoEyeTex" OutName="gibdo_eye" Format="rgba16" Width="32" Height="16" Offset="0x1000"/>
+        <Texture Name="gGibdoWrappingTex" Format="rgba16" Width="64" Height="32" Offset="0x0"/>
+        <Texture Name="gGibdoEyeTex" Format="rgba16" Width="32" Height="16" Offset="0x1000"/>
+
+        <!-- Gibdo Limb Vertices -->
+        <Array Name="gGibdoLeftHandVtx" Count="21" Offset="0x1400">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoLeftForearmVtx" Count="22" Offset="0x1550">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoLeftUpperArmVtx" Count="28" Offset="0x16B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoRightHandVtx" Count="21" Offset="0x1870">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoRightForearmVtx" Count="22" Offset="0x19C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoRightUpperArmVtx" Count="28" Offset="0x1B20">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoHeadVtx" Count="30" Offset="0x1CE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoTorsoVtx" Count="48" Offset="0x1EC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoLeftFootVtx" Count="22" Offset="0x21C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoLeftShinVtx" Count="22" Offset="0x2320">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoLeftThighVtx" Count="30" Offset="0x2480">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoRightFootVtx" Count="32" Offset="0x2660">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoRightShinVtx" Count="21" Offset="0x2860">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoRightThighVtx" Count="25" Offset="0x29B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGibdoPelvisVtx" Count="18" Offset="0x2B40">
+            <Vtx/>
+        </Array>
 
         <!-- Gibdo Limb DisplayLists -->
         <DList Name="gGibdoPelvisDL" Offset="0x2C60"/>
@@ -64,13 +111,60 @@
         <Animation Name="gGibdoRedeadIdleAnim" Offset="0x87D0"/> <!-- Original name is "re_dead_wait" -->
 
         <!-- Redead Textures -->
-        <Texture Name="gRedeadBackTex" OutName="redead_back" Format="rgba16" Width="32" Height="64" Offset="0x87E0"/>
-        <Texture Name="gRedeadTorsoTex" OutName="redead_torso" Format="rgba16" Width="32" Height="64" Offset="0x97E0"/>
-        <Texture Name="gRedeadFingersAndToesTex" OutName="redead_fingers_and_toes" Format="rgba16" Width="16" Height="32" Offset="0xA7E0"/>
-        <Texture Name="gRedeadMuscleTex" OutName="redead_muscle" Format="rgba16" Width="16" Height="32" Offset="0xABE0"/>
-        <Texture Name="gRedeadMaskTex" OutName="redead_mask" Format="i8" Width="32" Height="32" Offset="0xAFE0"/>
-        <Texture Name="gRedeadFaceTex" OutName="redead_face" Format="rgba16" Width="32" Height="64" Offset="0xB3E0"/>
-        <Texture Name="gRedeadHipsTex" OutName="redead_hips" Format="rgba16" Width="32" Height="16" Offset="0xC3E0"/>
+        <Texture Name="gRedeadBackTex" Format="rgba16" Width="32" Height="64" Offset="0x87E0"/>
+        <Texture Name="gRedeadTorsoTex" Format="rgba16" Width="32" Height="64" Offset="0x97E0"/>
+        <Texture Name="gRedeadFingersAndToesTex" Format="rgba16" Width="16" Height="32" Offset="0xA7E0"/>
+        <Texture Name="gRedeadMuscleTex" Format="rgba16" Width="16" Height="32" Offset="0xABE0"/>
+        <Texture Name="gRedeadMaskTex" Format="i8" Width="32" Height="32" Offset="0xAFE0"/>
+        <Texture Name="gRedeadFaceTex" Format="rgba16" Width="32" Height="64" Offset="0xB3E0"/>
+        <Texture Name="gRedeadHipsTex" Format="rgba16" Width="32" Height="16" Offset="0xC3E0"/>
+
+        <!-- Redead Limb Vertices -->
+        <Array Name="gRedeadTorsoVtx" Count="37" Offset="0xC7E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadLeftHandVtx" Count="12" Offset="0xCA30">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadLeftForearmVtx" Count="9" Offset="0xCAF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadLeftUpperArmVtx" Count="14" Offset="0xCB80">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadRightHandVtx" Count="12" Offset="0xCC60">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadRightForearmVtx" Count="12" Offset="0xCD20">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadRightUpperArmVtx" Count="14" Offset="0xCDE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadHeadVtx" Count="21" Offset="0xCEC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadLeftFootVtx" Count="12" Offset="0xD010">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadLeftShinVtx" Count="12" Offset="0xD0D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadLeftThighVtx" Count="16" Offset="0xD190">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadRightFootVtx" Count="17" Offset="0xD290">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadRightShinVtx" Count="12" Offset="0xD3A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadRightThighVtx" Count="16" Offset="0xD460">
+            <Vtx/>
+        </Array>
+        <Array Name="gRedeadPelvisVtx" Count="20" Offset="0xD560">
+            <Vtx/>
+        </Array>
 
         <!-- Redead Limb DisplayLists -->
         <DList Name="gRedeadPelvisDL" Offset="0xD6A0"/>

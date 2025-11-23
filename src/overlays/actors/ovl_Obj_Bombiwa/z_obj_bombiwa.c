@@ -13,8 +13,8 @@
 #include "rand.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_bombiwa/object_bombiwa.h"
 
@@ -51,13 +51,13 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x4FC1FFFE, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x4FC1FFFE, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
     },
-    { 55, 70, 0, { 0 } },
+    { 55, 70, 0, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };

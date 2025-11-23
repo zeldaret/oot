@@ -22,6 +22,62 @@
         <Limb Name="gBusinessScrubEyesLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_EYES" Offset="0x414C"/>
         <Limb Name="gBusinessScrubBodyLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_BODY" Offset="0x4158"/>
 
+        <!-- Business Scrub Limb Vertices -->
+        <Array Name="gBusinessScrubLeftHandVtx" Count="22" Offset="0x13B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubLeftForearmVtx" Count="12" Offset="0x1510">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubLeftUpperArmVtx" Count="6" Offset="0x15D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubRightHandVtx" Count="22" Offset="0x1630">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubRightForearmVtx" Count="12" Offset="0x1790">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubRightUpperArmVtx" Count="6" Offset="0x1850">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubLeftFootVtx" Count="18" Offset="0x18B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubLeftShinVtx" Count="12" Offset="0x19D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubLeftThighVtx" Count="6" Offset="0x1A90">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubRightFootVtx" Count="18" Offset="0x1AF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubRightShinVtx" Count="12" Offset="0x1C10">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubRightThighVtx" Count="6" Offset="0x1CD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubBodyVtx" Count="41" Offset="0x32F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubEyesVtx" Count="6" Offset="0x3580">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubNoseVtx" Count="17" Offset="0x35E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubRootLeafVtx" Count="22" Offset="0x36F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubTopLeafVtx" Count="14" Offset="0x3850">
+            <Vtx/>
+        </Array>
+        <Array Name="gBusinessScrubDekuNutVtx" Count="3" Offset="0x3FD8">
+            <Vtx/>
+        </Array>
+
         <!-- Business Scrub Limb DisplayLists -->
         <DList Name="gBusinessScrubRootLeafDL" Offset="0x3C80"/>
         <DList Name="gBusinessScrubLeftThighDL" Offset="0x2640"/>
@@ -42,13 +98,13 @@
         <DList Name="gBusinessScrubBodyDL" Offset="0x3930"/>
 
         <!-- Business Scrub Textures -->
-        <Texture Name="gBusinessScrubBodyTex" OutName="body" Format="rgba16" Width="16" Height="16" Offset="0x26F0"/>
-        <Texture Name="gBusinessScrubNoseTex" OutName="nose" Format="rgba16" Width="8" Height="8" Offset="0x28F0"/>
-        <Texture Name="gBusinessScrubNostrilTex" OutName="nostril" Format="rgba16" Width="8" Height="8" Offset="0x2970"/>
-        <Texture Name="gBusinessScrubEyeTex" OutName="eye" Format="rgba16" Width="8" Height="8" Offset="0x29F0"/>
-        <Texture Name="gBusinessScrubLeafStemTex" OutName="leaf_stem" Format="rgba16" Width="8" Height="8" Offset="0x2A70"/>
-        <Texture Name="gBusinessScrubLeafTex" OutName="leaf" Format="rgba16" Width="32" Height="32" Offset="0x2AF0"/>
-        <Texture Name="gBusinessScrubDekuNutTex" OutName="deku_nut" Format="rgba16" Width="16" Height="16" Offset="0x3DD8"/>
+        <Texture Name="gBusinessScrubBodyTex" Format="rgba16" Width="16" Height="16" Offset="0x26F0"/>
+        <Texture Name="gBusinessScrubNoseTex" Format="rgba16" Width="8" Height="8" Offset="0x28F0"/>
+        <Texture Name="gBusinessScrubNostrilTex" Format="rgba16" Width="8" Height="8" Offset="0x2970"/>
+        <Texture Name="gBusinessScrubEyeTex" Format="rgba16" Width="8" Height="8" Offset="0x29F0"/>
+        <Texture Name="gBusinessScrubLeafStemTex" Format="rgba16" Width="8" Height="8" Offset="0x2A70"/>
+        <Texture Name="gBusinessScrubLeafTex" Format="rgba16" Width="32" Height="32" Offset="0x2AF0"/>
+        <Texture Name="gBusinessScrubDekuNutTex" Format="rgba16" Width="16" Height="16" Offset="0x3DD8"/>
 
         <!-- Other Business Scrub DisplayLists -->
         <DList Name="gBusinessScrubDekuNutDL" Offset="0x4008"/>

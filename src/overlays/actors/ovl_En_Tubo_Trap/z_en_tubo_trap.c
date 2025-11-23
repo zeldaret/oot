@@ -12,12 +12,13 @@
 #include "regs.h"
 #include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
@@ -43,13 +44,13 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x04 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_NONE,
     },
-    { 9, 23, 0, { 0 } },
+    { 9, 23, 0, { 0, 0, 0 } },
 };
 
 ActorProfile En_Tubo_Trap_Profile = {
@@ -69,7 +70,7 @@ void EnTuboTrap_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 2.0f);
     PRINTF("\n\n");
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 壷トラップ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params); // "Urn Trap"
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 壷トラップ ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Urn Trap ☆☆☆☆☆ %x\n") VT_RST, this->actor.params);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     Actor_SetScale(&this->actor, 0.1f);
@@ -234,8 +235,9 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, PlayState* play) {
     f32 targetHeight;
 
     if (BREG(2) != 0) {
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ わて     ☆☆☆☆☆ %f\n" VT_RST, this->actor.world.pos.y);   // "You"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ おいどん ☆☆☆☆☆ %f\n" VT_RST, player->actor.world.pos.y); // "Me"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ わて     ☆☆☆☆☆ %f\n", "☆☆☆☆☆ You ☆☆☆☆☆ %f\n") VT_RST, this->actor.world.pos.y);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ おいどん ☆☆☆☆☆ %f\n", "☆☆☆☆☆ Me  ☆☆☆☆☆ %f\n") VT_RST,
+               player->actor.world.pos.y);
         PRINTF("\n\n");
     }
 

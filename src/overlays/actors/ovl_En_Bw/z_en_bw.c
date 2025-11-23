@@ -19,9 +19,9 @@
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_bw/object_bw.h"
@@ -74,8 +74,8 @@ static ColliderCylinderInit sCylinderInit1 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x01, 0x08 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, 0x08 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -94,8 +94,8 @@ static ColliderCylinderInit sCylinderInit2 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -617,7 +617,7 @@ void func_809D01CC(EnBw* this) {
     this->actor.speed = 0.0f;
     this->unk_25C = (Rand_ZeroOne() * 0.25f) + 1.0f;
     this->unk_260 = 0.0f;
-    if (this->damageEffect == 0xE) {
+    if (this->damageReaction == 0xE) {
         this->iceTimer = 0x50;
     }
     this->unk_222 = (this->actor.colorFilterParams & 0x4000) ? 25 : 80;
@@ -658,7 +658,7 @@ void func_809D0268(EnBw* this, PlayState* play) {
 
 void func_809D03CC(EnBw* this) {
     this->actor.speed = 0.0f;
-    if (this->damageEffect == 0xE) {
+    if (this->damageReaction == 0xE) {
         this->iceTimer = 32;
     }
     this->unk_23C = this->actor.colorFilterTimer;
@@ -706,12 +706,12 @@ void func_809D0584(EnBw* this, PlayState* play) {
     } else {
         if (this->collider2.base.acFlags & AC_HIT) {
             this->collider2.base.acFlags &= ~AC_HIT;
-            if ((this->actor.colChkInfo.damageEffect == 0) || (this->unk_220 == 6)) {
+            if ((this->actor.colChkInfo.damageReaction == 0) || (this->unk_220 == 6)) {
                 return;
             }
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
             Actor_SetDropFlag(&this->actor, &this->collider2.elem, false);
-            if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
+            if ((this->damageReaction == 1) || (this->damageReaction == 0xE)) {
                 if (this->unk_23C == 0) {
                     Actor_ApplyDamage(&this->actor);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
@@ -771,7 +771,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
     Color_RGBA8 sp44 = { 0, 0, 0, 220 };
 
     func_809D0584(this, play);
-    if (thisx->colChkInfo.damageEffect != 6) {
+    if (thisx->colChkInfo.damageReaction != 6) {
         this->actionFunc(this, play);
         if (this->unk_23C == 0) {
             this->unk_23A = (this->unk_23A + 4) & 0x7F;
@@ -786,7 +786,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
             func_8002836C(play, &thisx->world.pos, &velocity, &accel, &sp50, &sp4C, 0x3C, 0, 0x14);
         }
         if (this->unk_248 <= 0.4f) {
-            this->collider1.elem.atDmgInfo.effect = 0;
+            this->collider1.elem.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
             if (((play->gameplayFrames & 1) == 0) && (this->unk_220 < 5) && (this->unk_23C == 0)) {
                 accel.y = -0.1f;
                 velocity.x = Rand_CenteredFloat(4.0f);
@@ -806,7 +806,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
                               20.0f - (this->unk_248 * 40.0f));
             }
         } else {
-            this->collider1.elem.atDmgInfo.effect = 1;
+            this->collider1.elem.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_FIRE;
         }
 
         this->unk_234 = Actor_TestFloorInDirection(thisx, play, 50.0f, thisx->world.rot.y);

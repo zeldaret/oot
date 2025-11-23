@@ -1,12 +1,59 @@
 <Root>
     <File Name="object_cob" Segment="6">
         <!-- Textures-->
-        <Texture Name="gHylianWoman3TLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
-        <Texture Name="gHylianWoman3FaceTex" OutName="face" Format="ci8" Width="8" Height="16" Offset="0x200" TlutOffset="0x0"/>
-        <Texture Name="gHylianWoman3HairTex" OutName="hair" Format="ci8" Width="8" Height="8" Offset="0x280" TlutOffset="0x0"/>
-        <Texture Name="gHylianWoman3FingersTex" OutName="fingers" Format="ci8" Width="8" Height="8" Offset="0x2C0" TlutOffset="0x0"/>
-        <Texture Name="gHylianWoman3DressSleevesTex" OutName="dress_sleeves" Format="ci8" Width="8" Height="8" Offset="0x300" TlutOffset="0x0"/>
-        <Texture Name="gHylianWoman3ShirtTex" OutName="shirt" Format="ci8" Width="8" Height="16" Offset="0x340" TlutOffset="0x0"/>
+        <Texture Name="gHylianWoman3TLUT" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
+        <Texture Name="gHylianWoman3FaceTex" Format="ci8" Width="8" Height="16" Offset="0x200" TlutOffset="0x0"/>
+        <Texture Name="gHylianWoman3HairTex" Format="ci8" Width="8" Height="8" Offset="0x280" TlutOffset="0x0"/>
+        <Texture Name="gHylianWoman3FingersTex" Format="ci8" Width="8" Height="8" Offset="0x2C0" TlutOffset="0x0"/>
+        <Texture Name="gHylianWoman3DressSleevesTex" Format="ci8" Width="8" Height="8" Offset="0x300" TlutOffset="0x0"/>
+        <Texture Name="gHylianWoman3ShirtTex" Format="ci8" Width="8" Height="16" Offset="0x340" TlutOffset="0x0"/>
+
+        <!-- Vertices -->
+        <Array Name="gHylianWoman3HeadVtx" Count="61" Offset="0x3C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3LeftHandVtx" Count="13" Offset="0x790">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3LeftForearmVtx" Count="20" Offset="0x860">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3LeftUpperArmVtx" Count="21" Offset="0x9A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3RightHandVtx" Count="13" Offset="0xAF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3RightForearmVtx" Count="20" Offset="0xBC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3RightUpperArmVtx" Count="21" Offset="0xD00">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3TorsoVtx" Count="46" Offset="0xE50">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3LeftFootVtx" Count="3" Offset="0x1130">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3LeftShinVtx" Count="3" Offset="0x1160">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3LeftThighVtx" Count="3" Offset="0x1190">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3RightFootVtx" Count="3" Offset="0x11C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3RightShinVtx" Count="3" Offset="0x11F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3RightThighVtx" Count="3" Offset="0x1220">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianWoman3PelvisVtx" Count="11" Offset="0x1250">
+            <Vtx/>
+        </Array>
 
         <!-- DLs -->
         <DList Name="gHylianWoman3HeadDL" Offset="0x1300"/>

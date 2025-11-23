@@ -11,7 +11,8 @@
 #include "printf.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
-#include "z64play.h"
+#include "translation.h"
+#include "play_state.h"
 
 #include "assets/objects/object_shop_dungen/object_shop_dungen.h"
 
@@ -40,8 +41,8 @@ ActorProfile En_Tana_Profile = {
 //! next data entry will be dereferenced and print garbage, stopping any future printing.
 //! In a non-matching context, this can cause a crash if the next item isn't a valid pointer.
 static const char* sShelfTypes[] = {
-    "木の棚", // "Wooden Shelves"
-    "石の棚", // "Stone Shelves"
+    T("木の棚", "Wooden shelf"),
+    T("石の棚", "Stone shelf"),
 #ifdef AVOID_UB
     "",
 #endif

@@ -7,10 +7,10 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_sa/object_sa.h"
 #include "assets/scenes/overworld/spot04/spot04_scene.h"
@@ -70,8 +70,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -393,7 +393,7 @@ void EnSa_ChangeAnim(EnSa* this, s32 index) {
 }
 
 s32 func_80AF5DFC(EnSa* this, PlayState* play) {
-    if (gSaveContext.save.cutsceneIndex >= 0xFFF0 && gSaveContext.save.cutsceneIndex != 0xFFFD) {
+    if (gSaveContext.save.cutsceneIndex >= CS_INDEX_0 && gSaveContext.save.cutsceneIndex != CS_INDEX_D) {
         if (play->sceneId == SCENE_KOKIRI_FOREST) {
             return 4;
         }
@@ -694,8 +694,7 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
                 phi_v0 = this->unk_20C;
             }
             if (phi_v0 == 0) {
-                Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT, &this->actor.projectedPos, 4,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT);
                 this->unk_20C = 8;
             }
         }

@@ -7,6 +7,7 @@
 #include "z_en_bb.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -17,9 +18,9 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_Bb/object_Bb.h"
@@ -225,12 +226,12 @@ ActorProfile En_Bb_Profile = {
     /**/ EnBb_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -248,7 +249,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -369,7 +370,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 thisx->naviEnemyId = NAVI_ENEMY_RED_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableRed;
                 this->flameEnvColor.r = 255;
-                this->collider.elements[0].base.atDmgInfo.effect = 1;
+                this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_FIRE;
                 EnBb_SetupRed(play, this);
                 break;
             case ENBB_WHITE:
@@ -1169,7 +1170,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
     }
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        this->dmgEffect = this->actor.colChkInfo.damageEffect;
+        this->dmgEffect = this->actor.colChkInfo.damageReaction;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, false);
         switch (this->dmgEffect) {
             case 7:
@@ -1252,7 +1253,7 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
     if (this->actor.params <= ENBB_BLUE) {
         EnBb_CollisionCheck(this, play);
     }
-    if (this->actor.colChkInfo.damageEffect != 0xD) {
+    if (this->actor.colChkInfo.damageReaction != 0xD) {
         this->actionFunc(this, play);
         if ((this->actor.params <= ENBB_BLUE) && (this->actor.speed >= -6.0f) &&
             !(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {

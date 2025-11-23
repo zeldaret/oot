@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -18,8 +19,8 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
@@ -41,15 +42,17 @@ void EnButte_SetupWaitToDie(EnButte* this);
 void EnButte_WaitToDie(EnButte* this, PlayState* play);
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
-    { {
-          ELEM_MATERIAL_UNK0,
-          { 0x00000000, 0x00, 0x00 },
-          { 0xFFCFFFFF, 0x000, 0x00 },
-          ATELEM_NONE,
-          ACELEM_NONE,
-          OCELEM_ON,
-      },
-      { 0, { { 0, 0, 0 }, 5 }, 100 } },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
+            ATELEM_NONE,
+            ACELEM_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 5 }, 100 },
+    },
 };
 static ColliderJntSphInit sColliderJntSphInit = {
     {
@@ -60,7 +63,7 @@ static ColliderJntSphInit sColliderJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -318,9 +321,11 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
     minAnimSpeed = 0.0f;
 
     if ((this->flightParamsIdx != 0) && (this->timer < 12)) {
-        swordTip.x = player->meleeWeaponInfo[0].tip.x + Math_SinS(player->actor.shape.rot.y) * 10.0f;
-        swordTip.y = player->meleeWeaponInfo[0].tip.y;
-        swordTip.z = player->meleeWeaponInfo[0].tip.z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
+        swordTip.x =
+            MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->x + Math_SinS(player->actor.shape.rot.y) * 10.0f;
+        swordTip.y = MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->y;
+        swordTip.z =
+            MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
 
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &swordTip) + (s16)(Rand_ZeroOne() * D_809CE410);
         if (Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000) != 0) {
@@ -332,7 +337,7 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
         }
     }
 
-    this->posYTarget = MAX(player->actor.world.pos.y + 30.0f, player->meleeWeaponInfo[0].tip.y);
+    this->posYTarget = MAX(player->actor.world.pos.y + 30.0f, MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->y);
 
     EnButte_Turn(this);
 
@@ -352,7 +357,8 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
           (this->swordDownTimer <= 0) && (distSqFromHome < SQ(320.0f)))) {
         EnButte_SetupFlyAround(this);
     } else if (distSqFromHome > SQ(240.0f)) {
-        distSqFromSword = Math3D_Dist2DSq(player->meleeWeaponInfo[0].tip.x, player->meleeWeaponInfo[0].tip.z,
+        distSqFromSword = Math3D_Dist2DSq(MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->x,
+                                          MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->z,
                                           this->actor.world.pos.x, this->actor.world.pos.z);
         if (distSqFromSword < SQ(60.0f)) {
             EnButte_SetupTransformIntoFairy(this);

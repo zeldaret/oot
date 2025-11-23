@@ -3,6 +3,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -12,10 +13,10 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_peehat/object_peehat.h"
 
@@ -81,8 +82,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -90,12 +91,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 50, 160, -70, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -113,7 +114,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -128,8 +129,8 @@ static ColliderQuadInit sQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x10 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x10 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_NONE,
@@ -137,48 +138,48 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum DamageEffect {
-    /* 00 */ PEAHAT_DMG_EFF_ATTACK = 0,
-    /* 06 */ PEAHAT_DMG_EFF_LIGHT_ICE_ARROW = 6,
-    /* 12 */ PEAHAT_DMG_EFF_FIRE = 12,
-    /* 13 */ PEAHAT_DMG_EFF_HOOKSHOT = 13,
-    /* 14 */ PEAHAT_DMG_EFF_BOOMERANG = 14,
-    /* 15 */ PEAHAT_DMG_EFF_NUT = 15
-} DamageEffect;
+typedef enum EnPeehatDamageReaction {
+    /* 00 */ PEAHAT_DMG_REACT_ATTACK = 0,
+    /* 06 */ PEAHAT_DMG_REACT_LIGHT_ICE_ARROW = 6,
+    /* 12 */ PEAHAT_DMG_REACT_FIRE = 12,
+    /* 13 */ PEAHAT_DMG_REACT_HOOKSHOT = 13,
+    /* 14 */ PEAHAT_DMG_REACT_BOOMERANG = 14,
+    /* 15 */ PEAHAT_DMG_REACT_NUT = 15
+} EnPeehatDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, PEAHAT_DMG_EFF_NUT),
-    /* Deku stick    */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Slingshot     */ DMG_ENTRY(1, PEAHAT_DMG_EFF_ATTACK),
-    /* Explosive     */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Boomerang     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_BOOMERANG),
-    /* Normal arrow  */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Hammer swing  */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Hookshot      */ DMG_ENTRY(2, PEAHAT_DMG_EFF_HOOKSHOT),
-    /* Kokiri sword  */ DMG_ENTRY(1, PEAHAT_DMG_EFF_ATTACK),
-    /* Master sword  */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Giant's Knife */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
-    /* Fire arrow    */ DMG_ENTRY(4, PEAHAT_DMG_EFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Light arrow   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Unk arrow 1   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Unk arrow 2   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Unk arrow 3   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Fire magic    */ DMG_ENTRY(3, PEAHAT_DMG_EFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_LIGHT_ICE_ARROW),
-    /* Light magic   */ DMG_ENTRY(0, PEAHAT_DMG_EFF_LIGHT_ICE_ARROW),
-    /* Shield        */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
-    /* Mirror Ray    */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
-    /* Kokiri spin   */ DMG_ENTRY(1, PEAHAT_DMG_EFF_ATTACK),
-    /* Giant spin    */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
-    /* Master spin   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Kokiri jump   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
-    /* Giant jump    */ DMG_ENTRY(8, PEAHAT_DMG_EFF_ATTACK),
-    /* Master jump   */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
-    /* Unknown 1     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
-    /* Unblockable   */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
-    /* Hammer jump   */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
-    /* Unknown 2     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
+    /* Deku nut      */ DMG_ENTRY(0, PEAHAT_DMG_REACT_NUT),
+    /* Deku stick    */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Slingshot     */ DMG_ENTRY(1, PEAHAT_DMG_REACT_ATTACK),
+    /* Explosive     */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Boomerang     */ DMG_ENTRY(0, PEAHAT_DMG_REACT_BOOMERANG),
+    /* Normal arrow  */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Hammer swing  */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Hookshot      */ DMG_ENTRY(2, PEAHAT_DMG_REACT_HOOKSHOT),
+    /* Kokiri sword  */ DMG_ENTRY(1, PEAHAT_DMG_REACT_ATTACK),
+    /* Master sword  */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Giant's Knife */ DMG_ENTRY(4, PEAHAT_DMG_REACT_ATTACK),
+    /* Fire arrow    */ DMG_ENTRY(4, PEAHAT_DMG_REACT_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Light arrow   */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Unk arrow 1   */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Unk arrow 2   */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Unk arrow 3   */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Fire magic    */ DMG_ENTRY(3, PEAHAT_DMG_REACT_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, PEAHAT_DMG_REACT_LIGHT_ICE_ARROW),
+    /* Light magic   */ DMG_ENTRY(0, PEAHAT_DMG_REACT_LIGHT_ICE_ARROW),
+    /* Shield        */ DMG_ENTRY(0, PEAHAT_DMG_REACT_ATTACK),
+    /* Mirror Ray    */ DMG_ENTRY(0, PEAHAT_DMG_REACT_ATTACK),
+    /* Kokiri spin   */ DMG_ENTRY(1, PEAHAT_DMG_REACT_ATTACK),
+    /* Giant spin    */ DMG_ENTRY(4, PEAHAT_DMG_REACT_ATTACK),
+    /* Master spin   */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Kokiri jump   */ DMG_ENTRY(2, PEAHAT_DMG_REACT_ATTACK),
+    /* Giant jump    */ DMG_ENTRY(8, PEAHAT_DMG_REACT_ATTACK),
+    /* Master jump   */ DMG_ENTRY(4, PEAHAT_DMG_REACT_ATTACK),
+    /* Unknown 1     */ DMG_ENTRY(0, PEAHAT_DMG_REACT_ATTACK),
+    /* Unblockable   */ DMG_ENTRY(0, PEAHAT_DMG_REACT_ATTACK),
+    /* Hammer jump   */ DMG_ENTRY(4, PEAHAT_DMG_REACT_ATTACK),
+    /* Unknown 2     */ DMG_ENTRY(0, PEAHAT_DMG_REACT_ATTACK),
 };
 
 typedef enum PeahatState {
@@ -902,13 +903,13 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, PlayState* play) {
     } else if (this->colliderJntSph.base.acFlags & AC_HIT) {
         this->colliderJntSph.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->colliderJntSph, true);
-        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_NUT ||
-            this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
+        if (this->actor.colChkInfo.damageReaction == PEAHAT_DMG_REACT_NUT ||
+            this->actor.colChkInfo.damageReaction == PEAHAT_DMG_REACT_LIGHT_ICE_ARROW) {
             return;
         }
-        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_HOOKSHOT) {
+        if (this->actor.colChkInfo.damageReaction == PEAHAT_DMG_REACT_HOOKSHOT) {
             this->actor.colChkInfo.health = 0;
-        } else if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_BOOMERANG) {
+        } else if (this->actor.colChkInfo.damageReaction == PEAHAT_DMG_REACT_BOOMERANG) {
             if (this->state != PEAHAT_STATE_STUNNED) {
                 EnPeehat_SetStateBoomerangStunned(this);
             }
@@ -919,7 +920,7 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_DAMAGE);
         }
 
-        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_FIRE) {
+        if (this->actor.colChkInfo.damageReaction == PEAHAT_DMG_REACT_FIRE) {
             Vec3f pos;
             s32 i;
             for (i = 4; i >= 0; i--) {
@@ -949,7 +950,7 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
     if (thisx->params <= 0) {
         EnPeehat_Adult_CollisionCheck(this, play);
     }
-    if (thisx->colChkInfo.damageEffect != PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
+    if (thisx->colChkInfo.damageReaction != PEAHAT_DMG_REACT_LIGHT_ICE_ARROW) {
         if (thisx->speed != 0.0f || thisx->velocity.y != 0.0f) {
             Actor_MoveXZGravity(thisx);
             Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);

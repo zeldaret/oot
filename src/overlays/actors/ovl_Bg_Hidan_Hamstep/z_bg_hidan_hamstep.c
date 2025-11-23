@@ -20,7 +20,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
@@ -41,12 +41,12 @@ static f32 sYPosOffsets[] = {
     -20.0f, -120.0f, -220.0f, -320.0f, -420.0f,
 };
 
-static ColliderTrisElementInit sTrisElementsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000040, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000040, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -56,8 +56,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000040, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000040, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -75,7 +75,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 

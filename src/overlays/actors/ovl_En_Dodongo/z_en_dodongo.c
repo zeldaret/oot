@@ -3,6 +3,7 @@
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -12,9 +13,9 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_dodongo/object_dodongo.h"
 
@@ -63,12 +64,12 @@ ActorProfile En_Dodongo_Profile = {
     /**/ EnDodongo_Draw,
 };
 
-static ColliderJntSphElementInit sBodyElementsInit[6] = {
+static ColliderJntSphElementInit sBodyElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -78,8 +79,8 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -89,8 +90,8 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -100,8 +101,8 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_NONE,
             OCELEM_ON,
@@ -111,8 +112,8 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_NONE,
             OCELEM_ON,
@@ -122,8 +123,8 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x0D800691, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x0D800691, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON | OCELEM_UNK3,
@@ -141,16 +142,16 @@ static ColliderJntSphInit sBodyJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    6,
+    ARRAY_COUNT(sBodyElementsInit),
     sBodyElementsInit,
 };
 
-static ColliderTrisElementInit sHardElementsInit[3] = {
+static ColliderTrisElementInit sHardElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK2,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xF24BF96E, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xF24BF96E, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO,
             OCELEM_NONE,
@@ -160,8 +161,8 @@ static ColliderTrisElementInit sHardElementsInit[3] = {
     {
         {
             ELEM_MATERIAL_UNK2,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFCBF96E, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCBF96E, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO,
             OCELEM_NONE,
@@ -171,8 +172,8 @@ static ColliderTrisElementInit sHardElementsInit[3] = {
     {
         {
             ELEM_MATERIAL_UNK2,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFCBF96E, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCBF96E, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON | ACELEM_HOOKABLE | ACELEM_NO_AT_INFO,
             OCELEM_NONE,
@@ -190,7 +191,7 @@ static ColliderTrisInit sHardTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    3,
+    ARRAY_COUNT(sHardElementsInit),
     sHardElementsInit,
 };
 
@@ -205,8 +206,8 @@ static ColliderQuadInit sAttackQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x20000000, 0x01, 0x10 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x20000000, HIT_SPECIAL_EFFECT_FIRE, 0x10 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -415,7 +416,7 @@ void EnDodongo_SetupStunned(EnDodongo* this) {
     Animation_Change(&this->skelAnime, &gDodongoBreatheFireAnim, 0.0f, 25.0f, 0.0f, ANIMMODE_ONCE, -4.0f);
     this->actionState = DODONGO_STUNNED;
     this->actor.speed = 0.0f;
-    if (this->damageEffect == 0xF) {
+    if (this->damageReaction == 0xF) {
         this->iceTimer = 36;
     }
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -733,9 +734,9 @@ void EnDodongo_CollisionCheck(EnDodongo* this, PlayState* play) {
     } else if ((this->bodyCollider.base.acFlags & AC_HIT) && (this->actionState > DODONGO_DEATH)) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->bodyCollider, false);
-        if (this->actor.colChkInfo.damageEffect != 0xE) {
-            this->damageEffect = this->actor.colChkInfo.damageEffect;
-            if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
+        if (this->actor.colChkInfo.damageReaction != 0xE) {
+            this->damageReaction = this->actor.colChkInfo.damageReaction;
+            if ((this->actor.colChkInfo.damageReaction == 1) || (this->actor.colChkInfo.damageReaction == 0xF)) {
                 if (this->actionState != DODONGO_STUNNED) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
@@ -783,7 +784,7 @@ void EnDodongo_Update(Actor* thisx, PlayState* play) {
     EnDodongo* this = (EnDodongo*)thisx;
 
     EnDodongo_CollisionCheck(this, play);
-    if (this->actor.colChkInfo.damageEffect != 0xE) {
+    if (this->actor.colChkInfo.damageReaction != 0xE) {
         this->actionFunc(this, play);
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 60.0f, 70.0f,

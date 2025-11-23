@@ -5,7 +5,7 @@
 #include "src/overlays/misc/ovl_kaleido_scope/z_kaleido_scope.h"
 #include "tex_len.h"
 #include "versions.h"
-#include "z64interface.h"
+#include "interface.h"
 
 extern u64 gItemIconDekuStickTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];
 extern u64 gItemIconDekuNutTex[TEX_LEN(u64, ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 32)];
@@ -184,6 +184,10 @@ extern u64 gPauseSave14Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX
 extern u64 gPauseSave24Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)];
 extern u64 gPauseGameOver10Tex[TEX_LEN(u64, PAGE_BG_QUAD_TEX_WIDTH, PAGE_BG_QUAD_TEX_HEIGHT, 8)];
 
+#define gABtnSymbolTex_WIDTH 24
+#define gBBtnSymbolTex_WIDTH 24
+#define gCBtnSymbolsTex_WIDTH 48
+
 #define gSongNoteTex_WIDTH 16
 #define gSongNoteTex_HEIGHT 24
 extern u64 gSongNoteTex[TEX_LEN(u64, gSongNoteTex_WIDTH, gSongNoteTex_HEIGHT, 8)];
@@ -193,7 +197,7 @@ extern u64 gSongNoteTex[TEX_LEN(u64, gSongNoteTex_WIDTH, gSongNoteTex_HEIGHT, 8)
 #define gMagicArrowEquipEffectTex_HEIGHT gMagicArrowEquipEffectTex_SIZE
 extern u64 gMagicArrowEquipEffectTex[TEX_LEN(u64, gMagicArrowEquipEffectTex_WIDTH, gMagicArrowEquipEffectTex_HEIGHT, 8)];
 
-extern Gfx gItemNamePanelDL[18];
+extern Gfx gInfoPanelBgDL[18];
 extern Gfx gLButtonIconDL[10];
 extern Gfx gRButtonIconDL[10];
 extern Gfx gCButtonIconsDL[11];

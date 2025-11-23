@@ -21,19 +21,66 @@
 
         <!-- Textures -->
         <!-- 32-bit aligned textures. -->
-        <Texture Name="gHylianMan1TLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0xFC"/>
-        <Texture Name="gHylianMan1BeardedSkinHairTex" OutName="bearded_skin_hair" Format="ci8" Width="16" Height="16" Offset="0x2FC" TlutOffset="0xFC"/>
-        <Texture Name="gHylianMan1BeardedHairTex" OutName="bearded_hair" Format="ci8" Width="16" Height="16" Offset="0x3FC" TlutOffset="0xFC"/>
-        <Texture Name="gHylianMan1BeardedEarTex" OutName="bearded_ear" Format="ci8" Width="8" Height="8" Offset="0x4FC" TlutOffset="0xFC"/>
-        <Texture Name="gHylianMan1BeardedSkinTex" OutName="bearded_skin" Format="ci8" Width="8" Height="8" Offset="0x53C" TlutOffset="0xFC"/>
-        <Texture Name="gHylianMan1BeardedEyeOpenTex" OutName="bearded_eye_open" Format="ci8" Width="16" Height="16" Offset="0x57C" TlutOffset="0xFC"/>
-        <Texture Name="gHylianMan1BeardedEyeHalfTex" OutName="bearded_eye_half" Format="ci8" Width="16" Height="16" Offset="0x67C" TlutOffset="0xFC"/>
-        <Texture Name="gHylianMan1BeardedEyeClosedTex" OutName="bearded_eye_closed" Format="ci8" Width="16" Height="16" Offset="0x77C" TlutOffset="0xFC"/>
-        <Texture Name="gHylianMan1FingersTex" OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0x87C" TlutOffset="0xFC"/>
-        <Texture Name="gHylianMan1ShirtTex" OutName="shirt" Format="i8" Width="8" Height="8" Offset="0x97C"/>
-        <Texture Name="gHylianMan1ShoesTex" OutName="shoes" Format="i8" Width="8" Height="8" Offset="0x9BC"/>
-        <Texture Name="gHylianMan1PantsTex" OutName="pants" Format="ci8" Width="32" Height="16" Offset="0x9FC" TlutOffset="0xFC"/>
-        <Texture Name="gHylianMan1PantsBeltTex" OutName="pants_belt" Format="ci8" Width="16" Height="16" Offset="0xBFC" TlutOffset="0xFC"/>
+        <Texture Name="gHylianMan1TLUT" Format="rgba16" Width="16" Height="16" Offset="0xFC"/>
+        <Texture Name="gHylianMan1BeardedSkinHairTex" Format="ci8" Width="16" Height="16" Offset="0x2FC" TlutOffset="0xFC"/>
+        <Texture Name="gHylianMan1BeardedHairTex" Format="ci8" Width="16" Height="16" Offset="0x3FC" TlutOffset="0xFC"/>
+        <Texture Name="gHylianMan1BeardedEarTex" Format="ci8" Width="8" Height="8" Offset="0x4FC" TlutOffset="0xFC"/>
+        <Texture Name="gHylianMan1BeardedSkinTex" Format="ci8" Width="8" Height="8" Offset="0x53C" TlutOffset="0xFC"/>
+        <Texture Name="gHylianMan1BeardedEyeOpenTex" Format="ci8" Width="16" Height="16" Offset="0x57C" TlutOffset="0xFC"/>
+        <Texture Name="gHylianMan1BeardedEyeHalfTex" Format="ci8" Width="16" Height="16" Offset="0x67C" TlutOffset="0xFC"/>
+        <Texture Name="gHylianMan1BeardedEyeClosedTex" Format="ci8" Width="16" Height="16" Offset="0x77C" TlutOffset="0xFC"/>
+        <Texture Name="gHylianMan1FingersTex" Format="ci8" Width="16" Height="16" Offset="0x87C" TlutOffset="0xFC"/>
+        <Texture Name="gHylianMan1ShirtTex" Format="i8" Width="8" Height="8" Offset="0x97C"/>
+        <Texture Name="gHylianMan1ShoesTex" Format="i8" Width="8" Height="8" Offset="0x9BC"/>
+        <Texture Name="gHylianMan1PantsTex" Format="ci8" Width="32" Height="16" Offset="0x9FC" TlutOffset="0xFC"/>
+        <Texture Name="gHylianMan1PantsBeltTex" Format="ci8" Width="16" Height="16" Offset="0xBFC" TlutOffset="0xFC"/>
+
+        <!-- Vertices -->
+        <Array Name="gHylianMan1BeardedHeadVtx" Count="126" Offset="0xD00">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1LeftHandVtx" Count="47" Offset="0x14E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1LeftForearmVtx" Count="24" Offset="0x17D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1LeftUpperArmVtx" Count="25" Offset="0x1950">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1RightHandVtx" Count="47" Offset="0x1AE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1RightForearmVtx" Count="24" Offset="0x1DD0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1RightUpperArmVtx" Count="25" Offset="0x1F50">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1TorsoVtx" Count="61" Offset="0x20E0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1RightFootVtx" Count="34" Offset="0x24B0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1RightShinVtx" Count="24" Offset="0x26D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1RightThighVtx" Count="26" Offset="0x2850">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1LeftFootVtx" Count="34" Offset="0x29F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1LeftShinVtx" Count="24" Offset="0x2C10">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1LeftThighVtx" Count="26" Offset="0x2D90">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1PelvisVtx" Count="28" Offset="0x2F30">
+            <Vtx/>
+        </Array>
 
         <!-- DLs -->
         <DList Name="gHylianMan1BeardedHeadDL" Offset="0x30F0"/>
@@ -53,13 +100,19 @@
         <DList Name="gHylianMan1PelvisDL" Offset="0x4628"/>
 
         <!-- Alternate Heads Textures -->
-        <Texture Name="gHylianMan1ShavedBowlCutTLUT" OutName="shaved_bowl_cut_tlut" Format="rgba16" Width="16" Height="12" Offset="0x47C8"/>
-        <Texture Name="gHylianMan1ShavedBowlSkinEarTex" OutName="shaved_bowl_cut_skin_ear" Format="ci8" Width="8" Height="8" Offset="0x4948" TlutOffset="0x47C8"/>
-        <Texture Name="gHylianMan1ShavedBowlMouthTex" OutName="shaved_bowl_cut_mouth" Format="ci8" Width="32" Height="16" Offset="0x4988" TlutOffset="0x47C8"/>
-        <Texture Name="gHylianMan1ShavedBowlEyeTex" OutName="shaved_bowl_cut_eye" Format="ci8" Width="16" Height="16" Offset="0x4B88" TlutOffset="0x47C8"/>
-        <Texture Name="gHylianMan1BowlCutHairTex" OutName="bowl_cut_hair" Format="ci8" Width="8" Height="16" Offset="0x4C88" TlutOffset="0x47C8"/>
+        <Texture Name="gHylianMan1ShavedBowlCutTLUT" Format="rgba16" Width="16" Height="12" Offset="0x47C8"/>
+        <Texture Name="gHylianMan1ShavedBowlSkinEarTex" Format="ci8" Width="8" Height="8" Offset="0x4948" TlutOffset="0x47C8"/>
+        <Texture Name="gHylianMan1ShavedBowlMouthTex" Format="ci8" Width="32" Height="16" Offset="0x4988" TlutOffset="0x47C8"/>
+        <Texture Name="gHylianMan1ShavedBowlEyeTex" Format="ci8" Width="16" Height="16" Offset="0x4B88" TlutOffset="0x47C8"/>
+        <Texture Name="gHylianMan1BowlCutHairTex" Format="ci8" Width="8" Height="16" Offset="0x4C88" TlutOffset="0x47C8"/>
 
-        <!-- Alternate Heads DLs -->
+        <!-- Alternate Heads -->
+        <Array Name="gHylianMan1ShavedHeadVtx" Count="62" Offset="0x4D08">
+            <Vtx/>
+        </Array>
+        <Array Name="gHylianMan1BowlCutHeadVtx" Count="66" Offset="0x50E8">
+            <Vtx/>
+        </Array>
         <DList Name="gHylianMan1ShavedHeadDL" Offset="0x5508"/>
         <DList Name="gHylianMan1BowlCutHeadDL" Offset="0x5728"/>
     </File>

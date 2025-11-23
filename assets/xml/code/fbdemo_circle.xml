@@ -1,9 +1,9 @@
 <Root>
-    <File Name="code" OutName="z_fbdemo_circle">
-        <Texture Name="sTransCircleNormalTex" OutName="trans_circle_normal" Format="i8" Width="16" Height="64" Offset="0x0"/>
-        <Texture Name="sTransCircleWaveTex" OutName="trans_circle_wave" Format="i8" Width="16" Height="64" Offset="0x400"/>
-        <Texture Name="sTransCircleRippleTex" OutName="trans_circle_ripple" Format="i8" Width="16" Height="64" Offset="0x800"/>
-        <Texture Name="sTransCircleStarburstTex" OutName="trans_circle_starburst" Format="i8" Width="16" Height="64" Offset="0xC00"/>
+    <File Name="code">
+        <Texture Name="sTransCircleNormalTex" Format="i8" Width="16" Height="64" Offset="0x0"/>
+        <Texture Name="sTransCircleWaveTex" Format="i8" Width="16" Height="64" Offset="0x400"/>
+        <Texture Name="sTransCircleRippleTex" Format="i8" Width="16" Height="64" Offset="0x800"/>
+        <Texture Name="sTransCircleStarburstTex" Format="i8" Width="16" Height="64" Offset="0xC00"/>
         <Array Name="sTransCircleVtx" Count="34" Offset="0x1000">
             <Vtx/>
         </Array>

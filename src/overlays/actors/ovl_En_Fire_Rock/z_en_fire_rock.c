@@ -12,10 +12,10 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64debug_display.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "debug_display.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 
@@ -54,8 +54,8 @@ static ColliderCylinderInit D_80A12CA0 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x09, 0x08 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_9, 0x08 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_NONE,
@@ -74,8 +74,8 @@ static ColliderCylinderInit D_80A12CCC = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x01, 0x08 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, 0x08 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_NONE,
@@ -270,7 +270,7 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play) {
                 }
                 spawnedFireRock->scale = this->scale - 0.01f;
             } else {
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n", "☆☆☆☆☆ It's full ☆☆☆☆☆ \n") VT_RST);
             }
         }
         Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
@@ -291,7 +291,7 @@ void FireRock_WaitSpawnRocksFromCeiling(EnFireRock* this, PlayState* play) {
             if (spawnedFireRock != NULL) {
                 spawnedFireRock->timer = 10;
             } else {
-                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n", "☆☆☆☆☆ It's full ☆☆☆☆☆ \n") VT_RST);
             }
         }
         this->playerNearby = 1;

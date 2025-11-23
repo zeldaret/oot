@@ -14,9 +14,9 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_dodojr/object_dodojr.h"
 
@@ -66,8 +66,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x08 },
-        { 0xFFC5FFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0xFFC5FFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -360,14 +360,14 @@ s32 EnDodojr_CheckDamaged(EnDodojr* this, PlayState* play) {
             this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         }
 
-        if ((this->actor.colChkInfo.damageEffect == 0) && (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction == 0) && (this->actor.colChkInfo.damage != 0)) {
             Enemy_StartFinishingBlow(play, &this->actor);
             this->freezeFrameTimer = 2;
             this->actionFunc = EnDodojr_WaitFreezeFrames;
             return true;
         }
 
-        if ((this->actor.colChkInfo.damageEffect == 1) && (this->actionFunc != EnDodojr_Stunned) &&
+        if ((this->actor.colChkInfo.damageReaction == 1) && (this->actionFunc != EnDodojr_Stunned) &&
             (this->actionFunc != EnDodojr_StunnedBounce)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;

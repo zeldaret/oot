@@ -42,11 +42,11 @@
 #if !PLATFORM_IQUE
 #include "yaz0.h"
 #endif
-#include "z64dma.h"
-#include "z64thread.h"
+#include "dma.h"
+#include "thread.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:86" \
-                               "pal-1.0:84 pal-1.1:84"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:82" \
+                               "pal-1.0:80 pal-1.1:80"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
@@ -519,7 +519,7 @@ void DmaMgr_ThreadEntry(void* arg) {
         }
 
         if (0) {
-            PRINTF(T("ＤＭＡ登録受付", "DMA registration acceptance") " dmap=%08x\n", req);
+            PRINTF(T("ＤＭＡ登録受付 dmap=%08x\n", "DMA registration acceptance dmap=%08x\n"), req);
         }
 
         // Process the DMA request

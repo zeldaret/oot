@@ -6,11 +6,12 @@
 
 #include "z_bg_ydan_maruta.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "one_point_cutscene.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_ydan_objects/object_ydan_objects.h"
 
@@ -39,12 +40,12 @@ ActorProfile Bg_Ydan_Maruta_Profile = {
     /**/ BgYdanMaruta_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x00, 0x04 },
-            { 0x00000004, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0x00000004, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_WOOD,
             ACELEM_ON,
             OCELEM_NONE,
@@ -54,8 +55,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x00, 0x04 },
-            { 0x00000004, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0x00000004, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_WOOD,
             ACELEM_ON,
             OCELEM_NONE,
@@ -73,7 +74,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 

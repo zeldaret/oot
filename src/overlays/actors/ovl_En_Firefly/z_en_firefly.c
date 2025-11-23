@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -17,9 +18,9 @@
 #include "versions.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_firefly/object_firefly.h"
 
@@ -62,12 +63,12 @@ ActorProfile En_Firefly_Profile = {
     /**/ EnFirefly_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x08 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, 0x08 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_HARD,
             ACELEM_ON,
             OCELEM_ON,
@@ -85,7 +86,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -134,7 +135,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnFirefly_Extinguish(EnFirefly* this) {
     this->actor.params += 2;
-    this->collider.elements[0].base.atDmgInfo.effect = 0; // None
+    this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
     this->auraType = KEESE_AURA_NONE;
     this->onFire = false;
     this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
@@ -146,7 +147,7 @@ void EnFirefly_Ignite(EnFirefly* this) {
     } else {
         this->actor.params -= 2;
     }
-    this->collider.elements[0].base.atDmgInfo.effect = 1; // Fire
+    this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_FIRE;
     this->auraType = KEESE_AURA_FIRE;
     this->onFire = true;
     this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
@@ -190,10 +191,10 @@ void EnFirefly_Init(Actor* thisx, PlayState* play) {
         }
 
         if (this->actor.params == KEESE_ICE_FLY) {
-            this->collider.elements[0].base.atDmgInfo.effect = 2; // Ice
+            this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_ICE;
             this->actor.naviEnemyId = NAVI_ENEMY_ICE_KEESE;
         } else {
-            this->collider.elements[0].base.atDmgInfo.effect = 0; // Nothing
+            this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
             this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
         }
 
@@ -637,21 +638,21 @@ void EnFirefly_Combust(EnFirefly* this, PlayState* play) {
 }
 
 void EnFirefly_UpdateDamage(EnFirefly* this, PlayState* play) {
-    u8 damageEffect;
+    u8 damageReaction;
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, true);
 
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             }
 
-            damageEffect = this->actor.colChkInfo.damageEffect;
+            damageReaction = this->actor.colChkInfo.damageReaction;
 
-            if (damageEffect == 2) { // Din's Fire
+            if (damageReaction == 2) { // Din's Fire
                 if (this->actor.params == KEESE_ICE_FLY) {
                     this->actor.colChkInfo.health = 0;
                     Enemy_StartFinishingBlow(play, &this->actor);
@@ -663,18 +664,18 @@ void EnFirefly_UpdateDamage(EnFirefly* this, PlayState* play) {
                         EnFirefly_SetupFlyIdle(this);
                     }
                 }
-            } else if (damageEffect == 3) { // Ice Arrows or Ice Magic
+            } else if (damageReaction == 3) { // Ice Arrows or Ice Magic
                 if (this->actor.params == KEESE_ICE_FLY) {
                     EnFirefly_SetupFall(this);
                 } else {
                     EnFirefly_SetupFrozenFall(this, play);
                 }
-            } else if (damageEffect == 1) { // Deku Nuts
+            } else if (damageReaction == 1) { // Deku Nuts
                 if (this->actionFunc != EnFirefly_Stunned) {
                     EnFirefly_SetupStunned(this);
                 }
             } else { // Fire Arrows
-                if ((damageEffect == 0xF) && (this->actor.params == KEESE_ICE_FLY)) {
+                if ((damageReaction == 0xF) && (this->actor.params == KEESE_ICE_FLY)) {
                     EnFirefly_Combust(this, play);
                 }
                 EnFirefly_SetupFall(this);

@@ -17,9 +17,9 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64face_reaction.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_tk/object_tk.h"
@@ -163,8 +163,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -640,8 +640,7 @@ void EnTk_Dig(EnTk* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_SY_ERROR);
         } else if (this->currentReward == 4) {
             /* Heart piece */
-            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
         } else {
             /* Rupee */
             Actor_PlaySfx(&this->actor, NA_SE_SY_TRE_BOX_APPEAR);

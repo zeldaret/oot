@@ -2,7 +2,7 @@
 #define Z_EN_MB_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct EnMb;
 
@@ -23,7 +23,7 @@ typedef enum EnMbState {
 typedef struct EnMb {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Vec3s bodyPartsPos[10];
-    /* 0x0188 */ u8 damageEffect;
+    /* 0x0188 */ u8 damageReaction;
     /* 0x018C */ SkelAnime skelAnime;
     /* 0x01D0 */ Vec3s jointTable[28];
     /* 0x0278 */ Vec3s morphTable[28];

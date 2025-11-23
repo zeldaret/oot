@@ -12,7 +12,7 @@
 #include "rand.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_hata/object_hata.h"
 
@@ -47,9 +47,9 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000080, 0x00, 0x00 },
-        ATELEM_NONE | ATELEM_SFX_NORMAL,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000080, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
     },

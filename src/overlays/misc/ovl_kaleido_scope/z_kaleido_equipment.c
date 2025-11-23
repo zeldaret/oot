@@ -6,9 +6,10 @@
 #include "printf.h"
 #include "regs.h"
 #include "sfx.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "translation.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/textures/icon_item_static/icon_item_static.h"
 #include "assets/textures/parameter_static/parameter_static.h"
@@ -376,8 +377,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
 
-                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
 
                 cursorPoint = cursorX = cursorY = 0;
                 while (true) {
@@ -423,8 +423,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             if (pauseCtx->stickAdjX < -30) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
-                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
 
                 cursorPoint = cursorX = 3;
                 cursorY = 0;
@@ -481,7 +480,9 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 } else {
                     cursorItem = ITEM_QUIVER_30 + sUpgradeItemOffsets[pauseCtx->cursorY[PAUSE_EQUIP]] +
                                  CUR_UPG_VALUE(pauseCtx->cursorY[PAUSE_EQUIP]) - 1;
-                    PRINTF("大人 H_arrowcase_1 + non_equip_item_table = %d\n", cursorItem);
+                    PRINTF(T("大人 H_arrowcase_1 + non_equip_item_table = %d\n",
+                             "Adult H_arrowcase_1 + non_equip_item_table = %d\n"),
+                           cursorItem);
                 }
             }
         } else {
@@ -571,21 +572,18 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     Interface_LoadItemIcon1(play, 0);
                 }
 
-                Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_DECIDE);
 
                 // Wait 10 frames before accepting input again
                 pauseCtx->mainState = PAUSE_MAIN_STATE_EQUIP_CHANGED;
                 sEquipTimer = 10;
             } else {
-                Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_ERROR);
             }
         }
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_EQUIP]) {
-            Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_CURSOR);
         }
     } else if ((pauseCtx->mainState == PAUSE_MAIN_STATE_EQUIP_CHANGED) && (pauseCtx->pageIndex == PAUSE_EQUIP)) {
         KaleidoScope_SetCursorPos(pauseCtx, pauseCtx->cursorSlot[PAUSE_EQUIP] * 4, pauseCtx->equipVtx);

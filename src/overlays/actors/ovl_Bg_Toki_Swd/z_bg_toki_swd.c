@@ -13,10 +13,10 @@
 #include "sequence.h"
 #include "sfx.h"
 #include "sys_matrix.h"
-#include "z64cutscene_flags.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "cutscene_flags.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
@@ -58,13 +58,13 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
     },
-    { 10, 70, 0, { 0 } },
+    { 10, 70, 0, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_IMMOVABLE };

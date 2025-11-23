@@ -8,6 +8,7 @@
 
 #include "libc64/math64.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -16,10 +17,10 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_st/object_st.h"
 
@@ -54,16 +55,30 @@ ActorProfile En_Sw_Profile = {
     /**/ EnSw_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { ELEM_MATERIAL_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFC3FFFE, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+            { 0xFFC3FFFE, HIT_BACKLASH_NONE, 0x00 },
+            ATELEM_ON | ATELEM_SFX_NORMAL,
+            ACELEM_ON | ACELEM_HOOKABLE,
+            OCELEM_ON,
+        },
         { 2, { { 0, -300, 0 }, 21 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COL_MATERIAL_HIT6, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
-    1,
+    {
+        COL_MATERIAL_HIT6,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -294,8 +309,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     }
 
     if (ENSW_GET_TYPE(thisx) >= SW_TYPE_GOLD_HIDDEN_SOIL) {
-        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
     }
 
     switch (ENSW_GET_TYPE(thisx)) {
@@ -657,8 +671,7 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
 
     if ((this->deathFlames == 0) && (this->painTimer == 0)) {
         // spawn token 10 units from surface normal.
-        Audio_PlaySfxGeneral(NA_SE_SY_KINSTA_MARK_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_KINSTA_MARK_APPEAR);
         x = (this->surfaceNormal.x * 10.0f);
         y = (this->surfaceNormal.y * 10.0f);
         z = (this->surfaceNormal.z * 10.0f);
