@@ -210,7 +210,7 @@ s32 EnSw_GoldMove(EnSw* this, PlayState* play, s32 changePoly) {
     posB.z -= this->surfaceNormal.z * 18.0f;
     poly0 = EnSw_GetPoly(play, &posA, &posB, &posOut, &bgId);
 
-    // move spider if poly avalable and not jumping/falling from hidding spot
+    // Move spider if poly avalable and not jumping/falling from hidding spot
     if ((poly0 != NULL) && (this->goldInAir == false)) {
         posB.x = posA.x + (this->unk_37C.x * 24);
         posB.y = posA.y + (this->unk_37C.y * 24);
@@ -327,7 +327,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     switch (ENSW_GET_TYPE(thisx)) {
         case SW_TYPE_GOLD_HIDDEN_SOIL:
         case SW_TYPE_GOLD_HIDDEN_TREE:
-            //springing out of a hidding spot
+            // Springing out of a hidding spot
             this->goldInAir = true;
             this->actor.velocity.y = 8.0f;
             this->actor.speed = 4.0f;
@@ -563,7 +563,9 @@ void EnSw_GoldHiddenSetup(EnSw* this, PlayState* play) {
     }
 }
 
-/*Animation for Gold Skulltula coming from tree or soil patch.*/
+/**
+ * Action for gold skulltulas emerging from trees or soil patches.
+ */
 void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
     if (this->waitTimer != 0) {
         if ((this->waitTimer & 4) != 0) {
@@ -1085,7 +1087,8 @@ void EnSw_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 }
 
 /**
- * Gives skullwalltulas a tint of `color` with an intensity based on `distA` and `distB` while dashing or preparing to dash.
+ * Gives skullwalltulas a tint of `color` with an intensity based on `distA` and `distB` while dashing or preparing to 
+ * dash.
  */
 void EnSw_SetFog(PlayState* play, Color_RGBA8* color, s16 distA, s16 distB) {
     f32 far;
