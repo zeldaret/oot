@@ -1087,8 +1087,8 @@ void EnSw_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 }
 
 /**
- * Gives skullwalltulas a tint of `color` with an intensity based on `distA` and `distB` while dashing or preparing to 
- * dash.
+ * Gives skullwalltulas a tint of `color` with an intensity based on `distA` and `distB` 
+ * while dashing or preparing to dash.
  */
 void EnSw_SetFog(PlayState* play, Color_RGBA8* color, s16 distA, s16 distB) {
     f32 far;
