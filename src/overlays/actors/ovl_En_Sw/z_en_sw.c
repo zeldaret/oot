@@ -30,18 +30,18 @@ void EnSw_Init(Actor* thisx, PlayState* play);
 void EnSw_Destroy(Actor* thisx, PlayState* play);
 void EnSw_Update(Actor* thisx, PlayState* play);
 void EnSw_Draw(Actor* thisx, PlayState* play);
-s32 EnSW_LineTestWall(EnSw* this, PlayState* play);
-void EnSw_SetupGoldHidden(EnSw* this, PlayState* play);
+s32 EnSw_LineTestWall(EnSw* this, PlayState* play);
+void EnSw_GoldHiddenSetup(EnSw* this, PlayState* play);
 void EnSw_SetupNormal(EnSw* this, PlayState* play);
 void EnSw_Crawl(EnSw* this, PlayState* play);
 void EnSw_SetupGoHome(EnSw* this, PlayState* play);
 void EnSw_GoHome(EnSw* this, PlayState* play);
 void EnSw_Dash(EnSw* this, PlayState* play);
-void EnSw_DieNormal(EnSw* this, PlayState* play);
-s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32);
+void EnSw_NormalDie(EnSw* this, PlayState* play);
+s32 EnSw_GoldMove(EnSw* this, PlayState* play, s32);
 void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play);
 void EnSw_FallNormal(EnSw* this, PlayState* play);
-void EnSw_DieGold(EnSw* this, PlayState* play);
+void EnSw_GoldDie(EnSw* this, PlayState* play);
 
 ActorProfile En_Sw_Profile = {
     /**/ ACTOR_EN_SW,
@@ -106,8 +106,11 @@ void EnSw_CrossProduct(Vec3f* a, Vec3f* b, Vec3f* dst) {
     dst->z = (a->x * b->y) - (a->y * b->x);
 }
 
-/* adjusts rotation of (this) to (poly). returns false if failed,
-nothing(bug) if successful.*/
+/**
+ * Adjusts rotation of `this` to match `poly`.
+ *
+ * @return false if failed, nothing (bug) if successful.
+ */
 s32 EnSw_ClingToWall(EnSw* this, CollisionPoly* poly) {
     Vec3f polyNormal;
     Vec3f sp38;
@@ -129,9 +132,9 @@ s32 EnSw_ClingToWall(EnSw* this, CollisionPoly* poly) {
     if (length < 0.001f) {
         return 0;
     }
-    this->unk_37C.x *= (1.0f / length);
-    this->unk_37C.y *= (1.0f / length);
-    this->unk_37C.z *= (1.0f / length);
+    this->unk_37C.x *= 1.0f / length;
+    this->unk_37C.y *= 1.0f / length;
+    this->unk_37C.z *= 1.0f / length;
     this->surfaceNormal = polyNormal;
     this->rotMtxF.xx = this->unk_370.x;
     this->rotMtxF.yx = this->unk_370.y;
@@ -150,11 +153,14 @@ s32 EnSw_ClingToWall(EnSw* this, CollisionPoly* poly) {
     this->rotMtxF.zw = 0.0f;
     this->rotMtxF.ww = 1.0f;
     Matrix_MtxFToYXZRotS(&this->rotMtxF, &this->actor.world.rot, 0);
-    //! @bug: Does not return.
+    //! @bug Does not return, but the return value is not used by any caller so it doesn't matter.
 }
 
-/*returns a wall for the spider to cling to in range of (posA) and (PosB).
-returns NULL if none are available*/
+/**
+ * Searches for a wall for the spider to cling to in range of `posA` and `PosB`.
+ *
+ * @return The found poly, or NULL if there aren't any in range.
+ */
 CollisionPoly* EnSw_GetPoly(PlayState* play, Vec3f* posA, Vec3f* posB, Vec3f* posOut, s32* bgId) {
     CollisionPoly* poly;
     s32 pad;
@@ -173,9 +179,14 @@ CollisionPoly* EnSw_GetPoly(PlayState* play, Vec3f* posA, Vec3f* posB, Vec3f* po
 
     return poly;
 }
-/*Moves position of Gold Skulltula based on normal. will change
-surface poly if (ChangePoly) is true. returns true if successfully moved.*/
-s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 changePoly) {
+
+/**
+ * Moves the gold skulltula based on the collision normal of the surface it is attached to.
+ * The surface collision poly may change if `changePoly` is true.
+ *
+ * @return true if the gold skulltula was moved.
+ */
+s32 EnSw_GoldMove(EnSw* this, PlayState* play, s32 changePoly) {
     CollisionPoly* newPoly;
     CollisionPoly* poly0;
     Vec3f newPos;
@@ -198,6 +209,7 @@ s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 changePoly) {
     posB.y -= this->surfaceNormal.y * 18.0f;
     posB.z -= this->surfaceNormal.z * 18.0f;
     poly0 = EnSw_GetPoly(play, &posA, &posB, &posOut, &bgId);
+
     // move spider if poly avalable and not jumping/falling from hidding spot
     if ((poly0 != NULL) && (this->goldInAir == false)) {
         posB.x = posA.x + (this->unk_37C.x * 24);
@@ -293,7 +305,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
         this->wallCast.y = this->actor.world.pos.y;
         this->wallCast.x = this->actor.world.pos.x + (Math_SinS(this->actor.world.rot.y) * -60.0f);
         this->wallCast.z = this->actor.world.pos.z + (Math_CosS(this->actor.world.rot.y) * -60.0f);
-        EnSW_LineTestWall(this, play);
+        EnSw_LineTestWall(this, play);
         this->actor.home.pos = this->actor.world.pos;
     } else {
         this->unk_370.x = Math_SinS(thisx->shape.rot.y + 0x4000);
@@ -305,7 +317,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
         this->unk_37C.x = Math_SinS(thisx->shape.rot.y);
         this->unk_37C.y = 0.0f;
         this->unk_37C.z = Math_CosS(thisx->shape.rot.y);
-        EnSw_MoveGold(this, play, true);
+        EnSw_GoldMove(this, play, true);
     }
 
     if (ENSW_GET_TYPE(thisx) >= SW_TYPE_GOLD_HIDDEN_SOIL) {
@@ -315,14 +327,14 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     switch (ENSW_GET_TYPE(thisx)) {
         case SW_TYPE_GOLD_HIDDEN_SOIL:
         case SW_TYPE_GOLD_HIDDEN_TREE:
-            // they spring out of their hidding spot
+            //springing out of a hidding spot
             this->goldInAir = true;
             this->actor.velocity.y = 8.0f;
             this->actor.speed = 4.0f;
             this->actor.gravity = -1.0f;
             FALLTHROUGH;
         case SW_TYPE_GOLD_NIGHT:
-            this->actor.scale.x = 0.0f; // they expand at night
+            this->actor.scale.x = 0.0f; // expanding at night
             FALLTHROUGH;
         case SW_TYPE_GOLD_DEFAULT:
             // Gold Skulltulas have double health and damage
@@ -345,8 +357,8 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
 
     if (ENSW_GET_TYPE(thisx) >= SW_TYPE_GOLD_HIDDEN_SOIL) {
         this->waitTimer = 40;
-        this->deathFlames = 1;
-        this->actionFunc = EnSw_SetupGoldHidden;
+        this->deathFlamesTimer = 1;
+        this->actionFunc = EnSw_GoldHiddenSetup;
     } else if (ENSW_GET_TYPE(thisx) == SW_TYPE_NORMAL) {
         this->actionFunc = EnSw_SetupNormal;
     } else {
@@ -370,12 +382,12 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
         phi_v1 = true;
     }
 
-    if (this->painTimer == 0) {
+    if (this->damageTimer == 0) {
         if ((this->collider.base.acFlags & AC_HIT) || phi_v1) {
             this->collider.base.acFlags &= ~AC_HIT;
-            this->painTimer = 0x10;
+            this->damageTimer = 0x10;
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA,
-                                 this->painTimer);
+                                 this->damageTimer);
             if (Actor_ApplyDamage(&this->actor) != 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_DAMAGE);
                 return true;
@@ -389,10 +401,10 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
                 } else {
                     this->rotateMag = -0.1f;
                 }
-                this->deathFlames = 10;
+                this->deathFlamesTimer = 10;
                 this->animVar = 1;
                 this->rotateMag *= 4.0f;
-                this->actionFunc = EnSw_DieGold;
+                this->actionFunc = EnSw_GoldDie;
             } else {
                 // Skulwalltula detaches from surface before dying.
                 this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
@@ -418,22 +430,25 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
 
 void EnSw_SetCollider(EnSw* this, PlayState* play) {
     if ((ENSW_GET_TYPE_EN(this) > SW_TYPE_NORMAL) && (this->actionFunc != EnSw_Crawl)) {
-        if (this->painTimer != 0) {
-            this->painTimer--;
+        if (this->damageTimer != 0) {
+            this->damageTimer--;
         }
     } else {
         if ((DECR(this->attackTimer) == 0) && (this->actor.colChkInfo.health != 0)) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
 
-        if ((DECR(this->painTimer) == 0) && (this->actor.colChkInfo.health != 0)) {
+        if ((DECR(this->damageTimer) == 0) && (this->actor.colChkInfo.health != 0)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
 
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 }
-/*Adjust rotation of (this) by (angle). returns true on success*/
+/**
+ * Adjust rotation of `this` by `angle` relative to the floor poly it is current attached to.
+ * @return whether the rotation could be carried out.
+ */
 s32 EnSw_GetRotate(EnSw* this, f32* angle) {
     CollisionPoly* floorPoly;
     f32 length;
@@ -479,8 +494,10 @@ s32 EnSw_GetRotate(EnSw* this, f32* angle) {
     Matrix_MtxFToYXZRotS(&rotMtxF, &this->actor.world.rot, 0);
     return true;
 }
-/*Play the Skulltula's "roll" sound if in range
-(and in outdoor Gold's case, not "sleeping")*/
+
+/**
+ * Play the skulltula's "roll" sound if in range (and for outdoor gold skulltulas, not "sleeping")
+ */
 void EnSw_PlaySfxRoll(EnSw* this, PlayState* play) {
     if (!(this->actor.scale.x < (140.0f * 0.0001f))) {
         Camera* activeCam = GET_ACTIVE_CAM(play);
@@ -491,8 +508,10 @@ void EnSw_PlaySfxRoll(EnSw* this, PlayState* play) {
         }
     }
 }
-/*Spawn (cnt) Dust particles when a Gold Skulltula is revealed
-from a tree or soil plot*/
+
+/**
+ * Spawn `cnt` dust particles when a Gold Skulltula is revealed from a tree or soil plot
+ */
 void EnSw_SpawnDust(EnSw* this, PlayState* play, s32 cnt) {
     Color_RGBA8 primColor = { 80, 80, 50, 255 };
     Color_RGBA8 envColor = { 100, 100, 80, 0 };
@@ -511,8 +530,10 @@ void EnSw_SpawnDust(EnSw* this, PlayState* play, s32 cnt) {
         func_8002836C(play, &pos, &velocity, &accel, &primColor, &envColor, 20, 30, 12);
     }
 }
-/*Spawn (cnt) Dust particles when a Gold Skulltula has landed
-from a tree or soil plot*/
+
+/**
+ * Spawn `cnt` dust particles when a Gold Skulltula has landed on a surface
+ */
 void EnSw_SpawnDustBig(EnSw* this, PlayState* play, s32 cnt) {
     Color_RGBA8 primColor = { 80, 80, 50, 255 };
     Color_RGBA8 envColor = { 100, 100, 80, 0 };
@@ -531,9 +552,8 @@ void EnSw_SpawnDustBig(EnSw* this, PlayState* play, s32 cnt) {
         func_8002836C(play, &pos, &velocity, &accel, &primColor, &envColor, 20, 40, 10);
     }
 }
-/*detrimes if a delay should be added for based on if (this) is
-a Gold Skulltula hidden in a tree or soil patch*/
-void EnSw_SetupGoldHidden(EnSw* this, PlayState* play) {
+
+void EnSw_GoldHiddenSetup(EnSw* this, PlayState* play) {
     if (ENSW_GET_TYPE_EN(this) == SW_TYPE_GOLD_HIDDEN_TREE) {
         this->waitTimer = 0;
         this->actionFunc = EnSw_GoldHiddenReveal;
@@ -574,7 +594,7 @@ void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
         this->goldInAir = false;
     }
 
-    if (EnSw_MoveGold(this, play, true) == true) {
+    if (EnSw_GoldMove(this, play, true) == true) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnSw_SpawnDustBig(this, play, 8);
         this->actor.scale.x = 0.02f;
@@ -586,7 +606,9 @@ void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
     }
 }
 
-/*Skulltula crawling in place*/
+/**
+ * Action for crawling in place
+ */
 void EnSw_Crawl(EnSw* this, PlayState* play) {
     f32 rotAngle;
 
@@ -653,8 +675,10 @@ void EnSw_Crawl(EnSw* this, PlayState* play) {
     }
 }
 
-/*Death behavior for Gold Skulltula*/
-void EnSw_DieGold(EnSw* this, PlayState* play) {
+/**
+ * Death action for gold skulltulas
+ */
+void EnSw_GoldDie(EnSw* this, PlayState* play) {
     Actor* token;
     Vec3f pos;
     Vec3f velAndAccel = { 0.0f, 0.5f, 0.0f };
@@ -669,7 +693,7 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
     EnSw_GetRotate(this, &this->rotateMag);
     this->actor.shape.rot = this->actor.world.rot;
 
-    if ((this->deathFlames == 0) && (this->painTimer == 0)) {
+    if ((this->deathFlamesTimer == 0) && (this->damageTimer == 0)) {
         // spawn token 10 units from surface normal.
         SFX_PLAY_CENTERED(NA_SE_SY_KINSTA_MARK_APPEAR);
         x = (this->surfaceNormal.x * 10.0f);
@@ -686,7 +710,7 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
     }
 
     // spawn death flames
-    if ((this->painTimer == 0) && (DECR(this->deathFlames) != 0)) {
+    if ((this->damageTimer == 0) && (DECR(this->deathFlamesTimer) != 0)) {
         pos = this->actor.world.pos;
         pos.y += 10.0f + ((Rand_ZeroOne() - 0.5f) * 6.0f);
         pos.x += (Rand_ZeroOne() - 0.5f) * 32.0f;
@@ -695,7 +719,9 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
     }
 }
 
-/*Part of death animation for Skullwalltula*/
+/**
+ * Action for skullwalltulas falling from their surface when killed
+ */
 void EnSw_FallNormal(EnSw* this, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
     this->actor.shape.rot.x += 0x1000;
@@ -713,8 +739,8 @@ void EnSw_FallNormal(EnSw* this, PlayState* play) {
 
         if (this->animVar == 0) {
             // start death flames if stopped bouncing
-            this->actionFunc = EnSw_DieNormal;
-            this->deathFlames = 10;
+            this->actionFunc = EnSw_NormalDie;
+            this->deathFlamesTimer = 10;
         } else {
             // another bounce
             this->actor.velocity.y = (this->animVar * 8.0f) * 0.5f;
@@ -726,12 +752,14 @@ void EnSw_FallNormal(EnSw* this, PlayState* play) {
     }
 }
 
-/*Second part of death animation for SkullWalltula*/
-void EnSw_DieNormal(EnSw* this, PlayState* play) {
+/**
+ * Death action for skullwalltulas, once they hit a floor
+ */
+void EnSw_NormalDie(EnSw* this, PlayState* play) {
     Vec3f velAndAccel = { 0.0f, 0.5f, 0.0f };
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
 
-    if (DECR(this->deathFlames) != 0) {
+    if (DECR(this->deathFlamesTimer) != 0) {
         pos.y = ((Rand_ZeroOne() - 0.5f) * 6.0f) + (this->actor.world.pos.y + 10.0f);
         pos.x = ((Rand_ZeroOne() - 0.5f) * 32.0f) + this->actor.world.pos.x;
         pos.z = ((Rand_ZeroOne() - 0.5f) * 32.0f) + this->actor.world.pos.z;
@@ -753,8 +781,10 @@ s16 EnSw_GetTargetPitch(EnSw* this, Vec3f* target) {
     return pitch * (yaw >= 0 ? -1 : 1);
 }
 
-/*used by Skullwalltula to determine if link can be rammed.
-(arg2) will be checked alongside 2 player state flags (asscociated w/ climbing?)*/
+/**
+ * Used by Skullwalltula to determine if the player can be dashed towards.
+ * `arg2` will be checked alongside 2 player state flags (associated w/ climbing?)
+ */
 s32 EnSW_CanDashPlayer(EnSw* this, PlayState* play, s32 arg2) {
     Player* player = GET_PLAYER(play);
     CollisionPoly* poly;
@@ -780,9 +810,11 @@ s32 EnSW_CanDashPlayer(EnSw* this, PlayState* play, s32 arg2) {
         return false;
     }
 }
-/*Skullwalltula uses to Linetest walls visible from its "eyes"
-and detect/adjust bottom position.*/
-s32 EnSW_LineTestWall(EnSw* this, PlayState* play) {
+
+/**
+ * Skullwalltula line test to determine walls visible from its "eyes" and detect/adjust bottom position.
+ */
+s32 EnSw_LineTestWall(EnSw* this, PlayState* play) {
     s32 pad;
     CollisionPoly* poly;
     s32 bgId;
@@ -825,8 +857,11 @@ s32 EnSW_LineTestWall(EnSw* this, PlayState* play) {
 
     return ret;
 }
-/*Used by Skullwalltulas to move to (targetPos) at a top speed of (speedTarget)
-While dashing or retreating*/
+
+/**
+ * Used by Skullwalltulas to move to `targetPos` at a top speed of `speedTarget`
+ * while dashing or retreating.
+ */
 void EnSw_Move(EnSw* this, Vec3f targetPos, f32 speedTarget) {
     f32 xDist;
     f32 yDist;
@@ -921,7 +956,7 @@ void EnSw_Dash(EnSw* this, PlayState* play) {
             this->actionFunc = EnSw_SetupNormal;
         }
     } else {
-        if (!EnSW_LineTestWall(this, play)) {
+        if (!EnSw_LineTestWall(this, play)) {
             this->dashTimer = Rand_S16Offset(20, 10);
             this->rotZTarget = EnSw_GetTargetPitch(this, &this->actor.home.pos);
             this->targetPos = this->actor.home.pos;
@@ -939,7 +974,10 @@ void EnSw_Dash(EnSw* this, PlayState* play) {
         }
     }
 }
-/*after dashing, a Skullwalltula will retreat to its spawn point*/
+
+/**
+ * Setup action for skullwalltulas returning to their home position after dashing
+ */
 void EnSw_SetupGoHome(EnSw* this, PlayState* play) {
     s32 pad;
 
@@ -950,7 +988,10 @@ void EnSw_SetupGoHome(EnSw* this, PlayState* play) {
         this->actionFunc = EnSw_GoHome;
     }
 }
-/*Skullwalltula: return to spawn point then reset behavior.*/
+
+/**
+ * Action for skullwalltulas returning to their home position after dashing
+ */
 void EnSw_GoHome(EnSw* this, PlayState* play) {
     s32 pad;
 
@@ -1042,8 +1083,10 @@ s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
 void EnSw_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 }
-/*Give Skullwalltula a tint of (color) from (distA) to (distB)
-while dashing / preparing to dash*/
+
+/**
+ * Gives skullwalltulas a tint of `color` with an intensity based on `distA` and `distB` while dashing or preparing to dash.
+ */
 void EnSw_SetFog(PlayState* play, Color_RGBA8* color, s16 distA, s16 distB) {
     f32 far;
 

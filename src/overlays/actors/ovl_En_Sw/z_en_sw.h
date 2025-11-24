@@ -26,8 +26,8 @@ typedef struct EnSw {
     /* 0x038C */ s16 waitTimer;
     /* 0x038E */ s16 crawlTimer;
     /* 0x0390 */ s16 attackTimer;
-    /* 0x0392 */ s16 painTimer;
-    /* 0x0394 */ s16 deathFlames;
+    /* 0x0392 */ s16 damageTimer;
+    /* 0x0394 */ s16 deathFlamesTimer;
     /* 0x0396 */ char unk_396[0x42]; //another Mtx(F)?
     /* 0x03D8 */ MtxF rotMtxF;
     /* 0x0418 */ char unk_418[8];
