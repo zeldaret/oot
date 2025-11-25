@@ -937,7 +937,7 @@ void EnSw_SetupNormal(EnSw* this, PlayState* play) {
         this->animTimer = Rand_S16Offset(10, 30);
     }
 
-    if ((DECR(this->dashTimer) == 0) && (EnSW_CanDashPlayer(this, play, 1))) {
+    if ((DECR(this->dashTimer) == 0) && (EnSW_CanDashPlayer(this, play, true))) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_LAUGH);
         this->dashTimer = 20;
         this->actionFunc = EnSw_Dash;
@@ -949,7 +949,7 @@ void EnSw_Dash(EnSw* this, PlayState* play) {
     s32 pad;
 
     if (DECR(this->dashTimer) != 0) {
-        if (EnSW_CanDashPlayer(this, play, 1)) {
+        if (EnSW_CanDashPlayer(this, play, true)) {
             this->targetPos = player->actor.world.pos;
             this->targetPos.y += 30.0f;
             this->rotZTarget = EnSw_GetTargetPitch(this, &this->targetPos);
