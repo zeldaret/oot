@@ -401,11 +401,59 @@ typedef enum SceneLayer {
 } SceneLayer;
 
 #define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_FIRST)
+#define GET_CUTSCENE_LAYER(index) (SCENE_LAYER_CUTSCENE_FIRST + (index & 0xF))
 
 typedef enum LinkAge {
     /* 0 */ LINK_AGE_ADULT,
     /* 1 */ LINK_AGE_CHILD
 } LinkAge;
+
+
+// Usage in Map Select suggests that `gSaveContext.save.cutsceneIndex` was,
+// at one point in development, a variable related to the time.
+// This is further supported by debug strings showing that its original name was "day_time".
+// These macros exist for the rare cases in the codebase where `cutsceneIndex` is treated as a time value.
+// In practice, both values do not lead to a cutscene being played.
+// See `CS_INDEX_NONE` below for the more common usage of value 0x0000.
+#define CS_INDEX_NIGHT 0x0000
+#define CS_INDEX_DAY 0x8000
+
+// Indicates that no scripted cutscene is playing (or should be played).
+// While this value overlaps with `CS_INDEX_NIGHT` defined above, it is not related to the time.
+// This is the more common interpretation of this value, as much of the codebase uses 0x0000 to mean "no cutscene"
+// except for Map Select.
+#define CS_INDEX_NONE 0x0000
+
+// Values 0xFFF0-0xFFFF indicate that a cutscene script should be played.
+// If the value of `nextCutsceneIndex` is 0xFFF0-0xFFFF on scene load,
+// `Play_Init` will copy the value to `gSaveContext.cutsceneIndex`, load a
+// corresponding scene layer and start the scripted cutscene in the scene layer
+// (except for the value 0xFFFD, which is special-cased to do nothing in `Play_Init`).
+// It loads layer 4 for 0xFFF0, layer 5 for 0xFFF1, and so on.
+//
+// 0xFFFD is used by the cutscene system to indicate a scripted cutscene has been triggered.
+// This is why `Play_Init` ignores that value, so that if the cutscene is interrupted
+// by a new play state load (e.g. if the player falls out of bounds), it does not then
+// try to wrongly load a cutscene layer.
+#define CS_INDEX_0 0xFFF0
+#define CS_INDEX_1 0xFFF1
+#define CS_INDEX_2 0xFFF2
+#define CS_INDEX_3 0xFFF3
+#define CS_INDEX_4 0xFFF4
+#define CS_INDEX_5 0xFFF5
+#define CS_INDEX_6 0xFFF6
+#define CS_INDEX_7 0xFFF7
+#define CS_INDEX_8 0xFFF8
+#define CS_INDEX_9 0xFFF9
+#define CS_INDEX_A 0xFFFA
+#define CS_INDEX_B 0xFFFB
+#define CS_INDEX_C 0xFFFC
+#define CS_INDEX_D 0xFFFD // does not load a cutscene scene layer (see above)
+#define CS_INDEX_E 0xFFFE
+#define CS_INDEX_F 0xFFFF
+
+// Sentinel value for `nextCutsceneIndex` to indicate that no cutscene should be played next.
+#define NEXT_CS_INDEX_NONE 0xFFEF
 
 
 #define LINK_IS_ADULT (gSaveContext.save.linkAge == LINK_AGE_ADULT)
@@ -843,7 +891,7 @@ typedef enum LinkAge {
 #define INFTABLE_138 0x138
 #define INFTABLE_139 0x139
 #define INFTABLE_140 0x140
-#define INFTABLE_141 0x141
+#define INFTABLE_MET_RUTO_FIRST_TIME 0x141
 #define INFTABLE_142 0x142
 #define INFTABLE_143 0x143
 #define INFTABLE_144 0x144

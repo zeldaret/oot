@@ -8,6 +8,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -41,15 +42,17 @@ void EnButte_SetupWaitToDie(EnButte* this);
 void EnButte_WaitToDie(EnButte* this, PlayState* play);
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
-    { {
-          ELEM_MATERIAL_UNK0,
-          { 0x00000000, 0x00, 0x00 },
-          { 0xFFCFFFFF, 0x000, 0x00 },
-          ATELEM_NONE,
-          ACELEM_NONE,
-          OCELEM_ON,
-      },
-      { 0, { { 0, 0, 0 }, 5 }, 100 } },
+    {
+        {
+            ELEM_MATERIAL_UNK0,
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
+            ATELEM_NONE,
+            ACELEM_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 5 }, 100 },
+    },
 };
 static ColliderJntSphInit sColliderJntSphInit = {
     {
@@ -60,7 +63,7 @@ static ColliderJntSphInit sColliderJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

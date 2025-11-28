@@ -78,8 +78,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000702, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000702, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -593,7 +593,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
                 } else {
                     Rupees_ChangeBy(-20);
                     play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_0;
-                    gSaveContext.nextCutsceneIndex = 0xFFF0;
+                    gSaveContext.nextCutsceneIndex = CS_INDEX_0;
                     play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     SET_EVENTINF(EVENTINF_HORSES_08);

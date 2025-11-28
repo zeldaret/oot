@@ -293,8 +293,10 @@ class EnvLightSettingsListResource(CDataArrayNamedLengthResource):
 
     def write_blendRateAndFogNear(v):
         blendRate = (v >> 10) * 4
+        if blendRate < 0:
+            blendRate += 0x100
         fogNear = v & 0x3FF
-        return f"(({blendRate} / 4) << 10) | {fogNear}"
+        return f"BLEND_RATE_AND_FOG_NEAR({blendRate}, {fogNear})"
 
     elem_cdata_ext = CDataExt_Struct(
         (

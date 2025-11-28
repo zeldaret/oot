@@ -3,29 +3,9 @@
 
 #include "ultra64.h"
 #include "actor.h"
+#include "assets/objects/object_md/object_md.h"
 
 struct EnMd;
-
-typedef enum EnMdLimb {
-    ENMD_LIMB_NONE,
-    ENMD_LIMB_ROOT,
-    ENMD_LIMB_WAIST,
-    ENMD_LIMB_LEFT_THIGH,
-    ENMD_LIMB_LEFT_LEG,
-    ENMD_LIMB_LEFT_FOOT,
-    ENMD_LIMB_RIGHT_THIGH,
-    ENMD_LIMB_RIGHT_LEG,
-    ENMD_LIMB_RIGHT_FOOT,
-    ENMD_LIMB_TORSO,
-    ENMD_LIMB_LEFT_UPPER_ARM,
-    ENMD_LIMB_LEFT_FOREARM,
-    ENMD_LIMB_LEFT_HAND,
-    ENMD_LIMB_RIGHT_UPPER_ARM,
-    ENMD_LIMB_RIGHT_FOREARM,
-    ENMD_LIMB_RIGHT_HAND,
-    ENMD_LIMB_HEAD,
-    ENMD_LIMB_MAX
-} EnMdLimb;
 
 typedef void (*EnMdActionFunc)(struct EnMd*, struct PlayState*);
 
@@ -48,10 +28,10 @@ typedef struct EnMd {
     /* 0x020E */ s16 eyeTexIndex;
     /* 0x0210 */ s16 alpha;
     /* 0x0212 */ s16 waypoint;
-    /* 0x0214 */ s16 fidgetTableY[ENMD_LIMB_MAX];
-    /* 0x0236 */ s16 fidgetTableZ[ENMD_LIMB_MAX];
-    /* 0x0258 */ Vec3s jointTable[ENMD_LIMB_MAX];
-    /* 0x02BE */ Vec3s morphTable[ENMD_LIMB_MAX];
+    /* 0x0214 */ s16 fidgetTableY[MIDO_LIMB_MAX];
+    /* 0x0236 */ s16 fidgetTableZ[MIDO_LIMB_MAX];
+    /* 0x0258 */ Vec3s jointTable[MIDO_LIMB_MAX];
+    /* 0x02BE */ Vec3s morphTable[MIDO_LIMB_MAX];
 } EnMd; // size = 0x0324
 
 #endif

@@ -1848,7 +1848,8 @@ beginseg
     name "object_yukabyun"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_yukabyun/object_yukabyun.o"
+    include "$(BUILD_DIR)/assets/objects/object_yukabyun/gFloorTileEnemyDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_yukabyun/gFloorTileEnemyFragmentDL.o"
     number 6
 endseg
 
@@ -2064,7 +2065,7 @@ beginseg
     name "object_vase"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_vase/object_vase.o"
+    include "$(BUILD_DIR)/assets/objects/object_vase/gUnusedVaseDL.o"
     number 6
 endseg
 
@@ -3024,7 +3025,8 @@ beginseg
     name "object_umajump"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_umajump/object_umajump.o"
+    include "$(BUILD_DIR)/assets/objects/object_umajump/gJumpableHorseFenceDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_umajump/gJumpableHorseFenceCol.o"
     number 6
 endseg
 
@@ -3696,7 +3698,8 @@ beginseg
     name "object_zg"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/assets/objects/object_zg/object_zg.o"
+    include "$(BUILD_DIR)/assets/objects/object_zg/gTowerCollapseBarsDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_zg/gTowerCollapseBarsCol.o"
     number 6
 endseg
 

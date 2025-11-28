@@ -14,7 +14,7 @@
 #include "player.h"
 #include "skin_matrix.h"
 
-#pragma increment_block_number "ntsc-1.0:144 ntsc-1.1:144 ntsc-1.2:144"
+#pragma increment_block_number "ntsc-1.0:136 ntsc-1.1:136 ntsc-1.2:136"
 
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);

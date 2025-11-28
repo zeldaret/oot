@@ -7,6 +7,7 @@
 #include "z_en_geldb.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -110,8 +111,8 @@ static ColliderCylinderInit sBodyCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK1,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -119,12 +120,12 @@ static ColliderCylinderInit sBodyCylinderInit = {
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
+static ColliderTrisElementInit sBlockTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK2,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFC1FFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFC1FFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -134,8 +135,8 @@ static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK2,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFC1FFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFC1FFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -153,7 +154,7 @@ static ColliderTrisInit sBlockTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sBlockTrisElementsInit),
     sBlockTrisElementsInit,
 };
 
@@ -168,8 +169,8 @@ static ColliderQuadInit sSwordQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x08 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -1409,9 +1410,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
                         if (key != NULL) {
                             key->actor.world.rot.y = Math_Vec3f_Yaw(&key->actor.world.pos, &this->actor.home.pos);
                             key->actor.speed = 6.0f;
-                            Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
-                                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                 &gSfxDefaultReverb);
+                            SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                         }
                     }
                     EnGeldB_SetupDefeated(this);

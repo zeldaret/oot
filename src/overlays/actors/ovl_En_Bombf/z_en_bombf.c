@@ -7,6 +7,7 @@
 #include "z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "regs.h"
@@ -57,8 +58,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x0003F828, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x0003F828, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -66,12 +67,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 9, 18, 10, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000008, 0x00, 0x08 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NONE,
             ACELEM_NONE,
             OCELEM_NONE,
@@ -89,7 +90,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_NONE,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
