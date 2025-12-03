@@ -33,7 +33,7 @@ typedef struct EnSw {
     /* 0x0418 */ char unk_418[8];
     /* 0x0420 */ f32 rotateMag;
     /* 0x0424 */ char unk_424[0x8];
-    /* 0x042C */ u8 moveGoldBool; // set during EnSw_MoveGold, rever read.
+    /* 0x042C */ u8 goldMoveBool; // set during EnSw_GoldMove, rever read.
     /* 0x0430 */ struct CollisionPoly* wallPoly;
     /* 0x0434 */ Vec3f unk_434; // set during EnSW_LineTestWall, never read. another target pos?
     /* 0x0440 */ s16 sfxTimer;
@@ -55,10 +55,10 @@ typedef struct EnSw {
 
 typedef enum {
     SW_TYPE_NORMAL, // normal Skull(wall)tula
-    SW_TYPE_GOLD_DEFAULT, // normal Gold Skultula, found in dungeons
-    SW_TYPE_GOLD_NIGHT, // nocturnal Gold Skultula, found outside
+    SW_TYPE_GOLD_DEFAULT, // normal Gold Skulltula, found in dungeons
+    SW_TYPE_GOLD_NIGHT, // nocturnal Gold Skulltula, found outside
     SW_TYPE_GOLD_HIDDEN_SOIL, // found by using bugs on soil patches
-    SW_TYPE_GOLD_HIDDEN_TREE, // found by hitting trees.
+    SW_TYPE_GOLD_HIDDEN_TREE, // found by hitting trees and crates
 } EnSwType;
 
 #endif

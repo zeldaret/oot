@@ -200,7 +200,7 @@ s32 EnSw_GoldMove(EnSw* this, PlayState* play, s32 changePoly) {
     s32 ret;
 
     ret = false;
-    this->moveGoldBool = true;
+    this->goldMoveBool = true;
     posA = posB = this->actor.world.pos;
     posA.x += this->surfaceNormal.x * 18.0f;
     posA.y += this->surfaceNormal.y * 18.0f;
@@ -394,7 +394,7 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
             }
             Enemy_StartFinishingBlow(play, &this->actor);
             if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
-                // Gold Skultula spins in place as it dies.
+                // Gold Skulltula spins in place as it dies.
                 this->skelAnime.playSpeed = 8.0f;
                 if ((play->state.frames & 1) == 0) {
                     this->rotateMag = 0.1f;
