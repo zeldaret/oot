@@ -33,7 +33,7 @@ typedef struct EnSw {
     /* 0x0418 */ char unk_418[8];
     /* 0x0420 */ f32 rotateMag;
     /* 0x0424 */ char unk_424[0x8];
-    /* 0x042C */ u8 goldMoveBool; // set during EnSw_GoldMove, rever read.
+    /* 0x042C */ u8 goldMoveBool; // set during EnSw_GoldMove, never read.
     /* 0x0430 */ struct CollisionPoly* wallPoly;
     /* 0x0434 */ Vec3f unk_434; // set during EnSW_LineTestWall, never read. another target pos?
     /* 0x0440 */ s16 sfxTimer;
