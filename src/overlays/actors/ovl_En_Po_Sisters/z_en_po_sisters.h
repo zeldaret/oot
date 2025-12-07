@@ -13,7 +13,7 @@ typedef struct EnPoSisters {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnPoSistersActionFunc actionFunc;
-    /* 0x0194 */ u8 unk_194;
+    /* 0x0194 */ u8 sisterID; // which Poe sister this is
     /* 0x0195 */ u8 unk_195;
     /* 0x0196 */ u8 unk_196;
     /* 0x0197 */ u8 unk_197;
@@ -31,5 +31,13 @@ typedef struct EnPoSisters {
     /* 0x02AC */ ColliderCylinder collider;
     /* 0x02F8 */ MtxF unk_2F8;
 } EnPoSisters; // size = 0x0338
+
+typedef enum EnPoSisNames{
+    EN_PO_SIS_MEG,    // purple sister, circles link with decoys
+    EN_PO_SIS_JOELLE, // red sister, hides in portraits
+    EN_PO_SIS_BETH,   // blue sister, hides in portraits
+    EN_PO_SIS_AMY,    // green sister, hides in block puzzle
+};
+
 
 #endif

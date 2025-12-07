@@ -114,40 +114,44 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 25, 60, 40 };
-
+typedef enum PoeSisDamageReaction{
+    POESIS_DMG_REACT_OTHER,
+    POESIS_DMG_REACT_SWORD=14,
+    POESIS_DMG_REACT_NUT,
+};
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0xF),
-    /* Deku stick    */ DMG_ENTRY(2, 0x0),
-    /* Slingshot     */ DMG_ENTRY(1, 0x0),
-    /* Explosive     */ DMG_ENTRY(2, 0x0),
-    /* Boomerang     */ DMG_ENTRY(0, 0x0),
-    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
-    /* Hookshot      */ DMG_ENTRY(2, 0x0),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0xE),
-    /* Master sword  */ DMG_ENTRY(2, 0xE),
-    /* Giant's Knife */ DMG_ENTRY(4, 0xE),
-    /* Fire arrow    */ DMG_ENTRY(2, 0x0),
-    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
-    /* Light arrow   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
-    /* Fire magic    */ DMG_ENTRY(0, 0x0),
-    /* Ice magic     */ DMG_ENTRY(0, 0x0),
-    /* Light magic   */ DMG_ENTRY(0, 0x0),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0xE),
-    /* Giant spin    */ DMG_ENTRY(4, 0xE),
-    /* Master spin   */ DMG_ENTRY(2, 0xE),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0xE),
-    /* Giant jump    */ DMG_ENTRY(8, 0xE),
-    /* Master jump   */ DMG_ENTRY(4, 0xE),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, POESIS_DMG_REACT_NUT),
+    /* Deku stick    */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Slingshot     */ DMG_ENTRY(1, POESIS_DMG_REACT_OTHER),
+    /* Explosive     */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Boomerang     */ DMG_ENTRY(0, POESIS_DMG_REACT_OTHER),
+    /* Normal arrow  */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Hammer swing  */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Hookshot      */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Kokiri sword  */ DMG_ENTRY(1, POESIS_DMG_REACT_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, POESIS_DMG_REACT_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, POESIS_DMG_REACT_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Ice arrow     */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Light arrow   */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Unk arrow 1   */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Unk arrow 2   */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Unk arrow 3   */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
+    /* Fire magic    */ DMG_ENTRY(0, POESIS_DMG_REACT_OTHER),
+    /* Ice magic     */ DMG_ENTRY(0, POESIS_DMG_REACT_OTHER),
+    /* Light magic   */ DMG_ENTRY(0, POESIS_DMG_REACT_OTHER),
+    /* Shield        */ DMG_ENTRY(0, POESIS_DMG_REACT_OTHER),
+    /* Mirror Ray    */ DMG_ENTRY(0, POESIS_DMG_REACT_OTHER),
+    /* Kokiri spin   */ DMG_ENTRY(1, POESIS_DMG_REACT_SWORD),
+    /* Giant spin    */ DMG_ENTRY(4, POESIS_DMG_REACT_SWORD),
+    /* Master spin   */ DMG_ENTRY(2, POESIS_DMG_REACT_SWORD),
+    /* Kokiri jump   */ DMG_ENTRY(2, POESIS_DMG_REACT_SWORD),
+    /* Giant jump    */ DMG_ENTRY(8, POESIS_DMG_REACT_SWORD),
+    /* Master jump   */ DMG_ENTRY(4, POESIS_DMG_REACT_SWORD),
+    /* Unknown 1     */ DMG_ENTRY(0, POESIS_DMG_REACT_OTHER),
+    /* Unblockable   */ DMG_ENTRY(0, POESIS_DMG_REACT_OTHER),
+    /* Hammer jump   */ DMG_ENTRY(4, POESIS_DMG_REACT_OTHER),
+    /* Unknown 2     */ DMG_ENTRY(0, POESIS_DMG_REACT_OTHER),
 };
 
 static s32 D_80ADD784 = 0;
@@ -170,14 +174,14 @@ static Vec3s D_80ADD7A4[4] = {
 
 static Vec3f D_80ADD7BC = { 120.0f, 250.0f, -1420.0f };
 
-static Gfx* D_80ADD7C8[4] = {
+static Gfx* sSisterBodies[4] = {
     gPoeSistersMegBodyDL,
     gPoeSistersJoelleBodyDL,
     gPoeSistersBethBodyDL,
     gPoeSistersAmyBodyDL,
 };
 
-static Gfx* D_80ADD7D8[4] = {
+static Gfx* sSisterFaces[4] = {
     gPoeSistersMegFaceDL,
     gPoeSistersJoelleFaceDL,
     gPoeSistersBethFaceDL,
@@ -211,8 +215,8 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->unk_194 = PARAMS_GET_U(thisx->params, 8, 2);
-    this->actor.naviEnemyId = this->unk_194 + NAVI_ENEMY_POE_SISTER_MEG;
+    this->sisterID = PARAMS_GET_U(thisx->params, 8, 2);
+    this->actor.naviEnemyId = this->sisterID + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
     this->unk_195 = PARAMS_GET_U(thisx->params, 10, 2);
     this->unk_196 = 32;
@@ -223,7 +227,7 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     if (PARAMS_GET_NOSHIFT(this->actor.params, 12, 1)) {
         func_80ADA094(this, play);
-    } else if (this->unk_194 == 0) {
+    } else if (this->sisterID == EN_PO_SIS_MEG) {
         if (this->unk_195 == 0) {
             this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
             func_80AD9AA8(this, play);
@@ -244,7 +248,7 @@ void EnPoSisters_Destroy(Actor* thisx, PlayState* play) {
     EnPoSisters* this = (EnPoSisters*)thisx;
 
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
-    if (this->unk_194 == 0 && this->unk_195 == 0) {
+    if (this->sisterID == EN_PO_SIS_MEG && this->unk_195 == 0) {
         func_800F5B58();
     }
     Collider_DestroyCylinder(play, &this->collider);
@@ -297,7 +301,7 @@ void func_80AD944C(EnPoSisters* this) {
 
 void func_80AD94E0(EnPoSisters* this) {
     this->actor.speed = 5.0f;
-    if (this->unk_194 == 0) {
+    if (this->sisterID == EN_PO_SIS_MEG) {
         this->collider.base.colMaterial = COL_MATERIAL_METAL;
         this->collider.base.acFlags |= AC_HARD;
         Animation_MorphToLoop(&this->skelAnime, &gPoeSistersAttackAnim, -5.0f);
@@ -311,7 +315,7 @@ void func_80AD94E0(EnPoSisters* this) {
 void func_80AD9568(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
-    if (this->unk_194 != 0) {
+    if (this->sisterID != EN_PO_SIS_MEG) {
         this->collider.base.colMaterial = COL_MATERIAL_HIT3;
         this->collider.base.acFlags &= ~AC_HARD;
     }
@@ -325,7 +329,7 @@ void func_80AD95D8(EnPoSisters* this) {
                                       ? this->collider.base.ac->world.rot.y
                                       : Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
-    if (this->unk_194 != 0) {
+    if (this->sisterID != EN_PO_SIS_MEG) {
         this->actor.speed = 10.0f;
     }
     this->unk_199 &= ~0xB;
@@ -376,7 +380,7 @@ void func_80AD97C8(EnPoSisters* this, PlayState* play) {
 void func_80AD98F4(EnPoSisters* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 1.5f, 0.0f,
                      Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE, -3.0f);
-    if (this->unk_194 == 0) {
+    if (this->sisterID == EN_PO_SIS_MEG) {
         this->unk_294 = 110.0f;
         func_80AD97C8(this, play);
         this->unk_22E.a = 0;
@@ -463,7 +467,7 @@ void func_80AD9C24(EnPoSisters* this, PlayState* play) {
 }
 
 void func_80AD9D44(EnPoSisters* this) {
-    if (this->unk_194 == 3) {
+    if (this->sisterID == EN_PO_SIS_AMY) {
         Animation_PlayOnce(&this->skelAnime, &gPoeSistersAppearDisappearAnim);
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
     } else {
@@ -510,7 +514,7 @@ void func_80AD9F1C(EnPoSisters* this) {
 }
 
 void func_80AD9F90(EnPoSisters* this) {
-    if (this->unk_194 == 1) {
+    if (this->sisterID == EN_PO_SIS_JOELLE) {
         this->actor.home.pos.x = -632.0f;
         this->actor.home.pos.z = -3440.0f;
     } else {
@@ -555,7 +559,7 @@ void func_80ADA10C(EnPoSisters* this) {
 void func_80ADA1B8(EnPoSisters* this) {
     Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 0.833f, 0.0f,
                      Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE_INTERP, 0.0f);
-    if (this->unk_194 == 0 || this->unk_194 == 1) {
+    if (this->sisterID == EN_PO_SIS_MEG || this->sisterID == EN_PO_SIS_JOELLE) {
         this->unk_19A = 40;
     } else {
         this->unk_19A = 76;
@@ -579,9 +583,9 @@ void func_80ADA2BC(EnPoSisters* this, PlayState* play) {
     this->unk_199 = 40;
     this->unk_19A = 90;
     this->unk_196 = 32;
-    this->actor.world.rot.y = D_80ADD79C[this->unk_194];
+    this->actor.world.rot.y = D_80ADD79C[this->sisterID];
     this->actor.home.pos.y = this->actor.world.pos.y;
-    if (this->unk_194 == 0) {
+    if (this->sisterID == EN_PO_SIS_MEG) {
         Flags_SetSwitch(play, 0x1B);
     }
     Actor_PlaySfx(&this->actor, NA_SE_EV_FLAME_IGNITION);
@@ -594,7 +598,7 @@ void func_80ADA35C(EnPoSisters* this, PlayState* play) {
 
     if (this->actionFunc == func_80ADBF58) {
         targetY = this->actor.home.pos.y;
-    } else if (this->unk_194 == 0 || this->unk_194 == 3) {
+    } else if (this->sisterID == EN_PO_SIS_MEG || this->sisterID == EN_PO_SIS_AMY) {
         targetY = player->actor.world.pos.y + 5.0f;
     } else {
         targetY = 832.0f;
@@ -690,7 +694,7 @@ void func_80ADA8C0(EnPoSisters* this, PlayState* play) {
     }
     this->actor.shape.rot.y += (384.0f * this->skelAnime.endFrame) * 3.0f;
     if (this->unk_19A == 0 && ABS((s16)(this->actor.shape.rot.y - this->actor.world.rot.y)) < 0x1000) {
-        if (this->unk_194 != 0) {
+        if (this->sisterID != EN_PO_SIS_MEG) {
             this->collider.base.colMaterial = COL_MATERIAL_HIT3;
             this->collider.base.acFlags &= ~AC_HARD;
             func_80AD93C4(this);
@@ -709,7 +713,7 @@ void func_80ADA9E8(EnPoSisters* this, PlayState* play) {
     this->actor.shape.rot.y -= (this->actor.speed * 10.0f) * 128.0f;
     if (Math_StepToF(&this->actor.speed, 0.0f, 0.1f) != 0) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        if (this->unk_194 != 0) {
+        if (this->sisterID != EN_PO_SIS_MEG) {
             func_80AD93C4(this);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
@@ -721,7 +725,7 @@ void func_80ADA9E8(EnPoSisters* this, PlayState* play) {
 void func_80ADAAA4(EnPoSisters* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         if (this->actor.colChkInfo.health != 0) {
-            if (this->unk_194 != 0) {
+            if (this->sisterID != EN_PO_SIS_MEG) {
                 func_80AD96A4(this);
             } else if (this->unk_195 != 0) {
                 func_80AD9C24(this, NULL);
@@ -738,7 +742,7 @@ void func_80ADAAA4(EnPoSisters* this, PlayState* play) {
         this->unk_22E.a = ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
         this->actor.world.pos.y = this->actor.parent->world.pos.y;
         func_80AD97C8(this, play);
-    } else if (this->unk_194 != 0) {
+    } else if (this->sisterID != EN_PO_SIS_MEG) {
         Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     }
 }
@@ -775,7 +779,7 @@ void func_80ADAD54(EnPoSisters* this, PlayState* play) {
 void func_80ADAE6C(EnPoSisters* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_22E.a = 255;
-        if (this->unk_194 != 0) {
+        if (this->sisterID != EN_PO_SIS_MEG) {
             this->unk_199 |= 1;
             this->collider.elem.acDmgInfo.dmgFlags = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE |
                                                       DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_EXPLOSIVE | DMG_DEKU_STICK);
@@ -791,7 +795,7 @@ void func_80ADAE6C(EnPoSisters* this, PlayState* play) {
         }
     } else {
         this->unk_22E.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
-        if (this->unk_194 == 0) {
+        if (this->sisterID == EN_PO_SIS_MEG) {
             func_80AD97C8(this, play);
         }
     }
@@ -833,7 +837,7 @@ void func_80ADB17C(EnPoSisters* this, PlayState* play) {
     if (this->unk_19A == 64) {
         Flags_SetSwitch(play, this->actor.params);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 30, NA_SE_EV_FLAME_IGNITION);
-        if (this->unk_194 == 0) {
+        if (this->sisterID == EN_PO_SIS_MEG) {
             Flags_UnsetSwitch(play, 0x1B);
         }
         play->envCtx.lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
@@ -845,9 +849,9 @@ void func_80ADB17C(EnPoSisters* this, PlayState* play) {
         func_80AD9240(this, 64 - this->unk_19A, &this->actor.world.pos);
     }
     if (this->unk_19A == 32) {
-        this->actor.world.pos.x = D_80ADD7A4[this->unk_194].x;
-        this->actor.world.pos.y = D_80ADD7A4[this->unk_194].y;
-        this->actor.world.pos.z = D_80ADD7A4[this->unk_194].z;
+        this->actor.world.pos.x = D_80ADD7A4[this->sisterID].x;
+        this->actor.world.pos.y = D_80ADD7A4[this->sisterID].y;
+        this->actor.world.pos.z = D_80ADD7A4[this->sisterID].z;
     }
 }
 
@@ -1016,7 +1020,7 @@ void func_80ADB9F0(EnPoSisters* this, PlayState* play) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_22E.a = 255;
-        if (this->unk_194 == 3) {
+        if (this->sisterID == EN_PO_SIS_AMY) {
             this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.home.pos.x = 1992.0f;
             this->actor.home.pos.z = -1440.0f;
@@ -1029,7 +1033,7 @@ void func_80ADB9F0(EnPoSisters* this, PlayState* play) {
         div = this->skelAnime.curFrame / this->skelAnime.endFrame;
         this->unk_22E.a = 255.0f * div;
     }
-    if (this->unk_194 != 3 && Animation_OnFrame(&this->skelAnime, 1.0f)) {
+    if (this->sisterID != EN_PO_SIS_AMY && Animation_OnFrame(&this->skelAnime, 1.0f)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
     }
     Actor_SetFocus(&this->actor, 40.0f);
@@ -1059,7 +1063,7 @@ void func_80ADBC88(EnPoSisters* this, PlayState* play) {
             this->unk_19A--;
         }
         if (this->unk_19A == 30) {
-            if (this->unk_194 == 0) {
+            if (this->sisterID == EN_PO_SIS_MEG) {
                 OnePointCutscene_Init(play, 3140, 999, NULL, CAM_ID_MAIN);
             }
             D_80ADD784 = 1;
@@ -1088,7 +1092,7 @@ void func_80ADBD8C(EnPoSisters* this, PlayState* play) {
     if (this->unk_19A <= 0) {
         if (SkelAnime_Update(&this->skelAnime)) {
             this->unk_22E.a = 255;
-            D_80ADD784 |= (1 << this->unk_194);
+            D_80ADD784 |= (1 << this->sisterID);
         } else {
             this->unk_22E.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
         }
@@ -1113,13 +1117,13 @@ void func_80ADBF58(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     this->unk_19A--;
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x500);
-    if (this->unk_19A == 0 && this->unk_194 == 0) {
+    if (this->unk_19A == 0 && this->sisterID == EN_PO_SIS_MEG) {
         play->envCtx.lightSettingOverride = 4;
     }
     if (this->unk_19A < 0) {
         Math_StepToF(&this->actor.speed, 5.0f, 0.2f);
     }
-    if (this->unk_19A == -70 && this->unk_194 == 1) {
+    if (this->unk_19A == -70 && this->sisterID == EN_PO_SIS_JOELLE) {
         SfxSource_PlaySfxAtFixedWorldPos(play, &D_80ADD7BC, 40, NA_SE_EN_PO_LAUGH);
     }
     if (this->unk_19A < -120) {
@@ -1166,15 +1170,17 @@ void func_80ADC10C(EnPoSisters* this, PlayState* play) {
                 Item_DropCollectible(play, &sp24, ITEM00_ARROWS_SMALL);
             }
         } else if (this->collider.base.colMaterial == COL_MATERIAL_METAL ||
-                   (this->actor.colChkInfo.damageReaction == 0 && this->actor.colChkInfo.damage == 0)) {
-            if (this->unk_194 == 0) {
+                   (this->actor.colChkInfo.damageReaction == POESIS_DMG_REACT_OTHER 
+                    && this->actor.colChkInfo.damage == 0)) {
+            if (this->sisterID == EN_PO_SIS_MEG) {
                 this->actor.freezeTimer = 0;
             }
-        } else if (this->actor.colChkInfo.damageReaction == 0xF) {
+        } else if (this->actor.colChkInfo.damageReaction == POESIS_DMG_REACT_NUT) {
             this->actor.world.rot.y = this->actor.shape.rot.y;
             this->unk_199 |= 2;
             func_80AD98F4(this, play);
-        } else if (this->unk_194 == 0 && this->actor.colChkInfo.damageReaction == 0xE &&
+        } else if (this->sisterID == EN_PO_SIS_MEG &&
+            this->actor.colChkInfo.damageReaction == POESIS_DMG_REACT_SWORD &&
                    this->actionFunc == func_80ADB770) {
             if (this->unk_19C == 0) {
                 this->unk_19C = -45;
@@ -1303,13 +1309,13 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     if (this->unk_22E.a == 0 || limbIndex == 8 || (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8)) {
         *dList = NULL;
     } else if (limbIndex == 9) {
-        *dList = D_80ADD7C8[this->unk_194];
+        *dList = sSisterBodies[this->sisterID];
     } else if (limbIndex == 10) {
-        *dList = D_80ADD7D8[this->unk_194];
+        *dList = sSisterFaces[this->sisterID];
         gDPPipeSync((*gfxP)++);
         gDPSetEnvColor((*gfxP)++, this->unk_22E.r, this->unk_22E.g, this->unk_22E.b, this->unk_22E.a);
     } else if (limbIndex == 11) {
-        color = &D_80ADD7E8[this->unk_194];
+        color = &D_80ADD7E8[this->sisterID];
         gDPPipeSync((*gfxP)++);
         gDPSetEnvColor((*gfxP)++, color->r, color->g, color->b, this->unk_22E.a);
     }
@@ -1335,7 +1341,7 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
             Matrix_MultVec3f(&D_80ADD7F8, &this->actor.home.pos);
         }
         if (this->unk_198 > 0) {
-            Color_RGBA8* color = &D_80ADD6F0[this->unk_194];
+            Color_RGBA8* color = &D_80ADD6F0[this->sisterID];
             f32 temp_f2 = Rand_ZeroOne() * 0.3f + 0.7f;
 
             if (this->actionFunc == func_80ADB17C || this->actionFunc == func_80ADBD38 ||
@@ -1363,8 +1369,8 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     f32 phi_f20;
     s32 i;
     u8 phi_s5;
-    Color_RGBA8* temp_s1 = &D_80ADD700[this->unk_194];
-    Color_RGBA8* temp_s7 = &D_80ADD6F0[this->unk_194];
+    Color_RGBA8* temp_s1 = &D_80ADD700[this->sisterID];
+    Color_RGBA8* temp_s7 = &D_80ADD6F0[this->sisterID];
     s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_po_sisters.c", 2989);
