@@ -35,46 +35,46 @@ void EnPoSisters_Destroy(Actor* thisx, PlayState* play);
 void EnPoSisters_Update(Actor* thisx, PlayState* play);
 void EnPoSisters_Draw(Actor* thisx, PlayState* play);
 
-void func_80ADA094(EnPoSisters* this, PlayState* play);
+void EnPoSisters_IntroSetup(EnPoSisters* this, PlayState* play);
 void func_80ADA4A8(EnPoSisters* this, PlayState* play);
-void func_80ADA530(EnPoSisters* this, PlayState* play);
+void EnPoSisters_FightState1(EnPoSisters* this, PlayState* play);
 void func_80ADA6A0(EnPoSisters* this, PlayState* play);
 void func_80ADA7F0(EnPoSisters* this, PlayState* play);
 void func_80ADA8C0(EnPoSisters* this, PlayState* play);
 void func_80ADA9E8(EnPoSisters* this, PlayState* play);
 void func_80ADAAA4(EnPoSisters* this, PlayState* play);
-void func_80ADAC70(EnPoSisters* this, PlayState* play);
-void func_80ADAD54(EnPoSisters* this, PlayState* play);
-void func_80ADAE6C(EnPoSisters* this, PlayState* play);
-void func_80ADAFC0(EnPoSisters* this, PlayState* play);
-void func_80ADB17C(EnPoSisters* this, PlayState* play);
-void func_80ADB2B8(EnPoSisters* this, PlayState* play);
-void func_80ADB338(EnPoSisters* this, PlayState* play);
-void func_80ADB9F0(EnPoSisters* this, PlayState* play);
-void func_80ADB4B0(EnPoSisters* this, PlayState* play);
-void func_80ADB51C(EnPoSisters* this, PlayState* play);
+void EnPoSister_Hit(EnPoSisters* this, PlayState* play);
+void EnPoSisters_Vanish(EnPoSisters* this, PlayState* play);
+void EnPoSisters_Reveal(EnPoSisters* this, PlayState* play);
+void EnPoSisters_ReleaseFlame(EnPoSisters* this, PlayState* play);
+void EnPoSister_Die(EnPoSisters* this, PlayState* play);
+void EnPoSisters_MegMourns(EnPoSisters* this, PlayState* play);
+void EnPoSisters_DecoyUpdate(EnPoSisters* this, PlayState* play);
+void EnPoSisters_SisterInit(EnPoSisters* this, PlayState* play);
+void EnPoSisters_MegIntroStep1(EnPoSisters* this, PlayState* play);
+void EnPoSisters_MegIntroStep2(EnPoSisters* this, PlayState* play);
 void func_80ADB770(EnPoSisters* this, PlayState* play);
-void func_80ADBB6C(EnPoSisters* this, PlayState* play);
-void func_80ADBBF4(EnPoSisters* this, PlayState* play);
-void func_80ADBC88(EnPoSisters* this, PlayState* play);
-void func_80ADBD38(EnPoSisters* this, PlayState* play);
-void func_80ADBD8C(EnPoSisters* this, PlayState* play);
-void func_80ADBEE8(EnPoSisters* this, PlayState* play);
-void func_80ADBF58(EnPoSisters* this, PlayState* play);
+void EnPoSisters_JoelleBethMove(EnPoSisters* this, PlayState* play);
+void EnPoSister_JoelleBethWait(EnPoSisters* this, PlayState* play);
+void EnPoSisters_IntroStep1(EnPoSisters* this, PlayState* play);
+void EnPoSisters_IntroStep2(EnPoSisters* this, PlayState* play);
+void EnPoSisters_IntroStep3(EnPoSisters* this, PlayState* play);
+void EnPoSisters_IntroStep4(EnPoSisters* this, PlayState* play);
+void EnPoSisters_IntroStep5(EnPoSisters* this, PlayState* play);
 
-void func_80AD9AA8(EnPoSisters* this, PlayState* play);
-void func_80AD9C24(EnPoSisters* this, PlayState* play);
+void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play);
+void EnPoSisters_DecoySetup(EnPoSisters* this, PlayState* play);
 
-void func_80AD9D44(EnPoSisters* this);
+void EnPoSisters_SisterSetup(EnPoSisters* this);
 
-static Color_RGBA8 D_80ADD6F0[4] = {
+static Color_RGBA8 sTorchLightColors[4] = {
     { 255, 170, 255, 255 },
     { 255, 200, 0, 255 },
     { 0, 170, 255, 255 },
     { 170, 255, 0, 255 },
 };
 
-static Color_RGBA8 D_80ADD700[4] = {
+static Color_RGBA8 sTorchFlameColors[4] = {
     { 100, 0, 255, 255 },
     { 255, 0, 0, 255 },
     { 0, 0, 255, 255 },
@@ -114,11 +114,13 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 25, 60, 40 };
+
 typedef enum PoeSisDamageReaction{
     POESIS_DMG_REACT_OTHER,
     POESIS_DMG_REACT_SWORD=14,
     POESIS_DMG_REACT_NUT,
 };
+
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, POESIS_DMG_REACT_NUT),
     /* Deku stick    */ DMG_ENTRY(2, POESIS_DMG_REACT_OTHER),
@@ -165,14 +167,16 @@ static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
 
 static s16 D_80ADD79C[4] = { 0xB000, 0xD000, 0x5000, 0x3000 };
 
-static Vec3s D_80ADD7A4[4] = {
+// positions for torches to be lit during death cutscene
+static Vec3s sDeathTorchPos[4] = {
     { -22, 337, -1704 },
     { -431, 879, -3410 },
     { 549, 879, -3410 },
     { 1717, 515, -1340 },
 };
 
-static Vec3f D_80ADD7BC = { 120.0f, 250.0f, -1420.0f };
+// position of laugh at the end of sisters' intro animation
+static Vec3f sIntroLaughPos = { 120.0f, 250.0f, -1420.0f };
 
 static Gfx* sSisterBodies[4] = {
     gPoeSistersMegBodyDL,
@@ -205,10 +209,10 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 50.0f);
     SkelAnime_Init(play, &this->skelAnime, &gPoeSistersSkel, &gPoeSistersSwayAnim, this->jointTable, this->morphTable,
                    12);
-    this->unk_22E.r = 255;
-    this->unk_22E.g = 255;
-    this->unk_22E.b = 210;
-    this->unk_22E.a = 255;
+    this->sisColor.r = 255;
+    this->sisColor.g = 255;
+    this->sisColor.b = 210;
+    this->sisColor.a = 255;
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
     Lights_PointGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, 0,
                             0, 0, 0);
@@ -218,28 +222,28 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     this->sisterID = PARAMS_GET_U(thisx->params, 8, 2);
     this->actor.naviEnemyId = this->sisterID + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
-    this->unk_195 = PARAMS_GET_U(thisx->params, 10, 2);
-    this->unk_196 = 32;
-    this->unk_197 = 20;
-    this->unk_198 = 1;
-    this->unk_199 = 32;
-    this->unk_294 = 110.0f;
+    this->decoyID = PARAMS_GET_U(thisx->params, 10, 2);
+    this->hoverPulse = 32;
+    this->vanishTimer = 20;
+    this->torchFlames = 1;
+    this->sisFlags = EN_POESIS_FLAG20;
+    this->circleDist = 110.0f;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     if (PARAMS_GET_NOSHIFT(this->actor.params, 12, 1)) {
-        func_80ADA094(this, play);
-    } else if (this->sisterID == EN_PO_SIS_MEG) {
-        if (this->unk_195 == 0) {
+        EnPoSisters_IntroSetup(this, play);
+    } else if (this->sisterID == EN_POESIS_MEG) {
+        if (this->decoyID == 0) {
             this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
-            func_80AD9AA8(this, play);
+            EnPoSisters_MegSetup(this, play);
         } else {
             this->actor.flags &= ~(ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR | ACTOR_FLAG_CAN_ATTACH_TO_ARROW);
             this->collider.elem.elemMaterial = ELEM_MATERIAL_UNK4;
             this->collider.elem.acDmgInfo.dmgFlags |= DMG_DEKU_NUT;
             this->collider.base.ocFlags1 = OC1_NONE;
-            func_80AD9C24(this, NULL);
+            EnPoSisters_DecoySetup(this, NULL);
         }
     } else {
-        func_80AD9D44(this);
+        EnPoSisters_SisterSetup(this);
     }
     this->actor.params &= 0x3F;
 }
@@ -248,39 +252,39 @@ void EnPoSisters_Destroy(Actor* thisx, PlayState* play) {
     EnPoSisters* this = (EnPoSisters*)thisx;
 
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
-    if (this->sisterID == EN_PO_SIS_MEG && this->unk_195 == 0) {
+    if (this->sisterID == EN_POESIS_MEG && this->decoyID == 0) {
         func_800F5B58();
     }
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_80AD9240(EnPoSisters* this, s32 arg1, Vec3f* arg2) {
-    f32 temp_f20 = SQ(arg1) * 0.1f;
+void EnPoSisters_MoveTorchFlames(EnPoSisters* this, s32 height, Vec3f* pos) {
+    f32 temp_f20 = SQ(height) * 0.1f;
     Vec3f* vec;
     s32 i;
 
-    for (i = 0; i < this->unk_198; i++) {
-        vec = &this->unk_234[i];
-        vec->x = arg2->x + Math_SinS((s16)(this->actor.shape.rot.y + (this->unk_19A * 0x800) + i * 0x2000)) * temp_f20;
-        vec->z = arg2->z + Math_CosS((s16)(this->actor.shape.rot.y + (this->unk_19A * 0x800) + i * 0x2000)) * temp_f20;
-        vec->y = arg2->y + arg1;
+    for (i = 0; i < this->torchFlames; i++) {
+        vec = &this->torchPos[i];
+        vec->x = pos->x + Math_SinS((s16)(this->actor.shape.rot.y + (this->sisTimer * 0x800) + i * 0x2000)) * temp_f20;
+        vec->z = pos->z + Math_CosS((s16)(this->actor.shape.rot.y + (this->sisTimer * 0x800) + i * 0x2000)) * temp_f20;
+        vec->y = pos->y + height;
     }
 }
 
 void func_80AD9368(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersSwayAnim, -3.0f);
-    this->unk_19A = Rand_S16Offset(2, 3);
+    this->sisTimer = Rand_S16Offset(2, 3);
     this->actionFunc = func_80ADA4A8;
     this->actor.speed = 0.0f;
 }
 
-void func_80AD93C4(EnPoSisters* this) {
+void EnPoSisters_FightSetup(EnPoSisters* this) {
     if (this->actionFunc != func_80ADA6A0) {
         Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     }
-    this->unk_19A = Rand_S16Offset(0xF, 3);
-    this->unk_199 |= 7;
-    this->actionFunc = func_80ADA530;
+    this->sisTimer = Rand_S16Offset(15, 3);
+    this->sisFlags |= EN_POESIS_FLAG04|EN_POESIS_FLAG02|EN_POESIS_FLAG01;
+    this->actionFunc = EnPoSisters_FightState1;
 }
 
 void func_80AD943C(EnPoSisters* this) {
@@ -288,34 +292,34 @@ void func_80AD943C(EnPoSisters* this) {
 }
 
 void func_80AD944C(EnPoSisters* this) {
-    if (this->unk_22E.a != 0) {
+    if (this->sisColor.a != 0) {
         this->collider.base.colMaterial = COL_MATERIAL_METAL;
         this->collider.base.acFlags |= AC_HARD;
     }
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersAttackAnim, -5.0f);
     this->actor.speed = 0.0f;
-    this->unk_19A = Animation_GetLastFrame(&gPoeSistersAttackAnim) * 3 + 3;
-    this->unk_199 &= ~2;
+    this->sisTimer = Animation_GetLastFrame(&gPoeSistersAttackAnim) * 3 + 3;
+    this->sisFlags &= ~EN_POESIS_FLAG02;
     this->actionFunc = func_80ADA7F0;
 }
 
 void func_80AD94E0(EnPoSisters* this) {
     this->actor.speed = 5.0f;
-    if (this->sisterID == EN_PO_SIS_MEG) {
+    if (this->sisterID == EN_POESIS_MEG) {
         this->collider.base.colMaterial = COL_MATERIAL_METAL;
         this->collider.base.acFlags |= AC_HARD;
         Animation_MorphToLoop(&this->skelAnime, &gPoeSistersAttackAnim, -5.0f);
     }
-    this->unk_19A = 5;
+    this->sisTimer = 5;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    this->unk_199 |= 8;
+    this->sisFlags |= EN_POESIS_FLAG08;
     this->actionFunc = func_80ADA8C0;
 }
 
 void func_80AD9568(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
-    if (this->sisterID != EN_PO_SIS_MEG) {
+    if (this->sisterID != EN_POESIS_MEG) {
         this->collider.base.colMaterial = COL_MATERIAL_HIT3;
         this->collider.base.acFlags &= ~AC_HARD;
     }
@@ -329,98 +333,102 @@ void func_80AD95D8(EnPoSisters* this) {
                                       ? this->collider.base.ac->world.rot.y
                                       : Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
-    if (this->sisterID != EN_PO_SIS_MEG) {
+    if (this->sisterID != EN_POESIS_MEG) {
         this->actor.speed = 10.0f;
     }
-    this->unk_199 &= ~0xB;
+    this->sisFlags &= ~EN_POESIS_FLAG08|EN_POESIS_FLAG02;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 16);
     this->actionFunc = func_80ADAAA4;
 }
 
-void func_80AD96A4(EnPoSisters* this) {
+void EnPoSisters_HitSetup(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFleeAnim, -3.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
-    this->unk_19A = 5;
-    this->unk_199 |= 0xB;
+    this->sisTimer = 5;
+    this->sisFlags |= EN_POESIS_FLAG08|EN_POESIS_FLAG02|EN_POESIS_FLAG01;
     this->actor.speed = 5.0f;
-    this->actionFunc = func_80ADAC70;
+    this->actionFunc = EnPoSister_Hit;
 }
 
-void func_80AD9718(EnPoSisters* this) {
+void EnPoSisters_SetupVanish(EnPoSisters* this) {
     Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 1.5f, 0.0f,
                      Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE, -3.0f);
     this->actor.speed = 0.0f;
-    this->unk_19C = 100;
+    this->sisVar = 100;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->unk_199 &= ~5;
+    this->sisFlags &= ~(EN_POESIS_FLAG04|EN_POESIS_FLAG01);
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DISAPPEAR);
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
-    this->actionFunc = func_80ADAD54;
+    this->actionFunc = EnPoSisters_Vanish;
 }
 
-void func_80AD97C8(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_CircleUpdate(EnPoSisters* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    f32 sp20;
+    f32 dist;
 
-    if (this->unk_195 == 0 || this->actionFunc != func_80ADAAA4) {
+    if (this->decoyID == 0 || this->actionFunc != func_80ADAAA4) {
         if ((player->meleeWeaponState == 0 || player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
             player->actor.world.pos.y - player->actor.floorHeight < 1.0f) {
-            Math_StepToF(&this->unk_294, 110.0f, 3.0f);
+            Math_StepToF(&this->circleDist, 110.0f, 3.0f);
         } else {
-            Math_StepToF(&this->unk_294, 170.0f, 10.0f);
+            Math_StepToF(&this->circleDist, 170.0f, 10.0f);
         }
-        sp20 = this->unk_294;
-    } else if (this->unk_195 != 0) {
-        sp20 = this->actor.parent->xzDistToPlayer;
+        dist = this->circleDist;
+    } else if (this->decoyID != 0) {
+        dist = this->actor.parent->xzDistToPlayer;
     }
-    this->actor.world.pos.x = (Math_SinS(this->actor.shape.rot.y + 0x8000) * sp20) + player->actor.world.pos.x;
-    this->actor.world.pos.z = (Math_CosS(this->actor.shape.rot.y + 0x8000) * sp20) + player->actor.world.pos.z;
+    this->actor.world.pos.x = (Math_SinS(this->actor.shape.rot.y + 0x8000) * dist) + player->actor.world.pos.x;
+    this->actor.world.pos.z = (Math_CosS(this->actor.shape.rot.y + 0x8000) * dist) + player->actor.world.pos.z;
 }
 
-void func_80AD98F4(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_SetupReveal(EnPoSisters* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 1.5f, 0.0f,
                      Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE, -3.0f);
-    if (this->sisterID == EN_PO_SIS_MEG) {
-        this->unk_294 = 110.0f;
-        func_80AD97C8(this, play);
-        this->unk_22E.a = 0;
+    if (this->sisterID == EN_POESIS_MEG) {
+        this->circleDist = 110.0f;
+        EnPoSisters_CircleUpdate(this, play);
+        this->sisColor.a = 0;
         this->actor.draw = EnPoSisters_Draw;
     } else {
         this->actor.world.rot.y = this->actor.shape.rot.y;
     }
-    this->unk_19A = 15;
+    this->sisTimer = 15;
     this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
-    this->unk_199 &= ~1;
-    this->actionFunc = func_80ADAE6C;
+    this->sisFlags &= ~EN_POESIS_FLAG01;
+    this->actionFunc = EnPoSisters_Reveal;
 }
 
-void func_80AD99D4(EnPoSisters* this, PlayState* play) {
-    this->unk_19A = 0;
+void EnPoSisters_SetupDie(EnPoSisters* this, PlayState* play) {
+    this->sisTimer = 0;
     this->actor.speed = 0.0f;
     this->actor.world.pos.y += 42.0f;
     this->actor.shape.yOffset = -6000.0f;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->unk_199 = 0;
-    this->actionFunc = func_80ADAFC0;
+    this->sisFlags = 0;
+    this->actionFunc = EnPoSisters_ReleaseFlame;
     OnePointCutscene_Init(play, 3190, 999, &this->actor, CAM_ID_MAIN);
 }
 
-void func_80AD9A54(EnPoSisters* this, PlayState* play) {
-    this->unk_19A = 0;
-    this->actor.world.pos.y = this->unk_234[0].y;
+void EnPoSisters_ItemDrop(EnPoSisters* this, PlayState* play) {
+    this->sisTimer = 0;
+    this->actor.world.pos.y = this->torchPos[0].y;
     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x80);
-    this->actionFunc = func_80ADB17C;
+    this->actionFunc = EnPoSister_Die;
 }
 
-// Meg spawning fakes
-void func_80AD9AA8(EnPoSisters* this, PlayState* play) {
+/*Meg will spawn 3 decoys and begin weeping.
+(or destroy the decoys and herself if one decoy fails.)*/
+void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play) {
     Actor* actor1 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,
-                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x400);
+                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 
+                                ((EN_POESIS_DECOY_PARAM)<<0));
     Actor* actor2 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,
-                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x800);
+                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 
+                                ((EN_POESIS_DECOY_PARAM)<<1));
     Actor* actor3 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,
-                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0xC00);
+                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
+                                ((EN_POESIS_DECOY_PARAM)<<2));
     s32 pad;
     s32 pad1;
 
@@ -440,19 +448,19 @@ void func_80AD9AA8(EnPoSisters* this, PlayState* play) {
         actor2->parent = &this->actor;
         actor1->parent = &this->actor;
         Animation_PlayLoop(&this->skelAnime, &gPoeSistersMegCryAnim);
-        this->unk_198 = 0;
-        this->unk_199 = 160;
-        this->actionFunc = func_80ADB2B8;
+        this->torchFlames = 0;
+        this->sisFlags = EN_POESIS_FLAG80|EN_POESIS_FLAG20;
+        this->actionFunc = EnPoSisters_MegMourns;
     }
 }
 
-void func_80AD9C24(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_DecoySetup(EnPoSisters* this, PlayState* play) {
     Vec3f vec;
 
     this->actor.draw = NULL;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->unk_19C = 100;
-    this->unk_199 = 32;
+    this->sisVar = 100;
+    this->sisFlags = EN_POESIS_FLAG20;
     this->collider.base.colMaterial = COL_MATERIAL_HIT3;
     this->collider.base.acFlags &= ~AC_HARD;
     if (play != NULL) {
@@ -463,156 +471,158 @@ void func_80AD9C24(EnPoSisters* this, PlayState* play) {
                              0);
     }
     Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
-    this->actionFunc = func_80ADB338;
+    this->actionFunc = EnPoSisters_DecoyUpdate;
 }
 
-void func_80AD9D44(EnPoSisters* this) {
-    if (this->sisterID == EN_PO_SIS_AMY) {
+void EnPoSisters_SisterSetup(EnPoSisters* this) {
+    if (this->sisterID == EN_POESIS_AMY) {
         Animation_PlayOnce(&this->skelAnime, &gPoeSistersAppearDisappearAnim);
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
     } else {
         Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 0.5f, 0.0f,
                          Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE_INTERP, 0.0f);
     }
-    this->unk_22E.a = 0;
-    this->unk_199 = 32;
-    this->actionFunc = func_80ADB9F0;
+    this->sisColor.a = 0;
+    this->sisFlags = EN_POESIS_FLAG20;
+    this->actionFunc = EnPoSisters_SisterInit;
 }
 
-void func_80AD9DF0(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_MegIntroSetup(EnPoSisters* this, PlayState* play) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPoeSistersAppearDisappearAnim, -5.0f);
-    this->unk_198 = 1;
-    this->unk_199 &= ~0x80;
-    this->actionFunc = func_80ADB4B0;
+    this->torchFlames = 1;
+    this->sisFlags &= ~EN_POESIS_FLAG80;
+    this->actionFunc = EnPoSisters_MegIntroStep1;
     OnePointCutscene_Init(play, 3180, 156, &this->actor, CAM_ID_MAIN);
 }
 
-void func_80AD9E60(EnPoSisters* this) {
+void EnPoSisters_MegDecoySetup(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
-    this->unk_19A = Animation_GetLastFrame(&gPoeSistersFloatAnim) * 7 + 7;
+    this->sisTimer = Animation_GetLastFrame(&gPoeSistersFloatAnim) * 7 + 7;
     if (this->actor.parent != NULL) {
         this->actor.world.pos = this->actor.parent->world.pos;
         this->actor.shape.rot.y = this->actor.parent->shape.rot.y;
     } else {
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-        this->unk_19A++;
+        this->sisTimer++;
     }
-    if (this->unk_195 == 0) {
+    if (this->decoyID == 0) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
     }
-    this->actionFunc = func_80ADB51C;
+    this->actionFunc = EnPoSisters_MegIntroStep2;
 }
 
 void func_80AD9F1C(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
-    this->unk_22E.a = 255;
-    this->unk_19A = 300;
-    this->unk_19C = 3;
-    this->unk_199 |= 9;
+    this->sisColor.a = 255;
+    this->sisTimer = 300;
+    this->sisVar = 3;
+    this->sisFlags |= EN_POESIS_FLAG08|EN_POESIS_FLAG01;
     this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = func_80ADB770;
 }
 
-void func_80AD9F90(EnPoSisters* this) {
-    if (this->sisterID == EN_PO_SIS_JOELLE) {
+void EnPoSisters_JoelleBethInit(EnPoSisters* this) {
+    if (this->sisterID == EN_POESIS_JOELLE) {
+        // Joelle's target pos when revealed
         this->actor.home.pos.x = -632.0f;
         this->actor.home.pos.z = -3440.0f;
-    } else {
+    } else { // Beth's target pos when revealed
         this->actor.home.pos.x = 752.0f;
         this->actor.home.pos.z = -3440.0f;
     }
     Animation_PlayLoop(&this->skelAnime, &gPoeSistersFloatAnim);
-    this->unk_199 |= 0xA;
-    this->actionFunc = func_80ADBB6C;
+    this->sisFlags |= EN_POESIS_FLAG08|EN_POESIS_FLAG02;
+    this->actionFunc = EnPoSisters_JoelleBethMove;
     this->actor.speed = 5.0f;
 }
 
-void func_80ADA028(EnPoSisters* this) {
+void EnPoSister_JoelleBethSetupWait(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersSwayAnim, -3.0f);
-    this->unk_22E.a = 255;
-    this->unk_199 |= 0x15;
+    this->sisColor.a = 255;
+    this->sisFlags |= EN_POESIS_FLAG10|EN_POESIS_FLAG04|EN_POESIS_FLAG01;
     this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
-    this->actionFunc = func_80ADBBF4;
+    this->actionFunc = EnPoSister_JoelleBethWait;
     this->actor.speed = 0.0f;
 }
 
-void func_80ADA094(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_IntroSetup(EnPoSisters* this, PlayState* play) {
     D_80ADD784 = 0;
-    this->unk_22E.a = 0;
-    this->unk_199 = 128;
-    this->unk_19A = 50;
-    this->unk_234[0] = this->actor.home.pos;
+    this->sisColor.a = 0;
+    this->sisFlags = EN_POESIS_FLAG80;
+    this->sisTimer = 50;
+    this->torchPos[0] = this->actor.home.pos;
     Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
-    this->actionFunc = func_80ADBC88;
+    this->actionFunc = EnPoSisters_IntroStep1;
 }
 
-void func_80ADA10C(EnPoSisters* this) {
+void EnPoSisters_IntroSetup2(EnPoSisters* this) {
     s32 i;
 
-    this->unk_198 = ARRAY_COUNT(this->unk_234);
-    for (i = 0; i < ARRAY_COUNT(this->unk_234); i++) {
-        this->unk_234[i] = this->unk_234[0];
+    this->torchFlames = ARRAY_COUNT(this->torchPos);
+    for (i = 0; i < ARRAY_COUNT(this->torchPos); i++) {
+        this->torchPos[i] = this->torchPos[0];
     }
-    this->actionFunc = func_80ADBD38;
+    this->actionFunc = EnPoSisters_IntroStep2;
 }
 
-void func_80ADA1B8(EnPoSisters* this) {
+
+void EnPoSisters_SetupIntro3(EnPoSisters* this) {
     Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 0.833f, 0.0f,
                      Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE_INTERP, 0.0f);
-    if (this->sisterID == EN_PO_SIS_MEG || this->sisterID == EN_PO_SIS_JOELLE) {
-        this->unk_19A = 40;
+    if (this->sisterID == EN_POESIS_MEG || this->sisterID == EN_POESIS_JOELLE) {
+        this->sisTimer = 40; // Meg and Joelle appear first
     } else {
-        this->unk_19A = 76;
+        this->sisTimer = 76;
     }
-    this->unk_198 = 0;
+    this->torchFlames = 0;
     D_80ADD784 = 0;
-    this->actionFunc = func_80ADBD8C;
+    this->actionFunc = EnPoSisters_IntroStep3;
 }
 
-void func_80ADA25C(EnPoSisters* this) {
+void EnPoSisters_SetupIntro4(EnPoSisters* this) {
     Animation_PlayLoop(&this->skelAnime, &gPoeSistersSwayAnim);
-    this->unk_198 = 8;
-    this->unk_19A = 32;
-    func_80AD9240(this, this->unk_19A, &this->actor.home.pos);
-    this->actionFunc = func_80ADBEE8;
+    this->torchFlames = 8;
+    this->sisTimer = 32;
+    EnPoSisters_MoveTorchFlames(this, this->sisTimer, &this->actor.home.pos);
+    this->actionFunc = EnPoSisters_IntroStep4;
 }
 
-void func_80ADA2BC(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_SetupIntro5(EnPoSisters* this, PlayState* play) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
-    this->unk_198 = 0;
-    this->unk_199 = 40;
-    this->unk_19A = 90;
-    this->unk_196 = 32;
+    this->torchFlames = 0;
+    this->sisFlags = EN_POESIS_FLAG08|EN_POESIS_FLAG20;
+    this->sisTimer = 90;
+    this->hoverPulse = 32;
     this->actor.world.rot.y = D_80ADD79C[this->sisterID];
     this->actor.home.pos.y = this->actor.world.pos.y;
-    if (this->sisterID == EN_PO_SIS_MEG) {
+    if (this->sisterID == EN_POESIS_MEG) {
         Flags_SetSwitch(play, 0x1B);
     }
     Actor_PlaySfx(&this->actor, NA_SE_EV_FLAME_IGNITION);
-    this->actionFunc = func_80ADBF58;
+    this->actionFunc = EnPoSisters_IntroStep5;
 }
 
 void func_80ADA35C(EnPoSisters* this, PlayState* play) {
     f32 targetY;
     Player* player = GET_PLAYER(play);
 
-    if (this->actionFunc == func_80ADBF58) {
+    if (this->actionFunc == EnPoSisters_IntroStep5) {
         targetY = this->actor.home.pos.y;
-    } else if (this->sisterID == EN_PO_SIS_MEG || this->sisterID == EN_PO_SIS_AMY) {
+    } else if (this->sisterID == EN_POESIS_MEG || this->sisterID == EN_POESIS_AMY) {
         targetY = player->actor.world.pos.y + 5.0f;
     } else {
         targetY = 832.0f;
     }
     Math_ApproachF(&this->actor.world.pos.y, targetY, 0.5f, 3.0f);
-    if (!this->unk_196) {
-        this->unk_196 = 32;
+    if (!this->hoverPulse) {
+        this->hoverPulse = 32;
     }
-    if (this->unk_196 != 0) {
-        this->unk_196--;
+    if (this->hoverPulse != 0) {
+        this->hoverPulse--;
     }
-    this->actor.world.pos.y += (2.0f + 0.5f * Rand_ZeroOne()) * Math_SinS(this->unk_196 * 0x800);
-    if (this->unk_22E.a == 255 && this->actionFunc != func_80ADA8C0 && this->actionFunc != func_80ADA7F0) {
-        if (this->actionFunc == func_80ADAC70) {
+    this->actor.world.pos.y += (2.0f + 0.5f * Rand_ZeroOne()) * Math_SinS(this->hoverPulse * 0x800);
+    if (this->sisColor.a == 255 && this->actionFunc != func_80ADA8C0 && this->actionFunc != func_80ADA7F0) {
+        if (this->actionFunc == EnPoSister_Hit) {
             Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
         } else {
             Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
@@ -622,23 +632,23 @@ void func_80ADA35C(EnPoSisters* this, PlayState* play) {
 
 void func_80ADA4A8(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
-        this->unk_19A--;
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->sisTimer != 0) {
+        this->sisTimer--;
     }
-    if (this->unk_19A == 0 || this->actor.xzDistToPlayer < 200.0f) {
-        func_80AD93C4(this);
+    if (this->sisTimer == 0 || this->actor.xzDistToPlayer < 200.0f) {
+        EnPoSisters_FightSetup(this);
     }
 }
 
-void func_80ADA530(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_FightState1(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_StepToF(&this->actor.speed, 1.0f, 0.2f);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
-        this->unk_19A--;
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->sisTimer != 0) {
+        this->sisTimer--;
     }
     if (this->actor.xzDistToPlayer < 200.0f && fabsf(this->actor.yDistToPlayer + 5.0f) < 30.0f) {
         func_80AD943C(this);
-    } else if (this->unk_19A == 0 && Math_StepToF(&this->actor.speed, 0.0f, 0.2f) != 0) {
+    } else if (this->sisTimer == 0 && Math_StepToF(&this->actor.speed, 0.0f, 0.2f) != 0) {
         func_80AD9368(this);
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
@@ -667,20 +677,20 @@ void func_80ADA6A0(EnPoSisters* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 160.0f && fabsf(this->actor.yDistToPlayer + 5.0f) < 30.0f) {
         func_80AD944C(this);
     } else if (this->actor.xzDistToPlayer > 240.0f) {
-        func_80AD93C4(this);
+        EnPoSisters_FightSetup(this);
     }
 }
 
 void func_80ADA7F0(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk_19A != 0) {
-        this->unk_19A--;
+    if (this->sisTimer != 0) {
+        this->sisTimer--;
     }
-    this->actor.shape.rot.y += 384.0f * ((this->skelAnime.endFrame + 1.0f) * 3.0f - this->unk_19A);
-    if (this->unk_19A == 18 || this->unk_19A == 7) {
+    this->actor.shape.rot.y += 384.0f * ((this->skelAnime.endFrame + 1.0f) * 3.0f - this->sisTimer);
+    if (this->sisTimer == 18 || this->sisTimer == 7) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_ROLL);
     }
-    if (this->unk_19A == 0) {
+    if (this->sisTimer == 0) {
         func_80AD94E0(this);
     }
 }
@@ -689,18 +699,18 @@ void func_80ADA8C0(EnPoSisters* this, PlayState* play) {
     s32 pad;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
-        this->unk_19A--;
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->sisTimer != 0) {
+        this->sisTimer--;
     }
     this->actor.shape.rot.y += (384.0f * this->skelAnime.endFrame) * 3.0f;
-    if (this->unk_19A == 0 && ABS((s16)(this->actor.shape.rot.y - this->actor.world.rot.y)) < 0x1000) {
-        if (this->sisterID != EN_PO_SIS_MEG) {
+    if (this->sisTimer == 0 && ABS((s16)(this->actor.shape.rot.y - this->actor.world.rot.y)) < 0x1000) {
+        if (this->sisterID != EN_POESIS_MEG) {
             this->collider.base.colMaterial = COL_MATERIAL_HIT3;
             this->collider.base.acFlags &= ~AC_HARD;
-            func_80AD93C4(this);
+            EnPoSisters_FightSetup(this);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
-            func_80AD9C24(this, play);
+            EnPoSisters_DecoySetup(this, play);
         }
     }
     if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
@@ -713,11 +723,11 @@ void func_80ADA9E8(EnPoSisters* this, PlayState* play) {
     this->actor.shape.rot.y -= (this->actor.speed * 10.0f) * 128.0f;
     if (Math_StepToF(&this->actor.speed, 0.0f, 0.1f) != 0) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        if (this->sisterID != EN_PO_SIS_MEG) {
-            func_80AD93C4(this);
+        if (this->sisterID != EN_POESIS_MEG) {
+            EnPoSisters_FightSetup(this);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
-            func_80AD9C24(this, play);
+            EnPoSisters_DecoySetup(this, play);
         }
     }
 }
@@ -725,140 +735,142 @@ void func_80ADA9E8(EnPoSisters* this, PlayState* play) {
 void func_80ADAAA4(EnPoSisters* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         if (this->actor.colChkInfo.health != 0) {
-            if (this->sisterID != EN_PO_SIS_MEG) {
-                func_80AD96A4(this);
-            } else if (this->unk_195 != 0) {
-                func_80AD9C24(this, NULL);
+            if (this->sisterID != EN_POESIS_MEG) {
+                EnPoSisters_HitSetup(this);
+            } else if (this->decoyID != 0) {
+                EnPoSisters_DecoySetup(this, NULL);
             } else {
-                func_80AD9C24(this, play);
+                EnPoSisters_DecoySetup(this, play);
             }
         } else {
-            func_80AD99D4(this, play);
+            EnPoSisters_SetupDie(this, play);
         }
     }
-    if (this->unk_195 != 0) {
+    if (this->decoyID != 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.parent->shape.rot.y,
-                           (this->unk_195 == 2) ? 0x800 : 0x400);
-        this->unk_22E.a = ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
+                           (this->decoyID == 2) ? 0x800 : 0x400);
+        this->sisColor.a = ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
         this->actor.world.pos.y = this->actor.parent->world.pos.y;
-        func_80AD97C8(this, play);
-    } else if (this->sisterID != EN_PO_SIS_MEG) {
+        EnPoSisters_CircleUpdate(this, play);
+    } else if (this->sisterID != EN_POESIS_MEG) {
         Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     }
 }
 
-void func_80ADAC70(EnPoSisters* this, PlayState* play) {
+void EnPoSister_Hit(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 1820);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
-        this->unk_19A--;
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->sisTimer != 0) {
+        this->sisTimer--;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        this->unk_199 |= 2;
-        func_80AD9718(this);
-    } else if (this->unk_19A == 0 && 240.0f < this->actor.xzDistToPlayer) {
+        this->sisFlags |= EN_POESIS_FLAG02;
+        EnPoSisters_SetupVanish(this);
+    } else if (this->sisTimer == 0 && 240.0f < this->actor.xzDistToPlayer) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        func_80AD93C4(this);
+        EnPoSisters_FightSetup(this);
     }
 }
 
-void func_80ADAD54(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_Vanish(EnPoSisters* this, PlayState* play) {
     s32 endFrame;
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->unk_22E.a = 0;
+        this->sisColor.a = 0;
         this->collider.elem.acDmgInfo.dmgFlags = DMG_MAGIC_ICE | DMG_MAGIC_FIRE | DMG_DEKU_NUT;
-        func_80AD93C4(this);
+        EnPoSisters_FightSetup(this);
     } else {
         endFrame = this->skelAnime.endFrame;
-        this->unk_22E.a = ((endFrame - this->skelAnime.curFrame) * 255.0f) / endFrame;
+        this->sisColor.a = ((endFrame - this->skelAnime.curFrame) * 255.0f) / endFrame;
     }
 }
 
-void func_80ADAE6C(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_Reveal(EnPoSisters* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->unk_22E.a = 255;
-        if (this->sisterID != EN_PO_SIS_MEG) {
-            this->unk_199 |= 1;
+        this->sisColor.a = 255;
+        if (this->sisterID != EN_POESIS_MEG) {
+            this->sisFlags |= EN_POESIS_FLAG01;
             this->collider.elem.acDmgInfo.dmgFlags = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE |
                                                       DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_EXPLOSIVE | DMG_DEKU_STICK);
-            if (this->unk_19A != 0) {
-                this->unk_19A--;
+            if (this->sisTimer != 0) {
+                this->sisTimer--;
             }
-            if (this->unk_19A == 0) {
-                this->unk_197 = 20;
-                func_80AD93C4(this);
+            if (this->sisTimer == 0) {
+                this->vanishTimer = 20;
+                EnPoSisters_FightSetup(this);
             }
         } else {
             func_80AD9F1C(this);
         }
     } else {
-        this->unk_22E.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
-        if (this->sisterID == EN_PO_SIS_MEG) {
-            func_80AD97C8(this, play);
+        this->sisColor.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
+        if (this->sisterID == EN_POESIS_MEG) {
+            EnPoSisters_CircleUpdate(this, play);
         }
     }
 }
 
-void func_80ADAFC0(EnPoSisters* this, PlayState* play) {
+/*animate the torch flame after dealing the killing blow*/
+void EnPoSisters_ReleaseFlame(EnPoSisters* this, PlayState* play) {
     s32 i;
 
-    this->unk_19A++;
-    this->unk_198 = CLAMP_MAX(this->unk_198 + 1, 8);
-    for (i = this->unk_198 - 1; i > 0; i--) {
-        this->unk_234[i] = this->unk_234[i - 1];
+    this->sisTimer++;
+    this->torchFlames = CLAMP_MAX(this->torchFlames + 1, 8);
+    for (i = this->torchFlames - 1; i > 0; i--) {
+        this->torchPos[i] = this->torchPos[i - 1];
     }
-    this->unk_234[0].x =
-        (Math_SinS((this->actor.shape.rot.y + this->unk_19A * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
+    this->torchPos[0].x =
+        (Math_SinS((this->actor.shape.rot.y + this->sisTimer * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
         this->actor.world.pos.x;
-    this->unk_234[0].z =
-        (Math_CosS((this->actor.shape.rot.y + this->unk_19A * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
+    this->torchPos[0].z =
+        (Math_CosS((this->actor.shape.rot.y + this->sisTimer * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
         this->actor.world.pos.z;
-    if (this->unk_19A < 8) {
-        this->unk_234[0].y = this->unk_234[1].y - 9.0f;
+    if (this->sisTimer < 8) {
+        this->torchPos[0].y = this->torchPos[1].y - 9.0f;
     } else {
-        this->unk_234[0].y = this->unk_234[1].y + 2.0f;
-        if (this->unk_19A >= 16) {
+        this->torchPos[0].y = this->torchPos[1].y + 2.0f;
+        if (this->sisTimer >= 16) {
             if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.001f) != 0) {
-                func_80AD9A54(this, play);
+                EnPoSisters_ItemDrop(this, play);
             }
             this->actor.scale.z = this->actor.scale.x;
             this->actor.scale.y = this->actor.scale.x;
         }
     }
-    if (this->unk_19A == 16) {
+    if (this->sisTimer == 16) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DEAD2);
     }
 }
 
-void func_80ADB17C(EnPoSisters* this, PlayState* play) {
-    this->unk_19A++;
-    if (this->unk_19A == 64) {
+void EnPoSister_Die(EnPoSisters* this, PlayState* play) {
+    this->sisTimer++;
+    if (this->sisTimer == 64) {
         Flags_SetSwitch(play, this->actor.params);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 30, NA_SE_EV_FLAME_IGNITION);
-        if (this->sisterID == EN_PO_SIS_MEG) {
+        if (this->sisterID == EN_POESIS_MEG) {
             Flags_UnsetSwitch(play, 0x1B);
         }
         play->envCtx.lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->actor);
-    } else if (this->unk_19A < 32) {
-        func_80AD9240(this, this->unk_19A, &this->actor.world.pos);
+    } else if (this->sisTimer < 32) {
+        EnPoSisters_MoveTorchFlames(this, this->sisTimer, &this->actor.world.pos);
     } else {
-        func_80AD9240(this, 64 - this->unk_19A, &this->actor.world.pos);
+        EnPoSisters_MoveTorchFlames(this, 64 - this->sisTimer, &this->actor.world.pos);
     }
-    if (this->unk_19A == 32) {
-        this->actor.world.pos.x = D_80ADD7A4[this->sisterID].x;
-        this->actor.world.pos.y = D_80ADD7A4[this->sisterID].y;
-        this->actor.world.pos.z = D_80ADD7A4[this->sisterID].z;
+    if (this->sisTimer == 32) {
+        this->actor.world.pos.x = sDeathTorchPos[this->sisterID].x;
+        this->actor.world.pos.y = sDeathTorchPos[this->sisterID].y;
+        this->actor.world.pos.z = sDeathTorchPos[this->sisterID].z;
     }
 }
 
-void func_80ADB2B8(EnPoSisters* this, PlayState* play) {
+/*Meg weeps as she is the last remaining sister until Link aproaches*/
+void EnPoSisters_MegMourns(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->actor.xzDistToPlayer < 130.0f) {
-        func_80AD9DF0(this, play);
+        EnPoSisters_MegIntroSetup(this, play);
     }
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_CRY);
@@ -866,94 +878,95 @@ void func_80ADB2B8(EnPoSisters* this, PlayState* play) {
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
 }
 
-void func_80ADB338(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_DecoyUpdate(EnPoSisters* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     EnPoSisters* realMeg = (EnPoSisters*)this->actor.parent;
 
-    if (this->unk_195 == 0) {
+    if (this->decoyID == 0) {
         if (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) < 600.0f) {
-            if (this->unk_19C != 0) {
-                this->unk_19C--;
+            if (this->sisVar != 0) {
+                this->sisVar--;
             }
         } else {
-            this->unk_19C = 100;
+            this->sisVar = 100;
         }
-        if (this->unk_19C == 0) {
+        if (this->sisVar == 0) {
             this->actor.shape.rot.y = (s32)(4.0f * Rand_ZeroOne()) * 0x4000 + this->actor.yawTowardsPlayer;
             this->actor.world.pos.y = player->actor.world.pos.y + 5.0f;
-            func_80AD98F4(this, play);
+            EnPoSisters_SetupReveal(this, play);
         }
     } else {
-        if (realMeg->actionFunc == func_80ADB51C) {
+        if (realMeg->actionFunc == EnPoSisters_MegIntroStep2) {
             this->actor.draw = EnPoSisters_Draw;
-            func_80AD9E60(this);
-        } else if (realMeg->actionFunc == func_80ADAE6C) {
-            this->actor.shape.rot.y = this->actor.parent->shape.rot.y + this->unk_195 * 0x4000;
+            EnPoSisters_MegDecoySetup(this);
+        } else if (realMeg->actionFunc == EnPoSisters_Reveal) {
+            this->actor.shape.rot.y = this->actor.parent->shape.rot.y + this->decoyID * 0x4000;
             this->actor.world.pos.y = player->actor.world.pos.y + 5.0f;
-            func_80AD98F4(this, play);
-        } else if (realMeg->actionFunc == func_80ADAFC0) {
+            EnPoSisters_SetupReveal(this, play);
+        } else if (realMeg->actionFunc == EnPoSisters_ReleaseFlame) {
             Actor_Kill(&this->actor);
         }
     }
 }
 
-void func_80ADB4B0(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_MegIntroStep1(EnPoSisters* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        func_80AD9E60(this);
+        EnPoSisters_MegDecoySetup(this);
     }
-    func_80AD97C8(this, play);
+    EnPoSisters_CircleUpdate(this, play);
     this->actor.world.pos.y += 1.0f;
     Actor_SetFocus(&this->actor, 40.0f);
 }
 
-void func_80ADB51C(EnPoSisters* this, PlayState* play) {
+/*Meg reveals and moves decoys back and forth*/
+void EnPoSisters_MegIntroStep2(EnPoSisters* this, PlayState* play) {
     f32 temp_f2;
-    s16 phi_v0;
-    s16 phi_a2;
+    s16 sign;
+    s16 step;
     u8 temp;
 
     SkelAnime_Update(&this->skelAnime);
     temp_f2 = this->skelAnime.endFrame * 0.5f;
-    this->unk_22E.a = (fabsf(temp_f2 - this->skelAnime.curFrame) * 255.0f) / temp_f2;
-    if (this->unk_19A != 0) {
-        this->unk_19A -= 1;
+    this->sisColor.a = (fabsf(temp_f2 - this->skelAnime.curFrame) * 255.0f) / temp_f2;
+    if (this->sisTimer != 0) {
+        this->sisTimer -= 1;
     }
-    if (this->unk_19A == 0) {
+    if (this->sisTimer == 0) {
         this->actor.world.rot.y = this->actor.shape.rot.y += 0x4000 * (s32)(Rand_ZeroOne() * 4.0f);
-        if (this->unk_195 == 0) {
+        if (this->decoyID == 0) {
             func_800F5ACC(NA_BGM_MINI_BOSS);
         }
         func_80AD9F1C(this);
     } else {
         this->actor.world.pos.y += 0.1f;
-        temp = this->unk_195;
+        temp = this->decoyID;
         if (temp != 0) {
-            if (this->unk_19A > 90) {
-                phi_v0 = 1;
-                phi_a2 = 64;
-            } else if (this->unk_19A > 70) {
-                phi_v0 = 0;
-                phi_a2 = 64;
-            } else if (this->unk_19A > 55) {
-                phi_v0 = 1;
-                phi_a2 = 96;
-            } else if (this->unk_19A > 40) {
-                phi_v0 = 0;
-                phi_a2 = 96;
+            if (this->sisTimer > 90) {
+                sign = 1;
+                step = 64;
+            } else if (this->sisTimer > 70) {
+                sign = 0;
+                step = 64;
+            } else if (this->sisTimer > 55) {
+                sign = 1;
+                step = 96;
+            } else if (this->sisTimer > 40) {
+                sign = 0;
+                step = 96;
             } else {
-                phi_v0 = 1;
-                phi_a2 = 256;
+                sign = 1;
+                step = 256;
             }
-            if (this->unk_195 == 2) {
-                phi_a2 *= 2;
+            if (this->decoyID == 2) {
+                step *= 2;
             }
             Math_ScaledStepToS(&this->actor.shape.rot.y,
-                               this->actor.parent->shape.rot.y + (this->unk_195 * 0x4000) * phi_v0, phi_a2);
-        } else if (this->unk_19A == 70 || this->unk_19A == 40) {
+                               this->actor.parent->shape.rot.y + (this->decoyID * 0x4000) * sign, step);
+        } else if (this->sisTimer == 70 || this->sisTimer == 40) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
         }
     }
-    func_80AD97C8(this, play);
+    EnPoSisters_CircleUpdate(this, play);
     Actor_SetFocus(&this->actor, 40.0f);
 }
 
@@ -961,208 +974,210 @@ void func_80ADB770(EnPoSisters* this, PlayState* play) {
     s32 temp_v0;
     s32 phi_a0;
 
-    if (this->unk_19A != 0) {
-        this->unk_19A--;
+    if (this->sisTimer != 0) {
+        this->sisTimer--;
     }
-    if (this->unk_19C > 0) {
-        if (this->unk_19A >= 16) {
+    if (this->sisVar > 0) {
+        if (this->sisTimer >= 16) {
             SkelAnime_Update(&this->skelAnime);
-            if (this->unk_195 == 0) {
-                if (ABS((s16)(16 - this->unk_196)) < 14) {
+            if (this->decoyID == 0) {
+                if (ABS((s16)(16 - this->hoverPulse)) < 14) {
                     this->actor.shape.rot.y +=
-                        (0x580 - (this->unk_19C * 0x180)) * fabsf(Math_SinS(this->unk_196 * 0x800));
+                        (0x580 - (this->sisVar * 0x180)) * fabsf(Math_SinS(this->hoverPulse * 0x800));
                 }
-                if (this->unk_19A >= 284 || this->unk_19A < 31) {
-                    this->unk_199 |= 0x40;
+                if (this->sisTimer >= 284 || this->sisTimer < 31) {
+                    this->sisFlags |= EN_POESIS_FLAG40;
                 } else {
-                    this->unk_199 &= ~0x40;
+                    this->sisFlags &= ~EN_POESIS_FLAG40;
                 }
             } else {
-                this->actor.shape.rot.y = (s16)(this->actor.parent->shape.rot.y + (this->unk_195 * 0x4000));
+                this->actor.shape.rot.y = (s16)(this->actor.parent->shape.rot.y + (this->decoyID * 0x4000));
             }
         }
     }
-    if (this->unk_195 == 0) {
-        if (this->unk_19A >= 284 || (this->unk_19A < 31 && this->unk_19A >= 16)) {
-            this->unk_199 |= 0x40;
+    if (this->decoyID == 0) {
+        if (this->sisTimer >= 284 || (this->sisTimer < 31 && this->sisTimer >= 16)) {
+            this->sisFlags |= EN_POESIS_FLAG40;
         } else {
-            this->unk_199 &= ~0x40;
+            this->sisFlags &= ~EN_POESIS_FLAG40;
         }
     }
     if (Actor_WorldDistXZToPoint(&GET_PLAYER(play)->actor, &this->actor.home.pos) > 600.0f) {
-        this->unk_199 &= ~0x40;
-        func_80AD9C24(this, play);
-    } else if (this->unk_19A == 0) {
-        if (this->unk_195 == 0) {
+        this->sisFlags &= ~EN_POESIS_FLAG40;
+        EnPoSisters_DecoySetup(this, play);
+    } else if (this->sisTimer == 0) {
+        if (this->decoyID == 0) {
             func_80AD94E0(this);
         } else {
-            func_80AD9C24(this, play);
+            EnPoSisters_DecoySetup(this, play);
         }
-    } else if (this->unk_195 != 0) {
+    } else if (this->decoyID != 0) {
         EnPoSisters* realMeg = (EnPoSisters*)this->actor.parent;
 
         if (realMeg->actionFunc == func_80ADAAA4) {
             func_80AD95D8(this);
         }
-    } else if (this->unk_19C == 0) {
-        this->unk_19C = -15;
-    } else if (this->unk_19C < 0) {
-        this->unk_19C++;
-        if (this->unk_19C == 0) {
+    } else if (this->sisVar == 0) {
+        this->sisVar = -15;
+    } else if (this->sisVar < 0) {
+        this->sisVar++;
+        if (this->sisVar == 0) {
             func_80AD94E0(this);
         }
     }
-    func_80AD97C8(this, play);
+    EnPoSisters_CircleUpdate(this, play);
 }
 
-void func_80ADB9F0(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_SisterInit(EnPoSisters* this, PlayState* play) {
     f32 div;
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->unk_22E.a = 255;
-        if (this->sisterID == EN_PO_SIS_AMY) {
+        this->sisColor.a = 255;
+        if (this->sisterID == ) {
             this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.home.pos.x = 1992.0f;
             this->actor.home.pos.z = -1440.0f;
-            this->unk_199 |= 0x18;
-            func_80AD93C4(this);
+            this->sisFlags |= EN_POESIS_FLAG08|EN_POESIS_FLAG10;
+            EnPoSisters_FightSetup(this);
         } else {
-            func_80AD9F90(this);
+            EnPoSisters_JoelleBethInit(this);
         }
     } else {
         div = this->skelAnime.curFrame / this->skelAnime.endFrame;
-        this->unk_22E.a = 255.0f * div;
+        this->sisColor.a = 255.0f * div;
     }
-    if (this->sisterID != EN_PO_SIS_AMY && Animation_OnFrame(&this->skelAnime, 1.0f)) {
+    if (this->sisterID != EN_POESIS_AMY && Animation_OnFrame(&this->skelAnime, 1.0f)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
     }
     Actor_SetFocus(&this->actor, 40.0f);
 }
 
-void func_80ADBB6C(EnPoSisters* this, PlayState* play) {
+/*Joelle and Beth move to thier respective worldspace marks once revealed*/
+void EnPoSisters_JoelleBethMove(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 10.0f) {
-        func_80ADA028(this);
+        EnPoSister_JoelleBethSetupWait(this);
     } else {
         Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                            1820);
     }
 }
 
-void func_80ADBBF4(EnPoSisters* this, PlayState* play) {
+/*Joelle and Beth wait at the bottom of the stairs for Link.*/
+void EnPoSister_JoelleBethWait(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1820);
     if (this->actor.xzDistToPlayer < 240.0f && fabsf(this->actor.yDistToPlayer + 5.0f) < 30.0f) {
-        func_80AD93C4(this);
+        EnPoSisters_FightSetup(this);
     }
 }
 
-void func_80ADBC88(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_IntroStep1(EnPoSisters* this, PlayState* play) {
     if (D_80ADD784 != 0 || !Player_InCsMode(play)) {
-        if (this->unk_19A != 0) {
-            this->unk_19A--;
+        if (this->sisTimer != 0) {
+            this->sisTimer--;
         }
-        if (this->unk_19A == 30) {
-            if (this->sisterID == EN_PO_SIS_MEG) {
+        if (this->sisTimer == 30) {
+            if (this->sisterID == EN_POESIS_MEG) {
                 OnePointCutscene_Init(play, 3140, 999, NULL, CAM_ID_MAIN);
             }
             D_80ADD784 = 1;
         }
-        if (this->unk_19A == 0) {
-            func_80ADA10C(this);
+        if (this->sisTimer == 0) {
+            EnPoSisters_IntroSetup2(this);
         }
     }
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
 }
 
-void func_80ADBD38(EnPoSisters* this, PlayState* play) {
-    this->unk_19A++;
-    func_80AD9240(this, this->unk_19A, &this->actor.home.pos);
-    if (this->unk_19A == 32) {
-        func_80ADA1B8(this);
+void EnPoSisters_IntroStep2(EnPoSisters* this, PlayState* play) {
+    this->sisTimer++;
+    EnPoSisters_MoveTorchFlames(this, this->sisTimer, &this->actor.home.pos);
+    if (this->sisTimer == 32) {
+        EnPoSisters_SetupIntro3(this);
     }
 }
 
-void func_80ADBD8C(EnPoSisters* this, PlayState* play) {
-    this->unk_19A--;
-    if (this->unk_19A == 0) {
+void EnPoSisters_IntroStep3(EnPoSisters* this, PlayState* play) {
+    this->sisTimer--;
+    if (this->sisTimer == 0) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
-        this->unk_199 &= ~0x80;
+        this->sisFlags &= ~EN_POESIS_FLAG80;
     }
-    if (this->unk_19A <= 0) {
+    if (this->sisTimer <= 0) {
         if (SkelAnime_Update(&this->skelAnime)) {
-            this->unk_22E.a = 255;
+            this->sisColor.a = 255;
             D_80ADD784 |= (1 << this->sisterID);
         } else {
-            this->unk_22E.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
+            this->sisColor.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
         }
     }
     if (D_80ADD784 == 15) {
-        func_80ADA25C(this);
+        EnPoSisters_SetupIntro4(this);
     }
 }
 
-void func_80ADBEE8(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_IntroStep4(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk_19A != 0) {
-        this->unk_19A--;
+    if (this->sisTimer != 0) {
+        this->sisTimer--;
     }
-    func_80AD9240(this, this->unk_19A, &this->actor.home.pos);
-    if (this->unk_19A == 0) {
-        func_80ADA2BC(this, play);
+    EnPoSisters_MoveTorchFlames(this, this->sisTimer, &this->actor.home.pos);
+    if (this->sisTimer == 0) {
+        EnPoSisters_SetupIntro5(this, play);
     }
 }
 
-void func_80ADBF58(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_IntroStep5(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    this->unk_19A--;
+    this->sisTimer--;
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x500);
-    if (this->unk_19A == 0 && this->sisterID == EN_PO_SIS_MEG) {
+    if (this->sisTimer == 0 && this->sisterID == EN_POESIS_MEG) {
         play->envCtx.lightSettingOverride = 4;
     }
-    if (this->unk_19A < 0) {
+    if (this->sisTimer < 0) {
         Math_StepToF(&this->actor.speed, 5.0f, 0.2f);
     }
-    if (this->unk_19A == -70 && this->sisterID == EN_PO_SIS_JOELLE) {
-        SfxSource_PlaySfxAtFixedWorldPos(play, &D_80ADD7BC, 40, NA_SE_EN_PO_LAUGH);
+    if (this->sisTimer == -70 && this->sisterID == EN_POESIS_JOELLE) {
+        SfxSource_PlaySfxAtFixedWorldPos(play, &sIntroLaughPos, 40, NA_SE_EN_PO_LAUGH);
     }
-    if (this->unk_19A < -120) {
+    if (this->sisTimer < -120) {
         Actor_Kill(&this->actor);
     }
 }
 
 void func_80ADC034(EnPoSisters* this, PlayState* play) {
-    if (this->actor.isLockedOn && this->unk_22E.a == 255) {
-        if (this->unk_197 != 0) {
-            this->unk_197--;
+    if (this->actor.isLockedOn && this->sisColor.a == 255) {
+        if (this->vanishTimer != 0) {
+            this->vanishTimer--;
         }
     } else {
-        this->unk_197 = 20;
+        this->vanishTimer = 20;
     }
-    if (this->unk_22E.a == 0) {
-        if (this->unk_19C != 0) {
-            this->unk_19C--;
+    if (this->sisColor.a == 0) {
+        if (this->sisVar != 0) {
+            this->sisVar--;
         }
     }
     if (this->actionFunc != func_80ADA7F0 && this->actionFunc != func_80ADA8C0 && this->actionFunc != func_80ADAAA4) {
-        if (this->unk_197 == 0) {
-            func_80AD9718(this);
-        } else if (this->unk_19C == 0 && this->unk_22E.a == 0) {
-            func_80AD98F4(this, play);
+        if (this->vanishTimer == 0) {
+            EnPoSisters_SetupVanish(this);
+        } else if (this->sisVar == 0 && this->sisColor.a == 0) {
+            EnPoSisters_SetupReveal(this, play);
         }
     }
 }
 
-void func_80ADC10C(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_CheckDamage(EnPoSisters* this, PlayState* play) {
     Vec3f sp24;
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
-        if (this->unk_195 != 0) {
-            ((EnPoSisters*)this->actor.parent)->unk_19C--;
+        if (this->decoyID != 0) {
+            ((EnPoSisters*)this->actor.parent)->sisVar--;
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
-            func_80AD9C24(this, play);
+            EnPoSisters_DecoySetup(this, play);
             if (Rand_ZeroOne() < 0.2f) {
                 sp24.x = this->actor.world.pos.x;
                 sp24.y = this->actor.world.pos.y;
@@ -1172,18 +1187,18 @@ void func_80ADC10C(EnPoSisters* this, PlayState* play) {
         } else if (this->collider.base.colMaterial == COL_MATERIAL_METAL ||
                    (this->actor.colChkInfo.damageReaction == POESIS_DMG_REACT_OTHER 
                     && this->actor.colChkInfo.damage == 0)) {
-            if (this->sisterID == EN_PO_SIS_MEG) {
+            if (this->sisterID == EN_POESIS_MEG) {
                 this->actor.freezeTimer = 0;
             }
         } else if (this->actor.colChkInfo.damageReaction == POESIS_DMG_REACT_NUT) {
             this->actor.world.rot.y = this->actor.shape.rot.y;
-            this->unk_199 |= 2;
-            func_80AD98F4(this, play);
-        } else if (this->sisterID == EN_PO_SIS_MEG &&
+            this->sisFlags |= EN_POESIS_FLAG02;
+            EnPoSisters_SetupReveal(this, play);
+        } else if (this->sisterID == EN_POESIS_MEG &&
             this->actor.colChkInfo.damageReaction == POESIS_DMG_REACT_SWORD &&
                    this->actionFunc == func_80ADB770) {
-            if (this->unk_19C == 0) {
-                this->unk_19C = -45;
+            if (this->sisVar == 0) {
+                this->sisVar = -45;
             }
         } else {
             if (Actor_ApplyDamage(&this->actor) != 0) {
@@ -1206,18 +1221,18 @@ void EnPoSisters_Update(Actor* thisx, PlayState* play) {
         this->collider.base.atFlags &= ~AT_HIT;
         func_80AD9568(this);
     }
-    func_80ADC10C(this, play);
-    if (this->unk_199 & 4) {
+    EnPoSisters_CheckDamage(this, play);
+    if (this->sisFlags & EN_POESIS_FLAG04) {
         func_80ADC034(this, play);
     }
     this->actionFunc(this, play);
-    if (this->unk_199 & 0x1F) {
-        if (this->unk_199 & 8) {
+    if (this->sisFlags & 0x1F) {
+        if (this->sisFlags & EN_POESIS_FLAG08) {
             func_80ADA35C(this, play);
         }
         Actor_MoveXZGravity(&this->actor);
 
-        if (this->unk_199 & 0x10) {
+        if (this->sisFlags & EN_POESIS_FLAG10) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 0.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         } else {
@@ -1233,26 +1248,26 @@ void EnPoSisters_Update(Actor* thisx, PlayState* play) {
 
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->actionFunc == func_80ADA8C0 || this->actionFunc == func_80ADA7F0) {
-            this->unk_198++;
-            this->unk_198 = CLAMP_MAX(this->unk_198, 8);
-        } else if (this->actionFunc != func_80ADAFC0) {
-            temp = this->unk_198 - 1;
-            this->unk_198 = CLAMP_MIN(temp, 1);
+            this->torchFlames++;
+            this->torchFlames = CLAMP_MAX(this->torchFlames, 8);
+        } else if (this->actionFunc != EnPoSisters_ReleaseFlame) {
+            temp = this->torchFlames - 1;
+            this->torchFlames = CLAMP_MIN(temp, 1);
         }
         if (this->actionFunc == func_80ADA8C0) {
             this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
-        if (this->unk_199 & 1) {
+        if (this->sisFlags & EN_POESIS_FLAG01) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
-        if (this->actionFunc != func_80ADB338) {
+        if (this->actionFunc != EnPoSisters_DecoyUpdate) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
         }
         Actor_SetFocus(&this->actor, 40.0f);
-        if (this->actionFunc == func_80ADAC70) {
+        if (this->actionFunc == EnPoSister_Hit) {
             this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
-        } else if (this->unk_199 & 2) {
+        } else if (this->sisFlags & EN_POESIS_FLAG02) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
         }
     }
@@ -1262,34 +1277,34 @@ void func_80ADC55C(EnPoSisters* this) {
     s16 temp_var;
 
     if (this->skelAnime.animation == &gPoeSistersAttackAnim) {
-        this->unk_22E.r = CLAMP_MAX((s16)(this->unk_22E.r + 5), 255);
-        this->unk_22E.g = CLAMP_MIN((s16)(this->unk_22E.g - 5), 50);
-        temp_var = this->unk_22E.b - 5;
-        this->unk_22E.b = CLAMP_MIN(temp_var, 0);
+        this->sisColor.r = CLAMP_MAX((s16)(this->sisColor.r + 5), 255);
+        this->sisColor.g = CLAMP_MIN((s16)(this->sisColor.g - 5), 50);
+        temp_var = this->sisColor.b - 5;
+        this->sisColor.b = CLAMP_MIN(temp_var, 0);
     } else if (this->skelAnime.animation == &gPoeSistersFleeAnim) {
-        this->unk_22E.r = CLAMP_MAX((s16)(this->unk_22E.r + 5), 80);
-        this->unk_22E.g = CLAMP_MAX((s16)(this->unk_22E.g + 5), 255);
-        temp_var = this->unk_22E.b + 5;
-        this->unk_22E.b = CLAMP_MAX(temp_var, 225);
+        this->sisColor.r = CLAMP_MAX((s16)(this->sisColor.r + 5), 80);
+        this->sisColor.g = CLAMP_MAX((s16)(this->sisColor.g + 5), 255);
+        temp_var = this->sisColor.b + 5;
+        this->sisColor.b = CLAMP_MAX(temp_var, 225);
     } else if (this->skelAnime.animation == &gPoeSistersDamagedAnim) {
         if (this->actor.colorFilterTimer & 2) {
-            this->unk_22E.r = 0;
-            this->unk_22E.g = 0;
-            this->unk_22E.b = 0;
+            this->sisColor.r = 0;
+            this->sisColor.g = 0;
+            this->sisColor.b = 0;
         } else {
-            this->unk_22E.r = 80;
-            this->unk_22E.g = 255;
-            this->unk_22E.b = 225;
+            this->sisColor.r = 80;
+            this->sisColor.g = 255;
+            this->sisColor.b = 225;
         }
     } else {
-        this->unk_22E.r = CLAMP_MAX((s16)(this->unk_22E.r + 5), 255);
-        this->unk_22E.g = CLAMP_MAX((s16)(this->unk_22E.g + 5), 255);
-        if (this->unk_22E.b > 210) {
-            temp_var = this->unk_22E.b - 5;
-            this->unk_22E.b = CLAMP_MIN(temp_var, 210);
+        this->sisColor.r = CLAMP_MAX((s16)(this->sisColor.r + 5), 255);
+        this->sisColor.g = CLAMP_MAX((s16)(this->sisColor.g + 5), 255);
+        if (this->sisColor.b > 210) {
+            temp_var = this->sisColor.b - 5;
+            this->sisColor.b = CLAMP_MIN(temp_var, 210);
         } else {
-            temp_var = this->unk_22E.b + 5;
-            this->unk_22E.b = CLAMP_MAX(temp_var, 210);
+            temp_var = this->sisColor.b + 5;
+            this->sisColor.b = CLAMP_MAX(temp_var, 210);
         }
     }
 }
@@ -1299,25 +1314,25 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     EnPoSisters* this = (EnPoSisters*)thisx;
     Color_RGBA8* color;
 
-    if (limbIndex == 1 && (this->unk_199 & 0x40)) {
-        if (this->unk_19A >= 284) {
-            rot->x += (this->unk_19A * 0x1000) - 0x11C000;
+    if (limbIndex == 1 && (this->sisFlags & EN_POESIS_FLAG40)) {
+        if (this->sisTimer >= 284) {
+            rot->x += (this->sisTimer * 0x1000) - 0x11C000;
         } else {
-            rot->x += (this->unk_19A * 0x1000) - 0xF000;
+            rot->x += (this->sisTimer * 0x1000) - 0xF000;
         }
     }
-    if (this->unk_22E.a == 0 || limbIndex == 8 || (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8)) {
+    if (this->sisColor.a == 0 || limbIndex == 8 || (this->actionFunc == EnPoSisters_ReleaseFlame && this->sisTimer >= 8)) {
         *dList = NULL;
     } else if (limbIndex == 9) {
         *dList = sSisterBodies[this->sisterID];
     } else if (limbIndex == 10) {
         *dList = sSisterFaces[this->sisterID];
         gDPPipeSync((*gfxP)++);
-        gDPSetEnvColor((*gfxP)++, this->unk_22E.r, this->unk_22E.g, this->unk_22E.b, this->unk_22E.a);
+        gDPSetEnvColor((*gfxP)++, this->sisColor.r, this->sisColor.g, this->sisColor.b, this->sisColor.a);
     } else if (limbIndex == 11) {
         color = &D_80ADD7E8[this->sisterID];
         gDPPipeSync((*gfxP)++);
-        gDPSetEnvColor((*gfxP)++, color->r, color->g, color->b, this->unk_22E.a);
+        gDPSetEnvColor((*gfxP)++, color->r, color->g, color->b, this->sisColor.a);
     }
     return false;
 }
@@ -1327,37 +1342,37 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
     s32 i;
     s32 pad;
 
-    if (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8 && limbIndex == 9) {
+    if (this->actionFunc == EnPoSisters_ReleaseFlame && this->sisTimer >= 8 && limbIndex == 9) {
         MATRIX_FINALIZE_AND_LOAD((*gfxP)++, play->state.gfxCtx, "../z_en_po_sisters.c", 2876);
         gSPDisplayList((*gfxP)++, gPoSistersBurnDL);
     }
-    if (limbIndex == 8 && this->actionFunc != func_80ADB2B8) {
-        if (this->unk_199 & 0x20) {
-            for (i = this->unk_198 - 1; i > 0; i--) {
-                this->unk_234[i] = this->unk_234[i - 1];
+    if (limbIndex == 8 && this->actionFunc != EnPoSisters_MegMourns) {
+        if (this->sisFlags & EN_POESIS_FLAG20) {
+            for (i = this->torchFlames - 1; i > 0; i--) {
+                this->torchPos[i] = this->torchPos[i - 1];
             }
-            Matrix_MultVec3f(&D_80ADD7F8, &this->unk_234[0]);
-        } else if (this->actionFunc == func_80ADBD8C) {
+            Matrix_MultVec3f(&D_80ADD7F8, &this->torchPos[0]);
+        } else if (this->actionFunc == EnPoSisters_IntroStep3) {
             Matrix_MultVec3f(&D_80ADD7F8, &this->actor.home.pos);
         }
-        if (this->unk_198 > 0) {
-            Color_RGBA8* color = &D_80ADD6F0[this->sisterID];
+        if (this->torchFlames > 0) {
+            Color_RGBA8* color = &sTorchLightColors[this->sisterID];
             f32 temp_f2 = Rand_ZeroOne() * 0.3f + 0.7f;
 
-            if (this->actionFunc == func_80ADB17C || this->actionFunc == func_80ADBD38 ||
-                this->actionFunc == func_80ADBEE8) {
-                Lights_PointNoGlowSetInfo(&this->lightInfo, this->unk_234[0].x, this->unk_234[0].y + 15.0f,
-                                          this->unk_234[0].z, color->r * temp_f2, color->g * temp_f2,
+            if (this->actionFunc == EnPoSister_Die || this->actionFunc == EnPoSisters_IntroStep2 ||
+                this->actionFunc == EnPoSisters_IntroStep4) {
+                Lights_PointNoGlowSetInfo(&this->lightInfo, this->torchPos[0].x, this->torchPos[0].y + 15.0f,
+                                          this->torchPos[0].z, color->r * temp_f2, color->g * temp_f2,
                                           color->b * temp_f2, 200);
             } else {
-                Lights_PointGlowSetInfo(&this->lightInfo, this->unk_234[0].x, this->unk_234[0].y + 15.0f,
-                                        this->unk_234[0].z, color->r * temp_f2, color->g * temp_f2, color->b * temp_f2,
+                Lights_PointGlowSetInfo(&this->lightInfo, this->torchPos[0].x, this->torchPos[0].y + 15.0f,
+                                        this->torchPos[0].z, color->r * temp_f2, color->g * temp_f2, color->b * temp_f2,
                                         200);
             }
         } else {
             Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
         }
-        if (!(this->unk_199 & 0x80)) {
+        if (!(this->sisFlags & EN_POESIS_FLAG80)) {
             Matrix_Get(&this->unk_2F8);
         }
     }
@@ -1369,28 +1384,28 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     f32 phi_f20;
     s32 i;
     u8 phi_s5;
-    Color_RGBA8* temp_s1 = &D_80ADD700[this->sisterID];
-    Color_RGBA8* temp_s7 = &D_80ADD6F0[this->sisterID];
+    Color_RGBA8* temp_s1 = &sTorchFlameColors[this->sisterID];
+    Color_RGBA8* temp_s7 = &sTorchLightColors[this->sisterID];
     s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_po_sisters.c", 2989);
     func_80ADC55C(this);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    if (this->unk_22E.a == 255 || this->unk_22E.a == 0) {
-        gDPSetEnvColor(POLY_OPA_DISP++, this->unk_22E.r, this->unk_22E.g, this->unk_22E.b, this->unk_22E.a);
+    if (this->sisColor.a == 255 || this->sisColor.a == 0) {
+        gDPSetEnvColor(POLY_OPA_DISP++, this->sisColor.r, this->sisColor.g, this->sisColor.b, this->sisColor.a);
         gSPSegment(POLY_OPA_DISP++, 0x09, D_80116280 + 2);
         POLY_OPA_DISP =
             SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoSisters_OverrideLimbDraw,
                            EnPoSisters_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
-        gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->unk_22E.a);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->sisColor.a);
         gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
         POLY_XLU_DISP =
             SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoSisters_OverrideLimbDraw,
                            EnPoSisters_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     }
-    if (!(this->unk_199 & 0x80)) {
+    if (!(this->sisFlags & EN_POESIS_FLAG80)) {
         Matrix_Put(&this->unk_2F8);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_po_sisters.c", 3034);
         gSPDisplayList(POLY_OPA_DISP++, gPoSistersTorchDL);
@@ -1399,38 +1414,38 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                 (play->gameplayFrames * -20) % 512, 0x20, 0x80));
     gDPSetEnvColor(POLY_XLU_DISP++, temp_s1->r, temp_s1->g, temp_s1->b, temp_s1->a);
-    if (this->actionFunc == func_80ADB17C) {
-        if (this->unk_19A < 32) {
-            phi_s5 = ((32 - this->unk_19A) * 255) / 32;
+    if (this->actionFunc == EnPoSister_Die) {
+        if (this->sisTimer < 32) {
+            phi_s5 = ((32 - this->sisTimer) * 255) / 32;
             phi_f20 = 0.0056000003f;
         } else {
-            phi_s5 = (this->unk_19A * 255 - 8160) / 32;
+            phi_s5 = (this->sisTimer * 255 - 8160) / 32;
             phi_f20 = 0.0027f;
         }
-    } else if (this->actionFunc == func_80ADBD38) {
-        phi_s5 = ((32 - this->unk_19A) * 255) / 32;
+    } else if (this->actionFunc == EnPoSisters_IntroStep2) {
+        phi_s5 = ((32 - this->sisTimer) * 255) / 32;
         phi_f20 = 0.0027f;
-    } else if (this->actionFunc == func_80ADBEE8) {
-        phi_s5 = ((32 - this->unk_19A) * 255) / 32;
+    } else if (this->actionFunc == EnPoSisters_IntroStep4) {
+        phi_s5 = ((32 - this->sisTimer) * 255) / 32;
         phi_f20 = 0.0035f;
-    } else if (this->actionFunc == func_80ADBC88) {
+    } else if (this->actionFunc == EnPoSisters_IntroStep1) {
         // phi_s5 initialized in loop below
         phi_f20 = 0.0027f;
     } else {
         // phi_s5 initialized in loop below
         phi_f20 = this->actor.scale.x * 0.5f;
     }
-    for (i = 0; i < this->unk_198; i++) {
-        if (this->actionFunc != func_80ADB17C && this->actionFunc != func_80ADBD38 &&
-            this->actionFunc != func_80ADBEE8) {
+    for (i = 0; i < this->torchFlames; i++) {
+        if (this->actionFunc != EnPoSister_Die && this->actionFunc != EnPoSisters_IntroStep2 &&
+            this->actionFunc != EnPoSisters_IntroStep4) {
             phi_s5 = -i * 31 + 248;
         }
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, temp_s7->r, temp_s7->g, temp_s7->b, phi_s5);
-        Matrix_Translate(this->unk_234[i].x, this->unk_234[i].y, this->unk_234[i].z, MTXMODE_NEW);
+        Matrix_Translate(this->torchPos[i].x, this->torchPos[i].y, this->torchPos[i].z, MTXMODE_NEW);
         Matrix_RotateZYX(0, (s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000), 0, MTXMODE_APPLY);
-        if (this->actionFunc == func_80ADAFC0) {
-            phi_f20 = (this->unk_19A - i) * 0.025f + 0.5f;
+        if (this->actionFunc == EnPoSisters_ReleaseFlame) {
+            phi_f20 = (this->sisTimer - i) * 0.025f + 0.5f;
             phi_f20 = CLAMP(phi_f20, 0.5f, 0.8f) * 0.007f;
         }
         Matrix_Scale(phi_f20, phi_f20, phi_f20, MTXMODE_APPLY);

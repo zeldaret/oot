@@ -14,18 +14,18 @@ typedef struct EnPoSisters {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnPoSistersActionFunc actionFunc;
     /* 0x0194 */ u8 sisterID; // which Poe sister this is
-    /* 0x0195 */ u8 unk_195;
-    /* 0x0196 */ u8 unk_196;
-    /* 0x0197 */ u8 unk_197;
-    /* 0x0198 */ u8 unk_198;
-    /* 0x0199 */ u8 unk_199;
-    /* 0x019A */ s16 unk_19A;
-    /* 0x019A */ s16 unk_19C;
+    /* 0x0195 */ u8 decoyID; // if non-zero, index of Meg's decoy
+    /* 0x0196 */ u8 hoverPulse;
+    /* 0x0197 */ u8 vanishTimer;
+    /* 0x0198 */ u8 torchFlames; // number of torch flames to draw
+    /* 0x0199 */ u8 sisFlags;  // uses EnPoSisFlags
+    /* 0x019A */ s16 sisTimer; // timer used for various situations
+    /* 0x019C */ s16 sisVar; // used in different ways, Meg counts her decoys with this
     /* 0x019E */ Vec3s jointTable[12];
     /* 0x01E6 */ Vec3s morphTable[12];
-    /* 0x022E */ Color_RGBA8 unk_22E;
-    /* 0x0234 */ Vec3f unk_234[8];
-    /* 0x0294 */ f32 unk_294;
+    /* 0x022E */ Color_RGBA8 sisColor; // (rgb) for eyes, (a) for rest of body
+    /* 0x0234 */ Vec3f torchPos[8]; // positions of the torch flame and smaller circling flames
+    /* 0x0294 */ f32 circleDist; // distance of Meg when circling Link.
     /* 0x0298 */ LightNode* lightNode;
     /* 0x029C */ LightInfo lightInfo;
     /* 0x02AC */ ColliderCylinder collider;
@@ -33,11 +33,24 @@ typedef struct EnPoSisters {
 } EnPoSisters; // size = 0x0338
 
 typedef enum EnPoSisNames{
-    EN_PO_SIS_MEG,    // purple sister, circles link with decoys
-    EN_PO_SIS_JOELLE, // red sister, hides in portraits
-    EN_PO_SIS_BETH,   // blue sister, hides in portraits
-    EN_PO_SIS_AMY,    // green sister, hides in block puzzle
-};
+    EN_POESIS_MEG,    // purple sister, circles Link with decoys
+    EN_POESIS_JOELLE, // red sister, hides in portraits
+    EN_POESIS_BETH,   // blue sister, hides in portraits
+    EN_POESIS_AMY,    // green sister, hides in block puzzle
+} EnPoSisNames;
 
+typedef enum EnPoSisFlags{
+    EN_POESIS_FLAG01=1<<0,
+    EN_POESIS_FLAG02=1<<1,
+    EN_POESIS_FLAG04=1<<2,
+    EN_POESIS_FLAG08=1<<3,
+    EN_POESIS_FLAG10=1<<4,
+    EN_POESIS_FLAG20=1<<5,
+    EN_POESIS_FLAG40=1<<6,
+    EN_POESIS_FLAG80=1<<7,
+} EnPoSisFlags;
+
+#define EN_POESIS_DECOY_PARAM 1<<10 // param for Meg's decoys
+#define EN_POESIS_INTRO_PARAM 1<<12 // param for Poe Sisters when entering foyer
 
 #endif
