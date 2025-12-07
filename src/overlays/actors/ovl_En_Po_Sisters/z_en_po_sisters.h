@@ -40,14 +40,14 @@ typedef enum EnPoSisNames{
 } EnPoSisNames;
 
 typedef enum EnPoSisFlags{
-    EN_POESIS_FLAG01=1<<0,
-    EN_POESIS_FLAG02=1<<1,
-    EN_POESIS_FLAG04=1<<2,
-    EN_POESIS_FLAG08=1<<3,
-    EN_POESIS_FLAG10=1<<4,
-    EN_POESIS_FLAG20=1<<5,
-    EN_POESIS_FLAG40=1<<6,
-    EN_POESIS_FLAG80=1<<7,
+    EN_POESIS_FLAG_ACCOL=1<<0, // set AC collision
+    EN_POESIS_FLAG_ROTATE=1<<1, // set shape.rot.y to world.rot.y
+    EN_POESIS_FLAG_VANISH=1<<2, // tick vanishTimer, then disappear if 0.
+    EN_POESIS_FLAG_HOVER=1<<3, // hover up and down a few inches
+    EN_POESIS_FLAG_BGCHECK=1<<4,// BGCheck floors and walls
+    EN_POESIS_FLAG_TORCH=1<<5, // manipulate torch flames
+    EN_POESIS_FLAG_SPIN=1<<6, // the real Meg spins as a tell
+    EN_POESIS_FLAG_NOMTXF=1<<7, //don't read or write unk_2F8
 } EnPoSisFlags;
 
 #define EN_POESIS_DECOY_PARAM 1<<10 // param for Meg's decoys
