@@ -193,7 +193,7 @@ static Gfx* sSisterFaces[4] = {
     gPoSistersAmyFaceDL,
 };
 
-static Color_RGBA8 D_80ADD7E8[4] = {
+static Color_RGBA8 sLimb11Colors[4] = {
     { 80, 0, 100, 0 },
     { 80, 15, 0, 0 },
     { 0, 70, 50, 0 },
@@ -665,14 +665,14 @@ void EnPoSisters_FightState1(EnPoSisters* this, PlayState* play) {
 
 void EnPoSisters_FightState2(EnPoSisters* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 temp_v0;
+    s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
-    temp_v0 = this->actor.yawTowardsPlayer - player->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsPlayer - player->actor.shape.rot.y;
     Math_StepToF(&this->actor.speed, 2.0f, 0.2f);
-    if (temp_v0 > 0x3000) {
+    if (yawDiff > 0x3000) {
         Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x3000, 1820);
-    } else if (temp_v0 < -0x3000) {
+    } else if (yawDiff < -0x3000) {
         Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer - 0x3000, 1820);
     } else {
         Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1820);
@@ -1176,7 +1176,7 @@ void EnPoSisters_TickVanish(EnPoSisters* this, PlayState* play) {
 }
 
 void EnPoSisters_CheckDamage(EnPoSisters* this, PlayState* play) {
-    Vec3f sp24;
+    Vec3f itemPos;
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
@@ -1186,10 +1186,10 @@ void EnPoSisters_CheckDamage(EnPoSisters* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
             EnPoSisters_DecoySetup(this, play);
             if (Rand_ZeroOne() < 0.2f) {
-                sp24.x = this->actor.world.pos.x;
-                sp24.y = this->actor.world.pos.y;
-                sp24.z = this->actor.world.pos.z;
-                Item_DropCollectible(play, &sp24, ITEM00_ARROWS_SMALL);
+                itemPos.x = this->actor.world.pos.x;
+                itemPos.y = this->actor.world.pos.y;
+                itemPos.z = this->actor.world.pos.z;
+                Item_DropCollectible(play, &itemPos, ITEM00_ARROWS_SMALL);
             }
         } else if (this->collider.base.colMaterial == COL_MATERIAL_METAL ||
                    (this->actor.colChkInfo.damageReaction == POESIS_DMG_REACT_OTHER 
@@ -1339,7 +1339,7 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         gDPPipeSync((*gfxP)++);
         gDPSetEnvColor((*gfxP)++, this->sisColor.r, this->sisColor.g, this->sisColor.b, this->sisColor.a);
     } else if (limbIndex == 11) {
-        color = &D_80ADD7E8[this->sisterID];
+        color = &sLimb11Colors[this->sisterID];
         gDPPipeSync((*gfxP)++);
         gDPSetEnvColor((*gfxP)++, color->r, color->g, color->b, this->sisColor.a);
     }
@@ -1393,8 +1393,8 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     f32 scale;
     s32 i;
     u8 alpha;
-    Color_RGBA8* temp_s1 = &sTorchFlameColors[this->sisterID];
-    Color_RGBA8* temp_s7 = &sTorchLightColors[this->sisterID];
+    Color_RGBA8* fireColor = &sTorchFlameColors[this->sisterID];
+    Color_RGBA8* lightColor = &sTorchLightColors[this->sisterID];
     s32 pad2;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_po_sisters.c", 2989);
@@ -1422,7 +1422,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
                                 (play->gameplayFrames * -20) % 512, 0x20, 0x80));
-    gDPSetEnvColor(POLY_XLU_DISP++, temp_s1->r, temp_s1->g, temp_s1->b, temp_s1->a);
+    gDPSetEnvColor(POLY_XLU_DISP++, fireColor->r, fireColor->g, fireColor->b, fireColor->a);
     if (this->actionFunc == EnPoSisters_Die) {
         if (this->sisTimer < 32) {
             alpha = ((32 - this->sisTimer) * 255) / 32;
@@ -1450,7 +1450,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
             alpha = -i * 31 + 248;
         }
         gDPPipeSync(POLY_XLU_DISP++);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, temp_s7->r, temp_s7->g, temp_s7->b, alpha);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, lightColor->r, lightColor->g, lightColor->b, alpha);
         Matrix_Translate(this->torchPos[i].x, this->torchPos[i].y, this->torchPos[i].z, MTXMODE_NEW);
         Matrix_RotateZYX(0, (s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000), 0, MTXMODE_APPLY);
         if (this->actionFunc == EnPoSisters_ReleaseFlame) {
