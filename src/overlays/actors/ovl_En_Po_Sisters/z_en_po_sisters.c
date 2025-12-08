@@ -177,45 +177,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(lockOnArrowOffset, 6000, ICHAIN_STOP),
 };
 
-static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
-
-// y-rotations when leaving foyer at end of intro scene
-static s16 sIntroExitFacings[4] = { 0xB000, 0xD000, 0x5000, 0x3000 };
-
-// positions for torches to be lit during death cutscene
-static Vec3s sDeathTorchPos[4] = {
-    { -22, 337, -1704 },
-    { -431, 879, -3410 },
-    { 549, 879, -3410 },
-    { 1717, 515, -1340 },
-};
-
-// position of laugh at the end of sisters' intro animation
-static Vec3f sIntroLaughPos = { 120.0f, 250.0f, -1420.0f };
-
-static Gfx* sSisterBodies[4] = {
-    gPoeSistersMegBodyDL,
-    gPoeSistersJoelleBodyDL,
-    gPoeSistersBethBodyDL,
-    gPoeSistersAmyBodyDL,
-};
-
-static Gfx* sSisterFaces[4] = {
-    gPoeSistersMegFaceDL,
-    gPoeSistersJoelleFaceDL,
-    gPoeSistersBethFaceDL,
-    gPoSistersAmyFaceDL,
-};
-
-static Color_RGBA8 sLimb11Colors[4] = {
-    { 80, 0, 100, 0 },
-    { 80, 15, 0, 0 },
-    { 0, 70, 50, 0 },
-    { 70, 70, 0, 0 },
-};
-
-static Vec3f sTorchVec = { 1000.0f, -1700.0f, 0.0f };
-
 void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     EnPoSisters* this = (EnPoSisters*)thisx;
     s32 pad;
@@ -468,6 +429,7 @@ void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play) {
 }
 
 void EnPoSisters_DecoySetup(EnPoSisters* this, PlayState* play) {
+    static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
     Vec3f vec;
 
     this->actor.draw = NULL;
@@ -601,6 +563,9 @@ void EnPoSisters_SetupIntro4(EnPoSisters* this) {
 }
 
 void EnPoSisters_SetupIntro5(EnPoSisters* this, PlayState* play) {
+    // y-rotations when leaving foyer at end of intro scene
+    static s16 sIntroExitFacings[4] = { 0xB000, 0xD000, 0x5000, 0x3000 };
+
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     this->torchFlames = 0;
     this->sisterFlags = EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_TORCH;
@@ -861,6 +826,15 @@ void EnPoSisters_ReleaseFlame(EnPoSisters* this, PlayState* play) {
 
 /* Show the flame moving back to the proper torch */
 void EnPoSisters_Die(EnPoSisters* this, PlayState* play) {
+    
+    // positions for torches to be lit during death cutscene
+    static Vec3s sDeathTorchPos[4] = {
+        { -22, 337, -1704 },
+        { -431, 879, -3410 },
+        { 549, 879, -3410 },
+        { 1717, 515, -1340 },
+    };
+
     this->sisterTimer++;
     if (this->sisterTimer == 64) {
         Flags_SetSwitch(play, this->actor.params);
@@ -1147,6 +1121,10 @@ void EnPoSisters_IntroStep4(EnPoSisters* this, PlayState* play) {
 }
 
 void EnPoSisters_IntroStep5(EnPoSisters* this, PlayState* play) {
+    
+    // position of laugh at the end of sisters' intro animation
+    static Vec3f sIntroLaughPos = { 120.0f, 250.0f, -1420.0f };
+
     SkelAnime_Update(&this->skelAnime);
     this->sisterTimer--;
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x500);
@@ -1334,6 +1312,27 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     EnPoSisters* this = (EnPoSisters*)thisx;
     Color_RGBA8* color;
 
+    static Gfx* sSisterBodies[4] = {
+    gPoeSistersMegBodyDL,
+    gPoeSistersJoelleBodyDL,
+    gPoeSistersBethBodyDL,
+    gPoeSistersAmyBodyDL,
+    };
+
+    static Gfx* sSisterFaces[4] = {
+    gPoeSistersMegFaceDL,
+    gPoeSistersJoelleFaceDL,
+    gPoeSistersBethFaceDL,
+    gPoSistersAmyFaceDL,
+    };
+
+    static Color_RGBA8 sLimb11Colors[4] = {
+    { 80, 0, 100, 0 },
+    { 80, 15, 0, 0 },
+    { 0, 70, 50, 0 },
+    { 70, 70, 0, 0 },
+    };
+
     if (limbIndex == 1 && (this->sisterFlags & EN_PO_SISTERS_FLAG_SPIN)) {
         if (this->sisterTimer >= 284) {
             rot->x += (this->sisterTimer * 0x1000) - 0x11C000;
@@ -1359,6 +1358,9 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
+    
+    static Vec3f sTorchVec = { 1000.0f, -1700.0f, 0.0f };
+    
     EnPoSisters* this = (EnPoSisters*)thisx;
     s32 i;
     s32 pad;
