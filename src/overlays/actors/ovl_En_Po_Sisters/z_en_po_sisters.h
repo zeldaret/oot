@@ -32,14 +32,14 @@ typedef struct EnPoSisters {
     /* 0x02F8 */ MtxF torchMtx;
 } EnPoSisters; // size = 0x0338
 
-typedef enum EnPoSisNames{
+typedef enum EnPoSisNames {
     EN_POESIS_MEG,    // purple sister, circles Link with decoys
     EN_POESIS_JOELLE, // red sister, hides in portraits
     EN_POESIS_BETH,   // blue sister, hides in portraits
     EN_POESIS_AMY,    // green sister, hides in block puzzle
 } EnPoSisNames;
 
-typedef enum EnPoSisFlags{
+typedef enum EnPoSisFlags {
     EN_POESIS_FLAG_ACCOL=1<<0, // set AC collision
     EN_POESIS_FLAG_ROTATE=1<<1, // set shape.rot.y to world.rot.y
     EN_POESIS_FLAG_VANISH=1<<2, // tick vanishTimer, then disappear if 0.
