@@ -39,7 +39,8 @@ typedef enum EnPoSisterNames {
     EN_PO_SISTERS_AMY,    // green sister, hides in block puzzle
 } EnPoSisterNames;
 
-#define EN_PO_SISTERS_PARAM(name) (EN_PO_SISTERS_#name << 8) // param for which sister
+#define EN_PO_SISTERS_PARAM_N(n) (n << 8) // param for which sister by number
+#define EN_PO_SISTERS_PARAM(name) (EN_PO_SISTERS_##name << 8) // param for which sister by name
 #define EN_PO_SISTERS_DECOY_PARAM (1 << 10) // param for Meg's decoys
 #define EN_PO_SISTERS_INTRO_PARAM (1 << 12) // param for Poe Sisters when first entering foyer
 

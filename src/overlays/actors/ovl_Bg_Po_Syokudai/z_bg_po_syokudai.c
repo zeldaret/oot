@@ -6,6 +6,8 @@
 
 #include "z_bg_po_syokudai.h"
 
+#include "overlays/actors/ovl_En_Po_Sisters/z_en_po_sisters.h"
+
 #include "libc64/qrand.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -116,7 +118,8 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
     } else if (!Flags_GetSwitch(play, POE_TORCH_FLAG + POE_FLAME_PURPLE) && !Flags_GetSwitch(play, 0x1B)) {
 
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, thisx->world.pos.x, thisx->world.pos.y + 52.0f,
-                    thisx->world.pos.z, 0, 0, 0, (this->flameColor << 8) + thisx->params + 0x1000);
+                    thisx->world.pos.z, 0, 0, 0, 
+                    EN_PO_SISTERS_PARAM_N(this->flameColor) + thisx->params + EN_PO_SISTERS_INTRO_PARAM);
 
     } else if (!Flags_GetSwitch(play, thisx->params)) {
         if (play->envCtx.lightSettingOverride == LIGHT_SETTING_OVERRIDE_NONE) {
