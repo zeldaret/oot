@@ -284,7 +284,7 @@ void EnPoSisters_FightSetup(EnPoSisters* this) {
         Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     }
     this->sisTimer = Rand_S16Offset(15, 3);
-    this->sisFlags |= EN_POESIS_FLAG_VANISH | EN_POESIS_FLAG_ROTATE | EN_POESIS_FLAG_ACCOL;
+    this->sisFlags |= (EN_POESIS_FLAG_VANISH | EN_POESIS_FLAG_ROTATE | EN_POESIS_FLAG_ACCOL);
     this->actionFunc = EnPoSisters_FightState1;
 }
 
@@ -423,11 +423,11 @@ void EnPoSisters_ItemDrop(EnPoSisters* this, PlayState* play) {
 (or destroy the decoys and herself if one decoy fails.)*/
 void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play) {
     Actor* actor1 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
-                                this->actor.world.pos.z, 0, 0, 0, ((EN_POESIS_DECOY_PARAM) << 0));
+                                this->actor.world.pos.z, 0, 0, 0, ((EN_POESIS_DECOY_PARAM) * 1));
     Actor* actor2 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
-                                this->actor.world.pos.z, 0, 0, 0, ((EN_POESIS_DECOY_PARAM) << 1));
+                                this->actor.world.pos.z, 0, 0, 0, ((EN_POESIS_DECOY_PARAM) * 2));
     Actor* actor3 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
-                                this->actor.world.pos.z, 0, 0, 0,((EN_POESIS_DECOY_PARAM) << 2));
+                                this->actor.world.pos.z, 0, 0, 0, ((EN_POESIS_DECOY_PARAM) * 3));
     s32 pad;
     s32 pad1;
 
@@ -515,7 +515,7 @@ void EnPoSisters_MegFightInit(EnPoSisters* this) {
     this->sisColor.a = 255;
     this->sisTimer = 300;
     this->megVar = 3;
-    this->sisFlags |= EN_POESIS_FLAG_HOVER|EN_POESIS_FLAG_ACCOL;
+    this->sisFlags |= (EN_POESIS_FLAG_HOVER | EN_POESIS_FLAG_ACCOL);
     this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnPoSisters_MegFightStep1;
 }
@@ -530,7 +530,7 @@ void EnPoSisters_JoelleBethInit(EnPoSisters* this) {
         this->actor.home.pos.z = -3440.0f;
     }
     Animation_PlayLoop(&this->skelAnime, &gPoeSistersFloatAnim);
-    this->sisFlags |= EN_POESIS_FLAG_HOVER | EN_POESIS_FLAG_ROTATE;
+    this->sisFlags |= (EN_POESIS_FLAG_HOVER | EN_POESIS_FLAG_ROTATE);
     this->actionFunc = EnPoSisters_JoelleBethMove;
     this->actor.speed = 5.0f;
 }
