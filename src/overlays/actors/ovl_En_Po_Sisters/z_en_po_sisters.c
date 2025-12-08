@@ -115,17 +115,11 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 25, 60, 40 };
 
-typedef enum PoeSisDamageReaction {
-    EN_PO_SISTERS_DMG_REACT_OTHER,
-    EN_PO_SISTERS_DMG_REACT_SWORD=14,
-    EN_PO_SISTERS_DMG_REACT_NUT,
-};
-
 typedef enum EnPoSisterFlags {
     EN_PO_SISTERS_FLAG_ACCOL=1<<0, // set AC collision
     EN_PO_SISTERS_FLAG_ROTATE=1<<1, // set shape.rot.y to world.rot.y
     EN_PO_SISTERS_FLAG_VANISH=1<<2, // tick vanishTimer, then disappear if 0.
-    EN_PO_SISTERS_FLAG_HOVER=1<<3, // hover up and down a few inches
+    EN_PO_SISTERS_FLAG_HOVER=1<<3, // hover up and down a few units towards y-target
     EN_PO_SISTERS_FLAG_BGCHECK=1<<4,// BGCheck floors and walls
     EN_PO_SISTERS_FLAG_UPDATEMASK=(EN_PO_SISTERS_FLAG_ACCOL|EN_PO_SISTERS_FLAG_ROTATE|
         EN_PO_SISTERS_FLAG_VANISH|EN_PO_SISTERS_FLAG_HOVER|EN_PO_SISTERS_FLAG_BGCHECK),
@@ -133,6 +127,12 @@ typedef enum EnPoSisterFlags {
     EN_PO_SISTERS_FLAG_SPIN=1<<6, // the real Meg spins as a tell
     EN_PO_SISTERS_FLAG_NOMTXF=1<<7, //don't read or write torchMtx
 } EnPoSisterFlags;
+
+typedef enum PoeSisDamageReaction {
+    EN_PO_SISTERS_DMG_REACT_OTHER,
+    EN_PO_SISTERS_DMG_REACT_SWORD=14,
+    EN_PO_SISTERS_DMG_REACT_NUT,
+};
 
 
 static DamageTable sDamageTable = {
@@ -351,7 +351,7 @@ void EnPoSisters_HitSetup(EnPoSisters* this) {
     if (this->sisterID != EN_PO_SISTERS_MEG) {
         this->actor.speed = 10.0f;
     }
-    this->sisterFlags &= ~(EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_ROTATE);
+    this->sisterFlags &= ~(EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_ROTATE | EN_PO_SISTERS_FLAG_ACCOL);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 16);
     this->actionFunc = EnPoSisters_Hit;
 }
@@ -624,6 +624,8 @@ void EnPoSisters_Hover(EnPoSisters* this, PlayState* play) {
     } else if (this->sisterID == EN_PO_SISTERS_MEG || this->sisterID == EN_PO_SISTERS_AMY) {
         targetY = player->actor.world.pos.y + 5.0f;
     } else {
+        // Beth and Joelle are hard-coded to the worldspace-y
+        // at the botttom of their rooms' staircase
         targetY = 832.0f;
     }
     Math_ApproachF(&this->actor.world.pos.y, targetY, 0.5f, 3.0f);

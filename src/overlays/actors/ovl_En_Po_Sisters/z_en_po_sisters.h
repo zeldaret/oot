@@ -18,7 +18,7 @@ typedef struct EnPoSisters {
     /* 0x0196 */ u8 hoverPulse;
     /* 0x0197 */ u8 vanishTimer;
     /* 0x0198 */ u8 torchFlames; // number of torch flames to draw
-    /* 0x0199 */ u8 sisterFlags;  // uses EnPoSisFlags
+    /* 0x0199 */ u8 sisterFlags;  // uses EnPoSisterFlags
     /* 0x019A */ s16 sisterTimer; // timer used for various situations
     /* 0x019C */ s16 megVar; // Meg and her decoys use it as a behaviour timer
     /* 0x019E */ Vec3s jointTable[12];
@@ -39,7 +39,7 @@ typedef enum EnPoSisterNames {
     EN_PO_SISTERS_AMY,    // green sister, hides in block puzzle
 } EnPoSisterNames;
 
-
+#define EN_PO_SISTERS_PARAM(name) (EN_PO_SISTERS_#name << 8) // param for which sister
 #define EN_PO_SISTERS_DECOY_PARAM (1 << 10) // param for Meg's decoys
 #define EN_PO_SISTERS_INTRO_PARAM (1 << 12) // param for Poe Sisters when first entering foyer
 
