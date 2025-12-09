@@ -116,13 +116,13 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 25, 60, 40 };
 
 typedef enum EnPoSisterFlags {
-    EN_PO_SISTERS_FLAG_ACCOL= 1 << 0,    // set AC collision
+    EN_PO_SISTERS_FLAG_ACCOL = 1 << 0,   // set AC collision
     EN_PO_SISTERS_FLAG_ROTATE = 1 << 1,  // set shape.rot.y to world.rot.y
     EN_PO_SISTERS_FLAG_VANISH = 1 << 2,  // tick vanishTimer, then disappear if 0.
     EN_PO_SISTERS_FLAG_HOVER = 1 << 3,   // hover up and down a few units towards y-target
     EN_PO_SISTERS_FLAG_BGCHECK = 1 << 4, // BGCheck floors and walls
-    EN_PO_SISTERS_FLAG_UPDATEMASK=(EN_PO_SISTERS_FLAG_ACCOL | EN_PO_SISTERS_FLAG_ROTATE | EN_PO_SISTERS_FLAG_VANISH |
-                                   EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_BGCHECK),
+    EN_PO_SISTERS_FLAG_UPDATEMASK = (EN_PO_SISTERS_FLAG_ACCOL | EN_PO_SISTERS_FLAG_ROTATE | EN_PO_SISTERS_FLAG_VANISH |
+                                     EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_BGCHECK),
     EN_PO_SISTERS_FLAG_TORCH = 1 << 5,  // manipulate torch flames
     EN_PO_SISTERS_FLAG_SPIN = 1 << 6,   // the real Meg spins as a tell
     EN_PO_SISTERS_FLAG_NOMTXF = 1 << 7, // don't read or write torchMtx
@@ -398,13 +398,13 @@ void EnPoSisters_ItemDrop(EnPoSisters* this, PlayState* play) {
 void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play) {
     Actor* actor1 =
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 1));
+                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM)*1));
     Actor* actor2 =
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 2));
+                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM)*2));
     Actor* actor3 =
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 3));
+                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM)*3));
     s32 pad;
     s32 pad1;
 
@@ -732,7 +732,7 @@ void EnPoSisters_Hit(EnPoSisters* this, PlayState* play) {
     if (this->decoyID != 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.parent->shape.rot.y,
                            (this->decoyID == 2) ? 0x800 : 0x400);
-        this->sisterColor.a = 
+        this->sisterColor.a =
             ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
         this->actor.world.pos.y = this->actor.parent->world.pos.y;
         EnPoSisters_CircleUpdate(this, play);
@@ -1383,16 +1383,16 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
         }
         if (this->torchFlames > 0) {
             Color_RGBA8* color = &sTorchLightColors[this->sisterID];
-            f32 temp_f2 = Rand_ZeroOne() * 0.3f + 0.7f;
+            f32 flicker = Rand_ZeroOne() * 0.3f + 0.7f;
 
             if (this->actionFunc == EnPoSisters_Die || this->actionFunc == EnPoSisters_IntroStep2 ||
                 this->actionFunc == EnPoSisters_IntroStep4) {
                 Lights_PointNoGlowSetInfo(&this->lightInfo, this->torchPos[0].x, this->torchPos[0].y + 15.0f,
-                                          this->torchPos[0].z, color->r * temp_f2, color->g * temp_f2,
-                                          color->b * temp_f2, 200);
+                                          this->torchPos[0].z, color->r * flicker, color->g * flicker,
+                                          color->b * flicker, 200);
             } else {
                 Lights_PointGlowSetInfo(&this->lightInfo, this->torchPos[0].x, this->torchPos[0].y + 15.0f,
-                                        this->torchPos[0].z, color->r * temp_f2, color->g * temp_f2, color->b * temp_f2,
+                                        this->torchPos[0].z, color->r * flicker, color->g * flicker, color->b * flicker,
                                         200);
             }
         } else {
