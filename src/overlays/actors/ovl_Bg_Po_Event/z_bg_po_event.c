@@ -551,7 +551,7 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play) {
     } else if (this->collider.base.acFlags & AC_HIT) {
         if (!BgPoEvent_NextPainting(this)) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, thisx->world.pos.x, thisx->world.pos.y - 40.0f,
-                        thisx->world.pos.z, 0, thisx->shape.rot.y, 0, 
+                        thisx->world.pos.z, 0, thisx->shape.rot.y, 0,
                         thisx->params + EN_PO_SISTERS_PARAM_N((this->type - 1)));
             OnePointCutscene_Init(play, 3160, 80, thisx, CAM_ID_MAIN);
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);

@@ -118,7 +118,7 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
     } else if (!Flags_GetSwitch(play, POE_TORCH_FLAG + POE_FLAME_PURPLE) && !Flags_GetSwitch(play, 0x1B)) {
 
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, thisx->world.pos.x, thisx->world.pos.y + 52.0f,
-                    thisx->world.pos.z, 0, 0, 0, 
+                    thisx->world.pos.z, 0, 0, 0,
                     EN_PO_SISTERS_PARAM_N(this->flameColor) + thisx->params + EN_PO_SISTERS_INTRO_PARAM);
 
     } else if (!Flags_GetSwitch(play, thisx->params)) {

@@ -116,21 +116,21 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 25, 60, 40 };
 
 typedef enum EnPoSisterFlags {
-    EN_PO_SISTERS_FLAG_ACCOL=1<<0, // set AC collision
-    EN_PO_SISTERS_FLAG_ROTATE=1<<1, // set shape.rot.y to world.rot.y
-    EN_PO_SISTERS_FLAG_VANISH=1<<2, // tick vanishTimer, then disappear if 0.
-    EN_PO_SISTERS_FLAG_HOVER=1<<3, // hover up and down a few units towards y-target
-    EN_PO_SISTERS_FLAG_BGCHECK=1<<4,// BGCheck floors and walls
-    EN_PO_SISTERS_FLAG_UPDATEMASK=(EN_PO_SISTERS_FLAG_ACCOL|EN_PO_SISTERS_FLAG_ROTATE|
-        EN_PO_SISTERS_FLAG_VANISH|EN_PO_SISTERS_FLAG_HOVER|EN_PO_SISTERS_FLAG_BGCHECK),
-    EN_PO_SISTERS_FLAG_TORCH=1<<5, // manipulate torch flames
-    EN_PO_SISTERS_FLAG_SPIN=1<<6, // the real Meg spins as a tell
-    EN_PO_SISTERS_FLAG_NOMTXF=1<<7, //don't read or write torchMtx
+    EN_PO_SISTERS_FLAG_ACCOL= 1 << 0,    // set AC collision
+    EN_PO_SISTERS_FLAG_ROTATE = 1 << 1,  // set shape.rot.y to world.rot.y
+    EN_PO_SISTERS_FLAG_VANISH = 1 << 2,  // tick vanishTimer, then disappear if 0.
+    EN_PO_SISTERS_FLAG_HOVER = 1 << 3,   // hover up and down a few units towards y-target
+    EN_PO_SISTERS_FLAG_BGCHECK = 1 << 4, // BGCheck floors and walls
+    EN_PO_SISTERS_FLAG_UPDATEMASK=(EN_PO_SISTERS_FLAG_ACCOL | EN_PO_SISTERS_FLAG_ROTATE |
+        EN_PO_SISTERS_FLAG_VANISH | EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_BGCHECK),
+    EN_PO_SISTERS_FLAG_TORCH = 1 << 5,   // manipulate torch flames
+    EN_PO_SISTERS_FLAG_SPIN = 1 << 6,    // the real Meg spins as a tell
+    EN_PO_SISTERS_FLAG_NOMTXF = 1 << 7,  //don't read or write torchMtx
 } EnPoSisterFlags;
 
 typedef enum PoeSisDamageReaction {
     EN_PO_SISTERS_DMG_REACT_OTHER,
-    EN_PO_SISTERS_DMG_REACT_SWORD=14,
+    EN_PO_SISTERS_DMG_REACT_SWORD = 14,
     EN_PO_SISTERS_DMG_REACT_NUT,
 };
 
@@ -397,11 +397,14 @@ void EnPoSisters_ItemDrop(EnPoSisters* this, PlayState* play) {
 /*Meg will spawn 3 decoys and begin weeping.
 (or destroy the decoys and herself if one decoy fails.)*/
 void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play) {
-    Actor* actor1 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
+    Actor* actor1 =
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
                                 this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 1));
-    Actor* actor2 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
+    Actor* actor2 =
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
                                 this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 2));
-    Actor* actor3 = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
+    Actor* actor3 =
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
                                 this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 3));
     s32 pad;
     s32 pad1;
@@ -540,7 +543,7 @@ void EnPoSisters_IntroSetup2(EnPoSisters* this) {
     this->actionFunc = EnPoSisters_IntroStep2;
 }
 
-
+/* Setup reveal of Pos Sisters in intro scene */
 void EnPoSisters_SetupIntro3(EnPoSisters* this) {
     Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 0.833f, 0.0f,
                      Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE_INTERP, 0.0f);
@@ -826,7 +829,7 @@ void EnPoSisters_ReleaseFlame(EnPoSisters* this, PlayState* play) {
 
 /* Show the flame moving back to the proper torch */
 void EnPoSisters_Die(EnPoSisters* this, PlayState* play) {
-    
+
     // positions for torches to be lit during death cutscene
     static Vec3s sDeathTorchPos[4] = {
         { -22, 337, -1704 },
@@ -1192,7 +1195,7 @@ void EnPoSisters_CheckDamage(EnPoSisters* this, PlayState* play) {
             this->sisterFlags |= EN_PO_SISTERS_FLAG_ROTATE;
             EnPoSisters_SetupReveal(this, play);
         } else if (this->sisterID == EN_PO_SISTERS_MEG &&
-            this->actor.colChkInfo.damageReaction == EN_PO_SISTERS_DMG_REACT_SWORD &&
+                   this->actor.colChkInfo.damageReaction == EN_PO_SISTERS_DMG_REACT_SWORD &&
                    this->actionFunc == EnPoSisters_MegFightStep1) {
             if (this->megVar == 0) {
                 this->megVar = -45;
@@ -1313,24 +1316,24 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     Color_RGBA8* color;
 
     static Gfx* sSisterBodies[4] = {
-    gPoeSistersMegBodyDL,
-    gPoeSistersJoelleBodyDL,
-    gPoeSistersBethBodyDL,
-    gPoeSistersAmyBodyDL,
+        gPoeSistersMegBodyDL,
+        gPoeSistersJoelleBodyDL,
+        gPoeSistersBethBodyDL,
+        gPoeSistersAmyBodyDL,
     };
 
     static Gfx* sSisterFaces[4] = {
-    gPoeSistersMegFaceDL,
-    gPoeSistersJoelleFaceDL,
-    gPoeSistersBethFaceDL,
-    gPoSistersAmyFaceDL,
+        gPoeSistersMegFaceDL,
+        gPoeSistersJoelleFaceDL,
+        gPoeSistersBethFaceDL,
+        gPoSistersAmyFaceDL,
     };
 
     static Color_RGBA8 sLimb11Colors[4] = {
-    { 80, 0, 100, 0 },
-    { 80, 15, 0, 0 },
-    { 0, 70, 50, 0 },
-    { 70, 70, 0, 0 },
+        { 80, 0, 100, 0 },
+        { 80, 15, 0, 0 },
+        { 0, 70, 50, 0 },
+        { 70, 70, 0, 0 },
     };
 
     if (limbIndex == 1 && (this->sisterFlags & EN_PO_SISTERS_FLAG_SPIN)) {
@@ -1358,9 +1361,9 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
-    
+
     static Vec3f sTorchVec = { 1000.0f, -1700.0f, 0.0f };
-    
+
     EnPoSisters* this = (EnPoSisters*)thisx;
     s32 i;
     s32 pad;
@@ -1416,7 +1419,8 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (this->sisterColor.a == 255 || this->sisterColor.a == 0) {
-        gDPSetEnvColor(POLY_OPA_DISP++, this->sisterColor.r, this->sisterColor.g, this->sisterColor.b, this->sisterColor.a);
+        gDPSetEnvColor(POLY_OPA_DISP++, this->sisterColor.r, this->sisterColor.g, this->sisterColor.b,
+                       this->sisterColor.a);
         gSPSegment(POLY_OPA_DISP++, 0x09, D_80116280 + 2);
         POLY_OPA_DISP =
             SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoSisters_OverrideLimbDraw,
