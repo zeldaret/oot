@@ -397,13 +397,13 @@ void EnPoSisters_ItemDrop(EnPoSisters* this, PlayState* play) {
 (or destroy the decoys and herself if one decoy fails.)*/
 void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play) {
     Actor* actor1 =
-        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM)*1));
     Actor* actor2 =
-        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM)*2));
     Actor* actor3 =
-        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM)*3));
     s32 pad;
     s32 pad1;
