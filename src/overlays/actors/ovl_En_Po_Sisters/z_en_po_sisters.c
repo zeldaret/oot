@@ -121,11 +121,11 @@ typedef enum EnPoSisterFlags {
     EN_PO_SISTERS_FLAG_VANISH = 1 << 2,  // tick vanishTimer, then disappear if 0.
     EN_PO_SISTERS_FLAG_HOVER = 1 << 3,   // hover up and down a few units towards y-target
     EN_PO_SISTERS_FLAG_BGCHECK = 1 << 4, // BGCheck floors and walls
-    EN_PO_SISTERS_FLAG_UPDATEMASK=(EN_PO_SISTERS_FLAG_ACCOL | EN_PO_SISTERS_FLAG_ROTATE |
-        EN_PO_SISTERS_FLAG_VANISH | EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_BGCHECK),
-    EN_PO_SISTERS_FLAG_TORCH = 1 << 5,   // manipulate torch flames
-    EN_PO_SISTERS_FLAG_SPIN = 1 << 6,    // the real Meg spins as a tell
-    EN_PO_SISTERS_FLAG_NOMTXF = 1 << 7,  //don't read or write torchMtx
+    EN_PO_SISTERS_FLAG_UPDATEMASK=(EN_PO_SISTERS_FLAG_ACCOL | EN_PO_SISTERS_FLAG_ROTATE | EN_PO_SISTERS_FLAG_VANISH |
+                                   EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_BGCHECK),
+    EN_PO_SISTERS_FLAG_TORCH = 1 << 5,  // manipulate torch flames
+    EN_PO_SISTERS_FLAG_SPIN = 1 << 6,   // the real Meg spins as a tell
+    EN_PO_SISTERS_FLAG_NOMTXF = 1 << 7, // don't read or write torchMtx
 } EnPoSisterFlags;
 
 typedef enum PoeSisDamageReaction {
@@ -133,7 +133,6 @@ typedef enum PoeSisDamageReaction {
     EN_PO_SISTERS_DMG_REACT_SWORD = 14,
     EN_PO_SISTERS_DMG_REACT_NUT,
 };
-
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_NUT),
@@ -399,13 +398,13 @@ void EnPoSisters_ItemDrop(EnPoSisters* this, PlayState* play) {
 void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play) {
     Actor* actor1 =
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
-                                this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 1));
+                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 1));
     Actor* actor2 =
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
-                                this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 2));
+                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 2));
     Actor* actor3 =
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x,this->actor.world.pos.y,
-                                this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 3));
+                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM) * 3));
     s32 pad;
     s32 pad1;
 
@@ -733,7 +732,8 @@ void EnPoSisters_Hit(EnPoSisters* this, PlayState* play) {
     if (this->decoyID != 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.parent->shape.rot.y,
                            (this->decoyID == 2) ? 0x800 : 0x400);
-        this->sisterColor.a = ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
+        this->sisterColor.a = 
+            ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
         this->actor.world.pos.y = this->actor.parent->world.pos.y;
         EnPoSisters_CircleUpdate(this, play);
     } else if (this->sisterID != EN_PO_SISTERS_MEG) {
@@ -1124,7 +1124,7 @@ void EnPoSisters_IntroStep4(EnPoSisters* this, PlayState* play) {
 }
 
 void EnPoSisters_IntroStep5(EnPoSisters* this, PlayState* play) {
-    
+
     // position of laugh at the end of sisters' intro animation
     static Vec3f sIntroLaughPos = { 120.0f, 250.0f, -1420.0f };
 
