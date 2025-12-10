@@ -204,7 +204,7 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     this->flags = EN_PO_SISTERS_FLAG_TORCH;
     this->circleDist = 110.0f;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    if (POE_SISTER_GET_INTRO(&this->actor)) {
+    if (POE_SISTER_GET_INTRO(this)) {
         EnPoSisters_SetupIntro(this, play);
     } else if (this->sisterID == EN_PO_SISTERS_MEG) {
         if (this->decoyID == 0) {

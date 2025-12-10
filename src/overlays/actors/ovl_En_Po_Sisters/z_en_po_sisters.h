@@ -41,7 +41,7 @@ typedef enum EnPoSisterNames {
 
 #define POE_SISTER_GET_ID(x) PARAMS_GET_U(x->params, 8, 2)
 #define POE_SISTER_GET_DECOY(x) PARAMS_GET_U(x->params, 10, 2)
-#define POE_SISTER_GET_INTRO(x) PARAMS_GET_U(x->params, 12, 1)
+#define POE_SISTER_GET_INTRO(x) PARAMS_GET_U(x->actor.params, 12, 1)
 
 #define EN_PO_SISTERS_PARAM_N(n) (n << 8) // param for which sister by number
 #define EN_PO_SISTERS_PARAM(name) (EN_PO_SISTERS_##name << 8) // param for which sister by name
