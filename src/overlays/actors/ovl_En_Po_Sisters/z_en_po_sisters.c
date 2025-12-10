@@ -487,7 +487,7 @@ void EnPoSisters_SetupMegDecoy(EnPoSisters* this) {
     this->actionFunc = EnPoSisters_MegIntroStep2;
 }
 
-void EnPoSisters_MegFightInit(EnPoSisters* this) {
+void EnPoSisters_SetupMegFight(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     this->color.a = 255;
     this->timer = 300;
@@ -784,7 +784,7 @@ void EnPoSisters_Reveal(EnPoSisters* this, PlayState* play) {
                 EnPoSisters_SetupFight(this);
             }
         } else {
-            EnPoSisters_MegFightInit(this);
+            EnPoSisters_SetupMegFight(this);
         }
     } else {
         this->color.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
@@ -929,7 +929,7 @@ void EnPoSisters_MegIntroStep2(EnPoSisters* this, PlayState* play) {
         if (this->decoyID == 0) {
             func_800F5ACC(NA_BGM_MINI_BOSS);
         }
-        EnPoSisters_MegFightInit(this);
+        EnPoSisters_SetupMegFight(this);
     } else {
         this->actor.world.pos.y += 0.1f;
         ID = this->decoyID;
