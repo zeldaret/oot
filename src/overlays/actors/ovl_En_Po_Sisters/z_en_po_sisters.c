@@ -194,17 +194,17 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->sisterID = POE_SISTER_GET_ID(thisx->params);
+    this->sisterID = POE_SISTER_GET_ID(thisx);
     this->actor.naviEnemyId = this->sisterID + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
-    this->decoyID = POE_SISTER_GET_DECOY(thisx->params);
+    this->decoyID = POE_SISTER_GET_DECOY(thisx);
     this->hoverPulse = 32;
     this->vanishTimer = 20;
     this->torchFlames = 1;
     this->flags = EN_PO_SISTERS_FLAG_TORCH;
     this->circleDist = 110.0f;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    if (POE_SISTER_GET_INTRO(this->actor.params)) {
+    if (POE_SISTER_GET_INTRO(&this->actor)) {
         EnPoSisters_SetupIntro(this, play);
     } else if (this->sisterID == EN_PO_SISTERS_MEG) {
         if (this->decoyID == 0) {
