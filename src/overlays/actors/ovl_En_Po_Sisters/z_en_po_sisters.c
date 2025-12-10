@@ -531,7 +531,7 @@ void EnPoSisters_SetupIntro(EnPoSisters* this, PlayState* play) {
     this->actionFunc = EnPoSisters_IntroStep1;
 }
 
-void EnPoSisters_IntroSetup2(EnPoSisters* this) {
+void EnPoSisters_SetupIntro2(EnPoSisters* this) {
     s32 i;
 
     this->torchFlames = ARRAY_COUNT(this->torchPos);
@@ -1079,7 +1079,7 @@ void EnPoSisters_IntroStep1(EnPoSisters* this, PlayState* play) {
             sIntroVar = 1;
         }
         if (this->timer == 0) {
-            EnPoSisters_IntroSetup2(this);
+            EnPoSisters_SetupIntro2(this);
         }
     }
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
