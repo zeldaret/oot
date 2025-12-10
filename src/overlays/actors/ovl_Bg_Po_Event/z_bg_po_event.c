@@ -355,7 +355,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
         if ((this->type == 0) && (this->index == 0)) {
             amy = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->dyna.actor.world.pos.x + 30.0f,
                               this->dyna.actor.world.pos.y - 30.0f, this->dyna.actor.world.pos.z + 30.0f, 0,
-                              this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + (EN_PO_SISTERS_PARAM(AMY)));
+                              this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + EN_PO_SISTERS_PARAM(AMY));
             if (amy != NULL) {
                 OnePointCutscene_Init(play, 3170, 30, amy, CAM_ID_MAIN);
             }

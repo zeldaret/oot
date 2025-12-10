@@ -35,7 +35,7 @@ void EnPoSisters_Destroy(Actor* thisx, PlayState* play);
 void EnPoSisters_Update(Actor* thisx, PlayState* play);
 void EnPoSisters_Draw(Actor* thisx, PlayState* play);
 
-void EnPoSisters_IntroSetup(EnPoSisters* this, PlayState* play);
+void EnPoSisters_SetupIntro(EnPoSisters* this, PlayState* play);
 void EnPoSisters_FightState3(EnPoSisters* this, PlayState* play);
 void EnPoSisters_FightState1(EnPoSisters* this, PlayState* play);
 void EnPoSisters_FightState2(EnPoSisters* this, PlayState* play);
@@ -50,7 +50,7 @@ void EnPoSisters_ReleaseFlame(EnPoSisters* this, PlayState* play);
 void EnPoSisters_Die(EnPoSisters* this, PlayState* play);
 void EnPoSisters_MegMourns(EnPoSisters* this, PlayState* play);
 void EnPoSisters_MegUpdate(EnPoSisters* this, PlayState* play);
-void EnPoSisters_SisterInit(EnPoSisters* this, PlayState* play);
+void EnPoSisters_SisterAppear(EnPoSisters* this, PlayState* play);
 void EnPoSisters_MegIntroStep1(EnPoSisters* this, PlayState* play);
 void EnPoSisters_MegIntroStep2(EnPoSisters* this, PlayState* play);
 void EnPoSisters_MegFightStep1(EnPoSisters* this, PlayState* play);
@@ -62,10 +62,10 @@ void EnPoSisters_IntroStep3(EnPoSisters* this, PlayState* play);
 void EnPoSisters_IntroStep4(EnPoSisters* this, PlayState* play);
 void EnPoSisters_IntroStep5(EnPoSisters* this, PlayState* play);
 
-void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play);
-void EnPoSisters_DecoySetup(EnPoSisters* this, PlayState* play);
+void EnPoSisters_SetupMeg(EnPoSisters* this, PlayState* play);
+void EnPoSisters_SetupDecoy(EnPoSisters* this, PlayState* play);
 
-void EnPoSisters_SisterSetup(EnPoSisters* this);
+void EnPoSisters_SetupSister(EnPoSisters* this);
 
 static Color_RGBA8 sTorchLightColors[4] = {
     { 255, 170, 255, 255 },
@@ -125,48 +125,48 @@ typedef enum EnPoSisterFlags {
                                      EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_BGCHECK),
     EN_PO_SISTERS_FLAG_TORCH = 1 << 5,  // manipulate torch flames
     EN_PO_SISTERS_FLAG_SPIN = 1 << 6,   // the real Meg spins as a tell
-    EN_PO_SISTERS_FLAG_NOMTXF = 1 << 7, // don't read or write torchMtx
+    EN_PO_SISTERS_FLAG_NOMTXF = 1 << 7, // don't read or write torchMtxF
 } EnPoSisterFlags;
 
-typedef enum PoeSisDamageReaction {
-    EN_PO_SISTERS_DMG_REACT_OTHER,
-    EN_PO_SISTERS_DMG_REACT_SWORD = 14,
-    EN_PO_SISTERS_DMG_REACT_NUT,
-};
+typedef enum PoeSisDamageEffect {
+    EN_PO_SISTERS_DMG_EFF_OTHER,
+    EN_PO_SISTERS_DMG_EFF_SWORD = 14,
+    EN_PO_SISTERS_DMG_EFF_NUT,
+} PoeSisDamageEffect;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_NUT),
-    /* Deku stick    */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Slingshot     */ DMG_ENTRY(1, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Explosive     */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Boomerang     */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Normal arrow  */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Hammer swing  */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Hookshot      */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Kokiri sword  */ DMG_ENTRY(1, EN_PO_SISTERS_DMG_REACT_SWORD),
-    /* Master sword  */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_SWORD),
-    /* Giant's Knife */ DMG_ENTRY(4, EN_PO_SISTERS_DMG_REACT_SWORD),
-    /* Fire arrow    */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Ice arrow     */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Light arrow   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Unk arrow 1   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Unk arrow 2   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Unk arrow 3   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Fire magic    */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Ice magic     */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Light magic   */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Shield        */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Mirror Ray    */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Kokiri spin   */ DMG_ENTRY(1, EN_PO_SISTERS_DMG_REACT_SWORD),
-    /* Giant spin    */ DMG_ENTRY(4, EN_PO_SISTERS_DMG_REACT_SWORD),
-    /* Master spin   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_SWORD),
-    /* Kokiri jump   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_REACT_SWORD),
-    /* Giant jump    */ DMG_ENTRY(8, EN_PO_SISTERS_DMG_REACT_SWORD),
-    /* Master jump   */ DMG_ENTRY(4, EN_PO_SISTERS_DMG_REACT_SWORD),
-    /* Unknown 1     */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Unblockable   */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Hammer jump   */ DMG_ENTRY(4, EN_PO_SISTERS_DMG_REACT_OTHER),
-    /* Unknown 2     */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_REACT_OTHER),
+    /* Deku nut      */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_EFF_NUT),
+    /* Deku stick    */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Slingshot     */ DMG_ENTRY(1, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Explosive     */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Boomerang     */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Normal arrow  */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Hammer swing  */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Hookshot      */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Kokiri sword  */ DMG_ENTRY(1, EN_PO_SISTERS_DMG_EFF_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, EN_PO_SISTERS_DMG_EFF_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Ice arrow     */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Light arrow   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Unk arrow 1   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Unk arrow 2   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Unk arrow 3   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Fire magic    */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Ice magic     */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Light magic   */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Shield        */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Mirror Ray    */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Kokiri spin   */ DMG_ENTRY(1, EN_PO_SISTERS_DMG_EFF_SWORD),
+    /* Giant spin    */ DMG_ENTRY(4, EN_PO_SISTERS_DMG_EFF_SWORD),
+    /* Master spin   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_SWORD),
+    /* Kokiri jump   */ DMG_ENTRY(2, EN_PO_SISTERS_DMG_EFF_SWORD),
+    /* Giant jump    */ DMG_ENTRY(8, EN_PO_SISTERS_DMG_EFF_SWORD),
+    /* Master jump   */ DMG_ENTRY(4, EN_PO_SISTERS_DMG_EFF_SWORD),
+    /* Unknown 1     */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Unblockable   */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Hammer jump   */ DMG_ENTRY(4, EN_PO_SISTERS_DMG_EFF_OTHER),
+    /* Unknown 2     */ DMG_ENTRY(0, EN_PO_SISTERS_DMG_EFF_OTHER),
 };
 
 static s32 sIntroVar = 0;
@@ -184,41 +184,41 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 50.0f);
     SkelAnime_Init(play, &this->skelAnime, &gPoeSistersSkel, &gPoeSistersSwayAnim, this->jointTable, this->morphTable,
                    12);
-    this->sisterColor.r = 255;
-    this->sisterColor.g = 255;
-    this->sisterColor.b = 210;
-    this->sisterColor.a = 255;
+    this->color.r = 255;
+    this->color.g = 255;
+    this->color.b = 210;
+    this->color.a = 255;
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
     Lights_PointGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, 0,
                             0, 0, 0);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->sisterID = PARAMS_GET_U(thisx->params, 8, 2);
+    this->sisterID = POE_SISTER_GET_ID(thisx->params);
     this->actor.naviEnemyId = this->sisterID + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
-    this->decoyID = PARAMS_GET_U(thisx->params, 10, 2);
+    this->decoyID = POE_SISTER_GET_DECOY(thisx->params);
     this->hoverPulse = 32;
     this->vanishTimer = 20;
     this->torchFlames = 1;
-    this->sisterFlags = EN_PO_SISTERS_FLAG_TORCH;
+    this->flags = EN_PO_SISTERS_FLAG_TORCH;
     this->circleDist = 110.0f;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    if (PARAMS_GET_NOSHIFT(this->actor.params, 12, 1)) {
-        EnPoSisters_IntroSetup(this, play);
+    if (POE_SISTER_GET_INTRO(this->actor.params)) {
+        EnPoSisters_SetupIntro(this, play);
     } else if (this->sisterID == EN_PO_SISTERS_MEG) {
         if (this->decoyID == 0) {
             this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
-            EnPoSisters_MegSetup(this, play);
+            EnPoSisters_SetupMeg(this, play);
         } else {
             this->actor.flags &= ~(ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR | ACTOR_FLAG_CAN_ATTACH_TO_ARROW);
             this->collider.elem.elemMaterial = ELEM_MATERIAL_UNK4;
             this->collider.elem.acDmgInfo.dmgFlags |= DMG_DEKU_NUT;
             this->collider.base.ocFlags1 = OC1_NONE;
-            EnPoSisters_DecoySetup(this, NULL);
+            EnPoSisters_SetupDecoy(this, NULL);
         }
     } else {
-        EnPoSisters_SisterSetup(this);
+        EnPoSisters_SetupSister(this);
     }
     this->actor.params &= 0x3F;
 }
@@ -240,41 +240,41 @@ void EnPoSisters_MoveTorchFlames(EnPoSisters* this, s32 height, Vec3f* pos) {
 
     for (i = 0; i < this->torchFlames; i++) {
         vec = &this->torchPos[i];
-        vec->x = pos->x + Math_SinS((s16)(this->actor.shape.rot.y + (this->sisterTimer * 0x800) + i * 0x2000)) * spread;
-        vec->z = pos->z + Math_CosS((s16)(this->actor.shape.rot.y + (this->sisterTimer * 0x800) + i * 0x2000)) * spread;
+        vec->x = pos->x + Math_SinS((s16)(this->actor.shape.rot.y + (this->timer * 0x800) + i * 0x2000)) * spread;
+        vec->z = pos->z + Math_CosS((s16)(this->actor.shape.rot.y + (this->timer * 0x800) + i * 0x2000)) * spread;
         vec->y = pos->y + height;
     }
 }
 
 void EnPoSisters_FightSetup3(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersSwayAnim, -3.0f);
-    this->sisterTimer = Rand_S16Offset(2, 3);
+    this->timer = Rand_S16Offset(2, 3);
     this->actionFunc = EnPoSisters_FightState3;
     this->actor.speed = 0.0f;
 }
 
-void EnPoSisters_FightSetup(EnPoSisters* this) {
+void EnPoSisters_SetupFight(EnPoSisters* this) {
     if (this->actionFunc != EnPoSisters_FightState2) {
         Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     }
-    this->sisterTimer = Rand_S16Offset(15, 3);
-    this->sisterFlags |= (EN_PO_SISTERS_FLAG_VANISH | EN_PO_SISTERS_FLAG_ROTATE | EN_PO_SISTERS_FLAG_ACCOL);
+    this->timer = Rand_S16Offset(15, 3);
+    this->flags |= EN_PO_SISTERS_FLAG_VANISH | EN_PO_SISTERS_FLAG_ROTATE | EN_PO_SISTERS_FLAG_ACCOL;
     this->actionFunc = EnPoSisters_FightState1;
 }
 
-void EnPoSisters_FightSetup2(EnPoSisters* this) {
+void EnPoSisters_SetupFight2(EnPoSisters* this) {
     this->actionFunc = EnPoSisters_FightState2;
 }
 
-void EnPoSisters_FightSetup4(EnPoSisters* this) {
-    if (this->sisterColor.a != 0) {
+void EnPoSisters_SetupFight4(EnPoSisters* this) {
+    if (this->color.a != 0) {
         this->collider.base.colMaterial = COL_MATERIAL_METAL;
         this->collider.base.acFlags |= AC_HARD;
     }
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersAttackAnim, -5.0f);
     this->actor.speed = 0.0f;
-    this->sisterTimer = Animation_GetLastFrame(&gPoeSistersAttackAnim) * 3 + 3;
-    this->sisterFlags &= ~EN_PO_SISTERS_FLAG_ROTATE;
+    this->timer = Animation_GetLastFrame(&gPoeSistersAttackAnim) * 3 + 3;
+    this->flags &= ~EN_PO_SISTERS_FLAG_ROTATE;
     this->actionFunc = EnPoSisters_FightState4;
 }
 
@@ -285,13 +285,13 @@ void EnPoSisters_MegFightSetup2(EnPoSisters* this) {
         this->collider.base.acFlags |= AC_HARD;
         Animation_MorphToLoop(&this->skelAnime, &gPoeSistersAttackAnim, -5.0f);
     }
-    this->sisterTimer = 5;
+    this->timer = 5;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    this->sisterFlags |= EN_PO_SISTERS_FLAG_HOVER;
+    this->flags |= EN_PO_SISTERS_FLAG_HOVER;
     this->actionFunc = EnPoSisters_MegFightStep2;
 }
 
-void EnPoSisters_OnATHitSetup(EnPoSisters* this) {
+void EnPoSisters_SetupOnATHit(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
     if (this->sisterID != EN_PO_SISTERS_MEG) {
@@ -301,7 +301,7 @@ void EnPoSisters_OnATHitSetup(EnPoSisters* this) {
     this->actionFunc = EnPoSisters_OnATHit;
 }
 
-void EnPoSisters_HitSetup(EnPoSisters* this) {
+void EnPoSisters_SetupHit(EnPoSisters* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPoeSistersDamagedAnim, -3.0f);
     if (this->collider.base.ac != NULL) {
         this->actor.world.rot.y = (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT))
@@ -311,16 +311,16 @@ void EnPoSisters_HitSetup(EnPoSisters* this) {
     if (this->sisterID != EN_PO_SISTERS_MEG) {
         this->actor.speed = 10.0f;
     }
-    this->sisterFlags &= ~(EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_ROTATE | EN_PO_SISTERS_FLAG_ACCOL);
+    this->flags &= ~(EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_ROTATE | EN_PO_SISTERS_FLAG_ACCOL);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 16);
     this->actionFunc = EnPoSisters_Hit;
 }
 
-void EnPoSisters_HitSetup2(EnPoSisters* this) {
+void EnPoSisters_SetupHit2(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFleeAnim, -3.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
-    this->sisterTimer = 5;
-    this->sisterFlags |= (EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_ROTATE | EN_PO_SISTERS_FLAG_ACCOL);
+    this->timer = 5;
+    this->flags |= EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_ROTATE | EN_PO_SISTERS_FLAG_ACCOL;
     this->actor.speed = 5.0f;
     this->actionFunc = EnPoSisters_Hit2;
 }
@@ -329,9 +329,9 @@ void EnPoSisters_SetupVanish(EnPoSisters* this) {
     Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 1.5f, 0.0f,
                      Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE, -3.0f);
     this->actor.speed = 0.0f;
-    this->megVar = 100;
+    this->sisterVar = 100;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->sisterFlags &= ~(EN_PO_SISTERS_FLAG_VANISH | EN_PO_SISTERS_FLAG_ACCOL);
+    this->flags &= ~(EN_PO_SISTERS_FLAG_VANISH | EN_PO_SISTERS_FLAG_ACCOL);
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DISAPPEAR);
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
     this->actionFunc = EnPoSisters_Vanish;
@@ -352,7 +352,6 @@ void EnPoSisters_CircleUpdate(EnPoSisters* this, PlayState* play) {
     } else if (this->decoyID != 0) {
         dist = this->actor.parent->xzDistToPlayer;
     }
-    // possible bug: "dist" is unitallized if above conditions unmet.
     this->actor.world.pos.x = (Math_SinS(this->actor.shape.rot.y + 0x8000) * dist) + player->actor.world.pos.x;
     this->actor.world.pos.z = (Math_CosS(this->actor.shape.rot.y + 0x8000) * dist) + player->actor.world.pos.z;
 }
@@ -363,48 +362,48 @@ void EnPoSisters_SetupReveal(EnPoSisters* this, PlayState* play) {
     if (this->sisterID == EN_PO_SISTERS_MEG) {
         this->circleDist = 110.0f;
         EnPoSisters_CircleUpdate(this, play);
-        this->sisterColor.a = 0;
+        this->color.a = 0;
         this->actor.draw = EnPoSisters_Draw;
     } else {
         this->actor.world.rot.y = this->actor.shape.rot.y;
     }
-    this->sisterTimer = 15;
+    this->timer = 15;
     this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
-    this->sisterFlags &= ~EN_PO_SISTERS_FLAG_ACCOL;
+    this->flags &= ~EN_PO_SISTERS_FLAG_ACCOL;
     this->actionFunc = EnPoSisters_Reveal;
 }
 
 void EnPoSisters_SetupDie(EnPoSisters* this, PlayState* play) {
-    this->sisterTimer = 0;
+    this->timer = 0;
     this->actor.speed = 0.0f;
     this->actor.world.pos.y += 42.0f;
     this->actor.shape.yOffset = -6000.0f;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->sisterFlags = 0;
+    this->flags = 0;
     this->actionFunc = EnPoSisters_ReleaseFlame;
     OnePointCutscene_Init(play, 3190, 999, &this->actor, CAM_ID_MAIN);
 }
 
 void EnPoSisters_ItemDrop(EnPoSisters* this, PlayState* play) {
-    this->sisterTimer = 0;
+    this->timer = 0;
     this->actor.world.pos.y = this->torchPos[0].y;
     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x80);
     this->actionFunc = EnPoSisters_Die;
 }
 
-/*Meg will spawn 3 decoys and begin weeping.
-(or destroy the decoys and herself if one decoy fails.)*/
-void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play) {
+/* Meg will spawn 3 decoys and begin weeping.
+   (or destroy the decoys and herself if one decoy fails.) */
+void EnPoSisters_SetupMeg(EnPoSisters* this, PlayState* play) {
     Actor* actor1 =
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM)*1));
+                    this->actor.world.pos.z, 0, 0, 0, EN_PO_SISTERS_DECOY_PARAM(1));
     Actor* actor2 =
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM)*2));
+                    this->actor.world.pos.z, 0, 0, 0, EN_PO_SISTERS_DECOY_PARAM(2));
     Actor* actor3 =
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, ((EN_PO_SISTERS_DECOY_PARAM)*3));
+                    this->actor.world.pos.z, 0, 0, 0, EN_PO_SISTERS_DECOY_PARAM(3));
     s32 pad;
     s32 pad1;
 
@@ -425,19 +424,19 @@ void EnPoSisters_MegSetup(EnPoSisters* this, PlayState* play) {
         actor1->parent = &this->actor;
         Animation_PlayLoop(&this->skelAnime, &gPoeSistersMegCryAnim);
         this->torchFlames = 0;
-        this->sisterFlags = EN_PO_SISTERS_FLAG_NOMTXF | EN_PO_SISTERS_FLAG_TORCH;
+        this->flags = EN_PO_SISTERS_FLAG_NOMTXF | EN_PO_SISTERS_FLAG_TORCH;
         this->actionFunc = EnPoSisters_MegMourns;
     }
 }
 
-void EnPoSisters_DecoySetup(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_SetupDecoy(EnPoSisters* this, PlayState* play) {
     static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
     Vec3f vec;
 
     this->actor.draw = NULL;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->megVar = 100;
-    this->sisterFlags = EN_PO_SISTERS_FLAG_TORCH;
+    this->sisterVar = 100;
+    this->flags = EN_PO_SISTERS_FLAG_TORCH;
     this->collider.base.colMaterial = COL_MATERIAL_HIT3;
     this->collider.base.acFlags &= ~AC_HARD;
     if (play != NULL) {
@@ -451,7 +450,7 @@ void EnPoSisters_DecoySetup(EnPoSisters* this, PlayState* play) {
     this->actionFunc = EnPoSisters_MegUpdate;
 }
 
-void EnPoSisters_SisterSetup(EnPoSisters* this) {
+void EnPoSisters_SetupSister(EnPoSisters* this) {
     if (this->sisterID == EN_PO_SISTERS_AMY) {
         Animation_PlayOnce(&this->skelAnime, &gPoeSistersAppearDisappearAnim);
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
@@ -459,28 +458,28 @@ void EnPoSisters_SisterSetup(EnPoSisters* this) {
         Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 0.5f, 0.0f,
                          Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE_INTERP, 0.0f);
     }
-    this->sisterColor.a = 0;
-    this->sisterFlags = EN_PO_SISTERS_FLAG_TORCH;
-    this->actionFunc = EnPoSisters_SisterInit;
+    this->color.a = 0;
+    this->flags = EN_PO_SISTERS_FLAG_TORCH;
+    this->actionFunc = EnPoSisters_SisterAppear;
 }
 
-void EnPoSisters_MegIntroSetup(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_MegSetupIntro(EnPoSisters* this, PlayState* play) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPoeSistersAppearDisappearAnim, -5.0f);
     this->torchFlames = 1;
-    this->sisterFlags &= ~EN_PO_SISTERS_FLAG_NOMTXF;
+    this->flags &= ~EN_PO_SISTERS_FLAG_NOMTXF;
     this->actionFunc = EnPoSisters_MegIntroStep1;
     OnePointCutscene_Init(play, 3180, 156, &this->actor, CAM_ID_MAIN);
 }
 
-void EnPoSisters_MegDecoySetup(EnPoSisters* this) {
+void EnPoSisters_SetupMegDecoy(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
-    this->sisterTimer = Animation_GetLastFrame(&gPoeSistersFloatAnim) * 7 + 7;
+    this->timer = Animation_GetLastFrame(&gPoeSistersFloatAnim) * 7 + 7;
     if (this->actor.parent != NULL) {
         this->actor.world.pos = this->actor.parent->world.pos;
         this->actor.shape.rot.y = this->actor.parent->shape.rot.y;
     } else {
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-        this->sisterTimer++;
+        this->timer++;
     }
     if (this->decoyID == 0) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
@@ -490,10 +489,10 @@ void EnPoSisters_MegDecoySetup(EnPoSisters* this) {
 
 void EnPoSisters_MegFightInit(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
-    this->sisterColor.a = 255;
-    this->sisterTimer = 300;
-    this->megVar = 3;
-    this->sisterFlags |= (EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_ACCOL);
+    this->color.a = 255;
+    this->timer = 300;
+    this->sisterVar = 3;
+    this->flags |= EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_ACCOL;
     this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnPoSisters_MegFightStep1;
 }
@@ -508,25 +507,25 @@ void EnPoSisters_JoelleBethInit(EnPoSisters* this) {
         this->actor.home.pos.z = -3440.0f;
     }
     Animation_PlayLoop(&this->skelAnime, &gPoeSistersFloatAnim);
-    this->sisterFlags |= (EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_ROTATE);
+    this->flags |= EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_ROTATE;
     this->actionFunc = EnPoSisters_JoelleBethMove;
     this->actor.speed = 5.0f;
 }
 
 void EnPoSister_JoelleBethSetupWait(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersSwayAnim, -3.0f);
-    this->sisterColor.a = 255;
-    this->sisterFlags |= (EN_PO_SISTERS_FLAG_BGCHECK | EN_PO_SISTERS_FLAG_VANISH | EN_PO_SISTERS_FLAG_ACCOL);
+    this->color.a = 255;
+    this->flags |= EN_PO_SISTERS_FLAG_BGCHECK | EN_PO_SISTERS_FLAG_VANISH | EN_PO_SISTERS_FLAG_ACCOL;
     this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnPoSisters_JoelleBethWait;
     this->actor.speed = 0.0f;
 }
 
-void EnPoSisters_IntroSetup(EnPoSisters* this, PlayState* play) {
+void EnPoSisters_SetupIntro(EnPoSisters* this, PlayState* play) {
     sIntroVar = 0;
-    this->sisterColor.a = 0;
-    this->sisterFlags = EN_PO_SISTERS_FLAG_NOMTXF;
-    this->sisterTimer = 50;
+    this->color.a = 0;
+    this->flags = EN_PO_SISTERS_FLAG_NOMTXF;
+    this->timer = 50;
     this->torchPos[0] = this->actor.home.pos;
     Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
     this->actionFunc = EnPoSisters_IntroStep1;
@@ -547,9 +546,9 @@ void EnPoSisters_SetupIntro3(EnPoSisters* this) {
     Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 0.833f, 0.0f,
                      Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE_INTERP, 0.0f);
     if (this->sisterID == EN_PO_SISTERS_MEG || this->sisterID == EN_PO_SISTERS_JOELLE) {
-        this->sisterTimer = 40; // Meg and Joelle appear first
+        this->timer = 40; // Meg and Joelle appear first
     } else {
-        this->sisterTimer = 76; // followed by Beth and Amy
+        this->timer = 76; // followed by Beth and Amy
     }
     this->torchFlames = 0;
     sIntroVar = 0;
@@ -559,8 +558,8 @@ void EnPoSisters_SetupIntro3(EnPoSisters* this) {
 void EnPoSisters_SetupIntro4(EnPoSisters* this) {
     Animation_PlayLoop(&this->skelAnime, &gPoeSistersSwayAnim);
     this->torchFlames = 8;
-    this->sisterTimer = 32;
-    EnPoSisters_MoveTorchFlames(this, this->sisterTimer, &this->actor.home.pos);
+    this->timer = 32;
+    EnPoSisters_MoveTorchFlames(this, this->timer, &this->actor.home.pos);
     this->actionFunc = EnPoSisters_IntroStep4;
 }
 
@@ -570,8 +569,8 @@ void EnPoSisters_SetupIntro5(EnPoSisters* this, PlayState* play) {
 
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersFloatAnim, -3.0f);
     this->torchFlames = 0;
-    this->sisterFlags = EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_TORCH;
-    this->sisterTimer = 90;
+    this->flags = EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_TORCH;
+    this->timer = 90;
     this->hoverPulse = 32;
     this->actor.world.rot.y = sIntroExitFacings[this->sisterID];
     this->actor.home.pos.y = this->actor.world.pos.y;
@@ -603,7 +602,7 @@ void EnPoSisters_Hover(EnPoSisters* this, PlayState* play) {
         this->hoverPulse--;
     }
     this->actor.world.pos.y += (2.0f + 0.5f * Rand_ZeroOne()) * Math_SinS(this->hoverPulse * 0x800);
-    if (this->sisterColor.a == 255 && this->actionFunc != EnPoSisters_MegFightStep2 &&
+    if (this->color.a == 255 && this->actionFunc != EnPoSisters_MegFightStep2 &&
         this->actionFunc != EnPoSisters_FightState4) {
         if (this->actionFunc == EnPoSisters_Hit2) {
             Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
@@ -615,23 +614,23 @@ void EnPoSisters_Hover(EnPoSisters* this, PlayState* play) {
 
 void EnPoSisters_FightState3(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->sisterTimer != 0) {
-        this->sisterTimer--;
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->timer != 0) {
+        this->timer--;
     }
-    if (this->sisterTimer == 0 || this->actor.xzDistToPlayer < 200.0f) {
-        EnPoSisters_FightSetup(this);
+    if (this->timer == 0 || this->actor.xzDistToPlayer < 200.0f) {
+        EnPoSisters_SetupFight(this);
     }
 }
 
 void EnPoSisters_FightState1(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_StepToF(&this->actor.speed, 1.0f, 0.2f);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->sisterTimer != 0) {
-        this->sisterTimer--;
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->timer != 0) {
+        this->timer--;
     }
     if (this->actor.xzDistToPlayer < 200.0f && fabsf(this->actor.yDistToPlayer + 5.0f) < 30.0f) {
-        EnPoSisters_FightSetup2(this);
-    } else if (this->sisterTimer == 0 && Math_StepToF(&this->actor.speed, 0.0f, 0.2f) != 0) {
+        EnPoSisters_SetupFight2(this);
+    } else if (this->timer == 0 && Math_StepToF(&this->actor.speed, 0.0f, 0.2f) != 0) {
         EnPoSisters_FightSetup3(this);
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
@@ -658,22 +657,22 @@ void EnPoSisters_FightState2(EnPoSisters* this, PlayState* play) {
         Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1820);
     }
     if (this->actor.xzDistToPlayer < 160.0f && fabsf(this->actor.yDistToPlayer + 5.0f) < 30.0f) {
-        EnPoSisters_FightSetup4(this);
+        EnPoSisters_SetupFight4(this);
     } else if (this->actor.xzDistToPlayer > 240.0f) {
-        EnPoSisters_FightSetup(this);
+        EnPoSisters_SetupFight(this);
     }
 }
 
 void EnPoSisters_FightState4(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->sisterTimer != 0) {
-        this->sisterTimer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    this->actor.shape.rot.y += 384.0f * ((this->skelAnime.endFrame + 1.0f) * 3.0f - this->sisterTimer);
-    if (this->sisterTimer == 18 || this->sisterTimer == 7) {
+    this->actor.shape.rot.y += 384.0f * ((this->skelAnime.endFrame + 1.0f) * 3.0f - this->timer);
+    if (this->timer == 18 || this->timer == 7) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_ROLL);
     }
-    if (this->sisterTimer == 0) {
+    if (this->timer == 0) {
         EnPoSisters_MegFightSetup2(this);
     }
 }
@@ -682,18 +681,18 @@ void EnPoSisters_MegFightStep2(EnPoSisters* this, PlayState* play) {
     s32 pad;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->sisterTimer != 0) {
-        this->sisterTimer--;
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->timer != 0) {
+        this->timer--;
     }
     this->actor.shape.rot.y += (384.0f * this->skelAnime.endFrame) * 3.0f;
-    if (this->sisterTimer == 0 && ABS((s16)(this->actor.shape.rot.y - this->actor.world.rot.y)) < 0x1000) {
+    if (this->timer == 0 && ABS((s16)(this->actor.shape.rot.y - this->actor.world.rot.y)) < 0x1000) {
         if (this->sisterID != EN_PO_SISTERS_MEG) {
             this->collider.base.colMaterial = COL_MATERIAL_HIT3;
             this->collider.base.acFlags &= ~AC_HARD;
-            EnPoSisters_FightSetup(this);
+            EnPoSisters_SetupFight(this);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
-            EnPoSisters_DecoySetup(this, play);
+            EnPoSisters_SetupDecoy(this, play);
         }
     }
     if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
@@ -707,10 +706,10 @@ void EnPoSisters_OnATHit(EnPoSisters* this, PlayState* play) {
     if (Math_StepToF(&this->actor.speed, 0.0f, 0.1f) != 0) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if (this->sisterID != EN_PO_SISTERS_MEG) {
-            EnPoSisters_FightSetup(this);
+            EnPoSisters_SetupFight(this);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
-            EnPoSisters_DecoySetup(this, play);
+            EnPoSisters_SetupDecoy(this, play);
         }
     }
 }
@@ -719,11 +718,11 @@ void EnPoSisters_Hit(EnPoSisters* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
         if (this->actor.colChkInfo.health != 0) {
             if (this->sisterID != EN_PO_SISTERS_MEG) {
-                EnPoSisters_HitSetup2(this);
+                EnPoSisters_SetupHit2(this);
             } else if (this->decoyID != 0) {
-                EnPoSisters_DecoySetup(this, NULL);
+                EnPoSisters_SetupDecoy(this, NULL);
             } else {
-                EnPoSisters_DecoySetup(this, play);
+                EnPoSisters_SetupDecoy(this, play);
             }
         } else {
             EnPoSisters_SetupDie(this, play);
@@ -732,7 +731,7 @@ void EnPoSisters_Hit(EnPoSisters* this, PlayState* play) {
     if (this->decoyID != 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.parent->shape.rot.y,
                            (this->decoyID == 2) ? 0x800 : 0x400);
-        this->sisterColor.a =
+        this->color.a =
             ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
         this->actor.world.pos.y = this->actor.parent->world.pos.y;
         EnPoSisters_CircleUpdate(this, play);
@@ -744,16 +743,16 @@ void EnPoSisters_Hit(EnPoSisters* this, PlayState* play) {
 void EnPoSisters_Hit2(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 1820);
-    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->sisterTimer != 0) {
-        this->sisterTimer--;
+    if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->timer != 0) {
+        this->timer--;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        this->sisterFlags |= EN_PO_SISTERS_FLAG_ROTATE;
+        this->flags |= EN_PO_SISTERS_FLAG_ROTATE;
         EnPoSisters_SetupVanish(this);
-    } else if (this->sisterTimer == 0 && 240.0f < this->actor.xzDistToPlayer) {
+    } else if (this->timer == 0 && 240.0f < this->actor.xzDistToPlayer) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        EnPoSisters_FightSetup(this);
+        EnPoSisters_SetupFight(this);
     }
 }
 
@@ -761,34 +760,34 @@ void EnPoSisters_Vanish(EnPoSisters* this, PlayState* play) {
     s32 endFrame;
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->sisterColor.a = 0;
+        this->color.a = 0;
         this->collider.elem.acDmgInfo.dmgFlags = DMG_MAGIC_ICE | DMG_MAGIC_FIRE | DMG_DEKU_NUT;
-        EnPoSisters_FightSetup(this);
+        EnPoSisters_SetupFight(this);
     } else {
         endFrame = this->skelAnime.endFrame;
-        this->sisterColor.a = ((endFrame - this->skelAnime.curFrame) * 255.0f) / endFrame;
+        this->color.a = ((endFrame - this->skelAnime.curFrame) * 255.0f) / endFrame;
     }
 }
 
 void EnPoSisters_Reveal(EnPoSisters* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->sisterColor.a = 255;
+        this->color.a = 255;
         if (this->sisterID != EN_PO_SISTERS_MEG) {
-            this->sisterFlags |= EN_PO_SISTERS_FLAG_ACCOL;
+            this->flags |= EN_PO_SISTERS_FLAG_ACCOL;
             this->collider.elem.acDmgInfo.dmgFlags = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE |
                                                       DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_EXPLOSIVE | DMG_DEKU_STICK);
-            if (this->sisterTimer != 0) {
-                this->sisterTimer--;
+            if (this->timer != 0) {
+                this->timer--;
             }
-            if (this->sisterTimer == 0) {
+            if (this->timer == 0) {
                 this->vanishTimer = 20;
-                EnPoSisters_FightSetup(this);
+                EnPoSisters_SetupFight(this);
             }
         } else {
             EnPoSisters_MegFightInit(this);
         }
     } else {
-        this->sisterColor.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
+        this->color.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
         if (this->sisterID == EN_PO_SISTERS_MEG) {
             EnPoSisters_CircleUpdate(this, play);
         }
@@ -799,22 +798,22 @@ void EnPoSisters_Reveal(EnPoSisters* this, PlayState* play) {
 void EnPoSisters_ReleaseFlame(EnPoSisters* this, PlayState* play) {
     s32 i;
 
-    this->sisterTimer++;
+    this->timer++;
     this->torchFlames = CLAMP_MAX(this->torchFlames + 1, 8);
     for (i = this->torchFlames - 1; i > 0; i--) {
         this->torchPos[i] = this->torchPos[i - 1];
     }
     this->torchPos[0].x =
-        (Math_SinS((this->actor.shape.rot.y + this->sisterTimer * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
+        (Math_SinS((this->actor.shape.rot.y + this->timer * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
         this->actor.world.pos.x;
     this->torchPos[0].z =
-        (Math_CosS((this->actor.shape.rot.y + this->sisterTimer * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
+        (Math_CosS((this->actor.shape.rot.y + this->timer * 0x3000) - 0x4000) * (3000.0f * this->actor.scale.x)) +
         this->actor.world.pos.z;
-    if (this->sisterTimer < 8) {
+    if (this->timer < 8) {
         this->torchPos[0].y = this->torchPos[1].y - 9.0f;
     } else {
         this->torchPos[0].y = this->torchPos[1].y + 2.0f;
-        if (this->sisterTimer >= 16) {
+        if (this->timer >= 16) {
             if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.001f) != 0) {
                 EnPoSisters_ItemDrop(this, play);
             }
@@ -822,14 +821,13 @@ void EnPoSisters_ReleaseFlame(EnPoSisters* this, PlayState* play) {
             this->actor.scale.y = this->actor.scale.x;
         }
     }
-    if (this->sisterTimer == 16) {
+    if (this->timer == 16) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DEAD2);
     }
 }
 
 /* Show the flame moving back to the proper torch */
 void EnPoSisters_Die(EnPoSisters* this, PlayState* play) {
-
     // positions for torches to be lit during death cutscene
     static Vec3s sDeathTorchPos[4] = {
         { -22, 337, -1704 },
@@ -838,8 +836,8 @@ void EnPoSisters_Die(EnPoSisters* this, PlayState* play) {
         { 1717, 515, -1340 },
     };
 
-    this->sisterTimer++;
-    if (this->sisterTimer == 64) {
+    this->timer++;
+    if (this->timer == 64) {
         Flags_SetSwitch(play, this->actor.params);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 30, NA_SE_EV_FLAME_IGNITION);
         if (this->sisterID == EN_PO_SISTERS_MEG) {
@@ -848,12 +846,12 @@ void EnPoSisters_Die(EnPoSisters* this, PlayState* play) {
         play->envCtx.lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->actor);
-    } else if (this->sisterTimer < 32) {
-        EnPoSisters_MoveTorchFlames(this, this->sisterTimer, &this->actor.world.pos);
+    } else if (this->timer < 32) {
+        EnPoSisters_MoveTorchFlames(this, this->timer, &this->actor.world.pos);
     } else {
-        EnPoSisters_MoveTorchFlames(this, 64 - this->sisterTimer, &this->actor.world.pos);
+        EnPoSisters_MoveTorchFlames(this, 64 - this->timer, &this->actor.world.pos);
     }
-    if (this->sisterTimer == 32) {
+    if (this->timer == 32) {
         this->actor.world.pos.x = sDeathTorchPos[this->sisterID].x;
         this->actor.world.pos.y = sDeathTorchPos[this->sisterID].y;
         this->actor.world.pos.z = sDeathTorchPos[this->sisterID].z;
@@ -864,7 +862,7 @@ void EnPoSisters_Die(EnPoSisters* this, PlayState* play) {
 void EnPoSisters_MegMourns(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->actor.xzDistToPlayer < 130.0f) {
-        EnPoSisters_MegIntroSetup(this, play);
+        EnPoSisters_MegSetupIntro(this, play);
     }
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_CRY);
@@ -879,13 +877,13 @@ void EnPoSisters_MegUpdate(EnPoSisters* this, PlayState* play) {
 
     if (this->decoyID == 0) {
         if (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) < 600.0f) {
-            if (this->megVar != 0) {
-                this->megVar--;
+            if (this->sisterVar != 0) {
+                this->sisterVar--;
             }
         } else {
-            this->megVar = 100;
+            this->sisterVar = 100;
         }
-        if (this->megVar == 0) {
+        if (this->sisterVar == 0) {
             this->actor.shape.rot.y = (s32)(4.0f * Rand_ZeroOne()) * 0x4000 + this->actor.yawTowardsPlayer;
             this->actor.world.pos.y = player->actor.world.pos.y + 5.0f;
             EnPoSisters_SetupReveal(this, play);
@@ -893,7 +891,7 @@ void EnPoSisters_MegUpdate(EnPoSisters* this, PlayState* play) {
     } else {
         if (realMeg->actionFunc == EnPoSisters_MegIntroStep2) {
             this->actor.draw = EnPoSisters_Draw;
-            EnPoSisters_MegDecoySetup(this);
+            EnPoSisters_SetupMegDecoy(this);
         } else if (realMeg->actionFunc == EnPoSisters_Reveal) {
             this->actor.shape.rot.y = this->actor.parent->shape.rot.y + this->decoyID * 0x4000;
             this->actor.world.pos.y = player->actor.world.pos.y + 5.0f;
@@ -906,14 +904,14 @@ void EnPoSisters_MegUpdate(EnPoSisters* this, PlayState* play) {
 
 void EnPoSisters_MegIntroStep1(EnPoSisters* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        EnPoSisters_MegDecoySetup(this);
+        EnPoSisters_SetupMegDecoy(this);
     }
     EnPoSisters_CircleUpdate(this, play);
     this->actor.world.pos.y += 1.0f;
     Actor_SetFocus(&this->actor, 40.0f);
 }
 
-/*Meg reveals and moves decoys back and forth*/
+/* Meg reveals and moves decoys back and forth */
 void EnPoSisters_MegIntroStep2(EnPoSisters* this, PlayState* play) {
     f32 temp_f2;
     s16 sign;
@@ -922,11 +920,11 @@ void EnPoSisters_MegIntroStep2(EnPoSisters* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     temp_f2 = this->skelAnime.endFrame * 0.5f;
-    this->sisterColor.a = (fabsf(temp_f2 - this->skelAnime.curFrame) * 255.0f) / temp_f2;
-    if (this->sisterTimer != 0) {
-        this->sisterTimer -= 1;
+    this->color.a = (fabsf(temp_f2 - this->skelAnime.curFrame) * 255.0f) / temp_f2;
+    if (this->timer != 0) {
+        this->timer -= 1;
     }
-    if (this->sisterTimer == 0) {
+    if (this->timer == 0) {
         this->actor.world.rot.y = this->actor.shape.rot.y += 0x4000 * (s32)(Rand_ZeroOne() * 4.0f);
         if (this->decoyID == 0) {
             func_800F5ACC(NA_BGM_MINI_BOSS);
@@ -936,16 +934,16 @@ void EnPoSisters_MegIntroStep2(EnPoSisters* this, PlayState* play) {
         this->actor.world.pos.y += 0.1f;
         ID = this->decoyID;
         if (ID != 0) {
-            if (this->sisterTimer > 90) {
+            if (this->timer > 90) {
                 sign = 1;
                 step = 64;
-            } else if (this->sisterTimer > 70) {
+            } else if (this->timer > 70) {
                 sign = 0;
                 step = 64;
-            } else if (this->sisterTimer > 55) {
+            } else if (this->timer > 55) {
                 sign = 1;
                 step = 96;
-            } else if (this->sisterTimer > 40) {
+            } else if (this->timer > 40) {
                 sign = 0;
                 step = 96;
             } else {
@@ -957,7 +955,7 @@ void EnPoSisters_MegIntroStep2(EnPoSisters* this, PlayState* play) {
             }
             Math_ScaledStepToS(&this->actor.shape.rot.y,
                                this->actor.parent->shape.rot.y + (this->decoyID * 0x4000) * sign, step);
-        } else if (this->sisterTimer == 70 || this->sisterTimer == 40) {
+        } else if (this->timer == 70 || this->timer == 40) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
         }
     }
@@ -969,21 +967,21 @@ void EnPoSisters_MegFightStep1(EnPoSisters* this, PlayState* play) {
     s32 temp_v0;
     s32 phi_a0;
 
-    if (this->sisterTimer != 0) {
-        this->sisterTimer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    if (this->megVar > 0) {
-        if (this->sisterTimer >= 16) {
+    if (this->sisterVar > 0) {
+        if (this->timer >= 16) {
             SkelAnime_Update(&this->skelAnime);
             if (this->decoyID == 0) {
                 if (ABS((s16)(16 - this->hoverPulse)) < 14) {
                     this->actor.shape.rot.y +=
-                        (0x580 - (this->megVar * 0x180)) * fabsf(Math_SinS(this->hoverPulse * 0x800));
+                        (0x580 - (this->sisterVar * 0x180)) * fabsf(Math_SinS(this->hoverPulse * 0x800));
                 }
-                if (this->sisterTimer >= 284 || this->sisterTimer < 31) {
-                    this->sisterFlags |= EN_PO_SISTERS_FLAG_SPIN;
+                if (this->timer >= 284 || this->timer < 31) {
+                    this->flags |= EN_PO_SISTERS_FLAG_SPIN;
                 } else {
-                    this->sisterFlags &= ~EN_PO_SISTERS_FLAG_SPIN;
+                    this->flags &= ~EN_PO_SISTERS_FLAG_SPIN;
                 }
             } else {
                 this->actor.shape.rot.y = (s16)(this->actor.parent->shape.rot.y + (this->decoyID * 0x4000));
@@ -991,55 +989,57 @@ void EnPoSisters_MegFightStep1(EnPoSisters* this, PlayState* play) {
         }
     }
     if (this->decoyID == 0) {
-        if (this->sisterTimer >= 284 || (this->sisterTimer < 31 && this->sisterTimer >= 16)) {
-            this->sisterFlags |= EN_PO_SISTERS_FLAG_SPIN;
+        if (this->timer >= 284 || (this->timer < 31 && this->timer >= 16)) {
+            this->flags |= EN_PO_SISTERS_FLAG_SPIN;
         } else {
-            this->sisterFlags &= ~EN_PO_SISTERS_FLAG_SPIN;
+            this->flags &= ~EN_PO_SISTERS_FLAG_SPIN;
         }
     }
     if (Actor_WorldDistXZToPoint(&GET_PLAYER(play)->actor, &this->actor.home.pos) > 600.0f) {
-        this->sisterFlags &= ~EN_PO_SISTERS_FLAG_SPIN;
-        EnPoSisters_DecoySetup(this, play);
-    } else if (this->sisterTimer == 0) {
+        this->flags &= ~EN_PO_SISTERS_FLAG_SPIN;
+        EnPoSisters_SetupDecoy(this, play);
+    } else if (this->timer == 0) {
         if (this->decoyID == 0) {
             EnPoSisters_MegFightSetup2(this);
         } else {
-            EnPoSisters_DecoySetup(this, play);
+            EnPoSisters_SetupDecoy(this, play);
         }
     } else if (this->decoyID != 0) {
         EnPoSisters* realMeg = (EnPoSisters*)this->actor.parent;
 
         if (realMeg->actionFunc == EnPoSisters_Hit) {
-            EnPoSisters_HitSetup(this);
+            EnPoSisters_SetupHit(this);
         }
-    } else if (this->megVar == 0) {
-        this->megVar = -15;
-    } else if (this->megVar < 0) {
-        this->megVar++;
-        if (this->megVar == 0) {
+    } else if (this->sisterVar == 0) {
+        this->sisterVar = -15;
+    } else if (this->sisterVar < 0) {
+        this->sisterVar++;
+        if (this->sisterVar == 0) {
             EnPoSisters_MegFightSetup2(this);
         }
     }
     EnPoSisters_CircleUpdate(this, play);
 }
 
-void EnPoSisters_SisterInit(EnPoSisters* this, PlayState* play) {
+/* Setup Beth, Joelle and Amy revealing themselves from their hiding spots.
+   also establishes origins for them to move towards and prepare to fight. */
+void EnPoSisters_SisterAppear(EnPoSisters* this, PlayState* play) {
     f32 div;
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->sisterColor.a = 255;
+        this->color.a = 255;
         if (this->sisterID == EN_PO_SISTERS_AMY) {
             this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED;
             this->actor.home.pos.x = 1992.0f;
             this->actor.home.pos.z = -1440.0f;
-            this->sisterFlags |= (EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_BGCHECK);
-            EnPoSisters_FightSetup(this);
+            this->flags |= EN_PO_SISTERS_FLAG_HOVER | EN_PO_SISTERS_FLAG_BGCHECK;
+            EnPoSisters_SetupFight(this);
         } else {
             EnPoSisters_JoelleBethInit(this);
         }
     } else {
         div = this->skelAnime.curFrame / this->skelAnime.endFrame;
-        this->sisterColor.a = 255.0f * div;
+        this->color.a = 255.0f * div;
     }
     if (this->sisterID != EN_PO_SISTERS_AMY && Animation_OnFrame(&this->skelAnime, 1.0f)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
@@ -1063,22 +1063,22 @@ void EnPoSisters_JoelleBethWait(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1820);
     if (this->actor.xzDistToPlayer < 240.0f && fabsf(this->actor.yDistToPlayer + 5.0f) < 30.0f) {
-        EnPoSisters_FightSetup(this);
+        EnPoSisters_SetupFight(this);
     }
 }
 
 void EnPoSisters_IntroStep1(EnPoSisters* this, PlayState* play) {
     if (sIntroVar != 0 || !Player_InCsMode(play)) {
-        if (this->sisterTimer != 0) {
-            this->sisterTimer--;
+        if (this->timer != 0) {
+            this->timer--;
         }
-        if (this->sisterTimer == 30) {
+        if (this->timer == 30) {
             if (this->sisterID == EN_PO_SISTERS_MEG) {
                 OnePointCutscene_Init(play, 3140, 999, NULL, CAM_ID_MAIN);
             }
             sIntroVar = 1;
         }
-        if (this->sisterTimer == 0) {
+        if (this->timer == 0) {
             EnPoSisters_IntroSetup2(this);
         }
     }
@@ -1086,25 +1086,25 @@ void EnPoSisters_IntroStep1(EnPoSisters* this, PlayState* play) {
 }
 
 void EnPoSisters_IntroStep2(EnPoSisters* this, PlayState* play) {
-    this->sisterTimer++;
-    EnPoSisters_MoveTorchFlames(this, this->sisterTimer, &this->actor.home.pos);
-    if (this->sisterTimer == 32) {
+    this->timer++;
+    EnPoSisters_MoveTorchFlames(this, this->timer, &this->actor.home.pos);
+    if (this->timer == 32) {
         EnPoSisters_SetupIntro3(this);
     }
 }
 
 void EnPoSisters_IntroStep3(EnPoSisters* this, PlayState* play) {
-    this->sisterTimer--;
-    if (this->sisterTimer == 0) {
+    this->timer--;
+    if (this->timer == 0) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
-        this->sisterFlags &= ~EN_PO_SISTERS_FLAG_NOMTXF;
+        this->flags &= ~EN_PO_SISTERS_FLAG_NOMTXF;
     }
-    if (this->sisterTimer <= 0) {
+    if (this->timer <= 0) {
         if (SkelAnime_Update(&this->skelAnime)) {
-            this->sisterColor.a = 255;
+            this->color.a = 255;
             sIntroVar |= (1 << this->sisterID);
         } else {
-            this->sisterColor.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
+            this->color.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
         }
     }
     if (sIntroVar == 15) {
@@ -1114,55 +1114,54 @@ void EnPoSisters_IntroStep3(EnPoSisters* this, PlayState* play) {
 
 void EnPoSisters_IntroStep4(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->sisterTimer != 0) {
-        this->sisterTimer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    EnPoSisters_MoveTorchFlames(this, this->sisterTimer, &this->actor.home.pos);
-    if (this->sisterTimer == 0) {
+    EnPoSisters_MoveTorchFlames(this, this->timer, &this->actor.home.pos);
+    if (this->timer == 0) {
         EnPoSisters_SetupIntro5(this, play);
     }
 }
 
 void EnPoSisters_IntroStep5(EnPoSisters* this, PlayState* play) {
-
     // position of laugh at the end of sisters' intro animation
     static Vec3f sIntroLaughPos = { 120.0f, 250.0f, -1420.0f };
 
     SkelAnime_Update(&this->skelAnime);
-    this->sisterTimer--;
+    this->timer--;
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x500);
-    if (this->sisterTimer == 0 && this->sisterID == EN_PO_SISTERS_MEG) {
+    if (this->timer == 0 && this->sisterID == EN_PO_SISTERS_MEG) {
         play->envCtx.lightSettingOverride = 4;
     }
-    if (this->sisterTimer < 0) {
+    if (this->timer < 0) {
         Math_StepToF(&this->actor.speed, 5.0f, 0.2f);
     }
-    if (this->sisterTimer == -70 && this->sisterID == EN_PO_SISTERS_JOELLE) {
+    if (this->timer == -70 && this->sisterID == EN_PO_SISTERS_JOELLE) {
         SfxSource_PlaySfxAtFixedWorldPos(play, &sIntroLaughPos, 40, NA_SE_EN_PO_LAUGH);
     }
-    if (this->sisterTimer < -120) {
+    if (this->timer < -120) {
         Actor_Kill(&this->actor);
     }
 }
 
 void EnPoSisters_TickVanish(EnPoSisters* this, PlayState* play) {
-    if (this->actor.isLockedOn && this->sisterColor.a == 255) {
+    if (this->actor.isLockedOn && this->color.a == 255) {
         if (this->vanishTimer != 0) {
             this->vanishTimer--;
         }
     } else {
         this->vanishTimer = 20;
     }
-    if (this->sisterColor.a == 0) {
-        if (this->megVar != 0) {
-            this->megVar--;
+    if (this->color.a == 0) {
+        if (this->sisterVar != 0) {
+            this->sisterVar--;
         }
     }
     if (this->actionFunc != EnPoSisters_FightState4 && this->actionFunc != EnPoSisters_MegFightStep2 &&
         this->actionFunc != EnPoSisters_Hit) {
         if (this->vanishTimer == 0) {
             EnPoSisters_SetupVanish(this);
-        } else if (this->megVar == 0 && this->sisterColor.a == 0) {
+        } else if (this->sisterVar == 0 && this->color.a == 0) {
             EnPoSisters_SetupReveal(this, play);
         }
     }
@@ -1175,9 +1174,9 @@ void EnPoSisters_CheckDamage(EnPoSisters* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         if (this->decoyID != 0) {
-            ((EnPoSisters*)this->actor.parent)->megVar--;
+            ((EnPoSisters*)this->actor.parent)->sisterVar--;
             Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH2);
-            EnPoSisters_DecoySetup(this, play);
+            EnPoSisters_SetupDecoy(this, play);
             if (Rand_ZeroOne() < 0.2f) {
                 itemPos.x = this->actor.world.pos.x;
                 itemPos.y = this->actor.world.pos.y;
@@ -1185,20 +1184,20 @@ void EnPoSisters_CheckDamage(EnPoSisters* this, PlayState* play) {
                 Item_DropCollectible(play, &itemPos, ITEM00_ARROWS_SMALL);
             }
         } else if (this->collider.base.colMaterial == COL_MATERIAL_METAL ||
-                   (this->actor.colChkInfo.damageReaction == EN_PO_SISTERS_DMG_REACT_OTHER &&
+                   (this->actor.colChkInfo.damageReaction == EN_PO_SISTERS_DMG_EFF_OTHER &&
                     this->actor.colChkInfo.damage == 0)) {
             if (this->sisterID == EN_PO_SISTERS_MEG) {
                 this->actor.freezeTimer = 0;
             }
-        } else if (this->actor.colChkInfo.damageReaction == EN_PO_SISTERS_DMG_REACT_NUT) {
+        } else if (this->actor.colChkInfo.damageReaction == EN_PO_SISTERS_DMG_EFF_NUT) {
             this->actor.world.rot.y = this->actor.shape.rot.y;
-            this->sisterFlags |= EN_PO_SISTERS_FLAG_ROTATE;
+            this->flags |= EN_PO_SISTERS_FLAG_ROTATE;
             EnPoSisters_SetupReveal(this, play);
         } else if (this->sisterID == EN_PO_SISTERS_MEG &&
-                   this->actor.colChkInfo.damageReaction == EN_PO_SISTERS_DMG_REACT_SWORD &&
+                   this->actor.colChkInfo.damageReaction == EN_PO_SISTERS_DMG_EFF_SWORD &&
                    this->actionFunc == EnPoSisters_MegFightStep1) {
-            if (this->megVar == 0) {
-                this->megVar = -45;
+            if (this->sisterVar == 0) {
+                this->sisterVar = -45;
             }
         } else {
             if (Actor_ApplyDamage(&this->actor) != 0) {
@@ -1207,7 +1206,7 @@ void EnPoSisters_CheckDamage(EnPoSisters* this, PlayState* play) {
                 Enemy_StartFinishingBlow(play, &this->actor);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_PO_SISTER_DEAD);
             }
-            EnPoSisters_HitSetup(this);
+            EnPoSisters_SetupHit(this);
         }
     }
 }
@@ -1219,20 +1218,20 @@ void EnPoSisters_Update(Actor* thisx, PlayState* play) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        EnPoSisters_OnATHitSetup(this);
+        EnPoSisters_SetupOnATHit(this);
     }
     EnPoSisters_CheckDamage(this, play);
-    if (this->sisterFlags & EN_PO_SISTERS_FLAG_VANISH) {
+    if (this->flags & EN_PO_SISTERS_FLAG_VANISH) {
         EnPoSisters_TickVanish(this, play);
     }
     this->actionFunc(this, play);
-    if (this->sisterFlags & EN_PO_SISTERS_FLAG_UPDATEMASK) {
-        if (this->sisterFlags & EN_PO_SISTERS_FLAG_HOVER) {
+    if (this->flags & EN_PO_SISTERS_FLAG_UPDATEMASK) {
+        if (this->flags & EN_PO_SISTERS_FLAG_HOVER) {
             EnPoSisters_Hover(this, play);
         }
         Actor_MoveXZGravity(&this->actor);
 
-        if (this->sisterFlags & EN_PO_SISTERS_FLAG_BGCHECK) {
+        if (this->flags & EN_PO_SISTERS_FLAG_BGCHECK) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 0.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         } else {
@@ -1258,7 +1257,7 @@ void EnPoSisters_Update(Actor* thisx, PlayState* play) {
             this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
-        if (this->sisterFlags & EN_PO_SISTERS_FLAG_ACCOL) {
+        if (this->flags & EN_PO_SISTERS_FLAG_ACCOL) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnPoSisters_MegUpdate) {
@@ -1267,7 +1266,7 @@ void EnPoSisters_Update(Actor* thisx, PlayState* play) {
         Actor_SetFocus(&this->actor, 40.0f);
         if (this->actionFunc == EnPoSisters_Hit2) {
             this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
-        } else if (this->sisterFlags & EN_PO_SISTERS_FLAG_ROTATE) {
+        } else if (this->flags & EN_PO_SISTERS_FLAG_ROTATE) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
         }
     }
@@ -1278,43 +1277,40 @@ void EnPoSisters_TintEyes(EnPoSisters* this) {
     s16 temp_b;
 
     if (this->skelAnime.animation == &gPoeSistersAttackAnim) {
-        this->sisterColor.r = CLAMP_MAX((s16)(this->sisterColor.r + 5), 255);
-        this->sisterColor.g = CLAMP_MIN((s16)(this->sisterColor.g - 5), 50);
-        temp_b = this->sisterColor.b - 5;
-        this->sisterColor.b = CLAMP_MIN(temp_b, 0);
+        this->color.r = CLAMP_MAX((s16)(this->color.r + 5), 255);
+        this->color.g = CLAMP_MIN((s16)(this->color.g - 5), 50);
+        temp_b = this->color.b - 5;
+        this->color.b = CLAMP_MIN(temp_b, 0);
     } else if (this->skelAnime.animation == &gPoeSistersFleeAnim) {
-        this->sisterColor.r = CLAMP_MAX((s16)(this->sisterColor.r + 5), 80);
-        this->sisterColor.g = CLAMP_MAX((s16)(this->sisterColor.g + 5), 255);
-        temp_b = this->sisterColor.b + 5;
-        this->sisterColor.b = CLAMP_MAX(temp_b, 225);
+        this->color.r = CLAMP_MAX((s16)(this->color.r + 5), 80);
+        this->color.g = CLAMP_MAX((s16)(this->color.g + 5), 255);
+        temp_b = this->color.b + 5;
+        this->color.b = CLAMP_MAX(temp_b, 225);
     } else if (this->skelAnime.animation == &gPoeSistersDamagedAnim) {
         if (this->actor.colorFilterTimer & 2) {
-            this->sisterColor.r = 0;
-            this->sisterColor.g = 0;
-            this->sisterColor.b = 0;
+            this->color.r = 0;
+            this->color.g = 0;
+            this->color.b = 0;
         } else {
-            this->sisterColor.r = 80;
-            this->sisterColor.g = 255;
-            this->sisterColor.b = 225;
+            this->color.r = 80;
+            this->color.g = 255;
+            this->color.b = 225;
         }
     } else {
-        this->sisterColor.r = CLAMP_MAX((s16)(this->sisterColor.r + 5), 255);
-        this->sisterColor.g = CLAMP_MAX((s16)(this->sisterColor.g + 5), 255);
-        if (this->sisterColor.b > 210) {
-            temp_b = this->sisterColor.b - 5;
-            this->sisterColor.b = CLAMP_MIN(temp_b, 210);
+        this->color.r = CLAMP_MAX((s16)(this->color.r + 5), 255);
+        this->color.g = CLAMP_MAX((s16)(this->color.g + 5), 255);
+        if (this->color.b > 210) {
+            temp_b = this->color.b - 5;
+            this->color.b = CLAMP_MIN(temp_b, 210);
         } else {
-            temp_b = this->sisterColor.b + 5;
-            this->sisterColor.b = CLAMP_MAX(temp_b, 210);
+            temp_b = this->color.b + 5;
+            this->color.b = CLAMP_MAX(temp_b, 210);
         }
     }
 }
 
 s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                                  Gfx** gfxP) {
-    EnPoSisters* this = (EnPoSisters*)thisx;
-    Color_RGBA8* color;
-
     static Gfx* sSisterBodies[4] = {
         gPoeSistersMegBodyDL,
         gPoeSistersJoelleBodyDL,
@@ -1336,44 +1332,47 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         { 70, 70, 0, 0 },
     };
 
-    if (limbIndex == 1 && (this->sisterFlags & EN_PO_SISTERS_FLAG_SPIN)) {
-        if (this->sisterTimer >= 284) {
-            rot->x += (this->sisterTimer * 0x1000) - 0x11C000;
+    EnPoSisters* this = (EnPoSisters*)thisx;
+    Color_RGBA8* color;
+
+
+    if (limbIndex == 1 && (this->flags & EN_PO_SISTERS_FLAG_SPIN)) {
+        if (this->timer >= 284) {
+            rot->x += (this->timer * 0x1000) - 0x11C000;
         } else {
-            rot->x += (this->sisterTimer * 0x1000) - 0xF000;
+            rot->x += (this->timer * 0x1000) - 0xF000;
         }
     }
-    if (this->sisterColor.a == 0 || limbIndex == 8 ||
-        (this->actionFunc == EnPoSisters_ReleaseFlame && this->sisterTimer >= 8)) {
+    if (this->color.a == 0 || limbIndex == 8 ||
+        (this->actionFunc == EnPoSisters_ReleaseFlame && this->timer >= 8)) {
         *dList = NULL;
     } else if (limbIndex == 9) {
         *dList = sSisterBodies[this->sisterID];
     } else if (limbIndex == 10) {
         *dList = sSisterFaces[this->sisterID];
         gDPPipeSync((*gfxP)++);
-        gDPSetEnvColor((*gfxP)++, this->sisterColor.r, this->sisterColor.g, this->sisterColor.b, this->sisterColor.a);
+        gDPSetEnvColor((*gfxP)++, this->color.r, this->color.g, this->color.b, this->color.a);
     } else if (limbIndex == 11) {
         color = &sLimb11Colors[this->sisterID];
         gDPPipeSync((*gfxP)++);
-        gDPSetEnvColor((*gfxP)++, color->r, color->g, color->b, this->sisterColor.a);
+        gDPSetEnvColor((*gfxP)++, color->r, color->g, color->b, this->color.a);
     }
     return false;
 }
 
 void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
-
     static Vec3f sTorchVec = { 1000.0f, -1700.0f, 0.0f };
 
     EnPoSisters* this = (EnPoSisters*)thisx;
     s32 i;
     s32 pad;
 
-    if (this->actionFunc == EnPoSisters_ReleaseFlame && this->sisterTimer >= 8 && limbIndex == 9) {
+    if (this->actionFunc == EnPoSisters_ReleaseFlame && this->timer >= 8 && limbIndex == 9) {
         MATRIX_FINALIZE_AND_LOAD((*gfxP)++, play->state.gfxCtx, "../z_en_po_sisters.c", 2876);
         gSPDisplayList((*gfxP)++, gPoSistersBurnDL);
     }
     if (limbIndex == 8 && this->actionFunc != EnPoSisters_MegMourns) {
-        if (this->sisterFlags & EN_PO_SISTERS_FLAG_TORCH) {
+        if (this->flags & EN_PO_SISTERS_FLAG_TORCH) {
             for (i = this->torchFlames - 1; i > 0; i--) {
                 this->torchPos[i] = this->torchPos[i - 1];
             }
@@ -1398,8 +1397,8 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
         } else {
             Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
         }
-        if (!(this->sisterFlags & EN_PO_SISTERS_FLAG_NOMTXF)) {
-            Matrix_Get(&this->torchMtx);
+        if (!(this->flags & EN_PO_SISTERS_FLAG_NOMTXF)) {
+            Matrix_Get(&this->torchMtxF);
         }
     }
 }
@@ -1418,22 +1417,22 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     EnPoSisters_TintEyes(this);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    if (this->sisterColor.a == 255 || this->sisterColor.a == 0) {
-        gDPSetEnvColor(POLY_OPA_DISP++, this->sisterColor.r, this->sisterColor.g, this->sisterColor.b,
-                       this->sisterColor.a);
+    if (this->color.a == 255 || this->color.a == 0) {
+        gDPSetEnvColor(POLY_OPA_DISP++, this->color.r, this->color.g, this->color.b,
+                       this->color.a);
         gSPSegment(POLY_OPA_DISP++, 0x09, D_80116280 + 2);
         POLY_OPA_DISP =
             SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoSisters_OverrideLimbDraw,
                            EnPoSisters_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
-        gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->sisterColor.a);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->color.a);
         gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
         POLY_XLU_DISP =
             SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoSisters_OverrideLimbDraw,
                            EnPoSisters_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     }
-    if (!(this->sisterFlags & EN_PO_SISTERS_FLAG_NOMTXF)) {
-        Matrix_Put(&this->torchMtx);
+    if (!(this->flags & EN_PO_SISTERS_FLAG_NOMTXF)) {
+        Matrix_Put(&this->torchMtxF);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_po_sisters.c", 3034);
         gSPDisplayList(POLY_OPA_DISP++, gPoSistersTorchDL);
     }
@@ -1442,18 +1441,18 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
                                 (play->gameplayFrames * -20) % 512, 0x20, 0x80));
     gDPSetEnvColor(POLY_XLU_DISP++, fireColor->r, fireColor->g, fireColor->b, fireColor->a);
     if (this->actionFunc == EnPoSisters_Die) {
-        if (this->sisterTimer < 32) {
-            alpha = ((32 - this->sisterTimer) * 255) / 32;
+        if (this->timer < 32) {
+            alpha = ((32 - this->timer) * 255) / 32;
             scale = 0.0056000003f;
         } else {
-            alpha = (this->sisterTimer * 255 - 8160) / 32;
+            alpha = (this->timer * 255 - 8160) / 32;
             scale = 0.0027f;
         }
     } else if (this->actionFunc == EnPoSisters_IntroStep2) {
-        alpha = ((32 - this->sisterTimer) * 255) / 32;
+        alpha = ((32 - this->timer) * 255) / 32;
         scale = 0.0027f;
     } else if (this->actionFunc == EnPoSisters_IntroStep4) {
-        alpha = ((32 - this->sisterTimer) * 255) / 32;
+        alpha = ((32 - this->timer) * 255) / 32;
         scale = 0.0035f;
     } else if (this->actionFunc == EnPoSisters_IntroStep1) {
         // alpha initialized in loop below
@@ -1472,7 +1471,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
         Matrix_Translate(this->torchPos[i].x, this->torchPos[i].y, this->torchPos[i].z, MTXMODE_NEW);
         Matrix_RotateZYX(0, (s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x8000), 0, MTXMODE_APPLY);
         if (this->actionFunc == EnPoSisters_ReleaseFlame) {
-            scale = (this->sisterTimer - i) * 0.025f + 0.5f;
+            scale = (this->timer - i) * 0.025f + 0.5f;
             scale = CLAMP(scale, 0.5f, 0.8f) * 0.007f;
         }
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
