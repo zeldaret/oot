@@ -1334,7 +1334,6 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     EnPoSisters* this = (EnPoSisters*)thisx;
     Color_RGBA8* color;
 
-
     if (limbIndex == 1 && (this->flags & EN_PO_SISTERS_FLAG_SPIN)) {
         if (this->timer >= 284) {
             rot->x += (this->timer * 0x1000) - 0x11C000;
