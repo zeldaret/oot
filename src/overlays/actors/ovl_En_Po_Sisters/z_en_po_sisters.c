@@ -731,8 +731,7 @@ void EnPoSisters_Hit(EnPoSisters* this, PlayState* play) {
     if (this->decoyID != 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.parent->shape.rot.y,
                            (this->decoyID == 2) ? 0x800 : 0x400);
-        this->color.a =
-            ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
+        this->color.a = ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
         this->actor.world.pos.y = this->actor.parent->world.pos.y;
         EnPoSisters_CircleUpdate(this, play);
     } else if (this->sisterID != EN_PO_SISTERS_MEG) {
@@ -1343,8 +1342,7 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             rot->x += (this->timer * 0x1000) - 0xF000;
         }
     }
-    if (this->color.a == 0 || limbIndex == 8 ||
-        (this->actionFunc == EnPoSisters_ReleaseFlame && this->timer >= 8)) {
+    if (this->color.a == 0 || limbIndex == 8 || (this->actionFunc == EnPoSisters_ReleaseFlame && this->timer >= 8)) {
         *dList = NULL;
     } else if (limbIndex == 9) {
         *dList = sSisterBodies[this->sisterID];
@@ -1418,8 +1416,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (this->color.a == 255 || this->color.a == 0) {
-        gDPSetEnvColor(POLY_OPA_DISP++, this->color.r, this->color.g, this->color.b,
-                       this->color.a);
+        gDPSetEnvColor(POLY_OPA_DISP++, this->color.r, this->color.g, this->color.b, this->color.a);
         gSPSegment(POLY_OPA_DISP++, 0x09, D_80116280 + 2);
         POLY_OPA_DISP =
             SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPoSisters_OverrideLimbDraw,
