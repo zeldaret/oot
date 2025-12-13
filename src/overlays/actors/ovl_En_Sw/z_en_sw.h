@@ -53,12 +53,14 @@ typedef struct EnSw {
 // version of the macro used for the whole entity struct.
 #define ENSW_GET_TYPE_EN(this) PARAMS_GET_S(this->actor.params,13,3)
 
-typedef enum {
+#define EN_SW_PARAM_GOLD_SOIL 0x8000
+#define EN_SW_PARAM_GOLD_TREE 0xE000
+
+typedef enum EnSwType{
     SW_TYPE_NORMAL, // normal Skull(wall)tula
     SW_TYPE_GOLD_DEFAULT, // normal Gold Skulltula, found in dungeons
     SW_TYPE_GOLD_NIGHT, // nocturnal Gold Skulltula, found outside
-    SW_TYPE_GOLD_HIDDEN_SOIL, // found by using bugs on soil patches
-    SW_TYPE_GOLD_HIDDEN_TREE, // found by hitting trees and crates
+    SW_TYPE_GOLD_HIDDEN_SOIL, // found by using bugs on soil patches and hitting crates
+    SW_TYPE_GOLD_HIDDEN_TREE, // found by hitting trees
 } EnSwType;
-
 #endif
