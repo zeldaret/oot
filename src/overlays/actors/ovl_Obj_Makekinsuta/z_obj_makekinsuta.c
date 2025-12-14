@@ -54,7 +54,8 @@ void func_80B98320(ObjMakekinsuta* this, PlayState* play) {
     if (this->unk_152 != 0) {
         if (this->timer >= 60 && !func_8002DEEC(GET_PLAYER(play))) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, this->actor.world.pos.x, this->actor.world.pos.y,
-                        this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0, (this->actor.params | EN_SW_PARAM_GOLD_SOIL));
+                        this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0,
+                        (this->actor.params | EN_SW_PARAM_GOLD_SOIL));
             this->actionFunc = ObjMakekinsuta_DoNothing;
         } else {
             this->timer++;
