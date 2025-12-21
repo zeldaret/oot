@@ -94,7 +94,7 @@ static s16 sKakarikoFlagList[] = {
 static u8 sLowerRiverSpawned = false;
 static u8 sUpperRiverSpawned = false;
 
-static ColliderCylinderInit sCylinderInit1 = {
+static ColliderCylinderInit sAttackableBodyCylinderInit = {
     {
         COL_MATERIAL_HIT5,
         AT_NONE,
@@ -114,7 +114,7 @@ static ColliderCylinderInit sCylinderInit1 = {
     { 15, 25, 4, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit sCylinderInit2 = {
+static ColliderCylinderInit sNpcBodyCylinderInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -250,13 +250,13 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
             FALLTHROUGH;
         case EN_NIW_TYPE_SUPER_CUCCO:
         case EN_NIW_TYPE_TALON_CUCCO:
-            Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit2);
+            Collider_SetCylinder(play, &this->collider, &this->actor, &sNpcBodyCylinderInit);
             if (play->sceneId == SCENE_LINKS_HOUSE && !GET_EVENTCHKINF(EVENTCHKINF_HORSE_RACE_COW_UNLOCK)) {
                 Actor_Kill(&this->actor);
             }
             break;
         default:
-            Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit1);
+            Collider_SetCylinder(play, &this->collider, &this->actor, &sAttackableBodyCylinderInit);
             break;
     }
 
@@ -280,14 +280,14 @@ void func_80AB5BF8(EnNiw* this, PlayState* play, s16 arg2) {
     }
     if (this->timer1 == 0) {
         if (arg2 == 0) {
-            this->unk_26C[0] = 0.0f;
+            this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y] = 0.0f;
         } else {
-            this->unk_26C[0] = -10000.0f * factor;
+            this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y] = -10000.0f * factor;
         }
         this->unk_298++;
         this->timer1 = 3;
         if (!(this->unk_298 & 1)) {
-            this->unk_26C[0] = 0.0f;
+            this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y] = 0.0f;
 
             if (arg2 == 0) {
                 this->timer1 = Rand_ZeroFloat(30.0f);
@@ -300,32 +300,36 @@ void func_80AB5BF8(EnNiw* this, PlayState* play, s16 arg2) {
 
         switch (arg2) {
             case 0:
-                this->unk_26C[1] = this->unk_26C[2] = 0.0f;
+                this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z] = 0.0f;
                 break;
             case 1:
                 this->timer2 = 3;
-                this->unk_26C[1] = this->unk_26C[2] = 7000.0f * factor;
+                this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z] =
+                    7000.0f * factor;
 
                 if (this->unk_29C == 0) {
-                    this->unk_26C[1] = this->unk_26C[2] = 0.0f;
+                    this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z] = 0.0f;
                 }
                 break;
             case 2:
                 this->timer2 = 2;
-                this->unk_26C[1] = this->unk_26C[2] = -10000.0f;
-                this->unk_26C[7] = this->unk_26C[5] = 25000.0f;
-                this->unk_26C[8] = this->unk_26C[6] = 6000.0f;
+                this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z] =
+                    -10000.0f;
+                this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = 25000.0f;
+                this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = 6000.0f;
 
                 if (this->unk_29C == 0) {
-                    this->unk_26C[5] = this->unk_26C[7] = 8000.0f;
+                    this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] =
+                        8000.0f;
                 }
                 break;
             case 3:
                 this->timer2 = 2;
-                this->unk_26C[7] = this->unk_26C[5] = 10000.0f;
+                this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = 10000.0f;
 
                 if (this->unk_29C == 0) {
-                    this->unk_26C[7] = this->unk_26C[5] = 3000.0f;
+                    this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
+                        3000.0f;
                 }
                 break;
             case 4:
@@ -333,36 +337,37 @@ void func_80AB5BF8(EnNiw* this, PlayState* play, s16 arg2) {
                 break;
             case 5:
                 this->timer2 = 5;
-                this->unk_26C[7] = this->unk_26C[5] = 14000.0f;
+                this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = 14000.0f;
                 if (this->unk_29C == 0) {
-                    this->unk_26C[7] = this->unk_26C[5] = 10000.0f;
+                    this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
+                        10000.0f;
                 }
                 break;
         }
     }
-    if (this->unk_2E0 != this->unk_26C[9]) {
-        Math_ApproachF(&this->unk_2E0, this->unk_26C[9], 0.5f, 4000.0f);
+    if (this->limb15RotY != this->unk_26C[OBJECT_NIW_LIMB15_TARGET_ROT_Y]) {
+        Math_ApproachF(&this->limb15RotY, this->unk_26C[OBJECT_NIW_LIMB15_TARGET_ROT_Y], 0.5f, 4000.0f);
     }
-    if (this->unk_2DC != this->unk_26C[0]) {
-        Math_ApproachF(&this->unk_2DC, this->unk_26C[0], 0.5f, 4000.0f);
+    if (this->limb13RotY != this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y]) {
+        Math_ApproachF(&this->limb13RotY, this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y], 0.5f, 4000.0f);
     }
-    if (this->unk_2C4 != this->unk_26C[2]) {
-        Math_ApproachF(&this->unk_2C4, this->unk_26C[2], 0.8f, 7000.0f);
+    if (this->limb7RotZ != this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z]) {
+        Math_ApproachF(&this->limb7RotZ, this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z], 0.8f, 7000.0f);
     }
-    if (this->unk_2C8 != this->unk_26C[7]) {
-        Math_ApproachF(&this->unk_2C8, this->unk_26C[7], 0.8f, 7000.0f);
+    if (this->limb7RotY != this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y]) {
+        Math_ApproachF(&this->limb7RotY, this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y], 0.8f, 7000.0f);
     }
-    if (this->unk_2CC != this->unk_26C[8]) {
-        Math_ApproachF(&this->unk_2CC, this->unk_26C[8], 0.8f, 7000.0f);
+    if (this->limb7RotX != this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X]) {
+        Math_ApproachF(&this->limb7RotX, this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X], 0.8f, 7000.0f);
     }
-    if (this->unk_2D0 != this->unk_26C[1]) {
-        Math_ApproachF(&this->unk_2D0, this->unk_26C[1], 0.8f, 7000.0f);
+    if (this->limb11RotZ != this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z]) {
+        Math_ApproachF(&this->limb11RotZ, this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z], 0.8f, 7000.0f);
     }
-    if (this->unk_2D4 != this->unk_26C[5]) {
-        Math_ApproachF(&this->unk_2D4, this->unk_26C[5], 0.8f, 7000.0f);
+    if (this->limb11RotY != this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y]) {
+        Math_ApproachF(&this->limb11RotY, this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y], 0.8f, 7000.0f);
     }
-    if (this->unk_2D8 != this->unk_26C[6]) {
-        Math_ApproachF(&this->unk_2D8, this->unk_26C[6], 0.8f, 7000.0f);
+    if (this->limb11RotX != this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X]) {
+        Math_ApproachF(&this->limb11RotX, this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X], 0.8f, 7000.0f);
     }
 }
 
@@ -462,8 +467,9 @@ void EnNiw_SuperCuccoFallingIntoPosition(EnNiw* this, PlayState* play) {
         this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
 
-        this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speed = this->unk_2FC =
-            this->unk_300 = 0.0f;
+        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
+            this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] =
+                this->actor.speed = this->unk_2FC = this->unk_300 = 0.0f;
 
         this->actionFunc = EnNiw_IdleWalk;
     } else {
@@ -535,7 +541,7 @@ void EnNiw_IdleWalk(EnNiw* this, PlayState* play) {
             this->unk_2E6++;
             this->unk_2E6 &= 1;
         }
-        Math_ApproachF(&this->unk_26C[9], D_80AB8604[this->unk_2E6], 0.5f, 4000.0f);
+        Math_ApproachF(&this->unk_26C[OBJECT_NIW_LIMB15_TARGET_ROT_Y], D_80AB8604[this->unk_2E6], 0.5f, 4000.0f);
     }
 
     if (this->timer5 == 0 && this->timer4 == 0) {
@@ -585,7 +591,7 @@ void EnNiw_IdleWalk(EnNiw* this, PlayState* play) {
     }
 
     if (this->timer4 != 0) {
-        Math_ApproachZeroF(&this->unk_26C[9], 0.5f, 4000.0f);
+        Math_ApproachZeroF(&this->unk_26C[OBJECT_NIW_LIMB15_TARGET_ROT_Y], 0.5f, 4000.0f);
         tmp = 1;
         Math_ApproachF(&this->actor.world.pos.x, this->unk_2B8.x, 1.0f, this->unk_2FC);
         Math_ApproachF(&this->actor.world.pos.z, this->unk_2B8.z, 1.0f, this->unk_2FC);
@@ -623,8 +629,9 @@ void func_80AB6A38(EnNiw* this, PlayState* play) {
         this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
         this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
-        this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speed = this->unk_2FC =
-            this->unk_300 = 0.0f;
+        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
+            this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] =
+                this->actor.speed = this->unk_2FC = this->unk_300 = 0.0f;
         this->actionFunc = EnNiw_ResetAction;
     } else {
         path = &play->pathList[pathIndex];
@@ -684,8 +691,9 @@ void EnNiw_PlayerReleased(EnNiw* this, PlayState* play) {
             this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
             this->timer5 = this->timer4 = this->unk_29E = 0;
 
-            this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speed =
-                this->unk_2FC = this->unk_300 = 0.0f;
+            this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
+                this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] =
+                    this->actor.speed = this->unk_2FC = this->unk_300 = 0.0f;
 
             this->actionFunc = EnNiw_ResetAction;
             return;
@@ -809,13 +817,13 @@ void func_80AB714C(EnNiw* this, PlayState* play) {
     this->sfxTimer1 = 100;
 
     if (this->timer5 == 40) {
-        this->unk_26C[0] = 10000.0f;
-        this->unk_26C[7] = 14000.0f;
-        this->unk_26C[5] = 14000.0f;
-        this->unk_26C[6] = 0.0f;
-        this->unk_26C[8] = 0.0f;
-        this->unk_26C[1] = 0.0f;
-        this->unk_26C[2] = 0.0f;
+        this->unk_26C[OBJECT_NIW_LIMB13_TARGET_ROT_Y] = 10000.0f;
+        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = 14000.0f;
+        this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = 14000.0f;
+        this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = 0.0f;
+        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] = 0.0f;
+        this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Z] = 0.0f;
+        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Z] = 0.0f;
         this->timer1 = 10;
         Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
     }
@@ -859,8 +867,9 @@ void EnNiw_FleePlayer(EnNiw* this, PlayState* play) {
         this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
         this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
-        this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speed = this->unk_2FC =
-            this->unk_300 = 0.0f;
+        this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] =
+            this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] =
+                this->actor.speed = this->unk_2FC = this->unk_300 = 0.0f;
         if (this->actor.params == EN_NIW_TYPE_KAKARIKO_CRATE) {
             this->actor.params = EN_NIW_TYPE_0;
         }
@@ -916,7 +925,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
     this->unk_294++;
 
     if (this->actionFunc != EnNiw_IdleWalk) {
-        this->unk_26C[9] = 0.0f;
+        this->unk_26C[OBJECT_NIW_LIMB15_TARGET_ROT_Y] = 0.0f;
     }
     if (this->unk_2A6) {
         featherCount = 20;
@@ -1025,14 +1034,14 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         this->unk_2F0.z = 0.0f;
         this->unk_2F0.y = 0.0f;
         this->unk_2F0.x = 0.0f;
-        this->unk_2D8 = 0.0f;
-        this->unk_2D4 = 0.0f;
-        this->unk_2D0 = 0.0f;
-        this->unk_2CC = 0.0f;
-        this->unk_2C8 = 0.0f;
-        this->unk_2C4 = 0.0f;
-        this->unk_2DC = 0.0f;
-        this->unk_2E0 = 0.0f;
+        this->limb11RotX = 0.0f;
+        this->limb11RotY = 0.0f;
+        this->limb11RotZ = 0.0f;
+        this->limb7RotX = 0.0f;
+        this->limb7RotY = 0.0f;
+        this->limb7RotZ = 0.0f;
+        this->limb13RotY = 0.0f;
+        this->limb15RotY = 0.0f;
         this->isAngry = this->unk_294 = this->unk_298 = this->unk_2A6 = this->unk_29E = this->unk_2A0 = this->unk_2A2 =
             0;
 
@@ -1072,10 +1081,10 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
             thisx->speed = 0.0f;
             this->unk_2FC = 0.0f;
             this->unk_300 = 0.0f;
-            this->unk_26C[7] = 0.0f;
-            this->unk_26C[5] = 0.0f;
-            this->unk_26C[6] = 0.0f;
-            this->unk_26C[8] = 0.0f;
+            this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_Y] = 0.0f;
+            this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_Y] = 0.0f;
+            this->unk_26C[OBJECT_NIW_LIMB11_TARGET_ROT_X] = 0.0f;
+            this->unk_26C[OBJECT_NIW_LIMB7_TARGET_ROT_X] = 0.0f;
             this->sfxTimer1 = 10000;
             this->isAngry = true;
             this->unk_2AC.x = this->unk_2B8.x = thisx->world.pos.x;
@@ -1088,6 +1097,8 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
 
     dist = 20.0f;
 
+    //! @bug In certain scenarios like getting cornered against the wall, the PLAYER_STATE1_26 will be flushed before
+    //! the player has regained control of Link. This can result in the player being softlocked by a Cucco attack.
 #if OOT_VERSION < NTSC_1_1
     if (this->isAngry && thisx->xyzDistToPlayerSq < SQ(dist) && !(player->stateFlags1 & PLAYER_STATE1_26))
 #else
@@ -1132,20 +1143,20 @@ s32 EnNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
-        rot->y += (s16)this->unk_2DC;
+        rot->y += (s16)this->limb13RotY;
     }
     if (limbIndex == 15) {
-        rot->y += (s16)this->unk_2E0;
+        rot->y += (s16)this->limb15RotY;
     }
     if (limbIndex == 11) {
-        rot->x += (s16)this->unk_2D8;
-        rot->y += (s16)this->unk_2D4;
-        rot->z += (s16)this->unk_2D0;
+        rot->x += (s16)this->limb11RotX;
+        rot->y += (s16)this->limb11RotY;
+        rot->z += (s16)this->limb11RotZ;
     }
     if (limbIndex == 7) {
-        rot->x += (s16)this->unk_2CC;
-        rot->y += (s16)this->unk_2C8;
-        rot->z += (s16)this->unk_2C4;
+        rot->x += (s16)this->limb7RotX;
+        rot->y += (s16)this->limb7RotY;
+        rot->z += (s16)this->limb7RotZ;
     }
 
     return false;
