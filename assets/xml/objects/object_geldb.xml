@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_geldb" Segment="6">
         <!-- Red-clothed Gerudo skeleton -->
-        <Skeleton Name="gGerudoRedSkel" Type="Flex" LimbType="Standard" Offset="0xA458"/>
+        <Skeleton Name="gGerudoRedSkel" Type="Flex" LimbType="Standard" LimbNone="GERUDO_RED_LIMB_NONE" LimbMax="GERUDO_RED_LIMB_MAX" EnumName="GerudoRedLimb" Offset="0xA458"/>
 
         <!-- Red-clothed Gerudo animations -->
         <Animation Name="gGerudoRedJumpAnim" Offset="0xADF8"/>
@@ -17,12 +17,131 @@
         <Animation Name="gGerudoRedStandAnim" Offset="0xB07C"/>
 
         <!-- Red-clothed Gerudo eye textures -->
-        <Texture Name="gGerudoRedEyeOpenTex" OutName="gerudo_red_eye_open" Format="ci8" Width="32" Height="32" Offset="0x5FE8" TlutOffset="0x5D30"/>
-        <Texture Name="gGerudoRedEyeHalfTex" OutName="gerudo_red_eye_half" Format="ci8" Width="32" Height="32" Offset="0x65A8" TlutOffset="0x5D30"/>
-        <Texture Name="gGerudoRedEyeShutTex" OutName="gerudo_red_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x6D28" TlutOffset="0x5D30"/>
+        <Texture Name="gGerudoRedEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x5FE8" TlutOffset="0x5D30"/>
+        <Texture Name="gGerudoRedEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x65A8" TlutOffset="0x5D30"/>
+        <Texture Name="gGerudoRedEyeShutTex" Format="ci8" Width="32" Height="32" Offset="0x6D28" TlutOffset="0x5D30"/>
 
         <!-- These hints are currently needed for ZAPD to extract the textures properly. -->
         <Texture Name="sGerudoRedTexHint1" Format="rgba16" Width="18" Height="14" Offset="0x5D30"/>
         <Texture Name="sGerudoRedTexHint2" Format="ci8" Width="8" Height="8" Offset="0x5F28" TlutOffset="0x5D30"/>
+
+        <!-- Vertices -->
+        <Array Name="object_geldb_Vtx_002C00" Count="30" Offset="0x2C00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_002DE0" Count="25" Offset="0x2DE0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_002F70" Count="30" Offset="0x2F70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_003150" Count="25" Offset="0x3150">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_0032E0" Count="101" Offset="0x32E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_003930" Count="65" Offset="0x3930">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_003D40" Count="31" Offset="0x3D40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_003F30" Count="61" Offset="0x3F30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_004300" Count="31" Offset="0x4300">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_0044F0" Count="63" Offset="0x44F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_007128" Count="43" Offset="0x7128">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_0073D8" Count="43" Offset="0x73D8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_007688" Count="34" Offset="0x7688">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_0078A8" Count="35" Offset="0x78A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_007AD8" Count="34" Offset="0x7AD8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_007CF8" Count="35" Offset="0x7CF8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_007F28" Count="12" Offset="0x7F28">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_007FE8" Count="14" Offset="0x7FE8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_geldb_Vtx_0080C8" Count="232" Offset="0x80C8">
+            <Vtx/>
+        </Array>
+
+        <Texture Name="object_geldb_002500_TLUT" Format="rgba16" Width="104" Height="1" Offset="0x2500"/>
+        <Blob Name="object_geldb_0025D0_Blob" Size="0x130" Offset="0x25D0"/>
+        <Texture Name="object_geldb_002700_Tex" Format="ci8" Width="8" Height="8" Offset="0x2700" TlutOffset="0x2500"/>
+        <Texture Name="object_geldb_002740_Tex" Format="ci8" Width="8" Height="8" Offset="0x2740" TlutOffset="0x2500"/>
+        <Texture Name="object_geldb_002780_Tex" Format="ci8" Width="16" Height="16" Offset="0x2780" TlutOffset="0x2500"/>
+        <Texture Name="object_geldb_002880_Tex" Format="i8" Width="16" Height="16" Offset="0x2880"/>
+        <Texture Name="object_geldb_002980_Tex" Format="ci8" Width="16" Height="16" Offset="0x2980" TlutOffset="0x2500"/>
+        <Texture Name="object_geldb_002A80_Tex" Format="i8" Width="16" Height="16" Offset="0x2A80"/>
+        <Texture Name="object_geldb_002B80_Tex" Format="i8" Width="8" Height="16" Offset="0x2B80"/>
+        <DList Name="object_geldb_0048E0_DL" Offset="0x48E0"/>
+        <DList Name="object_geldb_004D60_DL" Offset="0x4D60"/>
+        <DList Name="object_geldb_004E98_DL" Offset="0x4E98"/>
+        <DList Name="object_geldb_0050C0_DL" Offset="0x50C0"/>
+        <DList Name="object_geldb_0051F8_DL" Offset="0x51F8"/>
+        <DList Name="object_geldb_005420_DL" Offset="0x5420"/>
+        <DList Name="object_geldb_005640_DL" Offset="0x5640"/>
+        <DList Name="object_geldb_005740_DL" Offset="0x5740"/>
+        <DList Name="object_geldb_0059B0_DL" Offset="0x59B0"/>
+        <DList Name="object_geldb_005AB0_DL" Offset="0x5AB0"/>
+        <Texture Name="object_geldb_005F68_Tex" Format="ci8" Width="8" Height="16" Offset="0x5F68" TlutOffset="0x5D30"/>
+        <Texture Name="object_geldb_0063E8_Tex" Format="i8" Width="16" Height="16" Offset="0x63E8"/>
+        <Texture Name="object_geldb_0064E8_Tex" Format="ci8" Width="8" Height="16" Offset="0x64E8" TlutOffset="0x5D30"/>
+        <Texture Name="object_geldb_006568_Tex" Format="ci8" Width="8" Height="8" Offset="0x6568" TlutOffset="0x5D30"/>
+        <Texture Name="object_geldb_0069A8_Tex" Format="i8" Width="8" Height="16" Offset="0x69A8"/>
+        <Texture Name="object_geldb_006A28_Tex" Format="ci8" Width="16" Height="16" Offset="0x6A28" TlutOffset="0x5D30"/>
+        <Texture Name="object_geldb_006B28_Tex" Format="ci8" Width="16" Height="16" Offset="0x6B28" TlutOffset="0x5D30"/>
+        <Texture Name="object_geldb_006C28_Tex" Format="ci8" Width="16" Height="16" Offset="0x6C28" TlutOffset="0x5D30"/>
+        <DList Name="object_geldb_008F48_DL" Offset="0x8F48"/>
+        <DList Name="object_geldb_009108_DL" Offset="0x9108"/>
+        <DList Name="object_geldb_0092C8_DL" Offset="0x92C8"/>
+        <DList Name="object_geldb_009460_DL" Offset="0x9460"/>
+        <DList Name="object_geldb_009638_DL" Offset="0x9638"/>
+        <DList Name="object_geldb_0097D0_DL" Offset="0x97D0"/>
+        <DList Name="object_geldb_0099A8_DL" Offset="0x99A8"/>
+        <DList Name="object_geldb_009A60_DL" Offset="0x9A60"/>
+        <DList Name="object_geldb_009B50_DL" Offset="0x9B50"/>
+        <Limb Name="object_geldb_00A2E8_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_ROOT" Offset="0xA2E8"/>
+        <Limb Name="object_geldb_00A2F4_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_TORSO" Offset="0xA2F4"/>
+        <Limb Name="object_geldb_00A300_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_NECK" Offset="0xA300"/>
+        <Limb Name="object_geldb_00A30C_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_PONYTAIL" Offset="0xA30C"/>
+        <Limb Name="object_geldb_00A318_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_VEIL" Offset="0xA318"/>
+        <Limb Name="object_geldb_00A324_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_HEAD" Offset="0xA324"/>
+        <Limb Name="object_geldb_00A330_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_UPPER_ARM" Offset="0xA330"/>
+        <Limb Name="object_geldb_00A33C_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_FOREARM" Offset="0xA33C"/>
+        <Limb Name="object_geldb_00A348_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_WRIST" Offset="0xA348"/>
+        <Limb Name="object_geldb_00A354_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_HAND" Offset="0xA354"/>
+        <Limb Name="object_geldb_00A360_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_SWORD" Offset="0xA360"/>
+        <Limb Name="object_geldb_00A36C_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_UPPER_ARM" Offset="0xA36C"/>
+        <Limb Name="object_geldb_00A378_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_FOREARM" Offset="0xA378"/>
+        <Limb Name="object_geldb_00A384_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_WRIST" Offset="0xA384"/>
+        <Limb Name="object_geldb_00A390_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_HAND" Offset="0xA390"/>
+        <Limb Name="object_geldb_00A39C_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_SWORD" Offset="0xA39C"/>
+        <Limb Name="object_geldb_00A3A8_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_THIGH" Offset="0xA3A8"/>
+        <Limb Name="object_geldb_00A3B4_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_SHIN" Offset="0xA3B4"/>
+        <Limb Name="object_geldb_00A3C0_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_L_FOOT" Offset="0xA3C0"/>
+        <Limb Name="object_geldb_00A3CC_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_THIGH" Offset="0xA3CC"/>
+        <Limb Name="object_geldb_00A3D8_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_SHIN" Offset="0xA3D8"/>
+        <Limb Name="object_geldb_00A3E4_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_R_FOOT" Offset="0xA3E4"/>
+        <Limb Name="object_geldb_00A3F0_Limb" LimbType="Standard" EnumName="GERUDO_RED_LIMB_WAIST" Offset="0xA3F0"/>
     </File>
 </Root>

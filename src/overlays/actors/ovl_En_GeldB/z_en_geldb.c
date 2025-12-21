@@ -7,6 +7,7 @@
 #include "z_en_geldb.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -17,11 +18,11 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_geldb/object_geldb.h"
 
@@ -110,8 +111,8 @@ static ColliderCylinderInit sBodyCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK1,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -119,12 +120,12 @@ static ColliderCylinderInit sBodyCylinderInit = {
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
+static ColliderTrisElementInit sBlockTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK2,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFC1FFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFC1FFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -134,8 +135,8 @@ static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK2,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFC1FFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFC1FFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -153,7 +154,7 @@ static ColliderTrisInit sBlockTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sBlockTrisElementsInit),
     sBlockTrisElementsInit,
 };
 
@@ -168,8 +169,8 @@ static ColliderQuadInit sSwordQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x08 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -251,7 +252,7 @@ void EnGeldB_Init(Actor* thisx, PlayState* play) {
     this->blinkState = 0;
     this->unkFloat = 10.0f;
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoRedSkel, &gGerudoRedNeutralAnim, this->jointTable,
-                       this->morphTable, GELDB_LIMB_MAX);
+                       this->morphTable, GERUDO_RED_LIMB_MAX);
     Collider_InitCylinder(play, &this->bodyCollider);
     Collider_SetCylinder(play, &this->bodyCollider, thisx, &sBodyCylinderInit);
     Collider_InitTris(play, &this->blockCollider);
@@ -1409,9 +1410,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, PlayState* play) {
                         if (key != NULL) {
                             key->actor.world.rot.y = Math_Vec3f_Yaw(&key->actor.world.pos, &this->actor.home.pos);
                             key->actor.speed = 6.0f;
-                            Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
-                                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                 &gSfxDefaultReverb);
+                            SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                         }
                     }
                     EnGeldB_SetupDefeated(this);
@@ -1464,14 +1463,14 @@ s32 EnGeldB_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
     EnGeldB* this = (EnGeldB*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_geldB.c", 2507);
-    if (limbIndex == GELDB_LIMB_NECK) {
+    if (limbIndex == GERUDO_RED_LIMB_NECK) {
         rot->z += this->headRot.x;
         rot->x += this->headRot.y;
         rot->y += this->headRot.z;
-    } else if (limbIndex == GELDB_LIMB_HEAD) {
+    } else if (limbIndex == GERUDO_RED_LIMB_HEAD) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 80, 60, 10, 255);
-    } else if ((limbIndex == GELDB_LIMB_R_SWORD) || (limbIndex == GELDB_LIMB_L_SWORD)) {
+    } else if ((limbIndex == GERUDO_RED_LIMB_R_SWORD) || (limbIndex == GERUDO_RED_LIMB_L_SWORD)) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 140, 170, 230, 255);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
@@ -1497,7 +1496,7 @@ void EnGeldB_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
     EnGeldB* this = (EnGeldB*)thisx;
     s32 bodyPart = -1;
 
-    if (limbIndex == GELDB_LIMB_R_SWORD) {
+    if (limbIndex == GERUDO_RED_LIMB_R_SWORD) {
         Matrix_MultVec3f(&swordQuadOffset1, &this->swordCollider.dim.quad[1]);
         Matrix_MultVec3f(&swordQuadOffset0, &this->swordCollider.dim.quad[0]);
         Matrix_MultVec3f(&swordQuadOffset3, &this->swordCollider.dim.quad[3]);
@@ -1515,42 +1514,43 @@ void EnGeldB_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
             EffectBlure_AddVertex(Effect_GetByIndex(this->blureIndex), &swordTip, &swordHilt);
         }
     } else {
-        Actor_SetFeetPos(&this->actor, limbIndex, GELDB_LIMB_L_FOOT, &footOffset, GELDB_LIMB_R_FOOT, &footOffset);
+        Actor_SetFeetPos(&this->actor, limbIndex, GERUDO_RED_LIMB_L_FOOT, &footOffset, GERUDO_RED_LIMB_R_FOOT,
+                         &footOffset);
     }
 
-    if (limbIndex == GELDB_LIMB_L_FOOT) {
+    if (limbIndex == GERUDO_RED_LIMB_L_FOOT) {
         Matrix_MultVec3f(&footOffset, &this->leftFootPos);
-    } else if (limbIndex == GELDB_LIMB_R_FOOT) {
+    } else if (limbIndex == GERUDO_RED_LIMB_R_FOOT) {
         Matrix_MultVec3f(&footOffset, &this->rightFootPos);
     }
 
     if (this->iceTimer != 0) {
         switch (limbIndex) {
-            case GELDB_LIMB_NECK:
+            case GERUDO_RED_LIMB_NECK:
                 bodyPart = 0;
                 break;
-            case GELDB_LIMB_L_SWORD:
+            case GERUDO_RED_LIMB_L_SWORD:
                 bodyPart = 1;
                 break;
-            case GELDB_LIMB_R_SWORD:
+            case GERUDO_RED_LIMB_R_SWORD:
                 bodyPart = 2;
                 break;
-            case GELDB_LIMB_L_UPPER_ARM:
+            case GERUDO_RED_LIMB_L_UPPER_ARM:
                 bodyPart = 3;
                 break;
-            case GELDB_LIMB_R_UPPER_ARM:
+            case GERUDO_RED_LIMB_R_UPPER_ARM:
                 bodyPart = 4;
                 break;
-            case GELDB_LIMB_TORSO:
+            case GERUDO_RED_LIMB_TORSO:
                 bodyPart = 5;
                 break;
-            case GELDB_LIMB_WAIST:
+            case GERUDO_RED_LIMB_WAIST:
                 bodyPart = 6;
                 break;
-            case GELDB_LIMB_L_FOOT:
+            case GERUDO_RED_LIMB_L_FOOT:
                 bodyPart = 7;
                 break;
-            case GELDB_LIMB_R_FOOT:
+            case GERUDO_RED_LIMB_R_FOOT:
                 bodyPart = 8;
                 break;
             default:

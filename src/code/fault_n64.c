@@ -10,7 +10,7 @@
 #include "stack.h"
 #include "stackcheck.h"
 #include "terminal.h"
-#include "z64thread.h"
+#include "thread.h"
 #include "translation.h"
 
 #pragma increment_block_number "ntsc-1.0:144 ntsc-1.1:144 ntsc-1.2:144 pal-1.0:144 pal-1.1:144"

@@ -53,11 +53,11 @@ class CutsceneResource(Resource, can_size_be_unknown=True):
 
     def get_c_includes(self):
         return (
-            "z64cutscene_commands.h",
+            "cutscene_commands.h",
             # TODO these are not always needed:
-            "z64ocarina.h", # for OCARINA_ACTION_*
-            "z64player.h", # for PLAYER_CUEID_*
+            "ocarina.h", # for OCARINA_ACTION_*
+            "player.h", # for PLAYER_CUEID_*
         )
 
     def get_h_includes(self):
-        return ("z64cutscene.h",)
+        return ("cutscene.h",)

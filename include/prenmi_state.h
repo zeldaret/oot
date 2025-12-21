@@ -2,7 +2,7 @@
 #define PRENMI_STATE_H
 
 #include "ultra64.h"
-#include "z64game.h"
+#include "game.h"
 
 typedef struct PreNMIState {
     /* 0x00 */ GameState state;

@@ -6,12 +6,13 @@
 
 #include "z_bg_bombwall.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
@@ -28,12 +29,12 @@ void func_8086EDFC(BgBombwall* this, PlayState* play);
 void func_8086EE40(BgBombwall* this, PlayState* play);
 void func_8086EE94(BgBombwall* this, PlayState* play);
 
-static ColliderTrisElementInit sTrisElementsInit[3] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000048, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000048, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -43,8 +44,8 @@ static ColliderTrisElementInit sTrisElementsInit[3] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000048, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000048, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -54,8 +55,8 @@ static ColliderTrisElementInit sTrisElementsInit[3] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000048, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000048, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -73,7 +74,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    3,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 
@@ -156,7 +157,8 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
         func_8086ED50(this, play);
     }
 
-    PRINTF("(field keep " T("汎用爆弾壁", "general purpose bomb wall") ")(arg_data 0x%04x)(angY %d)\n",
+    PRINTF(T("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n",
+             "(field keep general purpose bomb wall)(arg_data 0x%04x)(angY %d)\n"),
            this->dyna.actor.params, this->dyna.actor.shape.rot.y);
 }
 

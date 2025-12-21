@@ -9,8 +9,93 @@
         <Animation Name="gRunningManExcitedAnim" Offset="0x73A0"/>
         <Animation Name="gRunningManHappyAnim" Offset="0x8060"/>
 
-        <Texture Name="gRunningManTLUT" OutName="running_man_tlut" Format="rgba16" Width="16" Height="16" Offset="0x730"/>
-        <Texture Name="gRunningManMouthOpenTex" OutName="running_man_mouth_open" Format="ci8" Width="32" Height="16" Offset="0xE30" TlutOffset="0x730"/>
-        <Texture Name="gRunningManMouthClosedTex" OutName="running_man_mouth_closed" Format="ci8" Width="32" Height="16" Offset="0xC30" TlutOffset="0x730"/>
+        <Texture Name="gRunningManTLUT" Format="rgba16" Width="16" Height="16" Offset="0x730"/>
+        <Texture Name="gRunningManMouthOpenTex" Format="ci8" Width="32" Height="16" Offset="0xE30" TlutOffset="0x730"/>
+        <Texture Name="gRunningManMouthClosedTex" Format="ci8" Width="32" Height="16" Offset="0xC30" TlutOffset="0x730"/>
+
+        <Texture Name="object_mm_000930_Tex" Format="ci8" Width="8" Height="8" Offset="0x930" TlutOffset="0x730"/>
+        <Texture Name="object_mm_000970_Tex" Format="ci8" Width="8" Height="8" Offset="0x970" TlutOffset="0x730"/>
+        <Texture Name="object_mm_0009B0_Tex" Format="ci8" Width="8" Height="8" Offset="0x9B0" TlutOffset="0x730"/>
+        <Texture Name="object_mm_0009F0_Tex" Format="ci8" Width="8" Height="8" Offset="0x9F0" TlutOffset="0x730"/>
+        <Texture Name="object_mm_000A30_Tex" Format="ci8" Width="16" Height="16" Offset="0xA30" TlutOffset="0x730"/>
+        <Texture Name="object_mm_000B30_Tex" Format="ci8" Width="16" Height="16" Offset="0xB30" TlutOffset="0x730"/>
+        <Texture Name="object_mm_001030_Tex" Format="ci8" Width="16" Height="16" Offset="0x1030" TlutOffset="0x730"/>
+        <Texture Name="object_mm_001130_Tex" Format="ci8" Width="32" Height="16" Offset="0x1130" TlutOffset="0x730"/>
+        <Texture Name="object_mm_001330_Tex" Format="ci8" Width="16" Height="16" Offset="0x1330" TlutOffset="0x730"/>
+        <Array Name="object_mm_Vtx_001430" Count="158" Offset="0x1430">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_001E10" Count="44" Offset="0x1E10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_0020D0" Count="36" Offset="0x20D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_002310" Count="26" Offset="0x2310">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_0024B0" Count="44" Offset="0x24B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_002770" Count="36" Offset="0x2770">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_0029B0" Count="26" Offset="0x29B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_002B50" Count="72" Offset="0x2B50">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_002FD0" Count="38" Offset="0x2FD0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_003230" Count="47" Offset="0x3230">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_003520" Count="37" Offset="0x3520">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_003770" Count="38" Offset="0x3770">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_0039D0" Count="47" Offset="0x39D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_003CC0" Count="37" Offset="0x3CC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mm_Vtx_003F10" Count="16" Offset="0x3F10">
+            <Vtx/>
+        </Array>
+        <DList Name="object_mm_004010_DL" Offset="0x4010"/>
+        <DList Name="object_mm_004348_DL" Offset="0x4348"/>
+        <DList Name="object_mm_004A68_DL" Offset="0x4A68"/>
+        <DList Name="object_mm_004B98_DL" Offset="0x4B98"/>
+        <DList Name="object_mm_004CC8_DL" Offset="0x4CC8"/>
+        <DList Name="object_mm_004EC8_DL" Offset="0x4EC8"/>
+        <DList Name="object_mm_004FF8_DL" Offset="0x4FF8"/>
+        <DList Name="object_mm_005128_DL" Offset="0x5128"/>
+        <DList Name="object_mm_005328_DL" Offset="0x5328"/>
+        <DList Name="object_mm_0053C0_DL" Offset="0x53C0"/>
+        <DList Name="object_mm_005620_DL" Offset="0x5620"/>
+        <DList Name="object_mm_005788_DL" Offset="0x5788"/>
+        <DList Name="object_mm_0058B8_DL" Offset="0x58B8"/>
+        <DList Name="object_mm_005A90_DL" Offset="0x5A90"/>
+        <DList Name="object_mm_005BF8_DL" Offset="0x5BF8"/>
+        <Limb Name="object_mm_005D28_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005D28" Offset="0x5D28"/>
+        <Limb Name="object_mm_005D34_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005D34" Offset="0x5D34"/>
+        <Limb Name="object_mm_005D40_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005D40" Offset="0x5D40"/>
+        <Limb Name="object_mm_005D4C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005D4C" Offset="0x5D4C"/>
+        <Limb Name="object_mm_005D58_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005D58" Offset="0x5D58"/>
+        <Limb Name="object_mm_005D64_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005D64" Offset="0x5D64"/>
+        <Limb Name="object_mm_005D70_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005D70" Offset="0x5D70"/>
+        <Limb Name="object_mm_005D7C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005D7C" Offset="0x5D7C"/>
+        <Limb Name="object_mm_005D88_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005D88" Offset="0x5D88"/>
+        <Limb Name="object_mm_005D94_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005D94" Offset="0x5D94"/>
+        <Limb Name="object_mm_005DA0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005DA0" Offset="0x5DA0"/>
+        <Limb Name="object_mm_005DAC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005DAC" Offset="0x5DAC"/>
+        <Limb Name="object_mm_005DB8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005DB8" Offset="0x5DB8"/>
+        <Limb Name="object_mm_005DC4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005DC4" Offset="0x5DC4"/>
+        <Limb Name="object_mm_005DD0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MM_005DD0" Offset="0x5DD0"/>
     </File>
 </Root>

@@ -1,4 +1,4 @@
-#include "z64sram.h"
+#include "sram.h"
 
 #include "array_count.h"
 #include "file_select_state.h"
@@ -8,14 +8,14 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64game.h"
-#include "z64interface.h"
-#include "z64message.h"
-#include "z64ocarina.h"
-#include "z64save.h"
-#include "z64scene.h"
-#include "z64ss_sram.h"
+#include "audio.h"
+#include "game.h"
+#include "interface.h"
+#include "message.h"
+#include "ocarina.h"
+#include "save.h"
+#include "scene.h"
+#include "ss_sram.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)
@@ -859,11 +859,11 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
     gSaveContext.save.entranceIndex = ENTR_LINKS_HOUSE_0;
     gSaveContext.save.linkAge = LINK_AGE_CHILD;
     gSaveContext.save.dayTime = CLOCK_TIME(10, 0);
-    gSaveContext.save.cutsceneIndex = 0xFFF1;
+    gSaveContext.save.cutsceneIndex = CS_INDEX_1;
 
 #if DEBUG_FEATURES
     if (fileSelect->buttonIndex == 0) {
-        gSaveContext.save.cutsceneIndex = 0;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
     }
 #endif
 

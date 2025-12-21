@@ -4,10 +4,10 @@
 #include "printf.h"
 #include "regs.h"
 #include "translation.h"
-#include "z64horse.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "horse.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 /**
@@ -164,15 +164,15 @@ typedef struct HorseCutsceneSpawn {
 
 void Horse_SetupInCutscene(PlayState* play, Player* player) {
     static HorseCutsceneSpawn horseSpawns[] = {
-        { SCENE_GERUDOS_FORTRESS, 0xFFF0, { 3600, 1413, 360 }, 0x8001, HORSE_PTYPE_HORSEBACK_ARCHERY },
-        { SCENE_LON_LON_RANCH, 0xFFF0, { -250, 1, -1580 }, 0x4000, HORSE_PTYPE_6 },  // Horse Race
-        { SCENE_LON_LON_RANCH, 0xFFF1, { 0, 0, 0 }, 0x0000, HORSE_PTYPE_5 },         // Learned Epona's Song
-        { SCENE_LON_LON_RANCH, 0xFFF5, { 0, 0, 0 }, 0x0000, HORSE_PTYPE_7 },         // Credits
-        { SCENE_HYRULE_FIELD, 0xFFF3, { -2961, 313, 7700 }, 0x0000, HORSE_PTYPE_7 }, // Title Screen
-        { SCENE_HYRULE_FIELD, 0xFFF4, { -1900, 313, 7015 }, 0x0000, HORSE_PTYPE_7 },
-        { SCENE_HYRULE_FIELD, 0xFFF5, { -4043, 313, 6933 }, 0x0000, HORSE_PTYPE_7 }, // Credits
-        { SCENE_HYRULE_FIELD, 0xFFF6, { -4043, 313, 6933 }, 0x0000, HORSE_PTYPE_7 }, // Unused. Hopping Lon Lon
-                                                                                     // Ranch North Gate
+        { SCENE_GERUDOS_FORTRESS, CS_INDEX_0, { 3600, 1413, 360 }, 0x8001, HORSE_PTYPE_HORSEBACK_ARCHERY },
+        { SCENE_LON_LON_RANCH, CS_INDEX_0, { -250, 1, -1580 }, 0x4000, HORSE_PTYPE_6 },  // Horse Race
+        { SCENE_LON_LON_RANCH, CS_INDEX_1, { 0, 0, 0 }, 0x0000, HORSE_PTYPE_5 },         // Learned Epona's Song
+        { SCENE_LON_LON_RANCH, CS_INDEX_5, { 0, 0, 0 }, 0x0000, HORSE_PTYPE_7 },         // Credits
+        { SCENE_HYRULE_FIELD, CS_INDEX_3, { -2961, 313, 7700 }, 0x0000, HORSE_PTYPE_7 }, // Title Screen
+        { SCENE_HYRULE_FIELD, CS_INDEX_4, { -1900, 313, 7015 }, 0x0000, HORSE_PTYPE_7 },
+        { SCENE_HYRULE_FIELD, CS_INDEX_5, { -4043, 313, 6933 }, 0x0000, HORSE_PTYPE_7 }, // Credits
+        { SCENE_HYRULE_FIELD, CS_INDEX_6, { -4043, 313, 6933 }, 0x0000, HORSE_PTYPE_7 }, // Unused. Hopping Lon Lon
+                                                                                         // Ranch North Gate
     };
     s32 pad;
     s32 i;
@@ -235,7 +235,7 @@ void Horse_SetupInCutscene(PlayState* play, Player* player) {
                 (((void)0, gSaveContext.save.cutsceneIndex) == horseSpawns[i].cutsceneIndex)) {
                 if (horseSpawns[i].type == HORSE_PTYPE_7) {
                     if ((play->sceneId == SCENE_LON_LON_RANCH) &&
-                        (((void)0, gSaveContext.save.cutsceneIndex) == 0xFFF1)) {
+                        (((void)0, gSaveContext.save.cutsceneIndex) == CS_INDEX_1)) {
                         horseSpawns[i].pos.x = player->actor.world.pos.x;
                         horseSpawns[i].pos.y = player->actor.world.pos.y;
                         horseSpawns[i].pos.z = player->actor.world.pos.z;

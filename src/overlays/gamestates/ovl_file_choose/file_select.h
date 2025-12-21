@@ -5,7 +5,7 @@
 #include "ultra64.h"
 #include "gfx.h"
 #include "versions.h"
-#include "z64game.h"
+#include "game.h"
 
 
 #define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + offsetof(SaveContext, save.info.playerData.newf[index])])
@@ -223,6 +223,28 @@ void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
 
 #if OOT_VERSION == PAL_1_1
 extern s16 D_808124C0[];
+#endif
+
+extern Vtx gNameEntryVtx[];
+extern Vtx gOptionsMenuHeadersVtx[];
+extern Vtx gOptionsMenuSettingsVtx[];
+extern Vtx gOptionsDividerSoundVtx[];
+extern Vtx gOptionsDividerZTargetVtx[];
+extern Vtx gOptionsDividerBrightnessVtx[];
+extern s16 gCharPageEng[];
+#if OOT_NTSC
+extern s16 gCharPageHira[];
+extern s16 gCharPageKata[];
+extern s16 gNextCharPage[];
+#endif
+#if OOT_PAL && PLATFORM_N64
+extern Vtx gOptionsMenuBrightnessVtx[];
+extern Vtx gOptionsMenuLanguageVtx[];
+extern Vtx gOptionsDividerLanguageVtx[];
+#endif
+#if OOT_PAL && PLATFORM_GC
+extern Vtx gOptionsMenuHeadersGERVtx[];
+extern Vtx gOptionsMenuSettingsGERVtx[];
 #endif
 
 #endif

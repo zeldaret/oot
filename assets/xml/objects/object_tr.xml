@@ -31,25 +31,25 @@
         <DList Name="gKotakeRightThighDL" Offset="0x7720"/> <!-- Renders a single triangle instead of a normal-looking limb -->
         <DList Name="gKotakeLeftThighDL" Offset="0x7728"/> <!-- Renders a single triangle instead of a normal-looking limb -->
 
-        <Texture Name="gKotakeKoumeTLUT" OutName="kotake_koume_tlut" Format="rgba16" Width="53" Height="4" Offset="0x7730"/>
-        <Texture Name="gKotakeGerudoFabricTex" OutName="kotake_gerudo_fabric" Format="rgba16" Width="32" Height="32" Offset="0x78D8"/>
-        <Texture Name="gKotakeRobeTex" OutName="kotake_robe" Format="rgba16" Width="16" Height="16" Offset="0x80D8"/>
-        <Texture Name="gKotakeKoumeRobePatternTex" OutName="kotake_koume_robe_pattern" Format="rgba16" Width="16" Height="16" Offset="0x82D8"/>
-        <Texture Name="gKotakeKoumeRobeTrimTex" OutName="kotake_koume_robe_trim" Format="rgba16" Width="16" Height="16" Offset="0x84D8"/>
-        <Texture Name="gKotakeKoumeEyeOpenTex" OutName="kotake_koume_eye_open" Format="ci8" Width="32" Height="32" Offset="0x86D8" TlutOffset="0x7730"/>
-        <Texture Name="gKotakeKoumeSkinTex" OutName="kotake_koume_skin" Format="ci8" Width="16" Height="8" Offset="0x8AD8" TlutOffset="0x7730"/>
-        <Texture Name="gKotakeKoumeMouthTex" OutName="kotake_koume_mouth" Format="ci8" Width="8" Height="8" Offset="0x8B58" TlutOffset="0x7730"/>
-        <Texture Name="gKotakeKoumeHairTex" OutName="kotake_koume_hair" Format="rgba16" Width="8" Height="32" Offset="0x8B98"/>
-        <Texture Name="gKotakeKoumeEarTex" OutName="kotake_koume_ear" Format="ci8" Width="8" Height="8" Offset="0x8D98" TlutOffset="0x7730"/>
-        <Texture Name="gKotakeKoumeFingerTex" OutName="kotake_koume_finger" Format="ci8" Width="8" Height="16" Offset="0x8DD8" TlutOffset="0x7730"/>
-        <Texture Name="gKotakeKoumeBroomHandleTex" OutName="kotake_koume_broom_handle" Format="rgba16" Width="8" Height="8" Offset="0x8E58"/>
-        <Texture Name="gKotakeKoumeBroomHeadTex" OutName="kotake_koume_broom_head" Format="rgba16" Width="16" Height="32" Offset="0x8ED8"/>
-        <Texture Name="gKotakeKoumeJewelHolderTex" OutName="kotake_koume_jewel_holder" Format="rgba16" Width="16" Height="8" Offset="0x92D8"/>
-        <Texture Name="gKotakeJewelTex" OutName="kotake_jewel" Format="rgba16" Width="8" Height="8" Offset="0x93D8"/>
-        <Texture Name="gKotakeKoumeNeckTex" OutName="kotake_koume_neck" Format="ci8" Width="8" Height="8" Offset="0x9458" TlutOffset="0x7730"/>
-        <Texture Name="gKotakeKoumeNostrilsTex" OutName="kotake_koume_nostrils" Format="ci8" Width="8" Height="8" Offset="0x9498" TlutOffset="0x7730"/>
-        <Texture Name="gKotakeKoumeEyeHalfTex" OutName="kotake_koume_eye_half" Format="ci8" Width="32" Height="32" Offset="0x94D8" TlutOffset="0x7730"/>
-        <Texture Name="gKotakeKoumeEyeClosedTex" OutName="kotake_koume_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x98D8" TlutOffset="0x7730"/>
+        <Texture Name="gKotakeKoumeTLUT" Format="rgba16" Width="53" Height="4" Offset="0x7730"/>
+        <Texture Name="gKotakeGerudoFabricTex" Format="rgba16" Width="32" Height="32" Offset="0x78D8"/>
+        <Texture Name="gKotakeRobeTex" Format="rgba16" Width="16" Height="16" Offset="0x80D8"/>
+        <Texture Name="gKotakeKoumeRobePatternTex" Format="rgba16" Width="16" Height="16" Offset="0x82D8"/>
+        <Texture Name="gKotakeKoumeRobeTrimTex" Format="rgba16" Width="16" Height="16" Offset="0x84D8"/>
+        <Texture Name="gKotakeKoumeEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x86D8" TlutOffset="0x7730"/>
+        <Texture Name="gKotakeKoumeSkinTex" Format="ci8" Width="16" Height="8" Offset="0x8AD8" TlutOffset="0x7730"/>
+        <Texture Name="gKotakeKoumeMouthTex" Format="ci8" Width="8" Height="8" Offset="0x8B58" TlutOffset="0x7730"/>
+        <Texture Name="gKotakeKoumeHairTex" Format="rgba16" Width="8" Height="32" Offset="0x8B98"/>
+        <Texture Name="gKotakeKoumeEarTex" Format="ci8" Width="8" Height="8" Offset="0x8D98" TlutOffset="0x7730"/>
+        <Texture Name="gKotakeKoumeFingerTex" Format="ci8" Width="8" Height="16" Offset="0x8DD8" TlutOffset="0x7730"/>
+        <Texture Name="gKotakeKoumeBroomHandleTex" Format="rgba16" Width="8" Height="8" Offset="0x8E58"/>
+        <Texture Name="gKotakeKoumeBroomHeadTex" Format="rgba16" Width="16" Height="32" Offset="0x8ED8"/>
+        <Texture Name="gKotakeKoumeJewelHolderTex" Format="rgba16" Width="16" Height="8" Offset="0x92D8"/>
+        <Texture Name="gKotakeJewelTex" Format="rgba16" Width="8" Height="8" Offset="0x93D8"/>
+        <Texture Name="gKotakeKoumeNeckTex" Format="ci8" Width="8" Height="8" Offset="0x9458" TlutOffset="0x7730"/>
+        <Texture Name="gKotakeKoumeNostrilsTex" Format="ci8" Width="8" Height="8" Offset="0x9498" TlutOffset="0x7730"/>
+        <Texture Name="gKotakeKoumeEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x94D8" TlutOffset="0x7730"/>
+        <Texture Name="gKotakeKoumeEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x98D8" TlutOffset="0x7730"/>
 
         <Array Name="gKotakeHeadVtx" Count="159" Offset="0x9CD8">
             <Vtx/>
@@ -88,11 +88,11 @@
         <DList Name="gKotakeRightHandDL" Offset="0xBA00"/>
         <DList Name="gKotakeLeftHandDL" Offset="0xBB68"/>
 
-        <Texture Name="gKotakeKoumeBraidEndTex" OutName="kotake_koume_braid_end" Format="rgba16" Width="8" Height="8" Offset="0xBCD0"/>
+        <Texture Name="gKotakeKoumeBraidEndTex" Format="rgba16" Width="8" Height="8" Offset="0xBCD0"/>
 
         <Blob Name="object_tr_Blob_00BD50" Size="0x580" Offset="0xBD50"/>
 
-        <Texture Name="gKotakeCollarNeckTex" OutName="kotake_collar_neck" Format="rgba16" Width="4" Height="8" Offset="0xC2D0"/>
+        <Texture Name="gKotakeCollarNeckTex" Format="rgba16" Width="4" Height="8" Offset="0xC2D0"/>
 
         <Blob Name="object_tr_Blob_00C310" Size="0x80" Offset="0xC310"/>
 
@@ -148,9 +148,9 @@
         <DList Name="gKoumeRightThighDL" Offset="0xEA20"/> <!-- Renders a single triangle instead of a normal-looking limb -->
         <DList Name="gKoumeLeftThighDL" Offset="0xEA28"/> <!-- Renders a single triangle instead of a normal-looking limb -->
 
-        <Texture Name="gKoumeGerudoFabricTex" OutName="koume_gerudo_fabric" Format="rgba16" Width="32" Height="32" Offset="0xEA30"/>
-        <Texture Name="gKoumeRobeTex" OutName="koume_robe" Format="rgba16" Width="16" Height="16" Offset="0xF230"/>
-        <Texture Name="gKoumeJewelTex" OutName="koume_jewel" Format="rgba16" Width="8" Height="8" Offset="0xF430"/>
+        <Texture Name="gKoumeGerudoFabricTex" Format="rgba16" Width="32" Height="32" Offset="0xEA30"/>
+        <Texture Name="gKoumeRobeTex" Format="rgba16" Width="16" Height="16" Offset="0xF230"/>
+        <Texture Name="gKoumeJewelTex" Format="rgba16" Width="8" Height="8" Offset="0xF430"/>
 
         <Array Name="gKoumeHeadVtx" Count="159" Offset="0xF4B0">
             <Vtx/>
@@ -189,7 +189,7 @@
         <DList Name="gKoumeRightHandDL" Offset="0x111D8"/>
         <DList Name="gKoumeLeftHandDL" Offset="0x11340"/>
 
-        <Texture Name="gKoumeCollarNeckTex" OutName="koume_collar_neck" Format="rgba16" Width="4" Height="8" Offset="0x114A8"/>
+        <Texture Name="gKoumeCollarNeckTex" Format="rgba16" Width="4" Height="8" Offset="0x114A8"/>
 
         <Limb Name="gKoumePelvisLimb" LimbType="Standard" Offset="0x114E8"/>
         <Limb Name="gKoumeLeftThighLimb" LimbType="Standard" Offset="0x114F4"/>

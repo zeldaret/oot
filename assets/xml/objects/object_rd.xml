@@ -2,8 +2,8 @@
     <!-- Assets for Gibdos and Redeads -->
     <File Name="object_rd" Segment="6">
         <!-- Gibdo Textures -->
-        <Texture Name="gGibdoWrappingTex" OutName="gibdo_wrapping" Format="rgba16" Width="64" Height="32" Offset="0x0"/>
-        <Texture Name="gGibdoEyeTex" OutName="gibdo_eye" Format="rgba16" Width="32" Height="16" Offset="0x1000"/>
+        <Texture Name="gGibdoWrappingTex" Format="rgba16" Width="64" Height="32" Offset="0x0"/>
+        <Texture Name="gGibdoEyeTex" Format="rgba16" Width="32" Height="16" Offset="0x1000"/>
 
         <!-- Gibdo Limb Vertices -->
         <Array Name="gGibdoLeftHandVtx" Count="21" Offset="0x1400">
@@ -111,13 +111,13 @@
         <Animation Name="gGibdoRedeadIdleAnim" Offset="0x87D0"/> <!-- Original name is "re_dead_wait" -->
 
         <!-- Redead Textures -->
-        <Texture Name="gRedeadBackTex" OutName="redead_back" Format="rgba16" Width="32" Height="64" Offset="0x87E0"/>
-        <Texture Name="gRedeadTorsoTex" OutName="redead_torso" Format="rgba16" Width="32" Height="64" Offset="0x97E0"/>
-        <Texture Name="gRedeadFingersAndToesTex" OutName="redead_fingers_and_toes" Format="rgba16" Width="16" Height="32" Offset="0xA7E0"/>
-        <Texture Name="gRedeadMuscleTex" OutName="redead_muscle" Format="rgba16" Width="16" Height="32" Offset="0xABE0"/>
-        <Texture Name="gRedeadMaskTex" OutName="redead_mask" Format="i8" Width="32" Height="32" Offset="0xAFE0"/>
-        <Texture Name="gRedeadFaceTex" OutName="redead_face" Format="rgba16" Width="32" Height="64" Offset="0xB3E0"/>
-        <Texture Name="gRedeadHipsTex" OutName="redead_hips" Format="rgba16" Width="32" Height="16" Offset="0xC3E0"/>
+        <Texture Name="gRedeadBackTex" Format="rgba16" Width="32" Height="64" Offset="0x87E0"/>
+        <Texture Name="gRedeadTorsoTex" Format="rgba16" Width="32" Height="64" Offset="0x97E0"/>
+        <Texture Name="gRedeadFingersAndToesTex" Format="rgba16" Width="16" Height="32" Offset="0xA7E0"/>
+        <Texture Name="gRedeadMuscleTex" Format="rgba16" Width="16" Height="32" Offset="0xABE0"/>
+        <Texture Name="gRedeadMaskTex" Format="i8" Width="32" Height="32" Offset="0xAFE0"/>
+        <Texture Name="gRedeadFaceTex" Format="rgba16" Width="32" Height="64" Offset="0xB3E0"/>
+        <Texture Name="gRedeadHipsTex" Format="rgba16" Width="32" Height="16" Offset="0xC3E0"/>
 
         <!-- Redead Limb Vertices -->
         <Array Name="gRedeadTorsoVtx" Count="37" Offset="0xC7E0">

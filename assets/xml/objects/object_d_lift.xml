@@ -5,7 +5,7 @@
         </Array>
         <DList Name="gCollapsingPlatformDL" Offset="0x140"/>
         <Collision Name="gCollapsingPlatformCol" Offset="0x3D0"/>
-        <Texture Name="gCollapsingPlatformSideTex" OutName="collapsing_platform_side" Format="i8" Width="64" Height="16" Offset="0x400"/>
-        <Texture Name="gCollapsingPlatformTopTex" OutName="collapsing_platform_top" Format="i8" Width="64" Height="64" Offset="0x800"/>
+        <Texture Name="gCollapsingPlatformSideTex" Format="i8" Width="64" Height="16" Offset="0x400"/>
+        <Texture Name="gCollapsingPlatformTopTex" Format="i8" Width="64" Height="64" Offset="0x800"/>
     </File>
 </Root>

@@ -10,8 +10,8 @@
 #include "sfx.h"
 #include "ultra64.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64ocarina.h"
+#include "audio.h"
+#include "ocarina.h"
 
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
@@ -2816,8 +2816,7 @@ void func_800F4190(Vec3f* pos, u16 sfxId) {
 void Audio_PlaySfxRandom(Vec3f* pos, u16 baseSfxId, u8 randLim) {
     u8 offset = AudioThread_NextRandom() % randLim;
 
-    Audio_PlaySfxGeneral(baseSfxId + offset, pos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultReverb);
+    SFX_PLAY_AT_POS(pos, baseSfxId + offset);
 }
 
 void func_800F4254(Vec3f* pos, u8 level) {
@@ -3081,7 +3080,7 @@ void func_800F4C58(Vec3f* pos, u16 sfxId, u8 ioData) {
         }
         channelIndex++;
     }
-    Audio_PlaySfxGeneral(sfxId, pos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    SFX_PLAY_AT_POS(pos, sfxId);
 }
 
 void func_800F4E30(Vec3f* pos, f32 arg1) {
@@ -3704,12 +3703,10 @@ void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
 void func_800F64E0(u8 arg0) {
     D_80130608 = arg0;
     if (arg0 != 0) {
-        Audio_PlaySfxGeneral(NA_SE_SY_WIN_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_WIN_OPEN);
         AUDIOCMD_GLOBAL_MUTE();
     } else {
-        Audio_PlaySfxGeneral(NA_SE_SY_WIN_CLOSE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_WIN_CLOSE);
         AUDIOCMD_GLOBAL_UNMUTE(0);
     }
 }
@@ -3818,8 +3815,7 @@ void Audio_SetBaseFilter(u8 filter) {
         if (filter == 0) {
             Audio_StopSfxById(NA_SE_PL_IN_BUBBLE);
         } else if (sAudioBaseFilter == 0) {
-            Audio_PlaySfxGeneral(NA_SE_PL_IN_BUBBLE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_PL_IN_BUBBLE);
         }
     }
     sAudioBaseFilter = filter;

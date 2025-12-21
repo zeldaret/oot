@@ -37,22 +37,82 @@
         <Animation Name="object_ik_Anim_01EE34" Offset="0x1EE34"/>
         <Animation Name="gIronKnuckleNabooruDeathAnim" Offset="0x203D8"/>
 
-        <Texture Name="object_ik_Tlut_00F630" OutName="tlut_00F630" Format="rgba16" Width="23" Height="8" Offset="0xf630"/>
-        <Texture Name="gIronKnuckleMetalTex" OutName="iron_knuckle_metal_tex" Format="i4" Width="32" Height="64" Offset="0xF7A0"/>
-        <Texture Name="gIronKnuckleBigRivetTex" OutName="iron_knuckle_big_rivet_tex" Format="ia8" Width="32" Height="32" Offset="0xFBA0"/>
-        <Texture Name="gIronKnuckleBlockPatternTex" OutName="iron_knuckle_block_pattern_tex" Format="rgba16" Width="16" Height="16" Offset="0xFFA0"/>
-        <Texture Name="gIronKnuckleChainMailTex" OutName="iron_knuckle_chain_mail_tex" Format="rgba16" Width="16" Height="16" Offset="0x101A0"/>
-        <Texture Name="object_ik_Tex_0103A0" OutName="tex_0103A0" Format="ia16" Width="32" Height="32" Offset="0x103A0"/>
-        <Texture Name="gIronKnuckleGerudoEyeTex" OutName="iron_knuckle_gerudo_eye_tex" Format="rgba16" Width="32" Height="32" Offset="0x10BA0"/>
-        <Texture Name="gIronKnuckleNabooruLipTex" OutName="iron_kuckle_nabooru_lip_tex" Format="rgba16" Width="8" Height="8" Offset="0x113A0"/>
-        <Texture Name="gIronKnuckleJewelTex" OutName="iron_knuckle_jewel_tex" Format="ci8" Width="16" Height="16" Offset="0x11420" TlutOffset="0xf630"/>
-        <Texture Name="gIronKnuckleNabooruForeheadJewelTex" OutName="iron_knuckle_nabooru_forehead_jewel_tex" Format="ci8" Width="16" Height="16" Offset="0x11520" TlutOffset="0xf630"/>
-        <Texture Name="object_ik_Tex_011620" OutName="tex_011620" Format="ci8" Width="8" Height="8" Offset="0x11620" TlutOffset="0xf630"/>
-        <Texture Name="gIronKnuckleNabooruHair1Tex" OutName="iron_knuckle_nabooru_hair_1_tex" Format="ci8" Width="16" Height="16" Offset="0x11660" TlutOffset="0xf630"/>
-        <Texture Name="object_ik_Tex_011760" OutName="tex_011760" Format="ci8" Width="8" Height="16" Offset="0x11760" TlutOffset="0xf630"/>
-        <Texture Name="object_ik_Tex_0117E0" OutName="tex_0117E0" Format="ci8" Width="8" Height="16" Offset="0x117E0" TlutOffset="0xf630"/>
-        <Texture Name="object_ik_Tex_011860" OutName="tex_011860" Format="ci8" Width="16" Height="16" Offset="0x11860" TlutOffset="0xf630"/>
-        <Texture Name="object_ik_Tex_011960" OutName="tex_011960" Format="ia8" Width="16" Height="16" Offset="0x11960"/>
+        <Texture Name="object_ik_Tlut_00F630" Format="rgba16" Width="23" Height="8" Offset="0xf630"/>
+        <Texture Name="gIronKnuckleMetalTex" Format="i4" Width="32" Height="64" Offset="0xF7A0"/>
+        <Texture Name="gIronKnuckleBigRivetTex" Format="ia8" Width="32" Height="32" Offset="0xFBA0"/>
+        <Texture Name="gIronKnuckleBlockPatternTex" Format="rgba16" Width="16" Height="16" Offset="0xFFA0"/>
+        <Texture Name="gIronKnuckleChainMailTex" Format="rgba16" Width="16" Height="16" Offset="0x101A0"/>
+        <Texture Name="object_ik_Tex_0103A0" Format="ia16" Width="32" Height="32" Offset="0x103A0"/>
+        <Texture Name="gIronKnuckleGerudoEyeTex" Format="rgba16" Width="32" Height="32" Offset="0x10BA0"/>
+        <Texture Name="gIronKnuckleNabooruLipTex" Format="rgba16" Width="8" Height="8" Offset="0x113A0"/>
+        <Texture Name="gIronKnuckleJewelTex" Format="ci8" Width="16" Height="16" Offset="0x11420" TlutOffset="0xf630"/>
+        <Texture Name="gIronKnuckleNabooruForeheadJewelTex" Format="ci8" Width="16" Height="16" Offset="0x11520" TlutOffset="0xf630"/>
+        <Texture Name="object_ik_Tex_011620" Format="ci8" Width="8" Height="8" Offset="0x11620" TlutOffset="0xf630"/>
+        <Texture Name="gIronKnuckleNabooruHair1Tex" Format="ci8" Width="16" Height="16" Offset="0x11660" TlutOffset="0xf630"/>
+        <Texture Name="object_ik_Tex_011760" Format="ci8" Width="8" Height="16" Offset="0x11760" TlutOffset="0xf630"/>
+        <Texture Name="object_ik_Tex_0117E0" Format="ci8" Width="8" Height="16" Offset="0x117E0" TlutOffset="0xf630"/>
+        <Texture Name="object_ik_Tex_011860" Format="ci8" Width="16" Height="16" Offset="0x11860" TlutOffset="0xf630"/>
+        <Texture Name="object_ik_Tex_011960" Format="ia8" Width="16" Height="16" Offset="0x11960"/>
+        <Array Name="object_ik_Vtx_011A60" Count="44" Offset="0x11A60">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_011D20" Count="28" Offset="0x11D20">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleNabooruHelmetVtx" Count="90" Offset="0x11EE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleAxeVtx" Count="69" Offset="0x12480">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleShockedNabooruHeadVtx" Count="282" Offset="0x128D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_013A70" Count="29" Offset="0x13A70">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_013C40" Count="14" Offset="0x13C40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_013D20" Count="31" Offset="0x13D20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_013F10" Count="14" Offset="0x13F10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_013FF0" Count="21" Offset="0x13FF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_014140" Count="21" Offset="0x14140">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleSplitHelmetLeftVtx" Count="55" Offset="0x14290">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleSplitHelmetRightVtx" Count="44" Offset="0x14600">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleArmorRivetAndSymbolVtx" Count="14" Offset="0x148C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_0149A0" Count="10" Offset="0x149A0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_014A40" Count="47" Offset="0x14A40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_014D30" Count="14" Offset="0x14D30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_014E10" Count="14" Offset="0x14E10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_014EF0" Count="24" Offset="0x14EF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_015070" Count="24" Offset="0x15070">
+            <Vtx/>
+        </Array>
         <DList Name="object_ik_DL_0151F0" Offset="0x151F0"/>
         <DList Name="object_ik_DL_015380" Offset="0x15380"/>
         <DList Name="gIronKnuckleNabooruHelmetDL" Offset="0x154E0"/>
@@ -73,16 +133,64 @@
         <DList Name="object_ik_DL_016F88" Offset="0x16F88"/>
         <DList Name="object_ik_DL_017028" Offset="0x17028"/>
         <DList Name="object_ik_DL_017170" Offset="0x17170"/>
-        <Texture Name="object_ik_Tlut_017288" OutName="tlut_017288" Format="rgba16" Width="15" Height="8" Offset="0x17288"/>
-        <Texture Name="object_ik_Tex_017378" OutName="tex_017378" Format="ci8" Width="16" Height="16" Offset="0x17378" TlutOffset="0x17288"/>
-        <Texture Name="object_ik_Tex_017478" OutName="tex_017478" Format="ci8" Width="8" Height="8" Offset="0x17478" TlutOffset="0x17288"/>
-        <Texture Name="gIronKnuckleHair2Tex" OutName="iron_knuckle_hair_2_tex" Format="ci8" Width="16" Height="16" Offset="0x174B8" TlutOffset="0x17288"/>
-        <Texture Name="object_ik_Tex_0175B8" OutName="tex_0175B8" Format="ci8" Width="8" Height="16" Offset="0x175B8" TlutOffset="0x17288"/>
-        <Texture Name="object_ik_Tex_017638" OutName="tex_017638" Format="ci8" Width="8" Height="16" Offset="0x17638" TlutOffset="0x17288"/>
-        <Texture Name="object_ik_Tex_0176B8" OutName="tex_0176B8" Format="ci8" Width="16" Height="16" Offset="0x176B8" TlutOffset="0x17288"/>
+        <Texture Name="object_ik_Tlut_017288" Format="rgba16" Width="15" Height="8" Offset="0x17288"/>
+        <Texture Name="object_ik_Tex_017378" Format="ci8" Width="16" Height="16" Offset="0x17378" TlutOffset="0x17288"/>
+        <Texture Name="object_ik_Tex_017478" Format="ci8" Width="8" Height="8" Offset="0x17478" TlutOffset="0x17288"/>
+        <Texture Name="gIronKnuckleHair2Tex" Format="ci8" Width="16" Height="16" Offset="0x174B8" TlutOffset="0x17288"/>
+        <Texture Name="object_ik_Tex_0175B8" Format="ci8" Width="8" Height="16" Offset="0x175B8" TlutOffset="0x17288"/>
+        <Texture Name="object_ik_Tex_017638" Format="ci8" Width="8" Height="16" Offset="0x17638" TlutOffset="0x17288"/>
+        <Texture Name="object_ik_Tex_0176B8" Format="ci8" Width="16" Height="16" Offset="0x176B8" TlutOffset="0x17288"/>
+        <Array Name="gIronKnuckleHelmetVtx" Count="105" Offset="0x177B8">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleGerudoHeadVtx" Count="208" Offset="0x17E48">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleHelmetMarkingVtx" Count="51" Offset="0x18B48">
+            <Vtx/>
+        </Array>
         <DList Name="gIronKnuckleHelmetDL" Offset="0x18E78"/>
         <DList Name="gIronKnuckleGerudoHeadDL" Offset="0x19100"/>
         <DList Name="gIronKnuckleHelmetMarkingDL" Offset="0x19E08"/>
+        <Array Name="object_ik_Vtx_019F38" Count="28" Offset="0x19F38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A0F8" Count="15" Offset="0x1A0F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A1E8" Count="33" Offset="0x1A1E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A3F8" Count="28" Offset="0x1A3F8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A5B8" Count="15" Offset="0x1A5B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A6A8" Count="34" Offset="0x1A6A8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01A8C8" Count="62" Offset="0x1A8C8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01ACA8" Count="33" Offset="0x1ACA8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01AEB8" Count="25" Offset="0x1AEB8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01B048" Count="33" Offset="0x1B048">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01B258" Count="25" Offset="0x1B258">
+            <Vtx/>
+        </Array>
+        <Array Name="gIronKnuckleTorsoVtx" Count="79" Offset="0x1B3E8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_ik_Vtx_01B8D8" Count="26" Offset="0x1B8D8">
+            <Vtx/>
+        </Array>
         <DList Name="gIronKnuckleTorsoDL" Offset="0x1BA78"/>
         <DList Name="object_ik_DL_01BE98" Offset="0x1BE98"/>
         <DList Name="object_ik_DL_01C130" Offset="0x1C130"/>
@@ -96,9 +204,74 @@
         <DList Name="object_ik_DL_01D2B0" Offset="0x1D2B0"/>
         <DList Name="object_ik_DL_01D3F8" Offset="0x1D3F8"/>
         <DList Name="object_ik_DL_01D638" Offset="0x1D638"/>
-        <Texture Name="object_ik_Tlut_01D9A8" OutName="tlut_01D9A8" Format="rgba16" Width="16" Height="16" Offset="0x1D9A8"/>
-        <Texture Name="object_ik_Tex_01DBA8" OutName="tex_01DBA8" Format="ia16" Width="16" Height="16" Offset="0x1DBA8"/>
-        <Texture Name="gIronKnuckleHair3Tex" OutName="iron_knuckle_hair_3_tex" Format="ci8" Width="16" Height="16" Offset="0x1DDA8" TlutOffset="0x1D9A8"/>
-        <Texture Name="gIronKnuckleNabooruChestJewelTex" OutName="iron_knuckle_nabooru_chest_jewel_tex" Format="ci8" Width="16" Height="16" Offset="0x1DEA8" TlutOffset="0x1D9A8"/>
+        <Texture Name="object_ik_Tlut_01D9A8" Format="rgba16" Width="16" Height="16" Offset="0x1D9A8"/>
+        <Texture Name="object_ik_Tex_01DBA8" Format="ia16" Width="16" Height="16" Offset="0x1DBA8"/>
+        <Texture Name="gIronKnuckleHair3Tex" Format="ci8" Width="16" Height="16" Offset="0x1DDA8" TlutOffset="0x1D9A8"/>
+        <Texture Name="gIronKnuckleNabooruChestJewelTex" Format="ci8" Width="16" Height="16" Offset="0x1DEA8" TlutOffset="0x1D9A8"/>
+        <Limb Name="object_ik_000370_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_000370" Offset="0x370"/>
+        <Limb Name="object_ik_000650_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_000650" Offset="0x650"/>
+        <Limb Name="object_ik_0008F0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0008F0" Offset="0x8F0"/>
+        <Limb Name="object_ik_000C80_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_000C80" Offset="0xC80"/>
+        <Limb Name="object_ik_000F20_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_000F20" Offset="0xF20"/>
+        <Limb Name="object_ik_01DFA8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01DFA8" Offset="0x1DFA8"/>
+        <Limb Name="object_ik_01DFB4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01DFB4" Offset="0x1DFB4"/>
+        <Limb Name="object_ik_01DFC0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01DFC0" Offset="0x1DFC0"/>
+        <Limb Name="object_ik_01DFCC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01DFCC" Offset="0x1DFCC"/>
+        <Limb Name="object_ik_01DFD8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01DFD8" Offset="0x1DFD8"/>
+        <Limb Name="object_ik_01DFE4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01DFE4" Offset="0x1DFE4"/>
+        <Limb Name="object_ik_01DFF0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01DFF0" Offset="0x1DFF0"/>
+        <Limb Name="object_ik_01DFFC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01DFFC" Offset="0x1DFFC"/>
+        <Limb Name="object_ik_01E008_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E008" Offset="0x1E008"/>
+        <Limb Name="object_ik_01E014_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E014" Offset="0x1E014"/>
+        <Limb Name="object_ik_01E020_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E020" Offset="0x1E020"/>
+        <Limb Name="object_ik_01E02C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E02C" Offset="0x1E02C"/>
+        <Limb Name="object_ik_01E038_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E038" Offset="0x1E038"/>
+        <Limb Name="object_ik_01E044_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E044" Offset="0x1E044"/>
+        <Limb Name="object_ik_01E050_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E050" Offset="0x1E050"/>
+        <Limb Name="object_ik_01E05C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E05C" Offset="0x1E05C"/>
+        <Limb Name="object_ik_01E068_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E068" Offset="0x1E068"/>
+        <Limb Name="object_ik_01E074_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E074" Offset="0x1E074"/>
+        <Limb Name="object_ik_01E080_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E080" Offset="0x1E080"/>
+        <Limb Name="object_ik_01E08C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E08C" Offset="0x1E08C"/>
+        <Limb Name="object_ik_01E098_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E098" Offset="0x1E098"/>
+        <Limb Name="object_ik_01E0A4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E0A4" Offset="0x1E0A4"/>
+        <Limb Name="object_ik_01E0B0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E0B0" Offset="0x1E0B0"/>
+        <Limb Name="object_ik_01E0BC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E0BC" Offset="0x1E0BC"/>
+        <Limb Name="object_ik_01E0C8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E0C8" Offset="0x1E0C8"/>
+        <Limb Name="object_ik_01E0D4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E0D4" Offset="0x1E0D4"/>
+        <Limb Name="object_ik_01E0E0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E0E0" Offset="0x1E0E0"/>
+        <Limb Name="object_ik_01E0EC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E0EC" Offset="0x1E0EC"/>
+        <Limb Name="object_ik_01E0F8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01E0F8" Offset="0x1E0F8"/>
+        <Limb Name="object_ik_01EB30_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01EB30" Offset="0x1EB30"/>
+        <Limb Name="object_ik_01EE50_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_01EE50" Offset="0x1EE50"/>
+        <Limb Name="object_ik_0203F0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0203F0" Offset="0x203F0"/>
+        <Limb Name="object_ik_0203FC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0203FC" Offset="0x203FC"/>
+        <Limb Name="object_ik_020408_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020408" Offset="0x20408"/>
+        <Limb Name="object_ik_020414_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020414" Offset="0x20414"/>
+        <Limb Name="object_ik_020420_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020420" Offset="0x20420"/>
+        <Limb Name="object_ik_02042C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_02042C" Offset="0x2042C"/>
+        <Limb Name="object_ik_020438_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020438" Offset="0x20438"/>
+        <Limb Name="object_ik_020444_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020444" Offset="0x20444"/>
+        <Limb Name="object_ik_020450_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020450" Offset="0x20450"/>
+        <Limb Name="object_ik_02045C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_02045C" Offset="0x2045C"/>
+        <Limb Name="object_ik_020468_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020468" Offset="0x20468"/>
+        <Limb Name="object_ik_020474_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020474" Offset="0x20474"/>
+        <Limb Name="object_ik_020480_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020480" Offset="0x20480"/>
+        <Limb Name="object_ik_02048C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_02048C" Offset="0x2048C"/>
+        <Limb Name="object_ik_020498_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020498" Offset="0x20498"/>
+        <Limb Name="object_ik_0204A4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0204A4" Offset="0x204A4"/>
+        <Limb Name="object_ik_0204B0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0204B0" Offset="0x204B0"/>
+        <Limb Name="object_ik_0204BC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0204BC" Offset="0x204BC"/>
+        <Limb Name="object_ik_0204C8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0204C8" Offset="0x204C8"/>
+        <Limb Name="object_ik_0204D4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0204D4" Offset="0x204D4"/>
+        <Limb Name="object_ik_0204E0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0204E0" Offset="0x204E0"/>
+        <Limb Name="object_ik_0204EC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0204EC" Offset="0x204EC"/>
+        <Limb Name="object_ik_0204F8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_0204F8" Offset="0x204F8"/>
+        <Limb Name="object_ik_020504_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020504" Offset="0x20504"/>
+        <Limb Name="object_ik_020510_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020510" Offset="0x20510"/>
+        <Limb Name="object_ik_02051C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_02051C" Offset="0x2051C"/>
+        <Limb Name="object_ik_020528_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020528" Offset="0x20528"/>
+        <Limb Name="object_ik_020534_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020534" Offset="0x20534"/>
+        <Limb Name="object_ik_020540_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_IK_020540" Offset="0x20540"/>
     </File>
 </Root>

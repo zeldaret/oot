@@ -1,6 +1,7 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_butterfly" Segment="6">
+        <Texture Name="gGiButterflyTex" Format="ia4" Width="24" Height="48" Offset="0x0"/>
         <Array Name="gGiButterflyContainerVtx" Count="65" Offset="0x240">
             <Vtx/>
         </Array>

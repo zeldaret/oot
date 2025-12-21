@@ -9,7 +9,7 @@
 #include "regs.h"
 #include "sfx.h"
 #include "z_lib.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_lightbox/object_lightbox.h"
 
@@ -85,8 +85,7 @@ void EnLightbox_Update(Actor* thisx, PlayState* play) {
             if (thisx->speed) {
                 if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {
                     thisx->world.rot.y = (thisx->world.rot.y + thisx->wallYaw) - thisx->world.rot.y;
-                    Audio_PlaySfxGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_AT_POS(&thisx->projectedPos, NA_SE_EV_BOMB_BOUND);
                     thisx->speed *= 0.7f;
                     thisx->bgCheckFlags &= ~BGCHECKFLAG_WALL;
                 }
@@ -97,8 +96,7 @@ void EnLightbox_Update(Actor* thisx, PlayState* play) {
             } else {
                 Math_StepToF(&thisx->speed, 0, IREG(58) / 100.0f);
                 if ((thisx->bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (thisx->velocity.y < IREG(59) / 100.0f)) {
-                    Audio_PlaySfxGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_AT_POS(&thisx->projectedPos, NA_SE_EV_BOMB_BOUND);
                     thisx->velocity.y *= IREG(60) / 100.0f;
                     thisx->bgCheckFlags &= ~BGCHECKFLAG_GROUND;
                 } else {

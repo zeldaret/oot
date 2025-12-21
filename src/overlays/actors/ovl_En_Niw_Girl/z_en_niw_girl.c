@@ -15,10 +15,11 @@
 #include "segmented_address.h"
 #include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_gr/object_gr.h"
 
@@ -56,8 +57,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -90,15 +91,21 @@ void EnNiwGirl_Init(Actor* thisx, PlayState* play) {
         &play->actorCtx, &this->actor, play, ACTOR_EN_NIW, this->actor.world.pos.x + vec2.x,
         this->actor.world.pos.y + vec2.y, this->actor.world.pos.z + vec2.z, 0, this->actor.world.rot.y, 0, 0xA);
     if (this->chasedEnNiw != NULL) {
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n" VT_RST, this->path);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n",
+                                 "☆☆☆☆☆ That's so mean! Punpun ☆☆☆☆☆ %d\n") VT_RST,
+               this->actor.params);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Kyahahahaha, wait ☆☆☆☆☆ %d\n")
+                   VT_RST,
+               this->path);
         PRINTF("\n\n");
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actionFunc = EnNiwGirl_Talk;
     } else {
         PRINTF("\n\n");
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ んんがくく ☆☆☆☆☆ %d\n" VT_RST, this->path);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n",
+                                 "☆☆☆☆☆ For some reason, I can't set it up ☆☆☆☆☆ %d\n") VT_RST,
+               this->actor.params);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ んんがくく ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Language ☆☆☆☆☆ %d\n") VT_RST, this->path);
         PRINTF("\n\n");
         Actor_Kill(&this->actor);
     }

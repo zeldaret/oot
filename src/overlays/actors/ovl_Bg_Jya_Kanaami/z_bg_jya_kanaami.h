@@ -2,7 +2,7 @@
 #define Z_BG_JYA_KANAAMI_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct BgJyaKanaami;
 

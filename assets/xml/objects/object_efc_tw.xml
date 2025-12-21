@@ -8,6 +8,6 @@
             <Vtx/>
         </Array>
         <DList Name="gTimeWarpDL" Offset="0x01B0"/>
-        <Texture Name="gTimeWarpTex" OutName="time_warp" Format="i8" Width="64" Height="64" Offset="0x02C8"/>
+        <Texture Name="gTimeWarpTex" Format="i8" Width="64" Height="64" Offset="0x02C8"/>
     </File>
 </Root>

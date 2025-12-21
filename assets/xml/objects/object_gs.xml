@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_gs" Segment="6">
-        <Texture Name="gGossipStoneTex" OutName="gossip_stone" Format="i8" Width="32" Height="64" Offset="0x0"/>
+        <Texture Name="gGossipStoneTex" Format="i8" Width="32" Height="64" Offset="0x0"/>
         <Array Name="gGossipStoneVtx" Count="21" Offset="0x800">
             <Vtx/>
         </Array>

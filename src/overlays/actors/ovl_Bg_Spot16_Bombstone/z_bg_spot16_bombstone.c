@@ -15,10 +15,10 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_spot16_obj/object_spot16_obj.h"
 #include "assets/objects/object_bombiwa/object_bombiwa.h"
@@ -56,8 +56,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x4FC1FFF6, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x4FC1FFF6, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -75,7 +75,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -90,8 +90,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000008, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000008, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,
@@ -240,8 +240,8 @@ s32 func_808B4E58(BgSpot16Bombstone* this, PlayState* play) {
     this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_BOMBIWA);
 
     if (this->requiredObjectSlot < 0) {
-        PRINTF("Error : " T("バンク危険！", "Bank danger! ") "(arg_data 0x%04x)(%s %d)\n", actor->params,
-               "../z_bg_spot16_bombstone.c", 589);
+        PRINTF(T("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               actor->params, "../z_bg_spot16_bombstone.c", 589);
         return false;
     }
 
@@ -273,7 +273,8 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
 
 #if DEBUG_FEATURES
         default:
-            PRINTF(T("Error : arg_data おかしいな", "Error : arg_data is strange") "(%s %d)(arg_data 0x%04x)\n",
+            PRINTF(T("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n",
+                     "Error : arg_data is strange (%s %d)(arg_data 0x%04x)\n"),
                    "../z_bg_spot16_bombstone.c", 668, this->actor.params);
             shouldLive = false;
             break;
@@ -284,8 +285,9 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    PRINTF("Spot16 obj " T("爆弾石", "Bomb Stone") " (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x,
-           this->actor.params);
+    PRINTF(
+        T("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", "Spot16 obj Bomb Stone (scaleX %f)(arg_data 0x%04x)\n"),
+        this->actor.scale.x, this->actor.params);
 }
 
 void BgSpot16Bombstone_Destroy(Actor* thisx, PlayState* play) {
@@ -408,7 +410,8 @@ void func_808B56BC(BgSpot16Bombstone* this, PlayState* play) {
                 player->actor.world.pos.x += sinValue * this->sinRotation;
                 player->actor.world.pos.z += sinValue * this->cosRotation;
             } else {
-                PRINTF(T("Error 補正出来ない", "Error Can't correct") "(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n",
+                PRINTF(T("Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n",
+                         "Error Can't correct (%s %d)(arg_data 0x%04x)(hosei_angY %x)\n"),
                        "../z_bg_spot16_bombstone.c", 935, this->actor.params, adjustedYawDiff);
             }
         }

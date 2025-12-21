@@ -2,8 +2,9 @@
 #define Z_EN_GE3_H
 
 #include "ultra64.h"
-#include "z64actor.h"
-#include "overlays/actors/ovl_En_GeldB/z_en_geldb.h"
+#include "actor.h"
+
+#include "assets/objects/object_geldb/object_geldb.h"
 
 struct EnGe3;
 
@@ -13,8 +14,8 @@ typedef struct EnGe3 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ SkelAnime skelAnime;
-    /* 0x01DC */ Vec3s jointTable[GELDB_LIMB_MAX];
-    /* 0x026C */ Vec3s morphTable[GELDB_LIMB_MAX];
+    /* 0x01DC */ Vec3s jointTable[GERUDO_RED_LIMB_MAX];
+    /* 0x026C */ Vec3s morphTable[GERUDO_RED_LIMB_MAX];
     /* 0x02FC */ s16 eyeIndex;
     /* 0x02FE */ s16 blinkTimer;
     /* 0x0300 */ Vec3s headRot;

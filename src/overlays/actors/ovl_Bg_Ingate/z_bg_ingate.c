@@ -10,8 +10,8 @@
 #include "gfx_setupdl.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_ingate/object_ingate.h"
 
@@ -53,7 +53,7 @@ void BgInGate_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if ((play->sceneId != SCENE_LON_LON_RANCH || !LINK_IS_ADULT) ||
-        (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (gSaveContext.save.cutsceneIndex != 0xFFF0))) {
+        (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (gSaveContext.save.cutsceneIndex != CS_INDEX_0))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }

@@ -2,7 +2,7 @@
 #define Z_ITEM_SHIELD_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 struct ItemShield;
 

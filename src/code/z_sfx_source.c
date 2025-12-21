@@ -1,9 +1,9 @@
-#include "z64sfx_source.h"
+#include "sfx_source.h"
 
 #include "array_count.h"
 #include "sfx.h"
-#include "z64play.h"
-#include "z64skin_matrix.h"
+#include "play_state.h"
+#include "skin_matrix.h"
 
 void SfxSource_InitAll(PlayState* play) {
     SfxSource* sources = &play->sfxSources[0];
@@ -63,6 +63,5 @@ void SfxSource_PlaySfxAtFixedWorldPos(PlayState* play, Vec3f* worldPos, s32 dura
     source->countdown = duration;
 
     SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &source->worldPos, &source->projectedPos);
-    Audio_PlaySfxGeneral(sfxId, &source->projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultReverb);
+    SFX_PLAY_AT_POS(&source->projectedPos, sfxId);
 }

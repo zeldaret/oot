@@ -11,10 +11,11 @@
 #include "gfx_setupdl.h"
 #include "sfx.h"
 #include "sys_matrix.h"
+#include "tex_len.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
@@ -41,7 +42,23 @@ ActorProfile Magic_Dark_Profile = {
     /**/ MagicDark_OrbDraw,
 };
 
-#include "assets/overlays/ovl_Magic_Dark/ovl_Magic_Dark.c"
+#define sDiamondTex_WIDTH 32
+#define sDiamondTex_HEIGHT 64
+static u64 sDiamondTex[TEX_LEN(u64, sDiamondTex_WIDTH, sDiamondTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Magic_Dark/sDiamondTex.i8.inc.c"
+};
+
+static Vtx sDiamondVtx[] = {
+#include "assets/overlays/ovl_Magic_Dark/sDiamondVtx.inc.c"
+};
+
+static Gfx sDiamondMaterialDL[22] = {
+#include "assets/overlays/ovl_Magic_Dark/sDiamondMaterialDL.inc.c"
+};
+
+static Gfx sDiamondModelDL[8] = {
+#include "assets/overlays/ovl_Magic_Dark/sDiamondModelDL.inc.c"
+};
 
 // unused
 static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };

@@ -9,9 +9,12 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sys_matrix.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "tex_len.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
@@ -127,7 +130,27 @@ void OceffStorm_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 }
 
-#include "assets/overlays/ovl_Oceff_Storm/ovl_Oceff_Storm.c"
+#define sTex_WIDTH 64
+#define sTex_HEIGHT 64
+static u64 sTex[TEX_LEN(u64, sTex_WIDTH, sTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Oceff_Storm/sTex.i8.inc.c"
+};
+
+static Gfx sMaterialDL[21] = {
+#include "assets/overlays/ovl_Oceff_Storm/sMaterialDL.inc.c"
+};
+
+static Vtx sCylinderVtx[] = {
+#include "assets/overlays/ovl_Oceff_Storm/sCylinderVtx.inc.c"
+};
+
+static Gfx sCylinderMaterialDL[21] = {
+#include "assets/overlays/ovl_Oceff_Storm/sCylinderMaterialDL.inc.c"
+};
+
+static Gfx sCylinderModelDL[18] = {
+#include "assets/overlays/ovl_Oceff_Storm/sCylinderModelDL.inc.c"
+};
 
 void OceffStorm_Draw2(Actor* thisx, PlayState* play) {
     u32 scroll = play->state.frames & 0xFFF;

@@ -17,39 +17,85 @@
         <DList Name="gWindmillManLeftThighDL" Offset="0x48E8"/>
         <DList Name="gWindmillManLeftLegDL" Offset="0x4A08"/>
         <DList Name="gWindmillManLeftFootDL" Offset="0x4B58"/>
-        <Texture Name="gWindmillManClothesTLUT" OutName="clothes_tlut" Format="rgba16" Width="16" Height="16" Offset="0x4C60"/>
-        <Texture Name="gWindmillManSkinTLUT" OutName="skin_tlut" Format="rgba16" Width="16" Height="16" Offset="0x4E60"/>
-        <Texture Name="gWindmillManPantsTex" OutName="pants" Format="ci8" Width="16" Height="16" Offset="0x5060" TlutOffset="0x4C60"/>
-        <Texture Name="gWindmillManHeadSkinTex" OutName="head_skin" Format="ci8" Width="8" Height="8" Offset="0x5160" TlutOffset="0x4E60"/>
-        <Texture Name="gWindmillManMusicBoxTex" OutName="music_box" Format="ci8" Width="32" Height="32" Offset="0x51A0" TlutOffset="0x4C60"/>
-        <Texture Name="gWindmillManFingersAndToesTex" OutName="fingers_and_toes" Format="ci8" Width="16" Height="16" Offset="0x55A0" TlutOffset="0x4E60"/>
-        <Texture Name="gWindmillManEarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x56A0" TlutOffset="0x4E60"/>
-        <Texture Name="gWindmillManUpperHornAndCrankTex" OutName="upper_horn_and_crank" Format="ci8" Width="32" Height="32" Offset="0x56E0" TlutOffset="0x4C60"/>
-        <Texture Name="gWindmillManShirtTex" OutName="shirt" Format="ci8" Width="32" Height="32" Offset="0x5AE0" TlutOffset="0x4C60"/>
-        <Texture Name="gWindmillManHornAndPipeTex" OutName="horn_and_pipe" Format="ci8" Width="8" Height="8" Offset="0x5EE0" TlutOffset="0x4C60"/>
+        <Texture Name="gWindmillManClothesTLUT" Format="rgba16" Width="16" Height="16" Offset="0x4C60"/>
+        <Texture Name="gWindmillManSkinTLUT" Format="rgba16" Width="16" Height="16" Offset="0x4E60"/>
+        <Texture Name="gWindmillManPantsTex" Format="ci8" Width="16" Height="16" Offset="0x5060" TlutOffset="0x4C60"/>
+        <Texture Name="gWindmillManHeadSkinTex" Format="ci8" Width="8" Height="8" Offset="0x5160" TlutOffset="0x4E60"/>
+        <Texture Name="gWindmillManMusicBoxTex" Format="ci8" Width="32" Height="32" Offset="0x51A0" TlutOffset="0x4C60"/>
+        <Texture Name="gWindmillManFingersAndToesTex" Format="ci8" Width="16" Height="16" Offset="0x55A0" TlutOffset="0x4E60"/>
+        <Texture Name="gWindmillManEarTex" Format="ci8" Width="8" Height="8" Offset="0x56A0" TlutOffset="0x4E60"/>
+        <Texture Name="gWindmillManUpperHornAndCrankTex" Format="ci8" Width="32" Height="32" Offset="0x56E0" TlutOffset="0x4C60"/>
+        <Texture Name="gWindmillManShirtTex" Format="ci8" Width="32" Height="32" Offset="0x5AE0" TlutOffset="0x4C60"/>
+        <Texture Name="gWindmillManHornAndPipeTex" Format="ci8" Width="8" Height="8" Offset="0x5EE0" TlutOffset="0x4C60"/>
 
-        <Texture Name="gWindmillManEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x5F20" TlutOffset="0x4E60"/>
-        <Texture Name="gWindmillManEyeAngryTex" OutName="eye_angry" Format="ci8" Width="32" Height="32" Offset="0x6320" TlutOffset="0x4E60"/>
+        <Texture Name="gWindmillManEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0x5F20" TlutOffset="0x4E60"/>
+        <Texture Name="gWindmillManEyeAngryTex" Format="ci8" Width="32" Height="32" Offset="0x6320" TlutOffset="0x4E60"/>
 
-        <Texture Name="gWindmillManMouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="16" Offset="0x6720" TlutOffset="0x4E60"/>
-        <Texture Name="gWindmillManMouthAngryTex" OutName="mouth_angry" Format="ci8" Width="32" Height="16" Offset="0x6920" TlutOffset="0x4E60"/>
+        <Texture Name="gWindmillManMouthOpenTex" Format="ci8" Width="32" Height="16" Offset="0x6720" TlutOffset="0x4E60"/>
+        <Texture Name="gWindmillManMouthAngryTex" Format="ci8" Width="32" Height="16" Offset="0x6920" TlutOffset="0x4E60"/>
 
-        <Texture Name="gWindmillManHairTex" OutName="hair" Format="ci8" Width="8" Height="16" Offset="0x6B20" TlutOffset="0x4E60"/>
-        <Skeleton Name="gWindmillManSkel" Type="Flex" LimbType="Standard" Offset="0x6C90"/>
-        <Limb Name="gWindmillManTorsoLimb" LimbType="Standard" Offset="0x6BA0"/>
-        <Limb Name="gWindmillManLeftThighLimb" LimbType="Standard" Offset="0x6BAC"/>
-        <Limb Name="gWindmillManLeftLegLimb" LimbType="Standard" Offset="0x6BB8"/>
-        <Limb Name="gWindmillManLeftFootLimb" LimbType="Standard" Offset="0x6BC4"/>
-        <Limb Name="gWindmillManRightThighLimb" LimbType="Standard" Offset="0x6BD0"/>
-        <Limb Name="gWindmillManRightLegLimb" LimbType="Standard" Offset="0x6BDC"/>
-        <Limb Name="gWindmillManRightFootLimb" LimbType="Standard" Offset="0x6BE8"/>
-        <Limb Name="gWindmillManChestAndMusicBoxPipeLimb" LimbType="Standard" Offset="0x6BF4"/>
-        <Limb Name="gWindmillManLeftArmAndMusicBoxLimb" LimbType="Standard" Offset="0x6C00"/>
-        <Limb Name="gWindmillManLimb_006C0C" LimbType="Standard" Offset="0x6C0C"/> <!--A random triangle near the right side of the music box-->
-        <Limb Name="gWindmillManRightShoulderLimb" LimbType="Standard" Offset="0x6C18"/>
-        <Limb Name="gWindmillManRightArmLimb" LimbType="Standard" Offset="0x6C24"/>
-        <Limb Name="gWindmillManRightHandAndCrankLimb" LimbType="Standard" Offset="0x6C30"/>
-        <Limb Name="gWindmillManHeadLimb" LimbType="Standard" Offset="0x6C3C"/>
-        <Limb Name="gWindmillManHornLimb" LimbType="Standard" Offset="0x6C48"/>
+        <Texture Name="gWindmillManHairTex" Format="ci8" Width="8" Height="16" Offset="0x6B20" TlutOffset="0x4E60"/>
+        <Skeleton Name="gWindmillManSkel" Type="Flex" LimbType="Standard" LimbNone="WINDMILL_MAN_LIMB_NONE" LimbMax="WINDMILL_MAN_LIMB_MAX" EnumName="WindmillManLimb" Offset="0x6C90"/>
+        <Limb Name="gWindmillManTorsoLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_TORSO" Offset="0x6BA0"/>
+        <Limb Name="gWindmillManLeftThighLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_LEFT_THIGH" Offset="0x6BAC"/>
+        <Limb Name="gWindmillManLeftLegLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_LEFT_LEG" Offset="0x6BB8"/>
+        <Limb Name="gWindmillManLeftFootLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_LEFT_FOOT" Offset="0x6BC4"/>
+        <Limb Name="gWindmillManRightThighLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_THIGH" Offset="0x6BD0"/>
+        <Limb Name="gWindmillManRightLegLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_LEG" Offset="0x6BDC"/>
+        <Limb Name="gWindmillManRightFootLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_FOOT" Offset="0x6BE8"/>
+        <Limb Name="gWindmillManChestAndMusicBoxPipeLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_CHEST_MUSIC_BOX" Offset="0x6BF4"/>
+        <Limb Name="gWindmillManLeftArmAndMusicBoxLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_LEFT_ARM_MUSIC_BOX" Offset="0x6C00"/>
+        <Limb Name="gWindmillManLimb_006C0C" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_UNK" Offset="0x6C0C"/> <!--A random triangle near the right side of the music box-->
+        <Limb Name="gWindmillManRightShoulderLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_SHOULDER" Offset="0x6C18"/>
+        <Limb Name="gWindmillManRightArmLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_ARM" Offset="0x6C24"/>
+        <Limb Name="gWindmillManRightHandAndCrankLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_HAND_AND_CRANK" Offset="0x6C30"/>
+        <Limb Name="gWindmillManHeadLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_HEAD" Offset="0x6C3C"/>
+        <Limb Name="gWindmillManHornLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_HORN" Offset="0x6C48"/>
+
+        <Array Name="gWindmillManBlueTriangleVtx" Count="3" Offset="0xB20">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManLeftArmAndMusicBoxVtx" Count="59" Offset="0xB50">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightHandAndCrankVtx" Count="58" Offset="0xF00">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightArmVtx" Count="24" Offset="0x12A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightShoulderVtx" Count="24" Offset="0x1420">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManHornVtx" Count="48" Offset="0x15A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManHeadVtx" Count="133" Offset="0x18A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManChestAndMusicBoxPipeVtx" Count="112" Offset="0x20F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManLeftFootVtx" Count="14" Offset="0x27F0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManLeftLegVtx" Count="28" Offset="0x28D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManLeftThighVtx" Count="23" Offset="0x2A90">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightFootVtx" Count="14" Offset="0x2C00">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightLegVtx" Count="28" Offset="0x2CE0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManRightThighVtx" Count="23" Offset="0x2EA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gWindmillManTorsoVtx" Count="18" Offset="0x3010">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

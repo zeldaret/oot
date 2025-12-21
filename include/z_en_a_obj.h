@@ -2,7 +2,7 @@
 #define Z_EN_A_OBJ_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 // Only A_OBJ_SIGNPOST_OBLONG and A_OBJ_SIGNPOST_ARROW are used in room files.
 typedef enum AObjType {

@@ -14,9 +14,9 @@
 #include "regs.h"
 #include "terminal.h"
 #include "translation.h"
-#include "z64debug_display.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "debug_display.h"
+#include "play_state.h"
+#include "save.h"
 
 #define FLAGS 0
 
@@ -122,7 +122,7 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA, 20.0f, 20.0f, -2500.0f, 0, 0, 0,
                             ((sTreasureFlags[5] & 0x1F) << 8) + rewardParams);
                 PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 中央宝発生(ＧＲＥＡＴ) ☆☆☆☆☆ %x\n",
-                                          "☆☆☆☆☆ Central treasure occurrence (GREAT) ☆☆☆☆☆ %x\n") VT_RST,
+                                          "☆☆☆☆☆ Central treasure spawn (GREAT) ☆☆☆☆☆ %x\n") VT_RST,
                        rewardChestParams);
                 this->actionFunc = EnChanger_SetHeartPieceFlag;
                 return;
@@ -160,7 +160,7 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
 
     if (this->leftChest != NULL) {
         PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n",
-                                   "☆☆☆☆☆ Left treasure generation (what does it contain?) ☆☆☆☆☆ %x\n") VT_RST,
+                                   "☆☆☆☆☆ Left treasure spawn (what does it contain?) ☆☆☆☆☆ %x\n") VT_RST,
                leftChestParams);
         PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 部屋番号は？  %x\n", "☆☆☆☆☆ What is the room number?  %x\n") VT_RST,
                play->roomCtx.curRoom.num);
@@ -185,7 +185,7 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
 
     if (this->rightChest != NULL) {
         PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 右宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n",
-                                "☆☆☆☆☆ Right treasure generation (what does it contain?) ☆☆☆☆☆ %x\n") VT_RST,
+                                "☆☆☆☆☆ Right treasure spawn (what does it contain?) ☆☆☆☆☆ %x\n") VT_RST,
                rightChestParams);
         PRINTF(VT_FGCOL(CYAN) T("☆☆☆☆☆ 部屋番号は？  %d\n", "☆☆☆☆☆ What is the room number?  %d\n") VT_RST,
                play->roomCtx.curRoom.num);

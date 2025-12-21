@@ -14,10 +14,10 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "versions.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_spot04_objects/object_spot04_objects.h"
 
@@ -111,8 +111,7 @@ void func_808BC65C(BgTreemouth* this, PlayState* play) {
             if (cue->id == 2) {
                 BgTreemouth_SetupAction(this, func_808BC80C);
             } else if (cue->id == 3) {
-                Audio_PlaySfxGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_EV_WOODDOOR_OPEN);
                 BgTreemouth_SetupAction(this, func_808BC6F8);
             }
         }
@@ -218,8 +217,7 @@ void func_808BCAF0(BgTreemouth* this, PlayState* play) {
             if (cue->id == 2) {
                 BgTreemouth_SetupAction(this, func_808BC80C);
             } else if (cue->id == 3) {
-                Audio_PlaySfxGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_EV_WOODDOOR_OPEN);
                 BgTreemouth_SetupAction(this, func_808BC6F8);
             }
         }

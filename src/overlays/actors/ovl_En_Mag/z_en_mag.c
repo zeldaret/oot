@@ -20,11 +20,11 @@
 #include "sfx.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64cutscene_flags.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64ss_sram.h"
+#include "audio.h"
+#include "cutscene_flags.h"
+#include "play_state.h"
+#include "save.h"
+#include "ss_sram.h"
 
 #include "assets/objects/object_mag/object_mag.h"
 
@@ -220,8 +220,7 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
             if (CHECK_BTN_ALL(input->press.button, BTN_START) || CHECK_BTN_ALL(input->press.button, BTN_A) ||
                 CHECK_BTN_ALL(input->press.button, BTN_B)) {
 
-                Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_PIECE_OF_HEART);
 
                 this->mainAlpha = 210;
                 this->subAlpha = 255;
@@ -258,8 +257,7 @@ void EnMag_Update(Actor* thisx, PlayState* play) {
                     if (play->transitionTrigger != TRANS_TRIGGER_START) {
                         Audio_SetCutsceneFlag(0);
 
-                        Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_SY_PIECE_OF_HEART);
 
                         gSaveContext.gameMode = GAMEMODE_FILE_SELECT;
                         play->transitionTrigger = TRANS_TRIGGER_START;
