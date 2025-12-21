@@ -5,9 +5,15 @@
  */
 
 #include "z_en_trap.h"
+
+#include "sfx.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_trap/object_trap.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 #define BEGIN_MOVE_OUT 65535.0f
 
@@ -55,7 +61,14 @@ static ColliderCylinderInit sCylinderInit = {
         OC2_TYPE_1,
         COLSHAPE_CYLINDER,
     },
-    { ELEM_MATERIAL_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, ATELEM_NONE, ACELEM_ON, OCELEM_ON },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00001000, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
+        ACELEM_ON,
+        OCELEM_ON,
+    },
     { 30, 20, 0, { 0, 0, 0 } },
 };
 
@@ -113,7 +126,7 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     thisx->attentionRangeType = ATTENTION_RANGE_3;
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void EnTrap_Destroy(Actor* thisx, PlayState* play) {

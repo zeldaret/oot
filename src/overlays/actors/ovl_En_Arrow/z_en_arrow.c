@@ -5,10 +5,24 @@
  */
 
 #include "z_en_arrow.h"
-#include "global.h"
+
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnArrow_Init(Actor* thisx, PlayState* play);
 void EnArrow_Destroy(Actor* thisx, PlayState* play);
@@ -32,7 +46,7 @@ ActorProfile En_Arrow_Profile = {
     /**/ EnArrow_Draw,
 };
 
-static ColliderQuadInit sColliderInit = {
+static ColliderQuadInit sColliderQuadInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_PLAYER,
@@ -43,8 +57,8 @@ static ColliderQuadInit sColliderInit = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000020, 0x00, 0x01 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000020, HIT_SPECIAL_EFFECT_NONE, 0x01 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NONE,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -119,7 +133,7 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         }
 
         Collider_InitQuad(play, &this->collider);
-        Collider_SetQuad(play, &this->collider, &this->actor, &sColliderInit);
+        Collider_SetQuad(play, &this->collider, &this->actor, &sColliderQuadInit);
 
         if (this->actor.params <= ARROW_NORMAL) {
             this->collider.elem.atElemFlags &= ~ATELEM_SFX_MASK;
@@ -149,7 +163,7 @@ void EnArrow_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyQuad(play, &this->collider);
 
     if ((this->hitActor != NULL) && (this->hitActor->update != NULL)) {
-        this->hitActor->flags &= ~ACTOR_FLAG_15;
+        this->hitActor->flags &= ~ACTOR_FLAG_ATTACHED_TO_ARROW;
     }
 }
 
@@ -287,11 +301,11 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                 hitActor = this->collider.base.at;
 
                 if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED) &&
-                    (hitActor->flags & ACTOR_FLAG_14)) {
+                    (hitActor->flags & ACTOR_FLAG_CAN_ATTACH_TO_ARROW)) {
                     this->hitActor = hitActor;
                     EnArrow_CarryActor(this, play);
                     Math_Vec3f_Diff(&hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
-                    hitActor->flags |= ACTOR_FLAG_15;
+                    hitActor->flags |= ACTOR_FLAG_ATTACHED_TO_ARROW;
                     this->collider.base.atFlags &= ~AT_HIT;
                     this->actor.speed /= 2.0f;
                     this->actor.velocity.y /= 2.0f;
@@ -353,14 +367,14 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                 this->hitActor->world.pos.y = hitPoint.y + ((sp54.y <= hitPoint.y) ? 1.0f : -1.0f);
                 this->hitActor->world.pos.z = hitPoint.z + ((sp54.z <= hitPoint.z) ? 1.0f : -1.0f);
                 Math_Vec3f_Diff(&this->hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
-                this->hitActor->flags &= ~ACTOR_FLAG_15;
+                this->hitActor->flags &= ~ACTOR_FLAG_ATTACHED_TO_ARROW;
                 this->hitActor = NULL;
             } else {
                 Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &this->hitActor->world.pos);
             }
 
             if (this->touchedPoly && (this->hitActor != NULL)) {
-                this->hitActor->flags &= ~ACTOR_FLAG_15;
+                this->hitActor->flags &= ~ACTOR_FLAG_ATTACHED_TO_ARROW;
                 this->hitActor = NULL;
             }
         } else {
@@ -415,36 +429,36 @@ void EnArrow_Update(Actor* thisx, PlayState* play) {
 }
 
 void func_809B4800(EnArrow* this, PlayState* play) {
-    static Vec3f D_809B4E88 = { 0.0f, 400.0f, 1500.0f };
-    static Vec3f D_809B4E94 = { 0.0f, -400.0f, 1500.0f };
+    static Vec3f sPosAOffset = { 0.0f, 400.0f, 1500.0f };
+    static Vec3f sPosBOffset = { 0.0f, -400.0f, 1500.0f };
     static Vec3f D_809B4EA0 = { 0.0f, 0.0f, -300.0f };
-    Vec3f sp44;
-    Vec3f sp38;
+    Vec3f posA;
+    Vec3f posB;
     s32 addBlureVertex;
 
     Matrix_MultVec3f(&D_809B4EA0, &this->unk_21C);
 
     if (EnArrow_Fly == this->actionFunc) {
-        Matrix_MultVec3f(&D_809B4E88, &sp44);
-        Matrix_MultVec3f(&D_809B4E94, &sp38);
+        Matrix_MultVec3f(&sPosAOffset, &posA);
+        Matrix_MultVec3f(&sPosBOffset, &posB);
 
         if (this->actor.params <= ARROW_SEED) {
             addBlureVertex = this->actor.params <= ARROW_LIGHT;
 
             if (this->hitActor == NULL) {
-                addBlureVertex &= func_80090480(play, &this->collider, &this->weaponInfo, &sp44, &sp38);
+                addBlureVertex &= Player_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB);
             } else {
                 if (addBlureVertex) {
-                    if ((sp44.x == this->weaponInfo.tip.x) && (sp44.y == this->weaponInfo.tip.y) &&
-                        (sp44.z == this->weaponInfo.tip.z) && (sp38.x == this->weaponInfo.base.x) &&
-                        (sp38.y == this->weaponInfo.base.y) && (sp38.z == this->weaponInfo.base.z)) {
+                    if ((posA.x == this->weaponInfo.posA.x) && (posA.y == this->weaponInfo.posA.y) &&
+                        (posA.z == this->weaponInfo.posA.z) && (posB.x == this->weaponInfo.posB.x) &&
+                        (posB.y == this->weaponInfo.posB.y) && (posB.z == this->weaponInfo.posB.z)) {
                         addBlureVertex = false;
                     }
                 }
             }
 
             if (addBlureVertex) {
-                EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &sp44, &sp38);
+                EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &posA, &posB);
             }
         }
     }

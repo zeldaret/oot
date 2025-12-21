@@ -5,9 +5,25 @@
  */
 
 #include "z_en_ma1.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "face_reaction.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ma1/object_ma1.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnMa1_Init(Actor* thisx, PlayState* play);
 void EnMa1_Destroy(Actor* thisx, PlayState* play);
@@ -46,8 +62,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -378,7 +394,7 @@ void EnMa1_WaitForPlayback(EnMa1* this, PlayState* play) {
     GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
-        gSaveContext.nextCutsceneIndex = 0xFFF1;
+        gSaveContext.nextCutsceneIndex = CS_INDEX_1;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_WAVE, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
         this->actionFunc = EnMa1_DoNothing;

@@ -5,11 +5,27 @@
  */
 
 #include "z_obj_lightswitch.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_lightswitch/object_lightswitch.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum FaceTextureIndex {
     /* 0x00 */ FACE_EYES_CLOSED,
@@ -47,12 +63,12 @@ ActorProfile Obj_Lightswitch_Profile = {
     /**/ ObjLightswitch_Draw,
 };
 
-static ColliderJntSphElementInit sColliderJntSphElementInit[] = {
+static ColliderJntSphElementInit sColliderJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00200000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00200000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -69,8 +85,8 @@ static ColliderJntSphInit sColliderJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    1,
-    sColliderJntSphElementInit,
+    ARRAY_COUNT(sColliderJntSphElementsInit),
+    sColliderJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
@@ -83,16 +99,16 @@ static Vec3f D_80B97F74 = { 0.0f, 0.0f, 0.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void ObjLightswitch_InitCollider(ObjLightswitch* this, PlayState* play) {
     s32 pad;
 
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
     Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x,
                                  this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y),
                                  this->actor.world.pos.z, &this->actor.shape.rot);
@@ -184,14 +200,15 @@ void ObjLightswitch_Init(Actor* thisx, PlayState* play) {
         this->actor.shape.rot.z = 0;
         this->actor.world.rot.x = this->actor.home.rot.x = this->actor.shape.rot.x;
         this->actor.world.rot.z = this->actor.home.rot.z = this->actor.shape.rot.z;
-        this->actor.flags |= ACTOR_FLAG_5;
+        this->actor.flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
         if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_OBJ_OSHIHIKI, this->actor.home.pos.x,
                                this->actor.home.pos.y, this->actor.home.pos.z, 0, this->actor.home.rot.y, 0,
                                (0xFF << 8) | PUSHBLOCK_SMALL_START_ON) == NULL) {
-            PRINTF(VT_COL(RED, WHITE));
-            // "Push-pull block occurrence failure"
-            PRINTF("押引ブロック発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_obj_lightswitch.c", 452, this->actor.params);
-            PRINTF(VT_RST);
+            PRINTF_COLOR_ERROR();
+            PRINTF(T("押引ブロック発生失敗(%s %d)(arg_data 0x%04x)\n",
+                     "Push/pull block failed to spawn (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_obj_lightswitch.c", 452, this->actor.params);
+            PRINTF_RST();
             removeSelf = true;
         }
     }
@@ -200,8 +217,7 @@ void ObjLightswitch_Init(Actor* thisx, PlayState* play) {
     if (removeSelf) {
         Actor_Kill(&this->actor);
     }
-    // "Light switch"
-    PRINTF("(光スイッチ)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF(T("(光スイッチ)(arg_data 0x%04x)\n", "(Light switch)(arg_data 0x%04x)\n"), this->actor.params);
 }
 
 void ObjLightswitch_Destroy(Actor* thisx, PlayState* play2) {

@@ -1,12 +1,36 @@
-#pragma increment_block_number "gc-eu:248 gc-eu-mq:248 gc-jp:240 gc-jp-ce:240 gc-jp-mq:240 gc-us:240 gc-us-mq:240" \
-                               "ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:192 ntsc-1.1:192 ntsc-1.2:192 pal-1.0:192 pal-1.1:192"
 
-#include "global.h"
+#include "libc64/qrand.h"
+#include "libu64/gfxprint.h"
+#include "array_count.h"
+#include "buffers.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "gfxalloc.h"
 #include "ultra64.h"
+#include "printf.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
-
-#include "z64frame_advance.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "cutscene.h"
+#include "frame_advance.h"
+#include "environment.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
@@ -214,8 +238,8 @@ s16 sLightningFlashAlpha;
 s16 sSunDepthTestX;
 s16 sSunDepthTestY;
 
-#pragma increment_block_number "gc-eu:240 gc-eu-mq:240 gc-jp:224 gc-jp-ce:224 gc-jp-mq:224 gc-us:224 gc-us-mq:224" \
-                               "ntsc-1.2:216 pal-1.0:240 pal-1.1:240"
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
@@ -349,7 +373,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     envCtx->sceneTimeSpeed = 0;
     gTimeSpeed = envCtx->sceneTimeSpeed;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     R_ENV_TIME_SPEED_OLD = gTimeSpeed;
     R_ENV_DISABLE_DBG = true;
 
@@ -421,7 +445,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     gSkyboxIsChanging = false;
     gSaveContext.retainWeatherMode = false;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     R_ENV_LIGHT1_DIR(0) = 80;
     R_ENV_LIGHT1_DIR(1) = 80;
     R_ENV_LIGHT1_DIR(2) = 80;
@@ -718,7 +742,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             }
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (newSkybox1Index == 0xFF) {
             PRINTF(VT_COL(RED, WHITE) T("\n環境ＶＲデータ取得失敗！ ささきまでご報告を！",
                                         "\nEnvironment VR data acquisition failed! Report to Sasaki!") VT_RST);
@@ -835,7 +859,7 @@ void Environment_DisableUnderwaterLights(PlayState* play) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     GfxPrint printer;
     s32 pad[2];
@@ -882,9 +906,9 @@ void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     GfxPrint_SetPos(&printer, 22, 6);
 
     if (!IS_DAY) {
-        GfxPrint_Printf(&printer, "%s", "YORU"); // "night"
+        GfxPrint_Printf(&printer, "%s", T("YORU", "NIGHT"));
     } else {
-        GfxPrint_Printf(&printer, "%s", "HIRU"); // "day"
+        GfxPrint_Printf(&printer, "%s", T("HIRU", "DAY"));
     }
 
     *gfx = GfxPrint_Close(&printer);
@@ -979,7 +1003,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             gSaveContext.save.nightFlag = 0;
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
             Gfx* gfxAllocDisp;
             Gfx* tempGfx;
@@ -1143,7 +1167,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                     envCtx->lightSettings.zFar = LERP16(blend16[0], blend16[1], configChangeBlend);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                     if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                         envCtx->numLightSettings) {
                         PRINTF(VT_COL(RED, WHITE) T("\nカラーパレットの設定がおかしいようです！",
@@ -1223,7 +1247,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                                     lightSettingsList[envCtx->lightSetting].zFar, envCtx->lightBlend);
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (envCtx->lightSetting >= envCtx->numLightSettings) {
                 PRINTF("\n" VT_FGCOL(RED)
                            T("カラーパレットがおかしいようです！", "The color palette seems to be wrong!"));
@@ -1297,7 +1321,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             lightCtx->zFar = ENV_ZFAR_MAX;
         }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
         // When environment debug is enabled, various environment related variables can be configured via the reg editor
         if (R_ENV_DISABLE_DBG) {
             R_ENV_AMBIENT_COLOR(0) = lightCtx->ambientColor[0];
@@ -2528,7 +2552,7 @@ void Environment_AdjustLights(PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32
     f32 temp;
     s32 i;
 
-    if (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_5 && Play_CamIsNotFixed(play)) {
+    if (play->roomCtx.curRoom.type != ROOM_TYPE_BOSS && Play_CamIsNotFixed(play)) {
         arg1 = CLAMP_MIN(arg1, 0.0f);
         arg1 = CLAMP_MAX(arg1, 1.0f);
 
@@ -2615,7 +2639,7 @@ void Environment_StopStormNatureAmbience(PlayState* play) {
 
 void Environment_WarpSongLeave(PlayState* play) {
     gWeatherMode = WEATHER_MODE_CLEAR;
-    gSaveContext.save.cutsceneIndex = 0;
+    gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
     gSaveContext.respawnFlag = -3;
     play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
     play->transitionTrigger = TRANS_TRIGGER_START;

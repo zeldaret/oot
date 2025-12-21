@@ -25,8 +25,16 @@
  * - higher detail draws both.
  */
 
-#include "global.h"
-#include "z64curve.h"
+#include "gfx.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "zelda_arena.h"
+#include "actor.h"
+#include "curve.h"
+#include "play_state.h"
 
 void SkelCurve_Clear(SkelCurve* skelCurve) {
     skelCurve->limbCount = 0;

@@ -1,7 +1,10 @@
 #ifndef REGS_H
 #define REGS_H
 
+#include "ultra64.h"
 #include "versions.h"
+
+struct PlayState;
 
 #define REG_GROUPS 29 // number of REG groups, i.e. REG, SREG, OREG, etc.
 #define REG_PAGES 6
@@ -48,6 +51,7 @@
 #define R_ENV_Z_FAR                              REG(13)
 #define R_ENV_FOG_NEAR                           REG(14)
 #define R_ENV_TIME_SPEED_OLD                     REG(15) // Most likely used during development. Unused in the final game.
+#define R_DECELERATE_RATE                        REG(43)
 #define R_RUN_SPEED_LIMIT                        REG(45)
 #define R_ENABLE_ARENA_DBG                       SREG(0)
 #define R_AUDIOMGR_DEBUG_LEVEL                   SREG(20)
@@ -103,12 +107,12 @@
 #define R_TEXTBOX_WIDTH                          YREG(22)
 #define R_TEXTBOX_HEIGHT                         YREG(23)
 #if OOT_NTSC
-#define R_KALEIDO_UNK1(i)                        YREG(48 + (i))
-#define R_KALEIDO_UNK2(i)                        YREG(50 + (i))
-#define R_KALEIDO_UNK3(i)                        YREG(52 + (i))
-#define R_KALEIDO_UNK4(i)                        YREG(54 + (i))
-#define R_KALEIDO_UNK5(i)                        YREG(56 + (i))
-#define R_KALEIDO_UNK6(i)                        YREG(58 + (i))
+#define R_PAUSE_INFO_PANEL_ICON_C_ITEM_X(i)      YREG(48 + (i))
+#define R_PAUSE_INFO_PANEL_TEXT_X(i)             YREG(50 + (i))
+#define R_PAUSE_INFO_PANEL_ICON_PLAY_SONG_X(i)   YREG(52 + (i))
+#define R_PAUSE_INFO_PANEL_TEXT_C_ITEM_X(i)      YREG(54 + (i))
+#define R_PAUSE_INFO_PANEL_ICON_SAVE_PROMPT_X(i) YREG(56 + (i))
+#define R_PAUSE_INFO_PANEL_ICON_EQUIP_X(i)       YREG(58 + (i))
 #endif
 #define R_TEXTBOX_ICON_XPOS                      YREG(71)
 #define R_TEXTBOX_ICON_YPOS                      YREG(72)
@@ -117,9 +121,12 @@
 #define R_MESSAGE_DEBUGGER_TEXTID                YREG(79)
 #define R_C_UP_ICON_X                            YREG(88)
 #define R_C_UP_ICON_Y                            YREG(89)
+#define R_EXITED_SCENE_RIDING_HORSE              AREG(6) // Used to spawn the player on top of Epona in the next scene
+#define R_DEBUG_FORCE_EPONA_OBTAINED             DREG(1) // If set, overrides EVENTCHKINF_EPONA_OBTAINED state giving Epona
 #define R_EPONAS_SONG_PLAYED                     DREG(53)
 #define R_MAGIC_FILL_COLOR(i)                    ZREG(0 + (i))
 #define R_PAUSE_PAGE_SWITCH_FRAME_ADVANCE_ON     ZREG(13)
+#define R_PAUSE_BUTTON_L_R_SELECTED_PRIM_TIMER   ZREG(28)
 #define R_C_BTN_COLOR(i)                         ZREG(39 + (i))
 #define R_B_BTN_COLOR(i)                         ZREG(43 + (i))
 #if OOT_NTSC
@@ -186,12 +193,18 @@
 #define R_B_LABEL_DD                             WREG(0)
 #define R_PAUSE_PAGES_Y_ORIGIN_2                 WREG(2) // Complements PauseContext.pagesYOrigin1
 #define R_PAUSE_DEPTH_OFFSET                     WREG(3) // Offset position of all pages away from the camera
+#define R_PAUSE_UI_ANIMS_DURATION                WREG(6)
 #if OOT_NTSC
 #define R_B_LABEL_SCALE(i)                       WREG(8 + (i))
 #define R_B_LABEL_X(i)                           WREG(10 + (i))
 #define R_B_LABEL_Y(i)                           WREG(12 + (i))
 #define R_A_LABEL_Z(i)                           WREG(14 + (i))
 #endif
+#define R_PAUSE_BUTTON_LEFT_X                    WREG(16)
+#define R_PAUSE_BUTTON_RIGHT_X                   WREG(17)
+#define R_PAUSE_BUTTON_LEFT_RIGHT_Y              WREG(18)
+#define R_PAUSE_BUTTON_LEFT_MOVE_OFFSET_X        WREG(25)
+#define R_PAUSE_BUTTON_RIGHT_MOVE_OFFSET_X       WREG(26)
 #define R_OW_MINIMAP_X                           WREG(29)
 #define R_OW_MINIMAP_Y                           WREG(30)
 #define R_MINIMAP_DISABLED                       WREG(31)
@@ -200,12 +213,12 @@
 #define R_B_LABEL_X(i)                           WREG(40 + (i))
 #define R_B_LABEL_Y(i)                           WREG(43 + (i))
 #define R_A_LABEL_Z(i)                           WREG(46 + (i))
-#define R_KALEIDO_UNK1(i)                        WREG(49 + (i))
-#define R_KALEIDO_UNK2(i)                        WREG(52 + (i))
-#define R_KALEIDO_UNK3(i)                        WREG(55 + (i))
-#define R_KALEIDO_UNK4(i)                        WREG(58 + (i))
-#define R_KALEIDO_UNK5(i)                        WREG(61 + (i))
-#define R_KALEIDO_UNK6(i)                        WREG(64 + (i))
+#define R_PAUSE_INFO_PANEL_ICON_C_ITEM_X(i)      WREG(49 + (i))
+#define R_PAUSE_INFO_PANEL_TEXT_X(i)             WREG(52 + (i))
+#define R_PAUSE_INFO_PANEL_ICON_PLAY_SONG_X(i)   WREG(55 + (i))
+#define R_PAUSE_INFO_PANEL_TEXT_C_ITEM_X(i)      WREG(58 + (i))
+#define R_PAUSE_INFO_PANEL_ICON_SAVE_PROMPT_X(i) WREG(61 + (i))
+#define R_PAUSE_INFO_PANEL_ICON_EQUIP_X(i)       WREG(64 + (i))
 #endif
 #define R_DGN_MINIMAP_X                          WREG(68)
 #define R_DGN_MINIMAP_Y                          WREG(69)
@@ -405,6 +418,8 @@ typedef struct RegEditor {
     /* 0x10 */ s32  inputRepeatTimer;
     /* 0x14 */ s16  data[REG_GROUPS * REGS_PER_GROUP]; // Accessed through *REG macros, see regs.h
 } RegEditor; // size = 0x15D4
+
+void Regs_InitData(struct PlayState* play);
 
 extern RegEditor* gRegEditor;
 

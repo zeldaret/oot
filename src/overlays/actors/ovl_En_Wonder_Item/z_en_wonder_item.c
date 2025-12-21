@@ -5,7 +5,17 @@
  */
 
 #include "z_en_wonder_item.h"
+
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "debug_display.h"
+#include "play_state.h"
+#include "player.h"
 
 #define FLAGS 0
 
@@ -32,8 +42,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,
@@ -229,7 +239,7 @@ void EnWonderItem_MultitagFree(EnWonderItem* this, PlayState* play) {
                 return;
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (BREG(0) != 0) {
                 DebugDisplay_AddObject(sTagPointsFree[i].x, sTagPointsFree[i].y, sTagPointsFree[i].z,
                                        this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
@@ -306,7 +316,7 @@ void EnWonderItem_MultitagOrdered(EnWonderItem* this, PlayState* play) {
                 }
             }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
             if (BREG(0) != 0) {
                 DebugDisplay_AddObject(sTagPointsOrdered[i].x, sTagPointsOrdered[i].y, sTagPointsOrdered[i].z,
                                        this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
@@ -375,7 +385,7 @@ void EnWonderItem_Update(Actor* thisx, PlayState* play) {
         colorIndex = 0;
     }
 
-    if (OOT_DEBUG && BREG(0) != 0) {
+    if (DEBUG_FEATURES && BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, debugArrowColors[colorIndex], debugArrowColors[colorIndex + 1],

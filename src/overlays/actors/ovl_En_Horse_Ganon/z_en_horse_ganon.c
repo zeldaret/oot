@@ -5,9 +5,22 @@
  */
 
 #include "z_en_horse_ganon.h"
+
+#include "libc64/math64.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "skin.h"
+
 #include "assets/objects/object_horse_ganon/object_horse_ganon.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef struct unk_D_80A69248 {
     /* 0x0 */ Vec3s unk_0;
@@ -53,8 +66,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -66,8 +79,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_NONE,
             OCELEM_ON,
@@ -85,7 +98,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1 | OC2_UNK1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -102,7 +115,7 @@ static unk_D_80A69248 D_80A69248[] = {
 static s32 D_80A692B8[] = { 0, 16 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 1200, ICHAIN_STOP),
 };
 
 static EnHorseGanonActionFunc sActionFuncs[] = { func_80A68AF0, func_80A68DB0 };
@@ -154,8 +167,7 @@ void func_80A686A8(EnHorseGanon* this, PlayState* play) {
 void func_80A68870(EnHorseGanon* this) {
     if ((this->skin.skelAnime.curFrame > D_80A692B8[this->soundCount]) &&
         (this->soundCount != 0 || !(this->skin.skelAnime.curFrame > D_80A692B8[1]))) {
-        Audio_PlaySfxGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_HORSE_WALK);
 
         this->soundCount++;
         if (this->soundCount >= 2) {
@@ -181,10 +193,10 @@ void EnHorseGanon_Init(Actor* thisx, PlayState* play) {
     this->currentAnimation = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
 
-    Collider_InitCylinder(play, &this->colliderBody);
-    Collider_SetCylinder(play, &this->colliderBody, &this->actor, &sCylinderInit);
-    Collider_InitJntSph(play, &this->colliderHead);
-    Collider_SetJntSph(play, &this->colliderHead, &this->actor, &sJntSphInit, this->headElements);
+    Collider_InitCylinder(play, &this->bodyCollider);
+    Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sCylinderInit);
+    Collider_InitJntSph(play, &this->headCollider);
+    Collider_SetJntSph(play, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderElements);
 
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     func_80A68AC4(this);
@@ -194,8 +206,8 @@ void EnHorseGanon_Destroy(Actor* thisx, PlayState* play) {
     EnHorseGanon* this = (EnHorseGanon*)thisx;
 
     Skin_Free(play, &this->skin);
-    Collider_DestroyCylinder(play, &this->colliderBody);
-    Collider_DestroyJntSph(play, &this->colliderHead);
+    Collider_DestroyCylinder(play, &this->bodyCollider);
+    Collider_DestroyJntSph(play, &this->headCollider);
 }
 
 void func_80A68AC4(EnHorseGanon* this) {
@@ -235,12 +247,10 @@ void func_80A68B20(EnHorseGanon* this) {
         sp30 = this->actor.speed / 3.0f;
     } else if (this->currentAnimation == 3) {
         sp30 = this->actor.speed / 5.0f;
-        Audio_PlaySfxGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_HORSE_RUN);
     } else if (this->currentAnimation == 4) {
         sp30 = this->actor.speed / 7.0f;
-        Audio_PlaySfxGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_HORSE_RUN);
     } else {
         sp30 = 1.0f;
     }
@@ -293,8 +303,8 @@ void EnHorseGanon_Update(Actor* thisx, PlayState* play) {
                                 UPDBGCHECKINFO_FLAG_4);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
-    Collider_UpdateCylinder(&this->actor, &this->colliderBody);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderBody.base);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
 }
 
 void EnHorseGanon_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
@@ -303,23 +313,23 @@ void EnHorseGanon_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     EnHorseGanon* this = (EnHorseGanon*)thisx;
     s32 index;
 
-    for (index = 0; index < this->colliderHead.count; index++) {
-        sp4C.x = this->colliderHead.elements[index].dim.modelSphere.center.x;
-        sp4C.y = this->colliderHead.elements[index].dim.modelSphere.center.y;
-        sp4C.z = this->colliderHead.elements[index].dim.modelSphere.center.z;
+    for (index = 0; index < this->headCollider.count; index++) {
+        sp4C.x = this->headCollider.elements[index].dim.modelSphere.center.x;
+        sp4C.y = this->headCollider.elements[index].dim.modelSphere.center.y;
+        sp4C.z = this->headCollider.elements[index].dim.modelSphere.center.z;
 
-        Skin_GetLimbPos(skin, this->colliderHead.elements[index].dim.limb, &sp4C, &sp40);
+        Skin_GetLimbPos(skin, this->headCollider.elements[index].dim.limb, &sp4C, &sp40);
 
-        this->colliderHead.elements[index].dim.worldSphere.center.x = sp40.x;
-        this->colliderHead.elements[index].dim.worldSphere.center.y = sp40.y;
-        this->colliderHead.elements[index].dim.worldSphere.center.z = sp40.z;
+        this->headCollider.elements[index].dim.worldSphere.center.x = sp40.x;
+        this->headCollider.elements[index].dim.worldSphere.center.y = sp40.y;
+        this->headCollider.elements[index].dim.worldSphere.center.z = sp40.z;
 
-        this->colliderHead.elements[index].dim.worldSphere.radius =
-            this->colliderHead.elements[index].dim.modelSphere.radius * this->colliderHead.elements[index].dim.scale;
+        this->headCollider.elements[index].dim.worldSphere.radius =
+            this->headCollider.elements[index].dim.modelSphere.radius * this->headCollider.elements[index].dim.scale;
     }
 
     //! @bug see relevant comment in `EnHorse_SkinCallback1`
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderHead.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->headCollider.base);
 }
 
 void EnHorseGanon_Draw(Actor* thisx, PlayState* play) {

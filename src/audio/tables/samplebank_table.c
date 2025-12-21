@@ -1,9 +1,8 @@
 #include "attributes.h"
-#include "z64audio.h"
+#include "audio.h"
 
 // Symbol definition
 
-extern AudioTable gSampleBankTable;
 #pragma weak gSampleBankTable = sSampleBankTableHeader
 
 // Externs for table

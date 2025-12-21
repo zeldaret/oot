@@ -1,8 +1,11 @@
-#pragma increment_block_number "ntsc-1.2:128"
+#pragma increment_block_number "ntsc-1.0:132 ntsc-1.1:132 ntsc-1.2:132 pal-1.0:132 pal-1.1:132"
 
-#include "global.h"
+#include "audiomgr.h"
+#include "build.h"
 #include "cic6105.h"
 #include "fault.h"
+#include "regs.h"
+#include "sched.h"
 
 s32 func_80001714(void);
 
@@ -10,11 +13,11 @@ OSTask D_800067C0_unknown = {
     4, 0, rspbootTextStart, 0x3E8, cic6105TextStart, 0x20, (u64*)gBuildCreator, 8, NULL, 0, NULL, 0, NULL, 0, NULL, 0,
 };
 
-s32 B_80008EE0;
-s32 B_80008EE4;
+u32 B_80008EE0;
+u32 B_80008EE4;
 FaultClient sCIC6105FaultClient;
-s32 B_80008EF8;
-s32 B_80008EFC;
+u32 B_80008EF8;
+u32 B_80008EFC;
 
 void func_800014D0(void) {
     R_AUDIOMGR_DEBUG_LEVEL = AUDIOMGR_DEBUG_LEVEL_NO_RSP;
@@ -39,7 +42,11 @@ void CIC6105_FaultClient(void) {
     Fault_Printf(" [Creator:%s]", gBuildCreator);
     Fault_SetCursor(56, 192);
     Fault_Printf("[Date:%s]", gBuildDate);
+#if OOT_VERSION < PAL_1_0
+    Fault_SetCursor(128, 24);
+#else
     Fault_SetCursor(96, 32);
+#endif
     Fault_Printf("I LOVE YOU %08x", func_80001714());
 }
 

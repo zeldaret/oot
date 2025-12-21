@@ -5,6 +5,13 @@
  */
 
 #include "z_eff_ss_dead_ds.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]

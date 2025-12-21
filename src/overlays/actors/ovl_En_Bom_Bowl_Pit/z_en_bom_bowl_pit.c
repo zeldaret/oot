@@ -1,9 +1,17 @@
 #include "z_en_bom_bowl_pit.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
-#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnBomBowlPit_Init(Actor* thisx, PlayState* play);
 void EnBomBowlPit_Destroy(Actor* thisx, PlayState* play);
@@ -201,12 +209,10 @@ void EnBomBowlPit_WaitTillPrizeGiven(EnBomBowlPit* this, PlayState* play) {
 
 void EnBomBowlPit_Reset(EnBomBowlPit* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        // "Normal termination"/"completion"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal termination ☆☆☆☆☆ \n") VT_RST);
         if (this->getItemId == GI_HEART_PIECE) {
             gSaveContext.healthAccumulator = 0x140;
-            // "Ah recovery!" (?)
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Ah recovery! ☆☆☆☆☆ \n") VT_RST);
         }
         this->exItemDone = 0;
         this->status = 2;

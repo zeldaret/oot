@@ -5,9 +5,18 @@
  */
 
 #include "z_bg_spot17_funen.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "play_state.h"
+
 #include "assets/objects/object_spot17_obj/object_spot17_obj.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgSpot17Funen_Init(Actor* thisx, PlayState* play);
 void BgSpot17Funen_Destroy(Actor* thisx, PlayState* play);
@@ -35,7 +44,8 @@ void BgSpot17Funen_Init(Actor* thisx, PlayState* play) {
     BgSpot17Funen* this = (BgSpot17Funen*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    PRINTF("spot17 obj. 噴煙 (arg_data 0x%04x)\n", this->actor.params);
+    PRINTF(T("spot17 obj. 噴煙 (arg_data 0x%04x)\n", "spot17 obj. volcanic smoke (arg_data 0x%04x)\n"),
+           this->actor.params);
 }
 
 void BgSpot17Funen_Destroy(Actor* thisx, PlayState* play) {

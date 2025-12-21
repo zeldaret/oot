@@ -5,6 +5,15 @@
  */
 
 #include "z_en_mu.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_mu/object_mu.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -28,8 +37,8 @@ static ColliderCylinderInit D_80AB0BD0 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -58,21 +67,21 @@ void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {
 void EnMu_Interact(EnMu* this, PlayState* play) {
     u8 textIdOffset[] = { 0x42, 0x43, 0x3F, 0x41, 0x3E };
     u8 bitmask[] = {
-        EVENTINF_20_MASK, EVENTINF_21_MASK, EVENTINF_22_MASK, EVENTINF_23_MASK, EVENTINF_24_MASK,
+        EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_0), EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_1),
+        EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_2), EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_3),
+        EVENTINF_MASK(EVENTINF_HAGGLING_TOWNSFOLK_MESG_4),
     };
-    u8 textFlags;
+    u8 talkFlags;
     s32 randomIndex;
     s32 i;
 
-    textFlags = gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] &
-                (EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
-    gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] &=
-        ~(EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
+    talkFlags = GET_EVENTINF_ENMU_TALK_FLAGS();
+    RESET_EVENTINF_ENMU_TALK_FLAGS();
     randomIndex = (play->state.frames + (s32)(Rand_ZeroOne() * 5.0f)) % 5;
 
+    // Starting at randomIndex, scan sequentially for the next unspoken message
     for (i = 0; i < 5; i++) {
-
-        if (!(textFlags & bitmask[randomIndex])) {
+        if (!(talkFlags & bitmask[randomIndex])) {
             break;
         }
 
@@ -82,6 +91,7 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
         }
     }
 
+    // If all 5 messages have been spoken, reset but prevent the last message from being repeated
     if (i == 5) {
         if (this->defaultTextId == (textIdOffset[randomIndex] | 0x7000)) {
             randomIndex++;
@@ -89,13 +99,12 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
                 randomIndex = 0;
             }
         }
-        textFlags = 0;
+        talkFlags = 0;
     }
 
-    textFlags |= bitmask[randomIndex];
+    talkFlags |= (u8)bitmask[randomIndex];
     this->defaultTextId = textIdOffset[randomIndex] | 0x7000;
-    textFlags &= EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK | 0xE0;
-    gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] |= textFlags;
+    SET_EVENTINF_ENMU_TALK_FLAGS(talkFlags);
 }
 
 u16 EnMu_GetTextId(PlayState* play, Actor* thisx) {
@@ -152,7 +161,7 @@ void EnMu_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnMu_Pose(EnMu* this, PlayState* play) {
-    func_80034F54(play, this->unk_20A, this->unk_22A, 16);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 16);
 }
 
 void EnMu_Update(Actor* thisx, PlayState* play) {
@@ -183,8 +192,8 @@ s32 EnMu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7) || (limbIndex == 11) || (limbIndex == 12) ||
         (limbIndex == 13) || (limbIndex == 14)) {
-        rot->y += Math_SinS(this->unk_20A[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->unk_22A[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
     return false;
 }

@@ -5,10 +5,21 @@
  */
 
 #include "z_demo_geff.h"
-#include "assets/objects/object_geff/object_geff.h"
-#include "terminal.h"
+#include "overlays/actors/ovl_Demo_Gt/z_demo_gt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+
+#include "assets/objects/object_geff/object_geff.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void DemoGeff_Init(Actor* thisx, PlayState* play);
 void DemoGeff_Destroy(Actor* thisx, PlayState* play);
@@ -61,7 +72,8 @@ void DemoGeff_Init(Actor* thisx, PlayState* play) {
     DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->actor.params < 0 || this->actor.params >= 9) {
-        PRINTF(VT_FGCOL(RED) "Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n",
+                               "Demo_Geff_Actor_ct:arg_data is strange!!!!!!!!!!!!\n") VT_RST);
         Actor_Kill(&this->actor);
         return;
     }
@@ -92,7 +104,7 @@ void func_80977F80(DemoGeff* this, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 204);
 
     gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[objectSlot].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+    gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 
     // Necessary to match
     if (!play) {}
@@ -166,7 +178,7 @@ void func_809782A0(DemoGeff* this, PlayState* play) {
 void func_80978308(DemoGeff* this, PlayState* play) {
     func_809781FC(this, play);
     func_809782A0(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80978030(this, play);
 #endif
 }
@@ -179,7 +191,9 @@ void func_80978370(DemoGeff* this, PlayState* play) {
     s16 params = this->actor.params;
     DemoGeffInitFunc initFunc = sInitFuncs[params];
     if (initFunc == NULL) {
-        PRINTF(VT_FGCOL(RED) " Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, params);
+        PRINTF(VT_FGCOL(RED) T(" Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n",
+                               " Demo_Geff_main_init: Initialization process is wrong arg_data = %d!\n") VT_RST,
+               params);
         Actor_Kill(&this->actor);
         return;
     }
@@ -195,7 +209,9 @@ void func_809783D4(DemoGeff* this, PlayState* play) {
     s32 pad;
 
     if (objectSlot < 0) {
-        PRINTF(VT_FGCOL(RED) "Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, params);
+        PRINTF(VT_FGCOL(RED) T("Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n",
+                               "Demo_Geff_main_bank: Bank unreadable arg_data = %d!\n") VT_RST,
+               params);
         Actor_Kill(thisx);
         return;
     }
@@ -209,7 +225,8 @@ void DemoGeff_Update(Actor* thisx, PlayState* play) {
     DemoGeff* this = (DemoGeff*)thisx;
 
     if (this->action < 0 || this->action >= 2 || sActionFuncs[this->action] == NULL) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -223,7 +240,8 @@ void DemoGeff_Draw(Actor* thisx, PlayState* play) {
     s32 drawConfig = this->drawConfig;
 
     if (drawConfig < 0 || drawConfig >= 2 || sDrawFuncs[drawConfig] == NULL) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     if (drawConfig != 0) {

@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_ingate.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_ingate/object_ingate.h"
 
 #define FLAGS 0
@@ -45,14 +53,14 @@ void BgInGate_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if ((play->sceneId != SCENE_LON_LON_RANCH || !LINK_IS_ADULT) ||
-        (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (gSaveContext.save.cutsceneIndex != 0xFFF0))) {
+        (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (gSaveContext.save.cutsceneIndex != CS_INDEX_0))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
 
     Actor_SetScale(&this->dyna.actor, 0.1f);
     if ((PARAMS_GET_U(this->dyna.actor.params, 0, 1) != 0) &&
-        (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)) {
+        (GET_EVENTINF_INGO_RACE_STATE() == INGO_RACE_STATE_TRAPPED_WIN_EPONA)) {
         play->csCtx.curFrame = 0;
         BgInGate_SetupAction(this, func_80892890);
     } else {

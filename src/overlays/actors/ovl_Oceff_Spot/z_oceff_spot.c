@@ -5,9 +5,24 @@
  */
 
 #include "z_oceff_spot.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "regs.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "tex_len.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "light.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void OceffSpot_Init(Actor* thisx, PlayState* play);
 void OceffSpot_Destroy(Actor* thisx, PlayState* play);
@@ -28,11 +43,27 @@ ActorProfile Oceff_Spot_Profile = {
     /**/ OceffSpot_Draw,
 };
 
-#include "assets/overlays/ovl_Oceff_Spot/ovl_Oceff_Spot.c"
+#define sTex_WIDTH 32
+#define sTex_HEIGHT 32
+static u64 sTex[TEX_LEN(u64, sTex_WIDTH, sTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Oceff_Spot/sTex.i8.inc.c"
+};
+
+static Vtx sCylinderVtx[] = {
+#include "assets/overlays/ovl_Oceff_Spot/sCylinderVtx.inc.c"
+};
+
+static Gfx sCylinderMaterialDL[19] = {
+#include "assets/overlays/ovl_Oceff_Spot/sCylinderMaterialDL.inc.c"
+};
+
+static Gfx sCylinderModelDL[18] = {
+#include "assets/overlays/ovl_Oceff_Spot/sCylinderModelDL.inc.c"
+};
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1500, ICHAIN_STOP),
 };
 
 void OceffSpot_SetupAction(OceffSpot* this, OceffSpotActionFunc actionFunc) {
@@ -81,21 +112,19 @@ void OceffSpot_End(OceffSpot* this, PlayState* play) {
     } else {
         Actor_Kill(&this->actor);
         if (gTimeSpeed != 400 && !play->msgCtx.disableSunsSong &&
-            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
+            GET_EVENTINF_INGO_RACE_STATE() != INGO_RACE_STATE_HORSE_RENTAL_PERIOD) {
             if (play->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
                 play->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
-                PRINTF(VT_FGCOL(YELLOW));
-                // "Sun's Song Flag"
-                PRINTF("z_oceff_spot  太陽の歌フラグ\n");
-                PRINTF(VT_RST);
+                PRINTF_COLOR_YELLOW();
+                PRINTF(T("z_oceff_spot  太陽の歌フラグ\n", "z_oceff_spot  Sun's Song Flag\n"));
+                PRINTF_RST();
             }
         } else {
             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-            PRINTF(VT_FGCOL(YELLOW));
-            // "Ocarina End"
-            PRINTF("z_oceff_spot  オカリナ終了\n");
-            PRINTF(VT_RST);
+            PRINTF_COLOR_YELLOW();
+            PRINTF(T("z_oceff_spot  オカリナ終了\n", "z_oceff_spot  Ocarina finished\n"));
+            PRINTF_RST();
         }
     }
 }

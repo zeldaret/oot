@@ -5,9 +5,24 @@
  */
 
 #include "z_en_test.h"
+
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_sk2/object_sk2.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnTest_Init(Actor* thisx, PlayState* play);
 void EnTest_Destroy(Actor* thisx, PlayState* play);
@@ -148,8 +163,8 @@ static ColliderCylinderInit sBodyColliderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -168,8 +183,8 @@ static ColliderCylinderInit sShieldColliderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFC1FFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFC1FFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,
@@ -177,7 +192,7 @@ static ColliderCylinderInit sShieldColliderInit = {
     { 20, 70, -50, { 0, 0, 0 } },
 };
 
-static ColliderQuadInit sSwordColliderInit = {
+static ColliderQuadInit sSwordColliderQuadInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -188,8 +203,8 @@ static ColliderQuadInit sSwordColliderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x10 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x10 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL | ATELEM_UNK7,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -197,48 +212,48 @@ static ColliderQuadInit sSwordColliderInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-typedef enum StalfosDamageEffect {
-    /* 0x0 */ STALFOS_DMGEFF_NORMAL,
-    /* 0x1 */ STALFOS_DMGEFF_STUN,
-    /* 0x6 */ STALFOS_DMGEFF_FIREMAGIC = 6,
-    /* 0xD */ STALFOS_DMGEFF_SLING = 0xD,
-    /* 0xE */ STALFOS_DMGEFF_LIGHT,
-    /* 0xF */ STALFOS_DMGEFF_FREEZE
-} StalfosDamageEffect;
+typedef enum StalfosDamageReaction {
+    /* 0x0 */ STALFOS_DMG_REACT_NORMAL,
+    /* 0x1 */ STALFOS_DMG_REACT_STUN,
+    /* 0x6 */ STALFOS_DMG_REACT_FIREMAGIC = 6,
+    /* 0xD */ STALFOS_DMG_REACT_SLING = 0xD,
+    /* 0xE */ STALFOS_DMG_REACT_LIGHT,
+    /* 0xF */ STALFOS_DMG_REACT_FREEZE
+} StalfosDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, STALFOS_DMGEFF_STUN),
-    /* Deku stick    */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Slingshot     */ DMG_ENTRY(1, STALFOS_DMGEFF_SLING),
-    /* Explosive     */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Boomerang     */ DMG_ENTRY(0, STALFOS_DMGEFF_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Hammer swing  */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Hookshot      */ DMG_ENTRY(0, STALFOS_DMGEFF_STUN),
-    /* Kokiri sword  */ DMG_ENTRY(1, STALFOS_DMGEFF_NORMAL),
-    /* Master sword  */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Giant's Knife */ DMG_ENTRY(4, STALFOS_DMGEFF_NORMAL),
-    /* Fire arrow    */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Ice arrow     */ DMG_ENTRY(4, STALFOS_DMGEFF_FREEZE),
-    /* Light arrow   */ DMG_ENTRY(2, STALFOS_DMGEFF_LIGHT),
-    /* Unk arrow 1   */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Unk arrow 2   */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Unk arrow 3   */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Fire magic    */ DMG_ENTRY(0, STALFOS_DMGEFF_FIREMAGIC),
-    /* Ice magic     */ DMG_ENTRY(3, STALFOS_DMGEFF_FREEZE),
-    /* Light magic   */ DMG_ENTRY(0, STALFOS_DMGEFF_LIGHT),
-    /* Shield        */ DMG_ENTRY(0, STALFOS_DMGEFF_NORMAL),
-    /* Mirror Ray    */ DMG_ENTRY(0, STALFOS_DMGEFF_NORMAL),
-    /* Kokiri spin   */ DMG_ENTRY(1, STALFOS_DMGEFF_NORMAL),
-    /* Giant spin    */ DMG_ENTRY(4, STALFOS_DMGEFF_NORMAL),
-    /* Master spin   */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Kokiri jump   */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
-    /* Giant jump    */ DMG_ENTRY(8, STALFOS_DMGEFF_NORMAL),
-    /* Master jump   */ DMG_ENTRY(4, STALFOS_DMGEFF_NORMAL),
-    /* Unknown 1     */ DMG_ENTRY(0, STALFOS_DMGEFF_NORMAL),
-    /* Unblockable   */ DMG_ENTRY(0, STALFOS_DMGEFF_NORMAL),
-    /* Hammer jump   */ DMG_ENTRY(4, STALFOS_DMGEFF_NORMAL),
-    /* Unknown 2     */ DMG_ENTRY(0, STALFOS_DMGEFF_NORMAL),
+    /* Deku nut      */ DMG_ENTRY(0, STALFOS_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Slingshot     */ DMG_ENTRY(1, STALFOS_DMG_REACT_SLING),
+    /* Explosive     */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Boomerang     */ DMG_ENTRY(0, STALFOS_DMG_REACT_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Hammer swing  */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Hookshot      */ DMG_ENTRY(0, STALFOS_DMG_REACT_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, STALFOS_DMG_REACT_NORMAL),
+    /* Master sword  */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Giant's Knife */ DMG_ENTRY(4, STALFOS_DMG_REACT_NORMAL),
+    /* Fire arrow    */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Ice arrow     */ DMG_ENTRY(4, STALFOS_DMG_REACT_FREEZE),
+    /* Light arrow   */ DMG_ENTRY(2, STALFOS_DMG_REACT_LIGHT),
+    /* Unk arrow 1   */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Unk arrow 2   */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Unk arrow 3   */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Fire magic    */ DMG_ENTRY(0, STALFOS_DMG_REACT_FIREMAGIC),
+    /* Ice magic     */ DMG_ENTRY(3, STALFOS_DMG_REACT_FREEZE),
+    /* Light magic   */ DMG_ENTRY(0, STALFOS_DMG_REACT_LIGHT),
+    /* Shield        */ DMG_ENTRY(0, STALFOS_DMG_REACT_NORMAL),
+    /* Mirror Ray    */ DMG_ENTRY(0, STALFOS_DMG_REACT_NORMAL),
+    /* Kokiri spin   */ DMG_ENTRY(1, STALFOS_DMG_REACT_NORMAL),
+    /* Giant spin    */ DMG_ENTRY(4, STALFOS_DMG_REACT_NORMAL),
+    /* Master spin   */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Kokiri jump   */ DMG_ENTRY(2, STALFOS_DMG_REACT_NORMAL),
+    /* Giant jump    */ DMG_ENTRY(8, STALFOS_DMG_REACT_NORMAL),
+    /* Master jump   */ DMG_ENTRY(4, STALFOS_DMG_REACT_NORMAL),
+    /* Unknown 1     */ DMG_ENTRY(0, STALFOS_DMG_REACT_NORMAL),
+    /* Unblockable   */ DMG_ENTRY(0, STALFOS_DMG_REACT_NORMAL),
+    /* Hammer jump   */ DMG_ENTRY(4, STALFOS_DMG_REACT_NORMAL),
+    /* Unknown 2     */ DMG_ENTRY(0, STALFOS_DMG_REACT_NORMAL),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -279,7 +294,7 @@ void EnTest_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->shieldCollider, &this->actor, &sShieldColliderInit);
 
     Collider_InitQuad(play, &this->swordCollider);
-    Collider_SetQuad(play, &this->swordCollider, &this->actor, &sSwordColliderInit);
+    Collider_SetQuad(play, &this->swordCollider, &this->actor, &sSwordColliderQuadInit);
 
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 10;
@@ -1298,12 +1313,12 @@ void EnTest_SetupStunned(EnTest* this) {
     this->skelAnime.playSpeed = 0.0f;
     this->actor.speed = -4.0f;
 
-    if (this->lastDamageEffect == STALFOS_DMGEFF_LIGHT) {
+    if (this->lastDamageReaction == STALFOS_DMG_REACT_LIGHT) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 120, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
 
-        if (this->lastDamageEffect == STALFOS_DMGEFF_FREEZE) {
+        if (this->lastDamageReaction == STALFOS_DMG_REACT_FREEZE) {
             this->iceTimer = 36;
         } else {
             Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalfosFlinchFromHitFrontAnim, 0.0f);
@@ -1663,9 +1678,9 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
     } else if (this->bodyCollider.base.acFlags & AC_HIT) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
-        if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING) &&
-            (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC)) {
-            this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
+        if ((this->actor.colChkInfo.damageReaction != STALFOS_DMG_REACT_SLING) &&
+            (this->actor.colChkInfo.damageReaction != STALFOS_DMG_REACT_FIREMAGIC)) {
+            this->lastDamageReaction = this->actor.colChkInfo.damageReaction;
             if (this->swordState >= 1) {
                 this->swordState = 0;
             }
@@ -1674,9 +1689,9 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
             Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
-            if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||
-                (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_FREEZE) ||
-                (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_LIGHT)) {
+            if ((this->actor.colChkInfo.damageReaction == STALFOS_DMG_REACT_STUN) ||
+                (this->actor.colChkInfo.damageReaction == STALFOS_DMG_REACT_FREEZE) ||
+                (this->actor.colChkInfo.damageReaction == STALFOS_DMG_REACT_LIGHT)) {
                 if (this->unk_7C8 != 0xB) {
                     Actor_ApplyDamage(&this->actor);
                     EnTest_SetupStunned(this);
@@ -1708,7 +1723,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
 
     EnTest_UpdateDamage(this, play);
 
-    if (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC) {
+    if (this->actor.colChkInfo.damageReaction != STALFOS_DMG_REACT_FIREMAGIC) {
         Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
@@ -1838,7 +1853,7 @@ s32 EnTest_OverrideLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3f*
     }
 
     if ((this->actor.params == STALFOS_TYPE_INVISIBLE) &&
-        !CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+        !ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         *dList = NULL;
     }
 

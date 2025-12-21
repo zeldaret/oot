@@ -5,6 +5,18 @@
  */
 
 #include "z_bg_mori_kaitenkabe.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0
@@ -33,9 +45,9 @@ ActorProfile Bg_Mori_Kaitenkabe_Profile = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -50,8 +62,9 @@ void BgMoriKaitenkabe_Init(Actor* thisx, PlayState* play) {
     BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    // "Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears"
-    PRINTF("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n", this->dyna.actor.params);
+    PRINTF(T("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n",
+             "◯◯◯Forest Temple object [Rotating wall(arg_data : 0x%04x)] appears \n"),
+           this->dyna.actor.params);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gMoriKaitenkabeCol, &colHeader);
@@ -59,8 +72,8 @@ void BgMoriKaitenkabe_Init(Actor* thisx, PlayState* play) {
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
         Actor_Kill(&this->dyna.actor);
-        // "【Rotating wall】 Bank danger!"
-        PRINTF("【回転壁】 バンク危険！(%s %d)\n", "../z_bg_mori_kaitenkabe.c", 176);
+        PRINTF(T("【回転壁】 バンク危険！(%s %d)\n", "[Rotating wall] Bank danger! (%s %d)\n"),
+               "../z_bg_mori_kaitenkabe.c", 176);
     } else {
         this->actionFunc = BgMoriKaitenkabe_WaitForMoriTex;
     }

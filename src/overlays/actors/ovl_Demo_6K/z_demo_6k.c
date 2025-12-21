@@ -5,13 +5,29 @@
  */
 
 #include "z_demo_6k.h"
+#include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "effect.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_demo_6k/object_demo_6k.h"
 #include "assets/objects/object_gnd_magic/object_gnd_magic.h"
-#include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void Demo6K_Init(Actor* thisx, PlayState* play);
 void Demo6K_Destroy(Actor* thisx, PlayState* play);
@@ -162,7 +178,7 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
         case 17:
         case 18:
         case 19:
-            this->actor.flags |= ACTOR_FLAG_5;
+            this->actor.flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
             this->drawFunc = func_8096865C;
             this->initActionFunc = func_80967410;
             this->flags |= 1;

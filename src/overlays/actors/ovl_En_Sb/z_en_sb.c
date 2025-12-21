@@ -5,7 +5,19 @@
  */
 
 #include "z_en_sb.h"
+
+#include "attributes.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_sb/object_sb.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
@@ -45,7 +57,14 @@ static ColliderCylinderInitType1 sCylinderInit = {
         OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
-    { 0x00, { 0xFFCFFFFF, 0x04, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    {
+        ELEM_MATERIAL_UNK0,
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_KNOCKBACK, 0x08 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_ON | ATELEM_SFX_NORMAL,
+        ACELEM_ON,
+        OCELEM_ON,
+    },
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
@@ -266,8 +285,7 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
         EnSb_SpawnBubbles(play, this);
         this->bouncesLeft = 3;
         EnSb_SetupLunge(this);
-        // "Attack!!"
-        PRINTF("アタァ〜ック！！\n");
+        PRINTF(T("アタァ〜ック！！\n", "Attack!!\n"));
     }
 }
 
@@ -311,7 +329,7 @@ void EnSb_Bounce(EnSb* this, PlayState* play) {
             this->actor.speed = 0.0f;
             this->timer = 1;
             EnSb_SetupWaitClosed(this);
-            PRINTF(VT_FGCOL(RED) "攻撃終了！！" VT_RST "\n"); // "Attack Complete!"
+            PRINTF(VT_FGCOL(RED) T("攻撃終了！！", "Attack complete!!") VT_RST "\n");
         }
     }
 }
@@ -382,7 +400,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
         tookDamage = false;
         this->collider.base.acFlags &= ~AC_HIT;
 
-        switch (this->actor.colChkInfo.damageEffect) {
+        switch (this->actor.colChkInfo.damageReaction) {
             case 14: // wind arrow
                 hitByWindArrow = true;
                 FALLTHROUGH;

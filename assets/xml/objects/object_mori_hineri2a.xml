@@ -1,6 +1,9 @@
 <Root>
-    <ExternalFile XmlPath="objects/object_mori_tex.xml" OutPath="assets/objects/object_mori_tex/"/>
+    <ExternalFile OutPath="assets/objects/object_mori_tex/"/>
     <File Name="object_mori_hineri2a" Segment="6">
+        <Array Name="object_mori_hineri2a_Vtx_000000" Count="695" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="object_mori_hineri2a_DL_002B70" Offset="0x2B70"/>
         <Collision Name="object_mori_hineri2a_Col_006078" Offset="0x6078"/>
     </File>

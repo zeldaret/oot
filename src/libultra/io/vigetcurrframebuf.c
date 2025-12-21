@@ -1,4 +1,4 @@
-#include "global.h"
+#include "ultra64.h"
 
 void* osViGetCurrentFramebuffer(void) {
     register u32 prevInt = __osDisableInt();

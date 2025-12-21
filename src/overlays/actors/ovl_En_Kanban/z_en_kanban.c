@@ -5,12 +5,30 @@
  */
 
 #include "z_en_kanban.h"
-#include "global.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_kanban/object_kanban.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 #define PART_UPPER_LEFT (1 << 0)
 #define PART_LEFT_UPPER (1 << 1)
@@ -99,8 +117,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -406,7 +424,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     }
                     piece->airTimer = 100;
                     piece->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-                    piece->actor.flags |= ACTOR_FLAG_25;
+                    piece->actor.flags |= ACTOR_FLAG_UPDATE_DURING_OCARINA;
                     this->cutMarkTimer = 5;
                     Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_STRIKE);
                 }
@@ -463,7 +481,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             this->actor.bgCheckFlags = tempBgFlags;
             this->actor.depthInWater = tempDepthInWater;
 
-            PRINTF(VT_RST);
+            PRINTF_RST();
 
             if (1) {
                 u8 onGround = (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
@@ -727,9 +745,9 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     bomb = bomb->next;
                 }
             }
-            PRINTF(VT_FGCOL(GREEN));
+            PRINTF_COLOR_GREEN();
             PRINTF("OCARINA_MODE %d\n", play->msgCtx.ocarinaMode);
-            PRINTF(VT_RST);
+            PRINTF_RST();
             switch (this->ocarinaFlag) {
                 case 0:
                     if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {
@@ -741,8 +759,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                         (play->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY)) {
                         this->actionState = ENKANBAN_REPAIR;
                         this->bounceX = 1;
-                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                     }
                     break;
             }
@@ -806,7 +823,13 @@ static f32 sCutAngles[] = {
 
 static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 
-#include "assets/overlays/ovl_En_Kanban/ovl_En_Kanban.c"
+static Vtx sShadowVtx[] = {
+#include "assets/overlays/ovl_En_Kanban/sShadowVtx.inc.c"
+};
+
+static Gfx sShadowDL[16] = {
+#include "assets/overlays/ovl_En_Kanban/sShadowDL.inc.c"
+};
 
 void EnKanban_Draw(Actor* thisx, PlayState* play) {
     EnKanban* this = (EnKanban*)thisx;

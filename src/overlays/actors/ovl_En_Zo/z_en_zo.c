@@ -5,6 +5,20 @@
  */
 
 #include "z_en_zo.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_zo/object_zo.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -285,8 +299,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -418,7 +432,7 @@ u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
                 return 0x402D;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
                 return 0x4010;
             }
             if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
@@ -612,7 +626,7 @@ void EnZo_Destroy(Actor* thisx, PlayState* play) {
 void EnZo_Standing(EnZo* this, PlayState* play) {
     s16 angle;
 
-    func_80034F54(play, this->unk_656, this->unk_67E, 20);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 20);
     EnZo_SetAnimation(this);
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         this->trackingMode = NPC_TRACKING_FULL_BODY;
@@ -654,7 +668,7 @@ void EnZo_Surface(EnZo* this, PlayState* play) {
 }
 
 void EnZo_TreadWater(EnZo* this, PlayState* play) {
-    func_80034F54(play, this->unk_656, this->unk_67E, 20);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 20);
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->canSpeak = true;
         this->trackingMode = NPC_TRACKING_FULL_BODY;
@@ -770,8 +784,8 @@ s32 EnZo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
 
     if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12)) {
-        rot->y += (Math_SinS(this->unk_656[limbIndex]) * 200.0f);
-        rot->z += (Math_CosS(this->unk_67E[limbIndex]) * 200.0f);
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
 
     return 0;

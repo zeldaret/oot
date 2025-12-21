@@ -4,11 +4,25 @@
  * Description: Deku Shield
  */
 
-#include "terminal.h"
 #include "z_item_shield.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "item.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_link_child/object_link_child.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ItemShield_Init(Actor* thisx, PlayState* play);
 void ItemShield_Destroy(Actor* thisx, PlayState* play);
@@ -29,8 +43,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000004, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000004, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,

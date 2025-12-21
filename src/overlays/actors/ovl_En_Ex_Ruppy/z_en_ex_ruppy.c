@@ -1,9 +1,25 @@
 #include "z_en_ex_ruppy.h"
+#include "overlays/actors/ovl_En_Diving_Game/z_en_diving_game.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
-#include "../ovl_En_Diving_Game/z_en_diving_game.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnExRuppy_Init(Actor* thisx, PlayState* play);
 void EnExRuppy_Destroy(Actor* thisx, PlayState* play);
@@ -48,8 +64,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
     s16 temp3;
 
     this->type = this->actor.params;
-    // "Index"
-    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
+    PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n", "☆☆☆☆☆ Index ☆☆☆☆☆ %x\n") VT_RST, this->type);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
 
     switch (this->type) {
@@ -119,8 +134,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
                 this->colorIdx = (s16)Rand_ZeroFloat(3.99f) + 1;
             }
             this->actor.gravity = -3.0f;
-            // "Wow Coin"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n", "☆☆☆☆☆ Wow Coin ☆☆☆☆☆ \n") VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
@@ -141,8 +155,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
                     break;
             }
             this->actor.gravity = -3.0f;
-            // "Normal rupee"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n", "☆☆☆☆☆ Normal rupee ☆☆☆☆☆ \n") VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
@@ -327,10 +340,10 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, PlayState* play) {
                 parent->unk_226 = 1;
             }
         } else {
-            // "That idiot! error"
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n",
+                                     "☆☆☆☆☆ That's stupid! Error!!!!! ☆☆☆☆☆ \n") VT_RST);
         }
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n" VT_RST); // "Stupid!"
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Stupid! ☆☆☆☆☆ \n") VT_RST);
         explosionScale = 100;
         explosionScaleStep = 30;
         if (this->type == 2) {

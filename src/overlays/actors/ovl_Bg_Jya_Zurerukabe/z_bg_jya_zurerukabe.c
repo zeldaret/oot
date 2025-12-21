@@ -5,10 +5,20 @@
  */
 
 #include "z_bg_jya_zurerukabe.h"
-#include "assets/objects/object_jya_obj/object_jya_obj.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "array_count.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/object_jya_obj/object_jya_obj.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play);
 void BgJyaZurerukabe_Destroy(Actor* thisx, PlayState* play);
@@ -54,9 +64,9 @@ static s16 D_8089BA30[6] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, PlayState* play, CollisionHeader* collision, s32 flag) {
@@ -67,12 +77,13 @@ void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, PlayState* play, Collis
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 194,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_bg_jya_zurerukabe.c", 194, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -125,15 +136,16 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
     }
 
     if (i == ARRAY_COUNT(D_8089B9F0)) {
-        PRINTF(VT_COL(RED, WHITE));
-        PRINTF("home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 299,
-               this->dyna.actor.params);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_ERROR();
+        PRINTF(T("home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n",
+                 "It seems that the home pos has changed (%s %d)(arg_data 0x%04x)\n"),
+               "../z_bg_jya_zurerukabe.c", 299, this->dyna.actor.params);
+        PRINTF_RST();
     }
 
     this->unk_16E = D_8089B9F8[this->unk_168];
     func_8089B7B4(this);
-    PRINTF("(jya ずれる壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(jya ずれる壁)(arg_data 0x%04x)\n", "(jya sliding wall)(arg_data 0x%04x)\n"), this->dyna.actor.params);
 }
 
 void BgJyaZurerukabe_Destroy(Actor* thisx, PlayState* play) {

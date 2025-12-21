@@ -5,9 +5,22 @@
  */
 
 #include "z_bg_haka_ship.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgHakaShip_Init(Actor* thisx, PlayState* play);
 void BgHakaShip_Destroy(Actor* thisx, PlayState* play);
@@ -93,7 +106,7 @@ void BgHakaShip_WaitForSong(BgHakaShip* this, PlayState* play) {
         if (this->counter == 0) {
             this->counter = 130;
             this->actionFunc = BgHakaShip_CutsceneStationary;
-            PRINTF("シーン 外輪船 ...  アァクション！！\n");
+            PRINTF(T("シーン 外輪船 ...  アァクション！！\n", "Scene paddle steamer... action!!\n"));
             OnePointCutscene_Init(play, 3390, 999, &this->dyna.actor, CAM_ID_MAIN);
         }
     }

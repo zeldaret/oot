@@ -7,10 +7,27 @@
 #include "z_en_tite.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_tite/object_tite.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 // EnTite_Idle
 #define vIdleTimer actionVar1
@@ -86,12 +103,12 @@ ActorProfile En_Tite_Profile = {
     /**/ EnTite_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x00, 0x08 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
@@ -109,7 +126,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -191,7 +208,7 @@ void EnTite_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.health = 2;
     thisx->colChkInfo.mass = MASS_HEAVY;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, &this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->colliderElements);
     this->unk_2DC = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4;
     if (this->actor.params == TEKTITE_BLUE) {
         this->unk_2DC |= UPDBGCHECKINFO_FLAG_6; // Don't use the actor engine's ripple spawning code
@@ -211,8 +228,8 @@ void EnTite_Destroy(Actor* thisx, PlayState* play) {
             spawner->curNumSpawn--;
         }
         PRINTF("\n\n");
-        // "Number of simultaneous occurrences"
-        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, spawner->curNumSpawn);
+        PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n", "☆☆☆☆☆ Number of simultaneous spawns ☆☆☆☆☆%d\n") VT_RST,
+               spawner->curNumSpawn);
         PRINTF("\n\n");
     }
     Collider_DestroyJntSph(play, &this->collider);
@@ -288,7 +305,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
             case TEKTITE_MID_LUNGE:
                 // Continue trajectory until tektite has negative velocity and has landed on ground/water surface
                 // Snap to ground/water surface, or if falling fast dip into the water and slow fall speed
-                this->actor.flags |= ACTOR_FLAG_24;
+                this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
                 if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
                     ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER))) {
                     if (this->actor.velocity.y <= 0.0f) {
@@ -364,7 +381,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                     func_800355B8(play, &this->backLeftFootPos);
                 }
             }
-            if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & ACTOR_FLAG_6)) {
+            if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & ACTOR_FLAG_INSIDE_CULLING_VOLUME)) {
                 CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
             } else {
                 Player* player = GET_PLAYER(play);
@@ -571,7 +588,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
             } else {
                 this->actor.velocity.y = 10.0f;
                 this->actor.speed = 4.0f;
-                this->actor.flags |= ACTOR_FLAG_24;
+                this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
                 this->actor.gravity = -1.0f;
                 if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
@@ -582,7 +599,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
         } else {
             this->actor.velocity.y = 10.0f;
             this->actor.speed = 4.0f;
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
             this->actor.gravity = -1.0f;
             if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
@@ -593,7 +610,7 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
         // If in midair:
     } else {
         // Turn slowly toward player
-        this->actor.flags |= ACTOR_FLAG_24;
+        this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 1000, 0);
         if (this->actor.velocity.y >= 6.0f) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
@@ -679,7 +696,7 @@ void EnTite_SetupStunned(EnTite* this) {
     this->action = TEKTITE_STUNNED;
     this->actor.speed = -6.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    if (this->damageEffect == 0xF) {
+    if (this->damageReaction == 0xF) {
         this->spawnIceTimer = 48;
     }
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -850,11 +867,11 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
 
     if ((this->collider.base.acFlags & AC_HIT) && (this->action >= TEKTITE_IDLE)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (thisx->colChkInfo.damageEffect != 0xE) { // Immune to fire magic
-            this->damageEffect = thisx->colChkInfo.damageEffect;
+        if (thisx->colChkInfo.damageReaction != 0xE) { // Immune to fire magic
+            this->damageReaction = thisx->colChkInfo.damageReaction;
             Actor_SetDropFlag(thisx, &this->collider.elements[0].base, false);
             // Stun if Tektite hit by nut, boomerang, hookshot, ice arrow or ice magic
-            if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)) {
+            if ((thisx->colChkInfo.damageReaction == 1) || (thisx->colChkInfo.damageReaction == 0xF)) {
                 if (this->action != TEKTITE_STUNNED) {
                     Actor_SetColorFilter(thisx, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(thisx);
@@ -900,7 +917,7 @@ void EnTite_Update(Actor* thisx, PlayState* play) {
 
     EnTite_CheckDamage(thisx, play);
     // Stay still if hit by immunity damage type this frame
-    if (thisx->colChkInfo.damageEffect != 0xE) {
+    if (thisx->colChkInfo.damageReaction != 0xE) {
         this->actionFunc(this, play);
         Actor_MoveXZGravity(thisx);
         Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 40.0f, 20.0f, this->unk_2DC);

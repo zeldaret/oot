@@ -5,6 +5,18 @@
  */
 
 #include "z_bg_haka_trap.h"
+
+#include "array_count.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0
@@ -52,8 +64,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x04 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -61,12 +73,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 90, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sTrisElementsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00020000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00020000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -76,8 +88,8 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00020000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00020000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -95,7 +107,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 
@@ -131,7 +143,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = func_80880484;
         } else {
             DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-            thisx->flags |= ACTOR_FLAG_4;
+            thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
                 CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &colHeader);
@@ -160,8 +172,8 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                     CollisionHeader_GetVirtual(&object_haka_objects_Col_008D10, &colHeader);
                 }
 
-                Collider_InitTris(play, &this->colliderSpikes);
-                Collider_SetTris(play, &this->colliderSpikes, thisx, &sTrisInit, this->colliderSpikesItem);
+                Collider_InitTris(play, &this->spikesCollider);
+                Collider_SetTris(play, &this->spikesCollider, thisx, &sTrisInit, this->spikesColliderElements);
 
                 this->colliderCylinder.dim.radius = 18;
                 this->colliderCylinder.dim.height = 115;
@@ -177,7 +189,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
     } else {
         this->timer = 40;
         this->actionFunc = func_808809B0;
-        thisx->uncullZoneScale = 500.0f;
+        thisx->cullingVolumeScale = 500.0f;
     }
 
     CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
@@ -191,7 +203,7 @@ void BgHakaTrap_Destroy(Actor* thisx, PlayState* play) {
             DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
             if ((this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) ||
                 (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2)) {
-                Collider_DestroyTris(play, &this->colliderSpikes);
+                Collider_DestroyTris(play, &this->spikesCollider);
             }
         }
 
@@ -242,7 +254,7 @@ void func_808801B8(BgHakaTrap* this, PlayState* play) {
 
     func_8087FFC0(this, play);
 
-    if (this->colliderSpikes.base.acFlags & AC_HIT) {
+    if (this->spikesCollider.base.acFlags & AC_HIT) {
         this->timer = 20;
         D_80880F30 = 1;
         this->actionFunc = func_808802D8;
@@ -491,7 +503,7 @@ void BgHakaTrap_Update(Actor* thisx, PlayState* play) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCylinder.base);
         } else {
             if (this->actionFunc == func_808801B8) {
-                CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSpikes.base);
+                CollisionCheck_SetAC(play, &play->colChkCtx, &this->spikesCollider.base);
             }
 
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinder.base);
@@ -507,10 +519,10 @@ void func_80880D68(BgHakaTrap* this) {
     Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[0], &vec1);
     Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[1], &vec2);
     Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[2], &vec3);
-    Collider_SetTrisVertices(&this->colliderSpikes, 0, &vec1, &vec2, &vec3);
+    Collider_SetTrisVertices(&this->spikesCollider, 0, &vec1, &vec2, &vec3);
 
     Matrix_MultVec3f(&sTrisElementsInit[1].dim.vtx[2], &vec2);
-    Collider_SetTrisVertices(&this->colliderSpikes, 1, &vec1, &vec3, &vec2);
+    Collider_SetTrisVertices(&this->spikesCollider, 1, &vec1, &vec3, &vec2);
 }
 
 void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {

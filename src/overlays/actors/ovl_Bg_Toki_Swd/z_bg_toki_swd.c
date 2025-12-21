@@ -5,9 +5,22 @@
  */
 
 #include "z_bg_toki_swd.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "cutscene_flags.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgTokiSwd_Init(Actor* thisx, PlayState* play);
 void BgTokiSwd_Destroy(Actor* thisx, PlayState* play);
@@ -18,9 +31,9 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play);
 void func_808BB0AC(BgTokiSwd* this, PlayState* play);
 void func_808BB128(BgTokiSwd* this, PlayState* play);
 
-extern CutsceneData D_808BB2F0[];
-extern CutsceneData D_808BB7A0[];
-extern CutsceneData D_808BBD90[];
+extern CutsceneData gPullMasterSwordCs[];
+extern CutsceneData gPlaceMasterSwordCs[];
+extern CutsceneData gRevealMasterSwordCs[];
 
 ActorProfile Bg_Toki_Swd_Profile = {
     /**/ ACTOR_BG_TOKI_SWD,
@@ -45,13 +58,13 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
     },
-    { 10, 70, 0, { 0 } },
+    { 10, 70, 0, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_IMMOVABLE };
@@ -93,19 +106,19 @@ void BgTokiSwd_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808BAF40(BgTokiSwd* this, PlayState* play) {
-    if (!GET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS) && !IS_CUTSCENE_LAYER &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_REVEALED_MASTER_SWORD) && !IS_CUTSCENE_LAYER &&
         Actor_IsFacingAndNearPlayer(&this->actor, 800.0f, 0x7530) && !Play_InCsMode(play)) {
-        SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
-        play->csCtx.script = D_808BBD90;
+        SET_EVENTCHKINF(EVENTCHKINF_REVEALED_MASTER_SWORD);
+        play->csCtx.script = gRevealMasterSwordCs;
         gSaveContext.cutsceneTrigger = 1;
     }
     if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_55)) {
         if (Actor_HasParent(&this->actor, play)) {
             if (!LINK_IS_ADULT) {
                 Item_Give(play, ITEM_SWORD_MASTER);
-                play->csCtx.script = D_808BB2F0;
+                play->csCtx.script = gPullMasterSwordCs;
             } else {
-                play->csCtx.script = D_808BB7A0;
+                play->csCtx.script = gPlaceMasterSwordCs;
             }
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
             SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_MASTER_SWORD);

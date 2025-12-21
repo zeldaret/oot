@@ -5,9 +5,22 @@
  */
 
 #include "z_bg_bdan_switch.h"
+
+#include "array_count.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_bdan_objects/object_bdan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgBdanSwitch_Init(Actor* thisx, PlayState* play);
 void BgBdanSwitch_Destroy(Actor* thisx, PlayState* play);
@@ -58,8 +71,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xEFC1FFFE, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xEFC1FFFE, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -77,14 +90,14 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1200, ICHAIN_STOP),
 };
 
 static Vec3f D_8086E0E0 = { 0.0f, 140.0f, 0.0f };
@@ -97,12 +110,13 @@ void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHea
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_bdan_switch.c", 325,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_bg_bdan_switch.c", 325, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -110,7 +124,7 @@ void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHea
 void BgBdanSwitch_InitCollision(BgBdanSwitch* this, PlayState* play) {
     Actor* actor = &this->dyna.actor;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, actor, &sJntSphInit, this->colliderItems);
+    Collider_SetJntSph(play, &this->collider, actor, &sJntSphInit, this->colliderElements);
 }
 
 void func_8086D0EC(BgBdanSwitch* this) {
@@ -196,11 +210,14 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
             }
             break;
         default:
-            PRINTF("不正な ARG_DATA(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params, "../z_bg_bdan_switch.c", 454);
+            PRINTF(T("不正な ARG_DATA(arg_data 0x%04x)(%s %d)\n", "Invalid ARG_DATA(arg_data 0x%04x)(%s %d)\n"),
+                   this->dyna.actor.params, "../z_bg_bdan_switch.c", 454);
             Actor_Kill(&this->dyna.actor);
             return;
     }
-    PRINTF("(巨大魚ダンジョン 専用スイッチ)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(巨大魚ダンジョン 専用スイッチ)(arg_data 0x%04x)\n",
+             "(Giant Fish Dungeon Special Switch)(arg_data 0x%04x)\n"),
+           this->dyna.actor.params);
 }
 
 void BgBdanSwitch_Destroy(Actor* thisx, PlayState* play) {
@@ -251,7 +268,7 @@ void func_8086D5C4(BgBdanSwitch* this) {
 void func_8086D5E0(BgBdanSwitch* this, PlayState* play) {
     switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case BLUE:
-            if (func_800435B4(&this->dyna)) {
+            if (DynaPolyActor_IsSwitchPressed(&this->dyna)) {
                 func_8086D67C(this);
                 func_8086D4B4(this, play);
             }
@@ -290,7 +307,7 @@ void func_8086D730(BgBdanSwitch* this) {
 void func_8086D754(BgBdanSwitch* this, PlayState* play) {
     switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case BLUE:
-            if (!func_800435B4(&this->dyna)) {
+            if (!DynaPolyActor_IsSwitchPressed(&this->dyna)) {
                 if (this->unk_1D8 <= 0) {
                     func_8086D7FC(this);
                     func_8086D548(this, play);

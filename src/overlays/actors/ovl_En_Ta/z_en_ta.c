@@ -5,7 +5,29 @@
  */
 
 #include "z_en_ta.h"
+#include "overlays/actors/ovl_En_Niw/z_en_niw.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ta/object_ta.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -80,8 +102,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000004, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000004, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -137,7 +159,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gTalonSkel, &gTalonStandAnim, this->jointTable, this->morphTable,
-                       ENTA_LIMB_MAX);
+                       TALON_LIMB_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
 
@@ -155,8 +177,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
 
     switch (this->actor.params) {
         case ENTA_IN_KAKARIKO:
-            // "Exile Talon"
-            PRINTF(VT_FGCOL(CYAN) " 追放タロン \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T(" 追放タロン \n", " Exile Talon \n") VT_RST);
             if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
@@ -176,15 +197,14 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             break;
 
         case ENTA_RETURNED_FROM_KAKARIKO:
-            // "Return Talon"
-            PRINTF(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T(" 出戻りタロン \n", " Return Talon \n") VT_RST);
             if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             } else if (play->sceneId == SCENE_STABLE && !IS_DAY) {
                 Actor_Kill(&this->actor);
-                PRINTF(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
+                PRINTF(VT_FGCOL(CYAN) T(" 夜はいない \n", " He's not here at night \n") VT_RST);
             } else {
                 EnTa_SetupAction(this, EnTa_IdleAtRanch, EnTa_AnimRepeatCurrent);
                 this->eyeIndex = TALON_EYE_INDEX_OPEN;
@@ -194,8 +214,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
             break;
 
         default: // Child era Talon
-            // "Other Talon"
-            PRINTF(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T(" その他のタロン \n", " Other Talon \n") VT_RST);
             if (play->sceneId == SCENE_HYRULE_CASTLE) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
@@ -212,14 +231,15 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     this->actor.shape.shadowScale = 54.0f;
                 }
             } else if (play->sceneId == SCENE_LON_LON_BUILDINGS) {
-                PRINTF(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
+                PRINTF(VT_FGCOL(CYAN) T(" ロンロン牧場の倉庫 の タロン\n", " Talon in the warehouse at Lon Lon Ranch\n")
+                           VT_RST);
                 if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
                 } else if (LINK_IS_ADULT) {
                     Actor_Kill(&this->actor);
                 } else {
                     if (IS_DAY) {
-                        this->actor.flags |= ACTOR_FLAG_4;
+                        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                         this->superCuccoTimers[0] = this->superCuccoTimers[1] = this->superCuccoTimers[2] = 7;
                         this->superCuccos[0] = (EnNiw*)Actor_Spawn(
                             &play->actorCtx, play, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
@@ -368,7 +388,7 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        s32 exchangeItemId = func_8002F368(play);
+        s32 exchangeItemId = Actor_GetPlayerExchangeItemId(play);
 
         switch (exchangeItemId) {
             case EXCH_ITEM_CHICKEN:
@@ -403,7 +423,7 @@ void EnTa_IdleAsleepInKakariko(EnTa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        s32 exchangeItemId = func_8002F368(play);
+        s32 exchangeItemId = Actor_GetPlayerExchangeItemId(play);
 
         switch (exchangeItemId) {
             case EXCH_ITEM_POCKET_CUCCO:
@@ -501,7 +521,7 @@ void EnTa_RunAwayStart(EnTa* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_VO_TA_CRY_1);
         EnTa_SetupAction(this, EnTa_RunAwayRunSouth, EnTa_AnimRepeatCurrent);
         this->timer = 65;
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 }
 
@@ -1260,12 +1280,12 @@ s32 EnTa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     // Turn head and chest towards the target (the rotation steps are calculated in EnTa_Update)
     switch (limbIndex) {
-        case ENTA_LIMB_CHEST:
+        case TALON_LIMB_CHEST:
             rot->x += this->torsoRot.y;
             rot->y -= this->torsoRot.x;
             break;
 
-        case ENTA_LIMB_HEAD:
+        case TALON_LIMB_HEAD:
             rot->x += this->headRot.y;
             rot->z += this->headRot.x;
             break;
@@ -1280,12 +1300,12 @@ s32 EnTa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         // in the else if branch below and rocking always occurs.
         // So this flag has no effect.
         this->stateFlags &= ~TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM;
-    } else if ((limbIndex == ENTA_LIMB_CHEST) || (limbIndex == ENTA_LIMB_LEFT_ARM) ||
-               (limbIndex == ENTA_LIMB_RIGHT_ARM)) {
-        s32 limbIdx50 = limbIndex * 50;
+    } else if ((limbIndex == TALON_LIMB_CHEST) || (limbIndex == TALON_LIMB_LEFT_ARM) ||
+               (limbIndex == TALON_LIMB_RIGHT_ARM)) {
+        s32 fidgetFrequency = limbIndex * FIDGET_FREQ_LIMB;
 
-        rot->y += Math_SinS(play->state.frames * (limbIdx50 + 0x814)) * 200.0f;
-        rot->z += Math_CosS(play->state.frames * (limbIdx50 + 0x940)) * 200.0f;
+        rot->y += Math_SinS(play->state.frames * (fidgetFrequency + FIDGET_FREQ_Y)) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(play->state.frames * (fidgetFrequency + FIDGET_FREQ_Z)) * FIDGET_AMPLITUDE;
     }
 
     return false;
@@ -1295,7 +1315,7 @@ void EnTa_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     static Vec3f headOffset = { 1100.0f, 1000.0f, 0.0f };
     EnTa* this = (EnTa*)thisx;
 
-    if (limbIndex == ENTA_LIMB_HEAD) {
+    if (limbIndex == TALON_LIMB_HEAD) {
         Matrix_MultVec3f(&headOffset, &this->actor.focus.pos);
     }
 }

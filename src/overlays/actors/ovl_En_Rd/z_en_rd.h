@@ -2,11 +2,11 @@
 #define Z_EN_RD_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnRd;
 
-typedef void (*EnRdActionFunc)(struct EnRd*, PlayState*);
+typedef void (*EnRdActionFunc)(struct EnRd*, struct PlayState*);
 
 #define REDEAD_GET_RDFLAGS(thisx) PARAMS_GET_S((thisx)->params, 8, 8)
 
@@ -71,7 +71,7 @@ typedef struct EnRd {
     /* 0x0319 */ u8 grabDamageTimer;
     /* 0x031A */ u8 fireTimer;
     /* 0x031B */ u8 action;
-    /* 0x031C */ u8 damageEffect;
+    /* 0x031C */ u8 damageReaction;
     /* 0x031D */ u8 unk_31D; // related to player->unk_845
     /* 0x0320 */ ColliderCylinder collider;
 } EnRd; // size = 0x036C

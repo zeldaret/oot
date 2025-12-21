@@ -2,11 +2,11 @@
 #define Z_EN_ZF_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct EnZf;
 
-typedef void (*EnZfActionFunc)(struct EnZf*, PlayState*);
+typedef void (*EnZfActionFunc)(struct EnZf*, struct PlayState*);
 
 typedef enum EnZfType {
     /* -2 */ ENZF_TYPE_DINOLFOS = -2,
@@ -112,7 +112,7 @@ typedef struct EnZf {
     /* 0x0404 */ u8 alpha;
     /* 0x0408 */ f32 unk_408; // related to XZ speeds
     /* 0x040C */ f32 unk_40C; // related to y velocity
-    /* 0x0410 */ u8 damageEffect;
+    /* 0x0410 */ u8 damageReaction;
     /* 0x0414 */ s32 blureIndex;
     /* 0x0418 */ ColliderCylinder bodyCollider;
     /* 0x0464 */ ColliderQuad swordCollider;

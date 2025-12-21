@@ -1,7 +1,12 @@
 #if PLATFORM_N64
 #include "n64dd.h"
 #endif
+#include "regs.h"
+#include "sys_matrix.h"
 #include "z_kaleido_scope.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/textures/parameter_static/parameter_static.h"
 
 typedef struct PauseMapMarkInfo {
@@ -131,7 +136,7 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
 
                 Matrix_Push();
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
                 Matrix_Translate(markPoint->x + GREG(92), markPoint->y + GREG(93), 0.0f, MTXMODE_APPLY);
 #else
                 Matrix_Translate(markPoint->x, markPoint->y, 0.0f, MTXMODE_APPLY);

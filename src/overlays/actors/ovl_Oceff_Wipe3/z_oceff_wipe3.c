@@ -5,9 +5,19 @@
  */
 
 #include "z_oceff_wipe3.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "tex_len.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void OceffWipe3_Init(Actor* thisx, PlayState* play);
 void OceffWipe3_Destroy(Actor* thisx, PlayState* play);
@@ -26,7 +36,23 @@ ActorProfile Oceff_Wipe3_Profile = {
     /**/ OceffWipe3_Draw,
 };
 
-#include "assets/overlays/ovl_Oceff_Wipe3/ovl_Oceff_Wipe3.c"
+#define sTex_WIDTH 64
+#define sTex_HEIGHT 64
+static u64 sTex[TEX_LEN(u64, sTex_WIDTH, sTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Oceff_Wipe3/sTex.i8.inc.c"
+};
+
+static Vtx sFrustumVtx[] = {
+#include "assets/overlays/ovl_Oceff_Wipe3/sFrustumVtx.inc.c"
+};
+
+static Gfx sMaterialDL[17] = {
+#include "assets/overlays/ovl_Oceff_Wipe3/sMaterialDL.inc.c"
+};
+
+static Gfx sFrustumDL[12] = {
+#include "assets/overlays/ovl_Oceff_Wipe3/sFrustumDL.inc.c"
+};
 
 void OceffWipe3_Init(Actor* thisx, PlayState* play) {
     OceffWipe3* this = (OceffWipe3*)thisx;

@@ -5,9 +5,23 @@
  */
 
 #include "z_en_vali.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_vali/object_vali.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE)
+#define FLAGS \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnVali_Init(Actor* thisx, PlayState* play);
 void EnVali_Destroy(Actor* thisx, PlayState* play);
@@ -52,8 +66,8 @@ static ColliderQuadInit sQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x07, 0x08 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_7, 0x08 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -72,8 +86,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x07, 0x08 },
-        { 0xFFCFFFFF, 0x01, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_7, 0x08 },
+        { 0xFFCFFFFF, HIT_BACKLASH_ELECTRIC, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -83,48 +97,48 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 18, 32, MASS_HEAVY };
 
-typedef enum BariDamageEffect {
-    /* 0x0 */ BARI_DMGEFF_NONE,
-    /* 0x1 */ BARI_DMGEFF_STUN,
-    /* 0x2 */ BARI_DMGEFF_FIRE,
-    /* 0x3 */ BARI_DMGEFF_ICE,
-    /* 0xE */ BARI_DMGEFF_SLINGSHOT = 0xE,
-    /* 0xF */ BARI_DMGEFF_SWORD
-} BariDamageEffect;
+typedef enum BariDamageReaction {
+    /* 0x0 */ BARI_DMG_REACT_NONE,
+    /* 0x1 */ BARI_DMG_REACT_STUN,
+    /* 0x2 */ BARI_DMG_REACT_FIRE,
+    /* 0x3 */ BARI_DMG_REACT_ICE,
+    /* 0xE */ BARI_DMG_REACT_SLINGSHOT = 0xE,
+    /* 0xF */ BARI_DMG_REACT_SWORD
+} BariDamageReaction;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, BARI_DMGEFF_STUN),
-    /* Deku stick    */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Slingshot     */ DMG_ENTRY(0, BARI_DMGEFF_SLINGSHOT),
-    /* Explosive     */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(0, BARI_DMGEFF_STUN),
-    /* Normal arrow  */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Hammer swing  */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Hookshot      */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Kokiri sword  */ DMG_ENTRY(1, BARI_DMGEFF_SWORD),
-    /* Master sword  */ DMG_ENTRY(2, BARI_DMGEFF_SWORD),
-    /* Giant's Knife */ DMG_ENTRY(4, BARI_DMGEFF_SWORD),
-    /* Fire arrow    */ DMG_ENTRY(4, BARI_DMGEFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(4, BARI_DMGEFF_ICE),
-    /* Light arrow   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Unk arrow 3   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, BARI_DMGEFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(4, BARI_DMGEFF_ICE),
-    /* Light magic   */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
-    /* Shield        */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
-    /* Mirror Ray    */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
-    /* Kokiri spin   */ DMG_ENTRY(1, BARI_DMGEFF_NONE),
-    /* Giant spin    */ DMG_ENTRY(4, BARI_DMGEFF_NONE),
-    /* Master spin   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Kokiri jump   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Giant jump    */ DMG_ENTRY(8, BARI_DMGEFF_NONE),
-    /* Master jump   */ DMG_ENTRY(4, BARI_DMGEFF_NONE),
-    /* Unknown 1     */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
-    /* Unblockable   */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
-    /* Hammer jump   */ DMG_ENTRY(4, BARI_DMGEFF_NONE),
-    /* Unknown 2     */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
+    /* Deku nut      */ DMG_ENTRY(0, BARI_DMG_REACT_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Slingshot     */ DMG_ENTRY(0, BARI_DMG_REACT_SLINGSHOT),
+    /* Explosive     */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, BARI_DMG_REACT_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Hookshot      */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, BARI_DMG_REACT_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, BARI_DMG_REACT_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, BARI_DMG_REACT_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(4, BARI_DMG_REACT_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(4, BARI_DMG_REACT_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, BARI_DMG_REACT_FIRE),
+    /* Ice magic     */ DMG_ENTRY(4, BARI_DMG_REACT_ICE),
+    /* Light magic   */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
+    /* Shield        */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, BARI_DMG_REACT_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, BARI_DMG_REACT_NONE),
+    /* Master spin   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, BARI_DMG_REACT_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, BARI_DMG_REACT_NONE),
+    /* Master jump   */ DMG_ENTRY(4, BARI_DMG_REACT_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, BARI_DMG_REACT_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, BARI_DMG_REACT_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -142,7 +156,7 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
     SkelAnime_Init(play, &this->skelAnime, &gBariSkel, &gBariLurkingAnim, this->jointTable, this->morphTable,
-                   EN_VALI_LIMB_MAX);
+                   VALI_LIMB_MAX);
 
     Collider_InitQuad(play, &this->leftArmCollider);
     Collider_SetQuad(play, &this->leftArmCollider, &this->actor, &sQuadInit);
@@ -197,7 +211,7 @@ void EnVali_SetupFloatIdle(EnVali* this) {
             this->leftArmCollider.dim.quad[1].y = this->rightArmCollider.dim.quad[0].y =
                 this->rightArmCollider.dim.quad[1].y = this->actor.world.pos.y - 10.0f;
 
-    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->bodyCollider.base.acFlags |= AC_ON;
     this->slingshotReactionTimer = 0;
     this->floatHomeHeight = this->actor.world.pos.y;
@@ -258,7 +272,7 @@ void EnVali_SetupStunned(EnVali* this) {
     this->timer = 80;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
-    this->bodyCollider.elem.acDmgInfo.effect = 0;
+    this->bodyCollider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_NONE;
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actor.velocity.y = 1.0f;
     this->actionFunc = EnVali_Stunned;
@@ -274,7 +288,7 @@ void EnVali_SetupFrozen(EnVali* this) {
 
 void EnVali_SetupReturnToLurk(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBariLurkingAnim, 10.0f);
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
     this->actionFunc = EnVali_ReturnToLurk;
 }
@@ -448,7 +462,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        this->bodyCollider.elem.acDmgInfo.effect = 1; // Shock?
+        this->bodyCollider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_ELECTRIC;
         EnVali_SetupFloatIdle(this);
     }
 }
@@ -498,21 +512,21 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
-        if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != BARI_DMG_REACT_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-            } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
-                       (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
+            } else if ((this->actor.colChkInfo.damageReaction != BARI_DMG_REACT_STUN) &&
+                       (this->actor.colChkInfo.damageReaction != BARI_DMG_REACT_SLINGSHOT)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DAMAGE);
             }
 
-            if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_STUN) {
+            if (this->actor.colChkInfo.damageReaction == BARI_DMG_REACT_STUN) {
                 if (this->actionFunc != EnVali_Stunned) {
                     EnVali_SetupStunned(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SWORD) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REACT_SWORD) {
                 if (this->actionFunc != EnVali_Stunned) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
                     this->actor.params = BARI_TYPE_SWORD_DAMAGE;
@@ -520,11 +534,11 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
                 } else {
                     EnVali_SetupRetaliate(this);
                 }
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_FIRE) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REACT_FIRE) {
                 EnVali_SetupBurnt(this);
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_ICE) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REACT_ICE) {
                 EnVali_SetupFrozen(this);
-            } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SLINGSHOT) {
+            } else if (this->actor.colChkInfo.damageReaction == BARI_DMG_REACT_SLINGSHOT) {
                 if (this->slingshotReactionTimer == 0) {
                     this->slingshotReactionTimer = 20;
                 }
@@ -675,14 +689,14 @@ s32 EnVali_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
     EnVali* this = (EnVali*)thisx;
     f32 curFrame;
 
-    if ((limbIndex == EN_VALI_LIMB_NUCLEUS) || (limbIndex == EN_VALI_LIMB_OUTER_HOOD) ||
-        (limbIndex == EN_VALI_LIMB_INNER_HOOD)) {
+    if ((limbIndex == VALI_LIMB_NUCLEUS) || (limbIndex == VALI_LIMB_OUTER_HOOD) ||
+        (limbIndex == VALI_LIMB_INNER_HOOD)) {
         *dList = NULL;
         return false;
     } else {
         curFrame = this->skelAnime.curFrame;
 
-        if ((limbIndex == EN_VALI_LIMB_LEFT_ARM_BASE) || (limbIndex == EN_VALI_LIMB_RIGHT_ARM_BASE)) {
+        if ((limbIndex == VALI_LIMB_LEFT_ARM_BASE) || (limbIndex == VALI_LIMB_RIGHT_ARM_BASE)) {
             if (EnVali_SetArmLength(this, curFrame)) {
                 Matrix_Scale(this->armScale, 1.0f, 1.0f, MTXMODE_APPLY);
             }
@@ -700,11 +714,11 @@ void EnVali_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
     EnVali* this = (EnVali*)thisx;
 
     if (this->actionFunc == EnVali_FloatIdle) {
-        if ((limbIndex == EN_VALI_LIMB_LEFT_FOREARM_BASE) || (limbIndex == EN_VALI_LIMB_RIGHT_FOREARM_BASE)) {
+        if ((limbIndex == VALI_LIMB_LEFT_FOREARM_BASE) || (limbIndex == VALI_LIMB_RIGHT_FOREARM_BASE)) {
             Matrix_MultVec3f(&D_80B28970, &sp3C);
             Matrix_MultVec3f(&D_80B2897C, &sp30);
 
-            if (limbIndex == EN_VALI_LIMB_LEFT_FOREARM_BASE) {
+            if (limbIndex == VALI_LIMB_LEFT_FOREARM_BASE) {
                 Collider_SetQuadVertices(&this->leftArmCollider, &sp30, &sp3C, &this->leftArmCollider.dim.quad[0],
                                          &this->leftArmCollider.dim.quad[1]);
             } else {

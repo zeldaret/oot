@@ -9,7 +9,8 @@
  * is to reset the entire arena, deallocating everything. This scheme is most applicable to allocating similar data
  * with identical lifetime.
  */
-#include "global.h"
+#include "tha.h"
+#include "alignment.h"
 
 void* THA_GetHead(TwoHeadArena* tha) {
     return tha->head;

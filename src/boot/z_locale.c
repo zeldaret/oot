@@ -1,12 +1,33 @@
-#include "global.h"
+#include "libu64/debug.h"
+#include "alignment.h"
+#include "carthandle.h"
+#include "line_numbers.h"
+#include "padmgr.h"
+#include "printf.h"
 #include "region.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
+#include "vi_mode.h"
+#include "z_locale.h"
 
 s32 gCurrentRegion = 0;
 
+typedef struct LocaleCartInfo {
+    /* 0x00 */ char name[0x18];
+    /* 0x18 */ u32 mediaFormat;
+    /* 0x1C */ union {
+        struct {
+            u16 cartId;
+            u8 countryCode;
+            u8 version;
+        };
+        u32 regionInfo;
+    };
+} LocaleCartInfo; // size = 0x20
+
 void Locale_Init(void) {
-#if PLATFORM_N64
+#if !PLATFORM_GC
     ALIGNED(4) u8 regionInfo[4];
     u8 countryCode;
 
@@ -23,6 +44,7 @@ void Locale_Init(void) {
     countryCode = sCartInfo.countryCode;
 #endif
 
+#if !PLATFORM_IQUE
     switch (countryCode) {
         case 'J': // "NTSC-J (Japan)"
             gCurrentRegion = REGION_JP;
@@ -36,27 +58,26 @@ void Locale_Init(void) {
             break;
 #endif
         default:
-            PRINTF(VT_COL(RED, WHITE));
+            PRINTF_COLOR_ERROR();
             PRINTF(T("z_locale_init: 日本用かアメリカ用か判別できません\n",
                      "z_locale_init: Can't tell if it's for Japan or America\n"));
-#if PLATFORM_N64
-            LogUtils_HungupThread("../z_locale.c", 101);
-#else
-            LogUtils_HungupThread("../z_locale.c", 118);
-#endif
+            LogUtils_HungupThread("../z_locale.c", LN4(86, 92, 101, UNK_LINE, 118));
             PRINTF(VT_RST);
             break;
     }
 
     PRINTF(T("z_locale_init:日本用かアメリカ用か３コンで判断させる\n",
              "z_locale_init: Determine whether it is for Japan or America using 3 controls\n"));
+#else
+    gCurrentRegion = REGION_US;
+#endif
 }
 
 void Locale_ResetRegion(void) {
     gCurrentRegion = REGION_NULL;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 u32 func_80001F48(void) {
     if (gCurrentRegion == OOT_REGION) {
         return 0;

@@ -2,11 +2,12 @@
 #define Z_EN_FHG_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "skin.h"
 
 struct EnfHG;
 
-typedef void (*EnfHGActionFunc)(struct EnfHG*, PlayState*);
+typedef void (*EnfHGActionFunc)(struct EnfHG*, struct PlayState*);
 
 typedef enum EnfHGSignal {
     /*  0 */ FHG_NO_SIGNAL,

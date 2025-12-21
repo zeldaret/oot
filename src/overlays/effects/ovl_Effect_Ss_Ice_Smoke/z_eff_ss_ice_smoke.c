@@ -5,6 +5,17 @@
  */
 
 #include "z_eff_ss_ice_smoke.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_fz/object_fz.h"
 
 #define rObjectSlot regs[0]
@@ -30,7 +41,7 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
     if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
         uintptr_t prevSeg6 = gSegments[6];
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+        gSegments[6] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         Math_Vec3f_Copy(&this->pos, &initParams->pos);
         Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
         Math_Vec3f_Copy(&this->accel, &initParams->accel);
@@ -45,7 +56,8 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
         return 1;
     }
 
-    PRINTF("Effect_SS_Ice_Smoke_ct():バンク Object_Bank_Fzが有りません。\n");
+    PRINTF(T("Effect_SS_Ice_Smoke_ct():バンク Object_Bank_Fzが有りません。\n",
+             "Effect_SS_Ice_Smoke_ct(): Bank Object_Bank_Fz does not exist.\n"));
 
     return 0;
 }
@@ -66,7 +78,7 @@ void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
     if ((objectSlot >= 0) && Object_IsLoaded(&play2->objectCtx, objectSlot)) {
         gDPPipeSync(POLY_XLU_DISP++);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+        gSegments[6] = OS_K0_TO_PHYSICAL(objectPtr);
         gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamStartDL));
         gDPPipeSync(POLY_XLU_DISP++);

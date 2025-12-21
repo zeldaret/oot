@@ -1,6 +1,9 @@
-#include "global.h"
-
-#include "z64frame_advance.h"
+#include "gfx.h"
+#include "printf.h"
+#include "translation.h"
+#include "effect.h"
+#include "frame_advance.h"
+#include "play_state.h"
 
 EffectContext sEffectContext;
 

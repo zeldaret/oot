@@ -6,7 +6,12 @@
 
 #include "z_obj_roomtimer.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ObjRoomtimer_Init(Actor* thisx, PlayState* play);
 void ObjRoomtimer_Destroy(Actor* thisx, PlayState* play);
@@ -70,8 +75,7 @@ void func_80B9D0B0(ObjRoomtimer* this, PlayState* play) {
     }
 
     if ((this->actor.params != 0x3FF) && (gSaveContext.timerSeconds == 0)) {
-        Audio_PlaySfxGeneral(NA_SE_OC_ABYSS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_OC_ABYSS);
         Play_TriggerVoidOut(play);
         Actor_Kill(&this->actor);
     }

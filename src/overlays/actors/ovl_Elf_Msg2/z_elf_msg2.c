@@ -5,14 +5,23 @@
  */
 
 #include "z_elf_msg2.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "regs.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ElfMsg2_Init(Actor* thisx, PlayState* play);
 void ElfMsg2_Destroy(Actor* thisx, PlayState* play);
 void ElfMsg2_Update(Actor* thisx, PlayState* play);
-#if OOT_DEBUG
+#if DEBUG_ASSETS
 void ElfMsg2_Draw(Actor* thisx, PlayState* play);
 #endif
 
@@ -29,7 +38,7 @@ ActorProfile Elf_Msg2_Profile = {
     /**/ ElfMsg2_Init,
     /**/ ElfMsg2_Destroy,
     /**/ ElfMsg2_Update,
-#if OOT_DEBUG
+#if DEBUG_ASSETS
     /**/ ElfMsg2_Draw,
 #else
     /**/ NULL,
@@ -38,7 +47,7 @@ ActorProfile Elf_Msg2_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_STOP),
 };
 
 void ElfMsg2_SetupAction(ElfMsg2* this, ElfMsg2ActionFunc actionFunc) {
@@ -52,14 +61,14 @@ void ElfMsg2_SetupAction(ElfMsg2* this, ElfMsg2ActionFunc actionFunc) {
 s32 ElfMsg2_KillCheck(ElfMsg2* this, PlayState* play) {
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
         Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
-        LOG_STRING("共倒れ", "../z_elf_msg2.c", 171); // "Mutual destruction"
+        LOG_STRING_T("共倒れ", "Mutual destruction", "../z_elf_msg2.c", 171);
         if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
             Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.world.rot.y == -1) && Flags_GetClear(play, this->actor.room)) {
-        LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182); // "Mutual destruction 2"
+        LOG_STRING_T("共倒れ２", "Mutual destruction 2", "../z_elf_msg2.c", 182);
         if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
             Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
@@ -68,7 +77,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, PlayState* play) {
     } else if (PARAMS_GET_U(this->actor.params, 8, 6) == 0x3F) {
         return 0;
     } else if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
-        LOG_STRING("共倒れ", "../z_elf_msg2.c", 192); // "Mutual destruction"
+        LOG_STRING_T("共倒れ", "Mutual destruction", "../z_elf_msg2.c", 192);
         Actor_Kill(&this->actor);
         return 1;
     }
@@ -153,8 +162,19 @@ void ElfMsg2_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#if OOT_DEBUG
-#include "assets/overlays/ovl_Elf_Msg2/ovl_Elf_Msg2.c"
+#if DEBUG_ASSETS
+
+static Gfx sMaterialDL[8] = {
+#include "assets/overlays/ovl_Elf_Msg2/sMaterialDL.inc.c"
+};
+
+static Vtx sCubeVtx[] = {
+#include "assets/overlays/ovl_Elf_Msg2/sCubeVtx.inc.c"
+};
+
+static Gfx sCubeDL[8] = {
+#include "assets/overlays/ovl_Elf_Msg2/sCubeDL.inc.c"
+};
 
 void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_elf_msg2.c", 355);
@@ -166,7 +186,7 @@ void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
     MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_elf_msg2.c", 362);
-    gSPDisplayList(POLY_XLU_DISP++, D_809ADC38);
+    gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, sCubeDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_elf_msg2.c", 367);

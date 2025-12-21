@@ -1,14 +1,14 @@
 #ifndef ULTRA64_H
 #define ULTRA64_H
 
-#include "libc/assert.h"
-#include "libc/math.h"
-#include "libc/stdarg.h"
-#include "libc/stdbool.h"
-#include "libc/stddef.h"
-#include "libc/stdint.h"
-#include "libc/stdlib.h"
-#include "libc/string.h"
+#include "assert.h"
+#include "math.h"
+#include "stdarg.h"
+#include "stdbool.h"
+#include "stddef.h"
+#include "stdint.h"
+#include "stdlib.h"
+#include "string.h"
 
 #include "ultra64/ultratypes.h"
 #include "unk.h"
@@ -24,13 +24,21 @@
 #include "ultra64/sptask.h"
 #include "ultra64/gu.h"
 #include "ultra64/vi.h"
+#include "ultra64/viint.h"
 #include "ultra64/pi.h"
 #include "ultra64/controller.h"
 #include "ultra64/mbi.h"
 #include "ultra64/pfs.h"
 #include "ultra64/motor.h"
+#include "ultra64/os_pi.h"
+#include "ultra64/os_system.h"
+#include "ultra64/os_vi.h"
+#include "ultra64/osint.h"
+#include "ultra64/piint.h"
 #include "ultra64/R4300.h"
+#include "ultra64/siint.h"
 #include "ultra64/ucode.h"
+#include "ultra64/version.h"
 
 union uObjBg;
 
@@ -42,7 +50,7 @@ void osStopThread(OSThread* thread);
 void osViExtendVStart(u32 value);
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag);
 
-#if PLATFORM_N64
+#if LIBULTRA_VERSION < LIBULTRA_VERSION_K
 void osInitialize(void);
 #else
 #define osInitialize()               \
@@ -69,7 +77,6 @@ void* osViGetNextFramebuffer(void);
 void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQueue, OSMesg* cmdBuf, s32 cmdMsgCnt);
 void __osDevMgrMain(void* arg);
 s32 __osPiRawStartDma(s32 dir, u32 cartAddr, void* dramAddr, size_t size);
-u32 osVirtualToPhysical(void* vaddr);
 void osViBlack(u8 active);
 s32 __osSiRawReadIo(void* devAddr, u32* dst);
 OSId osGetThreadId(OSThread* thread);
@@ -105,6 +112,7 @@ OSMesgQueue* osPiGetCmdQueue(void);
 s32 osEPiReadIo(OSPiHandle* handle, u32 devAddr, u32* data);
 void osViSetSpecialFeatures(u32 func);
 OSPiHandle* osCartRomInit(void);
+OSPiHandle* osDriveRomInit(void);
 void __osSetFpcCsr(u32);
 u32 __osGetFpcCsr(void);
 s32 osEPiWriteIo(OSPiHandle* handle, u32 devAddr, u32 data);
@@ -189,7 +197,6 @@ void osViSetEvent(OSMesgQueue* mq, OSMesg msg, u32 retraceCount);
 s32 osPfsIsPlug(OSMesgQueue* mq, u8* pattern);
 void __osPfsRequestData(u8 cmd);
 void __osPfsGetInitData(u8* pattern, OSContStatus* contData);
-void guS2DInitBg(union uObjBg* bg);
 s32 __osPfsSelectBank(OSPfs* pfs, u8 bank);
 s32 osContSetCh(u8 ch);
 s32 osPfsFileState(OSPfs* pfs, s32 fileNo, OSPfsState* state);

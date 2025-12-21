@@ -1,8 +1,19 @@
 #include "z_demo_ik.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ik/object_ik.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void DemoIk_Init(Actor* thisx, PlayState* play);
 void DemoIk_Destroy(Actor* thisx, PlayState* play);
@@ -93,20 +104,17 @@ void DemoIk_Type1PlaySfx(DemoIk* this) {
     switch (this->actor.params) {
         case 0:
             if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
-                Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND1_DEMO, &this->actor.projectedPos, 4,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_IRONNACK_ARMOR_LAND1_DEMO);
             }
             break;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, 10.0f)) {
-                Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND3_DEMO, &this->actor.projectedPos, 4,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_IRONNACK_ARMOR_LAND3_DEMO);
             }
             break;
         case 2:
             if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
-                Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND2_DEMO, &this->actor.projectedPos, 4,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_IRONNACK_ARMOR_LAND2_DEMO);
             }
             break;
     }
@@ -159,7 +167,7 @@ void DemoIk_MoveToStartPos(DemoIk* this, PlayState* play, s32 cueChannel) {
 
 void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
     s32 pad[3];
-    SkeletonHeader* skeleton;
+    FlexSkeletonHeader* skeleton;
     AnimationHeader* animation;
     f32 phi_f0;
 
@@ -181,7 +189,8 @@ void DemoIk_Type1Init(DemoIk* this, PlayState* play) {
             // No break is required for matching
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, phi_f0);
-    SkelAnime_Init(play, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
+    //! @bug Flex skeleton is used as normal skeleton
+    SkelAnime_Init(play, &this->skelAnime, (SkeletonHeader*)skeleton, NULL, this->jointTable, this->morphTable, 2);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
 }
 
@@ -232,8 +241,8 @@ void func_809839D0(DemoIk* this, PlayState* play) {
                 case 6:
                     break;
                 default:
-                    // "there is no such action"
-                    PRINTF("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ik_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -325,8 +334,7 @@ void DemoIk_Type2Init(DemoIk* this, PlayState* play) {
 
 void DemoIk_Type2PlaySfxOnFrame(DemoIk* this, f32 frame) {
     if (Animation_OnFrame(&this->skelAnime, frame)) {
-        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO, &this->actor.projectedPos, 4,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
     }
 }
 
@@ -381,8 +389,8 @@ void func_80984048(DemoIk* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    // "there is no such action"
-                    PRINTF("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "Demo_Ik_inFace_Check_DemoMode: There is no such action!!!!!!!!\n"));
             }
             this->cueId = nextCueId;
         }
@@ -469,8 +477,8 @@ void DemoIk_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
         sActionFuncs[this->actionMode] == NULL) {
-        // "The main mode is strange"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->actionMode](this, play);
@@ -490,8 +498,8 @@ void DemoIk_Draw(Actor* thisx, PlayState* play) {
     DemoIk* this = (DemoIk*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
-        // "The draw mode is strange"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawMode](this, play);

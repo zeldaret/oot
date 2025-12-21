@@ -5,10 +5,24 @@
  */
 
 #include "z_bg_bdan_objects.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
 #include "quake.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_bdan_objects/object_bdan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum BgBdanObjectsPropertyGetter {
     JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0 = 0,
@@ -66,13 +80,13 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x04 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_HARD,
         ACELEM_NONE,
         OCELEM_NONE,
     },
-    { 0x00BB, 0x0050, 0x0000, { 0 } },
+    { 187, 80, 0, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {
@@ -95,7 +109,9 @@ s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
         case JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1:
             return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
-            PRINTF("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n", arg1);
+            PRINTF(T("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n",
+                     "Bg_Bdan_Objects_Get_Contact_Ru1\nThere is no such receiving mode %d!!!!!!!!\n"),
+                   arg1);
             return -1;
     }
 }
@@ -112,7 +128,9 @@ void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
             SET_INFTABLE(INFTABLE_146);
             break;
         default:
-            PRINTF("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n", arg1);
+            PRINTF(T("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n",
+                     "Bg_Bdan_Objects_Set_Contact_Ru1\nThere is no such transmission mode %d!!!!!!!!\n"),
+                   arg1);
     }
 }
 
@@ -126,7 +144,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
     this->var.switchFlag = PARAMS_GET_U(thisx->params, 8, 6);
     thisx->params &= 0xFF;
     if (thisx->params == JABU_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
-        thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+        thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED;
         play->colCtx.colHeader->waterBoxes[7].ySurface = thisx->world.pos.y;
         this->actionFunc = BgBdanObjects_WaitForSwitch;
         return;

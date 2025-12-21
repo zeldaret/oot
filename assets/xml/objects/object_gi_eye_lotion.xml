@@ -1,5 +1,12 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_eye_lotion" Segment="6">
+        <Array Name="gGiEyeDropsCapVtx" Count="23" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiEyeDropsBottleVtx" Count="81" Offset="0x170">
+            <Vtx/>
+        </Array>
         <DList Name="gGiEyeDropsCapDL" Offset="0x0680"/>
         <DList Name="gGiEyeDropsBottleDL" Offset="0x0768"/>
     </File>

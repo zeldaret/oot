@@ -1,7 +1,9 @@
 #include "libc64/malloc.h"
-#include "ultra64.h"
-#include "macros.h"
+
 #include "libc64/os_malloc.h"
+#include "printf.h"
+#include "translation.h"
+#include "ultra64.h"
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_ERROR 2
@@ -9,14 +11,16 @@
 
 Arena gSystemArena;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 gSystemArenaLogSeverity = LOG_SEVERITY_NOLOG;
 
 void SystemArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action) {
     if (ptr == NULL) {
         if (gSystemArenaLogSeverity >= LOG_SEVERITY_ERROR) {
             PRINTF(T("%s: %u バイトの%sに失敗しました\n", "%s: %u bytes %s failed\n"), name, size, action);
+#if PLATFORM_GC
             __osDisplayArena(&gSystemArena);
+#endif
             return;
         }
     } else if (gSystemArenaLogSeverity >= LOG_SEVERITY_VERBOSE) {
@@ -37,11 +41,11 @@ void* SystemArena_Malloc(u32 size) {
     ptr = __osMalloc(&gSystemArena, size);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc", "確保"); // "Secure"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc", T("確保", "Secure"));
     return ptr;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* SystemArena_MallocDebug(u32 size, const char* file, int line) {
     DECLARE_INTERRUPT_MASK
     void* ptr;
@@ -50,7 +54,7 @@ void* SystemArena_MallocDebug(u32 size, const char* file, int line) {
     ptr = __osMallocDebug(&gSystemArena, size, file, line);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_DEBUG", "確保"); // "Secure"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_DEBUG", T("確保", "Secure"));
     return ptr;
 }
 #endif
@@ -63,11 +67,11 @@ void* SystemArena_MallocR(u32 size) {
     ptr = __osMallocR(&gSystemArena, size);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_r", "確保"); // "Secure"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_r", T("確保", "Secure"));
     return ptr;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* SystemArena_MallocRDebug(u32 size, const char* file, int line) {
     DECLARE_INTERRUPT_MASK
     void* ptr;
@@ -76,7 +80,7 @@ void* SystemArena_MallocRDebug(u32 size, const char* file, int line) {
     ptr = __osMallocRDebug(&gSystemArena, size, file, line);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_r_DEBUG", "確保"); // "Secure"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, size, "malloc_r_DEBUG", T("確保", "Secure"));
     return ptr;
 }
 #endif
@@ -88,11 +92,11 @@ void* SystemArena_Realloc(void* ptr, u32 newSize) {
     ptr = __osRealloc(&gSystemArena, ptr, newSize);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, newSize, "realloc", "再確保"); // "Re-securing"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, newSize, "realloc", T("再確保", "Re-secure"));
     return ptr;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int line) {
     DECLARE_INTERRUPT_MASK
 
@@ -100,7 +104,7 @@ void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, int lin
     ptr = __osReallocDebug(&gSystemArena, ptr, newSize, file, line);
     RESTORE_INTERRUPTS();
 
-    SYSTEM_ARENA_CHECK_POINTER(ptr, newSize, "realloc_DEBUG", "再確保"); // "Re-securing"
+    SYSTEM_ARENA_CHECK_POINTER(ptr, newSize, "realloc_DEBUG", T("再確保", "Re-secure"));
     return ptr;
 }
 #endif
@@ -113,7 +117,7 @@ void SystemArena_Free(void* ptr) {
     RESTORE_INTERRUPTS();
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void SystemArena_FreeDebug(void* ptr, const char* file, int line) {
     DECLARE_INTERRUPT_MASK
 
@@ -136,11 +140,11 @@ void* SystemArena_Calloc(u32 num, u32 size) {
         bzero(ret, n);
     }
 
-    SYSTEM_ARENA_CHECK_POINTER(ret, n, "calloc", "確保");
+    SYSTEM_ARENA_CHECK_POINTER(ret, n, "calloc", T("確保", "Secure"));
     return ret;
 }
 
-#if OOT_DEBUG
+#if PLATFORM_GC && DEBUG_FEATURES
 void SystemArena_Display(void) {
     PRINTF(T("システムヒープ表示\n", "System heap display\n"));
     __osDisplayArena(&gSystemArena);
@@ -156,14 +160,14 @@ void SystemArena_Check(void) {
 }
 
 void SystemArena_Init(void* start, u32 size) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     gSystemArenaLogSeverity = LOG_SEVERITY_NOLOG;
 #endif
     __osMallocInit(&gSystemArena, start, size);
 }
 
 void SystemArena_Cleanup(void) {
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     gSystemArenaLogSeverity = LOG_SEVERITY_NOLOG;
 #endif
     __osMallocCleanup(&gSystemArena);

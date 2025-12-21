@@ -5,12 +5,32 @@
  */
 
 #include "z_boss_fd2.h"
-#include "assets/objects/object_fd2/object_fd2.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "array_count.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/object_fd2/object_fd2.h"
+
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum BossFd2CutsceneState {
     /* 0 */ DEATH_START,
@@ -183,7 +203,7 @@ void BossFd2_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = BossFd2_Wait;
     }
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 }
 
 void BossFd2_Destroy(Actor* thisx, PlayState* play) {
@@ -524,7 +544,7 @@ void BossFd2_Vulnerable(BossFd2* this, PlayState* play) {
     s16 i;
 
     this->disableAT = true;
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     SkelAnime_Update(&this->skelAnime);
     switch (this->work[FD2_ACTION_STATE]) {
         case 0:
@@ -814,7 +834,7 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
     if (this->actionFunc == BossFd2_ClawSwipe) {
         Player* player = GET_PLAYER(play);
 
-        for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
+        for (i = 0; i < ARRAY_COUNT(this->colliderElements); i++) {
             if (this->collider.elements[i].base.atElemFlags & ATELEM_HIT) {
                 this->collider.elements[i].base.atElemFlags &= ~ATELEM_HIT;
                 Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
@@ -875,10 +895,10 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
             }
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {
                 bossFd->actor.colChkInfo.health -= damage;
-                PRINTF(VT_FGCOL(GREEN));
+                PRINTF_COLOR_GREEN();
                 PRINTF("damage   %d\n", damage);
             }
-            PRINTF(VT_RST);
+            PRINTF_RST();
             PRINTF("hp %d\n", bossFd->actor.colChkInfo.health);
 
             if ((s8)bossFd->actor.colChkInfo.health <= 0) {
@@ -960,7 +980,7 @@ void BossFd2_Update(Actor* thisx, PlayState* play2) {
 
     PRINTF("FD2 move start \n");
     this->disableAT = false;
-    this->actor.flags &= ~ACTOR_FLAG_10;
+    this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     this->work[FD2_VAR_TIMER]++;
     this->work[FD2_UNK_TIMER]++;
 

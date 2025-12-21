@@ -5,9 +5,20 @@
  */
 
 #include "z_bg_spot01_fusya.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_spot01_objects/object_spot01_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgSpot01Fusya_Init(Actor* thisx, PlayState* play);
 void BgSpot01Fusya_Destroy(Actor* thisx, PlayState* play);
@@ -30,9 +41,9 @@ ActorProfile Bg_Spot01_Fusya_Profile = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 12800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 1300, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1300, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 12800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 1300, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1300, ICHAIN_STOP),
 };
 
 void BgSpot01Fusya_SetupAction(BgSpot01Fusya* this, BgSpot01FusyaActionFunc actionFunc) {
@@ -64,7 +75,7 @@ void func_808AAA50(BgSpot01Fusya* this, PlayState* play) {
     }
     thisx->shape.rot.z += this->unk_154;
     temp = ((this->unk_154 - 100.0f) / 1700.0f) + 1.0f;
-    func_800F436C(&thisx->projectedPos, 0x2085, temp);
+    func_800F436C(&thisx->projectedPos, NA_SE_EV_WINDMILL_LEVEL - SFX_FLAG, temp);
     Math_ApproachF(&this->unk_154, this->unk_158, this->unk_15C, 100.0f);
 }
 

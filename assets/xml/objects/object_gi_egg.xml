@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_egg" Segment="6">
+        <Array Name="gGiEggVtx" Count="253" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiEggMaterialDL" Offset="0x0FD0"/>
         <DList Name="gGiEggDL" Offset="0x1008"/>
     </File>

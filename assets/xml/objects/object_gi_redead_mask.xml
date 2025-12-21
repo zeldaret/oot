@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_redead_mask" Segment="6">
+        <Array Name="gGiSpookyMaskVtx" Count="126" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiSpookyMaskDL" Offset="0x07E0"/>
     </File>
 </Root>

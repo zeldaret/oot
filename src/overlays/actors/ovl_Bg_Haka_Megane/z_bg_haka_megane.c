@@ -5,10 +5,14 @@
  */
 
 #include "z_bg_haka_megane.h"
+
+#include "ichain.h"
+#include "play_state.h"
+
 #include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_REACT_TO_LENS)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_REACT_TO_LENS)
 
 void BgHakaMegane_Init(Actor* thisx, PlayState* play);
 void BgHakaMegane_Destroy(Actor* thisx, PlayState* play);
@@ -129,7 +133,7 @@ void BgHakaMegane_Update(Actor* thisx, PlayState* play) {
 void BgHakaMegane_Draw(Actor* thisx, PlayState* play) {
     BgHakaMegane* this = (BgHakaMegane*)thisx;
 
-    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    if (ACTOR_FLAGS_CHECK_ALL(thisx, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, sDLists[thisx->params]);
     } else {
         Gfx_DrawDListOpa(play, sDLists[thisx->params]);

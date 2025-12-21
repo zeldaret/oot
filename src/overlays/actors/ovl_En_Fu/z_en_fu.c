@@ -5,10 +5,25 @@
  */
 
 #include "z_en_fu.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_fu/object_fu.h"
 #include "assets/scenes/indoors/hakasitarelay/hakasitarelay_scene.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 #define FU_RESET_LOOK_ANGLE (1 << 0)
 #define FU_WAIT (1 << 1)
@@ -51,8 +66,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -77,7 +92,7 @@ void EnFu_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(play, &this->skelanime, &gWindmillManSkel, &gWindmillManPlayStillAnim, this->jointTable,
-                       this->morphTable, FU_LIMB_MAX);
+                       this->morphTable, WINDMILL_MAN_LIMB_MAX);
     Animation_PlayLoop(&this->skelanime, &gWindmillManPlayStillAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -134,7 +149,7 @@ void EnFu_WaitChild(EnFu* this, PlayState* play) {
     u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_WINDMILL_MAN);
 
     if (textId == 0) {
-        textId = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
+        textId = GET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL) ? 0x5033 : 0x5032;
     }
 
     // if ACTOR_FLAG_TALK is set and textId is 0x5033, change animation
@@ -261,15 +276,15 @@ s32 EnFu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     EnFu* this = (EnFu*)thisx;
     s32 pad;
 
-    if (limbIndex == FU_LIMB_UNK) {
+    if (limbIndex == WINDMILL_MAN_LIMB_UNK) {
         return false;
     }
     switch (limbIndex) {
-        case FU_LIMB_HEAD:
+        case WINDMILL_MAN_LIMB_HEAD:
             rot->x += this->lookAngleOffset.y;
             rot->z += this->lookAngleOffset.x;
             break;
-        case FU_LIMB_CHEST_MUSIC_BOX:
+        case WINDMILL_MAN_LIMB_CHEST_MUSIC_BOX:
             break;
     }
 
@@ -277,9 +292,9 @@ s32 EnFu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         return false;
     }
 
-    if (limbIndex == FU_LIMB_CHEST_MUSIC_BOX) {
-        rot->y += (Math_SinS((play->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
-        rot->z += (Math_CosS((play->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
+    if (limbIndex == WINDMILL_MAN_LIMB_CHEST_MUSIC_BOX) {
+        rot->y += Math_SinS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y))) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS((play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z))) * FIDGET_AMPLITUDE;
     }
     return false;
 }
@@ -287,7 +302,7 @@ s32 EnFu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnFu_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnFu* this = (EnFu*)thisx;
 
-    if (limbIndex == FU_LIMB_HEAD) {
+    if (limbIndex == WINDMILL_MAN_LIMB_HEAD) {
         Matrix_MultVec3f(&sMtxSrc, &this->actor.focus.pos);
     }
 }

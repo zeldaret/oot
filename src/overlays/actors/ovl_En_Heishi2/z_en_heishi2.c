@@ -4,13 +4,27 @@
  * Description: Hyrulian Guards
  */
 
-#include "terminal.h"
 #include "z_en_heishi2.h"
+#include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
+#include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
+#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_sd/object_sd.h"
 #include "assets/objects/object_link_child/object_link_child.h"
-#include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
@@ -73,8 +87,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -99,8 +113,8 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
 
         } else {
             PRINTF("\n\n");
-            // "No, I'm completely disappointed" (message for when shooting guard window in courtyard)
-            PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA)
+                       T(" ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n", " ☆☆☆☆☆ Oh, no, I was just careless. ☆☆☆☆☆ \n") VT_RST);
 
             Actor_SetScale(&this->actor, 0.02f);
 
@@ -112,7 +126,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(play, &this->collider);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4;
+            this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             this->actionFunc = func_80A544AC;
         }
     } else {
@@ -140,8 +154,8 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
                 break;
             case 6:
                 PRINTF("\n\n");
-                // "Peep hole soldier!"
-                PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n", " ☆☆☆☆☆ Peep hole soldier ☆☆☆☆☆ \n")
+                           VT_RST);
                 Collider_DestroyCylinder(play, collider);
                 this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
                 this->actionFunc = EnHeishi_DoNothing2;
@@ -150,12 +164,14 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
 
         this->unk_2F0 = PARAMS_GET_U(this->actor.params, 8, 8);
         PRINTF("\n\n");
-        // "Soldier Set 2 Completed!"
-        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
-        // "Identification Completed!"
-        PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" VT_RST, this->type);
-        // "Message completed!"
-        PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST,
+        PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n", " ☆☆☆☆☆ Soldier Set 2 Completed!  ☆☆☆☆☆ %d\n")
+                   VT_RST,
+               this->actor.params);
+        PRINTF(VT_FGCOL(YELLOW) T(" ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n", " ☆☆☆☆☆ Identification Completed! ☆☆☆☆☆ %d\n")
+                   VT_RST,
+               this->type);
+        PRINTF(VT_FGCOL(MAGENTA)
+                   T(" ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n", " ☆☆☆☆☆ Message completed!        ☆☆☆☆☆ %x\n\n") VT_RST,
                PARAMS_GET_U(this->actor.params, 8, 4));
     }
 }
@@ -190,41 +206,39 @@ void func_80A53278(EnHeishi2* this, PlayState* play) {
         this->unk_300 = TEXT_STATE_DONE;
         this->actionFunc = func_80A5475C;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_09) && GET_EVENTCHKINF(EVENTCHKINF_25) && GET_EVENTCHKINF(EVENTCHKINF_37)) {
-        // "Get all spiritual stones!"
-        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ All the spirit stones GET! ☆☆☆☆☆ \n")
+                   VT_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7006;
         this->actionFunc = func_80A5475C;
     } else if (!IS_DAY) {
-        // "Sleep early for children!"
-        PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(YELLOW) T(" ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ Sleep early for children! ☆☆☆☆☆ \n")
+                   VT_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7002;
         this->actionFunc = func_80A5475C;
 
     } else if (this->unk_30C != 0) {
-        // "Anything passes"
-        PRINTF(VT_FGCOL(BLUE) " ☆☆☆☆☆ なんでも通るよ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(BLUE) T(" ☆☆☆☆☆ なんでも通るよ ☆☆☆☆☆ \n", " ☆☆☆☆☆ Anything passes ☆☆☆☆☆ \n") VT_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7099;
         this->actionFunc = func_80A5475C;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_EGG)) {
         if (this->unk_30E == 0) {
-            // "Start under the first sleeve!"
-            PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA)
+                       T(" ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ Start under the first sleeve! ☆☆☆☆☆ \n") VT_RST);
             this->actor.textId = 0x7071;
             this->unk_30E = 1;
         } else {
-            // "Start under the second sleeve!"
-            PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ ２回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) T(" ☆☆☆☆☆ ２回目袖の下開始！ ☆☆☆☆☆ \n",
+                                       " ☆☆☆☆☆ Start under the second sleeve! ☆☆☆☆☆ \n") VT_RST);
             this->actor.textId = 0x7072;
         }
         this->unk_300 = TEXT_STATE_CHOICE;
         this->actionFunc = func_80A5475C;
 
     } else {
-        // "That's okay"
-        PRINTF(VT_FGCOL(CYAN) " ☆☆☆☆☆ それはとおらんよぉ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(CYAN) T(" ☆☆☆☆☆ それはとおらんよぉ ☆☆☆☆☆ \n", " ☆☆☆☆☆ That won't work ☆☆☆☆☆ \n") VT_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7029;
         this->actionFunc = func_80A5475C;
@@ -297,8 +311,9 @@ void func_80A53638(EnHeishi2* this, PlayState* play) {
                 break;
             }
         }
-        // "I've come!"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, actor->dyna.actor.next);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n", "☆☆☆ It's here, it's here, it's here! ☆☆☆ %x\n")
+                   VT_RST,
+               actor->dyna.actor.next);
         this->actionFunc = func_80A5372C;
     }
 }
@@ -382,8 +397,8 @@ void func_80A5399C(EnHeishi2* this, PlayState* play) {
         }
         this->actionFunc = func_80A5475C;
     } else {
-        // "I don't know"
-        PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(MAGENTA) T(" ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n", " ☆☆☆☆☆ There is no way out ☆☆☆☆☆ \n")
+                   VT_RST);
         this->actionFunc = func_80A53AD4;
     }
 }
@@ -402,7 +417,7 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
     this->unk_300 = TEXT_STATE_DONE;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        s32 exchangeItemId = func_8002F368(play);
+        s32 exchangeItemId = Actor_GetPlayerExchangeItemId(play);
 
         if (exchangeItemId == EXCH_ITEM_ZELDAS_LETTER) {
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
@@ -464,8 +479,9 @@ void func_80A53D0C(EnHeishi2* this, PlayState* play) {
                 break;
             }
         }
-        // "I've come!"
-        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->dyna.actor.next);
+        PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n", "☆☆☆ It's here, it's here, it's here! ☆☆☆ %x\n")
+                   VT_RST,
+               gate->dyna.actor.next);
         this->actionFunc = func_80A53DF8;
     }
 }
@@ -666,8 +682,7 @@ void func_80A5455C(EnHeishi2* this, PlayState* play) {
             bomb->actor.velocity.y = Rand_CenteredFloat(5.0f) + 10.0f;
         }
 
-        // "This is down!"
-        PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(YELLOW) T(" ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n", " ☆☆☆☆☆ This is down! ☆☆☆☆☆ \n") VT_RST);
         this->actionFunc = func_80A546DC;
     }
 }

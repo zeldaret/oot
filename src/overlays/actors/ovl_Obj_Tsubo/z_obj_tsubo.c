@@ -6,10 +6,23 @@
 
 #include "z_obj_tsubo.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "item.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "assets/objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_THROW_ONLY)
 
 void ObjTsubo_Init(Actor* thisx, PlayState* play);
 void ObjTsubo_Destroy(Actor* thisx, PlayState* play2);
@@ -65,8 +78,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000002, 0x00, 0x01 },
-        { 0x4FC1FFFE, 0x00, 0x00 },
+        { 0x00000002, HIT_SPECIAL_EFFECT_NONE, 0x01 },
+        { 0x4FC1FFFE, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -77,9 +90,9 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit[] = { 0, 12, 60, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F_DIV1000(scale, 150, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneForward, 900, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 150, ICHAIN_CONTINUE),    ICHAIN_F32(cullingVolumeDistance, 900, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 100, ICHAIN_CONTINUE), ICHAIN_F32(cullingVolumeDownward, 800, ICHAIN_STOP),
 };
 
 void ObjTsubo_SpawnCollectible(ObjTsubo* this, PlayState* play) {
@@ -112,7 +125,7 @@ s32 ObjTsubo_SnapToFloor(ObjTsubo* this, PlayState* play) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
-        PRINTF("地面に付着失敗\n");
+        PRINTF(T("地面に付着失敗\n", "Failed to attach to ground\n"));
         return false;
     }
 }
@@ -137,11 +150,12 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
     }
     this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[PARAMS_GET_U(this->actor.params, 8, 1)]);
     if (this->requiredObjectSlot < 0) {
-        PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
+        PRINTF(T("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               this->actor.params, "../z_obj_tsubo.c", 410);
         Actor_Kill(&this->actor);
     } else {
         ObjTsubo_SetupWaitForObject(this);
-        PRINTF("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
+        PRINTF(T("(dungeon keep 壷)(arg_data 0x%04x)\n", "(dungeon keep pot)(arg_data 0x%04x)\n"), this->actor.params);
     }
 }
 
@@ -227,7 +241,7 @@ void ObjTsubo_WaitForObject(ObjTsubo* this, PlayState* play) {
         this->actor.draw = ObjTsubo_Draw;
         this->actor.objectSlot = this->requiredObjectSlot;
         ObjTsubo_SetupIdle(this);
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 }
 
@@ -279,7 +293,7 @@ void ObjTsubo_SetupLiftedUp(ObjTsubo* this) {
     this->actor.room = -1;
     //! @bug: This is an unsafe cast, although the sound effect will still play
     Player_PlaySfx((Player*)&this->actor, NA_SE_PL_PULL_UP_POT);
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void ObjTsubo_LiftedUp(ObjTsubo* this, PlayState* play) {

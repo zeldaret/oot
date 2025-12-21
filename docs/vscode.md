@@ -64,7 +64,7 @@ A more complete `c_cpp_properties.json` with configurations for all supported ve
                 "OOT_REGION=REGION_EU",
                 "PLATFORM_N64=0",
                 "PLATFORM_GC=1",
-                "OOT_DEBUG=1",
+                "DEBUG_FEATURES=1",
                 "F3DEX_GBI_2",
                 "F3DEX_GBI_PL",
                 "GBI_DOWHILE",

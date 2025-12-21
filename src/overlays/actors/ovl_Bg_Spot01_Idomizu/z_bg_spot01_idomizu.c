@@ -5,16 +5,26 @@
  */
 
 #include "z_bg_spot01_idomizu.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_spot01_objects/object_spot01_objects.h"
 
-#define FLAGS ACTOR_FLAG_5
+#define FLAGS ACTOR_FLAG_DRAW_CULLING_DISABLED
 
 void BgSpot01Idomizu_Init(Actor* thisx, PlayState* play);
 void BgSpot01Idomizu_Destroy(Actor* thisx, PlayState* play);
 void BgSpot01Idomizu_Update(Actor* thisx, PlayState* play);
 void BgSpot01Idomizu_Draw(Actor* thisx, PlayState* play);
 
-void func_808ABB84(BgSpot01Idomizu* this, PlayState* play);
+void BgSpot01Idomizu_UpdateWaterLevel(BgSpot01Idomizu* this, PlayState* play);
 
 ActorProfile Bg_Spot01_Idomizu_Profile = {
     /**/ ACTOR_BG_SPOT01_IDOMIZU,
@@ -36,26 +46,25 @@ void BgSpot01Idomizu_Init(Actor* thisx, PlayState* play) {
     BgSpot01Idomizu* this = (BgSpot01Idomizu*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    if (GET_EVENTCHKINF(EVENTCHKINF_67) || LINK_AGE_IN_YEARS == YEARS_ADULT) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL) || LINK_AGE_IN_YEARS == YEARS_ADULT) {
         this->waterHeight = -550.0f;
     } else {
         this->waterHeight = 52.0f;
     }
-    this->actionFunc = func_808ABB84;
+    this->actionFunc = BgSpot01Idomizu_UpdateWaterLevel;
     this->actor.world.pos.y = this->waterHeight;
 }
 
 void BgSpot01Idomizu_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void func_808ABB84(BgSpot01Idomizu* this, PlayState* play) {
-    if (GET_EVENTCHKINF(EVENTCHKINF_67)) {
+void BgSpot01Idomizu_UpdateWaterLevel(BgSpot01Idomizu* this, PlayState* play) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_DRAINED_WELL)) {
         this->waterHeight = -550.0f;
     }
     play->colCtx.colHeader->waterBoxes[0].ySurface = this->actor.world.pos.y;
     if (this->waterHeight < this->actor.world.pos.y) {
-        Audio_PlaySfxGeneral(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
     Math_ApproachF(&this->actor.world.pos.y, this->waterHeight, 1.0f, 2.0f);
 }

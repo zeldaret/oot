@@ -5,9 +5,20 @@
  */
 
 #include "z_bg_relay_objects.h"
+
+#include "ichain.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "cutscene_flags.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_relay_objects/object_relay_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum WindmillSetpiecesMode {
     /* 0 */ WINDMILL_ROTATING_GEAR,
@@ -62,7 +73,7 @@ void BgRelayObjects_Init(Actor* thisx, PlayState* play) {
         }
         Audio_PlayWindmillBgm();
         thisx->room = -1;
-        thisx->flags |= ACTOR_FLAG_5;
+        thisx->flags |= ACTOR_FLAG_DRAW_CULLING_DISABLED;
         if (D_808A9508 & 2) {
             thisx->params = 0xFF;
             Actor_Kill(thisx);
@@ -108,7 +119,7 @@ void BgRelayObjects_Destroy(Actor* thisx, PlayState* play) {
     BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
+    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.save.cutsceneIndex < CS_INDEX_0)) {
         CLEAR_EVENTCHKINF(EVENTCHKINF_65);
     }
 }
@@ -154,7 +165,7 @@ void func_808A9234(BgRelayObjects* this, PlayState* play) {
             return;
         }
         Flags_UnsetSwitch(play, this->switchFlag);
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         if (play->roomCtx.curRoom.num == 4) {
             gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
         }

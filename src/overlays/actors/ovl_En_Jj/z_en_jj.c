@@ -5,10 +5,22 @@
  */
 
 #include "z_en_jj.h"
-#include "assets/objects/object_jj/object_jj.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_jj/object_jj.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum EnJjEyeState {
     /* 0 */ JABUJABU_EYE_OPEN,
@@ -57,8 +69,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000004, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000004, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -68,9 +80,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 87, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 3300, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 3300, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1100, ICHAIN_STOP),
 };
 
 void EnJj_SetupAction(EnJj* this, EnJjActionFunc actionFunc) {
@@ -96,7 +108,7 @@ void EnJj_Init(Actor* thisx, PlayState* play2) {
             this->extraBlinkCounter = 0;
             this->extraBlinkTotal = 0;
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_3A)) { // Fish given
+            if (GET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU)) {
                 EnJj_SetupAction(this, EnJj_WaitToOpenMouth);
             } else {
                 EnJj_SetupAction(this, EnJj_WaitForFish);
@@ -214,11 +226,11 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
         this->cutsceneCountdownTimer--;
     } else {
         EnJj_SetupAction(this, EnJj_RemoveDust);
-        play->csCtx.script = D_80A88164;
+        play->csCtx.script = gJabuInhalingCs;
         gSaveContext.cutsceneTrigger = 1;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
         Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
-        SET_EVENTCHKINF(EVENTCHKINF_3A);
+        SET_EVENTCHKINF(EVENTCHKINF_OPENED_JABU_JABU);
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
 }

@@ -1,11 +1,26 @@
 #include "z_en_bom_bowl_man.h"
-#include "terminal.h"
 #include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
-#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "terminal.h"
+#include "translation.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_bg/object_bg.h"
 
-#define FLAGS \
-    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_LOCK_ON_DISABLED)
+#define FLAGS                                                                                  \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_LOCK_ON_DISABLED)
 
 typedef enum BombchuGirlEyeMode {
     /* 0 */ CHU_GIRL_EYES_ASLEEP,
@@ -59,10 +74,10 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gChuGirlSkel, &gChuGirlNoddingOffAnim, this->jointTable,
                        this->morphTable, 11);
-    // "☆ Man, my shoulders hurt~ ☆"
-    PRINTF(VT_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" VT_RST);
-    // "☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d"
-    PRINTF(VT_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" VT_RST, play->bombchuBowlingStatus);
+    PRINTF(VT_FGCOL(GREEN) T("☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n", "☆ Man, my shoulders hurt~ \t\t ☆ \n") VT_RST);
+    PRINTF(VT_FGCOL(GREEN) T("☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n",
+                             "☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d\n") VT_RST,
+           play->bombchuBowlingStatus);
     this->posCopy = this->actor.world.pos;
     this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
@@ -219,12 +234,12 @@ void EnBomBowlMan_RunGame(EnBomBowlMan* this, PlayState* play) {
 
     if (BREG(3)) {
         PRINTF(VT_FGCOL(RED) "☆ game_play->bomchu_game_flag ☆ %d\n" VT_RST, play->bombchuBowlingStatus);
-        // "HOW'S THE FIRST WALL DOING?"
-        PRINTF(VT_FGCOL(RED) "☆ 壁１の状態どう？ ☆ %d\n" VT_RST, this->wallStatus[0]);
-        // "HOW'S THE SECOND WALL DOING?"
-        PRINTF(VT_FGCOL(RED) "☆ 壁２の状態どう？ ☆ %d\n" VT_RST, this->wallStatus[1]);
-        // "HOLE INFORMATION"
-        PRINTF(VT_FGCOL(RED) "☆ 穴情報\t     ☆ %d\n" VT_RST, this->bowlPit->status);
+        PRINTF(VT_FGCOL(RED) T("☆ 壁１の状態どう？ ☆ %d\n", "☆ What's the state of wall 1? ☆ %d\n") VT_RST,
+               this->wallStatus[0]);
+        PRINTF(VT_FGCOL(RED) T("☆ 壁２の状態どう？ ☆ %d\n", "☆ What's the state of wall 2? ☆ %d\n") VT_RST,
+               this->wallStatus[1]);
+        PRINTF(VT_FGCOL(RED) T("☆ 穴情報\t     ☆ %d\n", "☆ Hole Information\t     ☆ %d\n") VT_RST,
+               this->bowlPit->status);
         PRINTF("\n\n");
     }
 
@@ -234,15 +249,13 @@ void EnBomBowlMan_RunGame(EnBomBowlMan* this, PlayState* play) {
         if ((this->wallStatus[0] != 1) && (this->wallStatus[1] != 1) && (this->bowlPit->status == 2)) {
             this->gameResult = 1; // Won
             this->bowlPit->status = 0;
-            // "Center HIT!"
-            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n", "☆☆☆☆☆ Center HIT!!!! ☆☆☆☆☆ \n") VT_RST);
         }
 
         if ((play->bombchuBowlingStatus == -1) && (play->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length == 0) &&
             (this->bowlPit->status == 0) && (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
-            // "Bombchu lost"
-            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) T("☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n", "☆☆☆☆☆ Bombchu digestion ☆☆☆☆☆ \n") VT_RST);
         }
     }
 
@@ -417,7 +430,7 @@ void EnBomBowlMan_ChooseShowPrize(EnBomBowlMan* this, PlayState* play) {
         this->exItem = (EnExItem*)Actor_SpawnAsChild(
             &play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, sPrizePosOffset[this->prizeIndex].x + 148.0f,
             sPrizePosOffset[this->prizeIndex].y + 40.0f, sPrizePosOffset[this->prizeIndex].z + 300.0f, 0,
-            sPrizeRot[this->prizeIndex], 0, this->prizeIndex + EXITEM_COUNTER);
+            sPrizeRot[this->prizeIndex], 0, this->prizeIndex + EXITEM_BOMB_BAG_COUNTER);
 
         if (!this->startedPlaying) {
             this->bowlPit = (EnBomBowlPit*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play,
@@ -456,8 +469,7 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, PlayState* play) {
             BREG(2) = 0;
         }
 
-        // "Wow"
-        PRINTF(VT_FGCOL(YELLOW) "☆ わー ☆ %d\n" VT_RST, play->bombchuBowlingStatus);
+        PRINTF(VT_FGCOL(YELLOW) T("☆ わー ☆ %d\n", "☆ Wow ☆ %d\n") VT_RST, play->bombchuBowlingStatus);
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actionFunc = EnBomBowlMan_SetupRunGame;
     }

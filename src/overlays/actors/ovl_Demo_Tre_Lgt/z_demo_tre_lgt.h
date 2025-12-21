@@ -2,11 +2,12 @@
 #define Z_DEMO_TRE_LGT_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "curve.h"
 
 struct DemoTreLgt;
 
-typedef void (*DemoTreLgtActionFunc)(struct DemoTreLgt*, PlayState*);
+typedef void (*DemoTreLgtActionFunc)(struct DemoTreLgt*, struct PlayState*);
 
 typedef struct DemoTreLgt {
     /* 0x0000 */ Actor actor;

@@ -5,10 +5,22 @@
  */
 
 #include "z_bg_mori_bigst.h"
-#include "assets/objects/object_mori_objects/object_mori_objects.h"
-#include "quake.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "quake.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/object_mori_objects/object_mori_objects.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgMoriBigst_Init(Actor* thisx, PlayState* play);
 void BgMoriBigst_Destroy(Actor* thisx, PlayState* play);
@@ -41,8 +53,8 @@ ActorProfile Bg_Mori_Bigst_Profile = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),      ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),     ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 3000, ICHAIN_CONTINUE),  ICHAIN_F32(cullingVolumeScale, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 3000, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(minVelocityY, -12000, ICHAIN_CONTINUE), ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -58,13 +70,13 @@ void BgMoriBigst_InitDynapoly(BgMoriBigst* this, PlayState* play, CollisionHeade
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        // "Warning : move BG login failed"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_bigst.c", 190,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_bg_mori_bigst.c", 190, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -73,17 +85,16 @@ void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgMoriBigst* this = (BgMoriBigst*)thisx;
 
-    // "mori (bigST.keyceiling)"
-    PRINTF("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
-           Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6)),
+    PRINTF(T("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n",
+             "mori (bigST. key-shaped ceiling)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n"),
+           this->dyna.actor.params, Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6)),
            Flags_GetTempClear(play, this->dyna.actor.room), Flags_GetClear(play, this->dyna.actor.room),
            GET_PLAYER(play)->actor.world.pos.y);
     BgMoriBigst_InitDynapoly(this, play, &gMoriBigstCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
-        // "【Big Stalfos key ceiling】 bank danger!"
-        PRINTF("【ビッグスタルフォス鍵型天井】 バンク危険！\n");
+        PRINTF(T("【ビッグスタルフォス鍵型天井】 バンク危険！\n", "[Big Stalfos Key-shaped Ceiling] Bank danger!\n"));
         PRINTF("%s %d\n", "../z_bg_mori_bigst.c", 234);
         Actor_Kill(&this->dyna.actor);
         return;
@@ -140,8 +151,7 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, PlayState* play) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.home.rot.z++;
     } else {
-        // "Second Stalfos failure"
-        PRINTF("Warning : 第２スタルフォス発生失敗\n");
+        PRINTF(T("Warning : 第２スタルフォス発生失敗\n", "Warning : Second Stalfos failed to spawn\n"));
     }
     Flags_SetClear(play, this->dyna.actor.room);
 }
@@ -202,8 +212,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.home.rot.z++;
     } else {
-        // "Warning: 3-1 Stalfos failure"
-        PRINTF("Warning : 第３-1スタルフォス発生失敗\n");
+        PRINTF(T("Warning : 第３-1スタルフォス発生失敗\n", "Warning : 3-1 Stalfos failed to spawn\n"));
     }
     stalfos2 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_TEST, 170.0f, 827.0f, -3260.0f, 0,
                                   0, 0, 5);
@@ -211,8 +220,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.home.rot.z++;
     } else {
-        // "Warning: 3-2 Stalfos failure"
-        PRINTF("Warning : 第３-2スタルフォス発生失敗\n");
+        PRINTF(T("Warning : 第３-2スタルフォス発生失敗\n", "Warning : 3-2 Stalfos failed to spawn\n"));
     }
     Flags_SetClear(play, this->dyna.actor.room);
 }

@@ -5,7 +5,23 @@
  */
 
 #include "z_en_ge1.h"
+
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "horse.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ge1/object_ge1.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -26,7 +42,7 @@ void EnGe1_Destroy(Actor* thisx, PlayState* play);
 void EnGe1_Update(Actor* thisx, PlayState* play);
 void EnGe1_Draw(Actor* thisx, PlayState* play);
 
-s32 EnGe1_CheckCarpentersFreed(void);
+s32 EnGe1_CheckAllCarpentersRescued(void);
 void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, PlayState* play);
 void EnGe1_SetNormalText(EnGe1* this, PlayState* play);
 void EnGe1_WatchForAndSensePlayer(EnGe1* this, PlayState* play);
@@ -62,8 +78,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000702, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000702, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -91,7 +107,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gGerudoWhiteSkel, &gGerudoWhiteIdleAnim, this->jointTable,
-                       this->morphTable, GE1_LIMB_MAX);
+                       this->morphTable, GERUDO_WHITE_LIMB_MAX);
     Animation_PlayOnce(&this->skelAnime, &gGerudoWhiteIdleAnim);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -101,7 +117,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     this->actor.attentionRangeType = ATTENTION_RANGE_6;
     Actor_SetScale(&this->actor, 0.01f);
 
-    this->actor.uncullZoneForward = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
+    this->actor.cullingVolumeDistance = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
 
     switch (PARAMS_GET_U(this->actor.params, 0, 8)) {
 
@@ -113,7 +129,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
         case GE1_TYPE_GATE_OPERATOR:
             this->hairstyle = GE1_HAIR_STRAIGHT;
 
-            if (EnGe1_CheckCarpentersFreed()) {
+            if (EnGe1_CheckAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_CheckGate_GateOp;
             } else {
                 this->actionFunc = EnGe1_WatchForPlayerFrontOnly;
@@ -123,7 +139,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
         case GE1_TYPE_NORMAL:
             this->hairstyle = GE1_HAIR_STRAIGHT;
 
-            if (EnGe1_CheckCarpentersFreed()) {
+            if (EnGe1_CheckAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_SetNormalText;
             } else {
                 this->actionFunc = EnGe1_WatchForAndSensePlayer;
@@ -132,8 +148,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
 
         case GE1_TYPE_VALLEY_FLOOR:
             if (LINK_IS_ADULT) {
-                // "Valley floor Gerudo withdrawal"
-                PRINTF(VT_FGCOL(CYAN) "谷底 ゲルド 撤退 \n" VT_RST);
+                PRINTF(VT_FGCOL(CYAN) T("谷底 ゲルド 撤退 \n", "Valley floor Gerudo withdrawal \n") VT_RST);
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -148,12 +163,13 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
             }
             this->actor.attentionRangeType = ATTENTION_RANGE_3;
             this->hairstyle = GE1_HAIR_BOB;
-            // "Horseback archery Gerudo EVENT_INF(0) ="
-            PRINTF(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
+            PRINTF(VT_FGCOL(CYAN)
+                       T("やぶさめ ゲルド EVENT_INF(0) = %x\n", "Horseback archery Gerudo EVENT_INF(0) = %x\n") VT_RST,
+                   gSaveContext.eventInf[0]);
 
             if (GET_EVENTINF(EVENTINF_HORSES_08)) {
                 this->actionFunc = EnGe1_TalkAfterGame_Archery;
-            } else if (EnGe1_CheckCarpentersFreed()) {
+            } else if (EnGe1_CheckAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_Wait_Archery;
             } else {
                 this->actionFunc = EnGe1_WatchForPlayerFrontOnly;
@@ -163,7 +179,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
         case GE1_TYPE_TRAINING_GROUNDS_GUARD:
             this->hairstyle = GE1_HAIR_STRAIGHT;
 
-            if (EnGe1_CheckCarpentersFreed()) {
+            if (EnGe1_CheckAllCarpentersRescued()) {
                 this->actionFunc = EnGe1_CheckForCard_GTGGuard;
             } else {
                 this->actionFunc = EnGe1_WatchForPlayerFrontOnly;
@@ -207,9 +223,9 @@ void EnGe1_SetAnimationIdle(EnGe1* this) {
     this->animFunc = EnGe1_CueUpAnimation;
 }
 
-s32 EnGe1_CheckCarpentersFreed(void) {
-    if (!(GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(0)) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(1)) &&
-          GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(2)) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(3)))) {
+s32 EnGe1_CheckAllCarpentersRescued(void) {
+    if (!(GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_0_RESCUED) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_1_RESCUED) &&
+          GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_2_RESCUED) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTER_3_RESCUED))) {
         return false;
     }
     return true;
@@ -224,7 +240,7 @@ void EnGe1_KickPlayer(EnGe1* this, PlayState* play) {
     if (this->cutsceneTimer > 0) {
         this->cutsceneTimer--;
     } else {
-        func_8006D074(play);
+        Horse_ResetHorseData(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
@@ -577,7 +593,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
                 } else {
                     Rupees_ChangeBy(-20);
                     play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_0;
-                    gSaveContext.nextCutsceneIndex = 0xFFF0;
+                    gSaveContext.nextCutsceneIndex = CS_INDEX_0;
                     play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     SET_EVENTINF(EVENTINF_HORSES_08);
@@ -764,7 +780,7 @@ s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     s32 pad;
     EnGe1* this = (EnGe1*)thisx;
 
-    if (limbIndex == GE1_LIMB_HEAD) {
+    if (limbIndex == GERUDO_WHITE_LIMB_HEAD) {
         rot->x += this->headRot.y;
         rot->z += this->headRot.x;
     }
@@ -776,9 +792,10 @@ s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
     // The purpose of the state flag GE1_STATE_STOP_FIDGET is to skip this code, which this actor has in lieu of an idle
     // animation.
-    if ((limbIndex == GE1_LIMB_TORSO) || (limbIndex == GE1_LIMB_L_FOREARM) || (limbIndex == GE1_LIMB_R_FOREARM)) {
-        rot->y += Math_SinS(play->state.frames * (limbIndex * 50 + 0x814)) * 200.0f;
-        rot->z += Math_CosS(play->state.frames * (limbIndex * 50 + 0x940)) * 200.0f;
+    if ((limbIndex == GERUDO_WHITE_LIMB_TORSO) || (limbIndex == GERUDO_WHITE_LIMB_L_FOREARM) ||
+        (limbIndex == GERUDO_WHITE_LIMB_R_FOREARM)) {
+        rot->y += Math_SinS(play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Y)) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(play->state.frames * (limbIndex * FIDGET_FREQ_LIMB + FIDGET_FREQ_Z)) * FIDGET_AMPLITUDE;
     }
     return 0;
 }
@@ -788,7 +805,7 @@ void EnGe1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge1.c", 1419);
 
-    if (limbIndex == GE1_LIMB_HEAD) {
+    if (limbIndex == GERUDO_WHITE_LIMB_HEAD) {
         gSPDisplayList(POLY_OPA_DISP++, sHairstyleDLists[this->hairstyle]);
         Matrix_MultVec3f(&D_80A327A8, &this->actor.focus.pos);
     }

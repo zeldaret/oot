@@ -6,6 +6,8 @@
 
 #include "z_en_oe2.h"
 
+#include "play_state.h"
+
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
 
 void EnOE2_Init(Actor* thisx, PlayState* play);

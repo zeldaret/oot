@@ -1,5 +1,18 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_liquid" Segment="6">
+        <Texture Name="gGiGreenPotionPatternTex" Format="ia8" Width="16" Height="32" Offset="0x0"/>
+        <Texture Name="gGiRedPotionPatternTex" Format="ia8" Width="16" Height="32" Offset="0x200"/>
+        <Texture Name="gGiBluePotionPatternTex" Format="ia8" Width="16" Height="32" Offset="0x400"/>
+        <Array Name="gGiPotionPotVtx" Count="176" Offset="0x600">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiPotionLiquidVtx" Count="7" Offset="0x1100">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiPotionPatternVtx" Count="16" Offset="0x1170">
+            <Vtx/>
+        </Array>
         <DList Name="gGiGreenPotColorDL" Offset="0x1270"/>
         <DList Name="gGiRedPotColorDL" Offset="0x1290"/>
         <DList Name="gGiBluePotColorDL" Offset="0x12B0"/>

@@ -1,4 +1,15 @@
-#include "global.h"
+#include "libc64/malloc.h"
+#include "libu64/gfxprint.h"
+#include "libu64/pad.h"
+#include "array_count.h"
+#include "color.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfxalloc.h"
+#include "regs.h"
+#include "rumble.h"
+#include "ultra64.h"
+#include "debug.h"
 
 typedef struct DebugCamTextBufferEntry {
     /* 0x0 */ u8 x;
@@ -12,8 +23,8 @@ typedef struct InputCombo {
     /* 0x2 */ u16 press;
 } InputCombo; // size = 0x4
 
-#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
-                               "ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
+#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:0" \
+                               "ntsc-1.0:0 ntsc-1.1:0 ntsc-1.2:0 pal-1.0:0 pal-1.1:0"
 
 RegEditor* gRegEditor;
 
@@ -32,7 +43,7 @@ Color_RGBA8 sDebugCamTextColors[] = {
     { 128, 255, 32, 128 },  // DEBUG_CAM_TEXT_GREEN
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 InputCombo sRegGroupInputCombos[REG_GROUPS] = {
     { BTN_L, BTN_CUP },        //  REG
     { BTN_L, BTN_CLEFT },      // SREG
@@ -158,7 +169,7 @@ void DebugCamera_DrawScreenText(GfxPrint* printer) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Updates the state of the Reg Editor according to user input.
  * Also contains a controller rumble test that can be interfaced with via related REGs.
@@ -296,7 +307,7 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
         DebugCamera_DrawScreenText(&printer);
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (gRegEditor->regPage != 0) {
         Regs_DrawEditor(&printer);
     }

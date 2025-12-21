@@ -1,5 +1,5 @@
+#include "array_count.h"
 #include "ultra64.h"
-#include "global.h"
 
 typedef struct CameraModeValue {
     s16 val;
@@ -27,7 +27,7 @@ typedef struct CameraSetting {
 /*==================================================================*/
 // Data
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s16 sOREGInit[] = {
     0,     // OREG(0)
     1,     // OREG(1)
@@ -110,7 +110,7 @@ s16 sCamDataRegsInit[CAM_DATA_MAX] = {
     0,   // CAM_DATA_AT_OFFSET_X
     0,   // CAM_DATA_AT_OFFSET_Y
     0,   // CAM_DATA_AT_OFFSET_Z
-    6,   // CAM_DATA_UNK_22
+    6,   // CAM_DATA_INIT_TIMER
     60,  // CAM_DATA_UNK_23
     30,  // CAM_DATA_FOV_SCALE
     0,   // CAM_DATA_YAW_SCALE
@@ -119,7 +119,7 @@ s16 sCamDataRegsInit[CAM_DATA_MAX] = {
 
 s16 sCamDataRegsInitCount = ARRAY_COUNT(sCamDataRegsInit);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 char sCameraSettingNames[][12] = {
     "NONE      ",  // CAM_SET_NONE
     "NORMAL0    ", // CAM_SET_NORMAL0
@@ -2562,7 +2562,7 @@ s32 sInitRegs = 1;
 
 s32 gDebugCamEnabled = false;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 s32 sDbgModeIdx = -1;
 #endif
 
@@ -2574,21 +2574,23 @@ s32 sCameraLetterboxSize = 32;
 
 s32 D_8011D3AC = -1;
 
-s16 D_8011D3B0[] = {
-    0x0AAA, 0xF556, 0x1555, 0xEAAB, 0x2AAA, 0xD556, 0x3FFF, 0xC001, 0x5555, 0xAAAB, 0x6AAA, 0x9556, 0x7FFF, 0x0000,
+// Used in Camera_KeepOn3 and Camera_KeepOn4 to check around an `at` position for an `eye` position such that the
+// `at`-`eye` segment is not obstructed by collision or colliders.
+s16 sCamCheckAroundOffsetsYaw[] = {
+    0x0AAA,  -0x0AAA, 0x1555,  -0x1555, 0x2AAA,  -0x2AAA, 0x3FFF,
+    -0x3FFF, 0x5555,  -0x5555, 0x6AAA,  -0x6AAA, 0x7FFF,  0x0000,
 };
-
-s16 D_8011D3CC[] = {
-    0x0000, 0x02C6, 0x058C, 0x0000, 0x0000, 0xFD3A, 0x0000, 0x0852, 0x0000, 0x0000, 0x0B18, 0x02C6, 0xFA74, 0x0000,
+s16 sCamCheckAroundOffsetsPitch[] = {
+    0x0000, 0x02C6, 0x058C, 0x0000, 0x0000, -0x02C6, 0x0000, 0x0852, 0x0000, 0x0000, 0x0B18, 0x02C6, -0x058C, 0x0000,
 };
 
 s32 sUpdateCameraDirection = 0;
 s32 D_8011D3EC = 0;
-s32 D_8011D3F0 = 0;
+s32 sSceneInitLetterboxTimer = 0;
 
 s32 sDemo5PrevAction12Frame = -16;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 char sCameraFunctionNames[][8] = {
     "NONE   ", // CAM_FUNC_NONE
     "NORM0()", // CAM_FUNC_NORM0
@@ -2681,7 +2683,7 @@ Vec3f D_8011D678[] = {
 
 PlayState* D_8015BD7C;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 DebugCam D_8015BD80;
 #endif
 

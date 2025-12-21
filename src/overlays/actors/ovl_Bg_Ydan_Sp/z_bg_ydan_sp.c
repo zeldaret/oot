@@ -5,6 +5,22 @@
  */
 
 #include "z_bg_ydan_sp.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "rand.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_ydan_objects/object_ydan_objects.h"
 
 #define FLAGS 0
@@ -36,12 +52,12 @@ ActorProfile Bg_Ydan_Sp_Profile = {
     /**/ BgYdanSp_Draw,
 };
 
-static ColliderTrisElementInit sTrisItemsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x00, 0x00 },
-            { 0x00020800, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00020800, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -51,8 +67,8 @@ static ColliderTrisElementInit sTrisItemsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x00, 0x00 },
-            { 0x00020800, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00020800, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -70,8 +86,8 @@ static ColliderTrisInit sTrisInit = {
         OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
-    2,
-    sTrisItemsInit,
+    ARRAY_COUNT(sTrisElementsInit),
+    sTrisElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -80,11 +96,11 @@ static InitChainEntry sInitChain[] = {
 
 void BgYdanSp_Init(Actor* thisx, PlayState* play) {
     BgYdanSp* this = (BgYdanSp*)thisx;
-    ColliderTrisElementInit* ti0 = &sTrisItemsInit[0];
+    ColliderTrisElementInit* triElementInit0 = &sTrisElementsInit[0];
     Vec3f tri[3];
     s32 i;
     CollisionHeader* colHeader = NULL;
-    ColliderTrisElementInit* ti1 = &sTrisItemsInit[1];
+    ColliderTrisElementInit* triElementInit1 = &sTrisElementsInit[1];
     f32 cossY;
     f32 sinsY;
     f32 cossX;
@@ -95,22 +111,22 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
     this->burnSwitchFlag = PARAMS_GET_U(thisx->params, 6, 6);
     this->dyna.actor.params = PARAMS_GET_U(thisx->params, 12, 4);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-    Collider_InitTris(play, &this->trisCollider);
-    Collider_SetTris(play, &this->trisCollider, &this->dyna.actor, &sTrisInit, this->trisColliderItems);
+    Collider_InitTris(play, &this->colliderTris);
+    Collider_SetTris(play, &this->colliderTris, &this->dyna.actor, &sTrisInit, this->colliderTrisElements);
     if (this->dyna.actor.params == WEB_FLOOR) {
         CollisionHeader_GetVirtual(&gDTWebFloorCol, &colHeader);
         this->actionFunc = BgYdanSp_FloorWebIdle;
 
         for (i = 0; i < 3; i++) {
-            tri[i].x = ti0->dim.vtx[i].x + this->dyna.actor.world.pos.x;
-            tri[i].y = ti0->dim.vtx[i].y + this->dyna.actor.world.pos.y;
-            tri[i].z = ti0->dim.vtx[i].z + this->dyna.actor.world.pos.z;
+            tri[i].x = triElementInit0->dim.vtx[i].x + this->dyna.actor.world.pos.x;
+            tri[i].y = triElementInit0->dim.vtx[i].y + this->dyna.actor.world.pos.y;
+            tri[i].z = triElementInit0->dim.vtx[i].z + this->dyna.actor.world.pos.z;
         }
 
-        Collider_SetTrisVertices(&this->trisCollider, 0, &tri[0], &tri[1], &tri[2]);
+        Collider_SetTrisVertices(&this->colliderTris, 0, &tri[0], &tri[1], &tri[2]);
         tri[1].x = tri[0].x;
         tri[1].z = tri[2].z;
-        Collider_SetTrisVertices(&this->trisCollider, 1, &tri[0], &tri[2], &tri[1]);
+        Collider_SetTrisVertices(&this->colliderTris, 1, &tri[0], &tri[2], &tri[1]);
         this->unk_16C = 0.0f;
     } else {
         CollisionHeader_GetVirtual(&gDTWebWallCol, &colHeader);
@@ -122,19 +138,21 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
         cossX = Math_CosS(this->dyna.actor.shape.rot.x);
 
         for (i = 0; i < 3; i++) {
-            tri[i].x =
-                this->dyna.actor.world.pos.x + (cossY * ti1->dim.vtx[i].x) - (sinsY * ti1->dim.vtx[i].y * nSinsX);
-            tri[i].y = this->dyna.actor.world.pos.y + (ti1->dim.vtx[i].y * cossX);
-            tri[i].z =
-                this->dyna.actor.world.pos.z - (sinsY * ti1->dim.vtx[i].x) + (ti1->dim.vtx[i].y * cossY * nSinsX);
+            tri[i].x = this->dyna.actor.world.pos.x + (cossY * triElementInit1->dim.vtx[i].x) -
+                       (sinsY * triElementInit1->dim.vtx[i].y * nSinsX);
+            tri[i].y = this->dyna.actor.world.pos.y + (triElementInit1->dim.vtx[i].y * cossX);
+            tri[i].z = this->dyna.actor.world.pos.z - (sinsY * triElementInit1->dim.vtx[i].x) +
+                       (triElementInit1->dim.vtx[i].y * cossY * nSinsX);
         }
 
-        Collider_SetTrisVertices(&this->trisCollider, 0, &tri[0], &tri[1], &tri[2]);
+        Collider_SetTrisVertices(&this->colliderTris, 0, &tri[0], &tri[1], &tri[2]);
 
-        tri[1].x = this->dyna.actor.world.pos.x + (cossY * ti1->dim.vtx[0].x) - (ti1->dim.vtx[2].y * sinsY * nSinsX);
-        tri[1].y = this->dyna.actor.world.pos.y + (ti1->dim.vtx[2].y * cossX);
-        tri[1].z = this->dyna.actor.world.pos.z - (sinsY * ti1->dim.vtx[0].x) + (ti1->dim.vtx[2].y * cossY * nSinsX);
-        Collider_SetTrisVertices(&this->trisCollider, 1, &tri[0], &tri[2], &tri[1]);
+        tri[1].x = this->dyna.actor.world.pos.x + (cossY * triElementInit1->dim.vtx[0].x) -
+                   (triElementInit1->dim.vtx[2].y * sinsY * nSinsX);
+        tri[1].y = this->dyna.actor.world.pos.y + (triElementInit1->dim.vtx[2].y * cossX);
+        tri[1].z = this->dyna.actor.world.pos.z - (sinsY * triElementInit1->dim.vtx[0].x) +
+                   (triElementInit1->dim.vtx[2].y * cossY * nSinsX);
+        Collider_SetTrisVertices(&this->colliderTris, 1, &tri[0], &tri[2], &tri[1]);
     }
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->timer = 0;
@@ -146,7 +164,7 @@ void BgYdanSp_Init(Actor* thisx, PlayState* play) {
 void BgYdanSp_Destroy(Actor* thisx, PlayState* play) {
     BgYdanSp* this = (BgYdanSp*)thisx;
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    Collider_DestroyTris(play, &this->trisCollider);
+    Collider_DestroyTris(play, &this->colliderTris);
 }
 
 void BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
@@ -277,13 +295,13 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
     webPos.x = this->dyna.actor.world.pos.x;
     webPos.y = this->dyna.actor.world.pos.y - 50.0f;
     webPos.z = this->dyna.actor.world.pos.z;
-    if (Player_IsBurningStickInRange(play, &webPos, 70.0f, 50.0f) != 0) {
-        this->dyna.actor.home.pos.x = player->meleeWeaponInfo[0].tip.x;
-        this->dyna.actor.home.pos.z = player->meleeWeaponInfo[0].tip.z;
+    if (Player_IsBurningStickInRange(play, &webPos, 70.0f, 50.0f)) {
+        this->dyna.actor.home.pos.x = MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->x;
+        this->dyna.actor.home.pos.z = MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0])->z;
         BgYdanSp_BurnWeb(this, play);
         return;
     }
-    if (this->trisCollider.base.acFlags & AC_HIT) {
+    if (this->colliderTris.base.acFlags & AC_HIT) {
         BgYdanSp_BurnWeb(this, play);
         return;
     }
@@ -293,7 +311,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
             if (this->dyna.actor.xzDistToPlayer < 80.0f) {
                 this->unk_16C = 200.0f;
                 this->dyna.actor.room = -1;
-                this->dyna.actor.flags |= ACTOR_FLAG_4;
+                this->dyna.actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                 this->timer = 40;
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WEB_BROKEN);
                 this->actionFunc = BgYdanSp_FloorWebBreaking;
@@ -330,7 +348,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
         }
     }
     BgYdanSp_UpdateFloorWebCollision(this);
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->trisCollider.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderTris.base);
 }
 
 void BgYdanSp_BurnWallWeb(BgYdanSp* this, PlayState* play) {
@@ -391,18 +409,18 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, PlayState* play) {
     Vec3f sp30;
 
     player = GET_PLAYER(play);
-    if (Flags_GetSwitch(play, this->burnSwitchFlag) || (this->trisCollider.base.acFlags & AC_HIT)) {
+    if (Flags_GetSwitch(play, this->burnSwitchFlag) || (this->colliderTris.base.acFlags & AC_HIT)) {
         this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, play);
     } else if (player->heldItemAction == PLAYER_IA_DEKU_STICK && player->unk_860 != 0) {
-        Actor_WorldToActorCoords(&this->dyna.actor, &sp30, &player->meleeWeaponInfo[0].tip);
+        Actor_WorldToActorCoords(&this->dyna.actor, &sp30, MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0]));
         if (fabsf(sp30.x) < 100.0f && sp30.z < 1.0f && sp30.y < 200.0f) {
             OnePointCutscene_Init(play, 3020, 40, &this->dyna.actor, CAM_ID_MAIN);
-            Math_Vec3f_Copy(&this->dyna.actor.home.pos, &player->meleeWeaponInfo[0].tip);
+            Math_Vec3f_Copy(&this->dyna.actor.home.pos, MELEE_WEAPON_INFO_TIP(&player->meleeWeaponInfo[0]));
             BgYdanSp_BurnWeb(this, play);
         }
     }
-    CollisionCheck_SetAC(play, &play->colChkCtx, &this->trisCollider.base);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderTris.base);
 }
 
 void BgYdanSp_Update(Actor* thisx, PlayState* play) {

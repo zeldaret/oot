@@ -5,9 +5,22 @@
  */
 
 #include "z_en_floormas.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_wallmaster/object_wallmaster.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER)
 
 #define SPAWN_INVISIBLE 0x8000
 #define SPAWN_SMALL 0x10
@@ -67,8 +80,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x04, 0x10 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_KNOCKBACK, 0x10 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_HARD,
         ACELEM_ON | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -176,8 +189,8 @@ void EnFloormas_Init(Actor* thisx, PlayState* play2) {
 
 void EnFloormas_Destroy(Actor* thisx, PlayState* play) {
     EnFloormas* this = (EnFloormas*)thisx;
-    ColliderCylinder* col = &this->collider;
-    Collider_DestroyCylinder(play, col);
+
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
 void EnFloormas_MakeInvulnerable(EnFloormas* this) {
@@ -279,8 +292,8 @@ void EnFloormas_SetupLand(EnFloormas* this) {
 
 void EnFloormas_SetupSplit(EnFloormas* this) {
     Actor_SetScale(&this->actor, 0.004f);
-    this->actor.flags |= ACTOR_FLAG_4;
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_REACT_TO_LENS)) {
         this->actor.draw = EnFloormas_DrawHighlighted;
     } else {
         this->actor.draw = EnFloormas_Draw;
@@ -384,7 +397,7 @@ void EnFloormas_SetupSmallWait(EnFloormas* this) {
     }
     this->actor.draw = NULL;
     this->actionFunc = EnFloormas_SmallWait;
-    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_4);
+    this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_UPDATE_CULLING_DISABLED);
 }
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
@@ -410,7 +423,7 @@ void EnFloormas_SetupRecover(EnFloormas* this) {
 void EnFloormas_SetupFreeze(EnFloormas* this) {
     Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.5f, 0, 20.0f, ANIMMODE_ONCE, -3.0f);
     this->actor.speed = 0.0f;
-    if (this->actor.colChkInfo.damageEffect == 4) {
+    if (this->actor.colChkInfo.damageReaction == 4) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
@@ -911,7 +924,7 @@ void EnFloormas_Merge(EnFloormas* this, PlayState* play) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.scale.x >= 0.01f) {
-            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
             this->collider.elem.acElemFlags |= ACELEM_HOOKABLE;
@@ -979,7 +992,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->collider.base.colMaterial != COL_MATERIAL_HARD) {
                 isSmall = false;
                 if (this->actor.scale.x < 0.01f) {
@@ -987,7 +1000,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
                 }
                 if (isSmall && this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT) {
                     this->actor.colChkInfo.damage = 2;
-                    this->actor.colChkInfo.damageEffect = 0;
+                    this->actor.colChkInfo.damageReaction = 0;
                 }
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     if (isSmall) {
@@ -1001,12 +1014,12 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_DAMAGE);
                 }
 
-                if ((this->actor.colChkInfo.damageEffect == 4) || (this->actor.colChkInfo.damageEffect == 1)) {
+                if ((this->actor.colChkInfo.damageReaction == 4) || (this->actor.colChkInfo.damageReaction == 1)) {
                     if (this->actionFunc != EnFloormas_Freeze) {
                         EnFloormas_SetupFreeze(this);
                     }
                 } else {
-                    if (this->actor.colChkInfo.damageEffect == 2) {
+                    if (this->actor.colChkInfo.damageReaction == 2) {
                         EffectSsFCircle_Spawn(play, &this->actor, &this->actor.world.pos, this->actor.scale.x * 4000.0f,
                                               this->actor.scale.x * 4000.0f);
                     }
@@ -1047,7 +1060,7 @@ void EnFloormas_Update(Actor* thisx, PlayState* play) {
                                     UPDBGCHECKINFO_FLAG_4);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->actionFunc == EnFloormas_Charge) {
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnFloormas_GrabLink) {

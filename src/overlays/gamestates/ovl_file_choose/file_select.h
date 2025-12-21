@@ -1,10 +1,11 @@
 #ifndef FILE_SELECT_H
 #define FILE_SELECT_H
 
-#include "libc/stddef.h"
+#include "stddef.h"
 #include "ultra64.h"
-#include "global.h"
+#include "gfx.h"
 #include "versions.h"
+#include "game.h"
 
 
 #define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + offsetof(SaveContext, save.info.playerData.newf[index])])
@@ -140,7 +141,9 @@ typedef enum ConfirmButtonIndex {
 
 typedef enum ActionButtonIndex {
     /* 0 */ FS_BTN_ACTION_COPY,
-    /* 1 */ FS_BTN_ACTION_ERASE
+    /* 1 */ FS_BTN_ACTION_ERASE,
+    /* 2 */ FS_BTN_ACTION_YES,
+    /* 3 */ FS_BTN_ACTION_QUIT
 } ActionButtonIndex;
 
 typedef enum SettingIndex {
@@ -151,13 +154,6 @@ typedef enum SettingIndex {
 #endif
     /*   */ FS_SETTING_MAX
 } SettingIndex;
-
-typedef enum AudioOption {
-    /* 0 */ FS_AUDIO_STEREO,
-    /* 1 */ FS_AUDIO_MONO,
-    /* 2 */ FS_AUDIO_HEADSET,
-    /* 3 */ FS_AUDIO_SURROUND
-} AudioOption;
 
 typedef enum CharPage {
     /* 0 */ FS_CHAR_PAGE_HIRA,
@@ -227,6 +223,28 @@ void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
 
 #if OOT_VERSION == PAL_1_1
 extern s16 D_808124C0[];
+#endif
+
+extern Vtx gNameEntryVtx[];
+extern Vtx gOptionsMenuHeadersVtx[];
+extern Vtx gOptionsMenuSettingsVtx[];
+extern Vtx gOptionsDividerSoundVtx[];
+extern Vtx gOptionsDividerZTargetVtx[];
+extern Vtx gOptionsDividerBrightnessVtx[];
+extern s16 gCharPageEng[];
+#if OOT_NTSC
+extern s16 gCharPageHira[];
+extern s16 gCharPageKata[];
+extern s16 gNextCharPage[];
+#endif
+#if OOT_PAL && PLATFORM_N64
+extern Vtx gOptionsMenuBrightnessVtx[];
+extern Vtx gOptionsMenuLanguageVtx[];
+extern Vtx gOptionsDividerLanguageVtx[];
+#endif
+#if OOT_PAL && PLATFORM_GC
+extern Vtx gOptionsMenuHeadersGERVtx[];
+extern Vtx gOptionsMenuSettingsGERVtx[];
 #endif
 
 #endif

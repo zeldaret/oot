@@ -85,12 +85,13 @@
         <DList Name="gFlareDancerTriangleParticleDL" Offset="0x7A78"/>
 
         <!-- Flare Dancer DisplayList Textures -->
-        <Texture Name="gFlareDancerBlueFlameTex" OutName="blue_flame" Format="rgba16" Width="4" Height="4" Offset="0x10D0"/>
-        <Texture Name="gFlareDancerFireTex" OutName="fire" Format="i8" Width="32" Height="64" Offset="0x10F0"/>
-        <Texture Name="gFlareDancerFirePatternTex" OutName="fire_pattern" Format="i8" Width="32" Height="64" Offset="0x18F0"/>
-        <Texture Name="gFlareDancerFuseTex" OutName="fuse" Format="rgba16" Width="16" Height="32" Offset="0x20F0"/>
-        <Texture Name="gFlareDancerSwordHiltTex" OutName="sword_hilt" Format="rgba16" Width="16" Height="16" Offset="0x24F0"/>
-        <Texture Name="gFlareDancerCoreBodyTex" OutName="core_body" Format="rgba16" Width="16" Height="32" Offset="0x26F0"/>
+        <Texture Name="gFlareDancerBlueFlameTex" Format="rgba16" Width="4" Height="4" Offset="0x10D0"/>
+        <Texture Name="gFlareDancerFireTex" Format="i8" Width="32" Height="64" Offset="0x10F0"/>
+        <Texture Name="gFlareDancerFirePatternTex" Format="i8" Width="32" Height="64" Offset="0x18F0"/>
+        <Texture Name="gFlareDancerFuseTex" Format="rgba16" Width="16" Height="32" Offset="0x20F0"/>
+        <Texture Name="gFlareDancerSwordHiltTex" Format="rgba16" Width="16" Height="16" Offset="0x24F0"/>
+        <Texture Name="gFlareDancerCoreBodyTex" Format="rgba16" Width="16" Height="32" Offset="0x26F0"/>
+        <Texture Name="object_fw_007A90_Tex" Format="i8" Width="16" Height="16" Offset="0x7A90"/>
 
         <!-- Flare Dancer Animations -->
         <Animation Name="gFlareDancerCastingFireAnim" Offset="0x10B4"/>
@@ -101,5 +102,100 @@
         <Animation Name="gFlareDancerCoreInitRunCycleAnim" Offset="0x6CF8"/>
         <Animation Name="gFlareDancerCoreRunCycleAnim" Offset="0x7CD0"/>
         <Animation Name="gFlareDancerCoreEndRunCycleAnim" Offset="0x7DC8"/>
+
+        <!-- Vertices -->
+        <Array Name="gFlareDancerRightStiltVtx" Count="12" Offset="0x2AF0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerLowerRightLegVtx" Count="9" Offset="0x2BB0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerUpperRightLegVtx" Count="12" Offset="0x2C40">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerLeftStiltVtx" Count="12" Offset="0x2D00">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerLowerLeftLegVtx" Count="12" Offset="0x2DC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerUpperLeftLegVtx" Count="12" Offset="0x2E80">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerDressVtx" Count="30" Offset="0x2F40">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerFuseVtx" Count="23" Offset="0x3120">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerRightSwordVtx" Count="40" Offset="0x3290">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerRightForearmVtx" Count="16" Offset="0x3510">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerRightUpperArmVtx" Count="16" Offset="0x3610">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerLeftSwordVtx" Count="40" Offset="0x3710">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerLeftForearmVtx" Count="13" Offset="0x3990">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerLeftUpperArmVtx" Count="16" Offset="0x3A60">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerHeadVtx" Count="16" Offset="0x3B60">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerTorsoVtx" Count="20" Offset="0x3C60">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerLowerFireHairVtx" Count="10" Offset="0x3DA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerMiddleFireHair3Vtx" Count="6" Offset="0x3E40">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerMiddleFireHair2Vtx" Count="6" Offset="0x3EA0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerMiddleFireHair1Vtx" Count="6" Offset="0x3F00">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerUpperFireHairVtx" Count="6" Offset="0x3F60">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerCoreFuseVtx" Count="23" Offset="0x6D10">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerCoreBodyVtx" Count="20" Offset="0x6E80">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerCoreRightFootVtx" Count="12" Offset="0x6FC0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerCoreLowerRightLegVtx" Count="12" Offset="0x7080">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerCoreUpperRightLegVtx" Count="8" Offset="0x7140">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerCoreLeftFootVtx" Count="17" Offset="0x71C0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerCoreLowerLeftLegVtx" Count="12" Offset="0x72D0">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerCoreUpperLeftLegVtx" Count="8" Offset="0x7390">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerSquareParticleVtx" Count="4" Offset="0x7988">
+            <Vtx/>
+        </Array>
+        <Array Name="gFlareDancerTriangleParticleVtx" Count="3" Offset="0x79C8">
+            <Vtx/>
+        </Array>
     </File>
 </Root>

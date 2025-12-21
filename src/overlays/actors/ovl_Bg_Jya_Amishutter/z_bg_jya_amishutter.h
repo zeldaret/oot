@@ -2,7 +2,7 @@
 #define Z_BG_JYA_AMISHUTTER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
 
 struct BgJyaAmishutter;
 

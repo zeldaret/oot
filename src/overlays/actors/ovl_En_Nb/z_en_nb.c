@@ -5,11 +5,30 @@
  */
 
 #include "z_en_nb.h"
-#include "terminal.h"
-#include "assets/objects/object_nb/object_nb.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/math64.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_nb/object_nb.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum EnNbAction {
     /* 0x00 */ NB_CHAMBER_INIT,
@@ -68,8 +87,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -83,7 +102,7 @@ static void* sEyeTextures[] = {
     gNabooruEyeClosedTex,
 };
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static s32 D_80AB4318 = 0;
 #endif
 
@@ -121,11 +140,12 @@ void EnNb_UpdatePath(EnNb* this, PlayState* play) {
         this->finalPos.z = pointPos[1].z;
         this->pathYaw =
             RAD_TO_BINANG(Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z));
-        // "En_Nb_Get_path_info Rail Data Get! = %d!!!!!!!!!!!!!!"
-        PRINTF("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", path);
+        PRINTF(T("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n",
+                 "En_Nb_Get_path_info Got the rail data = %d!!!!!!!!!!!!!!\n"),
+               path);
     } else {
-        // "En_Nb_Get_path_info Rail Data Doesn't Exist!!!!!!!!!!!!!!!!!!!!"
-        PRINTF("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF(T("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n",
+                 "En_Nb_Get_path_info No rail data!!!!!!!!!!!!!!!!!!!!\n"));
     }
 }
 
@@ -194,7 +214,7 @@ void EnNb_UpdateEyes(EnNb* this) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_80AB11EC(EnNb* this) {
     this->action = NB_ACTION_7;
     this->drawMode = NB_DRAW_NOTHING;
@@ -349,7 +369,7 @@ void EnNb_SetupChamberCsImpl(EnNb* this, PlayState* play) {
     if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_SPIRIT) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = NB_CHAMBER_UNDERGROUND;
-        play->csCtx.script = D_80AB431C;
+        play->csCtx.script = gSpiritMedallionCs;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_SPIRIT);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
@@ -533,7 +553,7 @@ void EnNb_SetupLightOrb(EnNb* this, PlayState* play) {
 
 void EnNb_Hide(EnNb* this, PlayState* play) {
     EnNb_SetupHide(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AB1210(this, play);
 #endif
 }
@@ -543,7 +563,7 @@ void EnNb_Fade(EnNb* this, PlayState* play) {
     EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckToFade(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AB1210(this, play);
 #endif
 }
@@ -553,7 +573,7 @@ void EnNb_CreateLightOrb(EnNb* this, PlayState* play) {
     EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupLightOrb(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AB1210(this, play);
 #endif
 }
@@ -676,8 +696,8 @@ void EnNb_CheckKidnapCsMode(EnNb* this, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 default:
-                    // "Operation Doesn't Exist!!!!!!!!"
-                    PRINTF("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Nb_Kidnap_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -895,8 +915,8 @@ void EnNb_CheckConfrontationCsMode(EnNb* this, PlayState* play) {
                     EnNb_SetupConfrontationDestroy(this);
                     break;
                 default:
-                    // "En_Nb_Confrontion_Check_DemoMode: Operation doesn't exist!!!!!!!!"
-                    PRINTF("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Nb_Confrontion_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -991,7 +1011,7 @@ void func_80AB2E70(EnNb* this, PlayState* play) {
 s32 func_80AB2FC0(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNb* this = (EnNb*)thisx;
 
-    if (limbIndex == NB_LIMB_HEAD) {
+    if (limbIndex == NABOORU_LIMB_HEAD) {
         *dList = gNabooruHeadMouthOpenDL;
     }
 
@@ -1083,8 +1103,8 @@ void EnNb_CheckCreditsCsModeImpl(EnNb* this, PlayState* play) {
                     EnNb_SetupCreditsHeadTurn(this);
                     break;
                 default:
-                    // "En_Nb_inEnding_Check_DemoMode: Operation doesn't exist!!!!!!!!"
-                    PRINTF("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF(T("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n",
+                             "En_Nb_inEnding_Check_DemoMode: There is no such action!!!!!!!!\n"));
                     break;
             }
             this->cueId = nextCueId;
@@ -1442,8 +1462,8 @@ void EnNb_Update(Actor* thisx, PlayState* play) {
     EnNb* this = (EnNb*)thisx;
 
     if (this->action < 0 || this->action > 30 || sActionFuncs[this->action] == NULL) {
-        // "Main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 
@@ -1456,7 +1476,8 @@ void EnNb_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnNb_SetupCollider(thisx, play);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gNabooruSkel, NULL, this->jointTable, this->morphTable, NB_LIMB_MAX);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gNabooruSkel, NULL, this->jointTable, this->morphTable,
+                       NABOORU_LIMB_MAX);
 
     switch (EnNb_GetType(this)) {
         case NB_TYPE_DEMO02:
@@ -1486,13 +1507,13 @@ s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     s32 ret = false;
 
     if (this->headTurnFlag != 0) {
-        if (limbIndex == NB_LIMB_TORSO) {
+        if (limbIndex == NABOORU_LIMB_TORSO) {
             s32 pad;
 
             rot->x += interactInfo->torsoRot.y;
             rot->y -= interactInfo->torsoRot.x;
             ret = false;
-        } else if (limbIndex == NB_LIMB_HEAD) {
+        } else if (limbIndex == NABOORU_LIMB_HEAD) {
             rot->x += interactInfo->headRot.y;
             rot->z += interactInfo->headRot.x;
             ret = false;
@@ -1505,7 +1526,7 @@ s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnNb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnNb* this = (EnNb*)thisx;
 
-    if (limbIndex == NB_LIMB_HEAD) {
+    if (limbIndex == NABOORU_LIMB_HEAD) {
         Vec3f vec1 = { 0.0f, 10.0f, 0.0f };
         Vec3f vec2;
 
@@ -1550,8 +1571,8 @@ void EnNb_Draw(Actor* thisx, PlayState* play) {
     EnNb* this = (EnNb*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == NULL) {
-        // "Draw mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
 

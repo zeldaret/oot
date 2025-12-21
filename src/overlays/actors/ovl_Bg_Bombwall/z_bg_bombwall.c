@@ -5,6 +5,15 @@
  */
 
 #include "z_bg_bombwall.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS ACTOR_FLAG_IGNORE_POINT_LIGHTS
@@ -20,12 +29,12 @@ void func_8086EDFC(BgBombwall* this, PlayState* play);
 void func_8086EE40(BgBombwall* this, PlayState* play);
 void func_8086EE94(BgBombwall* this, PlayState* play);
 
-static ColliderTrisElementInit sTrisElementsInit[3] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000048, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000048, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -35,8 +44,8 @@ static ColliderTrisElementInit sTrisElementsInit[3] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000048, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000048, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -46,8 +55,8 @@ static ColliderTrisElementInit sTrisElementsInit[3] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x40000048, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x40000048, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_NONE,
@@ -65,7 +74,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    3,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 
@@ -91,9 +100,8 @@ void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        // "Warning : move BG login failed"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
-               this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗", "Warning : move BG registration failed") "(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_bombwall.c", 243, this->dyna.actor.params);
     }
 }
 
@@ -104,9 +112,9 @@ void BgBombwall_RotateVec(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 1800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 300, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 void BgBombwall_Init(Actor* thisx, PlayState* play) {
@@ -128,7 +136,7 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
         BgBombwall_InitDynapoly(this, play);
         this->unk_2A2 |= 2;
         Collider_InitTris(play, &this->collider);
-        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
+        Collider_SetTris(play, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderElements);
 
         for (i = 0; i <= 2; i++) {
             for (j = 0; j <= 2; j++) {
@@ -149,8 +157,9 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
         func_8086ED50(this, play);
     }
 
-    PRINTF("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n", this->dyna.actor.params,
-           this->dyna.actor.shape.rot.y);
+    PRINTF(T("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n",
+             "(field keep general purpose bomb wall)(arg_data 0x%04x)(angY %d)\n"),
+           this->dyna.actor.params, this->dyna.actor.shape.rot.y);
 }
 
 void BgBombwall_DestroyCollision(BgBombwall* this, PlayState* play) {

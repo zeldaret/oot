@@ -1,7 +1,20 @@
 #include "z_bg_mori_elevator.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgMoriElevator_Init(Actor* thisx, PlayState* play);
 void BgMoriElevator_Destroy(Actor* thisx, PlayState* play);
@@ -32,9 +45,9 @@ ActorProfile Bg_Mori_Elevator_Profile = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 3000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -89,19 +102,19 @@ void BgMoriElevator_Init(Actor* thisx, PlayState* play) {
     this->unk_172 = sIsSpawned;
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->moriTexObjectSlot < 0) {
         Actor_Kill(thisx);
-        // "Forest Temple obj elevator Bank Danger!"
-        PRINTF("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n", "../z_bg_mori_elevator.c", 277);
+        PRINTF(T("Error : 森の神殿 obj elevator バンク危険！(%s %d)\n",
+                 "Error : Forest Temple obj elevator bank danger! (%s %d)\n"),
+               "../z_bg_mori_elevator.c", 277);
         return;
     }
 #endif
 
     switch (sIsSpawned) {
         case false:
-            // "Forest Temple elevator CT"
-            PRINTF("森の神殿 elevator CT\n");
+            PRINTF(T("森の神殿 elevator CT\n", "Forest Temple elevator CT\n"));
             sIsSpawned = true;
             this->dyna.actor.room = -1;
             Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -120,8 +133,7 @@ void BgMoriElevator_Destroy(Actor* thisx, PlayState* play) {
     BgMoriElevator* this = (BgMoriElevator*)thisx;
 
     if (this->unk_172 == 0) {
-        // "Forest Temple elevator DT"
-        PRINTF("森の神殿 elevator DT\n");
+        PRINTF(T("森の神殿 elevator DT\n", "Forest Temple elevator DT\n"));
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
         sIsSpawned = false;
     }
@@ -144,8 +156,9 @@ void BgMoriElevator_WaitAfterInit(BgMoriElevator* this, PlayState* play) {
                 this->dyna.actor.world.pos.y = 73.0f;
                 BgMoriElevator_SetupSetPosition(this);
             } else {
-                // "Error: Forest Temple obj elevator Room setting is dangerous"
-                PRINTF("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n", "../z_bg_mori_elevator.c", 371);
+                PRINTF(T("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n",
+                         "Error : Forest Temple obj elevator room setting is dangerous(%s %d)\n"),
+                       "../z_bg_mori_elevator.c", 371);
             }
         } else {
             BgMoriElevator_SetupSetPosition(this);
@@ -205,8 +218,9 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, PlayState* play) {
             this->targetY = 233.0f;
             BgMoriElevator_StopMovement(this);
         } else {
-            // "Error:Forest Temple obj elevator Room setting is dangerous(%s %d)"
-            PRINTF("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n", "../z_bg_mori_elevator.c", 479);
+            PRINTF(T("Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n",
+                     "Error : Forest Temple obj elevator room setting is dangerous(%s %d)\n"),
+                   "../z_bg_mori_elevator.c", 479);
         }
     } else if ((play->roomCtx.curRoom.num == 2) && (this->dyna.actor.world.pos.y < -275.0f)) {
         this->targetY = 233.0f;

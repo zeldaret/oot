@@ -5,10 +5,24 @@
  */
 
 #include "z_bg_spot00_hanebasi.h"
-#include "assets/objects/object_spot00_objects/object_spot00_objects.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "cutscene_flags.h"
+#include "light.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_spot00_objects/object_spot00_objects.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum DrawbridgeType {
     /* -1 */ DT_DRAWBRIDGE = -1,
@@ -40,9 +54,9 @@ ActorProfile Bg_Spot00_Hanebasi_Profile = {
 static f32 sTorchFlameScale = 0.0f;
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 550, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 5000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 550, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDistance, 5000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -217,7 +231,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
                     Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_8);
                     play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
-                    gSaveContext.nextCutsceneIndex = 0xFFF1;
+                    gSaveContext.nextCutsceneIndex = CS_INDEX_1;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 3000.0f, 0x7530)) {

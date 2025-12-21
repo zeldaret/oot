@@ -5,9 +5,14 @@
  */
 
 #include "z_en_pu_box.h"
+
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_pu_box/object_pu_box.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnPubox_Init(Actor* thisx, PlayState* play);
 void EnPubox_Destroy(Actor* thisx, PlayState* play);
@@ -48,8 +53,8 @@ void EnPubox_Init(Actor* thisx, PlayState* play) {
     this->unk_164 = 1;
     thisx->colChkInfo.cylRadius = 20;
     thisx->colChkInfo.cylHeight = 50;
-    thisx->uncullZoneDownward = 1200.0f;
-    thisx->uncullZoneScale = 720.0f;
+    thisx->cullingVolumeDownward = 1200.0f;
+    thisx->cullingVolumeScale = 720.0f;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
     this->dyna.interactFlags = 0;
     this->dyna.transformFlags = 0;
@@ -73,8 +78,7 @@ void EnPubox_Update(Actor* thisx, PlayState* play) {
     thisx->speed = CLAMP(thisx->speed, -2.5f, 2.5f);
     Math_SmoothStepToF(&thisx->speed, 0.0f, 1.0f, 1.0f, 0.0f);
     if (thisx->speed != 0.0f) {
-        Audio_PlaySfxGeneral(NA_SE_EV_ROCK_SLIDE - SFX_FLAG, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&thisx->projectedPos, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
     this->dyna.unk_154 = 0.0f;
     this->dyna.unk_150 = 0.0f;

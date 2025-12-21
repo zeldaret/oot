@@ -1,5 +1,12 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_insect" Segment="6">
+        <Array Name="gGiBugsContainerVtx" Count="113" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiBugsGlassVtx" Count="18" Offset="0x710">
+            <Vtx/>
+        </Array>
         <DList Name="gGiBugsContainerDL" Offset="0x0830"/>
         <DList Name="gGiBugsGlassDL" Offset="0x0B20"/>
     </File>

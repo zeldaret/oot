@@ -5,6 +5,16 @@
  */
 
 #include "z_bg_ice_objects.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "rand.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
 #define FLAGS 0
@@ -141,7 +151,7 @@ void BgIceObjects_Idle(BgIceObjects* this, PlayState* play) {
         if ((this->dyna.unk_150 > 0.0f) && !Player_InCsMode(play)) {
             BgIceObjects_SetNextTarget(this, play);
             if (Actor_WorldDistXZToPoint(thisx, &this->targetPos) > 1.0f) {
-                thisx->flags |= ACTOR_FLAG_4;
+                thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                 Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_8);
                 thisx->params = 1;
                 this->actionFunc = BgIceObjects_Slide;
@@ -169,7 +179,7 @@ void BgIceObjects_Slide(BgIceObjects* this, PlayState* play) {
         this->targetPos.x = thisx->world.pos.x;
         this->targetPos.z = thisx->world.pos.z;
         if (thisx->velocity.y <= 0.0f) {
-            thisx->flags &= ~ACTOR_FLAG_4;
+            thisx->flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         }
         thisx->params = 0;
         Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_7);
@@ -206,7 +216,7 @@ void BgIceObjects_Reset(BgIceObjects* this, PlayState* play) {
         this->dyna.unk_150 = 0.0f;
     }
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 1.0f)) {
-        thisx->flags &= ~ACTOR_FLAG_4;
+        thisx->flags &= ~ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         Math_Vec3f_Copy(&this->targetPos, &thisx->home.pos);
         this->actionFunc = BgIceObjects_Idle;
         thisx->speed = 0.0f;

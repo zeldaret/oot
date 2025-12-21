@@ -1,7 +1,18 @@
-#include "global.h"
+#include "one_point_cutscene.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "printf.h"
 #include "quake.h"
+#include "sfx.h"
 #include "terminal.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "olib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 #include "overlays/actors/ovl_En_Sw/z_en_sw.h"
 
 static s16 sDisableAttention = false;
@@ -4282,7 +4293,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             subCam->timer = -99;
             if (Play_CamIsNotFixed(play)) {
                 Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_TURN_AROUND);
-                subCam->data2 = 0xC;
+                subCam->data2 = CAM_ITEM_TYPE_12;
             } else {
                 Play_CopyCamera(play, subCamId, CAM_ID_MAIN);
                 Play_RequestCameraSetting(play, subCamId, CAM_SET_FREE2);
@@ -5255,7 +5266,7 @@ s32 OnePointCutscene_Attention(PlayState* play, Actor* actor) {
     s32 temp2;
     s32 timer;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (sDisableAttention) {
         PRINTF(VT_COL(YELLOW, BLACK) "actor attention demo camera: canceled by other camera\n" VT_RST);
         return CAM_ID_NONE;

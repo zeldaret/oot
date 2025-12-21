@@ -5,9 +5,23 @@
  */
 
 #include "z_en_zl1.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "letterbox.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_zl1/object_zl1.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_CULLING_DISABLED)
 
 void EnZl1_Init(Actor* thisx, PlayState* play);
 void EnZl1_Destroy(Actor* thisx, PlayState* play);
@@ -23,7 +37,7 @@ void func_80B4BBC4(EnZl1* this, PlayState* play);
 void func_80B4BC78(EnZl1* this, PlayState* play);
 void func_80B4BF2C(EnZl1* this, PlayState* play);
 
-extern CutsceneData D_80B4C5D0[];
+extern CutsceneData gTriforceCreationStartCs[];
 
 #include "z_en_zl1_camera_data.inc.c"
 
@@ -50,8 +64,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK1,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -318,7 +332,7 @@ void func_80B4B240(EnZl1* this, PlayState* play) {
             if (this->skelAnime.curFrame == frameCount) {
                 animHeaderSeg = &gChildZelda1Anim_00438;
                 sp3C = 1;
-                play->csCtx.script = D_80B4C5D0;
+                play->csCtx.script = gTriforceCreationStartCs;
                 gSaveContext.cutsceneTrigger = 1;
                 this->actionFunc = func_80B4B8B4;
                 this->unk_1E2++;

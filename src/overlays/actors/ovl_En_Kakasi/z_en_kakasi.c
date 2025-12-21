@@ -5,10 +5,26 @@
  */
 
 #include "z_en_kakasi.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "rand.h"
+#include "regs.h"
+#include "sfx.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_ka/object_ka.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void EnKakasi_Init(Actor* thisx, PlayState* play);
 void EnKakasi_Destroy(Actor* thisx, PlayState* play);
@@ -33,8 +49,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE | ACELEM_HOOKABLE,
         OCELEM_ON,
@@ -73,7 +89,7 @@ void EnKakasi_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelanime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
 
     this->rot = this->actor.world.rot;
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOKSHOT_PULLS_PLAYER;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     Actor_SetScale(&this->actor, 0.01f);
@@ -236,8 +252,7 @@ void func_80A8F8D0(EnKakasi* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_04 && play->msgCtx.msgMode == MSGMODE_NONE) {
-        // "end?"
-        PRINTF(VT_FGCOL(BLUE) "☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(BLUE) T("☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n", "☆☆☆☆☆ end? ☆☆☆☆☆ \n") VT_RST);
 
         if (this->unk_19A != 0) {
             Message_CloseTextbox(play);
@@ -340,8 +355,8 @@ void EnKakasi_Draw(Actor* thisx, PlayState* play) {
 
     if (BREG(3) != 0) {
         PRINTF("\n\n");
-        // "flag!"
-        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.save.info.scarecrowLongSongSet);
+        PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n", "☆☆☆☆☆ flag! ☆☆☆☆☆ %d\n") VT_RST,
+               gSaveContext.save.info.scarecrowLongSongSet);
     }
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount, NULL,

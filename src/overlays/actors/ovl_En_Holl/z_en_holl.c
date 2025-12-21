@@ -1,6 +1,15 @@
 #include "z_en_holl.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 /*
  * Horizontal holls parameters (`ENHOLL_H_*`)
@@ -99,9 +108,9 @@ static EnHollActionFunc sActionFuncs[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 400, ICHAIN_STOP),
 };
 
 void EnHoll_SetupAction(EnHoll* this, EnHollActionFunc func) {
@@ -406,7 +415,13 @@ void EnHoll_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 }
 
-#include "assets/overlays/ovl_En_Holl/ovl_En_Holl.c"
+static Vtx sPlaneVtx[] = {
+#include "assets/overlays/ovl_En_Holl/sPlaneVtx.inc.c"
+};
+
+static Gfx sPlaneDL[5] = {
+#include "assets/overlays/ovl_En_Holl/sPlaneDL.inc.c"
+};
 
 void EnHoll_Draw(Actor* thisx, PlayState* play) {
     EnHoll* this = (EnHoll*)thisx;

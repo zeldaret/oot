@@ -1,5 +1,13 @@
-#include "global.h"
+#include "transition_fade.h"
+
+#include "main.h"
+#include "printf.h"
+#include "regs.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "save.h"
+#include "transition_instances.h"
 
 typedef enum TransitionFadeDirection {
     /* 0 */ TRANS_FADE_DIR_IN,

@@ -5,8 +5,18 @@
  */
 
 #include "z_bg_spot16_doughnut.h"
-#include "assets/objects/object_efc_doughnut/object_efc_doughnut.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+#include "save.h"
+
+#include "assets/objects/object_efc_doughnut/object_efc_doughnut.h"
 
 #define FLAGS 0
 
@@ -31,9 +41,9 @@ ActorProfile Bg_Spot16_Doughnut_Profile = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneForward, 5500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 5000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 5000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 5500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 5000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 5000, ICHAIN_STOP),
 };
 
 static s16 sScales[] = {
@@ -75,7 +85,8 @@ void BgSpot16Doughnut_Init(Actor* thisx, PlayState* play) {
         } else {
             this->fireFlag |= 1;
         }
-        PRINTF("(ｓｐｏｔ１６ ドーナツ雲)(arg_data 0x%04x)\n", this->actor.params);
+        PRINTF(T("(ｓｐｏｔ１６ ドーナツ雲)(arg_data 0x%04x)\n", "(spot16 Donut Cloud)(arg_data 0x%04x)\n"),
+               this->actor.params);
     }
 }
 

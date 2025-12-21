@@ -7,11 +7,29 @@
 #include "z_en_ishi.h"
 #include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "rumble.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "quake.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "item.h"
+#include "play_state.h"
 
-#define FLAGS ACTOR_FLAG_23
+#include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
+
+#define FLAGS ACTOR_FLAG_THROW_ONLY
 
 void EnIshi_Init(Actor* thisx, PlayState* play);
 void EnIshi_Destroy(Actor* thisx, PlayState* play2);
@@ -125,10 +143,9 @@ s32 EnIshi_SnapToFloor(EnIshi* this, PlayState* play, f32 arg2) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
-        PRINTF(VT_COL(YELLOW, BLACK));
-        // "Failure attaching to ground"
-        PRINTF("地面に付着失敗(%s %d)\n", "../z_en_ishi.c", 388);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_WARNING();
+        PRINTF(T("地面に付着失敗(%s %d)\n", "Failed to attach to ground (%s %d)\n"), "../z_en_ishi.c", 388);
+        PRINTF_RST();
         return false;
     }
 }
@@ -293,16 +310,16 @@ static InitChainEntry sInitChains[][5] = {
     {
         ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE),
         ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
+        ICHAIN_F32(cullingVolumeDistance, 1200, ICHAIN_CONTINUE),
+        ICHAIN_F32(cullingVolumeScale, 150, ICHAIN_CONTINUE),
+        ICHAIN_F32(cullingVolumeDownward, 400, ICHAIN_STOP),
     },
     {
         ICHAIN_F32_DIV1000(gravity, -2500, ICHAIN_CONTINUE),
         ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneScale, 250, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneDownward, 500, ICHAIN_STOP),
+        ICHAIN_F32(cullingVolumeDistance, 2000, ICHAIN_CONTINUE),
+        ICHAIN_F32(cullingVolumeScale, 250, ICHAIN_CONTINUE),
+        ICHAIN_F32(cullingVolumeDownward, 500, ICHAIN_STOP),
     },
 };
 
@@ -312,7 +329,7 @@ void EnIshi_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChains[type]);
     if (play->csCtx.state != CS_STATE_IDLE) {
-        this->actor.uncullZoneForward += 1000.0f;
+        this->actor.cullingVolumeDistance += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
         this->actor.shape.rot.y = this->actor.world.rot.y = Rand_ZeroFloat(0x10000);
@@ -382,7 +399,7 @@ void EnIshi_Wait(EnIshi* this, PlayState* play) {
 void EnIshi_SetupLiftedUp(EnIshi* this) {
     this->actionFunc = EnIshi_LiftedUp;
     this->actor.room = -1;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
 }
 
 void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {

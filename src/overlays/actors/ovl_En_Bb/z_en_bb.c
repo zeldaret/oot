@@ -5,10 +5,29 @@
  */
 
 #include "z_en_bb.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_math.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_Bb/object_Bb.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_24)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT)
 
 #define vBombHopPhase actionVar1
 #define vTrailIdx actionVar1
@@ -207,12 +226,12 @@ ActorProfile En_Bb_Profile = {
     /**/ EnBb_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -230,8 +249,8 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
-    sJntSphElementInit,
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -317,7 +336,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
     this->unk_254 = 0;
     thisx->colChkInfo.health = 4;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, this->colliderElements);
 
     this->actionState = PARAMS_GET_NOMASK(thisx->params, 8);
 
@@ -345,13 +364,13 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 this->flamePrimBlue = this->flameEnvColor.b = 255;
                 thisx->world.pos.y += 50.0f;
                 EnBb_SetupBlue(this);
-                thisx->flags |= ACTOR_FLAG_14;
+                thisx->flags |= ACTOR_FLAG_CAN_ATTACH_TO_ARROW;
                 break;
             case ENBB_RED:
                 thisx->naviEnemyId = NAVI_ENEMY_RED_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableRed;
                 this->flameEnvColor.r = 255;
-                this->collider.elements[0].base.atDmgInfo.effect = 1;
+                this->collider.elements[0].base.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_FIRE;
                 EnBb_SetupRed(play, this);
                 break;
             case ENBB_WHITE:
@@ -374,7 +393,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 EnBb_SetupWhite(play, this);
                 EnBb_SetWaypoint(this, play);
                 EnBb_FaceWaypoint(this);
-                thisx->flags |= ACTOR_FLAG_14;
+                thisx->flags |= ACTOR_FLAG_CAN_ATTACH_TO_ARROW;
                 break;
             case ENBB_GREEN_BIG:
                 this->path = this->actionState >> 4;
@@ -1151,7 +1170,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
     }
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        this->dmgEffect = this->actor.colChkInfo.damageEffect;
+        this->dmgEffect = this->actor.colChkInfo.damageReaction;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, false);
         switch (this->dmgEffect) {
             case 7:
@@ -1234,10 +1253,10 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
     if (this->actor.params <= ENBB_BLUE) {
         EnBb_CollisionCheck(this, play);
     }
-    if (this->actor.colChkInfo.damageEffect != 0xD) {
+    if (this->actor.colChkInfo.damageReaction != 0xD) {
         this->actionFunc(this, play);
         if ((this->actor.params <= ENBB_BLUE) && (this->actor.speed >= -6.0f) &&
-            ((this->actor.flags & ACTOR_FLAG_15) == 0)) {
+            !(this->actor.flags & ACTOR_FLAG_ATTACHED_TO_ARROW)) {
             Actor_MoveXZGravity(&this->actor);
         }
         if (this->moveMode == BBMOVE_NORMAL) {

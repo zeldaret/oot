@@ -5,10 +5,28 @@
  */
 
 #include "z_en_fd.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "versions.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_fw/object_fw.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_9)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_HOOKSHOT_PULLS_ACTOR)
 
 void EnFd_Init(Actor* thisx, PlayState* play);
 void EnFd_Destroy(Actor* thisx, PlayState* play);
@@ -39,12 +57,18 @@ ActorProfile En_Fd_Profile = {
     /**/ EnFd_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[12] = {
+#if OOT_VERSION < NTSC_1_1
+#define FLARE_DANCER_BODY_DMG 0x00
+#else
+#define FLARE_DANCER_BODY_DMG 0x04
+#endif
+
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040088, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040088, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
@@ -54,8 +78,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -65,8 +89,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -76,8 +100,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -87,8 +111,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -98,8 +122,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -109,8 +133,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -120,8 +144,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -131,8 +155,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -142,8 +166,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -153,8 +177,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -164,8 +188,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x01, 0x04 },
-            { 0x00040008, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_FIRE, FLARE_DANCER_BODY_DMG },
+            { 0x00040008, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -183,7 +207,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    12,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -221,8 +245,8 @@ s32 EnFd_SpawnCore(EnFd* this, PlayState* play) {
         this->actor.child->colChkInfo.health = 8;
     }
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
-        func_8002DE04(play, &this->actor, this->actor.child);
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
+        Actor_SwapHookshotAttachment(play, &this->actor, this->actor.child);
     }
 
     this->coreActive = true;
@@ -451,10 +475,10 @@ void EnFd_Init(Actor* thisx, PlayState* play) {
     SkelAnime_InitFlex(play, &this->skelAnime, &gFlareDancerSkel, NULL, this->jointTable, this->morphTable, 27);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 32.0f);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
     this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     Actor_SetScale(&this->actor, 0.01f);
     this->firstUpdateFlag = true;
     this->actor.gravity = -1.0f;
@@ -661,15 +685,14 @@ void EnFd_Update(Actor* thisx, PlayState* play) {
         EnFd_SpawnDot(this, play);
     }
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
-        // has been hookshoted
+    if (ACTOR_FLAGS_CHECK_ALL(&this->actor, ACTOR_FLAG_HOOKSHOT_ATTACHED)) {
         if (EnFd_SpawnCore(this, play)) {
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             this->invincibilityTimer = 30;
             Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_DAMAGE);
             Enemy_StartFinishingBlow(play, &this->actor);
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_13;
+            this->actor.flags &= ~ACTOR_FLAG_HOOKSHOT_ATTACHED;
         }
     } else if (this->actionFunc != EnFd_WaitForCore) {
         EnFd_ColliderCheck(this, play);

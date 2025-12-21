@@ -5,8 +5,19 @@
  */
 
 #include "z_bg_jya_ironobj.h"
-#include "assets/objects/object_jya_iron/object_jya_iron.h"
 #include "overlays/actors/ovl_En_Ik/z_en_ik.h"
+
+#include "libc64/qrand.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
+#include "assets/objects/object_jya_iron/object_jya_iron.h"
 
 #define FLAGS 0
 
@@ -49,8 +60,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_NONE,
@@ -72,23 +83,23 @@ static s16 D_80899530[] = { 48, 42, 36, 32, 28, 24, 20, 16 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 static CollisionHeader* sCollisionHeaders[] = { &gPillarCol, &gThroneCol };
 
 void BgJyaIronobj_InitCylinder(BgJyaIronobj* this, PlayState* play) {
-    ColliderCylinder* colCylinder = &this->colCylinder;
+    s32 pad;
 
-    Collider_InitCylinder(play, colCylinder);
-    Collider_SetCylinder(play, colCylinder, &this->dyna.actor, &sCylinderInit);
+    Collider_InitCylinder(play, &this->colliderCylinder);
+    Collider_SetCylinder(play, &this->colliderCylinder, &this->dyna.actor, &sCylinderInit);
     if (PARAMS_GET_U(this->dyna.actor.params, 0, 1) == 1) {
-        this->colCylinder.dim.radius = 40;
-        this->colCylinder.dim.height = 100;
+        this->colliderCylinder.dim.radius = 40;
+        this->colliderCylinder.dim.height = 100;
     }
-    Collider_UpdateCylinder(&this->dyna.actor, colCylinder);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->colliderCylinder);
 }
 
 /*
@@ -106,9 +117,10 @@ void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk
     f32 sins;
     s32 pad[2];
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (enIk->unk_2FF <= 0 || enIk->unk_2FF >= 4) {
-        PRINTF("Error 攻撃方法が分からない(%s %d)\n", "../z_bg_jya_ironobj.c", 233);
+        PRINTF(T("Error 攻撃方法が分からない(%s %d)\n", "Error I don't know how to attack(%s %d)\n"),
+               "../z_bg_jya_ironobj.c", 233);
         return;
     }
 #endif
@@ -172,9 +184,10 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
     f32 sins;
     s32 pad[2];
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (enIk->unk_2FF <= 0 || enIk->unk_2FF >= 4) {
-        PRINTF("Error 攻撃方法が分からない(%s %d)\n", "../z_bg_jya_ironobj.c", 362);
+        PRINTF(T("Error 攻撃方法が分からない(%s %d)\n", "Error I don't know how to attack(%s %d)\n"),
+               "../z_bg_jya_ironobj.c", 362);
         return;
     }
 #endif
@@ -235,7 +248,7 @@ void BgJyaIronobj_Init(Actor* thisx, PlayState* play) {
 void BgJyaIronobj_Destroy(Actor* thisx, PlayState* play) {
     BgJyaIronobj* this = (BgJyaIronobj*)thisx;
 
-    Collider_DestroyCylinder(play, &this->colCylinder);
+    Collider_DestroyCylinder(play, &this->colliderCylinder);
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
@@ -249,9 +262,9 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play) {
     Vec3f dropPos;
     s32 i;
 
-    if (this->colCylinder.base.acFlags & AC_HIT) {
-        actor = this->colCylinder.base.ac;
-        this->colCylinder.base.acFlags &= ~AC_HIT;
+    if (this->colliderCylinder.base.acFlags & AC_HIT) {
+        actor = this->colliderCylinder.base.ac;
+        this->colliderCylinder.base.acFlags &= ~AC_HIT;
         if (actor != NULL && actor->id == ACTOR_EN_IK) {
             particleFunc[PARAMS_GET_U(this->dyna.actor.params, 0, 1)](this, play, (EnIk*)actor);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR);
@@ -266,7 +279,7 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play) {
             return;
         }
     } else {
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colCylinder.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinder.base);
     }
 }
 

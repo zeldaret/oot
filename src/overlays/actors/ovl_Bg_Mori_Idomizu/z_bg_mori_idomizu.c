@@ -5,9 +5,20 @@
  */
 
 #include "z_bg_mori_idomizu.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BgMoriIdomizu_Init(Actor* thisx, PlayState* play);
 void BgMoriIdomizu_Destroy(Actor* thisx, PlayState* play);
@@ -69,16 +80,16 @@ void BgMoriIdomizu_Init(Actor* thisx, PlayState* play) {
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjectSlot < 0) {
         Actor_Kill(&this->actor);
-        // "Bank danger!"
-        PRINTF("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_bg_mori_idomizu.c", 202);
+        PRINTF(T("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", "Error : Bank danger! (arg_data 0x%04x)(%s %d)\n"),
+               this->actor.params, "../z_bg_mori_idomizu.c", 202);
         return;
     }
     BgMoriIdomizu_SetupWaitForMoriTex(this);
     sIsSpawned = true;
     this->isLoaded = true;
     this->actor.room = -1;
-    // "Forest Temple well water"
-    PRINTF("(森の神殿 井戸水)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF(T("(森の神殿 井戸水)(arg_data 0x%04x)\n", "(Forest Temple well water)(arg_data 0x%04x)\n"),
+           this->actor.params);
 }
 
 void BgMoriIdomizu_Destroy(Actor* thisx, PlayState* play) {

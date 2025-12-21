@@ -2,14 +2,18 @@
 #define Z_KALEIDO_SCOPE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "gfx.h"
+#include "inventory.h"
+#include "pause.h"
+
+struct PlayState;
 
 extern u8 gAmmoItems[];
 extern s16 gVtxPageMapWorldQuadsWidth[];
 extern s16 gVtxPageMapWorldQuadsHeight[];
-extern u8 gSlotAgeReqs[];
-extern u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4];
-extern u8 gItemAgeReqs[];
+extern char gSlotAgeReqs[];
+extern char gEquipAgeReqs[EQUIP_TYPE_MAX][4];
+extern char gItemAgeReqs[];
 extern u8 gAreaGsFlags[];
 
 #define AGE_REQ_ADULT LINK_AGE_ADULT
@@ -64,6 +68,55 @@ typedef enum QuestQuad {
     /* 46 */ QUEST_QUAD_SKULL_TOKENS_DIGIT3,
     /* 47 */ QUEST_QUAD_MAX
 } QuestQuad;
+
+#define EQUIP_CURSOR_X_UPG 0
+#define EQUIP_CURSOR_Y_BULLETBAG_QUIVER 0
+
+#define EQUIP_GRID_CELL_WIDTH 32
+#define EQUIP_GRID_CELL_HEIGHT 32
+#define EQUIP_GRID_QUAD_MARGIN 2
+#define EQUIP_GRID_QUAD_WIDTH (EQUIP_GRID_CELL_WIDTH - (2 * EQUIP_GRID_QUAD_MARGIN))
+#define EQUIP_GRID_QUAD_HEIGHT (EQUIP_GRID_CELL_HEIGHT - (2 * EQUIP_GRID_QUAD_MARGIN))
+#define EQUIP_GRID_QUAD_TEX_SIZE 32 // both width and height
+
+#define EQUIP_GRID_SELECTED_QUAD_MARGIN (-2)
+#define EQUIP_GRID_SELECTED_QUAD_WIDTH (EQUIP_GRID_QUAD_WIDTH - (2 * EQUIP_GRID_SELECTED_QUAD_MARGIN))
+#define EQUIP_GRID_SELECTED_QUAD_HEIGHT (EQUIP_GRID_QUAD_HEIGHT - (2 * EQUIP_GRID_SELECTED_QUAD_MARGIN))
+#define EQUIP_GRID_SELECTED_QUAD_TEX_SIZE 32 // both width and height
+
+typedef enum EquipQuad {
+    // Grid of upgrades and equips, left column is upgrades, others are equips, with one row per equip type
+    // Row 0
+    /*  0 */ EQUIP_QUAD_UPG_BULLETBAG_QUIVER,
+    /*  1 */ EQUIP_QUAD_SWORD_KOKIRI,
+    /*  2 */ EQUIP_QUAD_SWORD_MASTER,
+    /*  3 */ EQUIP_QUAD_SWORD_BIGGORON,
+    // Row 1
+    /*  4 */ EQUIP_QUAD_UPG_BOMB_BAG,
+    /*  5 */ EQUIP_QUAD_SHIELD_DEKU,
+    /*  6 */ EQUIP_QUAD_SHIELD_HYLIAN,
+    /*  7 */ EQUIP_QUAD_SHIELD_MIRROR,
+    // Row 2
+    /*  8 */ EQUIP_QUAD_UPG_STRENGTH,
+    /*  9 */ EQUIP_QUAD_TUNIC_KOKIRI,
+    /* 10 */ EQUIP_QUAD_TUNIC_GORON,
+    /* 11 */ EQUIP_QUAD_TUNIC_ZORA,
+    // Row 3
+    /* 12 */ EQUIP_QUAD_UPG_SCALE,
+    /* 13 */ EQUIP_QUAD_BOOTS_KOKIRI,
+    /* 14 */ EQUIP_QUAD_BOOTS_IRON,
+    /* 15 */ EQUIP_QUAD_BOOTS_HOVER,
+    // Markers indicating the currently selected equip
+    /* 16 */ EQUIP_QUAD_SELECTED_SWORD,
+    /* 17 */ EQUIP_QUAD_SELECTED_SHIELD,
+    /* 18 */ EQUIP_QUAD_SELECTED_TUNIC,
+    /* 19 */ EQUIP_QUAD_SELECTED_BOOTS,
+    // Player prerender
+    /* 20 */ EQUIP_QUAD_PLAYER_FIRST,
+    /* 23 */ EQUIP_QUAD_PLAYER_LAST = EQUIP_QUAD_PLAYER_FIRST + PAUSE_EQUIP_PLAYER_FRAG_NUM - 1,
+    // 24..27 are unused, probably meant for player prerender
+    /* 28 */ EQUIP_QUAD_MAX = EQUIP_QUAD_PLAYER_LAST + 4 + 1
+} EquipQuad;
 
 // The world map image is split into a number of quad fragments for drawing
 #define WORLD_MAP_IMAGE_WIDTH 216
@@ -165,26 +218,53 @@ typedef enum ItemQuad {
     /* 41 */ ITEM_QUAD_MAX
 } ItemQuad;
 
-void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
+#define TO_PAGE_LABEL_TEX_WIDTH 128
+#define TO_PAGE_LABEL_TEX_HEIGHT UI_OVERLAY_QUAD_INFO_TEXT_TEX_HEIGHT
+
+#define UI_OVERLAY_QUAD_BUTTON_LR_WIDTH 24
+#define UI_OVERLAY_QUAD_BUTTON_LR_HEIGHT 32
+#define UI_OVERLAY_QUAD_BUTTON_LR_TEX_WIDTH 24
+#define UI_OVERLAY_QUAD_BUTTON_LR_TEX_HEIGHT 32
+
+#define UI_OVERLAY_QUAD_INFO_ICON_HEIGHT 16
+#define UI_OVERLAY_QUAD_INFO_ICON_TEX_HEIGHT 16
+
+#define UI_OVERLAY_QUAD_INFO_TEXT_HEIGHT 16
+#define UI_OVERLAY_QUAD_INFO_TEXT_TEX_HEIGHT 16
+
+typedef enum UIOverlayQuad {
+    /* 0 */ UI_OVERLAY_QUAD_INFO_BG_LEFT, // The left half of the info plate background
+    /* 1 */ UI_OVERLAY_QUAD_INFO_BG_RIGHT, // The right half of the info plate background
+    /* 2 */ UI_OVERLAY_QUAD_BUTTON_LEFT, // The button for scrolling to the left page
+    /* 3 */ UI_OVERLAY_QUAD_BUTTON_RIGHT, // The button for scrolling to the right page
+    /* 4 */ UI_OVERLAY_QUAD_INFO_ICON, // The icon in the info plate
+    /* 5 */ UI_OVERLAY_QUAD_INFO_TEXT, // The text in the info plate
+    /* 6 */ UI_OVERLAY_QUAD_HAVE_ALL_GS, // On the overworld map page, the indicator that the selected area has been cleared of gold skulltulas
+    /* 7 */ UI_OVERLAY_QUAD_MAX
+} UIOverlayQuad;
+
+void KaleidoScope_DrawQuestStatus(struct PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
-void KaleidoScope_DrawDebugEditor(PlayState* play);
-void KaleidoScope_DrawPlayerWork(PlayState* play);
-void KaleidoScope_DrawEquipment(PlayState* play);
+void KaleidoScope_DrawInventoryEditor(struct PlayState* play);
+void KaleidoScope_DrawPlayerWork(struct PlayState* play);
+void KaleidoScope_DrawEquipment(struct PlayState* play);
 void KaleidoScope_SetCursorPos(PauseContext* pauseCtx, u16 index, Vtx* vtx);
-void KaleidoScope_DrawItemSelect(PlayState* play);
-void KaleidoScope_UpdateItemEquip(PlayState* play);
-void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx);
-void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx);
-void KaleidoScope_UpdatePrompt(PlayState* play);
+void KaleidoScope_DrawItemSelect(struct PlayState* play);
+void KaleidoScope_UpdateItemEquip(struct PlayState* play);
+void KaleidoScope_DrawDungeonMap(struct PlayState* play, GraphicsContext* gfxCtx);
+void KaleidoScope_DrawWorldMap(struct PlayState* play, GraphicsContext* gfxCtx);
+void KaleidoScope_UpdatePrompt(struct PlayState* play);
 Gfx* KaleidoScope_QuadTextureIA4(Gfx* gfx, void* texture, s16 width, s16 height, u16 point);
 Gfx* KaleidoScope_QuadTextureIA8(Gfx* gfx, void* texture, s16 width, s16 height, u16 point);
-void KaleidoScope_MoveCursorToSpecialPos(PlayState* play, u16 specialPos);
+void KaleidoScope_MoveCursorToSpecialPos(struct PlayState* play, u16 specialPos);
 void KaleidoScope_DrawQuadTextureRGBA32(GraphicsContext* gfxCtx, void* texture, u16 width, u16 height, u16 point);
-void KaleidoScope_ProcessPlayerPreRender();
-void KaleidoScope_SetupPlayerPreRender(PlayState* play);
-void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex);
-void KaleidoScope_UpdateDungeonMap(PlayState* play);
+#ifdef AVOID_UB
+void KaleidoScope_ProcessPlayerPreRender(void);
+#endif
+void KaleidoScope_SetupPlayerPreRender(struct PlayState* play);
+void KaleidoScope_DrawCursor(struct PlayState* play, u16 pageIndex);
+void KaleidoScope_UpdateDungeonMap(struct PlayState* play);
 
-void PauseMapMark_Draw(PlayState* play);
+void PauseMapMark_Draw(struct PlayState* play);
 
 #endif

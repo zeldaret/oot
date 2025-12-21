@@ -6,10 +6,23 @@
  */
 
 #include "z_bg_hidan_fwbig.h"
+
+#include "ichain.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "one_point_cutscene.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 typedef enum HidanFwbigMoveState {
     /* 0 */ FWBIG_MOVE,
@@ -54,8 +67,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x20000000, 0x01, 0x04 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x20000000, HIT_SPECIAL_EFFECT_FIRE, 0x04 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -64,7 +77,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeScale, 1000, ICHAIN_STOP),
 };
 
 void BgHidanFwbig_Init(Actor* thisx, PlayState* play2) {
@@ -94,7 +107,7 @@ void BgHidanFwbig_Init(Actor* thisx, PlayState* play2) {
         BgHidanFwbig_UpdatePosition(this);
         Actor_SetScale(&this->actor, 0.15f);
         this->collider.dim.height = 230;
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
         this->moveState = FWBIG_MOVE;
         this->actionFunc = BgHidanFwbig_WaitForPlayer;
         this->actor.world.pos.y = this->actor.home.pos.y - (2400.0f * this->actor.scale.y);

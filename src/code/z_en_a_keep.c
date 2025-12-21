@@ -1,8 +1,15 @@
-#include "global.h"
+#include "z_en_a_obj.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_d_hsblock/object_d_hsblock.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnAObj_Init(Actor* thisx, PlayState* play);
 void EnAObj_Destroy(Actor* thisx, PlayState* play);
@@ -43,8 +50,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -114,8 +121,8 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = BGACTOR_NEG_ONE;
     this->dyna.interactFlags = 0;
     this->dyna.transformFlags = 0;
-    thisx->uncullZoneDownward = 1200.0f;
-    thisx->uncullZoneScale = 200.0f;
+    thisx->cullingVolumeDownward = 1200.0f;
+    thisx->cullingVolumeScale = 200.0f;
 
     switch (thisx->params) {
         case A_OBJ_BLOCK_LARGE:
@@ -288,8 +295,8 @@ void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
 }
 
 void EnAObj_SetupBlock(EnAObj* this, s16 type) {
-    this->dyna.actor.uncullZoneDownward = 1200.0f;
-    this->dyna.actor.uncullZoneScale = 720.0f;
+    this->dyna.actor.cullingVolumeDownward = 1200.0f;
+    this->dyna.actor.cullingVolumeScale = 720.0f;
     EnAObj_SetupAction(this, EnAObj_Block);
 }
 

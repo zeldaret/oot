@@ -6,6 +6,15 @@
 
 #include "z_en_dekunuts.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_dekunuts/object_dekunuts.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
@@ -53,8 +62,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -178,7 +187,7 @@ void EnDekunuts_SetupBurrow(EnDekunuts* this) {
 void EnDekunuts_SetupBeginRun(EnDekunuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsUnburrowAnim, -3.0f);
     this->collider.dim.height = 37;
-    this->actor.colChkInfo.mass = 0x32;
+    this->actor.colChkInfo.mass = 50;
     Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnDekunuts_BeginRun;
@@ -446,10 +455,10 @@ void EnDekunuts_ColliderCheck(EnDekunuts* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
-        if (this->actor.colChkInfo.mass == 0x32) {
-            if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
-                if (this->actor.colChkInfo.damageEffect != 1) {
-                    if (this->actor.colChkInfo.damageEffect == 2) {
+        if (this->actor.colChkInfo.mass == 50) {
+            if ((this->actor.colChkInfo.damageReaction != 0) || (this->actor.colChkInfo.damage != 0)) {
+                if (this->actor.colChkInfo.damageReaction != 1) {
+                    if (this->actor.colChkInfo.damageReaction == 2) {
                         EffectSsFCircle_Spawn(play, &this->actor, &this->actor.world.pos, 40, 50);
                     }
                     EnDekunuts_SetupBeDamaged(this);

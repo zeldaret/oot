@@ -5,9 +5,16 @@
  */
 
 #include "z_bg_ice_shutter.h"
+
+#include "ichain.h"
+#include "one_point_cutscene.h"
+#include "sfx.h"
+#include "z_lib.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgIceShutter_Init(Actor* thisx, PlayState* play);
 void BgIceShutter_Destroy(Actor* thisx, PlayState* play);

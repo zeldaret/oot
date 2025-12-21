@@ -5,10 +5,22 @@
  */
 
 #include "z_en_rl.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "regs.h"
+#include "segmented_address.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_rl/object_rl.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void EnRl_Init(Actor* thisx, PlayState* play);
 void EnRl_Destroy(Actor* thisx, PlayState* play);
@@ -50,7 +62,7 @@ void func_80AE72D0(EnRl* this) {
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 void func_80AE7358(EnRl* this) {
     Animation_Change(&this->skelAnime, &object_rl_Anim_000A3C, 1.0f, 0.0f,
                      Animation_GetLastFrame(&object_rl_Anim_000A3C), ANIMMODE_LOOP, 0.0f);
@@ -272,7 +284,7 @@ void func_80AE7BF8(EnRl* this, s32 arg1) {
 
 void func_80AE7C64(EnRl* this, PlayState* play) {
     func_80AE7954(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AE73D8(this, play);
 #endif
 }
@@ -282,7 +294,7 @@ void func_80AE7C94(EnRl* this, PlayState* play) {
     func_80AE7494(this);
     func_80AE72D0(this);
     func_80AE79A4(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AE73D8(this, play);
 #endif
 }
@@ -294,7 +306,7 @@ void func_80AE7CE8(EnRl* this, PlayState* play) {
     temp = func_80AE7494(this);
     func_80AE72D0(this);
     func_80AE7BF8(this, temp);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AE73D8(this, play);
 #endif
 }
@@ -304,7 +316,7 @@ void func_80AE7D40(EnRl* this, PlayState* play) {
     func_80AE7494(this);
     func_80AE72D0(this);
     func_80AE7AF8(this, play);
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     func_80AE73D8(this, play);
 #endif
 }
@@ -339,7 +351,8 @@ void EnRl_Update(Actor* thisx, PlayState* play) {
     EnRl* this = (EnRl*)thisx;
 
     if ((this->action < 0) || (this->action > 7) || (sActionFuncs[this->action] == NULL)) {
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -388,7 +401,8 @@ void EnRl_Draw(Actor* thisx, PlayState* play) {
     EnRl* this = (EnRl*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

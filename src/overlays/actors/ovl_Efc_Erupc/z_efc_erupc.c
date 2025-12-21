@@ -1,7 +1,19 @@
 #include "z_efc_erupc.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sequence.h"
+#include "sys_matrix.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "play_state.h"
+#include "save.h"
+
 #include "assets/objects/object_efc_erupc/object_efc_erupc.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EfcErupc_Init(Actor* thisx, PlayState* play);
 void EfcErupc_Destroy(Actor* thisx, PlayState* play);

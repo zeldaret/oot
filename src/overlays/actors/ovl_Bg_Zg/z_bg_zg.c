@@ -5,10 +5,21 @@
  */
 
 #include "z_bg_zg.h"
-#include "assets/objects/object_zg/object_zg.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "play_state.h"
+
+#include "assets/objects/object_zg/object_zg.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgZg_Init(Actor* thisx, PlayState* play);
 void BgZg_Destroy(Actor* thisx, PlayState* play);
@@ -54,8 +65,7 @@ void BgZg_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808C0C50(BgZg* this) {
-    Audio_PlaySfxGeneral(NA_SE_EV_METALDOOR_OPEN, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    SFX_PLAY_AT_POS(&this->dyna.actor.projectedPos, NA_SE_EV_METALDOOR_OPEN);
 }
 
 s32 func_808C0C98(BgZg* this, PlayState* play) {
@@ -99,8 +109,8 @@ void BgZg_Update(Actor* thisx, PlayState* play) {
     s32 action = this->action;
 
     if (((action < 0) || (1 < action)) || (sActionFuncs[action] == NULL)) {
-        // "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sActionFuncs[action](this, play);
     }
@@ -146,8 +156,8 @@ void BgZg_Draw(Actor* thisx, PlayState* play) {
     s32 drawConfig = this->drawConfig;
 
     if (((drawConfig < 0) || (drawConfig > 0)) || sDrawFuncs[drawConfig] == NULL) {
-        // "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
-        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) T("描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n",
+                               "The drawing mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!\n") VT_RST);
     } else {
         sDrawFuncs[drawConfig](this, play);
     }

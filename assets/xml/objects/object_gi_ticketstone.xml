@@ -1,5 +1,14 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_ticketstone" Segment="6">
+        <Texture Name="gGiClaimCheckWriting1Tex" Format="i4" Width="48" Height="24" Offset="0x0"/>
+        <Texture Name="gGiClaimCheckWriting2Tex" Format="i8" Width="32" Height="24" Offset="0x240"/>
+        <Array Name="gGiClaimCheckVtx" Count="138" Offset="0x540">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiClaimCheckWritingVtx" Count="18" Offset="0xDE0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiClaimCheckDL" Offset="0x0F00"/>
         <DList Name="gGiClaimCheckWritingDL" Offset="0x1188"/>
     </File>

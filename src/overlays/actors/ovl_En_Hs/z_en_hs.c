@@ -5,7 +5,19 @@
  */
 
 #include "z_en_hs.h"
+
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_hs/object_hs.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -41,8 +53,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -74,17 +86,14 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
     }
 
     if (this->actor.params == 1) {
-        // "chicken shop (adult era)"
-        PRINTF(VT_FGCOL(CYAN) " ヒヨコの店(大人の時) \n" VT_RST);
+        PRINTF(VT_FGCOL(CYAN) T(" ヒヨコの店(大人の時) \n", " chicken shop (adult era) \n") VT_RST);
         func_80A6E3A0(this, func_80A6E9AC);
         if (GET_ITEMGETINF(ITEMGETINF_30)) {
-            // "chicken shop closed"
-            PRINTF(VT_FGCOL(CYAN) " ヒヨコ屋閉店 \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) T(" ヒヨコ屋閉店 \n", " chicken shop closed \n") VT_RST);
             Actor_Kill(&this->actor);
         }
     } else {
-        // "chicken shop (child era)"
-        PRINTF(VT_FGCOL(CYAN) " ヒヨコの店(子人の時) \n" VT_RST);
+        PRINTF(VT_FGCOL(CYAN) T(" ヒヨコの店(子人の時) \n", " chicken shop (child era) \n") VT_RST);
         func_80A6E3A0(this, func_80A6E9AC);
     }
 
@@ -206,7 +215,7 @@ void func_80A6E9AC(EnHs* this, PlayState* play) {
     s16 yawDiff;
 
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
-        if (func_8002F368(play) == EXCH_ITEM_COJIRO) {
+        if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_COJIRO) {
             player->actor.textId = 0x10B2;
             func_80A6E3A0(this, func_80A6E8CC);
             Animation_Change(&this->skelAnime, &object_hs_Anim_000304, 1.0f, 0.0f,

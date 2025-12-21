@@ -6,9 +6,17 @@
 
 #include "z_obj_makeoshihiki.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_5
+#include "printf.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#define FLAGS ACTOR_FLAG_DRAW_CULLING_DISABLED
 
 void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play);
 void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play);
@@ -71,10 +79,10 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play) {
 
     if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_OSHIHIKI, spawnPos->x, spawnPos->y, spawnPos->z, 0,
                            block->rotY, 0, ((block->color << 6) & 0xC0) | (block->type & 0xF) | 0xFF00) == NULL) {
-        // "Push-pull block failure"
-        PRINTF(VT_COL(RED, WHITE));
-        PRINTF("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "../z_obj_makeoshihiki.c", 194);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_ERROR();
+        PRINTF(T("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "Error : Push/pull block failed to spawn (%s %d)\n"),
+               "../z_obj_makeoshihiki.c", 194);
+        PRINTF_RST();
         Actor_Kill(thisx);
         return;
     }

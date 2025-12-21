@@ -1,12 +1,31 @@
 #include "z_demo_kankyo.h"
-#include "global.h"
+
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "versions.h"
-#include "z64cutscene_commands.h"
+#include "z_lib.h"
+#include "cutscene_commands.h"
+#include "cutscene_flags.h"
+#include "cutscene_spline.h"
+#include "olib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 #include "assets/objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128" \
+                               "ique-cn:128 ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:0 pal-1.1:0"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void DemoKankyo_Init(Actor* thisx, PlayState* play);
 void DemoKankyo_Destroy(Actor* thisx, PlayState* play);
@@ -234,7 +253,7 @@ void DemoKankyo_Init(Actor* thisx, PlayState* play) {
         case DEMOKANKYO_DOOR_OF_TIME:
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             this->unk_150[0].unk_18 = 0.0f;
-            if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME)) {
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_TOKI, this->actor.world.pos.x,
                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x0000);
             } else {
@@ -249,14 +268,13 @@ void DemoKankyo_Init(Actor* thisx, PlayState* play) {
         case DEMOKANKYO_WARP_OUT:
         case DEMOKANKYO_WARP_IN:
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ITEMACTION);
-            this->actor.flags |= ACTOR_FLAG_25;
+            this->actor.flags |= ACTOR_FLAG_UPDATE_DURING_OCARINA;
             this->actor.room = -1;
             this->warpTimer = 35;
             this->sparkleCounter = 0;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             if (this->actor.params == DEMOKANKYO_WARP_OUT) {
-                Audio_PlaySfxGeneral(NA_SE_EV_SARIA_MELODY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_EV_SARIA_MELODY);
             }
             break;
         case DEMOKANKYO_SPARKLES:
@@ -371,8 +389,7 @@ void DemoKankyo_DoNothing(DemoKankyo* this, PlayState* play) {
 
 void DemoKankyo_UpdateWarpIn(DemoKankyo* this, PlayState* play) {
 #if OOT_VERSION < PAL_1_0
-    Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    SFX_PLAY_CENTERED(NA_SE_EV_LINK_WARP_OUT);
 #endif
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
@@ -421,7 +438,7 @@ void DemoKankyo_UpdateDoorOfTime(DemoKankyo* this, PlayState* play) {
     this->unk_150[0].unk_18 += 1.0f;
     if (this->unk_150[0].unk_18 >= 102.0f) {
         Actor_PlaySfx(&this->actor, NA_SE_EV_STONEDOOR_STOP);
-        SET_EVENTCHKINF(EVENTCHKINF_4B);
+        SET_EVENTCHKINF(EVENTCHKINF_OPENED_DOOR_OF_TIME);
         Actor_Kill(this->actor.child);
         DemoKankyo_SetupAction(this, DemoKankyo_KillDoorOfTimeCollision);
     }
@@ -805,8 +822,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                     }
                 } else {
 #if OOT_VERSION >= PAL_1_0
-                    Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &gSfxDefaultPos, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG);
 #endif
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints, &this->unk_150[i].unk_20,
                                       &this->unk_150[i].unk_1C) != 0) {

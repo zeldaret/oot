@@ -6,7 +6,16 @@
 
 #include "z_item_etcetera.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "printf.h"
+#include "rand.h"
+#include "draw.h"
+#include "effect.h"
+#include "play_state.h"
+#include "save.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void ItemEtcetera_Init(Actor* thisx, PlayState* play);
 void ItemEtcetera_Destroy(Actor* thisx, PlayState* play);

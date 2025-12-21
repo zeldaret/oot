@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_pachinko" Segment="6">
+        <Array Name="gGiSlingshotVtx" Count="148" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiSlingshotDL" Offset="0x0940"/>
     </File>
 </Root>

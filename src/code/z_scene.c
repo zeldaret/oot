@@ -1,7 +1,22 @@
-#include "global.h"
+#include "array_count.h"
+#include "avoid_ub.h"
+#include "printf.h"
+#include "regs.h"
+#include "romfile.h"
+#include "seqcmd.h"
+#include "segment_symbols.h"
+#include "segmented_address.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
+#include "z_actor_dlftbls.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+#include "scene.h"
 
+SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX];
 RomFile sNaviQuestHintFiles[];
 
 /**
@@ -86,16 +101,16 @@ void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
         objectCtx->slots[i].id = OBJECT_INVALID;
     }
 
-    PRINTF(VT_FGCOL(GREEN));
+    PRINTF_COLOR_GREEN();
     PRINTF(T("オブジェクト入れ替えバンク情報 %8.3fKB\n", "Object exchange bank data %8.3fKB\n"), spaceSize / 1024.0f);
-    PRINTF(VT_RST);
+    PRINTF_RST();
 
     objectCtx->spaceStart = objectCtx->slots[0].segment =
         GAME_STATE_ALLOC(&play->state, spaceSize, "../z_scene.c", 219);
     objectCtx->spaceEnd = (void*)((uintptr_t)objectCtx->spaceStart + spaceSize);
 
     objectCtx->mainKeepSlot = Object_SpawnPersistent(objectCtx, OBJECT_GAMEPLAY_KEEP);
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(objectCtx->slots[objectCtx->mainKeepSlot].segment);
+    gSegments[4] = OS_K0_TO_PHYSICAL(objectCtx->slots[objectCtx->mainKeepSlot].segment);
 }
 
 void Object_UpdateEntries(ObjectContext* objectCtx) {
@@ -191,12 +206,12 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
             break;
         }
 
-        if (cmdCode < ARRAY_COUNT(gSceneCmdHandlers)) {
-            gSceneCmdHandlers[cmdCode](play, sceneCmd);
+        if (cmdCode < ARRAY_COUNT(sSceneCmdHandlers)) {
+            sSceneCmdHandlers[cmdCode](play, sceneCmd);
         } else {
-            PRINTF(VT_FGCOL(RED));
+            PRINTF_COLOR_RED();
             PRINTF(T("code の値が異常です\n", "code variable is abnormal\n"));
-            PRINTF(VT_RST);
+            PRINTF_RST();
         }
 
         sceneCmd++;
@@ -251,7 +266,7 @@ BAD_RETURN(s32) Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
 BAD_RETURN(s32) Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
     if (cmd->specialFiles.keepObjectId != OBJECT_INVALID) {
         play->objectCtx.subKeepSlot = Object_SpawnPersistent(&play->objectCtx, cmd->specialFiles.keepObjectId);
-        gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[play->objectCtx.subKeepSlot].segment);
+        gSegments[5] = OS_K0_TO_PHYSICAL(play->objectCtx.slots[play->objectCtx.subKeepSlot].segment);
     }
 
     if (cmd->specialFiles.naviQuestHintFileId != NAVI_QUEST_HINTS_NONE) {
@@ -260,8 +275,8 @@ BAD_RETURN(s32) Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
 }
 
 BAD_RETURN(s32) Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
-    play->roomCtx.curRoom.behaviorType1 = cmd->roomBehavior.gpFlag1;
-    play->roomCtx.curRoom.behaviorType2 = cmd->roomBehavior.gpFlag2 & 0xFF;
+    play->roomCtx.curRoom.type = cmd->roomBehavior.gpFlag1;
+    play->roomCtx.curRoom.environmentType = cmd->roomBehavior.gpFlag2 & 0xFF;
     play->roomCtx.curRoom.lensMode = (cmd->roomBehavior.gpFlag2 >> 8) & 1;
     play->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }
@@ -381,7 +396,7 @@ BAD_RETURN(s32) Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     play->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
     play->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
-    if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) ||
+    if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.save.cutsceneIndex < CS_INDEX_0)) ||
         (gSaveContext.save.entranceIndex == ENTR_LAKE_HYLIA_8)) {
 #if OOT_VERSION >= PAL_1_0
         gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
@@ -444,7 +459,7 @@ BAD_RETURN(s32) Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd)
     PRINTF("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.save.cutsceneIndex));
     PRINTF("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneLayer));
 
-    if (gSaveContext.sceneLayer != 0) {
+    if (gSaveContext.sceneLayer != SCENE_LAYER_CHILD_DAY) {
         SceneCmd* altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
 
         if (altHeader != NULL) {
@@ -487,7 +502,7 @@ BAD_RETURN(s32) Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
 
     if (((play->sceneId >= SCENE_HYRULE_FIELD) && (play->sceneId <= SCENE_OUTSIDE_GANONS_CASTLE)) ||
         ((play->sceneId >= SCENE_MARKET_ENTRANCE_DAY) && (play->sceneId <= SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS))) {
-        if (gSaveContext.save.cutsceneIndex < 0xFFF0) {
+        if (gSaveContext.save.cutsceneIndex < CS_INDEX_0) {
             gSaveContext.save.info.worldMapAreaData |= gBitFlags[((void)0, gSaveContext.worldMapArea)];
             PRINTF("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.save.info.worldMapAreaData,
                    ((void)0, gSaveContext.worldMapArea));
@@ -500,29 +515,29 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
 
     if (!IS_DAY) {
         if (!LINK_IS_ADULT) {
-            entranceIndex = play->nextEntranceIndex + 1;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_CHILD_NIGHT;
         } else {
-            entranceIndex = play->nextEntranceIndex + 3;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_ADULT_NIGHT;
         }
     } else {
         if (!LINK_IS_ADULT) {
-            entranceIndex = play->nextEntranceIndex;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_CHILD_DAY;
         } else {
-            entranceIndex = play->nextEntranceIndex + 2;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_ADULT_DAY;
         }
     }
 
     play->transitionType = ENTRANCE_INFO_START_TRANS_TYPE(gEntranceTable[entranceIndex].field);
 }
 
-SceneCmdHandlerFunc gSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
-    Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_SPAWN_LIST
+SceneCmdHandlerFunc sSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
+    Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_PLAYER_ENTRY_LIST
     Scene_CommandActorEntryList,           // SCENE_CMD_ID_ACTOR_LIST
     Scene_CommandUnused2,                  // SCENE_CMD_ID_UNUSED_2
     Scene_CommandCollisionHeader,          // SCENE_CMD_ID_COLLISION_HEADER
     Scene_CommandRoomList,                 // SCENE_CMD_ID_ROOM_LIST
     Scene_CommandWindSettings,             // SCENE_CMD_ID_WIND_SETTINGS
-    Scene_CommandSpawnList,                // SCENE_CMD_ID_ENTRANCE_LIST
+    Scene_CommandSpawnList,                // SCENE_CMD_ID_SPAWN_LIST
     Scene_CommandSpecialFiles,             // SCENE_CMD_ID_SPECIAL_FILES
     Scene_CommandRoomBehavior,             // SCENE_CMD_ID_ROOM_BEHAVIOR
     Scene_CommandUndefined9,               // SCENE_CMD_ID_UNDEFINED_9

@@ -1,4 +1,21 @@
 #include "z_en_ny.h"
+
+#include "libc64/math64.h"
+#include "array_count.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+
 #include "assets/objects/object_ny/object_ny.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
@@ -35,12 +52,12 @@ ActorProfile En_Ny_Profile = {
     /**/ EnNy_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0xFFCFFFFF, 0x04, 0x08 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_KNOCKBACK, 0x08 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_ON,
             OCELEM_ON,
@@ -49,7 +66,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     },
 };
 
-static ColliderJntSphInit sColliderInit = {
+static ColliderJntSphInit sColliderJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -58,7 +75,7 @@ static ColliderJntSphInit sColliderInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -110,7 +127,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 2;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, this->elements);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     this->unk_1CA = 0;
     this->unk_1D0 = 0;
@@ -126,8 +143,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
     this->unk_1E8 = 0.0f;
     this->unk_1E0 = 0.25f;
     if (this->actor.params == 0) {
-        // "New initials"
-        PRINTF("ニュウ イニシャル[ %d ] ！！\n", this->actor.params);
+        PRINTF(T("ニュウ イニシャル[ %d ] ！！\n", "New init [ %d ] !!\n"), this->actor.params);
         this->actor.colChkInfo.mass = 0;
         this->unk_1D4 = 0;
         this->unk_1D8 = 0xFF;
@@ -135,10 +151,9 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
         func_80ABCDBC(this);
     } else {
         // This mode is unused in the final game
-        // "Dummy new initials"
-        PRINTF("ダミーニュウ イニシャル[ %d ] ！！\n", this->actor.params);
+        PRINTF(T("ダミーニュウ イニシャル[ %d ] ！！\n", "Dummy new init [ %d ] !!\n"), this->actor.params);
         PRINTF("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actor.update = EnNy_UpdateUnused;
         this->collider.base.colMaterial = COL_MATERIAL_METAL;
     }
@@ -309,7 +324,7 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
             effectPos.y = this->collider.elements[0].base.acDmgInfo.hitPos.y;
             effectPos.z = this->collider.elements[0].base.acDmgInfo.hitPos.z;
             if ((this->unk_1E0 == 0.25f) && (this->unk_1D4 == 0xFF)) {
-                switch (this->actor.colChkInfo.damageEffect) {
+                switch (this->actor.colChkInfo.damageReaction) {
                     case 0xE:
                         sp3F = 1;
                         FALLTHROUGH;

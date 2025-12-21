@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_fish" Segment="6">
+        <Array Name="gGiFishVtx" Count="96" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiFishDL" Offset="0x0600"/>
     </File>
 </Root>

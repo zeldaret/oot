@@ -5,9 +5,21 @@
  */
 
 #include "z_magic_dark.h"
+
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "tex_len.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void MagicDark_Init(Actor* thisx, PlayState* play);
 void MagicDark_Destroy(Actor* thisx, PlayState* play);
@@ -30,7 +42,23 @@ ActorProfile Magic_Dark_Profile = {
     /**/ MagicDark_OrbDraw,
 };
 
-#include "assets/overlays/ovl_Magic_Dark/ovl_Magic_Dark.c"
+#define sDiamondTex_WIDTH 32
+#define sDiamondTex_HEIGHT 64
+static u64 sDiamondTex[TEX_LEN(u64, sDiamondTex_WIDTH, sDiamondTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Magic_Dark/sDiamondTex.i8.inc.c"
+};
+
+static Vtx sDiamondVtx[] = {
+#include "assets/overlays/ovl_Magic_Dark/sDiamondVtx.inc.c"
+};
+
+static Gfx sDiamondMaterialDL[22] = {
+#include "assets/overlays/ovl_Magic_Dark/sDiamondMaterialDL.inc.c"
+};
+
+static Gfx sDiamondModelDL[8] = {
+#include "assets/overlays/ovl_Magic_Dark/sDiamondModelDL.inc.c"
+};
 
 // unused
 static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
@@ -144,7 +172,7 @@ void MagicDark_DimLighting(PlayState* play, f32 intensity) {
     f32 colorScale;
     f32 fogScale;
 
-    if (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_5) {
+    if (play->roomCtx.curRoom.type != ROOM_TYPE_BOSS) {
         intensity = CLAMP_MIN(intensity, 0.0f);
         intensity = CLAMP_MAX(intensity, 1.0f);
         fogScale = intensity - 0.2f;

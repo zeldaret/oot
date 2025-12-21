@@ -2,11 +2,12 @@
 #define Z_EN_M_THUNDER_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "light.h"
 
 struct EnMThunder;
 
-typedef void (*EnMThunderActionFunc)(struct EnMThunder*, PlayState*);
+typedef void (*EnMThunderActionFunc)(struct EnMThunder*, struct PlayState*);
 
 typedef struct EnMThunder {
     /* 0x0000 */ Actor actor;

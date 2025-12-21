@@ -6,6 +6,19 @@
 
 #include "z_eff_ss_kakera.h"
 
+#include "libc64/qrand.h"
+#include "libu64/debug.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "line_numbers.h"
+#include "printf.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "versions.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #define rReg0 regs[0]
 #define rGravity regs[1]
 #define rPitch regs[2]
@@ -53,8 +66,8 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
         }
 
     } else {
-        PRINTF("shape_modelがNULL\n");
-        LogUtils_HungupThread("../z_eff_kakera.c", 178);
+        PRINTF(T("shape_modelがNULL\n", "shape_model is NULL\n"));
+        LogUtils_HungupThread("../z_eff_kakera.c", LN1(175, 178));
     }
 
     this->draw = EffectSsKakera_Draw;
@@ -78,9 +91,10 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
 f32 func_809A9818(f32 arg0, f32 arg1) {
     f32 temp_f2;
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (arg1 < 0.0f) {
-        PRINTF("範囲がマイナス！！(randomD_sectionUniformity)\n");
+        PRINTF(T("範囲がマイナス！！(randomD_sectionUniformity)\n",
+                 "The range is negative!! (randomD_sectionUniformity)\n"));
     }
 #endif
 

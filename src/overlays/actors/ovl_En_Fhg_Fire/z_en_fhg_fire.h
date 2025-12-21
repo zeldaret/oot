@@ -2,11 +2,12 @@
 #define Z_EN_FHG_FIRE_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "light.h"
 
 struct EnFhgFire;
 
-typedef void (*EnFhgFireUpdateFunc)(struct EnFhgFire*, PlayState*);
+typedef void (*EnFhgFireUpdateFunc)(struct EnFhgFire*, struct PlayState*);
 
 typedef enum FhgFireParam {
     /*   1 */ FHGFIRE_LIGHTNING_STRIKE = 1,

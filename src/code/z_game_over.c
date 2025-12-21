@@ -1,7 +1,12 @@
-#include "z64game_over.h"
-
-#include "global.h"
+#include "array_count.h"
+#include "letterbox.h"
+#include "regs.h"
+#include "rumble.h"
+#include "sequence.h"
 #include "versions.h"
+#include "game_over.h"
+#include "play_state.h"
+#include "save.h"
 
 void GameOver_Init(PlayState* play) {
     play->gameOverCtx.state = GAMEOVER_INACTIVE;
@@ -102,7 +107,7 @@ void GameOver_Update(PlayState* play) {
             sGameOverTimer--;
 
             if (sGameOverTimer == 0) {
-                play->pauseCtx.state = PAUSE_STATE_8;
+                play->pauseCtx.state = PAUSE_STATE_GAME_OVER_START;
                 gameOverCtx->state++;
                 Rumble_Reset();
             }

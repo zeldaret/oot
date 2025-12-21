@@ -18,5 +18,7 @@ SECTIONS {
          * To avoid dealing with this, we just discard all .gptab sections.
          */
         *(.gptab.*)
+        /* Inhibit merging of COMMON into scommon */
+        *(.scommon)
     }
 }

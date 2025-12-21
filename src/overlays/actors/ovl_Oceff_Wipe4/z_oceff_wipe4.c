@@ -5,9 +5,19 @@
  */
 
 #include "z_oceff_wipe4.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "tex_len.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void OceffWipe4_Init(Actor* thisx, PlayState* play);
 void OceffWipe4_Destroy(Actor* thisx, PlayState* play);
@@ -55,7 +65,27 @@ void OceffWipe4_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-#include "assets/overlays/ovl_Oceff_Wipe4/ovl_Oceff_Wipe4.c"
+#define sTex_WIDTH 32
+#define sTex_HEIGHT 64
+static u64 sTex[TEX_LEN(u64, sTex_WIDTH, sTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Oceff_Wipe4/sTex.i8.inc.c"
+};
+
+static Vtx sFrustumVtx[] = {
+#include "assets/overlays/ovl_Oceff_Wipe4/sFrustumVtx.inc.c"
+};
+
+static Gfx sMaterialDL[13] = {
+#include "assets/overlays/ovl_Oceff_Wipe4/sMaterialDL.inc.c"
+};
+
+static Gfx sUnusedMaterialDL[13] = {
+#include "assets/overlays/ovl_Oceff_Wipe4/sUnusedMaterialDL.inc.c"
+};
+
+static Gfx sMaterial2DL[23] = {
+#include "assets/overlays/ovl_Oceff_Wipe4/sMaterial2DL.inc.c"
+};
 
 void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     u32 scroll = play->state.frames & 0xFFF;

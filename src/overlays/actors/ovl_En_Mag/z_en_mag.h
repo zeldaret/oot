@@ -2,7 +2,8 @@
 #define Z_EN_MAG_H
 
 #include "ultra64.h"
-#include "global.h"
+#include "actor.h"
+#include "message.h"
 
 struct EnMag;
 

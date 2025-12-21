@@ -5,10 +5,21 @@
  */
 
 #include "z_en_dy_extra.h"
-#include "assets/objects/object_dy_obj/object_dy_obj.h"
-#include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+
+#include "assets/objects/object_dy_obj/object_dy_obj.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void EnDyExtra_Init(Actor* thisx, PlayState* play);
 void EnDyExtra_Destroy(Actor* thisx, PlayState* play);
@@ -37,8 +48,8 @@ void EnDyExtra_Init(Actor* thisx, PlayState* play) {
     EnDyExtra* this = (EnDyExtra*)thisx;
 
     PRINTF("\n\n");
-    // "Big fairy effect"
-    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(YELLOW) T("☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n", "☆☆☆☆☆ Big fairy effect ☆☆☆☆☆ %d\n") VT_RST,
+           this->actor.params);
     this->type = this->actor.params;
     this->scale.x = 0.025f;
     this->scale.y = 0.039f;

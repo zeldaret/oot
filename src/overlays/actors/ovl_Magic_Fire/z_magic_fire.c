@@ -6,7 +6,17 @@
 
 #include "z_magic_fire.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "tex_len.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
 
 void MagicFire_Init(Actor* thisx, PlayState* play);
 void MagicFire_Destroy(Actor* thisx, PlayState* play);
@@ -42,7 +52,23 @@ ActorProfile Magic_Fire_Profile = {
     /**/ MagicFire_Draw,
 };
 
-#include "assets/overlays/ovl_Magic_Fire/ovl_Magic_Fire.c"
+#define sTex_WIDTH 64
+#define sTex_HEIGHT 64
+static u64 sTex[TEX_LEN(u64, sTex_WIDTH, sTex_HEIGHT, 8)] = {
+#include "assets/overlays/ovl_Magic_Fire/sTex.i8.inc.c"
+};
+
+static Vtx sSphereVtx[] = {
+#include "assets/overlays/ovl_Magic_Fire/sSphereVtx.inc.c"
+};
+
+static Gfx sMaterialDL[5] = {
+#include "assets/overlays/ovl_Magic_Fire/sMaterialDL.inc.c"
+};
+
+static Gfx sModelDL[45] = {
+#include "assets/overlays/ovl_Magic_Fire/sModelDL.inc.c"
+};
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -55,8 +81,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00020000, 0x00, 0x01 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00020000, HIT_SPECIAL_EFFECT_NONE, 0x01 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -232,7 +258,7 @@ void MagicFire_Draw(Actor* thisx, PlayState* play) {
                         (u8)(s32)(120 * this->screenTintIntensity));
         gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
         gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
-        gDPFillRectangle(POLY_XLU_DISP++, 0, 0, 319, 239);
+        gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, 255, 200, 0, (u8)(this->alphaMultiplier * 255));
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, (u8)(this->alphaMultiplier * 255));

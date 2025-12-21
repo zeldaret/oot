@@ -5,13 +5,31 @@
  */
 
 #include "z_en_fhg_fire.h"
-#include "assets/objects/object_fhg/object_fhg.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "rand.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/object_fhg/object_fhg.h"
+
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum StrikeMode {
     /*  0 */ STRIKE_INIT,
@@ -67,9 +85,9 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK6,
-        { 0x00100700, 0x03, 0x20 },
-        { 0x0D900700, 0x00, 0x00 },
-        ATELEM_ON,
+        { 0x00100700, HIT_SPECIAL_EFFECT_ELECTRIC, 0x20 },
+        { 0x0D900700, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
     },
@@ -118,9 +136,9 @@ void EnFhgFire_Init(Actor* thisx, PlayState* play) {
         this->collider.dim.height = this->actor.world.rot.x * 0.13f;
         this->collider.dim.yShift = 0;
     } else if (this->actor.params == FHGFIRE_SPEAR_LIGHT) {
-        PRINTF("yari hikari ct 1\n"); // "light spear"
+        PRINTF(T("yari hikari ct 1\n", "spear light ct 1\n"));
         EnFhgFire_SetUpdate(this, EnFhgFire_SpearLight);
-        PRINTF("yari hikari ct 2\n");
+        PRINTF(T("yari hikari ct 2\n", "spear light ct 2\n"));
         this->work[FHGFIRE_TIMER] = this->actor.world.rot.x;
         this->work[FHGFIRE_FIRE_MODE] = this->actor.world.rot.y;
     } else if ((this->actor.params == FHGFIRE_WARP_EMERGE) || (this->actor.params == FHGFIRE_WARP_RETREAT) ||
@@ -493,9 +511,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                     canBottleReflect2 = canBottleReflect1;
                     if (!canBottleReflect2 && (acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD)) {
                         killMode = BALL_IMPACT;
-                        Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultReverb);
+                        SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_SHIELD_REFLECT_MG);
                         Rumble_Request(this->actor.xyzDistToPlayerSq, 255, 20, 150);
                     } else {
                         if (bossGnd->flyMode == GND_FLY_NEUTRAL) {
@@ -522,9 +538,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                             RAD_TO_BINANG(Math_FAtan2F(dyPG, sqrtf((dxPG * dxPG) + (dzPG * dzPG)))) + angleModX;
                         this->work[FHGFIRE_FIRE_MODE] = FHGFIRE_LIGHT_BLUE;
                         this->work[FHGFIRE_FX_TIMER] = 2;
-                        Audio_PlaySfxGeneral(NA_SE_IT_SWORD_REFLECT_MG, &player->actor.projectedPos, 4,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultReverb);
+                        SFX_PLAY_AT_POS(&player->actor.projectedPos, NA_SE_IT_SWORD_REFLECT_MG);
                         Rumble_Request(this->actor.xyzDistToPlayerSq, 180, 20, 100);
                     }
                     break;
@@ -536,7 +550,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_LAUGH);
                     }
                     Actor_SetPlayerKnockback(play, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f,
-                                             PLAYER_KNOCKBACK_LARGE_SHOCK, 0x10);
+                                             PLAYER_KNOCKBACK_LARGE_ELECTRIFIED, 0x10);
                 }
                 break;
             case FHGFIRE_LIGHT_BLUE:
@@ -558,12 +572,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                     if ((fabsf(dxPG) < 30.0f) && (fabsf(dzPG) < 30.0f) && (fabsf(dyPG) < 45.0f)) {
                         killMode = BALL_IMPACT;
                         bossGnd->returnCount = this->work[FHGFIRE_RETURN_COUNT] + 1;
-                        Audio_PlaySfxGeneral(NA_SE_EN_FANTOM_HIT_THUNDER, &bossGnd->actor.projectedPos, 4,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultReverb);
-                        Audio_PlaySfxGeneral(NA_SE_EN_FANTOM_DAMAGE, &bossGnd->actor.projectedPos, 4,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultReverb);
+                        SFX_PLAY_AT_POS(&bossGnd->actor.projectedPos, NA_SE_EN_FANTOM_HIT_THUNDER);
+                        SFX_PLAY_AT_POS(&bossGnd->actor.projectedPos, NA_SE_EN_FANTOM_DAMAGE);
                     }
                 }
                 break;
@@ -638,8 +648,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
             this->actor.speed = 20.0f;
         }
         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
-        // "Why ah ah ah ah"
-        PRINTF("なぜだああああああああ      %d\n", this->work[FHGFIRE_VARIANCE_TIMER]);
+        PRINTF(T("なぜだああああああああ      %d\n", "Whyyyyyyyy      %d\n"), this->work[FHGFIRE_VARIANCE_TIMER]);
     }
 }
 

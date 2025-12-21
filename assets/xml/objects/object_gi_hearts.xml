@@ -1,5 +1,15 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_hearts" Segment="6">
+        <Array Name="gGiHeartBorderVtx" Count="160" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiHeartContainerVtx" Count="54" Offset="0xA00">
+            <Vtx/>
+        </Array>
+        <Array Name="gGiHeartPieceVtx" Count="83" Offset="0xD60">
+            <Vtx/>
+        </Array>
         <DList Name="gGiHeartBorderDL" Offset="0x1290"/>
         <DList Name="gGiHeartContainerDL" Offset="0x1470"/>
         <DList Name="gGiHeartPieceDL" Offset="0x1590"/>

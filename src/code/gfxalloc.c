@@ -1,5 +1,5 @@
-#include "ultra64.h"
 #include "gfxalloc.h"
+#include "alignment.h"
 
 /**
  * Creates a new temporary graphics display list pointer, using the memory reserved by gfxDisp

@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_grass" Segment="6">
+        <Array Name="gGiGrassVtx" Count="142" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiGrassDL" Offset="0x08E0"/>
     </File>
 </Root>

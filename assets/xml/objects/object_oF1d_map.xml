@@ -21,17 +21,67 @@
 
         <Skeleton Name="gGoronSkel" Type="Flex" LimbType="Standard" Offset="0xFEF0"/>
 
-        <Texture Name="object_oF1d_map_TLUT_00C640" OutName="tlut_0000C640" Format="rgba16" Width="16" Height="16" Offset="0xC640"/>
+        <Texture Name="object_oF1d_map_TLUT_00C640" Format="rgba16" Width="16" Height="16" Offset="0xC640"/>
 
         <!-- Eye textures -->
-        <Texture Name="gGoronCsEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0xCE80" TlutOffset="0xC640"/>
-        <Texture Name="gGoronCsEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0xD280" TlutOffset="0xC640"/>
-        <Texture Name="gGoronCsEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0xD680" TlutOffset="0xC640"/>
-        <Texture Name="gGoronCsEyeClosed2Tex" OutName="eye_closed2" Format="ci8" Width="32" Height="32" Offset="0xDA80" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0xCE80" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0xD280" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeClosedTex" Format="ci8" Width="32" Height="32" Offset="0xD680" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsEyeClosed2Tex" Format="ci8" Width="32" Height="32" Offset="0xDA80" TlutOffset="0xC640"/>
 
         <!-- Mouth textures -->
-        <Texture Name="gGoronCsMouthNeutralTex" OutName="mouth_neutral" Format="ci8" Width="64" Height="32" Offset="0xDE80" TlutOffset="0xC640"/>
-        <Texture Name="gGoronCsMouthSmileTex" OutName="mouth_smile" Format="ci8" Width="64" Height="32" Offset="0xE680" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsMouthNeutralTex" Format="ci8" Width="64" Height="32" Offset="0xDE80" TlutOffset="0xC640"/>
+        <Texture Name="gGoronCsMouthSmileTex" Format="ci8" Width="64" Height="32" Offset="0xE680" TlutOffset="0xC640"/>
 
+        <DList Name="object_oF1d_map_006F90_DL" Offset="0x6F90"/>
+        <DList Name="object_oF1d_map_007458_DL" Offset="0x7458"/>
+        <DList Name="object_oF1d_map_007D28_DL" Offset="0x7D28"/>
+        <DList Name="object_oF1d_map_007EB0_DL" Offset="0x7EB0"/>
+        <DList Name="object_oF1d_map_007FF0_DL" Offset="0x7FF0"/>
+        <DList Name="object_oF1d_map_008218_DL" Offset="0x8218"/>
+        <DList Name="object_oF1d_map_0083A0_DL" Offset="0x83A0"/>
+        <DList Name="object_oF1d_map_0084E0_DL" Offset="0x84E0"/>
+        <DList Name="object_oF1d_map_008708_DL" Offset="0x8708"/>
+        <DList Name="object_oF1d_map_0087D0_DL" Offset="0x87D0"/>
+        <DList Name="object_oF1d_map_0088C0_DL" Offset="0x88C0"/>
+        <DList Name="object_oF1d_map_008A10_DL" Offset="0x8A10"/>
+        <DList Name="object_oF1d_map_008C80_DL" Offset="0x8C80"/>
+        <DList Name="object_oF1d_map_008D70_DL" Offset="0x8D70"/>
+        <DList Name="object_oF1d_map_008EC0_DL" Offset="0x8EC0"/>
+        <Texture Name="object_oF1d_map_009130_TLUT" Format="rgba16" Width="160" Height="1" Offset="0x9130"/>
+        <Texture Name="object_oF1d_map_009270_Tex" Format="ci8" Width="8" Height="8" Offset="0x9270" TlutOffset="0x9130"/>
+        <Texture Name="object_oF1d_map_0092B0_Tex" Format="ci8" Width="8" Height="8" Offset="0x92B0" TlutOffset="0x9130"/>
+        <Texture Name="object_oF1d_map_0092F0_Tex" Format="ci8" Width="8" Height="16" Offset="0x92F0" TlutOffset="0x9130"/>
+        <Texture Name="object_oF1d_map_009370_Tex" Format="ci8" Width="32" Height="64" Offset="0x9370" TlutOffset="0x9130"/>
+        <Texture Name="object_oF1d_map_009B70_Tex" Format="ci8" Width="16" Height="16" Offset="0x9B70" TlutOffset="0x9130"/>
+        <Texture Name="object_oF1d_map_009C70_Tex" Format="rgba16" Width="64" Height="32" Offset="0x9C70"/>
+        <Texture Name="object_oF1d_map_00C440_TLUT" Format="rgba16" Width="240" Height="1" Offset="0xC440"/>
+        <Blob Name="object_oF1d_map_00C620_Blob" Size="0x20" Offset="0xC620"/>
+        <Texture Name="object_oF1d_map_00C840_Tex" Format="ci8" Width="8" Height="8" Offset="0xC840" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00C880_Tex" Format="ci8" Width="32" Height="16" Offset="0xC880" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00CA80_Tex" Format="ci8" Width="32" Height="32" Offset="0xCA80" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00EE80_Tex" Format="ci8" Width="32" Height="64" Offset="0xEE80" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00F680_Tex" Format="ci8" Width="8" Height="8" Offset="0xF680" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00F6C0_Tex" Format="ci8" Width="16" Height="16" Offset="0xF6C0" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00F7C0_Tex" Format="ci8" Width="16" Height="16" Offset="0xF7C0" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00F8C0_Tex" Format="ci8" Width="32" Height="32" Offset="0xF8C0" TlutOffset="0xC440"/>
+        <Texture Name="object_oF1d_map_00FCC0_Tex" Format="ci8" Width="8" Height="16" Offset="0xFCC0" TlutOffset="0xC440"/>
+        <Limb Name="object_oF1d_map_00FDE0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FDE0" Offset="0xFDE0"/>
+        <Limb Name="object_oF1d_map_00FDEC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FDEC" Offset="0xFDEC"/>
+        <Limb Name="object_oF1d_map_00FDF8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FDF8" Offset="0xFDF8"/>
+        <Limb Name="object_oF1d_map_00FE04_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE04" Offset="0xFE04"/>
+        <Limb Name="object_oF1d_map_00FE10_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE10" Offset="0xFE10"/>
+        <Limb Name="object_oF1d_map_00FE1C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE1C" Offset="0xFE1C"/>
+        <Limb Name="object_oF1d_map_00FE28_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE28" Offset="0xFE28"/>
+        <Limb Name="object_oF1d_map_00FE34_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE34" Offset="0xFE34"/>
+        <Limb Name="object_oF1d_map_00FE40_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE40" Offset="0xFE40"/>
+        <Limb Name="object_oF1d_map_00FE4C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE4C" Offset="0xFE4C"/>
+        <Limb Name="object_oF1d_map_00FE58_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE58" Offset="0xFE58"/>
+        <Limb Name="object_oF1d_map_00FE64_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE64" Offset="0xFE64"/>
+        <Limb Name="object_oF1d_map_00FE70_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE70" Offset="0xFE70"/>
+        <Limb Name="object_oF1d_map_00FE7C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE7C" Offset="0xFE7C"/>
+        <Limb Name="object_oF1d_map_00FE88_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE88" Offset="0xFE88"/>
+        <Limb Name="object_oF1d_map_00FE94_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FE94" Offset="0xFE94"/>
+        <Limb Name="object_oF1d_map_00FEA0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_OF1D_MAP_00FEA0" Offset="0xFEA0"/>
     </File>
 </Root>

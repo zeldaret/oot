@@ -5,10 +5,31 @@
  */
 
 #include "z_en_torch2.h"
-#include "assets/objects/object_torch2/object_torch2.h"
-#include "versions.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#include "libc64/qrand.h"
+#include "libu64/pad.h"
+#include "controller.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "rand.h"
+#include "sfx.h"
+#include "sequence.h"
+#include "versions.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "audio.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_torch2/object_torch2.h"
+
+#pragma increment_block_number "ique-cn:128"
+
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 typedef enum EnTorch2ActionStates {
     /* 0 */ ENTORCH2_WAIT,
@@ -408,7 +429,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                         sStickAngle = thisx->yawTowardsPlayer;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
                             (ABS(sp5A) >= 0x7800) &&
-                            (this->actor.isLockedOn || !(player->stateFlags1 & PLAYER_STATE1_22))) {
+                            (this->actor.isLockedOn || !(player->stateFlags1 & PLAYER_STATE1_SHIELDING))) {
                             EnTorch2_SwingSword(play, input, this);
                         } else {
                             f32 sp50 = 0.0f;
@@ -593,7 +614,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             this->stateFlags3 &= ~PLAYER_STATE3_2;
         } else {
             func_800F5ACC(NA_BGM_MINI_BOSS);
-            if (this->actor.colChkInfo.damageEffect == 1) {
+            if (this->actor.colChkInfo.damageReaction == 1) {
                 if (sAlpha == 255) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
                 } else {
@@ -618,7 +639,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             }
         }
         this->actor.colChkInfo.damage = 0;
-        this->knockbackDamage = PLAYER_KNOCKBACK_NONE;
+        this->knockbackDamage = 0;
     }
 
     // Handles being frozen by a deku nut

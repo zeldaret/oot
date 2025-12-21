@@ -5,8 +5,24 @@
  */
 
 #include "z_en_insect.h"
-#include "global.h"
+#include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
+
+#include "libc64/qrand.h"
+#include "array_count.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_math3d.h"
 #include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
@@ -55,12 +71,12 @@ ActorProfile En_Insect_Profile = {
     /**/ EnInsect_Draw,
 };
 
-static ColliderJntSphElementInit sColliderItemInit[1] = {
+static ColliderJntSphElementInit sColliderElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0xFFCFFFFF, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_NONE,
             OCELEM_ON,
@@ -69,7 +85,7 @@ static ColliderJntSphElementInit sColliderItemInit[1] = {
     },
 };
 
-static ColliderJntSphInit sColliderInit = {
+static ColliderJntSphInit sColliderJntSphInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -78,8 +94,8 @@ static ColliderJntSphInit sColliderInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    1,
-    sColliderItemInit,
+    ARRAY_COUNT(sColliderElementsInit),
+    sColliderElementsInit,
 };
 
 /**
@@ -94,9 +110,9 @@ static u16 sInitInsectFlags[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 700, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 20, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 600, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 700, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 20, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 600, ICHAIN_STOP),
 };
 
 void EnInsect_InitFlags(EnInsect* this) {
@@ -192,7 +208,7 @@ void EnInsect_Init(Actor* thisx, PlayState* play2) {
 
     SkelAnime_Init(play, &this->skelAnime, &gBugSkel, &gBugCrawlAnim, this->jointTable, this->morphTable, 24);
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderInit, &this->colliderItem);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderElements);
 
     this->actor.colChkInfo.mass = 30;
 
@@ -203,7 +219,7 @@ void EnInsect_Init(Actor* thisx, PlayState* play2) {
 
     if (this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) {
         this->lifeTimer = Rand_S16Offset(200, 40);
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
     }
 
     if (type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) {
@@ -578,10 +594,10 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
         distanceSq = Math3D_Vec3fDistSq(&this->actor.world.pos, &this->soilActor->actor.world.pos);
     } else {
         if (this->insectFlags & INSECT_FLAG_FOUND_SOIL) {
-            PRINTF(VT_COL(YELLOW, BLACK));
-            // "warning: target Actor is NULL"
-            PRINTF("warning:目標 Actor が NULL (%s %d)\n", "../z_en_mushi.c", 1046);
-            PRINTF(VT_RST);
+            PRINTF_COLOR_WARNING();
+            PRINTF(T("warning:目標 Actor が NULL (%s %d)\n", "warning: target Actor is NULL (%s %d)\n"),
+                   "../z_en_mushi.c", 1046);
+            PRINTF_RST();
         }
         distanceSq = 40.0f;
     }
@@ -706,10 +722,10 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
     } else if ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
                (this->insectFlags & INSECT_FLAG_0) && this->lifeTimer <= 0 && this->actionTimer <= 0 &&
                this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f) {
-        PRINTF(VT_COL(YELLOW, BLACK));
-        // "BG missing? To do Actor_delete"
-        PRINTF("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_mushi.c", 1197);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_WARNING();
+        PRINTF(T("BG 抜け？ Actor_delete します(%s %d)\n", "BG missing? To do Actor_delete (%s %d)\n"),
+               "../z_en_mushi.c", 1197);
+        PRINTF_RST();
         Actor_Kill(&this->actor);
     }
 }

@@ -1,4 +1,9 @@
-#include "global.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sys_matrix.h"
+#include "play_state.h"
+#include "debug_display.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 typedef struct DebugDispObjectInfo {

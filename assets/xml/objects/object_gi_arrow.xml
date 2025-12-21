@@ -1,7 +1,17 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_arrow" Segment="6">
+        <Array Name="gGiArrowSmallVtx" Count="52" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiArrowSmallDL" Offset="0x0340"/>
+        <Array Name="gGiArrowMediumVtx" Count="103" Offset="0x520">
+            <Vtx/>
+        </Array>
         <DList Name="gGiArrowMediumDL" Offset="0x0B90"/>
+        <Array Name="gGiArrowLargeVtx" Count="165" Offset="0xDE0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiArrowLargeDL" Offset="0x1830"/>
     </File>
 </Root>

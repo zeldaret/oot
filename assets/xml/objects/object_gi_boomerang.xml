@@ -1,5 +1,9 @@
 <Root>
+    <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_boomerang" Segment="6">
+        <Array Name="gGiBoomerangVtx" Count="163" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGiBoomerangDL" Offset="0x0A30"/>
     </File>
 </Root>

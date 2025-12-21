@@ -1,9 +1,33 @@
 #include "z_boss_dodongo.h"
-#include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
+
+#include "libc64/math64.h"
+#include "libc64/qrand.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "rand.h"
+#include "regs.h"
+#include "rumble.h"
+#include "segmented_address.h"
+#include "seqcmd.h"
+#include "sequence.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "tex_len.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
+#include "assets/objects/object_kingdodongo/object_kingdodongo.h"
 #include "assets/scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
 
-#define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS                                                                                 \
+    (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE | ACTOR_FLAG_UPDATE_CULLING_DISABLED | \
+     ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
 void BossDodongo_Init(Actor* thisx, PlayState* play);
 void BossDodongo_Destroy(Actor* thisx, PlayState* play);
@@ -46,6 +70,18 @@ ActorProfile Boss_Dodongo_Profile = {
 };
 
 #include "z_boss_dodongo_data.inc.c"
+
+#define sLavaFloorLavaTex_WIDTH 64
+#define sLavaFloorLavaTex_HEIGHT 64
+static u64 sLavaFloorLavaTex[TEX_LEN(u64, sLavaFloorLavaTex_WIDTH, sLavaFloorLavaTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_Boss_Dodongo/sLavaFloorLavaTex.rgba16.inc.c"
+};
+
+#define sLavaFloorRockTex_WIDTH 32
+#define sLavaFloorRockTex_HEIGHT 64
+static u64 sLavaFloorRockTex[TEX_LEN(u64, sLavaFloorRockTex_WIDTH, sLavaFloorRockTex_HEIGHT, 16)] = {
+#include "assets/overlays/ovl_Boss_Dodongo/sLavaFloorRockTex.rgba16.inc.c"
+};
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(attentionRangeType, ATTENTION_RANGE_5, ICHAIN_CONTINUE),
@@ -198,7 +234,7 @@ void BossDodongo_Init(Actor* thisx, PlayState* play) {
     this->unk_224 = 2.0f;
     this->unk_228 = 9200.0f;
     Collider_InitJntSph(play, &this->collider);
-    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->items);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
     if (Flags_GetClear(play, play->roomCtx.curRoom.num)) { // KD is dead
         u16* temp_s1_3 = SEGMENTED_TO_VIRTUAL(gDodongosCavernBossLavaFloorTex);
@@ -333,7 +369,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
                 this->subCamAt.z = player->actor.world.pos.z;
             }
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_71)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_KING_DODONGO_BATTLE)) {
                 if (this->unk_198 == 100) {
                     this->actor.world.pos.x = -1114.0f;
                     this->actor.world.pos.z = -2804.0f;
@@ -374,7 +410,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
         case 4:
             Math_SmoothStepToF(&this->unk_20C, 0.0f, 1.0f, 0.01f, 0.0f);
 
-            if (GET_EVENTCHKINF(EVENTCHKINF_71)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_BEGAN_KING_DODONGO_BATTLE)) {
                 phi_f0 = -50.0f;
             } else {
                 phi_f0 = 0.0f;
@@ -402,7 +438,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             }
 
             if (this->unk_198 == 0x5A) {
-                if (!GET_EVENTCHKINF(EVENTCHKINF_71)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_BEGAN_KING_DODONGO_BATTLE)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(gKingDodongoTitleCardTex), 160, 180, 128, 40);
                 }
@@ -421,7 +457,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
                 this->unk_1DA = 50;
                 this->unk_1BC = 0;
                 player->actor.shape.rot.y = -0x4002;
-                SET_EVENTCHKINF(EVENTCHKINF_71);
+                SET_EVENTCHKINF(EVENTCHKINF_BEGAN_KING_DODONGO_BATTLE);
             }
             break;
     }
@@ -730,7 +766,7 @@ void BossDodongo_Roll(BossDodongo* this, PlayState* play) {
     f32 sp4C;
     f32 sp48;
 
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_1DA == 10) {

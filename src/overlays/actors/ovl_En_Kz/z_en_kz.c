@@ -5,7 +5,21 @@
  */
 
 #include "z_en_kz.h"
+
+#include "libc64/math64.h"
+#include "attributes.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "segmented_address.h"
+#include "sfx.h"
+#include "sys_matrix.h"
 #include "versions.h"
+#include "z_lib.h"
+#include "face_reaction.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
+
 #include "assets/objects/object_kz/object_kz.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY)
@@ -46,8 +60,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -74,7 +88,7 @@ u16 EnKz_GetTextIdChild(PlayState* play, EnKz* this) {
 
     if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
         return 0x402B;
-    } else if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
         return 0x401C;
     } else {
         player->exchangeItemId = EXCH_ITEM_BOTTLE_RUTOS_LETTER;
@@ -161,13 +175,11 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
         case TEXT_STATE_DONE_FADING:
             if (this->actor.textId != 0x4014) {
                 if (this->actor.textId == 0x401B && !this->sfxPlayed) {
-                    Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
                     this->sfxPlayed = true;
                 }
             } else if (!this->sfxPlayed) {
-                Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                 this->sfxPlayed = true;
             }
             break;
@@ -291,8 +303,8 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
 
     if (EnKz_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, 340.0f, EnKz_GetTextId,
                            EnKz_UpdateTalkState)) {
-        if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_33)) {
-            if (func_8002F368(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
+        if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
+            if (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
             } else {
@@ -304,7 +316,7 @@ void func_80A9CB18(EnKz* this, PlayState* play) {
 
         if (LINK_IS_ADULT) {
             if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) &&
-                (func_8002F368(play) == EXCH_ITEM_PRESCRIPTION)) {
+                (Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_PRESCRIPTION)) {
                 this->actor.textId = 0x4014;
                 this->sfxPlayed = false;
                 player->actor.textId = this->actor.textId;
@@ -389,7 +401,7 @@ void EnKz_Init(Actor* thisx, PlayState* play) {
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_0);
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA)) {
         EnKz_SetMovedPos(this, play);
     }
 
@@ -416,7 +428,7 @@ void EnKz_PreMweepWait(EnKz* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnKz_SetupMweep;
     } else {
-        func_80034F54(play, this->unk_2A6, this->unk_2BE, 12);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 12);
     }
 }
 
@@ -455,7 +467,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
         Inventory_ReplaceItem(play, ITEM_BOTTLE_RUTOS_LETTER, ITEM_BOTTLE_EMPTY);
         EnKz_SetMovedPos(this, play);
-        SET_EVENTCHKINF(EVENTCHKINF_33);
+        SET_EVENTCHKINF(EVENTCHKINF_GAVE_LETTER_TO_KING_ZORA);
         this->actor.speed = 0.0;
         this->actionFunc = EnKz_StopMweep;
     }
@@ -479,7 +491,7 @@ void EnKz_Wait(EnKz* this, PlayState* play) {
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, play);
     } else {
-        func_80034F54(play, this->unk_2A6, this->unk_2BE, 12);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, 12);
     }
 }
 
@@ -494,7 +506,7 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
         this->actionFunc = EnKz_StartTimer;
     } else {
 #if OOT_VERSION < PAL_1_0
-        getItemId = func_8002F368(play) == EXCH_ITEM_PRESCRIPTION ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
+        getItemId = Actor_GetPlayerExchangeItemId(play) == EXCH_ITEM_PRESCRIPTION ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
 #else
         getItemId = this->isTrading == true ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
 #endif
@@ -546,8 +558,8 @@ s32 EnKz_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     EnKz* this = (EnKz*)thisx;
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 10) {
-        rot->y += Math_SinS(this->unk_2A6[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->unk_2BE[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
+        rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
     if (limbIndex) {}
     return false;

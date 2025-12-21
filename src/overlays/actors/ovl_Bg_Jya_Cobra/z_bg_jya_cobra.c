@@ -1,10 +1,22 @@
 #include "z_bg_jya_cobra.h"
 #include "overlays/actors/ovl_Bg_Jya_Bigmirror/z_bg_jya_bigmirror.h"
 #include "overlays/actors/ovl_Mir_Ray/z_mir_ray.h"
-#include "assets/objects/object_jya_obj/object_jya_obj.h"
-#include "terminal.h"
 
-#define FLAGS ACTOR_FLAG_4
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "ichain.h"
+#include "printf.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "terminal.h"
+#include "translation.h"
+#include "z_lib.h"
+#include "play_state.h"
+#include "player.h"
+
+#include "assets/objects/object_jya_obj/object_jya_obj.h"
+
+#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 
 void BgJyaCobra_Init(Actor* thisx, PlayState* play);
 void BgJyaCobra_Destroy(Actor* thisx, PlayState* play);
@@ -16,7 +28,13 @@ void func_80896950(BgJyaCobra* this, PlayState* play);
 void func_808969F8(BgJyaCobra* this, PlayState* play);
 void func_80896ABC(BgJyaCobra* this, PlayState* play);
 
-#include "assets/overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
+static Vtx sShadowVtx[] = {
+#include "assets/overlays/ovl_Bg_Jya_Cobra/sShadowVtx.inc.c"
+};
+
+static Gfx sShadowDL[7] = {
+#include "assets/overlays/ovl_Bg_Jya_Cobra/sShadowDL.inc.c"
+};
 
 ActorProfile Bg_Jya_Cobra_Profile = {
     /**/ ACTOR_BG_JYA_COBRA,
@@ -94,9 +112,9 @@ static s32 D_80897518[] = { 0x80, 0xA0, 0xA0, 0x80 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+    ICHAIN_F32(cullingVolumeDistance, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeScale, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(cullingVolumeDownward, 1000, ICHAIN_STOP),
 };
 
 static Vec3s D_80897538 = { 0, -0x4000, 0 };
@@ -123,13 +141,13 @@ void BgJyaCobra_InitDynapoly(BgJyaCobra* this, PlayState* play, CollisionHeader*
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        // "Warning : move BG Registration Failure"
-        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_cobra.c", 247,
-               this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
+               "../z_bg_jya_cobra.c", 247, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
 }
@@ -138,12 +156,12 @@ void BgJyaCobra_SpawnRay(BgJyaCobra* this, PlayState* play) {
     Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_MIR_RAY, this->dyna.actor.world.pos.x,
                        this->dyna.actor.world.pos.y + 57.0f, this->dyna.actor.world.pos.z, 0, 0, 0, 6);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     if (this->dyna.actor.child == NULL) {
-        PRINTF(VT_FGCOL(RED));
-        // "Ｅｒｒｏｒ : Mir Ray occurrence failure"
-        PRINTF("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 270);
-        PRINTF(VT_RST);
+        PRINTF_COLOR_RED();
+        PRINTF(T("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "Error : Mir Ray failed to occur (%s %d)\n"),
+               "../z_bg_jya_cobra.c", 270);
+        PRINTF_RST();
     }
 #endif
 }
@@ -427,9 +445,9 @@ void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
         BgJyaCobra_UpdateShadowFromTop(this);
     }
 
-    // "(jya cobra)"
-    PRINTF("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
-           &this->shadowTextureBuffer, COBRA_SHADOW_TEX_PTR(this));
+    PRINTF(T("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n",
+             "(jya cobra)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n"),
+           this->dyna.actor.params, this, &this->shadowTextureBuffer, COBRA_SHADOW_TEX_PTR(this));
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, PlayState* play) {

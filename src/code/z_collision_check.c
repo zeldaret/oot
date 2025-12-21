@@ -1,13 +1,23 @@
-#include "global.h"
+#include "gfx.h"
+#include "printf.h"
+#include "regs.h"
+#include "sfx.h"
+#include "sys_math3d.h"
+#include "sys_matrix.h"
 #include "terminal.h"
+#include "translation.h"
 #include "versions.h"
-
-#include "z64frame_advance.h"
+#include "collision_check.h"
+#include "effect.h"
+#include "frame_advance.h"
+#include "zelda_arena.h"
+#include "play_state.h"
 
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
+#include "z_lib.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ntsc-1.2:208" \
-                               "pal-1.0:208 pal-1.1:208"
+#pragma increment_block_number "gc-eu:192 gc-eu-mq:192 gc-jp:192 gc-jp-ce:192 gc-jp-mq:192 gc-us:192 gc-us-mq:192" \
+                               "ique-cn:192 ntsc-1.0:160 ntsc-1.1:160 ntsc-1.2:160 pal-1.0:160 pal-1.1:160"
 
 typedef s32 (*ColChkResetFunc)(PlayState*, Collider*);
 typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
@@ -16,7 +26,7 @@ typedef s32 (*ColChkLineFunc)(PlayState*, CollisionCheckContext*, Collider*, Vec
 
 #define SAC_ENABLE (1 << 0)
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Draws a red triangle with vertices vA, vB, and vC.
  */
@@ -37,7 +47,7 @@ void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC,
 
     OPEN_DISPS(gfxCtx, "../z_collision_check.c", 713);
 
-    gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_OPA_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0xFF, r, g, b, 50);
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
@@ -162,7 +172,7 @@ s32 Collider_DestroyElementDamageInfoAT(PlayState* play, ColliderElementDamageIn
 s32 Collider_SetElementDamageInfoAT(PlayState* play, ColliderElementDamageInfoAT* dest,
                                     ColliderElementDamageInfoAT* src) {
     dest->dmgFlags = src->dmgFlags;
-    dest->effect = src->effect;
+    dest->hitSpecialEffect = src->hitSpecialEffect;
     dest->damage = src->damage;
     return true;
 }
@@ -184,7 +194,7 @@ s32 Collider_DestroyElementDamageInfoAC(PlayState* play, ColliderElementDamageIn
 s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo,
                                     ColliderElementDamageInfoACInit* init) {
     acDmgInfo->dmgFlags = init->dmgFlags;
-    acDmgInfo->effect = init->effect;
+    acDmgInfo->hitBacklash = init->hitBacklash;
     acDmgInfo->defense = init->defense;
     return true;
 }
@@ -358,9 +368,9 @@ s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJnt
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjJntSph_set():zelda_malloc()出来ません。\n", "ClObjJntSph_set():zelda_malloc() Can not.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
 
@@ -386,9 +396,9 @@ s32 Collider_SetJntSphAllocType1(PlayState* play, ColliderJntSph* dest, Actor* a
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjJntSph_set3():zelda_malloc_出来ません。\n", "ClObjJntSph_set3():zelda_malloc_ Can not.\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
 
@@ -414,9 +424,9 @@ s32 Collider_SetJntSphAlloc(PlayState* play, ColliderJntSph* dest, Actor* actor,
 
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjJntSph_set5():zelda_malloc出来ません\n", "ClObjJntSph_set5():zelda_malloc Can not\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
@@ -720,9 +730,9 @@ s32 Collider_SetTrisAllocType1(PlayState* play, ColliderTris* dest, Actor* actor
     dest->elements = ZELDA_ARENA_MALLOC(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2156);
     if (dest->elements == NULL) {
         dest->count = 0;
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjTris_set3():zelda_malloc()出来ません\n", "ClObjTris_set3():zelda_malloc() Can not\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         return false;
     }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
@@ -746,9 +756,9 @@ s32 Collider_SetTrisAlloc(PlayState* play, ColliderTris* dest, Actor* actor, Col
     dest->elements = ZELDA_ARENA_MALLOC(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2207);
 
     if (dest->elements == NULL) {
-        PRINTF(VT_FGCOL(RED));
+        PRINTF_COLOR_RED();
         PRINTF(T("ClObjTris_set5():zelda_malloc出来ません\n", "ClObjTris_set5():zelda_malloc Can not\n"));
-        PRINTF(VT_RST);
+        PRINTF_RST();
         dest->count = 0;
         return false;
     }
@@ -1019,7 +1029,7 @@ void CollisionCheck_InitContext(PlayState* play, CollisionCheckContext* colChkCt
     colChkCtx->sacFlags = 0;
     CollisionCheck_ClearContext(play, colChkCtx);
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     AREG(21) = true;
     AREG(22) = true;
     AREG(23) = true;
@@ -1073,7 +1083,7 @@ void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx
     colChkCtx->sacFlags &= ~SAC_ENABLE;
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 /**
  * Draws a collider of any shape.
  * Math3D_DrawSphere and Math3D_DrawCylinder are noops, so JntSph and Cylinder are not drawn.
@@ -1556,11 +1566,9 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* c
     if (flags == ATELEM_SFX_NORMAL && collider->colMaterial != COL_MATERIAL_METAL) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
         if (collider->actor == NULL) {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_IT_SHIELD_BOUND);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&collider->actor->projectedPos, NA_SE_IT_SHIELD_BOUND);
         }
     } else if (flags == ATELEM_SFX_NORMAL) { // collider->colMaterial == COL_MATERIAL_METAL
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_METAL, hitPos);
@@ -1572,20 +1580,16 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* c
     } else if (flags == ATELEM_SFX_HARD) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
         if (collider->actor == NULL) {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_IT_SHIELD_BOUND);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&collider->actor->projectedPos, NA_SE_IT_SHIELD_BOUND);
         }
     } else if (flags == ATELEM_SFX_WOOD) {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_DUST, hitPos);
         if (collider->actor == NULL) {
-            Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_IT_REFLECTION_WOOD);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&collider->actor->projectedPos, NA_SE_IT_REFLECTION_WOOD);
         }
     }
 }
@@ -1596,17 +1600,13 @@ void CollisionCheck_HitSolid(PlayState* play, ColliderElement* elem, Collider* c
 s32 CollisionCheck_SwordHitAudio(Collider* atCol, ColliderElement* acElem) {
     if (atCol->actor != NULL && atCol->actor->category == ACTORCAT_PLAYER) {
         if (acElem->elemMaterial == ELEM_MATERIAL_UNK0) {
-            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&atCol->actor->projectedPos, NA_SE_IT_SWORD_STRIKE);
         } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK1) {
-            Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &atCol->actor->projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&atCol->actor->projectedPos, NA_SE_IT_SWORD_STRIKE_HARD);
         } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK2) {
-            Audio_PlaySfxGeneral(NA_SE_NONE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&atCol->actor->projectedPos, NA_SE_NONE);
         } else if (acElem->elemMaterial == ELEM_MATERIAL_UNK3) {
-            Audio_PlaySfxGeneral(NA_SE_NONE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&atCol->actor->projectedPos, NA_SE_NONE);
         }
     }
     return true;
@@ -1683,8 +1683,7 @@ void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement
         } else if (sHitInfo[acCol->colMaterial].effect == HIT_WOOD) {
             if (atCol->actor == NULL) {
                 CollisionCheck_SpawnShieldParticles(play, hitPos);
-                Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_IT_REFLECTION_WOOD);
             } else {
                 CollisionCheck_SpawnShieldParticlesWood(play, hitPos, &atCol->actor->projectedPos);
             }
@@ -1697,11 +1696,9 @@ void CollisionCheck_HitEffects(PlayState* play, Collider* atCol, ColliderElement
     } else {
         EffectSsHitMark_SpawnFixedScale(play, EFFECT_HITMARK_WHITE, hitPos);
         if (acCol->actor == NULL) {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_IT_SHIELD_BOUND);
         } else {
-            Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_BOUND, &acCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_AT_POS(&acCol->actor->projectedPos, NA_SE_IT_SHIELD_BOUND);
         }
     }
 }
@@ -1729,7 +1726,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
         atElem->atHitElem = acElem;
         atElem->atElemFlags |= ATELEM_HIT;
         if (atCol->actor != NULL) {
-            atCol->actor->colChkInfo.atHitEffect = acElem->acDmgInfo.effect;
+            atCol->actor->colChkInfo.atHitBacklash = acElem->acDmgInfo.hitBacklash;
         }
     }
     acCol->acFlags |= AC_HIT;
@@ -1738,7 +1735,7 @@ s32 CollisionCheck_SetATvsAC(PlayState* play, Collider* atCol, ColliderElement* 
     acElem->acHitElem = atElem;
     acElem->acElemFlags |= ACELEM_HIT;
     if (acCol->actor != NULL) {
-        acCol->actor->colChkInfo.acHitEffect = atElem->atDmgInfo.effect;
+        acCol->actor->colChkInfo.acHitSpecialEffect = atElem->atDmgInfo.hitSpecialEffect;
     }
     acElem->acDmgInfo.hitPos.x = hitPos->x;
     acElem->acDmgInfo.hitPos.y = hitPos->y;
@@ -2216,7 +2213,7 @@ void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChk
 }
 
 #pragma increment_block_number "gc-eu:252 gc-eu-mq:252 gc-jp:252 gc-jp-ce:252 gc-jp-mq:252 gc-us:252 gc-us-mq:252" \
-                               "ntsc-1.2:252 pal-1.0:252 pal-1.1:252"
+                               "ique-cn:252 ntsc-1.0:252 ntsc-1.1:252 ntsc-1.2:252 pal-1.0:252 pal-1.1:252"
 
 void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
@@ -2270,10 +2267,6 @@ void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChk
         }
     }
 }
-
-#if OOT_DEBUG
-static s8 sBssDummy0;
-#endif
 
 void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* atCol, Collider* acCol) {
     static TriNorm tri1;
@@ -2334,7 +2327,7 @@ void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 static s8 sBssDummy3;
 static s8 sBssDummy4;
 #endif
@@ -3021,9 +3014,9 @@ void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
  */
 void CollisionCheck_ResetDamage(CollisionCheckInfo* info) {
     info->damage = 0;
-    info->damageEffect = 0;
-    info->atHitEffect = 0;
-    info->acHitEffect = 0;
+    info->damageReaction = 0;
+    info->atHitBacklash = HIT_BACKLASH_NONE;
+    info->acHitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
 }
 
@@ -3102,7 +3095,7 @@ void CollisionCheck_ApplyDamage(PlayState* play, CollisionCheckContext* colChkCt
         }
 
         damage = tbl->table[i] & 0xF;
-        col->actor->colChkInfo.damageEffect = tbl->table[i] >> 4 & 0xF;
+        col->actor->colChkInfo.damageReaction = tbl->table[i] >> 4 & 0xF;
     }
     if (!(col->acFlags & AC_HARD)) {
         col->actor->colChkInfo.damage += damage;
@@ -3346,7 +3339,7 @@ void Collider_SetTrisDim(PlayState* play, ColliderTris* tris, s32 elemIndex, Col
     Collider_SetTrisElementDim(play, &trisElem->dim, src);
 }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
 // The two static Vec3f variables in the function below cross a block index rollover, causing a bss order swap.
 //! In order to replicate this behavior, we declare a certain amount of sBssDummy variables throughout the file, which
 //! we fit inside padding added by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in
@@ -3519,8 +3512,7 @@ void CollisionCheck_SpawnShieldParticles(PlayState* play, Vec3f* v) {
  */
 void CollisionCheck_SpawnShieldParticlesMetal(PlayState* play, Vec3f* v) {
     CollisionCheck_SpawnShieldParticles(play, v);
-    Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_SW, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    SFX_PLAY_CENTERED(NA_SE_IT_SHIELD_REFLECT_SW);
 }
 
 /**
@@ -3528,8 +3520,7 @@ void CollisionCheck_SpawnShieldParticlesMetal(PlayState* play, Vec3f* v) {
  */
 void CollisionCheck_SpawnShieldParticlesMetalSfx(PlayState* play, Vec3f* v, Vec3f* pos) {
     CollisionCheck_SpawnShieldParticles(play, v);
-    Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_SW, pos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultReverb);
+    SFX_PLAY_AT_POS(pos, NA_SE_IT_SHIELD_REFLECT_SW);
 }
 
 /**
@@ -3569,8 +3560,7 @@ void CollisionCheck_SpawnShieldParticlesWood(PlayState* play, Vec3f* v, Vec3f* a
     woodInit.lightPoint.z = woodInit.position.z;
 
     Effect_Add(play, &effectIndex, EFFECT_SHIELD_PARTICLE, 0, 1, &woodInit);
-    Audio_PlaySfxGeneral(NA_SE_IT_REFLECTION_WOOD, actorPos, 4, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    SFX_PLAY_AT_POS(actorPos, NA_SE_IT_REFLECTION_WOOD);
 }
 
 /**
@@ -3729,7 +3719,7 @@ u8 CollisionCheck_GetSwordDamage(s32 dmgFlags) {
         damage = 8;
     }
 
-#if OOT_DEBUG
+#if DEBUG_FEATURES
     KREG(7) = damage;
 #endif
 

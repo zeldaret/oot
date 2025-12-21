@@ -1,4 +1,6 @@
-#include "global.h"
+#include "letterbox.h"
+#include "printf.h"
+#include "regs.h"
 
 typedef enum LetterboxState {
     /* 0 */ LETTERBOX_STATE_IDLE,
@@ -86,7 +88,7 @@ void Letterbox_Update(s32 updateRate) {
         sLetterboxState = LETTERBOX_STATE_IDLE;
     }
 
-    if (OOT_DEBUG && (R_HREG_MODE == HREG_MODE_LETTERBOX)) {
+    if (DEBUG_FEATURES && (R_HREG_MODE == HREG_MODE_LETTERBOX)) {
         if (R_LETTERBOX_INIT != HREG_MODE_LETTERBOX) {
             R_LETTERBOX_INIT = HREG_MODE_LETTERBOX;
             R_LETTERBOX_ENABLE_LOGS = 0;

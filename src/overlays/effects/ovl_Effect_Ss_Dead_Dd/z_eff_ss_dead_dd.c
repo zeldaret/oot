@@ -5,6 +5,16 @@
  */
 
 #include "z_eff_ss_dead_dd.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "printf.h"
+#include "translation.h"
+#include "effect.h"
+#include "play_state.h"
+#include "skin_matrix.h"
+
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
@@ -83,7 +93,7 @@ u32 EffectSsDeadDd_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
             this->accel.z = this->velocity.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
         }
     } else {
-        PRINTF("Effect_SS_Dd_disp_mode():mode_swが変です。\n");
+        PRINTF(T("Effect_SS_Dd_disp_mode():mode_swが変です。\n", "Effect_SS_Dd_disp_mode():mode_sw is strange.\n"));
         return 0;
     }
 

@@ -6,6 +6,18 @@
 
 #include "z_en_dodojr.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+
+#include "libc64/qrand.h"
+#include "gfx.h"
+#include "gfx_setupdl.h"
+#include "sfx.h"
+#include "sys_matrix.h"
+#include "z_en_item00.h"
+#include "z_lib.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+
 #include "assets/objects/object_dodojr/object_dodojr.h"
 
 #define FLAGS (ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
@@ -54,8 +66,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x08 },
-        { 0xFFC5FFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0xFFC5FFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
@@ -63,7 +75,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 20, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
 void EnDodojr_Init(Actor* thisx, PlayState* play) {
     EnDodojr* this = (EnDodojr*)thisx;
@@ -348,14 +360,14 @@ s32 EnDodojr_CheckDamaged(EnDodojr* this, PlayState* play) {
             this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         }
 
-        if ((this->actor.colChkInfo.damageEffect == 0) && (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageReaction == 0) && (this->actor.colChkInfo.damage != 0)) {
             Enemy_StartFinishingBlow(play, &this->actor);
             this->freezeFrameTimer = 2;
             this->actionFunc = EnDodojr_WaitFreezeFrames;
             return true;
         }
 
-        if ((this->actor.colChkInfo.damageEffect == 1) && (this->actionFunc != EnDodojr_Stunned) &&
+        if ((this->actor.colChkInfo.damageReaction == 1) && (this->actionFunc != EnDodojr_Stunned) &&
             (this->actionFunc != EnDodojr_StunnedBounce)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;
@@ -535,7 +547,7 @@ void EnDodojr_Stunned(EnDodojr* this, PlayState* play) {
 }
 
 void EnDodojr_JumpAttackBounce(EnDodojr* this, PlayState* play) {
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_SFX_FOR_PLAYER_BODY_HIT;
     Actor_UpdateVelocityXZGravity(&this->actor);
 
     if (EnDodojr_UpdateBounces(this, play)) {
