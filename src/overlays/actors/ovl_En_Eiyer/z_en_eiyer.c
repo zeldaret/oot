@@ -1,4 +1,10 @@
-#include "z_en_eiyer.h"
+/*
+ * File: z_en_eiyer.c
+ * Overlay: ovl_En_Eiyer
+ * Description: Stinger (Jabu-Jabu)
+ */
+ 
+ #include "z_en_eiyer.h"
 
 #include "libc64/qrand.h"
 #include "gfx.h"
