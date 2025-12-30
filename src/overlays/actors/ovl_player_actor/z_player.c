@@ -14,6 +14,7 @@
 #include "overlays/actors/ovl_En_Fish/z_en_fish.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "overlays/actors/ovl_En_Insect/z_en_insect.h"
+#include "overlays/actors/ovl_Item_Shield/z_item_shield.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
 #include "libc64/qrand.h"
@@ -4780,8 +4781,9 @@ int func_8083816C(s32 arg0) {
 
 void func_8083819C(Player* this, PlayState* play) {
     if (this->currentShield == PLAYER_SHIELD_DEKU) {
+        // Burn the player's shield
         Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_SHIELD, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, 0, 0, 0, 1);
+                    this->actor.world.pos.z, 0, 0, 0, ITEMSHIELD_TYPE_BURNED);
         Inventory_DeleteEquipment(play, EQUIP_TYPE_SHIELD);
         Message_StartTextbox(play, 0x305F, NULL);
     }
