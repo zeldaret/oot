@@ -5346,7 +5346,7 @@ s32 Camera_Unique9(Camera* camera) {
 
             if (rwData->curKeyFrame->initField != ONEPOINT_CS_INIT_FIELD_NONE) {
                 if (ONEPOINT_CS_INIT_FIELD_IS_TYPE_ACTORCAT(rwData->curKeyFrame->initField)) {
-                    D_8011D3AC = rwData->curKeyFrame->initField & 0xF;
+                    sCameraFocusActorCategory = rwData->curKeyFrame->initField & 0xF;
                 } else if (ONEPOINT_CS_INIT_FIELD_IS_TYPE_HUD_VISIBILITY(rwData->curKeyFrame->initField)) {
                     Camera_UpdateInterface(
                         CAM_INTERFACE_FIELD(CAM_LETTERBOX_IGNORE, rwData->curKeyFrame->initField, 0));
@@ -6148,7 +6148,7 @@ s32 Camera_Demo5(Camera* camera) {
 
     camera->targetPosRot = Actor_GetFocus(camera->target);
     playerTargetGeo = OLib_Vec3fDiffToVecGeo(&camera->targetPosRot.pos, &camera->playerPosRot.pos);
-    D_8011D3AC = camera->target->category;
+    sCameraFocusActorCategory = camera->target->category;
     Actor_GetScreenPos(camera->play, camera->target, &targetScreenPosX, &targetScreenPosY);
     eyeTargetDist = OLib_Vec3fDist(&camera->targetPosRot.pos, &camera->eye);
     eyePlayerGeo = OLib_Vec3fDiffToVecGeo(&playerhead.pos, &camera->eyeNext);
@@ -8933,8 +8933,8 @@ s32 Camera_QRegInit(void) {
 }
 #endif
 
-s32 func_8005B198(void) {
-    return D_8011D3AC;
+s32 Camera_GetFocusActorCategory(void) {
+    return sCameraFocusActorCategory;
 }
 
 /**
