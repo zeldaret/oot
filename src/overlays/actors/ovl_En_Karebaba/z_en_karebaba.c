@@ -488,7 +488,7 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
             gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStickDropDL);
         }
     } else if (this->actionFunc != EnKarebaba_Dead) {
-        func_80026230(play, &black, 1, 2);
+        EffectFog_SetPulse(play, &black, 1, 2);
         SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
 
@@ -517,10 +517,10 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
             }
         }
 
-        func_80026608(play);
+        EffectFog_Reset(play);
     }
 
-    func_80026230(play, &black, 1, 2);
+    EffectFog_SetPulse(play, &black, 1, 2);
     Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
 
     if (this->actionFunc != EnKarebaba_Grow) {
@@ -538,7 +538,7 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBaseDL);
     }
 
-    func_80026608(play);
+    EffectFog_Reset(play);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_karebaba.c", 1163);
 

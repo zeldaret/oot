@@ -1261,12 +1261,12 @@ void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2) {
 }
 
 /**
- * Chcek if the player is facing the specified actor.
+ * Check if the player is facing the specified actor.
  * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  */
 s32 Player_IsFacingActor(Actor* actor, s16 maxAngle, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 yawDiff = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
+    s16 yawDiff = (s16)(actor->yawTowardsPlayer + BINANG_ROT_180) - player->actor.shape.rot.y;
 
     if (ABS(yawDiff) < maxAngle) {
         return true;
@@ -1282,7 +1282,7 @@ s32 Player_IsFacingActor(Actor* actor, s16 maxAngle, PlayState* play) {
  * This function is unused in the original game.
  */
 s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 maxAngle) {
-    s16 yawDiff = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
+    s16 yawDiff = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + BINANG_ROT_180) - actorB->shape.rot.y;
 
     if (ABS(yawDiff) < maxAngle) {
         return true;
@@ -1647,10 +1647,10 @@ PosRot Actor_GetWorldPosShapeRot(Actor* actor) {
  * This distance will be weighted if Player is already locked onto another actor.
  */
 f32 Attention_WeightedDistToPlayerSq(Actor* actor, Player* player, s16 playerShapeYaw) {
-    s16 yawTempAbs = (s16)ABS((s16)((s16)(actor->yawTowardsPlayer - 0x8000) - playerShapeYaw));
+    s16 yawTempAbs = (s16)ABS((s16)((s16)(actor->yawTowardsPlayer - BINANG_ROT_180) - playerShapeYaw));
 
     if (player->focusActor != NULL) {
-        if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_LOCK_ON_DISABLED)) {
+        if ((yawTempAbs > BINANG_ROT_90) || (actor->flags & ACTOR_FLAG_LOCK_ON_DISABLED)) {
             return MAXFLOAT;
         } else {
             f32 adjDistSq;
@@ -1658,8 +1658,8 @@ f32 Attention_WeightedDistToPlayerSq(Actor* actor, Player* player, s16 playerSha
             // The distance returned is scaled down as the player faces more toward the actor.
             // At 90 degrees, 100% of the original distance will be returned.
             // This scales down linearly to 60% when facing 0 degrees away.
-            adjDistSq =
-                actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
+            adjDistSq = actor->xyzDistToPlayerSq -
+                        actor->xyzDistToPlayerSq * 0.8f * ((BINANG_ROT_90 - yawTempAbs) * (1.0f / BINANG_ROT_180));
 
             return adjDistSq;
         }
@@ -1723,7 +1723,7 @@ s32 Attention_ShouldReleaseLockOn(Actor* actor, Player* player, s32 ignoreLeash)
     }
 
     if (!ignoreLeash) {
-        s16 yawDiffAbs = (s16)ABS((s16)((s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y));
+        s16 yawDiffAbs = (s16)ABS((s16)((s16)(actor->yawTowardsPlayer - BINANG_ROT_180) - player->actor.shape.rot.y));
         // This function is only called (and is only relevant) when `player->focusActor != NULL`,
         // so the MAXFLOAT case is unreachable.
         f32 distSq = ((player->focusActor == NULL) && (yawDiffAbs > 0x2AAA)) ? MAXFLOAT : actor->xyzDistToPlayerSq;
@@ -2613,9 +2613,11 @@ void Actor_Draw(PlayState* play, Actor* actor) {
         }
 
         if (actor->colorFilterParams & COLORFILTER_BUFFLAG_XLU) {
-            func_80026860(play, &color, actor->colorFilterTimer, COLORFILTER_GET_DURATION(actor->colorFilterParams));
+            EffectFog_SetFlashXlu(play, &color, actor->colorFilterTimer,
+                                  COLORFILTER_GET_DURATION(actor->colorFilterParams));
         } else {
-            func_80026400(play, &color, actor->colorFilterTimer, COLORFILTER_GET_DURATION(actor->colorFilterParams));
+            EffectFog_SetFlash(play, &color, actor->colorFilterTimer,
+                               COLORFILTER_GET_DURATION(actor->colorFilterParams));
         }
     }
 
@@ -2623,9 +2625,9 @@ void Actor_Draw(PlayState* play, Actor* actor) {
 
     if (actor->colorFilterTimer != 0) {
         if (actor->colorFilterParams & COLORFILTER_BUFFLAG_XLU) {
-            func_80026A6C(play);
+            EffectFog_ResetXlu(play);
         } else {
-            func_80026608(play);
+            EffectFog_Reset(play);
         }
     }
 
