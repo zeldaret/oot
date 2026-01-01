@@ -168,8 +168,8 @@ void ObjIcePoly_Melt(ObjIcePoly* this, PlayState* play) {
         pos.y = this->actor.world.pos.y + this->actor.scale.y * Rand_ZeroOne() * 50.0f;
         pos.z =
             this->actor.world.pos.z + this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
-        func_8002829C(play, &pos, &vel, &accel, &sColorWhite, &sColorGray,
-                      Rand_S16Offset(0x15E, 0x64) * this->actor.scale.x, this->actor.scale.x * 20.0f);
+        EffectSsDust_SpawnNormal(play, &pos, &vel, &accel, &sColorWhite, &sColorGray,
+                                 Rand_S16Offset(0x15E, 0x64) * this->actor.scale.x, this->actor.scale.x * 20.0f);
     }
     if (this->meltTimer < 0) {
         if (this->actor.parent != NULL) {

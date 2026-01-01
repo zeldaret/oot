@@ -1783,7 +1783,8 @@ void func_8090109C(BossGanon2* this, PlayState* play) {
         pos.x = this->unk_1B8.x;
         pos.y = this->unk_1B8.y;
         pos.z = this->unk_1B8.z;
-        func_8002836C(play, &pos, &velocity, &accel, &sPrimColor, &sEnvColor, (s16)Rand_ZeroFloat(50.0f) + 50, 0, 17);
+        EffectSsDust_SpawnNormalCustomLife(play, &pos, &velocity, &accel, &sPrimColor, &sEnvColor,
+                                           (s16)Rand_ZeroFloat(50.0f) + 50, 0, 17);
     }
 }
 

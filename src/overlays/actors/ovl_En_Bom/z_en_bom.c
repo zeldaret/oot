@@ -277,7 +277,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
             Actor_PlaySfx(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
             effPos.y += 3.0f;
-            func_8002829C(play, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
+            EffectSsDust_SpawnNormal(play, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
         }
 
         if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&

@@ -586,12 +586,12 @@ void EnFloormas_Slide(EnFloormas* this, PlayState* play) {
     velocity.x = Math_SinS(this->actor.shape.rot.y + 0x6000) * 7.0f;
     velocity.z = Math_CosS(this->actor.shape.rot.y + 0x6000) * 7.0f;
 
-    func_800286CC(play, &pos, &velocity, &accel, 450, 100);
+    EffectSsDust_SpawnBrownFogShaded2(play, &pos, &velocity, &accel, 450, 100);
 
     velocity.x = Math_SinS(this->actor.shape.rot.y - 0x6000) * 7.0f;
     velocity.z = Math_CosS(this->actor.shape.rot.y - 0x6000) * 7.0f;
 
-    func_800286CC(play, &pos, &velocity, &accel, 450, 100);
+    EffectSsDust_SpawnBrownFogShaded2(play, &pos, &velocity, &accel, 450, 100);
 
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLOORMASTER_SLIDING - SFX_FLAG);
 }

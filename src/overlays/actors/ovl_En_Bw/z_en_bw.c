@@ -783,7 +783,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
             velocity.z = Rand_CenteredFloat(this->unk_248 * 24.0f);
             accel.x = velocity.x * -0.075f;
             accel.z = velocity.z * -0.075f;
-            func_8002836C(play, &thisx->world.pos, &velocity, &accel, &sp50, &sp4C, 0x3C, 0, 0x14);
+            EffectSsDust_SpawnNormalCustomLife(play, &thisx->world.pos, &velocity, &accel, &sp50, &sp4C, 0x3C, 0, 0x14);
         }
         if (this->unk_248 <= 0.4f) {
             this->collider1.elem.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
@@ -802,8 +802,8 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
                 } else {
                     sp44.a = 0;
                 }
-                func_8002836C(play, &thisx->world.pos, &velocity, &accel, &sp48, &sp44, 0xB4, 0x28,
-                              20.0f - (this->unk_248 * 40.0f));
+                EffectSsDust_SpawnNormalCustomLife(play, &thisx->world.pos, &velocity, &accel, &sp48, &sp44, 0xB4, 0x28,
+                                                   20.0f - (this->unk_248 * 40.0f));
             }
         } else {
             this->collider1.elem.atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_FIRE;

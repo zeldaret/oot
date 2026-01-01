@@ -131,8 +131,8 @@ void func_808B7770(BgSpot18Basket* this, PlayState* play, f32 arg2) {
         acceleration.y = 0.5f;
         acceleration.z = 0.0f;
 
-        func_800286CC(play, &position, &velocity, &acceleration, ((Rand_ZeroOne() * 16) + 80),
-                      ((Rand_ZeroOne() * 30) + 80));
+        EffectSsDust_SpawnBrownFogShaded2(play, &position, &velocity, &acceleration, ((Rand_ZeroOne() * 16) + 80),
+                                          ((Rand_ZeroOne() * 30) + 80));
     }
 }
 

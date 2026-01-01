@@ -58,8 +58,8 @@ void DemoGt_SpawnDust(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel
     static Color_RGBA8 brownPrim = { 100, 80, 100, 0 };
     static Color_RGBA8 redEnv = { 255, 110, 96, 0 };
 
-    func_8002843C(play, pos, velocity, accel, &brownPrim, &redEnv, ((Rand_ZeroOne() * (scale * 0.2f)) + scale),
-                  scaleStep, life);
+    EffectSsDust_SpawnPassMode(play, pos, velocity, accel, &brownPrim, &redEnv,
+                               ((Rand_ZeroOne() * (scale * 0.2f)) + scale), scaleStep, life);
 }
 
 void func_8097D7D8(PlayState* play, Vec3f* pos, Vec3f* velOffset, f32 scale, s32 arg4, s32 arg5, s16 life) {

@@ -1639,7 +1639,7 @@ void DemoEffect_UpdateDust(DemoEffect* this, PlayState* play) {
         accel.x = 0.0f;
         accel.y = 0.2f;
 
-        func_8002873C(play, &pos, &velocity, &accel, 300, 0, 30);
+        EffectSsDust_SpawnBrownNormalCustom(play, &pos, &velocity, &accel, 300, 0, 30);
 
         this->dust.timer++;
     }

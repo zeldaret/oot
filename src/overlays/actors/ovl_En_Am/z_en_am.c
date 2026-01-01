@@ -887,7 +887,8 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
                     dustPos.y = (Rand_CenteredFloat(10.0f) * 6.0f) + (this->dyna.actor.world.pos.y + 40.0f);
                     dustPos.z = (cosf(dustPosScale) * 7.0f) + this->dyna.actor.world.pos.z;
 
-                    func_8002836C(play, &dustPos, &zeroVec, &zeroVec, &dustPrimColor, &dustEnvColor, 200, 45, 12);
+                    EffectSsDust_SpawnNormalCustomLife(play, &dustPos, &zeroVec, &zeroVec, &dustPrimColor,
+                                                       &dustEnvColor, 200, 45, 12);
                     dustPosScale += 60.0f;
                 }
 

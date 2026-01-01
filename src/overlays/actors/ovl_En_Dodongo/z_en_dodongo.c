@@ -286,7 +286,8 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, PlayState* play) {
     velocity.z = randCos * 3.5f;
     accel.x = ((Rand_ZeroOne() * 0.1f) + 0.15f) * -randSin;
     accel.z = ((Rand_ZeroOne() * 0.1f) + 0.15f) * -randCos;
-    func_8002836C(play, &pos, &velocity, &accel, &this->bombSmokePrimColor, &this->bombSmokeEnvColor, 100, 25, 20);
+    EffectSsDust_SpawnNormalCustomLife(play, &pos, &velocity, &accel, &this->bombSmokePrimColor,
+                                       &this->bombSmokeEnvColor, 100, 25, 20);
 
     randAngle = Rand_ZeroOne() * 0x2000;
     randCos = Math_CosS(this->actor.shape.rot.y + randAngle);
@@ -298,7 +299,8 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, PlayState* play) {
     velocity.z = randSin * 3.5f;
     accel.x = ((Rand_ZeroOne() * 0.1f) + 0.15f) * randCos;
     accel.z = ((Rand_ZeroOne() * 0.1f) + 0.15f) * -randSin;
-    func_8002836C(play, &pos, &velocity, &accel, &this->bombSmokePrimColor, &this->bombSmokeEnvColor, 100, 25, 20);
+    EffectSsDust_SpawnNormalCustomLife(play, &pos, &velocity, &accel, &this->bombSmokePrimColor,
+                                       &this->bombSmokeEnvColor, 100, 25, 20);
 
     randAngle = Rand_ZeroOne() * 0x2000;
     randCos = Math_CosS(this->actor.shape.rot.y + randAngle);
@@ -311,7 +313,8 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, PlayState* play) {
     velocity.z = -randSin * 3.5f;
     accel.x = ((Rand_ZeroOne() * 0.1f) + 0.15f) * -randCos;
     accel.z = ((Rand_ZeroOne() * 0.1f) + 0.15f) * randSin;
-    func_8002836C(play, &pos, &velocity, &accel, &this->bombSmokePrimColor, &this->bombSmokeEnvColor, 100, 25, 20);
+    EffectSsDust_SpawnNormalCustomLife(play, &pos, &velocity, &accel, &this->bombSmokePrimColor,
+                                       &this->bombSmokeEnvColor, 100, 25, 20);
 }
 
 static InitChainEntry sInitChain[] = {
@@ -509,8 +512,9 @@ void EnDodongo_SwallowBomb(EnDodongo* this, PlayState* play) {
                     pos.x = this->bodyColliderElements[0].dim.worldSphere.center.x + deathFireVel.x;
                     pos.y = this->bodyColliderElements[0].dim.worldSphere.center.y + deathFireVel.y;
                     pos.z = this->bodyColliderElements[0].dim.worldSphere.center.z + deathFireVel.z;
-                    func_8002836C(play, &pos, &deathFireVel, &deathFireAccel, &this->bombSmokePrimColor,
-                                  &this->bombSmokeEnvColor, 400, 10, 10);
+                    EffectSsDust_SpawnNormalCustomLife(play, &pos, &deathFireVel, &deathFireAccel,
+                                                       &this->bombSmokePrimColor, &this->bombSmokeEnvColor, 400, 10,
+                                                       10);
                 }
                 Actor_PlaySfx(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
                 Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 120, COLORFILTER_BUFFLAG_OPA, 8);
@@ -522,13 +526,13 @@ void EnDodongo_SwallowBomb(EnDodongo* this, PlayState* play) {
             EnDodongo_SpawnBombSmoke(this, play);
         } else {
             pos = this->headPos;
-            func_8002829C(play, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
+            EffectSsDust_SpawnNormal(play, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
             pos.x -= (Math_CosS(this->actor.shape.rot.y) * 6.0f);
             pos.z += (Math_SinS(this->actor.shape.rot.y) * 6.0f);
-            func_8002829C(play, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
+            EffectSsDust_SpawnNormal(play, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
             pos.x = this->headPos.x + (Math_CosS(this->actor.shape.rot.y) * 6.0f);
             pos.z = this->headPos.z - (Math_SinS(this->actor.shape.rot.y) * 6.0f);
-            func_8002829C(play, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
+            EffectSsDust_SpawnNormal(play, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
         }
     }
     this->bodyScale.y = this->bodyScale.z = (Math_SinS(this->actor.colorFilterTimer * 0x1000) * 0.5f) + 1.0f;

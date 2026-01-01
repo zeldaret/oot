@@ -604,7 +604,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                 for (j = 0; j < dustCount + 3; j++) {
                     pos.x = this->actor.world.pos.x + Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f);
                     pos.z = this->actor.world.pos.z + Rand_CenteredFloat((this->partCount * 0.5f) + 20.0f);
-                    func_800286CC(play, &pos, &velocity, &accel, 100, 5);
+                    EffectSsDust_SpawnBrownFogShaded2(play, &pos, &velocity, &accel, 100, 5);
                 }
             }
             if (DECR(this->airTimer) == 0) {

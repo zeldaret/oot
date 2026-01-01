@@ -3754,12 +3754,12 @@ void Actor_SpawnFloorDustRing(PlayState* play, Actor* actor, Vec3f* posXZ, f32 r
         accel.z = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
 
         if (scale == 0) {
-            func_8002857C(play, &pos, &velocity, &accel);
+            EffectSsDust_SpawnBrown(play, &pos, &velocity, &accel);
         } else {
             if (useLighting) {
-                func_800286CC(play, &pos, &velocity, &accel, scale, scaleStep);
+                EffectSsDust_SpawnBrownFogShaded2(play, &pos, &velocity, &accel, scale, scaleStep);
             } else {
-                func_8002865C(play, &pos, &velocity, &accel, scale, scaleStep);
+                EffectSsDust_SpawnBrownNormal(play, &pos, &velocity, &accel, scale, scaleStep);
             }
         }
 
@@ -3785,9 +3785,9 @@ void func_80033480(PlayState* play, Vec3f* posBase, f32 randRangeDiameter, s32 a
         var2 = arg6;
 
         if (var2 != 0) {
-            func_800286CC(play, &pos, &velocity, &accel, scale, scaleStep);
+            EffectSsDust_SpawnBrownFogShaded2(play, &pos, &velocity, &accel, scale, scaleStep);
         } else {
-            func_8002865C(play, &pos, &velocity, &accel, scale, scaleStep);
+            EffectSsDust_SpawnBrownNormal(play, &pos, &velocity, &accel, scale, scaleStep);
         }
     }
 }

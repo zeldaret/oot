@@ -354,7 +354,8 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
         dustVelocity.y = Rand_CenteredFloat(5.0f);
         dustAccel.y = 0.2f;
         dustPos = this->actor.world.pos;
-        func_8002836C(play, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 600, 40, 30);
+        EffectSsDust_SpawnNormalCustomLife(play, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor,
+                                           600, 40, 30);
     }
 }
 

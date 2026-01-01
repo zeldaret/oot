@@ -440,8 +440,8 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, PlayState* play)
             envColor.g += colorDelta;
             envColor.b += colorDelta;
 
-            func_8002829C(play, &position, &velocity, &accel, &primColor, &envColor, Rand_ZeroOne() * 40.0f + 200.0f,
-                          0);
+            EffectSsDust_SpawnNormal(play, &position, &velocity, &accel, &primColor, &envColor,
+                                     Rand_ZeroOne() * 40.0f + 200.0f, 0);
         }
 
         DemoDu_CsPlaySfx_DaruniaHitsLink(play);

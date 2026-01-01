@@ -161,7 +161,8 @@ void func_808828F4(BgHakaZou* this, PlayState* play) {
         effectPos.y = this->dyna.actor.world.pos.y + (60.0f * rand);
         effectPos.z = this->dyna.actor.world.pos.z + (112.0f * rand);
 
-        func_800286CC(play, &effectPos, &effectVelocity, &sZeroVec, (Rand_ZeroOne() * 200.0f) + 1000.0f, 100);
+        EffectSsDust_SpawnBrownFogShaded2(play, &effectPos, &effectVelocity, &sZeroVec,
+                                          (Rand_ZeroOne() * 200.0f) + 1000.0f, 100);
     }
 }
 
@@ -249,7 +250,7 @@ void func_80882CC4(BgHakaZou* this, PlayState* play) {
 
             Actor_Spawn(&play->actorCtx, play, ACTOR_BG_HAKA_ZOU, actorSpawnPos.x, actorSpawnPos.y, actorSpawnPos.z, 0,
                         this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + 2);
-            func_800286CC(play, &actorSpawnPos, &sZeroVec, &sZeroVec, 1000, 50);
+            EffectSsDust_SpawnBrownFogShaded2(play, &actorSpawnPos, &sZeroVec, &sZeroVec, 1000, 50);
         }
     }
 }
@@ -271,7 +272,7 @@ void func_80882E54(BgHakaZou* this, PlayState* play) {
             fragmentPos.x = this->collider.dim.pos.x + (((j * 2) - 1) * num);
             fragmentPos.z = this->collider.dim.pos.z + (((i * 2) - 1) * num);
             EffectSsHahen_SpawnBurst(play, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, gBotwBombSpotDL);
-            func_800286CC(play, &fragmentPos, &sZeroVec, &sZeroVec, 1000, 50);
+            EffectSsDust_SpawnBrownFogShaded2(play, &fragmentPos, &sZeroVec, &sZeroVec, 1000, 50);
         }
     }
 }
@@ -369,7 +370,8 @@ void func_80883328(BgHakaZou* this, PlayState* play) {
 
             for (i = 0; i < 4; i++) {
                 effectPos.z -= (i == 2) ? 550.0f : 50.0f;
-                func_800286CC(play, &effectPos, &sZeroVec, &sZeroVec, (Rand_ZeroOne() * 200.0f) + 1000.0f, 200);
+                EffectSsDust_SpawnBrownFogShaded2(play, &effectPos, &sZeroVec, &sZeroVec,
+                                                  (Rand_ZeroOne() * 200.0f) + 1000.0f, 200);
             }
 
             effectPos.x -= 112.0f;

@@ -355,13 +355,13 @@ void EnKarebaba_Dying(EnKarebaba* this, PlayState* play) {
         rotation.y = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y);
 
         for (i = 0; i < 4; i++) {
-            func_800286CC(play, &position, &zeroVec, &zeroVec, 500, 50);
+            EffectSsDust_SpawnBrownFogShaded2(play, &position, &zeroVec, &zeroVec, 500, 50);
             position.x += rotation.x;
             position.y += rotation.z;
             position.z += rotation.y;
         }
 
-        func_800286CC(play, &this->actor.home.pos, &zeroVec, &zeroVec, 500, 100);
+        EffectSsDust_SpawnBrownFogShaded2(play, &this->actor.home.pos, &zeroVec, &zeroVec, 500, 100);
         EnKarebaba_SetupDeadItemDrop(this, play);
     }
 }

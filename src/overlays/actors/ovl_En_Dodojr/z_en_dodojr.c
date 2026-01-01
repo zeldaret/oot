@@ -124,7 +124,7 @@ void EnDodojr_SpawnLargeDust(EnDodojr* this, PlayState* play, s32 count) {
         pos.x = (Math_SinS(angle) * 22.0f) + this->dustPos.x;
         pos.z = (Math_CosS(angle) * 22.0f) + this->dustPos.z;
 
-        func_8002836C(play, &pos, &velocity, &accel, &prim, &env, 120, 40, 10);
+        EffectSsDust_SpawnNormalCustomLife(play, &pos, &velocity, &accel, &prim, &env, 120, 40, 10);
     }
 }
 
@@ -144,7 +144,7 @@ void EnDodojr_SpawnSmallDust(EnDodojr* this, PlayState* play, Vec3f* arg2) {
     pos.x = (Math_SinS(angle) * 11.0f) + arg2->x;
     pos.z = (Math_CosS(angle) * 11.0f) + arg2->z;
 
-    func_8002836C(play, &pos, &velocity, &accel, &prim, &env, 100, 60, 8);
+    EffectSsDust_SpawnNormalCustomLife(play, &pos, &velocity, &accel, &prim, &env, 100, 60, 8);
 }
 
 s32 EnDodojr_UpdateBounces(EnDodojr* this, PlayState* play) {

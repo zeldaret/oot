@@ -294,8 +294,8 @@ void BgHeavyBlock_SpawnDust(PlayState* play, f32 posX, f32 posY, f32 posZ, f32 v
             break;
     }
 
-    func_8002843C(play, &pos, &velocity, &accel, &primColor, &envColor, scale, scaleStep,
-                  (s32)Rand_ZeroFloat(10.0f) + 20);
+    EffectSsDust_SpawnPassMode(play, &pos, &velocity, &accel, &primColor, &envColor, scale, scaleStep,
+                               (s32)Rand_ZeroFloat(10.0f) + 20);
 }
 
 void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, PlayState* play) {

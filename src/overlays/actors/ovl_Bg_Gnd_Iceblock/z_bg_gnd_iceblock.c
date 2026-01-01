@@ -345,11 +345,11 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
         pos.x = thisx->world.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) - (Math_CosS(this->dyna.unk_158) * spread);
         pos.z = thisx->world.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) + (Math_SinS(this->dyna.unk_158) * spread);
         pos.y = thisx->world.pos.y;
-        func_8002829C(play, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
+        EffectSsDust_SpawnNormal(play, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
         spread = Rand_CenteredFloat(120.0f);
         pos.x = thisx->world.pos.x - (60.0f * Math_SinS(this->dyna.unk_158)) + (Math_CosS(this->dyna.unk_158) * spread);
         pos.z = thisx->world.pos.z - (60.0f * Math_CosS(this->dyna.unk_158)) - (Math_SinS(this->dyna.unk_158) * spread);
-        func_8002829C(play, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
+        EffectSsDust_SpawnNormal(play, &pos, &velocity, &sZeroVec, &sWhite, &sGray, 250, Rand_S16Offset(40, 15));
         Actor_PlaySfx_Flagged(thisx, NA_SE_PL_SLIP_ICE_LEVEL - SFX_FLAG);
     }
 }

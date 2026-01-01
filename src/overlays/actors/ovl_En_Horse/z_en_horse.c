@@ -1655,7 +1655,7 @@ void EnHorse_LowJump(EnHorse* this, PlayState* play) {
         this->stateFlags &= ~ENHORSE_JUMPING;
         this->actor.gravity = -3.5f;
         this->actor.world.pos.y = this->actor.floorHeight;
-        func_80028A54(play, 25.0f, &this->actor.world.pos);
+        EffectSsDust_SpawnBurstFogShaded(play, 25.0f, &this->actor.world.pos);
         EnHorse_JumpLanding(this, play);
     }
 }
@@ -1729,7 +1729,7 @@ void EnHorse_HighJump(EnHorse* this, PlayState* play) {
         this->stateFlags &= ~ENHORSE_JUMPING;
         this->actor.gravity = -3.5f;
         this->actor.world.pos.y = this->actor.floorHeight;
-        func_80028A54(play, 25.0f, &this->actor.world.pos);
+        EffectSsDust_SpawnBurstFogShaded(play, 25.0f, &this->actor.world.pos);
         EnHorse_JumpLanding(this, play);
     }
 }
@@ -2229,7 +2229,7 @@ void EnHorse_CsJump(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
         this->actor.gravity = -3.5f;
         this->actor.velocity.y = 0;
         this->actor.world.pos.y = this->actor.floorHeight;
-        func_80028A54(play, 25.0f, &this->actor.world.pos);
+        EffectSsDust_SpawnBurstFogShaded(play, 25.0f, &this->actor.world.pos);
         this->animationIdx = ENHORSE_ANIM_GALLOP;
         Animation_PlayOnceSetSpeed(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx],
                                    sPlaybackSpeeds[6]);
@@ -2750,7 +2750,7 @@ void EnHorse_FleePlayer(EnHorse* this, PlayState* play) {
 void EnHorse_BridgeJumpInit(EnHorse* this, PlayState* play) {
     f32 y;
 
-    func_80028A54(play, 25.0f, &this->actor.world.pos);
+    EffectSsDust_SpawnBurstFogShaded(play, 25.0f, &this->actor.world.pos);
     this->action = ENHORSE_ACT_BRIDGE_JUMP;
     this->stateFlags |= ENHORSE_JUMPING;
     this->animationIdx = ENHORSE_ANIM_HIGH_JUMP;
@@ -2819,7 +2819,7 @@ void EnHorse_CheckBridgeJumpLanding(EnHorse* this, PlayState* play) {
         this->stateFlags &= ~ENHORSE_JUMPING;
         this->actor.gravity = -3.5f;
         this->actor.world.pos.y = sBridgeJumps[this->bridgeJumpIdx].pos.y;
-        func_80028A54(play, 25.0f, &this->actor.world.pos);
+        EffectSsDust_SpawnBurstFogShaded(play, 25.0f, &this->actor.world.pos);
         EnHorse_JumpLanding(this, play);
         SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_HORSE_LAND);
         Rumble_Request(0.0f, 255, 10, 80);
@@ -3606,20 +3606,24 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         if (gSaveContext.save.entranceIndex != ENTR_LON_LON_RANCH_0 || gSaveContext.sceneLayer != 9) {
             if (this->dustFlags & 1) {
                 this->dustFlags &= ~1;
-                func_800287AC(play, &this->frontRightHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
-                              EnHorse_RandInt(10) + 30, EnHorse_RandInt(20) + 30);
+                EffectSsDust_SpawnBrownFogShadedCustom(play, &this->frontRightHoof, &dustVel, &dustAcc,
+                                                       EnHorse_RandInt(100) + 200, EnHorse_RandInt(10) + 30,
+                                                       EnHorse_RandInt(20) + 30);
             } else if (this->dustFlags & 2) {
                 this->dustFlags &= ~2;
-                func_800287AC(play, &this->frontLeftHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
-                              EnHorse_RandInt(10) + 30, EnHorse_RandInt(20) + 30);
+                EffectSsDust_SpawnBrownFogShadedCustom(play, &this->frontLeftHoof, &dustVel, &dustAcc,
+                                                       EnHorse_RandInt(100) + 200, EnHorse_RandInt(10) + 30,
+                                                       EnHorse_RandInt(20) + 30);
             } else if (this->dustFlags & 4) {
                 this->dustFlags &= ~4;
-                func_800287AC(play, &this->backRightHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
-                              EnHorse_RandInt(10) + 30, EnHorse_RandInt(20) + 30);
+                EffectSsDust_SpawnBrownFogShadedCustom(play, &this->backRightHoof, &dustVel, &dustAcc,
+                                                       EnHorse_RandInt(100) + 200, EnHorse_RandInt(10) + 30,
+                                                       EnHorse_RandInt(20) + 30);
             } else if (this->dustFlags & 8) {
                 this->dustFlags &= ~8;
-                func_800287AC(play, &this->backLeftHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
-                              EnHorse_RandInt(10) + 30, EnHorse_RandInt(20) + 30);
+                EffectSsDust_SpawnBrownFogShadedCustom(play, &this->backLeftHoof, &dustVel, &dustAcc,
+                                                       EnHorse_RandInt(100) + 200, EnHorse_RandInt(10) + 30,
+                                                       EnHorse_RandInt(20) + 30);
             }
         }
         this->stateFlags &= ~ENHORSE_DRAW;
