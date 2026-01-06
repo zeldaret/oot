@@ -421,7 +421,7 @@ void BgHakaTrap_SpikedCrusher_Fall(BgHakaTrap* this, PlayState* play) {
     vector.y = (this->dyna.actor.world.pos.y + 1.0f) + 25.0f;
     vector.z = this->dyna.actor.world.pos.z;
 
-    //actor.floorHeight is storing the minimum y position of the crusher
+    // actor.floorHeight is storing the minimum y position of the crusher
     floorHeight = this->dyna.actor.floorHeight;
 
     for (i = 0; i < 3; i++) {
