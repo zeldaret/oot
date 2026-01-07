@@ -1,5 +1,11 @@
 <Root>
     <File Name="object_gi_gerudomask" Segment="6">
+        <Texture Name="gGiGerudoMaskTLUT" Format="rgba16" Width="256" Height="1" Offset="0x0"/>
+        <Blob Name="object_gi_gerudomask_000200_Blob" Size="0x8" Offset="0x200"/>
+        <Texture Name="gGiGerudoMaskSkinTex" Format="ci8" Width="8" Height="8" Offset="0x208" TlutOffset="0x0"/>
+        <Texture Name="gGiGerudoMaskHairTex" Format="ci8" Width="16" Height="16" Offset="0x248" TlutOffset="0x0"/>
+        <Texture Name="gGiGerudoMaskLipsTex" Format="ci8" Width="16" Height="16" Offset="0x348" TlutOffset="0x0"/>
+        <Texture Name="gGiGerudoMaskEyeTex" Format="ci8" Width="32" Height="32" Offset="0x448" TlutOffset="0x0"/>
         <Array Name="gGiGerudoMaskVtx" Count="138" Offset="0x848">
             <Vtx/>
         </Array>

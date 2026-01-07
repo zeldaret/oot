@@ -43,6 +43,7 @@ VERBOSE_ColorIndexedTexturesManager = False
 VERBOSE_BEST_EFFORT_TLUT_NO_REAL_USER = True
 
 EXPLICIT_DL_AND_TEX_SIZES = True
+TEXS_SHORTER_NAMES = True
 
 
 class MtxResource(CDataResource):
@@ -274,6 +275,15 @@ class TextureResource(Resource):
 
         self.width_name = f"{self.symbol_name}_WIDTH"
         self.height_name = f"{self.symbol_name}_HEIGHT"
+
+    def get_as_xml(self):
+        tlut_offset_attr = (
+            f' TlutOffset="0x{self.resource_tlut.range_start:X}"'
+            if self.resource_tlut
+            else ""
+        )
+        return f"""\
+        <Texture Name="{self.symbol_name}" Format="{self.fmt.name.lower()}{self.siz.bpp}" Width="{self.width}" Height="{self.height}" Offset="0x{self.range_start:X}"{tlut_offset_attr}/>"""
 
     def check_declare_length(self):
         return (
@@ -1159,7 +1169,7 @@ class ColorIndexedTexturesManager:
                     lambda file, offset: TextureResource(
                         file,
                         offset,
-                        f"{reporter.name}_{offset:08X}_CITex",
+                        f"{file.name if TEXS_SHORTER_NAMES else reporter.name}_{offset:08X}_CITex",
                         tex.fmt,
                         tex.siz,
                         tex.width,
@@ -1181,7 +1191,7 @@ class ColorIndexedTexturesManager:
                     lambda file, offset: TLUTResource(
                         file,
                         offset,
-                        f"{reporter.name}_{offset:08X}_TLUT",
+                        f"{file.name if TEXS_SHORTER_NAMES else reporter.name}_{offset:08X}_TLUT",
                         {
                             G_TT.RGBA16: G_IM_FMT.RGBA,
                             G_TT.IA16: G_IM_FMT.IA,
@@ -1249,7 +1259,7 @@ class DListResource(Resource, can_size_be_unknown=True):
                     lambda file, offset: TextureResource(
                         file,
                         offset,
-                        f"{self.name}_{offset:08X}_Tex",
+                        f"{file.name if TEXS_SHORTER_NAMES else self.name}_{offset:08X}_Tex",
                         g_fmt,
                         g_siz,
                         width,
@@ -1346,6 +1356,10 @@ class DListResource(Resource, can_size_be_unknown=True):
             print(self.name, hex(offset), hex(self.range_end))
 
         return RESOURCE_PARSE_SUCCESS
+
+    def get_as_xml(self):
+        return f"""\
+        <DList Name="{self.symbol_name}" Offset="0x{self.range_start:X}"/>"""
 
     def get_c_declaration_base(self):
         if hasattr(self, "HACK_IS_STATIC_ON") or EXPLICIT_DL_AND_TEX_SIZES:

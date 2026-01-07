@@ -14,9 +14,9 @@
 #include "sys_matrix.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_spot08_obj/object_spot08_obj.h"
 
@@ -63,8 +63,8 @@ void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, PlayState* play, Coll
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         s32 pad2;
 
-        PRINTF(T("Warning : move BG 登録失敗",
-                 "Warning : move BG registration failed") "(%s %d)(name %d)(arg_data 0x%04x)\n",
+        PRINTF(T("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n",
+                 "Warning : move BG registration failed (%s %d)(name %d)(arg_data 0x%04x)\n"),
                "../z_bg_spot08_iceblock.c", 0xD9, this->dyna.actor.id, this->dyna.actor.params);
     }
 #endif
@@ -77,9 +77,9 @@ void BgSpot08Iceblock_CheckParams(BgSpot08Iceblock* this) {
             this->dyna.actor.params = 0x10;
             break;
         default:
-            PRINTF(
-                T("Error : arg_data 設定ミスです。", "Error : arg_data setting error. ") "(%s %d)(arg_data 0x%04x)\n",
-                "../z_bg_spot08_iceblock.c", 0xF6, this->dyna.actor.params);
+            PRINTF(T("Error : arg_data 設定ミスです。(%s %d)(arg_data 0x%04x)\n",
+                     "Error : arg_data setting error. (%s %d)(arg_data 0x%04x)\n"),
+                   "../z_bg_spot08_iceblock.c", 0xF6, this->dyna.actor.params);
             this->dyna.actor.params = 0x10;
             break;
         case 1:
@@ -300,7 +300,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
     CollisionHeader* colHeader;
 
-    PRINTF("(spot08 " T("流氷", "ice floe") ")(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF(T("(spot08 流氷)(arg_data 0x%04x)\n", "(spot08 ice floe)(arg_data 0x%04x)\n"), this->dyna.actor.params);
     BgSpot08Iceblock_CheckParams(this);
 
     switch (PARAMS_GET_NOSHIFT(this->dyna.actor.params, 9, 1)) {

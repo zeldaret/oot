@@ -10,7 +10,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sys_matrix.h"
-#include "z64play.h"
+#include "play_state.h"
 
 #include "assets/objects/object_skj/object_skj.h"
 
@@ -45,8 +45,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0xFFCFFFFF, 0x00, 0x08 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCFFFFF, HIT_SPECIAL_EFFECT_NONE, 0x08 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,

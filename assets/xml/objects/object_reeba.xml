@@ -37,9 +37,26 @@
         <Array Name="object_reeba_Vtx_000C38" Count="10" Offset="0xC38">
             <Vtx/>
         </Array>
-        <Texture Name="object_reeba_Tex_000CD8" OutName="tex_00000CD8" Format="rgba16" Width="8" Height="16" Offset="0xCD8"/>
-        <Texture Name="object_reeba_Tex_000DD8" OutName="tex_00000DD8" Format="rgba16" Width="32" Height="32" Offset="0xDD8"/>
-        <Texture Name="object_reeba_Tex_0015D8" OutName="tex_000015D8" Format="rgba16" Width="32" Height="32" Offset="0x15D8"/>
+        <Texture Name="object_reeba_Tex_000CD8" Format="rgba16" Width="8" Height="16" Offset="0xCD8"/>
+        <Texture Name="object_reeba_Tex_000DD8" Format="rgba16" Width="32" Height="32" Offset="0xDD8"/>
+        <Texture Name="object_reeba_Tex_0015D8" Format="rgba16" Width="32" Height="32" Offset="0x15D8"/>
+        <Limb Name="object_reeba_001DD8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001DD8" Offset="0x1DD8"/>
+        <Limb Name="object_reeba_001DE4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001DE4" Offset="0x1DE4"/>
+        <Limb Name="object_reeba_001DF0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001DF0" Offset="0x1DF0"/>
+        <Limb Name="object_reeba_001DFC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001DFC" Offset="0x1DFC"/>
+        <Limb Name="object_reeba_001E08_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E08" Offset="0x1E08"/>
+        <Limb Name="object_reeba_001E14_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E14" Offset="0x1E14"/>
+        <Limb Name="object_reeba_001E20_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E20" Offset="0x1E20"/>
+        <Limb Name="object_reeba_001E2C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E2C" Offset="0x1E2C"/>
+        <Limb Name="object_reeba_001E38_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E38" Offset="0x1E38"/>
+        <Limb Name="object_reeba_001E44_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E44" Offset="0x1E44"/>
+        <Limb Name="object_reeba_001E50_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E50" Offset="0x1E50"/>
+        <Limb Name="object_reeba_001E5C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E5C" Offset="0x1E5C"/>
+        <Limb Name="object_reeba_001E68_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E68" Offset="0x1E68"/>
+        <Limb Name="object_reeba_001E74_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E74" Offset="0x1E74"/>
+        <Limb Name="object_reeba_001E80_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E80" Offset="0x1E80"/>
+        <Limb Name="object_reeba_001E8C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E8C" Offset="0x1E8C"/>
+        <Limb Name="object_reeba_001E98_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_REEBA_001E98" Offset="0x1E98"/>
         <Skeleton Name="object_reeba_Skel_001EE8" Type="Normal" LimbType="Standard" Offset="0x1EE8"/>
     </File>
 </Root>

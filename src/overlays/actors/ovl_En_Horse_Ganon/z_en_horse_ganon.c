@@ -7,15 +7,16 @@
 #include "z_en_horse_ganon.h"
 
 #include "libc64/math64.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "sfx.h"
 #include "sys_math3d.h"
 #include "z_lib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64skin.h"
+#include "play_state.h"
+#include "player.h"
+#include "skin.h"
 
 #include "assets/objects/object_horse_ganon/object_horse_ganon.h"
 
@@ -65,8 +66,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -78,8 +79,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_NONE,
             OCELEM_ON,
@@ -97,7 +98,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1 | OC2_UNK1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -166,8 +167,7 @@ void func_80A686A8(EnHorseGanon* this, PlayState* play) {
 void func_80A68870(EnHorseGanon* this) {
     if ((this->skin.skelAnime.curFrame > D_80A692B8[this->soundCount]) &&
         (this->soundCount != 0 || !(this->skin.skelAnime.curFrame > D_80A692B8[1]))) {
-        Audio_PlaySfxGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_HORSE_WALK);
 
         this->soundCount++;
         if (this->soundCount >= 2) {
@@ -247,12 +247,10 @@ void func_80A68B20(EnHorseGanon* this) {
         sp30 = this->actor.speed / 3.0f;
     } else if (this->currentAnimation == 3) {
         sp30 = this->actor.speed / 5.0f;
-        Audio_PlaySfxGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_HORSE_RUN);
     } else if (this->currentAnimation == 4) {
         sp30 = this->actor.speed / 7.0f;
-        Audio_PlaySfxGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_EV_HORSE_RUN);
     } else {
         sp30 = 1.0f;
     }

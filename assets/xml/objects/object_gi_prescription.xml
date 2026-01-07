@@ -1,6 +1,7 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_prescription" Segment="6">
+        <Texture Name="gGiPrescriptionWritingTex" Format="ia8" Width="32" Height="48" Offset="0x0"/>
         <Array Name="gGiPrescriptionVtx" Count="30" Offset="0x600">
             <Vtx/>
         </Array>

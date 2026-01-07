@@ -1,6 +1,7 @@
 #include "z_en_bubble.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
@@ -8,8 +9,8 @@
 #include "sys_matrix.h"
 #include "z_en_item00.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
+#include "effect.h"
+#include "play_state.h"
 
 #include "assets/objects/object_bubble/object_bubble.h"
 
@@ -36,12 +37,12 @@ ActorProfile En_Bubble_Profile = {
     /**/ EnBubble_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x04 },
-            { 0xFFCFD753, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0xFFCFD753, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON,
             OCELEM_ON,
@@ -51,8 +52,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x00 },
-            { 0x00002824, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+            { 0x00002824, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON | ACELEM_NO_AT_INFO | ACELEM_NO_DAMAGE | ACELEM_NO_SWORD_SFX | ACELEM_NO_HITMARK,
             OCELEM_NONE,
@@ -70,7 +71,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    2,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -110,7 +111,7 @@ u32 func_809CBCBC(EnBubble* this) {
     ColliderElement* elem = &this->colliderJntSph.elements[0].base;
 
     elem->atDmgInfo.dmgFlags = DMG_EXPLOSIVE;
-    elem->atDmgInfo.effect = 0;
+    elem->atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
     elem->atDmgInfo.damage = 4;
     elem->atElemFlags = ATELEM_ON;
     this->actor.velocity.y = 0.0f;

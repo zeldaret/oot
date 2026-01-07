@@ -16,8 +16,8 @@
 #include "libu64/debug.h"
 #include "gfx.h"
 #include "printf.h"
-#include "z64math.h"
-#include "z64transition_instances.h"
+#include "z_math.h"
+#include "transition_instances.h"
 
 // color framebuffer
 extern u16 D_0F000000[];

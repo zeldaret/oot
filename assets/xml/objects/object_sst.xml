@@ -2,7 +2,7 @@
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_sst" Segment="6">
         <!-- Boss Title Card -->
-        <Texture Name="gBongoTitleCardTex" OutName="bongo_title_card" Format="ia8" Width="128" Height="80" Offset="0x13D80"/>
+        <Texture Name="gBongoTitleCardTex" Format="ia8" Width="128" Height="80" Offset="0x13D80"/>
 
         <!-- Skeletons -->
         <Skeleton Name="gBongoLeftHandSkel" Type="Flex" LimbType="Standard" Offset="0x4DE0"/>
@@ -50,7 +50,180 @@
         <Collision Name="gBongoDrumCol" Offset="0x180F8"/>
 
         <!-- Unused textures -->
-        <Texture Name="gBongoUnused1Tex" OutName="bongo_unused_1" Format="rgba16" Width="8" Height="8" Offset="0x192B0"/>
-        <Texture Name="gBongoUnused2Tex" OutName="bongo_unused_2" Format="rgba16" Width="16" Height="16" Offset="0x195B0"/>
+        <Texture Name="gBongoUnused1Tex" Format="rgba16" Width="8" Height="8" Offset="0x192B0"/>
+        <Texture Name="gBongoUnused2Tex" Format="rgba16" Width="16" Height="16" Offset="0x195B0"/>
+
+        <DList Name="object_sst_002850_DL" Offset="0x2850"/>
+        <DList Name="object_sst_002AB0_DL" Offset="0x2AB0"/>
+        <DList Name="object_sst_002D08_DL" Offset="0x2D08"/>
+        <DList Name="object_sst_002FF8_DL" Offset="0x2FF8"/>
+        <DList Name="object_sst_003258_DL" Offset="0x3258"/>
+        <DList Name="object_sst_0034A0_DL" Offset="0x34A0"/>
+        <DList Name="object_sst_0036E8_DL" Offset="0x36E8"/>
+        <DList Name="object_sst_003948_DL" Offset="0x3948"/>
+        <DList Name="object_sst_003B90_DL" Offset="0x3B90"/>
+        <DList Name="object_sst_003DD8_DL" Offset="0x3DD8"/>
+        <DList Name="object_sst_004038_DL" Offset="0x4038"/>
+        <DList Name="object_sst_004280_DL" Offset="0x4280"/>
+        <DList Name="object_sst_0044C8_DL" Offset="0x44C8"/>
+        <DList Name="object_sst_004798_DL" Offset="0x4798"/>
+        <DList Name="object_sst_0049F8_DL" Offset="0x49F8"/>
+        <Limb Name="object_sst_004C40_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004C40" Offset="0x4C40"/>
+        <Limb Name="object_sst_004C4C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004C4C" Offset="0x4C4C"/>
+        <Limb Name="object_sst_004C58_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004C58" Offset="0x4C58"/>
+        <Limb Name="object_sst_004C64_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004C64" Offset="0x4C64"/>
+        <Limb Name="object_sst_004C70_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004C70" Offset="0x4C70"/>
+        <Limb Name="object_sst_004C7C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004C7C" Offset="0x4C7C"/>
+        <Limb Name="object_sst_004C88_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004C88" Offset="0x4C88"/>
+        <Limb Name="object_sst_004C94_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004C94" Offset="0x4C94"/>
+        <Limb Name="object_sst_004CA0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004CA0" Offset="0x4CA0"/>
+        <Limb Name="object_sst_004CAC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004CAC" Offset="0x4CAC"/>
+        <Limb Name="object_sst_004CB8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004CB8" Offset="0x4CB8"/>
+        <Limb Name="object_sst_004CC4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004CC4" Offset="0x4CC4"/>
+        <Limb Name="object_sst_004CD0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004CD0" Offset="0x4CD0"/>
+        <Limb Name="object_sst_004CDC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004CDC" Offset="0x4CDC"/>
+        <Limb Name="object_sst_004CE8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004CE8" Offset="0x4CE8"/>
+        <Limb Name="object_sst_004CF4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004CF4" Offset="0x4CF4"/>
+        <Limb Name="object_sst_004D00_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004D00" Offset="0x4D00"/>
+        <Limb Name="object_sst_004D0C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004D0C" Offset="0x4D0C"/>
+        <Limb Name="object_sst_004D18_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004D18" Offset="0x4D18"/>
+        <Limb Name="object_sst_004D24_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004D24" Offset="0x4D24"/>
+        <Limb Name="object_sst_004D30_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004D30" Offset="0x4D30"/>
+        <Limb Name="object_sst_004D3C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004D3C" Offset="0x4D3C"/>
+        <Limb Name="object_sst_004D48_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004D48" Offset="0x4D48"/>
+        <Limb Name="object_sst_004D54_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004D54" Offset="0x4D54"/>
+        <Limb Name="object_sst_004D60_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004D60" Offset="0x4D60"/>
+        <Limb Name="object_sst_004D6C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_004D6C" Offset="0x4D6C"/>
+        <DList Name="object_sst_007DC0_DL" Offset="0x7DC0"/>
+        <DList Name="object_sst_008020_DL" Offset="0x8020"/>
+        <DList Name="object_sst_008278_DL" Offset="0x8278"/>
+        <DList Name="object_sst_008568_DL" Offset="0x8568"/>
+        <DList Name="object_sst_0087C8_DL" Offset="0x87C8"/>
+        <DList Name="object_sst_008A10_DL" Offset="0x8A10"/>
+        <DList Name="object_sst_008C58_DL" Offset="0x8C58"/>
+        <DList Name="object_sst_008EB8_DL" Offset="0x8EB8"/>
+        <DList Name="object_sst_009100_DL" Offset="0x9100"/>
+        <DList Name="object_sst_009348_DL" Offset="0x9348"/>
+        <DList Name="object_sst_0095A8_DL" Offset="0x95A8"/>
+        <DList Name="object_sst_0097F0_DL" Offset="0x97F0"/>
+        <DList Name="object_sst_009A38_DL" Offset="0x9A38"/>
+        <DList Name="object_sst_009D08_DL" Offset="0x9D08"/>
+        <DList Name="object_sst_009F68_DL" Offset="0x9F68"/>
+        <Limb Name="object_sst_00A1B0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A1B0" Offset="0xA1B0"/>
+        <Limb Name="object_sst_00A1BC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A1BC" Offset="0xA1BC"/>
+        <Limb Name="object_sst_00A1C8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A1C8" Offset="0xA1C8"/>
+        <Limb Name="object_sst_00A1D4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A1D4" Offset="0xA1D4"/>
+        <Limb Name="object_sst_00A1E0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A1E0" Offset="0xA1E0"/>
+        <Limb Name="object_sst_00A1EC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A1EC" Offset="0xA1EC"/>
+        <Limb Name="object_sst_00A1F8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A1F8" Offset="0xA1F8"/>
+        <Limb Name="object_sst_00A204_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A204" Offset="0xA204"/>
+        <Limb Name="object_sst_00A210_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A210" Offset="0xA210"/>
+        <Limb Name="object_sst_00A21C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A21C" Offset="0xA21C"/>
+        <Limb Name="object_sst_00A228_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A228" Offset="0xA228"/>
+        <Limb Name="object_sst_00A234_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A234" Offset="0xA234"/>
+        <Limb Name="object_sst_00A240_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A240" Offset="0xA240"/>
+        <Limb Name="object_sst_00A24C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A24C" Offset="0xA24C"/>
+        <Limb Name="object_sst_00A258_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A258" Offset="0xA258"/>
+        <Limb Name="object_sst_00A264_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A264" Offset="0xA264"/>
+        <Limb Name="object_sst_00A270_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A270" Offset="0xA270"/>
+        <Limb Name="object_sst_00A27C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A27C" Offset="0xA27C"/>
+        <Limb Name="object_sst_00A288_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A288" Offset="0xA288"/>
+        <Limb Name="object_sst_00A294_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A294" Offset="0xA294"/>
+        <Limb Name="object_sst_00A2A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A2A0" Offset="0xA2A0"/>
+        <Limb Name="object_sst_00A2AC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A2AC" Offset="0xA2AC"/>
+        <Limb Name="object_sst_00A2B8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A2B8" Offset="0xA2B8"/>
+        <Limb Name="object_sst_00A2C4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A2C4" Offset="0xA2C4"/>
+        <Limb Name="object_sst_00A2D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A2D0" Offset="0xA2D0"/>
+        <Limb Name="object_sst_00A2DC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_00A2DC" Offset="0xA2DC"/>
+        <DList Name="object_sst_011370_DL" Offset="0x11370"/>
+        <DList Name="object_sst_011430_DL" Offset="0x11430"/>
+        <DList Name="object_sst_011518_DL" Offset="0x11518"/>
+        <DList Name="object_sst_011658_DL" Offset="0x11658"/>
+        <DList Name="object_sst_0119B0_DL" Offset="0x119B0"/>
+        <DList Name="object_sst_011AF8_DL" Offset="0x11AF8"/>
+        <DList Name="object_sst_011E50_DL" Offset="0x11E50"/>
+        <DList Name="object_sst_011F98_DL" Offset="0x11F98"/>
+        <DList Name="object_sst_012080_DL" Offset="0x12080"/>
+        <DList Name="object_sst_012168_DL" Offset="0x12168"/>
+        <DList Name="object_sst_012380_DL" Offset="0x12380"/>
+        <DList Name="object_sst_012438_DL" Offset="0x12438"/>
+        <DList Name="object_sst_0124F0_DL" Offset="0x124F0"/>
+        <DList Name="object_sst_0125A8_DL" Offset="0x125A8"/>
+        <DList Name="object_sst_012660_DL" Offset="0x12660"/>
+        <DList Name="object_sst_012718_DL" Offset="0x12718"/>
+        <DList Name="object_sst_0127D0_DL" Offset="0x127D0"/>
+        <DList Name="object_sst_012888_DL" Offset="0x12888"/>
+        <DList Name="object_sst_012940_DL" Offset="0x12940"/>
+        <DList Name="object_sst_012B28_DL" Offset="0x12B28"/>
+        <DList Name="object_sst_012CA0_DL" Offset="0x12CA0"/>
+        <DList Name="object_sst_012E88_DL" Offset="0x12E88"/>
+        <DList Name="object_sst_013000_DL" Offset="0x13000"/>
+        <DList Name="object_sst_0131E8_DL" Offset="0x131E8"/>
+        <DList Name="object_sst_013360_DL" Offset="0x13360"/>
+        <DList Name="object_sst_013548_DL" Offset="0x13548"/>
+        <DList Name="object_sst_0136C0_DL" Offset="0x136C0"/>
+        <DList Name="object_sst_0138A8_DL" Offset="0x138A8"/>
+        <DList Name="object_sst_013A20_DL" Offset="0x13A20"/>
+        <DList Name="object_sst_013C08_DL" Offset="0x13C08"/>
+        <Limb Name="object_sst_016580_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016580" Offset="0x16580"/>
+        <Limb Name="object_sst_01658C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_01658C" Offset="0x1658C"/>
+        <Limb Name="object_sst_016598_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016598" Offset="0x16598"/>
+        <Limb Name="object_sst_0165A4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0165A4" Offset="0x165A4"/>
+        <Limb Name="object_sst_0165B0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0165B0" Offset="0x165B0"/>
+        <Limb Name="object_sst_0165BC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0165BC" Offset="0x165BC"/>
+        <Limb Name="object_sst_0165C8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0165C8" Offset="0x165C8"/>
+        <Limb Name="object_sst_0165D4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0165D4" Offset="0x165D4"/>
+        <Limb Name="object_sst_0165E0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0165E0" Offset="0x165E0"/>
+        <Limb Name="object_sst_0165EC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0165EC" Offset="0x165EC"/>
+        <Limb Name="object_sst_0165F8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0165F8" Offset="0x165F8"/>
+        <Limb Name="object_sst_016604_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016604" Offset="0x16604"/>
+        <Limb Name="object_sst_016610_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016610" Offset="0x16610"/>
+        <Limb Name="object_sst_01661C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_01661C" Offset="0x1661C"/>
+        <Limb Name="object_sst_016628_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016628" Offset="0x16628"/>
+        <Limb Name="object_sst_016634_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016634" Offset="0x16634"/>
+        <Limb Name="object_sst_016640_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016640" Offset="0x16640"/>
+        <Limb Name="object_sst_01664C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_01664C" Offset="0x1664C"/>
+        <Limb Name="object_sst_016658_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016658" Offset="0x16658"/>
+        <Limb Name="object_sst_016664_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016664" Offset="0x16664"/>
+        <Limb Name="object_sst_016670_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016670" Offset="0x16670"/>
+        <Limb Name="object_sst_01667C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_01667C" Offset="0x1667C"/>
+        <Limb Name="object_sst_016688_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016688" Offset="0x16688"/>
+        <Limb Name="object_sst_016694_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016694" Offset="0x16694"/>
+        <Limb Name="object_sst_0166A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0166A0" Offset="0x166A0"/>
+        <Limb Name="object_sst_0166AC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0166AC" Offset="0x166AC"/>
+        <Limb Name="object_sst_0166B8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0166B8" Offset="0x166B8"/>
+        <Limb Name="object_sst_0166C4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0166C4" Offset="0x166C4"/>
+        <Limb Name="object_sst_0166D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0166D0" Offset="0x166D0"/>
+        <Limb Name="object_sst_0166DC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0166DC" Offset="0x166DC"/>
+        <Limb Name="object_sst_0166E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0166E8" Offset="0x166E8"/>
+        <Limb Name="object_sst_0166F4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_0166F4" Offset="0x166F4"/>
+        <Limb Name="object_sst_016700_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016700" Offset="0x16700"/>
+        <Limb Name="object_sst_01670C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_01670C" Offset="0x1670C"/>
+        <Limb Name="object_sst_016718_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016718" Offset="0x16718"/>
+        <Limb Name="object_sst_016724_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016724" Offset="0x16724"/>
+        <Limb Name="object_sst_016730_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016730" Offset="0x16730"/>
+        <Limb Name="object_sst_01673C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_01673C" Offset="0x1673C"/>
+        <Limb Name="object_sst_016748_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016748" Offset="0x16748"/>
+        <Limb Name="object_sst_016754_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016754" Offset="0x16754"/>
+        <Limb Name="object_sst_016760_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016760" Offset="0x16760"/>
+        <Limb Name="object_sst_01676C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_01676C" Offset="0x1676C"/>
+        <Limb Name="object_sst_016778_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016778" Offset="0x16778"/>
+        <Limb Name="object_sst_016784_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_SST_016784" Offset="0x16784"/>
+        <Texture Name="object_sst_016BE0_Tex" Format="rgba16" Width="32" Height="64" Offset="0x16BE0"/>
+        <Texture Name="object_sst_018130_Tex" Format="rgba16" Width="4" Height="8" Offset="0x18130"/>
+        <Texture Name="object_sst_018170_Tex" Format="rgba16" Width="8" Height="16" Offset="0x18170"/>
+        <Texture Name="object_sst_018270_Tex" Format="rgba16" Width="8" Height="16" Offset="0x18270"/>
+        <Texture Name="object_sst_018370_Tex" Format="rgba16" Width="4" Height="8" Offset="0x18370"/>
+        <Texture Name="object_sst_0183B0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x183B0"/>
+        <Texture Name="object_sst_0185B0_Tex" Format="rgba16" Width="8" Height="16" Offset="0x185B0"/>
+        <Texture Name="object_sst_0186B0_Tex" Format="rgba16" Width="8" Height="16" Offset="0x186B0"/>
+        <Texture Name="object_sst_0187B0_Tex" Format="rgba16" Width="16" Height="32" Offset="0x187B0"/>
+        <Texture Name="object_sst_018BB0_Tex" Format="rgba16" Width="8" Height="16" Offset="0x18BB0"/>
+        <Texture Name="object_sst_018CB0_Tex" Format="rgba16" Width="8" Height="16" Offset="0x18CB0"/>
+        <Texture Name="object_sst_018DB0_Tex" Format="rgba16" Width="8" Height="32" Offset="0x18DB0"/>
+        <Texture Name="object_sst_018FB0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x18FB0"/>
+        <Texture Name="object_sst_0191B0_Tex" Format="rgba16" Width="8" Height="16" Offset="0x191B0"/>
+        <Texture Name="object_sst_019330_Tex" Format="rgba16" Width="4" Height="16" Offset="0x19330"/>
+        <Texture Name="object_sst_0193B0_Tex" Format="rgba16" Width="16" Height="16" Offset="0x193B0"/>
     </File>
 </Root>

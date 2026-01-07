@@ -8,19 +8,20 @@
 #include "regs.h"
 #include "sys_matrix.h"
 #include "title_setup_state.h"
-#include "z64game.h"
-#include "z64play.h"
-#include "z64save.h"
-#include "z64sram.h"
-#include "z64view.h"
+#include "game.h"
+#include "play_state.h"
+#include "save.h"
+#include "sram.h"
+#include "view.h"
 
 void TitleSetup_SetupTitleScreen(TitleSetupState* this) {
     gSaveContext.gameMode = GAMEMODE_TITLE_SCREEN;
     this->state.running = false;
     gSaveContext.save.linkAge = LINK_AGE_ADULT;
     Sram_InitDebugSave();
-    gSaveContext.save.cutsceneIndex = 0xFFF3;
-    gSaveContext.sceneLayer = 7;
+    gSaveContext.save.cutsceneIndex = CS_INDEX_3;
+    // assigning scene layer here is redundant, as Play_Init sets it right away
+    gSaveContext.sceneLayer = GET_CUTSCENE_LAYER(CS_INDEX_3);
     SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
 

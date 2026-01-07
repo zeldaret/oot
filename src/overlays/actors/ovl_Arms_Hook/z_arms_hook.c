@@ -7,8 +7,8 @@
 #include "sfx.h"
 #include "sys_math.h"
 #include "sys_matrix.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "play_state.h"
+#include "player.h"
 #include "z_lib.h"
 
 #include "assets/objects/object_link_boy/object_link_boy.h"
@@ -46,8 +46,8 @@ static ColliderQuadInit sQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000080, 0x00, 0x01 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000080, HIT_SPECIAL_EFFECT_NONE, 0x01 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NORMAL,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -182,8 +182,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
             }
         }
         this->timer = 0;
-        Audio_PlaySfxGeneral(NA_SE_IT_ARROW_STICK_CRE, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_IT_ARROW_STICK_CRE);
         return;
     }
 
@@ -311,12 +310,10 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
                     }
                 }
                 ArmsHook_PullPlayer(this);
-                Audio_PlaySfxGeneral(NA_SE_IT_HOOKSHOT_STICK_OBJ, &this->actor.projectedPos, 4,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_IT_HOOKSHOT_STICK_OBJ);
             } else {
                 CollisionCheck_SpawnShieldParticlesMetal(play, &this->actor.world.pos);
-                Audio_PlaySfxGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.projectedPos, 4,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_AT_POS(&this->actor.projectedPos, NA_SE_IT_HOOKSHOT_REFLECT);
             }
         } else if (CHECK_BTN_ANY(play->state.input[0].press.button,
                                  (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT))) {
@@ -337,8 +334,8 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
     ArmsHook* this = (ArmsHook*)thisx;
     Player* player = GET_PLAYER(play);
     Vec3f sp78;
-    Vec3f hookNewTip;
-    Vec3f hookNewBase;
+    Vec3f posA;
+    Vec3f posB;
     f32 sp5C;
     f32 sp58;
 
@@ -349,16 +346,16 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play) {
 
         if ((ArmsHook_Shoot != this->actionFunc) || (this->timer <= 0)) {
             Matrix_MultVec3f(&D_80865B70, &this->unk_1E8);
-            Matrix_MultVec3f(&D_80865B88, &hookNewTip);
-            Matrix_MultVec3f(&D_80865B94, &hookNewBase);
-            this->hookInfo.active = 0;
+            Matrix_MultVec3f(&D_80865B88, &posA);
+            Matrix_MultVec3f(&D_80865B94, &posB);
+            this->weaponInfo.active = false;
         } else {
             Matrix_MultVec3f(&D_80865B7C, &this->unk_1E8);
-            Matrix_MultVec3f(&D_80865BA0, &hookNewTip);
-            Matrix_MultVec3f(&D_80865BAC, &hookNewBase);
+            Matrix_MultVec3f(&D_80865BA0, &posA);
+            Matrix_MultVec3f(&D_80865BAC, &posB);
         }
 
-        func_80090480(play, &this->collider, &this->hookInfo, &hookNewTip, &hookNewBase);
+        Player_UpdateWeaponInfo(play, &this->collider, &this->weaponInfo, &posA, &posB);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_arms_hook.c", 895);
         gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotTipDL);

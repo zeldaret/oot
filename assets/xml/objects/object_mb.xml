@@ -39,7 +39,7 @@
         <DList Name="gEnMbDL_0077F8" Offset="0x077F8"/>
         <DList Name="gEnMbDL_007AD0" Offset="0x07AD0"/>
         <DList Name="gEnMbDL_007E70" Offset="0x07E70"/>
-        <Texture Name="gEnMbFaceTex" OutName="face" Format="rgba16" Width="16" Height="32" Offset="0x8528"/>
+        <Texture Name="gEnMbFaceTex" Format="rgba16" Width="16" Height="32" Offset="0x8528"/>
         <DList Name="gEnMbDL_012580" Offset="0x12580"/>
         <DList Name="gEnMbDL_012698" Offset="0x12698"/>
         <DList Name="gEnMbDL_012868" Offset="0x12868"/>
@@ -55,5 +55,165 @@
         <DList Name="gEnMbDL_013818" Offset="0x13818"/>
         <DList Name="gEnMbDL_013A30" Offset="0x13A30"/>
         <DList Name="gEnMbDL_013DF0" Offset="0x13DF0"/>
+
+        <Array Name="object_mb_Vtx_0041C0" Count="37" Offset="0x41C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_004410" Count="33" Offset="0x4410">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_004620" Count="34" Offset="0x4620">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_004840" Count="37" Offset="0x4840">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_004A90" Count="33" Offset="0x4A90">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_004CA0" Count="34" Offset="0x4CA0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_004EC0" Count="82" Offset="0x4EC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_0053E0" Count="59" Offset="0x53E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_005790" Count="36" Offset="0x5790">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_0059D0" Count="37" Offset="0x59D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_005C20" Count="43" Offset="0x5C20">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_005ED0" Count="36" Offset="0x5ED0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_006110" Count="37" Offset="0x6110">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_006360" Count="71" Offset="0x6360">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_0067D0" Count="22" Offset="0x67D0">
+            <Vtx/>
+        </Array>
+        <DList Name="object_mb_007908_DL" Offset="0x7908"/>
+        <Texture Name="object_mb_008128_Tex" Format="rgba16" Width="16" Height="16" Offset="0x8128"/>
+        <Texture Name="object_mb_008328_Tex" Format="rgba16" Width="8" Height="32" Offset="0x8328"/>
+        <Texture Name="object_mb_008928_Tex" Format="rgba16" Width="8" Height="16" Offset="0x8928"/>
+        <Texture Name="object_mb_008A28_Tex" Format="rgba16" Width="4" Height="4" Offset="0x8A28"/>
+        <Texture Name="object_mb_008A48_Tex" Format="rgba16" Width="8" Height="24" Offset="0x8A48"/>
+        <Texture Name="object_mb_008BC8_Tex" Format="rgba16" Width="4" Height="16" Offset="0x8BC8"/>
+        <Texture Name="object_mb_008C48_Tex" Format="rgba16" Width="4" Height="8" Offset="0x8C48"/>
+        <Texture Name="object_mb_008C88_Tex" Format="rgba16" Width="8" Height="16" Offset="0x8C88"/>
+        <Limb Name="object_mb_008D88_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008D88" Offset="0x8D88"/>
+        <Limb Name="object_mb_008D94_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008D94" Offset="0x8D94"/>
+        <Limb Name="object_mb_008DA0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008DA0" Offset="0x8DA0"/>
+        <Limb Name="object_mb_008DAC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008DAC" Offset="0x8DAC"/>
+        <Limb Name="object_mb_008DB8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008DB8" Offset="0x8DB8"/>
+        <Limb Name="object_mb_008DC4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008DC4" Offset="0x8DC4"/>
+        <Limb Name="object_mb_008DD0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008DD0" Offset="0x8DD0"/>
+        <Limb Name="object_mb_008DDC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008DDC" Offset="0x8DDC"/>
+        <Limb Name="object_mb_008DE8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008DE8" Offset="0x8DE8"/>
+        <Limb Name="object_mb_008DF4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008DF4" Offset="0x8DF4"/>
+        <Limb Name="object_mb_008E00_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E00" Offset="0x8E00"/>
+        <Limb Name="object_mb_008E0C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E0C" Offset="0x8E0C"/>
+        <Limb Name="object_mb_008E18_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E18" Offset="0x8E18"/>
+        <Limb Name="object_mb_008E24_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E24" Offset="0x8E24"/>
+        <Limb Name="object_mb_008E30_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E30" Offset="0x8E30"/>
+        <Limb Name="object_mb_008E3C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E3C" Offset="0x8E3C"/>
+        <Limb Name="object_mb_008E48_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E48" Offset="0x8E48"/>
+        <Limb Name="object_mb_008E54_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E54" Offset="0x8E54"/>
+        <Limb Name="object_mb_008E60_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E60" Offset="0x8E60"/>
+        <Limb Name="object_mb_008E6C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E6C" Offset="0x8E6C"/>
+        <Limb Name="object_mb_008E78_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E78" Offset="0x8E78"/>
+        <Limb Name="object_mb_008E84_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E84" Offset="0x8E84"/>
+        <Limb Name="object_mb_008E90_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E90" Offset="0x8E90"/>
+        <Limb Name="object_mb_008E9C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008E9C" Offset="0x8E9C"/>
+        <Limb Name="object_mb_008EA8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008EA8" Offset="0x8EA8"/>
+        <Limb Name="object_mb_008EB4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008EB4" Offset="0x8EB4"/>
+        <Limb Name="object_mb_008EC0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_008EC0" Offset="0x8EC0"/>
+        <Texture Name="object_mb_00EC00_Tex" Format="rgba16" Width="16" Height="16" Offset="0xEC00"/>
+        <Texture Name="object_mb_00EE00_Tex" Format="rgba16" Width="8" Height="16" Offset="0xEE00"/>
+        <Texture Name="object_mb_00EF00_Tex" Format="rgba16" Width="8" Height="16" Offset="0xEF00"/>
+        <Texture Name="object_mb_00F000_Tex" Format="rgba16" Width="16" Height="16" Offset="0xF000"/>
+        <Texture Name="object_mb_00F200_Tex" Format="rgba16" Width="4" Height="16" Offset="0xF200"/>
+        <Texture Name="object_mb_00F280_Tex" Format="rgba16" Width="4" Height="16" Offset="0xF280"/>
+        <Array Name="object_mb_Vtx_00F300" Count="37" Offset="0xF300">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_00F550" Count="50" Offset="0xF550">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_00F870" Count="36" Offset="0xF870">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_00FAB0" Count="37" Offset="0xFAB0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_00FD00" Count="50" Offset="0xFD00">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_010020" Count="36" Offset="0x10020">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_010260" Count="91" Offset="0x10260">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_010810" Count="60" Offset="0x10810">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_010BD0" Count="54" Offset="0x10BD0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_010F30" Count="64" Offset="0x10F30">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_011330" Count="43" Offset="0x11330">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_0115E0" Count="54" Offset="0x115E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_011940" Count="64" Offset="0x11940">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_011D40" Count="90" Offset="0x11D40">
+            <Vtx/>
+        </Array>
+        <Array Name="object_mb_Vtx_0122E0" Count="42" Offset="0x122E0">
+            <Vtx/>
+        </Array>
+        <Limb Name="object_mb_013FE0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_013FE0" Offset="0x13FE0"/>
+        <Limb Name="object_mb_013FEC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_013FEC" Offset="0x13FEC"/>
+        <Limb Name="object_mb_013FF8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_013FF8" Offset="0x13FF8"/>
+        <Limb Name="object_mb_014004_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014004" Offset="0x14004"/>
+        <Limb Name="object_mb_014010_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014010" Offset="0x14010"/>
+        <Limb Name="object_mb_01401C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_01401C" Offset="0x1401C"/>
+        <Limb Name="object_mb_014028_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014028" Offset="0x14028"/>
+        <Limb Name="object_mb_014034_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014034" Offset="0x14034"/>
+        <Limb Name="object_mb_014040_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014040" Offset="0x14040"/>
+        <Limb Name="object_mb_01404C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_01404C" Offset="0x1404C"/>
+        <Limb Name="object_mb_014058_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014058" Offset="0x14058"/>
+        <Limb Name="object_mb_014064_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014064" Offset="0x14064"/>
+        <Limb Name="object_mb_014070_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014070" Offset="0x14070"/>
+        <Limb Name="object_mb_01407C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_01407C" Offset="0x1407C"/>
+        <Limb Name="object_mb_014088_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014088" Offset="0x14088"/>
+        <Limb Name="object_mb_014094_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014094" Offset="0x14094"/>
+        <Limb Name="object_mb_0140A0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_0140A0" Offset="0x140A0"/>
+        <Limb Name="object_mb_0140AC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_0140AC" Offset="0x140AC"/>
+        <Limb Name="object_mb_0140B8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_0140B8" Offset="0x140B8"/>
+        <Limb Name="object_mb_0140C4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_0140C4" Offset="0x140C4"/>
+        <Limb Name="object_mb_0140D0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_0140D0" Offset="0x140D0"/>
+        <Limb Name="object_mb_0140DC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_0140DC" Offset="0x140DC"/>
+        <Limb Name="object_mb_0140E8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_0140E8" Offset="0x140E8"/>
+        <Limb Name="object_mb_0140F4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_0140F4" Offset="0x140F4"/>
+        <Limb Name="object_mb_014100_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014100" Offset="0x14100"/>
+        <Limb Name="object_mb_01410C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_01410C" Offset="0x1410C"/>
+        <Limb Name="object_mb_014118_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_MB_014118" Offset="0x14118"/>
     </File>
 </Root>

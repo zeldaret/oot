@@ -3,9 +3,9 @@
 
 #include "ultra64.h"
 #include "ultra64/leo.h"
-#include "z64pause.h"
-#include "z64scene.h"
-#include "z64map_mark.h"
+#include "pause.h"
+#include "scene.h"
+#include "map_mark.h"
 #include "versions.h"
 
 struct Font;
@@ -155,7 +155,7 @@ extern vu8 D_80121214;
 
 extern s32 (*D_801D2E54)(struct_801E0D18*);
 
-extern u8 B_801DC000[];
+extern u8 gN64DDDiskReadTemporaryBuffer[];
 
 extern s32 D_801D2E90;
 extern OSMesgQueue* B_801E0D10[2];

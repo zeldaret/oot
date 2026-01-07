@@ -24,10 +24,10 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "effect.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_niw/object_niw.h"
 
@@ -106,8 +106,8 @@ static ColliderCylinderInit sCylinderInit1 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,
@@ -126,8 +126,8 @@ static ColliderCylinderInit sCylinderInit2 = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -155,7 +155,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
         if (sLowerRiverSpawned) {
             Actor_Kill(&this->actor);
             PRINTF(VT_FGCOL(YELLOW)
-                       T("☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n", "☆☆☆☆☆ Original is already here Ver.1 ☆☆☆☆☆ \n") VT_RST);
+                       T("☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n", "☆☆☆☆☆ I'm already here -Hara Ver.1 ☆☆☆☆☆ \n") VT_RST);
             return;
         }
         sLowerRiverSpawned = true;
@@ -167,7 +167,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
         if (sUpperRiverSpawned) {
             Actor_Kill(&this->actor);
             PRINTF(VT_FGCOL(YELLOW)
-                       T("☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n", "☆☆☆☆☆ Original is already here Ver.2 ☆☆☆☆☆ \n") VT_RST);
+                       T("☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n", "☆☆☆☆☆ I'm already here -Hara Ver.2 ☆☆☆☆☆ \n") VT_RST);
             return;
         }
         sUpperRiverSpawned = true;
@@ -390,7 +390,7 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, PlayState* play) {
             this->timer5 = 10;
         } else {
             PRINTF("\n\n");
-            PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n", " ☆☆☆☆☆ Cannot occur  ☆☆☆☆☆ \n") VT_RST);
+            PRINTF(VT_FGCOL(GREEN) T(" ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n", " ☆☆☆☆☆ Cannot spawn  ☆☆☆☆☆ \n") VT_RST);
         }
     }
 }

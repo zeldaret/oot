@@ -2,7 +2,7 @@
 #include "ultra64.h"
 #include "printf.h"
 #include "translation.h"
-#include "z64dma.h"
+#include "dma.h"
 
 size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
     s32 pad[3];

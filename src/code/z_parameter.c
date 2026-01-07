@@ -17,19 +17,20 @@
 #include "terminal.h"
 #include "translation.h"
 #include "versions.h"
-#include "z64audio.h"
-#include "z64lifemeter.h"
-#include "z64horse.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "lifemeter.h"
+#include "horse.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
-#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128"
+#pragma increment_block_number "gc-jp:128 gc-jp-ce:128 gc-jp-mq:128 gc-us:128 gc-us-mq:128 ntsc-1.0:128 ntsc-1.1:128" \
+                               "ntsc-1.2:128"
 
 typedef struct RestrictionFlags {
     /* 0x00 */ u8 sceneId;
@@ -670,8 +671,8 @@ void func_80083108(PlayState* play) {
     s16 i;
     s16 sp28 = false;
 
-    if ((gSaveContext.save.cutsceneIndex < 0xFFF0) ||
-        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.save.cutsceneIndex == 0xFFF0))) {
+    if ((gSaveContext.save.cutsceneIndex < CS_INDEX_0) ||
+        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.save.cutsceneIndex == CS_INDEX_0))) {
         gSaveContext.forceRisingButtonAlphas = false;
 
         if ((player->stateFlags1 & PLAYER_STATE1_23) || (play->shootingGalleryStatus > 1) ||
@@ -2191,9 +2192,7 @@ void Interface_SetNaviCall(PlayState* play, u16 naviCallState) {
     if (((naviCallState == 0x1D) || (naviCallState == 0x1E)) && !interfaceCtx->naviCalling &&
         (play->csCtx.state == CS_STATE_IDLE)) {
         // clang-format off
-        if (naviCallState == 0x1E) { Audio_PlaySfxGeneral(NA_SE_VO_NAVY_CALL, &gSfxDefaultPos, 4,
-                                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                            &gSfxDefaultReverb);
+        if (naviCallState == 0x1E) { SFX_PLAY_CENTERED(NA_SE_VO_NAVY_CALL);
         }
         // clang-format on
 
@@ -2244,8 +2243,7 @@ s32 Health_ChangeBy(PlayState* play, s16 amount) {
            gSaveContext.save.info.playerData.health, gSaveContext.save.info.playerData.healthCapacity);
 
     // clang-format off
-    if (amount > 0) { Audio_PlaySfxGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    if (amount > 0) { SFX_PLAY_CENTERED(NA_SE_SY_HP_RECOVER);
     } else if (gSaveContext.save.info.playerData.isDoubleDefenseAcquired && (amount < 0)) {
         amount >>= 1;
         PRINTF(T("ハート減少半分！！＝%d\n", "Heart decrease halved!! = %d\n"),  amount);
@@ -2382,8 +2380,7 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
 
     if ((type != MAGIC_ADD) && (gSaveContext.save.info.playerData.magic - amount) < 0) {
         if (gSaveContext.magicCapacity != 0) {
-            Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_ERROR);
         }
         return false;
     }
@@ -2401,8 +2398,7 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
                 gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
                 return true;
             } else {
-                Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_ERROR);
                 return false;
             }
 
@@ -2419,8 +2415,7 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
                 gSaveContext.magicState = MAGIC_STATE_METER_FLASH_3;
                 return true;
             } else {
-                Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_ERROR);
                 return false;
             }
 
@@ -2451,8 +2446,7 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
                 gSaveContext.magicState = MAGIC_STATE_METER_FLASH_2;
                 return true;
             } else {
-                Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_ERROR);
                 return false;
             }
 
@@ -2520,8 +2514,7 @@ void Magic_Update(PlayState* play) {
             gSaveContext.save.info.playerData.magic += 4;
 
             if (gSaveContext.gameMode == GAMEMODE_NORMAL && !IS_CUTSCENE_LAYER) {
-                Audio_PlaySfxGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_GAUGE_UP - SFX_FLAG);
             }
 
             PRINTF(T("蓄電  MAGIC_NOW=%d (%d)\n", "Storage  MAGIC_NOW=%d (%d)\n"),
@@ -2611,8 +2604,7 @@ void Magic_Update(PlayState* play) {
                     !play->actorCtx.lensActive) {
                     // Force lens off and set magic meter state to idle
                     play->actorCtx.lensActive = false;
-                    Audio_PlaySfxGeneral(NA_SE_SY_GLASSMODE_OFF, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_SY_GLASSMODE_OFF);
                     gSaveContext.magicState = MAGIC_STATE_IDLE;
                     sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
                     break;
@@ -2664,8 +2656,7 @@ void Magic_Update(PlayState* play) {
         case MAGIC_STATE_ADD:
             // Add magic until target is reached
             gSaveContext.save.info.playerData.magic += 4;
-            Audio_PlaySfxGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_GAUGE_UP - SFX_FLAG);
             if (gSaveContext.save.info.playerData.magic >= gSaveContext.magicTarget) {
                 gSaveContext.save.info.playerData.magic = gSaveContext.magicTarget;
                 gSaveContext.magicState = gSaveContext.prevMagicState;
@@ -3564,7 +3555,7 @@ void Interface_Draw(PlayState* play) {
             (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT)) {
             // Trade quest timer reached 0
             sSubTimerStateTimer = 40;
-            gSaveContext.save.cutsceneIndex = 0;
+            gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_FADE_WHITE;
             gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
@@ -3711,22 +3702,16 @@ void Interface_Draw(PlayState* play) {
                             } else if (gSaveContext.timerSeconds > 60) {
                                 // Beep at "xx:x1" (every 10 seconds)
                                 if (sTimerDigits[4] == 1) {
-                                    Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
-                                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                         &gSfxDefaultReverb);
+                                    SFX_PLAY_CENTERED(NA_SE_SY_MESSAGE_WOMAN);
                                 }
                             } else if (gSaveContext.timerSeconds > 10) {
                                 // Beep on alternating seconds
                                 if ((sTimerDigits[4] % 2) != 0) {
-                                    Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
-                                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                         &gSfxDefaultReverb);
+                                    SFX_PLAY_CENTERED(NA_SE_SY_WARNING_COUNT_N);
                                 }
                             } else {
                                 // Beep every second
-                                Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxDefaultPos, 4,
-                                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                     &gSfxDefaultReverb);
+                                SFX_PLAY_CENTERED(NA_SE_SY_WARNING_COUNT_E);
                             }
                         }
                     }
@@ -3775,9 +3760,7 @@ void Interface_Draw(PlayState* play) {
                                 sTimerStateTimer = 40;
                                 gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
                             } else {
-                                Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
-                                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                     &gSfxDefaultReverb);
+                                SFX_PLAY_CENTERED(NA_SE_SY_WARNING_COUNT_N);
                             }
                         }
                     }
@@ -3902,7 +3885,7 @@ void Interface_Draw(PlayState* play) {
                                                  (play->sceneId != SCENE_INSIDE_GANONS_CASTLE_COLLAPSE))) {
                                                 sSubTimerStateTimer = 40;
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_RESPAWN;
-                                                gSaveContext.save.cutsceneIndex = 0;
+                                                gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
                                                 Message_StartTextbox(play, 0x71B0, NULL);
                                                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
                                             } else {
@@ -3912,22 +3895,16 @@ void Interface_Draw(PlayState* play) {
                                         } else if (gSaveContext.subTimerSeconds > 60) {
                                             // Beep at "xx:x1" (every 10 seconds)
                                             if (sTimerDigits[4] == 1) {
-                                                Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_WOMAN, &gSfxDefaultPos, 4,
-                                                                     &gSfxDefaultFreqAndVolScale,
-                                                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                                SFX_PLAY_CENTERED(NA_SE_SY_MESSAGE_WOMAN);
                                             }
                                         } else if (gSaveContext.subTimerSeconds > 10) {
                                             // Beep on alternating seconds
                                             if ((sTimerDigits[4] % 2) != 0) {
-                                                Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
-                                                                     &gSfxDefaultFreqAndVolScale,
-                                                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                                SFX_PLAY_CENTERED(NA_SE_SY_WARNING_COUNT_N);
                                             }
                                         } else {
                                             // Beep every second
-                                            Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxDefaultPos, 4,
-                                                                 &gSfxDefaultFreqAndVolScale,
-                                                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                            SFX_PLAY_CENTERED(NA_SE_SY_WARNING_COUNT_E);
                                         }
                                     } else { // SUBTIMER_STATE_UP_TICK
                                         gSaveContext.subTimerSeconds++;
@@ -3944,9 +3921,7 @@ void Interface_Draw(PlayState* play) {
 
                                     // Beep at the minute mark
                                     if ((gSaveContext.subTimerSeconds % 60) == 0) {
-                                        Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
-                                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                             &gSfxDefaultReverb);
+                                        SFX_PLAY_CENTERED(NA_SE_SY_WARNING_COUNT_N);
                                     }
                                 }
                             }
@@ -4192,8 +4167,7 @@ void Interface_Update(PlayState* play) {
         gSaveContext.save.info.playerData.health += 4;
 
         if ((gSaveContext.save.info.playerData.health & 0xF) < 4) {
-            Audio_PlaySfxGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_HP_RECOVER);
         }
 
         PRINTF("now_life=%d  max_life=%d\n", gSaveContext.save.info.playerData.health,
@@ -4233,8 +4207,7 @@ void Interface_Update(PlayState* play) {
             if (gSaveContext.save.info.playerData.rupees < CUR_CAPACITY(UPG_WALLET)) {
                 gSaveContext.rupeeAccumulator--;
                 gSaveContext.save.info.playerData.rupees++;
-                Audio_PlaySfxGeneral(NA_SE_SY_RUPY_COUNT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_RUPY_COUNT);
             } else {
                 PRINTF(T("ルピー数ＭＡＸ = %d\n", "Rupee Amount MAX = %d\n"), CUR_CAPACITY(UPG_WALLET));
                 gSaveContext.save.info.playerData.rupees = CUR_CAPACITY(UPG_WALLET);
@@ -4249,13 +4222,11 @@ void Interface_Update(PlayState* play) {
                     gSaveContext.save.info.playerData.rupees = 0;
                 }
 
-                Audio_PlaySfxGeneral(NA_SE_SY_RUPY_COUNT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_RUPY_COUNT);
             } else {
                 gSaveContext.rupeeAccumulator++;
                 gSaveContext.save.info.playerData.rupees--;
-                Audio_PlaySfxGeneral(NA_SE_SY_RUPY_COUNT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_SY_RUPY_COUNT);
             }
         } else {
             gSaveContext.rupeeAccumulator = 0;

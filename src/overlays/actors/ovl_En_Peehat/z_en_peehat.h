@@ -2,7 +2,7 @@
 #define Z_EN_PEEHAT_H
 
 #include "ultra64.h"
-#include "z64actor.h"
+#include "actor.h"
 
 typedef enum PeahatType {
     /* -1 */ PEAHAT_TYPE_GROUNDED = -1,

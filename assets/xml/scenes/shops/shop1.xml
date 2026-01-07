@@ -4,5 +4,13 @@
     </File>
     <File Name="shop1_room_0" Segment="3">
         <Room Name="shop1_room_0" Offset="0x0"/>
+        <DList Name="gShop1DL_003F60" Offset="0x3F60"/>
+        <DList Name="gShop1DL_003F98" Offset="0x3F98"/>
+        <DList Name="gShop1DL_003408" Offset="0x3408"/>
+        <DList Name="gShop1DL_0034A0" Offset="0x34A0"/>
+        <DList Name="gShop1DL_003538" Offset="0x3538"/>
+        <DList Name="gShop1DL_0035D0" Offset="0x35D0"/>
+        <DList Name="gShop1DL_003668" Offset="0x3668"/>
+        <DList Name="gShop1DL_003AE0" Offset="0x3AE0"/>
     </File>
 </Root>

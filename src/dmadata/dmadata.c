@@ -1,4 +1,4 @@
-#include "z64dma.h"
+#include "dma.h"
 
 // Linker symbol declarations (used in the table below)
 #define DEFINE_DMA_ENTRY(name, _1)        \

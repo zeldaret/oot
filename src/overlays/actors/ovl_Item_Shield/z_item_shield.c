@@ -15,10 +15,10 @@
 #include "sys_matrix.h"
 #include "terminal.h"
 #include "z_lib.h"
-#include "z64effect.h"
-#include "z64item.h"
-#include "z64play.h"
-#include "z64player.h"
+#include "effect.h"
+#include "item.h"
+#include "play_state.h"
+#include "player.h"
 
 #include "assets/objects/object_link_child/object_link_child.h"
 
@@ -43,8 +43,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000004, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000004, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_ON,
         OCELEM_ON,

@@ -9,10 +9,10 @@
 #include "terminal.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64olib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "olib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 #include "overlays/actors/ovl_En_Sw/z_en_sw.h"
 
 static s16 sDisableAttention = false;
@@ -4293,7 +4293,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             subCam->timer = -99;
             if (Play_CamIsNotFixed(play)) {
                 Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_TURN_AROUND);
-                subCam->data2 = 0xC;
+                subCam->data2 = CAM_ITEM_TYPE_12;
             } else {
                 Play_CopyCamera(play, subCamId, CAM_ID_MAIN);
                 Play_RequestCameraSetting(play, subCamId, CAM_SET_FREE2);

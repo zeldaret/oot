@@ -10,8 +10,8 @@
 #include "gfx_setupdl.h"
 #include "sfx.h"
 #include "sys_matrix.h"
-#include "z64play.h"
-#include "z64save.h"
+#include "play_state.h"
+#include "save.h"
 
 #include "assets/objects/object_dekujr/object_dekujr.h"
 
@@ -39,12 +39,19 @@ ActorProfile Obj_Dekujr_Profile = {
 static ColliderCylinderInitToActor sCylinderInit = {
     {
         NULL,
-        0x00,
-        0x00,
-        0x39,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        ELEM_MATERIAL_UNK2,
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
+        ATELEM_NONE,
+        ACELEM_NONE,
+        OCELEM_ON,
+    },
     { 60, 80, 0, { 0, 0, 0 } },
 };
 
@@ -52,7 +59,7 @@ void ObjDekujr_Init(Actor* thisx, PlayState* play) {
     ObjDekujr* this = (ObjDekujr*)thisx;
     s32 pad;
 
-    if (gSaveContext.save.cutsceneIndex < 0xFFF0) {
+    if (gSaveContext.save.cutsceneIndex < CS_INDEX_0) {
         if (!LINK_IS_ADULT) {
             Actor_Kill(thisx);
             return;
@@ -148,7 +155,7 @@ void ObjDekujr_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    if ((gSaveContext.save.cutsceneIndex >= 0xFFF0) && (this->unk_19B == 0)) {
+    if ((gSaveContext.save.cutsceneIndex >= CS_INDEX_0) && (this->unk_19B == 0)) {
         this->unk_19C = 0;
         this->unk_19B = 1;
     }

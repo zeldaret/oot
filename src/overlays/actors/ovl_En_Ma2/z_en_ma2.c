@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ma2.c
+ * Overlay: En_Ma2
+ * Description: Adult Malon (Stables / Ranch Pre-Epona)
+ */
+
 #include "z_en_ma2.h"
 
 #include "gfx.h"
@@ -7,12 +13,12 @@
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64face_reaction.h"
-#include "z64ocarina.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "face_reaction.h"
+#include "ocarina.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/object_ma2/object_ma2.h"
 
@@ -25,14 +31,14 @@ void EnMa2_Destroy(Actor* thisx, PlayState* play);
 void EnMa2_Update(Actor* thisx, PlayState* play);
 void EnMa2_Draw(Actor* thisx, PlayState* play);
 
-void func_80AA1AE4(EnMa2* this, PlayState* play);
-s32 func_80AA1C68(EnMa2* this);
+void EnMa2_UpdateTracking(EnMa2* this, PlayState* play);
+s32 EnMa2_IsSinging(EnMa2* this);
 void EnMa2_UpdateEyes(EnMa2* this);
-void func_80AA1DB4(EnMa2* this, PlayState* play);
-void func_80AA2018(EnMa2* this, PlayState* play);
-void func_80AA204C(EnMa2* this, PlayState* play);
-void func_80AA20E4(EnMa2* this, PlayState* play);
-void func_80AA21C8(EnMa2* this, PlayState* play);
+void EnMa2_UpdateSinging(EnMa2* this, PlayState* play);
+void EnMa2_WaitToEndTalk(EnMa2* this, PlayState* play);
+void EnMa2_WaitForOcarina(EnMa2* this, PlayState* play);
+void EnMa2_WaitForEponasSong(EnMa2* this, PlayState* play);
+void EnMa2_ForceTalkAfterSong(EnMa2* this, PlayState* play);
 
 ActorProfile En_Ma2_Profile = {
     /**/ ACTOR_EN_MA2,
@@ -57,8 +63,8 @@ static ColliderCylinderInit sCylinderInit = {
     },
     {
         ELEM_MATERIAL_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x00 },
+        { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_NONE,
         ACELEM_NONE,
         OCELEM_ON,
@@ -69,11 +75,11 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum EnMa2Animation {
-    /* 0 */ ENMA2_ANIM_0,
-    /* 1 */ ENMA2_ANIM_1,
-    /* 2 */ ENMA2_ANIM_2,
-    /* 3 */ ENMA2_ANIM_3,
-    /* 4 */ ENMA2_ANIM_4
+    /* 0 */ MALON_ADULT_ANIM_IDLE,
+    /* 1 */ MALON_ADULT_ANIM_IDLE_NOMORPH,
+    /* 2 */ MALON_ADULT_ANIM_STANDING,
+    /* 3 */ MALON_ADULT_ANIM_SING,
+    /* 4 */ MALON_ADULT_ANIM_SING_NOMORPH
 } EnMa2Animation;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {
@@ -92,9 +98,9 @@ u16 EnMa2_GetTextId(PlayState* play, Actor* thisx) {
         return 0x2056;
     }
     if (IS_NIGHT) {
-        if (GET_INFTABLE(INFTABLE_8C)) {
+        if (GET_INFTABLE(INFTABLE_TALKED_TO_ADULT_MALON_AFTER_SONG)) {
             return 0x2052;
-        } else if (GET_INFTABLE(INFTABLE_8E)) {
+        } else if (GET_INFTABLE(INFTABLE_PLAYED_SONG_FOR_ADULT_MALON)) {
             return 0x2051;
         } else {
             return 0x2050;
@@ -110,9 +116,10 @@ s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2051:
-                    SET_INFTABLE(INFTABLE_8C);
+                    SET_INFTABLE(INFTABLE_TALKED_TO_ADULT_MALON_AFTER_SONG);
                     talkState = NPC_TALK_STATE_ACTION;
                     break;
+                // unreachable, 0x2053 is a text id for Gossip Stones, which EnMa2 never sets
                 case 0x2053:
                     SET_INFTABLE(INFTABLE_8D);
                     talkState = NPC_TALK_STATE_IDLE;
@@ -135,7 +142,7 @@ s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx) {
     return talkState;
 }
 
-void func_80AA1AE4(EnMa2* this, PlayState* play) {
+void EnMa2_UpdateTracking(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
@@ -151,47 +158,58 @@ void func_80AA1AE4(EnMa2* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 0, trackingMode);
 }
 
-u16 func_80AA1B58(EnMa2* this, PlayState* play) {
+typedef enum {
+    MALON_ADULT_SPAWN_NONE = 0,
+    MALON_ADULT_SPAWN_DAY_STABLES_NO_EPONA,
+    MALON_ADULT_SPAWN_NIGHT_RANCH_NO_EPONA,
+    MALON_ADULT_SPAWN_ALWAYS
+} EnMa2SpawnIndex;
+
+u16 EnMa2_GetSpawnIndex(EnMa2* this, PlayState* play) {
     if (LINK_IS_CHILD) {
-        return 0;
+        return MALON_ADULT_SPAWN_NONE;
     }
     if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (play->sceneId == SCENE_STABLE) && IS_DAY &&
         (this->actor.shape.rot.z == 5)) {
-        return 1;
+        return MALON_ADULT_SPAWN_DAY_STABLES_NO_EPONA;
     }
     if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (play->sceneId == SCENE_LON_LON_RANCH) && IS_NIGHT &&
         (this->actor.shape.rot.z == 6)) {
-        return 2;
+        return MALON_ADULT_SPAWN_NIGHT_RANCH_NO_EPONA;
     }
     if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) || (play->sceneId != SCENE_LON_LON_RANCH)) {
-        return 0;
+        return MALON_ADULT_SPAWN_NONE;
     }
     if ((this->actor.shape.rot.z == 7) && IS_DAY) {
-        return 3;
+        return MALON_ADULT_SPAWN_ALWAYS;
     }
     if ((this->actor.shape.rot.z == 8) && IS_NIGHT) {
-        return 3;
+        return MALON_ADULT_SPAWN_ALWAYS;
     }
-    return 0;
+    return MALON_ADULT_SPAWN_NONE;
 }
 
-s32 func_80AA1C68(EnMa2* this) {
+s32 EnMa2_IsSinging(EnMa2* this) {
     if (this->skelAnime.animation != &gMalonAdultSingAnim) {
-        return 0;
+        return false;
     }
+
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
-        return 0;
+        return false;
     }
+
     this->blinkTimer = 0;
+
     if (this->eyeIndex != 2) {
-        return 0;
+        return false;
     }
+
     this->mouthIndex = 2;
-    return 1;
+    return true;
 }
 
 void EnMa2_UpdateEyes(EnMa2* this) {
-    if ((!func_80AA1C68(this)) && (DECR(this->blinkTimer) == 0)) {
+    if ((!EnMa2_IsSinging(this)) && (DECR(this->blinkTimer) == 0)) {
         this->eyeIndex++;
         if (this->eyeIndex >= 3) {
             this->blinkTimer = Rand_S16Offset(30, 30);
@@ -207,19 +225,19 @@ void EnMa2_ChangeAnim(EnMa2* this, s32 index) {
                      sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
-void func_80AA1DB4(EnMa2* this, PlayState* play) {
+void EnMa2_UpdateSinging(EnMa2* this, PlayState* play) {
     if (this->skelAnime.animation == &gMalonAdultSingAnim) {
         if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-            if (this->isNotSinging) {
+            if (this->singingDisabled) {
                 // Turn on singing
                 Audio_ToggleMalonSinging(false);
-                this->isNotSinging = false;
+                this->singingDisabled = false;
             }
         } else {
-            if (!this->isNotSinging) {
+            if (!this->singingDisabled) {
                 // Turn off singing
                 Audio_ToggleMalonSinging(true);
-                this->isNotSinging = true;
+                this->singingDisabled = true;
             }
         }
     }
@@ -235,24 +253,24 @@ void EnMa2_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
 
-    switch (func_80AA1B58(this, play)) {
-        case 1:
-            EnMa2_ChangeAnim(this, ENMA2_ANIM_2);
-            this->actionFunc = func_80AA2018;
+    switch (EnMa2_GetSpawnIndex(this, play)) {
+        case MALON_ADULT_SPAWN_DAY_STABLES_NO_EPONA:
+            EnMa2_ChangeAnim(this, MALON_ADULT_ANIM_STANDING);
+            this->actionFunc = EnMa2_WaitToEndTalk;
             break;
-        case 2:
-            EnMa2_ChangeAnim(this, ENMA2_ANIM_3);
-            this->actionFunc = func_80AA204C;
+        case MALON_ADULT_SPAWN_NIGHT_RANCH_NO_EPONA:
+            EnMa2_ChangeAnim(this, MALON_ADULT_ANIM_SING);
+            this->actionFunc = EnMa2_WaitForOcarina;
             break;
-        case 3:
+        case MALON_ADULT_SPAWN_ALWAYS:
             if (GET_INFTABLE(INFTABLE_8D)) {
-                EnMa2_ChangeAnim(this, ENMA2_ANIM_0);
+                EnMa2_ChangeAnim(this, MALON_ADULT_ANIM_IDLE);
             } else {
-                EnMa2_ChangeAnim(this, ENMA2_ANIM_3);
+                EnMa2_ChangeAnim(this, MALON_ADULT_ANIM_SING);
             }
-            this->actionFunc = func_80AA2018;
+            this->actionFunc = EnMa2_WaitToEndTalk;
             break;
-        case 0:
+        case MALON_ADULT_SPAWN_NONE:
             Actor_Kill(&this->actor);
             return;
     }
@@ -270,48 +288,47 @@ void EnMa2_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_80AA2018(EnMa2* this, PlayState* play) {
+void EnMa2_WaitToEndTalk(EnMa2* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
 
-void func_80AA204C(EnMa2* this, PlayState* play) {
+void EnMa2_WaitForOcarina(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (player->stateFlags2 & PLAYER_STATE2_24) {
         player->stateFlags2 |= PLAYER_STATE2_25;
         player->unk_6A8 = &this->actor;
         Message_StartOcarina(play, OCARINA_ACTION_CHECK_EPONA);
-        this->actionFunc = func_80AA20E4;
+        this->actionFunc = EnMa2_WaitForEponasSong;
     } else if (this->actor.xzDistToPlayer < 30.0f + this->collider.dim.radius) {
         player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
-void func_80AA20E4(EnMa2* this, PlayState* play) {
+void EnMa2_WaitForEponasSong(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (play->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
-        this->actionFunc = func_80AA204C;
+        this->actionFunc = EnMa2_WaitForOcarina;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        this->unk_208 = 0x1E;
-        SET_INFTABLE(INFTABLE_8E);
-        this->actionFunc = func_80AA21C8;
+        SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
+        this->timer = 0x1E;
+        SET_INFTABLE(INFTABLE_PLAYED_SONG_FOR_ADULT_MALON);
+        this->actionFunc = EnMa2_ForceTalkAfterSong;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
         player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
-void func_80AA21C8(EnMa2* this, PlayState* play) {
+void EnMa2_ForceTalkAfterSong(EnMa2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (DECR(this->unk_208)) {
+    if (DECR(this->timer)) {
         player->stateFlags2 |= PLAYER_STATE2_23;
     } else {
         if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
@@ -319,7 +336,7 @@ void func_80AA21C8(EnMa2* this, PlayState* play) {
             Message_CloseTextbox(play);
         } else {
             this->actor.flags &= ~ACTOR_FLAG_TALK_OFFER_AUTO_ACCEPTED;
-            this->actionFunc = func_80AA2018;
+            this->actionFunc = EnMa2_WaitToEndTalk;
         }
     }
 }
@@ -333,9 +350,9 @@ void EnMa2_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     EnMa2_UpdateEyes(this);
     this->actionFunc(this, play);
-    func_80AA1DB4(this, play);
-    func_80AA1AE4(this, play);
-    if (this->actionFunc != func_80AA20E4) {
+    EnMa2_UpdateSinging(this, play);
+    EnMa2_UpdateTracking(this, play);
+    if (this->actionFunc != EnMa2_WaitForEponasSong) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                           EnMa2_GetTextId, EnMa2_UpdateTalkState);
     }
@@ -345,25 +362,25 @@ s32 EnMa2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     EnMa2* this = (EnMa2*)thisx;
     Vec3s limbRot;
 
-    if ((limbIndex == MALON_ADULT_LEFT_THIGH_LIMB) || (limbIndex == MALON_ADULT_RIGHT_THIGH_LIMB)) {
+    if ((limbIndex == MALON_ADULT_LIMB_LEFT_THIGH) || (limbIndex == MALON_ADULT_LIMB_RIGHT_THIGH)) {
         *dList = NULL;
     }
-    if (limbIndex == MALON_ADULT_HEAD_LIMB) {
+    if (limbIndex == MALON_ADULT_LIMB_HEAD) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         limbRot = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limbIndex == MALON_ADULT_CHEST_AND_NECK_LIMB) {
+    if (limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) {
         limbRot = this->interactInfo.torsoRot;
         Matrix_RotateY(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.x), MTXMODE_APPLY);
     }
-    if ((limbIndex == MALON_ADULT_CHEST_AND_NECK_LIMB) || (limbIndex == MALON_ADULT_LEFT_SHOULDER_LIMB) ||
-        (limbIndex == MALON_ADULT_RIGHT_SHOULDER_LIMB)) {
-        rot->y += Math_SinS(this->unk_212[limbIndex].y) * 200.0f;
-        rot->z += Math_CosS(this->unk_212[limbIndex].z) * 200.0f;
+    if ((limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) || (limbIndex == MALON_ADULT_LIMB_LEFT_SHOULDER) ||
+        (limbIndex == MALON_ADULT_LIMB_RIGHT_SHOULDER)) {
+        rot->y += Math_SinS(this->upperBodyRot[limbIndex].y) * 200.0f;
+        rot->z += Math_CosS(this->upperBodyRot[limbIndex].z) * 200.0f;
     }
     return false;
 }
@@ -374,10 +391,10 @@ void EnMa2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ma2.c", 904);
 
-    if (limbIndex == MALON_ADULT_HEAD_LIMB) {
+    if (limbIndex == MALON_ADULT_LIMB_HEAD) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
-    if ((limbIndex == MALON_ADULT_LEFT_HAND_LIMB) && (this->skelAnime.animation == &gMalonAdultStandStillAnim)) {
+    if ((limbIndex == MALON_ADULT_LIMB_LEFT_HAND) && (this->skelAnime.animation == &gMalonAdultStandStillAnim)) {
         gSPDisplayList(POLY_OPA_DISP++, gMalonAdultBasketDL);
     }
 

@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "versions.h"
-#include "z64math.h"
+#include "z_math.h"
 #include "assert.h"
 
 #define MAX_CHANNELS_PER_BANK 3
@@ -156,6 +156,14 @@ typedef struct SfxParams {
 #else
 #define SFX_DIST_SCALING 10.0f
 #endif
+
+#define SFX_PLAY_CENTERED(sfxId)                                                                              \
+    Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, \
+                         &gSfxDefaultReverb);
+
+#define SFX_PLAY_AT_POS(projectedPos, sfxId)                                                               \
+    Audio_PlaySfxGeneral(sfxId, projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, \
+                         &gSfxDefaultReverb);
 
 void Audio_SetSfxBanksMute(u16 muteMask);
 void Audio_QueueSeqCmdMute(u8 channelIndex);

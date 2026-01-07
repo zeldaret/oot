@@ -2,7 +2,7 @@
  * File: z_fcurve_data.c
  * Description: Interpolation functions for use with Curve SkelAnime
  */
-#include "z64curve.h"
+#include "curve.h"
 
 #define FCURVE_INTERP_CUBIC 0  // Interpolate using a Hermite cubic spline
 #define FCURVE_INTERP_NONE 1   // Return the value at the left endpoint instead of interpolating

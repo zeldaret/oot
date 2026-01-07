@@ -10,13 +10,13 @@
 #include "sys_matrix.h"
 #include "versions.h"
 #include "z_lib.h"
-#include "z64cutscene_commands.h"
-#include "z64cutscene_flags.h"
-#include "z64cutscene_spline.h"
-#include "z64olib.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "cutscene_commands.h"
+#include "cutscene_flags.h"
+#include "cutscene_spline.h"
+#include "olib.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
@@ -274,8 +274,7 @@ void DemoKankyo_Init(Actor* thisx, PlayState* play) {
             this->sparkleCounter = 0;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             if (this->actor.params == DEMOKANKYO_WARP_OUT) {
-                Audio_PlaySfxGeneral(NA_SE_EV_SARIA_MELODY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                SFX_PLAY_CENTERED(NA_SE_EV_SARIA_MELODY);
             }
             break;
         case DEMOKANKYO_SPARKLES:
@@ -390,8 +389,7 @@ void DemoKankyo_DoNothing(DemoKankyo* this, PlayState* play) {
 
 void DemoKankyo_UpdateWarpIn(DemoKankyo* this, PlayState* play) {
 #if OOT_VERSION < PAL_1_0
-    Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    SFX_PLAY_CENTERED(NA_SE_EV_LINK_WARP_OUT);
 #endif
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
@@ -824,8 +822,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                     }
                 } else {
 #if OOT_VERSION >= PAL_1_0
-                    Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &gSfxDefaultPos, 4,
-                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    SFX_PLAY_CENTERED(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG);
 #endif
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints, &this->unk_150[i].unk_20,
                                       &this->unk_150[i].unk_1C) != 0) {

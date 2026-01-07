@@ -19,11 +19,11 @@
 #include "terminal.h"
 #include "translation.h"
 #include "z_lib.h"
-#include "z64audio.h"
-#include "z64debug_display.h"
-#include "z64play.h"
-#include "z64player.h"
-#include "z64save.h"
+#include "audio.h"
+#include "debug_display.h"
+#include "play_state.h"
+#include "player.h"
+#include "save.h"
 
 #define FLAGS 0
 
@@ -98,8 +98,9 @@ void EnDntDemo_Init(Actor* thisx, PlayState* play2) {
                                                           this->scrubPos[i].x, this->scrubPos[i].y, this->scrubPos[i].z,
                                                           0, 0, 0, i + ENDNTNOMAL_STAGE);
         if (this->scrubs[i] != NULL) {
-            // "zako zako" [small fries]
-            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n" VT_RST, this->scrubs[i]);
+            // [small fry]
+            PRINTF(VT_FGCOL(GREEN) T("☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n", "☆☆☆☆☆ zako zako ☆☆☆☆☆ %x\n") VT_RST,
+                   this->scrubs[i]);
         }
     }
 
@@ -161,8 +162,8 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
             }
         }
         if (this->judgeTimer > 40) {
-            // "gera gera" [onomatopoeia for loud giggling]
-            PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ げらげら ☆☆☆☆☆ \n" VT_RST);
+            // [onomatopoeia for loud giggling]
+            PRINTF(VT_FGCOL(RED) T("☆☆☆☆☆ げらげら ☆☆☆☆☆ \n", "☆☆☆☆☆ gera gera ☆☆☆☆☆ \n") VT_RST);
             func_800F436C(&this->actor.projectedPos, NA_SE_EV_CROWD - SFX_FLAG, 2.0f);
         }
         if (this->judgeTimer < 120) {
@@ -183,8 +184,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                 case PLAYER_MASK_TRUTH:
                     if (!GET_ITEMGETINF(ITEMGETINF_FOREST_STAGE_NUT_UPGRADE) &&
                         (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
-                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_SY_TRE_BOX_APPEAR);
                         this->prize = DNT_PRIZE_NUTS;
                         this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
                         reaction = DNT_SIGNAL_LOOK;
