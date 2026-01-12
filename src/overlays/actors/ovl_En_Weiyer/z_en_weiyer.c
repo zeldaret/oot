@@ -26,7 +26,7 @@ void EnWeiyer_Destroy(Actor* thisx, PlayState* play);
 void EnWeiyer_Update(Actor* thisx, PlayState* play);
 void EnWeiyer_Draw(Actor* thisx, PlayState* play);
 
-void EnWeiyer_InitWaterBox(EnWeiyer* this, PlayState* play);
+void EnWeiyer_InitInsideWaterBox(EnWeiyer* this, PlayState* play);
 void EnWeiyer_FreeSwim(EnWeiyer* this, PlayState* play);
 void EnWeiyer_TurnAround(EnWeiyer* this, PlayState* play);
 void EnWeiyer_StuckOnFloor(EnWeiyer* this, PlayState* play);
@@ -122,7 +122,7 @@ void EnWeiyer_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->actionFunc = EnWeiyer_InitWaterBox;
+    this->actionFunc = EnWeiyer_InitInsideWaterBox;
 }
 
 void EnWeiyer_Destroy(Actor* thisx, PlayState* play) {
@@ -224,7 +224,7 @@ void EnWeiyer_SetupOutOfWater(EnWeiyer* this) {
     this->actionFunc = EnWeiyer_OutOfWater;
 }
 
-void EnWeiyer_InitWaterBox(EnWeiyer* this, PlayState* play) {
+void EnWeiyer_InitInsideWaterBox(EnWeiyer* this, PlayState* play) {
     WaterBox* waterBox;
     s32 bgId;
 
