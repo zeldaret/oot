@@ -29,6 +29,7 @@ typedef struct sample_data {
     const char *name;
     double sample_rate;
     int8_t base_note;
+    int8_t fine_tune;
     bool is_dd;
     bool cached;
     aifc_data aifc;
@@ -66,6 +67,9 @@ typedef struct instr_data {
     int8_t base_note_mid;
     int8_t base_note_lo;
     int8_t base_note_hi;
+    int8_t fine_tune_mid;
+    int8_t fine_tune_lo;
+    int8_t fine_tune_hi;
 
     envelope_data *envelope;
     uint16_t release;
@@ -97,6 +101,7 @@ typedef struct drum_data {
     sample_data *sample;
     double sample_rate;
     int8_t base_note;
+    int8_t fine_tune;
 } drum_data;
 
 typedef struct sfx_data {
@@ -107,6 +112,7 @@ typedef struct sfx_data {
     sample_data *sample;
     double sample_rate;
     int8_t base_note;
+    int8_t fine_tune;
     float tuning;
 } sfx_data;
 
@@ -155,8 +161,9 @@ typedef struct {
     size_t match_padding_num;
 } soundfont;
 
-#define NOTE_UNSET    (INT8_MIN)
-#define RELEASE_UNSET (UINT16_MAX)
+#define NOTE_UNSET      (INT8_MIN)
+#define FINE_TUNE_UNSET (INT8_MIN)
+#define RELEASE_UNSET   (UINT16_MAX)
 
 envelope_data *
 sf_get_envelope(soundfont *sf, const char *name);
