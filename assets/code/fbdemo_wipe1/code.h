@@ -1,5 +1,5 @@
-#ifndef CODE_H
-#define CODE_H
+#ifndef FBDEMO_WIPE1_CODE_H
+#define FBDEMO_WIPE1_CODE_H
 
 #include "tex_len.h"
 #include "gfx.h"

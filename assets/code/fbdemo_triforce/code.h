@@ -1,5 +1,5 @@
-#ifndef CODE_H
-#define CODE_H
+#ifndef FBDEMO_TRIFORCE_CODE_H
+#define FBDEMO_TRIFORCE_CODE_H
 
 #include "gfx.h"
 
