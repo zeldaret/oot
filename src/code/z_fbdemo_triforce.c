@@ -1,5 +1,6 @@
 #include "transition_triforce.h"
 
+#include "gfx.h"
 #include "printf.h"
 #include "z_math.h"
 #include "transition_instances.h"
