@@ -120,7 +120,7 @@ static_assert(
     BIT_WIDTH_UPG_WALLET +
     BIT_WIDTH_UPG_BULLET_BAG +
     BIT_WIDTH_UPG_DEKU_STICKS +
-    BIT_WIDTH_UPG_DEKU_NUTS < sizeof(u32) * BITS_PER_BYTE,
+    BIT_WIDTH_UPG_DEKU_NUTS <= sizeof(u32) * BITS_PER_BYTE,
     "Upgrades must fit in a u32"
 );
 
