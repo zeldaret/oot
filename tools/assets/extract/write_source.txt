@@ -1,6 +1,3 @@
-assets/code/fbdemo_circle/code.c
-assets/code/fbdemo_triforce/code.c
-assets/code/fbdemo_wipe1/code.c
 assets/misc/link_animetion/link_animetion.c
 assets/misc/z_select_static/z_select_static.c
 assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.c
