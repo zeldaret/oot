@@ -138,7 +138,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
-    static s32 sSpikedCrusherFlip = 0;
+    static s32 sSpikedCrusherFlip = false;
     BgHakaTrap* this = (BgHakaTrap*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
@@ -169,11 +169,12 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 CollisionHeader_GetVirtual(&gShadowTempleSpikedCrusherCol, &colHeader);
                 this->timer = 30;
 
-                if (sSpikedCrusherFlip != 0) {
+                // Instances alternate between starting off in the up or down position.
+                if (sSpikedCrusherFlip) {
                     this->actionFunc = BgHakaTrap_SpikedCrusher_Lift;
-                    sSpikedCrusherFlip = 0;
+                    sSpikedCrusherFlip = false;
                 } else {
-                    sSpikedCrusherFlip = 1;
+                    sSpikedCrusherFlip = true;
                     this->actionFunc = BgHakaTrap_SpikedCrusher_Fall;
                     thisx->velocity.y = 0.5f;
                 }
@@ -333,7 +334,7 @@ void BgHakaTrap_SpikedWall_Burn(BgHakaTrap* this, PlayState* play) {
 }
 
 void BgHakaTrap_Guillotine_Fall(BgHakaTrap* this, PlayState* play) {
-    s32 isNotMoving;
+    s32 isDoneFalling;
     s32 timer;
 
     if (this->isGuillotineFast) {
@@ -346,7 +347,7 @@ void BgHakaTrap_Guillotine_Fall(BgHakaTrap* this, PlayState* play) {
         this->timer -= 1;
     }
 
-    isNotMoving =
+    isDoneFalling =
         Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 185.0f, this->dyna.actor.velocity.y);
     timer = this->timer;
 
@@ -363,7 +364,7 @@ void BgHakaTrap_Guillotine_Fall(BgHakaTrap* this, PlayState* play) {
 
     BgHakaTrap_UpdateBodyColliderPos(this, play);
 
-    if (isNotMoving == 0) {
+    if (!isDoneFalling) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderCylinder.base);
     }
 }
