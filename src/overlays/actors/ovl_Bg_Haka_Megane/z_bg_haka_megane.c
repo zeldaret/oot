@@ -39,7 +39,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static CollisionHeader* sCollisionHeaders[13] = {
+static CollisionHeader* sCollisionHeaders[BGHAKAMEGANE_TYPE_MAX] = {
     &gBotwRoom0FakeWallsAndFloorsCol,
     &gBotwRoom3ThreeFakeFloorsCol,
     NULL,
@@ -55,7 +55,7 @@ static CollisionHeader* sCollisionHeaders[13] = {
     NULL,
 };
 
-static Gfx* sDLists[13] = {
+static Gfx* sDLists[BGHAKAMEGANE_TYPE_MAX] = {
     gBotwRoom0FakeWallsAndFloorsDL,      gBotwRoom3ThreeFakeFloorsDL,
     gBotwRoom5HiddenPlatformDL,          gShadowTempleFakeCryptWallGlowingSkullDL,
     gShadowTempleFakeWallStrangeFaceDL,  gShadowTempleRoom3HiddenPlatformsDL,

@@ -18,6 +18,7 @@ typedef enum BgHakaMeganeType {
     /* 10 */ BGHAKAMEGANE_TYPE_SHADOW_ROOM_15_HIDDEN,
     /* 11 */ BGHAKAMEGANE_TYPE_SHADOW_ROOM_18_FAKE,
     /* 12 */ BGHAKAMEGANE_TYPE_SHADOW_ROOM_11_HIDDEN,
+    /* 13 */ BGHAKAMEGANE_TYPE_MAX
 } BgHakaMeganeType;
 
 struct BgHakaMegane;
