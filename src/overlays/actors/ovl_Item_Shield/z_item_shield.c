@@ -83,13 +83,13 @@ void ItemShield_Init(Actor* thisx, PlayState* play) {
     this->stateFlags = 0;
 
     switch (this->actor.params) {
-        case 0:
+        case ITEMSHIELD_TYPE_WALL:
             ActorShape_Init(&this->actor.shape, 1400.0f, NULL, 0.0f);
             this->actor.shape.rot.x = 0x4000;
             ItemShield_SetupAction(this, ItemShield_WaitOnWall);
             break;
 
-        case 1:
+        case ITEMSHIELD_TYPE_BURNED:
             ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
             ItemShield_SetupAction(this, ItemShield_StartShieldBurn);
             this->stateFlags |= ITEM_SHIELD_STATEFLAG_DRAW;
@@ -230,7 +230,7 @@ void ItemShield_StartShieldBurn(ItemShield* this, PlayState* play) {
     this->actor.shape.rot.x = Math_Atan2S(-shield->yz, sqrtf(shield->zz * shield->zz + shield->xz * shield->xz));
 
     if (ABS(this->actor.shape.rot.x) > 0x4000) {
-        this->stateFlags |= ITEM_SHIELD_STATEFLAG_UNK;
+        this->stateFlags |= ITEM_SHIELD_STATEFLAG_UNUSED;
     }
 
     ItemShield_SetupAction(this, ItemShield_BurnShield);

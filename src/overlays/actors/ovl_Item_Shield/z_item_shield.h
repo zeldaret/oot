@@ -24,7 +24,7 @@ typedef struct ItemShield {
     /* 0x0208 */ ItemShieldActionFunc actionFunc;
 } ItemShield; // size = 0x020C
 
-#define ITEM_SHIELD_STATEFLAG_UNK  (1 << 0)
+#define ITEM_SHIELD_STATEFLAG_UNUSED  (1 << 0)
 #define ITEM_SHIELD_STATEFLAG_DRAW (1 << 1)
 
 #endif
