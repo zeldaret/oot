@@ -115,11 +115,11 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
         if (thisx->params != BGHAKAZOU_TYPE_GIANT_BIRD_STATUE) {
             // Object has already been destroyed
             Actor_Kill(thisx);
-        } else /* thisx->params == BGHAKAZOU_TYPE_GIANT_BIRD_STATUE */ {
+        } else {
             // Initialize the statue toppled over
             thisx->shape.rot.x = -0x4000;
             thisx->world.pos.z -= 80.0f;
-            thisx->world.pos.y -= (40 + 14);
+            thisx->world.pos.y -= 40 + 14;
         }
     }
 
