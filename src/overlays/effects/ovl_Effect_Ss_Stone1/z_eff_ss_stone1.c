@@ -18,7 +18,7 @@
 
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define rSuppressRTransFadeFlashAlphaStepAfterTwoFrames regs[0]
+#define rShortenFadeFlash regs[0]
 
 u32 EffectSsStone1_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsStone1_Draw(PlayState* play, u32 index, EffectSs* this);
@@ -53,7 +53,7 @@ u32 EffectSsStone1_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
     this->pos = pos;
     this->vec = pos;
     this->life = 8;
-    this->rSuppressRTransFadeFlashAlphaStepAfterTwoFrames = initParams->suppressRTransFadeFlashAlphaStepAfterTwoFrames;
+    this->rShortenFadeFlash = initParams->shortenFadeFlash;
     this->draw = EffectSsStone1_Draw;
     this->update = EffectSsStone1_Update;
 
@@ -85,7 +85,7 @@ void EffectSsStone1_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsStone1_Update(PlayState* play, u32 index, EffectSs* this) {
-    if ((this->life == 6) && (this->rSuppressRTransFadeFlashAlphaStepAfterTwoFrames != 0)) {
+    if ((this->life == 6) && this->rShortenFadeFlash) {
         R_TRANS_FADE_FLASH_ALPHA_STEP = 0;
     }
 }
