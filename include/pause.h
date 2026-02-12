@@ -64,8 +64,13 @@ typedef enum PauseMenuPage {
 
 #define PAUSE_PLAYER_SEGMENT_TEXTURE(playerSegment) \
         (playerSegment)
-#define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP(playerSegment) \
+
+// Note that only the first chunk of gameplay_keep is loaded, the data relevant to rendering the player
+// is expected to be within this first chunk. The size of this first chunk is determined by
+// PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE.
+#define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(playerSegment) \
         ((playerSegment) + PAUSE_PLAYER_SEGMENT_TEX_SIZE)
+
 #define PAUSE_PLAYER_SEGMENT_LINK_OBJECT(playerSegment) \
         ((playerSegment) + PAUSE_PLAYER_SEGMENT_TEX_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE)
 
