@@ -1,43 +1,43 @@
 <Root>
     <File Name="object_xc" Segment="6">
         <Skeleton Name="gSheikSkel" Type="Flex" LimbType="Standard" Offset="0x12AF0"/>
-        <Animation Name="gSheikPlayingHarpAnim" Offset="0xB6C"/>
+        <Animation Name="gSheikPlayingHarpPreludeAnim" Offset="0xB6C"/>
         <Animation Name="gSheikShowingTriforceOnHandAnim" Offset="0x1A08"/>
         <Animation Name="gSheikShowingTriforceOnHandIdleAnim" Offset="0x1D14"/>
-        <Animation Name="gSheikPlayingHarp2Anim" Offset="0x289C"/>
-        <Animation Name="gSheikPlayingHarp3Anim" Offset="0x35C8"/>
-        <Animation Name="gSheikPlayingHarp4Anim" Offset="0x4570"/>
+        <Animation Name="gSheikPlayingHarpBoleroAnim" Offset="0x289C"/>
+        <Animation Name="gSheikPlayingHarpMinuetAnim" Offset="0x35C8"/>
+        <Animation Name="gSheikPlayingHarpSerenadeAnim" Offset="0x4570"/>
         <Animation Name="gSheikIdleAnim" Offset="0x4828"/>
         <Texture Name="object_xc_TLUT_004A40" Format="rgba16" Width="16" Height="16" Offset="0x4A40"/>
         <Animation Name="gSheikWalkingAnim" Offset="0x12FD0"/>
         <Animation Name="gSheikArmsCrossedIdleAnim" Offset="0x13AA4"/>
-        <Animation Name="gSheikFallingFromContortionsAnim" Offset="0x149E4"/>
+        <Animation Name="gSheikHardFaceplantAnim" Offset="0x149E4"/>
         <Animation Name="gSheikContortionsAnim" Offset="0x169E8"/>
-        <Animation Name="gSheikPlayingHarp5Anim" Offset="0x177F8"/>
-        <Animation Name="gSheikInitialHarpAnim" Offset="0x17C54"/>
+        <Animation Name="gSheikPlayingHarpDefaultAnim" Offset="0x177F8"/>
+        <Animation Name="gSheikMoveHandToReadyHarpAnim" Offset="0x17C54"/>
         <Animation Name="gSheikDefenseStanceAnim" Offset="0x18B00"/>
         <Animation Name="gSheikThrowingNutAnim" Offset="0x19598"/>
         <Animation Name="gSheikKneelingAnim" Offset="0x19C30"/>
         <Animation Name="gSheikHittingGroundAnim" Offset="0x19F78"/>
-        <Animation Name="gSheikAnim_01A048" Offset="0x1A048"/>
+        <Animation Name="gSheikDiveAnim" Offset="0x1A048"/>
         <Animation Name="gSheikPullingOutHarpAnim" Offset="0x1B19C"/>
         <Animation Name="gSheikFallingFromSkyAnim" Offset="0x1C0E8"/>
         <Texture Name="gSheikEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x4CC0" TlutOffset="0x4A40"/>
         <Texture Name="gSheikEyeHalfClosedTex" Format="ci8" Width="32" Height="32" Offset="0x50C0" TlutOffset="0x4A40"/>
         <Texture Name="gSheikEyeShutTex" Format="ci8" Width="32" Height="32" Offset="0x54C0" TlutOffset="0x4A40"/>
-        <Texture Name="gSheikEyeSquintingTex" Format="ci8" Width="32" Height="32" Offset="0x58C0" TlutOffset="0x4A40"/>
+        <Texture Name="gSheikEyeLookingDownTex" Format="ci8" Width="32" Height="32" Offset="0x58C0" TlutOffset="0x4A40"/>
         <Array Name="gSheikHarpVtx" Count="96" Offset="0x102D0">
             <Vtx/>
         </Array>
         <Array Name="object_xc_Vtx_0108D0" Count="136" Offset="0x108D0">
             <Vtx/>
         </Array>
-        <DList Name="gSheikHarpDL" Offset="0x11150"/>
-        <DList Name="gSheikDL_011620" Offset="0x11620"/>
+        <DList Name="gSheikLeftHandHarpDL" Offset="0x11150"/>
+        <DList Name="gSheikRightHandSpreadFingersDL" Offset="0x11620"/>
         <Array Name="object_xc_Vtx_012930" Count="4" Offset="0x12930">
             <Vtx/>
         </Array>
-        <DList Name="gSheikDL_012970" Offset="0x12970"/>
+        <DList Name="gSheikTriforceWisdomDL" Offset="0x12970"/>
 
         <Texture Name="object_xc_004840_TLUT" Format="rgba16" Width="256" Height="1" Offset="0x4840"/>
         <Texture Name="object_xc_004C40_Tex" Format="ci8" Width="8" Height="8" Offset="0x4C40" TlutOffset="0x4840"/>

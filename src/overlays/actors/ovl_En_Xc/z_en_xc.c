@@ -48,7 +48,7 @@ void EnXc_DrawDefault(Actor* thisx, PlayState* play);
 void EnXc_DrawPullingOutHarp(Actor* thisx, PlayState* play);
 void EnXc_DrawHarp(Actor* thisx, PlayState* play);
 void EnXc_DrawTriforce(Actor* thisx, PlayState* play);
-void EnXc_DrawSquintingEyes(Actor* thisx, PlayState* play);
+void EnXc_DrawLookingDown(Actor* thisx, PlayState* play);
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
@@ -135,7 +135,7 @@ void EnXc_BgCheck(EnXc* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_2);
 }
 
-s32 EnXc_AnimIsFinished(EnXc* this) {
+s32 EnXc_SkelAnime_Update(EnXc* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -168,7 +168,7 @@ s32 EnXc_CheckForNoCue(EnXc* this, PlayState* play, u16 cueId, s32 cueChannel) {
     return false;
 }
 
-void func_80B3C588(EnXc* this, PlayState* play, u32 cueChannel) {
+void EnXc_SetPosRotByCueStart(EnXc* this, PlayState* play, u32 cueChannel) {
     CsCmdActorCue* cue = EnXc_GetCue(play, cueChannel);
     Actor* thisx = &this->actor;
 
@@ -183,7 +183,7 @@ void func_80B3C588(EnXc* this, PlayState* play, u32 cueChannel) {
     }
 }
 
-void func_80B3C620(EnXc* this, PlayState* play, s32 cueChannel) {
+void EnXc_SetPosByCueLerp(EnXc* this, PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue = EnXc_GetCue(play, cueChannel);
     Vec3f* worldPos = &this->actor.world.pos;
     f32 startX;
@@ -232,44 +232,44 @@ void EnXc_ChangeAnimation(EnXc* this, AnimationHeader* animation, u8 mode, f32 m
     Animation_Change(&this->skelAnime, animationSeg, playbackSpeed, startFrame, endFrame, mode, morphFrames);
 }
 
-void EnXc_CheckAndSetAction(EnXc* this, s32 check, s32 set) {
+void EnXc_CheckAndSetAction(EnXc* this, s32 check, s32 actionNext) {
     if (check != this->action) {
-        this->action = set;
+        this->action = actionNext;
     }
 }
 
-void func_80B3C7D4(EnXc* this, s32 action1, s32 action2, s32 action3) {
-    if (action1 != this->action) {
-        if (this->action == SHEIK_ACTION_PUT_HARP_AWAY) {
-            this->action = action2;
+void EnXc_CheckHarpPutawayAndBranch(EnXc* this, s32 check, s32 actionContinue, s32 actionLoopback) {
+    if (check != this->action) {
+        if (this->action == SHEIK_ACTION_11_TEACH1_PLAY_HARP_RETURN_FROM_READY) {
+            this->action = actionContinue;
         } else {
-            this->action = action3;
+            this->action = actionLoopback;
         }
     }
 }
 
 #if DEBUG_FEATURES
-s32 EnXc_NoCutscenePlaying(PlayState* play) {
+s32 EnXc_Debug_NoCutscenePlaying(PlayState* play) {
     if (play->csCtx.state == CS_STATE_IDLE) {
         return true;
     }
     return false;
 }
 
-void func_80B3C820(EnXc* this) {
+void EnXc_Debug_SetAction53_IdleAnim(EnXc* this) {
     Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim),
                      ANIMMODE_LOOP, 0.0f);
-    this->action = SHEIK_ACTION_53;
+    this->action = SHEIK_ACTION_53_TRANSFORM_INVISIBLE;
 }
 
-void func_80B3C888(EnXc* this, PlayState* play) {
-    if (EnXc_NoCutscenePlaying(play) && this->actor.params == SHEIK_TYPE_4) {
-        func_80B3C820(this);
+void EnXc_Debug_RestartAction53_IfNoCS(EnXc* this, PlayState* play) {
+    if (EnXc_Debug_NoCutscenePlaying(play) && this->actor.params == SHEIK_TYPE_TRANSFORM) {
+        EnXc_Debug_SetAction53_IdleAnim(this);
     }
 }
 #endif
 
-void func_80B3C8CC(EnXc* this, PlayState* play) {
+void ActorMovement_func_80B3C8CC(EnXc* this, PlayState* play) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (skelAnime->jointTable[0].y >= skelAnime->baseTransl.y) {
@@ -278,40 +278,49 @@ void func_80B3C8CC(EnXc* this, PlayState* play) {
     }
 }
 
-void func_80B3C924(EnXc* this, PlayState* play) {
+void ActorMovement_func_80B3C924(EnXc* this, PlayState* play) {
     this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
     AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
-void func_80B3C964(EnXc* this, PlayState* play) {
+void ActorMovement_func_80B3C964(EnXc* this, PlayState* play) {
     this->skelAnime.baseTransl = this->skelAnime.jointTable[0];
     this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
     this->skelAnime.movementFlags |= ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y;
     AnimTaskQueue_AddActorMovement(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
-void func_80B3C9DC(EnXc* this) {
+void EnXc_DisableActorMovement(EnXc* this) {
     this->skelAnime.movementFlags &= ~(ANIM_FLAG_UPDATE_XZ | ANIM_FLAG_UPDATE_Y);
 }
 
-void func_80B3C9EC(EnXc* this) {
+void EnXc_SetAction79_BlockPedestal(EnXc* this) {
     EnXc_ChangeAnimation(this, &gSheikArmsCrossedIdleAnim, ANIMMODE_LOOP, 0.0f, false);
-    this->action = SHEIK_ACTION_BLOCK_PEDESTAL;
+    this->action = SHEIK_ACTION_79_TEMPLE_OF_TIME_BLOCK_PEDESTAL;
     this->drawMode = SHEIK_DRAW_DEFAULT;
-    this->unk_30C = 1;
+    this->enableTrackPlayer = true;
 }
 
-void func_80B3CA38(EnXc* this, PlayState* play) {
+void EnXc_CheckStartMinuet_Action0(EnXc* this, PlayState* play) {
     // If Player is adult but hasn't learned Minuet of Forest
     if (!GET_EVENTCHKINF(EVENTCHKINF_50) && LINK_IS_ADULT) {
         s32 pad;
 
-        this->action = SHEIK_ACTION_INIT;
+        this->action = SHEIK_ACTION_0_TEACH1_CHECK_DEMO_START;
     } else {
         Actor_Kill(&this->actor);
     }
 }
 
+/**
+ * If configured to start gMeadowMinuetCs, run the cutscene if the conditions are met.
+ * returns false only when the actor is prevented from starting the cutscene.
+ *
+ * Note: returning true does not mean that the Minuet cutscene is active.
+ *
+ * Since the Minuet cutscene can be started through Map Select, the conditional checks need to be bypassed
+ * for Sheik to behave correctly.
+ */
 s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
     Player* player;
     f32 playerPosZ;
@@ -336,17 +345,26 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
     return true;
 }
 
-void func_80B3CB58(EnXc* this, PlayState* play) {
+void EnXc_CheckStartBolero_Action0(EnXc* this, PlayState* play) {
     // If hasn't learned Bolero and Player is Adult
     if (!GET_EVENTCHKINF(EVENTCHKINF_51) && LINK_IS_ADULT) {
         s32 pad;
 
-        this->action = SHEIK_ACTION_INIT;
+        this->action = SHEIK_ACTION_0_TEACH1_CHECK_DEMO_START;
     } else {
         Actor_Kill(&this->actor);
     }
 }
 
+/**
+ * If configured to start gDeathMountainCraterBoleroCs, run the cutscene if the conditions are met.
+ * returns false only when the actor is prevented from starting the cutscene.
+ *
+ * Note: returning true does not mean that the Bolero cutscene is active.
+ *
+ * Since the Bolero cutscene can be started through Map Select, the conditional checks need to be bypassed
+ * for Sheik to behave correctly.
+ */
 s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
     Player* player;
     PosRot* posRot;
@@ -370,12 +388,12 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
     return true;
 }
 
-void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
+void EnXc_CheckStartSerenade_Action29(EnXc* this, PlayState* play) {
     if (!(CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && DEBUG_FEATURES) &&
         !GET_EVENTCHKINF(EVENTCHKINF_52) && LINK_IS_ADULT) {
         s32 pad;
 
-        this->action = SHEIK_ACTION_SERENADE;
+        this->action = SHEIK_ACTION_29_TEACH2_CHECK_DEMO_START;
         PRINTF(T("水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n", "Water serenade Sheik's birth!!!!!!!!!!!!!!!!!!\n"));
     } else {
         Actor_Kill(&this->actor);
@@ -383,8 +401,19 @@ void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
     }
 }
 
+/**
+ * If configured to start gIceCavernSerenadeCs, run the cutscene if the conditions are met.
+ * returns false only when the actor is prevented from starting the cutscene.
+ *
+ * Note: returning true does not mean that the Serenade cutscene is active.
+ *
+ * Since the Serenade cutscene can be started through Map Select, the conditional checks need to be bypassed
+ * for Sheik to behave correctly.
+ */
 s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
     if (this->actor.params == SHEIK_TYPE_SERENADE) {
+        // Ice Cavern - Gameplay - Learn Serenade
+
         Player* player = GET_PLAYER(play);
         s32 stateFlags = player->stateFlags1;
 
@@ -403,6 +432,8 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
             return false;
         }
     }
+
+    // Ice Cavern - Demo 0 - Learn Serenade
     return true;
 }
 
@@ -481,19 +512,20 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
     }
 }
 
-void func_80B3D118(PlayState* play) {
+void EnXc_TeachSong1_PlaySfx_NA_SE_PL_SKIP(PlayState* play) {
     s16 sceneId;
 
-    if ((gSaveContext.sceneLayer != 4) || (sceneId = play->sceneId, sceneId != SCENE_DESERT_COLOSSUS)) {
+    // In RequiemCs, we use a different technique for simulating the air swoosh
+    if (!((gSaveContext.sceneLayer == 4) && (sceneId = play->sceneId, sceneId == SCENE_DESERT_COLOSSUS))) {
         Sfx_PlaySfxCentered2(NA_SE_PL_SKIP);
     }
 }
 
 void EnXc_SetColossusWindSFX(PlayState* play) {
     if (gSaveContext.sceneLayer == 4) {
-        static s32 D_80B41D90 = 0;
+        static s32 sEyeLastValid = false;
         static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
-        static Vec3f D_80B42DB0;
+        static Vec3f sEyeLast;
         s32 pad;
         s16 sceneId = play->sceneId;
 
@@ -505,8 +537,8 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
                 s32 pad;
                 Vec3f* eye = &play->view.eye;
 
-                if (D_80B41D90 != 0) {
-                    f32 speed = Math3D_Vec3f_DistXYZ(&D_80B42DB0, eye) / 7.058922f;
+                if (sEyeLastValid) {
+                    f32 speed = Math3D_Vec3f_DistXYZ(&sEyeLast, eye) / 7.058922f;
 #if DEBUG_FEATURES
                     static f32 sMaxSpeed = 0.0f;
 
@@ -518,10 +550,10 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
                     func_800F436C(&sPos, NA_SE_EV_FLYING_AIR - SFX_FLAG, 0.6f + (0.4f * speed));
                 }
 
-                D_80B42DB0.x = eye->x;
-                D_80B42DB0.y = eye->y;
-                D_80B42DB0.z = eye->z;
-                D_80B41D90 = 1;
+                sEyeLast.x = eye->x;
+                sEyeLast.y = eye->y;
+                sEyeLast.z = eye->z;
+                sEyeLastValid = true;
             }
         }
     }
@@ -541,7 +573,7 @@ void EnXc_SpawnFlame(EnXc* this, PlayState* play) {
     }
 }
 
-void EnXc_SetupFlamePos(EnXc* this, PlayState* play) {
+void EnXc_SetBoleroEffFlamePos(EnXc* this, PlayState* play) {
     Vec3f* attachedPos;
     CsCmdActorCue* cue = EnXc_GetCue(play, 0);
 
@@ -562,34 +594,35 @@ void EnXc_DestroyFlame(EnXc* this) {
     Actor_Kill(&this->actor);
 }
 
-void EnXc_InitFlame(EnXc* this, PlayState* play) {
-    static s32 D_80B41DA8 = 1;
+void EnXc_UpdateBoleroEffFlame(EnXc* this, PlayState* play) {
+    static s32 sLastCueId = ENXC_EFF_FLAME_CUEID_1;
     s32 pad;
     s16 sceneId = play->sceneId;
 
     if (sceneId == SCENE_DEATH_MOUNTAIN_CRATER) {
         CsCmdActorCue* cue = EnXc_GetCue(play, 0);
         if (cue != NULL) {
-            s32 nextCueId = cue->id;
+            s32 cueId = cue->id;
 
-            if (D_80B41DA8 != nextCueId) {
-                if (nextCueId != 1) {
+            if (sLastCueId != cueId) {
+                if (cueId != ENXC_EFF_FLAME_CUEID_1) {
+                    // ENXC_EFF_FLAME_CUEID_2
                     EnXc_SpawnFlame(this, play);
                 }
 
-                if (nextCueId == 1) {
+                if (cueId == ENXC_EFF_FLAME_CUEID_1) {
                     EnXc_DestroyFlame(this);
                 }
 
-                D_80B41DA8 = nextCueId;
+                sLastCueId = cueId;
             }
 
-            EnXc_SetupFlamePos(this, play);
+            EnXc_SetBoleroEffFlamePos(this, play);
         }
     }
 }
 
-void func_80B3D48C(EnXc* this, PlayState* play) {
+void EnXc_FacePlayer(EnXc* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
     CsCmdActorCue* playerCue = csCtx->playerCue;
     s16 yaw;
@@ -604,35 +637,38 @@ void func_80B3D48C(EnXc* this, PlayState* play) {
     this->actor.shape.rot.y = this->actor.world.rot.y = yaw;
 }
 
-AnimationHeader* EnXc_GetCurrentHarpAnim(PlayState* play, s32 index) {
-    AnimationHeader* animation = &gSheikPlayingHarp5Anim;
-    CsCmdActorCue* cue = EnXc_GetCue(play, index);
+AnimationHeader* EnXc_GetHarpPlayingAnim(PlayState* play, s32 cueChannel) {
+    AnimationHeader* animation = &gSheikPlayingHarpDefaultAnim;
+    CsCmdActorCue* cue = EnXc_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         u16 cueId = cue->id;
 
-        if (cueId == 11) {
-            animation = &gSheikPlayingHarp3Anim;
-        } else if (cueId == 12) {
-            animation = &gSheikPlayingHarp2Anim;
-        } else if (cueId == 13) {
-            animation = &gSheikPlayingHarp4Anim;
-        } else if (cueId == 23) {
-            animation = &gSheikPlayingHarpAnim;
-        } else {
-            animation = &gSheikPlayingHarp5Anim;
+        if (cueId == ENXC_CUEID_PLAY_HARP_MINUET) {
+            animation = &gSheikPlayingHarpMinuetAnim;
+        } else if (cueId == ENXC_CUEID_PLAY_HARP_BOLERO) {
+            animation = &gSheikPlayingHarpBoleroAnim;
+        } else if (cueId == ENXC_CUEID_PLAY_HARP_SERENADE) {
+            animation = &gSheikPlayingHarpSerenadeAnim;
+        } else if (cueId == ENXC_CUEID_PLAY_HARP_PRELUDE) {
+            animation = &gSheikPlayingHarpPreludeAnim;
+        } else { // ENXC_CUEID_PLAY_HARP
+            animation = &gSheikPlayingHarpDefaultAnim;
         }
     }
     return animation;
 }
 
-void EnXc_CalcXZAccel(EnXc* this) {
+void EnXc_CalcSpeedXZAccelerate(EnXc* this) {
     f32 timer = this->timer;
     f32* speedXZ = &this->actor.speed;
 
+    // timer advances from 0 to 12
     if (timer < 9.0f) {
         *speedXZ = 0.0f;
     } else if (timer < 3.0f) {
+        // Unreachable. Given the code, it seems that the condition should be
+        // (timer < 12.0f) in order to accelerate from 0 to 1.2 in 3 steps
         *speedXZ = (((kREG(2) * 0.01f) + 1.2f) / 3.0f) * (timer - 9.0f);
     } else {
         *speedXZ = (kREG(2) * 0.01f) + 1.2f;
@@ -641,11 +677,11 @@ void EnXc_CalcXZAccel(EnXc* this) {
     Actor_MoveXZGravity(&this->actor);
 }
 
-void func_80B3D644(EnXc* this) {
+void EnXc_MoveXZGravity(EnXc* this) {
     Actor_MoveXZGravity(&this->actor);
 }
 
-void EnXc_CalcXZSpeed(EnXc* this) {
+void EnXc_CalcSpeedXZDecelerate(EnXc* this) {
     f32 timer = this->timer;
     f32* speedXZ = &this->actor.speed;
 
@@ -657,81 +693,81 @@ void EnXc_CalcXZSpeed(EnXc* this) {
     Actor_MoveXZGravity(&this->actor);
 }
 
-void func_80B3D6F0(EnXc* this) {
-    EnXc_CalcXZAccel(this);
+void EnXc_CalcSpeedXZAccelerate2(EnXc* this) {
+    EnXc_CalcSpeedXZAccelerate(this);
 }
 
-void func_80B3D710(EnXc* this) {
+void EnXc_MoveXZGravity2(EnXc* this) {
     Actor_MoveXZGravity(&this->actor);
 }
 
-void func_80B3D730(EnXc* this) {
-    EnXc_CalcXZSpeed(this);
+void EnXc_CalcSpeedXZDecelerate2(EnXc* this) {
+    EnXc_CalcSpeedXZDecelerate(this);
 }
 
-void func_80B3D750(EnXc* this, PlayState* play) {
+void EnXc_TeachSong1_Action0_CheckDemoStart_Test(EnXc* this, PlayState* play) {
     if (EnXc_MinuetCS(this, play) && EnXc_BoleroCS(this, play)) {
-        this->action = SHEIK_ACTION_WAIT;
+        this->action = SHEIK_ACTION_1_TEACH1_INVISIBLE;
     }
 }
 
-void EnXc_SetupFallFromSkyAction(EnXc* this, PlayState* play) {
+void EnXc_TeachSong1_WaitCue_GracefulFall(EnXc* this, PlayState* play) {
     s32 pad;
     CutsceneContext* csCtx = &play->csCtx;
 
     if (csCtx->state != 0) {
         CsCmdActorCue* cue = csCtx->actorCues[4];
 
-        if (cue != NULL && cue->id == 2) {
+        if (cue != NULL && cue->id == ENXC_CUEID_GRACEFUL_FALL) {
             s32 pad;
             Vec3f* pos = &this->actor.world.pos;
             SkelAnime* skelAnime = &this->skelAnime;
             f32 frameCount = Animation_GetLastFrame(&gSheikFallingFromSkyAnim);
 
-            this->action = SHEIK_ACTION_GRACEFUL_FALL;
+            this->action = SHEIK_ACTION_2_TEACH1_GRACEFUL_FALL;
             this->drawMode = SHEIK_DRAW_DEFAULT;
 
             pos->x = cue->startPos.x;
             pos->y = cue->startPos.y;
             pos->z = cue->startPos.z;
 
-            func_80B3D48C(this, play);
-            func_80B3C964(this, play);
+            EnXc_FacePlayer(this, play);
+            ActorMovement_func_80B3C964(this, play);
             Animation_Change(skelAnime, &gSheikFallingFromSkyAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-            func_80B3D118(play);
+            EnXc_TeachSong1_PlaySfx_NA_SE_PL_SKIP(play);
         }
     }
 }
 
-void func_80B3D8A4(EnXc* this, PlayState* play, s32 animFinished) {
+void EnXc_TeachSong1_UpdateGracefulFall(EnXc* this, PlayState* play, s32 animFinished) {
     if (animFinished) {
         SkelAnime* skelAnime = &this->skelAnime;
         f32 frameCount = Animation_GetLastFrame(&gSheikWalkingAnim);
 
         Animation_Change(skelAnime, &gSheikWalkingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -8.0f);
 
-        this->action = SHEIK_ACTION_ACCEL;
+        this->action = SHEIK_ACTION_3_TEACH1_START_WALK;
         this->timer = 0.0f;
 
-        func_80B3C9DC(this);
+        EnXc_DisableActorMovement(this);
         this->actor.gravity = -((kREG(1) * 0.01f) + 13.0f);
         this->actor.minVelocityY = -((kREG(1) * 0.01f) + 13.0f);
     } else {
-        func_80B3C8CC(this, play);
+        ActorMovement_func_80B3C8CC(this, play);
     }
 }
 
-void EnXc_SetupWalkAction(EnXc* this) {
+void EnXc_TeachSong1_SetupWalkToPlayer(EnXc* this) {
     f32* timer = &this->timer;
 
     *timer += 1.0f;
     if (*timer >= 12.0f) {
         this->actor.speed = (kREG(2) * 0.01f) + 1.2f;
-        this->action = SHEIK_ACTION_WALK;
+        this->action = SHEIK_ACTION_4_TEACH1_WALK_TO_PLAYER;
     }
 }
 
-void EnXc_SetupHaltAction(EnXc* this) {
+void EnXc_TeachSong1_SetupStopWalk(EnXc* this) {
     SkelAnime* skelAnime = &this->skelAnime;
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
@@ -739,52 +775,54 @@ void EnXc_SetupHaltAction(EnXc* this) {
         f32 frameCount = Animation_GetLastFrame(&gSheikIdleAnim);
 
         Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -12.0f);
-        this->action = SHEIK_ACTION_HALT;
+        this->action = SHEIK_ACTION_5_TEACH1_STOP_WALK;
         this->timer = 0.0f;
     }
 }
 
-void EnXc_SetupStoppedAction(EnXc* this) {
+void EnXc_TeachSong1_SetupAction6_WaitCue_PullOutHarp(EnXc* this) {
     f32* timer = &this->timer;
 
     *timer += 1.0f;
     if (*timer >= 12.0f) {
-        this->action = SHEIK_ACTION_STOPPED;
+        this->action = SHEIK_ACTION_6_TEACH1_WAIT_CUE_PULL_OUT_HARP;
         this->actor.speed = 0.0f;
     }
 }
 
-void func_80B3DAF0(EnXc* this, PlayState* play) {
+void EnXc_TeachSong1_WaitCue_PullOutHarp(EnXc* this, PlayState* play) {
     CsCmdActorCue* cue = EnXc_GetCue(play, 4);
     u16 cueId;
 
     if (cue != NULL) {
         cueId = cue->id;
 
-        if (cueId == 3 || cueId == 11 || cueId == 12 || cueId == 13 || cueId == 23) {
+        if (cueId == ENXC_CUEID_PLAY_HARP || cueId == ENXC_CUEID_PLAY_HARP_MINUET ||
+            cueId == ENXC_CUEID_PLAY_HARP_BOLERO || cueId == ENXC_CUEID_PLAY_HARP_SERENADE ||
+            cueId == ENXC_CUEID_PLAY_HARP_PRELUDE) {
             f32 frameCount = Animation_GetLastFrame(&gSheikPullingOutHarpAnim);
 
             Animation_Change(&this->skelAnime, &gSheikPullingOutHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -4.0f);
-            this->action = SHEIK_ACTION_7;
+            this->action = SHEIK_ACTION_7_TEACH1_PULL_OUT_HARP;
             this->drawMode = SHEIK_DRAW_PULLING_OUT_HARP;
         }
     }
 }
 
-void EnXc_SetupInitialHarpAction(EnXc* this, s32 animFinished) {
+void EnXc_TeachSong1_SetupAction8_PlayHarp_MoveToReady(EnXc* this, s32 animFinished) {
     SkelAnime* skelAnime;
     f32 frameCount;
 
     if (animFinished) {
         skelAnime = &this->skelAnime;
-        frameCount = Animation_GetLastFrame(&gSheikInitialHarpAnim);
-        Animation_Change(skelAnime, &gSheikInitialHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-        this->action = SHEIK_ACTION_HARP_READY;
+        frameCount = Animation_GetLastFrame(&gSheikMoveHandToReadyHarpAnim);
+        Animation_Change(skelAnime, &gSheikMoveHandToReadyHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+        this->action = SHEIK_ACTION_8_TEACH1_PLAY_HARP_MOVE_TO_READY;
         this->drawMode = SHEIK_DRAW_HARP;
     }
 }
 
-void EnXc_SetupPlayingHarpAction(EnXc* this, PlayState* play, s32 animFinished) {
+void EnXc_TeachSong1_SetupAction9_PlayHarp(EnXc* this, PlayState* play, s32 animFinished) {
     s32 pad;
     SkelAnime* skelAnime;
     AnimationHeader* animation;
@@ -792,131 +830,131 @@ void EnXc_SetupPlayingHarpAction(EnXc* this, PlayState* play, s32 animFinished) 
 
     if (animFinished) {
         skelAnime = &this->skelAnime;
-        animation = EnXc_GetCurrentHarpAnim(play, 4);
+        animation = EnXc_GetHarpPlayingAnim(play, 4);
         frameCount = Animation_GetLastFrame(animation);
         Animation_Change(skelAnime, animation, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -8.0f);
-        this->action = SHEIK_PLAYING_HARP;
+        this->action = SHEIK_ACTION_9_TEACH1_PLAY_HARP;
         this->drawMode = SHEIK_DRAW_HARP;
     }
 }
 
-void func_80B3DCA8(EnXc* this, PlayState* play) {
+void EnXc_TeachSong1_WaitCue_PlayHarp_Freeze(EnXc* this, PlayState* play) {
     f32 frameCount;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorCue* cue = play->csCtx.actorCues[4];
 
-        if (cue != NULL && cue->id == 8) {
-            frameCount = Animation_GetLastFrame(&gSheikInitialHarpAnim);
-            Animation_Change(&this->skelAnime, &gSheikInitialHarpAnim, 0.0f, frameCount, frameCount, ANIMMODE_LOOP,
-                             -8.0f);
-            this->action = SHEIK_ACTION_10;
+        if (cue != NULL && cue->id == ENXC_CUEID_PLAY_HARP_STALL) {
+            frameCount = Animation_GetLastFrame(&gSheikMoveHandToReadyHarpAnim);
+            Animation_Change(&this->skelAnime, &gSheikMoveHandToReadyHarpAnim, 0.0f, frameCount, frameCount,
+                             ANIMMODE_LOOP, -8.0f);
+            this->action = SHEIK_ACTION_10_TEACH1_PLAY_HARP_FREEZE;
         }
     }
 }
 
-void EnXc_SetupHarpPutawayAction(EnXc* this, PlayState* play) {
+void EnXc_TeachSong1_WaitCue_PlayOrPutAway(EnXc* this, PlayState* play) {
     f32 curFrame;
     f32 animFrameCount;
 
-    if (EnXc_CheckForCue(this, play, 5, 4)) {
+    if (EnXc_CheckForCue(this, play, ENXC_CUEID_PUT_AWAY_HARP, 4)) {
         curFrame = this->skelAnime.curFrame;
         animFrameCount = this->skelAnime.endFrame;
         if (curFrame >= animFrameCount) {
             s32 pad;
 
-            Animation_Change(&this->skelAnime, &gSheikInitialHarpAnim, -1.0f,
-                             Animation_GetLastFrame(&gSheikInitialHarpAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
-            this->action = SHEIK_ACTION_PUT_HARP_AWAY;
+            Animation_Change(&this->skelAnime, &gSheikMoveHandToReadyHarpAnim, -1.0f,
+                             Animation_GetLastFrame(&gSheikMoveHandToReadyHarpAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
+            this->action = SHEIK_ACTION_11_TEACH1_PLAY_HARP_RETURN_FROM_READY;
         }
-    } else if (EnXc_CheckForNoCue(this, play, 8, 4)) {
-        EnXc_SetupPlayingHarpAction(this, play, true);
+    } else if (EnXc_CheckForNoCue(this, play, ENXC_CUEID_PLAY_HARP_STALL, 4)) {
+        EnXc_TeachSong1_SetupAction9_PlayHarp(this, play, true);
     }
 }
 
-void func_80B3DE00(EnXc* this, s32 animFinished) {
+void EnXc_TeachSong1_SetupAction12_PutAwayHarp(EnXc* this, s32 animFinished) {
     if (animFinished) {
         Animation_Change(&this->skelAnime, &gSheikPullingOutHarpAnim, -1.0f,
                          Animation_GetLastFrame(&gSheikPullingOutHarpAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
-        this->action = SHEIK_ACTION_12;
+        this->action = SHEIK_ACTION_12_TEACH1_PUT_AWAY_HARP;
         this->drawMode = SHEIK_DRAW_PULLING_OUT_HARP;
     }
 }
 
-void func_80B3DE78(EnXc* this, s32 animFinished) {
+void EnXc_TeachSong1_SetupAction13_Idle(EnXc* this, s32 animFinished) {
     if (animFinished) {
         Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim),
                          ANIMMODE_LOOP, 0.0f);
-        this->action = SHEIK_ACTION_13;
+        this->action = SHEIK_ACTION_13_TEACH1_IDLE;
         this->drawMode = SHEIK_DRAW_DEFAULT;
         this->timer = 0.0f;
     }
 }
 
-void EnXc_SetupReverseAccel(EnXc* this, PlayState* play) {
+void EnXc_TeachSong1_WaitCue_WalkBack(EnXc* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorCue* cue = play->csCtx.actorCues[4];
 
-        if (cue != NULL && cue->id == 4) {
+        if (cue != NULL && cue->id == ENXC_CUEID_BACK_AWAY) {
             Animation_Change(&this->skelAnime, &gSheikWalkingAnim, -1.0f, Animation_GetLastFrame(&gSheikWalkingAnim),
                              0.0f, ANIMMODE_LOOP, -12.0f);
-            this->action = SHEIK_ACTION_REVERSE_ACCEL;
+            this->action = SHEIK_ACTION_14_TEACH1_START_WALK_BACK;
             this->actor.world.rot.y += 0x8000;
             this->timer = 0.0f;
         }
     }
 }
 
-void EnXc_SetupReverseWalkAction(EnXc* this) {
+void EnXc_TeachSong1_SetWalkBack(EnXc* this) {
     this->timer++;
     if (this->timer >= 12.0f) {
         this->actor.speed = (kREG(2) * 0.01f) + 1.2f;
-        this->action = SHEIK_ACTION_REVERSE_WALK;
+        this->action = SHEIK_ACTION_15_TEACH1_WALK_BACK;
     }
 }
 
-void EnXc_SetupReverseHaltAction(EnXc* this) {
+void EnXc_TeachSong1_SetupStopWalkBack(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (xzDistToPlayer >= kREG(5) + 140.0f) {
         Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim),
                          ANIMMODE_LOOP, -12.0f);
-        this->action = SHEIK_ACTION_REVERSE_HALT;
+        this->action = SHEIK_ACTION_16_TEACH1_STOP_WALK_BACK;
         this->timer = 0.0f;
     }
 }
 
-void EnXc_SetupNutThrow(EnXc* this) {
+void EnXc_TeachSong1_SetupAction17_ThrowNut(EnXc* this) {
     this->timer++;
     if (this->timer >= 12.0f) {
         Animation_Change(&this->skelAnime, &gSheikThrowingNutAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gSheikThrowingNutAnim), ANIMMODE_ONCE, 0.0f);
-        this->action = SHEIK_ACTION_THROW_NUT;
+        this->action = SHEIK_ACTION_17_TEACH1_THROW_NUT;
         this->timer = 0.0f;
         this->actor.speed = 0.0f;
     }
 }
 
-void func_80B3E164(EnXc* this, PlayState* play) {
+void EnXc_TeachSong1_SetupAction18_Vanish(EnXc* this, PlayState* play) {
     this->timer++;
     if (this->timer >= 30.0f) {
-        this->action = SHEIK_ACTION_DELETE;
+        this->action = SHEIK_ACTION_18_TEACH1_VANISH;
         EnXc_SpawnNut(this, play);
     }
 }
 
-void EnXc_SetupDisappear(EnXc* this, PlayState* play) {
+void EnXc_TeachSong1_WaitCue_Vanish(EnXc* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorCue* cue = play->csCtx.actorCues[4];
 
-        if (cue != NULL && cue->id == 9) {
+        if (cue != NULL && cue->id == ENXC_CUEID_VANISH) {
             s16 sceneId = play->sceneId;
 
-            // Sheik fades away if end of Bolero CS, kill actor otherwise
+            // In the BoleroCs, she uses the flames to exit
             if (sceneId == SCENE_DEATH_MOUNTAIN_CRATER) {
                 s32 pad;
 
-                this->action = SHEIK_ACTION_FADE;
+                this->action = SHEIK_ACTION_19_TEACH1_CLEANUP_EFF_FLAME;
                 this->drawMode = SHEIK_DRAW_NOTHING;
                 this->actor.shape.shadowAlpha = 0;
             } else {
@@ -926,173 +964,173 @@ void EnXc_SetupDisappear(EnXc* this, PlayState* play) {
     }
 }
 
-void EnXc_ActionFunc0(EnXc* this, PlayState* play) {
+void EnXc_TeachSong1_Action0_CheckDemoStart(EnXc* this, PlayState* play) {
     EnXc_SetColossusAppearSFX(this, play);
     EnXc_SetColossusWindSFX(play);
-    func_80B3D750(this, play);
+    EnXc_TeachSong1_Action0_CheckDemoStart_Test(this, play);
 }
 
-void EnXc_ActionFunc1(EnXc* this, PlayState* play) {
+void EnXc_TeachSong1_Action1_Invisible(EnXc* this, PlayState* play) {
     EnXc_SetColossusAppearSFX(this, play);
     EnXc_SetColossusWindSFX(play);
-    EnXc_SetupFallFromSkyAction(this, play);
+    EnXc_TeachSong1_WaitCue_GracefulFall(this, play);
 }
 
-void EnXc_GracefulFall(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action2_GracefulFall(EnXc* this, PlayState* play) {
+    s32 animFinished = EnXc_SkelAnime_Update(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetLandingSFX(this, play);
     EnXc_SetColossusAppearSFX(this, play);
     EnXc_SetColossusWindSFX(play);
-    func_80B3D8A4(this, play, animFinished);
+    EnXc_TeachSong1_UpdateGracefulFall(this, play, animFinished);
 }
 
-void EnXc_Accelerate(EnXc* this, PlayState* play) {
-    EnXc_CalcXZAccel(this);
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action3_StartWalk(EnXc* this, PlayState* play) {
+    EnXc_CalcSpeedXZAccelerate(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
-    EnXc_SetupWalkAction(this);
+    EnXc_TeachSong1_SetupWalkToPlayer(this);
 }
 
-void EnXc_Walk(EnXc* this, PlayState* play) {
-    func_80B3D644(this);
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action4_WalkToPlayer(EnXc* this, PlayState* play) {
+    EnXc_MoveXZGravity(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
-    EnXc_SetupHaltAction(this);
+    EnXc_TeachSong1_SetupStopWalk(this);
 }
 
-void EnXc_Stopped(EnXc* this, PlayState* play) {
-    EnXc_CalcXZSpeed(this);
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action5_StopWalk(EnXc* this, PlayState* play) {
+    EnXc_CalcSpeedXZDecelerate(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
-    EnXc_SetupStoppedAction(this);
+    EnXc_TeachSong1_SetupAction6_WaitCue_PullOutHarp(this);
 }
 
-void EnXc_ActionFunc6(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action6_WaitCue_PullOutHarp(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    func_80B3DAF0(this, play);
+    EnXc_TeachSong1_WaitCue_PullOutHarp(this, play);
 }
 
-void EnXc_ActionFunc7(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
-
-    EnXc_BgCheck(this, play);
-    EnXc_SetEyePattern(this);
-    EnXc_SetupInitialHarpAction(this, animFinished);
-}
-
-void EnXc_ActionFunc8(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action7_PullOutHarp(EnXc* this, PlayState* play) {
+    s32 animFinished = EnXc_SkelAnime_Update(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_SetupPlayingHarpAction(this, play, animFinished);
+    EnXc_TeachSong1_SetupAction8_PlayHarp_MoveToReady(this, animFinished);
 }
 
-void EnXc_ActionFunc9(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
-    EnXc_BgCheck(this, play);
-    EnXc_SetEyePattern(this);
-    func_80B3DCA8(this, play);
-}
-
-void EnXc_ActionFunc10(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
-    EnXc_BgCheck(this, play);
-    EnXc_SetEyePattern(this);
-    EnXc_SetupHarpPutawayAction(this, play);
-}
-
-void EnXc_ActionFunc11(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action8_PlayHarp_MoveToReady(EnXc* this, PlayState* play) {
+    s32 animFinished = EnXc_SkelAnime_Update(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    func_80B3DE00(this, animFinished);
+    EnXc_TeachSong1_SetupAction9_PlayHarp(this, play, animFinished);
 }
 
-void EnXc_ActionFunc12(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action9_PlayHarp(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
+    EnXc_BgCheck(this, play);
+    EnXc_SetEyePattern(this);
+    EnXc_TeachSong1_WaitCue_PlayHarp_Freeze(this, play);
+}
+
+void EnXc_TeachSong1_Action10_PlayHarp_Freeze(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
+    EnXc_BgCheck(this, play);
+    EnXc_SetEyePattern(this);
+    EnXc_TeachSong1_WaitCue_PlayOrPutAway(this, play);
+}
+
+void EnXc_TeachSong1_Action11_PlayHarp_ReturnFromReady(EnXc* this, PlayState* play) {
+    s32 animFinished = EnXc_SkelAnime_Update(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    func_80B3DE78(this, animFinished);
+    EnXc_TeachSong1_SetupAction12_PutAwayHarp(this, animFinished);
 }
 
-void EnXc_ActionFunc13(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action12_PutAwayHarp(EnXc* this, PlayState* play) {
+    s32 animFinished = EnXc_SkelAnime_Update(this);
+
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_InitFlame(this, play);
-    EnXc_SetupReverseAccel(this, play);
+    EnXc_TeachSong1_SetupAction13_Idle(this, animFinished);
 }
 
-void EnXc_ReverseAccelerate(EnXc* this, PlayState* play) {
-    func_80B3D6F0(this);
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action13_Idle(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_SetWalkingSFX(this, play);
-    EnXc_InitFlame(this, play);
-    EnXc_SetupReverseWalkAction(this);
+    EnXc_UpdateBoleroEffFlame(this, play);
+    EnXc_TeachSong1_WaitCue_WalkBack(this, play);
 }
 
-void EnXc_ActionFunc15(EnXc* this, PlayState* play) {
-    func_80B3D710(this);
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action14_StartWalkBack(EnXc* this, PlayState* play) {
+    EnXc_CalcSpeedXZAccelerate2(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
-    EnXc_InitFlame(this, play);
-    EnXc_SetupReverseHaltAction(this);
+    EnXc_UpdateBoleroEffFlame(this, play);
+    EnXc_TeachSong1_SetWalkBack(this);
 }
 
-void EnXc_HaltAndWaitToThrowNut(EnXc* this, PlayState* play) {
-    func_80B3D730(this);
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action15_WalkBack(EnXc* this, PlayState* play) {
+    EnXc_MoveXZGravity2(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
-    EnXc_InitFlame(this, play);
-    EnXc_SetupNutThrow(this);
+    EnXc_UpdateBoleroEffFlame(this, play);
+    EnXc_TeachSong1_SetupStopWalkBack(this);
 }
 
-void EnXc_ThrowNut(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action16_StopWalkBack(EnXc* this, PlayState* play) {
+    EnXc_CalcSpeedXZDecelerate2(this);
+    EnXc_SkelAnime_Update(this);
+    EnXc_BgCheck(this, play);
+    EnXc_SetEyePattern(this);
+    EnXc_SetWalkingSFX(this, play);
+    EnXc_UpdateBoleroEffFlame(this, play);
+    EnXc_TeachSong1_SetupAction17_ThrowNut(this);
+}
+
+void EnXc_TeachSong1_Action17_ThrowNut(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetNutThrowSFX(this, play);
-    EnXc_InitFlame(this, play);
-    func_80B3E164(this, play);
+    EnXc_UpdateBoleroEffFlame(this, play);
+    EnXc_TeachSong1_SetupAction18_Vanish(this, play);
 }
 
-void EnXc_Delete(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong1_Action18_Vanish(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_InitFlame(this, play);
-    EnXc_SetupDisappear(this, play);
+    EnXc_UpdateBoleroEffFlame(this, play);
+    EnXc_TeachSong1_WaitCue_Vanish(this, play);
 }
 
-void EnXc_Fade(EnXc* this, PlayState* play) {
-    EnXc_InitFlame(this, play);
+void EnXc_TeachSong1_Action19_CleanupEffFlame(EnXc* this, PlayState* play) {
+    EnXc_UpdateBoleroEffFlame(this, play);
 }
 
-void func_80B3E87C(Gfx** dList, EnXc* this) {
+void EnXc_ReplaceLeftHandWithHarp(Gfx** dList, EnXc* this) {
     f32 currentFrame = this->skelAnime.curFrame;
 
     if (currentFrame >= 34.0f) {
-        *dList = gSheikHarpDL;
+        *dList = gSheikLeftHandHarpDL;
     }
 }
 
@@ -1101,7 +1139,7 @@ s32 EnXc_PullingOutHarpOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dL
     EnXc* this = (EnXc*)thisx;
 
     if (limbIndex == 12) {
-        func_80B3E87C(dList, this);
+        EnXc_ReplaceLeftHandWithHarp(dList, this);
     }
 
     return 0;
@@ -1111,7 +1149,7 @@ s32 EnXc_HarpOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
     EnXc* this = (EnXc*)thisx;
 
     if (limbIndex == 12) {
-        *dList = gSheikHarpDL;
+        *dList = gSheikLeftHandHarpDL;
     }
 
     return 0;
@@ -1162,21 +1200,26 @@ void EnXc_DrawHarp(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inSpot05.c", 1564);
 }
 
-void func_80B3EBF0(EnXc* this, PlayState* play) {
-    this->action = SHEIK_ACTION_20;
+void EnXc_StartDemoFirstAdult_Action20(EnXc* this, PlayState* play) {
+    this->action = SHEIK_ACTION_20_DEMO_START;
 }
 
-void func_80B3EC00(EnXc* this) {
-    this->action = SHEIK_ACTION_21;
+void EnXc_SetAction21(EnXc* this) {
+    this->action = SHEIK_ACTION_21_INVISIBLE;
 }
 
-void func_80B3EC0C(EnXc* this, PlayState* play) {
+// Wait for ENXC_CUEID_IDLE to end, then set Sheik to appear and advance to next action
+// Statewise, Sheik starts invisible, so we either
+// 1) Wait for ENXC_CUEID_IDLE to complete, then make her appear
+// 2) "Start" visible by setting position and draw
+void EnXc_Action21_WaitCue_Idle(EnXc* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
 
     if (csCtx->state != 0) {
         CsCmdActorCue* cue = csCtx->actorCues[4];
 
-        if ((cue != NULL) && (cue->id != 1)) {
+        if ((cue != NULL) && (cue->id != ENXC_CUEID_IDLE)) {
+            // ENXC_CUEID_APPEAR
             PosRot* posRot = &this->actor.world;
             Vec3i* startPos = &cue->startPos;
             ActorShape* shape = &this->actor.shape;
@@ -1187,25 +1230,25 @@ void func_80B3EC0C(EnXc* this, PlayState* play) {
 
             posRot->rot.y = shape->rot.y = cue->rot.y;
 
-            this->action = SHEIK_ACTION_22;
+            this->action = SHEIK_ACTION_22_IDLE;
             this->drawMode = SHEIK_DRAW_DEFAULT;
         }
     }
 }
 
-void func_80B3EC90(EnXc* this, PlayState* play) {
+void EnXc_Action22_CueBehavior(EnXc* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
 
     if (csCtx->state != 0) {
         CsCmdActorCue* cue = csCtx->actorCues[4];
 
-        if (cue != NULL && cue->id != 6) {
-            func_80B3C9EC(this);
+        if (cue != NULL && cue->id != ENXC_CUEID_APPEAR) {
+            EnXc_SetAction79_BlockPedestal(this);
         }
     }
 }
 
-void func_80B3ECD8(EnXc* this) {
+void EnXc_Action23_SetWalkBack(EnXc* this) {
     this->timer++;
     if (this->timer >= 12.0f) {
         this->actor.speed = kREG(2) * 0.01f + 1.2f;
@@ -1213,205 +1256,210 @@ void func_80B3ECD8(EnXc* this) {
     }
 }
 
-void EnXc_ActionFunc20(EnXc* this, PlayState* play) {
-    func_80B3EC00(this);
+void EnXc_Action20_DemoStart(EnXc* this, PlayState* play) {
+    EnXc_SetAction21(this);
 }
 
-void EnXc_ActionFunc21(EnXc* this, PlayState* play) {
-    func_80B3EC0C(this, play);
+void EnXc_Action21_Invisible(EnXc* this, PlayState* play) {
+    EnXc_Action21_WaitCue_Idle(this, play);
 }
 
-void EnXc_ActionFunc22(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_Action22_Idle(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    func_80B3EC90(this, play);
+    EnXc_Action22_CueBehavior(this, play);
 }
 
-void EnXc_ActionFunc23(EnXc* this, PlayState* play) {
-    func_80B3D6F0(this);
-    EnXc_AnimIsFinished(this);
+void EnXc_Action23_StartWalkBack(EnXc* this, PlayState* play) {
+    EnXc_CalcSpeedXZAccelerate2(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
-    func_80B3ECD8(this);
+    EnXc_Action23_SetWalkBack(this);
 }
 
-void EnXc_ActionFunc24(EnXc* this, PlayState* play) {
+// Unreachable. Based on existing logic, this could have been a WalkBack action.
+void EnXc_Action24(EnXc* this, PlayState* play) {
 }
 
-void EnXc_ActionFunc25(EnXc* this, PlayState* play) {
+void EnXc_Action25(EnXc* this, PlayState* play) {
 }
 
-void EnXc_ActionFunc26(EnXc* this, PlayState* play) {
+void EnXc_Action26(EnXc* this, PlayState* play) {
 }
 
-void EnXc_ActionFunc27(EnXc* this, PlayState* play) {
+void EnXc_Action27(EnXc* this, PlayState* play) {
 }
 
-void EnXc_ActionFunc28(EnXc* this, PlayState* play) {
+void EnXc_Action28(EnXc* this, PlayState* play) {
 }
 
-void func_80B3EE64(EnXc* this, PlayState* play) {
-    this->action = SHEIK_ACTION_SERENADE;
+void EnXc_StartDemoTeachSong2_Action29(EnXc* this, PlayState* play) {
+    this->action = SHEIK_ACTION_29_TEACH2_CHECK_DEMO_START;
 }
 
-void func_80B3EE74(EnXc* this, PlayState* play) {
+void EnXc_TeachSong2_Action29_CheckDemoStart_Test(EnXc* this, PlayState* play) {
+    // Temple of Time - Demo 2 - Learn Prelude
     if (EnXc_SerenadeCS(this, play)) {
-        this->action = SHEIK_ACTION_30;
+        this->action = SHEIK_ACTION_30_TEACH2_INVISIBLE;
     }
 }
 
-void func_80B3EEA4(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_30, SHEIK_ACTION_31);
+void EnXc_WhenNext_Action31(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_30_TEACH2_INVISIBLE, SHEIK_ACTION_31_TEACH2_WAIT_CUE_PULL_OUT_HARP);
 }
 
-void func_80B3EEC8(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_31, SHEIK_ACTION_32);
+void EnXc_WhenNext_Action32(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_31_TEACH2_WAIT_CUE_PULL_OUT_HARP, SHEIK_ACTION_32_TEACH2_PULL_OUT_HARP);
 }
 
-void func_80B3EEEC(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_32, SHEIK_ACTION_33);
+void EnXc_WhenNext_Action33(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_32_TEACH2_PULL_OUT_HARP, SHEIK_ACTION_33_TEACH2_PLAY_HARP_MOVE_TO_READY);
 }
 
-void func_80B3EF10(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_33, SHEIK_ACTION_34);
+void EnXc_WhenNext_Action34(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_33_TEACH2_PLAY_HARP_MOVE_TO_READY, SHEIK_ACTION_34_TEACH2_PLAY_HARP);
 }
 
-void func_80B3EF34(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_34, SHEIK_ACTION_35);
+void EnXc_WhenNext_Action35(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_34_TEACH2_PLAY_HARP, SHEIK_ACTION_35_TEACH2_PLAY_HARP_FREEZE);
 }
 
-void func_80B3EF58(EnXc* this) {
-    func_80B3C7D4(this, SHEIK_ACTION_35, SHEIK_ACTION_36, SHEIK_ACTION_34);
+void EnXc_WhenNext_Action36OrAction34(EnXc* this) {
+    EnXc_CheckHarpPutawayAndBranch(this, SHEIK_ACTION_35_TEACH2_PLAY_HARP_FREEZE,
+                                   SHEIK_ACTION_36_TEACH2_PLAY_HARP_RETURN_FROM_READY,
+                                   SHEIK_ACTION_34_TEACH2_PLAY_HARP);
 }
 
-void func_80B3EF80(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_36, SHEIK_ACTION_37);
+void EnXc_WhenNext_Action37(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_36_TEACH2_PLAY_HARP_RETURN_FROM_READY,
+                           SHEIK_ACTION_37_TEACH2_PUT_HARP_AWAY);
 }
 
-void func_80B3EFA4(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_37, SHEIK_ACTION_38);
+void EnXc_WhenNext_Action38(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_37_TEACH2_PUT_HARP_AWAY, SHEIK_ACTION_38_TEACH2_IDLE);
 }
 
-void func_80B3EFC8(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_38, SHEIK_ACTION_39);
+void EnXc_WhenNext_Action39(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_38_TEACH2_IDLE, SHEIK_ACTION_39_TEACH2_START_WALK_BACK);
 }
 
-void func_80B3EFEC(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_39, SHEIK_ACTION_40);
+void EnXc_WhenNext_Action40(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_39_TEACH2_START_WALK_BACK, SHEIK_ACTION_40_TEACH2_WALK_BACK);
 }
 
-void func_80B3F010(EnXc* this) {
+void EnXc_TeachSong2_SetupStopWalkBack(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
-    if (kREG(5) + 140.0f <= xzDistToPlayer) {
+    if (xzDistToPlayer >= kREG(5) + 140.0f) {
         Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim),
                          ANIMMODE_LOOP, -12.0f);
-        this->action = SHEIK_ACTION_41;
+        this->action = SHEIK_ACTION_41_TEACH2_STOP_WALK_BACK;
         this->timer = 0.0f;
     }
 }
 
-void func_80B3F0B8(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_41, SHEIK_ACTION_42);
+void EnXc_WhenNext_Action42(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_41_TEACH2_STOP_WALK_BACK, SHEIK_ACTION_42_TEACH2_THROW_NUT);
 }
 
-void func_80B3F0DC(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_42, SHEIK_ACTION_43);
+void EnXc_WhenNext_Action43(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_42_TEACH2_THROW_NUT, SHEIK_ACTION_43_TEACH2_VANISH);
 }
 
-void func_80B3F100(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_43, SHEIK_ACTION_44);
+void EnXc_WhenNext_Action44(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_43_TEACH2_VANISH, SHEIK_ACTION_44_TEACH2_CLEANUP_EFF_FLAME);
 }
 
-void EnXc_Serenade(EnXc* this, PlayState* play) {
-    func_80B3EE74(this, play);
+void EnXc_TeachSong2_Action29_CheckDemoStart(EnXc* this, PlayState* play) {
+    EnXc_TeachSong2_Action29_CheckDemoStart_Test(this, play);
 }
 
-void EnXc_ActionFunc30(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc21(this, play);
-    func_80B3EEA4(this);
+void EnXc_TeachSong2_Action30_Invisible(EnXc* this, PlayState* play) {
+    EnXc_Action21_Invisible(this, play);
+    EnXc_WhenNext_Action31(this);
 }
 
-void EnXc_ActionFunc31(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc6(this, play);
-    func_80B3C588(this, play, 4);
-    func_80B3EEC8(this);
+void EnXc_TeachSong2_Action31_WaitCue_PullOutHarp(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action6_WaitCue_PullOutHarp(this, play);
+    EnXc_SetPosRotByCueStart(this, play, 4);
+    EnXc_WhenNext_Action32(this);
 }
 
-void EnXc_ActionFunc32(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc7(this, play);
-    func_80B3EEEC(this);
+void EnXc_TeachSong2_Action32_PullOutHarp(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action7_PullOutHarp(this, play);
+    EnXc_WhenNext_Action33(this);
 }
 
-void EnXc_ActionFunc33(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc8(this, play);
-    func_80B3EF10(this);
+void EnXc_TeachSong2_Action33_PlayHarp_MoveToReady(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action8_PlayHarp_MoveToReady(this, play);
+    EnXc_WhenNext_Action34(this);
 }
 
-void EnXc_ActionFunc34(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc9(this, play);
-    func_80B3EF34(this);
+void EnXc_TeachSong2_Action34_PlayHarp(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action9_PlayHarp(this, play);
+    EnXc_WhenNext_Action35(this);
 }
 
-void EnXc_ActionFunc35(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc10(this, play);
-    func_80B3EF58(this);
+void EnXc_TeachSong2_Action35_PlayHarp_Freeze(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action10_PlayHarp_Freeze(this, play);
+    EnXc_WhenNext_Action36OrAction34(this);
 }
 
-void EnXc_ActionFunc36(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc11(this, play);
-    func_80B3EF80(this);
+void EnXc_TeachSong2_Action36_PlayHarp_ReturnFromReady(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action11_PlayHarp_ReturnFromReady(this, play);
+    EnXc_WhenNext_Action37(this);
 }
 
-void EnXc_ActionFunc37(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc12(this, play);
-    func_80B3EFA4(this);
+void EnXc_TeachSong2_Action37_PutHarpAway(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action12_PutAwayHarp(this, play);
+    EnXc_WhenNext_Action38(this);
 }
 
-void EnXc_ActionFunc38(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc13(this, play);
-    func_80B3EFC8(this);
+void EnXc_TeachSong2_Action38_Idle(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action13_Idle(this, play);
+    EnXc_WhenNext_Action39(this);
 }
 
-void EnXc_ActionFunc39(EnXc* this, PlayState* play) {
-    EnXc_ReverseAccelerate(this, play);
-    func_80B3EFEC(this);
+void EnXc_TeachSong2_Action39_StartWalkBack(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action14_StartWalkBack(this, play);
+    EnXc_WhenNext_Action40(this);
 }
 
-void EnXc_ActionFunc40(EnXc* this, PlayState* play) {
-    func_80B3D710(this);
-    EnXc_AnimIsFinished(this);
+void EnXc_TeachSong2_Action40_WalkBack(EnXc* this, PlayState* play) {
+    EnXc_MoveXZGravity2(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
-    func_80B3F010(this);
+    EnXc_TeachSong2_SetupStopWalkBack(this);
 }
 
-void EnXc_ActionFunc41(EnXc* this, PlayState* play) {
-    EnXc_HaltAndWaitToThrowNut(this, play);
-    func_80B3F0B8(this);
+void EnXc_TeachSong2_Action41_StopWalkBack(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action16_StopWalkBack(this, play);
+    EnXc_WhenNext_Action42(this);
 }
 
-void EnXc_ActionFunc42(EnXc* this, PlayState* play) {
-    EnXc_ThrowNut(this, play);
-    func_80B3F0DC(this);
+void EnXc_TeachSong2_Action42_ThrowNut(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action17_ThrowNut(this, play);
+    EnXc_WhenNext_Action43(this);
 }
 
-void EnXc_ActionFunc43(EnXc* this, PlayState* play) {
-    EnXc_Delete(this, play);
-    func_80B3F100(this);
+void EnXc_TeachSong2_Action43_Vanish(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action18_Vanish(this, play);
+    EnXc_WhenNext_Action44(this);
 }
 
-void EnXc_ActionFunc44(EnXc* this, PlayState* play) {
+void EnXc_TeachSong2_Action44_CleanupEffFlame(EnXc* this, PlayState* play) {
 }
 
-void func_80B3F3C8(EnXc* this, PlayState* play) {
-    this->action = SHEIK_ACTION_45;
+void EnXc_StartLakeCs_Action45(EnXc* this, PlayState* play) {
+    this->action = SHEIK_ACTION_45_LAKECS_DEMO_START;
 }
 
-void func_80B3F3D8(void) {
+void EnXc_LakeCs_PlaySfx_NA_SE_PL_SKIP(void) {
     Sfx_PlaySfxCentered2(NA_SE_PL_SKIP);
 }
 
@@ -1426,9 +1474,10 @@ void EnXc_PlayDiveSFX(Vec3f* src, PlayState* play) {
     Sfx_PlaySfxAtPos(&D_80B42DA0, NA_SE_EV_DIVE_INTO_WATER);
 }
 
-void EnXc_LakeHyliaDive(PlayState* play) {
+void EnXc_LakeCs_DiveSplash(PlayState* play) {
     CsCmdActorCue* cue = cue = EnXc_GetCue(play, 0);
 
+    // Cue should already be a valid ENXC_EFF_SPLASH_CUEID_3 cue
     if (cue != NULL) {
         Vec3f startPos;
 
@@ -1444,7 +1493,7 @@ void EnXc_LakeHyliaDive(PlayState* play) {
     }
 }
 
-void func_80B3F534(PlayState* play) {
+void EnXc_LakeCs_BlueWarpSpawn(PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
     u16 csCurFrame = csCtx->curFrame;
 
@@ -1453,182 +1502,184 @@ void func_80B3F534(PlayState* play) {
     }
 }
 
-void func_80B3F59C(EnXc* this, PlayState* play) {
-    static s32 D_80B41DAC = 1;
+void EnXc_LakeCs_UpdateEffSplash(EnXc* this, PlayState* play) {
+    static s32 sLastCueId = ENXC_EFF_SPLASH_CUEID_1;
     CsCmdActorCue* cue = EnXc_GetCue(play, 0);
 
     if (cue != NULL) {
-        s32 nextCueId = cue->id;
+        s32 cueId = cue->id;
 
-        if (nextCueId != D_80B41DAC) {
-            switch (nextCueId) {
-                case 2:
-                    func_80B3F3D8();
+        if (cueId != sLastCueId) {
+            switch (cueId) {
+                case ENXC_EFF_SPLASH_CUEID_2:
+                    EnXc_LakeCs_PlaySfx_NA_SE_PL_SKIP();
                     break;
-                case 3:
-                    EnXc_LakeHyliaDive(play);
+                case ENXC_EFF_SPLASH_CUEID_3:
+                    EnXc_LakeCs_DiveSplash(play);
                     break;
                 default:
                     break;
             }
-            D_80B41DAC = nextCueId;
+            sLastCueId = cueId;
         }
     }
 }
 
-void func_80B3F620(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_45, SHEIK_ACTION_46);
+void EnXc_WhenNext_Action46(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_45_LAKECS_DEMO_START, SHEIK_ACTION_46_LAKECS_INVISIBLE);
 }
 
-void func_80B3F644(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_46, SHEIK_ACTION_47);
+void EnXc_WhenNext_Action47(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_46_LAKECS_INVISIBLE, SHEIK_ACTION_47_LAKECS_IDLE);
 }
 
-void func_80B3F668(EnXc* this, PlayState* play) {
-    if (EnXc_CheckForCue(this, play, 4, 4)) {
+void EnXc_LakeCs_WaitCue_WalkBack(EnXc* this, PlayState* play) {
+    if (EnXc_CheckForCue(this, play, ENXC_CUEID_BACK_AWAY, 4)) {
         EnXc_ChangeAnimation(this, &gSheikWalkingAnim, ANIMMODE_LOOP, -12.0f, true);
-        this->action = SHEIK_ACTION_48;
+        this->action = SHEIK_ACTION_48_LAKECS_START_WALK_BACK;
         this->actor.world.rot.y += 0x8000;
         this->timer = 0.0f;
     }
 }
 
-void func_80B3F6DC(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_48, SHEIK_ACTION_49);
+void EnXc_WhenNext_Action49(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_48_LAKECS_START_WALK_BACK, SHEIK_ACTION_49_LAKECS_WALK_BACK);
 }
 
-void EnXc_SetupKneelAction(EnXc* this, PlayState* play) {
-    if (EnXc_CheckForCue(this, play, 16, 4)) {
+void EnXc_LakeCs_WaitCue_Kneel(EnXc* this, PlayState* play) {
+    if (EnXc_CheckForCue(this, play, ENXC_CUEID_KNEEL, 4)) {
         EnXc_ChangeAnimation(this, &gSheikKneelingAnim, ANIMMODE_LOOP, 0.0f, false);
-        this->action = SHEIK_ACTION_KNEEL;
+        this->action = SHEIK_ACTION_50_LAKECS_KNEEL_ON_TREE;
     }
 }
 
-void func_80B3F754(EnXc* this, PlayState* play) {
-    if (EnXc_CheckForCue(this, play, 22, 4)) {
-        EnXc_ChangeAnimation(this, &gSheikAnim_01A048, ANIMMODE_LOOP, 0.0f, false);
-        this->action = SHEIK_ACTION_51;
-        func_80B3C588(this, play, 4);
+void EnXc_LakeCs_WaitCue_Dive(EnXc* this, PlayState* play) {
+    if (EnXc_CheckForCue(this, play, ENXC_CUEID_DIVE, 4)) {
+        EnXc_ChangeAnimation(this, &gSheikDiveAnim, ANIMMODE_LOOP, 0.0f, false);
+        this->action = SHEIK_ACTION_51_LAKECS_DIVE;
+        EnXc_SetPosRotByCueStart(this, play, 4);
     }
 }
 
-void func_80B3F7BC(EnXc* this, PlayState* play) {
-    if (EnXc_CheckForCue(this, play, 9, 4)) {
-        this->action = SHEIK_ACTION_52;
+void EnXc_LakeCs_WaitCue_Vanish(EnXc* this, PlayState* play) {
+    if (EnXc_CheckForCue(this, play, ENXC_CUEID_VANISH, 4)) {
+        this->action = SHEIK_ACTION_52_LAKECS_CLEANUP_EFF_SPLASH;
         this->drawMode = SHEIK_DRAW_NOTHING;
     }
 }
 
-void EnXc_ActionFunc45(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc20(this, play);
-    func_80B3F620(this);
+void EnXc_LakeCs_Action45_DemoStart(EnXc* this, PlayState* play) {
+    EnXc_Action20_DemoStart(this, play);
+    EnXc_WhenNext_Action46(this);
 }
 
-void EnXc_ActionFunc46(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc21(this, play);
-    func_80B3F644(this);
+void EnXc_LakeCs_Action46_Invisible(EnXc* this, PlayState* play) {
+    EnXc_Action21_Invisible(this, play);
+    EnXc_WhenNext_Action47(this);
 }
 
-void EnXc_ActionFunc47(EnXc* this, PlayState* play) {
-    func_80B3F534(play);
-    EnXc_AnimIsFinished(this);
+void EnXc_LakeCs_Action47_Idle(EnXc* this, PlayState* play) {
+    EnXc_LakeCs_BlueWarpSpawn(play);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
-    func_80B3C588(this, play, 4);
-    func_80B3F668(this, play);
+    EnXc_SetPosRotByCueStart(this, play, 4);
+    EnXc_LakeCs_WaitCue_WalkBack(this, play);
 }
 
-void EnXc_ActionFunc48(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc23(this, play);
-    func_80B3F6DC(this);
+void EnXc_LakeCs_Action48_StartWalkBack(EnXc* this, PlayState* play) {
+    EnXc_Action23_StartWalkBack(this, play);
+    EnXc_WhenNext_Action49(this);
 }
 
-void EnXc_ActionFunc49(EnXc* this, PlayState* play) {
-    func_80B3D710(this);
-    EnXc_AnimIsFinished(this);
+void EnXc_LakeCs_Action49_WalkBack(EnXc* this, PlayState* play) {
+    EnXc_MoveXZGravity2(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, play);
-    EnXc_SetupKneelAction(this, play);
+    EnXc_LakeCs_WaitCue_Kneel(this, play);
 }
 
-void EnXc_Kneel(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_LakeCs_Action50_KneelOnTree(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
-    func_80B3F59C(this, play);
-    func_80B3C588(this, play, 4);
-    func_80B3F754(this, play);
+    EnXc_LakeCs_UpdateEffSplash(this, play);
+    EnXc_SetPosRotByCueStart(this, play, 4);
+    EnXc_LakeCs_WaitCue_Dive(this, play);
 }
 
-void EnXc_ActionFunc51(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_LakeCs_Action51_Dive(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
-    func_80B3F59C(this, play);
-    func_80B3C620(this, play, 4);
-    func_80B3F7BC(this, play);
+    EnXc_LakeCs_UpdateEffSplash(this, play);
+    EnXc_SetPosByCueLerp(this, play, 4);
+    EnXc_LakeCs_WaitCue_Vanish(this, play);
 }
 
-void EnXc_ActionFunc52(EnXc* this, PlayState* play) {
-    func_80B3F59C(this, play);
+void EnXc_LakeCs_Action52_CleanupEffSplash(EnXc* this, PlayState* play) {
+    EnXc_LakeCs_UpdateEffSplash(this, play);
 }
 
-void func_80B3FA08(EnXc* this, PlayState* play) {
-    this->action = SHEIK_ACTION_53;
+void EnXc_StartTransform_Action53(EnXc* this, PlayState* play) {
+    this->action = SHEIK_ACTION_53_TRANSFORM_INVISIBLE;
     this->triforceAngle = kREG(24) + 0x53FC;
 }
 
-void func_80B3FA2C(void) {
+void EnXc_PlayTransformCutsceneEffectsSequence(void) {
     Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_SHEIK_TRANSFORM);
 }
 
 void EnXc_PlayTriforceSFX(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
 
-    if (this->unk_2A8) {
+    if (this->canPlayTriforceMarkSfx) {
         s32 pad;
         Vec3f src;
         Vec3f pos;
-        Vec3f sp1C = { 0.0f, 0.0f, 0.0f };
+        Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
         f32 wDest;
 
-        Matrix_MultVec3f(&sp1C, &src);
+        Matrix_MultVec3f(&zeroVec, &src);
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &src, &pos, &wDest);
         SfxSource_PlaySfxAtFixedWorldPos(play, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
-        this->unk_2A8 = 0;
+        this->canPlayTriforceMarkSfx = false;
     }
 }
 
-void func_80B3FAE0(EnXc* this) {
+void EnXc_Transform_Sfx(EnXc* this) {
     if (Animation_OnFrame(&this->skelAnime, 38.0f)) {
         Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_SK_SHOUT);
-        func_80B3FA2C();
+        EnXc_PlayTransformCutsceneEffectsSequence();
     }
 }
 
-void EnXc_CalcTriforce(Actor* thisx, PlayState* play) {
+void EnXc_UpdateTriforceMark(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
 
-    if (EnXc_CheckForCue(this, play, 21, 4)) {
-        this->unk_274 = 1;
-        if (this->unk_2AC == 0) {
-            this->unk_2AC = 1;
-            this->unk_2A8 = 1;
+    if (EnXc_CheckForCue(this, play, ENXC_CUEID_TRANSFORM_REVEAL_TRIFORCE_MARK, 4)) {
+        this->triforceMarkAnimState = 1;
+        if (!this->triggerOnceTriforceMarkSfx) {
+            this->triggerOnceTriforceMarkSfx = true;
+            this->canPlayTriforceMarkSfx = true;
         }
-    } else if (EnXc_CheckForCue(this, play, 19, 4)) {
-        this->unk_274 = 2;
+    } else if (EnXc_CheckForCue(this, play, ENXC_CUEID_PUSHUP_PRONE_OR_TRIFORCE_MARK2, 4)) {
+        this->triforceMarkAnimState = 2;
     }
-    if (this->unk_274 != 0) {
+    if (this->triforceMarkAnimState != 0) {
         f32* timer = &this->timer;
         s32* prim = this->triforcePrimColor;
         s32* env = this->triforceEnvColor;
         f32* scale = this->triforceScale;
 
-        if (this->unk_274 == 1) {
+        if (this->triforceMarkAnimState == 1) {
+            // Timer 0 to 40
             if (*timer < kREG(25) + 40.0f) {
                 f32 div = *timer / (kREG(25) + 40.0f);
 
-                prim[2] = -85.0f * div + 255;
-                prim[3] = 255.0f * div;
-                env[1] = 100.0f * div + 100;
+                prim[2] = -85.0f * div + 255; // Step from 255 to 170
+                prim[3] = 255.0f * div;       // Step from 0 to 255
+                env[1] = 100.0f * div + 100;  // Step from 100 to 200
+
                 *timer += 1.0f;
             } else {
                 prim[2] = 170;
@@ -1638,16 +1689,21 @@ void EnXc_CalcTriforce(Actor* thisx, PlayState* play) {
             scale[0] = kREG(19) * 0.1f + 40.0f;
             scale[1] = kREG(20) * 0.1f + 40.0f;
             scale[2] = kREG(21) * 0.1f + 40.0f;
-        } else if (this->unk_274 == 2) {
+        } else if (this->triforceMarkAnimState == 2) {
+            // Timer 40 to 130
             f32 maxTime = (kREG(25) + 40.0f) + (kREG(27) + 90.0f);
 
             if (*timer < maxTime) {
+                // div ranges from 0/90 to 89/90
                 f32 div = (*timer - (kREG(25) + 40.0f)) / (kREG(27) + 90.0f);
+
+                // scale up from 40 to 2040
                 scale[0] = (kREG(19) * 0.1f + 40.0f) + div * ((kREG(26) + 50.0f) * (kREG(19) * 0.1f + 40.0f));
                 scale[1] = (kREG(20) * 0.1f + 40.0f) + div * ((kREG(26) + 50.0f) * (kREG(20) * 0.1f + 40.0f));
                 scale[2] = (kREG(21) * 0.1f + 40.0f) + div * ((kREG(26) + 50.0f) * (kREG(21) * 0.1f + 40.0f));
                 *timer += 1.0f;
             } else {
+                // scale 2000
                 scale[0] = (kREG(19) * 0.1f + 40.0f) * (kREG(26) + 50.0f);
                 scale[1] = (kREG(20) * 0.1f + 40.0f) * (kREG(26) + 50.0f);
                 scale[2] = (kREG(21) * 0.1f + 40.0f) * (kREG(26) + 50.0f);
@@ -1657,8 +1713,9 @@ void EnXc_CalcTriforce(Actor* thisx, PlayState* play) {
     }
 }
 
-void func_80B3FF0C(EnXc* this, PlayState* play) {
-    if (EnXc_CheckForNoCue(this, play, 1, 4)) {
+void EnXc_Action53_WaitCue(EnXc* this, PlayState* play) {
+    if (EnXc_CheckForNoCue(this, play, ENXC_CUEID_IDLE, 4)) {
+        // ENXC_CUEID_APPEAR
         CutsceneContext* csCtx = &play->csCtx;
 
         if (csCtx->state != 0) {
@@ -1677,16 +1734,16 @@ void func_80B3FF0C(EnXc* this, PlayState* play) {
             }
         }
 
-        this->action = SHEIK_ACTION_54;
+        this->action = SHEIK_ACTION_54_TRANSFORM_IDLE;
         this->drawMode = SHEIK_DRAW_DEFAULT;
     }
 }
 
-void EnXc_SetupShowTriforceAction(EnXc* this, PlayState* play) {
-    if (EnXc_CheckForCue(this, play, 10, 4)) {
+void EnXc_Action54_WaitCue_TransformPose(EnXc* this, PlayState* play) {
+    if (EnXc_CheckForCue(this, play, ENXC_CUEID_TRANSFORM_POSE, 4)) {
         Animation_Change(&this->skelAnime, &gSheikShowingTriforceOnHandAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gSheikShowingTriforceOnHandAnim), ANIMMODE_ONCE, -8.0f);
-        this->action = SHEIK_ACTION_SHOW_TRIFORCE;
+        this->action = SHEIK_ACTION_55_TRANSFORM_SHOW_TRIFORCE_MARK;
         this->drawMode = SHEIK_DRAW_TRIFORCE;
     }
 }
@@ -1695,53 +1752,53 @@ void EnXc_SetupShowTriforceIdleAction(EnXc* this, s32 animFinished) {
     if (animFinished) {
         Animation_Change(&this->skelAnime, &gSheikShowingTriforceOnHandIdleAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gSheikShowingTriforceOnHandIdleAnim), ANIMMODE_LOOP, 0.0f);
-        this->action = SHEIK_ACTION_SHOW_TRIFORCE_IDLE;
+        this->action = SHEIK_ACTION_56_TRANSFORM_SHOW_TRIFORCE_MARK_IDLE;
     }
 }
-void func_80B400AC(EnXc* this, PlayState* play) {
-    if (EnXc_CheckForCue(this, play, 9, 4)) {
+void EnXc_Transform_WaitCue_Vanish(EnXc* this, PlayState* play) {
+    if (EnXc_CheckForCue(this, play, ENXC_CUEID_VANISH, 4)) {
         Actor_Kill(&this->actor);
     }
 }
 
-void EnXc_ActionFunc53(EnXc* this, PlayState* play) {
-    func_80B3FF0C(this, play);
+void EnXc_Transform_Action53_Invisible(EnXc* this, PlayState* play) {
+    EnXc_Action53_WaitCue(this, play);
 }
 
-void EnXc_ActionFunc54(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_Transform_Action54_Idle(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_SetupShowTriforceAction(this, play);
+    EnXc_Action54_WaitCue_TransformPose(this, play);
 #if DEBUG_FEATURES
-    func_80B3C888(this, play);
+    EnXc_Debug_RestartAction53_IfNoCS(this, play);
 #endif
 }
 
-void EnXc_ShowTriforce(EnXc* this, PlayState* play) {
-    s32 animFinished = EnXc_AnimIsFinished(this);
+void EnXc_Transform_Action55_ShowTriforceMark(EnXc* this, PlayState* play) {
+    s32 animFinished = EnXc_SkelAnime_Update(this);
 
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_CalcTriforce(&this->actor, play);
-    func_80B3FAE0(this);
+    EnXc_UpdateTriforceMark(&this->actor, play);
+    EnXc_Transform_Sfx(this);
     EnXc_SetupShowTriforceIdleAction(this, animFinished);
 #if DEBUG_FEATURES
-    func_80B3C888(this, play);
+    EnXc_Debug_RestartAction53_IfNoCS(this, play);
 #endif
 }
 
-void EnXc_ShowTriforceIdle(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_Transform_Action56_ShowTriforceMarkIdle(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_CalcTriforce(&this->actor, play);
-    func_80B400AC(this, play);
+    EnXc_UpdateTriforceMark(&this->actor, play);
+    EnXc_Transform_WaitCue_Vanish(this, play);
 }
 
 s32 EnXc_TriforceOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if (limbIndex == 15) {
-        *dList = gSheikDL_011620;
+        *dList = gSheikRightHandSpreadFingersDL;
     }
     return 0;
 }
@@ -1754,7 +1811,7 @@ void EnXc_TriforcePostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
         Vec3f vec = { 0.0f, 0.0f, 0.0f };
         EnXc_PlayTriforceSFX(&this->actor, play);
         Matrix_MultVec3f(&vec, &this->handPos);
-        this->unk_2BC = 1;
+        this->unk_2BC = true;
     }
 }
 
@@ -1768,7 +1825,7 @@ void EnXc_DrawTriforce(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     OPEN_DISPS(gfxCtx, "../z_en_oA2_inMetamol.c", 565);
-    if (this->unk_2BC != 0) {
+    if (this->unk_2BC) {
         Mtx* mtx = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
         s32* primColor = this->triforcePrimColor;
         s32* envColor = this->triforceEnvColor;
@@ -1784,7 +1841,7 @@ void EnXc_DrawTriforce(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, primColor[2], primColor[3]);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, envColor[1], 0, 128);
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gSheikDL_012970);
+        gSPDisplayList(POLY_XLU_DISP++, gSheikTriforceWisdomDL);
     }
 
     func_8002EBCC(thisx, play, 0);
@@ -1796,9 +1853,9 @@ void EnXc_DrawTriforce(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inMetamol.c", 668);
 }
 
-void func_80B40590(EnXc* this, PlayState* play) {
-    this->action = SHEIK_ACTION_NOCTURNE_INIT;
-    this->drawMode = SHEIK_DRAW_SQUINT;
+void EnXc_StartNocturne_Action53(EnXc* this, PlayState* play) {
+    this->action = SHEIK_ACTION_57_NOCTURNE_INIT;
+    this->drawMode = SHEIK_DRAW_LOOKING_DOWN;
 }
 
 void EnXc_SetThrownAroundSFX(EnXc* this) {
@@ -1832,39 +1889,39 @@ void EnXc_SetCrySFX(EnXc* this, PlayState* play) {
     }
 }
 
-void func_80B406F8(Actor* thisx) {
+void EnXc_NocturneCs_SetupAction57(Actor* thisx) {
     EnXc* this = (EnXc*)thisx;
 
-    this->action = SHEIK_ACTION_NOCTURNE_INIT;
+    this->action = SHEIK_ACTION_57_NOCTURNE_INIT;
     this->drawMode = SHEIK_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
 }
 
-void EnXc_SetupIdleInNocturne(EnXc* this, PlayState* play) {
+void EnXc_NocturneCs_SetupIdleLookingDown(EnXc* this, PlayState* play) {
     s32 pad;
     ActorShape* actorShape = &this->actor.shape;
     SkelAnime* skelAnime = &this->skelAnime;
     f32 frameCount = Animation_GetLastFrame(&gSheikIdleAnim);
 
-    func_80B3C9DC(this);
-    func_80B3C588(this, play, 4);
+    EnXc_DisableActorMovement(this);
+    EnXc_SetPosRotByCueStart(this, play, 4);
     Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    this->action = SHEIK_ACTION_NOCTURNE_IDLE;
-    this->drawMode = SHEIK_DRAW_SQUINT;
+    this->action = SHEIK_ACTION_58_NOCTURNE_IDLE;
+    this->drawMode = SHEIK_DRAW_LOOKING_DOWN;
     actorShape->shadowAlpha = 255;
 }
 
-void EnXc_SetupDefenseStance(Actor* thisx) {
+void EnXc_NocturneCs_SetupDefenseStance(Actor* thisx) {
     EnXc* this = (EnXc*)thisx;
     SkelAnime* skelAnime = &this->skelAnime;
     f32 frameCount = Animation_GetLastFrame(&gSheikDefenseStanceAnim);
 
     Animation_Change(skelAnime, &gSheikDefenseStanceAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -8.0f);
-    this->action = SHEIK_ACTION_DEFENSE_STANCE;
+    this->action = SHEIK_ACTION_59_NOCTURNE_DEFENSE_STANCE;
     this->drawMode = SHEIK_DRAW_DEFAULT;
 }
 
-void EnXc_SetupContortions(EnXc* this, PlayState* play) {
+void EnXc_NocturneCs_SetupContortions(EnXc* this, PlayState* play) {
     s32 pad[2];
     SkelAnime* skelAnime = &this->skelAnime;
 
@@ -1872,174 +1929,183 @@ void EnXc_SetupContortions(EnXc* this, PlayState* play) {
     Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim), ANIMMODE_LOOP,
                      0.0f);
 #endif
-    func_80B3C588(this, play, 4);
-    func_80B3C964(this, play);
+    EnXc_SetPosRotByCueStart(this, play, 4);
+    ActorMovement_func_80B3C964(this, play);
     Animation_Change(skelAnime, &gSheikContortionsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikContortionsAnim),
                      ANIMMODE_ONCE, 0.0f);
-    this->action = SHEIK_ACTION_CONTORT;
+    this->action = SHEIK_ACTION_60_NOCTURNE_CONTORT;
     this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
-void EnXc_SetupFallInNocturne(EnXc* this, PlayState* play) {
+void EnXc_NocturneCs_SetupHardFaceplant(EnXc* this, PlayState* play) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
     f32 frameCount = Animation_GetLastFrame(&gSheikIdleAnim);
 
     Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    func_80B3C588(this, play, 4);
-    func_80B3C964(this, play);
-    Animation_Change(skelAnime, &gSheikFallingFromContortionsAnim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(&gSheikFallingFromContortionsAnim), ANIMMODE_ONCE, 0.0f);
-    this->action = SHEIK_ACTION_NOCTURNE_FALL;
+    EnXc_SetPosRotByCueStart(this, play, 4);
+    ActorMovement_func_80B3C964(this, play);
+    Animation_Change(skelAnime, &gSheikHardFaceplantAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikHardFaceplantAnim),
+                     ANIMMODE_ONCE, 0.0f);
+    this->action = SHEIK_ACTION_61_NOCTURNE_FALL;
     this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
-void EnXc_SetupHittingGroundInNocturne(EnXc* this, PlayState* play) {
+void EnXc_NocturneCs_SetupAction62_PushupProne(EnXc* this, PlayState* play) {
     s32 pad[3];
     f32 frameCount = Animation_GetLastFrame(&gSheikHittingGroundAnim);
 
-    func_80B3C9DC(this);
-    func_80B3C588(this, play, 4);
+    EnXc_DisableActorMovement(this);
+    EnXc_SetPosRotByCueStart(this, play, 4);
     Animation_Change(&this->skelAnime, &gSheikHittingGroundAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-    this->action = SHEIK_ACTION_NOCTURNE_HIT_GROUND;
+    this->action = SHEIK_ACTION_62_NOCTURNE_PUSHUP_PRONE;
     this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
-void func_80B40A78(EnXc* this, PlayState* play) {
+void EnXc_NocturneCs_SetupAction63_GestureStopLink(EnXc* this, PlayState* play) {
     s32 pad[3];
     f32 frameCount = Animation_GetLastFrame(&gSheikHittingGroundAnim);
 
-    func_80B3C9DC(this);
-    func_80B3C588(this, play, 4);
+    EnXc_DisableActorMovement(this);
+    EnXc_SetPosRotByCueStart(this, play, 4);
     Animation_Change(&this->skelAnime, &gSheikHittingGroundAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-    this->action = SHEIK_ACTION_63;
+    this->action = SHEIK_ACTION_63_NOCTURNE_GESTURE_STOP_LINK;
     this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
-void EnXc_SetupKneelInNocturne(EnXc* this, PlayState* play) {
+void EnXc_NocturneCs_SetupAction64_Kneeling(EnXc* this, PlayState* play) {
     s32 pad[3];
     f32 frameCount = Animation_GetLastFrame(&gSheikKneelingAnim);
 
-    func_80B3C9DC(this);
-    func_80B3C588(this, play, 4);
+    EnXc_DisableActorMovement(this);
+    EnXc_SetPosRotByCueStart(this, play, 4);
     Animation_Change(&this->skelAnime, &gSheikKneelingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    this->action = SHEIK_ACTION_NOCTURNE_KNEEL;
+    this->action = SHEIK_ACTION_64_NOCTURNE2_KNEEL;
     this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
-void func_80B40BB4(EnXc* this, PlayState* play) {
+void EnXc_NocturneCs_SetupAction65_WaitCue_PullOutHarp(EnXc* this, PlayState* play) {
     s32 pad[3];
     f32 frameCount = Animation_GetLastFrame(&gSheikIdleAnim);
-    func_80B3C9DC(this);
-    func_80B3C588(this, play, 4);
+    EnXc_DisableActorMovement(this);
+    EnXc_SetPosRotByCueStart(this, play, 4);
     Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    this->action = SHEIK_ACTION_65;
+    this->action = SHEIK_ACTION_65_NOCTURNE2_WAIT_CUE_PULL_OUT_HARP;
     this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
-void func_80B40C50(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_65, SHEIK_ACTION_66);
+void EnXc_WhenNext_Action66(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_65_NOCTURNE2_WAIT_CUE_PULL_OUT_HARP,
+                           SHEIK_ACTION_66_NOCTURNE2_PULL_OUT_HARP);
 }
 
-void func_80B40C74(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_66, SHEIK_ACTION_67);
+void EnXc_WhenNext_Action67(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_66_NOCTURNE2_PULL_OUT_HARP,
+                           SHEIK_ACTION_67_NOCTURNE2_PLAY_HARP_MOVE_TO_READY);
 }
 
-void func_80B40C98(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_67, SHEIK_ACTION_68);
+void EnXc_WhenNext_Action68(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_67_NOCTURNE2_PLAY_HARP_MOVE_TO_READY,
+                           SHEIK_ACTION_68_NOCTURNE2_PLAY_HARP);
 }
 
-void func_80B40CBC(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_68, SHEIK_ACTION_69);
+void EnXc_WhenNext_Action69(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_68_NOCTURNE2_PLAY_HARP, SHEIK_ACTION_69_NOCTURNE2_PLAY_HARP_FREEZE);
 }
 
-void func_80B40CE0(EnXc* this) {
-    func_80B3C7D4(this, SHEIK_ACTION_69, SHEIK_ACTION_70, SHEIK_ACTION_68);
+void EnXc_WhenNext_Action70OrAction68(EnXc* this) {
+    EnXc_CheckHarpPutawayAndBranch(this, SHEIK_ACTION_69_NOCTURNE2_PLAY_HARP_FREEZE,
+                                   SHEIK_ACTION_70_NOCTURNE2_PLAY_HARP_RETURN_FROM_READY,
+                                   SHEIK_ACTION_68_NOCTURNE2_PLAY_HARP);
 }
 
-void func_80B40D08(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_70, SHEIK_ACTION_71);
+void EnXc_WhenNext_Action71(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_70_NOCTURNE2_PLAY_HARP_RETURN_FROM_READY,
+                           SHEIK_ACTION_71_NOCTURNE2_PUT_AWAY_HARP);
 }
 
-void func_80B40D2C(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_71, SHEIK_ACTION_72);
+void EnXc_WhenNext_Action72(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_71_NOCTURNE2_PUT_AWAY_HARP, SHEIK_ACTION_72_NOCTURNE2_IDLE);
 }
 
-void func_80B40D50(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_72, SHEIK_ACTION_NOCTURNE_REVERSE_ACCEL);
+void EnXc_WhenNext_Action73(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_72_NOCTURNE2_IDLE, SHEIK_ACTION_73_NOCTURNE2_START_WALK_BACK);
 }
 
-void func_80B40D74(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_NOCTURNE_REVERSE_ACCEL, SHEIK_ACTION_NOCTURNE_REVERSE_WALK);
+void EnXc_WhenNext_Action74(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_73_NOCTURNE2_START_WALK_BACK, SHEIK_ACTION_74_NOCTURNE2_WALK_BACK);
 }
 
-void EnXc_SetupReverseHaltInNocturneCS(EnXc* this) {
+void EnXc_Nocturne2Cs_SetupStopWalkBack(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
-    if (kREG(5) + 140.0f <= xzDistToPlayer) {
+    if (xzDistToPlayer >= kREG(5) + 140.0f) {
         Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim),
                          ANIMMODE_LOOP, -12.0f);
-        this->action = SHEIK_ACTION_NOCTURNE_REVERSE_HALT;
+        this->action = SHEIK_ACTION_75_NOCTURNE2_STOP_WALK_BACK;
         this->timer = 0.0f;
     }
 }
 
-void func_80B40E40(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_NOCTURNE_REVERSE_HALT, SHEIK_ACTION_NOCTURNE_THROW_NUT);
+void EnXc_WhenNext_Action76(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_75_NOCTURNE2_STOP_WALK_BACK, SHEIK_ACTION_76_NOCTURNE2_THROW_NUT);
 }
 
-void func_80B40E64(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_NOCTURNE_THROW_NUT, SHEIK_ACTION_77);
+void EnXc_WhenNext_Action77(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_76_NOCTURNE2_THROW_NUT, SHEIK_ACTION_77_NOCTURNE2_VANISH);
 }
 
-void func_80B40E88(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHEIK_ACTION_77, SHEIK_ACTION_78);
+void EnXc_WhenNext_Action78(EnXc* this) {
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_77_NOCTURNE2_VANISH, SHEIK_ACTION_78_NOCTURNE2_CLEANUP_EFF_FLAME);
 }
 
-s32 EnXc_SetupNocturneState(Actor* thisx, PlayState* play) {
+/**
+ * returns true if cue change has occurred
+ */
+s32 EnXc_NocturneCS_WaitCue(Actor* thisx, PlayState* play) {
     CsCmdActorCue* cue = EnXc_GetCue(play, 4);
 
     if (cue != NULL) {
-        s32 nextCueId = cue->id;
+        s32 cueId = cue->id;
         EnXc* this = (EnXc*)thisx;
-        s32 currentCueId = this->unk_26C;
+        s32 lastCueId = this->lastCueIdNocturneCs;
 
-        if (nextCueId != currentCueId) {
-            switch (nextCueId) {
-                case 1:
-                    func_80B406F8(thisx);
+        if (cueId != lastCueId) {
+            switch (cueId) {
+                case ENXC_CUEID_IDLE:
+                    EnXc_NocturneCs_SetupAction57(thisx);
                     break;
-                case 6:
-                    EnXc_SetupIdleInNocturne(this, play);
+                case ENXC_CUEID_APPEAR:
+                    EnXc_NocturneCs_SetupIdleLookingDown(this, play);
                     break;
-                case 20:
-                    EnXc_SetupDefenseStance(thisx);
+                case ENXC_CUEID_DEFENSE_STANCE:
+                    EnXc_NocturneCs_SetupDefenseStance(thisx);
                     break;
-                case 18:
-                    EnXc_SetupContortions(this, play);
+                case ENXC_CUEID_CONTORTIONS:
+                    EnXc_NocturneCs_SetupContortions(this, play);
                     break;
-                case 14:
-                    EnXc_SetupFallInNocturne(this, play);
+                case ENXC_CUEID_HARD_FACEPLANT:
+                    EnXc_NocturneCs_SetupHardFaceplant(this, play);
                     break;
-                case 19:
-                    EnXc_SetupHittingGroundInNocturne(this, play);
+                case ENXC_CUEID_PUSHUP_PRONE_OR_TRIFORCE_MARK2:
+                    EnXc_NocturneCs_SetupAction62_PushupProne(this, play);
                     break;
-                case 15:
-                    func_80B40A78(this, play);
+                case ENXC_CUEID_GESTURE_STOP_LINK:
+                    EnXc_NocturneCs_SetupAction63_GestureStopLink(this, play);
                     break;
-                case 16:
-                    EnXc_SetupKneelInNocturne(this, play);
+                case ENXC_CUEID_KNEEL:
+                    EnXc_NocturneCs_SetupAction64_Kneeling(this, play);
                     break;
-                case 17:
-                    func_80B40BB4(this, play);
+                case ENXC_CUEID_NOCTURNE_IDLE:
+                    EnXc_NocturneCs_SetupAction65_WaitCue_PullOutHarp(this, play);
                     break;
-                case 9:
+                case ENXC_CUEID_VANISH:
                     Actor_Kill(thisx);
                     break;
                 default:
@@ -2048,154 +2114,157 @@ s32 EnXc_SetupNocturneState(Actor* thisx, PlayState* play) {
                     break;
             }
 
-            this->unk_26C = nextCueId;
-            return 1;
+            this->lastCueIdNocturneCs = cueId;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
-void EnXc_InitialNocturneAction(EnXc* this, PlayState* play) {
-    EnXc_SetupNocturneState(&this->actor, play);
+/**
+ * Checks cue to determine if Part 1 or Part 2 of the cutscene is running.
+ */
+void EnXc_NocturneCs_Action57_DemoStart(EnXc* this, PlayState* play) {
+    EnXc_NocturneCS_WaitCue(&this->actor, play);
 }
 
-void EnXc_IdleInNocturne(EnXc* this, PlayState* play) {
-    func_80B3C588(this, play, 4);
-    EnXc_AnimIsFinished(this);
+void EnXc_NocturneCs_Action58_Idle(EnXc* this, PlayState* play) {
+    EnXc_SetPosRotByCueStart(this, play, 4);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
-    EnXc_SetupNocturneState(&this->actor, play);
+    EnXc_NocturneCS_WaitCue(&this->actor, play);
 }
 
-void EnXc_DefenseStance(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_NocturneCs_Action59_DefenseStance(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_SetupNocturneState(&this->actor, play);
+    EnXc_NocturneCS_WaitCue(&this->actor, play);
 }
 
-void EnXc_Contort(EnXc* this, PlayState* play) {
+void EnXc_NocturneCs_Action60_Contort(EnXc* this, PlayState* play) {
     EnXc_SetCrySFX(this, play);
-    EnXc_AnimIsFinished(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_SetEyePattern(this);
-    if (!EnXc_SetupNocturneState(&this->actor, play)) {
-        func_80B3C924(this, play);
+    if (!EnXc_NocturneCS_WaitCue(&this->actor, play)) {
+        ActorMovement_func_80B3C924(this, play);
         EnXc_BgCheck(this, play);
     }
 }
 
-void EnXc_FallInNocturne(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_NocturneCs_Action61_HardFaceplant(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_SetEyePattern(this);
     EnXc_SetThrownAroundSFX(this);
-    if (!EnXc_SetupNocturneState(&this->actor, play)) {
-        func_80B3C8CC(this, play);
+    if (!EnXc_NocturneCS_WaitCue(&this->actor, play)) {
+        ActorMovement_func_80B3C8CC(this, play);
         EnXc_BgCheck(this, play);
     }
 }
 
-void EnXc_HitGroundInNocturne(EnXc* this, PlayState* play) {
+void EnXc_NocturneCs_Action62_PushupProne(EnXc* this, PlayState* play) {
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_SetupNocturneState(&this->actor, play);
+    EnXc_NocturneCS_WaitCue(&this->actor, play);
 }
 
-void EnXc_ActionFunc63(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_NocturneCs_Action63_GestureStopLink(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_PlayLinkScreamSFX(this, play);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_SetupNocturneState(&this->actor, play);
+    EnXc_NocturneCS_WaitCue(&this->actor, play);
 }
 
-void EnXc_KneelInNocturneCS(EnXc* this, PlayState* play) {
-    EnXc_AnimIsFinished(this);
+void EnXc_Nocturne2CS_Action64_Kneel(EnXc* this, PlayState* play) {
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_SetupNocturneState(&this->actor, play);
+    EnXc_NocturneCS_WaitCue(&this->actor, play);
 }
 
-void EnXc_ActionFunc65(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc6(this, play);
-    func_80B3C588(this, play, 4);
-    func_80B40C50(this);
+void EnXc_Nocturne2Cs_Action65_WaitCue_PullOutHarp(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action6_WaitCue_PullOutHarp(this, play);
+    EnXc_SetPosRotByCueStart(this, play, 4);
+    EnXc_WhenNext_Action66(this);
 }
 
-void EnXc_ActionFunc66(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc7(this, play);
-    func_80B40C74(this);
+void EnXc_Nocturne2Cs_Action66_PullOutHarp(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action7_PullOutHarp(this, play);
+    EnXc_WhenNext_Action67(this);
 }
 
-void EnXc_ActionFunc67(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc8(this, play);
-    func_80B40C98(this);
+void EnXc_Nocturne2Cs_Action67_PlayHarp_MoveToReady(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action8_PlayHarp_MoveToReady(this, play);
+    EnXc_WhenNext_Action68(this);
 }
 
-void EnXc_ActionFunc68(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc9(this, play);
-    func_80B40CBC(this);
+void EnXc_Nocturne2Cs_Action68_PlayHarp(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action9_PlayHarp(this, play);
+    EnXc_WhenNext_Action69(this);
 }
 
-void EnXc_ActionFunc69(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc10(this, play);
-    func_80B40CE0(this);
+void EnXc_Nocturne2Cs_Action69_PlayHarp_Freeze(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action10_PlayHarp_Freeze(this, play);
+    EnXc_WhenNext_Action70OrAction68(this);
 }
 
-void EnXc_ActionFunc70(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc11(this, play);
-    func_80B40D08(this);
+void EnXc_Nocturne2Cs_Action70_PlayHarp_ReturnFromReady(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action11_PlayHarp_ReturnFromReady(this, play);
+    EnXc_WhenNext_Action71(this);
 }
 
-void EnXc_ActionFunc71(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc12(this, play);
-    func_80B40D2C(this);
+void EnXc_Nocturne2Cs_Action71_PutAwayHarp(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action12_PutAwayHarp(this, play);
+    EnXc_WhenNext_Action72(this);
 }
 
-void EnXc_ActionFunc72(EnXc* this, PlayState* play) {
-    EnXc_ActionFunc13(this, play);
-    func_80B40D50(this);
+void EnXc_Nocturne2Cs_Action72_Idle(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action13_Idle(this, play);
+    EnXc_WhenNext_Action73(this);
 }
 
-void EnXc_ReverseAccelInNocturneCS(EnXc* this, PlayState* play) {
-    EnXc_ReverseAccelerate(this, play);
-    func_80B40D74(this);
+void EnXc_Nocturne2Cs_Action73_StartWalkBack(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action14_StartWalkBack(this, play);
+    EnXc_WhenNext_Action74(this);
 }
 
-void EnXc_ReverseWalkInNocturneCS(EnXc* this, PlayState* play) {
-    func_80B3D710(this);
-    EnXc_AnimIsFinished(this);
+void EnXc_Nocturne2Cs_Action74_WalkBack(EnXc* this, PlayState* play) {
+    EnXc_MoveXZGravity2(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_BgCheck(this, play);
     EnXc_SetEyePattern(this);
-    EnXc_SetupReverseHaltInNocturneCS(this);
+    EnXc_Nocturne2Cs_SetupStopWalkBack(this);
 }
 
-void EnXc_ReverseHaltInNocturneCS(EnXc* this, PlayState* play) {
-    EnXc_HaltAndWaitToThrowNut(this, play);
-    func_80B40E40(this);
+void EnXc_Nocturne2Cs_Action75_StopWalkBack(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action16_StopWalkBack(this, play);
+    EnXc_WhenNext_Action76(this);
 }
 
-void EnXc_ThrowNutInNocturneCS(EnXc* this, PlayState* play) {
-    EnXc_ThrowNut(this, play);
-    func_80B40E64(this);
+void EnXc_Nocturne2Cs_Action76_ThrowNut(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action17_ThrowNut(this, play);
+    EnXc_WhenNext_Action77(this);
 }
 
-void EnXc_DeleteInNocturneCS(EnXc* this, PlayState* play) {
-    EnXc_Delete(this, play);
-    func_80B40E88(this);
+void EnXc_Nocturne2Cs_Action77_Vanish(EnXc* this, PlayState* play) {
+    EnXc_TeachSong1_Action18_Vanish(this, play);
+    EnXc_WhenNext_Action78(this);
 }
 
-void EnXc_KillInNocturneCS(EnXc* this, PlayState* play) {
+void EnXc_Nocturne2Cs_Action78_CleanupEffFlame(EnXc* this, PlayState* play) {
     Actor_Kill(&this->actor);
 }
 
-void EnXc_DrawSquintingEyes(Actor* thisx, PlayState* play) {
+void EnXc_DrawLookingDown(Actor* thisx, PlayState* play) {
     EnXc* this = (EnXc*)thisx;
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_en_oA2_inStalker.c", 839);
     Gfx_SetupDL_25Opa(gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSheikEyeSquintingTex));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gSheikEyeSquintingTex));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSheikEyeLookingDownTex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gSheikEyeLookingDownTex));
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL, NULL);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inStalker.c", 854);
 }
@@ -2206,15 +2275,15 @@ void EnXc_InitTempleOfTime(EnXc* this, PlayState* play) {
             SET_EVENTCHKINF(EVENTCHKINF_C5);
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTempleOfTimeFirstAdultCs);
             gSaveContext.cutsceneTrigger = 1;
-            func_80B3EBF0(this, play);
+            EnXc_StartDemoFirstAdult_Action20(this, play);
         } else if (!GET_EVENTCHKINF(EVENTCHKINF_55) && GET_EVENTCHKINF(EVENTCHKINF_48)) {
             SET_EVENTCHKINF(EVENTCHKINF_55);
             Item_Give(play, ITEM_SONG_PRELUDE);
             play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTempleOfTimePreludeCs);
             gSaveContext.cutsceneTrigger = 1;
-            this->action = SHEIK_ACTION_30;
+            this->action = SHEIK_ACTION_30_TEACH2_INVISIBLE;
         } else if (!GET_EVENTCHKINF(EVENTCHKINF_55)) {
-            func_80B3C9EC(this);
+            EnXc_SetAction79_BlockPedestal(this);
         } else {
             Actor_Kill(&this->actor);
         }
@@ -2223,11 +2292,11 @@ void EnXc_InitTempleOfTime(EnXc* this, PlayState* play) {
     }
 }
 
-void EnXc_SetupDialogueAction(EnXc* this, PlayState* play) {
+void EnXc_TempleOfTime_HandleDialog(EnXc* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->actor, play)) {
         s32 pad;
 
-        this->action = SHEIK_ACTION_IN_DIALOGUE;
+        this->action = SHEIK_ACTION_80_TEMPLE_OF_TIME_BLOCK_PEDESTAL_TALKING;
     } else {
         this->actor.flags |= ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY;
         if (INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE) {
@@ -2239,113 +2308,135 @@ void EnXc_SetupDialogueAction(EnXc* this, PlayState* play) {
     }
 }
 
-void func_80B41798(EnXc* this, PlayState* play) {
+void EnXc_TempleOfTime_WaitEndDialog(EnXc* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->action = SHEIK_ACTION_BLOCK_PEDESTAL;
+        this->action = SHEIK_ACTION_79_TEMPLE_OF_TIME_BLOCK_PEDESTAL;
         this->actor.flags &= ~(ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_FRIENDLY);
     }
 }
 
-void EnXc_BlockingPedestalAction(EnXc* this, PlayState* play) {
+void EnXc_TempleOfTime_Action79_BlockPedestal(EnXc* this, PlayState* play) {
     EnXc_BgCheck(this, play);
     EnXc_UpdateCollider(&this->actor, play);
     EnXc_CalculateHeadTurn(this, play);
-    EnXc_AnimIsFinished(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_SetEyePattern(this);
-    EnXc_SetupDialogueAction(this, play);
+    EnXc_TempleOfTime_HandleDialog(this, play);
 }
 
-void EnXc_ActionFunc80(EnXc* this, PlayState* play) {
+void EnXc_TempleOfTime_Action80_BlockPedestalTalking(EnXc* this, PlayState* play) {
     EnXc_BgCheck(this, play);
     EnXc_UpdateCollider(&this->actor, play);
     EnXc_CalculateHeadTurn(this, play);
-    EnXc_AnimIsFinished(this);
+    EnXc_SkelAnime_Update(this);
     EnXc_SetEyePattern(this);
-    func_80B41798(this, play);
+    EnXc_TempleOfTime_WaitEndDialog(this, play);
 }
 
 static EnXcActionFunc sActionFuncs[] = {
-    EnXc_ActionFunc0,
-    EnXc_ActionFunc1,
-    EnXc_GracefulFall,
-    EnXc_Accelerate,
-    EnXc_Walk,
-    EnXc_Stopped,
-    EnXc_ActionFunc6,
-    EnXc_ActionFunc7,
-    EnXc_ActionFunc8,
-    EnXc_ActionFunc9,
-    EnXc_ActionFunc10,
-    EnXc_ActionFunc11,
-    EnXc_ActionFunc12,
-    EnXc_ActionFunc13,
-    EnXc_ReverseAccelerate,
-    EnXc_ActionFunc15,
-    EnXc_HaltAndWaitToThrowNut,
-    EnXc_ThrowNut,
-    EnXc_Delete,
-    EnXc_Fade,
-    EnXc_ActionFunc20,
-    EnXc_ActionFunc21,
-    EnXc_ActionFunc22,
-    EnXc_ActionFunc23,
-    EnXc_ActionFunc24,
-    EnXc_ActionFunc25,
-    EnXc_ActionFunc26,
-    EnXc_ActionFunc27,
-    EnXc_ActionFunc28,
-    EnXc_Serenade,
-    EnXc_ActionFunc30,
-    EnXc_ActionFunc31,
-    EnXc_ActionFunc32,
-    EnXc_ActionFunc33,
-    EnXc_ActionFunc34,
-    EnXc_ActionFunc35,
-    EnXc_ActionFunc36,
-    EnXc_ActionFunc37,
-    EnXc_ActionFunc38,
-    EnXc_ActionFunc39,
-    EnXc_ActionFunc40,
-    EnXc_ActionFunc41,
-    EnXc_ActionFunc42,
-    EnXc_ActionFunc43,
-    EnXc_ActionFunc44,
-    EnXc_ActionFunc45,
-    EnXc_ActionFunc46,
-    EnXc_ActionFunc47,
-    EnXc_ActionFunc48,
-    EnXc_ActionFunc49,
-    EnXc_Kneel,
-    EnXc_ActionFunc51,
-    EnXc_ActionFunc52,
-    EnXc_ActionFunc53,
-    EnXc_ActionFunc54,
-    EnXc_ShowTriforce,
-    EnXc_ShowTriforceIdle,
-    EnXc_InitialNocturneAction,
-    EnXc_IdleInNocturne,
-    EnXc_DefenseStance,
-    EnXc_Contort,
-    EnXc_FallInNocturne,
-    EnXc_HitGroundInNocturne,
-    EnXc_ActionFunc63,
-    EnXc_KneelInNocturneCS,
-    EnXc_ActionFunc65,
-    EnXc_ActionFunc66,
-    EnXc_ActionFunc67,
-    EnXc_ActionFunc68,
-    EnXc_ActionFunc69,
-    EnXc_ActionFunc70,
-    EnXc_ActionFunc71,
-    EnXc_ActionFunc72,
-    EnXc_ReverseAccelInNocturneCS,
-    EnXc_ReverseWalkInNocturneCS,
-    EnXc_ReverseHaltInNocturneCS,
-    EnXc_ThrowNutInNocturneCS,
-    EnXc_DeleteInNocturneCS,
-    EnXc_KillInNocturneCS,
-    EnXc_BlockingPedestalAction,
-    EnXc_ActionFunc80,
+    // "inSpot05" approach player
+    /* 00 */ EnXc_TeachSong1_Action0_CheckDemoStart,
+    /* 01 */ EnXc_TeachSong1_Action1_Invisible,
+    /* 02 */ EnXc_TeachSong1_Action2_GracefulFall,
+    /* 03 */ EnXc_TeachSong1_Action3_StartWalk,
+    /* 04 */ EnXc_TeachSong1_Action4_WalkToPlayer,
+    /* 05 */ EnXc_TeachSong1_Action5_StopWalk,
+
+    // TeachSong common actions
+    /* 06 */ EnXc_TeachSong1_Action6_WaitCue_PullOutHarp,
+    /* 07 */ EnXc_TeachSong1_Action7_PullOutHarp,
+    /* 08 */ EnXc_TeachSong1_Action8_PlayHarp_MoveToReady,
+    /* 09 */ EnXc_TeachSong1_Action9_PlayHarp,
+    /* 10 */ EnXc_TeachSong1_Action10_PlayHarp_Freeze,
+    /* 11 */ EnXc_TeachSong1_Action11_PlayHarp_ReturnFromReady,
+    /* 12 */ EnXc_TeachSong1_Action12_PutAwayHarp,
+    /* 13 */ EnXc_TeachSong1_Action13_Idle,
+    /* 14 */ EnXc_TeachSong1_Action14_StartWalkBack,
+    /* 15 */ EnXc_TeachSong1_Action15_WalkBack,
+    /* 16 */ EnXc_TeachSong1_Action16_StopWalkBack,
+    /* 17 */ EnXc_TeachSong1_Action17_ThrowNut,
+    /* 18 */ EnXc_TeachSong1_Action18_Vanish,
+    /* 19 */ EnXc_TeachSong1_Action19_CleanupEffFlame,
+
+    // gTempleOfTimeFirstAdultCs
+    // gLakeHyliaRestoredCs inherits action 20 and 21
+    // TeachSong2 inherits action 21
+    /* 20 */ EnXc_Action20_DemoStart,
+    /* 21 */ EnXc_Action21_Invisible,
+    /* 22 */ EnXc_Action22_Idle,
+
+    // gLakeHyliaRestoredCs inherited action
+    /* 23 */ EnXc_Action23_StartWalkBack,
+    /* 24 */ EnXc_Action24,
+
+    // Unreferenced empty actions
+    /* 25 */ EnXc_Action25,
+    /* 26 */ EnXc_Action26,
+    /* 27 */ EnXc_Action27,
+    /* 28 */ EnXc_Action28,
+
+    // Serenade and Pelude
+    /* 29 */ EnXc_TeachSong2_Action29_CheckDemoStart,
+    /* 30 */ EnXc_TeachSong2_Action30_Invisible,
+    /* 31 */ EnXc_TeachSong2_Action31_WaitCue_PullOutHarp,
+    /* 32 */ EnXc_TeachSong2_Action32_PullOutHarp,
+    /* 33 */ EnXc_TeachSong2_Action33_PlayHarp_MoveToReady,
+    /* 34 */ EnXc_TeachSong2_Action34_PlayHarp,
+    /* 35 */ EnXc_TeachSong2_Action35_PlayHarp_Freeze,
+    /* 36 */ EnXc_TeachSong2_Action36_PlayHarp_ReturnFromReady,
+    /* 37 */ EnXc_TeachSong2_Action37_PutHarpAway,
+    /* 38 */ EnXc_TeachSong2_Action38_Idle,
+    /* 39 */ EnXc_TeachSong2_Action39_StartWalkBack,
+    /* 40 */ EnXc_TeachSong2_Action40_WalkBack,
+    /* 41 */ EnXc_TeachSong2_Action41_StopWalkBack,
+    /* 42 */ EnXc_TeachSong2_Action42_ThrowNut,
+    /* 43 */ EnXc_TeachSong2_Action43_Vanish,
+    /* 44 */ EnXc_TeachSong2_Action44_CleanupEffFlame,
+
+    // gLakeHyliaRestoredCs
+    /* 45 */ EnXc_LakeCs_Action45_DemoStart,
+    /* 46 */ EnXc_LakeCs_Action46_Invisible,
+    /* 47 */ EnXc_LakeCs_Action47_Idle,
+    /* 48 */ EnXc_LakeCs_Action48_StartWalkBack,
+    /* 49 */ EnXc_LakeCs_Action49_WalkBack,
+    /* 50 */ EnXc_LakeCs_Action50_KneelOnTree,
+    /* 51 */ EnXc_LakeCs_Action51_Dive,
+    /* 52 */ EnXc_LakeCs_Action52_CleanupEffSplash,
+
+    // Transforms into Zelda (Across two Temple of Time cs)
+    /* 53 */ EnXc_Transform_Action53_Invisible,
+    /* 54 */ EnXc_Transform_Action54_Idle,
+    /* 55 */ EnXc_Transform_Action55_ShowTriforceMark,
+    /* 56 */ EnXc_Transform_Action56_ShowTriforceMarkIdle,
+
+    // Nocturne Part 1
+    /* 57 */ EnXc_NocturneCs_Action57_DemoStart,
+    /* 58 */ EnXc_NocturneCs_Action58_Idle,
+    /* 59 */ EnXc_NocturneCs_Action59_DefenseStance,
+    /* 60 */ EnXc_NocturneCs_Action60_Contort,
+    /* 61 */ EnXc_NocturneCs_Action61_HardFaceplant,
+    /* 62 */ EnXc_NocturneCs_Action62_PushupProne,
+    /* 63 */ EnXc_NocturneCs_Action63_GestureStopLink,
+    // Nocturne Part 2
+    /* 64 */ EnXc_Nocturne2CS_Action64_Kneel,
+    /* 65 */ EnXc_Nocturne2Cs_Action65_WaitCue_PullOutHarp,
+    /* 66 */ EnXc_Nocturne2Cs_Action66_PullOutHarp,
+    /* 67 */ EnXc_Nocturne2Cs_Action67_PlayHarp_MoveToReady,
+    /* 68 */ EnXc_Nocturne2Cs_Action68_PlayHarp,
+    /* 69 */ EnXc_Nocturne2Cs_Action69_PlayHarp_Freeze,
+    /* 70 */ EnXc_Nocturne2Cs_Action70_PlayHarp_ReturnFromReady,
+    /* 71 */ EnXc_Nocturne2Cs_Action71_PutAwayHarp,
+    /* 72 */ EnXc_Nocturne2Cs_Action72_Idle,
+    /* 73 */ EnXc_Nocturne2Cs_Action73_StartWalkBack,
+    /* 74 */ EnXc_Nocturne2Cs_Action74_WalkBack,
+    /* 75 */ EnXc_Nocturne2Cs_Action75_StopWalkBack,
+    /* 76 */ EnXc_Nocturne2Cs_Action76_ThrowNut,
+    /* 77 */ EnXc_Nocturne2Cs_Action77_Vanish,
+    /* 78 */ EnXc_Nocturne2Cs_Action78_CleanupEffFlame,
+
+    // gTempleOfTimeFirstAdultCs and normal gameplay
+    /* 79 */ EnXc_TempleOfTime_Action79_BlockPedestal,
+    /* 80 */ EnXc_TempleOfTime_Action80_BlockPedestalTalking,
 };
 
 void EnXc_Update(Actor* thisx, PlayState* play) {
@@ -2369,35 +2460,44 @@ void EnXc_Init(Actor* thisx, PlayState* play) {
     EnXc_InitCollider(thisx, play);
 
     switch (this->actor.params) {
-        case SHEIK_TYPE_1:
-            func_80B3EBF0(this, play);
+        case SHEIK_TYPE_DEMO_FIRST_ADULT:
+            // Bypasses checks to allow the cutscene to be played via Map Select
+            // Temple of Time Demo 0 - First Adult (gTempleOfTimeFirstAdultCs)
+            EnXc_StartDemoFirstAdult_Action20(this, play);
             break;
-        case SHEIK_TYPE_2: // Beta Serenade Cutscene or Learning Prelude
-            func_80B3EE64(this, play);
+        case SHEIK_TYPE_DEMO_TEACH_SONG_2:
+            // Configuration intended to bypass checks to allow the following cutscenes to be played via Map Select:
+            // Ice Cavern Demo 0 - Learn Serenade - (gIceCavernSerenadeCs)
+            // Temple of Time Demo 2 - Learn Prelude - (gTempleOfTimePreludeCs)
+            EnXc_StartDemoTeachSong2_Action29(this, play);
             break;
-        case SHEIK_TYPE_3:
-            func_80B3F3C8(this, play);
+        case SHEIK_TYPE_LAKE_HYLIA:
+            EnXc_StartLakeCs_Action45(this, play);
             break;
-        case SHEIK_TYPE_4:
-            func_80B3FA08(this, play);
+        case SHEIK_TYPE_TRANSFORM:
+            EnXc_StartTransform_Action53(this, play);
             break;
-        case SHEIK_TYPE_5:
-            func_80B40590(this, play);
+        case SHEIK_TYPE_NOCTURNE:
+            EnXc_StartNocturne_Action53(this, play);
             break;
         case SHEIK_TYPE_MINUET:
-            func_80B3CA38(this, play);
+            EnXc_CheckStartMinuet_Action0(this, play);
             break;
         case SHEIK_TYPE_BOLERO:
-            func_80B3CB58(this, play);
+            EnXc_CheckStartBolero_Action0(this, play);
             break;
         case SHEIK_TYPE_SERENADE:
-            EnXc_SetupSerenadeAction(this, play);
+            EnXc_CheckStartSerenade_Action29(this, play);
             break;
-        case SHEIK_TYPE_9:
+        case SHEIK_TYPE_TEMPLE_OF_TIME:
+            // Handles Sheik spawned next to the Master Sword in the Temple of Time.
+            // First Adult - gTempleOfTimeFirstAdultCs
+            // Learn Prelude - gTempleOfTimePreludeCs
+            //
             EnXc_InitTempleOfTime(this, play);
             break;
 #if DEBUG_FEATURES
-        case SHEIK_TYPE_0:
+        case SHEIK_TYPE_DO_NOTHING:
             EnXc_DoNothing(this, play);
             break;
 #endif
@@ -2411,7 +2511,7 @@ void EnXc_Init(Actor* thisx, PlayState* play) {
 s32 EnXc_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnXc* this = (EnXc*)thisx;
 
-    if (this->unk_30C != 0) {
+    if (this->enableTrackPlayer) {
         if (limbIndex == 9) {
             s32 pad;
 
@@ -2464,8 +2564,7 @@ void EnXc_DrawDefault(Actor* thisx, PlayState* play) {
 }
 
 static EnXcDrawFunc sDrawFuncs[] = {
-    EnXc_DrawNothing, EnXc_DrawDefault,  EnXc_DrawPullingOutHarp,
-    EnXc_DrawHarp,    EnXc_DrawTriforce, EnXc_DrawSquintingEyes,
+    EnXc_DrawNothing, EnXc_DrawDefault, EnXc_DrawPullingOutHarp, EnXc_DrawHarp, EnXc_DrawTriforce, EnXc_DrawLookingDown,
 };
 
 void EnXc_Draw(Actor* thisx, PlayState* play) {

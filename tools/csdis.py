@@ -320,11 +320,11 @@ cutscene_cmd_ids = {
     0x000A: "CS_CMD_PLAYER_CUE",
     0x000B: "CS_CMD_UNIMPLEMENTED_B",
     0x000D: "CS_CMD_UNIMPLEMENTED_D",
-    0x000E: "CS_CMD_ACTOR_CUE_1_0",
+    0x000E: "CS_CMD_ACTOR_CUE_1_0", # Unused
     0x000F: "CS_CMD_ACTOR_CUE_0_0",
-    0x0010: "CS_CMD_ACTOR_CUE_1_1",
+    0x0010: "CS_CMD_ACTOR_CUE_1_1", # Ganon? (gHyruleFieldIntroNightmareCs)
     0x0011: "CS_CMD_ACTOR_CUE_0_1",
-    0x0012: "CS_CMD_ACTOR_CUE_0_2",
+    0x0012: "CS_CMD_ACTOR_CUE_0_2", # Zelda? (gHyruleFieldIntroNightmareCs)
     0x0013: "CS_CMD_TEXT",
     0x0015: "CS_CMD_UNIMPLEMENTED_15",
     0x0016: "CS_CMD_UNIMPLEMENTED_16",
@@ -335,7 +335,7 @@ cutscene_cmd_ids = {
     0x001C: "CS_CMD_UNIMPLEMENTED_1C",
     0x001D: "CS_CMD_ACTOR_CUE_3_0",
     0x001E: "CS_CMD_ACTOR_CUE_4_0",
-    0x001F: "CS_CMD_ACTOR_CUE_6_0",
+    0x001F: "CS_CMD_ACTOR_CUE_6_0", # z_demo_effect.c Get Item (Chamber of Sages)
     0x0020: "CS_CMD_UNIMPLEMENTED_20",
     0x0021: "CS_CMD_UNIMPLEMENTED_21",
     0x0022: "CS_CMD_ACTOR_CUE_0_4",
@@ -343,15 +343,15 @@ cutscene_cmd_ids = {
     0x0024: "CS_CMD_ACTOR_CUE_2_1",
     0x0025: "CS_CMD_ACTOR_CUE_3_1",
     0x0026: "CS_CMD_ACTOR_CUE_4_1",
-    0x0027: "CS_CMD_ACTOR_CUE_0_5",
-    0x0028: "CS_CMD_ACTOR_CUE_1_4",
-    0x0029: "CS_CMD_ACTOR_CUE_2_2",
-    0x002A: "CS_CMD_ACTOR_CUE_3_2",
-    0x002B: "CS_CMD_ACTOR_CUE_4_2",
-    0x002C: "CS_CMD_ACTOR_CUE_5_0",
+    0x0027: "CS_CMD_ACTOR_CUE_0_5", # Rauru (Chamber of Sages)
+    0x0028: "CS_CMD_ACTOR_CUE_1_4", # Nabooru (Chamber of Sages)
+    0x0029: "CS_CMD_ACTOR_CUE_2_2", # Darunia (Chamber of Sages)
+    0x002A: "CS_CMD_ACTOR_CUE_3_2", # Ruto (Adult) (Chamber of Sages)
+    0x002B: "CS_CMD_ACTOR_CUE_4_2", # Saria (Chamber of Sages)
+    0x002C: "CS_CMD_ACTOR_CUE_5_0", # Impa (Chamber of Sages)
     0x002D: "CS_CMD_TRANSITION",
     0x002E: "CS_CMD_ACTOR_CUE_0_6",
-    0x002F: "CS_CMD_ACTOR_CUE_4_3",
+    0x002F: "CS_CMD_ACTOR_CUE_4_SHEIK",
     0x0030: "CS_CMD_ACTOR_CUE_1_5",
     0x0031: "CS_CMD_ACTOR_CUE_7_0",
     0x0032: "CS_CMD_ACTOR_CUE_2_3",
@@ -360,18 +360,18 @@ cutscene_cmd_ids = {
     0x0035: "CS_CMD_ACTOR_CUE_3_4",
     0x0036: "CS_CMD_ACTOR_CUE_4_4",
     0x0037: "CS_CMD_ACTOR_CUE_5_1",
-    0x0039: "CS_CMD_ACTOR_CUE_6_2",
-    0x003A: "CS_CMD_ACTOR_CUE_6_3",
+    0x0039: "CS_CMD_ACTOR_CUE_6_2", # 0x0039 and 0x003A are doublemapped in gChamberOfSagesSealOpeningCs
+    0x003A: "CS_CMD_ACTOR_CUE_6_3", # 0x0039 and 0x003A are doublemapped in gChamberOfSagesSealOpeningCs
     0x003B: "CS_CMD_UNIMPLEMENTED_3B",
-    0x003C: "CS_CMD_ACTOR_CUE_7_1",
+    0x003C: "CS_CMD_ACTOR_CUE_7_1", # eff in gChamberOfSagesSealOpeningCs
     0x003D: "CS_CMD_UNIMPLEMENTED_3D",
-    0x003E: "CS_CMD_ACTOR_CUE_8_0",
+    0x003E: "CS_CMD_ACTOR_CUE_8_NAVI",
     0x003F: "CS_CMD_ACTOR_CUE_3_5",
-    0x0040: "CS_CMD_ACTOR_CUE_1_6",
+    0x0040: "CS_CMD_ACTOR_CUE_1_6", # Saria (Sacred Forest Meadow)
     0x0041: "CS_CMD_ACTOR_CUE_3_6",
     0x0042: "CS_CMD_ACTOR_CUE_3_7",
     0x0043: "CS_CMD_ACTOR_CUE_2_4",
-    0x0044: "CS_CMD_ACTOR_CUE_1_7",
+    0x0044: "CS_CMD_ACTOR_CUE_1_7", # Fish (Zora's Fountain)
     0x0045: "CS_CMD_ACTOR_CUE_2_5",
     0x0046: "CS_CMD_ACTOR_CUE_1_8",
     0x0047: "CS_CMD_UNIMPLEMENTED_47",
@@ -413,7 +413,7 @@ cutscene_cmd_ids = {
     0x0077: "CS_CMD_ACTOR_CUE_0_13",
     0x0078: "CS_CMD_ACTOR_CUE_1_14",
     0x0079: "CS_CMD_ACTOR_CUE_2_11",
-    0x007B: "CS_CMD_ACTOR_CUE_0_14",
+    0x007B: "CS_CMD_ACTOR_CUE_0_SHEIK_EFF_FLAME",
     0x007C: "CS_CMD_FADE_OUT_SEQ",
     0x007D: "CS_CMD_ACTOR_CUE_1_15",
     0x007E: "CS_CMD_ACTOR_CUE_2_12",
@@ -434,7 +434,7 @@ cutscene_cmd_ids = {
     0x008D: "CS_CMD_ACTOR_CUE_1_17",
     0x008E: "CS_CMD_ACTOR_CUE_7_6",
     0x008F: "CS_CMD_ACTOR_CUE_9_0",
-    0x0090: "CS_CMD_ACTOR_CUE_0_17",
+    0x0090: "CS_CMD_ACTOR_CUE_0_SHEIK_EFF_SPLASH",
     0x03E8: "CS_CMD_DESTINATION",
 }
 
@@ -575,6 +575,52 @@ player_cue_ids = {
     0x4E: "PLAYER_CUEID_MAX",
 }
 
+# Enumerations for different actor cues
+# Please keep the key value the same as the command id
+actor_cue_id_table = {
+    47: # Sheik
+    {
+        0x00: "ENXC_CUEID_NONE",
+        0x01: "ENXC_CUEID_IDLE",
+        0x02: "ENXC_CUEID_GRACEFUL_FALL",
+        0x03: "ENXC_CUEID_PLAY_HARP",
+        0x04: "ENXC_CUEID_BACK_AWAY",
+        0x05: "ENXC_CUEID_PUT_AWAY_HARP",
+        0x06: "ENXC_CUEID_APPEAR",
+        0x07: "ENXC_CUEID_7",
+        0x08: "ENXC_CUEID_PLAY_HARP_STALL",
+        0x09: "ENXC_CUEID_VANISH",
+        0x0A: "ENXC_CUEID_TRANSFORM_POSE",
+        0x0B: "ENXC_CUEID_PLAY_HARP_MINUET",
+        0x0C: "ENXC_CUEID_PLAY_HARP_BOLERO",
+        0x0D: "ENXC_CUEID_PLAY_HARP_SERENADE",
+        0x0E: "ENXC_CUEID_HARD_FACEPLANT",
+        0x0F: "ENXC_CUEID_GESTURE_STOP_LINK",
+        0x10: "ENXC_CUEID_KNEEL",
+        0x11: "ENXC_CUEID_NOCTURNE_IDLE",
+        0x12: "ENXC_CUEID_CONTORTIONS",
+        0x13: "ENXC_CUEID_PUSHUP_PRONE_OR_TRIFORCE_MARK2",
+        0x14: "ENXC_CUEID_DEFENSE_STANCE",
+        0x15: "ENXC_CUEID_TRANSFORM_REVEAL_TRIFORCE_MARK",
+        0x16: "ENXC_CUEID_DIVE",
+        0x17: "ENXC_CUEID_PLAY_HARP_PRELUDE",
+        0x18: "ENXC_CUEID_BLOCK_PEDESTAL",
+    },
+    123: # Sheik Eff Flame
+    {
+        0x00: "ENXC_EFF_FLAME_CUEID_NONE",
+        0x01: "ENXC_EFF_FLAME_CUEID_1",
+        0x02: "ENXC_EFF_FLAME_CUEID_2",
+    },
+    144: # Sheik Eff Splash
+    {
+        0x00: "ENXC_EFF_SPLASH_CUEID_NONE",
+        0x01: "ENXC_EFF_SPLASH_CUEID_1",
+        0x02: "ENXC_EFF_SPLASH_CUEID_2",
+        0x03: "ENXC_EFF_SPLASH_CUEID_3",
+    },
+}
+
 fade_out_seq_player = {
     0x03: "CS_FADE_OUT_FANFARE",
     0x04: "CS_FADE_OUT_BGM_MAIN",
@@ -640,16 +686,16 @@ cutscene_command_macros = {
     10:
         ("CS_PLAYER_CUE_LIST(%w1:1:s)", 2, None, 0,
               "CS_PLAYER_CUE(%h2:1:e6, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
-    (15,17,18,23,34,39,46,76,85,93,105,107,110,119,123,138,139,144, # actor cue 1
-     14,16,24,35,40,48,64,68,70,78,80,94,116,118,120,125,131,141,   # actor cue 2
-     25,36,41,50,67,69,72,74,81,106,117,121,126,132,                # actor cue 3
-     29,37,42,51,53,63,65,66,75,82,108,127,133,                     # actor cue 4
-     30,38,43,47,54,79,83,128,135,                                  # actor cue 5
-     44,55,77,84,90,129,136,                                        # actor cue 6
-     31,52,57,58,88,115,130,137,                                    # actor cue 7
-     49,60,89,111,114,134,142,                                      # actor cue 8
-     62,                                                            # actor cue 9
-     143):                                                          # actor cue 10
+    (15,17,18,23,34,39,46,76,85,93,105,107,110,119,138,139,#123,144 # actor cue index 0
+     14,16,24,35,40,48,64,68,70,78,80,94,116,118,120,125,131,141,   # actor cue index 1
+     25,36,41,50,67,69,72,74,81,106,117,121,126,132,                # actor cue index 2
+     29,37,42,51,53,63,65,66,75,82,108,127,133,                     # actor cue index 3
+     30,38,43,54,79,83,128,135,#47,                                 # actor cue index 4
+     44,55,77,84,90,129,136,                                        # actor cue index 5
+     31,52,57,58,88,115,130,137,                                    # actor cue index 6
+     49,60,89,111,114,134,142,                                      # actor cue index 7
+     62,                                                            # actor cue index 8
+     143):                                                          # actor cue index 9
         ("CS_ACTOR_CUE_LIST(%w1:0:e8, %w1:1:s)", 2, None, 0,
               "CS_ACTOR_CUE(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)", 12),
     1:
@@ -681,6 +727,18 @@ cutscene_command_macros = {
               None, None),
 }
 
+for key in actor_cue_id_table:
+    for k in cutscene_command_macros.keys():
+        if type(k) is int:
+            k = (k,)
+        if key in k:
+            print(f"Duplicate key in cutscene_command_macros key={key}")
+            os._exit(1)
+
+    cueStr = f"CS_ACTOR_CUE(%h2:1:e{key}, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x, %w1:4:s, %w1:5:s, %w1:6:s, %w1:7:s, %w1:8:s, %w1:9:s, %w1:10:f, %w1:11:f, %w1:12:f)"
+    cutscene_command_macros[key] = ("CS_ACTOR_CUE_LIST(%w1:0:e8, %w1:1:s)", 2, None, 0,
+            cueStr, 12)
+
 begin_cutscene_entry = ("CS_HEADER(%w1:0:s, %w1:1:s)", 2, None, None,
                             None, None)
 
@@ -698,7 +756,7 @@ we introduce a function to allow these command ids to be grouped into tuples.
 def multi_key(key):
     for k in cutscene_command_macros.keys():
         if type(k) is int:
-            if k == key:
+            if key == k:
                 return cutscene_command_macros[k]
         elif key in k:
             return cutscene_command_macros[k]
@@ -782,12 +840,12 @@ def format_arg(arg, words):
         unsigned_value = get_word_unsigned(word)
         pad_len = 8
     else:
-        print("Something went wrong!") # TODO more debug info
+        print(f"format_arg() invalid arg_type={arg_type}") # TODO more debug info
         os._exit(1)
     format_type = arg_part(arg, 2).strip() # the format type, how to express the final value
     result = ""
     if "e" in format_type:
-        enum_no = int(format_type[1])
+        enum_no = int(format_type[1:])
         if enum_no == 0:
             result = cscam_continue_stop[unsigned_value]
         elif enum_no == 1:
@@ -806,6 +864,13 @@ def format_arg(arg, words):
             result = fade_out_seq_player[unsigned_value]
         elif enum_no == 8:
             result = cutscene_cmd_ids[unsigned_value]
+        else: # look up enum in actor_cue_id_table
+            # for reference, 10 is player cue, 14 is first actor cue
+            if enum_no in actor_cue_id_table:
+                result = actor_cue_id_table[enum_no][unsigned_value]
+            else:
+                print(f"format_arg() invalid enum_no={format_type} for actor_cue_id_table[]")
+                os._exit(1)
     elif format_type == "u":
         result = str(value)
     elif format_type == "s":
