@@ -1,7 +1,20 @@
 /*
  * File: z_bg_haka_meganebg.c
  * Overlay: ovl_Bg_Haka_MeganeBG
- * Description:
+ * Description: Misc. Shadow Temple themed objects
+ *
+ * BGHAKAMEGANEBG_TYPE_HIDDEN_MOVING_PLATFORM:
+ * An invisible square moving platform, viewable with Lens of Truth. Travels west 320 units and back.
+ * rotY must be initialized to 0 when spawned, or else the actor may malfunction.
+ *
+ * BGHAKAMEGANEBG_TYPE_CHAINED_ELEVATOR_PLATFORM:
+ * A square platform with chains on four corners. Drops 640 units before pulling itself up back to the home position.
+ *
+ * BGHAKAMEGANEBG_TYPE_ROTATING_PLATFORM:
+ * A simple spinning hexacon shaped black platform with a column in the center.
+ *
+ * BGHAKAMEGANEBG_TYPE_METAL_GATE:
+ * A metal gate that rises 100 units on switchFlag on.
  */
 
 #include "z_bg_haka_meganebg.h"
@@ -21,14 +34,14 @@ void BgHakaMeganeBG_Destroy(Actor* thisx, PlayState* play);
 void BgHakaMeganeBG_Update(Actor* thisx, PlayState* play);
 void BgHakaMeganeBG_Draw(Actor* thisx, PlayState* play);
 
-void func_8087DFF8(BgHakaMeganeBG* this, PlayState* play);
-void func_8087E040(BgHakaMeganeBG* this, PlayState* play);
-void func_8087E10C(BgHakaMeganeBG* this, PlayState* play);
-void func_8087E1E0(BgHakaMeganeBG* this, PlayState* play);
-void func_8087E258(BgHakaMeganeBG* this, PlayState* play);
-void func_8087E288(BgHakaMeganeBG* this, PlayState* play);
-void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play);
-void func_8087E34C(BgHakaMeganeBG* this, PlayState* play);
+void BgHakaMeganeBG_InvisibleSlidingPlatform_Idle(BgHakaMeganeBG* this, PlayState* play);
+void BgHakaMeganeBG_InvisibleSlidingPlatform_Move(BgHakaMeganeBG* this, PlayState* play);
+void BgHakaMeganeBG_ElevatorPlatform_Drop(BgHakaMeganeBG* this, PlayState* play);
+void BgHakaMeganeBG_ElevatorPlatform_Raise(BgHakaMeganeBG* this, PlayState* play);
+void BgHakaMeganeBG_RotatingPlatform_Spin(BgHakaMeganeBG* this, PlayState* play);
+void BgHakaMeganeBG_Gate_WaitForSwitchFlag(BgHakaMeganeBG* this, PlayState* play);
+void BgHakaMeganeBG_Gate_Open(BgHakaMeganeBG* this, PlayState* play);
+void BgHakaMeganeBG_DoNothing(BgHakaMeganeBG* this, PlayState* play);
 
 ActorProfile Bg_Haka_MeganeBG_Profile = {
     /**/ ACTOR_BG_HAKA_MEGANEBG,
@@ -53,50 +66,45 @@ static u32 D_8087E3FC[] = {
     0x00000000, 0x00000000, 0x00000000, 0xC8C800FF, 0xFF0000FF,
 };
 
-static Gfx* D_8087E410[] = {
-    object_haka_objects_DL_008EB0,
-    object_haka_objects_DL_00A1A0,
-    object_haka_objects_DL_005000,
-    object_haka_objects_DL_000040,
-};
-
 void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgHakaMeganeBG* this = (BgHakaMeganeBG*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->unk_168 = PARAMS_GET_U(thisx->params, 8, 8);
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
-    if (thisx->params == 2) {
+    if (thisx->params == BGHAKAMEGANEBG_TYPE_ROTATING_PLATFORM) {
         DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
         thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
-        CollisionHeader_GetVirtual(&object_haka_objects_Col_005334, &colHeader);
-        this->actionFunc = func_8087E258;
+        CollisionHeader_GetVirtual(&gShadowTempleBlackPlatformWithScrewColumnCol, &colHeader);
+        this->actionFunc = BgHakaMeganeBG_RotatingPlatform_Spin;
     } else {
         DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
-        if (thisx->params == 0) {
-            CollisionHeader_GetVirtual(&object_haka_objects_Col_009168, &colHeader);
+        if (thisx->params == BGHAKAMEGANEBG_TYPE_HIDDEN_MOVING_PLATFORM) {
+            CollisionHeader_GetVirtual(&gShadowTempleHiddenBlockPlatformCol, &colHeader);
             thisx->flags |= ACTOR_FLAG_REACT_TO_LENS;
-            this->unk_16A = 20;
-            this->actionFunc = func_8087DFF8;
-        } else if (thisx->params == 3) {
-            CollisionHeader_GetVirtual(&object_haka_objects_Col_000118, &colHeader);
+            this->timer = 20;
+            this->actionFunc = BgHakaMeganeBG_InvisibleSlidingPlatform_Idle;
+        } else if (thisx->params == BGHAKAMEGANEBG_TYPE_METAL_GATE) {
+            CollisionHeader_GetVirtual(&gShadowTempleMetalGateCol, &colHeader);
             thisx->home.pos.y += 100.0f;
 
-            if (Flags_GetSwitch(play, this->unk_168)) {
-                this->actionFunc = func_8087E34C;
+            if (Flags_GetSwitch(play, this->switchFlag)) {
+                // Gate open
+                this->actionFunc = BgHakaMeganeBG_DoNothing;
                 thisx->world.pos.y = thisx->home.pos.y;
             } else {
+                // Gate closed
                 thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
-                this->actionFunc = func_8087E288;
+                this->actionFunc = BgHakaMeganeBG_Gate_WaitForSwitchFlag;
             }
-        } else {
-            CollisionHeader_GetVirtual(&object_haka_objects_Col_00A7F4, &colHeader);
-            this->unk_16A = 80;
-            this->actionFunc = func_8087E10C;
+        } else /* thisx->params == BGHAKAMEGANEBG_TYPE_CHAINED_ELEVATOR_PLATFORM */ {
+            CollisionHeader_GetVirtual(&gShadowTempleChainedElevatorPlatformCol, &colHeader);
+            this->timer = 80;
+            this->actionFunc = BgHakaMeganeBG_ElevatorPlatform_Drop;
             thisx->cullingVolumeScale = 3000.0f;
             thisx->cullingVolumeDownward = 3000.0f;
         }
@@ -111,45 +119,56 @@ void BgHakaMeganeBG_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_8087DFF8(BgHakaMeganeBG* this, PlayState* play) {
-    if (this->unk_16A != 0) {
-        this->unk_16A--;
+void BgHakaMeganeBG_InvisibleSlidingPlatform_Idle(BgHakaMeganeBG* this, PlayState* play) {
+    if (this->timer != 0) {
+        this->timer--;
     }
 
-    if (this->unk_16A == 0) {
-        this->unk_16A = 40;
+    if (this->timer == 0) {
+        this->timer = 40;
+
+        // Reverse direction by rotating the actor 180 degrees.
+        // implementation-wise, rot.y is used like a flag, so arbitrary rotation values won't function correctly here.
         this->dyna.actor.world.rot.y += 0x8000;
-        this->actionFunc = func_8087E040;
+        this->actionFunc = BgHakaMeganeBG_InvisibleSlidingPlatform_Move;
     }
 }
 
-void func_8087E040(BgHakaMeganeBG* this, PlayState* play) {
+void BgHakaMeganeBG_InvisibleSlidingPlatform_Move(BgHakaMeganeBG* this, PlayState* play) {
     f32 xSub;
 
-    if (this->unk_16A != 0) {
-        this->unk_16A--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
-    xSub = (sinf(((this->unk_16A * 0.025f) + 0.5f) * M_PI) + 1.0f) * 160.0f;
+    // The sine function is used to create an easing effect when the platform reaches it's two target destinations. It
+    // works like this:
+    //
+    // The timer state, ranging from 39 to 0, is converted into an angle between 270 to 90 degrees, and in turn the sine
+    // function returns a value between -1.0 to 1.0. This is incremented by +1 to get 0.0 to 2.0, and finally multiplied
+    // by half of the travel distance to get the current platform's delta position.
+    xSub = (sinf(((this->timer * (1.0f / 40.0f)) + 0.5f) * M_PI) + 1.0f) * (320.0f / 2);
 
+    // The result is then inverted if the platform should travel the opposite direction.
     if (this->dyna.actor.world.rot.y != this->dyna.actor.shape.rot.y) {
         xSub = 320.0f - xSub;
     }
 
     this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x - xSub;
 
-    if (this->unk_16A == 0) {
-        this->unk_16A = 20;
-        this->actionFunc = func_8087DFF8;
+    if (this->timer == 0) {
+        this->timer = 20;
+        this->actionFunc = BgHakaMeganeBG_InvisibleSlidingPlatform_Idle;
     }
 }
 
-void func_8087E10C(BgHakaMeganeBG* this, PlayState* play) {
+void BgHakaMeganeBG_ElevatorPlatform_Drop(BgHakaMeganeBG* this, PlayState* play) {
+    // Here velocity.y is storing absolute velocity instead of directional velocity
     this->dyna.actor.velocity.y += 1.0f;
     this->dyna.actor.velocity.y = CLAMP_MAX(this->dyna.actor.velocity.y, 20.0f);
 
-    if (this->unk_16A != 0) {
-        this->unk_16A--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     if (!Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 640.0f,
@@ -157,51 +176,51 @@ void func_8087E10C(BgHakaMeganeBG* this, PlayState* play) {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
     }
 
-    if (this->unk_16A == 0) {
-        this->unk_16A = 120;
-        this->actionFunc = func_8087E1E0;
+    if (this->timer == 0) {
+        this->timer = 120;
+        this->actionFunc = BgHakaMeganeBG_ElevatorPlatform_Raise;
         this->dyna.actor.velocity.y = 0.0f;
     }
 }
 
-void func_8087E1E0(BgHakaMeganeBG* this, PlayState* play) {
+void BgHakaMeganeBG_ElevatorPlatform_Raise(BgHakaMeganeBG* this, PlayState* play) {
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 16.0f / 3.0f);
     Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
 
-    if (this->unk_16A != 0) {
-        this->unk_16A--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
-    if (this->unk_16A == 0) {
-        this->unk_16A = 80;
-        this->actionFunc = func_8087E10C;
+    if (this->timer == 0) {
+        this->timer = 80;
+        this->actionFunc = BgHakaMeganeBG_ElevatorPlatform_Drop;
     }
 }
 
-void func_8087E258(BgHakaMeganeBG* this, PlayState* play) {
+void BgHakaMeganeBG_RotatingPlatform_Spin(BgHakaMeganeBG* this, PlayState* play) {
     this->dyna.actor.shape.rot.y += 0x180;
     Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
 }
 
-void func_8087E288(BgHakaMeganeBG* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->unk_168)) {
+void BgHakaMeganeBG_Gate_WaitForSwitchFlag(BgHakaMeganeBG* this, PlayState* play) {
+    if (Flags_GetSwitch(play, this->switchFlag)) {
         OnePointCutscene_Attention(play, &this->dyna.actor);
-        this->actionFunc = func_8087E2D8;
+        this->actionFunc = BgHakaMeganeBG_Gate_Open;
     }
 }
 
-void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play) {
+void BgHakaMeganeBG_Gate_Open(BgHakaMeganeBG* this, PlayState* play) {
     Math_StepToF(&this->dyna.actor.speed, 30.0f, 2.0f);
 
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.speed)) {
         Actor_SetFocus(&this->dyna.actor, 50.0f);
-        this->actionFunc = func_8087E34C;
+        this->actionFunc = BgHakaMeganeBG_DoNothing;
     } else {
         Actor_PlaySfx_Flagged(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
     }
 }
 
-void func_8087E34C(BgHakaMeganeBG* this, PlayState* play) {
+void BgHakaMeganeBG_DoNothing(BgHakaMeganeBG* this, PlayState* play) {
 }
 
 void BgHakaMeganeBG_Update(Actor* thisx, PlayState* play) {
@@ -211,12 +230,19 @@ void BgHakaMeganeBG_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgHakaMeganeBG_Draw(Actor* thisx, PlayState* play) {
+    static Gfx* sDLists[] = {
+        gShadowTempleHiddenBlockPlatformDL,
+        gShadowTempleChainedElevatorPlatformDL,
+        gShadowTempleBlackPlatformWithScrewColumnDL,
+        gShadowTempleMetalGateDL,
+    };
+
     BgHakaMeganeBG* this = (BgHakaMeganeBG*)thisx;
     s16 params = this->dyna.actor.params;
 
-    if (params == 0) {
-        Gfx_DrawDListXlu(play, object_haka_objects_DL_008EB0);
+    if (params == BGHAKAMEGANEBG_TYPE_HIDDEN_MOVING_PLATFORM) {
+        Gfx_DrawDListXlu(play, gShadowTempleHiddenBlockPlatformDL);
     } else {
-        Gfx_DrawDListOpa(play, D_8087E410[params]);
+        Gfx_DrawDListOpa(play, sDLists[params]);
     }
 }
