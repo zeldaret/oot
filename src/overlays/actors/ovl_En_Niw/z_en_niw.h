@@ -8,6 +8,22 @@ struct EnNiw;
 
 typedef void (*EnNiwActionFunc)(struct EnNiw*, struct PlayState*);
 
+typedef enum EnNiwType {
+    EN_NIW_TYPE_0,
+    EN_NIW_TYPE_1,
+    EN_NIW_TYPE_2,
+    EN_NIW_TYPE_3,
+    EN_NIW_TYPE_KAKARIKO_CRATE,
+    EN_NIW_TYPE_5,
+    EN_NIW_TYPE_7 = 7,
+    EN_NIW_TYPE_8,
+    EN_NIW_TYPE_A = 10,
+    EN_NIW_TYPE_ZORA_RIVER_LOWER,
+    EN_NIW_TYPE_ZORA_RIVER_UPPER,
+    EN_NIW_TYPE_SUPER_CUCCO,
+    EN_NIW_TYPE_TALON_CUCCO
+} EnNiwType;
+
 typedef struct EnNiwEffect {
     /* 0x0000 */ u8 type;
     /* 0x0004 */ Vec3f pos;
@@ -40,7 +56,17 @@ typedef struct EnNiw {
     /* 0x0266 */ s16 timer7;
     /* 0x0268 */ s16 timer8;
     /* 0x026A */ s16 timer9;
+
     /* 0x026C */ f32 unk_26C[10];
+#define OBJECT_NIW_LIMB13_TARGET_ROT_Y  0
+#define OBJECT_NIW_LIMB11_TARGET_ROT_Z  1
+#define OBJECT_NIW_LIMB7_TARGET_ROT_Z   2
+#define OBJECT_NIW_LIMB11_TARGET_ROT_Y  5
+#define OBJECT_NIW_LIMB11_TARGET_ROT_X  6
+#define OBJECT_NIW_LIMB7_TARGET_ROT_Y   7
+#define OBJECT_NIW_LIMB7_TARGET_ROT_X   8
+#define OBJECT_NIW_LIMB15_TARGET_ROT_Y  9
+
     /* 0x0294 */ s16 unk_294;
     /* 0x0296 */ s16 unk_296;
     /* 0x0298 */ s16 unk_298;
@@ -49,20 +75,20 @@ typedef struct EnNiw {
     /* 0x029E */ s16 unk_29E;
     /* 0x02A0 */ s16 unk_2A0;
     /* 0x02A2 */ s16 unk_2A2;
-    /* 0x02A4 */ s16 unk_2A4;
+    /* 0x02A4 */ s16 health;
     /* 0x02A6 */ s16 unk_2A6;
-    /* 0x02A8 */ s16 unk_2A8;
-    /* 0x02AA */ s16 unk_2AA;
+    /* 0x02A8 */ s16 isAngry;
+    /* 0x02AA */ s16 kakarikoIdx; // identifier for Kakariko cuccos
     /* 0x02AC */ Vec3f unk_2AC;
     /* 0x02B8 */ Vec3f unk_2B8;
-    /* 0x02C4 */ f32 unk_2C4;
-    /* 0x02C8 */ f32 unk_2C8;
-    /* 0x02CC */ f32 unk_2CC;
-    /* 0x02D0 */ f32 unk_2D0;
-    /* 0x02D4 */ f32 unk_2D4;
-    /* 0x02D8 */ f32 unk_2D8;
-    /* 0x02DC */ f32 unk_2DC;
-    /* 0x02E0 */ f32 unk_2E0;
+    /* 0x02C4 */ f32 limb7RotZ;
+    /* 0x02C8 */ f32 limb7RotY;
+    /* 0x02CC */ f32 limb7RotX;
+    /* 0x02D0 */ f32 limb11RotZ;
+    /* 0x02D4 */ f32 limb11RotY;
+    /* 0x02D8 */ f32 limb11RotX;
+    /* 0x02DC */ f32 limb13RotY;
+    /* 0x02E0 */ f32 limb15RotY;
     /* 0x02E4 */ s16 unk_2E4;
     /* 0x02E6 */ s16 unk_2E6;
     /* 0x02E8 */ s16 path;
@@ -73,7 +99,7 @@ typedef struct EnNiw {
     /* 0x02FC */ f32 unk_2FC;
     /* 0x0300 */ f32 unk_300;
     /* 0x0304 */ f32 unk_304;
-    /* 0x0308 */ u8 unk_308;
+    /* 0x0308 */ u8 isSuperCuccoThrown;
     /* 0x030C */ ColliderCylinder collider;
     /* 0x0358 */ EnNiwEffect effects[EN_NIW_EFFECT_COUNT];
 } EnNiw; // size = 0x07B8
