@@ -2,6 +2,10 @@
  * File: z_item_shield.c
  * Overlay: ovl_Item_Shield
  * Description: Deku Shield
+ *
+ * Note: There are multiple actors that are the "Deku Shield". This actor handles the following two behaviors:
+ * - The shield is intended to be placed upright on a wall. It can be shot down and collected. (unused)
+ * - The shield handles the animation and effect of burning off the player's back.
  */
 
 #include "z_item_shield.h"
@@ -29,8 +33,8 @@ void ItemShield_Destroy(Actor* thisx, PlayState* play);
 void ItemShield_Update(Actor* thisx, PlayState* play);
 void ItemShield_Draw(Actor* thisx, PlayState* play);
 
-void func_80B86F68(ItemShield* this, PlayState* play);
-void func_80B86BC8(ItemShield* this, PlayState* play);
+void ItemShield_StartShieldBurn(ItemShield* this, PlayState* play);
+void ItemShield_WaitOnWall(ItemShield* this, PlayState* play);
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -76,24 +80,25 @@ void ItemShield_Init(Actor* thisx, PlayState* play) {
     s32 i;
 
     this->timer = 0;
-    this->unk_19C = 0;
+    this->stateFlags = 0;
 
     switch (this->actor.params) {
-        case 0:
+        case ITEMSHIELD_TYPE_WALL:
             ActorShape_Init(&this->actor.shape, 1400.0f, NULL, 0.0f);
             this->actor.shape.rot.x = 0x4000;
-            ItemShield_SetupAction(this, func_80B86BC8);
+            ItemShield_SetupAction(this, ItemShield_WaitOnWall);
             break;
 
-        case 1:
+        case ITEMSHIELD_TYPE_BURNED:
             ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-            ItemShield_SetupAction(this, func_80B86F68);
-            this->unk_19C |= 2;
+            ItemShield_SetupAction(this, ItemShield_StartShieldBurn);
+            this->stateFlags |= ITEM_SHIELD_STATEFLAG_DRAW;
             for (i = 0; i < 8; i++) {
-                this->unk_19E[i] = 1 + 2 * i;
-                this->unk_1A8[i].x = Rand_CenteredFloat(10.0f);
-                this->unk_1A8[i].y = Rand_CenteredFloat(10.0f);
-                this->unk_1A8[i].z = Rand_CenteredFloat(10.0f);
+                // Staggers timers from 1, 3, ... 15
+                this->flameLifeTimer[i] = 1 + 2 * i;
+                this->flameParticlePos[i].x = Rand_CenteredFloat(10.0f);
+                this->flameParticlePos[i].y = Rand_CenteredFloat(10.0f);
+                this->flameParticlePos[i].z = Rand_CenteredFloat(10.0f);
             }
             break;
     }
@@ -110,21 +115,26 @@ void ItemShield_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_80B86AC8(ItemShield* this, PlayState* play) {
+void ItemShield_WaitPickup(ItemShield* this, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
+
+    // Checks if Actor_OfferGetItem is accepted
     if (Actor_HasParent(&this->actor, play)) {
         Actor_Kill(&this->actor);
         return;
     }
     Actor_OfferGetItem(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+
+    // Wait for the shield to land before starting the countdown timer
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->timer--;
         if (this->timer < 60) {
+            // Make the shield flicker to warn the player it's going to disappear
             if (this->timer & 1) {
-                this->unk_19C |= 2;
+                this->stateFlags |= ITEM_SHIELD_STATEFLAG_DRAW;
             } else {
-                this->unk_19C &= ~2;
+                this->stateFlags &= ~ITEM_SHIELD_STATEFLAG_DRAW;
             }
         }
         if (this->timer == 0) {
@@ -133,14 +143,16 @@ void func_80B86AC8(ItemShield* this, PlayState* play) {
     }
 }
 
-void func_80B86BC8(ItemShield* this, PlayState* play) {
+void ItemShield_WaitOnWall(ItemShield* this, PlayState* play) {
+    // Checks if Actor_OfferGetItem is accepted
     if (Actor_HasParent(&this->actor, play)) {
         Actor_Kill(&this->actor);
         return;
     }
     Actor_OfferGetItem(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
+
     if (this->collider.base.acFlags & AC_HIT) {
-        ItemShield_SetupAction(this, func_80B86AC8);
+        ItemShield_SetupAction(this, ItemShield_WaitPickup);
         this->actor.velocity.y = 4.0f;
         this->actor.minVelocityY = -4.0f;
         this->actor.gravity = -0.8f;
@@ -152,40 +164,47 @@ void func_80B86BC8(ItemShield* this, PlayState* play) {
     }
 }
 
-void func_80B86CA8(ItemShield* this, PlayState* play) {
-    static Vec3f D_80B871F4 = { 0.0f, 0.0f, 0.0f };
-    static f32 D_80B87200[] = { 0.3f, 0.6f,  0.9f, 1.0f,  1.0f, 1.0f,  1.0f, 1.0f,
-                                1.0f, 0.85f, 0.7f, 0.55f, 0.4f, 0.25f, 0.1f, 0.0f };
-    static f32 D_80B87240[] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.8f,
-                                0.6f, 0.4f, 0.2f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+void ItemShield_BurnShield(ItemShield* this, PlayState* play) {
+    static Vec3f pos = { 0.0f, 0.0f, 0.0f };
+    static f32 scale[16] = { 0.3f, 0.6f,  0.9f, 1.0f,  1.0f, 1.0f,  1.0f, 1.0f,
+                             1.0f, 0.85f, 0.7f, 0.55f, 0.4f, 0.25f, 0.1f, 0.0f };
+    static f32 colorIntensity[16] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.8f,
+                                      0.6f, 0.4f, 0.2f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
     s32 i;
-    s32 temp;
 
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actor.shape.yOffset = ABS(Math_SinS(this->actor.shape.rot.x)) * 1500.0f;
 
     for (i = 0; i < 8; i++) {
-        temp = 15 - this->unk_19E[i];
-        D_80B871F4.x = this->unk_1A8[i].x;
-        D_80B871F4.y = this->unk_1A8[i].y + (this->actor.shape.yOffset * 0.01f) + (D_80B87200[temp] * -10.0f * 0.2f);
-        D_80B871F4.z = this->unk_1A8[i].z;
-        EffectSsFireTail_SpawnFlame(play, &this->actor, &D_80B871F4, D_80B87200[temp] * 0.2f, -1, D_80B87240[temp]);
-        if (this->unk_19E[i] != 0) {
-            this->unk_19E[i]--;
+        // Manually manage the animation effects for all 8 flames
+        s32 animIndex = 15 - this->flameLifeTimer[i];
+
+        pos.x = this->flameParticlePos[i].x;
+        pos.y = this->flameParticlePos[i].y + (this->actor.shape.yOffset * 0.01f) + (scale[animIndex] * -10.0f * 0.2f);
+        pos.z = this->flameParticlePos[i].z;
+        EffectSsFireTail_SpawnFlame(play, &this->actor, &pos, scale[animIndex] * 0.2f, -1, colorIntensity[animIndex]);
+
+        if (this->flameLifeTimer[i] != 0) {
+            this->flameLifeTimer[i]--;
         } else if (this->timer > 16) {
-            this->unk_19E[i] = 15;
-            this->unk_1A8[i].x = Rand_CenteredFloat(15.0f);
-            this->unk_1A8[i].y = Rand_CenteredFloat(10.0f);
-            this->unk_1A8[i].z = Rand_CenteredFloat(15.0f);
+            // Start another flame
+            this->flameLifeTimer[i] = 15;
+            this->flameParticlePos[i].x = Rand_CenteredFloat(15.0f);
+            this->flameParticlePos[i].y = Rand_CenteredFloat(10.0f);
+            this->flameParticlePos[i].z = Rand_CenteredFloat(15.0f);
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        this->unk_198 -= this->actor.shape.rot.x >> 1;
-        this->unk_198 -= this->unk_198 >> 2;
-        this->actor.shape.rot.x += this->unk_198;
+        // Beginning with the state of this->actor.shape.rot.x = 0x4000, this->shieldRotOscillation = 0,
+        // this->actor.shape.rot.x will "wobble" down to a stable value of 0x0002 after 66 passes,
+        // creating the illusion of the shield settling on the floor.
+        this->shieldRotOscillation -= this->actor.shape.rot.x >> 1;
+        this->shieldRotOscillation -= this->shieldRotOscillation >> 2;
+        this->actor.shape.rot.x += this->shieldRotOscillation;
+
         if ((this->timer >= 8) && (this->timer < 24)) {
-            Actor_SetScale(&this->actor, (this->timer - 8) * 0.000625f);
+            Actor_SetScale(&this->actor, (this->timer - 8) * (0.01f / 16));
         }
         if (this->timer != 0) {
             this->timer--;
@@ -195,29 +214,31 @@ void func_80B86CA8(ItemShield* this, PlayState* play) {
     }
 }
 
-void func_80B86F68(ItemShield* this, PlayState* play) {
+void ItemShield_StartShieldBurn(ItemShield* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
     MtxF* shield = &player->shieldMf;
 
+    // Match this shield to the player's shield model position
     this->actor.world.pos.x = shield->xw;
     this->actor.world.pos.y = shield->yw;
     this->actor.world.pos.z = shield->zw;
-    this->unk_19C &= ~2;
+    this->stateFlags &= ~ITEM_SHIELD_STATEFLAG_DRAW;
 
+    // line up the rotation to the player shield's model
     this->actor.shape.rot.y = Math_Atan2S(-shield->zz, -shield->xz);
     this->actor.shape.rot.x = Math_Atan2S(-shield->yz, sqrtf(shield->zz * shield->zz + shield->xz * shield->xz));
 
     if (ABS(this->actor.shape.rot.x) > 0x4000) {
-        this->unk_19C |= 1;
+        this->stateFlags |= ITEM_SHIELD_STATEFLAG_UNUSED;
     }
 
-    ItemShield_SetupAction(this, func_80B86CA8);
+    ItemShield_SetupAction(this, ItemShield_BurnShield);
 
     this->actor.velocity.y = 4.0;
     this->actor.minVelocityY = -4.0;
     this->actor.gravity = -0.8;
-    this->unk_198 = 0;
+    this->shieldRotOscillation = 0;
     this->timer = 70;
     this->actor.speed = 0;
 }
@@ -231,10 +252,16 @@ void ItemShield_Update(Actor* thisx, PlayState* play) {
 void ItemShield_Draw(Actor* thisx, PlayState* play) {
     ItemShield* this = (ItemShield*)thisx;
 
-    if (!(this->unk_19C & 2)) {
+    if (!(this->stateFlags & ITEM_SHIELD_STATEFLAG_DRAW)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_item_shield.c", 457);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_item_shield.c", 460);
+        //! @bug Segment 0xC should be updated before drawing gLinkChildDekuShieldDL. It should point to either
+        //! gCullBackDList or gCullFrontDList (look into calls to Player_DrawGameplay for more information).
+        //!
+        //! Most actors don't use segment 0xC, so the correct display list is inherited from Player_DrawGameplay.
+        //! A notable exception is Adult Zelda who is rendered in-between, leading to the infamous crash when burning
+        //! the Deku Shield during the tower collapse sequence.
         gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gLinkChildDekuShieldDL));
         CLOSE_DISPS(play->state.gfxCtx, "../z_item_shield.c", 465);
     }
