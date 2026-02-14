@@ -797,7 +797,7 @@ void DoorShutter_Unbar(DoorShutter* this, PlayState* play) {
             if (play->state.frames % 2 != 0) {
                 this->actionTimer++;
             }
-            if (this->dyna.actor.category == func_8005B198() || this->actionTimer == 0) {
+            if (this->dyna.actor.category == Camera_GetFocusActorCategory() || this->actionTimer == 0) {
                 this->actionTimer = 5;
             }
         } else {
