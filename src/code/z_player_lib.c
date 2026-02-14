@@ -13,7 +13,8 @@
 #include "save.h"
 #include "skin_matrix.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/player_pause_joint_tables.h"
+#include "assets/objects/gameplay_keep/player_anim_headers.h"
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
