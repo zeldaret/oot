@@ -170,7 +170,7 @@ void EnSt_SpawnDust(EnSt* this, PlayState* play, s32 dustCnt) {
         dustAccel.z = (Rand_ZeroOne() - 0.5f) * 4.0f;
         dustPos.x = this->actor.world.pos.x + (Math_SinS(yAngle) * 22.0f);
         dustPos.z = this->actor.world.pos.z + (Math_CosS(yAngle) * 22.0f);
-        func_8002836C(play, &dustPos, &dustVel, &dustAccel, &primColor, &envColor, 120, 40, 10);
+        EffectSsDust_SpawnNormalCustomLife(play, &dustPos, &dustVel, &dustAccel, &primColor, &envColor, 120, 40, 10);
     }
 }
 

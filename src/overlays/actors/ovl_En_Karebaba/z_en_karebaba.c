@@ -355,13 +355,13 @@ void EnKarebaba_Dying(EnKarebaba* this, PlayState* play) {
         rotation.y = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y);
 
         for (i = 0; i < 4; i++) {
-            func_800286CC(play, &position, &zeroVec, &zeroVec, 500, 50);
+            EffectSsDust_SpawnBrownFogShaded2(play, &position, &zeroVec, &zeroVec, 500, 50);
             position.x += rotation.x;
             position.y += rotation.z;
             position.z += rotation.y;
         }
 
-        func_800286CC(play, &this->actor.home.pos, &zeroVec, &zeroVec, 500, 100);
+        EffectSsDust_SpawnBrownFogShaded2(play, &this->actor.home.pos, &zeroVec, &zeroVec, 500, 100);
         EnKarebaba_SetupDeadItemDrop(this, play);
     }
 }
@@ -488,7 +488,7 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
             gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStickDropDL);
         }
     } else if (this->actionFunc != EnKarebaba_Dead) {
-        func_80026230(play, &black, 1, 2);
+        EffectFog_SetPulse(play, &black, 1, 2);
         SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
 
@@ -517,10 +517,10 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
             }
         }
 
-        func_80026608(play);
+        EffectFog_Reset(play);
     }
 
-    func_80026230(play, &black, 1, 2);
+    EffectFog_SetPulse(play, &black, 1, 2);
     Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
 
     if (this->actionFunc != EnKarebaba_Grow) {
@@ -538,7 +538,7 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBaseDL);
     }
 
-    func_80026608(play);
+    EffectFog_Reset(play);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_karebaba.c", 1163);
 

@@ -1112,8 +1112,8 @@ void EnIk_SpawnAxeSmoke(EnIk* this, PlayState* play, Vec3f* pos) {
             envColor.g += randColorOffset;
             envColor.b += randColorOffset;
 
-            func_8002829C(play, &effectPos, &effectVelocity, &effectAccel, &primColor, &envColor,
-                          (Rand_ZeroOne() * 60.0f) + 300.0f, 0);
+            EffectSsDust_SpawnNormal(play, &effectPos, &effectVelocity, &effectAccel, &primColor, &envColor,
+                                     (Rand_ZeroOne() * 60.0f) + 300.0f, 0);
         }
 
         this->isAxeSummoned = true;

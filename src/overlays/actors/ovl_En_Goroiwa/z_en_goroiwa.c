@@ -297,8 +297,8 @@ void EnGoroiwa_SpawnDust(PlayState* play, Vec3f* pos) {
         randPos.x = pos->x + (47.0f * (Rand_ZeroOne() * 0.5f + 0.5f)) * Math_SinS(angle);
         randPos.y = pos->y + (Rand_ZeroOne() - 0.5f) * 40.0f;
         randPos.z = pos->z + ((47.0f * (Rand_ZeroOne() * 0.5f + 0.5f))) * Math_CosS(angle);
-        func_800286CC(play, &randPos, &velocity, &accel, (s16)(Rand_ZeroOne() * 30.0f) + 100, 80);
-        func_800286CC(play, &randPos, &velocity, &accel, (s16)(Rand_ZeroOne() * 20.0f) + 80, 80);
+        EffectSsDust_SpawnBrownFogShaded2(play, &randPos, &velocity, &accel, (s16)(Rand_ZeroOne() * 30.0f) + 100, 80);
+        EffectSsDust_SpawnBrownFogShaded2(play, &randPos, &velocity, &accel, (s16)(Rand_ZeroOne() * 20.0f) + 80, 80);
     }
 }
 

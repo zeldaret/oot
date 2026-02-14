@@ -277,7 +277,7 @@ void BgYdanSp_FloorWebBreaking(BgYdanSp* this, PlayState* play) {
         for (i = 0; i < 6; i++) {
             pos.x = Math_SinS(rot) * 60.0f + this->dyna.actor.world.pos.x;
             pos.z = Math_CosS(rot) * 60.0f + this->dyna.actor.world.pos.z;
-            func_8002829C(play, &pos, &zeroVec, &zeroVec, &primColor, &envColor, 1000, 10);
+            EffectSsDust_SpawnNormal(play, &pos, &zeroVec, &zeroVec, &primColor, &envColor, 1000, 10);
 
             rot += 0x2AAA;
         }

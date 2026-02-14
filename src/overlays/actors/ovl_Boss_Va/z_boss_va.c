@@ -3276,13 +3276,14 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
                 spBC = this->actor.world.pos;
                 spBC.y += 9.0f;
                 if (this->actor.colorFilterTimer != 0) {
-                    func_80026A6C(play);
+                    EffectFog_ResetXlu(play);
                 }
                 func_80033C30(&spBC, &spA4, 0xFF, play);
                 if (this->actor.colorFilterTimer != 0) {
                     Color_RGBA8 blue = { 0, 0, 255, 255 };
 
-                    func_80026860(play, &blue, this->actor.colorFilterTimer, this->actor.colorFilterParams & 0xFF);
+                    EffectFog_SetFlashXlu(play, &blue, this->actor.colorFilterTimer,
+                                          this->actor.colorFilterParams & 0xFF);
                 }
             }
             break;

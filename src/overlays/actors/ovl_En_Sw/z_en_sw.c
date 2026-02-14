@@ -489,7 +489,7 @@ void func_80B0CF44(EnSw* this, PlayState* play, s32 cnt) {
         pos.x = this->actor.world.pos.x + (Math_SinS(angle) * 2.0f);
         pos.y = this->actor.world.pos.y;
         pos.z = this->actor.world.pos.z + (Math_CosS(angle) * 2.0f);
-        func_8002836C(play, &pos, &velocity, &accel, &primColor, &envColor, 20, 30, 12);
+        EffectSsDust_SpawnNormalCustomLife(play, &pos, &velocity, &accel, &primColor, &envColor, 20, 30, 12);
     }
 }
 
@@ -508,7 +508,7 @@ void func_80B0D14C(EnSw* this, PlayState* play, s32 cnt) {
         pos.x = this->actor.world.pos.x + (Math_SinS(angle) * 14.0f);
         pos.y = this->actor.world.pos.y;
         pos.z = this->actor.world.pos.z + (Math_CosS(angle) * 14.0f);
-        func_8002836C(play, &pos, &velocity, &accel, &primColor, &envColor, 20, 40, 10);
+        EffectSsDust_SpawnNormalCustomLife(play, &pos, &velocity, &accel, &primColor, &envColor, 20, 40, 10);
     }
 }
 

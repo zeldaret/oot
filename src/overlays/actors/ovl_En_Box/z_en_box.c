@@ -243,7 +243,7 @@ void EnBox_SpawnDust(EnBox* this, PlayState* play) {
 
     for (i = 0; i < 20; i++) {
         EnBox_RandomDustKinematic(this, &pos, &velocity, &accel);
-        func_8002873C(play, &pos, &velocity, &accel, 100, 30, 15);
+        EffectSsDust_SpawnBrownNormalCustom(play, &pos, &velocity, &accel, 100, 30, 15);
     }
 }
 

@@ -8928,10 +8928,11 @@ s32 func_8084269C(PlayState* play, Player* this) {
     if ((this->floorSfxOffset == SURFACE_SFX_OFFSET_DIRT) || (this->floorSfxOffset == SURFACE_SFX_OFFSET_SAND)) {
         func_8084260C(&this->actor.shape.feetPos[FOOT_LEFT], &sp2C,
                       this->actor.floorHeight - this->actor.shape.feetPos[FOOT_LEFT].y, 7.0f, 5.0f);
-        func_800286CC(play, &sp2C, &D_808545B4, &D_808545C0, 50, 30);
+        EffectSsDust_SpawnBrownFogShaded2(play, &sp2C, &D_808545B4, &D_808545C0, 50, 30);
         func_8084260C(&this->actor.shape.feetPos[FOOT_RIGHT], &sp2C,
                       this->actor.floorHeight - this->actor.shape.feetPos[FOOT_RIGHT].y, 7.0f, 5.0f);
-        func_800286CC(play, &this->actor.shape.feetPos[FOOT_RIGHT], &D_808545B4, &D_808545C0, 50, 30);
+        EffectSsDust_SpawnBrownFogShaded2(play, &this->actor.shape.feetPos[FOOT_RIGHT], &D_808545B4, &D_808545C0, 50,
+                                          30);
         return 1;
     }
 
@@ -11474,8 +11475,8 @@ void Player_UpdateBurningDekuStick(PlayState* play, Player* this) {
         this->unk_85C = temp;
     }
 
-    func_8002836C(play, MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]), &D_808547A4, &D_808547B0, &D_808547BC,
-                  &D_808547C0, temp * 200.0f, 0, 8);
+    EffectSsDust_SpawnNormalCustomLife(play, MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]), &D_808547A4, &D_808547B0,
+                                       &D_808547BC, &D_808547C0, temp * 200.0f, 0, 8);
 }
 
 void Player_UpdateBodyShock(PlayState* play, Player* this) {

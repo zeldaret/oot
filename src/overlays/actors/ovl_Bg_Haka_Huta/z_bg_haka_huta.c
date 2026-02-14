@@ -102,7 +102,7 @@ void BgHakaHuta_SpawnDust(BgHakaHuta* this, PlayState* play) {
         }
         effectPos.x = this->dyna.actor.home.pos.x - (Rand_ZeroOne() * xPosOffset);
         scale = ((Rand_ZeroOne() * 10.0f) + 50.0f);
-        func_8002829C(play, &effectPos, &effectVel, sEffectAccel, &primColor, &envColor, scale, 0xA);
+        EffectSsDust_SpawnNormal(play, &effectPos, &effectVel, sEffectAccel, &primColor, &envColor, scale, 0xA);
     }
 }
 

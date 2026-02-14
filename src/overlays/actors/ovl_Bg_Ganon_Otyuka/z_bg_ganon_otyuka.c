@@ -287,8 +287,9 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play) {
                     pos.x = Rand_CenteredFloat(150.0f) + this->dyna.actor.world.pos.x;
                     pos.y = Rand_ZeroFloat(60.0f) + -750.0f;
                     pos.z = Rand_CenteredFloat(150.0f) + this->dyna.actor.world.pos.z;
-                    func_8002836C(play, &pos, &velocity, &accel, &sDustPrimColor, &sDustEnvColor,
-                                  (s16)Rand_ZeroFloat(100.0f) + 250, 5, (s16)Rand_ZeroFloat(5.0f) + 15);
+                    EffectSsDust_SpawnNormalCustomLife(play, &pos, &velocity, &accel, &sDustPrimColor, &sDustEnvColor,
+                                                       (s16)Rand_ZeroFloat(100.0f) + 250, 5,
+                                                       (s16)Rand_ZeroFloat(5.0f) + 15);
                 }
 
                 Actor_RequestQuake(play, 10, 15);

@@ -578,7 +578,8 @@ void BossDodongo_Explode(BossDodongo* this, PlayState* play) {
             dustPos.y = this->actor.world.pos.y + 90.0f + (dustVel.y * 3.0f);
             dustPos.z = this->actor.world.pos.z + (dustVel.z * 3.0f);
 
-            func_8002836C(play, &dustPos, &dustVel, &dustAcell, &dustPrimColor, &dustEnvColor, 500, 10, 10);
+            EffectSsDust_SpawnNormalCustomLife(play, &dustPos, &dustVel, &dustAcell, &dustPrimColor, &dustEnvColor, 500,
+                                               10, 10);
         }
 
         Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_004E0C, 1.0f, 0.0f,
@@ -1541,8 +1542,8 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                         effectPos.x = Rand_CenteredFloat(120.0f) + this->actor.focus.pos.x;
                         effectPos.y = Rand_ZeroFloat(50.0f) + this->actor.world.pos.y;
                         effectPos.z = Rand_CenteredFloat(120.0f) + this->actor.focus.pos.z;
-                        func_8002836C(play, &effectPos, &dustVel, &dustAcell, &dustPrimColor, &dustEnvColor, 0x1F4, 0xA,
-                                      0xA);
+                        EffectSsDust_SpawnNormalCustomLife(play, &effectPos, &dustVel, &dustAcell, &dustPrimColor,
+                                                           &dustEnvColor, 0x1F4, 0xA, 0xA);
                         effectPos.x = Rand_CenteredFloat(120.0f) + this->actor.focus.pos.x;
                         effectPos.y = -1498.76f;
                         effectPos.z = Rand_CenteredFloat(120.0f) + this->actor.focus.pos.z;

@@ -710,8 +710,8 @@ void EnDekubaba_Lunge(EnDekubaba* this, PlayState* play) {
             velocity.y = 0.0f;
             velocity.z = Math_CosS(this->actor.shape.rot.y) * 5.0f;
 
-            func_8002829C(play, &this->actor.world.pos, &velocity, &sZeroVec, &primColor, &envColor, 1,
-                          this->size * 100.0f);
+            EffectSsDust_SpawnNormal(play, &this->actor.world.pos, &velocity, &sZeroVec, &primColor, &envColor, 1,
+                                     this->size * 100.0f);
             this->timer = 1;
             this->collider.base.acFlags |= AC_ON;
         }
@@ -774,7 +774,8 @@ void EnDekubaba_PullBack(EnDekubaba* this, PlayState* play) {
             dustPos = this->actor.home.pos;
 
             for (i = 0; i < 3; i++) {
-                func_800286CC(play, &dustPos, &sZeroVec, &sZeroVec, this->size * 500.0f, this->size * 50.0f);
+                EffectSsDust_SpawnBrownFogShaded2(play, &dustPos, &sZeroVec, &sZeroVec, this->size * 500.0f,
+                                                  this->size * 50.0f);
                 dustPos.x += xIncr;
                 dustPos.z += zIncr;
             }
@@ -986,13 +987,14 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, PlayState* play) {
         deltaZ = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y);
 
         for (i = 0; i < 4; i++) {
-            func_800286CC(play, &dustPos, &sZeroVec, &sZeroVec, 500, 50);
+            EffectSsDust_SpawnBrownFogShaded2(play, &dustPos, &sZeroVec, &sZeroVec, 500, 50);
             dustPos.x += deltaX;
             dustPos.y += deltaY;
             dustPos.z += deltaZ;
         }
 
-        func_800286CC(play, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->size * 500.0f, this->size * 100.0f);
+        EffectSsDust_SpawnBrownFogShaded2(play, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->size * 500.0f,
+                                          this->size * 100.0f);
         EnDekubaba_SetupDeadStickDrop(this, play);
     }
 }
@@ -1004,7 +1006,8 @@ void EnDekubaba_ShrinkDie(EnDekubaba* this, PlayState* play) {
     Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, this->size * 5.0f);
 
     if (Math_StepToF(&this->actor.scale.x, this->size * 0.1f * 0.01f, this->size * 0.1f * 0.01f)) {
-        func_800286CC(play, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->size * 500.0f, this->size * 100.0f);
+        EffectSsDust_SpawnBrownFogShaded2(play, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->size * 500.0f,
+                                          this->size * 100.0f);
         if (this->actor.dropFlag == 0) {
             Item_DropCollectible(play, &this->actor.world.pos, ITEM00_NUTS);
 

@@ -404,7 +404,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                 Actor_PlaySfx(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
                 effPos.y += 3.0f;
-                func_8002829C(play, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
+                EffectSsDust_SpawnNormal(play, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
             }
 
             // double bomb flash speed and adjust red color at certain times during the countdown

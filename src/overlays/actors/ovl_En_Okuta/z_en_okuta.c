@@ -190,7 +190,7 @@ void EnOkuta_SpawnDust(Vec3f* pos, Vec3f* velocity, s16 scaleStep, PlayState* pl
     static Color_RGBA8 primColor = { 255, 255, 255, 255 };
     static Color_RGBA8 envColor = { 150, 150, 150, 255 };
 
-    func_8002829C(play, pos, velocity, &accel, &primColor, &envColor, 0x190, scaleStep);
+    EffectSsDust_SpawnNormal(play, pos, velocity, &accel, &primColor, &envColor, 0x190, scaleStep);
 }
 
 void EnOkuta_SpawnSplash(EnOkuta* this, PlayState* play) {
