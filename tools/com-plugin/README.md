@@ -10,6 +10,8 @@ The plugin expects a symbol order txt file listing the COMMON symbols in order o
 
 Add `-plugin common-plugin.so -plugin-opt order=bss_order.txt` to the linker invocation, replacing `bss_order.txt` with an alternative path if desired.
 
+An optional argument `-plugin-opt min_align=N` can specify the minimum alignment for the bss output files. If unset, the minimum alignment is 0: the resulting section alignment is equal to the minimum alignment required by the symbols.
+
 Also add any bss output files mentioned in the order file to the linker script (e.g. `bss.o` would be added as `*bss.o(.bss*)`) so that the additional input file is not discarded, if required.
 
 ### **Symbol order file syntax**

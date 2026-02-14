@@ -1,0 +1,50 @@
+// Specification for linker plugin COMMON symbol order for the ique-cn version code segment
+
+build/ique-cn/code_bss_1.o {
+    D_8015FA8C;
+    __osMaxControllers;
+    D_8015FA88;
+    __osContLastCmd;
+    __osEepromTimerMsg;
+}
+
+build/ique-cn/code_bss_z_actor.o {
+    D_8015BBA8;
+    sCurCeilingPoly;
+    sCurCeilingBgId;
+    D_8015BC00;
+    D_8015BC10;
+    D_8015BC14;
+    D_8015BC18;
+    sNearestAttentionActor;
+    sPrioritizedAttentionActor;
+    sNearestAttentionActorDistSq;
+    sBgmEnemyDistSq;
+    sHighestAttentionPriority;
+    sAttentionPlayerRotY;
+}
+
+build/ique-cn/code_bss_2.o {
+    __osContPifRam;
+    gSaveContext;
+    sUnknownBssPadding;
+    __osEepromTimerMsgQueue;
+    __osSiAccessQueue;
+}
+
+build/ique-cn/code_bss_3.o {
+    sCharTexSize;
+    sCharTexScale;
+    sOcarinaButtonAPrimR;
+    sOcarinaButtonAPrimB;
+    sOcarinaButtonAPrimG;
+    sOcarinaButtonAEnvR;
+    sOcarinaButtonAEnvB;
+    sOcarinaButtonAEnvG;
+    sOcarinaButtonCPrimR;
+    sOcarinaButtonCPrimB;
+    sOcarinaButtonCPrimG;
+    sOcarinaButtonCEnvR;
+    sOcarinaButtonCEnvB;
+    sOcarinaButtonCEnvG;
+}
