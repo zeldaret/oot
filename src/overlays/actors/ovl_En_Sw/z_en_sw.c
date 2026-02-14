@@ -1,3 +1,9 @@
+/*
+ * File: z_en_sw.c
+ * Overlay: ovl_En_Sw
+ * Description: SkullWalltula and Gold Skulltula
+ */
+
 #include "z_en_sw.h"
 
 #include "libc64/math64.h"
@@ -24,18 +30,18 @@ void EnSw_Init(Actor* thisx, PlayState* play);
 void EnSw_Destroy(Actor* thisx, PlayState* play);
 void EnSw_Update(Actor* thisx, PlayState* play);
 void EnSw_Draw(Actor* thisx, PlayState* play);
-s32 func_80B0DFFC(EnSw* this, PlayState* play);
-void func_80B0D364(EnSw* this, PlayState* play);
-void func_80B0E5E0(EnSw* this, PlayState* play);
-void func_80B0D590(EnSw* this, PlayState* play);
-void func_80B0E90C(EnSw* this, PlayState* play);
-void func_80B0E9BC(EnSw* this, PlayState* play);
-void func_80B0E728(EnSw* this, PlayState* play);
-void func_80B0DC7C(EnSw* this, PlayState* play);
-s32 func_80B0C0CC(EnSw* this, PlayState* play, s32);
-void func_80B0D3AC(EnSw* this, PlayState* play);
-void func_80B0DB00(EnSw* this, PlayState* play);
-void func_80B0D878(EnSw* this, PlayState* play);
+s32 EnSw_LineTestWall(EnSw* this, PlayState* play);
+void EnSw_GoldHiddenSetup(EnSw* this, PlayState* play);
+void EnSw_SetupNormal(EnSw* this, PlayState* play);
+void EnSw_Crawl(EnSw* this, PlayState* play);
+void EnSw_SetupGoHome(EnSw* this, PlayState* play);
+void EnSw_GoHome(EnSw* this, PlayState* play);
+void EnSw_Dash(EnSw* this, PlayState* play);
+void EnSw_NormalDie(EnSw* this, PlayState* play);
+s32 EnSw_GoldMove(EnSw* this, PlayState* play, s32);
+void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play);
+void EnSw_FallNormal(EnSw* this, PlayState* play);
+void EnSw_GoldDie(EnSw* this, PlayState* play);
 
 ActorProfile En_Sw_Profile = {
     /**/ ACTOR_EN_SW,
@@ -100,140 +106,157 @@ void EnSw_CrossProduct(Vec3f* a, Vec3f* b, Vec3f* dst) {
     dst->z = (a->x * b->y) - (a->y * b->x);
 }
 
-s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
+/**
+ * Adjusts rotation of `this` to match `poly`.
+ *
+ * @return false if failed, nothing (bug) if successful.
+ */
+s32 EnSw_ClingToWall(EnSw* this, CollisionPoly* poly) {
     Vec3f polyNormal;
     Vec3f sp38;
-    f32 sp34;
-    f32 temp_f0;
+    f32 dot;
+    f32 length;
     s32 pad;
 
     this->actor.floorPoly = poly;
     polyNormal.x = COLPOLY_GET_NORMAL(poly->normal.x);
     polyNormal.y = COLPOLY_GET_NORMAL(poly->normal.y);
     polyNormal.z = COLPOLY_GET_NORMAL(poly->normal.z);
-    sp34 = Math_FAcosF(DOTXYZ(polyNormal, this->unk_364));
-    EnSw_CrossProduct(&this->unk_364, &polyNormal, &sp38);
-    Matrix_RotateAxis(sp34, &sp38, MTXMODE_NEW);
+    dot = Math_FAcosF(DOTXYZ(polyNormal, this->surfaceNormal));
+    EnSw_CrossProduct(&this->surfaceNormal, &polyNormal, &sp38);
+    Matrix_RotateAxis(dot, &sp38, MTXMODE_NEW);
     Matrix_MultVec3f(&this->unk_370, &sp38);
     this->unk_370 = sp38;
     EnSw_CrossProduct(&this->unk_370, &polyNormal, &this->unk_37C);
-    temp_f0 = Math3D_Vec3fMagnitude(&this->unk_37C);
-    if (temp_f0 < 0.001f) {
+    length = Math3D_Vec3fMagnitude(&this->unk_37C);
+    if (length < 0.001f) {
         return 0;
     }
-    this->unk_37C.x *= 1.0f / temp_f0;
-    this->unk_37C.y *= 1.0f / temp_f0;
-    this->unk_37C.z *= 1.0f / temp_f0;
-    this->unk_364 = polyNormal;
-    this->unk_3D8.xx = this->unk_370.x;
-    this->unk_3D8.yx = this->unk_370.y;
-    this->unk_3D8.zx = this->unk_370.z;
-    this->unk_3D8.wx = 0.0f;
-    this->unk_3D8.xy = this->unk_364.x;
-    this->unk_3D8.yy = this->unk_364.y;
-    this->unk_3D8.zy = this->unk_364.z;
-    this->unk_3D8.wy = 0.0f;
-    this->unk_3D8.xz = this->unk_37C.x;
-    this->unk_3D8.yz = this->unk_37C.y;
-    this->unk_3D8.zz = this->unk_37C.z;
-    this->unk_3D8.wz = 0.0f;
-    this->unk_3D8.xw = 0.0f;
-    this->unk_3D8.yw = 0.0f;
-    this->unk_3D8.zw = 0.0f;
-    this->unk_3D8.ww = 1.0f;
-    Matrix_MtxFToYXZRotS(&this->unk_3D8, &this->actor.world.rot, 0);
+    this->unk_37C.x *= 1.0f / length;
+    this->unk_37C.y *= 1.0f / length;
+    this->unk_37C.z *= 1.0f / length;
+    this->surfaceNormal = polyNormal;
+    this->rotMtxF.xx = this->unk_370.x;
+    this->rotMtxF.yx = this->unk_370.y;
+    this->rotMtxF.zx = this->unk_370.z;
+    this->rotMtxF.wx = 0.0f;
+    this->rotMtxF.xy = this->surfaceNormal.x;
+    this->rotMtxF.yy = this->surfaceNormal.y;
+    this->rotMtxF.zy = this->surfaceNormal.z;
+    this->rotMtxF.wy = 0.0f;
+    this->rotMtxF.xz = this->unk_37C.x;
+    this->rotMtxF.yz = this->unk_37C.y;
+    this->rotMtxF.zz = this->unk_37C.z;
+    this->rotMtxF.wz = 0.0f;
+    this->rotMtxF.xw = 0.0f;
+    this->rotMtxF.yw = 0.0f;
+    this->rotMtxF.zw = 0.0f;
+    this->rotMtxF.ww = 1.0f;
+    Matrix_MtxFToYXZRotS(&this->rotMtxF, &this->actor.world.rot, 0);
     //! @bug Does not return, but the return value is not used by any caller so it doesn't matter.
 }
 
-CollisionPoly* func_80B0C020(PlayState* play, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, s32* arg4) {
-    CollisionPoly* sp3C;
+/**
+ * Searches for a wall for the spider to cling to in range of `posA` and `PosB`.
+ *
+ * @return The found poly, or NULL if there aren't any in range.
+ */
+CollisionPoly* EnSw_GetPoly(PlayState* play, Vec3f* posA, Vec3f* posB, Vec3f* posOut, s32* bgId) {
+    CollisionPoly* poly;
     s32 pad;
 
-    if (!BgCheck_EntityLineTest1(&play->colCtx, arg1, arg2, arg3, &sp3C, true, true, true, false, arg4)) {
+    if (!BgCheck_EntityLineTest1(&play->colCtx, posA, posB, posOut, &poly, true, true, true, false, bgId)) {
         return NULL;
     }
 
-    if (SurfaceType_GetWallFlags(&play->colCtx, sp3C, *arg4) & WALL_FLAG_CRAWLSPACE) {
+    if (SurfaceType_GetWallFlags(&play->colCtx, poly, *bgId) & WALL_FLAG_CRAWLSPACE) {
         return NULL;
     }
 
-    if (SurfaceType_IsIgnoredByProjectiles(&play->colCtx, sp3C, *arg4)) {
+    if (SurfaceType_IsIgnoredByProjectiles(&play->colCtx, poly, *bgId)) {
         return NULL;
     }
 
-    return sp3C;
+    return poly;
 }
 
-s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
-    CollisionPoly* temp_v0_2;
-    CollisionPoly* temp_s1;
-    Vec3f sp9C;
-    Vec3f sp90;
-    Vec3f sp84;
-    Vec3f sp78;
+/**
+ * Moves the gold skulltula based on the collision normal of the surface it is attached to.
+ * The surface collision poly may change if `changePoly` is true.
+ *
+ * @return true if the gold skulltula was moved.
+ */
+s32 EnSw_GoldMove(EnSw* this, PlayState* play, s32 changePoly) {
+    CollisionPoly* newPoly;
+    CollisionPoly* poly0;
+    Vec3f newPos;
+    Vec3f posOut;
+    Vec3f posA;
+    Vec3f posB;
     s32 pad;
-    s32 sp70;
-    s32 sp6C;
-    s32 phi_s1;
-    s32 sp64;
+    s32 bgId;
+    s32 newBgId;
+    s32 i;
+    s32 ret;
 
-    sp64 = 0;
-    this->unk_42C = 1;
-    sp84 = sp78 = this->actor.world.pos;
-    sp84.x += this->unk_364.x * 18.0f;
-    sp84.y += this->unk_364.y * 18.0f;
-    sp84.z += this->unk_364.z * 18.0f;
-    sp78.x -= this->unk_364.x * 18.0f;
-    sp78.y -= this->unk_364.y * 18.0f;
-    sp78.z -= this->unk_364.z * 18.0f;
-    temp_s1 = func_80B0C020(play, &sp84, &sp78, &sp90, &sp70);
+    ret = false;
+    this->goldMoveBool = true;
+    posA = posB = this->actor.world.pos;
+    posA.x += this->surfaceNormal.x * 18.0f;
+    posA.y += this->surfaceNormal.y * 18.0f;
+    posA.z += this->surfaceNormal.z * 18.0f;
+    posB.x -= this->surfaceNormal.x * 18.0f;
+    posB.y -= this->surfaceNormal.y * 18.0f;
+    posB.z -= this->surfaceNormal.z * 18.0f;
+    poly0 = EnSw_GetPoly(play, &posA, &posB, &posOut, &bgId);
 
-    if ((temp_s1 != NULL) && (this->unk_360 == 0)) {
-        sp78.x = sp84.x + (this->unk_37C.x * 24);
-        sp78.y = sp84.y + (this->unk_37C.y * 24);
-        sp78.z = sp84.z + (this->unk_37C.z * 24);
-        temp_v0_2 = func_80B0C020(play, &sp84, &sp78, &sp9C, &sp6C);
-        if (temp_v0_2 != NULL) {
-            if (arg2 == 1) {
-                func_80B0BE20(this, temp_v0_2);
-                this->actor.world.pos = sp9C;
-                this->actor.floorBgId = sp6C;
+    // Move spider if poly avalable and not jumping/falling from hidding spot
+    if ((poly0 != NULL) && (this->goldInAir == false)) {
+        posB.x = posA.x + (this->unk_37C.x * 24);
+        posB.y = posA.y + (this->unk_37C.y * 24);
+        posB.z = posA.z + (this->unk_37C.z * 24);
+        newPoly = EnSw_GetPoly(play, &posA, &posB, &newPos, &newBgId);
+        if (newPoly != NULL) {
+            if (changePoly == true) {
+                EnSw_ClingToWall(this, newPoly);
+                this->actor.world.pos = newPos;
+                this->actor.floorBgId = newBgId;
             }
         } else {
-            if (this->actor.floorPoly != temp_s1) {
-                func_80B0BE20(this, temp_s1);
+            if (this->actor.floorPoly != poly0) {
+                EnSw_ClingToWall(this, poly0);
             }
-            this->actor.world.pos = sp90;
-            this->actor.floorBgId = sp70;
+            this->actor.world.pos = posOut;
+            this->actor.floorBgId = bgId;
         }
-        sp64 = 1;
+        ret = true;
     } else {
-        sp84 = sp78;
-        for (phi_s1 = 0; phi_s1 < 3; phi_s1++) {
-            if (phi_s1 == 0) {
-                sp78.x = sp84.x - (this->unk_37C.x * 24.0f);
-                sp78.y = sp84.y - (this->unk_37C.y * 24.0f);
-                sp78.z = sp84.z - (this->unk_37C.z * 24.0f);
-            } else if (phi_s1 == 1) {
-                sp78.x = sp84.x + (this->unk_370.x * 24.0f);
-                sp78.y = sp84.y + (this->unk_370.y * 24.0f);
-                sp78.z = sp84.z + (this->unk_370.z * 24.0f);
+        // find a new poly based on 3 24-unit line casts
+        posA = posB;
+        for (i = 0; i < 3; i++) {
+            if (i == 0) {
+                posB.x = posA.x - (this->unk_37C.x * 24.0f);
+                posB.y = posA.y - (this->unk_37C.y * 24.0f);
+                posB.z = posA.z - (this->unk_37C.z * 24.0f);
+            } else if (i == 1) {
+                posB.x = posA.x + (this->unk_370.x * 24.0f);
+                posB.y = posA.y + (this->unk_370.y * 24.0f);
+                posB.z = posA.z + (this->unk_370.z * 24.0f);
             } else {
-                sp78.x = sp84.x - (this->unk_370.x * 24.0f);
-                sp78.y = sp84.y - (this->unk_370.y * 24.0f);
-                sp78.z = sp84.z - (this->unk_370.z * 24.0f);
+                posB.x = posA.x - (this->unk_370.x * 24.0f);
+                posB.y = posA.y - (this->unk_370.y * 24.0f);
+                posB.z = posA.z - (this->unk_370.z * 24.0f);
             }
-            temp_v0_2 = func_80B0C020(play, &sp84, &sp78, &sp9C, &sp6C);
-            if (temp_v0_2 == NULL) {
+            newPoly = EnSw_GetPoly(play, &posA, &posB, &newPos, &newBgId);
+            if (newPoly == NULL) {
                 continue;
             }
-
-            if (arg2 == 1) {
-                func_80B0BE20(this, temp_v0_2);
-                this->actor.world.pos = sp9C;
-                this->actor.floorBgId = sp6C;
+            if (changePoly == true) {
+                EnSw_ClingToWall(this, newPoly);
+                this->actor.world.pos = newPos;
+                this->actor.floorBgId = newBgId;
             }
-            sp64 = 1;
+            ret = true;
             break;
         }
     }
@@ -242,7 +265,7 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 8, 0xFA0, 1);
     Math_SmoothStepToS(&this->actor.shape.rot.z, this->actor.world.rot.z, 8, 0xFA0, 1);
 
-    return sp64;
+    return ret;
 }
 
 void EnSw_Init(Actor* thisx, PlayState* play) {
@@ -256,7 +279,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
         thisx->params = PARAMS_GET_S(thisx->params, 0, 13) | (phi_v0 << 0xD);
     }
 
-    if (PARAMS_GET_S(thisx->params, 13, 3) > 0) {
+    if (ENSW_GET_TYPE(thisx) > SW_TYPE_NORMAL) {
         phi_v0 = PARAMS_GET_S(thisx->params, 8, 5) - 1;
         thisx->params = (thisx->params & ~(0x1F << 8)) | (phi_v0 << 8);
     }
@@ -275,68 +298,71 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xE), &D_80B0F074);
     this->actor.scale.x = 0.02f;
 
-    if (PARAMS_GET_S(thisx->params, 13, 3) == 0) {
+    if (ENSW_GET_TYPE(thisx) == SW_TYPE_NORMAL) {
         this->actor.world.rot.x = 0;
         this->actor.world.rot.z = 0;
         thisx->shape.rot = this->actor.world.rot;
-        this->unk_484.y = this->actor.world.pos.y;
-        this->unk_484.x = this->actor.world.pos.x + (Math_SinS(this->actor.world.rot.y) * -60.0f);
-        this->unk_484.z = this->actor.world.pos.z + (Math_CosS(this->actor.world.rot.y) * -60.0f);
-        func_80B0DFFC(this, play);
+        this->wallCast.y = this->actor.world.pos.y;
+        this->wallCast.x = this->actor.world.pos.x + (Math_SinS(this->actor.world.rot.y) * -60.0f);
+        this->wallCast.z = this->actor.world.pos.z + (Math_CosS(this->actor.world.rot.y) * -60.0f);
+        EnSw_LineTestWall(this, play);
         this->actor.home.pos = this->actor.world.pos;
     } else {
         this->unk_370.x = Math_SinS(thisx->shape.rot.y + 0x4000);
         this->unk_370.y = 0.0f;
         this->unk_370.z = Math_CosS(thisx->shape.rot.y + 0x4000);
-        this->unk_364.x = 0.0f;
-        this->unk_364.y = 1.0f;
-        this->unk_364.z = 0.0f;
+        this->surfaceNormal.x = 0.0f;
+        this->surfaceNormal.y = 1.0f;
+        this->surfaceNormal.z = 0.0f;
         this->unk_37C.x = Math_SinS(thisx->shape.rot.y);
         this->unk_37C.y = 0.0f;
         this->unk_37C.z = Math_CosS(thisx->shape.rot.y);
-        func_80B0C0CC(this, play, 1);
+        EnSw_GoldMove(this, play, true);
     }
 
-    if (PARAMS_GET_S(thisx->params, 13, 3) >= 3) {
+    if (ENSW_GET_TYPE(thisx) >= SW_TYPE_GOLD_HIDDEN_SOIL) {
         SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
     }
 
-    switch (PARAMS_GET_S(thisx->params, 13, 3)) {
-        case 3:
-        case 4:
-            this->unk_360 = 1;
+    switch (ENSW_GET_TYPE(thisx)) {
+        case SW_TYPE_GOLD_HIDDEN_SOIL:
+        case SW_TYPE_GOLD_HIDDEN_TREE:
+            // Springing out of a hidding spot
+            this->goldInAir = true;
             this->actor.velocity.y = 8.0f;
             this->actor.speed = 4.0f;
             this->actor.gravity = -1.0f;
             FALLTHROUGH;
-        case 2:
-            this->actor.scale.x = 0.0f;
+        case SW_TYPE_GOLD_NIGHT:
+            this->actor.scale.x = 0.0f; // expanding at night
             FALLTHROUGH;
-        case 1:
+        case SW_TYPE_GOLD_DEFAULT:
+            // Gold Skulltulas have double health and damage
             this->collider.elements[0].base.atDmgInfo.damage *= 2;
             this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLTULA;
             this->actor.colChkInfo.health *= 2;
             this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
             break;
+
         default:
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
             this->actor.naviEnemyId = NAVI_ENEMY_SKULLWALLTULA;
             break;
     }
 
-    this->unk_38E = Rand_S16Offset(0xF, 0x1E);
+    this->crawlTimer = Rand_S16Offset(15, 30);
     Actor_SetScale(&this->actor, this->actor.scale.x);
     this->actor.home.pos = this->actor.world.pos;
     thisx->shape.rot = this->actor.world.rot;
 
-    if (PARAMS_GET_S(thisx->params, 13, 3) >= 3) {
-        this->unk_38C = 0x28;
-        this->unk_394 = 1;
-        this->actionFunc = func_80B0D364;
-    } else if (PARAMS_GET_S(thisx->params, 13, 3) == 0) {
-        this->actionFunc = func_80B0E5E0;
+    if (ENSW_GET_TYPE(thisx) >= SW_TYPE_GOLD_HIDDEN_SOIL) {
+        this->waitTimer = 40;
+        this->deathFlamesTimer = 1;
+        this->actionFunc = EnSw_GoldHiddenSetup;
+    } else if (ENSW_GET_TYPE(thisx) == SW_TYPE_NORMAL) {
+        this->actionFunc = EnSw_SetupNormal;
     } else {
-        this->actionFunc = func_80B0D590;
+        this->actionFunc = EnSw_Crawl;
     }
 }
 
@@ -346,45 +372,48 @@ void EnSw_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->collider);
 }
 
-s32 func_80B0C9F0(EnSw* this, PlayState* play) {
+s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
     s32 phi_v1 = false;
 
-    if (this->actor.xyzDistToPlayerSq < SQ(400.0f) && PARAMS_GET_S(this->actor.params, 13, 3) == 0 &&
+    if (this->actor.xyzDistToPlayerSq < SQ(400.0f) && ENSW_GET_TYPE_EN(this) == SW_TYPE_NORMAL &&
         play->actorCtx.unk_02 != 0) {
 
         this->actor.colChkInfo.damage = this->actor.colChkInfo.health;
         phi_v1 = true;
     }
 
-    if (this->unk_392 == 0) {
+    if (this->damageTimer == 0) {
         if ((this->collider.base.acFlags & AC_HIT) || phi_v1) {
             this->collider.base.acFlags &= ~AC_HIT;
-            this->unk_392 = 0x10;
-            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, this->unk_392);
+            this->damageTimer = 0x10;
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA,
+                                 this->damageTimer);
             if (Actor_ApplyDamage(&this->actor) != 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_DAMAGE);
                 return true;
             }
             Enemy_StartFinishingBlow(play, &this->actor);
-            if (PARAMS_GET_S(this->actor.params, 13, 3) != 0) {
+            if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
+                // Gold Skulltula spins in place as it dies.
                 this->skelAnime.playSpeed = 8.0f;
                 if ((play->state.frames & 1) == 0) {
-                    this->unk_420 = 0.1f;
+                    this->rotateMag = 0.1f;
                 } else {
-                    this->unk_420 = -0.1f;
+                    this->rotateMag = -0.1f;
                 }
-                this->unk_394 = 0xA;
-                this->unk_38A = 1;
-                this->unk_420 *= 4.0f;
-                this->actionFunc = func_80B0D878;
+                this->deathFlamesTimer = 10;
+                this->animVar = 1;
+                this->rotateMag *= 4.0f;
+                this->actionFunc = EnSw_GoldDie;
             } else {
+                // Skulwalltula detaches from surface before dying.
                 this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
                 this->actor.shape.shadowAlpha = 0xFF;
-                this->unk_38A = 2;
+                this->animVar = 2;
                 this->actor.shape.shadowScale = 16.0f;
                 this->actor.gravity = -1.0f;
                 this->actor.flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-                this->actionFunc = func_80B0DB00;
+                this->actionFunc = EnSw_FallNormal;
             }
 
             Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_DEAD);
@@ -392,36 +421,39 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
         }
     }
 
-    if ((this->unk_390 == 0) && (this->collider.base.atFlags & AT_HIT)) {
-        this->unk_390 = 30;
+    if ((this->attackTimer == 0) && (this->collider.base.atFlags & AT_HIT)) {
+        this->attackTimer = 30;
     }
 
     return false;
 }
 
-void func_80B0CBE8(EnSw* this, PlayState* play) {
-    if ((PARAMS_GET_S(this->actor.params, 13, 3) > 0) && (this->actionFunc != func_80B0D590)) {
-        if (this->unk_392 != 0) {
-            this->unk_392--;
+void EnSw_SetCollider(EnSw* this, PlayState* play) {
+    if ((ENSW_GET_TYPE_EN(this) > SW_TYPE_NORMAL) && (this->actionFunc != EnSw_Crawl)) {
+        if (this->damageTimer != 0) {
+            this->damageTimer--;
         }
     } else {
-        if ((DECR(this->unk_390) == 0) && (this->actor.colChkInfo.health != 0)) {
+        if ((DECR(this->attackTimer) == 0) && (this->actor.colChkInfo.health != 0)) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
 
-        if ((DECR(this->unk_392) == 0) && (this->actor.colChkInfo.health != 0)) {
+        if ((DECR(this->damageTimer) == 0) && (this->actor.colChkInfo.health != 0)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
 
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 }
-
-s32 func_80B0CCF4(EnSw* this, f32* arg1) {
+/**
+ * Adjust rotation of `this` by `angle` relative to the floor poly it is current attached to.
+ * @return whether the rotation could be carried out.
+ */
+s32 EnSw_GetRotate(EnSw* this, f32* angle) {
     CollisionPoly* floorPoly;
-    f32 temp_f0;
+    f32 length;
     Vec3f floorPolyNormal;
-    MtxF sp2C;
+    MtxF rotMtxF;
 
     if (this->actor.floorPoly == NULL) {
         return false;
@@ -431,50 +463,56 @@ s32 func_80B0CCF4(EnSw* this, f32* arg1) {
     floorPolyNormal.x = COLPOLY_GET_NORMAL(floorPoly->normal.x);
     floorPolyNormal.y = COLPOLY_GET_NORMAL(floorPoly->normal.y);
     floorPolyNormal.z = COLPOLY_GET_NORMAL(floorPoly->normal.z);
-    Matrix_RotateAxis(*arg1, &floorPolyNormal, MTXMODE_NEW);
+    Matrix_RotateAxis(*angle, &floorPolyNormal, MTXMODE_NEW);
     Matrix_MultVec3f(&this->unk_370, &floorPolyNormal);
     this->unk_370 = floorPolyNormal;
-    EnSw_CrossProduct(&this->unk_370, &this->unk_364, &this->unk_37C);
-    temp_f0 = Math3D_Vec3fMagnitude(&this->unk_37C);
-    if (temp_f0 < 0.001f) {
+    EnSw_CrossProduct(&this->unk_370, &this->surfaceNormal, &this->unk_37C);
+    length = Math3D_Vec3fMagnitude(&this->unk_37C);
+    if (length < 0.001f) {
         return false;
     }
-    temp_f0 = 1.0f / temp_f0;
-    this->unk_37C.x *= temp_f0;
-    this->unk_37C.y *= temp_f0;
-    this->unk_37C.z *= temp_f0;
-    sp2C.xx = this->unk_370.x;
-    sp2C.yx = this->unk_370.y;
-    sp2C.zx = this->unk_370.z;
-    sp2C.wx = 0.0f;
-    sp2C.xy = this->unk_364.x;
-    sp2C.yy = this->unk_364.y;
-    sp2C.zy = this->unk_364.z;
-    sp2C.wy = 0.0f;
-    sp2C.xz = this->unk_37C.x;
-    sp2C.yz = this->unk_37C.y;
-    sp2C.zz = this->unk_37C.z;
-    sp2C.wz = 0.0f;
-    sp2C.xw = 0.0f;
-    sp2C.yw = 0.0f;
-    sp2C.zw = 0.0f;
-    sp2C.ww = 1.0f;
-    Matrix_MtxFToYXZRotS(&sp2C, &this->actor.world.rot, 0);
+    length = 1.0f / length;
+    this->unk_37C.x *= length;
+    this->unk_37C.y *= length;
+    this->unk_37C.z *= length;
+    rotMtxF.xx = this->unk_370.x;
+    rotMtxF.yx = this->unk_370.y;
+    rotMtxF.zx = this->unk_370.z;
+    rotMtxF.wx = 0.0f;
+    rotMtxF.xy = this->surfaceNormal.x;
+    rotMtxF.yy = this->surfaceNormal.y;
+    rotMtxF.zy = this->surfaceNormal.z;
+    rotMtxF.wy = 0.0f;
+    rotMtxF.xz = this->unk_37C.x;
+    rotMtxF.yz = this->unk_37C.y;
+    rotMtxF.zz = this->unk_37C.z;
+    rotMtxF.wz = 0.0f;
+    rotMtxF.xw = 0.0f;
+    rotMtxF.yw = 0.0f;
+    rotMtxF.zw = 0.0f;
+    rotMtxF.ww = 1.0f;
+    Matrix_MtxFToYXZRotS(&rotMtxF, &this->actor.world.rot, 0);
     return true;
 }
 
-void func_80B0CEA8(EnSw* this, PlayState* play) {
-    if (!(this->actor.scale.x < 0.0139999995f)) {
+/**
+ * Play the skulltula's "roll" sound if in range (and for outdoor gold skulltulas, not "sleeping")
+ */
+void EnSw_PlaySfxRoll(EnSw* this, PlayState* play) {
+    if (!(this->actor.scale.x < (140.0f * 0.0001f))) {
         Camera* activeCam = GET_ACTIVE_CAM(play);
 
         if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) >= 380.0f)) {
-            Actor_PlaySfx(&this->actor, (PARAMS_GET_S(this->actor.params, 13, 3) > 0) ? NA_SE_EN_STALGOLD_ROLL
-                                                                                      : NA_SE_EN_STALWALL_ROLL);
+            Actor_PlaySfx(&this->actor,
+                          ENSW_GET_TYPE_EN(this) > SW_TYPE_NORMAL ? NA_SE_EN_STALGOLD_ROLL : NA_SE_EN_STALWALL_ROLL);
         }
     }
 }
 
-void func_80B0CF44(EnSw* this, PlayState* play, s32 cnt) {
+/**
+ * Spawn `cnt` dust particles when a Gold Skulltula is revealed from a tree or soil plot
+ */
+void EnSw_SpawnDust(EnSw* this, PlayState* play, s32 cnt) {
     Color_RGBA8 primColor = { 80, 80, 50, 255 };
     Color_RGBA8 envColor = { 100, 100, 80, 0 };
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
@@ -493,7 +531,10 @@ void func_80B0CF44(EnSw* this, PlayState* play, s32 cnt) {
     }
 }
 
-void func_80B0D14C(EnSw* this, PlayState* play, s32 cnt) {
+/**
+ * Spawn `cnt` dust particles when a Gold Skulltula has landed on a surface
+ */
+void EnSw_SpawnDustBig(EnSw* this, PlayState* play, s32 cnt) {
     Color_RGBA8 primColor = { 80, 80, 50, 255 };
     Color_RGBA8 envColor = { 100, 100, 80, 0 };
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
@@ -512,23 +553,26 @@ void func_80B0D14C(EnSw* this, PlayState* play, s32 cnt) {
     }
 }
 
-void func_80B0D364(EnSw* this, PlayState* play) {
-    if (PARAMS_GET_S(this->actor.params, 13, 3) == 4) {
-        this->unk_38C = 0;
-        this->actionFunc = func_80B0D3AC;
-    } else {
-        this->unk_38C = 10;
-        this->actionFunc = func_80B0D3AC;
+void EnSw_GoldHiddenSetup(EnSw* this, PlayState* play) {
+    if (ENSW_GET_TYPE_EN(this) == SW_TYPE_GOLD_HIDDEN_TREE) {
+        this->waitTimer = 0;
+        this->actionFunc = EnSw_GoldHiddenReveal;
+    } else { // slight delay for Gold Skulltula in soil.
+        this->waitTimer = 10;
+        this->actionFunc = EnSw_GoldHiddenReveal;
     }
 }
 
-void func_80B0D3AC(EnSw* this, PlayState* play) {
-    if (this->unk_38C != 0) {
-        if ((this->unk_38C & 4) != 0) {
-            func_80B0CF44(this, play, 5);
+/**
+ * Action for gold skulltulas emerging from trees or soil patches.
+ */
+void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
+    if (this->waitTimer != 0) {
+        if ((this->waitTimer & 4) != 0) {
+            EnSw_SpawnDust(this, play, 5);
         }
-        this->unk_38C--;
-        if (this->unk_38C == 0) {
+        this->waitTimer--;
+        if (this->waitTimer == 0) {
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_STALGOLD_UP_CRY);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_DODO_M_UP);
         } else {
@@ -538,9 +582,10 @@ void func_80B0D3AC(EnSw* this, PlayState* play) {
 
     Math_ApproachF(&this->actor.scale.x, 0.02f, 0.2f, 0.01f);
     Actor_SetScale(&this->actor, this->actor.scale.x);
-    this->actor.world.pos.x += this->unk_364.x * this->actor.velocity.y;
-    this->actor.world.pos.y += this->unk_364.y * this->actor.velocity.y;
-    this->actor.world.pos.z += this->unk_364.z * this->actor.velocity.y;
+
+    this->actor.world.pos.x += this->surfaceNormal.x * this->actor.velocity.y;
+    this->actor.world.pos.y += this->surfaceNormal.y * this->actor.velocity.y;
+    this->actor.world.pos.z += this->surfaceNormal.z * this->actor.velocity.y;
     this->actor.world.pos.x += this->unk_37C.x * this->actor.speed;
     this->actor.world.pos.y += this->unk_37C.y * this->actor.speed;
     this->actor.world.pos.z += this->unk_37C.z * this->actor.speed;
@@ -548,32 +593,36 @@ void func_80B0D3AC(EnSw* this, PlayState* play) {
     this->actor.velocity.y = CLAMP_MIN(this->actor.velocity.y, this->actor.minVelocityY);
 
     if (this->actor.velocity.y < 0.0f) {
-        this->unk_360 = 0;
+        this->goldInAir = false;
     }
 
-    if (func_80B0C0CC(this, play, 1) == 1) {
+    if (EnSw_GoldMove(this, play, true) == true) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
-        func_80B0D14C(this, play, 8);
+        EnSw_SpawnDustBig(this, play, 8);
         this->actor.scale.x = 0.02f;
         Actor_SetScale(&this->actor, 0.02f);
-        this->actionFunc = func_80B0D590;
+        this->actionFunc = EnSw_Crawl;
         this->actor.velocity.y = 0.0f;
         this->actor.speed = 0.0f;
         this->actor.gravity = 0.0f;
     }
 }
 
-void func_80B0D590(EnSw* this, PlayState* play) {
-    f32 sp2C;
+/**
+ * Action for crawling in place
+ */
+void EnSw_Crawl(EnSw* this, PlayState* play) {
+    f32 rotAngle;
 
-    if (PARAMS_GET_S(this->actor.params, 13, 3) == 2) {
-        if (this->actor.scale.x < 0.0139999995f) {
+    // Outdoor Gold Skulltula shrinks/expands based on time
+    if (ENSW_GET_TYPE_EN(this) == SW_TYPE_GOLD_NIGHT) {
+        if (this->actor.scale.x < (140.0f * 0.0001f)) {
             this->collider.elements[0].base.atElemFlags = ATELEM_NONE;
             this->collider.elements[0].base.acElemFlags = ACELEM_NONE;
             this->collider.elements[0].base.ocElemFlags = OCELEM_NONE;
         }
 
-        if (this->actor.scale.x >= 0.0139999995f) {
+        if (this->actor.scale.x >= (140.0f * 0.0001f)) {
             this->collider.elements[0].base.atElemFlags = ATELEM_ON;
             this->collider.elements[0].base.acElemFlags = ACELEM_ON;
             this->collider.elements[0].base.ocElemFlags = OCELEM_ON;
@@ -583,52 +632,56 @@ void func_80B0D590(EnSw* this, PlayState* play) {
         Actor_SetScale(&this->actor, this->actor.scale.x);
     }
 
-    if (this->unk_38E != 0) {
-        this->unk_38E--;
-        if (this->unk_38E == 0) {
-            func_80B0CEA8(this, play);
-            this->unk_420 = ((play->state.frames % 2) == 0) ? 0.1f : -0.1f;
-            this->unk_38A = 1;
-            this->unk_38C = Rand_S16Offset(30, 60);
-            if (PARAMS_GET_S(this->actor.params, 13, 3) != 0) {
-                this->unk_38C *= 2;
-                this->unk_420 *= 2.0f;
+    if (this->crawlTimer != 0) {
+        this->crawlTimer--;
+        if (this->crawlTimer == 0) {
+            EnSw_PlaySfxRoll(this, play);
+            this->rotateMag = ((play->state.frames % 2) == 0) ? 0.1f : -0.1f;
+            this->animVar = 1;
+            this->waitTimer = Rand_S16Offset(30, 60);
+            if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
+                this->waitTimer *= 2;
+                this->rotateMag *= 2.0f;
             }
         }
     } else {
-        this->unk_38C--;
-        if (this->unk_38C == 0) {
-            this->unk_38E = Rand_S16Offset(15, 30);
-            this->unk_38A = 0;
+        this->waitTimer--;
+        if (this->waitTimer == 0) {
+            this->crawlTimer = Rand_S16Offset(15, 30);
+            this->animVar = 0;
             this->skelAnime.playSpeed = 0.0f;
-            if (PARAMS_GET_S(this->actor.params, 13, 3) != 0) {
-                this->unk_38E /= 2;
+            if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
+                this->crawlTimer /= 2;
             }
-        } else if (this->unk_38A != 0) {
-            this->unk_38A--;
-            this->skelAnime.playSpeed = (this->unk_38A == 0) ? 4.0f : 0.0f;
+        } else if (this->animVar != 0) {
+            this->animVar--;
+            this->skelAnime.playSpeed = (this->animVar == 0) ? 4.0f : 0.0f;
 
             if (this->skelAnime.playSpeed > 0.0f) {
-                func_80B0CEA8(this, play);
+                EnSw_PlaySfxRoll(this, play);
             }
-            if (PARAMS_GET_S(this->actor.params, 13, 3) != 0) {
+            // Gold Skulltulas move faster
+            if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
                 this->skelAnime.playSpeed *= 2.0f;
             }
         } else {
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) == 1) {
-                this->unk_38A = 2;
+                this->animVar = 2;
             }
-            sp2C = 32768.0f / this->skelAnime.endFrame;
-            sp2C *= this->skelAnime.curFrame;
-            sp2C = Math_SinS(sp2C) * this->unk_420;
-            func_80B0CCF4(this, &sp2C);
+            rotAngle = 32768.0f / this->skelAnime.endFrame;
+            rotAngle *= this->skelAnime.curFrame;
+            rotAngle = Math_SinS(rotAngle) * this->rotateMag;
+            EnSw_GetRotate(this, &rotAngle);
             this->actor.shape.rot = this->actor.world.rot;
         }
     }
 }
 
-void func_80B0D878(EnSw* this, PlayState* play) {
-    Actor* temp_v0;
+/**
+ * Death action for gold skulltulas
+ */
+void EnSw_GoldDie(EnSw* this, PlayState* play) {
+    Actor* token;
     Vec3f pos;
     Vec3f velAndAccel = { 0.0f, 0.5f, 0.0f };
     f32 x;
@@ -636,28 +689,30 @@ void func_80B0D878(EnSw* this, PlayState* play) {
     f32 z;
 
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) == 1) {
-        func_80B0CEA8(this, play);
+        EnSw_PlaySfxRoll(this, play);
     }
 
-    func_80B0CCF4(this, &this->unk_420);
+    EnSw_GetRotate(this, &this->rotateMag);
     this->actor.shape.rot = this->actor.world.rot;
 
-    if ((this->unk_394 == 0) && (this->unk_392 == 0)) {
+    if ((this->deathFlamesTimer == 0) && (this->damageTimer == 0)) {
+        // spawn token 10 units from surface normal.
         SFX_PLAY_CENTERED(NA_SE_SY_KINSTA_MARK_APPEAR);
-        x = (this->unk_364.x * 10.0f);
-        y = (this->unk_364.y * 10.0f);
-        z = (this->unk_364.z * 10.0f);
-        temp_v0 =
+        x = (this->surfaceNormal.x * 10.0f);
+        y = (this->surfaceNormal.y * 10.0f);
+        z = (this->surfaceNormal.z * 10.0f);
+        token =
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_SI, this->actor.world.pos.x + x,
                                this->actor.world.pos.y + y, this->actor.world.pos.z + z, 0, 0, 0, this->actor.params);
-        if (temp_v0 != NULL) {
-            temp_v0->parent = NULL;
+        if (token != NULL) {
+            token->parent = NULL;
         }
         Actor_Kill(&this->actor);
         return;
     }
 
-    if ((this->unk_392 == 0) && (DECR(this->unk_394) != 0)) {
+    // spawn death flames
+    if ((this->damageTimer == 0) && (DECR(this->deathFlamesTimer) != 0)) {
         pos = this->actor.world.pos;
         pos.y += 10.0f + ((Rand_ZeroOne() - 0.5f) * 6.0f);
         pos.x += (Rand_ZeroOne() - 0.5f) * 32.0f;
@@ -666,13 +721,17 @@ void func_80B0D878(EnSw* this, PlayState* play) {
     }
 }
 
-void func_80B0DB00(EnSw* this, PlayState* play) {
+/**
+ * Action for skullwalltulas falling from their surface when killed
+ */
+void EnSw_FallNormal(EnSw* this, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
     this->actor.shape.rot.x += 0x1000;
     this->actor.shape.rot.z += 0x1000;
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !(0.0f <= this->actor.velocity.y)) {
+        // kill if out-of-bounds.
         if (this->actor.floorHeight <= BGCHECK_Y_MIN || this->actor.floorHeight >= 32000.0f) {
             Actor_Kill(&this->actor);
             return;
@@ -680,11 +739,14 @@ void func_80B0DB00(EnSw* this, PlayState* play) {
 
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
 
-        if (this->unk_38A == 0) {
-            this->actionFunc = func_80B0DC7C;
-            this->unk_394 = 10;
+        if (this->animVar == 0) {
+            // start death flames if stopped bouncing
+            this->actionFunc = EnSw_NormalDie;
+            this->deathFlamesTimer = 10;
         } else {
-            this->actor.velocity.y = ((this->unk_38A--) * 8.0f) * 0.5f;
+            // another bounce
+            this->actor.velocity.y = (this->animVar * 8.0f) * 0.5f;
+            this->animVar--;
         }
 
         Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
@@ -692,11 +754,14 @@ void func_80B0DB00(EnSw* this, PlayState* play) {
     }
 }
 
-void func_80B0DC7C(EnSw* this, PlayState* play) {
+/**
+ * Death action for skullwalltulas, once they hit a floor
+ */
+void EnSw_NormalDie(EnSw* this, PlayState* play) {
     Vec3f velAndAccel = { 0.0f, 0.5f, 0.0f };
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
 
-    if (DECR(this->unk_394) != 0) {
+    if (DECR(this->deathFlamesTimer) != 0) {
         pos.y = ((Rand_ZeroOne() - 0.5f) * 6.0f) + (this->actor.world.pos.y + 10.0f);
         pos.x = ((Rand_ZeroOne() - 0.5f) * 32.0f) + this->actor.world.pos.x;
         pos.z = ((Rand_ZeroOne() - 0.5f) * 32.0f) + this->actor.world.pos.z;
@@ -709,81 +774,97 @@ void func_80B0DC7C(EnSw* this, PlayState* play) {
     }
 }
 
-s16 func_80B0DE34(EnSw* this, Vec3f* arg1) {
+s16 EnSw_GetTargetPitch(EnSw* this, Vec3f* target) {
     s16 pitch;
     s16 yaw;
 
-    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, arg1) - this->actor.wallYaw;
-    pitch = Math_Vec3f_Pitch(&this->actor.world.pos, arg1) - 0x4000;
+    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, target) - this->actor.wallYaw;
+    pitch = Math_Vec3f_Pitch(&this->actor.world.pos, target) - 0x4000;
     return pitch * (yaw >= 0 ? -1 : 1);
 }
 
-s32 func_80B0DEA8(EnSw* this, PlayState* play, s32 arg2) {
+/**
+ * Used by Skullwalltula to determine if the player can be dashed towards.
+ * `arg2` will be checked alongside 2 player state flags (associated w/ climbing?)
+ */
+s32 EnSW_CanDashPlayer(EnSw* this, PlayState* play, s32 arg2) {
     Player* player = GET_PLAYER(play);
-    CollisionPoly* sp58;
-    s32 sp54;
-    Vec3f sp48;
+    CollisionPoly* poly;
+    s32 bgId;
+    Vec3f pos;
 
+    // Check if Link is in climbing state(?)
     if (!(player->stateFlags1 & PLAYER_STATE1_21) && arg2) {
         return false;
     } else if (func_8002DDF4(play) && arg2) {
         return false;
-    } else if (ABS(func_80B0DE34(this, &player->actor.world.pos) - this->actor.shape.rot.z) >= 0x1FC2) {
+        // check Link's Angle
+    } else if (ABS(EnSw_GetTargetPitch(this, &player->actor.world.pos) - this->actor.shape.rot.z) >= 8130) {
         return false;
+        // is Link in dash range?
     } else if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.world.pos) >= 130.0f) {
         return false;
-    } else if (!BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &player->actor.world.pos, &sp48, &sp58,
-                                        true, false, false, true, &sp54)) {
+        // are there no obstructions?
+    } else if (!BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &player->actor.world.pos, &pos, &poly,
+                                        true, false, false, true, &bgId)) {
         return true;
     } else {
         return false;
     }
 }
 
-s32 func_80B0DFFC(EnSw* this, PlayState* play) {
+/**
+ * Skullwalltula line test to determine walls visible from its "eyes" and detect/adjust bottom position.
+ */
+s32 EnSw_LineTestWall(EnSw* this, PlayState* play) {
     s32 pad;
-    CollisionPoly* sp60;
-    s32 sp5C;
-    Vec3f sp50;
-    s32 sp4C = true;
+    CollisionPoly* poly;
+    s32 bgId;
+    Vec3f posResult;
+    s32 ret = true;
 
     if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        sp4C = false;
+        ret = false;
+        // rotates through the 4 "eyes" each frame.
     } else if (((play->state.frames % 4) == 0) &&
-               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_454, &sp50, &sp60, true,
-                                        false, false, true, &sp5C)) {
-        sp4C = false;
+               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine0, &posResult, &poly, true,
+                                        false, false, true, &bgId)) {
+        ret = false;
     } else if (((play->state.frames % 4) == 1) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_460, &sp50, &sp60, true, false,
-                                       false, true, &sp5C)) {
-        sp4C = false;
+               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine1, &posResult, &poly, true,
+                                       false, false, true, &bgId)) {
+        ret = false;
     } else if (((play->state.frames % 4) == 2) &&
-               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_46C, &sp50, &sp60, true,
-                                        false, false, true, &sp5C)) {
+               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine2, &posResult, &poly, true,
+                                        false, false, true, &bgId)) {
         if (0) {}
-        sp4C = false;
+        ret = false;
     } else if (((play->state.frames % 4) == 3) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_478, &sp50, &sp60, true, false,
-                                       false, true, &sp5C)) {
-        sp4C = false;
+               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine3, &posResult, &poly, true,
+                                       false, false, true, &bgId)) {
+        ret = false;
     }
 
-    if (BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_484, &sp50, &this->unk_430, true,
-                                false, false, true, &sp5C)) {
-        this->actor.wallYaw = RAD_TO_BINANG(Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z));
-        this->actor.world.pos = sp50;
+    if (BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->wallCast, &posResult, &this->wallPoly,
+                                true, false, false, true, &bgId)) {
+        this->actor.wallYaw = RAD_TO_BINANG(Math_FAtan2F(this->wallPoly->normal.x, this->wallPoly->normal.z));
+        this->actor.world.pos = posResult;
         this->actor.world.pos.x += 6.0f * Math_SinS(this->actor.world.rot.y);
         this->actor.world.pos.z += 6.0f * Math_CosS(this->actor.world.rot.y);
-        this->unk_434 = sp50;
+        this->unk_434 = posResult;
         this->unk_434.x += Math_SinS(this->actor.world.rot.y);
         this->unk_434.z += Math_CosS(this->actor.world.rot.y);
     }
 
-    return sp4C;
+    return ret;
 }
 
-void func_80B0E314(EnSw* this, Vec3f arg1, f32 arg4) {
+/**
+ * Used by Skullwalltulas to move to `targetPos` at a top speed of `speedTarget`
+ * while dashing or retreating.
+ */
+void EnSw_Move(EnSw* this, Vec3f targetPos, f32 speedTarget) {
     f32 xDist;
     f32 yDist;
     f32 zDist;
@@ -792,10 +873,10 @@ void func_80B0E314(EnSw* this, Vec3f arg1, f32 arg4) {
     f32 yDiff;
     f32 zDiff;
 
-    Math_SmoothStepToF(&this->actor.speed, arg4, 0.3f, 100.0f, 0.1f);
-    xDiff = arg1.x - this->actor.world.pos.x;
-    yDiff = arg1.y - this->actor.world.pos.y;
-    zDiff = arg1.z - this->actor.world.pos.z;
+    Math_SmoothStepToF(&this->actor.speed, speedTarget, 0.3f, 100.0f, 0.1f);
+    xDiff = targetPos.x - this->actor.world.pos.x;
+    yDiff = targetPos.y - this->actor.world.pos.y;
+    zDiff = targetPos.z - this->actor.world.pos.z;
     dist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff));
     if (dist == 0.0f) {
         xDist = yDist = zDist = 0.0f;
@@ -812,16 +893,16 @@ void func_80B0E314(EnSw* this, Vec3f arg1, f32 arg4) {
     this->actor.world.pos.z += zDist;
 }
 
-s32 func_80B0E430(EnSw* this, f32 arg1, s16 arg2, s32 arg3, PlayState* play) {
+s32 EnSw_SetCrawlAnimation(EnSw* this, f32 target, s16 step, s32 arg3, PlayState* play) {
     Camera* activeCam;
     f32 lastFrame = Animation_GetLastFrame(&object_st_Anim_000304);
 
-    if (DECR(this->unk_388) != 0) {
+    if (DECR(this->animTimer) != 0) {
         Math_SmoothStepToF(&this->skelAnime.playSpeed, 0.0f, 0.6f, 1000.0f, 0.01f);
         return 0;
     }
 
-    Math_SmoothStepToF(&this->skelAnime.playSpeed, arg1, 0.6f, 1000.0f, 0.01f);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, target, 0.6f, 1000.0f, 0.01f);
 
     if ((arg3 == 1) && (lastFrame < (this->skelAnime.curFrame + this->skelAnime.playSpeed))) {
         return 0;
@@ -830,91 +911,96 @@ s32 func_80B0E430(EnSw* this, f32 arg1, s16 arg2, s32 arg3, PlayState* play) {
     activeCam = GET_ACTIVE_CAM(play);
 
     if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) < 380.0f) {
-        if (DECR(this->unk_440) == 0) {
+        if (DECR(this->sfxTimer) == 0) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_ROLL);
-            this->unk_440 = 4;
+            this->sfxTimer = 4;
         }
     } else {
-        this->unk_440 = 0;
+        this->sfxTimer = 0;
     }
-    Math_SmoothStepToS(&this->actor.shape.rot.z, this->unk_444, 4, arg2, arg2);
+    Math_SmoothStepToS(&this->actor.shape.rot.z, this->rotZTarget, 4, step, step);
     this->actor.world.rot = this->actor.shape.rot;
-    if (this->actor.shape.rot.z == this->unk_444) {
+    if (this->actor.shape.rot.z == this->rotZTarget) {
         return 1;
     }
     return 0;
 }
 
-void func_80B0E5E0(EnSw* this, PlayState* play) {
+void EnSw_SetupNormal(EnSw* this, PlayState* play) {
     s32 pad[2];
     f32 rand;
 
-    if (func_80B0E430(this, 6.0f, 0x3E8, 1, play)) {
+    if (EnSw_SetCrawlAnimation(this, 6.0f, 1000, 1, play)) {
         rand = Rand_ZeroOne();
-        this->unk_444 =
-            ((s16)(20000.0f * rand) + 0x2EE0) * (Rand_ZeroOne() >= 0.5f ? 1.0f : -1.0f) + this->actor.world.rot.z;
-        this->unk_388 = Rand_S16Offset(10, 30);
+        this->rotZTarget =
+            ((s16)(20000.0f * rand) + 12000) * (Rand_ZeroOne() >= 0.5f ? 1.0f : -1.0f) + this->actor.world.rot.z;
+        this->animTimer = Rand_S16Offset(10, 30);
     }
 
-    if ((DECR(this->unk_442) == 0) && (func_80B0DEA8(this, play, 1))) {
+    if ((DECR(this->dashTimer) == 0) && (EnSW_CanDashPlayer(this, play, true))) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_LAUGH);
-        this->unk_442 = 20;
-        this->actionFunc = func_80B0E728;
+        this->dashTimer = 20;
+        this->actionFunc = EnSw_Dash;
     }
 }
 
-void func_80B0E728(EnSw* this, PlayState* play) {
+void EnSw_Dash(EnSw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 pad;
 
-    if (DECR(this->unk_442) != 0) {
-        if (func_80B0DEA8(this, play, 1)) {
-            this->unk_448 = player->actor.world.pos;
-            this->unk_448.y += 30.0f;
-            this->unk_444 = func_80B0DE34(this, &this->unk_448);
-            func_80B0E430(this, 6.0f, (u16)0xFA0, 0, play);
+    if (DECR(this->dashTimer) != 0) {
+        if (EnSW_CanDashPlayer(this, play, true)) {
+            this->targetPos = player->actor.world.pos;
+            this->targetPos.y += 30.0f;
+            this->rotZTarget = EnSw_GetTargetPitch(this, &this->targetPos);
+            EnSw_SetCrawlAnimation(this, 6.0f, 4000, 0, play);
         } else {
-            this->actionFunc = func_80B0E5E0;
+            this->actionFunc = EnSw_SetupNormal;
         }
     } else {
-        if (!func_80B0DFFC(this, play)) {
-            this->unk_442 = Rand_S16Offset(20, 10);
-            this->unk_444 = func_80B0DE34(this, &this->actor.home.pos);
-            this->unk_448 = this->actor.home.pos;
-            this->actionFunc = func_80B0E9BC;
+        if (!EnSw_LineTestWall(this, play)) {
+            this->dashTimer = Rand_S16Offset(20, 10);
+            this->rotZTarget = EnSw_GetTargetPitch(this, &this->actor.home.pos);
+            this->targetPos = this->actor.home.pos;
+            this->actionFunc = EnSw_GoHome;
         } else {
-            func_80B0E314(this, this->unk_448, 8.0f);
-
-            if (DECR(this->unk_440) == 0) {
+            EnSw_Move(this, this->targetPos, 8.0f);
+            if (DECR(this->sfxTimer) == 0) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_DASH);
-                this->unk_440 = 4;
+                this->sfxTimer = 4;
             }
 
-            if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->unk_448) > 13.0f) || func_8002DDF4(play)) {
-                this->actionFunc = func_80B0E90C;
+            if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->targetPos) > 13.0f) || func_8002DDF4(play)) {
+                this->actionFunc = EnSw_SetupGoHome;
             }
         }
     }
 }
 
-void func_80B0E90C(EnSw* this, PlayState* play) {
+/**
+ * Setup action for skullwalltulas returning to their home position after dashing
+ */
+void EnSw_SetupGoHome(EnSw* this, PlayState* play) {
     s32 pad;
 
-    func_80B0E314(this, this->unk_448, 0.0f);
+    EnSw_Move(this, this->targetPos, 0.0f);
     if (this->actor.speed == 0.0f) {
-        this->unk_444 = func_80B0DE34(this, &this->actor.home.pos);
-        this->unk_448 = this->actor.home.pos;
-        this->actionFunc = func_80B0E9BC;
+        this->rotZTarget = EnSw_GetTargetPitch(this, &this->actor.home.pos);
+        this->targetPos = this->actor.home.pos;
+        this->actionFunc = EnSw_GoHome;
     }
 }
 
-void func_80B0E9BC(EnSw* this, PlayState* play) {
+/**
+ * Action for skullwalltulas returning to their home position after dashing
+ */
+void EnSw_GoHome(EnSw* this, PlayState* play) {
     s32 pad;
 
-    if (func_80B0E430(this, 6.0f, 0x3E8, 0, play)) {
-        func_80B0E314(this, this->unk_448, 2.0f);
-        if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->unk_448) > 4.0f)) {
-            this->actionFunc = func_80B0E5E0;
+    if (EnSw_SetCrawlAnimation(this, 6.0f, 1000, 0, play)) {
+        EnSw_Move(this, this->targetPos, 2.0f);
+        if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->targetPos) > 4.0f)) {
+            this->actionFunc = EnSw_SetupNormal;
         }
     }
 }
@@ -923,71 +1009,71 @@ void EnSw_Update(Actor* thisx, PlayState* play) {
     EnSw* this = (EnSw*)thisx;
 
     SkelAnime_Update(&this->skelAnime);
-    func_80B0C9F0(this, play);
+    EnSw_CheckDamage(this, play);
     this->actionFunc(this, play);
-    func_80B0CBE8(this, play);
+    EnSw_SetCollider(this, play);
 }
 
 s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    Vec3f sp7C = { 1400.0f, -2600.0f, -800.0f };
-    Vec3f sp70 = { 1400.0f, -1600.0f, 0.0f };
-    Vec3f sp64 = { -1400.0f, -2600.0f, -800.0f };
-    Vec3f sp58 = { -1400.0f, -1600.0f, 0.0f };
-    Vec3f sp4C = { 0.0, 0.0f, -600.0f };
+    Vec3f sightPos0 = { 1400.0f, -2600.0f, -800.0f };
+    Vec3f sightPos1 = { 1400.0f, -1600.0f, 0.0f };
+    Vec3f sightPos2 = { -1400.0f, -2600.0f, -800.0f };
+    Vec3f sightPos3 = { -1400.0f, -1600.0f, 0.0f };
+    Vec3f bottomPos = { 0.0, 0.0f, -600.0f };
     EnSw* this = (EnSw*)thisx;
-    Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sw.c", 2084);
 
-    if (PARAMS_GET_S(this->actor.params, 13, 3) != 0) {
-        switch (limbIndex) {
+    if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
+        switch (limbIndex) { // replace with Gold Skulltula body parts.
             case 23:
-                *dList = object_st_DL_004788;
+                *dList = gGoldSkulltulaLimb23Dlist;
                 break;
             case 8:
-                *dList = object_st_DL_0046F0;
+                *dList = gGoldSkulltulaLimb8Dlist;
                 break;
             case 14:
-                *dList = object_st_DL_004658;
+                *dList = gGoldSkulltulaLimb14Dlist;
                 break;
             case 11:
-                *dList = object_st_DL_0045C0;
+                *dList = gGoldSkulltulaLimb11Dlist;
                 break;
             case 26:
-                *dList = object_st_DL_004820;
+                *dList = gGoldSkulltulaLimb26Dlist;
                 break;
             case 20:
-                *dList = object_st_DL_0048B8;
+                *dList = gGoldSkulltulaLimb20Dlist;
                 break;
             case 17:
-                *dList = object_st_DL_004950;
+                *dList = gGoldSkulltulaLimb17Dlist;
                 break;
             case 29:
-                *dList = object_st_DL_0049E8;
+                *dList = gGoldSkulltulaLimb29Dlist;
                 break;
             case 5:
-                *dList = object_st_DL_003FB0;
+                *dList = gGoldSkulltulaLimb5Dlist;
                 break;
             case 4:
-                *dList = object_st_DL_0043D8;
+                *dList = gGoldSkulltulaLimb4Dlist;
                 break;
         }
     }
 
-    if (limbIndex == 1) {
-        Matrix_MultVec3f(&sp7C, &this->unk_454);
-        Matrix_MultVec3f(&sp70, &this->unk_460);
-        Matrix_MultVec3f(&sp64, &this->unk_46C);
-        Matrix_MultVec3f(&sp58, &this->unk_478);
-        Matrix_MultVec3f(&sp4C, &this->unk_484);
+    if (limbIndex == 1) { // calculate eyelines.
+        Matrix_MultVec3f(&sightPos0, &this->eyeLine0);
+        Matrix_MultVec3f(&sightPos1, &this->eyeLine1);
+        Matrix_MultVec3f(&sightPos2, &this->eyeLine2);
+        Matrix_MultVec3f(&sightPos3, &this->eyeLine3);
+        Matrix_MultVec3f(&bottomPos, &this->wallCast);
     }
 
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&sp3C, &this->actor.focus.pos);
+        Matrix_MultVec3f(&zeroVec, &this->actor.focus.pos);
     }
 
-    if (limbIndex == 4) {
-        gDPSetEnvColor(POLY_OPA_DISP++, this->unk_1F4.r, this->unk_1F4.g, this->unk_1F4.b, 0);
+    if (limbIndex == 4) { // head?
+        gDPSetEnvColor(POLY_OPA_DISP++, this->limb4Color.r, this->limb4Color.g, this->limb4Color.b, 0);
     }
 
     Collider_UpdateSpheres(limbIndex, &this->collider);
@@ -1000,23 +1086,27 @@ s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnSw_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 }
 
-void func_80B0EDB8(PlayState* play, Color_RGBA8* arg1, s16 arg2, s16 arg3) {
-    f32 temp_f2;
+/**
+ * Gives skullwalltulas a tint of `color` with an intensity based on `distA` and `distB`
+ * while dashing or preparing to dash.
+ */
+void EnSw_SetFog(PlayState* play, Color_RGBA8* color, s16 distA, s16 distB) {
+    f32 far;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sw.c", 2181);
 
-    temp_f2 = (11500.0f / arg3) * (arg3 - arg2);
+    far = (11500.0f / distB) * (distB - distA);
 
-    if (0.0f == temp_f2) {
-        temp_f2 = 11500;
+    if (0.0f == far) {
+        far = 11500;
     }
 
-    POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, arg1->r, arg1->g, arg1->b, arg1->a, 0, (s16)temp_f2);
+    POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, color->r, color->g, color->b, color->a, 0, (s16)far);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_sw.c", 2197);
 }
 
-void func_80B0EEA4(PlayState* play) {
+void EnSw_RestoreFog(PlayState* play) {
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sw.c", 2205);
@@ -1028,22 +1118,22 @@ void func_80B0EEA4(PlayState* play) {
 
 void EnSw_Draw(Actor* thisx, PlayState* play) {
     EnSw* this = (EnSw*)thisx;
-    Color_RGBA8 sp30 = { 184, 0, 228, 255 };
+    Color_RGBA8 color = { 184, 0, 228, 255 }; // violet tint when dashing.
 
-    if (PARAMS_GET_S(this->actor.params, 13, 3) != 0) {
+    if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
         Matrix_RotateX(DEG_TO_RAD(-80), MTXMODE_APPLY);
         if (this->actor.colChkInfo.health != 0) {
             Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         }
         func_8002EBCC(&this->actor, play, 0);
-    } else if (this->actionFunc == func_80B0E728) {
-        func_80B0EDB8(play, &sp30, 0x14, 0x1E);
+    } else if (this->actionFunc == EnSw_Dash) {
+        EnSw_SetFog(play, &color, 20, 30);
     }
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSw_OverrideLimbDraw,
                       EnSw_PostLimbDraw, this);
-    if (this->actionFunc == func_80B0E728) {
-        func_80B0EEA4(play);
+    if (this->actionFunc == EnSw_Dash) {
+        EnSw_RestoreFog(play);
     }
 }
