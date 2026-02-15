@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "item.h"
+#include "upgrade.h"
 
 struct PlayState;
 

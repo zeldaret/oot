@@ -536,7 +536,7 @@ void EnOssan_TalkGoronShopkeeper(PlayState* play) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         if (GET_EVENTCHKINF(EVENTCHKINF_25)) {
             Message_ContinueTextbox(play, 0x3028);
-        } else if (CUR_UPG_VALUE(UPG_STRENGTH) != 0) {
+        } else if (CUR_UPG_VALUE(UPG_STRENGTH) != UPG_STRENGTH_NONE) {
             Message_ContinueTextbox(play, 0x302D);
         } else {
             Message_ContinueTextbox(play, 0x300F);

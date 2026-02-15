@@ -76,18 +76,6 @@ typedef enum EquipValueBoots {
     /* 4 */ EQUIP_VALUE_BOOTS_MAX
 } EquipValueBoots;
 
-typedef enum UpgradeType {
-    /* 0x00 */ UPG_QUIVER,
-    /* 0x01 */ UPG_BOMB_BAG,
-    /* 0x02 */ UPG_STRENGTH,
-    /* 0x03 */ UPG_SCALE,
-    /* 0x04 */ UPG_WALLET,
-    /* 0x05 */ UPG_BULLET_BAG,
-    /* 0x06 */ UPG_DEKU_STICKS,
-    /* 0x07 */ UPG_DEKU_NUTS,
-    /* 0x08 */ UPG_MAX
-} UpgradeType;
-
 typedef enum QuestItem {
     /* 0x00 */ QUEST_MEDALLION_FOREST,
     /* 0x01 */ QUEST_MEDALLION_FIRE,
