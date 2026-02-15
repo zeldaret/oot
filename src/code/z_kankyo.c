@@ -1005,14 +1005,14 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
 #if DEBUG_FEATURES
         if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
-            Gfx* gfxAllocDisp;
-            Gfx* tempGfx;
+            Gfx* gfxChild;
+            Gfx* gfxBufRef;
 
             OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1682);
 
-            GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
-            Environment_PrintDebugInfo(play, &gfxAllocDisp);
-            GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
+            GFX_ALLOC_OPEN(gfxChild, gfxBufRef, OVERLAY_DISP);
+            Environment_PrintDebugInfo(play, &gfxChild);
+            GFX_ALLOC_CLOSE(gfxChild, gfxBufRef);
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1690);
         }

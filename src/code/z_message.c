@@ -4044,8 +4044,8 @@ void Message_DrawDebugText(PlayState* play, Gfx** p) {
 #endif
 
 void Message_Draw(PlayState* play) {
-    Gfx* gfxAllocDisp;
-    Gfx* tempGfx;
+    Gfx* gfxChild;
+    Gfx* gfxBufRef;
 #if OOT_VERSION < GC_US
     s32 pad;
 #endif
@@ -4059,15 +4059,15 @@ void Message_Draw(PlayState* play) {
     watchVar = gSaveContext.save.info.scarecrowLongSongSet;
     Message_DrawDebugVariableChanged(&watchVar, play->state.gfxCtx);
     if (BREG(0) != 0 && play->msgCtx.textId != 0) {
-        GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
-        Message_DrawDebugText(play, &gfxAllocDisp);
-        GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
+        GFX_ALLOC_OPEN(gfxChild, gfxBufRef, OVERLAY_DISP);
+        Message_DrawDebugText(play, &gfxChild);
+        GFX_ALLOC_CLOSE(gfxChild, gfxBufRef);
     }
 #endif
 
-    GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
-    Message_DrawMain(play, &gfxAllocDisp);
-    GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
+    GFX_ALLOC_OPEN(gfxChild, gfxBufRef, OVERLAY_DISP);
+    Message_DrawMain(play, &gfxChild);
+    GFX_ALLOC_CLOSE(gfxChild, gfxBufRef);
     CLOSE_DISPS(play->state.gfxCtx, "../z_message_PAL.c", 3582);
 }
 

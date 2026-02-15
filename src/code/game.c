@@ -193,21 +193,21 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfxP) {
 #endif
 
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
-    Gfx* gfxAllocDisp;
-    Gfx* tempGfx;
+    Gfx* gfxChild;
+    Gfx* gfxBufRef;
 
     OPEN_DISPS(gfxCtx, "../game.c", 746);
 
-    GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
+    GFX_ALLOC_OPEN(gfxChild, gfxBufRef, OVERLAY_DISP);
 
     if (R_ENABLE_FB_FILTER == 1) {
-        GameState_SetFBFilter(&gfxAllocDisp);
+        GameState_SetFBFilter(&gfxChild);
     }
 
 #if DEBUG_FEATURES
     sLastButtonPressed = gameState->input[0].press.button | gameState->input[0].cur.button;
     if (R_DISABLE_INPUT_DISPLAY == 0) {
-        GameState_DrawInputDisplay(sLastButtonPressed, &gfxAllocDisp);
+        GameState_DrawInputDisplay(sLastButtonPressed, &gfxChild);
     }
 
     if (R_ENABLE_AUDIO_DBG & 1) {
@@ -215,9 +215,9 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
         GfxPrint printer;
 
         GfxPrint_Init(&printer);
-        GfxPrint_Open(&printer, gfxAllocDisp);
+        GfxPrint_Open(&printer, gfxChild);
         AudioDebug_Draw(&printer);
-        gfxAllocDisp = GfxPrint_Close(&printer);
+        gfxChild = GfxPrint_Close(&printer);
         GfxPrint_Destroy(&printer);
     }
 #endif
@@ -234,7 +234,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
         R_ENABLE_ARENA_DBG = 0;
     }
 
-    GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
+    GFX_ALLOC_CLOSE(gfxChild, gfxBufRef);
 
     CLOSE_DISPS(gfxCtx, "../game.c", 800);
 
@@ -263,20 +263,20 @@ void GameState_SetFrameBuffer(GraphicsContext* gfxCtx) {
 }
 
 void func_800C49F4(GraphicsContext* gfxCtx) {
-    Gfx* gfxAllocDisp;
-    Gfx* tempGfx;
+    Gfx* gfxChild;
+    Gfx* gfxBufRef;
 
     OPEN_DISPS(gfxCtx, "../game.c", 846);
 
-    GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
+    GFX_ALLOC_OPEN(gfxChild, gfxBufRef, OVERLAY_DISP);
 
 #if PLATFORM_N64
     if (D_80121212 != 0) {
-        func_801C6EA0(&gfxAllocDisp);
+        func_801C6EA0(&gfxChild);
     }
 #endif
 
-    GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
+    GFX_ALLOC_CLOSE(gfxChild, gfxBufRef);
 
     CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }

@@ -2246,14 +2246,14 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
     if (gSaveContext.save.cutsceneIndex >= CS_INDEX_0) {
 #if DEBUG_FEATURES
         if (BREG(0) != 0) {
-            Gfx* gfxAllocDisp;
-            Gfx* tempGfx;
+            Gfx* gfxChild;
+            Gfx* gfxBufRef;
 
             OPEN_DISPS(play->state.gfxCtx, "../z_demo.c", 4101);
 
-            GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
-            Cutscene_DrawDebugInfo(play, &gfxAllocDisp, csCtx);
-            GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
+            GFX_ALLOC_OPEN(gfxChild, gfxBufRef, OVERLAY_DISP);
+            Cutscene_DrawDebugInfo(play, &gfxChild, csCtx);
+            GFX_ALLOC_CLOSE(gfxChild, gfxBufRef);
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_demo.c", 4108);
         }

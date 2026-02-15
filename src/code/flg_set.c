@@ -76,8 +76,8 @@ void FlagSet_Update(PlayState* play) {
 
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     Input* input = &play->state.input[0];
-    Gfx* gfxAllocDisp;
-    Gfx* tempGfx;
+    Gfx* gfxChild;
+    Gfx* gfxBufRef;
 
     OPEN_DISPS(gfxCtx, "../flg_set.c", 131);
 
@@ -85,10 +85,10 @@ void FlagSet_Update(PlayState* play) {
         GfxPrint printer;
         s32 pad;
 
-        GFX_ALLOC_OPEN(gfxAllocDisp, tempGfx, OVERLAY_DISP);
+        GFX_ALLOC_OPEN(gfxChild, gfxBufRef, OVERLAY_DISP);
 
         GfxPrint_Init(&printer);
-        GfxPrint_Open(&printer, gfxAllocDisp);
+        GfxPrint_Open(&printer, gfxChild);
         GfxPrint_SetColor(&printer, 250, 50, 50, 255);
         GfxPrint_SetPos(&printer, 4, 13);
         GfxPrint_Printf(&printer, entries[entryIdx].name);
@@ -173,10 +173,10 @@ void FlagSet_Update(PlayState* play) {
             timer--;
         }
 
-        gfxAllocDisp = GfxPrint_Close(&printer);
+        gfxChild = GfxPrint_Close(&printer);
         GfxPrint_Destroy(&printer);
 
-        GFX_ALLOC_CLOSE(gfxAllocDisp, tempGfx);
+        GFX_ALLOC_CLOSE(gfxChild, gfxBufRef);
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_L)) {
