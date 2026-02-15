@@ -1947,10 +1947,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
             case CS_CMD_ACTOR_CUE_0_11:
             case CS_CMD_ACTOR_CUE_0_12:
             case CS_CMD_ACTOR_CUE_0_13:
-            case CS_CMD_ACTOR_CUE_0_14:
+            case CS_CMD_ACTOR_CUE_0_SHEIK_EFF_FLAME:
             case CS_CMD_ACTOR_CUE_0_15:
             case CS_CMD_ACTOR_CUE_0_16:
-            case CS_CMD_ACTOR_CUE_0_17:
+            case CS_CMD_ACTOR_CUE_0_SHEIK_EFF_SPLASH:
                 MemCpy(&cmdEntries, script, sizeof(cmdEntries));
                 script += sizeof(cmdEntries);
 
@@ -2059,7 +2059,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
             case CS_CMD_ACTOR_CUE_4_0:
             case CS_CMD_ACTOR_CUE_4_1:
             case CS_CMD_ACTOR_CUE_4_2:
-            case CS_CMD_ACTOR_CUE_4_3:
+            case CS_CMD_ACTOR_CUE_4_SHEIK:
             case CS_CMD_ACTOR_CUE_4_4:
             case CS_CMD_ACTOR_CUE_4_5:
             case CS_CMD_ACTOR_CUE_4_6:
@@ -2147,7 +2147,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 }
                 break;
 
-            case CS_CMD_ACTOR_CUE_8_0:
+            case CS_CMD_ACTOR_CUE_8_NAVI:
                 MemCpy(&cmdEntries, script, sizeof(cmdEntries));
                 script += sizeof(cmdEntries);
 

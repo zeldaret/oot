@@ -169,7 +169,7 @@ void DemoEffect_InitJewel(PlayState* play, DemoEffect* this) {
         Actor_SetScale(&this->actor, 0.10f);
     }
     this->cueChannel = 1;
-    this->actor.shape.rot.x = 16384;
+    this->actor.shape.rot.x = 0x4000;
     DemoEffect_InitJewelColor(this);
     this->jewel.alpha = 0;
     this->jewelCsRotation.x = this->jewelCsRotation.y = this->jewelCsRotation.z = 0;
