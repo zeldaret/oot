@@ -232,7 +232,7 @@ void func_80B32804(EnWeiyer* this, PlayState* play) {
     this->actor.floorHeight =
         BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
 
-    if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
+    if (!BgCheck_GetWaterSurface(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
                                  &this->actor.home.pos.y, &waterBox) ||
         ((this->actor.home.pos.y - 5.0f) <= this->actor.floorHeight)) {
         Actor_Kill(&this->actor);
