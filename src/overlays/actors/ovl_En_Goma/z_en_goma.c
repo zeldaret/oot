@@ -921,6 +921,6 @@ void EnGoma_BossLimb(EnGoma* this, PlayState* play) {
         pos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
         pos.y = Rand_CenteredFloat(10.0f) + this->actor.world.pos.y;
         pos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
-        func_8002836C(play, &pos, &vel, &accel, &primColor, &envColor, 500, 10, 10);
+        EffectSsDust_SpawnNormalCustomLife(play, &pos, &vel, &accel, &primColor, &envColor, 500, 10, 10);
     }
 }

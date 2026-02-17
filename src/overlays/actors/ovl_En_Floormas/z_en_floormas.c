@@ -586,12 +586,12 @@ void EnFloormas_Slide(EnFloormas* this, PlayState* play) {
     velocity.x = Math_SinS(this->actor.shape.rot.y + 0x6000) * 7.0f;
     velocity.z = Math_CosS(this->actor.shape.rot.y + 0x6000) * 7.0f;
 
-    func_800286CC(play, &pos, &velocity, &accel, 450, 100);
+    EffectSsDust_SpawnBrownFogShaded2(play, &pos, &velocity, &accel, 450, 100);
 
     velocity.x = Math_SinS(this->actor.shape.rot.y - 0x6000) * 7.0f;
     velocity.z = Math_CosS(this->actor.shape.rot.y - 0x6000) * 7.0f;
 
-    func_800286CC(play, &pos, &velocity, &accel, 450, 100);
+    EffectSsDust_SpawnBrownFogShaded2(play, &pos, &velocity, &accel, 450, 100);
 
     Actor_PlaySfx_Flagged(&this->actor, NA_SE_EN_FLOORMASTER_SLIDING - SFX_FLAG);
 }
@@ -1120,14 +1120,14 @@ void EnFloormas_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if (this->collider.base.colMaterial == COL_MATERIAL_HARD) {
-        func_80026230(play, &sMergeColor, this->actionTarget % 0x28, 0x28);
+        EffectFog_SetPulse(play, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
 
     POLY_OPA_DISP =
         SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                            EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_OPA_DISP);
     if (this->collider.base.colMaterial == COL_MATERIAL_HARD) {
-        func_80026608(play);
+        EffectFog_Reset(play);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_floormas.c", 2340);
@@ -1140,13 +1140,13 @@ void EnFloormas_DrawHighlighted(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (this->collider.base.colMaterial == COL_MATERIAL_HARD) {
-        func_80026690(play, &sMergeColor, this->actionTarget % 0x28, 0x28);
+        EffectFog_SetPulseXlu(play, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
     POLY_XLU_DISP =
         SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                            EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_XLU_DISP);
     if (this->collider.base.colMaterial == COL_MATERIAL_HARD) {
-        func_80026A6C(play);
+        EffectFog_ResetXlu(play);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_floormas.c", 2374);

@@ -168,7 +168,8 @@ void DemoGj_SpawnSmoke(PlayState* play, Vec3f* pos, f32 arg2) {
     f32 temp = arg2 * 0.2f;
 
     if (1) {}
-    func_800283D4(play, pos, &velocity, &accel, &primColor, &envColor, temp * Rand_ZeroOne() + arg2, 15, 90);
+    EffectSsDust_SpawnFogShadedCustomLife(play, pos, &velocity, &accel, &primColor, &envColor,
+                                          temp * Rand_ZeroOne() + arg2, 15, 90);
 }
 
 void DemoGj_DropCollectible(DemoGj* this, PlayState* play) {

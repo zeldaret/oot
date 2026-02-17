@@ -459,8 +459,8 @@ void EnInsect_Dig(EnInsect* this, PlayState* play) {
         velocity.x = Math_SinS(this->actor.shape.rot.y) * -0.6f;
         velocity.y = Math_SinS(this->actor.shape.rot.x) * 0.6f;
         velocity.z = Math_CosS(this->actor.shape.rot.y) * -0.6f;
-        func_800286CC(play, &this->actor.world.pos, &velocity, &accel, Rand_ZeroOne() * 5.0f + 8.0f,
-                      Rand_ZeroOne() * 5.0f + 8.0f);
+        EffectSsDust_SpawnBrownFogShaded2(play, &this->actor.world.pos, &velocity, &accel, Rand_ZeroOne() * 5.0f + 8.0f,
+                                          Rand_ZeroOne() * 5.0f + 8.0f);
     }
 
     if (this->actionTimer <= 0) {

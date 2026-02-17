@@ -427,7 +427,7 @@ void EnArrow_Update(Actor* thisx, PlayState* play) {
         static Color_RGBA8 primColor = { 255, 255, 100, 255 };
         static Color_RGBA8 envColor = { 255, 50, 0, 0 };
         // spawn dust for the flame
-        func_8002836C(play, &this->unk_21C, &velocity, &accel, &primColor, &envColor, 100, 0, 8);
+        EffectSsDust_SpawnNormalCustomLife(play, &this->unk_21C, &velocity, &accel, &primColor, &envColor, 100, 0, 8);
     }
 }
 

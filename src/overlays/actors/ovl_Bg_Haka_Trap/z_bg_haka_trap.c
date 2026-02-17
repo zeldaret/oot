@@ -536,7 +536,7 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
     Vec3f sp2C;
 
     if (this->actionFunc == func_808802D8) {
-        func_80026230(play, &D_8088103C, this->timer + 20, 0x28);
+        EffectFog_SetPulse(play, &D_8088103C, this->timer + 20, 0x28);
     }
 
     Gfx_DrawDListOpa(play, sDLists[this->dyna.actor.params]);
@@ -546,7 +546,7 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
     }
 
     if (this->actionFunc == func_808802D8) {
-        func_80026608(play);
+        EffectFog_Reset(play);
     }
 
     if ((this->actionFunc == func_808808F4) && !this->unk_169) {

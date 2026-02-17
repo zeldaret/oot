@@ -282,8 +282,8 @@ void BgIceShelter_SpawnSteamAround(BgIceShelter* this, PlayState* play, f32 part
         steamAccel.y = 0.8f;
         steamAccel.z = 0.07f * cos;
 
-        func_8002829C(play, &steamPos, &steamVel, &steamAccel, &sSteamPrimColor, &sSteamEnvColor,
-                      450.0f * steamEffectScale, (s16)((Rand_ZeroOne() * 40.0f) + 40.0f) * steamEffectScale);
+        EffectSsDust_SpawnNormal(play, &steamPos, &steamVel, &steamAccel, &sSteamPrimColor, &sSteamEnvColor,
+                                 450.0f * steamEffectScale, (s16)((Rand_ZeroOne() * 40.0f) + 40.0f) * steamEffectScale);
     }
 }
 
@@ -331,8 +331,8 @@ void BgIceShelter_SpawnSteamAlong(BgIceShelter* this, PlayState* play, f32 parti
         steamAccel.y = 0.8f;
         steamAccel.z = (Rand_ZeroOne() * 0.14f) - 0.07f;
 
-        func_8002829C(play, &steamPos, &steamVel, &steamAccel, &sSteamPrimColor, &sSteamEnvColor, 450,
-                      (Rand_ZeroOne() * 40.0f) + 40.0f);
+        EffectSsDust_SpawnNormal(play, &steamPos, &steamVel, &steamAccel, &sSteamPrimColor, &sSteamEnvColor, 450,
+                                 (Rand_ZeroOne() * 40.0f) + 40.0f);
     }
 }
 

@@ -361,8 +361,8 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
             dustPos.x = this->actor.world.pos.x + (dustVelocity.x + dustVelocity.x);
             dustPos.y = this->actor.world.pos.y + 7.0f;
             dustPos.z = this->actor.world.pos.z + (dustVelocity.z + dustVelocity.z);
-            func_8002836C(play, &dustPos, &dustVelocity, &dustAccel, &dustPrim, &dustEnv,
-                          (s16)Rand_ZeroFloat(50.0f) + 200, 40, 15);
+            EffectSsDust_SpawnNormalCustomLife(play, &dustPos, &dustVelocity, &dustAccel, &dustPrim, &dustEnv,
+                                               (s16)Rand_ZeroFloat(50.0f) + 200, 40, 15);
         }
 
         Actor_PlaySfx_Flagged(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);

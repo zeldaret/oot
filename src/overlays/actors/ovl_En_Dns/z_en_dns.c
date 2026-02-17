@@ -494,7 +494,7 @@ void EnDns_PostBurrow(EnDns* this, PlayState* play) {
         initPos.x = this->actor.world.pos.x;
         initPos.y = this->yInitPos;
         initPos.z = this->actor.world.pos.z;
-        func_80028990(play, 20.0f, &initPos);
+        EffectSsDust_SpawnBurstNormal(play, 20.0f, &initPos);
     }
 
     this->actor.shape.rot.y += 0x2000;

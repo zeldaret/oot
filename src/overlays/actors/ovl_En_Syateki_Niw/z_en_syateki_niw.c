@@ -354,7 +354,8 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
         dustVelocity.y = Rand_CenteredFloat(5.0f);
         dustAccel.y = 0.2f;
         dustPos = this->actor.world.pos;
-        func_8002836C(play, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 600, 40, 30);
+        EffectSsDust_SpawnNormalCustomLife(play, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor,
+                                           600, 40, 30);
     }
 }
 
@@ -711,12 +712,12 @@ void EnSyatekiNiw_Draw(Actor* thisx, PlayState* play) {
     if (this->actionFunc != EnSyatekiNiw_SetupRemove) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         if (this->sootTimer != 0) {
-            func_80026230(play, &sootShade, 0, 20);
+            EffectFog_SetPulse(play, &sootShade, 0, 20);
         }
 
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               SyatekiNiw_OverrideLimbDraw, NULL, this);
-        func_80026608(play);
+        EffectFog_Reset(play);
         EnSyatekiNiw_DrawEffects(this, play);
     }
 }

@@ -335,8 +335,8 @@ void func_808B5240(BgSpot16Bombstone* this, PlayState* play) {
         position.y = D_808B5EB0[index][2] + actorPosition->y;
         position.z = ((this->cosRotation * tempUnk6) - (tempUnk2 * this->sinRotation)) + actorPosition->z;
 
-        func_800287AC(play, &position, &sVelocity, &sAcceleration, D_808B5EB0[index][4], D_808B5EB0[index][5],
-                      D_808B5EB0[index][6]);
+        EffectSsDust_SpawnBrownFogShadedCustom(play, &position, &sVelocity, &sAcceleration, D_808B5EB0[index][4],
+                                               D_808B5EB0[index][5], D_808B5EB0[index][6]);
 
         this->unk_158++;
     }

@@ -91,6 +91,21 @@ void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture) {
 
 // EffectSsDust Spawn Functions
 
+/**
+ * Base function to spawn dust particle effects.
+ *
+ * @param play Pointer to the play state
+ * @param drawFlags Rendering flags (0: normal, 1: fog shaded, 2: pass mode, 4+: random color offset)
+ * @param pos Position to spawn the dust
+ * @param velocity Initial velocity
+ * @param accel Acceleration
+ * @param primColor Primary color
+ * @param envColor Environment color
+ * @param scale Initial scale
+ * @param scaleStep Scale change per frame
+ * @param life Duration in frames
+ * @param updateMode Update mode (0: normal, 1: fire)
+ */
 void EffectSsDust_Spawn(PlayState* play, u16 drawFlags, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                         Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life,
                         u8 updateMode) {
@@ -110,84 +125,318 @@ void EffectSsDust_Spawn(PlayState* play, u16 drawFlags, Vec3f* pos, Vec3f* veloc
     EffectSs_Spawn(play, EFFECT_SS_DUST, 128, &initParams);
 }
 
-void func_8002829C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s16 scale, s16 scaleStep) {
+/**
+ * Spawns a normal dust particle effect.
+ *
+ * Creates a dust effect with default rendering mode (no fog, no lighting).
+ * The particle lasts for 10 frames.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn the dust
+ * @param velocity Initial velocity of the dust
+ * @param accel Acceleration of the dust
+ * @param primColor Primary color for the effect
+ * @param envColor Environment color for the effect
+ * @param scale Initial scale of the dust particle
+ * @param scaleStep Amount to scale the particle each frame
+ */
+void EffectSsDust_SpawnNormal(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                              Color_RGBA8* envColor, s16 scale, s16 scaleStep) {
     EffectSsDust_Spawn(play, 0, pos, velocity, accel, primColor, envColor, scale, scaleStep, 10, 0);
 }
 
-void func_80028304(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s16 scale, s16 scaleStep) {
+/**
+ * Spawns a fog-shaded dust particle effect.
+ *
+ * Creates a dust effect with fog shading and lighting enabled.
+ * The particle lasts for 10 frames.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param primColor Primary color for effect
+ * @param envColor Environment color for effect
+ * @param scale Initial scale of dust particle
+ * @param scaleStep Amount to scale particle each frame
+ */
+void EffectSsDust_SpawnFogShaded(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                                 Color_RGBA8* envColor, s16 scale, s16 scaleStep) {
     EffectSsDust_Spawn(play, 1, pos, velocity, accel, primColor, envColor, scale, scaleStep, 10, 0);
 }
 
-void func_8002836C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life) {
+/**
+ * Spawns a normal dust particle effect with custom lifetime.
+ *
+ * Creates a dust effect with default rendering mode (no fog, no lighting).
+ * The particle lasts for the specified number of frames.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param primColor Primary color for effect
+ * @param envColor Environment color for effect
+ * @param scale Initial scale of dust particle
+ * @param scaleStep Amount to scale particle each frame
+ * @param life Duration in frames
+ */
+void EffectSsDust_SpawnNormalCustomLife(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                        Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep,
+                                        s16 life) {
     EffectSsDust_Spawn(play, 0, pos, velocity, accel, primColor, envColor, scale, scaleStep, life, 0);
 }
 
-void func_800283D4(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life) {
+/**
+ * Spawns a fog-shaded dust particle effect with custom lifetime.
+ *
+ * Creates a dust effect with fog shading and lighting enabled.
+ * The particle lasts for the specified number of frames.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param primColor Primary color for effect
+ * @param envColor Environment color for effect
+ * @param scale Initial scale of dust particle
+ * @param scaleStep Amount to scale particle each frame
+ * @param life Duration in frames
+ */
+void EffectSsDust_SpawnFogShadedCustomLife(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                           Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep,
+                                           s16 life) {
     EffectSsDust_Spawn(play, 1, pos, velocity, accel, primColor, envColor, scale, scaleStep, life, 0);
 }
 
-void func_8002843C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life) {
+/**
+ * Spawns a pass-mode dust particle effect.
+ *
+ * Creates a dust effect with pass rendering mode (no fog, no lighting, special blend mode).
+ * The particle lasts for the specified number of frames.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param primColor Primary color for effect
+ * @param envColor Environment color for effect
+ * @param scale Initial scale of dust particle
+ * @param scaleStep Amount to scale particle each frame
+ * @param life Duration in frames
+ */
+void EffectSsDust_SpawnPassMode(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                                Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life) {
     EffectSsDust_Spawn(play, 2, pos, velocity, accel, primColor, envColor, scale, scaleStep, life, 0);
 }
 
 // unused
-void func_800284A4(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s16 scale, s16 scaleStep) {
+/**
+ * Spawns a fire-mode dust particle effect with normal rendering.
+ *
+ * Creates a dust effect with fire update mode and normal rendering.
+ * The particle lasts for 10 frames.
+ *
+ * @note This function is unused in the original game.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param primColor Primary color for effect
+ * @param envColor Environment color for effect
+ * @param scale Initial scale of dust particle
+ * @param scaleStep Amount to scale particle each frame
+ */
+void EffectSsDust_SpawnFire(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                            Color_RGBA8* envColor, s16 scale, s16 scaleStep) {
     EffectSsDust_Spawn(play, 0, pos, velocity, accel, primColor, envColor, scale, scaleStep, 10, 1);
 }
 
 // unused
-void func_80028510(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor, s16 scale, s16 scaleStep) {
+/**
+ * Spawns a fire-mode dust particle effect with fog shading.
+ *
+ * Creates a dust effect with fire update mode and fog shading.
+ * The particle lasts for 10 frames.
+ *
+ * @note This function is unused in the original game.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param primColor Primary color for effect
+ * @param envColor Environment color for effect
+ * @param scale Initial scale of dust particle
+ * @param scaleStep Amount to scale particle each frame
+ */
+void EffectSsDust_SpawnFireFogShaded(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                                     Color_RGBA8* envColor, s16 scale, s16 scaleStep) {
     EffectSsDust_Spawn(play, 1, pos, velocity, accel, primColor, envColor, scale, scaleStep, 10, 1);
 }
 
 static Color_RGBA8 sDustBrownPrim = { 170, 130, 90, 255 };
 static Color_RGBA8 sDustBrownEnv = { 100, 60, 20, 255 };
 
-void func_8002857C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+/**
+ * Spawns a brown dust particle effect.
+ *
+ * Creates a brown dust effect with random color offset.
+ * The particle starts at scale 100, grows by 5 per frame, and lasts 10 frames.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ */
+void EffectSsDust_SpawnBrown(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     EffectSsDust_Spawn(play, 4, pos, velocity, accel, &sDustBrownPrim, &sDustBrownEnv, 100, 5, 10, 0);
 }
 
 // unused
-void func_800285EC(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+/**
+ * Spawns a brown fog-shaded dust particle effect.
+ *
+ * Creates a brown dust effect with random color offset and fog shading.
+ * The particle starts at scale 100, grows by 5 per frame, and lasts 10 frames.
+ *
+ * @note This function is unused in the original game.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ */
+void EffectSsDust_SpawnBrownFogShaded(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
     EffectSsDust_Spawn(play, 5, pos, velocity, accel, &sDustBrownPrim, &sDustBrownEnv, 100, 5, 10, 0);
 }
 
-void func_8002865C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep) {
+/**
+ * Spawns a brown dust particle effect with normal rendering.
+ *
+ * Creates a brown dust effect with random color offset and normal rendering.
+ * The particle lasts 10 frames.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param scale Initial scale of dust particle
+ * @param scaleStep Amount to scale particle each frame
+ */
+void EffectSsDust_SpawnBrownNormal(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                   s16 scaleStep) {
     EffectSsDust_Spawn(play, 4, pos, velocity, accel, &sDustBrownPrim, &sDustBrownEnv, scale, scaleStep, 10, 0);
 }
 
-void func_800286CC(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep) {
+/**
+ * Spawns a brown dust particle effect with fog shading.
+ *
+ * Creates a brown dust effect with random color offset and fog shading.
+ * The particle lasts 10 frames.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param scale Initial scale of dust particle
+ * @param scaleStep Amount to scale particle each frame
+ */
+void EffectSsDust_SpawnBrownFogShaded2(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                       s16 scaleStep) {
     EffectSsDust_Spawn(play, 5, pos, velocity, accel, &sDustBrownPrim, &sDustBrownEnv, scale, scaleStep, 10, 0);
 }
 
-void func_8002873C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep, s16 life) {
+/**
+ * Spawns a brown dust particle effect with normal rendering and custom lifetime.
+ *
+ * Creates a brown dust effect with random color offset and normal rendering.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param scale Initial scale of dust particle
+ * @param scaleStep Amount to scale particle each frame
+ * @param life Duration in frames
+ */
+void EffectSsDust_SpawnBrownNormalCustom(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                         s16 scaleStep, s16 life) {
     EffectSsDust_Spawn(play, 4, pos, velocity, accel, &sDustBrownPrim, &sDustBrownEnv, scale, scaleStep, life, 0);
 }
 
-void func_800287AC(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scaleStep, s16 life) {
+/**
+ * Spawns a brown dust particle effect with fog shading and custom lifetime.
+ *
+ * Creates a brown dust effect with random color offset and fog shading.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param scale Initial scale of dust particle
+ * @param scaleStep Amount to scale particle each frame
+ * @param life Duration in frames
+ */
+void EffectSsDust_SpawnBrownFogShadedCustom(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                            s16 scaleStep, s16 life) {
     EffectSsDust_Spawn(play, 5, pos, velocity, accel, &sDustBrownPrim, &sDustBrownEnv, scale, scaleStep, life, 0);
 }
 
 // unused
-void func_8002881C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor) {
-    func_8002829C(play, pos, velocity, accel, primColor, envColor, 100, 5);
+/**
+ * Spawns a normal dust particle effect with fixed size parameters.
+ *
+ * Creates a dust effect with scale=100, scaleStep=5.
+ *
+ * @note This function is unused in the original game.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param primColor Primary color for effect
+ * @param envColor Environment color for effect
+ */
+void EffectSsDust_SpawnFixedSize(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
+                                 Color_RGBA8* envColor) {
+    EffectSsDust_SpawnNormal(play, pos, velocity, accel, primColor, envColor, 100, 5);
 }
 
 // unused
-void func_80028858(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                   Color_RGBA8* envColor) {
-    func_80028304(play, pos, velocity, accel, primColor, envColor, 100, 5);
+/**
+ * Spawns a fog-shaded dust particle effect with fixed size parameters.
+ *
+ * Creates a dust effect with scale=100, scaleStep=5 and fog shading.
+ *
+ * @note This function is unused in the original game.
+ *
+ * @param play Pointer to the play state
+ * @param pos Position to spawn of dust
+ * @param velocity Initial velocity of dust
+ * @param accel Acceleration of dust
+ * @param primColor Primary color for effect
+ * @param envColor Environment color for effect
+ */
+void EffectSsDust_SpawnFixedSizeFogShaded(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                          Color_RGBA8* primColor, Color_RGBA8* envColor) {
+    EffectSsDust_SpawnFogShaded(play, pos, velocity, accel, primColor, envColor, 100, 5);
 }
 
-void func_80028894(Vec3f* srcPos, f32 randScale, Vec3f* newPos, Vec3f* velocity, Vec3f* accel) {
+/**
+ * Calculates random velocity and acceleration vectors for dust burst effects.
+ *
+ * Generates a random position offset from a source position and sets up
+ * upward velocity with random horizontal direction.
+ *
+ * @param srcPos Source position to offset from
+ * @param randScale Maximum random offset distance
+ * @param newPos Output position with random offset
+ * @param velocity Output velocity vector (upward with random horizontal direction)
+ * @param accel Output acceleration vector (zero)
+ */
+void EffectSsDust_CalcRandomParams(Vec3f* srcPos, f32 randScale, Vec3f* newPos, Vec3f* velocity, Vec3f* accel) {
     s16 randAngle;
     f32 rand = Rand_ZeroOne() * randScale;
 
@@ -207,27 +456,47 @@ void func_80028894(Vec3f* srcPos, f32 randScale, Vec3f* newPos, Vec3f* velocity,
     accel->z = 0.0f;
 }
 
-void func_80028990(PlayState* play, f32 randScale, Vec3f* srcPos) {
+/**
+ * Spawns a burst of 20 brown dust particles with normal rendering.
+ *
+ * Creates multiple dust particles in a circular pattern around a source position.
+ * Each particle starts with scale 100, grows by 30 per frame, and lasts 7 frames.
+ *
+ * @param play Pointer to the play state
+ * @param randScale Maximum random offset distance from source position
+ * @param srcPos Center position for the dust burst
+ */
+void EffectSsDust_SpawnBurstNormal(PlayState* play, f32 randScale, Vec3f* srcPos) {
     s32 i;
     Vec3f pos;
     Vec3f velocity;
     Vec3f accel;
 
     for (i = 0; i < 20; i++) {
-        func_80028894(srcPos, randScale, &pos, &velocity, &accel);
-        func_8002873C(play, &pos, &velocity, &accel, 100, 30, 7);
+        EffectSsDust_CalcRandomParams(srcPos, randScale, &pos, &velocity, &accel);
+        EffectSsDust_SpawnBrownNormalCustom(play, &pos, &velocity, &accel, 100, 30, 7);
     }
 }
 
-void func_80028A54(PlayState* play, f32 randScale, Vec3f* srcPos) {
+/**
+ * Spawns a burst of 20 brown dust particles with fog shading.
+ *
+ * Creates multiple dust particles in a circular pattern around a source position.
+ * Each particle starts with scale 100, grows by 30 per frame, and lasts 7 frames.
+ *
+ * @param play Pointer to the play state
+ * @param randScale Maximum random offset distance from source position
+ * @param srcPos Center position for the dust burst
+ */
+void EffectSsDust_SpawnBurstFogShaded(PlayState* play, f32 randScale, Vec3f* srcPos) {
     s32 i;
     Vec3f pos;
     Vec3f velocity;
     Vec3f accel;
 
     for (i = 0; i < 20; i++) {
-        func_80028894(srcPos, randScale, &pos, &velocity, &accel);
-        func_800287AC(play, &pos, &velocity, &accel, 100, 30, 7);
+        EffectSsDust_CalcRandomParams(srcPos, randScale, &pos, &velocity, &accel);
+        EffectSsDust_SpawnBrownFogShadedCustom(play, &pos, &velocity, &accel, 100, 30, 7);
     }
 }
 

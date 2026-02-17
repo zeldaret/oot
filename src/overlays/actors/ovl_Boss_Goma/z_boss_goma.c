@@ -1065,7 +1065,7 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
                 pos.x = Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].x;
                 pos.y = Rand_CenteredFloat(10.0f) + this->defeatedLimbPositions[j].y;
                 pos.z = Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].z;
-                func_8002836C(play, &pos, &vel1, &accel1, &color1, &color2, 500, 10, 10);
+                EffectSsDust_SpawnNormalCustomLife(play, &pos, &vel1, &accel1, &color1, &color2, 500, 10, 10);
             }
         }
 

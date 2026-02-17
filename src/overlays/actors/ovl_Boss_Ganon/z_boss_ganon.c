@@ -1381,8 +1381,8 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
                         sp80.y = this->unk_208.y - 10.0f;
                         sp80.z = this->unk_208.z;
 
-                        func_8002836C(play, &sp80, &sp98, &sp8C, &bloodPrimColor, &bloodEnvColor,
-                                      (s16)Rand_ZeroFloat(50.0f) + 50, 0, 17);
+                        EffectSsDust_SpawnNormalCustomLife(play, &sp80, &sp98, &sp8C, &bloodPrimColor, &bloodEnvColor,
+                                                           (s16)Rand_ZeroFloat(50.0f) + 50, 0, 17);
                     }
                 }
 

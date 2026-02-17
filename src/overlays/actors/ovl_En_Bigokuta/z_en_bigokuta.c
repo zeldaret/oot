@@ -654,8 +654,8 @@ void func_809BE26C(EnBigokuta* this, PlayState* play) {
             effectPos.x = this->actor.world.pos.x;
             effectPos.y = this->actor.world.pos.y + 150.0f;
             effectPos.z = this->actor.world.pos.z;
-            func_8002829C(play, &effectPos, &sEffectPosAccel, &sEffectPosAccel, &sEffectPrimColor, &sEffectEnvColor,
-                          1200, 20);
+            EffectSsDust_SpawnNormal(play, &effectPos, &sEffectPosAccel, &sEffectPosAccel, &sEffectPrimColor,
+                                     &sEffectEnvColor, 1200, 20);
             Actor_PlaySfx(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
         }
         if (this->unk_198 == 0 && Math_StepToF(&this->actor.scale.y, 0.0f, 0.001f)) {

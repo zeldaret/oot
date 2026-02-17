@@ -248,7 +248,8 @@ void func_80B23254(EnTr* this, PlayState* play, s32 arg2, f32 arg3, f32 scale) {
     pos.x = sp58.x + ((D_80B24388[arg2] * scale) * Math_CosS(yaw));
     pos.y = sp58.y + (D_80B243A4[arg2] * scale);
     pos.z = sp58.z - ((D_80B24388[arg2] * scale) * Math_SinS(yaw));
-    func_8002829C(play, &pos, &velocity, &accel, primColor, envColor, (s32)(800.0f * scale), (s32)(80.0f * scale));
+    EffectSsDust_SpawnNormal(play, &pos, &velocity, &accel, primColor, envColor, (s32)(800.0f * scale),
+                             (s32)(80.0f * scale));
 }
 
 void EnTr_ShrinkVanish(EnTr* this, PlayState* play) {

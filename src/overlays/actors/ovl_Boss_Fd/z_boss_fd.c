@@ -1194,8 +1194,9 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
                 spawnPos1.y = 100.0f;
                 spawnPos1.z = temp_z + this->holePosition.z;
 
-                func_8002836C(play, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed,
-                              (s16)Rand_ZeroFloat(150.0f) + 800, 10, (s16)Rand_ZeroFloat(5.0f) + 17);
+                EffectSsDust_SpawnNormalCustomLife(play, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed,
+                                                   (s16)Rand_ZeroFloat(150.0f) + 800, 10,
+                                                   (s16)Rand_ZeroFloat(5.0f) + 17);
             }
         } else {
             for (i = 0; i < 2; i++) {
@@ -1212,7 +1213,8 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
                 spawnPos1.y = 100.0f;
                 spawnPos1.z = temp_z + this->holePosition.z;
 
-                func_8002836C(play, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed, 500, 10, 20);
+                EffectSsDust_SpawnNormalCustomLife(play, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed,
+                                                   500, 10, 20);
             }
         }
 

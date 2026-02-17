@@ -803,8 +803,8 @@ void EnFirefly_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
                     effEnvColor = &iceAuraEnvColor;
                 }
 
-                func_8002843C(play, &effPos, &effVelocity, &effAccel, effPrimColor, effEnvColor, 250, effScaleStep,
-                              effLife);
+                EffectSsDust_SpawnPassMode(play, &effPos, &effVelocity, &effAccel, effPrimColor, effEnvColor, 250,
+                                           effScaleStep, effLife);
             }
         }
     }

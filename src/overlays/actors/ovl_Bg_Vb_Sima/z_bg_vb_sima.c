@@ -135,8 +135,8 @@ void BgVbSima_Update(Actor* thisx, PlayState* play) {
                 splashPos.y = -80.0f;
                 splashPos.z = this->dyna.actor.world.pos.z + edgeZ;
 
-                func_8002836C(play, &splashPos, &splashVel, &splashAcc, &colorYellow, &colorRed,
-                              (s16)Rand_ZeroFloat(100.0f) + 500, 10, 20);
+                EffectSsDust_SpawnNormalCustomLife(play, &splashPos, &splashVel, &splashAcc, &colorYellow, &colorRed,
+                                                   (s16)Rand_ZeroFloat(100.0f) + 500, 10, 20);
 
                 for (i2 = 0; i2 < 3; i2++) {
                     emberVel.x = splashVel.x;

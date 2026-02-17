@@ -356,7 +356,7 @@ void DoorKiller_FallOver(DoorKiller* this, PlayState* play) {
             pos.x += this->actor.world.pos.x;
             pos.y += this->actor.world.pos.y;
             pos.z += this->actor.world.pos.z;
-            func_8002865C(play, &pos, &velocity, &accel, 300, 30);
+            EffectSsDust_SpawnBrownNormal(play, &pos, &velocity, &accel, 300, 30);
         }
     }
     if (!(this->hasHitPlayerOrGround & 1)) {
