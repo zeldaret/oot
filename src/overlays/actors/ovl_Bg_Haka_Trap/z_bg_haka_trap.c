@@ -118,7 +118,7 @@ static ColliderTrisElementInit sSpikedWallTrisElementsInit[] = {
     },
 };
 
-static ColliderTrisInit sSpikedWallColliderInit = {
+static ColliderTrisInit sSpikedWallTrisInit = {
     {
         COL_MATERIAL_NONE,
         AT_NONE,
@@ -195,7 +195,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                     // Shift the home position toward the center of the room. This will become the target position that
                     // triggers the crush.
                     thisx->home.pos.x -= 200.0f;
-                } else /* thisx->params == HAKA_TRAP_SPIKED_WALL_WEST */ {
+                } else /* HAKA_TRAP_SPIKED_WALL_WEST */ {
                     // Shift the home position toward the center of the room. This will become the target position that
                     // triggers the crush.
                     thisx->home.pos.x += 200.0f;
@@ -203,7 +203,7 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 }
 
                 Collider_InitTris(play, &this->spikesCollider);
-                Collider_SetTris(play, &this->spikesCollider, thisx, &sSpikedWallColliderInit,
+                Collider_SetTris(play, &this->spikesCollider, thisx, &sSpikedWallTrisInit,
                                  this->spikesColliderElements);
 
                 this->colliderCylinder.dim.radius = 18;
@@ -273,7 +273,7 @@ void BgHakaTrap_UpdateBodyColliderPos(BgHakaTrap* this, PlayState* play) {
 }
 
 #define BGHAKATRAP_SPIKEDWALL_HITEAST (1 << 0)
-#define BGHAKATRAP_SPIKEDWALL_HITWEST (2 << 0)
+#define BGHAKATRAP_SPIKEDWALL_HITWEST (1 << 1)
 #define BGHAKATRAP_SPIKEDWALL_CRUSH_PLAYER 4
 
 void BgHakaTrap_SpikedWall_CloseIn(BgHakaTrap* this, PlayState* play) {

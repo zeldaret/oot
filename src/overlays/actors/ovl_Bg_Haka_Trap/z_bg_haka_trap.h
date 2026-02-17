@@ -25,7 +25,7 @@ typedef struct BgHakaTrap {
     /* 0x016A */ union {
         s16 isGuillotineFast; // 0 slow, 1 fast
         s16 spikedCrusherStepY; // when lifting the crusher, it will pause briefly at this height before being
-                                // lifted to it's maximum height
+                                // lifted to its maximum height
     };
     /* 0x016C */ Vec3f chainLiftSfxPos;
     /* 0x0178 */ ColliderCylinder colliderCylinder;
