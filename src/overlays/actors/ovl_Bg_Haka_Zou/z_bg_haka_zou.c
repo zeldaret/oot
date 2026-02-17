@@ -185,7 +185,7 @@ void BgHakaZou_WaitForObject(BgHakaZou* this, PlayState* play) {
             } else if (this->dyna.actor.params == BGHAKAZOU_TYPE_BOMBABLE_SKULL_WALL) {
                 CollisionHeader_GetVirtual(&gShadowTempleSkullWallCol, &colHeader);
                 this->collider.dim.yShift = -50;
-            } else /* this->dyna.actor.params == BGHAKAZOU_TYPE_BOMBABLE_RUBBLE */ {
+            } else /* BGHAKAZOU_TYPE_BOMBABLE_RUBBLE */ {
                 CollisionHeader_GetVirtual(&gBotwBombableRubbleCol, &colHeader);
                 this->collider.dim.radius = 55;
                 this->collider.dim.height = 20;
@@ -287,7 +287,7 @@ void BgHakaZou_WaitForHit(BgHakaZou* this, PlayState* play) {
             this->timer = 1;
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_EXPLOSION);
             this->actionFunc = BgHakaZou_IdleKill;
-        } else /* this->dyna.actor.params == BGHAKAZOU_TYPE_BOMBABLE_SKULL_WALL */ {
+        } else /* BGHAKAZOU_TYPE_BOMBABLE_SKULL_WALL */ {
             BgHakaZou_SpawnSkullWallRubble(this, play);
             this->timer = 1;
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
@@ -393,8 +393,8 @@ void BgHakaZou_BirdStatueAnim_Settle(BgHakaZou* this, PlayState* play) {
     //
     // The programmer was likely aware of a discrepancy as BgHakaZou_Init subtracts 14 units to account for this
     // (resulting in a 0.4 unit discrepancy between post animation and the next time the actor is reloaded). Lowering
-    // the statue 14 units causes the model to clip into the ground, but it also enough to make the pillar low enough
-    // for Link to climb on top of if the player is missing keys.
+    // the statue 14 units causes the model to clip into the ground, but it is also enough to make the pillar low enough
+    // for Link to climb on top of it if the player is missing keys.
 
     moveDist = (this->timer % 2) ? 15.0f : -15.0f;
     this->dyna.actor.world.pos.y += ((this->timer & 0xFE) * (1.0f / 25) * moveDist);
