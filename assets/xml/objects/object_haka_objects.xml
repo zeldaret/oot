@@ -60,16 +60,16 @@
             <Vtx/>
         </Array>
         <DList Name="object_haka_objects_DL_005A70" Offset="0x5A70"/>
-        <Array Name="object_haka_objects_Vtx_005C90" Count="5" Offset="0x5C90">
+        <Array Name="gShadowTempleSkullWallVtx" Count="5" Offset="0x5C90">
             <Vtx/>
         </Array>
-        <DList Name="object_haka_objects_DL_005CE0" Offset="0x5CE0"/>
-        <Collision Name="object_haka_objects_Col_005E30" Offset="0x5E30"/>
-        <Array Name="object_haka_objects_Vtx_005E60" Count="104" Offset="0x5E60">
+        <DList Name="gShadowTempleSkullWallDL" Offset="0x5CE0"/>
+        <Collision Name="gShadowTempleSkullWallCol" Offset="0x5E30"/>
+        <Array Name="gShadowTempleBirdStatueVtx" Count="104" Offset="0x5E60">
             <Vtx/>
         </Array>
-        <DList Name="object_haka_objects_DL_0064E0" Offset="0x64E0"/>
-        <Collision Name="object_haka_objects_Col_006F70" Offset="0x6F70"/>
+        <DList Name="gShadowTempleBirdStatueDL" Offset="0x64E0"/>
+        <Collision Name="gShadowTempleBirdStatueCol" Offset="0x6F70"/>
         <Array Name="gShadowTempleFanBladeVtx" Count="50" Offset="0x6FA0">
             <Vtx/>
         </Array>
