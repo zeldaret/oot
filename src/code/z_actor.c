@@ -4563,10 +4563,10 @@ s16 Actor_UpdateAlphaByDistance(Actor* actor, PlayState* play, s16 alpha, f32 ra
 
     if (radius < distance) {
         actor->flags &= ~ACTOR_FLAG_ATTENTION_ENABLED;
-        Math_SmoothStepToS(&alpha, 0, 6, 0x14, 1);
+        Math_SmoothStepToS(&alpha, 0, 6, 20, 1);
     } else {
         actor->flags |= ACTOR_FLAG_ATTENTION_ENABLED;
-        Math_SmoothStepToS(&alpha, 0xFF, 6, 0x14, 1);
+        Math_SmoothStepToS(&alpha, 255, 6, 20, 1);
     }
 
     return alpha;
