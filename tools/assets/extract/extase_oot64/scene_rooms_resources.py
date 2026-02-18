@@ -85,7 +85,14 @@ class ActorEntryListResource(CDataArrayNamedLengthResource):
         return f"ActorEntry {self.symbol_name}[{self.length_name}]"
 
     def get_c_includes(self):
-        return ("actor.h",)
+        includes = ["actor.h"]
+        for elem in self.cdata_unpacked:
+            actor_id = elem["id"]
+            actor_id_name = oot64_data.get_actor_id_name(actor_id)
+            actor_params_includes = actor_params.INCLUDES.get(actor_id_name)
+            if actor_params_includes is not None:
+                includes.extend(actor_params_includes)
+        return includes
 
     def get_h_includes(self):
         return ("scene.h",)
