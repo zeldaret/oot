@@ -12,10 +12,10 @@
             <Vtx/>
         </Array>
         <DList Name="gBotwCoffinLidDL" Offset="0x06B0"/>
-        <Array Name="gBotwBombSpotVtx" Count="23" Offset="0x8A0">
+        <Array Name="gBotwBombableRubbleVtx" Count="23" Offset="0x8A0">
             <Vtx/>
         </Array>
-        <DList Name="gBotwBombSpotDL" Offset="0x0A10"/>
+        <DList Name="gBotwBombableRubbleDL" Offset="0x0A10"/>
         <Array Name="gBotwFakeWallsAndFloorsVtx" Count="60" Offset="0xC60">
             <Vtx/>
         </Array>
@@ -38,7 +38,7 @@
         <DList Name="gBotwWaterFallDL" Offset="0x2010"/>
 
         <Collision Name="gBotwCoffinLidCol" Offset="0x0870"/>
-        <Collision Name="gBotwBombSpotCol" Offset="0x0C2C"/>
+        <Collision Name="gBotwBombableRubbleCol" Offset="0x0C2C"/>
         <Collision Name="gBotwRoom0FakeWallsAndFloorsCol" Offset="0x1830"/>
         <Collision Name="gBotwRoom3ThreeFakeFloorsCol" Offset="0x1AB8"/>
 

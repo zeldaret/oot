@@ -50,7 +50,7 @@ void EnPubox_Init(Actor* thisx, PlayState* play) {
         default:
             break;
     }
-    this->unk_164 = 1;
+    this->unused_164 = 1;
     thisx->colChkInfo.cylRadius = 20;
     thisx->colChkInfo.cylHeight = 50;
     thisx->cullingVolumeDownward = 1200.0f;

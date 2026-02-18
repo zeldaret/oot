@@ -1,3 +1,9 @@
+/*
+ * File: z_en_eiyer.c
+ * Overlay: ovl_En_Eiyer
+ * Description: Stinger (Ground)
+ */
+
 #include "z_en_eiyer.h"
 
 #include "libc64/qrand.h"
