@@ -20,7 +20,7 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/dust_textures.h"
 #include "assets/objects/object_fw/object_fw.h"
 
 #define FLAGS                                                                                 \
@@ -56,8 +56,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x00000000, 0x00, 0x04 },
-            { 0xFFCFFFFE, 0x00, 0x00 },
+            { 0x00000000, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0xFFCFFFFE, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_NONE,
             ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,

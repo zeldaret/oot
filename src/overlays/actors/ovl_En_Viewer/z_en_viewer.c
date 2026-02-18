@@ -26,7 +26,7 @@
 #include "skin.h"
 
 #include "assets/objects/object_zl4/object_zl4.h"
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/eff_fire.h"
 #include "assets/objects/object_horse_zelda/object_horse_zelda.h"
 #include "assets/objects/object_horse_ganon/object_horse_ganon.h"
 #include "assets/objects/object_im/object_im.h"

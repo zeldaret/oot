@@ -24,7 +24,7 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/rock_fragments_model.h"
 #include "assets/objects/object_goroiwa/object_goroiwa.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
@@ -75,8 +75,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
-            { 0x20000000, 0x00, 0x04 },
-            { 0x00000000, 0x00, 0x00 },
+            { 0x20000000, HIT_SPECIAL_EFFECT_NONE, 0x04 },
+            { 0x00000000, HIT_BACKLASH_NONE, 0x00 },
             ATELEM_ON | ATELEM_SFX_NORMAL,
             ACELEM_NONE,
             OCELEM_ON,

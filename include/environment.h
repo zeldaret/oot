@@ -155,8 +155,10 @@ typedef struct CurrentEnvLightSettings {
 // The blendRate determines how fast the current light settings fade to the next one
 // (under LIGHT_MODE_SETTINGS, otherwise unused).
 
+#define BLEND_RATE_AND_FOG_NEAR(blendRate, fogNear) (s16)((((blendRate) / 4) << 10) | (fogNear))
+
 // Get blend rate from `EnvLightSettings.blendRateAndFogNear` in 0-255 range
-#define ENV_LIGHT_SETTINGS_BLEND_RATE_U8(blendRateAndFogNear) (((blendRateAndFogNear) >> 10) * 4)
+#define ENV_LIGHT_SETTINGS_BLEND_RATE_U8(blendRateAndFogNear) (u8)(((blendRateAndFogNear) >> 10) * 4)
 #define ENV_LIGHT_SETTINGS_FOG_NEAR(blendRateAndFogNear) ((blendRateAndFogNear) & 0x3FF)
 
 typedef struct EnvLightSettings {

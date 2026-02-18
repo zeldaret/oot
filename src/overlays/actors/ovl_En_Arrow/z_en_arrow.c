@@ -20,7 +20,10 @@
 #include "effect.h"
 #include "play_state.h"
 
-#include "assets/objects/gameplay_keep/gameplay_keep.h"
+#include "assets/objects/gameplay_keep/arrow_skel.h"
+#include "assets/objects/gameplay_keep/gArrow1_Anim.h"
+#include "assets/objects/gameplay_keep/gArrow2_Anim.h"
+#include "assets/objects/gameplay_keep/eff_sparkles.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
@@ -57,8 +60,8 @@ static ColliderQuadInit sColliderQuadInit = {
     },
     {
         ELEM_MATERIAL_UNK2,
-        { 0x00000020, 0x00, 0x01 },
-        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000020, HIT_SPECIAL_EFFECT_NONE, 0x01 },
+        { 0xFFCFFFFF, HIT_BACKLASH_NONE, 0x00 },
         ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NONE,
         ACELEM_NONE,
         OCELEM_NONE,
@@ -107,7 +110,7 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params <= ARROW_SEED) {
 
         if (this->actor.params <= ARROW_0E) {
-            SkelAnime_Init(play, &this->skelAnime, &gArrowSkel, &gArrow2Anim, NULL, NULL, 0);
+            SkelAnime_Init(play, &this->skelAnime, &gArrowSkel, &gArrow2_Anim, NULL, NULL, 0);
         }
 
         if (this->actor.params <= ARROW_NORMAL) {
@@ -210,7 +213,7 @@ void EnArrow_Shoot(EnArrow* this, PlayState* play) {
 
 void func_809B3CEC(PlayState* play, EnArrow* this) {
     EnArrow_SetupAction(this, func_809B4640);
-    Animation_PlayOnce(&this->skelAnime, &gArrow1Anim);
+    Animation_PlayOnce(&this->skelAnime, &gArrow1_Anim);
     this->actor.world.rot.y += (s32)(24576.0f * (Rand_ZeroOne() - 0.5f)) + 0x8000;
     this->actor.velocity.y += (this->actor.speed * (0.4f + (0.4f * Rand_ZeroOne())));
     this->actor.speed *= (0.04f + 0.3f * Rand_ZeroOne());
@@ -324,7 +327,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                 }
             } else if (this->touchedPoly) {
                 EnArrow_SetupAction(this, func_809B45E0);
-                Animation_PlayOnce(&this->skelAnime, &gArrow2Anim);
+                Animation_PlayOnce(&this->skelAnime, &gArrow2_Anim);
 
                 if (this->actor.params >= ARROW_NORMAL_LIT) {
                     this->timer = 60;
