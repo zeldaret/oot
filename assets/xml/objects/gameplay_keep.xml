@@ -4,7 +4,7 @@
         <Texture Name="gHilite1Tex" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
         <Texture Name="gHilite2Tex" Format="rgba16" Width="16" Height="16" Offset="0x200"/>
         <Texture Name="gHylianShieldDesignTex" Format="rgba16" Width="32" Height="64" Offset="0x400"/>
-        <Texture Name="gOcarinaofTimeDesignTex" Format="rgba16" Width="32" Height="16" Offset="0x1400"/>
+        <Texture Name="gOcarinaOfTimeDesignTex" Format="rgba16" Width="32" Height="16" Offset="0x1400"/>
         <Texture Name="gBottleGlassTex" Format="rgba16" Width="16" Height="16" Offset="0x1800"/>
         <Texture Name="gDekuStickTex" Format="i8" Width="8" Height="8" Offset="0x1A00"/>
         <Texture Name="gLinkHairTex" Format="rgba16" Width="16" Height="16" Offset="0x1A40"/>
