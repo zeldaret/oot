@@ -4511,9 +4511,7 @@ Gfx* func_80034B54(GraphicsContext* gfxCtx) {
 
     displayList = displayListHead = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
 
-    gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A,
-                     AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
-                         GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA));
+    gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, Z_UPD | G_RM_AA_ZB_XLU_SURF2);
 
     gSPEndDisplayList(displayListHead++);
 
