@@ -497,7 +497,7 @@ def run_cfe(
     command_line: list[str], keep_files: bool
 ) -> Tuple[list[SymbolTableEntry], list[UcodeOp]]:
     # Assume command line is of the form:
-    # python3 tools/preprocess.py [COMPILER] [COMPILER_ARGS] [INPUT_FILE]
+    # python3 tools/preprocess.sh [COMPILER] [COMPILER_ARGS] [INPUT_FILE]
     input_file = Path(command_line[-1])
     rest = command_line[:-1]
 

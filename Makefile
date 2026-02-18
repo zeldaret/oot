@@ -732,7 +732,7 @@ $(BUILD_DIR)/src/makerom/%.o: CCASFLAGS := $(EGCS_CCASFLAGS)
 $(BUILD_DIR)/src/makerom/%.o: ASOPTFLAGS := $(EGCS_ASOPTFLAGS)
 endif
 
-ifeq ($(PERMUTER),)  # permuter + preprocess.py misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
+ifeq ($(PERMUTER),)  # permuter + preprocess.sh misbehaves, permuter doesn't care about rodata diffs or bss ordering so just don't use it in that case
 # Handle encoding (UTF-8 -> EUC-JP) and custom pragmas
 $(BUILD_DIR)/src/%.o: PREPROCESS := ./tools/preprocess.sh -v $(VERSION) -i $(ICONV) --
 endif
