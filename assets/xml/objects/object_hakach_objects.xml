@@ -4,30 +4,30 @@
             <Vtx/>
         </Array>
         <DList Name="gBotwHoleTrap1DL" Offset="0x01B0"/>
-        <Array Name="gBotwHoleTrap2Vtx" Count="19" Offset="0x2C0">
+        <Array Name="gBotwRoom5HiddenPlatformVtx" Count="19" Offset="0x2C0">
             <Vtx/>
         </Array>
-        <DList Name="gBotwHoleTrap2DL" Offset="0x03F0"/>
+        <DList Name="gBotwRoom5HiddenPlatformDL" Offset="0x03F0"/>
         <Array Name="gBotwCoffinLidVtx" Count="23" Offset="0x540">
             <Vtx/>
         </Array>
         <DList Name="gBotwCoffinLidDL" Offset="0x06B0"/>
-        <Array Name="gBotwBombSpotVtx" Count="23" Offset="0x8A0">
+        <Array Name="gBotwBombableRubbleVtx" Count="23" Offset="0x8A0">
             <Vtx/>
         </Array>
-        <DList Name="gBotwBombSpotDL" Offset="0x0A10"/>
+        <DList Name="gBotwBombableRubbleDL" Offset="0x0A10"/>
         <Array Name="gBotwFakeWallsAndFloorsVtx" Count="60" Offset="0xC60">
             <Vtx/>
         </Array>
-        <DList Name="gBotwFakeWallsAndFloorsDL" Offset="0x1060"/>
+        <DList Name="gBotwRoom0FakeWallsAndFloorsDL" Offset="0x1060"/>
         <Array Name="gBotwBloodSplatterVtx" Count="4" Offset="0x1020">
             <Vtx/>
         </Array>
         <DList Name="gBotwBloodSplatterDL" Offset="0x1250"/>
-        <Array Name="gBotwThreeFakeFloorsVtx" Count="12" Offset="0x1860">
+        <Array Name="gBotwRoom3ThreeFakeFloorsVtx" Count="12" Offset="0x1860">
             <Vtx/>
         </Array>
-        <DList Name="gBotwThreeFakeFloorsDL" Offset="0x1920"/>
+        <DList Name="gBotwRoom3ThreeFakeFloorsDL" Offset="0x1920"/>
         <Array Name="gBotwWaterRingVtx" Count="54" Offset="0x1AF0">
             <Vtx/>
         </Array>
@@ -38,9 +38,9 @@
         <DList Name="gBotwWaterFallDL" Offset="0x2010"/>
 
         <Collision Name="gBotwCoffinLidCol" Offset="0x0870"/>
-        <Collision Name="gBotwBombSpotCol" Offset="0x0C2C"/>
-        <Collision Name="gBotw1Col" Offset="0x1830"/>
-        <Collision Name="gBotw2Col" Offset="0x1AB8"/>
+        <Collision Name="gBotwBombableRubbleCol" Offset="0x0C2C"/>
+        <Collision Name="gBotwRoom0FakeWallsAndFloorsCol" Offset="0x1830"/>
+        <Collision Name="gBotwRoom3ThreeFakeFloorsCol" Offset="0x1AB8"/>
 
         <Texture Name="gBotwWater1Tex" Format="ia16" Width="32" Height="32" Offset="0x028F0"/>
         <Texture Name="gBotwWater2Tex" Format="rgba16" Width="32" Height="32" Offset="0x020F0"/>
