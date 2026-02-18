@@ -499,7 +499,6 @@ O_FILES := $(filter-out %_reloc.o,$(SPEC_O_FILES))
 OVL_RELOC_FILES := $(filter %_reloc.o,$(SPEC_O_FILES))
 
 # Automatic dependency files
-# (Only asm_processor dependencies and reloc dependencies are handled for now)
 DEP_FILES := $(O_FILES:.o=.d) $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d) $(BUILD_DIR)/spec.d
 
 TEXTURE_FILES_PNG_EXTRACTED := $(foreach dir,$(ASSET_BIN_DIRS_EXTRACTED),$(wildcard $(dir)/*.png))
