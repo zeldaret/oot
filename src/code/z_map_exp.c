@@ -456,13 +456,9 @@ void Minimap_Draw(PlayState* play) {
                 if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_L) && !Play_InCsMode(play)) {
                     PRINTF("Game_play_demo_mode_check=%d\n", Play_InCsMode(play));
                     // clang-format off
-                    if (!R_MINIMAP_DISABLED) { Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
-                                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                                      &gSfxDefaultReverb);
+                    if (!R_MINIMAP_DISABLED) { SFX_PLAY_CENTERED(NA_SE_SY_CAMERA_ZOOM_UP);
                     } else {
-                        Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_DOWN, &gSfxDefaultPos, 4,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_SY_CAMERA_ZOOM_DOWN);
                     }
                     // clang-format on
                     R_MINIMAP_DISABLED ^= 1;
@@ -542,13 +538,9 @@ void Minimap_Draw(PlayState* play) {
 
                 if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_L) && !Play_InCsMode(play)) {
                     // clang-format off
-                    if (!R_MINIMAP_DISABLED) { Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
-                                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                                      &gSfxDefaultReverb);
+                    if (!R_MINIMAP_DISABLED) { SFX_PLAY_CENTERED(NA_SE_SY_CAMERA_ZOOM_UP);
                     } else {
-                        Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_DOWN, &gSfxDefaultPos, 4,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_SY_CAMERA_ZOOM_DOWN);
                     }
                     // clang-format on
                     R_MINIMAP_DISABLED ^= 1;

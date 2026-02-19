@@ -35,22 +35,22 @@
         <Texture Name="gWindmillManMouthAngryTex" Format="ci8" Width="32" Height="16" Offset="0x6920" TlutOffset="0x4E60"/>
 
         <Texture Name="gWindmillManHairTex" Format="ci8" Width="8" Height="16" Offset="0x6B20" TlutOffset="0x4E60"/>
-        <Skeleton Name="gWindmillManSkel" Type="Flex" LimbType="Standard" Offset="0x6C90"/>
-        <Limb Name="gWindmillManTorsoLimb" LimbType="Standard" Offset="0x6BA0"/>
-        <Limb Name="gWindmillManLeftThighLimb" LimbType="Standard" Offset="0x6BAC"/>
-        <Limb Name="gWindmillManLeftLegLimb" LimbType="Standard" Offset="0x6BB8"/>
-        <Limb Name="gWindmillManLeftFootLimb" LimbType="Standard" Offset="0x6BC4"/>
-        <Limb Name="gWindmillManRightThighLimb" LimbType="Standard" Offset="0x6BD0"/>
-        <Limb Name="gWindmillManRightLegLimb" LimbType="Standard" Offset="0x6BDC"/>
-        <Limb Name="gWindmillManRightFootLimb" LimbType="Standard" Offset="0x6BE8"/>
-        <Limb Name="gWindmillManChestAndMusicBoxPipeLimb" LimbType="Standard" Offset="0x6BF4"/>
-        <Limb Name="gWindmillManLeftArmAndMusicBoxLimb" LimbType="Standard" Offset="0x6C00"/>
-        <Limb Name="gWindmillManLimb_006C0C" LimbType="Standard" Offset="0x6C0C"/> <!--A random triangle near the right side of the music box-->
-        <Limb Name="gWindmillManRightShoulderLimb" LimbType="Standard" Offset="0x6C18"/>
-        <Limb Name="gWindmillManRightArmLimb" LimbType="Standard" Offset="0x6C24"/>
-        <Limb Name="gWindmillManRightHandAndCrankLimb" LimbType="Standard" Offset="0x6C30"/>
-        <Limb Name="gWindmillManHeadLimb" LimbType="Standard" Offset="0x6C3C"/>
-        <Limb Name="gWindmillManHornLimb" LimbType="Standard" Offset="0x6C48"/>
+        <Skeleton Name="gWindmillManSkel" Type="Flex" LimbType="Standard" LimbNone="WINDMILL_MAN_LIMB_NONE" LimbMax="WINDMILL_MAN_LIMB_MAX" EnumName="WindmillManLimb" Offset="0x6C90"/>
+        <Limb Name="gWindmillManTorsoLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_TORSO" Offset="0x6BA0"/>
+        <Limb Name="gWindmillManLeftThighLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_LEFT_THIGH" Offset="0x6BAC"/>
+        <Limb Name="gWindmillManLeftLegLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_LEFT_LEG" Offset="0x6BB8"/>
+        <Limb Name="gWindmillManLeftFootLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_LEFT_FOOT" Offset="0x6BC4"/>
+        <Limb Name="gWindmillManRightThighLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_THIGH" Offset="0x6BD0"/>
+        <Limb Name="gWindmillManRightLegLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_LEG" Offset="0x6BDC"/>
+        <Limb Name="gWindmillManRightFootLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_FOOT" Offset="0x6BE8"/>
+        <Limb Name="gWindmillManChestAndMusicBoxPipeLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_CHEST_MUSIC_BOX" Offset="0x6BF4"/>
+        <Limb Name="gWindmillManLeftArmAndMusicBoxLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_LEFT_ARM_MUSIC_BOX" Offset="0x6C00"/>
+        <Limb Name="gWindmillManLimb_006C0C" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_UNK" Offset="0x6C0C"/> <!--A random triangle near the right side of the music box-->
+        <Limb Name="gWindmillManRightShoulderLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_SHOULDER" Offset="0x6C18"/>
+        <Limb Name="gWindmillManRightArmLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_ARM" Offset="0x6C24"/>
+        <Limb Name="gWindmillManRightHandAndCrankLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_RIGHT_HAND_AND_CRANK" Offset="0x6C30"/>
+        <Limb Name="gWindmillManHeadLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_HEAD" Offset="0x6C3C"/>
+        <Limb Name="gWindmillManHornLimb" LimbType="Standard" EnumName="WINDMILL_MAN_LIMB_HORN" Offset="0x6C48"/>
 
         <Array Name="gWindmillManBlueTriangleVtx" Count="3" Offset="0xB20">
             <Vtx/>

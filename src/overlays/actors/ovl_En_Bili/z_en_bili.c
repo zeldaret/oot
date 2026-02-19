@@ -134,7 +134,7 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
     SkelAnime_Init(play, &this->skelAnime, &gBiriSkel, &gBiriDefaultAnim, this->jointTable, this->morphTable,
-                   EN_BILI_LIMB_MAX);
+                   BIRI_LIMB_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -157,7 +157,7 @@ void EnBili_Destroy(Actor* thisx, PlayState* play) {
 
 void EnBili_SetupFloatIdle(EnBili* this) {
     this->actor.speed = 0.7f;
-    this->collider.elem.acDmgInfo.effect = 1; // Shock?
+    this->collider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_1;
     this->timer = 32;
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->actor.gravity = 0.0f;
@@ -253,7 +253,7 @@ void EnBili_SetupDie(EnBili* this) {
  */
 void EnBili_SetupStunned(EnBili* this) {
     this->timer = 80;
-    this->collider.elem.acDmgInfo.effect = 0;
+    this->collider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_0;
     this->actor.gravity = -1.0f;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);
@@ -749,11 +749,11 @@ s32 EnBili_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
     Vec3f limbScale = { 1.0f, 1.0f, 1.0f };
     f32 curFrame = this->skelAnime.curFrame;
 
-    if (limbIndex == EN_BILI_LIMB_OUTER_HOOD) {
+    if (limbIndex == BIRI_LIMB_OUTER_HOOD) {
         EnBili_PulseLimb3(this, curFrame, &limbScale);
-    } else if (limbIndex == EN_BILI_LIMB_INNER_HOOD) {
+    } else if (limbIndex == BIRI_LIMB_INNER_HOOD) {
         EnBili_PulseLimb2(this, curFrame, &limbScale);
-    } else if (limbIndex == EN_BILI_LIMB_TENTACLES) {
+    } else if (limbIndex == BIRI_LIMB_TENTACLES) {
         EnBili_PulseLimb4(this, curFrame, &limbScale);
         rot->y = (Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y) + 0x8000;
     }

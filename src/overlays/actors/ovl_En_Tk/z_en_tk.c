@@ -642,8 +642,7 @@ void EnTk_Dig(EnTk* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_SY_ERROR);
         } else if (this->currentReward == 4) {
             /* Heart piece */
-            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
         } else {
             /* Rupee */
             Actor_PlaySfx(&this->actor, NA_SE_SY_TRE_BOX_APPEAR);

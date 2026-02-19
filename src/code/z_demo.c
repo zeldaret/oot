@@ -598,8 +598,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
          CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B) ||
          CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START)) &&
         (gSaveContext.fileNum != 0xFEDC) && (play->transitionTrigger == TRANS_TRIGGER_OFF)) {
-        Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_PIECE_OF_HEART);
         titleDemoSkipped = true;
     }
 
@@ -1474,14 +1473,12 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
 
                     if ((lerp == 0.0f) && (gSaveContext.save.entranceIndex == ENTR_CHAMBER_OF_THE_SAGES_0)) {
-                        Audio_PlaySfxGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_SY_WHITE_OUT_S);
                     } else if ((lerp == 0.0f) &&
                                ((gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) ||
                                 (gSaveContext.save.entranceIndex == ENTR_HYRULE_CASTLE_0) ||
                                 (gSaveContext.save.entranceIndex == ENTR_GREAT_FAIRYS_FOUNTAIN_SPELLS_0))) {
-                        Audio_PlaySfxGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        SFX_PLAY_CENTERED(NA_SE_EV_WHITE_OUT);
                     } else if ((lerp == 0.0f) && (play->sceneId == SCENE_INSIDE_GANONS_CASTLE)) {
                         Sfx_PlaySfxCentered2(NA_SE_EV_WHITE_OUT);
                     }

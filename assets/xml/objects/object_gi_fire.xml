@@ -1,8 +1,8 @@
 <Root>
     <ExternalFile OutPath="assets/objects/gameplay_keep"/>
     <File Name="object_gi_fire" Segment="6">
-        <Texture Name="object_gi_fire_000000_Tex" Format="i8" Width="16" Height="32" Offset="0x0"/>
-        <Texture Name="object_gi_fire_000200_Tex" Format="i8" Width="16" Height="32" Offset="0x200"/>
+        <Texture Name="gGiBlueFireFlameTex" Format="i8" Width="16" Height="32" Offset="0x0"/>
+        <Texture Name="gGiBlueFireFireEffectTex" Format="i8" Width="16" Height="32" Offset="0x200"/>
         <Array Name="gGiBlueFireChamberstickVtx" Count="130" Offset="0x400">
             <Vtx/>
         </Array>

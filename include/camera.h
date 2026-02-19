@@ -119,6 +119,12 @@ struct View;
 #define CAM_VIEW_FOV (1 << 5) // camera->fov
 #define CAM_VIEW_ROLL (1 << 6) // camera->roll
 
+#define CAM_DATA_SET_0 (1 << 0)
+#define CAM_DATA_SET_1 (1 << 1)
+#define CAM_DATA_SET_2 (1 << 2)
+#define CAM_DATA_SET_3 (1 << 3)
+#define CAM_DATA_SET_4 (1 << 4)
+
 // All scenes using `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` or `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT` are expected
 // to have their first two bgCamInfo entries be the following:
 #define BGCAM_INDEX_TOGGLE_LOCKED 0
@@ -850,6 +856,22 @@ typedef struct KeepOn4ReadOnlyData {
     /* 0x1C */ s16 interfaceField;
     /* 0x1E */ s16 unk_1E;
 } KeepOn4ReadOnlyData; // size = 0x20
+
+typedef enum CameraItemType {
+    /*  1 */ CAM_ITEM_TYPE_1 = 1,
+    /*  2 */ CAM_ITEM_TYPE_2,
+    /*  3 */ CAM_ITEM_TYPE_3,
+    /*  4 */ CAM_ITEM_TYPE_4,
+    /*  5 */ CAM_ITEM_TYPE_5,
+    /*  8 */ CAM_ITEM_TYPE_8 = 8,
+    /*  9 */ CAM_ITEM_TYPE_9,
+    /* 10 */ CAM_ITEM_TYPE_10,
+    /* 11 */ CAM_ITEM_TYPE_11,
+    /* 12 */ CAM_ITEM_TYPE_12,
+    /* 81 */ CAM_ITEM_TYPE_81 = 81,
+    /* 90 */ CAM_ITEM_TYPE_90 = 90,
+    /* 91 */ CAM_ITEM_TYPE_91
+} CameraItemType;
 
 typedef struct KeepOn4ReadWriteData {
     /* 0x00 */ f32 unk_00;
@@ -1648,8 +1670,7 @@ s32 Camera_ChangeDoorCam(Camera* camera, struct Actor* doorActor, s16 bgCamIndex
                          s16 timer3);
 s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
 Vec3f Camera_GetQuakeOffset(Camera* camera);
-void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
-                          UNK_TYPE arg6);
+void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3, s32 data4);
 s32 func_8005B198(void);
 s16 Camera_SetFinishedFlag(Camera* camera);
 

@@ -688,7 +688,7 @@ void EnMd_Init(Actor* thisx, PlayState* play) {
     STACK_PAD(s32);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gMidoSkel, NULL, this->jointTable, this->morphTable, ENMD_LIMB_MAX);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gMidoSkel, NULL, this->jointTable, this->morphTable, MIDO_LIMB_MAX);
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -728,7 +728,7 @@ void EnMd_Destroy(Actor* thisx, PlayState* play) {
 
 void EnMd_Idle(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoIdleAnim) {
-        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
     } else if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) &&
                (this->animSequence != ENMD_ANIM_SEQ_SURPRISE_TO_IDLE)) {
         EnMd_SetAnimSequence(this, ENMD_ANIM_SEQ_SURPRISE_TO_IDLE);
@@ -739,7 +739,7 @@ void EnMd_Idle(EnMd* this, PlayState* play) {
 
 void EnMd_Watch(EnMd* this, PlayState* play) {
     if (this->skelAnime.animation == &gMidoIdleAnim) {
-        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
     }
     EnMd_UpdateAnimSequence(this);
 }
@@ -791,7 +791,7 @@ void EnMd_BlockPath(EnMd* this, PlayState* play) {
     }
 
     if (this->skelAnime.animation == &gMidoIdleAnim) {
-        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
+        Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
     }
 
     if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (play->sceneId == SCENE_LOST_WOODS)) {
@@ -816,8 +816,7 @@ void EnMd_ListenToOcarina(EnMd* this, PlayState* play) {
         this->actionFunc = EnMd_BlockPath;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        SFX_PLAY_CENTERED(NA_SE_SY_CORRECT_CHIME);
         this->actor.textId = 0x1067;
         Actor_OfferTalk(&this->actor, play, this->collider.dim.radius + 30.0f);
 
@@ -829,7 +828,7 @@ void EnMd_ListenToOcarina(EnMd* this, PlayState* play) {
 }
 
 void EnMd_Walk(EnMd* this, PlayState* play) {
-    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, ENMD_LIMB_MAX);
+    Actor_UpdateFidgetTables(play, this->fidgetTableY, this->fidgetTableZ, MIDO_LIMB_MAX);
     EnMd_UpdateAnimSequence(this);
 
     if (!(EnMd_FollowPath(this, play)) || (this->waypoint != 0)) {
@@ -872,21 +871,21 @@ s32 EnMd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     EnMd* this = (EnMd*)thisx;
     Vec3s limbRot;
 
-    if (limbIndex == ENMD_LIMB_HEAD) {
+    if (limbIndex == MIDO_LIMB_HEAD) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         limbRot = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limbIndex == ENMD_LIMB_TORSO) {
+    if (limbIndex == MIDO_LIMB_TORSO) {
         limbRot = this->interactInfo.torsoRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
     }
 
-    if (((limbIndex == ENMD_LIMB_TORSO) || (limbIndex == ENMD_LIMB_LEFT_UPPER_ARM)) ||
-        (limbIndex == ENMD_LIMB_RIGHT_UPPER_ARM)) {
+    if (((limbIndex == MIDO_LIMB_TORSO) || (limbIndex == MIDO_LIMB_LEFT_UPPER_ARM)) ||
+        (limbIndex == MIDO_LIMB_RIGHT_UPPER_ARM)) {
         rot->y += Math_SinS(this->fidgetTableY[limbIndex]) * FIDGET_AMPLITUDE;
         rot->z += Math_CosS(this->fidgetTableZ[limbIndex]) * FIDGET_AMPLITUDE;
     }
@@ -898,7 +897,7 @@ void EnMd_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     EnMd* this = (EnMd*)thisx;
     Vec3f vec = { 400.0f, 0.0f, 0.0f };
 
-    if (limbIndex == ENMD_LIMB_HEAD) {
+    if (limbIndex == MIDO_LIMB_HEAD) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
 }
