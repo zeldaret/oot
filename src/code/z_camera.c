@@ -7748,7 +7748,7 @@ void Camera_PrintSettings(Camera* camera) {
             sp50[i++] = '-';
         }
 
-        //! @bug: this code was clearly meaning to print `abs(camera->bgCamIndex)` as a
+        //! @bug this code was clearly meaning to print `abs(camera->bgCamIndex)` as a
         //! one-or-two-digit number, instead of `i`.
         // "sp50[i++] = ..." matches here, but is undefined behavior due to conflicting
         // reads/writes between sequence points, triggering warnings. Work around by
@@ -8622,7 +8622,7 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
             Camera_CopyDataToRegs(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
             //! @bug: `settingChangeSuccessful` is a bool and is likely checking the wrong value. This can never pass.
-            // The actual return of Camera_RequestSettingImpl or bgCamIndex would make more sense.
+            //! The actual return of Camera_RequestSettingImpl or bgCamIndex would make more sense.
             PRINTF(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST,
                    requestedBgCamIndex, camera->camId, BGCHECK_SCENE, requestedCamSetting);
         }

@@ -77,5 +77,87 @@
         <Texture Name="gDaruniaSkelTex_9480" Format="ci8" Width="8" Height="16" Offset="0x9480" TlutOffset="0x7980"/>
         <Texture Name="gDaruniaSkelTex_9500" Format="ci8" Width="32" Height="64" Offset="0x9500" TlutOffset="0x7980"/>
         <Texture Name="gDaruniaSkelTex_9D00" Format="ci8" Width="8" Height="8" Offset="0x9D00" TlutOffset="0x7980"/>
+
+        <Array Name="object_du_Vtx_00B980" Count="3" Offset="0xB980">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00B9B0" Count="3" Offset="0xB9B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00B9E0" Count="149" Offset="0xB9E0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00C330" Count="228" Offset="0xC330">
+            <Vtx/>
+        </Array>
+        <DList Name="object_du_00D170_DL" Offset="0xD170"/>
+        <DList Name="object_du_00D1D0_DL" Offset="0xD1D0"/>
+        <DList Name="object_du_00D230_DL" Offset="0xD230"/>
+        <DList Name="object_du_00D810_DL" Offset="0xD810"/>
+        <Array Name="object_du_Vtx_00E338" Count="37" Offset="0xE338">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00E588" Count="33" Offset="0xE588">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00E798" Count="18" Offset="0xE798">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00E8B8" Count="37" Offset="0xE8B8">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00EB08" Count="33" Offset="0xEB08">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00ED18" Count="18" Offset="0xED18">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00EE38" Count="96" Offset="0xEE38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00F438" Count="37" Offset="0xF438">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00F688" Count="59" Offset="0xF688">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_00FA38" Count="96" Offset="0xFA38">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_010038" Count="37" Offset="0x10038">
+            <Vtx/>
+        </Array>
+        <Array Name="object_du_Vtx_010288" Count="59" Offset="0x10288">
+            <Vtx/>
+        </Array>
+        <DList Name="object_du_010638_DL" Offset="0x10638"/>
+        <DList Name="object_du_0107F0_DL" Offset="0x107F0"/>
+        <DList Name="object_du_010930_DL" Offset="0x10930"/>
+        <DList Name="object_du_010B58_DL" Offset="0x10B58"/>
+        <DList Name="object_du_010D10_DL" Offset="0x10D10"/>
+        <DList Name="object_du_010E50_DL" Offset="0x10E50"/>
+        <DList Name="object_du_011078_DL" Offset="0x11078"/>
+        <DList Name="object_du_011178_DL" Offset="0x11178"/>
+        <DList Name="object_du_0113B8_DL" Offset="0x113B8"/>
+        <DList Name="object_du_011608_DL" Offset="0x11608"/>
+        <DList Name="object_du_011708_DL" Offset="0x11708"/>
+        <DList Name="object_du_011948_DL" Offset="0x11948"/>
+        <Limb Name="object_du_011B98_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011B98" Offset="0x11B98"/>
+        <Limb Name="object_du_011BA4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011BA4" Offset="0x11BA4"/>
+        <Limb Name="object_du_011BB0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011BB0" Offset="0x11BB0"/>
+        <Limb Name="object_du_011BBC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011BBC" Offset="0x11BBC"/>
+        <Limb Name="object_du_011BC8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011BC8" Offset="0x11BC8"/>
+        <Limb Name="object_du_011BD4_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011BD4" Offset="0x11BD4"/>
+        <Limb Name="object_du_011BE0_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011BE0" Offset="0x11BE0"/>
+        <Limb Name="object_du_011BEC_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011BEC" Offset="0x11BEC"/>
+        <Limb Name="object_du_011BF8_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011BF8" Offset="0x11BF8"/>
+        <Limb Name="object_du_011C04_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011C04" Offset="0x11C04"/>
+        <Limb Name="object_du_011C10_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011C10" Offset="0x11C10"/>
+        <Limb Name="object_du_011C1C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011C1C" Offset="0x11C1C"/>
+        <Limb Name="object_du_011C28_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011C28" Offset="0x11C28"/>
+        <Limb Name="object_du_011C34_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011C34" Offset="0x11C34"/>
+        <Limb Name="object_du_011C40_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011C40" Offset="0x11C40"/>
+        <Limb Name="object_du_011C4C_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011C4C" Offset="0x11C4C"/>
+        <Limb Name="object_du_011C58_Limb" LimbType="Standard" EnumName="LIMB_OBJECT_DU_011C58" Offset="0x11C58"/>
     </File>
 </Root>

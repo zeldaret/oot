@@ -16,6 +16,42 @@
 
         <Texture Name="gGanondorfWindowShatterTemplateTex" Format="i8" Width="32" Height="64" Offset="0x1680" Static="Off"/>
 
+        <Array Name="gGanondorfLightStreak1Vtx" Count="10" Offset="0x10ED8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak2Vtx" Count="10" Offset="0x10F78">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak3Vtx" Count="10" Offset="0x11018">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak4Vtx" Count="10" Offset="0x110B8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak5Vtx" Count="10" Offset="0x11158">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak6Vtx" Count="10" Offset="0x111F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak7Vtx" Count="10" Offset="0x11298">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak8Vtx" Count="10" Offset="0x11338">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak9Vtx" Count="10" Offset="0x113D8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak10Vtx" Count="10" Offset="0x11478">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak11Vtx" Count="10" Offset="0x11518">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfLightStreak12Vtx" Count="8" Offset="0x115B8">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfLightStreak1DL" Offset="0x11638" Static="Off"/>
         <DList Name="gGanondorfLightStreak2DL" Offset="0x11670" Static="Off"/>
         <DList Name="gGanondorfLightStreak3DL" Offset="0x116A8" Static="Off"/>
@@ -29,25 +65,73 @@
         <DList Name="gGanondorfLightStreak11DL" Offset="0x11868" Static="Off"/>
         <DList Name="gGanondorfLightStreak12DL" Offset="0x118A0" Static="Off"/>
 
+        <Array Name="gGanondorfShadowModelVtx" Count="4" Offset="0x0">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfShadowSetupDL" Offset="0x40" Static="Off"/>
         <DList Name="gGanondorfShadowModelDL" Offset="0x60" Static="Off"/>
+        <Array Name="gGanondorfTriforceVtx" Count="4" Offset="0x1090">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfTriforceDL" Offset="0x10D0" Static="Off"/>
+        <Array Name="gGanondorfWindowShardModelVtx" Count="3" Offset="0x1590">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfWindowShardMaterialDL" Offset="0x15C0" Static="Off"/>
         <DList Name="gGanondorfWindowShardModelDL" Offset="0x1668" Static="Off"/>
+        <Array Name="gGanondorfSquareVtx" Count="4" Offset="0x2E80">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfLightBallMaterialDL" Offset="0x2EC0" Static="Off"/>
         <DList Name="gGanondorfSquareDL" Offset="0x2F30" Static="Off"/>
+        <Array Name="gGanondorfLightningVtx" Count="4" Offset="0xBF48">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfLightningDL" Offset="0xBF88" Static="Off"/>
+        <Array Name="gGanondorfUnusedVtx" Count="3" Offset="0xC008">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfUnusedDL" Offset="0xC038" Static="Off"/>
+        <Array Name="gGanondorfLightRayTriVtx" Count="3" Offset="0xC080">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfLightRayTriDL" Offset="0xC0B0" Static="Off"/>
+        <Array Name="gGanondorfLightFlecksVtx" Count="25" Offset="0xD8F8">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfBigMagicBGCircleVtx" Count="4" Offset="0xDA88">
+            <Vtx/>
+        </Array>
+        <Array Name="gGanondorfDotVtx" Count="4" Offset="0xDAC8">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfLightFlecksDL" Offset="0xDB08" Static="Off"/>
         <DList Name="gGanondorfBigMagicBGCircleDL" Offset="0xDBF8" Static="Off"/>
         <DList Name="gGanondorfDotDL" Offset="0xDCA0" Static="Off"/>
+        <Array Name="gGanondorfShockwaveVtx" Count="26" Offset="0xE568">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfShockwaveDL" Offset="0xE708" Static="Off"/>
+        <Array Name="gGanondorfImpactVtx" Count="26" Offset="0xF400">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfImpactDarkDL" Offset="0xF5A0" Static="Off"/>
         <DList Name="gGanondorfImpactLightDL" Offset="0xF6B8" Static="Off"/>
+        <Array Name="gGanondorfShockGlowVtx" Count="4" Offset="0x107D0">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfShockGlowDL" Offset="0x10810" Static="Off"/>
+        <Array Name="gGanondorfLightCoreVtx" Count="3" Offset="0x11B40">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfLightCoreDL" Offset="0x11B70" Static="Off"/>
+        <Array Name="gGanondorfShockVtx" Count="4" Offset="0x11BF8">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfShockDL" Offset="0x11C38" Static="Off"/>
+        <Array Name="gGanondorfVortexVtx" Count="22" Offset="0x128B8">
+            <Vtx/>
+        </Array>
         <DList Name="gGanondorfVortexDL" Offset="0x12A18" Static="Off"/>
     </File>
 </Root>

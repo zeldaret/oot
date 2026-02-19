@@ -24,6 +24,9 @@
         <Texture Name="gZelda2MouthOpenTex" Format="ci8" Width="32" Height="32"  Offset="0x5948" TlutOffset="0x2D90"/>
 
         <!-- Ocarina of time -->
+        <Array Name="gZelda2OcarinaVtx" Count="21" Offset="0xB998">
+            <Vtx/>
+        </Array>
         <DList Name="gZelda2OcarinaDL" Offset="0xBAE8"/>
         <Texture Name="gZelda2OcarinaTex" Format="rgba16" Width="32" Height="16" Offset="0xB598"/>
 
@@ -64,6 +67,9 @@
         <Texture Name="object_zl2_003B48_Tex" Format="ci8" Width="16" Height="16" Offset="0x3B48" TlutOffset="0x2F50"/>
         <Texture Name="object_zl2_004448_Tex" Format="ci8" Width="16" Height="16" Offset="0x4448" TlutOffset="0x2F50"/>
         <Texture Name="object_zl2_006548_Tex" Format="ci8" Width="32" Height="16" Offset="0x6548" TlutOffset="0x2F50"/>
+        <Array Name="object_zl2_Vtx_006748" Count="360" Offset="0x6748">
+            <Vtx/>
+        </Array>
         <DList Name="object_zl2_007DC8_DL" Offset="0x7DC8"/>
         <Texture Name="object_zl2_009738_Tex" Format="ci8" Width="16" Height="32" Offset="0x9738" TlutOffset="0x95A0"/>
         <Texture Name="object_zl2_009938_Tex" Format="ci8" Width="16" Height="16" Offset="0x9938" TlutOffset="0x9490"/>
@@ -73,7 +79,43 @@
         <Texture Name="object_zl2_009F78_Tex" Format="ci8" Width="8" Height="16" Offset="0x9F78" TlutOffset="0x95A0"/>
         <Texture Name="object_zl2_009FF8_Tex" Format="ci8" Width="16" Height="16" Offset="0x9FF8" TlutOffset="0x9708"/>
         <Texture Name="object_zl2_00A0F8_Tex" Format="ci8" Width="32" Height="32" Offset="0xA0F8" TlutOffset="0x9708"/>
+        <Array Name="object_zl2_Vtx_00A4F8" Count="183" Offset="0xA4F8">
+            <Vtx/>
+        </Array>
         <DList Name="object_zl2_00B068_DL" Offset="0xB068"/>
+        <Array Name="object_zl2_Vtx_00BC10" Count="90" Offset="0xBC10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl2_Vtx_00C1B0" Count="28" Offset="0xC1B0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl2_Vtx_00C370" Count="64" Offset="0xC370">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl2_Vtx_00C770" Count="90" Offset="0xC770">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl2_Vtx_00CD10" Count="28" Offset="0xCD10">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl2_Vtx_00CED0" Count="64" Offset="0xCED0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl2_Vtx_00D2D0" Count="38" Offset="0xD2D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl2_Vtx_00D530" Count="38" Offset="0xD530">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl2_Vtx_00D790" Count="38" Offset="0xD790">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl2_Vtx_00D9F0" Count="65" Offset="0xD9F0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_zl2_Vtx_00DE00" Count="121" Offset="0xDE00">
+            <Vtx/>
+        </Array>
         <DList Name="object_zl2_00E590_DL" Offset="0xE590"/>
         <DList Name="object_zl2_00E910_DL" Offset="0xE910"/>
         <DList Name="object_zl2_00EA58_DL" Offset="0xEA58"/>

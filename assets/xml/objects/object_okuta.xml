@@ -24,9 +24,57 @@
 
         <!-- Projectile -->
         <Texture Name="gOctorokProjectileTex" Format="rgba16" Width="16" Height="16" Offset="0x3150"/>
+        <Array Name="gOctorokProjectileVtx" Count="3" Offset="0x3350">
+            <Vtx/>
+        </Array>
         <DList Name="gOctorokProjectileDL" Offset="0x3380"/>
 
 
+        <Array Name="object_okuta_Vtx_000DF0" Count="13" Offset="0xDF0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_000EC0" Count="68" Offset="0xEC0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_001300" Count="13" Offset="0x1300">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_0013D0" Count="3" Offset="0x13D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_001400" Count="5" Offset="0x1400">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_001450" Count="4" Offset="0x1450">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_001490" Count="3" Offset="0x1490">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_0014C0" Count="5" Offset="0x14C0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_001510" Count="4" Offset="0x1510">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_001550" Count="3" Offset="0x1550">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_001580" Count="5" Offset="0x1580">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_0015D0" Count="4" Offset="0x15D0">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_001610" Count="3" Offset="0x1610">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_001640" Count="5" Offset="0x1640">
+            <Vtx/>
+        </Array>
+        <Array Name="object_okuta_Vtx_001690" Count="4" Offset="0x1690">
+            <Vtx/>
+        </Array>
         <DList Name="object_okuta_0016D0_DL" Offset="0x16D0"/>
         <DList Name="object_okuta_0017C0_DL" Offset="0x17C0"/>
         <DList Name="object_okuta_001A70_DL" Offset="0x1A70"/>

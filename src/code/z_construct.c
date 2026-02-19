@@ -11,6 +11,8 @@
 #include "play_state.h"
 #include "save.h"
 
+#include "assets/textures/do_action_static/do_action_static.h"
+
 void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
 }

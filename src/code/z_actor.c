@@ -3857,7 +3857,7 @@ Actor* Actor_GetProjectileActor(PlayState* play, Actor* refActor, f32 radius) {
             actor = actor->next;
         } else {
             //! @bug The projectile actor gets unsafely casted to a hookshot to check its timer, even though
-            //  it can also be an arrow.
+            //! it can also be an arrow.
             //  Luckily, the field at the same offset in the arrow actor is the x component of a vector
             //  which will rarely ever be 0. So it's very unlikely for this bug to cause an issue.
             if ((Math_Vec3f_DistXYZ(&refActor->world.pos, &actor->world.pos) > radius) ||

@@ -32,5 +32,22 @@
         <Collision Name="gGoronCityVaseCol" Offset="0x2154"/>
         <Collision Name="gGoronCityStatueSpearCol" Offset="0x261C"/>
         <Collision Name="gGoronCityStatueCol" Offset="0x2FE4"/>
+
+        <!-- Vertices -->
+        <Array Name="gGoronCityVaseLidVtx" Count="21" Offset="0x0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGoronCityDoorVtx" Count="8" Offset="0x3A0">
+            <Vtx/>
+        </Array>
+        <Array Name="gGoronCityVaseVtx" Count="147" Offset="0xF80">
+            <Vtx/>
+        </Array>
+        <Array Name="gGoronCityStatueSpearVtx" Count="31" Offset="0x2180">
+            <Vtx/>
+        </Array>
+        <Array Name="gGoronCityStatueVtx" Count="87" Offset="0x2650">
+            <Vtx/>
+        </Array>
     </File>
 </Root>
