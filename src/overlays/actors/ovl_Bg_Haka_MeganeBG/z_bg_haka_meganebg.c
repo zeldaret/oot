@@ -4,8 +4,11 @@
  * Description: Misc. Shadow Temple themed objects
  *
  * BGHAKAMEGANEBG_TYPE_HIDDEN_MOVING_PLATFORM:
- * An invisible square moving platform, viewable with Lens of Truth. Travels west 320 units and back.
- * rotY must be initialized to 0 when spawned, or else the actor may malfunction.
+ * An invisible square moving platform, viewable with Lens of Truth. Travels -320 x units from home and back.
+ * Setting rotY when spawning will rotate the shape, but not affect the movement path.
+ * world.rot.y is used like a flag, tracking the direction of movement for the platform.
+ * If world.rot.y == initial rotation, the platform is travelling from home towards the secondary position.
+ * If world.rot.y != initial rotation, the platform is travelling from the secondary position towards home.
  *
  * BGHAKAMEGANEBG_TYPE_CHAINED_ELEVATOR_PLATFORM:
  * A square platform with chains on four corners. Drops 640 units before pulling itself up back to the home position.
@@ -34,8 +37,8 @@ void BgHakaMeganeBG_Destroy(Actor* thisx, PlayState* play);
 void BgHakaMeganeBG_Update(Actor* thisx, PlayState* play);
 void BgHakaMeganeBG_Draw(Actor* thisx, PlayState* play);
 
-void BgHakaMeganeBG_InvisibleSlidingPlatform_Idle(BgHakaMeganeBG* this, PlayState* play);
-void BgHakaMeganeBG_InvisibleSlidingPlatform_Move(BgHakaMeganeBG* this, PlayState* play);
+void BgHakaMeganeBG_HiddenMovingPlatform_Idle(BgHakaMeganeBG* this, PlayState* play);
+void BgHakaMeganeBG_HiddenMovingPlatform_Move(BgHakaMeganeBG* this, PlayState* play);
 void BgHakaMeganeBG_ElevatorPlatform_Drop(BgHakaMeganeBG* this, PlayState* play);
 void BgHakaMeganeBG_ElevatorPlatform_Raise(BgHakaMeganeBG* this, PlayState* play);
 void BgHakaMeganeBG_RotatingPlatform_Spin(BgHakaMeganeBG* this, PlayState* play);
@@ -87,7 +90,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
             CollisionHeader_GetVirtual(&gShadowTempleHiddenBlockPlatformCol, &colHeader);
             thisx->flags |= ACTOR_FLAG_REACT_TO_LENS;
             this->timer = 20;
-            this->actionFunc = BgHakaMeganeBG_InvisibleSlidingPlatform_Idle;
+            this->actionFunc = BgHakaMeganeBG_HiddenMovingPlatform_Idle;
         } else if (thisx->params == BGHAKAMEGANEBG_TYPE_METAL_GATE) {
             CollisionHeader_GetVirtual(&gShadowTempleMetalGateCol, &colHeader);
             thisx->home.pos.y += 100.0f;
@@ -101,7 +104,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
                 thisx->flags |= ACTOR_FLAG_UPDATE_CULLING_DISABLED;
                 this->actionFunc = BgHakaMeganeBG_Gate_WaitForSwitchFlag;
             }
-        } else /* thisx->params == BGHAKAMEGANEBG_TYPE_CHAINED_ELEVATOR_PLATFORM */ {
+        } else /* BGHAKAMEGANEBG_TYPE_CHAINED_ELEVATOR_PLATFORM */ {
             CollisionHeader_GetVirtual(&gShadowTempleChainedElevatorPlatformCol, &colHeader);
             this->timer = 80;
             this->actionFunc = BgHakaMeganeBG_ElevatorPlatform_Drop;
@@ -119,7 +122,7 @@ void BgHakaMeganeBG_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgHakaMeganeBG_InvisibleSlidingPlatform_Idle(BgHakaMeganeBG* this, PlayState* play) {
+void BgHakaMeganeBG_HiddenMovingPlatform_Idle(BgHakaMeganeBG* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -127,21 +130,29 @@ void BgHakaMeganeBG_InvisibleSlidingPlatform_Idle(BgHakaMeganeBG* this, PlayStat
     if (this->timer == 0) {
         this->timer = 40;
 
-        // Reverse direction by rotating the actor 180 degrees.
-        // implementation-wise, rot.y is used like a flag, so arbitrary rotation values won't function correctly here.
+        // world.rot.y is used like a binary flag here, where rotating by exactly 180 degrees will toggle the direction
+        // of movement. Arbitrary rotation values won't function correctly here.
+        //! @bug On the first run of the actor, this line will toggle the direction of movement before the actor has
+        //! moved to the secondary position, causing it to teleport. In practice it is hard to observe in normal
+        //! gameplay because the platform is invisible without lens of truth, and the teleport happens after a second of
+        //! spawning into the room.
+        //!
+        //! One possible fix would be to move this line into BgHakaMeganeBG_HiddenMovingPlatform_Move so it's always
+        //! flipping direction after it reached it's destination.
         this->dyna.actor.world.rot.y += 0x8000;
-        this->actionFunc = BgHakaMeganeBG_InvisibleSlidingPlatform_Move;
+
+        this->actionFunc = BgHakaMeganeBG_HiddenMovingPlatform_Move;
     }
 }
 
-void BgHakaMeganeBG_InvisibleSlidingPlatform_Move(BgHakaMeganeBG* this, PlayState* play) {
+void BgHakaMeganeBG_HiddenMovingPlatform_Move(BgHakaMeganeBG* this, PlayState* play) {
     f32 xSub;
 
     if (this->timer != 0) {
         this->timer--;
     }
 
-    // The sine function is used to create an easing effect when the platform reaches it's two target destinations. It
+    // The sine function is used to create an easing effect when the platform reaches its two target destinations. It
     // works like this:
     //
     // The timer state, ranging from 39 to 0, is converted into an angle between 270 to 90 degrees, and in turn the sine
@@ -158,7 +169,7 @@ void BgHakaMeganeBG_InvisibleSlidingPlatform_Move(BgHakaMeganeBG* this, PlayStat
 
     if (this->timer == 0) {
         this->timer = 20;
-        this->actionFunc = BgHakaMeganeBG_InvisibleSlidingPlatform_Idle;
+        this->actionFunc = BgHakaMeganeBG_HiddenMovingPlatform_Idle;
     }
 }
 
