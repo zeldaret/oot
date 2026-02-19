@@ -894,7 +894,7 @@ void func_80AB747C(EnNiw* this, PlayState* play) {
         this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->sfxTimer1 = 30;
-        if (this->health > 0 && sHasAttackStarted == false) {
+        if (this->health > 0 && !sHasAttackStarted) {
             this->health--;
         }
         this->unk_2A6 = 1;
@@ -1071,7 +1071,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
         return;
     }
 
-    if (sHasAttackStarted == false && this->health <= 0 && thisx->params != EN_NIW_TYPE_SUPER_CUCCO &&
+    if (!sHasAttackStarted && this->health <= 0 && thisx->params != EN_NIW_TYPE_SUPER_CUCCO &&
         thisx->params != EN_NIW_TYPE_TALON_CUCCO && thisx->params != EN_NIW_TYPE_A) {
         this->timer6 = 100;
 
