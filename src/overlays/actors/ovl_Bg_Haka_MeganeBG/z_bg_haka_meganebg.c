@@ -138,7 +138,7 @@ void BgHakaMeganeBG_HiddenMovingPlatform_Idle(BgHakaMeganeBG* this, PlayState* p
         //! spawning into the room.
         //!
         //! One possible fix would be to move this line into BgHakaMeganeBG_HiddenMovingPlatform_Move so it's always
-        //! flipping direction after it reached it's destination.
+        //! flipping direction after it reached its destination.
         this->dyna.actor.world.rot.y += 0x8000;
 
         this->actionFunc = BgHakaMeganeBG_HiddenMovingPlatform_Move;
