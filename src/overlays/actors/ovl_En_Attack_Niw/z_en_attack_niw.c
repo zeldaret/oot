@@ -358,10 +358,10 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
         cucco = (EnNiw*)this->actor.parent;
         if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL) &&
             (cucco->timer9 == 0) &&
-        //! @bug In certain scenarios like getting cornered against the wall, the PLAYER_STATE1_26 will be flushed
-        //! before the player has regained control of Link. This can result in the player being softlocked by a cucco
-        //! attack.
 #if OOT_VERSION < NTSC_1_1
+            //! @bug In certain scenarios like getting cornered against the wall, the PLAYER_STATE1_26 will be flushed
+            //! before the player has regained control of Link. This can result in the player being softlocked by a
+            //! cucco attack.
             !(player->stateFlags1 & PLAYER_STATE1_26)
 #else
             (player->invincibilityTimer == 0)
