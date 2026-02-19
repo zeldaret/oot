@@ -6,6 +6,7 @@
 
 #include "z_bg_bombwall.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "ichain.h"
 #include "printf.h"
 #include "sfx.h"
@@ -29,7 +30,7 @@ void func_8086EDFC(BgBombwall* this, PlayState* play);
 void func_8086EE40(BgBombwall* this, PlayState* play);
 void func_8086EE94(BgBombwall* this, PlayState* play);
 
-static ColliderTrisElementInit sTrisElementsInit[3] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -74,7 +75,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    3,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 

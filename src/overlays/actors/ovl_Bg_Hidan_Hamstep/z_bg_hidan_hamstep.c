@@ -42,7 +42,7 @@ static f32 sYPosOffsets[] = {
     -20.0f, -120.0f, -220.0f, -320.0f, -420.0f,
 };
 
-static ColliderTrisElementInit sTrisElementsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -76,7 +76,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 

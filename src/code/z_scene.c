@@ -398,7 +398,7 @@ BAD_RETURN(s32) Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     play->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
     play->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
-    if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) ||
+    if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.save.cutsceneIndex < CS_INDEX_0)) ||
         (gSaveContext.save.entranceIndex == ENTR_LAKE_HYLIA_8)) {
 #if OOT_VERSION >= PAL_1_0
         gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
@@ -461,7 +461,7 @@ BAD_RETURN(s32) Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd)
     PRINTF("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.save.cutsceneIndex));
     PRINTF("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneLayer));
 
-    if (gSaveContext.sceneLayer != 0) {
+    if (gSaveContext.sceneLayer != SCENE_LAYER_CHILD_DAY) {
         SceneCmd* altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
 
         if (altHeader != NULL) {
@@ -504,7 +504,7 @@ BAD_RETURN(s32) Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
 
     if (((play->sceneId >= SCENE_HYRULE_FIELD) && (play->sceneId <= SCENE_OUTSIDE_GANONS_CASTLE)) ||
         ((play->sceneId >= SCENE_MARKET_ENTRANCE_DAY) && (play->sceneId <= SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS))) {
-        if (gSaveContext.save.cutsceneIndex < 0xFFF0) {
+        if (gSaveContext.save.cutsceneIndex < CS_INDEX_0) {
             gSaveContext.save.info.worldMapAreaData |= gBitFlags[((void)0, gSaveContext.worldMapArea)];
             PRINTF("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.save.info.worldMapAreaData,
                    ((void)0, gSaveContext.worldMapArea));
@@ -517,15 +517,15 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
 
     if (!IS_DAY) {
         if (!LINK_IS_ADULT) {
-            entranceIndex = play->nextEntranceIndex + 1;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_CHILD_NIGHT;
         } else {
-            entranceIndex = play->nextEntranceIndex + 3;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_ADULT_NIGHT;
         }
     } else {
         if (!LINK_IS_ADULT) {
-            entranceIndex = play->nextEntranceIndex;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_CHILD_DAY;
         } else {
-            entranceIndex = play->nextEntranceIndex + 2;
+            entranceIndex = play->nextEntranceIndex + SCENE_LAYER_ADULT_DAY;
         }
     }
 

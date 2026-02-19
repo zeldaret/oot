@@ -51,7 +51,7 @@ static ColliderCylinderInit sCylinderInit = {
         ACELEM_ON,
         OCELEM_NONE,
     },
-    { 9, 23, 0, { 0 } },
+    { 9, 23, 0, { 0, 0, 0 } },
 };
 
 ActorProfile En_Tubo_Trap_Profile = {

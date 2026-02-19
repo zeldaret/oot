@@ -62,7 +62,7 @@ static ColliderCylinderInit sCylinderInit = {
         ACELEM_ON,
         OCELEM_ON,
     },
-    { 13, 13, 0, { 0 } },
+    { 13, 13, 0, { 0, 0, 0 } },
 };
 
 static s16 sObjectIds[] = {

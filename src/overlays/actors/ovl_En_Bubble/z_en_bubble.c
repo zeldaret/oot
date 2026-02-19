@@ -1,6 +1,7 @@
 #include "z_en_bubble.h"
 
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sfx.h"
@@ -37,7 +38,7 @@ ActorProfile En_Bubble_Profile = {
     /**/ EnBubble_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -71,7 +72,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    2,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -111,7 +112,7 @@ u32 func_809CBCBC(EnBubble* this) {
     ColliderElement* elem = &this->colliderJntSph.elements[0].base;
 
     elem->atDmgInfo.dmgFlags = DMG_EXPLOSIVE;
-    elem->atDmgInfo.effect = 0;
+    elem->atDmgInfo.hitSpecialEffect = HIT_SPECIAL_EFFECT_NONE;
     elem->atDmgInfo.damage = 4;
     elem->atElemFlags = ATELEM_ON;
     this->actor.velocity.y = 0.0f;

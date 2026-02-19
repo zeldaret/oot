@@ -6,6 +6,7 @@
 
 #include "z_bg_menkuri_eye.h"
 
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -38,7 +39,7 @@ ActorProfile Bg_Menkuri_Eye_Profile = {
 
 static s32 sNumEyesShot;
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK4,
@@ -61,7 +62,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

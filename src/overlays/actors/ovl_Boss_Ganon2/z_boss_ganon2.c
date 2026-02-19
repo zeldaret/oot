@@ -32,7 +32,7 @@
 #include "assets/objects/object_geff/object_geff.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#pragma increment_block_number "gc-eu:0 gc-eu-mq:0 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:128" \
+#pragma increment_block_number "gc-eu:128 gc-eu-mq:128 gc-jp:0 gc-jp-ce:0 gc-jp-mq:0 gc-us:0 gc-us-mq:0 ique-cn:128" \
                                "ntsc-1.0:128 ntsc-1.1:128 ntsc-1.2:128 pal-1.0:128 pal-1.1:128"
 
 #define FLAGS                                                                                 \
@@ -2145,7 +2145,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             FALLTHROUGH;
         case 20:
             play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
-            gSaveContext.nextCutsceneIndex = 0xFFF2;
+            gSaveContext.nextCutsceneIndex = CS_INDEX_2;
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_FADE_WHITE;
             play->linkAgeOnLoad = LINK_AGE_CHILD;

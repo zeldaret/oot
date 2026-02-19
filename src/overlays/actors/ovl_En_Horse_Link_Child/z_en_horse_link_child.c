@@ -74,7 +74,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 20, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -97,7 +97,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_TYPE_1 | OC2_UNK1,
         COLSHAPE_JNTSPH,
     },
-    1,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 
@@ -371,7 +371,7 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     }
 
     if ((GET_EVENTCHKINF(EVENTCHKINF_CAN_LEARN_EPONAS_SONG) && R_EPONAS_SONG_PLAYED) ||
-        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.save.cutsceneIndex == 0xFFF1))) {
+        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.save.cutsceneIndex == CS_INDEX_1))) {
         func_80A6A4DC(this);
     } else {
         this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_CAN_LEARN_EPONAS_SONG);

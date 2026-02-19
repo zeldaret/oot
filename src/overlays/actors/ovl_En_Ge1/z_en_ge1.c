@@ -594,7 +594,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
                 } else {
                     Rupees_ChangeBy(-20);
                     play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_0;
-                    gSaveContext.nextCutsceneIndex = 0xFFF0;
+                    gSaveContext.nextCutsceneIndex = CS_INDEX_0;
                     play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     SET_EVENTINF(EVENTINF_HORSES_08);

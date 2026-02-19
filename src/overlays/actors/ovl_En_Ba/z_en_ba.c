@@ -6,6 +6,7 @@
 
 #include "z_en_ba.h"
 
+#include "array_count.h"
 #include "attributes.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
@@ -53,7 +54,7 @@ ActorProfile En_Ba_Profile = {
 
 static Vec3f D_809B8080 = { 0.0f, 0.0f, 32.0f };
 
-static ColliderJntSphElementInit sJntSphElementsInit[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -87,7 +88,7 @@ static ColliderJntSphInit sJntSphInit = {
         OC2_NONE,
         COLSHAPE_JNTSPH,
     },
-    2,
+    ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
 

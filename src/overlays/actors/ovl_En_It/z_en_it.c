@@ -32,7 +32,7 @@ static ColliderCylinderInit sCylinderInit = {
         ACELEM_NONE,
         OCELEM_ON,
     },
-    { 40, 10, 0, { 0 } },
+    { 40, 10, 0, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };

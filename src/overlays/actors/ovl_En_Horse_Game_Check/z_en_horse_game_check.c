@@ -123,7 +123,7 @@ s32 EnHorseGameCheck_DestroyIngoRace(EnHorseGameCheckBase* base, PlayState* play
 }
 
 void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, PlayState* play) {
-    gSaveContext.save.cutsceneIndex = 0;
+    gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
     if (this->result == INGO_RACE_PLAYER_WIN) {
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_7;
         if (GET_EVENTINF(EVENTINF_INGO_RACE_SECOND_RACE)) {
@@ -307,20 +307,20 @@ s32 EnHorseGameCheck_DestroyMalonRace(EnHorseGameCheckBase* base, PlayState* pla
 
 void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, PlayState* play) {
     if ((this->result == MALONRACE_SUCCESS) || (this->result == MALONRACE_TIME_UP)) {
-        gSaveContext.save.cutsceneIndex = 0;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_7;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
     } else if (this->result == MALONRACE_FAILURE) {
         gSaveContext.timerSeconds = 240;
         gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
-        gSaveContext.save.cutsceneIndex = 0;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_7;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
     } else {
         PRINTF(T("En_HGC_Spot20_Ta_end():対応せず\n", "En_HGC_Spot20_Ta_end(): not supported\n"));
-        gSaveContext.save.cutsceneIndex = 0;
+        gSaveContext.save.cutsceneIndex = CS_INDEX_NONE;
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;

@@ -68,7 +68,7 @@ static ColliderCylinderInit sCylinderInit = {
         ACELEM_ON,
         OCELEM_ON,
     },
-    { 30, 40, 0, { 0 } },
+    { 30, 40, 0, { 0, 0, 0 } },
 };
 
 void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {

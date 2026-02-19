@@ -8,6 +8,7 @@
 
 #include "attributes.h"
 #include "libc64/qrand.h"
+#include "array_count.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "ichain.h"
@@ -121,7 +122,7 @@ static ColliderCylinderInit sBodyCylinderInit = {
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sBlockTrisElementsInit[2] = {
+static ColliderTrisElementInit sBlockTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK2,
@@ -155,7 +156,7 @@ static ColliderTrisInit sBlockTrisInit = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sBlockTrisElementsInit),
     sBlockTrisElementsInit,
 };
 

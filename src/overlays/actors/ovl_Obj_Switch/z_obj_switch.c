@@ -88,7 +88,7 @@ static f32 sFocusHeights[] = {
     30, // OBJSWITCH_TYPE_CRYSTAL_TARGETABLE
 };
 
-static ColliderTrisElementInit sRustyFloorTrisElementsInit[2] = {
+static ColliderTrisElementInit sRustyFloorTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -126,7 +126,7 @@ static ColliderTrisInit sRustyFloorTrisInit = {
     sRustyFloorTrisElementsInit,
 };
 
-static ColliderTrisElementInit sEyeTrisElementsInit[2] = {
+static ColliderTrisElementInit sEyeTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK4,
@@ -164,7 +164,7 @@ static ColliderTrisInit sEyeTrisInit = {
     sEyeTrisElementsInit,
 };
 
-static ColliderJntSphElementInit sCrystalJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sCrystalJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

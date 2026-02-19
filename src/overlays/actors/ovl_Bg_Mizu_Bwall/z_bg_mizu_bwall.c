@@ -46,7 +46,7 @@ ActorProfile Bg_Mizu_Bwall_Profile = {
     /**/ BgMizuBwall_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementsInitFloor[2] = {
+static ColliderTrisElementInit sTrisElementsInitFloor[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -80,11 +80,11 @@ static ColliderTrisInit sTrisInitFloor = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInitFloor),
     sTrisElementsInitFloor,
 };
 
-static ColliderTrisElementInit sTrisElementsInitRutoWall[1] = {
+static ColliderTrisElementInit sTrisElementsInitRutoWall[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -107,11 +107,11 @@ static ColliderTrisInit sTrisInitRutoWall = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    1,
+    ARRAY_COUNT(sTrisElementsInitRutoWall),
     sTrisElementsInitRutoWall,
 };
 
-static ColliderTrisElementInit sTrisElementsInitWall[2] = {
+static ColliderTrisElementInit sTrisElementsInitWall[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -145,7 +145,7 @@ static ColliderTrisInit sTrisInitUnusedWall = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInitWall),
     sTrisElementsInitWall,
 };
 
@@ -158,7 +158,7 @@ static ColliderTrisInit sTrisInitStingerWall = {
         OC2_NONE,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInitWall),
     sTrisElementsInitWall,
 };
 

@@ -64,7 +64,7 @@ ActorProfile En_Bigokuta_Profile = {
     /**/ EnBigokuta_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK1,

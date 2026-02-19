@@ -1908,7 +1908,7 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     gSaveContext.skyboxTime = CLOCK_TIME(0, 0);
     gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
-    gSaveContext.nextCutsceneIndex = 0xFFEF;
+    gSaveContext.nextCutsceneIndex = NEXT_CS_INDEX_NONE;
     gSaveContext.cutsceneTrigger = 0;
     gSaveContext.chamberCutsceneNum = CHAMBER_CS_FOREST;
     gSaveContext.nextDayTime = NEXT_TIME_NONE;

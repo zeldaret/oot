@@ -221,6 +221,17 @@ typedef enum ItemQuad {
 #define TO_PAGE_LABEL_TEX_WIDTH 128
 #define TO_PAGE_LABEL_TEX_HEIGHT 16
 
+typedef enum UIOverlayQuad {
+    /* 0 */ UI_OVERLAY_QUAD_INFO_BG_LEFT, // The left half of the info plate background
+    /* 1 */ UI_OVERLAY_QUAD_INFO_BG_RIGHT, // The right half of the info plate background
+    /* 2 */ UI_OVERLAY_QUAD_BUTTON_LEFT, // The button for scrolling to the left page
+    /* 3 */ UI_OVERLAY_QUAD_BUTTON_RIGHT, // The button for scrolling to the right page
+    /* 4 */ UI_OVERLAY_QUAD_INFO_ICON, // The icon in the info plate
+    /* 5 */ UI_OVERLAY_QUAD_INFO_TEXT, // The text in the info plate
+    /* 6 */ UI_OVERLAY_QUAD_HAVE_ALL_GS, // On the overworld map page, the indicator that the selected area has been cleared of gold skulltulas
+    /* 7 */ UI_OVERLAY_QUAD_MAX
+} UIOverlayQuad;
+
 void KaleidoScope_DrawQuestStatus(struct PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
 void KaleidoScope_DrawInventoryEditor(struct PlayState* play);

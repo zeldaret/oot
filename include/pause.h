@@ -168,7 +168,7 @@ typedef struct PauseContext {
     /* 0x0148 */ Vtx* equipPageVtx;
     /* 0x014C */ Vtx* mapPageVtx;
     /* 0x0150 */ Vtx* questPageVtx;
-    /* 0x0154 */ Vtx* infoPanelVtx;
+    /* 0x0154 */ Vtx* uiOverlayVtx;
     /* 0x0158 */ Vtx* itemVtx;
     /* 0x015C */ Vtx* equipVtx;
     /* 0x0160 */ char unk_160[0x04];

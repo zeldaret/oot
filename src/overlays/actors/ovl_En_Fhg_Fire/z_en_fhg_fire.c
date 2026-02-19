@@ -88,7 +88,7 @@ static ColliderCylinderInit sCylinderInit = {
         ELEM_MATERIAL_UNK6,
         { 0x00100700, 0x03, 0x20 },
         { 0x0D900700, 0x00, 0x00 },
-        ATELEM_ON,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
         ACELEM_ON,
         OCELEM_ON,
     },
@@ -551,7 +551,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_LAUGH);
                     }
                     Actor_SetPlayerKnockback(play, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f,
-                                             PLAYER_KNOCKBACK_LARGE_SHOCK, 0x10);
+                                             PLAYER_KNOCKBACK_LARGE_ELECTRIFIED, 0x10);
                 }
                 break;
             case FHGFIRE_LIGHT_BLUE:

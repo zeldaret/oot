@@ -6,6 +6,7 @@
 
 #include "z_bg_haka_trap.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "rand.h"
 #include "sfx.h"
@@ -73,7 +74,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 90, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisElementInit sTrisElementsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -107,7 +108,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 

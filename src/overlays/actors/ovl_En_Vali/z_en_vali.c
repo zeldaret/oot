@@ -273,7 +273,7 @@ void EnVali_SetupStunned(EnVali* this) {
     this->timer = 80;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
-    this->bodyCollider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_0;
+    this->bodyCollider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_NONE;
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actor.velocity.y = 1.0f;
     this->actionFunc = EnVali_Stunned;
@@ -463,7 +463,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        this->bodyCollider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_1;
+        this->bodyCollider.elem.acDmgInfo.hitBacklash = HIT_BACKLASH_ELECTRIC;
         EnVali_SetupFloatIdle(this);
     }
 }

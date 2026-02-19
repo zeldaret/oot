@@ -6,6 +6,7 @@
 
 #include "z_bg_hidan_hrock.h"
 
+#include "array_count.h"
 #include "ichain.h"
 #include "rumble.h"
 #include "sfx.h"
@@ -37,7 +38,7 @@ ActorProfile Bg_Hidan_Hrock_Profile = {
     /**/ BgHidanHrock_Draw,
 };
 
-static ColliderTrisElementInit sTrisElementsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,
@@ -71,7 +72,7 @@ static ColliderTrisInit sTrisInit = {
         OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
-    2,
+    ARRAY_COUNT(sTrisElementsInit),
     sTrisElementsInit,
 };
 

@@ -47,7 +47,7 @@ ActorProfile Bg_Hidan_Sima_Profile = {
     /**/ BgHidanSima_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
             ELEM_MATERIAL_UNK0,

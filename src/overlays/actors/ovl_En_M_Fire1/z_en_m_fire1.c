@@ -45,7 +45,7 @@ static ColliderCylinderInit sCylinderInit = {
         ACELEM_NONE,
         OCELEM_NONE,
     },
-    { 200, 200, 0, { 0 } },
+    { 200, 200, 0, { 0, 0, 0 } },
 };
 
 void EnMFire1_Init(Actor* thisx, PlayState* play) {
